@@ -1,0 +1,18 @@
+apiVersion: guize.io/v1
+kind: DeploymentProfile
+metadata:
+  name: ai-worker-nvidia
+  version: 1.0.0
+spec:
+  runtime: docker-compose
+  requirements:
+    architecture: amd64
+  services:
+    - guize-worker-agent
+    - guize-ai-gateway
+    - guize-asr-service
+    - guize-vlm-service
+    - guize-embedding-service
+  optionalServices: []
+  security:
+    signatureRequired: true
