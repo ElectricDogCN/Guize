@@ -1,0 +1,40 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Guize Plugin Manifest
+type: object
+required: [apiVersion, kind, metadata, spec]
+properties:
+  apiVersion:
+    const: guize.plugin/v1
+  kind:
+    enum:
+      - SourceConnector
+      - StorageAdapter
+      - MediaAdapter
+      - AIProvider
+      - SearchAdapter
+      - SecurityScanner
+      - NotificationAdapter
+      - AuthProvider
+      - WorkerCapability
+  metadata:
+    type: object
+    required: [id, version]
+    properties:
+      id: {type: string}
+      version: {type: string}
+  spec:
+    type: object
+    required: [runtime, capabilities]
+    properties:
+      runtime:
+        type: object
+        required: [mode]
+        properties:
+          mode:
+            enum: [IN_PROCESS, EXTERNAL_SERVICE]
+      capabilities:
+        type: array
+        items: {type: string}
+      permissions:
+        type: object
+additionalProperties: false
