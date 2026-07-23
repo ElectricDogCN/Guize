@@ -1,0 +1,75 @@
+name: Agent Task
+description: Agent-driven implementation task
+title: "[TASK] "
+labels: ["agent-task"]
+body:
+  - type: input
+    id: task_id
+    attributes:
+      label: 任务编号
+      description: 任务唯一标识（如 GZ-001）
+    validations:
+      required: true
+  - type: textarea
+    id: requirement_source
+    attributes:
+      label: 需求来源
+      description: 相关需求文档、Issue 或对话链接
+    validations:
+      required: false
+  - type: textarea
+    id: goal
+    attributes:
+      label: 目标
+      description: 本次任务要达成的具体目标
+    validations:
+      required: true
+  - type: textarea
+    id: allowed_scope
+    attributes:
+      label: 允许范围
+      description: 明确本次任务允许修改的范围
+    validations:
+      required: true
+  - type: textarea
+    id: forbidden_scope
+    attributes:
+      label: 禁止范围
+      description: 明确本次任务禁止触碰的范围
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: 验收标准
+      description: 可验证的验收条件
+    validations:
+      required: true
+  - type: textarea
+    id: test_method
+    attributes:
+      label: 测试方法
+      description: 如何测试或验证本次修改
+    validations:
+      required: false
+  - type: textarea
+    id: risk
+    attributes:
+      label: 风险
+      description: 已知风险与应对措施
+    validations:
+      required: false
+  - type: textarea
+    id: rollback
+    attributes:
+      label: 回滚方式
+      description: 出现问题时的回滚策略
+    validations:
+      required: false
+  - type: input
+    id: evidence_path
+    attributes:
+      label: 证据路径
+      description: 截图、日志或测试报告的路径/链接
+    validations:
+      required: false

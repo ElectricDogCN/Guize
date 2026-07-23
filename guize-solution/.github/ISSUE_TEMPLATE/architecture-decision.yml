@@ -1,0 +1,65 @@
+name: Architecture Decision
+description: Propose or record an architecture decision
+title: "[ADR] "
+labels: ["architecture-decision"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: 背景与上下文
+      description: 需要做出决策的业务或技术背景
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: 决策
+      description: 最终决定的方案
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 备选方案
+      description: 考虑过但未采纳的方案及其原因
+    validations:
+      required: false
+  - type: textarea
+    id: consequences
+    attributes:
+      label: 影响与后果
+      description: 该决策带来的正面与负面影响
+    validations:
+      required: false
+  - type: textarea
+    id: security
+    attributes:
+      label: 安全考量
+      description: 该决策涉及的安全问题与应对措施
+    validations:
+      required: false
+  - type: textarea
+    id: migration
+    attributes:
+      label: 迁移计划
+      description: 如何从当前状态迁移到决策后的状态
+    validations:
+      required: false
+  - type: textarea
+    id: validation
+    attributes:
+      label: 验证方式
+      description: 如何验证该决策的正确性与有效性
+    validations:
+      required: false
+  - type: dropdown
+    id: status
+    attributes:
+      label: 状态
+      options:
+        - Proposed
+        - Accepted
+        - Deprecated
+        - Superseded
+    validations:
+      required: false

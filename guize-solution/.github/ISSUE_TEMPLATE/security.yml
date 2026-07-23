@@ -1,0 +1,65 @@
+name: Security
+description: Security issue or concern
+title: "[SECURITY] "
+labels: ["security"]
+body:
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重程度
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      description: 安全问题的详细描述
+    validations:
+      required: true
+  - type: textarea
+    id: affected_components
+    attributes:
+      label: 受影响组件
+      description: 受影响的模块、服务或接口
+    validations:
+      required: false
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      description: 如何复现该安全问题（如可公开复现）
+    validations:
+      required: false
+  - type: textarea
+    id: impact
+    attributes:
+      label: 影响范围
+      description: 该问题可能造成的危害与影响面
+    validations:
+      required: false
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: 缓解措施
+      description: 临时缓解或修复方案
+    validations:
+      required: false
+  - type: textarea
+    id: never_rules
+    attributes:
+      label: 涉及 Never Rules
+      description: 是否违反或需要更新 Never Rules
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 证据
+      description: 截图、日志、扫描报告或 POC 链接
+    validations:
+      required: false
