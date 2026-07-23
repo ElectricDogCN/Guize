@@ -1,0 +1,16 @@
+apiVersion: guize.io/v1
+kind: DeploymentProfile
+metadata:
+  name: search-node
+  version: 1.0.0
+spec:
+  runtime: docker-compose
+  requirements:
+    architecture: amd64
+  services:
+    - opensearch
+    - milvus
+    - guize-reranker-service
+  optionalServices: []
+  security:
+    signatureRequired: true

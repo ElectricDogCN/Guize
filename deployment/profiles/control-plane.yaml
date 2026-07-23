@@ -1,0 +1,19 @@
+apiVersion: guize.io/v1
+kind: DeploymentProfile
+metadata:
+  name: control-plane
+  version: 1.0.0
+spec:
+  runtime: docker-compose
+  requirements:
+    architecture: amd64
+  services:
+    - guize-control
+    - postgresql
+    - redis
+    - ats
+    - temporal
+    - openbao
+  optionalServices: []
+  security:
+    signatureRequired: true

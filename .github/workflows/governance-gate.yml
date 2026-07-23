@@ -1,0 +1,254 @@
+name: Governance Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    paths:
+      - 'AGENTS.md'
+      - 'rules/**'
+      - 'specs/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/governance-gate.yml'
+      - 'requirements-governance.txt'
+      - 'Makefile'
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'Task ID to validate (e.g., GZ-001)'
+        required: false
+        default: ''
+
+jobs:
+  governance-check:
+    name: Governance Checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONDONTWRITEBYTECODE: 1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install governance dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements-governance.txt
+          echo "--- Installed packages ---"
+          pip freeze | grep -E 'pytest|PyYAML|jsonschema'
+
+      - name: Task file validation
+        run: |
+          set -euo pipefail
+          TASK_ID="${{ github.event.inputs.task }}"
+          if [ -z "$TASK_ID" ]; then
+            TASK_ID=$(echo "${{ github.head_ref || github.ref_name }}" | grep -oE '^[a-z]+/([A-Z]+-[0-9]+)' | cut -d/ -f2 || true)
+          fi
+          if [ -z "$TASK_ID" ]; then
+            echo "::warning::No task ID provided or extracted; skipping task file validation."
+            exit 0
+          fi
+          echo "Validating task file for: $TASK_ID"
+          python scripts/check-task-file.py --task "$TASK_ID"
+
+      - name: Governance script tests
+        run: |
+          set -euo pipefail
+          python -m pytest tests/governance/ -v
+
+      - name: Markdown basic check
+        run: |
+          set -euo pipefail
+          EXIT_CODE=0
+
+          echo "Checking for trailing spaces in Markdown files..."
+          if git grep -n '[[:space:]]$' -- '*.md'; then
+            echo "::error::Found trailing spaces in Markdown files."
+            EXIT_CODE=1
+          else
+            echo "OK: No trailing spaces found."
+          fi
+
+          echo "Checking for broken internal Markdown links..."
+          find . -name '*.md' -print0 | while IFS= read -r -d '' file; do
+            grep -oE '\[([^]]+)\]\(([^)]+\.md)(#[^)]*)?\)' "$file" | while read -r match; do
+              link=$(echo "$match" | sed -E 's/.*\]\(([^)]+)\).*/\1/' | sed 's/#.*//')
+              if [ -n "$link" ] && [ ! -f "$(dirname "$file")/$link" ] && [ ! -f "$link" ]; then
+                echo "::warning::Possible broken link in $file: $match"
+              fi
+            done
+          done
+
+          exit $EXIT_CODE
+
+      - name: YAML/JSON schema check
+        run: |
+          set -euo pipefail
+          EXIT_CODE=0
+
+          echo "Validating GitHub workflow YAML files..."
+          for file in .github/workflows/*.yml .github/workflows/*.yaml; do
+            [ -e "$file" ] || continue
+            echo "Checking $file"
+            python -c "import yaml; yaml.safe_load(open('$file'))" || {
+              echo "::error::Invalid YAML: $file"
+              EXIT_CODE=1
+            }
+          done
+
+          echo "Validating JSON files under contracts/..."
+          for file in contracts/**/*.json; do
+            [ -e "$file" ] || continue
+            echo "Checking $file"
+            python -c "import json; json.load(open('$file'))" || {
+              echo "::error::Invalid JSON: $file"
+              EXIT_CODE=1
+            }
+          done
+
+          echo "Validating YAML files under contracts/..."
+          for file in contracts/**/*.yaml contracts/**/*.yml; do
+            [ -e "$file" ] || continue
+            echo "Checking $file"
+            python -c "import yaml; yaml.safe_load(open('$file'))" || {
+              echo "::error::Invalid YAML: $file"
+              EXIT_CODE=1
+            }
+          done
+
+          exit $EXIT_CODE
+
+      - name: Secret scan
+        run: |
+          set -euo pipefail
+          EXIT_CODE=0
+          echo "Scanning for common secret patterns..."
+
+          HIGH_RISK='(AKIA[0-9A-Z]{16}|ghp_[a-zA-Z0-9]{36}|sk-[a-zA-Z0-9]{20,}|AIza[0-9A-Za-z_-]{35})'
+          matches=$(git grep -inE "$HIGH_RISK" -- '*.py' '*.yaml' '*.yml' '*.json' '*.md' '*.sh')
+          if [ -n "$matches" ]; then
+            echo "$matches"
+            echo "::error::High-risk secret pattern detected."
+            EXIT_CODE=1
+          fi
+
+          PATTERNS='(password|secret|token|key|api_key|apikey|private_key)\s*=\s*["'\''`][^"'\''`]{8,}'
+          matches=$(git grep -inE "$PATTERNS" -- '*.py' '*.yaml' '*.yml' '*.json' '*.md' '*.sh')
+          if [ -n "$matches" ]; then
+            echo "$matches"
+            echo "::warning::Potential secret-like patterns detected. Review manually."
+          fi
+
+          exit $EXIT_CODE
+
+      - name: Evidence check
+        run: |
+          set -euo pipefail
+          TASK_ID="${{ github.event.inputs.task }}"
+          if [ -z "$TASK_ID" ]; then
+            TASK_ID=$(echo "${{ github.head_ref || github.ref_name }}" | grep -oE '^[a-z]+/([A-Z]+-[0-9]+)' | cut -d/ -f2 || true)
+          fi
+          if [ -z "$TASK_ID" ]; then
+            echo "::warning::No task ID provided or extracted; skipping evidence check."
+            exit 0
+          fi
+          echo "Checking evidence for task: $TASK_ID"
+          python scripts/check-evidence.py --task "$TASK_ID"
+
+      - name: Task-branch linkage check
+        run: |
+          set -euo pipefail
+          if [ -n "${{ github.head_ref }}" ]; then
+            python scripts/check-pr-task-link.py --branch "${{ github.head_ref }}"
+          else
+            echo "Not a pull request; skipping PR task linkage check."
+          fi
+
+      - name: Scope check
+        run: |
+          set -euo pipefail
+          TASK_ID="${{ github.event.inputs.task }}"
+          if [ -z "$TASK_ID" ]; then
+            TASK_ID=$(echo "${{ github.head_ref || github.ref_name }}" | grep -oE '^[a-z]+/([A-Z]+-[0-9]+)' | cut -d/ -f2 || true)
+          fi
+          if [ -z "$TASK_ID" ]; then
+            echo "::warning::No task ID provided or extracted; skipping scope check."
+            exit 0
+          fi
+          echo "Checking scope for task: $TASK_ID"
+          python scripts/check-task-scope.py --task "$TASK_ID" --base main
+
+      - name: Parent directory reference check
+        run: |
+          set -euo pipefail
+          echo "Checking for prohibited parent directory references..."
+          EXIT_CODE=0
+
+          if grep -rnE '\.\./tests/|/workspace/tests/' Makefile scripts/ tests/; then
+            echo "::error::Found prohibited parent directory reference."
+            EXIT_CODE=1
+          fi
+
+          if grep -rnE '\.\./tests/|/workspace/tests/' .github/workflows/governance-gate.yml | grep -v '^[[:space:]]*#'; then
+            echo "::error::CI workflow contains prohibited parent directory reference."
+            EXIT_CODE=1
+          fi
+
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "OK: No prohibited parent directory references found."
+          fi
+
+          exit $EXIT_CODE
+
+      - name: CI workflow static validation
+        run: |
+          set -euo pipefail
+          echo "Validating CI workflow structure..."
+          python tests/governance/test_repository_boundary.py TestCIWorkflowStatic
+
+      - name: Generate governance report
+        if: always()
+        run: |
+          set -euo pipefail
+          echo "## Governance Gate Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          STEPS=(
+            "Task file validation"
+            "Governance script tests"
+            "Markdown basic check"
+            "YAML/JSON schema check"
+            "Secret scan"
+            "Evidence check"
+            "Task-branch linkage check"
+            "Scope check"
+            "Parent directory check"
+            "CI workflow static validation"
+          )
+
+          for step in "${STEPS[@]}"; do
+            echo "| $step | Completed |" >> $GITHUB_STEP_SUMMARY
+          done
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "Ref: ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+          if [ -n "${{ github.head_ref }}" ]; then
+            echo "PR Branch: ${{ github.head_ref }}" >> $GITHUB_STEP_SUMMARY
+          fi

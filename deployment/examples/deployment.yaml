@@ -1,0 +1,18 @@
+apiVersion: guize.io/v1
+kind: Deployment
+metadata:
+  name: guize-site-1
+spec:
+  profile: single-site-full
+  environment: staging
+  offlinePackage: true
+  hosts:
+    control:
+      address: 192.0.2.10
+    media:
+      address: 192.0.2.11
+  secrets:
+    provider: openbao
+    references:
+      database: secret/guize/staging/postgresql
+      workerRegistration: secret/guize/staging/worker

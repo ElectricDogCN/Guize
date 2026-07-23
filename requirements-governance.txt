@@ -1,0 +1,11 @@
+# Governance dependencies for Guize project
+# Install: python -m pip install -r requirements-governance.txt
+
+# Test framework
+pytest>=7.0,<9.0
+
+# YAML/JSON parsing and validation
+PyYAML>=6.0
+
+# JSON schema validation (for contracts/)
+jsonschema>=4.0
