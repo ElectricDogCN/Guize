@@ -1,0 +1,218 @@
+name: Governance Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    paths:
+      - AGENTS.md
+      - rules/**
+      - specs/**
+      - scripts/**
+      - .github/workflows/governance-gate.yml
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'Task ID to validate (e.g., GZ-001)'
+        required: false
+        default: ''
+
+jobs:
+  governance-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pyyaml
+
+      - name: Task file validation
+        if: hashFiles('scripts/check-task-file.py') != ''
+        run: |
+          TASK_ID="${{ github.event.inputs.task }}"
+          if [ -z "$TASK_ID" ]; then
+            # Attempt to extract task ID from branch name or PR title
+            TASK_ID=$(echo "${{ github.head_ref || github.ref_name }}" | grep -oE '^[a-z]+/([A-Z]+-[0-9]+)' | cut -d/ -f2 || true)
+          fi
+          if [ -z "$TASK_ID" ]; then
+            echo "::warning::No task ID provided or extracted; skipping task file validation."
+            exit 0
+          fi
+          echo "Validating task file for: $TASK_ID"
+          python scripts/check-task-file.py --task "$TASK_ID"
+
+      - name: Governance script tests
+        if: hashFiles('tests/governance/') != ''
+        run: |
+          python -m pytest tests/governance/ -v
+
+      - name: Markdown basic check
+        run: |
+          EXIT_CODE=0
+
+          # Check for trailing spaces in Markdown files
+          echo "Checking for trailing spaces in Markdown files..."
+          if git grep -n '[[:space:]]$' -- '*.md'; then
+            echo "::error::Found trailing spaces in Markdown files."
+            EXIT_CODE=1
+          else
+            echo "No trailing spaces found."
+          fi
+
+          # Basic broken link check (internal .md references only)
+          echo "Checking for broken internal Markdown links..."
+          find . -name '*.md' -print0 | while IFS= read -r -d '' file; do
+            grep -oE '\[([^]]+)\]\(([^)]+\.md)(#[^)]*)?\)' "$file" | while read -r match; do
+              link=$(echo "$match" | sed -E 's/.*\]\(([^)]+)\).*/\1/' | sed 's/#.*//')
+              if [ -n "$link" ] && [ ! -f "$(dirname "$file")/$link" ] && [ ! -f "$link" ]; then
+                echo "::warning::Possible broken link in $file: $match"
+              fi
+            done
+          done
+
+          exit $EXIT_CODE
+
+      - name: YAML/JSON schema check
+        run: |
+          EXIT_CODE=0
+
+          # Validate workflow YAML files with Python yaml.safe_load
+          echo "Validating GitHub workflow YAML files..."
+          for file in .github/workflows/*.yml .github/workflows/*.yaml; do
+            [ -e "$file" ] || continue
+            echo "Checking $file"
+            python -c "import yaml; yaml.safe_load(open('$file'))" || {
+              echo "::error::Invalid YAML: $file"
+              EXIT_CODE=1
+            }
+          done
+
+          # Validate JSON schema files under contracts/
+          echo "Validating JSON schema files under contracts/..."
+          for file in contracts/**/*.json; do
+            [ -e "$file" ] || continue
+            echo "Checking $file"
+            python -c "import json; json.load(open('$file'))" || {
+              echo "::error::Invalid JSON: $file"
+              EXIT_CODE=1
+            }
+          done
+
+          # Validate YAML schema files under contracts/
+          echo "Validating YAML schema files under contracts/..."
+          for file in contracts/**/*.yaml contracts/**/*.yml; do
+            [ -e "$file" ] || continue
+            echo "Checking $file"
+            python -c "import yaml; yaml.safe_load(open('$file'))" || {
+              echo "::error::Invalid YAML: $file"
+              EXIT_CODE=1
+            }
+          done
+
+          exit $EXIT_CODE
+
+      - name: Secret scan (basic)
+        run: |
+          EXIT_CODE=0
+          echo "Scanning for common secret patterns..."
+
+          # Patterns to detect: generic high-entropy strings and common secret keywords
+          # This is a lightweight inline check; for production, integrate a dedicated scanner.
+          PATTERNS='(password|secret|token|key|api_key|apikey|private_key)\s*=\s*["'\''`][^"'\''`]{8,}'
+
+          if git grep -inE "$PATTERNS" -- '*.py' '*.yaml' '*.yml' '*.json' '*.md' '*.sh' || true; then
+            echo "::warning::Potential secret-like patterns detected. Review manually."
+            # Do not fail the build on pattern match alone to avoid false positives
+          fi
+
+          # Explicitly fail if common high-risk secret formats are found
+          HIGH_RISK='(AKIA[0-9A-Z]{16}|ghp_[a-zA-Z0-9]{36}|sk-[a-zA-Z0-9]{20,}|AIza[0-9A-Za-z_-]{35})'
+          if git grep -inE "$HIGH_RISK" -- '*.py' '*.yaml' '*.yml' '*.json' '*.md' '*.sh' || true; then
+            echo "::error::High-risk secret pattern detected."
+            EXIT_CODE=1
+          fi
+
+          exit $EXIT_CODE
+        # Placeholder: for production, replace or supplement with:
+        # - gitleaks
+        # - trufflehog
+        # - GitHub secret scanning alerts (requires no secret config)
+
+      - name: Evidence check
+        if: hashFiles('scripts/check-evidence.py') != ''
+        run: |
+          TASK_ID="${{ github.event.inputs.task }}"
+          if [ -z "$TASK_ID" ]; then
+            TASK_ID=$(echo "${{ github.head_ref || github.ref_name }}" | grep -oE '^[a-z]+/([A-Z]+-[0-9]+)' | cut -d/ -f2 || true)
+          fi
+          if [ -z "$TASK_ID" ]; then
+            echo "::warning::No task ID provided or extracted; skipping evidence check."
+            exit 0
+          fi
+          echo "Checking evidence for task: $TASK_ID"
+          python scripts/check-evidence.py --task "$TASK_ID"
+
+      - name: Task-branch linkage check
+        if: hashFiles('scripts/check-pr-task-link.py') != ''
+        run: |
+          if [ -n "${{ github.head_ref }}" ]; then
+            python scripts/check-pr-task-link.py --branch "${{ github.head_ref }}"
+          else
+            echo "Not a pull request; skipping PR task linkage check."
+          fi
+
+      - name: Scope check
+        if: hashFiles('scripts/check-task-scope.py') != ''
+        run: |
+          TASK_ID="${{ github.event.inputs.task }}"
+          if [ -z "$TASK_ID" ]; then
+            TASK_ID=$(echo "${{ github.head_ref || github.ref_name }}" | grep -oE '^[a-z]+/([A-Z]+-[0-9]+)' | cut -d/ -f2 || true)
+          fi
+          if [ -z "$TASK_ID" ]; then
+            echo "::warning::No task ID provided or extracted; skipping scope check."
+            exit 0
+          fi
+          echo "Checking scope for task: $TASK_ID"
+          python scripts/check-task-scope.py --task "$TASK_ID" --base main
+
+      - name: Generate governance report
+        if: always()
+        run: |
+          echo "## Governance Gate Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          STEPS=(
+            "Task file validation"
+            "Governance script tests"
+            "Markdown basic check"
+            "YAML/JSON schema check"
+            "Secret scan (basic)"
+            "Evidence check"
+            "Task-branch linkage check"
+            "Scope check"
+          )
+
+          for step in "${STEPS[@]}"; do
+            # Map step name to outcome via job context is not available here,
+            # so we record a simple completion note.
+            echo "| $step | Completed |" >> $GITHUB_STEP_SUMMARY
+          done
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "Ref: ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+          if [ -n "${{ github.head_ref }}" ]; then
+            echo "PR Branch: ${{ github.head_ref }}" >> $GITHUB_STEP_SUMMARY
+          fi

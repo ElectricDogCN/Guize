@@ -1,0 +1,68 @@
+name: Feature
+description: Feature request
+title: "[FEATURE] "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景
+      description: 提出该功能的背景与动机
+    validations:
+      required: false
+  - type: textarea
+    id: goal
+    attributes:
+      label: 目标
+      description: 该功能要达成的具体目标
+    validations:
+      required: true
+  - type: textarea
+    id: non_goal
+    attributes:
+      label: 非目标
+      description: 明确不在本次范围内的内容
+    validations:
+      required: false
+  - type: textarea
+    id: related_spec
+    attributes:
+      label: 关联规格
+      description: 相关需求规格或设计文档链接
+    validations:
+      required: false
+  - type: textarea
+    id: related_adr
+    attributes:
+      label: 关联 ADR
+      description: 相关架构决策记录链接
+    validations:
+      required: false
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: 验收标准
+      description: 可验证的验收条件
+    validations:
+      required: true
+  - type: textarea
+    id: risk
+    attributes:
+      label: 风险
+      description: 已知风险与应对措施
+    validations:
+      required: false
+  - type: textarea
+    id: test_evidence
+    attributes:
+      label: 测试与证据
+      description: 测试计划、用例或证据路径
+    validations:
+      required: false
+  - type: textarea
+    id: rollback
+    attributes:
+      label: 回滚方式
+      description: 出现问题时的回滚策略
+    validations:
+      required: false

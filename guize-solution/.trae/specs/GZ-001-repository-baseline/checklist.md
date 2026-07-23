@@ -1,0 +1,54 @@
+# GZ-001 Checklist
+
+- [x] Formal GZ-001 task specification exists at `specs/tasks/GZ-001-repository-baseline.md`
+- [x] Task spec contains required YAML front matter (id, title, titleZh, type, status, baseBranch, workBranch, evidencePath)
+- [x] Task spec contains background, goals, allowed scope, forbidden scope, implementation requirements, acceptance criteria, required tests, risks, rollback method, follow-up boundaries
+- [x] Generic dynamic prompt templates exist under `prompts/templates/`
+- [x] `prompts/templates/task-execution.md` supports variables: TASK_ID, TASK_FILE, ISSUE_REFERENCE, BRANCH_NAME, BASE_BRANCH, EXECUTION_MODE
+- [x] `scripts/render-agent-prompt.py` exists and uses standard library
+- [x] `render-agent-prompt.py` supports CLI args: --task, --branch, --base, --mode, --issue, --output
+- [x] `render-agent-prompt.py` returns non-zero when task missing or fields missing
+- [x] `scripts/check-task-file.py` exists with help, exit codes, structured errors
+- [x] `scripts/check-task-scope.py` exists and validates diff against allowed/forbidden scope
+- [x] `scripts/check-evidence.py` exists and validates evidence files are non-empty, contain task ID, test results have commands/exit codes, rollback has executable steps
+- [x] `scripts/check-pr-task-link.py` exists and validates PR title/body/branch against task file locally
+- [x] `scripts/check-spec-sync.py` exists and checks sync for contracts, events, deployment, rules, ADR, workflows
+- [x] Governance tests exist under `tests/governance/`
+- [x] Test: valid task file passes
+- [x] Test: missing task ID fails
+- [x] Test: invalid branch name fails
+- [x] Test: in-scope changes pass
+- [x] Test: out-of-scope changes fail
+- [x] Test: missing evidence files fails
+- [x] Test: empty evidence files fails
+- [x] Test: prompt renders correctly
+- [x] Test: unknown template variables fail
+- [x] Test: Never Rules updated but changelog not updated fails
+- [x] Test: PR missing task ID fails
+- [x] Root `Makefile` exists with targets: help, docs-check, schema-check, secret-scan, governance-test, agent-prompt, task-verify, verify
+- [x] `make agent-prompt TASK=GZ-001` generates a prompt file
+- [x] `make task-verify TASK=GZ-001` executes successfully
+- [x] `make verify` executes successfully
+- [x] `.editorconfig` exists and enforces UTF-8 and line endings
+- [x] `.gitattributes` exists and enforces line endings
+- [x] `.gitignore` exists, ignores `.agent/*.md`, `.env`, IDE caches, build artifacts, but not `.env.example`, evidence, schemas, docs
+- [x] `.agent/.gitkeep` exists
+- [x] GitHub Issue templates exist: agent-task, poc, bug, feature, architecture-decision, security
+- [x] Agent-task template requires task ID, requirement source, goal, allowed scope, forbidden scope, acceptance criteria, test method, risk, rollback, evidence path
+- [x] PR template exists with all required sections
+- [x] `.github/workflows/governance-gate.yml` exists, syntax valid, triggered on PR/push to governance files/manual
+- [x] Governance CI does not hardcode real secrets
+- [x] Governance CI does not auto-deploy or auto-merge
+- [x] No real secrets committed
+- [x] No business functionality implemented outside allowed scope
+- [x] Evidence directory `evidence/GZ-001/` exists with all required files from real execution
+- [x] `evidence/GZ-001/commands.md` contains real commands with timestamps, directories, exit codes
+- [x] `evidence/GZ-001/test-results.md` contains table with check item, command, exit code, result, notes
+- [x] `evidence/GZ-001/changed-files.md` categorizes added/modified/deleted
+- [x] `evidence/GZ-001/rollback.md` contains safe rollback steps
+- [x] New long-term decisions recorded in ADR `adr/0012-adopt-repository-native-agent-task-harness.md`
+- [x] ADR contains context, decision, alternatives, consequences, risks, rollback/alternative conditions
+- [x] If never-rules updated, changelog is synchronized
+- [x] Unverified content is explicitly marked
+- [x] No automatic push, merge, or deployment performed
+- [x] No GZ-002 automatically started
