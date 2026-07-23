@@ -1,0 +1,58 @@
+name: POC
+description: Proof of concept task
+title: "[POC] "
+labels: ["poc"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: 目标
+      description: 本次 POC 要验证的目标或假设
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: 环境
+      description: 实验所需的环境、依赖或工具
+    validations:
+      required: false
+  - type: textarea
+    id: samples
+    attributes:
+      label: 样本
+      description: 测试数据、示例或参考实现
+    validations:
+      required: false
+  - type: textarea
+    id: metrics
+    attributes:
+      label: 评估指标
+      description: 用于衡量 POC 成功与否的指标
+    validations:
+      required: false
+  - type: textarea
+    id: exit_criteria
+    attributes:
+      label: 退出标准
+      description: POC 结束的判断条件（成功/失败/继续）
+    validations:
+      required: true
+  - type: dropdown
+    id: adr_needed
+    attributes:
+      label: 是否需要 ADR
+      description: 验证通过后是否需要编写架构决策记录
+      options:
+        - "是"
+        - "否"
+        - "待定"
+    validations:
+      required: false
+  - type: textarea
+    id: risk
+    attributes:
+      label: 风险
+      description: 已知风险与应对措施
+    validations:
+      required: false
