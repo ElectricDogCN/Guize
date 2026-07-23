@@ -1,0 +1,30 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Guize Deployment Profile
+type: object
+required: [apiVersion, kind, metadata, spec]
+properties:
+  apiVersion:
+    const: guize.io/v1
+  kind:
+    const: DeploymentProfile
+  metadata:
+    type: object
+    required: [name, version]
+    properties:
+      name: {type: string}
+      version: {type: string}
+  spec:
+    type: object
+    required: [runtime, requirements, services]
+    properties:
+      runtime:
+        enum: [docker-compose, kubernetes]
+      requirements:
+        type: object
+      services:
+        type: array
+        items: {type: string}
+      optionalServices:
+        type: array
+        items: {type: string}
+additionalProperties: false

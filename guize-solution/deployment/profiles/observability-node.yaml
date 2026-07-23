@@ -1,0 +1,18 @@
+apiVersion: guize.io/v1
+kind: DeploymentProfile
+metadata:
+  name: observability-node
+  version: 1.0.0
+spec:
+  runtime: docker-compose
+  requirements:
+    architecture: amd64
+  services:
+    - prometheus
+    - grafana
+    - loki
+    - otel-collector
+    - alertmanager
+  optionalServices: []
+  security:
+    signatureRequired: true
