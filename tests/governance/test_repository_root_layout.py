@@ -90,7 +90,7 @@ class TestRepositoryRootLayout(unittest.TestCase):
         ci_path = os.path.join(REPO_ROOT, ".github", "workflows", "governance-gate.yml")
         with open(ci_path, "r", encoding="utf-8") as f:
             content = f.read()
-        self.assertIn("--base main", content,
+        self.assertIn("--base origin/main", content,
             "Workflow scope check must reference main branch")
 
     def test_workflow_secret_scan_no_always_true(self):

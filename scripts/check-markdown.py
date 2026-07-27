@@ -12,7 +12,8 @@ def check_file(filepath):
         return [(0, f"Cannot read file: {e}")]
 
     for i, line in enumerate(lines, 1):
-        if line.rstrip() != line.rstrip(" \t"):
+        content = line.rstrip("\n\r")
+        if content.endswith(" ") or content.endswith("\t"):
             issues.append((i, "trailing whitespace"))
 
     return issues

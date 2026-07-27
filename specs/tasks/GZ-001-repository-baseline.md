@@ -68,6 +68,13 @@ evidencePath: evidence/GZ-001
 - `evidence/GZ-001/final-report-r3.md` — R3 最终报告
 - `evidence/GZ-001/pr-update-commands.md` — PR 更新命令
 
+### R4 恢复新增允许范围
+
+- `evidence/README.md` — 证据目录说明
+- `specs/contracts/README.md` — 合约目录说明
+- `specs/designs/design-template.md` — 设计模板
+- `specs/requirements/product-requirements.md` — 产品需求
+
 ## 禁止范围
 
 - `backend/**`
