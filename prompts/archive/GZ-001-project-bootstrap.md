@@ -1,7 +1,7 @@
 # GZ-001 Project Bootstrap — 归档
 
-> **状态**：已归档，仅作历史参考  
-> **任务 ID**：GZ-001  
+> **状态**：已归档，仅作历史参考
+> **任务 ID**：GZ-001
 > **原始任务**：`specs/tasks/GZ-001-repository-baseline.md`
 
 ---

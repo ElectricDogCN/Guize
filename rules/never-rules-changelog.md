@@ -39,3 +39,9 @@
 自动化检查
 验证证据
 ```
+
+## 2026-07-27
+
+- **新增 Rule 66**: 禁止报告不存在或不可达的提交、分支和验证结果
+  - 来源: GZ-001-R4 Evidence Integrity Incident
+  - 新增 `scripts/check-evidence-integrity.py` 自动检查

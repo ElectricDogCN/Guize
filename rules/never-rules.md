@@ -89,3 +89,30 @@ Never Rules 记录已经识别出的高风险错误模式。任何 Agent、开�
 63. **永不**将“推荐组件”写成不可替换的永久依赖而不记录 ADR。
 64. **永不**为机器契约创建中英文两套 URL、字段或枚举标识。
 65. **永不**删除历史决策记录来掩盖方案变化。
+
+### Rule 66: 禁止报告不存在或不可达的提交、分支和验证结果
+
+**来源**: GZ-001-R4 Evidence Integrity Incident
+
+**禁止行为**:
+- 报告未通过 `git cat-file` 验证的提交 SHA
+- 报告当前分支不包含的提交
+- 报告未实际执行的测试通过
+- 报告未落盘修改已经完成
+- 报告未 Push 的提交已经进入远程 PR
+- 用自然语言总结代替 Git 对象和命令证据
+
+**必需验证**:
+在最终报告前必须执行：
+```bash
+git status --porcelain
+git rev-parse HEAD
+git log --oneline <base>..HEAD
+git cat-file -e <each-sha>^{commit}
+git merge-base --is-ancestor <each-sha> HEAD
+```
+
+**自动检查**:
+```bash
+python scripts/check-evidence-integrity.py --task <TASK> --report <REPORT>
+```
