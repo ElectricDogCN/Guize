@@ -29,63 +29,18 @@ help:
 
 docs-check:
 	@echo "=== docs-check ==="
-	@if [ -z "$(GIT)" ]; then echo "MISSING: git is required but not installed"; exit 1; fi
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
-	@echo "-- Checking for trailing whitespace in changed Markdown files --"
-	@changed_md=$$(git diff --name-only $(BASE)...HEAD -- '*.md' 2>/dev/null || git diff --name-only $(BASE) -- '*.md' 2>/dev/null); \
-	if [ -n "$$changed_md" ]; then \
-		found=0; \
-		for f in $$changed_md; do \
-			if git show HEAD:"$$f" 2>/dev/null | grep -n '[[:space:]]$$' > /dev/null 2>&1; then :; fi; \
-			if [ -f "$$f" ] && grep -n '[[:space:]]$$' "$$f" > /dev/null 2>&1; then \
-				echo "FAIL: $$f has trailing whitespace"; \
-				found=1; \
-			fi; \
-		done; \
-		if [ "$$found" = "1" ]; then exit 1; else echo "OK: No trailing whitespace in changed Markdown files"; fi; \
+	@if [ -f scripts/check-markdown.py ]; then \
+		$(PYTHON) scripts/check-markdown.py; \
 	else \
-		echo "INFO: No changed Markdown files to check for trailing whitespace"; \
+		echo "MISSING: scripts/check-markdown.py not found"; \
+		exit 1; \
 	fi
-	@echo "-- Checking for broken internal links in Markdown files --"
-	@printf '%s\n' \
-		'import os, re, subprocess, sys' \
-		'def get_md_files():' \
-		'    try:' \
-		'        return [f for f in subprocess.check_output(["git", "ls-files", "*.md"]).decode().strip().splitlines() if f]' \
-		'    except Exception:' \
-		'        return [os.path.join(dp, f) for dp, dn, filenames in os.walk(".") for f in filenames if f.endswith(".md")]' \
-		'files = get_md_files()' \
-		'link_pattern = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")' \
-		'errors = 0' \
-		'for f in files:' \
-		'    d = os.path.dirname(f)' \
-		'    try:' \
-		'        with open(f, "r", encoding="utf-8") as fh:' \
-		'            content = fh.read()' \
-		'    except Exception as e:' \
-		'        print(f"SKIP: {f} - {e}")' \
-		'        continue' \
-		'    for m in link_pattern.finditer(content):' \
-		'        link = m.group(2)' \
-		'        if link.startswith("http") or link.startswith("#") or link.startswith("mailto:"):' \
-		'            continue' \
-		'        target = os.path.normpath(os.path.join(d, link)) if not link.startswith("/") else link.lstrip("/")' \
-		'        if not os.path.exists(target):' \
-		'            print(f"BROKEN LINK: {f} -> {link}")' \
-		'            errors += 1' \
-		'if errors:' \
-		'    print(f"FAIL: {errors} broken internal link(s)")' \
-		'    sys.exit(1)' \
-		'else:' \
-		'    print("OK: No broken internal links")' \
-		> /tmp/guize-docs-check.py
-	@$(PYTHON) /tmp/guize-docs-check.py
-	@rm -f /tmp/guize-docs-check.py
-	@if [ -z "$(MARKDOWNLINT)" ]; then \
-		echo "MISSING: markdownlint is not installed, skipping markdownlint check"; \
-	else \
+	@if [ -n "$(MARKDOWNLINT)" ]; then \
 		echo "-- Running markdownlint --"; \
 		$(MARKDOWNLINT) '**/*.md' || true; \
+	else \
+		echo "MISSING: markdownlint is not installed, skipping"; \
 	fi
 
 schema-check:

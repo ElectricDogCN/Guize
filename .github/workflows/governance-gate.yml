@@ -190,7 +190,7 @@ jobs:
             exit 0
           fi
           echo "Checking scope for task: $TASK_ID"
-          python scripts/check-task-scope.py --task "$TASK_ID" --base main
+          python scripts/check-task-scope.py --task "$TASK_ID" --base origin/main
 
       - name: Parent directory reference check
         run: |
@@ -229,22 +229,21 @@ jobs:
           echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
 
-          STEPS=(
-            "Task file validation"
-            "Governance script tests"
-            "Markdown basic check"
-            "YAML/JSON schema check"
-            "Secret scan"
-            "Evidence check"
-            "Task-branch linkage check"
-            "Scope check"
-            "Parent directory check"
-            "CI workflow static validation"
-          )
+          if [ "${{ steps.markdown-check.outcome }}" = "success" ]; then
+            echo "| Markdown basic check | Passed |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.markdown-check.outcome }}" = "failure" ]; then
+            echo "| Markdown basic check | Failed |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Markdown basic check | Skipped |" >> $GITHUB_STEP_SUMMARY
+          fi
 
-          for step in "${STEPS[@]}"; do
-            echo "| $step | Completed |" >> $GITHUB_STEP_SUMMARY
-          done
+          if [ "${{ steps.secret-scan.outcome }}" = "success" ]; then
+            echo "| Secret scan | Passed |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.secret-scan.outcome }}" = "failure" ]; then
+            echo "| Secret scan | Failed |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Secret scan | Skipped |" >> $GITHUB_STEP_SUMMARY
+          fi
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
