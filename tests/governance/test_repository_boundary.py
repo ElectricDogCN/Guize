@@ -247,7 +247,7 @@ class TestCIWorkflowStatic(unittest.TestCase):
         job = jobs.get("governance-check", {})
         steps = job.get("steps", [])
 
-        test_step_names = ["Governance script tests", "governance script tests"]
+        test_step_names = ["Governance script tests", "governance script tests", "Governance tests", "governance tests"]
         test_step = None
         for step in steps:
             if step.get("name", "").lower() in [s.lower() for s in test_step_names]:
@@ -272,6 +272,7 @@ class TestCIWorkflowStatic(unittest.TestCase):
         critical_names = [
             "Install governance dependencies",
             "Governance script tests",
+            "Governance tests",
             "YAML/JSON schema check",
             "Secret scan",
             "Parent directory reference check",

@@ -32,8 +32,9 @@ def write_task_spec(directory, task_id="GZ-001", **kwargs):
     acceptance_criteria = kwargs.get("acceptance_criteria", "- [ ] 完成测试\n- [ ] 通过门禁")
     validation_commands = kwargs.get("validation_commands", "```bash\npython -m pytest\n```")
 
+    front_matter = "\n".join(front_lines)
     content = f"""---
-{'\n'.join(front_lines)}
+{front_matter}
 ---
 
 ## 允许范围

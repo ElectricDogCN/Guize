@@ -1,0 +1,2 @@
+# 允许的测试跳过清单
+# 格式: test_name|reason|category

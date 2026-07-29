@@ -34,16 +34,19 @@ jobs:
       PYTHONDONTWRITEBYTECODE: 1
     steps:
       - name: Checkout repository
+        id: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Python 3.11
+        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install governance dependencies
+        id: install-deps
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
@@ -51,7 +54,30 @@ jobs:
           echo "--- Installed packages ---"
           pip freeze | grep -E 'pytest|PyYAML|jsonschema'
 
+      - name: Verify core dependencies importable
+        id: verify-deps
+        run: |
+          set -euo pipefail
+          python -c "import yaml, pytest, jsonschema; print('OK: All dependencies importable')"
+
+      - name: Compile scripts and tests
+        id: compile
+        run: |
+          set -euo pipefail
+          echo "--- Compiling scripts and tests ---"
+          python -m compileall -q scripts tests
+          echo "OK: Compilation successful"
+
+      - name: Pytest collect-only
+        id: collect-tests
+        run: |
+          set -euo pipefail
+          echo "--- Collecting tests ---"
+          python -m pytest --collect-only -q tests/governance/
+          echo "OK: Test collection successful"
+
       - name: Task file validation
+        id: task-file-validation
         run: |
           set -euo pipefail
           TASK_ID="${{ github.event.inputs.task }}"
@@ -65,12 +91,29 @@ jobs:
           echo "Validating task file for: $TASK_ID"
           python scripts/check-task-file.py --task "$TASK_ID"
 
-      - name: Governance script tests
+      - name: Governance tests
+        id: governance-tests
         run: |
           set -euo pipefail
-          python -m pytest tests/governance/ -v
+          echo "--- Running governance tests ---"
+          mkdir -p /tmp/test-results
+          python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
+
+      - name: Skip audit
+        id: skip-audit
+        if: success() || failure()
+        run: |
+          set -euo pipefail
+          echo "--- Auditing skipped tests ---"
+          if [ -f /tmp/test-results/governance-junit.xml ]; then
+            python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
+          else
+            echo "::warning::JUnit XML not found; skipping skip audit."
+          fi
 
       - name: Markdown basic check
+        id: markdown-check
+        if: success() || failure()
         run: |
           set -euo pipefail
           EXIT_CODE=0
@@ -96,6 +139,8 @@ jobs:
           exit $EXIT_CODE
 
       - name: YAML/JSON schema check
+        id: schema-check
+        if: success() || failure()
         run: |
           set -euo pipefail
           EXIT_CODE=0
@@ -133,6 +178,8 @@ jobs:
           exit $EXIT_CODE
 
       - name: Secret scan
+        id: secret-scan
+        if: success() || failure()
         run: |
           set -euo pipefail
           EXIT_CODE=0
@@ -156,6 +203,8 @@ jobs:
           exit $EXIT_CODE
 
       - name: Evidence check
+        id: evidence-check
+        if: success() || failure()
         run: |
           set -euo pipefail
           TASK_ID="${{ github.event.inputs.task }}"
@@ -170,6 +219,8 @@ jobs:
           python scripts/check-evidence.py --task "$TASK_ID"
 
       - name: Task-branch linkage check
+        id: linkage-check
+        if: success() || failure()
         run: |
           set -euo pipefail
           if [ -n "${{ github.head_ref }}" ]; then
@@ -179,6 +230,8 @@ jobs:
           fi
 
       - name: Scope check
+        id: scope-check
+        if: success() || failure()
         run: |
           set -euo pipefail
           TASK_ID="${{ github.event.inputs.task }}"
@@ -193,6 +246,8 @@ jobs:
           python scripts/check-task-scope.py --task "$TASK_ID" --base origin/main
 
       - name: Parent directory reference check
+        id: parent-dir-check
+        if: success() || failure()
         run: |
           set -euo pipefail
           echo "Checking for prohibited parent directory references..."
@@ -215,12 +270,15 @@ jobs:
           exit $EXIT_CODE
 
       - name: CI workflow static validation
+        id: ci-validation
+        if: success() || failure()
         run: |
           set -euo pipefail
           echo "Validating CI workflow structure..."
           python tests/governance/test_repository_boundary.py TestCIWorkflowStatic
 
       - name: Generate governance report
+        id: summary
         if: always()
         run: |
           set -euo pipefail
@@ -229,21 +287,10 @@ jobs:
           echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
 
-          if [ "${{ steps.markdown-check.outcome }}" = "success" ]; then
-            echo "| Markdown basic check | Passed |" >> $GITHUB_STEP_SUMMARY
-          elif [ "${{ steps.markdown-check.outcome }}" = "failure" ]; then
-            echo "| Markdown basic check | Failed |" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "| Markdown basic check | Skipped |" >> $GITHUB_STEP_SUMMARY
-          fi
-
-          if [ "${{ steps.secret-scan.outcome }}" = "success" ]; then
-            echo "| Secret scan | Passed |" >> $GITHUB_STEP_SUMMARY
-          elif [ "${{ steps.secret-scan.outcome }}" = "failure" ]; then
-            echo "| Secret scan | Failed |" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "| Secret scan | Skipped |" >> $GITHUB_STEP_SUMMARY
-          fi
+          for step in checkout setup-python install-deps verify-deps compile collect-tests task-file-validation governance-tests skip-audit markdown-check schema-check secret-scan evidence-check linkage-check scope-check parent-dir-check ci-validation; do
+            outcome="${{ steps[$step].outcome }}"
+            echo "| ${step//-/_} | $outcome |" >> $GITHUB_STEP_SUMMARY
+          done
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
