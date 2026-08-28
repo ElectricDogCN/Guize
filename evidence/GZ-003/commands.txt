@@ -1,0 +1,35 @@
+GZ-003 command evidence
+
+command: GitHub.create_issue(repository=ElectricDogCN/Guize, title="GZ-003：需求设计一致性与多 Agent 协作就绪治理")
+exit code: 0-equivalent; connector returned no error
+observed result: issue #10 created at https://github.com/ElectricDogCN/Guize/issues/10
+
+command: GitHub.create_branch(repository=ElectricDogCN/Guize, branch=chore/GZ-003-multi-agent-readiness, base_ref=main)
+exit code: 0-equivalent; connector returned no error
+observed result: branch chore/GZ-003-multi-agent-readiness created from main
+
+command: GET /repos/ElectricDogCN/Guize/branches/main
+exit code: 0-equivalent; connector returned no error
+observed result: main HEAD 70984201e8d01ad75b6aa0fa0ee5ffe141087b52; protected=false; required checks disabled
+
+command: GET /repos/ElectricDogCN/Guize/rulesets
+exit code: 0-equivalent; connector returned no error
+observed result: []
+
+command: GitHub.compare_commits(base=main, head=chore/GZ-003-multi-agent-readiness)
+exit code: 0-equivalent; connector returned no error
+observed result before PR creation: status=ahead; ahead_by=24; behind_by=0; changed_files=48; every path was covered by GZ-003 Allowed Scope
+
+command: GitHub.create_pull_request(head=chore/GZ-003-multi-agent-readiness, base=main)
+exit code: 0-equivalent; connector returned no error
+observed result: PR #11 created; tested head at creation was 602856cf83554703f8aafd8f98f3eeddcbfa9698
+
+command: GitHub.fetch_commit_workflow_runs(commit=602856cf83554703f8aafd8f98f3eeddcbfa9698)
+exit code: 0-equivalent; connector returned no error
+observed result: Governance Gate run 33199139029 completed with conclusion=success
+
+command: GitHub.fetch_workflow_job_logs(job=98943864286)
+exit code: 0-equivalent; connector returned no error
+observed result: 106 tests passed in 3.12s; 0 skips; 133 Markdown files clean; 48/48 files in scope; readiness and coordination gates passed
+
+No prospective command result is recorded. Any commit after 602856cf83554703f8aafd8f98f3eeddcbfa9698 requires a new remote run before merge readiness is claimed.

@@ -6,9 +6,11 @@
 ## 1. 当前文档基线
 
 - 产品基线：V1 需求冻结版。
-- 当前阶段：POC、研发详细设计与迭代实施。
+- 当前阶段：需求/设计审计、机器契约准备、阻断性 POC 与协作治理。
 - 交付约束：V1 不设置对外 Beta；所有纳入 V1 范围的能力必须达到冻结需求定义的生产级门禁后方可发布。
 - 研发主文档：[`docs/00-guize-engineering-design-baseline.md`](docs/00-guize-engineering-design-baseline.md)。
+- 就绪审计：[`docs/24-requirements-design-readiness-audit.md`](docs/24-requirements-design-readiness-audit.md)。
+- 多 Agent 协作：[`docs/25-multi-agent-collaboration-protocol.md`](docs/25-multi-agent-collaboration-protocol.md)。
 - 文档组织：主文档采用 ePROHub 规则引擎 V2 的“编号 + 追踪 + 模块 + 契约 + 数据 + 状态 + 工作包 + 验收”格式。
 - 开发模式：Agent 主导实现，人工审查、批准、部署与发布。
 - 权威优先级遵循 [`AGENTS.md`](AGENTS.md)：已批准需求规格 → 已批准 API/事件/数据 Schema 契约 → 已批准 ADR → 系统/模块设计 → `AGENTS.md` → Never Rules → 当前任务说明 → 代码现状 → Agent 推断。
@@ -105,6 +107,8 @@
 - `docs/21-low-level-design.md`：原始 LLD 来源。
 - `docs/22-repository-and-directory-plan.md`：仓库规划来源。
 - `docs/23-source-references.md`：组件官方资料核验记录。
+- `docs/24-requirements-design-readiness-audit.md`：需求、设计、机器契约、POC、实现和验收就绪缺口。
+- `docs/25-multi-agent-collaboration-protocol.md`：多 Agent 预留、路径、依赖、交接、审查和集成协议。
 - `docs/appendices/**`：专题附录。
 - `docs/guize-complete-solution.md`：旧版合并阅读稿，不作为后续维护权威入口。
 
@@ -149,3 +153,37 @@ POC 未完成前，不得把对应性能、兼容性和容量数字升级为生�
 - 内容版本：`AssetVersion`
 - 媒体表现：`Rendition`
 - 物理副本：`Replica`
+
+## 9. 实施就绪与多 Agent 开发
+
+### 机器可读入口
+
+- 需求追踪：[`specs/requirements/requirements-index.yaml`](specs/requirements/requirements-index.yaml)
+- 模块所有权：[`specs/designs/module-ownership.yaml`](specs/designs/module-ownership.yaml)
+- 后续任务计划：[`specs/coordination/work-package-plan.yaml`](specs/coordination/work-package-plan.yaml)
+- 活动任务登记：[`specs/coordination/active-work.yaml`](specs/coordination/active-work.yaml)
+- schemaVersion 2 Task 模板：[`specs/tasks/task-template.md`](specs/tasks/task-template.md)
+
+### 开始新任务
+
+```text
+Issue + Task Spec + Evidence
+→ Reservation PR 登记依赖/风险/baseSha/路径/租约
+→ 合并预留
+→ 从最新 main 创建实现分支
+→ Implementer
+→ Handoff
+→ Independent Reviewer
+→ Integrator
+→ Human Merge Approval
+```
+
+验证：
+
+```bash
+python scripts/check-agent-coordination.py
+python scripts/check-project-readiness.py
+make verify TASK=<TASK-ID> BRANCH=<branch> BASE=origin/main
+```
+
+当前 GitHub `main` 尚未启用 Branch Protection/Ruleset，CODEOWNERS 与 CI 不能单独阻止管理员或有写权限者直接推送。管理员必须启用 PR、Required Check、审批、对话解决、禁止 force push/delete 等规则后，才可称为平台级强制。

@@ -306,3 +306,66 @@ Agent 只有在以下条件全部满足时才能标记完成：
 - 人工审查所需信息完整。
 
 否则状态必须是 `PARTIAL`、`BLOCKED` 或 `NEEDS_REVIEW`。
+
+## 17. 多 Agent 协作、路径租约与集成
+
+### 17.1 强制登记
+
+GZ-003 之后的新任务必须使用 `schemaVersion: 2` Task Spec，并在开始实现前完成活动任务预留。权威协作文件：
+
+```text
+specs/coordination/active-work.yaml
+specs/coordination/active-work.schema.yaml
+specs/designs/module-ownership.yaml
+docs/25-multi-agent-collaboration-protocol.md
+```
+
+除 `policy.bootstrapTasks` 明确列出的机制引导任务外，`coordinationMode` 必须为 `registry`，并存在唯一、未过期的活动任务记录。
+
+### 17.2 角色分离
+
+每个活动任务明确：
+
+- Coordinator：拆分任务、管理依赖、租约和集成顺序；
+- Implementer：在已登记范围内实现并维护 Evidence；
+- Reviewer：默认只读，独立审查规格、契约、测试和安全；
+- Integrator：确认依赖、基线、Review 和 Gate 后执行集成。
+
+high/critical 风险任务不得由同一 Agent 同时充当唯一 Implementer 和唯一 Reviewer。ElectricDogCN 保留最终人工批准权。
+
+### 17.3 两阶段启动
+
+1. 先创建 Issue、Task Spec、Evidence 和 reservation PR；
+2. reservation PR 只登记依赖、风险、`baseSha`、独占/共享路径、租约、交接和集成顺序；
+3. 登记合并后，从最新 `main` 创建实现分支；
+4. 禁止先开发后补登记；
+5. 实现 PR 合并时完成或释放对应登记。
+
+### 17.4 路径与所有权
+
+- `exclusivePaths` 不得与其他活动任务的独占或共享路径重叠；
+- `sharedPaths` 只有在 `coordinationGroup` 相同且 `integrationOrder` 不同时允许重叠；
+- 机器契约、Migration、模块核心包和全局配置默认独占；
+- 禁止用 `**` 或等价模式预占整个仓库；
+- 任务必须遵守 `module-ownership.yaml` 的路径、Schema 和公开接口所有权；
+- 检查器无法证明两个模式互斥时，按冲突处理，不通过放宽算法解决。
+
+### 17.5 依赖、基线和并行上限
+
+- `dependsOn` 必须存在且不得形成环；
+- 未合并的共同契约不能作为多个实现任务的隐式依赖；
+- Task Spec 和活动登记保存创建分支时的 40 位 `baseSha`；
+- 进入 Review 前必须同步最新 `main` 并重新验证；
+- 同时最多 3 个活动任务；
+- 同时最多 1 个 high/critical 风险任务；
+- 单人审查容量优先于 Agent 数量。
+
+### 17.6 Handoff Contract
+
+`handoffPath` 必须位于任务 Evidence 中并记录：Task/Issue/Branch/Base SHA、角色、提交 SHA、实际文件、契约版本、测试命令与退出码、Evidence、失败和限制、共享路径、集成顺序、回滚以及下一角色的精确动作。
+
+Agent 中断或更换后，只能依据 Git、Task Spec、活动登记、Handoff 和 Evidence 恢复，不依赖聊天记忆或未提交本地状态。
+
+### 17.7 合并与外部强制层
+
+Integrator 必须确认依赖已合并、最新 HEAD 的 Gate 成功、Review Thread 全解决、共享路径顺序正确、活动登记已完成或释放。GitHub CODEOWNERS 只负责路由；`main` 分支保护、Required Check、禁止 force push/delete 和过期批准失效仍必须由管理员在 Ruleset 中实际启用并通过 API 验证。未启用时不得声称平台已强制阻止直接推送。
