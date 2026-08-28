@@ -183,7 +183,8 @@ jobs:
           set -euo pipefail
           EXIT_CODE=0
           if grep -rnE '\.\./tests/|/workspace/tests/' Makefile scripts/; then EXIT_CODE=1; fi
-          if grep -rnE '\.\./tests/|/workspace/tests/' .github/workflows/governance-gate.yml | grep -v '^[[:space:]]*#'; then EXIT_CODE=1; fi
+          # Workflow content is validated by TestCIWorkflowStatic below. Scanning this file
+          # with the same literal regex would match the detector text itself and create a false positive.
           exit $EXIT_CODE
 
       - name: CI workflow static validation
