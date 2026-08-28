@@ -1,0 +1,155 @@
+name: Multi-Agent Work Package
+description: Create a Guize task with dependency, ownership, contract and handoff metadata
+title: "[GZ-XXX] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template only after checking `specs/collaboration/program-plan.yaml` and confirming that all dependencies are merged.
+
+  - type: input
+    id: task_id
+    attributes:
+      label: Task ID
+      description: Existing unique task ID, for example GZ-004
+      placeholder: GZ-004
+    validations:
+      required: true
+
+  - type: input
+    id: workstream
+    attributes:
+      label: Workstream
+      description: Workstream ID from the program plan
+      placeholder: WS-REQUIREMENTS
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Coordination mode
+      options:
+        - multi-agent
+        - single-agent
+    validations:
+      required: true
+
+  - type: input
+    id: base_commit
+    attributes:
+      label: Base commit
+      description: Exact 40-character commit SHA from which the branch will be created
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Merged dependencies
+      description: Task IDs and merge SHAs that must already exist
+      placeholder: |
+        - GZ-003: <merge-sha>
+    validations:
+      required: true
+
+  - type: textarea
+    id: authority
+    attributes:
+      label: Authoritative requirements, contracts and ADRs
+      description: List the exact repository paths consumed by this task
+      placeholder: |
+        - specs/requirements/...
+        - contracts/...
+        - adr/...
+    validations:
+      required: true
+
+  - type: input
+    id: owner
+    attributes:
+      label: Owner role
+      placeholder: api-contract-agent
+    validations:
+      required: true
+
+  - type: input
+    id: reviewer
+    attributes:
+      label: Independent reviewer role
+      description: Must differ from Owner
+      placeholder: backend-review-agent
+    validations:
+      required: true
+
+  - type: input
+    id: integrator
+    attributes:
+      label: Integrator role
+      placeholder: integration-agent
+    validations:
+      required: true
+
+  - type: textarea
+    id: exclusive_paths
+    attributes:
+      label: Exclusive paths
+      description: Paths reserved for the single Task Owner
+      placeholder: |
+        - contracts/openapi/**
+        - tests/contracts/openapi/**
+    validations:
+      required: true
+
+  - type: textarea
+    id: shared_paths
+    attributes:
+      label: Shared integration paths
+      description: Paths that only the Integrator may update or that must merge serially
+      placeholder: |
+        - specs/traceability/**
+
+  - type: textarea
+    id: outputs
+    attributes:
+      label: Contract and delivery outputs
+      description: Machine contracts, implementation, tests and evidence produced by the task
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Verifiable acceptance criteria
+      description: Use checklists with observable outcomes
+      placeholder: |
+        - [ ] Contract validates in CI
+        - [ ] Negative compatibility cases fail as expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Required validation commands
+      description: Exact commands that must execute before review
+      render: bash
+    validations:
+      required: true
+
+  - type: input
+    id: handoff
+    attributes:
+      label: Handoff path
+      placeholder: evidence/GZ-004/handoff.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: rollback
+    attributes:
+      label: Rollback and recovery
+      description: Include pre-merge, post-merge and external side-effect recovery
+    validations:
+      required: true
