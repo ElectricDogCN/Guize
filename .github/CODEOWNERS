@@ -1,0 +1,17 @@
+# Review routing for Guize. Enforcement still requires a GitHub main-branch Ruleset.
+* @ElectricDogCN
+
+/AGENTS.md @ElectricDogCN
+/rules/ @ElectricDogCN
+/adr/ @ElectricDogCN
+/specs/requirements/ @ElectricDogCN
+/specs/designs/ @ElectricDogCN
+/specs/coordination/ @ElectricDogCN
+/specs/tasks/ @ElectricDogCN
+/contracts/ @ElectricDogCN
+/.github/ @ElectricDogCN
+/scripts/ @ElectricDogCN
+/tests/governance/ @ElectricDogCN
+/deployment/ @ElectricDogCN
+/README.md @ElectricDogCN
+/MANIFEST.md @ElectricDogCN
