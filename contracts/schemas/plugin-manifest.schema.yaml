@@ -1,6 +1,7 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 title: Guize Plugin Manifest
 type: object
+additionalProperties: false
 required: [apiVersion, kind, metadata, spec]
 properties:
   apiVersion:
@@ -18,23 +19,91 @@ properties:
       - WorkerCapability
   metadata:
     type: object
+    additionalProperties: false
     required: [id, version]
     properties:
-      id: {type: string}
-      version: {type: string}
+      id:
+        type: string
+        pattern: '^[a-z][a-z0-9-]{2,63}$'
+      version:
+        type: string
+        pattern: '^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$'
   spec:
     type: object
+    additionalProperties: false
     required: [runtime, capabilities]
     properties:
       runtime:
         type: object
+        additionalProperties: false
         required: [mode]
         properties:
           mode:
             enum: [IN_PROCESS, EXTERNAL_SERVICE]
+          healthEndpoint:
+            type: string
+            pattern: '^/'
       capabilities:
         type: array
-        items: {type: string}
+        minItems: 1
+        uniqueItems: true
+        items:
+          enum:
+            - PROBE
+            - AUTHENTICATE
+            - LIST
+            - STAT
+            - RANGE_READ
+            - FULL_READ
+            - DOWNLOAD_URL
+            - CHANGE_CURSOR
+            - CHANGE_LIST
+            - EVENT_SUBSCRIPTION
+            - PROVIDER_HASH
+            - VERSION
+            - STORAGE_READ
+            - STORAGE_WRITE
+            - STORAGE_DELETE
+            - STORAGE_RESTORE
+            - MEDIA_PROBE
+            - TRANSCODE
+            - THUMBNAIL
+            - ASR
+            - OCR
+            - AI_INFER
+            - EMBEDDING
+            - RERANK
+            - SEARCH_INDEX
+            - SEARCH_QUERY
+            - SECURITY_SCAN
+            - NOTIFY
+            - WORKER_EXECUTE
       permissions:
         type: object
-additionalProperties: false
+        additionalProperties: false
+        properties:
+          network:
+            type: array
+            uniqueItems: true
+            items:
+              enum: [PUBLIC_INTERNET, PRIVATE_NETWORK, LOOPBACK]
+          filesystem:
+            type: object
+            additionalProperties: false
+            properties:
+              readPaths:
+                type: array
+                uniqueItems: true
+                items: {type: string, minLength: 1}
+              writePaths:
+                type: array
+                uniqueItems: true
+                items: {type: string, minLength: 1}
+          secrets:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              pattern: '^[A-Za-z0-9][A-Za-z0-9._/-]{0,127}$'
+          gpu:
+            type: boolean
