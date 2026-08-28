@@ -33,6 +33,18 @@ class TestGovernanceWorkflowContract(unittest.TestCase):
         self.assertIn("scripts/check-evidence-integrity.py", step.get("run", ""))
         self.assertFalse(step.get("continue-on-error", False))
 
+    def test_project_readiness_is_a_gate(self):
+        step = self._step("project-readiness")
+        self.assertIn("scripts/check-project-readiness.py", step.get("run", ""))
+        self.assertFalse(step.get("continue-on-error", False))
+
+    def test_agent_coordination_is_a_gate(self):
+        step = self._step("agent-coordination")
+        run = step.get("run", "")
+        self.assertIn("scripts/check-agent-coordination.py", run)
+        self.assertIn("task-context.outputs.task_id", run)
+        self.assertFalse(step.get("continue-on-error", False))
+
     def test_task_context_allows_non_pr_non_task_refs(self):
         step = self._step("task-context")
         run = step.get("run", "")
@@ -40,16 +52,25 @@ class TestGovernanceWorkflowContract(unittest.TestCase):
         self.assertIn("github.head_ref", run)
         self.assertIn("Pull-request branch", run)
 
-    def test_schema_check_uses_jsonschema_validator(self):
+    def test_schema_check_uses_shared_schema_script(self):
         step = self._step("schema-check")
-        run = step.get("run", "")
-        self.assertIn("jsonschema.validators.validator_for", run)
-        self.assertIn("check_schema", run)
+        self.assertIn("scripts/check-schemas.py", step.get("run", ""))
 
-    def test_contract_changes_trigger_push_validation(self):
+    def test_all_main_pushes_trigger_validation(self):
         on_section = self.workflow.get(True, self.workflow.get("on", {}))
-        paths = on_section.get("push", {}).get("paths", [])
-        self.assertIn("contracts/**", paths)
+        push = on_section.get("push", {})
+        self.assertIn("main", push.get("branches", []))
+        self.assertNotIn("paths", push)
+        self.assertNotIn("paths-ignore", push)
+
+    def test_summary_reports_new_gates(self):
+        step = self._step("summary")
+        env = step.get("env", {})
+        self.assertIn("PROJECT_READINESS", env)
+        self.assertIn("AGENT_COORDINATION", env)
+        run = step.get("run", "")
+        self.assertIn("project_readiness", run)
+        self.assertIn("agent_coordination", run)
 
 
 if __name__ == "__main__":
