@@ -8,7 +8,12 @@
 
 - `docs/00-guize-engineering-design-baseline.md`
 - `README.md` 研发入口重构
-- `specs/tasks/GZ-002-eprohub-style-document-restructure.md`
+- `specs/tasks/GZ-002.md`
 - canonical Evidence 结构
 
-状态：实现已迁移到 clean branch；最终完成结论以最新 HEAD 的 Governance Gate 和 PR review 为准。
+当前远端验证：
+
+- HEAD `a6c075459c297fdb7a21596c8a70fed471c93994` 的 Governance Gate run #73 已完成且结论为 `success`。
+- Governance Checks 全部步骤通过，包括 88 项 governance tests、Markdown、Schema、Secret、Evidence、Evidence Integrity、Scope、Spec Sync 与 CI static validation。
+
+状态：clean branch 已建立；最终完成结论仍要求最新 HEAD 的 Governance Gate 成功、PR review 无未解决实质问题且 PR 可合并。
