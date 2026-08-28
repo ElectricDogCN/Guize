@@ -1,0 +1,117 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://guize.local/schemas/task-coordination.schema.yaml
+title: Guize Multi-Agent Task Coordination Descriptor
+type: object
+additionalProperties: false
+required:
+  - taskId
+  - mode
+  - status
+  - baseCommit
+  - roles
+  - dependencies
+  - paths
+  - contracts
+  - integration
+  - handoff
+properties:
+  taskId:
+    type: string
+    pattern: '^[A-Z]+-[0-9]+$'
+  mode:
+    type: string
+    enum: [single-agent, multi-agent]
+  status:
+    type: string
+    enum: [planned, active, blocked, ready-for-integration, merged, closed]
+  workstream:
+    type: string
+    pattern: '^WS-[A-Z0-9-]+$'
+  baseCommit:
+    type: string
+    pattern: '^[0-9a-f]{40}$'
+  roles:
+    type: object
+    additionalProperties: false
+    required: [owner, reviewer, integrator]
+    properties:
+      owner:
+        type: string
+        minLength: 1
+      reviewer:
+        type: string
+        minLength: 1
+      integrator:
+        type: string
+        minLength: 1
+      securityReviewer:
+        type: string
+      operationsReviewer:
+        type: string
+  dependencies:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+      pattern: '^[A-Z]+-[0-9]+$'
+  paths:
+    type: object
+    additionalProperties: false
+    required: [exclusive, shared]
+    properties:
+      exclusive:
+        type: array
+        uniqueItems: true
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      shared:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+  contracts:
+    type: object
+    additionalProperties: false
+    required: [inputs, outputs]
+    properties:
+      inputs:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      outputs:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+  integration:
+    type: object
+    additionalProperties: false
+    required: [order, mergePolicy, rebasePolicy]
+    properties:
+      order:
+        type: integer
+        minimum: 0
+      mergePolicy:
+        type: string
+        enum: [contract-first, dependency-order, integration-owner]
+      rebasePolicy:
+        type: string
+        enum: [revalidate-on-base-change, recreate-from-main, merge-main-and-revalidate]
+  handoff:
+    type: object
+    additionalProperties: false
+    required: [required, path]
+    properties:
+      required:
+        type: boolean
+      path:
+        type: string
+        minLength: 1
+  notes:
+    type: string
