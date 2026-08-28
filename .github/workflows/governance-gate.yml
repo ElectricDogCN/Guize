@@ -64,17 +64,13 @@ jobs:
         id: compile
         run: |
           set -euo pipefail
-          echo "--- Compiling scripts and tests ---"
           python -m compileall -q scripts tests
-          echo "OK: Compilation successful"
 
       - name: Pytest collect-only
         id: collect-tests
         run: |
           set -euo pipefail
-          echo "--- Collecting tests ---"
           python -m pytest --collect-only -q tests/governance/
-          echo "OK: Test collection successful"
 
       - name: Task file validation
         id: task-file-validation
@@ -89,14 +85,12 @@ jobs:
             echo "::error::Branch '$REF_NAME' does not follow <type>/<TASK-ID>-<short-name>."
             exit 1
           fi
-          echo "Validating task file for: $TASK_ID"
           python scripts/check-task-file.py --task "$TASK_ID"
 
       - name: Governance tests
         id: governance-tests
         run: |
           set -euo pipefail
-          echo "--- Running governance tests ---"
           mkdir -p /tmp/test-results
           python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
 
@@ -105,7 +99,6 @@ jobs:
         if: success() || failure()
         run: |
           set -euo pipefail
-          echo "--- Auditing skipped tests ---"
           if [ -f /tmp/test-results/governance-junit.xml ]; then
             python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
           else
@@ -125,37 +118,18 @@ jobs:
         run: |
           set -euo pipefail
           EXIT_CODE=0
-
-          echo "Validating GitHub workflow YAML files..."
           for file in .github/workflows/*.yml .github/workflows/*.yaml; do
             [ -e "$file" ] || continue
-            echo "Checking $file"
-            python -c "import yaml; yaml.safe_load(open('$file'))" || {
-              echo "::error::Invalid YAML: $file"
-              EXIT_CODE=1
-            }
+            python -c "import yaml; yaml.safe_load(open('$file'))" || EXIT_CODE=1
           done
-
-          echo "Validating JSON files under contracts/..."
           for file in contracts/**/*.json; do
             [ -e "$file" ] || continue
-            echo "Checking $file"
-            python -c "import json; json.load(open('$file'))" || {
-              echo "::error::Invalid JSON: $file"
-              EXIT_CODE=1
-            }
+            python -c "import json; json.load(open('$file'))" || EXIT_CODE=1
           done
-
-          echo "Validating YAML files under contracts/..."
           for file in contracts/**/*.yaml contracts/**/*.yml; do
             [ -e "$file" ] || continue
-            echo "Checking $file"
-            python -c "import yaml; yaml.safe_load(open('$file'))" || {
-              echo "::error::Invalid YAML: $file"
-              EXIT_CODE=1
-            }
+            python -c "import yaml; yaml.safe_load(open('$file'))" || EXIT_CODE=1
           done
-
           exit $EXIT_CODE
 
       - name: Secret scan
@@ -175,11 +149,7 @@ jobs:
           if [ -z "$TASK_ID" ] && [[ "$REF_NAME" =~ ^(feat|fix|docs|refactor|chore)/([A-Z]+-[0-9]+)-.+$ ]]; then
             TASK_ID="${BASH_REMATCH[2]}"
           fi
-          if [ -z "$TASK_ID" ]; then
-            echo "::error::Cannot run evidence check without a valid task branch."
-            exit 1
-          fi
-          echo "Checking evidence for task: $TASK_ID"
+          [ -n "$TASK_ID" ] || { echo "::error::Cannot run evidence check without a valid task branch."; exit 1; }
           python scripts/check-evidence.py --task "$TASK_ID"
 
       - name: Task-branch linkage check
@@ -203,11 +173,7 @@ jobs:
           if [ -z "$TASK_ID" ] && [[ "$REF_NAME" =~ ^(feat|fix|docs|refactor|chore)/([A-Z]+-[0-9]+)-.+$ ]]; then
             TASK_ID="${BASH_REMATCH[2]}"
           fi
-          if [ -z "$TASK_ID" ]; then
-            echo "::error::Cannot run scope check without a valid task branch."
-            exit 1
-          fi
-          echo "Checking scope for task: $TASK_ID"
+          [ -n "$TASK_ID" ] || { echo "::error::Cannot run scope check without a valid task branch."; exit 1; }
           python scripts/check-task-scope.py --task "$TASK_ID" --base origin/main
 
       - name: Parent directory reference check
@@ -215,23 +181,9 @@ jobs:
         if: success() || failure()
         run: |
           set -euo pipefail
-          echo "Checking for prohibited parent directory references..."
           EXIT_CODE=0
-
-          if grep -rnE '\.\./tests/|/workspace/tests/' Makefile scripts/; then
-            echo "::error::Found prohibited parent directory reference."
-            EXIT_CODE=1
-          fi
-
-          if grep -rnE '\.\./tests/|/workspace/tests/' .github/workflows/governance-gate.yml | grep -v '^[[:space:]]*#'; then
-            echo "::error::CI workflow contains prohibited parent directory reference."
-            EXIT_CODE=1
-          fi
-
-          if [ $EXIT_CODE -eq 0 ]; then
-            echo "OK: No prohibited parent directory references found."
-          fi
-
+          if grep -rnE '\.\./tests/|/workspace/tests/' Makefile scripts/; then EXIT_CODE=1; fi
+          if grep -rnE '\.\./tests/|/workspace/tests/' .github/workflows/governance-gate.yml | grep -v '^[[:space:]]*#'; then EXIT_CODE=1; fi
           exit $EXIT_CODE
 
       - name: CI workflow static validation
@@ -239,27 +191,54 @@ jobs:
         if: success() || failure()
         run: |
           set -euo pipefail
-          echo "Validating CI workflow structure..."
           python tests/governance/test_repository_boundary.py TestCIWorkflowStatic
 
       - name: Generate governance report
         id: summary
         if: always()
+        env:
+          CHECKOUT: ${{ steps.checkout.outcome }}
+          SETUP_PYTHON: ${{ steps.setup-python.outcome }}
+          INSTALL_DEPS: ${{ steps.install-deps.outcome }}
+          VERIFY_DEPS: ${{ steps.verify-deps.outcome }}
+          COMPILE: ${{ steps.compile.outcome }}
+          COLLECT_TESTS: ${{ steps.collect-tests.outcome }}
+          TASK_FILE: ${{ steps.task-file-validation.outcome }}
+          GOVERNANCE_TESTS: ${{ steps.governance-tests.outcome }}
+          SKIP_AUDIT: ${{ steps.skip-audit.outcome }}
+          MARKDOWN: ${{ steps.markdown-check.outcome }}
+          SCHEMA: ${{ steps.schema-check.outcome }}
+          SECRET_SCAN: ${{ steps.secret-scan.outcome }}
+          EVIDENCE: ${{ steps.evidence-check.outcome }}
+          LINKAGE: ${{ steps.linkage-check.outcome }}
+          SCOPE: ${{ steps.scope-check.outcome }}
+          PARENT_DIR: ${{ steps.parent-dir-check.outcome }}
+          CI_VALIDATION: ${{ steps.ci-validation.outcome }}
         run: |
           set -euo pipefail
-          echo "## Governance Gate Report" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
-
-          for step in checkout setup-python install-deps verify-deps compile collect-tests task-file-validation governance-tests skip-audit markdown-check schema-check secret-scan evidence-check linkage-check scope-check parent-dir-check ci-validation; do
-            outcome="${{ steps[$step].outcome }}"
-            echo "| ${step//-/_} | $outcome |" >> $GITHUB_STEP_SUMMARY
-          done
-
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-          echo "Ref: ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
-          if [ -n "${{ github.head_ref }}" ]; then
-            echo "PR Branch: ${{ github.head_ref }}" >> $GITHUB_STEP_SUMMARY
-          fi
+          {
+            echo "## Governance Gate Report"
+            echo
+            echo "| Check | Status |"
+            echo "|---|---|"
+            echo "| checkout | $CHECKOUT |"
+            echo "| setup_python | $SETUP_PYTHON |"
+            echo "| install_deps | $INSTALL_DEPS |"
+            echo "| verify_deps | $VERIFY_DEPS |"
+            echo "| compile | $COMPILE |"
+            echo "| collect_tests | $COLLECT_TESTS |"
+            echo "| task_file_validation | $TASK_FILE |"
+            echo "| governance_tests | $GOVERNANCE_TESTS |"
+            echo "| skip_audit | $SKIP_AUDIT |"
+            echo "| markdown_check | $MARKDOWN |"
+            echo "| schema_check | $SCHEMA |"
+            echo "| secret_scan | $SECRET_SCAN |"
+            echo "| evidence_check | $EVIDENCE |"
+            echo "| linkage_check | $LINKAGE |"
+            echo "| scope_check | $SCOPE |"
+            echo "| parent_dir_check | $PARENT_DIR |"
+            echo "| ci_validation | $CI_VALIDATION |"
+            echo
+            echo "Commit: ${{ github.sha }}"
+            echo "Ref: ${{ github.ref }}"
+          } >> "$GITHUB_STEP_SUMMARY"
