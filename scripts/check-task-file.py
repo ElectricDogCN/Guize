@@ -8,6 +8,25 @@ import re
 import sys
 
 
+V2_REQUIRED_FIELDS = [
+    "schemaVersion",
+    "workPackage",
+    "taskOwner",
+    "agentRole",
+    "riskLevel",
+    "coordinationMode",
+    "coordinationGroup",
+    "dependsOn",
+    "baseSha",
+    "handoffPath",
+    "integrationStrategy",
+]
+V2_ROLES = {"coordinator", "implementer", "reviewer", "integrator"}
+V2_RISKS = {"low", "medium", "high", "critical"}
+V2_MODES = {"bootstrap", "registry"}
+V2_INTEGRATION = {"merge", "squash", "rebase"}
+
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Validate a Guize task specification file.",
@@ -21,10 +40,16 @@ def parse_args():
 
 def find_task_file(repo_root, spec_dir, task_id):
     base = os.path.join(repo_root, spec_dir)
-    candidates = [os.path.join(base, f"{task_id}-repository-baseline.md"), os.path.join(base, f"{task_id}.md")]
-    for path in candidates:
-        if os.path.isfile(path):
-            return path
+    exact = os.path.join(base, f"{task_id}.md")
+    if os.path.isfile(exact):
+        return exact
+    candidates = []
+    if os.path.isdir(base):
+        for name in os.listdir(base):
+            if name.startswith(f"{task_id}-") and name.endswith(".md"):
+                candidates.append(os.path.join(base, name))
+    if len(candidates) == 1:
+        return candidates[0]
     return None
 
 
@@ -95,6 +120,53 @@ def has_validation_command(section):
     return False
 
 
+def has_list_entry(section):
+    return bool(section and re.search(r"(?m)^\s*[-*]\s+\S", section))
+
+
+def validate_v2(front_matter, body, repo_root, evidence_path, errors):
+    if str(front_matter.get("schemaVersion")) != "2":
+        errors.append("schemaVersion must be 2 when the field is present.")
+        return
+    for field in V2_REQUIRED_FIELDS:
+        if field not in front_matter or front_matter[field] == "":
+            errors.append(f"Missing or empty schemaVersion 2 field: {field}")
+
+    if front_matter.get("agentRole") not in V2_ROLES:
+        errors.append(f"Invalid agentRole: {front_matter.get('agentRole')}")
+    if front_matter.get("riskLevel") not in V2_RISKS:
+        errors.append(f"Invalid riskLevel: {front_matter.get('riskLevel')}")
+    if front_matter.get("coordinationMode") not in V2_MODES:
+        errors.append(f"Invalid coordinationMode: {front_matter.get('coordinationMode')}")
+    if front_matter.get("integrationStrategy") not in V2_INTEGRATION:
+        errors.append(f"Invalid integrationStrategy: {front_matter.get('integrationStrategy')}")
+
+    base_sha = front_matter.get("baseSha", "")
+    if not re.fullmatch(r"[0-9a-f]{40}", base_sha):
+        errors.append("baseSha must be a 40-character lowercase Git commit SHA.")
+
+    handoff_path = front_matter.get("handoffPath", "")
+    if handoff_path:
+        normalized_evidence = evidence_path.rstrip("/") + "/"
+        if not handoff_path.startswith(normalized_evidence):
+            errors.append("handoffPath must be inside evidencePath.")
+        if not os.path.isfile(os.path.join(repo_root, handoff_path)):
+            errors.append(f"handoffPath does not exist: {handoff_path}")
+
+    required_sections = [
+        (["依赖与集成顺序", "dependencies and integration order"], "Missing dependencies/integration section."),
+        (["独占写范围", "exclusive write scope"], "Missing exclusive write scope section."),
+        (["共享修改范围", "shared modification scope"], "Missing shared modification scope section."),
+        (["协作与交接", "collaboration and handoff"], "Missing collaboration/handoff section."),
+    ]
+    for names, message in required_sections:
+        section = extract_section(body, names)
+        if section is None:
+            errors.append(message)
+        elif not has_list_entry(section):
+            errors.append(f"{message.rstrip('.')} must contain at least one bullet.")
+
+
 def main():
     args = parse_args()
     repo_root = os.path.abspath(args.repo_root)
@@ -105,7 +177,7 @@ def main():
 
     task_path = find_task_file(repo_root, args.spec_dir, task_id)
     if not task_path:
-        report("ERROR", f"Task file not found for {task_id}.", {"searched": [os.path.join(repo_root, args.spec_dir, f"{task_id}-repository-baseline.md"), os.path.join(repo_root, args.spec_dir, f"{task_id}.md")]})
+        report("ERROR", f"Task file not found or ambiguous for {task_id}.")
         sys.exit(2)
 
     try:
@@ -147,11 +219,11 @@ def main():
 
     if allowed is None:
         errors.append("Missing allowed scope section.")
-    elif not re.search(r"(?m)^\s*[-*]\s+\S", allowed):
+    elif not has_list_entry(allowed):
         errors.append("Allowed scope section has no scope entries.")
     if forbidden is None:
         errors.append("Missing forbidden scope section.")
-    elif not re.search(r"(?m)^\s*[-*]\s+\S", forbidden):
+    elif not has_list_entry(forbidden):
         errors.append("Forbidden scope section has no entries.")
     if acceptance is None:
         errors.append("Missing acceptance criteria section.")
@@ -161,6 +233,11 @@ def main():
         errors.append("Missing validation commands section.")
     elif not has_validation_command(validation):
         errors.append("Validation commands section must contain at least one executable command.")
+
+    if "schemaVersion" in front_matter:
+        validate_v2(front_matter, body, repo_root, evidence_path, errors)
+    else:
+        warnings.append("Legacy Task Spec schemaVersion 1; multi-agent metadata is not enforced.")
 
     for error in errors:
         report("FAIL", error)
