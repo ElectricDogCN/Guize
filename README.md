@@ -1,6 +1,6 @@
 # 归泽・Guize
 
-> 海量多媒体统一入库、镜像缓存、智能加工、统一检索与在线播放平台。  
+> 海量多媒体统一入库、镜像缓存、智能加工、统一检索与在线播放平台。
 > An AI-powered media fabric for unified ingestion, caching, storage, understanding, search, and streaming.
 
 ## 1. 当前文档基线
