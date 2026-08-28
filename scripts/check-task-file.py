@@ -14,25 +14,14 @@ def parse_args():
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("--task", required=True, help="Task ID, e.g. GZ-001")
-    parser.add_argument(
-        "--spec-dir",
-        default="specs/tasks",
-        help="Directory containing task spec files (default: specs/tasks)",
-    )
-    parser.add_argument(
-        "--repo-root",
-        default=".",
-        help="Repository root path (default: .)",
-    )
+    parser.add_argument("--spec-dir", default="specs/tasks", help="Directory containing task spec files (default: specs/tasks)")
+    parser.add_argument("--repo-root", default=".", help="Repository root path (default: .)")
     return parser.parse_args()
 
 
 def find_task_file(repo_root, spec_dir, task_id):
     base = os.path.join(repo_root, spec_dir)
-    candidates = [
-        os.path.join(base, f"{task_id}-repository-baseline.md"),
-        os.path.join(base, f"{task_id}.md"),
-    ]
+    candidates = [os.path.join(base, f"{task_id}-repository-baseline.md"), os.path.join(base, f"{task_id}.md")]
     for path in candidates:
         if os.path.isfile(path):
             return path
@@ -88,27 +77,35 @@ def extract_section(body, names):
     return "\n".join(lines[start:end]).strip()
 
 
+def has_validation_command(section):
+    """Accept a non-empty fenced block or a structured list containing command text."""
+    if not section:
+        return False
+    if re.search(r"```(?:bash|sh|shell|text)?\s*\n\s*[^`\s][\s\S]*?```", section, re.I):
+        return True
+    for line in section.splitlines():
+        stripped = line.strip()
+        if not re.match(r"^(?:[-*]|\d+[.)])\s+", stripped):
+            continue
+        if re.search(r"`[^`]+`", stripped):
+            return True
+        text = re.sub(r"^(?:[-*]|\d+[.)])\s+", "", stripped)
+        if re.match(r"(?:python|python3|make|git|bash|sh|pytest|npm|pnpm|yarn|mvn|gradle|docker)\b", text):
+            return True
+    return False
+
+
 def main():
     args = parse_args()
     repo_root = os.path.abspath(args.repo_root)
     task_id = args.task.strip()
-
     if not task_id:
         report("ERROR", "Task ID must not be empty.")
         sys.exit(2)
 
     task_path = find_task_file(repo_root, args.spec_dir, task_id)
     if not task_path:
-        report(
-            "ERROR",
-            f"Task file not found for {task_id}.",
-            {
-                "searched": [
-                    os.path.join(repo_root, args.spec_dir, f"{task_id}-repository-baseline.md"),
-                    os.path.join(repo_root, args.spec_dir, f"{task_id}.md"),
-                ]
-            },
-        )
+        report("ERROR", f"Task file not found for {task_id}.", {"searched": [os.path.join(repo_root, args.spec_dir, f"{task_id}-repository-baseline.md"), os.path.join(repo_root, args.spec_dir, f"{task_id}.md")]})
         sys.exit(2)
 
     try:
@@ -119,19 +116,9 @@ def main():
         sys.exit(2)
 
     front_matter, body = parse_front_matter(content)
-    required_fields = [
-        "id",
-        "title",
-        "titleZh",
-        "type",
-        "status",
-        "baseBranch",
-        "workBranch",
-        "evidencePath",
-    ]
+    required_fields = ["id", "title", "titleZh", "type", "status", "baseBranch", "workBranch", "evidencePath"]
     errors = []
     warnings = []
-
     for field in required_fields:
         if field not in front_matter or not front_matter[field]:
             errors.append(f"Missing or empty front matter field: {field}")
@@ -139,21 +126,16 @@ def main():
     if not re.fullmatch(r"[A-Z]+-\d+", task_id):
         errors.append(f"Task ID format invalid: {task_id}")
     elif front_matter.get("id") != task_id:
-        errors.append(
-            f"Front matter id mismatch: expected {task_id}, got {front_matter.get('id')}"
-        )
+        errors.append(f"Front matter id mismatch: expected {task_id}, got {front_matter.get('id')}")
 
     work_branch = front_matter.get("workBranch", "")
     expected_prefix = f"{front_matter.get('type', 'chore')}/{task_id}"
     if not work_branch.startswith(expected_prefix):
-        errors.append(
-            f"workBranch '{work_branch}' does not start with expected prefix '{expected_prefix}'"
-        )
+        errors.append(f"workBranch '{work_branch}' does not start with expected prefix '{expected_prefix}'")
 
     evidence_path = front_matter.get("evidencePath", "")
     if evidence_path:
-        full_evidence = os.path.join(repo_root, evidence_path)
-        if not os.path.isdir(full_evidence):
+        if not os.path.isdir(os.path.join(repo_root, evidence_path)):
             errors.append(f"Evidence path does not exist: {evidence_path}")
     else:
         errors.append("evidencePath is empty.")
@@ -167,27 +149,23 @@ def main():
         errors.append("Missing allowed scope section.")
     elif not re.search(r"(?m)^\s*[-*]\s+\S", allowed):
         errors.append("Allowed scope section has no scope entries.")
-
     if forbidden is None:
         errors.append("Missing forbidden scope section.")
     elif not re.search(r"(?m)^\s*[-*]\s+\S", forbidden):
         errors.append("Forbidden scope section has no entries.")
-
     if acceptance is None:
         errors.append("Missing acceptance criteria section.")
     elif not re.search(r"(?m)^\s*[-*]\s+\[[ xX]\]\s+\S", acceptance):
         errors.append("Acceptance criteria section must contain at least one checklist item.")
-
     if validation is None:
         errors.append("Missing validation commands section.")
-    elif not re.search(r"```(?:bash|sh|shell|text)?\s*\n[^`\n]+", validation, re.I):
-        errors.append("Validation commands section must contain a non-empty code block.")
+    elif not has_validation_command(validation):
+        errors.append("Validation commands section must contain at least one executable command.")
 
     for error in errors:
         report("FAIL", error)
     for warning in warnings:
         report("WARN", warning)
-
     if errors:
         sys.exit(1)
     if warnings:
