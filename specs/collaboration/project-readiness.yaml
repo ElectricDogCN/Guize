@@ -1,0 +1,216 @@
+version: 1
+project: Guize
+baselineCommit: 70984201e8d01ad75b6aa0fa0ee5ffe141087b52
+assessedByTask: GZ-003
+overallStatus: design-baseline-established-contracts-and-poc-incomplete
+releaseConstraint: no-public-beta-production-gates-required
+areas:
+  requirements:
+    status: partial
+    authoritativeSources:
+      - specs/requirements/product-requirements.md
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - V1 product positioning and major capability scope
+      - no-public-beta delivery constraint
+      - major hardware, storage and scale constraints
+    gaps:
+      - measurable functional acceptance per capability
+      - complete non-functional requirement catalogue
+      - explicit priority and dependency per requirement
+      - machine-readable requirement-to-contract traceability
+    risk: high
+    nextTasks: [GZ-004]
+  architecture:
+    status: planning-baseline
+    authoritativeSources:
+      - adr/**
+      - docs/00-guize-engineering-design-baseline.md
+      - docs/03-system-architecture.md
+      - docs/21-low-level-design.md
+    ready:
+      - modular monolith control-plane direction
+      - LiteFlow and Temporal separation
+      - Asset SourceObject AssetVersion Rendition Replica model
+      - storage search secrets and supply-chain component direction
+    gaps:
+      - module dependency contract tests
+      - package-level public API boundaries
+      - runtime failure and degradation matrix
+      - capacity model validated by POC
+    risk: medium
+    nextTasks: [GZ-008, GZ-011]
+  openapi:
+    status: not-frozen
+    authoritativeSources:
+      - contracts/openapi/openapi-guidelines.md
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - naming and general API principles
+      - conceptual endpoint catalogue
+    gaps:
+      - complete OpenAPI document
+      - request response error and pagination schemas
+      - idempotency and compatibility tests
+      - examples for every public operation
+    risk: critical
+    nextTasks: [GZ-005]
+  events:
+    status: envelope-only
+    authoritativeSources:
+      - contracts/events/event-envelope.schema.json
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - common event envelope
+      - conceptual event types
+    gaps:
+      - payload schema per eventType and version
+      - producer consumer ownership
+      - compatibility deprecation and replay rules
+      - outbox transport and failure contract
+    risk: critical
+    nextTasks: [GZ-006]
+  database:
+    status: conceptual-only
+    authoritativeSources:
+      - docs/00-guize-engineering-design-baseline.md
+      - docs/05-domain-and-data-model.md
+      - docs/21-low-level-design.md
+    ready:
+      - schema ownership and conceptual table catalogue
+      - major uniqueness and idempotency principles
+    gaps:
+      - PostgreSQL DDL and Flyway migrations
+      - field dictionary indexes constraints and partition strategy
+      - migration compatibility rollback and restore verification
+      - transaction boundaries and repository ownership tests
+    risk: critical
+    nextTasks: [GZ-007]
+  workflows:
+    status: conceptual-only
+    authoritativeSources:
+      - adr/0003-temporal-and-liteflow-separation.md
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - workflow responsibility split
+      - conceptual workflow catalogue
+    gaps:
+      - Temporal input output Activity retry timeout heartbeat cancellation contracts
+      - LiteFlow Node Chain EL Context and error contracts
+      - compensation and manual intervention matrix
+      - deterministic workflow compatibility policy
+    risk: critical
+    nextTasks: [GZ-008]
+  pluginsAndWorkers:
+    status: schema-foundation
+    authoritativeSources:
+      - contracts/schemas/plugin-manifest.schema.yaml
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - plugin manifest foundation
+      - conceptual connector and worker capability model
+    gaps:
+      - SDK interfaces and protocol schemas
+      - lease credential sandbox and network boundaries
+      - conformance fixtures and certification tests
+    risk: high
+    nextTasks: [GZ-008, GZ-011]
+  frontend:
+    status: framework-poc-pending
+    authoritativeSources:
+      - docs/13-configuration-center.md
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - major page domains and configuration lifecycle
+    gaps:
+      - Vue 3 versus React POC decision
+      - page action API permission state and error mapping
+      - shared design tokens and accessibility acceptance
+    risk: high
+    nextTasks: [GZ-009, GZ-010]
+  security:
+    status: principles-defined-controls-not-executable
+    authoritativeSources:
+      - docs/12-security-identity-and-permissions.md
+      - adr/0006-secrets-openbao-abstraction.md
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - least privilege and secret reference principles
+      - inherited ACL and public access boundaries
+    gaps:
+      - threat model and abuse cases
+      - permission matrix and authorization test vectors
+      - key rotation incident response and audit retention contracts
+      - connector SSRF and media parser sandbox verification
+    risk: high
+    nextTasks: [GZ-004, GZ-005, GZ-010]
+  observability:
+    status: component-baseline
+    authoritativeSources:
+      - docs/15-observability-and-operations.md
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - component choices and correlation identifiers
+    gaps:
+      - metric and log dictionary
+      - SLI SLO error budget and alert thresholds
+      - runbook ownership and synthetic probes
+    risk: medium
+    nextTasks: [GZ-004, GZ-011]
+  deploymentAndRecovery:
+    status: profiles-exist-poc-pending
+    authoritativeSources:
+      - deployment/**
+      - contracts/schemas/deployment-profile.schema.yaml
+      - docs/04-deployment-topology.md
+      - docs/16-backup-and-disaster-recovery.md
+    ready:
+      - deployment profile foundation
+      - conceptual RPO and recovery order
+    gaps:
+      - A380 passthrough and encoding validation
+      - ATS Range and permission cache-key validation
+      - TrueNAS throughput and failure recovery
+      - PostgreSQL OpenBao file and bundle restore exercise
+      - signed offline deployment bundle validation
+    risk: critical
+    nextTasks: [GZ-010]
+  testing:
+    status: governance-tests-only
+    authoritativeSources:
+      - tests/governance/**
+      - docs/18-testing-and-acceptance.md
+    ready:
+      - repository governance regression suite
+      - task scope evidence schema and secret gates
+    gaps:
+      - business unit integration contract E2E performance security and recovery suites
+      - stable test data and external provider simulators
+      - quality thresholds and release evidence aggregation
+    risk: critical
+    nextTasks: [GZ-004, GZ-011, GZ-012]
+  implementation:
+    status: not-started
+    authoritativeSources:
+      - docs/00-guize-engineering-design-baseline.md
+      - docs/22-repository-and-directory-plan.md
+    ready:
+      - planned module boundaries and work packages
+    gaps:
+      - repository module scaffolding
+      - production code migrations and executable contracts
+      - vertical slice implementation
+    risk: expected
+    nextTasks: [GZ-011, GZ-012]
+  poc:
+    status: not-executed
+    authoritativeSources:
+      - docs/19-risk-assumptions-and-poc.md
+      - docs/00-guize-engineering-design-baseline.md
+    ready:
+      - POC catalogue and conceptual exit criteria
+    gaps:
+      - reproducible environment commands raw results failures and decisions
+      - ADR updates based on measured outcomes
+    risk: critical
+    nextTasks: [GZ-010]
