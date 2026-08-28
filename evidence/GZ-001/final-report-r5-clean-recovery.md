@@ -13,8 +13,7 @@ superseded only after this replacement PR is created.
 - `main`: verified separately as the replacement PR base; its tip is on the sibling main history
 - PR #5 HEAD: `b6878d66aeb241e7ad3fe1a4c0ac30e217ed453a`
 - PR #4 HEAD / recovery base: `4176767e7f82f92a66f4fa873fd469d6280bf60a`
-- Governance repair: `545a11f099acc4f64b44444ac6700123eb0d2246`
-- Scope base repair: `2b006cc`
+- Remote clean-recovery commit: `9abb3f36ae7ca5e549be53de03f1c3433755a3ac`
 
 Git comparison established that PR #5 is behind PR #4 by two commits with no unique commits or
 files. No force push, history rewrite, or deletion of the old branches is required.

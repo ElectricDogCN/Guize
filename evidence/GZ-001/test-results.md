@@ -3,9 +3,8 @@
 ## 2026-08-28 clean recovery verification
 
 - Recovery base: PR #4 HEAD `4176767e7f82f92a66f4fa873fd469d6280bf60a`
-- Governance fix: `545a11f099acc4f64b44444ac6700123eb0d2246`
+- Remote clean-recovery commit: `9abb3f36ae7ca5e549be53de03f1c3433755a3ac`
 - Branch: `chore/GZ-001-clean-recovery`
-- Scope base repair: `2b006cc`
 - `python -m pytest tests/governance/ -q`: exit 0, **68 passed**
 - `make verify TASK=GZ-001 BASE=origin/main BRANCH=chore/GZ-001-clean-recovery`: exit 0
 - Markdown: 94 files, no trailing whitespace or broken internal Markdown links
