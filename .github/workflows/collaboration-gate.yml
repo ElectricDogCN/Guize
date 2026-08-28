@@ -1,0 +1,100 @@
+name: Collaboration Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      task:
+        description: Task ID to validate, for example GZ-004
+        required: true
+        type: string
+      base:
+        description: Base branch or ref
+        required: false
+        default: main
+        type: string
+
+jobs:
+  collaboration-check:
+    name: Collaboration Contract
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONDONTWRITEBYTECODE: 1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install governance dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements-governance.txt
+
+      - name: Resolve task and base
+        id: context
+        run: |
+          set -euo pipefail
+          TASK_ID="${{ github.event.inputs.task }}"
+          BASE_NAME="${{ github.event.inputs.base }}"
+          REF_NAME="${{ github.head_ref || github.ref_name }}"
+
+          if [ -z "$TASK_ID" ] && [[ "$REF_NAME" =~ ^(feat|fix|docs|refactor|chore|poc)/([A-Z]+-[0-9]+)-.+$ ]]; then
+            TASK_ID="${BASH_REMATCH[2]}"
+          fi
+          if [ -z "$TASK_ID" ]; then
+            echo "::error::Cannot resolve Task ID from '$REF_NAME'."
+            exit 1
+          fi
+
+          if [ -n "${{ github.base_ref }}" ]; then
+            BASE_NAME="${{ github.base_ref }}"
+          fi
+          if [ -z "$BASE_NAME" ]; then
+            BASE_NAME="main"
+          fi
+
+          echo "task_id=$TASK_ID" >> "$GITHUB_OUTPUT"
+          echo "base_ref=origin/$BASE_NAME" >> "$GITHUB_OUTPUT"
+          echo "Resolved task=$TASK_ID base=origin/$BASE_NAME"
+
+      - name: Validate collaboration contract
+        run: |
+          set -euo pipefail
+          python scripts/check-collaboration.py \
+            --task "${{ steps.context.outputs.task_id }}" \
+            --base "${{ steps.context.outputs.base_ref }}"
+
+      - name: Render owner prompt as contract smoke test
+        run: |
+          set -euo pipefail
+          python scripts/render-multi-agent-prompt.py \
+            --task "${{ steps.context.outputs.task_id }}" \
+            --output "/tmp/${{ steps.context.outputs.task_id }}-owner-prompt.md"
+          test -s "/tmp/${{ steps.context.outputs.task_id }}-owner-prompt.md"
+
+      - name: Collaboration summary
+        if: always()
+        run: |
+          set -euo pipefail
+          {
+            echo "## Collaboration Gate"
+            echo
+            echo "- Task: ${{ steps.context.outputs.task_id }}"
+            echo "- Base: ${{ steps.context.outputs.base_ref }}"
+            echo "- Commit: ${{ github.sha }}"
+            echo "- Ref: ${{ github.ref }}"
+          } >> "$GITHUB_STEP_SUMMARY"
