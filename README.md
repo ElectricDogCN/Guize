@@ -7,10 +7,11 @@
 
 - 产品基线：V1 需求冻结版。
 - 当前阶段：POC、研发详细设计与迭代实施。
+- 交付约束：V1 不设置对外 Beta；所有纳入 V1 范围的能力必须达到冻结需求定义的生产级门禁后方可发布。
 - 研发主文档：[`docs/00-guize-engineering-design-baseline.md`](docs/00-guize-engineering-design-baseline.md)。
 - 文档组织：主文档采用 ePROHub 规则引擎 V2 的“编号 + 追踪 + 模块 + 契约 + 数据 + 状态 + 工作包 + 验收”格式。
 - 开发模式：Agent 主导实现，人工审查、批准、部署与发布。
-- 机器契约：`contracts/**`、正式 Migration、`deployment/**` Schema 的机器可执行内容优先于说明文档。
+- 权威优先级遵循 [`AGENTS.md`](AGENTS.md)：已批准需求规格 → 已批准 API/事件/数据 Schema 契约 → 已批准 ADR → 系统/模块设计 → `AGENTS.md` → Never Rules → 当前任务说明 → 代码现状 → Agent 推断。
 
 > `docs/00～23`、`docs/appendices/**` 与旧合并版继续保留，作为专题设计来源和历史参考；研发开工不再要求按 24 份文档顺序阅读。
 
