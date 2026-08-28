@@ -1,13 +1,30 @@
-GZ-002 command evidence
+GZ-002 command and remote-action evidence
 
-command: GitHub create branch docs/GZ-002-engineering-design-baseline-clean from main
-exit code: 0
-result: clean branch created from merged GZ-001 main baseline.
+1. Clean branch creation
+Actual GitHub action: create branch `docs/GZ-002-engineering-design-baseline-clean` from `main`.
+Observed result: success; branch created from GZ-001 merge baseline `ede51e486def7636738a0641ae6e64536766b0cd`.
+Reproduction equivalent:
+  gh api -X POST repos/ElectricDogCN/Guize/git/refs -f ref='refs/heads/docs/GZ-002-engineering-design-baseline-clean' -f sha='ede51e486def7636738a0641ae6e64536766b0cd'
 
-command: GitHub compare main...docs/GZ-002-eprohub-style-restructure
-exit code: 0
-result: old GZ-002 branch ahead 4 / behind 29; clean rebuild selected instead of merging stale governance history.
+2. Old-branch divergence check
+Actual GitHub compare: `main...docs/GZ-002-eprohub-style-restructure`.
+Observed result: old GZ-002 branch ahead_by=4, behind_by=29, merge base `4176767e7f82f92a66f4fa873fd469d6280bf60a`.
+Reproduction equivalent:
+  gh api repos/ElectricDogCN/Guize/compare/main...docs/GZ-002-eprohub-style-restructure
 
-command: GitHub tree reconstruction using old GZ-002 document blobs on current main tree
-exit code: 0 when this commit is created
-result: README and engineering baseline content preserved without importing old governance commits.
+3. Clean tree reconstruction
+Actual GitHub Git Data operations:
+- create_tree on current main tree with old GZ-002 README/design blobs plus rebuilt Task/Evidence entries -> tree `ddc4fe058656865e8f777da46c32cec2b8fa8f2a`
+- create_commit with parent `ede51e486def7636738a0641ae6e64536766b0cd` -> commit `385c6655050879918381ecaf0c0f5fd260efb3bb`
+- update_ref `docs/GZ-002-engineering-design-baseline-clean` -> `385c6655050879918381ecaf0c0f5fd260efb3bb`
+Observed result: all GitHub API operations returned success; clean branch was ahead of main without importing the stale governance commits.
+
+4. Task Spec normalization
+Actual GitHub contents operations created `specs/tasks/GZ-002.md`, removed the legacy long-name task path, and updated Evidence references.
+Observed commits included `43a9fdce6169af637b626581fa533b2c6ae48f9e`, `89aafd6432d53d61f05341646b17a63ae5347114`, and `f0741055e81169f911ac5a1fd7015a74d5513f87`.
+
+5. Remote validation
+Actual GitHub Actions run: Governance Gate run #73 on HEAD `a6c075459c297fdb7a21596c8a70fed471c93994`.
+Observed result: `completed / success`; Governance Checks job and every reported step succeeded, including 88 governance tests, Markdown, Schema, Secret, Evidence, Scope and Spec Sync.
+
+Note: `gh api` lines above are reproduction equivalents of the GitHub API operations. They are not represented as commands executed in the original connector session; the actual observed GitHub action names, request targets and returned SHAs/results are recorded separately above.
