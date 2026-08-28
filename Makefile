@@ -6,17 +6,19 @@ BASE ?= origin/main
 MODE ?= implement
 ISSUE ?=
 
-.PHONY: help docs-check schema-check secret-scan governance-test agent-prompt task-verify verify
+.PHONY: help docs-check schema-check secret-scan readiness-check coordination-check governance-test agent-prompt task-verify verify
 
 help:
 	@echo "Guize governance commands"
 	@echo "  make docs-check"
 	@echo "  make schema-check"
 	@echo "  make secret-scan"
+	@echo "  make readiness-check"
+	@echo "  make coordination-check TASK=GZ-003"
 	@echo "  make governance-test"
-	@echo "  make agent-prompt TASK=GZ-001 [BRANCH=...] [BASE=...] [MODE=...]"
-	@echo "  make task-verify TASK=GZ-001 [BRANCH=...] [BASE=...]"
-	@echo "  make verify TASK=GZ-001 [BRANCH=...] [BASE=...]"
+	@echo "  make agent-prompt TASK=GZ-003 [BRANCH=...] [BASE=...] [MODE=...]"
+	@echo "  make task-verify TASK=GZ-003 [BRANCH=...] [BASE=...]"
+	@echo "  make verify TASK=GZ-003 [BRANCH=...] [BASE=...]"
 
 docs-check:
 	@echo "=== docs-check ==="
@@ -35,6 +37,22 @@ secret-scan:
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
 	@if [ ! -f scripts/check-secrets.py ]; then echo "MISSING: scripts/check-secrets.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-secrets.py
+
+readiness-check:
+	@echo "=== readiness-check ==="
+	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
+	@if [ ! -f scripts/check-project-readiness.py ]; then echo "MISSING: scripts/check-project-readiness.py not found"; exit 1; fi
+	$(PYTHON) scripts/check-project-readiness.py
+
+coordination-check:
+	@echo "=== coordination-check (TASK=$(TASK)) ==="
+	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
+	@if [ ! -f scripts/check-agent-coordination.py ]; then echo "MISSING: scripts/check-agent-coordination.py not found"; exit 1; fi
+	@if [ -n "$(TASK)" ]; then \
+		$(PYTHON) scripts/check-agent-coordination.py --task $(TASK); \
+	else \
+		$(PYTHON) scripts/check-agent-coordination.py; \
+	fi
 
 governance-test:
 	@echo "=== governance-test ==="
@@ -61,6 +79,10 @@ task-verify:
 	@echo "-- check-task-file --"
 	@if [ ! -f scripts/check-task-file.py ]; then echo "MISSING: scripts/check-task-file.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-task-file.py --task $(TASK)
+	@echo "-- check-agent-coordination --"
+	$(MAKE) coordination-check TASK=$(TASK)
+	@echo "-- check-project-readiness --"
+	$(MAKE) readiness-check
 	@echo "-- check-task-scope --"
 	@if [ ! -f scripts/check-task-scope.py ]; then echo "MISSING: scripts/check-task-scope.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-task-scope.py --task $(TASK) --base $(BASE)
@@ -94,5 +116,4 @@ verify:
 	$(MAKE) docs-check
 	$(MAKE) schema-check
 	$(MAKE) secret-scan
-	$(MAKE) governance-test
 	$(MAKE) task-verify TASK=$(TASK) BRANCH=$(BRANCH) BASE=$(BASE)
