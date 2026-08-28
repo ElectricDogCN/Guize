@@ -1,0 +1,13 @@
+GZ-002 command evidence
+
+command: GitHub create branch docs/GZ-002-engineering-design-baseline-clean from main
+exit code: 0
+result: clean branch created from merged GZ-001 main baseline.
+
+command: GitHub compare main...docs/GZ-002-eprohub-style-restructure
+exit code: 0
+result: old GZ-002 branch ahead 4 / behind 29; clean rebuild selected instead of merging stale governance history.
+
+command: GitHub tree reconstruction using old GZ-002 document blobs on current main tree
+exit code: 0 when this commit is created
+result: README and engineering baseline content preserved without importing old governance commits.
