@@ -7,11 +7,13 @@
 
 - 产品基线：V1 需求冻结版。
 - 当前阶段：POC、研发详细设计与迭代实施。
-- 交付约束：V1 不设置对外 Beta；所有纳入 V1 范围的能力必须达到冻结需求定义的生产级门禁后方可发布。
+- 交付约束：V1 不设置对外 Beta；所有纳入 V1 范围的能力必须通过生产级门禁后才能发布。
 - 研发主文档：[`docs/00-guize-engineering-design-baseline.md`](docs/00-guize-engineering-design-baseline.md)。
+- 交付审计与多 Agent 协作：[`docs/24-requirements-design-audit-and-multi-agent-delivery.md`](docs/24-requirements-design-audit-and-multi-agent-delivery.md)。
+- 机器可读协作计划：[`specs/collaboration/program-plan.yaml`](specs/collaboration/program-plan.yaml)。
 - 文档组织：主文档采用 ePROHub 规则引擎 V2 的“编号 + 追踪 + 模块 + 契约 + 数据 + 状态 + 工作包 + 验收”格式。
 - 开发模式：Agent 主导实现，人工审查、批准、部署与发布。
-- 权威优先级遵循 [`AGENTS.md`](AGENTS.md)：已批准需求规格 → 已批准 API/事件/数据 Schema 契约 → 已批准 ADR → 系统/模块设计 → `AGENTS.md` → Never Rules → 当前任务说明 → 代码现状 → Agent 推断。
+- 机器契约：`contracts/**`、正式 Migration、`deployment/**` Schema 的机器可执行内容优先于说明文档。
 
 > `docs/00～23`、`docs/appendices/**` 与旧合并版继续保留，作为专题设计来源和历史参考；研发开工不再要求按 24 份文档顺序阅读。
 
@@ -51,6 +53,42 @@
 ```
 
 当前仓库仍以方案和治理为主，因此总文档中的 Class、Interface、数据库表和 Worker 默认属于**研发规划基线**；只有仓库真实存在并通过验证的实现才可标记为“已实现”。
+
+### 2.1 多 Agent 协作入口
+
+多 Agent 开发必须先阅读：
+
+1. [`AGENTS.md`](AGENTS.md) 与 [`rules/never-rules.md`](rules/never-rules.md)；
+2. [`docs/24-requirements-design-audit-and-multi-agent-delivery.md`](docs/24-requirements-design-audit-and-multi-agent-delivery.md)；
+3. [`specs/collaboration/README.md`](specs/collaboration/README.md)；
+4. [`specs/collaboration/program-plan.yaml`](specs/collaboration/program-plan.yaml)；
+5. 当前 Task Spec、Coordination Descriptor、上游机器契约和 Handoff。
+
+协作顺序：
+
+```text
+需求/NFR/验收
+→ OpenAPI/Event/DDL/Workflow Contract
+→ 阻断性 POC
+→ 模块骨架
+→ 并行实现
+→ 纵向集成
+→ 独立 Review
+→ Governance Gate + Collaboration Gate
+→ 人工合并/发布批准
+```
+
+常用命令：
+
+```bash
+python scripts/check-collaboration.py --task GZ-XXX --base origin/main
+python scripts/render-multi-agent-prompt.py \
+  --task GZ-XXX \
+  --role implementation-agent \
+  --output .agent/GZ-XXX-implementation-agent.md
+```
+
+禁止多个 Agent 在机器契约未冻结时分别猜测 API、事件、表、状态或错误语义。一个活动 Task 的独占路径只能有一个 Owner，最终 Reviewer 必须与 Owner 分离。
 
 ## 3. 产品定位
 
