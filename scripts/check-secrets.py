@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
+"""Scan every tracked file for high-risk secret patterns."""
+
 import argparse
 import json
 import os
 import subprocess
 import sys
 
+
 def run_grep(pattern, repo_root):
-    cmd = ["git", "grep", "-n", "-E", pattern, "--", ":(exclude)*test*.py", ":(exclude)*tests/*"]
+    cmd = ["git", "grep", "-n", "-E", pattern, "--"]
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, cwd=repo_root)
         return result.returncode, result.stdout.strip(), result.stderr.strip()
-    except Exception as e:
-        return -1, "", str(e)
+    except Exception as exc:
+        return -1, "", str(exc)
+
 
 def main():
-    parser = argparse.ArgumentParser(description="Scan for common secret patterns")
+    parser = argparse.ArgumentParser(description="Scan tracked files for common secret patterns")
     parser.add_argument("--repo-root", default=".", help="Repository root path")
     parser.add_argument("--json", action="store_true", help="Output JSON")
     args = parser.parse_args()
@@ -32,12 +36,19 @@ def main():
 
     for name, pattern in high_risk_patterns:
         rc, stdout, stderr = run_grep(pattern, repo_root)
-        if rc == 0 and stdout:
-            for line in stdout.splitlines():
-                results["highRisk"].append({"pattern": name, "line": line.strip()})
+        if rc == 0:
+            if stdout:
+                for line in stdout.splitlines():
+                    results["highRisk"].append({"pattern": name, "line": line.strip()})
+                results["valid"] = False
+        elif rc == 1:
+            # git grep returns 1 when there are no matches.
+            continue
+        else:
+            results["errors"].append(
+                f"git grep failed for '{name}' with exit {rc}: {stderr or 'no stderr'}"
+            )
             results["valid"] = False
-        elif rc > 1:
-            results["errors"].append(f"grep error for '{name}': {stderr}")
 
     if args.json:
         print(json.dumps(results, indent=2, ensure_ascii=False))
@@ -48,14 +59,15 @@ def main():
                 print(f"  - {item['pattern']}: {item['line']}")
         if results["errors"]:
             print("ERRORS:")
-            for err in results["errors"]:
-                print(f"  - {err}")
+            for error in results["errors"]:
+                print(f"  - {error}")
         if results["valid"]:
             print("OK: No high-risk secrets detected")
         else:
-            print("FAIL: High-risk secrets detected")
+            print("FAIL: Secret scan did not complete cleanly")
 
     sys.exit(0 if results["valid"] else 1)
+
 
 if __name__ == "__main__":
     main()
