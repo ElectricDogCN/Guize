@@ -16,83 +16,36 @@ help:
 	@echo "  make governance-test"
 	@echo "  make agent-prompt TASK=GZ-001 [BRANCH=...] [BASE=...] [MODE=...]"
 	@echo "  make task-verify TASK=GZ-001 [BRANCH=...] [BASE=...]"
-	@echo "  make verify TASK=GZ-001"
+	@echo "  make verify TASK=GZ-001 [BRANCH=...] [BASE=...]"
 
 docs-check:
 	@echo "=== docs-check ==="
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
-	@if [ ! -f scripts/check-markdown.py ]; then \
-		echo "MISSING: scripts/check-markdown.py not found"; \
-		exit 1; \
-	fi
+	@if [ ! -f scripts/check-markdown.py ]; then echo "MISSING: scripts/check-markdown.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-markdown.py
 
 schema-check:
 	@echo "=== schema-check ==="
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
-	@$(PYTHON) - <<'PY'
-import glob
-import json
-import sys
-try:
-    import yaml
-except ImportError:
-    print("MISSING: PyYAML is required for schema-check")
-    sys.exit(1)
-exit_code = 0
-for path in glob.glob('.github/workflows/*.yml') + glob.glob('.github/workflows/*.yaml'):
-    try:
-        with open(path, encoding='utf-8') as handle:
-            yaml.safe_load(handle)
-        print(f"OK YAML: {path}")
-    except Exception as exc:
-        print(f"FAIL YAML: {path}: {exc}")
-        exit_code = 1
-for path in glob.glob('contracts/**/*.json', recursive=True):
-    try:
-        with open(path, encoding='utf-8') as handle:
-            json.load(handle)
-        print(f"OK JSON: {path}")
-    except Exception as exc:
-        print(f"FAIL JSON: {path}: {exc}")
-        exit_code = 1
-for path in glob.glob('contracts/**/*.yaml', recursive=True) + glob.glob('contracts/**/*.yml', recursive=True):
-    try:
-        with open(path, encoding='utf-8') as handle:
-            yaml.safe_load(handle)
-        print(f"OK YAML: {path}")
-    except Exception as exc:
-        print(f"FAIL YAML: {path}: {exc}")
-        exit_code = 1
-sys.exit(exit_code)
-PY
+	@if [ ! -f scripts/check-schemas.py ]; then echo "MISSING: scripts/check-schemas.py not found"; exit 1; fi
+	$(PYTHON) scripts/check-schemas.py
 
 secret-scan:
 	@echo "=== secret-scan ==="
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
-	@if [ ! -f scripts/check-secrets.py ]; then \
-		echo "MISSING: scripts/check-secrets.py not found"; \
-		exit 1; \
-	fi
+	@if [ ! -f scripts/check-secrets.py ]; then echo "MISSING: scripts/check-secrets.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-secrets.py
 
 governance-test:
 	@echo "=== governance-test ==="
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
-	@if [ -d tests/governance ]; then \
-		$(PYTHON) -m pytest tests/governance/ -v; \
-	else \
-		echo "MISSING: tests/governance/ directory not found"; \
-		exit 1; \
-	fi
+	@if [ ! -d tests/governance ]; then echo "MISSING: tests/governance/ directory not found"; exit 1; fi
+	$(PYTHON) -m pytest tests/governance/ -v
 
 agent-prompt:
 	@echo "=== agent-prompt (TASK=$(TASK)) ==="
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
-	@if [ ! -f scripts/render-agent-prompt.py ]; then \
-		echo "MISSING: scripts/render-agent-prompt.py not found"; \
-		exit 1; \
-	fi
+	@if [ ! -f scripts/render-agent-prompt.py ]; then echo "MISSING: scripts/render-agent-prompt.py not found"; exit 1; fi
 	@mkdir -p .agent
 	$(PYTHON) scripts/render-agent-prompt.py \
 		--task $(TASK) \
@@ -106,40 +59,34 @@ task-verify:
 	@echo "=== task-verify (TASK=$(TASK)) ==="
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
 	@echo "-- check-task-file --"
-	@if [ -f scripts/check-task-file.py ]; then \
-		$(PYTHON) scripts/check-task-file.py --task $(TASK); \
-	else \
-		echo "MISSING: scripts/check-task-file.py not found"; \
-		exit 1; \
-	fi
+	@if [ ! -f scripts/check-task-file.py ]; then echo "MISSING: scripts/check-task-file.py not found"; exit 1; fi
+	$(PYTHON) scripts/check-task-file.py --task $(TASK)
 	@echo "-- check-task-scope --"
-	@if [ -f scripts/check-task-scope.py ]; then \
-		$(PYTHON) scripts/check-task-scope.py --task $(TASK) --base $(BASE); \
-	else \
-		echo "MISSING: scripts/check-task-scope.py not found"; \
-		exit 1; \
-	fi
+	@if [ ! -f scripts/check-task-scope.py ]; then echo "MISSING: scripts/check-task-scope.py not found"; exit 1; fi
+	$(PYTHON) scripts/check-task-scope.py --task $(TASK) --base $(BASE)
 	@echo "-- check-evidence --"
-	@if [ -f scripts/check-evidence.py ]; then \
-		$(PYTHON) scripts/check-evidence.py --task $(TASK); \
+	@if [ ! -f scripts/check-evidence.py ]; then echo "MISSING: scripts/check-evidence.py not found"; exit 1; fi
+	$(PYTHON) scripts/check-evidence.py --task $(TASK)
+	@echo "-- check-evidence-integrity --"
+	@if [ ! -f scripts/check-evidence-integrity.py ]; then echo "MISSING: scripts/check-evidence-integrity.py not found"; exit 1; fi
+	@REPORT=""; \
+	if [ -f "evidence/$(TASK)/final-report-r5-clean-recovery.md" ]; then \
+		REPORT="evidence/$(TASK)/final-report-r5-clean-recovery.md"; \
 	else \
-		echo "MISSING: scripts/check-evidence.py not found"; \
-		exit 1; \
+		REPORT=$$(find "evidence/$(TASK)" -maxdepth 1 -type f -name 'final-report-r*.md' -print 2>/dev/null | sort -V | tail -n 1); \
+	fi; \
+	if [ -z "$$REPORT" ] && [ -f "evidence/$(TASK)/final-report.md" ]; then REPORT="evidence/$(TASK)/final-report.md"; fi; \
+	if [ -n "$$REPORT" ]; then \
+		$(PYTHON) scripts/check-evidence-integrity.py --task $(TASK) --report "$$REPORT"; \
+	else \
+		echo "No final-report*.md exists for $(TASK); no commit claims require integrity validation."; \
 	fi
 	@echo "-- check-pr-task-link --"
-	@if [ -f scripts/check-pr-task-link.py ]; then \
-		$(PYTHON) scripts/check-pr-task-link.py --branch $(BRANCH); \
-	else \
-		echo "MISSING: scripts/check-pr-task-link.py not found"; \
-		exit 1; \
-	fi
+	@if [ ! -f scripts/check-pr-task-link.py ]; then echo "MISSING: scripts/check-pr-task-link.py not found"; exit 1; fi
+	$(PYTHON) scripts/check-pr-task-link.py --branch $(BRANCH)
 	@echo "-- check-spec-sync --"
-	@if [ -f scripts/check-spec-sync.py ]; then \
-		$(PYTHON) scripts/check-spec-sync.py --base $(BASE); \
-	else \
-		echo "MISSING: scripts/check-spec-sync.py not found"; \
-		exit 1; \
-	fi
+	@if [ ! -f scripts/check-spec-sync.py ]; then echo "MISSING: scripts/check-spec-sync.py not found"; exit 1; fi
+	$(PYTHON) scripts/check-spec-sync.py --base $(BASE)
 	$(MAKE) governance-test
 
 verify:
@@ -148,4 +95,4 @@ verify:
 	$(MAKE) schema-check
 	$(MAKE) secret-scan
 	$(MAKE) governance-test
-	$(MAKE) task-verify TASK=$(TASK)
+	$(MAKE) task-verify TASK=$(TASK) BRANCH=$(BRANCH) BASE=$(BASE)
