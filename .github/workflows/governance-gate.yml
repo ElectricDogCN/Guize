@@ -12,10 +12,15 @@ on:
         required: false
         default: ''
 
+concurrency:
+  group: governance-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   governance-check:
     name: Governance Checks
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: read
       pull-requests: read
@@ -27,13 +32,14 @@ jobs:
     steps:
       - name: Checkout repository
         id: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Python 3.11
         id: setup-python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.11'
 
@@ -106,14 +112,25 @@ jobs:
         if: success() || failure()
         run: |
           set -euo pipefail
-          if [ "${{ steps.task-context.outputs.task_specific }}" = "true" ]; then
-            python scripts/check-agent-coordination.py --task "${{ steps.task-context.outputs.task_id }}"
-          else
+          if [ "${{ steps.task-context.outputs.task_specific }}" != "true" ]; then
             python scripts/check-agent-coordination.py
+          elif [ -n "${{ github.head_ref }}" ]; then
+            python scripts/check-agent-coordination.py \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --base-ref "origin/${{ github.base_ref }}" \
+              --head-ref "origin/${{ github.head_ref }}" \
+              --branch-name "${{ github.head_ref }}"
+          else
+            python scripts/check-agent-coordination.py \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --base-ref origin/main \
+              --head-ref HEAD \
+              --branch-name "${{ github.ref_name }}"
           fi
 
       - name: Governance tests
         id: governance-tests
+        if: success() || failure()
         run: |
           set -euo pipefail
           mkdir -p /tmp/test-results
