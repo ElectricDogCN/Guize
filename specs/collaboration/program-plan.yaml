@@ -1,0 +1,255 @@
+version: 1
+project: Guize
+baselineTask: GZ-003
+planningRule: contract-first-then-parallel-implementation-then-integration
+workstreams:
+  WS-REQUIREMENTS:
+    purpose: Requirements NFR acceptance and traceability
+    defaultOwnerRole: requirements-agent
+    defaultReviewerRole: architecture-review-agent
+  WS-API:
+    purpose: OpenAPI errors idempotency and compatibility
+    defaultOwnerRole: api-contract-agent
+    defaultReviewerRole: backend-review-agent
+  WS-EVENT:
+    purpose: Event payload compatibility ownership and replay
+    defaultOwnerRole: event-contract-agent
+    defaultReviewerRole: integration-review-agent
+  WS-DATA:
+    purpose: PostgreSQL schema DDL migration and recovery contract
+    defaultOwnerRole: data-contract-agent
+    defaultReviewerRole: database-review-agent
+  WS-ORCHESTRATION:
+    purpose: Temporal LiteFlow Task and policy contracts
+    defaultOwnerRole: workflow-contract-agent
+    defaultReviewerRole: reliability-review-agent
+  WS-FRONTEND:
+    purpose: Frontend framework decision page API permission and state mapping
+    defaultOwnerRole: frontend-design-agent
+    defaultReviewerRole: product-review-agent
+  WS-POC:
+    purpose: Hardware scale provider cache and recovery experiments
+    defaultOwnerRole: poc-execution-agent
+    defaultReviewerRole: evidence-review-agent
+  WS-SCAFFOLD:
+    purpose: Repository modules build systems and executable contract wiring
+    defaultOwnerRole: platform-scaffold-agent
+    defaultReviewerRole: architecture-review-agent
+  WS-VERTICAL-SLICE:
+    purpose: M1 Asset source authorization Range playback vertical slice
+    defaultOwnerRole: vertical-slice-integration-agent
+    defaultReviewerRole: independent-release-review-agent
+  WS-QA:
+    purpose: Contract integration E2E security performance and recovery suites
+    defaultOwnerRole: qa-agent
+    defaultReviewerRole: independent-review-agent
+waves:
+  WAVE-A-FOUNDATION:
+    description: Requirements normalization and blocking POC preparation can start in parallel after GZ-003.
+    tasks: [GZ-004, GZ-010]
+  WAVE-B-MACHINE-CONTRACTS:
+    description: OpenAPI Event and Data contracts can run in parallel after GZ-004, with shared identifiers controlled by the integrator.
+    tasks: [GZ-005, GZ-006, GZ-007]
+  WAVE-C-EXECUTION-CONTRACTS:
+    description: Workflow policy worker and frontend mappings consume frozen foundation contracts.
+    tasks: [GZ-008, GZ-009]
+  WAVE-D-SCAFFOLD:
+    description: Module skeletons start only after required machine contracts are merged.
+    tasks: [GZ-011]
+  WAVE-E-VERTICAL-SLICE:
+    description: First production-grade vertical slice and full test evidence.
+    tasks: [GZ-012]
+workPackages:
+  GZ-004:
+    title: Normalize V1 requirements NFR acceptance and traceability
+    workstream: WS-REQUIREMENTS
+    status: planned
+    dependencies: [GZ-003]
+    parallelGroup: WAVE-A-FOUNDATION
+    exclusivePaths:
+      - specs/requirements/**
+      - specs/traceability/**
+      - docs/02-requirements-and-scope.md
+    sharedPaths:
+      - docs/00-guize-engineering-design-baseline.md
+    outputs:
+      - machine-readable requirement catalogue
+      - NFR and constraint catalogue
+      - acceptance IDs and requirement traceability
+    exitCriteria:
+      - every V1 capability has priority owner acceptance and risk
+      - no-public-beta and production gates are explicit
+      - unresolved assumptions map to POC IDs
+  GZ-005:
+    title: Freeze OpenAPI V1 foundation
+    workstream: WS-API
+    status: planned
+    dependencies: [GZ-004]
+    parallelGroup: WAVE-B-MACHINE-CONTRACTS
+    exclusivePaths:
+      - contracts/openapi/**
+      - tests/contracts/openapi/**
+    sharedPaths:
+      - specs/traceability/**
+    outputs:
+      - complete OpenAPI document for foundation modules
+      - error pagination idempotency and compatibility schemas
+      - request response examples and validation tests
+    exitCriteria:
+      - OpenAPI validates in CI
+      - every operation maps to requirement and acceptance IDs
+      - no implementation-specific fields are guessed outside approved design
+  GZ-006:
+    title: Freeze domain event catalogue and payload schemas
+    workstream: WS-EVENT
+    status: planned
+    dependencies: [GZ-004]
+    parallelGroup: WAVE-B-MACHINE-CONTRACTS
+    exclusivePaths:
+      - contracts/events/**
+      - tests/contracts/events/**
+    sharedPaths:
+      - specs/traceability/**
+    outputs:
+      - payload schema per event type
+      - producer consumer ownership and compatibility rules
+      - replay deduplication and deprecation contract
+    exitCriteria:
+      - all event schemas validate
+      - outbox and consumer idempotency semantics are testable
+  GZ-007:
+    title: Freeze PostgreSQL schema and migration baseline
+    workstream: WS-DATA
+    status: planned
+    dependencies: [GZ-004]
+    parallelGroup: WAVE-B-MACHINE-CONTRACTS
+    exclusivePaths:
+      - contracts/database/**
+      - tests/contracts/database/**
+    sharedPaths:
+      - specs/traceability/**
+    outputs:
+      - schema DDL field dictionary indexes and constraints
+      - transaction ownership and migration policy
+      - rollback and restore verification plan
+    exitCriteria:
+      - clean database creation and upgrade paths are reproducible
+      - tables map to domain and requirement IDs
+  GZ-008:
+    title: Freeze Temporal LiteFlow Task Plugin and Worker contracts
+    workstream: WS-ORCHESTRATION
+    status: planned
+    dependencies: [GZ-005, GZ-006, GZ-007]
+    parallelGroup: WAVE-C-EXECUTION-CONTRACTS
+    exclusivePaths:
+      - contracts/workflows/**
+      - contracts/policies/**
+      - contracts/workers/**
+      - tests/contracts/workflows/**
+    sharedPaths:
+      - contracts/schemas/plugin-manifest.schema.yaml
+      - specs/traceability/**
+    outputs:
+      - workflow activity retry timeout heartbeat cancellation contract
+      - LiteFlow Node Chain EL Context contract
+      - worker lease capability credential and sandbox contract
+    exitCriteria:
+      - deterministic and compatibility rules are explicit
+      - failure cancellation compensation and manual intervention paths are testable
+  GZ-009:
+    title: Freeze frontend information architecture and API mapping
+    workstream: WS-FRONTEND
+    status: planned
+    dependencies: [GZ-004, GZ-005, GZ-010]
+    parallelGroup: WAVE-C-EXECUTION-CONTRACTS
+    exclusivePaths:
+      - specs/designs/frontend/**
+      - tests/contracts/frontend/**
+    sharedPaths:
+      - contracts/openapi/**
+    outputs:
+      - framework decision ADR input
+      - page action API permission state and error mapping
+      - accessibility and design token acceptance
+    exitCriteria:
+      - each user action maps to approved API and permission
+      - Vue or React decision is backed by POC evidence
+  GZ-010:
+    title: Execute blocking POC programme
+    workstream: WS-POC
+    status: planned
+    dependencies: [GZ-003]
+    parallelGroup: WAVE-A-FOUNDATION
+    exclusivePaths:
+      - evidence/POC-*/**
+      - scripts/poc/**
+      - specs/poc/**
+    sharedPaths:
+      - adr/**
+      - docs/19-risk-assumptions-and-poc.md
+    outputs:
+      - A380 ATS TrueNAS 700TB Baidu public network frontend AI and recovery evidence
+      - measured limits failures and reproducible commands
+      - ADR proposals where measured results change design
+    exitCriteria:
+      - every POC has raw evidence and explicit pass fail blocked decision
+      - unverified performance is not promoted to production commitment
+  GZ-011:
+    title: Scaffold executable repository modules and contract validation
+    workstream: WS-SCAFFOLD
+    status: planned
+    dependencies: [GZ-005, GZ-006, GZ-007, GZ-008, GZ-009]
+    parallelGroup: WAVE-D-SCAFFOLD
+    exclusivePaths:
+      - backend/**
+      - frontend/**
+      - plugins/**
+      - guizectl/**
+      - workers/**
+      - tests/unit/**
+      - tests/integration/**
+    sharedPaths:
+      - Makefile
+      - README.md
+      - .github/workflows/**
+    outputs:
+      - buildable module skeletons
+      - generated or validated contract bindings
+      - module dependency tests and local development entrypoint
+    exitCriteria:
+      - clean checkout builds and runs contract tests
+      - no module bypasses public facade or owns another module repository
+  GZ-012:
+    title: Deliver M1 Asset to authorized Range playback vertical slice
+    workstream: WS-VERTICAL-SLICE
+    status: planned
+    dependencies: [GZ-010, GZ-011]
+    parallelGroup: WAVE-E-VERTICAL-SLICE
+    exclusivePaths:
+      - backend/guize-identity-access/**
+      - backend/guize-source-management/**
+      - backend/guize-asset-catalog/**
+      - backend/guize-media-control/**
+      - frontend/**
+      - tests/e2e/**
+      - evidence/GZ-012/**
+    sharedPaths:
+      - contracts/**
+      - deployment/**
+    outputs:
+      - WebDAV source probe and sync
+      - Asset SourceObject and AssetVersion normalization
+      - authorization playback plan ATS Range path
+      - task audit observability and E2E evidence
+    exitCriteria:
+      - vertical slice passes unit integration contract E2E security and recovery checks
+      - POC-dependent assumptions are measured
+      - production release remains blocked until M6 gates
+integrationRules:
+  - Contract tasks merge before implementation tasks that consume them.
+  - Shared paths are written by the designated integrator or merged serially.
+  - A task may start only when every dependency is merged and its baseCommit is recorded.
+  - Base changes require full revalidation and updated Handoff Evidence.
+  - Owner and final reviewer must be distinct execution subjects.
+  - Failed or blocked POC results are valid outputs and must not be hidden.
+  - No task may silently widen scope to solve a neighbouring work package.
