@@ -45,6 +45,36 @@ class TestCheckTaskScope(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("fails closed", result.stdout)
 
+    def test_forbidden_scope_overrides_allowed_scope(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            init_git_repo(tmpdir, "main")
+            write_task_spec(
+                tmpdir,
+                allowed_scope="- `docs/**`",
+                forbidden_scope="- `docs/private/**`",
+            )
+            stage_file(tmpdir, "docs/private/secret.md", "# private\n")
+            result = self._run(tmpdir)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("Forbidden-scope files found", result.stdout)
+
+    def test_single_star_does_not_cross_directories(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            init_git_repo(tmpdir, "main")
+            write_task_spec(tmpdir, allowed_scope="- `scripts/*.py`")
+            stage_file(tmpdir, "scripts/private/nested.py", "print('nested')\n")
+            result = self._run(tmpdir)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("Out-of-scope files found", result.stdout)
+
+    def test_double_star_crosses_directories(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            init_git_repo(tmpdir, "main")
+            write_task_spec(tmpdir, allowed_scope="- `scripts/**`")
+            stage_file(tmpdir, "scripts/private/nested.py", "print('nested')\n")
+            result = self._run(tmpdir)
+            self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
