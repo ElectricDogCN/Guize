@@ -3,94 +3,97 @@
 ## 任务上下文
 
 - **任务 ID**：{{TASK_ID}}
+- **任务标题**：{{TASK_TITLE}}
 - **任务规范**：{{TASK_FILE}}
 - **关联 Issue**：{{ISSUE_REFERENCE}}
+- **工作包**：{{WORK_PACKAGE}}
+- **任务所有者**：{{TASK_OWNER}}
+- **Agent 角色**：{{AGENT_ROLE}}
+- **风险等级**：{{RISK_LEVEL}}
 - **工作分支**：{{BRANCH_NAME}}
 - **基础分支**：{{BASE_BRANCH}}
+- **基础提交**：{{BASE_SHA}}
+- **协调模式/组**：{{COORDINATION_MODE}} / {{COORDINATION_GROUP}}
+- **依赖任务**：{{DEPENDS_ON}}
+- **Handoff**：{{HANDOFF_PATH}}
+- **集成方式**：{{INTEGRATION_STRATEGY}}
 - **执行模式**：{{EXECUTION_MODE}}
-
----
 
 ## 执行前必读
 
-1. **阅读 AGENTS.md**
-   读取 `AGENTS.md`，理解 Agent 工程规则、权威信息优先级、代码边界、测试门禁和结束标准。
+1. 阅读 `AGENTS.md`、`rules/never-rules.md` 和 `docs/25-multi-agent-collaboration-protocol.md`。
+2. 阅读 `{{TASK_FILE}}`，确认目标、非目标、允许/禁止范围、验收、风险和回滚。
+3. 阅读 `specs/coordination/active-work.yaml` 与 `specs/designs/module-ownership.yaml`。
+4. 执行：
 
-2. **阅读 Never Rules**
-   读取 `rules/never-rules.md`，确认当前任务是否涉及任何被禁止的高风险模式。
+```bash
+python scripts/check-task-file.py --task {{TASK_ID}}
+python scripts/check-agent-coordination.py --task {{TASK_ID}}
+python scripts/check-project-readiness.py
+```
 
-3. **阅读任务规范**
-   读取 `{{TASK_FILE}}`，提取以下信息：
-   - 目标与背景
-   - 允许修改范围
-   - 禁止修改范围
-   - 验收标准
-   - 必须执行的测试命令
-   - 风险与回滚方式
+5. 确认当前分支是 `{{BRANCH_NAME}}`，基线与 `{{BASE_SHA}}` 一致，且工作区无未知修改。
+6. `coordinationMode=registry` 时，必须确认活动登记唯一、租约未过期、路径无冲突。禁止先开发后补登记。
 
-4. **检查 Git 状态**
-   确认当前处于 `{{BRANCH_NAME}}` 分支，且工作区干净或变更已受控。禁止直接在 `{{BASE_BRANCH}}` 修改。
+## 协作边界
 
----
+### 依赖与集成顺序
 
-## 执行原则
+{{DEPENDENCIES_AND_ORDER}}
 
-### 范围限制
+### 独占写范围
 
-- 严格在任务规范列出的**允许范围**内操作。
-- **禁止触碰**任务规范列出的禁止范围。
-- 若发现必须越界才能完成任务，停止修改并报告冲突，不得自行扩大范围。
+{{EXCLUSIVE_SCOPE}}
 
-### 规格先行
+### 共享修改范围
 
-- 涉及 API、事件、数据 Schema 的行为变更，必须先更新契约或规格，再写实现。
-- 涉及架构决策的，必须先记录或更新 ADR。
+{{SHARED_SCOPE}}
 
-### 测试与契约优先
+### Handoff 规则
 
-- 先写或更新契约测试、单元测试和集成测试，再写实现代码。
-- 不得在未添加测试的情况下提交新行为。
+{{HANDOFF_RULES}}
 
-### 执行真实验证
+- 不读取或复制其他 Agent 未提交的本地状态；
+- 不修改其他活动任务的独占路径；
+- 共同机器契约未合并前，不实现其消费者的猜测版本；
+- 发现范围、契约、依赖或所有权冲突时，停止并交回 Coordinator；
+- high/critical 任务不得自行充当唯一 Reviewer。
 
-- 运行任务规范中列出的所有测试命令。
-- 执行本地静态分析、格式检查和 Secrets 扫描。
-- 不得声称未经验证的内容已经通过。
+## 实施原则
 
-### 建立证据
+### 规格与契约先行
 
-- 在任务规范指定的证据目录保存执行结果、命令输出、截图或日志。
-- 证据必须能够由审查者复现。
+- 按权威顺序解析需求、机器契约、ADR 和设计；
+- API、Event、DDL、Workflow、Plugin 或 Worker 行为变化先更新机器契约；
+- 架构长期变化先建立 ADR；
+- 不把规划类、表或接口伪装为已实现。
 
-### 最终检查
+### 最小变更
 
-- 完成任务后，检查最终 diff，确认没有意外修改。
-- 确认没有引入新的 Never Rule 违规。
-- 确认文档、契约和代码一致。
+- 只修改任务允许且已登记的路径；
+- 提交保持单一目的和可审查顺序；
+- 不自动开始相邻工作包；
+- 不通过扩大 Shared/Common 模块规避所有权。
 
----
+### 测试与证据
 
-## 禁止事项
+- 先补契约测试、单元测试和关键失败路径，再完成行为；
+- 执行任务中的全部命令，记录真实退出码和提交 SHA；
+- 失败结果保留，不删除测试、放宽断言或跳过门禁；
+- 更新 `{{HANDOFF_PATH}}`，记录提交、文件、契约、测试、限制、共享路径和下一角色动作。
 
-- 不要为未验证的内容宣称通过。
-- 不要在验证失败后通过删除测试、放宽断言、跳过门禁来宣称完成。
-- 不要在任务完成后自动开始下一个任务。
+## 完成前检查
 
----
+```text
+需求/契约一致
+Task/Registry/Branch/Base SHA 一致
+依赖已合并
+范围与模块所有权无冲突
+成功/失败/安全/并发路径已验证
+Evidence 可复现
+Handoff 完整
+最新 main 已同步
+回滚可执行
+```
 
-## 结束标准
-
-仅在以下全部满足时标记完成：
-
-- 需求和契约一致；
-- 修改范围未越界；
-- 测试门禁通过；
-- 失败路径已验证；
-- 文档同步；
-- 证据完整；
-- 回滚方法可执行；
-- 未解决项明确；
-- 无新增 Never Rule 违规；
-- 人工审查所需信息完整。
-
-否则状态必须是 `PARTIAL`、`BLOCKED` 或 `NEEDS_REVIEW`。
+只有全部满足时标记 `NEEDS_REVIEW`，而不是自行标记已合并或已发布。否则状态必须是 `PARTIAL` 或 `BLOCKED`。
