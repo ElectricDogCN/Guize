@@ -2,7 +2,6 @@
 """Validate git diff against task allowed/forbidden scope."""
 
 import argparse
-import fnmatch
 import json
 import os
 import re
@@ -12,14 +11,10 @@ import sys
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Validate changed files against task allowed scope.",
+        description="Validate changed files against task allowed/forbidden scope.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument(
-        "--task",
-        required=True,
-        help="Task ID, e.g. GZ-001",
-    )
+    parser.add_argument("--task", required=True, help="Task ID, e.g. GZ-001")
     parser.add_argument(
         "--base",
         required=True,
@@ -61,62 +56,119 @@ def parse_front_matter(text):
     data = {}
     for line in fm_text.splitlines():
         line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        if ":" not in line:
+        if not line or line.startswith("#") or ":" not in line:
             continue
         key, value = line.split(":", 1)
         data[key.strip()] = value.strip()
     return data, body
 
 
-def extract_allowed_patterns(body):
-    """Extract allowed scope patterns from bullet list under allowed scope section."""
+def _looks_like_path_pattern(value):
+    """Return True when a bullet value can be enforced as a repository path."""
+    value = value.strip()
+    if not value:
+        return False
+    return (
+        "/" in value
+        or value.startswith(".")
+        or any(token in value for token in ("*", "?", "["))
+        or bool(re.search(r"\.[A-Za-z0-9_-]+$", value))
+    )
+
+
+def _bullet_pattern(stripped):
+    """Extract the path/pattern portion of a Markdown bullet, if present."""
+    bullet = re.match(r"[-*]\s+(.+?)\s*$", stripped)
+    if not bullet:
+        return None
+    value = bullet.group(1).strip()
+    backticked = re.search(r"`([^`]+)`", value)
+    if backticked:
+        value = backticked.group(1).strip()
+    if not _looks_like_path_pattern(value):
+        return None
+    return value
+
+
+def extract_scope_patterns(body, section):
+    """Extract path patterns from the allowed or forbidden scope section."""
+    if section not in {"allowed", "forbidden"}:
+        raise ValueError("section must be 'allowed' or 'forbidden'")
+
     patterns = []
-    in_allowed = False
+    active = False
     for line in body.splitlines():
         stripped = line.strip()
         lower = stripped.lower()
-        # Section headers
         if stripped.startswith("## "):
-            if "允许范围" in stripped or "allowed scope" in lower:
-                in_allowed = True
+            is_allowed = "允许范围" in stripped or "allowed scope" in lower
+            is_forbidden = "禁止范围" in stripped or "forbidden scope" in lower
+            if section == "allowed" and is_allowed:
+                active = True
                 continue
-            if "禁止范围" in stripped or "forbidden scope" in lower:
-                in_allowed = False
+            if section == "forbidden" and is_forbidden:
+                active = True
                 continue
-            # Another section ends allowed scope
-            if in_allowed:
-                in_allowed = False
+            if active:
+                active = False
             continue
-        if in_allowed:
-            # Bullet items like `- `path`` or `- path`
-            match = re.match(r"[-*]\s+`?([^`]+)`?\s*", stripped)
-            if match:
-                patterns.append(match.group(1).strip())
+        if active:
+            pattern = _bullet_pattern(stripped)
+            if pattern:
+                patterns.append(pattern)
     return patterns
 
 
+def _glob_regex(pattern):
+    """Translate a repository glob so only ** may cross path separators."""
+    out = []
+    i = 0
+    while i < len(pattern):
+        char = pattern[i]
+        if char == "*":
+            if i + 1 < len(pattern) and pattern[i + 1] == "*":
+                out.append(".*")
+                i += 2
+                continue
+            out.append("[^/]*")
+        elif char == "?":
+            out.append("[^/]")
+        elif char == "[":
+            end = pattern.find("]", i + 1)
+            if end == -1:
+                out.append(r"\[")
+            else:
+                content = pattern[i + 1 : end]
+                if content.startswith("!"):
+                    content = "^" + content[1:]
+                out.append("[" + content + "]")
+                i = end
+        else:
+            out.append(re.escape(char))
+        i += 1
+    return "".join(out)
+
+
 def match_pattern(filepath, pattern):
-    """Match a filepath against a pattern supporting ** wildcards."""
-    # Normalize separators
-    filepath = filepath.replace("\\", "/")
-    pattern = pattern.replace("\\", "/")
-    if fnmatch.fnmatch(filepath, pattern):
-        return True
+    """Match repository paths; * stays in one segment and ** crosses segments."""
+    filepath = filepath.replace("\\", "/").lstrip("./")
+    pattern = pattern.replace("\\", "/").lstrip("./")
+
     if pattern.endswith("/**"):
-        prefix = pattern[:-3]
-        if filepath.startswith(prefix + "/") or filepath == prefix:
-            return True
+        prefix = pattern[:-3].rstrip("/")
+        return filepath == prefix or filepath.startswith(prefix + "/")
     if pattern.endswith("/"):
-        prefix = pattern[:-1]
-        if filepath.startswith(prefix + "/") or filepath == prefix:
-            return True
-    # Directory match: pattern is a directory and filepath is inside it
-    if not pattern.endswith("/**") and not pattern.endswith("/") and not os.path.splitext(pattern)[1]:
-        if filepath.startswith(pattern + "/") or filepath == pattern:
-            return True
-    return False
+        prefix = pattern.rstrip("/")
+        return filepath == prefix or filepath.startswith(prefix + "/")
+
+    has_glob = any(token in pattern for token in ("*", "?", "["))
+    if has_glob:
+        return re.fullmatch(_glob_regex(pattern), filepath) is not None
+
+    # A non-glob path without a file extension is treated as a directory root.
+    if not os.path.splitext(pattern)[1]:
+        return filepath == pattern or filepath.startswith(pattern + "/")
+    return filepath == pattern
 
 
 def _repo_subpath_prefix(repo_root):
@@ -139,7 +191,7 @@ def _repo_subpath_prefix(repo_root):
 
 
 def get_changed_files(repo_root, base):
-    """Get changed file list via git diff."""
+    """Get changed file list via git diff; invalid bases fail closed."""
     env = os.environ.copy()
     git_dir = os.path.join(repo_root, ".git")
     if os.path.isdir(git_dir):
@@ -147,8 +199,6 @@ def get_changed_files(repo_root, base):
         env["GIT_WORK_TREE"] = repo_root
 
     prefix = _repo_subpath_prefix(repo_root)
-
-    # A missing or invalid base must never degrade to a clean-working-tree pass.
     try:
         base_check = subprocess.run(
             ["git", "rev-parse", "--verify", f"{base}^{{commit}}"],
@@ -162,7 +212,6 @@ def get_changed_files(repo_root, base):
     except Exception:
         return None
 
-    # Try merge-base diff first
     cmds = [
         ["git", "diff", "--name-only", f"{base}...HEAD"],
         ["git", "diff", "--name-only", base],
@@ -183,13 +232,13 @@ def get_changed_files(repo_root, base):
                     if not line:
                         continue
                     if prefix and line.startswith(prefix):
-                        line = line[len(prefix):]
+                        line = line[len(prefix) :]
                     files.append(line)
                 if files:
                     return files
         except Exception:
             continue
-    # Fallback to git status if no base
+
     try:
         result = subprocess.run(
             ["git", "status", "--short"],
@@ -200,12 +249,10 @@ def get_changed_files(repo_root, base):
         if result.returncode == 0:
             files = []
             for line in result.stdout.splitlines():
-                line = line.strip()
-                if len(line) > 3 and line[2] == " ":
-                    filepath = line[3:].strip()
-                    # Skip directory entries from git status
-                    if filepath.endswith("/") or filepath.endswith("\\"):
-                        continue
+                if len(line) < 4:
+                    continue
+                filepath = line[3:].strip()
+                if filepath and not filepath.endswith(("/", "\\")):
                     files.append(filepath)
             return files
     except Exception:
@@ -239,15 +286,16 @@ def main():
         sys.exit(2)
 
     try:
-        with open(task_path, "r", encoding="utf-8") as f:
-            content = f.read()
+        with open(task_path, "r", encoding="utf-8") as handle:
+            content = handle.read()
     except OSError as exc:
         report("ERROR", f"Cannot read task file: {exc}")
         sys.exit(2)
 
     _, body = parse_front_matter(content)
-    patterns = extract_allowed_patterns(body)
-    if not patterns:
+    allowed_patterns = extract_scope_patterns(body, "allowed")
+    forbidden_patterns = extract_scope_patterns(body, "forbidden")
+    if not allowed_patterns:
         report("ERROR", "No allowed scope patterns found in task file.")
         sys.exit(2)
 
@@ -257,23 +305,33 @@ def main():
         sys.exit(2)
 
     allowed = []
+    forbidden = []
     out_of_scope = []
-
     for filepath in changed_files:
-        matched = any(match_pattern(filepath, p) for p in patterns)
-        if matched:
+        if any(match_pattern(filepath, pattern) for pattern in forbidden_patterns):
+            forbidden.append(filepath)
+        elif any(match_pattern(filepath, pattern) for pattern in allowed_patterns):
             allowed.append(filepath)
         else:
             out_of_scope.append(filepath)
 
-    report("INFO", f"Changed files: {len(changed_files)}, Allowed: {len(allowed)}, Out-of-scope: {len(out_of_scope)}")
+    report(
+        "INFO",
+        (
+            f"Changed files: {len(changed_files)}, Allowed: {len(allowed)}, "
+            f"Forbidden: {len(forbidden)}, Out-of-scope: {len(out_of_scope)}"
+        ),
+    )
     if allowed:
         report("PASS", "Allowed files", {"files": allowed})
+    if forbidden:
+        report("FAIL", "Forbidden-scope files found", {"files": forbidden})
     if out_of_scope:
         report("FAIL", "Out-of-scope files found", {"files": out_of_scope})
+    if forbidden or out_of_scope:
         sys.exit(1)
 
-    report("PASS", "All changed files are within allowed scope.")
+    report("PASS", "All changed files are within allowed scope and outside forbidden scope.")
     sys.exit(0)
 
 
