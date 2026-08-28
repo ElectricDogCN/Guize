@@ -1,0 +1,53 @@
+taskId: GZ-003
+mode: multi-agent
+status: active
+workstream: WS-GOVERNANCE
+baseCommit: 70984201e8d01ad75b6aa0fa0ee5ffe141087b52
+roles:
+  owner: integration-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  securityReviewer: security-review-agent
+  operationsReviewer: operations-review-agent
+dependencies:
+  - GZ-001
+  - GZ-002
+paths:
+  exclusive:
+    - docs/24-requirements-design-audit-and-multi-agent-delivery.md
+    - specs/tasks/GZ-003.md
+    - specs/collaboration/**
+    - prompts/templates/multi-agent-*.md
+    - evidence/GZ-003/**
+    - scripts/check-collaboration.py
+    - scripts/render-multi-agent-prompt.py
+    - tests/governance/test_check_collaboration.py
+    - tests/governance/test_render_multi_agent_prompt.py
+    - .github/ISSUE_TEMPLATE/multi-agent-work-package.yml
+    - .github/workflows/collaboration-gate.yml
+  shared:
+    - README.md
+contracts:
+  inputs:
+    - specs/requirements/product-requirements.md
+    - docs/00-guize-engineering-design-baseline.md
+    - AGENTS.md
+    - rules/never-rules.md
+    - contracts/**
+    - deployment/**
+  outputs:
+    - docs/24-requirements-design-audit-and-multi-agent-delivery.md
+    - specs/collaboration/project-readiness.yaml
+    - specs/collaboration/program-plan.yaml
+    - specs/collaboration/task-coordination.schema.yaml
+    - .github/workflows/collaboration-gate.yml
+integration:
+  order: 30
+  mergePolicy: contract-first
+  rebasePolicy: revalidate-on-base-change
+handoff:
+  required: true
+  path: evidence/GZ-003/handoff.md
+notes: >-
+  GZ-003 establishes the coordination mechanism. The separate documentation branch
+  created during discovery is not authoritative and must not be merged.
