@@ -4,20 +4,11 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
   push:
-    paths:
-      - 'AGENTS.md'
-      - 'rules/**'
-      - 'specs/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - 'contracts/**'
-      - '.github/workflows/governance-gate.yml'
-      - 'requirements-governance.txt'
-      - 'Makefile'
+    branches: [main]
   workflow_dispatch:
     inputs:
       task:
-        description: 'Task ID to validate (e.g., GZ-001)'
+        description: 'Task ID to validate (e.g., GZ-003)'
         required: false
         default: ''
 
@@ -103,6 +94,24 @@ jobs:
           set -euo pipefail
           python scripts/check-task-file.py --task "${{ steps.task-context.outputs.task_id }}"
 
+      - name: Project readiness check
+        id: project-readiness
+        if: success() || failure()
+        run: |
+          set -euo pipefail
+          python scripts/check-project-readiness.py
+
+      - name: Agent coordination check
+        id: agent-coordination
+        if: success() || failure()
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.task-context.outputs.task_specific }}" = "true" ]; then
+            python scripts/check-agent-coordination.py --task "${{ steps.task-context.outputs.task_id }}"
+          else
+            python scripts/check-agent-coordination.py
+          fi
+
       - name: Governance tests
         id: governance-tests
         run: |
@@ -133,47 +142,7 @@ jobs:
         if: success() || failure()
         run: |
           set -euo pipefail
-          python - <<'PY'
-          import glob
-          import json
-          import sys
-
-          import jsonschema
-          import yaml
-
-          errors = []
-
-          for path in glob.glob('.github/workflows/*.yml') + glob.glob('.github/workflows/*.yaml'):
-              try:
-                  with open(path, encoding='utf-8') as handle:
-                      yaml.safe_load(handle)
-                  print(f'OK YAML: {path}')
-              except Exception as exc:
-                  errors.append(f'{path}: {exc}')
-
-          contract_files = (
-              glob.glob('contracts/**/*.json', recursive=True)
-              + glob.glob('contracts/**/*.yaml', recursive=True)
-              + glob.glob('contracts/**/*.yml', recursive=True)
-          )
-          for path in contract_files:
-              try:
-                  with open(path, encoding='utf-8') as handle:
-                      document = json.load(handle) if path.endswith('.json') else yaml.safe_load(handle)
-                  if isinstance(document, dict) and '$schema' in document:
-                      validator_cls = jsonschema.validators.validator_for(document)
-                      validator_cls.check_schema(document)
-                      print(f'OK JSON-SCHEMA: {path}')
-                  else:
-                      print(f'OK CONTRACT DOCUMENT: {path}')
-              except Exception as exc:
-                  errors.append(f'{path}: {exc}')
-
-          if errors:
-              for error in errors:
-                  print(f'FAIL: {error}')
-              sys.exit(1)
-          PY
+          python scripts/check-schemas.py
 
       - name: Secret scan
         id: secret-scan
@@ -239,8 +208,6 @@ jobs:
           set -euo pipefail
           EXIT_CODE=0
           if grep -rnE '\.\./tests/|/workspace/tests/' Makefile scripts/; then EXIT_CODE=1; fi
-          # Workflow content is validated by TestCIWorkflowStatic below. Scanning this file
-          # with the same literal regex would match the detector text itself and create a false positive.
           exit $EXIT_CODE
 
       - name: CI workflow static validation
@@ -262,6 +229,8 @@ jobs:
           COLLECT_TESTS: ${{ steps.collect-tests.outcome }}
           TASK_CONTEXT: ${{ steps.task-context.outcome }}
           TASK_FILE: ${{ steps.task-file-validation.outcome }}
+          PROJECT_READINESS: ${{ steps.project-readiness.outcome }}
+          AGENT_COORDINATION: ${{ steps.agent-coordination.outcome }}
           GOVERNANCE_TESTS: ${{ steps.governance-tests.outcome }}
           SKIP_AUDIT: ${{ steps.skip-audit.outcome }}
           MARKDOWN: ${{ steps.markdown-check.outcome }}
@@ -289,6 +258,8 @@ jobs:
             echo "| collect_tests | $COLLECT_TESTS |"
             echo "| task_context | $TASK_CONTEXT |"
             echo "| task_file_validation | $TASK_FILE |"
+            echo "| project_readiness | $PROJECT_READINESS |"
+            echo "| agent_coordination | $AGENT_COORDINATION |"
             echo "| governance_tests | $GOVERNANCE_TESTS |"
             echo "| skip_audit | $SKIP_AUDIT |"
             echo "| markdown_check | $MARKDOWN |"
