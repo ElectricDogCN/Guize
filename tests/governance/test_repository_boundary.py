@@ -305,18 +305,21 @@ class TestCIWorkflowStatic(unittest.TestCase):
             # Find step definitions
             for section in critical_sections:
                 if f"name: {section}" in line:
-                    # Check next few lines for set -euo pipefail
+                    # Check the step's run block for strict mode.
                     found_strict = False
-                    for j in range(i + 1, min(i + 10, len(lines))):
+                    found_run = False
+                    for j in range(i + 1, min(i + 12, len(lines))):
+                        if lines[j].lstrip().startswith("- name:"):
+                            break
+                        if lines[j].strip() == "run: |":
+                            found_run = True
+                            continue
                         if "set -euo pipefail" in lines[j]:
                             found_strict = True
                             break
-                        if "run:" in lines[j] and "set -e" not in lines[j]:
-                            break
-                    # Only assert if we found a run block without strict mode
-                    if not found_strict:
-                        # Some steps use EXIT_CODE pattern which is acceptable
-                        pass
+                    self.assertTrue(found_run, f"Critical step '{section}' must have a run block")
+                    self.assertTrue(found_strict,
+                        f"Critical step '{section}' must enable set -euo pipefail")
 
     def test_no_auto_push_or_merge(self):
         """Workflow must not contain auto push, merge, or deploy steps."""

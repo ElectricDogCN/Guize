@@ -45,5 +45,36 @@ class TestCheckEvidenceIntegrity(unittest.TestCase):
             result = self._run(tmpdir, report_path=report_path)
             self.assertEqual(result.returncode, 0)
 
+    def test_unreachable_commit_fails(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            subprocess.run(["git", "init"], cwd=tmpdir, capture_output=True)
+            subprocess.run(["git", "config", "user.email", "test@test.com"], cwd=tmpdir, capture_output=True)
+            subprocess.run(["git", "config", "user.name", "Test"], cwd=tmpdir, capture_output=True)
+            with open(os.path.join(tmpdir, "a.txt"), "w") as f:
+                f.write("base")
+            subprocess.run(["git", "add", "a.txt"], cwd=tmpdir, capture_output=True)
+            subprocess.run(["git", "commit", "-m", "base"], cwd=tmpdir, capture_output=True)
+            subprocess.run(["git", "checkout", "-b", "sibling"], cwd=tmpdir, capture_output=True)
+            with open(os.path.join(tmpdir, "sibling.txt"), "w") as f:
+                f.write("sibling")
+            subprocess.run(["git", "add", "sibling.txt"], cwd=tmpdir, capture_output=True)
+            subprocess.run(["git", "commit", "-m", "sibling"], cwd=tmpdir, capture_output=True)
+            sibling_sha = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=tmpdir, capture_output=True, text=True
+            ).stdout.strip()
+            subprocess.run(["git", "checkout", "--orphan", "current"], cwd=tmpdir, capture_output=True)
+            subprocess.run(["git", "rm", "-rf", "."], cwd=tmpdir, capture_output=True)
+            with open(os.path.join(tmpdir, "current.txt"), "w") as f:
+                f.write("current")
+            subprocess.run(["git", "add", "current.txt"], cwd=tmpdir, capture_output=True)
+            subprocess.run(["git", "commit", "-m", "current"], cwd=tmpdir, capture_output=True)
+            os.makedirs(os.path.join(tmpdir, "evidence", "GZ-001"), exist_ok=True)
+            report_path = os.path.join(tmpdir, "evidence", "GZ-001", "final-report.md")
+            with open(report_path, "w", encoding="utf-8") as f:
+                f.write(f"## Commits\n\n{sibling_sha} sibling commit\n")
+            result = self._run(tmpdir, report_path=report_path)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("not reachable from HEAD", result.stdout)
+
 if __name__ == "__main__":
     unittest.main()

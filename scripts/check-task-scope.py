@@ -148,6 +148,20 @@ def get_changed_files(repo_root, base):
 
     prefix = _repo_subpath_prefix(repo_root)
 
+    # A missing or invalid base must never degrade to a clean-working-tree pass.
+    try:
+        base_check = subprocess.run(
+            ["git", "rev-parse", "--verify", f"{base}^{{commit}}"],
+            capture_output=True,
+            text=True,
+            cwd=repo_root,
+            env=env,
+        )
+        if base_check.returncode != 0:
+            return None
+    except Exception:
+        return None
+
     # Try merge-base diff first
     cmds = [
         ["git", "diff", "--name-only", f"{base}...HEAD"],
@@ -239,8 +253,8 @@ def main():
 
     changed_files = get_changed_files(repo_root, base)
     if changed_files is None:
-        report("WARN", "No git repository detected; skipping scope check. Run in a git repo for full validation.")
-        sys.exit(0)
+        report("ERROR", "Cannot determine changed files; scope validation fails closed.")
+        sys.exit(2)
 
     allowed = []
     out_of_scope = []

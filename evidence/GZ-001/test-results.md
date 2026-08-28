@@ -1,4 +1,27 @@
-# GZ-001-R3: Test Results
+# GZ-001 Clean Recovery: Test Results
+
+## 2026-08-28 clean recovery verification
+
+- Recovery base: PR #4 HEAD `4176767e7f82f92a66f4fa873fd469d6280bf60a`
+- Governance fix: `545a11f099acc4f64b44444ac6700123eb0d2246`
+- Branch: `chore/GZ-001-clean-recovery`
+- Scope base repair: `2b006cc`
+- `python -m pytest tests/governance/ -q`: exit 0, **68 passed**
+- `make verify TASK=GZ-001 BASE=origin/main BRANCH=chore/GZ-001-clean-recovery`: exit 0
+- Markdown: 94 files, no trailing whitespace or broken internal Markdown links
+- Schema: two YAML schemas and one JSON schema parsed successfully
+- Secret scan: no high-risk secret detected
+- Evidence, task file, scope and spec-sync checks: exit 0
+- Scope comparison against fetched `origin/main`: 156 changed paths, all 156 allowed
+
+The first local `make verify` attempt exposed an invalid unittest fallback because
+pytest was importable as a module but its console script was not on `PATH`. The Makefile was
+corrected to run `python -m pytest`; the complete verification was then rerun successfully.
+
+The GitHub Actions result is intentionally not claimed here. It must come from the newly opened
+pull request's remote workflow run.
+
+---
 
 ## Summary
 

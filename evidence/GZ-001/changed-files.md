@@ -1,4 +1,22 @@
-# GZ-001-R3: Changed Files
+# GZ-001: Changed Files
+
+## 2026-08-28 clean recovery delta
+
+The clean recovery branch retains every commit from PR #4 and adds a focused governance repair.
+
+- `.github/workflows/governance-gate.yml`: fail closed on malformed task branches; use tested Markdown and secret scanners; avoid scanning test fixtures as production paths.
+- `Makefile`: use the canonical secret scanner and `python -m pytest`.
+- `scripts/check-evidence-integrity.py`: reject commits not reachable from the current HEAD.
+- `scripts/check-markdown.py`: validate internal Markdown link targets.
+- `scripts/check-task-scope.py`: fail closed when the changed-file set cannot be determined.
+- `tests/governance/test_check_task_scope.py`: cover an unresolved base ref.
+- `tests/governance/test_check_evidence_integrity.py`: cover unreachable sibling commits.
+- `tests/governance/test_check_markdown.py`: cover valid and broken links.
+- `tests/governance/test_repository_boundary.py`: make strict-shell validation assertive.
+- `specs/tasks/GZ-001-repository-baseline.md`: point to the clean recovery branch and correct the manual `.github` rollback command.
+- `evidence/GZ-001/*`: record the actual recovery relationship and verification results.
+
+---
 
 ## Summary
 

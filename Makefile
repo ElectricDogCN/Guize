@@ -94,28 +94,8 @@ schema-check:
 
 secret-scan:
 	@echo "=== secret-scan ==="
-	@if [ -z "$(GIT)" ]; then echo "MISSING: git is required but not installed"; exit 1; fi
-	@echo "-- Scanning with git grep for common secret patterns --"
-	@found=0; \
-	git grep -n -E "AKIA[0-9A-Z]{16}" -- '*.py' '*.yaml' '*.yml' '*.json' '*.md' '*.sh' ':!tests/' && { echo "POTENTIAL SECRET: AWS Access Key ID pattern found"; found=1; } || true; \
-	git grep -n -i -E "aws_secret_access_key|aws_access_key_id" -- '*.py' '*.yaml' '*.yml' '*.json' '*.md' '*.sh' ':!tests/' | grep -v 'git grep' | grep -v 'POTENTIAL SECRET' && { echo "POTENTIAL SECRET: AWS key pattern found"; found=1; } || true; \
-	git grep -n -E "BEGIN (RSA |DSA |EC |OPENSSH )?PRIVATE KEY" -- '*.py' '*.yaml' '*.yml' '*.json' '*.md' '*.sh' ':!tests/' && { echo "POTENTIAL SECRET: Private key pattern found"; found=1; } || true; \
-	git grep -n -i -E "password[[:space:]]*=[[:space:]]*['\"][^'\"]+['\"]" -- '*.py' '*.yaml' '*.yml' '*.json' '*.sh' ':!tests/' && { echo "POTENTIAL SECRET: Password pattern found"; found=1; } || true; \
-	git grep -n -i -E "api[_-]?key[[:space:]]*=[[:space:]]*['\"][^'\"]+['\"]" -- '*.py' '*.yaml' '*.yml' '*.json' '*.sh' ':!tests/' && { echo "POTENTIAL SECRET: API key pattern found"; found=1; } || true; \
-	git grep -n -i -E "api[_-]?token[[:space:]]*=[[:space:]]*['\"][^'\"]+['\"]" -- '*.py' '*.yaml' '*.yml' '*.json' '*.sh' ':!tests/' && { echo "POTENTIAL SECRET: API token pattern found"; found=1; } || true; \
-	if [ "$$found" = "1" ]; then echo "FAIL: Potential secrets detected"; exit 1; else echo "OK: No common secret patterns found"; fi
-	@if [ -n "$(DETECT_SECRETS)" ]; then \
-		echo "-- Running detect-secrets --"; \
-		$(DETECT_SECRETS) scan || true; \
-	else \
-		echo "MISSING: detect-secrets is not installed, skipping"; \
-	fi
-	@if [ -n "$(GITLEAKS)" ]; then \
-		echo "-- Running gitleaks --"; \
-		$(GITLEAKS) detect --source . -v || true; \
-	else \
-		echo "MISSING: gitleaks is not installed, skipping"; \
-	fi
+	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
+	@$(PYTHON) scripts/check-secrets.py
 
 governance-test:
 	@echo "=== governance-test ==="
@@ -125,13 +105,8 @@ governance-test:
 		if [ "$$test_count" -eq 0 ]; then \
 			echo "MISSING: no test files found in tests/governance/"; \
 		else \
-			if [ -n "$(PYTEST)" ]; then \
-				echo "-- Running pytest on tests/governance/ --"; \
-				$(PYTEST) tests/governance/ -v; \
-			else \
-				echo "MISSING: pytest is not installed, falling back to unittest"; \
-				$(PYTHON) -m unittest discover -s tests/governance -v; \
-			fi; \
+			echo "-- Running pytest on tests/governance/ --"; \
+			$(PYTHON) -m pytest tests/governance/ -v; \
 		fi; \
 	else \
 		echo "MISSING: tests/governance/ directory not found"; \

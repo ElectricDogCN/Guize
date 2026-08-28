@@ -37,6 +37,14 @@ class TestCheckTaskScope(unittest.TestCase):
             result = self._run(tmpdir)
             self.assertNotEqual(result.returncode, 0)
 
+    def test_missing_base_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            init_git_repo(tmpdir, "main")
+            write_task_spec(tmpdir, allowed_scope="- `scripts/*.py`\n- `tests/**`")
+            result = self._run(tmpdir, base="origin/main")
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("fails closed", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

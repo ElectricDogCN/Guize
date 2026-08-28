@@ -2,6 +2,9 @@
 import os
 import re
 import sys
+from urllib.parse import unquote, urlsplit
+
+LINK_PATTERN = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 
 def check_file(filepath):
     issues = []
@@ -15,6 +18,18 @@ def check_file(filepath):
         content = line.rstrip("\n\r")
         if content.endswith(" ") or content.endswith("\t"):
             issues.append((i, "trailing whitespace"))
+
+        for raw_target in LINK_PATTERN.findall(content):
+            target = raw_target.strip().split()[0].strip("<>")
+            parsed = urlsplit(target)
+            if parsed.scheme or target.startswith(("#", "mailto:")):
+                continue
+            path = unquote(parsed.path)
+            if not path or not path.lower().endswith(".md"):
+                continue
+            resolved = path if os.path.isabs(path) else os.path.join(os.path.dirname(filepath), path)
+            if not os.path.isfile(os.path.normpath(resolved)):
+                issues.append((i, f"broken internal link: {target}"))
 
     return issues
 

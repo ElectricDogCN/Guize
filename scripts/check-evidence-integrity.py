@@ -125,7 +125,8 @@ def main():
             results["valid"] = False
             results["errors"].append(f"Commit {sha} does not exist")
         if exists and not reachable:
-            results["warnings"].append(f"Commit {sha} exists but not reachable (may be amended)")
+            results["valid"] = False
+            results["errors"].append(f"Commit {sha} exists but is not reachable from HEAD")
 
     if check_remote_pushed_claim(args.report):
         for commit in results["commits"]:

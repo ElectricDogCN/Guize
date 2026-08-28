@@ -23,5 +23,21 @@ class TestCheckMarkdown(unittest.TestCase):
             result = self._run(tmpdir)
             self.assertEqual(result.returncode, 1)
 
+    def test_broken_internal_link_fails(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with open(os.path.join(tmpdir, "test.md"), "w") as f:
+                f.write("[missing](missing.md)\n")
+            result = self._run(tmpdir)
+            self.assertEqual(result.returncode, 1)
+
+    def test_existing_internal_link_passes(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with open(os.path.join(tmpdir, "target.md"), "w") as f:
+                f.write("# Target\n")
+            with open(os.path.join(tmpdir, "test.md"), "w") as f:
+                f.write("[target](target.md#section)\n")
+            result = self._run(tmpdir)
+            self.assertEqual(result.returncode, 0)
+
 if __name__ == "__main__":
     unittest.main()

@@ -5,7 +5,7 @@ titleZh: 仓库基线与 Agent 执行 Harness 初始化
 type: chore
 status: approved
 baseBranch: main
-workBranch: chore/GZ-001-repository-baseline
+workBranch: chore/GZ-001-clean-recovery
 evidencePath: evidence/GZ-001
 ---
 
@@ -214,7 +214,8 @@ git revert <r3-migration-commit-hash>
 ```bash
 mkdir guize-solution
 mv AGENTS.md MANIFEST.md Makefile requirements-governance.txt guize-solution/
-mv .github workflows/ ISSUE_TEMPLATE/ pull_request_template.md guize-solution/.github/
+mkdir -p guize-solution/.github
+mv .github/workflows .github/ISSUE_TEMPLATE .github/pull_request_template.md guize-solution/.github/
 mv adr/ contracts/ deployment/ docs/ evidence/ prompts/ rules/ scripts/ specs/ tests/ guize-solution/
 mv .trae/ guize-solution/
 ```
