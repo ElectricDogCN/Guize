@@ -63,9 +63,16 @@ def has_cycle(graph):
 
 
 def require_fields(item, fields, label, errors):
+    """Require keys while permitting deliberate empty arrays such as ownedSchemas."""
     for field in fields:
-        if field not in item or item[field] in (None, "", []):
+        if field not in item or item[field] is None or item[field] == "":
             errors.append(f"{label} missing required field: {field}")
+
+
+def require_non_empty_list(item, field, label, errors):
+    value = item.get(field)
+    if not isinstance(value, list) or not value:
+        errors.append(f"{label} field {field} must be a non-empty list")
 
 
 def main():
@@ -86,6 +93,13 @@ def main():
     modules = module_doc.get("modules", []) if isinstance(module_doc, dict) else []
     plan_tasks = plan_doc.get("tasks", []) if isinstance(plan_doc, dict) else []
     foundation = set(plan_doc.get("foundationTasks", [])) if isinstance(plan_doc, dict) else set()
+
+    if not requirements:
+        errors.append("Requirements index must contain at least one requirement")
+    if not modules:
+        errors.append("Module ownership index must contain at least one module")
+    if not plan_tasks:
+        errors.append("Work-package plan must contain at least one planned task")
 
     req_ids = [item.get("id") for item in requirements]
     module_ids = [item.get("id") for item in modules]
@@ -109,6 +123,8 @@ def main():
             f"Requirement {req_id}",
             errors,
         )
+        for list_field in ["aliases", "designRefs", "moduleIds", "workPackages", "acceptanceIds", "nextTasks"]:
+            require_non_empty_list(item, list_field, f"Requirement {req_id}", errors)
         if item.get("status") not in REQ_STATES:
             errors.append(f"Requirement {req_id} has invalid status {item.get('status')}")
         if item.get("machineContractState") not in CONTRACT_STATES:
@@ -137,6 +153,11 @@ def main():
             f"Module {module_id}",
             errors,
         )
+        for list_field in ["ownedPaths", "requirementIds", "workPackages"]:
+            require_non_empty_list(item, list_field, f"Module {module_id}", errors)
+        for optional_list in ["ownedSchemas", "publicContracts", "dependsOn"]:
+            if not isinstance(item.get(optional_list), list):
+                errors.append(f"Module {module_id} field {optional_list} must be a list")
         if item.get("status") not in MODULE_STATES:
             errors.append(f"Module {module_id} has invalid status {item.get('status')}")
         for dependency in item.get("dependsOn", []):
@@ -159,6 +180,10 @@ def main():
             f"Planned task {task_id}",
             errors,
         )
+        for list_field in ["requirementIds", "moduleIds", "outputPaths"]:
+            require_non_empty_list(item, list_field, f"Planned task {task_id}", errors)
+        if not isinstance(item.get("dependsOn"), list):
+            errors.append(f"Planned task {task_id} field dependsOn must be a list")
         if item.get("riskLevel") not in RISK_LEVELS:
             errors.append(f"Planned task {task_id} has invalid riskLevel")
         for dependency in item.get("dependsOn", []):
