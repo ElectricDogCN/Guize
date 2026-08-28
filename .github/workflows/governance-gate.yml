@@ -10,6 +10,7 @@ on:
       - 'specs/**'
       - 'scripts/**'
       - 'tests/**'
+      - 'contracts/**'
       - '.github/workflows/governance-gate.yml'
       - 'requirements-governance.txt'
       - 'Makefile'
@@ -72,8 +73,8 @@ jobs:
           set -euo pipefail
           python -m pytest --collect-only -q tests/governance/
 
-      - name: Task file validation
-        id: task-file-validation
+      - name: Resolve task context
+        id: task-context
         run: |
           set -euo pipefail
           TASK_ID="${{ github.event.inputs.task }}"
@@ -81,11 +82,26 @@ jobs:
           if [ -z "$TASK_ID" ] && [[ "$REF_NAME" =~ ^(feat|fix|docs|refactor|chore)/([A-Z]+-[0-9]+)-.+$ ]]; then
             TASK_ID="${BASH_REMATCH[2]}"
           fi
-          if [ -z "$TASK_ID" ]; then
-            echo "::error::Branch '$REF_NAME' does not follow <type>/<TASK-ID>-<short-name>."
+          if [ -z "$TASK_ID" ] && [ -n "${{ github.head_ref }}" ]; then
+            echo "::error::Pull-request branch '$REF_NAME' does not follow <type>/<TASK-ID>-<short-name>."
             exit 1
           fi
-          python scripts/check-task-file.py --task "$TASK_ID"
+          if [ -n "$TASK_ID" ]; then
+            echo "task_id=$TASK_ID" >> "$GITHUB_OUTPUT"
+            echo "task_specific=true" >> "$GITHUB_OUTPUT"
+            echo "Resolved task: $TASK_ID"
+          else
+            echo "task_id=" >> "$GITHUB_OUTPUT"
+            echo "task_specific=false" >> "$GITHUB_OUTPUT"
+            echo "Non-task ref '$REF_NAME'; repository-wide checks will run and task-specific checks will be skipped."
+          fi
+
+      - name: Task file validation
+        id: task-file-validation
+        if: steps.task-context.outputs.task_specific == 'true'
+        run: |
+          set -euo pipefail
+          python scripts/check-task-file.py --task "${{ steps.task-context.outputs.task_id }}"
 
       - name: Governance tests
         id: governance-tests
@@ -99,11 +115,11 @@ jobs:
         if: success() || failure()
         run: |
           set -euo pipefail
-          if [ -f /tmp/test-results/governance-junit.xml ]; then
-            python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
-          else
-            echo "::warning::JUnit XML not found; skipping skip audit."
+          if [ ! -f /tmp/test-results/governance-junit.xml ]; then
+            echo "::error::JUnit XML not found; governance tests did not produce auditable results."
+            exit 1
           fi
+          python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
 
       - name: Markdown basic check
         id: markdown-check
@@ -117,20 +133,47 @@ jobs:
         if: success() || failure()
         run: |
           set -euo pipefail
-          EXIT_CODE=0
-          for file in .github/workflows/*.yml .github/workflows/*.yaml; do
-            [ -e "$file" ] || continue
-            python -c "import yaml; yaml.safe_load(open('$file'))" || EXIT_CODE=1
-          done
-          for file in contracts/**/*.json; do
-            [ -e "$file" ] || continue
-            python -c "import json; json.load(open('$file'))" || EXIT_CODE=1
-          done
-          for file in contracts/**/*.yaml contracts/**/*.yml; do
-            [ -e "$file" ] || continue
-            python -c "import yaml; yaml.safe_load(open('$file'))" || EXIT_CODE=1
-          done
-          exit $EXIT_CODE
+          python - <<'PY'
+          import glob
+          import json
+          import sys
+
+          import jsonschema
+          import yaml
+
+          errors = []
+
+          for path in glob.glob('.github/workflows/*.yml') + glob.glob('.github/workflows/*.yaml'):
+              try:
+                  with open(path, encoding='utf-8') as handle:
+                      yaml.safe_load(handle)
+                  print(f'OK YAML: {path}')
+              except Exception as exc:
+                  errors.append(f'{path}: {exc}')
+
+          contract_files = (
+              glob.glob('contracts/**/*.json', recursive=True)
+              + glob.glob('contracts/**/*.yaml', recursive=True)
+              + glob.glob('contracts/**/*.yml', recursive=True)
+          )
+          for path in contract_files:
+              try:
+                  with open(path, encoding='utf-8') as handle:
+                      document = json.load(handle) if path.endswith('.json') else yaml.safe_load(handle)
+                  if isinstance(document, dict) and '$schema' in document:
+                      validator_cls = jsonschema.validators.validator_for(document)
+                      validator_cls.check_schema(document)
+                      print(f'OK JSON-SCHEMA: {path}')
+                  else:
+                      print(f'OK CONTRACT DOCUMENT: {path}')
+              except Exception as exc:
+                  errors.append(f'{path}: {exc}')
+
+          if errors:
+              for error in errors:
+                  print(f'FAIL: {error}')
+              sys.exit(1)
+          PY
 
       - name: Secret scan
         id: secret-scan
@@ -141,40 +184,53 @@ jobs:
 
       - name: Evidence check
         id: evidence-check
-        if: success() || failure()
+        if: (success() || failure()) && steps.task-context.outputs.task_specific == 'true'
         run: |
           set -euo pipefail
-          TASK_ID="${{ github.event.inputs.task }}"
-          REF_NAME="${{ github.head_ref || github.ref_name }}"
-          if [ -z "$TASK_ID" ] && [[ "$REF_NAME" =~ ^(feat|fix|docs|refactor|chore)/([A-Z]+-[0-9]+)-.+$ ]]; then
-            TASK_ID="${BASH_REMATCH[2]}"
+          python scripts/check-evidence.py --task "${{ steps.task-context.outputs.task_id }}"
+
+      - name: Evidence integrity check
+        id: evidence-integrity
+        if: (success() || failure()) && steps.task-context.outputs.task_specific == 'true'
+        run: |
+          set -euo pipefail
+          TASK_ID="${{ steps.task-context.outputs.task_id }}"
+          EVIDENCE_DIR="evidence/$TASK_ID"
+          REPORT=""
+          if [ -f "$EVIDENCE_DIR/final-report-r5-clean-recovery.md" ]; then
+            REPORT="$EVIDENCE_DIR/final-report-r5-clean-recovery.md"
+          else
+            REPORT=$(find "$EVIDENCE_DIR" -maxdepth 1 -type f -name 'final-report-r*.md' -print | sort -V | tail -n 1 || true)
           fi
-          [ -n "$TASK_ID" ] || { echo "::error::Cannot run evidence check without a valid task branch."; exit 1; }
-          python scripts/check-evidence.py --task "$TASK_ID"
+          if [ -z "$REPORT" ] && [ -f "$EVIDENCE_DIR/final-report.md" ]; then
+            REPORT="$EVIDENCE_DIR/final-report.md"
+          fi
+          if [ -n "$REPORT" ]; then
+            python scripts/check-evidence-integrity.py --task "$TASK_ID" --report "$REPORT"
+          else
+            echo "No final-report*.md exists for $TASK_ID; no commit claims require integrity validation."
+          fi
 
       - name: Task-branch linkage check
         id: linkage-check
-        if: success() || failure()
+        if: (success() || failure()) && steps.task-context.outputs.task_specific == 'true' && github.head_ref != ''
         run: |
           set -euo pipefail
-          if [ -n "${{ github.head_ref }}" ]; then
-            python scripts/check-pr-task-link.py --branch "${{ github.head_ref }}"
-          else
-            echo "Not a pull request; skipping PR task linkage check."
-          fi
+          python scripts/check-pr-task-link.py --branch "${{ github.head_ref }}"
 
       - name: Scope check
         id: scope-check
+        if: (success() || failure()) && steps.task-context.outputs.task_specific == 'true'
+        run: |
+          set -euo pipefail
+          python scripts/check-task-scope.py --task "${{ steps.task-context.outputs.task_id }}" --base origin/main
+
+      - name: Spec sync check
+        id: spec-sync
         if: success() || failure()
         run: |
           set -euo pipefail
-          TASK_ID="${{ github.event.inputs.task }}"
-          REF_NAME="${{ github.head_ref || github.ref_name }}"
-          if [ -z "$TASK_ID" ] && [[ "$REF_NAME" =~ ^(feat|fix|docs|refactor|chore)/([A-Z]+-[0-9]+)-.+$ ]]; then
-            TASK_ID="${BASH_REMATCH[2]}"
-          fi
-          [ -n "$TASK_ID" ] || { echo "::error::Cannot run scope check without a valid task branch."; exit 1; }
-          python scripts/check-task-scope.py --task "$TASK_ID" --base origin/main
+          python scripts/check-spec-sync.py --base origin/main
 
       - name: Parent directory reference check
         id: parent-dir-check
@@ -204,6 +260,7 @@ jobs:
           VERIFY_DEPS: ${{ steps.verify-deps.outcome }}
           COMPILE: ${{ steps.compile.outcome }}
           COLLECT_TESTS: ${{ steps.collect-tests.outcome }}
+          TASK_CONTEXT: ${{ steps.task-context.outcome }}
           TASK_FILE: ${{ steps.task-file-validation.outcome }}
           GOVERNANCE_TESTS: ${{ steps.governance-tests.outcome }}
           SKIP_AUDIT: ${{ steps.skip-audit.outcome }}
@@ -211,8 +268,10 @@ jobs:
           SCHEMA: ${{ steps.schema-check.outcome }}
           SECRET_SCAN: ${{ steps.secret-scan.outcome }}
           EVIDENCE: ${{ steps.evidence-check.outcome }}
+          EVIDENCE_INTEGRITY: ${{ steps.evidence-integrity.outcome }}
           LINKAGE: ${{ steps.linkage-check.outcome }}
           SCOPE: ${{ steps.scope-check.outcome }}
+          SPEC_SYNC: ${{ steps.spec-sync.outcome }}
           PARENT_DIR: ${{ steps.parent-dir-check.outcome }}
           CI_VALIDATION: ${{ steps.ci-validation.outcome }}
         run: |
@@ -228,6 +287,7 @@ jobs:
             echo "| verify_deps | $VERIFY_DEPS |"
             echo "| compile | $COMPILE |"
             echo "| collect_tests | $COLLECT_TESTS |"
+            echo "| task_context | $TASK_CONTEXT |"
             echo "| task_file_validation | $TASK_FILE |"
             echo "| governance_tests | $GOVERNANCE_TESTS |"
             echo "| skip_audit | $SKIP_AUDIT |"
@@ -235,8 +295,10 @@ jobs:
             echo "| schema_check | $SCHEMA |"
             echo "| secret_scan | $SECRET_SCAN |"
             echo "| evidence_check | $EVIDENCE |"
+            echo "| evidence_integrity | $EVIDENCE_INTEGRITY |"
             echo "| linkage_check | $LINKAGE |"
             echo "| scope_check | $SCOPE |"
+            echo "| spec_sync | $SPEC_SYNC |"
             echo "| parent_dir_check | $PARENT_DIR |"
             echo "| ci_validation | $CI_VALIDATION |"
             echo
