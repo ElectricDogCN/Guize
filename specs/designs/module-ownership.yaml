@@ -59,7 +59,7 @@ modules:
     ownedSchemas: [task, outbox]
     publicContracts: [contracts/openapi/task/**, contracts/events/task/**, contracts/workflows/**]
     dependsOn: [MOD-PLATFORM]
-    requirementIds: [REQ-V1-0001, REQ-V1-0006, REQ-V1-0007]
+    requirementIds: [REQ-V1-0001, REQ-V1-0004, REQ-V1-0006, REQ-V1-0007]
     workPackages: [WP-M1-08, WP-M5-03]
   - id: MOD-STORAGE
     name: Storage Lifecycle
@@ -182,11 +182,11 @@ modules:
     requirementIds: [REQ-V1-0003, REQ-V1-0008]
     workPackages: [WP-M1-05, WP-M1-06]
   - id: MOD-DATA
-    name: Data Plane
+    name: Data Plane Operations
     status: planned
     owner: data-platform
     ownedPaths: [data/**]
-    ownedSchemas: [iam, source, asset, storage, media, ai, search, task, policy, config, audit, outbox]
+    ownedSchemas: []
     publicContracts: [contracts/data/**]
     dependsOn: []
     requirementIds: [REQ-V1-0006, REQ-V1-0010]

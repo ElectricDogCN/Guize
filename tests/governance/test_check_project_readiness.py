@@ -23,9 +23,60 @@ class TestProjectReadiness(unittest.TestCase):
                 handle.write(content)
 
     def _documents(self):
-        req = {"version": 1, "requirements": [{"id": "REQ-1", "aliases": ["G-1"], "title": "R", "status": "frozen", "source": "specs/requirements/product.md", "designRefs": ["docs/design.md"], "moduleIds": ["MOD-1"], "workPackages": ["WP-1"], "acceptanceIds": ["A-1"], "machineContractState": "gap", "implementationState": "not_started", "blockers": ["B"], "nextTasks": ["GZ-101"]}]}
-        modules = {"version": 1, "modules": [{"id": "MOD-1", "name": "M", "status": "planned", "owner": "o", "ownedPaths": ["backend/m/**"], "ownedSchemas": [], "publicContracts": [], "dependsOn": [], "requirementIds": ["REQ-1"], "workPackages": ["WP-1"]}]}
-        plan = {"version": 1, "foundationTasks": ["GZ-003"], "tasks": [{"taskId": "GZ-101", "title": "T", "workPackage": "WP-1", "riskLevel": "medium", "parallelGroup": "g", "dependsOn": ["GZ-003"], "requirementIds": ["REQ-1"], "moduleIds": ["MOD-1"], "outputPaths": ["backend/m/**"], "exitGate": "verified"}]}
+        requirement_id = "REQ-V1-0001"
+        module_id = "MOD-TEST"
+        req = {
+            "version": 1,
+            "baseline": "GZ-003",
+            "sourceOfTruth": "specs/requirements/product.md",
+            "requirements": [{
+                "id": requirement_id,
+                "aliases": ["G-1"],
+                "title": "R",
+                "status": "frozen",
+                "source": "specs/requirements/product.md",
+                "designRefs": ["docs/design.md"],
+                "moduleIds": [module_id],
+                "workPackages": ["WP-1"],
+                "acceptanceIds": ["A-1"],
+                "machineContractState": "gap",
+                "implementationState": "not_started",
+                "blockers": ["B"],
+                "nextTasks": ["GZ-101"],
+            }],
+        }
+        modules = {
+            "version": 1,
+            "baseline": "GZ-003",
+            "modules": [{
+                "id": module_id,
+                "name": "M",
+                "status": "planned",
+                "owner": "o",
+                "ownedPaths": ["backend/m/**"],
+                "ownedSchemas": ["m"],
+                "publicContracts": [],
+                "dependsOn": [],
+                "requirementIds": [requirement_id],
+                "workPackages": ["WP-1"],
+            }],
+        }
+        plan = {
+            "version": 1,
+            "foundationTasks": ["GZ-003"],
+            "tasks": [{
+                "taskId": "GZ-101",
+                "title": "T",
+                "workPackage": "WP-1",
+                "riskLevel": "medium",
+                "parallelGroup": "g",
+                "dependsOn": ["GZ-003"],
+                "requirementIds": [requirement_id],
+                "moduleIds": [module_id],
+                "outputPaths": ["backend/m/**"],
+                "exitGate": "verified",
+            }],
+        }
         return req, modules, plan
 
     def _run(self, root, req, modules, plan):
@@ -35,9 +86,17 @@ class TestProjectReadiness(unittest.TestCase):
         self._write(root, "specs/requirements/product.md", "V1 不设置对外 Beta\n")
         self._write(root, "docs/design.md", "# Design\n")
         self._write(root, "README.md", "V1 不设置对外 Beta\n")
-        headings = "\n".join(f"## {n}. Section" for n in [7, 8, 9, 10, 13, 14, 16, 18])
+        headings = "\n".join(f"## {number}. Section" for number in [7, 8, 9, 10, 13, 14, 16, 18])
         self._write(root, "docs/00-guize-engineering-design-baseline.md", "V1 不设置对外 Beta\n" + headings)
-        command = [sys.executable, SCRIPT, "--repo-root", root, "--requirements", "requirements.yaml", "--modules", "modules.yaml", "--plan", "plan.yaml"]
+        self._write(root, "specs/tasks/GZ-003.md", "---\nid: GZ-003\n---\n")
+        command = [
+            sys.executable,
+            SCRIPT,
+            "--repo-root", root,
+            "--requirements", "requirements.yaml",
+            "--modules", "modules.yaml",
+            "--plan", "plan.yaml",
+        ]
         return subprocess.run(command, capture_output=True, text=True)
 
     def test_valid_indexes_pass(self):
@@ -57,7 +116,7 @@ class TestProjectReadiness(unittest.TestCase):
     def test_unknown_module_reference_fails(self):
         with tempfile.TemporaryDirectory() as root:
             req, modules, plan = self._documents()
-            req["requirements"][0]["moduleIds"] = ["MOD-404"]
+            req["requirements"][0]["moduleIds"] = ["MOD-MISSING"]
             result = self._run(root, req, modules, plan)
             self.assertEqual(result.returncode, 1)
             self.assertIn("unknown module", result.stdout)
@@ -65,11 +124,79 @@ class TestProjectReadiness(unittest.TestCase):
     def test_module_dependency_cycle_fails(self):
         with tempfile.TemporaryDirectory() as root:
             req, modules, plan = self._documents()
-            modules["modules"].append({"id": "MOD-2", "name": "N", "status": "planned", "owner": "o", "ownedPaths": ["backend/n/**"], "ownedSchemas": [], "publicContracts": [], "dependsOn": ["MOD-1"], "requirementIds": ["REQ-1"], "workPackages": ["WP-1"]})
-            modules["modules"][0]["dependsOn"] = ["MOD-2"]
+            modules["modules"].append({
+                "id": "MOD-SECOND",
+                "name": "N",
+                "status": "planned",
+                "owner": "o",
+                "ownedPaths": ["backend/n/**"],
+                "ownedSchemas": ["n"],
+                "publicContracts": [],
+                "dependsOn": ["MOD-TEST"],
+                "requirementIds": ["REQ-V1-0001"],
+                "workPackages": ["WP-1"],
+            })
+            modules["modules"][0]["dependsOn"] = ["MOD-SECOND"]
+            req["requirements"][0]["moduleIds"].append("MOD-SECOND")
             result = self._run(root, req, modules, plan)
             self.assertEqual(result.returncode, 1)
             self.assertIn("dependency graph contains a cycle", result.stdout)
+
+    def test_duplicate_schema_owner_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            req, modules, plan = self._documents()
+            modules["modules"].append({
+                "id": "MOD-SECOND",
+                "name": "N",
+                "status": "planned",
+                "owner": "o",
+                "ownedPaths": ["backend/n/**"],
+                "ownedSchemas": ["m"],
+                "publicContracts": [],
+                "dependsOn": [],
+                "requirementIds": ["REQ-V1-0001"],
+                "workPackages": ["WP-1"],
+            })
+            req["requirements"][0]["moduleIds"].append("MOD-SECOND")
+            result = self._run(root, req, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Schema m is owned by both", result.stdout)
+
+    def test_overlapping_module_path_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            req, modules, plan = self._documents()
+            modules["modules"].append({
+                "id": "MOD-SECOND",
+                "name": "N",
+                "status": "planned",
+                "owner": "o",
+                "ownedPaths": ["backend/m/domain/**"],
+                "ownedSchemas": [],
+                "publicContracts": [],
+                "dependsOn": [],
+                "requirementIds": ["REQ-V1-0001"],
+                "workPackages": ["WP-1"],
+            })
+            req["requirements"][0]["moduleIds"].append("MOD-SECOND")
+            result = self._run(root, req, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Module path ownership overlaps", result.stdout)
+
+    def test_asymmetric_requirement_module_mapping_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            req, modules, plan = self._documents()
+            modules["modules"][0]["requirementIds"] = []
+            result = self._run(root, req, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("mapping is asymmetric", result.stdout)
+
+    def test_unknown_next_task_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            req, modules, plan = self._documents()
+            req["requirements"][0]["nextTasks"] = ["GZ-999"]
+            result = self._run(root, req, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("unknown next task", result.stdout)
 
 
 if __name__ == "__main__":
