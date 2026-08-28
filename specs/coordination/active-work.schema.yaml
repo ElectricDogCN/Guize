@@ -1,0 +1,134 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://guize.local/schemas/active-work.schema.yaml
+title: Guize Active Work Registry
+type: object
+additionalProperties: false
+required:
+  - version
+  - policy
+  - tasks
+properties:
+  version:
+    const: 1
+  policy:
+    type: object
+    additionalProperties: false
+    required:
+      - maxActiveTasks
+      - maxHighRiskTasks
+      - leaseMaxHours
+      - bootstrapTasks
+    properties:
+      maxActiveTasks:
+        type: integer
+        minimum: 1
+        maximum: 10
+      maxHighRiskTasks:
+        type: integer
+        minimum: 0
+        maximum: 3
+      leaseMaxHours:
+        type: integer
+        minimum: 1
+        maximum: 336
+      bootstrapTasks:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          pattern: '^[A-Z]+-[0-9]+$'
+  tasks:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - taskId
+        - issue
+        - title
+        - status
+        - riskLevel
+        - owner
+        - agentRole
+        - branch
+        - baseBranch
+        - baseSha
+        - workPackage
+        - coordinationGroup
+        - dependsOn
+        - exclusivePaths
+        - sharedPaths
+        - handoffPath
+        - integrationStrategy
+        - integrationOrder
+        - lease
+      properties:
+        taskId:
+          type: string
+          pattern: '^[A-Z]+-[0-9]+$'
+        issue:
+          type: integer
+          minimum: 1
+        title:
+          type: string
+          minLength: 3
+        status:
+          enum: [reserved, in_progress, blocked, review, integration, completed, cancelled]
+        riskLevel:
+          enum: [low, medium, high, critical]
+        owner:
+          type: string
+          minLength: 1
+        agentRole:
+          enum: [coordinator, implementer, reviewer, integrator]
+        branch:
+          type: string
+          pattern: '^(feat|fix|docs|refactor|chore)/[A-Z]+-[0-9]+-.+$'
+        baseBranch:
+          type: string
+          minLength: 1
+        baseSha:
+          type: string
+          pattern: '^[0-9a-f]{40}$'
+        workPackage:
+          type: string
+          minLength: 1
+        coordinationGroup:
+          type: string
+        dependsOn:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: '^[A-Z]+-[0-9]+$'
+        exclusivePaths:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+        sharedPaths:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+        handoffPath:
+          type: string
+          minLength: 1
+        integrationStrategy:
+          enum: [merge, squash, rebase]
+        integrationOrder:
+          type: integer
+          minimum: 1
+        lease:
+          type: object
+          additionalProperties: false
+          required: [acquiredAt, expiresAt]
+          properties:
+            acquiredAt:
+              type: string
+              format: date-time
+            expiresAt:
+              type: string
+              format: date-time

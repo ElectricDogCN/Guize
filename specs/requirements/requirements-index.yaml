@@ -1,0 +1,158 @@
+version: 1
+baseline: GZ-002
+sourceOfTruth: specs/requirements/product-requirements.md
+requirements:
+  - id: REQ-V1-0001
+    aliases: [G-01, 需求V1-0001]
+    title: 统一接入
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/02-requirements-and-scope.md
+      - docs/03-system-architecture.md
+      - docs/07-source-connectors.md
+    moduleIds: [MOD-SOURCE, MOD-CONNECTOR, MOD-TASK]
+    workPackages: [WP-M1-03, WP-M1-04, WP-M2-07, WP-M5-08]
+    acceptanceIds: [ACCEPT-SOURCE-SYNC, ACCEPT-CONNECTOR-CONTRACT]
+    machineContractState: partial
+    implementationState: not_started
+    blockers: [POC-05, POC-06]
+    nextTasks: [GZ-004, GZ-009, GZ-010]
+  - id: REQ-V1-0002
+    aliases: [G-02, 需求V1-0002]
+    title: 统一资产
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/05-domain-and-data-model.md
+      - docs/21-low-level-design.md
+    moduleIds: [MOD-ASSET, MOD-SOURCE]
+    workPackages: [WP-M1-02]
+    acceptanceIds: [验收V1-0001]
+    machineContractState: gap
+    implementationState: not_started
+    blockers: [GZ-004, GZ-005]
+    nextTasks: [GZ-004, GZ-005]
+  - id: REQ-V1-0003
+    aliases: [G-03, 需求V1-0003]
+    title: 按需访问与播放
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/08-cache-and-storage-lifecycle.md
+      - docs/09-media-av1-and-streaming.md
+      - docs/12-security-identity-and-permissions.md
+    moduleIds: [MOD-IAM, MOD-STORAGE, MOD-MEDIA, MOD-PLAYER, MOD-EDGE]
+    workPackages: [WP-M1-05, WP-M1-06, WP-M1-07, WP-M3-03]
+    acceptanceIds: [验收V1-0002, 验收V1-0003, 验收V1-0006]
+    machineContractState: gap
+    implementationState: not_started
+    blockers: [POC-01, POC-02, POC-03, POC-07]
+    nextTasks: [GZ-006, GZ-007, GZ-011]
+  - id: REQ-V1-0004
+    aliases: [G-04, 需求V1-0004]
+    title: 智能理解
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/10-ai-multimodal-pipeline.md
+      - docs/18-testing-and-acceptance.md
+    moduleIds: [MOD-AI, MOD-TASK, MOD-STORAGE]
+    workPackages: [WP-M3-04, WP-M3-05, WP-M3-06, WP-M3-07]
+    acceptanceIds: [验收V1-0007]
+    machineContractState: gap
+    implementationState: not_started
+    blockers: [POC-09, GZ-012]
+    nextTasks: [GZ-012]
+  - id: REQ-V1-0005
+    aliases: [需求V1-0005]
+    title: 统一检索与推荐
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/11-search-and-recommendation.md
+      - docs/18-testing-and-acceptance.md
+    moduleIds: [MOD-SEARCH, MOD-ASSET, MOD-IAM]
+    workPackages: [WP-M4-01, WP-M4-02, WP-M4-03, WP-M4-04, WP-M4-05, WP-M4-06]
+    acceptanceIds: [验收V1-0008]
+    machineContractState: gap
+    implementationState: not_started
+    blockers: [GZ-004, GZ-012]
+    nextTasks: [GZ-004, GZ-012]
+  - id: REQ-V1-0006
+    aliases: [G-05, 需求V1-0006]
+    title: 生命周期、正式副本与备份
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/08-cache-and-storage-lifecycle.md
+      - docs/16-backup-and-disaster-recovery.md
+    moduleIds: [MOD-STORAGE, MOD-TASK, MOD-DATA]
+    workPackages: [WP-M2-01, WP-M2-03, WP-M2-04, WP-M2-05, WP-M2-06]
+    acceptanceIds: [验收V1-0004, 验收V1-0011]
+    machineContractState: gap
+    implementationState: not_started
+    blockers: [POC-04, POC-10]
+    nextTasks: [GZ-008, GZ-013]
+  - id: REQ-V1-0007
+    aliases: [需求V1-0007]
+    title: 规则与可恢复长任务
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/14-rules-and-workflows.md
+      - docs/21-low-level-design.md
+    moduleIds: [MOD-POLICY, MOD-TASK, MOD-WORKER]
+    workPackages: [WP-M1-08, WP-M5-02, WP-M5-03]
+    acceptanceIds: [验收V1-0009, 验收V1-0010]
+    machineContractState: partial
+    implementationState: not_started
+    blockers: [GZ-004, GZ-005]
+    nextTasks: [GZ-004, GZ-005]
+  - id: REQ-V1-0008
+    aliases: [需求V1-0008]
+    title: 安全、身份与权限
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/12-security-identity-and-permissions.md
+      - docs/18-testing-and-acceptance.md
+    moduleIds: [MOD-IAM, MOD-AUDIT, MOD-EDGE]
+    workPackages: [WP-M1-01, WP-M5-07]
+    acceptanceIds: [验收V1-0002]
+    machineContractState: partial
+    implementationState: not_started
+    blockers: [GZ-004, GZ-012]
+    nextTasks: [GZ-004, GZ-012]
+  - id: REQ-V1-0009
+    aliases: [需求V1-0009]
+    title: 配置、审批、发布与回滚
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/13-configuration-center.md
+      - docs/17-devops-gitops-and-supply-chain.md
+    moduleIds: [MOD-CONFIG, MOD-POLICY, MOD-DEPLOY, MOD-CLI]
+    workPackages: [WP-M5-01, WP-M5-04, WP-M5-06]
+    acceptanceIds: [验收V1-0012]
+    machineContractState: partial
+    implementationState: not_started
+    blockers: [GZ-004, GZ-005]
+    nextTasks: [GZ-004, GZ-005]
+  - id: REQ-V1-0010
+    aliases: [G-06, 需求V1-0010]
+    title: 生产治理、审计、可观测与恢复
+    status: frozen
+    source: specs/requirements/product-requirements.md
+    designRefs:
+      - docs/15-observability-and-operations.md
+      - docs/16-backup-and-disaster-recovery.md
+      - docs/17-devops-gitops-and-supply-chain.md
+      - docs/18-testing-and-acceptance.md
+    moduleIds: [MOD-GOV, MOD-AUDIT, MOD-OBS, MOD-DEPLOY, MOD-DATA]
+    workPackages: [WP-M5-05, WP-M5-06, WP-M5-07, WP-M6-RC]
+    acceptanceIds: [验收V1-0011, 验收V1-0012]
+    machineContractState: partial
+    implementationState: governance_only
+    blockers: [GZ-005, GZ-013, BRANCH-PROTECTION]
+    nextTasks: [GZ-005, GZ-013]

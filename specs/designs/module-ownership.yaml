@@ -1,0 +1,213 @@
+version: 1
+baseline: GZ-002
+modules:
+  - id: MOD-GOV
+    name: Repository Governance
+    status: active
+    owner: platform-governance
+    ownedPaths: [AGENTS.md, rules/**, specs/tasks/**, specs/coordination/**, scripts/**, tests/governance/**, .github/**]
+    ownedSchemas: []
+    publicContracts: [specs/tasks/task-template.md, specs/coordination/active-work.schema.yaml]
+    dependsOn: []
+    requirementIds: [REQ-V1-0010]
+    workPackages: [WP-M0-01, WP-M0-02, WP-M0-05]
+  - id: MOD-PLATFORM
+    name: Common Platform and Bootstrap
+    status: planned
+    owner: control-plane
+    ownedPaths: [backend/guize-common/**, backend/guize-bootstrap/**, backend/guize-platform-api/**]
+    ownedSchemas: []
+    publicContracts: [contracts/openapi/**]
+    dependsOn: []
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0007]
+    workPackages: [WP-M0-03, WP-M1-08]
+  - id: MOD-IAM
+    name: Identity and Access
+    status: planned
+    owner: identity-access
+    ownedPaths: [backend/guize-identity-access/**]
+    ownedSchemas: [iam]
+    publicContracts: [contracts/openapi/iam/**, contracts/events/iam/**]
+    dependsOn: [MOD-PLATFORM]
+    requirementIds: [REQ-V1-0003, REQ-V1-0005, REQ-V1-0008]
+    workPackages: [WP-M1-01, WP-M1-05]
+  - id: MOD-SOURCE
+    name: Source Management
+    status: planned
+    owner: source-management
+    ownedPaths: [backend/guize-source-management/**]
+    ownedSchemas: [source]
+    publicContracts: [contracts/openapi/source/**, contracts/events/source/**]
+    dependsOn: [MOD-PLATFORM]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002]
+    workPackages: [WP-M1-03, WP-M1-04]
+  - id: MOD-ASSET
+    name: Asset Catalog
+    status: planned
+    owner: asset-catalog
+    ownedPaths: [backend/guize-asset-catalog/**]
+    ownedSchemas: [asset]
+    publicContracts: [contracts/openapi/asset/**, contracts/events/asset/**]
+    dependsOn: [MOD-PLATFORM]
+    requirementIds: [REQ-V1-0002, REQ-V1-0003, REQ-V1-0005]
+    workPackages: [WP-M1-02]
+  - id: MOD-TASK
+    name: Task and Workflow Control
+    status: planned
+    owner: task-workflow
+    ownedPaths: [backend/guize-task-workflow/**]
+    ownedSchemas: [task, outbox]
+    publicContracts: [contracts/openapi/task/**, contracts/events/task/**, contracts/workflows/**]
+    dependsOn: [MOD-PLATFORM]
+    requirementIds: [REQ-V1-0001, REQ-V1-0006, REQ-V1-0007]
+    workPackages: [WP-M1-08, WP-M5-03]
+  - id: MOD-STORAGE
+    name: Storage Lifecycle
+    status: planned
+    owner: storage-lifecycle
+    ownedPaths: [backend/guize-storage-lifecycle/**]
+    ownedSchemas: [storage]
+    publicContracts: [contracts/openapi/storage/**, contracts/events/storage/**]
+    dependsOn: [MOD-PLATFORM, MOD-ASSET, MOD-TASK]
+    requirementIds: [REQ-V1-0003, REQ-V1-0004, REQ-V1-0006]
+    workPackages: [WP-M2-01, WP-M2-02, WP-M2-03, WP-M2-04, WP-M2-05, WP-M2-06]
+  - id: MOD-MEDIA
+    name: Media Control and Execution
+    status: planned
+    owner: media
+    ownedPaths: [backend/guize-media-control/**, services/guize-media-service/**]
+    ownedSchemas: [media]
+    publicContracts: [contracts/openapi/media/**, contracts/events/media/**, contracts/workflows/media/**]
+    dependsOn: [MOD-PLATFORM, MOD-ASSET, MOD-STORAGE, MOD-TASK]
+    requirementIds: [REQ-V1-0003]
+    workPackages: [WP-M3-01, WP-M3-02, WP-M3-03]
+  - id: MOD-AI
+    name: AI Control and Capability Services
+    status: planned
+    owner: ai-platform
+    ownedPaths: [backend/guize-ai-control/**, services/guize-ai-*/**, services/guize-asr-service/**, services/guize-ocr-service/**]
+    ownedSchemas: [ai]
+    publicContracts: [contracts/openapi/ai/**, contracts/events/ai/**, contracts/providers/**]
+    dependsOn: [MOD-PLATFORM, MOD-ASSET, MOD-STORAGE, MOD-TASK]
+    requirementIds: [REQ-V1-0004]
+    workPackages: [WP-M3-04, WP-M3-05, WP-M3-06, WP-M3-07]
+  - id: MOD-SEARCH
+    name: Search and Recommendation
+    status: planned
+    owner: search
+    ownedPaths: [backend/guize-search-control/**, services/guize-embedding-service/**, services/guize-reranker-service/**]
+    ownedSchemas: [search]
+    publicContracts: [contracts/openapi/search/**, contracts/events/search/**]
+    dependsOn: [MOD-PLATFORM, MOD-ASSET, MOD-IAM]
+    requirementIds: [REQ-V1-0005]
+    workPackages: [WP-M4-01, WP-M4-02, WP-M4-03, WP-M4-04, WP-M4-05, WP-M4-06]
+  - id: MOD-POLICY
+    name: Rule Policy
+    status: planned
+    owner: rule-policy
+    ownedPaths: [backend/guize-rule-policy/**]
+    ownedSchemas: [policy]
+    publicContracts: [contracts/openapi/policy/**, contracts/policies/**]
+    dependsOn: [MOD-PLATFORM]
+    requirementIds: [REQ-V1-0007, REQ-V1-0009]
+    workPackages: [WP-M5-02]
+  - id: MOD-CONFIG
+    name: Configuration Center
+    status: planned
+    owner: configuration
+    ownedPaths: [backend/guize-configuration-center/**]
+    ownedSchemas: [config]
+    publicContracts: [contracts/openapi/config/**, contracts/schemas/config/**]
+    dependsOn: [MOD-PLATFORM, MOD-POLICY]
+    requirementIds: [REQ-V1-0009]
+    workPackages: [WP-M5-01]
+  - id: MOD-AUDIT
+    name: Audit
+    status: planned
+    owner: audit
+    ownedPaths: [backend/guize-audit/**]
+    ownedSchemas: [audit]
+    publicContracts: [contracts/events/audit/**]
+    dependsOn: [MOD-PLATFORM]
+    requirementIds: [REQ-V1-0008, REQ-V1-0010]
+    workPackages: [WP-M1-08]
+  - id: MOD-OBS
+    name: Observability
+    status: planned
+    owner: observability
+    ownedPaths: [backend/guize-observability/**, observability/**]
+    ownedSchemas: []
+    publicContracts: [contracts/telemetry/**]
+    dependsOn: [MOD-PLATFORM]
+    requirementIds: [REQ-V1-0010]
+    workPackages: [WP-M5-05]
+  - id: MOD-CONNECTOR
+    name: Connector Plugins
+    status: planned
+    owner: connectors
+    ownedPaths: [plugins/connectors/**, services/guize-connectors/**]
+    ownedSchemas: []
+    publicContracts: [contracts/schemas/plugin-manifest.schema.yaml, contracts/connectors/**]
+    dependsOn: [MOD-SOURCE, MOD-TASK]
+    requirementIds: [REQ-V1-0001]
+    workPackages: [WP-M1-03, WP-M2-07, WP-M5-08]
+  - id: MOD-WORKER
+    name: Worker Agent
+    status: planned
+    owner: worker-runtime
+    ownedPaths: [services/guize-worker-agent/**]
+    ownedSchemas: []
+    publicContracts: [contracts/workers/**]
+    dependsOn: [MOD-TASK]
+    requirementIds: [REQ-V1-0007]
+    workPackages: [WP-M5-03]
+  - id: MOD-PLAYER
+    name: Guize Player
+    status: planned
+    owner: player
+    ownedPaths: [player/**]
+    ownedSchemas: []
+    publicContracts: [contracts/openapi/playback/**]
+    dependsOn: [MOD-IAM, MOD-ASSET, MOD-MEDIA]
+    requirementIds: [REQ-V1-0003]
+    workPackages: [WP-M1-07]
+  - id: MOD-EDGE
+    name: Gateway and ATS Edge
+    status: planned
+    owner: edge
+    ownedPaths: [edge/**]
+    ownedSchemas: []
+    publicContracts: [contracts/openapi/playback/**, contracts/edge/**]
+    dependsOn: [MOD-IAM, MOD-ASSET, MOD-MEDIA]
+    requirementIds: [REQ-V1-0003, REQ-V1-0008]
+    workPackages: [WP-M1-05, WP-M1-06]
+  - id: MOD-DATA
+    name: Data Plane
+    status: planned
+    owner: data-platform
+    ownedPaths: [data/**]
+    ownedSchemas: [iam, source, asset, storage, media, ai, search, task, policy, config, audit, outbox]
+    publicContracts: [contracts/data/**]
+    dependsOn: []
+    requirementIds: [REQ-V1-0006, REQ-V1-0010]
+    workPackages: [WP-M0-03, WP-M5-07]
+  - id: MOD-DEPLOY
+    name: Deployment and Supply Chain
+    status: planned
+    owner: deployment
+    ownedPaths: [deployment/**, infrastructure/**]
+    ownedSchemas: []
+    publicContracts: [contracts/schemas/deployment-profile.schema.yaml]
+    dependsOn: [MOD-GOV]
+    requirementIds: [REQ-V1-0009, REQ-V1-0010]
+    workPackages: [WP-M5-04, WP-M5-06, WP-M5-07]
+  - id: MOD-CLI
+    name: guizectl
+    status: planned
+    owner: deployment
+    ownedPaths: [guizectl/**]
+    ownedSchemas: []
+    publicContracts: [contracts/schemas/deployment-profile.schema.yaml]
+    dependsOn: [MOD-DEPLOY]
+    requirementIds: [REQ-V1-0009]
+    workPackages: [WP-M5-04]

@@ -1,0 +1,8 @@
+version: 1
+policy:
+  maxActiveTasks: 3
+  maxHighRiskTasks: 1
+  leaseMaxHours: 168
+  bootstrapTasks:
+    - GZ-003
+tasks: []
