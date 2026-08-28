@@ -1,0 +1,19 @@
+GZ-003 command evidence
+
+command: GitHub.create_issue(repository=ElectricDogCN/Guize, title="GZ-003：需求设计一致性与多 Agent 协作就绪治理")
+exit code: 0-equivalent; connector returned no error
+observed result: issue #10 created at https://github.com/ElectricDogCN/Guize/issues/10
+
+command: GitHub.create_branch(repository=ElectricDogCN/Guize, branch=chore/GZ-003-multi-agent-readiness, base_ref=main)
+exit code: 0-equivalent; connector returned no error
+observed result: branch chore/GZ-003-multi-agent-readiness created from main
+
+command: GET /repos/ElectricDogCN/Guize/branches/main
+exit code: 0-equivalent; connector returned no error
+observed result: main HEAD 70984201e8d01ad75b6aa0fa0ee5ffe141087b52; protected=false; required checks disabled
+
+command: GET /repos/ElectricDogCN/Guize/rulesets
+exit code: 0-equivalent; connector returned no error
+observed result: []
+
+Later commands and exact CI outcomes must be appended after execution; prospective results are prohibited.
