@@ -6,9 +6,10 @@ import json
 import os
 import re
 import sys
+from datetime import datetime
 
 
-V2_REQUIRED_FIELDS = [
+V2_COMMON_FIELDS = [
     "schemaVersion",
     "workPackage",
     "taskOwner",
@@ -21,20 +22,27 @@ V2_REQUIRED_FIELDS = [
     "handoffPath",
     "integrationStrategy",
 ]
+V2_REGISTRY_FIELDS = [
+    "coordinator",
+    "implementer",
+    "reviewer",
+    "integrator",
+    "integrationOrder",
+    "leaseExpiresAt",
+]
 V2_ROLES = {"coordinator", "implementer", "reviewer", "integrator"}
 V2_RISKS = {"low", "medium", "high", "critical"}
 V2_MODES = {"bootstrap", "registry"}
 V2_INTEGRATION = {"merge", "squash", "rebase"}
+V2_REGISTRY_STATUSES = {"reserved", "in_progress", "blocked", "review", "integration", "completed", "cancelled"}
+PLACEHOLDERS = {"", "pending", "tbd", "unknown", "none", "n/a", "na", "unassigned"}
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(
-        description="Validate a Guize task specification file.",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
+    parser = argparse.ArgumentParser(description="Validate a Guize task specification file.")
     parser.add_argument("--task", required=True, help="Task ID, e.g. GZ-001")
-    parser.add_argument("--spec-dir", default="specs/tasks", help="Directory containing task spec files (default: specs/tasks)")
-    parser.add_argument("--repo-root", default=".", help="Repository root path (default: .)")
+    parser.add_argument("--spec-dir", default="specs/tasks")
+    parser.add_argument("--repo-root", default=".")
     return parser.parse_args()
 
 
@@ -48,9 +56,7 @@ def find_task_file(repo_root, spec_dir, task_id):
         for name in os.listdir(base):
             if name.startswith(f"{task_id}-") and name.endswith(".md"):
                 candidates.append(os.path.join(base, name))
-    if len(candidates) == 1:
-        return candidates[0]
-    return None
+    return candidates[0] if len(candidates) == 1 else None
 
 
 def parse_front_matter(text):
@@ -59,27 +65,24 @@ def parse_front_matter(text):
     parts = text.split("---", 2)
     if len(parts) < 3:
         return {}, text
-    fm_text = parts[1].strip()
-    body = parts[2].strip()
     data = {}
-    for line in fm_text.splitlines():
+    for line in parts[1].splitlines():
         line = line.strip()
         if not line or line.startswith("#") or ":" not in line:
             continue
         key, value = line.split(":", 1)
         data[key.strip()] = value.strip()
-    return data, body
+    return data, parts[2].strip()
 
 
 def report(status, message, details=None):
-    obj = {"status": status, "message": message}
+    payload = {"status": status, "message": message}
     if details is not None:
-        obj["details"] = details
-    print(json.dumps(obj, ensure_ascii=False))
+        payload["details"] = details
+    print(json.dumps(payload, ensure_ascii=False))
 
 
 def extract_section(body, names):
-    """Return the body of a level-2 Markdown section by Chinese/English names."""
     wanted = [name.lower() for name in names]
     lines = body.splitlines()
     start = None
@@ -103,7 +106,6 @@ def extract_section(body, names):
 
 
 def has_validation_command(section):
-    """Accept a non-empty fenced block or a structured list containing command text."""
     if not section:
         return False
     if re.search(r"```(?:bash|sh|shell|text)?\s*\n\s*[^`\s][\s\S]*?```", section, re.I):
@@ -124,34 +126,67 @@ def has_list_entry(section):
     return bool(section and re.search(r"(?m)^\s*[-*]\s+\S", section))
 
 
-def validate_v2(front_matter, body, repo_root, evidence_path, errors):
-    if str(front_matter.get("schemaVersion")) != "2":
+def valid_datetime(value):
+    try:
+        text = str(value).replace("Z", "+00:00")
+        parsed = datetime.fromisoformat(text)
+        return parsed.tzinfo is not None
+    except Exception:
+        return False
+
+
+def role_placeholder(value):
+    return str(value or "").strip().lower() in PLACEHOLDERS
+
+
+def validate_v2(front, body, repo_root, evidence_path, errors):
+    if str(front.get("schemaVersion")) != "2":
         errors.append("schemaVersion must be 2 when the field is present.")
         return
-    for field in V2_REQUIRED_FIELDS:
-        if field not in front_matter or front_matter[field] == "":
+    for field in V2_COMMON_FIELDS:
+        if field not in front or front[field] == "":
             errors.append(f"Missing or empty schemaVersion 2 field: {field}")
 
-    if front_matter.get("agentRole") not in V2_ROLES:
-        errors.append(f"Invalid agentRole: {front_matter.get('agentRole')}")
-    if front_matter.get("riskLevel") not in V2_RISKS:
-        errors.append(f"Invalid riskLevel: {front_matter.get('riskLevel')}")
-    if front_matter.get("coordinationMode") not in V2_MODES:
-        errors.append(f"Invalid coordinationMode: {front_matter.get('coordinationMode')}")
-    if front_matter.get("integrationStrategy") not in V2_INTEGRATION:
-        errors.append(f"Invalid integrationStrategy: {front_matter.get('integrationStrategy')}")
-
-    base_sha = front_matter.get("baseSha", "")
-    if not re.fullmatch(r"[0-9a-f]{40}", base_sha):
+    if front.get("agentRole") not in V2_ROLES:
+        errors.append(f"Invalid agentRole: {front.get('agentRole')}")
+    if front.get("riskLevel") not in V2_RISKS:
+        errors.append(f"Invalid riskLevel: {front.get('riskLevel')}")
+    if front.get("coordinationMode") not in V2_MODES:
+        errors.append(f"Invalid coordinationMode: {front.get('coordinationMode')}")
+    if front.get("integrationStrategy") not in V2_INTEGRATION:
+        errors.append(f"Invalid integrationStrategy: {front.get('integrationStrategy')}")
+    if not re.fullmatch(r"[0-9a-f]{40}", front.get("baseSha", "")):
         errors.append("baseSha must be a 40-character lowercase Git commit SHA.")
 
-    handoff_path = front_matter.get("handoffPath", "")
+    handoff_path = front.get("handoffPath", "")
     if handoff_path:
-        normalized_evidence = evidence_path.rstrip("/") + "/"
-        if not handoff_path.startswith(normalized_evidence):
+        evidence_prefix = evidence_path.rstrip("/") + "/"
+        if not handoff_path.startswith(evidence_prefix):
             errors.append("handoffPath must be inside evidencePath.")
         if not os.path.isfile(os.path.join(repo_root, handoff_path)):
             errors.append(f"handoffPath does not exist: {handoff_path}")
+
+    mode = front.get("coordinationMode")
+    if mode == "registry":
+        for field in V2_REGISTRY_FIELDS:
+            if field not in front or front[field] == "":
+                errors.append(f"Missing or empty registry coordination field: {field}")
+        if front.get("status") not in V2_REGISTRY_STATUSES:
+            errors.append(f"Registry task has invalid status: {front.get('status')}")
+        try:
+            if int(front.get("integrationOrder", "0")) < 1:
+                errors.append("integrationOrder must be a positive integer.")
+        except ValueError:
+            errors.append("integrationOrder must be a positive integer.")
+        if not valid_datetime(front.get("leaseExpiresAt", "")):
+            errors.append("leaseExpiresAt must be an ISO-8601 timestamp with timezone.")
+        if front.get("riskLevel") in {"high", "critical"}:
+            implementer = front.get("implementer", "")
+            reviewer = front.get("reviewer", "")
+            if role_placeholder(implementer) or role_placeholder(reviewer):
+                errors.append("High/critical registry tasks require assigned implementer and reviewer identities.")
+            elif implementer == reviewer:
+                errors.append("High/critical registry tasks require different implementer and reviewer identities.")
 
     required_sections = [
         (["依赖与集成顺序", "dependencies and integration order"], "Missing dependencies/integration section."),
@@ -179,7 +214,6 @@ def main():
     if not task_path:
         report("ERROR", f"Task file not found or ambiguous for {task_id}.")
         sys.exit(2)
-
     try:
         with open(task_path, "r", encoding="utf-8") as handle:
             content = handle.read()
@@ -187,25 +221,23 @@ def main():
         report("ERROR", f"Cannot read task file: {exc}")
         sys.exit(2)
 
-    front_matter, body = parse_front_matter(content)
+    front, body = parse_front_matter(content)
     required_fields = ["id", "title", "titleZh", "type", "status", "baseBranch", "workBranch", "evidencePath"]
     errors = []
     warnings = []
     for field in required_fields:
-        if field not in front_matter or not front_matter[field]:
+        if field not in front or not front[field]:
             errors.append(f"Missing or empty front matter field: {field}")
 
     if not re.fullmatch(r"[A-Z]+-\d+", task_id):
         errors.append(f"Task ID format invalid: {task_id}")
-    elif front_matter.get("id") != task_id:
-        errors.append(f"Front matter id mismatch: expected {task_id}, got {front_matter.get('id')}")
+    elif front.get("id") != task_id:
+        errors.append(f"Front matter id mismatch: expected {task_id}, got {front.get('id')}")
+    expected_prefix = f"{front.get('type', 'chore')}/{task_id}"
+    if not front.get("workBranch", "").startswith(expected_prefix):
+        errors.append(f"workBranch '{front.get('workBranch')}' does not start with expected prefix '{expected_prefix}'")
 
-    work_branch = front_matter.get("workBranch", "")
-    expected_prefix = f"{front_matter.get('type', 'chore')}/{task_id}"
-    if not work_branch.startswith(expected_prefix):
-        errors.append(f"workBranch '{work_branch}' does not start with expected prefix '{expected_prefix}'")
-
-    evidence_path = front_matter.get("evidencePath", "")
+    evidence_path = front.get("evidencePath", "")
     if evidence_path:
         if not os.path.isdir(os.path.join(repo_root, evidence_path)):
             errors.append(f"Evidence path does not exist: {evidence_path}")
@@ -216,7 +248,6 @@ def main():
     forbidden = extract_section(body, ["禁止范围", "forbidden scope"])
     acceptance = extract_section(body, ["验收标准", "acceptance criteria"])
     validation = extract_section(body, ["必须执行的测试", "validation commands"])
-
     if allowed is None:
         errors.append("Missing allowed scope section.")
     elif not has_list_entry(allowed):
@@ -234,8 +265,8 @@ def main():
     elif not has_validation_command(validation):
         errors.append("Validation commands section must contain at least one executable command.")
 
-    if "schemaVersion" in front_matter:
-        validate_v2(front_matter, body, repo_root, evidence_path, errors)
+    if "schemaVersion" in front:
+        validate_v2(front, body, repo_root, evidence_path, errors)
     else:
         warnings.append("Legacy Task Spec schemaVersion 1; multi-agent metadata is not enforced.")
 

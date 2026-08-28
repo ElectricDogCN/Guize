@@ -49,6 +49,10 @@ properties:
         - status
         - riskLevel
         - owner
+        - coordinator
+        - implementer
+        - reviewer
+        - integrator
         - agentRole
         - branch
         - baseBranch
@@ -77,6 +81,18 @@ properties:
         riskLevel:
           enum: [low, medium, high, critical]
         owner:
+          type: string
+          minLength: 1
+        coordinator:
+          type: string
+          minLength: 1
+        implementer:
+          type: string
+          minLength: 1
+        reviewer:
+          type: string
+          minLength: 1
+        integrator:
           type: string
           minLength: 1
         agentRole:

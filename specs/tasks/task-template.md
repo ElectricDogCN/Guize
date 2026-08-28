@@ -4,7 +4,7 @@ id: GUIZE-000
 title: Replace with concise English task title
 titleZh: 替换为简洁中文任务标题
 type: feat
-status: draft
+status: reserved
 baseBranch: main
 baseSha: REPLACE_WITH_40_CHARACTER_MAIN_COMMIT_SHA
 workBranch: feat/GUIZE-000-short-name
@@ -12,13 +12,19 @@ evidencePath: evidence/GUIZE-000
 issue: 0
 workPackage: WP-MX-00
 taskOwner: REPLACE_WITH_GITHUB_OWNER
-agentRole: implementer
+coordinator: REPLACE_WITH_COORDINATOR
+implementer: REPLACE_WITH_IMPLEMENTER_AGENT
+reviewer: REPLACE_WITH_REVIEWER_AGENT
+integrator: REPLACE_WITH_INTEGRATOR
+agentRole: coordinator
 riskLevel: medium
 coordinationMode: registry
 coordinationGroup: REPLACE_WITH_GROUP
 dependsOn: NONE
 handoffPath: evidence/GUIZE-000/handoff.md
 integrationStrategy: merge
+integrationOrder: 1
+leaseExpiresAt: 2026-09-01T00:00:00Z
 ---
 
 # GUIZE-000 任务规格
@@ -95,7 +101,8 @@ integrationStrategy: merge
 - [ ] Given / When / Then 的核心成功路径可验证。
 - [ ] 关键失败路径可验证。
 - [ ] 权限、安全、幂等或并发约束按适用范围验证。
-- [ ] Task Spec、活动登记、分支、base SHA 和 handoff 一致。
+- [ ] Task Spec、活动登记、分支、base SHA、角色和 handoff 一致。
+- [ ] 实际修改文件全部落在 Registry 独占/共享路径或本任务治理元数据例外内。
 - [ ] 依赖已合并或已冻结为可版本化机器契约。
 - [ ] 相关文档、契约和 Evidence 同步完成。
 
@@ -103,7 +110,7 @@ integrationStrategy: merge
 
 ```bash
 python scripts/check-task-file.py --task GUIZE-000
-python scripts/check-agent-coordination.py --task GUIZE-000
+python scripts/check-agent-coordination.py --task GUIZE-000 --base-ref origin/main --head-ref HEAD --branch-name feat/GUIZE-000-short-name
 python scripts/check-project-readiness.py
 make task-verify TASK=GUIZE-000 BRANCH=feat/GUIZE-000-short-name BASE=origin/main
 ```

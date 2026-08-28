@@ -10,7 +10,7 @@ SCRIPT = os.path.join(REPO_ROOT, "scripts", "check-task-file.py")
 
 
 class TestTaskV2Contract(unittest.TestCase):
-    def _write_task(self, root, *, base_sha=None, handoff_path=None, include_handoff=True):
+    def _write_task(self, root, *, base_sha=None, handoff_path=None, include_handoff=True, risk="medium", implementer="agent-a", reviewer="agent-b"):
         task_id = "GZ-101"
         evidence = os.path.join(root, "evidence", task_id)
         os.makedirs(evidence, exist_ok=True)
@@ -34,14 +34,20 @@ class TestTaskV2Contract(unittest.TestCase):
             f"evidencePath: evidence/{task_id}",
             "issue: 101",
             "workPackage: WP-TEST",
-            "taskOwner: test-owner",
+            "taskOwner: owner-a",
+            "coordinator: coordinator-a",
+            f"implementer: {implementer}",
+            f"reviewer: {reviewer}",
+            "integrator: integrator-a",
             "agentRole: implementer",
-            "riskLevel: medium",
+            f"riskLevel: {risk}",
             "coordinationMode: registry",
             "coordinationGroup: test-group",
             "dependsOn: GZ-003",
             f"handoffPath: {handoff_path}",
             "integrationStrategy: merge",
+            "integrationOrder: 1",
+            "leaseExpiresAt: 2026-09-02T00:00:00Z",
         ]
         content = "---\n" + "\n".join(fields) + "\n---\n\n" + """
 ## 允许范围
@@ -85,11 +91,7 @@ python -m pytest
         return task_id
 
     def _run(self, root, task_id):
-        return subprocess.run(
-            [sys.executable, SCRIPT, "--repo-root", root, "--task", task_id],
-            capture_output=True,
-            text=True,
-        )
+        return subprocess.run([sys.executable, SCRIPT, "--repo-root", root, "--task", task_id], capture_output=True, text=True)
 
     def test_valid_v2_task_passes(self):
         with tempfile.TemporaryDirectory() as root:
@@ -118,6 +120,13 @@ python -m pytest
             result = self._run(root, task_id)
             self.assertEqual(result.returncode, 1)
             self.assertIn("handoffPath does not exist", result.stdout)
+
+    def test_high_risk_same_implementer_reviewer_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            task_id = self._write_task(root, risk="high", implementer="agent-a", reviewer="agent-a")
+            result = self._run(root, task_id)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("different implementer and reviewer", result.stdout)
 
 
 if __name__ == "__main__":
