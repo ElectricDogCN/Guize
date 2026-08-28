@@ -4,59 +4,86 @@
 
 - **任务 ID**：{{TASK_ID}}
 - **任务规范**：{{TASK_FILE}}
-- **关联 Issue**：{{ISSUE_REFERENCE}}
+- **Issue**：{{ISSUE_REFERENCE}}
+- **工作包**：{{WORK_PACKAGE}}
+- **审查角色**：{{AGENT_ROLE}}
+- **风险等级**：{{RISK_LEVEL}}
 - **工作分支**：{{BRANCH_NAME}}
-- **基础分支**：{{BASE_BRANCH}}
-- **执行模式**：{{EXECUTION_MODE}}
+- **基础分支/SHA**：{{BASE_BRANCH}} / {{BASE_SHA}}
+- **协调模式/组**：{{COORDINATION_MODE}} / {{COORDINATION_GROUP}}
+- **依赖**：{{DEPENDS_ON}}
+- **Handoff**：{{HANDOFF_PATH}}
+- **集成方式**：{{INTEGRATION_STRATEGY}}
 
----
+## 默认权限
 
-## 执行原则
+本任务是审查任务，默认只检查和报告，不修改文件。只有 Task Spec 明确授权且修改无行为影响时，才允许修复拼写、格式或链接；所有修复必须重新运行 Gate 并记录。
 
-本次任务为**审查任务**，默认行为是**只检查和报告，不修改文件**。
+high/critical 任务必须确认 Reviewer 与唯一 Implementer 不是同一 Agent。无法证明角色分离时，结论只能是 `NEEDS_REVIEW`。
 
-### 审查范围
+## 审查顺序
 
-1. **阅读任务规范**
-   读取 `{{TASK_FILE}}`，确认目标、允许范围和禁止范围。
+1. 按 `AGENTS.md` 权威顺序读取批准需求、机器契约、ADR、系统/模块设计、Task Spec；
+2. 运行：
 
-2. **阅读 AGENTS.md 与 Never Rules**
-   确认审查结论与项目治理规则一致。
+```bash
+python scripts/check-task-file.py --task {{TASK_ID}}
+python scripts/check-agent-coordination.py --task {{TASK_ID}}
+python scripts/check-project-readiness.py
+```
 
-3. **检查修改范围**
-   对比 `{{BRANCH_NAME}}` 与 `{{BASE_BRANCH}}`，确认所有修改都在允许范围内，未触碰禁止范围。
+3. 对比 `{{BRANCH_NAME}}` 与最新 `{{BASE_BRANCH}}`，检查 `{{BASE_SHA}}` 是否过期；
+4. 检查活动登记、独占/共享路径、模块所有权、依赖和 `integrationOrder`；
+5. 检查代码、配置、OpenAPI/Event/DDL/Workflow 与 Task 目标一致；
+6. 检查成功、失败、安全、权限、并发、幂等、迁移和恢复路径；
+7. 核对命令、退出码、测试报告、提交 SHA、Evidence 和 `{{HANDOFF_PATH}}`；
+8. 检查文档、示例、回滚和未解决项；
+9. 检查 PR 是否释放或完成活动任务登记。
 
-4. **检查契约与规格一致性**
-   确认代码、配置与契约、规格、ADR 一致。
+## 协作审查重点
 
-5. **检查测试与证据**
-   确认测试覆盖、证据完整性和可复现性。
+### 依赖与顺序
 
-6. **检查文档同步**
-   确认相关文档、注释、示例与代码同步。
+{{DEPENDENCIES_AND_ORDER}}
 
----
+### 独占写范围
 
-## 输出要求
+{{EXCLUSIVE_SCOPE}}
 
-- 输出结构化的审查报告，包括：通过项、警告项、阻塞项。
-- 对每个阻塞项，提供具体文件位置和问题描述。
-- 若发现需要修改的问题，在报告中提出建议，但不直接修改文件，除非任务规范明确授权。
+### 共享修改范围
 
----
+{{SHARED_SCOPE}}
 
-## 例外修改
+审查者不得接受以下情况：
 
-仅在以下情况下允许直接修改：
+- 依赖仅存在于聊天或其他 Agent 未合并分支；
+- 两个活动任务修改同一独占路径；
+- Shared 路径无相同协调组或无明确集成顺序；
+- Task Spec、Registry、Branch、base SHA、handoff 不一致；
+- 为通过 CI 删除测试、改低阈值或改写冻结需求；
+- 用 Agent 说明替代真实执行证据。
 
-- 任务规范明确授权审查者直接修复小问题；
-- 修改仅限于拼写错误、格式对齐、链接修复等无行为影响的变更；
-- 所有修改必须在报告中记录。
+## 输出格式
 
----
+### Blockers
 
-## 结束标准
+按严重度列出文件/行、违反的需求/契约/规则、影响和可验证修复条件。
 
-- 审查报告已生成；
-- 所有发现的问题已分类；
-- 未在未经授权的情况下修改文件。
+### Warnings
+
+列出非阻塞风险、技术债和后续任务。
+
+### Verified
+
+列出实际检查并通过的范围、命令和证据。
+
+### Integration Recommendation
+
+只能是：
+
+- `READY_FOR_INTEGRATION`
+- `NEEDS_CHANGES`
+- `BLOCKED_BY_DEPENDENCY`
+- `NEEDS_HUMAN_DECISION`
+
+不得自行合并、部署或声称生产可用。
