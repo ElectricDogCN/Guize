@@ -3,126 +3,139 @@
 > 海量多媒体统一入库、镜像缓存、智能加工、统一检索与在线播放平台。
 > An AI-powered media fabric for unified ingestion, caching, storage, understanding, search, and streaming.
 
-## 1. 文档状态
+## 1. 当前文档基线
 
-- 文档基线：V1 方案冻结版
-- 冻结日期：2026-07-21
-- 当前阶段：需求冻结，进入 POC、架构细化与迭代实施
-- 开发模式：Codex、Trae Solo/Work 等 Agent 主导实现，由一人审查、确认、部署与发布
-- 交付要求：V1 纳入范围的能力全部达到生产级，不设置对外 Beta
+- 产品基线：V1 需求冻结版。
+- 当前阶段：POC、研发详细设计与迭代实施。
+- 交付约束：V1 不设置对外 Beta；所有纳入 V1 范围的能力必须达到冻结需求定义的生产级门禁后方可发布。
+- 研发主文档：[`docs/00-guize-engineering-design-baseline.md`](docs/00-guize-engineering-design-baseline.md)。
+- 文档组织：主文档采用 ePROHub 规则引擎 V2 的“编号 + 追踪 + 模块 + 契约 + 数据 + 状态 + 工作包 + 验收”格式。
+- 开发模式：Agent 主导实现，人工审查、批准、部署与发布。
+- 权威优先级遵循 [`AGENTS.md`](AGENTS.md)：已批准需求规格 → 已批准 API/事件/数据 Schema 契约 → 已批准 ADR → 系统/模块设计 → `AGENTS.md` → Never Rules → 当前任务说明 → 代码现状 → Agent 推断。
 
-## 2. 产品定位
+> `docs/00～23`、`docs/appendices/**` 与旧合并版继续保留，作为专题设计来源和历史参考；研发开工不再要求按 24 份文档顺序阅读。
 
-“归泽”组合自：
+## 2. 研发第一入口
 
-- **归墟**：万流汇聚，代表海量、多源、异构媒体的统一汇入和收纳。
-- **白泽**：识万物，代表 AI 对媒体内容的识别、理解、翻译、分类、检索与治理。
+### [归泽・Guize V1——研发设计总基线](docs/00-guize-engineering-design-baseline.md)
 
-归泽不是单纯的网盘、播放器、转码器或 AI 内容分析工具，而是面向大规模媒体资产的统一控制面与执行平台。平台覆盖：
+总文档统一覆盖：
+
+```text
+产品范围与硬约束
+→ 端到端全链路
+→ 系统/模块边界
+→ Asset/SourceObject/AssetVersion/Rendition/Replica 数据模型
+→ API / Event / SSE / WebSocket / Plugin 契约
+→ LiteFlow / Temporal / Task
+→ 状态机 / 幂等 / Outbox
+→ ATS / PostgreSQL / Redis / OpenBao / OpenSearch / Milvus
+→ 部署 / 安全 / Secrets / 备份恢复
+→ 模块级代码规划与伪代码
+→ 测试 / POC / 验收
+→ WBS / 工作包 / 追踪矩阵
+```
+
+统一追踪编号：
+
+```text
+需求ID
+→ 模块ID
+→ 领域模型ID
+→ 接口ID
+→ 事件ID / 工作流ID
+→ 数据库ID
+→ 代码项ID
+→ 工作包ID
+→ 验收ID
+```
+
+当前仓库仍以方案和治理为主，因此总文档中的 Class、Interface、数据库表和 Worker 默认属于**研发规划基线**；只有仓库真实存在并通过验证的实现才可标记为“已实现”。
+
+## 3. 产品定位
+
+“归泽”取意于：
+
+- **归墟**：万流汇聚，对应多源、异构、海量媒体统一接入和收纳；
+- **白泽**：识万物，对应 AI 对媒体的识别、理解、翻译、分类、检索和治理。
+
+归泽不是单一网盘、播放器、转码器或 AI 内容分析工具，而是统一媒体资产控制面与执行平台。
+
+核心能力：
 
 1. 多数据源接入与元数据同步；
-2. 逻辑资产、来源、版本、媒体表现与物理副本治理；
-3. Apache Traffic Server 分片缓存与完整文件缓存；
-4. 热、温、冷、超冷存储生命周期；
-5. AV1 标准化、ABR、自适应播放与兼容转码；
-6. ASR、OCR、多模态理解、翻译、摘要、标签和缩略图；
-7. 全文、向量、混合检索和内容推荐；
-8. 用户、角色、ACL、匿名访问与审计；
-9. LiteFlow 决策编排与 Temporal 长任务；
-10. 配置中心、GitOps、可观测性、备份和灾难恢复。
+2. 逻辑资产、来源、版本、媒体表现和物理副本治理；
+3. Apache Traffic Server Range/Slice 缓存与完整文件缓存；
+4. 热、温、冷、超冷生命周期；
+5. AV1、ABR、自适应播放与兼容转码；
+6. ASR、OCR、多模态、翻译、摘要、标签和缩略图；
+7. 全文、向量、混合检索和推荐；
+8. IAM、ACL、匿名访问、Secrets 与审计；
+9. LiteFlow 同步决策与 Temporal 长任务；
+10. 配置中心、GitOps、可观测性、备份与灾难恢复。
 
-## 3. V1 关键技术基线
+## 4. V1 技术基线
 
 | 领域 | V1 基线 |
 |---|---|
 | 控制面 | Java 17、Spring Boot 3、模块化单体 |
 | 媒体与 AI | Python、FastAPI，逻辑服务独立、物理部署可组合 |
 | 部署工具 | Go CLI `guizectl` + 配置中心部署向导 |
-| 数据库 | PostgreSQL；核心关系规范化，扩展元数据使用 JSONB |
-| 缓存与临时状态 | Redis |
-| 数据库迁移 | Flyway |
-| 轻量规则与同步决策 | LiteFlow、决策表、JSON/YAML DSL |
-| 长任务 | 自托管 Temporal + PostgreSQL |
+| 权威数据库 | PostgreSQL + Flyway |
+| 缓存与短期状态 | Redis |
+| 规则 | LiteFlow、决策表、JSON/YAML DSL |
+| 长任务 | Self-hosted Temporal + PostgreSQL |
 | HTTP 缓存 | Apache Traffic Server |
 | 搜索 | PostgreSQL FTS、OpenSearch、Milvus、Reranker |
-| Secrets | OpenBao/Vault 抽象，数据库仅存引用 |
+| Secrets | OpenBao/Vault 抽象；业务数据库只保存引用 |
 | 可观测性 | Prometheus、Grafana、Loki、OpenTelemetry、Alertmanager |
-| 镜像仓库 | 华为云 SWR，Digest 固定、签名、部署验签 |
-| 部署 | Docker Compose、Ansible、GitOps，预留 Kubernetes |
-| 代码托管 | GitHub 私有仓库 |
-| 播放器 | 独立 Guize Player SDK，优先评估 Shaka Player |
-| 前端 | Vue 3 与 React POC 后选择主框架；共享设计 Token |
+| 供应链 | 华为云 SWR、Digest、SBOM、Cosign |
+| 部署 | Docker Compose、Ansible、GitOps；预留 Kubernetes |
+| 播放器 | 独立 Guize Player SDK；Shaka Player 为候选基线 |
+| 前端 | Vue 3 / React 通过 POC 决定主框架 |
 
-## 4. 文档索引
+## 5. 专题参考文档
 
-| 文档 | 内容 |
-|---|---|
-| [总体执行摘要](docs/00-executive-summary.md) | 结论、范围、核心原则和实施重点 |
-| [总体解决方案](docs/01-overall-solution.md) | 平台能力与端到端闭环 |
-| [需求和范围](docs/02-requirements-and-scope.md) | 目标、非目标、约束与生产级定义 |
-| [系统架构](docs/03-system-architecture.md) | 分层架构、模块边界、数据流 |
-| [部署拓扑](docs/04-deployment-topology.md) | ESXi、TrueNAS、Control、Media、AI Worker |
-| [领域和数据模型](docs/05-domain-and-data-model.md) | Asset、Version、Rendition、Replica 等 |
-| [API 与事件契约](docs/06-api-and-event-contracts.md) | REST、SSE、WebSocket、Outbox、幂等 |
-| [数据源连接器](docs/07-source-connectors.md) | WebDAV、本地、百度云、Google Drive 等 |
-| [缓存和生命周期](docs/08-cache-and-storage-lifecycle.md) | ATS、完整缓存、热温冷超冷 |
-| [媒体、AV1 与播放](docs/09-media-av1-and-streaming.md) | AV1、ABR、临时 H.264、播放器 |
-| [AI 多模态流水线](docs/10-ai-multimodal-pipeline.md) | ASR、OCR、翻译、摘要、Embedding |
-| [搜索与推荐](docs/11-search-and-recommendation.md) | FTS、OpenSearch、Milvus、混合检索 |
-| [安全、身份与权限](docs/12-security-identity-and-permissions.md) | Passkey、密码、ACL、公开策略 |
-| [配置中心](docs/13-configuration-center.md) | 页面信息架构与治理功能 |
-| [规则与工作流](docs/14-rules-and-workflows.md) | LiteFlow、Temporal、规则发布模型 |
-| [可观测性与运维](docs/15-observability-and-operations.md) | 指标、日志、追踪、告警 |
-| [备份与灾难恢复](docs/16-backup-and-disaster-recovery.md) | RPO/RTO、恢复顺序、备份落点 |
-| [DevOps 与供应链](docs/17-devops-gitops-and-supply-chain.md) | GitOps、SWR、Cosign、SBOM |
-| [测试与验收](docs/18-testing-and-acceptance.md) | 测试矩阵、质量门禁、生产验收 |
-| [风险和 POC](docs/19-risk-assumptions-and-poc.md) | 假设、风险、实机验证清单 |
-| [路线图与 WBS](docs/20-roadmap-and-wbs.md) | Agent 驱动、单人审查下的实施顺序 |
-| [Low Level Design](docs/21-low-level-design.md) | 模块、表、接口、状态机与执行细节 |
-| [仓库与目录规划](docs/22-repository-and-directory-plan.md) | Monorepo、独立 Worker 仓库与治理目录 |
-| [官方资料核验](docs/23-source-references.md) | 组件官方资料和核验日期 |
+以下文件不再承担“研发总入口”，用于深入某一专题或追溯原始设计：
 
-## 5. 强制工程治理
+- `docs/00-executive-summary.md`～`docs/04-deployment-topology.md`：产品、架构、部署来源。
+- `docs/05-domain-and-data-model.md`～`docs/08-cache-and-storage-lifecycle.md`：数据、接口、连接器、存储来源。
+- `docs/09-media-av1-and-streaming.md`～`docs/14-rules-and-workflows.md`：媒体、AI、搜索、安全、配置和编排来源。
+- `docs/15-observability-and-operations.md`～`docs/20-roadmap-and-wbs.md`：运维、灾备、DevOps、测试、风险和路线图来源。
+- `docs/21-low-level-design.md`：原始 LLD 来源。
+- `docs/22-repository-and-directory-plan.md`：仓库规划来源。
+- `docs/23-source-references.md`：组件官方资料核验记录。
+- `docs/appendices/**`：专题附录。
+- `docs/guize-complete-solution.md`：旧版合并阅读稿，不作为后续维护权威入口。
 
-任何实现任务必须遵循：
+## 6. 强制工程治理
+
+任何实现任务必须：
 
 - 先更新需求、设计和契约，再编码；
-- 每个需求具备可执行、可验证的验收标准；
-- 修改关联 Issue、分支、提交、测试与证据；
-- 遵守 [AGENTS.md](AGENTS.md)；
-- 遵守 [Never Rules](rules/never-rules.md)；
-- 架构变化必须新增或更新 ADR；
-- 文档、代码、配置和测试同步修改；
-- AI Agent 生成的修改必须通过自动化门禁；
-- 未验证的结论不得标记为完成；
-- 每个里程碑必须能独立部署、回滚和验收。
+- 建立 Task Spec、Issue、独立分支、提交、测试和 Evidence；
+- 遵守 [`AGENTS.md`](AGENTS.md)；
+- 遵守 [`rules/never-rules.md`](rules/never-rules.md)；
+- 架构长期变化使用 ADR，不改写旧 ADR 隐藏历史；
+- API、Event、DB、Policy、Plugin、Deployment 行为变化同步机器契约；
+- 未验证结论不得标记为完成；
+- 不自动合并、生产部署或执行高风险不可逆操作；
+- 每个里程碑必须可独立验证和回滚。
 
-## 6. 建议阅读顺序
+## 7. 当前阻断性 POC
 
-```text
-README
-→ 00 执行摘要
-→ 02 需求范围
-→ 03 系统架构
-→ 04 部署拓扑
-→ 05 数据模型
-→ 21 LLD
-→ 20 WBS
-→ AGENTS / Never Rules
-```
+1. `POC-01` Arc A380 + 浪潮 5212 + ESXi 6.7 GPU 直通；
+2. `POC-02` A380 AV1/H.264 编码、并发、首分片、稳定性；
+3. `POC-03` ATS Range/Slice、大文件、权限缓存键；
+4. `POC-04` TrueNAS iSCSI、吞吐、延迟和故障恢复；
+5. `POC-05` 700TB 数据源真实文件数量、目录规模和元数据增长；
+6. `POC-06` 百度云合法、稳定、可维护的生产接入路径；
+7. `POC-07` IPv6、高端口 HTTPS、Tunnel/CDN 和 Range 播放；
+8. `POC-08` Vue 3 / React 管理端场景 POC；
+9. `POC-09` 本地/商业 AI 的质量、成本、隐私和硬件吞吐；
+10. `POC-10` PostgreSQL、OpenBao、正式副本和部署 Bundle 恢复。
 
-## 7. 当前必须先完成的 POC
-
-1. Arc A380 在浪潮 5212 与 ESXi 6.7 上的 GPU 直通；
-2. A380 AV1/H.264 编码能力、并发与首分片时间；
-3. TrueNAS iSCSI 与 ESXi 内部网络吞吐；
-4. ATS Range/Slice 缓存命中与大文件稳定性；
-5. 700TB 数据源规模下的目录扫描与元数据增长；
-6. 百度云受支持的可持续接入方式；
-7. IPv6、公网高端口、CDN/Tunnel 的实际播放效果；
-8. Vue 3 与 React POC；
-9. 本地与商业 AI 的质量、成本和回退基线；
-10. 备份恢复演练与密钥恢复路径。
+POC 未完成前，不得把对应性能、兼容性和容量数字升级为生产承诺。
 
 ## 8. 术语
 
