@@ -14,6 +14,10 @@ workPackage: WP-MX-00
 programPlan: specs/coordination/program-plan.yaml
 programTaskId: GUIZE-000
 wave: W0
+requirementIds: REQ-V1-0000
+moduleIds: MOD-REPLACE
+producesContracts: NONE
+consumesContracts: NONE
 taskOwner: REPLACE_WITH_GITHUB_OWNER
 coordinator: REPLACE_WITH_COORDINATOR
 implementer: REPLACE_WITH_IMPLEMENTER_AGENT
