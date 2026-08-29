@@ -6,6 +6,7 @@ import fnmatch
 import json
 import os
 import re
+import subprocess
 import sys
 from collections import defaultdict
 
@@ -20,6 +21,7 @@ REQ_STATES = {"frozen", "approved", "draft", "deprecated"}
 CONTRACT_STATES = {"gap", "planned", "partial", "frozen", "implemented"}
 IMPL_STATES = {"not_started", "governance_only", "in_progress", "implemented", "verified"}
 MODULE_STATES = {"active", "planned", "deprecated"}
+PLACEHOLDER_ROLES = {"", "none", "n/a", "na", "unknown", "tbd", "pending", "self", "same-agent"}
 GLOB_CHARS = "*?["
 
 
@@ -147,6 +149,31 @@ def require_lists(item, fields, label, errors, allow_empty=()):
         if not isinstance(value, list) or (not value and field not in allow_empty):
             suffix = " non-empty" if field not in allow_empty else ""
             errors.append(f"{label} field {field} must be a{suffix} list")
+
+
+def commit_is_reachable(root, sha):
+    try:
+        exists = subprocess.run(
+            ["git", "cat-file", "-e", f"{sha}^{{commit}}"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+        )
+        if exists.returncode != 0:
+            return False, "does not exist in the repository"
+        reachable = subprocess.run(
+            ["git", "merge-base", "--is-ancestor", sha, "HEAD"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+        )
+        if reachable.returncode == 0:
+            return True, ""
+        if reachable.returncode == 1:
+            return False, "is not reachable from HEAD"
+        return False, f"could not be checked for reachability: {reachable.stderr.strip()}"
+    except OSError as exc:
+        return False, f"could not be checked with git: {exc}"
 
 
 def main():
@@ -349,14 +376,18 @@ def main():
     covered_requirements = set()
     for task in tasks:
         task_id = task.get("taskId", "<unknown>")
+        task_module_ids = set(task.get("moduleIds", []))
         if not TASK_RE.fullmatch(str(task_id)):
             errors.append(f"Planned task ID format invalid: {task_id}")
         if task.get("riskLevel") not in RISKS:
             errors.append(f"Planned task {task_id} has invalid riskLevel")
         if task.get("wave") not in wave_ids:
             errors.append(f"Planned task {task_id} references unknown wave")
-        if policy.get("independentReviewForHighRisk") and task.get("riskLevel") in {"high", "critical"} and task.get("ownerRole") == task.get("reviewerRole"):
-            errors.append(f"High/critical Program task {task_id} ownerRole and reviewerRole must differ")
+        if policy.get("independentReviewForHighRisk") and task.get("riskLevel") in {"high", "critical"}:
+            owner_role = str(task.get("ownerRole", "")).strip().lower()
+            reviewer_role = str(task.get("reviewerRole", "")).strip().lower()
+            if owner_role == reviewer_role or owner_role in PLACEHOLDER_ROLES or reviewer_role in PLACEHOLDER_ROLES:
+                errors.append(f"High/critical Program task {task_id} ownerRole and reviewerRole must be distinct non-placeholder roles")
         require_lists(task, ["requirementIds", "moduleIds", "outputPaths"], f"Planned task {task_id}", errors)
         require_lists(task, ["dependsOn", "sharedPaths", "producesContracts", "consumesContracts", "acceptanceIds", "pocIds"], f"Planned task {task_id}", errors, allow_empty=("dependsOn", "sharedPaths", "producesContracts", "consumesContracts", "acceptanceIds", "pocIds"))
         graph[task_id] = task.get("dependsOn", [])
@@ -373,6 +404,23 @@ def main():
         for module_id in task.get("moduleIds", []):
             if module_id not in module_ids:
                 errors.append(f"Planned task {task_id} references unknown module {module_id}")
+        for output_path in task.get("outputPaths", []):
+            for owner_module, owned_path in owned_paths:
+                if overlaps(output_path, owned_path) and owner_module not in task_module_ids:
+                    errors.append(
+                        f"Planned task {task_id} output {output_path} overlaps module-owned path "
+                        f"{owner_module}:{owned_path} without declaring {owner_module}"
+                    )
+            for namespace_id, namespace in namespace_by_id.items():
+                namespace_pattern = namespace.get("pattern", "")
+                if not overlaps(output_path, namespace_pattern):
+                    continue
+                writers = {namespace.get("ownerModule")} | set(namespace.get("sharedWriterModules", []))
+                if not (task_module_ids & writers):
+                    errors.append(
+                        f"Planned task {task_id} output {output_path} overlaps contract namespace "
+                        f"{namespace_id}:{namespace_pattern} without an owner/shared-writer module"
+                    )
         for poc_id in task.get("pocIds", []):
             if poc_id not in poc_ids:
                 errors.append(f"Planned task {task_id} references unknown POC {poc_id}")
@@ -380,18 +428,21 @@ def main():
             if contract in contract_producers:
                 errors.append(f"Contract {contract} is produced by both {contract_producers[contract]} and {task_id}")
             contract_producers[contract] = task_id
-    if cycle(graph):
+
+    task_graph_has_cycle = cycle(graph)
+    if task_graph_has_cycle:
         errors.append("Planned task dependency graph contains a cycle")
-    ancestor_cache = {}
-    for task in tasks:
-        task_id = task["taskId"]
-        lineage = ancestors(task_id, graph, ancestor_cache)
-        for contract in task.get("consumesContracts", []):
-            producer = contract_producers.get(contract)
-            if not producer:
-                errors.append(f"Planned task {task_id} consumes unproduced contract: {contract}")
-            elif producer not in lineage:
-                errors.append(f"Planned task {task_id} consumes {contract} but producer {producer} is not a dependency ancestor")
+    else:
+        ancestor_cache = {}
+        for task in tasks:
+            task_id = task["taskId"]
+            lineage = ancestors(task_id, graph, ancestor_cache)
+            for contract in task.get("consumesContracts", []):
+                producer = contract_producers.get(contract)
+                if not producer:
+                    errors.append(f"Planned task {task_id} consumes unproduced contract: {contract}")
+                elif producer not in lineage:
+                    errors.append(f"Planned task {task_id} consumes {contract} but producer {producer} is not a dependency ancestor")
 
     for wave_id, wave_tasks in tasks_by_wave.items():
         wave = wave_by_id.get(wave_id, {})
@@ -441,6 +492,14 @@ def main():
             errors.append(f"Foundation task spec does not exist: {task_id}")
         elif state == "completed" and task_front_matter(specification).get("status") not in {"completed", "approved"}:
             errors.append(f"Completed foundation task {task_id} Task Spec is not closed")
+        if state == "completed":
+            merge_commit = foundation.get("mergeCommit")
+            if not merge_commit:
+                errors.append(f"Completed foundation task {task_id} has no mergeCommit")
+            else:
+                reachable, detail = commit_is_reachable(root, merge_commit)
+                if not reachable:
+                    errors.append(f"Completed foundation task {task_id} mergeCommit {merge_commit} {detail}")
     adr_path = os.path.join(root, "adr", "0014-multi-agent-coordination-and-integration.md")
     if os.path.isfile(adr_path) and "Status: Accepted" not in open(adr_path, encoding="utf-8").read():
         errors.append("ADR-0014 must be Accepted after the collaboration mechanism is active")
@@ -462,7 +521,8 @@ def main():
 
     contract_gaps = sorted(requirement["id"] for requirement in requirements if requirement.get("machineContractState") not in {"frozen", "implemented"})
     implementation_gaps = sorted(requirement["id"] for requirement in requirements if requirement.get("implementationState") not in {"implemented", "verified"})
-    if args.strict_ready and (contract_gaps or implementation_gaps or any(blocker.get("status") == "open" for blocker in blockers.values())):
+    unresolved_blockers = sorted(blocker_id for blocker_id, blocker in blockers.items() if blocker.get("status") != "resolved")
+    if args.strict_ready and (contract_gaps or implementation_gaps or unresolved_blockers):
         errors.append("Strict readiness requested but contract, implementation or external gaps remain")
     else:
         if contract_gaps:
