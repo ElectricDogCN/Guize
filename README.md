@@ -11,6 +11,7 @@
 - 研发主文档：[`docs/00-guize-engineering-design-baseline.md`](docs/00-guize-engineering-design-baseline.md)。
 - 就绪审计：[`docs/24-requirements-design-readiness-audit.md`](docs/24-requirements-design-readiness-audit.md)。
 - 多 Agent 协作：[`docs/25-multi-agent-collaboration-protocol.md`](docs/25-multi-agent-collaboration-protocol.md)。
+- 启动复核：[`docs/26-multi-agent-development-readiness-review.md`](docs/26-multi-agent-development-readiness-review.md)。
 - 文档组织：主文档采用 ePROHub 规则引擎 V2 的“编号 + 追踪 + 模块 + 契约 + 数据 + 状态 + 工作包 + 验收”格式。
 - 开发模式：Agent 主导实现，人工审查、批准、部署与发布。
 - 权威优先级遵循 [`AGENTS.md`](AGENTS.md)：已批准需求规格 → 已批准 API/事件/数据 Schema 契约 → 已批准 ADR → 系统/模块设计 → `AGENTS.md` → Never Rules → 当前任务说明 → 代码现状 → Agent 推断。
@@ -109,6 +110,7 @@
 - `docs/23-source-references.md`：组件官方资料核验记录。
 - `docs/24-requirements-design-readiness-audit.md`：需求、设计、机器契约、POC、实现和验收就绪缺口。
 - `docs/25-multi-agent-collaboration-protocol.md`：多 Agent 预留、路径、依赖、交接、审查和集成协议。
+- `docs/26-multi-agent-development-readiness-review.md`：GZ-003 合并后恢复、最终启动门禁和并行波次。
 - `docs/appendices/**`：专题附录。
 - `docs/guize-complete-solution.md`：旧版合并阅读稿，不作为后续维护权威入口。
 
@@ -185,5 +187,7 @@ python scripts/check-agent-coordination.py
 python scripts/check-project-readiness.py
 make verify TASK=<TASK-ID> BRANCH=<branch> BASE=origin/main
 ```
+
+任何新任务必须以 GZ-014 合并且最新 `main` Governance Gate 成功为启动前提。GZ-004～GZ-012 的直接依赖已指向 GZ-014。
 
 当前 GitHub `main` 尚未启用 Branch Protection/Ruleset，CODEOWNERS 与 CI 不能单独阻止管理员或有写权限者直接推送。管理员必须启用 PR、Required Check、审批、对话解决、禁止 force push/delete 等规则后，才可称为平台级强制。

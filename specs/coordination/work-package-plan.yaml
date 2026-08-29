@@ -1,12 +1,22 @@
 version: 1
 foundationTasks: [GZ-001, GZ-002, GZ-003]
 tasks:
+  - taskId: GZ-014
+    title: 修复合并后 Readiness Gate 并加固多 Agent 交付基线
+    workPackage: WP-M0-05R
+    riskLevel: high
+    parallelGroup: governance-readiness-recovery
+    dependsOn: [GZ-003]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0007, REQ-V1-0010]
+    moduleIds: [MOD-GOV, MOD-PLATFORM, MOD-ASSET]
+    outputPaths: [specs/requirements/requirements-index.yaml, specs/coordination/**, tests/governance/test_check_project_readiness.py, docs/26-multi-agent-development-readiness-review.md]
+    exitGate: Real repository readiness passes, duplicate collaboration PR is closed, and Ruleset remains explicitly external until verified
   - taskId: GZ-004
     title: 冻结核心机器契约骨架
     workPackage: WP-M0-03
     riskLevel: high
     parallelGroup: foundation-contracts
-    dependsOn: [GZ-003]
+    dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009]
     moduleIds: [MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-POLICY, MOD-CONFIG]
     outputPaths: [contracts/openapi/**, contracts/events/**, contracts/workflows/**, contracts/data/**]
@@ -26,7 +36,7 @@ tasks:
     workPackage: WP-M0-04A
     riskLevel: high
     parallelGroup: hardware-poc
-    dependsOn: [GZ-003]
+    dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0003]
     moduleIds: [MOD-MEDIA, MOD-DEPLOY]
     outputPaths: [poc/a380/**, evidence/GZ-006/**, adr/**]
@@ -36,7 +46,7 @@ tasks:
     workPackage: WP-M0-04B
     riskLevel: medium
     parallelGroup: independent-poc
-    dependsOn: [GZ-003]
+    dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0003, REQ-V1-0008]
     moduleIds: [MOD-EDGE, MOD-IAM]
     outputPaths: [poc/ats/**, evidence/GZ-007/**, adr/**]
@@ -46,7 +56,7 @@ tasks:
     workPackage: WP-M0-04C
     riskLevel: high
     parallelGroup: hardware-poc
-    dependsOn: [GZ-003]
+    dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0006, REQ-V1-0010]
     moduleIds: [MOD-STORAGE, MOD-DATA, MOD-DEPLOY]
     outputPaths: [poc/truenas/**, evidence/GZ-008/**, adr/**]
@@ -56,7 +66,7 @@ tasks:
     workPackage: WP-M0-04D
     riskLevel: medium
     parallelGroup: independent-poc
-    dependsOn: [GZ-003]
+    dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0001, REQ-V1-0002]
     moduleIds: [MOD-SOURCE, MOD-ASSET, MOD-CONNECTOR]
     outputPaths: [poc/metadata-scale/**, evidence/GZ-009/**]
@@ -66,7 +76,7 @@ tasks:
     workPackage: WP-M0-04E
     riskLevel: medium
     parallelGroup: independent-poc
-    dependsOn: [GZ-003]
+    dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0001]
     moduleIds: [MOD-SOURCE, MOD-CONNECTOR]
     outputPaths: [poc/baidu-cloud/**, evidence/GZ-010/**, adr/**]
@@ -76,7 +86,7 @@ tasks:
     workPackage: WP-M0-04F
     riskLevel: medium
     parallelGroup: independent-poc
-    dependsOn: [GZ-003]
+    dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0003, REQ-V1-0008]
     moduleIds: [MOD-EDGE, MOD-DEPLOY]
     outputPaths: [poc/public-network/**, evidence/GZ-011/**]
@@ -86,7 +96,7 @@ tasks:
     workPackage: WP-M0-07
     riskLevel: medium
     parallelGroup: quality-foundation
-    dependsOn: [GZ-003]
+    dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0008]
     moduleIds: [MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-IAM]
     outputPaths: [specs/acceptance/**, testdata/**, docs/acceptance/**]

@@ -1,0 +1,19 @@
+GZ-014 command evidence
+
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33203210874/jobs
+exit code: HTTP 200
+result: Project readiness check=failure; all 121 governance tests, coordination, markdown, schema, secret and spec-sync checks succeeded.
+
+command: download workflow job log for job 98957595382
+exit code: HTTP 200
+result: four asymmetric mappings identified: MOD-PLATFORM/REQ-V1-0001, MOD-PLATFORM/REQ-V1-0002, MOD-PLATFORM/REQ-V1-0007, MOD-ASSET/REQ-V1-0003.
+
+command: GET /repos/ElectricDogCN/Guize/rulesets
+exit code: HTTP 200
+result: [] (no repository Ruleset configured).
+
+command: close pull request #13 after supersession analysis
+exit code: HTTP 200
+result: PR #13 closed without merge; branch/history retained.
+
+Pending commands and exit codes will be appended only after the GZ-014 PR exists and GitHub Actions executes.

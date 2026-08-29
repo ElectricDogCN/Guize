@@ -99,6 +99,15 @@ class TestProjectReadiness(unittest.TestCase):
         ]
         return subprocess.run(command, capture_output=True, text=True)
 
+    def test_repository_indexes_pass(self):
+        result = subprocess.run(
+            [sys.executable, SCRIPT, "--repo-root", REPO_ROOT],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_valid_indexes_pass(self):
         with tempfile.TemporaryDirectory() as root:
             req, modules, plan = self._documents()
@@ -125,16 +134,9 @@ class TestProjectReadiness(unittest.TestCase):
         with tempfile.TemporaryDirectory() as root:
             req, modules, plan = self._documents()
             modules["modules"].append({
-                "id": "MOD-SECOND",
-                "name": "N",
-                "status": "planned",
-                "owner": "o",
-                "ownedPaths": ["backend/n/**"],
-                "ownedSchemas": ["n"],
-                "publicContracts": [],
-                "dependsOn": ["MOD-TEST"],
-                "requirementIds": ["REQ-V1-0001"],
-                "workPackages": ["WP-1"],
+                "id": "MOD-SECOND", "name": "N", "status": "planned", "owner": "o",
+                "ownedPaths": ["backend/n/**"], "ownedSchemas": ["n"], "publicContracts": [],
+                "dependsOn": ["MOD-TEST"], "requirementIds": ["REQ-V1-0001"], "workPackages": ["WP-1"],
             })
             modules["modules"][0]["dependsOn"] = ["MOD-SECOND"]
             req["requirements"][0]["moduleIds"].append("MOD-SECOND")
@@ -146,16 +148,9 @@ class TestProjectReadiness(unittest.TestCase):
         with tempfile.TemporaryDirectory() as root:
             req, modules, plan = self._documents()
             modules["modules"].append({
-                "id": "MOD-SECOND",
-                "name": "N",
-                "status": "planned",
-                "owner": "o",
-                "ownedPaths": ["backend/n/**"],
-                "ownedSchemas": ["m"],
-                "publicContracts": [],
-                "dependsOn": [],
-                "requirementIds": ["REQ-V1-0001"],
-                "workPackages": ["WP-1"],
+                "id": "MOD-SECOND", "name": "N", "status": "planned", "owner": "o",
+                "ownedPaths": ["backend/n/**"], "ownedSchemas": ["m"], "publicContracts": [],
+                "dependsOn": [], "requirementIds": ["REQ-V1-0001"], "workPackages": ["WP-1"],
             })
             req["requirements"][0]["moduleIds"].append("MOD-SECOND")
             result = self._run(root, req, modules, plan)
@@ -166,16 +161,9 @@ class TestProjectReadiness(unittest.TestCase):
         with tempfile.TemporaryDirectory() as root:
             req, modules, plan = self._documents()
             modules["modules"].append({
-                "id": "MOD-SECOND",
-                "name": "N",
-                "status": "planned",
-                "owner": "o",
-                "ownedPaths": ["backend/m/domain/**"],
-                "ownedSchemas": [],
-                "publicContracts": [],
-                "dependsOn": [],
-                "requirementIds": ["REQ-V1-0001"],
-                "workPackages": ["WP-1"],
+                "id": "MOD-SECOND", "name": "N", "status": "planned", "owner": "o",
+                "ownedPaths": ["backend/m/domain/**"], "ownedSchemas": [], "publicContracts": [],
+                "dependsOn": [], "requirementIds": ["REQ-V1-0001"], "workPackages": ["WP-1"],
             })
             req["requirements"][0]["moduleIds"].append("MOD-SECOND")
             result = self._run(root, req, modules, plan)
