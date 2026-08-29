@@ -247,6 +247,7 @@ def validate_program_activation(root: str, active_work: dict[str, Any], program_
             compare_set(task_id, registry, planned, "moduleIds", "moduleIds", errors)
             compare_set(task_id, registry, planned, "producesContracts", "producesContracts", errors)
             compare_set(task_id, registry, planned, "consumesContracts", "consumesContracts", errors)
+            compare_set(task_id, registry, planned, "exclusivePaths", "outputPaths", errors)
             compare_set(task_id, registry, planned, "sharedPaths", "sharedPaths", errors)
 
             planned_issue = planned.get("issue")
@@ -263,13 +264,6 @@ def validate_program_activation(root: str, active_work: dict[str, Any], program_
                     f"Active task {task_id} branch {branch!r} does not match Program Plan "
                     f"branchPattern {pattern!r}"
                 )
-
-            claims = set(registry.get("exclusivePaths") or []) | set(registry.get("sharedPaths") or [])
-            for output_path in planned.get("outputPaths", []):
-                if output_path not in claims:
-                    errors.append(
-                        f"Active task {task_id} does not reserve Program Plan output path: {output_path}"
-                    )
             print(f"OK PROGRAM ACTIVATION: {task_id} <- {planned.get('wave')}")
         elif task_id in foundation_tasks:
             foundation = foundation_tasks[task_id]
