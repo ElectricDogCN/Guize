@@ -51,6 +51,7 @@ tasks:
       - scripts/check-project-readiness.py
       - scripts/check-agent-coordination.py
       - scripts/check-schemas.py
+      - scripts/check-program-plan-integrity.py
       - tests/governance/**
     sharedPaths: []
     handoffPath: evidence/GZ-014/handoff.md
