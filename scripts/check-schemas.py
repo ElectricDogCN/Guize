@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate workflow YAML, schemas, instances, and Program Plan activation semantics."""
+"""Validate workflow YAML, schemas, instances, Task Specs, and Program Plan activation semantics."""
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ import yaml
 
 CANONICAL_PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE_PROGRAM_STATUSES = {"reserved", "in_progress", "review", "integration", "blocked"}
+NONE_VALUES = {"", "none", "n/a", "na", "unknown", "tbd", "pending"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -29,6 +30,44 @@ def load_document(path: str) -> Any:
         if path.endswith(".json"):
             return json.load(handle)
         return yaml.safe_load(handle)
+
+
+def parse_front_matter(path: str) -> dict[str, str]:
+    with open(path, "r", encoding="utf-8") as handle:
+        text = handle.read()
+    if not text.startswith("---"):
+        return {}
+    parts = text.split("---", 2)
+    if len(parts) < 3:
+        return {}
+    data: dict[str, str] = {}
+    for line in parts[1].splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or ":" not in stripped:
+            continue
+        key, value = stripped.split(":", 1)
+        data[key.strip()] = value.strip()
+    return data
+
+
+def parse_front_list(value: Any) -> list[str]:
+    text = str(value or "").strip().strip("[]")
+    if text.lower() in NONE_VALUES:
+        return []
+    return [part.strip().strip("'\"") for part in text.split(",") if part.strip()]
+
+
+def find_task_spec(root: str, task_id: str) -> str | None:
+    base = os.path.join(root, "specs", "tasks")
+    exact = os.path.join(base, f"{task_id}.md")
+    if os.path.isfile(exact):
+        return exact
+    candidates = sorted(
+        path
+        for path in glob.glob(os.path.join(base, f"{task_id}-*.md"))
+        if os.path.isfile(path)
+    )
+    return candidates[0] if len(candidates) == 1 else None
 
 
 def validate_schema_document(path: str, root: str, errors: list[str]) -> None:
@@ -96,7 +135,77 @@ def compare_set(
         )
 
 
-def validate_program_activation(active_work: dict[str, Any], program_plan: dict[str, Any], errors: list[str]) -> None:
+def validate_task_registry(root: str, task_id: str, registry: dict[str, Any], errors: list[str]) -> None:
+    """Cross-check Task Spec front matter against the active registry lease."""
+    path = find_task_spec(root, task_id)
+    if not path:
+        errors.append(f"Active task {task_id} has no unique Task Spec")
+        return
+    try:
+        front = parse_front_matter(path)
+    except OSError as exc:
+        errors.append(f"Cannot read Task Spec for active task {task_id}: {exc}")
+        return
+
+    scalar_pairs = [
+        ("id", "taskId"),
+        ("titleZh", "title"),
+        ("status", "status"),
+        ("baseBranch", "baseBranch"),
+        ("baseSha", "baseSha"),
+        ("workBranch", "branch"),
+        ("issue", "issue"),
+        ("workPackage", "workPackage"),
+        ("programPlan", "programPlan"),
+        ("programTaskId", "programTaskId"),
+        ("wave", "programWave"),
+        ("taskOwner", "owner"),
+        ("coordinator", "coordinator"),
+        ("implementer", "implementer"),
+        ("reviewer", "reviewer"),
+        ("integrator", "integrator"),
+        ("agentRole", "agentRole"),
+        ("riskLevel", "riskLevel"),
+        ("coordinationGroup", "coordinationGroup"),
+        ("handoffPath", "handoffPath"),
+        ("integrationStrategy", "integrationStrategy"),
+        ("integrationOrder", "integrationOrder"),
+    ]
+    for task_key, registry_key in scalar_pairs:
+        task_value = str(front.get(task_key, ""))
+        registry_value = str(registry.get(registry_key, ""))
+        if task_value != registry_value:
+            errors.append(
+                f"Task Spec {task_id} {task_key}={task_value!r} does not match "
+                f"Active Work {registry_key}={registry_value!r}"
+            )
+
+    lease_expires = str((registry.get("lease") or {}).get("expiresAt", ""))
+    if front.get("leaseExpiresAt", "") != lease_expires:
+        errors.append(
+            f"Task Spec {task_id} leaseExpiresAt={front.get('leaseExpiresAt')!r} "
+            f"does not match Active Work lease.expiresAt={lease_expires!r}"
+        )
+
+    list_pairs = [
+        ("dependsOn", "dependsOn"),
+        ("requirementIds", "requirementIds"),
+        ("moduleIds", "moduleIds"),
+        ("producesContracts", "producesContracts"),
+        ("consumesContracts", "consumesContracts"),
+    ]
+    for task_key, registry_key in list_pairs:
+        task_values = set(parse_front_list(front.get(task_key)))
+        registry_values = set(registry.get(registry_key) or [])
+        if task_values != registry_values:
+            errors.append(
+                f"Task Spec {task_id} {task_key}={sorted(task_values)} does not match "
+                f"Active Work {registry_key}={sorted(registry_values)}"
+            )
+    print(f"OK TASK REGISTRY LINK: {task_id}")
+
+
+def validate_program_activation(root: str, active_work: dict[str, Any], program_plan: dict[str, Any], errors: list[str]) -> None:
     """Ensure every active lease is the exact activation of one canonical planned task."""
     planned_tasks = {item.get("taskId"): item for item in program_plan.get("tasks", [])}
     foundation_tasks = {item.get("taskId"): item for item in program_plan.get("foundationTasks", [])}
@@ -112,6 +221,7 @@ def validate_program_activation(active_work: dict[str, Any], program_plan: dict[
             )
 
     for task_id, registry in active_tasks.items():
+        validate_task_registry(root, task_id, registry, errors)
         if registry.get("programPlan") != CANONICAL_PROGRAM_PLAN:
             errors.append(
                 f"Active task {task_id} programPlan must be {CANONICAL_PROGRAM_PLAN}, "
@@ -252,19 +362,20 @@ def main() -> None:
     if os.path.isfile(active_path) and os.path.isfile(program_path):
         try:
             validate_program_activation(
+                root,
                 load_document(active_path),
                 load_document(program_path),
                 errors,
             )
         except Exception as exc:
-            errors.append(f"Program Plan / Active Work semantic validation failed: {exc}")
+            errors.append(f"Program Plan / Active Work / Task Spec semantic validation failed: {exc}")
 
     if errors:
         for error in errors:
             print(f"FAIL: {error}")
         sys.exit(1)
 
-    print("OK: Schema and Program Plan activation validation completed")
+    print("OK: Schema, Task Spec, Active Work and Program Plan validation completed")
     sys.exit(0)
 
 
