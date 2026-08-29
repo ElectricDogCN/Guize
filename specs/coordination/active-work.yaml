@@ -9,17 +9,17 @@ tasks:
   - taskId: GZ-014
     issue: 17
     title: 收敛项目交付计划并加固多 Agent 协作一致性
-    status: reserved
+    status: in_progress
     riskLevel: high
     owner: ElectricDogCN
     coordinator: program-coordinator-agent
     implementer: governance-hardening-agent
     reviewer: independent-governance-review-agent
     integrator: integration-agent
-    agentRole: coordinator
+    agentRole: implementer
     branch: chore/GZ-014-program-plan-reconciliation
     baseBranch: main
-    baseSha: 9e3a821ada292ac3ef69b7c059384d17f6530b48
+    baseSha: d731ce09fbf2535948bc1864490539d06ce1f139
     workPackage: WP-M0-08
     coordinationGroup: program-plan-reconciliation
     dependsOn:
@@ -37,6 +37,7 @@ tasks:
       - specs/requirements/requirements-index.yaml
       - specs/designs/module-ownership.yaml
       - specs/tasks/GZ-003.md
+      - specs/tasks/task-template.md
       - scripts/check-project-readiness.py
       - scripts/check-agent-coordination.py
       - scripts/check-schemas.py
