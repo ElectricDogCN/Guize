@@ -9,6 +9,7 @@ import sys
 from datetime import datetime
 
 
+CANONICAL_PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
 V2_COMMON_FIELDS = [
     "schemaVersion",
     "workPackage",
@@ -29,6 +30,13 @@ V2_REGISTRY_FIELDS = [
     "integrator",
     "integrationOrder",
     "leaseExpiresAt",
+    "programPlan",
+    "programTaskId",
+    "wave",
+    "requirementIds",
+    "moduleIds",
+    "producesContracts",
+    "consumesContracts",
 ]
 V2_ROLES = {"coordinator", "implementer", "reviewer", "integrator"}
 V2_RISKS = {"low", "medium", "high", "critical"}
@@ -36,6 +44,9 @@ V2_MODES = {"bootstrap", "registry"}
 V2_INTEGRATION = {"merge", "squash", "rebase"}
 V2_REGISTRY_STATUSES = {"reserved", "in_progress", "blocked", "review", "integration", "completed", "cancelled"}
 PLACEHOLDERS = {"", "pending", "tbd", "unknown", "none", "n/a", "na", "unassigned"}
+REQ_RE = re.compile(r"^REQ-V1-\d{4}$")
+MOD_RE = re.compile(r"^MOD-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
+WAVE_RE = re.compile(r"^(W\d+|FOUNDATION)$")
 
 
 def parse_args():
@@ -73,6 +84,13 @@ def parse_front_matter(text):
         key, value = line.split(":", 1)
         data[key.strip()] = value.strip()
     return data, parts[2].strip()
+
+
+def parse_list(value):
+    text = str(value or "").strip().strip("[]")
+    if text.lower() in PLACEHOLDERS or text.upper() == "NONE":
+        return []
+    return [part.strip().strip("'\"") for part in text.split(",") if part.strip()]
 
 
 def report(status, message, details=None):
@@ -187,6 +205,28 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
                 errors.append("High/critical registry tasks require assigned implementer and reviewer identities.")
             elif implementer == reviewer:
                 errors.append("High/critical registry tasks require different implementer and reviewer identities.")
+
+        if front.get("programPlan") != CANONICAL_PROGRAM_PLAN:
+            errors.append(f"programPlan must be {CANONICAL_PROGRAM_PLAN}.")
+        if front.get("programTaskId") != front.get("id"):
+            errors.append("programTaskId must equal the Task Spec id.")
+        if not WAVE_RE.fullmatch(front.get("wave", "")):
+            errors.append("wave must be W<number> or FOUNDATION.")
+
+        requirement_ids = parse_list(front.get("requirementIds"))
+        module_ids = parse_list(front.get("moduleIds"))
+        if not requirement_ids:
+            errors.append("requirementIds must contain at least one REQ-V1 identifier.")
+        if not module_ids:
+            errors.append("moduleIds must contain at least one MOD identifier.")
+        for requirement_id in requirement_ids:
+            if not REQ_RE.fullmatch(requirement_id):
+                errors.append(f"Invalid requirementIds entry: {requirement_id}")
+        for module_id in module_ids:
+            if not MOD_RE.fullmatch(module_id):
+                errors.append(f"Invalid moduleIds entry: {module_id}")
+        parse_list(front.get("producesContracts"))
+        parse_list(front.get("consumesContracts"))
 
     required_sections = [
         (["依赖与集成顺序", "dependencies and integration order"], "Missing dependencies/integration section."),
