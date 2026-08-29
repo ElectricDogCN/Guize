@@ -1,4 +1,3 @@
-import copy
 import os
 import shutil
 import subprocess
@@ -26,6 +25,12 @@ class TestCheckSchemas(unittest.TestCase):
         source = os.path.join(REPO_ROOT, "specs", "coordination")
         for name in COORDINATION_FILES:
             shutil.copyfile(os.path.join(source, name), os.path.join(target, name))
+        task_target = os.path.join(root, "specs", "tasks")
+        os.makedirs(task_target, exist_ok=True)
+        shutil.copyfile(
+            os.path.join(REPO_ROOT, "specs", "tasks", "GZ-014.md"),
+            os.path.join(task_target, "GZ-014.md"),
+        )
         return target
 
     def _load(self, path):
@@ -43,7 +48,54 @@ class TestCheckSchemas(unittest.TestCase):
             text=True,
         )
 
-    def _activate_gz004(self, coordination_dir, branch="chore/GZ-004-requirements-baseline"):
+    def _write_task_spec(self, root, registry):
+        def csv(values):
+            return ",".join(values) if values else "NONE"
+
+        path = os.path.join(root, "specs", "tasks", f"{registry['taskId']}.md")
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        content = f"""---
+schemaVersion: 2
+id: {registry['taskId']}
+title: Test task
+titleZh: {registry['title']}
+type: chore
+status: {registry['status']}
+baseBranch: {registry['baseBranch']}
+baseSha: {registry['baseSha']}
+workBranch: {registry['branch']}
+evidencePath: evidence/{registry['taskId']}
+issue: {registry['issue']}
+workPackage: {registry['workPackage']}
+programPlan: {registry['programPlan']}
+programTaskId: {registry['programTaskId']}
+wave: {registry['programWave']}
+requirementIds: {csv(registry['requirementIds'])}
+moduleIds: {csv(registry['moduleIds'])}
+producesContracts: {csv(registry['producesContracts'])}
+consumesContracts: {csv(registry['consumesContracts'])}
+taskOwner: {registry['owner']}
+coordinator: {registry['coordinator']}
+implementer: {registry['implementer']}
+reviewer: {registry['reviewer']}
+integrator: {registry['integrator']}
+agentRole: {registry['agentRole']}
+riskLevel: {registry['riskLevel']}
+coordinationMode: registry
+coordinationGroup: {registry['coordinationGroup']}
+dependsOn: {csv(registry['dependsOn'])}
+handoffPath: {registry['handoffPath']}
+integrationStrategy: {registry['integrationStrategy']}
+integrationOrder: {registry['integrationOrder']}
+leaseExpiresAt: {registry['lease']['expiresAt']}
+---
+
+# Test Task
+"""
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(content)
+
+    def _activate_gz004(self, root, coordination_dir, branch="chore/GZ-004-requirements-baseline"):
         plan_path = os.path.join(coordination_dir, "program-plan.yaml")
         active_path = os.path.join(coordination_dir, "active-work.yaml")
         plan = self._load(plan_path)
@@ -56,7 +108,7 @@ class TestCheckSchemas(unittest.TestCase):
 
         planned = next(task for task in plan["tasks"] if task["taskId"] == "GZ-004")
         planned["status"] = "reserved"
-        active["tasks"] = [{
+        registry = {
             "taskId": "GZ-004",
             "issue": planned["issue"],
             "title": planned["title"],
@@ -90,13 +142,16 @@ class TestCheckSchemas(unittest.TestCase):
                 "acquiredAt": "2026-08-29T04:00:00Z",
                 "expiresAt": "2026-09-05T04:00:00Z",
             },
-        }]
+        }
+        active["tasks"] = [registry]
         self._write(plan_path, plan)
         self._write(active_path, active)
+        self._write_task_spec(root, registry)
 
     def test_current_repository_coordination_files_pass(self):
         result = self._run(REPO_ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("OK TASK REGISTRY LINK: GZ-014", result.stdout)
         self.assertIn("OK FOUNDATION ACTIVATION: GZ-014", result.stdout)
 
     def test_copied_current_instances_pass(self):
@@ -115,6 +170,18 @@ class TestCheckSchemas(unittest.TestCase):
             result = self._run(root)
             self.assertEqual(result.returncode, 1)
             self.assertIn("programTaskId must equal taskId", result.stdout)
+
+    def test_task_spec_wave_must_match_registry(self):
+        with tempfile.TemporaryDirectory() as root:
+            self._copy_coordination(root)
+            path = os.path.join(root, "specs", "tasks", "GZ-014.md")
+            with open(path, "r", encoding="utf-8") as handle:
+                text = handle.read()
+            with open(path, "w", encoding="utf-8") as handle:
+                handle.write(text.replace("wave: FOUNDATION", "wave: W99", 1))
+            result = self._run(root)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Task Spec GZ-014 wave", result.stdout)
 
     def test_foundation_wave_must_be_foundation(self):
         with tempfile.TemporaryDirectory() as root:
@@ -152,15 +219,16 @@ class TestCheckSchemas(unittest.TestCase):
     def test_regular_program_task_activation_passes(self):
         with tempfile.TemporaryDirectory() as root:
             coordination = self._copy_coordination(root)
-            self._activate_gz004(coordination)
+            self._activate_gz004(root, coordination)
             result = self._run(root)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("OK TASK REGISTRY LINK: GZ-004", result.stdout)
             self.assertIn("OK PROGRAM ACTIVATION: GZ-004 <- W1", result.stdout)
 
     def test_regular_program_task_branch_mismatch_fails(self):
         with tempfile.TemporaryDirectory() as root:
             coordination = self._copy_coordination(root)
-            self._activate_gz004(coordination, branch="fix/GZ-004-wrong-prefix")
+            self._activate_gz004(root, coordination, branch="fix/GZ-004-wrong-prefix")
             result = self._run(root)
             self.assertEqual(result.returncode, 1)
             self.assertIn("does not match Program Plan branchPattern", result.stdout)
@@ -168,7 +236,7 @@ class TestCheckSchemas(unittest.TestCase):
     def test_regular_program_task_contract_mismatch_fails(self):
         with tempfile.TemporaryDirectory() as root:
             coordination = self._copy_coordination(root)
-            self._activate_gz004(coordination)
+            self._activate_gz004(root, coordination)
             path = os.path.join(coordination, "active-work.yaml")
             active = self._load(path)
             active["tasks"][0]["producesContracts"] = []
