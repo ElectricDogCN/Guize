@@ -216,6 +216,17 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
             self.assertEqual(result.returncode, 1)
             self.assertIn("does not match Program Plan parallelPolicy", result.stdout)
 
+    def test_core_program_safety_policy_cannot_be_disabled(self):
+        with tempfile.TemporaryDirectory() as root:
+            coordination = self._copy_coordination(root)
+            path = os.path.join(coordination, "program-plan.yaml")
+            plan = self._load(path)
+            plan["parallelPolicy"]["reservationRequired"] = False
+            self._write(path, plan)
+            result = self._run(root)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("parallelPolicy/reservationRequired", result.stdout)
+
     def test_regular_program_task_activation_passes(self):
         with tempfile.TemporaryDirectory() as root:
             coordination = self._copy_coordination(root)
@@ -244,6 +255,32 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
             result = self._run(root)
             self.assertEqual(result.returncode, 1)
             self.assertIn("producesContracts", result.stdout)
+
+    def test_regular_program_task_cannot_expand_exclusive_paths(self):
+        with tempfile.TemporaryDirectory() as root:
+            coordination = self._copy_coordination(root)
+            self._activate_gz004(root, coordination)
+            path = os.path.join(coordination, "active-work.yaml")
+            active = self._load(path)
+            active["tasks"][0]["exclusivePaths"].append("unplanned/**")
+            self._write(path, active)
+            result = self._run(root)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("exclusivePaths", result.stdout)
+
+    def test_regular_program_task_cannot_downgrade_output_to_shared(self):
+        with tempfile.TemporaryDirectory() as root:
+            coordination = self._copy_coordination(root)
+            self._activate_gz004(root, coordination)
+            path = os.path.join(coordination, "active-work.yaml")
+            active = self._load(path)
+            moved = active["tasks"][0]["exclusivePaths"].pop()
+            active["tasks"][0]["sharedPaths"].append(moved)
+            self._write(path, active)
+            self._write_task_spec(root, active["tasks"][0])
+            result = self._run(root)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("exclusivePaths", result.stdout)
 
 
 if __name__ == "__main__":
