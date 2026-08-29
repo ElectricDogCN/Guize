@@ -47,6 +47,7 @@ tasks:
       - specs/designs/module-ownership.yaml
       - specs/tasks/GZ-003.md
       - specs/tasks/task-template.md
+      - scripts/check-task-file.py
       - scripts/check-project-readiness.py
       - scripts/check-agent-coordination.py
       - scripts/check-schemas.py
