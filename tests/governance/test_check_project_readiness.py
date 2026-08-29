@@ -24,6 +24,22 @@ class TestProjectReadiness(unittest.TestCase):
             with open(path, "w", encoding="utf-8") as handle:
                 handle.write(content)
 
+    def _init_git(self, root):
+        subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
+        subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=root, check=True)
+        subprocess.run(["git", "config", "user.name", "Test"], cwd=root, check=True)
+        with open(os.path.join(root, "base.txt"), "w", encoding="utf-8") as handle:
+            handle.write("base\n")
+        subprocess.run(["git", "add", "base.txt"], cwd=root, check=True)
+        subprocess.run(["git", "commit", "-m", "base"], cwd=root, check=True, capture_output=True)
+        return subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+
     def _documents(self):
         requirement_id = "REQ-V1-0001"
         module_id = "MOD-TEST"
@@ -220,7 +236,12 @@ class TestProjectReadiness(unittest.TestCase):
         }
         return requirements, modules, plan
 
-    def _run(self, root, requirements, modules, plan):
+    def _run(self, root, requirements, modules, plan, *, strict=False):
+        base_sha = self._init_git(root)
+        plan = copy.deepcopy(plan)
+        for foundation in plan["foundationTasks"]:
+            if foundation.get("status") == "completed" and foundation.get("mergeCommit") == "a" * 40:
+                foundation["mergeCommit"] = base_sha
         self._write(root, "specs/requirements/requirements-index.yaml", requirements)
         self._write(root, "specs/designs/module-ownership.yaml", modules)
         self._write(root, "specs/coordination/program-plan.yaml", plan)
@@ -234,7 +255,10 @@ class TestProjectReadiness(unittest.TestCase):
         self._write(root, "docs/00-guize-engineering-design-baseline.md", "V1 不设置对外 Beta\n" + headings)
         self._write(root, "specs/tasks/GZ-003.md", "---\nschemaVersion: 2\nid: GZ-003\nstatus: completed\n---\n")
         self._write(root, "specs/tasks/GZ-014.md", "---\nschemaVersion: 2\nid: GZ-014\nstatus: in_progress\n---\n")
-        return subprocess.run([sys.executable, SCRIPT, "--repo-root", root], capture_output=True, text=True)
+        command = [sys.executable, SCRIPT, "--repo-root", root]
+        if strict:
+            command.append("--strict-ready")
+        return subprocess.run(command, capture_output=True, text=True)
 
     def test_valid_indexes_pass(self):
         with tempfile.TemporaryDirectory() as root:
@@ -380,6 +404,22 @@ class TestProjectReadiness(unittest.TestCase):
             self.assertEqual(result.returncode, 1)
             self.assertIn("shared writer MOD-SECOND does not list it as provided", result.stdout)
 
+    def test_task_output_must_match_declared_module_ownership(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            second = copy.deepcopy(modules["modules"][0])
+            second["id"] = "MOD-AI"
+            second["name"] = "AI"
+            second["ownedPaths"] = ["backend/guize-ai-control/**"]
+            second["ownedSchemas"] = ["ai"]
+            second["providedContracts"] = []
+            modules["modules"].append(second)
+            requirements["requirements"][0]["moduleIds"].append("MOD-AI")
+            plan["tasks"][0]["outputPaths"] = ["backend/guize-ai-control/**"]
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("without declaring MOD-AI", result.stdout)
+
     def test_unproduced_contract_consumption_fails(self):
         with tempfile.TemporaryDirectory() as root:
             requirements, modules, plan = self._documents()
@@ -387,6 +427,18 @@ class TestProjectReadiness(unittest.TestCase):
             result = self._run(root, requirements, modules, plan)
             self.assertEqual(result.returncode, 1)
             self.assertIn("consumes unproduced contract", result.stdout)
+
+    def test_program_task_cycle_reports_structured_failure(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            first = next(task for task in plan["tasks"] if task["taskId"] == "POC-001")
+            second = next(task for task in plan["tasks"] if task["taskId"] == "POC-002")
+            first["dependsOn"] = ["POC-002"]
+            second["dependsOn"] = ["POC-001"]
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Planned task dependency graph contains a cycle", result.stdout)
+            self.assertNotIn("RecursionError", result.stderr)
 
     def test_poc_mapping_mismatch_fails(self):
         with tempfile.TemporaryDirectory() as root:
@@ -427,7 +479,15 @@ class TestProjectReadiness(unittest.TestCase):
             plan["tasks"][0]["reviewerRole"] = plan["tasks"][0]["ownerRole"]
             result = self._run(root, requirements, modules, plan)
             self.assertEqual(result.returncode, 1)
-            self.assertIn("ownerRole and reviewerRole must differ", result.stdout)
+            self.assertIn("distinct non-placeholder roles", result.stdout)
+
+    def test_high_risk_placeholder_reviewer_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            plan["tasks"][0]["reviewerRole"] = "TBD"
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("distinct non-placeholder roles", result.stdout)
 
     def test_external_blocker_unknown_task_fails(self):
         with tempfile.TemporaryDirectory() as root:
@@ -437,6 +497,16 @@ class TestProjectReadiness(unittest.TestCase):
             self.assertEqual(result.returncode, 1)
             self.assertIn("references unknown task GZ-999", result.stdout)
 
+    def test_strict_ready_rejects_waived_release_blocker(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            requirements["requirements"][0]["machineContractState"] = "frozen"
+            requirements["requirements"][0]["implementationState"] = "verified"
+            plan["externalBlockers"][0]["status"] = "waived"
+            result = self._run(root, requirements, modules, plan, strict=True)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Strict readiness requested", result.stdout)
+
     def test_foundation_and_program_task_ids_cannot_overlap(self):
         with tempfile.TemporaryDirectory() as root:
             requirements, modules, plan = self._documents()
@@ -445,6 +515,14 @@ class TestProjectReadiness(unittest.TestCase):
             result = self._run(root, requirements, modules, plan)
             self.assertEqual(result.returncode, 1)
             self.assertIn("Foundation and Program task IDs overlap", result.stdout)
+
+    def test_completed_foundation_commit_must_exist(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            plan["foundationTasks"][0]["mergeCommit"] = "f" * 40
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("does not exist in the repository", result.stdout)
 
     def test_current_repository_indexes_pass(self):
         result = subprocess.run([sys.executable, SCRIPT, "--repo-root", REPO_ROOT], capture_output=True, text=True)
