@@ -1,0 +1,11 @@
+GZ-014 command evidence
+
+command: GitHub.create_issue repository_full_name=ElectricDogCN/Guize title="GZ-014：收敛项目交付计划并加固多 Agent 协作一致性"
+exit code: 0
+observed result: issue #17 created at https://github.com/ElectricDogCN/Guize/issues/17
+
+command: GitHub.create_branch repository_full_name=ElectricDogCN/Guize branch_name=chore/GZ-014-reservation sha=9e3a821ada292ac3ef69b7c059384d17f6530b48
+exit code: 0
+observed result: branch chore/GZ-014-reservation created from the GZ-003 merge baseline
+
+The reservation tree/commit SHA and Governance Gate result will be appended after GitHub returns those observed values. No future result is claimed here.
