@@ -18,6 +18,7 @@ requirementIds: REQ-V1-0000
 moduleIds: MOD-REPLACE
 producesContracts: NONE
 consumesContracts: NONE
+exitGate: REPLACE_WITH_EXACT_PROGRAM_PLAN_EXIT_GATE
 taskOwner: REPLACE_WITH_GITHUB_OWNER
 coordinator: REPLACE_WITH_COORDINATOR
 implementer: REPLACE_WITH_IMPLEMENTER_AGENT
@@ -36,7 +37,7 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 
 # GUIZE-000 任务规格
 
-> 替换所有占位值。GZ-014 之后，非治理修复任务必须先存在于 `specs/coordination/program-plan.yaml`，并且依赖、波次、风险、Requirement、Module、输出路径和契约关系一致；实现前再通过 reservation PR 写入 `specs/coordination/active-work.yaml`。任务 ID 必须符合 `<大写前缀>-<数字>`。
+> 替换所有占位值。GZ-014 之后，非治理修复任务必须先存在于 `specs/coordination/program-plan.yaml`，并且依赖、波次、风险、Requirement、Module、输出路径、契约关系和 `exitGate` 完全一致；实现前再通过 reservation PR 写入 `specs/coordination/active-work.yaml`。任务 ID 必须符合 `<大写前缀>-<数字>`。
 
 ## 背景
 
@@ -52,7 +53,7 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 
 ## 关联
 
-- Program Plan：`specs/coordination/program-plan.yaml` 中的任务 ID、Wave 与 `integrationOrder`
+- Program Plan：`specs/coordination/program-plan.yaml` 中的任务 ID、Wave、`integrationOrder` 与 `exitGate`
 - Requirement：
 - Design：
 - ADR：
@@ -63,6 +64,7 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 - Never Rules：
 - Module Ownership：`specs/designs/module-ownership.yaml`
 - Active Work：`specs/coordination/active-work.yaml`
+- Completion Ledger：`specs/coordination/task-completions.yaml`
 
 ## 允许范围
 
@@ -105,6 +107,7 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 - Reviewer：
 - Integrator：
 - Program Wave：
+- Program Exit Gate：必须与 front matter `exitGate` 和 Program Plan 完全一致
 - 基线 SHA：
 - 租约到期：
 - Handoff：`evidence/GUIZE-000/handoff.md`
@@ -115,11 +118,12 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 - [ ] Given / When / Then 的核心成功路径可验证。
 - [ ] 关键失败路径可验证。
 - [ ] 权限、安全、幂等或并发约束按适用范围验证。
-- [ ] Program Plan、Task Spec、活动登记、分支、base SHA、角色和 handoff 一致。
+- [ ] Program Plan、Task Spec、活动登记、分支、base SHA、角色、exit gate 和 handoff 一致。
 - [ ] 实际修改文件全部落在 Registry 独占/共享路径或本任务治理元数据例外内。
 - [ ] Requirement/Module/Contract producer-consumer 与 Program Plan 一致。
-- [ ] 依赖已合并或已冻结为可版本化机器契约。
+- [ ] 依赖已完成，或已冻结为 Program Plan 明确允许的可版本化机器契约。
 - [ ] 相关文档、契约和 Evidence 同步完成。
+- [ ] 完成后由独立 completion PR 写入 `task-completions.yaml`，保留 Reservation、Merge、Task Spec、Evidence 与 Handoff 记录。
 
 ## 必须执行的测试
 
@@ -128,6 +132,7 @@ python scripts/check-task-file.py --task GUIZE-000
 python scripts/check-agent-coordination.py --task GUIZE-000 --base-ref origin/main --head-ref HEAD --branch-name feat/GUIZE-000-short-name
 python scripts/check-project-readiness.py
 python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py
 make task-verify TASK=GUIZE-000 BRANCH=feat/GUIZE-000-short-name BASE=origin/main
 ```
 
