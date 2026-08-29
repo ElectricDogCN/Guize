@@ -49,8 +49,8 @@ properties:
     additionalProperties: false
     required: [maxActiveTasks, maxHighRiskTasks, criticalStandalone, reservationRequired, independentReviewForHighRisk]
     properties:
-      maxActiveTasks: {type: integer, minimum: 1, maximum: 10}
-      maxHighRiskTasks: {type: integer, minimum: 0, maximum: 3}
+      maxActiveTasks: {const: 3}
+      maxHighRiskTasks: {const: 1}
       criticalStandalone: {const: true}
       reservationRequired: {const: true}
       independentReviewForHighRisk: {const: true}
