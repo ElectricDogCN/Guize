@@ -139,7 +139,7 @@ class TestProjectReadiness(unittest.TestCase):
                 "dependsOn": ["GZ-101"],
                 "requirementIds": [requirement_id],
                 "moduleIds": [module_id],
-                "outputPaths": [f"poc/{poc_id}/**"],
+                "outputPaths": [f"poc/{poc_id}/**", f"evidence/{task_id}/**"],
                 "sharedPaths": [],
                 "producesContracts": [f"{poc_id}-EVIDENCE"],
                 "consumesContracts": ["REQ-V1"],
@@ -364,6 +364,22 @@ class TestProjectReadiness(unittest.TestCase):
             self.assertEqual(result.returncode, 1)
             self.assertIn("missing from owner module", result.stdout)
 
+    def test_shared_writer_reverse_mapping_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            second = copy.deepcopy(modules["modules"][0])
+            second["id"] = "MOD-SECOND"
+            second["name"] = "Second"
+            second["ownedPaths"] = ["backend/second/**"]
+            second["ownedSchemas"] = ["second"]
+            second["providedContracts"] = []
+            modules["modules"].append(second)
+            requirements["requirements"][0]["moduleIds"].append("MOD-SECOND")
+            modules["contractNamespaces"][0]["sharedWriterModules"] = ["MOD-SECOND"]
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("shared writer MOD-SECOND does not list it as provided", result.stdout)
+
     def test_unproduced_contract_consumption_fails(self):
         with tempfile.TemporaryDirectory() as root:
             requirements, modules, plan = self._documents()
@@ -379,6 +395,56 @@ class TestProjectReadiness(unittest.TestCase):
             result = self._run(root, requirements, modules, plan)
             self.assertEqual(result.returncode, 1)
             self.assertIn("module mapping differs", result.stdout)
+
+    def test_poc_risk_mismatch_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            plan["pocs"][0]["riskLevel"] = "high"
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("riskLevel differs", result.stdout)
+
+    def test_poc_task_reference_mismatch_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            next(task for task in plan["tasks"] if task["taskId"] == "POC-001")["pocIds"] = []
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("must reference exactly POC-01", result.stdout)
+
+    def test_poc_evidence_path_must_be_owned_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            task = next(task for task in plan["tasks"] if task["taskId"] == "POC-001")
+            task["outputPaths"] = ["poc/POC-01/**"]
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("does not own evidence path", result.stdout)
+
+    def test_high_risk_owner_reviewer_must_differ(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            plan["tasks"][0]["reviewerRole"] = plan["tasks"][0]["ownerRole"]
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("ownerRole and reviewerRole must differ", result.stdout)
+
+    def test_external_blocker_unknown_task_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            plan["externalBlockers"][0]["requiredFor"] = ["GZ-999"]
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("references unknown task GZ-999", result.stdout)
+
+    def test_foundation_and_program_task_ids_cannot_overlap(self):
+        with tempfile.TemporaryDirectory() as root:
+            requirements, modules, plan = self._documents()
+            plan["tasks"][0]["taskId"] = "GZ-003"
+            plan["tasks"][0]["branchPattern"] = "chore/GZ-003-*"
+            result = self._run(root, requirements, modules, plan)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Foundation and Program task IDs overlap", result.stdout)
 
     def test_current_repository_indexes_pass(self):
         result = subprocess.run([sys.executable, SCRIPT, "--repo-root", REPO_ROOT], capture_output=True, text=True)
