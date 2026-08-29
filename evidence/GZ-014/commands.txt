@@ -2,22 +2,64 @@ GZ-014 command evidence
 
 command: GitHub.create_issue repository_full_name=ElectricDogCN/Guize title="GZ-014：收敛项目交付计划并加固多 Agent 协作一致性"
 exit code: 0
-observed result: issue #17 created at https://github.com/ElectricDogCN/Guize/issues/17
+observed result: issue #17 created
 
-command: GitHub.create_branch repository_full_name=ElectricDogCN/Guize branch_name=chore/GZ-014-reservation sha=9e3a821ada292ac3ef69b7c059384d17f6530b48
+command: GitHub.create_branch branch_name=chore/GZ-014-reservation sha=9e3a821ada292ac3ef69b7c059384d17f6530b48
 exit code: 0
-observed result: branch chore/GZ-014-reservation created from the GZ-003 merge baseline
+observed result: reservation branch created from merged GZ-003 baseline
 
-command: GitHub.create_tree base_tree_sha=c75a2c978e2357edaaa33240ba25279606797040
+command: GitHub.create_pull_request head=chore/GZ-014-reservation base=main
 exit code: 0
-observed result: tree 7bdca1f80d9ce45f4d70c80f9206470b9c9c54e4 created with Task Spec, Registry entry and canonical Evidence
+observed result: reservation PR #18 created
 
-command: GitHub.create_commit parent_sha=9e3a821ada292ac3ef69b7c059384d17f6530b48 tree_sha=7bdca1f80d9ce45f4d70c80f9206470b9c9c54e4
+command: GitHub Actions Governance Gate for PR #18 initial reservation HEAD
+exit code: 1
+observed result: Project Readiness found four asymmetric Requirement/Module mappings; Agent Coordination parsed an ambiguous inline-code sentence as a fake shared path
+
+command: GitHub.update_file specs/requirements/requirements-index.yaml and specs/tasks/GZ-014.md
 exit code: 0
-observed result: reservation commit f8ba53c1cf389178e17b54625be94688d4eaf4d6
+observed result: mappings repaired and no-shared-scope marker changed to an unambiguous standalone `无。`
 
-command: GitHub.update_ref branch_name=chore/GZ-014-reservation sha=f8ba53c1cf389178e17b54625be94688d4eaf4d6 force=false
+command: GitHub Actions Governance Gate run #109
 exit code: 0
-observed result: branch ref updated successfully
+observed result: Project Readiness, Agent Coordination, 121 governance tests, Markdown, Schema, Secret, Evidence, Scope and Spec Sync passed
 
-Governance Gate and review results are not recorded until their actual GitHub runs complete.
+command: GitHub.merge_pull_request pr_number=18 expected_head_sha=4675bf920103c559d64914c126ea044f16f1b9e5
+exit code: 0
+observed result: reservation merged as d731ce09fbf2535948bc1864490539d06ce1f139
+
+command: GitHub.create_branch branch_name=chore/GZ-014-program-plan-reconciliation sha=d731ce09fbf2535948bc1864490539d06ce1f139
+exit code: 0
+observed result: implementation branch created from reservation merge baseline
+
+command: GitHub.create_issue title="OPS-001：启用 main Ruleset、Required Checks 与独立审批"
+exit code: 0
+observed result: external enforcement blocker issue #20 created and left open
+
+command: GitHub.update_file/create_file/delete_file on GZ-014 registered exclusive paths
+exit code: 0
+observed result: canonical Program Plan/Schema, requirement index v2, module/contract ownership v2, readiness/schema checkers, governance tests, docs and templates committed; superseded work-package-plan.yaml deleted
+
+command: GitHub.update_issue issue_number=14
+exit code: 0
+observed result: #14 aligned to GZ-004 requirement/NFR/acceptance baseline and canonical Program Plan
+
+command: GitHub.update_issue issue_number=15
+exit code: 0
+observed result: #15 aligned to GZ-010 POC Program only; experiments split into POC-001..POC-010
+
+command: GitHub.create_pull_request head=chore/GZ-014-program-plan-reconciliation base=main
+exit code: 0
+observed result: implementation PR #21 created
+
+command: GitHub Actions Governance Gate run #111
+exit code: 1
+observed result: all checks except Schema Validation passed; active-work lease ISO timestamps were parsed as datetime instead of schema strings
+
+command: GitHub.update_file specs/coordination/active-work.yaml
+exit code: 0
+observed result: lease timestamps quoted as strings; active-work Schema was not weakened
+
+command: GitHub Actions Governance Gate for latest implementation HEAD
+exit code: pending at time of this evidence update
+observed result: do not infer success; use GitHub run attached to latest PR #21 HEAD
