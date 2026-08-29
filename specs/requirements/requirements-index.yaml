@@ -11,7 +11,7 @@ requirements:
       - docs/02-requirements-and-scope.md
       - docs/03-system-architecture.md
       - docs/07-source-connectors.md
-    moduleIds: [MOD-SOURCE, MOD-CONNECTOR, MOD-TASK]
+    moduleIds: [MOD-PLATFORM, MOD-SOURCE, MOD-CONNECTOR, MOD-TASK]
     workPackages: [WP-M1-03, WP-M1-04, WP-M2-07, WP-M5-08]
     acceptanceIds: [ACCEPT-SOURCE-SYNC, ACCEPT-CONNECTOR-CONTRACT]
     machineContractState: partial
@@ -26,7 +26,7 @@ requirements:
     designRefs:
       - docs/05-domain-and-data-model.md
       - docs/21-low-level-design.md
-    moduleIds: [MOD-ASSET, MOD-SOURCE]
+    moduleIds: [MOD-PLATFORM, MOD-ASSET, MOD-SOURCE]
     workPackages: [WP-M1-02]
     acceptanceIds: [验收V1-0001]
     machineContractState: gap
@@ -42,7 +42,7 @@ requirements:
       - docs/08-cache-and-storage-lifecycle.md
       - docs/09-media-av1-and-streaming.md
       - docs/12-security-identity-and-permissions.md
-    moduleIds: [MOD-IAM, MOD-STORAGE, MOD-MEDIA, MOD-PLAYER, MOD-EDGE]
+    moduleIds: [MOD-IAM, MOD-ASSET, MOD-STORAGE, MOD-MEDIA, MOD-PLAYER, MOD-EDGE]
     workPackages: [WP-M1-05, WP-M1-06, WP-M1-07, WP-M3-03]
     acceptanceIds: [验收V1-0002, 验收V1-0003, 验收V1-0006]
     machineContractState: gap
@@ -102,7 +102,7 @@ requirements:
     designRefs:
       - docs/14-rules-and-workflows.md
       - docs/21-low-level-design.md
-    moduleIds: [MOD-POLICY, MOD-TASK, MOD-WORKER]
+    moduleIds: [MOD-PLATFORM, MOD-POLICY, MOD-TASK, MOD-WORKER]
     workPackages: [WP-M1-08, WP-M5-02, WP-M5-03]
     acceptanceIds: [验收V1-0009, 验收V1-0010]
     machineContractState: partial

@@ -5,4 +5,46 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
     - GZ-003
-tasks: []
+tasks:
+  - taskId: GZ-014
+    issue: 17
+    title: 收敛项目交付计划并加固多 Agent 协作一致性
+    status: reserved
+    riskLevel: high
+    owner: ElectricDogCN
+    coordinator: program-coordinator-agent
+    implementer: governance-hardening-agent
+    reviewer: independent-governance-review-agent
+    integrator: integration-agent
+    agentRole: coordinator
+    branch: chore/GZ-014-program-plan-reconciliation
+    baseBranch: main
+    baseSha: 9e3a821ada292ac3ef69b7c059384d17f6530b48
+    workPackage: WP-M0-08
+    coordinationGroup: program-plan-reconciliation
+    dependsOn:
+      - GZ-003
+    exclusivePaths:
+      - AGENTS.md
+      - README.md
+      - MANIFEST.md
+      - .github/ISSUE_TEMPLATE/agent-task.yml
+      - .github/pull_request_template.md
+      - adr/0014-multi-agent-coordination-and-integration.md
+      - docs/24-requirements-design-readiness-audit.md
+      - docs/25-multi-agent-collaboration-protocol.md
+      - specs/coordination/**
+      - specs/requirements/requirements-index.yaml
+      - specs/designs/module-ownership.yaml
+      - specs/tasks/GZ-003.md
+      - scripts/check-project-readiness.py
+      - scripts/check-agent-coordination.py
+      - scripts/check-schemas.py
+      - tests/governance/**
+    sharedPaths: []
+    handoffPath: evidence/GZ-014/handoff.md
+    integrationStrategy: merge
+    integrationOrder: 1
+    lease:
+      acquiredAt: 2026-08-29T02:07:00Z
+      expiresAt: 2026-09-05T01:59:00Z
