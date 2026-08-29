@@ -21,6 +21,15 @@ tasks:
     baseBranch: main
     baseSha: d731ce09fbf2535948bc1864490539d06ce1f139
     workPackage: WP-M0-08
+    programPlan: specs/coordination/program-plan.yaml
+    programTaskId: GZ-014
+    programWave: FOUNDATION
+    requirementIds:
+      - REQ-V1-0010
+    moduleIds:
+      - MOD-GOV
+    producesContracts: []
+    consumesContracts: []
     coordinationGroup: program-plan-reconciliation
     dependsOn:
       - GZ-003
