@@ -6,27 +6,43 @@ body:
   - type: markdown
     attributes:
       value: |
-        GZ-003 之后的新实现任务必须使用 schemaVersion 2 Task Spec，并在开始实现前通过 reservation PR 登记到 `specs/coordination/active-work.yaml`。
+        GZ-014 之后，非治理修复任务必须先存在于 `specs/coordination/program-plan.yaml`，并在实现前通过 reservation PR 登记到 `specs/coordination/active-work.yaml`。Issue、Program Plan、Task Spec、Registry 和分支必须使用同一任务定义。
   - type: input
     id: task_id
     attributes:
       label: 任务编号
-      description: 任务唯一标识（如 GZ-004）
+      description: Program Plan 中的唯一 Task ID（如 GZ-005 或 POC-001）
       placeholder: GZ-000
+    validations:
+      required: true
+  - type: input
+    id: program_plan
+    attributes:
+      label: Program Plan 路径与任务条目
+      description: 固定使用 canonical 路径，并填写 Task ID
+      placeholder: specs/coordination/program-plan.yaml#GZ-000
+    validations:
+      required: true
+  - type: input
+    id: wave
+    attributes:
+      label: Program Wave / Integration Order
+      description: 与 Program Plan 一致，例如 W2 / 1
+      placeholder: W0 / 1
     validations:
       required: true
   - type: input
     id: work_package
     attributes:
       label: 工作包
-      description: 对应 WBS/Work Package（如 WP-M0-03）
+      description: 对应 WBS/Work Package
     validations:
       required: true
   - type: dropdown
     id: risk_level
     attributes:
       label: 风险等级
-      description: high/critical 同时最多一个，并要求独立 Reviewer
+      description: high/critical 同时最多一个；critical 独立 Wave；high/critical 要求独立 Reviewer
       options:
         - low
         - medium
@@ -60,6 +76,20 @@ body:
     validations:
       required: true
   - type: textarea
+    id: requirement_modules
+    attributes:
+      label: Requirement 与 Module
+      description: 填写 Program Plan 中的 REQ-V1-* 和 MOD-*；不得自行扩展
+    validations:
+      required: true
+  - type: textarea
+    id: contract_namespaces
+    attributes:
+      label: Produced / Consumed Contract Namespace
+      description: 使用 Program Plan 的 contract ID，并核对 `specs/designs/module-ownership.yaml` 的 owner/consumer；无则明确写“无”
+    validations:
+      required: true
+  - type: textarea
     id: goal
     attributes:
       label: 目标与非目标
@@ -70,28 +100,28 @@ body:
     id: base_sha
     attributes:
       label: Base Commit SHA
-      description: 创建任务/预留时 `main` 的完整 40 位 SHA
+      description: reservation 时 `main` 的完整 40 位 SHA
     validations:
       required: true
   - type: textarea
     id: dependencies
     attributes:
       label: 依赖与集成顺序
-      description: 列出 dependsOn、共同机器契约、parallelGroup 和 integrationOrder
+      description: 列出 Program Plan `dependsOn`、producer contract、Wave 和 integrationOrder，并说明依赖是否已进入 base
     validations:
       required: true
   - type: textarea
     id: exclusive_paths
     attributes:
       label: 独占写路径
-      description: 每行一个仓库路径/Glob；不得使用 `**` 预占整个仓库
+      description: 与 Program Plan `outputPaths` 对齐；每行一个路径/Glob；不得使用 `**` 预占整个仓库
     validations:
       required: true
   - type: textarea
     id: shared_paths
     attributes:
       label: 共享写路径
-      description: 无则写“无”；存在时必须说明 coordinationGroup 和 integrationOrder
+      description: 无则只写“无。”；存在时必须双方显式 shared、相同 coordinationGroup、不同 integrationOrder
     validations:
       required: true
   - type: textarea
@@ -111,22 +141,22 @@ body:
   - type: textarea
     id: acceptance_criteria
     attributes:
-      label: 验收标准
-      description: 使用 Given/When/Then 或等价可执行条件，覆盖失败路径
+      label: 验收标准与 Exit Gate
+      description: 使用 Given/When/Then 或等价可执行条件，覆盖失败路径，并复制 Program Plan exitGate
     validations:
       required: true
   - type: textarea
     id: test_method
     attributes:
       label: 必须执行的测试
-      description: 包括 Task、Coordination、Readiness、专项测试和 make verify
+      description: 包括 Task、Coordination、Readiness、Schema、专项测试和 make verify
     validations:
       required: true
   - type: input
     id: lease_expiration
     attributes:
       label: 任务租约到期时间
-      description: ISO-8601 UTC；最长不超过 registry policy
+      description: ISO-8601 UTC；最长不超过 Registry policy
       placeholder: 2026-09-01T00:00:00Z
     validations:
       required: true
@@ -149,10 +179,17 @@ body:
     validations:
       required: true
   - type: textarea
+    id: blockers
+    attributes:
+      label: External Blocker
+      description: 列出 Program Plan externalBlockers；无则写“无”
+    validations:
+      required: true
+  - type: textarea
     id: risk
     attributes:
       label: 风险与缓解
-      description: 与风险等级一致，说明触发器、负责人和应急方案
+      description: 与 Program Plan 风险等级一致，说明触发器、负责人和应急方案
     validations:
       required: true
   - type: textarea
