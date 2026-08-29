@@ -1,0 +1,55 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://guize.local/schemas/task-completions.schema.yaml
+title: Guize Program Task Completion Ledger
+type: object
+additionalProperties: false
+required: [$schema, schemaVersion, sourceOfTruth, records]
+properties:
+  $schema:
+    const: task-completions.schema.yaml
+  schemaVersion:
+    const: 1
+  sourceOfTruth:
+    const: specs/coordination/task-completions.yaml
+  records:
+    type: array
+    items:
+      $ref: '#/$defs/completionRecord'
+$defs:
+  completionRecord:
+    type: object
+    additionalProperties: false
+    required:
+      - taskId
+      - reservationRef
+      - reservationCommit
+      - completionRef
+      - mergeCommit
+      - taskSpec
+      - evidencePath
+      - handoffPath
+    properties:
+      taskId:
+        type: string
+        pattern: '^[A-Z]+-[0-9]{3}$'
+      reservationRef:
+        type: string
+        pattern: '^PR-[0-9]+$'
+      reservationCommit:
+        type: string
+        pattern: '^[0-9a-f]{40}$'
+      completionRef:
+        type: string
+        pattern: '^PR-[0-9]+$'
+      mergeCommit:
+        type: string
+        pattern: '^[0-9a-f]{40}$'
+      taskSpec:
+        type: string
+        pattern: '^specs/tasks/[A-Z]+-[0-9]{3}(?:-[^/]+)?[.]md$'
+      evidencePath:
+        type: string
+        pattern: '^evidence/[A-Z]+-[0-9]{3}$'
+      handoffPath:
+        type: string
+        pattern: '^evidence/[A-Z]+-[0-9]{3}/handoff[.]md$'
