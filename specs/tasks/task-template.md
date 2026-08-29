@@ -11,6 +11,13 @@ workBranch: feat/GUIZE-000-short-name
 evidencePath: evidence/GUIZE-000
 issue: 0
 workPackage: WP-MX-00
+programPlan: specs/coordination/program-plan.yaml
+programTaskId: GUIZE-000
+wave: W0
+requirementIds: REQ-V1-0000
+moduleIds: MOD-REPLACE
+producesContracts: NONE
+consumesContracts: NONE
 taskOwner: REPLACE_WITH_GITHUB_OWNER
 coordinator: REPLACE_WITH_COORDINATOR
 implementer: REPLACE_WITH_IMPLEMENTER_AGENT
@@ -29,7 +36,7 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 
 # GUIZE-000 任务规格
 
-> 替换所有占位值。GZ-003 之后的新任务必须使用 schemaVersion 2，并在实现前通过 reservation PR 写入 `specs/coordination/active-work.yaml`。任务 ID 必须符合 `<大写前缀>-<数字>`。
+> 替换所有占位值。GZ-014 之后，非治理修复任务必须先存在于 `specs/coordination/program-plan.yaml`，并且依赖、波次、风险、Requirement、Module、输出路径和契约关系一致；实现前再通过 reservation PR 写入 `specs/coordination/active-work.yaml`。任务 ID 必须符合 `<大写前缀>-<数字>`。
 
 ## 背景
 
@@ -45,10 +52,13 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 
 ## 关联
 
+- Program Plan：`specs/coordination/program-plan.yaml` 中的任务 ID、Wave 与 `integrationOrder`
 - Requirement：
 - Design：
 - ADR：
-- OpenAPI/Event/Data Schema：
+- OpenAPI/Event/Data/Runtime Contract：
+- Produced Contract Namespace：
+- Consumed Contract Namespace：
 - Issue：
 - Never Rules：
 - Module Ownership：`specs/designs/module-ownership.yaml`
@@ -67,15 +77,16 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 
 ### 输入
 
-- 待补充。
+- 已合并依赖 Task/机器契约及精确版本。
 
 ### 输出
 
-- 待补充。
+- Program Plan 中声明的 `outputPaths`、机器契约、代码、文档和 Evidence。
 
 ## 依赖与集成顺序
 
-- 列出 `dependsOn` 的合并状态、共同机器契约和 `integrationOrder`；无依赖时写明“无”。
+- 列出 Program Plan `dependsOn` 的合并状态、共同机器契约、Wave 和 `integrationOrder`；无依赖时写明“无”。
+- consumer Task 不得依赖未合并 producer 的分支；必须依赖已合并提交或冻结机器契约。
 
 ## 独占写范围
 
@@ -83,7 +94,9 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 
 ## 共享修改范围
 
-- 无；若存在，必须与其他任务使用相同 `coordinationGroup`，并指定不同 `integrationOrder`。
+- 无。
+
+若确有共享路径，删除上面的“无”，逐项列出代码标记路径；所有相关任务必须使用相同 `coordinationGroup`、显式 shared 声明和不同 `integrationOrder`。
 
 ## 协作与交接
 
@@ -91,6 +104,7 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 - Implementer：
 - Reviewer：
 - Integrator：
+- Program Wave：
 - 基线 SHA：
 - 租约到期：
 - Handoff：`evidence/GUIZE-000/handoff.md`
@@ -101,8 +115,9 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 - [ ] Given / When / Then 的核心成功路径可验证。
 - [ ] 关键失败路径可验证。
 - [ ] 权限、安全、幂等或并发约束按适用范围验证。
-- [ ] Task Spec、活动登记、分支、base SHA、角色和 handoff 一致。
+- [ ] Program Plan、Task Spec、活动登记、分支、base SHA、角色和 handoff 一致。
 - [ ] 实际修改文件全部落在 Registry 独占/共享路径或本任务治理元数据例外内。
+- [ ] Requirement/Module/Contract producer-consumer 与 Program Plan 一致。
 - [ ] 依赖已合并或已冻结为可版本化机器契约。
 - [ ] 相关文档、契约和 Evidence 同步完成。
 
@@ -112,6 +127,7 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 python scripts/check-task-file.py --task GUIZE-000
 python scripts/check-agent-coordination.py --task GUIZE-000 --base-ref origin/main --head-ref HEAD --branch-name feat/GUIZE-000-short-name
 python scripts/check-project-readiness.py
+python scripts/check-schemas.py
 make task-verify TASK=GUIZE-000 BRANCH=feat/GUIZE-000-short-name BASE=origin/main
 ```
 
@@ -136,7 +152,7 @@ handoff.md
 
 ## 风险
 
-- 待补充；必须与 `riskLevel` 一致。
+- 待补充；必须与 Program Plan 和 `riskLevel` 一致。
 
 ## 回滚
 

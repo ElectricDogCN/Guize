@@ -1,217 +1,451 @@
 # 25. 多 Agent 协作、交接与集成协议
 
+> 初始机制：GZ-003 / ADR-0014
+> Program Plan 与公共契约加固：GZ-014
+> 适用范围：所有需求、设计、契约、POC、代码、测试、部署和治理任务
+
 ## 1. 目标
 
-本协议解决多个 Agent 同时在 Guize 仓库工作时的四类风险：
+本协议解决多个 Agent 在 Guize 仓库协作时的主要风险：
 
-- 两个任务修改同一路径或同一机器契约；
-- 下游任务基于未合并或已过期的依赖开发；
-- 实现者自行审查和集成高风险变更；
-- 交接只留下说明，没有真实提交、测试和 Evidence。
+- Issue、PR、聊天和仓库文件分别维护不同任务定义；
+- 两个任务修改同一路径、Schema 或机器契约；
+- consumer 在 producer 契约尚未合并时提前实现；
+- 下游任务使用过期 `main` 或未进入目标基线的依赖；
+- 一个巨大 POC/实现分支同时覆盖多个风险域；
+- high/critical 变更由同一 Agent 实现、审查和集成；
+- Handoff 只有说明，没有真实 Commit、测试和 Evidence；
+- GitHub 平台保护未启用却被文档写成已强制。
 
-本协议不提高并行数量上限，而是让必要的有限并行可证明安全。
+本协议不追求最大并发，而是把单人最终审查能力作为约束，让有限并行可证明安全、可中断恢复、可审查、可回滚。
 
-## 2. 角色
+## 2. 协作事实源
 
-### Coordinator
+### 2.1 长期 Program Plan
 
-- 拆分 Task、确认依赖和风险；
-- 分配路径租约与 `integrationOrder`；
-- 控制并行上限；
-- 处理过期/取消/阻塞登记；
-- 不能用协调权限覆盖冻结需求或机器契约。
+`specs/coordination/program-plan.yaml` 是 V1 长期交付计划的唯一机器可读入口，描述：
 
-### Implementer
+- Task ID、名称、类型和状态；
+- Wave、风险、并行容量和集成顺序；
+- `dependsOn` DAG；
+- Requirement 和 Module；
+- exclusive output path 和 shared path；
+- contract producer/consumer；
+- 验收和 POC；
+- Issue、branch pattern 和 exit gate；
+- external blockers 和 release policy。
 
-- 只在 Task 和活动登记允许范围内修改；
-- 从登记的 `baseSha` 建立分支；
-- 维护测试、Evidence 和 handoff；
-- 发现越界依赖时停止并交回 Coordinator。
+Program Plan 不能修改冻结需求，只能安排如何交付已批准范围。Program Plan 变更本身属于高风险治理任务，必须 reservation、独立 Review 和 Gate。
 
-### Reviewer
+### 2.2 当前活动任务
 
-- 默认只读；
-- 检查需求优先级、契约、范围、失败路径、安全和 Evidence；
-- high/critical 任务不得由同一 Agent 同时充当唯一 Implementer 和唯一 Reviewer；
-- 不通过删除测试、放宽断言或改需求来消除阻塞项。
+`specs/coordination/active-work.yaml` 只记录已经 reservation 或正在执行的少量任务：
 
-### Integrator
+- 固定 base SHA；
+- Coordinator/Implementer/Reviewer/Integrator；
+- 风险；
+- 独占/共享路径；
+- 租约；
+- Handoff；
+- Integration Strategy/Order。
 
-- 检查依赖已合并、基线新鲜、共享路径顺序和 Review Thread；
-- 只集成已批准的行为；
-- 冲突涉及行为时退回 Implementer，不在合并时静默选择；
-- 不执行生产发布。
+不得把全部未来任务预先写入 Active Work；未开工任务留在 Program Plan。
 
-单人项目中，ElectricDogCN 可以承担最终人工批准，但 Agent 角色和执行记录仍需分离。
+### 2.3 Task Spec、Issue 与 Evidence
 
-## 3. 生命周期
+- `specs/tasks/<TASK-ID>.md`：本次任务的精确边界；
+- GitHub Issue：人类可见的目标、决策和状态；
+- `evidence/<TASK-ID>/` 或 `evidence/POC-XXX/`：执行与验证事实；
+- PR：实际变更、Review 和 Merge 载体。
 
-```text
-PROPOSED
-→ RESERVATION_PR
-→ RESERVED
-→ IN_PROGRESS
-→ REVIEW
-→ INTEGRATION
-→ COMPLETED
+这些对象必须使用同一 Task ID、标题、风险、依赖、输出路径和退出门禁。发生不一致时停止实现，以 Program Plan + Task Spec + Registry 为准修复 Issue/PR 元数据。
 
-任意活动状态
-→ BLOCKED / CANCELLED / EXPIRED
-```
+## 3. 权威边界
 
-`active-work.yaml` 只记录 `RESERVED` 之后的活动任务；提议阶段保留在 Issue/Task Spec。
-
-## 4. 两阶段任务启动
-
-### 阶段 A：预留
-
-Coordinator：
-
-1. 创建 Issue；
-2. 创建 schemaVersion 2 Task Spec 和 Evidence；
-3. 声明 `baseSha`、依赖、风险、角色、独占/共享路径、租约和集成顺序；
-4. 通过小型 reservation PR 更新 `active-work.yaml`；
-5. Governance Gate 通过并合并 reservation PR。
-
-### 阶段 B：实现
-
-Implementer 从包含预留记录的最新 `main` 创建工作分支。禁止先开发后补登记；紧急安全修复需要 Coordinator 记录例外和缩短租约。
-
-## 5. 路径租约
-
-### 独占路径
-
-- 一个活动任务拥有写权限；
-- 与其他任务独占或共享声明重叠均失败；
-- 机器契约、Migration、模块核心包、全局配置默认独占；
-- 禁止用 `**` 预占整个仓库。
-
-### 共享路径
-
-仅适用于不可避免的索引、聚合文档、版本目录或共同生成文件。要求：
-
-- 相同 `coordinationGroup`；
-- 不同 `integrationOrder`；
-- 明确谁先合并、谁基于谁刷新；
-- handoff 记录冲突处理；
-- 共享路径不得掩盖真实模块边界不清。
-
-### 保守重叠
-
-脚本无法证明两个通配模式互斥时按冲突处理。任务应缩小路径，而不是放宽检查。
-
-## 6. 依赖与契约
-
-- `dependsOn` 的 Task 必须存在；
-- 活动依赖图不得有环；
-- 下游只可依赖已合并契约或明确版本的稳定分支；
-- 多个 Agent 可以并行实现不同消费者，但共同 Provider 契约必须先冻结；
-- 禁止从其他 Agent 未提交的本地状态复制行为定义；
-- 依赖变化后，Coordinator 更新登记和集成顺序。
-
-## 7. 风险与并行上限
-
-| 风险 | 典型任务 | 并行规则 |
-|---|---|---|
-| low | 单模块文档/无行为重构 | 可与独立 low/medium 并行 |
-| medium | 单模块功能、独立 POC | 总活动任务不超过 3 |
-| high | 机器契约、数据库、权限、核心架构、硬件拓扑 | 同时最多 1 个 |
-| critical | 生产数据、Secrets、恢复、公开权限 | 单独执行并需人工批准 |
-
-单人审查容量是硬约束；不能通过增加 Agent 数量绕过。
-
-## 8. 基线新鲜度
-
-Task Spec 和活动登记都保存 `baseSha`。进入 Review 前：
-
-- 获取最新 `main`；
-- 检查是否落后或依赖已变化；
-- 重新运行 Scope、Contract、Tests 和 Evidence；
-- 更新后原批准失效，需要重新审查；
-- 禁止 force push 隐藏已审查历史。
-
-## 9. Handoff Contract
-
-`handoffPath` 至少包含：
+协作治理不覆盖产品和架构权威：
 
 ```text
-Task / Issue / Branch / Base SHA
-角色和执行者
-提交 SHA 与目的
-实际 changed files
-契约/Schema 版本
-测试命令、退出码与结果
-Evidence 路径
-已知失败、限制和未解决项
-共享路径和 integrationOrder
-回滚与恢复
-下一角色需要执行的精确动作
+已批准需求规格
+→ 已批准 API / Event / Data Schema
+→ 已批准 ADR
+→ 系统和模块设计
+→ AGENTS.md
+→ Never Rules
+→ Program Plan / Task Spec / Active Work
+→ 代码现状
+→ Agent 推断
 ```
 
-“已完成”“测试通过”“可合并”等结论必须链接真实证据。
+如果 Program Plan 与更高层冲突，不得“按计划继续”；必须先建立需求、契约或 ADR 决策。
 
-## 10. Review Contract
+## 4. 角色与职责
 
-Reviewer 依次检查：
+### 4.1 Coordinator
 
-1. 权威需求和 ADR；
-2. 机器契约兼容性；
-3. Task/Registry/Branch/Base SHA 一致；
-4. 允许/禁止范围；
-5. 模块和 Schema 所有权；
-6. 成功、失败、安全、并发、幂等、迁移；
-7. 测试是否真实执行；
-8. Evidence 是否可复现；
-9. 共享路径和集成顺序；
-10. 回滚是否可执行。
+- 从 Program Plan 选择满足启动条件的 Task；
+- 确认依赖、Wave、风险和外部 blocker；
+- 创建 Issue、Task Spec、Evidence 和 reservation PR；
+- 指定精确 base SHA、角色、租约、路径和 integration order；
+- 控制并行数量和审查容量；
+- 处理过期、取消、阻塞、范围调整和计划变更；
+- 不替代 Implementer 完成功能，也不替代 Reviewer 给出独立结论。
 
-输出必须区分 blocker、warning 和 non-blocking suggestion。
+### 4.2 Implementer
 
-## 11. Integration Contract
+- 从 reservation 合并后的最新 `main` 创建 Registry 指定分支；
+- 只修改登记路径；
+- 先契约/测试后实现；
+- 记录成功、失败、限制和未解决项；
+- 维护 Evidence 和 Handoff；
+- 不自行合并，不把自测当作独立 Review。
 
-Integrator 合并前确认：
+### 4.3 Independent Reviewer
 
-- 所有依赖已进入目标基线；
-- 最新 HEAD 的所有 Required Check 成功；
-- Review Thread 全解决；
-- high/critical 具有独立 Reviewer 和人工批准；
-- 分支未过期、无未知范围修改；
-- 活动任务登记在本 PR 中完成或释放；
-- shared path 按 `integrationOrder` 集成；
-- 合并方式与 Task Spec 一致；
-- 合并后 main 的 Gate 再次运行。
+- 默认只读，不承担同一 high/critical 任务的主要实现；
+- 检查权威顺序、范围、契约、数据、权限、安全、并发、幂等、失败和恢复；
+- 读取真实 Diff、Commit、CI、日志和 Evidence；
+- 发现问题时明确 blocker 严重度和可验证修复条件；
+- 修复后重新审查最新 HEAD，不能沿用旧结论。
 
-## 12. 冲突和失败
+### 4.4 Integrator
 
-- 路径冲突：后登记任务缩小范围或等待；
-- 契约冲突：暂停消费者，先建立 ADR/契约任务；
-- Git 冲突涉及行为：退回 Implementer；
-- 租约过期：任务自动视为阻塞，Coordinator 决定续期或释放；
-- Agent 中断：新 Agent 必须从 handoff、Git 和 Evidence 恢复，不能依赖聊天记忆；
-- CI 失败：保留失败证据，修复后重新执行，不覆盖历史。
+- 检查依赖是否进入目标基线；
+- 检查公共契约、Migration、行为和配置冲突；
+- 检查分支是否过期、Review 是否针对最新 HEAD、Gate 是否成功；
+- 按 `integrationOrder` 集成；
+- 不在集成阶段静默重写业务行为；发现冲突退回 Coordinator/Implementer；
+- 合并后推动 Registry 释放、Program Plan 状态和 final Handoff 更新。
 
-## 13. GitHub 设置
+### 4.5 Human Owner
 
-CODEOWNERS 只能路由审查，不能自行强制。管理员仍需在 GitHub 配置 `main` Ruleset：PR、批准、Required Check、对话解决、禁止 force push/delete、过期批准失效和管理员受约束。未启用前，仓库只能称为“流程约束可用”，不能称为“平台强制阻止直接推送”。
+ElectricDogCN 保留最终人工决策权，尤其包括：
 
-## 14. 最小并行示例
+- 合并 high/critical PR；
+- 生产部署；
+- 正式 Migration；
+- Secrets 和权限策略；
+- 删除/覆盖正式数据；
+- 灾难恢复；
+- Release 签署。
+
+## 5. Task 启动条件
+
+一个新 Task 只有全部满足下列条件才能 reservation：
+
+1. Program Plan 中存在唯一 Task ID；
+2. Task 状态允许启动；
+3. `dependsOn` 已完成，或 producer 产物已作为冻结机器契约进入 `main`；
+4. 当前 Wave 已开放，不依赖后续 Wave；
+5. Wave 和全局并行容量未超限；
+6. high/critical 数量未超限；critical Task 独立 Wave；
+7. Requirement、Module、output/shared path、contract producer/consumer 明确；
+8. 外部 blocker 不禁止该 Task；
+9. high/critical 有不同的 Implementer 和 Reviewer；
+10. Issue、Task Spec、Evidence 和 branch pattern 一致。
+
+不满足时状态为 `BLOCKED`，不得通过扩大 allowlist、删除依赖或降低风险等级开工。
+
+## 6. 两阶段启动协议
+
+### 6.1 Reservation PR
+
+Reservation PR 先把协作状态写入 `main`，通常只包含：
+
+- Task Spec；
+- `active-work.yaml` 唯一记录；
+- canonical Evidence 骨架；
+- 必要的最小索引修复。
+
+必须声明：
 
 ```text
-GZ-007 ATS POC
-  exclusive: poc/ats/**, evidence/GZ-007/**
-
-GZ-009 元数据规模 POC
-  exclusive: poc/metadata-scale/**, evidence/GZ-009/**
-
-两者无重叠、均 medium、依赖 GZ-003，可并行。
-
-GZ-004 核心机器契约
-  high risk，独占 contracts/**
-
-GZ-005 工程骨架
-  dependsOn GZ-004，不可与 GZ-004 提前并行实现共同接口。
+Task ID
+Issue
+Program Wave
+Risk
+Base Branch / Base SHA
+Coordinator / Implementer / Reviewer / Integrator
+DependsOn
+Exclusive Paths
+Shared Paths
+Lease
+Handoff
+Integration Strategy / Order
 ```
 
-## 15. 完成定义
+Reservation PR 不得提前实现业务功能，也不能宣称整个 Task 完成。
 
-多 Agent 协作正常不等于“多个 Agent 都产生了提交”，而是：任务独立、路径无冲突、依赖无环、角色有交接、测试可复现、集成顺序明确、失败可恢复、最终人工批准可基于证据完成。
+### 6.2 Implementation Branch
+
+Reservation 合并后：
+
+1. 从包含 reservation 的最新 `main` 创建 Registry 指定分支；
+2. Task/Registry 状态改为 `in_progress`；
+3. `baseSha` 更新为 reservation merge commit；
+4. `agentRole` 改为 `implementer`；
+5. 不改变已审查路径、风险和角色；确需改变时先修订 reservation。
+
+## 7. 路径租约
+
+### 7.1 独占路径
+
+`exclusivePaths` 表示活动期间只有该 Task 可写。与其他 Task 的独占或共享路径重叠时 fail-closed。
+
+禁止：
+
+- `**`、`/` 或整个仓库；
+- 为“以后可能用到”预占大目录；
+- Task Spec 声明窄范围、Registry 登记宽范围；
+- 实际 Diff 超出路径后再补文档解释。
+
+### 7.2 共享路径
+
+共享写入只有同时满足以下条件才允许：
+
+- 双方都在 `sharedPaths` 显式声明；
+- `coordinationGroup` 相同；
+- `integrationOrder` 不同；
+- Handoff 明确合并语义；
+- 公共契约 ownership 允许 shared writer。
+
+“无共享范围”必须单独写：
+
+```markdown
+## 共享修改范围
+
+- 无。
+```
+
+不得写成“无；当前 `active-work.yaml` 中没有其他任务”，否则路径解析器可能把内联代码误识别为共享路径。
+
+## 8. 模块、Schema 与公共契约 ownership
+
+`specs/designs/module-ownership.yaml` 记录：
+
+- 模块 owned path；
+- PostgreSQL Schema owner；
+- 模块依赖；
+- public Contract Namespace；
+- Namespace 唯一 owner；
+- consumer modules；
+- explicit shared writers。
+
+规则：
+
+1. 模块不直接写其他模块的 Repository/Schema；
+2. Contract Namespace 默认只有唯一 owner；
+3. consumer 可读/生成客户端，但不能修改 owner 契约；
+4. shared writer 必须显式登记；
+5. Contract producer Task 先合并，consumer Task 才能实现；
+6. 同一机器契约不得由多个并行 Task 分别创建不兼容版本；
+7. 破坏性变更必须版本化、迁移、消费者分析和回滚。
+
+## 9. Program Wave 与并行策略
+
+默认约束：
+
+- 最多 3 个活动 Task；
+- 最多 1 个 high/critical Task；
+- critical Task 独立 Wave；
+- 同 Wave exclusive output path 不得重叠；
+- shared path 必须协调；
+- 未冻结共同机器契约前不并行实现消费者；
+- 实际审查容量不足时，Coordinator 应低于最大并发，而不是填满上限。
+
+GZ-014 Program Plan 使用 W1～W17，先需求/契约/POC，再工程骨架与 M1～M6。Wave 是允许的最早并行窗口，不是强制同时启动。
+
+## 10. POC 协作
+
+GZ-010 只负责统一 POC Protocol，不执行十项实验。每项 POC 使用独立 Task：
+
+```text
+POC-001 ↔ POC-01
+...
+POC-010 ↔ POC-10
+```
+
+POC Task 需要独立：
+
+- 分支和 Issue；
+- 环境/版本；
+- 原始数据；
+- 命令和配置；
+- 风险与安全边界；
+- 退出条件；
+- 失败替代；
+- Evidence；
+- Handoff；
+- ADR/Program Plan 影响。
+
+不得只提交结论摘要或用 Agent 推断替代实测。
+
+## 11. Handoff Contract
+
+Handoff 至少包含：
+
+```text
+Task / Issue / Branch / HEAD
+Base SHA / Main SHA
+Program Wave / Integration Order
+Role / Lease
+Completed Scope
+Changed Files
+Produced Contracts
+Consumed Contract Versions
+Commands / Exit Codes / CI Runs
+Known Failures / Limitations
+Security / Migration / Rollback
+Open Questions
+Next Role Exact Action
+```
+
+Handoff 不等于完成声明。Reviewer 和 Integrator 必须独立读取 GitHub Diff/CI/Evidence。
+
+## 12. Review 协议
+
+Reviewer 按以下顺序检查：
+
+1. 权威需求、机器契约、ADR；
+2. Program Plan/Task/Registry/Issue 一致性；
+3. 实际 Diff 与路径；
+4. 模块/Schema/Contract ownership；
+5. 成功和失败路径；
+6. 权限、安全、Secrets、SSRF、文件和供应链；
+7. 幂等、并发、状态机和数据一致性；
+8. Migration、兼容、回滚和恢复；
+9. 测试、CI、Evidence；
+10. 未解决项和发布边界。
+
+Review 结论：
+
+- `APPROVE`：无 blocker，且 Reviewer 有权限正式批准；
+- `COMMENT / NEEDS_REVIEW`：审查结论完整但不构成正式批准；
+- `REQUEST_CHANGES`：存在 blocker；
+- `BLOCKED`：依赖/环境/平台设置未满足。
+
+旧 HEAD 的 Review 不能自动覆盖新提交。
+
+## 13. Integration 协议
+
+Integrator 必须确认：
+
+- PR 基于可接受的 `main`；
+- 所有 producer 已进入 base；
+- `integrationOrder` 正确；
+- shared changes 按顺序应用；
+- 无重复 Migration/version/event type/error code；
+- 最新 HEAD 的 Governance/Language/Contract/E2E Gate 成功；
+- Review threads 全部解决；
+- high/critical 有独立 Review 和人工批准；
+- 回滚路径可执行。
+
+发现行为冲突时，不得在 Merge 按钮前临时改代码；退回新 Commit 和重新验证。
+
+## 14. 完成与释放
+
+实现 PR 合并后，Task 还需要完成状态收口：
+
+1. 记录真实 merge SHA；
+2. Task Spec 状态改为 `completed`；
+3. Active Work 条目删除或改为 `completed` 后按策略归档；
+4. Program Plan 状态更新；
+5. Handoff/summary/commands/test results 更新；
+6. Issue 以 `completed` 关闭；
+7. 若有后续任务，更新其依赖事实；
+8. 通过单独 cleanup/release PR 合并，避免在实现 PR 中预写未知 merge SHA。
+
+## 15. 过期、取消和阻塞
+
+### Lease 过期
+
+- 自动 Gate 失败；
+- Coordinator 决定续租、释放或取消；
+- 不允许 Agent 静默继续提交。
+
+### Cancelled
+
+- 记录原因和可复用产物；
+- 关闭实现 PR；
+- 释放路径；
+- 更新 Program Plan；
+- 不删除历史。
+
+### Blocked
+
+- 指明 blocker ID、负责人和解除条件；
+- 不得通过删测试/降风险/跳过 Gate 绕过。
+
+## 16. GitHub 外部强制层
+
+仓库内协议无法阻止有写权限者直接推送。OPS-001（Issue #20）需要真实配置并验证：
+
+- `main` 只允许 PR；
+- Required Check：`Governance Gate / Governance Checks`；
+- 至少 1 个批准；
+- high/critical 独立 Reviewer；
+- require conversation resolution；
+- dismiss stale approvals；
+- branch up to date；
+- 禁止 force push/delete；
+- 管理员遵守规则；
+- 紧急绕过有审计。
+
+Issue #20 未关闭前，只能称为“协作流程和 CI 可用”，不能称为“GitHub 平台已强制”。
+
+## 17. 验证命令
+
+```bash
+python scripts/check-schemas.py
+python scripts/check-project-readiness.py
+python scripts/check-agent-coordination.py
+python scripts/check-agent-coordination.py --task <TASK-ID> \
+  --base-ref origin/main \
+  --head-ref HEAD \
+  --branch-name <branch>
+python scripts/check-task-file.py --task <TASK-ID>
+python scripts/check-evidence.py --task <TASK-ID>
+make verify TASK=<TASK-ID> BRANCH=<branch> BASE=origin/main
+```
+
+最终 RC 还必须执行：
+
+```bash
+python scripts/check-project-readiness.py --strict-ready
+```
+
+在机器契约、实现、POC、验收或 external blocker 未完成时，`--strict-ready` 失败是正确行为。
+
+## 18. 最小示例
+
+```text
+Program Plan: GZ-005 / W2 / high
+DependsOn: GZ-004 completed
+Produces: OPENAPI-V1
+Reservation:
+  branch chore/GZ-005-openapi-reservation
+  exclusive contracts/openapi/**
+  reviewer independent-contract-review-agent
+Merge reservation
+Implementation:
+  branch chore/GZ-005-openapi-baseline
+  baseSha = reservation merge SHA
+  produce OpenAPI + tests + Evidence
+Independent review
+Integration merge
+Cleanup:
+  Task completed
+  Registry released
+  Program Plan updated
+```
+
+禁止示例：
+
+```text
+Issue 中叫 GZ-005，Program Plan 中叫 GZ-004
+两个 Agent 同时改 contracts/openapi/common/**
+consumer 基于未合并 producer 分支开发
+GZ-010 在一个 PR 中执行十项 POC
+Implementer 自己作为 high-risk 唯一 Reviewer
+Gate 失败后删除断言并宣称完成
+文档写 main protected，但 API 实际为 false
+```

@@ -1,213 +1,941 @@
-version: 1
-baseline: GZ-002
+version: 2
+baseline: GZ-014
+contractNamespaces:
+- id: CONTRACT-TASK-SPEC
+  pattern: specs/tasks/**
+  ownerModule: MOD-GOV
+  consumerModules:
+  - MOD-PLATFORM
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-ACTIVE-WORK
+  pattern: specs/coordination/active-work.schema.yaml
+  ownerModule: MOD-GOV
+  consumerModules:
+  - MOD-PLATFORM
+  sharedWriterModules: []
+- id: CONTRACT-PROGRAM-PLAN
+  pattern: specs/coordination/program-plan.schema.yaml
+  ownerModule: MOD-GOV
+  consumerModules:
+  - MOD-PLATFORM
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-ENVELOPE
+  pattern: contracts/events/event-envelope.schema.json
+  ownerModule: MOD-PLATFORM
+  consumerModules:
+  - MOD-IAM
+  - MOD-SOURCE
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-AUDIT
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-GUIDELINES
+  pattern: contracts/openapi/openapi-guidelines.md
+  ownerModule: MOD-PLATFORM
+  consumerModules:
+  - MOD-IAM
+  - MOD-SOURCE
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-POLICY
+  - MOD-CONFIG
+  - MOD-PLAYER
+  - MOD-EDGE
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-COMMON
+  pattern: contracts/openapi/common/**
+  ownerModule: MOD-PLATFORM
+  consumerModules:
+  - MOD-IAM
+  - MOD-SOURCE
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-POLICY
+  - MOD-CONFIG
+  - MOD-PLAYER
+  - MOD-EDGE
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-IAM
+  pattern: contracts/openapi/iam/**
+  ownerModule: MOD-IAM
+  consumerModules:
+  - MOD-PLAYER
+  - MOD-EDGE
+  - MOD-SEARCH
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-IAM
+  pattern: contracts/events/iam/**
+  ownerModule: MOD-IAM
+  consumerModules:
+  - MOD-AUDIT
+  - MOD-SEARCH
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-SOURCE
+  pattern: contracts/openapi/source/**
+  ownerModule: MOD-SOURCE
+  consumerModules:
+  - MOD-CONNECTOR
+  - MOD-ASSET
+  - MOD-TASK
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-SOURCE
+  pattern: contracts/events/source/**
+  ownerModule: MOD-SOURCE
+  consumerModules:
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-AUDIT
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-ASSET
+  pattern: contracts/openapi/asset/**
+  ownerModule: MOD-ASSET
+  consumerModules:
+  - MOD-IAM
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-PLAYER
+  - MOD-EDGE
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-ASSET
+  pattern: contracts/events/asset/**
+  ownerModule: MOD-ASSET
+  consumerModules:
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-AUDIT
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-TASK
+  pattern: contracts/openapi/task/**
+  ownerModule: MOD-TASK
+  consumerModules:
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-WORKER
+  - MOD-CONNECTOR
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-TASK
+  pattern: contracts/events/task/**
+  ownerModule: MOD-TASK
+  consumerModules:
+  - MOD-AUDIT
+  - MOD-OBS
+  sharedWriterModules: []
+- id: CONTRACT-WORKFLOW
+  pattern: contracts/workflows/**
+  ownerModule: MOD-TASK
+  consumerModules:
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-DEPLOY
+  - MOD-WORKER
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-STORAGE
+  pattern: contracts/openapi/storage/**
+  ownerModule: MOD-STORAGE
+  consumerModules:
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-TASK
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-STORAGE
+  pattern: contracts/events/storage/**
+  ownerModule: MOD-STORAGE
+  consumerModules:
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-AUDIT
+  - MOD-OBS
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-MEDIA
+  pattern: contracts/openapi/media/**
+  ownerModule: MOD-MEDIA
+  consumerModules:
+  - MOD-PLAYER
+  - MOD-EDGE
+  - MOD-TASK
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-PLAYBACK
+  pattern: contracts/openapi/playback/**
+  ownerModule: MOD-MEDIA
+  consumerModules:
+  - MOD-IAM
+  - MOD-PLAYER
+  - MOD-EDGE
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-MEDIA
+  pattern: contracts/events/media/**
+  ownerModule: MOD-MEDIA
+  consumerModules:
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-AUDIT
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-AI
+  pattern: contracts/openapi/ai/**
+  ownerModule: MOD-AI
+  consumerModules:
+  - MOD-TASK
+  - MOD-SEARCH
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-AI
+  pattern: contracts/events/ai/**
+  ownerModule: MOD-AI
+  consumerModules:
+  - MOD-SEARCH
+  - MOD-AUDIT
+  sharedWriterModules: []
+- id: CONTRACT-AI-PROVIDERS
+  pattern: contracts/providers/**
+  ownerModule: MOD-AI
+  consumerModules:
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-SEARCH
+  pattern: contracts/openapi/search/**
+  ownerModule: MOD-SEARCH
+  consumerModules:
+  - MOD-PLAYER
+  - MOD-CONFIG
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-SEARCH
+  pattern: contracts/events/search/**
+  ownerModule: MOD-SEARCH
+  consumerModules:
+  - MOD-AUDIT
+  - MOD-OBS
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-POLICY
+  pattern: contracts/openapi/policy/**
+  ownerModule: MOD-POLICY
+  consumerModules:
+  - MOD-CONFIG
+  - MOD-TASK
+  sharedWriterModules: []
+- id: CONTRACT-POLICY
+  pattern: contracts/policies/**
+  ownerModule: MOD-POLICY
+  consumerModules:
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-OPENAPI-CONFIG
+  pattern: contracts/openapi/config/**
+  ownerModule: MOD-CONFIG
+  consumerModules:
+  - MOD-PLATFORM
+  sharedWriterModules: []
+- id: CONTRACT-CONFIG-SCHEMA
+  pattern: contracts/schemas/config/**
+  ownerModule: MOD-CONFIG
+  consumerModules:
+  - MOD-PLATFORM
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-AUDIT
+  pattern: contracts/events/audit/**
+  ownerModule: MOD-AUDIT
+  consumerModules:
+  - MOD-OBS
+  sharedWriterModules: []
+- id: CONTRACT-TELEMETRY
+  pattern: contracts/telemetry/**
+  ownerModule: MOD-OBS
+  consumerModules:
+  - MOD-GOV
+  - MOD-PLATFORM
+  - MOD-IAM
+  - MOD-SOURCE
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-POLICY
+  - MOD-CONFIG
+  - MOD-AUDIT
+  - MOD-CONNECTOR
+  - MOD-WORKER
+  - MOD-PLAYER
+  - MOD-EDGE
+  - MOD-DATA
+  - MOD-DEPLOY
+  - MOD-CLI
+  sharedWriterModules: []
+- id: CONTRACT-CONNECTOR
+  pattern: contracts/connectors/**
+  ownerModule: MOD-CONNECTOR
+  consumerModules:
+  - MOD-SOURCE
+  - MOD-TASK
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-PLUGIN-MANIFEST
+  pattern: contracts/schemas/plugin-manifest.schema.yaml
+  ownerModule: MOD-CONNECTOR
+  consumerModules:
+  - MOD-GOV
+  - MOD-SOURCE
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-WORKER
+  pattern: contracts/workers/**
+  ownerModule: MOD-WORKER
+  consumerModules:
+  - MOD-TASK
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-EDGE
+  pattern: contracts/edge/**
+  ownerModule: MOD-EDGE
+  consumerModules:
+  - MOD-MEDIA
+  - MOD-IAM
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-DATA
+  pattern: contracts/data/**
+  ownerModule: MOD-DATA
+  consumerModules:
+  - MOD-IAM
+  - MOD-SOURCE
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-POLICY
+  - MOD-CONFIG
+  - MOD-AUDIT
+  - MOD-DEPLOY
+  sharedWriterModules: []
+- id: CONTRACT-DEPLOYMENT-PROFILE
+  pattern: contracts/schemas/deployment-profile.schema.yaml
+  ownerModule: MOD-DEPLOY
+  consumerModules:
+  - MOD-GOV
+  - MOD-CLI
+  sharedWriterModules: []
 modules:
-  - id: MOD-GOV
-    name: Repository Governance
-    status: active
-    owner: platform-governance
-    ownedPaths: [AGENTS.md, rules/**, specs/tasks/**, specs/coordination/**, scripts/**, tests/governance/**, .github/**]
-    ownedSchemas: []
-    publicContracts: [specs/tasks/task-template.md, specs/coordination/active-work.schema.yaml]
-    dependsOn: []
-    requirementIds: [REQ-V1-0010]
-    workPackages: [WP-M0-01, WP-M0-02, WP-M0-05]
-  - id: MOD-PLATFORM
-    name: Common Platform and Bootstrap
-    status: planned
-    owner: control-plane
-    ownedPaths: [backend/guize-common/**, backend/guize-bootstrap/**, backend/guize-platform-api/**]
-    ownedSchemas: []
-    publicContracts: [contracts/openapi/**]
-    dependsOn: []
-    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0007]
-    workPackages: [WP-M0-03, WP-M1-08]
-  - id: MOD-IAM
-    name: Identity and Access
-    status: planned
-    owner: identity-access
-    ownedPaths: [backend/guize-identity-access/**]
-    ownedSchemas: [iam]
-    publicContracts: [contracts/openapi/iam/**, contracts/events/iam/**]
-    dependsOn: [MOD-PLATFORM]
-    requirementIds: [REQ-V1-0003, REQ-V1-0005, REQ-V1-0008]
-    workPackages: [WP-M1-01, WP-M1-05]
-  - id: MOD-SOURCE
-    name: Source Management
-    status: planned
-    owner: source-management
-    ownedPaths: [backend/guize-source-management/**]
-    ownedSchemas: [source]
-    publicContracts: [contracts/openapi/source/**, contracts/events/source/**]
-    dependsOn: [MOD-PLATFORM]
-    requirementIds: [REQ-V1-0001, REQ-V1-0002]
-    workPackages: [WP-M1-03, WP-M1-04]
-  - id: MOD-ASSET
-    name: Asset Catalog
-    status: planned
-    owner: asset-catalog
-    ownedPaths: [backend/guize-asset-catalog/**]
-    ownedSchemas: [asset]
-    publicContracts: [contracts/openapi/asset/**, contracts/events/asset/**]
-    dependsOn: [MOD-PLATFORM]
-    requirementIds: [REQ-V1-0002, REQ-V1-0003, REQ-V1-0005]
-    workPackages: [WP-M1-02]
-  - id: MOD-TASK
-    name: Task and Workflow Control
-    status: planned
-    owner: task-workflow
-    ownedPaths: [backend/guize-task-workflow/**]
-    ownedSchemas: [task, outbox]
-    publicContracts: [contracts/openapi/task/**, contracts/events/task/**, contracts/workflows/**]
-    dependsOn: [MOD-PLATFORM]
-    requirementIds: [REQ-V1-0001, REQ-V1-0004, REQ-V1-0006, REQ-V1-0007]
-    workPackages: [WP-M1-08, WP-M5-03]
-  - id: MOD-STORAGE
-    name: Storage Lifecycle
-    status: planned
-    owner: storage-lifecycle
-    ownedPaths: [backend/guize-storage-lifecycle/**]
-    ownedSchemas: [storage]
-    publicContracts: [contracts/openapi/storage/**, contracts/events/storage/**]
-    dependsOn: [MOD-PLATFORM, MOD-ASSET, MOD-TASK]
-    requirementIds: [REQ-V1-0003, REQ-V1-0004, REQ-V1-0006]
-    workPackages: [WP-M2-01, WP-M2-02, WP-M2-03, WP-M2-04, WP-M2-05, WP-M2-06]
-  - id: MOD-MEDIA
-    name: Media Control and Execution
-    status: planned
-    owner: media
-    ownedPaths: [backend/guize-media-control/**, services/guize-media-service/**]
-    ownedSchemas: [media]
-    publicContracts: [contracts/openapi/media/**, contracts/events/media/**, contracts/workflows/media/**]
-    dependsOn: [MOD-PLATFORM, MOD-ASSET, MOD-STORAGE, MOD-TASK]
-    requirementIds: [REQ-V1-0003]
-    workPackages: [WP-M3-01, WP-M3-02, WP-M3-03]
-  - id: MOD-AI
-    name: AI Control and Capability Services
-    status: planned
-    owner: ai-platform
-    ownedPaths: [backend/guize-ai-control/**, services/guize-ai-*/**, services/guize-asr-service/**, services/guize-ocr-service/**]
-    ownedSchemas: [ai]
-    publicContracts: [contracts/openapi/ai/**, contracts/events/ai/**, contracts/providers/**]
-    dependsOn: [MOD-PLATFORM, MOD-ASSET, MOD-STORAGE, MOD-TASK]
-    requirementIds: [REQ-V1-0004]
-    workPackages: [WP-M3-04, WP-M3-05, WP-M3-06, WP-M3-07]
-  - id: MOD-SEARCH
-    name: Search and Recommendation
-    status: planned
-    owner: search
-    ownedPaths: [backend/guize-search-control/**, services/guize-embedding-service/**, services/guize-reranker-service/**]
-    ownedSchemas: [search]
-    publicContracts: [contracts/openapi/search/**, contracts/events/search/**]
-    dependsOn: [MOD-PLATFORM, MOD-ASSET, MOD-IAM]
-    requirementIds: [REQ-V1-0005]
-    workPackages: [WP-M4-01, WP-M4-02, WP-M4-03, WP-M4-04, WP-M4-05, WP-M4-06]
-  - id: MOD-POLICY
-    name: Rule Policy
-    status: planned
-    owner: rule-policy
-    ownedPaths: [backend/guize-rule-policy/**]
-    ownedSchemas: [policy]
-    publicContracts: [contracts/openapi/policy/**, contracts/policies/**]
-    dependsOn: [MOD-PLATFORM]
-    requirementIds: [REQ-V1-0007, REQ-V1-0009]
-    workPackages: [WP-M5-02]
-  - id: MOD-CONFIG
-    name: Configuration Center
-    status: planned
-    owner: configuration
-    ownedPaths: [backend/guize-configuration-center/**]
-    ownedSchemas: [config]
-    publicContracts: [contracts/openapi/config/**, contracts/schemas/config/**]
-    dependsOn: [MOD-PLATFORM, MOD-POLICY]
-    requirementIds: [REQ-V1-0009]
-    workPackages: [WP-M5-01]
-  - id: MOD-AUDIT
-    name: Audit
-    status: planned
-    owner: audit
-    ownedPaths: [backend/guize-audit/**]
-    ownedSchemas: [audit]
-    publicContracts: [contracts/events/audit/**]
-    dependsOn: [MOD-PLATFORM]
-    requirementIds: [REQ-V1-0008, REQ-V1-0010]
-    workPackages: [WP-M1-08]
-  - id: MOD-OBS
-    name: Observability
-    status: planned
-    owner: observability
-    ownedPaths: [backend/guize-observability/**, observability/**]
-    ownedSchemas: []
-    publicContracts: [contracts/telemetry/**]
-    dependsOn: [MOD-PLATFORM]
-    requirementIds: [REQ-V1-0010]
-    workPackages: [WP-M5-05]
-  - id: MOD-CONNECTOR
-    name: Connector Plugins
-    status: planned
-    owner: connectors
-    ownedPaths: [plugins/connectors/**, services/guize-connectors/**]
-    ownedSchemas: []
-    publicContracts: [contracts/schemas/plugin-manifest.schema.yaml, contracts/connectors/**]
-    dependsOn: [MOD-SOURCE, MOD-TASK]
-    requirementIds: [REQ-V1-0001]
-    workPackages: [WP-M1-03, WP-M2-07, WP-M5-08]
-  - id: MOD-WORKER
-    name: Worker Agent
-    status: planned
-    owner: worker-runtime
-    ownedPaths: [services/guize-worker-agent/**]
-    ownedSchemas: []
-    publicContracts: [contracts/workers/**]
-    dependsOn: [MOD-TASK]
-    requirementIds: [REQ-V1-0007]
-    workPackages: [WP-M5-03]
-  - id: MOD-PLAYER
-    name: Guize Player
-    status: planned
-    owner: player
-    ownedPaths: [player/**]
-    ownedSchemas: []
-    publicContracts: [contracts/openapi/playback/**]
-    dependsOn: [MOD-IAM, MOD-ASSET, MOD-MEDIA]
-    requirementIds: [REQ-V1-0003]
-    workPackages: [WP-M1-07]
-  - id: MOD-EDGE
-    name: Gateway and ATS Edge
-    status: planned
-    owner: edge
-    ownedPaths: [edge/**]
-    ownedSchemas: []
-    publicContracts: [contracts/openapi/playback/**, contracts/edge/**]
-    dependsOn: [MOD-IAM, MOD-ASSET, MOD-MEDIA]
-    requirementIds: [REQ-V1-0003, REQ-V1-0008]
-    workPackages: [WP-M1-05, WP-M1-06]
-  - id: MOD-DATA
-    name: Data Plane Operations
-    status: planned
-    owner: data-platform
-    ownedPaths: [data/**]
-    ownedSchemas: []
-    publicContracts: [contracts/data/**]
-    dependsOn: []
-    requirementIds: [REQ-V1-0006, REQ-V1-0010]
-    workPackages: [WP-M0-03, WP-M5-07]
-  - id: MOD-DEPLOY
-    name: Deployment and Supply Chain
-    status: planned
-    owner: deployment
-    ownedPaths: [deployment/**, infrastructure/**]
-    ownedSchemas: []
-    publicContracts: [contracts/schemas/deployment-profile.schema.yaml]
-    dependsOn: [MOD-GOV]
-    requirementIds: [REQ-V1-0009, REQ-V1-0010]
-    workPackages: [WP-M5-04, WP-M5-06, WP-M5-07]
-  - id: MOD-CLI
-    name: guizectl
-    status: planned
-    owner: deployment
-    ownedPaths: [guizectl/**]
-    ownedSchemas: []
-    publicContracts: [contracts/schemas/deployment-profile.schema.yaml]
-    dependsOn: [MOD-DEPLOY]
-    requirementIds: [REQ-V1-0009]
-    workPackages: [WP-M5-04]
+- id: MOD-GOV
+  name: Repository Governance
+  status: active
+  owner: platform-governance
+  ownedPaths:
+  - AGENTS.md
+  - rules/**
+  - specs/tasks/**
+  - specs/coordination/**
+  - scripts/**
+  - tests/governance/**
+  - .github/**
+  ownedSchemas: []
+  providedContracts:
+  - CONTRACT-ACTIVE-WORK
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  consumedContracts:
+  - CONTRACT-DEPLOYMENT-PROFILE
+  - CONTRACT-PLUGIN-MANIFEST
+  - CONTRACT-TELEMETRY
+  dependsOn: []
+  requirementIds:
+  - REQ-V1-0010
+  workPackages:
+  - WP-M0-01
+  - WP-M0-02
+  - WP-M0-05
+- id: MOD-PLATFORM
+  name: Common Platform and Bootstrap
+  status: planned
+  owner: control-plane
+  ownedPaths:
+  - backend/guize-common/**
+  - backend/guize-bootstrap/**
+  - backend/guize-platform-api/**
+  ownedSchemas: []
+  providedContracts:
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  consumedContracts:
+  - CONTRACT-ACTIVE-WORK
+  - CONTRACT-CONFIG-SCHEMA
+  - CONTRACT-OPENAPI-CONFIG
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-TELEMETRY
+  dependsOn: []
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0007
+  workPackages:
+  - WP-M0-03
+  - WP-M1-08
+- id: MOD-IAM
+  name: Identity and Access
+  status: planned
+  owner: identity-access
+  ownedPaths:
+  - backend/guize-identity-access/**
+  ownedSchemas:
+  - iam
+  providedContracts:
+  - CONTRACT-EVENT-IAM
+  - CONTRACT-OPENAPI-IAM
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-EDGE
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-OPENAPI-ASSET
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-PLAYBACK
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-PLATFORM
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0005
+  - REQ-V1-0008
+  workPackages:
+  - WP-M1-01
+  - WP-M1-05
+- id: MOD-SOURCE
+  name: Source Management
+  status: planned
+  owner: source-management
+  ownedPaths:
+  - backend/guize-source-management/**
+  ownedSchemas:
+  - source
+  providedContracts:
+  - CONTRACT-EVENT-SOURCE
+  - CONTRACT-OPENAPI-SOURCE
+  consumedContracts:
+  - CONTRACT-CONNECTOR
+  - CONTRACT-DATA
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-PLUGIN-MANIFEST
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-PLATFORM
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  workPackages:
+  - WP-M1-03
+  - WP-M1-04
+- id: MOD-ASSET
+  name: Asset Catalog
+  status: planned
+  owner: asset-catalog
+  ownedPaths:
+  - backend/guize-asset-catalog/**
+  ownedSchemas:
+  - asset
+  providedContracts:
+  - CONTRACT-EVENT-ASSET
+  - CONTRACT-OPENAPI-ASSET
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-EVENT-SOURCE
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-SOURCE
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-PLATFORM
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0003
+  - REQ-V1-0005
+  workPackages:
+  - WP-M1-02
+- id: MOD-TASK
+  name: Task and Workflow Control
+  status: planned
+  owner: task-workflow
+  ownedPaths:
+  - backend/guize-task-workflow/**
+  ownedSchemas:
+  - task
+  - outbox
+  providedContracts:
+  - CONTRACT-EVENT-TASK
+  - CONTRACT-OPENAPI-TASK
+  - CONTRACT-WORKFLOW
+  consumedContracts:
+  - CONTRACT-CONNECTOR
+  - CONTRACT-DATA
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-EVENT-SOURCE
+  - CONTRACT-OPENAPI-AI
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-MEDIA
+  - CONTRACT-OPENAPI-POLICY
+  - CONTRACT-OPENAPI-SOURCE
+  - CONTRACT-OPENAPI-STORAGE
+  - CONTRACT-POLICY
+  - CONTRACT-TELEMETRY
+  - CONTRACT-WORKER
+  dependsOn:
+  - MOD-PLATFORM
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0004
+  - REQ-V1-0006
+  - REQ-V1-0007
+  workPackages:
+  - WP-M1-08
+  - WP-M5-03
+- id: MOD-STORAGE
+  name: Storage Lifecycle
+  status: planned
+  owner: storage-lifecycle
+  ownedPaths:
+  - backend/guize-storage-lifecycle/**
+  ownedSchemas:
+  - storage
+  providedContracts:
+  - CONTRACT-EVENT-STORAGE
+  - CONTRACT-OPENAPI-STORAGE
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-EVENT-ASSET
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-OPENAPI-ASSET
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-TASK
+  - CONTRACT-POLICY
+  - CONTRACT-TELEMETRY
+  - CONTRACT-WORKFLOW
+  dependsOn:
+  - MOD-PLATFORM
+  - MOD-ASSET
+  - MOD-TASK
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0004
+  - REQ-V1-0006
+  workPackages:
+  - WP-M2-01
+  - WP-M2-02
+  - WP-M2-03
+  - WP-M2-04
+  - WP-M2-05
+  - WP-M2-06
+- id: MOD-MEDIA
+  name: Media Control and Execution
+  status: planned
+  owner: media
+  ownedPaths:
+  - backend/guize-media-control/**
+  - services/guize-media-service/**
+  ownedSchemas:
+  - media
+  providedContracts:
+  - CONTRACT-EVENT-MEDIA
+  - CONTRACT-OPENAPI-MEDIA
+  - CONTRACT-OPENAPI-PLAYBACK
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-EDGE
+  - CONTRACT-EVENT-ASSET
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-EVENT-STORAGE
+  - CONTRACT-OPENAPI-ASSET
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-STORAGE
+  - CONTRACT-OPENAPI-TASK
+  - CONTRACT-POLICY
+  - CONTRACT-TELEMETRY
+  - CONTRACT-WORKFLOW
+  dependsOn:
+  - MOD-PLATFORM
+  - MOD-ASSET
+  - MOD-STORAGE
+  - MOD-TASK
+  requirementIds:
+  - REQ-V1-0003
+  workPackages:
+  - WP-M3-01
+  - WP-M3-02
+  - WP-M3-03
+- id: MOD-AI
+  name: AI Control and Capability Services
+  status: planned
+  owner: ai-platform
+  ownedPaths:
+  - backend/guize-ai-control/**
+  - services/guize-ai-*/**
+  - services/guize-asr-service/**
+  - services/guize-ocr-service/**
+  ownedSchemas:
+  - ai
+  providedContracts:
+  - CONTRACT-AI-PROVIDERS
+  - CONTRACT-EVENT-AI
+  - CONTRACT-OPENAPI-AI
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-EVENT-ASSET
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-EVENT-MEDIA
+  - CONTRACT-EVENT-STORAGE
+  - CONTRACT-OPENAPI-ASSET
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-STORAGE
+  - CONTRACT-OPENAPI-TASK
+  - CONTRACT-POLICY
+  - CONTRACT-TELEMETRY
+  - CONTRACT-WORKFLOW
+  dependsOn:
+  - MOD-PLATFORM
+  - MOD-ASSET
+  - MOD-STORAGE
+  - MOD-TASK
+  requirementIds:
+  - REQ-V1-0004
+  workPackages:
+  - WP-M3-04
+  - WP-M3-05
+  - WP-M3-06
+  - WP-M3-07
+- id: MOD-SEARCH
+  name: Search and Recommendation
+  status: planned
+  owner: search
+  ownedPaths:
+  - backend/guize-search-control/**
+  - services/guize-embedding-service/**
+  - services/guize-reranker-service/**
+  ownedSchemas:
+  - search
+  providedContracts:
+  - CONTRACT-EVENT-SEARCH
+  - CONTRACT-OPENAPI-SEARCH
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-EVENT-AI
+  - CONTRACT-EVENT-ASSET
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-EVENT-IAM
+  - CONTRACT-EVENT-MEDIA
+  - CONTRACT-OPENAPI-AI
+  - CONTRACT-OPENAPI-ASSET
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-IAM
+  - CONTRACT-OPENAPI-TASK
+  - CONTRACT-POLICY
+  - CONTRACT-TELEMETRY
+  - CONTRACT-WORKFLOW
+  dependsOn:
+  - MOD-PLATFORM
+  - MOD-ASSET
+  - MOD-IAM
+  requirementIds:
+  - REQ-V1-0005
+  workPackages:
+  - WP-M4-01
+  - WP-M4-02
+  - WP-M4-03
+  - WP-M4-04
+  - WP-M4-05
+  - WP-M4-06
+- id: MOD-POLICY
+  name: Rule Policy
+  status: planned
+  owner: rule-policy
+  ownedPaths:
+  - backend/guize-rule-policy/**
+  ownedSchemas:
+  - policy
+  providedContracts:
+  - CONTRACT-OPENAPI-POLICY
+  - CONTRACT-POLICY
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-PLATFORM
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+  workPackages:
+  - WP-M5-02
+- id: MOD-CONFIG
+  name: Configuration Center
+  status: planned
+  owner: configuration
+  ownedPaths:
+  - backend/guize-configuration-center/**
+  ownedSchemas:
+  - config
+  providedContracts:
+  - CONTRACT-CONFIG-SCHEMA
+  - CONTRACT-OPENAPI-CONFIG
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-POLICY
+  - CONTRACT-OPENAPI-SEARCH
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-PLATFORM
+  - MOD-POLICY
+  requirementIds:
+  - REQ-V1-0009
+  workPackages:
+  - WP-M5-01
+- id: MOD-AUDIT
+  name: Audit
+  status: planned
+  owner: audit
+  ownedPaths:
+  - backend/guize-audit/**
+  ownedSchemas:
+  - audit
+  providedContracts:
+  - CONTRACT-EVENT-AUDIT
+  consumedContracts:
+  - CONTRACT-DATA
+  - CONTRACT-EVENT-AI
+  - CONTRACT-EVENT-ASSET
+  - CONTRACT-EVENT-ENVELOPE
+  - CONTRACT-EVENT-IAM
+  - CONTRACT-EVENT-MEDIA
+  - CONTRACT-EVENT-SEARCH
+  - CONTRACT-EVENT-SOURCE
+  - CONTRACT-EVENT-STORAGE
+  - CONTRACT-EVENT-TASK
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-PLATFORM
+  requirementIds:
+  - REQ-V1-0008
+  - REQ-V1-0010
+  workPackages:
+  - WP-M1-08
+- id: MOD-OBS
+  name: Observability
+  status: planned
+  owner: observability
+  ownedPaths:
+  - backend/guize-observability/**
+  - observability/**
+  ownedSchemas: []
+  providedContracts:
+  - CONTRACT-TELEMETRY
+  consumedContracts:
+  - CONTRACT-EVENT-AUDIT
+  - CONTRACT-EVENT-SEARCH
+  - CONTRACT-EVENT-STORAGE
+  - CONTRACT-EVENT-TASK
+  dependsOn:
+  - MOD-PLATFORM
+  requirementIds:
+  - REQ-V1-0010
+  workPackages:
+  - WP-M5-05
+- id: MOD-CONNECTOR
+  name: Connector Plugins
+  status: planned
+  owner: connectors
+  ownedPaths:
+  - plugins/connectors/**
+  - services/guize-connectors/**
+  ownedSchemas: []
+  providedContracts:
+  - CONTRACT-CONNECTOR
+  - CONTRACT-PLUGIN-MANIFEST
+  consumedContracts:
+  - CONTRACT-OPENAPI-SOURCE
+  - CONTRACT-OPENAPI-TASK
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-SOURCE
+  - MOD-TASK
+  requirementIds:
+  - REQ-V1-0001
+  workPackages:
+  - WP-M1-03
+  - WP-M2-07
+  - WP-M5-08
+- id: MOD-WORKER
+  name: Worker Agent
+  status: planned
+  owner: worker-runtime
+  ownedPaths:
+  - services/guize-worker-agent/**
+  ownedSchemas: []
+  providedContracts:
+  - CONTRACT-WORKER
+  consumedContracts:
+  - CONTRACT-OPENAPI-TASK
+  - CONTRACT-TELEMETRY
+  - CONTRACT-WORKFLOW
+  dependsOn:
+  - MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  workPackages:
+  - WP-M5-03
+- id: MOD-PLAYER
+  name: Guize Player
+  status: planned
+  owner: player
+  ownedPaths:
+  - player/**
+  ownedSchemas: []
+  providedContracts: []
+  consumedContracts:
+  - CONTRACT-OPENAPI-ASSET
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-IAM
+  - CONTRACT-OPENAPI-MEDIA
+  - CONTRACT-OPENAPI-PLAYBACK
+  - CONTRACT-OPENAPI-SEARCH
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-IAM
+  - MOD-ASSET
+  - MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  workPackages:
+  - WP-M1-07
+- id: MOD-EDGE
+  name: Gateway and ATS Edge
+  status: planned
+  owner: edge
+  ownedPaths:
+  - edge/**
+  ownedSchemas: []
+  providedContracts:
+  - CONTRACT-EDGE
+  consumedContracts:
+  - CONTRACT-OPENAPI-ASSET
+  - CONTRACT-OPENAPI-COMMON
+  - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-OPENAPI-IAM
+  - CONTRACT-OPENAPI-MEDIA
+  - CONTRACT-OPENAPI-PLAYBACK
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-IAM
+  - MOD-ASSET
+  - MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+  workPackages:
+  - WP-M1-05
+  - WP-M1-06
+- id: MOD-DATA
+  name: Data Plane Operations
+  status: planned
+  owner: data-platform
+  ownedPaths:
+  - data/**
+  ownedSchemas: []
+  providedContracts:
+  - CONTRACT-DATA
+  consumedContracts:
+  - CONTRACT-TELEMETRY
+  dependsOn: []
+  requirementIds:
+  - REQ-V1-0006
+  - REQ-V1-0010
+  workPackages:
+  - WP-M0-03
+  - WP-M5-07
+- id: MOD-DEPLOY
+  name: Deployment and Supply Chain
+  status: planned
+  owner: deployment
+  ownedPaths:
+  - deployment/**
+  - infrastructure/**
+  ownedSchemas: []
+  providedContracts:
+  - CONTRACT-DEPLOYMENT-PROFILE
+  consumedContracts:
+  - CONTRACT-AI-PROVIDERS
+  - CONTRACT-CONFIG-SCHEMA
+  - CONTRACT-CONNECTOR
+  - CONTRACT-DATA
+  - CONTRACT-EDGE
+  - CONTRACT-PLUGIN-MANIFEST
+  - CONTRACT-POLICY
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-TELEMETRY
+  - CONTRACT-WORKER
+  - CONTRACT-WORKFLOW
+  dependsOn:
+  - MOD-GOV
+  requirementIds:
+  - REQ-V1-0009
+  - REQ-V1-0010
+  workPackages:
+  - WP-M5-04
+  - WP-M5-06
+  - WP-M5-07
+- id: MOD-CLI
+  name: guizectl
+  status: planned
+  owner: deployment
+  ownedPaths:
+  - guizectl/**
+  ownedSchemas: []
+  providedContracts: []
+  consumedContracts:
+  - CONTRACT-DEPLOYMENT-PROFILE
+  - CONTRACT-TELEMETRY
+  dependsOn:
+  - MOD-DEPLOY
+  requirementIds:
+  - REQ-V1-0009
+  workPackages:
+  - WP-M5-04

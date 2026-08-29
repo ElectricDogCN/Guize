@@ -58,6 +58,13 @@ properties:
         - baseBranch
         - baseSha
         - workPackage
+        - programPlan
+        - programTaskId
+        - programWave
+        - requirementIds
+        - moduleIds
+        - producesContracts
+        - consumesContracts
         - coordinationGroup
         - dependsOn
         - exclusivePaths
@@ -109,6 +116,38 @@ properties:
         workPackage:
           type: string
           minLength: 1
+        programPlan:
+          const: specs/coordination/program-plan.yaml
+        programTaskId:
+          type: string
+          pattern: '^[A-Z]+-[0-9]+$'
+        programWave:
+          type: string
+          pattern: '^(W[0-9]+|FOUNDATION)$'
+        requirementIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: '^REQ-V1-[0-9]{4}$'
+        moduleIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: '^MOD-[A-Z0-9]+(?:-[A-Z0-9]+)*$'
+        producesContracts:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+        consumesContracts:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
         coordinationGroup:
           type: string
         dependsOn:

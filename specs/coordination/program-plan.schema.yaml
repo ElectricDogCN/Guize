@@ -1,0 +1,237 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://guize.local/schemas/program-plan.schema.yaml
+title: Guize V1 Program Plan
+type: object
+additionalProperties: false
+required:
+  - $schema
+  - schemaVersion
+  - planId
+  - status
+  - baseline
+  - sourceOfTruth
+  - authority
+  - parallelPolicy
+  - foundationTasks
+  - waves
+  - pocs
+  - tasks
+  - externalBlockers
+  - releasePolicy
+properties:
+  $schema:
+    type: string
+    const: program-plan.schema.yaml
+  schemaVersion:
+    type: integer
+    const: 1
+  planId:
+    type: string
+    pattern: '^[A-Z][A-Z0-9-]+$'
+  status:
+    enum: [draft, active, frozen, completed, deprecated]
+  baseline:
+    type: string
+    pattern: '^[A-Z]+-[0-9]{3}$'
+  sourceOfTruth:
+    const: specs/coordination/program-plan.yaml
+  authority:
+    type: object
+    additionalProperties: false
+    required: [requirements, requirementIndex, moduleOwnership, collaborationProtocol]
+    properties:
+      requirements: {type: string, minLength: 1}
+      requirementIndex: {type: string, minLength: 1}
+      moduleOwnership: {type: string, minLength: 1}
+      collaborationProtocol: {type: string, minLength: 1}
+  parallelPolicy:
+    type: object
+    additionalProperties: false
+    required: [maxActiveTasks, maxHighRiskTasks, criticalStandalone, reservationRequired, independentReviewForHighRisk]
+    properties:
+      maxActiveTasks: {const: 3}
+      maxHighRiskTasks: {const: 1}
+      criticalStandalone: {const: true}
+      reservationRequired: {const: true}
+      independentReviewForHighRisk: {const: true}
+  foundationTasks:
+    type: array
+    minItems: 1
+    items: {$ref: '#/$defs/foundationTask'}
+  waves:
+    type: array
+    minItems: 1
+    items: {$ref: '#/$defs/wave'}
+  pocs:
+    type: array
+    minItems: 10
+    maxItems: 10
+    items: {$ref: '#/$defs/poc'}
+  tasks:
+    type: array
+    minItems: 1
+    items: {$ref: '#/$defs/task'}
+  externalBlockers:
+    type: array
+    items: {$ref: '#/$defs/blocker'}
+  releasePolicy:
+    type: object
+    additionalProperties: false
+    required: [noPublicBeta, productionApprovalRequired, allInScopeCapabilitiesMustPass, requiredFinalTask]
+    properties:
+      noPublicBeta: {const: true}
+      productionApprovalRequired: {const: true}
+      allInScopeCapabilitiesMustPass: {const: true}
+      requiredFinalTask:
+        type: string
+        pattern: '^[A-Z]+-[0-9]{3}$'
+$defs:
+  taskId:
+    type: string
+    pattern: '^[A-Z]+-[0-9]{3}$'
+  reqId:
+    type: string
+    pattern: '^REQ-V1-[0-9]{4}$'
+  moduleId:
+    type: string
+    pattern: '^MOD-[A-Z0-9]+(?:-[A-Z0-9]+)*$'
+  path:
+    type: string
+    minLength: 1
+    not:
+      enum: ['*', '**', '/']
+  foundationTask:
+    type: object
+    additionalProperties: false
+    required: [taskId, title, status, completionRef, mergeCommit]
+    properties:
+      taskId: {$ref: '#/$defs/taskId'}
+      title: {type: string, minLength: 1}
+      status:
+        enum: [completed, in_progress, blocked]
+      completionRef: {type: string, minLength: 1}
+      mergeCommit:
+        type: [string, 'null']
+        pattern: '^[0-9a-f]{40}$'
+  wave:
+    type: object
+    additionalProperties: false
+    required: [id, order, name, maxConcurrent, maxHighRisk]
+    properties:
+      id: {type: string, pattern: '^W[0-9]+$'}
+      order: {type: integer, minimum: 1}
+      name: {type: string, minLength: 1}
+      maxConcurrent: {type: integer, minimum: 1, maximum: 10}
+      maxHighRisk: {type: integer, minimum: 0, maximum: 3}
+  poc:
+    type: object
+    additionalProperties: false
+    required: [pocId, taskId, title, status, riskLevel, requirementIds, moduleIds, evidencePath]
+    properties:
+      pocId: {type: string, pattern: '^POC-[0-9]{2}$'}
+      taskId: {type: string, pattern: '^POC-[0-9]{3}$'}
+      title: {type: string, minLength: 1}
+      status:
+        enum: [planned, reserved, in_progress, review, integration, completed, blocked, cancelled]
+      riskLevel:
+        enum: [low, medium, high, critical]
+      requirementIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/reqId'}
+      moduleIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/moduleId'}
+      evidencePath:
+        type: string
+        pattern: '^evidence/POC-[0-9]{3}$'
+  task:
+    type: object
+    additionalProperties: false
+    required: [taskId, title, kind, status, workPackage, riskLevel, ownerRole, reviewerRole, coordinationGroup, wave, integrationOrder, dependsOn, requirementIds, moduleIds, outputPaths, sharedPaths, producesContracts, consumesContracts, acceptanceIds, pocIds, issue, branchPattern, exitGate]
+    properties:
+      taskId: {$ref: '#/$defs/taskId'}
+      title: {type: string, minLength: 1}
+      kind:
+        enum: [requirements, contract, design-contract, poc-coordination, poc, acceptance, scaffold, vertical-slice, release, governance]
+      status:
+        enum: [planned, reserved, in_progress, review, integration, completed, blocked, cancelled]
+      workPackage: {type: string, minLength: 1}
+      riskLevel:
+        enum: [low, medium, high, critical]
+      ownerRole: {type: string, minLength: 1}
+      reviewerRole: {type: string, minLength: 1}
+      coordinationGroup: {type: string, minLength: 1}
+      wave: {type: string, pattern: '^W[0-9]+$'}
+      integrationOrder: {type: integer, minimum: 1}
+      dependsOn:
+        type: array
+        uniqueItems: true
+        items: {$ref: '#/$defs/taskId'}
+      requirementIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/reqId'}
+      moduleIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/moduleId'}
+      outputPaths:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/path'}
+      sharedPaths:
+        type: array
+        uniqueItems: true
+        items: {$ref: '#/$defs/path'}
+      producesContracts:
+        type: array
+        uniqueItems: true
+        items: {type: string, minLength: 1}
+      consumesContracts:
+        type: array
+        uniqueItems: true
+        items: {type: string, minLength: 1}
+      acceptanceIds:
+        type: array
+        uniqueItems: true
+        items: {type: string, minLength: 1}
+      pocIds:
+        type: array
+        uniqueItems: true
+        items: {type: string, pattern: '^POC-[0-9]{2}$'}
+      issue:
+        type: [integer, 'null']
+        minimum: 1
+      branchPattern:
+        type: string
+        pattern: '^(feat|fix|docs|refactor|chore)/[A-Z]+-[0-9]{3}-\*$'
+      exitGate: {type: string, minLength: 10}
+  blocker:
+    type: object
+    additionalProperties: false
+    required: [id, title, status, issue, requiredFor, verification]
+    properties:
+      id: {type: string, minLength: 1}
+      title: {type: string, minLength: 1}
+      status:
+        enum: [open, resolved, waived]
+      issue:
+        type: [integer, 'null']
+        minimum: 1
+      requiredFor:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/taskId'}
+      verification:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {type: string, minLength: 1}
