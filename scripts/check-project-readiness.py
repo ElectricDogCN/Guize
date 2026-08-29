@@ -191,9 +191,13 @@ def main():
     poc_task_ids = unique_ids(pocs, "taskId", "POC task", errors)
     wave_ids = unique_ids(waves, "id", "Wave", errors)
     foundation_ids = unique_ids(foundations, "taskId", "Foundation task", errors)
+    duplicate_plan_ids = sorted(task_ids & foundation_ids)
+    if duplicate_plan_ids:
+        errors.append("Foundation and Program task IDs overlap: " + ", ".join(duplicate_plan_ids))
     all_task_ids = task_ids | foundation_ids
     requirement_by_id = {item.get("id"): item for item in requirements}
     module_by_id = {item.get("id"): item for item in modules}
+    task_by_id = {item.get("taskId"): item for item in tasks}
 
     aliases = {}
     for requirement in requirements:
@@ -273,7 +277,7 @@ def main():
         for module_id in consumers + writers:
             if module_id not in module_ids:
                 errors.append(f"Contract namespace {namespace_id} references unknown module {module_id}")
-        if owner in writers or set(consumers) & set(writers):
+        if owner in consumers or owner in writers or set(consumers) & set(writers):
             errors.append(f"Contract namespace {namespace_id} owner/consumer/shared-writer roles overlap")
         namespace_by_id[namespace_id] = namespace
         namespace_paths.append((namespace_id, namespace.get("pattern", "")))
@@ -300,6 +304,9 @@ def main():
         for module_id in namespace.get("consumerModules", []):
             if namespace_id not in module_by_id.get(module_id, {}).get("consumedContracts", []):
                 errors.append(f"Contract namespace {namespace_id} consumer {module_id} does not list it as consumed")
+        for module_id in namespace.get("sharedWriterModules", []):
+            if namespace_id not in module_by_id.get(module_id, {}).get("providedContracts", []):
+                errors.append(f"Contract namespace {namespace_id} shared writer {module_id} does not list it as provided")
 
     wave_by_id = {wave["id"]: wave for wave in waves}
     if sorted(wave["order"] for wave in waves) != list(range(1, len(waves) + 1)):
@@ -309,19 +316,35 @@ def main():
     if poc_ids != expected_pocs or poc_task_ids != expected_poc_tasks:
         errors.append("Program Plan must map exactly POC-01..10 to POC-001..010")
     for poc in pocs:
-        if poc.get("taskId") not in task_ids:
-            errors.append(f"POC {poc.get('pocId')} task is missing from Program Plan tasks")
+        poc_id = poc.get("pocId")
+        poc_task_id = poc.get("taskId")
+        if poc_task_id not in task_ids:
+            errors.append(f"POC {poc_id} task is missing from Program Plan tasks")
         else:
-            planned = next(task for task in tasks if task.get("taskId") == poc.get("taskId"))
+            planned = task_by_id[poc_task_id]
+            if planned.get("kind") != "poc":
+                errors.append(f"POC {poc_id} task {poc_task_id} must have kind=poc")
+            if planned.get("title") != poc.get("title"):
+                errors.append(f"POC {poc_id} title differs from task {poc_task_id}")
+            if planned.get("status") != poc.get("status"):
+                errors.append(f"POC {poc_id} status differs from task {poc_task_id}")
+            if planned.get("riskLevel") != poc.get("riskLevel"):
+                errors.append(f"POC {poc_id} riskLevel differs from task {poc_task_id}")
             if set(planned.get("requirementIds", [])) != set(poc.get("requirementIds", [])) or set(planned.get("moduleIds", [])) != set(poc.get("moduleIds", [])):
-                errors.append(f"POC {poc.get('pocId')} requirement/module mapping differs from task {poc.get('taskId')}")
+                errors.append(f"POC {poc_id} requirement/module mapping differs from task {poc_task_id}")
+            if planned.get("pocIds") != [poc_id]:
+                errors.append(f"POC task {poc_task_id} must reference exactly {poc_id}")
+            expected_evidence_path = f"{poc.get('evidencePath')}/**"
+            if expected_evidence_path not in planned.get("outputPaths", []):
+                errors.append(f"POC task {poc_task_id} does not own evidence path {expected_evidence_path}")
         for requirement_id in poc.get("requirementIds", []):
             if requirement_id not in requirement_ids:
-                errors.append(f"POC {poc.get('pocId')} references unknown requirement {requirement_id}")
+                errors.append(f"POC {poc_id} references unknown requirement {requirement_id}")
         for module_id in poc.get("moduleIds", []):
             if module_id not in module_ids:
-                errors.append(f"POC {poc.get('pocId')} references unknown module {module_id}")
+                errors.append(f"POC {poc_id} references unknown module {module_id}")
 
+    policy = plan.get("parallelPolicy", {})
     graph, tasks_by_wave, contract_producers = {}, defaultdict(list), {}
     covered_requirements = set()
     for task in tasks:
@@ -332,6 +355,8 @@ def main():
             errors.append(f"Planned task {task_id} has invalid riskLevel")
         if task.get("wave") not in wave_ids:
             errors.append(f"Planned task {task_id} references unknown wave")
+        if policy.get("independentReviewForHighRisk") and task.get("riskLevel") in {"high", "critical"} and task.get("ownerRole") == task.get("reviewerRole"):
+            errors.append(f"High/critical Program task {task_id} ownerRole and reviewerRole must differ")
         require_lists(task, ["requirementIds", "moduleIds", "outputPaths"], f"Planned task {task_id}", errors)
         require_lists(task, ["dependsOn", "sharedPaths", "producesContracts", "consumesContracts", "acceptanceIds", "pocIds"], f"Planned task {task_id}", errors, allow_empty=("dependsOn", "sharedPaths", "producesContracts", "consumesContracts", "acceptanceIds", "pocIds"))
         graph[task_id] = task.get("dependsOn", [])
@@ -368,7 +393,6 @@ def main():
             elif producer not in lineage:
                 errors.append(f"Planned task {task_id} consumes {contract} but producer {producer} is not a dependency ancestor")
 
-    policy = plan.get("parallelPolicy", {})
     for wave_id, wave_tasks in tasks_by_wave.items():
         wave = wave_by_id.get(wave_id, {})
         if len(wave_tasks) > min(wave.get("maxConcurrent", 0), policy.get("maxActiveTasks", 0)):
@@ -395,7 +419,13 @@ def main():
     uncovered = sorted(requirement_ids - covered_requirements)
     if uncovered:
         errors.append("Requirements without Program Plan coverage: " + ", ".join(uncovered))
-    blockers = {blocker.get("id"): blocker for blocker in plan.get("externalBlockers", [])}
+    blocker_items = plan.get("externalBlockers", [])
+    unique_ids(blocker_items, "id", "External blocker", errors)
+    blockers = {blocker.get("id"): blocker for blocker in blocker_items}
+    for blocker in blocker_items:
+        for required_task in blocker.get("requiredFor", []):
+            if required_task not in task_ids:
+                errors.append(f"External blocker {blocker.get('id')} references unknown task {required_task}")
     final_task = plan.get("releasePolicy", {}).get("requiredFinalTask")
     if final_task not in task_ids or next((task for task in tasks if task["taskId"] == final_task), {}).get("riskLevel") != "critical":
         errors.append("Release policy final task must exist and be critical")
