@@ -72,13 +72,17 @@ command: manual pre-approval review of exact HEAD da2e1cbf9ca15881fc7cf271b531ff
 exit code: 1 approval withheld
 observed result: live Ruleset verifier required Governance Checks but did not require strict_required_status_checks_policy=true, allowing stale-base PR checks to satisfy OPS-001
 
-command: update scripts/check-program-plan-finalization.py
+command: update Ruleset finalization verifier and tests for strict_required_status_checks_policy
 exit code: 0
-observed result: resolved BRANCH-PROTECTION now fail-closes unless Required Checks are configured to test pull requests against the latest target branch
+observed result: resolved BRANCH-PROTECTION now requires pull requests to test against the latest target branch
 
-command: update tests/governance/test_program_plan_finalization.py
+command: continued exact-head review of Ruleset approval semantics
+exit code: 1 approval withheld
+observed result: at least one approval and stale-review dismissal did not guarantee that the latest reviewable push was independently approved
+
+command: update Ruleset finalization verifier and tests for require_last_push_approval
 exit code: 0
-observed result: positive and negative tests cover strict_required_status_checks_policy=true/false
+observed result: resolved BRANCH-PROTECTION now requires the latest reviewable push to be approved by someone other than its pusher
 
 command: refresh GZ-014 final review-repair Evidence
 exit code: 0
