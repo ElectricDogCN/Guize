@@ -50,15 +50,11 @@ observed result: accepted controls remained fail-closed; Gate #160 later succeed
 
 command: fresh Codex reviews on later exact heads
 exit code: 0
-observed result: six further blockers identified: completion-aware Scope dispatch, schema-versioned Foundation status, completion Evidence freshness, implementation merge presence in target base, Ruleset exclude handling, and Program/Registry execution-state mapping
+observed result: further blockers identified for completion-aware Scope/Coordination, Foundation lifecycle, completion Evidence freshness, target-base merge existence, Ruleset excludes, Program/Registry mapping and completion provenance
 
-command: add scripts/check-program-plan-finalization.py and mandatory workflow/Makefile wiring
+command: add Program Finalization plus completion-aware Coordination/Scope dispatchers and mandatory workflow/Makefile wiring
 exit code: 0
-observed result: execution-state mapping, Foundation Task Spec lifecycle, completion Evidence freshness, target-base merge existence and Ruleset include/exclude checks became mandatory
-
-command: add completion-aware Agent Coordination and Scope dispatchers plus negative tests
-exit code: 0
-observed result: Completion PRs are routed through narrow metadata semantics instead of ordinary implementation scope/lease rules
+observed result: execution-state mapping, Foundation Task Spec lifecycle, completion Evidence freshness, target-base merge existence, Ruleset include/exclude checks and narrow Completion transitions became mandatory
 
 command: Governance Gate #191 on 771daf58415f1001085d19c4781176acf99afcb0
 exit code: 1
@@ -68,10 +64,22 @@ command: change GZ-014 Task root path from Makefile to ./Makefile
 exit code: 0
 observed result: Task parser normalizes ./Makefile to the same Registry path without changing actual scope
 
-command: Governance Gate #192 on 2c8f08ea136fc509bf2d40819fb5eddcaf8f8b4b
+command: Governance Gate #196 on da2e1cbf9ca15881fc7cf271b531ffe7353eb067
 exit code: 0
-observed result: every mandatory step passed, including Task, Readiness, Program Integrity/History/Finalization, Coordination, 223 governance tests, Schema, Evidence, Scope and Spec Sync
+observed result: every mandatory step passed, including Task, Readiness, Program Integrity/History/Finalization, completion-aware Coordination/Scope, 200 governance tests, Schema, Evidence and Spec Sync
 
-command: refresh GZ-014 Evidence after Gate #192
+command: manual pre-approval review of exact HEAD da2e1cbf9ca15881fc7cf271b531ffe7353eb067
+exit code: 1 approval withheld
+observed result: live Ruleset verifier required Governance Checks but did not require strict_required_status_checks_policy=true, allowing stale-base PR checks to satisfy OPS-001
+
+command: update scripts/check-program-plan-finalization.py
 exit code: 0
-observed result: summary, commands, test results and Handoff are being updated; the resulting later HEAD requires its own Gate and fresh independent review
+observed result: resolved BRANCH-PROTECTION now fail-closes unless Required Checks are configured to test pull requests against the latest target branch
+
+command: update tests/governance/test_program_plan_finalization.py
+exit code: 0
+observed result: positive and negative tests cover strict_required_status_checks_policy=true/false
+
+command: refresh GZ-014 final review-repair Evidence
+exit code: 0
+observed result: Summary, Commands, Test Results and Handoff are synchronized; the resulting latest HEAD requires a new Gate and fresh Codex review
