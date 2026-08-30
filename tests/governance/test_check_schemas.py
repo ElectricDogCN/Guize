@@ -27,10 +27,15 @@ class TestCheckSchemas(unittest.TestCase):
             shutil.copyfile(os.path.join(source, name), os.path.join(target, name))
         task_target = os.path.join(root, "specs", "tasks")
         os.makedirs(task_target, exist_ok=True)
-        shutil.copyfile(
-            os.path.join(REPO_ROOT, "specs", "tasks", "GZ-014.md"),
-            os.path.join(task_target, "GZ-014.md"),
+        active = self._load(os.path.join(source, "active-work.yaml"))
+        task_ids = {"GZ-014"}
+        task_ids.update(
+            item["taskId"] for item in active.get("tasks", []) if item.get("taskId")
         )
+        for task_id in sorted(task_ids):
+            source_path = os.path.join(REPO_ROOT, "specs", "tasks", f"{task_id}.md")
+            if os.path.isfile(source_path):
+                shutil.copyfile(source_path, os.path.join(task_target, f"{task_id}.md"))
         return target
 
     def _load(self, path):
@@ -292,6 +297,10 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
     def test_program_active_task_requires_registry_lease(self):
         with tempfile.TemporaryDirectory() as root:
             coordination = self._copy_coordination(root)
+            active_path = os.path.join(coordination, "active-work.yaml")
+            active = self._load(active_path)
+            active["tasks"] = []
+            self._write(active_path, active)
             path = os.path.join(coordination, "program-plan.yaml")
             plan = self._load(path)
             next(task for task in plan["tasks"] if task["taskId"] == "GZ-004")[
