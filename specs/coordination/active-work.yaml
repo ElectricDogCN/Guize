@@ -52,6 +52,7 @@ tasks:
       - scripts/check-task-file.py
       - scripts/check-project-readiness.py
       - scripts/check-agent-coordination.py
+      - scripts/run-agent-coordination-gate.py
       - scripts/check-schemas.py
       - scripts/check-program-plan-integrity.py
       - scripts/check-program-plan-history.py
