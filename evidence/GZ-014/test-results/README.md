@@ -7,6 +7,7 @@
 - Integration transition PR #29 exact HEAD `24430bffbcbd92c04cfaa48e3852c2e442882fce` passed Governance Gate run #277.
 - PR #29 merged as `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`.
 - Post-integration `main` Governance Gate run #278: `PASS`.
+- `c26fc712...` is a strict descendant of prior Active Work `baseSha: b15ed0dd...` and identifies GZ-014 / PR #29 in its commit message.
 
 ## Foundation completion validation
 
@@ -26,14 +27,15 @@ make verify TASK=GZ-014 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-014-found
 ## Completion acceptance
 
 - GZ-014 Foundation and Task Spec are `completed`;
-- Foundation provenance is `PR-26` / `ef1048344aa082c678e5ef948dc7f62e5aa84510`;
+- Foundation provenance is `PR-29` / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`;
+- PR #26 / `ef104834...` is retained only as earlier implementation/repair history;
 - only the GZ-014 Active Work Lease is removed;
 - Active Work policy and ordinary `task-completions.yaml` are unchanged;
 - Issue #17 is closed with `state_reason=completed`;
-- Summary, Commands, Test Results and Handoff contain the Task ID, implementation merge SHA, completion semantics and real predecessor PASS results;
+- Summary, Commands, Test Results and Handoff contain the Task ID, PR #29, full c26 SHA, Foundation completion semantics and real predecessor PASS results;
 - actual diff contains only Program Plan, Active Work, Task Spec and `evidence/GZ-014/**`;
 - latest exact-head Governance Gate and fresh Review succeed.
 
-Result: `PENDING EXACT-HEAD COMPLETION VALIDATION`
+Result: `PENDING PR-31 EXACT-HEAD COMPLETION VALIDATION`
 
-No completion PR Gate, merge or post-merge main result is claimed before GitHub executes it.
+No PR #31 Gate, Review, merge or post-merge main result is claimed before GitHub executes it.
