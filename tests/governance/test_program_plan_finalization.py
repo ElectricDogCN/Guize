@@ -59,6 +59,36 @@ class TestProgramPlanFinalization(unittest.TestCase):
         self.git(root, "commit", "--allow-empty", "-m", message)
         return self.git(root, "rev-parse", "HEAD").stdout.strip()
 
+    def ruleset(self, strict):
+        return {
+            "target": "branch",
+            "enforcement": "active",
+            "bypass_actors": [],
+            "conditions": {
+                "ref_name": {"include": ["~DEFAULT_BRANCH"], "exclude": []}
+            },
+            "rules": [
+                {
+                    "type": "pull_request",
+                    "parameters": {
+                        "required_approving_review_count": 1,
+                        "dismiss_stale_reviews_on_push": True,
+                        "require_code_owner_review": True,
+                        "required_review_thread_resolution": True,
+                    },
+                },
+                {
+                    "type": "required_status_checks",
+                    "parameters": {
+                        "required_status_checks": [{"context": "Governance Checks"}],
+                        "strict_required_status_checks_policy": strict,
+                    },
+                },
+                {"type": "deletion"},
+                {"type": "non_fast_forward"},
+            ],
+        }
+
     def test_executing_program_task_requires_one_matching_lease(self):
         plan = {
             "foundationTasks": [],
@@ -134,6 +164,19 @@ class TestProgramPlanFinalization(unittest.TestCase):
             },
         }
         self.assertTrue(FINALIZATION.ruleset_applies_to_main(ruleset))
+
+    def test_ruleset_requires_latest_target_branch_testing(self):
+        valid, failures = FINALIZATION.ruleset_satisfies_policy(self.ruleset(False))
+        self.assertFalse(valid)
+        self.assertIn(
+            "pull requests are not required to test against the latest target branch",
+            failures,
+        )
+
+    def test_ruleset_with_strict_latest_target_branch_policy_passes(self):
+        valid, failures = FINALIZATION.ruleset_satisfies_policy(self.ruleset(True))
+        self.assertTrue(valid)
+        self.assertEqual(failures, [])
 
     def prepare_completion_repo(self, root, *, implementation_in_base=True, refresh_evidence=True):
         self.init_git(root)
