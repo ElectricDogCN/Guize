@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Guize Program lifecycle transitions against the integration base.
-
-Snapshot validators prove that the current documents are internally consistent.
-This history-aware checker constrains reservation, active, Foundation and
-cancellation changes so one task cannot rewrite another task, widen canonical
-scope, bypass Program waves, or mix implementation into reservation metadata.
-"""
+"""Validate Guize Program lifecycle transitions against the integration base."""
 
 from __future__ import annotations
 
@@ -214,7 +208,6 @@ def compare_set(
 def validate_active_program_scope(
     plan: dict[str, Any], active: dict[str, Any], errors: list[str]
 ) -> None:
-    """Bind every ordinary active Registry entry to its complete Program identity."""
     planned = mapping(plan.get("tasks"))
     for entry in active.get("tasks") or []:
         if not isinstance(entry, dict):
@@ -268,7 +261,6 @@ def validate_active_program_scope(
 
 
 def validate_wave_activation(plan: dict[str, Any], errors: list[str]) -> None:
-    """Prevent a later Program wave from opening before every earlier wave closes."""
     wave_order = {
         str(item.get("id")): int(item.get("order"))
         for item in plan.get("waves") or []
@@ -349,7 +341,6 @@ def validate_active_transition(
     current_active: dict[str, Any],
     errors: list[str],
 ) -> None:
-    """Allow only the current ordinary or Foundation task's lifecycle transition."""
     base_tasks = mapping(base_plan.get("tasks"))
     current_tasks = mapping(current_plan.get("tasks"))
     base_foundations = mapping(base_plan.get("foundationTasks"))
@@ -374,8 +365,9 @@ def validate_active_transition(
     if not only_section_target_changed(
         base_plan, current_plan, section, task_id, {"status"}
     ):
+        label = "Program task" if section == "tasks" else "Foundation task"
         errors.append(
-            f"Active transition for {task_id} may only change that {section} task's status"
+            f"Active transition for {task_id} may only change that {label}'s status"
         )
 
     base_entries = [
@@ -426,6 +418,11 @@ def validate_active_transition(
             )
             return
         allowed_entry_fields = {"status", "agentRole", "baseSha", "lease"}
+        if section == "foundationTasks":
+            # Foundation repair tasks may move to a dedicated repair branch and
+            # amend only their own audited path lease. Task Spec/Registry exact
+            # matching and changed-file scope remain mandatory elsewhere.
+            allowed_entry_fields.update({"branch", "exclusivePaths", "sharedPaths"})
         if entry_without_fields(base_entries[0], allowed_entry_fields) != entry_without_fields(
             current_entries[0], allowed_entry_fields
         ):
@@ -546,7 +543,6 @@ def validate_cancel_transition(
 def validate_recorded_reservation_commit(
     root: str, record: dict[str, Any], errors: list[str]
 ) -> None:
-    """Prove that a ledger reservation commit was metadata-only and introduced the lease."""
     task_id = str(record.get("taskId") or "")
     commit = str(record.get("reservationCommit") or "")
     task_path = str(record.get("taskSpec") or "")
@@ -574,7 +570,6 @@ def validate_recorded_reservation_commit(
         errors.append(
             f"Reservation commit for {task_id} contains implementation or unrelated files: {invalid}"
         )
-
     parent_plan = load_ref(root, parent, PLAN)
     commit_plan = load_ref(root, commit, PLAN)
     parent_active = load_ref(root, parent, ACTIVE)
