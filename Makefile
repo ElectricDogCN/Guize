@@ -51,6 +51,7 @@ program-integrity-check:
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
 	@if [ ! -f scripts/check-program-plan-integrity.py ]; then echo "MISSING: scripts/check-program-plan-integrity.py not found"; exit 1; fi
 	@if [ ! -f scripts/check-program-plan-history.py ]; then echo "MISSING: scripts/check-program-plan-history.py not found"; exit 1; fi
+	@if [ ! -f scripts/check-program-plan-finalization.py ]; then echo "MISSING: scripts/check-program-plan-finalization.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-program-plan-integrity.py --base-ref $(BASE)
 	@if [ -n "$(TASK)" ]; then \
 		$(PYTHON) scripts/check-program-plan-history.py \
@@ -58,8 +59,15 @@ program-integrity-check:
 			--head-ref $(HEAD_REF) \
 			--task $(TASK) \
 			--branch-name $(BRANCH); \
+		$(PYTHON) scripts/check-program-plan-finalization.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF) \
+			--task $(TASK); \
 	else \
 		$(PYTHON) scripts/check-program-plan-history.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF); \
+		$(PYTHON) scripts/check-program-plan-finalization.py \
 			--base-ref $(BASE) \
 			--head-ref $(HEAD_REF); \
 	fi
@@ -110,8 +118,8 @@ task-verify:
 	@echo "-- check-project-readiness --"
 	$(MAKE) readiness-check
 	@echo "-- check-task-scope --"
-	@if [ ! -f scripts/check-task-scope.py ]; then echo "MISSING: scripts/check-task-scope.py not found"; exit 1; fi
-	$(PYTHON) scripts/check-task-scope.py --task $(TASK) --base $(BASE)
+	@if [ ! -f scripts/run-task-scope-gate.py ]; then echo "MISSING: scripts/run-task-scope-gate.py not found"; exit 1; fi
+	$(PYTHON) scripts/run-task-scope-gate.py --task $(TASK) --base $(BASE)
 	@echo "-- check-evidence --"
 	@if [ ! -f scripts/check-evidence.py ]; then echo "MISSING: scripts/check-evidence.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-evidence.py --task $(TASK)
