@@ -211,6 +211,30 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
         active = self._load(
             os.path.join(REPO_ROOT, "specs", "coordination", "active-work.yaml")
         )
+        plan = self._load(
+            os.path.join(REPO_ROOT, "specs", "coordination", "program-plan.yaml")
+        )
+        foundations = {
+            item["taskId"]: item for item in plan.get("foundationTasks", [])
+        }
+        self.assertIn("GZ-014", foundations)
+        gz014 = foundations["GZ-014"]
+        active_by_id = {item["taskId"]: item for item in active.get("tasks", [])}
+
+        if gz014.get("status") == "completed":
+            self.assertNotIn("GZ-014", active_by_id)
+            self.assertRegex(str(gz014.get("completionRef") or ""), r"^PR-\d+$")
+            self.assertRegex(str(gz014.get("mergeCommit") or ""), r"^[0-9a-f]{40}$")
+            self.assertNotIn("OK FOUNDATION ACTIVATION: GZ-014", result.stdout)
+        else:
+            self.assertIn(
+                gz014.get("status"),
+                {"reserved", "in_progress", "blocked", "review", "integration"},
+            )
+            self.assertIn("GZ-014", active_by_id)
+            self.assertIn("OK TASK REGISTRY LINK: GZ-014", result.stdout)
+            self.assertIn("OK FOUNDATION ACTIVATION: GZ-014", result.stdout)
+
         for item in active.get("tasks", []):
             self.assertIn(f"OK TASK REGISTRY LINK: {item['taskId']}", result.stdout)
             if item.get("programWave") == "FOUNDATION":
