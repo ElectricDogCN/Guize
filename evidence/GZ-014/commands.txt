@@ -40,15 +40,21 @@ exit code: 0
 result: PASS
 observed result: Task status completed; completion branch/base and implementation provenance documented; exitGate unchanged
 
+command: update specs/coordination/program-plan.yaml
+exit code: 0
+result: PASS
+observed result: only GZ-014 Foundation changed to completed with completionRef PR-26 and mergeCommit ef1048344aa082c678e5ef948dc7f62e5aa84510
+
 command: update GZ-014 task-bound completion Evidence
 exit code: 0 for completed GitHub contents writes
 result: PASS
 observed result: Summary, Commands, Changed Files, Test Results and Handoff record GZ-014, implementation merge ef1048344aa082c678e5ef948dc7f62e5aa84510, completion semantics and predecessor Gate results
 
 command: close Issue #17 with state_reason=completed
-exit code: pending until GitHub Issue mutation is executed
-observed result: no future result is claimed
+exit code: 0
+result: PASS
+observed result: Issue #17 is closed and GitHub reports state_reason=completed
 
-command: Foundation completion Program update, exact-head Gate, fresh Review, expected-head merge and post-merge main Gate
+command: Foundation completion exact-head Gate, fresh Review, expected-head merge and post-merge main Gate
 exit code: pending
 observed result: use the latest completion PR HEAD and GitHub Actions; no future success is claimed
