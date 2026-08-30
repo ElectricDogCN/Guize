@@ -147,15 +147,15 @@ jobs:
         run: |
           set -euo pipefail
           if [ "${{ steps.task-context.outputs.task_specific }}" != "true" ]; then
-            python scripts/check-agent-coordination.py
+            python scripts/run-agent-coordination-gate.py
           elif [ -n "${{ github.head_ref }}" ]; then
-            python scripts/check-agent-coordination.py \
+            python scripts/run-agent-coordination-gate.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
               --base-ref "origin/${{ github.base_ref }}" \
               --head-ref "HEAD" \
               --branch-name "${{ github.head_ref }}"
           else
-            python scripts/check-agent-coordination.py \
+            python scripts/run-agent-coordination-gate.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
               --base-ref HEAD^ \
               --head-ref HEAD \
