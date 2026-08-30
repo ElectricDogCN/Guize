@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Validate Guize Program lifecycle transitions against the integration base."""
+"""Validate Guize Program lifecycle transitions against the integration base.
+
+The checker compares the exact target-base snapshot with the proposed HEAD. It
+permits only the current task's declared lifecycle transition, the required POC
+status mirror, and the canonical GZ-018 resolution of BRANCH-PROTECTION. All
+other Program, Registry, ledger and file changes remain fail-closed.
+"""
 
 from __future__ import annotations
 
@@ -32,6 +38,7 @@ ALLOWED_ACTIVE_TRANSITIONS = {
     ("review", "blocked"),
     ("integration", "blocked"),
 }
+BLOCKER_OWNER_TASKS = {"BRANCH-PROTECTION": "GZ-018"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -89,11 +96,11 @@ def load_current(root: str, path: str) -> Any:
         return yaml.safe_load(handle)
 
 
-def mapping(items: list[dict[str, Any]] | None) -> dict[str, dict[str, Any]]:
+def mapping(items: list[dict[str, Any]] | None, key: str = "taskId") -> dict[str, dict[str, Any]]:
     return {
-        str(item.get("taskId")): item
+        str(item.get(key)): item
         for item in (items or [])
-        if isinstance(item, dict)
+        if isinstance(item, dict) and item.get(key)
     }
 
 
@@ -182,10 +189,20 @@ def section_paths(body: str, titles: tuple[str, ...]) -> list[str] | None:
 
 
 def changed_files(root: str, base_ref: str, head_ref: str) -> set[str] | None:
-    result = git(root, "diff", "--name-only", f"{base_ref}...{head_ref}")
+    """Compare exact endpoints and retain both sides of rename/copy records."""
+    result = git(root, "diff", "--name-status", "-M", base_ref, head_ref)
     if result.returncode != 0:
         return None
-    return {line.strip() for line in result.stdout.splitlines() if line.strip()}
+    paths: set[str] = set()
+    for line in result.stdout.splitlines():
+        if not line.strip():
+            continue
+        parts = line.split("\t")
+        if parts[0].startswith(("R", "C")) and len(parts) >= 3:
+            paths.update({parts[1].strip(), parts[2].strip()})
+        elif len(parts) >= 2:
+            paths.add(parts[-1].strip())
+    return paths
 
 
 def compare_set(
@@ -287,7 +304,50 @@ def validate_wave_activation(plan: dict[str, Any], errors: list[str]) -> None:
             )
 
 
-def only_section_target_changed(
+def validate_poc_mirror(
+    base: dict[str, Any],
+    current: dict[str, Any],
+    task_id: str,
+    current_status: str,
+) -> bool:
+    base_pocs = mapping(base.get("pocs"))
+    current_pocs = mapping(current.get("pocs"))
+    if task_id not in base_pocs and task_id not in current_pocs:
+        return base.get("pocs") == current.get("pocs")
+    if set(base_pocs) != set(current_pocs) or task_id not in base_pocs:
+        return False
+    for other_id in base_pocs:
+        if other_id != task_id and base_pocs[other_id] != current_pocs[other_id]:
+            return False
+    before = copy.deepcopy(base_pocs[task_id])
+    after = copy.deepcopy(current_pocs[task_id])
+    before.pop("status", None)
+    after.pop("status", None)
+    return before == after and current_pocs[task_id].get("status") == current_status
+
+
+def validate_external_blocker_transition(
+    base: dict[str, Any], current: dict[str, Any], task_id: str
+) -> bool:
+    before = mapping(base.get("externalBlockers"), key="id")
+    after = mapping(current.get("externalBlockers"), key="id")
+    if set(before) != set(after):
+        return False
+    for blocker_id in before:
+        if before[blocker_id] == after[blocker_id]:
+            continue
+        if BLOCKER_OWNER_TASKS.get(blocker_id) != task_id:
+            return False
+        left = copy.deepcopy(before[blocker_id])
+        right = copy.deepcopy(after[blocker_id])
+        left_status = left.pop("status", None)
+        right_status = right.pop("status", None)
+        if left != right or (left_status, right_status) != ("open", "resolved"):
+            return False
+    return True
+
+
+def only_lifecycle_target_changed(
     base: dict[str, Any],
     current: dict[str, Any],
     section: str,
@@ -310,8 +370,19 @@ def only_section_target_changed(
         current_target.pop(field, None)
     if base_target != current_target:
         return False
+    current_status = str(current_items[task_id].get("status") or "")
+    if section == "tasks" and not validate_poc_mirror(
+        base_copy, current_copy, task_id, current_status
+    ):
+        return False
+    if not validate_external_blocker_transition(base_copy, current_copy, task_id):
+        return False
     base_copy[section] = []
     current_copy[section] = []
+    base_copy["pocs"] = []
+    current_copy["pocs"] = []
+    base_copy["externalBlockers"] = []
+    current_copy["externalBlockers"] = []
     return base_copy == current_copy
 
 
@@ -362,12 +433,13 @@ def validate_active_transition(
         errors.append(
             f"Program task {task_id} has invalid active transition {base_status} -> {current_status}"
         )
-    if not only_section_target_changed(
+    if not only_lifecycle_target_changed(
         base_plan, current_plan, section, task_id, {"status"}
     ):
         label = "Program task" if section == "tasks" else "Foundation task"
         errors.append(
-            f"Active transition for {task_id} may only change that {label}'s status"
+            f"Active transition for {task_id} may only change that {label}'s status, "
+            "its required POC mirror, or its owned live-verified blocker"
         )
 
     base_entries = [
@@ -419,9 +491,6 @@ def validate_active_transition(
             return
         allowed_entry_fields = {"status", "agentRole", "baseSha", "lease"}
         if section == "foundationTasks":
-            # Foundation repair tasks may move to a dedicated repair branch and
-            # amend only their own audited path lease. Task Spec/Registry exact
-            # matching and changed-file scope remain mandatory elsewhere.
             allowed_entry_fields.update({"branch", "exclusivePaths", "sharedPaths"})
         if entry_without_fields(base_entries[0], allowed_entry_fields) != entry_without_fields(
             current_entries[0], allowed_entry_fields
@@ -499,8 +568,12 @@ def validate_cancel_transition(
     if not before or not after or before.get("status") not in ACTIVE_STATES or after.get("status") != "cancelled":
         errors.append(f"Cancellation task {task_id} has an invalid Program status transition")
         return
-    if not only_section_target_changed(base_plan, current_plan, "tasks", task_id, {"status"}):
-        errors.append(f"Cancellation task {task_id} may only change its Program status")
+    if not only_lifecycle_target_changed(
+        base_plan, current_plan, "tasks", task_id, {"status"}
+    ):
+        errors.append(
+            f"Cancellation task {task_id} may only change its Program status and matching POC mirror"
+        )
     prior_entries = [
         item for item in base_active.get("tasks") or [] if item.get("taskId") == task_id
     ]
@@ -553,11 +626,10 @@ def validate_recorded_reservation_commit(
         errors.append(f"Reservation commit for {task_id} has no first parent")
         return
     parent = parent_result.stdout.strip()
-    diff = git(root, "diff", "--name-only", parent, commit)
-    if diff.returncode != 0:
+    files = changed_files(root, parent, commit)
+    if files is None:
         errors.append(f"Reservation commit for {task_id} changed-file set cannot be read")
         return
-    files = {line.strip() for line in diff.stdout.splitlines() if line.strip()}
     allowed_exact = {PLAN, ACTIVE, task_path}
     invalid = sorted(
         path
@@ -586,10 +658,12 @@ def validate_recorded_reservation_commit(
         task_id not in parent_tasks
         or parent_tasks[task_id].get("status") not in {"planned", "blocked"}
         or commit_tasks.get(task_id, {}).get("status") != "reserved"
-        or not only_section_target_changed(parent_plan, commit_plan, "tasks", task_id, {"status"})
+        or not only_lifecycle_target_changed(
+            parent_plan, commit_plan, "tasks", task_id, {"status"}
+        )
     ):
         errors.append(
-            f"Reservation commit for {task_id} must only transition that Program task to reserved"
+            f"Reservation commit for {task_id} must only transition that Program task and POC mirror to reserved"
         )
     parent_entries = [
         item for item in parent_active.get("tasks") or [] if item.get("taskId") == task_id
