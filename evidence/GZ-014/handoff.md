@@ -24,65 +24,69 @@
 
 ## Completed repair scope
 
-1. Added mandatory Program Plan snapshot-integrity and target-branch history-transition checks.
-2. Added permanent ordinary-task completion ledger and Schema.
-3. Bound completed ordinary tasks to Task Spec, Evidence, Handoff, Reservation PR/commit and implementation PR/merge commit.
-4. Added Reservation commit snapshot validation against `active-work.yaml`, Task Spec, base SHA, roles and path claims.
-5. Added append-only/immutable completion-record checks.
-6. Added separate Foundation completion semantics without ordinary ledger use.
-7. Prevented completed Foundation provenance regression.
-8. Prevented completing a dependency and activating its downstream task in the same change.
-9. Required dependency merge identity to be contained in downstream Reservation `baseSha`.
-10. Required GZ-020 to transitively depend on all non-release Program tasks.
-11. Required live GitHub API verification before Branch Protection may be marked resolved.
-12. Added mandatory Governance Gate and Makefile integration.
-13. Added positive and negative regression tests for completion, Foundation, dependencies, external blockers and release closure.
+1. Program Plan snapshot integrity and target-branch history validation.
+2. Program Finalization validation for Program/Registry state mapping, Foundation Task Spec lifecycle, completion Evidence freshness, target-base merge ancestry and live Ruleset include/exclude behavior.
+3. Permanent ordinary-task Completion Ledger and separate Foundation completion model.
+4. Reservation commit snapshot validation against the recorded `active-work.yaml`, Task Spec, base SHA, roles, dependencies and paths.
+5. Append-only completion records and immutable completed Foundation provenance.
+6. Dependency completion must pre-exist in the target branch and be contained in downstream Reservation `baseSha`.
+7. Completion PR changed-file restrictions for the current task only.
+8. Completion Evidence must refresh Handoff, Summary, Commands and Test Results and record the full implementation merge SHA.
+9. Final GZ-020 release transitive closure and external-blocker enforcement.
+10. Mandatory Governance Gate and Makefile wiring for Integrity, History, Finalization, completion-aware Coordination and completion-aware Scope.
+11. Positive/negative governance tests for all above conditions.
 
 ## Real validation history
 
-- Reservation initial Gate: failed on mapping and shared-scope defects, then #109 succeeded.
-- Program implementation Gate #111: failed on YAML timestamp typing, then repaired.
-- PR #21 merged as `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`; latest-HEAD review completed afterward and produced additional blockers.
-- Repair Gate #156 on `8ff0fc026a79511382c774ddb5aab40a5d7b6a88`: failed on initial ledger migration, root `Makefile` path parsing, a test-runner naming collision and stale workflow assertions.
-- Repair Gate #160 on `fcc4e028822594c3dd8d758dda626977a74f42dc`: all mandatory steps succeeded.
+- Initial Reservation Gate failed on mapping and shared-scope defects; #109 then succeeded.
+- Program implementation Gate #111 failed on YAML timestamp typing; the accepted Schema was preserved.
+- PR #21 merged as `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`; a review completed afterward and produced additional blockers.
+- Repair Gate #156 failed on initial ledger migration, root `Makefile` parsing, a test helper naming collision and stale workflow assertions.
+- Subsequent reviews added six blockers covering Completion Scope, Foundation lifecycle, Evidence freshness, target-base merge existence, Ruleset excludes and Program/Registry state mapping.
+- Repair Gate #191 on `771daf58415f1001085d19c4781176acf99afcb0` passed Integrity/History/Finalization and 223 tests but failed Agent Coordination because `Makefile` was expressed as a bare extensionless token.
+- The Task now uses `./Makefile`, normalized to the same Registry path.
+- Repair Gate #192 on `2c8f08ea136fc509bf2d40819fb5eddcaf8f8b4b` succeeded across every mandatory step.
 
-Evidence updates after #160 create a later HEAD. Reviewer and Integrator must use the Gate attached to the final HEAD, not reuse #160 as approval.
+Evidence refresh commits after #192 create a later HEAD. Reviewer and Integrator must use the Gate and review attached to that final HEAD; #192 is supporting evidence, not approval for a changed SHA.
 
 ## Remaining blockers before repair merge
 
-1. Latest PR #22 Governance Gate must be successful.
-2. Fresh Codex review must target the exact latest HEAD.
-3. Every non-outdated blocker thread must be resolved only after confirming the fix.
-4. Integrator must compare actual changed files against GZ-014 scope.
-5. Merge must use `expected_head_sha`.
+1. Final Evidence HEAD Governance Gate must succeed.
+2. A fresh Codex review must target that same exact HEAD and report no findings.
+3. The six current review threads must be resolved only after mapping each to current code/tests and the final green Gate.
+4. Integrator must compare all actual changed files against GZ-014 scope and confirm no business/deployment/Secret/data change.
+5. Approval and merge must be anchored to the exact reviewed HEAD.
 
 ## Reviewer exact action
 
-1. Read the latest PR #22 diff and current Task/Registry/Evidence, not this Handoff alone.
-2. Verify all earlier P1/P2 review findings against current code and negative tests.
-3. Verify `check-program-plan-integrity.py` and `check-program-plan-history.py` are mandatory workflow and local gates.
-4. Verify ordinary Completion PR and Foundation Completion PR cannot change unrelated Program, Registry, ledger, code or governance files.
-5. Verify Reservation snapshot, exact PR/Task token, append-only ledger, dependency timing, final release closure and live Ruleset verification are fail-closed.
-6. Confirm no business contract, business implementation, POC result, Secret, deployment runtime or production change entered PR #22.
+1. Read the final PR #22 diff, Task, Registry, Program Plan, Ledger and Evidence.
+2. Verify Completion Scope uses `run-task-scope-gate.py` in both CI and Makefile.
+3. Verify schema-versioned completed Foundations cannot use `approved`; true pre-schema legacy Foundations remain compatible.
+4. Verify Completion Evidence freshness and target-base implementation merge ancestry.
+5. Verify Ruleset excludes are honored and live API verification remains fail-closed.
+6. Verify Program executing states and Active Work entries are one-to-one with matching status.
+7. Recheck all earlier completion, dependency, release-closure and Reservation snapshot controls.
+8. Confirm no product requirement, business contract, business implementation, POC result, production deployment, Secret or formal data operation entered PR #22.
 
 ## Integrator exact action
 
-1. Confirm latest-HEAD Gate success and latest-HEAD review without blocker.
+1. Confirm final exact-head Gate success and exact-head no-finding review.
 2. Confirm all review threads are resolved.
-3. Compare PR #22 against `main@3b29ea90a8a997be5ff7c97b0f24175cb49508ab`.
+3. Confirm PR #22 remains mergeable against `main@3b29ea90a8a997be5ff7c97b0f24175cb49508ab` or an explicitly revalidated later base.
 4. Merge with `expected_head_sha` and record the actual repair merge SHA.
 5. Verify the resulting `main` Governance Gate succeeds.
 6. Create a separate GZ-014 Foundation Completion PR that:
-   - changes only GZ-014 Foundation completion identity in Program Plan;
+   - records the real repair merge SHA and PR identity;
+   - updates only GZ-014 Foundation completion fields;
    - removes only the GZ-014 Active Work entry;
-   - updates GZ-014 Task Spec and Evidence;
-   - does not add an ordinary completion-ledger record;
-   - passes the new history and coordination gates.
+   - leaves the ordinary Completion Ledger unchanged;
+   - updates GZ-014 Task Spec and refreshes the four required completion Evidence files;
+   - passes Integrity, History, Finalization, Coordination, Scope, Evidence and review.
 
 ## Known external blocker
 
-OPS-001 #20 remains open. Repository files and CI do not prove GitHub Branch Protection/Ruleset is configured. GZ-020 release remains blocked until the live API verifier succeeds.
+OPS-001 #20 remains open. Repository files and CI do not prove GitHub Branch Protection/Ruleset is configured. GZ-020 remains blocked until the live API verifier succeeds.
 
 ## Rollback
 
-Before merge, close PR #22 and retain its branch and Evidence. After merge, create a dedicated revert branch and PR; do not reset or directly push `main`. Re-run Task, Readiness, Program Integrity/History, Coordination, Governance tests, Evidence, Scope and Spec Sync after rollback.
+Before merge, close PR #22 and retain its branch and Evidence. After merge, create a dedicated revert branch and PR; do not reset or directly push `main`. Re-run Task, Readiness, Integrity, History, Finalization, Coordination, Governance tests, Evidence, Scope and Spec Sync after rollback.
