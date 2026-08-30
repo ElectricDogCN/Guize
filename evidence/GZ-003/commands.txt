@@ -1,28 +1,18 @@
 GZ-003 command evidence
 
+=== Original delivery history ===
+
 command: GitHub.create_issue(repository=ElectricDogCN/Guize, title="GZ-003：需求设计一致性与多 Agent 协作就绪治理")
 exit code: 0-equivalent; connector returned no error
-observed result: issue #10 created at https://github.com/ElectricDogCN/Guize/issues/10
+observed result: issue #10 created
 
 command: GitHub.create_branch(repository=ElectricDogCN/Guize, branch=chore/GZ-003-multi-agent-readiness, base_ref=main)
 exit code: 0-equivalent; connector returned no error
 observed result: branch chore/GZ-003-multi-agent-readiness created from main
 
-command: GET /repos/ElectricDogCN/Guize/branches/main
-exit code: 0-equivalent; connector returned no error
-observed result: main HEAD 70984201e8d01ad75b6aa0fa0ee5ffe141087b52; protected=false; required checks disabled
-
-command: GET /repos/ElectricDogCN/Guize/rulesets
-exit code: 0-equivalent; connector returned no error
-observed result: []
-
-command: GitHub.compare_commits(base=main, head=chore/GZ-003-multi-agent-readiness)
-exit code: 0-equivalent; connector returned no error
-observed result before PR creation: status=ahead; ahead_by=24; behind_by=0; changed_files=48; every path was covered by GZ-003 Allowed Scope
-
 command: GitHub.create_pull_request(head=chore/GZ-003-multi-agent-readiness, base=main)
 exit code: 0-equivalent; connector returned no error
-observed result: PR #11 created; tested head at creation was 602856cf83554703f8aafd8f98f3eeddcbfa9698
+observed result: PR #11 created; tested early head was 602856cf83554703f8aafd8f98f3eeddcbfa9698
 
 command: GitHub.fetch_commit_workflow_runs(commit=602856cf83554703f8aafd8f98f3eeddcbfa9698)
 exit code: 0-equivalent; connector returned no error
@@ -30,6 +20,28 @@ observed result: Governance Gate run 33199139029 completed with conclusion=succe
 
 command: GitHub.fetch_workflow_job_logs(job=98943864286)
 exit code: 0-equivalent; connector returned no error
-observed result: 106 tests passed in 3.12s; 0 skips; 133 Markdown files clean; 48/48 files in scope; readiness and coordination gates passed
+observed result: 106 tests passed; 0 skips; Markdown, Schema, Secret, scope, readiness and coordination checks passed
 
-No prospective command result is recorded. Any commit after 602856cf83554703f8aafd8f98f3eeddcbfa9698 requires a new remote run before merge readiness is claimed.
+command: merge PR #11
+exit code: 0-equivalent; GitHub returned merged
+observed result: GZ-003 merged as 9e3a821ada292ac3ef69b7c059384d17f6530b48
+
+=== Post-completion maintenance PR #35 ===
+
+command: GitHub.fetch_commit(commit=6ba34e972cd3d7eb5e07a6d8d8eb9b2e263a7998)
+exit code: 0-equivalent; connector returned no error
+observed result: commit message `test(GZ-003): derive lifecycle task from current repository diff`; functional diff changed tests/governance/test_program_lifecycle_guards.py
+
+command: GitHub.fetch_commit_workflow_runs(commit=6ba34e972cd3d7eb5e07a6d8d8eb9b2e263a7998)
+exit code: 0-equivalent; connector returned no error
+observed result: Governance Gate run #303 (33327335520) completed with conclusion=failure
+
+command: GitHub.fetch_workflow_job_logs(job=99299701076)
+exit code: 0-equivalent; connector returned no error
+observed result: Program integrity, history and transitions passed; finalization failed because the completed GZ-003 maintenance diff did not refresh evidence/GZ-003/handoff.md, summary.md and commands.txt; all other Gate steps succeeded
+
+command: refresh GZ-003 canonical Evidence for PR #35
+exit code: 0-equivalent when this commit is created
+observed result: handoff.md, summary.md and commands.txt updated with the actual maintenance scope and run #303 failure; no newer Gate result is claimed
+
+Any commit after 6ba34e972cd3d7eb5e07a6d8d8eb9b2e263a7998 requires a new exact-head remote run and fresh review before merge readiness is claimed.
