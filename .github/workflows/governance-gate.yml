@@ -23,6 +23,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+      issues: read
       pull-requests: read
     defaults:
       run:
@@ -107,6 +108,39 @@ jobs:
           set -euo pipefail
           python scripts/check-project-readiness.py
 
+      - name: Program Plan integrity and history check
+        id: program-integrity
+        if: success() || failure()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ -n "${{ github.head_ref }}" ]; then
+            BASE_REF="origin/${{ github.base_ref }}"
+            HEAD_REF="HEAD"
+            BRANCH_NAME="${{ github.head_ref }}"
+          elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            BASE_REF="HEAD^"
+            HEAD_REF="HEAD"
+            BRANCH_NAME="${{ github.ref_name }}"
+          else
+            BASE_REF="HEAD"
+            HEAD_REF="HEAD"
+            BRANCH_NAME="${{ github.ref_name }}"
+          fi
+          python scripts/check-program-plan-integrity.py --base-ref "$BASE_REF"
+          if [ "${{ steps.task-context.outputs.task_specific }}" = "true" ]; then
+            python scripts/check-program-plan-history.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF" \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --branch-name "$BRANCH_NAME"
+          else
+            python scripts/check-program-plan-history.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF"
+          fi
+
       - name: Agent coordination check
         id: agent-coordination
         if: success() || failure()
@@ -118,12 +152,12 @@ jobs:
             python scripts/check-agent-coordination.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
               --base-ref "origin/${{ github.base_ref }}" \
-              --head-ref "origin/${{ github.head_ref }}" \
+              --head-ref "HEAD" \
               --branch-name "${{ github.head_ref }}"
           else
             python scripts/check-agent-coordination.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
-              --base-ref origin/main \
+              --base-ref HEAD^ \
               --head-ref HEAD \
               --branch-name "${{ github.ref_name }}"
           fi
@@ -247,6 +281,7 @@ jobs:
           TASK_CONTEXT: ${{ steps.task-context.outcome }}
           TASK_FILE: ${{ steps.task-file-validation.outcome }}
           PROJECT_READINESS: ${{ steps.project-readiness.outcome }}
+          PROGRAM_INTEGRITY: ${{ steps.program-integrity.outcome }}
           AGENT_COORDINATION: ${{ steps.agent-coordination.outcome }}
           GOVERNANCE_TESTS: ${{ steps.governance-tests.outcome }}
           SKIP_AUDIT: ${{ steps.skip-audit.outcome }}
@@ -276,6 +311,7 @@ jobs:
             echo "| task_context | $TASK_CONTEXT |"
             echo "| task_file_validation | $TASK_FILE |"
             echo "| project_readiness | $PROJECT_READINESS |"
+            echo "| program_integrity | $PROGRAM_INTEGRITY |"
             echo "| agent_coordination | $AGENT_COORDINATION |"
             echo "| governance_tests | $GOVERNANCE_TESTS |"
             echo "| skip_audit | $SKIP_AUDIT |"
