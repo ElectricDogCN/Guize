@@ -65,12 +65,41 @@ class TestAgentCoordinationDispatcher(unittest.TestCase):
                 + "---\n# Task\n"
             )
 
+    def write_legacy_task(self, root, status, task_id):
+        path = os.path.join(root, "specs", "tasks", f"{task_id}.md")
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(
+                "---\n"
+                + yaml.safe_dump(
+                    {"id": task_id, "status": status},
+                    sort_keys=False,
+                    allow_unicode=True,
+                )
+                + "---\n# Legacy Task\n"
+            )
+
     def write_program_plan(self, root, task_id="GZ-201", status="completed"):
         path = os.path.join(root, "specs", "coordination", "program-plan.yaml")
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as handle:
             yaml.safe_dump(
                 {"tasks": [self.program_task(task_id, status)]},
+                handle,
+                sort_keys=False,
+            )
+
+    def write_foundation_plan(self, root, task_id="GZ-001"):
+        path = os.path.join(root, "specs", "coordination", "program-plan.yaml")
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as handle:
+            yaml.safe_dump(
+                {
+                    "foundationTasks": [
+                        {"taskId": task_id, "status": "completed"}
+                    ],
+                    "tasks": [],
+                },
                 handle,
                 sort_keys=False,
             )
@@ -192,22 +221,25 @@ class TestAgentCoordinationDispatcher(unittest.TestCase):
             self.assertEqual(result.returncode, 2)
             self.assertIn("Task Spec exitGate does not match Program Plan exitGate", result.stdout)
 
-    def test_legacy_foundation_approved_status_is_not_scanned_as_program_completion(self):
+    def test_legacy_foundation_approved_status_is_allowed(self):
         with tempfile.TemporaryDirectory() as root:
-            path = os.path.join(root, "specs", "coordination", "program-plan.yaml")
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            with open(path, "w", encoding="utf-8") as handle:
-                yaml.safe_dump(
-                    {
-                        "foundationTasks": [
-                            {"taskId": "GZ-001", "status": "completed"}
-                        ],
-                        "tasks": [],
-                    },
-                    handle,
-                    sort_keys=False,
-                )
-            self.write_task(root, "approved", "GZ-001")
+            self.write_foundation_plan(root, "GZ-001")
+            self.write_legacy_task(root, "approved", "GZ-001")
+            result = self.run_global(root)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_schema_v2_foundation_approved_status_fails(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.write_foundation_plan(root, "GZ-014")
+            self.write_task(root, "approved", "GZ-014")
+            result = self.run_global(root)
+            self.assertEqual(result.returncode, 2)
+            self.assertIn("status must remain completed", result.stdout)
+
+    def test_schema_v2_foundation_completed_status_passes(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.write_foundation_plan(root, "GZ-014")
+            self.write_task(root, "completed", "GZ-014")
             result = self.run_global(root)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
