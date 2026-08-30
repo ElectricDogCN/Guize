@@ -91,7 +91,7 @@ jobs:
           else
             echo "task_id=" >> "$GITHUB_OUTPUT"
             echo "task_specific=false" >> "$GITHUB_OUTPUT"
-            echo "Non-task ref '$REF_NAME'; repository-wide checks will run and task-specific checks will be skipped."
+            echo "Non-task ref '$REF_NAME'; repository-wide checks will derive affected lifecycle tasks from the full diff."
           fi
 
       - name: Task file validation
@@ -108,7 +108,7 @@ jobs:
           set -euo pipefail
           python scripts/check-project-readiness.py
 
-      - name: Program Plan integrity, history, transitions, and finalization check
+      - name: Program Plan integrity, history, transitions, finalization, and lifecycle guard
         id: program-integrity
         if: success() || failure()
         env:
@@ -152,6 +152,11 @@ jobs:
               --base-ref "$BASE_REF" \
               --head-ref "$HEAD_REF" \
               --task "${{ steps.task-context.outputs.task_id }}"
+            python scripts/check-program-lifecycle-guards.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF" \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --branch-name "$BRANCH_NAME"
           else
             python scripts/check-program-plan-history.py \
               --base-ref "$BASE_REF" \
@@ -160,6 +165,9 @@ jobs:
               --base-ref "$BASE_REF" \
               --head-ref "$HEAD_REF"
             python scripts/check-program-plan-finalization.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF"
+            python scripts/check-program-lifecycle-guards.py \
               --base-ref "$BASE_REF" \
               --head-ref "$HEAD_REF"
           fi
