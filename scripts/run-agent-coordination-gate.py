@@ -9,10 +9,11 @@ runs the global Registry validation only; the workflow and ``make verify`` run
 Program Integrity/History immediately before this command.
 
 The dispatcher also performs a repository-wide lifecycle guard: every ordinary
-Program task whose Program Plan state is ``completed`` must have a Task Spec
-whose state is exactly ``completed``. Legacy Foundation tasks are intentionally
-excluded because their older Task Specs may use the historical ``approved``
-state and are governed by Foundation provenance checks instead.
+Program task whose Program Plan state is ``completed`` must retain a Task Spec
+whose completion state and stable Program identity exactly match the canonical
+plan. Legacy Foundation tasks are intentionally excluded because their older
+Task Specs may use the historical ``approved`` state and are governed by
+Foundation provenance checks instead.
 """
 
 from __future__ import annotations
@@ -27,6 +28,7 @@ import yaml
 
 ACTIVE_TASK_STATES = {"reserved", "in_progress", "blocked", "review", "integration"}
 PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
+NONE_VALUES = {"", "NONE", "none", "null", "N/A", "n/a"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -77,8 +79,17 @@ def task_status(path: str) -> str:
     return str(task_document(path).get("status") or "")
 
 
+def as_list(value: Any) -> list[str]:
+    if isinstance(value, list):
+        return [str(item) for item in value]
+    text = str(value or "").strip()
+    if text in NONE_VALUES:
+        return []
+    return [part.strip() for part in text.strip("[]").split(",") if part.strip()]
+
+
 def validate_completed_program_specs(root: str) -> list[str]:
-    """Reject completed ordinary Program tasks whose Task Spec is not completed."""
+    """Reject completed Program tasks whose Task Spec identity has drifted."""
     path = os.path.join(root, PROGRAM_PLAN)
     if not os.path.isfile(path):
         return []
@@ -91,6 +102,23 @@ def validate_completed_program_specs(root: str) -> list[str]:
         return ["Canonical Program Plan is not a mapping"]
 
     errors: list[str] = []
+    scalar_pairs = {
+        "title": "titleZh",
+        "workPackage": "workPackage",
+        "riskLevel": "riskLevel",
+        "coordinationGroup": "coordinationGroup",
+        "wave": "wave",
+        "integrationOrder": "integrationOrder",
+        "exitGate": "exitGate",
+    }
+    list_fields = (
+        "dependsOn",
+        "requirementIds",
+        "moduleIds",
+        "producesContracts",
+        "consumesContracts",
+    )
+
     for task in plan.get("tasks") or []:
         if not isinstance(task, dict) or task.get("status") != "completed":
             continue
@@ -104,11 +132,42 @@ def validate_completed_program_specs(root: str) -> list[str]:
         except (OSError, ValueError, yaml.YAMLError) as exc:
             errors.append(f"Completed Program task {task_id} Task Spec is unreadable: {exc}")
             continue
+
         if document.get("status") != "completed":
             errors.append(
                 f"Completed Program task {task_id} Task Spec status must be exactly completed, "
                 f"got {document.get('status')!r}"
             )
+        if document.get("programPlan") != PROGRAM_PLAN:
+            errors.append(
+                f"Completed Program task {task_id} Task Spec programPlan must be {PROGRAM_PLAN}"
+            )
+        if document.get("programTaskId") != task_id or document.get("id") != task_id:
+            errors.append(
+                f"Completed Program task {task_id} Task Spec identity does not match its Program task"
+            )
+        if document.get("coordinationMode") != "registry":
+            errors.append(
+                f"Completed Program task {task_id} Task Spec coordinationMode must remain registry"
+            )
+
+        for plan_field, spec_field in scalar_pairs.items():
+            if str(document.get(spec_field, "")) != str(task.get(plan_field, "")):
+                errors.append(
+                    f"Completed Program task {task_id} Task Spec {spec_field} does not match "
+                    f"Program Plan {plan_field}"
+                )
+        if task.get("issue") is not None and str(document.get("issue", "")) != str(
+            task.get("issue")
+        ):
+            errors.append(
+                f"Completed Program task {task_id} Task Spec issue does not match Program Plan"
+            )
+        for field in list_fields:
+            if as_list(document.get(field)) != [str(item) for item in task.get(field) or []]:
+                errors.append(
+                    f"Completed Program task {task_id} Task Spec {field} does not match Program Plan"
+                )
     return errors
 
 
