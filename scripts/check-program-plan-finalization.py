@@ -303,12 +303,15 @@ def ruleset_satisfies_policy(ruleset: dict[str, Any]) -> tuple[bool, list[str]]:
         if parameters.get("required_review_thread_resolution") is not True:
             failures.append("review thread resolution is not required")
     status_rule = rules.get("required_status_checks")
+    status_parameters = (status_rule or {}).get("parameters") or {}
     contexts = {
         str(item.get("context") or "")
-        for item in ((status_rule or {}).get("parameters") or {}).get("required_status_checks") or []
+        for item in status_parameters.get("required_status_checks") or []
     }
     if "Governance Checks" not in contexts and "Governance Gate / Governance Checks" not in contexts:
         failures.append("Governance Checks is not a required status check")
+    if status_parameters.get("strict_required_status_checks_policy") is not True:
+        failures.append("pull requests are not required to test against the latest target branch")
     if "deletion" not in rules:
         failures.append("branch deletion is not blocked")
     if "non_fast_forward" not in rules:
