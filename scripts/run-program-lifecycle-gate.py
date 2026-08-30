@@ -20,6 +20,10 @@ SPEC = importlib.util.spec_from_file_location("guize_program_lifecycle_guards", 
 GUARD = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
 SPEC.loader.exec_module(GUARD)
+# Preserve the unwrapped implementation before main() injects the extended
+# task-derivation hook. Calling GUARD.task_ids_from_diff from the wrapper after
+# monkey-patching it would recurse indefinitely in repository-wide/no-task mode.
+ORIGINAL_TASK_IDS_FROM_DIFF = GUARD.task_ids_from_diff
 BLOCKER_OWNER_TASKS = {"BRANCH-PROTECTION": "GZ-018"}
 
 
@@ -60,7 +64,7 @@ def expanded_task_ids_from_diff(
     current_ledger: dict[str, Any],
     paths: set[str],
 ) -> set[str]:
-    affected = GUARD.task_ids_from_diff(
+    affected = ORIGINAL_TASK_IDS_FROM_DIFF(
         base_plan,
         current_plan,
         base_active,
