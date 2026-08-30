@@ -8,6 +8,7 @@ import unittest
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SCRIPT_PATH = os.path.join(REPO_ROOT, "scripts", "check-program-lifecycle-guards.py")
+LIFECYCLE_GATE = os.path.join(REPO_ROOT, "scripts", "run-program-lifecycle-gate.py")
 WORKFLOW = os.path.join(REPO_ROOT, ".github", "workflows", "governance-gate.yml")
 MAKEFILE = os.path.join(REPO_ROOT, "Makefile")
 SPEC = importlib.util.spec_from_file_location("program_lifecycle_guards", SCRIPT_PATH)
@@ -39,21 +40,41 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         return self.git(root, "rev-parse", "HEAD").stdout.strip()
 
     def test_current_repository_passes(self):
+        head_sha = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=REPO_ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        main_sha = subprocess.run(
+            ["git", "rev-parse", "origin/main"],
+            cwd=REPO_ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        command = [
+            sys.executable,
+            LIFECYCLE_GATE,
+            "--repo-root",
+            REPO_ROOT,
+            "--base-ref",
+            "origin/main",
+            "--head-ref",
+            "HEAD",
+        ]
+        if head_sha != main_sha:
+            command.extend(
+                [
+                    "--task",
+                    "GZ-014",
+                    "--branch-name",
+                    "chore/GZ-014-test-repair-reservation-v2",
+                ]
+            )
         result = subprocess.run(
-            [
-                sys.executable,
-                SCRIPT_PATH,
-                "--repo-root",
-                REPO_ROOT,
-                "--base-ref",
-                "origin/main",
-                "--head-ref",
-                "HEAD",
-                "--task",
-                "GZ-014",
-                "--branch-name",
-                "chore/GZ-014-post-merge-review-repair",
-            ],
+            command,
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
