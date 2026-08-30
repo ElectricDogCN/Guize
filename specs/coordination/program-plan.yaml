@@ -34,8 +34,8 @@ foundationTasks:
   - taskId: GZ-014
     title: "Program Plan 收敛与协作一致性加固"
     status: completed
-    completionRef: PR-29
-    mergeCommit: c26fc712e050dba4e83c9af022fd25b8f7e84d6d
+    completionRef: PR-32
+    mergeCommit: 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

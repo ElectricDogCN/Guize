@@ -1,40 +1,40 @@
 # GZ-014 Changed Files
 
-## Current phase
+## Completion identity
 
-- Task: GZ-014
+- Task: `GZ-014`
 - Phase: `FOUNDATION_COMPLETION`
-- Branch: `chore/GZ-014-foundation-completion`
-- Base: `main@c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
-- Completion identity: PR #29 / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
+- Branch: `chore/GZ-014-foundation-completion-v3`
+- Base: `main@8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
+- Foundation completion identity: `PR-32` / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
+- Predecessor main Gate: run #293 = `PASS`
 
-## Declared files
+## Exact eight-file inventory
 
-- `specs/coordination/program-plan.yaml`
-- `specs/coordination/active-work.yaml`
-- `specs/tasks/GZ-014.md`
-- `evidence/GZ-014/summary.md`
-- `evidence/GZ-014/commands.txt`
-- `evidence/GZ-014/changed-files.md`
-- `evidence/GZ-014/test-results/README.md`
-- `evidence/GZ-014/handoff.md`
+1. `specs/coordination/program-plan.yaml`
+2. `specs/coordination/active-work.yaml`
+3. `specs/tasks/GZ-014.md`
+4. `evidence/GZ-014/summary.md`
+5. `evidence/GZ-014/commands.txt`
+6. `evidence/GZ-014/changed-files.md`
+7. `evidence/GZ-014/test-results/README.md`
+8. `evidence/GZ-014/handoff.md`
 
-## Exact semantic change
+## Semantic change
 
-- GZ-014 Foundation status changes from `integration` to `completed`;
-- Foundation provenance becomes `completionRef: PR-29` and `mergeCommit: c26fc712e050dba4e83c9af022fd25b8f7e84d6d`;
-- PR #26 / `ef104834...` remains only earlier implementation/repair history;
-- GZ-014 Task Spec becomes `completed` on the completion branch/base;
-- only the GZ-014 Active Work Lease is removed;
-- task-bound completion Evidence is refreshed.
+- GZ-014 Foundation: `integration -> completed`;
+- Foundation provenance: `completionRef: PR-32`, `mergeCommit: 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`;
+- GZ-014 Task Spec: `integration -> completed`, Completion branch/base updated;
+- Active Work: remove only GZ-014 Lease;
+- task-bound Evidence: refresh for the final Foundation completion transition.
 
 ## Explicitly unchanged
 
 - ordinary `specs/coordination/task-completions.yaml`;
 - all other Foundations, Program tasks, POCs, waves, blockers and release policy;
 - Active Work policy and any other task entry;
-- lifecycle code, schemas, tests, Workflow and Makefile;
+- lifecycle scripts, schemas, tests, Workflow and Makefile;
 - requirements, business contracts/code, deployment, Secrets, permissions and production data;
 - OPS-001 #20 remains open and gates only GZ-020.
 
-The Integrator must compare GitHub's actual latest file list with these eight paths before approval. Any unexpected path, failed latest Gate, stale base, incorrect Issue state, provenance mismatch or unresolved blocker prevents merge.
+Result: `COMPLETED CANDIDATE`. GitHub's latest PR #33 file inventory remains authoritative; any ninth file or semantic expansion is a blocker.

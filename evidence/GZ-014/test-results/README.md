@@ -2,40 +2,53 @@
 
 ## Verified predecessor lifecycle
 
-- Review transition PR #28 merged as `b15ed0dd907c59a69f1fd178907f648fef2b880a`.
-- Post-review `main` Governance Gate run #276: `PASS`.
-- Integration transition PR #29 exact HEAD `24430bffbcbd92c04cfaa48e3852c2e442882fce` passed Governance Gate run #277.
-- PR #29 merged as `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`.
-- Post-integration `main` Governance Gate run #278: `PASS`.
-- `c26fc712...` is a strict descendant of prior Active Work `baseSha: b15ed0dd...` and identifies GZ-014 / PR #29 in its commit message.
+- PR #32 exact HEAD: `9adf9a135fabe4581285a945b4b434d9302e9a80`.
+- PR #32 Governance Gate run #292: `PASS`.
+- PR #32 expected-head merge: `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+- PR #32 post-merge main Governance Gate run #293: `PASS`.
+- Ancestry: prior GZ-014 integration base `c26fc712e050dba4e83c9af022fd25b8f7e84d6d` is a strict ancestor of `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+- Commit identity: `8221fd0f...` identifies GZ-014 and PR #32.
 
-## Foundation completion validation
+## Completion commands
 
-The completion branch starts from `main@c26fc712e050dba4e83c9af022fd25b8f7e84d6d` and must execute:
+PR #33 latest HEAD must execute:
 
 ```bash
 python scripts/check-task-file.py --task GZ-014
 python scripts/check-project-readiness.py
 python scripts/check-schemas.py
-python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task GZ-014 --branch-name chore/GZ-014-foundation-completion
-python scripts/run-agent-coordination-gate.py --task GZ-014 --base-ref origin/main --head-ref HEAD --branch-name chore/GZ-014-foundation-completion
+python scripts/run-program-lifecycle-gate.py \
+  --base-ref origin/main \
+  --head-ref HEAD \
+  --task GZ-014 \
+  --branch-name chore/GZ-014-foundation-completion-v3
+python scripts/run-agent-coordination-gate.py \
+  --task GZ-014 \
+  --base-ref origin/main \
+  --head-ref HEAD \
+  --branch-name chore/GZ-014-foundation-completion-v3
 python scripts/run-task-scope-gate.py --task GZ-014 --base origin/main
 python scripts/check-evidence.py --task GZ-014
-make verify TASK=GZ-014 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-014-foundation-completion
+make verify \
+  TASK=GZ-014 \
+  BASE=origin/main \
+  HEAD_REF=HEAD \
+  BRANCH=chore/GZ-014-foundation-completion-v3
 ```
 
-## Completion acceptance
+## Expected fail-closed assertions
 
-- GZ-014 Foundation and Task Spec are `completed`;
-- Foundation provenance is `PR-29` / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`;
-- PR #26 / `ef104834...` is retained only as earlier implementation/repair history;
-- only the GZ-014 Active Work Lease is removed;
-- Active Work policy and ordinary `task-completions.yaml` are unchanged;
-- Issue #17 is closed with `state_reason=completed`;
-- Summary, Commands, Test Results and Handoff contain the Task ID, PR #29, full c26 SHA, Foundation completion semantics and real predecessor PASS results;
-- actual diff contains only Program Plan, Active Work, Task Spec and `evidence/GZ-014/**`;
-- latest exact-head Governance Gate and fresh Review succeed.
+- GZ-014 exists in `foundationTasks` and moves only `integration -> completed`;
+- `completionRef` is exactly `PR-32`;
+- `mergeCommit` is exactly `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`;
+- Issue #17 is closed/completed;
+- GZ-014 Lease is absent after completion, while Registry policy is unchanged;
+- ordinary Task Completion Ledger is unchanged;
+- Task `exitGate` is unchanged;
+- exact diff is limited to the declared eight files;
+- Evidence contains the required identity, commands, exit status and explicit PASS/COMPLETED tokens;
+- no W1 task is activated in the same change.
 
-Result: `PENDING PR-31 EXACT-HEAD COMPLETION VALIDATION`
+Current result: `PENDING PR-33 EXACT-HEAD VALIDATION`.
 
-No PR #31 Gate, Review, merge or post-merge main result is claimed before GitHub executes it.
+No PR #33 Gate, Review, merge, or post-merge main result is pre-claimed. Completion becomes final only after all four are observed with `PASS`.

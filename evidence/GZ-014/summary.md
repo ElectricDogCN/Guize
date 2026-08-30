@@ -2,55 +2,49 @@
 
 ## Identity
 
-- Task: GZ-014
-- Issue: #17，已以 `completed` 关闭
+- Task: `GZ-014`
+- Issue: #17, closed with `state_reason=completed`
 - Phase: `FOUNDATION_COMPLETION`
-- Branch: `chore/GZ-014-foundation-completion`
-- Completion base: `main@c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
-- Review transition: PR #28 / merge `b15ed0dd907c59a69f1fd178907f648fef2b880a`
-- Integration transition: PR #29 / merge `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
-- Foundation completion identity: PR #29 / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
-- Post-integration main Governance Gate: run #278, `PASS`
+- Completion branch: `chore/GZ-014-foundation-completion-v3`
+- Completion base: `main@8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
+- Foundation completion identity: `PR-32` / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
+- Integration history: PR #29 / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
 - Earlier implementation/repair history: PR #26 / `ef1048344aa082c678e5ef948dc7f62e5aa84510`
-- OPS-001 #20 remains open and gates only GZ-020.
+- PR #32 post-merge Governance Gate: run #293 = `PASS`
 
-## Completion transition
+## Completion state
 
 ```text
-GZ-014 Foundation: integration -> completed
-Task Spec:          integration -> completed
-Active Work:        remove only GZ-014 Lease
-Issue #17:          remain closed/completed
-Foundation source:  PR-29 / c26fc712e050dba4e83c9af022fd25b8f7e84d6d
-Ordinary ledger:    unchanged
+Program Foundation GZ-014: integration -> completed
+Task Spec GZ-014:          integration -> completed
+Active Work:               remove only GZ-014 Lease
+Issue #17:                 remain closed/completed
+Foundation provenance:     PR-32 / 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
+Ordinary Task ledger:      unchanged
 ```
 
-PR #26 / `ef104834...` is retained only as earlier implementation/repair history. It is not the Foundation completion identity because it predates the prior Active Work `baseSha` used by the review/integration lifecycle.
+Result: `COMPLETED CANDIDATE` pending only PR #33 exact-head Gate, fresh Review, expected-head merge, and post-merge main Gate. Those future outcomes are not pre-claimed.
 
-This is a Foundation completion. The ordinary Program Task completion ledger remains unchanged. Program tasks, POCs, waves, blockers, release policy, Registry policy and all non-GZ-014 task records remain unchanged.
+## Verified predecessor result
 
-## Completed predecessor verification
+- PR #32 exact HEAD `9adf9a135fabe4581285a945b4b434d9302e9a80` passed Governance Gate run #292.
+- PR #32 merged as `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+- PR #32 post-merge main Governance Gate run #293 completed with `PASS`.
+- `8221fd0f...` is a strict descendant of prior GZ-014 integration base `c26fc712e050dba4e83c9af022fd25b8f7e84d6d` and its commit message identifies GZ-014 and PR #32.
 
-- PR #28 moved GZ-014 into review and merged as `b15ed0dd907c59a69f1fd178907f648fef2b880a`.
-- PR #29 exact HEAD `24430bffbcbd92c04cfaa48e3852c2e442882fce` passed Governance Gate run #277.
-- PR #29 was merged with expected HEAD as `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`.
-- `c26fc712...` is a strict descendant of the prior Active Work `baseSha: b15ed0dd...` and its commit message identifies GZ-014 and PR #29.
-- Post-merge main Governance Gate run #278 completed successfully.
-- The completion branch starts from that exact green `main` commit.
+## Exact completion scope
 
-## Completion scope
+- `specs/coordination/program-plan.yaml`: only GZ-014 Foundation status and completion provenance;
+- `specs/coordination/active-work.yaml`: remove only GZ-014 Lease, preserve policy;
+- `specs/tasks/GZ-014.md`: completed Task metadata and completion narrative;
+- `evidence/GZ-014/summary.md`;
+- `evidence/GZ-014/commands.txt`;
+- `evidence/GZ-014/changed-files.md`;
+- `evidence/GZ-014/test-results/README.md`;
+- `evidence/GZ-014/handoff.md`.
 
-- mark only the GZ-014 Foundation and Task Spec `completed`;
-- set `completionRef: PR-29` and `mergeCommit: c26fc712e050dba4e83c9af022fd25b8f7e84d6d`;
-- remove only the GZ-014 Active Work entry;
-- retain Registry policy and the ordinary completion ledger;
-- refresh task-bound Summary, Commands, Changed Files, Test Results and Handoff;
-- preserve Issue #17 as closed/completed.
-
-## Validation boundary
-
-PR #31 exact-head Governance Gate, fresh Review, merge and post-merge main Gate are not pre-claimed here. Those results must be read from GitHub for the latest completion HEAD.
+No ordinary `task-completions.yaml`, other Foundation/Task/POC/Wave/blocker, Registry policy, lifecycle code/test/workflow, product requirement, business contract/code, deployment, Secret, permission, or production-data change is included.
 
 ## Downstream boundary
 
-GZ-004 and GZ-010 remain blocked until PR #31 is merged, its post-merge main Gate succeeds, GZ-014 is completed in the Program Plan, and the GZ-014 Lease is absent from Active Work.
+GZ-004 and GZ-010 remain blocked until PR #33 is merged and the resulting `main` Governance Gate succeeds. OPS-001 #20 remains open and gates only GZ-020 production release.
