@@ -302,6 +302,8 @@ def ruleset_satisfies_policy(ruleset: dict[str, Any]) -> tuple[bool, list[str]]:
             failures.append("CODEOWNERS review is not required")
         if parameters.get("required_review_thread_resolution") is not True:
             failures.append("review thread resolution is not required")
+        if parameters.get("require_last_push_approval") is not True:
+            failures.append("the latest reviewable push does not require independent approval")
     status_rule = rules.get("required_status_checks")
     status_parameters = (status_rule or {}).get("parameters") or {}
     contexts = {
