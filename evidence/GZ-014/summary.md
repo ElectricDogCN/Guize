@@ -1,5 +1,9 @@
 # GZ-014 Evidence Summary
 
+Status: COMPLETED
+
+> 本状态描述 PR #33 当前分支中的 Foundation 完成快照；远端 Gate、Review、merge 与 post-merge main 结果仍必须分别以 GitHub 实际执行为准，不在此预写。
+
 ## Identity
 
 - Task: `GZ-014`
@@ -23,7 +27,9 @@ Foundation provenance:     PR-32 / 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
 Ordinary Task ledger:      unchanged
 ```
 
-Result: `COMPLETED CANDIDATE` pending only PR #33 exact-head Gate, fresh Review, expected-head merge, and post-merge main Gate. Those future outcomes are not pre-claimed.
+Result: COMPLETED
+
+The branch snapshot satisfies the declared Foundation completion state. Final repository completion remains conditional on PR #33 exact-head Gate, fresh Review, expected-head merge, and post-merge main Gate.
 
 ## Verified predecessor result
 
