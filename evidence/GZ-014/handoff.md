@@ -1,16 +1,23 @@
-# GZ-014 Foundation Integration Handoff
+# GZ-014 Foundation Completion Handoff
+
+Status: COMPLETED
+
+> 本状态表示当前分支中的 Foundation completion handoff 已形成；PR #33 的最新 Gate、Review、merge 与 post-merge main 仍需以 GitHub 实际结果验证。
 
 ## Identity
 
-- Task: GZ-014
-- Issue: #17
-- Branch: `chore/GZ-014-foundation-integration`
-- Base: `main@b15ed0dd907c59a69f1fd178907f648fef2b880a`
-- Phase: `integration`
-- Program Wave: FOUNDATION
-- Risk: high
-- Integration Order: 1
-- Lease expires: `2026-09-07T00:00:00Z`
+- Task: `GZ-014`
+- Issue: #17, closed with `state_reason=completed`
+- Branch: `chore/GZ-014-foundation-completion-v3`
+- Completion base: `main@8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
+- Phase: `completed`
+- Program Wave: `FOUNDATION`
+- Risk: `high`
+- Integration Order: `1`
+- Foundation completion identity: `PR-32` / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
+- Integration history: PR #29 / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
+- Earlier implementation/repair history: PR #26 / `ef1048344aa082c678e5ef948dc7f62e5aa84510`
+- PR #32 post-merge Governance Gate: run #293 = `PASS`
 
 ## Roles
 
@@ -19,39 +26,54 @@
 - Independent Reviewer: `independent-governance-review-agent`
 - Integrator: `integration-agent`
 - Human Owner: `ElectricDogCN`
-- Current role: Integrator
 
-## Transition scope
+## Completion scope
 
-- Program Foundation GZ-014: `review -> integration`;
-- Task Spec: `review -> integration`;
-- Active Work: `review -> integration`;
-- agentRole: `reviewer -> integrator`;
-- branch/base: integration branch and `b15ed0dd907c59a69f1fd178907f648fef2b880a`.
+- Program Foundation GZ-014: `integration -> completed`;
+- Task Spec GZ-014: `integration -> completed`;
+- Foundation provenance: `completionRef: PR-32`, `mergeCommit: 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`;
+- Active Work: remove only GZ-014 Lease while preserving policy;
+- Issue #17: preserve closed/completed state;
+- Evidence: refresh Summary, Commands, Changed Files, Test Results and this Handoff.
 
-No implementation, lifecycle rule, completion provenance, Issue state, Lease or downstream task changes.
+PR #29 / `c26fc712...` is retained only as integration history. PR #26 / `ef104834...` is retained only as earlier implementation/repair history. The ordinary Program Task completion ledger is unchanged because GZ-014 is a Foundation task.
+
+## Verified predecessor history
+
+1. PR #28 moved GZ-014 into review; its post-merge main Gate passed.
+2. PR #29 moved GZ-014 into integration and merged as `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`.
+3. PR #32 repaired completion-readiness regression tests without completing the Foundation.
+4. PR #32 exact HEAD `9adf9a135fabe4581285a945b4b434d9302e9a80` passed Governance Gate run #292.
+5. PR #32 merged as `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+6. PR #32 post-merge main Governance Gate run #293 completed with `PASS`.
+7. `8221fd0f...` strictly descends from the prior GZ-014 integration base and its commit message identifies GZ-014 / PR #32.
+
+## Reviewer exact action
+
+1. Read PR #33 latest diff and latest Governance Gate.
+2. Confirm the target base has GZ-014 Foundation, Task and Registry in `integration`.
+3. Verify only the GZ-014 Foundation status/provenance, GZ-014 Task, GZ-014 Lease and five task-bound Evidence files changed.
+4. Verify `completionRef: PR-32` and `mergeCommit: 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+5. Verify PR #29/c26 and PR #26/ef are history only.
+6. Verify Issue #17 is closed/completed.
+7. Verify Active Work policy and ordinary `task-completions.yaml` are unchanged.
+8. Verify Evidence contains GZ-014, PR #32, full 8221 SHA, Foundation completion semantics, real commands, exit status and explicit PASS/COMPLETED.
+9. Submit a conclusion only for the latest exact HEAD.
 
 ## Integrator exact action
 
-1. Read actual latest diff and exact-head Governance Gate.
-2. Verify only GZ-014 Foundation status changed in Program Plan.
-3. Verify Task/Registry status, branch, baseSha, role, Lease, dependencies, paths and contract sets.
-4. Re-check PR #26 implementation merge and all later post-merge Gates.
-5. Confirm Issue #17 remains open and completion is not claimed.
-6. Record approval only for latest HEAD, merge with expected SHA, then verify post-merge main Gate.
-
-## Completion exact inputs
-
-After integration enters green main, the Completion PR must:
-
-- start from that exact main commit;
-- close Issue #17 with `state_reason=completed` when required by lifecycle Gate;
-- change Foundation and Task to `completed`;
-- set `completionRef: PR-26` and `mergeCommit: ef1048344aa082c678e5ef948dc7f62e5aa84510`;
-- remove only the GZ-014 Active Work entry, preserving policy;
-- leave ordinary `task-completions.yaml` unchanged for this Foundation;
-- refresh structured Summary, Commands, Test Results and Handoff containing Task ID, implementation merge SHA, executed commands, exit code 0 and explicit PASS/COMPLETED.
+1. Require latest Gate success and zero unresolved blocker threads.
+2. Re-fetch actual changed-file inventory and exact PR HEAD.
+3. Confirm fresh approval targets the same HEAD.
+4. Merge with `expected_head_sha`.
+5. Verify post-merge `main` Governance Gate succeeds.
+6. Re-read Program Plan, Active Work, Task Spec and Issue #17 from `main`.
+7. Only after those checks may GZ-004 and GZ-010 Reservation PRs begin.
 
 ## Rollback
 
-Before merge, close the PR and retain Evidence. After merge, revert the integration metadata through a dedicated PR; do not directly update or rewrite `main`.
+Before merge, close PR #33. After merge, revert through a dedicated PR that restores GZ-014 to `integration` and restores only its previous Lease; do not directly update or rewrite `main`. Preserve Issue/PR/Evidence history.
+
+Result: COMPLETED
+
+Final repository completion remains conditional on PR #33 exact-head and post-merge `PASS` results.

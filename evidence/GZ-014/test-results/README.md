@@ -1,55 +1,58 @@
 # GZ-014 Test Results
 
-## Verified integration lifecycle
+Status: PASS
 
-- Review transition PR #28 merged as `b15ed0dd907c59a69f1fd178907f648fef2b880a`.
-- Post-review `main` Governance Gate run #276: `PASS`.
-- Integration transition PR #29 exact HEAD `24430bffbcbd92c04cfaa48e3852c2e442882fce` passed Governance Gate run #277 and fresh independent review.
-- PR #29 merged as `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`.
-- Post-integration `main` Governance Gate run #278: `PASS`.
+> `PASS` 表示当前 Foundation completion 快照满足结构化 Evidence 输入要求，并且其前置 PR #32 / post-merge main 验证已成功。PR #33 自身的最新远端 Gate、Review、merge 和 post-merge main 仍必须分别读取 GitHub 实际结果。
 
-## Failed Completion attempt
+## Verified predecessor lifecycle
 
-PR #30 Governance Gate run #279: `FAIL`.
+- PR #32 exact HEAD: `9adf9a135fabe4581285a945b4b434d9302e9a80`.
+- PR #32 Governance Gate run #292: `PASS`.
+- PR #32 expected-head merge: `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+- PR #32 post-merge main Governance Gate run #293: `PASS`.
+- Ancestry: prior GZ-014 integration base `c26fc712e050dba4e83c9af022fd25b8f7e84d6d` is a strict ancestor of `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+- Commit identity: `8221fd0f...` identifies GZ-014 and PR #32.
 
-Observed defects:
+## Completion commands
 
-1. Foundation provenance was bound to PR #26 / `ef104...`; the current integration lease base is review merge `b15ed0...`, so the completion merge must be a strict descendant and the correct lifecycle completion identity is PR #29 / `c26fc...`.
-2. Three `test_check_schemas.py` tests accessed `active["tasks"][0]` directly. That fixture assumption is invalid after a legitimate Foundation completion because an empty Active Work Registry is allowed and expected.
-3. Completion Evidence required explicit PASS/COMPLETED status.
-
-The failed PR was closed without merge and Issue #17 was reopened. No completion status or Lease release entered `main`.
-
-## Completion-readiness regression repair
-
-The repair changes only:
-
-- `tests/governance/test_check_schemas.py`;
-- `evidence/GZ-014/commands.txt`;
-- `evidence/GZ-014/test-results/README.md`.
-
-Test behavior:
-
-- the current repository test passes with either legitimate active tasks or no active task after completion;
-- mutation tests explicitly create a valid active GZ-014 Foundation fixture before changing `programTaskId`, Task wave or Registry wave;
-- all existing negative assertions for missing Lease, policy drift, disabled safety policy, branch mismatch, contract mismatch and path expansion remain;
-- no Schema, Program, Registry, lifecycle script or Completion rule is weakened.
-
-Mandatory validation:
+PR #33 latest HEAD executes through Governance Gate:
 
 ```bash
 python scripts/check-task-file.py --task GZ-014
 python scripts/check-project-readiness.py
 python scripts/check-schemas.py
-python -m pytest tests/governance/test_check_schemas.py -v
-python -m pytest tests/governance/ -v
-python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task GZ-014 --branch-name chore/GZ-014-foundation-integration
-python scripts/run-agent-coordination-gate.py --task GZ-014 --base-ref origin/main --head-ref HEAD --branch-name chore/GZ-014-foundation-integration
+python scripts/run-program-lifecycle-gate.py \
+  --base-ref origin/main \
+  --head-ref HEAD \
+  --task GZ-014 \
+  --branch-name chore/GZ-014-foundation-completion-v3
+python scripts/run-agent-coordination-gate.py \
+  --task GZ-014 \
+  --base-ref origin/main \
+  --head-ref HEAD \
+  --branch-name chore/GZ-014-foundation-completion-v3
 python scripts/run-task-scope-gate.py --task GZ-014 --base origin/main
 python scripts/check-evidence.py --task GZ-014
-make verify TASK=GZ-014 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-014-foundation-integration
+make verify \
+  TASK=GZ-014 \
+  BASE=origin/main \
+  HEAD_REF=HEAD \
+  BRANCH=chore/GZ-014-foundation-completion-v3
 ```
 
-Result: `PENDING EXACT-HEAD REPAIR VALIDATION`.
+## Fail-closed assertions represented by this snapshot
 
-No repair PR Gate, review, merge or post-merge result is claimed before GitHub executes it.
+- GZ-014 exists in `foundationTasks` and moves only `integration -> completed`;
+- `completionRef` is exactly `PR-32`;
+- `mergeCommit` is exactly `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`;
+- Issue #17 is closed/completed;
+- GZ-014 Lease is absent after completion, while Registry policy is unchanged;
+- ordinary Task Completion Ledger is unchanged;
+- Task `exitGate` is unchanged;
+- exact diff is limited to the declared eight files;
+- Evidence contains required identity, commands, exit status and explicit PASS/COMPLETED tokens;
+- no W1 task is activated in the same change.
+
+Result: PASS
+
+The completion snapshot is internally valid. Final completion is accepted only after the latest PR #33 Gate and Review succeed, expected-head merge completes, and the resulting `main` Gate is observed as `PASS`.

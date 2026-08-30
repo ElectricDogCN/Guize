@@ -1,35 +1,40 @@
 # GZ-014 Changed Files
 
-## Current phase
+## Completion identity
 
-- Task: GZ-014
-- Phase: `FOUNDATION_INTEGRATION`
-- Branch: `chore/GZ-014-foundation-integration`
-- Base: `main@b15ed0dd907c59a69f1fd178907f648fef2b880a`
+- Task: `GZ-014`
+- Phase: `FOUNDATION_COMPLETION`
+- Branch: `chore/GZ-014-foundation-completion-v3`
+- Base: `main@8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
+- Foundation completion identity: `PR-32` / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
+- Predecessor main Gate: run #293 = `PASS`
 
-## Declared files
+## Exact eight-file inventory
 
-- `specs/coordination/program-plan.yaml`
-- `specs/coordination/active-work.yaml`
-- `specs/tasks/GZ-014.md`
-- `evidence/GZ-014/summary.md`
-- `evidence/GZ-014/commands.txt`
-- `evidence/GZ-014/changed-files.md`
-- `evidence/GZ-014/test-results/README.md`
-- `evidence/GZ-014/handoff.md`
+1. `specs/coordination/program-plan.yaml`
+2. `specs/coordination/active-work.yaml`
+3. `specs/tasks/GZ-014.md`
+4. `evidence/GZ-014/summary.md`
+5. `evidence/GZ-014/commands.txt`
+6. `evidence/GZ-014/changed-files.md`
+7. `evidence/GZ-014/test-results/README.md`
+8. `evidence/GZ-014/handoff.md`
 
-## Exact semantic change
+## Semantic change
 
-- only GZ-014 Foundation status changes from `review` to `integration`;
-- only GZ-014 Task/Registry phase, role, branch and base are synchronized;
-- Evidence is refreshed for completion preparation.
+- GZ-014 Foundation: `integration -> completed`;
+- Foundation provenance: `completionRef: PR-32`, `mergeCommit: 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`;
+- GZ-014 Task Spec: `integration -> completed`, Completion branch/base updated;
+- Active Work: remove only GZ-014 Lease;
+- task-bound Evidence: refresh for the final Foundation completion transition.
 
 ## Explicitly unchanged
 
-- Program Plan tasks, POCs, waves, blockers, release policy and all other Foundations;
+- ordinary `specs/coordination/task-completions.yaml`;
+- all other Foundations, Program tasks, POCs, waves, blockers and release policy;
 - Active Work policy and any other task entry;
-- lifecycle code, tests, Workflow and Makefile;
-- Issue state, completionRef, mergeCommit and Lease;
-- requirements, contracts, business code, deployment, Secrets, permissions and production data.
+- lifecycle scripts, schemas, tests, Workflow and Makefile;
+- requirements, business contracts/code, deployment, Secrets, permissions and production data;
+- OPS-001 #20 remains open and gates only GZ-020.
 
-Integrator must compare GitHub's actual latest file list with these eight paths before approval. Any unexpected path, failed Gate, stale base or unresolved blocker prevents merge.
+Result: `COMPLETED CANDIDATE`. GitHub's latest PR #33 file inventory remains authoritative; any ninth file or semantic expansion is a blocker.
