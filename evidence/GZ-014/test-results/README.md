@@ -2,38 +2,29 @@
 
 ## Verified predecessor
 
-- PR #26 merged as `ef1048344aa082c678e5ef948dc7f62e5aa84510`.
-- Post-merge `main` Governance Gate run #267: `success`.
+- Foundation state-model PR #27 merged as `44b66f699e333af9781779dc18665bad0850d9c4`.
+- Post-merge `main` Governance Gate #274: `PASS`.
 
-## Foundation lifecycle-state repair
+## Review transition
 
-### Added regression coverage
+This branch changes only lifecycle metadata from `in_progress` to `review`. Mandatory validation includes:
 
-`tests/governance/test_foundation_lifecycle_states.py` verifies:
+```bash
+python scripts/check-task-file.py --task GZ-014
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task GZ-014 --branch-name chore/GZ-014-foundation-review
+python scripts/run-agent-coordination-gate.py --task GZ-014 --base-ref origin/main --head-ref HEAD --branch-name chore/GZ-014-foundation-review
+python scripts/run-task-scope-gate.py --task GZ-014 --base origin/main
+python scripts/check-evidence.py --task GZ-014
+make verify TASK=GZ-014 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-014-foundation-review
+```
 
-1. the repository's complete Program Plan validates when GZ-014 Foundation status is `review`;
-2. the same Program Plan validates when Foundation status is `integration`;
-3. an unknown Foundation status is rejected by JSON Schema;
-4. a temporary Git history with Foundation base state `integration` can transition to `completed` only with Program metadata, Lease removal, completed Task Spec and structured task-bound Evidence.
+## Acceptance
 
-### Governance Gate run #268
+- Foundation, Task and Registry must all be `review`;
+- actual diff must be metadata/Evidence only;
+- no implementation, completion, Issue closure or Lease release is allowed;
+- latest exact-head Governance Gate and fresh Review are required.
 
-- HEAD: `656c7b9c20cd18de2850caa46c734f46a0fc6c90`
-- Result: `PASS`
-
-Successful areas:
-
-- Task file validation;
-- Project Readiness;
-- Program Plan integrity, history, transitions, finalization and lifecycle guard;
-- Agent Coordination;
-- full governance test suite and skip audit;
-- Markdown, Schema and Secret checks;
-- Evidence, Evidence Integrity, PR/task linkage, Scope and Spec Sync;
-- repository-boundary and CI static validation.
-
-## Final-head rule
-
-Evidence updates are newer than run #268. The latest PR #27 HEAD must receive its own successful Governance Gate and fresh Review. No approval or merge may rely only on run #268.
-
-Result: PENDING FINAL HEAD VALIDATION
+Result: PENDING EXACT-HEAD VALIDATION

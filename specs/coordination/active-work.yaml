@@ -9,17 +9,17 @@ tasks:
   - taskId: GZ-014
     issue: 17
     title: 收敛项目交付计划并加固多 Agent 协作一致性
-    status: in_progress
+    status: review
     riskLevel: high
     owner: ElectricDogCN
     coordinator: program-coordinator-agent
     implementer: governance-hardening-agent
     reviewer: independent-governance-review-agent
     integrator: integration-agent
-    agentRole: implementer
-    branch: chore/GZ-014-foundation-lifecycle-states
+    agentRole: reviewer
+    branch: chore/GZ-014-foundation-review
     baseBranch: main
-    baseSha: ef1048344aa082c678e5ef948dc7f62e5aa84510
+    baseSha: 44b66f699e333af9781779dc18665bad0850d9c4
     workPackage: WP-M0-08
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: GZ-014

@@ -1,47 +1,41 @@
 GZ-014 command evidence
 
-command: merge validated lifecycle wrapper repair through PR #26
+command: merge PR #26 exact head ef7a666271ad7edcb7e0264d756796000af6c86b
 exit code: 0
-observed result: PR #26 merged as ef1048344aa082c678e5ef948dc7f62e5aa84510 after exact-head Gate #266 and authorized re-review
+result: PASS
+observed result: lifecycle wrapper repair merged as ef1048344aa082c678e5ef948dc7f62e5aa84510
 
-command: inspect post-merge main Governance Gate run #267
+command: inspect post-merge main Governance Gate #267
 exit code: HTTP 200
 result: PASS
-observed result: all mandatory main-push governance steps succeeded on ef1048344aa082c678e5ef948dc7f62e5aa84510
+observed result: all mandatory main-push checks succeeded
 
-command: compare Foundation Schema and lifecycle completion preconditions
-exit code: 0
-observed result: Foundation Schema omitted review/integration while lifecycle completion requires target-base review or integration; GZ-014 completion state was unreachable
-
-command: create branch chore/GZ-014-foundation-lifecycle-states from ef1048344aa082c678e5ef948dc7f62e5aa84510
-exit code: 0
-observed result: dedicated high-risk repair branch created from verified main
-
-command: update Task and Active Work branch/base/lease
-exit code: 0
-observed result: GZ-014 remains in_progress; branch/baseSha and renewed 168-hour Lease are consistent; roles and path claims remain unchanged
-
-command: update specs/coordination/program-plan.schema.yaml
-exit code: 0
-observed result: Foundation enum adds only review and integration; existing states remain; ordinary task enum is unchanged
-
-command: create tests/governance/test_foundation_lifecycle_states.py
-exit code: 0
-observed result: tests cover current Program Plan review/integration validation, rejection of an unknown state, and history-aware integration-to-completed Evidence validation
-
-command: create PR #27
-exit code: 0
-observed result: non-Draft PR opened against main with four initial changed files and no Program Plan state change
-
-command: GitHub Actions Governance Gate run #268 on 656c7b9c20cd18de2850caa46c734f46a0fc6c90
+command: merge PR #27 exact head cba16c70cb3c3b62fd252a279bcccd035e16a586
 exit code: 0
 result: PASS
-observed result: Task, Readiness, Program integrity/history/transitions/finalization/lifecycle, Coordination, governance tests, Schema, Evidence, Scope, Spec Sync and CI validation succeeded
+observed result: Foundation review/integration states and regression coverage merged as 44b66f699e333af9781779dc18665bad0850d9c4
 
-command: refresh GZ-014 task-bound Evidence for PR #27
+command: inspect post-merge main Governance Gate #274
+exit code: HTTP 200
+result: PASS
+observed result: all mandatory main-push checks succeeded
+
+command: create branch chore/GZ-014-foundation-review from 44b66f699e333af9781779dc18665bad0850d9c4
+exit code: 0
+observed result: metadata-only review branch created from verified main
+
+command: update Program Plan GZ-014 Foundation status
+exit code: 0
+observed result: only GZ-014 Foundation status changed from in_progress to review
+
+command: update Active Work and Task Spec
+exit code: 0
+observed result: status review, role reviewer, branch/base synchronized; policy, roles, paths, Lease and contract sets otherwise preserved
+
+command: refresh GZ-014 review Evidence
 exit code: 0 for completed GitHub contents writes
-observed result: Summary, Commands, Changed Files, Test Results and Handoff identify the state-machine defect, constrained repair, run #268 and pending final-head validation
+observed result: Summary, Commands, Changed Files, Test Results and Handoff describe the review transition and pending validation
 
-command: latest PR #27 exact-head Gate and fresh Review
+command: review transition exact-head Gate, fresh Review and merge
 exit code: pending
-observed result: must be read from the latest HEAD after this Evidence refresh; no future success is claimed
+observed result: no future result is claimed; read the latest PR HEAD and GitHub Actions
