@@ -188,7 +188,7 @@ class TestRemainingLifecycleGuards(unittest.TestCase):
             self.commit(root, "GZ-014 mutation")
             result = self.run_transition(root, "GZ-014", "chore/GZ-014-work")
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn("may only change that foundationTasks task's status", result.stdout)
+            self.assertIn("may only change that Foundation task's status", result.stdout)
 
     def test_active_foundation_unchanged_program_passes(self):
         with tempfile.TemporaryDirectory() as root:
