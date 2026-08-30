@@ -15,6 +15,12 @@ SPEC = importlib.util.spec_from_file_location("program_lifecycle_guards", SCRIPT
 GUARDS = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
 SPEC.loader.exec_module(GUARDS)
+WRAPPER_SPEC = importlib.util.spec_from_file_location(
+    "program_lifecycle_gate_wrapper", LIFECYCLE_GATE
+)
+WRAPPER = importlib.util.module_from_spec(WRAPPER_SPEC)
+assert WRAPPER_SPEC and WRAPPER_SPEC.loader
+WRAPPER_SPEC.loader.exec_module(WRAPPER)
 
 
 class TestProgramLifecycleGuards(unittest.TestCase):
@@ -80,6 +86,35 @@ class TestProgramLifecycleGuards(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_wrapper_task_derivation_does_not_recurse(self):
+        base_plan = {
+            "foundationTasks": [],
+            "tasks": [{"taskId": "GZ-004", "status": "planned"}],
+            "pocs": [],
+            "externalBlockers": [],
+        }
+        current_plan = {
+            "foundationTasks": [],
+            "tasks": [{"taskId": "GZ-004", "status": "reserved"}],
+            "pocs": [],
+            "externalBlockers": [],
+        }
+        original = WRAPPER.GUARD.task_ids_from_diff
+        WRAPPER.GUARD.task_ids_from_diff = WRAPPER.expanded_task_ids_from_diff
+        try:
+            affected = WRAPPER.expanded_task_ids_from_diff(
+                base_plan,
+                current_plan,
+                {"tasks": []},
+                {"tasks": [{"taskId": "GZ-004", "status": "reserved"}]},
+                {"records": []},
+                {"records": []},
+                {"specs/tasks/GZ-004.md"},
+            )
+        finally:
+            WRAPPER.GUARD.task_ids_from_diff = original
+        self.assertEqual(affected, {"GZ-004"})
 
     def test_rename_diff_includes_source_and_destination(self):
         with tempfile.TemporaryDirectory() as root:
