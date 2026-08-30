@@ -19,6 +19,8 @@ from typing import Any
 
 import yaml
 
+ACTIVE_TASK_STATES = {"reserved", "in_progress", "blocked", "review", "integration"}
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Dispatch the Agent Coordination gate")
@@ -85,7 +87,7 @@ def main() -> int:
         except (OSError, ValueError, yaml.YAMLError) as exc:
             print(f"FAIL: Cannot read Task Spec status for {args.task}: {exc}")
             return 2
-        if status != "completed":
+        if status in ACTIVE_TASK_STATES:
             command += ["--task", args.task]
             if args.base_ref:
                 command += ["--base-ref", args.base_ref]
@@ -93,11 +95,14 @@ def main() -> int:
                 command += ["--head-ref", args.head_ref]
             if args.branch_name:
                 command += ["--branch-name", args.branch_name]
-        else:
+        elif status == "completed":
             print(
                 f"INFO: {args.task} is a Completion PR; task-specific transition "
                 "validation is provided by the mandatory Program History gate."
             )
+        else:
+            print(f"FAIL: Unsupported Task status for coordination dispatch: {status!r}")
+            return 2
 
     result = subprocess.run(command, cwd=root, check=False)
     return result.returncode
