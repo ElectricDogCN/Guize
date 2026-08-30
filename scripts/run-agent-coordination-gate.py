@@ -1,20 +1,13 @@
 #!/usr/bin/env python3
 """Run the mandatory Agent Coordination mode for the current Task.
 
-Active/reservation work is validated against its current Active Work entry by
-``check-agent-coordination.py --task``. A Completion PR intentionally removes
-that entry, so task-specific completion semantics are owned by the mandatory
-Program History checker. For completed Task Specs this dispatcher therefore
-runs the global Registry validation only; Program Integrity/History/Finalization
-run immediately before this command in both CI and ``make verify``.
-
-The dispatcher also performs repository-wide lifecycle guards:
-
-* every ordinary Program task marked ``completed`` must retain a Task Spec whose
-  completion state and stable Program identity match the canonical plan;
-* completed Foundation tasks with schemaVersion metadata must remain exactly
-  ``completed``; only historical pre-schema Foundation specs may retain the
-  legacy ``approved`` state.
+Implementation work is validated against its Active Work path claims. A
+reservation, blocked-state update, cancellation, or Completion PR intentionally
+changes canonical lifecycle metadata outside implementation output paths; those
+narrow transitions are validated against the target branch by the mandatory
+Program History/Transitions/Finalization checks. This dispatcher therefore
+runs task-specific coordination only for implementation/review/integration and
+runs global Registry validation for metadata-only lifecycle PRs.
 """
 
 from __future__ import annotations
@@ -27,7 +20,8 @@ from typing import Any
 
 import yaml
 
-ACTIVE_TASK_STATES = {"reserved", "in_progress", "blocked", "review", "integration"}
+IMPLEMENTATION_TASK_STATES = {"in_progress", "review", "integration"}
+METADATA_TASK_STATES = {"reserved", "blocked", "cancelled", "completed"}
 PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
 NONE_VALUES = {"", "NONE", "none", "null", "N/A", "n/a"}
 
@@ -235,7 +229,7 @@ def main() -> int:
         except (OSError, ValueError, yaml.YAMLError) as exc:
             print(f"FAIL: Cannot read Task Spec status for {args.task}: {exc}")
             return 2
-        if status in ACTIVE_TASK_STATES:
+        if status in IMPLEMENTATION_TASK_STATES:
             command += ["--task", args.task]
             if args.base_ref:
                 command += ["--base-ref", args.base_ref]
@@ -243,10 +237,16 @@ def main() -> int:
                 command += ["--head-ref", args.head_ref]
             if args.branch_name:
                 command += ["--branch-name", args.branch_name]
-        elif status == "completed":
+        elif status in METADATA_TASK_STATES:
+            label = {
+                "reserved": "Reservation PR",
+                "blocked": "Blocked-state metadata PR",
+                "cancelled": "Cancellation PR",
+                "completed": "Completion PR",
+            }[status]
             print(
-                f"INFO: {args.task} is a Completion PR; task-specific transition "
-                "validation is provided by the mandatory Program History gate."
+                f"INFO: {args.task} is a {label}; exact target-base lifecycle and file scope "
+                "are validated by the mandatory Program History/Transitions/Finalization gates."
             )
         else:
             print(f"FAIL: Unsupported Task status for coordination dispatch: {status!r}")
