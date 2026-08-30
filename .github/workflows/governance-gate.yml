@@ -108,7 +108,7 @@ jobs:
           set -euo pipefail
           python scripts/check-project-readiness.py
 
-      - name: Program Plan integrity and history check
+      - name: Program Plan integrity, history, and finalization check
         id: program-integrity
         if: success() || failure()
         env:
@@ -135,8 +135,15 @@ jobs:
               --head-ref "$HEAD_REF" \
               --task "${{ steps.task-context.outputs.task_id }}" \
               --branch-name "$BRANCH_NAME"
+            python scripts/check-program-plan-finalization.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF" \
+              --task "${{ steps.task-context.outputs.task_id }}"
           else
             python scripts/check-program-plan-history.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF"
+            python scripts/check-program-plan-finalization.py \
               --base-ref "$BASE_REF" \
               --head-ref "$HEAD_REF"
           fi
@@ -222,9 +229,7 @@ jobs:
           else
             REPORT=$(find "$EVIDENCE_DIR" -maxdepth 1 -type f -name 'final-report-r*.md' -print | sort -V | tail -n 1 || true)
           fi
-          if [ -z "$REPORT" ] && [ -f "$EVIDENCE_DIR/final-report.md" ]; then
-            REPORT="$EVIDENCE_DIR/final-report.md"
-          fi
+          if [ -z "$REPORT" ] && [ -f "$EVIDENCE_DIR/final-report.md" ]; then REPORT="$EVIDENCE_DIR/final-report.md"; fi
           if [ -n "$REPORT" ]; then
             python scripts/check-evidence-integrity.py --task "$TASK_ID" --report "$REPORT"
           else
@@ -243,7 +248,9 @@ jobs:
         if: (success() || failure()) && steps.task-context.outputs.task_specific == 'true'
         run: |
           set -euo pipefail
-          python scripts/check-task-scope.py --task "${{ steps.task-context.outputs.task_id }}" --base origin/main
+          python scripts/run-task-scope-gate.py \
+            --task "${{ steps.task-context.outputs.task_id }}" \
+            --base origin/main
 
       - name: Spec sync check
         id: spec-sync
