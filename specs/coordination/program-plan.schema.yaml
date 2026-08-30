@@ -108,7 +108,7 @@ $defs:
       taskId: {$ref: '#/$defs/taskId'}
       title: {type: string, minLength: 1}
       status:
-        enum: [completed, in_progress, blocked]
+        enum: [completed, in_progress, review, integration, blocked]
       completionRef: {type: string, minLength: 1}
       mergeCommit:
         type: [string, 'null']
