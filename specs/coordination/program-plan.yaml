@@ -69,7 +69,7 @@ tasks:
   - taskId: GZ-004
     title: "冻结 V1 需求、NFR、验收与追踪基线"
     kind: requirements
-    status: planned
+    status: reserved
     workPackage: WP-M0-03A
     riskLevel: high
     ownerRole: task-owner-agent
@@ -170,7 +170,8 @@ tasks:
     outputPaths: ["specs/ui/**", "docs/ui/**", "evidence/GZ-009/**"]
     producesContracts: []
     consumesContracts: [REQ-V1, OPENAPI-V1, ERROR-CATALOG-V1]
-    branchPattern: "chore/GZ-009-*"
+    branchPattern: "chore/GZ-009-*
+"
     exitGate: "页面/Action/API/权限/状态/错误/验收一一映射，前端不创建第二套业务规则"
   - <<: *normal
     taskId: GZ-010
@@ -409,7 +410,7 @@ tasks:
     dependsOn: [GZ-015, GZ-011, POC-001, POC-002, POC-009]
     requirementIds: [REQ-V1-0003, REQ-V1-0004, REQ-V1-0007]
     moduleIds: [MOD-MEDIA, MOD-AI, MOD-TASK, MOD-STORAGE]
-    outputPaths: ["backend/guize-media-control/**", "backend/guize-ai-control/**", "services/guize-media-service/**", "services/guize-ai-*/**", "tests/e2e/m3/**", "evidence/GZ-016/**"]
+    outputPaths: ["backend/guize-media-control/**", "backend/guize-ai-control/**", "services/guize-media-service/**", "services/guize-ai-*/**", "tests/e2e/m3/**"]
     consumesContracts: [WORKFLOW-CONTRACT-V1, ACCEPTANCE-SUITE-V1, QUALITY-THRESHOLDS-V1, POC-01-EVIDENCE, POC-02-EVIDENCE, POC-09-EVIDENCE]
     acceptanceIds: [验收V1-0005, 验收V1-0006, 验收V1-0007]
     branchPattern: "chore/GZ-016-*"
