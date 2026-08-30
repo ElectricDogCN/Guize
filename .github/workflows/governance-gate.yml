@@ -23,6 +23,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+      issues: read
       pull-requests: read
     defaults:
       run:
@@ -90,7 +91,7 @@ jobs:
           else
             echo "task_id=" >> "$GITHUB_OUTPUT"
             echo "task_specific=false" >> "$GITHUB_OUTPUT"
-            echo "Non-task ref '$REF_NAME'; repository-wide checks will run and task-specific checks will be skipped."
+            echo "Non-task ref '$REF_NAME'; repository-wide checks will derive affected lifecycle tasks from the full diff."
           fi
 
       - name: Task file validation
@@ -107,23 +108,97 @@ jobs:
           set -euo pipefail
           python scripts/check-project-readiness.py
 
+      - name: Program Plan integrity, history, transitions, finalization, and lifecycle guard
+        id: program-integrity
+        if: success() || failure()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          ZERO_SHA="0000000000000000000000000000000000000000"
+          if [ -n "${{ github.head_ref }}" ]; then
+            BASE_REF="origin/${{ github.base_ref }}"
+            HEAD_REF="HEAD"
+            BRANCH_NAME="${{ github.head_ref }}"
+          elif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "$ZERO_SHA" ] && git rev-parse --verify "$PUSH_BEFORE^{commit}" >/dev/null 2>&1; then
+            BASE_REF="$PUSH_BEFORE"
+            HEAD_REF="HEAD"
+            BRANCH_NAME="${{ github.ref_name }}"
+          elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            BASE_REF="HEAD^"
+            HEAD_REF="HEAD"
+            BRANCH_NAME="${{ github.ref_name }}"
+          else
+            BASE_REF="HEAD"
+            HEAD_REF="HEAD"
+            BRANCH_NAME="${{ github.ref_name }}"
+          fi
+          echo "Program history range: $BASE_REF...$HEAD_REF"
+          python scripts/check-program-plan-integrity.py --base-ref "$BASE_REF"
+          if [ "${{ steps.task-context.outputs.task_specific }}" = "true" ]; then
+            python scripts/check-program-plan-history.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF" \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --branch-name "$BRANCH_NAME"
+            python scripts/check-program-plan-transitions.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF" \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --branch-name "$BRANCH_NAME"
+            python scripts/check-program-plan-finalization.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF" \
+              --task "${{ steps.task-context.outputs.task_id }}"
+            python scripts/check-program-lifecycle-guards.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF" \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --branch-name "$BRANCH_NAME"
+          else
+            python scripts/check-program-plan-history.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF"
+            python scripts/check-program-plan-transitions.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF"
+            python scripts/check-program-plan-finalization.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF"
+            python scripts/check-program-lifecycle-guards.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF"
+          fi
+
       - name: Agent coordination check
         id: agent-coordination
         if: success() || failure()
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PUSH_BEFORE: ${{ github.event.before }}
         run: |
           set -euo pipefail
+          ZERO_SHA="0000000000000000000000000000000000000000"
           if [ "${{ steps.task-context.outputs.task_specific }}" != "true" ]; then
-            python scripts/check-agent-coordination.py
+            python scripts/run-agent-coordination-gate.py
           elif [ -n "${{ github.head_ref }}" ]; then
-            python scripts/check-agent-coordination.py \
+            python scripts/run-agent-coordination-gate.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
               --base-ref "origin/${{ github.base_ref }}" \
-              --head-ref "origin/${{ github.head_ref }}" \
+              --head-ref "HEAD" \
               --branch-name "${{ github.head_ref }}"
-          else
-            python scripts/check-agent-coordination.py \
+          elif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "$ZERO_SHA" ] && git rev-parse --verify "$PUSH_BEFORE^{commit}" >/dev/null 2>&1; then
+            python scripts/run-agent-coordination-gate.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
-              --base-ref origin/main \
+              --base-ref "$PUSH_BEFORE" \
+              --head-ref HEAD \
+              --branch-name "${{ github.ref_name }}"
+          else
+            python scripts/run-agent-coordination-gate.py \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --base-ref HEAD^ \
               --head-ref HEAD \
               --branch-name "${{ github.ref_name }}"
           fi
@@ -188,9 +263,7 @@ jobs:
           else
             REPORT=$(find "$EVIDENCE_DIR" -maxdepth 1 -type f -name 'final-report-r*.md' -print | sort -V | tail -n 1 || true)
           fi
-          if [ -z "$REPORT" ] && [ -f "$EVIDENCE_DIR/final-report.md" ]; then
-            REPORT="$EVIDENCE_DIR/final-report.md"
-          fi
+          if [ -z "$REPORT" ] && [ -f "$EVIDENCE_DIR/final-report.md" ]; then REPORT="$EVIDENCE_DIR/final-report.md"; fi
           if [ -n "$REPORT" ]; then
             python scripts/check-evidence-integrity.py --task "$TASK_ID" --report "$REPORT"
           else
@@ -209,7 +282,9 @@ jobs:
         if: (success() || failure()) && steps.task-context.outputs.task_specific == 'true'
         run: |
           set -euo pipefail
-          python scripts/check-task-scope.py --task "${{ steps.task-context.outputs.task_id }}" --base origin/main
+          python scripts/run-task-scope-gate.py \
+            --task "${{ steps.task-context.outputs.task_id }}" \
+            --base origin/main
 
       - name: Spec sync check
         id: spec-sync
@@ -247,6 +322,7 @@ jobs:
           TASK_CONTEXT: ${{ steps.task-context.outcome }}
           TASK_FILE: ${{ steps.task-file-validation.outcome }}
           PROJECT_READINESS: ${{ steps.project-readiness.outcome }}
+          PROGRAM_INTEGRITY: ${{ steps.program-integrity.outcome }}
           AGENT_COORDINATION: ${{ steps.agent-coordination.outcome }}
           GOVERNANCE_TESTS: ${{ steps.governance-tests.outcome }}
           SKIP_AUDIT: ${{ steps.skip-audit.outcome }}
@@ -276,6 +352,7 @@ jobs:
             echo "| task_context | $TASK_CONTEXT |"
             echo "| task_file_validation | $TASK_FILE |"
             echo "| project_readiness | $PROJECT_READINESS |"
+            echo "| program_integrity | $PROGRAM_INTEGRITY |"
             echo "| agent_coordination | $AGENT_COORDINATION |"
             echo "| governance_tests | $GOVERNANCE_TESTS |"
             echo "| skip_audit | $SKIP_AUDIT |"

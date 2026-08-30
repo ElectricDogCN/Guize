@@ -17,9 +17,9 @@ tasks:
     reviewer: independent-governance-review-agent
     integrator: integration-agent
     agentRole: implementer
-    branch: chore/GZ-014-program-plan-reconciliation
+    branch: chore/GZ-014-post-merge-review-repair
     baseBranch: main
-    baseSha: d731ce09fbf2535948bc1864490539d06ce1f139
+    baseSha: 3b29ea90a8a997be5ff7c97b0f24175cb49508ab
     workPackage: WP-M0-08
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: GZ-014
@@ -37,8 +37,10 @@ tasks:
       - AGENTS.md
       - README.md
       - MANIFEST.md
+      - Makefile
       - .github/ISSUE_TEMPLATE/agent-task.yml
       - .github/pull_request_template.md
+      - .github/workflows/governance-gate.yml
       - adr/0014-multi-agent-coordination-and-integration.md
       - docs/24-requirements-design-readiness-audit.md
       - docs/25-multi-agent-collaboration-protocol.md
@@ -50,7 +52,15 @@ tasks:
       - scripts/check-task-file.py
       - scripts/check-project-readiness.py
       - scripts/check-agent-coordination.py
+      - scripts/run-agent-coordination-gate.py
+      - scripts/run-task-scope-gate.py
       - scripts/check-schemas.py
+      - scripts/check-program-plan-integrity.py
+      - scripts/check-program-plan-history.py
+      - scripts/check-program-plan-transitions.py
+      - scripts/check-program-plan-finalization.py
+      - scripts/check-program-lifecycle-guards.py
+      - scripts/run-program-lifecycle-gate.py
       - tests/governance/**
     sharedPaths: []
     handoffPath: evidence/GZ-014/handoff.md

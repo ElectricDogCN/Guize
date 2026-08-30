@@ -39,14 +39,25 @@ class TestGovernanceWorkflowContract(unittest.TestCase):
         self.assertIn("scripts/check-project-readiness.py", step.get("run", ""))
         self.assertFalse(step.get("continue-on-error", False))
 
-    def test_agent_coordination_is_a_gate_with_real_refs(self):
+    def test_program_integrity_and_history_are_mandatory_gates(self):
+        step = self._step("program-integrity")
+        run = step.get("run", "")
+        self.assertIn("scripts/check-program-plan-integrity.py", run)
+        self.assertIn("scripts/check-program-plan-history.py", run)
+        self.assertIn("--base-ref", run)
+        self.assertIn("--head-ref", run)
+        self.assertIn("--task", run)
+        self.assertFalse(step.get("continue-on-error", False))
+
+    def test_agent_coordination_uses_completion_aware_dispatcher(self):
         step = self._step("agent-coordination")
         run = step.get("run", "")
-        self.assertIn("scripts/check-agent-coordination.py", run)
+        self.assertIn("scripts/run-agent-coordination-gate.py", run)
+        self.assertNotIn("python scripts/check-agent-coordination.py", run)
         self.assertIn("--base-ref", run)
         self.assertIn("origin/${{ github.base_ref }}", run)
         self.assertIn("--head-ref", run)
-        self.assertIn("origin/${{ github.head_ref }}", run)
+        self.assertIn('"HEAD"', run)
         self.assertIn("--branch-name", run)
         self.assertFalse(step.get("continue-on-error", False))
 
@@ -83,9 +94,11 @@ class TestGovernanceWorkflowContract(unittest.TestCase):
         step = self._step("summary")
         env = step.get("env", {})
         self.assertIn("PROJECT_READINESS", env)
+        self.assertIn("PROGRAM_INTEGRITY", env)
         self.assertIn("AGENT_COORDINATION", env)
         run = step.get("run", "")
         self.assertIn("project_readiness", run)
+        self.assertIn("program_integrity", run)
         self.assertIn("agent_coordination", run)
 
 

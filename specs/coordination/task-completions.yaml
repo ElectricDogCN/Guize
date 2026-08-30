@@ -1,0 +1,4 @@
+$schema: task-completions.schema.yaml
+schemaVersion: 1
+sourceOfTruth: specs/coordination/task-completions.yaml
+records: []

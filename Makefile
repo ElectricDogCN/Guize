@@ -7,7 +7,7 @@ HEAD_REF ?= HEAD
 MODE ?= implement
 ISSUE ?=
 
-.PHONY: help docs-check schema-check secret-scan readiness-check coordination-check governance-test agent-prompt task-verify verify
+.PHONY: help docs-check schema-check secret-scan readiness-check program-integrity-check coordination-check governance-test agent-prompt task-verify verify
 
 help:
 	@echo "Guize governance commands"
@@ -15,6 +15,7 @@ help:
 	@echo "  make schema-check"
 	@echo "  make secret-scan"
 	@echo "  make readiness-check"
+	@echo "  make program-integrity-check TASK=GZ-003 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-003-name"
 	@echo "  make coordination-check TASK=GZ-003 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-003-name"
 	@echo "  make governance-test"
 	@echo "  make agent-prompt TASK=GZ-003 [BRANCH=...] [BASE=...] [MODE=...]"
@@ -45,18 +46,63 @@ readiness-check:
 	@if [ ! -f scripts/check-project-readiness.py ]; then echo "MISSING: scripts/check-project-readiness.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-project-readiness.py
 
+program-integrity-check:
+	@echo "=== program-integrity-check (TASK=$(TASK), BASE=$(BASE), HEAD_REF=$(HEAD_REF)) ==="
+	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
+	@if [ ! -f scripts/check-program-plan-integrity.py ]; then echo "MISSING: scripts/check-program-plan-integrity.py not found"; exit 1; fi
+	@if [ ! -f scripts/check-program-plan-history.py ]; then echo "MISSING: scripts/check-program-plan-history.py not found"; exit 1; fi
+	@if [ ! -f scripts/check-program-plan-transitions.py ]; then echo "MISSING: scripts/check-program-plan-transitions.py not found"; exit 1; fi
+	@if [ ! -f scripts/check-program-plan-finalization.py ]; then echo "MISSING: scripts/check-program-plan-finalization.py not found"; exit 1; fi
+	@if [ ! -f scripts/check-program-lifecycle-guards.py ]; then echo "MISSING: scripts/check-program-lifecycle-guards.py not found"; exit 1; fi
+	@set -e; \
+	$(PYTHON) scripts/check-program-plan-integrity.py --base-ref $(BASE); \
+	if [ -n "$(TASK)" ]; then \
+		$(PYTHON) scripts/check-program-plan-history.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF) \
+			--task $(TASK) \
+			--branch-name $(BRANCH); \
+		$(PYTHON) scripts/check-program-plan-transitions.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF) \
+			--task $(TASK) \
+			--branch-name $(BRANCH); \
+		$(PYTHON) scripts/check-program-plan-finalization.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF) \
+			--task $(TASK); \
+		$(PYTHON) scripts/check-program-lifecycle-guards.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF) \
+			--task $(TASK) \
+			--branch-name $(BRANCH); \
+	else \
+		$(PYTHON) scripts/check-program-plan-history.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF); \
+		$(PYTHON) scripts/check-program-plan-transitions.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF); \
+		$(PYTHON) scripts/check-program-plan-finalization.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF); \
+		$(PYTHON) scripts/check-program-lifecycle-guards.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF); \
+	fi
+
 coordination-check:
 	@echo "=== coordination-check (TASK=$(TASK), BASE=$(BASE), HEAD_REF=$(HEAD_REF)) ==="
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
-	@if [ ! -f scripts/check-agent-coordination.py ]; then echo "MISSING: scripts/check-agent-coordination.py not found"; exit 1; fi
+	@if [ ! -f scripts/run-agent-coordination-gate.py ]; then echo "MISSING: scripts/run-agent-coordination-gate.py not found"; exit 1; fi
 	@if [ -n "$(TASK)" ]; then \
-		$(PYTHON) scripts/check-agent-coordination.py \
+		$(PYTHON) scripts/run-agent-coordination-gate.py \
 			--task $(TASK) \
 			--base-ref $(BASE) \
 			--head-ref $(HEAD_REF) \
 			--branch-name $(BRANCH); \
 	else \
-		$(PYTHON) scripts/check-agent-coordination.py; \
+		$(PYTHON) scripts/run-agent-coordination-gate.py; \
 	fi
 
 governance-test:
@@ -84,13 +130,15 @@ task-verify:
 	@echo "-- check-task-file --"
 	@if [ ! -f scripts/check-task-file.py ]; then echo "MISSING: scripts/check-task-file.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-task-file.py --task $(TASK)
+	@echo "-- check-program-integrity --"
+	$(MAKE) program-integrity-check TASK=$(TASK) BASE=$(BASE) HEAD_REF=$(HEAD_REF) BRANCH=$(BRANCH)
 	@echo "-- check-agent-coordination --"
 	$(MAKE) coordination-check TASK=$(TASK) BASE=$(BASE) HEAD_REF=$(HEAD_REF) BRANCH=$(BRANCH)
 	@echo "-- check-project-readiness --"
 	$(MAKE) readiness-check
 	@echo "-- check-task-scope --"
-	@if [ ! -f scripts/check-task-scope.py ]; then echo "MISSING: scripts/check-task-scope.py not found"; exit 1; fi
-	$(PYTHON) scripts/check-task-scope.py --task $(TASK) --base $(BASE)
+	@if [ ! -f scripts/run-task-scope-gate.py ]; then echo "MISSING: scripts/run-task-scope-gate.py not found"; exit 1; fi
+	$(PYTHON) scripts/run-task-scope-gate.py --task $(TASK) --base $(BASE)
 	@echo "-- check-evidence --"
 	@if [ ! -f scripts/check-evidence.py ]; then echo "MISSING: scripts/check-evidence.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-evidence.py --task $(TASK)
