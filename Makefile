@@ -67,15 +67,15 @@ program-integrity-check:
 coordination-check:
 	@echo "=== coordination-check (TASK=$(TASK), BASE=$(BASE), HEAD_REF=$(HEAD_REF)) ==="
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
-	@if [ ! -f scripts/check-agent-coordination.py ]; then echo "MISSING: scripts/check-agent-coordination.py not found"; exit 1; fi
+	@if [ ! -f scripts/run-agent-coordination-gate.py ]; then echo "MISSING: scripts/run-agent-coordination-gate.py not found"; exit 1; fi
 	@if [ -n "$(TASK)" ]; then \
-		$(PYTHON) scripts/check-agent-coordination.py \
+		$(PYTHON) scripts/run-agent-coordination-gate.py \
 			--task $(TASK) \
 			--base-ref $(BASE) \
 			--head-ref $(HEAD_REF) \
 			--branch-name $(BRANCH); \
 	else \
-		$(PYTHON) scripts/check-agent-coordination.py; \
+		$(PYTHON) scripts/run-agent-coordination-gate.py; \
 	fi
 
 governance-test:
