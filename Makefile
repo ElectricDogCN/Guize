@@ -51,10 +51,17 @@ program-integrity-check:
 	@if [ -z "$(PYTHON)" ]; then echo "MISSING: python is required but not installed"; exit 1; fi
 	@if [ ! -f scripts/check-program-plan-integrity.py ]; then echo "MISSING: scripts/check-program-plan-integrity.py not found"; exit 1; fi
 	@if [ ! -f scripts/check-program-plan-history.py ]; then echo "MISSING: scripts/check-program-plan-history.py not found"; exit 1; fi
+	@if [ ! -f scripts/check-program-plan-transitions.py ]; then echo "MISSING: scripts/check-program-plan-transitions.py not found"; exit 1; fi
 	@if [ ! -f scripts/check-program-plan-finalization.py ]; then echo "MISSING: scripts/check-program-plan-finalization.py not found"; exit 1; fi
 	$(PYTHON) scripts/check-program-plan-integrity.py --base-ref $(BASE)
-	@if [ -n "$(TASK)" ]; then \
+	@set -e; \
+	if [ -n "$(TASK)" ]; then \
 		$(PYTHON) scripts/check-program-plan-history.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF) \
+			--task $(TASK) \
+			--branch-name $(BRANCH); \
+		$(PYTHON) scripts/check-program-plan-transitions.py \
 			--base-ref $(BASE) \
 			--head-ref $(HEAD_REF) \
 			--task $(TASK) \
@@ -65,6 +72,9 @@ program-integrity-check:
 			--task $(TASK); \
 	else \
 		$(PYTHON) scripts/check-program-plan-history.py \
+			--base-ref $(BASE) \
+			--head-ref $(HEAD_REF); \
+		$(PYTHON) scripts/check-program-plan-transitions.py \
 			--base-ref $(BASE) \
 			--head-ref $(HEAD_REF); \
 		$(PYTHON) scripts/check-program-plan-finalization.py \
