@@ -59,13 +59,16 @@ class TestProgramPlanFinalization(unittest.TestCase):
         self.git(root, "commit", "--allow-empty", "-m", message)
         return self.git(root, "rev-parse", "HEAD").stdout.strip()
 
-    def ruleset(self, strict=True, last_push=True):
+    def ruleset(self, strict=True, last_push=True, include=None, exclude=None):
         return {
             "target": "branch",
             "enforcement": "active",
             "bypass_actors": [],
             "conditions": {
-                "ref_name": {"include": ["~DEFAULT_BRANCH"], "exclude": []}
+                "ref_name": {
+                    "include": include or ["~DEFAULT_BRANCH"],
+                    "exclude": exclude or [],
+                }
             },
             "rules": [
                 {
@@ -140,31 +143,23 @@ class TestProgramPlanFinalization(unittest.TestCase):
             FINALIZATION.validate_foundation_specs(root, plan, errors)
             self.assertEqual(errors, [])
 
-    def test_ruleset_excluding_main_does_not_apply_to_main(self):
-        ruleset = {
-            "target": "branch",
-            "enforcement": "active",
-            "conditions": {
-                "ref_name": {
-                    "include": ["~DEFAULT_BRANCH"],
-                    "exclude": ["refs/heads/main"],
-                }
-            },
-        }
-        self.assertFalse(FINALIZATION.ruleset_applies_to_main(ruleset))
+    def test_symbolic_default_branch_applies_when_default_is_main(self):
+        self.assertTrue(
+            FINALIZATION.ruleset_applies_to_main(self.ruleset(), "main")
+        )
 
-    def test_ruleset_including_main_without_exclusion_applies(self):
-        ruleset = {
-            "target": "branch",
-            "enforcement": "active",
-            "conditions": {
-                "ref_name": {
-                    "include": ["~DEFAULT_BRANCH"],
-                    "exclude": [],
-                }
-            },
-        }
-        self.assertTrue(FINALIZATION.ruleset_applies_to_main(ruleset))
+    def test_symbolic_default_branch_does_not_mean_main_when_default_differs(self):
+        self.assertFalse(
+            FINALIZATION.ruleset_applies_to_main(self.ruleset(), "develop")
+        )
+
+    def test_explicit_main_applies_even_when_default_branch_differs(self):
+        ruleset = self.ruleset(include=["refs/heads/main"])
+        self.assertTrue(FINALIZATION.ruleset_applies_to_main(ruleset, "develop"))
+
+    def test_ruleset_excluding_main_does_not_apply_to_main(self):
+        ruleset = self.ruleset(exclude=["refs/heads/main"])
+        self.assertFalse(FINALIZATION.ruleset_applies_to_main(ruleset, "main"))
 
     def test_ruleset_requires_latest_target_branch_testing(self):
         valid, failures = FINALIZATION.ruleset_satisfies_policy(
