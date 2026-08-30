@@ -7,6 +7,12 @@ that entry, so task-specific completion semantics are owned by the mandatory
 Program History checker. For completed Task Specs this dispatcher therefore
 runs the global Registry validation only; the workflow and ``make verify`` run
 Program Integrity/History immediately before this command.
+
+The dispatcher also performs a repository-wide lifecycle guard: every ordinary
+Program task whose Program Plan state is ``completed`` must have a Task Spec
+whose state is exactly ``completed``. Legacy Foundation tasks are intentionally
+excluded because their older Task Specs may use the historical ``approved``
+state and are governed by Foundation provenance checks instead.
 """
 
 from __future__ import annotations
@@ -20,6 +26,7 @@ from typing import Any
 import yaml
 
 ACTIVE_TASK_STATES = {"reserved", "in_progress", "blocked", "review", "integration"}
+PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
 
 
 def parse_args() -> argparse.Namespace:
@@ -52,7 +59,7 @@ def find_task_file(root: str, task_id: str) -> str | None:
     return matches[0] if len(matches) == 1 else None
 
 
-def task_status(path: str) -> str:
+def task_document(path: str) -> dict[str, Any]:
     with open(path, "r", encoding="utf-8") as handle:
         content = handle.read()
     if not content.startswith("---"):
@@ -63,7 +70,46 @@ def task_status(path: str) -> str:
     document: Any = yaml.safe_load(parts[1])
     if not isinstance(document, dict):
         raise ValueError("Task Spec front matter is not a mapping")
-    return str(document.get("status") or "")
+    return document
+
+
+def task_status(path: str) -> str:
+    return str(task_document(path).get("status") or "")
+
+
+def validate_completed_program_specs(root: str) -> list[str]:
+    """Reject completed ordinary Program tasks whose Task Spec is not completed."""
+    path = os.path.join(root, PROGRAM_PLAN)
+    if not os.path.isfile(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            plan: Any = yaml.safe_load(handle)
+    except (OSError, yaml.YAMLError) as exc:
+        return [f"Cannot read canonical Program Plan lifecycle state: {exc}"]
+    if not isinstance(plan, dict):
+        return ["Canonical Program Plan is not a mapping"]
+
+    errors: list[str] = []
+    for task in plan.get("tasks") or []:
+        if not isinstance(task, dict) or task.get("status") != "completed":
+            continue
+        task_id = str(task.get("taskId") or "")
+        spec = find_task_file(root, task_id)
+        if not spec:
+            errors.append(f"Completed Program task {task_id} has no unique Task Spec")
+            continue
+        try:
+            document = task_document(spec)
+        except (OSError, ValueError, yaml.YAMLError) as exc:
+            errors.append(f"Completed Program task {task_id} Task Spec is unreadable: {exc}")
+            continue
+        if document.get("status") != "completed":
+            errors.append(
+                f"Completed Program task {task_id} Task Spec status must be exactly completed, "
+                f"got {document.get('status')!r}"
+            )
+    return errors
 
 
 def main() -> int:
@@ -74,6 +120,12 @@ def main() -> int:
         script = os.path.join(root, script)
     if not os.path.isfile(script):
         print(f"FAIL: Coordination checker does not exist: {script}")
+        return 2
+
+    lifecycle_errors = validate_completed_program_specs(root)
+    if lifecycle_errors:
+        for error in lifecycle_errors:
+            print(f"FAIL: {error}")
         return 2
 
     command = [sys.executable, script, "--repo-root", root]
