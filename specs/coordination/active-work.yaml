@@ -5,4 +5,75 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
     - GZ-003
-tasks: []
+tasks:
+  - taskId: GZ-004
+    issue: 14
+    title: 冻结 V1 需求、NFR、验收与追踪基线
+    status: reserved
+    riskLevel: high
+    owner: ElectricDogCN
+    coordinator: program-coordinator-agent
+    implementer: requirements-baseline-agent
+    reviewer: independent-requirements-review-agent
+    integrator: integration-agent
+    agentRole: coordinator
+    branch: chore/GZ-004-requirements-baseline
+    baseBranch: main
+    baseSha: 3be9477fb137aa33faa6320f2454b9e1e1d5ec2d
+    workPackage: WP-M0-03A
+    programPlan: specs/coordination/program-plan.yaml
+    programTaskId: GZ-004
+    programWave: W1
+    requirementIds:
+      - REQ-V1-0001
+      - REQ-V1-0002
+      - REQ-V1-0003
+      - REQ-V1-0004
+      - REQ-V1-0005
+      - REQ-V1-0006
+      - REQ-V1-0007
+      - REQ-V1-0008
+      - REQ-V1-0009
+      - REQ-V1-0010
+    moduleIds:
+      - MOD-GOV
+      - MOD-PLATFORM
+      - MOD-IAM
+      - MOD-SOURCE
+      - MOD-ASSET
+      - MOD-TASK
+      - MOD-STORAGE
+      - MOD-MEDIA
+      - MOD-AI
+      - MOD-SEARCH
+      - MOD-POLICY
+      - MOD-CONFIG
+      - MOD-AUDIT
+      - MOD-OBS
+      - MOD-CONNECTOR
+      - MOD-WORKER
+      - MOD-PLAYER
+      - MOD-EDGE
+      - MOD-DATA
+      - MOD-DEPLOY
+      - MOD-CLI
+    producesContracts:
+      - REQ-V1
+      - NFR-V1
+      - ACCEPTANCE-TRACE-V1
+    consumesContracts: []
+    coordinationGroup: requirements-baseline
+    dependsOn:
+      - GZ-014
+    exclusivePaths:
+      - specs/requirements/v1/**
+      - specs/acceptance/requirements/**
+      - docs/requirements/**
+      - evidence/GZ-004/**
+    sharedPaths: []
+    handoffPath: evidence/GZ-004/handoff.md
+    integrationStrategy: merge
+    integrationOrder: 1
+    lease:
+      acquiredAt: "2026-08-31T08:00:00Z"
+      expiresAt: "2026-09-07T08:00:00Z"
