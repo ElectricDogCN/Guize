@@ -6,6 +6,7 @@
 - Phase: `FOUNDATION_COMPLETION`
 - Branch: `chore/GZ-014-foundation-completion`
 - Base: `main@c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
+- Completion identity: PR #29 / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
 
 ## Declared files
 
@@ -21,7 +22,8 @@
 ## Exact semantic change
 
 - GZ-014 Foundation status changes from `integration` to `completed`;
-- Foundation provenance becomes `completionRef: PR-26` and `mergeCommit: ef1048344aa082c678e5ef948dc7f62e5aa84510`;
+- Foundation provenance becomes `completionRef: PR-29` and `mergeCommit: c26fc712e050dba4e83c9af022fd25b8f7e84d6d`;
+- PR #26 / `ef104834...` remains only earlier implementation/repair history;
 - GZ-014 Task Spec becomes `completed` on the completion branch/base;
 - only the GZ-014 Active Work Lease is removed;
 - task-bound completion Evidence is refreshed.
