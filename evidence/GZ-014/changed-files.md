@@ -2,36 +2,33 @@
 
 ## Current PR
 
-- PR: #25
-- Phase: lifecycle wrapper repair implementation
-- Base: `main@bb22b4cd8662e6c1ed7d3b63255098d8a74237c1`
-- Branch: `chore/GZ-014-test-repair-reservation-v2`
-- Last validated implementation HEAD: `8914773e6f4c10558ece8cc4f668ced25d0d54c2`
-- Gate: run #260, success
+- PR: #27
+- Phase: Foundation lifecycle-state model repair
+- Base: `main@ef1048344aa082c678e5ef948dc7f62e5aa84510`
+- Branch: `chore/GZ-014-foundation-lifecycle-states`
+- Last validated pre-Evidence HEAD: `656c7b9c20cd18de2850caa46c734f46a0fc6c90`
+- Gate: run #268, success
 
-## Declared file set
+## Declared files
 
-PR #25 is expected to contain only:
-
-- `scripts/run-program-lifecycle-gate.py` — preserve original task-derivation function and map external blockers by explicit ID;
-- `tests/governance/test_program_lifecycle_guards.py` — repository integration and no-recursion regression tests;
-- `specs/tasks/GZ-014.md` — implementation scope/root-cause/validation update and normalized `./Makefile` path expression;
-- `specs/coordination/active-work.yaml` — implementation branch/base synchronization retained from the clean Reservation;
-- `evidence/GZ-014/summary.md`;
-- `evidence/GZ-014/commands.txt`;
-- `evidence/GZ-014/changed-files.md`;
-- `evidence/GZ-014/test-results/README.md`;
-- `evidence/GZ-014/handoff.md`.
+- `specs/coordination/program-plan.schema.yaml`
+- `tests/governance/test_foundation_lifecycle_states.py`
+- `specs/tasks/GZ-014.md`
+- `specs/coordination/active-work.yaml`
+- `evidence/GZ-014/summary.md`
+- `evidence/GZ-014/commands.txt`
+- `evidence/GZ-014/changed-files.md`
+- `evidence/GZ-014/test-results/README.md`
+- `evidence/GZ-014/handoff.md`
 
 ## Explicitly unchanged
 
-- `scripts/check-program-lifecycle-guards.py` remains unchanged;
-- `.github/workflows/governance-gate.yml` remains unchanged;
-- `Makefile` remains unchanged;
-- `specs/coordination/program-plan.yaml` remains unchanged with GZ-014 Foundation `in_progress`;
-- product requirements, business machine contracts, business code, deployment, Secrets, permissions and production data remain unchanged;
-- no Foundation completion and no Active Work Lease release occur in PR #25.
+- `specs/coordination/program-plan.yaml` remains unchanged with GZ-014 `in_progress`;
+- `scripts/check-program-lifecycle-guards.py` and `scripts/check-program-plan-transitions.py` remain unchanged;
+- Workflow and Makefile remain unchanged;
+- no product requirement, business contract/code, deployment, Secret, permission or production-data change;
+- no Lease release and no Foundation completion.
 
 ## Verification rule
 
-The Integrator must obtain GitHub’s actual latest changed-file list immediately before approval. The PR is blocked if any path is outside the nine paths above or if the latest exact-head Gate fails. Evidence-only changes after run #260 require a new Gate and fresh Review.
+Integrator must obtain the actual GitHub changed-file list immediately before approval. Any path outside the declared nine files, a failed latest Gate, stale base, or unresolved blocker prevents merge.
