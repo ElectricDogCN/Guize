@@ -85,8 +85,8 @@ def main() -> int:
             "completed": "Completion PR",
         }[status]
         print(
-            f"INFO: {args.task} is a {label}; exact changed-file scope is validated "
-            "against the target branch by the mandatory Program lifecycle gates."
+            f"INFO: {args.task} is a {label}; exact changed-file scope is owned by "
+            "Program History and Program Transitions against the target branch."
         )
         return 0
     if status not in IMPLEMENTATION_TASK_STATES:
