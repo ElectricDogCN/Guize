@@ -34,175 +34,37 @@ foundationTasks:
   - taskId: GZ-014
     title: "Program Plan 收敛与协作一致性加固"
     status: completed
-    completionRef: PR-26
-    mergeCommit: ef1048344aa082c678e5ef948dc7f62e5aa84510
+    completionRef: PR-29
+    mergeCommit: c26fc712e050dba4e83c9af022fd25b8f7e84d6d
 waves:
-  - id: W1
-    order: 1
-    name: "需求与 POC 计划"
-    maxConcurrent: 2
-    maxHighRisk: 1
-  - id: W2
-    order: 2
-    name: "OpenAPI + 独立 POC"
-    maxConcurrent: 3
-    maxHighRisk: 1
-  - id: W3
-    order: 3
-    name: "Event + 独立 POC"
-    maxConcurrent: 3
-    maxHighRisk: 1
-  - id: W4
-    order: 4
-    name: "DDL + 前端框架 POC"
-    maxConcurrent: 2
-    maxHighRisk: 1
-  - id: W5
-    order: 5
-    name: "运行时契约 + UI 映射"
-    maxConcurrent: 2
-    maxHighRisk: 1
-  - id: W6
-    order: 6
-    name: "A380 直通 POC"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W7
-    order: 7
-    name: "A380 编码 POC"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W8
-    order: 8
-    name: "TrueNAS POC"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W9
-    order: 9
-    name: "AI 基线 POC"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W10
-    order: 10
-    name: "验收基线与工程骨架"
-    maxConcurrent: 2
-    maxHighRisk: 1
-  - id: W11
-    order: 11
-    name: "恢复 POC"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W12
-    order: 12
-    name: "M1 可播放闭环"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W13
-    order: 13
-    name: "M2 存储闭环"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W14
-    order: 14
-    name: "M3 媒体/AI"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W15
-    order: 15
-    name: "M4 搜索推荐"
-    maxConcurrent: 1
-    maxHighRisk: 1
-  - id: W16
-    order: 16
-    name: "M5 治理与 Connector"
-    maxConcurrent: 2
-    maxHighRisk: 1
-  - id: W17
-    order: 17
-    name: "M6 RC/Production"
-    maxConcurrent: 1
-    maxHighRisk: 1
+  - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
+  - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
+  - {id: W3, order: 3, name: "Event + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
+  - {id: W4, order: 4, name: "DDL + 前端框架 POC", maxConcurrent: 2, maxHighRisk: 1}
+  - {id: W5, order: 5, name: "运行时契约 + UI 映射", maxConcurrent: 2, maxHighRisk: 1}
+  - {id: W6, order: 6, name: "A380 直通 POC", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W7, order: 7, name: "A380 编码 POC", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W8, order: 8, name: "TrueNAS POC", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W9, order: 9, name: "AI 基线 POC", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W10, order: 10, name: "验收基线与工程骨架", maxConcurrent: 2, maxHighRisk: 1}
+  - {id: W11, order: 11, name: "恢复 POC", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W12, order: 12, name: "M1 可播放闭环", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W13, order: 13, name: "M2 存储闭环", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W14, order: 14, name: "M3 媒体/AI", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W15, order: 15, name: "M4 搜索推荐", maxConcurrent: 1, maxHighRisk: 1}
+  - {id: W16, order: 16, name: "M5 治理与 Connector", maxConcurrent: 2, maxHighRisk: 1}
+  - {id: W17, order: 17, name: "M6 RC/Production", maxConcurrent: 1, maxHighRisk: 1}
 pocs:
-  - pocId: POC-01
-    taskId: POC-001
-    title: "Arc A380 + ESXi 6.7 PCI Passthrough"
-    status: planned
-    riskLevel: high
-    requirementIds: ["REQ-V1-0003"]
-    moduleIds: ["MOD-MEDIA", "MOD-DEPLOY"]
-    evidencePath: evidence/POC-001
-  - pocId: POC-02
-    taskId: POC-002
-    title: "A380 AV1/H.264 编码质量、并发与首分片"
-    status: planned
-    riskLevel: high
-    requirementIds: ["REQ-V1-0003"]
-    moduleIds: ["MOD-MEDIA"]
-    evidencePath: evidence/POC-002
-  - pocId: POC-03
-    taskId: POC-003
-    title: "ATS Range/Slice、大文件与权限缓存键"
-    status: planned
-    riskLevel: medium
-    requirementIds: ["REQ-V1-0003", "REQ-V1-0008"]
-    moduleIds: ["MOD-EDGE", "MOD-IAM"]
-    evidencePath: evidence/POC-003
-  - pocId: POC-04
-    taskId: POC-004
-    title: "TrueNAS 数据集、水位、吞吐与故障恢复"
-    status: planned
-    riskLevel: high
-    requirementIds: ["REQ-V1-0006", "REQ-V1-0010"]
-    moduleIds: ["MOD-STORAGE", "MOD-DATA", "MOD-DEPLOY"]
-    evidencePath: evidence/POC-004
-  - pocId: POC-05
-    taskId: POC-005
-    title: "700TB 文件数、目录规模、变更率与扫描成本"
-    status: planned
-    riskLevel: medium
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002"]
-    moduleIds: ["MOD-SOURCE", "MOD-ASSET", "MOD-CONNECTOR"]
-    evidencePath: evidence/POC-005
-  - pocId: POC-06
-    taskId: POC-006
-    title: "百度云合法、稳定、可维护的生产接入路径"
-    status: planned
-    riskLevel: medium
-    requirementIds: ["REQ-V1-0001"]
-    moduleIds: ["MOD-SOURCE", "MOD-CONNECTOR"]
-    evidencePath: evidence/POC-006
-  - pocId: POC-07
-    taskId: POC-007
-    title: "IPv6/TLS/Tunnel/CDN/Range 公网访问"
-    status: planned
-    riskLevel: medium
-    requirementIds: ["REQ-V1-0003", "REQ-V1-0008"]
-    moduleIds: ["MOD-EDGE", "MOD-DEPLOY"]
-    evidencePath: evidence/POC-007
-  - pocId: POC-08
-    taskId: POC-008
-    title: "Vue 3 与 React 管理端场景对比"
-    status: planned
-    riskLevel: medium
-    requirementIds: ["REQ-V1-0009"]
-    moduleIds: ["MOD-CONFIG", "MOD-PLATFORM"]
-    evidencePath: evidence/POC-008
-  - pocId: POC-09
-    taskId: POC-009
-    title: "AI 质量、成本、隐私、许可证与吞吐"
-    status: planned
-    riskLevel: high
-    requirementIds: ["REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0008"]
-    moduleIds: ["MOD-AI", "MOD-SEARCH", "MOD-IAM"]
-    evidencePath: evidence/POC-009
-  - pocId: POC-10
-    taskId: POC-010
-    title: "PostgreSQL/OpenBao/文件/Bundle 恢复与回读"
-    status: planned
-    riskLevel: critical
-    requirementIds: ["REQ-V1-0006", "REQ-V1-0010"]
-    moduleIds: ["MOD-DATA", "MOD-STORAGE", "MOD-DEPLOY"]
-    evidencePath: evidence/POC-010
+  - {pocId: POC-01, taskId: POC-001, title: "Arc A380 + ESXi 6.7 PCI Passthrough", status: planned, riskLevel: high, requirementIds: [REQ-V1-0003], moduleIds: [MOD-MEDIA, MOD-DEPLOY], evidencePath: evidence/POC-001}
+  - {pocId: POC-02, taskId: POC-002, title: "A380 AV1/H.264 编码质量、并发与首分片", status: planned, riskLevel: high, requirementIds: [REQ-V1-0003], moduleIds: [MOD-MEDIA], evidencePath: evidence/POC-002}
+  - {pocId: POC-03, taskId: POC-003, title: "ATS Range/Slice、大文件与权限缓存键", status: planned, riskLevel: medium, requirementIds: [REQ-V1-0003, REQ-V1-0008], moduleIds: [MOD-EDGE, MOD-IAM], evidencePath: evidence/POC-003}
+  - {pocId: POC-04, taskId: POC-004, title: "TrueNAS 数据集、水位、吞吐与故障恢复", status: planned, riskLevel: high, requirementIds: [REQ-V1-0006, REQ-V1-0010], moduleIds: [MOD-STORAGE, MOD-DATA, MOD-DEPLOY], evidencePath: evidence/POC-004}
+  - {pocId: POC-05, taskId: POC-005, title: "700TB 文件数、目录规模、变更率与扫描成本", status: planned, riskLevel: medium, requirementIds: [REQ-V1-0001, REQ-V1-0002], moduleIds: [MOD-SOURCE, MOD-ASSET, MOD-CONNECTOR], evidencePath: evidence/POC-005}
+  - {pocId: POC-06, taskId: POC-006, title: "百度云合法、稳定、可维护的生产接入路径", status: planned, riskLevel: medium, requirementIds: [REQ-V1-0001], moduleIds: [MOD-SOURCE, MOD-CONNECTOR], evidencePath: evidence/POC-006}
+  - {pocId: POC-07, taskId: POC-007, title: "IPv6/TLS/Tunnel/CDN/Range 公网访问", status: planned, riskLevel: medium, requirementIds: [REQ-V1-0003, REQ-V1-0008], moduleIds: [MOD-EDGE, MOD-DEPLOY], evidencePath: evidence/POC-007}
+  - {pocId: POC-08, taskId: POC-008, title: "Vue 3 与 React 管理端场景对比", status: planned, riskLevel: medium, requirementIds: [REQ-V1-0009], moduleIds: [MOD-CONFIG, MOD-PLATFORM], evidencePath: evidence/POC-008}
+  - {pocId: POC-09, taskId: POC-009, title: "AI 质量、成本、隐私、许可证与吞吐", status: planned, riskLevel: high, requirementIds: [REQ-V1-0004, REQ-V1-0005, REQ-V1-0008], moduleIds: [MOD-AI, MOD-SEARCH, MOD-IAM], evidencePath: evidence/POC-009}
+  - {pocId: POC-10, taskId: POC-010, title: "PostgreSQL/OpenBao/文件/Bundle 恢复与回读", status: planned, riskLevel: critical, requirementIds: [REQ-V1-0006, REQ-V1-0010], moduleIds: [MOD-DATA, MOD-STORAGE, MOD-DEPLOY], evidencePath: evidence/POC-010}
 tasks:
   - taskId: GZ-004
     title: "冻结 V1 需求、NFR、验收与追踪基线"
@@ -215,19 +77,20 @@ tasks:
     coordinationGroup: requirements-baseline
     wave: W1
     integrationOrder: 1
-    dependsOn: ["GZ-014"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-GOV", "MOD-PLATFORM", "MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-POLICY", "MOD-CONFIG", "MOD-AUDIT", "MOD-OBS", "MOD-CONNECTOR", "MOD-WORKER", "MOD-PLAYER", "MOD-EDGE", "MOD-DATA", "MOD-DEPLOY", "MOD-CLI"]
+    dependsOn: [GZ-014]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-GOV, MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-POLICY, MOD-CONFIG, MOD-AUDIT, MOD-OBS, MOD-CONNECTOR, MOD-WORKER, MOD-PLAYER, MOD-EDGE, MOD-DATA, MOD-DEPLOY, MOD-CLI]
     outputPaths: ["specs/requirements/v1/**", "specs/acceptance/requirements/**", "docs/requirements/**", "evidence/GZ-004/**"]
     sharedPaths: []
-    producesContracts: ["REQ-V1", "NFR-V1", "ACCEPTANCE-TRACE-V1"]
+    producesContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
     consumesContracts: []
     acceptanceIds: []
     pocIds: []
     issue: 14
-    branchPattern: chore/GZ-004-*
+    branchPattern: "chore/GZ-004-*"
     exitGate: "需求别名、NFR、验收、POC 阻断和追踪关系冻结并机器校验，不改变已批准产品范围"
-  - taskId: GZ-005
+  - &normal
+    taskId: GZ-005
     title: "冻结 OpenAPI、错误码与 HTTP 示例基线"
     kind: contract
     status: planned
@@ -238,577 +101,392 @@ tasks:
     coordinationGroup: gz-005
     wave: W2
     integrationOrder: 1
-    dependsOn: ["GZ-004"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009"]
-    moduleIds: ["MOD-PLATFORM", "MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-POLICY", "MOD-CONFIG", "MOD-PLAYER", "MOD-EDGE"]
+    dependsOn: [GZ-004]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009]
+    moduleIds: [MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-POLICY, MOD-CONFIG, MOD-PLAYER, MOD-EDGE]
     outputPaths: ["contracts/openapi/**", "specs/contracts/openapi/**", "evidence/GZ-005/**"]
     sharedPaths: []
-    producesContracts: ["OPENAPI-V1", "ERROR-CATALOG-V1"]
-    consumesContracts: ["REQ-V1", "NFR-V1"]
+    producesContracts: [OPENAPI-V1, ERROR-CATALOG-V1]
+    consumesContracts: [REQ-V1, NFR-V1]
     acceptanceIds: []
     pocIds: []
     issue: null
-    branchPattern: chore/GZ-005-*
+    branchPattern: "chore/GZ-005-*"
     exitGate: "OpenAPI 可解析、示例可校验、错误码唯一且所有写接口声明幂等与权限"
-  - taskId: GZ-006
+  - <<: *normal
+    taskId: GZ-006
     title: "冻结 Domain Event Payload 与兼容策略"
-    kind: contract
-    status: planned
     workPackage: WP-M0-03C
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-006
     wave: W3
-    integrationOrder: 1
-    dependsOn: ["GZ-004", "GZ-005"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-PLATFORM", "MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-AUDIT"]
+    dependsOn: [GZ-004, GZ-005]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-AUDIT]
     outputPaths: ["contracts/events/**", "specs/contracts/events/**", "evidence/GZ-006/**"]
-    sharedPaths: []
-    producesContracts: ["EVENT-CATALOG-V1"]
-    consumesContracts: ["REQ-V1", "OPENAPI-V1"]
-    acceptanceIds: []
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-006-*
+    producesContracts: [EVENT-CATALOG-V1]
+    consumesContracts: [REQ-V1, OPENAPI-V1]
+    branchPattern: "chore/GZ-006-*"
     exitGate: "每个 eventType 具备版本、Payload Schema、生产者、消费者、幂等与兼容规则"
-  - taskId: GZ-007
+  - <<: *normal
+    taskId: GZ-007
     title: "冻结 PostgreSQL/Flyway DDL、索引与迁移策略"
-    kind: contract
-    status: planned
     workPackage: WP-M0-03D
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-007
     wave: W4
-    integrationOrder: 1
-    dependsOn: ["GZ-004", "GZ-005", "GZ-006"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-POLICY", "MOD-CONFIG", "MOD-AUDIT", "MOD-DATA"]
+    dependsOn: [GZ-004, GZ-005, GZ-006]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-POLICY, MOD-CONFIG, MOD-AUDIT, MOD-DATA]
     outputPaths: ["contracts/data/**", "data/migrations/**", "specs/contracts/data/**", "evidence/GZ-007/**"]
-    sharedPaths: []
-    producesContracts: ["DATA-SCHEMA-V1", "MIGRATION-PLAN-V1"]
-    consumesContracts: ["REQ-V1", "OPENAPI-V1", "EVENT-CATALOG-V1"]
-    acceptanceIds: []
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-007-*
+    producesContracts: [DATA-SCHEMA-V1, MIGRATION-PLAN-V1]
+    consumesContracts: [REQ-V1, OPENAPI-V1, EVENT-CATALOG-V1]
+    branchPattern: "chore/GZ-007-*"
     exitGate: "DDL/索引/唯一约束/迁移/恢复方案可执行校验，禁止无 Migration 的数据行为"
-  - taskId: GZ-008
+  - <<: *normal
+    taskId: GZ-008
     title: "冻结 Temporal/LiteFlow/Worker/Plugin 运行时契约"
-    kind: contract
-    status: planned
     workPackage: WP-M0-03E
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-008
     wave: W5
-    integrationOrder: 1
-    dependsOn: ["GZ-004", "GZ-005", "GZ-006", "GZ-007"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-TASK", "MOD-POLICY", "MOD-WORKER", "MOD-CONNECTOR", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-DEPLOY"]
+    dependsOn: [GZ-004, GZ-005, GZ-006, GZ-007]
+    requirementIds: [REQ-V1-0001, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-TASK, MOD-POLICY, MOD-WORKER, MOD-CONNECTOR, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-DEPLOY]
     outputPaths: ["contracts/workflows/**", "contracts/policies/**", "contracts/workers/**", "contracts/connectors/**", "specs/contracts/runtime/**", "evidence/GZ-008/**"]
-    sharedPaths: []
-    producesContracts: ["WORKFLOW-CONTRACT-V1", "POLICY-CONTRACT-V1", "WORKER-CONTRACT-V1", "PLUGIN-CONTRACT-V1"]
-    consumesContracts: ["REQ-V1", "OPENAPI-V1", "EVENT-CATALOG-V1", "DATA-SCHEMA-V1"]
-    acceptanceIds: []
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-008-*
+    producesContracts: [WORKFLOW-CONTRACT-V1, POLICY-CONTRACT-V1, WORKER-CONTRACT-V1, PLUGIN-CONTRACT-V1]
+    consumesContracts: [REQ-V1, OPENAPI-V1, EVENT-CATALOG-V1, DATA-SCHEMA-V1]
+    branchPattern: "chore/GZ-008-*"
     exitGate: "Workflow/Activity、Retry/Timeout/Heartbeat/Cancellation、LiteFlow Node/Chain/EL 和 Worker 权限边界可校验"
-  - taskId: GZ-009
+  - <<: *normal
+    taskId: GZ-009
     title: "冻结前端页面、权限、状态与 API 映射"
     kind: design-contract
-    status: planned
     workPackage: WP-M0-03F
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-009
     wave: W5
     integrationOrder: 2
-    dependsOn: ["GZ-004", "GZ-005"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-PLATFORM", "MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-POLICY", "MOD-CONFIG", "MOD-PLAYER", "MOD-EDGE"]
+    dependsOn: [GZ-004, GZ-005]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-POLICY, MOD-CONFIG, MOD-PLAYER, MOD-EDGE]
     outputPaths: ["specs/ui/**", "docs/ui/**", "evidence/GZ-009/**"]
-    sharedPaths: []
     producesContracts: []
-    consumesContracts: ["REQ-V1", "OPENAPI-V1", "ERROR-CATALOG-V1"]
-    acceptanceIds: []
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-009-*
+    consumesContracts: [REQ-V1, OPENAPI-V1, ERROR-CATALOG-V1]
+    branchPattern: "chore/GZ-009-*"
     exitGate: "页面/Action/API/权限/状态/错误/验收一一映射，前端不创建第二套业务规则"
-  - taskId: GZ-010
+  - <<: *normal
+    taskId: GZ-010
     title: "建立十项 POC 的统一模板、样本、资源与排程"
     kind: poc-coordination
-    status: planned
     workPackage: WP-M0-04
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: poc-program
     wave: W1
     integrationOrder: 2
-    dependsOn: ["GZ-014"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-GOV", "MOD-DEPLOY", "MOD-DATA", "MOD-EDGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-SOURCE", "MOD-CONNECTOR"]
+    dependsOn: [GZ-014]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-GOV, MOD-DEPLOY, MOD-DATA, MOD-EDGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-SOURCE, MOD-CONNECTOR]
     outputPaths: ["specs/poc/**", "poc/README.md", "evidence/GZ-010/**"]
-    sharedPaths: []
-    producesContracts: ["POC-PROTOCOL-V1"]
+    producesContracts: [POC-PROTOCOL-V1]
     consumesContracts: []
-    acceptanceIds: []
-    pocIds: []
     issue: 15
-    branchPattern: chore/GZ-010-*
+    branchPattern: "chore/GZ-010-*"
     exitGate: "POC-01～10 均有独立 Task、环境、原始数据、退出条件、失败替代和 Evidence 结构；本任务不代替实验执行"
-  - taskId: POC-001
+  - &poc
+    <<: *normal
+    taskId: POC-001
     title: "Arc A380 + ESXi 6.7 PCI Passthrough"
     kind: poc
-    status: planned
     workPackage: WP-M0-POC-01
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: poc-results
     wave: W6
-    integrationOrder: 1
-    dependsOn: ["GZ-010"]
-    requirementIds: ["REQ-V1-0003"]
-    moduleIds: ["MOD-MEDIA", "MOD-DEPLOY"]
+    dependsOn: [GZ-010]
+    requirementIds: [REQ-V1-0003]
+    moduleIds: [MOD-MEDIA, MOD-DEPLOY]
     outputPaths: ["poc/POC-01-a380-passthrough/**", "evidence/POC-001/**"]
     sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-01-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-01"]
+    producesContracts: [POC-01-EVIDENCE]
+    consumesContracts: [POC-PROTOCOL-V1]
+    pocIds: [POC-01]
     issue: null
-    branchPattern: chore/POC-001-*
+    branchPattern: "chore/POC-001-*"
     exitGate: "POC-01 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-002
+  - <<: *poc
+    taskId: POC-002
     title: "A380 AV1/H.264 编码质量、并发与首分片"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-02
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W7
-    integrationOrder: 1
-    dependsOn: ["GZ-010", "POC-001"]
-    requirementIds: ["REQ-V1-0003"]
-    moduleIds: ["MOD-MEDIA"]
+    dependsOn: [GZ-010, POC-001]
+    moduleIds: [MOD-MEDIA]
     outputPaths: ["poc/POC-02-a380-encoding/**", "evidence/POC-002/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-02-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-02"]
-    issue: null
-    branchPattern: chore/POC-002-*
+    producesContracts: [POC-02-EVIDENCE]
+    pocIds: [POC-02]
+    branchPattern: "chore/POC-002-*"
     exitGate: "POC-02 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-003
+  - <<: *poc
+    taskId: POC-003
     title: "ATS Range/Slice、大文件与权限缓存键"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-03
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W2
     integrationOrder: 2
-    dependsOn: ["GZ-010"]
-    requirementIds: ["REQ-V1-0003", "REQ-V1-0008"]
-    moduleIds: ["MOD-EDGE", "MOD-IAM"]
+    dependsOn: [GZ-010]
+    requirementIds: [REQ-V1-0003, REQ-V1-0008]
+    moduleIds: [MOD-EDGE, MOD-IAM]
     outputPaths: ["poc/POC-03-ats-range/**", "evidence/POC-003/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-03-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-03"]
-    issue: null
-    branchPattern: chore/POC-003-*
+    producesContracts: [POC-03-EVIDENCE]
+    pocIds: [POC-03]
+    branchPattern: "chore/POC-003-*"
     exitGate: "POC-03 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-004
+  - <<: *poc
+    taskId: POC-004
     title: "TrueNAS 数据集、水位、吞吐与故障恢复"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-04
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W8
-    integrationOrder: 1
-    dependsOn: ["GZ-010"]
-    requirementIds: ["REQ-V1-0006", "REQ-V1-0010"]
-    moduleIds: ["MOD-STORAGE", "MOD-DATA", "MOD-DEPLOY"]
+    dependsOn: [GZ-010]
+    requirementIds: [REQ-V1-0006, REQ-V1-0010]
+    moduleIds: [MOD-STORAGE, MOD-DATA, MOD-DEPLOY]
     outputPaths: ["poc/POC-04-truenas/**", "evidence/POC-004/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-04-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-04"]
-    issue: null
-    branchPattern: chore/POC-004-*
+    producesContracts: [POC-04-EVIDENCE]
+    pocIds: [POC-04]
+    branchPattern: "chore/POC-004-*"
     exitGate: "POC-04 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-005
+  - <<: *poc
+    taskId: POC-005
     title: "700TB 文件数、目录规模、变更率与扫描成本"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-05
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W2
     integrationOrder: 3
-    dependsOn: ["GZ-010"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002"]
-    moduleIds: ["MOD-SOURCE", "MOD-ASSET", "MOD-CONNECTOR"]
+    dependsOn: [GZ-010]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002]
+    moduleIds: [MOD-SOURCE, MOD-ASSET, MOD-CONNECTOR]
     outputPaths: ["poc/POC-05-metadata-scale/**", "evidence/POC-005/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-05-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-05"]
-    issue: null
-    branchPattern: chore/POC-005-*
+    producesContracts: [POC-05-EVIDENCE]
+    pocIds: [POC-05]
+    branchPattern: "chore/POC-005-*"
     exitGate: "POC-05 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-006
+  - <<: *poc
+    taskId: POC-006
     title: "百度云合法、稳定、可维护的生产接入路径"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-06
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W3
     integrationOrder: 2
-    dependsOn: ["GZ-010"]
-    requirementIds: ["REQ-V1-0001"]
-    moduleIds: ["MOD-SOURCE", "MOD-CONNECTOR"]
+    dependsOn: [GZ-010]
+    requirementIds: [REQ-V1-0001]
+    moduleIds: [MOD-SOURCE, MOD-CONNECTOR]
     outputPaths: ["poc/POC-06-baidu-cloud/**", "evidence/POC-006/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-06-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-06"]
-    issue: null
-    branchPattern: chore/POC-006-*
+    producesContracts: [POC-06-EVIDENCE]
+    pocIds: [POC-06]
+    branchPattern: "chore/POC-006-*"
     exitGate: "POC-06 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-007
+  - <<: *poc
+    taskId: POC-007
     title: "IPv6/TLS/Tunnel/CDN/Range 公网访问"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-07
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W3
     integrationOrder: 3
-    dependsOn: ["GZ-010"]
-    requirementIds: ["REQ-V1-0003", "REQ-V1-0008"]
-    moduleIds: ["MOD-EDGE", "MOD-DEPLOY"]
+    dependsOn: [GZ-010]
+    requirementIds: [REQ-V1-0003, REQ-V1-0008]
+    moduleIds: [MOD-EDGE, MOD-DEPLOY]
     outputPaths: ["poc/POC-07-public-network/**", "evidence/POC-007/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-07-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-07"]
-    issue: null
-    branchPattern: chore/POC-007-*
+    producesContracts: [POC-07-EVIDENCE]
+    pocIds: [POC-07]
+    branchPattern: "chore/POC-007-*"
     exitGate: "POC-07 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-008
+  - <<: *poc
+    taskId: POC-008
     title: "Vue 3 与 React 管理端场景对比"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-08
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W4
     integrationOrder: 2
-    dependsOn: ["GZ-010"]
-    requirementIds: ["REQ-V1-0009"]
-    moduleIds: ["MOD-CONFIG", "MOD-PLATFORM"]
+    dependsOn: [GZ-010]
+    requirementIds: [REQ-V1-0009]
+    moduleIds: [MOD-CONFIG, MOD-PLATFORM]
     outputPaths: ["poc/POC-08-frontend-framework/**", "evidence/POC-008/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-08-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-08"]
-    issue: null
-    branchPattern: chore/POC-008-*
+    producesContracts: [POC-08-EVIDENCE]
+    pocIds: [POC-08]
+    branchPattern: "chore/POC-008-*"
     exitGate: "POC-08 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-009
+  - <<: *poc
+    taskId: POC-009
     title: "AI 质量、成本、隐私、许可证与吞吐"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-09
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W9
-    integrationOrder: 1
-    dependsOn: ["GZ-010"]
-    requirementIds: ["REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0008"]
-    moduleIds: ["MOD-AI", "MOD-SEARCH", "MOD-IAM"]
+    dependsOn: [GZ-010]
+    requirementIds: [REQ-V1-0004, REQ-V1-0005, REQ-V1-0008]
+    moduleIds: [MOD-AI, MOD-SEARCH, MOD-IAM]
     outputPaths: ["poc/POC-09-ai-baseline/**", "evidence/POC-009/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-09-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-09"]
-    issue: null
-    branchPattern: chore/POC-009-*
+    producesContracts: [POC-09-EVIDENCE]
+    pocIds: [POC-09]
+    branchPattern: "chore/POC-009-*"
     exitGate: "POC-09 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: POC-010
+  - <<: *poc
+    taskId: POC-010
     title: "PostgreSQL/OpenBao/文件/Bundle 恢复与回读"
-    kind: poc
-    status: planned
     workPackage: WP-M0-POC-10
     riskLevel: critical
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
-    coordinationGroup: poc-results
     wave: W11
-    integrationOrder: 1
-    dependsOn: ["GZ-007", "GZ-008", "GZ-010", "GZ-012", "POC-004"]
-    requirementIds: ["REQ-V1-0006", "REQ-V1-0010"]
-    moduleIds: ["MOD-DATA", "MOD-STORAGE", "MOD-DEPLOY"]
+    dependsOn: [GZ-007, GZ-008, GZ-010, GZ-012, POC-004]
+    requirementIds: [REQ-V1-0006, REQ-V1-0010]
+    moduleIds: [MOD-DATA, MOD-STORAGE, MOD-DEPLOY]
     outputPaths: ["poc/POC-10-recovery/**", "evidence/POC-010/**"]
-    sharedPaths: ["adr/**", "specs/poc/results-index.yaml"]
-    producesContracts: ["POC-10-EVIDENCE"]
-    consumesContracts: ["POC-PROTOCOL-V1"]
-    acceptanceIds: []
-    pocIds: ["POC-10"]
-    issue: null
-    branchPattern: chore/POC-010-*
+    producesContracts: [POC-10-EVIDENCE]
+    pocIds: [POC-10]
+    branchPattern: "chore/POC-010-*"
     exitGate: "POC-10 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
-  - taskId: GZ-011
+  - <<: *normal
+    taskId: GZ-011
     title: "冻结 Golden Dataset、质量阈值与测量方法"
     kind: acceptance
-    status: planned
     workPackage: WP-M0-07
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-011
     wave: W10
-    integrationOrder: 1
-    dependsOn: ["GZ-004", "GZ-005", "GZ-006", "POC-002", "POC-003", "POC-005", "POC-008", "POC-009"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-POLICY", "MOD-CONFIG", "MOD-AUDIT", "MOD-OBS", "MOD-EDGE", "MOD-DEPLOY"]
+    dependsOn: [GZ-004, GZ-005, GZ-006, POC-002, POC-003, POC-005, POC-008, POC-009]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-POLICY, MOD-CONFIG, MOD-AUDIT, MOD-OBS, MOD-EDGE, MOD-DEPLOY]
     outputPaths: ["specs/acceptance/**", "testdata/**", "docs/acceptance/**", "evidence/GZ-011/**"]
-    sharedPaths: []
-    producesContracts: ["ACCEPTANCE-SUITE-V1", "QUALITY-THRESHOLDS-V1"]
-    consumesContracts: ["REQ-V1", "NFR-V1", "OPENAPI-V1", "EVENT-CATALOG-V1", "POC-02-EVIDENCE", "POC-03-EVIDENCE", "POC-05-EVIDENCE", "POC-08-EVIDENCE", "POC-09-EVIDENCE"]
-    acceptanceIds: ["验收V1-0001", "验收V1-0002", "验收V1-0003", "验收V1-0004", "验收V1-0005", "验收V1-0006", "验收V1-0007", "验收V1-0008", "验收V1-0009", "验收V1-0010", "验收V1-0011", "验收V1-0012"]
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-011-*
+    producesContracts: [ACCEPTANCE-SUITE-V1, QUALITY-THRESHOLDS-V1]
+    consumesContracts: [REQ-V1, NFR-V1, OPENAPI-V1, EVENT-CATALOG-V1, POC-02-EVIDENCE, POC-03-EVIDENCE, POC-05-EVIDENCE, POC-08-EVIDENCE, POC-09-EVIDENCE]
+    acceptanceIds: [验收V1-0001, 验收V1-0002, 验收V1-0003, 验收V1-0004, 验收V1-0005, 验收V1-0006, 验收V1-0007, 验收V1-0008, 验收V1-0009, 验收V1-0010, 验收V1-0011, 验收V1-0012]
+    branchPattern: "chore/GZ-011-*"
     exitGate: "固定样本、指标、阈值、隐私规则、测量脚本和批准流程可版本化复现"
-  - taskId: GZ-012
+  - <<: *normal
+    taskId: GZ-012
     title: "建立 Java/Python/Frontend/Player/Go 工程骨架与语言 CI"
     kind: scaffold
-    status: planned
     workPackage: WP-M0-06
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-012
     wave: W10
     integrationOrder: 2
-    dependsOn: ["GZ-005", "GZ-006", "GZ-007", "GZ-008", "GZ-009", "POC-008"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-GOV", "MOD-PLATFORM", "MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-POLICY", "MOD-CONFIG", "MOD-AUDIT", "MOD-OBS", "MOD-CONNECTOR", "MOD-WORKER", "MOD-PLAYER", "MOD-EDGE", "MOD-DATA", "MOD-DEPLOY", "MOD-CLI"]
+    dependsOn: [GZ-005, GZ-006, GZ-007, GZ-008, GZ-009, POC-008]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-GOV, MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-POLICY, MOD-CONFIG, MOD-AUDIT, MOD-OBS, MOD-CONNECTOR, MOD-WORKER, MOD-PLAYER, MOD-EDGE, MOD-DATA, MOD-DEPLOY, MOD-CLI]
     outputPaths: ["backend/**", "services/**", "frontend/**", "player/**", "guizectl/**", "build/**", ".github/workflows/language-ci.yml", "evidence/GZ-012/**"]
-    sharedPaths: []
     producesContracts: []
-    consumesContracts: ["OPENAPI-V1", "EVENT-CATALOG-V1", "DATA-SCHEMA-V1", "WORKFLOW-CONTRACT-V1", "POLICY-CONTRACT-V1", "WORKER-CONTRACT-V1", "PLUGIN-CONTRACT-V1"]
-    acceptanceIds: []
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-012-*
+    consumesContracts: [OPENAPI-V1, EVENT-CATALOG-V1, DATA-SCHEMA-V1, WORKFLOW-CONTRACT-V1, POLICY-CONTRACT-V1, WORKER-CONTRACT-V1, PLUGIN-CONTRACT-V1]
+    branchPattern: "chore/GZ-012-*"
     exitGate: "各语言骨架可独立构建测试，依赖锁定，模块边界和机器契约生成/校验进入 CI"
-  - taskId: GZ-013
+  - &vertical
+    <<: *normal
+    taskId: GZ-013
     title: "实现 M1 WebDAV→Asset→授权→ATS Range 播放垂直切片"
     kind: vertical-slice
-    status: planned
     workPackage: WP-M1
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-013
     wave: W12
-    integrationOrder: 1
-    dependsOn: ["GZ-011", "GZ-012", "POC-003", "POC-005", "POC-007"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0010"]
-    moduleIds: ["MOD-PLATFORM", "MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-AUDIT", "MOD-CONNECTOR", "MOD-PLAYER", "MOD-EDGE"]
+    dependsOn: [GZ-011, GZ-012, POC-003, POC-005, POC-007]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0007, REQ-V1-0008, REQ-V1-0010]
+    moduleIds: [MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-AUDIT, MOD-CONNECTOR, MOD-PLAYER, MOD-EDGE]
     outputPaths: ["backend/guize-identity-access/**", "backend/guize-source-management/**", "backend/guize-asset-catalog/**", "backend/guize-task-workflow/**", "backend/guize-audit/**", "plugins/connectors/webdav/**", "player/**", "edge/**", "tests/e2e/m1/**", "evidence/GZ-013/**"]
-    sharedPaths: []
     producesContracts: []
-    consumesContracts: ["OPENAPI-V1", "EVENT-CATALOG-V1", "DATA-SCHEMA-V1", "ACCEPTANCE-SUITE-V1", "POC-03-EVIDENCE", "POC-05-EVIDENCE", "POC-07-EVIDENCE"]
-    acceptanceIds: ["验收V1-0001", "验收V1-0002", "验收V1-0003", "验收V1-0010"]
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-013-*
+    consumesContracts: [OPENAPI-V1, EVENT-CATALOG-V1, DATA-SCHEMA-V1, ACCEPTANCE-SUITE-V1, POC-03-EVIDENCE, POC-05-EVIDENCE, POC-07-EVIDENCE]
+    acceptanceIds: [验收V1-0001, 验收V1-0002, 验收V1-0003, 验收V1-0010]
+    branchPattern: "chore/GZ-013-*"
     exitGate: "真实 WebDAV 对象可归一为 Asset，经 ACL 生成播放授权并通过 ATS Range 播放，测试/Evidence/回滚完整"
-  - taskId: GZ-015
+  - <<: *vertical
+    taskId: GZ-015
     title: "实现 M2 完整缓存、正式副本、生命周期与备份闭环"
-    kind: vertical-slice
-    status: planned
     workPackage: WP-M2
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-015
     wave: W13
-    integrationOrder: 1
-    dependsOn: ["GZ-013", "POC-004", "POC-010"]
-    requirementIds: ["REQ-V1-0003", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0010"]
-    moduleIds: ["MOD-STORAGE", "MOD-TASK", "MOD-DATA", "MOD-DEPLOY"]
+    dependsOn: [GZ-013, POC-004, POC-010]
+    requirementIds: [REQ-V1-0003, REQ-V1-0006, REQ-V1-0007, REQ-V1-0010]
+    moduleIds: [MOD-STORAGE, MOD-TASK, MOD-DATA, MOD-DEPLOY]
     outputPaths: ["backend/guize-storage-lifecycle/**", "data/**", "tests/e2e/m2/**", "evidence/GZ-015/**"]
-    sharedPaths: []
-    producesContracts: []
-    consumesContracts: ["DATA-SCHEMA-V1", "WORKFLOW-CONTRACT-V1", "ACCEPTANCE-SUITE-V1", "POC-04-EVIDENCE", "POC-10-EVIDENCE"]
-    acceptanceIds: ["验收V1-0004", "验收V1-0011"]
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-015-*
+    consumesContracts: [DATA-SCHEMA-V1, WORKFLOW-CONTRACT-V1, ACCEPTANCE-SUITE-V1, POC-04-EVIDENCE, POC-10-EVIDENCE]
+    acceptanceIds: [验收V1-0004, 验收V1-0011]
+    branchPattern: "chore/GZ-015-*"
     exitGate: "缓存、Hash、扫描、Promotion、水位、Retention、备份和恢复形成可验证闭环"
-  - taskId: GZ-016
+  - <<: *vertical
+    taskId: GZ-016
     title: "实现 M3 媒体与 AI 加工闭环"
-    kind: vertical-slice
-    status: planned
     workPackage: WP-M3
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-016
     wave: W14
-    integrationOrder: 1
-    dependsOn: ["GZ-015", "GZ-011", "POC-001", "POC-002", "POC-009"]
-    requirementIds: ["REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0007"]
-    moduleIds: ["MOD-MEDIA", "MOD-AI", "MOD-TASK", "MOD-STORAGE"]
+    dependsOn: [GZ-015, GZ-011, POC-001, POC-002, POC-009]
+    requirementIds: [REQ-V1-0003, REQ-V1-0004, REQ-V1-0007]
+    moduleIds: [MOD-MEDIA, MOD-AI, MOD-TASK, MOD-STORAGE]
     outputPaths: ["backend/guize-media-control/**", "backend/guize-ai-control/**", "services/guize-media-service/**", "services/guize-ai-*/**", "tests/e2e/m3/**", "evidence/GZ-016/**"]
-    sharedPaths: []
-    producesContracts: []
-    consumesContracts: ["WORKFLOW-CONTRACT-V1", "ACCEPTANCE-SUITE-V1", "QUALITY-THRESHOLDS-V1", "POC-01-EVIDENCE", "POC-02-EVIDENCE", "POC-09-EVIDENCE"]
-    acceptanceIds: ["验收V1-0005", "验收V1-0006", "验收V1-0007"]
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-016-*
+    consumesContracts: [WORKFLOW-CONTRACT-V1, ACCEPTANCE-SUITE-V1, QUALITY-THRESHOLDS-V1, POC-01-EVIDENCE, POC-02-EVIDENCE, POC-09-EVIDENCE]
+    acceptanceIds: [验收V1-0005, 验收V1-0006, 验收V1-0007]
+    branchPattern: "chore/GZ-016-*"
     exitGate: "AV1/ABR/临时 H.264 与 ASR/OCR/VLM/翻译/摘要/标签可恢复执行并通过固定样本"
-  - taskId: GZ-017
+  - <<: *vertical
+    taskId: GZ-017
     title: "实现 M4 全文、向量、混合检索与推荐"
-    kind: vertical-slice
-    status: planned
     workPackage: WP-M4
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-017
     wave: W15
-    integrationOrder: 1
-    dependsOn: ["GZ-016", "GZ-011"]
-    requirementIds: ["REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0008"]
-    moduleIds: ["MOD-SEARCH", "MOD-ASSET", "MOD-IAM", "MOD-AI"]
+    dependsOn: [GZ-016, GZ-011]
+    requirementIds: [REQ-V1-0004, REQ-V1-0005, REQ-V1-0008]
+    moduleIds: [MOD-SEARCH, MOD-ASSET, MOD-IAM, MOD-AI]
     outputPaths: ["backend/guize-search-control/**", "services/guize-embedding-service/**", "services/guize-reranker-service/**", "tests/e2e/m4/**", "evidence/GZ-017/**"]
-    sharedPaths: []
-    producesContracts: []
-    consumesContracts: ["ACCEPTANCE-SUITE-V1", "QUALITY-THRESHOLDS-V1"]
-    acceptanceIds: ["验收V1-0002", "验收V1-0008"]
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-017-*
+    consumesContracts: [ACCEPTANCE-SUITE-V1, QUALITY-THRESHOLDS-V1]
+    acceptanceIds: [验收V1-0002, 验收V1-0008]
+    branchPattern: "chore/GZ-017-*"
     exitGate: "关键词/向量/Fusion/Reranker 在最终 ACL 复核下达到批准相关性和降级阈值"
-  - taskId: GZ-018
+  - <<: *vertical
+    taskId: GZ-018
     title: "实现 M5 配置中心、规则发布、运维、部署与供应链"
-    kind: vertical-slice
-    status: planned
     workPackage: WP-M5
-    riskLevel: high
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-018
     wave: W16
-    integrationOrder: 1
-    dependsOn: ["GZ-015", "GZ-016", "GZ-017", "POC-010"]
-    requirementIds: ["REQ-V1-0007", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-POLICY", "MOD-CONFIG", "MOD-OBS", "MOD-DEPLOY", "MOD-CLI", "MOD-GOV", "MOD-WORKER"]
+    dependsOn: [GZ-015, GZ-016, GZ-017, POC-010]
+    requirementIds: [REQ-V1-0007, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-POLICY, MOD-CONFIG, MOD-OBS, MOD-DEPLOY, MOD-CLI, MOD-GOV, MOD-WORKER]
     outputPaths: ["backend/guize-rule-policy/**", "backend/guize-configuration-center/**", "backend/guize-observability/**", "observability/**", "deployment/**", "infrastructure/**", "guizectl/**", "tests/e2e/m5/**", "evidence/GZ-018/**"]
-    sharedPaths: []
-    producesContracts: []
-    consumesContracts: ["POLICY-CONTRACT-V1", "WORKER-CONTRACT-V1", "ACCEPTANCE-SUITE-V1", "POC-10-EVIDENCE"]
-    acceptanceIds: ["验收V1-0009", "验收V1-0010", "验收V1-0012"]
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-018-*
+    consumesContracts: [POLICY-CONTRACT-V1, WORKER-CONTRACT-V1, ACCEPTANCE-SUITE-V1, POC-10-EVIDENCE]
+    acceptanceIds: [验收V1-0009, 验收V1-0010, 验收V1-0012]
+    branchPattern: "chore/GZ-018-*"
     exitGate: "配置/Policy 草稿→验证→模拟→审批→灰度→发布→回滚，部署/可观测/供应链可审计"
-  - taskId: GZ-019
+  - <<: *vertical
+    taskId: GZ-019
     title: "完成剩余 Connector 与来源一致性矩阵"
-    kind: vertical-slice
-    status: planned
     workPackage: WP-M5-08
     riskLevel: medium
-    ownerRole: task-owner-agent
-    reviewerRole: independent-review-agent
     coordinationGroup: gz-019
     wave: W16
     integrationOrder: 2
-    dependsOn: ["GZ-013", "POC-006"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002"]
-    moduleIds: ["MOD-SOURCE", "MOD-CONNECTOR", "MOD-TASK"]
+    dependsOn: [GZ-013, POC-006]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002]
+    moduleIds: [MOD-SOURCE, MOD-CONNECTOR, MOD-TASK]
     outputPaths: ["plugins/connectors/**", "services/guize-connectors/**", "tests/contract/connectors/**", "evidence/GZ-019/**"]
-    sharedPaths: []
-    producesContracts: []
-    consumesContracts: ["PLUGIN-CONTRACT-V1", "POC-06-EVIDENCE"]
-    acceptanceIds: ["ACCEPT-CONNECTOR-CONTRACT", "ACCEPT-SOURCE-SYNC"]
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-019-*
+    consumesContracts: [PLUGIN-CONTRACT-V1, POC-06-EVIDENCE]
+    acceptanceIds: [ACCEPT-CONNECTOR-CONTRACT, ACCEPT-SOURCE-SYNC]
+    branchPattern: "chore/GZ-019-*"
     exitGate: "Local/S3/HTTP/SMB/NFS/Drive/OneDrive/百度云按统一能力矩阵通过契约与失败路径测试"
-  - taskId: GZ-020
+  - <<: *vertical
+    taskId: GZ-020
     title: "M6 RC、生产就绪与人工发布签署"
     kind: release
-    status: planned
     workPackage: WP-M6-RC
     riskLevel: critical
     ownerRole: release-coordinator-agent
     reviewerRole: independent-release-review-agent
     coordinationGroup: production-release
     wave: W17
-    integrationOrder: 1
-    dependsOn: ["GZ-015", "GZ-016", "GZ-017", "GZ-018", "GZ-019", "POC-001", "POC-002", "POC-003", "POC-004", "POC-005", "POC-006", "POC-007", "POC-008", "POC-009", "POC-010"]
-    requirementIds: ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0006", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009", "REQ-V1-0010"]
-    moduleIds: ["MOD-GOV", "MOD-PLATFORM", "MOD-IAM", "MOD-SOURCE", "MOD-ASSET", "MOD-TASK", "MOD-STORAGE", "MOD-MEDIA", "MOD-AI", "MOD-SEARCH", "MOD-POLICY", "MOD-CONFIG", "MOD-AUDIT", "MOD-OBS", "MOD-CONNECTOR", "MOD-WORKER", "MOD-PLAYER", "MOD-EDGE", "MOD-DATA", "MOD-DEPLOY", "MOD-CLI"]
+    dependsOn: [GZ-015, GZ-016, GZ-017, GZ-018, GZ-019, POC-001, POC-002, POC-003, POC-004, POC-005, POC-006, POC-007, POC-008, POC-009, POC-010]
+    requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
+    moduleIds: [MOD-GOV, MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-POLICY, MOD-CONFIG, MOD-AUDIT, MOD-OBS, MOD-CONNECTOR, MOD-WORKER, MOD-PLAYER, MOD-EDGE, MOD-DATA, MOD-DEPLOY, MOD-CLI]
     outputPaths: ["release/**", "docs/runbooks/**", "evidence/GZ-020/**"]
-    sharedPaths: []
-    producesContracts: []
-    consumesContracts: ["ACCEPTANCE-SUITE-V1", "QUALITY-THRESHOLDS-V1", "POC-01-EVIDENCE", "POC-02-EVIDENCE", "POC-03-EVIDENCE", "POC-04-EVIDENCE", "POC-05-EVIDENCE", "POC-06-EVIDENCE", "POC-07-EVIDENCE", "POC-08-EVIDENCE", "POC-09-EVIDENCE", "POC-10-EVIDENCE"]
-    acceptanceIds: ["验收V1-0001", "验收V1-0002", "验收V1-0003", "验收V1-0004", "验收V1-0005", "验收V1-0006", "验收V1-0007", "验收V1-0008", "验收V1-0009", "验收V1-0010", "验收V1-0011", "验收V1-0012"]
-    pocIds: []
-    issue: null
-    branchPattern: chore/GZ-020-*
+    consumesContracts: [ACCEPTANCE-SUITE-V1, QUALITY-THRESHOLDS-V1, POC-01-EVIDENCE, POC-02-EVIDENCE, POC-03-EVIDENCE, POC-04-EVIDENCE, POC-05-EVIDENCE, POC-06-EVIDENCE, POC-07-EVIDENCE, POC-08-EVIDENCE, POC-09-EVIDENCE, POC-10-EVIDENCE]
+    acceptanceIds: [验收V1-0001, 验收V1-0002, 验收V1-0003, 验收V1-0004, 验收V1-0005, 验收V1-0006, 验收V1-0007, 验收V1-0008, 验收V1-0009, 验收V1-0010, 验收V1-0011, 验收V1-0012]
+    branchPattern: "chore/GZ-020-*"
     exitGate: "全量 E2E/性能/故障注入/安全/恢复/供应链通过，OPS-001 关闭，人工批准后方可发布"
 externalBlockers:
   - id: BRANCH-PROTECTION
     title: "GitHub main Ruleset / Required Checks / PR Approval"
     status: open
     issue: 20
-    requiredFor: ["GZ-020"]
-    verification: ["main.protected=true", "active ruleset requires pull request and Governance Gate", "force push and deletion disabled", "conversation resolution and stale approval dismissal enabled"]
+    requiredFor: [GZ-020]
+    verification:
+      - main.protected=true
+      - active ruleset requires pull request and Governance Gate
+      - force push and deletion disabled
+      - conversation resolution and stale approval dismissal enabled
 releasePolicy:
   noPublicBeta: true
   productionApprovalRequired: true
