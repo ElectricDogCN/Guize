@@ -1,12 +1,11 @@
-# GZ-014 Test-Repair Reservation Handoff
+# GZ-014 Test-Repair Branch Reservation Handoff
 
 ## Identity
 
 - Task: GZ-014
 - Issue: #17
-- Current phase: `BLOCKED_RESERVATION`
-- Reservation branch: `chore/GZ-014-test-repair-reservation-v2`
-- Registered implementation branch: `chore/GZ-014-post-merge-test-repair-v2`
+- Current phase: `ACTIVE_BRANCH_RESERVATION`
+- Authoritative work branch: `chore/GZ-014-test-repair-reservation-v2`
 - Reservation base: `main@903754295e4a0393638c82aa851c3ada8cd507fb`
 - Risk: high
 - Program Wave: `FOUNDATION`
@@ -23,66 +22,65 @@
 
 ## Historical chain
 
-- GZ-014 Reservation PR #18 merged as `d731ce09fbf2535948bc1864490539d06ce1f139`.
-- Program Plan implementation PR #21 merged as `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`.
+- Reservation PR #18 merged as `d731ce09fbf2535948bc1864490539d06ce1f139`.
+- Program Plan PR #21 merged as `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`.
 - Lifecycle hardening PR #22 merged as `903754295e4a0393638c82aa851c3ada8cd507fb`.
-- Main Gate #237 passed every production lifecycle/control step but failed one repository integration test because the test used `origin/main == HEAD` as its audit base.
-- PR #23 attempted the test repair but was closed without merge after independent Review found no prior Reservation, stale Handoff identity, and a test that fixed the task ID to GZ-014 on every future main push.
+- Main Gate #237 passed production lifecycle/control checks but failed one repository integration test because the test treated `origin/main == HEAD` as the audit base.
+- PR #23 was closed without merge after Review found no prior branch reservation, stale Handoff identity, and a fixed GZ-014 test attribution.
 
 ## Reservation output
 
-This phase may only:
+This PR may only:
 
-1. change the GZ-014 Foundation/Task/Registry status to `blocked`;
-2. register `chore/GZ-014-post-merge-test-repair-v2` and base `903754295e4a0393638c82aa851c3ada8cd507fb`;
-3. preserve the existing role separation, Lease and governance path claims;
-4. refresh this Handoff and add task-bound Reservation Evidence.
+1. move the existing GZ-014 Task/Registry branch and base to `chore/GZ-014-test-repair-reservation-v2@903754295e4a0393638c82aa851c3ada8cd507fb`;
+2. preserve Foundation/Task/Registry status `in_progress`;
+3. preserve role separation, Lease and governance path claims;
+4. refresh this Handoff and task-bound Reservation Evidence.
 
-It must not change test code, production lifecycle scripts, product requirements, business contracts, business code, deployment, Secrets, permissions or data.
+No Program Plan change is required. It must not modify `tests/**`, `scripts/**`, product requirements, business contracts, business code, deployment, Secrets, permissions or data.
 
 ## Implementation exact action
 
-After the Reservation PR merges:
+After this Reservation PR merges:
 
-1. move the registered implementation branch to the Reservation merge commit so the branch contains the updated `main` baseline;
-2. change only GZ-014 Foundation/Task/Registry from `blocked` to `in_progress` and `agentRole` to `implementer`;
-3. replace the fixed-task integration test with an environment-independent wrapper invocation:
-   - PR checkout uses `origin/main` and derives affected tasks from the exact PR diff;
-   - main push uses the merge first parent / push-before range and derives affected tasks from the complete diff;
-   - no test hardcodes GZ-014 for future unrelated main pushes;
-4. keep production `validate_foundation_claims`, exact `baseSha`, path ownership and fail-closed behavior unchanged;
-5. update `evidence/GZ-014/post-merge-test-repair.md` with real commands and results;
-6. open a separate implementation PR, run the exact HEAD Gate, obtain independent Review, merge with expected HEAD, and verify the push-to-main Gate.
+1. fast-forward the same branch to the Reservation merge commit so it contains updated `main`;
+2. append only the test implementation and task-bound Evidence commits;
+3. change the repository integration test to invoke the same no-Task lifecycle wrapper semantics as Governance Gate:
+   - PR checkout validates `origin/main...HEAD` and derives affected tasks from the diff;
+   - main push validates the complete push/merge range and derives affected tasks from that diff;
+   - no future unrelated main push is hardcoded to GZ-014;
+4. keep production Foundation `baseSha`, path ownership and fail-closed guards unchanged;
+5. open a separate Implementation PR and obtain exact-head Gate, Review, expected-head merge and post-merge main Gate.
 
 ## Reviewer exact action
 
-For the Reservation PR:
+Reservation Review:
 
-1. verify the diff contains only Program Plan, Task Spec, Active Work, this Handoff and task-bound Evidence;
-2. verify no `tests/**`, `scripts/**` or business path changed;
-3. verify Program Foundation, Task and Registry are all `blocked`;
-4. verify branch, baseSha, roles, paths, Lease and Handoff are identical across Task/Registry;
-5. verify the implementation branch did not exist with implementation commits before Reservation merge.
+1. verify the diff contains only Task Spec, Active Work, this Handoff and task-bound Reservation Evidence;
+2. verify no Program Plan, test, script or business path changed;
+3. verify Foundation/Task/Registry remain `in_progress`;
+4. verify branch, baseSha, roles, paths, Lease and Handoff are identical across Task and Registry;
+5. verify no implementation is included.
 
-For the later implementation PR:
+Implementation Review:
 
-1. verify the integration test calls the same lifecycle wrapper semantics as Governance Gate and does not force GZ-014;
-2. verify production guards were not weakened;
-3. verify PR and post-merge main Gates both pass;
-4. verify the exact reviewed SHA is the merged SHA.
+1. verify the test calls the wrapper without fixed Task ID;
+2. verify production guards are unchanged;
+3. verify PR and post-merge main Gates pass on exact SHAs;
+4. verify Handoff and Evidence are refreshed to the implementation merge.
 
 ## Integrator exact action
 
-1. merge the Reservation only after exact-head Gate success and no-finding Review;
-2. record the actual Reservation merge SHA;
-3. update/move the registered implementation branch to that merge commit before implementation;
-4. do not begin Foundation Completion until the implementation PR and its post-merge main Gate both succeed;
-5. Foundation Completion must be a separate PR that updates only GZ-014 completion metadata and fresh Evidence, releases only the GZ-014 Lease, and leaves the ordinary completion ledger unchanged.
+1. merge this Reservation only after exact-head Gate and no-finding Review;
+2. record the Reservation merge SHA;
+3. fast-forward this same branch to that merge commit before implementation;
+4. do not create Foundation Completion until implementation and post-merge main Gates succeed;
+5. Foundation Completion remains a separate narrow PR, releases only GZ-014 and leaves the ordinary completion ledger unchanged.
 
 ## Known blocker
 
-OPS-001 #20 remains open. It blocks final GZ-020 release, not this repository-only repair.
+OPS-001 #20 remains open and only gates final GZ-020 release.
 
 ## Rollback
 
-Before Reservation merge, close the PR and retain history. After merge, use a dedicated Revert PR to restore the prior GZ-014 Task/Registry/Foundation state; never directly push or reset `main`.
+Before merge, close the PR. After merge, revert the Task/Registry/Handoff reservation in a dedicated PR; never reset or directly push `main`.
