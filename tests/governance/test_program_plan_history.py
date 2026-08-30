@@ -25,9 +25,17 @@ class TestProgramPlanHistory(unittest.TestCase):
             handle.write(value)
 
     def init_git(self, root):
-        subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
-        subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=root, check=True)
-        subprocess.run(["git", "config", "user.name", "Test"], cwd=root, check=True)
+        subprocess.run(
+            ["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True
+        )
+        subprocess.run(
+            ["git", "config", "user.email", "test@example.com"],
+            cwd=root,
+            check=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.name", "Test"], cwd=root, check=True
+        )
 
     def commit(self, root, message):
         subprocess.run(["git", "add", "."], cwd=root, check=True)
@@ -133,17 +141,18 @@ class TestProgramPlanHistory(unittest.TestCase):
         return (
             "---\n"
             + yaml.safe_dump(front, sort_keys=False, allow_unicode=True)
-            + "---\n\n## 独占写范围\n\n- `docs/test/**`\n\n## 共享修改范围\n\n- 无。\n"
+            + "---\n\n## 独占写范围\n\n- `docs/test/**`\n\n"
+            + "## 共享修改范围\n\n- 无。\n"
         )
 
-    def run(self, root, task="", branch=""):
+    def _run_checker(self, root, task="", branch="", base_ref="main"):
         command = [
             sys.executable,
             SCRIPT,
             "--repo-root",
             root,
             "--base-ref",
-            "main",
+            base_ref,
             "--head-ref",
             "HEAD",
         ]
@@ -165,7 +174,11 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([reserved]))
         self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
-        self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(reserved, "reserved", reserved["branch"], seed))
+        self.write_text(
+            root,
+            f"specs/tasks/{task_id}.md",
+            self.task_spec(reserved, "reserved", reserved["branch"], seed),
+        )
         self.write_text(root, f"evidence/{task_id}/handoff.md", "# Handoff\n")
         reservation = self.commit(root, "GZ-004 reservation (#30)")
 
@@ -174,10 +187,19 @@ class TestProgramPlanHistory(unittest.TestCase):
         plan["tasks"][0]["status"] = "integration"
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([active]))
-        self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(active, "integration", active["branch"], seed))
+        self.write_text(
+            root,
+            f"specs/tasks/{task_id}.md",
+            self.task_spec(active, "integration", active["branch"], seed),
+        )
         implementation = self.commit(root, "GZ-004 implementation (#31)")
 
-        subprocess.run(["git", "checkout", "-b", "chore/GZ-004-completion"], cwd=root, check=True, capture_output=True)
+        subprocess.run(
+            ["git", "checkout", "-b", "chore/GZ-004-completion"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        )
         plan["tasks"][0]["status"] = "completed"
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
@@ -209,36 +231,6 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.commit(root, "GZ-004 completion metadata (#32)")
         return reservation
 
-    def test_regular_completion_transition_passes(self):
-        with tempfile.TemporaryDirectory() as root:
-            self.create_regular_completion(root)
-            result = self.run(root, "GZ-004", "chore/GZ-004-completion")
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-
-    def test_completion_rejects_unrelated_file(self):
-        with tempfile.TemporaryDirectory() as root:
-            self.create_regular_completion(root, unrelated=True)
-            result = self.run(root, "GZ-004", "chore/GZ-004-completion")
-            self.assertIn("changed unrelated files", result.stdout)
-
-    def test_reservation_commit_must_introduce_active_work(self):
-        with tempfile.TemporaryDirectory() as root:
-            fake = self.create_regular_completion(root)
-            ledger_path = os.path.join(root, "specs/coordination/task-completions.yaml")
-            with open(ledger_path, encoding="utf-8") as handle:
-                ledger = yaml.safe_load(handle)
-            ledger["records"][0]["reservationCommit"] = subprocess.run(
-                ["git", "rev-parse", f"{fake}^"],
-                cwd=root,
-                check=True,
-                capture_output=True,
-                text=True,
-            ).stdout.strip()
-            self.write_yaml(root, "specs/coordination/task-completions.yaml", ledger)
-            self.commit(root, "tamper reservation")
-            result = self.run(root, "GZ-004", "chore/GZ-004-completion")
-            self.assertIn("reservation commit", result.stdout)
-
     def create_foundation_completion(self, root):
         self.init_git(root)
         self.write_text(root, "seed.txt", "seed\n")
@@ -259,11 +251,20 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
         self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
-        self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], seed))
+        self.write_text(
+            root,
+            f"specs/tasks/{task_id}.md",
+            self.task_spec(entry, "in_progress", entry["branch"], seed),
+        )
         self.write_text(root, f"evidence/{task_id}/handoff.md", "# Handoff\n")
         implementation = self.commit(root, "GZ-014 repair (#22)")
 
-        subprocess.run(["git", "checkout", "-b", "chore/GZ-014-completion"], cwd=root, check=True, capture_output=True)
+        subprocess.run(
+            ["git", "checkout", "-b", "chore/GZ-014-completion"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        )
         plan["foundationTasks"][0].update(
             {"status": "completed", "completionRef": "PR-22", "mergeCommit": implementation}
         )
@@ -276,34 +277,81 @@ class TestProgramPlanHistory(unittest.TestCase):
         )
         self.commit(root, "GZ-014 completion metadata (#23)")
 
+    def test_regular_completion_transition_passes(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_regular_completion(root)
+            result = self._run_checker(root, "GZ-004", "chore/GZ-004-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_completion_rejects_unrelated_file(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_regular_completion(root, unrelated=True)
+            result = self._run_checker(root, "GZ-004", "chore/GZ-004-completion")
+            self.assertIn("changed unrelated files", result.stdout)
+
+    def test_reservation_commit_must_introduce_active_work(self):
+        with tempfile.TemporaryDirectory() as root:
+            reservation = self.create_regular_completion(root)
+            path = os.path.join(root, "specs/coordination/task-completions.yaml")
+            with open(path, encoding="utf-8") as handle:
+                ledger = yaml.safe_load(handle)
+            ledger["records"][0]["reservationCommit"] = subprocess.run(
+                ["git", "rev-parse", f"{reservation}^"],
+                cwd=root,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.write_yaml(root, "specs/coordination/task-completions.yaml", ledger)
+            self.commit(root, "tamper reservation")
+            result = self._run_checker(root, "GZ-004", "chore/GZ-004-completion")
+            self.assertIn("reservation commit", result.stdout)
+
     def test_foundation_completion_transition_passes(self):
         with tempfile.TemporaryDirectory() as root:
             self.create_foundation_completion(root)
-            result = self.run(root, "GZ-014", "chore/GZ-014-completion")
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_completed_foundation_is_immutable(self):
         with tempfile.TemporaryDirectory() as root:
             self.create_foundation_completion(root)
-            subprocess.run(["git", "checkout", "main"], cwd=root, check=True, capture_output=True)
-            subprocess.run(["git", "merge", "--ff-only", "chore/GZ-014-completion"], cwd=root, check=True, capture_output=True)
-            subprocess.run(["git", "checkout", "-b", "tamper"], cwd=root, check=True, capture_output=True)
-            plan_path = os.path.join(root, "specs/coordination/program-plan.yaml")
-            with open(plan_path, encoding="utf-8") as handle:
+            subprocess.run(
+                ["git", "checkout", "main"], cwd=root, check=True, capture_output=True
+            )
+            subprocess.run(
+                ["git", "merge", "--ff-only", "chore/GZ-014-completion"],
+                cwd=root,
+                check=True,
+                capture_output=True,
+            )
+            subprocess.run(
+                ["git", "checkout", "-b", "tamper"],
+                cwd=root,
+                check=True,
+                capture_output=True,
+            )
+            path = os.path.join(root, "specs/coordination/program-plan.yaml")
+            with open(path, encoding="utf-8") as handle:
                 plan = yaml.safe_load(handle)
             plan["foundationTasks"][0]["completionRef"] = "PR-999"
             self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
             self.commit(root, "tamper foundation")
-            result = subprocess.run(
-                [sys.executable, SCRIPT, "--repo-root", root, "--base-ref", "HEAD^", "--head-ref", "HEAD"],
-                capture_output=True,
-                text=True,
-            )
+            result = self._run_checker(root, base_ref="HEAD^")
             self.assertIn("provenance is immutable", result.stdout)
 
-    def test_current_repository_passes(self):
+    def test_initial_empty_ledger_migration_passes(self):
         result = subprocess.run(
-            [sys.executable, SCRIPT, "--repo-root", REPO_ROOT, "--base-ref", "origin/main", "--head-ref", "HEAD"],
+            [
+                sys.executable,
+                SCRIPT,
+                "--repo-root",
+                REPO_ROOT,
+                "--base-ref",
+                "origin/main",
+                "--head-ref",
+                "HEAD",
+            ],
             capture_output=True,
             text=True,
         )
