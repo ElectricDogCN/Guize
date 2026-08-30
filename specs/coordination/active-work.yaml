@@ -59,6 +59,7 @@ tasks:
       - scripts/check-program-plan-history.py
       - scripts/check-program-plan-transitions.py
       - scripts/check-program-plan-finalization.py
+      - scripts/check-program-lifecycle-guards.py
       - tests/governance/**
     sharedPaths: []
     handoffPath: evidence/GZ-014/handoff.md
