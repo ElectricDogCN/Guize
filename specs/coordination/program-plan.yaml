@@ -33,7 +33,7 @@ foundationTasks:
     mergeCommit: 9e3a821ada292ac3ef69b7c059384d17f6530b48
   - taskId: GZ-014
     title: "Program Plan 收敛与协作一致性加固"
-    status: in_progress
+    status: review
     completionRef: ISSUE-17
     mergeCommit: null
 waves:
