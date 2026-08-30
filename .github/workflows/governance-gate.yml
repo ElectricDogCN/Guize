@@ -108,7 +108,7 @@ jobs:
           set -euo pipefail
           python scripts/check-project-readiness.py
 
-      - name: Program Plan integrity, history, and finalization check
+      - name: Program Plan integrity, history, transitions, and finalization check
         id: program-integrity
         if: success() || failure()
         env:
@@ -135,12 +135,20 @@ jobs:
               --head-ref "$HEAD_REF" \
               --task "${{ steps.task-context.outputs.task_id }}" \
               --branch-name "$BRANCH_NAME"
+            python scripts/check-program-plan-transitions.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF" \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --branch-name "$BRANCH_NAME"
             python scripts/check-program-plan-finalization.py \
               --base-ref "$BASE_REF" \
               --head-ref "$HEAD_REF" \
               --task "${{ steps.task-context.outputs.task_id }}"
           else
             python scripts/check-program-plan-history.py \
+              --base-ref "$BASE_REF" \
+              --head-ref "$HEAD_REF"
+            python scripts/check-program-plan-transitions.py \
               --base-ref "$BASE_REF" \
               --head-ref "$HEAD_REF"
             python scripts/check-program-plan-finalization.py \
