@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Validate historical Program Plan transitions against the target branch.
 
-The structural and snapshot checker in ``check-program-plan-integrity.py``
-validates the current repository state.  This checker validates transitions:
+The snapshot checker validates the current repository state. This checker
+validates transitions against the integration base:
 
-* a recorded reservation commit must actually introduce the task lease;
+* a recorded reservation commit actually introduced the task lease;
 * completed Foundation provenance is immutable;
-* a Completion PR may modify only the completing task's canonical metadata;
+* Completion PRs modify only the completing task's canonical metadata;
 * ordinary tasks append one immutable completion-ledger record;
 * Foundation tasks complete without using the ordinary completion ledger.
 """
@@ -69,6 +69,8 @@ def is_ancestor(root: str, ancestor: str, descendant: str) -> bool:
 
 
 def read_ref(root: str, ref: str, path: str) -> str | None:
+    if not path:
+        return None
     result = git(root, "show", f"{ref}:{path}")
     return result.stdout if result.returncode == 0 else None
 
@@ -129,6 +131,15 @@ def find_task_path(root: str, task_id: str, ref: str | None = None) -> str | Non
         if name.startswith(task_id + "-") and name.endswith(".md")
     )
     return matches[0] if len(matches) == 1 else None
+
+
+def normalize_list(value: Any) -> list[str]:
+    if isinstance(value, list):
+        return [str(item) for item in value]
+    text = str(value or "").strip()
+    if not text or text.upper() == "NONE":
+        return []
+    return [part.strip() for part in text.strip("[]").split(",") if part.strip()]
 
 
 def section_paths(body: str, titles: tuple[str, ...]) -> list[str] | None:
@@ -261,10 +272,7 @@ def compare_reservation_spec(
         "consumesContracts": "consumesContracts",
     }
     for task_key, entry_key in list_pairs.items():
-        task_value = front.get(task_key) or []
-        if isinstance(task_value, str):
-            task_value = [] if task_value in {"NONE", "none", ""} else [part.strip() for part in task_value.split(",")]
-        if list(task_value) != list(entry.get(entry_key) or []):
+        if normalize_list(front.get(task_key)) != list(entry.get(entry_key) or []):
             errors.append(
                 f"Reservation snapshot {task_id} Task Spec {task_key} does not match Active Work {entry_key}"
             )
@@ -276,9 +284,89 @@ def compare_reservation_spec(
         errors.append(f"Reservation snapshot {task_id} shared paths do not match Active Work")
 
 
-def validate_reservation_snapshot(
-    root: str, record: dict[str, Any], errors: list[str]
+def compare_completion_spec(
+    task_id: str,
+    entry: dict[str, Any],
+    front: dict[str, Any],
+    body: str,
+    errors: list[str],
 ) -> None:
+    scalar_pairs = {
+        "id": "taskId",
+        "baseBranch": "baseBranch",
+        "issue": "issue",
+        "workPackage": "workPackage",
+        "taskOwner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "riskLevel": "riskLevel",
+        "coordinationGroup": "coordinationGroup",
+        "handoffPath": "handoffPath",
+        "integrationStrategy": "integrationStrategy",
+        "integrationOrder": "integrationOrder",
+    }
+    for task_key, entry_key in scalar_pairs.items():
+        if str(front.get(task_key, "")) != str(entry.get(entry_key, "")):
+            errors.append(
+                f"Completion Task Spec {task_id} {task_key} does not match prior Active Work {entry_key}"
+            )
+    for task_key, entry_key in {
+        "dependsOn": "dependsOn",
+        "requirementIds": "requirementIds",
+        "moduleIds": "moduleIds",
+        "producesContracts": "producesContracts",
+        "consumesContracts": "consumesContracts",
+    }.items():
+        if normalize_list(front.get(task_key)) != list(entry.get(entry_key) or []):
+            errors.append(
+                f"Completion Task Spec {task_id} {task_key} does not match prior Active Work {entry_key}"
+            )
+    exclusive = section_paths(body, ("独占写范围", "exclusive write scope"))
+    shared = section_paths(body, ("共享修改范围", "shared modification scope"))
+    if exclusive != list(entry.get("exclusivePaths") or []):
+        errors.append(f"Completion Task Spec {task_id} exclusive paths do not match prior Active Work")
+    if shared != list(entry.get("sharedPaths") or []):
+        errors.append(f"Completion Task Spec {task_id} shared paths do not match prior Active Work")
+
+
+def changed_file_set(root: str, base_ref: str, head_ref: str, errors: list[str]) -> set[str]:
+    result = git(root, "diff", "--name-only", f"{base_ref}...{head_ref}")
+    if result.returncode != 0:
+        errors.append(f"Cannot read changed files for {base_ref}...{head_ref}")
+        return set()
+    return {line.strip() for line in result.stdout.splitlines() if line.strip()}
+
+
+def validate_changed_scope(
+    task_id: str,
+    task_path: str,
+    files: set[str],
+    foundation: bool,
+    errors: list[str],
+) -> None:
+    required = {PLAN, ACTIVE, task_path}
+    if not foundation:
+        required.add(LEDGER)
+    missing = sorted(required - files)
+    if missing:
+        errors.append(f"Completion task {task_id} is missing canonical files: {missing}")
+    allowed_exact = set(required)
+    invalid = sorted(
+        path
+        for path in files
+        if path not in allowed_exact
+        and path != f"evidence/{task_id}"
+        and not path.startswith(f"evidence/{task_id}/")
+    )
+    if invalid:
+        errors.append(f"Completion task {task_id} changed unrelated files: {invalid}")
+    if foundation and LEDGER in files:
+        errors.append(f"Foundation {task_id} completion must not change {LEDGER}")
+
+
+def validate_reservation_snapshot(root: str, record: dict[str, Any], errors: list[str]) -> None:
     task_id = str(record.get("taskId") or "")
     commit = str(record.get("reservationCommit") or "")
     active_at_commit = load_ref(root, commit, ACTIVE)
@@ -308,16 +396,19 @@ def validate_reservation_snapshot(
                 f"Completion record {task_id} reservation commit did not introduce the reservation"
             )
     task_path = str(record.get("taskSpec") or "")
-    task_text = read_ref(root, commit, task_path)
-    front, body = parse_front_matter_text(task_text)
+    front, body = parse_front_matter_text(read_ref(root, commit, task_path))
     if not front:
         errors.append(f"Completion record {task_id} reservation Task Spec is not readable at commit")
     else:
         compare_reservation_spec(task_id, entry, front, body, errors)
     base_sha = str(entry.get("baseSha") or "")
-    if not re.fullmatch(r"[0-9a-f]{40}", base_sha) or not is_ancestor(root, base_sha, commit):
+    if (
+        not re.fullmatch(r"[0-9a-f]{40}", base_sha)
+        or base_sha == commit
+        or not is_ancestor(root, base_sha, commit)
+    ):
         errors.append(
-            f"Completion record {task_id} reservation baseSha is not an ancestor of reservation commit"
+            f"Completion record {task_id} reservation baseSha must be a strict ancestor of reservation commit"
         )
 
 
@@ -329,6 +420,9 @@ def validate_foundation_history(
     current_active: dict[str, Any],
     base_ledger: dict[str, Any],
     current_ledger: dict[str, Any],
+    base_ref: str,
+    head_ref: str,
+    branch_name: str,
     errors: list[str],
 ) -> None:
     base_foundations = mapping(base_plan.get("foundationTasks"))
@@ -347,8 +441,12 @@ def validate_foundation_history(
         if len(prior_entries) != 1:
             errors.append(f"Foundation {task_id} completion requires one prior Active Work reservation")
             continue
-        if any(item.get("taskId") == task_id for item in current_active.get("tasks") or []):
-            errors.append(f"Foundation {task_id} completion must release its Active Work entry")
+        expected_active = copy.deepcopy(base_active)
+        expected_active["tasks"] = [
+            item for item in base_active.get("tasks") or [] if item.get("taskId") != task_id
+        ]
+        if current_active != expected_active:
+            errors.append(f"Foundation {task_id} completion may only remove its own Active Work entry")
         if current_ledger != base_ledger:
             errors.append(f"Foundation {task_id} completion must not modify the ordinary completion ledger")
         if not only_target_changed(
@@ -374,16 +472,31 @@ def validate_foundation_history(
         task_path = find_task_path(root, task_id)
         if not task_path:
             errors.append(f"Foundation {task_id} completion has no Task Spec")
-        else:
-            front, _ = parse_front_matter_text(read_ref(root, "HEAD", task_path))
-            if front.get("status") != "completed":
-                errors.append(f"Foundation {task_id} Task Spec is not completed")
-            evidence = str(front.get("evidencePath") or f"evidence/{task_id}")
-            handoff = str(front.get("handoffPath") or f"{evidence}/handoff.md")
-            if not os.path.isdir(os.path.join(root, evidence)):
-                errors.append(f"Foundation {task_id} Evidence path does not exist")
-            if not os.path.isfile(os.path.join(root, handoff)):
-                errors.append(f"Foundation {task_id} handoff does not exist")
+            continue
+        front, body = parse_front_matter_text(read_ref(root, head_ref, task_path))
+        if front.get("status") != "completed":
+            errors.append(f"Foundation {task_id} Task Spec is not completed")
+        resolved_base = resolve_ref(root, base_ref)
+        if resolved_base and str(front.get("baseSha") or "") != resolved_base:
+            errors.append(f"Foundation {task_id} Task Spec baseSha must equal the target base commit")
+        if branch_name and str(front.get("workBranch") or "") != branch_name:
+            errors.append(f"Foundation {task_id} Task Spec workBranch does not match the PR branch")
+        compare_completion_spec(task_id, prior_entries[0], front, body, errors)
+        evidence = str(front.get("evidencePath") or f"evidence/{task_id}")
+        handoff = str(front.get("handoffPath") or f"{evidence}/handoff.md")
+        if evidence != f"evidence/{task_id}":
+            errors.append(f"Foundation {task_id} Evidence path must be task-bound")
+        if not os.path.isdir(os.path.join(root, evidence)):
+            errors.append(f"Foundation {task_id} Evidence path does not exist")
+        if not os.path.isfile(os.path.join(root, handoff)):
+            errors.append(f"Foundation {task_id} handoff does not exist")
+        validate_changed_scope(
+            task_id,
+            task_path,
+            changed_file_set(root, base_ref, head_ref, errors),
+            True,
+            errors,
+        )
 
 
 def validate_regular_completion_transition(
@@ -439,27 +552,14 @@ def validate_regular_completion_transition(
         errors.append(f"Completion task {task_id} Task Spec baseSha must equal the target base commit")
     if branch_name and str(front.get("workBranch") or "") != branch_name:
         errors.append(f"Completion task {task_id} Task Spec workBranch does not match the PR branch")
-    compare_reservation_spec(task_id, prior_entries[0], front, body, errors)
-
-    changed = git(root, "diff", "--name-only", f"{base_ref}...{head_ref}")
-    if changed.returncode != 0:
-        errors.append(f"Completion task {task_id} changed-file set cannot be read")
-        return
-    files = {line.strip() for line in changed.stdout.splitlines() if line.strip()}
-    required = {PLAN, ACTIVE, LEDGER, task_path}
-    missing = sorted(required - files)
-    if missing:
-        errors.append(f"Completion task {task_id} is missing canonical files: {missing}")
-    allowed_exact = required
-    invalid = sorted(
-        path
-        for path in files
-        if path not in allowed_exact
-        and path != f"evidence/{task_id}"
-        and not path.startswith(f"evidence/{task_id}/")
+    compare_completion_spec(task_id, prior_entries[0], front, body, errors)
+    validate_changed_scope(
+        task_id,
+        task_path,
+        changed_file_set(root, base_ref, head_ref, errors),
+        False,
+        errors,
     )
-    if invalid:
-        errors.append(f"Completion task {task_id} changed unrelated files: {invalid}")
 
 
 def main() -> int:
@@ -479,7 +579,17 @@ def main() -> int:
     except Exception as exc:
         emit("FAIL", f"Cannot load Program history documents: {exc}")
         return 1
-    if not all(isinstance(item, dict) for item in (base_plan, current_plan, base_active, current_active, base_ledger, current_ledger)):
+    if not all(
+        isinstance(item, dict)
+        for item in (
+            base_plan,
+            current_plan,
+            base_active,
+            current_active,
+            base_ledger,
+            current_ledger,
+        )
+    ):
         emit("FAIL", "Program history documents are missing or invalid")
         return 1
 
@@ -491,6 +601,9 @@ def main() -> int:
         current_active,
         base_ledger,
         current_ledger,
+        args.base_ref,
+        args.head_ref,
+        args.branch_name,
         errors,
     )
     for record in current_ledger.get("records") or []:
