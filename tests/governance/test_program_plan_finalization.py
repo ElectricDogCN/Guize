@@ -59,7 +59,7 @@ class TestProgramPlanFinalization(unittest.TestCase):
         self.git(root, "commit", "--allow-empty", "-m", message)
         return self.git(root, "rev-parse", "HEAD").stdout.strip()
 
-    def ruleset(self, strict):
+    def ruleset(self, strict=True, last_push=True):
         return {
             "target": "branch",
             "enforcement": "active",
@@ -75,6 +75,7 @@ class TestProgramPlanFinalization(unittest.TestCase):
                         "dismiss_stale_reviews_on_push": True,
                         "require_code_owner_review": True,
                         "required_review_thread_resolution": True,
+                        "require_last_push_approval": last_push,
                     },
                 },
                 {
@@ -166,15 +167,27 @@ class TestProgramPlanFinalization(unittest.TestCase):
         self.assertTrue(FINALIZATION.ruleset_applies_to_main(ruleset))
 
     def test_ruleset_requires_latest_target_branch_testing(self):
-        valid, failures = FINALIZATION.ruleset_satisfies_policy(self.ruleset(False))
+        valid, failures = FINALIZATION.ruleset_satisfies_policy(
+            self.ruleset(strict=False)
+        )
         self.assertFalse(valid)
         self.assertIn(
             "pull requests are not required to test against the latest target branch",
             failures,
         )
 
-    def test_ruleset_with_strict_latest_target_branch_policy_passes(self):
-        valid, failures = FINALIZATION.ruleset_satisfies_policy(self.ruleset(True))
+    def test_ruleset_requires_independent_approval_of_latest_push(self):
+        valid, failures = FINALIZATION.ruleset_satisfies_policy(
+            self.ruleset(last_push=False)
+        )
+        self.assertFalse(valid)
+        self.assertIn(
+            "the latest reviewable push does not require independent approval",
+            failures,
+        )
+
+    def test_complete_ruleset_policy_passes(self):
+        valid, failures = FINALIZATION.ruleset_satisfies_policy(self.ruleset())
         self.assertTrue(valid)
         self.assertEqual(failures, [])
 
