@@ -17,9 +17,9 @@ tasks:
     reviewer: independent-governance-review-agent
     integrator: integration-agent
     agentRole: implementer
-    branch: chore/GZ-014-test-repair-reservation-v2
+    branch: chore/GZ-014-foundation-lifecycle-states
     baseBranch: main
-    baseSha: bb22b4cd8662e6c1ed7d3b63255098d8a74237c1
+    baseSha: ef1048344aa082c678e5ef948dc7f62e5aa84510
     workPackage: WP-M0-08
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: GZ-014
@@ -67,5 +67,5 @@ tasks:
     integrationStrategy: merge
     integrationOrder: 1
     lease:
-      acquiredAt: "2026-08-29T02:07:00Z"
-      expiresAt: "2026-09-05T01:59:00Z"
+      acquiredAt: "2026-08-31T00:00:00Z"
+      expiresAt: "2026-09-07T00:00:00Z"

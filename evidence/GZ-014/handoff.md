@@ -1,22 +1,20 @@
-# GZ-014 Lifecycle Wrapper Repair Handoff
+# GZ-014 Foundation Lifecycle-State Repair Handoff
 
 ## Identity
 
-- Task: `GZ-014`
+- Task: GZ-014
 - Issue: #17
-- Current phase: `IMPLEMENTATION_FINAL_VALIDATION`
-- Clean Reservation PR: #24
-- Implementation PR: #25
-- Authoritative branch: `chore/GZ-014-test-repair-reservation-v2`
-- Implementation base: `main@bb22b4cd8662e6c1ed7d3b63255098d8a74237c1`
-- Last validated implementation HEAD before this Handoff refresh: `8914773e6f4c10558ece8cc4f668ced25d0d54c2`
-- Governance Gate: run #260, `success`
-- Risk: `high`
-- Program Wave: `FOUNDATION`
-- Integration Order: `1`
-- Lease expires: `2026-09-05T01:59:00Z`
+- PR: #27
+- Branch: `chore/GZ-014-foundation-lifecycle-states`
+- Base: `main@ef1048344aa082c678e5ef948dc7f62e5aa84510`
+- Last validated pre-Evidence HEAD: `656c7b9c20cd18de2850caa46c734f46a0fc6c90`
+- Governance Gate run #268: success
+- Program Wave: FOUNDATION
+- Risk: high
+- Integration Order: 1
+- Lease expires: `2026-09-07T00:00:00Z`
 
-The latest GitHub PR HEAD and its corresponding Gate remain authoritative. This Handoff update creates a later HEAD and does not pre-claim its result.
+The latest PR HEAD and its corresponding Gate are authoritative. This Handoff refresh creates a later HEAD and does not pre-claim its result.
 
 ## Roles
 
@@ -26,66 +24,23 @@ The latest GitHub PR HEAD and its corresponding Gate remain authoritative. This 
 - Integrator: `integration-agent`
 - Human Owner: `ElectricDogCN`
 
-## Explicit path and contract state
+## Defect
 
-- Shared paths: `[]`.
-- Produced contracts: `[]`.
-- Consumed contracts: `[]`.
-- Coordination group: `program-plan-reconciliation`.
-- GZ-014 Program Foundation status: `in_progress`.
-- Task Spec status: `in_progress`.
-- Active Work status: `in_progress`.
-- Active Work Lease remains present.
+The accepted model was contradictory: Foundation Schema excluded `review/integration`, while completion required one of those target-base states. Direct completion was therefore impossible without bypassing a mandatory gate.
 
-## Historical chain
+## Change
 
-1. PR #18 established the original Foundation Reservation and merged as `d731ce09fbf2535948bc1864490539d06ce1f139`.
-2. PR #21 established the canonical Program Plan and merged as `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`.
-3. PR #22 hardened lifecycle controls and merged as `903754295e4a0393638c82aa851c3ada8cd507fb`.
-4. Post-merge `main` run #237 failed only governance integration tests; production Program/Lifecycle, Coordination, Schema, Scope, Evidence and Spec Sync checks passed.
-5. PR #23 was rejected and closed because implementation began without an independent Reservation and canonical Handoff remained stale.
-6. PR #24 independently reserved the repair branch/base and merged as `bb22b4cd8662e6c1ed7d3b63255098d8a74237c1`.
-7. Before implementation, Task and Registry `baseSha` were both advanced to that merge.
-8. PR #25 run #256 found Task/Registry path mismatch and production wrapper recursion.
-9. Run #259 showed the recursion fix worked but exposed an unsupported `mapping(key=...)` assumption.
-10. Run #260 succeeded on `8914773e6f4c10558ece8cc4f668ced25d0d54c2` with 256 governance tests and every mandatory Gate step passing.
+- Foundation state enum now includes `review` and `integration` only;
+- current Program Plan remains unchanged and GZ-014 remains `in_progress`;
+- ordinary Program Task state enum and transition code remain unchanged;
+- new tests validate Schema states, unknown-state rejection and history-aware `integration -> completed` with structured Evidence.
 
-No failure, Review finding or incomplete external control has been deleted from Evidence.
+## Actual scope
 
-## Implemented repair
+Expected PR #27 files after Evidence refresh:
 
-### Production wrapper
-
-`run-program-lifecycle-gate.py` now:
-
-- captures the original base `task_ids_from_diff` before monkey-patching;
-- uses that immutable function from the extended wrapper;
-- keeps exact rename/copy diff semantics;
-- keeps POC task derivation;
-- maps external blockers locally by explicit `id`;
-- keeps completion Issue verification.
-
-The base `check-program-lifecycle-guards.py` was not modified.
-
-### Governance tests
-
-`test_program_lifecycle_guards.py` now:
-
-- executes repository current-state validation through the wrapper;
-- uses no Task context when `HEAD == origin/main`;
-- keeps explicit GZ-014 context for PR branches;
-- monkey-patches the wrapper exactly as runtime does and verifies task derivation does not recurse.
-
-### Task scope
-
-Task prose uses `./Makefile` so the path parser recognizes it and normalizes it to the Registry value `Makefile`. The actual PR does not modify Makefile.
-
-## Actual PR #25 scope
-
-Expected latest files:
-
-- `scripts/run-program-lifecycle-gate.py`;
-- `tests/governance/test_program_lifecycle_guards.py`;
+- `specs/coordination/program-plan.schema.yaml`;
+- `tests/governance/test_foundation_lifecycle_states.py`;
 - `specs/tasks/GZ-014.md`;
 - `specs/coordination/active-work.yaml`;
 - `evidence/GZ-014/summary.md`;
@@ -94,54 +49,39 @@ Expected latest files:
 - `evidence/GZ-014/test-results/README.md`;
 - `evidence/GZ-014/handoff.md`.
 
-Explicitly unchanged:
-
-- base lifecycle guard;
-- Governance Workflow;
-- Makefile;
-- Program Plan;
-- product requirements;
-- business contracts/code;
-- deployment, Secrets, permissions and production data.
+Explicitly unchanged: Program Plan status, lifecycle/transition checker, Workflow, Makefile, product requirements, business contracts/code, deployment, Secrets, permissions and production data.
 
 ## Reviewer exact action
 
-1. Read PR #25 latest diff and latest exact-head Governance Gate.
-2. Confirm the wrapper calls `ORIGINAL_TASK_IDS_FROM_DIFF`, not the monkey-patched mutable attribute.
-3. Confirm external blockers are mapped by `id` without changing base guard API.
-4. Confirm the regression test actually applies the runtime monkey-patch.
-5. Confirm Task and Registry paths, branch, base, roles, Lease and empty contract/shared sets remain consistent.
-6. Confirm actual changed-file list equals the declared nine paths.
-7. Confirm GZ-014 remains `in_progress` and Program Plan is unchanged.
-8. Submit fresh Review only for the latest HEAD.
+1. Read PR #27 latest diff and latest exact-head Gate.
+2. Verify Foundation enum adds only `review` and `integration`.
+3. Verify ordinary task state definitions and lifecycle code are unchanged.
+4. Verify the integration-to-completed test uses actual Git history and structured Evidence.
+5. Verify Task/Registry branch, baseSha, roles, Lease and path claims are consistent.
+6. Verify GZ-014 remains in_progress and Program Plan is unchanged.
+7. Submit Review only for the latest HEAD.
 
 ## Integrator exact action
 
-1. Require latest Gate `success` and zero unresolved blocker threads.
-2. Re-read GitHub’s current file inventory and commit SHA.
-3. Record approval/review decision against that exact HEAD.
-4. Merge PR #25 using `expected_head_sha`.
-5. Verify the post-merge `main` Governance Gate.
-6. Only after that Gate succeeds, create a separate Foundation Completion branch/PR.
+1. Require latest Gate success and zero unresolved blocker threads.
+2. Re-read GitHub's actual changed-file inventory.
+3. Record authorized re-review against exact HEAD.
+4. Merge using `expected_head_sha`.
+5. Verify post-merge main Gate.
+6. Then create independent review and integration state-transition PRs before Foundation Completion.
 
-## Foundation Completion boundary
+## Completion boundary
 
-The Completion PR must be narrow and auditable:
+After this repair enters a green `main`, execute:
 
-- mark GZ-014 Foundation and Task Spec `completed`;
-- record the actual PR #25 merge commit and completion PR identity;
-- remove only the GZ-014 Active Work Lease;
-- leave the ordinary Program Task completion ledger unchanged if the accepted Foundation model requires separate provenance;
-- update only GZ-014 task-bound Evidence and canonical coordination metadata;
-- close Issue #17 using `state_reason=completed` at the stage required by the lifecycle guard;
-- pass exact-head Gate, fresh Review, expected-head merge and post-merge `main` Gate.
+```text
+in_progress -> review
+review -> integration
+integration -> completed
+```
 
-## Known blockers
-
-- This Evidence refresh requires a new final Gate and Review.
-- GZ-004, GZ-010 and all downstream tasks remain blocked until Foundation Completion.
-- OPS-001 #20 remains open and gates only GZ-020 production release.
+The final completion must identify PR #26 merge `ef1048344aa082c678e5ef948dc7f62e5aa84510`, refresh structured task-bound Evidence, remove only the GZ-014 Lease, close Issue #17 as completed at the required Gate stage, and leave the ordinary task completion ledger unchanged.
 
 ## Rollback
 
-Before merge, close PR #25 and retain its branch/Evidence. After merge, revert only the wrapper/test repair through a dedicated PR; do not reset, force-push or directly modify `main`.
+Before merge, close PR #27 and retain branch/Evidence. After merge, revert Schema and test through a dedicated PR; do not reset, force-push or directly modify `main`.
