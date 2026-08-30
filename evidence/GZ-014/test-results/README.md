@@ -50,16 +50,16 @@ Repairs preserved fail-closed behavior: missing base ledger is accepted only whe
 
 ### Subsequent independent reviews
 
-Later exact-HEAD Codex reviews identified six additional gaps:
+Later exact-HEAD Codex reviews identified additional gaps across:
 
-- direct Scope check did not route Completion PRs through the Completion dispatcher;
-- schema-versioned completed Foundations could retain `approved` Task Specs;
-- Completion Evidence could remain stale;
-- recorded implementation merge did not have to exist in the target base;
-- Ruleset `exclude` conditions were not honored;
-- executing Program states did not require one matching Active Work lease/status.
+- completion-aware Scope and Coordination dispatch;
+- schema-versioned Foundation status protection;
+- completion Evidence freshness and target-base implementation merge existence;
+- Ruleset include/exclude handling;
+- one-to-one Program/Registry executing-state mapping;
+- completion ledger immutability, Reservation snapshot proof, dependency activation ordering and final release closure.
 
-Repairs added mandatory Program Finalization, completion-aware Coordination/Scope dispatch, true legacy Foundation separation, completion Evidence freshness, target-base merge ancestry, Ruleset include/exclude handling, and one-to-one Program/Registry state checks. Positive and negative governance tests cover each condition.
+Repairs added mandatory Program Integrity, History and Finalization, completion-aware dispatchers, true legacy Foundation separation, fresh completion Evidence, target-base merge ancestry, live Ruleset validation and positive/negative governance tests.
 
 ### Governance Gate #191
 
@@ -67,33 +67,43 @@ Validated HEAD: `771daf58415f1001085d19c4781176acf99afcb0`
 
 Result: failed.
 
-Successful areas included Program Integrity/History/Finalization and 223 governance tests. Agent Coordination failed because the Task used the bare extensionless root token `Makefile`, which was intentionally ignored by the path parser, while the Registry contained the path.
+Program Integrity/History/Finalization and 223 governance tests passed. Agent Coordination failed because the Task used the bare extensionless root token `Makefile`, which the path parser intentionally ignored, while the Registry contained the path.
 
 The Task now uses `./Makefile`; path normalization preserves the same repository path and scope.
 
-### Governance Gate #192
+### Governance Gate #196
 
-Validated HEAD: `2c8f08ea136fc509bf2d40819fb5eddcaf8f8b4b`
+Validated HEAD: `da2e1cbf9ca15881fc7cf271b531ffe7353eb067`
 
 Result: success.
 
-Every mandatory step succeeded:
+Every mandatory step succeeded, including:
 
-- checkout, setup, compile and collection;
 - Task file and Project Readiness;
 - Program Plan Integrity, History and Finalization;
-- completion-aware Agent Coordination;
-- 223 governance tests and skip audit;
+- completion-aware Agent Coordination and Scope;
+- 200 governance tests and skip audit;
 - Markdown and Schema validation;
 - Secret scan;
 - Evidence and Evidence integrity;
-- PR/Task linkage;
-- completion-aware Scope and Spec Sync;
-- repository-boundary and workflow static checks.
+- PR/Task linkage and Spec Sync;
+- repository-boundary and Workflow static checks.
+
+### Mandatory pre-approval review finding after Gate #196
+
+The exact-head manual review intentionally continued after the green Gate. It found that the live Ruleset verifier did not require `strict_required_status_checks_policy=true`. A Ruleset could therefore require Governance Checks but still allow them to be evaluated against a stale target-branch base.
+
+The repair adds:
+
+- fail-closed validation of `strict_required_status_checks_policy`;
+- a negative test proving `false` is rejected;
+- a positive test proving a complete Ruleset with `true` is accepted.
+
+This aligns the verifier with OPS-001's “Require branch to be up to date before merge” requirement and GitHub's Ruleset API semantics.
 
 ## Final integration condition
 
-This Evidence refresh creates a later PR HEAD. Integration remains blocked until that final HEAD has:
+The code and Evidence changes after Gate #196 create a new PR HEAD. Integration remains blocked until that exact final HEAD has:
 
 1. a successful Governance Gate;
 2. a fresh independent Codex review of the same SHA with no findings;
