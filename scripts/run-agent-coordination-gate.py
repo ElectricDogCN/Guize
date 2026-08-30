@@ -5,15 +5,16 @@ Active/reservation work is validated against its current Active Work entry by
 ``check-agent-coordination.py --task``. A Completion PR intentionally removes
 that entry, so task-specific completion semantics are owned by the mandatory
 Program History checker. For completed Task Specs this dispatcher therefore
-runs the global Registry validation only; the workflow and ``make verify`` run
-Program Integrity/History immediately before this command.
+runs the global Registry validation only; Program Integrity/History/Finalization
+run immediately before this command in both CI and ``make verify``.
 
-The dispatcher also performs a repository-wide lifecycle guard: every ordinary
-Program task whose Program Plan state is ``completed`` must retain a Task Spec
-whose completion state and stable Program identity exactly match the canonical
-plan. Legacy Foundation tasks are intentionally excluded because their older
-Task Specs may use the historical ``approved`` state and are governed by
-Foundation provenance checks instead.
+The dispatcher also performs repository-wide lifecycle guards:
+
+* every ordinary Program task marked ``completed`` must retain a Task Spec whose
+  completion state and stable Program identity match the canonical plan;
+* completed Foundation tasks with schemaVersion metadata must remain exactly
+  ``completed``; only historical pre-schema Foundation specs may retain the
+  legacy ``approved`` state.
 """
 
 from __future__ import annotations
@@ -88,19 +89,53 @@ def as_list(value: Any) -> list[str]:
     return [part.strip() for part in text.strip("[]").split(",") if part.strip()]
 
 
-def validate_completed_program_specs(root: str) -> list[str]:
-    """Reject completed Program tasks whose Task Spec identity has drifted."""
+def load_program_plan(root: str) -> tuple[dict[str, Any] | None, list[str]]:
     path = os.path.join(root, PROGRAM_PLAN)
     if not os.path.isfile(path):
-        return []
+        return None, []
     try:
         with open(path, "r", encoding="utf-8") as handle:
             plan: Any = yaml.safe_load(handle)
     except (OSError, yaml.YAMLError) as exc:
-        return [f"Cannot read canonical Program Plan lifecycle state: {exc}"]
+        return None, [f"Cannot read canonical Program Plan lifecycle state: {exc}"]
     if not isinstance(plan, dict):
-        return ["Canonical Program Plan is not a mapping"]
+        return None, ["Canonical Program Plan is not a mapping"]
+    return plan, []
 
+
+def validate_completed_foundation_specs(root: str, plan: dict[str, Any]) -> list[str]:
+    """Preserve schema-versioned Foundation completion; limit legacy exception."""
+    errors: list[str] = []
+    for foundation in plan.get("foundationTasks") or []:
+        if not isinstance(foundation, dict) or foundation.get("status") != "completed":
+            continue
+        task_id = str(foundation.get("taskId") or "")
+        spec = find_task_file(root, task_id)
+        if not spec:
+            errors.append(f"Completed Foundation task {task_id} has no unique Task Spec")
+            continue
+        try:
+            document = task_document(spec)
+        except (OSError, ValueError, yaml.YAMLError) as exc:
+            errors.append(f"Completed Foundation task {task_id} Task Spec is unreadable: {exc}")
+            continue
+        schema_version = document.get("schemaVersion")
+        status = document.get("status")
+        if schema_version is None:
+            if status not in {"approved", "completed"}:
+                errors.append(
+                    f"Legacy completed Foundation task {task_id} Task Spec has invalid status {status!r}"
+                )
+        elif status != "completed":
+            errors.append(
+                f"schemaVersion {schema_version} completed Foundation task {task_id} Task Spec "
+                f"status must remain completed, got {status!r}"
+            )
+    return errors
+
+
+def validate_completed_program_specs(root: str, plan: dict[str, Any]) -> list[str]:
+    """Reject completed Program tasks whose Task Spec identity has drifted."""
     errors: list[str] = []
     scalar_pairs = {
         "title": "titleZh",
@@ -150,7 +185,6 @@ def validate_completed_program_specs(root: str) -> list[str]:
             errors.append(
                 f"Completed Program task {task_id} Task Spec coordinationMode must remain registry"
             )
-
         for plan_field, spec_field in scalar_pairs.items():
             if str(document.get(spec_field, "")) != str(task.get(plan_field, "")):
                 errors.append(
@@ -181,7 +215,10 @@ def main() -> int:
         print(f"FAIL: Coordination checker does not exist: {script}")
         return 2
 
-    lifecycle_errors = validate_completed_program_specs(root)
+    plan, lifecycle_errors = load_program_plan(root)
+    if plan is not None:
+        lifecycle_errors.extend(validate_completed_foundation_specs(root, plan))
+        lifecycle_errors.extend(validate_completed_program_specs(root, plan))
     if lifecycle_errors:
         for error in lifecycle_errors:
             print(f"FAIL: {error}")
