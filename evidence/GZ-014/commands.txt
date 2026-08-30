@@ -1,41 +1,31 @@
 GZ-014 command evidence
 
-command: merge PR #26 exact head ef7a666271ad7edcb7e0264d756796000af6c86b
+command: merge PR #28 exact head 940d094445907aebc44d278caba0b3096f8ca324
 exit code: 0
 result: PASS
-observed result: lifecycle wrapper repair merged as ef1048344aa082c678e5ef948dc7f62e5aa84510
+observed result: GZ-014 review transition merged as b15ed0dd907c59a69f1fd178907f648fef2b880a
 
-command: inspect post-merge main Governance Gate #267
+command: inspect post-merge main Governance Gate #276
 exit code: HTTP 200
 result: PASS
-observed result: all mandatory main-push checks succeeded
+observed result: all mandatory main-push checks succeeded with Foundation review state
 
-command: merge PR #27 exact head cba16c70cb3c3b62fd252a279bcccd035e16a586
+command: create branch chore/GZ-014-foundation-integration from b15ed0dd907c59a69f1fd178907f648fef2b880a
 exit code: 0
-result: PASS
-observed result: Foundation review/integration states and regression coverage merged as 44b66f699e333af9781779dc18665bad0850d9c4
-
-command: inspect post-merge main Governance Gate #274
-exit code: HTTP 200
-result: PASS
-observed result: all mandatory main-push checks succeeded
-
-command: create branch chore/GZ-014-foundation-review from 44b66f699e333af9781779dc18665bad0850d9c4
-exit code: 0
-observed result: metadata-only review branch created from verified main
+observed result: metadata-only integration branch created from verified review main
 
 command: update Program Plan GZ-014 Foundation status
 exit code: 0
-observed result: only GZ-014 Foundation status changed from in_progress to review
+observed result: only GZ-014 Foundation status changed from review to integration
 
 command: update Active Work and Task Spec
 exit code: 0
-observed result: status review, role reviewer, branch/base synchronized; policy, roles, paths, Lease and contract sets otherwise preserved
+observed result: status integration, role integrator, branch/base synchronized; policy, roles, paths, Lease and contract sets otherwise preserved
 
-command: refresh GZ-014 review Evidence
+command: refresh GZ-014 integration Evidence
 exit code: 0 for completed GitHub contents writes
-observed result: Summary, Commands, Changed Files, Test Results and Handoff describe the review transition and pending validation
+observed result: Summary, Commands, Changed Files, Test Results and Handoff describe integration and pending completion inputs
 
-command: review transition exact-head Gate, fresh Review and merge
+command: integration transition exact-head Gate, fresh Review and merge
 exit code: pending
-observed result: no future result is claimed; read the latest PR HEAD and GitHub Actions
+observed result: no future result is claimed; use the latest PR HEAD and GitHub Actions

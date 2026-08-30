@@ -1,12 +1,12 @@
-# GZ-014 Foundation Review Handoff
+# GZ-014 Foundation Integration Handoff
 
 ## Identity
 
 - Task: GZ-014
 - Issue: #17
-- Branch: `chore/GZ-014-foundation-review`
-- Base: `main@44b66f699e333af9781779dc18665bad0850d9c4`
-- Phase: `review`
+- Branch: `chore/GZ-014-foundation-integration`
+- Base: `main@b15ed0dd907c59a69f1fd178907f648fef2b880a`
+- Phase: `integration`
 - Program Wave: FOUNDATION
 - Risk: high
 - Integration Order: 1
@@ -19,40 +19,39 @@
 - Independent Reviewer: `independent-governance-review-agent`
 - Integrator: `integration-agent`
 - Human Owner: `ElectricDogCN`
-- Current role: Reviewer
+- Current role: Integrator
 
 ## Transition scope
 
-- Program Foundation GZ-014: `in_progress -> review`;
-- Task Spec: `in_progress -> review`;
-- Active Work: `in_progress -> review`;
-- agentRole: `implementer -> reviewer`;
-- branch/base: current review branch and `44b66f699e333af9781779dc18665bad0850d9c4`.
+- Program Foundation GZ-014: `review -> integration`;
+- Task Spec: `review -> integration`;
+- Active Work: `review -> integration`;
+- agentRole: `reviewer -> integrator`;
+- branch/base: integration branch and `b15ed0dd907c59a69f1fd178907f648fef2b880a`.
 
-No implementation file, lifecycle rule, Program task definition, completion provenance, Issue state, Lease or downstream task is changed.
-
-## Reviewer exact action
-
-1. Read the actual latest diff and exact-head Governance Gate.
-2. Verify only GZ-014 Foundation status changed in Program Plan.
-3. Verify Task/Registry status, branch, baseSha, role, Lease, dependencies, paths and contract sets are consistent.
-4. Re-check PR #21/#22/#26/#27 history, failure Evidence and post-merge Gates.
-5. Verify Foundation completion is not yet claimed and Issue #17 remains open.
-6. Submit a review conclusion only for the latest HEAD.
+No implementation, lifecycle rule, completion provenance, Issue state, Lease or downstream task changes.
 
 ## Integrator exact action
 
-1. Require latest Gate success and zero unresolved blocker threads.
-2. Re-read actual changed-file inventory.
-3. Record authorized re-review against exact HEAD.
-4. Merge using `expected_head_sha`.
-5. Verify post-merge `main` Governance Gate.
-6. Create a separate `review -> integration` branch from that merge.
+1. Read actual latest diff and exact-head Governance Gate.
+2. Verify only GZ-014 Foundation status changed in Program Plan.
+3. Verify Task/Registry status, branch, baseSha, role, Lease, dependencies, paths and contract sets.
+4. Re-check PR #26 implementation merge and all later post-merge Gates.
+5. Confirm Issue #17 remains open and completion is not claimed.
+6. Record approval only for latest HEAD, merge with expected SHA, then verify post-merge main Gate.
 
-## Completion boundary
+## Completion exact inputs
 
-GZ-014 cannot complete from this PR. Completion remains blocked until review enters green `main`, integration enters green `main`, Issue #17 is closed with `state_reason=completed` at the required stage, structured Evidence is refreshed, PR #26 merge provenance is recorded and only the GZ-014 Lease is removed.
+After integration enters green main, the Completion PR must:
+
+- start from that exact main commit;
+- close Issue #17 with `state_reason=completed` when required by lifecycle Gate;
+- change Foundation and Task to `completed`;
+- set `completionRef: PR-26` and `mergeCommit: ef1048344aa082c678e5ef948dc7f62e5aa84510`;
+- remove only the GZ-014 Active Work entry, preserving policy;
+- leave ordinary `task-completions.yaml` unchanged for this Foundation;
+- refresh structured Summary, Commands, Test Results and Handoff containing Task ID, implementation merge SHA, executed commands, exit code 0 and explicit PASS/COMPLETED.
 
 ## Rollback
 
-Before merge, close the PR and retain Evidence. After merge, revert the metadata transition through a dedicated PR; do not directly update or rewrite `main`.
+Before merge, close the PR and retain Evidence. After merge, revert the integration metadata through a dedicated PR; do not directly update or rewrite `main`.

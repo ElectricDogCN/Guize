@@ -4,44 +4,43 @@
 
 - Task: GZ-014
 - Issue: #17
-- Phase: `FOUNDATION_REVIEW`
-- Branch: `chore/GZ-014-foundation-review`
-- Base: `main@44b66f699e333af9781779dc18665bad0850d9c4`
-- Foundation state-model PR: #27 / merge `44b66f699e333af9781779dc18665bad0850d9c4`
-- Post-merge main Governance Gate: run #274, success
-- External blocker OPS-001 #20 remains open and gates only GZ-020.
+- Phase: `FOUNDATION_INTEGRATION`
+- Branch: `chore/GZ-014-foundation-integration`
+- Base: `main@b15ed0dd907c59a69f1fd178907f648fef2b880a`
+- Review PR: #28 / merge `b15ed0dd907c59a69f1fd178907f648fef2b880a`
+- Post-review main Governance Gate: run #276, success
+- Implementation provenance for completion: PR #26 / `ef1048344aa082c678e5ef948dc7f62e5aa84510`
+- OPS-001 #20 remains open and gates only GZ-020.
 
 ## Transition
 
-This branch performs one lifecycle transition only:
-
 ```text
-GZ-014 Foundation: in_progress -> review
-Task Spec:          in_progress -> review
-Active Work:        in_progress -> review
-Agent role:         implementer -> reviewer
+GZ-014 Foundation: review -> integration
+Task Spec:          review -> integration
+Active Work:        review -> integration
+Agent role:         reviewer -> integrator
 ```
 
-Program Plan content outside the GZ-014 Foundation status, Active Work policy/other entries, implementation files, completion provenance and downstream tasks remain unchanged. The GZ-014 Lease remains active.
+No implementation, completion provenance, Issue closure, Lease release or downstream reservation occurs. Program content outside the GZ-014 Foundation status and Active Work outside the GZ-014 phase metadata remain unchanged.
 
-## Review inputs
+## Integration review inputs
 
-The independent Reviewer must re-check:
+Integrator must verify:
 
-- PR #21/#22/#26/#27 history and their post-merge Gates;
-- canonical Program Plan, module/contract ownership and lifecycle checks;
-- unresolved failure evidence from prior runs;
-- GZ-014 completion preconditions, Issue state and exact implementation merge identity;
-- current metadata-only diff and path constraints.
+- all GZ-014 implementation and lifecycle PRs and post-merge Gates;
+- exact implementation merge identity PR #26 / `ef104834…`;
+- Issue #17 completion timing and structured Evidence requirements;
+- completion-only file boundary and Lease removal semantics;
+- current metadata-only diff, fresh Gate and review threads.
 
-## Current validation boundary
+## Validation boundary
 
-No review PR number, Gate result, approval or merge is pre-claimed in this file. The latest branch HEAD must pass its own Governance Gate and fresh Review before integration.
+No integration PR number, final Gate, approval, merge or completion is pre-claimed. The latest branch HEAD must pass Governance Gate and fresh Review.
 
 ## Next sequence
 
-1. merge the review transition after exact-head approval;
-2. verify post-merge `main` Gate;
-3. create an independent `review -> integration` metadata PR;
-4. only after integration enters green `main`, create the Foundation Completion PR;
-5. GZ-004 and GZ-010 remain blocked until completion and Lease release.
+1. merge this integration transition and verify post-merge main Gate;
+2. close Issue #17 with `state_reason=completed` immediately before the completion Gate requires it;
+3. create Foundation Completion PR from green integration main;
+4. mark GZ-014 completed, record PR #26 merge provenance, remove only its Lease and refresh structured Evidence;
+5. verify completion merge and post-merge main Gate before W1 reservations.
