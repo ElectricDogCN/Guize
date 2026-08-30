@@ -3,40 +3,71 @@
 ## Trigger
 
 - Lifecycle hardening merge: PR #22 / `903754295e4a0393638c82aa851c3ada8cd507fb`
-- Post-merge main Gate: run #237
-- Failed first repair attempt: PR #23, closed without merge
+- Failed post-merge `main` Governance Gate: run #237
+- Closed first repair attempt: PR #23, not merged
+- Current clean Reservation: PR #24
 
 ## Reservation objective
 
-Move the existing active GZ-014 Foundation Lease from the ended repair branch to one authoritative work branch and verified base before any new test implementation is committed.
+Move the existing active GZ-014 Foundation Lease from the ended repair branch to one authoritative work branch and verified base before any new test implementation is committed. This is a lifecycle-metadata Reservation, not the test implementation.
 
 ## Declared context
 
 - Branch: `chore/GZ-014-test-repair-reservation-v2`
-- Base: `903754295e4a0393638c82aa851c3ada8cd507fb`
-- Status: `in_progress`
+- Reservation base: `903754295e4a0393638c82aa851c3ada8cd507fb`
+- Program Foundation status: `in_progress`
+- Task Spec status: `in_progress`
+- Active Work status: `in_progress`
 - Implementer: `governance-hardening-agent`
 - Reviewer: `independent-governance-review-agent`
 - Integrator: `integration-agent`
 - Lease expiry: `2026-09-05T01:59:00Z`
 
+Because all three statuses remain `in_progress`, PR #24 does not modify `specs/coordination/program-plan.yaml`.
+
 ## Reservation-only scope
 
-Expected changed paths:
+The canonical declared PR #24 file set is:
 
-- `specs/coordination/active-work.yaml` — only the GZ-014 branch/baseSha;
-- `specs/tasks/GZ-014.md` — current branch/base and Reservation specification;
+- `specs/coordination/active-work.yaml`;
+- `specs/tasks/GZ-014.md`;
 - `evidence/GZ-014/handoff.md`;
-- `evidence/GZ-014/test-repair-reservation-v2.md`.
+- `evidence/GZ-014/test-repair-reservation-v2.md`;
+- `evidence/GZ-014/summary.md`;
+- `evidence/GZ-014/commands.txt`;
+- `evidence/GZ-014/changed-files.md`;
+- `evidence/GZ-014/test-results/README.md`.
 
-The Program Plan remains byte-for-byte unchanged with GZ-014 Foundation `in_progress`.
+This Reservation PR must not modify `tests/**`, `scripts/**`, product requirements, business contracts/code, deployment, Secrets, permissions or data.
 
-No `tests/**`, `scripts/**`, product requirement, business contract, business code, deployment, Secret, permission or data change is permitted.
+The prohibition is phase-specific. After Reservation merge and base synchronization, the separate Implementation PR may use the already registered lifetime scope `tests/governance/**` for the minimal repository integration-test repair.
 
-## Post-merge branch rule
+## Post-merge base rule
 
-After this Reservation merges, the same branch must be fast-forwarded to the Reservation merge commit before any implementation commit. The later Implementation PR must contain the test repair and fresh Evidence only after that updated-main baseline is present.
+After PR #24 merges and before any test implementation commit:
 
-## Evidence status
+1. record the actual Reservation merge SHA;
+2. fast-forward the authoritative branch to that merge;
+3. update both `specs/tasks/GZ-014.md` and `specs/coordination/active-work.yaml` `baseSha` to the actual merge SHA;
+4. preserve the same branch, roles, risk, path claims, Lease, Handoff and integration order;
+5. append the minimal test repair and fresh Evidence only after those changes are present.
 
-This file records intent and observed history only. It does not claim the Reservation Gate, Review or merge has succeeded. Those results must be obtained from the exact latest PR HEAD.
+A later Implementation PR that still uses `903754...` as its Task/Registry `baseSha` must fail review.
+
+## Validation history
+
+- PR #24 Gate #245 succeeded on `8efc71cf21ca0a6c9543722b89d8cad37cc71018`.
+- Fresh Review then found five P1 canonical state/Evidence issues.
+- The latest remediated HEAD is newer than Gate #245 and must receive a new Gate and fresh Review.
+
+## Evidence authority
+
+This file is a Reservation-specific supplement. The canonical current status is maintained in:
+
+- `evidence/GZ-014/summary.md`;
+- `evidence/GZ-014/commands.txt`;
+- `evidence/GZ-014/changed-files.md`;
+- `evidence/GZ-014/test-results/README.md`;
+- `evidence/GZ-014/handoff.md`.
+
+No success is inferred from this note alone.
