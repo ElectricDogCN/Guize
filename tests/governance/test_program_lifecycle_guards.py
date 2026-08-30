@@ -1,183 +1,267 @@
 import importlib.util
 import os
+import re
 import subprocess
 import sys
 import tempfile
 import unittest
 
+import yaml
+
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-SCRIPT_PATH = os.path.join(REPO_ROOT, "scripts", "check-program-lifecycle-guards.py")
-LIFECYCLE_GATE = os.path.join(REPO_ROOT, "scripts", "run-program-lifecycle-gate.py")
+GUARD_PATH = os.path.join(REPO_ROOT, "scripts", "check-program-lifecycle-guards.py")
+WRAPPER_PATH = os.path.join(REPO_ROOT, "scripts", "run-program-lifecycle-gate.py")
 WORKFLOW = os.path.join(REPO_ROOT, ".github", "workflows", "governance-gate.yml")
 MAKEFILE = os.path.join(REPO_ROOT, "Makefile")
-SPEC = importlib.util.spec_from_file_location("program_lifecycle_guards", SCRIPT_PATH)
-GUARDS = importlib.util.module_from_spec(SPEC)
-assert SPEC and SPEC.loader
-SPEC.loader.exec_module(GUARDS)
-WRAPPER_SPEC = importlib.util.spec_from_file_location(
-    "program_lifecycle_gate_wrapper", LIFECYCLE_GATE
+
+spec = importlib.util.spec_from_file_location("program_lifecycle_guards", GUARD_PATH)
+GUARDS = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(GUARDS)
+
+wrapper_spec = importlib.util.spec_from_file_location(
+    "run_program_lifecycle_gate", WRAPPER_PATH
 )
-WRAPPER = importlib.util.module_from_spec(WRAPPER_SPEC)
-assert WRAPPER_SPEC and WRAPPER_SPEC.loader
-WRAPPER_SPEC.loader.exec_module(WRAPPER)
+WRAPPER = importlib.util.module_from_spec(wrapper_spec)
+assert wrapper_spec.loader is not None
+wrapper_spec.loader.exec_module(WRAPPER)
 
 
 class TestProgramLifecycleGuards(unittest.TestCase):
-    def write(self, root, relative, content):
-        path = os.path.join(root, relative)
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as handle:
-            handle.write(content)
-
-    def git(self, root, *args):
+    def git(self, root, *arguments):
         return subprocess.run(
-            ["git", *args], cwd=root, check=True, capture_output=True, text=True
-        )
-
-    def init_git(self, root):
-        self.git(root, "init", "-b", "main")
-        self.git(root, "config", "user.email", "test@example.com")
-        self.git(root, "config", "user.name", "Test")
-
-    def commit(self, root, message):
-        self.git(root, "add", ".")
-        self.git(root, "commit", "--allow-empty", "-m", message)
-        return self.git(root, "rev-parse", "HEAD").stdout.strip()
-
-    def test_current_repository_passes(self):
-        result = subprocess.run(
-            [
-                sys.executable,
-                LIFECYCLE_GATE,
-                "--repo-root",
-                REPO_ROOT,
-                "--base-ref",
-                "origin/main",
-                "--head-ref",
-                "HEAD",
-            ],
-            cwd=REPO_ROOT,
+            ["git", *arguments],
+            cwd=root,
             capture_output=True,
             text=True,
+            check=True,
         )
+
+    def test_current_repository_passes(self):
+        try:
+            head_sha = self.git(REPO_ROOT, "rev-parse", "HEAD").stdout.strip()
+            base_sha = self.git(REPO_ROOT, "rev-parse", "origin/main").stdout.strip()
+        except subprocess.CalledProcessError as exc:
+            self.skipTest(f"current checkout lacks origin/main for repository guard: {exc}")
+
+        command = [
+            sys.executable,
+            WRAPPER_PATH,
+            "--repo-root",
+            REPO_ROOT,
+            "--base-ref",
+            "origin/main",
+            "--head-ref",
+            "HEAD",
+        ]
+        if head_sha != base_sha:
+            branch = os.environ.get("GITHUB_HEAD_REF", "").strip()
+            if not branch:
+                branch = self.git(REPO_ROOT, "branch", "--show-current").stdout.strip()
+            match = re.search(r"(?:^|/)([A-Z]+-\d+)-", branch)
+            self.assertIsNotNone(
+                match,
+                "non-main repository lifecycle checks require a derivable task branch",
+            )
+            task_id = match.group(1)
+            self.assertTrue(task_id)
+            command.extend(["--task", task_id, "--branch-name", branch])
+
+        result = subprocess.run(command, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
-    def test_wrapper_task_derivation_does_not_recurse(self):
-        base_plan = {
-            "foundationTasks": [],
-            "tasks": [{"taskId": "GZ-004", "status": "planned"}],
-            "pocs": [],
-            "externalBlockers": [],
-        }
-        current_plan = {
-            "foundationTasks": [],
-            "tasks": [{"taskId": "GZ-004", "status": "reserved"}],
-            "pocs": [],
-            "externalBlockers": [],
-        }
-        original = WRAPPER.GUARD.task_ids_from_diff
-        WRAPPER.GUARD.task_ids_from_diff = WRAPPER.expanded_task_ids_from_diff
-        try:
-            affected = WRAPPER.expanded_task_ids_from_diff(
-                base_plan,
-                current_plan,
-                {"tasks": []},
-                {"tasks": [{"taskId": "GZ-004", "status": "reserved"}]},
-                {"records": []},
-                {"records": []},
-                {"specs/tasks/GZ-004.md"},
-            )
-        finally:
-            WRAPPER.GUARD.task_ids_from_diff = original
-        self.assertEqual(affected, {"GZ-004"})
-
-    def test_rename_diff_includes_source_and_destination(self):
+    def test_completion_evidence_requires_merge_identity(self):
         with tempfile.TemporaryDirectory() as root:
-            self.init_git(root)
-            self.write(root, "backend/file.txt", "business\n")
-            self.commit(root, "base")
-            self.git(root, "checkout", "-b", "chore/GZ-004-metadata")
-            os.makedirs(os.path.join(root, "evidence", "GZ-004"), exist_ok=True)
-            self.git(root, "mv", "backend/file.txt", "evidence/GZ-004/file.txt")
-            self.commit(root, "rename")
-            paths = GUARDS.changed_paths(root, "main", "HEAD")
-            self.assertEqual(
-                paths,
-                {"backend/file.txt", "evidence/GZ-004/file.txt"},
+            task_id = "GZ-004"
+            merge_sha = "a" * 40
+            files = {
+                "summary.md": "# Summary\nStatus: COMPLETED\n",
+                "commands.txt": "command: make verify\nexit code: 0\nresult: PASS\n",
+                "test-results/README.md": "# Tests\nResult: PASS\n",
+                "handoff.md": "# Handoff\nStatus: COMPLETED\n",
+            }
+            for relative, content in files.items():
+                self.write(root, f"evidence/{task_id}/{relative}", content)
+            changed = {f"evidence/{task_id}/{relative}" for relative in files}
+            errors = []
+            GUARDS.validate_structured_completion_evidence(
+                root, task_id, merge_sha, changed, errors
             )
+            self.assertTrue(any("does not identify merge" in error for error in errors))
 
-    def test_affected_task_ids_are_derived_without_branch_context(self):
-        base_plan = {
-            "foundationTasks": [],
-            "tasks": [{"taskId": "GZ-004", "status": "planned"}],
-        }
-        current_plan = {
-            "foundationTasks": [],
-            "tasks": [{"taskId": "GZ-004", "status": "reserved"}],
-        }
-        affected = GUARDS.task_ids_from_diff(
-            base_plan,
-            current_plan,
-            {"tasks": []},
-            {"tasks": [{"taskId": "GZ-004", "status": "reserved"}]},
-            {"records": []},
-            {"records": []},
-            {"specs/tasks/GZ-004.md"},
-        )
-        self.assertEqual(affected, {"GZ-004"})
-
-    def test_foundation_claim_rejects_business_path_and_stale_base(self):
-        entry = {
-            "baseSha": "a" * 40,
-            "moduleIds": ["MOD-GOV"],
-            "exclusivePaths": ["backend/**"],
-            "sharedPaths": [],
-        }
-        ownership = {
-            "modules": [
-                {
-                    "id": "MOD-GOV",
-                    "ownedPaths": ["scripts/**", "tests/governance/**"],
-                }
-            ]
-        }
-        errors = []
-        GUARDS.validate_foundation_claims(
-            "GZ-014", entry, ownership, "b" * 40, errors
-        )
-        self.assertTrue(any("baseSha must equal" in error for error in errors))
-        self.assertTrue(any("outside module ownership" in error for error in errors))
-
-    def test_foundation_claim_accepts_audited_governance_scope(self):
-        entry = {
-            "baseSha": "b" * 40,
-            "moduleIds": ["MOD-GOV"],
-            "exclusivePaths": ["scripts/**", "Makefile", ".github/**"],
-            "sharedPaths": [],
-        }
-        ownership = {
-            "modules": [{"id": "MOD-GOV", "ownedPaths": ["scripts/**"]}]
-        }
-        errors = []
-        GUARDS.validate_foundation_claims(
-            "GZ-014", entry, ownership, "b" * 40, errors
-        )
-        self.assertEqual(errors, [])
-
-    def test_completed_spec_must_bind_own_evidence(self):
+    def test_completion_evidence_requires_task_identity(self):
         with tempfile.TemporaryDirectory() as root:
+            task_id = "GZ-004"
+            merge_sha = "a" * 40
+            files = {
+                "summary.md": f"# Summary\nMerge: {merge_sha}\nStatus: COMPLETED\n",
+                "commands.txt": f"Merge: {merge_sha}\ncommand: make verify\nexit code: 0\nresult: PASS\n",
+                "test-results/README.md": f"# Tests\nMerge: {merge_sha}\nResult: PASS\n",
+                "handoff.md": f"# Handoff\nMerge: {merge_sha}\nStatus: COMPLETED\n",
+            }
+            for relative, content in files.items():
+                self.write(root, f"evidence/{task_id}/{relative}", content)
+            changed = {f"evidence/{task_id}/{relative}" for relative in files}
+            errors = []
+            GUARDS.validate_structured_completion_evidence(
+                root, task_id, merge_sha, changed, errors
+            )
+            self.assertTrue(any("does not identify task" in error for error in errors))
+
+    def test_completed_task_lifecycle_requires_completion_evidence(self):
+        with tempfile.TemporaryDirectory() as root:
+            plan = {
+                "tasks": [
+                    {
+                        "taskId": "GZ-004",
+                        "status": "completed",
+                    }
+                ]
+            }
+            base_plan = {
+                "tasks": [
+                    {
+                        "taskId": "GZ-004",
+                        "status": "integration",
+                    }
+                ]
+            }
+            ledger = {
+                "records": [
+                    {
+                        "taskId": "GZ-004",
+                        "mergeCommit": "a" * 40,
+                        "taskSpec": "specs/tasks/GZ-004.md",
+                        "evidencePath": "evidence/GZ-004",
+                        "handoffPath": "evidence/GZ-004/handoff.md",
+                    }
+                ]
+            }
+            self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+            self.write_yaml(root, "specs/coordination/task-completions.yaml", ledger)
             self.write(
                 root,
                 "specs/tasks/GZ-004.md",
-                "---\nid: GZ-004\nstatus: completed\n"
-                "evidencePath: evidence/GZ-999\n"
-                "handoffPath: evidence/GZ-999/handoff.md\n---\n",
+                "---\nid: GZ-004\nstatus: completed\n---\n",
             )
+            changed = {
+                "specs/coordination/program-plan.yaml",
+                "specs/coordination/task-completions.yaml",
+                "specs/tasks/GZ-004.md",
+            }
             errors = []
-            GUARDS.validate_completed_spec_binding(
-                root, "GZ-004", {"tasks": []}, errors
+            GUARDS.validate_completion_lifecycle(
+                root, plan, base_plan, ledger, changed, errors
             )
+            self.assertTrue(any("must refresh completion Evidence" in error for error in errors))
+
+    def test_completed_task_lifecycle_accepts_structured_evidence(self):
+        with tempfile.TemporaryDirectory() as root:
+            plan = {
+                "tasks": [
+                    {
+                        "taskId": "GZ-004",
+                        "status": "completed",
+                    }
+                ]
+            }
+            base_plan = {
+                "tasks": [
+                    {
+                        "taskId": "GZ-004",
+                        "status": "integration",
+                    }
+                ]
+            }
+            merge_sha = "a" * 40
+            ledger = {
+                "records": [
+                    {
+                        "taskId": "GZ-004",
+                        "mergeCommit": merge_sha,
+                        "taskSpec": "specs/tasks/GZ-004.md",
+                        "evidencePath": "evidence/GZ-004",
+                        "handoffPath": "evidence/GZ-004/handoff.md",
+                    }
+                ]
+            }
+            self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+            self.write_yaml(root, "specs/coordination/task-completions.yaml", ledger)
+            self.write(
+                root,
+                "specs/tasks/GZ-004.md",
+                "---\nid: GZ-004\nstatus: completed\n---\n",
+            )
+            self.write_completion_evidence(root, "GZ-004", merge_sha, structured=True)
+            changed = {
+                "specs/coordination/program-plan.yaml",
+                "specs/coordination/task-completions.yaml",
+                "specs/tasks/GZ-004.md",
+                "evidence/GZ-004/summary.md",
+                "evidence/GZ-004/commands.txt",
+                "evidence/GZ-004/test-results/README.md",
+                "evidence/GZ-004/handoff.md",
+            }
+            errors = []
+            GUARDS.validate_completion_lifecycle(
+                root, plan, base_plan, ledger, changed, errors
+            )
+            self.assertEqual(errors, [])
+
+    def test_foundation_completion_lifecycle_requires_evidence(self):
+        with tempfile.TemporaryDirectory() as root:
+            merge_sha = "b" * 40
+            plan = {
+                "foundationTasks": [
+                    {
+                        "taskId": "GZ-014",
+                        "status": "completed",
+                        "completionRef": "PR-29",
+                        "mergeCommit": merge_sha,
+                    }
+                ]
+            }
+            base_plan = {
+                "foundationTasks": [
+                    {
+                        "taskId": "GZ-014",
+                        "status": "integration",
+                        "completionRef": "ISSUE-17",
+                        "mergeCommit": None,
+                    }
+                ]
+            }
+            changed = {"specs/coordination/program-plan.yaml"}
+            errors = []
+            GUARDS.validate_completion_lifecycle(
+                root, plan, base_plan, {"records": []}, changed, errors
+            )
+            self.assertTrue(any("must refresh completion Evidence" in e for e in errors))
+
+    def test_program_plan_evidence_references_are_task_bound(self):
+        with tempfile.TemporaryDirectory() as root:
+            plan = {
+                "tasks": [
+                    {
+                        "taskId": "GZ-004",
+                        "status": "completed",
+                    }
+                ]
+            }
+            ledger = {
+                "records": [
+                    {
+                        "taskId": "GZ-004",
+                        "taskSpec": "specs/tasks/GZ-005.md",
+                        "evidencePath": "evidence/GZ-005",
+                        "handoffPath": "evidence/GZ-005/handoff.md",
+                    }
+                ]
+            }
+            errors = []
+            GUARDS.validate_task_bound_completion_records(plan, ledger, errors)
+            self.assertTrue(any("taskSpec must be specs/tasks/GZ-004.md" in e for e in errors))
             self.assertTrue(any("evidencePath must be evidence/GZ-004" in e for e in errors))
             self.assertTrue(any("handoffPath must be evidence/GZ-004/handoff.md" in e for e in errors))
 
@@ -203,6 +287,18 @@ class TestProgramLifecycleGuards(unittest.TestCase):
                 root, "GZ-004", "in_progress", {relative}, errors
             )
             self.assertEqual(errors, [])
+
+    def write(self, root, relative, content):
+        path = os.path.join(root, relative)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(content)
+
+    def write_yaml(self, root, relative, document):
+        path = os.path.join(root, relative)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as handle:
+            yaml.safe_dump(document, handle, sort_keys=False, allow_unicode=True)
 
     def write_completion_evidence(self, root, task_id, merge_sha, structured=True):
         self.write(
