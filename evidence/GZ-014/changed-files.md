@@ -3,9 +3,10 @@
 ## Current phase
 
 - Task: GZ-014
-- Phase: `FOUNDATION_INTEGRATION`
-- Branch: `chore/GZ-014-foundation-integration`
-- Base: `main@b15ed0dd907c59a69f1fd178907f648fef2b880a`
+- Phase: `FOUNDATION_COMPLETION`
+- Branch: `chore/GZ-014-foundation-completion`
+- Base: `main@c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
+- Completion identity: PR #29 / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
 
 ## Declared files
 
@@ -20,16 +21,20 @@
 
 ## Exact semantic change
 
-- only GZ-014 Foundation status changes from `review` to `integration`;
-- only GZ-014 Task/Registry phase, role, branch and base are synchronized;
-- Evidence is refreshed for completion preparation.
+- GZ-014 Foundation status changes from `integration` to `completed`;
+- Foundation provenance becomes `completionRef: PR-29` and `mergeCommit: c26fc712e050dba4e83c9af022fd25b8f7e84d6d`;
+- PR #26 / `ef104834...` remains only earlier implementation/repair history;
+- GZ-014 Task Spec becomes `completed` on the completion branch/base;
+- only the GZ-014 Active Work Lease is removed;
+- task-bound completion Evidence is refreshed.
 
 ## Explicitly unchanged
 
-- Program Plan tasks, POCs, waves, blockers, release policy and all other Foundations;
+- ordinary `specs/coordination/task-completions.yaml`;
+- all other Foundations, Program tasks, POCs, waves, blockers and release policy;
 - Active Work policy and any other task entry;
-- lifecycle code, tests, Workflow and Makefile;
-- Issue state, completionRef, mergeCommit and Lease;
-- requirements, contracts, business code, deployment, Secrets, permissions and production data.
+- lifecycle code, schemas, tests, Workflow and Makefile;
+- requirements, business contracts/code, deployment, Secrets, permissions and production data;
+- OPS-001 #20 remains open and gates only GZ-020.
 
-Integrator must compare GitHub's actual latest file list with these eight paths before approval. Any unexpected path, failed Gate, stale base or unresolved blocker prevents merge.
+The Integrator must compare GitHub's actual latest file list with these eight paths before approval. Any unexpected path, failed latest Gate, stale base, incorrect Issue state, provenance mismatch or unresolved blocker prevents merge.
