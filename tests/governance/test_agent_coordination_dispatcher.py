@@ -28,10 +28,7 @@ class TestAgentCoordinationDispatcher(unittest.TestCase):
     def write_fake_checker(self, root):
         path = os.path.join(root, "fake-checker.py")
         with open(path, "w", encoding="utf-8") as handle:
-            handle.write(
-                "import json, sys\n"
-                "print(json.dumps(sys.argv[1:]))\n"
-            )
+            handle.write("import json, sys\nprint(json.dumps(sys.argv[1:]))\n")
         return path
 
     def run_dispatcher(self, root, status):
@@ -75,11 +72,11 @@ class TestAgentCoordinationDispatcher(unittest.TestCase):
             self.assertNotIn('"--task"', result.stdout)
             self.assertIn('"--repo-root"', result.stdout)
 
-    def test_approved_is_not_completion(self):
+    def test_unsupported_status_fails_closed(self):
         with tempfile.TemporaryDirectory() as root:
             result = self.run_dispatcher(root, "approved")
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn('"--task", "GZ-101"', result.stdout)
+            self.assertEqual(result.returncode, 2)
+            self.assertIn("Unsupported Task status", result.stdout)
 
     def test_missing_task_spec_fails_closed(self):
         with tempfile.TemporaryDirectory() as root:
