@@ -37,8 +37,10 @@ tasks:
       - AGENTS.md
       - README.md
       - MANIFEST.md
+      - Makefile
       - .github/ISSUE_TEMPLATE/agent-task.yml
       - .github/pull_request_template.md
+      - .github/workflows/governance-gate.yml
       - adr/0014-multi-agent-coordination-and-integration.md
       - docs/24-requirements-design-readiness-audit.md
       - docs/25-multi-agent-collaboration-protocol.md
@@ -52,6 +54,7 @@ tasks:
       - scripts/check-agent-coordination.py
       - scripts/check-schemas.py
       - scripts/check-program-plan-integrity.py
+      - scripts/check-program-plan-history.py
       - tests/governance/**
     sharedPaths: []
     handoffPath: evidence/GZ-014/handoff.md
