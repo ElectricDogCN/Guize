@@ -2,114 +2,100 @@
 
 ## Historical validation retained
 
-### Original Reservation
+### Original Foundation and Program Plan work
 
-- Initial Reservation Gate: failed on four asymmetric Requirement/Module mappings and an ambiguous empty shared-scope sentence.
-- Accepted repair: mappings and scope prose corrected without weakening checks.
-- Governance Gate #109: success.
-- PR #18 merge: `d731ce09fbf2535948bc1864490539d06ce1f139`.
+- Original Reservation Gate initially failed on asymmetric Requirement/Module mappings and ambiguous shared-scope prose; repaired without weakening checks.
+- Gate #109 succeeded; PR #18 merged as `d731ce09fbf2535948bc1864490539d06ce1f139`.
+- Program Plan implementation run #111 failed on YAML datetime typing; timestamps were quoted and Schema remained strict.
+- PR #21 merged as `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`.
+- Lifecycle hardening PR #22 passed Gate #236 with 255 governance tests and merged as `903754295e4a0393638c82aa851c3ada8cd507fb`.
 
-### Program Plan implementation
-
-- Governance Gate #111: failed because unquoted ISO lease timestamps became YAML datetime objects.
-- Accepted repair: quote timestamps; keep Schema string-only.
-- PR #21 merge: `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`.
-
-### Post-merge lifecycle hardening
-
-Multiple exact-HEAD Gates and Reviews found and repaired:
-
-- Completion-aware Scope/Coordination dispatch;
-- Foundation status/provenance separation;
-- immutable ordinary Completion Ledger;
-- Reservation snapshot proof;
-- dependency completion ordering and reservation-base ancestry;
-- completion Evidence freshness and target-base merge existence;
-- exact push-range lifecycle validation;
-- no-task main-push affected-task derivation;
-- final GZ-020 transitive closure;
-- live Ruleset include/exclude, latest-target-branch and independent-last-push approval requirements.
-
-Representative retained results:
-
-- Gate #156: failed on first-ledger migration, extensionless `Makefile`, test helper naming and stale workflow assertion.
-- Gate #191: Program controls and 223 tests passed; Agent Coordination rejected bare root `Makefile` scope.
-- Gate #196: success on `da2e1cbf9ca15881fc7cf271b531ffe7353eb067`.
-- Gate #236: success on the final PR #22 repair HEAD, including 255 governance tests and all mandatory lifecycle checks.
-- PR #22 merge: `903754295e4a0393638c82aa851c3ada8cd507fb`.
-
-No accepted control was removed or converted to advisory behavior.
-
-## Post-merge main incident
+## Post-merge incident
 
 ### Main Governance Gate run #237
 
-Validated commit: `903754295e4a0393638c82aa851c3ada8cd507fb`
+Result: `failure`.
+
+- Program Integrity/History/Transitions/Finalization/Lifecycle: PASS;
+- Agent Coordination: PASS;
+- Markdown/Schema/Secret/Evidence/Scope/Spec Sync/CI checks: PASS;
+- Governance tests: FAIL.
+
+PR #23 attempted a repair but was closed without merge because it lacked a prior independent Reservation, had stale Handoff state, and hard-coded GZ-014 for unrelated future main pushes.
+
+## Clean repair Reservation
+
+PR #24 established the implementation branch and exact base independently, retained GZ-014 `in_progress`, and merged as:
+
+```text
+bb22b4cd8662e6c1ed7d3b63255098d8a74237c1
+```
+
+Task and Active Work `baseSha` were then synchronized to that merge before implementation.
+
+## PR #25 implementation validation
+
+### Governance Gate run #256
 
 Result: `failure`.
 
-Observed step outcome:
+Observed defects:
 
-- Task/Project Readiness: PASS;
-- Program Integrity/History/Transitions/Finalization/Lifecycle: PASS;
-- Agent Coordination: PASS;
-- Markdown/Schema/Secret/Evidence/Scope/Spec Sync/CI static checks: PASS;
-- Governance tests: FAIL.
+- Task/Registry exclusive paths differed because bare `Makefile` was not parsed from Task prose;
+- repository integration test entered recursive `task_ids_from_diff` calls in the production lifecycle wrapper.
 
-The failure was isolated to a repository integration test that treated `origin/main == HEAD` as a GZ-014-specific audit base rather than exercising the no-task main-push lifecycle wrapper semantics used by the workflow.
+Accepted repair:
 
-## Closed failed repair attempt
+- Task uses `./Makefile`, which normalizes to Registry `Makefile`;
+- wrapper stores `ORIGINAL_TASK_IDS_FROM_DIFF` before runtime monkey-patching;
+- expanded task derivation calls the immutable original function;
+- regression test applies the runtime monkey-patch and verifies non-recursive task derivation.
 
-### PR #23
+### Governance Gate run #259
 
-Result: closed without merge.
+Validated HEAD: `cc0d378bf19dc936b7d46de833713aa3702e6636`
 
-Review found:
+Result: `failure`.
 
-1. the new test-repair branch had no independently merged Reservation;
-2. canonical Handoff still pointed to the previous branch/base;
-3. the test forced every future unrelated main push through `--task GZ-014`.
+- 254 governance tests passed;
+- two wrapper tests failed because `GUARD.mapping()` does not accept `key="id"` for `externalBlockers`.
 
-The branch, commits and Review history were preserved as failure Evidence.
+Accepted repair:
 
-## Current clean Reservation V2
+- wrapper maps external blockers locally by explicit `id`;
+- base lifecycle guard API and policy remain unchanged.
 
-### PR #24 Gate #245
+### Governance Gate run #260
 
-Validated HEAD: `8efc71cf21ca0a6c9543722b89d8cad37cc71018`
+Validated HEAD: `8914773e6f4c10558ece8cc4f668ced25d0d54c2`
 
 Result: `success`.
 
-The exact Reservation-only file set at that revision passed all mandatory Governance Gate steps.
+All mandatory steps succeeded:
 
-### PR #24 fresh Review
+- compile and collect-only;
+- Task validation;
+- Project Readiness;
+- Program Integrity/History/Transitions/Finalization/Lifecycle;
+- Agent Coordination;
+- 256 governance tests;
+- no skipped tests;
+- Markdown and Schema validation;
+- Secret scan;
+- Evidence and Evidence Integrity;
+- PR/Task linkage;
+- Scope;
+- Spec Sync;
+- repository boundary and CI static validation.
 
-Result: approval withheld; five P1 findings.
+## Final-head condition
 
-Required remediation:
+Canonical Evidence updates are newer than run #260. The Governance Gate attached to the **latest PR #25 HEAD** is the only integration authority. Before merge:
 
-- keep Program/Task/Registry state synchronized;
-- restore a complete resumable Handoff;
-- update Task and Registry `baseSha` to the actual Reservation merge before implementation;
-- limit the no-test-change rule to this Reservation PR;
-- refresh canonical Summary, Commands, Changed Files and Test Results.
+1. latest Gate must conclude `success`;
+2. fresh independent Review must target the same HEAD and report no blocker;
+3. unresolved blocker threads must be zero;
+4. GitHub file inventory must match the declared nine paths;
+5. merge must use `expected_head_sha`.
 
-### Remediation revisions
-
-- `06eaad8a3ecf2d4af5d667dc19fd53b8354bf689` — Task boundary and post-merge base instructions;
-- `fa8822693a02194da4ece85b737d124180c1c627` — resumable Handoff;
-- `90976514769759ded1a5d883dccb043b7f4d43c0` — canonical Summary;
-- subsequent commits — canonical Commands, Changed Files and this Test Results update.
-
-## Latest-head integration condition
-
-The Evidence updates are newer than Gate #245. PR #24 remains blocked until the **exact latest HEAD** has all of the following:
-
-1. Governance Gate `success`;
-2. fresh independent Review with no blocker;
-3. zero unresolved Review threads;
-4. actual changed-file list exactly matching the eight declared metadata/Evidence paths;
-5. final manual Program/Task/Registry/Handoff/Evidence consistency check;
-6. expected-head merge.
-
-After PR #24 merges, Task and Active Work `baseSha` must be updated to the actual Reservation merge SHA before any test implementation commit. The later Implementation PR must then pass its exact-head Gate and Review, and the resulting post-merge `main` Gate must succeed before Foundation Completion.
+After merge, the post-merge `main` Gate must succeed before the separate GZ-014 Foundation Completion PR is created.
