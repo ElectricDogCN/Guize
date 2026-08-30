@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Run the mandatory Task Scope mode for active and completed Tasks.
+"""Run the mandatory Task Scope mode for implementation and lifecycle PRs.
 
-Active work uses the normal allowed/forbidden scope checker. A Completion PR
-is intentionally limited to canonical Program/Registry/Ledger/Task/Evidence
-metadata, which is validated against the integration base by the mandatory
-Program History checker. This dispatcher prevents the ordinary implementation
-scope from incorrectly rejecting that narrow completion transition.
+Implementation/review/integration work uses the ordinary allowed/forbidden
+scope checker. Reservation, blocked-state, cancellation and Completion PRs are
+limited to canonical lifecycle metadata and task-bound Evidence; their exact
+target-base diff is validated by the mandatory Program History/Transitions
+checks instead of the implementation output scope.
 """
 
 from __future__ import annotations
@@ -18,7 +18,8 @@ from typing import Any
 
 import yaml
 
-ACTIVE_TASK_STATES = {"reserved", "in_progress", "blocked", "review", "integration"}
+IMPLEMENTATION_TASK_STATES = {"in_progress", "review", "integration"}
+METADATA_TASK_STATES = {"reserved", "blocked", "cancelled", "completed"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -76,13 +77,19 @@ def main() -> int:
         print(f"FAIL: Cannot read Task Spec status for {args.task}: {exc}")
         return 2
 
-    if status == "completed":
+    if status in METADATA_TASK_STATES:
+        label = {
+            "reserved": "Reservation PR",
+            "blocked": "Blocked-state metadata PR",
+            "cancelled": "Cancellation PR",
+            "completed": "Completion PR",
+        }[status]
         print(
-            f"INFO: {args.task} is a Completion PR; exact changed-file scope is "
-            "validated by the mandatory Program History gate."
+            f"INFO: {args.task} is a {label}; exact changed-file scope is validated "
+            "against the target branch by the mandatory Program lifecycle gates."
         )
         return 0
-    if status not in ACTIVE_TASK_STATES:
+    if status not in IMPLEMENTATION_TASK_STATES:
         print(f"FAIL: Unsupported Task status for scope dispatch: {status!r}")
         return 2
 
