@@ -26,11 +26,7 @@ observed result: external GitHub enforcement blocker recorded and left open
 
 command: Governance Gate #111
 exit code: 1
-observed result: all checks except Schema Validation passed; unquoted ISO lease timestamps were parsed as datetime objects
-
-command: quote Active Work timestamps and re-run implementation validation
-exit code: 0
-observed result: accepted string Schema retained; later implementation Gate succeeded
+observed result: unquoted ISO lease timestamps were parsed as datetime objects; values were quoted and the accepted Schema remained strict
 
 command: merge Program Plan implementation PR #21
 exit code: 0
@@ -38,7 +34,7 @@ observed result: implementation merge 3b29ea90a8a997be5ff7c97b0f24175cb49508ab
 
 command: read latest-HEAD Codex review completed after PR #21 merge
 exit code: 0
-observed result: additional completion provenance, dependency-order, Foundation, final-release and live-Ruleset blockers identified; GZ-014 remained in_progress
+observed result: additional completion provenance, dependency-order, Foundation, release-closure and live-Ruleset blockers identified; GZ-014 remained in_progress
 
 command: create repair branch chore/GZ-014-post-merge-review-repair and PR #22
 exit code: 0
@@ -46,16 +42,36 @@ observed result: canonical post-merge review-repair phase created from implement
 
 command: Governance Gate #156 on 8ff0fc026a79511382c774ddb5aab40a5d7b6a88
 exit code: 1
-observed result: Program History rejected missing base ledger; Agent Coordination rejected extensionless root Makefile path; governance tests found TestCase.run shadowing and stale Workflow Contract expectation
+observed result: initial ledger migration, root Makefile parsing, TestCase.run shadowing and stale workflow assertions were rejected
 
-command: implement migration-aware Program History, mandatory Gate/Makefile integration, Foundation/ordinary completion transitions, reservation snapshot validation and negative tests
+command: implement Program Integrity, Program History, completion ledger, Reservation snapshot, Foundation/ordinary completion separation and negative tests
 exit code: 0
-observed result: no accepted constraint was removed; initial ledger migration is allowed only when the new ledger is empty
+observed result: accepted controls remained fail-closed; Gate #160 later succeeded
 
-command: Governance Gate #160 on fcc4e028822594c3dd8d758dda626977a74f42dc
+command: fresh Codex reviews on later exact heads
 exit code: 0
-observed result: all mandatory steps succeeded, including Program Plan integrity/history, Agent Coordination, governance tests, Schema, Evidence, Scope and Spec Sync
+observed result: six further blockers identified: completion-aware Scope dispatch, schema-versioned Foundation status, completion Evidence freshness, implementation merge presence in target base, Ruleset exclude handling, and Program/Registry execution-state mapping
 
-command: update GZ-014 Evidence after Gate #160
+command: add scripts/check-program-plan-finalization.py and mandatory workflow/Makefile wiring
 exit code: 0
-observed result: summary, commands, test results and Handoff updated; this creates a later HEAD that requires its own Governance Gate and fresh latest-HEAD review
+observed result: execution-state mapping, Foundation Task Spec lifecycle, completion Evidence freshness, target-base merge existence and Ruleset include/exclude checks became mandatory
+
+command: add completion-aware Agent Coordination and Scope dispatchers plus negative tests
+exit code: 0
+observed result: Completion PRs are routed through narrow metadata semantics instead of ordinary implementation scope/lease rules
+
+command: Governance Gate #191 on 771daf58415f1001085d19c4781176acf99afcb0
+exit code: 1
+observed result: Program Integrity/History/Finalization and 223 governance tests passed; Agent Coordination rejected the Task/Registry exclusive path set because bare root Makefile was not parsed as a path
+
+command: change GZ-014 Task root path from Makefile to ./Makefile
+exit code: 0
+observed result: Task parser normalizes ./Makefile to the same Registry path without changing actual scope
+
+command: Governance Gate #192 on 2c8f08ea136fc509bf2d40819fb5eddcaf8f8b4b
+exit code: 0
+observed result: every mandatory step passed, including Task, Readiness, Program Integrity/History/Finalization, Coordination, 223 governance tests, Schema, Evidence, Scope and Spec Sync
+
+command: refresh GZ-014 Evidence after Gate #192
+exit code: 0
+observed result: summary, commands, test results and Handoff are being updated; the resulting later HEAD requires its own Gate and fresh independent review
