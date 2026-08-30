@@ -17,9 +17,9 @@ tasks:
     reviewer: independent-governance-review-agent
     integrator: integration-agent
     agentRole: implementer
-    branch: chore/GZ-014-post-merge-review-repair
+    branch: chore/GZ-014-post-merge-test-repair
     baseBranch: main
-    baseSha: 3b29ea90a8a997be5ff7c97b0f24175cb49508ab
+    baseSha: 903754295e4a0393638c82aa851c3ada8cd507fb
     workPackage: WP-M0-08
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: GZ-014
