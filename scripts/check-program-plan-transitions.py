@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Validate Guize Program reservation scope and lifecycle transitions.
+"""Validate Guize Program lifecycle transitions against the integration base.
 
 Snapshot validators prove that the current documents are internally consistent.
-This checker compares the proposed branch with the target branch and prevents a
-reservation or execution transition from silently rewriting another Program
-task, widening its canonical scope, skipping earlier waves, or putting
-implementation work into the reservation commit recorded by the completion
-ledger.
+This history-aware checker constrains reservation, active, Foundation and
+cancellation changes so one task cannot rewrite another task, widen canonical
+scope, bypass Program waves, or mix implementation into reservation metadata.
 """
 
 from __future__ import annotations
@@ -16,6 +14,7 @@ import copy
 import fnmatch
 import json
 import os
+import re
 import subprocess
 import sys
 from typing import Any
@@ -24,6 +23,7 @@ import yaml
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
+LEDGER = "specs/coordination/task-completions.yaml"
 TASK_DIR = "specs/tasks"
 ACTIVE_STATES = {"reserved", "in_progress", "blocked", "review", "integration"}
 FINISHED_WAVE_STATES = {"completed", "cancelled"}
@@ -65,6 +65,11 @@ def git(root: str, *arguments: str) -> subprocess.CompletedProcess[str]:
 
 def ref_exists(root: str, ref: str) -> bool:
     return bool(ref) and git(root, "rev-parse", "--verify", f"{ref}^{{commit}}").returncode == 0
+
+
+def resolve_ref(root: str, ref: str) -> str | None:
+    result = git(root, "rev-parse", f"{ref}^{{commit}}")
+    return result.stdout.strip() if result.returncode == 0 else None
 
 
 def read_ref(root: str, ref: str, path: str) -> str | None:
@@ -125,6 +130,63 @@ def find_task_path(root: str, task_id: str, ref: str | None = None) -> str | Non
     return matches[0] if len(matches) == 1 else None
 
 
+def parse_front_matter(text: str | None) -> tuple[dict[str, Any], str]:
+    if not text or not text.startswith("---"):
+        return {}, text or ""
+    parts = text.split("---", 2)
+    if len(parts) < 3:
+        return {}, text
+    try:
+        document = yaml.safe_load(parts[1])
+    except yaml.YAMLError:
+        return {}, parts[2]
+    return (document if isinstance(document, dict) else {}), parts[2]
+
+
+def as_list(value: Any) -> list[str]:
+    if isinstance(value, list):
+        return [str(item) for item in value]
+    text = str(value or "").strip()
+    if not text or text.upper() == "NONE":
+        return []
+    return [part.strip() for part in text.strip("[]").split(",") if part.strip()]
+
+
+def section_paths(body: str, titles: tuple[str, ...]) -> list[str] | None:
+    lines = body.splitlines()
+    start: int | None = None
+    wanted = tuple(value.lower() for value in titles)
+    for index, line in enumerate(lines):
+        if not line.strip().startswith("## "):
+            continue
+        title = re.sub(r"^##\s+", "", line.strip()).lower()
+        if any(item in title for item in wanted):
+            start = index + 1
+            break
+    if start is None:
+        return None
+    paths: list[str] = []
+    for line in lines[start:]:
+        stripped = line.strip()
+        if stripped.startswith("## "):
+            break
+        match = re.match(r"[-*]\s+(.+)$", stripped)
+        if not match:
+            continue
+        value = match.group(1).strip()
+        quoted = re.search(r"`([^`]+)`", value)
+        if quoted:
+            value = quoted.group(1).strip()
+        if value in {"无", "无。", "NONE", "none"}:
+            continue
+        if quoted or "/" in value or "*" in value or value.startswith("."):
+            value = value.replace("\\", "/")
+            while value.startswith("./"):
+                value = value[2:]
+            paths.append(value.rstrip("/"))
+    return paths
+
+
 def changed_files(root: str, base_ref: str, head_ref: str) -> set[str] | None:
     result = git(root, "diff", "--name-only", f"{base_ref}...{head_ref}")
     if result.returncode != 0:
@@ -160,7 +222,6 @@ def validate_active_program_scope(
         task_id = str(entry.get("taskId") or "")
         task = planned.get(task_id)
         if not task:
-            # Foundation and unknown-task handling remains in Finalization.
             continue
         scalar_pairs = {
             "title": "title",
@@ -234,26 +295,31 @@ def validate_wave_activation(plan: dict[str, Any], errors: list[str]) -> None:
             )
 
 
-def plan_only_changes_target_status(
-    base: dict[str, Any], current: dict[str, Any], task_id: str
+def only_section_target_changed(
+    base: dict[str, Any],
+    current: dict[str, Any],
+    section: str,
+    task_id: str,
+    allowed_fields: set[str],
 ) -> bool:
     base_copy = copy.deepcopy(base)
     current_copy = copy.deepcopy(current)
-    base_tasks = mapping(base_copy.get("tasks"))
-    current_tasks = mapping(current_copy.get("tasks"))
-    if set(base_tasks) != set(current_tasks) or task_id not in current_tasks:
+    base_items = mapping(base_copy.get(section))
+    current_items = mapping(current_copy.get(section))
+    if set(base_items) != set(current_items) or task_id not in current_items:
         return False
-    for other_id in base_tasks:
-        if other_id != task_id and base_tasks[other_id] != current_tasks[other_id]:
+    for other_id in base_items:
+        if other_id != task_id and base_items[other_id] != current_items[other_id]:
             return False
-    base_target = copy.deepcopy(base_tasks[task_id])
-    current_target = copy.deepcopy(current_tasks[task_id])
-    base_target.pop("status", None)
-    current_target.pop("status", None)
+    base_target = copy.deepcopy(base_items[task_id])
+    current_target = copy.deepcopy(current_items[task_id])
+    for field in allowed_fields:
+        base_target.pop(field, None)
+        current_target.pop(field, None)
     if base_target != current_target:
         return False
-    base_copy["tasks"] = []
-    current_copy["tasks"] = []
+    base_copy[section] = []
+    current_copy[section] = []
     return base_copy == current_copy
 
 
@@ -283,27 +349,33 @@ def validate_active_transition(
     current_active: dict[str, Any],
     errors: list[str],
 ) -> None:
-    """Allow only the current ordinary task's lifecycle transition across the base."""
+    """Allow only the current ordinary or Foundation task's lifecycle transition."""
     base_tasks = mapping(base_plan.get("tasks"))
     current_tasks = mapping(current_plan.get("tasks"))
-    if task_id not in current_tasks:
-        return  # Foundation transitions are validated by History/Finalization.
-    current_status = current_tasks[task_id].get("status")
-    if current_status not in ACTIVE_STATES:
+    base_foundations = mapping(base_plan.get("foundationTasks"))
+    current_foundations = mapping(current_plan.get("foundationTasks"))
+    section = "tasks" if task_id in current_tasks else "foundationTasks"
+    current_map = current_tasks if section == "tasks" else current_foundations
+    base_map = base_tasks if section == "tasks" else base_foundations
+    current_task = current_map.get(task_id)
+    if not current_task or current_task.get("status") not in ACTIVE_STATES:
         return
-    base_task = base_tasks.get(task_id)
+    base_task = base_map.get(task_id)
     if not base_task:
         errors.append(f"Active transition task {task_id} did not exist in {base_ref}")
         return
     base_status = str(base_task.get("status") or "")
-    transition = (base_status, str(current_status))
+    current_status = str(current_task.get("status") or "")
+    transition = (base_status, current_status)
     if transition[0] != transition[1] and transition not in ALLOWED_ACTIVE_TRANSITIONS:
         errors.append(
             f"Program task {task_id} has invalid active transition {base_status} -> {current_status}"
         )
-    if not plan_only_changes_target_status(base_plan, current_plan, task_id):
+    if not only_section_target_changed(
+        base_plan, current_plan, section, task_id, {"status"}
+    ):
         errors.append(
-            f"Active transition for {task_id} may only change that Program task's status"
+            f"Active transition for {task_id} may only change that {section} task's status"
         )
 
     base_entries = [
@@ -322,7 +394,12 @@ def validate_active_transition(
             f"Active transition for {task_id} may not modify Registry policy or another task"
         )
 
-    if current_status == "reserved" and base_status in {"planned", "blocked"}:
+    ordinary_reservation = (
+        section == "tasks"
+        and current_status == "reserved"
+        and base_status in {"planned", "blocked"}
+    )
+    if ordinary_reservation:
         if base_entries:
             errors.append(f"Reservation transition for {task_id} must introduce its Registry entry")
         task_path = find_task_path(root, task_id)
@@ -357,6 +434,115 @@ def validate_active_transition(
             )
 
 
+def stable_spec_matches(
+    task_id: str,
+    entry: dict[str, Any],
+    front: dict[str, Any],
+    body: str,
+    errors: list[str],
+) -> None:
+    scalar_pairs = {
+        "id": "taskId",
+        "baseBranch": "baseBranch",
+        "issue": "issue",
+        "workPackage": "workPackage",
+        "taskOwner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "riskLevel": "riskLevel",
+        "coordinationGroup": "coordinationGroup",
+        "handoffPath": "handoffPath",
+        "integrationStrategy": "integrationStrategy",
+        "integrationOrder": "integrationOrder",
+    }
+    for task_key, entry_key in scalar_pairs.items():
+        if str(front.get(task_key, "")) != str(entry.get(entry_key, "")):
+            errors.append(
+                f"{task_id} Task Spec {task_key} does not match Active Work {entry_key}"
+            )
+    for task_key, entry_key in {
+        "dependsOn": "dependsOn",
+        "requirementIds": "requirementIds",
+        "moduleIds": "moduleIds",
+        "producesContracts": "producesContracts",
+        "consumesContracts": "consumesContracts",
+    }.items():
+        if as_list(front.get(task_key)) != list(entry.get(entry_key) or []):
+            errors.append(
+                f"{task_id} Task Spec {task_key} does not match Active Work {entry_key}"
+            )
+    exclusive = section_paths(body, ("独占写范围", "exclusive write scope"))
+    shared = section_paths(body, ("共享修改范围", "shared modification scope"))
+    if set(exclusive or []) != set(entry.get("exclusivePaths") or []):
+        errors.append(f"{task_id} Task Spec exclusive paths do not match Active Work")
+    if set(shared or []) != set(entry.get("sharedPaths") or []):
+        errors.append(f"{task_id} Task Spec shared paths do not match Active Work")
+
+
+def validate_cancel_transition(
+    root: str,
+    base_ref: str,
+    head_ref: str,
+    branch_name: str,
+    task_id: str,
+    base_plan: dict[str, Any],
+    current_plan: dict[str, Any],
+    base_active: dict[str, Any],
+    current_active: dict[str, Any],
+    base_ledger: dict[str, Any],
+    current_ledger: dict[str, Any],
+    errors: list[str],
+) -> None:
+    base_tasks = mapping(base_plan.get("tasks"))
+    current_tasks = mapping(current_plan.get("tasks"))
+    before = base_tasks.get(task_id)
+    after = current_tasks.get(task_id)
+    if not before or not after or before.get("status") not in ACTIVE_STATES or after.get("status") != "cancelled":
+        errors.append(f"Cancellation task {task_id} has an invalid Program status transition")
+        return
+    if not only_section_target_changed(base_plan, current_plan, "tasks", task_id, {"status"}):
+        errors.append(f"Cancellation task {task_id} may only change its Program status")
+    prior_entries = [
+        item for item in base_active.get("tasks") or [] if item.get("taskId") == task_id
+    ]
+    if len(prior_entries) != 1:
+        errors.append(f"Cancellation task {task_id} requires one prior Active Work entry")
+        return
+    if registry_without_task(base_active, task_id) != current_active:
+        errors.append(f"Cancellation task {task_id} may only remove its own Active Work entry")
+    if current_ledger != base_ledger:
+        errors.append(f"Cancellation task {task_id} must not modify the completion ledger")
+    task_path = find_task_path(root, task_id, head_ref)
+    if not task_path:
+        errors.append(f"Cancellation task {task_id} has no Task Spec")
+        return
+    front, body = parse_front_matter(read_ref(root, head_ref, task_path))
+    if front.get("status") != "cancelled":
+        errors.append(f"Cancellation task {task_id} Task Spec is not cancelled")
+    resolved_base = resolve_ref(root, base_ref)
+    if resolved_base and str(front.get("baseSha") or "") != resolved_base:
+        errors.append(f"Cancellation task {task_id} Task Spec baseSha must equal target base")
+    if branch_name and str(front.get("workBranch") or "") != branch_name:
+        errors.append(f"Cancellation task {task_id} Task Spec branch does not match PR branch")
+    stable_spec_matches(task_id, prior_entries[0], front, body, errors)
+    files = changed_files(root, base_ref, head_ref)
+    if files is None:
+        errors.append(f"Cancellation task {task_id} cannot determine changed files")
+        return
+    allowed_exact = {PLAN, ACTIVE, task_path}
+    invalid = sorted(
+        path
+        for path in files
+        if path not in allowed_exact
+        and path != f"evidence/{task_id}"
+        and not path.startswith(f"evidence/{task_id}/")
+    )
+    if invalid:
+        errors.append(f"Cancellation task {task_id} changed unrelated files: {invalid}")
+
+
 def validate_recorded_reservation_commit(
     root: str, record: dict[str, Any], errors: list[str]
 ) -> None:
@@ -365,7 +551,7 @@ def validate_recorded_reservation_commit(
     commit = str(record.get("reservationCommit") or "")
     task_path = str(record.get("taskSpec") or "")
     if not commit or not task_path or not ref_exists(root, commit):
-        return  # Identity/existence failures are emitted by Program Integrity/History.
+        return
     parent_result = git(root, "rev-parse", f"{commit}^1")
     if parent_result.returncode != 0:
         errors.append(f"Reservation commit for {task_id} has no first parent")
@@ -405,7 +591,7 @@ def validate_recorded_reservation_commit(
         task_id not in parent_tasks
         or parent_tasks[task_id].get("status") not in {"planned", "blocked"}
         or commit_tasks.get(task_id, {}).get("status") != "reserved"
-        or not plan_only_changes_target_status(parent_plan, commit_plan, task_id)
+        or not only_section_target_changed(parent_plan, commit_plan, "tasks", task_id, {"status"})
     ):
         errors.append(
             f"Reservation commit for {task_id} must only transition that Program task to reserved"
@@ -438,34 +624,62 @@ def main() -> int:
         current_plan = load_current(root, PLAN)
         base_active = load_ref(root, args.base_ref, ACTIVE)
         current_active = load_current(root, ACTIVE)
-        ledger = load_current(root, "specs/coordination/task-completions.yaml")
+        base_ledger = load_ref(root, args.base_ref, LEDGER)
+        current_ledger = load_current(root, LEDGER)
     except Exception as exc:
         emit("FAIL", f"Cannot load Program transition documents: {exc}")
         return 1
+    if base_ledger is None and isinstance(current_ledger, dict) and not (current_ledger.get("records") or []):
+        base_ledger = {"records": []}
     if not all(
         isinstance(item, dict)
-        for item in (base_plan, current_plan, base_active, current_active, ledger)
+        for item in (
+            base_plan,
+            current_plan,
+            base_active,
+            current_active,
+            base_ledger,
+            current_ledger,
+        )
     ):
         emit("FAIL", "Program transition documents are missing or invalid")
         return 1
 
     validate_active_program_scope(current_plan, current_active, errors)
     validate_wave_activation(current_plan, errors)
-    for record in ledger.get("records") or []:
+    for record in current_ledger.get("records") or []:
         if isinstance(record, dict):
             validate_recorded_reservation_commit(root, record, errors)
     if args.task:
-        validate_active_transition(
-            root,
-            args.base_ref,
-            args.head_ref,
-            args.task,
-            base_plan,
-            current_plan,
-            base_active,
-            current_active,
-            errors,
-        )
+        task_path = find_task_path(root, args.task, args.head_ref)
+        front, _ = parse_front_matter(read_ref(root, args.head_ref, task_path or ""))
+        if front.get("status") == "cancelled":
+            validate_cancel_transition(
+                root,
+                args.base_ref,
+                args.head_ref,
+                args.branch_name,
+                args.task,
+                base_plan,
+                current_plan,
+                base_active,
+                current_active,
+                base_ledger,
+                current_ledger,
+                errors,
+            )
+        else:
+            validate_active_transition(
+                root,
+                args.base_ref,
+                args.head_ref,
+                args.task,
+                base_plan,
+                current_plan,
+                base_active,
+                current_active,
+                errors,
+            )
 
     if errors:
         for error in errors:
@@ -477,7 +691,7 @@ def main() -> int:
         {
             "task": args.task or None,
             "activeTasks": len(current_active.get("tasks") or []),
-            "completionRecords": len(ledger.get("records") or []),
+            "completionRecords": len(current_ledger.get("records") or []),
         },
     )
     return 0
