@@ -60,6 +60,7 @@ tasks:
       - scripts/check-program-plan-transitions.py
       - scripts/check-program-plan-finalization.py
       - scripts/check-program-lifecycle-guards.py
+      - scripts/run-program-lifecycle-gate.py
       - tests/governance/**
     sharedPaths: []
     handoffPath: evidence/GZ-014/handoff.md
