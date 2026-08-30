@@ -38,6 +38,36 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         self.git(root, "commit", "--allow-empty", "-m", message)
         return self.git(root, "rev-parse", "HEAD").stdout.strip()
 
+    def repository_integration_base(self):
+        origin = subprocess.run(
+            ["git", "rev-parse", "origin/main^{commit}"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        head = subprocess.run(
+            ["git", "rev-parse", "HEAD^{commit}"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(origin.returncode, 0, origin.stderr)
+        self.assertEqual(head.returncode, 0, head.stderr)
+        if origin.stdout.strip() != head.stdout.strip():
+            return "origin/main"
+        parent = subprocess.run(
+            ["git", "rev-parse", "HEAD^1^{commit}"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(
+            parent.returncode,
+            0,
+            "main push validation requires the merge commit first parent; " + parent.stderr,
+        )
+        return "HEAD^1"
+
     def test_current_repository_passes(self):
         result = subprocess.run(
             [
@@ -46,13 +76,13 @@ class TestProgramLifecycleGuards(unittest.TestCase):
                 "--repo-root",
                 REPO_ROOT,
                 "--base-ref",
-                "origin/main",
+                self.repository_integration_base(),
                 "--head-ref",
                 "HEAD",
                 "--task",
                 "GZ-014",
                 "--branch-name",
-                "chore/GZ-014-post-merge-review-repair",
+                "chore/GZ-014-post-merge-test-repair",
             ],
             cwd=REPO_ROOT,
             capture_output=True,
