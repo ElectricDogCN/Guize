@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Validate Program/Registry lifecycle and completion finalization invariants.
 
-This mandatory supplemental checker covers invariants that require the current
-snapshot, target-branch state, changed-file set, task Evidence, and (when an
-external blocker is declared resolved) live GitHub state at the same time.
+This mandatory supplemental checker combines the current Program snapshot,
+Active Work Registry, completion Evidence, target-branch history, and live
+GitHub enforcement state. External blockers fail closed: a repository document
+cannot claim that platform protection exists unless GitHub's API confirms the
+actual default branch and a complete active Ruleset.
 """
 
 from __future__ import annotations
@@ -70,23 +72,12 @@ def is_ancestor(root: str, ancestor: str, descendant: str) -> bool:
     return git(root, "merge-base", "--is-ancestor", ancestor, descendant).returncode == 0
 
 
-def read_ref(root: str, ref: str, path: str) -> str | None:
-    result = git(root, "show", f"{ref}:{path}")
-    return result.stdout if result.returncode == 0 else None
-
-
-def load_ref(root: str, ref: str, path: str) -> Any | None:
-    text = read_ref(root, ref, path)
-    if text is None:
-        return None
-    try:
-        return yaml.safe_load(text)
-    except yaml.YAMLError:
-        return None
-
-
 def mapping(items: list[dict[str, Any]] | None) -> dict[str, dict[str, Any]]:
-    return {str(item.get("taskId")): item for item in (items or []) if isinstance(item, dict)}
+    return {
+        str(item.get("taskId")): item
+        for item in (items or [])
+        if isinstance(item, dict)
+    }
 
 
 def find_task_path(root: str, task_id: str) -> str | None:
@@ -129,11 +120,13 @@ def changed_files(root: str, base_ref: str, head_ref: str) -> set[str] | None:
 def validate_execution_mapping(
     plan: dict[str, Any], active: dict[str, Any], errors: list[str]
 ) -> None:
-    """Require one Active Work lease for every executing Program/Foundation task."""
+    """Require exactly one matching lease for every executing Program task."""
     planned = mapping(plan.get("tasks"))
     foundations = mapping(plan.get("foundationTasks"))
     active_entries: dict[str, list[dict[str, Any]]] = {}
     for entry in active.get("tasks") or []:
+        if not isinstance(entry, dict):
+            continue
         task_id = str(entry.get("taskId") or "")
         active_entries.setdefault(task_id, []).append(entry)
 
@@ -162,10 +155,8 @@ def validate_execution_mapping(
             errors.append(f"Active Work task {task_id} is duplicated")
 
 
-def validate_foundation_specs(
-    root: str, plan: dict[str, Any], errors: list[str]
-) -> None:
-    """Allow historical approved specs only for pre-schema legacy Foundations."""
+def validate_foundation_specs(root: str, plan: dict[str, Any], errors: list[str]) -> None:
+    """Allow historical approved specs only for true pre-schema Foundations."""
     for foundation in plan.get("foundationTasks") or []:
         if not isinstance(foundation, dict) or foundation.get("status") != "completed":
             continue
@@ -254,7 +245,9 @@ def validate_completion_evidence(
             content = handle.read()
         lowered = content.lower()
         if task_id not in content:
-            errors.append(f"Completed task {task_id} Evidence file does not identify the task: {evidence_path}")
+            errors.append(
+                f"Completed task {task_id} Evidence file does not identify the task: {evidence_path}"
+            )
         if merge_sha not in content:
             errors.append(
                 f"Completed task {task_id} Evidence file does not record implementation merge {merge_sha}: "
@@ -266,21 +259,24 @@ def validate_completion_evidence(
             )
 
 
-def ref_matches(pattern: str, ref: str) -> bool:
+def ref_matches(pattern: str, ref: str, default_branch: str) -> bool:
+    """Resolve GitHub's symbolic default-branch condition using live metadata."""
     if pattern == "~DEFAULT_BRANCH":
-        return ref == "refs/heads/main"
+        return bool(default_branch) and ref == f"refs/heads/{default_branch}"
     return fnmatch.fnmatchcase(ref, pattern)
 
 
-def ruleset_applies_to_main(ruleset: dict[str, Any]) -> bool:
+def ruleset_applies_to_main(ruleset: dict[str, Any], default_branch: str) -> bool:
     if ruleset.get("target") != "branch" or ruleset.get("enforcement") != "active":
         return False
     condition = ((ruleset.get("conditions") or {}).get("ref_name") or {})
     includes = condition.get("include") or []
     excludes = condition.get("exclude") or []
     main_ref = "refs/heads/main"
-    return any(ref_matches(str(item), main_ref) for item in includes) and not any(
-        ref_matches(str(item), main_ref) for item in excludes
+    return any(
+        ref_matches(str(item), main_ref, default_branch) for item in includes
+    ) and not any(
+        ref_matches(str(item), main_ref, default_branch) for item in excludes
     )
 
 
@@ -310,7 +306,10 @@ def ruleset_satisfies_policy(ruleset: dict[str, Any]) -> tuple[bool, list[str]]:
         str(item.get("context") or "")
         for item in status_parameters.get("required_status_checks") or []
     }
-    if "Governance Checks" not in contexts and "Governance Gate / Governance Checks" not in contexts:
+    if (
+        "Governance Checks" not in contexts
+        and "Governance Gate / Governance Checks" not in contexts
+    ):
         failures.append("Governance Checks is not a required status check")
     if status_parameters.get("strict_required_status_checks_policy") is not True:
         failures.append("pull requests are not required to test against the latest target branch")
@@ -326,7 +325,8 @@ def github_json(path: str) -> Any:
     if not repository:
         raise RuntimeError("GITHUB_REPOSITORY is not available")
     base = os.environ.get("GUIZE_GITHUB_API_URL", "https://api.github.com").rstrip("/")
-    url = f"{base}/repos/{repository}/{path.lstrip('/')}"
+    suffix = path.lstrip("/")
+    url = f"{base}/repos/{repository}" + (f"/{suffix}" if suffix else "")
     headers = {
         "Accept": "application/vnd.github+json",
         "User-Agent": "guize-program-finalization",
@@ -340,7 +340,7 @@ def github_json(path: str) -> Any:
         with urllib.request.urlopen(request, timeout=15) as response:
             return json.load(response)
     except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as exc:
-        raise RuntimeError(f"GitHub API request failed for {path}: {exc}") from exc
+        raise RuntimeError(f"GitHub API request failed for {path or '<repository>'}: {exc}") from exc
 
 
 def validate_resolved_blockers(plan: dict[str, Any], errors: list[str]) -> None:
@@ -354,6 +354,13 @@ def validate_resolved_blockers(plan: dict[str, Any], errors: list[str]) -> None:
             )
             continue
         try:
+            repository = github_json("")
+            default_branch = str(repository.get("default_branch") or "")
+            if not default_branch:
+                errors.append(
+                    f"Resolved blocker {blocker_id} repository default branch is unavailable"
+                )
+                continue
             issue = github_json(f"issues/{blocker.get('issue')}")
             if issue.get("state") != "closed":
                 errors.append(f"Resolved blocker {blocker_id} issue is not closed")
@@ -368,7 +375,7 @@ def validate_resolved_blockers(plan: dict[str, Any], errors: list[str]) -> None:
                 if ruleset_id is None:
                     continue
                 detail = github_json(f"rulesets/{ruleset_id}")
-                if not ruleset_applies_to_main(detail):
+                if not ruleset_applies_to_main(detail, default_branch):
                     continue
                 valid, failures = ruleset_satisfies_policy(detail)
                 if valid:
@@ -376,8 +383,13 @@ def validate_resolved_blockers(plan: dict[str, Any], errors: list[str]) -> None:
                     break
                 reasons.extend(failures)
             if not accepted:
-                detail = "; ".join(sorted(set(reasons))) or "no qualifying active ruleset applies to main"
-                errors.append(f"Resolved blocker {blocker_id} lacks verified enforcement: {detail}")
+                detail = (
+                    "; ".join(sorted(set(reasons)))
+                    or "no qualifying active ruleset applies to main"
+                )
+                errors.append(
+                    f"Resolved blocker {blocker_id} lacks verified enforcement: {detail}"
+                )
         except RuntimeError as exc:
             errors.append(f"Resolved blocker {blocker_id} cannot be live-verified: {exc}")
 
