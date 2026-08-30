@@ -1,0 +1,19 @@
+GZ-004 reservation command evidence
+
+command: GitHub.create_branch branch_name=chore/GZ-004-reservation sha=3be9477fb137aa33faa6320f2454b9e1e1d5ec2d
+exit code: 0
+observed result: reservation branch created from completed GZ-014 main baseline
+
+command: GitHub.update_file specs/coordination/program-plan.yaml
+exit code: 0
+observed result: GZ-004 status changed from planned to reserved; commit 34b6874a1ddcb29b87c5a6bbc1a9acdeb14fc499
+
+command: GitHub.update_file specs/coordination/active-work.yaml
+exit code: 0
+observed result: one GZ-004 high-risk lease registered; commit 5d0cf470771c420fe03afcdf2df34df95fb41df2
+
+command: GitHub.create_file specs/tasks/GZ-004.md
+exit code: 0
+observed result: reserved schemaVersion 2 Task Spec created; commit fe2fd8668bd45427fd1c7e72077a4f2574dc874a
+
+Remote Governance Gate, Review and merge results are not claimed until GitHub executes them on the final reservation HEAD.
