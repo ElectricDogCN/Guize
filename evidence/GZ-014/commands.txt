@@ -5,27 +5,51 @@ exit code: 0
 result: PASS
 observed result: GZ-014 review transition merged as b15ed0dd907c59a69f1fd178907f648fef2b880a
 
-command: inspect post-merge main Governance Gate #276
+command: inspect post-review main Governance Gate run #276
 exit code: HTTP 200
 result: PASS
 observed result: all mandatory main-push checks succeeded with Foundation review state
 
-command: create branch chore/GZ-014-foundation-integration from b15ed0dd907c59a69f1fd178907f648fef2b880a
+command: validate PR #29 exact head 24430bffbcbd92c04cfaa48e3852c2e442882fce
 exit code: 0
-observed result: metadata-only integration branch created from verified review main
+result: PASS
+observed result: Governance Gate run #277 succeeded and independent exact-head review found no blocker
 
-command: update Program Plan GZ-014 Foundation status
+command: merge PR #29 with expected_head_sha=24430bffbcbd92c04cfaa48e3852c2e442882fce
 exit code: 0
-observed result: only GZ-014 Foundation status changed from review to integration
+result: PASS
+observed result: GZ-014 integration transition merged as c26fc712e050dba4e83c9af022fd25b8f7e84d6d
 
-command: update Active Work and Task Spec
+command: inspect post-integration main Governance Gate run #278
+exit code: HTTP 200
+result: PASS
+observed result: all mandatory main-push checks succeeded with Foundation integration state
+
+command: execute Foundation Completion PR #30 Governance Gate run #279
+exit code: 1
+result: FAIL
+observed result: Foundation provenance used PR #26 / ef104, which did not strictly descend from the current integration lease base b15ed0; three schema regression tests also assumed GZ-014 would always have an active Registry entry; completion Evidence lacked explicit PASS/COMPLETED status
+
+command: close PR #30 without merge
 exit code: 0
-observed result: status integration, role integrator, branch/base synchronized; policy, roles, paths, Lease and contract sets otherwise preserved
+result: PASS
+observed result: failed completion branch and Gate retained as history; no completion metadata entered main
 
-command: refresh GZ-014 integration Evidence
-exit code: 0 for completed GitHub contents writes
-observed result: Summary, Commands, Changed Files, Test Results and Handoff describe integration and pending completion inputs
+command: reopen Issue #17
+exit code: 0
+result: PASS
+observed result: GZ-014 restored to open while completion prerequisites are repaired
 
-command: integration transition exact-head Gate, fresh Review and merge
+command: fast-forward chore/GZ-014-foundation-integration to c26fc712e050dba4e83c9af022fd25b8f7e84d6d
+exit code: 0
+result: PASS
+observed result: repair branch starts from the verified post-integration main baseline
+
+command: update tests/governance/test_check_schemas.py
+exit code: 0
+result: PASS
+observed result: current-repository assertions now support both a legitimate active Foundation and a completed Foundation with an empty Registry; mutation tests build an explicit active GZ-014 fixture before indexing tasks[0]; all negative assertions remain
+
+command: completion-readiness test repair exact-head Gate, fresh Review and merge
 exit code: pending
-observed result: no future result is claimed; use the latest PR HEAD and GitHub Actions
+observed result: use the latest repair PR HEAD and GitHub Actions; no future success is claimed

@@ -19,7 +19,7 @@ tasks:
     agentRole: integrator
     branch: chore/GZ-014-foundation-integration
     baseBranch: main
-    baseSha: b15ed0dd907c59a69f1fd178907f648fef2b880a
+    baseSha: c26fc712e050dba4e83c9af022fd25b8f7e84d6d
     workPackage: WP-M0-08
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: GZ-014
