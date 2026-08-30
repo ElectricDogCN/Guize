@@ -113,12 +113,19 @@ jobs:
         if: success() || failure()
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          PUSH_BEFORE: ${{ github.event.before }}
         run: |
           set -euo pipefail
+          ZERO_SHA="0000000000000000000000000000000000000000"
           if [ -n "${{ github.head_ref }}" ]; then
             BASE_REF="origin/${{ github.base_ref }}"
             HEAD_REF="HEAD"
             BRANCH_NAME="${{ github.head_ref }}"
+          elif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "$ZERO_SHA" ] && git rev-parse --verify "$PUSH_BEFORE^{commit}" >/dev/null 2>&1; then
+            BASE_REF="$PUSH_BEFORE"
+            HEAD_REF="HEAD"
+            BRANCH_NAME="${{ github.ref_name }}"
           elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
             BASE_REF="HEAD^"
             HEAD_REF="HEAD"
@@ -128,6 +135,7 @@ jobs:
             HEAD_REF="HEAD"
             BRANCH_NAME="${{ github.ref_name }}"
           fi
+          echo "Program history range: $BASE_REF...$HEAD_REF"
           python scripts/check-program-plan-integrity.py --base-ref "$BASE_REF"
           if [ "${{ steps.task-context.outputs.task_specific }}" = "true" ]; then
             python scripts/check-program-plan-history.py \
@@ -159,8 +167,12 @@ jobs:
       - name: Agent coordination check
         id: agent-coordination
         if: success() || failure()
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PUSH_BEFORE: ${{ github.event.before }}
         run: |
           set -euo pipefail
+          ZERO_SHA="0000000000000000000000000000000000000000"
           if [ "${{ steps.task-context.outputs.task_specific }}" != "true" ]; then
             python scripts/run-agent-coordination-gate.py
           elif [ -n "${{ github.head_ref }}" ]; then
@@ -169,6 +181,12 @@ jobs:
               --base-ref "origin/${{ github.base_ref }}" \
               --head-ref "HEAD" \
               --branch-name "${{ github.head_ref }}"
+          elif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "$ZERO_SHA" ] && git rev-parse --verify "$PUSH_BEFORE^{commit}" >/dev/null 2>&1; then
+            python scripts/run-agent-coordination-gate.py \
+              --task "${{ steps.task-context.outputs.task_id }}" \
+              --base-ref "$PUSH_BEFORE" \
+              --head-ref HEAD \
+              --branch-name "${{ github.ref_name }}"
           else
             python scripts/run-agent-coordination-gate.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
