@@ -1,12 +1,16 @@
 # GZ-014 Foundation Completion Handoff
 
+Status: COMPLETED
+
+> 本状态表示当前分支中的 Foundation completion handoff 已形成；PR #33 的最新 Gate、Review、merge 与 post-merge main 仍需以 GitHub 实际结果验证。
+
 ## Identity
 
 - Task: `GZ-014`
 - Issue: #17, closed with `state_reason=completed`
 - Branch: `chore/GZ-014-foundation-completion-v3`
 - Completion base: `main@8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
-- Phase: `completed` candidate
+- Phase: `completed`
 - Program Wave: `FOUNDATION`
 - Risk: `high`
 - Integration Order: `1`
@@ -53,7 +57,7 @@ PR #29 / `c26fc712...` is retained only as integration history. PR #26 / `ef1048
 5. Verify PR #29/c26 and PR #26/ef are history only.
 6. Verify Issue #17 is closed/completed.
 7. Verify Active Work policy and ordinary `task-completions.yaml` are unchanged.
-8. Verify Evidence contains GZ-014, PR #32, full 8221 SHA, Foundation completion semantics, real commands, exit status and PASS/COMPLETED.
+8. Verify Evidence contains GZ-014, PR #32, full 8221 SHA, Foundation completion semantics, real commands, exit status and explicit PASS/COMPLETED.
 9. Submit a conclusion only for the latest exact HEAD.
 
 ## Integrator exact action
@@ -70,4 +74,6 @@ PR #29 / `c26fc712...` is retained only as integration history. PR #26 / `ef1048
 
 Before merge, close PR #33. After merge, revert through a dedicated PR that restores GZ-014 to `integration` and restores only its previous Lease; do not directly update or rewrite `main`. Preserve Issue/PR/Evidence history.
 
-Handoff result: `COMPLETED CANDIDATE`; final completion remains conditional on PR #33 exact-head and post-merge `PASS` results.
+Result: COMPLETED
+
+Final repository completion remains conditional on PR #33 exact-head and post-merge `PASS` results.
