@@ -1,125 +1,115 @@
 # GZ-014 Test Results
 
-## Reservation phase
+## Historical validation retained
 
-### Initial Reservation Gate
+### Original Reservation
 
-Result: failed as intended.
+- Initial Reservation Gate: failed on four asymmetric Requirement/Module mappings and an ambiguous empty shared-scope sentence.
+- Accepted repair: mappings and scope prose corrected without weakening checks.
+- Governance Gate #109: success.
+- PR #18 merge: `d731ce09fbf2535948bc1864490539d06ce1f139`.
 
-- four Requirement/Module mappings were asymmetric;
-- the empty shared-scope sentence contained inline code and was parsed as a path.
+### Program Plan implementation
 
-Both defects were repaired without skipping or weakening the checks.
+- Governance Gate #111: failed because unquoted ISO lease timestamps became YAML datetime objects.
+- Accepted repair: quote timestamps; keep Schema string-only.
+- PR #21 merge: `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`.
 
-### Governance Gate #109
+### Post-merge lifecycle hardening
 
-Result: success. Reservation PR #18 then merged as:
+Multiple exact-HEAD Gates and Reviews found and repaired:
 
-`d731ce09fbf2535948bc1864490539d06ce1f139`
+- Completion-aware Scope/Coordination dispatch;
+- Foundation status/provenance separation;
+- immutable ordinary Completion Ledger;
+- Reservation snapshot proof;
+- dependency completion ordering and reservation-base ancestry;
+- completion Evidence freshness and target-base merge existence;
+- exact push-range lifecycle validation;
+- no-task main-push affected-task derivation;
+- final GZ-020 transitive closure;
+- live Ruleset include/exclude, latest-target-branch and independent-last-push approval requirements.
 
-## Program Plan implementation phase
+Representative retained results:
 
-### Governance Gate #111
+- Gate #156: failed on first-ledger migration, extensionless `Makefile`, test helper naming and stale workflow assertion.
+- Gate #191: Program controls and 223 tests passed; Agent Coordination rejected bare root `Makefile` scope.
+- Gate #196: success on `da2e1cbf9ca15881fc7cf271b531ffe7353eb067`.
+- Gate #236: success on the final PR #22 repair HEAD, including 255 governance tests and all mandatory lifecycle checks.
+- PR #22 merge: `903754295e4a0393638c82aa851c3ada8cd507fb`.
 
-Result: failed.
+No accepted control was removed or converted to advisory behavior.
 
-Unquoted ISO timestamps in `active-work.yaml` were converted by PyYAML into datetime objects and violated the accepted string Schema. The timestamps were quoted; the Schema remained strict.
+## Post-merge main incident
 
-PR #21 later merged as:
+### Main Governance Gate run #237
 
-`3b29ea90a8a997be5ff7c97b0f24175cb49508ab`
+Validated commit: `903754295e4a0393638c82aa851c3ada8cd507fb`
 
-A manually requested latest-HEAD Codex review completed after that merge and found additional P1/P2 blockers. GZ-014 therefore remained `in_progress`.
+Result: `failure`.
 
-## Post-merge review-repair phase
+Observed step outcome:
 
-### Governance Gate #156
+- Task/Project Readiness: PASS;
+- Program Integrity/History/Transitions/Finalization/Lifecycle: PASS;
+- Agent Coordination: PASS;
+- Markdown/Schema/Secret/Evidence/Scope/Spec Sync/CI static checks: PASS;
+- Governance tests: FAIL.
 
-Validated HEAD: `8ff0fc026a79511382c774ddb5aab40a5d7b6a88`
+The failure was isolated to a repository integration test that treated `origin/main == HEAD` as a GZ-014-specific audit base rather than exercising the no-task main-push lifecycle wrapper semantics used by the workflow.
 
-Result: failed.
+## Closed failed repair attempt
 
-Observed failures:
+### PR #23
 
-1. Program History required a base completion-ledger file although this migration introduced the first empty ledger.
-2. Agent Coordination ignored an extensionless root `Makefile` bullet.
-3. A governance test helper named `run` shadowed `unittest.TestCase.run`.
-4. Workflow Contract expected an obsolete ref representation.
+Result: closed without merge.
 
-Repairs preserved fail-closed behavior: missing base ledger is accepted only when the current ledger is empty; the root path became machine-readable; the test helper was renamed; the static workflow contract was updated.
+Review found:
 
-### Subsequent independent reviews
+1. the new test-repair branch had no independently merged Reservation;
+2. canonical Handoff still pointed to the previous branch/base;
+3. the test forced every future unrelated main push through `--task GZ-014`.
 
-Later exact-HEAD Codex reviews identified additional gaps across:
+The branch, commits and Review history were preserved as failure Evidence.
 
-- completion-aware Scope and Coordination dispatch;
-- schema-versioned Foundation status protection;
-- completion Evidence freshness and target-base implementation merge existence;
-- Ruleset include/exclude handling;
-- one-to-one Program/Registry executing-state mapping;
-- completion ledger immutability, Reservation snapshot proof, dependency activation ordering and final release closure.
+## Current clean Reservation V2
 
-Repairs added mandatory Program Integrity, History and Finalization, completion-aware dispatchers, true legacy Foundation separation, fresh completion Evidence, target-base merge ancestry, live Ruleset validation and positive/negative governance tests.
+### PR #24 Gate #245
 
-### Governance Gate #191
+Validated HEAD: `8efc71cf21ca0a6c9543722b89d8cad37cc71018`
 
-Validated HEAD: `771daf58415f1001085d19c4781176acf99afcb0`
+Result: `success`.
 
-Result: failed.
+The exact Reservation-only file set at that revision passed all mandatory Governance Gate steps.
 
-Program Integrity/History/Finalization and 223 governance tests passed. Agent Coordination failed because the Task used the bare extensionless root token `Makefile`, which the path parser intentionally ignored, while the Registry contained the path.
+### PR #24 fresh Review
 
-The Task now uses `./Makefile`; path normalization preserves the same repository path and scope.
+Result: approval withheld; five P1 findings.
 
-### Governance Gate #196
+Required remediation:
 
-Validated HEAD: `da2e1cbf9ca15881fc7cf271b531ffe7353eb067`
+- keep Program/Task/Registry state synchronized;
+- restore a complete resumable Handoff;
+- update Task and Registry `baseSha` to the actual Reservation merge before implementation;
+- limit the no-test-change rule to this Reservation PR;
+- refresh canonical Summary, Commands, Changed Files and Test Results.
 
-Result: success.
+### Remediation revisions
 
-Every mandatory step succeeded, including:
+- `06eaad8a3ecf2d4af5d667dc19fd53b8354bf689` — Task boundary and post-merge base instructions;
+- `fa8822693a02194da4ece85b737d124180c1c627` — resumable Handoff;
+- `90976514769759ded1a5d883dccb043b7f4d43c0` — canonical Summary;
+- subsequent commits — canonical Commands, Changed Files and this Test Results update.
 
-- Task file and Project Readiness;
-- Program Plan Integrity, History and Finalization;
-- completion-aware Agent Coordination and Scope;
-- 200 governance tests and skip audit;
-- Markdown and Schema validation;
-- Secret scan;
-- Evidence and Evidence integrity;
-- PR/Task linkage and Spec Sync;
-- repository-boundary and Workflow static checks.
+## Latest-head integration condition
 
-### Mandatory pre-approval review findings after Gate #196
+The Evidence updates are newer than Gate #245. PR #24 remains blocked until the **exact latest HEAD** has all of the following:
 
-The exact-head manual review intentionally continued after the green Gate and found two incomplete OPS-001 enforcement checks.
+1. Governance Gate `success`;
+2. fresh independent Review with no blocker;
+3. zero unresolved Review threads;
+4. actual changed-file list exactly matching the eight declared metadata/Evidence paths;
+5. final manual Program/Task/Registry/Handoff/Evidence consistency check;
+6. expected-head merge.
 
-First, the live Ruleset verifier did not require `strict_required_status_checks_policy=true`. A Ruleset could require Governance Checks but still allow them to be evaluated against a stale target-branch base.
-
-Second, the verifier did not require `require_last_push_approval=true`. A Ruleset could require one approval yet not guarantee that the latest reviewable push was approved by someone other than its pusher.
-
-The repairs add:
-
-- fail-closed validation of `strict_required_status_checks_policy`;
-- fail-closed validation of `require_last_push_approval`;
-- negative tests proving each false value is rejected;
-- a positive test proving the complete Ruleset policy is accepted.
-
-### Governance Gate #202
-
-Validated HEAD: `7e38d391e3c1e997f5e90081d747dd0fe99a4dc0`
-
-Result: success.
-
-All Governance Gate steps succeeded after the latest-target-branch enforcement repair. Continued review then added the independent latest-push approval requirement, so Gate #202 is retained as evidence but is not approval for the later HEAD.
-
-## Final integration condition
-
-The latest code and Evidence updates create another PR HEAD. Integration remains blocked until that exact final HEAD has:
-
-1. a successful Governance Gate;
-2. a fresh independent Codex review of the same SHA with no findings;
-3. zero unresolved review threads;
-4. a final manual diff/scope/base review;
-5. expected-head approval and merge.
-
-After repair merge, the resulting `main` Gate must succeed. A separate Foundation Completion PR must then record the actual repair merge SHA, refresh completion Evidence and remove only the GZ-014 lease.
+After PR #24 merges, Task and Active Work `baseSha` must be updated to the actual Reservation merge SHA before any test implementation commit. The later Implementation PR must then pass its exact-head Gate and Review, and the resulting post-merge `main` Gate must succeed before Foundation Completion.
