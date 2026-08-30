@@ -18,12 +18,17 @@ observed result: Governance Gate run #277 succeeded; exact eight-file integratio
 command: merge PR #29 with expected_head_sha=24430bffbcbd92c04cfaa48e3852c2e442882fce
 exit code: 0
 result: PASS
-observed result: Foundation integration transition merged as c26fc712e050dba4e83c9af022fd25b8f7e84d6d
+observed result: GZ-014 integration transition and Foundation completion identity merged as c26fc712e050dba4e83c9af022fd25b8f7e84d6d
 
 command: inspect post-integration main Governance Gate run #278
 exit code: HTTP 200
 result: PASS
 observed result: all mandatory main-push checks succeeded with GZ-014 in integration
+
+command: verify Foundation completion ancestry
+exit code: 0
+result: PASS
+observed result: prior Active Work baseSha b15ed0dd907c59a69f1fd178907f648fef2b880a is a strict ancestor of c26fc712e050dba4e83c9af022fd25b8f7e84d6d; c26 commit message identifies GZ-014 and #29
 
 command: fast-forward chore/GZ-014-foundation-completion to c26fc712e050dba4e83c9af022fd25b8f7e84d6d
 exit code: 0
@@ -38,23 +43,23 @@ observed result: removed only the GZ-014 Active Work entry; maxActiveTasks, maxH
 command: update specs/tasks/GZ-014.md
 exit code: 0
 result: PASS
-observed result: Task status completed; completion branch/base and implementation provenance documented; exitGate unchanged
+observed result: Task status completed; completion branch/base, PR #29 completion identity and PR #26 earlier implementation history documented; exitGate unchanged
 
 command: update specs/coordination/program-plan.yaml
 exit code: 0
 result: PASS
-observed result: only GZ-014 Foundation changed to completed with completionRef PR-26 and mergeCommit ef1048344aa082c678e5ef948dc7f62e5aa84510
+observed result: only GZ-014 Foundation changed to completed with completionRef PR-29 and mergeCommit c26fc712e050dba4e83c9af022fd25b8f7e84d6d
 
 command: update GZ-014 task-bound completion Evidence
 exit code: 0 for completed GitHub contents writes
 result: PASS
-observed result: Summary, Commands, Changed Files, Test Results and Handoff record GZ-014, implementation merge ef1048344aa082c678e5ef948dc7f62e5aa84510, completion semantics and predecessor Gate results
+observed result: Summary, Commands, Changed Files, Test Results and Handoff record GZ-014, PR #29, full c26 Foundation completion SHA, completion semantics and predecessor Gate results
 
-command: close Issue #17 with state_reason=completed
-exit code: 0
+command: inspect Issue #17
+exit code: HTTP 200
 result: PASS
 observed result: Issue #17 is closed and GitHub reports state_reason=completed
 
-command: Foundation completion exact-head Gate, fresh Review, expected-head merge and post-merge main Gate
+command: PR #31 Foundation completion exact-head Gate, fresh Review, expected-head merge and post-merge main Gate
 exit code: pending
-observed result: use the latest completion PR HEAD and GitHub Actions; no future success is claimed
+observed result: use the latest PR #31 HEAD and GitHub Actions; no future success is claimed
