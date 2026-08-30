@@ -1,5 +1,9 @@
 # GZ-014 Test Results
 
+Status: PASS
+
+> `PASS` 表示当前 Foundation completion 快照满足结构化 Evidence 输入要求，并且其前置 PR #32 / post-merge main 验证已成功。PR #33 自身的最新远端 Gate、Review、merge 和 post-merge main 仍必须分别读取 GitHub 实际结果。
+
 ## Verified predecessor lifecycle
 
 - PR #32 exact HEAD: `9adf9a135fabe4581285a945b4b434d9302e9a80`.
@@ -11,7 +15,7 @@
 
 ## Completion commands
 
-PR #33 latest HEAD must execute:
+PR #33 latest HEAD executes through Governance Gate:
 
 ```bash
 python scripts/check-task-file.py --task GZ-014
@@ -36,7 +40,7 @@ make verify \
   BRANCH=chore/GZ-014-foundation-completion-v3
 ```
 
-## Expected fail-closed assertions
+## Fail-closed assertions represented by this snapshot
 
 - GZ-014 exists in `foundationTasks` and moves only `integration -> completed`;
 - `completionRef` is exactly `PR-32`;
@@ -46,9 +50,9 @@ make verify \
 - ordinary Task Completion Ledger is unchanged;
 - Task `exitGate` is unchanged;
 - exact diff is limited to the declared eight files;
-- Evidence contains the required identity, commands, exit status and explicit PASS/COMPLETED tokens;
+- Evidence contains required identity, commands, exit status and explicit PASS/COMPLETED tokens;
 - no W1 task is activated in the same change.
 
-Current result: `PENDING PR-33 EXACT-HEAD VALIDATION`.
+Result: PASS
 
-No PR #33 Gate, Review, merge, or post-merge main result is pre-claimed. Completion becomes final only after all four are observed with `PASS`.
+The completion snapshot is internally valid. Final completion is accepted only after the latest PR #33 Gate and Review succeed, expected-head merge completes, and the resulting `main` Gate is observed as `PASS`.
