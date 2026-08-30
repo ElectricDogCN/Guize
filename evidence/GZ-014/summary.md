@@ -3,58 +3,71 @@
 ## Identity
 
 - Issue: #17
-- Reservation PR: #18
-- Reservation merge: `d731ce09fbf2535948bc1864490539d06ce1f139`
-- Program Plan implementation PR: #21
-- Implementation merge: `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`
-- Post-merge review-repair PR: #22
-- Repair branch: `chore/GZ-014-post-merge-review-repair`
-- External GitHub enforcement blocker: OPS-001 #20
-- Current phase: `POST_MERGE_REVIEW_REPAIR`
+- Original Reservation PR: #18 / merge `d731ce09fbf2535948bc1864490539d06ce1f139`
+- Program Plan implementation PR: #21 / merge `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`
+- Lifecycle hardening PR: #22 / merge `903754295e4a0393638c82aa851c3ada8cd507fb`
+- Failed post-merge main Gate: run #237
+- Closed unreserved repair attempt: PR #23, not merged
+- Current clean Reservation: PR #24
+- Current authoritative branch: `chore/GZ-014-test-repair-reservation-v2`
+- Current Reservation base: `main@903754295e4a0393638c82aa851c3ada8cd507fb`
+- Last fully successful PR #24 HEAD before P1 remediation: `8efc71cf21ca0a6c9543722b89d8cad37cc71018`
+- Governance Gate run #245 on that HEAD: `success`
+- External release blocker: OPS-001 #20 remains open
+- Current phase: `ACTIVE_BRANCH_RESERVATION_REVIEW`
 
 ## Objective
 
-Reconcile Guize V1 requirements, architecture, machine-contract preparation, ten blocking POCs, engineering scaffolds and M1–M6 delivery into one canonical Program Plan. Ensure multiple Agents can reserve, implement, review, integrate and complete tasks without fabricating dependencies, ownership, completion provenance, Evidence freshness or platform protection.
+Keep GZ-014’s Program lifecycle, Task Spec, Active Work Lease, Git history and Evidence consistent while repairing the single repository-integration test failure exposed after PR #22 merged. The repair must not weaken production lifecycle checks, fabricate a Foundation completion, or start downstream work before the active GZ-014 lease is correctly re-reserved and completed.
 
-## Delivered control plane
+## Delivered control plane retained
 
-- canonical Program Plan, Schema, Requirement Index and Module/Public Contract ownership;
-- GZ-004～GZ-020 and POC-001～POC-010 DAG with W1～W17 risk/capacity ordering;
-- Active Work reservation/lease control;
-- permanent ordinary-task Completion Ledger and separate Foundation completion model;
-- Program snapshot integrity, target-branch history and finalization checks;
-- Task Spec ↔ Active Work ↔ Program Plan lifecycle and identity validation;
+- canonical Program Plan and Requirement/Module/Public Contract ownership;
+- GZ-004～GZ-020 and POC-001～POC-010 DAG;
+- Reservation, Active Work Lease, Wave/risk/path control and role separation;
+- Program Integrity, History, Transitions, Finalization and Lifecycle Guard gates;
+- ordinary-task Completion Ledger and separate Foundation completion model;
+- exact push-range validation and no-task main-push task derivation;
+- task-bound cancellation/completion Evidence;
 - dependency completion ordering and reservation-base ancestry;
-- Reservation snapshot proof from the recorded commit;
-- narrow ordinary/Foundation Completion PR transition rules;
-- completion Evidence freshness and target-base merge verification;
-- final GZ-020 transitive release closure;
-- live GitHub API verification of Ruleset include/exclude, Required Check, approval, CODEOWNERS, thread resolution, stale-review dismissal, independent approval after the latest push, latest-target-branch testing, deletion protection and non-fast-forward protection;
-- mandatory Governance Gate and Makefile wiring for Integrity, History, Finalization, Coordination Dispatcher and Scope Dispatcher.
+- live GitHub Ruleset verification for the final release blocker.
 
-## Real failures retained as evidence
+No accepted control has been removed or made advisory.
 
-1. Initial Reservation Gate rejected four asymmetric Requirement/Module mappings and an ambiguous empty shared-scope sentence.
-2. Implementation Gate #111 rejected unquoted YAML lease timestamps; values were quoted without weakening the Schema.
-3. PR #21 was merged before the manually requested latest-HEAD Codex review completed. The completed review identified additional completion, dependency and provenance blockers, so GZ-014 remained `in_progress` and PR #22 was created.
-4. Repair Gate #156 rejected the initial empty-ledger migration, extensionless root `Makefile` path, a test helper that shadowed `unittest.TestCase.run`, and a stale Workflow Contract assertion.
-5. Later exact-HEAD reviews identified completion-aware Scope dispatch, schema-versioned Foundation status protection, fresh completion Evidence, target-base merge existence, Ruleset exclude handling, Program/Registry executing-state mapping and completion/finalization provenance gaps.
-6. Repair Gate #191 proved the new Finalization control and 223 governance tests passed, but Agent Coordination rejected the Task/Registry path set because the Task expressed the extensionless root `Makefile` as a bare token.
-7. Gate #196 succeeded on `da2e1cbf9ca15881fc7cf271b531ffe7353eb067`, including Program Integrity/History/Finalization, completion-aware Coordination/Scope and 200 governance tests after the test suite was consolidated.
-8. Mandatory pre-approval review then found that the live Ruleset verifier did not require `strict_required_status_checks_policy=true`; a stale-target-base check could satisfy OPS-001. The verifier and regression suite were corrected.
-9. Continued exact-head review found a second independent-review gap: `require_last_push_approval` was not mandatory. The verifier now rejects a Ruleset unless the latest reviewable push must be approved by someone other than its pusher.
+## Current incident and recovery
 
-No accepted rule was removed or converted to advisory-only behavior.
+PR #22 merged as `903754...`. Its post-merge `main` run #237 passed the production lifecycle, Program, Coordination, Schema, Scope, Evidence and Spec Sync steps, but failed the governance-test step. The failed test invoked a GZ-014-specific lifecycle audit while `origin/main == HEAD`, which is not the same context as the no-task main-push wrapper used by Governance Gate.
 
-## Current validation state
+PR #23 attempted to repair the test, but was closed without merge because it combined a new branch/Lease migration with implementation, left the canonical Handoff stale and still hard-coded GZ-014 for future unrelated main pushes.
 
-The latest code and Evidence commits are newer than all previously successful Gates. Their GitHub Governance Gate and fresh Codex review are authoritative; no prior Gate or review is reused as approval for the changed HEAD.
+PR #24 is the clean Reservation-only recovery. It keeps Program Foundation, Task and Registry status `in_progress`, moves Task/Registry to branch `chore/GZ-014-test-repair-reservation-v2` at base `903754...`, refreshes canonical Handoff/Evidence and contains no test or script implementation.
 
-## Remaining boundary
+## Current validation and review state
 
-- PR #22 requires a successful latest-HEAD Governance Gate and a fresh Codex review of the same SHA with no findings.
-- All current review threads must remain resolved against current code and tests.
-- Merge must use the exact reviewed HEAD; the resulting `main` Gate must succeed.
-- A separate Foundation Completion PR must record the actual PR #22 merge SHA, mark GZ-014 completed, remove only its Active Work lease and refresh completion Evidence.
-- OPS-001 #20 remains open. GitHub Branch Protection/Ruleset is not considered enabled until live API verification succeeds, including `strict_required_status_checks_policy=true` and `require_last_push_approval=true`.
-- Business OpenAPI/Event/DDL/Runtime contracts, POCs, scaffolds and product implementation remain future Program Plan work.
+- PR #24 Governance Gate run #245 succeeded on exact HEAD `8efc71cf21ca0a6c9543722b89d8cad37cc71018`.
+- Fresh Codex Review identified five P1 documentation/control-plane consistency findings:
+  1. ensure Program/Task/Registry state is synchronized;
+  2. restore a resumable canonical Handoff;
+  3. require Task/Registry `baseSha` to advance to the actual Reservation merge before implementation;
+  4. limit the test-repair prohibition to PR #24 rather than the lifetime task;
+  5. refresh canonical Summary, Commands, Changed Files and Test Results.
+- Task-boundary remediation commit `06eaad8a3ecf2d4af5d667dc19fd53b8354bf689` and subsequent Evidence commits address those findings.
+- The resulting latest HEAD requires a new Governance Gate and fresh exact-HEAD Review. No previous Gate or Review is reused as approval.
+
+## Exact next sequence
+
+1. Finish PR #24 with latest-head Gate success, fresh no-finding Review, zero unresolved threads and expected-head merge.
+2. Record the actual PR #24 merge SHA.
+3. Before any test commit, fast-forward the authoritative branch to that merge and update **both** Task and Registry `baseSha` to the merge SHA.
+4. Submit a separate Implementation PR containing only the minimal `tests/governance/**` repair and fresh task-bound Evidence.
+5. Require exact-head Implementation Gate, Review, expected-head merge and a successful post-merge `main` Gate.
+6. Submit a separate narrow Foundation Completion PR that records the actual repair merge, marks GZ-014 completed and removes only its Lease.
+7. Only after GZ-014 completion may the canonical first-stage Program tasks be reserved.
+
+## Remaining boundaries
+
+- PR #24 is not approved until its latest HEAD is green and independently re-reviewed.
+- `main` remains red at run #237 until the independent test-repair Implementation is merged and revalidated.
+- GZ-014 remains `in_progress`; no Completion or Lease release is allowed in PR #24.
+- GZ-004, GZ-010 and all downstream tasks remain blocked.
+- OPS-001 #20 remains open and gates only final GZ-020 production release.
