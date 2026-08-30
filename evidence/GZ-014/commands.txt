@@ -12,62 +12,62 @@ command: execute post-merge lifecycle hardening through PR #22
 exit code: 0
 observed result: exact push-range lifecycle, completion/cancellation provenance, dependency ordering, live Ruleset verification and 255 governance tests merged as 903754295e4a0393638c82aa851c3ada8cd507fb
 
-command: GET /repos/ElectricDogCN/Guize/git/ref/heads/main after PR #22
+command: inspect post-merge main Governance Gate run #237
 exit code: HTTP 200
-observed result: main=903754295e4a0393638c82aa851c3ada8cd507fb
+observed result: Program/Lifecycle, Coordination, Schema, Scope, Evidence and Spec Sync passed; governance integration tests failed
 
-command: GET /repos/ElectricDogCN/Guize/actions/runs?head_sha=903754295e4a0393638c82aa851c3ada8cd507fb
-exit code: HTTP 200
-observed result: post-merge main Governance Gate run #237 concluded failure
+command: create and review PR #23
+exit code: PR closed without merge
+observed result: attempt rejected because branch migration and implementation were combined, Handoff was stale, and test hard-coded GZ-014 for unrelated future main pushes
 
-command: inspect run #237 job and step outcomes
-exit code: HTTP 200
-observed result: Task/Readiness/Program Lifecycle/Agent Coordination/Schema/Scope/Evidence/Spec Sync passed; Governance tests failed
-
-command: create PR #23 from main@903754295e4a0393638c82aa851c3ada8cd507fb
+command: create clean repair Reservation PR #24
 exit code: 0
-observed result: test repair branch opened without a prior independent Reservation
+observed result: Reservation-only metadata/Evidence entered main as bb22b4cd8662e6c1ed7d3b63255098d8a74237c1 after exact-head Gate and Review
 
-command: review PR #23
-exit code: review completed; merge withheld
-observed result: three P1 findings — new branch had no merged Reservation, Handoff still pointed to the old branch, and the test hard-coded GZ-014 for every future main push
-
-command: close PR #23
+command: update Task and Active Work implementation base
 exit code: 0
-observed result: PR closed without merge; branch, commits, reviews and evidence retained
+observed result: both use branch chore/GZ-014-test-repair-reservation-v2 and baseSha bb22b4cd8662e6c1ed7d3b63255098d8a74237c1; Foundation remains in_progress and Lease retained
 
-command: create clean Reservation branch chore/GZ-014-test-repair-reservation-v2 and PR #24
+command: create implementation PR #25
 exit code: 0
-observed result: branch created from main@903754295e4a0393638c82aa851c3ada8cd507fb; Reservation-only PR opened
+observed result: independent implementation carrier opened against main@bb22b4cd8662e6c1ed7d3b63255098d8a74237c1
 
-command: update specs/tasks/GZ-014.md and specs/coordination/active-work.yaml for PR #24
+command: Governance Gate run #256 on initial PR #25 implementation
+exit code: 1
+observed result: Agent Coordination rejected Task/Registry exclusive-path mismatch; governance test entered recursive lifecycle task derivation
+
+command: inspect Task/Registry and lifecycle wrapper
 exit code: 0
-observed result: Program Foundation, Task and Registry remain in_progress; Task/Registry branch and base are chore/GZ-014-test-repair-reservation-v2@903754295e4a0393638c82aa851c3ada8cd507fb
+observed result: bare Makefile was not parsed as a Task path; wrapper overwrote GUARD.task_ids_from_diff and called the same mutable attribute, causing recursion
 
-command: Governance Gate run #245 on PR #24 HEAD 8efc71cf21ca0a6c9543722b89d8cad37cc71018
+command: update specs/tasks/GZ-014.md
 exit code: 0
-observed result: all mandatory Gate steps succeeded
+observed result: Task body uses ./Makefile, expands allowed scope to the reviewed wrapper fix, and retains forbidden Program/business paths
 
-command: fresh Codex Review of PR #24
-exit code: review completed; approval withheld
-observed result: five P1 findings for canonical state synchronization, resumable Handoff, post-merge base update, reservation-only test prohibition and stale canonical Evidence
-
-command: update GZ-014 Task boundary
+command: update scripts/run-program-lifecycle-gate.py
 exit code: 0
-observed result: commit 06eaad8a3ecf2d4af5d667dc19fd53b8354bf689 limits the test prohibition to PR #24 and requires Task/Registry baseSha to advance to the actual Reservation merge before implementation
+observed result: original task_ids_from_diff captured before monkey-patch and used by expanded wrapper
 
-command: refresh evidence/GZ-014/handoff.md
+command: update tests/governance/test_program_lifecycle_guards.py
 exit code: 0
-observed result: commit fa8822693a02194da4ece85b737d124180c1c627 preserves historical validation, records PR #24 identity/files/commands/results/P1 findings and exact post-merge actions
+observed result: regression test monkey-patches runtime hook and verifies no recursive task derivation
 
-command: refresh canonical evidence/GZ-014/summary.md
+command: Governance Gate run #259 on cc0d378bf19dc936b7d46de833713aa3702e6636
+exit code: 1
+observed result: 254 tests passed; two wrapper tests failed because GUARD.mapping() does not support key="id"
+
+command: update wrapper external blocker mapping
 exit code: 0
-observed result: commit 90976514769759ded1a5d883dccb043b7f4d43c0 changes current phase to PR #24 Reservation review and records Gate #237/#245 plus pending remediation validation
+observed result: externalBlockers mapped locally by explicit id; base guard API and lifecycle policy unchanged
 
-command: refresh commands, changed-files and test-results for PR #24
-exit code: pending until each GitHub contents update returns
-observed result: no success is claimed until all updates exist on the latest PR HEAD and that exact HEAD receives a new successful Gate
+command: Governance Gate run #260 on 8914773e6f4c10558ece8cc4f668ced25d0d54c2
+exit code: 0
+observed result: all 25 mandatory workflow steps succeeded, including Program lifecycle, Agent Coordination, 256 governance tests, skip audit, Schema, Evidence, Scope, Spec Sync and CI validation
 
-command: final PR #24 Governance Gate and fresh review
+command: refresh GZ-014 canonical Evidence after run #260
+exit code: 0 for completed GitHub contents updates
+observed result: Summary, Commands, Changed Files, Test Results and Handoff describe PR #25, runs #256/#259/#260, current scope and pending final-head validation
+
+command: final PR #25 Governance Gate and fresh Review
 exit code: pending
-observed result: must be read from the exact latest PR #24 HEAD; previous Gate #245 does not approve later Evidence commits
+observed result: must be read from the exact latest PR #25 HEAD after Evidence refresh; run #260 is retained evidence but cannot approve a later failed commit

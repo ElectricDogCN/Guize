@@ -2,32 +2,36 @@
 
 ## Current PR
 
-- PR: #24
-- Phase: clean active-branch Reservation V2
-- Base: `main@903754295e4a0393638c82aa851c3ada8cd507fb`
+- PR: #25
+- Phase: lifecycle wrapper repair implementation
+- Base: `main@bb22b4cd8662e6c1ed7d3b63255098d8a74237c1`
 - Branch: `chore/GZ-014-test-repair-reservation-v2`
+- Last validated implementation HEAD: `8914773e6f4c10558ece8cc4f668ced25d0d54c2`
+- Gate: run #260, success
 
-## Declared latest file set
+## Declared file set
 
-The remediated PR #24 is expected to contain only:
+PR #25 is expected to contain only:
 
-- `specs/coordination/active-work.yaml` — move only the GZ-014 active branch/base while preserving status, roles, paths, Lease and integration order;
-- `specs/tasks/GZ-014.md` — align current branch/base, Reservation-only boundary and required post-merge base update;
-- `evidence/GZ-014/handoff.md` — current resumable Handoff with historical validation chain;
-- `evidence/GZ-014/test-repair-reservation-v2.md` — Reservation-specific supplemental record;
-- `evidence/GZ-014/summary.md` — canonical current phase and boundaries;
-- `evidence/GZ-014/commands.txt` — actual operations, results and pending checks;
-- `evidence/GZ-014/changed-files.md` — this inventory;
-- `evidence/GZ-014/test-results/README.md` — Gate/review history and current validation state.
+- `scripts/run-program-lifecycle-gate.py` — preserve original task-derivation function and map external blockers by explicit ID;
+- `tests/governance/test_program_lifecycle_guards.py` — repository integration and no-recursion regression tests;
+- `specs/tasks/GZ-014.md` — implementation scope/root-cause/validation update and normalized `./Makefile` path expression;
+- `specs/coordination/active-work.yaml` — implementation branch/base synchronization retained from the clean Reservation;
+- `evidence/GZ-014/summary.md`;
+- `evidence/GZ-014/commands.txt`;
+- `evidence/GZ-014/changed-files.md`;
+- `evidence/GZ-014/test-results/README.md`;
+- `evidence/GZ-014/handoff.md`.
 
 ## Explicitly unchanged
 
-- `specs/coordination/program-plan.yaml` remains byte-for-byte unchanged with GZ-014 Foundation `in_progress`;
-- no `tests/**` file changes in this Reservation PR;
-- no `scripts/**` file changes in this Reservation PR;
-- no business requirement, contract, code, deployment, Secret, permission or production-data change;
-- no Foundation completion and no Active Work lease release.
+- `scripts/check-program-lifecycle-guards.py` remains unchanged;
+- `.github/workflows/governance-gate.yml` remains unchanged;
+- `Makefile` remains unchanged;
+- `specs/coordination/program-plan.yaml` remains unchanged with GZ-014 Foundation `in_progress`;
+- product requirements, business machine contracts, business code, deployment, Secrets, permissions and production data remain unchanged;
+- no Foundation completion and no Active Work Lease release occur in PR #25.
 
 ## Verification rule
 
-The Integrator must obtain the actual latest changed-file list from GitHub immediately before approval. The PR is merge-blocked if any path differs from the eight declared paths above. A later Implementation PR may use the already registered `tests/governance/**` lifetime scope only after the Reservation merge is present and Task/Registry `baseSha` is updated to that actual merge commit.
+The Integrator must obtain GitHub’s actual latest changed-file list immediately before approval. The PR is blocked if any path is outside the nine paths above or if the latest exact-head Gate fails. Evidence-only changes after run #260 require a new Gate and fresh Review.

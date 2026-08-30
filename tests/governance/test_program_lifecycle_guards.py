@@ -8,12 +8,19 @@ import unittest
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SCRIPT_PATH = os.path.join(REPO_ROOT, "scripts", "check-program-lifecycle-guards.py")
+LIFECYCLE_GATE = os.path.join(REPO_ROOT, "scripts", "run-program-lifecycle-gate.py")
 WORKFLOW = os.path.join(REPO_ROOT, ".github", "workflows", "governance-gate.yml")
 MAKEFILE = os.path.join(REPO_ROOT, "Makefile")
 SPEC = importlib.util.spec_from_file_location("program_lifecycle_guards", SCRIPT_PATH)
 GUARDS = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
 SPEC.loader.exec_module(GUARDS)
+WRAPPER_SPEC = importlib.util.spec_from_file_location(
+    "program_lifecycle_gate_wrapper", LIFECYCLE_GATE
+)
+WRAPPER = importlib.util.module_from_spec(WRAPPER_SPEC)
+assert WRAPPER_SPEC and WRAPPER_SPEC.loader
+WRAPPER_SPEC.loader.exec_module(WRAPPER)
 
 
 class TestProgramLifecycleGuards(unittest.TestCase):
@@ -39,26 +46,75 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         return self.git(root, "rev-parse", "HEAD").stdout.strip()
 
     def test_current_repository_passes(self):
+        head_sha = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=REPO_ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        main_sha = subprocess.run(
+            ["git", "rev-parse", "origin/main"],
+            cwd=REPO_ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        command = [
+            sys.executable,
+            LIFECYCLE_GATE,
+            "--repo-root",
+            REPO_ROOT,
+            "--base-ref",
+            "origin/main",
+            "--head-ref",
+            "HEAD",
+        ]
+        if head_sha != main_sha:
+            command.extend(
+                [
+                    "--task",
+                    "GZ-014",
+                    "--branch-name",
+                    "chore/GZ-014-test-repair-reservation-v2",
+                ]
+            )
         result = subprocess.run(
-            [
-                sys.executable,
-                SCRIPT_PATH,
-                "--repo-root",
-                REPO_ROOT,
-                "--base-ref",
-                "origin/main",
-                "--head-ref",
-                "HEAD",
-                "--task",
-                "GZ-014",
-                "--branch-name",
-                "chore/GZ-014-post-merge-review-repair",
-            ],
+            command,
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_wrapper_task_derivation_does_not_recurse(self):
+        base_plan = {
+            "foundationTasks": [],
+            "tasks": [{"taskId": "GZ-004", "status": "planned"}],
+            "pocs": [],
+            "externalBlockers": [],
+        }
+        current_plan = {
+            "foundationTasks": [],
+            "tasks": [{"taskId": "GZ-004", "status": "reserved"}],
+            "pocs": [],
+            "externalBlockers": [],
+        }
+        original = WRAPPER.GUARD.task_ids_from_diff
+        WRAPPER.GUARD.task_ids_from_diff = WRAPPER.expanded_task_ids_from_diff
+        try:
+            affected = WRAPPER.expanded_task_ids_from_diff(
+                base_plan,
+                current_plan,
+                {"tasks": []},
+                {"tasks": [{"taskId": "GZ-004", "status": "reserved"}]},
+                {"records": []},
+                {"records": []},
+                {"specs/tasks/GZ-004.md"},
+            )
+        finally:
+            WRAPPER.GUARD.task_ids_from_diff = original
+        self.assertEqual(affected, {"GZ-004"})
 
     def test_rename_diff_includes_source_and_destination(self):
         with tempfile.TemporaryDirectory() as root:

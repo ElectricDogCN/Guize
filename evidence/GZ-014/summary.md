@@ -2,72 +2,75 @@
 
 ## Identity
 
+- Task: GZ-014
 - Issue: #17
 - Original Reservation PR: #18 / merge `d731ce09fbf2535948bc1864490539d06ce1f139`
 - Program Plan implementation PR: #21 / merge `3b29ea90a8a997be5ff7c97b0f24175cb49508ab`
 - Lifecycle hardening PR: #22 / merge `903754295e4a0393638c82aa851c3ada8cd507fb`
-- Failed post-merge main Gate: run #237
+- Failed post-merge `main` Gate: run #237
 - Closed unreserved repair attempt: PR #23, not merged
-- Current clean Reservation: PR #24
-- Current authoritative branch: `chore/GZ-014-test-repair-reservation-v2`
-- Current Reservation base: `main@903754295e4a0393638c82aa851c3ada8cd507fb`
-- Last fully successful PR #24 HEAD before P1 remediation: `8efc71cf21ca0a6c9543722b89d8cad37cc71018`
-- Governance Gate run #245 on that HEAD: `success`
+- Clean repair Reservation: PR #24 / merge `bb22b4cd8662e6c1ed7d3b63255098d8a74237c1`
+- Current Implementation PR: #25
+- Current branch: `chore/GZ-014-test-repair-reservation-v2`
+- Implementation base: `main@bb22b4cd8662e6c1ed7d3b63255098d8a74237c1`
+- Last validated implementation HEAD before this Evidence refresh: `8914773e6f4c10558ece8cc4f668ced25d0d54c2`
+- Governance Gate run #260 on that HEAD: `success`
 - External release blocker: OPS-001 #20 remains open
-- Current phase: `ACTIVE_BRANCH_RESERVATION_REVIEW`
+- Current phase: `IMPLEMENTATION_FINAL_VALIDATION`
 
 ## Objective
 
-Keep GZ-014’s Program lifecycle, Task Spec, Active Work Lease, Git history and Evidence consistent while repairing the single repository-integration test failure exposed after PR #22 merged. The repair must not weaken production lifecycle checks, fabricate a Foundation completion, or start downstream work before the active GZ-014 lease is correctly re-reserved and completed.
+Repair the repository-wide/no-task lifecycle wrapper used by `main` pushes, preserve all accepted Program/Completion/Reservation controls, and restore a green post-merge `main` Gate before completing the GZ-014 Foundation task.
 
-## Delivered control plane retained
+## Root cause and repair
 
-- canonical Program Plan and Requirement/Module/Public Contract ownership;
-- GZ-004～GZ-020 and POC-001～POC-010 DAG;
-- Reservation, Active Work Lease, Wave/risk/path control and role separation;
-- Program Integrity, History, Transitions, Finalization and Lifecycle Guard gates;
-- ordinary-task Completion Ledger and separate Foundation completion model;
-- exact push-range validation and no-task main-push task derivation;
-- task-bound cancellation/completion Evidence;
-- dependency completion ordering and reservation-base ancestry;
-- live GitHub Ruleset verification for the final release blocker.
+PR #25 run #256 exposed two independent defects:
 
-No accepted control has been removed or made advisory.
+1. the Task body listed bare `Makefile`, which the scope parser did not recognize as a path even though Registry contained `Makefile`; the Task now uses `./Makefile`, which normalizes to the same Registry value;
+2. `run-program-lifecycle-gate.py` replaced `GUARD.task_ids_from_diff` with its extended wrapper, while that wrapper called the same mutable attribute, causing infinite recursion in no-task mode.
 
-## Current incident and recovery
+The production wrapper now captures the original base implementation once as `ORIGINAL_TASK_IDS_FROM_DIFF` and calls that immutable reference. A regression test monkey-patches the guard exactly as runtime does and verifies task derivation returns without recursion.
 
-PR #22 merged as `903754...`. Its post-merge `main` run #237 passed the production lifecycle, Program, Coordination, Schema, Scope, Evidence and Spec Sync steps, but failed the governance-test step. The failed test invoked a GZ-014-specific lifecycle audit while `origin/main == HEAD`, which is not the same context as the no-task main-push wrapper used by Governance Gate.
+Run #259 then exposed a separate API assumption: the base guard's `mapping()` accepts only task-style lists and has no `key=` parameter. External blockers are now mapped locally by explicit `id`; the base guard remains unchanged.
 
-PR #23 attempted to repair the test, but was closed without merge because it combined a new branch/Lease migration with implementation, left the canonical Handoff stale and still hard-coded GZ-014 for future unrelated main pushes.
+## Verified implementation state
 
-PR #24 is the clean Reservation-only recovery. It keeps Program Foundation, Task and Registry status `in_progress`, moves Task/Registry to branch `chore/GZ-014-test-repair-reservation-v2` at base `903754...`, refreshes canonical Handoff/Evidence and contains no test or script implementation.
+Governance Gate run #260 succeeded on exact HEAD `8914773e6f4c10558ece8cc4f668ced25d0d54c2`:
 
-## Current validation and review state
+- Task validation: PASS;
+- Project Readiness: PASS;
+- Program Integrity/History/Transitions/Finalization/Lifecycle: PASS;
+- Agent Coordination: PASS;
+- 256 governance tests: PASS;
+- skip audit: PASS;
+- Markdown/Schema/Secret/Evidence/Scope/Spec Sync/CI static checks: PASS.
 
-- PR #24 Governance Gate run #245 succeeded on exact HEAD `8efc71cf21ca0a6c9543722b89d8cad37cc71018`.
-- Fresh Codex Review identified five P1 documentation/control-plane consistency findings:
-  1. ensure Program/Task/Registry state is synchronized;
-  2. restore a resumable canonical Handoff;
-  3. require Task/Registry `baseSha` to advance to the actual Reservation merge before implementation;
-  4. limit the test-repair prohibition to PR #24 rather than the lifetime task;
-  5. refresh canonical Summary, Commands, Changed Files and Test Results.
-- Task-boundary remediation commit `06eaad8a3ecf2d4af5d667dc19fd53b8354bf689` and subsequent Evidence commits address those findings.
-- The resulting latest HEAD requires a new Governance Gate and fresh exact-HEAD Review. No previous Gate or Review is reused as approval.
+This Evidence refresh creates a later HEAD. The Governance Gate attached to the latest PR #25 HEAD is authoritative; run #260 cannot approve a later failed commit.
 
-## Exact next sequence
+## Scope boundary
 
-1. Finish PR #24 with latest-head Gate success, fresh no-finding Review, zero unresolved threads and expected-head merge.
-2. Record the actual PR #24 merge SHA.
-3. Before any test commit, fast-forward the authoritative branch to that merge and update **both** Task and Registry `baseSha` to the merge SHA.
-4. Submit a separate Implementation PR containing only the minimal `tests/governance/**` repair and fresh task-bound Evidence.
-5. Require exact-head Implementation Gate, Review, expected-head merge and a successful post-merge `main` Gate.
-6. Submit a separate narrow Foundation Completion PR that records the actual repair merge, marks GZ-014 completed and removes only its Lease.
-7. Only after GZ-014 completion may the canonical first-stage Program tasks be reserved.
+PR #25 is limited to:
+
+- `scripts/run-program-lifecycle-gate.py`;
+- `tests/governance/test_program_lifecycle_guards.py`;
+- `specs/tasks/GZ-014.md`;
+- `specs/coordination/active-work.yaml`;
+- `evidence/GZ-014/**`.
+
+The base lifecycle guard, Workflow, Makefile, Program Plan, product requirements, business contracts/code, deployment, Secrets, permissions and production data remain unchanged. GZ-014 remains `in_progress`; its Lease is not released in this Implementation PR.
+
+## Required next sequence
+
+1. latest PR #25 HEAD Governance Gate succeeds;
+2. fresh independent Review targets that same HEAD and reports no blocker;
+3. all current Review threads are resolved;
+4. Integrator rechecks actual GitHub file list and merges with `expected_head_sha`;
+5. post-merge `main` Governance Gate succeeds;
+6. a separate Foundation Completion PR records the real repair merge, marks GZ-014 completed, removes only its Lease, finalizes task-bound Evidence and closes Issue #17;
+7. only then may Wave W1 tasks GZ-004 and GZ-010 be reserved.
 
 ## Remaining boundaries
 
-- PR #24 is not approved until its latest HEAD is green and independently re-reviewed.
-- `main` remains red at run #237 until the independent test-repair Implementation is merged and revalidated.
-- GZ-014 remains `in_progress`; no Completion or Lease release is allowed in PR #24.
-- GZ-004, GZ-010 and all downstream tasks remain blocked.
-- OPS-001 #20 remains open and gates only final GZ-020 production release.
+- This Evidence commit requires its own final Gate and Review.
+- OPS-001 #20 remains open and gates only GZ-020 production release.
+- GZ-004, GZ-010 and all downstream tasks remain blocked until GZ-014 Foundation completion.

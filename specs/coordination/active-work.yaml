@@ -19,7 +19,7 @@ tasks:
     agentRole: implementer
     branch: chore/GZ-014-test-repair-reservation-v2
     baseBranch: main
-    baseSha: 903754295e4a0393638c82aa851c3ada8cd507fb
+    baseSha: bb22b4cd8662e6c1ed7d3b63255098d8a74237c1
     workPackage: WP-M0-08
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: GZ-014

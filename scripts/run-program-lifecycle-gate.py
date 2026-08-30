@@ -20,6 +20,10 @@ SPEC = importlib.util.spec_from_file_location("guize_program_lifecycle_guards", 
 GUARD = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
 SPEC.loader.exec_module(GUARD)
+# Preserve the unwrapped implementation before main() injects the extended
+# task-derivation hook. Calling GUARD.task_ids_from_diff from the wrapper after
+# monkey-patching it would recurse indefinitely in repository-wide/no-task mode.
+ORIGINAL_TASK_IDS_FROM_DIFF = GUARD.task_ids_from_diff
 BLOCKER_OWNER_TASKS = {"BRANCH-PROTECTION": "GZ-018"}
 
 
@@ -51,6 +55,15 @@ def exact_changed_paths(root: str, base_ref: str, head_ref: str) -> set[str] | N
     return paths
 
 
+def mapping_by_id(items: Any, key: str) -> dict[str, dict[str, Any]]:
+    """Build a mapping for Program sections whose identity is not taskId."""
+    return {
+        str(item.get(key)): item
+        for item in (items or [])
+        if isinstance(item, dict) and item.get(key)
+    }
+
+
 def expanded_task_ids_from_diff(
     base_plan: dict[str, Any],
     current_plan: dict[str, Any],
@@ -60,7 +73,7 @@ def expanded_task_ids_from_diff(
     current_ledger: dict[str, Any],
     paths: set[str],
 ) -> set[str]:
-    affected = GUARD.task_ids_from_diff(
+    affected = ORIGINAL_TASK_IDS_FROM_DIFF(
         base_plan,
         current_plan,
         base_active,
@@ -75,8 +88,8 @@ def expanded_task_ids_from_diff(
         for task_id in set(before) | set(after):
             if before.get(task_id) != after.get(task_id):
                 affected.add(task_id)
-    before_blockers = GUARD.mapping(base_plan.get("externalBlockers"), key="id")
-    after_blockers = GUARD.mapping(current_plan.get("externalBlockers"), key="id")
+    before_blockers = mapping_by_id(base_plan.get("externalBlockers"), "id")
+    after_blockers = mapping_by_id(current_plan.get("externalBlockers"), "id")
     for blocker_id in set(before_blockers) | set(after_blockers):
         if before_blockers.get(blocker_id) != after_blockers.get(blocker_id):
             owner = BLOCKER_OWNER_TASKS.get(blocker_id)
