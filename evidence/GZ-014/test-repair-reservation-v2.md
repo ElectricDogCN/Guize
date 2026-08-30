@@ -1,4 +1,4 @@
-# GZ-014 Clean Test-Repair Reservation V2
+# GZ-014 Clean Test-Repair Branch Reservation V2
 
 ## Trigger
 
@@ -8,12 +8,13 @@
 
 ## Reservation objective
 
-Pause GZ-014 as `blocked`, establish one authoritative implementation branch and base SHA, and refresh Handoff before any test implementation is committed.
+Move the existing active GZ-014 Foundation Lease from the ended repair branch to one authoritative work branch and verified base before any new test implementation is committed.
 
-## Declared implementation context
+## Declared context
 
-- Branch: `chore/GZ-014-post-merge-test-repair-v2`
+- Branch: `chore/GZ-014-test-repair-reservation-v2`
 - Base: `903754295e4a0393638c82aa851c3ada8cd507fb`
+- Status: `in_progress`
 - Implementer: `governance-hardening-agent`
 - Reviewer: `independent-governance-review-agent`
 - Integrator: `integration-agent`
@@ -23,13 +24,18 @@ Pause GZ-014 as `blocked`, establish one authoritative implementation branch and
 
 Expected changed paths:
 
-- `specs/coordination/program-plan.yaml` — only GZ-014 Foundation status `in_progress -> blocked`;
-- `specs/coordination/active-work.yaml` — only the GZ-014 entry status/branch/base/agentRole;
-- `specs/tasks/GZ-014.md` — only current lifecycle context and Reservation specification;
+- `specs/coordination/active-work.yaml` — only the GZ-014 branch/baseSha;
+- `specs/tasks/GZ-014.md` — current branch/base and Reservation specification;
 - `evidence/GZ-014/handoff.md`;
 - `evidence/GZ-014/test-repair-reservation-v2.md`.
 
+The Program Plan remains byte-for-byte unchanged with GZ-014 Foundation `in_progress`.
+
 No `tests/**`, `scripts/**`, product requirement, business contract, business code, deployment, Secret, permission or data change is permitted.
+
+## Post-merge branch rule
+
+After this Reservation merges, the same branch must be fast-forwarded to the Reservation merge commit before any implementation commit. The later Implementation PR must contain the test repair and fresh Evidence only after that updated-main baseline is present.
 
 ## Evidence status
 
