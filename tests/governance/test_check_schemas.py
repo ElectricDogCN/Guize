@@ -95,7 +95,63 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
         with open(path, "w", encoding="utf-8") as handle:
             handle.write(content)
 
-    def _activate_gz004(self, root, coordination_dir, branch="chore/GZ-004-requirements-baseline"):
+    def _activate_foundation_gz014(self, root, coordination_dir):
+        plan_path = os.path.join(coordination_dir, "program-plan.yaml")
+        active_path = os.path.join(coordination_dir, "active-work.yaml")
+        plan = self._load(plan_path)
+        active = self._load(active_path)
+
+        foundation = next(
+            item for item in plan["foundationTasks"] if item["taskId"] == "GZ-014"
+        )
+        foundation["status"] = "integration"
+        foundation["completionRef"] = "ISSUE-17"
+        foundation["mergeCommit"] = None
+
+        registry = {
+            "taskId": "GZ-014",
+            "issue": 17,
+            "title": foundation["title"],
+            "status": "integration",
+            "riskLevel": "high",
+            "owner": "ElectricDogCN",
+            "coordinator": "program-coordinator-agent",
+            "implementer": "governance-hardening-agent",
+            "reviewer": "independent-governance-review-agent",
+            "integrator": "integration-agent",
+            "agentRole": "integrator",
+            "branch": "chore/GZ-014-foundation-integration",
+            "baseBranch": "main",
+            "baseSha": "b" * 40,
+            "workPackage": "WP-M0-08",
+            "programPlan": "specs/coordination/program-plan.yaml",
+            "programTaskId": "GZ-014",
+            "programWave": "FOUNDATION",
+            "requirementIds": ["REQ-V1-0010"],
+            "moduleIds": ["MOD-GOV"],
+            "producesContracts": [],
+            "consumesContracts": [],
+            "coordinationGroup": "program-plan-reconciliation",
+            "dependsOn": ["GZ-003"],
+            "exclusivePaths": ["tests/governance/**"],
+            "sharedPaths": [],
+            "handoffPath": "evidence/GZ-014/handoff.md",
+            "integrationStrategy": "merge",
+            "integrationOrder": 1,
+            "lease": {
+                "acquiredAt": "2026-08-31T00:00:00Z",
+                "expiresAt": "2026-09-07T00:00:00Z",
+            },
+        }
+        active["tasks"] = [registry]
+        self._write(plan_path, plan)
+        self._write(active_path, active)
+        self._write_task_spec(root, registry)
+        return registry
+
+    def _activate_gz004(
+        self, root, coordination_dir, branch="chore/GZ-004-requirements-baseline"
+    ):
         plan_path = os.path.join(coordination_dir, "program-plan.yaml")
         active_path = os.path.join(coordination_dir, "active-work.yaml")
         plan = self._load(plan_path)
@@ -104,6 +160,7 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
         for foundation in plan["foundationTasks"]:
             if foundation["taskId"] == "GZ-014":
                 foundation["status"] = "completed"
+                foundation["completionRef"] = "PR-29"
                 foundation["mergeCommit"] = "a" * 40
 
         planned = next(task for task in plan["tasks"] if task["taskId"] == "GZ-004")
@@ -151,8 +208,19 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
     def test_current_repository_coordination_files_pass(self):
         result = self._run(REPO_ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("OK TASK REGISTRY LINK: GZ-014", result.stdout)
-        self.assertIn("OK FOUNDATION ACTIVATION: GZ-014", result.stdout)
+        active = self._load(
+            os.path.join(REPO_ROOT, "specs", "coordination", "active-work.yaml")
+        )
+        for item in active.get("tasks", []):
+            self.assertIn(f"OK TASK REGISTRY LINK: {item['taskId']}", result.stdout)
+            if item.get("programWave") == "FOUNDATION":
+                self.assertIn(
+                    f"OK FOUNDATION ACTIVATION: {item['taskId']}", result.stdout
+                )
+        self.assertIn(
+            "OK: Schema, Task Spec, Active Work and Program Plan validation completed",
+            result.stdout,
+        )
 
     def test_copied_current_instances_pass(self):
         with tempfile.TemporaryDirectory() as root:
@@ -163,6 +231,7 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
     def test_program_task_id_must_equal_registry_task_id(self):
         with tempfile.TemporaryDirectory() as root:
             coordination = self._copy_coordination(root)
+            self._activate_foundation_gz014(root, coordination)
             path = os.path.join(coordination, "active-work.yaml")
             active = self._load(path)
             active["tasks"][0]["programTaskId"] = "GZ-999"
@@ -173,7 +242,8 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
 
     def test_task_spec_wave_must_match_registry(self):
         with tempfile.TemporaryDirectory() as root:
-            self._copy_coordination(root)
+            coordination = self._copy_coordination(root)
+            self._activate_foundation_gz014(root, coordination)
             path = os.path.join(root, "specs", "tasks", "GZ-014.md")
             with open(path, "r", encoding="utf-8") as handle:
                 text = handle.read()
@@ -186,6 +256,7 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
     def test_foundation_wave_must_be_foundation(self):
         with tempfile.TemporaryDirectory() as root:
             coordination = self._copy_coordination(root)
+            self._activate_foundation_gz014(root, coordination)
             path = os.path.join(coordination, "active-work.yaml")
             active = self._load(path)
             active["tasks"][0]["programWave"] = "W99"
@@ -199,7 +270,9 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
             coordination = self._copy_coordination(root)
             path = os.path.join(coordination, "program-plan.yaml")
             plan = self._load(path)
-            next(task for task in plan["tasks"] if task["taskId"] == "GZ-004")["status"] = "reserved"
+            next(task for task in plan["tasks"] if task["taskId"] == "GZ-004")[
+                "status"
+            ] = "reserved"
             self._write(path, plan)
             result = self._run(root)
             self.assertEqual(result.returncode, 1)
