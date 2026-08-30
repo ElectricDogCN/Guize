@@ -89,21 +89,32 @@ Every mandatory step succeeded, including:
 - PR/Task linkage and Spec Sync;
 - repository-boundary and Workflow static checks.
 
-### Mandatory pre-approval review finding after Gate #196
+### Mandatory pre-approval review findings after Gate #196
 
-The exact-head manual review intentionally continued after the green Gate. It found that the live Ruleset verifier did not require `strict_required_status_checks_policy=true`. A Ruleset could therefore require Governance Checks but still allow them to be evaluated against a stale target-branch base.
+The exact-head manual review intentionally continued after the green Gate and found two incomplete OPS-001 enforcement checks.
 
-The repair adds:
+First, the live Ruleset verifier did not require `strict_required_status_checks_policy=true`. A Ruleset could require Governance Checks but still allow them to be evaluated against a stale target-branch base.
+
+Second, the verifier did not require `require_last_push_approval=true`. A Ruleset could require one approval yet not guarantee that the latest reviewable push was approved by someone other than its pusher.
+
+The repairs add:
 
 - fail-closed validation of `strict_required_status_checks_policy`;
-- a negative test proving `false` is rejected;
-- a positive test proving a complete Ruleset with `true` is accepted.
+- fail-closed validation of `require_last_push_approval`;
+- negative tests proving each false value is rejected;
+- a positive test proving the complete Ruleset policy is accepted.
 
-This aligns the verifier with OPS-001's “Require branch to be up to date before merge” requirement and GitHub's Ruleset API semantics.
+### Governance Gate #202
+
+Validated HEAD: `7e38d391e3c1e997f5e90081d747dd0fe99a4dc0`
+
+Result: success.
+
+All Governance Gate steps succeeded after the latest-target-branch enforcement repair. Continued review then added the independent latest-push approval requirement, so Gate #202 is retained as evidence but is not approval for the later HEAD.
 
 ## Final integration condition
 
-The code and Evidence changes after Gate #196 create a new PR HEAD. Integration remains blocked until that exact final HEAD has:
+The latest code and Evidence updates create another PR HEAD. Integration remains blocked until that exact final HEAD has:
 
 1. a successful Governance Gate;
 2. a fresh independent Codex review of the same SHA with no findings;
