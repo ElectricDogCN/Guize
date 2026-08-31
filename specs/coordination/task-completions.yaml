@@ -1,4 +1,12 @@
 $schema: task-completions.schema.yaml
 schemaVersion: 1
 sourceOfTruth: specs/coordination/task-completions.yaml
-records: []
+records:
+  - taskId: GZ-004
+    reservationRef: PR-36
+    reservationCommit: 56d6bfacba45d36e82376ebb5a5cea7394c88f0d
+    completionRef: PR-37
+    mergeCommit: 1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96
+    taskSpec: specs/tasks/GZ-004.md
+    evidencePath: evidence/GZ-004
+    handoffPath: evidence/GZ-004/handoff.md
