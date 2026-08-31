@@ -1,0 +1,40 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: traceability.schema.yaml
+title: Guize V1 Requirement Traceability
+type: object
+additionalProperties: false
+required: [$schema, schemaVersion, contractId, status, authority, supplementPolicy, producedContracts, requirements]
+properties:
+  $schema: {const: traceability.schema.yaml}
+  schemaVersion: {const: 1}
+  contractId: {const: ACCEPTANCE-TRACE-V1}
+  status: {const: frozen}
+  authority:
+    type: object
+    additionalProperties: false
+    required: [requirements, acceptance, programPlan, moduleOwnership]
+    properties:
+      requirements: {const: specs/requirements/v1/requirements.yaml}
+      acceptance: {const: specs/acceptance/requirements/acceptance.yaml}
+      programPlan: {const: specs/coordination/program-plan.yaml}
+      moduleOwnership: {const: specs/designs/module-ownership.yaml}
+  supplementPolicy: {type: string, minLength: 40}
+  producedContracts: {const: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]}
+  requirements: {type: array, minItems: 10, maxItems: 10, items: {$ref: '#/$defs/trace'}}
+$defs:
+  trace:
+    type: object
+    additionalProperties: false
+    required: [requirementId, moduleIds, workPackages, acceptanceIds, programAcceptanceIds, pocIds, programPocIds, otherBlockers, downstreamTasks, programTaskMappingConflicts, producedContracts]
+    properties:
+      requirementId: {type: string, pattern: '^REQ-V1-[0-9]{4}$'}
+      moduleIds: {type: array, minItems: 1, uniqueItems: true, items: {type: string, pattern: '^MOD-[A-Z0-9-]+$'}}
+      workPackages: {type: array, minItems: 1, uniqueItems: true, items: {type: string, minLength: 1}}
+      acceptanceIds: {type: array, minItems: 1, uniqueItems: true, items: {type: string, minLength: 1}}
+      programAcceptanceIds: {type: array, uniqueItems: true, items: {type: string, minLength: 1}}
+      pocIds: {type: array, uniqueItems: true, items: {type: string, pattern: '^POC-[0-9]{2}$'}}
+      programPocIds: {type: array, uniqueItems: true, items: {type: string, pattern: '^POC-[0-9]{2}$'}}
+      otherBlockers: {type: array, uniqueItems: true, items: {type: string, minLength: 1}}
+      downstreamTasks: {type: array, minItems: 1, uniqueItems: true, items: {type: string, pattern: '^(GZ|POC)-[0-9]{3}$'}}
+      programTaskMappingConflicts: {type: array, uniqueItems: true, items: {type: string, pattern: '^(GZ|POC)-[0-9]{3}$'}}
+      producedContracts: {const: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]}

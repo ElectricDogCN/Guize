@@ -1,0 +1,222 @@
+$schema: nfr.schema.yaml
+schemaVersion: 1
+contractId: NFR-V1
+status: frozen
+authority:
+  product: specs/requirements/product-requirements.md
+  conflictPolicy: Derived NFR implementation baseline; approved product authority and later approved POC/GZ-011 measurements
+    take precedence.
+requiredCategories:
+- security
+- privacy
+- performance
+- capacity
+- availability
+- recovery
+- observability
+- compatibility
+- maintainability
+- supply-chain
+items:
+- id: NFR-V1-SEC-001
+  category: security
+  title: 权限隔离零泄漏生产门禁
+  statement: 搜索、推荐、缩略图、缓存和播放均不得泄漏无权访问的标题、摘要、缩略图或媒体内容。
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/18-testing-and-acceptance.md
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: null
+    unit: null
+    verificationOwners: [GZ-011, GZ-020]
+- id: NFR-V1-SEC-002
+  category: security
+  title: Secret 与凭据边界
+  statement: Secret、云凭据、OAuth 凭据和备份解密材料不得提交到仓库或暴露给无权限组件。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/12-security-identity-and-permissions.md]
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: null
+    unit: null
+    verificationOwners: [GZ-020]
+- id: NFR-V1-SEC-003
+  category: security
+  title: 商业 AI 与外部 Provider 调用门禁
+  statement: 商业 AI 或外部 Provider 调用必须在发送前完成调用者权限和资产 ACL 校验、数据策略评估，并执行硬性预算/配额门禁；缺失任一控制时默认拒绝。具体预算数值需后续批准，不在 GZ-004 虚构。
+  sourceRefs: [AGENTS.md, docs/10-ai-multimodal-pipeline.md, docs/12-security-identity-and-permissions.md]
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: null
+    unit: null
+    verificationOwners: [POC-09, GZ-011, GZ-020]
+- id: NFR-V1-PRI-001
+  category: privacy
+  title: AI 与外部服务最小数据暴露
+  statement: 向 AI Provider、云连接器和外部服务发送数据时遵循最小必要原则，并保留调用与人工干预审计。
+  sourceRefs: [docs/10-ai-multimodal-pipeline.md, docs/12-security-identity-and-permissions.md, docs/18-testing-and-acceptance.md]
+  measurement:
+    state: DESIGN_TARGET
+    value: null
+    unit: null
+    verificationOwners: [POC-09, GZ-011, GZ-020]
+- id: NFR-V1-PERF-001
+  category: performance
+  title: API 延迟与并发
+  statement: API P95/P99、分页、权限过滤和 Outbox 性能必须基于固定环境实测后冻结。
+  sourceRefs: [docs/18-testing-and-acceptance.md]
+  measurement:
+    state: MEASUREMENT_REQUIRED
+    value: null
+    unit: null
+    verificationOwners: [GZ-011]
+- id: NFR-V1-PERF-002
+  category: performance
+  title: 播放首帧与 Range 性能
+  statement: 首帧、Range、热/冷缓存、多用户、慢源和 A380 场景必须通过 POC/Golden Sample 实测后冻结。
+  sourceRefs: [docs/18-testing-and-acceptance.md, docs/19-risk-assumptions-and-poc.md]
+  measurement:
+    state: MEASUREMENT_REQUIRED
+    value: null
+    unit: null
+    verificationOwners: [POC-02, POC-03, POC-07, GZ-011]
+- id: NFR-V1-PERF-003
+  category: performance
+  title: AI 与搜索质量/吞吐
+  statement: AI 质量、GPU 吞吐、搜索相关性和查询延迟必须在固定样本与批准指标上实测。
+  sourceRefs: [docs/18-testing-and-acceptance.md, docs/19-risk-assumptions-and-poc.md]
+  measurement:
+    state: MEASUREMENT_REQUIRED
+    value: null
+    unit: null
+    verificationOwners: [POC-09, GZ-011]
+- id: NFR-V1-CAP-001
+  category: capacity
+  title: 远程来源规模基线
+  statement: V1 按约 700TB 远程来源规模设计；实际文件数、目录数、深度、变更率和 API 配额必须另行探测。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/02-requirements-and-scope.md]
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: 700
+    unit: TB_APPROX
+    verificationOwners: [POC-05]
+- id: NFR-V1-CAP-002
+  category: capacity
+  title: 本地安全空间水位
+  statement: 本地空间必须至少保留 500GB 安全空间；缓存和后台作业不得突破该安全水位。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/02-requirements-and-scope.md]
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: 500
+    unit: GB_MIN
+    verificationOwners: [POC-04, GZ-011]
+- id: NFR-V1-CAP-003
+  category: capacity
+  title: 文件数量与目录分布
+  statement: 文件数、目录数、目录深度、平均文件大小和变更频率尚未实测，必须在容量设计前完成探测。
+  sourceRefs: [docs/19-risk-assumptions-and-poc.md]
+  measurement:
+    state: MEASUREMENT_REQUIRED
+    value: null
+    unit: null
+    verificationOwners: [POC-05]
+- id: NFR-V1-CAP-004
+  category: capacity
+  title: 外部 Provider 预算与调用配额数值
+  statement: 商业 AI 和外部 Provider 的预算上限、请求配额和并发额度必须通过批准配置或测量确定；在批准前不得填入承诺性数字，但运行时必须具备硬门禁能力。
+  sourceRefs: [AGENTS.md, docs/10-ai-multimodal-pipeline.md]
+  measurement:
+    state: MEASUREMENT_REQUIRED
+    value: null
+    unit: null
+    verificationOwners: [POC-09, GZ-011]
+- id: NFR-V1-AVL-001
+  category: availability
+  title: 单物理宿主机边界
+  statement: 当前单物理宿主机不承诺真正硬件高可用；服务恢复与灾难恢复能力必须通过可恢复设计和演练补偿。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/02-requirements-and-scope.md]
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: null
+    unit: null
+    verificationOwners: [POC-10, GZ-020]
+- id: NFR-V1-AVL-002
+  category: availability
+  title: 服务恢复时间
+  statement: 服务、VM、核心浏览和播放的恢复时间目标在正式发布前必须通过恢复演练重新测量并批准。
+  sourceRefs: [docs/02-requirements-and-scope.md, docs/18-testing-and-acceptance.md]
+  measurement:
+    state: MEASUREMENT_REQUIRED
+    value: null
+    unit: null
+    verificationOwners: [POC-10, GZ-011]
+- id: NFR-V1-REC-001
+  category: recovery
+  title: RPO/RTO 与回读
+  statement: 用户/权限/资产/配置、数据库、Secrets、正式副本和关键文件的 RPO/RTO 与实际回读必须在 POC-10/验收阶段验证，当前不把设计目标冒充实测承诺。
+  sourceRefs: [docs/02-requirements-and-scope.md, docs/16-backup-and-disaster-recovery.md, docs/18-testing-and-acceptance.md]
+  measurement:
+    state: MEASUREMENT_REQUIRED
+    value: null
+    unit: null
+    verificationOwners: [POC-10, GZ-011, GZ-020]
+- id: NFR-V1-OBS-001
+  category: observability
+  title: 状态、日志、指标、追踪与审计
+  statement: 关键请求、长任务、规则、配置、部署和数据变化必须具有可关联的状态、日志、指标、追踪和审计证据。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/15-observability-and-operations.md]
+  measurement:
+    state: DESIGN_TARGET
+    value: null
+    unit: null
+    verificationOwners: [GZ-011, GZ-018, GZ-020]
+- id: NFR-V1-COMP-001
+  category: compatibility
+  title: ESXi 6.7 环境约束
+  statement: 当前虚拟化基线为 ESXi 6.7；任何依赖更高虚拟化能力的方案必须形成显式变更决策。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/02-requirements-and-scope.md]
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: '6.7'
+    unit: ESXI_VERSION
+    verificationOwners: [POC-01]
+- id: NFR-V1-COMP-002
+  category: compatibility
+  title: Intel Arc A380 可用性
+  statement: A380 PCI Passthrough、驱动、重置、稳定性和 AV1/H.264 能力在 POC 完成前均不得标记为生产可用。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/19-risk-assumptions-and-poc.md]
+  measurement:
+    state: MEASUREMENT_REQUIRED
+    value: null
+    unit: null
+    verificationOwners: [POC-01, POC-02]
+- id: NFR-V1-MNT-001
+  category: maintainability
+  title: 版本化、可回滚和可恢复变更
+  statement: API/事件/数据/运行时契约、配置、规则和部署必须版本化、可验证、可审计并具备明确回滚/恢复路径。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/02-requirements-and-scope.md]
+  measurement:
+    state: DESIGN_TARGET
+    value: null
+    unit: null
+    verificationOwners: [GZ-005, GZ-006, GZ-007, GZ-008, GZ-018, GZ-020]
+- id: NFR-V1-SC-001
+  category: supply-chain
+  title: 制品签名、SBOM 与许可证
+  statement: 所有发布制品必须具备签名/验签、SBOM 和许可证审查，离线 Bundle 必须可验证。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/17-devops-gitops-and-supply-chain.md, docs/18-testing-and-acceptance.md]
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: null
+    unit: null
+    verificationOwners: [GZ-018, GZ-020]
+- id: NFR-V1-GOV-001
+  category: maintainability
+  title: 无对外 Beta 的生产门禁
+  statement: V1 不设置对外 Beta；所有纳入范围能力必须通过批准的生产级门禁和人工发布签署后才能发布。
+  sourceRefs: [specs/requirements/product-requirements.md, docs/02-requirements-and-scope.md, docs/18-testing-and-acceptance.md]
+  measurement:
+    state: FROZEN_CONSTRAINT
+    value: null
+    unit: null
+    verificationOwners: [GZ-020]
