@@ -1,38 +1,41 @@
 # GZ-003 Test Results
 
-## Remote Governance Gate run #88
+## Original delivery verification
 
 - PR：#11
 - Tested branch head：`602856cf83554703f8aafd8f98f3eeddcbfa9698`
-- GitHub PR merge ref：`85fa0439b638e7d8a51cfee083fc302a9c82e494`
 - Workflow run ID：`33199139029`
 - Job ID：`98943864286`
-- Runner：Ubuntu 24.04.4
-- Python：3.11.16
-- Pytest：8.4.2
 - Conclusion：`success`
+- Governance tests：106 passed, 0 skipped
 
-## Observed results
+GZ-003 later merged through PR #11 as `9e3a821ada292ac3ef69b7c059384d17f6530b48` and remains a completed Foundation task.
 
-| Check | Actual result |
-|---|---|
-| Task file | GZ-003 schemaVersion 2 validation passed |
-| Project readiness | 10 requirements, 21 modules, 10 planned tasks structurally consistent |
-| Known readiness gaps | 10 requirements have unfrozen machine contracts; 10 are not implementation-verified |
-| Agent coordination | 0 active registry tasks; GZ-003 bootstrap exception valid |
-| Governance tests | 106 passed in 3.12s |
-| Skip audit | No skipped tests |
-| Markdown | 133 Markdown files, no issues |
-| Schema | Workflow YAML and 3 existing contract schemas passed |
-| Secret scan | No high-risk secrets detected |
-| Evidence | Canonical Evidence Contract passed |
-| PR/Task linkage | Passed for `chore/GZ-003-multi-agent-readiness` |
-| Scope | 48 changed files; 48 allowed; 0 forbidden; 0 out-of-scope |
-| Spec sync | Passed with the expected warning that CI workflow changes require manual review |
-| CI static validation | 11 workflow static tests passed |
+## Post-completion maintenance — PR #35
 
-## Interpretation
+### Run #303
 
-The readiness warnings are intentional audit output, not hidden failures: the repository is structurally ready to split the next tasks, while business machine contracts and implementations remain unfinished.
+- HEAD before Evidence refresh：`6ba34e972cd3d7eb5e07a6d8d8eb9b2e263a7998`
+- Workflow run：`33327335520`
+- Result：`FAIL`
+- Observed cause：Program finalization required refreshed GZ-003 completion Evidence for the maintenance diff. Other reported Gate areas succeeded.
 
-This file was updated after run #88. Therefore run #88 proves the listed ancestor commit, while the latest PR HEAD must complete a new Governance Gate before merge readiness may be claimed.
+### Run #306
+
+- Tested HEAD：`a4609ed7dcdb01147e66ad41dc72d2c8bb45e3bd`
+- Workflow run：`33327893886`
+- Job：`99301183761`
+- Result：`FAIL`
+
+Observed failures were confined to the maintenance test implementation and completed-task Evidence finalization:
+
+1. Program finalization required `evidence/GZ-003/test-results/README.md` to be refreshed for the maintenance PR.
+2. Governance suite result：`251 passed, 10 failed`.
+3. Three schema tests failed because the maintenance branch had removed the explicit active-Foundation fixture from Foundation-negative tests.
+4. Several lifecycle tests failed because the branch carried a stale test-file overwrite that referenced production-checker APIs not present on the current target `main` and hard-coded the historical GZ-014 task context.
+
+The production governance checkers were not weakened to make these failures pass. The maintenance branch is being rebuilt from the current `main` versions of both test files, with only the minimum compatibility changes needed for ordinary Program Task reservations.
+
+## Current maintenance validation boundary
+
+The latest PR #35 HEAD after the rebuild is newer than run #306. Therefore neither the original delivery run nor runs #303/#306 prove the latest HEAD. A new exact-head Governance Gate and fresh review are mandatory before merge.
