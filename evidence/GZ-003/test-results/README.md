@@ -1,41 +1,47 @@
 # GZ-003 Test Results
 
-## Original delivery verification
+Task: GZ-003
+Merge: 9e3a821ada292ac3ef69b7c059384d17f6530b48
+Result: PASS
 
-- PR：#11
-- Conclusion：`success`
-- Original governance suite：106 passed, 0 skipped
-- Merge：`9e3a821ada292ac3ef69b7c059384d17f6530b48`
+## Original completion
 
-## Post-completion maintenance — PR #35
+- PR #11 completed GZ-003.
+- Original merge: `9e3a821ada292ac3ef69b7c059384d17f6530b48`.
+- GZ-003 remains completed; this maintenance does not reopen its Program state or Active Work lease.
 
-### Historical failures
+## Maintenance validation history
 
-- Gate #303：`FAIL` — completed-task finalization required refreshed Evidence.
-- Gate #306：`FAIL` — stale whole-file test overwrite produced `251 passed, 10 failed`.
-- Gate #312 on `d6253b00a5dfb22aa0aa5a85af69ba3499a801e1`：`FAIL`, but governance suite was `259 passed, 0 failed, 0 skipped`; only lifecycle scope correctly rejected completed GZ-003 changing governance tests.
+Historical PR #35 iterations demonstrated the bootstrap defect and rejected unsafe fixes:
 
-### Gate #318
+- run #303: failed because completed-task maintenance Evidence had not been refreshed;
+- run #306: failed after stale whole-file test replacements introduced regression failures;
+- later iterations restored the full governance suite;
+- fresh Codex Review rejected the proposed persistent lifecycle-checker exception because the exempted checker could self-authorize future bypasses.
 
-- Exact HEAD：`4562805eeac43ad8997c48f3ff4e3f95ed02a6eb`
-- Workflow：`33345090625`
-- Result：`PASS`
-- All mandatory Gate steps succeeded, including Program integrity/history/transitions/finalization/lifecycle and the governance regression suite.
+## Final candidate expectations
 
-Fresh Codex Review on that exact HEAD nevertheless found two design blockers:
+The final candidate intentionally contains no lifecycle-checker modification. It must satisfy:
 
-1. repository smoke test could pass with `affectedTaskIds: []`, so it did not prove the real migration path was exercised;
-2. a fixed authorization-base constant inside the exempted checker could theoretically be redefined together with the checker in a later PR.
+- exactly two governance test files plus four GZ-003 Evidence files changed;
+- production lifecycle checker identical to target `main`;
+- schema fixture tests support empty/completed Foundation state and arbitrary current Active Work task specs;
+- repository lifecycle smoke test is state-agnostic and no longer hard-codes GZ-014;
+- all dedicated task-derivation, completion, cancellation, Foundation ownership, rename, Evidence and workflow wiring tests remain present;
+- no Program/Registry/Ledger/Task/Schema/Workflow/Makefile/product/business/deployment change exists.
 
-### Current fix
+## Expected PR Gate boundary
 
-- repository smoke test explicitly runs with `--task GZ-003` and asserts `affectedTaskIds` contains GZ-003;
-- the authorization base is derived from immutable Git first-parent history as the first fully completed/released GZ-014 snapshot instead of a mutable constant;
-- exact seven-file equality, completed→completed state, and unchanged Program/Registry/Ledger/GZ-003 Task Spec remain mandatory;
-- focused rejection tests for wrong base, extra path, state-document drift and Task Spec drift remain.
+Because GZ-003 is already completed, the existing pull-request lifecycle scope guard is expected to reject the two `tests/governance/**` edits as outside completed-task metadata scope. That known self-hosting rejection is the reason for the documented one-time break-glass review; it must not be converted into a reusable code exception.
 
-## Current validation boundary
+Before merge:
 
-`PENDING LATEST EXACT-HEAD VALIDATION`。
+- governance regression suite must pass;
+- all other Gate areas must pass;
+- no additional lifecycle or scope failure is allowed;
+- fresh exact-head Codex Review must find no code/design blocker apart from the known bootstrap scope deadlock;
+- Human Owner / Integrator must re-review the exact HEAD.
 
-The current PR #35 HEAD is newer than Gate #318. #303/#306/#312/#318 remain historical evidence and do not prove the latest HEAD. A new Governance Gate and fresh review are mandatory before merge.
+After an exact-head override merge, the resulting `main` Governance Gate must be completely green. If post-merge main is not green, GZ-004 remains blocked and the maintenance must be reverted or repaired before development continues.
+
+Current latest-head outcome: PENDING.
