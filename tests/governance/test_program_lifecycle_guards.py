@@ -57,12 +57,15 @@ class TestProgramLifecycleGuards(unittest.TestCase):
                 "origin/main",
                 "--head-ref",
                 "HEAD",
+                "--task",
+                "GZ-003",
             ],
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn('"affectedTaskIds": ["GZ-003"]', result.stdout)
 
     def _gz003_migration_inputs(self):
         plan = {
@@ -75,7 +78,8 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         ledger = {"records": []}
         return {
             "task_id": "GZ-003",
-            "resolved_base": GUARDS.GZ003_BOOTSTRAP_MIGRATION_BASE,
+            "resolved_base": "a" * 40,
+            "authorized_base": "a" * 40,
             "before_status": "completed",
             "after_status": "completed",
             "base_plan": plan,
@@ -123,6 +127,10 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         values = self._gz003_migration_inputs()
         values["task_spec_unchanged"] = False
         self.assertFalse(GUARDS.is_one_time_gz003_bootstrap_migration(**values))
+
+    def test_history_derivation_returns_first_gz014_completed_snapshot(self):
+        derived = GUARDS.derive_gz014_completion_base(REPO_ROOT, "HEAD")
+        self.assertEqual(derived, "3be9477fb137aa33faa6320f2454b9e1e1d5ec2d")
 
     def test_wrapper_task_derivation_does_not_recurse(self):
         base_plan = {
