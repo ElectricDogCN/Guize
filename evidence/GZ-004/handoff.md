@@ -21,26 +21,50 @@ Status: IN_PROGRESS
 
 ## Authority
 
-`specs/requirements/product-requirements.md` remains the APPROVED/FROZEN product authority. Requirement Index and Module Ownership remain read-only. `验收V1-0005` and Program-only POC relationships are explicit Program supplements and do not mutate index-derived acceptance/blocker sets.
+`specs/requirements/product-requirements.md` remains the APPROVED/FROZEN product authority. Requirement Index and Module Ownership remain read-only. `验收V1-0005` and Program-only POC relationships are explicit Program supplements and do not mutate index-derived acceptance/blocker sets. Requirement Index / Program task asymmetries are explicitly surfaced by Trace and Validator.
+
+## Completed implementation scope
+
+- exact `REQ-V1-0001..0010` derived requirements baseline;
+- NFR baseline with frozen/design/measurement-required separation;
+- requirement-level Acceptance with high-risk permission/data-integrity/recovery/production gates;
+- Requirement -> Module -> WP -> Acceptance -> POC/Blocker -> Task -> produced-contract trace;
+- strict schemas and fail-closed cross-file validator;
+- Program supplement and Requirement Index / Program conflict semantics;
+- human-readable requirements documentation and canonical Evidence.
 
 ## Exact verification facts
 
 - Reservation #36 merge `56d6bfac...`: PASS; post-main Gate #333: PASS.
 - Gate #343 on `0ffca4b...`: failed only because lifecycle state was still `reserved`; 259 governance tests and all other checks passed.
-- Candidate Validator: positive PASS; six required negative fixtures PASS.
-- Gate #344 on `0767cc9f...`: Program integrity/history/transitions/finalization/lifecycle PASS; 259/259 governance PASS; Task Scope 19/19 PASS; every other check PASS except Agent Coordination.
-- Agent Coordination's sole error: `specs/coordination/program-plan.yaml` is outside active implementation Registry path claims.
+- Historical Validator preflight: positive PASS and 6/6 negative fixtures PASS before later review hardening.
+- Gate #344 on `0767cc9f...`: all checks PASS except Agent Coordination; 259/259 governance PASS; Task Scope 19/19 PASS.
+- Gate #345 on `523a97b...`: same single Agent Coordination failure; all other checks PASS.
+- Fresh independent Review on `523a97b...`: four blockers found and all fixed/resolved.
+- Gate #349 on `17256dc...`: all checks PASS except the same Agent Coordination activation self-hosting failure.
+- Hardened Validator now has 9 negative fixtures, but no final 9/9 runtime PASS is claimed because this chat runtime cannot materialize the exact GitHub worktree; direct GitHub host resolution is unavailable here.
+
+## Fresh-review fixes after 523a97b
+
+1. `REQ-V1-0002` / `验收V1-0001` explicitly requires SourceObject deletion to preserve the logical Asset and remaining references.
+2. Acceptance declarations/scenarios must reference only exact known V1 Requirement IDs and must be set-symmetric.
+3. `PROGRAM_SUPPLEMENT` Acceptance is validated against actual Program Plan task acceptance+requirement co-occurrence; a stale hard-coded supplement cannot pass.
+4. Trace requires exact `programTaskMappingConflicts`; `REQ-V1-0003` records `[GZ-006]` because Requirement Index lists GZ-006 while canonical Program GZ-006 does not consume REQ-V1-0003.
 
 ## Self-hosting boundary
 
-The collaboration protocol requires Task/Registry to become `in_progress` on the implementation branch. Program integrity requires the Program status to match that active Registry state. The coordination dispatcher, however, classifies `in_progress` as ordinary implementation and rejects Program Plan because it is deliberately not owned as an implementation path. Expanding task scope or adding a checker bypass is prohibited.
+The collaboration protocol requires Task/Registry to become `in_progress` on the implementation branch. Program integrity requires the Program status to match that active Registry state. The coordination dispatcher classifies `in_progress` as ordinary implementation and therefore rejects Program Plan because it is deliberately not an implementation-owned path. Expanding task scope or weakening the checker is prohibited.
 
-Therefore fresh exact-head independent Review must distinguish this known activation self-hosting failure from code/design blockers. Only if no additional blocker exists may the Human Owner / Integrator perform a one-time override on the exact reviewed HEAD. The post-merge main Gate must be fully green; otherwise stop and repair/revert before any further lifecycle transition.
+A one-time Human Owner / Integrator merge override is permissible only if the final exact HEAD has a completed independent Review with zero unresolved blocker and its latest Gate has no failure other than this exact known Agent Coordination self-hosting error. The post-merge `main` Gate must be fully green; otherwise stop and repair/revert before any further lifecycle transition.
 
-## Next role action
+## Next role exact action
 
-1. request fresh exact-head independent Review;
-2. fix any new code/design blocker and rerun Gate;
-3. if only the known activation self-hosting coordination failure remains, Human/Integrator may evaluate exact-head override;
-4. require post-merge main full green;
-5. then advance GZ-004 through review/integration/completion using metadata lifecycle PRs and immutable Evidence; downstream GZ-005+ remains blocked until Completion.
+1. freeze the final implementation HEAD after this Evidence refresh;
+2. require exact-head Governance Gate and fresh independent Review;
+3. fix any new blocker and repeat until unresolved blocker count is zero;
+4. if the only Gate failure is the known activation self-hosting contradiction, Human Owner / Integrator may perform expected-head merge;
+5. require post-merge `main` full green;
+6. fast-forward the registered branch to that merge and advance GZ-004 through a separate `in_progress -> review` metadata PR;
+7. after review-state main is green, use a separate completion PR to set `completed`, remove Active Work, add the completion ledger with the true implementation merge SHA, refresh structured completion Evidence, and close Issue #14 only after post-completion main is green.
+
+Downstream GZ-005+ remains blocked until GZ-004 Completion is present on `main`.
