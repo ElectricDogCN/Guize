@@ -1,26 +1,36 @@
-GZ-004 Reservation command evidence
+GZ-004 implementation command evidence
 
-command: inspect main@86637ee15aa4d7d57093e96091a61ac671bb31aa post-bootstrap Governance Gate
+Task: GZ-004
+Phase: implementation / in_progress
+Implementation base: 56d6bfacba45d36e82376ebb5a5cea7394c88f0d
+Branch: chore/GZ-004-requirements-baseline
+
+command: merge Reservation PR #36 with expected head 74a81cd2ffd8afce2def73ef27178d5f3b4ab248
+exit code: GitHub merge success
+result: PASS
+observed result: Reservation merged to main as 56d6bfacba45d36e82376ebb5a5cea7394c88f0d
+
+command: inspect post-Reservation main Governance Gate #333
 exit code: HTTP 200
 result: PASS
-observed result: Governance Gate run #331 / 33364750289 completed successfully; Program lifecycle, Agent Coordination and governance regression suite were green
+observed result: run 33365297286 completed successfully; Program lifecycle, Agent Coordination and 259 governance tests were green
 
-command: close GZ-003 maintenance Issue #10
-exit code: HTTP 200
-result: PASS
-observed result: Issue #10 is closed with state_reason=completed after green post-merge main validation
+command: inspect implementation Governance Gate #343 on 0ffca4bdf1dfe6e3eeec402b18ef1dea048ae783
+exit code: workflow conclusion=failure
+result: EXPECTED FAILURE / DIAGNOSED
+observed result: all 259 governance tests and all non-lifecycle checks passed; Program lifecycle alone rejected specs/requirements/v1/**, specs/acceptance/requirements/** and docs/requirements/** because GZ-004 canonical Program/Task/Registry state was still reserved rather than in_progress
 
-command: create branch chore/GZ-004-reservation-v3 from 86637ee15aa4d7d57093e96091a61ac671bb31aa
+command: local exact-candidate preflight `python specs/requirements/v1/validate.py`
 exit code: 0
 result: PASS
-observed result: clean Reservation branch created from the exact green main commit
+observed result: 10 requirements, 20 NFR items, 14 acceptance records and 10 trace records passed Schema and cross-file validation against materialized canonical inputs
 
-command: reserve GZ-004 Program/Registry/Task/Evidence metadata
-exit code: 0 after commit creation
+command: local exact-candidate preflight `python specs/requirements/v1/validate.py --negative-fixtures`
+exit code: 0
 result: PASS
-observed result: GZ-004 is the only active reservation; no requirement/NFR/acceptance implementation output is added
+observed result: 6/6 invalid fixtures were rejected: duplicate alias, unknown module, missing requirement, asymmetric trace, illegal MEASUREMENT_REQUIRED value, fake POC PASS/measured claim
 
-command: Reservation PR exact-head Gate, fresh Review, expected-head merge and post-merge main Gate
+command: new exact-head Governance Gate, fresh independent Review, merge and post-merge main Gate
 exit code: pending
 result: PENDING
-observed result: no future result is claimed before GitHub executes it
+observed result: no future CI, review, merge or completion result is claimed before GitHub executes it on the new exact HEAD

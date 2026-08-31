@@ -5,7 +5,8 @@ status: frozen
 authority:
   product: specs/requirements/product-requirements.md
   index: specs/requirements/requirements-index.yaml
-  conflictPolicy: This file is a derived implementation baseline. If it conflicts with the approved product authority, specs/requirements/product-requirements.md wins.
+  conflictPolicy: This file is a derived implementation baseline. If it conflicts with the approved product authority, specs/requirements/product-requirements.md
+    wins.
 derivedFrom:
 - specs/requirements/product-requirements.md
 - specs/requirements/requirements-index.yaml
@@ -14,7 +15,9 @@ derivedFrom:
 - docs/19-risk-assumptions-and-poc.md
 requirements:
 - id: REQ-V1-0001
-  aliases: [G-01, 需求V1-0001]
+  aliases:
+  - G-01
+  - 需求V1-0001
   title: 统一接入
   status: frozen
   statement: 统一接入异构远程、本地、对象和共享存储来源，在不要求全量复制内容的前提下建立可治理、可搜索的来源目录。
@@ -24,90 +27,237 @@ requirements:
   nonGoals:
   - 不替代底层云盘/NAS/对象存储
   - AList/OpenList 不开发专有 API 连接器，使用 WebDAV 兼容方式
-  sourceRefs: [specs/requirements/product-requirements.md, docs/02-requirements-and-scope.md, docs/03-system-architecture.md, docs/07-source-connectors.md]
-  moduleIds: [MOD-CONNECTOR, MOD-PLATFORM, MOD-SOURCE, MOD-TASK]
-  workPackages: [WP-M1-03, WP-M1-04, WP-M2-07, WP-M5-08]
-  acceptanceIds: [ACCEPT-SOURCE-SYNC, ACCEPT-CONNECTOR-CONTRACT]
-  blockers: [POC-05, POC-06]
-  nextTasks: [GZ-004, GZ-005, GZ-006, POC-005, POC-006]
-  requiredScenarioTypes: [success, failure, recovery, production_gate]
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/02-requirements-and-scope.md
+  - docs/03-system-architecture.md
+  - docs/07-source-connectors.md
+  moduleIds:
+  - MOD-CONNECTOR
+  - MOD-PLATFORM
+  - MOD-SOURCE
+  - MOD-TASK
+  workPackages:
+  - WP-M1-03
+  - WP-M1-04
+  - WP-M2-07
+  - WP-M5-08
+  acceptanceIds:
+  - ACCEPT-SOURCE-SYNC
+  - ACCEPT-CONNECTOR-CONTRACT
+  blockers:
+  - POC-05
+  - POC-06
+  nextTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - POC-005
+  - POC-006
+  requiredScenarioTypes:
+  - success
+  - failure
+  - recovery
+  - production_gate
 - id: REQ-V1-0002
-  aliases: [G-02, 需求V1-0002]
+  aliases:
+  - G-02
+  - 需求V1-0002
   title: 统一资产
   status: frozen
-  statement: 把同一内容在不同来源、路径、文件名、编码和清晰度下的实体归并为可治理的逻辑资产，并保留来源、版本、Rendition 与 Replica 关系。
+  statement: 把同一内容在不同来源、路径、文件名、编码和清晰度下的实体归并为可治理的逻辑资产，并保留来源、版本、Rendition 与 Replica 关系以及来源级独立策略。
   scope:
   - Asset、SourceObject、AssetVersion、Rendition、Replica 统一模型
   - 移动、改名、版本、重复、合并与拆分的可追溯处理
+  - 相同内容仍保留不同 SourceObject 的 ACL、标签、路径、Retention 等来源级策略
   nonGoals:
   - 不因建立目录而强制复制全部远程内容
   - 不允许插件直接操作核心数据库
-  sourceRefs: [specs/requirements/product-requirements.md, docs/05-domain-and-data-model.md, docs/21-low-level-design.md]
-  moduleIds: [MOD-ASSET, MOD-PLATFORM, MOD-SOURCE]
-  workPackages: [WP-M1-02]
-  acceptanceIds: [验收V1-0001]
-  blockers: [GZ-004, GZ-005, GZ-006, GZ-007]
-  nextTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-012]
-  requiredScenarioTypes: [success, failure, data_integrity, production_gate]
+  - 哈希相等不允许覆盖来源级独立策略
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/05-domain-and-data-model.md
+  - docs/21-low-level-design.md
+  moduleIds:
+  - MOD-ASSET
+  - MOD-PLATFORM
+  - MOD-SOURCE
+  workPackages:
+  - WP-M1-02
+  acceptanceIds:
+  - 验收V1-0001
+  blockers:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  nextTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-012
+  requiredScenarioTypes:
+  - success
+  - failure
+  - data_integrity
+  - production_gate
 - id: REQ-V1-0003
-  aliases: [G-03, 需求V1-0003]
+  aliases:
+  - G-03
+  - 需求V1-0003
   title: 按需访问与播放
   status: frozen
-  statement: 通过 Range 回源、ATS 缓存、完整缓存与兼容转码提供按需在线播放、预览及 AV1/ABR 能力。
+  statement: 通过 Range 回源、ATS 缓存、完整缓存与受限兼容转码提供按需在线播放、预览及 AV1/ABR 能力。
   scope:
   - Range/If-Range/ETag 访问
   - ATS Slice/缓存隔离
   - AV1、源格式、临时 H.264、HLS/DASH ABR 和播放器能力
+  - 媒体处理限制允许的输入协议、路径和资源使用并记录产物 provenance
   nonGoals:
   - A380 能力在 POC 前不视为已可用
   - 不让缓存绕过 ACL 或泄漏私有媒体元数据
-  sourceRefs: [specs/requirements/product-requirements.md, docs/08-cache-and-storage-lifecycle.md, docs/09-media-av1-and-streaming.md, docs/12-security-identity-and-permissions.md]
-  moduleIds: [MOD-ASSET, MOD-EDGE, MOD-IAM, MOD-MEDIA, MOD-PLAYER, MOD-STORAGE]
-  workPackages: [WP-M1-05, WP-M1-06, WP-M1-07, WP-M3-03]
-  acceptanceIds: [验收V1-0002, 验收V1-0003, 验收V1-0006]
-  blockers: [POC-01, POC-02, POC-03, POC-07]
-  nextTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-001, POC-002, POC-003, POC-007]
-  requiredScenarioTypes: [success, failure, permission, recovery, production_gate]
+  - 不允许 FFmpeg 形成开放代理、任意本地文件读取或无限资源执行
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/08-cache-and-storage-lifecycle.md
+  - docs/09-media-av1-and-streaming.md
+  - docs/12-security-identity-and-permissions.md
+  moduleIds:
+  - MOD-ASSET
+  - MOD-EDGE
+  - MOD-IAM
+  - MOD-MEDIA
+  - MOD-PLAYER
+  - MOD-STORAGE
+  workPackages:
+  - WP-M1-05
+  - WP-M1-06
+  - WP-M1-07
+  - WP-M3-03
+  acceptanceIds:
+  - 验收V1-0002
+  - 验收V1-0003
+  - 验收V1-0006
+  blockers:
+  - POC-01
+  - POC-02
+  - POC-03
+  - POC-07
+  nextTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-009
+  - POC-001
+  - POC-002
+  - POC-003
+  - POC-007
+  requiredScenarioTypes:
+  - success
+  - failure
+  - permission
+  - recovery
+  - production_gate
 - id: REQ-V1-0004
-  aliases: [G-04, 需求V1-0004]
+  aliases:
+  - G-04
+  - 需求V1-0004
   title: 智能理解
   status: frozen
-  statement: 对音视频、图片和文档执行可追溯的 ASR、OCR、多模态修正、翻译、摘要、标签、Embedding 与缩略图加工。
+  statement: 对音视频、图片和文档执行可追溯的 ASR、OCR、多模态修正、翻译、摘要、标签、Embedding 与缩略图加工，派生产物继承资产权限并保留置信度/生成来源标记。
   scope:
   - ASR/时间轴/说话人分离/OCR/VLM/翻译/摘要/标签
   - 文本与图像/多模态 Embedding
-  - 真实关键帧和生成式缩略图
+  - 真实关键帧和生成式缩略图；生成式产物必须具备机器可读 generated 标记并在展示层可见区分
+  - 所有 AI 派生产物继承源 Asset ACL；低置信度结果保留 confidence/uncertainty 标记
   nonGoals:
   - AI 输出不直接视为权威事实
   - 不依赖单一商业 AI 或单一模型供应方
-  sourceRefs: [specs/requirements/product-requirements.md, docs/10-ai-multimodal-pipeline.md, docs/18-testing-and-acceptance.md]
-  moduleIds: [MOD-AI, MOD-STORAGE, MOD-TASK]
-  workPackages: [WP-M3-04, WP-M3-05, WP-M3-06, WP-M3-07]
-  acceptanceIds: [验收V1-0007]
-  blockers: [POC-09, GZ-011]
-  nextTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008, GZ-009, POC-009]
-  requiredScenarioTypes: [success, failure, data_integrity, recovery, production_gate]
+  - 生成式缩略图不得冒充真实媒体关键帧
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/10-ai-multimodal-pipeline.md
+  - docs/18-testing-and-acceptance.md
+  moduleIds:
+  - MOD-AI
+  - MOD-STORAGE
+  - MOD-TASK
+  workPackages:
+  - WP-M3-04
+  - WP-M3-05
+  - WP-M3-06
+  - WP-M3-07
+  acceptanceIds:
+  - 验收V1-0007
+  blockers:
+  - POC-09
+  - GZ-011
+  nextTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-009
+  - POC-009
+  requiredScenarioTypes:
+  - success
+  - failure
+  - data_integrity
+  - recovery
+  - production_gate
 - id: REQ-V1-0005
-  aliases: [需求V1-0005]
+  aliases:
+  - 需求V1-0005
   title: 统一检索与推荐
   status: frozen
-  statement: 提供全文、向量、混合检索、Reranker 与相似推荐，并在最终结果阶段再次执行权限复核。
+  statement: 提供全文、向量、混合检索、Reranker 与相似推荐；调用者 ACL 范围必须在关键词/向量召回前约束候选集合，并在最终结果阶段再次执行权限复核。
   scope:
   - PostgreSQL FTS/OpenSearch/Milvus 的检索组合
   - Fusion/Reranker、相关性评估和索引重建/降级
-  - 搜索和推荐结果的最终 ACL 复核
+  - 召回前 ACL scope 过滤与最终结果 ACL 复核
   nonGoals:
   - 任何标题、摘要、缩略图或向量结果都不得绕过权限
   - POC/样本结果不能替代生产验收
-  sourceRefs: [specs/requirements/product-requirements.md, docs/11-search-and-recommendation.md, docs/18-testing-and-acceptance.md]
-  moduleIds: [MOD-ASSET, MOD-IAM, MOD-SEARCH]
-  workPackages: [WP-M4-01, WP-M4-02, WP-M4-03, WP-M4-04, WP-M4-05, WP-M4-06]
-  acceptanceIds: [验收V1-0008]
-  blockers: [POC-09, GZ-011]
-  nextTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-009]
-  requiredScenarioTypes: [success, failure, permission, recovery, production_gate]
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/11-search-and-recommendation.md
+  - docs/18-testing-and-acceptance.md
+  moduleIds:
+  - MOD-ASSET
+  - MOD-IAM
+  - MOD-SEARCH
+  workPackages:
+  - WP-M4-01
+  - WP-M4-02
+  - WP-M4-03
+  - WP-M4-04
+  - WP-M4-05
+  - WP-M4-06
+  acceptanceIds:
+  - 验收V1-0008
+  blockers:
+  - POC-09
+  - GZ-011
+  nextTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-009
+  - POC-009
+  requiredScenarioTypes:
+  - success
+  - failure
+  - permission
+  - recovery
+  - production_gate
 - id: REQ-V1-0006
-  aliases: [G-05, 需求V1-0006]
+  aliases:
+  - G-05
+  - 需求V1-0006
   title: 生命周期、正式副本与备份
   status: frozen
   statement: 通过热温冷超冷生命周期、正式副本、保留、备份与恢复控制容量风险，并对不可重建数据提供可验证保护。
@@ -115,56 +265,143 @@ requirements:
   - 完整缓存、Promotion、正式副本、Retention、水位管理
   - PostgreSQL/关键文件/配置/Secrets 的备份与回读
   - 可重建缓存与不可静默丢失正式副本的分级
+  - 缓存淘汰不得修改逻辑 Asset 元数据、正式 Replica 或 Retention 状态
   nonGoals:
   - ATS/普通缓存/临时分片不作为不可替代备份
-  - 不以‘备份文件存在’替代实际恢复验证
-  sourceRefs: [specs/requirements/product-requirements.md, docs/08-cache-and-storage-lifecycle.md, docs/16-backup-and-disaster-recovery.md]
-  moduleIds: [MOD-DATA, MOD-STORAGE, MOD-TASK]
-  workPackages: [WP-M2-01, WP-M2-03, WP-M2-04, WP-M2-05, WP-M2-06]
-  acceptanceIds: [验收V1-0004, 验收V1-0011]
-  blockers: [POC-04, POC-10]
-  nextTasks: [GZ-004, GZ-006, GZ-007, GZ-008, POC-004, POC-010]
-  requiredScenarioTypes: [success, failure, data_integrity, recovery, production_gate]
+  - 不以“备份文件存在”替代实际恢复验证
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/08-cache-and-storage-lifecycle.md
+  - docs/16-backup-and-disaster-recovery.md
+  moduleIds:
+  - MOD-DATA
+  - MOD-STORAGE
+  - MOD-TASK
+  workPackages:
+  - WP-M2-01
+  - WP-M2-03
+  - WP-M2-04
+  - WP-M2-05
+  - WP-M2-06
+  acceptanceIds:
+  - 验收V1-0004
+  - 验收V1-0011
+  blockers:
+  - POC-04
+  - POC-10
+  nextTasks:
+  - GZ-004
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - POC-004
+  - POC-010
+  requiredScenarioTypes:
+  - success
+  - failure
+  - data_integrity
+  - recovery
+  - production_gate
 - id: REQ-V1-0007
-  aliases: [需求V1-0007]
+  aliases:
+  - 需求V1-0007
   title: 规则与可恢复长任务
   status: frozen
-  statement: 使用规则和可恢复长任务编排业务动作，所有长任务具备幂等、重试、暂停/恢复、取消和可观测状态。
+  statement: 使用规则和可恢复长任务编排业务动作，所有长任务具备幂等、重试、暂停、恢复、取消和可观测状态。
   scope:
   - LiteFlow 负责同步决策/规则表达
   - Temporal 负责长任务 Workflow/Activity 与恢复
-  - Worker 心跳、Retry/Timeout/Cancellation 和失败隔离
+  - Worker 心跳、Retry/Timeout/Cancellation、Pause/Resume 和失败隔离
   nonGoals:
   - 不建设传统企业 BPM 平台
   - 不允许用户任意在线编辑 Temporal Workflow 代码
-  sourceRefs: [specs/requirements/product-requirements.md, docs/14-rules-and-workflows.md, docs/21-low-level-design.md]
-  moduleIds: [MOD-PLATFORM, MOD-POLICY, MOD-TASK, MOD-WORKER]
-  workPackages: [WP-M1-08, WP-M5-02, WP-M5-03]
-  acceptanceIds: [验收V1-0009, 验收V1-0010]
-  blockers: [GZ-005, GZ-006, GZ-007, GZ-008]
-  nextTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008]
-  requiredScenarioTypes: [success, failure, data_integrity, recovery, production_gate]
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/14-rules-and-workflows.md
+  - docs/21-low-level-design.md
+  moduleIds:
+  - MOD-PLATFORM
+  - MOD-POLICY
+  - MOD-TASK
+  - MOD-WORKER
+  workPackages:
+  - WP-M1-08
+  - WP-M5-02
+  - WP-M5-03
+  acceptanceIds:
+  - 验收V1-0009
+  - 验收V1-0010
+  blockers:
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  nextTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  requiredScenarioTypes:
+  - success
+  - failure
+  - data_integrity
+  - recovery
+  - production_gate
 - id: REQ-V1-0008
-  aliases: [需求V1-0008]
+  aliases:
+  - 需求V1-0008
   title: 安全、身份与权限
   status: frozen
-  statement: 建立身份、ACL、匿名访问、Secret 边界和审计控制，确保搜索、缓存、播放与管理操作不泄漏越权数据。
+  statement: 建立身份、ACL、匿名访问、Secret 边界、管理员高风险操作 step-up 确认和审计控制，确保搜索、缓存、播放与管理操作不泄漏越权数据。
   scope:
   - 用户/匿名身份、ACL 与签名授权
   - Secrets 与外部凭据隔离
   - 搜索/缩略图/播放缓存的权限边界和审计
+  - 管理员高风险发布、ACL、Secret、破坏性操作必须重新认证或 step-up 确认
   nonGoals:
   - 不在客户端或仓库中暴露 Secret
-  - 不以缓存命中、搜索索引或 AI 产物绕过最终权限复核
-  sourceRefs: [specs/requirements/product-requirements.md, docs/12-security-identity-and-permissions.md, docs/18-testing-and-acceptance.md]
-  moduleIds: [MOD-AUDIT, MOD-EDGE, MOD-IAM]
-  workPackages: [WP-M1-01, WP-M5-07]
-  acceptanceIds: [验收V1-0002]
-  blockers: [GZ-004, GZ-005, GZ-006, GZ-007, POC-03, POC-07, POC-09]
-  nextTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-003, POC-007, POC-009]
-  requiredScenarioTypes: [success, failure, permission, data_integrity, production_gate]
+  - 不以缓存命中、搜索索引或 AI 产物绕过权限
+  - 密码登录本身不等于高风险操作授权
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/12-security-identity-and-permissions.md
+  - docs/18-testing-and-acceptance.md
+  moduleIds:
+  - MOD-AUDIT
+  - MOD-EDGE
+  - MOD-IAM
+  workPackages:
+  - WP-M1-01
+  - WP-M5-07
+  acceptanceIds:
+  - 验收V1-0002
+  blockers:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - POC-03
+  - POC-07
+  - POC-09
+  nextTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-009
+  - POC-003
+  - POC-007
+  - POC-009
+  requiredScenarioTypes:
+  - success
+  - failure
+  - permission
+  - data_integrity
+  - production_gate
 - id: REQ-V1-0009
-  aliases: [需求V1-0009]
+  aliases:
+  - 需求V1-0009
   title: 配置、审批、发布与回滚
   status: frozen
   statement: 配置、规则、模型、Worker、部署和升级必须经过验证、审批、灰度、发布与可回滚流程。
@@ -175,15 +412,45 @@ requirements:
   nonGoals:
   - 不把前端页面变成第二套业务规则
   - 不允许绕过批准流程直接把未经验证配置投入生产
-  sourceRefs: [specs/requirements/product-requirements.md, docs/13-configuration-center.md, docs/17-devops-gitops-and-supply-chain.md]
-  moduleIds: [MOD-CLI, MOD-CONFIG, MOD-DEPLOY, MOD-POLICY]
-  workPackages: [WP-M5-01, WP-M5-04, WP-M5-06]
-  acceptanceIds: [验收V1-0012]
-  blockers: [GZ-005, GZ-006, GZ-007, GZ-008, GZ-009]
-  nextTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008, GZ-009, POC-008]
-  requiredScenarioTypes: [success, failure, data_integrity, recovery, production_gate]
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/13-configuration-center.md
+  - docs/17-devops-gitops-and-supply-chain.md
+  moduleIds:
+  - MOD-CLI
+  - MOD-CONFIG
+  - MOD-DEPLOY
+  - MOD-POLICY
+  workPackages:
+  - WP-M5-01
+  - WP-M5-04
+  - WP-M5-06
+  acceptanceIds:
+  - 验收V1-0012
+  blockers:
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-009
+  nextTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-009
+  - POC-008
+  requiredScenarioTypes:
+  - success
+  - failure
+  - data_integrity
+  - recovery
+  - production_gate
 - id: REQ-V1-0010
-  aliases: [G-06, 需求V1-0010]
+  aliases:
+  - G-06
+  - 需求V1-0010
   title: 生产治理、审计、可观测与恢复
   status: frozen
   statement: 所有配置、规则、模型、任务、部署和数据变化可追溯、可验证、可审计、可恢复，并以生产门禁控制发布。
@@ -194,10 +461,45 @@ requirements:
   nonGoals:
   - 当前单物理宿主机不承诺真正硬件高可用
   - 未关闭生产阻断项前不得发布 V1
-  sourceRefs: [specs/requirements/product-requirements.md, docs/15-observability-and-operations.md, docs/16-backup-and-disaster-recovery.md, docs/17-devops-gitops-and-supply-chain.md, docs/18-testing-and-acceptance.md]
-  moduleIds: [MOD-AUDIT, MOD-DATA, MOD-DEPLOY, MOD-GOV, MOD-OBS]
-  workPackages: [WP-M5-05, WP-M5-06, WP-M5-07, WP-M6-RC]
-  acceptanceIds: [验收V1-0011, 验收V1-0012]
-  blockers: [POC-04, POC-10, BRANCH-PROTECTION]
-  nextTasks: [GZ-004, GZ-006, GZ-007, GZ-008, GZ-010, GZ-011, GZ-012, POC-004, POC-010, GZ-020]
-  requiredScenarioTypes: [success, failure, permission, data_integrity, recovery, production_gate]
+  sourceRefs:
+  - specs/requirements/product-requirements.md
+  - docs/15-observability-and-operations.md
+  - docs/16-backup-and-disaster-recovery.md
+  - docs/17-devops-gitops-and-supply-chain.md
+  - docs/18-testing-and-acceptance.md
+  moduleIds:
+  - MOD-AUDIT
+  - MOD-DATA
+  - MOD-DEPLOY
+  - MOD-GOV
+  - MOD-OBS
+  workPackages:
+  - WP-M5-05
+  - WP-M5-06
+  - WP-M5-07
+  - WP-M6-RC
+  acceptanceIds:
+  - 验收V1-0011
+  - 验收V1-0012
+  blockers:
+  - POC-04
+  - POC-10
+  - BRANCH-PROTECTION
+  nextTasks:
+  - GZ-004
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-010
+  - GZ-011
+  - GZ-012
+  - POC-004
+  - POC-010
+  - GZ-020
+  requiredScenarioTypes:
+  - success
+  - failure
+  - permission
+  - data_integrity
+  - recovery
+  - production_gate

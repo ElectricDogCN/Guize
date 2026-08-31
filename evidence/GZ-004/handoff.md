@@ -1,14 +1,14 @@
-# GZ-004 Reservation Handoff
+# GZ-004 Implementation Handoff
 
-Status: RESERVATION
+Status: IN_PROGRESS
 
 ## Identity
 
 - Task: `GZ-004`
 - Issue: #14
-- Reservation branch: `chore/GZ-004-reservation-v3`
-- Registered implementation branch: `chore/GZ-004-requirements-baseline`
-- Base SHA: `86637ee15aa4d7d57093e96091a61ac671bb31aa`
+- Reservation PR: #36
+- Implementation branch: `chore/GZ-004-requirements-baseline`
+- Implementation base: `56d6bfacba45d36e82376ebb5a5cea7394c88f0d`
 - Wave / Order: `W1 / 1`
 - Risk: `high`
 - Lease: `2026-08-31T06:30:00Z` → `2026-09-07T06:30:00Z`
@@ -21,21 +21,34 @@ Status: RESERVATION
 - Integrator: `integration-agent`
 - Human Owner: `ElectricDogCN`
 
-## Reserved output paths
+## Implemented output paths
 
 - `specs/requirements/v1/**`
 - `specs/acceptance/requirements/**`
 - `docs/requirements/**`
 - `evidence/GZ-004/**`
+- lifecycle metadata only in `specs/coordination/program-plan.yaml`, `specs/coordination/active-work.yaml`, `specs/tasks/GZ-004.md`
+
+## Authority and reconciliation
+
+`specs/requirements/product-requirements.md` remains the APPROVED/FROZEN product authority; `requirements-index.yaml` and `module-ownership.yaml` remain read-only inputs. The derived Requirement records preserve the exact Requirement Index relation sets.
+
+The Program Plan already references `验收V1-0005`, although the read-only Requirement Index for REQ-V1-0003 does not. The derived baseline records this as an explicit `PROGRAM_SUPPLEMENT`, sourced from the Program Plan, and leaves the Requirement Index-derived `acceptanceIds` untouched. Program POC relationships missing from Requirement Index blockers are similarly carried as `programPocIds` with Program authority rather than silently changing blocker sets.
+
+## Previous exact-head evidence
+
+- Reservation #36 merge: `56d6bfacba45d36e82376ebb5a5cea7394c88f0d`;
+- post-Reservation main Gate #333: PASS;
+- implementation Gate #343 on `0ffca4bdf1dfe6e3eeec402b18ef1dea048ae783`: FAIL only because GZ-004 was still `reserved`; governance tests 259/259 and all other Gate steps passed.
+
+## Candidate preflight
+
+The repaired candidate passed `validate.py` and all six negative fixtures in a locally materialized exact candidate. GitHub exact-head CI and fresh independent Review are still required and are not pre-claimed.
 
 ## Next exact action
 
-Only after this Reservation PR is merged and the resulting `main` Governance Gate succeeds:
-
-1. create/reset `chore/GZ-004-requirements-baseline` from that exact merge commit;
-2. update Program/Task/Registry from `reserved` to `in_progress` with the new implementation base SHA;
-3. implement only the four reserved output path groups;
-4. preserve the approved product authority `specs/requirements/product-requirements.md` unchanged;
-5. mark unmeasured numeric targets `MEASUREMENT_REQUIRED` rather than inventing production thresholds.
-
-No downstream consumer task may activate before GZ-004 is completed on `main`.
+1. push the atomic repair commit with Program/Task/Registry `in_progress`;
+2. verify actual diff remains inside GZ-004 authorized scope and Program Plan changes only the GZ-004 lifecycle state;
+3. require exact-head Governance Gate success;
+4. request a fresh high-risk independent review and resolve every blocker;
+5. only then advance through review/integration/completion according to the repository lifecycle; do not activate downstream tasks before GZ-004 completion on main.
