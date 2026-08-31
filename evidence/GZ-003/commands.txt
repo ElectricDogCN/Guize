@@ -2,73 +2,59 @@ GZ-003 command evidence
 
 === Original delivery history ===
 
-command: GitHub.create_issue(repository=ElectricDogCN/Guize, title="GZ-003：需求设计一致性与多 Agent 协作就绪治理")
-exit code: 0-equivalent; connector returned no error
-observed result: issue #10 created
-
-command: GitHub.create_branch(repository=ElectricDogCN/Guize, branch=chore/GZ-003-multi-agent-readiness, base_ref=main)
-exit code: 0-equivalent; connector returned no error
-observed result: branch chore/GZ-003-multi-agent-readiness created from main
-
-command: GitHub.create_pull_request(head=chore/GZ-003-multi-agent-readiness, base=main)
-exit code: 0-equivalent; connector returned no error
-observed result: PR #11 created; tested early head was 602856cf83554703f8aafd8f98f3eeddcbfa9698
-
-command: GitHub.fetch_commit_workflow_runs(commit=602856cf83554703f8aafd8f98f3eeddcbfa9698)
-exit code: 0-equivalent; connector returned no error
-observed result: Governance Gate run 33199139029 completed with conclusion=success
-
-command: GitHub.fetch_workflow_job_logs(job=98943864286)
-exit code: 0-equivalent; connector returned no error
-observed result: 106 tests passed; 0 skips; Markdown, Schema, Secret, scope, readiness and coordination checks passed
-
 command: merge PR #11
 exit code: 0-equivalent; GitHub returned merged
-observed result: GZ-003 merged as 9e3a821ada292ac3ef69b7c059384d17f6530b48
+result: PASS
+observed result: GZ-003 merged as 9e3a821ada292ac3ef69b7c059384d17f6530b48 after its original Governance Gate succeeded
 
-=== Post-completion maintenance PR #35 ===
+=== Post-completion bootstrap maintenance PR #35 ===
 
 command: inspect GZ-004 Reservation PR #34 failure
 exit code: HTTP 200
 result: PASS
-observed result: first ordinary Program Task Reservation exposed test fixtures bound to historical GZ-014 active state; #34 was closed instead of widening GZ-004 scope into tests/**
+observed result: first ordinary Program Task Reservation exposed tests bound to historical GZ-014 active state; #34 was closed instead of widening GZ-004 scope into tests/**
 
-command: GitHub.fetch_commit_workflow_runs(commit=6ba34e972cd3d7eb5e07a6d8d8eb9b2e263a7998)
+command: inspect Governance Gate run #303 / 33327335520
 exit code: HTTP 200
 result: PASS
-observed result: Governance Gate run #303 (33327335520) completed with conclusion=failure
+observed result: run failed because completed-task finalization required refreshed GZ-003 canonical Evidence
 
-command: GitHub.fetch_workflow_job_logs(job=99299701076)
+command: inspect Governance Gate run #306 / 33327893886 on a4609ed7dcdb01147e66ad41dc72d2c8bb45e3bd
 exit code: HTTP 200
 result: PASS
-observed result: Program integrity/history/transitions passed; finalization required refreshed completed-task Evidence
-
-command: GitHub.fetch_commit_workflow_runs(commit=a4609ed7dcdb01147e66ad41dc72d2c8bb45e3bd)
-exit code: HTTP 200
-result: PASS
-observed result: Governance Gate run #306 (33327893886) completed with conclusion=failure
-
-command: GitHub.fetch_workflow_job_logs(job=99301183761)
-exit code: HTTP 200
-result: PASS
-observed result: finalization still required evidence/GZ-003/test-results/README.md; governance suite reported 251 passed and 10 failed because the maintenance branch contained stale whole-file test overwrites
+observed result: run failed; finalization still required test-results refresh and stale test-file overwrites produced 251 passed / 10 failed
 
 command: rebuild tests/governance/test_program_lifecycle_guards.py from current main
 exit code: 0
 result: PASS
-observed result: all current production-checker API expectations and negative tests preserved; only test_current_repository_passes now lets run-program-lifecycle-gate.py derive affected tasks from the actual diff
+observed result: all current negative lifecycle tests and production API expectations preserved; current-repository smoke test now lets the wrapper derive tasks from the actual diff
 
 command: rebuild tests/governance/test_check_schemas.py from current main
 exit code: 0
 result: PASS
-observed result: explicit Foundation fixtures preserved; copied fixtures now resolve current Active Work Task Specs; missing-Lease case explicitly clears copied Registry before reserving GZ-004
+observed result: explicit Foundation fixtures preserved; fixture copying resolves current Active Work Task Specs; missing-Lease test clears the copied Registry before activating GZ-004
 
-command: refresh GZ-003 canonical maintenance Evidence including test-results/README.md
+command: inspect Governance Gate run #312 / 33344565626 on d6253b00a5dfb22aa0aa5a85af69ba3499a801e1
+exit code: HTTP 200
+result: PASS
+observed result: governance suite 259 passed, 0 failed, 0 skipped; all reported Gate areas passed except the lifecycle scope guard, which correctly rejected completed GZ-003 changing the two governance test files
+
+command: add one-time GZ-003 bootstrap migration exception to scripts/check-program-lifecycle-guards.py
 exit code: 0
 result: PASS
-observed result: summary, commands, handoff and test-results truthfully record runs #303/#306 and the rebuilt six-file maintenance scope
+observed result: exception is bound to target base 3be9477fb137aa33faa6320f2454b9e1e1d5ec2d, completed->completed GZ-003, unchanged Program/Registry/Ledger/Task Spec and the exact seven audited files
 
-command: latest PR #35 Governance Gate and fresh review
+command: add focused migration rejection tests
+exit code: 0
+result: PASS
+observed result: tests reject wrong base, extra path, Program/Registry/Ledger drift and Task Spec drift while preserving every existing lifecycle test
+
+command: refresh GZ-003 canonical maintenance Evidence with run #312
+exit code: 0
+result: PASS
+observed result: all four canonical Evidence files truthfully record the 259/259 test success, the single lifecycle-scope failure and the fixed-base one-time repair
+
+command: latest PR #35 Governance Gate and fresh exact-head review
 exit code: pending
 result: PENDING
-observed result: latest HEAD is newer than run #306; no success is claimed until GitHub executes and reports it
+observed result: latest HEAD is newer than run #312; no new Gate, review, merge or post-merge main success is pre-claimed
