@@ -4,51 +4,43 @@ Status: IN_PROGRESS
 
 ## Identity
 
-- Task: `GZ-004`
-- Issue: #14
+- Task: `GZ-004`; Issue #14
 - Reservation PR: #36
-- Implementation branch: `chore/GZ-004-requirements-baseline`
 - Implementation base: `56d6bfacba45d36e82376ebb5a5cea7394c88f0d`
-- Wave / Order: `W1 / 1`
-- Risk: `high`
+- Branch: `chore/GZ-004-requirements-baseline`
+- Wave / Order: `W1 / 1`; Risk: `high`
 - Lease: `2026-08-31T06:30:00Z` → `2026-09-07T06:30:00Z`
 
 ## Roles
 
 - Coordinator: `program-coordinator-agent`
 - Implementer: `requirements-baseline-agent`
-- Independent Reviewer: `independent-requirements-review-agent`
+- Reviewer: `independent-requirements-review-agent`
 - Integrator: `integration-agent`
 - Human Owner: `ElectricDogCN`
 
-## Implemented output paths
+## Authority
 
-- `specs/requirements/v1/**`
-- `specs/acceptance/requirements/**`
-- `docs/requirements/**`
-- `evidence/GZ-004/**`
-- lifecycle metadata only in `specs/coordination/program-plan.yaml`, `specs/coordination/active-work.yaml`, `specs/tasks/GZ-004.md`
+`specs/requirements/product-requirements.md` remains the APPROVED/FROZEN product authority. Requirement Index and Module Ownership remain read-only. `验收V1-0005` and Program-only POC relationships are explicit Program supplements and do not mutate index-derived acceptance/blocker sets.
 
-## Authority and reconciliation
+## Exact verification facts
 
-`specs/requirements/product-requirements.md` remains the APPROVED/FROZEN product authority; `requirements-index.yaml` and `module-ownership.yaml` remain read-only inputs. The derived Requirement records preserve the exact Requirement Index relation sets.
+- Reservation #36 merge `56d6bfac...`: PASS; post-main Gate #333: PASS.
+- Gate #343 on `0ffca4b...`: failed only because lifecycle state was still `reserved`; 259 governance tests and all other checks passed.
+- Candidate Validator: positive PASS; six required negative fixtures PASS.
+- Gate #344 on `0767cc9f...`: Program integrity/history/transitions/finalization/lifecycle PASS; 259/259 governance PASS; Task Scope 19/19 PASS; every other check PASS except Agent Coordination.
+- Agent Coordination's sole error: `specs/coordination/program-plan.yaml` is outside active implementation Registry path claims.
 
-The Program Plan already references `验收V1-0005`, although the read-only Requirement Index for REQ-V1-0003 does not. The derived baseline records this as an explicit `PROGRAM_SUPPLEMENT`, sourced from the Program Plan, and leaves the Requirement Index-derived `acceptanceIds` untouched. Program POC relationships missing from Requirement Index blockers are similarly carried as `programPocIds` with Program authority rather than silently changing blocker sets.
+## Self-hosting boundary
 
-## Previous exact-head evidence
+The collaboration protocol requires Task/Registry to become `in_progress` on the implementation branch. Program integrity requires the Program status to match that active Registry state. The coordination dispatcher, however, classifies `in_progress` as ordinary implementation and rejects Program Plan because it is deliberately not owned as an implementation path. Expanding task scope or adding a checker bypass is prohibited.
 
-- Reservation #36 merge: `56d6bfacba45d36e82376ebb5a5cea7394c88f0d`;
-- post-Reservation main Gate #333: PASS;
-- implementation Gate #343 on `0ffca4bdf1dfe6e3eeec402b18ef1dea048ae783`: FAIL only because GZ-004 was still `reserved`; governance tests 259/259 and all other Gate steps passed.
+Therefore fresh exact-head independent Review must distinguish this known activation self-hosting failure from code/design blockers. Only if no additional blocker exists may the Human Owner / Integrator perform a one-time override on the exact reviewed HEAD. The post-merge main Gate must be fully green; otherwise stop and repair/revert before any further lifecycle transition.
 
-## Candidate preflight
+## Next role action
 
-The repaired candidate passed `validate.py` and all six negative fixtures in a locally materialized exact candidate. GitHub exact-head CI and fresh independent Review are still required and are not pre-claimed.
-
-## Next exact action
-
-1. push the atomic repair commit with Program/Task/Registry `in_progress`;
-2. verify actual diff remains inside GZ-004 authorized scope and Program Plan changes only the GZ-004 lifecycle state;
-3. require exact-head Governance Gate success;
-4. request a fresh high-risk independent review and resolve every blocker;
-5. only then advance through review/integration/completion according to the repository lifecycle; do not activate downstream tasks before GZ-004 completion on main.
+1. request fresh exact-head independent Review;
+2. fix any new code/design blocker and rerun Gate;
+3. if only the known activation self-hosting coordination failure remains, Human/Integrator may evaluate exact-head override;
+4. require post-merge main full green;
+5. then advance GZ-004 through review/integration/completion using metadata lifecycle PRs and immutable Evidence; downstream GZ-005+ remains blocked until Completion.

@@ -18,7 +18,7 @@ observed result: run 33365297286 completed successfully; Program lifecycle, Agen
 command: inspect implementation Governance Gate #343 on 0ffca4bdf1dfe6e3eeec402b18ef1dea048ae783
 exit code: workflow conclusion=failure
 result: EXPECTED FAILURE / DIAGNOSED
-observed result: all 259 governance tests and all non-lifecycle checks passed; Program lifecycle alone rejected specs/requirements/v1/**, specs/acceptance/requirements/** and docs/requirements/** because GZ-004 canonical Program/Task/Registry state was still reserved rather than in_progress
+observed result: all 259 governance tests and all non-lifecycle checks passed; Program lifecycle alone rejected implementation output because GZ-004 canonical Program/Task/Registry state was still reserved rather than in_progress
 
 command: local exact-candidate preflight `python specs/requirements/v1/validate.py`
 exit code: 0
@@ -28,9 +28,14 @@ observed result: 10 requirements, 20 NFR items, 14 acceptance records and 10 tra
 command: local exact-candidate preflight `python specs/requirements/v1/validate.py --negative-fixtures`
 exit code: 0
 result: PASS
-observed result: 6/6 invalid fixtures were rejected: duplicate alias, unknown module, missing requirement, asymmetric trace, illegal MEASUREMENT_REQUIRED value, fake POC PASS/measured claim
+observed result: 6/6 invalid fixtures rejected: duplicate alias, unknown module, missing requirement, asymmetric trace, illegal MEASUREMENT_REQUIRED value, fake POC PASS/measured claim
 
-command: new exact-head Governance Gate, fresh independent Review, merge and post-merge main Gate
+command: inspect Governance Gate #344 on 0767cc9f70eaced2844fc159d6675f388030338f
+exit code: workflow conclusion=failure
+result: EXPECTED SELF-HOSTING FAILURE / DIAGNOSED
+observed result: Task, Project Readiness, Program integrity/history/transitions/finalization/lifecycle, 259 governance tests, Markdown, Schema, Secret, Evidence, linkage, Task Scope (19/19), Spec Sync and CI validation all passed. The only failure was Agent Coordination: `specs/coordination/program-plan.yaml` is outside the active implementation Registry path claims. This is the first reserved->in_progress activation self-hosting conflict: Program/Registry status consistency requires the Program Plan status update, while the in_progress dispatcher only permits implementation path claims. No scope/checker exception is added.
+
+command: fresh exact-head independent Review, Human/Integrator decision, merge and post-merge main Gate
 exit code: pending
 result: PENDING
-observed result: no future CI, review, merge or completion result is claimed before GitHub executes it on the new exact HEAD
+observed result: no future review, merge, post-merge or completion success is claimed before those actions execute on the final exact HEAD
