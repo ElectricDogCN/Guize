@@ -66,6 +66,7 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('"affectedTaskIds": ["GZ-003"]', result.stdout)
+        self.assertIn('"bootstrapBaseAuthorized": true', result.stdout)
 
     def _gz003_migration_inputs(self):
         plan = {
@@ -78,8 +79,7 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         ledger = {"records": []}
         return {
             "task_id": "GZ-003",
-            "resolved_base": "a" * 40,
-            "authorized_base": "a" * 40,
+            "base_is_authorized": True,
             "before_status": "completed",
             "after_status": "completed",
             "base_plan": plan,
@@ -99,9 +99,9 @@ class TestProgramLifecycleGuards(unittest.TestCase):
             )
         )
 
-    def test_one_time_gz003_bootstrap_migration_rejects_wrong_base(self):
+    def test_one_time_gz003_bootstrap_migration_rejects_unauthorized_base(self):
         values = self._gz003_migration_inputs()
-        values["resolved_base"] = "f" * 40
+        values["base_is_authorized"] = False
         self.assertFalse(GUARDS.is_one_time_gz003_bootstrap_migration(**values))
 
     def test_one_time_gz003_bootstrap_migration_rejects_extra_path(self):
@@ -128,9 +128,18 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         values["task_spec_unchanged"] = False
         self.assertFalse(GUARDS.is_one_time_gz003_bootstrap_migration(**values))
 
-    def test_history_derivation_returns_first_gz014_completed_snapshot(self):
-        derived = GUARDS.derive_gz014_completion_base(REPO_ROOT, "HEAD")
-        self.assertEqual(derived, "3be9477fb137aa33faa6320f2454b9e1e1d5ec2d")
+    def test_target_base_facts_authorize_only_gz014_completion_merge(self):
+        self.assertTrue(
+            GUARDS.is_gz003_bootstrap_authorized_base(REPO_ROOT, "origin/main")
+        )
+        parent = GUARDS.resolve_ref(REPO_ROOT, "origin/main^1")
+        self.assertIsNotNone(parent)
+        self.assertFalse(
+            GUARDS.is_gz003_bootstrap_authorized_base(REPO_ROOT, parent)
+        )
+        self.assertFalse(
+            GUARDS.is_gz003_bootstrap_authorized_base(REPO_ROOT, "HEAD")
+        )
 
     def test_wrapper_task_derivation_does_not_recurse(self):
         base_plan = {
