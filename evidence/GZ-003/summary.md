@@ -24,28 +24,47 @@ PR #11 的早期 branch head `602856cf83554703f8aafd8f98f3eeddcbfa9698` 在 Gove
 
 ### Problem
 
-GZ-004 的旧 Reservation PR #34 暴露了两处治理回归测试仍绑定历史 GZ-014 状态：
+GZ-004 Reservation PR #34 首次让普通 Program Task 进入 `reserved` 后，暴露了治理测试仍绑定历史 GZ-014 活动态的旧假设：
 
-- Schema fixture 假设 Active Work 永远存在一个 GZ-014 Foundation 条目；
-- lifecycle repository test 在任何非-main diff 上硬编码 GZ-014 task/branch，而不是从实际 diff 推导任务上下文。
+- Schema fixture 只复制 GZ-014 Task Spec，而不是当前 Active Work 中所有任务；
+- 一个缺 Lease 的负向用例没有先清空当前真实 Registry；
+- lifecycle repository test 在非-main diff 上硬编码 GZ-014，而不是让 wrapper 从实际 diff 推导任务。
 
-这些假设会错误阻断后续普通 Program Task 的合法 Reservation。
+这些缺陷会错误阻断合法的普通 Program Task Reservation，因此必须在重新启动 GZ-004 前修复。
 
-### Functional change
+### Maintenance scope
 
-PR #35 的功能变更限于：
+功能修改严格限于：
 
 - `tests/governance/test_check_schemas.py`；
 - `tests/governance/test_program_lifecycle_guards.py`。
 
-它没有重开 GZ-003、重新占用 Active Work、修改 Program Plan、产品需求、业务机器契约或业务实现。
+完成态 Evidence 同步限于：
 
-### Observed remote result
+- `evidence/GZ-003/summary.md`；
+- `evidence/GZ-003/commands.txt`；
+- `evidence/GZ-003/handoff.md`；
+- `evidence/GZ-003/test-results/README.md`。
 
-HEAD `6ba34e972cd3d7eb5e07a6d8d8eb9b2e263a7998` 的 Governance Gate run #303 (`33327335520`) 失败。唯一失败原因是 Program finalization 要求已完成任务的维护 PR 同步刷新本任务的 canonical Evidence；缺失文件为 `handoff.md`、`summary.md` 和 `commands.txt`。其他 Gate 区域成功。
+不修改 Program Plan、Active Work、Task Spec、生产 checker、Schema、Workflow、Makefile、GZ-004 元数据、需求、业务契约/代码、部署、Secret、权限或生产数据。
+
+### Observed remote failures
+
+- Gate run #303 (`33327335520`) on `6ba34e972cd3d7eb5e07a6d8d8eb9b2e263a7998` failed because completed-task finalization required refreshed GZ-003 canonical Evidence.
+- Gate run #306 (`33327893886`) on `a4609ed7dcdb01147e66ad41dc72d2c8bb45e3bd` also failed. Program finalization still required `evidence/GZ-003/test-results/README.md`, and the stale whole-file test overwrite produced `251 passed, 10 failed`.
+- The 10 failures were fixture/API drift in the maintenance test files, not a reason to weaken production governance checkers.
+
+### Current repair
+
+The branch is rebuilt from the current `main` versions of both test files:
+
+- all current negative lifecycle tests and production API expectations are preserved;
+- Schema fixtures now resolve/copy the current Active Work Task Specs while retaining explicit Foundation fixtures for Foundation-negative tests;
+- the missing-Lease test explicitly removes active leases before testing the missing GZ-004 lease;
+- the current-repository lifecycle test lets the wrapper derive affected tasks from the actual diff instead of hard-coding GZ-014.
 
 ### Current state
 
 `MAINTENANCE_NEEDS_REVALIDATION`。
 
-本 Evidence 更新满足已观察到的 finalization 要求，但会产生新的 PR HEAD。不得将 run #303 或原始 PR #11 的成功结果当作新 HEAD 已通过；以 PR #35 最新 exact-head Gate 和 fresh review 为最终依据。
+The latest PR #35 HEAD is newer than runs #303/#306. Those failed runs are retained as evidence and do not prove the rebuilt HEAD. A fresh exact-head Governance Gate and independent review are mandatory before merge.
