@@ -34,6 +34,7 @@ ACTIVE = "specs/coordination/active-work.yaml"
 LEDGER = "specs/coordination/task-completions.yaml"
 OWNERSHIP = "specs/designs/module-ownership.yaml"
 TASK_DIR = "specs/tasks"
+GZ014_COMPLETION_EVIDENCE = "evidence/GZ-014/summary.md"
 IMPLEMENTATION_STATES = {"in_progress", "review", "integration"}
 METADATA_STATES = {"reserved", "blocked", "cancelled", "completed"}
 COMPLETION_BASE_STATES = {"review", "integration"}
@@ -61,10 +62,12 @@ FOUNDATION_SCOPE_EXCEPTIONS: dict[str, tuple[str, ...]] = {
     )
 }
 
-# Exact files of the one-time self-hosting migration. The authorization base
-# is deliberately not configurable here. It is derived from first-parent Git
-# history as the first commit where GZ-014 is simultaneously completed in the
-# Program and Task Spec and absent from Active Work.
+# Exact files of the one-time GZ-003 self-hosting migration.  The authorization
+# value is not stored in these files.  It is proven from immutable facts in the
+# target-base commit/tree: the base must itself be the GZ-014 Foundation
+# Completion PR #33 merge, must newly enter the completed/released GZ-014
+# snapshot, and must contain the unchanged GZ-014 completion Evidence outside
+# this exempted change set.
 GZ003_BOOTSTRAP_MIGRATION_PATHS = frozenset(
     {
         "scripts/check-program-lifecycle-guards.py",
@@ -108,6 +111,10 @@ def ref_exists(root: str, ref: str) -> bool:
 def resolve_ref(root: str, ref: str) -> str | None:
     result = git(root, "rev-parse", f"{ref}^{{commit}}")
     return result.stdout.strip() if result.returncode == 0 else None
+
+
+def is_ancestor(root: str, ancestor: str, descendant: str) -> bool:
+    return git(root, "merge-base", "--is-ancestor", ancestor, descendant).returncode == 0
 
 
 def read_ref(root: str, ref: str, path: str) -> str | None:
@@ -337,24 +344,38 @@ def gz014_completion_snapshot(root: str, ref: str) -> bool:
     )
 
 
-def derive_gz014_completion_base(root: str, head_ref: str) -> str | None:
-    """Return the immutable first-parent commit that completed/released GZ-014."""
-    history = git(root, "rev-list", "--first-parent", "--reverse", head_ref)
-    if history.returncode != 0:
-        return None
-    previously_complete = False
-    for sha in (line.strip() for line in history.stdout.splitlines() if line.strip()):
-        complete = gz014_completion_snapshot(root, sha)
-        if complete and not previously_complete:
-            return sha
-        previously_complete = complete
-    return None
+def exact_token(message: str, token: str) -> bool:
+    return re.search(rf"(?<![A-Z0-9]){re.escape(token)}(?![A-Z0-9])", message) is not None
+
+
+def is_gz003_bootstrap_authorized_base(root: str, resolved_base: str) -> bool:
+    """Prove the target base is the immutable GZ-014 Completion PR #33 merge.
+
+    Authorization facts all live outside the seven exempted migration paths:
+    target-base commit identity/parent, the target-base Program/Task/Registry
+    snapshot, and GZ-014's task-bound completion Evidence.
+    """
+    if not resolved_base or not gz014_completion_snapshot(root, resolved_base):
+        return False
+    parent = resolve_ref(root, f"{resolved_base}^1")
+    if not parent or gz014_completion_snapshot(root, parent):
+        return False
+    message_result = git(root, "show", "-s", "--format=%B", resolved_base)
+    if message_result.returncode != 0:
+        return False
+    message = message_result.stdout
+    if not exact_token(message, "GZ-014") or not re.search(r"(?<!\d)#33(?!\d)", message):
+        return False
+    evidence = read_ref(root, resolved_base, GZ014_COMPLETION_EVIDENCE) or ""
+    return bool(
+        re.search(r"(?mi)^Status:\s*COMPLETED\b", evidence)
+        and re.search(r"(?<!\d)PR\s*#33(?!\d)", evidence)
+    )
 
 
 def is_one_time_gz003_bootstrap_migration(
     task_id: str,
-    resolved_base: str,
-    authorized_base: str | None,
+    base_is_authorized: bool,
     before_status: str,
     after_status: str,
     base_plan: dict[str, Any],
@@ -368,8 +389,7 @@ def is_one_time_gz003_bootstrap_migration(
 ) -> bool:
     return (
         task_id == "GZ-003"
-        and bool(authorized_base)
-        and resolved_base == authorized_base
+        and base_is_authorized
         and before_status == "completed"
         and after_status == "completed"
         and base_plan == current_plan
@@ -554,7 +574,7 @@ def main() -> int:
     if not resolved_base:
         emit("FAIL", "Lifecycle guard target base cannot be resolved")
         return 1
-    authorized_bootstrap_base = derive_gz014_completion_base(root, args.head_ref)
+    base_is_bootstrap_authorized = is_gz003_bootstrap_authorized_base(root, resolved_base)
     try:
         base_plan = load_ref(root, args.base_ref, PLAN)
         current_plan = load_current(root, PLAN)
@@ -634,8 +654,7 @@ def main() -> int:
         )
         bootstrap_migration = is_one_time_gz003_bootstrap_migration(
             task_id,
-            resolved_base,
-            authorized_bootstrap_base,
+            base_is_bootstrap_authorized,
             before_status,
             after_status,
             base_plan,
@@ -697,7 +716,7 @@ def main() -> int:
             "affectedTaskIds": sorted(affected),
             "changedPathCount": len(paths),
             "baseRef": args.base_ref,
-            "bootstrapAuthorizedBase": authorized_bootstrap_base,
+            "bootstrapBaseAuthorized": base_is_bootstrap_authorized,
         },
     )
     return 0
