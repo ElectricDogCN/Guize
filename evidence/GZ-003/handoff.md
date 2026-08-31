@@ -2,74 +2,69 @@
 
 Task: GZ-003
 Merge: 9e3a821ada292ac3ef69b7c059384d17f6530b48
-Status: COMPLETED
+Status: PASS
 
 ## Identity
 
-- Task：GZ-003
-- Issue：#10
-- Original PR：#11
-- Original merge：`9e3a821ada292ac3ef69b7c059384d17f6530b48`
-- Bootstrap maintenance PR：#35
-- Branch：`chore/GZ-003-multi-agent-readiness`
-- Target base：`main@3be9477fb137aa33faa6320f2454b9e1e1d5ec2d`
-- Status：GZ-003 remains `completed`
+- Original Task: GZ-003
+- Issue: #10
+- Original PR: #11
+- Original merge: `9e3a821ada292ac3ef69b7c059384d17f6530b48`
+- Maintenance PR: #35
+- Branch: `chore/GZ-003-multi-agent-readiness`
+- Target base: `main@3be9477fb137aa33faa6320f2454b9e1e1d5ec2d`
+- GZ-003 state remains `completed`
 
 ## Trigger
 
-GZ-004 Reservation PR #34 exposed governance tests coupled to historical GZ-014 active state. GZ-004 forbids `tests/**`; #34 was closed and the compatibility defect was isolated to GZ-003 bootstrap maintenance.
+GZ-004 Reservation PR #34 exposed governance tests coupled to historical GZ-014 active state. GZ-004 forbids `tests/**`; #34 was closed and the defect was isolated to governance maintenance.
 
-## Exact seven-file maintenance scope
+## Final maintenance scope
 
-1. `scripts/check-program-lifecycle-guards.py`
-2. `tests/governance/test_check_schemas.py`
-3. `tests/governance/test_program_lifecycle_guards.py`
-4. `evidence/GZ-003/summary.md`
-5. `evidence/GZ-003/commands.txt`
-6. `evidence/GZ-003/handoff.md`
-7. `evidence/GZ-003/test-results/README.md`
+The final candidate contains only:
 
-No Program Plan、Active Work、Completion Ledger、Task Spec、Schema、Workflow、Makefile、GZ-004 metadata、requirement、business contract/code、deployment、Secret、permission or production data is modified.
+1. `tests/governance/test_check_schemas.py`;
+2. `tests/governance/test_program_lifecycle_guards.py`;
+3. `evidence/GZ-003/summary.md`;
+4. `evidence/GZ-003/commands.txt`;
+5. `evidence/GZ-003/handoff.md`;
+6. `evidence/GZ-003/test-results/README.md`.
 
-## Validation history
+`scripts/check-program-lifecycle-guards.py` has been restored exactly to the target-main blob and must not appear in the final PR diff.
 
-- Gate #303：failed because completed-task finalization required refreshed GZ-003 Evidence.
-- Gate #306：failed with `251 passed, 10 failed` because the maintenance branch contained stale whole-file test overwrites and incomplete Evidence refresh.
-- Gate #312 on `d6253b00a5dfb22aa0aa5a85af69ba3499a801e1`：governance suite `259 passed, 0 failed, 0 skipped`; all reported gates passed except normal completed-task lifecycle scope.
-- Gate #318 on `4562805eeac43ad8997c48f3ff4e3f95ed02a6eb`：all Governance Gate steps passed; fresh review then found mutable-base and empty-affected smoke-test design blockers.
-- Gate #324 on `08cab050f9ed336d11f992ff0b6794e0a3bc9ae1`：governance suite `265 passed`; every reported Gate area except Program finalization passed. Finalization correctly required this Handoff to expose the original implementation merge in machine-readable form.
+No Program Plan, Active Work, Completion Ledger, Task Spec, Schema, Workflow, Makefile, product requirement, business contract/code, deployment, Secret, permission, production data or downstream activation is modified.
 
-## Current repair
+## Functional repair
 
-The one-time migration authorization is not a mutable base constant. The guard derives the authorization base from Git first-parent history: the first commit where GZ-014 is completed in Program and Task and absent from Active Work. Later `main` commits do not alter that first-completion history fact.
+- Schema copied-fixture setup now includes Task Specs for all currently active Registry tasks using the same exact-or-unique-suffix resolution supported by production validation.
+- The missing-Lease negative fixture explicitly clears Active Work before reserving GZ-004 in Program data.
+- The repository lifecycle smoke test no longer injects GZ-014 whenever HEAD differs from `origin/main`; it invokes the wrapper generically, while dedicated unit tests continue to prove that Program/Registry/Task changes derive GZ-004 and other task IDs.
+- No negative guard or fail-closed production checker is removed or weakened.
 
-The migration additionally requires:
+## Break-glass rationale
 
-- exact Task `GZ-003`;
-- `completed -> completed`;
-- Program/Registry/Ledger/GZ-003 Task Spec unchanged;
-- exact seven-file changed set.
+The current production lifecycle guard intentionally treats a completed GZ-003 task as metadata-only, so the pull-request Gate cannot authorize the very `tests/governance/**` edits required to remove its stale self-hosting assumptions. Adding a machine exception to that same checker was reviewed and rejected because it would leave a reusable bypass.
 
-The repository smoke test explicitly passes `--task GZ-003` and asserts `affectedTaskIds` contains GZ-003, so the migration predicate is exercised.
+Accordingly, the only acceptable path is a one-time Human Owner / Integrator override on a test-only PR after exact-head review. The override is valid only if the known metadata-scope failure is the sole remaining Gate failure and the final repository state contains no bootstrap exception.
 
 ## Reviewer exact action
 
 1. Review the latest PR #35 HEAD only.
-2. Verify actual changed-file inventory is exactly the seven audited paths.
-3. Verify history-derived authorization base remains the first GZ-014 completed/released snapshot after `main` advances.
-4. Verify Program/Registry/Ledger/Task Spec equality and exact path equality remain mandatory.
-5. Verify all old negative tests remain and the repository smoke test exercises GZ-003.
-6. Require latest exact-head Governance Gate success and zero unresolved blockers.
+2. Verify actual changed files equal the six paths listed above.
+3. Verify `scripts/check-program-lifecycle-guards.py` is identical to `main` and absent from the diff.
+4. Verify both test changes are state-agnostic and retain all existing negative assertions.
+5. Inspect latest Governance Gate: governance tests and every non-bootstrap-scope check must pass; only the completed-GZ-003 test-scope lifecycle rejection may remain.
+6. Report any additional failure or design flaw as a blocker.
 
 ## Integrator exact action
 
-1. Re-fetch exact HEAD, seven-file inventory, Gate and fresh review.
-2. Re-review exact HEAD before approval.
-3. Merge with `expected_head_sha` only if all blockers are resolved.
-4. Verify post-merge `main` Gate.
-5. Close Issue #10 again.
-6. Rebuild GZ-004 Reservation from the new green main; do not reuse PR #34.
+1. Re-fetch exact HEAD, six-file diff, Gate, reviews and unresolved threads.
+2. Re-review the exact HEAD before approval.
+3. If and only if the sole red check is the documented self-hosting scope deadlock, record explicit break-glass approval and merge with `expected_head_sha`.
+4. Verify the post-merge `main` Governance Gate is fully successful with no exception code in the tree.
+5. Re-close Issue #10.
+6. Rebuild GZ-004 Reservation from that new green main; do not reuse PR #34.
 
 ## Rollback
 
-Before merge, close #35. After merge, use a dedicated Revert PR; never directly rewrite `main`.
+Before merge, close PR #35. After merge, use a dedicated Revert PR for the two test files and Evidence; never rewrite `main` directly.
