@@ -1,21 +1,45 @@
 # GZ-003 Evidence Summary
 
-任务：GZ-003
+Task: GZ-003
+Merge: 9e3a821ada292ac3ef69b7c059384d17f6530b48
+Status: PASS
 
-目标：审计 Guize V1 的需求、设计、契约、WBS、测试和风险，并建立可由 CI 验证的多 Agent 协作、路径租约、依赖、交接与集成机制。
+## Original delivery
 
-基线：`main@70984201e8d01ad75b6aa0fa0ee5ffe141087b52`。
+GZ-003 was completed by PR #11 and merged as `9e3a821ada292ac3ef69b7c059384d17f6530b48`. Its Program/Foundation state remains `completed` and is not reopened by this maintenance.
 
-当前产物：
+## Bootstrap maintenance — PR #35
 
-- `docs/24-requirements-design-readiness-audit.md`；
-- `docs/25-multi-agent-collaboration-protocol.md`；
-- `adr/0014-multi-agent-coordination-and-integration.md`；
-- 需求、模块、工作包和活动任务机器可读索引；
-- schemaVersion 2 Task、Implementer/Reviewer/Handoff/Integrator 模板；
-- 协作和项目就绪检查器、测试、Makefile 和 Governance Gate；
-- Issue/PR 表单、CODEOWNERS、README/AGENTS/MANIFEST 同步。
+GZ-004 Reservation PR #34 exposed two stale governance-test assumptions:
 
-已观察到的首轮远端验证：PR #11 的 branch head `602856cf83554703f8aafd8f98f3eeddcbfa9698` 在 Governance Gate run `33199139029` 上成功，106 个治理测试通过，48/48 文件在允许范围。
+1. copied schema fixtures assumed only GZ-014 needed a Task Spec and did not copy arbitrary current Active Work Task Specs;
+2. the repository lifecycle smoke test hard-coded historical GZ-014 task/branch context whenever HEAD differed from `origin/main`.
 
-当前状态：`NEEDS_REVIEW`。本 Evidence 更新产生了新的 HEAD，仍需最新 Gate 和独立 Review；不得把首轮成功结果冒充为后续提交已经验证。
+GZ-004 explicitly forbids `tests/**`, so #34 was closed instead of widening a requirements task into governance maintenance.
+
+## Final repair design
+
+The final PR #35 design deliberately leaves **no persistent migration exception** in production governance code:
+
+- `scripts/check-program-lifecycle-guards.py` is byte-for-byte restored to the target `main` version;
+- `tests/governance/test_check_schemas.py` copies the exact/unique-suffixed Task Spec for GZ-014 plus every current Active Work task and clears the fixture Registry before the missing-Lease negative test;
+- `tests/governance/test_program_lifecycle_guards.py` keeps all existing guard tests and changes only the repository smoke test so the wrapper derives affected tasks from the real Program/Registry/Task diff instead of injecting historical GZ-014 context;
+- GZ-003 canonical Evidence is refreshed because completed-task finalization requires maintenance Evidence.
+
+No Program Plan, Active Work, Completion Ledger, Task Spec, Schema, Workflow, Makefile, product requirement, business contract/code, deployment, Secret, permission, production data or downstream task activation is changed.
+
+## Break-glass boundary
+
+The normal PR lifecycle guard cannot authorize a completed GZ-003 task to edit `tests/governance/**`; that is the exact self-hosting defect being repaired. Therefore PR #35 is a one-time **human/Integrator break-glass merge candidate**, not a new machine exception.
+
+Required conditions before any override merge:
+
+- actual diff contains only the two governance tests plus the four GZ-003 canonical Evidence files;
+- governance regression tests pass;
+- every Gate other than the expected completed-task metadata-scope rejection passes;
+- fresh Codex Review on the same exact HEAD reports no code/design blocker beyond that known bootstrap scope deadlock;
+- exact-head human/Integrator re-review approves the diff;
+- merge uses `expected_head_sha`;
+- post-merge `main` Governance Gate must be fully green before GZ-004 is rebuilt.
+
+Any additional failure, unexpected file, persistent checker exception, or new review finding blocks merge.

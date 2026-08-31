@@ -46,41 +46,17 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         return self.git(root, "rev-parse", "HEAD").stdout.strip()
 
     def test_current_repository_passes(self):
-        head_sha = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            cwd=REPO_ROOT,
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
-        main_sha = subprocess.run(
-            ["git", "rev-parse", "origin/main"],
-            cwd=REPO_ROOT,
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
-        command = [
-            sys.executable,
-            LIFECYCLE_GATE,
-            "--repo-root",
-            REPO_ROOT,
-            "--base-ref",
-            "origin/main",
-            "--head-ref",
-            "HEAD",
-        ]
-        if head_sha != main_sha:
-            command.extend(
-                [
-                    "--task",
-                    "GZ-014",
-                    "--branch-name",
-                    "chore/GZ-014-test-repair-reservation-v2",
-                ]
-            )
         result = subprocess.run(
-            command,
+            [
+                sys.executable,
+                LIFECYCLE_GATE,
+                "--repo-root",
+                REPO_ROOT,
+                "--base-ref",
+                "origin/main",
+                "--head-ref",
+                "HEAD",
+            ],
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
