@@ -1,5 +1,7 @@
 # GZ-004 Implementation Changed Files
 
+Status: IN_PROGRESS
+
 Implementation diff is restricted to the existing GZ-004 Task scope.
 
 ## Lifecycle metadata
@@ -22,6 +24,14 @@ Implementation diff is restricted to the existing GZ-004 Task scope.
 - `docs/requirements/README.md`
 - `evidence/GZ-004/**`
 
+## Review-hardening changes inside the same scope
+
+- asset source-deletion no-cascade is bound to `REQ-V1-0002` / `验收V1-0001`;
+- Acceptance Requirement declarations and scenario reverse links are fail-closed against the exact V1 Requirement set;
+- Program supplemental Acceptance relationships are verified against actual Program task mappings;
+- Trace includes exact `programTaskMappingConflicts`, including `REQ-V1-0003 -> GZ-006`;
+- Validator negative fixtures expanded to cover those cross-file failure modes.
+
 ## Explicitly unchanged/read-only
 
 - `specs/requirements/product-requirements.md`
@@ -29,4 +39,4 @@ Implementation diff is restricted to the existing GZ-004 Task scope.
 - `specs/designs/module-ownership.yaml`
 - `.github/**`, `scripts/**`, `tests/**`, `contracts/**`, `data/**`, business/runtime code, deployment, Secrets, permissions and production data.
 
-The final exact diff must be re-checked after the repair commit; any unexpected path is a blocker.
+The final implementation PR file set remains 19 paths. Task Scope on the latest tested code candidate reported all 19 allowed, 0 forbidden and 0 out-of-scope; the Evidence-only refresh does not add a new path.
