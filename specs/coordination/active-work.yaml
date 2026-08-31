@@ -9,17 +9,17 @@ tasks:
   - taskId: GZ-004
     issue: 14
     title: 冻结 V1 需求、NFR、验收与追踪基线
-    status: in_progress
+    status: review
     riskLevel: high
     owner: ElectricDogCN
     coordinator: program-coordinator-agent
     implementer: requirements-baseline-agent
     reviewer: independent-requirements-review-agent
     integrator: integration-agent
-    agentRole: implementer
+    agentRole: reviewer
     branch: chore/GZ-004-requirements-baseline
     baseBranch: main
-    baseSha: 56d6bfacba45d36e82376ebb5a5cea7394c88f0d
+    baseSha: 1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96
     workPackage: WP-M0-03A
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: GZ-004
