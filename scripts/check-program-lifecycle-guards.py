@@ -40,9 +40,6 @@ COMPLETION_BASE_STATES = {"review", "integration"}
 GLOB_CHARS = "*?["
 TASK_PATH_RE = re.compile(r"^specs/tasks/([A-Z]+-[0-9]+)(?:-[^/]+)?\.md$")
 
-# GZ-014 predates explicit governance ownership for several root documents.
-# These are the audited repair surfaces recorded in its Task Spec and Registry;
-# business implementation, business contracts and deployment remain excluded.
 FOUNDATION_SCOPE_EXCEPTIONS: dict[str, tuple[str, ...]] = {
     "GZ-014": (
         "AGENTS.md",
@@ -64,11 +61,10 @@ FOUNDATION_SCOPE_EXCEPTIONS: dict[str, tuple[str, ...]] = {
     )
 }
 
-# One-time self-hosting migration for the GZ-003 bootstrap harness.  The
-# exception is deliberately tied to the exact target-base commit that exposed
-# the ordinary-Program-Task fixture regression.  Once main advances it cannot
-# be reused.  No Program/Registry/Ledger/Task state may change under it.
-GZ003_BOOTSTRAP_MIGRATION_BASE = "3be9477fb137aa33faa6320f2454b9e1e1d5ec2d"
+# Exact files of the one-time self-hosting migration. The authorization base
+# is deliberately not configurable here. It is derived from first-parent Git
+# history as the first commit where GZ-014 is simultaneously completed in the
+# Program and Task Spec and absent from Active Work.
 GZ003_BOOTSTRAP_MIGRATION_PATHS = frozenset(
     {
         "scripts/check-program-lifecycle-guards.py",
@@ -257,7 +253,6 @@ def matches_path(path: str, pattern: str) -> bool:
 
 
 def changed_paths(root: str, base_ref: str, head_ref: str) -> set[str] | None:
-    """Return every changed path, including both sides of rename/copy records."""
     result = git(root, "diff", "--name-status", "-M", f"{base_ref}...{head_ref}")
     if result.returncode != 0:
         return None
@@ -324,9 +319,42 @@ def path_allowed(path: str, exact: set[str], prefixes: tuple[str, ...], claims: 
     return any(matches_path(path, claim) for claim in claims)
 
 
+def gz014_completion_snapshot(root: str, ref: str) -> bool:
+    plan = load_ref(root, ref, PLAN)
+    active = load_ref(root, ref, ACTIVE)
+    task_path = find_task_path(root, "GZ-014", ref)
+    front = parse_front(read_ref(root, ref, task_path or ""))
+    if not isinstance(plan, dict) or not isinstance(active, dict) or not front:
+        return False
+    foundation = mapping(plan.get("foundationTasks")).get("GZ-014", {})
+    has_active = any(
+        item.get("taskId") == "GZ-014" for item in active.get("tasks") or []
+    )
+    return (
+        foundation.get("status") == "completed"
+        and front.get("status") == "completed"
+        and not has_active
+    )
+
+
+def derive_gz014_completion_base(root: str, head_ref: str) -> str | None:
+    """Return the immutable first-parent commit that completed/released GZ-014."""
+    history = git(root, "rev-list", "--first-parent", "--reverse", head_ref)
+    if history.returncode != 0:
+        return None
+    previously_complete = False
+    for sha in (line.strip() for line in history.stdout.splitlines() if line.strip()):
+        complete = gz014_completion_snapshot(root, sha)
+        if complete and not previously_complete:
+            return sha
+        previously_complete = complete
+    return None
+
+
 def is_one_time_gz003_bootstrap_migration(
     task_id: str,
     resolved_base: str,
+    authorized_base: str | None,
     before_status: str,
     after_status: str,
     base_plan: dict[str, Any],
@@ -338,16 +366,10 @@ def is_one_time_gz003_bootstrap_migration(
     paths: set[str],
     task_spec_unchanged: bool,
 ) -> bool:
-    """Allow exactly one fixed-base self-hosting repair of GZ-003 tests.
-
-    This is intentionally not a general completed-task maintenance mode.  It
-    applies only to the exact repository snapshot/files that are required to
-    remove the bootstrap fixtures' dependency on a historical active task.
-    """
-
     return (
         task_id == "GZ-003"
-        and resolved_base == GZ003_BOOTSTRAP_MIGRATION_BASE
+        and bool(authorized_base)
+        and resolved_base == authorized_base
         and before_status == "completed"
         and after_status == "completed"
         and base_plan == current_plan
@@ -532,6 +554,7 @@ def main() -> int:
     if not resolved_base:
         emit("FAIL", "Lifecycle guard target base cannot be resolved")
         return 1
+    authorized_bootstrap_base = derive_gz014_completion_base(root, args.head_ref)
     try:
         base_plan = load_ref(root, args.base_ref, PLAN)
         current_plan = load_current(root, PLAN)
@@ -579,7 +602,6 @@ def main() -> int:
     current_tasks = mapping(current_plan.get("tasks"))
     base_foundations = mapping(base_plan.get("foundationTasks"))
     current_foundations = mapping(current_plan.get("foundationTasks"))
-    base_entries = mapping(base_active.get("tasks"))
     current_entries = mapping(current_active.get("tasks"))
 
     for task_id, task in current_tasks.items():
@@ -613,6 +635,7 @@ def main() -> int:
         bootstrap_migration = is_one_time_gz003_bootstrap_migration(
             task_id,
             resolved_base,
+            authorized_bootstrap_base,
             before_status,
             after_status,
             base_plan,
@@ -674,6 +697,7 @@ def main() -> int:
             "affectedTaskIds": sorted(affected),
             "changedPathCount": len(paths),
             "baseRef": args.base_ref,
+            "bootstrapAuthorizedBase": authorized_bootstrap_base,
         },
     )
     return 0
