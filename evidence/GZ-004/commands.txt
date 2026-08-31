@@ -42,9 +42,19 @@ observed result: reservationRef=PR-36, reservationCommit=56d6bfacba45d36e82376eb
 command: inspect GZ-004 Completion scope
 exit code: 0
 result: PASS
-observed result: Program changes only GZ-004 review->completed; Active Work releases only GZ-004; ordinary Completion Ledger appends one GZ-004 record; Task and canonical completion Evidence are task-bound; no product/business/deployment data changes are intended
+observed result: Program diff contains only GZ-004 review->completed; Active Work releases only GZ-004; ordinary Completion Ledger appends one GZ-004 record; Task and canonical completion Evidence are task-bound; changed-file set is exactly eight canonical completion files
 
-command: PR #39 exact-head Governance Gate, exact-head review, expected-head merge and post-completion main Gate
+command: inspect first PR #39 Completion Governance Gate #368
+exit code: 1
+result: EXPECTED PRECONDITION FAILURE / DIAGNOSED
+observed result: Program lifecycle, Agent Coordination, Schema, Evidence, Scope and 258/259 governance tests passed; the single failing test required Issue #14 to be closed with state_reason=completed before Completion validation
+
+command: close Issue #14 with state_reason=completed as required by Completion lifecycle
+exit code: 0
+result: PASS
+observed result: GitHub Issue #14 is closed and reports state_reason=completed; if Completion cannot merge, rollback requires reopening it
+
+command: final PR #39 exact-head Governance Gate, exact-head review, expected-head merge and post-completion main Gate
 exit code: pending
 result: PENDING
-observed result: no future PR #39 Gate, review, merge, post-merge or Issue closure result is claimed before GitHub executes it
+observed result: no future final Gate, review, merge or post-merge result is claimed before GitHub executes it
