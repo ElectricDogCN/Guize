@@ -1,10 +1,15 @@
 # GZ-003 Handoff
 
+Task: GZ-003
+Merge: 9e3a821ada292ac3ef69b7c059384d17f6530b48
+Status: COMPLETED
+
 ## Identity
 
 - Task：GZ-003
 - Issue：#10
 - Original PR：#11
+- Original merge：`9e3a821ada292ac3ef69b7c059384d17f6530b48`
 - Bootstrap maintenance PR：#35
 - Branch：`chore/GZ-003-multi-agent-readiness`
 - Target base：`main@3be9477fb137aa33faa6320f2454b9e1e1d5ec2d`
@@ -28,14 +33,15 @@ No Program Plan、Active Work、Completion Ledger、Task Spec、Schema、Workflo
 
 ## Validation history
 
-- #303：finalization Evidence failure.
-- #306：stale overwrite; governance suite `251 passed, 10 failed`.
-- #312：governance suite `259 passed, 0 failed, 0 skipped`; only normal completed-task lifecycle scope rejected test changes.
-- #318 on `4562805eeac43ad8997c48f3ff4e3f95ed02a6eb`：all Governance Gate steps passed; fresh Review then found two current design blockers.
+- Gate #303：failed because completed-task finalization required refreshed GZ-003 Evidence.
+- Gate #306：failed with `251 passed, 10 failed` because the maintenance branch contained stale whole-file test overwrites and incomplete Evidence refresh.
+- Gate #312 on `d6253b00a5dfb22aa0aa5a85af69ba3499a801e1`：governance suite `259 passed, 0 failed, 0 skipped`; all reported gates passed except normal completed-task lifecycle scope.
+- Gate #318 on `4562805eeac43ad8997c48f3ff4e3f95ed02a6eb`：all Governance Gate steps passed; fresh review then found mutable-base and empty-affected smoke-test design blockers.
+- Gate #324 on `08cab050f9ed336d11f992ff0b6794e0a3bc9ae1`：governance suite `265 passed`; every reported Gate area except Program finalization passed. Finalization correctly required this Handoff to expose the original implementation merge in machine-readable form.
 
 ## Current repair
 
-The one-time migration authorization is no longer a mutable base constant. The guard derives the authorization base from immutable Git first-parent history: the first commit where GZ-014 is completed in Program and Task and absent from Active Work. This history fact remains unchanged after `main` advances.
+The one-time migration authorization is not a mutable base constant. The guard derives the authorization base from Git first-parent history: the first commit where GZ-014 is completed in Program and Task and absent from Active Work. Later `main` commits do not alter that first-completion history fact.
 
 The migration additionally requires:
 
@@ -44,22 +50,22 @@ The migration additionally requires:
 - Program/Registry/Ledger/GZ-003 Task Spec unchanged;
 - exact seven-file changed set.
 
-The repository smoke test now explicitly passes `--task GZ-003` and asserts `affectedTaskIds` contains GZ-003, so the migration predicate is actually exercised instead of succeeding on an empty affected set.
+The repository smoke test explicitly passes `--task GZ-003` and asserts `affectedTaskIds` contains GZ-003, so the migration predicate is exercised.
 
 ## Reviewer exact action
 
-1. Review latest #35 HEAD only.
-2. Verify Git-history-derived authorization base cannot move when `main` advances.
-3. Verify exact seven-file equality and unchanged Program/Registry/Ledger/Task Spec.
-4. Verify repository smoke test exercises GZ-003 migration path.
-5. Verify all old negative tests remain.
-6. Require exact-head Gate success and zero unresolved blockers.
+1. Review the latest PR #35 HEAD only.
+2. Verify actual changed-file inventory is exactly the seven audited paths.
+3. Verify history-derived authorization base remains the first GZ-014 completed/released snapshot after `main` advances.
+4. Verify Program/Registry/Ledger/Task Spec equality and exact path equality remain mandatory.
+5. Verify all old negative tests remain and the repository smoke test exercises GZ-003.
+6. Require latest exact-head Governance Gate success and zero unresolved blockers.
 
 ## Integrator exact action
 
 1. Re-fetch exact HEAD, seven-file inventory, Gate and fresh review.
 2. Re-review exact HEAD before approval.
-3. Merge with `expected_head_sha` only if all blockers resolved.
+3. Merge with `expected_head_sha` only if all blockers are resolved.
 4. Verify post-merge `main` Gate.
 5. Close Issue #10 again.
 6. Rebuild GZ-004 Reservation from the new green main; do not reuse PR #34.
