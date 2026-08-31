@@ -7,8 +7,7 @@ authority:
   acceptance: specs/acceptance/requirements/acceptance.yaml
   programPlan: specs/coordination/program-plan.yaml
   moduleOwnership: specs/designs/module-ownership.yaml
-supplementPolicy: acceptanceIds/pocIds preserve requirements-index.yaml exactly; programAcceptanceIds/programPocIds are explicit
-  Program Plan-derived supplemental mappings and never rewrite the read-only Requirement Index.
+supplementPolicy: acceptanceIds/pocIds/downstreamTasks preserve requirements-index.yaml exactly; programAcceptanceIds/programPocIds expose Program Plan supplements, and programTaskMappingConflicts records exact Index-to-Program task asymmetries without rewriting either authority.
 producedContracts:
 - REQ-V1
 - NFR-V1
@@ -23,6 +22,7 @@ requirements:
   programPocIds: [POC-05, POC-06]
   otherBlockers: []
   downstreamTasks: [GZ-004, GZ-005, GZ-006, POC-005, POC-006]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0002
   moduleIds: [MOD-ASSET, MOD-PLATFORM, MOD-SOURCE]
@@ -33,6 +33,7 @@ requirements:
   programPocIds: [POC-05]
   otherBlockers: [GZ-004, GZ-005, GZ-006, GZ-007]
   downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-012]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0003
   moduleIds: [MOD-ASSET, MOD-EDGE, MOD-IAM, MOD-MEDIA, MOD-PLAYER, MOD-STORAGE]
@@ -43,6 +44,7 @@ requirements:
   programPocIds: [POC-01, POC-02, POC-03, POC-07]
   otherBlockers: []
   downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-001, POC-002, POC-003, POC-007]
+  programTaskMappingConflicts: [GZ-006]
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0004
   moduleIds: [MOD-AI, MOD-STORAGE, MOD-TASK]
@@ -53,6 +55,7 @@ requirements:
   programPocIds: [POC-09]
   otherBlockers: [GZ-011]
   downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008, GZ-009, POC-009]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0005
   moduleIds: [MOD-ASSET, MOD-IAM, MOD-SEARCH]
@@ -63,6 +66,7 @@ requirements:
   programPocIds: [POC-09]
   otherBlockers: [GZ-011]
   downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-009]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0006
   moduleIds: [MOD-DATA, MOD-STORAGE, MOD-TASK]
@@ -73,6 +77,7 @@ requirements:
   programPocIds: [POC-04, POC-10]
   otherBlockers: []
   downstreamTasks: [GZ-004, GZ-006, GZ-007, GZ-008, POC-004, POC-010]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0007
   moduleIds: [MOD-PLATFORM, MOD-POLICY, MOD-TASK, MOD-WORKER]
@@ -83,6 +88,7 @@ requirements:
   programPocIds: []
   otherBlockers: [GZ-005, GZ-006, GZ-007, GZ-008]
   downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0008
   moduleIds: [MOD-AUDIT, MOD-EDGE, MOD-IAM]
@@ -93,6 +99,7 @@ requirements:
   programPocIds: [POC-03, POC-07, POC-09]
   otherBlockers: [GZ-004, GZ-005, GZ-006, GZ-007]
   downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-003, POC-007, POC-009]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0009
   moduleIds: [MOD-CLI, MOD-CONFIG, MOD-DEPLOY, MOD-POLICY]
@@ -103,6 +110,7 @@ requirements:
   programPocIds: [POC-08]
   otherBlockers: [GZ-005, GZ-006, GZ-007, GZ-008, GZ-009]
   downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008, GZ-009, POC-008]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
 - requirementId: REQ-V1-0010
   moduleIds: [MOD-AUDIT, MOD-DATA, MOD-DEPLOY, MOD-GOV, MOD-OBS]
@@ -113,4 +121,5 @@ requirements:
   programPocIds: [POC-04, POC-10]
   otherBlockers: [BRANCH-PROTECTION]
   downstreamTasks: [GZ-004, GZ-006, GZ-007, GZ-008, GZ-010, GZ-011, GZ-012, POC-004, POC-010, GZ-020]
+  programTaskMappingConflicts: []
   producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
