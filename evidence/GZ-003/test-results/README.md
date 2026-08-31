@@ -3,69 +3,39 @@
 ## Original delivery verification
 
 - PR：#11
-- Tested branch head：`602856cf83554703f8aafd8f98f3eeddcbfa9698`
-- Workflow run ID：`33199139029`
-- Job ID：`98943864286`
 - Conclusion：`success`
-- Governance tests：106 passed, 0 skipped
-
-GZ-003 later merged through PR #11 as `9e3a821ada292ac3ef69b7c059384d17f6530b48` and remains a completed Foundation task.
+- Original governance suite：106 passed, 0 skipped
+- Merge：`9e3a821ada292ac3ef69b7c059384d17f6530b48`
 
 ## Post-completion maintenance — PR #35
 
-### Run #303
+### Historical failures
 
-- HEAD before Evidence refresh：`6ba34e972cd3d7eb5e07a6d8d8eb9b2e263a7998`
-- Workflow run：`33327335520`
-- Result：`FAIL`
-- Observed cause：Program finalization required refreshed GZ-003 completion Evidence for the maintenance diff. Other reported Gate areas succeeded.
+- Gate #303：`FAIL` — completed-task finalization required refreshed Evidence.
+- Gate #306：`FAIL` — stale whole-file test overwrite produced `251 passed, 10 failed`.
+- Gate #312 on `d6253b00a5dfb22aa0aa5a85af69ba3499a801e1`：`FAIL`, but governance suite was `259 passed, 0 failed, 0 skipped`; only lifecycle scope correctly rejected completed GZ-003 changing governance tests.
 
-### Run #306
+### Gate #318
 
-- Tested HEAD：`a4609ed7dcdb01147e66ad41dc72d2c8bb45e3bd`
-- Workflow run：`33327893886`
-- Job：`99301183761`
-- Result：`FAIL`
+- Exact HEAD：`4562805eeac43ad8997c48f3ff4e3f95ed02a6eb`
+- Workflow：`33345090625`
+- Result：`PASS`
+- All mandatory Gate steps succeeded, including Program integrity/history/transitions/finalization/lifecycle and the governance regression suite.
 
-Observed failures were confined to the maintenance test implementation and completed-task Evidence finalization:
+Fresh Codex Review on that exact HEAD nevertheless found two design blockers:
 
-1. Program finalization required `evidence/GZ-003/test-results/README.md` to be refreshed for the maintenance PR.
-2. Governance suite result：`251 passed, 10 failed`.
-3. Three schema tests failed because the maintenance branch had removed the explicit active-Foundation fixture from Foundation-negative tests.
-4. Several lifecycle tests failed because the branch carried a stale test-file overwrite that referenced production-checker APIs not present on the current target `main` and hard-coded the historical GZ-014 task context.
+1. repository smoke test could pass with `affectedTaskIds: []`, so it did not prove the real migration path was exercised;
+2. a fixed authorization-base constant inside the exempted checker could theoretically be redefined together with the checker in a later PR.
 
-### Run #312
+### Current fix
 
-- Tested HEAD：`d6253b00a5dfb22aa0aa5a85af69ba3499a801e1`
-- Workflow run：`33344565626`
-- Job：`99346174946`
-- Result：`FAIL`
-- Governance suite：`259 passed, 0 failed, 0 skipped`
+- repository smoke test explicitly runs with `--task GZ-003` and asserts `affectedTaskIds` contains GZ-003;
+- the authorization base is derived from immutable Git first-parent history as the first fully completed/released GZ-014 snapshot instead of a mutable constant;
+- exact seven-file equality, completed→completed state, and unchanged Program/Registry/Ledger/GZ-003 Task Spec remain mandatory;
+- focused rejection tests for wrong base, extra path, state-document drift and Task Spec drift remain.
 
-The rebuilt tests were correct on this HEAD. Task validation, Project Readiness, Agent Coordination, governance tests, skip audit, Markdown, Schema, Secret, Evidence, Evidence integrity, linkage, scope, spec-sync, repository boundary and CI static validation all passed. Program execution integrity, Program history, Program transitions and Program finalization also passed.
+## Current validation boundary
 
-The single remaining failure was the lifecycle scope guard:
+`PENDING LATEST EXACT-HEAD VALIDATION`。
 
-```text
-Lifecycle task GZ-003 changed files outside its metadata scope:
-['tests/governance/test_check_schemas.py',
- 'tests/governance/test_program_lifecycle_guards.py']
-```
-
-That failure is correct for normal completed tasks. GZ-003 is already completed, so its normal metadata-only completion scope cannot be reused to change governance tests.
-
-## One-time bootstrap migration repair
-
-The newer HEAD adds a fail-closed, fixed-base self-hosting exception only in `scripts/check-program-lifecycle-guards.py`. It can apply only when:
-
-- task is exactly GZ-003;
-- target base is exactly `3be9477fb137aa33faa6320f2454b9e1e1d5ec2d`;
-- GZ-003 remains `completed -> completed`;
-- Program Plan, Active Work, completion ledger and GZ-003 Task Spec are unchanged;
-- the changed-file set is exactly the seven audited migration files.
-
-Focused tests reject the exception for a wrong base, any extra path, Program/Registry/Ledger drift or Task Spec drift. The exception automatically becomes unusable after `main` advances.
-
-## Current maintenance validation boundary
-
-The latest PR #35 HEAD is newer than run #312. Runs #303/#306/#312 are retained as failure evidence but do not prove the latest HEAD. A new exact-head Governance Gate and fresh review are mandatory before merge.
+The current PR #35 HEAD is newer than Gate #318. #303/#306/#312/#318 remain historical evidence and do not prove the latest HEAD. A new Governance Gate and fresh review are mandatory before merge.
