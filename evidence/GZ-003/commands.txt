@@ -1,56 +1,39 @@
 GZ-003 command evidence
 
-command: merge original PR #11
-exit code: 0-equivalent
-result: PASS
-observed result: GZ-003 merged as 9e3a821ada292ac3ef69b7c059384d17f6530b48
+Task: GZ-003
+Merge: 9e3a821ada292ac3ef69b7c059384d17f6530b48
 
 command: inspect GZ-004 Reservation PR #34 failure
 exit code: HTTP 200
 result: PASS
-observed result: ordinary-task Reservation exposed bootstrap test assumptions; #34 was closed instead of expanding GZ-004 into tests/**
+observed result: first ordinary-task Reservation exposed governance-test assumptions tied to historical GZ-014 state; PR #34 was closed rather than expanding GZ-004 into tests/**
 
-command: inspect Gate #303 / 33327335520
+command: inspect PR #35 Codex review on f2c3bb531677e0ca0c8338139734cedd1981343b
 exit code: HTTP 200
 result: PASS
-observed result: historical run failed because completed-task finalization required refreshed GZ-003 Evidence
+observed result: review identified a reusable self-authorization risk in the proposed lifecycle-checker exception and a future-PR regression in the migration-specific smoke test
 
-command: inspect Gate #306 / 33327893886 on a4609ed7dcdb01147e66ad41dc72d2c8bb45e3bd
-exit code: HTTP 200
-result: PASS
-observed result: historical run failed; stale test-file overwrite produced 251 passed / 10 failed
-
-command: inspect Gate #312 / 33344565626 on d6253b00a5dfb22aa0aa5a85af69ba3499a801e1
-exit code: HTTP 200
-result: PASS
-observed result: governance suite 259 passed / 0 failed / 0 skipped; only lifecycle scope rejected completed GZ-003 changing governance tests
-
-command: inspect Gate #318 / 33345090625 on 4562805eeac43ad8997c48f3ff4e3f95ed02a6eb
-exit code: HTTP 200
-result: PASS
-observed result: all mandatory Governance Gate steps succeeded, including Program lifecycle and governance regression suite
-
-command: inspect fresh Codex Review for 4562805eeac43ad8997c48f3ff4e3f95ed02a6eb
-exit code: HTTP 200
-result: PASS
-observed result: review completed and raised two current blockers: repository smoke test could pass with empty affectedTaskIds; mutable fixed-base constant could be redefined together with the exempted checker
-
-command: replace mutable fixed-base authorization with Git first-parent history derivation
+command: restore scripts/check-program-lifecycle-guards.py to target main blob cd1242fbdd8959376635d25e4f4cb4aefa0fa11a
 exit code: 0
 result: PASS
-observed result: lifecycle guard now derives the first commit where GZ-014 Program/Task are completed and its Active Work lease is absent; no configurable migration-base constant remains
+observed result: commit ee4daf97918bcbb58c4923d777ee5c9debbbe37e removes the persistent bootstrap authorization code; production lifecycle checker matches main again
 
-command: update repository lifecycle smoke test
+command: replace repository lifecycle smoke test with state-agnostic wrapper invocation
 exit code: 0
 result: PASS
-observed result: test now passes --task GZ-003 and asserts affectedTaskIds contains GZ-003 so the actual migration predicate is exercised
+observed result: commit ee4daf97918bcbb58c4923d777ee5c9debbbe37e preserves the existing guard/unit tests and removes hard-coded GZ-014 task/branch injection
 
-command: preserve exact migration state/path checks
+command: preserve schema fixture compatibility repair
 exit code: 0
 result: PASS
-observed result: migration still requires GZ-003 completed->completed, unchanged Program/Registry/Ledger/Task Spec and exact seven-file equality; focused rejection tests remain
+observed result: tests/governance/test_check_schemas.py still resolves exact or unique suffixed Task Specs for current Active Work tasks and clears fixture Active Work before the missing-Lease negative assertion
 
-command: latest PR #35 Governance Gate and fresh exact-head review
+command: refresh GZ-003 canonical maintenance Evidence
+exit code: 0
+result: PASS
+observed result: summary.md, commands.txt, handoff.md and test-results/README.md document a test-only break-glass repair with no Program/Registry/Ledger/Task/Checker exception or downstream activation
+
+command: latest PR #35 Gate, fresh exact-head Codex Review, human/Integrator re-review, merge and post-merge main Gate
 exit code: pending
 result: PENDING
-observed result: current HEAD is newer than Gate #318; no new Gate, review, merge or post-merge main success is pre-claimed
+observed result: no success is claimed until GitHub executes those checks on the final exact HEAD
