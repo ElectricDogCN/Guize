@@ -1,0 +1,26 @@
+GZ-004 Reservation command evidence
+
+command: inspect main@86637ee15aa4d7d57093e96091a61ac671bb31aa post-bootstrap Governance Gate
+exit code: HTTP 200
+result: PASS
+observed result: Governance Gate run #331 / 33364750289 completed successfully; Program lifecycle, Agent Coordination and governance regression suite were green
+
+command: close GZ-003 maintenance Issue #10
+exit code: HTTP 200
+result: PASS
+observed result: Issue #10 is closed with state_reason=completed after green post-merge main validation
+
+command: create branch chore/GZ-004-reservation-v3 from 86637ee15aa4d7d57093e96091a61ac671bb31aa
+exit code: 0
+result: PASS
+observed result: clean Reservation branch created from the exact green main commit
+
+command: reserve GZ-004 Program/Registry/Task/Evidence metadata
+exit code: 0 after commit creation
+result: PASS
+observed result: GZ-004 is the only active reservation; no requirement/NFR/acceptance implementation output is added
+
+command: Reservation PR exact-head Gate, fresh Review, expected-head merge and post-merge main Gate
+exit code: pending
+result: PENDING
+observed result: no future result is claimed before GitHub executes it
