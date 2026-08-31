@@ -1,66 +1,60 @@
-GZ-004 implementation command evidence
+GZ-004 completion command evidence
 
 Task: GZ-004
-Phase: implementation / in_progress
-Implementation base: 56d6bfacba45d36e82376ebb5a5cea7394c88f0d
-Branch: chore/GZ-004-requirements-baseline
+Implementation merge: 1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96
+Completion PR: #39
 
-command: merge Reservation PR #36 with expected head 74a81cd2ffd8afce2def73ef27178d5f3b4ab248
-exit code: GitHub merge success
-result: PASS
-observed result: Reservation merged to main as 56d6bfacba45d36e82376ebb5a5cea7394c88f0d
-
-command: inspect post-Reservation main Governance Gate #333
-exit code: HTTP 200
-result: PASS
-observed result: run 33365297286 completed successfully; Program lifecycle, Agent Coordination and 259 governance tests were green
-
-command: inspect implementation Governance Gate #343 on 0ffca4bdf1dfe6e3eeec402b18ef1dea048ae783
-exit code: workflow conclusion=failure
-result: EXPECTED FAILURE / DIAGNOSED
-observed result: all 259 governance tests and all non-lifecycle checks passed; Program lifecycle alone rejected implementation output because GZ-004 canonical Program/Task/Registry state was still reserved rather than in_progress
-
-command: local exact-candidate preflight `python specs/requirements/v1/validate.py`
+command: merge GZ-004 Reservation PR #36 with expected-head protection
 exit code: 0
 result: PASS
-observed result: historical preflight before later review hardening; 10 requirements, 20 NFR items, 14 acceptance records and 10 trace records passed Schema and cross-file validation
+observed result: Reservation merged as 56d6bfacba45d36e82376ebb5a5cea7394c88f0d
 
-command: local exact-candidate preflight `python specs/requirements/v1/validate.py --negative-fixtures`
+command: verify post-Reservation main Governance Gate #333
 exit code: 0
 result: PASS
-observed result: historical preflight before later review hardening; 6/6 invalid fixtures rejected: duplicate alias, unknown module, missing requirement, asymmetric trace, illegal MEASUREMENT_REQUIRED value, fake POC PASS/measured claim
+observed result: Program lifecycle, Agent Coordination and governance regression checks succeeded on the Reservation main state
 
-command: inspect Governance Gate #344 on 0767cc9f70eaced2844fc159d6675f388030338f
-exit code: workflow conclusion=failure
-result: EXPECTED SELF-HOSTING FAILURE / DIAGNOSED
-observed result: Task, Project Readiness, Program integrity/history/transitions/finalization/lifecycle, 259 governance tests, Markdown, Schema, Secret, Evidence, linkage, Task Scope (19/19), Spec Sync and CI validation all passed. The only failure was Agent Coordination: specs/coordination/program-plan.yaml is outside the active implementation Registry path claims. No scope/checker exception was added.
-
-command: inspect Governance Gate #345 on 523a97be615e2f1a76b231990b894669dc69db4d
-exit code: workflow conclusion=failure
-result: EXPECTED SELF-HOSTING FAILURE / DIAGNOSED
-observed result: the same single Agent Coordination self-hosting failure remained; all other Gate steps, including Program lifecycle and 259 governance tests, passed
-
-command: fresh independent Review of 523a97be615e2f1a76b231990b894669dc69db4d
-exit code: review completed
-result: FINDINGS / FIXED IN LATER COMMITS
-observed result: four blockers were reported: bind source deletion to REQ-V1-0002 asset acceptance; reject undeclared Requirement IDs in Acceptance; verify Program supplements against actual Program Plan mappings; record REQ-V1-0003 -> GZ-006 Requirement Index/Program mapping conflict. All four review threads were fixed and resolved before the next exact-head review.
-
-command: harden GZ-004 contracts and validator through 17256dce9937d459181157baf9525850574435f1
-exit code: GitHub commit success
+command: merge GZ-004 Implementation PR #37 under Human Owner / Integrator exact-head control
+exit code: 0
 result: PASS
-observed result: asset deletion is now bound to 验收V1-0001 / REQ-V1-0002; Acceptance declaration/scenario Requirement sets are validated against exact REQS; PROGRAM_SUPPLEMENT provenance is resolved against real Program task acceptance+requirement co-occurrence; Trace records exact programTaskMappingConflicts and REQ-V1-0003 records GZ-006; negative fixtures expanded from 6 to 9
+observed result: implementation contracts merged as 1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96
 
-command: inspect Governance Gate #349 on 17256dce9937d459181157baf9525850574435f1
-exit code: workflow conclusion=failure
-result: EXPECTED SELF-HOSTING FAILURE / DIAGNOSED
-observed result: Task, Project Readiness, Program integrity/history/transitions/finalization/lifecycle, Governance tests, Skip audit, Markdown, Schema, Secret, Evidence, Evidence integrity, linkage, Scope, Spec Sync, parent directory and CI static validation all passed. Agent Coordination was the only failure, with the same Program Plan activation self-hosting error.
+command: verify post-implementation main Governance Gate #355
+exit code: 0
+result: PASS
+observed result: final main repository passed the mandatory Governance Gate after implementation merge
 
-command: execute hardened 9-fixture validator from the current ChatGPT runtime
-exit code: not executable in this runtime
-result: NOT CLAIMED
-observed result: this chat runtime cannot resolve github.com to materialize the exact repository worktree; therefore no 9/9 runtime PASS is claimed. The hardened validator remains subject to exact-head independent Review and repository Gate/post-merge validation. The earlier 6/6 run remains historical evidence only.
+command: merge GZ-004 review-state PR #38 with expected-head control
+exit code: 0
+result: PASS
+observed result: review lifecycle state merged as 846b140c9115959708fe1cdf214f643d8d55f75e
 
-command: fresh exact-head independent Review, Human/Integrator decision, merge and post-merge main Gate
+command: verify post-review main Governance Gate #357
+exit code: 0
+result: PASS
+observed result: review-state main passed the mandatory Governance Gate
+
+command: inspect GZ-004 Completion Ledger identity
+exit code: 0
+result: PASS
+observed result: reservationRef=PR-36, reservationCommit=56d6bfacba45d36e82376ebb5a5cea7394c88f0d, completionRef=PR-37, mergeCommit=1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96, canonical Task/Evidence/Handoff paths bound to GZ-004
+
+command: inspect GZ-004 Completion scope
+exit code: 0
+result: PASS
+observed result: Program diff contains only GZ-004 review->completed; Active Work releases only GZ-004; ordinary Completion Ledger appends one GZ-004 record; Task and canonical completion Evidence are task-bound; changed-file set is exactly eight canonical completion files
+
+command: inspect first PR #39 Completion Governance Gate #368
+exit code: 1
+result: EXPECTED PRECONDITION FAILURE / DIAGNOSED
+observed result: Program lifecycle, Agent Coordination, Schema, Evidence, Scope and 258/259 governance tests passed; the single failing test required Issue #14 to be closed with state_reason=completed before Completion validation
+
+command: close Issue #14 with state_reason=completed as required by Completion lifecycle
+exit code: 0
+result: PASS
+observed result: GitHub Issue #14 is closed and reports state_reason=completed; if Completion cannot merge, rollback requires reopening it
+
+command: final PR #39 exact-head Governance Gate, exact-head review, expected-head merge and post-completion main Gate
 exit code: pending
 result: PENDING
-observed result: no future review, merge, post-merge or completion success is claimed before those actions execute on the final exact HEAD
+observed result: no future final Gate, review, merge or post-merge result is claimed before GitHub executes it
