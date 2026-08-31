@@ -1,0 +1,153 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: requirements.schema.yaml
+title: Guize V1 Derived Requirements Baseline
+type: object
+additionalProperties: false
+required:
+- $schema
+- schemaVersion
+- contractId
+- status
+- authority
+- derivedFrom
+- requirements
+properties:
+  $schema:
+    const: requirements.schema.yaml
+  schemaVersion:
+    const: 1
+  contractId:
+    const: REQ-V1
+  status:
+    const: frozen
+  authority:
+    type: object
+    additionalProperties: false
+    required:
+    - product
+    - index
+    - conflictPolicy
+    properties:
+      product:
+        const: specs/requirements/product-requirements.md
+      index:
+        const: specs/requirements/requirements-index.yaml
+      conflictPolicy:
+        type: string
+        minLength: 20
+  derivedFrom:
+    type: array
+    minItems: 2
+    uniqueItems: true
+    items:
+      type: string
+      minLength: 1
+  requirements:
+    type: array
+    minItems: 10
+    maxItems: 10
+    items:
+      $ref: '#/$defs/requirement'
+$defs:
+  requirement:
+    type: object
+    additionalProperties: false
+    required:
+    - id
+    - aliases
+    - title
+    - status
+    - statement
+    - scope
+    - nonGoals
+    - sourceRefs
+    - moduleIds
+    - workPackages
+    - acceptanceIds
+    - blockers
+    - nextTasks
+    - requiredScenarioTypes
+    properties:
+      id:
+        type: string
+        pattern: ^REQ-V1-[0-9]{4}$
+      aliases:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      title:
+        type: string
+        minLength: 1
+      status:
+        const: frozen
+      statement:
+        type: string
+        minLength: 10
+      scope:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 3
+      nonGoals:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 3
+      sourceRefs:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      moduleIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          pattern: ^MOD-[A-Z0-9-]+$
+      workPackages:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      acceptanceIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      blockers:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      nextTasks:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          pattern: ^(GZ|POC)-[0-9]{3}$
+      requiredScenarioTypes:
+        type: array
+        minItems: 2
+        uniqueItems: true
+        items:
+          enum:
+          - success
+          - failure
+          - permission
+          - data_integrity
+          - recovery
+          - production_gate
