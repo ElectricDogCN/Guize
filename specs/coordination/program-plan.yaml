@@ -69,7 +69,7 @@ tasks:
   - taskId: GZ-004
     title: "冻结 V1 需求、NFR、验收与追踪基线"
     kind: requirements
-    status: in_progress
+    status: review
     workPackage: WP-M0-03A
     riskLevel: high
     ownerRole: task-owner-agent
