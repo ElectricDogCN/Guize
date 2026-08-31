@@ -25,7 +25,7 @@ $defs:
   trace:
     type: object
     additionalProperties: false
-    required: [requirementId, moduleIds, workPackages, acceptanceIds, programAcceptanceIds, pocIds, programPocIds, otherBlockers, downstreamTasks, producedContracts]
+    required: [requirementId, moduleIds, workPackages, acceptanceIds, programAcceptanceIds, pocIds, programPocIds, otherBlockers, downstreamTasks, programTaskMappingConflicts, producedContracts]
     properties:
       requirementId: {type: string, pattern: '^REQ-V1-[0-9]{4}$'}
       moduleIds: {type: array, minItems: 1, uniqueItems: true, items: {type: string, pattern: '^MOD-[A-Z0-9-]+$'}}
@@ -36,4 +36,5 @@ $defs:
       programPocIds: {type: array, uniqueItems: true, items: {type: string, pattern: '^POC-[0-9]{2}$'}}
       otherBlockers: {type: array, uniqueItems: true, items: {type: string, minLength: 1}}
       downstreamTasks: {type: array, minItems: 1, uniqueItems: true, items: {type: string, pattern: '^(GZ|POC)-[0-9]{3}$'}}
+      programTaskMappingConflicts: {type: array, uniqueItems: true, items: {type: string, pattern: '^(GZ|POC)-[0-9]{3}$'}}
       producedContracts: {const: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]}
