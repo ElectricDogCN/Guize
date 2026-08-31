@@ -1,4 +1,3 @@
-import copy
 import importlib.util
 import os
 import subprocess
@@ -57,89 +56,12 @@ class TestProgramLifecycleGuards(unittest.TestCase):
                 "origin/main",
                 "--head-ref",
                 "HEAD",
-                "--task",
-                "GZ-003",
             ],
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn('"affectedTaskIds": ["GZ-003"]', result.stdout)
-        self.assertIn('"bootstrapBaseAuthorized": true', result.stdout)
-
-    def _gz003_migration_inputs(self):
-        plan = {
-            "foundationTasks": [
-                {"taskId": "GZ-003", "status": "completed", "completionRef": "PR-11"}
-            ],
-            "tasks": [],
-        }
-        active = {"version": 1, "tasks": []}
-        ledger = {"records": []}
-        return {
-            "task_id": "GZ-003",
-            "base_is_authorized": True,
-            "before_status": "completed",
-            "after_status": "completed",
-            "base_plan": plan,
-            "current_plan": copy.deepcopy(plan),
-            "base_active": active,
-            "current_active": copy.deepcopy(active),
-            "base_ledger": ledger,
-            "current_ledger": copy.deepcopy(ledger),
-            "paths": set(GUARDS.GZ003_BOOTSTRAP_MIGRATION_PATHS),
-            "task_spec_unchanged": True,
-        }
-
-    def test_one_time_gz003_bootstrap_migration_accepts_exact_snapshot(self):
-        self.assertTrue(
-            GUARDS.is_one_time_gz003_bootstrap_migration(
-                **self._gz003_migration_inputs()
-            )
-        )
-
-    def test_one_time_gz003_bootstrap_migration_rejects_unauthorized_base(self):
-        values = self._gz003_migration_inputs()
-        values["base_is_authorized"] = False
-        self.assertFalse(GUARDS.is_one_time_gz003_bootstrap_migration(**values))
-
-    def test_one_time_gz003_bootstrap_migration_rejects_extra_path(self):
-        values = self._gz003_migration_inputs()
-        values["paths"].add("README.md")
-        self.assertFalse(GUARDS.is_one_time_gz003_bootstrap_migration(**values))
-
-    def test_one_time_gz003_bootstrap_migration_rejects_state_document_drift(self):
-        mutations = (
-            ("current_plan", lambda value: value["tasks"].append({"taskId": "GZ-999"})),
-            ("current_active", lambda value: value.update({"policy": {"changed": True}})),
-            ("current_ledger", lambda value: value["records"].append({"taskId": "GZ-999"})),
-        )
-        for field, mutate in mutations:
-            with self.subTest(field=field):
-                values = self._gz003_migration_inputs()
-                mutate(values[field])
-                self.assertFalse(
-                    GUARDS.is_one_time_gz003_bootstrap_migration(**values)
-                )
-
-    def test_one_time_gz003_bootstrap_migration_rejects_task_spec_drift(self):
-        values = self._gz003_migration_inputs()
-        values["task_spec_unchanged"] = False
-        self.assertFalse(GUARDS.is_one_time_gz003_bootstrap_migration(**values))
-
-    def test_target_base_facts_authorize_only_gz014_completion_merge(self):
-        self.assertTrue(
-            GUARDS.is_gz003_bootstrap_authorized_base(REPO_ROOT, "origin/main")
-        )
-        parent = GUARDS.resolve_ref(REPO_ROOT, "origin/main^1")
-        self.assertIsNotNone(parent)
-        self.assertFalse(
-            GUARDS.is_gz003_bootstrap_authorized_base(REPO_ROOT, parent)
-        )
-        self.assertFalse(
-            GUARDS.is_gz003_bootstrap_authorized_base(REPO_ROOT, "HEAD")
-        )
 
     def test_wrapper_task_derivation_does_not_recurse(self):
         base_plan = {
