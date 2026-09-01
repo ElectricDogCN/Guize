@@ -1,70 +1,85 @@
 # GZ-003 Handoff
 
 Task: GZ-003
-Merge: 9e3a821ada292ac3ef69b7c059384d17f6530b48
-Status: PASS
+Original Completion: PR #11 / `9e3a821ada292ac3ef69b7c059384d17f6530b48`
+Status: COMPLETED
+Maintenance: OPS-003 / PR #44 validation in progress
 
 ## Identity
 
 - Original Task: GZ-003
-- Issue: #10
-- Original PR: #11
-- Original merge: `9e3a821ada292ac3ef69b7c059384d17f6530b48`
-- Maintenance PR: #35
-- Branch: `chore/GZ-003-multi-agent-readiness`
-- Target base: `main@3be9477fb137aa33faa6320f2454b9e1e1d5ec2d`
-- GZ-003 state remains `completed`
+- Original Issue: #10
+- Original Completion PR: #11
+- Original Completion merge: `9e3a821ada292ac3ef69b7c059384d17f6530b48`
+- Current maintenance tracking: OPS-003 #43
+- Current maintenance PR: #44
+- Maintenance branch: `fix/GZ-003-schema-fixture-active-work`
+- Maintenance base: `main@7c78c15097046d02ce04959b56c485ef76943c49`
+- GZ-003 Program/Foundation state remains `completed`
+- Shared paths: NONE
 
 ## Trigger
 
-GZ-004 Reservation PR #34 exposed governance tests coupled to historical GZ-014 active state. GZ-004 forbids `tests/**`; #34 was closed and the defect was isolated to governance maintenance.
+GZ-010 Reservation PR #42 correctly introduced a real GZ-010 `reserved` Program/Registry state, but Gate #374 exposed a stale schema-test fixture. The helper `_activate_gz004()` replaced all copied Active Work with synthetic GZ-004, deleting the legitimate copied GZ-010 Lease while leaving Program GZ-010 reserved. This manufactured the only failing test and would have made post-merge `main` red, so PR #42 was closed unmerged.
 
-## Final maintenance scope
+## Current maintenance files
 
-The final candidate contains only:
+Expected PR #44 diff after canonical Evidence refresh:
 
 1. `tests/governance/test_check_schemas.py`;
-2. `tests/governance/test_program_lifecycle_guards.py`;
+2. `evidence/GZ-003/schema-fixture-active-work-repair.md`;
 3. `evidence/GZ-003/summary.md`;
 4. `evidence/GZ-003/commands.txt`;
 5. `evidence/GZ-003/handoff.md`;
 6. `evidence/GZ-003/test-results/README.md`.
 
-`scripts/check-program-lifecycle-guards.py` has been restored exactly to the target-main blob and must not appear in the final PR diff.
-
-No Program Plan, Active Work, Completion Ledger, Task Spec, Schema, Workflow, Makefile, product requirement, business contract/code, deployment, Secret, permission, production data or downstream activation is modified.
+No Program Plan, Active Work, Completion Ledger, Task Spec, production checker, Schema, workflow, Makefile, product/POC contract, business code, deployment, Secret, permission or production data is changed.
 
 ## Functional repair
 
-- Schema copied-fixture setup now includes Task Specs for all currently active Registry tasks using the same exact-or-unique-suffix resolution supported by production validation.
-- The missing-Lease negative fixture explicitly clears Active Work before reserving GZ-004 in Program data.
-- The repository lifecycle smoke test no longer injects GZ-014 whenever HEAD differs from `origin/main`; it invokes the wrapper generically, while dedicated unit tests continue to prove that Program/Registry/Task changes derive GZ-004 and other task IDs.
-- No negative guard or fail-closed production checker is removed or weakened.
+`_activate_gz004()` now sets:
 
-## Break-glass rationale
+```python
+active["tasks"] = [registry] + [
+    item for item in active.get("tasks", []) if item.get("taskId") != "GZ-004"
+]
+```
 
-The current production lifecycle guard intentionally treats a completed GZ-003 task as metadata-only, so the pull-request Gate cannot authorize the very `tests/governance/**` edits required to remove its stale self-hosting assumptions. Adding a machine exception to that same checker was reviewed and rejected because it would leave a reusable bypass.
+This preserves synthetic GZ-004 at index 0, so all existing tests that intentionally mutate `active["tasks"][0]` keep their semantics. It also preserves every existing non-GZ-004 Active Work entry, eliminating fixture-created missing-Lease failures. Duplicate GZ-004 entries are excluded by task ID.
 
-Accordingly, the only acceptable path is a one-time Human Owner / Integrator override on a test-only PR after exact-head review. The override is valid only if the known metadata-scope failure is the sole remaining Gate failure and the final repository state contains no bootstrap exception.
+## Verification facts
 
-## Reviewer exact action
+- GZ-010 Reservation PR #42 / Gate #374: production lifecycle, Agent Coordination, direct Schema, Evidence, Scope and static checks passed; governance tests were 258 PASS / 1 fixture-generated FAIL.
+- PR #44 Gate #375 before canonical Evidence refresh: **259/259 governance tests PASS**, including `test_regular_program_task_activation_passes`.
+- Gate #375 Program integrity/history/transitions passed; Finalization failed only because this completed-GZ-003 maintenance had not refreshed the four canonical Completion Evidence files.
+- This update refreshes those files while preserving original Completion identity `9e3a821...`.
 
-1. Review the latest PR #35 HEAD only.
-2. Verify actual changed files equal the six paths listed above.
-3. Verify `scripts/check-program-lifecycle-guards.py` is identical to `main` and absent from the diff.
-4. Verify both test changes are state-agnostic and retain all existing negative assertions.
-5. Inspect latest Governance Gate: governance tests and every non-bootstrap-scope check must pass; only the completed-GZ-003 test-scope lifecycle rejection may remain.
-6. Report any additional failure or design flaw as a blocker.
+Exact command and run identities are recorded in `evidence/GZ-003/commands.txt`; test details are in `evidence/GZ-003/test-results/README.md`.
 
-## Integrator exact action
+## Remaining self-hosting boundary
 
-1. Re-fetch exact HEAD, six-file diff, Gate, reviews and unresolved threads.
-2. Re-review the exact HEAD before approval.
-3. If and only if the sole red check is the documented self-hosting scope deadlock, record explicit break-glass approval and merge with `expected_head_sha`.
-4. Verify the post-merge `main` Governance Gate is fully successful with no exception code in the tree.
-5. Re-close Issue #10.
-6. Rebuild GZ-004 Reservation from that new green main; do not reuse PR #34.
+After this Evidence refresh, a new exact-head Gate is mandatory. If Program Finalization becomes green but the completed-task lifecycle/scope guard rejects `tests/governance/test_check_schemas.py`, that is the same structural self-hosting boundary previously encountered for completed GZ-003 governance-test maintenance: the completed task cannot machine-authorize edits to the test surface needed to keep the Harness compatible.
+
+Do not add a reusable checker bypass. A one-time Human Owner / Integrator break-glass may be considered only if:
+
+- actual diff remains exactly the six maintenance files above;
+- 259/259 governance tests pass;
+- all production checkers and every Gate except the single completed-GZ-003 test-scope rejection pass;
+- fresh exact-head review has no content/design blocker;
+- unresolved threads are zero;
+- exact HEAD is re-audited before merge;
+- post-merge `main` Gate is fully green.
 
 ## Rollback
 
-Before merge, close PR #35. After merge, use a dedicated Revert PR for the two test files and Evidence; never rewrite `main` directly.
+Before merge, close PR #44. After merge, if post-main Gate is red, use a dedicated Revert PR for the fixture line and maintenance Evidence; never rewrite `main`, modify Program/Ledger history, or weaken a guard.
+
+## Next exact action
+
+1. run a new exact-head Gate after this canonical Evidence refresh;
+2. obtain fresh review of the same HEAD;
+3. fix any new blocker;
+4. if only the documented completed-task self-hosting scope red remains, perform exact-head Human/Integrator decision;
+5. require post-merge `main` Gate success;
+6. close OPS-003 #43;
+7. rebuild GZ-010 Reservation from that new green main—do not reuse PR #42/base SHA.
