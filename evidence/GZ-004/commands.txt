@@ -1,60 +1,96 @@
 GZ-004 completion command evidence
 
+Status: COMPLETED
+Evidence repair status: IN_PROGRESS
 Task: GZ-004
+Original completion base: 846b140c9115959708fe1cdf214f643d8d55f75e
 Implementation merge: 1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96
 Completion PR: #39
+Completion merge: 2ab9bc5faab8397bb8b02549d0e8a489a3ef1024
+Post-completion Evidence repair base: 2ab9bc5faab8397bb8b02549d0e8a489a3ef1024
 
-command: merge GZ-004 Reservation PR #36 with expected-head protection
+command: GET /repos/ElectricDogCN/Guize/commits/56d6bfacba45d36e82376ebb5a5cea7394c88f0d
+execution context: GitHub REST observation through the authorized repository connector
+exit code: HTTP 200
+result: PASS
+observed result: commit 56d6bfacba45d36e82376ebb5a5cea7394c88f0d exists and its message identifies GZ-004 Reservation PR #36
+replay equivalent: gh api repos/ElectricDogCN/Guize/commits/56d6bfacba45d36e82376ebb5a5cea7394c88f0d --jq '[.sha,.commit.message]'
+
+command: GET /repos/ElectricDogCN/Guize/commits/1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96
+execution context: GitHub REST observation through the authorized repository connector
+exit code: HTTP 200
+result: PASS
+observed result: commit 1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96 exists and its message identifies GZ-004 Implementation PR #37
+replay equivalent: gh api repos/ElectricDogCN/Guize/commits/1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96 --jq '[.sha,.commit.message]'
+
+command: python scripts/check-project-readiness.py
+execution context: GitHub Actions Governance Gate #370 / run 33386253533 / HEAD 2ab9bc5faab8397bb8b02549d0e8a489a3ef1024
 exit code: 0
 result: PASS
-observed result: Reservation merged as 56d6bfacba45d36e82376ebb5a5cea7394c88f0d
+observed result: Project readiness indexes and Program Plan are structurally consistent; requirements=10, modules=21, contractNamespaces=37, plannedTasks=26, pocs=10, waves=17
 
-command: verify post-Reservation main Governance Gate #333
+command: python scripts/check-program-plan-integrity.py --base-ref 846b140c9115959708fe1cdf214f643d8d55f75e
+execution context: GitHub Actions Governance Gate #370 / run 33386253533 / HEAD 2ab9bc5faab8397bb8b02549d0e8a489a3ef1024
 exit code: 0
 result: PASS
-observed result: Program lifecycle, Agent Coordination and governance regression checks succeeded on the Reservation main state
+observed result: Program Plan execution and completion integrity passed with activeTasks=0 and completionRecords=1
 
-command: merge GZ-004 Implementation PR #37 under Human Owner / Integrator exact-head control
+command: python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
+execution context: GitHub Actions Governance Gate #370 / run 33386253533 / HEAD 2ab9bc5faab8397bb8b02549d0e8a489a3ef1024
 exit code: 0
 result: PASS
-observed result: implementation contracts merged as 1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96
+observed result: 259 governance tests passed; skip audit reported no skipped tests
 
-command: verify post-implementation main Governance Gate #355
+command: python scripts/check-schemas.py
+execution context: GitHub Actions Governance Gate #370 / run 33386253533 / HEAD 2ab9bc5faab8397bb8b02549d0e8a489a3ef1024
 exit code: 0
 result: PASS
-observed result: final main repository passed the mandatory Governance Gate after implementation merge
+observed result: Program Plan, Active Work, Completion Ledger schema and repository schema validation completed successfully
 
-command: merge GZ-004 review-state PR #38 with expected-head control
-exit code: 0
+command: GET /repos/ElectricDogCN/Guize/compare/846b140c9115959708fe1cdf214f643d8d55f75e...2ab9bc5faab8397bb8b02549d0e8a489a3ef1024
+execution context: GitHub compare observation through the authorized repository connector
+exit code: HTTP 200
 result: PASS
-observed result: review lifecycle state merged as 846b140c9115959708fe1cdf214f643d8d55f75e
+observed result: Completion diff is exactly evidence/GZ-004/commands.txt, evidence/GZ-004/handoff.md, evidence/GZ-004/summary.md, evidence/GZ-004/test-results/README.md, specs/coordination/active-work.yaml, specs/coordination/program-plan.yaml, specs/coordination/task-completions.yaml, specs/tasks/GZ-004.md
+replay equivalent: gh api repos/ElectricDogCN/Guize/compare/846b140c9115959708fe1cdf214f643d8d55f75e...2ab9bc5faab8397bb8b02549d0e8a489a3ef1024 --jq '.files[].filename'
 
-command: verify post-review main Governance Gate #357
-exit code: 0
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33385463246
+execution context: GitHub REST observation of Completion Gate #368
+exit code: HTTP 200
+result: EXPECTED FAILURE / DIAGNOSED
+observed result: run #368 concluded failure; job logs show Program lifecycle, Agent Coordination, Schema, Evidence and Scope passed, while governance test current_repository_passes failed because Issue #14 was still open
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33385463246 --jq '[.head_sha,.run_number,.conclusion]'
+
+command: GET /repos/ElectricDogCN/Guize/issues/14
+execution context: GitHub REST observation of Completion Issue precondition
+exit code: HTTP 200
 result: PASS
-observed result: review-state main passed the mandatory Governance Gate
+observed result: Issue #14 is closed with state_reason=completed and closed_at=2026-08-31T11:08:42Z; it was intentionally pre-closed before successful Completion Gate #369 and had to be reopened if PR #39 were aborted
+replay equivalent: gh api repos/ElectricDogCN/Guize/issues/14 --jq '[.state,.state_reason,.closed_at]'
 
-command: inspect GZ-004 Completion Ledger identity
-exit code: 0
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33385734802
+execution context: GitHub REST observation of final exact-head Completion Gate #369
+exit code: HTTP 200
 result: PASS
-observed result: reservationRef=PR-36, reservationCommit=56d6bfacba45d36e82376ebb5a5cea7394c88f0d, completionRef=PR-37, mergeCommit=1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96, canonical Task/Evidence/Handoff paths bound to GZ-004
+observed result: exact Completion HEAD 37dc4a34b8d7a02aa5f660b36108d900191878a6 / run #369 / conclusion success
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33385734802 --jq '[.head_sha,.run_number,.conclusion]'
 
-command: inspect GZ-004 Completion scope
-exit code: 0
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33386253533
+execution context: GitHub REST observation of post-completion main Gate #370
+exit code: HTTP 200
 result: PASS
-observed result: Program diff contains only GZ-004 review->completed; Active Work releases only GZ-004; ordinary Completion Ledger appends one GZ-004 record; Task and canonical completion Evidence are task-bound; changed-file set is exactly eight canonical completion files
+observed result: main HEAD 2ab9bc5faab8397bb8b02549d0e8a489a3ef1024 / run #370 / conclusion success
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33386253533 --jq '[.head_sha,.run_number,.conclusion]'
 
-command: inspect first PR #39 Completion Governance Gate #368
-exit code: 1
-result: EXPECTED PRECONDITION FAILURE / DIAGNOSED
-observed result: Program lifecycle, Agent Coordination, Schema, Evidence, Scope and 258/259 governance tests passed; the single failing test required Issue #14 to be closed with state_reason=completed before Completion validation
+command: GET /repos/ElectricDogCN/Guize/pulls/39/reviews
+execution context: GitHub review observation through the authorized repository connector
+exit code: HTTP 200
+result: FINDINGS / POST-MERGE EVIDENCE REPAIR REQUIRED
+observed result: Codex exact-head review for 37dc4a34b8d7a02aa5f660b36108d900191878a6 completed at 2026-08-31T11:19:57Z after merge and raised four P2 Evidence findings covering reproducible commands, Handoff completeness, rollback evidence and Issue-closure sequence
+replay equivalent: gh api repos/ElectricDogCN/Guize/pulls/39/reviews --jq '.[] | [.commit_id,.state,.submitted_at]'
 
-command: close Issue #14 with state_reason=completed as required by Completion lifecycle
-exit code: 0
-result: PASS
-observed result: GitHub Issue #14 is closed and reports state_reason=completed; if Completion cannot merge, rollback requires reopening it
-
-command: final PR #39 exact-head Governance Gate, exact-head review, expected-head merge and post-completion main Gate
+command: review and merge chore/GZ-004-completion-evidence-repair
+execution context: current post-completion Evidence repair
 exit code: pending
 result: PENDING
-observed result: no future final Gate, review, merge or post-merge result is claimed before GitHub executes it
+observed result: no repair Gate, review, merge or post-merge success is claimed before GitHub executes it
