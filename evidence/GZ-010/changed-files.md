@@ -2,7 +2,7 @@
 
 Task: GZ-010
 
-Current implementation candidate contains 29 paths, all within the Task-authorized lifecycle metadata or exclusive output scope:
+GitHub's paginated PR file list reports exactly **34 changed files** for the current implementation candidate. Every path is within GZ-010 lifecycle metadata, its registered exclusive output paths, or task-bound Evidence.
 
 ## Lifecycle metadata
 
@@ -41,7 +41,12 @@ Current implementation candidate contains 29 paths, all within the Task-authoriz
 ## Task-bound Evidence
 
 29. `evidence/GZ-010/implementation-start.md`
+30. `evidence/GZ-010/summary.md`
+31. `evidence/GZ-010/commands.txt`
+32. `evidence/GZ-010/test-results/README.md`
+33. `evidence/GZ-010/handoff.md`
+34. `evidence/GZ-010/changed-files.md`
 
-Reservation-era canonical Evidence files under `evidence/GZ-010/**` are also modified in-place as implementation facts are recorded; GitHub's paginated PR file list is the final authority and must remain entirely inside `evidence/GZ-010/**`.
+`implementation-start.md` is a historical phase marker only; the other canonical Evidence files describe the current implementation candidate.
 
 Forbidden and absent from the candidate: `evidence/POC-*`, requirements/acceptance/design ownership, `contracts/**`, `data/**`, business code, deployment, `.github/**`, repository-level `scripts/**`/`tests/**`, Secrets, permissions, Migration and production data.
