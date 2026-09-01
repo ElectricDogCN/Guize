@@ -1,40 +1,50 @@
 GZ-003 command evidence
 
 Task: GZ-003
-Merge: 9e3a821ada292ac3ef69b7c059384d17f6530b48
-Completion: original GZ-003 delivery remains COMPLETED
+Original Completion: PR #11 / 9e3a821ada292ac3ef69b7c059384d17f6530b48
+Status: COMPLETED
+Maintenance: OPS-003 / PR #44 validation in progress
 
-command: inspect GZ-004 Reservation PR #34 failure
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33479774222
+execution context: authorized GitHub observation of failed GZ-010 Reservation Gate #374
 exit code: HTTP 200
 result: PASS
-observed result: first ordinary-task Reservation exposed governance-test assumptions tied to historical GZ-014 state; PR #34 was closed rather than expanding GZ-004 into tests/**
+observed result: Gate #374 failed only in governance tests; Program lifecycle, Agent Coordination, direct Schema, Evidence, Scope, Secret and static checks passed
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33479774222 --jq '[.head_sha,.run_number,.conclusion]'
 
-command: inspect PR #35 Codex review on f2c3bb531677e0ca0c8338139734cedd1981343b
+command: inspect Governance Gate #374 job log for `test_regular_program_task_activation_passes`
+execution context: GitHub Actions log observation
 exit code: HTTP 200
 result: PASS
-observed result: review identified a reusable self-authorization risk in the proposed lifecycle-checker exception and a future-PR regression in the migration-specific smoke test
+observed result: 258 governance tests passed and the sole failure reported `Program Plan marks tasks active but Active Work Registry has no lease: GZ-010`; direct schema validation in the same run reported `OK PROGRAM ACTIVATION: GZ-010 <- W1`
 
-command: restore scripts/check-program-lifecycle-guards.py to target main blob cd1242fbdd8959376635d25e4f4cb4aefa0fa11a
-exit code: 0
+command: change `_activate_gz004()` to keep synthetic GZ-004 first and preserve existing non-GZ-004 Active Work
+execution context: PR #44 branch `fix/GZ-003-schema-fixture-active-work`
+exit code: repository commit success
 result: PASS
-observed result: commit ee4daf97918bcbb58c4923d777ee5c9debbbe37e removes the persistent bootstrap authorization code; production lifecycle checker matches main again
+observed result: tests/governance/test_check_schemas.py changed only `active["tasks"] = [registry]` to `[registry] + existing non-GZ-004 tasks`; production checker code and schemas are unchanged
 
-command: replace repository lifecycle smoke test with state-agnostic wrapper invocation
-exit code: 0
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33480225903
+execution context: authorized GitHub observation of PR #44 Gate #375
+exit code: HTTP 200
+result: EXPECTED SELF-HOSTING FAILURE / DIAGNOSED
+observed result: Gate #375 ran against the OPS-003 fixture repair; 259/259 governance tests passed, including `test_regular_program_task_activation_passes`; every non-Program-Finalization check passed
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33480225903 --jq '[.head_sha,.run_number,.conclusion]'
+
+command: inspect Gate #375 Program Integrity step
+execution context: GitHub Actions job log observation
+exit code: HTTP 200
+result: EXPECTED MAINTENANCE EVIDENCE FAILURE / DIAGNOSED
+observed result: Program integrity, history and transitions passed; Program Finalization required refreshed `evidence/GZ-003/handoff.md`, `summary.md`, `commands.txt`, and `test-results/README.md` because GZ-003 remains completed while the maintenance PR changes repository content
+
+command: refresh GZ-003 canonical Completion Evidence for OPS-003 maintenance
+execution context: current PR #44 branch
+exit code: repository commit success
 result: PASS
-observed result: commit ee4daf97918bcbb58c4923d777ee5c9debbbe37e preserves the existing guard/unit tests and removes hard-coded GZ-014 task/branch injection
+observed result: four canonical Evidence files preserve the original GZ-003 Completion identity `9e3a821ada292ac3ef69b7c059384d17f6530b48` and record PR #42/#374 trigger, PR #44 repair, Gate #375 259/259 result, and the remaining validation boundary
 
-command: preserve schema fixture compatibility repair
-exit code: 0
-result: PASS
-observed result: tests/governance/test_check_schemas.py still resolves exact or unique suffixed Task Specs for current Active Work tasks and clears fixture Active Work before the missing-Lease negative assertion
-
-command: refresh GZ-003 canonical maintenance Evidence
-exit code: 0
-result: PASS
-observed result: summary.md, commands.txt, handoff.md and test-results/README.md document a test-only break-glass repair with no Program/Registry/Ledger/Task/Checker exception or downstream activation
-
-command: latest PR #35 Gate, fresh exact-head Codex Review, human/Integrator re-review, merge and post-merge main Gate
+command: PR #44 latest exact-head Governance Gate, fresh review, Human/Integrator re-audit, expected-head merge and post-merge main Gate
+execution context: future OPS-003 validation
 exit code: pending
 result: PENDING
-observed result: no success is claimed until GitHub executes those checks on the final exact HEAD
+observed result: no latest-head Gate, review, merge, post-merge success, OPS-003 closure, or rebuilt GZ-010 success is claimed before GitHub executes it
