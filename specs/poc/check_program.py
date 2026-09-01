@@ -213,6 +213,8 @@ def validate_repository(repo_root: Path) -> list[str]:
                 sample = sample_map.get(sample_id)
                 if sample and sample.get("approvalState") != "approved":
                     errors.append(f"{label}: execution cannot use unapproved sample {sample_id}")
+            if not (plan.get("environment") or {}).get("capturedValues"):
+                errors.append(f"{label}: execution requires captured environment values")
 
         if plan.get("riskLevel") in HIGH_RISKS:
             high_by_wave.setdefault(plan.get("wave"), []).append(task_id)
@@ -247,6 +249,11 @@ def validate_repository(repo_root: Path) -> list[str]:
             errors.append(f"results-index {task_id}: pocId mismatch")
         if entry.get("evidencePath") != plan.get("evidencePath"):
             errors.append(f"results-index {task_id}: evidencePath mismatch")
+        if entry.get("status") != plan.get("resultStatus"):
+            errors.append(
+                f"results-index {task_id}: status {entry.get('status')!r} "
+                f"does not match plan resultStatus {plan.get('resultStatus')!r}"
+            )
         if entry.get("evidencePath") in result_evidence:
             errors.append(f"results-index duplicate evidence path: {entry.get('evidencePath')}")
         result_evidence.add(entry.get("evidencePath"))
@@ -254,6 +261,35 @@ def validate_repository(repo_root: Path) -> list[str]:
             for key in ("resultRef", "decision", "reviewer", "approvedAt"):
                 if entry.get(key) is not None:
                     errors.append(f"results-index {task_id}: not_started {key} must be null")
+        elif entry.get("status") in {"pass", "fail", "inconclusive"}:
+            protocol = plan.get("protocol") or {}
+            review = plan.get("review") or {}
+            decision = plan.get("decision") or {}
+            missing_actual = [
+                item.get("id")
+                for item in protocol.get("measurements") or []
+                if item.get("actual") is None
+            ]
+            if not protocol.get("commands"):
+                errors.append(f"{task_id}: completed result requires recorded execution commands")
+            if not protocol.get("rawOutputRefs"):
+                errors.append(f"{task_id}: completed result requires raw evidence references")
+            if missing_actual:
+                errors.append(f"{task_id}: completed result has unmeasured metrics {missing_actual}")
+            if not (plan.get("environment") or {}).get("capturedValues"):
+                errors.append(f"{task_id}: completed result requires captured environment values")
+            if decision.get("status") != entry.get("status"):
+                errors.append(f"{task_id}: decision status must match result status")
+            if not decision.get("rationale") or not decision.get("resultRef"):
+                errors.append(f"{task_id}: completed result requires decision rationale/resultRef")
+            if not review.get("reviewer") or not review.get("approvedAt") or review.get("approval") != "approved":
+                errors.append(f"{task_id}: completed result requires independent approved review")
+            if not entry.get("resultRef") or not entry.get("decision") or not entry.get("reviewer") or not entry.get("approvedAt"):
+                errors.append(f"results-index {task_id}: completed result requires result/review metadata")
+            if entry.get("resultRef") != decision.get("resultRef"):
+                errors.append(f"results-index {task_id}: resultRef does not match plan decision")
+            if entry.get("reviewer") != review.get("reviewer"):
+                errors.append(f"results-index {task_id}: reviewer does not match plan review")
 
     for sample_id, sample in sample_map.items():
         required = {"id", "description", "source", "classification", "approvalState", "immutableId", "checksum", "allowedPocs"}
