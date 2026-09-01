@@ -172,6 +172,70 @@ class TestPocProgram(unittest.TestCase):
             data = load_yaml(path); data["wave"] = "W11"; write_yaml(path, data)
         self.assert_invalid(mutate, "wave")
 
+    def test_result_index_status_must_match_plan(self):
+        def mutate(root):
+            path = root / "specs/poc/results-index.yaml"
+            data = load_yaml(path)
+            data["entries"][0]["status"] = "running"
+            write_yaml(path, data)
+        self.assert_invalid(mutate, "does not match plan resultStatus")
+
+    def test_running_execution_requires_environment_capture(self):
+        def mutate(root):
+            sample_path = root / "specs/poc/samples.yaml"
+            samples = load_yaml(sample_path)
+            for sample in samples["samples"]:
+                if sample["id"] == "SAMPLE-RANGE-LARGEFILE":
+                    sample["approvalState"] = "approved"
+            write_yaml(sample_path, samples)
+            path = root / "specs/poc/plans/POC-003.yaml"
+            data = load_yaml(path)
+            data["status"] = "running"
+            data["resultStatus"] = "running"
+            data["protocol"]["commands"] = ["bounded-test-command"]
+            write_yaml(path, data)
+            index = root / "specs/poc/results-index.yaml"
+            result = load_yaml(index)
+            for entry in result["entries"]:
+                if entry["taskId"] == "POC-003":
+                    entry["status"] = "running"
+            write_yaml(index, result)
+        self.assert_invalid(mutate, "execution requires captured environment")
+
+    def test_pass_without_measurement_evidence_review_rejected(self):
+        def mutate(root):
+            sample_path = root / "specs/poc/samples.yaml"
+            samples = load_yaml(sample_path)
+            for sample in samples["samples"]:
+                if sample["id"] == "SAMPLE-RANGE-LARGEFILE":
+                    sample["approvalState"] = "approved"
+            write_yaml(sample_path, samples)
+            path = root / "specs/poc/plans/POC-003.yaml"
+            data = load_yaml(path)
+            data["status"] = "completed"
+            data["resultStatus"] = "pass"
+            data["environment"]["capturedValues"] = {"tool_versions": "captured"}
+            data["protocol"]["commands"] = ["bounded-test-command"]
+            data["decision"] = {
+                "status": "pass",
+                "rationale": "prose alone",
+                "resultRef": "evidence/POC-003/result.json",
+            }
+            write_yaml(path, data)
+            index = root / "specs/poc/results-index.yaml"
+            result = load_yaml(index)
+            for entry in result["entries"]:
+                if entry["taskId"] == "POC-003":
+                    entry.update({
+                        "status": "pass",
+                        "resultRef": "evidence/POC-003/result.json",
+                        "decision": "pass",
+                        "reviewer": "reviewer-a",
+                        "approvedAt": "2026-09-01T00:00:00Z",
+                    })
+            write_yaml(index, result)
+        self.assert_invalid(mutate, "requires raw evidence references")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
