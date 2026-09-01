@@ -1,16 +1,20 @@
 # GZ-004 Completion Handoff
 
 Status: COMPLETED
+Evidence repair status: IN_PROGRESS
 
 ## Identity
 
 - Task: `GZ-004`
-- Issue: #14
+- Issue: #14 (`closed`, `state_reason=completed`)
 - Reservation PR / merge: #36 / `56d6bfacba45d36e82376ebb5a5cea7394c88f0d`
 - Implementation PR / merge: #37 / `1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96`
 - Review-state PR / merge: #38 / `846b140c9115959708fe1cdf214f643d8d55f75e`
-- Completion PR: #39
-- Branch: `chore/GZ-004-requirements-baseline`
+- Completion PR / merge: #39 / `2ab9bc5faab8397bb8b02549d0e8a489a3ef1024`
+- Completion target base SHA: `846b140c9115959708fe1cdf214f643d8d55f75e`
+- Current post-completion repair base SHA: `2ab9bc5faab8397bb8b02549d0e8a489a3ef1024`
+- Completion branch: `chore/GZ-004-requirements-baseline`
+- Evidence repair branch: `chore/GZ-004-completion-evidence-repair`
 - Wave / Order: `W1 / 1`
 - Risk: `high`
 
@@ -22,40 +26,71 @@ Status: COMPLETED
 - Integrator: `integration-agent`
 - Human Owner: `ElectricDogCN`
 
-## Completed scope
+## Contracts and completed scope
 
-- `REQ-V1`: exact ten-requirement derived implementation baseline preserving the read-only Requirement Index sets;
+- `REQ-V1`: exact ten-requirement derived implementation baseline preserving read-only Requirement Index sets;
 - `NFR-V1`: security/privacy/performance/capacity/availability/recovery/observability/compatibility/maintainability/supply-chain baseline with explicit `MEASUREMENT_REQUIRED` boundaries;
-- `ACCEPTANCE-TRACE-V1`: Requirement-level acceptance and traceability including Program supplements and explicit Requirement Index / Program mapping conflicts;
+- `ACCEPTANCE-TRACE-V1`: Requirement-level acceptance and traceability with Program supplements and explicit Requirement Index / Program mapping conflicts;
 - strict Schemas and fail-closed `specs/requirements/v1/validate.py`;
 - human-readable requirements entry point and task-bound Evidence.
 
-The APPROVED/FROZEN `specs/requirements/product-requirements.md`, read-only Requirement Index and Module Ownership remain unchanged. No OpenAPI/Event/DDL/runtime contract, POC result, business code, deployment, Secret, permission or production data is completed by GZ-004.
+The APPROVED/FROZEN `specs/requirements/product-requirements.md`, Requirement Index and Module Ownership are unchanged. GZ-004 does not complete OpenAPI/Event/DDL/runtime contracts, POC execution, business code or deployment.
 
-## Verified lifecycle evidence
+## Actual Completion PR changed files
 
-- post-Reservation main Gate #333: PASS;
-- post-Implementation main Gate #355: PASS;
-- post-Review-state main Gate #357: PASS;
-- Implementation merge `1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96` is the immutable completion implementation identity;
-- Completion Ledger binds Reservation PR #36 / merge `56d6bfac...` and Implementation PR #37 / merge `1ff9fe35...`;
-- Completion releases only the GZ-004 Active Work Lease.
+Exactly eight files changed from `846b140c9115959708fe1cdf214f643d8d55f75e` to Completion merge `2ab9bc5faab8397bb8b02549d0e8a489a3ef1024`:
 
-## Completion PR reviewer action
+1. `evidence/GZ-004/commands.txt`
+2. `evidence/GZ-004/handoff.md`
+3. `evidence/GZ-004/summary.md`
+4. `evidence/GZ-004/test-results/README.md`
+5. `specs/coordination/active-work.yaml`
+6. `specs/coordination/program-plan.yaml`
+7. `specs/coordination/task-completions.yaml`
+8. `specs/tasks/GZ-004.md`
 
-1. Confirm Program Plan diff contains only GZ-004 `review -> completed`.
-2. Confirm Active Work policy is unchanged and GZ-004 is the only removed entry.
-3. Confirm Completion Ledger contains exactly one GZ-004 record with PR #36 / PR #37 identities.
-4. Confirm Task Spec is `completed`, uses base `846b140c9115959708fe1cdf214f643d8d55f75e`, preserves `agentRole: reviewer`, roles, paths and exact exitGate.
-5. Confirm Summary, Commands, Test Results and Handoff all identify GZ-004 and implementation merge `1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96` with structured completion results.
-6. Require exact-head Governance Gate success and zero unresolved review threads.
-7. Merge only with the reviewed exact HEAD; then require post-completion `main` Governance Gate success.
-8. Close Issue #14 only after the post-merge main verification succeeds.
+Program Plan changed only GZ-004 `review -> completed`; Active Work removed only GZ-004; Completion Ledger appended one immutable GZ-004 record.
 
-## Downstream boundary
+## Shared paths
 
-GZ-005 and all other consumers remain blocked until this Completion PR is merged and the resulting main Governance Gate is green. No downstream Reservation is bundled into this Completion change.
+- Shared paths: `NONE`.
+- No other task path, contract namespace, Migration, global workflow, deployment or production resource was modified.
 
-## Rollback
+## Executed verification and outcomes
 
-Before merge, close PR #39. After merge, any rollback must use a dedicated Revert PR restoring GZ-004 to the prior review state and its prior Active Work lease while preserving the immutable Git/PR/Evidence history. Never rewrite `main`.
+Authoritative command-level details are in `evidence/GZ-004/commands.txt`.
+
+- `python scripts/check-project-readiness.py` — exit `0` in Governance Gate #370.
+- `python scripts/check-program-plan-integrity.py --base-ref 846b140c9115959708fe1cdf214f643d8d55f75e` — exit `0` in Gate #370.
+- `python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml` — exit `0`; 259 tests passed in Gate #370.
+- `python scripts/check-schemas.py` — exit `0` in Gate #370.
+- exact-head Completion Gate #369 / run `33385734802` — PASS on `37dc4a34b8d7a02aa5f660b36108d900191878a6`.
+- post-completion main Gate #370 / run `33386253533` — PASS on `2ab9bc5faab8397bb8b02549d0e8a489a3ef1024`.
+
+## Failed gate and limitation history
+
+Initial Completion Gate #368 / run `33385463246` failed only because Issue #14 was open. The lifecycle guard requires `closed + state_reason=completed` before a Completion Gate can pass. Issue #14 was closed at `2026-08-31T11:08:42Z`; had PR #39 then been abandoned, Issue #14 had to be reopened before leaving the task incomplete.
+
+The independent Codex review of exact Completion HEAD `37dc4a34...` completed after merge at `2026-08-31T11:19:57Z` and raised four P2 Evidence-only findings. This post-completion repair addresses those findings before any next Program task starts.
+
+## Structured Evidence references
+
+- Summary: `evidence/GZ-004/summary.md`
+- Commands: `evidence/GZ-004/commands.txt`
+- Test results: `evidence/GZ-004/test-results/README.md`
+- Completion rollback verification: `evidence/GZ-004/rollback-verification/README.md`
+- Handoff: `evidence/GZ-004/handoff.md`
+
+## Rollback boundary
+
+Do not blindly revert PR #39 after completion. Ordinary Completion Ledger history is append-only and completed Program tasks may not silently regress. The executable rollback decision tree is documented in `evidence/GZ-004/rollback-verification/README.md`.
+
+If an exceptional governance-approved lifecycle rollback to `review` is ever introduced, it must restore a valid review Active Work record and use a non-expired lease; never restore an expired historical lease. If the original lease has expired, a fresh lease must be acquired within the repository maximum of 168 hours.
+
+## Next role exact action
+
+1. Review only the five-file `evidence/GZ-004/**` repair diff against `main@2ab9bc5f...`.
+2. Require exact-head Governance Gate success and zero unresolved threads.
+3. Resolve the four late PR #39 P2 threads with links to the repaired Evidence.
+4. Merge the Evidence repair only with the reviewed exact HEAD and require post-merge `main` Gate success.
+5. Only after that clean baseline may GZ-010 enter Reservation.
