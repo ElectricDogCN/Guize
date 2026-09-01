@@ -44,10 +44,10 @@ resources:
   description: Approved IPv6/TLS/tunnel/CDN test path with isolated public endpoint.
 - id: RES-FRONTEND-COMPARE
   type: frontend-lab
-  availability: available
+  availability: unknown
   bookingRequired: false
   credentialsStored: false
-  description: Local reproducible Vue/React prototype build environment.
+  description: Candidate local reproducible Vue/React prototype build environment; availability is confirmed before execution.
 - id: RES-AI-BENCH
   type: ai-benchmark-lab
   availability: requires_booking
