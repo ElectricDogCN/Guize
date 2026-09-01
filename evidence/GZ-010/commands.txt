@@ -1,0 +1,44 @@
+GZ-010 Reservation command evidence
+
+Task: GZ-010
+Phase: Reservation
+Reservation base: 7c78c15097046d02ce04959b56c485ef76943c49
+
+command: GET /repos/ElectricDogCN/Guize/git/ref/heads/main
+execution context: authorized GitHub repository observation before GZ-010 Reservation
+exit code: HTTP 200
+result: PASS
+observed result: main resolved to 7c78c15097046d02ce04959b56c485ef76943c49
+replay equivalent: gh api repos/ElectricDogCN/Guize/git/ref/heads/main --jq '.object.sha'
+
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33478734549
+execution context: predecessor post-GZ-004-Evidence-repair main Governance Gate #373
+exit code: HTTP 200
+result: PASS
+observed result: run #373 for main@7c78c15097046d02ce04959b56c485ef76943c49 completed successfully; Program History, Agent Coordination and governance regression were green
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33478734549 --jq '[.head_sha,.run_number,.conclusion]'
+
+command: GET /repos/ElectricDogCN/Guize/issues/15
+execution context: GZ-010 Issue precondition observation
+exit code: HTTP 200
+result: PASS
+observed result: Issue #15 is open and identifies GZ-010 / W1 / WP-M0-04 POC Program preparation
+replay equivalent: gh api repos/ElectricDogCN/Guize/issues/15 --jq '[.number,.state,.title]'
+
+command: create branch chore/GZ-010-reservation from 7c78c15097046d02ce04959b56c485ef76943c49
+execution context: authorized GitHub branch mutation
+exit code: success
+result: PASS
+observed result: clean Reservation branch created from the exact green main baseline
+
+command: reserve GZ-010 Program/Registry/Task/Evidence metadata
+execution context: current Reservation construction
+exit code: in progress
+result: IN_PROGRESS
+observed result: Active Work and Task Spec are present; Program GZ-010 status and full Reservation Evidence are being completed before opening the PR
+
+command: GZ-010 Reservation PR exact-head Gate, fresh review, expected-head merge and post-merge main Gate
+execution context: future Reservation validation
+exit code: pending
+result: PENDING
+observed result: no future Reservation validation or merge result is claimed before GitHub executes it
