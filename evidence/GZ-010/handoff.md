@@ -1,7 +1,7 @@
-# GZ-010 Reservation v2 Handoff
+# GZ-010 Implementation Handoff
 
 Task: GZ-010
-Status: RESERVED candidate
+Status: IN_PROGRESS
 
 ## Identity
 
@@ -10,11 +10,11 @@ Status: RESERVED candidate
 - Wave / order: W1 / 2
 - Work Package: WP-M0-04
 - Risk: medium
-- Base: `main@d23543f97facff00d02f79aab1693a37788765c9`
-- Reservation branch: `chore/GZ-010-reservation-v2`
+- Implementation base: `main@74ab9d53f29834fda37dcbd726fd58f997f8f21a`
+- Reservation PR: #45
 - Implementation branch: `chore/GZ-010-poc-program-baseline`
 - Lease: `2026-09-01T08:27:00Z` → `2026-09-08T08:27:00Z`
-- Produced contract: `POC-PROTOCOL-V1` (implementation output; not yet produced)
+- Produced contract: `POC-PROTOCOL-V1`
 
 ## Roles
 
@@ -24,43 +24,53 @@ Status: RESERVED candidate
 - Reviewer: `independent-poc-program-review-agent`
 - Integrator: `integration-agent`
 
-## Predecessor evidence
+## Verified predecessor
 
-- OPS-003 repair merge: PR #44 → `d23543f97facff00d02f79aab1693a37788765c9`.
-- Post-repair main Governance Gate #380 / run `33480807557`: SUCCESS.
-- Historical GZ-010 PR #42: CLOSED / UNMERGED.
-- Historical Gate #374: 258 PASS / 1 FAIL due to schema fixture; not current PASS evidence.
+- Reservation v2 exact HEAD `88d0a0d84cce83eaa183b547225ab7ff71074208` passed Gate #381 and fresh Codex review.
+- PR #45 merged as `74ab9d53f29834fda37dcbd726fd58f997f8f21a`.
+- Post-Reservation main Gate #382 / run `33492832222`: PASS.
 
-## Reservation scope
+## Implemented scope
 
-Program Plan only marks GZ-010 `reserved`; Registry contains exactly one GZ-010 lease; Task Spec and `evidence/GZ-010/**` are added. No implementation output, POC result, business contract, test/script change, deployment, secret or production data is included.
+- canonical `specs/poc/program.yaml` manifest;
+- strict Program/Plan/Protocol/Result Index schemas;
+- policy, resource catalogue and sample catalogue;
+- result index with ten `not_started` entries;
+- POC-001～POC-010 plans mapped exactly to Program Plan;
+- plan/result/execution templates;
+- fail-closed `check_program.py`;
+- `test_program.py` with 19 baseline/negative tests;
+- human `poc/README.md`.
 
-Exclusive implementation paths reserved after merge:
+All plans remain `planned/not_started`; commands/raw outputs/actual measurements/results/decisions/reviewers remain empty. GZ-010 creates no `evidence/POC-*` result.
 
-- `specs/poc/**`
-- `poc/README.md`
-- `evidence/GZ-010/**`
+## Validation already executed
 
-Shared paths: NONE.
+- POC Program validator: exit code 0 / PASS.
+- POC Program tests: 19/19 PASS.
+- Program patch is expected to contain only GZ-010 `reserved -> in_progress`.
+- Repository exact-head Gate/Review are still required and override isolated pre-push validation if they find a problem.
 
 ## Reviewer exact action
 
-1. Review the final Reservation v2 HEAD only.
-2. Verify compare against `main@d23543f9...` contains exactly the 18 expected Reservation files.
-3. Verify Program Plan patch contains only GZ-010 `status: reserved`.
-4. Verify Active Work and Task Spec base SHA, roles, branch, scope and lease match exactly.
-5. Verify no `specs/poc/**`, `poc/README.md` or `evidence/POC-*` implementation/result file appears.
-6. Inspect exact-head Governance Gate and report any failure as blocker.
-7. Ensure unresolved blocker thread count is zero.
+1. Review only PR #46 latest HEAD.
+2. Verify lifecycle metadata all say GZ-010 `in_progress`, base `74ab9d53...`, agentRole `implementer`.
+3. Verify Program Plan has no unrelated hunk.
+4. Verify every POC plan mirrors Program Plan POC/Task/Requirement/Module/Wave/Risk/Evidence/Dependency facts.
+5. Verify all ten plans/results remain unexecuted and contain no result claim.
+6. Review Validator for bypasses in unknown references, result prefill, sample approval, secret detection and high/critical scheduling.
+7. Verify no forbidden path, `evidence/POC-*`, business contract/code, deployment or Secret change exists.
+8. Treat any exact-head Gate failure or new Finding as blocker.
 
 ## Integrator exact action
 
-1. Re-fetch exact HEAD, file list, Program patch, Gate, review and threads.
-2. Merge only the reviewed expected HEAD.
-3. Verify post-merge `main` Governance Gate SUCCESS.
-4. Only after that, create/reset `chore/GZ-010-poc-program-baseline` from the Reservation merge commit.
-5. Start implementation with POC Program Schema/index first; do not populate experiment results.
+1. Require latest exact-head Governance Gate result and zero unresolved blocker threads.
+2. Require fresh exact-head independent Review.
+3. Re-fetch actual changed files, Program patch, Registry and Task Spec.
+4. Merge only with `expected_head_sha` after re-audit.
+5. Require post-merge main Gate success.
+6. Only then move GZ-010 to review/completion lifecycle; do not activate POC Tasks or W2 Tasks in the same PR.
 
 ## Rollback
 
-Before merge: close the Reservation PR. After merge but before implementation: use a dedicated revert/correction PR limited to GZ-010 Reservation state. Never rewrite `main` or delete unrelated history.
+Before merge, close PR #46 and preserve branch/Evidence. After merge but before Completion, use a dedicated governed revert/correction PR to restore a valid lifecycle state and remove only GZ-010 implementation outputs as required. Never rewrite `main`, delete immutable Completion history, or fabricate POC results.
