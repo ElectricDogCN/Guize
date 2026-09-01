@@ -20,29 +20,34 @@ observed result: push-to-main governance checks all succeeded before implementat
 command: python specs/poc/check_program.py --repo-root /mnt/data/gz010_impl
 exit code: 0
 result: PASS
-observed result: POC-PROTOCOL-V1 program, 10 plans, resources, samples and results index were consistent with the canonical POC/task mapping used to generate the branch files
+observed result: hardened POC-PROTOCOL-V1 program, ten plans, resources, samples and results index were consistent with the canonical Program Plan mapping
 
 command: python specs/poc/test_program.py
 exit code: 0
 result: PASS
-observed result: 19 tests ran and passed, including baseline plus negative mutations for missing plan, ID mismatch, risk/wave/requirement/module/evidence/dependency drift, duplicate evidence, unknown resource/sample, unapproved sample execution, prefilled command/measurement/decision/reviewer, secret-like data and critical scheduling violation
+observed result: 22 tests ran and passed for the hardened candidate; negative mutations cover missing plan, ID mismatch, risk/wave/requirement/module/evidence/dependency drift, duplicate evidence, unknown resource/sample, unapproved sample execution, prefilled command/measurement/decision/reviewer, secret-like data, critical scheduling, results-index status drift, missing execution environment capture, and PASS without raw evidence/measurements/independent review
 
-command: GitHub compare main@74ab9d53f29834fda37dcbd726fd58f997f8f21a...implementation candidate
+command: GitHub compare main@74ab9d53f29834fda37dcbd726fd58f997f8f21a...PR #46 implementation candidate
 exit code: HTTP 200
 result: PASS
-observed result: implementation changes are limited to GZ-010 lifecycle metadata, specs/poc/**, poc/README.md and evidence/GZ-010/**; no evidence/POC-* result path is created
+observed result: 34 changed paths are limited to GZ-010 lifecycle metadata, specs/poc/**, poc/README.md and evidence/GZ-010/**; no evidence/POC-* result path exists
 
-command: GitHub PR #46 exact-head Governance Gate
+command: GitHub Actions Governance Gate #396 / run 33495778895 on HEAD 54e349514df22c32d93c9b285423e7cf8e2fe485
+exit code: 1
+result: KNOWN-SELF-HOSTING-FAIL
+observed result: Program lifecycle/history/finalization PASS, 259/259 governance tests PASS, Schema/Secret/Evidence/Scope/Spec Sync/static checks PASS, scope 34/34 allowed; sole failure was Agent Coordination: specs/coordination/program-plan.yaml treated as outside registered active-task path claims while lifecycle requires the reserved->in_progress Program metadata update
+
+command: GitHub PR #46 latest exact-head Governance Gate after Evidence update
 exit code: pending
 result: PENDING
-observed result: final repository candidate must pass before merge; no success pre-claimed
+observed result: final repository candidate must be revalidated; no success pre-claimed
 
 command: fresh exact-head independent Review for PR #46
 exit code: pending
 result: PENDING
-observed result: any Finding on the final HEAD is a blocker until fixed
+observed result: any Finding on the final HEAD remains a blocker until fixed
 
 command: post-implementation main Governance Gate
 exit code: pending
 result: PENDING
-observed result: no downstream lifecycle transition or POC Reservation may start before this succeeds
+observed result: no review/completion transition or POC/W2 Reservation may start before implementation merge and post-main validation succeed
