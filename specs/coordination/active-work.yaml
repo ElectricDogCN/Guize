@@ -5,4 +5,60 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
     - GZ-003
-tasks: []
+tasks:
+  - taskId: GZ-010
+    issue: 15
+    title: 建立十项 POC 的统一模板、样本、资源与排程
+    status: reserved
+    riskLevel: medium
+    owner: ElectricDogCN
+    coordinator: program-coordinator-agent
+    implementer: poc-program-agent
+    reviewer: independent-poc-program-review-agent
+    integrator: integration-agent
+    agentRole: coordinator
+    branch: chore/GZ-010-poc-program-baseline
+    baseBranch: main
+    baseSha: d23543f97facff00d02f79aab1693a37788765c9
+    workPackage: WP-M0-04
+    programPlan: specs/coordination/program-plan.yaml
+    programTaskId: GZ-010
+    programWave: W1
+    requirementIds:
+      - REQ-V1-0001
+      - REQ-V1-0002
+      - REQ-V1-0003
+      - REQ-V1-0004
+      - REQ-V1-0005
+      - REQ-V1-0006
+      - REQ-V1-0007
+      - REQ-V1-0008
+      - REQ-V1-0009
+      - REQ-V1-0010
+    moduleIds:
+      - MOD-GOV
+      - MOD-DEPLOY
+      - MOD-DATA
+      - MOD-EDGE
+      - MOD-MEDIA
+      - MOD-AI
+      - MOD-SEARCH
+      - MOD-SOURCE
+      - MOD-CONNECTOR
+    producesContracts:
+      - POC-PROTOCOL-V1
+    consumesContracts: []
+    coordinationGroup: poc-program
+    dependsOn:
+      - GZ-014
+    exclusivePaths:
+      - specs/poc/**
+      - poc/README.md
+      - evidence/GZ-010/**
+    sharedPaths: []
+    handoffPath: evidence/GZ-010/handoff.md
+    integrationStrategy: merge
+    integrationOrder: 2
+    lease:
+      acquiredAt: "2026-09-01T08:27:00Z"
+      expiresAt: "2026-09-08T08:27:00Z"
