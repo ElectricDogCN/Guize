@@ -1,38 +1,48 @@
-GZ-010 Reservation v2 command evidence
+GZ-010 Implementation command evidence
 
 Task: GZ-010
 
-command: GitHub REST GET /repos/ElectricDogCN/Guize/actions/runs/33480807557/jobs
+command: GitHub REST inspect Reservation v2 PR #45 exact HEAD 88d0a0d84cce83eaa183b547225ab7ff71074208
 exit code: HTTP 200
 result: PASS
-observed result: post-OPS-003 main Governance Gate #380 completed SUCCESS on d23543f97facff00d02f79aab1693a37788765c9
+observed result: exactly 18 Reservation files; Program Plan only GZ-010 planned->reserved; Gate #381 SUCCESS; zero blocker threads; fresh Codex review no major issues
 
-command: GitHub REST GET /repos/ElectricDogCN/Guize/git/ref/heads/chore/GZ-010-reservation-v2
+command: merge PR #45 with expected_head_sha=88d0a0d84cce83eaa183b547225ab7ff71074208
+exit code: 0
+result: PASS
+observed result: Reservation v2 merged as 74ab9d53f29834fda37dcbd726fd58f997f8f21a
+
+command: GitHub Actions post-Reservation main Governance Gate #382 / run 33492832222
+exit code: 0
+result: PASS
+observed result: push-to-main governance checks all succeeded before implementation branch creation
+
+command: python specs/poc/check_program.py --repo-root /mnt/data/gz010_impl
+exit code: 0
+result: PASS
+observed result: POC-PROTOCOL-V1 program, 10 plans, resources, samples and results index were consistent with the canonical POC/task mapping used to generate the branch files
+
+command: python specs/poc/test_program.py
+exit code: 0
+result: PASS
+observed result: 19 tests ran and passed, including baseline plus negative mutations for missing plan, ID mismatch, risk/wave/requirement/module/evidence/dependency drift, duplicate evidence, unknown resource/sample, unapproved sample execution, prefilled command/measurement/decision/reviewer, secret-like data and critical scheduling violation
+
+command: GitHub compare main@74ab9d53f29834fda37dcbd726fd58f997f8f21a...implementation candidate
 exit code: HTTP 200
 result: PASS
-observed result: Reservation v2 branch initially pointed exactly to d23543f97facff00d02f79aab1693a37788765c9 before this atomic Reservation commit
+observed result: implementation changes are limited to GZ-010 lifecycle metadata, specs/poc/**, poc/README.md and evidence/GZ-010/**; no evidence/POC-* result path is created
 
-command: GitHub PR #42 / Gate #374 historical inspection
-exit code: HTTP 200
-result: HISTORICAL-FAIL
-observed result: PR #42 was closed unmerged after governance tests reported 258 PASS / 1 FAIL from the stale schema fixture; it is not current success evidence
-
-command: create atomic GZ-010 Reservation v2 commit
-exit code: pending until GitHub commit/ref update completes
-result: PENDING
-observed result: no success pre-claimed
-
-command: exact-head Governance Gate for GZ-010 Reservation v2
+command: GitHub PR #46 exact-head Governance Gate
 exit code: pending
 result: PENDING
-observed result: must pass on the final Reservation v2 HEAD before merge
+observed result: final repository candidate must pass before merge; no success pre-claimed
 
-command: fresh exact-head review and unresolved-thread audit
+command: fresh exact-head independent Review for PR #46
 exit code: pending
 result: PENDING
-observed result: must complete on the final Reservation v2 HEAD before merge
+observed result: any Finding on the final HEAD is a blocker until fixed
 
-command: post-merge main Governance Gate
+command: post-implementation main Governance Gate
 exit code: pending
 result: PENDING
-observed result: implementation branch cannot start until this succeeds
+observed result: no downstream lifecycle transition or POC Reservation may start before this succeeds
