@@ -1,0 +1,38 @@
+GZ-010 Reservation v2 command evidence
+
+Task: GZ-010
+
+command: GitHub REST GET /repos/ElectricDogCN/Guize/actions/runs/33480807557/jobs
+exit code: HTTP 200
+result: PASS
+observed result: post-OPS-003 main Governance Gate #380 completed SUCCESS on d23543f97facff00d02f79aab1693a37788765c9
+
+command: GitHub REST GET /repos/ElectricDogCN/Guize/git/ref/heads/chore/GZ-010-reservation-v2
+exit code: HTTP 200
+result: PASS
+observed result: Reservation v2 branch initially pointed exactly to d23543f97facff00d02f79aab1693a37788765c9 before this atomic Reservation commit
+
+command: GitHub PR #42 / Gate #374 historical inspection
+exit code: HTTP 200
+result: HISTORICAL-FAIL
+observed result: PR #42 was closed unmerged after governance tests reported 258 PASS / 1 FAIL from the stale schema fixture; it is not current success evidence
+
+command: create atomic GZ-010 Reservation v2 commit
+exit code: pending until GitHub commit/ref update completes
+result: PENDING
+observed result: no success pre-claimed
+
+command: exact-head Governance Gate for GZ-010 Reservation v2
+exit code: pending
+result: PENDING
+observed result: must pass on the final Reservation v2 HEAD before merge
+
+command: fresh exact-head review and unresolved-thread audit
+exit code: pending
+result: PENDING
+observed result: must complete on the final Reservation v2 HEAD before merge
+
+command: post-merge main Governance Gate
+exit code: pending
+result: PENDING
+observed result: implementation branch cannot start until this succeeds
