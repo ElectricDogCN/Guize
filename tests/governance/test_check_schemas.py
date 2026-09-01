@@ -226,7 +226,9 @@ leaseExpiresAt: {registry['lease']['expiresAt']}
                 "expiresAt": "2026-09-05T04:00:00Z",
             },
         }
-        active["tasks"] = [registry]
+        active["tasks"] = [registry] + [
+            item for item in active.get("tasks", []) if item.get("taskId") != "GZ-004"
+        ]
         self._write(plan_path, plan)
         self._write(active_path, active)
         self._write_task_spec(root, registry)
