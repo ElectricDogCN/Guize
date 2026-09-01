@@ -14,7 +14,7 @@ Implementation branch: `chore/GZ-010-poc-program-baseline`
 
 ## Implemented POC-PROTOCOL-V1 baseline
 
-The branch now contains the canonical POC program manifest, strict schemas, policy, resource/sample catalogues, result index, ten independent `planned/not_started` POC plans, reusable templates, fail-closed validator/test suite, and `poc/README.md`.
+The branch contains the canonical POC program manifest, strict Program/Plan/Protocol/Result Index schemas, global safety policy, resource/sample catalogues, result index, ten independent `planned/not_started` POC plans, reusable templates, fail-closed validator/test suite, and `poc/README.md`.
 
 All ten POC plans remain unexecuted:
 
@@ -22,6 +22,7 @@ All ten POC plans remain unexecuted:
 - result status: `not_started`
 - commands: empty
 - raw output refs: empty
+- captured environment values: empty until the independent POC execution Task
 - actual measurement values: null
 - decision: `not_evaluated`
 - reviewer/approval: null
@@ -29,13 +30,24 @@ All ten POC plans remain unexecuted:
 
 No `evidence/POC-*` result is created by GZ-010.
 
-## Validation performed before repository push
+## Validation performed before repository candidate
 
 - `python specs/poc/check_program.py --repo-root /mnt/data/gz010_impl` → exit code 0 / PASS.
-- `python specs/poc/test_program.py` → exit code 0 / 19 tests PASS.
-- Negative coverage includes missing plan, ID mismatch, risk/wave/requirement/module/evidence/dependency drift, duplicate evidence path, unknown resource/sample, unapproved sample execution, prefilled command/measurement/decision/reviewer, secret-like content and critical scheduling violation.
+- `python specs/poc/test_program.py` → exit code 0 / **22 tests PASS** for the hardened candidate content.
+- Negative coverage includes missing plan, POC/Task mismatch, risk/wave/requirement/module/evidence/dependency drift, duplicate evidence path, unknown resource/sample, unapproved sample execution, prefilled command/measurement/decision/reviewer, secret-like content, critical scheduling violation, results-index/plan status mismatch, execution without environment capture, and a completed PASS without raw evidence/measurements/independent review.
+- Resource metadata was also hardened so the frontend comparison environment remains `availability: unknown` until execution-time confirmation rather than claiming current availability.
 
-These are isolated pre-push validation results for the exact generated POC Program file contents. GitHub PR #46 exact-head Governance Gate and independent Review remain authoritative for the repository candidate and are not pre-claimed here.
+## GitHub candidate validation history
+
+Governance Gate #396 / run `33495778895` on implementation HEAD `54e349514df22c32d93c9b285423e7cf8e2fe485` produced:
+
+- Program lifecycle/history/transitions/finalization: PASS
+- Governance tests: 259/259 PASS
+- Schema/Secret/Evidence/Scope/Spec Sync/static checks: PASS
+- Scope: 34/34 changed files allowed, 0 forbidden/out-of-scope
+- Agent Coordination: FAIL only because active-task coordination treats `specs/coordination/program-plan.yaml` as outside the registered business path claims while lifecycle simultaneously requires the GZ-010 `reserved -> in_progress` Program status update.
+
+No second Gate failure occurred. A later exact-head Gate and fresh independent Review are still required after this Evidence update; they are not pre-claimed here.
 
 ## Claim boundary
 
