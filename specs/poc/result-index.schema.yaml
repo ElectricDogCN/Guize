@@ -1,0 +1,60 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+additionalProperties: false
+required:
+- schemaVersion
+- entries
+properties:
+  schemaVersion:
+    const: 1
+  entries:
+    type: array
+    minItems: 10
+    maxItems: 10
+    items:
+      type: object
+      additionalProperties: false
+      required:
+      - pocId
+      - taskId
+      - status
+      - evidencePath
+      - resultRef
+      - decision
+      - reviewer
+      - approvedAt
+      properties:
+        pocId:
+          type: string
+          pattern: ^POC-[0-9]{2}$
+        taskId:
+          type: string
+          pattern: ^POC-[0-9]{3}$
+        status:
+          enum:
+          - not_started
+          - running
+          - pass
+          - fail
+          - inconclusive
+          - blocked
+          - cancelled
+        evidencePath:
+          type: string
+          pattern: ^evidence/POC-[0-9]{3}$
+        resultRef:
+          type:
+          - string
+          - 'null'
+        decision:
+          type:
+          - string
+          - 'null'
+        reviewer:
+          type:
+          - string
+          - 'null'
+        approvedAt:
+          type:
+          - string
+          - 'null'

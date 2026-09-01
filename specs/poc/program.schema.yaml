@@ -1,0 +1,51 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+additionalProperties: false
+required:
+- schemaVersion
+- contractId
+- status
+- taskId
+- sourceProgramPlan
+- policyFile
+- resourceCatalog
+- sampleCatalog
+- resultsIndex
+- planFiles
+- executionEnabled
+- notes
+properties:
+  schemaVersion:
+    const: 1
+  contractId:
+    const: POC-PROTOCOL-V1
+  status:
+    enum:
+    - defined
+    - frozen
+    - deprecated
+  taskId:
+    const: GZ-010
+  sourceProgramPlan:
+    const: specs/coordination/program-plan.yaml
+  policyFile:
+    const: policy.yaml
+  resourceCatalog:
+    const: resources.yaml
+  sampleCatalog:
+    const: samples.yaml
+  resultsIndex:
+    const: results-index.yaml
+  planFiles:
+    type: array
+    minItems: 10
+    maxItems: 10
+    uniqueItems: true
+    items:
+      type: string
+      pattern: ^plans/POC-[0-9]{3}\.yaml$
+  executionEnabled:
+    const: false
+  notes:
+    type: string
+    minLength: 1

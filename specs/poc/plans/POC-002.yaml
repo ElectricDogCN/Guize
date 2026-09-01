@@ -1,0 +1,78 @@
+schemaVersion: 1
+pocId: POC-02
+taskId: POC-002
+title: A380 AV1/H.264 编码质量、并发与首分片
+status: planned
+resultStatus: not_started
+riskLevel: high
+wave: W7
+dependsOn:
+- GZ-010
+- POC-001
+requirementIds:
+- REQ-V1-0003
+moduleIds:
+- MOD-MEDIA
+evidencePath: evidence/POC-002
+resourceIds:
+- RES-A380-ENCODE
+sampleIds:
+- SAMPLE-MEDIA-CLEAR
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: av1_quality
+    metric: AV1 quality score
+    unit: VMAF
+    method: Encode approved media corpus and calculate VMAF against source.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: encode_throughput
+    metric: Concurrent encode throughput
+    unit: streams
+    method: Run controlled concurrency sweep with version/resource capture.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: first_segment_latency
+    metric: First segment generation latency
+    unit: ms
+    method: Measure from job start to first playable segment.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - AV1 and fallback H.264 paths produce decodable outputs.
+  - Quality/throughput/first-segment measurements are captured for approved samples.
+  failureFallbacks:
+  - If A380 AV1 path is unstable, retain H.264 compatibility path and evaluate another worker/GPU profile.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

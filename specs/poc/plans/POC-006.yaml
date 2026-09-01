@@ -1,0 +1,78 @@
+schemaVersion: 1
+pocId: POC-06
+taskId: POC-006
+title: 百度云合法、稳定、可维护的生产接入路径
+status: planned
+resultStatus: not_started
+riskLevel: medium
+wave: W3
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0001
+moduleIds:
+- MOD-SOURCE
+- MOD-CONNECTOR
+evidencePath: evidence/POC-006
+resourceIds:
+- RES-BAIDU-SANDBOX
+sampleIds:
+- SAMPLE-CLOUD-NONSENSITIVE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: auth_flow_supported
+    metric: Supported authentication flow
+    unit: boolean
+    method: Validate documented/legal integration flow with sandbox credentials stored outside repository.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: listing_stability
+    metric: Listing/API stability
+    unit: boolean
+    method: Repeat bounded metadata operations and capture response/error characteristics.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: maintainability
+    metric: Integration maintainability assessment
+    unit: ordinal
+    method: Record documented API/SDK/versioning/support constraints.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - A legal documented integration path is identified or explicitly rejected with evidence.
+  - No scraping/bypass or credential embedding is required.
+  failureFallbacks:
+  - If no supportable API exists, treat Baidu connector as blocked/optional and document manual/export alternative.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: true
+  licenseReviewRequired: true
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

@@ -1,0 +1,79 @@
+schemaVersion: 1
+pocId: POC-07
+taskId: POC-007
+title: IPv6/TLS/Tunnel/CDN/Range 公网访问
+status: planned
+resultStatus: not_started
+riskLevel: medium
+wave: W3
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0003
+- REQ-V1-0008
+moduleIds:
+- MOD-EDGE
+- MOD-DEPLOY
+evidencePath: evidence/POC-007
+resourceIds:
+- RES-PUBLIC-NETWORK
+sampleIds:
+- SAMPLE-RANGE-LARGEFILE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: tls_valid
+    metric: TLS validation
+    unit: boolean
+    method: Validate certificate chain/SNI and approved cipher configuration.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: ipv6_reachability
+    metric: IPv6 reachability
+    unit: boolean
+    method: Run bounded external reachability probes from approved test points.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: range_through_path
+    metric: Range through tunnel/CDN
+    unit: boolean
+    method: Replay Range matrix through intended public path.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - TLS/IPv6 path is reproducible.
+  - Range survives tunnel/CDN path without authorization bypass.
+  failureFallbacks:
+  - If direct IPv6/CDN path fails, document tunnel/reverse-proxy alternative and operational constraints.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

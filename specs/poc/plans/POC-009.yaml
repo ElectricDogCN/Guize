@@ -1,0 +1,87 @@
+schemaVersion: 1
+pocId: POC-09
+taskId: POC-009
+title: AI 质量、成本、隐私、许可证与吞吐
+status: planned
+resultStatus: not_started
+riskLevel: high
+wave: W9
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0004
+- REQ-V1-0005
+- REQ-V1-0008
+moduleIds:
+- MOD-AI
+- MOD-SEARCH
+- MOD-IAM
+evidencePath: evidence/POC-009
+resourceIds:
+- RES-AI-BENCH
+sampleIds:
+- SAMPLE-AI-DEID
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: quality_score
+    metric: Task quality score
+    unit: score
+    method: Run fixed de-identified benchmark with task-specific scoring.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: throughput
+    metric: Inference throughput
+    unit: items/s
+    method: Measure approved local/provider profiles with version capture.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: cost_estimate
+    metric: External provider cost estimate
+    unit: currency_per_1000_items
+    method: Calculate only from approved provider pricing and measured token/item usage.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: license_privacy_pass
+    metric: License/privacy policy compatibility
+    unit: boolean
+    method: Review license terms and data handling constraints before external invocation.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Quality/throughput/cost/privacy/license evidence is captured for candidate profiles.
+  - External provider usage is gated by approved privacy/data policy.
+  failureFallbacks:
+  - Prefer local/private inference or disable a capability when privacy/license/cost constraints are not acceptable.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: de-identified
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: true
+  licenseReviewRequired: true
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

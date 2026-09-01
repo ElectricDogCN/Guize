@@ -1,0 +1,17 @@
+schemaVersion: 1
+taskId: GZ-010
+executionAllowedInGz010: false
+sampleExecutionRequiresApproval: true
+highCriticalIsolation: true
+criticalStandalone: true
+maxConcurrentHighCritical: 1
+secretPolicy: Secrets, credentials, tokens and private keys must never be committed; use runtime references outside repository.
+dataPolicy: Only approved non-sensitive, synthetic or de-identified samples may be executed.
+rawEvidencePolicy: Raw experiment evidence belongs only under the independent POC task evidence path.
+environmentCapturePolicy: OS, kernel, tool, driver, runtime, model and dependency versions must be captured before execution.
+commandRecordingPolicy: Execution commands remain empty in GZ-010 and are appended only by the executing POC task.
+measurementPolicy: Actual measurement values remain null until the executing POC task records them with raw evidence.
+reviewPolicy: Independent review is required before a POC result is accepted.
+decisionPolicy: Prose alone cannot establish PASS; required measurements, evidence and reviewer fields must exist.
+requirementsPolicy: POC results cannot silently modify frozen product requirements; requirement changes use a separate governed
+  task.

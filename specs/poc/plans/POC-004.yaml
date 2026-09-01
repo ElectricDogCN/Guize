@@ -1,0 +1,80 @@
+schemaVersion: 1
+pocId: POC-04
+taskId: POC-004
+title: TrueNAS 数据集、水位、吞吐与故障恢复
+status: planned
+resultStatus: not_started
+riskLevel: high
+wave: W8
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0006
+- REQ-V1-0010
+moduleIds:
+- MOD-STORAGE
+- MOD-DATA
+- MOD-DEPLOY
+evidencePath: evidence/POC-004
+resourceIds:
+- RES-TRUENAS-SANDBOX
+sampleIds:
+- SAMPLE-STORAGE-FIXTURE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: sequential_throughput
+    metric: Sequential throughput
+    unit: MB/s
+    method: Run controlled read/write workload against sandbox dataset.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: watermark_behavior
+    metric: Watermark enforcement
+    unit: boolean
+    method: Drive controlled capacity thresholds and observe lifecycle behavior.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: failure_recovery
+    metric: Failure recovery success
+    unit: boolean
+    method: Inject approved sandbox interruption and verify recovery/runbook.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Dataset/watermark behavior is reproducible.
+  - Throughput and failure-recovery evidence is captured without production data.
+  failureFallbacks:
+  - If current TrueNAS topology is insufficient, document required dataset/network/storage changes before M2.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

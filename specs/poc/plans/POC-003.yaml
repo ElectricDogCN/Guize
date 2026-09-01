@@ -1,0 +1,80 @@
+schemaVersion: 1
+pocId: POC-03
+taskId: POC-003
+title: ATS Range/Slice、大文件与权限缓存键
+status: planned
+resultStatus: not_started
+riskLevel: medium
+wave: W2
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0003
+- REQ-V1-0008
+moduleIds:
+- MOD-EDGE
+- MOD-IAM
+evidencePath: evidence/POC-003
+resourceIds:
+- RES-ATS-SANDBOX
+sampleIds:
+- SAMPLE-RANGE-LARGEFILE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: range_correctness
+    metric: HTTP Range correctness
+    unit: percent
+    method: Replay deterministic byte-range matrix and compare returned bytes.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: cache_key_isolation
+    metric: ACL/cache-key isolation
+    unit: boolean
+    method: Verify distinct authorization contexts do not share protected cache objects.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: large_file_streaming
+    metric: Large-file streaming stability
+    unit: boolean
+    method: Exercise representative large-file slices with raw headers/log capture.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Range responses match requested byte intervals.
+  - Protected cache keys remain isolated by authorization context.
+  - Representative large files stream without full-object materialization.
+  failureFallbacks:
+  - If ATS behavior is insufficient, evaluate origin Range proxy or alternative edge cache configuration.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

@@ -1,0 +1,80 @@
+schemaVersion: 1
+pocId: POC-05
+taskId: POC-005
+title: 700TB 文件数、目录规模、变更率与扫描成本
+status: planned
+resultStatus: not_started
+riskLevel: medium
+wave: W2
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0001
+- REQ-V1-0002
+moduleIds:
+- MOD-SOURCE
+- MOD-ASSET
+- MOD-CONNECTOR
+evidencePath: evidence/POC-005
+resourceIds:
+- RES-METADATA-SCALE
+sampleIds:
+- SAMPLE-METADATA-SYNTHETIC
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: enumeration_rate
+    metric: Metadata enumeration rate
+    unit: objects/s
+    method: Scan synthetic/approved representative hierarchy and record rate.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: incremental_scan_cost
+    metric: Incremental scan cost
+    unit: s
+    method: Replay controlled change sets and measure incremental traversal.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: memory_peak
+    metric: Scanner peak memory
+    unit: MiB
+    method: Capture process peak memory during scale sweeps.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Scale model covers file count, directory fanout and change rate.
+  - Scanner cost measurements can inform scheduling without assuming 700TB byte transfer.
+  failureFallbacks:
+  - If direct full enumeration is infeasible, evaluate incremental journals/change tokens or staged indexing.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

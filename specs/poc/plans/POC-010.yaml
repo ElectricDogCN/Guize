@@ -1,0 +1,96 @@
+schemaVersion: 1
+pocId: POC-10
+taskId: POC-010
+title: PostgreSQL/OpenBao/文件/Bundle 恢复与回读
+status: planned
+resultStatus: not_started
+riskLevel: critical
+wave: W11
+dependsOn:
+- GZ-007
+- GZ-008
+- GZ-010
+- GZ-012
+- POC-004
+requirementIds:
+- REQ-V1-0006
+- REQ-V1-0010
+moduleIds:
+- MOD-DATA
+- MOD-STORAGE
+- MOD-DEPLOY
+evidencePath: evidence/POC-010
+resourceIds:
+- RES-RECOVERY-SANDBOX
+sampleIds:
+- SAMPLE-RECOVERY-FIXTURE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: db_restore
+    metric: PostgreSQL restore/readback
+    unit: boolean
+    method: Restore sandbox backup and verify expected records/checksums.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: secret_store_restore
+    metric: OpenBao configuration/secret-reference restore
+    unit: boolean
+    method: Restore sandbox secret-store state without committing secret values.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: file_restore
+    metric: File/bundle restore/readback
+    unit: boolean
+    method: Restore approved fixture and verify checksums.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: rpo_observed
+    metric: Observed recovery point
+    unit: s
+    method: Calculate from controlled backup/recovery timestamps.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: rto_observed
+    metric: Observed recovery time
+    unit: s
+    method: Measure controlled end-to-end recovery duration.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Database, secret-store references, files and deployment bundle can be restored/read back in isolated sandbox.
+  - RPO/RTO evidence is measured rather than assumed.
+  failureFallbacks:
+  - If unified recovery fails, split recovery procedures by data/control plane and block production release until reconciled.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: true
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null
