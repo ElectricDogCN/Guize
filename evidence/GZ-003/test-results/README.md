@@ -1,47 +1,66 @@
 # GZ-003 Test Results
 
 Task: GZ-003
-Merge: 9e3a821ada292ac3ef69b7c059384d17f6530b48
-Result: PASS
+Original Completion: PR #11 / `9e3a821ada292ac3ef69b7c059384d17f6530b48`
+Result: COMPLETED
+Maintenance: OPS-003 / PR #44 validation in progress
 
 ## Original completion
 
-- PR #11 completed GZ-003.
-- Original merge: `9e3a821ada292ac3ef69b7c059384d17f6530b48`.
-- GZ-003 remains completed; this maintenance does not reopen its Program state or Active Work lease.
+GZ-003 remains completed. This maintenance does not reopen its Program/Foundation state, create a new Completion Ledger record, or rewrite the original completion identity.
 
-## Maintenance validation history
+## Reproduction — GZ-010 Reservation Gate #374
 
-Historical PR #35 iterations demonstrated the bootstrap defect and rejected unsafe fixes:
+PR #42 exact Reservation HEAD: `f66f10d81ad44a52a2b9ffbcab338741d7783708`
+Run: `33479774222`
 
-- run #303: failed because completed-task maintenance Evidence had not been refreshed;
-- run #306: failed after stale whole-file test replacements introduced regression failures;
-- later iterations restored the full governance suite;
-- fresh Codex Review rejected the proposed persistent lifecycle-checker exception because the exempted checker could self-authorize future bypasses.
+Observed result:
 
-## Final candidate expectations
+- Task validation: PASS
+- Project Readiness: PASS
+- Program integrity/history/transitions/finalization/lifecycle: PASS
+- Agent Coordination: PASS
+- direct Schema validation: PASS, including `OK PROGRAM ACTIVATION: GZ-010 <- W1`
+- Evidence / Scope / Secret / Spec Sync / static checks: PASS
+- Governance tests: **258 PASS / 1 FAIL**
 
-The final candidate intentionally contains no lifecycle-checker modification. It must satisfy:
+Sole failure:
 
-- exactly two governance test files plus four GZ-003 Evidence files changed;
-- production lifecycle checker identical to target `main`;
-- schema fixture tests support empty/completed Foundation state and arbitrary current Active Work task specs;
-- repository lifecycle smoke test is state-agnostic and no longer hard-codes GZ-014;
-- all dedicated task-derivation, completion, cancellation, Foundation ownership, rename, Evidence and workflow wiring tests remain present;
-- no Program/Registry/Ledger/Task/Schema/Workflow/Makefile/product/business/deployment change exists.
+`TestCheckSchemas.test_regular_program_task_activation_passes`
 
-## Expected PR Gate boundary
+The copied fixture retained Program GZ-010=`reserved`, but `_activate_gz004()` replaced copied Active Work with only synthetic GZ-004, deleting the legitimate GZ-010 Lease and manufacturing a missing-Lease error.
 
-Because GZ-003 is already completed, the existing pull-request lifecycle scope guard is expected to reject the two `tests/governance/**` edits as outside completed-task metadata scope. That known self-hosting rejection is the reason for the documented one-time break-glass review; it must not be converted into a reusable code exception.
+PR #42 was closed unmerged because this failure would also have existed on post-merge main.
 
-Before merge:
+## OPS-003 repair candidate — Gate #375
 
-- governance regression suite must pass;
-- all other Gate areas must pass;
-- no additional lifecycle or scope failure is allowed;
-- fresh exact-head Codex Review must find no code/design blocker apart from the known bootstrap scope deadlock;
-- Human Owner / Integrator must re-review the exact HEAD.
+PR #44 code/evidence candidate before canonical Completion Evidence refresh: `fbffb61b5ac1bdd630a53e71d19deca93b99d7de`
+Run: `33480225903`
 
-After an exact-head override merge, the resulting `main` Governance Gate must be completely green. If post-merge main is not green, GZ-004 remains blocked and the maintenance must be reverted or repaired before development continues.
+Functional change: preserve existing non-GZ-004 Active Work while keeping synthetic GZ-004 at list index 0.
 
-Current latest-head outcome: PENDING.
+Observed results:
+
+- Governance tests: **259/259 PASS**
+- `test_regular_program_task_activation_passes`: PASS
+- Agent Coordination: PASS
+- Markdown / Schema / Secret / Evidence / Evidence integrity / linkage / Scope / Spec Sync / parent-dir / CI static: PASS
+- Program execution integrity: PASS
+- Program history: PASS
+- Program transitions: PASS
+- Program Finalization: FAIL only because this completed-GZ-003 maintenance had not refreshed the four canonical Completion Evidence files
+
+The fixture repair therefore fixes the actual regression without weakening the existing negative schema/coordination assertions.
+
+## Current canonical Evidence refresh
+
+`summary.md`, `commands.txt`, `handoff.md` and this test-results file now record OPS-003 while preserving original GZ-003 Completion merge `9e3a821ada292ac3ef69b7c059384d17f6530b48`.
+
+A new exact-head Gate is required. The expected acceptable boundary is:
+
+- Program Finalization PASS after canonical Evidence refresh;
+- 259/259 governance tests PASS;
+- every non-self-hosting check PASS;
+- if the completed-GZ-003 lifecycle/scope guard rejects `tests/governance/test_check_schemas.py`, that single self-hosting rejection may be considered for explicitly documented Human/Integrator break-glass only after fresh exact-head review.
+
+No latest-head Gate, review, merge or post-merge success is pre-claimed.
