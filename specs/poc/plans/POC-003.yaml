@@ -42,6 +42,18 @@ protocol:
     method: Replay deterministic byte-range matrix and compare returned bytes.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: etag_semantics
+    metric: ETag stability and validator correctness
+    unit: boolean
+    method: Verify stable ETag behavior for unchanged objects and validator change when the governed object version changes.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: if_range_semantics
+    metric: If-Range conditional Range correctness
+    unit: boolean
+    method: Verify matching If-Range returns the requested partial response while stale/nonmatching validators fall back to the correct full representation semantics.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
   - id: cache_key_isolation
     metric: ACL/cache-key isolation
     unit: boolean
@@ -56,10 +68,12 @@ protocol:
     actual: null
   exitCriteria:
   - Range responses match requested byte intervals.
+  - ETag validators remain stable for unchanged content and change when the governed object version changes.
+  - If-Range requests return correct partial/full behavior for matching and stale validators.
   - Protected cache keys remain isolated by authorization context.
   - Representative large files stream without full-object materialization.
   failureFallbacks:
-  - If ATS behavior is insufficient, evaluate origin Range proxy or alternative edge cache configuration.
+  - If ATS Range/validator behavior is insufficient, evaluate origin Range proxy or alternative edge cache configuration.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
