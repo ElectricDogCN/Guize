@@ -53,11 +53,24 @@ protocol:
     method: Measure from job start to first playable segment.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: sustained_encode_stability
+    metric: Sustained encoding stability over the approved soak window
+    unit: boolean
+    method: Run the approved long-duration AV1/H.264 soak workload and require no unrecovered encoder/runtime failure, GPU hang, corrupt segment, or uncontrolled resource growth.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: sustained_encode_duration
+    metric: Observed sustained encode duration
+    unit: minutes
+    method: Record the continuous validated soak duration from raw execution timestamps.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
   exitCriteria:
   - AV1 and fallback H.264 paths produce decodable outputs.
   - Quality/throughput/first-segment measurements are captured for approved samples.
+  - Sustained encoding completes the approved soak window without unrecovered runtime/GPU failure or corrupt output.
   failureFallbacks:
-  - If A380 AV1 path is unstable, retain H.264 compatibility path and evaluate another worker/GPU profile.
+  - If A380 AV1 path or sustained stability is insufficient, retain H.264 compatibility path and evaluate another worker/GPU profile.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
