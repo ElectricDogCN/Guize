@@ -15,9 +15,24 @@ import yaml
 EXPECTED_POC_IDS = {f"POC-{index:02d}" for index in range(1, 11)}
 EXPECTED_TASK_IDS = {f"POC-{index:03d}" for index in range(1, 11)}
 HIGH_RISKS = {"high", "critical"}
-SECRET_KEY_NAMES = {
-    "password", "passwd", "token", "secret", "apikey", "api_key",
-    "accesskey", "access_key", "privatekey", "private_key",
+TERMINAL_RESULTS = {"pass", "fail", "inconclusive"}
+PLACEHOLDER_IDENTITIES = {"", "TBD", "TBD_BEFORE_EXECUTION", "UNKNOWN", "PENDING"}
+SAFE_CREDENTIAL_METADATA_KEYS = {
+    "credentials_stored",
+    "credentials_stored_in_repository",
+}
+SENSITIVE_KEY_TERMS = {
+    "password",
+    "passwd",
+    "token",
+    "secret",
+    "api_key",
+    "apikey",
+    "access_key",
+    "accesskey",
+    "private_key",
+    "privatekey",
+    "credentials",
 }
 SECRET_PATTERNS = [
     re.compile(r"glpat-[A-Za-z0-9_-]{8,}"),
@@ -26,6 +41,17 @@ SECRET_PATTERNS = [
     re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     re.compile(r"(?i)\b(?:password|passwd|token|api[_-]?key|secret)\s*[:=]\s*\S+"),
 ]
+REQUIRED_MEASUREMENTS = {
+    "POC-01": {"gpu_passthrough_visible", "driver_runtime_ready", "vm_reboot_recovery", "device_reset_recovery"},
+    "POC-02": {"av1_quality", "encode_throughput", "first_segment_latency", "sustained_encode_stability", "sustained_encode_duration"},
+    "POC-03": {"range_correctness", "etag_semantics", "if_range_semantics", "cache_key_isolation", "large_file_streaming"},
+    "POC-04": {"iscsi_transport_ready", "sequential_throughput", "io_latency", "watermark_behavior", "failure_recovery"},
+    "POC-05": {"file_count", "directory_count", "directory_depth_max", "average_file_size", "source_api_quota", "enumeration_rate", "incremental_scan_cost", "memory_peak"},
+    "POC-09": {"quality_score", "throughput", "cost_estimate", "license_privacy_pass", "caller_permission_gate", "asset_acl_gate", "hard_budget_gate", "request_quota_gate", "concurrency_quota_gate"},
+}
+REQUIRED_ENV_CAPTURE = {
+    "POC-09": {"model_identity", "model_version", "prompt_template_version", "inference_parameters", "input_sample_version"},
+}
 
 
 def load_yaml(path: Path) -> Any:
@@ -45,11 +71,30 @@ def validate_schema(instance: Any, schema: Any, label: str, errors: list[str]) -
         errors.append(f"{label} schema validation failed: {exc}")
 
 
+def normalize_key(value: Any) -> str:
+    text = str(value).replace("-", "_")
+    text = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", text)
+    return text.lower()
+
+
+def key_is_secret_like(value: Any) -> bool:
+    normalized = normalize_key(value)
+    if normalized in SAFE_CREDENTIAL_METADATA_KEYS:
+        return False
+    if normalized in SENSITIVE_KEY_TERMS:
+        return True
+    if normalized.endswith("_credentials"):
+        return True
+    for term in ("password", "passwd", "token", "secret", "api_key", "access_key", "private_key"):
+        if normalized.endswith(f"_{term}"):
+            return True
+    return False
+
+
 def walk_for_secrets(value: Any, path: str, errors: list[str]) -> None:
     if isinstance(value, dict):
         for key, item in value.items():
-            normalized = str(key).lower().replace("-", "_")
-            if normalized in SECRET_KEY_NAMES:
+            if key_is_secret_like(key):
                 errors.append(f"secret-like key forbidden at {path}/{key}")
             walk_for_secrets(item, f"{path}/{key}", errors)
     elif isinstance(value, list):
@@ -70,6 +115,40 @@ def canonical_maps(program_plan: dict[str, Any]) -> tuple[dict[str, Any], dict[s
         if str(item.get("taskId", "")).startswith("POC-")
     }
     return pocs, tasks
+
+
+def evidence_ref_is_valid(ref: Any, evidence_path: str) -> bool:
+    if not isinstance(ref, str):
+        return False
+    value = ref.strip()
+    if not value or value.startswith("/") or "\\" in value:
+        return False
+    parts = value.split("/")
+    if any(part in {"", ".", ".."} for part in parts):
+        return False
+    prefix = f"{evidence_path}/"
+    return value.startswith(prefix) and len(value) > len(prefix)
+
+
+def identity_is_final(value: Any) -> bool:
+    if not isinstance(value, str):
+        return False
+    text = value.strip()
+    return bool(text) and text.upper() not in PLACEHOLDER_IDENTITIES
+
+
+def lifecycle_is_consistent(plan_status: str, result_status: str) -> bool:
+    if result_status == "not_started":
+        return plan_status in {"planned", "ready"}
+    if result_status == "running":
+        return plan_status == "running"
+    if result_status in TERMINAL_RESULTS:
+        return plan_status == "completed"
+    if result_status == "blocked":
+        return plan_status == "blocked"
+    if result_status == "cancelled":
+        return plan_status == "cancelled"
+    return False
 
 
 def validate_repository(repo_root: Path) -> list[str]:
@@ -181,6 +260,19 @@ def validate_repository(repo_root: Path) -> list[str]:
             errors.append(f"duplicate POC evidence path: {evidence}")
         evidence_paths.add(evidence)
 
+        measurement_items = (plan.get("protocol") or {}).get("measurements") or []
+        measurement_ids = [item.get("id") for item in measurement_items]
+        if len(set(measurement_ids)) != len(measurement_ids):
+            errors.append(f"{label}: measurement IDs must be unique")
+        required_measurements = REQUIRED_MEASUREMENTS.get(poc_id, set())
+        missing_measurements = required_measurements - set(measurement_ids)
+        if missing_measurements:
+            errors.append(f"{label}: missing frozen required measurements {sorted(missing_measurements)}")
+        required_capture = REQUIRED_ENV_CAPTURE.get(poc_id, set())
+        capture_fields = set((plan.get("environment") or {}).get("captureBeforeExecution") or [])
+        if not required_capture.issubset(capture_fields):
+            errors.append(f"{label}: missing required environment provenance fields {sorted(required_capture - capture_fields)}")
+
         for resource_id in plan.get("resourceIds") or []:
             if resource_id not in resource_map:
                 errors.append(f"{label}: unknown resource {resource_id}")
@@ -191,13 +283,18 @@ def validate_repository(repo_root: Path) -> list[str]:
             elif poc_id not in (sample.get("allowedPocs") or []):
                 errors.append(f"{label}: sample {sample_id} does not allow {poc_id}")
 
-        if plan.get("status") == "planned" or plan.get("resultStatus") == "not_started":
-            protocol = plan.get("protocol") or {}
+        status = plan.get("status")
+        result_status = plan.get("resultStatus")
+        if not lifecycle_is_consistent(status, result_status):
+            errors.append(f"{label}: inconsistent lifecycle status={status!r}, resultStatus={result_status!r}")
+
+        protocol = plan.get("protocol") or {}
+        if result_status == "not_started":
             if protocol.get("commands"):
                 errors.append(f"{label}: planned/not_started plan must not contain execution commands")
             if protocol.get("rawOutputRefs"):
                 errors.append(f"{label}: planned/not_started plan must not contain raw output refs")
-            for measurement in protocol.get("measurements") or []:
+            for measurement in measurement_items:
                 if measurement.get("actual") is not None:
                     errors.append(f"{label}: planned/not_started measurement actual must be null")
             decision = plan.get("decision") or {}
@@ -207,14 +304,22 @@ def validate_repository(repo_root: Path) -> list[str]:
             if any(review.get(key) is not None for key in ("reviewer", "approvedAt", "approval")):
                 errors.append(f"{label}: planned/not_started review fields must be null")
 
-        execution_started = bool((plan.get("protocol") or {}).get("commands")) or plan.get("resultStatus") != "not_started"
+        execution_started = bool(protocol.get("commands")) or result_status in {"running", *TERMINAL_RESULTS}
         if execution_started:
             for sample_id in plan.get("sampleIds") or []:
                 sample = sample_map.get(sample_id)
-                if sample and sample.get("approvalState") != "approved":
+                if not sample:
+                    continue
+                if sample.get("approvalState") != "approved":
                     errors.append(f"{label}: execution cannot use unapproved sample {sample_id}")
-            if not (plan.get("environment") or {}).get("capturedValues"):
+                if not identity_is_final(sample.get("immutableId")) or not identity_is_final(sample.get("checksum")):
+                    errors.append(f"{label}: execution requires immutable sample identity/checksum for {sample_id}")
+            captured_values = (plan.get("environment") or {}).get("capturedValues") or {}
+            if not captured_values:
                 errors.append(f"{label}: execution requires captured environment values")
+            missing_capture_values = capture_fields - set(captured_values)
+            if missing_capture_values:
+                errors.append(f"{label}: execution missing captured environment values {sorted(missing_capture_values)}")
 
         if plan.get("riskLevel") in HIGH_RISKS:
             high_by_wave.setdefault(plan.get("wave"), []).append(task_id)
@@ -257,39 +362,62 @@ def validate_repository(repo_root: Path) -> list[str]:
         if entry.get("evidencePath") in result_evidence:
             errors.append(f"results-index duplicate evidence path: {entry.get('evidencePath')}")
         result_evidence.add(entry.get("evidencePath"))
-        if entry.get("status") == "not_started":
+
+        result_status = entry.get("status")
+        if result_status == "not_started":
             for key in ("resultRef", "decision", "reviewer", "approvedAt"):
                 if entry.get(key) is not None:
                     errors.append(f"results-index {task_id}: not_started {key} must be null")
-        elif entry.get("status") in {"pass", "fail", "inconclusive"}:
+        elif result_status == "running":
+            for key in ("resultRef", "decision", "reviewer", "approvedAt"):
+                if entry.get(key) is not None:
+                    errors.append(f"results-index {task_id}: running {key} must remain null")
+        elif result_status in {"blocked", "cancelled"}:
+            for key in ("resultRef", "reviewer", "approvedAt"):
+                if entry.get(key) is not None:
+                    errors.append(f"results-index {task_id}: {result_status} {key} must remain null until terminal review")
+        elif result_status in TERMINAL_RESULTS:
             protocol = plan.get("protocol") or {}
             review = plan.get("review") or {}
             decision = plan.get("decision") or {}
-            missing_actual = [
-                item.get("id")
-                for item in protocol.get("measurements") or []
-                if item.get("actual") is None
-            ]
+            evidence_path = plan.get("evidencePath")
+            missing_actual = [item.get("id") for item in protocol.get("measurements") or [] if item.get("actual") is None]
             if not protocol.get("commands"):
                 errors.append(f"{task_id}: completed result requires recorded execution commands")
-            if not protocol.get("rawOutputRefs"):
+            raw_refs = protocol.get("rawOutputRefs") or []
+            if not raw_refs:
                 errors.append(f"{task_id}: completed result requires raw evidence references")
+            for ref in raw_refs:
+                if not evidence_ref_is_valid(ref, evidence_path):
+                    errors.append(f"{task_id}: raw evidence reference must be a nonempty path under {evidence_path}: {ref!r}")
             if missing_actual:
                 errors.append(f"{task_id}: completed result has unmeasured metrics {missing_actual}")
+            if result_status == "pass":
+                failed_boolean_gates = [
+                    item.get("id")
+                    for item in protocol.get("measurements") or []
+                    if str(item.get("unit")).lower() == "boolean" and item.get("actual") is not True
+                ]
+                if failed_boolean_gates:
+                    errors.append(f"{task_id}: PASS has false/non-true boolean gates {failed_boolean_gates}")
             if not (plan.get("environment") or {}).get("capturedValues"):
                 errors.append(f"{task_id}: completed result requires captured environment values")
-            if decision.get("status") != entry.get("status"):
+            if decision.get("status") != result_status:
                 errors.append(f"{task_id}: decision status must match result status")
-            if not decision.get("rationale") or not decision.get("resultRef"):
-                errors.append(f"{task_id}: completed result requires decision rationale/resultRef")
+            if not decision.get("rationale") or not evidence_ref_is_valid(decision.get("resultRef"), evidence_path):
+                errors.append(f"{task_id}: completed result requires rationale and resultRef under {evidence_path}")
             if not review.get("reviewer") or not review.get("approvedAt") or review.get("approval") != "approved":
                 errors.append(f"{task_id}: completed result requires independent approved review")
-            if not entry.get("resultRef") or not entry.get("decision") or not entry.get("reviewer") or not entry.get("approvedAt"):
-                errors.append(f"results-index {task_id}: completed result requires result/review metadata")
+            if not evidence_ref_is_valid(entry.get("resultRef"), evidence_path):
+                errors.append(f"results-index {task_id}: completed resultRef must remain under {evidence_path}")
             if entry.get("resultRef") != decision.get("resultRef"):
                 errors.append(f"results-index {task_id}: resultRef does not match plan decision")
+            if entry.get("decision") != decision.get("status"):
+                errors.append(f"results-index {task_id}: decision does not match plan decision status")
             if entry.get("reviewer") != review.get("reviewer"):
                 errors.append(f"results-index {task_id}: reviewer does not match plan review")
+            if entry.get("approvedAt") != review.get("approvedAt"):
+                errors.append(f"results-index {task_id}: approvedAt does not match plan review")
 
     for sample_id, sample in sample_map.items():
         required = {"id", "description", "source", "classification", "approvalState", "immutableId", "checksum", "allowedPocs"}
@@ -313,6 +441,7 @@ def validate_repository(repo_root: Path) -> list[str]:
     walk_for_secrets(resources, "resources.yaml", errors)
     walk_for_secrets(samples, "samples.yaml", errors)
     walk_for_secrets(results, "results-index.yaml", errors)
+    walk_for_secrets(policy, "policy.yaml", errors)
 
     return errors
 
