@@ -37,10 +37,22 @@ protocol:
   commands: []
   rawOutputRefs: []
   measurements:
+  - id: iscsi_transport_ready
+    metric: iSCSI transport path is operational
+    unit: boolean
+    method: Establish the approved sandbox iSCSI path, verify target/LUN discovery, session stability and read/write accessibility with raw session evidence.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
   - id: sequential_throughput
     metric: Sequential throughput
     unit: MB/s
-    method: Run controlled read/write workload against sandbox dataset.
+    method: Run controlled read/write workload against the approved iSCSI-backed sandbox dataset.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: io_latency
+    metric: Storage I/O latency under approved workload
+    unit: ms
+    method: Capture read/write latency distribution for the same sandbox workload and transport profile used for throughput measurement.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: watermark_behavior
@@ -56,12 +68,15 @@ protocol:
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   exitCriteria:
+  - Approved iSCSI transport is reproducibly discoverable and operational for the sandbox dataset.
+  - Throughput and I/O latency measurements are captured on that iSCSI path with the environment/profile recorded.
   - Dataset/watermark behavior is reproducible.
-  - Throughput and failure-recovery evidence is captured without production data.
+  - Failure-recovery evidence is captured without production data.
   failureFallbacks:
-  - If current TrueNAS topology is insufficient, document required dataset/network/storage changes before M2.
+  - If current TrueNAS/iSCSI topology is insufficient, document required dataset/network/storage changes before M2.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
+  - Close sandbox iSCSI sessions and restore the pre-POC target/LUN configuration.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
   - Do not delete governance/Evidence history.
 security:
