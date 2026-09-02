@@ -47,11 +47,25 @@ protocol:
     method: Capture driver/runtime initialization result without running production workload.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: vm_reboot_recovery
+    metric: GPU passthrough survives guest reboot
+    unit: boolean
+    method: Reboot the guest VM, then re-enumerate the A380 and initialize the media runtime with identical captured versions.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: device_reset_recovery
+    metric: GPU passthrough survives supported device reset/rebind cycle
+    unit: boolean
+    method: Perform the approved reset or detach/reattach recovery cycle in the sandbox, then verify guest enumeration and runtime initialization.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
   exitCriteria:
   - Guest can enumerate A380 through supported passthrough path.
   - Driver/runtime initialization succeeds with reproducible version capture.
+  - Guest reboot completes and the A380 is re-enumerated with the media runtime operational.
+  - Approved device reset/rebind recovery completes and the A380 returns to an operational state without host rebuild.
   failureFallbacks:
-  - If ESXi 6.7 passthrough is unsupported, document the blocker and evaluate a supported hypervisor/bare-metal worker path.
+  - If ESXi 6.7 passthrough or reboot/reset recovery is unsupported, document the blocker and evaluate a supported hypervisor/bare-metal worker path.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
