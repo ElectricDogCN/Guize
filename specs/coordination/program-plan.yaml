@@ -206,7 +206,7 @@ tasks:
     dependsOn: [GZ-014]
     requirementIds: [REQ-V1-0010]
     moduleIds: [MOD-GOV]
-    outputPaths: ["AGENTS.md", "docs/25-multi-agent-collaboration-protocol.md", "specs/coordination/README.md", "specs/tasks/task-template.md", "scripts/check-task-file.py", "scripts/run-agent-coordination-gate.py", "scripts/run-task-scope-gate.py", "scripts/check-program-plan-transitions.py", "scripts/check-program-lifecycle-guards.py", "tests/governance/test_check_task_file.py", "tests/governance/test_agent_coordination_dispatcher.py", "tests/governance/test_task_scope_dispatcher.py", "tests/governance/test_program_plan_transitions.py", "tests/governance/test_program_lifecycle_guards.py", "tests/governance/test_task_v2_contract.py", "evidence/OPS-006/**"]
+    outputPaths: ["AGENTS.md", "docs/25-multi-agent-collaboration-protocol.md", "specs/coordination/README.md", "specs/tasks/task-template.md", "scripts/check-task-file.py", "scripts/check-project-readiness.py", "scripts/run-agent-coordination-gate.py", "scripts/run-task-scope-gate.py", "scripts/check-program-plan-transitions.py", "scripts/check-program-lifecycle-guards.py", "tests/governance/test_check_task_file.py", "tests/governance/test_check_project_readiness.py", "tests/governance/test_agent_coordination_dispatcher.py", "tests/governance/test_task_scope_dispatcher.py", "tests/governance/test_program_plan_transitions.py", "tests/governance/test_program_lifecycle_guards.py", "tests/governance/test_task_v2_contract.py", "evidence/OPS-006/**"]
     sharedPaths: []
     producesContracts: [PROGRAM-TASK-REGISTRATION-V1]
     consumesContracts: []

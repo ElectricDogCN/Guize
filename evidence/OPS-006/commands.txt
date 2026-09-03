@@ -1,7 +1,7 @@
 OPS-006 command and API evidence
 ================================
 
-All entries below describe actions actually performed before the Registration commit. Commands that require the future PR checkout are explicitly NOT RUN and are not reported as PASS.
+This file distinguishes commands/API reads actually observed from commands that remain for the future implementation phase. No expected result is reported as PASS.
 
 [1]
 command/API: GET /repos/ElectricDogCN/Guize/branches/main
@@ -14,9 +14,9 @@ exit code: 0
 result: PR #51 POC validation step is green, but Governance Gate is red because completed GZ-003 cannot authorize Workflow/test implementation files; unresolved review findings also remain.
 
 [3]
-command/API: read scripts/check-task-file.py, scripts/run-agent-coordination-gate.py, scripts/run-task-scope-gate.py, scripts/check-program-plan-transitions.py, scripts/check-program-lifecycle-guards.py, scripts/check-program-plan-integrity.py
+command/API: read scripts/check-task-file.py, scripts/check-project-readiness.py, scripts/run-agent-coordination-gate.py, scripts/run-task-scope-gate.py, scripts/check-program-plan-transitions.py, scripts/check-program-lifecycle-guards.py, scripts/check-program-plan-integrity.py
 exit code: 0
-result: no absent-to-planned Registration mode exists; planned is rejected by three dispatch/check surfaces; final GZ-020 must transitively depend on every ordinary Program Task.
+result: no absent-to-planned Registration mode exists; planned is rejected by three dispatch/check surfaces; final GZ-020 must transitively depend on every ordinary Program Task; Project Readiness counts every historical and future task in a Wave against capacity.
 
 [4]
 command/API: POST /repos/ElectricDogCN/Guize/issues
@@ -29,36 +29,82 @@ exit code: 0
 result: created chore/OPS-006-task-registration from exact SHA 219d7096756ad75717a46d85baf7d2b216e2472b
 
 [6]
-command: python scripts/check-task-file.py --task OPS-006
-exit code: NOT RUN before commit
-expected legacy classification: FAIL because schemaVersion 2 registry status planned is not currently supported
+command/API: create commit b216f84368b54e631dce0b57b46b14cf5424e068 and Draft PR #53
+exit code: 0
+result: one parent equal to exact target SHA; 13 changed files confined to Program Plan, specs/tasks/OPS-006.md and evidence/OPS-006/**
 
 [7]
-command: python scripts/check-program-plan-integrity.py --base-ref origin/main
-exit code: NOT RUN before commit
-expected result: PASS only if OPS-006 is schema-valid, module/path-valid, and included in GZ-020 dependency closure
+command: python scripts/check-task-file.py --task OPS-006
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 1
+result: Registry task has invalid status: planned
+classification: expected legacy Registration gap
 
 [8]
-command: python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration
-exit code: NOT RUN before commit
-expected legacy classification: FAIL because the current lifecycle guard has no Registration mode and treats the GZ-020 append as an ordinary affected-task mutation
+command: python scripts/check-project-readiness.py
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 1
+result: Wave W1 exceeds concurrent task capacity
+classification: newly diagnosed Registration surface; completed GZ-004 is still counted together with GZ-010 and planned OPS-006
 
 [9]
-command: python scripts/run-agent-coordination-gate.py --task OPS-006 --base-ref origin/main --head-ref HEAD --branch-name chore/OPS-006-task-registration
-exit code: NOT RUN before commit
-expected legacy classification: FAIL because planned is currently unsupported and no Active Work Lease exists by design
+command: python scripts/check-program-plan-integrity.py --base-ref origin/main
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 0
+result: PASS; 27 Program tasks, one active task, final dependency closure intact
 
 [10]
-command: python scripts/run-task-scope-gate.py --task OPS-006 --base origin/main
-exit code: NOT RUN before commit
-expected legacy classification: FAIL because planned is currently unsupported
+command: python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 0
+result: PASS
 
 [11]
-command: python scripts/check-evidence.py --task OPS-006
-exit code: NOT RUN before commit
-expected result: PASS if this task-bound Evidence structure is complete
+command: python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 0
+result: PASS under the legacy transition checker, which has no explicit Registration classification
 
 [12]
+command: python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 1
+result: Affected lifecycle task GZ-020 has no current Task Spec
+classification: expected legacy Registration gap for the narrowly appended final-DAG dependency
+
+[13]
+command: python scripts/run-agent-coordination-gate.py --task OPS-006 --base-ref origin/main --head-ref HEAD --branch-name chore/OPS-006-task-registration
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 2
+result: Unsupported Task status for coordination dispatch: 'planned'
+classification: expected legacy Registration gap
+
+[14]
+command: python scripts/run-task-scope-gate.py --task OPS-006 --base origin/main
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 2
+result: Unsupported Task status for scope dispatch: 'planned'
+classification: expected legacy Registration gap
+
+[15]
+command: python scripts/check-evidence.py --task OPS-006
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 0
+result: PASS
+
+[16]
+command: pytest governance suite in GitHub Actions run 33720823036 / job 100539417786
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 1
+result: 259 collected; 257 passed; exactly two repository-state failures mirrored the W1 terminal occupancy and GZ-020 lifecycle classifications
+
+[17]
 command: make verify TASK=OPS-006 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/OPS-006-task-registration
-exit code: NOT RUN before commit
-expected result: overall FAIL only at the diagnosed pre-existing Registration lifecycle gap; unrelated failures are blockers
+source HEAD: b216f84368b54e631dce0b57b46b14cf5424e068
+exit code: 1
+result: overall Governance Gate failed only in the classified Registration surfaces above; schema, integrity, secret, Evidence, compile, collection and all other governance tests passed
+
+[18]
+command: implementation-phase command matrix from specs/tasks/OPS-006.md
+exit code: NOT RUN
+result: reserved for the future OPS-006 implementation PR after Registration, Reservation and Activation
