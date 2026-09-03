@@ -3,64 +3,36 @@
 Task: GZ-003
 Original Completion: PR #11 / `9e3a821ada292ac3ef69b7c059384d17f6530b48`
 Result: COMPLETED
-Maintenance: OPS-003 / PR #44 validation in progress
+Maintenance: OPS-005 #50 / exact-head validation pending
 
-## Original completion
+## Harness gap being tested
 
-GZ-003 remains completed. This maintenance does not reopen its Program/Foundation state, create a new Completion Ledger record, or rewrite the original completion identity.
+The existing Governance Gate does not execute the POC Program's mandatory validator/regression commands. OPS-005 adds a separate repeatable `POC Program Gate` and workflow-contract regression tests without changing POC or product semantics.
 
-## Reproduction — GZ-010 Reservation Gate #374
+## New workflow-contract coverage
 
-PR #42 exact Reservation HEAD: `f66f10d81ad44a52a2b9ffbcab338741d7783708`
-Run: `33479774222`
+`tests/governance/test_poc_program_workflow_contract.py` defines six checks:
 
-Observed result:
+1. pull requests and all main pushes trigger the gate;
+2. GitHub Actions are immutable-SHA pinned and checkout credentials are not persisted;
+3. the validation step requires and executes both POC commands and cannot continue on error;
+4. only the state where **both** POC validation files are absent is allowed to skip contract execution;
+5. the job summary exposes `poc_program_validation` outcome;
+6. stale runs are cancelled.
 
-- Task validation: PASS
-- Project Readiness: PASS
-- Program integrity/history/transitions/finalization/lifecycle: PASS
-- Agent Coordination: PASS
-- direct Schema validation: PASS, including `OK PROGRAM ACTIVATION: GZ-010 <- W1`
-- Evidence / Scope / Secret / Spec Sync / static checks: PASS
-- Governance tests: **258 PASS / 1 FAIL**
+## Expected integration behavior
 
-Sole failure:
+On this maintenance branch, the POC Program files are absent because GZ-010 PR #48 is not merged; the new workflow must therefore report the no-contract case successfully while governance tests exercise the workflow contract.
 
-`TestCheckSchemas.test_regular_program_task_activation_passes`
+After OPS-005 is merged to main and PR #48 is synchronized with that main, the same workflow must see both POC validation files in the PR merge checkout and execute:
 
-The copied fixture retained Program GZ-010=`reserved`, but `_activate_gz004()` replaced copied Active Work with only synthetic GZ-004, deleting the legitimate GZ-010 Lease and manufacturing a missing-Lease error.
+```bash
+python specs/poc/check_program.py
+python specs/poc/test_program.py
+```
 
-PR #42 was closed unmerged because this failure would also have existed on post-merge main.
+A missing one-of-two file, validator failure, or regression-test failure must make `POC Program Gate` red.
 
-## OPS-003 repair candidate — Gate #375
+## Current validation state
 
-PR #44 code/evidence candidate before canonical Completion Evidence refresh: `fbffb61b5ac1bdd630a53e71d19deca93b99d7de`
-Run: `33480225903`
-
-Functional change: preserve existing non-GZ-004 Active Work while keeping synthetic GZ-004 at list index 0.
-
-Observed results:
-
-- Governance tests: **259/259 PASS**
-- `test_regular_program_task_activation_passes`: PASS
-- Agent Coordination: PASS
-- Markdown / Schema / Secret / Evidence / Evidence integrity / linkage / Scope / Spec Sync / parent-dir / CI static: PASS
-- Program execution integrity: PASS
-- Program history: PASS
-- Program transitions: PASS
-- Program Finalization: FAIL only because this completed-GZ-003 maintenance had not refreshed the four canonical Completion Evidence files
-
-The fixture repair therefore fixes the actual regression without weakening the existing negative schema/coordination assertions.
-
-## Current canonical Evidence refresh
-
-`summary.md`, `commands.txt`, `handoff.md` and this test-results file now record OPS-003 while preserving original GZ-003 Completion merge `9e3a821ada292ac3ef69b7c059384d17f6530b48`.
-
-A new exact-head Gate is required. The expected acceptable boundary is:
-
-- Program Finalization PASS after canonical Evidence refresh;
-- 259/259 governance tests PASS;
-- every non-self-hosting check PASS;
-- if the completed-GZ-003 lifecycle/scope guard rejects `tests/governance/test_check_schemas.py`, that single self-hosting rejection may be considered for explicitly documented Human/Integrator break-glass only after fresh exact-head review.
-
-No latest-head Gate, review, merge or post-merge success is pre-claimed.
+No exact-head Governance Gate, POC Program Gate, fresh Review, merge, post-main Gate, or GZ-010 test result is claimed in this Evidence yet. Those values must be taken from GitHub after the maintenance PR is created.
