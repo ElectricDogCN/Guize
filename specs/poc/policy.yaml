@@ -9,7 +9,7 @@ terminalReviewRoleBound: true
 highCriticalIsolation: true
 criticalStandalone: true
 maxConcurrentHighCritical: 1
-secretPolicy: Secrets, credentials, tokens and private keys must never be committed; use runtime references outside repository.
+sensitiveMaterialPolicy: Secrets, credentials, tokens and private keys must never be committed; use runtime references outside repository.
 dataPolicy: Only approved non-sensitive, synthetic or de-identified samples may be executed; approval identity/checksum is recorded in task-owned Evidence, never written back into the GZ-010 catalogue.
 rawEvidencePolicy: Raw experiment evidence belongs only under the independent POC task evidence path and terminal references must resolve to existing regular files.
 environmentCapturePolicy: Required OS/tool/driver/runtime/model/input provenance values must be nonempty and non-placeholder before terminal acceptance.
