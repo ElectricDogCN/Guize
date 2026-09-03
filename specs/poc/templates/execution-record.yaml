@@ -2,11 +2,27 @@ schemaVersion: 1
 pocId: POC-00
 taskId: POC-000
 evidencePath: evidence/POC-000
-executor: task-owner-agent
+executor: REPLACE_WITH_IMPLEMENTER_IDENTITY
+resources:
+- id: RES-PLACEHOLDER
+  configurationRef: evidence/POC-000/resources/configuration.yaml
+  bookingRef: null
 environmentCaptured: {}
-commands: []
-rawOutputRefs: []
-samples: []
-measurements: []
+commands:
+- command: REPLACE_WITH_EXACT_COMMAND
+  exitCode: 0
+  outputRef: evidence/POC-000/raw/command-001.log
+rawOutputRefs:
+- evidence/POC-000/raw/command-001.log
+samples:
+- id: SAMPLE-PLACEHOLDER
+  immutableId: REPLACE_WITH_IMMUTABLE_SAMPLE_ID
+  checksum: sha256:0000000000000000000000000000000000000000000000000000000000000000
+  approved: true
+  approvalRef: evidence/POC-000/approvals/SAMPLE-PLACEHOLDER.yaml
+measurements:
+- id: REPLACE_WITH_MEASUREMENT_ID
+  actual: 0
 provenance: {}
+complianceReviews: []
 notes: null
