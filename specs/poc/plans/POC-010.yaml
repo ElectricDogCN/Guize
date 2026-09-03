@@ -48,9 +48,21 @@ protocol:
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: secret_store_restore
-    metric: OpenBao configuration/secret-reference restore
+    metric: OpenBao configuration and secret-reference restore
     unit: boolean
-    method: Restore sandbox secret-store state without committing secret values.
+    method: Restore sandbox secret-store configuration, policies, mounts and references without writing secret plaintext into Git/Evidence.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: secret_value_roundtrip
+    metric: OpenBao secret value restore and readback matches pre-backup value
+    unit: boolean
+    method: In an isolated sandbox, write a generated ephemeral secret, record only an approved one-way/HMAC comparison artifact, back up and restore OpenBao, read the value through runtime access, and verify pre/post equality without logging or committing plaintext.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: secret_unreadable_failure_detected
+    metric: Corrupted or decryption-mismatched secret backup fails closed
+    unit: boolean
+    method: Exercise an isolated unreadable/decryption-mismatched recovery fixture and require explicit restore/readback failure rather than accepting references as recovered.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: file_restore
@@ -72,12 +84,15 @@ protocol:
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   exitCriteria:
-  - Database, secret-store references, files and deployment bundle can be restored/read back in isolated sandbox.
+  - Database, OpenBao configuration, actual secret values, files and deployment bundle can be restored/read back in an isolated sandbox.
+  - Secret value round-trip comparison succeeds without committing plaintext or backup keys to Git/Evidence.
+  - A corrupted or decryption-mismatched secret backup is rejected and cannot be misreported as recovered.
   - RPO/RTO evidence is measured rather than assumed.
   failureFallbacks:
   - If unified recovery fails, split recovery procedures by data/control plane and block production release until reconciled.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
+  - Revoke/destroy generated sandbox-only secret material outside the repository after Evidence-safe comparison artifacts are captured.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
   - Do not delete governance/Evidence history.
 security:

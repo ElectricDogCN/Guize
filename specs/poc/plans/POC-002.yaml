@@ -38,19 +38,19 @@ protocol:
   - id: av1_quality
     metric: AV1 quality score
     unit: VMAF
-    method: Encode approved media corpus and calculate VMAF against source.
+    method: Encode the approved immutable media sample and calculate VMAF against the exact input bytes identified by the execution record.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: encode_throughput
     metric: Concurrent encode throughput
     unit: streams
-    method: Run controlled concurrency sweep with version/resource capture.
+    method: Run controlled concurrency sweep with fixed input identity, tool versions and exact encoder parameters recorded in task Evidence.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: first_segment_latency
     metric: First segment generation latency
     unit: ms
-    method: Measure from job start to first playable segment.
+    method: Measure from job start to first playable segment with the same recorded encoder configuration.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: sustained_encode_stability
@@ -65,10 +65,17 @@ protocol:
     method: Record the continuous validated soak duration from raw execution timestamps.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: encode_provenance_complete
+    metric: Input/output hashes and exact encoder parameters captured
+    unit: boolean
+    method: Require execution-record provenance input_sha256, output_sha256 and exact structured encoder_parameters, and verify the output hash against the produced media bytes.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
   exitCriteria:
   - AV1 and fallback H.264 paths produce decodable outputs.
-  - Quality/throughput/first-segment measurements are captured for approved samples.
+  - Quality/throughput/first-segment measurements are captured for approved immutable samples.
   - Sustained encoding completes the approved soak window without unrecovered runtime/GPU failure or corrupt output.
+  - Input SHA-256, output SHA-256 and exact encoder parameters are recorded in task-owned Evidence and are sufficient to reproduce the compared encode.
   failureFallbacks:
   - If A380 AV1 path or sustained stability is insufficient, retain H.264 compatibility path and evaluate another worker/GPU profile.
   rollbackCleanup:

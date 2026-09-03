@@ -1,5 +1,12 @@
+schemaVersion: 1
+pocId: POC-00
+taskId: POC-000
+evidencePath: evidence/POC-000
+executor: task-owner-agent
 environmentCaptured: {}
 commands: []
 rawOutputRefs: []
-measurementValues: []
+samples: []
+measurements: []
+provenance: {}
 notes: null

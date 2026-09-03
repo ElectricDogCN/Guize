@@ -1,0 +1,81 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+additionalProperties: false
+required: [schemaVersion, pocId, taskId, evidencePath, executor, environmentCaptured, commands, rawOutputRefs, samples, measurements, provenance, notes]
+properties:
+  schemaVersion: {const: 1}
+  pocId:
+    type: string
+    pattern: ^POC-[0-9]{2}$
+  taskId:
+    type: string
+    pattern: ^POC-[0-9]{3}$
+  evidencePath:
+    type: string
+    pattern: ^evidence/POC-[0-9]{3}$
+  executor:
+    type: string
+    minLength: 1
+  environmentCaptured:
+    type: object
+    minProperties: 1
+    additionalProperties: true
+  commands:
+    type: array
+    minItems: 1
+    items: {type: string, minLength: 1}
+  rawOutputRefs:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items: {type: string, minLength: 1}
+  samples:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required: [id, immutableId, checksum, approved, approvalRef]
+      properties:
+        id:
+          type: string
+          pattern: ^SAMPLE-[A-Z0-9-]+$
+        immutableId:
+          type: string
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:@/-]{7,127}$
+        checksum:
+          type: string
+          pattern: ^sha256:[0-9a-fA-F]{64}$
+        approved: {const: true}
+        approvalRef: {type: string, minLength: 1}
+  measurements:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required: [id, actual]
+      properties:
+        id:
+          type: string
+          pattern: ^[a-z0-9_]+$
+        actual:
+          oneOf:
+          - {type: number}
+          - {type: boolean}
+  provenance:
+    type: object
+    additionalProperties: false
+    properties:
+      input_sha256:
+        type: string
+        pattern: ^sha256:[0-9a-fA-F]{64}$
+      output_sha256:
+        type: string
+        pattern: ^sha256:[0-9a-fA-F]{64}$
+      encoder_parameters:
+        oneOf:
+        - {type: string, minLength: 1}
+        - {type: object, minProperties: 1}
+  notes:
+    type: [string, 'null']

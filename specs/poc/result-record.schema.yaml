@@ -1,0 +1,33 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+additionalProperties: false
+required: [schemaVersion, pocId, taskId, status, evidencePath, executionRef, decision, rationale, reviewer, approvedAt, approval]
+properties:
+  schemaVersion: {const: 1}
+  pocId:
+    type: string
+    pattern: ^POC-[0-9]{2}$
+  taskId:
+    type: string
+    pattern: ^POC-[0-9]{3}$
+  status:
+    enum: [pass, fail, inconclusive]
+  evidencePath:
+    type: string
+    pattern: ^evidence/POC-[0-9]{3}$
+  executionRef:
+    type: string
+    minLength: 1
+  decision:
+    enum: [pass, fail, inconclusive]
+  rationale:
+    type: string
+    minLength: 1
+  reviewer:
+    type: string
+    minLength: 1
+  approvedAt:
+    type: string
+    pattern: ^20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$
+  approval:
+    const: approved
