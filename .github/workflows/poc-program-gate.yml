@@ -1,0 +1,90 @@
+name: POC Program Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: poc-program-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  poc-program:
+    name: POC Program Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONDONTWRITEBYTECODE: 1
+    steps:
+      - name: Checkout repository
+        id: checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Python 3.11
+        id: setup-python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+
+      - name: Install governance dependencies
+        id: install-deps
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements-governance.txt
+          python -c "import yaml, jsonschema; print('OK: POC validation dependencies importable')"
+
+      - name: Validate POC Program contract
+        id: poc-program-validation
+        run: |
+          set -euo pipefail
+          CHECKER="specs/poc/check_program.py"
+          TESTS="specs/poc/test_program.py"
+
+          if [ ! -e "$CHECKER" ] && [ ! -e "$TESTS" ]; then
+            echo "POC-PROTOCOL-V1 is not present in this checkout; no POC Program validation is required."
+            exit 0
+          fi
+
+          if [ ! -f "$CHECKER" ] || [ ! -f "$TESTS" ]; then
+            echo "::error::POC Program validation is incomplete: both $CHECKER and $TESTS must exist as regular files."
+            exit 1
+          fi
+
+          python "$CHECKER"
+          python "$TESTS"
+
+      - name: Generate POC Program report
+        id: summary
+        if: always()
+        env:
+          CHECKOUT: ${{ steps.checkout.outcome }}
+          SETUP_PYTHON: ${{ steps.setup-python.outcome }}
+          INSTALL_DEPS: ${{ steps.install-deps.outcome }}
+          POC_PROGRAM_VALIDATION: ${{ steps.poc-program-validation.outcome }}
+        run: |
+          set -euo pipefail
+          {
+            echo "## POC Program Gate Report"
+            echo
+            echo "| Check | Status |"
+            echo "|---|---|"
+            echo "| checkout | $CHECKOUT |"
+            echo "| setup_python | $SETUP_PYTHON |"
+            echo "| install_deps | $INSTALL_DEPS |"
+            echo "| poc_program_validation | $POC_PROGRAM_VALIDATION |"
+            echo
+            echo "Commit: ${{ github.sha }}"
+            echo "Ref: ${{ github.ref }}"
+          } >> "$GITHUB_STEP_SUMMARY"
