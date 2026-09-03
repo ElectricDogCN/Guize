@@ -9,17 +9,17 @@ tasks:
   - taskId: GZ-010
     issue: 15
     title: 建立十项 POC 的统一模板、样本、资源与排程
-    status: reserved
+    status: in_progress
     riskLevel: medium
     owner: ElectricDogCN
     coordinator: program-coordinator-agent
     implementer: poc-program-agent
     reviewer: independent-poc-program-review-agent
     integrator: integration-agent
-    agentRole: coordinator
+    agentRole: implementer
     branch: chore/GZ-010-poc-program-baseline
     baseBranch: main
-    baseSha: d23543f97facff00d02f79aab1693a37788765c9
+    baseSha: 74ab9d53f29834fda37dcbd726fd58f997f8f21a
     workPackage: WP-M0-04
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: GZ-010

@@ -176,7 +176,7 @@ tasks:
     taskId: GZ-010
     title: "建立十项 POC 的统一模板、样本、资源与排程"
     kind: poc-coordination
-    status: reserved
+    status: in_progress
     workPackage: WP-M0-04
     riskLevel: medium
     coordinationGroup: poc-program
