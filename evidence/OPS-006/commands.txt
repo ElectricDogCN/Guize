@@ -1,7 +1,7 @@
 OPS-006 Registration command and API evidence
 =============================================
 
-This file records only actions already observed for the clean r2 Registration candidate. Pending commands are explicitly marked NOT RUN.
+This file records actions observed for the clean r2 Registration candidate. Future phase commands remain explicitly NOT RUN.
 
 [1]
 command/API: merge PR #55 with expected source HEAD 4cc5d668ab1593e6b492db0d6deea4854995f724
@@ -9,101 +9,114 @@ exit code: 0
 result: merge commit 3acc6e4ee582f4fdee8ba90c630bf99eb870b252
 
 [2]
-command/API: GET /repos/ElectricDogCN/Guize/branches/main
-exit code: 0
-result: exact main SHA 3acc6e4ee582f4fdee8ba90c630bf99eb870b252
-
-[3]
 command/API: inspect Governance Gate #446 / run 33736578549 / job 100588447845
 exit code: 0
-result: SUCCESS on exact main; Project Readiness, Program lifecycle chain, Agent Coordination, governance tests, skip audit, Markdown, Schema, Secret, Spec Sync, repository-boundary and CI static checks passed
+result: SUCCESS on exact main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252
+
+[3]
+command/API: close OPS-007 Issue #54 and obsolete Draft PR #53
+exit code: 0
+result: OPS-007 closed as completed; PR #53 closed without merge as superseded diagnostic history
 
 [4]
-command/API: close OPS-007 Issue #54 after post-merge main validation
-exit code: 0
-result: closed as completed
-
-[5]
-command/API: close obsolete Draft PR #53 without merge
-exit code: 0
-result: closed as superseded; its base 219d7096756ad75717a46d85baf7d2b216e2472b and run classifications remain diagnostic history only
-
-[6]
 command/API: create branch chore/OPS-006-task-registration-r2 from exact main 3acc6e4ee582f4fdee8ba90c630bf99eb870b252
 exit code: 0
 result: branch created with no direct main write
 
+[5]
+command/API: create Registration commit 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 0
+result: one parent equal to exact main; one commit ahead, zero behind; exactly thirteen changed files
+
+[6]
+command/API: open Draft PR #56
+exit code: 0
+result: exact target 3acc6e4ee582f4fdee8ba90c630bf99eb870b252 and source 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+
 [7]
-command/API: construct metadata-only Registration commit
-exit code: NOT RUN
-result: pending; must contain exactly Program Plan, OPS-006 Task Spec and evidence/OPS-006/**
+command: python scripts/check-task-file.py --task OPS-006
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+generated merge: 9147175b679747ac4febd1967487f07263df83c5
+run/job: 33737659745 / 100591944155
+exit code: 1
+result: Registry task has invalid status: planned
+classification: expected missing Registration lifecycle
 
 [8]
-command/API: compare exact base to candidate HEAD and open Draft PR
+command: python scripts/check-project-readiness.py
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 0
+result: PASS; 10 requirements, 21 modules, 37 contract namespaces, 27 Program tasks, 10 POCs, 17 Waves
+
+[9]
+command: python scripts/check-program-plan-integrity.py --base-ref origin/main
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 0
+result: PASS; 4 Foundation tasks, 27 Program tasks, 1 active task, 1 completion record
+
+[10]
+command: python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration-r2
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 0
+result: PASS
+
+[11]
+command: python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration-r2
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 0
+result: PASS under the current transition checker
+
+[12]
+command: python scripts/check-program-plan-finalization.py --base-ref origin/main --head-ref HEAD --task OPS-006
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 0
+result: PASS
+
+[13]
+command: python scripts/check-program-lifecycle-guards.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration-r2
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 1
+result: Affected lifecycle task GZ-020 has no current Task Spec
+classification: expected missing Registration semantics for the append-only final-DAG attachment
+
+[14]
+command: python scripts/run-agent-coordination-gate.py --task OPS-006 --base-ref origin/main --head-ref HEAD --branch-name chore/OPS-006-task-registration-r2
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 2
+result: Unsupported Task status for coordination dispatch: 'planned'
+classification: expected missing Registration lifecycle
+
+[15]
+command: python scripts/run-task-scope-gate.py --task OPS-006 --base origin/main
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 2
+result: Unsupported Task status for scope dispatch: 'planned'
+classification: expected missing Registration lifecycle
+
+[16]
+command: python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 1
+result: 267 collected; 266 passed; 1 failed in 30.10s; sole failure TestProgramLifecycleGuards.test_current_repository_passes mirrored the GZ-020 classification
+
+[17]
+command: python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 0
+result: no skipped tests
+
+[18]
+command: schema, Markdown, Secret, Evidence, Evidence integrity, linkage, Spec Sync, parent-directory and CI static checks in Gate #447
+source HEAD: 6fc572bbbb679fcb8e4c54b88188a44aea29a7b5
+exit code: 0
+result: PASS
+
+[19]
+command/API: create canonical Evidence refresh commit and rerun exact-head Gate
 exit code: NOT RUN
 result: pending
 
-[9]
-command: python scripts/check-task-file.py --task OPS-006
-source HEAD: pending
+[20]
+command: implementation-phase matrix from specs/tasks/OPS-006.md
 exit code: NOT RUN
-expected classification only: current Harness rejects planned Registry status; actual output remains authoritative
-
-[10]
-command: python scripts/check-project-readiness.py
-source HEAD: pending
-exit code: NOT RUN
-required result: PASS; OPS-007 removed the former terminal-history capacity defect
-
-[11]
-command: python scripts/check-program-plan-integrity.py --base-ref origin/main
-source HEAD: pending
-exit code: NOT RUN
-required result: PASS
-
-[12]
-command: python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration-r2
-source HEAD: pending
-exit code: NOT RUN
-required result: PASS
-
-[13]
-command: python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration-r2
-source HEAD: pending
-exit code: NOT RUN
-required result: PASS or an exact Registration-gap classification already defined by Issue #52; actual result must be recorded
-
-[14]
-command: python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration-r2
-source HEAD: pending
-exit code: NOT RUN
-expected classification only: current lifecycle guard may classify the append-only GZ-020 dependency as an affected task without a current Task Spec
-
-[15]
-command: python scripts/run-agent-coordination-gate.py --task OPS-006 --base-ref origin/main --head-ref HEAD --branch-name chore/OPS-006-task-registration-r2
-source HEAD: pending
-exit code: NOT RUN
-expected classification only: current dispatcher rejects planned; actual output remains authoritative
-
-[16]
-command: python scripts/run-task-scope-gate.py --task OPS-006 --base origin/main
-source HEAD: pending
-exit code: NOT RUN
-expected classification only: current dispatcher rejects planned; actual output remains authoritative
-
-[17]
-command: python scripts/check-evidence.py --task OPS-006
-source HEAD: pending
-exit code: NOT RUN
-required result: PASS
-
-[18]
-command: GitHub Actions governance suite and skip audit
-source HEAD: pending
-exit code: NOT RUN
-result: actual collected/passed/failed/skipped counts must be recorded after the Draft PR run
-
-[19]
-command: implementation-phase command matrix from specs/tasks/OPS-006.md
-exit code: NOT RUN
-result: reserved for the implementation PR after Registration, Reservation and Activation
+result: reserved until Registration, Reservation and Activation are complete

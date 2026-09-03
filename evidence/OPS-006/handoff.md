@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Clean Registration candidate construction from a verified green main. OPS-006 is not reserved, not activated and not implemented. No Active Work Lease exists.
+Clean Registration candidate has completed its first exact-head Gate classification. OPS-006 is not reserved, not activated and not implemented. No Active Work Lease exists.
 
 ## Identity
 
@@ -12,8 +12,11 @@ Clean Registration candidate construction from a verified green main. OPS-006 is
 - Exact target base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`
 - Base validation: Governance Gate #446 / run `33736578549` = SUCCESS
 - Branch: `chore/OPS-006-task-registration-r2`
+- Draft PR: #56
+- Initial source HEAD: `6fc572bbbb679fcb8e4c54b88188a44aea29a7b5`
+- Generated PR merge: `9147175b679747ac4febd1967487f07263df83c5`
+- Initial run/job: `33737659745` / `100591944155`
 - Superseded PR: #53, closed without merge
-- Current candidate PR / HEAD / run: pending creation
 - Wave / Integration Order: W1 / 3
 - Risk: medium
 - Depends On: GZ-014 completed
@@ -29,26 +32,34 @@ Clean Registration candidate construction from a verified green main. OPS-006 is
 - Reviewer: `independent-governance-review-agent`
 - Integrator: `integration-agent`
 
-## Scope boundary
+## Exact first-run result
 
-The Registration commit may contain only the canonical Program Plan, `specs/tasks/OPS-006.md` and `evidence/OPS-006/**`. It must introduce exactly one planned task and one append-only GZ-020 dependency. Active Work, Completion Ledger, Checker, test and Workflow implementations must remain unchanged.
+Gate #447 passed Project Readiness, Program integrity/history/transitions/finalization, Schema, Evidence, Secret, linkage, Markdown, Spec Sync and all static checks. It collected 267 governance tests: 266 passed, one failed, zero skipped.
 
-OPS-007 already repaired terminal Wave occupancy. Project Readiness must now pass on the real Registration tree; a repeated W1 capacity failure is no longer an acceptable classification.
+The red classification was confined to:
+
+- Task File rejects `planned`;
+- lifecycle guard requires a GZ-020 Task Spec for the append-only dependency attachment;
+- Agent Coordination rejects `planned`;
+- Task Scope rejects `planned`;
+- the sole test failure mirrors the GZ-020 lifecycle result.
+
+The former W1 capacity failure did not recur.
 
 ## Exact next action
 
-1. create one commit from the exact target base;
-2. verify one commit ahead, zero behind and exactly thirteen changed files;
-3. open a Draft PR and observe its exact-head Governance Gate;
-4. refresh canonical Evidence with actual exit codes, test count, source SHA, generated merge SHA and run/job IDs;
-5. request independent exact-head review;
-6. do not merge until every unexpected failure and review blocker is resolved and the Human Owner / Integrator decision is recorded against the final HEAD.
+1. commit this canonical Evidence refresh only;
+2. verify the cumulative diff remains the same thirteen paths;
+3. run a new exact-head Governance Gate;
+4. request independent Codex review against the final immutable HEAD;
+5. resolve every unexpected result or review thread;
+6. record a Human Owner / Integrator decision against that same HEAD before any merge.
 
 ## Forbidden next action
 
 - do not create Active Work before Registration merges;
 - do not start implementation;
-- do not reuse or force-push the closed PR #53 branch;
+- do not reuse or force-push closed PR #53;
 - do not modify PR #51 or #48 content;
 - do not increase capacity or add a reusable bypass;
-- do not claim pending commands or future phases as successful.
+- do not claim a final-head, merge or post-main result that has not occurred.
