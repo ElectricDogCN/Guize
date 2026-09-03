@@ -191,6 +191,30 @@ tasks:
     issue: 15
     branchPattern: "chore/GZ-010-*"
     exitGate: "POC-01～10 均有独立 Task、环境、原始数据、退出条件、失败替代和 Evidence 结构；本任务不代替实验执行"
+  - <<: *normal
+    taskId: OPS-006
+    title: "建立 fail-closed Program Task Registration 生命周期"
+    kind: governance
+    status: planned
+    workPackage: WP-M0-GOV-06
+    riskLevel: medium
+    ownerRole: task-owner-agent
+    reviewerRole: independent-review-agent
+    coordinationGroup: program-task-registration
+    wave: W1
+    integrationOrder: 3
+    dependsOn: [GZ-014]
+    requirementIds: [REQ-V1-0010]
+    moduleIds: [MOD-GOV]
+    outputPaths: ["AGENTS.md", "docs/25-multi-agent-collaboration-protocol.md", "specs/coordination/README.md", "specs/tasks/task-template.md", "scripts/check-task-file.py", "scripts/run-agent-coordination-gate.py", "scripts/run-task-scope-gate.py", "scripts/check-program-plan-transitions.py", "scripts/check-program-lifecycle-guards.py", "tests/governance/test_check_task_file.py", "tests/governance/test_agent_coordination_dispatcher.py", "tests/governance/test_task_scope_dispatcher.py", "tests/governance/test_program_plan_transitions.py", "tests/governance/test_program_lifecycle_guards.py", "tests/governance/test_task_v2_contract.py", "evidence/OPS-006/**"]
+    sharedPaths: []
+    producesContracts: [PROGRAM-TASK-REGISTRATION-V1]
+    consumesContracts: []
+    acceptanceIds: []
+    pocIds: []
+    issue: 52
+    branchPattern: "chore/OPS-006-*"
+    exitGate: "新增普通任务可经 metadata-only Registration 在 absent→planned 后独立 Reservation，planned 不获得 Lease 或实现权限且所有失败路径机器拒绝"
   - &poc
     <<: *normal
     taskId: POC-001
@@ -469,7 +493,7 @@ tasks:
     reviewerRole: independent-release-review-agent
     coordinationGroup: production-release
     wave: W17
-    dependsOn: [GZ-015, GZ-016, GZ-017, GZ-018, GZ-019, POC-001, POC-002, POC-003, POC-004, POC-005, POC-006, POC-007, POC-008, POC-009, POC-010]
+    dependsOn: [GZ-015, GZ-016, GZ-017, GZ-018, GZ-019, POC-001, POC-002, POC-003, POC-004, POC-005, POC-006, POC-007, POC-008, POC-009, POC-010, OPS-006]
     requirementIds: [REQ-V1-0001, REQ-V1-0002, REQ-V1-0003, REQ-V1-0004, REQ-V1-0005, REQ-V1-0006, REQ-V1-0007, REQ-V1-0008, REQ-V1-0009, REQ-V1-0010]
     moduleIds: [MOD-GOV, MOD-PLATFORM, MOD-IAM, MOD-SOURCE, MOD-ASSET, MOD-TASK, MOD-STORAGE, MOD-MEDIA, MOD-AI, MOD-SEARCH, MOD-POLICY, MOD-CONFIG, MOD-AUDIT, MOD-OBS, MOD-CONNECTOR, MOD-WORKER, MOD-PLAYER, MOD-EDGE, MOD-DATA, MOD-DEPLOY, MOD-CLI]
     outputPaths: ["release/**", "docs/runbooks/**", "evidence/GZ-020/**"]

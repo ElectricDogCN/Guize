@@ -1,0 +1,64 @@
+OPS-006 command and API evidence
+================================
+
+All entries below describe actions actually performed before the Registration commit. Commands that require the future PR checkout are explicitly NOT RUN and are not reported as PASS.
+
+[1]
+command/API: GET /repos/ElectricDogCN/Guize/branches/main
+exit code: 0
+result: exact target SHA 219d7096756ad75717a46d85baf7d2b216e2472b; main.protected=false
+
+[2]
+command/API: GET /repos/ElectricDogCN/Guize/pulls/51 and its workflow/check/review resources
+exit code: 0
+result: PR #51 POC validation step is green, but Governance Gate is red because completed GZ-003 cannot authorize Workflow/test implementation files; unresolved review findings also remain.
+
+[3]
+command/API: read scripts/check-task-file.py, scripts/run-agent-coordination-gate.py, scripts/run-task-scope-gate.py, scripts/check-program-plan-transitions.py, scripts/check-program-lifecycle-guards.py, scripts/check-program-plan-integrity.py
+exit code: 0
+result: no absent-to-planned Registration mode exists; planned is rejected by three dispatch/check surfaces; final GZ-020 must transitively depend on every ordinary Program Task.
+
+[4]
+command/API: POST /repos/ElectricDogCN/Guize/issues
+exit code: 0
+result: created Issue #52, OPS-006: add fail-closed Program task registration lifecycle
+
+[5]
+command/API: POST /repos/ElectricDogCN/Guize/git/refs
+exit code: 0
+result: created chore/OPS-006-task-registration from exact SHA 219d7096756ad75717a46d85baf7d2b216e2472b
+
+[6]
+command: python scripts/check-task-file.py --task OPS-006
+exit code: NOT RUN before commit
+expected legacy classification: FAIL because schemaVersion 2 registry status planned is not currently supported
+
+[7]
+command: python scripts/check-program-plan-integrity.py --base-ref origin/main
+exit code: NOT RUN before commit
+expected result: PASS only if OPS-006 is schema-valid, module/path-valid, and included in GZ-020 dependency closure
+
+[8]
+command: python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task OPS-006 --branch-name chore/OPS-006-task-registration
+exit code: NOT RUN before commit
+expected legacy classification: FAIL because the current lifecycle guard has no Registration mode and treats the GZ-020 append as an ordinary affected-task mutation
+
+[9]
+command: python scripts/run-agent-coordination-gate.py --task OPS-006 --base-ref origin/main --head-ref HEAD --branch-name chore/OPS-006-task-registration
+exit code: NOT RUN before commit
+expected legacy classification: FAIL because planned is currently unsupported and no Active Work Lease exists by design
+
+[10]
+command: python scripts/run-task-scope-gate.py --task OPS-006 --base origin/main
+exit code: NOT RUN before commit
+expected legacy classification: FAIL because planned is currently unsupported
+
+[11]
+command: python scripts/check-evidence.py --task OPS-006
+exit code: NOT RUN before commit
+expected result: PASS if this task-bound Evidence structure is complete
+
+[12]
+command: make verify TASK=OPS-006 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/OPS-006-task-registration
+exit code: NOT RUN before commit
+expected result: overall FAIL only at the diagnosed pre-existing Registration lifecycle gap; unrelated failures are blockers
