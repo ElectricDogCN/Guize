@@ -12,6 +12,6 @@ This metadata-only transition changes GZ-010 from `reserved` to `in_progress`, b
 
 It does **not** add or modify `specs/poc/**`, `poc/README.md`, any `evidence/POC-*`, experiment command, measurement, result, decision, business code, deployment, Secret, permission or production data.
 
-The previous combined implementation PR #46 was closed unmerged. Its reviewed work is preserved at `chore/GZ-010-poc-program-baseline-work-backup@fca00e9097a9296719d11150b646ce7dc90093f1` and must not be treated as merged or PASS evidence.
+The previous combined implementation PR #46 is closed and unmerged. It is retained only as GitHub review/history and is **not** treated as merged, PASS, or current implementation evidence by this Activation.
 
 Activation merge and post-main Gate must complete before the business implementation is rebuilt from the activated main.
