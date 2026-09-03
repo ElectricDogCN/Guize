@@ -1,0 +1,22 @@
+schemaVersion: 1
+contractId: POC-PROTOCOL-V1
+status: defined
+taskId: GZ-010
+sourceProgramPlan: specs/coordination/program-plan.yaml
+policyFile: policy.yaml
+resourceCatalog: resources.yaml
+sampleCatalog: samples.yaml
+resultsIndex: results-index.yaml
+planFiles:
+- plans/POC-001.yaml
+- plans/POC-002.yaml
+- plans/POC-003.yaml
+- plans/POC-004.yaml
+- plans/POC-005.yaml
+- plans/POC-006.yaml
+- plans/POC-007.yaml
+- plans/POC-008.yaml
+- plans/POC-009.yaml
+- plans/POC-010.yaml
+executionEnabled: false
+notes: GZ-010 defines the POC program only; independent POC tasks execute experiments later.

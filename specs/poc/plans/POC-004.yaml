@@ -1,0 +1,95 @@
+schemaVersion: 1
+pocId: POC-04
+taskId: POC-004
+title: TrueNAS 数据集、水位、吞吐与故障恢复
+status: planned
+resultStatus: not_started
+riskLevel: high
+wave: W8
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0006
+- REQ-V1-0010
+moduleIds:
+- MOD-STORAGE
+- MOD-DATA
+- MOD-DEPLOY
+evidencePath: evidence/POC-004
+resourceIds:
+- RES-TRUENAS-SANDBOX
+sampleIds:
+- SAMPLE-STORAGE-FIXTURE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: iscsi_transport_ready
+    metric: iSCSI transport path is operational
+    unit: boolean
+    method: Establish the approved sandbox iSCSI path, verify target/LUN discovery, session stability and read/write accessibility with raw session evidence.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: sequential_throughput
+    metric: Sequential throughput
+    unit: MB/s
+    method: Run controlled read/write workload against the approved iSCSI-backed sandbox dataset.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: io_latency
+    metric: Storage I/O latency under approved workload
+    unit: ms
+    method: Capture read/write latency distribution for the same sandbox workload and transport profile used for throughput measurement.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: watermark_behavior
+    metric: Watermark enforcement
+    unit: boolean
+    method: Drive controlled capacity thresholds and observe lifecycle behavior.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: failure_recovery
+    metric: Failure recovery success
+    unit: boolean
+    method: Inject approved sandbox interruption and verify recovery/runbook.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Approved iSCSI transport is reproducibly discoverable and operational for the sandbox dataset.
+  - Throughput and I/O latency measurements are captured on that iSCSI path with the environment/profile recorded.
+  - Dataset/watermark behavior is reproducible.
+  - Failure-recovery evidence is captured without production data.
+  failureFallbacks:
+  - If current TrueNAS/iSCSI topology is insufficient, document required dataset/network/storage changes before M2.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Close sandbox iSCSI sessions and restore the pre-POC target/LUN configuration.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

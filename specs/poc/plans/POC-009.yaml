@@ -1,0 +1,126 @@
+schemaVersion: 1
+pocId: POC-09
+taskId: POC-009
+title: AI 质量、成本、隐私、许可证与吞吐
+status: planned
+resultStatus: not_started
+riskLevel: high
+wave: W9
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0004
+- REQ-V1-0005
+- REQ-V1-0008
+moduleIds:
+- MOD-AI
+- MOD-SEARCH
+- MOD-IAM
+evidencePath: evidence/POC-009
+resourceIds:
+- RES-AI-BENCH
+sampleIds:
+- SAMPLE-AI-DEID
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  - model_identity
+  - model_version
+  - prompt_template_version
+  - inference_parameters
+  - input_sample_version
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: quality_score
+    metric: Task quality score
+    unit: score
+    method: Run fixed de-identified benchmark with model identity/version, Prompt/template version, inference parameters and immutable input/sample version captured in the environment record.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: throughput
+    metric: Inference throughput
+    unit: items/s
+    method: Measure approved local/provider profiles with complete model/runtime/provenance capture.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: cost_estimate
+    metric: External provider cost estimate
+    unit: currency_per_1000_items
+    method: Calculate only from approved provider pricing and measured token/item usage under the tested quota configuration.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: license_privacy_pass
+    metric: License/privacy policy compatibility
+    unit: boolean
+    method: Review license terms and data handling constraints before external invocation.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: caller_permission_gate
+    metric: Caller permission gate rejects unauthorized commercial-provider invocation
+    unit: boolean
+    method: Exercise authorized and unauthorized caller identities and verify fail-closed provider dispatch before any external request.
+    thresholdSource: NFR_SECURITY_GATE
+    actual: null
+  - id: asset_acl_gate
+    metric: Current asset ACL gate rejects provider invocation without current access
+    unit: boolean
+    method: Change/revoke asset access in the sandbox and verify the current ACL is re-evaluated before external dispatch.
+    thresholdSource: NFR_SECURITY_GATE
+    actual: null
+  - id: hard_budget_gate
+    metric: Hard budget quota blocks over-budget invocation
+    unit: boolean
+    method: Configure a sandbox budget ceiling and verify requests exceeding the remaining budget fail closed without provider execution.
+    thresholdSource: NFR_BUDGET_GATE
+    actual: null
+  - id: request_quota_gate
+    metric: Hard request-rate quota blocks excess requests
+    unit: boolean
+    method: Exceed the configured request quota and verify deterministic rejection/backoff without bypass.
+    thresholdSource: NFR_BUDGET_GATE
+    actual: null
+  - id: concurrency_quota_gate
+    metric: Hard concurrency quota blocks excess concurrent provider calls
+    unit: boolean
+    method: Exceed the configured concurrent-call ceiling and verify fail-closed admission control.
+    thresholdSource: NFR_BUDGET_GATE
+    actual: null
+  exitCriteria:
+  - Quality/throughput/cost/privacy/license evidence is captured for candidate profiles with model, Prompt, inference-parameter and immutable-input provenance.
+  - External provider usage is gated by approved privacy/data policy, caller permission and the current asset ACL before dispatch.
+  - Hard budget, request-rate and concurrency quotas reject excess external-provider use without executing a provider request.
+  - No commercial-provider credential or sensitive payload is committed to Git/Evidence.
+  failureFallbacks:
+  - Prefer local/private inference or disable a capability when privacy/license/cost/access-control/quota constraints are not acceptable.
+  - If a fail-closed permission/ACL/budget/quota gate cannot be demonstrated, external provider use remains disabled.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Revoke temporary runtime credentials outside the repository and clear transient provider-side test artifacts where supported.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: de-identified
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: true
+  licenseReviewRequired: true
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

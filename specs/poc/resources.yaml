@@ -1,0 +1,62 @@
+schemaVersion: 1
+resources:
+- id: RES-A380-ESXI67
+  type: gpu-virtualization-lab
+  availability: requires_booking
+  bookingRequired: true
+  credentialsStored: false
+  description: Intel Arc A380 with ESXi 6.7-compatible isolated test host/VM.
+- id: RES-A380-ENCODE
+  type: gpu-media-lab
+  availability: requires_booking
+  bookingRequired: true
+  credentialsStored: false
+  description: A380 media encoding sandbox with approved FFmpeg/media driver build.
+- id: RES-ATS-SANDBOX
+  type: edge-cache-lab
+  availability: unknown
+  bookingRequired: false
+  credentialsStored: false
+  description: Isolated ATS/origin sandbox for Range and ACL cache-key tests.
+- id: RES-TRUENAS-SANDBOX
+  type: storage-lab
+  availability: requires_booking
+  bookingRequired: true
+  credentialsStored: false
+  description: Non-production TrueNAS dataset and network path for controlled storage/recovery tests.
+- id: RES-METADATA-SCALE
+  type: metadata-scale-lab
+  availability: unknown
+  bookingRequired: false
+  credentialsStored: false
+  description: Synthetic/approved hierarchy generator and scanner environment for metadata-scale tests.
+- id: RES-BAIDU-SANDBOX
+  type: cloud-integration-sandbox
+  availability: unknown
+  bookingRequired: true
+  credentialsStored: false
+  description: Approved Baidu cloud integration sandbox; credentials stay outside repository.
+- id: RES-PUBLIC-NETWORK
+  type: network-lab
+  availability: unknown
+  bookingRequired: true
+  credentialsStored: false
+  description: Approved IPv6/TLS/tunnel/CDN test path with isolated public endpoint.
+- id: RES-FRONTEND-COMPARE
+  type: frontend-lab
+  availability: unknown
+  bookingRequired: false
+  credentialsStored: false
+  description: Candidate local reproducible Vue/React prototype build environment; availability is confirmed before execution.
+- id: RES-AI-BENCH
+  type: ai-benchmark-lab
+  availability: requires_booking
+  bookingRequired: true
+  credentialsStored: false
+  description: Isolated GPU/provider benchmark environment; provider credentials are runtime-only.
+- id: RES-RECOVERY-SANDBOX
+  type: recovery-lab
+  availability: requires_booking
+  bookingRequired: true
+  credentialsStored: false
+  description: Isolated PostgreSQL/OpenBao/file/deployment-bundle recovery sandbox.
