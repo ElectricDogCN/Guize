@@ -30,6 +30,7 @@ environment:
   - tool_versions
   - network_profile
   - storage_profile
+  - provider_api_or_sdk_version
   capturedValues: {}
 protocol:
   commands: []
@@ -53,9 +54,22 @@ protocol:
     method: Record documented API/SDK/versioning/support constraints.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: privacy_review_approved
+    metric: Privacy review approved for tested API/SDK version
+    unit: boolean
+    method: Bind an approved privacy review record to the exact provider API/SDK version captured for execution.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: license_review_approved
+    metric: License review approved for tested API/SDK version
+    unit: boolean
+    method: Bind an approved license review record to the exact provider API/SDK version captured for execution.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
   exitCriteria:
   - A legal documented integration path is identified or explicitly rejected with evidence.
   - No scraping/bypass or credential embedding is required.
+  - Privacy and license reviews are approved for the exact API/SDK version actually tested.
   failureFallbacks:
   - If no supportable API exists, treat Baidu connector as blocked/optional and document manual/export alternative.
   rollbackCleanup:
