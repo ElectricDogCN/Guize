@@ -9,8 +9,10 @@ sampleCatalog: samples.yaml
 resultsIndex: results-index.yaml
 executionRecordSchema: execution-record.schema.yaml
 resultRecordSchema: result-record.schema.yaml
+sampleApprovalSchema: sample-approval.schema.yaml
 executionRecordTemplate: templates/execution-record.yaml
 resultRecordTemplate: templates/result-record.yaml
+sampleApprovalTemplate: templates/sample-approval.yaml
 planFiles:
 - plans/POC-001.yaml
 - plans/POC-002.yaml
@@ -23,4 +25,4 @@ planFiles:
 - plans/POC-009.yaml
 - plans/POC-010.yaml
 executionEnabled: false
-notes: GZ-010 freezes immutable plans/catalogues only; independent POC tasks write execution/result records under their own Evidence paths and update the shared results index.
+notes: GZ-010 freezes immutable plans/catalogues only; independent POC tasks write sample approvals, execution/result records and raw evidence under their own Evidence paths, and may update only their own row in the shared results index.
