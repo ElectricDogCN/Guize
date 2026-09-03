@@ -45,8 +45,40 @@ jobs:
           pip install -r requirements-governance.txt
           python -c "import yaml, jsonschema; print('OK: POC validation dependencies importable')"
 
+      - name: Resolve POC task context
+        id: poc-context
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_HEAD: ${{ github.head_ref }}
+          BASE_BRANCH: ${{ github.base_ref }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          BRANCH="$PR_HEAD"
+          if [ -z "$BRANCH" ]; then BRANCH="$REF_NAME"; fi
+
+          TASK_ID=""
+          if [[ "$BRANCH" =~ ^(feat|fix|docs|refactor|chore)/([A-Z]+-[0-9]+)-.+$ ]]; then
+            TASK_ID="${BASH_REMATCH[2]}"
+          fi
+
+          BASE_REF=""
+          if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$BASE_BRANCH" ]; then
+            BASE_REF="origin/$BASE_BRANCH"
+          elif [ "$EVENT_NAME" = "workflow_dispatch" ] && git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            BASE_REF="HEAD^"
+          fi
+
+          echo "task_id=$TASK_ID" >> "$GITHUB_OUTPUT"
+          echo "base_ref=$BASE_REF" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "Resolved POC validation context: branch=${BRANCH:-<none>} task=${TASK_ID:-<none>} base=${BASE_REF:-<none>}"
+
       - name: Validate POC Program contract
         id: poc-program-validation
+        env:
+          TASK_ID: ${{ steps.poc-context.outputs.task_id }}
+          BASE_REF: ${{ steps.poc-context.outputs.base_ref }}
         run: |
           set -euo pipefail
           CHECKER="specs/poc/check_program.py"
@@ -62,7 +94,12 @@ jobs:
             exit 1
           fi
 
-          python "$CHECKER"
+          CHECK_ARGS=()
+          if [ -n "$TASK_ID" ] && [ -n "$BASE_REF" ]; then
+            CHECK_ARGS+=(--task "$TASK_ID" --base-ref "$BASE_REF" --head-ref HEAD)
+          fi
+
+          python "$CHECKER" "${CHECK_ARGS[@]}"
           python "$TESTS"
 
       - name: Generate POC Program report
@@ -72,7 +109,10 @@ jobs:
           CHECKOUT: ${{ steps.checkout.outcome }}
           SETUP_PYTHON: ${{ steps.setup-python.outcome }}
           INSTALL_DEPS: ${{ steps.install-deps.outcome }}
+          POC_CONTEXT: ${{ steps.poc-context.outcome }}
           POC_PROGRAM_VALIDATION: ${{ steps.poc-program-validation.outcome }}
+          RESOLVED_TASK: ${{ steps.poc-context.outputs.task_id }}
+          RESOLVED_BASE: ${{ steps.poc-context.outputs.base_ref }}
         run: |
           set -euo pipefail
           {
@@ -83,8 +123,11 @@ jobs:
             echo "| checkout | $CHECKOUT |"
             echo "| setup_python | $SETUP_PYTHON |"
             echo "| install_deps | $INSTALL_DEPS |"
+            echo "| poc_context | $POC_CONTEXT |"
             echo "| poc_program_validation | $POC_PROGRAM_VALIDATION |"
             echo
+            echo "Resolved task: ${RESOLVED_TASK:-<none>}"
+            echo "Resolved base: ${RESOLVED_BASE:-<none>}"
             echo "Commit: ${{ github.sha }}"
             echo "Ref: ${{ github.ref }}"
           } >> "$GITHUB_STEP_SUMMARY"
