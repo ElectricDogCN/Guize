@@ -3,48 +3,52 @@ GZ-003 command evidence
 Task: GZ-003
 Original Completion: PR #11 / 9e3a821ada292ac3ef69b7c059384d17f6530b48
 Status: COMPLETED
-Maintenance: OPS-003 / PR #44 validation in progress
+Maintenance: OPS-005 #50 / PR #51
 
-command: GET /repos/ElectricDogCN/Guize/actions/runs/33479774222
-execution context: authorized GitHub observation of failed GZ-010 Reservation Gate #374
+command: inspect `.github/workflows/governance-gate.yml` on main
+execution context: connected GitHub read, main@219d7096756ad75717a46d85baf7d2b216e2472b
 exit code: HTTP 200
 result: PASS
-observed result: Gate #374 failed only in governance tests; Program lifecycle, Agent Coordination, direct Schema, Evidence, Scope, Secret and static checks passed
-replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33479774222 --jq '[.head_sha,.run_number,.conclusion]'
+observed result: existing Governance Gate installs requirements-governance.txt but contains no POC Program validator/regression execution
 
-command: inspect Governance Gate #374 job log for `test_regular_program_task_activation_passes`
+command: create issue #50 and branch `fix/GZ-003-poc-program-gate` from main@219d7096756ad75717a46d85baf7d2b216e2472b
+execution context: connected GitHub write
+exit code: repository mutation success
+result: PASS
+
+command: add `.github/workflows/poc-program-gate.yml` and `tests/governance/test_poc_program_workflow_contract.py`
+execution context: connected GitHub write
+exit code: repository mutation success
+result: PASS
+observed result: pinned-action fail-closed POC Program Gate plus six workflow-contract tests added; no Program/POC/business semantics changed
+
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33711974636
+execution context: PR #51 exact-head POC Program Gate run #1
+exit code: HTTP 200
+result: PASS
+observed result: job `POC Program Checks` completed SUCCESS; dependencies installed; validation step detected that both POC validation files are absent in the maintenance checkout and emitted `POC-PROTOCOL-V1 is not present in this checkout; no POC Program validation is required.`
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33711974636 --jq '[.head_sha,.run_number,.conclusion]'
+
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33711974616
+execution context: PR #51 Governance Gate #416
+exit code: HTTP 200
+result: EXPECTED COMPLETED-TASK SELF-HOSTING FAILURE / DIAGNOSED
+observed result: 265/265 governance tests PASS; Program execution integrity/history/transitions/finalization PASS; Agent Coordination, Markdown, Schema, Secret, Evidence, Scope, Spec Sync and CI static checks PASS; sole failure is lifecycle guard rejecting `.github/workflows/poc-program-gate.yml` and `tests/governance/test_poc_program_workflow_contract.py` because completed GZ-003 metadata scope cannot authorize new Harness files
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33711974616 --jq '[.head_sha,.run_number,.conclusion]'
+
+command: inspect POC Program Gate #1 job log
 execution context: GitHub Actions log observation
 exit code: HTTP 200
 result: PASS
-observed result: 258 governance tests passed and the sole failure reported `Program Plan marks tasks active but Active Work Registry has no lease: GZ-010`; direct schema validation in the same run reported `OK PROGRAM ACTIVATION: GZ-010 <- W1`
+observed result: both POC files absent condition was evaluated explicitly before the partial-contract check; no validator/test failure was swallowed
 
-command: change `_activate_gz004()` to keep synthetic GZ-004 first and preserve existing non-GZ-004 Active Work
-execution context: PR #44 branch `fix/GZ-003-schema-fixture-active-work`
-exit code: repository commit success
+command: refresh canonical GZ-003 Evidence with observed PR #51 Gate facts
+execution context: connected GitHub write
+exit code: repository mutation success
 result: PASS
-observed result: tests/governance/test_check_schemas.py changed only `active["tasks"] = [registry]` to `[registry] + existing non-GZ-004 tasks`; production checker code and schemas are unchanged
 
-command: GET /repos/ElectricDogCN/Guize/actions/runs/33480225903
-execution context: authorized GitHub observation of PR #44 Gate #375
-exit code: HTTP 200
-result: EXPECTED SELF-HOSTING FAILURE / DIAGNOSED
-observed result: Gate #375 ran against the OPS-003 fixture repair; 259/259 governance tests passed, including `test_regular_program_task_activation_passes`; every non-Program-Finalization check passed
-replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33480225903 --jq '[.head_sha,.run_number,.conclusion]'
-
-command: inspect Gate #375 Program Integrity step
-execution context: GitHub Actions job log observation
-exit code: HTTP 200
-result: EXPECTED MAINTENANCE EVIDENCE FAILURE / DIAGNOSED
-observed result: Program integrity, history and transitions passed; Program Finalization required refreshed `evidence/GZ-003/handoff.md`, `summary.md`, `commands.txt`, and `test-results/README.md` because GZ-003 remains completed while the maintenance PR changes repository content
-
-command: refresh GZ-003 canonical Completion Evidence for OPS-003 maintenance
-execution context: current PR #44 branch
-exit code: repository commit success
-result: PASS
-observed result: four canonical Evidence files preserve the original GZ-003 Completion identity `9e3a821ada292ac3ef69b7c059384d17f6530b48` and record PR #42/#374 trigger, PR #44 repair, Gate #375 259/259 result, and the remaining validation boundary
-
-command: PR #44 latest exact-head Governance Gate, fresh review, Human/Integrator re-audit, expected-head merge and post-merge main Gate
-execution context: future OPS-003 validation
+command: latest exact-head Governance Gate + POC Program Gate + fresh review + Human/Integrator decision + post-main validation
+execution context: future validation after this Evidence-only update
 exit code: pending
 result: PENDING
-observed result: no latest-head Gate, review, merge, post-merge success, OPS-003 closure, or rebuilt GZ-010 success is claimed before GitHub executes it
+observed result: no latest-head review, merge, post-main success, OPS-005 closure or GZ-010 test success is pre-claimed
