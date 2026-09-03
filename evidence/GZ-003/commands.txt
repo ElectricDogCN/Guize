@@ -3,38 +3,52 @@ GZ-003 command evidence
 Task: GZ-003
 Original Completion: PR #11 / 9e3a821ada292ac3ef69b7c059384d17f6530b48
 Status: COMPLETED
-Maintenance: OPS-005 #50
+Maintenance: OPS-005 #50 / PR #51
 
 command: inspect `.github/workflows/governance-gate.yml` on main
 execution context: connected GitHub read, main@219d7096756ad75717a46d85baf7d2b216e2472b
+exit code: HTTP 200
 result: PASS
-observed result: Governance Gate installs requirements-governance.txt and validates repository governance, but contains no `specs/poc/check_program.py` or `specs/poc/test_program.py` execution step
+observed result: existing Governance Gate installs requirements-governance.txt but contains no POC Program validator/regression execution
 
-command: create issue #50 `OPS-005: wire POC-PROTOCOL validation into Governance Gate`
+command: create issue #50 and branch `fix/GZ-003-poc-program-gate` from main@219d7096756ad75717a46d85baf7d2b216e2472b
 execution context: connected GitHub write
+exit code: repository mutation success
 result: PASS
-observed result: maintenance scope explicitly limited to CI/Harness tests and GZ-003 Evidence
 
-command: create branch `fix/GZ-003-poc-program-gate` from main@219d7096756ad75717a46d85baf7d2b216e2472b
+command: add `.github/workflows/poc-program-gate.yml` and `tests/governance/test_poc_program_workflow_contract.py`
 execution context: connected GitHub write
+exit code: repository mutation success
 result: PASS
+observed result: pinned-action fail-closed POC Program Gate plus six workflow-contract tests added; no Program/POC/business semantics changed
 
-command: add `.github/workflows/poc-program-gate.yml`
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33711974636
+execution context: PR #51 exact-head POC Program Gate run #1
+exit code: HTTP 200
+result: PASS
+observed result: job `POC Program Checks` completed SUCCESS; dependencies installed; validation step detected that both POC validation files are absent in the maintenance checkout and emitted `POC-PROTOCOL-V1 is not present in this checkout; no POC Program validation is required.`
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33711974636 --jq '[.head_sha,.run_number,.conclusion]'
+
+command: GET /repos/ElectricDogCN/Guize/actions/runs/33711974616
+execution context: PR #51 Governance Gate #416
+exit code: HTTP 200
+result: EXPECTED COMPLETED-TASK SELF-HOSTING FAILURE / DIAGNOSED
+observed result: 265/265 governance tests PASS; Program execution integrity/history/transitions/finalization PASS; Agent Coordination, Markdown, Schema, Secret, Evidence, Scope, Spec Sync and CI static checks PASS; sole failure is lifecycle guard rejecting `.github/workflows/poc-program-gate.yml` and `tests/governance/test_poc_program_workflow_contract.py` because completed GZ-003 metadata scope cannot authorize new Harness files
+replay equivalent: gh api repos/ElectricDogCN/Guize/actions/runs/33711974616 --jq '[.head_sha,.run_number,.conclusion]'
+
+command: inspect POC Program Gate #1 job log
+execution context: GitHub Actions log observation
+exit code: HTTP 200
+result: PASS
+observed result: both POC files absent condition was evaluated explicitly before the partial-contract check; no validator/test failure was swallowed
+
+command: refresh canonical GZ-003 Evidence with observed PR #51 Gate facts
 execution context: connected GitHub write
+exit code: repository mutation success
 result: PASS
-observed result: separate POC Program Gate uses pinned checkout/setup-python, persist-credentials=false, requirements-governance.txt, fail-closed partial-contract detection, both mandatory POC commands, and an auditable summary
 
-command: add `tests/governance/test_poc_program_workflow_contract.py`
-execution context: connected GitHub write
-result: PASS
-observed result: six regression tests cover triggers, immutable actions/credentials, both commands, fail-closed partial contract, absent-contract skip semantics, summary and stale-run cancellation
-
-command: refresh canonical GZ-003 maintenance Evidence
-execution context: connected GitHub write
-result: PASS
-observed result: original GZ-003 Completion identity is preserved and no future Gate/review/merge result is pre-claimed
-
-command: exact-head Governance Gate + POC Program Gate + review + post-main validation
-execution context: future GitHub Actions / review
+command: latest exact-head Governance Gate + POC Program Gate + fresh review + Human/Integrator decision + post-main validation
+execution context: future validation after this Evidence-only update
+exit code: pending
 result: PENDING
-observed result: no success is claimed before the PR exists and GitHub executes the checks
+observed result: no latest-head review, merge, post-main success, OPS-005 closure or GZ-010 test success is pre-claimed
