@@ -51,14 +51,35 @@ protocol:
   - id: range_through_path
     metric: Range through tunnel/CDN
     unit: boolean
-    method: Replay Range matrix through intended public path.
+    method: Replay Range matrix through intended public path with a valid authorized identity.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: unauthorized_identity_denied
+    metric: Unauthorized identity denied on public Range path
+    unit: boolean
+    method: Attempt the same protected Range requests without a valid identity and require fail-closed denial without payload disclosure.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: expired_authorization_denied
+    metric: Expired authorization denied on public Range path
+    unit: boolean
+    method: Replay protected Range requests with an expired authorization and require fail-closed denial without payload disclosure.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: cross_user_cache_isolation
+    metric: Cross-user cache leakage prevented
+    unit: boolean
+    method: Alternate authorized test identities with different ACL outcomes through the same tunnel/CDN/cache path and prove one identity cannot receive another identity's protected payload.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   exitCriteria:
   - TLS/IPv6 path is reproducible.
-  - Range survives tunnel/CDN path without authorization bypass.
+  - Authorized Range survives tunnel/CDN path.
+  - Unauthorized and expired authorization requests fail closed with no protected payload leakage.
+  - Cross-user cache isolation prevents ACL bypass through the public path.
   failureFallbacks:
   - If direct IPv6/CDN path fails, document tunnel/reverse-proxy alternative and operational constraints.
+  - If any authorization or cache-isolation gate fails, block the public access design until the cache key/auth boundary is corrected and retested.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
