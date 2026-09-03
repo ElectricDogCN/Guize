@@ -10,6 +10,7 @@ resources:
 environmentCaptured: {}
 commands:
 - command: REPLACE_WITH_EXACT_COMMAND
+  expectedExitCodes: [0]
   exitCode: 0
   outputRef: evidence/POC-000/raw/command-001.log
 rawOutputRefs:
