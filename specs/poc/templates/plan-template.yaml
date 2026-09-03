@@ -1,0 +1,38 @@
+schemaVersion: 1
+pocId: POC-XX
+taskId: POC-XXX
+title: REPLACE
+status: planned
+resultStatus: not_started
+riskLevel: medium
+wave: W0
+dependsOn: []
+requirementIds: []
+moduleIds: []
+evidencePath: evidence/POC-XXX
+resourceIds: []
+sampleIds: []
+environment:
+  captureBeforeExecution: []
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements: []
+  exitCriteria: []
+  failureFallbacks: []
+  rollbackCleanup: []
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

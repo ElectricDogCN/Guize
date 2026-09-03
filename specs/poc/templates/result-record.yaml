@@ -1,0 +1,11 @@
+schemaVersion: 1
+pocId: POC-00
+taskId: POC-000
+status: inconclusive
+evidencePath: evidence/POC-000
+executionRef: evidence/POC-000/execution.yaml
+decision: inconclusive
+rationale: Replace with evidence-backed terminal rationale.
+reviewer: independent-review-agent
+approvedAt: 2000-01-01T00:00:00Z
+approval: approved

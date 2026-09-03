@@ -1,0 +1,23 @@
+schemaVersion: 1
+taskId: GZ-010
+executionAllowedInGz010: false
+sampleExecutionRequiresApproval: true
+canonicalPlansImmutable: true
+cataloguesImmutableInPocTasks: true
+terminalEvidenceMustExist: true
+terminalReviewRoleBound: true
+resultIndexRowOwnershipRequired: true
+highCriticalIsolation: true
+criticalStandalone: true
+maxConcurrentHighCritical: 1
+sensitiveMaterialPolicy: Secrets, credentials, tokens and private keys must never be committed; safe credential metadata keys are permitted only when their value is exactly false, and runtime credentials remain outside repository.
+dataPolicy: Only approved non-sensitive, synthetic or de-identified samples may be executed; task-owned sample approval Evidence must bind sample ID, immutable ID, SHA-256, approver and UTC approval instant, and canonical catalogues remain unchanged.
+rawEvidencePolicy: Raw experiment evidence belongs only under the independent POC task Evidence path and terminal references must resolve to existing regular files without path or symlink escape.
+environmentCapturePolicy: Required OS/tool/driver/runtime/model/input provenance values must be nonempty and non-placeholder before terminal acceptance; model/version/prompt/input identifiers are textual.
+commandRecordingPolicy: Canonical plans stay command-free; executing POC tasks record commands only in their task-owned execution record.
+measurementPolicy: Canonical plan actual values stay null; executing POC tasks record finite numeric or strict boolean measurements in Evidence.
+reviewPolicy: Terminal results bind to the concrete reviewer in the persistent POC Task Spec, must differ from the concrete implementer/executor, and must use a valid UTC approval instant; matching Active Work identities are required while the POC task is active.
+decisionPolicy: Prose alone cannot establish PASS; existing raw Evidence, complete measurements, approved sample records, complete provenance and an approved independent result record are mandatory.
+resultsIndexPolicy: A downstream POC task may update only its own row in specs/poc/results-index.yaml; task validation must compare the row diff against the target base.
+concurrencyPolicy: At most one high/critical POC may be running at a time and a critical POC must run standalone.
+requirementsPolicy: POC results cannot silently modify frozen product requirements; requirement changes use a separate governed task.

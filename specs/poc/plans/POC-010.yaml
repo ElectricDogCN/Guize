@@ -1,0 +1,111 @@
+schemaVersion: 1
+pocId: POC-10
+taskId: POC-010
+title: PostgreSQL/OpenBao/文件/Bundle 恢复与回读
+status: planned
+resultStatus: not_started
+riskLevel: critical
+wave: W11
+dependsOn:
+- GZ-007
+- GZ-008
+- GZ-010
+- GZ-012
+- POC-004
+requirementIds:
+- REQ-V1-0006
+- REQ-V1-0010
+moduleIds:
+- MOD-DATA
+- MOD-STORAGE
+- MOD-DEPLOY
+evidencePath: evidence/POC-010
+resourceIds:
+- RES-RECOVERY-SANDBOX
+sampleIds:
+- SAMPLE-RECOVERY-FIXTURE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: db_restore
+    metric: PostgreSQL restore/readback
+    unit: boolean
+    method: Restore sandbox backup and verify expected records/checksums.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: secret_store_restore
+    metric: OpenBao configuration and secret-reference restore
+    unit: boolean
+    method: Restore sandbox secret-store configuration, policies, mounts and references without writing secret plaintext into Git/Evidence.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: secret_value_roundtrip
+    metric: OpenBao secret value restore and readback matches pre-backup value
+    unit: boolean
+    method: In an isolated sandbox, write a generated ephemeral secret, record only an approved one-way/HMAC comparison artifact, back up and restore OpenBao, read the value through runtime access, and verify pre/post equality without logging or committing plaintext.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: secret_unreadable_failure_detected
+    metric: Corrupted or decryption-mismatched secret backup fails closed
+    unit: boolean
+    method: Exercise an isolated unreadable/decryption-mismatched recovery fixture and require explicit restore/readback failure rather than accepting references as recovered.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: file_restore
+    metric: File/bundle restore/readback
+    unit: boolean
+    method: Restore approved fixture and verify checksums.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: rpo_observed
+    metric: Observed recovery point
+    unit: s
+    method: Calculate from controlled backup/recovery timestamps.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: rto_observed
+    metric: Observed recovery time
+    unit: s
+    method: Measure controlled end-to-end recovery duration.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Database, OpenBao configuration, actual secret values, files and deployment bundle can be restored/read back in an isolated sandbox.
+  - Secret value round-trip comparison succeeds without committing plaintext or backup keys to Git/Evidence.
+  - A corrupted or decryption-mismatched secret backup is rejected and cannot be misreported as recovered.
+  - RPO/RTO evidence is measured rather than assumed.
+  failureFallbacks:
+  - If unified recovery fails, split recovery procedures by data/control plane and block production release until reconciled.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Revoke/destroy generated sandbox-only secret material outside the repository after Evidence-safe comparison artifacts are captured.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: true
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

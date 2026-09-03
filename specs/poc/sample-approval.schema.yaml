@@ -1,0 +1,39 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+additionalProperties: false
+required:
+- schemaVersion
+- pocId
+- taskId
+- sampleId
+- immutableId
+- checksum
+- decision
+- approver
+- approvedAt
+properties:
+  schemaVersion:
+    const: 1
+  pocId:
+    type: string
+    pattern: ^POC-[0-9]{2}$
+  taskId:
+    type: string
+    pattern: ^POC-[0-9]{3}$
+  sampleId:
+    type: string
+    pattern: ^SAMPLE-[A-Z0-9-]+$
+  immutableId:
+    type: string
+    pattern: ^[A-Za-z0-9][A-Za-z0-9._:@/-]{7,127}$
+  checksum:
+    type: string
+    pattern: ^sha256:[0-9a-fA-F]{64}$
+  decision:
+    const: approved
+  approver:
+    type: string
+    minLength: 1
+  approvedAt:
+    type: string
+    format: date-time
