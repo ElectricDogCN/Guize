@@ -13,8 +13,10 @@ required:
 - resultsIndex
 - executionRecordSchema
 - resultRecordSchema
+- sampleApprovalSchema
 - executionRecordTemplate
 - resultRecordTemplate
+- sampleApprovalTemplate
 - planFiles
 - executionEnabled
 - notes
@@ -44,10 +46,14 @@ properties:
     const: execution-record.schema.yaml
   resultRecordSchema:
     const: result-record.schema.yaml
+  sampleApprovalSchema:
+    const: sample-approval.schema.yaml
   executionRecordTemplate:
     const: templates/execution-record.yaml
   resultRecordTemplate:
     const: templates/result-record.yaml
+  sampleApprovalTemplate:
+    const: templates/sample-approval.yaml
   planFiles:
     type: array
     minItems: 10
