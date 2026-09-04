@@ -1,61 +1,41 @@
-GZ-014 Foundation completion command evidence
+GZ-014 / OPS-008 Program Registration self-hosting command evidence
 
-command: inspect PR #32 exact HEAD 9adf9a135fabe4581285a945b4b434d9302e9a80
-exit code: HTTP 200
-result: PASS
-observed result: exact five-file completion-readiness regression repair; no Foundation completion metadata or downstream activation
+Foundation completion identity: PR #32 / 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
+Maintenance issue: #57
+Draft PR: #58
+Base: 3acc6e4ee582f4fdee8ba90c630bf99eb870b252
+Branch: fix/GZ-014-program-registration-bootstrap
 
-command: inspect Governance Gate run #292 for PR #32 exact HEAD
-exit code: HTTP 200
-result: PASS
-observed result: all mandatory Task, lifecycle, Program, Registry, schema, governance-test, Evidence, scope, secret and spec-sync checks succeeded
-
-command: merge PR #32 with expected_head_sha=9adf9a135fabe4581285a945b4b434d9302e9a80
-exit code: 0
-result: PASS
-observed result: GZ-014 completion-readiness repair merged as 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
-
-command: inspect post-merge main Governance Gate run #293
-exit code: HTTP 200
-result: PASS
-observed result: all mandatory main-push checks succeeded on main@8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
-
-command: verify Foundation completion ancestry
-exit code: 0
-result: PASS
-observed result: prior GZ-014 integration base c26fc712e050dba4e83c9af022fd25b8f7e84d6d is a strict ancestor of 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87; the 8221 commit message identifies GZ-014 and #32
-
-command: create branch chore/GZ-014-foundation-completion-v3 from 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
-exit code: 0
-result: PASS
-observed result: clean Completion branch created from the exact green post-integration main commit
-
-command: update specs/coordination/program-plan.yaml
-exit code: 0
-result: PASS
-observed result: only GZ-014 Foundation changed from integration to completed with completionRef PR-32 and mergeCommit 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
-
-command: update specs/coordination/active-work.yaml
-exit code: 0
-result: PASS
-observed result: removed only the GZ-014 Active Work Lease; maxActiveTasks, maxHighRiskTasks, leaseMaxHours and bootstrapTasks remain unchanged
-
-command: update specs/tasks/GZ-014.md
-exit code: 0
-result: PASS
-observed result: Task status completed; workBranch/baseSha set to the v3 Completion branch and 8221 green base; exact exitGate and prior lease path declarations preserved
-
-command: update evidence/GZ-014/{summary.md,commands.txt,changed-files.md,test-results/README.md,handoff.md}
-exit code: 0
-result: PASS
-observed result: task-bound Evidence records GZ-014, PR #32, full 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87, Foundation completion semantics, executed predecessor commands and explicit PASS/COMPLETED tokens
-
-command: inspect Issue #17
-exit code: HTTP 200
-result: PASS
-observed result: Issue #17 is closed and GitHub reports state_reason=completed
-
-command: PR #33 exact-head Governance Gate, fresh Review, expected-head merge and post-merge main Gate
-exit code: pending
+command: python -m pip install -r requirements-governance.txt
+exit code: PENDING_EXACT_HEAD_RUN
 result: PENDING
-observed result: no future PR #33 Gate, Review, merge or post-merge main success is claimed before GitHub executes it
+
+command: python -m compileall -q scripts tests
+exit code: PENDING_EXACT_HEAD_RUN
+result: PENDING
+
+command: python scripts/check-project-readiness.py
+exit code: PENDING_EXACT_HEAD_RUN
+result: PENDING
+
+command: python scripts/check-schemas.py
+exit code: PENDING_EXACT_HEAD_RUN
+result: PENDING
+
+command: python -m pytest tests/governance/ -v -ra
+exit code: PENDING_EXACT_HEAD_RUN
+result: PENDING
+
+command: make verify TASK=GZ-014 BASE=origin/main HEAD_REF=HEAD BRANCH=fix/GZ-014-program-registration-bootstrap
+exit code: PENDING_EXACT_HEAD_RUN
+result: PENDING
+
+command: inspect exact PR #58 Governance Gate and generated merge SHA
+exit code: PENDING_GITHUB
+result: PENDING
+
+command: independent exact-head review
+exit code: PENDING_REVIEW
+result: PENDING
+
+No command is represented as successful before its immutable exact-head output is read. The only potentially accepted PR-level red classification is the unsuppressed completed-GZ-014 self-hosting scope boundary defined by Issue #57; every functional command, governance test and unaffected Gate must pass.
