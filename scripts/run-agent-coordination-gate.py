@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 """Run the mandatory Agent Coordination mode for the current Task.
 
-Implementation work is validated against its Active Work path claims. A
-reservation, blocked-state update, cancellation, or Completion PR intentionally
-changes canonical lifecycle metadata outside implementation output paths; those
-narrow transitions are validated against the target branch by the mandatory
-Program History/Transitions/Finalization checks. This dispatcher therefore
-runs task-specific coordination only for implementation/review/integration and
-runs global Registry validation for metadata-only lifecycle PRs.
+Implementation work is validated against Active Work path claims. Registration
+is metadata-only and is validated by the shared history-aware Registration
+checker; it never invokes ordinary coordination and never owns a Lease.
 """
 
 from __future__ import annotations
@@ -21,13 +17,16 @@ from typing import Any
 import yaml
 
 IMPLEMENTATION_TASK_STATES = {"in_progress", "review", "integration"}
+REGISTRATION_TASK_STATES = {"planned"}
 METADATA_TASK_STATES = {"reserved", "blocked", "cancelled", "completed"}
 PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
 NONE_VALUES = {"", "NONE", "none", "null", "N/A", "n/a"}
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Dispatch the Agent Coordination gate")
+    parser = argparse.ArgumentParser(
+        description="Dispatch the Agent Coordination gate"
+    )
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--task", default="")
     parser.add_argument("--base-ref", default="")
@@ -36,6 +35,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--coordination-script",
         default="scripts/check-agent-coordination.py",
+        help="Override only for isolated dispatcher tests",
+    )
+    parser.add_argument(
+        "--registration-script",
+        default="scripts/check-program-task-registration.py",
         help="Override only for isolated dispatcher tests",
     )
     return parser.parse_args()
@@ -70,17 +74,17 @@ def task_document(path: str) -> dict[str, Any]:
     return document
 
 
-def task_status(path: str) -> str:
-    return str(task_document(path).get("status") or "")
-
-
 def as_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [str(item) for item in value]
     text = str(value or "").strip()
     if text in NONE_VALUES:
         return []
-    return [part.strip() for part in text.strip("[]").split(",") if part.strip()]
+    return [
+        part.strip()
+        for part in text.strip("[]").split(",")
+        if part.strip()
+    ]
 
 
 def load_program_plan(root: str) -> tuple[dict[str, Any] | None, list[str]]:
@@ -97,21 +101,29 @@ def load_program_plan(root: str) -> tuple[dict[str, Any] | None, list[str]]:
     return plan, []
 
 
-def validate_completed_foundation_specs(root: str, plan: dict[str, Any]) -> list[str]:
-    """Preserve schema-versioned Foundation completion; limit legacy exception."""
+def validate_completed_foundation_specs(
+    root: str, plan: dict[str, Any]
+) -> list[str]:
     errors: list[str] = []
     for foundation in plan.get("foundationTasks") or []:
-        if not isinstance(foundation, dict) or foundation.get("status") != "completed":
+        if (
+            not isinstance(foundation, dict)
+            or foundation.get("status") != "completed"
+        ):
             continue
         task_id = str(foundation.get("taskId") or "")
         spec = find_task_file(root, task_id)
         if not spec:
-            errors.append(f"Completed Foundation task {task_id} has no unique Task Spec")
+            errors.append(
+                f"Completed Foundation task {task_id} has no unique Task Spec"
+            )
             continue
         try:
             document = task_document(spec)
         except (OSError, ValueError, yaml.YAMLError) as exc:
-            errors.append(f"Completed Foundation task {task_id} Task Spec is unreadable: {exc}")
+            errors.append(
+                f"Completed Foundation task {task_id} Task Spec is unreadable: {exc}"
+            )
             continue
         schema_version = document.get("schemaVersion")
         status = document.get("status")
@@ -122,14 +134,14 @@ def validate_completed_foundation_specs(root: str, plan: dict[str, Any]) -> list
                 )
         elif status != "completed":
             errors.append(
-                f"schemaVersion {schema_version} completed Foundation task {task_id} Task Spec "
-                f"status must remain completed, got {status!r}"
+                f"schemaVersion {schema_version} completed Foundation task {task_id} Task Spec status must remain completed, got {status!r}"
             )
     return errors
 
 
-def validate_completed_program_specs(root: str, plan: dict[str, Any]) -> list[str]:
-    """Reject completed Program tasks whose Task Spec identity has drifted."""
+def validate_completed_program_specs(
+    root: str, plan: dict[str, Any]
+) -> list[str]:
     errors: list[str] = []
     scalar_pairs = {
         "title": "titleZh",
@@ -154,18 +166,21 @@ def validate_completed_program_specs(root: str, plan: dict[str, Any]) -> list[st
         task_id = str(task.get("taskId") or "")
         spec = find_task_file(root, task_id)
         if not spec:
-            errors.append(f"Completed Program task {task_id} has no unique Task Spec")
+            errors.append(
+                f"Completed Program task {task_id} has no unique Task Spec"
+            )
             continue
         try:
             document = task_document(spec)
         except (OSError, ValueError, yaml.YAMLError) as exc:
-            errors.append(f"Completed Program task {task_id} Task Spec is unreadable: {exc}")
+            errors.append(
+                f"Completed Program task {task_id} Task Spec is unreadable: {exc}"
+            )
             continue
 
         if document.get("status") != "completed":
             errors.append(
-                f"Completed Program task {task_id} Task Spec status must be exactly completed, "
-                f"got {document.get('status')!r}"
+                f"Completed Program task {task_id} Task Spec status must be exactly completed, got {document.get('status')!r}"
             )
         if document.get("programPlan") != PROGRAM_PLAN:
             errors.append(
@@ -180,55 +195,113 @@ def validate_completed_program_specs(root: str, plan: dict[str, Any]) -> list[st
                 f"Completed Program task {task_id} Task Spec coordinationMode must remain registry"
             )
         for plan_field, spec_field in scalar_pairs.items():
-            if str(document.get(spec_field, "")) != str(task.get(plan_field, "")):
+            if str(document.get(spec_field, "")) != str(
+                task.get(plan_field, "")
+            ):
                 errors.append(
-                    f"Completed Program task {task_id} Task Spec {spec_field} does not match "
-                    f"Program Plan {plan_field}"
+                    f"Completed Program task {task_id} Task Spec {spec_field} does not match Program Plan {plan_field}"
                 )
-        if task.get("issue") is not None and str(document.get("issue", "")) != str(
-            task.get("issue")
-        ):
+        if task.get("issue") is not None and str(
+            document.get("issue", "")
+        ) != str(task.get("issue")):
             errors.append(
                 f"Completed Program task {task_id} Task Spec issue does not match Program Plan"
             )
         for field in list_fields:
-            if as_list(document.get(field)) != [str(item) for item in task.get(field) or []]:
+            if as_list(document.get(field)) != [
+                str(item) for item in task.get(field) or []
+            ]:
                 errors.append(
                     f"Completed Program task {task_id} Task Spec {field} does not match Program Plan"
                 )
     return errors
 
 
+def resolve_script(root: str, value: str) -> str:
+    return value if os.path.isabs(value) else os.path.join(root, value)
+
+
 def main() -> int:
     args = parse_args()
     root = os.path.abspath(args.repo_root)
-    script = args.coordination_script
-    if not os.path.isabs(script):
-        script = os.path.join(root, script)
-    if not os.path.isfile(script):
-        print(f"FAIL: Coordination checker does not exist: {script}")
+    coordination_script = resolve_script(root, args.coordination_script)
+    if not os.path.isfile(coordination_script):
+        print(
+            f"FAIL: Coordination checker does not exist: {coordination_script}"
+        )
         return 2
 
     plan, lifecycle_errors = load_program_plan(root)
     if plan is not None:
-        lifecycle_errors.extend(validate_completed_foundation_specs(root, plan))
+        lifecycle_errors.extend(
+            validate_completed_foundation_specs(root, plan)
+        )
         lifecycle_errors.extend(validate_completed_program_specs(root, plan))
     if lifecycle_errors:
         for error in lifecycle_errors:
             print(f"FAIL: {error}")
         return 2
 
-    command = [sys.executable, script, "--repo-root", root]
+    command = [
+        sys.executable,
+        coordination_script,
+        "--repo-root",
+        root,
+    ]
     if args.task:
         path = find_task_file(root, args.task)
         if not path:
             print(f"FAIL: Task Spec not found for {args.task}")
             return 2
         try:
-            status = task_status(path)
+            document = task_document(path)
+            status = str(document.get("status") or "")
         except (OSError, ValueError, yaml.YAMLError) as exc:
-            print(f"FAIL: Cannot read Task Spec status for {args.task}: {exc}")
+            print(
+                f"FAIL: Cannot read Task Spec status for {args.task}: {exc}"
+            )
             return 2
+
+        if status in REGISTRATION_TASK_STATES:
+            if document.get("coordinationMode") != "registration":
+                print(
+                    "FAIL: planned Task requires coordinationMode registration"
+                )
+                return 2
+            if not args.base_ref or not args.head_ref:
+                print(
+                    "FAIL: Registration coordination requires exact base/head refs"
+                )
+                return 2
+            registration_script = resolve_script(
+                root, args.registration_script
+            )
+            if not os.path.isfile(registration_script):
+                print(
+                    f"FAIL: Registration checker does not exist: {registration_script}"
+                )
+                return 2
+            registration_command = [
+                sys.executable,
+                registration_script,
+                "--repo-root",
+                root,
+                "--base-ref",
+                args.base_ref,
+                "--head-ref",
+                args.head_ref,
+                "--task",
+                args.task,
+            ]
+            if args.branch_name:
+                registration_command += [
+                    "--branch-name",
+                    args.branch_name,
+                ]
+            return subprocess.run(
+                registration_command, cwd=root, check=False
+            ).returncode
+
         if status in IMPLEMENTATION_TASK_STATES:
             command += ["--task", args.task]
             if args.base_ref:
@@ -245,15 +318,15 @@ def main() -> int:
                 "completed": "Completion PR",
             }[status]
             print(
-                f"INFO: {args.task} is a {label}; exact target-base lifecycle and file scope "
-                "are validated by the mandatory Program History/Transitions/Finalization gates."
+                f"INFO: {args.task} is a {label}; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates."
             )
         else:
-            print(f"FAIL: Unsupported Task status for coordination dispatch: {status!r}")
+            print(
+                f"FAIL: Unsupported Task status for coordination dispatch: {status!r}"
+            )
             return 2
 
-    result = subprocess.run(command, cwd=root, check=False)
-    return result.returncode
+    return subprocess.run(command, cwd=root, check=False).returncode
 
 
 if __name__ == "__main__":
