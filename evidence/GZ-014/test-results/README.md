@@ -1,58 +1,51 @@
-# GZ-014 Test Results
+# GZ-014 OPS-008 Test Results
 
-Status: PASS
+Status: PENDING_EXACT_HEAD_VALIDATION
 
-> `PASS` 表示当前 Foundation completion 快照满足结构化 Evidence 输入要求，并且其前置 PR #32 / post-merge main 验证已成功。PR #33 自身的最新远端 Gate、Review、merge 和 post-merge main 仍必须分别读取 GitHub 实际结果。
+## Immutable history
 
-## Verified predecessor lifecycle
+- GZ-014 remains completed.
+- Original completion identity remains PR #32 / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+- OPS-008 maintenance is tracked by Issue #57 and Draft PR #58 from `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`.
 
-- PR #32 exact HEAD: `9adf9a135fabe4581285a945b4b434d9302e9a80`.
-- PR #32 Governance Gate run #292: `PASS`.
-- PR #32 expected-head merge: `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
-- PR #32 post-merge main Governance Gate run #293: `PASS`.
-- Ancestry: prior GZ-014 integration base `c26fc712e050dba4e83c9af022fd25b8f7e84d6d` is a strict ancestor of `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
-- Commit identity: `8221fd0f...` identifies GZ-014 and PR #32.
+## Required focused coverage
 
-## Completion commands
+The exact candidate must prove:
 
-PR #33 latest HEAD executes through Governance Gate:
+- valid task-aware and no-task/push Registration;
+- exactly one new high/critical planned task;
+- matching schemaVersion 2 Registration Task Spec;
+- unchanged Active Work and Completion Ledger;
+- no Lease or ordinary execution/scope dispatch;
+- complete Program/Task identity mapping;
+- legal later-planned dependency tail append;
+- valid Wave direction, DAG and final-task closure;
+- fail-closed multiple-task, existing-task, status, identity, branch, base, Lease, ledger, unrelated-path, dependency, cycle, rename/copy, symlink and combined-phase mutations;
+- preservation of all non-Registration transition/lifecycle behavior and OPS-007 Wave semantics.
+
+## Required exact-head commands
 
 ```bash
-python scripts/check-task-file.py --task GZ-014
+python -m compileall -q scripts tests
+python -m pytest \
+  tests/governance/test_program_task_registration.py \
+  tests/governance/test_program_registration_dispatch.py \
+  tests/governance/test_program_plan_transitions.py \
+  tests/governance/test_program_lifecycle_guards.py \
+  -v -ra
 python scripts/check-project-readiness.py
 python scripts/check-schemas.py
-python scripts/run-program-lifecycle-gate.py \
-  --base-ref origin/main \
-  --head-ref HEAD \
-  --task GZ-014 \
-  --branch-name chore/GZ-014-foundation-completion-v3
-python scripts/run-agent-coordination-gate.py \
-  --task GZ-014 \
-  --base-ref origin/main \
-  --head-ref HEAD \
-  --branch-name chore/GZ-014-foundation-completion-v3
-python scripts/run-task-scope-gate.py --task GZ-014 --base origin/main
-python scripts/check-evidence.py --task GZ-014
-make verify \
-  TASK=GZ-014 \
-  BASE=origin/main \
-  HEAD_REF=HEAD \
-  BRANCH=chore/GZ-014-foundation-completion-v3
+python -m pytest tests/governance/ -v -ra
+make verify TASK=GZ-014 BASE=origin/main HEAD_REF=HEAD BRANCH=fix/GZ-014-program-registration-bootstrap
 ```
 
-## Fail-closed assertions represented by this snapshot
+## Current results
 
-- GZ-014 exists in `foundationTasks` and moves only `integration -> completed`;
-- `completionRef` is exactly `PR-32`;
-- `mergeCommit` is exactly `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`;
-- Issue #17 is closed/completed;
-- GZ-014 Lease is absent after completion, while Registry policy is unchanged;
-- ordinary Task Completion Ledger is unchanged;
-- Task `exitGate` is unchanged;
-- exact diff is limited to the declared eight files;
-- Evidence contains required identity, commands, exit status and explicit PASS/COMPLETED tokens;
-- no W1 task is activated in the same change.
+- Focused tests: `PENDING`.
+- Full governance tests: `PENDING`.
+- Skipped tests: `PENDING`; required value is zero.
+- PR #58 Governance Gate: `PENDING`.
+- Independent exact-head Review: `PENDING`.
+- Merge/post-main Gate: not authorized and not claimed.
 
-Result: PASS
-
-The completion snapshot is internally valid. Final completion is accepted only after the latest PR #33 Gate and Review succeed, expected-head merge completes, and the resulting `main` Gate is observed as `PASS`.
+This file must be updated with actual commands, exit codes, collected/passed/failed/skipped counts and the immutable candidate HEAD before independent review.

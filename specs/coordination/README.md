@@ -15,52 +15,73 @@
 | `program-plan.schema.yaml` | Program Plan 结构契约 |
 | `active-work.yaml` | 当前活动任务 Registry |
 | `active-work.schema.yaml` | Registry 结构契约 |
+| `task-completions.yaml` | 普通 Program Task 的不可变完成记录 |
+| `task-completions.schema.yaml` | 完成记录结构契约 |
 
 旧 `work-package-plan.yaml` 已被 Program Plan 替代，不得重新创建第二份后续任务计划。
 
 ## 从计划到合并
 
 ```text
-Program Plan 中任务可启动
+需求/契约允许新增任务
 → Coordinator 检查依赖/Wave/外部 blocker
-→ Issue + Task Spec + Evidence
-→ reservation PR 写入 active-work
-→ reservation Gate/Review/Merge
-→ Implementer 从 reservation 后最新 main 创建登记分支
+→ Issue + Registration Task Spec + Evidence
+→ Registration PR：absent → planned，无 Lease、无实现权限
+→ Registration Gate/Review/Merge + post-main Gate
+→ Reservation PR：planned → reserved，创建唯一 Active Work Lease
+→ Reservation Gate/Review/Merge + post-main Gate
+→ Activation PR：reserved → in_progress，保持身份/范围/Lease
+→ Activation Gate/Review/Merge + post-main Gate
+→ Implementer 从 Activation 后 main 使用登记分支实现
 → Implement + Tests + Evidence + Handoff
 → Independent Review
 → Integrator 检查契约/迁移/行为冲突
-→ Integration PR Merge
-→ Registry 完成/释放
-→ Program Plan 状态更新
+→ Review / Integration / Completion 独立生命周期 PR
+→ Registry 释放
+→ Program Plan 完成状态和 Completion Ledger 同步
 ```
 
-非治理紧急修复若不在 Program Plan 中，必须先用独立高风险治理任务修订 Program Plan，不能只创建 Issue 后直接开工。
+非治理紧急修复若不在 Program Plan 中，必须先通过独立 high-risk Registration；不能只创建 Issue 后直接开工，也不能借用已完成任务的身份。
 
-## 启动条件
+## Registration 启动条件
 
-一个任务只有同时满足以下条件才可 reservation：
+一个尚不存在于 Program Plan 的普通任务只有同时满足以下条件才能登记为 `planned`：
 
-1. `program-plan.yaml` 中存在唯一 Task ID；
+1. exactly one 新 Task ID；
+2. schemaVersion 2 Task Spec 与 Program task 的身份、风险、Wave、依赖、Requirement、Module、路径、契约、Issue、branch pattern 和 exit gate 完全一致；
+3. `coordinationMode: registration`、`agentRole: coordinator`；
+4. Program Plan 变更为 high/critical 风险，并配置不同的 Implementer 与 Reviewer；
+5. Active Work 和 Completion Ledger 字节不变；
+6. 不存在 `leaseExpiresAt`、Lease、实现文件、执行结果或完成声明；
+7. 只允许 Program Plan、新 Task Spec、`evidence/<TASK-ID>/**`，以及经共享校验器证明的 later-planned `dependsOn` 尾追加；
+8. 依赖存在、Wave 方向合法、无环，且新任务仍在 required final task 的传递闭包中；
+9. exact base SHA、实际分支和 Task branch pattern 一致；
+10. PR task-aware 和 push/no-task 模式产生相同结论。
+
+`planned` 只是计划登记状态。它不得进入普通 Agent Coordination、Task Scope、执行、Review、Integration、Completion 或 Result 路径。
+
+## Reservation 与 Activation 条件
+
+Registration 合并且 exact post-main Gate 成功后，才允许 Reservation：
+
+1. Program Plan 中存在唯一 Task ID，状态为 `planned`；
 2. `dependsOn` 已完成或输出已冻结为机器契约；
 3. 当前 Wave 的并行和 high-risk 容量未超限；
 4. external blocker 不禁止该任务；
 5. Requirement、Module、output/shared path 和 contract producer/consumer 与计划一致；
 6. high/critical 任务具有独立 Implementer 与 Reviewer；
-7. Task Spec、Registry、Issue 和 branch name 使用同一任务定义。
+7. Reservation 独立 PR 仅执行 `planned -> reserved` 并创建唯一 Lease；
+8. Reservation 合并且 post-main Gate 成功后，Activation 独立 PR 才能执行 `reserved -> in_progress`；
+9. Activation 不得改变已审查角色、依赖、契约或路径。
 
-## 两阶段协议
+## 四阶段协议
 
-1. Coordinator 创建 Issue、schemaVersion 2 Task Spec 和 Evidence；
-2. 通过独立 reservation PR 把任务写入 `active-work.yaml`；
-3. reservation PR 合并后，Implementer 从最新 `main` 创建实现分支；
-4. 实现阶段把登记状态改为 `in_progress`，不得改变已审查角色和路径而不修订 reservation；
-5. Reviewer 只审查，不在同一高风险任务中兼任 Implementer；
-6. Integrator 复核依赖、公共契约、Migration、行为冲突和 Handoff；
-7. 合并后通过治理提交把 Registry 标记完成或释放，并同步 Program Plan 状态；
-8. 过期、取消或阻塞登记由 Coordinator 通过独立治理 PR 清理。
+1. **Registration**：exactly one `absent -> planned`，metadata-only，无 Lease/实现权限。
+2. **Reservation**：`planned -> reserved`，建立唯一、未过期 Lease。
+3. **Activation**：`reserved -> in_progress`，绑定 Reservation 后绿色 main。
+4. **Implementation**：只从 Activation 后 main 开始实现；Reviewer 独立审查，Integrator 在后续独立生命周期 PR 中完成集成和释放。
 
-GZ-003 是机制 bootstrap，列入 `policy.bootstrapTasks`；GZ-014 通过真实 reservation 验证并扩展该机制。
+GZ-003 是原始机制 bootstrap；GZ-014 通过真实 reservation 验证并扩展机制。OPS-008 是一次性 self-hosting maintenance，用于建立通用 Registration，而不是给任何具体任务添加 allowlist。
 
 ## 路径与公共契约
 
@@ -77,6 +98,7 @@ GZ-003 是机制 bootstrap，列入 `policy.bootstrapTasks`；GZ-014 通过真�
 - Program Plan 和 Registry 默认最多 3 个并行任务；
 - 默认最多 1 个 high/critical 风险任务；
 - critical 任务单独一个 Wave；
+- 终态 `completed` / `cancelled` 历史不占结构性 Wave 槽位，但仍参加 Schema、DAG、契约和发布闭包校验；
 - 未冻结共同机器契约前，不并行实现同一契约的多个消费者；
 - 审查者只能按可实际处理的容量放行任务，不能为追求并发填满上限。
 
@@ -85,6 +107,11 @@ GZ-003 是机制 bootstrap，列入 `policy.bootstrapTasks`；GZ-014 通过真�
 ```bash
 python scripts/check-schemas.py
 python scripts/check-project-readiness.py
+python scripts/check-program-task-registration.py \
+  --base-ref origin/main \
+  --head-ref HEAD \
+  --task GZ-XXX \
+  --branch-name chore/GZ-XXX-registration
 python scripts/check-agent-coordination.py
 python scripts/check-agent-coordination.py --task GZ-XXX
 ```

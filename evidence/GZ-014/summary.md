@@ -1,56 +1,43 @@
-# GZ-014 Evidence Summary
+# GZ-014 Program Registration Self-Hosting Maintenance
 
-Status: COMPLETED
+Status: IN_PROGRESS
 
-> 本状态描述 PR #33 当前分支中的 Foundation 完成快照；远端 Gate、Review、merge 与 post-merge main 结果仍必须分别以 GitHub 实际执行为准，不在此预写。
+## Immutable Foundation identity
 
-## Identity
+- Foundation task: `GZ-014` remains `completed`.
+- Original completion identity remains PR #32 / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+- The Program Foundation status, Active Work Registry and ordinary Completion Ledger are not reopened or changed by this maintenance.
 
-- Task: `GZ-014`
-- Issue: #17, closed with `state_reason=completed`
-- Phase: `FOUNDATION_COMPLETION`
-- Completion branch: `chore/GZ-014-foundation-completion-v3`
-- Completion base: `main@8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
-- Foundation completion identity: `PR-32` / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`
-- Integration history: PR #29 / `c26fc712e050dba4e83c9af022fd25b8f7e84d6d`
-- Earlier implementation/repair history: PR #26 / `ef1048344aa082c678e5ef948dc7f62e5aa84510`
-- PR #32 post-merge Governance Gate: run #293 = `PASS`
+## Maintenance identity
 
-## Completion state
+- Tracking: OPS-008 / Issue #57.
+- Draft PR: #58.
+- Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`.
+- Branch: `fix/GZ-014-program-registration-bootstrap`.
+- Risk: high.
 
-```text
-Program Foundation GZ-014: integration -> completed
-Task Spec GZ-014:          integration -> completed
-Active Work:               remove only GZ-014 Lease
-Issue #17:                 remain closed/completed
-Foundation provenance:     PR-32 / 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
-Ordinary Task ledger:      unchanged
-```
+## Candidate scope
 
-Result: COMPLETED
+The candidate introduces a general fail-closed Program Task Registration contract before Reservation:
 
-The branch snapshot satisfies the declared Foundation completion state. Final repository completion remains conditional on PR #33 exact-head Gate, fresh Review, expected-head merge, and post-merge main Gate.
+- exactly one ordinary task may move from absent to `planned`;
+- one matching schemaVersion 2 Task Spec uses `coordinationMode: registration` and `agentRole: coordinator`;
+- Active Work and Completion Ledger remain byte-identical;
+- no Lease, implementation scope, execution result or completion authority is granted;
+- only task-bound metadata and validated downstream planned dependency tail appends are allowed;
+- Program Transition, Lifecycle, Agent Coordination and Task Scope use the same history-aware validator;
+- positive and negative behavioral fixtures execute against temporary Git repositories.
 
-## Verified predecessor result
+## Explicitly unchanged
 
-- PR #32 exact HEAD `9adf9a135fabe4581285a945b4b434d9302e9a80` passed Governance Gate run #292.
-- PR #32 merged as `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
-- PR #32 post-merge main Governance Gate run #293 completed with `PASS`.
-- `8221fd0f...` is a strict descendant of prior GZ-014 integration base `c26fc712e050dba4e83c9af022fd25b8f7e84d6d` and its commit message identifies GZ-014 and PR #32.
+- `specs/coordination/program-plan.yaml`;
+- `specs/coordination/active-work.yaml`;
+- `specs/coordination/task-completions.yaml`;
+- `specs/tasks/OPS-006.md` and `evidence/OPS-006/**`;
+- GZ-010, OPS-005, POC, business, deployment, Secret, permission and production-data content;
+- configured concurrency and high-risk limits;
+- OPS-007 terminal Wave occupancy semantics.
 
-## Exact completion scope
+## Current result boundary
 
-- `specs/coordination/program-plan.yaml`: only GZ-014 Foundation status and completion provenance;
-- `specs/coordination/active-work.yaml`: remove only GZ-014 Lease, preserve policy;
-- `specs/tasks/GZ-014.md`: completed Task metadata and completion narrative;
-- `evidence/GZ-014/summary.md`;
-- `evidence/GZ-014/commands.txt`;
-- `evidence/GZ-014/changed-files.md`;
-- `evidence/GZ-014/test-results/README.md`;
-- `evidence/GZ-014/handoff.md`.
-
-No ordinary `task-completions.yaml`, other Foundation/Task/POC/Wave/blocker, Registry policy, lifecycle code/test/workflow, product requirement, business contract/code, deployment, Secret, permission, or production-data change is included.
-
-## Downstream boundary
-
-GZ-004 and GZ-010 remain blocked until PR #33 is merged and the resulting `main` Governance Gate succeeds. OPS-001 #20 remains open and gates only GZ-020 production release.
+Implementation bytes are being assembled on Draft PR #58. No exact-head test, independent Review, merge or post-main Gate success is claimed by this record. Those facts must be appended only after GitHub returns authoritative results for the immutable candidate HEAD.

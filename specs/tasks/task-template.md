@@ -8,6 +8,7 @@ status: reserved
 baseBranch: main
 baseSha: REPLACE_WITH_40_CHARACTER_MAIN_COMMIT_SHA
 workBranch: feat/GUIZE-000-short-name
+branchPattern: feat/GUIZE-000-*
 evidencePath: evidence/GUIZE-000
 issue: 0
 workPackage: WP-MX-00
@@ -18,6 +19,8 @@ requirementIds: REQ-V1-0000
 moduleIds: MOD-REPLACE
 producesContracts: NONE
 consumesContracts: NONE
+acceptanceIds: NONE
+pocIds: NONE
 exitGate: REPLACE_WITH_EXACT_PROGRAM_PLAN_EXIT_GATE
 taskOwner: REPLACE_WITH_GITHUB_OWNER
 coordinator: REPLACE_WITH_COORDINATOR
@@ -37,7 +40,7 @@ leaseExpiresAt: 2026-09-01T00:00:00Z
 
 # GUIZE-000 任务规格
 
-> 替换所有占位值。非治理修复任务必须先存在于 `specs/coordination/program-plan.yaml`，并且依赖、波次、风险、Requirement、Module、输出路径、契约关系和 `exitGate` 完全一致；实现前再通过纯 Reservation PR 写入 `specs/coordination/active-work.yaml`。
+> 替换所有占位值。普通任务首次进入 Program Plan 时，先按本模板的 Registration 约束建立独立 high-risk metadata-only PR；Registration 合并且 post-main Gate 成功后，再建立纯 Reservation PR。非治理修复任务必须保证依赖、波次、风险、Requirement、Module、输出路径、契约关系和 `exitGate` 完全一致。
 
 ## 背景
 
@@ -163,18 +166,56 @@ handoff.md
 
 不适用项必须显式说明原因；不得用空目录、计划命令或 Agent 说明冒充执行结果。
 
+## Registration PR 约束
+
+任务尚未出现在 Program Plan 时，必须先把 front matter 调整为：
+
+```yaml
+status: planned
+coordinationMode: registration
+agentRole: coordinator
+riskLevel: high
+```
+
+同时执行以下规则：
+
+1. 删除 `leaseExpiresAt`；Registration 不存在 Lease。
+2. `baseSha` 必须是精确目标 `main`，`workBranch` 必须匹配 `branchPattern` 和实际分支。
+3. `acceptanceIds`、`pocIds`、Requirement、Module、Contract、path、Issue、Wave、integration order 和 `exitGate` 必须与新增 Program task 完全一致。
+4. Implementer 与 Reviewer 使用不同的具体身份；Program Plan 变更不得降为 medium/low 风险。
+5. Cumulative diff 只能包含：
+   - `specs/coordination/program-plan.yaml`；
+   - exactly one 新 `specs/tasks/<TASK-ID>.md`；
+   - `evidence/<TASK-ID>/**`；
+   - 经共享 Registration 校验器证明的 later-planned `dependsOn` 尾追加。
+6. `active-work.yaml` 与 `task-completions.yaml` 必须和目标基线字节一致。
+7. 不得包含实现、测试、Workflow、业务、部署、Secret、权限或生产数据文件。
+8. 新任务必须仍在 required final task 的传递依赖闭包中，且不得引入环或 Wave 逆向依赖。
+9. `planned` 只能路由到 metadata Registration；不得进入普通 Coordination、Task Scope、执行、Review、Integration、Result 或 Completion。
+10. Registration Gate、独立 Review、normal merge 和 post-main Gate 均成功后，才可创建 Reservation PR。
+
+Registration 验证命令示例：
+
+```bash
+python scripts/check-program-task-registration.py \
+  --base-ref origin/main \
+  --head-ref HEAD \
+  --task GUIZE-000 \
+  --branch-name feat/GUIZE-000-short-name
+```
+
 ## Reservation PR 约束
 
-Reservation PR 只能：
+Registration 已合入目标分支后，Reservation PR 只能：
 
 1. 将当前普通 Program Task 从 `planned`/`blocked` 转为 `reserved`；
 2. 在 Active Work 中新增当前任务唯一的 `reserved` Lease；
-3. 创建或更新当前 Task Spec；
+3. 更新当前 Task Spec 为 `coordinationMode: registry`，加入合法 `leaseExpiresAt`；
 4. 创建或更新 `evidence/<TASK-ID>/**`。
 
 Reservation PR 不得包含业务/实现文件，不得修改其他 Program Task、Registry policy、其他 Lease 或无关治理文件。记录到 Completion Ledger 的 `reservationCommit` 必须通过其第一父提交 Diff 重新证明上述约束。
 
-Reservation 之后的活动状态转换只能修改当前任务的合法状态字段和自己的 Lease 状态/角色/基线/到期时间，不得重写稳定的 Program/Registry 身份、范围或其他任务。
+Reservation 之后的活动状态转换只能修改当前任务的合法状态字段和自己的 Lease 状态/角色/基线/到期时间，不得重写稳定的 Program/Registry 身份、范围或其他任务。Reservation 合并且 post-main Gate 成功后，另建 Activation PR 执行 `reserved -> in_progress`；Activation 不能与实现合并为一个阶段。
 
 ## Completion PR 约束
 
