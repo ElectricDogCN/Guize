@@ -38,19 +38,55 @@ V2_REGISTRY_FIELDS = [
     "producesContracts",
     "consumesContracts",
 ]
+V2_REGISTRATION_FIELDS = [
+    "coordinator",
+    "implementer",
+    "reviewer",
+    "integrator",
+    "integrationOrder",
+    "programPlan",
+    "programTaskId",
+    "wave",
+    "requirementIds",
+    "moduleIds",
+    "producesContracts",
+    "consumesContracts",
+    "branchPattern",
+    "acceptanceIds",
+    "pocIds",
+]
 V2_ROLES = {"coordinator", "implementer", "reviewer", "integrator"}
 V2_RISKS = {"low", "medium", "high", "critical"}
-V2_MODES = {"bootstrap", "registry"}
+V2_MODES = {"bootstrap", "registration", "registry"}
 V2_INTEGRATION = {"merge", "squash", "rebase"}
-V2_REGISTRY_STATUSES = {"reserved", "in_progress", "blocked", "review", "integration", "completed", "cancelled"}
-PLACEHOLDERS = {"", "pending", "tbd", "unknown", "none", "n/a", "na", "unassigned"}
+V2_REGISTRY_STATUSES = {
+    "reserved",
+    "in_progress",
+    "blocked",
+    "review",
+    "integration",
+    "completed",
+    "cancelled",
+}
+PLACEHOLDERS = {
+    "",
+    "pending",
+    "tbd",
+    "unknown",
+    "none",
+    "n/a",
+    "na",
+    "unassigned",
+}
 REQ_RE = re.compile(r"^REQ-V1-\d{4}$")
 MOD_RE = re.compile(r"^MOD-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
 WAVE_RE = re.compile(r"^(W\d+|FOUNDATION)$")
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Validate a Guize task specification file.")
+    parser = argparse.ArgumentParser(
+        description="Validate a Guize task specification file."
+    )
     parser.add_argument("--task", required=True, help="Task ID, e.g. GZ-001")
     parser.add_argument("--spec-dir", default="specs/tasks")
     parser.add_argument("--repo-root", default=".")
@@ -90,7 +126,11 @@ def parse_list(value):
     text = str(value or "").strip().strip("[]")
     if text.lower() in PLACEHOLDERS or text.upper() == "NONE":
         return []
-    return [part.strip().strip("'\"") for part in text.split(",") if part.strip()]
+    return [
+        part.strip().strip("'\"")
+        for part in text.split(",")
+        if part.strip()
+    ]
 
 
 def report(status, message, details=None):
@@ -126,7 +166,11 @@ def extract_section(body, names):
 def has_validation_command(section):
     if not section:
         return False
-    if re.search(r"```(?:bash|sh|shell|text)?\s*\n\s*[^`\s][\s\S]*?```", section, re.I):
+    if re.search(
+        r"```(?:bash|sh|shell|text)?\s*\n\s*[^`\s][\s\S]*?```",
+        section,
+        re.I,
+    ):
         return True
     for line in section.splitlines():
         stripped = line.strip()
@@ -135,7 +179,10 @@ def has_validation_command(section):
         if re.search(r"`[^`]+`", stripped):
             return True
         text = re.sub(r"^(?:[-*]|\d+[.)])\s+", "", stripped)
-        if re.match(r"(?:python|python3|make|git|bash|sh|pytest|npm|pnpm|yarn|mvn|gradle|docker)\b", text):
+        if re.match(
+            r"(?:python|python3|make|git|bash|sh|pytest|npm|pnpm|yarn|mvn|gradle|docker)\b",
+            text,
+        ):
             return True
     return False
 
@@ -157,6 +204,52 @@ def role_placeholder(value):
     return str(value or "").strip().lower() in PLACEHOLDERS
 
 
+def validate_program_identity(front, errors):
+    if front.get("programPlan") != CANONICAL_PROGRAM_PLAN:
+        errors.append(f"programPlan must be {CANONICAL_PROGRAM_PLAN}.")
+    if front.get("programTaskId") != front.get("id"):
+        errors.append("programTaskId must equal the Task Spec id.")
+    if not WAVE_RE.fullmatch(front.get("wave", "")):
+        errors.append("wave must be W<number> or FOUNDATION.")
+
+    requirement_ids = parse_list(front.get("requirementIds"))
+    module_ids = parse_list(front.get("moduleIds"))
+    if not requirement_ids:
+        errors.append(
+            "requirementIds must contain at least one REQ-V1 identifier."
+        )
+    if not module_ids:
+        errors.append("moduleIds must contain at least one MOD identifier.")
+    for requirement_id in requirement_ids:
+        if not REQ_RE.fullmatch(requirement_id):
+            errors.append(f"Invalid requirementIds entry: {requirement_id}")
+    for module_id in module_ids:
+        if not MOD_RE.fullmatch(module_id):
+            errors.append(f"Invalid moduleIds entry: {module_id}")
+    parse_list(front.get("producesContracts"))
+    parse_list(front.get("consumesContracts"))
+
+
+def validate_roles_and_order(front, errors):
+    try:
+        if int(front.get("integrationOrder", "0")) < 1:
+            errors.append("integrationOrder must be a positive integer.")
+    except ValueError:
+        errors.append("integrationOrder must be a positive integer.")
+
+    if front.get("riskLevel") in {"high", "critical"}:
+        implementer = front.get("implementer", "")
+        reviewer = front.get("reviewer", "")
+        if role_placeholder(implementer) or role_placeholder(reviewer):
+            errors.append(
+                "High/critical tasks require assigned implementer and reviewer identities."
+            )
+        elif implementer == reviewer:
+            errors.append(
+                "High/critical tasks require different implementer and reviewer identities."
+            )
+
+
 def validate_v2(front, body, repo_root, evidence_path, errors):
     if str(front.get("schemaVersion")) != "2":
         errors.append("schemaVersion must be 2 when the field is present.")
@@ -170,11 +263,17 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
     if front.get("riskLevel") not in V2_RISKS:
         errors.append(f"Invalid riskLevel: {front.get('riskLevel')}")
     if front.get("coordinationMode") not in V2_MODES:
-        errors.append(f"Invalid coordinationMode: {front.get('coordinationMode')}")
+        errors.append(
+            f"Invalid coordinationMode: {front.get('coordinationMode')}"
+        )
     if front.get("integrationStrategy") not in V2_INTEGRATION:
-        errors.append(f"Invalid integrationStrategy: {front.get('integrationStrategy')}")
+        errors.append(
+            f"Invalid integrationStrategy: {front.get('integrationStrategy')}"
+        )
     if not re.fullmatch(r"[0-9a-f]{40}", front.get("baseSha", "")):
-        errors.append("baseSha must be a 40-character lowercase Git commit SHA.")
+        errors.append(
+            "baseSha must be a 40-character lowercase Git commit SHA."
+        )
 
     handoff_path = front.get("handoffPath", "")
     if handoff_path:
@@ -188,58 +287,67 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
     if mode == "registry":
         for field in V2_REGISTRY_FIELDS:
             if field not in front or front[field] == "":
-                errors.append(f"Missing or empty registry coordination field: {field}")
+                errors.append(
+                    f"Missing or empty registry coordination field: {field}"
+                )
         if front.get("status") not in V2_REGISTRY_STATUSES:
-            errors.append(f"Registry task has invalid status: {front.get('status')}")
-        try:
-            if int(front.get("integrationOrder", "0")) < 1:
-                errors.append("integrationOrder must be a positive integer.")
-        except ValueError:
-            errors.append("integrationOrder must be a positive integer.")
+            errors.append(
+                f"Registry task has invalid status: {front.get('status')}"
+            )
         if not valid_datetime(front.get("leaseExpiresAt", "")):
-            errors.append("leaseExpiresAt must be an ISO-8601 timestamp with timezone.")
-        if front.get("riskLevel") in {"high", "critical"}:
-            implementer = front.get("implementer", "")
-            reviewer = front.get("reviewer", "")
-            if role_placeholder(implementer) or role_placeholder(reviewer):
-                errors.append("High/critical registry tasks require assigned implementer and reviewer identities.")
-            elif implementer == reviewer:
-                errors.append("High/critical registry tasks require different implementer and reviewer identities.")
+            errors.append(
+                "leaseExpiresAt must be an ISO-8601 timestamp with timezone."
+            )
+        validate_roles_and_order(front, errors)
+        validate_program_identity(front, errors)
 
-        if front.get("programPlan") != CANONICAL_PROGRAM_PLAN:
-            errors.append(f"programPlan must be {CANONICAL_PROGRAM_PLAN}.")
-        if front.get("programTaskId") != front.get("id"):
-            errors.append("programTaskId must equal the Task Spec id.")
-        if not WAVE_RE.fullmatch(front.get("wave", "")):
-            errors.append("wave must be W<number> or FOUNDATION.")
-
-        requirement_ids = parse_list(front.get("requirementIds"))
-        module_ids = parse_list(front.get("moduleIds"))
-        if not requirement_ids:
-            errors.append("requirementIds must contain at least one REQ-V1 identifier.")
-        if not module_ids:
-            errors.append("moduleIds must contain at least one MOD identifier.")
-        for requirement_id in requirement_ids:
-            if not REQ_RE.fullmatch(requirement_id):
-                errors.append(f"Invalid requirementIds entry: {requirement_id}")
-        for module_id in module_ids:
-            if not MOD_RE.fullmatch(module_id):
-                errors.append(f"Invalid moduleIds entry: {module_id}")
-        parse_list(front.get("producesContracts"))
-        parse_list(front.get("consumesContracts"))
+    elif mode == "registration":
+        for field in V2_REGISTRATION_FIELDS:
+            if field not in front:
+                errors.append(
+                    f"Missing registration identity field: {field}"
+                )
+        if front.get("status") != "planned":
+            errors.append("Registration task status must be planned.")
+        if front.get("agentRole") != "coordinator":
+            errors.append("Registration task agentRole must be coordinator.")
+        if "leaseExpiresAt" in front:
+            errors.append(
+                "Registration task must not contain leaseExpiresAt."
+            )
+        if front.get("riskLevel") not in {"high", "critical"}:
+            errors.append(
+                "Registration Program Plan changes must be high or critical risk."
+            )
+        validate_roles_and_order(front, errors)
+        validate_program_identity(front, errors)
 
     required_sections = [
-        (["依赖与集成顺序", "dependencies and integration order"], "Missing dependencies/integration section."),
-        (["独占写范围", "exclusive write scope"], "Missing exclusive write scope section."),
-        (["共享修改范围", "shared modification scope"], "Missing shared modification scope section."),
-        (["协作与交接", "collaboration and handoff"], "Missing collaboration/handoff section."),
+        (
+            ["依赖与集成顺序", "dependencies and integration order"],
+            "Missing dependencies/integration section.",
+        ),
+        (
+            ["独占写范围", "exclusive write scope"],
+            "Missing exclusive write scope section.",
+        ),
+        (
+            ["共享修改范围", "shared modification scope"],
+            "Missing shared modification scope section.",
+        ),
+        (
+            ["协作与交接", "collaboration and handoff"],
+            "Missing collaboration/handoff section.",
+        ),
     ]
     for names, message in required_sections:
         section = extract_section(body, names)
         if section is None:
             errors.append(message)
         elif not has_list_entry(section):
-            errors.append(f"{message.rstrip('.')} must contain at least one bullet.")
+            errors.append(
+                f"{message.rstrip('.')} must contain at least one bullet."
+            )
 
 
 def main():
@@ -262,7 +370,16 @@ def main():
         sys.exit(2)
 
     front, body = parse_front_matter(content)
-    required_fields = ["id", "title", "titleZh", "type", "status", "baseBranch", "workBranch", "evidencePath"]
+    required_fields = [
+        "id",
+        "title",
+        "titleZh",
+        "type",
+        "status",
+        "baseBranch",
+        "workBranch",
+        "evidencePath",
+    ]
     errors = []
     warnings = []
     for field in required_fields:
@@ -272,10 +389,14 @@ def main():
     if not re.fullmatch(r"[A-Z]+-\d+", task_id):
         errors.append(f"Task ID format invalid: {task_id}")
     elif front.get("id") != task_id:
-        errors.append(f"Front matter id mismatch: expected {task_id}, got {front.get('id')}")
+        errors.append(
+            f"Front matter id mismatch: expected {task_id}, got {front.get('id')}"
+        )
     expected_prefix = f"{front.get('type', 'chore')}/{task_id}"
     if not front.get("workBranch", "").startswith(expected_prefix):
-        errors.append(f"workBranch '{front.get('workBranch')}' does not start with expected prefix '{expected_prefix}'")
+        errors.append(
+            f"workBranch '{front.get('workBranch')}' does not start with expected prefix '{expected_prefix}'"
+        )
 
     evidence_path = front.get("evidencePath", "")
     if evidence_path:
@@ -287,7 +408,9 @@ def main():
     allowed = extract_section(body, ["允许范围", "allowed scope"])
     forbidden = extract_section(body, ["禁止范围", "forbidden scope"])
     acceptance = extract_section(body, ["验收标准", "acceptance criteria"])
-    validation = extract_section(body, ["必须执行的测试", "validation commands"])
+    validation = extract_section(
+        body, ["必须执行的测试", "validation commands"]
+    )
     if allowed is None:
         errors.append("Missing allowed scope section.")
     elif not has_list_entry(allowed):
@@ -298,17 +421,25 @@ def main():
         errors.append("Forbidden scope section has no entries.")
     if acceptance is None:
         errors.append("Missing acceptance criteria section.")
-    elif not re.search(r"(?m)^\s*[-*]\s+\[[ xX]\]\s+\S", acceptance):
-        errors.append("Acceptance criteria section must contain at least one checklist item.")
+    elif not re.search(
+        r"(?m)^\s*[-*]\s+\[[ xX]\]\s+\S", acceptance
+    ):
+        errors.append(
+            "Acceptance criteria section must contain at least one checklist item."
+        )
     if validation is None:
         errors.append("Missing validation commands section.")
     elif not has_validation_command(validation):
-        errors.append("Validation commands section must contain at least one executable command.")
+        errors.append(
+            "Validation commands section must contain at least one executable command."
+        )
 
     if "schemaVersion" in front:
         validate_v2(front, body, repo_root, evidence_path, errors)
     else:
-        warnings.append("Legacy Task Spec schemaVersion 1; multi-agent metadata is not enforced.")
+        warnings.append(
+            "Legacy Task Spec schemaVersion 1; multi-agent metadata is not enforced."
+        )
 
     for error in errors:
         report("FAIL", error)
