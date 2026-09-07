@@ -5,12 +5,16 @@ import sys
 import tempfile
 import unittest
 
+import yaml
+
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SCRIPT_PATH = os.path.join(REPO_ROOT, "scripts", "check-program-lifecycle-guards.py")
 LIFECYCLE_GATE = os.path.join(REPO_ROOT, "scripts", "run-program-lifecycle-gate.py")
 WORKFLOW = os.path.join(REPO_ROOT, ".github", "workflows", "governance-gate.yml")
 MAKEFILE = os.path.join(REPO_ROOT, "Makefile")
+PROTOCOL = os.path.join(REPO_ROOT, "docs", "25-multi-agent-collaboration-protocol.md")
+OWNERSHIP = os.path.join(REPO_ROOT, "specs", "designs", "module-ownership.yaml")
 SPEC = importlib.util.spec_from_file_location("program_lifecycle_guards", SCRIPT_PATH)
 GUARDS = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
@@ -41,7 +45,7 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         self.git(root, "config", "user.name", "Test")
 
     def commit(self, root, message):
-        self.git(root, "add", ".")
+        self.git(root, "add", "-A")
         self.git(root, "commit", "--allow-empty", "-m", message)
         return self.git(root, "rev-parse", "HEAD").stdout.strip()
 
@@ -178,8 +182,15 @@ class TestProgramLifecycleGuards(unittest.TestCase):
             GUARDS.validate_completed_spec_binding(
                 root, "GZ-004", {"tasks": []}, errors
             )
-            self.assertTrue(any("evidencePath must be evidence/GZ-004" in e for e in errors))
-            self.assertTrue(any("handoffPath must be evidence/GZ-004/handoff.md" in e for e in errors))
+            self.assertTrue(
+                any("evidencePath must be evidence/GZ-004" in e for e in errors)
+            )
+            self.assertTrue(
+                any(
+                    "handoffPath must be evidence/GZ-004/handoff.md" in e
+                    for e in errors
+                )
+            )
 
     def test_cancellation_requires_structured_fresh_evidence(self):
         with tempfile.TemporaryDirectory() as root:
@@ -237,7 +248,9 @@ class TestProgramLifecycleGuards(unittest.TestCase):
     def test_completion_requires_structured_results(self):
         with tempfile.TemporaryDirectory() as root:
             merge_sha = "c" * 40
-            self.write_completion_evidence(root, "GZ-004", merge_sha, structured=False)
+            self.write_completion_evidence(
+                root, "GZ-004", merge_sha, structured=False
+            )
             paths = {
                 "evidence/GZ-004/summary.md",
                 "evidence/GZ-004/commands.txt",
@@ -248,14 +261,16 @@ class TestProgramLifecycleGuards(unittest.TestCase):
             GUARDS.validate_structured_completion_evidence(
                 root, "GZ-004", merge_sha, paths, errors
             )
-            self.assertTrue(any("no executed command" in error for error in errors))
-            self.assertTrue(any("no successful exit code" in error for error in errors))
-            self.assertTrue(any("no explicit PASS" in error for error in errors))
+            self.assertTrue(any("no executed command" in e for e in errors))
+            self.assertTrue(any("no successful exit code" in e for e in errors))
+            self.assertTrue(any("no explicit PASS" in e for e in errors))
 
     def test_structured_completion_results_pass(self):
         with tempfile.TemporaryDirectory() as root:
             merge_sha = "c" * 40
-            self.write_completion_evidence(root, "GZ-004", merge_sha, structured=True)
+            self.write_completion_evidence(
+                root, "GZ-004", merge_sha, structured=True
+            )
             paths = {
                 "evidence/GZ-004/summary.md",
                 "evidence/GZ-004/commands.txt",
@@ -279,6 +294,251 @@ class TestProgramLifecycleGuards(unittest.TestCase):
         self.assertIn("github.event.before", workflow)
         self.assertIn("scripts/check-program-lifecycle-guards.py", makefile)
         self.assertIn("@set -e;", makefile)
+
+
+class CompletedFoundationMaintenanceFixture:
+    task_id = "GZ-014"
+    branch = "fix/GZ-014-test-maintenance"
+
+    def __init__(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = self.temp.name
+        self.git("init", "-b", "main")
+        self.git("config", "user.email", "test@example.com")
+        self.git("config", "user.name", "Test")
+        self.write_yaml(
+            "specs/coordination/program-plan.yaml",
+            {
+                "foundationTasks": [
+                    {
+                        "taskId": self.task_id,
+                        "title": "Foundation",
+                        "status": "completed",
+                        "completionRef": "PR-32",
+                        "mergeCommit": "a" * 40,
+                    }
+                ],
+                "tasks": [],
+            },
+        )
+        self.write_yaml(
+            "specs/coordination/active-work.yaml",
+            {"version": 1, "policy": {}, "tasks": []},
+        )
+        self.write_yaml(
+            "specs/coordination/task-completions.yaml",
+            {"schemaVersion": 1, "records": []},
+        )
+        self.write_yaml(
+            "specs/designs/module-ownership.yaml",
+            {
+                "modules": [
+                    {
+                        "id": "MOD-GOV",
+                        "ownedPaths": [
+                            "scripts/**",
+                            "tests/governance/**",
+                            "docs/25-multi-agent-collaboration-protocol.md",
+                        ],
+                    }
+                ]
+            },
+        )
+        self.write(
+            "specs/tasks/GZ-014.md",
+            "---\n"
+            "schemaVersion: 2\n"
+            "id: GZ-014\n"
+            "status: completed\n"
+            "riskLevel: high\n"
+            "moduleIds: [MOD-GOV]\n"
+            "implementer: implementer-agent\n"
+            "reviewer: reviewer-agent\n"
+            "---\n# GZ-014\n",
+        )
+        self.write("evidence/GZ-014/handoff.md", "Task: GZ-014\n")
+        self.commit("base")
+        self.base_sha = self.rev_parse("HEAD")
+        self.git("checkout", "-b", self.branch)
+        self.write("scripts/checker.py", "print('maintenance')\n")
+        self.write_manifest()
+        self.commit("GZ-014 audited maintenance")
+        self.source_sha = self.rev_parse("HEAD")
+
+    def close(self):
+        self.temp.cleanup()
+
+    def git(self, *args, check=True):
+        return subprocess.run(
+            ["git", *args],
+            cwd=self.root,
+            check=check,
+            capture_output=True,
+            text=True,
+        )
+
+    def rev_parse(self, ref):
+        return self.git("rev-parse", ref).stdout.strip()
+
+    def write(self, relative, content):
+        path = os.path.join(self.root, relative)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(content)
+
+    def write_yaml(self, relative, document):
+        self.write(relative, yaml.safe_dump(document, sort_keys=False))
+
+    def commit(self, message):
+        self.git("add", "-A")
+        self.git("commit", "--allow-empty", "-m", message)
+        return self.rev_parse("HEAD")
+
+    def manifest(self):
+        return {
+            "schemaVersion": 1,
+            "mode": "completed-foundation-maintenance",
+            "taskId": self.task_id,
+            "issue": 57,
+            "purpose": "test audited completed Foundation maintenance",
+            "baseSha": self.base_sha,
+            "workBranch": self.branch,
+            "riskLevel": "high",
+            "independentReviewRequired": True,
+            "postMergeGateRequired": True,
+            "authorizedPaths": [
+                "scripts/checker.py",
+                "evidence/GZ-014/**",
+            ],
+        }
+
+    def write_manifest(self, transform=None):
+        document = self.manifest()
+        if transform:
+            transform(document)
+        self.write_yaml("evidence/GZ-014/foundation-maintenance.yaml", document)
+
+    def validate(self, branch=None):
+        return GUARDS._validate_completed_foundation_maintenance(
+            self.root,
+            "main",
+            "HEAD",
+            self.task_id,
+            self.branch if branch is None else branch,
+        )
+
+    def merge_to_main(self):
+        self.git("checkout", "main")
+        self.git("merge", "--no-ff", "--no-edit", self.branch)
+
+
+class TestCompletedFoundationMaintenance(unittest.TestCase):
+    def fixture(self):
+        fixture = CompletedFoundationMaintenanceFixture()
+        self.addCleanup(fixture.close)
+        return fixture
+
+    def test_manifest_bound_completed_foundation_maintenance_passes(self):
+        fixture = self.fixture()
+        code, details = fixture.validate()
+        self.assertEqual(code, 0, details)
+
+    def test_completed_foundation_state_drift_fails(self):
+        fixture = self.fixture()
+        plan_path = os.path.join(
+            fixture.root, "specs/coordination/program-plan.yaml"
+        )
+        with open(plan_path, encoding="utf-8") as handle:
+            plan = yaml.safe_load(handle)
+        plan["foundationTasks"][0]["title"] = "mutated"
+        fixture.write_yaml("specs/coordination/program-plan.yaml", plan)
+        fixture.commit("mutate completed Foundation")
+        code, details = fixture.validate()
+        self.assertNotEqual(code, 0)
+        self.assertTrue(any("Program Plan byte-identical" in e for e in details["errors"]))
+
+    def test_unauthorized_business_path_fails(self):
+        fixture = self.fixture()
+        fixture.write("backend/forbidden.txt", "business\n")
+        fixture.commit("unauthorized business path")
+        code, details = fixture.validate()
+        self.assertNotEqual(code, 0)
+        self.assertTrue(any("unauthorized path" in e for e in details["errors"]))
+
+    def test_temporary_residue_fails(self):
+        fixture = self.fixture()
+        fixture.write("scripts/checker.tmp", "placeholder\n")
+        fixture.write_manifest(
+            lambda document: document["authorizedPaths"].append(
+                "scripts/checker.tmp"
+            )
+        )
+        fixture.commit("temporary residue")
+        code, details = fixture.validate()
+        self.assertNotEqual(code, 0)
+        self.assertTrue(any("temporary residue" in e for e in details["errors"]))
+
+    def test_branch_mismatch_fails(self):
+        fixture = self.fixture()
+        code, details = fixture.validate(branch="fix/GZ-014-other")
+        self.assertNotEqual(code, 0)
+        self.assertTrue(any("actual branch" in e for e in details["errors"]))
+
+    def test_repository_wide_authorization_fails(self):
+        fixture = self.fixture()
+        fixture.write_manifest(
+            lambda document: document.__setitem__("authorizedPaths", ["**"])
+        )
+        fixture.commit("broad authorization")
+        code, details = fixture.validate()
+        self.assertNotEqual(code, 0)
+        self.assertTrue(any("unsafe authorized path" in e for e in details["errors"]))
+
+    def test_push_merge_provenance_passes(self):
+        fixture = self.fixture()
+        fixture.merge_to_main()
+        code, details = GUARDS._validate_completed_foundation_maintenance(
+            fixture.root,
+            fixture.base_sha,
+            "HEAD",
+            fixture.task_id,
+            "",
+        )
+        self.assertEqual(code, 0, details)
+
+    def test_direct_push_provenance_fails(self):
+        fixture = self.fixture()
+        fixture.git("checkout", "main")
+        fixture.git("merge", "--ff-only", fixture.branch)
+        code, details = GUARDS._validate_completed_foundation_maintenance(
+            fixture.root,
+            fixture.base_sha,
+            "HEAD",
+            fixture.task_id,
+            "",
+        )
+        self.assertNotEqual(code, 0)
+        self.assertTrue(any("two-parent merge" in e for e in details["errors"]))
+
+    def test_protocol_ownership_and_four_stage_sequence_are_machine_readable(self):
+        with open(OWNERSHIP, "r", encoding="utf-8") as handle:
+            ownership = yaml.safe_load(handle)
+        module = next(
+            item for item in ownership["modules"] if item["id"] == "MOD-GOV"
+        )
+        self.assertIn(
+            "docs/25-multi-agent-collaboration-protocol.md",
+            module["ownedPaths"],
+        )
+        with open(PROTOCOL, "r", encoding="utf-8") as handle:
+            protocol = handle.read()
+        self.assertIn(
+            "Registration → Reservation → Activation → Implementation",
+            protocol,
+        )
+        self.assertNotIn("## 6. 两阶段启动协议", protocol)
+        self.assertIn("Registration 不得包含 `leaseExpiresAt`", protocol)
+        self.assertIn("A red exact-head Gate is never merge authority", protocol.replace("红色", "red"))
 
 
 if __name__ == "__main__":
