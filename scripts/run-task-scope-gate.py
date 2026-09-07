@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Run mandatory Task Scope validation for implementation and lifecycle PRs.
 
-A planned Registration is metadata-only and is checked by the shared
+A planned Registration is metadata-only and is checked by the canonical
 history-aware Registration validator. It never receives ordinary implementation
-scope. Reservation and later lifecycle metadata retain their existing paths.
+scope, and callers cannot substitute the Registration validator.
 """
 
 from __future__ import annotations
@@ -19,6 +19,7 @@ import yaml
 IMPLEMENTATION_TASK_STATES = {"in_progress", "review", "integration"}
 REGISTRATION_TASK_STATES = {"planned"}
 METADATA_TASK_STATES = {"reserved", "blocked", "cancelled", "completed"}
+REGISTRATION_SCRIPT = "scripts/check-program-task-registration.py"
 
 
 def parse_args() -> argparse.Namespace:
@@ -31,12 +32,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--scope-script",
         default="scripts/check-task-scope.py",
-        help="Override only for isolated dispatcher tests",
-    )
-    parser.add_argument(
-        "--registration-script",
-        default="scripts/check-program-task-registration.py",
-        help="Override only for isolated dispatcher tests",
+        help="Override only for isolated non-Registration dispatcher tests",
     )
     return parser.parse_args()
 
@@ -92,28 +88,33 @@ def main() -> int:
         if document.get("coordinationMode") != "registration":
             print("FAIL: planned Task requires coordinationMode registration")
             return 2
-        registration_script = resolve_script(root, args.registration_script)
-        if not os.path.isfile(registration_script):
+        if not args.branch_name:
             print(
-                f"FAIL: Registration checker does not exist: {registration_script}"
+                "FAIL: Task-aware Registration scope requires an authoritative branch name"
             )
             return 2
-        branch_name = args.branch_name or str(document.get("workBranch") or "")
-        command = [
-            sys.executable,
-            registration_script,
-            "--repo-root",
-            root,
-            "--base-ref",
-            args.base,
-            "--head-ref",
-            args.head_ref,
-            "--task",
-            args.task,
-        ]
-        if branch_name:
-            command += ["--branch-name", branch_name]
-        return subprocess.run(command, cwd=root, check=False).returncode
+        registration_script = os.path.join(root, REGISTRATION_SCRIPT)
+        if not os.path.isfile(registration_script):
+            print(f"FAIL: Registration checker does not exist: {registration_script}")
+            return 2
+        return subprocess.run(
+            [
+                sys.executable,
+                registration_script,
+                "--repo-root",
+                root,
+                "--base-ref",
+                args.base,
+                "--head-ref",
+                args.head_ref,
+                "--task",
+                args.task,
+                "--branch-name",
+                args.branch_name,
+            ],
+            cwd=root,
+            check=False,
+        ).returncode
 
     if status in METADATA_TASK_STATES:
         label = {
