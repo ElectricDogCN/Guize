@@ -47,15 +47,9 @@ Evidence-only commits follow the validated implementation source. The final revi
 17. `specs/coordination/README.md`
 18. `specs/designs/module-ownership.yaml`
 19. `specs/tasks/task-template.md`
-20. `tests/governance/test_program-lifecycle-guards.py`
-21. `tests/governance/test_program-registration-dispatch.py`
-22. `tests/governance/test-program-task-registration.py`
-
-Authoritative GitHub paths use underscores in the three test filenames:
-
-- `tests/governance/test_program_lifecycle_guards.py`
-- `tests/governance/test_program_registration_dispatch.py`
-- `tests/governance/test_program_task_registration.py`
+20. `tests/governance/test_program_lifecycle_guards.py`
+21. `tests/governance/test_program_registration_dispatch.py`
+22. `tests/governance/test_program_task_registration.py`
 
 No probe, marker, placeholder, temporary file, Program Plan, Active Work, Completion Ledger, OPS-006 Task/Evidence, workflow or later-task file remains in the cumulative diff.
 
