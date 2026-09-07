@@ -3,7 +3,9 @@
 
 Implementation work is validated against Active Work path claims. Registration
 is metadata-only and is always validated by the canonical history-aware
-Registration checker; callers cannot replace that checker.
+Registration checker; callers cannot replace that checker. Non-Registration
+fixtures do not need to vendor the Registration checker merely to exercise the
+existing dispatcher modes.
 """
 
 from __future__ import annotations
@@ -190,8 +192,12 @@ def resolve_script(root: str, value: str) -> str:
     return value if os.path.isabs(value) else os.path.join(root, value)
 
 
+def registration_script_path(root: str) -> str:
+    return os.path.join(root, REGISTRATION_SCRIPT)
+
+
 def load_registration_module(root: str):
-    path = os.path.join(root, REGISTRATION_SCRIPT)
+    path = registration_script_path(root)
     if not os.path.isfile(path):
         raise FileNotFoundError(f"Registration checker does not exist: {path}")
     spec = importlib.util.spec_from_file_location("guize_program_task_registration", path)
@@ -215,6 +221,23 @@ def git_ref_exists(root: str, ref: str) -> bool:
         ).returncode
         == 0
     )
+
+
+def program_plan_changed(root: str, base_ref: str, head_ref: str) -> bool | None:
+    if not base_ref or not head_ref:
+        return False
+    result = subprocess.run(
+        ["git", "diff", "--quiet", f"{base_ref}...{head_ref}", "--", PROGRAM_PLAN],
+        cwd=root,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+    if result.returncode == 0:
+        return False
+    if result.returncode == 1:
+        return True
+    return None
 
 
 def global_history_context(args: argparse.Namespace, root: str) -> tuple[str, str, str]:
@@ -255,36 +278,7 @@ def run_registration(
     return 0
 
 
-def main() -> int:
-    args = parse_args()
-    root = os.path.abspath(args.repo_root)
-    coordination_script = resolve_script(root, args.coordination_script)
-    if not os.path.isfile(coordination_script):
-        print(f"FAIL: Coordination checker does not exist: {coordination_script}")
-        return 2
-
-    try:
-        registration = load_registration_module(root)
-    except (OSError, RuntimeError) as exc:
-        print(f"FAIL: {exc}")
-        return 2
-
-    if not args.task:
-        base_ref, head_ref, branch_name = global_history_context(args, root)
-        if (
-            base_ref
-            and head_ref
-            and registration.is_registration_candidate(root, base_ref, head_ref)
-        ):
-            return run_registration(
-                registration,
-                root,
-                base_ref,
-                head_ref,
-                task="",
-                branch_name=branch_name,
-            )
-
+def validate_global_program_specs(root: str) -> int | None:
     plan, lifecycle_errors = load_program_plan(root)
     if plan is not None:
         lifecycle_errors.extend(validate_completed_foundation_specs(root, plan))
@@ -293,28 +287,47 @@ def main() -> int:
         for error in lifecycle_errors:
             print(f"FAIL: {error}")
         return 2
+    return None
 
-    command = [sys.executable, coordination_script, "--repo-root", root]
+
+def main() -> int:
+    args = parse_args()
+    root = os.path.abspath(args.repo_root)
+    coordination_script = resolve_script(root, args.coordination_script)
+    if not os.path.isfile(coordination_script):
+        print(f"FAIL: Coordination checker does not exist: {coordination_script}")
+        return 2
+
+    # Resolve task-aware Registration before running repository-wide completed
+    # Task consistency. The Registration validator proves the whole base/head
+    # metadata transition and must not require unrelated completed-task files in
+    # an isolated behavioral fixture.
+    task_document_value: dict[str, Any] | None = None
+    task_status = ""
     if args.task:
         path = find_task_file(root, args.task)
         if not path:
             print(f"FAIL: Task Spec not found for {args.task}")
             return 2
         try:
-            document = task_document(path)
-            status = str(document.get("status") or "")
+            task_document_value = task_document(path)
+            task_status = str(task_document_value.get("status") or "")
         except (OSError, ValueError, yaml.YAMLError) as exc:
             print(f"FAIL: Cannot read Task Spec status for {args.task}: {exc}")
             return 2
-
-        if status in REGISTRATION_TASK_STATES:
-            if document.get("coordinationMode") != "registration":
+        if task_status in REGISTRATION_TASK_STATES:
+            if task_document_value.get("coordinationMode") != "registration":
                 print("FAIL: planned Task requires coordinationMode registration")
                 return 2
             if not args.base_ref or not args.head_ref or not args.branch_name:
                 print(
                     "FAIL: Task-aware Registration coordination requires exact base/head refs and an authoritative branch name"
                 )
+                return 2
+            try:
+                registration = load_registration_module(root)
+            except (OSError, RuntimeError) as exc:
+                print(f"FAIL: {exc}")
                 return 2
             return run_registration(
                 registration,
@@ -325,6 +338,46 @@ def main() -> int:
                 branch_name=args.branch_name,
             )
 
+    # In push/no-task mode, load the canonical validator only when the current
+    # repository actually has it. An isolated non-Registration fixture may omit
+    # the new checker; however, any Program Plan change with no checker fails
+    # closed rather than falling through to ordinary coordination.
+    if not args.task:
+        base_ref, head_ref, branch_name = global_history_context(args, root)
+        if base_ref and head_ref:
+            changed = program_plan_changed(root, base_ref, head_ref)
+            if changed is None:
+                print("FAIL: Cannot determine Program Plan change in no-task mode")
+                return 2
+            path = registration_script_path(root)
+            if os.path.isfile(path):
+                try:
+                    registration = load_registration_module(root)
+                except (OSError, RuntimeError) as exc:
+                    print(f"FAIL: {exc}")
+                    return 2
+                if registration.is_registration_candidate(root, base_ref, head_ref):
+                    return run_registration(
+                        registration,
+                        root,
+                        base_ref,
+                        head_ref,
+                        task="",
+                        branch_name=branch_name,
+                    )
+            elif changed:
+                print(
+                    f"FAIL: Program Plan changed but canonical Registration checker is missing: {path}"
+                )
+                return 2
+
+    global_result = validate_global_program_specs(root)
+    if global_result is not None:
+        return global_result
+
+    command = [sys.executable, coordination_script, "--repo-root", root]
+    if args.task:
+        status = task_status
         if status in IMPLEMENTATION_TASK_STATES:
             command += ["--task", args.task]
             if args.base_ref:
