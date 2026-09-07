@@ -305,6 +305,11 @@ def _validate_completed_foundation_maintenance(
     for claim in normalized_authorized:
         if claim.startswith(f"evidence/{task_id}"):
             continue
+        if claim == "specs/designs/module-ownership.yaml":
+            # The ownership registry is the canonical file that records its
+            # own governance ownership; maintenance may change it only when
+            # explicitly enumerated in the manifest.
+            continue
         if not any(
             _matches(claim, pattern) or _matches(pattern, claim)
             for pattern in module_patterns
