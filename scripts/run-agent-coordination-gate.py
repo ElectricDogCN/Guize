@@ -2,13 +2,14 @@
 """Run the mandatory Agent Coordination mode for the current Task.
 
 Implementation work is validated against Active Work path claims. Registration
-is metadata-only and is validated by the shared history-aware Registration
-checker; it never invokes ordinary coordination and never owns a Lease.
+is metadata-only and is always validated by the canonical history-aware
+Registration checker; callers cannot replace that checker.
 """
 
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import os
 import subprocess
 import sys
@@ -20,13 +21,13 @@ IMPLEMENTATION_TASK_STATES = {"in_progress", "review", "integration"}
 REGISTRATION_TASK_STATES = {"planned"}
 METADATA_TASK_STATES = {"reserved", "blocked", "cancelled", "completed"}
 PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
+REGISTRATION_SCRIPT = "scripts/check-program-task-registration.py"
 NONE_VALUES = {"", "NONE", "none", "null", "N/A", "n/a"}
+ZERO_SHA = "0" * 40
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Dispatch the Agent Coordination gate"
-    )
+    parser = argparse.ArgumentParser(description="Dispatch the Agent Coordination gate")
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--task", default="")
     parser.add_argument("--base-ref", default="")
@@ -35,12 +36,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--coordination-script",
         default="scripts/check-agent-coordination.py",
-        help="Override only for isolated dispatcher tests",
-    )
-    parser.add_argument(
-        "--registration-script",
-        default="scripts/check-program-task-registration.py",
-        help="Override only for isolated dispatcher tests",
+        help="Override only for isolated non-Registration dispatcher tests",
     )
     return parser.parse_args()
 
@@ -80,11 +76,7 @@ def as_list(value: Any) -> list[str]:
     text = str(value or "").strip()
     if text in NONE_VALUES:
         return []
-    return [
-        part.strip()
-        for part in text.strip("[]").split(",")
-        if part.strip()
-    ]
+    return [part.strip() for part in text.strip("[]").split(",") if part.strip()]
 
 
 def load_program_plan(root: str) -> tuple[dict[str, Any] | None, list[str]]:
@@ -101,29 +93,20 @@ def load_program_plan(root: str) -> tuple[dict[str, Any] | None, list[str]]:
     return plan, []
 
 
-def validate_completed_foundation_specs(
-    root: str, plan: dict[str, Any]
-) -> list[str]:
+def validate_completed_foundation_specs(root: str, plan: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     for foundation in plan.get("foundationTasks") or []:
-        if (
-            not isinstance(foundation, dict)
-            or foundation.get("status") != "completed"
-        ):
+        if not isinstance(foundation, dict) or foundation.get("status") != "completed":
             continue
         task_id = str(foundation.get("taskId") or "")
         spec = find_task_file(root, task_id)
         if not spec:
-            errors.append(
-                f"Completed Foundation task {task_id} has no unique Task Spec"
-            )
+            errors.append(f"Completed Foundation task {task_id} has no unique Task Spec")
             continue
         try:
             document = task_document(spec)
         except (OSError, ValueError, yaml.YAMLError) as exc:
-            errors.append(
-                f"Completed Foundation task {task_id} Task Spec is unreadable: {exc}"
-            )
+            errors.append(f"Completed Foundation task {task_id} Task Spec is unreadable: {exc}")
             continue
         schema_version = document.get("schemaVersion")
         status = document.get("status")
@@ -139,9 +122,7 @@ def validate_completed_foundation_specs(
     return errors
 
 
-def validate_completed_program_specs(
-    root: str, plan: dict[str, Any]
-) -> list[str]:
+def validate_completed_program_specs(root: str, plan: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     scalar_pairs = {
         "title": "titleZh",
@@ -159,25 +140,19 @@ def validate_completed_program_specs(
         "producesContracts",
         "consumesContracts",
     )
-
     for task in plan.get("tasks") or []:
         if not isinstance(task, dict) or task.get("status") != "completed":
             continue
         task_id = str(task.get("taskId") or "")
         spec = find_task_file(root, task_id)
         if not spec:
-            errors.append(
-                f"Completed Program task {task_id} has no unique Task Spec"
-            )
+            errors.append(f"Completed Program task {task_id} has no unique Task Spec")
             continue
         try:
             document = task_document(spec)
         except (OSError, ValueError, yaml.YAMLError) as exc:
-            errors.append(
-                f"Completed Program task {task_id} Task Spec is unreadable: {exc}"
-            )
+            errors.append(f"Completed Program task {task_id} Task Spec is unreadable: {exc}")
             continue
-
         if document.get("status") != "completed":
             errors.append(
                 f"Completed Program task {task_id} Task Spec status must be exactly completed, got {document.get('status')!r}"
@@ -195,22 +170,16 @@ def validate_completed_program_specs(
                 f"Completed Program task {task_id} Task Spec coordinationMode must remain registry"
             )
         for plan_field, spec_field in scalar_pairs.items():
-            if str(document.get(spec_field, "")) != str(
-                task.get(plan_field, "")
-            ):
+            if str(document.get(spec_field, "")) != str(task.get(plan_field, "")):
                 errors.append(
                     f"Completed Program task {task_id} Task Spec {spec_field} does not match Program Plan {plan_field}"
                 )
-        if task.get("issue") is not None and str(
-            document.get("issue", "")
-        ) != str(task.get("issue")):
+        if task.get("issue") is not None and str(document.get("issue", "")) != str(task.get("issue")):
             errors.append(
                 f"Completed Program task {task_id} Task Spec issue does not match Program Plan"
             )
         for field in list_fields:
-            if as_list(document.get(field)) != [
-                str(item) for item in task.get(field) or []
-            ]:
+            if as_list(document.get(field)) != [str(item) for item in task.get(field) or []]:
                 errors.append(
                     f"Completed Program task {task_id} Task Spec {field} does not match Program Plan"
                 )
@@ -221,33 +190,111 @@ def resolve_script(root: str, value: str) -> str:
     return value if os.path.isabs(value) else os.path.join(root, value)
 
 
+def load_registration_module(root: str):
+    path = os.path.join(root, REGISTRATION_SCRIPT)
+    if not os.path.isfile(path):
+        raise FileNotFoundError(f"Registration checker does not exist: {path}")
+    spec = importlib.util.spec_from_file_location("guize_program_task_registration", path)
+    if not spec or not spec.loader:
+        raise RuntimeError("Cannot load canonical Registration checker")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def git_ref_exists(root: str, ref: str) -> bool:
+    if not ref:
+        return False
+    return (
+        subprocess.run(
+            ["git", "rev-parse", "--verify", f"{ref}^{{commit}}"],
+            cwd=root,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        ).returncode
+        == 0
+    )
+
+
+def global_history_context(args: argparse.Namespace, root: str) -> tuple[str, str, str]:
+    if args.base_ref and args.head_ref:
+        return args.base_ref, args.head_ref, args.branch_name
+    event = os.environ.get("EVENT_NAME") or os.environ.get("GITHUB_EVENT_NAME") or ""
+    before = os.environ.get("PUSH_BEFORE") or os.environ.get("GITHUB_EVENT_BEFORE") or ""
+    branch = args.branch_name or os.environ.get("GITHUB_REF_NAME") or "main"
+    if event == "push" and before and before != ZERO_SHA and git_ref_exists(root, before):
+        return before, args.head_ref or "HEAD", branch
+    return "", "", branch
+
+
+def run_registration(
+    module: Any,
+    root: str,
+    base_ref: str,
+    head_ref: str,
+    task: str,
+    branch_name: str,
+) -> int:
+    code, details = module.validate_registration(
+        root,
+        base_ref,
+        head_ref,
+        task_hint=task,
+        branch_name=branch_name,
+    )
+    if code:
+        for error in details.get("errors") or []:
+            module.emit("FAIL", error)
+        return code
+    module.emit(
+        "PASS",
+        "Agent Coordination accepted metadata-only Program Task Registration",
+        details,
+    )
+    return 0
+
+
 def main() -> int:
     args = parse_args()
     root = os.path.abspath(args.repo_root)
     coordination_script = resolve_script(root, args.coordination_script)
     if not os.path.isfile(coordination_script):
-        print(
-            f"FAIL: Coordination checker does not exist: {coordination_script}"
-        )
+        print(f"FAIL: Coordination checker does not exist: {coordination_script}")
         return 2
+
+    try:
+        registration = load_registration_module(root)
+    except (OSError, RuntimeError) as exc:
+        print(f"FAIL: {exc}")
+        return 2
+
+    if not args.task:
+        base_ref, head_ref, branch_name = global_history_context(args, root)
+        if (
+            base_ref
+            and head_ref
+            and registration.is_registration_candidate(root, base_ref, head_ref)
+        ):
+            return run_registration(
+                registration,
+                root,
+                base_ref,
+                head_ref,
+                task="",
+                branch_name=branch_name,
+            )
 
     plan, lifecycle_errors = load_program_plan(root)
     if plan is not None:
-        lifecycle_errors.extend(
-            validate_completed_foundation_specs(root, plan)
-        )
+        lifecycle_errors.extend(validate_completed_foundation_specs(root, plan))
         lifecycle_errors.extend(validate_completed_program_specs(root, plan))
     if lifecycle_errors:
         for error in lifecycle_errors:
             print(f"FAIL: {error}")
         return 2
 
-    command = [
-        sys.executable,
-        coordination_script,
-        "--repo-root",
-        root,
-    ]
+    command = [sys.executable, coordination_script, "--repo-root", root]
     if args.task:
         path = find_task_file(root, args.task)
         if not path:
@@ -257,50 +304,26 @@ def main() -> int:
             document = task_document(path)
             status = str(document.get("status") or "")
         except (OSError, ValueError, yaml.YAMLError) as exc:
-            print(
-                f"FAIL: Cannot read Task Spec status for {args.task}: {exc}"
-            )
+            print(f"FAIL: Cannot read Task Spec status for {args.task}: {exc}")
             return 2
 
         if status in REGISTRATION_TASK_STATES:
             if document.get("coordinationMode") != "registration":
+                print("FAIL: planned Task requires coordinationMode registration")
+                return 2
+            if not args.base_ref or not args.head_ref or not args.branch_name:
                 print(
-                    "FAIL: planned Task requires coordinationMode registration"
+                    "FAIL: Task-aware Registration coordination requires exact base/head refs and an authoritative branch name"
                 )
                 return 2
-            if not args.base_ref or not args.head_ref:
-                print(
-                    "FAIL: Registration coordination requires exact base/head refs"
-                )
-                return 2
-            registration_script = resolve_script(
-                root, args.registration_script
-            )
-            if not os.path.isfile(registration_script):
-                print(
-                    f"FAIL: Registration checker does not exist: {registration_script}"
-                )
-                return 2
-            registration_command = [
-                sys.executable,
-                registration_script,
-                "--repo-root",
+            return run_registration(
+                registration,
                 root,
-                "--base-ref",
                 args.base_ref,
-                "--head-ref",
                 args.head_ref,
-                "--task",
-                args.task,
-            ]
-            if args.branch_name:
-                registration_command += [
-                    "--branch-name",
-                    args.branch_name,
-                ]
-            return subprocess.run(
-                registration_command, cwd=root, check=False
-            ).returncode
+                task=args.task,
+                branch_name=args.branch_name,
+            )
 
         if status in IMPLEMENTATION_TASK_STATES:
             command += ["--task", args.task]
@@ -321,9 +344,7 @@ def main() -> int:
                 f"INFO: {args.task} is a {label}; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates."
             )
         else:
-            print(
-                f"FAIL: Unsupported Task status for coordination dispatch: {status!r}"
-            )
+            print(f"FAIL: Unsupported Task status for coordination dispatch: {status!r}")
             return 2
 
     return subprocess.run(command, cwd=root, check=False).returncode
