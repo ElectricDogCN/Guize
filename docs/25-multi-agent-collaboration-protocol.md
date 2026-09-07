@@ -1,8 +1,8 @@
 # 25. 多 Agent 协作、交接与集成协议
 
-> 初始机制：GZ-003 / ADR-0014  
-> Program Plan 与公共契约加固：GZ-014  
-> Program Task Registration 生命周期：OPS-008 / Issue #57  
+> 初始机制：GZ-003 / ADR-0014
+> Program Plan 与公共契约加固：GZ-014
+> Program Task Registration 生命周期：OPS-008 / Issue #57
 > 适用范围：所有需求、设计、契约、POC、代码、测试、部署和治理任务
 
 ## 1. 目标
@@ -236,6 +236,7 @@ Activation 必须经过独立 Review、正常 merge commit 和绿色 post-main G
 - manifest 逐项列出允许路径，且路径必须属于对应 Module ownership；
 - 禁止临时文件、探针、宽泛仓库范围、symlink、rename/copy 逃逸和业务路径；
 - exact-head Gate 必须成功；人工授权不得把红色 Gate 解释为可合并；
+- A red exact-head Gate is never merge authority.
 - 合并后必须验证同一 merge SHA 的 post-main Gate。
 
 该模式是受约束的治理维护生命周期，不是 completed-task bypass。
