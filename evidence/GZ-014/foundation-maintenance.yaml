@@ -1,0 +1,28 @@
+schemaVersion: 1
+mode: completed-foundation-maintenance
+taskId: GZ-014
+issue: 57
+purpose: bootstrap machine-enforced Program Task Registration without reopening completed Foundation state
+baseSha: 3acc6e4ee582f4fdee8ba90c630bf99eb870b252
+workBranch: fix/GZ-014-program-registration-bootstrap
+riskLevel: high
+independentReviewRequired: true
+postMergeGateRequired: true
+authorizedPaths:
+  - AGENTS.md
+  - docs/25-multi-agent-collaboration-protocol.md
+  - specs/designs/module-ownership.yaml
+  - specs/coordination/README.md
+  - specs/tasks/task-template.md
+  - scripts/check-task-file.py
+  - scripts/check-program-task-registration.py
+  - scripts/check-program-plan-transitions.py
+  - scripts/check-program-plan-transitions-core.py
+  - scripts/check-program-lifecycle-guards.py
+  - scripts/check-program-lifecycle-guards-core.py
+  - scripts/run-agent-coordination-gate.py
+  - scripts/run-task-scope-gate.py
+  - tests/governance/test_program_registration_dispatch.py
+  - tests/governance/test_program_task_registration.py
+  - tests/governance/test_program_lifecycle_guards.py
+  - evidence/GZ-014/**
