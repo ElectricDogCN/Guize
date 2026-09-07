@@ -350,6 +350,7 @@ modules:
   owner: platform-governance
   ownedPaths:
   - AGENTS.md
+  - docs/25-multi-agent-collaboration-protocol.md
   - rules/**
   - specs/tasks/**
   - specs/coordination/**
