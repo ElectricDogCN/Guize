@@ -8,6 +8,8 @@ import re
 import sys
 from datetime import datetime
 
+import yaml
+
 
 CANONICAL_PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
 V2_COMMON_FIELDS = [
@@ -83,6 +85,43 @@ MOD_RE = re.compile(r"^MOD-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
 WAVE_RE = re.compile(r"^(W\d+|FOUNDATION)$")
 
 
+class UniqueKeyLoader(yaml.SafeLoader):
+    """Preserve YAML merge keys while rejecting duplicate explicit keys."""
+
+
+def _construct_unique_mapping(loader, node, deep=False):
+    explicit = set()
+    for key_node, _ in node.value:
+        if key_node.tag == "tag:yaml.org,2002:merge":
+            continue
+        key = loader.construct_object(key_node, deep=False)
+        try:
+            duplicate = key in explicit
+            explicit.add(key)
+        except TypeError as exc:
+            raise yaml.constructor.ConstructorError(
+                "while constructing a mapping",
+                node.start_mark,
+                f"found unhashable mapping key {key!r}",
+                key_node.start_mark,
+            ) from exc
+        if duplicate:
+            raise yaml.constructor.ConstructorError(
+                "while constructing a mapping",
+                node.start_mark,
+                f"found duplicate explicit key {key!r}",
+                key_node.start_mark,
+            )
+    loader.flatten_mapping(node)
+    return yaml.SafeLoader.construct_mapping(loader, node, deep=deep)
+
+
+UniqueKeyLoader.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+    _construct_unique_mapping,
+)
+
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Validate a Guize task specification file."
@@ -112,18 +151,19 @@ def parse_front_matter(text):
     parts = text.split("---", 2)
     if len(parts) < 3:
         return {}, text
-    data = {}
-    for line in parts[1].splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or ":" not in line:
-            continue
-        key, value = line.split(":", 1)
-        data[key.strip()] = value.strip()
-    return data, parts[2].strip()
+    try:
+        document = yaml.load(parts[1], Loader=UniqueKeyLoader)
+    except yaml.YAMLError:
+        return {}, parts[2].strip()
+    return (document if isinstance(document, dict) else {}), parts[2].strip()
 
 
 def parse_list(value):
-    text = str(value or "").strip().strip("[]")
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item).strip()]
+    if value is None:
+        return []
+    text = str(value).strip().strip("[]")
     if text.lower() in PLACEHOLDERS or text.upper() == "NONE":
         return []
     return [
@@ -131,6 +171,10 @@ def parse_list(value):
         for part in text.split(",")
         if part.strip()
     ]
+
+
+def empty_value(value):
+    return value is None or value == "" or value == [] or value == {}
 
 
 def report(status, message, details=None):
@@ -209,7 +253,7 @@ def validate_program_identity(front, errors):
         errors.append(f"programPlan must be {CANONICAL_PROGRAM_PLAN}.")
     if front.get("programTaskId") != front.get("id"):
         errors.append("programTaskId must equal the Task Spec id.")
-    if not WAVE_RE.fullmatch(front.get("wave", "")):
+    if not WAVE_RE.fullmatch(str(front.get("wave", ""))):
         errors.append("wave must be W<number> or FOUNDATION.")
 
     requirement_ids = parse_list(front.get("requirementIds"))
@@ -234,7 +278,7 @@ def validate_roles_and_order(front, errors):
     try:
         if int(front.get("integrationOrder", "0")) < 1:
             errors.append("integrationOrder must be a positive integer.")
-    except ValueError:
+    except (TypeError, ValueError):
         errors.append("integrationOrder must be a positive integer.")
 
     if front.get("riskLevel") in {"high", "critical"}:
@@ -255,7 +299,7 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
         errors.append("schemaVersion must be 2 when the field is present.")
         return
     for field in V2_COMMON_FIELDS:
-        if field not in front or front[field] == "":
+        if field not in front or empty_value(front[field]):
             errors.append(f"Missing or empty schemaVersion 2 field: {field}")
 
     if front.get("agentRole") not in V2_ROLES:
@@ -270,14 +314,14 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
         errors.append(
             f"Invalid integrationStrategy: {front.get('integrationStrategy')}"
         )
-    if not re.fullmatch(r"[0-9a-f]{40}", front.get("baseSha", "")):
+    if not re.fullmatch(r"[0-9a-f]{40}", str(front.get("baseSha", ""))):
         errors.append(
             "baseSha must be a 40-character lowercase Git commit SHA."
         )
 
-    handoff_path = front.get("handoffPath", "")
+    handoff_path = str(front.get("handoffPath", ""))
     if handoff_path:
-        evidence_prefix = evidence_path.rstrip("/") + "/"
+        evidence_prefix = str(evidence_path).rstrip("/") + "/"
         if not handoff_path.startswith(evidence_prefix):
             errors.append("handoffPath must be inside evidencePath.")
         if not os.path.isfile(os.path.join(repo_root, handoff_path)):
@@ -286,7 +330,7 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
     mode = front.get("coordinationMode")
     if mode == "registry":
         for field in V2_REGISTRY_FIELDS:
-            if field not in front or front[field] == "":
+            if field not in front or empty_value(front[field]):
                 errors.append(
                     f"Missing or empty registry coordination field: {field}"
                 )
@@ -304,17 +348,13 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
     elif mode == "registration":
         for field in V2_REGISTRATION_FIELDS:
             if field not in front:
-                errors.append(
-                    f"Missing registration identity field: {field}"
-                )
+                errors.append(f"Missing registration identity field: {field}")
         if front.get("status") != "planned":
             errors.append("Registration task status must be planned.")
         if front.get("agentRole") != "coordinator":
             errors.append("Registration task agentRole must be coordinator.")
         if "leaseExpiresAt" in front:
-            errors.append(
-                "Registration task must not contain leaseExpiresAt."
-            )
+            errors.append("Registration task must not contain leaseExpiresAt.")
         if front.get("riskLevel") not in {"high", "critical"}:
             errors.append(
                 "Registration Program Plan changes must be high or critical risk."
@@ -383,7 +423,7 @@ def main():
     errors = []
     warnings = []
     for field in required_fields:
-        if field not in front or not front[field]:
+        if field not in front or empty_value(front[field]):
             errors.append(f"Missing or empty front matter field: {field}")
 
     if not re.fullmatch(r"[A-Z]+-\d+", task_id):
@@ -393,12 +433,13 @@ def main():
             f"Front matter id mismatch: expected {task_id}, got {front.get('id')}"
         )
     expected_prefix = f"{front.get('type', 'chore')}/{task_id}"
-    if not front.get("workBranch", "").startswith(expected_prefix):
+    work_branch = str(front.get("workBranch", ""))
+    if not work_branch.startswith(expected_prefix):
         errors.append(
-            f"workBranch '{front.get('workBranch')}' does not start with expected prefix '{expected_prefix}'"
+            f"workBranch '{work_branch}' does not start with expected prefix '{expected_prefix}'"
         )
 
-    evidence_path = front.get("evidencePath", "")
+    evidence_path = str(front.get("evidencePath", ""))
     if evidence_path:
         if not os.path.isdir(os.path.join(repo_root, evidence_path)):
             errors.append(f"Evidence path does not exist: {evidence_path}")
@@ -408,9 +449,7 @@ def main():
     allowed = extract_section(body, ["允许范围", "allowed scope"])
     forbidden = extract_section(body, ["禁止范围", "forbidden scope"])
     acceptance = extract_section(body, ["验收标准", "acceptance criteria"])
-    validation = extract_section(
-        body, ["必须执行的测试", "validation commands"]
-    )
+    validation = extract_section(body, ["必须执行的测试", "validation commands"])
     if allowed is None:
         errors.append("Missing allowed scope section.")
     elif not has_list_entry(allowed):
@@ -421,9 +460,7 @@ def main():
         errors.append("Forbidden scope section has no entries.")
     if acceptance is None:
         errors.append("Missing acceptance criteria section.")
-    elif not re.search(
-        r"(?m)^\s*[-*]\s+\[[ xX]\]\s+\S", acceptance
-    ):
+    elif not re.search(r"(?m)^\s*[-*]\s+\[[ xX]\]\s+\S", acceptance):
         errors.append(
             "Acceptance criteria section must contain at least one checklist item."
         )
