@@ -4,8 +4,9 @@
 Implementation work is validated against Active Work path claims. Registration
 is metadata-only and is always validated by the canonical history-aware
 Registration checker; callers cannot replace that checker. Audited completed-
-Foundation maintenance is revalidated by the canonical lifecycle guard rather
-than falling through to unrelated global active-lease checks.
+Foundation maintenance is revalidated by the canonical lifecycle guard in both
+PR task-aware and post-merge push/no-task modes instead of falling through to
+unrelated global active-lease checks.
 """
 
 from __future__ import annotations
@@ -13,6 +14,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import os
+import re
 import subprocess
 import sys
 from typing import Any
@@ -25,6 +27,9 @@ METADATA_TASK_STATES = {"reserved", "blocked", "cancelled", "completed"}
 PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
 REGISTRATION_SCRIPT = "scripts/check-program-task-registration.py"
 LIFECYCLE_SCRIPT = "scripts/check-program-lifecycle-guards.py"
+MAINTENANCE_MANIFEST_RE = re.compile(
+    r"^evidence/([A-Z]+-[0-9]+)/foundation-maintenance\.yaml$"
+)
 NONE_VALUES = {"", "NONE", "none", "null", "N/A", "n/a"}
 ZERO_SHA = "0" * 40
 
@@ -249,6 +254,37 @@ def program_plan_changed(root: str, base_ref: str, head_ref: str) -> bool | None
     return None
 
 
+def changed_maintenance_tasks(
+    root: str,
+    base_ref: str,
+    head_ref: str,
+) -> list[str] | None:
+    """Derive maintenance Tasks from the exact push/PR diff, never snapshots."""
+    result = subprocess.run(
+        [
+            "git",
+            "diff",
+            "--name-only",
+            "-z",
+            f"{base_ref}...{head_ref}",
+            "--",
+            "evidence",
+        ],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    tasks: set[str] = set()
+    for path in result.stdout.split("\0"):
+        match = MAINTENANCE_MANIFEST_RE.fullmatch(path)
+        if match:
+            tasks.add(match.group(1))
+    return sorted(tasks)
+
+
 def global_history_context(args: argparse.Namespace, root: str) -> tuple[str, str, str]:
     if args.base_ref and args.head_ref:
         return args.base_ref, args.head_ref, args.branch_name
@@ -292,12 +328,12 @@ def run_completed_foundation_maintenance(
     base_ref: str,
     head_ref: str,
     task: str,
-    branch_name: str,
+    branch_name: str = "",
 ) -> int:
-    """Delegate maintenance coordination to the canonical lifecycle proof."""
-    if not base_ref or not head_ref or not branch_name:
+    """Delegate PR and push maintenance coordination to canonical lifecycle."""
+    if not base_ref or not head_ref or not task:
         print(
-            "FAIL: Completed-Foundation maintenance coordination requires exact base/head refs and an authoritative branch name"
+            "FAIL: Completed-Foundation maintenance coordination requires exact base/head refs and one detected Task"
         )
         return 2
     script = lifecycle_script_path(root)
@@ -315,13 +351,14 @@ def run_completed_foundation_maintenance(
         head_ref,
         "--task",
         task,
-        "--branch-name",
-        branch_name,
     ]
+    if branch_name:
+        command += ["--branch-name", branch_name]
     result = subprocess.run(command, cwd=root, check=False)
     if result.returncode == 0:
+        mode = "task-aware PR" if branch_name else "push/no-task"
         print(
-            f"INFO: {task} completed-Foundation maintenance coordination was accepted only after canonical lifecycle revalidation."
+            f"INFO: {task} completed-Foundation maintenance coordination ({mode}) was accepted only after canonical lifecycle revalidation."
         )
     return result.returncode
 
@@ -410,6 +447,26 @@ def main() -> int:
                     f"FAIL: Program Plan changed but canonical Registration checker is missing: {path}"
                 )
                 return 2
+
+            maintenance_tasks = changed_maintenance_tasks(root, base_ref, head_ref)
+            if maintenance_tasks is None:
+                print(
+                    "FAIL: Cannot determine completed-Foundation maintenance changes in no-task mode"
+                )
+                return 2
+            if len(maintenance_tasks) > 1:
+                print(
+                    "FAIL: Push/no-task coordination found multiple completed-Foundation maintenance manifests: "
+                    + ", ".join(maintenance_tasks)
+                )
+                return 2
+            if maintenance_tasks:
+                return run_completed_foundation_maintenance(
+                    root,
+                    base_ref,
+                    head_ref,
+                    maintenance_tasks[0],
+                )
 
     global_result = validate_global_program_specs(root)
     if global_result is not None:
