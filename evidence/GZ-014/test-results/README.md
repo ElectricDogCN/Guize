@@ -10,10 +10,10 @@ Status: READY_FOR_INDEPENDENT_REVIEW
 
 ## Validated functional source
 
-- Functional source HEAD: `0d3276a6c858ec0db061089b6d2b226a7dbbe90e`.
-- Pull-request test merge ref: `d559976b94d76dcff781a8c8bc6d9a112c6999bb`.
-- Governance Gate: run #521 / ID `34562685632`.
-- Governance Checks job: `103148524226`.
+- Functional source HEAD: `644c34927f945439f02beae4bbfa41a4d52297fe`.
+- Pull-request test merge ref: `c556503aa4a815a98d2fbd824e4e36eedf29a145`.
+- Governance Gate: run #527 / ID `34563651207`.
+- Governance Checks job: `103151281804`.
 - Conclusion: `success`.
 - Runner: Ubuntu 24.04, Python 3.11.16, pytest 8.4.2.
 
@@ -25,15 +25,19 @@ The Evidence refresh is intentionally committed after the validated functional s
 |---|---|
 | dependency installation/import | PASS |
 | Python compilation | PASS |
-| test collection | 345 collected |
-| full governance suite | 345 passed, 0 failed |
+| test collection | 348 collected in 0.27 seconds |
+| full governance suite | 348 passed, 0 failed in 62.97 seconds |
 | skip audit | 0 skipped, PASS |
 | Project Readiness | PASS with truthful non-blocking readiness warnings |
 | Program integrity/history/transitions/finalization | PASS |
 | one-time completed-Foundation maintenance | PASS; 23 changed paths, 17 authorized claims |
 | exact target-base ownership authorization | PASS |
 | exact MOD-GOV protocol tail append | PASS |
-| Agent Coordination | PASS through canonical lifecycle maintenance revalidation |
+| task-aware maintenance coordination | PASS through canonical lifecycle revalidation |
+| push/no-task maintenance coordination | PASS through exact-diff manifest detection and canonical lifecycle revalidation |
+| push lifecycle failure propagation | PASS |
+| multiple maintenance manifests | correctly rejected |
+| ordinary global coordination substitution | not invoked for maintenance |
 | Task Scope | PASS |
 | Markdown | PASS; 189 files checked |
 | YAML/JSON Schema | PASS |
@@ -41,15 +45,13 @@ The Evidence refresh is intentionally committed after the validated functional s
 | Evidence and Evidence integrity | PASS |
 | Branch linkage | PASS with the documented immutable GZ-014 historical branch warning |
 | Spec sync and repository boundary | PASS |
-| CI workflow static validation | PASS; 14 tests |
-
-Full governance duration: 50.26 seconds.
+| CI workflow static validation | PASS |
 
 ## Registration-specific behavioral coverage
 
 The passing suite includes real temporary-Git fixtures for:
 
-- valid task-aware Registration and valid two-parent push/no-task merge provenance;
+- valid task-aware Registration and valid two-parent push/no-task Registration provenance;
 - exact merge-base enforcement and rejection of stale source branches;
 - branch-namespace-only provenance and rejection of a same-named tag;
 - exactly one new high/critical planned task, duplicate rows and duplicate explicit YAML keys;
@@ -64,7 +66,11 @@ The passing suite includes real temporary-Git fixtures for:
 - one-time completed-Foundation maintenance and rejection of repeat use;
 - immutable target-base ownership authorization and rejection of candidate self-authorization;
 - generalized probe, marker, temporary and placeholder residue rejection;
-- completed-Foundation Agent Coordination delegation to the canonical lifecycle proof with exact failure propagation;
+- task-aware completed-Foundation coordination delegation to the canonical lifecycle proof;
+- post-main push/no-task maintenance detection from the exact base-to-head diff;
+- exact lifecycle exit-code propagation in PR and push modes;
+- fail-closed rejection of multiple maintenance manifests;
+- proof that ordinary global active-lease coordination is not a substitute for the maintenance lifecycle proof;
 - preserved exact transition/lifecycle core blobs;
 - ordinary Reservation, Activation, Review, Integration and Completion behavior;
 - OPS-007 terminal/non-terminal Wave semantics;
