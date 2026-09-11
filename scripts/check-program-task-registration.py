@@ -62,6 +62,12 @@ CANONICAL_EVIDENCE_ENTRIES = (
     "security/",
     "rollback-verification/",
 )
+MANDATORY_NON_NA_EVIDENCE = {
+    "summary.md",
+    "commands.txt",
+    "test-results/",
+    "rollback-verification/",
+}
 SUPPORT_EVIDENCE_FILES = (
     "scope.md",
     "changed-files.md",
@@ -118,9 +124,6 @@ def _construct_unique_mapping(
     node: yaml.nodes.MappingNode,
     deep: bool = False,
 ) -> dict[Any, Any]:
-    # Check only keys explicitly present in this mapping before flattening. A
-    # legal explicit override of a value inherited through ``<<`` must remain
-    # valid, while two explicit occurrences of the same key must fail.
     explicit: set[Any] = set()
     for key_node, _ in node.value:
         if key_node.tag == "tag:yaml.org,2002:merge":
@@ -312,9 +315,6 @@ def is_registration_candidate(root: str, base_ref: str, head_ref: str) -> bool:
     before = load_ref(root, base_ref, PLAN)
     after = load_ref(root, head_ref, PLAN)
     if not isinstance(before, dict) or not isinstance(after, dict):
-        # A malformed Program Plan change must enter the fail-closed
-        # Registration validator rather than silently falling through to a
-        # different lifecycle mode.
         return True
     base_ids = set(row_ids(task_rows(before)))
     return any(task_id not in base_ids for task_id in row_ids(task_rows(after)))
@@ -345,14 +345,11 @@ def static_prefix(pattern: str) -> str:
 
 
 def safe_scope_claim(value: Any) -> bool:
-    raw = str(value or "").strip()
-    normalized = normalize_path(raw)
+    normalized = normalize_path(value)
     if not safe_repo_path(normalized):
         return False
     if normalized in {"*", "**", "/"}:
         return False
-    # Any glob whose non-wildcard prefix is empty is repository-wide or an
-    # equivalent root wildcard (for example ./**, **/*, [a-z]*, or ?/**).
     if any(token in normalized for token in ("*", "?", "[")) and not static_prefix(
         normalized
     ):
@@ -381,7 +378,7 @@ def as_list(value: Any) -> list[str]:
         return []
     return [
         part.strip().strip("'\"")
-        for part in text.strip("[]").split(",")
+        for part in re.split(r"[,，]", text.strip("[]"))
         if part.strip()
     ]
 
@@ -409,8 +406,19 @@ def extract_section(body: str, titles: tuple[str, ...]) -> str | None:
     return "\n".join(lines[start:end]).strip()
 
 
+def section_bullets(section: str | None) -> list[str]:
+    if not section:
+        return []
+    result: list[str] = []
+    for line in section.splitlines():
+        match = re.match(r"\s*[-*]\s+(.+?)\s*$", line)
+        if match:
+            result.append(match.group(1).strip())
+    return result
+
+
 def has_bullet(section: str | None) -> bool:
-    return bool(section and re.search(r"(?m)^\s*[-*]\s+\S", section))
+    return bool(section_bullets(section))
 
 
 def section_paths(body: str, titles: tuple[str, ...]) -> list[str] | None:
@@ -418,11 +426,7 @@ def section_paths(body: str, titles: tuple[str, ...]) -> list[str] | None:
     if section is None:
         return None
     paths: list[str] = []
-    for line in section.splitlines():
-        match = re.match(r"\s*[-*]\s+(.+)$", line)
-        if not match:
-            continue
-        value = match.group(1).strip()
+    for value in section_bullets(section):
         quoted = re.search(r"`([^`]+)`", value)
         if quoted:
             value = quoted.group(1).strip()
@@ -450,6 +454,17 @@ def has_validation_command(section: str | None) -> bool:
     )
 
 
+def field_value(content: str, labels: tuple[str, ...]) -> str | None:
+    for label in labels:
+        match = re.search(
+            rf"(?mi)^\s*(?:[-*]\s*)?(?:\*\*)?{re.escape(label)}(?:\*\*)?\s*:\s*(\S.*)$",
+            content,
+        )
+        if match:
+            return match.group(1).strip().strip("`")
+    return None
+
+
 def wave_orders(plan: dict[str, Any]) -> dict[str, int]:
     result: dict[str, int] = {"FOUNDATION": 0}
     for wave in plan.get("waves") or []:
@@ -459,6 +474,13 @@ def wave_orders(plan: dict[str, Any]) -> dict[str, int]:
             except (KeyError, TypeError, ValueError):
                 continue
     return result
+
+
+def task_integration_order(task: dict[str, Any]) -> int | None:
+    try:
+        return int(task.get("integrationOrder"))
+    except (TypeError, ValueError):
+        return None
 
 
 def dependency_cycle(tasks: dict[str, dict[str, Any]]) -> bool:
@@ -519,17 +541,33 @@ def compare_list(
 
 
 def branch_refs(root: str, branch: str) -> list[tuple[str, str]]:
-    candidates = (
-        branch,
-        f"refs/heads/{branch}",
-        f"origin/{branch}",
-        f"refs/remotes/origin/{branch}",
+    """Resolve only real local/remote branch namespaces; never DWIM tags."""
+    if not branch or branch.startswith("refs/"):
+        return []
+    result = git(
+        root,
+        "for-each-ref",
+        "--format=%(refname)%09%(objectname)",
+        "refs/heads",
+        "refs/remotes",
     )
+    if result.returncode != 0:
+        return []
+    local = f"refs/heads/{branch}"
+    remote_suffix = "/" + branch
     resolved: list[tuple[str, str]] = []
-    for candidate in candidates:
-        sha = resolve_ref(root, candidate)
-        if sha and (candidate, sha) not in resolved:
-            resolved.append((candidate, sha))
+    for line in result.stdout.splitlines():
+        try:
+            refname, _ = line.split("\t", 1)
+        except ValueError:
+            continue
+        if refname != local and not (
+            refname.startswith("refs/remotes/") and refname.endswith(remote_suffix)
+        ):
+            continue
+        sha = resolve_ref(root, refname)
+        if sha and (refname, sha) not in resolved:
+            resolved.append((refname, sha))
     return resolved
 
 
@@ -539,6 +577,15 @@ def commit_parents(root: str, sha: str) -> list[str]:
         return []
     parts = result.stdout.strip().split()
     return parts[1:] if parts and parts[0] == sha else []
+
+
+def merge_base(root: str, left: str, right: str) -> str | None:
+    result = git(root, "merge-base", left, right)
+    return result.stdout.strip() if result.returncode == 0 else None
+
+
+def is_ancestor(root: str, ancestor: str, descendant: str) -> bool:
+    return git(root, "merge-base", "--is-ancestor", ancestor, descendant).returncode == 0
 
 
 def validate_branch_provenance(
@@ -554,17 +601,21 @@ def validate_branch_provenance(
         errors.append("Registration Task Spec workBranch is empty")
         return
     refs = branch_refs(root, work_branch)
+    if not refs:
+        errors.append(
+            "Registration cannot resolve workBranch from a local or remote branch ref"
+        )
     if task_aware:
         if not branch_name:
             errors.append("Task-aware Registration requires an authoritative branch name")
         elif branch_name != work_branch:
             errors.append("Registration actual branch does not match Task Spec workBranch")
         if any(sha == head_sha for _, sha in refs):
+            if merge_base(root, base_sha, head_sha) != base_sha:
+                errors.append(
+                    "Task-aware Registration target base must be the exact merge base of the source branch HEAD"
+                )
             return
-        # pull_request workflows normally check out refs/pull/<n>/merge rather
-        # than the source branch itself. In that case, prove the exact first
-        # parent/base and second-parent/source-branch relation instead of
-        # comparing the source ref to the synthetic merge SHA.
         parents = commit_parents(root, head_sha)
         if len(parents) != 2 or parents[0] != base_sha:
             errors.append(
@@ -641,25 +692,62 @@ def evidence_entry_exists(
     return bool(content), [relative] if content else []
 
 
+def executable_command_lines(content: str) -> list[str]:
+    commands: list[str] = []
+    for raw_line in content.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith(("```", "#")):
+            continue
+        line = re.sub(r"^[-*]\s+", "", line)
+        line = re.sub(r"^\$\s*", "", line)
+        if re.match(
+            r"^(?:git|rm|cp|mv|python|python3|make|bash|sh|docker|kubectl|helm)\b",
+            line,
+        ):
+            commands.append(line)
+    return commands
+
+
 def content_has_executable_steps(content: str) -> bool:
-    if "```bash" in content or "```sh" in content or "```shell" in content:
-        return True
-    return bool(
-        re.search(
-            r"(?m)^(?:git|rm|cp|mv|python|python3|make|bash|sh|docker|kubectl)\s+",
-            content,
-        )
-    )
+    for command in executable_command_lines(content):
+        if re.match(r"^git\s+(?:revert|restore|reset|checkout|switch)\b", command):
+            return True
+        if re.match(r"^kubectl\s+rollout\s+undo\b", command):
+            return True
+        if re.match(r"^helm\s+rollback\b", command):
+            return True
+        if re.match(r"^(?:rm|cp|mv)\s+\S+", command):
+            return True
+    return False
 
 
 def validate_evidence_contract(
     root: str,
+    base_ref: str,
     head_ref: str,
     task_id: str,
     errors: list[str],
 ) -> None:
     evidence_root = f"evidence/{task_id}"
+    base_paths = set(ref_paths(root, base_ref, evidence_root))
+    if base_paths:
+        errors.append(
+            f"Registration Evidence root must be absent from the target base; found {sorted(base_paths)}"
+        )
+
     all_paths = set(ref_paths(root, head_ref, evidence_root))
+    for path in sorted(all_paths):
+        if not safe_repo_path(path) or not path.startswith(evidence_root + "/"):
+            errors.append(f"Registration Evidence contains unsafe path: {path}")
+            continue
+        mode = ref_mode(root, head_ref, path)
+        if mode == "120000":
+            errors.append(f"Registration Evidence must not contain symlinks: {path}")
+        elif mode not in {"100644", "100755"}:
+            errors.append(
+                f"Registration Evidence contains unsupported Git mode {mode}: {path}"
+            )
+
     compatibility = parse_compatibility_map(
         read_ref(root, head_ref, f"{evidence_root}/EVIDENCE-STRUCTURE.md")
     )
@@ -671,13 +759,20 @@ def validate_evidence_contract(
         )
         if exists:
             resolved_entries[entry] = paths
-            if not entry.endswith("/"):
-                content = read_ref(root, head_ref, paths[0]) or ""
-                if task_id not in content:
+            for path in paths:
+                content = read_ref(root, head_ref, path) or ""
+                if not content:
+                    errors.append(f"Registration Evidence entry is empty: {path}")
+                elif entry in MANDATORY_NON_NA_EVIDENCE and task_id not in content:
+                    errors.append(
+                        f"Mandatory Registration Evidence {path} must identify {task_id}"
+                    )
+                elif not entry.endswith("/") and task_id not in content:
                     errors.append(
                         f"Canonical Registration Evidence {entry} must identify {task_id}"
                     )
             continue
+
         mapping = compatibility.get(entry)
         if not mapping:
             errors.append(
@@ -687,6 +782,10 @@ def validate_evidence_contract(
         target, reason = mapping
         normalized = target.upper().replace(" ", "")
         if normalized in {"N/A", "NA", "NOTAPPLICABLE", "不适用"}:
+            if entry in MANDATORY_NON_NA_EVIDENCE:
+                errors.append(
+                    f"Mandatory Registration Evidence {entry} may not be mapped to N/A"
+                )
             if len(re.sub(r"[`*_]", "", reason).strip()) < 4:
                 errors.append(f"N/A mapping for {entry} must include a reason")
             resolved_entries[entry] = []
@@ -713,12 +812,13 @@ def validate_evidence_contract(
             )
         else:
             for path in found:
-                if not target.endswith("/"):
-                    content = read_ref(root, head_ref, path) or ""
-                    if task_id not in content:
-                        errors.append(
-                            f"Compatibility Evidence target must identify {task_id}: {path}"
-                        )
+                content = read_ref(root, head_ref, path) or ""
+                if not content:
+                    errors.append(f"Compatibility Evidence target is empty: {path}")
+                elif task_id not in content:
+                    errors.append(
+                        f"Compatibility Evidence target must identify {task_id}: {path}"
+                    )
             resolved_entries[entry] = found
 
     for filename in SUPPORT_EVIDENCE_FILES:
@@ -738,16 +838,181 @@ def validate_evidence_contract(
             errors.append("Registration commands Evidence has no command indicator")
         if not re.search(r"退出码|exit.?code|returncode", commands, re.I):
             errors.append("Registration commands Evidence has no exit-code indicator")
+        if not re.search(r"(?mi)^(?:result|status)\s*:\s*(?:PASS|SUCCESS)\b", commands):
+            errors.append("Registration commands Evidence has no explicit PASS result")
 
     rollback_paths = resolved_entries.get("rollback-verification/", [])
-    if rollback_paths:
-        if not any(
-            content_has_executable_steps(read_ref(root, head_ref, path) or "")
-            for path in rollback_paths
-        ):
+    if rollback_paths and not any(
+        content_has_executable_steps(read_ref(root, head_ref, path) or "")
+        for path in rollback_paths
+    ):
+        errors.append(
+            "Registration rollback-verification Evidence has no executable steps for rollback, revert, or restore"
+        )
+
+
+def validate_handoff(
+    root: str,
+    base_sha: str,
+    head_sha: str,
+    task_id: str,
+    task_path: str,
+    handoff_path: str,
+    handoff: str,
+    front: dict[str, Any],
+    new_task: dict[str, Any],
+    changed: set[str],
+    errors: list[str],
+) -> None:
+    scalar_expectations = (
+        (("Task", "Task ID"), task_id, "Task"),
+        (("Issue", "Tracking Issue"), str(new_task.get("issue") or ""), "Issue"),
+        (("Branch", "Work Branch"), str(front.get("workBranch") or ""), "Branch"),
+        (("Base SHA", "Base Commit"), base_sha, "Base SHA"),
+        (("Wave",), str(new_task.get("wave") or ""), "Wave"),
+        (
+            ("Integration Order",),
+            str(new_task.get("integrationOrder") or ""),
+            "Integration Order",
+        ),
+        (("Task Owner",), str(front.get("taskOwner") or ""), "Task Owner"),
+        (("Coordinator",), str(front.get("coordinator") or ""), "Coordinator"),
+        (("Implementer",), str(front.get("implementer") or ""), "Implementer"),
+        (("Reviewer",), str(front.get("reviewer") or ""), "Reviewer"),
+        (("Integrator",), str(front.get("integrator") or ""), "Integrator"),
+    )
+    for labels, expected, label in scalar_expectations:
+        actual = field_value(handoff, labels)
+        if actual is None:
+            errors.append(f"Registration Handoff is missing structured field: {label}")
+        elif actual != expected:
             errors.append(
-                "Registration rollback-verification Evidence has no executable steps"
+                f"Registration Handoff {label} does not match the Registration contract"
             )
+
+    lease = (field_value(handoff, ("Lease", "Lease State")) or "").lower()
+    if lease not in {"none", "no lease", "absent", "not granted", "无"}:
+        errors.append("Registration Handoff must state that no Lease is granted")
+
+    produced = as_list(field_value(handoff, ("Produced Contracts",)) or "")
+    consumed = as_list(field_value(handoff, ("Consumed Contracts",)) or "")
+    if produced != [str(item) for item in new_task.get("producesContracts") or []]:
+        errors.append("Registration Handoff Produced Contracts do not match Program task")
+    if consumed != [str(item) for item in new_task.get("consumesContracts") or []]:
+        errors.append("Registration Handoff Consumed Contracts do not match Program task")
+
+    candidate = field_value(
+        handoff, ("Candidate Commit", "Implementation Commit", "Candidate SHA")
+    )
+    if not candidate or not re.fullmatch(r"[0-9a-f]{40}", candidate):
+        errors.append("Registration Handoff Candidate Commit must be a 40-hex Git commit")
+    elif resolve_ref(root, candidate) != candidate:
+        errors.append("Registration Handoff Candidate Commit does not exist")
+    else:
+        if not is_ancestor(root, base_sha, candidate):
+            errors.append(
+                "Registration Handoff Candidate Commit is not descended from the target base"
+            )
+        if not is_ancestor(root, candidate, head_sha):
+            errors.append(
+                "Registration Handoff Candidate Commit is not an ancestor of candidate HEAD"
+            )
+        elif candidate != head_sha:
+            result = git(root, "diff", "--name-only", candidate, head_sha)
+            later_paths = [line for line in result.stdout.splitlines() if line]
+            evidence_root = f"evidence/{task_id}/"
+            if result.returncode != 0 or any(
+                not path.startswith(evidence_root) for path in later_paths
+            ):
+                errors.append(
+                    "Registration Handoff Candidate Commit may precede HEAD only when all later changes are task Evidence"
+                )
+
+    required_sections = (
+        (("completed scope", "完成范围"), "Completed Scope"),
+        (("changed files", "变更文件"), "Changed Files"),
+        (("commands and exit codes", "命令与退出码"), "Commands and Exit Codes"),
+        (("known limitations", "已知限制"), "Known Limitations"),
+        (("shared paths", "共享路径"), "Shared Paths"),
+        (("security", "安全"), "Security"),
+        (("migration", "迁移"), "Migration"),
+        (("rollback", "回滚"), "Rollback"),
+        (("next action", "下一步"), "Next Action"),
+    )
+    sections: dict[str, str] = {}
+    for titles, label in required_sections:
+        section = extract_section(handoff, titles)
+        if not has_bullet(section):
+            errors.append(f"Registration Handoff {label} section must contain a bullet")
+        sections[label] = section or ""
+
+    completed_scope = sections.get("Completed Scope", "").lower()
+    if "metadata" not in completed_scope or not re.search(
+        r"no\s+lease|without\s+(?:a\s+)?lease|无.*租约", completed_scope
+    ):
+        errors.append(
+            "Registration Handoff Completed Scope must state metadata-only work with no Lease"
+        )
+
+    changed_section = sections.get("Changed Files", "")
+    listed_paths: set[str] = set()
+    for bullet in section_bullets(changed_section):
+        match = re.search(r"`([^`]+)`", bullet)
+        value = match.group(1) if match else bullet
+        normalized = normalize_path(value)
+        if normalized:
+            listed_paths.add(normalized)
+    expected_changed = set(changed) - {"specs/tasks/task-template.md"}
+    if listed_paths != expected_changed:
+        errors.append(
+            "Registration Handoff Changed Files must exactly match the candidate diff"
+        )
+
+    commands = sections.get("Commands and Exit Codes", "")
+    if not re.search(r"(?mi)\bcommand\s*:\s*\S", commands) or not re.search(
+        r"(?mi)\bexit\s*code\s*:\s*0\b", commands
+    ):
+        errors.append(
+            "Registration Handoff Commands and Exit Codes must record an executed command with exit code 0"
+        )
+
+    shared_section = sections.get("Shared Paths", "")
+    shared_paths = section_paths(
+        "## Shared Paths\n" + shared_section,
+        ("shared paths",),
+    )
+    expected_shared = [normalize_path(item) for item in new_task.get("sharedPaths") or []]
+    if shared_paths != expected_shared:
+        errors.append("Registration Handoff Shared Paths do not match Program task")
+
+    rollback = sections.get("Rollback", "")
+    if not content_has_executable_steps(rollback):
+        errors.append(
+            "Registration Handoff Rollback section has no executable steps for rollback, revert, or restore"
+        )
+
+    next_action = sections.get("Next Action", "").lower()
+    if "review" not in next_action and "审查" not in next_action:
+        errors.append(
+            "Registration Handoff Next Action must transfer control to independent review"
+        )
+
+    if "leaseExpiresAt" in handoff:
+        errors.append("Registration Handoff must not grant leaseExpiresAt")
+    if task_path not in listed_paths or handoff_path not in listed_paths or PLAN not in listed_paths:
+        errors.append(
+            "Registration Handoff Changed Files is missing Program, Task Spec, or Handoff identity"
+        )
+
+
+def task_spec_matches(root: str, ref: str, task_id: str) -> list[str]:
+    exact = f"{TASK_DIR}/{task_id}.md"
+    return sorted(
+        path
+        for path in ref_paths(root, ref, TASK_DIR)
+        if path == exact
+        or (path.startswith(f"{TASK_DIR}/{task_id}-") and path.endswith(".md"))
+    )
 
 
 def validate_task_spec(
@@ -760,21 +1025,20 @@ def validate_task_spec(
     new_task: dict[str, Any],
     task_hint: str,
     branch_name: str,
+    changed: set[str],
     errors: list[str],
 ) -> tuple[str, dict[str, Any], str]:
     task_path = f"{TASK_DIR}/{task_id}.md"
-    matching_specs = sorted(
-        path
-        for path in ref_paths(root, head_ref, TASK_DIR)
-        if path == task_path
-        or (path.startswith(f"{TASK_DIR}/{task_id}-") and path.endswith(".md"))
-    )
+    matching_specs = task_spec_matches(root, head_ref, task_id)
     if len(matching_specs) != 1 or matching_specs[0] != task_path:
         errors.append(
             f"Registration requires exactly one canonical Task Spec {task_path}; got {matching_specs}"
         )
-    if read_ref(root, base_ref, task_path) is not None:
-        errors.append("Registration Task Spec must be absent from the target base")
+    base_specs = task_spec_matches(root, base_ref, task_id)
+    if base_specs:
+        errors.append(
+            f"Registration Task Spec must be absent from the target base; got {base_specs}"
+        )
     task_text = read_ref(root, head_ref, task_path)
     front, body = parse_front(task_text)
     if not front:
@@ -909,12 +1173,8 @@ def validate_task_spec(
 
     exclusive = section_paths(body, ("独占写范围", "exclusive write scope"))
     shared = section_paths(body, ("共享修改范围", "shared modification scope"))
-    program_output = [
-        normalize_path(item) for item in new_task.get("outputPaths") or []
-    ]
-    program_shared = [
-        normalize_path(item) for item in new_task.get("sharedPaths") or []
-    ]
+    program_output = [normalize_path(item) for item in new_task.get("outputPaths") or []]
+    program_shared = [normalize_path(item) for item in new_task.get("sharedPaths") or []]
     if exclusive is None or exclusive != program_output:
         errors.append(
             "Registration Task Spec exclusive paths do not match Program outputPaths in order"
@@ -938,8 +1198,20 @@ def validate_task_spec(
         errors.append(
             "Registration handoffPath must be an existing regular file at candidate ref"
         )
-    elif task_id not in handoff:
-        errors.append("Registration Handoff must identify the Task ID")
+    else:
+        validate_handoff(
+            root,
+            base_sha,
+            head_sha,
+            task_id,
+            task_path,
+            handoff_path,
+            handoff,
+            front,
+            new_task,
+            changed,
+            errors,
+        )
 
     validate_branch_provenance(
         root,
@@ -1045,8 +1317,11 @@ def validate_registration(
     changed_existing: list[str] = []
     orders = wave_orders(current_plan)
     new_wave_order = orders.get(str(new_task.get("wave") or ""))
+    new_integration_order = task_integration_order(new_task)
     if new_wave_order is None:
         errors.append("Registration new task references an unknown Wave")
+    if new_integration_order is None:
+        errors.append("Registration new task has invalid integrationOrder")
 
     for existing_id in base_order:
         before = base_tasks.get(existing_id)
@@ -1081,6 +1356,15 @@ def validate_registration(
             errors.append(
                 f"Registration dependency attachment target {existing_id} must be in the same or a later Wave"
             )
+        if target_order == new_wave_order and new_integration_order is not None:
+            target_integration_order = task_integration_order(after)
+            if (
+                target_integration_order is None
+                or target_integration_order <= new_integration_order
+            ):
+                errors.append(
+                    f"Same-Wave Registration attachment target {existing_id} must follow the new task integrationOrder"
+                )
 
     base_active_text = read_ref(root, base_ref, ACTIVE)
     current_active_text = read_ref(root, head_ref, ACTIVE)
@@ -1110,14 +1394,22 @@ def validate_registration(
         new_task,
         task_hint,
         branch_name,
+        paths,
         errors,
     )
 
     allowed_exact = {PLAN, task_path}
+    template_copy_used = any(
+        status.startswith("C")
+        and source == "specs/tasks/task-template.md"
+        and destination == task_path
+        for status, source, destination in records
+    )
     invalid_paths = sorted(
         path
         for path in paths
         if path not in allowed_exact
+        and not (path == "specs/tasks/task-template.md" and template_copy_used)
         and path != f"evidence/{task_id}"
         and not path.startswith(f"evidence/{task_id}/")
     )
@@ -1156,7 +1448,7 @@ def validate_registration(
                     f"Registration rename escapes task metadata scope: {source} -> {destination}"
                 )
 
-    validate_evidence_contract(root, head_ref, task_id, errors)
+    validate_evidence_contract(root, base_ref, head_ref, task_id, errors)
 
     all_ids = set(current_tasks) | set(foundation_map(current_plan))
     for dependency in new_task.get("dependsOn") or []:
@@ -1164,13 +1456,21 @@ def validate_registration(
         if dependency_id not in all_ids:
             errors.append(f"Registration dependency does not exist: {dependency_id}")
         elif dependency_id in current_tasks and new_wave_order is not None:
-            dependency_order = orders.get(
-                str(current_tasks[dependency_id].get("wave") or "")
-            )
+            dependency_task = current_tasks[dependency_id]
+            dependency_order = orders.get(str(dependency_task.get("wave") or ""))
             if dependency_order is None or dependency_order > new_wave_order:
                 errors.append(
                     f"Registration dependency {dependency_id} is in a later Wave"
                 )
+            if dependency_order == new_wave_order and new_integration_order is not None:
+                dependency_integration_order = task_integration_order(dependency_task)
+                if (
+                    dependency_integration_order is None
+                    or dependency_integration_order >= new_integration_order
+                ):
+                    errors.append(
+                        f"Same-Wave Registration dependency {dependency_id} must precede the new task integrationOrder"
+                    )
 
     if dependency_cycle(current_tasks):
         errors.append("Registration introduces a Program task dependency cycle")
