@@ -10,14 +10,14 @@ Status: READY_FOR_INDEPENDENT_REVIEW
 - Draft PR: #58.
 - Branch: `fix/GZ-014-program-registration-bootstrap`.
 - Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`.
-- Validated functional source HEAD: `0d3276a6c858ec0db061089b6d2b226a7dbbe90e`.
-- Validated test merge ref: `d559976b94d76dcff781a8c8bc6d9a112c6999bb`.
-- Governance Gate: #521 / run `34562685632`, job `103148524226`, success.
+- Validated functional source HEAD: `644c34927f945439f02beae4bbfa41a4d52297fe`.
+- Validated test merge ref: `c556503aa4a815a98d2fbd824e4e36eedf29a145`.
+- Governance Gate: #527 / run `34563651207`, job `103151281804`, success.
 - Risk: `high`.
 - Shared paths: none.
 - Lease: none; no Active Work entry or implementation authority is granted.
 
-Evidence-only commits follow the validated functional source. The final review must bind the actual PR HEAD returned by GitHub after this Handoff is committed and after that exact HEAD receives a green Gate. No document pre-writes its own future commit SHA.
+Evidence-only commits follow the validated functional source. The final review must bind the actual PR HEAD after this Handoff is committed and after that exact HEAD receives a green Gate. No document pre-writes its own future commit SHA.
 
 ## Roles
 
@@ -61,8 +61,8 @@ No probe, marker, placeholder, temporary file, Program Plan, Active Work, Comple
 - Kept GZ-014 completion identity and lifecycle state immutable.
 - Added one one-time completed-Foundation maintenance manifest.
 - Added only one ownership delta: a tail append of the protocol path to `MOD-GOV.ownedPaths`.
-- Added behavioral temporary-Git regression coverage for valid and invalid Registration, maintenance and dispatcher paths.
-- Did not perform Reservation, Activation, implementation, merge or post-main work.
+- Added behavioral temporary-Git regression coverage for valid and invalid Registration, maintenance, dispatcher and post-main push paths.
+- Did not perform Reservation, Activation, product implementation, merge or post-main work.
 
 ## Delivered contract
 
@@ -82,11 +82,14 @@ The shared validator, lifecycle dispatcher and coordination/scope dispatchers pr
 12. separate Registration, Reservation and Activation PRs before Implementation;
 13. no task-specific allowlist, production validator override, reusable bypass, skip, limit increase or expected-red suppression;
 14. completed-Foundation maintenance is one-time and authorized from target-base ownership rather than candidate self-authorization;
-15. completed-Foundation Agent Coordination reruns the canonical lifecycle proof and propagates any nonzero result;
-16. generalized probe, marker, temporary and placeholder residue fails closed;
-17. unchanged ordinary lifecycle behavior and OPS-007 terminal/non-terminal Wave semantics;
-18. exact preserved Transition core blob `89a0e302904b12e1f3c33fbc180af1ba3b81090e`;
-19. exact preserved Lifecycle core blob `cd1242fbdd8959376635d25e4f4cb4aefa0fa11a`.
+15. task-aware completed-Foundation Agent Coordination reruns the canonical lifecycle proof and propagates any nonzero result;
+16. post-main push/no-task Agent Coordination derives exactly one maintenance Task from the exact base-to-head diff, reruns the same lifecycle proof and propagates failure;
+17. multiple maintenance manifests in one push fail closed;
+18. ordinary global active-lease coordination is not used as a substitute for maintenance validation;
+19. generalized probe, marker, temporary and placeholder residue fails closed;
+20. unchanged ordinary lifecycle behavior and OPS-007 terminal/non-terminal Wave semantics;
+21. exact preserved Transition core blob `89a0e302904b12e1f3c33fbc180af1ba3b81090e`;
+22. exact preserved Lifecycle core blob `cd1242fbdd8959376635d25e4f4cb4aefa0fa11a`.
 
 ## Produced and consumed contracts
 
@@ -98,10 +101,11 @@ The shared validator, lifecycle dispatcher and coordination/scope dispatchers pr
 
 - Command: dependency installation/import checks. Exit code: `0`.
 - Command: `python -m compileall -q scripts tests`. Exit code: `0`.
-- Command: governance collection. Exit code: `0`; 345 tests collected.
+- Command: governance collection. Exit code: `0`; 348 tests collected in 0.27 seconds.
 - Command: Program integrity/history/transitions/finalization/lifecycle group. Exit code: `0`.
-- Command: Agent Coordination. Exit code: `0`; canonical lifecycle maintenance proof reran.
-- Command: full governance pytest with JUnit. Exit code: `0`; 345 passed, 0 failed, 0 skipped in 50.26 seconds.
+- Command: task-aware Agent Coordination. Exit code: `0`; canonical lifecycle maintenance proof reran.
+- Command: push/no-task maintenance dispatcher fixtures. Exit code: `0`; success, failure propagation and multiple-manifest rejection were verified.
+- Command: full governance pytest with JUnit. Exit code: `0`; 348 passed, 0 failed, 0 skipped in 62.97 seconds.
 - Command: zero-skip audit. Exit code: `0`.
 - Command: Markdown, schema, secret, Evidence, branch linkage, Task Scope, spec sync, parent-directory and CI-static checks. Exit code: `0`.
 - Command: separately named local `make verify`. Exit code: not executed and not claimed.
@@ -109,6 +113,7 @@ The shared validator, lifecycle dispatcher and coordination/scope dispatchers pr
 ## Security and migration
 
 - Security: provenance, path, copy, rename, symlink, stale Evidence, broad scope and candidate self-authorization cases fail closed.
+- Post-main safety: maintenance detection is based on the exact push diff and rejects ambiguity before global coordination can run.
 - Migration: not applicable; no data or schema migration is performed.
 - Secrets and permissions: unchanged; hosted secret scan passed.
 
@@ -133,7 +138,7 @@ The shared validator, lifecycle dispatcher and coordination/scope dispatchers pr
 ## Next exact action
 
 1. Require a green Governance Gate on the final Evidence-refresh HEAD.
-2. Reply to and resolve the seven verified review findings against that exact HEAD.
+2. Re-evaluate all review threads against that exact HEAD.
 3. Request a fresh independent exact-head review.
 4. Repair any new finding without merging.
 5. Leave normal merge and post-main validation to a separate Integrator action.
