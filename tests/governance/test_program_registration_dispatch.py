@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+import tempfile
 import unittest
 
 from .test_program_task_registration import RegistrationFixture
@@ -87,6 +88,55 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
             "HEAD",
             "--branch-name",
             fixture.branch,
+        )
+
+    def write_dispatch_fixture(self, root, lifecycle_exit=0):
+        def write(relative, content):
+            path = os.path.join(root, relative)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as handle:
+                handle.write(content)
+            return path
+
+        write(
+            "specs/tasks/GZ-014.md",
+            "---\nschemaVersion: 2\nid: GZ-014\nstatus: completed\n---\n# GZ-014\n",
+        )
+        write(
+            "evidence/GZ-014/foundation-maintenance.yaml",
+            "schemaVersion: 1\nmode: completed-foundation-maintenance\noneTime: true\n",
+        )
+        ordinary = write(
+            "scripts/check-agent-coordination.py",
+            "import sys\nprint('ORDINARY-SHOULD-NOT-RUN')\nsys.exit(91)\n",
+        )
+        write(
+            "scripts/check-program-lifecycle-guards.py",
+            "import sys\nprint('CANONICAL-LIFECYCLE-RAN', ' '.join(sys.argv[1:]))\n"
+            f"sys.exit({lifecycle_exit})\n",
+        )
+        return ordinary
+
+    def run_completed_maintenance_dispatch(self, root, ordinary):
+        return subprocess.run(
+            [
+                sys.executable,
+                COORDINATION,
+                "--repo-root",
+                root,
+                "--task",
+                "GZ-014",
+                "--base-ref",
+                "origin/main",
+                "--head-ref",
+                "HEAD",
+                "--branch-name",
+                "fix/GZ-014-test-maintenance",
+                "--coordination-script",
+                ordinary,
+            ],
+            capture_output=True,
+            text=True,
         )
 
     def test_task_file_accepts_registration_without_lease(self):
@@ -209,6 +259,24 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
         result = self.run_coordination(fixture, env=env)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("two-parent merge", result.stdout)
+
+    def test_completed_foundation_maintenance_revalidates_lifecycle(self):
+        with tempfile.TemporaryDirectory() as root:
+            ordinary = self.write_dispatch_fixture(root, lifecycle_exit=0)
+            result = self.run_completed_maintenance_dispatch(root, ordinary)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("CANONICAL-LIFECYCLE-RAN", result.stdout)
+            self.assertIn("canonical lifecycle revalidation", result.stdout)
+            self.assertNotIn("ORDINARY-SHOULD-NOT-RUN", result.stdout)
+
+    def test_completed_foundation_maintenance_propagates_lifecycle_failure(self):
+        with tempfile.TemporaryDirectory() as root:
+            ordinary = self.write_dispatch_fixture(root, lifecycle_exit=7)
+            result = self.run_completed_maintenance_dispatch(root, ordinary)
+            self.assertEqual(result.returncode, 7, result.stdout + result.stderr)
+            self.assertIn("CANONICAL-LIFECYCLE-RAN", result.stdout)
+            self.assertNotIn("ORDINARY-SHOULD-NOT-RUN", result.stdout)
+            self.assertNotIn("accepted", result.stdout)
 
     def test_registration_script_override_is_absent_from_coordination_cli(self):
         result = subprocess.run(
