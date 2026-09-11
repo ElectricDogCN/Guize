@@ -1,6 +1,6 @@
 # OPS-008 / GZ-014 rollback verification
 
-Task: GZ-014  
+Task: GZ-014
 Tracking issue: #57
 
 The repair is governance-only. Before integration, verify that reverting the candidate restores the exact target-base behavior and does not alter Program, Active Work, Completion Ledger, product data, Secrets, or deployment state.
