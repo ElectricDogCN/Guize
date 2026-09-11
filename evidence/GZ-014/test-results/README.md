@@ -8,16 +8,16 @@ Status: READY_FOR_INDEPENDENT_REVIEW
 - Original completion identity remains PR #32 / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
 - OPS-008 maintenance is tracked by Issue #57 and Draft PR #58 from `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`.
 
-## Validated source
+## Validated functional source
 
-- Implementation source HEAD: `a0c31ffd409e93ae648c061758600c2aa1addc53`.
-- Pull-request test merge ref: `571336786c60579f42bdccd02b2b780ac1145855`.
-- Governance Gate: run #495 / ID `34141330075`.
-- Governance Checks job: `101803750766`.
+- Functional source HEAD: `0d3276a6c858ec0db061089b6d2b226a7dbbe90e`.
+- Pull-request test merge ref: `d559976b94d76dcff781a8c8bc6d9a112c6999bb`.
+- Governance Gate: run #521 / ID `34562685632`.
+- Governance Checks job: `103148524226`.
 - Conclusion: `success`.
 - Runner: Ubuntu 24.04, Python 3.11.16, pytest 8.4.2.
 
-The Evidence refresh is intentionally committed after the validated implementation source. Its final HEAD must be revalidated; this document does not attempt to contain its own commit SHA.
+The Evidence refresh is intentionally committed after the validated functional source. The final Evidence-refresh HEAD must be revalidated; this document does not attempt to contain its own commit SHA.
 
 ## Results
 
@@ -25,45 +25,55 @@ The Evidence refresh is intentionally committed after the validated implementati
 |---|---|
 | dependency installation/import | PASS |
 | Python compilation | PASS |
-| test collection | 327 collected |
-| full governance suite | 327 passed, 0 failed |
+| test collection | 345 collected |
+| full governance suite | 345 passed, 0 failed |
 | skip audit | 0 skipped, PASS |
 | Project Readiness | PASS with truthful non-blocking readiness warnings |
 | Program integrity/history/transitions/finalization | PASS |
-| completed-Foundation maintenance mode | PASS |
-| Agent Coordination | PASS |
+| one-time completed-Foundation maintenance | PASS; 23 changed paths, 17 authorized claims |
+| exact target-base ownership authorization | PASS |
+| exact MOD-GOV protocol tail append | PASS |
+| Agent Coordination | PASS through canonical lifecycle maintenance revalidation |
 | Task Scope | PASS |
-| Markdown | PASS; 188 files checked |
+| Markdown | PASS; 189 files checked |
 | YAML/JSON Schema | PASS |
 | Secret scan | PASS |
 | Evidence and Evidence integrity | PASS |
 | Branch linkage | PASS with the documented immutable GZ-014 historical branch warning |
 | Spec sync and repository boundary | PASS |
-| CI workflow static validation | PASS |
+| CI workflow static validation | PASS; 14 tests |
 
-Full governance duration: 46.77 seconds.
+Full governance duration: 50.26 seconds.
 
 ## Registration-specific behavioral coverage
 
 The passing suite includes real temporary-Git fixtures for:
 
-- valid task-aware Registration and valid push/no-task merge provenance;
-- authoritative branch/base equality and rejection of direct push or missing source branch;
-- exactly one new high/critical planned task and duplicate-row rejection;
-- YAML merge anchors with explicit overrides and duplicate explicit-key rejection;
-- exact schemaVersion 2 Task Spec sections, Handoff and canonical Evidence requirements;
+- valid task-aware Registration and valid two-parent push/no-task merge provenance;
+- exact merge-base enforcement and rejection of stale source branches;
+- branch-namespace-only provenance and rejection of a same-named tag;
+- exactly one new high/critical planned task, duplicate rows and duplicate explicit YAML keys;
+- exact schemaVersion 2 Task Spec sections and Program/Task identity parity;
+- fresh canonical Evidence, mandatory non-N/A artifacts and complete structured Handoff;
+- candidate-tree Evidence mode/symlink inspection, including pre-existing Evidence rejection;
+- executable rollback/revert/restore requirements and rejection of empty or prose-only rollback;
 - unchanged Active Work and Completion Ledger and no Lease;
 - canonical validator dispatch without production override;
-- legal downstream planned tail append, dependency existence, DAG, Wave and final closure;
-- rename, copy, symlink, path traversal and unrelated-source copy rejection;
-- repository-wide glob rejection;
+- legal downstream planned tail append, dependency existence, DAG, Wave, final closure and same-Wave integration order;
+- rename, copy, symlink, path traversal, unrelated-source copy and repository-wide glob rejection;
+- one-time completed-Foundation maintenance and rejection of repeat use;
+- immutable target-base ownership authorization and rejection of candidate self-authorization;
+- generalized probe, marker, temporary and placeholder residue rejection;
+- completed-Foundation Agent Coordination delegation to the canonical lifecycle proof with exact failure propagation;
 - preserved exact transition/lifecycle core blobs;
-- ordinary Reservation/Activation/Completion behavior and OPS-007 terminal Wave semantics;
-- MOD-GOV ownership and the four-stage protocol sequence.
+- ordinary Reservation, Activation, Review, Integration and Completion behavior;
+- OPS-007 terminal/non-terminal Wave semantics;
+- MOD-GOV ownership and the four-stage protocol sequence;
+- a valid individual baseline before each negative mutation or negative invocation.
 
 ## Command boundary
 
-The hosted workflow executes the mandatory validators and full governance suite directly. A separately named local `make verify` invocation was not observed and is not claimed. This limitation is explicit rather than represented as success.
+The hosted workflow executes the mandatory validators and full governance suite directly. A separately named local `make verify` invocation was not observed and is not claimed.
 
 ## Remaining release controls
 
