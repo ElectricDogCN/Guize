@@ -5,78 +5,88 @@ Maintenance issue: #57
 Draft PR: #58
 Base: 3acc6e4ee582f4fdee8ba90c630bf99eb870b252
 Branch: fix/GZ-014-program-registration-bootstrap
-Validated implementation source HEAD: a0c31ffd409e93ae648c061758600c2aa1addc53
-Validated PR merge ref: 571336786c60579f42bdccd02b2b780ac1145855
-Governance Gate: run 34141330075 (#495), job 101803750766
+Validated functional source HEAD: 0d3276a6c858ec0db061089b6d2b226a7dbbe90e
+Validated PR merge ref: d559976b94d76dcff781a8c8bc6d9a112c6999bb
+Governance Gate: run 34562685632 (#521), job 103148524226
 
 command: python -m pip install --upgrade pip && pip install -r requirements-governance.txt
 exit code: 0
 result: PASS; pytest 8.4.2, PyYAML 6.0.3 and jsonschema 4.26.0 installed
-source: Governance Gate #495
+source: Governance Gate #521
 
 command: python -c "import yaml, pytest, jsonschema; print('OK: All dependencies importable')"
 exit code: 0
 result: PASS
-source: Governance Gate #495
+source: Governance Gate #521
 
 command: python -m compileall -q scripts tests
 exit code: 0
 result: PASS
-source: Governance Gate #495
+source: Governance Gate #521
 
 command: python -m pytest --collect-only -q tests/governance/
 exit code: 0
-result: PASS; 327 tests collected
-source: Governance Gate #495
+result: PASS; 345 tests collected in 0.20 seconds
+source: Governance Gate #521
 
 command: python scripts/check-task-file.py --task GZ-014
 exit code: 0
 result: PASS
-source: Governance Gate #495
+source: Governance Gate #521
 
 command: python scripts/check-project-readiness.py
 exit code: 0
-result: PASS with truthful warnings for the still-open platform Ruleset and unfinished product contracts/implementation
-source: Governance Gate #495
+result: PASS with truthful warnings for the external main Ruleset and 10 unfinished requirement contract/implementation pairs
+source: Governance Gate #521
 
-command group: Program integrity, history, transitions, finalization and completed-Foundation maintenance
+command group: Program integrity, history, transitions, finalization and one-time completed-Foundation maintenance
 exit code: 0
-result: PASS; changedPathCount=22, authorizedPathCount=17, no maintenance errors
-source: Governance Gate #495
+result: PASS; changedPathCount=23, authorizedPathCount=17, oneTime=true, exact MOD-GOV protocol ownership tail append, no errors
+source: Governance Gate #521
 
 command: python scripts/run-agent-coordination-gate.py --task GZ-014 --base-ref origin/main --head-ref HEAD --branch-name fix/GZ-014-program-registration-bootstrap
 exit code: 0
-result: PASS
-source: Governance Gate #495
+result: PASS; canonical lifecycle maintenance proof reran and ordinary global active-lease coordination was not used
+source: Governance Gate #521
 
 command: python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
 exit code: 0
-result: PASS; 327 passed, 0 failed, 0 skipped in 46.77 seconds
-source: Governance Gate #495
+result: PASS; 345 passed, 0 failed, 0 skipped in 50.26 seconds
+source: Governance Gate #521
 
 command: python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
 exit code: 0
 result: PASS; no skipped tests
-source: Governance Gate #495
+source: Governance Gate #521
 
 command: python scripts/check-markdown.py
 exit code: 0
-result: PASS; 188 Markdown files checked
-source: Governance Gate #495
+result: PASS; 189 Markdown files checked
+source: Governance Gate #521
 
 command: python scripts/check-schemas.py
 exit code: 0
-result: PASS
-source: Governance Gate #495
+result: PASS; workflow, JSON/YAML schemas, coordination instances and GZ-010 registry link/activation are valid
+source: Governance Gate #521
 
-command group: secret scan, Evidence contract/integrity, branch linkage, Task Scope, spec sync, parent-directory and CI static validation
+command: python scripts/check-secrets.py
+exit code: 0
+result: PASS; no high-risk secrets detected
+source: Governance Gate #521
+
+command: python scripts/check-evidence.py --task GZ-014
 exit code: 0
 result: PASS
-source: Governance Gate #495
+source: Governance Gate #521
+
+command group: Evidence integrity, branch linkage, Task Scope, spec sync, parent-directory and CI static validation
+exit code: 0
+result: PASS; immutable historical GZ-014 branch mismatch remains a warning only; CI static suite ran 14 tests successfully
+source: Governance Gate #521
 
 command: make verify TASK=GZ-014 BASE=origin/main HEAD_REF=HEAD BRANCH=fix/GZ-014-program-registration-bootstrap
 exit code: NOT_SEPARATELY_EXECUTED
-result: NOT_CLAIMED; hosted Gate #495 executed the mandatory underlying validators and full test suite directly
+result: NOT_CLAIMED; hosted Gate #521 executed the mandatory validators and full governance suite directly
 
 command: independent exact-head review
 exit code: PENDING_FINAL_EVIDENCE_HEAD
@@ -86,4 +96,4 @@ command: normal merge and post-main Gate
 exit code: NOT_AUTHORIZED
 result: NOT_CLAIMED
 
-Evidence-only commits after a0c31ffd409e93ae648c061758600c2aa1addc53 must receive their own successful Governance Gate before independent review. No unknown future commit is pre-recorded.
+Evidence-only commits after 0d3276a6c858ec0db061089b6d2b226a7dbbe90e must receive their own successful Governance Gate before independent review. No unknown future commit is pre-recorded.
