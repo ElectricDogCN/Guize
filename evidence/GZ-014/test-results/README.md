@@ -1,58 +1,89 @@
-# GZ-014 Test Results
+# GZ-014 OPS-008 Test Results
 
-Status: PASS
+Status: READY_FOR_INDEPENDENT_REVIEW
 
-> `PASS` 表示当前 Foundation completion 快照满足结构化 Evidence 输入要求，并且其前置 PR #32 / post-merge main 验证已成功。PR #33 自身的最新远端 Gate、Review、merge 和 post-merge main 仍必须分别读取 GitHub 实际结果。
+## Immutable history
 
-## Verified predecessor lifecycle
+- GZ-014 remains completed.
+- Original completion identity remains PR #32 / `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
+- OPS-008 maintenance is tracked by Issue #57 and Draft PR #58 from `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`.
 
-- PR #32 exact HEAD: `9adf9a135fabe4581285a945b4b434d9302e9a80`.
-- PR #32 Governance Gate run #292: `PASS`.
-- PR #32 expected-head merge: `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
-- PR #32 post-merge main Governance Gate run #293: `PASS`.
-- Ancestry: prior GZ-014 integration base `c26fc712e050dba4e83c9af022fd25b8f7e84d6d` is a strict ancestor of `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`.
-- Commit identity: `8221fd0f...` identifies GZ-014 and PR #32.
+## Validated functional source
 
-## Completion commands
+- Functional source HEAD: `644c34927f945439f02beae4bbfa41a4d52297fe`.
+- Pull-request test merge ref: `c556503aa4a815a98d2fbd824e4e36eedf29a145`.
+- Governance Gate: run #527 / ID `34563651207`.
+- Governance Checks job: `103151281804`.
+- Conclusion: `success`.
+- Runner: Ubuntu 24.04, Python 3.11.16, pytest 8.4.2.
 
-PR #33 latest HEAD executes through Governance Gate:
+The Evidence refresh is intentionally committed after the validated functional source. The final Evidence-refresh HEAD must be revalidated; this document does not attempt to contain its own commit SHA.
 
-```bash
-python scripts/check-task-file.py --task GZ-014
-python scripts/check-project-readiness.py
-python scripts/check-schemas.py
-python scripts/run-program-lifecycle-gate.py \
-  --base-ref origin/main \
-  --head-ref HEAD \
-  --task GZ-014 \
-  --branch-name chore/GZ-014-foundation-completion-v3
-python scripts/run-agent-coordination-gate.py \
-  --task GZ-014 \
-  --base-ref origin/main \
-  --head-ref HEAD \
-  --branch-name chore/GZ-014-foundation-completion-v3
-python scripts/run-task-scope-gate.py --task GZ-014 --base origin/main
-python scripts/check-evidence.py --task GZ-014
-make verify \
-  TASK=GZ-014 \
-  BASE=origin/main \
-  HEAD_REF=HEAD \
-  BRANCH=chore/GZ-014-foundation-completion-v3
-```
+## Results
 
-## Fail-closed assertions represented by this snapshot
+| Validation | Result |
+|---|---|
+| dependency installation/import | PASS |
+| Python compilation | PASS |
+| test collection | 348 collected in 0.27 seconds |
+| full governance suite | 348 passed, 0 failed in 62.97 seconds |
+| skip audit | 0 skipped, PASS |
+| Project Readiness | PASS with truthful non-blocking readiness warnings |
+| Program integrity/history/transitions/finalization | PASS |
+| one-time completed-Foundation maintenance | PASS; 23 changed paths, 17 authorized claims |
+| exact target-base ownership authorization | PASS |
+| exact MOD-GOV protocol tail append | PASS |
+| task-aware maintenance coordination | PASS through canonical lifecycle revalidation |
+| push/no-task maintenance coordination | PASS through exact-diff manifest detection and canonical lifecycle revalidation |
+| push lifecycle failure propagation | PASS |
+| multiple maintenance manifests | correctly rejected |
+| ordinary global coordination substitution | not invoked for maintenance |
+| Task Scope | PASS |
+| Markdown | PASS; 189 files checked |
+| YAML/JSON Schema | PASS |
+| Secret scan | PASS |
+| Evidence and Evidence integrity | PASS |
+| Branch linkage | PASS with the documented immutable GZ-014 historical branch warning |
+| Spec sync and repository boundary | PASS |
+| CI workflow static validation | PASS |
 
-- GZ-014 exists in `foundationTasks` and moves only `integration -> completed`;
-- `completionRef` is exactly `PR-32`;
-- `mergeCommit` is exactly `8221fd0f6c2c8923e4eea10316eac33a9d7e1d87`;
-- Issue #17 is closed/completed;
-- GZ-014 Lease is absent after completion, while Registry policy is unchanged;
-- ordinary Task Completion Ledger is unchanged;
-- Task `exitGate` is unchanged;
-- exact diff is limited to the declared eight files;
-- Evidence contains required identity, commands, exit status and explicit PASS/COMPLETED tokens;
-- no W1 task is activated in the same change.
+## Registration-specific behavioral coverage
 
-Result: PASS
+The passing suite includes real temporary-Git fixtures for:
 
-The completion snapshot is internally valid. Final completion is accepted only after the latest PR #33 Gate and Review succeed, expected-head merge completes, and the resulting `main` Gate is observed as `PASS`.
+- valid task-aware Registration and valid two-parent push/no-task Registration provenance;
+- exact merge-base enforcement and rejection of stale source branches;
+- branch-namespace-only provenance and rejection of a same-named tag;
+- exactly one new high/critical planned task, duplicate rows and duplicate explicit YAML keys;
+- exact schemaVersion 2 Task Spec sections and Program/Task identity parity;
+- fresh canonical Evidence, mandatory non-N/A artifacts and complete structured Handoff;
+- candidate-tree Evidence mode/symlink inspection, including pre-existing Evidence rejection;
+- executable rollback/revert/restore requirements and rejection of empty or prose-only rollback;
+- unchanged Active Work and Completion Ledger and no Lease;
+- canonical validator dispatch without production override;
+- legal downstream planned tail append, dependency existence, DAG, Wave, final closure and same-Wave integration order;
+- rename, copy, symlink, path traversal, unrelated-source copy and repository-wide glob rejection;
+- one-time completed-Foundation maintenance and rejection of repeat use;
+- immutable target-base ownership authorization and rejection of candidate self-authorization;
+- generalized probe, marker, temporary and placeholder residue rejection;
+- task-aware completed-Foundation coordination delegation to the canonical lifecycle proof;
+- post-main push/no-task maintenance detection from the exact base-to-head diff;
+- exact lifecycle exit-code propagation in PR and push modes;
+- fail-closed rejection of multiple maintenance manifests;
+- proof that ordinary global active-lease coordination is not a substitute for the maintenance lifecycle proof;
+- preserved exact transition/lifecycle core blobs;
+- ordinary Reservation, Activation, Review, Integration and Completion behavior;
+- OPS-007 terminal/non-terminal Wave semantics;
+- MOD-GOV ownership and the four-stage protocol sequence;
+- a valid individual baseline before each negative mutation or negative invocation.
+
+## Command boundary
+
+The hosted workflow executes the mandatory validators and full governance suite directly. A separately named local `make verify` invocation was not observed and is not claimed.
+
+## Remaining release controls
+
+- A fresh Governance Gate must succeed on the final Evidence-refresh HEAD.
+- Independent exact-head review is pending.
+- Existing non-outdated review threads must be re-evaluated and resolved against the final HEAD.
+- Merge and post-main validation are not authorized or claimed.

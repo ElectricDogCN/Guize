@@ -356,6 +356,7 @@ modules:
   - scripts/**
   - tests/governance/**
   - .github/**
+  - docs/25-multi-agent-collaboration-protocol.md
   ownedSchemas: []
   providedContracts:
   - CONTRACT-ACTIVE-WORK

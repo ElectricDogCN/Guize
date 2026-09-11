@@ -1,205 +1,80 @@
 #!/usr/bin/env python3
-"""Fail-closed lifecycle guard for Program Plan, Registry, Task and Evidence.
-
-This checker is intentionally history-aware and complements the existing
-snapshot, transition, history and finalization checkers. It closes lifecycle
-scope gaps that are easy to miss when a metadata PR is internally consistent:
-
-* derives affected task IDs even on push-to-main runs without a branch Task ID;
-* validates both source and destination paths of renames/copies;
-* limits metadata-state PRs to task-bound lifecycle files;
-* limits implementation PRs to their registered paths plus task metadata;
-* constrains active Foundation leases to governance-owned/audited paths and to
-  the exact target base SHA;
-* requires task-bound cancellation and completion Evidence;
-* rejects completion directly from reserved/blocked/in-progress; and
-* requires structured command, exit-code and pass/fail completion results.
+"""Dispatch Program lifecycle validation to Registration, audited completed-
+Foundation maintenance, or the byte-identical preserved lifecycle core.
 """
 
 from __future__ import annotations
 
-import argparse
+import copy
 import fnmatch
-import json
+import importlib.util
 import os
 import re
-import subprocess
 import sys
 from typing import Any
 
 import yaml
 
-PLAN = "specs/coordination/program-plan.yaml"
-ACTIVE = "specs/coordination/active-work.yaml"
-LEDGER = "specs/coordination/task-completions.yaml"
-OWNERSHIP = "specs/designs/module-ownership.yaml"
-TASK_DIR = "specs/tasks"
-IMPLEMENTATION_STATES = {"in_progress", "review", "integration"}
-METADATA_STATES = {"reserved", "blocked", "cancelled", "completed"}
-COMPLETION_BASE_STATES = {"review", "integration"}
-GLOB_CHARS = "*?["
-TASK_PATH_RE = re.compile(r"^specs/tasks/([A-Z]+-[0-9]+)(?:-[^/]+)?\.md$")
-
-# GZ-014 predates explicit governance ownership for several root documents.
-# These are the audited repair surfaces recorded in its Task Spec and Registry;
-# business implementation, business contracts and deployment remain excluded.
-FOUNDATION_SCOPE_EXCEPTIONS: dict[str, tuple[str, ...]] = {
-    "GZ-014": (
-        "AGENTS.md",
-        "README.md",
-        "MANIFEST.md",
-        "Makefile",
-        ".github/**",
-        "adr/0014-multi-agent-coordination-and-integration.md",
-        "docs/24-requirements-design-readiness-audit.md",
-        "docs/25-multi-agent-collaboration-protocol.md",
-        "specs/coordination/**",
-        "specs/requirements/requirements-index.yaml",
-        "specs/designs/module-ownership.yaml",
-        "specs/tasks/GZ-003.md",
-        "specs/tasks/GZ-014.md",
-        "specs/tasks/task-template.md",
-        "scripts/**",
-        "tests/governance/**",
-    )
-}
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CORE_PATH = os.path.join(SCRIPT_DIR, "check-program-lifecycle-guards-core.py")
+REGISTRATION_PATH = os.path.join(SCRIPT_DIR, "check-program-task-registration.py")
+MAINTENANCE_MODE = "completed-foundation-maintenance"
+OWNERSHIP_PATH = "specs/designs/module-ownership.yaml"
+PROTOCOL_PATH = "docs/25-multi-agent-collaboration-protocol.md"
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate Program lifecycle guards")
-    parser.add_argument("--repo-root", default=".")
-    parser.add_argument("--base-ref", default="origin/main")
-    parser.add_argument("--head-ref", default="HEAD")
-    parser.add_argument("--task", default="")
-    parser.add_argument("--branch-name", default="")
-    return parser.parse_args()
+def _load(path: str, name: str):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    assert spec and spec.loader
+    spec.loader.exec_module(module)
+    return module
 
 
-def emit(status: str, message: str, details: Any | None = None) -> None:
-    payload: dict[str, Any] = {"status": status, "message": message}
-    if details is not None:
-        payload["details"] = details
-    print(json.dumps(payload, ensure_ascii=False))
+CORE = _load(CORE_PATH, "guize_program_lifecycle_guards_core")
+REGISTRATION = _load(
+    REGISTRATION_PATH, "guize_program_task_registration_for_lifecycle"
+)
+for _name, _value in vars(CORE).items():
+    if not _name.startswith("__"):
+        globals().setdefault(_name, _value)
 
 
-def git(root: str, *arguments: str) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        ["git", *arguments], cwd=root, capture_output=True, text=True, check=False
-    )
+def _maintenance_path(task_id: str) -> str:
+    return f"evidence/{task_id}/foundation-maintenance.yaml"
 
 
-def ref_exists(root: str, ref: str) -> bool:
-    return bool(ref) and git(root, "rev-parse", "--verify", f"{ref}^{{commit}}").returncode == 0
+def _load_yaml_ref(root: str, ref: str, path: str) -> Any | None:
+    return REGISTRATION.load_yaml_text(REGISTRATION.read_ref(root, ref, path))
 
 
-def resolve_ref(root: str, ref: str) -> str | None:
-    result = git(root, "rev-parse", f"{ref}^{{commit}}")
-    return result.stdout.strip() if result.returncode == 0 else None
-
-
-def read_ref(root: str, ref: str, path: str) -> str | None:
-    result = git(root, "show", f"{ref}:{path}")
-    return result.stdout if result.returncode == 0 else None
-
-
-def load_yaml_text(text: str | None) -> Any | None:
-    if text is None:
-        return None
-    try:
-        return yaml.safe_load(text)
-    except yaml.YAMLError:
-        return None
-
-
-def load_ref(root: str, ref: str, path: str) -> Any | None:
-    return load_yaml_text(read_ref(root, ref, path))
-
-
-def load_current(root: str, path: str) -> Any:
-    with open(os.path.join(root, path), "r", encoding="utf-8") as handle:
-        return yaml.safe_load(handle)
-
-
-def mapping(items: list[dict[str, Any]] | None) -> dict[str, dict[str, Any]]:
-    return {
-        str(item.get("taskId")): item
-        for item in (items or [])
-        if isinstance(item, dict) and item.get("taskId")
-    }
-
-
-def find_task_path(root: str, task_id: str, ref: str | None = None) -> str | None:
-    exact = f"{TASK_DIR}/{task_id}.md"
-    if ref:
-        if read_ref(root, ref, exact) is not None:
-            return exact
-        tree = git(root, "ls-tree", "-r", "--name-only", ref, TASK_DIR)
-        if tree.returncode != 0:
-            return None
-        matches = sorted(
-            path
-            for path in tree.stdout.splitlines()
-            if path.startswith(f"{TASK_DIR}/{task_id}-") and path.endswith(".md")
-        )
-        return matches[0] if len(matches) == 1 else None
-    if os.path.isfile(os.path.join(root, exact)):
-        return exact
-    directory = os.path.join(root, TASK_DIR)
-    if not os.path.isdir(directory):
-        return None
-    matches = sorted(
-        f"{TASK_DIR}/{name}"
-        for name in os.listdir(directory)
-        if name.startswith(task_id + "-") and name.endswith(".md")
-    )
+def _task_path(root: str, ref: str, task_id: str) -> str | None:
+    exact = f"specs/tasks/{task_id}.md"
+    paths = REGISTRATION.ref_paths(root, ref, "specs/tasks")
+    matches = [
+        path
+        for path in paths
+        if path == exact
+        or (path.startswith(f"specs/tasks/{task_id}-") and path.endswith(".md"))
+    ]
     return matches[0] if len(matches) == 1 else None
 
 
-def parse_front(text: str | None) -> dict[str, Any]:
-    if not text or not text.startswith("---"):
-        return {}
-    parts = text.split("---", 2)
-    if len(parts) < 3:
-        return {}
-    try:
-        value = yaml.safe_load(parts[1])
-    except yaml.YAMLError:
-        return {}
-    return value if isinstance(value, dict) else {}
+def _front_and_body(
+    root: str, ref: str, task_id: str
+) -> tuple[dict[str, Any], str, str | None]:
+    path = _task_path(root, ref, task_id)
+    if not path:
+        return {}, "", None
+    front, body = REGISTRATION.parse_front(REGISTRATION.read_ref(root, ref, path))
+    return front, body, path
 
 
-def normalize_path(value: Any) -> str:
-    text = str(value or "").strip().replace("\\", "/")
-    while text.startswith("./"):
-        text = text[2:]
-    return re.sub(r"/+", "/", text).rstrip("/")
+def _normalize(value: Any) -> str:
+    return REGISTRATION.normalize_path(value)
 
 
-def static_prefix(pattern: str) -> str:
-    pattern = normalize_path(pattern)
-    indexes = [pattern.find(char) for char in GLOB_CHARS if pattern.find(char) >= 0]
-    return pattern if not indexes else pattern[: min(indexes)].rstrip("/")
-
-
-def paths_overlap(left: str, right: str) -> bool:
-    left = normalize_path(left)
-    right = normalize_path(right)
-    if not left or not right or left == right:
-        return True
-    if fnmatch.fnmatch(left, right) or fnmatch.fnmatch(right, left):
-        return True
-    left_prefix = static_prefix(left)
-    right_prefix = static_prefix(right)
-    return (
-        not left_prefix
-        or not right_prefix
-        or left_prefix == right_prefix
-        or left_prefix.startswith(right_prefix + "/")
-        or right_prefix.startswith(left_prefix + "/")
-    )
-
-
-def glob_regex(pattern: str) -> str:
+def _glob_regex(pattern: str) -> str:
     output: list[str] = []
     index = 0
     while index < len(pattern):
@@ -228,385 +103,493 @@ def glob_regex(pattern: str) -> str:
     return "".join(output)
 
 
-def matches_path(path: str, pattern: str) -> bool:
-    path = normalize_path(path)
-    pattern = normalize_path(pattern)
+def _matches(path: str, pattern: str) -> bool:
+    path = _normalize(path)
+    pattern = _normalize(pattern)
     if pattern.endswith("/**"):
         prefix = pattern[:-3].rstrip("/")
         return path == prefix or path.startswith(prefix + "/")
-    if any(token in pattern for token in GLOB_CHARS):
-        return re.fullmatch(glob_regex(pattern), path) is not None
+    if any(token in pattern for token in ("*", "?", "[")):
+        return re.fullmatch(_glob_regex(pattern), path) is not None
     return path == pattern
 
 
-def changed_paths(root: str, base_ref: str, head_ref: str) -> set[str] | None:
-    """Return every changed path, including both sides of rename/copy records."""
-    result = git(root, "diff", "--name-status", "-M", f"{base_ref}...{head_ref}")
-    if result.returncode != 0:
-        return None
-    paths: set[str] = set()
-    for line in result.stdout.splitlines():
-        if not line.strip():
-            continue
-        parts = line.split("\t")
-        status = parts[0]
-        if status.startswith(("R", "C")) and len(parts) >= 3:
-            paths.add(normalize_path(parts[1]))
-            paths.add(normalize_path(parts[2]))
-        elif len(parts) >= 2:
-            paths.add(normalize_path(parts[-1]))
-    return paths
-
-
-def task_ids_from_diff(
-    base_plan: dict[str, Any],
-    current_plan: dict[str, Any],
-    base_active: dict[str, Any],
-    current_active: dict[str, Any],
-    base_ledger: dict[str, Any],
-    current_ledger: dict[str, Any],
-    paths: set[str],
-) -> set[str]:
-    affected: set[str] = set()
-    for section in ("foundationTasks", "tasks"):
-        before = mapping(base_plan.get(section))
-        after = mapping(current_plan.get(section))
-        for task_id in set(before) | set(after):
-            if before.get(task_id) != after.get(task_id):
-                affected.add(task_id)
-    before_active = mapping(base_active.get("tasks"))
-    after_active = mapping(current_active.get("tasks"))
-    for task_id in set(before_active) | set(after_active):
-        if before_active.get(task_id) != after_active.get(task_id):
-            affected.add(task_id)
-    before_records = mapping(base_ledger.get("records"))
-    after_records = mapping(current_ledger.get("records"))
-    for task_id in set(before_records) | set(after_records):
-        if before_records.get(task_id) != after_records.get(task_id):
-            affected.add(task_id)
-    for path in paths:
-        match = TASK_PATH_RE.fullmatch(path)
-        if match:
-            affected.add(match.group(1))
-    return affected
-
-
-def allowed_metadata_paths(task_id: str, task_path: str, ordinary_completion: bool) -> tuple[set[str], tuple[str, ...]]:
-    exact = {PLAN, ACTIVE, task_path}
-    if ordinary_completion:
-        exact.add(LEDGER)
-    prefixes = (f"evidence/{task_id}",)
-    return exact, prefixes
-
-
-def path_allowed(path: str, exact: set[str], prefixes: tuple[str, ...], claims: list[str]) -> bool:
-    if path in exact:
-        return True
-    if any(path == prefix or path.startswith(prefix + "/") for prefix in prefixes):
-        return True
-    return any(matches_path(path, claim) for claim in claims)
-
-
-def completion_record(ledger: dict[str, Any], task_id: str) -> dict[str, Any] | None:
-    records = [
-        item
-        for item in ledger.get("records") or []
-        if isinstance(item, dict) and item.get("taskId") == task_id
-    ]
-    return records[0] if len(records) == 1 else None
-
-
-def completion_merge_sha(
-    task_id: str,
-    current_plan: dict[str, Any],
-    current_ledger: dict[str, Any],
-) -> str | None:
-    foundations = mapping(current_plan.get("foundationTasks"))
-    if task_id in foundations:
-        value = foundations[task_id].get("mergeCommit")
-        return str(value) if value else None
-    record = completion_record(current_ledger, task_id)
-    value = record.get("mergeCommit") if record else None
-    return str(value) if value else None
-
-
-def validate_structured_completion_evidence(
-    root: str,
-    task_id: str,
-    merge_sha: str,
-    paths: set[str],
-    errors: list[str],
-) -> None:
-    required = {
-        f"evidence/{task_id}/summary.md",
-        f"evidence/{task_id}/commands.txt",
-        f"evidence/{task_id}/test-results/README.md",
-        f"evidence/{task_id}/handoff.md",
-    }
-    missing = sorted(required - paths)
-    if missing:
-        errors.append(
-            f"Completion task {task_id} must refresh structured Evidence files: {missing}"
-        )
-        return
-    contents: dict[str, str] = {}
-    for relative in required:
-        full = os.path.join(root, relative)
-        if not os.path.isfile(full):
-            errors.append(f"Completion task {task_id} Evidence file is missing: {relative}")
-            continue
-        with open(full, "r", encoding="utf-8") as handle:
-            contents[relative] = handle.read()
-    for relative, content in contents.items():
-        if task_id not in content or merge_sha not in content:
-            errors.append(
-                f"Completion Evidence {relative} must identify {task_id} and merge {merge_sha}"
-            )
-    commands = contents.get(f"evidence/{task_id}/commands.txt", "")
-    if not re.search(r"(?mi)^command:\s*\S.+$", commands):
-        errors.append(f"Completion task {task_id} commands.txt has no executed command")
-    if not re.search(r"(?mi)^exit code:\s*0\s*$", commands):
-        errors.append(f"Completion task {task_id} commands.txt has no successful exit code")
-    if not re.search(r"(?mi)^result:\s*(PASS|SUCCESS)\b", commands):
-        errors.append(f"Completion task {task_id} commands.txt has no explicit PASS result")
-    tests = contents.get(f"evidence/{task_id}/test-results/README.md", "")
-    if not re.search(r"(?mi)^(status|result):\s*(PASS|SUCCESS)\b", tests):
-        errors.append(f"Completion task {task_id} test results have no explicit PASS status")
-    for relative in (
-        f"evidence/{task_id}/summary.md",
-        f"evidence/{task_id}/handoff.md",
-    ):
-        if relative in contents and not re.search(
-            r"(?mi)^(status|result):\s*(COMPLETED|PASS|SUCCESS)\b", contents[relative]
-        ):
-            errors.append(f"Completion Evidence {relative} has no explicit completed/pass status")
-
-
-def validate_cancellation_evidence(
-    root: str,
-    task_id: str,
-    before_status: str,
-    paths: set[str],
-    errors: list[str],
-) -> None:
-    relative = f"evidence/{task_id}/cancellation.md"
-    if relative not in paths:
-        errors.append(f"Cancellation task {task_id} must refresh {relative}")
-        return
-    full = os.path.join(root, relative)
-    if not os.path.isfile(full):
-        errors.append(f"Cancellation task {task_id} Evidence is missing: {relative}")
-        return
-    with open(full, "r", encoding="utf-8") as handle:
-        content = handle.read()
-    requirements = {
-        "task": rf"(?mi)^Task:\s*{re.escape(task_id)}\s*$",
-        "transition": rf"(?mi)^Transition:\s*{re.escape(before_status)}\s*->\s*cancelled\s*$",
-        "reason": r"(?mi)^Reason:\s*\S.+$",
-        "retained artifacts": r"(?mi)^Retained Artifacts:\s*\S.+$",
-        "validation": r"(?mi)^Validation:\s*(PASS|FAIL|INCONCLUSIVE)\b",
-    }
-    for label, pattern in requirements.items():
-        if not re.search(pattern, content):
-            errors.append(
-                f"Cancellation Evidence {relative} is missing structured {label} information"
-            )
-
-
-def module_owned_patterns(ownership: dict[str, Any], module_ids: set[str]) -> list[str]:
+def _module_patterns(ownership: dict[str, Any], module_ids: set[str]) -> list[str]:
     patterns: list[str] = []
     for module in ownership.get("modules") or []:
-        if isinstance(module, dict) and module.get("id") in module_ids:
-            patterns.extend(str(item) for item in module.get("ownedPaths") or [])
+        if isinstance(module, dict) and str(module.get("id") or "") in module_ids:
+            patterns.extend(str(value) for value in module.get("ownedPaths") or [])
     return patterns
 
 
-def validate_foundation_claims(
-    task_id: str,
-    entry: dict[str, Any],
-    ownership: dict[str, Any],
-    resolved_base: str,
-    errors: list[str],
-) -> None:
-    if str(entry.get("baseSha") or "") != resolved_base:
-        errors.append(
-            f"Active Foundation {task_id} baseSha must equal audited target base {resolved_base}"
-        )
-    module_patterns = module_owned_patterns(
-        ownership, {str(item) for item in entry.get("moduleIds") or []}
+def _maintenance_task_from_diff(
+    root: str, base_ref: str, head_ref: str, task_hint: str
+) -> str:
+    if task_hint and REGISTRATION.read_ref(
+        root, head_ref, _maintenance_path(task_hint)
+    ):
+        return task_hint
+    paths, _ = REGISTRATION.changed_paths(root, base_ref, head_ref)
+    if paths is None:
+        return ""
+    candidates = sorted(
+        match.group(1)
+        for path in paths
+        for match in [
+            re.fullmatch(
+                r"evidence/([A-Z]+-[0-9]+)/foundation-maintenance\.yaml", path
+            )
+        ]
+        if match
     )
-    exception_patterns = list(FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ()))
-    for claim in list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or []):
-        if not any(
-            paths_overlap(str(claim), pattern)
-            for pattern in module_patterns + exception_patterns
+    return candidates[0] if len(candidates) == 1 else ""
+
+
+def _expected_ownership_text(base_text: str, module_id: str, path: str) -> str | None:
+    """Return the only permitted byte-level ownership edit: one tail append."""
+    lines = base_text.splitlines(keepends=True)
+    module_start: int | None = None
+    module_end = len(lines)
+    for index, line in enumerate(lines):
+        if line.rstrip("\r\n") == f"- id: {module_id}":
+            module_start = index
+            break
+    if module_start is None:
+        return None
+    for index in range(module_start + 1, len(lines)):
+        if lines[index].startswith("- id: "):
+            module_end = index
+            break
+
+    paths_start: int | None = None
+    paths_end: int | None = None
+    for index in range(module_start + 1, module_end):
+        if lines[index].rstrip("\r\n") == "  ownedPaths:":
+            paths_start = index
+            continue
+        if paths_start is not None and index > paths_start:
+            stripped = lines[index].rstrip("\r\n")
+            if stripped.startswith("  ") and not stripped.startswith("  - "):
+                paths_end = index
+                break
+    if paths_start is None or paths_end is None:
+        return None
+    existing = [
+        line.strip()[2:].strip()
+        for line in lines[paths_start + 1 : paths_end]
+        if line.strip().startswith("- ")
+    ]
+    if path in existing:
+        return None
+    newline = "\r\n" if any(line.endswith("\r\n") for line in lines) else "\n"
+    lines.insert(paths_end, f"  - {path}{newline}")
+    return "".join(lines)
+
+
+def _validate_ownership_delta(
+    base_text: str | None,
+    head_text: str | None,
+    base_ownership: dict[str, Any],
+    head_ownership: dict[str, Any],
+    manifest: dict[str, Any],
+    errors: list[str],
+) -> set[str]:
+    expected_delta = {
+        "moduleId": "MOD-GOV",
+        "field": "ownedPaths",
+        "operation": "tail-append",
+        "paths": [PROTOCOL_PATH],
+    }
+    if manifest.get("ownershipDelta") != expected_delta:
+        errors.append(
+            "Completed-Foundation maintenance ownershipDelta must declare the exact MOD-GOV protocol tail append"
+        )
+    if not base_text or head_text is None:
+        errors.append("Completed-Foundation maintenance ownership text is missing")
+        return {PROTOCOL_PATH}
+    expected_text = _expected_ownership_text(base_text, "MOD-GOV", PROTOCOL_PATH)
+    if expected_text is None:
+        errors.append(
+            "Completed-Foundation maintenance cannot derive the one permitted ownership tail append"
+        )
+    elif head_text != expected_text:
+        errors.append(
+            "Completed-Foundation maintenance ownership change must be the exact byte-preserving MOD-GOV protocol tail append"
+        )
+
+    expected_document = copy.deepcopy(base_ownership)
+    modules = [
+        module
+        for module in expected_document.get("modules") or []
+        if isinstance(module, dict) and module.get("id") == "MOD-GOV"
+    ]
+    if len(modules) != 1:
+        errors.append("Target-base ownership must contain exactly one MOD-GOV module")
+    else:
+        owned = modules[0].get("ownedPaths")
+        if not isinstance(owned, list) or PROTOCOL_PATH in owned:
+            errors.append(
+                "Target-base MOD-GOV ownership cannot accept the declared one-time protocol append"
+            )
+        else:
+            owned.append(PROTOCOL_PATH)
+            if head_ownership != expected_document:
+                errors.append(
+                    "Completed-Foundation maintenance changed ownership outside the declared protocol append"
+                )
+    return {PROTOCOL_PATH}
+
+
+def _residue_name(path: str) -> bool:
+    basename = os.path.basename(path).lower()
+    suffixes = (".tmp", ".temp", ".placeholder", ".marker")
+    if basename.endswith(suffixes):
+        return True
+    if basename.startswith((".controller-probe", ".ops008-controller")):
+        return True
+    tokens = [token for token in re.split(r"[^a-z0-9]+", basename) if token]
+    return "probe" in tokens or "placeholder" in tokens or "marker" in tokens
+
+
+def _placeholder_only(content: str | None) -> bool:
+    if content is None:
+        return False
+    compact = " ".join(content.strip().lower().split())
+    if not compact or len(compact) > 512:
+        return False
+    if compact in {
+        "placeholder",
+        "test",
+        "do-not-commit",
+        "controller probe",
+        "pending controller validation upload",
+    }:
+        return True
+    words = set(re.findall(r"[a-z0-9-]+", compact))
+    if "do-not-commit" in words:
+        return True
+    if "placeholder" in words and len(words) <= 30:
+        return True
+    return "controller" in words and "probe" in words and len(words) <= 30
+
+
+def _validate_completed_foundation_maintenance(
+    root: str,
+    base_ref: str,
+    head_ref: str,
+    task_id: str,
+    branch_name: str,
+) -> tuple[int, dict[str, Any]]:
+    errors: list[str] = []
+    base_sha = REGISTRATION.resolve_ref(root, base_ref)
+    head_sha = REGISTRATION.resolve_ref(root, head_ref)
+    if not base_sha or not head_sha:
+        return 1, {"errors": ["Completed-Foundation maintenance refs are missing"]}
+
+    manifest_path = _maintenance_path(task_id)
+    base_plan = _load_yaml_ref(root, base_ref, REGISTRATION.PLAN)
+    head_plan = _load_yaml_ref(root, head_ref, REGISTRATION.PLAN)
+    base_active = REGISTRATION.read_ref(root, base_ref, REGISTRATION.ACTIVE)
+    head_active = REGISTRATION.read_ref(root, head_ref, REGISTRATION.ACTIVE)
+    base_ledger = REGISTRATION.read_ref(root, base_ref, REGISTRATION.LEDGER)
+    head_ledger = REGISTRATION.read_ref(root, head_ref, REGISTRATION.LEDGER)
+    base_ownership_text = REGISTRATION.read_ref(root, base_ref, OWNERSHIP_PATH)
+    head_ownership_text = REGISTRATION.read_ref(root, head_ref, OWNERSHIP_PATH)
+    base_ownership = REGISTRATION.load_yaml_text(base_ownership_text)
+    head_ownership = REGISTRATION.load_yaml_text(head_ownership_text)
+    manifest = _load_yaml_ref(root, head_ref, manifest_path)
+
+    if REGISTRATION.read_ref(root, base_ref, manifest_path) is not None:
+        errors.append(
+            "Completed-Foundation maintenance manifest must be absent from the target base; this one-time maintenance cannot be reused"
+        )
+    if not isinstance(base_plan, dict) or not isinstance(head_plan, dict):
+        errors.append(
+            "Completed-Foundation maintenance Program Plan snapshots are invalid"
+        )
+        base_plan = {}
+        head_plan = {}
+    if not isinstance(base_ownership, dict):
+        errors.append("Completed-Foundation maintenance target-base ownership is invalid")
+        base_ownership = {}
+    if not isinstance(head_ownership, dict):
+        errors.append("Completed-Foundation maintenance candidate ownership is invalid")
+        head_ownership = {}
+    if not isinstance(manifest, dict):
+        errors.append("Completed-Foundation maintenance manifest is missing or invalid")
+        manifest = {}
+
+    base_foundations = REGISTRATION.foundation_map(base_plan)
+    head_foundations = REGISTRATION.foundation_map(head_plan)
+    before = base_foundations.get(task_id)
+    after = head_foundations.get(task_id)
+    if (
+        not before
+        or not after
+        or before != after
+        or after.get("status") != "completed"
+    ):
+        errors.append(
+            "Completed-Foundation maintenance must preserve one identical completed Foundation row"
+        )
+    if REGISTRATION.read_ref(
+        root, base_ref, REGISTRATION.PLAN
+    ) != REGISTRATION.read_ref(root, head_ref, REGISTRATION.PLAN):
+        errors.append(
+            "Completed-Foundation maintenance must leave Program Plan byte-identical"
+        )
+    if base_active is None or base_active != head_active:
+        errors.append(
+            "Completed-Foundation maintenance must leave Active Work byte-identical"
+        )
+    if base_ledger is None or base_ledger != head_ledger:
+        errors.append(
+            "Completed-Foundation maintenance must leave Completion Ledger byte-identical"
+        )
+
+    front, _, task_path = _front_and_body(root, head_ref, task_id)
+    if not task_path:
+        errors.append("Completed-Foundation maintenance has no unique Task Spec")
+    elif REGISTRATION.read_ref(
+        root, base_ref, task_path
+    ) != REGISTRATION.read_ref(root, head_ref, task_path):
+        errors.append(
+            "Completed-Foundation maintenance must not rewrite the completed Task Spec"
+        )
+    if front.get("schemaVersion") != 2 or front.get("id") != task_id:
+        errors.append("Completed-Foundation maintenance Task Spec identity is invalid")
+    if front.get("status") != "completed":
+        errors.append("Completed-Foundation maintenance Task Spec must remain completed")
+    if front.get("riskLevel") not in {"high", "critical"}:
+        errors.append(
+            "Completed-Foundation maintenance must remain high or critical risk"
+        )
+    module_ids = set(REGISTRATION.as_list(front.get("moduleIds")))
+    if not module_ids:
+        errors.append(
+            "Completed-Foundation maintenance Task Spec has no owning module"
+        )
+    if front.get("implementer") == front.get("reviewer"):
+        errors.append("Completed-Foundation maintenance requires independent review")
+
+    required_manifest = {
+        "schemaVersion": 1,
+        "mode": MAINTENANCE_MODE,
+        "taskId": task_id,
+        "baseSha": base_sha,
+        "riskLevel": front.get("riskLevel"),
+        "oneTime": True,
+        "independentReviewRequired": True,
+        "postMergeGateRequired": True,
+    }
+    for key, expected in required_manifest.items():
+        if manifest.get(key) != expected:
+            errors.append(
+                f"Completed-Foundation maintenance manifest {key} must equal {expected!r}"
+            )
+    if not isinstance(manifest.get("issue"), int) or int(
+        manifest.get("issue", 0)
+    ) < 1:
+        errors.append(
+            "Completed-Foundation maintenance manifest requires a tracking issue"
+        )
+    if not str(manifest.get("purpose") or "").strip():
+        errors.append("Completed-Foundation maintenance manifest requires a purpose")
+
+    delta_paths = _validate_ownership_delta(
+        base_ownership_text,
+        head_ownership_text,
+        base_ownership,
+        head_ownership,
+        manifest,
+        errors,
+    )
+
+    manifest_branch = str(manifest.get("workBranch") or "")
+    if not manifest_branch or not fnmatch.fnmatchcase(
+        manifest_branch, f"fix/{task_id}-*"
+    ):
+        errors.append(
+            f"Completed-Foundation maintenance branch must match fix/{task_id}-*"
+        )
+    refs = REGISTRATION.branch_refs(root, manifest_branch)
+    parents = REGISTRATION.commit_parents(root, head_sha)
+    if branch_name:
+        if branch_name != manifest_branch:
+            errors.append(
+                "Completed-Foundation maintenance actual branch does not match manifest workBranch"
+            )
+        if any(sha == head_sha for _, sha in refs):
+            if REGISTRATION.merge_base(root, base_sha, head_sha) != base_sha:
+                errors.append(
+                    "Completed-Foundation maintenance target base must be the exact merge base of branch HEAD"
+                )
+        elif (
+            len(parents) != 2
+            or parents[0] != base_sha
+            or not any(sha == parents[1] for _, sha in refs)
         ):
             errors.append(
-                f"Active Foundation {task_id} path claim {claim} is outside module ownership and audited repair scope"
+                "Completed-Foundation maintenance cannot prove PR source branch provenance"
+            )
+    else:
+        if len(parents) != 2 or parents[0] != base_sha:
+            errors.append(
+                "Completed-Foundation maintenance push must be a two-parent merge with the exact base first"
+            )
+        elif not any(sha == parents[1] for _, sha in refs):
+            errors.append(
+                "Completed-Foundation maintenance push cannot prove the manifest source branch"
             )
 
+    authorized = manifest.get("authorizedPaths") or []
+    if not isinstance(authorized, list) or not authorized:
+        errors.append(
+            "Completed-Foundation maintenance manifest authorizedPaths is empty"
+        )
+        authorized = []
+    normalized_authorized: list[str] = []
+    for claim in authorized:
+        normalized = _normalize(claim)
+        if not REGISTRATION.safe_scope_claim(normalized):
+            errors.append(
+                f"Completed-Foundation maintenance has unsafe authorized path: {claim}"
+            )
+        normalized_authorized.append(normalized)
 
-def validate_completed_spec_binding(
-    root: str,
-    task_id: str,
-    current_plan: dict[str, Any],
-    errors: list[str],
-) -> None:
-    task_path = find_task_path(root, task_id)
-    if not task_path:
-        errors.append(f"Completed Program task {task_id} has no Task Spec")
-        return
-    with open(os.path.join(root, task_path), "r", encoding="utf-8") as handle:
-        front = parse_front(handle.read())
-    expected_evidence = f"evidence/{task_id}"
-    expected_handoff = f"{expected_evidence}/handoff.md"
-    if front.get("evidencePath") != expected_evidence:
+    module_patterns = _module_patterns(base_ownership, module_ids)
+    for claim in normalized_authorized:
+        if claim.startswith(f"evidence/{task_id}"):
+            continue
+        if claim == OWNERSHIP_PATH:
+            continue
+        if claim in delta_paths:
+            continue
+        if not any(
+            _matches(claim, pattern) or _matches(pattern, claim)
+            for pattern in module_patterns
+        ):
+            errors.append(
+                f"Completed-Foundation maintenance authorized path is outside target-base module ownership: {claim}"
+            )
+
+    paths, records = REGISTRATION.changed_paths(root, base_ref, head_ref)
+    if paths is None:
         errors.append(
-            f"Completed Program task {task_id} Task Spec evidencePath must be {expected_evidence}"
+            "Completed-Foundation maintenance cannot determine changed paths"
         )
-    if front.get("handoffPath") != expected_handoff:
+        paths = set()
+    if manifest_path not in paths:
         errors.append(
-            f"Completed Program task {task_id} Task Spec handoffPath must be {expected_handoff}"
+            "Completed-Foundation maintenance must add its one-time manifest"
         )
+    forbidden_exact = {
+        REGISTRATION.PLAN,
+        REGISTRATION.ACTIVE,
+        REGISTRATION.LEDGER,
+        task_path or "",
+    }
+    for path in sorted(paths):
+        if path in forbidden_exact:
+            errors.append(
+                f"Completed-Foundation maintenance changed forbidden state file: {path}"
+            )
+        if _residue_name(path):
+            errors.append(
+                f"Completed-Foundation maintenance contains probe/temp/placeholder residue: {path}"
+            )
+        if not REGISTRATION.safe_repo_path(path):
+            errors.append(
+                f"Completed-Foundation maintenance changed unsafe path: {path}"
+            )
+        mode = REGISTRATION.ref_mode(root, head_ref, path)
+        if mode == "120000":
+            errors.append(
+                f"Completed-Foundation maintenance must not add symlinks: {path}"
+            )
+        if mode in {"100644", "100755"} and _placeholder_only(
+            REGISTRATION.read_ref(root, head_ref, path)
+        ):
+            errors.append(
+                f"Completed-Foundation maintenance contains placeholder-only content: {path}"
+            )
+        if not any(_matches(path, claim) for claim in normalized_authorized):
+            errors.append(
+                f"Completed-Foundation maintenance changed unauthorized path: {path}"
+            )
+    for status, source, destination in records:
+        if status.startswith(("R", "C")) and not (
+            any(_matches(source, claim) for claim in normalized_authorized)
+            and any(_matches(destination, claim) for claim in normalized_authorized)
+        ):
+            errors.append(
+                f"Completed-Foundation maintenance rename/copy escapes authorization: {source} -> {destination}"
+            )
+
+    details = {
+        "taskId": task_id,
+        "baseSha": base_sha,
+        "headSha": head_sha,
+        "branch": manifest_branch,
+        "manifest": manifest_path,
+        "changedPathCount": len(paths),
+        "authorizedPathCount": len(normalized_authorized),
+        "oneTime": manifest.get("oneTime"),
+        "ownershipDelta": manifest.get("ownershipDelta"),
+        "errors": errors,
+    }
+    return (1 if errors else 0), details
 
 
 def main() -> int:
-    args = parse_args()
+    args = CORE.parse_args()
     root = os.path.abspath(args.repo_root)
-    errors: list[str] = []
-    if not ref_exists(root, args.base_ref) or not ref_exists(root, args.head_ref):
-        emit("FAIL", "Lifecycle guard refs are missing")
-        return 1
-    resolved_base = resolve_ref(root, args.base_ref)
-    if not resolved_base:
-        emit("FAIL", "Lifecycle guard target base cannot be resolved")
-        return 1
-    try:
-        base_plan = load_ref(root, args.base_ref, PLAN)
-        current_plan = load_current(root, PLAN)
-        base_active = load_ref(root, args.base_ref, ACTIVE)
-        current_active = load_current(root, ACTIVE)
-        base_ledger = load_ref(root, args.base_ref, LEDGER)
-        current_ledger = load_current(root, LEDGER)
-        ownership = load_current(root, OWNERSHIP)
-    except Exception as exc:
-        emit("FAIL", f"Cannot load lifecycle guard documents: {exc}")
-        return 1
-    if base_ledger is None and isinstance(current_ledger, dict) and not (current_ledger.get("records") or []):
-        base_ledger = {"records": []}
-    if not all(
-        isinstance(item, dict)
-        for item in (
-            base_plan,
-            current_plan,
-            base_active,
-            current_active,
-            base_ledger,
-            current_ledger,
-            ownership,
-        )
+    if REGISTRATION.is_registration_candidate(
+        root, args.base_ref, args.head_ref
     ):
-        emit("FAIL", "Lifecycle guard documents are missing or invalid")
-        return 1
-    paths = changed_paths(root, args.base_ref, args.head_ref)
-    if paths is None:
-        emit("FAIL", "Lifecycle guard cannot determine changed paths")
-        return 1
-    affected = task_ids_from_diff(
-        base_plan,
-        current_plan,
-        base_active,
-        current_active,
-        base_ledger,
-        current_ledger,
-        paths,
+        code, details = REGISTRATION.validate_registration(
+            root,
+            args.base_ref,
+            args.head_ref,
+            task_hint=args.task,
+            branch_name=args.branch_name,
+        )
+        if code:
+            for error in details.get("errors") or []:
+                REGISTRATION.emit("FAIL", error)
+            return code
+        REGISTRATION.emit(
+            "PASS", "Program Task Registration lifecycle scope passed", details
+        )
+        return 0
+
+    maintenance_task = _maintenance_task_from_diff(
+        root, args.base_ref, args.head_ref, args.task
     )
-    if args.task:
-        affected.add(args.task)
+    if maintenance_task:
+        code, details = _validate_completed_foundation_maintenance(
+            root,
+            args.base_ref,
+            args.head_ref,
+            maintenance_task,
+            args.branch_name,
+        )
+        if code:
+            for error in details.get("errors") or []:
+                REGISTRATION.emit("FAIL", error)
+            return code
+        REGISTRATION.emit(
+            "PASS",
+            "Completed Foundation maintenance is one-time, owned, state-preserving, and fail-closed",
+            details,
+        )
+        return 0
 
-    base_tasks = mapping(base_plan.get("tasks"))
-    current_tasks = mapping(current_plan.get("tasks"))
-    base_foundations = mapping(base_plan.get("foundationTasks"))
-    current_foundations = mapping(current_plan.get("foundationTasks"))
-    base_entries = mapping(base_active.get("tasks"))
-    current_entries = mapping(current_active.get("tasks"))
-
-    for task_id, task in current_tasks.items():
-        if task.get("status") == "completed":
-            validate_completed_spec_binding(root, task_id, current_plan, errors)
-
-    for task_id in sorted(affected):
-        ordinary = task_id in current_tasks or task_id in base_tasks
-        foundation = task_id in current_foundations or task_id in base_foundations
-        before = (base_tasks if ordinary else base_foundations).get(task_id, {})
-        after = (current_tasks if ordinary else current_foundations).get(task_id, {})
-        before_status = str(before.get("status") or "")
-        after_status = str(after.get("status") or "")
-        task_path = find_task_path(root, task_id)
-        if not task_path:
-            errors.append(f"Affected lifecycle task {task_id} has no current Task Spec")
-            continue
-        entry = current_entries.get(task_id)
-        claims: list[str] = []
-        if entry:
-            claims = [
-                str(item)
-                for item in list(entry.get("exclusivePaths") or [])
-                + list(entry.get("sharedPaths") or [])
-            ]
-        ordinary_completion = ordinary and after_status == "completed"
-        exact, prefixes = allowed_metadata_paths(task_id, task_path, ordinary_completion)
-        metadata_mode = after_status in METADATA_STATES
-        if metadata_mode:
-            invalid = sorted(
-                path
-                for path in paths
-                if not path_allowed(path, exact, prefixes, [])
-            )
-        else:
-            invalid = sorted(
-                path
-                for path in paths
-                if not path_allowed(path, exact, prefixes, claims)
-            )
-        if invalid:
-            errors.append(
-                f"Lifecycle task {task_id} changed files outside its {'metadata' if metadata_mode else 'registered'} scope: {invalid}"
-            )
-
-        if foundation and entry and after_status in IMPLEMENTATION_STATES | {"reserved", "blocked"}:
-            validate_foundation_claims(task_id, entry, ownership, resolved_base, errors)
-
-        if after_status == "cancelled" and before_status != "cancelled":
-            validate_cancellation_evidence(root, task_id, before_status, paths, errors)
-
-        if after_status == "completed" and before_status != "completed":
-            if before_status not in COMPLETION_BASE_STATES:
-                errors.append(
-                    f"Lifecycle task {task_id} cannot complete directly from {before_status}; target base must be review or integration"
-                )
-            merge_sha = completion_merge_sha(task_id, current_plan, current_ledger)
-            if not merge_sha:
-                errors.append(f"Lifecycle task {task_id} has no unique implementation merge SHA")
-            else:
-                validate_structured_completion_evidence(
-                    root, task_id, merge_sha, paths, errors
-                )
-
-    if errors:
-        for error in errors:
-            emit("FAIL", error)
-        return 1
-    emit(
-        "PASS",
-        "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed",
-        {
-            "affectedTaskIds": sorted(affected),
-            "changedPathCount": len(paths),
-            "baseRef": args.base_ref,
-        },
+    CORE.changed_paths = globals().get("changed_paths", CORE.changed_paths)
+    CORE.task_ids_from_diff = globals().get(
+        "task_ids_from_diff", CORE.task_ids_from_diff
     )
-    return 0
+    return CORE.main()
 
 
 if __name__ == "__main__":

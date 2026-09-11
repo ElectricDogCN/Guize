@@ -311,37 +311,66 @@ Agent 只有在以下条件全部满足时才能标记完成：
 
 ### 17.1 强制登记
 
-GZ-003 之后的新任务必须使用 `schemaVersion: 2` Task Spec，并在开始实现前完成活动任务预留。权威协作文件：
+GZ-003 之后的新普通任务必须使用 `schemaVersion: 2` Task Spec，并依次完成 Registration、Reservation 和 Activation 后才能开始实现。权威协作文件：
 
 ```text
+specs/coordination/program-plan.yaml
 specs/coordination/active-work.yaml
 specs/coordination/active-work.schema.yaml
+specs/coordination/task-completions.yaml
 specs/designs/module-ownership.yaml
 docs/25-multi-agent-collaboration-protocol.md
 ```
 
-除 `policy.bootstrapTasks` 明确列出的机制引导任务外，`coordinationMode` 必须为 `registry`，并存在唯一、未过期的活动任务记录。
+除 `policy.bootstrapTasks` 明确列出的机制引导任务外，活动任务的 `coordinationMode` 必须为 `registry`，并存在唯一、未过期的活动任务记录。首次登记阶段使用 `coordinationMode: registration`；`planned` 状态不得存在 Lease 或实现权限。
 
 ### 17.2 角色分离
 
-每个活动任务明确：
+每个任务明确：
 
-- Coordinator：拆分任务、管理依赖、租约和集成顺序；
-- Implementer：在已登记范围内实现并维护 Evidence；
+- Coordinator：拆分任务、执行 Registration、管理依赖、租约和集成顺序；
+- Implementer：仅在 Activation 后在已登记范围内实现并维护 Evidence；
 - Reviewer：默认只读，独立审查规格、契约、测试和安全；
 - Integrator：确认依赖、基线、Review 和 Gate 后执行集成。
 
-high/critical 风险任务不得由同一 Agent 同时充当唯一 Implementer 和唯一 Reviewer。ElectricDogCN 保留最终人工批准权。
+Program Plan 变更以及其他 high/critical 风险任务不得由同一 Agent 同时充当唯一 Implementer 和唯一 Reviewer。ElectricDogCN 保留最终人工批准权。
 
-### 17.3 两阶段启动
+### 17.3 Registration
 
-1. 先创建 Issue、Task Spec、Evidence 和 reservation PR；
-2. reservation PR 只登记依赖、风险、`baseSha`、独占/共享路径、租约、交接和集成顺序；
-3. 登记合并后，从最新 `main` 创建实现分支；
-4. 禁止先开发后补登记；
-5. 实现 PR 合并时完成或释放对应登记。
+普通任务首次进入 Program Plan 时，必须使用独立 high-risk metadata-only Registration PR：
 
-### 17.4 路径与所有权
+1. exactly one 新任务由 absent 进入 `planned`；
+2. exactly one 匹配的 schemaVersion 2 Task Spec；
+3. Task Spec 使用 `coordinationMode: registration`、`agentRole: coordinator`，不得包含 `leaseExpiresAt`；
+4. Program 与 Task 的 ID、标题、类型、风险、Wave、integration order、依赖、Requirement、Module、路径、契约、验收、POC、Issue、branch pattern 和 exit gate 完全一致；
+5. Active Work 与 Completion Ledger 必须和目标基线字节一致；
+6. Cumulative diff 只允许 Program Plan、新 Task Spec、任务 Evidence，以及经共享校验器证明的 later-planned `dependsOn` 尾追加；
+7. 不得包含实现、测试、Workflow、业务、部署、Secret、权限或生产数据；
+8. 依赖存在、Wave 方向合法、无环，且新任务进入 required final task 的传递闭包；
+9. PR task-aware 与 push/no-task 模式必须得到相同语义结果；
+10. `planned` 不得进入普通 Coordination、Task Scope、执行、Review、Integration、Result 或 Completion。
+
+Registration 合并并通过 exact post-main Gate 前，不得 Reservation，更不得编码。
+
+### 17.4 Reservation
+
+Registration 合并且 post-main Gate 成功后，才能创建纯 Reservation PR：
+
+1. 只将当前任务 `planned`/`blocked -> reserved`；
+2. 创建 exactly one 唯一、未过期、匹配 Program/Task 的 Active Work Lease；
+3. Task Spec 切换为 `coordinationMode: registry` 并加入合法 `leaseExpiresAt`；
+4. 只修改当前 Program/Registry/Task/Evidence 元数据；
+5. 不得包含实现文件或同时 Activation。
+
+### 17.5 Activation 与 Implementation
+
+1. Reservation 合并且 post-main Gate 成功后，独立 Activation PR 执行 `reserved -> in_progress`；
+2. Activation 保持已审查依赖、风险、角色、路径、契约和 Lease；
+3. Activation 合并且 post-main Gate 成功后，从 Registry 指定分支和最新 `main` 开始实现；
+4. 禁止先开发后补登记、将多个生命周期阶段合并到同一 Diff，或把 `planned` 解释为实现授权；
+5. 实现 PR 合并后，通过独立 Review、Integration、Completion 元数据 PR 完成和释放。
+
+### 17.6 路径与所有权
 
 - `exclusivePaths` 不得与其他活动任务的独占或共享路径重叠；
 - `sharedPaths` 只有在 `coordinationGroup` 相同且 `integrationOrder` 不同时允许重叠；
@@ -350,22 +379,23 @@ high/critical 风险任务不得由同一 Agent 同时充当唯一 Implementer �
 - 任务必须遵守 `module-ownership.yaml` 的路径、Schema 和公开接口所有权；
 - 检查器无法证明两个模式互斥时，按冲突处理，不通过放宽算法解决。
 
-### 17.5 依赖、基线和并行上限
+### 17.7 依赖、基线和并行上限
 
 - `dependsOn` 必须存在且不得形成环；
 - 未合并的共同契约不能作为多个实现任务的隐式依赖；
-- Task Spec 和活动登记保存创建分支时的 40 位 `baseSha`；
+- Registration Task Spec 保存目标 `main` 的 40 位 `baseSha`；Reservation 与 Active Work 保存创建 Lease 时的 40 位 `baseSha`；
 - 进入 Review 前必须同步最新 `main` 并重新验证；
 - 同时最多 3 个活动任务；
 - 同时最多 1 个 high/critical 风险任务；
+- completed/cancelled 历史不占结构性 Wave 容量，但仍参加 Schema、DAG、契约和发布闭包；
 - 单人审查容量优先于 Agent 数量。
 
-### 17.6 Handoff Contract
+### 17.8 Handoff Contract
 
 `handoffPath` 必须位于任务 Evidence 中并记录：Task/Issue/Branch/Base SHA、角色、提交 SHA、实际文件、契约版本、测试命令与退出码、Evidence、失败和限制、共享路径、集成顺序、回滚以及下一角色的精确动作。
 
 Agent 中断或更换后，只能依据 Git、Task Spec、活动登记、Handoff 和 Evidence 恢复，不依赖聊天记忆或未提交本地状态。
 
-### 17.7 合并与外部强制层
+### 17.9 合并与外部强制层
 
 Integrator 必须确认依赖已合并、最新 HEAD 的 Gate 成功、Review Thread 全解决、共享路径顺序正确、活动登记已完成或释放。GitHub CODEOWNERS 只负责路由；`main` 分支保护、Required Check、禁止 force push/delete 和过期批准失效仍必须由管理员在 Ruleset 中实际启用并通过 API 验证。未启用时不得声称平台已强制阻止直接推送。
