@@ -59,13 +59,42 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
             text=True,
         )
 
-    def test_task_file_accepts_registration_without_lease(self):
-        fixture = self.fixture()
+    def assert_task_checker_baseline(self, fixture):
         result = self.run_task_checker(fixture)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def valid_coordination(self, fixture):
+        return self.run_coordination(
+            fixture,
+            "--task",
+            fixture.task_id,
+            "--base-ref",
+            "main",
+            "--head-ref",
+            "HEAD",
+            "--branch-name",
+            fixture.branch,
+        )
+
+    def valid_scope(self, fixture):
+        return self.run_scope(
+            fixture,
+            "--task",
+            fixture.task_id,
+            "--base",
+            "main",
+            "--head-ref",
+            "HEAD",
+            "--branch-name",
+            fixture.branch,
+        )
+
+    def test_task_file_accepts_registration_without_lease(self):
+        self.assert_task_checker_baseline(self.fixture())
+
     def test_task_file_rejects_registration_lease(self):
         fixture = self.fixture()
+        self.assert_task_checker_baseline(fixture)
         fixture.rewrite_task_front(
             lambda document: document.__setitem__(
                 "leaseExpiresAt", "2026-10-01T00:00:00Z"
@@ -77,6 +106,7 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
 
     def test_task_file_rejects_medium_registration(self):
         fixture = self.fixture()
+        self.assert_task_checker_baseline(fixture)
         fixture.rewrite_task_front(
             lambda document: document.__setitem__("riskLevel", "medium")
         )
@@ -86,6 +116,7 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
 
     def test_task_file_rejects_registry_planned_alias(self):
         fixture = self.fixture()
+        self.assert_task_checker_baseline(fixture)
 
         def mutate(document):
             document["coordinationMode"] = "registry"
@@ -98,23 +129,15 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
 
     def test_coordination_routes_planned_to_canonical_validator(self):
         fixture = self.fixture()
-        result = self.run_coordination(
-            fixture,
-            "--task",
-            fixture.task_id,
-            "--base-ref",
-            "main",
-            "--head-ref",
-            "HEAD",
-            "--branch-name",
-            fixture.branch,
-        )
+        result = self.valid_coordination(fixture)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("Program Task Registration", result.stdout)
         self.assertNotIn("ordinary coordination", result.stdout)
 
     def test_coordination_registration_requires_authoritative_branch(self):
         fixture = self.fixture()
+        baseline = self.valid_coordination(fixture)
+        self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
         result = self.run_coordination(
             fixture,
             "--task",
@@ -129,23 +152,15 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
 
     def test_scope_routes_planned_to_canonical_validator(self):
         fixture = self.fixture()
-        result = self.run_scope(
-            fixture,
-            "--task",
-            fixture.task_id,
-            "--base",
-            "main",
-            "--head-ref",
-            "HEAD",
-            "--branch-name",
-            fixture.branch,
-        )
+        result = self.valid_scope(fixture)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("Program Task Registration", result.stdout)
         self.assertNotIn("ordinary scope", result.stdout)
 
     def test_scope_registration_requires_authoritative_branch(self):
         fixture = self.fixture()
+        baseline = self.valid_scope(fixture)
+        self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
         result = self.run_scope(
             fixture,
             "--task",
@@ -160,6 +175,8 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
 
     def test_no_task_push_coordination_uses_shared_validator(self):
         fixture = self.fixture()
+        baseline = self.valid_coordination(fixture)
+        self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
         fixture.merge_to_main()
         env = os.environ.copy()
         env.update(
@@ -177,6 +194,8 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
 
     def test_no_task_direct_push_fails_closed(self):
         fixture = self.fixture()
+        baseline = self.valid_coordination(fixture)
+        self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
         fixture.git("checkout", "main")
         fixture.git("merge", "--ff-only", fixture.branch)
         env = os.environ.copy()
