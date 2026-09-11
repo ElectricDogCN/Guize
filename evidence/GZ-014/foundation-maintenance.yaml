@@ -6,8 +6,15 @@ purpose: bootstrap machine-enforced Program Task Registration without reopening 
 baseSha: 3acc6e4ee582f4fdee8ba90c630bf99eb870b252
 workBranch: fix/GZ-014-program-registration-bootstrap
 riskLevel: high
+oneTime: true
 independentReviewRequired: true
 postMergeGateRequired: true
+ownershipDelta:
+  moduleId: MOD-GOV
+  field: ownedPaths
+  operation: tail-append
+  paths:
+    - docs/25-multi-agent-collaboration-protocol.md
 authorizedPaths:
   - AGENTS.md
   - docs/25-multi-agent-collaboration-protocol.md
