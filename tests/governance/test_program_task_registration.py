@@ -26,9 +26,10 @@ class RegistrationFixture:
     task_id = "OPS-006"
     branch = "chore/OPS-006-task-registration"
 
-    def __init__(self):
+    def __init__(self, final_wave="W17"):
         self.temp = tempfile.TemporaryDirectory()
         self.root = self.temp.name
+        self.final_wave = final_wave
         self.plan = self.base_plan()
         self.active = {
             "version": 1,
@@ -68,7 +69,10 @@ class RegistrationFixture:
         self.base_sha = self.rev_parse("HEAD")
         self.git("checkout", "-b", self.branch)
         self.add_valid_registration()
-        self.commit("OPS-006 registration (#52)")
+        self.commit("OPS-006 registration implementation (#52)")
+        self.implementation_sha = self.rev_parse("HEAD")
+        self.write_handoff()
+        self.commit("OPS-006 registration handoff (#52)")
         self.source_sha = self.rev_parse("HEAD")
 
     def close(self):
@@ -171,7 +175,7 @@ class RegistrationFixture:
                 ),
                 self.task(
                     "GZ-020",
-                    "W17",
+                    self.final_wave,
                     "planned",
                     ["GZ-004"],
                     "release/**",
@@ -289,6 +293,28 @@ class RegistrationFixture:
             + "python scripts/check-program-task-registration.py\n```\n"
         )
 
+    def evidence_paths(self):
+        return [
+            "evidence/OPS-006/EVIDENCE-STRUCTURE.md",
+            "evidence/OPS-006/assumptions.md",
+            "evidence/OPS-006/changed-files.md",
+            "evidence/OPS-006/commands.txt",
+            "evidence/OPS-006/follow-ups.md",
+            "evidence/OPS-006/handoff.md",
+            "evidence/OPS-006/risks.md",
+            "evidence/OPS-006/rollback-verification/README.md",
+            "evidence/OPS-006/scope.md",
+            "evidence/OPS-006/summary.md",
+            "evidence/OPS-006/test-results/README.md",
+        ]
+
+    def expected_changed_paths(self):
+        return [
+            "specs/coordination/program-plan.yaml",
+            "specs/tasks/OPS-006.md",
+            *self.evidence_paths(),
+        ]
+
     def write_canonical_evidence(self):
         task = self.task_id
         self.write_text(
@@ -329,10 +355,48 @@ class RegistrationFixture:
             "| `performance/` | N/A | No runtime performance claim is made. |\n"
             "| `security/` | N/A | Security behavior is covered by fail-closed tests. |\n",
         )
-        self.write_text(
-            f"evidence/{task}/handoff.md",
-            f"# Handoff\n\nTask: {task}\nNext: independent Registration review.\n",
+
+    def handoff_content(self):
+        changed = "".join(f"- `{path}`\n" for path in self.expected_changed_paths())
+        return (
+            "# OPS-006 Registration Handoff\n\n"
+            "Task: OPS-006\n"
+            "Issue: 52\n"
+            f"Branch: {self.branch}\n"
+            f"Base SHA: {self.base_sha}\n"
+            f"Candidate Commit: {self.implementation_sha}\n"
+            "Wave: W1\n"
+            "Integration Order: 3\n"
+            "Task Owner: ElectricDogCN\n"
+            "Coordinator: program-coordinator-agent\n"
+            "Implementer: governance-lifecycle-agent\n"
+            "Reviewer: independent-governance-review-agent\n"
+            "Integrator: integration-agent\n"
+            "Lease: NONE\n"
+            "Produced Contracts: PROGRAM-TASK-REGISTRATION-V1\n"
+            "Consumed Contracts: NONE\n\n"
+            "## Completed Scope\n\n"
+            "- Metadata-only Registration was prepared without a Lease or implementation authority.\n\n"
+            "## Changed Files\n\n"
+            + changed
+            + "\n## Commands and Exit Codes\n\n"
+            "- Command: python scripts/check-program-task-registration.py; Exit Code: 0\n\n"
+            "## Known Limitations\n\n"
+            "- Merge and the post-main Governance Gate remain pending.\n\n"
+            "## Shared Paths\n\n"
+            "- NONE\n\n"
+            "## Security\n\n"
+            "- Fail-closed provenance, path, copy, rename and symlink checks are required.\n\n"
+            "## Migration\n\n"
+            "- N/A: Registration changes metadata only and performs no data migration.\n\n"
+            "## Rollback\n\n"
+            "- git revert --no-edit <merge-sha>\n\n"
+            "## Next Action\n\n"
+            "- Independent reviewer verifies the exact final HEAD before Reservation.\n"
         )
+
+    def write_handoff(self):
+        self.write_text("evidence/OPS-006/handoff.md", self.handoff_content())
 
     def add_valid_registration(self):
         task = self.task(
@@ -347,9 +411,7 @@ class RegistrationFixture:
         self.plan["tasks"].insert(1, task)
         self.plan["tasks"][-1]["dependsOn"].append(self.task_id)
         self.write_yaml("specs/coordination/program-plan.yaml", self.plan)
-        self.write_text(
-            f"specs/tasks/{self.task_id}.md", self.task_spec(task)
-        )
+        self.write_text(f"specs/tasks/{self.task_id}.md", self.task_spec(task))
         self.write_canonical_evidence()
 
     def run(
@@ -383,10 +445,16 @@ class RegistrationFixture:
         mutate()
         self.commit("negative mutation")
         result = self.run()
-        if contains:
-            if result.returncode == 0 or contains not in result.stdout:
-                raise AssertionError(result.stdout + result.stderr)
+        if contains and (result.returncode == 0 or contains not in result.stdout):
+            raise AssertionError(result.stdout + result.stderr)
         return result
+
+    def refresh_handoff_after_implementation(self, message):
+        self.commit(message)
+        self.implementation_sha = self.rev_parse("HEAD")
+        self.write_handoff()
+        self.commit(message + " handoff")
+        self.source_sha = self.rev_parse("HEAD")
 
     def rewrite_task_front(self, change):
         path = os.path.join(self.root, f"specs/tasks/{self.task_id}.md")
@@ -402,6 +470,13 @@ class RegistrationFixture:
             + "---"
             + parts[2],
         )
+
+    def rewrite_handoff(self, transform):
+        relative = "evidence/OPS-006/handoff.md"
+        path = os.path.join(self.root, relative)
+        with open(path, encoding="utf-8") as handle:
+            content = handle.read()
+        self.write_text(relative, transform(content))
 
     def rewrite_task_text(self, transform):
         relative = f"specs/tasks/{self.task_id}.md"
@@ -420,10 +495,27 @@ class RegistrationFixture:
         self.git("merge", "--no-ff", "--no-edit", self.branch)
         return self.rev_parse("HEAD")
 
+    def advance_base_and_rebase(self, setup):
+        self.git("checkout", "main")
+        setup()
+        new_base = self.commit("advance target base")
+        self.git("checkout", self.branch)
+        self.git("rebase", "main")
+        self.base_sha = new_base
+        self.rewrite_task_front(
+            lambda document: document.__setitem__("baseSha", new_base)
+        )
+        self.commit("bind Registration to advanced target base")
+        self.implementation_sha = self.rev_parse("HEAD")
+        self.write_handoff()
+        self.commit("refresh Registration handoff after rebase")
+        self.source_sha = self.rev_parse("HEAD")
+        return new_base
+
 
 class TestProgramTaskRegistration(unittest.TestCase):
-    def fixture(self):
-        fixture = RegistrationFixture()
+    def fixture(self, **kwargs):
+        fixture = RegistrationFixture(**kwargs)
         self.addCleanup(fixture.close)
         return fixture
 
@@ -432,13 +524,16 @@ class TestProgramTaskRegistration(unittest.TestCase):
         if text:
             self.assertIn(text, result.stdout)
 
-    def test_valid_task_aware_registration_passes(self):
-        fixture = self.fixture()
+    def assert_baseline(self, fixture):
         result = fixture.run()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_valid_task_aware_registration_passes(self):
+        self.assert_baseline(self.fixture())
+
     def test_task_aware_pr_merge_ref_provenance_passes(self):
         fixture = self.fixture()
+        self.assert_baseline(fixture)
         fixture.merge_to_main()
         result = fixture.run(
             task=fixture.task_id,
@@ -449,6 +544,7 @@ class TestProgramTaskRegistration(unittest.TestCase):
 
     def test_valid_push_mode_merge_registration_passes(self):
         fixture = self.fixture()
+        self.assert_baseline(fixture)
         fixture.merge_to_main()
         result = fixture.run(task="", branch="", base_ref=fixture.base_sha)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -456,6 +552,7 @@ class TestProgramTaskRegistration(unittest.TestCase):
 
     def test_push_mode_direct_push_fails(self):
         fixture = self.fixture()
+        self.assert_baseline(fixture)
         fixture.git("checkout", "main")
         fixture.git("merge", "--ff-only", fixture.branch)
         result = fixture.run(task="", branch="", base_ref=fixture.base_sha)
@@ -463,13 +560,45 @@ class TestProgramTaskRegistration(unittest.TestCase):
 
     def test_push_mode_missing_source_branch_fails(self):
         fixture = self.fixture()
+        self.assert_baseline(fixture)
         fixture.merge_to_main()
+        baseline = fixture.run(task="", branch="", base_ref=fixture.base_sha)
+        self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
         fixture.git("branch", "-D", fixture.branch)
         result = fixture.run(task="", branch="", base_ref=fixture.base_sha)
         self.assert_failed(result, "source branch ref")
 
+    def test_push_mode_tag_cannot_substitute_for_source_branch(self):
+        fixture = self.fixture()
+        self.assert_baseline(fixture)
+        fixture.merge_to_main()
+        baseline = fixture.run(task="", branch="", base_ref=fixture.base_sha)
+        self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
+        fixture.git("branch", "-D", fixture.branch)
+        fixture.git("tag", fixture.branch, fixture.source_sha)
+        result = fixture.run(task="", branch="", base_ref=fixture.base_sha)
+        self.assert_failed(result, "source branch ref")
+
+    def test_task_aware_stale_branch_cannot_claim_advanced_base(self):
+        fixture = self.fixture()
+        self.assert_baseline(fixture)
+        fixture.git("checkout", "main")
+        fixture.write_text("main-advance.txt", "advanced\n")
+        new_base = fixture.commit("advance main")
+        fixture.git("checkout", fixture.branch)
+        fixture.rewrite_task_front(
+            lambda document: document.__setitem__("baseSha", new_base)
+        )
+        fixture.rewrite_handoff(
+            lambda content: content.replace(fixture.base_sha, new_base)
+        )
+        fixture.commit("claim stale branch against advanced base")
+        result = fixture.run(base_ref=new_base)
+        self.assert_failed(result, "exact merge base")
+
     def test_transition_and_lifecycle_use_same_validator(self):
         fixture = self.fixture()
+        self.assert_baseline(fixture)
         for script in (TRANSITIONS, LIFECYCLE):
             result = fixture.run(script=script)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -494,9 +623,8 @@ class TestProgramTaskRegistration(unittest.TestCase):
             )
 
         fixture.rewrite_task_text(transform)
-        fixture.commit("use merge anchor")
-        result = fixture.run()
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        fixture.refresh_handoff_after_implementation("use merge anchor")
+        self.assert_baseline(fixture)
 
     def test_duplicate_explicit_front_key_fails(self):
         fixture = self.fixture()
@@ -546,6 +674,7 @@ class TestProgramTaskRegistration(unittest.TestCase):
 
     def test_existing_planned_task_cannot_masquerade_as_registration(self):
         fixture = self.fixture()
+        self.assert_baseline(fixture)
         fixture.write_text(
             "evidence/OPS-006/follow-ups.md",
             "# Follow-ups\n\nTask: OPS-006\nNo additional phase.\n",
@@ -567,11 +696,21 @@ class TestProgramTaskRegistration(unittest.TestCase):
     def test_missing_task_spec_fails(self):
         fixture = self.fixture()
         result = fixture.prove_then_mutate(
-            lambda: os.remove(
-                os.path.join(fixture.root, "specs/tasks/OPS-006.md")
-            )
+            lambda: os.remove(os.path.join(fixture.root, "specs/tasks/OPS-006.md"))
         )
         self.assert_failed(result, "exactly one canonical Task Spec")
+
+    def test_preexisting_alternate_task_spec_fails(self):
+        fixture = self.fixture()
+        self.assert_baseline(fixture)
+        fixture.advance_base_and_rebase(
+            lambda: fixture.write_text(
+                "specs/tasks/OPS-006-legacy.md",
+                "---\nid: OPS-006\nstatus: planned\n---\n",
+            )
+        )
+        result = fixture.run(base_ref=fixture.base_sha)
+        self.assert_failed(result, "absent from the target base")
 
     def test_wrong_task_status_fails(self):
         fixture = self.fixture()
@@ -586,9 +725,7 @@ class TestProgramTaskRegistration(unittest.TestCase):
         fixture = self.fixture()
         result = fixture.prove_then_mutate(
             lambda: fixture.rewrite_task_front(
-                lambda document: document.__setitem__(
-                    "coordinationMode", "registry"
-                )
+                lambda document: document.__setitem__("coordinationMode", "registry")
             )
         )
         self.assert_failed(result, "coordinationMode")
@@ -626,6 +763,7 @@ class TestProgramTaskRegistration(unittest.TestCase):
 
     def test_task_aware_missing_branch_fails(self):
         fixture = self.fixture()
+        self.assert_baseline(fixture)
         result = fixture.run(branch="")
         self.assert_failed(result, "authoritative branch name")
 
@@ -707,6 +845,29 @@ class TestProgramTaskRegistration(unittest.TestCase):
         result = fixture.prove_then_mutate(mutate)
         self.assert_failed(result, "must remain planned")
 
+    def test_same_wave_attachment_target_must_follow_new_task(self):
+        fixture = self.fixture(final_wave="W1")
+
+        def mutate():
+            fixture.plan["tasks"][-1]["integrationOrder"] = 2
+            fixture.write_yaml("specs/coordination/program-plan.yaml", fixture.plan)
+
+        result = fixture.prove_then_mutate(mutate)
+        self.assert_failed(result, "must follow the new task integrationOrder")
+
+    def test_same_wave_dependency_must_precede_new_task(self):
+        fixture = self.fixture()
+
+        def mutate():
+            fixture.registration_task()["dependsOn"] = ["GZ-004"]
+            fixture.write_yaml("specs/coordination/program-plan.yaml", fixture.plan)
+            fixture.rewrite_task_front(
+                lambda document: document.__setitem__("dependsOn", ["GZ-004"])
+            )
+
+        result = fixture.prove_then_mutate(mutate)
+        self.assert_failed(result, "must precede the new task integrationOrder")
+
     def test_unknown_dependency_fails(self):
         fixture = self.fixture()
 
@@ -748,9 +909,7 @@ class TestProgramTaskRegistration(unittest.TestCase):
 
         def mutate():
             os.makedirs(os.path.join(fixture.root, "backend"), exist_ok=True)
-            fixture.git(
-                "mv", "evidence/OPS-006/handoff.md", "backend/handoff.md"
-            )
+            fixture.git("mv", "evidence/OPS-006/handoff.md", "backend/handoff.md")
 
         result = fixture.prove_then_mutate(mutate)
         self.assert_failed(result, "unrelated files")
@@ -767,6 +926,32 @@ class TestProgramTaskRegistration(unittest.TestCase):
 
         result = fixture.prove_then_mutate(mutate)
         self.assert_failed(result, "symlinks")
+
+    @unittest.skipIf(not hasattr(os, "symlink"), "symlink unavailable")
+    def test_preexisting_evidence_symlink_in_target_base_fails(self):
+        fixture = self.fixture()
+        self.assert_baseline(fixture)
+
+        def setup():
+            path = os.path.join(fixture.root, "evidence/OPS-006/security/link")
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            os.symlink("../../../private-source.txt", path)
+
+        fixture.advance_base_and_rebase(setup)
+        result = fixture.run(base_ref=fixture.base_sha)
+        self.assert_failed(result, "absent from the target base")
+        self.assertIn("symlinks", result.stdout)
+
+    def test_preexisting_evidence_root_in_target_base_fails(self):
+        fixture = self.fixture()
+        self.assert_baseline(fixture)
+        fixture.advance_base_and_rebase(
+            lambda: fixture.write_text(
+                "evidence/OPS-006/stale.txt", "Task: OPS-006\nstale\n"
+            )
+        )
+        result = fixture.run(base_ref=fixture.base_sha)
+        self.assert_failed(result, "absent from the target base")
 
     def test_copy_from_unrelated_tracked_source_fails(self):
         fixture = self.fixture()
@@ -803,6 +988,22 @@ class TestProgramTaskRegistration(unittest.TestCase):
         )
         self.assert_failed(result, "handoffPath")
 
+    def test_minimal_handoff_fails_structured_contract(self):
+        fixture = self.fixture()
+        result = fixture.prove_then_mutate(
+            lambda: fixture.write_text(
+                "evidence/OPS-006/handoff.md", "# Handoff\nTask: OPS-006\n"
+            )
+        )
+        self.assert_failed(result, "structured field")
+
+    def test_handoff_candidate_commit_cannot_precede_non_evidence_change(self):
+        fixture = self.fixture()
+        result = fixture.prove_then_mutate(
+            lambda: fixture.write_text("specs/tasks/unrelated.md", "metadata\n")
+        )
+        self.assert_failed(result, "may precede HEAD only")
+
     def test_missing_support_evidence_fails(self):
         fixture = self.fixture()
         result = fixture.prove_then_mutate(
@@ -821,6 +1022,40 @@ class TestProgramTaskRegistration(unittest.TestCase):
             )
         )
         self.assert_failed(result, "executable steps")
+
+    def test_empty_rollback_shell_fence_fails(self):
+        fixture = self.fixture()
+        result = fixture.prove_then_mutate(
+            lambda: fixture.write_text(
+                "evidence/OPS-006/rollback-verification/README.md",
+                "# Rollback\n\nTask: OPS-006\n```bash\n```\n",
+            )
+        )
+        self.assert_failed(result, "executable steps")
+
+    def test_rollback_may_not_be_mapped_to_na(self):
+        fixture = self.fixture()
+
+        def mutate():
+            os.remove(
+                os.path.join(
+                    fixture.root,
+                    "evidence/OPS-006/rollback-verification/README.md",
+                )
+            )
+            path = os.path.join(
+                fixture.root, "evidence/OPS-006/EVIDENCE-STRUCTURE.md"
+            )
+            with open(path, encoding="utf-8") as handle:
+                content = handle.read()
+            fixture.write_text(
+                "evidence/OPS-006/EVIDENCE-STRUCTURE.md",
+                content
+                + "| `rollback-verification/` | N/A | Rollback is intentionally omitted. |\n",
+            )
+
+        result = fixture.prove_then_mutate(mutate)
+        self.assert_failed(result, "may not be mapped to N/A")
 
     def test_repository_wide_path_claim_fails(self):
         fixture = self.fixture()
