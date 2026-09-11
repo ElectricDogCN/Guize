@@ -5,6 +5,7 @@ Foundation maintenance, or the byte-identical preserved lifecycle core.
 
 from __future__ import annotations
 
+import copy
 import fnmatch
 import importlib.util
 import os
@@ -18,6 +19,8 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CORE_PATH = os.path.join(SCRIPT_DIR, "check-program-lifecycle-guards-core.py")
 REGISTRATION_PATH = os.path.join(SCRIPT_DIR, "check-program-task-registration.py")
 MAINTENANCE_MODE = "completed-foundation-maintenance"
+OWNERSHIP_PATH = "specs/designs/module-ownership.yaml"
+PROTOCOL_PATH = "docs/25-multi-agent-collaboration-protocol.md"
 
 
 def _load(path: str, name: str):
@@ -142,6 +145,134 @@ def _maintenance_task_from_diff(
     return candidates[0] if len(candidates) == 1 else ""
 
 
+def _expected_ownership_text(base_text: str, module_id: str, path: str) -> str | None:
+    """Return the only permitted byte-level ownership edit: one tail append."""
+    lines = base_text.splitlines(keepends=True)
+    module_start: int | None = None
+    module_end = len(lines)
+    for index, line in enumerate(lines):
+        if line.rstrip("\r\n") == f"- id: {module_id}":
+            module_start = index
+            break
+    if module_start is None:
+        return None
+    for index in range(module_start + 1, len(lines)):
+        if lines[index].startswith("- id: "):
+            module_end = index
+            break
+
+    paths_start: int | None = None
+    paths_end: int | None = None
+    for index in range(module_start + 1, module_end):
+        if lines[index].rstrip("\r\n") == "  ownedPaths:":
+            paths_start = index
+            continue
+        if paths_start is not None and index > paths_start:
+            stripped = lines[index].rstrip("\r\n")
+            if stripped.startswith("  ") and not stripped.startswith("  - "):
+                paths_end = index
+                break
+    if paths_start is None or paths_end is None:
+        return None
+    existing = [
+        line.strip()[2:].strip()
+        for line in lines[paths_start + 1 : paths_end]
+        if line.strip().startswith("- ")
+    ]
+    if path in existing:
+        return None
+    newline = "\r\n" if any(line.endswith("\r\n") for line in lines) else "\n"
+    lines.insert(paths_end, f"  - {path}{newline}")
+    return "".join(lines)
+
+
+def _validate_ownership_delta(
+    base_text: str | None,
+    head_text: str | None,
+    base_ownership: dict[str, Any],
+    head_ownership: dict[str, Any],
+    manifest: dict[str, Any],
+    errors: list[str],
+) -> set[str]:
+    expected_delta = {
+        "moduleId": "MOD-GOV",
+        "field": "ownedPaths",
+        "operation": "tail-append",
+        "paths": [PROTOCOL_PATH],
+    }
+    if manifest.get("ownershipDelta") != expected_delta:
+        errors.append(
+            "Completed-Foundation maintenance ownershipDelta must declare the exact MOD-GOV protocol tail append"
+        )
+    if not base_text or head_text is None:
+        errors.append("Completed-Foundation maintenance ownership text is missing")
+        return {PROTOCOL_PATH}
+    expected_text = _expected_ownership_text(base_text, "MOD-GOV", PROTOCOL_PATH)
+    if expected_text is None:
+        errors.append(
+            "Completed-Foundation maintenance cannot derive the one permitted ownership tail append"
+        )
+    elif head_text != expected_text:
+        errors.append(
+            "Completed-Foundation maintenance ownership change must be the exact byte-preserving MOD-GOV protocol tail append"
+        )
+
+    expected_document = copy.deepcopy(base_ownership)
+    modules = [
+        module
+        for module in expected_document.get("modules") or []
+        if isinstance(module, dict) and module.get("id") == "MOD-GOV"
+    ]
+    if len(modules) != 1:
+        errors.append("Target-base ownership must contain exactly one MOD-GOV module")
+    else:
+        owned = modules[0].get("ownedPaths")
+        if not isinstance(owned, list) or PROTOCOL_PATH in owned:
+            errors.append(
+                "Target-base MOD-GOV ownership cannot accept the declared one-time protocol append"
+            )
+        else:
+            owned.append(PROTOCOL_PATH)
+            if head_ownership != expected_document:
+                errors.append(
+                    "Completed-Foundation maintenance changed ownership outside the declared protocol append"
+                )
+    return {PROTOCOL_PATH}
+
+
+def _residue_name(path: str) -> bool:
+    basename = os.path.basename(path).lower()
+    suffixes = (".tmp", ".temp", ".placeholder", ".marker")
+    if basename.endswith(suffixes):
+        return True
+    if basename.startswith((".controller-probe", ".ops008-controller")):
+        return True
+    tokens = [token for token in re.split(r"[^a-z0-9]+", basename) if token]
+    return "probe" in tokens or "placeholder" in tokens or "marker" in tokens
+
+
+def _placeholder_only(content: str | None) -> bool:
+    if content is None:
+        return False
+    compact = " ".join(content.strip().lower().split())
+    if not compact or len(compact) > 512:
+        return False
+    if compact in {
+        "placeholder",
+        "test",
+        "do-not-commit",
+        "controller probe",
+        "pending controller validation upload",
+    }:
+        return True
+    words = set(re.findall(r"[a-z0-9-]+", compact))
+    if "do-not-commit" in words:
+        return True
+    if "placeholder" in words and len(words) <= 30:
+        return True
+    return "controller" in words and "probe" in words and len(words) <= 30
+
+
 def _validate_completed_foundation_maintenance(
     root: str,
     base_ref: str,
@@ -155,23 +286,35 @@ def _validate_completed_foundation_maintenance(
     if not base_sha or not head_sha:
         return 1, {"errors": ["Completed-Foundation maintenance refs are missing"]}
 
+    manifest_path = _maintenance_path(task_id)
     base_plan = _load_yaml_ref(root, base_ref, REGISTRATION.PLAN)
     head_plan = _load_yaml_ref(root, head_ref, REGISTRATION.PLAN)
     base_active = REGISTRATION.read_ref(root, base_ref, REGISTRATION.ACTIVE)
     head_active = REGISTRATION.read_ref(root, head_ref, REGISTRATION.ACTIVE)
     base_ledger = REGISTRATION.read_ref(root, base_ref, REGISTRATION.LEDGER)
     head_ledger = REGISTRATION.read_ref(root, head_ref, REGISTRATION.LEDGER)
-    ownership = _load_yaml_ref(root, head_ref, "specs/designs/module-ownership.yaml")
-    manifest = _load_yaml_ref(root, head_ref, _maintenance_path(task_id))
+    base_ownership_text = REGISTRATION.read_ref(root, base_ref, OWNERSHIP_PATH)
+    head_ownership_text = REGISTRATION.read_ref(root, head_ref, OWNERSHIP_PATH)
+    base_ownership = REGISTRATION.load_yaml_text(base_ownership_text)
+    head_ownership = REGISTRATION.load_yaml_text(head_ownership_text)
+    manifest = _load_yaml_ref(root, head_ref, manifest_path)
+
+    if REGISTRATION.read_ref(root, base_ref, manifest_path) is not None:
+        errors.append(
+            "Completed-Foundation maintenance manifest must be absent from the target base; this one-time maintenance cannot be reused"
+        )
     if not isinstance(base_plan, dict) or not isinstance(head_plan, dict):
         errors.append(
             "Completed-Foundation maintenance Program Plan snapshots are invalid"
         )
         base_plan = {}
         head_plan = {}
-    if not isinstance(ownership, dict):
-        errors.append("Completed-Foundation maintenance module ownership is invalid")
-        ownership = {}
+    if not isinstance(base_ownership, dict):
+        errors.append("Completed-Foundation maintenance target-base ownership is invalid")
+        base_ownership = {}
+    if not isinstance(head_ownership, dict):
+        errors.append("Completed-Foundation maintenance candidate ownership is invalid")
+        head_ownership = {}
     if not isinstance(manifest, dict):
         errors.append("Completed-Foundation maintenance manifest is missing or invalid")
         manifest = {}
@@ -221,7 +364,8 @@ def _validate_completed_foundation_maintenance(
         errors.append(
             "Completed-Foundation maintenance must remain high or critical risk"
         )
-    if not REGISTRATION.as_list(front.get("moduleIds")):
+    module_ids = set(REGISTRATION.as_list(front.get("moduleIds")))
+    if not module_ids:
         errors.append(
             "Completed-Foundation maintenance Task Spec has no owning module"
         )
@@ -234,6 +378,7 @@ def _validate_completed_foundation_maintenance(
         "taskId": task_id,
         "baseSha": base_sha,
         "riskLevel": front.get("riskLevel"),
+        "oneTime": True,
         "independentReviewRequired": True,
         "postMergeGateRequired": True,
     }
@@ -251,6 +396,15 @@ def _validate_completed_foundation_maintenance(
     if not str(manifest.get("purpose") or "").strip():
         errors.append("Completed-Foundation maintenance manifest requires a purpose")
 
+    delta_paths = _validate_ownership_delta(
+        base_ownership_text,
+        head_ownership_text,
+        base_ownership,
+        head_ownership,
+        manifest,
+        errors,
+    )
+
     manifest_branch = str(manifest.get("workBranch") or "")
     if not manifest_branch or not fnmatch.fnmatchcase(
         manifest_branch, f"fix/{task_id}-*"
@@ -265,15 +419,19 @@ def _validate_completed_foundation_maintenance(
             errors.append(
                 "Completed-Foundation maintenance actual branch does not match manifest workBranch"
             )
-        if not any(sha == head_sha for _, sha in refs):
-            if (
-                len(parents) != 2
-                or parents[0] != base_sha
-                or not any(sha == parents[1] for _, sha in refs)
-            ):
+        if any(sha == head_sha for _, sha in refs):
+            if REGISTRATION.merge_base(root, base_sha, head_sha) != base_sha:
                 errors.append(
-                    "Completed-Foundation maintenance cannot prove PR source branch provenance"
+                    "Completed-Foundation maintenance target base must be the exact merge base of branch HEAD"
                 )
+        elif (
+            len(parents) != 2
+            or parents[0] != base_sha
+            or not any(sha == parents[1] for _, sha in refs)
+        ):
+            errors.append(
+                "Completed-Foundation maintenance cannot prove PR source branch provenance"
+            )
     else:
         if len(parents) != 2 or parents[0] != base_sha:
             errors.append(
@@ -299,23 +457,20 @@ def _validate_completed_foundation_maintenance(
             )
         normalized_authorized.append(normalized)
 
-    module_patterns = _module_patterns(
-        ownership, set(REGISTRATION.as_list(front.get("moduleIds")))
-    )
+    module_patterns = _module_patterns(base_ownership, module_ids)
     for claim in normalized_authorized:
         if claim.startswith(f"evidence/{task_id}"):
             continue
-        if claim == "specs/designs/module-ownership.yaml":
-            # The ownership registry is the canonical file that records its
-            # own governance ownership; maintenance may change it only when
-            # explicitly enumerated in the manifest.
+        if claim == OWNERSHIP_PATH:
+            continue
+        if claim in delta_paths:
             continue
         if not any(
             _matches(claim, pattern) or _matches(pattern, claim)
             for pattern in module_patterns
         ):
             errors.append(
-                f"Completed-Foundation maintenance authorized path is outside module ownership: {claim}"
+                f"Completed-Foundation maintenance authorized path is outside target-base module ownership: {claim}"
             )
 
     paths, records = REGISTRATION.changed_paths(root, base_ref, head_ref)
@@ -324,10 +479,9 @@ def _validate_completed_foundation_maintenance(
             "Completed-Foundation maintenance cannot determine changed paths"
         )
         paths = set()
-    required_manifest_path = _maintenance_path(task_id)
-    if required_manifest_path not in paths:
+    if manifest_path not in paths:
         errors.append(
-            "Completed-Foundation maintenance must add or refresh its manifest"
+            "Completed-Foundation maintenance must add its one-time manifest"
         )
     forbidden_exact = {
         REGISTRATION.PLAN,
@@ -340,19 +494,24 @@ def _validate_completed_foundation_maintenance(
             errors.append(
                 f"Completed-Foundation maintenance changed forbidden state file: {path}"
             )
-        if path.endswith(".tmp") or os.path.basename(path).startswith(
-            ".ops008-controller"
-        ):
+        if _residue_name(path):
             errors.append(
-                f"Completed-Foundation maintenance contains temporary residue: {path}"
+                f"Completed-Foundation maintenance contains probe/temp/placeholder residue: {path}"
             )
         if not REGISTRATION.safe_repo_path(path):
             errors.append(
                 f"Completed-Foundation maintenance changed unsafe path: {path}"
             )
-        if REGISTRATION.ref_mode(root, head_ref, path) == "120000":
+        mode = REGISTRATION.ref_mode(root, head_ref, path)
+        if mode == "120000":
             errors.append(
                 f"Completed-Foundation maintenance must not add symlinks: {path}"
+            )
+        if mode in {"100644", "100755"} and _placeholder_only(
+            REGISTRATION.read_ref(root, head_ref, path)
+        ):
+            errors.append(
+                f"Completed-Foundation maintenance contains placeholder-only content: {path}"
             )
         if not any(_matches(path, claim) for claim in normalized_authorized):
             errors.append(
@@ -372,9 +531,11 @@ def _validate_completed_foundation_maintenance(
         "baseSha": base_sha,
         "headSha": head_sha,
         "branch": manifest_branch,
-        "manifest": required_manifest_path,
+        "manifest": manifest_path,
         "changedPathCount": len(paths),
         "authorizedPathCount": len(normalized_authorized),
+        "oneTime": manifest.get("oneTime"),
+        "ownershipDelta": manifest.get("ownershipDelta"),
         "errors": errors,
     }
     return (1 if errors else 0), details
@@ -419,13 +580,11 @@ def main() -> int:
             return code
         REGISTRATION.emit(
             "PASS",
-            "Completed Foundation maintenance is explicit, owned, state-preserving, and fail-closed",
+            "Completed Foundation maintenance is one-time, owned, state-preserving, and fail-closed",
             details,
         )
         return 0
 
-    # run-program-lifecycle-gate.py monkey-patches these exported hooks. Copy
-    # the current wrapper values into the preserved core before delegation.
     CORE.changed_paths = globals().get("changed_paths", CORE.changed_paths)
     CORE.task_ids_from_diff = globals().get(
         "task_ids_from_diff", CORE.task_ids_from_diff
