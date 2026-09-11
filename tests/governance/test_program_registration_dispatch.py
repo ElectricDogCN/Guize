@@ -139,6 +139,73 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
             text=True,
         )
 
+    def git(self, root, *args):
+        return subprocess.run(
+            ["git", *args],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+
+    def write_push_maintenance_fixture(self, root):
+        def write(relative, content):
+            path = os.path.join(root, relative)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as handle:
+                handle.write(content)
+            return path
+
+        self.git(root, "init", "-b", "main")
+        self.git(root, "config", "user.email", "test@example.com")
+        self.git(root, "config", "user.name", "Test")
+        ordinary = write(
+            "scripts/check-agent-coordination.py",
+            "import sys\nprint('ORDINARY-SHOULD-NOT-RUN')\nsys.exit(91)\n",
+        )
+        lifecycle = write(
+            "scripts/check-program-lifecycle-guards.py",
+            "import sys\nprint('PUSH-LIFECYCLE-RAN', ' '.join(sys.argv[1:]))\n"
+            "sys.exit(0)\n",
+        )
+        self.git(root, "add", "-A")
+        self.git(root, "commit", "-m", "base")
+        base_sha = self.git(root, "rev-parse", "HEAD").stdout.strip()
+        branch = "fix/GZ-014-post-main-maintenance"
+        self.git(root, "checkout", "-b", branch)
+        write(
+            "evidence/GZ-014/foundation-maintenance.yaml",
+            "schemaVersion: 1\nmode: completed-foundation-maintenance\noneTime: true\n",
+        )
+        self.git(root, "add", "-A")
+        self.git(root, "commit", "-m", "GZ-014 one-time maintenance")
+        self.git(root, "checkout", "main")
+        self.git(root, "merge", "--no-ff", "--no-edit", branch)
+        return ordinary, lifecycle, base_sha
+
+    def run_push_maintenance_dispatch(self, root, ordinary, base_sha):
+        env = os.environ.copy()
+        env.update(
+            {
+                "EVENT_NAME": "push",
+                "PUSH_BEFORE": base_sha,
+                "GITHUB_REF_NAME": "main",
+            }
+        )
+        return subprocess.run(
+            [
+                sys.executable,
+                COORDINATION,
+                "--repo-root",
+                root,
+                "--coordination-script",
+                ordinary,
+            ],
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+
     def test_task_file_accepts_registration_without_lease(self):
         self.assert_task_checker_baseline(self.fixture())
 
@@ -277,6 +344,53 @@ class TestProgramRegistrationDispatch(unittest.TestCase):
             self.assertIn("CANONICAL-LIFECYCLE-RAN", result.stdout)
             self.assertNotIn("ORDINARY-SHOULD-NOT-RUN", result.stdout)
             self.assertNotIn("accepted", result.stdout)
+
+    def test_push_no_task_maintenance_revalidates_lifecycle(self):
+        with tempfile.TemporaryDirectory() as root:
+            ordinary, _, base_sha = self.write_push_maintenance_fixture(root)
+            result = self.run_push_maintenance_dispatch(root, ordinary, base_sha)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("PUSH-LIFECYCLE-RAN", result.stdout)
+            self.assertIn("--task GZ-014", result.stdout)
+            self.assertNotIn("--branch-name", result.stdout)
+            self.assertIn("push/no-task", result.stdout)
+            self.assertNotIn("ORDINARY-SHOULD-NOT-RUN", result.stdout)
+
+    def test_push_no_task_maintenance_propagates_lifecycle_failure(self):
+        with tempfile.TemporaryDirectory() as root:
+            ordinary, lifecycle, base_sha = self.write_push_maintenance_fixture(root)
+            baseline = self.run_push_maintenance_dispatch(root, ordinary, base_sha)
+            self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
+            with open(lifecycle, "w", encoding="utf-8") as handle:
+                handle.write(
+                    "import sys\nprint('PUSH-LIFECYCLE-RAN', ' '.join(sys.argv[1:]))\n"
+                    "sys.exit(7)\n"
+                )
+            result = self.run_push_maintenance_dispatch(root, ordinary, base_sha)
+            self.assertEqual(result.returncode, 7, result.stdout + result.stderr)
+            self.assertIn("PUSH-LIFECYCLE-RAN", result.stdout)
+            self.assertNotIn("ORDINARY-SHOULD-NOT-RUN", result.stdout)
+            self.assertNotIn("accepted", result.stdout)
+
+    def test_push_no_task_multiple_maintenance_manifests_fail_closed(self):
+        with tempfile.TemporaryDirectory() as root:
+            ordinary, _, base_sha = self.write_push_maintenance_fixture(root)
+            baseline = self.run_push_maintenance_dispatch(root, ordinary, base_sha)
+            self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
+            path = os.path.join(
+                root, "evidence", "GZ-015", "foundation-maintenance.yaml"
+            )
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as handle:
+                handle.write(
+                    "schemaVersion: 1\nmode: completed-foundation-maintenance\noneTime: true\n"
+                )
+            self.git(root, "add", "-A")
+            self.git(root, "commit", "-m", "add second maintenance manifest")
+            result = self.run_push_maintenance_dispatch(root, ordinary, base_sha)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            self.assertIn("multiple completed-Foundation maintenance manifests", result.stdout)
+            self.assertNotIn("ORDINARY-SHOULD-NOT-RUN", result.stdout)
 
     def test_registration_script_override_is_absent_from_coordination_cli(self):
         result = subprocess.run(
