@@ -3,9 +3,9 @@
 
 Implementation work is validated against Active Work path claims. Registration
 is metadata-only and is always validated by the canonical history-aware
-Registration checker; callers cannot replace that checker. Non-Registration
-fixtures do not need to vendor the Registration checker merely to exercise the
-existing dispatcher modes.
+Registration checker; callers cannot replace that checker. Audited completed-
+Foundation maintenance is revalidated by the canonical lifecycle guard rather
+than falling through to unrelated global active-lease checks.
 """
 
 from __future__ import annotations
@@ -24,6 +24,7 @@ REGISTRATION_TASK_STATES = {"planned"}
 METADATA_TASK_STATES = {"reserved", "blocked", "cancelled", "completed"}
 PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
 REGISTRATION_SCRIPT = "scripts/check-program-task-registration.py"
+LIFECYCLE_SCRIPT = "scripts/check-program-lifecycle-guards.py"
 NONE_VALUES = {"", "NONE", "none", "null", "N/A", "n/a"}
 ZERO_SHA = "0" * 40
 
@@ -196,6 +197,14 @@ def registration_script_path(root: str) -> str:
     return os.path.join(root, REGISTRATION_SCRIPT)
 
 
+def lifecycle_script_path(root: str) -> str:
+    return os.path.join(root, LIFECYCLE_SCRIPT)
+
+
+def maintenance_manifest_path(root: str, task_id: str) -> str:
+    return os.path.join(root, "evidence", task_id, "foundation-maintenance.yaml")
+
+
 def load_registration_module(root: str):
     path = registration_script_path(root)
     if not os.path.isfile(path):
@@ -278,6 +287,45 @@ def run_registration(
     return 0
 
 
+def run_completed_foundation_maintenance(
+    root: str,
+    base_ref: str,
+    head_ref: str,
+    task: str,
+    branch_name: str,
+) -> int:
+    """Delegate maintenance coordination to the canonical lifecycle proof."""
+    if not base_ref or not head_ref or not branch_name:
+        print(
+            "FAIL: Completed-Foundation maintenance coordination requires exact base/head refs and an authoritative branch name"
+        )
+        return 2
+    script = lifecycle_script_path(root)
+    if not os.path.isfile(script):
+        print(f"FAIL: Canonical lifecycle checker does not exist: {script}")
+        return 2
+    command = [
+        sys.executable,
+        script,
+        "--repo-root",
+        root,
+        "--base-ref",
+        base_ref,
+        "--head-ref",
+        head_ref,
+        "--task",
+        task,
+        "--branch-name",
+        branch_name,
+    ]
+    result = subprocess.run(command, cwd=root, check=False)
+    if result.returncode == 0:
+        print(
+            f"INFO: {task} completed-Foundation maintenance coordination was accepted only after canonical lifecycle revalidation."
+        )
+    return result.returncode
+
+
 def validate_global_program_specs(root: str) -> int | None:
     plan, lifecycle_errors = load_program_plan(root)
     if plan is not None:
@@ -298,10 +346,6 @@ def main() -> int:
         print(f"FAIL: Coordination checker does not exist: {coordination_script}")
         return 2
 
-    # Resolve task-aware Registration before running repository-wide completed
-    # Task consistency. The Registration validator proves the whole base/head
-    # metadata transition and must not require unrelated completed-task files in
-    # an isolated behavioral fixture.
     task_document_value: dict[str, Any] | None = None
     task_status = ""
     if args.task:
@@ -338,10 +382,6 @@ def main() -> int:
                 branch_name=args.branch_name,
             )
 
-    # In push/no-task mode, load the canonical validator only when the current
-    # repository actually has it. An isolated non-Registration fixture may omit
-    # the new checker; however, any Program Plan change with no checker fails
-    # closed rather than falling through to ordinary coordination.
     if not args.task:
         base_ref, head_ref, branch_name = global_history_context(args, root)
         if base_ref and head_ref:
@@ -374,6 +414,19 @@ def main() -> int:
     global_result = validate_global_program_specs(root)
     if global_result is not None:
         return global_result
+
+    if (
+        args.task
+        and task_status == "completed"
+        and os.path.isfile(maintenance_manifest_path(root, args.task))
+    ):
+        return run_completed_foundation_maintenance(
+            root,
+            args.base_ref,
+            args.head_ref,
+            args.task,
+            args.branch_name,
+        )
 
     command = [sys.executable, coordination_script, "--repo-root", root]
     if args.task:
