@@ -88,12 +88,19 @@ class UniqueKeyLoader(yaml.SafeLoader):
     """SafeLoader that rejects duplicate mapping keys instead of overwriting them."""
 
 
-def _construct_unique_mapping(loader: yaml.SafeLoader, node: yaml.MappingNode, deep: bool = False):
-    mapping: dict[Any, Any] = {}
-    for key_node, value_node in node.value:
-        key = loader.construct_object(key_node, deep=deep)
+def _construct_unique_mapping(
+    loader: yaml.SafeLoader,
+    node: yaml.MappingNode,
+    deep: bool = False,
+):
+    explicit: set[Any] = set()
+    for key_node, _ in node.value:
+        if key_node.tag == "tag:yaml.org,2002:merge":
+            continue
+        key = loader.construct_object(key_node, deep=False)
         try:
-            duplicate = key in mapping
+            duplicate = key in explicit
+            explicit.add(key)
         except TypeError as exc:
             raise yaml.constructor.ConstructorError(
                 "while constructing a mapping",
@@ -108,8 +115,8 @@ def _construct_unique_mapping(loader: yaml.SafeLoader, node: yaml.MappingNode, d
                 f"found duplicate key: {key!r}",
                 key_node.start_mark,
             )
-        mapping[key] = loader.construct_object(value_node, deep=deep)
-    return mapping
+    loader.flatten_mapping(node)
+    return yaml.SafeLoader.construct_mapping(loader, node, deep=deep)
 
 
 UniqueKeyLoader.add_constructor(
