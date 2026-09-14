@@ -1,38 +1,59 @@
-GZ-010 Reservation v2 command evidence
+GZ-010 POC Program Baseline command evidence
 
 Task: GZ-010
+PR: #48
+Branch: chore/GZ-010-poc-program-baseline
+Base: main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252
+Validated implementation commit: 608b8e0a3796ddaac6b5bbdda9baff349f45b1c3
+GitHub Actions run: 34873071797
+GitHub Actions job: 104073491558
+Runner: Ubuntu 24.04
+Observed execution window: 2026-09-14T17:10:04Z through 2026-09-14T17:10:56Z
 
-command: GitHub REST GET /repos/ElectricDogCN/Guize/actions/runs/33480807557/jobs
-exit code: HTTP 200
+command: python -m py_compile specs/poc/check_program.py specs/poc/test_program.py
+exit code: 0
 result: PASS
-observed result: post-OPS-003 main Governance Gate #380 completed SUCCESS on d23543f97facff00d02f79aab1693a37788765c9
+observed result: both Python files compiled successfully
 
-command: GitHub REST GET /repos/ElectricDogCN/Guize/git/ref/heads/chore/GZ-010-reservation-v2
-exit code: HTTP 200
+command: python -m pip install -r requirements-governance.txt
+exit code: 0
 result: PASS
-observed result: Reservation v2 branch initially pointed exactly to d23543f97facff00d02f79aab1693a37788765c9 before this atomic Reservation commit
+observed result: required governance dependencies installed successfully
 
-command: GitHub PR #42 / Gate #374 historical inspection
-exit code: HTTP 200
-result: HISTORICAL-FAIL
-observed result: PR #42 was closed unmerged after governance tests reported 258 PASS / 1 FAIL from the stale schema fixture; it is not current success evidence
+command: python specs/poc/check_program.py
+exit code: 0
+result: PASS
+observed result: PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
 
-command: create atomic GZ-010 Reservation v2 commit
-exit code: pending until GitHub commit/ref update completes
+command: python specs/poc/test_program.py
+exit code: 0
+result: PASS
+observed result: Ran 85 tests in 49.148s; OK; unexpected skips: 0
+
+command: git diff --check
+exit code: 0
+result: PASS
+observed result: no whitespace errors
+
+command: commit validated repair and remove temporary repair workflows
+exit code: 0
+result: PASS
+observed result: commit 608b8e0a3796ddaac6b5bbdda9baff349f45b1c3 created; six temporary GZ-010 repair workflows deleted
+
+command: push HEAD:chore/GZ-010-poc-program-baseline
+exit code: 0
+result: PASS
+observed result: fa11bf7..608b8e0 fast-forward push completed
+
+command: exact-head Governance Gate for bot-authored 608b8e0a3796ddaac6b5bbdda9baff349f45b1c3
+exit code: no jobs started
+result: ACTION_REQUIRED, NOT PASS
+observed result: run 34873182514 contained zero jobs because GITHUB_TOKEN pushes do not recursively start the normal workflow; this is not a validator or test failure
+
+pending command on the Evidence-bearing PR head: make verify TASK=GZ-010 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline
+result: PENDING exact-head Governance Gate
+
+pending action on the Evidence-bearing PR head: fresh independent review and unresolved-thread audit
 result: PENDING
-observed result: no success pre-claimed
 
-command: exact-head Governance Gate for GZ-010 Reservation v2
-exit code: pending
-result: PENDING
-observed result: must pass on the final Reservation v2 HEAD before merge
-
-command: fresh exact-head review and unresolved-thread audit
-exit code: pending
-result: PENDING
-observed result: must complete on the final Reservation v2 HEAD before merge
-
-command: post-merge main Governance Gate
-exit code: pending
-result: PENDING
-observed result: implementation branch cannot start until this succeeds
+Claim boundary: these commands validate the POC Program implementation only. No actual POC-001 through POC-010 experiment command was executed and no experiment result is claimed.

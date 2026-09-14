@@ -1,84 +1,54 @@
-# GZ-010 Implementation Activation Handoff
+# GZ-010 POC Program Baseline Review Handoff
 
-Task: GZ-010
-Status: IN_PROGRESS activation candidate
+Task: `GZ-010`  
+Issue: `#15`  
+Pull request: `#48`  
+Branch: `chore/GZ-010-poc-program-baseline`  
+Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`  
+Validated implementation commit: `608b8e0a3796ddaac6b5bbdda9baff349f45b1c3`
 
-## Identity
+## Current state
 
-- Issue: #15
-- Program task: GZ-010
-- Wave / order: W1 / 2
-- Work Package: WP-M0-04
-- Risk: medium
-- Activation base: `main@74ab9d53f29834fda37dcbd726fd58f997f8f21a`
-- Registered branch: `chore/GZ-010-poc-program-baseline`
-- Reservation PR: #45
-- Reservation merge: `74ab9d53f29834fda37dcbd726fd58f997f8f21a`
-- Reservation post-main Governance Gate: #382 / run `33492832222` = PASS
-- Lease: `2026-09-01T08:27:00Z` → `2026-09-08T08:27:00Z`
-- Produced contract: `POC-PROTOCOL-V1` (implementation output; not produced by this Activation)
+The POC Program baseline implementation is complete as a Draft review candidate. Task-specific validation passed in GitHub Actions run `34873071797`, job `104073491558`:
 
-## Roles after Activation
+- validator: exit `0` with the canonical PASS message;
+- regression suite: 85/85 passed in 49.148 seconds;
+- unexpected skips: 0;
+- Python compilation and `git diff --check`: exit `0`;
+- six temporary repair workflows: deleted.
 
-- Human Owner: `ElectricDogCN`
-- Coordinator: `program-coordinator-agent`
-- Implementer: `poc-program-agent`
-- Reviewer: `independent-poc-program-review-agent`
-- Integrator: `integration-agent`
-- Active role: `implementer`
+This handoff does not claim that the Evidence-bearing PR head has passed the full Governance Gate or independent review. It does not authorize merge or lifecycle completion.
 
-## Activation scope
+## Claim boundary
 
-This PR performs only the lifecycle transition required before implementation:
+GZ-010 defines executable governance contracts for future POC work; it does not execute the experiments. POC-001 through POC-010 remain planned/not_started. No `evidence/POC-*` result, performance number, provider outcome, hardware result, or approval decision is introduced.
 
-- Program GZ-010: `reserved -> in_progress`;
-- Active Work GZ-010: `reserved -> in_progress`;
-- Registry `baseSha` becomes the Reservation merge SHA;
-- Registry/Task `agentRole` becomes `implementer`;
-- Task Spec front matter mirrors those fields;
-- `activation.md` and this registered Handoff describe the transition.
+## Independent reviewer actions
 
-It does **not** create or modify:
+Review the exact current PR head only and verify all of the following:
 
-- `specs/poc/**`;
-- `poc/README.md`;
-- `evidence/POC-001/**` ～ `evidence/POC-010/**`;
-- experiment commands, measurements, results or decisions;
-- business contracts/code, deployment, Secrets, permissions or production data.
+1. the PR head descends from validated implementation commit `608b8e0a3796ddaac6b5bbdda9baff349f45b1c3`;
+2. the changed-file set matches `evidence/GZ-010/changed-files.md` and contains no temporary repair workflow or unrelated product/deployment file;
+3. the only coordination metadata changes are the synchronized GZ-010 lease timestamps in Active Work and Task Spec;
+4. `check_program.py` preserves YAML merge-key semantics while rejecting duplicate explicit keys;
+5. the positive terminal fixture satisfies the current execution schema before every negative mutation;
+6. structured commands bind command text, expected/actual exit code, and task-owned raw output;
+7. execution resources exactly match the plan and configuration/booking references exist under task Evidence;
+8. privacy/license reviews, secret scanning, result-index ownership, immutable history, measurement domains, provenance, and frozen POC blockers fail closed;
+9. all canonical plans and index rows remain planned/not_started and no actual POC Evidence exists;
+10. the exact-head Governance Gate, repository governance suite, POC suite, and `make verify TASK=GZ-010 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline` all pass with no unexpected skip;
+11. all current review threads are resolved or explicitly classified as non-blocking.
 
-Historical PR #46 is closed/unmerged and is not current PASS/merge evidence.
+## Integrator actions
 
-## Implementer exact action after Activation merge
+Do not merge while the PR is Draft. Merge is permitted only after the exact Evidence-bearing head has a fully successful Governance Gate and a fresh independent review with no unresolved blocker. Use the reviewed expected head SHA when merging so GitHub rejects any drift.
 
-1. Confirm the Activation merge commit is present on `main` and its post-merge Governance Gate is fully SUCCESS.
-2. Rebuild/reset `chore/GZ-010-poc-program-baseline` from that exact green `main` commit.
-3. Implement only the reserved paths:
-   - `specs/poc/**`
-   - `poc/README.md`
-   - `evidence/GZ-010/**`
-4. Establish the POC Program Schema/index/Validator before any plan execution semantics.
-5. Keep every POC plan and result index in `planned/not_started`; do not create `evidence/POC-*` results.
-6. Run and record the task-specific Validator/tests and the repository governance commands.
-7. Hand off the final exact implementation candidate to `independent-poc-program-review-agent`.
+Do not mark GZ-010 complete, execute a POC, or create terminal result Evidence as part of this integration.
 
-## Reviewer exact action for this Activation
+## Known limitation
 
-1. Review the current Activation HEAD only.
-2. Verify the PR contains exactly the five metadata/Evidence files declared by the PR body.
-3. Verify Program Plan changes only GZ-010 `reserved -> in_progress`.
-4. Verify Active Work changes only status/baseSha/agentRole.
-5. Verify Task Spec body is unchanged from Reservation v2 and only its front matter status/baseSha/agentRole changed.
-6. Verify this Handoff no longer contains stale Reservation instructions.
-7. Verify no POC implementation or experiment result is present.
-8. Inspect the exact-head Governance Gate and all current review threads.
-
-## Integrator exact action
-
-1. Re-fetch exact HEAD, five-file list, Program/Registry/Task patches, Gate, review and threads.
-2. Merge only the reviewed expected HEAD under the explicitly documented metadata-only exception if the sole machine failure remains the known Agent Coordination Program Plan-path self-hosting mismatch.
-3. Verify post-merge `main` Governance Gate is fully SUCCESS.
-4. Do not rebuild or merge implementation work until that post-main Gate is green.
+A commit cannot embed its own Git SHA without changing that SHA. Therefore this Evidence records the immutable implementation commit under test, while GitHub PR metadata plus the exact-head Governance Gate and review provide the authoritative Evidence-bearing candidate SHA. Any later content change invalidates the prior exact-head review and requires the gate and review to run again.
 
 ## Rollback
 
-Before Activation merge: close the PR and leave GZ-010 reserved on main. After Activation merge but before implementation: use a dedicated correction/revert PR to restore the valid prior GZ-010 lifecycle state and lease metadata. Never rewrite `main` or delete governance/Evidence history.
+Before merge, close the PR or revert the implementation/Evidence commits on the branch. After merge, use a dedicated reviewed revert/correction PR. Preserve `main`, commit history, Evidence history, and all failed-run diagnostics; do not force-push or delete audit records.
