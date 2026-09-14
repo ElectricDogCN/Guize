@@ -1,10 +1,10 @@
 # GZ-010 POC Program Baseline Review Handoff
 
-Task: `GZ-010`  
-Issue: `#15`  
-Pull request: `#48`  
-Branch: `chore/GZ-010-poc-program-baseline`  
-Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`  
+Task: `GZ-010`
+Issue: `#15`
+Pull request: `#48`
+Branch: `chore/GZ-010-poc-program-baseline`
+Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`
 Validated implementation commit: `608b8e0a3796ddaac6b5bbdda9baff349f45b1c3`
 
 ## Current state

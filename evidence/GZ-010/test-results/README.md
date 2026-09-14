@@ -1,8 +1,8 @@
 # GZ-010 Test Results
 
-Task: `GZ-010`  
-Implementation commit under test: `608b8e0a3796ddaac6b5bbdda9baff349f45b1c3`  
-GitHub Actions run: `34873071797`  
+Task: `GZ-010`
+Implementation commit under test: `608b8e0a3796ddaac6b5bbdda9baff349f45b1c3`
+GitHub Actions run: `34873071797`
 Job: `104073491558`
 
 ## Environment

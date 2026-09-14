@@ -1,8 +1,8 @@
 # GZ-010 Implementation Changed Files
 
-Task: `GZ-010`  
-PR: `#48`  
-Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`  
+Task: `GZ-010`
+PR: `#48`
+Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`
 Validated implementation commit: `608b8e0a3796ddaac6b5bbdda9baff349f45b1c3`
 
 ## Expected final PR paths
