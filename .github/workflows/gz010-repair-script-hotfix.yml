@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Fix V3 block selection and remove this workflow
+      - name: Fix V3 block selection and remove temporary workflows
         shell: bash
         run: |
           set -euo pipefail
@@ -31,6 +31,13 @@ jobs:
 
           path = Path(".github/workflows/gz010-execution-contract-repair-v3.yml")
           text = path.read_text(encoding="utf-8")
+
+          def replace_once(source: str, old: str, new: str, label: str) -> str:
+              count = source.count(old)
+              if count != 1:
+                  raise SystemExit(f"{label}: expected one match, found {count}")
+              return source.replace(old, new, 1)
+
           old = '''          key_end = one_index(
               lines,
               lambda line: line == "        },\\n",
@@ -45,15 +52,53 @@ jobs:
               if lines[i] == "        },\\n"
           )
           '''
-          if text.count(old) != 1:
-              raise SystemExit(f"expected one V3 key-end block, found {text.count(old)}")
-          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+          text = replace_once(text, old, new, "V3 key-end block")
+
+          text = replace_once(
+              text,
+              "          rm -f \\\n"
+              "            .github/workflows/gz010-execution-contract-repair.yml \\\n",
+              "          rm -f \\\n"
+              "            .github/workflows/gz010-direct-validation.yml \\\n"
+              "            .github/workflows/gz010-execution-contract-repair.yml \\\n",
+              "V3 cleanup start",
+          )
+          text = replace_once(
+              text,
+              "            .github/workflows/gz010-execution-contract-repair-v3.yml\n"
+              "          git config user.name",
+              "            .github/workflows/gz010-execution-contract-repair-v3.yml \\\n"
+              "            .github/workflows/gz010-repair-script-hotfix-v2.yml\n"
+              "          git config user.name",
+              "V3 cleanup end",
+          )
+          text = replace_once(
+              text,
+              "          git add specs/poc/check_program.py specs/poc/test_program.py \\\n"
+              "            .github/workflows/gz010-execution-contract-repair.yml \\\n",
+              "          git add specs/poc/check_program.py specs/poc/test_program.py \\\n"
+              "            .github/workflows/gz010-direct-validation.yml \\\n"
+              "            .github/workflows/gz010-execution-contract-repair.yml \\\n",
+              "V3 git-add start",
+          )
+          text = replace_once(
+              text,
+              "            .github/workflows/gz010-execution-contract-repair-v3.yml\n"
+              "          git commit -m",
+              "            .github/workflows/gz010-execution-contract-repair-v3.yml \\\n"
+              "            .github/workflows/gz010-repair-script-hotfix-v2.yml\n"
+              "          git commit -m",
+              "V3 git-add end",
+          )
+
+          path.write_text(text, encoding="utf-8")
           PY
+
           rm .github/workflows/gz010-repair-script-hotfix.yml
           git diff --check
           git config user.name "guize-governance-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .github/workflows/gz010-execution-contract-repair-v3.yml \
             .github/workflows/gz010-repair-script-hotfix.yml
-          git commit -m "ci(GZ-010): fix execution repair block selection"
+          git commit -m "ci(GZ-010): repair V3 matcher and cleanup boundary"
           git push origin HEAD:chore/GZ-010-poc-program-baseline
