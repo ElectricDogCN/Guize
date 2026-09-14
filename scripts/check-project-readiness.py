@@ -21,6 +21,7 @@ REQ_STATES = {"frozen", "approved", "draft", "deprecated"}
 CONTRACT_STATES = {"gap", "planned", "partial", "frozen", "implemented"}
 IMPL_STATES = {"not_started", "governance_only", "in_progress", "implemented", "verified"}
 MODULE_STATES = {"active", "planned", "deprecated"}
+TERMINAL_TASK_STATES = {"completed", "cancelled"}
 PLACEHOLDER_ROLES = {"", "none", "n/a", "na", "unknown", "tbd", "pending", "self", "same-agent"}
 GLOB_CHARS = "*?["
 
@@ -132,6 +133,11 @@ def ancestors(task_id, graph, cache):
             result |= ancestors(dependency, graph, cache)
     cache[task_id] = result
     return result
+
+
+def wave_occupying_tasks(tasks):
+    """Return only tasks that can still occupy a structural Wave slot."""
+    return [task for task in tasks if task.get("status") not in TERMINAL_TASK_STATES]
 
 
 def unique_ids(items, field, label, errors):
@@ -446,15 +452,16 @@ def main():
 
     for wave_id, wave_tasks in tasks_by_wave.items():
         wave = wave_by_id.get(wave_id, {})
-        if len(wave_tasks) > min(wave.get("maxConcurrent", 0), policy.get("maxActiveTasks", 0)):
+        occupying_tasks = wave_occupying_tasks(wave_tasks)
+        if len(occupying_tasks) > min(wave.get("maxConcurrent", 0), policy.get("maxActiveTasks", 0)):
             errors.append(f"Wave {wave_id} exceeds concurrent task capacity")
-        high_tasks = [task for task in wave_tasks if task.get("riskLevel") in {"high", "critical"}]
+        high_tasks = [task for task in occupying_tasks if task.get("riskLevel") in {"high", "critical"}]
         if len(high_tasks) > min(wave.get("maxHighRisk", 0), policy.get("maxHighRiskTasks", 0)):
             errors.append(f"Wave {wave_id} exceeds high-risk task capacity")
-        if policy.get("criticalStandalone") and any(task.get("riskLevel") == "critical" for task in wave_tasks) and len(wave_tasks) != 1:
+        if policy.get("criticalStandalone") and any(task.get("riskLevel") == "critical" for task in occupying_tasks) and len(occupying_tasks) != 1:
             errors.append(f"Wave {wave_id} contains a critical task that is not standalone")
         claims = []
-        for task in wave_tasks:
+        for task in occupying_tasks:
             for path in task.get("outputPaths", []):
                 claims.append((task, path, "exclusive"))
             for path in task.get("sharedPaths", []):

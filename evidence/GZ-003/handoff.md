@@ -3,83 +3,99 @@
 Task: GZ-003
 Original Completion: PR #11 / `9e3a821ada292ac3ef69b7c059384d17f6530b48`
 Status: COMPLETED
-Maintenance: OPS-003 / PR #44 validation in progress
+Current Maintenance: OPS-007 #54 / Draft PR #55
 
-## Identity
+## Identity and custody
 
-- Original Task: GZ-003
-- Original Issue: #10
-- Original Completion PR: #11
-- Original Completion merge: `9e3a821ada292ac3ef69b7c059384d17f6530b48`
-- Current maintenance tracking: OPS-003 #43
-- Current maintenance PR: #44
-- Maintenance branch: `fix/GZ-003-schema-fixture-active-work`
-- Maintenance base: `main@7c78c15097046d02ce04959b56c485ef76943c49`
-- GZ-003 Program/Foundation state remains `completed`
+- Original task: GZ-003
+- Original issue: #10
+- Original completion PR: #11
+- Original completion merge: `9e3a821ada292ac3ef69b7c059384d17f6530b48`
+- Prior completed maintenance: OPS-003 #43 / PR #44 / merge
+  `d23543f97facff00d02f79aab1693a37788765c9`
+- Current tracking: OPS-007 #54
+- Current Draft PR: #55
+- Branch: `fix/GZ-003-terminal-wave-occupancy`
+- Base: `main@219d7096756ad75717a46d85baf7d2b216e2472b`
+- Initial functional HEAD: `4e6a87df98d03f9146ccd9bd37238d3aefc87abc`
+- Program/Foundation state: remains `completed`
 - Shared paths: NONE
 
-## Trigger
+## Problem handed off
 
-GZ-010 Reservation PR #42 correctly introduced a real GZ-010 `reserved` Program/Registry state, but Gate #374 exposed a stale schema-test fixture. The helper `_activate_gz004()` replaced all copied Active Work with synthetic GZ-004, deleting the legitimate copied GZ-010 Lease while leaving Program GZ-010 reserved. This manufactured the only failing test and would have made post-merge `main` red, so PR #42 was closed unmerged.
+Project Readiness counted every task row in a Wave, including `completed` and
+`cancelled` history. W1 has capacity two, completed GZ-004, and active GZ-010.
+OPS-006 Registration therefore became a third counted row, and its required
+later `planned -> reserved` phase could never be green.
 
-## Current maintenance files
+PR #53 is blocked and remains Draft. OPS-007 introduces the prerequisite repair
+before OPS-006 Registration can be rebuilt from a new green `main`.
 
-Expected PR #44 diff after canonical Evidence refresh:
+## Current changed-file boundary
 
-1. `tests/governance/test_check_schemas.py`;
-2. `evidence/GZ-003/schema-fixture-active-work-repair.md`;
-3. `evidence/GZ-003/summary.md`;
-4. `evidence/GZ-003/commands.txt`;
-5. `evidence/GZ-003/handoff.md`;
-6. `evidence/GZ-003/test-results/README.md`.
+The refreshed PR #55 diff is expected to contain exactly eight files:
 
-No Program Plan, Active Work, Completion Ledger, Task Spec, production checker, Schema, workflow, Makefile, product/POC contract, business code, deployment, Secret, permission or production data is changed.
+1. `scripts/check-project-readiness.py`;
+2. `tests/governance/test_terminal_wave_occupancy.py`;
+3. `evidence/GZ-003/terminal-wave-occupancy-repair.md`;
+4. `evidence/GZ-003/test-results/terminal-wave-occupancy-local.md`;
+5. `evidence/GZ-003/summary.md`;
+6. `evidence/GZ-003/commands.txt`;
+7. `evidence/GZ-003/handoff.md`;
+8. `evidence/GZ-003/test-results/README.md`.
 
-## Functional repair
+No Program Plan, Active Work, Completion Ledger, Task Spec, configured safety
+limit, workflow, OPS-005, GZ-010, POC, product contract, business code,
+deployment, Secret, permission, or production data is changed.
 
-`_activate_gz004()` now sets:
+## Implemented behavior
 
-```python
-active["tasks"] = [registry] + [
-    item for item in active.get("tasks", []) if item.get("taskId") != "GZ-004"
-]
-```
+The checker derives structural Wave occupancy by excluding exactly:
 
-This preserves synthetic GZ-004 at index 0, so all existing tests that intentionally mutate `active["tasks"][0]` keep their semantics. It also preserves every existing non-GZ-004 Active Work entry, eliminating fixture-created missing-Lease failures. Duplicate GZ-004 entries are excluded by task ID.
+- `completed`;
+- `cancelled`.
 
-## Verification facts
+The occupancy subset is used only for Wave concurrency, high-risk concurrency,
+critical standalone, and same-Wave path-conflict checks. Every non-terminal
+state remains occupying. Full Program history remains in all identity, DAG,
+contract, Requirement/Module, blocker, and release checks.
 
-- GZ-010 Reservation PR #42 / Gate #374: production lifecycle, Agent Coordination, direct Schema, Evidence, Scope and static checks passed; governance tests were 258 PASS / 1 fixture-generated FAIL.
-- PR #44 Gate #375 before canonical Evidence refresh: **259/259 governance tests PASS**, including `test_regular_program_task_activation_passes`.
-- Gate #375 Program integrity/history/transitions passed; Finalization failed only because this completed-GZ-003 maintenance had not refreshed the four canonical Completion Evidence files.
-- This update refreshes those files while preserving original Completion identity `9e3a821...`.
+## Verified facts
 
-Exact command and run identities are recorded in `evidence/GZ-003/commands.txt`; test details are in `evidence/GZ-003/test-results/README.md`.
+Gate #443 / run `33727116285`, generated merge
+`b78f2a2a078b6993f75f8b4579c3ea930eacf040`, observed:
 
-## Remaining self-hosting boundary
+- Project Readiness PASS;
+- 267/267 governance tests PASS;
+- all 8 new regressions PASS;
+- zero skipped tests;
+- every executed non-Finalization gate PASS;
+- Finalization FAIL only for the missing refresh of the four canonical Evidence
+  files now updated by this commit.
 
-After this Evidence refresh, a new exact-head Gate is mandatory. If Program Finalization becomes green but the completed-task lifecycle/scope guard rejects `tests/governance/test_check_schemas.py`, that is the same structural self-hosting boundary previously encountered for completed GZ-003 governance-test maintenance: the completed task cannot machine-authorize edits to the test surface needed to keep the Harness compatible.
+Lifecycle scope was not executed after the fail-fast Finalization result, so it
+remains an explicit pending boundary rather than a claimed pass.
 
-Do not add a reusable checker bypass. A one-time Human Owner / Integrator break-glass may be considered only if:
+## Required next decision sequence
 
-- actual diff remains exactly the six maintenance files above;
-- 259/259 governance tests pass;
-- all production checkers and every Gate except the single completed-GZ-003 test-scope rejection pass;
-- fresh exact-head review has no content/design blocker;
-- unresolved threads are zero;
-- exact HEAD is re-audited before merge;
-- post-merge `main` Gate is fully green.
+1. Run a new exact-head Governance Gate after this canonical Evidence refresh.
+2. Confirm Finalization is green and classify every remaining failure exactly.
+3. Obtain a fresh independent review of the same HEAD and resolve every content
+   blocker and review thread.
+4. Do not add a checker exception, capacity increase, status bypass, or
+   reusable break-glass.
+5. Only a Human Owner / Integrator may make the separately documented one-time
+   merge decision allowed by OPS-007 #54.
+6. After any authorized merge, require a fully green `main` Gate; otherwise
+   immediately block downstream work and use a dedicated revert or repair PR.
+7. Only after green `main`, rebuild PR #53 from that exact main and prove the
+   OPS-006 `planned -> reserved` candidate tree passes Project Readiness.
 
 ## Rollback
 
-Before merge, close PR #44. After merge, if post-main Gate is red, use a dedicated Revert PR for the fixture line and maintenance Evidence; never rewrite `main`, modify Program/Ledger history, or weaken a guard.
+Before merge, close PR #55. After an authorized merge, revert the repair commit
+through a dedicated PR if post-merge `main` is red or review finds semantic
+weakening. Never rewrite `main`, alter historical completion identity, increase
+Wave capacity, or suppress lifecycle checks.
 
-## Next exact action
-
-1. run a new exact-head Gate after this canonical Evidence refresh;
-2. obtain fresh review of the same HEAD;
-3. fix any new blocker;
-4. if only the documented completed-task self-hosting scope red remains, perform exact-head Human/Integrator decision;
-5. require post-merge `main` Gate success;
-6. close OPS-003 #43;
-7. rebuild GZ-010 Reservation from that new green main—do not reuse PR #42/base SHA.
+This handoff is not merge authorization.
