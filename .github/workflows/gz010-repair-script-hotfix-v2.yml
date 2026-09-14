@@ -1,0 +1,93 @@
+name: GZ-010 Repair Script Hotfix V2
+
+on:
+  push:
+    branches:
+      - chore/GZ-010-poc-program-baseline
+    paths:
+      - ".github/workflows/gz010-repair-script-hotfix-v2.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  execute:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: chore/GZ-010-poc-program-baseline
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Correct and execute the existing V3 repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path(".github/workflows/gz010-execution-contract-repair-v3.yml")
+          lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+
+          starts = [i for i, line in enumerate(lines) if line.strip() == "key_end = one_index("]
+          if len(starts) != 1:
+              raise SystemExit(f"expected one key_end block, found {len(starts)}")
+          start = starts[0]
+          indent = lines[start][: len(lines[start]) - len(lines[start].lstrip())]
+          end = next(
+              i
+              for i in range(start + 1, len(lines))
+              if lines[i].startswith(indent) and lines[i].strip() == ")"
+          )
+          lines[start : end + 1] = [
+              f"{indent}key_end = next(\n",
+              f"{indent}    i\n",
+              f"{indent}    for i in range(key_start + 1, template_end)\n",
+              f'{indent}    if lines[i] == "        }},\\\\n"\n',
+              f"{indent})\n",
+          ]
+
+          text = "".join(lines)
+          cleanup_tail = (
+              "            .github/workflows/gz010-execution-contract-repair-v3.yml\n"
+          )
+          expanded_tail = (
+              "            .github/workflows/gz010-execution-contract-repair-v3.yml \\\n"
+              "            .github/workflows/gz010-repair-script-hotfix.yml \\\n"
+              "            .github/workflows/gz010-repair-script-hotfix-v2.yml\n"
+          )
+          if text.count(cleanup_tail) != 2:
+              raise SystemExit(
+                  f"expected two V3 cleanup/stage tails, found {text.count(cleanup_tail)}"
+              )
+          text = text.replace(cleanup_tail, expanded_tail)
+          path.write_text(text, encoding="utf-8")
+
+          workflow_lines = text.splitlines()
+          step_index = next(
+              i
+              for i, line in enumerate(workflow_lines)
+              if line.strip() == "- name: Repair execution contract and validate"
+          )
+          run_index = next(
+              i
+              for i in range(step_index + 1, len(workflow_lines))
+              if workflow_lines[i].strip() == "run: |"
+          )
+          prefix = "          "
+          script_lines = []
+          for line in workflow_lines[run_index + 1 :]:
+              if line and not line.startswith(prefix):
+                  break
+              script_lines.append(line[len(prefix) :] if line.startswith(prefix) else "")
+          if not script_lines or script_lines[0].strip() != "set -euo pipefail":
+              raise SystemExit("could not extract V3 run script safely")
+          Path("/tmp/gz010-v3-repair.sh").write_text(
+              "\n".join(script_lines) + "\n", encoding="utf-8"
+          )
+          PY
+
+          bash /tmp/gz010-v3-repair.sh
