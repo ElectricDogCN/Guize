@@ -13,7 +13,7 @@ permissions:
 jobs:
   hotfix:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - name: Checkout source branch
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -22,83 +22,111 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Fix V3 block selection and remove temporary workflows
+      - name: Execute corrected V3 repair in this run
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
 
-          path = Path(".github/workflows/gz010-execution-contract-repair-v3.yml")
-          text = path.read_text(encoding="utf-8")
+          workflow_path = Path(".github/workflows/gz010-execution-contract-repair-v3.yml")
+          lines = workflow_path.read_text(encoding="utf-8").splitlines(keepends=True)
 
-          def replace_once(source: str, old: str, new: str, label: str) -> str:
-              count = source.count(old)
-              if count != 1:
-                  raise SystemExit(f"{label}: expected one match, found {count}")
-              return source.replace(old, new, 1)
+          def only_index(predicate, label, start=0, end=None):
+              upper = len(lines) if end is None else end
+              matches = [i for i in range(start, upper) if predicate(lines[i])]
+              if len(matches) != 1:
+                  raise SystemExit(f"{label}: expected one match, found {len(matches)}")
+              return matches[0]
 
-          old = '''          key_end = one_index(
-              lines,
-              lambda line: line == "        },\\n",
-              "execution template key block end",
-              key_start + 1,
-              template_end,
+          key_start = only_index(
+              lambda line: line.strip() == "key_end = one_index(",
+              "V3 key-end block",
           )
-          '''
-          new = '''          key_end = next(
+          key_indent = lines[key_start][: len(lines[key_start]) - len(lines[key_start].lstrip())]
+          key_end = next(
               i
-              for i in range(key_start + 1, template_end)
-              if lines[i] == "        },\\n"
+              for i in range(key_start + 1, len(lines))
+              if lines[i] == key_indent + ")\n"
           )
-          '''
-          text = replace_once(text, old, new, "V3 key-end block")
+          lines[key_start : key_end + 1] = [
+              key_indent + "key_end = next(\n",
+              key_indent + "    i\n",
+              key_indent + "    for i in range(key_start + 1, template_end)\n",
+              key_indent + '    if lines[i] == "        },\\\\n"\n',
+              key_indent + ")\n",
+          ]
 
-          text = replace_once(
-              text,
-              "          rm -f \\\n"
-              "            .github/workflows/gz010-execution-contract-repair.yml \\\n",
-              "          rm -f \\\n"
-              "            .github/workflows/gz010-direct-validation.yml \\\n"
-              "            .github/workflows/gz010-execution-contract-repair.yml \\\n",
-              "V3 cleanup start",
-          )
-          text = replace_once(
-              text,
-              "            .github/workflows/gz010-execution-contract-repair-v3.yml\n"
-              "          git config user.name",
-              "            .github/workflows/gz010-execution-contract-repair-v3.yml \\\n"
-              "            .github/workflows/gz010-repair-script-hotfix-v2.yml\n"
-              "          git config user.name",
-              "V3 cleanup end",
-          )
-          text = replace_once(
-              text,
-              "          git add specs/poc/check_program.py specs/poc/test_program.py \\\n"
-              "            .github/workflows/gz010-execution-contract-repair.yml \\\n",
-              "          git add specs/poc/check_program.py specs/poc/test_program.py \\\n"
-              "            .github/workflows/gz010-direct-validation.yml \\\n"
-              "            .github/workflows/gz010-execution-contract-repair.yml \\\n",
-              "V3 git-add start",
-          )
-          text = replace_once(
-              text,
-              "            .github/workflows/gz010-execution-contract-repair-v3.yml\n"
-              "          git commit -m",
-              "            .github/workflows/gz010-execution-contract-repair-v3.yml \\\n"
-              "            .github/workflows/gz010-repair-script-hotfix-v2.yml\n"
-              "          git commit -m",
-              "V3 git-add end",
-          )
+          cleanup_paths = [
+              ".github/workflows/gz010-direct-validation.yml",
+              ".github/workflows/gz010-execution-contract-repair.yml",
+              ".github/workflows/gz010-execution-contract-repair-v2.yml",
+              ".github/workflows/gz010-execution-contract-repair-v3.yml",
+              ".github/workflows/gz010-repair-script-hotfix-v2.yml",
+              ".github/workflows/gz010-repair-script-hotfix.yml",
+          ]
 
-          path.write_text(text, encoding="utf-8")
+          rm_start = only_index(
+              lambda line: line.strip() == "rm -f \\",
+              "V3 cleanup block",
+          )
+          git_config_start = next(
+              i
+              for i in range(rm_start + 1, len(lines))
+              if lines[i].strip().startswith("git config user.name")
+          )
+          shell_indent = lines[rm_start][: len(lines[rm_start]) - len(lines[rm_start].lstrip())]
+          rm_lines = [shell_indent + "rm -f \\\n"]
+          for index, path in enumerate(cleanup_paths):
+              suffix = " \\\n" if index < len(cleanup_paths) - 1 else "\n"
+              rm_lines.append(shell_indent + "  " + path + suffix)
+          lines[rm_start:git_config_start] = rm_lines
+
+          add_start = only_index(
+              lambda line: line.strip().startswith(
+                  "git add specs/poc/check_program.py specs/poc/test_program.py"
+              ),
+              "V3 git-add block",
+          )
+          commit_start = next(
+              i
+              for i in range(add_start + 1, len(lines))
+              if lines[i].strip().startswith('git commit -m')
+          )
+          add_lines = [
+              shell_indent
+              + "git add specs/poc/check_program.py specs/poc/test_program.py \\\n"
+          ]
+          for index, path in enumerate(cleanup_paths):
+              suffix = " \\\n" if index < len(cleanup_paths) - 1 else "\n"
+              add_lines.append(shell_indent + "  " + path + suffix)
+          lines[add_start:commit_start] = add_lines
+
+          workflow_path.write_text("".join(lines), encoding="utf-8")
+
+          workflow_lines = workflow_path.read_text(encoding="utf-8").splitlines()
+          step_index = next(
+              i
+              for i, line in enumerate(workflow_lines)
+              if line.strip() == "- name: Repair execution contract and validate"
+          )
+          run_index = next(
+              i
+              for i in range(step_index + 1, len(workflow_lines))
+              if workflow_lines[i].strip() == "run: |"
+          )
+          prefix = "          "
+          script_lines = []
+          for line in workflow_lines[run_index + 1 :]:
+              if line and not line.startswith(prefix):
+                  break
+              script_lines.append(line[len(prefix) :] if line.startswith(prefix) else "")
+          if not script_lines or script_lines[0].strip() != "set -euo pipefail":
+              raise SystemExit("could not extract corrected V3 run script safely")
+          Path("/tmp/gz010-v3-repair.sh").write_text(
+              "\n".join(script_lines) + "\n",
+              encoding="utf-8",
+          )
           PY
 
-          rm .github/workflows/gz010-repair-script-hotfix.yml
-          git diff --check
-          git config user.name "guize-governance-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/gz010-execution-contract-repair-v3.yml \
-            .github/workflows/gz010-repair-script-hotfix.yml
-          git commit -m "ci(GZ-010): repair V3 matcher and cleanup boundary"
-          git push origin HEAD:chore/GZ-010-poc-program-baseline
+          bash /tmp/gz010-v3-repair.sh
