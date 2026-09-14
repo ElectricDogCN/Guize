@@ -1,0 +1,59 @@
+name: GZ-010 Repair Script Hotfix
+
+on:
+  push:
+    branches:
+      - chore/GZ-010-poc-program-baseline
+    paths:
+      - ".github/workflows/gz010-repair-script-hotfix.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  hotfix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: chore/GZ-010-poc-program-baseline
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Fix V3 block selection and remove this workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path(".github/workflows/gz010-execution-contract-repair-v3.yml")
+          text = path.read_text(encoding="utf-8")
+          old = '''          key_end = one_index(
+              lines,
+              lambda line: line == "        },\\n",
+              "execution template key block end",
+              key_start + 1,
+              template_end,
+          )
+          '''
+          new = '''          key_end = next(
+              i
+              for i in range(key_start + 1, template_end)
+              if lines[i] == "        },\\n"
+          )
+          '''
+          if text.count(old) != 1:
+              raise SystemExit(f"expected one V3 key-end block, found {text.count(old)}")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+          PY
+          rm .github/workflows/gz010-repair-script-hotfix.yml
+          git diff --check
+          git config user.name "guize-governance-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/gz010-execution-contract-repair-v3.yml \
+            .github/workflows/gz010-repair-script-hotfix.yml
+          git commit -m "ci(GZ-010): fix execution repair block selection"
+          git push origin HEAD:chore/GZ-010-poc-program-baseline
