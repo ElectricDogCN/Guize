@@ -22,39 +22,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Apply exact loader repair and remove this workflow
+      - name: Apply loader repair and remove this workflow
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
+          import re
 
           path = Path("specs/poc/check_program.py")
           text = path.read_text(encoding="utf-8")
-          old = '''def _construct_unique_mapping(loader: yaml.SafeLoader, node: yaml.MappingNode, deep: bool = False):
-              mapping: dict[Any, Any] = {}
-              for key_node, value_node in node.value:
-                  key = loader.construct_object(key_node, deep=deep)
-                  try:
-                      duplicate = key in mapping
-                  except TypeError as exc:
-                      raise yaml.constructor.ConstructorError(
-                          "while constructing a mapping",
-                          node.start_mark,
-                          f"found unhashable key: {key!r}",
-                          key_node.start_mark,
-                      ) from exc
-                  if duplicate:
-                      raise yaml.constructor.ConstructorError(
-                          "while constructing a mapping",
-                          node.start_mark,
-                          f"found duplicate key: {key!r}",
-                          key_node.start_mark,
-                      )
-                  mapping[key] = loader.construct_object(value_node, deep=deep)
-              return mapping
-          '''.replace("          ", "")
-          new = '''def _construct_unique_mapping(
+          pattern = re.compile(
+              r"def _construct_unique_mapping\([\s\S]*?\n\n\nUniqueKeyLoader\.add_constructor",
+          )
+          replacement = '''def _construct_unique_mapping(
               loader: yaml.SafeLoader,
               node: yaml.MappingNode,
               deep: bool = False,
@@ -83,10 +64,13 @@ jobs:
                       )
               loader.flatten_mapping(node)
               return yaml.SafeLoader.construct_mapping(loader, node, deep=deep)
-          '''.replace("          ", "")
-          if text.count(old) != 1:
-              raise SystemExit(f"expected one exact loader block, found {text.count(old)}")
-          path.write_text(text.replace(old, new), encoding="utf-8")
+
+
+          UniqueKeyLoader.add_constructor'''.replace("          ", "")
+          updated, count = pattern.subn(replacement, text)
+          if count != 1:
+              raise SystemExit(f"expected one loader function boundary, found {count}")
+          path.write_text(updated, encoding="utf-8")
           PY
           rm .github/workflows/gz010-loader-repair.yml
           python -m py_compile specs/poc/check_program.py
