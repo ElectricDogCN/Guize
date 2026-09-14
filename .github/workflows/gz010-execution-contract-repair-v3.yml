@@ -1,0 +1,457 @@
+name: GZ-010 Execution Contract Repair V3
+
+on:
+  push:
+    branches:
+      - chore/GZ-010-poc-program-baseline
+    paths:
+      - ".github/workflows/gz010-execution-contract-repair-v3.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: chore/GZ-010-poc-program-baseline
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Repair execution contract and validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          def one_index(lines, predicate, label, start=0, end=None):
+              end = len(lines) if end is None else end
+              matches = [i for i in range(start, end) if predicate(lines[i])]
+              if len(matches) != 1:
+                  raise SystemExit(f"{label}: expected one match, found {len(matches)}")
+              return matches[0]
+
+          def function_bounds(lines, name):
+              start = one_index(
+                  lines,
+                  lambda line: line.startswith(f"def {name}(") or line.startswith(f"    def {name}(") ,
+                  f"function {name}",
+              )
+              indent = len(lines[start]) - len(lines[start].lstrip())
+              end = len(lines)
+              for i in range(start + 1, len(lines)):
+                  stripped = lines[i].lstrip()
+                  current_indent = len(lines[i]) - len(stripped)
+                  if stripped.startswith("def ") and current_indent == indent:
+                      end = i
+                      break
+              return start, end
+
+          validator_path = Path("specs/poc/check_program.py")
+          lines = validator_path.read_text(encoding="utf-8").splitlines(keepends=True)
+
+          exec_start, exec_end = function_bounds(lines, "validate_execution")
+          execution_arg = one_index(
+              lines,
+              lambda line: line.strip() == "execution: dict[str, Any],",
+              "validate_execution execution argument",
+              exec_start,
+              exec_end,
+          )
+          if not any("resource_catalog:" in line for line in lines[exec_start:exec_end]):
+              lines.insert(
+                  execution_arg + 1,
+                  "    resource_catalog: dict[str, dict[str, Any]],\n",
+              )
+
+          exec_start, exec_end = function_bounds(lines, "validate_execution")
+          environment_line = one_index(
+              lines,
+              lambda line: line == '    environment = execution.get("environmentCaptured") or {}\n',
+              "environment validation anchor",
+              exec_start,
+              exec_end,
+          )
+          resource_block = '''    resources = execution.get("resources") or []
+              resource_ids = [
+                  item.get("id") for item in resources if isinstance(item, dict)
+              ]
+              if len(resource_ids) != len(resources) or len(resource_ids) != len(set(resource_ids)):
+                  errors.append(f"{label}: resources must contain unique structured records")
+              planned_resource_ids = set(plan.get("resourceIds") or [])
+              if set(resource_ids) != planned_resource_ids:
+                  errors.append(f"{label}: resource IDs must exactly match plan")
+              for resource in resources:
+                  if not isinstance(resource, dict):
+                      continue
+                  resource_id = resource.get("id")
+                  definition = resource_catalog.get(resource_id)
+                  if definition is None:
+                      errors.append(f"{label}: unknown execution resource {resource_id!r}")
+                      continue
+                  configuration_ref = resource.get("configurationRef")
+                  if existing_ref(root, configuration_ref, evidence) is None:
+                      errors.append(
+                          f"{label}: resource {resource_id} configurationRef must point to an existing file under {evidence}"
+                      )
+                  booking_ref = resource.get("bookingRef")
+                  if definition.get("bookingRequired") is True:
+                      if existing_ref(root, booking_ref, evidence) is None:
+                          errors.append(
+                              f"{label}: resource {resource_id} bookingRef must point to an existing file under {evidence}"
+                          )
+                  elif booking_ref is not None and existing_ref(root, booking_ref, evidence) is None:
+                      errors.append(
+                          f"{label}: resource {resource_id} bookingRef must be null or an existing file under {evidence}"
+                      )
+
+          '''.replace("          ", "").splitlines(keepends=True)
+          if not any('resources = execution.get("resources")' in line for line in lines[exec_start:exec_end]):
+              lines[environment_line:environment_line] = resource_block
+
+          exec_start, exec_end = function_bounds(lines, "validate_execution")
+          commands_start = one_index(
+              lines,
+              lambda line: line == '    commands = execution.get("commands") or []\n',
+              "command validation start",
+              exec_start,
+              exec_end,
+          )
+          samples_start = one_index(
+              lines,
+              lambda line: line == '    samples = execution.get("samples") or []\n',
+              "sample validation start",
+              commands_start + 1,
+              exec_end,
+          )
+          command_block = '''    raw_refs = execution.get("rawOutputRefs") or []
+              if not raw_refs:
+                  errors.append(f"{label}: at least one raw output reference is required")
+              for ref in raw_refs:
+                  if existing_ref(root, ref, evidence) is None:
+                      errors.append(f"{label}: raw evidence file must exist under {evidence}: {ref!r}")
+
+              commands = execution.get("commands") or []
+              if not commands:
+                  errors.append(f"{label}: at least one structured command record is required")
+              for index, command in enumerate(commands):
+                  command_label = f"{label}: command[{index}]"
+                  if not isinstance(command, dict):
+                      errors.append(f"{command_label} must be a structured record")
+                      continue
+                  if not recorded_text(command.get("command")):
+                      errors.append(f"{command_label} command must be nonempty/non-placeholder")
+                  expected_codes = command.get("expectedExitCodes")
+                  if (
+                      not isinstance(expected_codes, list)
+                      or not expected_codes
+                      or any(
+                          not isinstance(code, int) or isinstance(code, bool)
+                          for code in expected_codes
+                      )
+                  ):
+                      errors.append(f"{command_label} expectedExitCodes must contain integers")
+                  exit_code = command.get("exitCode")
+                  if not isinstance(exit_code, int) or isinstance(exit_code, bool):
+                      errors.append(f"{command_label} exitCode must be an integer")
+                  elif isinstance(expected_codes, list) and exit_code not in expected_codes:
+                      errors.append(f"{command_label} exitCode must be one of expectedExitCodes")
+                  output_ref = command.get("outputRef")
+                  if output_ref not in raw_refs:
+                      errors.append(f"{command_label} outputRef must be listed in rawOutputRefs")
+                  if existing_ref(root, output_ref, evidence) is None:
+                      errors.append(
+                          f"{command_label} outputRef must point to an existing file under {evidence}"
+                      )
+
+          '''.replace("          ", "").splitlines(keepends=True)
+          lines[commands_start:samples_start] = command_block
+
+          terminal_start, terminal_end = function_bounds(lines, "validate_terminal")
+          entry_arg = one_index(
+              lines,
+              lambda line: line.strip() == "entry: dict[str, Any],",
+              "validate_terminal entry argument",
+              terminal_start,
+              terminal_end,
+          )
+          if not any("resource_catalog:" in line for line in lines[terminal_start:terminal_end]):
+              lines.insert(
+                  entry_arg + 1,
+                  "    resource_catalog: dict[str, dict[str, Any]],\n",
+              )
+
+          terminal_start, terminal_end = function_bounds(lines, "validate_terminal")
+          call_start = one_index(
+              lines,
+              lambda line: line == "    validate_execution(\n",
+              "validate_execution call",
+              terminal_start,
+              terminal_end,
+          )
+          call_end = one_index(
+              lines,
+              lambda line: line == "    )\n",
+              "validate_execution call end",
+              call_start + 1,
+              terminal_end,
+          )
+          lines[call_start:call_end + 1] = [
+              "    validate_execution(\n",
+              "        root, plan, implementer, execution, resource_catalog,\n",
+              "        execution_schema, approval_schema, status, errors,\n",
+              "    )\n",
+          ]
+
+          template_start, template_end = function_bounds(lines, "validate_templates")
+          key_start = one_index(
+              lines,
+              lambda line: line == '        "executionRecordTemplate": {\n',
+              "execution template key block",
+              template_start,
+              template_end,
+          )
+          key_end = one_index(
+              lines,
+              lambda line: line == "        },\n",
+              "execution template key block end",
+              key_start + 1,
+              template_end,
+          )
+          lines[key_start:key_end + 1] = [
+              '        "executionRecordTemplate": {\n',
+              '            "schemaVersion", "pocId", "taskId", "evidencePath", "executor",\n',
+              '            "resources", "environmentCaptured", "commands", "rawOutputRefs",\n',
+              '            "samples", "measurements", "provenance", "complianceReviews",\n',
+              '            "notes",\n',
+              "        },\n",
+          ]
+
+          repo_start, repo_end = function_bounds(lines, "validate_repository")
+          terminal_call = one_index(
+              lines,
+              lambda line: line == "            validate_terminal(\n",
+              "validate_terminal repository call",
+              repo_start,
+              repo_end,
+          )
+          terminal_call_end = one_index(
+              lines,
+              lambda line: line == "            )\n",
+              "validate_terminal repository call end",
+              terminal_call + 1,
+              repo_end,
+          )
+          lines[terminal_call:terminal_call_end + 1] = [
+              "            validate_terminal(\n",
+              "                root, plan, canonical_task, entry, resource_map,\n",
+              "                result_record_schema, execution_schema,\n",
+              "                approval_schema, errors,\n",
+              "            )\n",
+          ]
+          validator_path.write_text("".join(lines), encoding="utf-8")
+
+          tests_path = Path("specs/poc/test_program.py")
+          tests = tests_path.read_text(encoding="utf-8")
+
+          old = '''    def assert_invalid(self, mutator, needle=None):
+              temp, root = self.temp_repo()
+              try:
+                  mutator(root)
+          '''.replace("          ", "")
+          new = '''    def assert_invalid(self, mutator, needle=None):
+              temp, root = self.temp_repo()
+              try:
+                  baseline_errors = CHECK.validate_repository(root)
+                  self.assertEqual(
+                      baseline_errors,
+                      [],
+                      "baseline fixture invalid before mutation:\\n" + "\\n".join(baseline_errors),
+                  )
+                  mutator(root)
+          '''.replace("          ", "")
+          if tests.count(old) != 1:
+              raise SystemExit(f"assert_invalid anchor count={tests.count(old)}")
+          tests = tests.replace(old, new, 1)
+
+          old = '''        evidence_dir = root / plan["evidencePath"]
+              evidence_dir.mkdir(parents=True, exist_ok=True)
+
+              raw_ref = f"{plan['evidencePath']}/raw/execution.log"
+          '''.replace("          ", "")
+          new = '''        evidence_dir = root / plan["evidencePath"]
+              evidence_dir.mkdir(parents=True, exist_ok=True)
+
+              resource_catalog = {
+                  item["id"]: item
+                  for item in load_yaml(root / "specs" / "poc" / "resources.yaml")["resources"]
+              }
+              resource_bindings = []
+              for resource_id in plan["resourceIds"]:
+                  configuration_ref = (
+                      f"{plan['evidencePath']}/resources/{resource_id}-configuration.yaml"
+                  )
+                  write_yaml(
+                      root / configuration_ref,
+                      {
+                          "schemaVersion": 1,
+                          "pocId": plan["pocId"],
+                          "taskId": task_id,
+                          "resourceId": resource_id,
+                          "capturedAt": "2026-09-03T00:00:00Z",
+                      },
+                  )
+                  booking_ref = None
+                  if resource_catalog[resource_id].get("bookingRequired") is True:
+                      booking_ref = (
+                          f"{plan['evidencePath']}/resources/{resource_id}-booking.yaml"
+                      )
+                      write_yaml(
+                          root / booking_ref,
+                          {
+                              "schemaVersion": 1,
+                              "pocId": plan["pocId"],
+                              "taskId": task_id,
+                              "resourceId": resource_id,
+                              "status": "approved",
+                          },
+                      )
+                  resource_bindings.append(
+                      {
+                          "id": resource_id,
+                          "configurationRef": configuration_ref,
+                          "bookingRef": booking_ref,
+                      }
+                  )
+
+              raw_ref = f"{plan['evidencePath']}/raw/execution.log"
+          '''.replace("          ", "")
+          if tests.count(old) != 1:
+              raise SystemExit(f"terminal resource anchor count={tests.count(old)}")
+          tests = tests.replace(old, new, 1)
+
+          old = '''            "executor": implementer,
+              "environmentCaptured": environment,
+              "commands": ["bounded-test-command --fixture approved"],
+              "rawOutputRefs": [raw_ref],
+          '''.replace("          ", "")
+          new = '''            "executor": implementer,
+              "resources": resource_bindings,
+              "environmentCaptured": environment,
+              "commands": [
+                  {
+                      "command": "bounded-test-command --fixture approved",
+                      "expectedExitCodes": [0],
+                      "exitCode": 0,
+                      "outputRef": raw_ref,
+                  }
+              ],
+              "rawOutputRefs": [raw_ref],
+          '''.replace("          ", "")
+          if tests.count(old) != 1:
+              raise SystemExit(f"structured command fixture anchor count={tests.count(old)}")
+          tests = tests.replace(old, new, 1)
+
+          old = '''            "provenance": provenance,
+              "notes": None,
+          '''.replace("          ", "")
+          new = '''            "provenance": provenance,
+              "complianceReviews": [],
+              "notes": None,
+          '''.replace("          ", "")
+          if tests.count(old) != 1:
+              raise SystemExit(f"compliance fixture anchor count={tests.count(old)}")
+          tests = tests.replace(old, new, 1)
+
+          old = '''        write_yaml(self.index_path(root), index)
+              return plan, root / execution_ref, root / result_ref
+          '''.replace("          ", "")
+          new = '''        write_yaml(self.index_path(root), index)
+              fixture_errors = CHECK.validate_repository(root)
+              if fixture_errors:
+                  raise AssertionError(
+                      "terminal fixture invalid before mutation:\\n"
+                      + "\\n".join(fixture_errors)
+                  )
+              return plan, root / execution_ref, root / result_ref
+          '''.replace("          ", "")
+          if tests.count(old) != 1:
+              raise SystemExit(f"terminal proof anchor count={tests.count(old)}")
+          tests = tests.replace(old, new, 1)
+
+          old = '            data["commands"] = ["tool --token=super-secret-value"]\n'
+          new = '            data["commands"][0]["command"] = "tool --token=super-secret-value"\n'
+          if tests.count(old) != 1:
+              raise SystemExit(f"secret command anchor count={tests.count(old)}")
+          tests = tests.replace(old, new, 1)
+
+          extra_tests = '''
+              def test_81_command_exit_code_must_be_expected(self):
+                  def mutate(root):
+                      _, execution, _ = self.make_terminal(root)
+                      data = load_yaml(execution)
+                      data["commands"][0]["exitCode"] = 9
+                      write_yaml(execution, data)
+                  self.assert_invalid(mutate, "exitCode must be one of expectedExitCodes")
+
+              def test_82_command_output_ref_must_be_listed(self):
+                  def mutate(root):
+                      _, execution, _ = self.make_terminal(root)
+                      data = load_yaml(execution)
+                      data["commands"][0]["outputRef"] = data["resources"][0]["configurationRef"]
+                      write_yaml(execution, data)
+                  self.assert_invalid(mutate, "outputRef must be listed in rawOutputRefs")
+
+              def test_83_execution_resources_must_match_plan(self):
+                  def mutate(root):
+                      _, execution, _ = self.make_terminal(root)
+                      data = load_yaml(execution)
+                      data["resources"][0]["id"] = "RES-ARBITRARY"
+                      write_yaml(execution, data)
+                  self.assert_invalid(mutate, "resource IDs must exactly match plan")
+
+              def test_84_resource_configuration_ref_must_exist(self):
+                  def mutate(root):
+                      _, execution, _ = self.make_terminal(root)
+                      data = load_yaml(execution)
+                      (root / data["resources"][0]["configurationRef"]).unlink()
+                  self.assert_invalid(mutate, "configurationRef must point to an existing file")
+
+              def test_85_booking_ref_required_for_booked_resource(self):
+                  def mutate(root):
+                      _, execution, _ = self.make_terminal(root, "POC-002")
+                      data = load_yaml(execution)
+                      data["resources"][0]["bookingRef"] = None
+                      write_yaml(execution, data)
+                  self.assert_invalid(mutate, "bookingRef must point to an existing file")
+          '''.replace("          ", "")
+          marker = '\n\nif __name__ == "__main__":\n'
+          if tests.count(marker) != 1:
+              raise SystemExit(f"test append marker count={tests.count(marker)}")
+          tests = tests.replace(marker, "\n" + extra_tests + marker, 1)
+          tests_path.write_text(tests, encoding="utf-8")
+          PY
+
+          python -m py_compile specs/poc/check_program.py specs/poc/test_program.py
+          python -m pip install -r requirements-governance.txt
+          python specs/poc/check_program.py
+          python specs/poc/test_program.py
+          git diff --check
+
+          rm -f \
+            .github/workflows/gz010-execution-contract-repair.yml \
+            .github/workflows/gz010-execution-contract-repair-v2.yml \
+            .github/workflows/gz010-execution-contract-repair-v3.yml
+          git config user.name "guize-governance-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add specs/poc/check_program.py specs/poc/test_program.py \
+            .github/workflows/gz010-execution-contract-repair.yml \
+            .github/workflows/gz010-execution-contract-repair-v2.yml \
+            .github/workflows/gz010-execution-contract-repair-v3.yml
+          git commit -m "fix(GZ-010): align execution validator and terminal fixture"
+          git push origin HEAD:chore/GZ-010-poc-program-baseline
