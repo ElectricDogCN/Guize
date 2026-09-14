@@ -53,7 +53,7 @@ jobs:
               key_indent + "key_end = next(\n",
               key_indent + "    i\n",
               key_indent + "    for i in range(key_start + 1, template_end)\n",
-              key_indent + '    if lines[i] == "        },\\\\n"\n',
+              key_indent + '    if lines[i].strip() == "},"' + "\n",
               key_indent + ")\n",
           ]
 
