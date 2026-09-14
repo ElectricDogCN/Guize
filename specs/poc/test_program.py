@@ -51,6 +51,12 @@ class TestPocProgram(unittest.TestCase):
     def assert_invalid(self, mutator, needle=None):
         temp, root = self.temp_repo()
         try:
+            baseline_errors = CHECK.validate_repository(root)
+            self.assertEqual(
+                baseline_errors,
+                [],
+                "baseline fixture invalid before mutation:\n" + "\n".join(baseline_errors),
+            )
             mutator(root)
             errors = CHECK.validate_repository(root)
             self.assertTrue(errors, "negative mutation unexpectedly passed")
@@ -98,6 +104,48 @@ class TestPocProgram(unittest.TestCase):
         implementer, reviewer = self.write_task_spec(root, task_id)
         evidence_dir = root / plan["evidencePath"]
         evidence_dir.mkdir(parents=True, exist_ok=True)
+
+        resource_catalog = {
+            item["id"]: item
+            for item in load_yaml(root / "specs" / "poc" / "resources.yaml")["resources"]
+        }
+        resource_bindings = []
+        for resource_id in plan["resourceIds"]:
+            configuration_ref = (
+                f"{plan['evidencePath']}/resources/{resource_id}-configuration.yaml"
+            )
+            write_yaml(
+                root / configuration_ref,
+                {
+                    "schemaVersion": 1,
+                    "pocId": plan["pocId"],
+                    "taskId": task_id,
+                    "resourceId": resource_id,
+                    "capturedAt": "2026-09-03T00:00:00Z",
+                },
+            )
+            booking_ref = None
+            if resource_catalog[resource_id].get("bookingRequired") is True:
+                booking_ref = (
+                    f"{plan['evidencePath']}/resources/{resource_id}-booking.yaml"
+                )
+                write_yaml(
+                    root / booking_ref,
+                    {
+                        "schemaVersion": 1,
+                        "pocId": plan["pocId"],
+                        "taskId": task_id,
+                        "resourceId": resource_id,
+                        "status": "approved",
+                    },
+                )
+            resource_bindings.append(
+                {
+                    "id": resource_id,
+                    "configurationRef": configuration_ref,
+                    "bookingRef": booking_ref,
+                }
+            )
 
         raw_ref = f"{plan['evidencePath']}/raw/execution.log"
         raw_path = root / raw_ref
@@ -166,12 +214,21 @@ class TestPocProgram(unittest.TestCase):
             "taskId": task_id,
             "evidencePath": plan["evidencePath"],
             "executor": implementer,
+            "resources": resource_bindings,
             "environmentCaptured": environment,
-            "commands": ["bounded-test-command --fixture approved"],
+            "commands": [
+                {
+                    "command": "bounded-test-command --fixture approved",
+                    "expectedExitCodes": [0],
+                    "exitCode": 0,
+                    "outputRef": raw_ref,
+                }
+            ],
             "rawOutputRefs": [raw_ref],
             "samples": samples,
             "measurements": measurements,
             "provenance": provenance,
+            "complianceReviews": [],
             "notes": None,
         }
         write_yaml(root / execution_ref, execution)
@@ -204,6 +261,12 @@ class TestPocProgram(unittest.TestCase):
             }
         )
         write_yaml(self.index_path(root), index)
+        fixture_errors = CHECK.validate_repository(root)
+        if fixture_errors:
+            raise AssertionError(
+                "terminal fixture invalid before mutation:\n"
+                + "\n".join(fixture_errors)
+            )
         return plan, root / execution_ref, root / result_ref
 
     def approval_path(self, root, execution_path):
@@ -607,7 +670,7 @@ class TestPocProgram(unittest.TestCase):
         def mutate(root):
             _, execution, _ = self.make_terminal(root)
             data = load_yaml(execution)
-            data["commands"] = ["tool --token=super-secret-value"]
+            data["commands"][0]["command"] = "tool --token=super-secret-value"
             write_yaml(execution, data)
         self.assert_invalid(mutate, "secret-like value")
 
@@ -919,6 +982,46 @@ class TestPocProgram(unittest.TestCase):
             data.pop("reviewer")
             write_yaml(path, data)
         self.assert_invalid(mutate, "template missing keys")
+
+
+    def test_81_command_exit_code_must_be_expected(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root)
+            data = load_yaml(execution)
+            data["commands"][0]["exitCode"] = 9
+            write_yaml(execution, data)
+        self.assert_invalid(mutate, "exitCode must be one of expectedExitCodes")
+
+    def test_82_command_output_ref_must_be_listed(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root)
+            data = load_yaml(execution)
+            data["commands"][0]["outputRef"] = data["resources"][0]["configurationRef"]
+            write_yaml(execution, data)
+        self.assert_invalid(mutate, "outputRef must be listed in rawOutputRefs")
+
+    def test_83_execution_resources_must_match_plan(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root)
+            data = load_yaml(execution)
+            data["resources"][0]["id"] = "RES-ARBITRARY"
+            write_yaml(execution, data)
+        self.assert_invalid(mutate, "resource IDs must exactly match plan")
+
+    def test_84_resource_configuration_ref_must_exist(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root)
+            data = load_yaml(execution)
+            (root / data["resources"][0]["configurationRef"]).unlink()
+        self.assert_invalid(mutate, "configurationRef must point to an existing file")
+
+    def test_85_booking_ref_required_for_booked_resource(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root, "POC-002")
+            data = load_yaml(execution)
+            data["resources"][0]["bookingRef"] = None
+            write_yaml(execution, data)
+        self.assert_invalid(mutate, "bookingRef must point to an existing file")
 
 
 if __name__ == "__main__":

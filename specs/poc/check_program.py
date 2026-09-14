@@ -447,6 +447,7 @@ def validate_execution(
     plan: dict[str, Any],
     implementer: str,
     execution: dict[str, Any],
+    resource_catalog: dict[str, dict[str, Any]],
     schema: dict[str, Any],
     approval_schema: dict[str, Any],
     status: str,
@@ -467,6 +468,48 @@ def validate_execution(
         if execution.get(key) != expected:
             errors.append(f"{label}: {key} must equal {expected!r}")
 
+    resources = execution.get("resources") or []
+    resource_ids: list[str] = []
+    for index, resource in enumerate(resources):
+        if not isinstance(resource, dict):
+            errors.append(f"{label}: resource[{index}] must be a structured record")
+            continue
+        resource_id = resource.get("id")
+        if not isinstance(resource_id, str) or not resource_id.strip():
+            errors.append(f"{label}: resource[{index}] id must be nonempty text")
+            continue
+        resource_ids.append(resource_id)
+    if len(resource_ids) != len(resources) or len(resource_ids) != len(set(resource_ids)):
+        errors.append(f"{label}: resources must contain unique structured records")
+    planned_resource_ids = set(plan.get("resourceIds") or [])
+    if set(resource_ids) != planned_resource_ids:
+        errors.append(f"{label}: resource IDs must exactly match plan")
+    for resource in resources:
+        if not isinstance(resource, dict):
+            continue
+        resource_id = resource.get("id")
+        if not isinstance(resource_id, str) or not resource_id.strip():
+            continue
+        definition = resource_catalog.get(resource_id)
+        if definition is None:
+            errors.append(f"{label}: unknown execution resource {resource_id!r}")
+            continue
+        configuration_ref = resource.get("configurationRef")
+        if existing_ref(root, configuration_ref, evidence) is None:
+            errors.append(
+                f"{label}: resource {resource_id} configurationRef must point to an existing file under {evidence}"
+            )
+        booking_ref = resource.get("bookingRef")
+        if definition.get("bookingRequired") is True:
+            if existing_ref(root, booking_ref, evidence) is None:
+                errors.append(
+                    f"{label}: resource {resource_id} bookingRef must point to an existing file under {evidence}"
+                )
+        elif booking_ref is not None and existing_ref(root, booking_ref, evidence) is None:
+            errors.append(
+                f"{label}: resource {resource_id} bookingRef must be null or an existing file under {evidence}"
+            )
+
     environment = execution.get("environmentCaptured") or {}
     required_environment = set(plan["environment"]["captureBeforeExecution"])
     missing = required_environment - set(environment)
@@ -485,19 +528,45 @@ def validate_execution(
         if "inference_parameters" in environment and not recorded(environment["inference_parameters"]):
             errors.append(f"{label}: AI provenance inference_parameters must be nonempty")
 
-    commands = execution.get("commands") or []
-    if not commands or any(
-        not isinstance(command, str) or not command.strip()
-        for command in commands
-    ):
-        errors.append(f"{label}: commands must contain nonempty recorded commands")
-
     raw_refs = execution.get("rawOutputRefs") or []
     if not raw_refs:
         errors.append(f"{label}: at least one raw output reference is required")
     for ref in raw_refs:
         if existing_ref(root, ref, evidence) is None:
             errors.append(f"{label}: raw evidence file must exist under {evidence}: {ref!r}")
+
+    commands = execution.get("commands") or []
+    if not commands:
+        errors.append(f"{label}: at least one structured command record is required")
+    for index, command in enumerate(commands):
+        command_label = f"{label}: command[{index}]"
+        if not isinstance(command, dict):
+            errors.append(f"{command_label} must be a structured record")
+            continue
+        if not recorded_text(command.get("command")):
+            errors.append(f"{command_label} command must be nonempty/non-placeholder")
+        expected_codes = command.get("expectedExitCodes")
+        if (
+            not isinstance(expected_codes, list)
+            or not expected_codes
+            or any(
+                not isinstance(code, int) or isinstance(code, bool)
+                for code in expected_codes
+            )
+        ):
+            errors.append(f"{command_label} expectedExitCodes must contain integers")
+        exit_code = command.get("exitCode")
+        if not isinstance(exit_code, int) or isinstance(exit_code, bool):
+            errors.append(f"{command_label} exitCode must be an integer")
+        elif isinstance(expected_codes, list) and exit_code not in expected_codes:
+            errors.append(f"{command_label} exitCode must be one of expectedExitCodes")
+        output_ref = command.get("outputRef")
+        if output_ref not in raw_refs:
+            errors.append(f"{command_label} outputRef must be listed in rawOutputRefs")
+        if existing_ref(root, output_ref, evidence) is None:
+            errors.append(
+                f"{command_label} outputRef must point to an existing file under {evidence}"
+            )
 
     samples = execution.get("samples") or []
     sample_ids = [sample.get("id") for sample in samples]
@@ -568,6 +637,7 @@ def validate_terminal(
     plan: dict[str, Any],
     task: dict[str, Any],
     entry: dict[str, Any],
+    resource_catalog: dict[str, dict[str, Any]],
     result_schema: dict[str, Any],
     execution_schema: dict[str, Any],
     approval_schema: dict[str, Any],
@@ -642,8 +712,8 @@ def validate_terminal(
     if result.get("reviewer") == execution.get("executor"):
         errors.append(f"result record {task_id}: reviewer must differ from execution executor")
     validate_execution(
-        root, plan, implementer, execution, execution_schema,
-        approval_schema, status, errors,
+        root, plan, implementer, execution, resource_catalog,
+        execution_schema, approval_schema, status, errors,
     )
 
 
@@ -655,8 +725,9 @@ def validate_templates(
     expected_keys = {
         "executionRecordTemplate": {
             "schemaVersion", "pocId", "taskId", "evidencePath", "executor",
-            "environmentCaptured", "commands", "rawOutputRefs", "samples",
-            "measurements", "provenance", "notes",
+            "resources", "environmentCaptured", "commands", "rawOutputRefs",
+            "samples", "measurements", "provenance", "complianceReviews",
+            "notes",
         },
         "resultRecordTemplate": {
             "schemaVersion", "pocId", "taskId", "status", "evidencePath",
@@ -1024,7 +1095,7 @@ def validate_repository(root: Path) -> list[str]:
                 concrete_roles(root, task_id, canonical_task, errors)
         elif status in TERMINAL:
             validate_terminal(
-                root, plan, canonical_task, entry,
+                root, plan, canonical_task, entry, resource_map,
                 result_record_schema, execution_schema,
                 approval_schema, errors,
             )
