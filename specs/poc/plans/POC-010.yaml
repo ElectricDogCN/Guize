@@ -44,8 +44,62 @@ protocol:
   - id: db_restore
     metric: PostgreSQL restore/readback
     unit: boolean
-    method: Restore sandbox backup and verify expected records/checksums.
+    method: Restore the sandbox backup and verify schema, checksums and the explicit critical-state measurements below.
     thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: users_permissions_restore
+    metric: Users, roles and permission relationships are restored
+    unit: boolean
+    method: Compare restored users, role memberships and permission grants with the approved pre-backup manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: assets_restore
+    metric: Asset identities and authoritative metadata are restored
+    unit: boolean
+    method: Verify the approved asset fixture, versions and key metadata relationships after restore.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: source_mappings_restore
+    metric: Source and connector mappings/checkpoints are restored
+    unit: boolean
+    method: Compare restored source identities, connector bindings and synchronization checkpoints with the approved manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: formal_replicas_restore
+    metric: Formal replica/source-of-truth relationships are restored
+    unit: boolean
+    method: Verify primary/formal-replica designations, storage references and replica state for the approved fixture.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: retention_restore
+    metric: Retention and lifecycle policy state is restored
+    unit: boolean
+    method: Verify retention assignments, lifecycle state and scheduled policy metadata against the pre-backup manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: audit_restore
+    metric: Audit history and integrity links are restored
+    unit: boolean
+    method: Verify required audit entries, ordering and integrity/hash-chain linkage for the approved fixture.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: outbox_restore
+    metric: Outbox/inbox delivery state is restored without duplicate publication
+    unit: boolean
+    method: Verify pending/processed delivery records and replay one approved fixture without creating an unintended duplicate event.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: tasks_restore
+    metric: Workflow/task state and attempts are restored
+    unit: boolean
+    method: Compare active and terminal task records, attempts and ownership with the approved pre-backup manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: authoritative_relationships_restore
+    metric: Cross-entity authoritative relationships remain consistent
+    unit: boolean
+    method: Run the approved referential and business-invariant checks across users, assets, sources, replicas, retention, audit, outbox and tasks.
+    thresholdSource: RECOVERY_DESIGN
     actual: null
   - id: secret_store_restore
     metric: OpenBao configuration and secret-reference restore
@@ -85,6 +139,7 @@ protocol:
     actual: null
   exitCriteria:
   - Database, OpenBao configuration, actual secret values, files and deployment bundle can be restored/read back in an isolated sandbox.
+  - Users/permissions, assets, source mappings, formal replicas, retention, audit, Outbox/inbox, task state and their authoritative relationships all match the approved pre-backup manifest.
   - Secret value round-trip comparison succeeds without committing plaintext or backup keys to Git/Evidence.
   - A corrupted or decryption-mismatched secret backup is rejected and cannot be misreported as recovered.
   - RPO/RTO evidence is measured rather than assumed.

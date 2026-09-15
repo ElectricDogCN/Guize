@@ -67,6 +67,12 @@ protocol:
     method: Record the documented or sandbox-observed listing/request quota for the tested source adapter profile, including reset/backoff semantics.
     thresholdSource: NFR_MEASUREMENT_REQUIRED
     actual: null
+  - id: source_change_frequency
+    metric: Observed source metadata change frequency
+    unit: changes_per_hour
+    method: Apply and observe the approved deterministic create/update/delete change stream, recording event count and observation window from the immutable fixture manifest.
+    thresholdSource: NFR-V1-CAP-003
+    actual: null
   - id: enumeration_rate
     metric: Metadata enumeration rate
     unit: objects/s
@@ -87,6 +93,7 @@ protocol:
     actual: null
   exitCriteria:
   - File count, directory count/depth, average file size and source API quota/rate-limit facts are captured for the immutable representative hierarchy/source profile.
+  - Source change frequency is measured from a deterministic create/update/delete observation window rather than asserted in prose.
   - Scale model covers file count, directory fanout/depth and change rate with raw manifest/provenance references.
   - Enumeration rate, incremental scan cost and memory peak are measured without assuming 700TB byte transfer.
   failureFallbacks:

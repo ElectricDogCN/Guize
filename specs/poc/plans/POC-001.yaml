@@ -53,6 +53,12 @@ protocol:
     method: Reboot the guest VM, then re-enumerate the A380 and initialize the media runtime with identical captured versions.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: esxi_host_reboot_reenumeration
+    metric: GPU passthrough survives ESXi host reboot and device re-enumeration
+    unit: boolean
+    method: Reboot the approved ESXi sandbox host, verify the A380 is re-enumerated and reassigned, then start the guest and initialize the media runtime without rebuilding the host.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
   - id: device_reset_recovery
     metric: GPU passthrough survives supported device reset/rebind cycle
     unit: boolean
@@ -63,6 +69,7 @@ protocol:
   - Guest can enumerate A380 through supported passthrough path.
   - Driver/runtime initialization succeeds with reproducible version capture.
   - Guest reboot completes and the A380 is re-enumerated with the media runtime operational.
+  - ESXi host reboot completes and the A380 is re-enumerated, reassigned and usable by the guest without host rebuild.
   - Approved device reset/rebind recovery completes and the A380 returns to an operational state without host rebuild.
   failureFallbacks:
   - If ESXi 6.7 passthrough or reboot/reset recovery is unsupported, document the blocker and evaluate a supported hypervisor/bare-metal worker path.

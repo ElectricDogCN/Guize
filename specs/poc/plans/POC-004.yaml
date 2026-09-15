@@ -55,22 +55,54 @@ protocol:
     method: Capture read/write latency distribution for the same sandbox workload and transport profile used for throughput measurement.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: minimum_free_space_gib
+    metric: Minimum observed free capacity during the workload
+    unit: GiB
+    method: Sample dataset/pool free capacity throughout fill, watermark, recovery and cleanup phases and retain the minimum observation.
+    thresholdSource: NFR-V1-CAP-002
+    actual: null
+  - id: free_space_floor_preserved
+    metric: Frozen 500 GiB free-space floor remains preserved
+    unit: boolean
+    method: Verify the minimum observed free capacity never drops below 500 GiB and that the lifecycle/watermark action engages before violation.
+    thresholdSource: NFR-V1-CAP-002
+    actual: null
   - id: watermark_behavior
     metric: Watermark enforcement
     unit: boolean
     method: Drive controlled capacity thresholds and observe lifecycle behavior.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
-  - id: failure_recovery
-    metric: Failure recovery success
+  - id: disconnect_recovery
+    metric: iSCSI/network disconnect recovery succeeds
     unit: boolean
-    method: Inject approved sandbox interruption and verify recovery/runbook.
+    method: Interrupt the approved sandbox transport and verify bounded reconnect, integrity checks and explicit failure handling for incomplete work.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: snapshot_restore
+    metric: ZFS snapshot restore recovers expected data and metadata
+    unit: boolean
+    method: Create an approved sandbox snapshot, mutate the fixture, restore the snapshot and verify checksums plus dataset metadata.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: concurrent_workload_stability
+    metric: Storage remains stable under concurrent/multi-task workload
+    unit: boolean
+    method: Run the approved concurrent read/write and lifecycle workload while capturing throughput, latency, errors and recovery behavior.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: failure_recovery
+    metric: General failure recovery success
+    unit: boolean
+    method: Inject the remaining approved sandbox failure cases and verify the documented recovery runbook.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   exitCriteria:
   - Approved iSCSI transport is reproducibly discoverable and operational for the sandbox dataset.
   - Throughput and I/O latency measurements are captured on that iSCSI path with the environment/profile recorded.
-  - Dataset/watermark behavior is reproducible.
+  - Minimum observed free capacity is recorded and remains at or above the frozen 500 GiB floor.
+  - Dataset/watermark behavior engages before the free-space floor is violated.
+  - Transport disconnect/recovery, ZFS snapshot restore and concurrent workload stability are demonstrated independently.
   - Failure-recovery evidence is captured without production data.
   failureFallbacks:
   - If current TrueNAS/iSCSI topology is insufficient, document required dataset/network/storage changes before M2.

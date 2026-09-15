@@ -54,6 +54,42 @@ protocol:
     method: Verify matching If-Range returns the requested partial response while stale/nonmatching validators fall back to the correct full representation semantics.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: ats_slice_behavior
+    metric: ATS Slice behavior is correct for large objects
+    unit: boolean
+    method: Exercise the approved Slice configuration and verify byte coverage, segment boundaries and reassembly against the immutable sample.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: source_update_invalidation
+    metric: Source updates invalidate or version cache state correctly
+    unit: boolean
+    method: Change the governed source version and verify stale ETag, Range and Slice objects cannot be returned as the new version.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: origin_interruption_recovery
+    metric: Interrupted origin stream retries safely
+    unit: boolean
+    method: Interrupt the origin during a partial response and require bounded retry or explicit failure without publishing a complete-cache success.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: partial_cache_integrity
+    metric: Partial cache content is never treated as complete
+    unit: boolean
+    method: Inspect cache metadata and subsequent reads after interruption to prove partial bytes are isolated, discarded or resumed safely.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: cache_hit_observation
+    metric: Cache-hit behavior is observed and attributable
+    unit: boolean
+    method: Repeat the approved request matrix and capture cache-status/header/log evidence that distinguishes miss, fill and hit.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: cache_disk_observation
+    metric: Cache-disk allocation and cleanup are observed
+    unit: boolean
+    method: Capture disk usage and object lifecycle before, during and after the large-file Slice tests.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
   - id: cache_key_isolation
     metric: ACL/cache-key isolation
     unit: boolean
@@ -70,10 +106,13 @@ protocol:
   - Range responses match requested byte intervals.
   - ETag validators remain stable for unchanged content and change when the governed object version changes.
   - If-Range requests return correct partial/full behavior for matching and stale validators.
+  - ATS Slice returns complete, byte-correct content and records cache hit/disk behavior.
+  - Source version changes prevent stale cached objects from masquerading as the new version.
+  - Origin interruption never promotes partial content to a complete cache entry and bounded recovery behavior is evidenced.
   - Protected cache keys remain isolated by authorization context.
   - Representative large files stream without full-object materialization.
   failureFallbacks:
-  - If ATS Range/validator behavior is insufficient, evaluate origin Range proxy or alternative edge cache configuration.
+  - If ATS Range/Slice/recovery behavior is insufficient, evaluate origin Range proxy or an alternative edge cache configuration.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.

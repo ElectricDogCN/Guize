@@ -48,11 +48,29 @@ protocol:
     method: Run bounded external reachability probes from approved test points.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: high_port_route
+    metric: Required high-port public route is reachable and policy-constrained
+    unit: boolean
+    method: Exercise the approved high-port route through the intended tunnel/reverse-proxy path and verify no unintended listener or bypass is exposed.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: ddns_propagation
+    metric: DDNS update propagates to the tested public path
+    unit: boolean
+    method: Change the approved sandbox address mapping, measure propagation and verify stale records no longer route traffic beyond the accepted window.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
   - id: range_through_path
     metric: Range through tunnel/CDN
     unit: boolean
     method: Replay Range matrix through intended public path with a valid authorized identity.
     thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: public_large_file_streaming
+    metric: Representative large file streams through the public path
+    unit: boolean
+    method: Stream the approved large-file sample through tunnel/CDN with bounded memory, correct Range behavior and raw transfer evidence.
+    thresholdSource: APPROVED_POC_SCOPE
     actual: null
   - id: unauthorized_identity_denied
     metric: Unauthorized identity denied on public Range path
@@ -72,14 +90,22 @@ protocol:
     method: Alternate authorized test identities with different ACL outcomes through the same tunnel/CDN/cache path and prove one identity cannot receive another identity's protected payload.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: rate_limit_enforced
+    metric: Public-path rate limiting rejects excess requests predictably
+    unit: boolean
+    method: Exceed the approved request-rate threshold and verify deterministic throttling without bypass, protected payload leakage or unbounded origin amplification.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
   exitCriteria:
   - TLS/IPv6 path is reproducible.
-  - Authorized Range survives tunnel/CDN path.
+  - The approved high-port route and DDNS update path work without exposing unintended listeners or stale routing.
+  - Authorized Range and representative large-file streaming survive the tunnel/CDN path.
   - Unauthorized and expired authorization requests fail closed with no protected payload leakage.
   - Cross-user cache isolation prevents ACL bypass through the public path.
+  - Public-path rate limits reject excess traffic predictably.
   failureFallbacks:
   - If direct IPv6/CDN path fails, document tunnel/reverse-proxy alternative and operational constraints.
-  - If any authorization or cache-isolation gate fails, block the public access design until the cache key/auth boundary is corrected and retested.
+  - If any authorization, cache-isolation or rate-limit gate fails, block the public access design until corrected and retested.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.

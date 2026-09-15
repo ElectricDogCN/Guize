@@ -1,7 +1,7 @@
 schemaVersion: 1
 pocId: POC-09
 taskId: POC-009
-title: AI 质量、成本、隐私、许可证与吞吐
+title: AI 质量、检索效果、成本、隐私、许可证与吞吐
 status: planned
 resultStatus: not_started
 riskLevel: high
@@ -44,10 +44,40 @@ protocol:
   rawOutputRefs: []
   measurements:
   - id: quality_score
-    metric: Task quality score
+    metric: AI task quality score
     unit: score
-    method: Run fixed de-identified benchmark with model identity/version, Prompt/template version, inference parameters and immutable input/sample version captured in the environment record.
+    method: Run the approved fixed de-identified benchmark with complete model, Prompt, parameter and sample provenance.
     thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: fixed_query_set_bound
+    metric: Retrieval evaluation is bound to the approved fixed query/sample set
+    unit: boolean
+    method: Record the immutable query-set and corpus/sample identifiers and require every relevance and latency result to reference them.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: retrieval_recall
+    metric: Retrieval Recall on the approved fixed query set
+    unit: ratio
+    method: Compute Recall against independently labelled relevant results for the immutable query/corpus fixture.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: retrieval_mrr
+    metric: Retrieval mean reciprocal rank
+    unit: ratio
+    method: Compute MRR from the same immutable query/corpus fixture and relevance judgements.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: retrieval_ndcg
+    metric: Retrieval normalized discounted cumulative gain
+    unit: ratio
+    method: Compute NDCG from graded relevance judgements on the approved fixed query set.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: query_latency
+    metric: End-to-end retrieval query latency
+    unit: ms
+    method: Measure query latency under the approved local/provider profile with warmup, sample count and percentile method recorded.
+    thresholdSource: NFR-V1-PERF-003
     actual: null
   - id: throughput
     metric: Inference throughput
@@ -98,12 +128,14 @@ protocol:
     thresholdSource: NFR_BUDGET_GATE
     actual: null
   exitCriteria:
-  - Quality/throughput/cost/privacy/license evidence is captured for candidate profiles with model, Prompt, inference-parameter and immutable-input provenance.
+  - AI task quality, throughput, cost, privacy and license evidence is captured with model, Prompt, parameter and immutable-input provenance.
+  - Retrieval Recall, MRR, NDCG and end-to-end query latency are measured against one approved fixed query/corpus fixture.
   - External provider usage is gated by approved privacy/data policy, caller permission and the current asset ACL before dispatch.
   - Hard budget, request-rate and concurrency quotas reject excess external-provider use without executing a provider request.
   - No commercial-provider credential or sensitive payload is committed to Git/Evidence.
   failureFallbacks:
   - Prefer local/private inference or disable a capability when privacy/license/cost/access-control/quota constraints are not acceptable.
+  - If retrieval relevance or query latency is insufficient, document the corpus/index/query changes required before product implementation.
   - If a fail-closed permission/ACL/budget/quota gate cannot be demonstrated, external provider use remains disabled.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
