@@ -5,55 +5,43 @@ PR: #48
 Branch: chore/GZ-010-poc-program-baseline
 Base: main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252
 Validated implementation commit: 608b8e0a3796ddaac6b5bbdda9baff349f45b1c3
-GitHub Actions run: 34873071797
-GitHub Actions job: 104073491558
-Runner: Ubuntu 24.04
-Observed execution window: 2026-09-14T17:10:04Z through 2026-09-14T17:10:56Z
+Validated plan-completeness commit: 056b17fb730e334ed8b45bc887870b0918cfaa8f
 
 command: python -m py_compile specs/poc/check_program.py specs/poc/test_program.py
 exit code: 0
 result: PASS
-observed result: both Python files compiled successfully
+source: GitHub Actions run 34873071797, job 104073491558
 
 command: python -m pip install -r requirements-governance.txt
 exit code: 0
 result: PASS
-observed result: required governance dependencies installed successfully
+source: GitHub Actions run 34873071797, job 104073491558
 
 command: python specs/poc/check_program.py
 exit code: 0
 result: PASS
 observed result: PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
+source: GitHub Actions run 34873071797, job 104073491558
 
 command: python specs/poc/test_program.py
 exit code: 0
 result: PASS
 observed result: Ran 85 tests in 49.148s; OK; unexpected skips: 0
+source: GitHub Actions run 34873071797, job 104073491558
 
 command: git diff --check
 exit code: 0
 result: PASS
-observed result: no whitespace errors
+source: GitHub Actions run 34873071797, job 104073491558
 
-command: commit validated repair and remove temporary repair workflows
+command group: exact-head Governance Gate for plan-completeness commit 056b17fb730e334ed8b45bc887870b0918cfaa8f
 exit code: 0
 result: PASS
-observed result: commit 608b8e0a3796ddaac6b5bbdda9baff349f45b1c3 created; six temporary GZ-010 repair workflows deleted
+observed result: run 34920195916 (#552), job 104226389757; 267/267 governance tests passed in 25.77s; 0 skipped; all 25 Gate stages succeeded; 38 allowed paths, 0 forbidden, 0 out of scope
 
-command: push HEAD:chore/GZ-010-poc-program-baseline
-exit code: 0
-result: PASS
-observed result: fa11bf7..608b8e0 fast-forward push completed
+command: make verify TASK=GZ-010 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline
+exit code: NOT_SEPARATELY_EXECUTED
+result: NOT_CLAIMED
+observed result: the hosted Governance Gate executed its repository validators directly; no separate local make invocation is represented as success
 
-command: exact-head Governance Gate for bot-authored 608b8e0a3796ddaac6b5bbdda9baff349f45b1c3
-exit code: no jobs started
-result: ACTION_REQUIRED, NOT PASS
-observed result: run 34873182514 contained zero jobs because GITHUB_TOKEN pushes do not recursively start the normal workflow; this is not a validator or test failure
-
-pending command on the Evidence-bearing PR head: make verify TASK=GZ-010 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline
-result: PENDING exact-head Governance Gate
-
-pending action on the Evidence-bearing PR head: fresh independent review and unresolved-thread audit
-result: PENDING
-
-Claim boundary: these commands validate the POC Program implementation only. No actual POC-001 through POC-010 experiment command was executed and no experiment result is claimed.
+claim boundary: no actual POC-001 through POC-010 experiment was executed and no terminal result is claimed.
