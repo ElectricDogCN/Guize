@@ -1,41 +1,32 @@
-# GZ-010 Completion Changed Files
+# GZ-010 Review Repair — Changed Files
 
 Task: GZ-010
-Issue: #15
-Completion PR: #63
-Branch: `chore/GZ-010-poc-program-baseline`
-Target base: `3a11c5f639717993f51a26c5b5970701570fe367`
-Validated metadata parent: `fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7`
+PR: #63
+Result: NEEDS_REVIEW
+Comparison target: `3a11c5f639717993f51a26c5b5970701570fe367`
+Retained old completion source: `035e786022f7995724e0c3b99a86a9356c51e1cf`
 
-## Current cumulative completion scope
+## Cumulative PR scope: ten existing files
 
-The completion candidate and its documentation correction contain thirteen paths:
+- `specs/tasks/GZ-010.md`
+- `evidence/GZ-010/summary.md`
+- `evidence/GZ-010/commands.txt`
+- `evidence/GZ-010/handoff.md`
+- `evidence/GZ-010/test-results/README.md`
+- `evidence/GZ-010/changed-files.md`
+- `evidence/GZ-010/scope.md`
+- `evidence/GZ-010/follow-ups.md`
+- `evidence/GZ-010/security/README.md`
+- `evidence/GZ-010/rollback-verification/README.md`
 
-1. `specs/coordination/program-plan.yaml`: only GZ-010 review to completed.
-2. `specs/coordination/active-work.yaml`: remove only GZ-010's lease.
-3. `specs/coordination/task-completions.yaml`: append one GZ-010 record referencing PR #45 and the already merged PR #48.
-4. `specs/tasks/GZ-010.md`: completion status/base and reconciliation of the formerly Reservation-only body.
-5. `evidence/GZ-010/summary.md`.
-6. `evidence/GZ-010/commands.txt`.
-7. `evidence/GZ-010/handoff.md`.
-8. `evidence/GZ-010/test-results/README.md`.
-9. `evidence/GZ-010/changed-files.md`.
-10. `evidence/GZ-010/scope.md`.
-11. `evidence/GZ-010/follow-ups.md`.
-12. `evidence/GZ-010/security/README.md`.
-13. `evidence/GZ-010/rollback-verification/README.md`.
+## Withdrawal delta versus the old candidate
 
-The documentation correction after the validated metadata parent changes only item 4's body and items 5 through 13. It does not further alter Program Plan, Active Work or the Completion Ledger.
+The successor additionally restores three coordination files to the exact target blobs. They therefore disappear from the cumulative PR diff, rather than introducing new main changes:
 
-## Exclusions and verification
+- Program: `27edc2750e1567b6764581e43d0d49de8de54970`.
+- Active Work: `2e9859fc504800f64ad6284933cb0b59ae411f39`.
+- Completion Ledger: `0607130b53d58c5bbb177725b991dae2dac45115`.
 
-No `specs/poc/**`, `poc/README.md`, workflow, checker, test implementation, permission, Secret, safety limit, business code, deployment or unrelated task is changed relative to the completion target. No `evidence/POC-*` result is created. The former assertion that this diff contains no Program/ledger/status change applied only to the historical implementation PR; it does not describe Completion PR #63.
+Task front matter is restored to review and registered baseSha `2b2d076b68171edd74639e307f8a126cc882186d`. The other identity, path-claim, role, Wave, contract and lease values remain registered values.
 
-Reproduce with:
-
-```bash
-git diff --name-only 3a11c5f639717993f51a26c5b5970701570fe367 HEAD
-git diff --exit-code 3a11c5f639717993f51a26c5b5970701570fe367 HEAD -- specs/poc poc/README.md .github/workflows
-```
-
-The original 38-file implementation inventory is retained at `397bd6d45235b38e9afe59bc8f7b28ede5c8e4f6:evidence/GZ-010/changed-files.md` and PR #48. It is historical, not the present cumulative scope.
+All implementation, POC plans/catalogues/schemas/tests/results-index, workflow, checker, business/deployment files and unrelated Evidence remain unchanged. No file is added or deleted. Prior proposed completion content and evidence are preserved through ancestry; main has never received that proposal. Verify actual filenames and blob identities before review or integration.

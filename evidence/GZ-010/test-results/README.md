@@ -1,40 +1,46 @@
-# GZ-010 Completion Test Evidence
+# GZ-010 Review Test Evidence
 
 Task: GZ-010
-Result: PASS (the specific observed executions below)
-Current completion disposition: NEEDS_REVIEW
-Implementation merge: `2b2d076b68171edd74639e307f8a126cc882186d`
-Completion PR: #63
-Target base: `3a11c5f639717993f51a26c5b5970701570fe367`
-Latest tested source: `b1ca9864759c325f12addf2b06b0ab22a81f9d9c`
+Result: NEEDS_REVIEW
+PR: #63
+Review target: `3a11c5f639717993f51a26c5b5970701570fe367`
+Withdrawn completion source: `035e786022f7995724e0c3b99a86a9356c51e1cf`
 
-## Historical implementation
+## Historical implementation and CI
 
-Run `35053181259`, job `104657763581`, recorded checker success and 86/86 planning-software tests, zero skips. The produced/tested implementation was `0f5cfd73d4ae6592f6e773caae3bba4dac34ff46`. These results are not POC experiment outcomes and are not re-labelled as a new completion-branch POC test run.
+Implementation run `35053181259`, job `104657763581`: POC planning checker and 86 planning-software tests passed. No experiment ran.
 
-## Latest actual CI execution
+Gate #569 on `ec0b9d77b6d8d9a2435e3c6aebb42c3ac591086a` failed missing Task lists. `b1ca9864759c325f12addf2b06b0ab22a81f9d9c` repaired the lists. Gate #570 / run `35071047333`, job `104712373022`, tested merge `c5744833dd9d76167e1c918ccd912fd0f06bb552`: 267 passed in 24.88 seconds, zero skips. Its actual in-suite wrapper subprocess returned 0; successful child stdout was captured. Full historical provenance remains at `git show 035e786022f7995724e0c3b99a86a9356c51e1cf:evidence/GZ-010/commands.txt`.
 
-Gate #570 / run `35071047333`, job `104712373022`, checked out synthetic merge `c5744833dd9d76167e1c918ccd912fd0f06bb552`, combining the exact source and target above.
+Gate #571 / run `35072699408` passed the withdrawn source, but independent review did not approve completion. Neither run is transferred to the successor.
 
-- 267 tests collected and passed in 24.88 seconds; zero skips.
-- Task File, readiness, Program integrity/history/transitions/finalization, direct lifecycle guard, coordination, scope, Markdown, schema, secret scan, Evidence, linkage, spec sync, boundary and CI static checks passed.
-- The Evidence-integrity step found no final-report file; do not treat its success as independent verification of every prose assertion.
-- Preceding Gate #569 / run `35070014899` failed the four missing Task lists. b1ca repaired the lists, not the tests or validator. Failure history is retained.
+## Fresh independent reproduction on the withdrawn source
 
-## Completion wrapper execution inside the suite
+Review request `5694867271` produced inline response `4024339028` at `2026-09-16T09:10:00Z`. The independent reviewer reported actual clean checkout HEAD `035e786022f7995724e0c3b99a86a9356c51e1cf`, tree `54d5594c0c3a95855150f65d049cf321879d5d80`, with `GITHUB_REPOSITORY=ElectricDogCN/Guize` and the alternate API endpoint unset. This is reviewer-reported execution evidence, not execution by the local chat container.
 
-At `2026-09-16T07:56:18.4985546Z`, the log reports:
+| Command | Exit | Actual reported result |
+|---|---:|---|
+| `git rev-parse HEAD` | 0 | Exact source above |
+| `git status --porcelain` | 0 | Empty output |
+| `python scripts/check-task-file.py --task GZ-010` | 0 | Task file valid |
+| Explicit task/branch `run-program-lifecycle-gate.py` command | 1 | `ModuleNotFoundError: No module named 'yaml'`; API not reached |
+| `python specs/poc/check_program.py` | 1 | `ModuleNotFoundError: No module named 'jsonschema'` |
+| `python specs/poc/test_program.py` | 1 | `ModuleNotFoundError: No module named 'yaml'` |
+| Named `make verify TASK=GZ-010 ...` | 2 | Markdown passed; schema import failed, then Make stopped |
+| Existing detached-worktree restoration block | 0 | Full target tree restored; worktree cleanup confirmed |
+
+Reported restoration stdout:
 
 ```text
-tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_current_repository_passes PASSED [ 46%]
+completion_restoration=PASS candidate=035e786022f7995724e0c3b99a86a9356c51e1cf restored_tree=5725e4f352fa420dbac260247947dca5cf482c4f
 ```
 
-The exact test source at b1ca, lines 46-64, calls `scripts/run-program-lifecycle-gate.py` with `subprocess.run`, the actual repository root, `origin/main` and `HEAD`, then asserts return code 0. It has no mocked API or alternate endpoint. The wrapper therefore executed its real completion/Issue-state checks; it was not merely inspected. Child stdout is captured and not printed on success, so a raw wrapper-output transcript is not claimed.
+The reviewer also reported only the original worktree remaining and a clean final status. This is fresh execution of the old restoration shell script, but not a guard-compatible recovery after completion. The other named commands failed before their complete checks; no passing test count is claimed. The review's additional comparison to an unrelated commit is not adopted as provenance here.
 
-This corrects the earlier blanket statement that the wrapper was unexecuted. It does not claim a separately invoked command with explicit `--task` and `--branch-name`; that standalone record remains absent.
+## Current successor and environment boundary
 
-## Restoration evidence and execution gap
+A separate local Git clone attempt returned 128 / `Could not resolve host: github.com`; no checkout or tests ran there. The earlier general Codex task did not start because of a missing repository environment. These limitations are distinct from the review environment's missing Python dependencies.
 
-The Git Data API restored only the completion-owned paths from candidate tree `0313cb874843a839519435cea81a1a6773892afb` and returned root `5725e4f352fa420dbac260247947dca5cf482c4f`, exactly equal to the target tree. Full inputs and scope are in `rollback-verification/README.md`. No refs or commits were changed by this isolated restoration test.
+For the next available execution environment, install the repository's existing `requirements-governance.txt`, verify `import yaml, jsonschema, pytest`, then run the exact Task Spec commands. Do not change requirements, tests, assertions, scripts, API endpoints or workflow files. Record dependency-install failures honestly rather than skipping commands.
 
-The local worktree shell rehearsal and separately named `make verify` remain NOT EXECUTED. General Codex execution did not start because this repository lacks a configured execution environment; reply `5694080113` records that blocker. No pending acceptance item is passed by assumption. A fresh successor Gate/review remains required. No real POC, merge, post-completion-main result or downstream activation is claimed.
+The successor keeps Program/Task at review with the original lease/ledger. It requires its own Gate and review. A review-state wrapper PASS will not validate a future completion transition or its Issue API condition. All final-completion acceptance items remain pending; the old restoration success does not fulfill the immutable-ledger recovery requirement.

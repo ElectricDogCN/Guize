@@ -1,15 +1,11 @@
-# GZ-010 Completion Security Evidence
+# GZ-010 Review Repair Security Evidence
 
 Task: GZ-010
-Completion PR: #63
-Latest tested source: `b1ca9864759c325f12addf2b06b0ab22a81f9d9c`
+PR: #63
+Result: NEEDS_REVIEW
 
-This is metadata/Evidence completion, not a new Reservation. It changes no permissions, Secret values/references, safety limits, production state, deployment, workflow or POC implementation. Only the GZ-010 lease is removed in the proposed target state.
+This candidate restores the target's nonterminal review state and retains its original lease and immutable completion ledger. The cumulative change is Task/Evidence documentation only. No Secret, permission, safety limit, workflow, production state, deployment, POC implementation or downstream task is changed.
 
-Gate #570 / run `35071047333`, job `104712373022`, reported no high-risk secret matches. This Evidence-only successor needs its own Gate; prior success does not pre-validate a future commit.
+Gate #570's secret scan passed on its identified historical source. That result does not pre-validate this successor; require its own Gate. No credential was requested, printed or committed during the failed local clone attempt. Its actual error is recorded in `commands.txt` without credential content.
 
-The real completion wrapper ran as a subprocess of `test_current_repository_passes` in Gate #570, using the genuine repository and Issue API. No raw child-output transcript is claimed because the test captures it on success. Its separately named manual invocation remains unexecuted. Issue #15 is already closed/completed.
-
-The isolated Git Data restoration test constructed an object only; no commit, ref, environment, Secret, policy or main change was made by it. It is not production rollback or the local worktree rehearsal.
-
-General Codex execution request `5694077690` was rejected before startup with missing-environment reply `5694080113`. No new environment was provisioned and no credential was requested, printed or committed. Missing execution evidence is not replaced by a mock, relaxed gate or temporary workflow. Main branch protection remains an external release concern; this PR neither changes nor claims that setting.
+The old object-restoration equality result is not a policy-compatible completed-task rollback. Current recovery is restricted to nonterminal Task/Evidence files and cannot touch completed records. Completion remains blocked pending genuine execution and recovery evidence. No force push, branch protection bypass, main mutation or new execution environment is part of this repair.

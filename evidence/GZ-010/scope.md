@@ -1,21 +1,11 @@
-# GZ-010 Completion Scope
+# GZ-010 Review Repair Scope
 
 Task: GZ-010
-Completion PR: #63
-Target base: `3a11c5f639717993f51a26c5b5970701570fe367`
+PR: #63
+Result: NEEDS_REVIEW
 
-## Current operation
+Current activity is an in-place nonterminal correction, not Reservation, implementation restart or completion. The final cumulative diff against `3a11c5f639717993f51a26c5b5970701570fe367` is limited to `specs/tasks/GZ-010.md` and nine existing files under `evidence/GZ-010/` listed in `changed-files.md`.
 
-The implementation already entered main through PR #48 / `2b2d076b68171edd74639e307f8a126cc882186d`, followed by the Review state in PR #62. This PR is completion, not a fresh reservation or activation.
+The old proposal's Program status change, lease removal and unmerged completion record are withdrawn together by restoring the exact target objects. Main's Program, active lease and immutable completion records are unchanged. No coordination policy, deadline, role, path claim, contract, requirement or other task is altered.
 
-Allowed completion changes are only the GZ-010 row in Program Plan, removal of its Active Work entry, one appended Completion Ledger record, its synchronized Task Spec, and `evidence/GZ-010/**`. The existing thirteen-path inventory is in `changed-files.md`. Only Task/Evidence documentation is corrected after validated metadata parent `fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7`.
-
-## Delivered implementation boundary
-
-The completed implementation is POC planning code/documentation under `specs/poc/**`, `poc/README.md` and task Evidence. Those implementation files are read-only in the completion candidate. Its produced contract is POC-PROTOCOL-V1; it does not claim a universally validated future terminal-result workflow.
-
-## Excluded
-
-No other Program task or lease, historical ledger row, canonical POC plan/result-index, workflow/checker/test code, business/deployment file, requirement/acceptance baseline, Secret, permission, production state or real POC Evidence may change.
-
-No GZ-010 lease is created. POC-001 through POC-010 remain unexecuted and require their own subsequent task authorization. GZ-005 is not started by this completion diff. Reservation v2 and PR #42 instructions are historical only and remain accessible in Git history.
+POC-PROTOCOL-V1 implementation from PR #48 remains read-only. No experiments, POC results, real data, credential operations, workflow additions, governance mechanisms or downstream activations are permitted. Missing completion validation stays a blocker rather than being removed from acceptance.

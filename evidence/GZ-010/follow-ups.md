@@ -1,22 +1,19 @@
-# GZ-010 Completion Follow-ups
+# GZ-010 Review Follow-ups
 
 Task: GZ-010
-Completion PR: #63
+PR: #63
+Result: NEEDS_REVIEW
 
-Implementation PR #48 and Review PR #62 are already merged. Issue #15 is already closed/completed. Do not repeat reservation, activation, branch creation, implementation or issue closure.
+Implementation PR #48 and review-state PR #62 are merged. The former completion proposal is withdrawn on its existing branch. Do not repeat Reservation, activation, implementation or Issue #15 closure.
 
-## Current verified checkpoint
+## Immediate work
 
-Commit `b1ca9864759c325f12addf2b06b0ab22a81f9d9c` repaired the four required Task lists and passed Gate #570 / run `35071047333`: 267 tests, zero skips. The completion wrapper ran as a real subprocess inside that suite. A separate isolated Git Data restoration returned the exact base tree. `commands.txt` identifies the arguments, test subjects and limitations.
+Review the actual successor HEAD and its fresh Gate. Confirm exactly ten cumulative Task/Evidence files; unchanged Program/Active Work/Ledger blobs; retained review status and lease; unchanged POC implementation and results-index. Review the existing threads against that actual diff rather than clearing them merely because lines became outdated.
 
-This Evidence-only successor still needs its own exact-head Gate and independent review. These historical observations do not pre-approve it.
+The local clone attempt failed before checkout (exit 128, GitHub DNS resolution failure). General Codex execution previously did not start. Reproduction review `5694867271` targets the old source; record actual returned outputs only after inspection. Do not report any of these requests as completed tests.
 
-## Remaining actions
+## Completion remains separate and blocked
 
-1. Provide the repository's authorized command-execution environment. The bounded request in comment `5694077690` did not start; Codex reply `5694080113` explicitly requires an environment. Do not repeatedly poll/repost an unstarted task.
-2. Execute the separately recorded commands and local worktree rehearsal still pending in the Task Spec; retain actual output, exits and exact tested SHA. Do not call the already executed in-suite wrapper or object-tree check a different standalone command.
-3. Obtain fresh exact-head review and substantively address remaining threads. Keep PR #63 Draft while required execution evidence is missing.
-4. Obtain Human Owner approval for a normal expected-head-protected merge; verify the resulting main Gate and GZ-010 status/lease/ledger after the real merge.
-5. Only then select the next existing Program task by dependency and Wave order. No new governance chain, temporary workflow or controller is needed.
+Keep the original pending completion commands, isolated worktree execution and guard-compatible post-completion recovery requirement. Obtain genuine results on a final completion candidate before proposing completed again. Review-state wrapper success cannot prove a completion transition's Issue API check.
 
-Any failure remains visible and blocks the affected acceptance item. Do not execute experiments, create downstream result Evidence or claim platform completion during this task.
+Human Owner approval remains required for any main merge, including a documentation-only merge. Verify actual post-main checks after, not before, an authorized merge. No downstream POC or later-Wave task is authorized by this repair. Do not add a temporary workflow or a new lifecycle mechanism to conceal missing execution capability.

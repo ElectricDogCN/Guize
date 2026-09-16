@@ -1,67 +1,55 @@
-# GZ-010 Completion Rollback Verification
+# GZ-010 Nonterminal Review Repair — Recovery Boundary
 
 Task: GZ-010
-Completion PR: #63
-Base: `3a11c5f639717993f51a26c5b5970701570fe367`
-Object-restoration result: PASS for exact candidate `b1ca9864759c325f12addf2b06b0ab22a81f9d9c`
-Local worktree rehearsal: NOT_EXECUTED; pending acceptance item retained
+PR: #63
+Result: NEEDS_REVIEW
+Target: `3a11c5f639717993f51a26c5b5970701570fe367`
+Worktree rehearsal: NOT_EXECUTED in the current local environment
 
-## Executed isolated Git-object restoration
+## Withdraw the unsafe terminal proposal, not a completed main task
 
-Using the authorized GitHub Git Data API, a tree was constructed on candidate root `0313cb874843a839519435cea81a1a6773892afb`. Only these exact entries from the target base were restored:
+The candidate keeps GZ-010 at review and uses the target's identical Program, Active Work and Completion Ledger objects. It does not append a completion record or remove a lease. Only Task/Evidence differ from main. This removes the proposed irreversible completion transition from this PR; it does not repair or bypass the general completed-task recovery limitation.
 
-- `specs/coordination/program-plan.yaml`, mode `100644`, blob `27edc2750e1567b6764581e43d0d49de8de54970`.
-- `specs/coordination/active-work.yaml`, mode `100644`, blob `2e9859fc504800f64ad6284933cb0b59ae411f39`.
-- `specs/coordination/task-completions.yaml`, mode `100644`, blob `0607130b53d58c5bbb177725b991dae2dac45115`.
-- `specs/tasks/GZ-010.md`, mode `100644`, blob `a523bfeb7e2579c5f4df1cceb590da7a7d6219a2`.
-- `evidence/GZ-010`, mode `040000`, tree `c4c2b070d728826ee2036d62de4ea5ae45484e23`.
-
-Observed API result:
-
-```text
-returned_tree=5725e4f352fa420dbac260247947dca5cf482c4f
-expected_base_tree=5725e4f352fa420dbac260247947dca5cf482c4f
-equality=PASS
-```
-
-These object identities were read from the real candidate commit and the complete target tree. The operation returned the exact full target root, demonstrating content restoration and preservation of all unrelated implementation content. No restoration commit was created and no branch/ref moved. This does not claim execution of shell commands, worktree creation/cleanup, a production recovery, or permission to erase completion history after merge.
+The prior Git Data equality result on b1ca is retained in Git at `035e786022f7995724e0c3b99a86a9356c51e1cf`. It proved byte restoration only. Applying that old tree after a completion merge would remove an immutable record and regress completed; it is not an approved or validated recovery procedure. Do not run that old completion-revert instruction on main.
 
 ## Before merge
 
-Closing PR #63 leaves main unchanged: GZ-010 remains review, its existing lease remains, and its completion record has not been added. The merged POC planning implementation stays intact. The old Reservation rollback that assumed no implementation exists is not applicable.
+Abandoning or closing this PR leaves main unchanged in review with its original lease. No revert, reset, Issue-state change or ledger write is needed. No such close action is claimed here.
 
-## Local worktree rehearsal still to execute
+## Isolated rehearsal for this nonterminal documentation proposal
 
-The existing script remains a pending Task Spec acceptance item. The separate object-equality check above is additional evidence, not a fabricated PASS for this shell script. The general Codex execution request did not start because a repository environment is missing; see response `5694080113` on PR #63.
-
-Run on the clean final candidate. It only changes a newly created detached temporary worktree, does not push or reset any branch, and verifies the exact restored tree:
+This script is restricted to the unchanged target and a clean exact candidate. It refuses any coordination or implementation difference, restores only Task/Evidence in a newly created detached worktree, and compares the entire tree to the target. It does not push, move a branch or remove completion records. The clone attempt failed before checkout, so this shell execution is NOT claimed.
 
 ```bash
 set -euo pipefail
 BASE=3a11c5f639717993f51a26c5b5970701570fe367
 CANDIDATE=$(git rev-parse HEAD)
+test -z "$(git status --porcelain)"
 git merge-base --is-ancestor "$BASE" "$CANDIDATE"
-git diff --exit-code "$BASE" "$CANDIDATE" -- specs/poc poc/README.md .github/workflows
+git diff --exit-code "$BASE" "$CANDIDATE" -- \
+  specs/coordination specs/poc poc/README.md .github scripts tests
 TMP=$(mktemp -d)
 rmdir "$TMP"
 git worktree add --detach "$TMP" "$CANDIDATE"
 trap 'git worktree remove --force "$TMP"' EXIT
 git -C "$TMP" restore --source="$BASE" --staged --worktree -- \
-  specs/coordination/program-plan.yaml \
-  specs/coordination/active-work.yaml \
-  specs/coordination/task-completions.yaml \
-  specs/tasks/GZ-010.md \
-  evidence/GZ-010
+  specs/tasks/GZ-010.md evidence/GZ-010
 RESTORED=$(git -C "$TMP" write-tree)
 EXPECTED=$(git rev-parse "$BASE^{tree}")
 test "$RESTORED" = "$EXPECTED"
-printf 'completion_restoration=PASS candidate=%s restored_tree=%s\n' "$CANDIDATE" "$RESTORED"
+git -C "$TMP" diff --cached --exit-code "$CANDIDATE" -- specs/coordination
+printf 'review_document_restoration=PASS candidate=%s restored_tree=%s\n' \
+  "$CANDIDATE" "$RESTORED"
 ```
 
-Record actual stdout, exit and tested SHA after execution. Do not change the pending status based on a different operation.
+A tree match alone is not a full governance rehearsal. For a complete rehearsal, create an explicitly simulation-only local commit in the detached worktree and run the Task Spec validation against the candidate base, recording real output and exit codes. Never push that simulation commit or present it as a main merge. Pending completion acceptance is not fulfilled by this nonterminal test.
 
-## After an authorized merge
+## After a documentation-only merge
 
-If post-main validation fails, freeze downstream activation. Identify the actual two-parent PR #63 merge and retain it and its parents. Prepare a separate reviewed correction/revert on a recovery branch; a mechanical preview can use `git revert --no-commit -m 1 "$COMPLETION_MERGE"` only after resolving the real merge SHA. No future merge SHA is fabricated here.
+Only after a real authorized PR #63 documentation merge exists, resolve its actual two parents and verify that its coordination files equal the first parent. On a separate local recovery branch, preview reverting only that documentation merge (`git revert --no-commit -m 1 "$DOCUMENTATION_MERGE"`). Check that the resulting diff contains only Task/Evidence and all coordination files remain unchanged, then use the existing independent review and validation process before any recovery merge.
 
-Run current lifecycle, ledger, scope and full verification on the proposed recovery. If append-only completion rules reject reopening/removal, do not force a revert or waive the guard: preserve records and obtain the Human Owner's approved forward-correction decision. No direct main update, production migration, history deletion or automatic rollback is authorized by this document.
+This recipe must stop if main has moved into a later lifecycle state, a lease has expired, a conflict exists, or other tasks/coordination metadata would change. It is not an automatic production rollback. No future merge hash or successful execution is invented.
+
+## Future completion remains blocked
+
+Before GZ-010 may become completed, a concrete forward recovery that preserves immutable completion records and prevents improper downstream execution must be documented and actually tested against existing guards. That result does not exist in this checkpoint. No new status, policy exception, workflow or controller is introduced here; the safe current disposition is review, not a claimed reversible completion.

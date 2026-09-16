@@ -1,37 +1,29 @@
-# GZ-010 Completion Candidate Summary
+# GZ-010 Review Checkpoint — Completion Proposal Withdrawn
 
 Task: GZ-010
 Issue: #15
-Completion PR: #63
-Result: PASS (identified implementation and CI observations only)
-Completion disposition: NEEDS_REVIEW; standalone execution prerequisites remain incomplete
+PR: #63
+Result: NEEDS_REVIEW
+Program status: review
 
-## Delivered baseline and exact history
+## Current disposition
 
-GZ-010 delivers POC-PROTOCOL-V1: ten immutable POC plans, sample/resource catalogues, schemas/templates, a planning validator, regression tests and operator documentation. It does not execute the experiments or certify future POC results.
+The unmerged completion proposal is withdrawn in a normal successor of `035e786022f7995724e0c3b99a86a9356c51e1cf`. No main commit is reverted and no published completion record is deleted. Program, Active Work and Completion Ledger are restored byte-for-byte to target `3a11c5f639717993f51a26c5b5970701570fe367`. The candidate retains GZ-010's existing review lease and has no GZ-010 completion record.
 
-- Reservation: PR #45 / `74ab9d53f29834fda37dcbd726fd58f997f8f21a`.
-- Implementation source: `397bd6d45235b38e9afe59bc8f7b28ede5c8e4f6`.
-- Implementation merge: PR #48 / `2b2d076b68171edd74639e307f8a126cc882186d`.
-- Review-state merge and completion target: PR #62 / `3a11c5f639717993f51a26c5b5970701570fe367`.
-- Original completion metadata: `fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7`.
-- Latest tested documentation source: `b1ca9864759c325f12addf2b06b0ab22a81f9d9c`.
-- Work branch: `chore/GZ-010-poc-program-baseline`.
+The cumulative PR now proposes only the Task Spec and nine existing Evidence files. It neither completes GZ-010 nor unblocks dependent POC tasks. Implemented POC-PROTOCOL-V1 bytes from PR #48 / `2b2d076b68171edd74639e307f8a126cc882186d` remain untouched. All ten experiments remain planned/not_started.
 
-This Evidence-only successor records those actual observations. Its own SHA must be read from PR #63 and identified by the next review; it is not invented inside its own contents. The thirteen-file cumulative inventory remains in `changed-files.md`. This successor does not change the Task Spec, Program, Active Work, Ledger or implementation.
+## Reason and retained evidence
 
-## Verified results
+Independent review comments `4023946213` and `4023946218` found missing completion executions and no rehearsed recovery compatible with the immutable ledger. A green Gate does not remove those blockers. The response is to retain a nonterminal state, not to change tests, gates, policy, Issue state or downstream tasks.
 
-Historical implementation run `35053181259`, job `104657763581`, recorded planning-checker success and 86/86 regression tests. These are software tests, not experimental outcomes.
+Historical implementation run `35053181259` recorded 86 planning-software tests. Gate #570 on source `b1ca9864759c325f12addf2b06b0ab22a81f9d9c` passed 267 governance tests, zero skips; its wrapper ran inside pytest. Gate #571 on the withdrawn source `035e786022f7995724e0c3b99a86a9356c51e1cf` succeeded but its independent review did not approve completion. Full prior transcripts and object-restoration inputs remain in Git at that source; no history is rewritten.
 
-The first completion candidate passed Gate #568. Documentation correction `ec0b9d77b6d8d9a2435e3c6aebb42c3ac591086a` then failed Gate #569 because four mandatory Task sections lost their bullet lists. Commit `b1ca9864759c325f12addf2b06b0ab22a81f9d9c` restored the lists without changing any gate. Gate #570 / run `35071047333`, job `104712373022`, passed every stage and 267/267 governance tests in 24.88 seconds with zero skips. Its checkout was synthetic merge `c5744833dd9d76167e1c918ccd912fd0f06bb552` against the exact target above.
+## Execution boundary
 
-A further log/source audit corrects the previous blanket statement about the completion wrapper: `test_current_repository_passes` actually executed `run-program-lifecycle-gate.py` as a subprocess on that checkout and asserted exit 0. It passed at `2026-09-16T07:56:18.4985546Z`. The test used real repository/Issue state, not an API mock. Successful child output was captured, not printed. This is distinct from separately running the Task Spec's explicit task/branch command; `commands.txt` records both scopes accurately.
+The earlier general Codex task never started because response `5694080113` required a repository environment. A subsequent local Git clone attempt returned exit 128: `Could not resolve host: github.com`. That environment did not obtain a checkout and therefore did not execute the wrapper, make verify or worktree rehearsal.
 
-An isolated Git Data tree construction also restored only the completion paths from candidate tree `0313cb874843a839519435cea81a1a6773892afb`. The returned root `5725e4f352fa420dbac260247947dca5cf482c4f` exactly matched the target-base tree. No ref or main update occurred. This is content-restoration evidence, not a claim that the local worktree shell rehearsal ran.
+Review reproduction request `5694867271` targets the withdrawn source exactly. Its actual results must be read before use and cannot validate this successor automatically. Current candidate Gate/review results are likewise not anticipated by this file. The Task Spec retains all pending completion acceptance items.
 
-## Remaining boundary
+## Resume
 
-Issue #15 is already closed/completed. A bounded general Codex execution request received the explicit missing-repository-environment response, comment `5694080113`, and did not start. The separately named wrapper command, local worktree rehearsal and named `make verify` have no new standalone execution record; their pending Task acceptance items are not marked complete. No extra workflow, environment, controller or gate waiver is introduced to hide this.
-
-Keep PR #63 Draft until remaining required evidence and independent review are complete, followed by Human Owner merge approval. Main still represents GZ-010 as review until a real completion merge occurs. All ten plans/results-index rows remain nonterminal. No actual POC Evidence, business code, workflow, permission, Secret, safety limit or production state is changed.
+Read PR #63's actual HEAD; verify the ten-file diff, three unchanged coordination blobs, retained lease and unchanged implementation. Review this nonterminal repair. Resume missing full-checkout executions only in an available authorized environment. Do not restore completed or remove the lease without the required results, independent review and Human Owner integration approval. No main merge or post-main success is claimed.
