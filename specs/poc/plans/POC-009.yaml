@@ -1,0 +1,246 @@
+schemaVersion: 1
+pocId: POC-09
+taskId: POC-009
+title: AI 质量、检索效果、成本、隐私、许可证与吞吐
+status: planned
+resultStatus: not_started
+riskLevel: high
+wave: W9
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0004
+- REQ-V1-0005
+- REQ-V1-0008
+moduleIds:
+- MOD-AI
+- MOD-SEARCH
+- MOD-IAM
+evidencePath: evidence/POC-009
+resourceIds:
+- RES-AI-BENCH
+sampleIds:
+- SAMPLE-AI-DEID
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  - model_identity
+  - model_version
+  - prompt_template_version
+  - inference_parameters
+  - input_sample_version
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: quality_score
+    metric: AI task quality score
+    unit: score
+    method: Run the approved fixed de-identified benchmark with complete model, Prompt, parameter and sample provenance.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: fixed_query_set_bound
+    metric: Retrieval evaluation is bound to the approved fixed query/sample set
+    unit: boolean
+    method: Record the immutable query-set and corpus/sample identifiers and require every relevance and latency result to reference them.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: retrieval_recall
+    metric: Retrieval Recall on the approved fixed query set
+    unit: ratio
+    method: Compute Recall against independently labelled relevant results for the immutable query/corpus fixture.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: retrieval_mrr
+    metric: Retrieval mean reciprocal rank
+    unit: ratio
+    method: Compute MRR from the same immutable query/corpus fixture and relevance judgements.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: retrieval_ndcg
+    metric: Retrieval normalized discounted cumulative gain
+    unit: ratio
+    method: Compute NDCG from graded relevance judgements on the approved fixed query set.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: query_latency
+    metric: End-to-end retrieval query latency
+    unit: ms
+    method: Measure query latency under the approved local/provider profile with warmup, sample count and percentile method recorded.
+    thresholdSource: NFR-V1-PERF-003
+    actual: null
+  - id: throughput
+    metric: Inference throughput
+    unit: items/s
+    method: Measure approved local/provider profiles with complete model/runtime/provenance capture.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: cost_estimate
+    metric: External provider cost estimate
+    unit: currency_per_1000_items
+    method: Calculate only from approved provider pricing and measured token/item usage under the tested quota configuration.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: license_privacy_pass
+    metric: License/privacy policy compatibility
+    unit: boolean
+    method: Review license terms and data handling constraints before external invocation.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: caller_permission_gate
+    metric: Caller permission gate rejects unauthorized commercial-provider invocation
+    unit: boolean
+    method: Exercise authorized and unauthorized caller identities and verify fail-closed provider dispatch before any external request.
+    thresholdSource: NFR_SECURITY_GATE
+    actual: null
+  - id: asset_acl_gate
+    metric: Current asset ACL gate rejects provider invocation without current access
+    unit: boolean
+    method: Change/revoke asset access in the sandbox and verify the current ACL is re-evaluated before external dispatch.
+    thresholdSource: NFR_SECURITY_GATE
+    actual: null
+  - id: hard_budget_gate
+    metric: Hard budget quota blocks over-budget invocation
+    unit: boolean
+    method: Configure a sandbox budget ceiling and verify requests exceeding the remaining budget fail closed without provider execution.
+    thresholdSource: NFR_BUDGET_GATE
+    actual: null
+  - id: request_quota_gate
+    metric: Hard request-rate quota blocks excess requests
+    unit: boolean
+    method: Exceed the configured request quota and verify deterministic rejection/backoff without bypass.
+    thresholdSource: NFR_BUDGET_GATE
+    actual: null
+  - id: concurrency_quota_gate
+    metric: Hard concurrency quota blocks excess concurrent provider calls
+    unit: boolean
+    method: Exceed the configured concurrent-call ceiling and verify fail-closed admission control.
+    thresholdSource: NFR_BUDGET_GATE
+    actual: null
+  - id: provider_budget_limit
+    metric: Tested external-provider budget ceiling
+    unit: currency
+    method: Record the approved numeric budget ceiling and period used by the hard-budget gate.
+    thresholdSource: NFR-V1-CAP-004
+    actual: null
+  - id: provider_request_rate_limit
+    metric: Tested external-provider request-rate ceiling
+    unit: requests_per_minute
+    method: Record the approved numeric request-rate ceiling exercised by the quota gate.
+    thresholdSource: NFR-V1-CAP-004
+    actual: null
+  - id: provider_concurrency_limit
+    metric: Tested external-provider concurrency ceiling
+    unit: requests
+    method: Record the approved numeric concurrent-call ceiling exercised by admission control.
+    thresholdSource: NFR-V1-CAP-004
+    actual: null
+  - id: asr_wer
+    metric: Automatic speech recognition word error rate
+    unit: ratio
+    method: Compute WER on the approved de-identified speech strata.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: asr_cer
+    metric: Automatic speech recognition character error rate
+    unit: ratio
+    method: Compute CER on the approved language/media-quality strata.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: speaker_der
+    metric: Speaker diarization error rate
+    unit: ratio
+    method: Compute DER on the approved multi-speaker fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: translation_comet
+    metric: Translation COMET score
+    unit: score
+    method: Compute COMET on the approved language-pair fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: translation_bleu
+    metric: Translation BLEU score
+    unit: score
+    method: Compute BLEU on the same immutable translation fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: ocr_accuracy
+    metric: OCR field/text accuracy
+    unit: ratio
+    method: Measure OCR accuracy across approved image-quality and document-layout strata.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: factual_consistency
+    metric: Generated summary or description factual consistency
+    unit: ratio
+    method: Score factual consistency against approved references with reviewer protocol recorded.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: tag_f1
+    metric: Automatic tag F1
+    unit: ratio
+    method: Compute F1 against the approved multilabel tag fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: thumbnail_human_selection_rate
+    metric: Thumbnail human-selection rate
+    unit: ratio
+    method: Measure independent reviewer selection of generated thumbnails on the approved fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: multimodal_correction_accuracy
+    metric: Multimodal correction accuracy
+    unit: ratio
+    method: Measure accepted corrections against the approved multimodal error fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: quality_strata_coverage
+    metric: Required language, media-quality, duration and scenario strata are covered
+    unit: boolean
+    method: Prove every frozen evaluation stratum has the required sample count and metric results.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  exitCriteria:
+  - AI task quality, throughput, cost, privacy and license evidence is captured with model, Prompt, parameter and immutable-input provenance.
+  - Retrieval Recall, MRR, NDCG and end-to-end query latency are measured against one approved fixed query/corpus fixture.
+  - External provider usage is gated by approved privacy/data policy, caller permission and the current asset ACL before dispatch.
+  - Hard budget, request-rate and concurrency quotas reject excess external-provider use without executing a provider request.
+  - No commercial-provider credential or sensitive payload is committed to Git/Evidence.
+  - The tested numeric budget, request-rate and concurrency ceilings are recorded and the corresponding fail-closed gates are exercised against
+    those values.
+  - WER, CER, DER, COMET, BLEU, OCR accuracy, factual consistency, tag F1, thumbnail human selection and multimodal correction are recorded for
+    all required language, quality, duration and scenario strata.
+  failureFallbacks:
+  - Prefer local/private inference or disable a capability when privacy/license/cost/access-control/quota constraints are not acceptable.
+  - If retrieval relevance or query latency is insufficient, document the corpus/index/query changes required before product implementation.
+  - If a fail-closed permission/ACL/budget/quota gate cannot be demonstrated, external provider use remains disabled.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Revoke temporary runtime credentials outside the repository and clear transient provider-side test artifacts where supported.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: de-identified
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: true
+  licenseReviewRequired: true
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

@@ -1,0 +1,131 @@
+schemaVersion: 1
+pocId: POC-06
+taskId: POC-006
+title: 百度云合法、稳定、可维护的生产接入路径
+status: planned
+resultStatus: not_started
+riskLevel: medium
+wave: W3
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0001
+moduleIds:
+- MOD-SOURCE
+- MOD-CONNECTOR
+evidencePath: evidence/POC-006
+resourceIds:
+- RES-BAIDU-SANDBOX
+sampleIds:
+- SAMPLE-CLOUD-NONSENSITIVE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  - provider_api_or_sdk_version
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: auth_flow_supported
+    metric: Supported authentication flow
+    unit: boolean
+    method: Validate documented/legal integration flow with sandbox credentials stored outside repository.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: listing_stability
+    metric: Listing/API stability
+    unit: boolean
+    method: Repeat bounded metadata operations and capture response/error characteristics.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: maintainability
+    metric: Integration maintainability assessment
+    unit: ordinal
+    method: Record documented API/SDK/versioning/support constraints.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: privacy_review_approved
+    metric: Privacy review approved for tested API/SDK version
+    unit: boolean
+    method: Bind an approved privacy review record to the exact provider API/SDK version captured for execution.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: license_review_approved
+    metric: License review approved for tested API/SDK version
+    unit: boolean
+    method: Bind an approved license review record to the exact provider API/SDK version captured for execution.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: rate_limit_429_classified_retried
+    metric: Provider 429 responses are classified and retried safely
+    unit: boolean
+    method: Inject or receive a sandbox 429, honor retry guidance/backoff and prove no duplicate logical object is created.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: upstream_5xx_classified_retried
+    metric: Provider 5xx responses are classified and retried safely
+    unit: boolean
+    method: Exercise bounded 5xx failures and recovery, retaining checkpoint/idempotency evidence.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: network_failure_classified_retried
+    metric: Network failures are classified and recovered safely
+    unit: boolean
+    method: Interrupt the sandbox network path and verify bounded retry or explicit failure without corrupting sync state.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: interrupted_sync_resume_or_idempotent_rerun
+    metric: Interrupted synchronization resumes from a safe checkpoint or reruns idempotently
+    unit: boolean
+    method: Interrupt synchronization after partial progress and verify checkpoint resume or full idempotent rerun produces the same logical state.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: duplicate_objects_prevented
+    metric: Failure and retry paths do not create duplicate logical objects
+    unit: boolean
+    method: Compare stable source/object identities before and after each retry/recovery scenario.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: source_deletion_preserves_logical_asset
+    metric: Source deletion does not delete the logical asset
+    unit: boolean
+    method: Delete or hide the source object in the sandbox and verify the logical asset remains with governed source-unavailable state.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  exitCriteria:
+  - A legal documented integration path is identified or explicitly rejected with evidence.
+  - No scraping/bypass or credential embedding is required.
+  - Privacy and license reviews are approved for the exact API/SDK version actually tested.
+  - 429, 5xx and network failures are classified and recover through bounded retry without duplicate logical objects.
+  - Interrupted synchronization resumes from a safe checkpoint or reruns idempotently.
+  - Source deletion preserves the logical asset and records governed source-unavailable state.
+  failureFallbacks:
+  - If no supportable API exists, treat Baidu connector as blocked/optional and document manual/export alternative.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: true
+  licenseReviewRequired: true
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

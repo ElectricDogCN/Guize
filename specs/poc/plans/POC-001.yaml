@@ -1,0 +1,135 @@
+schemaVersion: 1
+pocId: POC-01
+taskId: POC-001
+title: Arc A380 + ESXi 6.7 PCI Passthrough
+status: planned
+resultStatus: not_started
+riskLevel: high
+wave: W6
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0003
+moduleIds:
+- MOD-MEDIA
+- MOD-DEPLOY
+evidencePath: evidence/POC-001
+resourceIds:
+- RES-A380-ESXI67
+sampleIds:
+- SAMPLE-MEDIA-CLEAR
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: gpu_passthrough_visible
+    metric: GPU passthrough visible to guest
+    unit: boolean
+    method: Capture guest PCI/GPU enumeration before and after passthrough.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: driver_runtime_ready
+    metric: Intel media driver/runtime initializes
+    unit: boolean
+    method: Capture driver/runtime initialization result without running production workload.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: vm_reboot_recovery
+    metric: GPU passthrough survives guest reboot
+    unit: boolean
+    method: Reboot the guest VM, then re-enumerate the A380 and initialize the media runtime with identical captured versions.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: esxi_host_reboot_reenumeration
+    metric: GPU passthrough survives ESXi host reboot and device re-enumeration
+    unit: boolean
+    method: Reboot the approved ESXi sandbox host, verify the A380 is re-enumerated and reassigned, then start the guest and initialize the media
+      runtime without rebuilding the host.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: device_reset_recovery
+    metric: GPU passthrough survives supported device reset/rebind cycle
+    unit: boolean
+    method: Perform the approved reset or detach/reattach recovery cycle in the sandbox, then verify guest enumeration and runtime initialization.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: bios_iommu_configuration_verified
+    metric: Inspur 5212 BIOS and IOMMU configuration matches the approved passthrough baseline
+    unit: boolean
+    method: Capture BIOS virtualization/IOMMU settings and host boot/runtime evidence before assigning the A380.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: iommu_group_isolation_verified
+    metric: A380 IOMMU group isolation is suitable for passthrough
+    unit: boolean
+    method: Record the complete IOMMU group and prove no unrelated required host device must be passed through with the GPU.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: above_4g_enabled
+    metric: Above 4G decoding is enabled and effective
+    unit: boolean
+    method: Capture the firmware setting and host resource allocation showing the passthrough device receives the required address space.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: resizable_bar_enabled
+    metric: Resizable BAR configuration is captured and compatible with the tested path
+    unit: boolean
+    method: Capture the firmware/device setting and verify the selected configuration does not prevent guest enumeration or runtime initialization.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: multi_day_stability_duration
+    metric: Observed continuous passthrough soak duration
+    unit: hours
+    method: Record continuous sandbox execution time from raw timestamps across the approved multi-day workload.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: multi_day_stability
+    metric: A380 passthrough remains stable through the approved multi-day soak
+    unit: boolean
+    method: Require no unrecovered GPU loss, host/guest crash, driver reset loop, corrupt output, or manual passthrough rebuild during the recorded
+      soak duration.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  exitCriteria:
+  - Guest can enumerate A380 through supported passthrough path.
+  - Driver/runtime initialization succeeds with reproducible version capture.
+  - Guest reboot completes and the A380 is re-enumerated with the media runtime operational.
+  - ESXi host reboot completes and the A380 is re-enumerated, reassigned and usable by the guest without host rebuild.
+  - Approved device reset/rebind recovery completes and the A380 returns to an operational state without host rebuild.
+  - Inspur 5212 BIOS virtualization/IOMMU, Above 4G and Resizable BAR settings are captured and match the tested passthrough baseline.
+  - The A380 IOMMU group is isolated sufficiently for the approved passthrough design.
+  - The observed multi-day soak duration is recorded and completes without unrecovered passthrough, host, guest, driver or media-runtime failure.
+  failureFallbacks:
+  - If ESXi 6.7 passthrough or reboot/reset recovery is unsupported, document the blocker and evaluate a supported hypervisor/bare-metal worker
+    path.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

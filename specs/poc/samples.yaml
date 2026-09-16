@@ -1,0 +1,76 @@
+schemaVersion: 1
+samples:
+- id: SAMPLE-MEDIA-CLEAR
+  description: Approved clear-content media corpus for passthrough/encoding tests.
+  source: controlled-testdata
+  classification: non-sensitive
+  approvalState: pending_before_execution
+  immutableId: TBD_BEFORE_EXECUTION
+  checksum: TBD_BEFORE_EXECUTION
+  allowedPocs:
+  - POC-01
+  - POC-02
+- id: SAMPLE-RANGE-LARGEFILE
+  description: Deterministic non-sensitive large-file fixture for Range/CDN tests.
+  source: synthetic
+  classification: non-sensitive
+  approvalState: pending_before_execution
+  immutableId: TBD_BEFORE_EXECUTION
+  checksum: TBD_BEFORE_EXECUTION
+  allowedPocs:
+  - POC-03
+  - POC-07
+- id: SAMPLE-STORAGE-FIXTURE
+  description: Synthetic storage tree for TrueNAS tests.
+  source: synthetic
+  classification: non-sensitive
+  approvalState: pending_before_execution
+  immutableId: TBD_BEFORE_EXECUTION
+  checksum: TBD_BEFORE_EXECUTION
+  allowedPocs:
+  - POC-04
+- id: SAMPLE-METADATA-SYNTHETIC
+  description: Synthetic directory/file metadata corpus; no production payload required.
+  source: synthetic
+  classification: non-sensitive
+  approvalState: pending_before_execution
+  immutableId: TBD_BEFORE_EXECUTION
+  checksum: TBD_BEFORE_EXECUTION
+  allowedPocs:
+  - POC-05
+- id: SAMPLE-CLOUD-NONSENSITIVE
+  description: Non-sensitive sandbox object set for supported cloud API evaluation.
+  source: sandbox
+  classification: non-sensitive
+  approvalState: pending_before_execution
+  immutableId: TBD_BEFORE_EXECUTION
+  checksum: TBD_BEFORE_EXECUTION
+  allowedPocs:
+  - POC-06
+- id: SAMPLE-FRONTEND-SCENARIOS
+  description: Fixed admin UI scenario descriptions and synthetic fixtures.
+  source: spec-derived
+  classification: non-sensitive
+  approvalState: pending_before_execution
+  immutableId: TBD_BEFORE_EXECUTION
+  checksum: TBD_BEFORE_EXECUTION
+  allowedPocs:
+  - POC-08
+- id: SAMPLE-AI-DEID
+  description: De-identified/synthetic multimodal benchmark corpus.
+  source: controlled-testdata
+  classification: de-identified
+  approvalState: pending_before_execution
+  immutableId: TBD_BEFORE_EXECUTION
+  checksum: TBD_BEFORE_EXECUTION
+  allowedPocs:
+  - POC-09
+- id: SAMPLE-RECOVERY-FIXTURE
+  description: Synthetic database/file/config fixture for recovery verification.
+  source: synthetic
+  classification: non-sensitive
+  approvalState: pending_before_execution
+  immutableId: TBD_BEFORE_EXECUTION
+  checksum: TBD_BEFORE_EXECUTION
+  allowedPocs:
+  - POC-10

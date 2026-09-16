@@ -1,0 +1,140 @@
+schemaVersion: 1
+pocId: POC-08
+taskId: POC-008
+title: Vue 3 与 React 管理端场景对比
+status: planned
+resultStatus: not_started
+riskLevel: medium
+wave: W4
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0009
+moduleIds:
+- MOD-CONFIG
+- MOD-PLATFORM
+evidencePath: evidence/POC-008
+resourceIds:
+- RES-FRONTEND-COMPARE
+sampleIds:
+- SAMPLE-FRONTEND-SCENARIOS
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: prototype_coverage
+    metric: Scenario prototype coverage
+    unit: percent
+    method: Implement equivalent approved admin scenarios in both candidates.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: bundle_baseline
+    metric: Baseline bundle size
+    unit: KiB
+    method: Build controlled minimal prototypes with locked versions.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: maintainability_score
+    metric: Maintainability assessment
+    unit: ordinal
+    method: Score ecosystem/team fit, component reuse and long-term maintenance using fixed rubric.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: million_row_virtual_list_equivalent
+    metric: Million-row virtual-list scenario is equivalent in Vue and React
+    unit: boolean
+    method: Implement and compare the same million-row virtualization fixture, interactions and measurements.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: dynamic_form_equivalent
+    metric: Dynamic-form scenario is equivalent in Vue and React
+    unit: boolean
+    method: Implement the same conditional fields, validation and schema-driven updates.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: flowchart_equivalent
+    metric: Flowchart scenario is equivalent in Vue and React
+    unit: boolean
+    method: Implement the same nodes, edges, editing and state synchronization fixture.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: decision_table_equivalent
+    metric: Decision-table scenario is equivalent in Vue and React
+    unit: boolean
+    method: Implement the same editable rule-table fixture and validation behavior.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: monitoring_view_equivalent
+    metric: Monitoring scenario is equivalent in Vue and React
+    unit: boolean
+    method: Render the same metrics, filters, refresh and failure states.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: sse_websocket_equivalent
+    metric: SSE/WebSocket scenario is equivalent in Vue and React
+    unit: boolean
+    method: Exercise the same streaming updates, reconnect and error behavior.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: player_integration_equivalent
+    metric: Player integration scenario is equivalent in Vue and React
+    unit: boolean
+    method: Embed the same player/Web Component contract and event handling.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: mobile_experience_equivalent
+    metric: Mobile/responsive scenario is equivalent in Vue and React
+    unit: boolean
+    method: Exercise the same responsive breakpoints and touch interactions.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: permission_model_equivalent
+    metric: Permission-aware UI scenario is equivalent in Vue and React
+    unit: boolean
+    method: Exercise the same route, field and action visibility matrix without treating UI hiding as authorization.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  - id: design_token_equivalent
+    metric: Design-token scenario is equivalent in Vue and React
+    unit: boolean
+    method: Apply the same theme/token set and verify consistent component styling and switching.
+    thresholdSource: FRONTEND_POC_MATRIX
+    actual: null
+  exitCriteria:
+  - Both candidates are compared against identical scenarios/rubric.
+  - Recommendation remains a POC decision and does not rewrite frozen requirements.
+  - 'Vue and React are compared on the same frozen ten-scenario matrix: million-row virtualization, dynamic forms, flowchart, decision table,
+    monitoring, SSE/WebSocket, player, mobile, permissions and design tokens.'
+  failureFallbacks:
+  - If evidence is inconclusive, retain current frontend baseline until later implementation evidence resolves the choice.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null
