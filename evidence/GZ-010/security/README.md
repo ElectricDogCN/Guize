@@ -2,12 +2,14 @@
 
 Task: GZ-010
 Completion PR: #63
-Validated metadata candidate: `fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7`
+Latest tested source: `b1ca9864759c325f12addf2b06b0ab22a81f9d9c`
 
-The current operation is metadata/Evidence completion, not Reservation v2. It removes the GZ-010 lease and changes no permissions, Secret references or values, safety limits, production state, deployment, workflow or POC implementation.
+This is metadata/Evidence completion, not a new Reservation. It changes no permissions, Secret values/references, safety limits, production state, deployment, workflow or POC implementation. Only the GZ-010 lease is removed in the proposed target state.
 
-Governance Gate #568 / run `35068143321`, job `104703074033`, reported no high-risk secret matches on the validated candidate. That is a historical result and must be followed by the scan on the final documentation-corrected HEAD.
+Gate #570 / run `35071047333`, job `104712373022`, reported no high-risk secret matches. This Evidence-only successor needs its own Gate; prior success does not pre-validate a future commit.
 
-Issue #15 was re-read as closed/completed. Live completion-wrapper execution remains a separate requirement; its API endpoint must not be replaced by a mock, and any supplied read-only GITHUB_TOKEN must not be printed or committed.
+The real completion wrapper ran as a subprocess of `test_current_repository_passes` in Gate #570, using the genuine repository and Issue API. No raw child-output transcript is claimed because the test captures it on success. Its separately named manual invocation remains unexecuted. Issue #15 is already closed/completed.
 
-No provider credential, private sample or `evidence/POC-*` experiment output is added. Main branch protection remains an external release concern; this PR neither changes nor claims that setting. Missing final scan/review results are not represented as PASS.
+The isolated Git Data restoration test constructed an object only; no commit, ref, environment, Secret, policy or main change was made by it. It is not production rollback or the local worktree rehearsal.
+
+General Codex execution request `5694077690` was rejected before startup with missing-environment reply `5694080113`. No new environment was provisioned and no credential was requested, printed or committed. Missing execution evidence is not replaced by a mock, relaxed gate or temporary workflow. Main branch protection remains an external release concern; this PR neither changes nor claims that setting.

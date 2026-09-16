@@ -3,37 +3,32 @@
 Task: GZ-010
 Issue: #15
 Completion PR: #63
-Result: PASS (historical Gate #568 only; not final merge approval)
-Current disposition: NEEDS_REVIEW
+Result: PASS (identified prior CI and object-restoration observations only)
+Current disposition: NEEDS_REVIEW; standalone execution environment blocked
 
 ## Identity and candidate binding
 
-- Branch: `chore/GZ-010-poc-program-baseline`.
-- Target branch: `main`.
+- Branch: `chore/GZ-010-poc-program-baseline`; target: `main`.
 - Exact target base: `3a11c5f639717993f51a26c5b5970701570fe367`.
-- Validated completion content commit: `fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7`.
-- Current candidate ref: PR #63 HEAD; obtain the exact SHA with `git rev-parse HEAD` and record it in the independent review.
-- This Handoff is an Evidence/Task-documentation follow-up, not a self-reference to its own future commit. The validated content commit must remain an ancestor; subsequent changes may affect only `specs/tasks/GZ-010.md` body and `evidence/GZ-010/**`.
-- Reservation commit: `74ab9d53f29834fda37dcbd726fd58f997f8f21a` (PR #45).
+- Original completion content: `fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7`.
+- Latest tested source: `b1ca9864759c325f12addf2b06b0ab22a81f9d9c`.
+- Gate #570 tested merge: `c5744833dd9d76167e1c918ccd912fd0f06bb552`.
+- Current candidate: PR #63 HEAD, an Evidence-only successor to that tested source. Read and record the actual SHA before further execution/review; this file does not claim its enclosing future commit hash.
+- Reservation: PR #45 / `74ab9d53f29834fda37dcbd726fd58f997f8f21a`.
 - Implementation source: `397bd6d45235b38e9afe59bc8f7b28ede5c8e4f6`.
-- Implementation merge: `2b2d076b68171edd74639e307f8a126cc882186d` (PR #48).
-- Review merge: `3a11c5f639717993f51a26c5b5970701570fe367` (PR #62).
+- Implementation merge: PR #48 / `2b2d076b68171edd74639e307f8a126cc882186d`.
+- Review-state merge: PR #62 / `3a11c5f639717993f51a26c5b5970701570fe367`.
 - Work package / Wave / integration order: `WP-M0-04` / `W1` / `2`.
-- Risk: medium, unchanged.
-- Produced contract: `POC-PROTOCOL-V1`; consumed contracts: NONE.
+- Risk: medium; produced contract: `POC-PROTOCOL-V1`; consumed contracts: NONE.
 - Shared paths: NONE; integration strategy: normal merge commit.
 
 ## Roles and authority
 
-Declared roles remain those of the original task: Human Owner `ElectricDogCN`; coordinator `program-coordinator-agent`; implementer `poc-program-agent`; independent reviewer `independent-poc-program-review-agent`; integrator `integration-agent`. The separate GitHub review is performed by `chatgpt-codex-connector` and must identify the exact candidate reviewed. Role declarations do not claim that a pending review has succeeded.
+Human Owner: `ElectricDogCN`; Coordinator: `program-coordinator-agent`; Implementer: `poc-program-agent`; Independent Reviewer: `independent-poc-program-review-agent`; Integrator: `integration-agent`. A role label is not a claim that a pending review or authorization has succeeded. The separate GitHub reviewer must identify the exact final HEAD.
 
-The candidate contains no GZ-010 Active Work entry. Its former lease is historical and grants no new implementation or downstream execution authority. The completed status is the proposed target state; before PR #63 merges, current main still records GZ-010 as review.
+The candidate has no GZ-010 Active Work entry; its former lease is only historical. Main still contains the review-state lease before completion merge. This candidate authorizes neither new implementation nor downstream POC execution.
 
-## Completed scope and current changed files
-
-The implementation delivered the ten-plan planning baseline, catalogues, templates, validator and tests under `specs/poc/**`, `poc/README.md` and task Evidence. No real POC was executed.
-
-The completion cumulative diff is thirteen paths:
+## Cumulative changed files
 
 1. `specs/coordination/program-plan.yaml`
 2. `specs/coordination/active-work.yaml`
@@ -49,20 +44,30 @@ The completion cumulative diff is thirteen paths:
 12. `evidence/GZ-010/security/README.md`
 13. `evidence/GZ-010/rollback-verification/README.md`
 
-Only GZ-010 is closed; only its lease is removed; one ledger record points to the already merged implementation. All POC implementation, plans, schemas, results-index and workflow bytes remain identical to the target main.
+Only GZ-010's completed status, removal of its lease, one ledger entry pointing to the already merged implementation, and its Task/Evidence are proposed. All `specs/poc/**`, `poc/README.md`, workflow, checker/test, business and deployment bytes remain unchanged from the target. The seven-file Evidence successor changes no Task or lifecycle metadata.
 
-## Commands, results and limitations
+## Executed validation
 
-Historical direct POC commands: `python specs/poc/check_program.py` and `python specs/poc/test_program.py`, exit 0 / 86 tests, run `35053181259`. Historical completion-candidate governance command: `python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml`, exit 0 / 267 passed / zero skips in Gate #568 (`35068143321`). Exact attribution and the full required wrapper command are in `commands.txt`.
+Historical direct POC checker and test suite: exit 0, 86 tests, run `35053181259`, job `104657763581`. No experiment ran.
 
-The first completion review identified incomplete Handoff, stale Task/Evidence sections and a missing wrapper execution. This follow-up corrects documentation; it does not falsely convert the unexecuted wrapper or rollback rehearsal into a PASS. A new Gate and exact-head independent review are required. GitHub API observation confirms Issue #15 is already closed/completed, but the wrapper must still run against the live API without an override or mock.
+Latest observed Governance Gate #570: run `35071047333`, job `104712373022`; 267 collected/267 passed in 24.88 seconds, zero skips, all stages success. The source/merge/base binding is given above. Four mandatory Task lists repaired in b1ca were validated; the preceding red Gate #569 is retained in `commands.txt`.
 
-## Security, migration and rollback
+The governance test `TestProgramLifecycleGuards.test_current_repository_passes` runs the actual completion wrapper as a subprocess with `--base-ref origin/main --head-ref HEAD`, derives task context, and asserts return code 0. Its PASS log at `2026-09-16T07:56:18.4985546Z` proves that invocation ran on the real checkout. It does not print captured child stdout and is not the standalone explicit task/branch command. `commands.txt` documents the distinction without fabricating missing output.
 
-No permissions, Secret values, safety limits, database schema, production state or POC results change. Gate #568's secret scan passed on the prior candidate; rerun on the final one. No database migration applies.
+The Git Data object-restoration operation returned target tree `5725e4f352fa420dbac260247947dca5cf482c4f` from the tested candidate after restoring only the five allowed base entries. The exact input/output is in `rollback-verification/README.md`. No branch/ref was changed by that operation.
 
-Before merge, closing this PR leaves main in review with its original lease and ledger. `rollback-verification/README.md` contains an executable isolated-worktree restoration rehearsal and a separate post-merge recovery procedure. The rehearsal is not yet claimed executed; a mechanical revert is not permission to bypass append-only ledger or lifecycle checks.
+## Remaining execution limitation
 
-## Next exact role action
+General Codex request `5694077690` received missing-environment response `5694080113` at `2026-09-16T08:00:39Z`; no command-execution task started. Do not poll that response or repost the same request as though it were running. Code review remains a separate capability.
 
-The independent Reviewer must execute the required completion wrapper and rollback rehearsal on the final candidate, check the thirteen-file diff, and report actual commands/exits and remaining findings. The Integrator then verifies the same HEAD, fresh Gate and issue state; the Human Owner approves any main merge. After an authorized merge, verify the resulting main Gate and ledger/lease state. Do not reopen implementation, reserve downstream tasks or report experiments complete before that boundary.
+The Task Spec's separately invoked explicit wrapper, named `make verify` and isolated local worktree rehearsal still lack standalone execution results. The in-suite wrapper and object-restoration results do not falsely populate those command records. The existing pending acceptance items remain unchecked. Provide an authorized repository execution environment before attempting the missing commands; no API mock, weakened assertion, temporary workflow or new controller is permitted as a shortcut.
+
+## Security and rollback
+
+No Secret, permission, safety limit, migration or production state changes. Gate #570's secret scan passed on its exact source; the successor requires its own Gate. Issue #15 is already closed/completed and must not be closed again.
+
+Before merge, close PR #63 to leave main unchanged in review. The existing rollback document includes both the executed object-restoration check and the unexecuted isolated-worktree script. Neither authorizes deleting immutable completion history after merge. Any post-merge correction/revert requires review and current lifecycle checks; never force-push main.
+
+## Next exact action
+
+Read current PR #63 HEAD and its fresh Gate/review. Resume only the missing standalone commands once the authorized execution environment exists, preserve actual output/exits and the exact tested SHA, and re-evaluate outstanding review threads. Do not restart Reservation or implementation. After required evidence and independent review, the Human Owner approves any main merge; the Integrator then verifies the real post-main Gate. Until then, no GZ-010 main-completion or platform-completion claim is valid.

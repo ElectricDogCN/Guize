@@ -6,51 +6,90 @@ Branch: chore/GZ-010-poc-program-baseline
 Target base: 3a11c5f639717993f51a26c5b5970701570fe367
 Implementation source: 397bd6d45235b38e9afe59bc8f7b28ede5c8e4f6
 Implementation merge: 2b2d076b68171edd74639e307f8a126cc882186d
-Validated completion content commit: fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7
+Validated metadata candidate: fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7
+Latest tested documentation candidate: b1ca9864759c325f12addf2b06b0ab22a81f9d9c
+Latest tested synthetic merge: c5744833dd9d76167e1c918ccd912fd0f06bb552
 
-The following PASS entries are historical observations with explicit source identities. They do not claim execution on the documentation follow-up, merge approval, or post-completion main success.
+PASS entries below identify actual observations and exact test subjects. This Evidence-only successor does not claim its own future SHA or future review result. A fresh Gate/review must identify the actual successor HEAD. No merge, post-completion main result or POC experiment is claimed.
+
+HISTORICAL IMPLEMENTATION
 
 command: python specs/poc/check_program.py
 exit code: 0
 result: PASS
-source: historical implementation run 35053181259, job 104657763581
+source: implementation run 35053181259, job 104657763581, implementation produced/tested 0f5cfd73d4ae6592f6e773caae3bba4dac34ff46
 
 command: python specs/poc/test_program.py
 exit code: 0
-result: PASS; 86 tests
-source: historical implementation run 35053181259, job 104657763581
+result: PASS; 86 tests; zero skipped
+source: same implementation run. These are planning-software tests, not POC experiment results.
+
+HISTORICAL COMPLETION CANDIDATE
 
 command: python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
 exit code: 0
-result: PASS; 267 collected, 267 passed in 31.09 seconds
+result: PASS; 267 passed in 31.09 seconds; zero skipped
 source: Gate #568 / run 35068143321 / job 104703074033; source fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7; synthetic merge 38c28e2f32e283ac844324d5bedaa685218679d5
+
+command: python scripts/check-task-file.py --task GZ-010
+exit code: 1
+result: HISTORICAL_FAILURE; required allowed/forbidden/dependency/handoff section bullets were replaced by prose
+source: Gate #569 / run 35070014899 / job 104709083207; source ec0b9d77b6d8d9a2435e3c6aebb42c3ac591086a
+resolution: b1ca9864759c325f12addf2b06b0ab22a81f9d9c restored those lists without changing a validator or implementation. The failed run remains historical evidence, not a waived gate.
+
+LATEST OBSERVED GOVERNANCE EXECUTION
+
+source for the following entries: Gate #570 / run 35071047333 / job 104712373022; source b1ca9864759c325f12addf2b06b0ab22a81f9d9c; synthetic merge c5744833dd9d76167e1c918ccd912fd0f06bb552; target 3a11c5f639717993f51a26c5b5970701570fe367; Ubuntu 24.04 / Python 3.11.16
+
+command: python scripts/check-task-file.py --task GZ-010
+exit code: 0
+result: PASS
+observed output: Task file valid: /home/runner/work/Guize/Guize/specs/tasks/GZ-010.md
+
+command: python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
+exit code: 0
+result: PASS; 267 collected, 267 passed in 24.88 seconds
+observed log time: 2026-09-16T07:56:26.2834800Z
 
 command: python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
 exit code: 0
-result: PASS; zero skipped tests
-source: Gate #568, same source and synthetic merge
+result: PASS; No skipped tests
 
 command: python scripts/check-program-lifecycle-guards.py --base-ref origin/main --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
 exit code: 0
-result: PASS; affected task GZ-010, eight changed paths
-source: Gate #568. This is the direct guard, NOT run-program-lifecycle-gate.py.
+result: PASS; affected task GZ-010, thirteen changed paths
 
-observation: GitHub Issue #15 state=closed, state_reason=completed, closed_at=2026-09-16T06:26:20Z
-source: authorized GitHub fetch_issue read on 2026-09-16
-limitation: observing the API separately does not substitute for executing the wrapper below.
+command: /opt/hostedtoolcache/Python/3.11.16/x64/bin/python /home/runner/work/Guize/Guize/scripts/run-program-lifecycle-gate.py --repo-root /home/runner/work/Guize/Guize --base-ref origin/main --head-ref HEAD
+exit code: 0
+result: PASS, executed as a subprocess by TestProgramLifecycleGuards.test_current_repository_passes during the full governance suite
+execution evidence: 2026-09-16T07:56:18.4985546Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_current_repository_passes PASSED [ 46%]
+attribution: tests/governance/test_program_lifecycle_guards.py lines 46-64 invokes the actual wrapper with subprocess.run and asserts returncode == 0. The test has no mocked Issue API or alternate endpoint. The wrapper's completion transition check therefore ran on the real PR-merge checkout. Earlier wording that the wrapper never ran was too broad and is corrected here.
+limitation: stdout/stderr are captured by pytest and not printed on success; no raw wrapper output is invented. This invocation uses derived task context, not the separately named --task/--branch-name command below.
 
-Required next execution, on the final candidate with its exact HEAD recorded first. Do not mock the Issue API or set GUIZE_GITHUB_API_URL to a replacement endpoint. Existing read-only GITHUB_TOKEN may be used without printing it.
+Other Gate #570 stages passed: readiness with existing external-readiness warnings; Program integrity/history/transitions/finalization; coordination; Markdown; schemas; secret scan; Evidence; linkage; scope; spec sync; boundary; CI static validation. The Evidence-integrity step reported no final-report file to inspect; its green status is not a claim that every prose assertion was independently verified.
+
+ISOLATED GIT-OBJECT RESTORATION
+
+operation: GitHub Git Data create_tree using candidate tree 0313cb874843a839519435cea81a1a6773892afb and only the five exact base entries listed in rollback-verification/README.md
+result: PASS; returned root tree 5725e4f352fa420dbac260247947dca5cf482c4f equals the exact target-base tree
+scope: tree construction only; no commit created for this restoration, no branch/ref changed, no production operation. This verifies content restoration, not execution of the local worktree shell script.
+
+EXECUTION-ENVIRONMENT BLOCKER AND REMAINING COMMANDS
+
+observation: Issue #15 is closed with state_reason=completed, closed_at=2026-09-16T06:26:20Z. Do not close it again.
+request: PR #63 comment 5694077690 requested bounded command execution on b1ca9864759c325f12addf2b06b0ab22a81f9d9c.
+actual response: Codex comment 5694080113 at 2026-09-16T08:00:39Z required an environment for this repository. No execution task started. Code-review availability does not establish general execution-environment availability.
 
 command: env GITHUB_REPOSITORY=ElectricDogCN/Guize python scripts/run-program-lifecycle-gate.py --base-ref 3a11c5f639717993f51a26c5b5970701570fe367 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
-exit code: NOT_EXECUTED
-result: NOT_CLAIMED; required completion Issue-state validation remains pending actual execution.
+exit code: NOT_EXECUTED_AS_A_SEPARATE_COMMAND
+result: NOT_CLAIMED; the genuine in-suite wrapper execution is recorded above, with its different arguments and captured output.
 
 command: make verify TASK=GZ-010 BASE=3a11c5f639717993f51a26c5b5970701570fe367 HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline
-exit code: NOT_EXECUTED_ON_THIS_FOLLOW_UP
-result: NOT_CLAIMED; Gate #568 ran underlying components directly, not this named command.
+exit code: NOT_EXECUTED_ON_THIS_DOCUMENTATION_CANDIDATE
+result: NOT_CLAIMED; the Gate's individual checks are not labelled as a separately executed make command.
 
-command: isolated worktree restoration rehearsal in evidence/GZ-010/rollback-verification/README.md
+command: isolated worktree restoration bash block in evidence/GZ-010/rollback-verification/README.md
 exit code: NOT_EXECUTED
-result: NOT_CLAIMED
+result: NOT_CLAIMED; the separate Git Data tree-equality result above does not claim that worktree creation/cleanup ran.
 
-After actual execution, record the command output, exit code, exact tested HEAD, date and review/run reference. Any failure blocks merge. Do not replace a missing result with a forecast or a historical PASS.
+The Task Spec's pending acceptance items remain pending. Do not remove a required test, change a checker, resolve an execution gap by assumption, or create another temporary workflow to conceal this limitation. Record actual additional results when an authorized execution environment is available.

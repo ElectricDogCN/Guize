@@ -1,30 +1,40 @@
 # GZ-010 Completion Test Evidence
 
 Task: GZ-010
-Result: PASS (historical runs listed below, not an unexecuted final review)
+Result: PASS (the specific observed executions below)
 Current completion disposition: NEEDS_REVIEW
 Implementation merge: `2b2d076b68171edd74639e307f8a126cc882186d`
 Completion PR: #63
 Target base: `3a11c5f639717993f51a26c5b5970701570fe367`
-Validated completion content commit: `fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7`
+Latest tested source: `b1ca9864759c325f12addf2b06b0ab22a81f9d9c`
 
-## Observed implementation validation
+## Historical implementation
 
-Run `35053181259`, job `104657763581`, recorded success for the POC planning checker and 86/86 POC tests. This is implementation history. No experiment was run, and this result does not certify future terminal execution records.
+Run `35053181259`, job `104657763581`, recorded checker success and 86/86 planning-software tests, zero skips. The produced/tested implementation was `0f5cfd73d4ae6592f6e773caae3bba4dac34ff46`. These results are not POC experiment outcomes and are not re-labelled as a new completion-branch POC test run.
 
-## Observed completion-candidate Governance Gate
+## Latest actual CI execution
 
-Gate #568 / run `35068143321`, job `104703074033`, tested the content commit above through synthetic merge `38c28e2f32e283ac844324d5bedaa685218679d5` against the target base.
+Gate #570 / run `35071047333`, job `104712373022`, checked out synthetic merge `c5744833dd9d76167e1c918ccd912fd0f06bb552`, combining the exact source and target above.
 
-- 267 collected; 267 passed; zero skipped; 31.09 seconds.
-- Program integrity, history, transitions, finalization and direct lifecycle guard passed.
-- Coordination, scope, Task File, Project Readiness, Markdown, schemas, secret scan, Evidence, linkage, spec sync, boundary and CI static checks passed.
-- Evidence-integrity step reported that no final-report commit claims required validation; it did not establish a missing completion-wrapper result.
+- 267 tests collected and passed in 24.88 seconds; zero skips.
+- Task File, readiness, Program integrity/history/transitions/finalization, direct lifecycle guard, coordination, scope, Markdown, schema, secret scan, Evidence, linkage, spec sync, boundary and CI static checks passed.
+- The Evidence-integrity step found no final-report file; do not treat its success as independent verification of every prose assertion.
+- Preceding Gate #569 / run `35070014899` failed the four missing Task lists. b1ca repaired the lists, not the tests or validator. Failure history is retained.
 
-## Explicit gaps and follow-up validation
+## Completion wrapper execution inside the suite
 
-The workflow did not invoke `run-program-lifecycle-gate.py`, a separately named `make verify`, or the direct POC commands. The first independent completion review correctly identified the missing wrapper result and stale documentation.
+At `2026-09-16T07:56:18.4985546Z`, the log reports:
 
-The documentation follow-up fixes existing Task/Evidence sections without changing the POC implementation, lifecycle state changes or completion record. It requires a fresh exact-head Governance Gate, actual execution of the completion wrapper against the real Issue API, the isolated-worktree rollback rehearsal, and a fresh independent review. Command results for those unexecuted steps are not prefilled as PASS; see `commands.txt`.
+```text
+tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_current_repository_passes PASSED [ 46%]
+```
 
-Any replayed fixture or separate API read must be labelled as such and cannot be called a live wrapper execution. No merge, post-completion main result, next-task activation or experimental PASS is claimed here.
+The exact test source at b1ca, lines 46-64, calls `scripts/run-program-lifecycle-gate.py` with `subprocess.run`, the actual repository root, `origin/main` and `HEAD`, then asserts return code 0. It has no mocked API or alternate endpoint. The wrapper therefore executed its real completion/Issue-state checks; it was not merely inspected. Child stdout is captured and not printed on success, so a raw wrapper-output transcript is not claimed.
+
+This corrects the earlier blanket statement that the wrapper was unexecuted. It does not claim a separately invoked command with explicit `--task` and `--branch-name`; that standalone record remains absent.
+
+## Restoration evidence and execution gap
+
+The Git Data API restored only the completion-owned paths from candidate tree `0313cb874843a839519435cea81a1a6773892afb` and returned root `5725e4f352fa420dbac260247947dca5cf482c4f`, exactly equal to the target tree. Full inputs and scope are in `rollback-verification/README.md`. No refs or commits were changed by this isolated restoration test.
+
+The local worktree shell rehearsal and separately named `make verify` remain NOT EXECUTED. General Codex execution did not start because this repository lacks a configured execution environment; reply `5694080113` records that blocker. No pending acceptance item is passed by assumption. A fresh successor Gate/review remains required. No real POC, merge, post-completion-main result or downstream activation is claimed.
