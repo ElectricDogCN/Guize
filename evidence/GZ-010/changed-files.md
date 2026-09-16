@@ -1,26 +1,44 @@
-# GZ-010 Reservation v2 Changed Files
+# GZ-010 Implementation Changed Files
 
-Task: GZ-010
+Task: `GZ-010`
+PR: `#48`
+Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`
+Validated implementation commit: `608b8e0a3796ddaac6b5bbdda9baff349f45b1c3`
+Validated plan-completeness commit: `056b17fb730e334ed8b45bc887870b0918cfaa8f`
 
-Expected Reservation diff contains exactly 18 files:
+## Cumulative path classes
 
-1. `specs/coordination/program-plan.yaml`
-2. `specs/coordination/active-work.yaml`
-3. `specs/tasks/GZ-010.md`
-4. `evidence/GZ-010/summary.md`
-5. `evidence/GZ-010/commands.txt`
-6. `evidence/GZ-010/test-results/README.md`
-7. `evidence/GZ-010/screenshots/README.md`
-8. `evidence/GZ-010/api-samples/README.md`
-9. `evidence/GZ-010/migration-report/README.md`
-10. `evidence/GZ-010/performance/README.md`
-11. `evidence/GZ-010/security/README.md`
-12. `evidence/GZ-010/rollback-verification/README.md`
-13. `evidence/GZ-010/scope.md`
-14. `evidence/GZ-010/changed-files.md`
-15. `evidence/GZ-010/assumptions.md`
-16. `evidence/GZ-010/risks.md`
-17. `evidence/GZ-010/follow-ups.md`
-18. `evidence/GZ-010/handoff.md`
+The cumulative PR diff contains 38 task-authorized paths:
 
-Actual GitHub compare must be checked after the atomic commit. Any `specs/poc/**`, `poc/README.md`, `evidence/POC-*`, code, test or script file in this Reservation diff is a blocker.
+- `specs/poc/**`: canonical Program, schemas, catalogues, ten plans, templates, validator and regression suite;
+- `poc/README.md`: operator documentation;
+- `evidence/GZ-010/**`: task Evidence;
+- `specs/coordination/active-work.yaml` and `specs/tasks/GZ-010.md`: synchronized renewal of the same GZ-010 in-progress lease.
+
+Governance Gate #552 reports:
+
+```text
+Changed files: 38
+Allowed: 38
+Forbidden: 0
+Out-of-scope: 0
+```
+
+## Plan-completeness delta
+
+Commit `056b17fb730e334ed8b45bc887870b0918cfaa8f` changes only:
+
+1. `specs/poc/plans/POC-001.yaml`
+2. `specs/poc/plans/POC-002.yaml`
+3. `specs/poc/plans/POC-003.yaml`
+4. `specs/poc/plans/POC-004.yaml`
+5. `specs/poc/plans/POC-005.yaml`
+6. `specs/poc/plans/POC-007.yaml`
+7. `specs/poc/plans/POC-009.yaml`
+8. `specs/poc/plans/POC-010.yaml`
+
+It adds missing frozen experiment measurements and exit criteria. It does not change executable validator/test code, lifecycle metadata, Program status, result index state or product implementation.
+
+## Explicit exclusions
+
+The final diff contains no temporary repair workflow, Program Plan change, Completion Ledger change, product/business/deployment code, Secret value, production data, actual POC result, `evidence/POC-*` directory or terminal POC transition.

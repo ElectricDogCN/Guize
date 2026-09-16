@@ -1,0 +1,9 @@
+schemaVersion: 1
+pocId: POC-00
+taskId: POC-000
+type: privacy
+subjectVersion: REPLACE_WITH_TESTED_API_OR_SDK_VERSION
+decision: approved
+reviewer: REPLACE_WITH_COMPLIANCE_REVIEWER
+approvedAt: 2000-01-01T00:00:00Z
+scope: REPLACE_WITH_REVIEW_SCOPE

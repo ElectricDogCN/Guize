@@ -1,0 +1,78 @@
+schemaVersion: 1
+pocId: POC-08
+taskId: POC-008
+title: Vue 3 与 React 管理端场景对比
+status: planned
+resultStatus: not_started
+riskLevel: medium
+wave: W4
+dependsOn:
+- GZ-010
+requirementIds:
+- REQ-V1-0009
+moduleIds:
+- MOD-CONFIG
+- MOD-PLATFORM
+evidencePath: evidence/POC-008
+resourceIds:
+- RES-FRONTEND-COMPARE
+sampleIds:
+- SAMPLE-FRONTEND-SCENARIOS
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: prototype_coverage
+    metric: Scenario prototype coverage
+    unit: percent
+    method: Implement equivalent approved admin scenarios in both candidates.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: bundle_baseline
+    metric: Baseline bundle size
+    unit: KiB
+    method: Build controlled minimal prototypes with locked versions.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: maintainability_score
+    metric: Maintainability assessment
+    unit: ordinal
+    method: Score ecosystem/team fit, component reuse and long-term maintenance using fixed rubric.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Both candidates are compared against identical scenarios/rubric.
+  - Recommendation remains a POC decision and does not rewrite frozen requirements.
+  failureFallbacks:
+  - If evidence is inconclusive, retain current frontend baseline until later implementation evidence resolves the choice.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: false
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

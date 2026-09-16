@@ -1,0 +1,166 @@
+schemaVersion: 1
+pocId: POC-10
+taskId: POC-010
+title: PostgreSQL/OpenBao/文件/Bundle 恢复与回读
+status: planned
+resultStatus: not_started
+riskLevel: critical
+wave: W11
+dependsOn:
+- GZ-007
+- GZ-008
+- GZ-010
+- GZ-012
+- POC-004
+requirementIds:
+- REQ-V1-0006
+- REQ-V1-0010
+moduleIds:
+- MOD-DATA
+- MOD-STORAGE
+- MOD-DEPLOY
+evidencePath: evidence/POC-010
+resourceIds:
+- RES-RECOVERY-SANDBOX
+sampleIds:
+- SAMPLE-RECOVERY-FIXTURE
+environment:
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  capturedValues: {}
+protocol:
+  commands: []
+  rawOutputRefs: []
+  measurements:
+  - id: db_restore
+    metric: PostgreSQL restore/readback
+    unit: boolean
+    method: Restore the sandbox backup and verify schema, checksums and the explicit critical-state measurements below.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: users_permissions_restore
+    metric: Users, roles and permission relationships are restored
+    unit: boolean
+    method: Compare restored users, role memberships and permission grants with the approved pre-backup manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: assets_restore
+    metric: Asset identities and authoritative metadata are restored
+    unit: boolean
+    method: Verify the approved asset fixture, versions and key metadata relationships after restore.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: source_mappings_restore
+    metric: Source and connector mappings/checkpoints are restored
+    unit: boolean
+    method: Compare restored source identities, connector bindings and synchronization checkpoints with the approved manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: formal_replicas_restore
+    metric: Formal replica/source-of-truth relationships are restored
+    unit: boolean
+    method: Verify primary/formal-replica designations, storage references and replica state for the approved fixture.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: retention_restore
+    metric: Retention and lifecycle policy state is restored
+    unit: boolean
+    method: Verify retention assignments, lifecycle state and scheduled policy metadata against the pre-backup manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: audit_restore
+    metric: Audit history and integrity links are restored
+    unit: boolean
+    method: Verify required audit entries, ordering and integrity/hash-chain linkage for the approved fixture.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: outbox_restore
+    metric: Outbox/inbox delivery state is restored without duplicate publication
+    unit: boolean
+    method: Verify pending/processed delivery records and replay one approved fixture without creating an unintended duplicate event.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: tasks_restore
+    metric: Workflow/task state and attempts are restored
+    unit: boolean
+    method: Compare active and terminal task records, attempts and ownership with the approved pre-backup manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: authoritative_relationships_restore
+    metric: Cross-entity authoritative relationships remain consistent
+    unit: boolean
+    method: Run the approved referential and business-invariant checks across users, assets, sources, replicas, retention, audit, outbox and tasks.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: secret_store_restore
+    metric: OpenBao configuration and secret-reference restore
+    unit: boolean
+    method: Restore sandbox secret-store configuration, policies, mounts and references without writing secret plaintext into Git/Evidence.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: secret_value_roundtrip
+    metric: OpenBao secret value restore and readback matches pre-backup value
+    unit: boolean
+    method: In an isolated sandbox, write a generated ephemeral secret, record only an approved one-way/HMAC comparison artifact, back up and restore OpenBao, read the value through runtime access, and verify pre/post equality without logging or committing plaintext.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: secret_unreadable_failure_detected
+    metric: Corrupted or decryption-mismatched secret backup fails closed
+    unit: boolean
+    method: Exercise an isolated unreadable/decryption-mismatched recovery fixture and require explicit restore/readback failure rather than accepting references as recovered.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: file_restore
+    metric: File/bundle restore/readback
+    unit: boolean
+    method: Restore approved fixture and verify checksums.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: rpo_observed
+    metric: Observed recovery point
+    unit: s
+    method: Calculate from controlled backup/recovery timestamps.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  - id: rto_observed
+    metric: Observed recovery time
+    unit: s
+    method: Measure controlled end-to-end recovery duration.
+    thresholdSource: POC_EXIT_CRITERIA
+    actual: null
+  exitCriteria:
+  - Database, OpenBao configuration, actual secret values, files and deployment bundle can be restored/read back in an isolated sandbox.
+  - Users/permissions, assets, source mappings, formal replicas, retention, audit, Outbox/inbox, task state and their authoritative relationships all match the approved pre-backup manifest.
+  - Secret value round-trip comparison succeeds without committing plaintext or backup keys to Git/Evidence.
+  - A corrupted or decryption-mismatched secret backup is rejected and cannot be misreported as recovered.
+  - RPO/RTO evidence is measured rather than assumed.
+  failureFallbacks:
+  - If unified recovery fails, split recovery procedures by data/control plane and block production release until reconciled.
+  rollbackCleanup:
+  - Stop test workloads and remove temporary test artifacts.
+  - Revoke/destroy generated sandbox-only secret material outside the repository after Evidence-safe comparison artifacts are captured.
+  - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+  - Do not delete governance/Evidence history.
+security:
+  dataClassification: non-sensitive
+  sampleApprovalRequired: true
+  credentialsStoredInRepository: false
+  privacyReviewRequired: true
+  licenseReviewRequired: false
+decision:
+  status: not_evaluated
+  rationale: null
+  resultRef: null
+review:
+  reviewer: null
+  approvedAt: null
+  approval: null

@@ -1,84 +1,45 @@
-# GZ-010 Implementation Activation Handoff
+# GZ-010 Final Product-Scope Review Handoff
 
-Task: GZ-010
-Status: IN_PROGRESS activation candidate
+Task: `GZ-010`
+Issue: `#15`
+Pull request: `#48`
+Branch: `chore/GZ-010-poc-program-baseline`
+Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`
+Validated implementation commit: `608b8e0a3796ddaac6b5bbdda9baff349f45b1c3`
+Validated plan-completeness commit: `056b17fb730e334ed8b45bc887870b0918cfaa8f`
 
-## Identity
+## Current state
 
-- Issue: #15
-- Program task: GZ-010
-- Wave / order: W1 / 2
-- Work Package: WP-M0-04
-- Risk: medium
-- Activation base: `main@74ab9d53f29834fda37dcbd726fd58f997f8f21a`
-- Registered branch: `chore/GZ-010-poc-program-baseline`
-- Reservation PR: #45
-- Reservation merge: `74ab9d53f29834fda37dcbd726fd58f997f8f21a`
-- Reservation post-main Governance Gate: #382 / run `33492832222` = PASS
-- Lease: `2026-09-01T08:27:00Z` → `2026-09-08T08:27:00Z`
-- Produced contract: `POC-PROTOCOL-V1` (implementation output; not produced by this Activation)
+The GZ-010 planning baseline is complete as a Draft final-review candidate:
 
-## Roles after Activation
+- direct validator and 85-test POC suite passed on the unchanged implementation code;
+- the latest plan-only completeness commit passed Governance Gate #552 with 267/267 tests and zero skips;
+- all ten plans and result-index rows remain nonterminal;
+- no actual POC Evidence or result exists;
+- no temporary repair workflow remains;
+- 38/38 cumulative paths are allowed by the active task scope.
 
-- Human Owner: `ElectricDogCN`
-- Coordinator: `program-coordinator-agent`
-- Implementer: `poc-program-agent`
-- Reviewer: `independent-poc-program-review-agent`
-- Integrator: `integration-agent`
-- Active role: `implementer`
+## Stop That Shit review boundary
 
-## Activation scope
+Review whether GZ-010 satisfies its actual task exit gate: every POC has a unique Task, environment, sample/resource boundary, commands/raw-result structure, structured measurements, exit criteria, failure fallback and Evidence boundary.
 
-This PR performs only the lifecycle transition required before implementation:
+Do not reopen this planning task to perfect a universal future terminal-result engine or to add another shared governance framework unless a defect invalidates the current nonterminal plans themselves.
 
-- Program GZ-010: `reserved -> in_progress`;
-- Active Work GZ-010: `reserved -> in_progress`;
-- Registry `baseSha` becomes the Reservation merge SHA;
-- Registry/Task `agentRole` becomes `implementer`;
-- Task Spec front matter mirrors those fields;
-- `activation.md` and this registered Handoff describe the transition.
+## Independent reviewer checklist
 
-It does **not** create or modify:
+1. Verify exact source/head and cumulative changed paths.
+2. Confirm POC-001…010 and all result-index rows remain `planned` / `not_started`.
+3. Confirm Program, Requirement, Module, dependency, Wave, risk and Evidence mappings are exact.
+4. Confirm the frozen experiment blockers are represented as structured plan measurements/exit gates.
+5. Confirm validator/schema/test code remains the implementation validated by run `34873071797` and no temporary workflow or product code entered the diff.
+6. Confirm Governance Gate `34920195916` succeeded with 267/267 tests and zero skips on plan-completeness commit `056b17fb730e334ed8b45bc887870b0918cfaa8f`.
+7. Confirm task Evidence is truthful about the separate direct-POC and exact-head repository validations.
+8. Report only blockers that affect the current GZ-010 planning baseline.
 
-- `specs/poc/**`;
-- `poc/README.md`;
-- `evidence/POC-001/**` ～ `evidence/POC-010/**`;
-- experiment commands, measurements, results or decisions;
-- business contracts/code, deployment, Secrets, permissions or production data.
+## Integrator boundary
 
-Historical PR #46 is closed/unmerged and is not current PASS/merge evidence.
-
-## Implementer exact action after Activation merge
-
-1. Confirm the Activation merge commit is present on `main` and its post-merge Governance Gate is fully SUCCESS.
-2. Rebuild/reset `chore/GZ-010-poc-program-baseline` from that exact green `main` commit.
-3. Implement only the reserved paths:
-   - `specs/poc/**`
-   - `poc/README.md`
-   - `evidence/GZ-010/**`
-4. Establish the POC Program Schema/index/Validator before any plan execution semantics.
-5. Keep every POC plan and result index in `planned/not_started`; do not create `evidence/POC-*` results.
-6. Run and record the task-specific Validator/tests and the repository governance commands.
-7. Hand off the final exact implementation candidate to `independent-poc-program-review-agent`.
-
-## Reviewer exact action for this Activation
-
-1. Review the current Activation HEAD only.
-2. Verify the PR contains exactly the five metadata/Evidence files declared by the PR body.
-3. Verify Program Plan changes only GZ-010 `reserved -> in_progress`.
-4. Verify Active Work changes only status/baseSha/agentRole.
-5. Verify Task Spec body is unchanged from Reservation v2 and only its front matter status/baseSha/agentRole changed.
-6. Verify this Handoff no longer contains stale Reservation instructions.
-7. Verify no POC implementation or experiment result is present.
-8. Inspect the exact-head Governance Gate and all current review threads.
-
-## Integrator exact action
-
-1. Re-fetch exact HEAD, five-file list, Program/Registry/Task patches, Gate, review and threads.
-2. Merge only the reviewed expected HEAD under the explicitly documented metadata-only exception if the sole machine failure remains the known Agent Coordination Program Plan-path self-hosting mismatch.
-3. Verify post-merge `main` Governance Gate is fully SUCCESS.
-4. Do not rebuild or merge implementation work until that post-main Gate is green.
+Do not merge while the PR remains Draft or while a current product-scope review blocker exists. After an exact-head no-findings review, use expected-head merge protection and require the post-main Governance Gate to succeed. Do not execute a POC or mark GZ-010 completed in the implementation merge.
 
 ## Rollback
 
-Before Activation merge: close the PR and leave GZ-010 reserved on main. After Activation merge but before implementation: use a dedicated correction/revert PR to restore the valid prior GZ-010 lifecycle state and lease metadata. Never rewrite `main` or delete governance/Evidence history.
+Before merge, close PR #48 or revert branch commits. After merge, use a dedicated reviewed revert/correction PR. Preserve commit and Evidence history; do not force-push or delete failed-run diagnostics.
