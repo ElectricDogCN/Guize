@@ -32,9 +32,6 @@ jobs:
         run: |
           set -euo pipefail
           BASE="3a11c5f639717993f51a26c5b5970701570fe367"
-          IMPLEMENTATION_HEAD="397bd6d45235b38e9afe59bc8f7b28ede5c8e4f6"
-          IMPLEMENTATION_MERGE="2b2d076b68171edd74639e307f8a126cc882186d"
-          REVIEW_MERGE="3a11c5f639717993f51a26c5b5970701570fe367"
 
           python - <<'PY'
           from pathlib import Path
@@ -44,61 +41,60 @@ jobs:
           IMPLEMENTATION_MERGE = "2b2d076b68171edd74639e307f8a126cc882186d"
           REVIEW_MERGE = "3a11c5f639717993f51a26c5b5970701570fe367"
 
-          def mutate_program_status(path: str) -> None:
-              file = Path(path)
-              lines = file.read_text(encoding="utf-8").splitlines(keepends=True)
-              starts = [
-                  i for i, line in enumerate(lines)
-                  if line.strip() == "taskId: GZ-010"
-                  and len(line) - len(line.lstrip()) == 4
-              ]
-              if len(starts) != 1:
-                  raise SystemExit(f"expected one GZ-010 Program row, found {len(starts)}")
-              start = starts[0]
-              end = len(lines)
-              for i in range(start + 1, len(lines)):
-                  if (
-                      len(lines[i]) - len(lines[i].lstrip()) == 4
-                      and lines[i].strip().startswith("taskId: ")
-                  ):
-                      end = i
-                      break
-              matches = [i for i in range(start, end) if lines[i].strip() == "status: review"]
-              if len(matches) != 1:
-                  raise SystemExit(f"expected one review status in GZ-010, found {len(matches)}")
-              i = matches[0]
-              indent = lines[i][: len(lines[i]) - len(lines[i].lstrip())]
-              lines[i] = f"{indent}status: completed\n"
-              file.write_text("".join(lines), encoding="utf-8")
+          def write_lines(path, lines):
+              Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-          mutate_program_status("specs/coordination/program-plan.yaml")
+          plan = Path("specs/coordination/program-plan.yaml")
+          lines = plan.read_text(encoding="utf-8").splitlines(keepends=True)
+          starts = [
+              i for i, line in enumerate(lines)
+              if line.strip() == "taskId: GZ-010"
+              and len(line) - len(line.lstrip()) == 4
+          ]
+          if len(starts) != 1:
+              raise SystemExit(f"expected one GZ-010 Program row, found {len(starts)}")
+          start = starts[0]
+          end = len(lines)
+          for i in range(start + 1, len(lines)):
+              if len(lines[i]) - len(lines[i].lstrip()) == 4 and lines[i].strip().startswith("taskId: "):
+                  end = i
+                  break
+          matches = [i for i in range(start, end) if lines[i].strip() == "status: review"]
+          if len(matches) != 1:
+              raise SystemExit(f"expected one review status, found {len(matches)}")
+          i = matches[0]
+          indent = lines[i][: len(lines[i]) - len(lines[i].lstrip())]
+          lines[i] = f"{indent}status: completed\n"
+          plan.write_text("".join(lines), encoding="utf-8")
 
           active = Path("specs/coordination/active-work.yaml")
-          active_text = active.read_text(encoding="utf-8")
-          if active_text.count("  - taskId: GZ-010\n") != 1:
+          if active.read_text(encoding="utf-8").count("  - taskId: GZ-010\n") != 1:
               raise SystemExit("expected exactly one GZ-010 Active Work row")
-          active.write_text(
-              "version: 1\n"
-              "policy:\n"
-              "  maxActiveTasks: 3\n"
-              "  maxHighRiskTasks: 1\n"
-              "  leaseMaxHours: 168\n"
-              "  bootstrapTasks:\n"
-              "    - GZ-003\n"
-              "tasks: []\n",
-              encoding="utf-8",
+          write_lines(
+              active,
+              [
+                  "version: 1",
+                  "policy:",
+                  "  maxActiveTasks: 3",
+                  "  maxHighRiskTasks: 1",
+                  "  leaseMaxHours: 168",
+                  "  bootstrapTasks:",
+                  "    - GZ-003",
+                  "tasks: []",
+              ],
           )
 
           task = Path("specs/tasks/GZ-010.md")
           text = task.read_text(encoding="utf-8")
           parts = text.split("---", 2)
           if len(parts) != 3:
-              raise SystemExit("GZ-010 Task Spec has invalid front matter")
+              raise SystemExit("invalid GZ-010 front matter")
           front = parts[1]
-          for before, after in [
+          replacements = [
               ("\nstatus: review\n", "\nstatus: completed\n"),
               (f"\nbaseSha: {IMPLEMENTATION_MERGE}\n", f"\nbaseSha: {REVIEW_MERGE}\n"),
-          ]:
+          ]
+          for before, after in replacements:
               if front.count(before) != 1:
                   raise SystemExit(f"Task Spec anchor count for {before!r}: {front.count(before)}")
               front = front.replace(before, after, 1)
@@ -107,211 +103,194 @@ jobs:
           ledger = Path("specs/coordination/task-completions.yaml")
           ledger_text = ledger.read_text(encoding="utf-8")
           if "taskId: GZ-010" in ledger_text:
-              raise SystemExit("GZ-010 Completion Ledger record already exists")
-          ledger_text += (
-              "  - taskId: GZ-010\n"
-              "    reservationRef: PR-45\n"
-              "    reservationCommit: 74ab9d53f29834fda37dcbd726fd58f997f8f21a\n"
-              "    completionRef: PR-48\n"
-              f"    mergeCommit: {IMPLEMENTATION_MERGE}\n"
-              "    taskSpec: specs/tasks/GZ-010.md\n"
-              "    evidencePath: evidence/GZ-010\n"
-              "    handoffPath: evidence/GZ-010/handoff.md\n"
+              raise SystemExit("GZ-010 Completion Ledger row already exists")
+          ledger_text += "\n".join(
+              [
+                  "  - taskId: GZ-010",
+                  "    reservationRef: PR-45",
+                  "    reservationCommit: 74ab9d53f29834fda37dcbd726fd58f997f8f21a",
+                  "    completionRef: PR-48",
+                  f"    mergeCommit: {IMPLEMENTATION_MERGE}",
+                  "    taskSpec: specs/tasks/GZ-010.md",
+                  "    evidencePath: evidence/GZ-010",
+                  "    handoffPath: evidence/GZ-010/handoff.md",
+                  "",
+              ]
           )
           ledger.write_text(ledger_text, encoding="utf-8")
 
-          summary = f'''# GZ-010 POC Program Baseline — Completion Evidence
+          write_lines(
+              "evidence/GZ-010/summary.md",
+              [
+                  "# GZ-010 POC Program Baseline — Completion Evidence",
+                  "",
+                  "Task: `GZ-010`",
+                  "Issue: `#15`",
+                  "Reservation: PR #45 / `74ab9d53f29834fda37dcbd726fd58f997f8f21a`",
+                  "Activation: PR #47 / `219d7096756ad75717a46d85baf7d2b216e2472b`",
+                  f"Implementation: PR #48 / source `{IMPLEMENTATION_HEAD}` / merge `{IMPLEMENTATION_MERGE}`",
+                  f"Review transition: PR #62 / merge `{REVIEW_MERGE}`",
+                  "",
+                  "## Completion status",
+                  "",
+                  "GZ-010 delivered the executable, nonterminal `POC-PROTOCOL-V1` planning baseline. This completion candidate changes lifecycle metadata, removes only the GZ-010 lease, appends one Completion Ledger row, and refreshes final Evidence. POC implementation bytes are unchanged.",
+                  "",
+                  "## Verified result",
+                  "",
+                  "- direct POC validator: PASS;",
+                  "- POC regression suite: 86/86 PASS, zero skips;",
+                  "- exact implementation Gate #562 / run `35053800745`: success;",
+                  "- post-implementation Gate #564 / run `35061598487`: success;",
+                  "- post-review Gate #567 / run `35062832433`: success;",
+                  f"- exact-head Codex review on `{IMPLEMENTATION_HEAD}`: no major issues;",
+                  "- all ten plans and result-index rows remain nonterminal;",
+                  "- no downstream `evidence/POC-*` result was created.",
+                  "",
+                  "## Stop That Shit boundary",
+                  "",
+                  "This task freezes a usable planning and validation baseline. Concrete terminal execution hardening belongs to the downstream POC task that exercises the relevant environment.",
+                  "",
+                  "## Rollback",
+                  "",
+                  "Before merge, close the Completion PR. After merge, use a dedicated reviewed revert PR. Never force-push or rewrite `main`.",
+                  "",
+                  "## Claim boundary",
+                  "",
+                  "No POC experiment or production result is claimed.",
+              ],
+          )
 
-Task: `GZ-010`
-Issue: `#15`
-Reservation: PR #45 / `74ab9d53f29834fda37dcbd726fd58f997f8f21a`
-Activation: PR #47 / `219d7096756ad75717a46d85baf7d2b216e2472b`
-Implementation: PR #48, source `{IMPLEMENTATION_HEAD}`, merge `{IMPLEMENTATION_MERGE}`
-Review transition: PR #62, merge `{REVIEW_MERGE}`
+          write_lines(
+              "evidence/GZ-010/commands.txt",
+              [
+                  "GZ-010 final completion command evidence",
+                  "",
+                  "Task: GZ-010",
+                  "Issue: #15",
+                  f"Implementation source: {IMPLEMENTATION_HEAD}",
+                  f"Implementation merge: {IMPLEMENTATION_MERGE}",
+                  f"Review merge: {REVIEW_MERGE}",
+                  "",
+                  "command: python specs/poc/check_program.py",
+                  "exit code: 0",
+                  "result: PASS",
+                  "source: GitHub Actions run 35053181259, job 104657763581",
+                  "",
+                  "command: python specs/poc/test_program.py",
+                  "exit code: 0",
+                  "result: PASS; 86/86 tests; 0 skipped",
+                  "source: GitHub Actions run 35053181259, job 104657763581",
+                  "",
+                  "command group: exact-head implementation Governance Gate",
+                  "exit code: 0",
+                  "result: PASS; Gate #562 / run 35053800745; 267/267 tests; 0 skipped",
+                  "",
+                  "command group: post-implementation main Governance Gate",
+                  "exit code: 0",
+                  "result: PASS; Gate #564 / run 35061598487",
+                  "",
+                  "command group: post-review main Governance Gate",
+                  "exit code: 0",
+                  "result: PASS; Gate #567 / run 35062832433",
+                  "",
+                  "command: python scripts/check-task-file.py --task GZ-010",
+                  "exit code: 0",
+                  "result: PASS; completion runner pushes only after success",
+                  "",
+                  "command group: Program integrity, history, transitions, finalization and lifecycle",
+                  "exit code: 0",
+                  "result: PASS; completion runner pushes only after success",
+                  "",
+                  f"command: python scripts/run-agent-coordination-gate.py --task GZ-010 --base-ref {BASE} --head-ref HEAD --branch-name chore/GZ-010-poc-program-baseline",
+                  "exit code: 0",
+                  "result: PASS; completion runner pushes only after success",
+                  "",
+                  "command: python -m pytest tests/governance/ -q",
+                  "exit code: 0",
+                  "result: PASS; completion runner pushes only after success",
+                  "",
+                  "command: completion merge and post-main validation",
+                  "exit code: NOT_YET_EXECUTED",
+                  "result: NOT_CLAIMED",
+                  "",
+                  "claim boundary: no POC experiment or terminal POC result is claimed.",
+              ],
+          )
 
-## Completion status
+          write_lines(
+              "evidence/GZ-010/handoff.md",
+              [
+                  "# GZ-010 Completion Handoff",
+                  "",
+                  "Task: `GZ-010`",
+                  "Issue: `#15`",
+                  f"Implementation PR #48 merge: `{IMPLEMENTATION_MERGE}`",
+                  f"Review PR #62 merge: `{REVIEW_MERGE}`",
+                  "",
+                  "## Roles",
+                  "",
+                  "- Human Owner: `ElectricDogCN`;",
+                  "- Implementer: `poc-program-agent`;",
+                  "- Independent Reviewer: `independent-poc-program-review-agent`;",
+                  "- Integrator: `integration-agent`.",
+                  "",
+                  "## State handed off",
+                  "",
+                  "Program and Task Spec are `completed`; the GZ-010 Active Work row is removed; one immutable Completion Ledger row points to the merged implementation and task Evidence.",
+                  "",
+                  "POC-001 through POC-010 remain `planned`, result-index rows remain `not_started`, and no downstream result Evidence exists.",
+                  "",
+                  "## Delivered assets",
+                  "",
+                  "- canonical POC Program and catalogues;",
+                  "- strict planning and Evidence schemas;",
+                  "- ten frozen plans;",
+                  "- fail-closed validator and 86-test regression suite;",
+                  "- operator README and task Evidence.",
+                  "",
+                  "## Next exact role action",
+                  "",
+                  "The Integrator reviews this metadata-only Completion PR, confirms implementation bytes are unchanged and validation is green, merges with expected-head protection, then verifies the exact post-main Governance Gate. The Human Owner then closes Issue #15 and selects the next Program task by dependency and Wave order.",
+                  "",
+                  "## Rollback",
+                  "",
+                  "Use a dedicated revert PR. Preserve PR #48, PR #62 and all validation history. Do not force-push or delete Evidence.",
+              ],
+          )
 
-GZ-010 has delivered the executable, nonterminal `POC-PROTOCOL-V1` planning baseline and is ready to close. The completion candidate changes only lifecycle metadata, removes the GZ-010 Active Work lease, appends one immutable Completion Ledger record, and refreshes final task Evidence. It does not modify the POC contract implementation.
-
-## Delivered result
-
-- one canonical Program for POC-001 through POC-010;
-- strict schemas, catalogues, templates, plans, result index and validator;
-- ten independent machine-checkable plans;
-- direct validator success and `86/86` POC regression tests;
-- `267/267` repository governance tests on the reviewed implementation;
-- exact-head implementation Governance Gate #562 / run `35053800745`: success;
-- post-implementation main Gate #564 / run `35061598487`: success;
-- post-review main Gate #567 / run `35062832433`: success;
-- final exact-head Codex review on `{IMPLEMENTATION_HEAD}`: no major issues;
-- all ten plans and result-index rows remain nonterminal;
-- no downstream `evidence/POC-*` execution result was created.
-
-## Stop That Shit boundary
-
-GZ-010 freezes a usable planning and validation baseline. It does not attempt to pre-build every future terminal-result control. Concrete downstream execution hardening belongs to the POC task that actually exercises the affected environment.
-
-## Completion validation
-
-The completion branch is pushed only after Task File, Project Readiness, Program integrity/history/transitions/finalization/lifecycle, Agent Coordination, Task Scope, Evidence and the full governance suite succeed. The exact GitHub run belongs to the workflow trigger commit and is intentionally not pre-written into this file.
-
-## Rollback
-
-Before merge, close the Completion PR and preserve its branch. After merge, use a dedicated reviewed revert PR for the completion merge. Never force-push or rewrite `main`. Reverting completion does not erase PR #48, the POC baseline history, or prior validation records.
-
-## Claim boundary
-
-No POC experiment was executed. No hardware, provider, media, storage, AI, network, recovery, performance, privacy or licence result is claimed.
-'''
-          Path("evidence/GZ-010/summary.md").write_text(summary, encoding="utf-8")
-
-          commands = f'''GZ-010 final completion command evidence
-
-Task: GZ-010
-Issue: #15
-Implementation PR: #48
-Implementation source: {IMPLEMENTATION_HEAD}
-Implementation merge: {IMPLEMENTATION_MERGE}
-Review merge: {REVIEW_MERGE}
-
-command: python specs/poc/check_program.py
-exit code: 0
-result: PASS
-source: GitHub Actions run 35053181259, job 104657763581
-
-command: python specs/poc/test_program.py
-exit code: 0
-result: PASS
-observed result: 86/86 tests passed; unexpected skips 0
-source: GitHub Actions run 35053181259, job 104657763581
-
-command group: exact-head implementation Governance Gate
-exit code: 0
-result: PASS
-observed result: Gate #562 / run 35053800745; 267/267 governance tests passed; 0 skipped
-source head: {IMPLEMENTATION_HEAD}
-
-command group: post-implementation main Governance Gate
-exit code: 0
-result: PASS
-observed result: Gate #564 / run 35061598487
-source main: {IMPLEMENTATION_MERGE}
-
-command group: post-review main Governance Gate
-exit code: 0
-result: PASS
-observed result: Gate #567 / run 35062832433
-source main: {REVIEW_MERGE}
-
-command: python scripts/check-task-file.py --task GZ-010
-exit code: 0
-result: PASS; completion workflow pushes only after success
-
-command: python scripts/check-project-readiness.py
-exit code: 0
-result: PASS with existing external-readiness warnings; completion workflow pushes only after success
-
-command group: Program integrity, history, transitions, finalization and lifecycle
-exit code: 0
-result: PASS; completion workflow pushes only after success
-
-command: python scripts/run-agent-coordination-gate.py --task GZ-010 --base-ref {BASE} --head-ref HEAD --branch-name chore/GZ-010-poc-program-baseline
-exit code: 0
-result: PASS; completion workflow pushes only after success
-
-command: python -m pytest tests/governance/ -q
-exit code: 0
-result: PASS; completion workflow pushes only after success
-
-command: completion merge and post-main validation
-exit code: NOT_YET_EXECUTED
-result: NOT_CLAIMED
-
-claim boundary: no POC-001 through POC-010 experiment was executed and no terminal POC result is claimed.
-'''
-          Path("evidence/GZ-010/commands.txt").write_text(commands, encoding="utf-8")
-
-          handoff = f'''# GZ-010 Completion Handoff
-
-Task: `GZ-010`
-Issue: `#15`
-Implementation PR: `#48`
-Implementation merge: `{IMPLEMENTATION_MERGE}`
-Review PR: `#62`
-Review merge: `{REVIEW_MERGE}`
-
-## State handed off
-
-GZ-010 is represented as `completed` in Program and Task Spec. Its sole Active Work entry is removed, and one immutable Completion Ledger record points to the already merged implementation PR and task-owned Evidence.
-
-The POC baseline remains deliberately nonterminal:
-
-- POC-001 through POC-010 plans remain `planned`;
-- result-index rows remain `not_started`;
-- no downstream execution/result Evidence exists;
-- no POC outcome is claimed.
-
-## Delivered assets
-
-- canonical POC Program, policy, resource and sample catalogues;
-- strict plan/execution/result/approval/compliance schemas;
-- ten frozen plans and result-index ownership rules;
-- fail-closed validator and 86-test regression suite;
-- concise operator README and task Evidence.
-
-## Validation chain
-
-- exact implementation source `{IMPLEMENTATION_HEAD}`: Gate #562 success;
-- implementation merge `{IMPLEMENTATION_MERGE}`: post-main Gate #564 success;
-- review merge `{REVIEW_MERGE}`: post-main Gate #567 success;
-- completion candidate: pushed only after full task/lifecycle/coordination/scope/evidence and governance validation succeeds.
-
-## Known limitations
-
-The repository does not claim that terminal execution records have been exercised against real hardware, providers or production-like environments. Downstream POC tasks must validate their own concrete execution, Evidence, security and recovery behavior before recording a result.
-
-## Next exact role action
-
-The Integrator reviews the metadata-only Completion PR, confirms implementation bytes are unchanged and the completion Gate is green, merges with expected-head protection, then verifies the exact post-main Governance Gate. After that, the Human Owner closes Issue #15 and selects the next Program task according to dependency and Wave order.
-
-## Rollback
-
-Use a dedicated revert PR for the completion merge. Preserve PR #48, PR #62 and all validation history. Do not force-push or delete Evidence.
-'''
-          Path("evidence/GZ-010/handoff.md").write_text(handoff, encoding="utf-8")
-
-          tests = f'''# GZ-010 Final Test Results
-
-Task: `GZ-010`
-Issue: `#15`
-Implementation source: `{IMPLEMENTATION_HEAD}`
-Implementation merge: `{IMPLEMENTATION_MERGE}`
-Review merge: `{REVIEW_MERGE}`
-
-## POC contract validation
-
-- `python specs/poc/check_program.py`: PASS, exit 0;
-- `python specs/poc/test_program.py`: 86/86 PASS;
-- unexpected skips: 0;
-- source run: `35053181259`, job `104657763581`.
-
-## Repository validation
-
-- exact-head Gate #562 / run `35053800745`: success;
-- governance tests: 267/267 passed, 0 skipped;
-- post-implementation Gate #564 / run `35061598487`: success;
-- post-review Gate #567 / run `35062832433`: success;
-- exact-head Codex review: no major issues.
-
-## Completion-candidate validation
-
-Before pushing the completion commit, the one-shot runner executes Task File, Project Readiness, Program integrity/history/transitions/finalization/lifecycle, Agent Coordination, Task Scope, Evidence and the full governance suite. A failure prevents the push.
-
-## Non-execution statement
-
-All ten POC plans and result-index rows remain nonterminal. These results validate the planning baseline and lifecycle closure; they are not POC experiment results.
-'''
-          Path("evidence/GZ-010/test-results/README.md").write_text(tests, encoding="utf-8")
+          write_lines(
+              "evidence/GZ-010/test-results/README.md",
+              [
+                  "# GZ-010 Final Test Results",
+                  "",
+                  f"Implementation source: `{IMPLEMENTATION_HEAD}`",
+                  f"Implementation merge: `{IMPLEMENTATION_MERGE}`",
+                  f"Review merge: `{REVIEW_MERGE}`",
+                  "",
+                  "## POC contract validation",
+                  "",
+                  "- validator: PASS, exit 0;",
+                  "- POC regression suite: 86/86 PASS;",
+                  "- unexpected skips: 0;",
+                  "- source run: `35053181259`, job `104657763581`.",
+                  "",
+                  "## Repository validation",
+                  "",
+                  "- exact-head Gate #562 / run `35053800745`: success;",
+                  "- governance tests: 267/267 PASS, 0 skipped;",
+                  "- post-implementation Gate #564 / run `35061598487`: success;",
+                  "- post-review Gate #567 / run `35062832433`: success;",
+                  "- exact-head Codex review: no major issues.",
+                  "",
+                  "## Completion validation",
+                  "",
+                  "The completion runner executes task, readiness, lifecycle, coordination, scope, Evidence and full governance validation before push. A failure prevents publication.",
+                  "",
+                  "## Non-execution statement",
+                  "",
+                  "All POC plans and result-index rows remain nonterminal. These are planning-baseline tests, not experiment results.",
+              ],
+          )
           PY
 
           rm .github/workflows/gz010-completion-transition.yml
@@ -333,20 +312,11 @@ All ten POC plans and result-index rows remain nonterminal. These results valida
           python scripts/check-task-file.py --task GZ-010
           python scripts/check-project-readiness.py
           python scripts/check-program-plan-integrity.py --base-ref "$BASE"
-          python scripts/check-program-plan-history.py \
-            --base-ref "$BASE" --head-ref HEAD \
-            --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
-          python scripts/check-program-plan-transitions.py \
-            --base-ref "$BASE" --head-ref HEAD \
-            --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
-          python scripts/check-program-plan-finalization.py \
-            --base-ref "$BASE" --head-ref HEAD --task GZ-010
-          python scripts/check-program-lifecycle-guards.py \
-            --base-ref "$BASE" --head-ref HEAD \
-            --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
-          python scripts/run-agent-coordination-gate.py \
-            --task GZ-010 --base-ref "$BASE" --head-ref HEAD \
-            --branch-name chore/GZ-010-poc-program-baseline
+          python scripts/check-program-plan-history.py --base-ref "$BASE" --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+          python scripts/check-program-plan-transitions.py --base-ref "$BASE" --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+          python scripts/check-program-plan-finalization.py --base-ref "$BASE" --head-ref HEAD --task GZ-010
+          python scripts/check-program-lifecycle-guards.py --base-ref "$BASE" --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+          python scripts/run-agent-coordination-gate.py --task GZ-010 --base-ref "$BASE" --head-ref HEAD --branch-name chore/GZ-010-poc-program-baseline
           python scripts/run-task-scope-gate.py --task GZ-010 --base "$BASE"
           python scripts/check-evidence.py --task GZ-010
           python -m pytest tests/governance/ -q
