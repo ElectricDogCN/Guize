@@ -124,6 +124,9 @@ jobs:
               [
                   "# GZ-010 POC Program Baseline — Completion Evidence",
                   "",
+                  "Status: COMPLETED",
+                  "Result: PASS",
+                  "",
                   "Task: `GZ-010`",
                   "Issue: `#15`",
                   "Reservation: PR #45 / `74ab9d53f29834fda37dcbd726fd58f997f8f21a`",
@@ -164,6 +167,9 @@ jobs:
               "evidence/GZ-010/commands.txt",
               [
                   "GZ-010 final completion command evidence",
+                  "",
+                  "Status: COMPLETED",
+                  "Result: PASS",
                   "",
                   "Task: GZ-010",
                   "Issue: #15",
@@ -222,6 +228,9 @@ jobs:
               [
                   "# GZ-010 Completion Handoff",
                   "",
+                  "Status: COMPLETED",
+                  "Result: PASS",
+                  "",
                   "Task: `GZ-010`",
                   "Issue: `#15`",
                   f"Implementation PR #48 merge: `{IMPLEMENTATION_MERGE}`",
@@ -262,6 +271,9 @@ jobs:
               "evidence/GZ-010/test-results/README.md",
               [
                   "# GZ-010 Final Test Results",
+                  "",
+                  "Status: COMPLETED",
+                  "Result: PASS",
                   "",
                   f"Implementation source: `{IMPLEMENTATION_HEAD}`",
                   f"Implementation merge: `{IMPLEMENTATION_MERGE}`",
