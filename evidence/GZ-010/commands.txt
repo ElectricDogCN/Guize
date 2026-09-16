@@ -1,54 +1,56 @@
-GZ-010 final completion command evidence
-
-Status: COMPLETED
-Result: PASS
-
+GZ-010 Completion Command Evidence
 Task: GZ-010
 Issue: #15
+Completion PR: #63
+Branch: chore/GZ-010-poc-program-baseline
+Target base: 3a11c5f639717993f51a26c5b5970701570fe367
 Implementation source: 397bd6d45235b38e9afe59bc8f7b28ede5c8e4f6
 Implementation merge: 2b2d076b68171edd74639e307f8a126cc882186d
-Review merge: 3a11c5f639717993f51a26c5b5970701570fe367
+Validated completion content commit: fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7
+
+The following PASS entries are historical observations with explicit source identities. They do not claim execution on the documentation follow-up, merge approval, or post-completion main success.
 
 command: python specs/poc/check_program.py
 exit code: 0
 result: PASS
-source: GitHub Actions run 35053181259, job 104657763581
+source: historical implementation run 35053181259, job 104657763581
 
 command: python specs/poc/test_program.py
 exit code: 0
-result: PASS; 86/86 tests; 0 skipped
-source: GitHub Actions run 35053181259, job 104657763581
+result: PASS; 86 tests
+source: historical implementation run 35053181259, job 104657763581
 
-command group: exact-head implementation Governance Gate
+command: python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
 exit code: 0
-result: PASS; Gate #562 / run 35053800745; 267/267 tests; 0 skipped
+result: PASS; 267 collected, 267 passed in 31.09 seconds
+source: Gate #568 / run 35068143321 / job 104703074033; source fb3a6edf5dde176f4cb97df1d7ec5b77a1ac1ef7; synthetic merge 38c28e2f32e283ac844324d5bedaa685218679d5
 
-command group: post-implementation main Governance Gate
+command: python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
 exit code: 0
-result: PASS; Gate #564 / run 35061598487
+result: PASS; zero skipped tests
+source: Gate #568, same source and synthetic merge
 
-command group: post-review main Governance Gate
+command: python scripts/check-program-lifecycle-guards.py --base-ref origin/main --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
 exit code: 0
-result: PASS; Gate #567 / run 35062832433
+result: PASS; affected task GZ-010, eight changed paths
+source: Gate #568. This is the direct guard, NOT run-program-lifecycle-gate.py.
 
-command: python scripts/check-task-file.py --task GZ-010
-exit code: 0
-result: PASS; completion runner pushes only after success
+observation: GitHub Issue #15 state=closed, state_reason=completed, closed_at=2026-09-16T06:26:20Z
+source: authorized GitHub fetch_issue read on 2026-09-16
+limitation: observing the API separately does not substitute for executing the wrapper below.
 
-command group: Program integrity, history, transitions, finalization and lifecycle
-exit code: 0
-result: PASS; completion runner pushes only after success
+Required next execution, on the final candidate with its exact HEAD recorded first. Do not mock the Issue API or set GUIZE_GITHUB_API_URL to a replacement endpoint. Existing read-only GITHUB_TOKEN may be used without printing it.
 
-command: python scripts/run-agent-coordination-gate.py --task GZ-010 --base-ref 3a11c5f639717993f51a26c5b5970701570fe367 --head-ref HEAD --branch-name chore/GZ-010-poc-program-baseline
-exit code: 0
-result: PASS; completion runner pushes only after success
+command: env GITHUB_REPOSITORY=ElectricDogCN/Guize python scripts/run-program-lifecycle-gate.py --base-ref 3a11c5f639717993f51a26c5b5970701570fe367 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+exit code: NOT_EXECUTED
+result: NOT_CLAIMED; required completion Issue-state validation remains pending actual execution.
 
-command: python -m pytest tests/governance/ -q
-exit code: 0
-result: PASS; completion runner pushes only after success
+command: make verify TASK=GZ-010 BASE=3a11c5f639717993f51a26c5b5970701570fe367 HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline
+exit code: NOT_EXECUTED_ON_THIS_FOLLOW_UP
+result: NOT_CLAIMED; Gate #568 ran underlying components directly, not this named command.
 
-command: completion merge and post-main validation
-exit code: NOT_YET_EXECUTED
+command: isolated worktree restoration rehearsal in evidence/GZ-010/rollback-verification/README.md
+exit code: NOT_EXECUTED
 result: NOT_CLAIMED
 
-claim boundary: no POC experiment or terminal POC result is claimed.
+After actual execution, record the command output, exit code, exact tested HEAD, date and review/run reference. Any failure blocks merge. Do not replace a missing result with a forecast or a historical PASS.
