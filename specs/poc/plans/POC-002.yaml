@@ -56,7 +56,8 @@ protocol:
   - id: sustained_encode_stability
     metric: Sustained encoding stability over the approved soak window
     unit: boolean
-    method: Run the approved long-duration AV1/H.264 soak workload and require no unrecovered encoder/runtime failure, GPU hang, corrupt segment, or uncontrolled resource growth.
+    method: Run the approved long-duration AV1/H.264 soak workload and require no unrecovered encoder/runtime failure, GPU hang, corrupt segment,
+      or uncontrolled resource growth.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: sustained_encode_duration
@@ -68,7 +69,8 @@ protocol:
   - id: encode_provenance_complete
     metric: Input/output hashes and exact encoder parameters captured
     unit: boolean
-    method: Require execution-record provenance input_sha256, output_sha256 and exact structured encoder_parameters, and verify the output hash against the produced media bytes.
+    method: Require execution-record provenance input_sha256, output_sha256 and exact structured encoder_parameters, and verify the output hash
+      against the produced media bytes.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: disallowed_input_targets_denied
@@ -86,23 +88,46 @@ protocol:
   - id: worker_interruption_idempotent_recovery
     metric: Interrupted worker attempt recovers idempotently
     unit: boolean
-    method: Interrupt the worker after partial output creation, retry the same job identity and prove no duplicate terminal result or corrupt artifact is published.
+    method: Interrupt the worker after partial output creation, retry the same job identity and prove no duplicate terminal result or corrupt
+      artifact is published.
     thresholdSource: ACCEPTANCE_TRACE_V1
     actual: null
   - id: cancellation_cleanup_complete
     metric: Cancellation stops work and cleans partial artifacts
     unit: boolean
-    method: Cancel an active encode and verify the worker terminates, releases resources and removes or quarantines partial output according to policy.
+    method: Cancel an active encode and verify the worker terminates, releases resources and removes or quarantines partial output according to
+      policy.
     thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: a380_range_first_byte_latency
+    metric: A380-backed Range first-byte latency
+    unit: ms
+    method: Measure first-byte latency for approved Range requests whose media output was produced by the recorded A380 encoder path.
+    thresholdSource: NFR-V1-PERF-002
+    actual: null
+  - id: encoder_power_peak_watts
+    metric: Peak encoder power during the approved workload
+    unit: W
+    method: Capture device/host power telemetry with tool version, sampling interval and workload phase recorded.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: encoder_temperature_peak_celsius
+    metric: Peak encoder temperature during the approved workload
+    unit: celsius
+    method: Capture device temperature telemetry across warmup, concurrency and soak phases with the sampling method recorded.
+    thresholdSource: APPROVED_POC_SCOPE
     actual: null
   exitCriteria:
   - AV1 and fallback H.264 paths produce decodable outputs.
   - Quality/throughput/first-segment measurements are captured for approved immutable samples.
   - Sustained encoding completes the approved soak window without unrecovered runtime/GPU failure or corrupt output.
-  - Input SHA-256, output SHA-256 and exact encoder parameters are recorded in task-owned Evidence and are sufficient to reproduce the compared encode.
+  - Input SHA-256, output SHA-256 and exact encoder parameters are recorded in task-owned Evidence and are sufficient to reproduce the compared
+    encode.
   - Disallowed protocols, paths and proxy targets are rejected before access.
   - CPU, memory, time, temporary-space and output-size limits terminate excess work predictably.
   - Worker interruption retry is idempotent, and cancellation leaves no publishable partial artifact or leaked resource.
+  - A380-backed Range first-byte latency is measured with the encoder provenance and public/origin path recorded.
+  - Peak encoder power and temperature are recorded across warmup, concurrency and soak phases.
   failureFallbacks:
   - If A380 AV1 path or sustained stability is insufficient, retain H.264 compatibility path and evaluate another worker/GPU profile.
   rollbackCleanup:

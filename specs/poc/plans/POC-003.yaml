@@ -51,7 +51,8 @@ protocol:
   - id: if_range_semantics
     metric: If-Range conditional Range correctness
     unit: boolean
-    method: Verify matching If-Range returns the requested partial response while stale/nonmatching validators fall back to the correct full representation semantics.
+    method: Verify matching If-Range returns the requested partial response while stale/nonmatching validators fall back to the correct full representation
+      semantics.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: ats_slice_behavior
@@ -102,6 +103,30 @@ protocol:
     method: Exercise representative large-file slices with raw headers/log capture.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: range_hot_cache_latency
+    metric: Range first-byte latency on hot cache
+    unit: ms
+    method: Measure the approved byte-range matrix after cache warmup with percentile method and request count recorded.
+    thresholdSource: NFR-V1-PERF-002
+    actual: null
+  - id: range_cold_cache_latency
+    metric: Range first-byte latency on cold cache
+    unit: ms
+    method: Purge the approved sandbox cache, then measure cold-fill Range first-byte latency using the same immutable sample.
+    thresholdSource: NFR-V1-PERF-002
+    actual: null
+  - id: range_slow_origin_latency
+    metric: Range first-byte latency with controlled slow origin
+    unit: ms
+    method: Apply the approved origin delay/bandwidth profile and measure end-to-end Range first-byte latency and timeout behavior.
+    thresholdSource: NFR-V1-PERF-002
+    actual: null
+  - id: range_multi_user_latency
+    metric: Range latency under approved multi-user load
+    unit: ms
+    method: Measure authorized Range latency under the frozen concurrent-user profile while preserving cache-key isolation.
+    thresholdSource: NFR-V1-PERF-002
+    actual: null
   exitCriteria:
   - Range responses match requested byte intervals.
   - ETag validators remain stable for unchanged content and change when the governed object version changes.
@@ -111,6 +136,7 @@ protocol:
   - Origin interruption never promotes partial content to a complete cache entry and bounded recovery behavior is evidenced.
   - Protected cache keys remain isolated by authorization context.
   - Representative large files stream without full-object materialization.
+  - Hot-cache, cold-cache, slow-origin and multi-user Range latency are measured separately under the frozen NFR-V1-PERF-002 scenarios.
   failureFallbacks:
   - If ATS Range/Slice/recovery behavior is insufficient, evaluate origin Range proxy or an alternative edge cache configuration.
   rollbackCleanup:

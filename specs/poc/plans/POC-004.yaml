@@ -40,7 +40,8 @@ protocol:
   - id: iscsi_transport_ready
     metric: iSCSI transport path is operational
     unit: boolean
-    method: Establish the approved sandbox iSCSI path, verify target/LUN discovery, session stability and read/write accessibility with raw session evidence.
+    method: Establish the approved sandbox iSCSI path, verify target/LUN discovery, session stability and read/write accessibility with raw session
+      evidence.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: sequential_throughput
@@ -76,7 +77,8 @@ protocol:
   - id: disconnect_recovery
     metric: iSCSI/network disconnect recovery succeeds
     unit: boolean
-    method: Interrupt the approved sandbox transport and verify bounded reconnect, integrity checks and explicit failure handling for incomplete work.
+    method: Interrupt the approved sandbox transport and verify bounded reconnect, integrity checks and explicit failure handling for incomplete
+      work.
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
   - id: snapshot_restore
@@ -97,6 +99,30 @@ protocol:
     method: Inject the remaining approved sandbox failure cases and verify the documented recovery runbook.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: incomplete_replica_rejected
+    metric: Incomplete object is rejected as a formal replica
+    unit: boolean
+    method: Interrupt or truncate the copy and prove it cannot be promoted to formal-replica state.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: hash_mismatch_replica_rejected
+    metric: Hash-mismatched object is rejected as a formal replica
+    unit: boolean
+    method: Introduce a deterministic checksum mismatch and prove promotion fails closed with auditable evidence.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: cache_eviction_preserves_authoritative_state
+    metric: Cache eviction preserves asset metadata, retention and formal replicas
+    unit: boolean
+    method: Evict the cache copy and verify authoritative asset metadata, retention state and formal-replica records remain unchanged.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: replica_migration_preserves_old_valid_copy
+    metric: Replica migration retains the old valid copy until the new copy is verified
+    unit: boolean
+    method: Migrate a sandbox replica and prove the prior valid copy remains available until checksum and metadata verification complete.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
   exitCriteria:
   - Approved iSCSI transport is reproducibly discoverable and operational for the sandbox dataset.
   - Throughput and I/O latency measurements are captured on that iSCSI path with the environment/profile recorded.
@@ -104,6 +130,9 @@ protocol:
   - Dataset/watermark behavior engages before the free-space floor is violated.
   - Transport disconnect/recovery, ZFS snapshot restore and concurrent workload stability are demonstrated independently.
   - Failure-recovery evidence is captured without production data.
+  - Incomplete and hash-mismatched copies cannot be promoted to formal replicas.
+  - Cache eviction preserves authoritative asset metadata, retention state and formal replicas.
+  - Replica migration retains the old valid copy until the new copy is verified.
   failureFallbacks:
   - If current TrueNAS/iSCSI topology is insufficient, document required dataset/network/storage changes before M2.
   rollbackCleanup:

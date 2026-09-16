@@ -1024,5 +1024,30 @@ class TestPocProgram(unittest.TestCase):
         self.assert_invalid(mutate, "bookingRef must point to an existing file")
 
 
+    def test_86_every_frozen_measurement_id_is_required(self):
+        for poc_id, required_ids in sorted(CHECK.REQUIRED_MEASUREMENTS.items()):
+            task_id = f"POC-{int(poc_id.split('-')[1]):03d}"
+            for measurement_id in sorted(required_ids):
+                with self.subTest(pocId=poc_id, measurementId=measurement_id):
+                    temp, root = self.temp_repo()
+                    try:
+                        baseline = CHECK.validate_repository(root)
+                        self.assertEqual(baseline, [], "\n".join(baseline))
+                        path = self.plan_path(root, task_id)
+                        data = load_yaml(path)
+                        data["protocol"]["measurements"] = [
+                            item for item in data["protocol"]["measurements"]
+                            if item["id"] != measurement_id
+                        ]
+                        write_yaml(path, data)
+                        errors = CHECK.validate_repository(root)
+                        self.assertTrue(
+                            any("missing frozen required measurements" in error for error in errors),
+                            "\n".join(errors),
+                        )
+                    finally:
+                        temp.cleanup()
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

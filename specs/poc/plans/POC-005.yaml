@@ -70,7 +70,8 @@ protocol:
   - id: source_change_frequency
     metric: Observed source metadata change frequency
     unit: changes_per_hour
-    method: Apply and observe the approved deterministic create/update/delete change stream, recording event count and observation window from the immutable fixture manifest.
+    method: Apply and observe the approved deterministic create/update/delete change stream, recording event count and observation window from
+      the immutable fixture manifest.
     thresholdSource: NFR-V1-CAP-003
     actual: null
   - id: enumeration_rate
@@ -91,13 +92,40 @@ protocol:
     method: Capture process peak memory during scale sweeps.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: filename_characteristics_profiled
+    metric: Filename and path characteristics are profiled
+    unit: boolean
+    method: Measure name length, character-set, extension and path-depth distributions from the approved immutable metadata fixture.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: provider_characteristics_profiled
+    metric: Provider/source characteristics are recorded
+    unit: boolean
+    method: Record provider listing, pagination, consistency, timestamp and object-identity semantics for the tested source profile.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: range_support_profiled
+    metric: Source Range support is measured
+    unit: boolean
+    method: Exercise supported and unsupported Range requests and record status/header/body behavior for the tested provider profile.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: etag_behavior_profiled
+    metric: Source ETag or equivalent version semantics are measured
+    unit: boolean
+    method: Record validator stability for unchanged objects and change behavior after an approved source update.
+    thresholdSource: APPROVED_POC_SCOPE
+    actual: null
   exitCriteria:
-  - File count, directory count/depth, average file size and source API quota/rate-limit facts are captured for the immutable representative hierarchy/source profile.
+  - File count, directory count/depth, average file size and source API quota/rate-limit facts are captured for the immutable representative hierarchy/source
+    profile.
   - Source change frequency is measured from a deterministic create/update/delete observation window rather than asserted in prose.
   - Scale model covers file count, directory fanout/depth and change rate with raw manifest/provenance references.
   - Enumeration rate, incremental scan cost and memory peak are measured without assuming 700TB byte transfer.
+  - Filename/path and provider characteristics, Range support and ETag/version semantics are captured for the tested source profile.
   failureFallbacks:
-  - If direct full enumeration is infeasible or source quotas dominate cost, evaluate incremental journals/change tokens, adaptive backoff or staged indexing.
+  - If direct full enumeration is infeasible or source quotas dominate cost, evaluate incremental journals/change tokens, adaptive backoff or
+    staged indexing.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.

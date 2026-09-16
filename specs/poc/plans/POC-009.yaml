@@ -127,12 +127,100 @@ protocol:
     method: Exceed the configured concurrent-call ceiling and verify fail-closed admission control.
     thresholdSource: NFR_BUDGET_GATE
     actual: null
+  - id: provider_budget_limit
+    metric: Tested external-provider budget ceiling
+    unit: currency
+    method: Record the approved numeric budget ceiling and period used by the hard-budget gate.
+    thresholdSource: NFR-V1-CAP-004
+    actual: null
+  - id: provider_request_rate_limit
+    metric: Tested external-provider request-rate ceiling
+    unit: requests_per_minute
+    method: Record the approved numeric request-rate ceiling exercised by the quota gate.
+    thresholdSource: NFR-V1-CAP-004
+    actual: null
+  - id: provider_concurrency_limit
+    metric: Tested external-provider concurrency ceiling
+    unit: requests
+    method: Record the approved numeric concurrent-call ceiling exercised by admission control.
+    thresholdSource: NFR-V1-CAP-004
+    actual: null
+  - id: asr_wer
+    metric: Automatic speech recognition word error rate
+    unit: ratio
+    method: Compute WER on the approved de-identified speech strata.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: asr_cer
+    metric: Automatic speech recognition character error rate
+    unit: ratio
+    method: Compute CER on the approved language/media-quality strata.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: speaker_der
+    metric: Speaker diarization error rate
+    unit: ratio
+    method: Compute DER on the approved multi-speaker fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: translation_comet
+    metric: Translation COMET score
+    unit: score
+    method: Compute COMET on the approved language-pair fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: translation_bleu
+    metric: Translation BLEU score
+    unit: score
+    method: Compute BLEU on the same immutable translation fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: ocr_accuracy
+    metric: OCR field/text accuracy
+    unit: ratio
+    method: Measure OCR accuracy across approved image-quality and document-layout strata.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: factual_consistency
+    metric: Generated summary or description factual consistency
+    unit: ratio
+    method: Score factual consistency against approved references with reviewer protocol recorded.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: tag_f1
+    metric: Automatic tag F1
+    unit: ratio
+    method: Compute F1 against the approved multilabel tag fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: thumbnail_human_selection_rate
+    metric: Thumbnail human-selection rate
+    unit: ratio
+    method: Measure independent reviewer selection of generated thumbnails on the approved fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: multimodal_correction_accuracy
+    metric: Multimodal correction accuracy
+    unit: ratio
+    method: Measure accepted corrections against the approved multimodal error fixture.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
+  - id: quality_strata_coverage
+    metric: Required language, media-quality, duration and scenario strata are covered
+    unit: boolean
+    method: Prove every frozen evaluation stratum has the required sample count and metric results.
+    thresholdSource: ACCEPTANCE_TRACE_V1
+    actual: null
   exitCriteria:
   - AI task quality, throughput, cost, privacy and license evidence is captured with model, Prompt, parameter and immutable-input provenance.
   - Retrieval Recall, MRR, NDCG and end-to-end query latency are measured against one approved fixed query/corpus fixture.
   - External provider usage is gated by approved privacy/data policy, caller permission and the current asset ACL before dispatch.
   - Hard budget, request-rate and concurrency quotas reject excess external-provider use without executing a provider request.
   - No commercial-provider credential or sensitive payload is committed to Git/Evidence.
+  - The tested numeric budget, request-rate and concurrency ceilings are recorded and the corresponding fail-closed gates are exercised against
+    those values.
+  - WER, CER, DER, COMET, BLEU, OCR accuracy, factual consistency, tag F1, thumbnail human selection and multimodal correction are recorded for
+    all required language, quality, duration and scenario strata.
   failureFallbacks:
   - Prefer local/private inference or disable a capability when privacy/license/cost/access-control/quota constraints are not acceptable.
   - If retrieval relevance or query latency is insufficient, document the corpus/index/query changes required before product implementation.

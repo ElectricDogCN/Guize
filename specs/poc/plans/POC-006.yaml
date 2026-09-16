@@ -66,10 +66,49 @@ protocol:
     method: Bind an approved license review record to the exact provider API/SDK version captured for execution.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: rate_limit_429_classified_retried
+    metric: Provider 429 responses are classified and retried safely
+    unit: boolean
+    method: Inject or receive a sandbox 429, honor retry guidance/backoff and prove no duplicate logical object is created.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: upstream_5xx_classified_retried
+    metric: Provider 5xx responses are classified and retried safely
+    unit: boolean
+    method: Exercise bounded 5xx failures and recovery, retaining checkpoint/idempotency evidence.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: network_failure_classified_retried
+    metric: Network failures are classified and recovered safely
+    unit: boolean
+    method: Interrupt the sandbox network path and verify bounded retry or explicit failure without corrupting sync state.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: interrupted_sync_resume_or_idempotent_rerun
+    metric: Interrupted synchronization resumes from a safe checkpoint or reruns idempotently
+    unit: boolean
+    method: Interrupt synchronization after partial progress and verify checkpoint resume or full idempotent rerun produces the same logical state.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: duplicate_objects_prevented
+    metric: Failure and retry paths do not create duplicate logical objects
+    unit: boolean
+    method: Compare stable source/object identities before and after each retry/recovery scenario.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
+  - id: source_deletion_preserves_logical_asset
+    metric: Source deletion does not delete the logical asset
+    unit: boolean
+    method: Delete or hide the source object in the sandbox and verify the logical asset remains with governed source-unavailable state.
+    thresholdSource: ACCEPT-SOURCE-SYNC
+    actual: null
   exitCriteria:
   - A legal documented integration path is identified or explicitly rejected with evidence.
   - No scraping/bypass or credential embedding is required.
   - Privacy and license reviews are approved for the exact API/SDK version actually tested.
+  - 429, 5xx and network failures are classified and recover through bounded retry without duplicate logical objects.
+  - Interrupted synchronization resumes from a safe checkpoint or reruns idempotently.
+  - Source deletion preserves the logical asset and records governed source-unavailable state.
   failureFallbacks:
   - If no supportable API exists, treat Baidu connector as blocked/optional and document manual/export alternative.
   rollbackCleanup:

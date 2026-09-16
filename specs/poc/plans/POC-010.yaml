@@ -110,13 +110,15 @@ protocol:
   - id: secret_value_roundtrip
     metric: OpenBao secret value restore and readback matches pre-backup value
     unit: boolean
-    method: In an isolated sandbox, write a generated ephemeral secret, record only an approved one-way/HMAC comparison artifact, back up and restore OpenBao, read the value through runtime access, and verify pre/post equality without logging or committing plaintext.
+    method: In an isolated sandbox, write a generated ephemeral secret, record only an approved one-way/HMAC comparison artifact, back up and
+      restore OpenBao, read the value through runtime access, and verify pre/post equality without logging or committing plaintext.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: secret_unreadable_failure_detected
     metric: Corrupted or decryption-mismatched secret backup fails closed
     unit: boolean
-    method: Exercise an isolated unreadable/decryption-mismatched recovery fixture and require explicit restore/readback failure rather than accepting references as recovered.
+    method: Exercise an isolated unreadable/decryption-mismatched recovery fixture and require explicit restore/readback failure rather than accepting
+      references as recovered.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: file_restore
@@ -137,12 +139,63 @@ protocol:
     method: Measure controlled end-to-end recovery duration.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
+  - id: playback_restore
+    metric: Playback capability and authorization recover correctly
+    unit: boolean
+    method: Verify representative authorized playback and Range behavior after restore.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: ai_manual_revisions_restore
+    metric: AI outputs and manual revision history recover correctly
+    unit: boolean
+    method: Compare restored AI provenance, results and human revision records with the pre-backup manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: search_index_consistency_restore
+    metric: Search index is consistent with restored authoritative state
+    unit: boolean
+    method: Reconcile indexed assets/metadata with restored authoritative records and prove no stale or missing governed entries.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: image_signature_restore
+    metric: Deployment image and bundle signatures verify after restore
+    unit: boolean
+    method: Verify restored image/bundle digests and signatures against the approved manifest.
+    thresholdSource: RECOVERY_DESIGN
+    actual: null
+  - id: service_recovery_time
+    metric: Observed service recovery time
+    unit: s
+    method: Measure from recovery start until required services are healthy.
+    thresholdSource: NFR-V1-AVL-002
+    actual: null
+  - id: vm_recovery_time
+    metric: Observed VM recovery time
+    unit: s
+    method: Measure from recovery start until the required VM set is available and healthy.
+    thresholdSource: NFR-V1-AVL-002
+    actual: null
+  - id: core_browsing_recovery_time
+    metric: Observed core browsing recovery time
+    unit: s
+    method: Measure until authenticated core asset browsing succeeds against restored state.
+    thresholdSource: NFR-V1-AVL-002
+    actual: null
+  - id: playback_recovery_time
+    metric: Observed playback recovery time
+    unit: s
+    method: Measure until representative authorized playback succeeds.
+    thresholdSource: NFR-V1-AVL-002
+    actual: null
   exitCriteria:
   - Database, OpenBao configuration, actual secret values, files and deployment bundle can be restored/read back in an isolated sandbox.
-  - Users/permissions, assets, source mappings, formal replicas, retention, audit, Outbox/inbox, task state and their authoritative relationships all match the approved pre-backup manifest.
+  - Users/permissions, assets, source mappings, formal replicas, retention, audit, Outbox/inbox, task state and their authoritative relationships
+    all match the approved pre-backup manifest.
   - Secret value round-trip comparison succeeds without committing plaintext or backup keys to Git/Evidence.
   - A corrupted or decryption-mismatched secret backup is rejected and cannot be misreported as recovered.
   - RPO/RTO evidence is measured rather than assumed.
+  - Playback, AI/manual revision history, search-index consistency and image/bundle signatures are verified after restore.
+  - Service, VM, core-browsing and playback recovery times are measured separately in addition to overall RTO.
   failureFallbacks:
   - If unified recovery fails, split recovery procedures by data/control plane and block production release until reconciled.
   rollbackCleanup:
