@@ -2,10 +2,8 @@ name: GZ-010 Review Transition
 
 on:
   push:
-    branches:
-      - chore/GZ-010-poc-program-baseline
-    paths:
-      - ".github/workflows/gz010-review-transition.yml"
+    branches: [chore/GZ-010-poc-program-baseline]
+    paths: [".github/workflows/gz010-review-transition.yml"]
 
 permissions:
   contents: write
@@ -27,118 +25,80 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Apply metadata-only in_progress to review transition
+      - name: Apply and verify metadata-only review transition
         shell: bash
         run: |
           set -euo pipefail
+          BASE="2b2d076b68171edd74639e307f8a126cc882186d"
+
           python - <<'PY'
           from pathlib import Path
 
           BASE = "2b2d076b68171edd74639e307f8a126cc882186d"
 
-          def set_program_field(path: str, task_id: str, field: str, before: str, after: str) -> None:
+          def mutate_block(path, marker, marker_indent, fields):
               file = Path(path)
               lines = file.read_text(encoding="utf-8").splitlines(keepends=True)
-              matches = [
+              starts = [
                   i for i, line in enumerate(lines)
-                  if line.strip() == f"taskId: {task_id}"
-                  and len(line) - len(line.lstrip()) == 4
+                  if line.strip() == marker
+                  and len(line) - len(line.lstrip()) == marker_indent
               ]
-              if len(matches) != 1:
-                  raise SystemExit(f"{path}: expected one Program task {task_id}, found {len(matches)}")
-              start = matches[0]
+              if len(starts) != 1:
+                  raise SystemExit(f"{path}: expected one {marker!r}, found {len(starts)}")
+              start = starts[0]
               end = len(lines)
               for i in range(start + 1, len(lines)):
-                  if (
-                      len(lines[i]) - len(lines[i].lstrip()) == 4
-                      and lines[i].strip().startswith("taskId: ")
-                  ):
+                  indent = len(lines[i]) - len(lines[i].lstrip())
+                  stripped = lines[i].strip()
+                  if marker_indent == 4 and indent == 4 and stripped.startswith("taskId: "):
                       end = i
                       break
-              target = f"{field}: {before}"
-              found = [i for i in range(start, end) if lines[i].strip() == target]
-              if len(found) != 1:
-                  raise SystemExit(f"{path}: expected one {target!r} in {task_id}, found {len(found)}")
-              indent = lines[found[0]][: len(lines[found[0]]) - len(lines[found[0]].lstrip())]
-              lines[found[0]] = f"{indent}{field}: {after}\n"
-              file.write_text("".join(lines), encoding="utf-8")
-
-          def set_registry_field(path: str, task_id: str, field: str, before: str, after: str) -> None:
-              file = Path(path)
-              lines = file.read_text(encoding="utf-8").splitlines(keepends=True)
-              matches = [
-                  i for i, line in enumerate(lines)
-                  if line.strip() == f"- taskId: {task_id}"
-                  and len(line) - len(line.lstrip()) == 2
-              ]
-              if len(matches) != 1:
-                  raise SystemExit(f"{path}: expected one Registry task {task_id}, found {len(matches)}")
-              start = matches[0]
-              end = len(lines)
-              for i in range(start + 1, len(lines)):
-                  if (
-                      len(lines[i]) - len(lines[i].lstrip()) == 2
-                      and lines[i].strip().startswith("- taskId: ")
-                  ):
+                  if marker_indent == 2 and indent == 2 and stripped.startswith("- taskId: "):
                       end = i
                       break
-              target = f"{field}: {before}"
-              found = [i for i in range(start, end) if lines[i].strip() == target]
-              if len(found) != 1:
-                  raise SystemExit(f"{path}: expected one {target!r} in {task_id}, found {len(found)}")
-              indent = lines[found[0]][: len(lines[found[0]]) - len(lines[found[0]].lstrip())]
-              lines[found[0]] = f"{indent}{field}: {after}\n"
+              for field, before, after in fields:
+                  target = f"{field}: {before}"
+                  matches = [i for i in range(start, end) if lines[i].strip() == target]
+                  if len(matches) != 1:
+                      raise SystemExit(f"{path}: expected one {target!r}, found {len(matches)}")
+                  i = matches[0]
+                  prefix = lines[i][: len(lines[i]) - len(lines[i].lstrip())]
+                  lines[i] = f"{prefix}{field}: {after}\n"
               file.write_text("".join(lines), encoding="utf-8")
 
-          def set_front_matter(path: str, replacements: list[tuple[str, str]]) -> None:
-              file = Path(path)
-              text = file.read_text(encoding="utf-8")
-              parts = text.split("---", 2)
-              if len(parts) != 3:
-                  raise SystemExit(f"{path}: invalid front matter")
-              front = parts[1]
-              for before, after in replacements:
-                  if front.count(before) != 1:
-                      raise SystemExit(f"{path}: expected one front-matter anchor {before!r}, found {front.count(before)}")
-                  front = front.replace(before, after, 1)
-              file.write_text("---" + front + "---" + parts[2], encoding="utf-8")
-
-          set_program_field(
+          mutate_block(
               "specs/coordination/program-plan.yaml",
-              "GZ-010",
-              "status",
-              "in_progress",
-              "review",
+              "taskId: GZ-010",
+              4,
+              [("status", "in_progress", "review")],
           )
-          set_registry_field(
+          mutate_block(
               "specs/coordination/active-work.yaml",
-              "GZ-010",
-              "status",
-              "in_progress",
-              "review",
-          )
-          set_registry_field(
-              "specs/coordination/active-work.yaml",
-              "GZ-010",
-              "agentRole",
-              "implementer",
-              "reviewer",
-          )
-          set_registry_field(
-              "specs/coordination/active-work.yaml",
-              "GZ-010",
-              "baseSha",
-              "74ab9d53f29834fda37dcbd726fd58f997f8f21a",
-              BASE,
-          )
-          set_front_matter(
-              "specs/tasks/GZ-010.md",
+              "- taskId: GZ-010",
+              2,
               [
-                  ("\nstatus: in_progress\n", "\nstatus: review\n"),
-                  ("\nbaseSha: 74ab9d53f29834fda37dcbd726fd58f997f8f21a\n", f"\nbaseSha: {BASE}\n"),
-                  ("\nagentRole: implementer\n", "\nagentRole: reviewer\n"),
+                  ("status", "in_progress", "review"),
+                  ("agentRole", "implementer", "reviewer"),
+                  ("baseSha", "74ab9d53f29834fda37dcbd726fd58f997f8f21a", BASE),
               ],
           )
+
+          task = Path("specs/tasks/GZ-010.md")
+          text = task.read_text(encoding="utf-8")
+          parts = text.split("---", 2)
+          if len(parts) != 3:
+              raise SystemExit("GZ-010 Task Spec has invalid front matter")
+          front = parts[1]
+          for before, after in [
+              ("\nstatus: in_progress\n", "\nstatus: review\n"),
+              ("\nbaseSha: 74ab9d53f29834fda37dcbd726fd58f997f8f21a\n", f"\nbaseSha: {BASE}\n"),
+              ("\nagentRole: implementer\n", "\nagentRole: reviewer\n"),
+          ]:
+              if front.count(before) != 1:
+                  raise SystemExit(f"Task Spec anchor count for {before!r}: {front.count(before)}")
+              front = front.replace(before, after, 1)
+          task.write_text("---" + front + "---" + parts[2], encoding="utf-8")
           PY
 
           rm .github/workflows/gz010-review-transition.yml
