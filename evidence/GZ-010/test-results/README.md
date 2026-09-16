@@ -1,70 +1,46 @@
-# GZ-010 Test Results
+# GZ-010 Review Test Evidence
 
-Task: `GZ-010`
-Issue: `#15`
-Pull request: `#48`
-Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`
-Validated plan-completeness implementation commit: `0f5cfd73d4ae6592f6e773caae3bba4dac34ff46`
-Validated clean product/Evidence-parent HEAD: `c8a4e0fc4839f009484a808ea2e7ee451f5f614c`
+Task: GZ-010
+Result: NEEDS_REVIEW
+PR: #63
+Review target: `3a11c5f639717993f51a26c5b5970701570fe367`
+Withdrawn completion source: `035e786022f7995724e0c3b99a86a9356c51e1cf`
 
-## Direct POC validation
+## Historical implementation and CI
 
-GitHub Actions run `35053181259`, job `104657763581`, Ubuntu 24.04 / Python 3.11:
+Implementation run `35053181259`, job `104657763581`: POC planning checker and 86 planning-software tests passed. No experiment ran.
+
+Gate #569 on `ec0b9d77b6d8d9a2435e3c6aebb42c3ac591086a` failed missing Task lists. `b1ca9864759c325f12addf2b06b0ab22a81f9d9c` repaired the lists. Gate #570 / run `35071047333`, job `104712373022`, tested merge `c5744833dd9d76167e1c918ccd912fd0f06bb552`: 267 passed in 24.88 seconds, zero skips. Its actual in-suite wrapper subprocess returned 0; successful child stdout was captured. Full historical provenance remains at `git show 035e786022f7995724e0c3b99a86a9356c51e1cf:evidence/GZ-010/commands.txt`.
+
+Gate #571 / run `35072699408` passed the withdrawn source, but independent review did not approve completion. Neither run is transferred to the successor.
+
+## Fresh independent reproduction on the withdrawn source
+
+Review request `5694867271` produced inline response `4024339028` at `2026-09-16T09:10:00Z`. The independent reviewer reported actual clean checkout HEAD `035e786022f7995724e0c3b99a86a9356c51e1cf`, tree `54d5594c0c3a95855150f65d049cf321879d5d80`, with `GITHUB_REPOSITORY=ElectricDogCN/Guize` and the alternate API endpoint unset. This is reviewer-reported execution evidence, not execution by the local chat container.
+
+| Command | Exit | Actual reported result |
+|---|---:|---|
+| `git rev-parse HEAD` | 0 | Exact source above |
+| `git status --porcelain` | 0 | Empty output |
+| `python scripts/check-task-file.py --task GZ-010` | 0 | Task file valid |
+| Explicit task/branch `run-program-lifecycle-gate.py` command | 1 | `ModuleNotFoundError: No module named 'yaml'`; API not reached |
+| `python specs/poc/check_program.py` | 1 | `ModuleNotFoundError: No module named 'jsonschema'` |
+| `python specs/poc/test_program.py` | 1 | `ModuleNotFoundError: No module named 'yaml'` |
+| Named `make verify TASK=GZ-010 ...` | 2 | Markdown passed; schema import failed, then Make stopped |
+| Existing detached-worktree restoration block | 0 | Full target tree restored; worktree cleanup confirmed |
+
+Reported restoration stdout:
 
 ```text
-python -m py_compile specs/poc/check_program.py specs/poc/test_program.py
-exit 0
-
-python specs/poc/check_program.py
-PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
-exit 0
-
-python specs/poc/test_program.py
-Ran 86 tests in 153.468s
-OK
-exit 0
+completion_restoration=PASS candidate=035e786022f7995724e0c3b99a86a9356c51e1cf restored_tree=5725e4f352fa420dbac260247947dca5cf482c4f
 ```
 
-Unexpected skips: `0`.
+The reviewer also reported only the original worktree remaining and a clean final status. This is fresh execution of the old restoration shell script, but not a guard-compatible recovery after completion. The other named commands failed before their complete checks; no passing test count is claimed. The review's additional comparison to an unrelated commit is not adopted as provenance here.
 
-The suite includes a generic regression that iterates every current frozen measurement ID for POC-01 through POC-10. For each ID it first proves the complete fixture passes, removes exactly one measurement, and requires the validator to report `missing frozen required measurements`.
+## Current successor and environment boundary
 
-The final 86-test suite covers:
+A separate local Git clone attempt returned 128 / `Could not resolve host: github.com`; no checkout or tests ran there. The earlier general Codex task did not start because of a missing repository environment. These limitations are distinct from the review environment's missing Python dependencies.
 
-- Program/Task/Requirement/Module/Wave/risk/Evidence mapping;
-- immutable nonterminal plans and result index;
-- duplicate YAML keys while preserving merge keys;
-- resource/sample identities and approvals;
-- structured commands, raw outputs and expected/actual exit codes;
-- live task/role synchronization and terminal fixture validity;
-- path and symlink escape rejection;
-- secrets and compound credential fields;
-- provenance and measurement domains;
-- concurrency and critical-standalone policy;
-- row ownership and timestamp validation;
-- all existing and newly added frozen POC measurement gates.
+For the next available execution environment, install the repository's existing `requirements-governance.txt`, verify `import yaml, jsonschema, pytest`, then run the exact Task Spec commands. Do not change requirements, tests, assertions, scripts, API endpoints or workflow files. Record dependency-install failures honestly rather than skipping commands.
 
-## Historical intermediate `make verify`
-
-The same one-shot repair run executed `make verify` before deleting its two temporary workflow files. The POC validator and all 86 tests were already green, but task scope correctly rejected those two workflow paths. That result is retained as historical diagnostic evidence and is not claimed as final success.
-
-## Clean-head Governance Gate
-
-After deleting all temporary repair workflows, Governance Gate run `35053458023` (#561), job `104658598246`, validated source HEAD `c8a4e0fc4839f009484a808ea2e7ee451f5f614c`:
-
-- 267 governance tests collected and passed;
-- 0 failed;
-- 0 skipped;
-- duration 29.86 seconds;
-- Task Spec, Project Readiness, Program integrity/history/transitions/finalization/lifecycle and Agent Coordination: PASS;
-- Markdown: 188 files, PASS;
-- schema, secret, Evidence, Evidence integrity, linkage, scope, spec sync, repository boundary and CI-static validation: PASS;
-- 38 allowed cumulative paths, 0 forbidden, 0 out of scope.
-
-## Non-execution statement
-
-All ten canonical plans remain `planned`, all result-index rows remain `not_started`, and no downstream `evidence/POC-*` experiment/result directory is added. These tests validate the planning baseline; they do not constitute a POC result.
-
-## Pending release control
-
-This Evidence-only refresh requires its own successful Governance Gate and a fresh independent exact-head review before any merge decision.
+The successor keeps Program/Task at review with the original lease/ledger. It requires its own Gate and review. A review-state wrapper PASS will not validate a future completion transition or its Issue API condition. All final-completion acceptance items remain pending; the old restoration success does not fulfill the immutable-ledger recovery requirement.

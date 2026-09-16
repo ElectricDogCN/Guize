@@ -1,7 +1,11 @@
-# GZ-010 Security Evidence
+# GZ-010 Review Repair Security Evidence
 
 Task: GZ-010
+PR: #63
+Result: NEEDS_REVIEW
 
-Reservation v2 contains coordination metadata and documentation only. It must not contain provider credentials, tokens, passwords, production secrets, private sample data or experiment outputs.
+This candidate restores the target's nonterminal review state and retains its original lease and immutable completion ledger. The cumulative change is Task/Evidence documentation only. No Secret, permission, safety limit, workflow, production state, deployment, POC implementation or downstream task is changed.
 
-Security validation is provided by the repository Governance Gate secret scan. Current Reservation exact-head result remains pending until GitHub Actions executes it.
+Gate #570's secret scan passed on its identified historical source. That result does not pre-validate this successor; require its own Gate. No credential was requested, printed or committed during the failed local clone attempt. Its actual error is recorded in `commands.txt` without credential content.
+
+The old object-restoration equality result is not a policy-compatible completed-task rollback. Current recovery is restricted to nonterminal Task/Evidence files and cannot touch completed records. Completion remains blocked pending genuine execution and recovery evidence. No force push, branch protection bypass, main mutation or new execution environment is part of this repair.

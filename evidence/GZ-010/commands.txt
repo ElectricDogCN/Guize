@@ -1,59 +1,106 @@
-GZ-010 POC Program Baseline command evidence
-
+GZ-010 Review Checkpoint Command Evidence
 Task: GZ-010
 Issue: #15
-PR: #48
+PR: #63
+Result: NEEDS_REVIEW
 Branch: chore/GZ-010-poc-program-baseline
-Base: main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252
-Validated plan-completeness implementation commit: 0f5cfd73d4ae6592f6e773caae3bba4dac34ff46
-Validated clean product/Evidence-parent HEAD: c8a4e0fc4839f009484a808ea2e7ee451f5f614c
+Review target: 3a11c5f639717993f51a26c5b5970701570fe367
+Registry baseSha: 2b2d076b68171edd74639e307f8a126cc882186d
+Withdrawn completion source: 035e786022f7995724e0c3b99a86a9356c51e1cf
 
-command: python -m pip install -r requirements-governance.txt
-exit code: 0
-result: PASS
-source: GitHub Actions run 35053181259, job 104657763581
+CURRENT SCOPE
+The successor withdraws only the unmerged completion proposal. Program, Active Work and Ledger use the target's original blobs. Main's existing records and implementation are preserved. Expected cumulative diff: Task Spec plus nine existing Evidence files. No successor test result is inferred from prior PASS entries.
 
-command: python -m py_compile specs/poc/check_program.py specs/poc/test_program.py
-exit code: 0
-result: PASS
-source: GitHub Actions run 35053181259, job 104657763581
+RETAINED HISTORICAL EXECUTIONS
+Full historical command evidence: git show 035e786022f7995724e0c3b99a86a9356c51e1cf:evidence/GZ-010/commands.txt
 
 command: python specs/poc/check_program.py
 exit code: 0
 result: PASS
-observed result: PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
-source: GitHub Actions run 35053181259, job 104657763581
+source: historical implementation run 35053181259 / job 104657763581; not a new run or an experiment.
 
 command: python specs/poc/test_program.py
 exit code: 0
-result: PASS
-observed result: Ran 86 tests in 153.468s; OK; unexpected skips: 0
-source: GitHub Actions run 35053181259, job 104657763581
+result: PASS; 86 planning-software tests
+source: same historical implementation run.
 
-command group: clean-head Governance Gate
+command: python scripts/check-task-file.py --task GZ-010
+exit code: 1
+result: HISTORICAL_FAILURE
+source: Gate #569 / run 35070014899; source ec0b9d77b6d8d9a2435e3c6aebb42c3ac591086a lost four required lists. b1ca986 repaired the lists, not the validator.
+
+command: python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
+exit code: 0
+result: PASS; 267 passed in 24.88 seconds; zero skips
+source: Gate #570 / run 35071047333 / job 104712373022; source b1ca9864759c325f12addf2b06b0ab22a81f9d9c; synthetic merge c5744833dd9d76167e1c918ccd912fd0f06bb552.
+
+command: python scripts/run-program-lifecycle-gate.py --repo-root /home/runner/work/Guize/Guize --base-ref origin/main --head-ref HEAD
+exit code: 0
+result: PASS as a real subprocess in TestProgramLifecycleGuards.test_current_repository_passes, Gate #570
+limitation: successful child stdout was captured. This was not the separately named explicit-task invocation.
+
+observation: Gate #571 / run 35072699408 / job 104717710948 succeeded on source 035e786022f7995724e0c3b99a86a9356c51e1cf; independent review did not approve completion.
+
+LOCAL EXECUTION ATTEMPT — 2026-09-16
+
+command: GIT_TERMINAL_PROMPT=0 git clone --no-checkout https://github.com/ElectricDogCN/Guize.git /mnt/data/guize_gz010_validation/repo
+exit code: 128
+result: FAILED_ENVIRONMENT
+actual output: Cloning into '/mnt/data/guize_gz010_validation/repo'...
+actual output: fatal: unable to access 'https://github.com/ElectricDogCN/Guize.git/': Could not resolve host: github.com
+limitation: no full local checkout was obtained; checkout/tests/rehearsal did not execute here.
+
+INDEPENDENT REVIEW EXECUTION — 2026-09-16T09:10:00Z
+Source: PR #63 inline response 4024339028 to review request 5694867271.
+Attribution: commands below were reported executed by the independent reviewer in /workspace/Guize, not by the local chat container.
+Exact tested HEAD: 035e786022f7995724e0c3b99a86a9356c51e1cf
+Exact tested tree: 54d5594c0c3a95855150f65d049cf321879d5d80
+Environment: GITHUB_REPOSITORY=ElectricDogCN/Guize; GUIZE_GITHUB_API_URL unset; clean initial and final worktree.
+
+command: git rev-parse HEAD
 exit code: 0
 result: PASS
-observed result: run 35053458023 (#561), job 104658598246; 267/267 governance tests passed in 29.86s; 0 skipped; all Gate stages succeeded; 38 allowed paths, 0 forbidden, 0 out of scope
-source head: c8a4e0fc4839f009484a808ea2e7ee451f5f614c
+actual reported output: 035e786022f7995724e0c3b99a86a9356c51e1cf
 
-command: make verify TASK=GZ-010 BASE=origin/main HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline
+command: git status --porcelain
+exit code: 0
+result: PASS
+actual reported output: empty
+
+command: python scripts/check-task-file.py --task GZ-010
+exit code: 0
+result: PASS
+actual reported output: {"status": "PASS", "message": "Task file valid: /workspace/Guize/specs/tasks/GZ-010.md"}
+
+command: python scripts/run-program-lifecycle-gate.py --base-ref 3a11c5f639717993f51a26c5b5970701570fe367 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+exit code: 1
+result: FAILED_ENVIRONMENT
+actual reported error: ModuleNotFoundError: No module named 'yaml'
+limitation: failed at import; GitHub API was not reached.
+
+command: python specs/poc/check_program.py
+exit code: 1
+result: FAILED_ENVIRONMENT
+actual reported error: ModuleNotFoundError: No module named 'jsonschema'
+
+command: python specs/poc/test_program.py
+exit code: 1
+result: FAILED_ENVIRONMENT
+actual reported error: ModuleNotFoundError: No module named 'yaml'
+
+command: make verify TASK=GZ-010 BASE=3a11c5f639717993f51a26c5b5970701570fe367 HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline
 exit code: 2
-result: HISTORICAL_INTERMEDIATE_FAILURE
-observed result: direct POC validation and 86 tests had passed, but scope rejected two temporary repair workflows before they were deleted
-source: GitHub Actions run 35052917519, job 104656965256
-superseded by: clean-head Governance Gate #561 after both temporary workflows were removed
+result: FAILED_ENVIRONMENT
+actual reported output: docs-check OK: No issues found; schema-check ModuleNotFoundError for jsonschema; make[1]: *** [Makefile:35: schema-check] Error 1; make: *** [Makefile:170: verify] Error 2.
 
-command: final isolated local make verify after workflow cleanup
-exit code: NOT_EXECUTED
-result: NOT_CLAIMED
-observed limitation: the isolated execution container could not resolve github.com to clone the public repository
+command: detached-worktree restoration bash block from the old candidate's evidence/GZ-010/rollback-verification/README.md
+exit code: 0
+result: PASS, old-tree restoration only
+actual reported output: completion_restoration=PASS candidate=035e786022f7995724e0c3b99a86a9356c51e1cf restored_tree=5725e4f352fa420dbac260247947dca5cf482c4f
+cleanup: reviewer reported only /workspace/Guize remaining and git status --porcelain empty with exit 0.
+limitation: successful byte restoration and cleanup, NOT a guard-compatible post-completion rollback. No immutable main record was removed.
 
-command: independent exact-head review
-exit code: PENDING_EVIDENCE_HEAD
-result: PENDING
+PENDING
+The next execution environment must install existing requirements-governance.txt and verify yaml/jsonschema/pytest imports before retrying unchanged commands. The earlier general Codex task never started (reply 5694080113); that is separate from this actual review execution.
 
-command: merge and post-main validation
-exit code: NOT_AUTHORIZED
-result: NOT_CLAIMED
-
-claim boundary: no POC-001 through POC-010 experiment was executed and no terminal result is claimed.
+The current successor requires its own Gate/review and named-command results. Final completion still requires successful explicit wrapper, POC planning regressions, make verify, and an executed guard-compatible recovery. No new-final-completion PASS is claimed. Review-state wrapper success cannot prove a completion transition's API check. No experiment, main merge or post-main result is claimed.

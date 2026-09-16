@@ -1,86 +1,53 @@
-# GZ-010 Final Exact-Head Review Handoff
+# GZ-010 Review Handoff
 
-Task: `GZ-010`
-Issue: `#15`
-Pull request: `#48`
-Branch: `chore/GZ-010-poc-program-baseline`
-Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`
-Validated plan-completeness implementation commit: `0f5cfd73d4ae6592f6e773caae3bba4dac34ff46`
-Validated clean product/Evidence-parent HEAD: `c8a4e0fc4839f009484a808ea2e7ee451f5f614c`
+Task: GZ-010
+Issue: #15
+PR: #63
+Result: NEEDS_REVIEW
+Current lifecycle: review; completion proposal withdrawn
 
-## Current state
+## Identity and roles
 
-The GZ-010 POC planning baseline is ready for final independent review after this Evidence-only refresh receives a successful exact-head Governance Gate:
+- Branch: `chore/GZ-010-poc-program-baseline`; target branch: `main`.
+- Exact review target: `3a11c5f639717993f51a26c5b5970701570fe367`.
+- Registry/Task baseSha: `2b2d076b68171edd74639e307f8a126cc882186d`; this is the registered base, not the current comparison target.
+- Last reviewed content parent: `a0775d1406c2a2a83cd68296b9d0d0c2e076ee35`; withdrawn completion history: `035e786022f7995724e0c3b99a86a9356c51e1cf`.
+- Current source is the normal successor read from PR #63 and `git rev-parse HEAD`; no self-referential future SHA is fabricated.
+- Reservation: PR #45 / `74ab9d53f29834fda37dcbd726fd58f997f8f21a`.
+- Implementation: PR #48 / `2b2d076b68171edd74639e307f8a126cc882186d`; source `397bd6d45235b38e9afe59bc8f7b28ede5c8e4f6`.
+- Human Owner: ElectricDogCN; Coordinator: program-coordinator-agent; Implementer: poc-program-agent; Reviewer: independent-poc-program-review-agent; Integrator: integration-agent.
+- WP/Wave/order: WP-M0-04 / W1 / 2; risk: medium; integration: normal merge.
+- Produced contract: POC-PROTOCOL-V1; consumed contracts: NONE; shared paths: NONE.
 
-- direct validator passed;
-- POC regression suite passed `86/86` with zero skips;
-- clean-head Governance Gate #561 passed every stage with `267/267` governance tests and zero skips;
-- all ten plans and all result-index rows remain nonterminal;
-- no actual POC Evidence or terminal result exists;
-- no temporary repair workflow remains;
-- cumulative diff contains 38/38 allowed paths and no forbidden or out-of-scope path.
+## State and files
 
-## Roles and state
+Program, Active Work and Completion Ledger equal target main. GZ-010 remains review, its original lease expires at `2026-09-21T06:00:00Z`, and no GZ-010 completion record exists. Issue #15 was reopened at `2026-09-16T15:52:58Z` to remove the false external completion signal; see Issue comment `5700433671`. Keep it open while completion remains withdrawn.
 
-- Human Owner: `ElectricDogCN`.
-- Implementer: `poc-program-agent` / repository implementation controller.
-- Independent Reviewer: `independent-poc-program-review-agent` / Codex connector, read-only for the exact final HEAD.
-- Integrator: separate action after a no-findings exact-head review.
-- Program / Task / Active Work status: `in_progress` with one matching live lease.
-- Produced contract: `POC-PROTOCOL-V1`.
-- Shared paths: none.
+The cumulative ten files are:
 
-## Final independent reviewer checklist
+1. `specs/tasks/GZ-010.md`
+2. `evidence/GZ-010/summary.md`
+3. `evidence/GZ-010/commands.txt`
+4. `evidence/GZ-010/handoff.md`
+5. `evidence/GZ-010/test-results/README.md`
+6. `evidence/GZ-010/changed-files.md`
+7. `evidence/GZ-010/scope.md`
+8. `evidence/GZ-010/follow-ups.md`
+9. `evidence/GZ-010/security/README.md`
+10. `evidence/GZ-010/rollback-verification/README.md`
 
-Review the exact PR HEAD after this Evidence commit. Verify:
+This successor repairs only Task/Evidence documentation. No implementation, POC plan/result-index, test/checker, workflow, coordination file, permission, Secret, lease or other task changes. It does not authorize downstream activation.
 
-1. Base and branch identity are exact and no post-Evidence drift occurred.
-2. Cumulative diff is exactly the 38 task-authorized files listed in `changed-files.md`.
-3. POC-001 through POC-010 and all result-index rows remain `planned` / `not_started`.
-4. No downstream `evidence/POC-*` experiment/result was added.
-5. Program, Requirement, Module, dependency, Wave, risk, sample, resource and Evidence mappings are exact.
-6. The eleven latest product-scope findings are represented as structured measurements and matching exit gates.
-7. `REQUIRED_MEASUREMENTS` freezes every canonical measurement ID, and the generic test independently removes every required ID from a valid fixture and requires fail-closed rejection.
-8. Direct POC validation run `35053181259`, job `104657763581`, passed the validator and `86/86` tests.
-9. Clean-head Governance Gate run `35053458023` (#561), job `104658598246`, passed `267/267` governance tests with zero skips and every repository gate.
-10. Evidence accurately distinguishes the product implementation commit, clean validation parent and final Evidence-only HEAD, and makes no merge, post-main or POC-result claim.
-11. No temporary workflow, product code, deployment change, Secret, production data, Program status transition or Completion Ledger mutation is present.
+## Validation and remaining conditions
 
-## Stop That Shit boundary
+Gate #572 on a0775d1 passed 267 tests in 30.97 seconds with zero skips. Historical direct planning tests passed 86/86; the exact observations and prior failed environment attempts remain in commands/test-results. No parent result is transferred automatically to this successor.
 
-Review the actual GZ-010 exit gate: a complete, executable, fail-closed planning baseline. Do not require GZ-010 to become a universal future terminal-result platform or reopen the closed task-registration/standalone-gate projects unless a defect directly invalidates the current nonterminal plans.
+Three new P2 corrections are supplied: reopen Issue #15, restore explicit security/fail-closed acceptance conditions, and provide the complete isolated recovery script. The restored criteria remain unchecked until relevant cases and actual results support them. The current local check covers shell syntax only; execution of the full repository rehearsal is not claimed by the document.
 
-## Validation facts
+The old completion P1s remain prerequisites to any later terminal proposal. A tested nonterminal documentation recovery does not permit deleting immutable completed history. Independent review must assess the actual current diff and evidence, not simply clear outdated lines.
 
-### Direct POC run
+## Recovery and next action
 
-- run: `35053181259`;
-- job: `104657763581`;
-- source produced and validated: `0f5cfd73d4ae6592f6e773caae3bba4dac34ff46`;
-- validator: exit `0`;
-- POC tests: `86/86`, zero skipped, 153.468 seconds.
+The full bash block in `rollback-verification/README.md` now includes the local simulation commit, candidate-based lifecycle/history/coordination/scope checks, named make invocation, planning regressions, JUnit/skip audit, stdout/stderr capture and cleanup. It changes only its own temporary detached worktree; it must never push the simulation. Run only after the existing dependency imports succeed, and keep actual logs for failed as well as successful steps.
 
-### Clean repository run
-
-- run: `35053458023` / Gate #561;
-- job: `104658598246`;
-- source: `c8a4e0fc4839f009484a808ea2e7ee451f5f614c`;
-- governance tests: `267/267`, zero skipped, 29.86 seconds;
-- every Gate stage: success;
-- scope: 38 allowed, 0 forbidden, 0 out of scope.
-
-The historical intermediate `make verify` failure was caused solely by two temporary workflows before cleanup. It is retained in `commands.txt` and is not presented as final success. The clean standard Gate subsequently passed all repository checks.
-
-## Integrator boundary
-
-Do not merge while the PR remains Draft, while the Evidence-refresh Gate is pending/red, or while any current product-scope review finding remains unresolved. After a fresh exact-head `NO FINDINGS` review:
-
-1. record the reviewed source HEAD and successful checks;
-2. mark the PR ready only for integration;
-3. merge with expected-head protection using a normal merge commit;
-4. require the exact post-main Governance Gate to succeed;
-5. do not execute a POC or mark GZ-010 completed in the implementation merge.
-
-## Rollback
-
-Before merge, close PR #48 or revert branch commits while preserving history. After merge, use a dedicated reviewed revert/correction PR for the exact implementation merge. Never force-push, rewrite `main`, or delete failed-run/review evidence.
+Next Reviewer: verify current head/base, ten paths, unchanged coordination and Issue open state; run the listed commands and full nonterminal recovery block, then record exact exits, test counts and findings. Next Integrator: require resolved review concerns and Human Owner merge approval before any main merge, followed by the actual main Gate. Do not restart Reservation, create repair workflows, weaken checks or mark GZ-010 completed while its final prerequisites are missing.
