@@ -1,0 +1,68 @@
+name: GZ-010 Plan Repair Hotfix
+
+on:
+  push:
+    branches:
+      - chore/GZ-010-poc-program-baseline
+    paths:
+      - ".github/workflows/gz010-plan-repair-hotfix.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  hotfix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: chore/GZ-010-poc-program-baseline
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Replace unsafe whitespace stripping with dedent
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path(".github/workflows/gz010-plan-completeness-repair.yml")
+          text = path.read_text(encoding="utf-8")
+
+          replacements = [
+              (
+                  "          from pathlib import Path\n          import yaml\n",
+                  "          from pathlib import Path\n          from textwrap import dedent\n          import yaml\n",
+                  "dedent import",
+              ),
+              (
+                  "              test_method = '''\n",
+                  "              test_method = dedent('''\n",
+                  "test method opening",
+              ),
+              (
+                  "          '''.replace(\"          \", \"\")\n              if test_text.count(marker) != 1:\n",
+                  "          ''')\n              if test_text.count(marker) != 1:\n",
+                  "test method closing",
+              ),
+          ]
+          for old, new, label in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{label}: expected one match, found {count}")
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding="utf-8")
+          PY
+
+          rm .github/workflows/gz010-plan-repair-hotfix.yml
+          git diff --check
+          git config user.name "guize-governance-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/gz010-plan-completeness-repair.yml \
+            .github/workflows/gz010-plan-repair-hotfix.yml
+          git commit -m "ci(GZ-010): make plan repair test insertion indentation-safe"
+          git push origin HEAD:chore/GZ-010-poc-program-baseline
