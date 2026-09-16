@@ -4,16 +4,16 @@ Task: GZ-010
 PR: #63
 Result: NEEDS_REVIEW
 
-Implementation PR #48 and review-state PR #62 are merged. The former completion proposal is withdrawn on its existing branch. Do not repeat Reservation, activation, implementation or Issue #15 closure.
+Implementation PR #48 and review-state PR #62 are merged. The completion proposal is withdrawn. Issue #15 was reopened at `2026-09-16T15:52:58Z` (Issue comment `5700433671`) and must remain open while GZ-010 remains incomplete. Do not repeat Reservation, activation or implementation.
 
 ## Immediate work
 
-Review the actual successor HEAD and its fresh Gate. Confirm exactly ten cumulative Task/Evidence files; unchanged Program/Active Work/Ledger blobs; retained review status and lease; unchanged POC implementation and results-index. Review the existing threads against that actual diff rather than clearing them merely because lines became outdated.
+Verify the actual successor HEAD and fresh Gate; confirm ten cumulative Task/Evidence files and unchanged Program/Active Work/Ledger. The current correction addresses review comments `4024432627`, `4024432645` and `4024432659`: reopened Issue, explicit recovery commands and restored acceptance criteria.
 
-The local clone attempt failed before checkout (exit 128, GitHub DNS resolution failure). General Codex execution previously did not start. Reproduction review `5694867271` targets the old source; record actual returned outputs only after inspection. Do not report any of these requests as completed tests.
+Install the existing dependency file in the execution environment, run the Task Spec commands, then execute the entire nonterminal recovery block from `rollback-verification/README.md`. The block provides the local simulation commit, exact candidate-base arguments, logs and cleanup, without relying on a review prompt. Record actual results. Do not substitute historical CI or syntax checks for full execution.
 
-## Completion remains separate and blocked
+## Completion remains separate
 
-Keep the original pending completion commands, isolated worktree execution and guard-compatible post-completion recovery requirement. Obtain genuine results on a final completion candidate before proposing completed again. Review-state wrapper success cannot prove a completion transition's Issue API check.
+Preserve all pending completion validation and guard-compatible post-completion recovery requirements. Keep restored security/fail-closed criteria explicit and unchecked until their specific evidence is verified. Review-state wrapper success and documentation recovery cannot prove a future completion transition's API check or authorize deletion of immutable records.
 
-Human Owner approval remains required for any main merge, including a documentation-only merge. Verify actual post-main checks after, not before, an authorized merge. No downstream POC or later-Wave task is authorized by this repair. Do not add a temporary workflow or a new lifecycle mechanism to conceal missing execution capability.
+Human Owner approval remains required for any main merge. Check post-main results only after an authorized merge. No downstream experiment, later-Wave activation, new workflow or lifecycle mechanism is authorized by this repair.

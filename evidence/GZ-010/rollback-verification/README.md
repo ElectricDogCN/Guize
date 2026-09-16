@@ -1,55 +1,119 @@
-# GZ-010 Nonterminal Review Repair — Recovery Boundary
+# GZ-010 Nonterminal Review Repair — Recovery Rehearsal
 
 Task: GZ-010
 PR: #63
 Result: NEEDS_REVIEW
 Target: `3a11c5f639717993f51a26c5b5970701570fe367`
-Worktree rehearsal: NOT_EXECUTED in the current local environment
+Execution status: procedure supplied; a successful full-rehearsal result is not yet claimed
 
-## Withdraw the unsafe terminal proposal, not a completed main task
+## State and Issue recovery
 
-The candidate keeps GZ-010 at review and uses the target's identical Program, Active Work and Completion Ledger objects. It does not append a completion record or remove a lease. Only Task/Evidence differ from main. This removes the proposed irreversible completion transition from this PR; it does not repair or bypass the general completed-task recovery limitation.
+This PR keeps GZ-010 at review. Program, Active Work and Completion Ledger are identical to the target; no completion record is appended or lease removed. Only Task/Evidence documents differ.
 
-The prior Git Data equality result on b1ca is retained in Git at `035e786022f7995724e0c3b99a86a9356c51e1cf`. It proved byte restoration only. Applying that old tree after a completion merge would remove an immutable record and regress completed; it is not an approved or validated recovery procedure. Do not run that old completion-revert instruction on main.
+Issue #15 was reopened through the authorized GitHub connection at `2026-09-16T15:52:58Z`; returned state was `open`, reason `reopened`, and `closed_at` was null. Issue comment `5700433671` records the correction. This follows the abort/reopen precedent in `evidence/GZ-004/rollback-verification/README.md`. If this nonterminal PR is abandoned, closed or merged, keep Issue #15 open until an actually validated completion is authorized. Do not leave an external completed signal after withdrawing completion.
 
-## Before merge
+Abandoning this PR before merge needs no Git revert: main is unchanged. The old completed-candidate tree restoration, retained at `035e786022f7995724e0c3b99a86a9356c51e1cf`, is not a permitted post-completion ledger rollback.
 
-Abandoning or closing this PR leaves main unchanged in review with its original lease. No revert, reset, Issue-state change or ledger write is needed. No such close action is claimed here.
+## Full local rehearsal of this documentation recovery
 
-## Isolated rehearsal for this nonterminal documentation proposal
+Run the entire block from the clean, fully fetched candidate after installing the existing `requirements-governance.txt`. It creates one isolated detached worktree, restores only Task/Evidence, commits that restoration locally as an explicitly labelled simulation, and runs the actual lifecycle, history, coordination, scope, named `make verify`, planning tests and skip audit against the **candidate commit**, not the old main base. It leaves the original checkout and all remote refs untouched.
 
-This script is restricted to the unchanged target and a clean exact candidate. It refuses any coordination or implementation difference, restores only Task/Evidence in a newly created detached worktree, and compares the entire tree to the target. It does not push, move a branch or remove completion records. The clone attempt failed before checkout, so this shell execution is NOT claimed.
+Commands and stdout/stderr go to individually named logs outside the checkout. The EXIT trap removes only the created worktree and verifies cleanup; logs and the JUnit report remain in the printed directory even on failure. A failed step terminates the rehearsal with its nonzero exit. A simulation commit is not a real PR or merge and must never be pushed.
 
 ```bash
 set -euo pipefail
 BASE=3a11c5f639717993f51a26c5b5970701570fe367
+BRANCH=chore/GZ-010-poc-program-baseline
+ROOT=$(git rev-parse --show-toplevel)
+cd "$ROOT"
 CANDIDATE=$(git rev-parse HEAD)
 test -z "$(git status --porcelain)"
 git merge-base --is-ancestor "$BASE" "$CANDIDATE"
 git diff --exit-code "$BASE" "$CANDIDATE" -- \
   specs/coordination specs/poc poc/README.md .github scripts tests
-TMP=$(mktemp -d)
-rmdir "$TMP"
-git worktree add --detach "$TMP" "$CANDIDATE"
-trap 'git worktree remove --force "$TMP"' EXIT
-git -C "$TMP" restore --source="$BASE" --staged --worktree -- \
+OUT=$(mktemp -d "${TMPDIR:-/tmp}/gz010-review-recovery.XXXXXX")
+WT="$OUT/worktree"
+printf 'candidate=%s\nbase=%s\nlogs=%s\n' "$CANDIDATE" "$BASE" "$OUT"
+printf 'candidate=%s\nbase=%s\n' "$CANDIDATE" "$BASE" > "$OUT/identity.txt"
+git worktree list --porcelain > "$OUT/worktrees-before.txt"
+cleanup() {
+  rc=$?
+  trap - EXIT
+  cd "$ROOT"
+  if git worktree list --porcelain | grep -Fxq "worktree $WT"; then
+    if ! git worktree remove --force "$WT" > "$OUT/cleanup.log" 2>&1; then
+      rc=1
+    fi
+  fi
+  git worktree list --porcelain > "$OUT/worktrees-after.txt"
+  if ! cmp -s "$OUT/worktrees-before.txt" "$OUT/worktrees-after.txt"; then
+    printf 'Worktree cleanup differs; inspect %s\n' "$OUT" >&2
+    rc=1
+  fi
+  if [ "$(git rev-parse HEAD)" != "$CANDIDATE" ] ||
+     [ -n "$(git status --porcelain)" ]; then
+    printf 'Original checkout changed; inspect it before continuing.\n' >&2
+    rc=1
+  fi
+  printf 'exit code: %s\nlogs: %s\n' "$rc" "$OUT" | tee "$OUT/result.txt"
+  exit "$rc"
+}
+trap cleanup EXIT
+step() {
+  name=$1
+  shift
+  printf 'command:' > "$OUT/$name.log"
+  printf ' %q' "$@" >> "$OUT/$name.log"
+  printf '\n' >> "$OUT/$name.log"
+  if "$@" >> "$OUT/$name.log" 2>&1; then rc=0; else rc=$?; fi
+  printf '\nexit code: %s\n' "$rc" >> "$OUT/$name.log"
+  cat "$OUT/$name.log"
+  return "$rc"
+}
+step dependencies python -c 'import yaml, jsonschema, pytest; print("dependencies=PASS")'
+step add-worktree git worktree add --detach "$WT" "$CANDIDATE"
+step restore git -C "$WT" restore --source="$BASE" --staged --worktree -- \
   specs/tasks/GZ-010.md evidence/GZ-010
-RESTORED=$(git -C "$TMP" write-tree)
+RESTORED=$(git -C "$WT" write-tree)
 EXPECTED=$(git rev-parse "$BASE^{tree}")
 test "$RESTORED" = "$EXPECTED"
-git -C "$TMP" diff --cached --exit-code "$CANDIDATE" -- specs/coordination
-printf 'review_document_restoration=PASS candidate=%s restored_tree=%s\n' \
-  "$CANDIDATE" "$RESTORED"
+step unchanged-coordination git -C "$WT" diff --cached --exit-code "$CANDIDATE" -- specs/coordination
+step simulation-commit git -C "$WT" \
+  -c user.name='Guize LOCAL-ONLY recovery rehearsal' \
+  -c user.email='guize-rehearsal@example.invalid' \
+  commit -m 'test(GZ-010): LOCAL-ONLY review-document recovery simulation; never push'
+SIMULATION=$(git -C "$WT" rev-parse HEAD)
+test "$(git -C "$WT" rev-parse HEAD^1)" = "$CANDIDATE"
+test "$(git -C "$WT" rev-parse HEAD^{tree})" = "$EXPECTED"
+printf 'simulation=%s\nrestored_tree=%s\n' "$SIMULATION" "$RESTORED" >> "$OUT/identity.txt"
+cd "$WT"
+export GITHUB_REPOSITORY=ElectricDogCN/Guize
+export PYTHONDONTWRITEBYTECODE=1
+unset GUIZE_GITHUB_API_URL
+step task python scripts/check-task-file.py --task GZ-010
+step lifecycle python scripts/run-program-lifecycle-gate.py \
+  --base-ref "$CANDIDATE" --head-ref HEAD --task GZ-010 --branch-name "$BRANCH"
+step history python scripts/check-program-plan-history.py \
+  --base-ref "$CANDIDATE" --head-ref HEAD --task GZ-010 --branch-name "$BRANCH"
+step coordination python scripts/run-agent-coordination-gate.py \
+  --base-ref "$CANDIDATE" --head-ref HEAD --task GZ-010 --branch-name "$BRANCH"
+step scope python scripts/run-task-scope-gate.py --task GZ-010 --base "$CANDIDATE"
+step verify make verify TASK=GZ-010 BASE="$CANDIDATE" HEAD_REF=HEAD BRANCH="$BRANCH"
+step planning-check python specs/poc/check_program.py
+step planning-tests python specs/poc/test_program.py
+step junit python -m pytest tests/governance/ -q -ra --junitxml="$OUT/governance.xml"
+step skips python scripts/check-pytest-skips.py "$OUT/governance.xml" tests/governance/allowed-skips.txt
+test -z "$(git status --porcelain)"
+printf 'review_recovery=PASS candidate=%s simulation=%s restored_tree=%s\n' \
+  "$CANDIDATE" "$SIMULATION" "$RESTORED" | tee "$OUT/verification.txt"
 ```
 
-A tree match alone is not a full governance rehearsal. For a complete rehearsal, create an explicitly simulation-only local commit in the detached worktree and run the Task Spec validation against the candidate base, recording real output and exit codes. Never push that simulation commit or present it as a main merge. Pending completion acceptance is not fulfilled by this nonterminal test.
+Retain `identity.txt`, each command log, `governance.xml`, `verification.txt` if produced, the before/after worktree lists and `result.txt`. A successful tree equality with a failed later check is an incomplete rehearsal, not overall PASS. The final successful marker and exit 0 must both exist. The simulation SHA identifies a local-only test subject; do not list it as a reachable remote production commit.
 
-## After a documentation-only merge
+## After an authorized documentation-only merge
 
-Only after a real authorized PR #63 documentation merge exists, resolve its actual two parents and verify that its coordination files equal the first parent. On a separate local recovery branch, preview reverting only that documentation merge (`git revert --no-commit -m 1 "$DOCUMENTATION_MERGE"`). Check that the resulting diff contains only Task/Evidence and all coordination files remain unchanged, then use the existing independent review and validation process before any recovery merge.
+Resolve the actual PR #63 merge and its first parent. On a separate recovery branch preview `git revert --no-commit -m 1 "$DOCUMENTATION_MERGE"` only after verifying that the merge changed Task/Evidence alone and did not alter coordination files. Run the same lifecycle/history/coordination/scope and named make checks using the real pre-recovery main commit as base. Preserve review and main-merge approval. Stop on conflicts, changed lifecycle, expired lease or any unrelated change; this script is not an automatic rollback authorization.
 
-This recipe must stop if main has moved into a later lifecycle state, a lease has expired, a conflict exists, or other tasks/coordination metadata would change. It is not an automatic production rollback. No future merge hash or successful execution is invented.
+## Future completion
 
-## Future completion remains blocked
-
-Before GZ-010 may become completed, a concrete forward recovery that preserves immutable completion records and prevents improper downstream execution must be documented and actually tested against existing guards. That result does not exist in this checkpoint. No new status, policy exception, workflow or controller is introduced here; the safe current disposition is review, not a claimed reversible completion.
+No main merge or full local rehearsal is claimed by supplying these instructions. Before proposing completed again, the separate completion prerequisites remain: successful final-candidate checks and an actually tested forward recovery preserving immutable completion records. The nonterminal rehearsal above does not certify a post-completion status regression or ledger deletion.

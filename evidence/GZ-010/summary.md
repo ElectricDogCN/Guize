@@ -8,22 +8,20 @@ Program status: review
 
 ## Current disposition
 
-The unmerged completion proposal is withdrawn in a normal successor of `035e786022f7995724e0c3b99a86a9356c51e1cf`. No main commit is reverted and no published completion record is deleted. Program, Active Work and Completion Ledger are restored byte-for-byte to target `3a11c5f639717993f51a26c5b5970701570fe367`. The candidate retains GZ-010's existing review lease and has no GZ-010 completion record.
+The unmerged completion proposal was withdrawn by `a0775d1406c2a2a83cd68296b9d0d0c2e076ee35`. No main commit was reverted and no published completion record was deleted. Program, Active Work and Completion Ledger remain byte-for-byte identical to target `3a11c5f639717993f51a26c5b5970701570fe367`; GZ-010 retains its existing review lease and has no completion record.
 
-The cumulative PR now proposes only the Task Spec and nine existing Evidence files. It neither completes GZ-010 nor unblocks dependent POC tasks. Implemented POC-PROTOCOL-V1 bytes from PR #48 / `2b2d076b68171edd74639e307f8a126cc882186d` remain untouched. All ten experiments remain planned/not_started.
+The cumulative PR contains only the Task Spec and nine existing Evidence files. POC-PROTOCOL-V1 implementation from PR #48 / `2b2d076b68171edd74639e307f8a126cc882186d` remains untouched, and all ten experiments remain planned/not_started.
 
-## Reason and retained evidence
+Issue #15 was reopened at `2026-09-16T15:52:58Z` after withdrawal, with state open/reopened and no changes to assignees, labels or milestone. Issue comment `5700433671` records this correction. It must remain open while GZ-010 is incomplete, including if this nonterminal PR is closed or merged.
 
-Independent review comments `4023946213` and `4023946218` found missing completion executions and no rehearsed recovery compatible with the immutable ledger. A green Gate does not remove those blockers. The response is to retain a nonterminal state, not to change tests, gates, policy, Issue state or downstream tasks.
+## Review corrections
 
-Historical implementation run `35053181259` recorded 86 planning-software tests. Gate #570 on source `b1ca9864759c325f12addf2b06b0ab22a81f9d9c` passed 267 governance tests, zero skips; its wrapper ran inside pytest. Gate #571 on the withdrawn source `035e786022f7995724e0c3b99a86a9356c51e1cf` succeeded but its independent review did not approve completion. Full prior transcripts and object-restoration inputs remain in Git at that source; no history is rewritten.
+Review `5220824647` reported three P2 findings on a0775d1: the external Issue remained closed, the full recovery rehearsal lacked commands, and two original safety/fail-closed acceptance criteria were omitted. This successor reopens the Issue, supplies the complete local rehearsal in the existing rollback document and restores those explicit criteria as unchecked until their evidence is traced. It changes no checker, test, implementation, coordination policy or lifecycle state.
 
-## Execution boundary
+The original completion-execution and immutable-ledger recovery requirements remain; no new general governance mechanism is introduced and no unexecuted result is marked PASS.
 
-The earlier general Codex task never started because response `5694080113` required a repository environment. A subsequent local Git clone attempt returned exit 128: `Could not resolve host: github.com`. That environment did not obtain a checkout and therefore did not execute the wrapper, make verify or worktree rehearsal.
+## Evidence and next step
 
-Review reproduction request `5694867271` targets the withdrawn source exactly. Its actual results must be read before use and cannot validate this successor automatically. Current candidate Gate/review results are likewise not anticipated by this file. The Task Spec retains all pending completion acceptance items.
+Historical implementation run `35053181259` recorded 86 planning-software tests. Gate #572 / run `35078148437` tested a0775d1 through merge `c9f6a82728ef944b3289aa166b6700945c9f2e65`: 267 passed in 30.97 seconds, zero skips. Those results describe the parent, not this successor. Prior failed dependency and clone attempts remain recorded in `commands.txt` and `test-results/README.md`.
 
-## Resume
-
-Read PR #63's actual HEAD; verify the ten-file diff, three unchanged coordination blobs, retained lease and unchanged implementation. Review this nonterminal repair. Resume missing full-checkout executions only in an available authorized environment. Do not restore completed or remove the lease without the required results, independent review and Human Owner integration approval. No main merge or post-main success is claimed.
+Read the actual PR HEAD and its new Gate. Install the unchanged dependency file in the execution environment, run the Task commands and the complete nonterminal rehearsal, and record actual exits and review disposition. The pending final-completion conditions must be fulfilled before completed is proposed again. No main merge, post-main success or POC experiment is claimed.
