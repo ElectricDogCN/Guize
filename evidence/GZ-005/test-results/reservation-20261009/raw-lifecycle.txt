@@ -1,0 +1,5 @@
+Source Commit: 731ee84e52431864eeaf8f52680319ca1090a3fa
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-reservation
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["GZ-005"], "changedPathCount": 18, "baseRef": "788e6f257d9052db81a8df793bf8b448a05011a1"}}
+
+Exit Code: 0

@@ -1,0 +1,5 @@
+Source Commit: 78c621fbf6e8efe057c612040c8000d264edab07
+Command: python scripts/check-task-file.py --task GZ-005
+{"status": "FAIL", "message": "leaseExpiresAt must be an ISO-8601 timestamp with timezone."}
+
+Exit Code: 1

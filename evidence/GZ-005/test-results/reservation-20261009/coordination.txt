@@ -1,0 +1,6 @@
+Source Commit: 731ee84e52431864eeaf8f52680319ca1090a3fa
+Command: python scripts/run-agent-coordination-gate.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-reservation
+{"status": "PASS", "message": "Agent coordination valid: 1 active tasks, 1 high/critical", "details": {"activeTaskIds": ["GZ-005"]}}
+INFO: GZ-005 is a Reservation PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 0

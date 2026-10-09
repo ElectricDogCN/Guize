@@ -1,0 +1,100 @@
+Task: GZ-005
+Base: 788e6f257d9052db81a8df793bf8b448a05011a1
+Status: RESERVED
+Historical pre-validation note (superseded by the actual source results below):
+command verification had been pending for the committed reservation candidate.
+Earlier candidates failed task timestamp formatting, forbidden Program Issue assignment,
+and incomplete evidence layout respectively. These failures remain raw evidence and are
+not PASS results. Record each actual source, command and exit code before claiming PASS.
+
+Actual reservation Source Commit: 731ee84e52431864eeaf8f52680319ca1090a3fa
+
+task
+Command: python scripts/check-task-file.py --task GZ-005
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/task.txt
+
+readiness
+Command: python scripts/check-project-readiness.py
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/readiness.txt
+
+schemas
+Command: python scripts/check-schemas.py
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/schemas.txt
+
+integrity
+Command: python scripts/check-program-plan-integrity.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/integrity.txt
+
+history
+Command: python scripts/check-program-plan-history.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-reservation
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/history.txt
+
+transitions
+Command: python scripts/check-program-plan-transitions.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-reservation
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/transitions.txt
+
+finalization
+Command: python scripts/check-program-plan-finalization.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --task GZ-005
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/finalization.txt
+
+raw-lifecycle
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-reservation
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/raw-lifecycle.txt
+
+lifecycle
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-reservation
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/lifecycle.txt
+
+coordination
+Command: python scripts/run-agent-coordination-gate.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-reservation
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/coordination.txt
+
+scope
+Command: python scripts/run-task-scope-gate.py --task GZ-005 --base 788e6f257d9052db81a8df793bf8b448a05011a1
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/scope.txt
+
+evidence
+Command: python scripts/check-evidence.py --task GZ-005
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/evidence.txt
+
+unaffected
+Command: git diff --exit-code 788e6f257d9052db81a8df793bf8b448a05011a1 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/poc contracts scripts tests AGENTS.md
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/unaffected.txt
+
+verify
+Command: make verify TASK=GZ-005 BASE=788e6f257d9052db81a8df793bf8b448a05011a1 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-reservation
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/verify.txt
+
+governance
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-reservation-results/governance.xml
+Exit Code: 0
+Result: PASS (metadata reservation)
+Evidence: test-results/reservation-20261009/governance.txt

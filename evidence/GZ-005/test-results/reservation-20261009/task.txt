@@ -1,0 +1,5 @@
+Source Commit: 731ee84e52431864eeaf8f52680319ca1090a3fa
+Command: python scripts/check-task-file.py --task GZ-005
+{"status": "PASS", "message": "Task file valid: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize/specs/tasks/GZ-005.md"}
+
+Exit Code: 0
