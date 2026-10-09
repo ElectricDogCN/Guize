@@ -1,3 +1,19 @@
+
+## 当前 scope 登记精确验证
+
+Task: OPS-004 / Issue71 reopened
+Phase: metadata-only review -> blocked
+Branch: chore/OPS-004-history-scope-registration
+Base: 62d4ef826e0be1acb2839c3f04fe62d1894f9585
+Tested Source Commit: 7f77774ea2bce6948b4de7214f49e8bbc0fc0c09
+Tested Tree: 6d01c960c1b7cfd5a58e998927a79b4a119a1e72
+
+实际15项检查13项退出0、协调1/make2仅容量失败；独立完整治理 351 passed in 322.86s (0:05:22)，JUnit351零失败/错误/跳过。make真实在容量处中止，没有声称其执行到治理；完整治理为同一未变干净源的单独真实执行。最初外部runner误预期make会产出JUnit，其归档说明保留在runner-note.txt；没有据此宣称成功。Raw commands/results: test-results/history-scope-published-7f77774/，远端Gate599实际351 passed292.37s、其他全部实质步骤成功、唯一容量失败，见test-results/history-scope-remote-599/。独立审查此前静态通过；最终archive14、同头实际CI/Review仍待执行。
+
+只改变自身元数据及Evidence，无生产代码；claims精确6条、sharedPaths空、integrationOrder4、原Lease保留。旧身份/政策/Ledger/GZ005不变。历史c5bf真实对象须作为发布archive额外父提交保留，见source-history/history-scope-source-map.json；不把其失败或完成树采纳为当前状态。范围登记合入后从真实最新main独立blocked→in_progress实现history修复。回滚仅停止/关闭未合入候选并保留原登记/证据；窗口不延期，不准GZ005实现。
+
+## 历史阶段记录（保留）
+
 Task: OPS-004
 Source Commit: 751dc3db960420f64641c4edd935f7669d026c85
 Phase: implementation
@@ -22,3 +38,5 @@ governance: Exit Code 0
 
 Command and raw output: test-results/implementation-ci-env-751dc3d/*.txt
 JUnit: 351 tests, failures=0, errors=0, skipped=0
+
+Current phase: history scope metadata registration; NOT_EXECUTED for this source. Failed Completion raw commands: test-results/completion-first-c5bf/*.txt. No production modification before scope registration merge.

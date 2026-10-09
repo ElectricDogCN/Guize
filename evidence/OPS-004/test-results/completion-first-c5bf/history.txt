@@ -1,0 +1,5 @@
+Source Commit: c5bf21c9be5ed69fcda283bc64b3e2d4b4755bf4
+Command: python scripts/check-program-plan-history.py --base-ref 62d4ef826e0be1acb2839c3f04fe62d1894f9585 --head-ref HEAD --task OPS-004 --branch-name chore/OPS-004-lifecycle-repair-completion
+{"status": "FAIL", "message": "Foundation OPS-004 mergeCommit must strictly descend from reservation baseSha"}
+
+Exit Code: 1

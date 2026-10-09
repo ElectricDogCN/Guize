@@ -1,3 +1,19 @@
+
+## 当前 scope 登记精确验证
+
+Task: OPS-004 / Issue71 reopened
+Phase: metadata-only review -> blocked
+Branch: chore/OPS-004-history-scope-registration
+Base: 62d4ef826e0be1acb2839c3f04fe62d1894f9585
+Tested Source Commit: 7f77774ea2bce6948b4de7214f49e8bbc0fc0c09
+Tested Tree: 6d01c960c1b7cfd5a58e998927a79b4a119a1e72
+
+实际15项检查13项退出0、协调1/make2仅容量失败；独立完整治理 351 passed in 322.86s (0:05:22)，JUnit351零失败/错误/跳过。make真实在容量处中止，没有声称其执行到治理；完整治理为同一未变干净源的单独真实执行。最初外部runner误预期make会产出JUnit，其归档说明保留在runner-note.txt；没有据此宣称成功。Raw commands/results: test-results/history-scope-published-7f77774/，远端Gate599实际351 passed292.37s、其他全部实质步骤成功、唯一容量失败，见test-results/history-scope-remote-599/。独立审查此前静态通过；最终archive14、同头实际CI/Review仍待执行。
+
+只改变自身元数据及Evidence，无生产代码；claims精确6条、sharedPaths空、integrationOrder4、原Lease保留。旧身份/政策/Ledger/GZ005不变。历史c5bf真实对象须作为发布archive额外父提交保留，见source-history/history-scope-source-map.json；不把其失败或完成树采纳为当前状态。范围登记合入后从真实最新main独立blocked→in_progress实现history修复。回滚仅停止/关闭未合入候选并保留原登记/证据；窗口不延期，不准GZ005实现。
+
+## 历史阶段记录（保留）
+
 # OPS-004 精确登记候选
 
 Tested Source Commit: 59dcba760bf5fc300a5ad03a0b8dae23fe6b6d5d
@@ -64,3 +80,9 @@ Actual tested published Source: a50d2406037a496cb9c46ee359bc9f0e16cb9263；tree8
 首次a50检查工作树缺两份source-history文件并保留旧summary，虽然检查返回13零，但源一致性不满足，明确无效、不用作完整发布树验收。原始与实际dirty状态记录保留在 test-results/review-a50-invalid-worktree/。仅恢复三个自身Evidence路径，实际HEAD未变、git diff HEAD零且status空，随后全部14项重新执行；生产代码和旧身份不变。
 
 本次只补自身归档和当前阶段说明；发布时将5dce717置于新提交额外父链，使两个历史快照进入PR的不可变祖先，archive分支仅作辅助。实际发布头必须验证两个祖先/对象/tree、完整14项及其同头351 CI；a50结果不能冒称新归档头重跑。新头结果在后续Completion继续归档，避免要求提交包含自身SHA日志的自引用循环。Completion身份仍PR-73/726870，容量限制不变，业务仍未启动。
+
+## 前向返工范围登记
+
+Current phase: metadata-only review -> blocked; actual base 62d4ef826e0be1acb2839c3f04fe62d1894f9585.
+
+Completion源c5bf真实前4项退出0，history退出1，其余本地检查NOT_EXECUTED。Gate598实际349 passed/2 failed（239.73s），原始见test-results/completion-first-c5bf/。history误把最新Registry.baseSha当首次Reservation基线，与合法Review基线刷新冲突；另一个失败是待测Completion尚无合法完成/PASS证据。当前不声称PASS。只登记自身blocked状态和精确追加history及对应test范围，代码不变、Lease不变、GZ005/政策/Ledger/旧完成不变。新范围实现必须在本登记合入后的独立PR，且再次完整验证/独立审查。
