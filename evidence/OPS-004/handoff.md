@@ -1,3 +1,25 @@
+# OPS-004 当前前向范围登记交接
+
+## 当前 scope 登记精确验证
+
+Task: OPS-004 / Issue71 reopened
+Phase: metadata-only review -> blocked
+Branch: chore/OPS-004-history-scope-registration
+Base: 62d4ef826e0be1acb2839c3f04fe62d1894f9585
+Tested Source Commit: 7f77774ea2bce6948b4de7214f49e8bbc0fc0c09
+Tested Tree: 6d01c960c1b7cfd5a58e998927a79b4a119a1e72
+
+实际15项检查13项退出0、协调1/make2仅容量失败；独立完整治理 351 passed in 322.86s (0:05:22)，JUnit351零失败/错误/跳过。make真实在容量处中止，没有声称其执行到治理；完整治理为同一未变干净源的单独真实执行。最初外部runner误预期make会产出JUnit，其归档说明保留在runner-note.txt；没有据此宣称成功。Raw commands/results: test-results/history-scope-published-7f77774/，远端Gate599实际351 passed292.37s、其他全部实质步骤成功、唯一容量失败，见test-results/history-scope-remote-599/。独立审查此前静态通过；最终archive14、同头实际CI/Review仍待执行。
+
+只改变自身元数据及Evidence，无生产代码；claims精确6条、sharedPaths空、integrationOrder4、原Lease保留。旧身份/政策/Ledger/GZ005不变。历史c5bf真实对象须作为发布archive额外父提交保留，见source-history/history-scope-source-map.json；不把其失败或完成树采纳为当前状态。范围登记合入后从真实最新main独立blocked→in_progress实现history修复。回滚仅停止/关闭未合入候选并保留原登记/证据；窗口不延期，不准GZ005实现。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史交接记录（不用于当前恢复）
+
 # OPS-004 Handoff
 
 Issue: #71
@@ -12,7 +34,7 @@ Roles: lifecycle-scope-repair-agent / independent-lifecycle-scope-review-agent
 
 Source Commit: 59dcba760bf5fc300a5ad03a0b8dae23fe6b6d5d。15 项中仅窗口内容量 coordination=1 / verify=2；其余 13 项退出 0，328 governance testcase 无失败/错误/跳过。后续候选作自身 Evidence 归档，并澄清 Task 一处正文中的逐段合法迁移，身份和 claims 不变；最终候选门禁另行绑定。不冒称远端 SHA 等于本地 SHA；必须核对 exact tree、远端真实 CI 与独立审查，再按 owner-decision.md 进行有界登记集成。
 
-## 当前交接
+## 历史：实现交接
 
 Phase: implementation
 Branch: chore/OPS-004-lifecycle-repair-implementation

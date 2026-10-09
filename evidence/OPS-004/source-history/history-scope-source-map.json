@@ -1,0 +1,12 @@
+{
+  "task": "OPS-004",
+  "failedSource": "c5bf21c9be5ed69fcda283bc64b3e2d4b4755bf4",
+  "failedTree": "7b86f49ac661286611042ae76627296ec6af1794",
+  "failedPR": 75,
+  "status": "closed-unmerged",
+  "originalBranch": "chore/OPS-004-lifecycle-repair-completion",
+  "originalParent": "62d4ef826e0be1acb2839c3f04fe62d1894f9585",
+  "testedScopeSource": "7f77774ea2bce6948b4de7214f49e8bbc0fc0c09",
+  "testedScopeTree": "6d01c960c1b7cfd5a58e998927a79b4a119a1e72",
+  "publicationRequirement": "Final scope archive commit first parent must be testedScopeSource, additional parent failedSource. Verify both ancestors after complete fetch; preserve original raw logs unchanged."
+}
