@@ -1,0 +1,4 @@
+command: python - /tmp/gz010-review-recovery.jzChf3/worktree 3a11c5f639717993f51a26c5b5970701570fe367 c91265bf1430c3e7df6b0f1321705b4a00a66b25 /tmp/gz010-review-recovery.jzChf3
+{"renewal_preserved": true, "expected_tree": "62591fabeadfe1fede447a0ec3764c7771f7263f"}
+
+exit code: 0

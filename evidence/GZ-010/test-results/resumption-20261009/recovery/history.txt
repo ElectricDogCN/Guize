@@ -1,0 +1,4 @@
+command: python scripts/check-program-plan-history.py --base-ref c91265bf1430c3e7df6b0f1321705b4a00a66b25 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "c91265bf1430c3e7df6b0f1321705b4a00a66b25", "headRef": "HEAD", "completionRecords": 1}}
+
+exit code: 0

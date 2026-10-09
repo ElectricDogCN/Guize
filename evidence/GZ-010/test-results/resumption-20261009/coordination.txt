@@ -1,0 +1,4 @@
+command: python scripts/run-agent-coordination-gate.py --base-ref 3a11c5f639717993f51a26c5b5970701570fe367 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+{"status": "PASS", "message": "Agent coordination valid: 1 active tasks, 0 high/critical", "details": {"activeTaskIds": ["GZ-010"]}}
+
+exit code: 0

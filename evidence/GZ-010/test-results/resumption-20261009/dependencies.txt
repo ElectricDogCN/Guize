@@ -1,0 +1,4 @@
+command: python -c import\ yaml\,jsonschema\,pytest\;\ print\(\"dependencies=PASS\"\)
+dependencies=PASS
+
+exit code: 0

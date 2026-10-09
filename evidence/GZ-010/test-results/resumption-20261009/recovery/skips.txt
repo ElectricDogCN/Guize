@@ -1,0 +1,4 @@
+command: python scripts/check-pytest-skips.py /tmp/gz010-review-recovery.jzChf3/governance.xml tests/governance/allowed-skips.txt
+OK: No skipped tests
+
+exit code: 0

@@ -1,0 +1,3 @@
+command: git -C /tmp/gz010-review-recovery.jzChf3/worktree restore --source=3a11c5f639717993f51a26c5b5970701570fe367 --staged --worktree -- specs/tasks/GZ-010.md evidence/GZ-010
+
+exit code: 0

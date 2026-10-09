@@ -1,0 +1,6 @@
+command: python scripts/run-task-scope-gate.py --task GZ-010 --base c91265bf1430c3e7df6b0f1321705b4a00a66b25
+{"status": "INFO", "message": "Changed files: 10, Allowed: 10, Forbidden: 0, Out-of-scope: 0"}
+{"status": "PASS", "message": "Allowed files", "details": {"files": ["evidence/GZ-010/changed-files.md", "evidence/GZ-010/commands.txt", "evidence/GZ-010/follow-ups.md", "evidence/GZ-010/handoff.md", "evidence/GZ-010/rollback-verification/README.md", "evidence/GZ-010/scope.md", "evidence/GZ-010/security/README.md", "evidence/GZ-010/summary.md", "evidence/GZ-010/test-results/README.md", "specs/tasks/GZ-010.md"]}}
+{"status": "PASS", "message": "All changed files are within allowed scope and outside forbidden scope."}
+
+exit code: 0

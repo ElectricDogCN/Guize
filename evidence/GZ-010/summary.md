@@ -1,75 +1,56 @@
-# GZ-010 POC Program Baseline Evidence
+## Local validation versus connector integration
 
-Task: `GZ-010`
-Issue: `#15`
-Pull request: `#48`
-Branch: `chore/GZ-010-poc-program-baseline`
-Base: `main@3acc6e4ee582f4fdee8ba90c630bf99eb870b252`
-Validated plan-completeness implementation commit: `0f5cfd73d4ae6592f6e773caae3bba4dac34ff46`
-Validated clean product/Evidence-parent HEAD: `c8a4e0fc4839f009484a808ea2e7ee451f5f614c`
+The actual validation source c91265bf1430c3e7df6b0f1321705b4a00a66b25 and its Evidence-refresh successors are preserved in this task's local Git checkout. Native Git push failed because that transport has no authenticated username. These local commits have NOT been claimed as remotely pushed or as ancestors of the connector-created PR commit. The LOCAL-ONLY recovery simulation is also never pushed.
 
-## Status
+The authorized GitHub connector publishes the final file tree as a normal successor of the existing remote PR HEAD. Record its returned remote SHA and verify its full tree equals the final local tree before using remote Gate results. Current local transcripts remain bound to their actual local source and environment; an exact remote Gate is a separate result. No remote pass is inferred from local-source pass.
 
-Ready for final exact-head independent product-scope review after this Evidence-only refresh receives a successful Governance Gate. GZ-010 delivers the canonical executable planning baseline for POC-001 through POC-010. It does not execute a POC and does not claim a hardware, provider, network, storage, AI, media, recovery, performance, privacy, licence or production result.
+## October execution evidence — 2026-10-09
 
-## Stop That Shit scope decision
+Validation source: `c91265bf1430c3e7df6b0f1321705b4a00a66b25`; comparison target: `3a11c5f639717993f51a26c5b5970701570fe367`. These are actual executions in Ubuntu/WSL with Python 3.12 and the unchanged requirements-governance.txt. The final Evidence refresh must receive its own Gate; these source results are not automatically transferred to a later HEAD.
 
-The task freezes complete, machine-checkable POC plans and the validator required to protect those plans. It does not build a universal future execution platform. Separate task-registration and standalone POC-gate projects were closed without merge. Future terminal-result hardening remains deferred until an actual downstream POC exposes a concrete failure.
+- Explicit lifecycle wrapper, Task, readiness, Schema, coordination, scope and Evidence commands: exit 0, captured in `test-results/resumption-20261009/`.
+- Direct POC checker: exit 0; direct planning suite: 86/86 passed, zero skips.
+- Named `make verify TASK=GZ-010 BASE=3a11c5f639717993f51a26c5b5970701570fe367 HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline`: exit 0, 267/267 governance tests passed.
+- Separate JUnit/skip audit: exit 0, 267 passed, zero skipped, zero failures/errors.
+- Full nonterminal, lease-preserving detached-worktree rehearsal: exit 0 with `review_recovery=PASS`; candidate, simulation, expected tree, individual logs and cleanup lists are in `test-results/resumption-20261009/recovery/`. Simulation is local-only and was not pushed.
+- Original checkout remained clean and its HEAD unchanged after cleanup.
 
-## Delivered baseline
+GZ-010 remains review. Program and immutable completion ledger are unchanged; Active Work changes only its existing lease timestamps. The proposed lease ends 2026-10-16T08:57:38Z (2026-10-16 16:57:38 Asia/Shanghai). No POC experiment, Completion transition, main merge, post-main result or downstream activation is claimed. Future Completion API checks and guard-compatible post-completion recovery remain separate prerequisites. Ten historical GitHub review threads remain unresolved/outdated and require explicit disposition before integration; no GitHub approval is inferred from local review.
 
-- one canonical POC Program, schemas, catalogues, templates and result index;
-- ten independent plans with exact Requirement, Module, dependency, Wave, risk, resource, sample, Evidence, rollback and decision boundaries;
-- all plans and result-index rows remain `planned` / `not_started`;
-- fail-closed validator with duplicate-key/YAML-merge handling, task/path mapping, secrets, approvals, resources, provenance, measurements and row-ownership checks;
-- 86 behavioral regression tests;
-- every current canonical measurement ID is frozen by `REQUIRED_MEASUREMENTS` and a generic removal regression;
-- explicit structured coverage for the latest product-scope findings:
-  - POC-001 BIOS/IOMMU, IOMMU-group isolation, Above 4G, Resizable BAR and observed multi-day stability;
-  - POC-002 A380-backed Range latency, encoder power and temperature;
-  - POC-003 hot-cache, cold-cache, slow-origin and multi-user Range latency;
-  - POC-004 incomplete/hash-mismatched replica rejection, cache-eviction preservation and safe replica migration;
-  - POC-005 filename, provider, Range and ETag characteristics;
-  - POC-006 429/5xx/network recovery, resumable/idempotent sync, duplicate prevention and source-deletion preservation;
-  - POC-008 the exact ten Vue/React comparison scenarios;
-  - POC-009 numeric budget/rate/concurrency ceilings plus WER, CER, DER, COMET, BLEU, OCR, factual consistency, tag F1, thumbnail selection, multimodal correction and strata coverage;
-  - POC-010 playback, AI/manual revision, search-index and image-signature restoration plus separate service, VM, browsing and playback recovery times.
+## Earlier proposal and September context (retained)
 
-## Direct POC validation
+## Current resumption — 2026-10-09
 
-GitHub Actions run `35053181259`, job `104657763581`, produced and validated commit `0f5cfd73d4ae6592f6e773caae3bba4dac34ff46`:
+Coordinator action: renew only the existing GZ-010 review lease from `2026-09-14T06:00:00Z` / `2026-09-21T06:00:00Z` to `2026-10-09T08:57:38Z` / `2026-10-16T08:57:38Z` (168 hours). This is a branch proposal, not an integrated main renewal. Program, completion ledger, roles, path claims, registered base, capacity and lifecycle remain unchanged. Issue #15 remains open. No experiment or downstream task is activated.
 
-- dependency installation: exit `0`;
-- Python compilation: exit `0`;
-- `python specs/poc/check_program.py`: exit `0` with canonical PASS;
-- `python specs/poc/test_program.py`: exit `0`;
-- regression result: `86/86` passed in `153.468` seconds;
-- unexpected skips: `0`;
-- the generic frozen-measurement test removed each required ID independently and required the expected fail-closed message.
+The Windows checkout and Ubuntu/WSL execution environment now exist. Current execution outputs will be recorded separately from the September results. Historical PASS does not transfer to the October candidate. Main merge still requires independent review and Human Owner approval.
 
-The same workflow attempted `make verify` before its two temporary workflow files were removed. Product validation passed, but task scope correctly rejected those temporary files. That intermediate `make verify` result is historical and is not represented as final success.
+## Retained September checkpoint (historical snapshot)
 
-## Clean-head repository validation
+# GZ-010 Review Checkpoint — Completion Proposal Withdrawn
 
-After deleting both temporary workflows, Governance Gate run `35053458023` (#561), job `104658598246`, validated source HEAD `c8a4e0fc4839f009484a808ea2e7ee451f5f614c`:
+Task: GZ-010
+Issue: #15
+PR: #63
+Result: NEEDS_REVIEW
+Program status: review
 
-- governance suite: `267/267` passed in `29.86` seconds;
-- skipped tests: `0`;
-- Task Spec, Project Readiness, Program integrity/history/transitions/finalization/lifecycle and Agent Coordination: PASS;
-- Markdown: `188` files, PASS;
-- schema, secret, Evidence, Evidence integrity, linkage, task scope, spec sync, repository boundary and CI static validation: PASS;
-- cumulative paths: `38` allowed, `0` forbidden, `0` out of scope.
+## Current disposition
 
-The standard Governance workflow executes the mandatory repository validators directly. A separate final local `make verify` command could not be rerun because the isolated execution container could not resolve `github.com`; no success is claimed for that unexecuted local command.
+The unmerged completion proposal was withdrawn by `a0775d1406c2a2a83cd68296b9d0d0c2e076ee35`. No main commit was reverted and no published completion record was deleted. Program, Active Work and Completion Ledger remain byte-for-byte identical to target `3a11c5f639717993f51a26c5b5970701570fe367`; GZ-010 retains its existing review lease and has no completion record.
 
-## Claim boundary
+The cumulative PR contains only the Task Spec and nine existing Evidence files. POC-PROTOCOL-V1 implementation from PR #48 / `2b2d076b68171edd74639e307f8a126cc882186d` remains untouched, and all ten experiments remain planned/not_started.
 
-- no POC was executed;
-- no downstream `evidence/POC-*` result was added;
-- no Program status or Completion Ledger change was made;
-- PR #48 remains Draft and unmerged;
-- this Evidence refresh does not claim its own future commit SHA, final independent approval, merge or post-main success.
+Issue #15 was reopened at `2026-09-16T15:52:58Z` after withdrawal, with state open/reopened and no changes to assignees, labels or milestone. Issue comment `5700433671` records this correction. It must remain open while GZ-010 is incomplete, including if this nonterminal PR is closed or merged.
 
-## Rollback
+## Review corrections
 
-Before merge, close PR #48 or revert the branch commits while preserving history. After merge, use a dedicated reviewed revert/correction PR. Never force-push or delete failed-run and review evidence.
+Review `5220824647` reported three P2 findings on a0775d1: the external Issue remained closed, the full recovery rehearsal lacked commands, and two original safety/fail-closed acceptance criteria were omitted. This successor reopens the Issue, supplies the complete local rehearsal in the existing rollback document and restores those explicit criteria as unchecked until their evidence is traced. It changes no checker, test, implementation, coordination policy or lifecycle state.
+
+The original completion-execution and immutable-ledger recovery requirements remain; no new general governance mechanism is introduced and no unexecuted result is marked PASS.
+
+## Evidence and next step
+
+Historical implementation run `35053181259` recorded 86 planning-software tests. Gate #572 / run `35078148437` tested a0775d1 through merge `c9f6a82728ef944b3289aa166b6700945c9f2e65`: 267 passed in 30.97 seconds, zero skips. Those results describe the parent, not this successor. Prior failed dependency and clone attempts remain recorded in `commands.txt` and `test-results/README.md`.
+
+Read the actual PR HEAD and its new Gate. Install the unchanged dependency file in the execution environment, run the Task commands and the complete nonterminal rehearsal, and record actual exits and review disposition. The pending final-completion conditions must be fulfilled before completed is proposed again. No main merge, post-main success or POC experiment is claimed.
