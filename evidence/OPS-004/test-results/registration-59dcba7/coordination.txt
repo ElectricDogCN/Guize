@@ -1,0 +1,6 @@
+Source Commit: 59dcba760bf5fc300a5ad03a0b8dae23fe6b6d5d
+Command: python scripts/run-agent-coordination-gate.py --base-ref 413a6a4dd91b5d79a3d2b7d1e5f03f8121848170 --head-ref HEAD --task OPS-004 --branch-name chore/OPS-004-lifecycle-repair-registration
+{"status": "FAIL", "message": "High/critical active task count 2 exceeds limit 1"}
+INFO: OPS-004 is a Reservation PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 1

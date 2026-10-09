@@ -1,0 +1,48 @@
+Source Commit: 2931cf2b39ac40d2987a1c4585899861657630f4
+Command: make verify TASK=OPS-004 BASE=413a6a4dd91b5d79a3d2b7d1e5f03f8121848170 HEAD_REF=HEAD BRANCH=chore/OPS-004-lifecycle-repair-registration
+=== verify (TASK=OPS-004) ===
+make docs-check
+make[1]: Entering directory '/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'
+=== docs-check ===
+/tmp/guize-gz010-20261009-venv/bin/python3 scripts/check-markdown.py
+Checking 232 Markdown files...
+
+OK: No issues found
+make[1]: Leaving directory '/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'
+make schema-check
+make[1]: Entering directory '/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'
+=== schema-check ===
+/tmp/guize-gz010-20261009-venv/bin/python3 scripts/check-schemas.py
+OK YAML: .github/workflows/governance-gate.yml
+OK JSON-SCHEMA: contracts/events/event-envelope.schema.json
+OK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml
+OK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml
+OK JSON-SCHEMA: specs/coordination/active-work.schema.yaml
+OK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml
+OK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml
+OK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml
+OK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml
+OK TASK REGISTRY LINK: GZ-005
+OK PROGRAM ACTIVATION: GZ-005 <- W2
+OK TASK REGISTRY LINK: OPS-004
+OK FOUNDATION ACTIVATION: OPS-004
+OK: Schema, Task Spec, Active Work and Program Plan validation completed
+make[1]: Leaving directory '/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'
+make secret-scan
+make[1]: Entering directory '/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'
+=== secret-scan ===
+/tmp/guize-gz010-20261009-venv/bin/python3 scripts/check-secrets.py
+OK: No high-risk secrets detected
+make[1]: Leaving directory '/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'
+make task-verify TASK=OPS-004 BRANCH=chore/OPS-004-lifecycle-repair-registration BASE=413a6a4dd91b5d79a3d2b7d1e5f03f8121848170 HEAD_REF=HEAD
+make[1]: Entering directory '/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'
+=== task-verify (TASK=OPS-004) ===
+-- check-task-file --
+/tmp/guize-gz010-20261009-venv/bin/python3 scripts/check-task-file.py --task OPS-004
+{"status": "FAIL", "message": "Missing dependencies/integration section must contain at least one bullet."}
+{"status": "FAIL", "message": "Missing collaboration/handoff section must contain at least one bullet."}
+make[1]: Leaving directory '/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'
+make[1]: *** [Makefile:132: task-verify] Error 1
+make: *** [Makefile:172: verify] Error 2
+
+Exit Code: 2

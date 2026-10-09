@@ -41,6 +41,11 @@ foundationTasks:
     status: completed
     completionRef: PR-66
     mergeCommit: 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d
+  - taskId: OPS-004
+    title: "修复普通任务自身生命周期元数据准入"
+    status: reserved
+    completionRef: ISSUE-71
+    mergeCommit: null
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

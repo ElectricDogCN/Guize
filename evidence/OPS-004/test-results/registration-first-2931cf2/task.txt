@@ -1,0 +1,6 @@
+Source Commit: 2931cf2b39ac40d2987a1c4585899861657630f4
+Command: python scripts/check-task-file.py --task OPS-004
+{"status": "FAIL", "message": "Missing dependencies/integration section must contain at least one bullet."}
+{"status": "FAIL", "message": "Missing collaboration/handoff section must contain at least one bullet."}
+
+Exit Code: 1

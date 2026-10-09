@@ -1,0 +1,5 @@
+Source Commit: 2931cf2b39ac40d2987a1c4585899861657630f4
+Command: python scripts/check-program-plan-history.py --base-ref 413a6a4dd91b5d79a3d2b7d1e5f03f8121848170 --head-ref HEAD --task OPS-004 --branch-name chore/OPS-004-lifecycle-repair-registration
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "413a6a4dd91b5d79a3d2b7d1e5f03f8121848170", "headRef": "HEAD", "completionRecords": 2}}
+
+Exit Code: 0
