@@ -260,6 +260,14 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def create_foundation_completion(self, root, mode="valid", with_review=True):
         self.foundation_fixture = True
+        def build_registry(items):
+            document = self.registry(items)
+            if mode in {'original_nonconflicting_claim', 'working_nonconflicting_claim'}:
+                for peer in other_entries:
+                    if not any(item['taskId'] == peer['taskId'] for item in document['tasks']):
+                        document['tasks'].append(copy.deepcopy(peer))
+            return document
+
         with open(os.path.join(REPO_ROOT, "specs/coordination/program-plan.schema.yaml"), encoding="utf-8") as handle:
             self.write_text(root, "specs/coordination/program-plan.schema.yaml", handle.read())
         self.init_git(root)
@@ -298,7 +306,7 @@ class TestProgramPlanHistory(unittest.TestCase):
                 other["riskLevel"] = "high" if mode == "original_high_capacity" else "medium"
                 other["exclusivePaths"] = [f"scripts/other-{index}.py"]
                 other_entries.append(other)
-        self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry(other_entries))
+        self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry(other_entries))
         self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
         seed = self.commit(root, "GZ-014 early repair before reservation (#22)")
         task_id = "GZ-014"
@@ -367,8 +375,8 @@ class TestProgramPlanHistory(unittest.TestCase):
             if mode == "atomic_freeze_wrong_owner":
                 plan["recovery"]["taskId"] = "GZ-003"
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-        registry = self.registry([entry, dict(entry)] if mode == "duplicate_entry" else [entry])
-        registry["tasks"].extend(other_entries)
+        registry = build_registry([entry, dict(entry)] if mode == "duplicate_entry" else [entry])
+        registry["tasks"].extend(peer for peer in other_entries if not any(item["taskId"] == peer["taskId"] for item in registry["tasks"]))
         if mode == "registration_policy_change":
             registry["policy"]["maxActiveTasks"] = 2
         if mode == "atomic_freeze_other_lease":
@@ -412,14 +420,14 @@ class TestProgramPlanHistory(unittest.TestCase):
             transient = copy.deepcopy(entry)
             if mode == "intermediate_identity_restore":transient["owner"] = "temporary-other-owner"
             else:transient["reviewer"] = transient["implementer"]
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([transient]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([transient]))
             self.commit(root, "GZ-014 temporarily invalid stable identity")
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.commit(root, "GZ-014 restore stable identity")
         if mode == "duplicate_introduction":
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([]))
             self.commit(root, "GZ-014 remove original lease")
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.commit(root, "GZ-014 reintroduce lease")
         entry.update({"status": "reserved" if mode == "implementation_reserved_state" else "in_progress", "agentRole": "implementer", "baseSha": reservation, "lease": valid_entry["lease"], "exclusivePaths": valid_entry["exclusivePaths"], "sharedPaths": []})
         if mode == "original_missing_handoff":
@@ -432,7 +440,7 @@ class TestProgramPlanHistory(unittest.TestCase):
         if mode == "atomic_freeze_ledger_change":
             self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-        self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+        self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
         self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
         activation = self.commit(root, "GZ-014 activation (#21)")
         if mode in {"working_exclusive_conflict", "working_shared_conflict", "working_nonconflicting_claim"}:
@@ -441,26 +449,45 @@ class TestProgramPlanHistory(unittest.TestCase):
             other["exclusivePaths"] = ["scripts/other.py"] if mode == "working_nonconflicting_claim" else ["scripts/**"]
             if mode == "working_shared_conflict":
                 other["sharedPaths"], other["exclusivePaths"] = other["exclusivePaths"], []
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry, other]))
-            self.commit(root, "OPS-100 later active registration (#29)")
+            if mode == 'working_nonconflicting_claim':
+                # This is an approved peer input, not a change introduced by
+                # the tested implementation. Preserve its exact registration.
+                other.update(agentRole='coordinator', lease=copy.deepcopy(entry['lease']))
+                other_entries.append(other)
+                materialized = yaml.safe_load(pathlib.Path(root, 'specs/coordination/program-plan.yaml').read_text(encoding='utf-8'))
+                row = copy.deepcopy(materialized['tasks'][0])
+                row.update(taskId=other['taskId'], title=other['title'], kind='governance', status='reserved', riskLevel='medium', wave='W1', integrationOrder=other['integrationOrder'], dependsOn=[], requirementIds=other['requirementIds'], moduleIds=other['moduleIds'], outputPaths=other['exclusivePaths'], sharedPaths=[], producesContracts=[], consumesContracts=[], issue=other['issue'], coordinationGroup=other['coordinationGroup'], workPackage=other['workPackage'], branchPattern='chore/OPS-100-*')
+                materialized['tasks'].append(row)
+                plan = materialized
+                foundation = next(item for item in plan['foundationTasks'] if item['taskId'] == task_id)
+                self.write_yaml(root, 'specs/coordination/program-plan.yaml', plan)
+                self.write_text(root, 'specs/tasks/OPS-100.md', self.task_spec(other, 'reserved', other['branch'], activation))
+                self.write_text(root, 'evidence/OPS-100/handoff.md', '# Registered nonconflicting peer input\n')
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry, other]))
+            peer_main = self.commit(root, "OPS-100 later active registration (#29)")
+            if mode == 'working_nonconflicting_claim':
+                entry['baseSha'] = peer_main
+                self.write_yaml(root, 'specs/coordination/active-work.yaml', build_registry([entry]))
+                self.write_text(root, f'specs/tasks/{task_id}.md', self.task_spec(entry, 'in_progress', entry['branch'], peer_main))
+                self.commit(root, 'GZ-014 adopt approved peer main baseline (#28)')
         if mode in {"separate_scope_amendment", "blocked_implementation_parent"}:
             if mode == "separate_scope_amendment":
                 entry["exclusivePaths"].append("scripts/new-repair.py")
             else:
                 entry["status"] = foundation["status"] = "blocked"
                 self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, entry["status"], entry["branch"], reservation))
             self.commit(root, "GZ-014 separate scope or blocked metadata (#26)")
             if mode == "blocked_implementation_parent":
                 entry["status"] = foundation["status"] = "in_progress"
                 self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-                self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
                 self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
         if mode in {"same_commit_scope_expansion", "separate_scope_amendment"}:
             if mode == "same_commit_scope_expansion":
                 entry["exclusivePaths"].append("scripts/new-repair.py")
-                self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.write_text(root, "scripts/new-repair.py", "# newly claimed work\n")
         if mode in {"implementation_post_expired_lease", "implementation_post_missing_lease", "implementation_post_future_lease", "implementation_post_overlong_lease", "metadata_only_lease_renewal", "implementation_prior_expired_lease"}:
             if mode == "implementation_post_missing_lease":
@@ -475,28 +502,33 @@ class TestProgramPlanHistory(unittest.TestCase):
                 short = {"acquiredAt": (now-timedelta(hours=2)).isoformat(), "expiresAt": (now-timedelta(minutes=1)).isoformat()}
                 if mode in {"metadata_only_lease_renewal", "implementation_prior_expired_lease"}:
                     entry["lease"] = short
-                    self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                    self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
                     self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
                     self.commit(root, "GZ-014 formerly live short lease (#27)", timestamp=(now-timedelta(minutes=2)).isoformat())
                     entry["lease"] = valid_entry["lease"]
                 else:
                     entry["lease"] = short
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
             if mode == "metadata_only_lease_renewal":
                 self.commit(root, "GZ-014 metadata-only lease renewal (#28)")
-        if mode in {"rebase_earlier_unclaimed", "rebase_unclaimed_reverted"}:
+        if mode in {"rebase_earlier_unclaimed", "rebase_unclaimed_reverted", "merge_earlier_unclaimed", "merge_unclaimed_reverted", "merge_same_commit_base_change"}:
             self.write_text(root, "backend/unclaimed.py", "# earlier unclaimed rebased change\n")
             self.commit(root, "GZ-014 early rebased change (#22)")
-            if mode == "rebase_unclaimed_reverted":
+            if mode in {"rebase_unclaimed_reverted", "merge_unclaimed_reverted"}:
                 os.remove(os.path.join(root, "backend/unclaimed.py"))
+            elif mode == "merge_same_commit_base_change":
+                early = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+                entry['baseSha'] = early
+                self.write_yaml(root, 'specs/coordination/active-work.yaml', build_registry([entry]))
+                self.write_text(root, f'specs/tasks/{task_id}.md', self.task_spec(entry, 'in_progress', entry['branch'], early))
         if mode == "rebase_ledger_reverted":
             self.write_text(root, "specs/coordination/task-completions.yaml", "records: []\n# unauthorized ledger change\n")
             self.commit(root, "GZ-014 early rebased ledger change (#22)")
             self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
         if mode in {"implementation_ledger_only", "implementation_with_ledger"}:
             entry["exclusivePaths"].append("specs/coordination/task-completions.yaml")
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.write_text(root, "specs/coordination/task-completions.yaml", "records: []\n# ledger-only implementation cannot prove repair\n")
         if mode != "implementation_ledger_only":
             self.write_text(root, "scripts/fixture-repair.py", "# actual fixture repair\n")
@@ -523,7 +555,7 @@ class TestProgramPlanHistory(unittest.TestCase):
             entry["status"] = foundation["status"] = "review"
             entry["agentRole"] = "reviewer"
             self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "review", entry["branch"], reservation))
         implementation = self.commit(root, "GZ-014 repair (#22)")
         if mode.startswith("implementation_post_"):
@@ -533,11 +565,11 @@ class TestProgramPlanHistory(unittest.TestCase):
                 entry["status"] = foundation["status"] = "review"
                 entry["agentRole"] = "reviewer"
                 self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-                self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
                 self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "review", entry["branch"], reservation))
             if mode == "rebase_shortened_base":
                 entry["baseSha"] = implementation
-                self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
                 self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], implementation))
             self.write_text(root, f"evidence/{task_id}/summary.md", "# archive after rebased work\n")
             implementation = self.commit(root, "GZ-014 final rebased archive (#22)")
@@ -557,7 +589,7 @@ class TestProgramPlanHistory(unittest.TestCase):
                 late_parent = reservation
             subprocess.run(["git", "merge", "--no-ff", "-m", "GZ-014 synchronize late registration (#22)", late_parent], cwd=root, check=True, capture_output=True)
             self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
             side = self.commit(root, "GZ-014 late side activation (#22)")
             subprocess.run(["git", "checkout", "--detach", activation], cwd=root, check=True, capture_output=True)
@@ -577,7 +609,7 @@ class TestProgramPlanHistory(unittest.TestCase):
             entry.update({"status": "review", "agentRole": "reviewer", "baseSha": review_target, "branch": "chore/GZ-014-review"})
             foundation["status"] = "review"
             self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([entry]))
             self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "review", entry["branch"], review_target))
             audited_base = self.commit(root, "GZ-014 independent Review (#24)")
         else:
@@ -614,7 +646,7 @@ class TestProgramPlanHistory(unittest.TestCase):
             {"status": "completed", "completionRef": completion_ref, "mergeCommit": claimed_implementation}
         )
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-        self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
+        self.write_yaml(root, "specs/coordination/active-work.yaml", build_registry([]))
         self.write_text(
             root,
             f"specs/tasks/{task_id}.md",
@@ -710,6 +742,21 @@ class TestProgramPlanHistory(unittest.TestCase):
                 git('merge', '--no-ff', '-m', 'GZ-014 merge restored metadata side (#27)', side)
                 self.assertEqual(git('diff', '--name-only', review, 'HEAD'), '')
                 return git('rev-parse', 'HEAD')
+            if scenario == 'shrink_scope_restore':
+                entry['exclusivePaths'] = ['scripts/fixture-repair.py', 'scripts/second-repair.py']
+                rewrite(entry, 'review', parent)
+                original(location, 'GZ-014 retain two own claims (#25)')
+                saved = copy.deepcopy(entry)
+                before = (root / 'scripts/fixture-repair.py').read_text(encoding='utf-8')
+                entry['exclusivePaths'] = ['scripts/second-repair.py']
+                rewrite(entry, 'review', parent)
+                original(location, 'GZ-014 narrow own scope (#26)')
+                self.write_text(root, 'scripts/fixture-repair.py', '# unreviewed work after narrowing own scope\n')
+                original(location, 'GZ-014 unclaimed former own file (#27)')
+                self.write_text(root, 'scripts/fixture-repair.py', before)
+                original(location, 'GZ-014 restore former own file (#28)')
+                rewrite(saved, 'review', parent)
+                return original(location, 'GZ-014 restore original claims (#29)')
             if scenario == 'integration_implementer_role':
                 entry['agentRole'] = 'implementer'
                 rewrite(entry, 'integration', review)
@@ -786,7 +833,12 @@ class TestProgramPlanHistory(unittest.TestCase):
 
         self.commit, self.registry, self.write_yaml = hook, registry, write
         try:
-            return self.create_foundation_completion(root)
+            sources = self.create_foundation_completion(root)
+            if scenario == 'shrink_scope_restore':
+                registered = yaml.safe_load(git('show', sources['base'] + ':specs/coordination/active-work.yaml'))['tasks'][0]
+                self.write_text(root, 'specs/tasks/GZ-014.md', self.task_spec(registered, 'completed', 'chore/GZ-014-completion', sources['base']))
+                original(root, 'GZ-014 bind Completion to restored exact scope (#23)')
+            return sources
         finally:
             self.commit, self.registry, self.write_yaml = original, old_registry, old_write
 
@@ -847,6 +899,18 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_postclaim_side_foreign_definition(self):
         self.assert_postclaim_history('side_foreign_definition', False, 'changed frozen ordinary Task definition')
+
+    def test_foundation_postclaim_shrink_scope_restore(self):
+        self.assert_postclaim_history('shrink_scope_restore', False, 'own code changes after claimed implementation')
+
+    def test_foundation_merge_earlier_unclaimed(self):
+        self.reject_foundation_history('merge_earlier_unclaimed', 'outside its historical registered scope')
+
+    def test_foundation_merge_unclaimed_reverted(self):
+        self.reject_foundation_history('merge_unclaimed_reverted', 'outside its prior registered scope')
+
+    def test_foundation_merge_same_commit_base_change(self):
+        self.reject_foundation_history('merge_same_commit_base_change', 'outside its historical registered scope')
 
     def test_foundation_postclaim_foreign_disjoint_side(self):
         self.assert_postclaim_history('foreign_disjoint_side', True)

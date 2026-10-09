@@ -1,0 +1,16 @@
+{
+  "kind": "PREPUBLICATION_LOCAL_ALIAS_IMMUTABLE_TEMPORARY_REPO_TARGETED_INDEPENDENT_CHECK_NOT_FORMAL_FULL_GOVERNANCE_OR_CI",
+  "localAlias": "5516ac62a4f90e924fa7ab13d5a76b0a898aa4ae",
+  "tree": "ed3bd12aa303a94ac2c78f783aaa0a635691e8b1",
+  "checkerSha256": "bfc1bda36863327512d5833a61d29ba7f73ee813dd68460f8a71c2c4abb5896c",
+  "caseNames": [
+    "test_foundation_postclaim_foreign_disjoint_side"
+  ],
+  "testsRun": 1,
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "elapsedSeconds": 31.984000000054948,
+  "realHeadAfter": "bec64f924f05a2325892a036b9cc9890b5fbdc59",
+  "realStatusAfter": ""
+}

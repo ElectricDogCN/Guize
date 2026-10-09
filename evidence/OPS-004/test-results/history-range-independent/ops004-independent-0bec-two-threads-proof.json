@@ -1,0 +1,164 @@
+{
+  "kind": "PINNED_ACTUAL_SOURCE_TEMPORARY_REAL_GIT_TWO_THREAD_REPRO_NOT_FORMAL_GATE",
+  "source": "0bec03dd3ee3dd540ad22d4edfab63b48f5a0589",
+  "tree": "db7374af2d024f19a4373bc95767fa7153ad5bb9",
+  "checkerSha256": "bfc1bda36863327512d5833a61d29ba7f73ee813dd68460f8a71c2c4abb5896c",
+  "rows": [
+    {
+      "scenario": "postclaim_scope_shrink_foo_restore",
+      "review": "50bebb5b67734545d871af29d42472acefb91ab4",
+      "shrink": "b47c139a5fb84a0dfd4c8deff095507595da2575",
+      "bad": "ef9a0965ae538295e9f8ff92ac0073e114351840",
+      "restore": "7005b62b5cc888bd08e9f3d3b8cba1a8fdaded97",
+      "tip": "2704b8029c259edf8176fb421dcfe867795c1f84",
+      "badPreClaims": [
+        "scripts/second-repair.py"
+      ],
+      "badPostClaims": [
+        "scripts/second-repair.py"
+      ],
+      "badStatus": "review",
+      "badPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "netDiffFromReview": [],
+      "sources": {
+        "seed": "177012d96bf2f9d87cebe45cca7587b6b24257b6",
+        "reservation": "e54225383973c73a5d505718f20628980f67fa7d",
+        "implementation": "af417c195f1b01220540d01cbef9cccb44c7345c",
+        "base": "2704b8029c259edf8176fb421dcfe867795c1f84"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"GZ-014 Task Spec exclusive paths do not match Active Work\"}\n",
+      "historyStderr": "",
+      "firstParentHistory": [
+        "2704b8029c259edf8176fb421dcfe867795c1f84 GZ-014 restore original scope (#30)",
+        "7005b62b5cc888bd08e9f3d3b8cba1a8fdaded97 GZ-014 restore foo work (#29)",
+        "ef9a0965ae538295e9f8ff92ac0073e114351840 GZ-014 narrowed-scope foo work (#28)",
+        "b47c139a5fb84a0dfd4c8deff095507595da2575 GZ-014 narrow own scope (#27)",
+        "50bebb5b67734545d871af29d42472acefb91ab4 GZ-014 independent Review (#24)",
+        "af417c195f1b01220540d01cbef9cccb44c7345c GZ-014 repair (#22)",
+        "05dfd97b0144797211aea619cdae68875a5d6980 GZ-014 activation (#21)",
+        "e54225383973c73a5d505718f20628980f67fa7d GZ-014 metadata reservation (#20)",
+        "177012d96bf2f9d87cebe45cca7587b6b24257b6 GZ-014 early repair before reservation (#22)"
+      ],
+      "implementationHelperErrors": [],
+      "postHelperErrors": []
+    },
+    {
+      "scenario": "merge_single_parent_earlier_unclaimed",
+      "earlierUnclaimed": "de25c57113d0d989c914556c96a92de21a4688ec",
+      "earlierPaths": [
+        "backend/unclaimed.py"
+      ],
+      "earlierEntry": {
+        "taskId": "GZ-014",
+        "issue": 30,
+        "title": "Task GZ-014",
+        "status": "in_progress",
+        "riskLevel": "high",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "implementer",
+        "branch": "chore/GZ-014-repair",
+        "baseBranch": "main",
+        "baseSha": "40a6663c2554ca454d473501326ff8ba916b6cbb",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "GZ-014",
+        "programWave": "FOUNDATION",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/fixture-repair.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/GZ-014/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T20:41:10.246984+00:00",
+          "expiresAt": "2026-10-10T21:41:10.246984+00:00"
+        }
+      },
+      "claimed": "3987466dfbbd0d0b70a51022f1d6e588bf3555fc",
+      "claimedParent": "de25c57113d0d989c914556c96a92de21a4688ec",
+      "claimedPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "claimedEntry": {
+        "taskId": "GZ-014",
+        "issue": 30,
+        "title": "Task GZ-014",
+        "status": "in_progress",
+        "riskLevel": "high",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "implementer",
+        "branch": "chore/GZ-014-repair",
+        "baseBranch": "main",
+        "baseSha": "40a6663c2554ca454d473501326ff8ba916b6cbb",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "GZ-014",
+        "programWave": "FOUNDATION",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/fixture-repair.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/GZ-014/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T20:41:10.246984+00:00",
+          "expiresAt": "2026-10-10T21:41:10.246984+00:00"
+        }
+      },
+      "sources": {
+        "seed": "965fe0a53de54e8c2183886826c4fc41bc21ce69",
+        "reservation": "40a6663c2554ca454d473501326ff8ba916b6cbb",
+        "implementation": "3987466dfbbd0d0b70a51022f1d6e588bf3555fc",
+        "base": "174766d1ba8362294035d6c6545bb124bd52ed58"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": "",
+      "firstParentHistory": [
+        "174766d1ba8362294035d6c6545bb124bd52ed58 GZ-014 independent Review (#24)",
+        "3987466dfbbd0d0b70a51022f1d6e588bf3555fc GZ-014 repair (#22)",
+        "de25c57113d0d989c914556c96a92de21a4688ec GZ-014 earlier unclaimed work (#26)",
+        "225693012d7a0a0cf031130e6559e637ec74763c GZ-014 activation (#21)",
+        "40a6663c2554ca454d473501326ff8ba916b6cbb GZ-014 metadata reservation (#20)",
+        "965fe0a53de54e8c2183886826c4fc41bc21ce69 GZ-014 early repair before reservation (#22)"
+      ],
+      "implementationHelperErrors": [],
+      "postHelperErrors": []
+    }
+  ],
+  "realRepositoryHeadAfter": "0bec03dd3ee3dd540ad22d4edfab63b48f5a0589",
+  "realRepositoryStatusAfter": ""
+}

@@ -19,7 +19,6 @@ import re
 import subprocess
 import sys
 import tempfile
-from collections import deque
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
@@ -984,7 +983,16 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         return
     tip_entry = entries[0]
     historical_lifecycle_binding(root, commit, task_id, tip_entry, errors)
-    base = str(tip_entry.get("baseSha") or "") if tip_entry.get("integrationStrategy") == "rebase" else parent
+    # A real multi-parent merge introduces all side history against its main
+    # parent. A single-parent merge tip must include the registered range.
+    parents = git(root, "show", "-s", "--format=%P", commit).stdout.split()
+    base = str(tip_entry.get("baseSha") or "") if tip_entry.get("integrationStrategy") == "rebase" or len(parents) == 1 else parent
+    if tip_entry.get("integrationStrategy") != "rebase" and len(parents) == 1:
+        previous_registry = load_ref(root, parent, ACTIVE)
+        previous_entries = [item for item in (previous_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+        if len(previous_entries) == 1:
+            # Refreshing the tip's target may not erase the prior work range.
+            base = str(previous_entries[0].get("baseSha") or "")
     if tip_entry.get("integrationStrategy") == "rebase":
         previous_registry = load_ref(root, parent, ACTIVE)
         previous_entries = [item for item in (previous_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
@@ -1011,6 +1019,10 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     if LEDGER in paths:
         errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
     task_path = find_task_path(root, task_id, commit)
+    tip_paths = RECOVERY.changed_paths(root, parent, commit)
+    if tip_entry.get("integrationStrategy") != "rebase" and tip_paths is not None and not any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in tip_paths):
+        errors.append(f"Foundation {task_id} claimed implementation contains only lifecycle metadata or Evidence")
+        return
     implementation_paths = {path for path in paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}
     if not implementation_paths:
         errors.append(f"Foundation {task_id} claimed implementation contains only lifecycle metadata or Evidence")
@@ -1021,7 +1033,10 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     if not isinstance(ownership, dict) or entry.get("sharedPaths") or not claims or any(not RECOVERY.governance_claim_subset(str(claim), ownership) and str(claim) not in legacy for claim in claims):
         errors.append(f"Foundation {task_id} claimed implementation has invalid historical governance claims")
         return
-    if any(not any(RECOVERY.matches_path(path, str(claim)) for claim in claims) for path in implementation_paths):
+    historical_claims = set(claims)
+    for implementation_parent in parents:
+        historical_claims.update(registered_claim_history(root, task_id, reservation, implementation_parent))
+    if any(not any(RECOVERY.matches_path(path, str(claim)) for claim in historical_claims) for path in implementation_paths):
         errors.append(f"Foundation {task_id} claimed implementation changed paths outside its historical registered scope")
     # Exclude all history already integrated at the real base, but inspect
     # actual work introduced through every side parent. A side tip can contain
@@ -1133,6 +1148,26 @@ def historical_frozen_definitions(root: str, previous: str, node: str, paths: se
                     errors.append(f"Post-implementation history at {node} changed immutable Ledger record {prior.get('taskId')}")
 
 
+def registered_claim_history(root: str, task_id: str, reservation: str, descendant: str) -> set[str]:
+    """Identify this task's files from real ancestor registrations.
+
+    These claims classify work; they never authorize a working node, whose
+    scope and lease must still come from its contemporaneous registration.
+    """
+    claims: set[str] = set()
+    history = git(root, "rev-list", f"{reservation}..{descendant}")
+    if history.returncode:
+        return claims
+    for snapshot in [reservation, *history.stdout.split()]:
+        if not is_ancestor(root, reservation, snapshot):
+            continue
+        registry = load_ref(root, snapshot, ACTIVE)
+        entries = [item for item in (registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+        if len(entries) == 1:
+            claims.update(str(path) for path in entries[0].get("exclusivePaths") or [])
+    return claims
+
+
 def foundation_post_implementation(root: str, task_id: str, implementation: str, reservation: str, base_ref: str, errors: list[str]) -> None:
     """Completion must name the last integrated version of its own code.
 
@@ -1170,23 +1205,10 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             entries = [item for item in (registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             if len(entries) == 1:
                 claims.extend(entries[0].get("exclusivePaths") or [])
-        # A side branch cannot conceal its own later work by temporarily
-        # deleting both adjacent registrations. Follow all its real parents
-        # back to the last exact claim after the original reservation.
-        if not claims and registered_node:
-            ancestors = deque(git(root, "show", "-s", "--format=%P", node).stdout.split())
-            seen = set()
-            while ancestors:
-                ancestor = ancestors.popleft()
-                if ancestor in seen or not is_ancestor(root, reservation, ancestor):
-                    continue
-                seen.add(ancestor)
-                registry = load_ref(root, ancestor, ACTIVE)
-                entries = [item for item in (registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
-                if len(entries) == 1 and entries[0].get("exclusivePaths"):
-                    claims.extend(entries[0].get("exclusivePaths") or [])
-                    break
-                ancestors.extend(git(root, "show", "-s", "--format=%P", ancestor).stdout.split())
+        # Narrowing or removing the adjacent registration must not erase
+        # earlier ownership. Only this node's real ancestors contribute.
+        if registered_node:
+            claims.extend(registered_claim_history(root, task_id, reservation, node))
         task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot}
         own_work = {path for path in paths if path not in {PLAN, ACTIVE, *task_paths} and not path.startswith(f"evidence/{task_id}/") and any(RECOVERY.matches_path(path, str(claim)) for claim in claims)}
         if own_work:

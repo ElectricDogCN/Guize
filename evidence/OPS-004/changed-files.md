@@ -1,12 +1,11 @@
-# OPS-004 完整postclaim上下文修复清单
+# OPS-004 完整范围修复候选路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
-Current Candidate Execution Status: NOT_EXECUTED
-Actual published parent: 8c59b0a0a17249a55e9495f19e8e654da540ce8b
+Actual Parent: 0bec03dd3ee3dd540ad22d4edfab63b48f5a0589
 
-覆盖全部 289 路径；实现只已登记history checker/test，其余自身canonical metadata/Evidence。
+全部 329 路径，499与Source/tree/CI尚待绑定。仅两登记history代码及自身Evidence增量。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -102,9 +101,15 @@ evidence/OPS-004/test-results/history-dag-source-ecae6e7/transitions.txt
 evidence/OPS-004/test-results/history-dag-source-ecae6e7/tree.txt
 evidence/OPS-004/test-results/history-dag-source-ecae6e7/unaffected.txt
 evidence/OPS-004/test-results/history-dag-source-ecae6e7/verify.txt
+evidence/OPS-004/test-results/history-final-ci-612/job-log.txt
+evidence/OPS-004/test-results/history-final-ci-612/proof.json
 evidence/OPS-004/test-results/history-final-independent/dirty-targeted-12.xml
 evidence/OPS-004/test-results/history-final-independent/dirty-targeted-17.xml
 evidence/OPS-004/test-results/history-final-independent/dirty-targeted-20.xml
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-5516ac6-postclaim-foreign-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-5516ac6-postclaim-owner-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-5516ac6-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-5516ac6-targeted-proof.json
 evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-missing-lineage-corrected-proof.json
 evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-missing-lineage-proof.json
 evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-postclaim-metadata-proof.json
@@ -120,6 +125,28 @@ evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28
 evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28a7-postclaim-metadata-proof.json
 evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28a7-postclaim-owner-proof.json
 evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28a7-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-bec64f9-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-final-source-0bec03d/clean-after.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/clean-before.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/coordination.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/evidence.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/finalization.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/governance.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/governance.xml
+evidence/OPS-004/test-results/history-final-source-0bec03d/history.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/integrity.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/lifecycle.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/readiness.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/schemas.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/scope.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/source.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/status.json
+evidence/OPS-004/test-results/history-final-source-0bec03d/task.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/transitions.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/tree.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/unaffected.txt
+evidence/OPS-004/test-results/history-final-source-0bec03d/verify.txt
 evidence/OPS-004/test-results/history-identity-ci-606/job-log.txt
 evidence/OPS-004/test-results/history-identity-ci-606/proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-implementation-role-reproductions-utf8.json
@@ -201,6 +228,18 @@ evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/transitions.tx
 evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/tree.txt
 evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/unaffected.txt
 evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/verify.txt
+evidence/OPS-004/test-results/history-range-independent/ops004-history-range-final-targeted.xml
+evidence/OPS-004/test-results/history-range-independent/ops004-history-ranges-local-alias-153.xml
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-scope-shrink-fixed-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-single-parent-range-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-two-threads-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-existing-foreign-positive-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-same-commit-base-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-scope-shrink-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-single-parent-range-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-two-ranges-targeted-corrected.xml
+evidence/OPS-004/test-results/history-range-independent/ops004-two-ranges-targeted.xml
 evidence/OPS-004/test-results/history-repair-ci-603/job-log.txt
 evidence/OPS-004/test-results/history-repair-ci-603/proof.json
 evidence/OPS-004/test-results/history-repair-final-b156/actual-ci-604.txt

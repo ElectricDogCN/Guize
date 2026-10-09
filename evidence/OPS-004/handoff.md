@@ -1,3 +1,72 @@
+## 当前完整范围修复候选
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 0bec03dd3ee3dd540ad22d4edfab63b48f5a0589
+Full governance 499: NOT_EXECUTED for this candidate
+Actual 15 checks / same-head CI / final integration review: NOT_EXECUTED for this candidate
+
+单父merge审计从实际parent Registry已登记base开始，同提交刷新tip target仍允许但不能截去此前工作；真实多父merge沿已有mainParent审计全部侧父引入，rebase原一致绑定不变。历史claims仅来自该节点真实祖先，识别Own文件而非授予scope，工作节点仍用当时前登记/lease。merge纯metadata/Ev tip身份继续拒绝，既有rebase Reviewer/Ev tip兼容保留。
+
+新增四条真实Git回归使history154+其他345=499：foo scope缩窄后工作/恢复、merge早期未登记代码及恢复、claimed同提交基线改动截断此前工作。已有两个nonconflicting夹具已补正：持续保留Other记录，后来Other输入先形成真实main登记并补齐Program/Task，再单独同步Own批准base后执行Own代码。这里只测试归属/非冲突上下文，未运行Other真实Admission/Transitions/完整Gate，不声称Other完整Reservation或全Gate合法。
+
+原alias55e全history153实际150PASS/3FAIL524.48s（两夹具错误，一处pureEvidence身份回归）完整JUnit保留；同提交base反例独立CLI0的阻断证明保留。收尾修正后19 targeted零失败/错误/跳过73.03s，但它只是dirty探索，不是499正式Gate。原0bec15/495/CI612真实证据及全部失败、Owner原始决策、永久政策、Ledger、GZ005都保留。原容量FAIL不改、Owner窗口不延长。候选实际Source必须干净发布后重新跑15/full499和同头CI，再独立集成与Review/Completion，最后主线全绿才能继续GZ005。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+## 当前历史范围修复候选
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 0bec03dd3ee3dd540ad22d4edfab63b48f5a0589
+Full governance 498: NOT_EXECUTED for this candidate
+Actual 15 checks and same-head CI: NOT_EXECUTED for this candidate
+
+PR77 两条新增 P1 已在真实0bec临时Git历史复现：缩窄自身claims后修改/恢复原范围代码仍CLI PASS；单父merge声明只检查最后提交而遗漏registeredBase后的早期未登记代码。0bec 本地495通过807.40s、Gate612的495通过610.87s及容量FAIL全部保留，它们不证明本候选498或这两条未覆盖场景通过。
+
+本候选只修两条实证范围问题：按当前节点真实祖先累计自身登记范围，用于识别而非授权，逐节点scope/lease仍取同时登记；单父merge与rebase从真实注册base审计，真实多父merge仍排除已集成main父的历史并审计全部侧父引入，保留合法main同步与其他任务不相交代码。净范围验证取实际父节点既有claims，不能用claimed同提交新增claims授权。
+
+新增三条真实Git回归：shrunk foo修改+恢复、merge早期未登记代码、merge未登记代码后恢复。历史测试153+其余345，总计498。dirty targeted corrected14零失败/错误/跳过仅是候选探索性结果；初版14的两个失败和修正前独立原始一起保留，不能称正式Gate。最终实际Source必须干净，15/full498、同头CI、独立集成审查和Review/Completion还待执行。
+
+原Owner事件、永久容量政策、普通Ledger、旧completed和GZ005不变。原有容量FAIL继续保留，窗口不延长。最后实现身份仍绑定本次PR77实际最后merge。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: 0bec03dd3ee3dd540ad22d4edfab63b48f5a0589
+Tested Tree: db7374af2d024f19a4373bc95767fa7153ad5bb9
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 495 passed in 807.40s (0:13:27)，JUnit495 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/history-final-source-0bec03d/。Gate612完整原始在 test-results/history-final-ci-612/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+独立发布审查针对本地alias bec64f924f05a2325892a036b9cc9890b5fbdc59，树db7374af2d024f19a4373bc95767fa7153ad5bb9与本次实际远端0bec03dd3ee3dd540ad22d4edfab63b48f5a0589一致；它仅是发布前静态与临时Git证明，正式495结果始终只绑定实际远端Source。完整独立原始见history-final-independent；本地alias不冒充已发布祖先。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
 ## 当前完整 postclaim 上下文候选：正式全量尚未执行
 
 Task: OPS-004 / Issue71

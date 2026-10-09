@@ -105,3 +105,9 @@ Implementer: lifecycle-scope-repair-agent
 Reviewer: independent-lifecycle-scope-review-agent
 Integrator: integration-agent
 Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+
+PRRT_kwDOTgCQ3c6q8-0a / 8-0h：真实0bec完整CLI均接受非法历史，确认必修；新候选识别实际祖先历史claims及注册baseline完整单父范围，三项回归待正式498/CI验收。不得以原495通过忽略两条实证。
+
+
+55e单父claimed同提交换base变体CLI0确认阻断，收尾修正按prior实际登记范围审计而允许tip刷新；merge纯Ev身份既有负例恢复。153原失败不删除，19 targeted仅探索，499正式结果待实际发布。
