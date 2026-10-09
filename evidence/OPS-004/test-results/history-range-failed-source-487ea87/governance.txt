@@ -1,0 +1,28 @@
+Source Commit: 487ea870c7a797ff6ed3fe08f4ba1b60452da45a
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-history-ranges-results/governance.xml
+........................................................................ [ 14%]
+........................................................................ [ 28%]
+........................................................................ [ 43%]
+........................................................................ [ 57%]
+...........................F............................................ [ 72%]
+........................................................................ [ 86%]
+...................................................................      [100%]
+=================================== FAILURES ===================================
+_ TestProgramPlanHistory.test_foundation_rejects_activation_as_implementation_identity _
+
+self = <tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_rejects_activation_as_implementation_identity>
+
+    def test_foundation_rejects_activation_as_implementation_identity(self):
+>       self.reject_foundation_history("merge_is_activation", "contains only lifecycle metadata or Evidence")
+
+tests/governance/test_program_plan_history.py:1864: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/governance/test_program_plan_history.py:1717: in reject_foundation_history
+    self.assertIn(message, result.stdout)
+E   AssertionError: 'contains only lifecycle metadata or Evidence' not found in '{"status": "FAIL", "message": "Foundation GZ-014 claimed implementation has no audited registered integration base"}\n{"status": "FAIL", "message": "Foundation GZ-014 has own code changes after claimed implementation at b2673fe247e28dde41c3f9a41462271a8559f4bd: scripts/fixture-repair.py; Completion must identify the latest reviewed implementation"}\n'
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-history-ranges-results/governance.xml -
+=========================== short test summary info ============================
+FAILED tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_rejects_activation_as_implementation_identity
+1 failed, 498 passed in 863.29s (0:14:23)
+
+Exit Code: 1

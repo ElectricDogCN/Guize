@@ -111,3 +111,5 @@ PRRT_kwDOTgCQ3c6q8-0a / 8-0h：真实0bec完整CLI均接受非法历史，确认
 
 
 55e单父claimed同提交换base变体CLI0确认阻断，收尾修正按prior实际登记范围审计而允许tip刷新；merge纯Ev身份既有负例恢复。153原失败不删除，19 targeted仅探索，499正式结果待实际发布。
+
+487/CI613真实单诊断顺序失败不作为通过结果；保留全部原始失败，提前已有pure-metadata/Ev guard，测试不改，10 targeted仅探索，真实499重新执行。

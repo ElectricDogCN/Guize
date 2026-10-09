@@ -1,11 +1,11 @@
-# OPS-004 完整范围修复候选路径
+# OPS-004 当前实现路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
-Actual Parent: 0bec03dd3ee3dd540ad22d4edfab63b48f5a0589
+Actual Parent: 487ea870c7a797ff6ed3fe08f4ba1b60452da45a
 
-全部 329 路径，499与Source/tree/CI尚待绑定。仅两登记history代码及自身Evidence增量。
+当前全部 357 路径。增量仅已登记history checker诊断顺序和自身Evidence，正式499未执行。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -228,8 +228,33 @@ evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/transitions.tx
 evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/tree.txt
 evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/unaffected.txt
 evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/verify.txt
+evidence/OPS-004/test-results/history-range-failed-ci-613/job-log.txt
+evidence/OPS-004/test-results/history-range-failed-ci-613/proof.json
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/clean-before.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/coordination.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/evidence.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/finalization.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/governance.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/governance.xml
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/history.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/integrity.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/lifecycle.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/readiness.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/runner-limitations.json
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/schemas.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/scope.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/source.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/status.json
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/task.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/transitions.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/tree.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/unaffected.txt
+evidence/OPS-004/test-results/history-range-failed-source-487ea87/verify.txt
 evidence/OPS-004/test-results/history-range-independent/ops004-history-range-final-targeted.xml
 evidence/OPS-004/test-results/history-range-independent/ops004-history-ranges-local-alias-153.xml
+evidence/OPS-004/test-results/history-range-independent/ops004-identity-order-targeted.txt
+evidence/OPS-004/test-results/history-range-independent/ops004-identity-order-targeted.xml
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-scope-shrink-fixed-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-single-parent-range-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-two-threads-proof.json
@@ -238,6 +263,9 @@ evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e65
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-same-commit-base-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-scope-shrink-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-single-parent-range-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-a7d9c7d-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-a7d9c7d-same-commit-base-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-a7d9c7d-two-positive-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-two-ranges-targeted-corrected.xml
 evidence/OPS-004/test-results/history-range-independent/ops004-two-ranges-targeted.xml
 evidence/OPS-004/test-results/history-repair-ci-603/job-log.txt

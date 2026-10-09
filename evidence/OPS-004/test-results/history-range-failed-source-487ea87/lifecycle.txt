@@ -1,0 +1,6 @@
+Source Commit: 487ea870c7a797ff6ed3fe08f4ba1b60452da45a
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb --head-ref HEAD --task OPS-004 --branch-name chore/OPS-004-history-repair-implementation
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-004"], "changedPathCount": 329, "baseRef": "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

@@ -1,0 +1,135 @@
+{
+  "kind": "PINNED_ACTUAL_SOURCE_TEMPORARY_REAL_GIT_TWO_THREAD_REPRO_NOT_FORMAL_GATE",
+  "source": "a7d9c7d2a8d2a1f57fee34dccec9d3728add4165",
+  "tree": "6c7ad0712eedfd1051e3afc09c53dfb1b30df943",
+  "checkerSha256": "b631d1e5d5e9584a1d62c130eab8d2ce1da9b858703034fab3285ec9fd46f977",
+  "rows": [
+    {
+      "scenario": "merge_single_parent_earlier_unclaimed",
+      "earlierUnclaimed": "e7b4de7dd16711cd1cb050468453a1d9d5bda9f1",
+      "earlierPaths": [
+        "backend/unclaimed.py"
+      ],
+      "earlierEntry": {
+        "taskId": "GZ-014",
+        "issue": 30,
+        "title": "Task GZ-014",
+        "status": "in_progress",
+        "riskLevel": "high",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "implementer",
+        "branch": "chore/GZ-014-repair",
+        "baseBranch": "main",
+        "baseSha": "daea3aa7898eb28121cd005ca7f9d1e1f6238861",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "GZ-014",
+        "programWave": "FOUNDATION",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/fixture-repair.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/GZ-014/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T21:02:07.656265+00:00",
+          "expiresAt": "2026-10-10T22:02:07.656265+00:00"
+        }
+      },
+      "priorRegisteredBase": "daea3aa7898eb28121cd005ca7f9d1e1f6238861",
+      "claimed": "f07e7ba0710485e2be3f5b0e838f55ae4bbec89e",
+      "claimedParent": "e7b4de7dd16711cd1cb050468453a1d9d5bda9f1",
+      "claimedPaths": [
+        "scripts/fixture-repair.py",
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "claimedEntry": {
+        "taskId": "GZ-014",
+        "issue": 30,
+        "title": "Task GZ-014",
+        "status": "in_progress",
+        "riskLevel": "high",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "implementer",
+        "branch": "chore/GZ-014-repair",
+        "baseBranch": "main",
+        "baseSha": "e7b4de7dd16711cd1cb050468453a1d9d5bda9f1",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "GZ-014",
+        "programWave": "FOUNDATION",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/fixture-repair.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/GZ-014/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T21:02:07.656265+00:00",
+          "expiresAt": "2026-10-10T22:02:07.656265+00:00"
+        }
+      },
+      "registeredBaseToClaimedPaths": [
+        "scripts/fixture-repair.py",
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "parentCount": 1,
+      "sources": {
+        "seed": "b0fd0587deb401cf8369c9b1fd00b5c0a6327dce",
+        "reservation": "daea3aa7898eb28121cd005ca7f9d1e1f6238861",
+        "implementation": "f07e7ba0710485e2be3f5b0e838f55ae4bbec89e",
+        "base": "782f94310fe4245ae5d1c982175039b3449e9753"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 claimed implementation changed paths outside its historical registered scope\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node changed paths outside its prior registered scope\"}\n",
+      "historyStderr": "",
+      "firstParentHistory": [
+        "782f94310fe4245ae5d1c982175039b3449e9753 GZ-014 independent Review (#24)",
+        "f07e7ba0710485e2be3f5b0e838f55ae4bbec89e GZ-014 repair (#22)",
+        "e7b4de7dd16711cd1cb050468453a1d9d5bda9f1 GZ-014 earlier unclaimed work (#26)",
+        "b17930e3648c02a3f90f64bd8eb7963d9dc312ed GZ-014 activation (#21)",
+        "daea3aa7898eb28121cd005ca7f9d1e1f6238861 GZ-014 metadata reservation (#20)",
+        "b0fd0587deb401cf8369c9b1fd00b5c0a6327dce GZ-014 early repair before reservation (#22)"
+      ],
+      "implementationHelperErrors": [
+        "Foundation GZ-014 claimed implementation changed paths outside its historical registered scope",
+        "Foundation GZ-014 working node changed paths outside its prior registered scope"
+      ],
+      "postHelperErrors": []
+    }
+  ],
+  "realRepositoryHeadAfter": "a7d9c7d2a8d2a1f57fee34dccec9d3728add4165",
+  "realRepositoryStatusAfter": ""
+}

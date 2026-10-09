@@ -983,6 +983,11 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         return
     tip_entry = entries[0]
     historical_lifecycle_binding(root, commit, task_id, tip_entry, errors)
+    task_path = find_task_path(root, task_id, commit)
+    tip_paths = RECOVERY.changed_paths(root, parent, commit)
+    if tip_entry.get("integrationStrategy") != "rebase" and tip_paths is not None and not any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in tip_paths):
+        errors.append(f"Foundation {task_id} claimed implementation contains only lifecycle metadata or Evidence")
+        return
     # A real multi-parent merge introduces all side history against its main
     # parent. A single-parent merge tip must include the registered range.
     parents = git(root, "show", "-s", "--format=%P", commit).stdout.split()
@@ -1018,11 +1023,6 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     stable = {key: value for key, value in entry.items() if key not in mutable}
     if LEDGER in paths:
         errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
-    task_path = find_task_path(root, task_id, commit)
-    tip_paths = RECOVERY.changed_paths(root, parent, commit)
-    if tip_entry.get("integrationStrategy") != "rebase" and tip_paths is not None and not any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in tip_paths):
-        errors.append(f"Foundation {task_id} claimed implementation contains only lifecycle metadata or Evidence")
-        return
     implementation_paths = {path for path in paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}
     if not implementation_paths:
         errors.append(f"Foundation {task_id} claimed implementation contains only lifecycle metadata or Evidence")

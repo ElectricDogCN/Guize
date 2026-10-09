@@ -1,3 +1,23 @@
+## 当前身份诊断顺序修正候选
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 487ea870c7a797ff6ed3fe08f4ba1b60452da45a
+Current candidate full 499 / formal 15 / same-head CI / final integration review: NOT_EXECUTED
+
+实际487正式15命令完成，12退出0，coordination1/make2保留原容量FAIL，governance1实际498PASS/1FAIL863.29s。唯一失败activation仍被拒绝，但基线诊断先于原pure-metadata诊断，原断言失败。Gate613同样实际498PASS/1FAIL1015.30s，失败步骤仅容量与治理测试。原始完整日志/JUnit及状态保留在history-range-failed-source-487ea87和history-range-failed-ci-613；runner在失败治理命令终止，无clean-after footer，不补造。
+
+本次只提前现有merge纯metadata/Ev身份判断，rebase兼容和真实范围审计逻辑不改，测试文件不改。10 targeted身份/单父Integrator/squash/rebase Reviewer Evidence/mainSync/base变体实际全部通过32.52s，零失败/错误/跳过；仅探索，正式499仍待真实远端来源。此前独立a7d静态审查与三个Git证明保留，不能当本次正式结果。Owner原窗口/容量FAIL/永久政策、GZ005、旧completed/Ledger不变。必须完成真实Source15/499、同头CI、独立集成审查，PR77实现merge后再独立Review/Completion并全主线全绿。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
 ## 当前完整范围修复候选
 
 Task: OPS-004 / Issue71
