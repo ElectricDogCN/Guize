@@ -40,3 +40,27 @@ Phase: in_progress implementation
 正式复验设置 GITHUB_HEAD_REF=chore/OPS-004-lifecycle-repair-implementation；15 项检查中 13 项真实退出 0，只有 coordination=1 / make verify=2 为授权窗口内容量失败，仍记录 FAIL。完整治理实际 351 passed in 325.18s (0:05:25)，JUnit 351 testcase、零失败/错误/跳过，包含显式错误 CI 分支必须拒绝的负例。原始结果位于 test-results/implementation-ci-env-751dc3d/，均以实际 Source Commit 和 Command 绑定；不转移前两次失败为通过。
 
 生产 helper 依次执行真实 schema、Task、全局协调、history、transitions、finalization、lifecycle 检查，全部成功后才授予自身 Task/Registry/Program 元数据路径。原有分支、角色、租约、claims 与禁改路径继续检查；未弱化永久容量限制。远端实际 CI、exact tree、最新 HEAD 和独立最终审查仍须取得。真实实现合并后另提 review 元数据迁移，再从已审基线提交 Completion。
+
+## Review 元数据候选
+
+Phase: review
+Branch: chore/OPS-004-lifecycle-repair-review
+Base: 726870c8ae161eab19f94a9b96980a7d9197b633
+Implementation PR: #73
+Implementation merge: 726870c8ae161eab19f94a9b96980a7d9197b633
+
+本候选仅自身Program/Registry/Task的连续合法迁移及Evidence；实现两检查器和测试保持合入字节，GZ-005与旧完成身份不变。实际远端Gate592原始记录在 test-results/implementation-remote-592/。独立Review已确认751正式351零失败/错误/跳过、c085归档仅自身Evidence且exact tree一致；不冒称容量Gate PASS。需要本Review候选真实检查、独立审查、最新HEAD和实际CI，再按有界事件集成；后续Completion绑定实现身份而非Review PR。
+
+Review metadata tested source: 3517a9d633a534f4502938aedec9360887079903；tree e896283d321aa469fc70836aa2e1a70eeac760dc。实际14项检查13退出0，仅coordination=1为容量2>1；完整原始在 test-results/review-3517a9d/。实施代码和测试未变，已有实现阶段351本地/远端回归不冒称是在本Review提交本地重跑；本Review的实际远端CI仍须执行完整治理测试。首次b1f729a机器检查同样只有容量失败，但独立审查指出Task将登记PR72与实现PR73的merge文案混淆，已修正并重新验证；首次结果保留。当前归档只追加自身Evidence，仍需最新候选检查与独立审查。
+
+## 远端可重建源码与原日志绑定
+
+上述本地Source SHA不是远端祖先，原日志保持实际执行Source不改。现以公开archive分支保存完整同树复验入口：b1f729a对应远端5cb09fb1824dfc50a854456f24948b53b1696598/tree9e9876db50cf5ae1707ca834b3fed0c66157f4d3；3517a9d对应5dce717e6224e1cf955926721807cbda4db9034b/treee896283d321aa469fc70836aa2e1a70eeac760dc。两者已实际fetch，原本地Source与各自远端完整diff都退出0；真实父链为726870→5cb09→5dce7。这些远端commit是后来创建的等价入口，不冒称原测试提交、不会把归档创建称为重跑。精确映射、对象检查与fetch/独立checkout/复验命令见 [source-history/README.md](source-history/README.md) 与 `source-history/review-source-map.json`。archive分支须保留。后续检查改在实际已发布PR HEAD执行，避免新增不可达测试源；当前修正候选仍待该实际检查、CI与独立审查。
+
+## 实际发布源复验与祖先绑定归档
+
+Actual tested published Source: a50d2406037a496cb9c46ee359bc9f0e16cb9263；tree8848c545ed2307998c4483672d67c6d0e3685361。正确完整检出后真实14项13退出0、仅coordination=1容量2>1，原始在 test-results/review-published-a50/。同头关联的官方Gate595真实351 passed in 206.46s，全部其他实质步骤及Skip audit成功，整体Gate仍FAIL；完整官方记录在 test-results/review-remote-595/，前一头Gate594在 review-remote-594/。
+
+首次a50检查工作树缺两份source-history文件并保留旧summary，虽然检查返回13零，但源一致性不满足，明确无效、不用作完整发布树验收。原始与实际dirty状态记录保留在 test-results/review-a50-invalid-worktree/。仅恢复三个自身Evidence路径，实际HEAD未变、git diff HEAD零且status空，随后全部14项重新执行；生产代码和旧身份不变。
+
+本次只补自身归档和当前阶段说明；发布时将5dce717置于新提交额外父链，使两个历史快照进入PR的不可变祖先，archive分支仅作辅助。实际发布头必须验证两个祖先/对象/tree、完整14项及其同头351 CI；a50结果不能冒称新归档头重跑。新头结果在后续Completion继续归档，避免要求提交包含自身SHA日志的自引用循环。Completion身份仍PR-73/726870，容量限制不变，业务仍未启动。

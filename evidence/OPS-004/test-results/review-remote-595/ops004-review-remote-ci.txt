@@ -1,0 +1,1486 @@
+﻿2026-10-09T14:49:56.7060532Z Current runner version: '2.337.0'
+2026-10-09T14:49:56.7084171Z ##[group]Runner Image Provisioner
+2026-10-09T14:49:56.7084924Z Hosted Compute Agent
+2026-10-09T14:49:56.7085425Z Version: 20261002.596
+2026-10-09T14:49:56.7086020Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-09T14:49:56.7086670Z Build Date: 2026-10-02T22:28:27Z
+2026-10-09T14:49:56.7087250Z Worker ID: {9b9ffa4c-132c-4317-9538-2fc76375d4a1}
+2026-10-09T14:49:56.7087913Z Region: eastus
+2026-10-09T14:49:56.7088384Z Cloud: Azure
+2026-10-09T14:49:56.7088879Z ##[endgroup]
+2026-10-09T14:49:56.7090385Z ##[group]Operating System
+2026-10-09T14:49:56.7090953Z Ubuntu
+2026-10-09T14:49:56.7091495Z 24.04.5
+2026-10-09T14:49:56.7091937Z LTS
+2026-10-09T14:49:56.7092416Z ##[endgroup]
+2026-10-09T14:49:56.7092930Z ##[group]Runner Image
+2026-10-09T14:49:56.7093480Z Image: ubuntu-24.04
+2026-10-09T14:49:56.7093993Z Version: 20261004.327.1
+2026-10-09T14:49:56.7095098Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-09T14:49:56.7096432Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-09T14:49:56.7097281Z ##[endgroup]
+2026-10-09T14:49:56.7098410Z ##[group]GITHUB_TOKEN Permissions
+2026-10-09T14:49:56.7100416Z Contents: read
+2026-10-09T14:49:56.7100936Z Issues: read
+2026-10-09T14:49:56.7101461Z Metadata: read
+2026-10-09T14:49:56.7102051Z PullRequests: read
+2026-10-09T14:49:56.7102563Z ##[endgroup]
+2026-10-09T14:49:56.7104448Z Secret source: Actions
+2026-10-09T14:49:56.7105255Z Cache mode: write
+2026-10-09T14:49:56.7106073Z Prepare workflow directory
+2026-10-09T14:49:56.8353393Z Prepare all required actions
+2026-10-09T14:49:56.8391747Z Getting action download info
+2026-10-09T14:49:56.9780799Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-09T14:49:57.4950828Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-09T14:49:57.8158754Z Complete job name: Governance Checks
+2026-10-09T14:49:57.8858414Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-10-09T14:49:57.8859586Z with:
+2026-10-09T14:49:57.8859978Z   fetch-depth: 0
+2026-10-09T14:49:57.8860407Z   persist-credentials: false
+2026-10-09T14:49:57.8860882Z   repository: ElectricDogCN/Guize
+2026-10-09T14:49:57.8864606Z   token: ***
+2026-10-09T14:49:57.8865003Z   ssh-strict: true
+2026-10-09T14:49:57.8865406Z   ssh-user: git
+2026-10-09T14:49:57.8865797Z   clean: true
+2026-10-09T14:49:57.8866201Z   sparse-checkout-cone-mode: true
+2026-10-09T14:49:57.8866674Z   fetch-tags: false
+2026-10-09T14:49:57.8867084Z   show-progress: true
+2026-10-09T14:49:57.8867489Z   lfs: false
+2026-10-09T14:49:57.8867875Z   submodules: false
+2026-10-09T14:49:57.8868295Z   set-safe-directory: true
+2026-10-09T14:49:57.8868754Z   allow-unsafe-pr-checkout: false
+2026-10-09T14:49:57.8869487Z env:
+2026-10-09T14:49:57.8869909Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:49:57.8870347Z ##[endgroup]
+2026-10-09T14:49:57.9675376Z Syncing repository: ElectricDogCN/Guize
+2026-10-09T14:49:57.9677539Z ##[group]Getting Git version info
+2026-10-09T14:49:57.9678489Z Working directory is '/home/runner/work/Guize/Guize'
+2026-10-09T14:49:57.9680160Z [command]/usr/bin/git version
+2026-10-09T14:49:57.9694041Z git version 2.55.0
+2026-10-09T14:49:57.9709786Z ##[endgroup]
+2026-10-09T14:49:57.9721305Z Temporarily overriding HOME='/home/runner/work/_temp/ef064fe8-77ac-4b9a-b1e9-29fafcc277ce' before making global git config changes
+2026-10-09T14:49:57.9723278Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-09T14:49:57.9726285Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Guize/Guize
+2026-10-09T14:49:57.9765564Z Deleting the contents of '/home/runner/work/Guize/Guize'
+2026-10-09T14:49:57.9767631Z ##[group]Initializing the repository
+2026-10-09T14:49:57.9771705Z [command]/usr/bin/git init /home/runner/work/Guize/Guize
+2026-10-09T14:49:57.9853468Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-09T14:49:57.9854903Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-09T14:49:57.9856267Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-09T14:49:57.9857317Z hint: call:
+2026-10-09T14:49:57.9857872Z hint:
+2026-10-09T14:49:57.9858556Z hint: 	git config --global init.defaultBranch <name>
+2026-10-09T14:49:57.9859639Z hint:
+2026-10-09T14:49:57.9860490Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-09T14:49:57.9861860Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-09T14:49:57.9862922Z hint:
+2026-10-09T14:49:57.9863785Z hint: 	git branch -m <name>
+2026-10-09T14:49:57.9864477Z hint:
+2026-10-09T14:49:57.9865354Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-09T14:49:57.9945497Z Initialized empty Git repository in /home/runner/work/Guize/Guize/.git/
+2026-10-09T14:49:57.9948401Z [command]/usr/bin/git remote add origin https://github.com/ElectricDogCN/Guize
+2026-10-09T14:49:57.9950876Z ##[endgroup]
+2026-10-09T14:49:57.9951940Z ##[group]Disabling automatic garbage collection
+2026-10-09T14:49:57.9952907Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-09T14:49:57.9954889Z ##[endgroup]
+2026-10-09T14:49:57.9955878Z ##[group]Setting up auth
+2026-10-09T14:49:57.9956906Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-09T14:49:57.9969548Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-09T14:49:58.0253907Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-09T14:49:58.0286057Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-09T14:49:58.0489871Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-09T14:49:58.0521076Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-09T14:49:58.0711000Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-09T14:49:58.0746503Z ##[endgroup]
+2026-10-09T14:49:58.0747285Z ##[group]Fetching the repository
+2026-10-09T14:49:58.0754776Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +97b5fefcfd4350636af7cc8774c149dd54159487:refs/remotes/pull/74/merge
+2026-10-09T14:49:58.5096773Z From https://github.com/ElectricDogCN/Guize
+2026-10-09T14:49:58.5099418Z  * [new branch]      archive/OPS-004-review-sources-20261009  -> origin/archive/OPS-004-review-sources-20261009
+2026-10-09T14:49:58.5102263Z  * [new branch]      chore/GZ-001-clean-recovery              -> origin/chore/GZ-001-clean-recovery
+2026-10-09T14:49:58.5104851Z  * [new branch]      chore/GZ-001-repository-baseline         -> origin/chore/GZ-001-repository-baseline
+2026-10-09T14:49:58.5108153Z  * [new branch]      chore/GZ-003-multi-agent-collaboration-readiness -> origin/chore/GZ-003-multi-agent-collaboration-readiness
+2026-10-09T14:49:58.5111923Z  * [new branch]      chore/GZ-003-multi-agent-readiness       -> origin/chore/GZ-003-multi-agent-readiness
+2026-10-09T14:49:58.5115293Z  * [new branch]      chore/GZ-004-completion-evidence-repair  -> origin/chore/GZ-004-completion-evidence-repair
+2026-10-09T14:49:58.5118324Z  * [new branch]      chore/GZ-004-requirements-baseline       -> origin/chore/GZ-004-requirements-baseline
+2026-10-09T14:49:58.5122289Z  * [new branch]      chore/GZ-004-reservation                 -> origin/chore/GZ-004-reservation
+2026-10-09T14:49:58.5124858Z  * [new branch]      chore/GZ-004-reservation-clean           -> origin/chore/GZ-004-reservation-clean
+2026-10-09T14:49:58.5127134Z  * [new branch]      chore/GZ-004-reservation-v2              -> origin/chore/GZ-004-reservation-v2
+2026-10-09T14:49:58.5129622Z  * [new branch]      chore/GZ-004-reservation-v3              -> origin/chore/GZ-004-reservation-v3
+2026-10-09T14:49:58.5133088Z  * [new branch]      chore/GZ-005-openapi-reservation         -> origin/chore/GZ-005-openapi-reservation
+2026-10-09T14:49:58.5135808Z  * [new branch]      chore/GZ-010-poc-program-baseline        -> origin/chore/GZ-010-poc-program-baseline
+2026-10-09T14:49:58.5138960Z  * [new branch]      chore/GZ-010-poc-program-baseline-work-backup -> origin/chore/GZ-010-poc-program-baseline-work-backup
+2026-10-09T14:49:58.5142585Z  * [new branch]      chore/GZ-010-poc-program-completion      -> origin/chore/GZ-010-poc-program-completion
+2026-10-09T14:49:58.5144981Z  * [new branch]      chore/GZ-010-reservation                 -> origin/chore/GZ-010-reservation
+2026-10-09T14:49:58.5147174Z  * [new branch]      chore/GZ-010-reservation-v2              -> origin/chore/GZ-010-reservation-v2
+2026-10-09T14:49:58.5149341Z  * [new branch]      chore/GZ-010-review                      -> origin/chore/GZ-010-review
+2026-10-09T14:49:58.5151697Z  * [new branch]      chore/GZ-014-completion-readiness-repair -> origin/chore/GZ-014-completion-readiness-repair
+2026-10-09T14:49:58.5154331Z  * [new branch]      chore/GZ-014-foundation-completion       -> origin/chore/GZ-014-foundation-completion
+2026-10-09T14:49:58.5157611Z  * [new branch]      chore/GZ-014-foundation-completion-v2    -> origin/chore/GZ-014-foundation-completion-v2
+2026-10-09T14:49:58.5161821Z  * [new branch]      chore/GZ-014-foundation-completion-v3    -> origin/chore/GZ-014-foundation-completion-v3
+2026-10-09T14:49:58.5165628Z  * [new branch]      chore/GZ-014-foundation-integration      -> origin/chore/GZ-014-foundation-integration
+2026-10-09T14:49:58.5169782Z  * [new branch]      chore/GZ-014-foundation-lifecycle-states -> origin/chore/GZ-014-foundation-lifecycle-states
+2026-10-09T14:49:58.5173511Z  * [new branch]      chore/GZ-014-foundation-review           -> origin/chore/GZ-014-foundation-review
+2026-10-09T14:49:58.5177108Z  * [new branch]      chore/GZ-014-post-merge-review-repair    -> origin/chore/GZ-014-post-merge-review-repair
+2026-10-09T14:49:58.5180512Z  * [new branch]      chore/GZ-014-post-merge-test-repair      -> origin/chore/GZ-014-post-merge-test-repair
+2026-10-09T14:49:58.5183340Z  * [new branch]      chore/GZ-014-program-plan-reconciliation -> origin/chore/GZ-014-program-plan-reconciliation
+2026-10-09T14:49:58.5186281Z  * [new branch]      chore/GZ-014-release                     -> origin/chore/GZ-014-release
+2026-10-09T14:49:58.5188814Z  * [new branch]      chore/GZ-014-reservation                 -> origin/chore/GZ-014-reservation
+2026-10-09T14:49:58.5191541Z  * [new branch]      chore/GZ-014-test-repair-reservation-v2  -> origin/chore/GZ-014-test-repair-reservation-v2
+2026-10-09T14:49:58.5194535Z  * [new branch]      chore/OPS-003-forward-recovery-completion -> origin/chore/OPS-003-forward-recovery-completion
+2026-10-09T14:49:58.5198064Z  * [new branch]      chore/OPS-003-forward-recovery-implementation -> origin/chore/OPS-003-forward-recovery-implementation
+2026-10-09T14:49:58.5202633Z  * [new branch]      chore/OPS-003-forward-recovery-registration -> origin/chore/OPS-003-forward-recovery-registration
+2026-10-09T14:49:58.5207012Z  * [new branch]      chore/OPS-004-lifecycle-repair-implementation -> origin/chore/OPS-004-lifecycle-repair-implementation
+2026-10-09T14:49:58.5211730Z  * [new branch]      chore/OPS-004-lifecycle-repair-registration -> origin/chore/OPS-004-lifecycle-repair-registration
+2026-10-09T14:49:58.5214871Z  * [new branch]      chore/OPS-004-lifecycle-repair-review    -> origin/chore/OPS-004-lifecycle-repair-review
+2026-10-09T14:49:58.5217691Z  * [new branch]      chore/OPS-006-task-registration          -> origin/chore/OPS-006-task-registration
+2026-10-09T14:49:58.5221251Z  * [new branch]      chore/OPS-006-task-registration-r2       -> origin/chore/OPS-006-task-registration-r2
+2026-10-09T14:49:58.5224333Z  * [new branch]      docs/GZ-002-engineering-design-baseline-clean -> origin/docs/GZ-002-engineering-design-baseline-clean
+2026-10-09T14:49:58.5227471Z  * [new branch]      docs/GZ-002-eprohub-style-restructure    -> origin/docs/GZ-002-eprohub-style-restructure
+2026-10-09T14:49:58.5230819Z  * [new branch]      docs/GZ-003-multi-agent-collaboration-readiness -> origin/docs/GZ-003-multi-agent-collaboration-readiness
+2026-10-09T14:49:58.5233501Z  * [new branch]      fix/GZ-001-R4-ci                         -> origin/fix/GZ-001-R4-ci
+2026-10-09T14:49:58.5235555Z  * [new branch]      fix/GZ-001-R4-recovery                   -> origin/fix/GZ-001-R4-recovery
+2026-10-09T14:49:58.5237794Z  * [new branch]      fix/GZ-003-poc-program-gate              -> origin/fix/GZ-003-poc-program-gate
+2026-10-09T14:49:58.5240486Z  * [new branch]      fix/GZ-003-schema-fixture-active-work    -> origin/fix/GZ-003-schema-fixture-active-work
+2026-10-09T14:49:58.5243187Z  * [new branch]      fix/GZ-003-terminal-wave-occupancy       -> origin/fix/GZ-003-terminal-wave-occupancy
+2026-10-09T14:49:58.5245796Z  * [new branch]      fix/GZ-014-poc-plan-path-claims          -> origin/fix/GZ-014-poc-plan-path-claims
+2026-10-09T14:49:58.5248516Z  * [new branch]      fix/GZ-014-program-registration-bootstrap -> origin/fix/GZ-014-program-registration-bootstrap
+2026-10-09T14:49:58.5251701Z  * [new branch]      fix/GZ-014-readiness-and-coordination-repair -> origin/fix/GZ-014-readiness-and-coordination-repair
+2026-10-09T14:49:58.5254059Z  * [new branch]      main                                     -> origin/main
+2026-10-09T14:49:58.5255784Z  * [new branch]      solution_v1                              -> origin/solution_v1
+2026-10-09T14:49:58.5257715Z  * [new branch]      trae/agent-NN8yo7                        -> origin/trae/agent-NN8yo7
+2026-10-09T14:49:58.5259762Z  * [new ref]         97b5fefcfd4350636af7cc8774c149dd54159487 -> pull/74/merge
+2026-10-09T14:49:58.5263489Z ##[endgroup]
+2026-10-09T14:49:58.5264969Z ##[group]Determining the checkout info
+2026-10-09T14:49:58.5266593Z ##[endgroup]
+2026-10-09T14:49:58.5267542Z [command]/usr/bin/git sparse-checkout disable
+2026-10-09T14:49:58.5270419Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-09T14:49:58.5273572Z ##[group]Checking out the ref
+2026-10-09T14:49:58.5274991Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/74/merge
+2026-10-09T14:49:58.5555272Z Note: switching to 'refs/remotes/pull/74/merge'.
+2026-10-09T14:49:58.5556222Z 
+2026-10-09T14:49:58.5557001Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-09T14:49:58.5558918Z changes and commit them, and you can discard any commits you make in this
+2026-10-09T14:49:58.5561012Z state without impacting any branches by switching back to a branch.
+2026-10-09T14:49:58.5562098Z 
+2026-10-09T14:49:58.5562890Z If you want to create a new branch to retain commits you create, you may
+2026-10-09T14:49:58.5564752Z do so (now or later) by using -c with the switch command. Example:
+2026-10-09T14:49:58.5565744Z 
+2026-10-09T14:49:58.5566178Z   git switch -c <new-branch-name>
+2026-10-09T14:49:58.5567035Z 
+2026-10-09T14:49:58.5567513Z Or undo this operation with:
+2026-10-09T14:49:58.5568141Z 
+2026-10-09T14:49:58.5568510Z   git switch -
+2026-10-09T14:49:58.5568991Z 
+2026-10-09T14:49:58.5569905Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-09T14:49:58.5571069Z 
+2026-10-09T14:49:58.5572375Z HEAD is now at 97b5fef Merge a50d2406037a496cb9c46ee359bc9f0e16cb9263 into 726870c8ae161eab19f94a9b96980a7d9197b633
+2026-10-09T14:49:58.5577061Z ##[endgroup]
+2026-10-09T14:49:58.5602107Z [command]/usr/bin/git log -1 --format=%H
+2026-10-09T14:49:58.5626012Z 97b5fefcfd4350636af7cc8774c149dd54159487
+2026-10-09T14:49:58.5635510Z ##[group]Removing auth
+2026-10-09T14:49:58.5638596Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-09T14:49:58.5667254Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-09T14:49:58.5855513Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-09T14:49:58.5878851Z http.https://github.com/.extraheader
+2026-10-09T14:49:58.5884195Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-09T14:49:58.5916546Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-09T14:49:58.6103205Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-09T14:49:58.6131958Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-09T14:49:58.6316199Z ##[endgroup]
+2026-10-09T14:49:58.6633941Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-10-09T14:49:58.6635361Z with:
+2026-10-09T14:49:58.6636145Z   python-version: 3.11
+2026-10-09T14:49:58.6637020Z   check-latest: false
+2026-10-09T14:49:58.6645699Z   token: ***
+2026-10-09T14:49:58.6646531Z   update-environment: true
+2026-10-09T14:49:58.6647468Z   allow-prereleases: false
+2026-10-09T14:49:58.6648379Z   freethreaded: false
+2026-10-09T14:49:58.6649333Z env:
+2026-10-09T14:49:58.6650116Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:49:58.6651038Z ##[endgroup]
+2026-10-09T14:49:58.7881605Z ##[group]Installed versions
+2026-10-09T14:49:58.7952083Z (node:2177) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-09T14:49:58.7954896Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-09T14:49:58.7956832Z Successfully set up CPython (3.11.17)
+2026-10-09T14:49:58.7958891Z ##[endgroup]
+2026-10-09T14:49:58.8173815Z ##[group]Run set -euo pipefail
+2026-10-09T14:49:58.8175141Z [36;1mset -euo pipefail[0m
+2026-10-09T14:49:58.8176524Z [36;1mpython -m pip install --upgrade pip[0m
+2026-10-09T14:49:58.8178874Z [36;1mpip install -r requirements-governance.txt[0m
+2026-10-09T14:49:58.8181347Z [36;1mecho "--- Installed packages ---"[0m
+2026-10-09T14:49:58.8183262Z [36;1mpip freeze | grep -E 'pytest|PyYAML|jsonschema'[0m
+2026-10-09T14:49:58.8569943Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:49:58.8571166Z env:
+2026-10-09T14:49:58.8571948Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:49:58.8573055Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:49:58.8574540Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:49:58.8576025Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:49:58.8577391Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:49:58.8578796Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:49:58.8580384Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:49:58.8581594Z ##[endgroup]
+2026-10-09T14:50:02.8506724Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages (26.2.1)
+2026-10-09T14:50:03.3955071Z Collecting pytest<9.0,>=7.0 (from -r requirements-governance.txt (line 5))
+2026-10-09T14:50:03.4393622Z   Downloading pytest-8.4.2-py3-none-any.whl.metadata (7.7 kB)
+2026-10-09T14:50:03.4748949Z Collecting PyYAML>=6.0 (from -r requirements-governance.txt (line 8))
+2026-10-09T14:50:03.4797333Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-10-09T14:50:03.4948976Z Collecting jsonschema>=4.0 (from -r requirements-governance.txt (line 11))
+2026-10-09T14:50:03.4986210Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-10-09T14:50:03.5081818Z Collecting iniconfig>=1 (from pytest<9.0,>=7.0->-r requirements-governance.txt (line 5))
+2026-10-09T14:50:03.5120138Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-10-09T14:50:03.5234540Z Collecting packaging>=20 (from pytest<9.0,>=7.0->-r requirements-governance.txt (line 5))
+2026-10-09T14:50:03.5275144Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-10-09T14:50:03.5374272Z Collecting pluggy<2,>=1.5 (from pytest<9.0,>=7.0->-r requirements-governance.txt (line 5))
+2026-10-09T14:50:03.5460879Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-10-09T14:50:03.5602652Z Collecting pygments>=2.7.2 (from pytest<9.0,>=7.0->-r requirements-governance.txt (line 5))
+2026-10-09T14:50:03.5647844Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-09T14:50:03.5753870Z Collecting attrs>=22.2.0 (from jsonschema>=4.0->-r requirements-governance.txt (line 11))
+2026-10-09T14:50:03.5795978Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-10-09T14:50:03.5919383Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.0->-r requirements-governance.txt (line 11))
+2026-10-09T14:50:03.5968267Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-10-09T14:50:03.6105720Z Collecting referencing>=0.28.4 (from jsonschema>=4.0->-r requirements-governance.txt (line 11))
+2026-10-09T14:50:03.6147518Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-10-09T14:50:03.7870094Z Collecting rpds-py>=0.25.0 (from jsonschema>=4.0->-r requirements-governance.txt (line 11))
+2026-10-09T14:50:03.7914079Z   Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-10-09T14:50:03.8057692Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema>=4.0->-r requirements-governance.txt (line 11))
+2026-10-09T14:50:03.8101231Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-09T14:50:03.8173777Z Downloading pytest-8.4.2-py3-none-any.whl (365 kB)
+2026-10-09T14:50:03.8313110Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-10-09T14:50:03.8373886Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-10-09T14:50:03.8506503Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 58.6 MB/s  0:00:00
+2026-10-09T14:50:03.8550679Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-10-09T14:50:03.8627116Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-10-09T14:50:03.8694838Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-10-09T14:50:03.8773610Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-10-09T14:50:03.8836560Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-10-09T14:50:03.8906461Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-10-09T14:50:03.9036422Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 88.8 MB/s  0:00:00
+2026-10-09T14:50:03.9073957Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-10-09T14:50:03.9126832Z Downloading rpds_py-2026.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (375 kB)
+2026-10-09T14:50:03.9205701Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-09T14:50:03.9693456Z Installing collected packages: typing-extensions, rpds-py, PyYAML, pygments, pluggy, packaging, iniconfig, attrs, referencing, pytest, jsonschema-specifications, jsonschema
+2026-10-09T14:50:04.9886671Z 
+2026-10-09T14:50:04.9897062Z Successfully installed PyYAML-6.0.3 attrs-26.1.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 packaging-26.3 pluggy-1.6.0 pygments-2.21.0 pytest-8.4.2 referencing-0.37.0 rpds-py-2026.9.1 typing-extensions-4.16.0
+2026-10-09T14:50:05.0380226Z --- Installed packages ---
+2026-10-09T14:50:05.2164484Z jsonschema==4.26.0
+2026-10-09T14:50:05.2165389Z jsonschema-specifications==2025.9.1
+2026-10-09T14:50:05.2165923Z pytest==8.4.2
+2026-10-09T14:50:05.2166178Z PyYAML==6.0.3
+2026-10-09T14:50:05.2205266Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:05.2205549Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:05.2205902Z [36;1mpython -c "import yaml, pytest, jsonschema; print('OK: All dependencies importable')"[0m
+2026-10-09T14:50:05.2262388Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:05.2262664Z env:
+2026-10-09T14:50:05.2262852Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:05.2263115Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.2263459Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:05.2263787Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.2264093Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.2264399Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.2264714Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:05.2264979Z ##[endgroup]
+2026-10-09T14:50:05.6123869Z OK: All dependencies importable
+2026-10-09T14:50:05.6384779Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:05.6385186Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:05.6385552Z [36;1mpython -m compileall -q scripts tests[0m
+2026-10-09T14:50:05.6463696Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:05.6464137Z env:
+2026-10-09T14:50:05.6464413Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:05.6464830Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.6465428Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:05.6465984Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.6466472Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.6466960Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.6467464Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:05.6467870Z ##[endgroup]
+2026-10-09T14:50:05.7916838Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:05.7917129Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:05.7917402Z [36;1mpython -m pytest --collect-only -q tests/governance/[0m
+2026-10-09T14:50:05.7972964Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:05.7973249Z env:
+2026-10-09T14:50:05.7973436Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:05.7973709Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.7974057Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:05.7974397Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.7974699Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.7975005Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:05.7975305Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:05.7975583Z ##[endgroup]
+2026-10-09T14:50:06.3835164Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[activation]
+2026-10-09T14:50:06.3836401Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[activation-and-claimed-code]
+2026-10-09T14:50:06.3837577Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[review]
+2026-10-09T14:50:06.3838610Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[integration]
+2026-10-09T14:50:06.3839822Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[evidence-only]
+2026-10-09T14:50:06.3840815Z tests/governance/test_active_metadata_scope.py::test_scope_respects_explicit_ci_branch
+2026-10-09T14:50:06.3841796Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[other-task-status]
+2026-10-09T14:50:06.3843238Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[program-policy]
+2026-10-09T14:50:06.3844346Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[own-plan-risk]
+2026-10-09T14:50:06.3845453Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[registry-claims]
+2026-10-09T14:50:06.3846564Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[registry-risk]
+2026-10-09T14:50:06.3847714Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[reviewer-is-implementer]
+2026-10-09T14:50:06.3848854Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[task-risk]
+2026-10-09T14:50:06.3850100Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[task-id]
+2026-10-09T14:50:06.3851179Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[illegal-transition]
+2026-10-09T14:50:06.3852296Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[ledger]
+2026-10-09T14:50:06.3853358Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[unclaimed-code]
+2026-10-09T14:50:06.3854452Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[rename-source]
+2026-10-09T14:50:06.3855511Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[expired-lease]
+2026-10-09T14:50:06.3856606Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[dirty-metadata]
+2026-10-09T14:50:06.3857693Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[lease-too-long]
+2026-10-09T14:50:06.3859060Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[task-issue]
+2026-10-09T14:50:06.3860640Z tests/governance/test_active_metadata_scope.py::test_no_task_global_coordination_keeps_real_capacity_limit
+2026-10-09T14:50:06.3861764Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_active_task_uses_task_specific_coordination
+2026-10-09T14:50:06.3863119Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_accepts_matching_completed_task_spec
+2026-10-09T14:50:06.3864495Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_rejects_approved_task_spec
+2026-10-09T14:50:06.3865766Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_rejects_dependency_drift
+2026-10-09T14:50:06.3867026Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_rejects_exit_gate_drift
+2026-10-09T14:50:06.3867759Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_rejects_wave_drift
+2026-10-09T14:50:06.3868528Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_task_uses_global_registry_mode
+2026-10-09T14:50:06.3869515Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_legacy_foundation_approved_status_is_allowed
+2026-10-09T14:50:06.3870217Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_missing_task_spec_fails_closed
+2026-10-09T14:50:06.3870913Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_schema_v2_foundation_approved_status_fails
+2026-10-09T14:50:06.3871637Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_schema_v2_foundation_completed_status_passes
+2026-10-09T14:50:06.3872502Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_unsupported_status_fails_closed
+2026-10-09T14:50:06.3873166Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_bootstrap_task_passes_without_registry_entry
+2026-10-09T14:50:06.3873813Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_may_only_remove_own_registry_entry
+2026-10-09T14:50:06.3874423Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_metadata_update_passes
+2026-10-09T14:50:06.3875019Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_rejects_unrelated_file
+2026-10-09T14:50:06.3875621Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_requires_all_canonical_files
+2026-10-09T14:50:06.3876243Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_requires_prior_reservation
+2026-10-09T14:50:06.3876880Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_coordinated_shared_paths_pass
+2026-10-09T14:50:06.3877434Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_dependency_cycle_fails
+2026-10-09T14:50:06.3877956Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_empty_registry_passes
+2026-10-09T14:50:06.3878476Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_exclusive_overlap_fails
+2026-10-09T14:50:06.3878986Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_expired_lease_fails
+2026-10-09T14:50:06.3879732Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_high_risk_role_separation_fails
+2026-10-09T14:50:06.3880272Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_stale_branch_fails
+2026-10-09T14:50:06.3880967Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_task_path_claims_must_match_registry
+2026-10-09T14:50:06.3881547Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_unclaimed_changed_file_fails
+2026-10-09T14:50:06.3882085Z tests/governance/test_check_evidence.py::TestCheckEvidence::test_explicit_legacy_compatibility_passes
+2026-10-09T14:50:06.3882588Z tests/governance/test_check_evidence.py::TestCheckEvidence::test_missing_canonical_mapping_fails
+2026-10-09T14:50:06.3883079Z tests/governance/test_check_evidence.py::TestCheckEvidence::test_missing_evidence_contract_fails
+2026-10-09T14:50:06.3883556Z tests/governance/test_check_evidence.py::TestCheckEvidence::test_na_mapping_requires_reason
+2026-10-09T14:50:06.3884055Z tests/governance/test_check_evidence_integrity.py::TestCheckEvidenceIntegrity::test_nonexistent_report
+2026-10-09T14:50:06.3884617Z tests/governance/test_check_evidence_integrity.py::TestCheckEvidenceIntegrity::test_report_with_nonexistent_commits
+2026-10-09T14:50:06.3885192Z tests/governance/test_check_evidence_integrity.py::TestCheckEvidenceIntegrity::test_unreachable_commit_fails
+2026-10-09T14:50:06.3885738Z tests/governance/test_check_evidence_integrity.py::TestCheckEvidenceIntegrity::test_valid_commit_in_report
+2026-10-09T14:50:06.3886231Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_broken_internal_link_fails
+2026-10-09T14:50:06.3886703Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_existing_internal_link_passes
+2026-10-09T14:50:06.3887206Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_git_metadata_markdown_is_excluded
+2026-10-09T14:50:06.3887695Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_github_markdown_is_not_excluded
+2026-10-09T14:50:06.3888145Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_no_links_pass
+2026-10-09T14:50:06.3888589Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_trailing_whitespace_fails
+2026-10-09T14:50:06.3889327Z tests/governance/test_check_pr_task_link.py::TestCheckPRTaskLink::test_pr_missing_task_id_fails
+2026-10-09T14:50:06.3889894Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_asymmetric_requirement_module_mapping_fails
+2026-10-09T14:50:06.3890536Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_completed_foundation_commit_must_exist
+2026-10-09T14:50:06.3891126Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_contract_namespace_overlap_fails
+2026-10-09T14:50:06.3891689Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_contract_owner_mismatch_fails
+2026-10-09T14:50:06.3892242Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_current_repository_indexes_pass
+2026-10-09T14:50:06.3892789Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_duplicate_schema_owner_fails
+2026-10-09T14:50:06.3893359Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_external_blocker_unknown_task_fails
+2026-10-09T14:50:06.3893963Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_foundation_and_program_task_ids_cannot_overlap
+2026-10-09T14:50:06.3894579Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_high_risk_owner_reviewer_must_differ
+2026-10-09T14:50:06.3895155Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_high_risk_placeholder_reviewer_fails
+2026-10-09T14:50:06.3895717Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_missing_requirement_source_fails
+2026-10-09T14:50:06.3896294Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_module_dependency_cycle_fails
+2026-10-09T14:50:06.3896832Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_overlapping_module_path_fails
+2026-10-09T14:50:06.3897394Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_poc_evidence_path_must_be_owned_fails
+2026-10-09T14:50:06.3898067Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_poc_mapping_mismatch_fails
+2026-10-09T14:50:06.3898599Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_poc_risk_mismatch_fails
+2026-10-09T14:50:06.3899224Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_poc_task_reference_mismatch_fails
+2026-10-09T14:50:06.3899798Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_program_plan_schema_violation_fails
+2026-10-09T14:50:06.3900397Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_program_task_cycle_reports_structured_failure
+2026-10-09T14:50:06.3900979Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_same_wave_output_conflict_fails
+2026-10-09T14:50:06.3901533Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_shared_writer_reverse_mapping_fails
+2026-10-09T14:50:06.3902142Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_strict_ready_rejects_waived_release_blocker
+2026-10-09T14:50:06.3902771Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_task_output_must_match_declared_module_ownership
+2026-10-09T14:50:06.3903362Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_unknown_module_reference_fails
+2026-10-09T14:50:06.3903887Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_unknown_next_task_fails
+2026-10-09T14:50:06.3904430Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_unproduced_contract_consumption_fails
+2026-10-09T14:50:06.3904971Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_valid_indexes_pass
+2026-10-09T14:50:06.3905483Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_active_policy_must_match_program_policy
+2026-10-09T14:50:06.3906093Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_copied_current_instances_pass
+2026-10-09T14:50:06.3906608Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_core_program_safety_policy_cannot_be_disabled
+2026-10-09T14:50:06.3907149Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_current_repository_coordination_files_pass
+2026-10-09T14:50:06.3907658Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_foundation_wave_must_be_foundation
+2026-10-09T14:50:06.3908167Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_program_active_task_requires_registry_lease
+2026-10-09T14:50:06.3908695Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_program_task_id_must_equal_registry_task_id
+2026-10-09T14:50:06.3909354Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_activation_passes
+2026-10-09T14:50:06.3909948Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_branch_mismatch_fails
+2026-10-09T14:50:06.3910530Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_cannot_downgrade_output_to_shared
+2026-10-09T14:50:06.3911122Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_cannot_expand_exclusive_paths
+2026-10-09T14:50:06.3911678Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_contract_mismatch_fails
+2026-10-09T14:50:06.3912194Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_task_spec_wave_must_match_registry
+2026-10-09T14:50:06.3912641Z tests/governance/test_check_secrets.py::TestCheckSecrets::test_aws_key_fails
+2026-10-09T14:50:06.3913048Z tests/governance/test_check_secrets.py::TestCheckSecrets::test_no_secrets_pass
+2026-10-09T14:50:06.3913492Z tests/governance/test_check_secrets.py::TestCheckSecrets::test_non_git_directory_fails_closed
+2026-10-09T14:50:06.3913978Z tests/governance/test_check_secrets.py::TestCheckSecrets::test_secret_inside_tests_directory_fails
+2026-10-09T14:50:06.3914593Z tests/governance/test_check_spec_sync.py::TestCheckSpecSync::test_never_rules_without_changelog_fails
+2026-10-09T14:50:06.3915183Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_empty_acceptance_section_fails_even_if_other_checklist_exists
+2026-10-09T14:50:06.3915752Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_empty_validation_commands_fail
+2026-10-09T14:50:06.3916230Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_invalid_branch_name_fails
+2026-10-09T14:50:06.3916691Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_missing_task_id_fails
+2026-10-09T14:50:06.3917198Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_registry_v2_program_task_id_must_match_task_id
+2026-10-09T14:50:06.3917756Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_registry_v2_requires_program_plan_identity
+2026-10-09T14:50:06.3918304Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_registry_v2_requires_valid_requirement_ids
+2026-10-09T14:50:06.3918810Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_valid_task_file_passes
+2026-10-09T14:50:06.3919381Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_double_star_crosses_directories
+2026-10-09T14:50:06.3919916Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_forbidden_scope_overrides_allowed_scope
+2026-10-09T14:50:06.3920425Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_in_scope_changes_pass
+2026-10-09T14:50:06.3920893Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_missing_base_fails_closed
+2026-10-09T14:50:06.3921361Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_out_of_scope_changes_fail
+2026-10-09T14:50:06.3921861Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_single_star_does_not_cross_directories
+2026-10-09T14:50:06.3922505Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_make_verify_requires_program_history_transitions_and_finalization
+2026-10-09T14:50:06.3923305Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_makefile_program_recipe_is_fail_fast
+2026-10-09T14:50:06.3923924Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_makefile_routes_scope_through_dispatcher
+2026-10-09T14:50:06.3924598Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_workflow_requires_program_history_transitions_and_finalization
+2026-10-09T14:50:06.3925289Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_workflow_routes_coordination_through_dispatcher
+2026-10-09T14:50:06.3926014Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_workflow_routes_scope_through_dispatcher
+2026-10-09T14:50:06.3926601Z tests/governance/test_contract_schemas.py::TestPluginManifestSchema::test_known_manifest_passes
+2026-10-09T14:50:06.3927109Z tests/governance/test_contract_schemas.py::TestPluginManifestSchema::test_unknown_capability_fails
+2026-10-09T14:50:06.3927632Z tests/governance/test_contract_schemas.py::TestPluginManifestSchema::test_unknown_permission_key_fails
+2026-10-09T14:50:06.3928149Z tests/governance/test_contract_schemas.py::TestPluginManifestSchema::test_unknown_runtime_key_fails
+2026-10-09T14:50:06.3928661Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_fixtures_importable
+2026-10-09T14:50:06.3929392Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_front_matter_has_correct_newlines
+2026-10-09T14:50:06.3930008Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_pytest_can_collect_all_governance_tests
+2026-10-09T14:50:06.3930593Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_python_version_compatibility
+2026-10-09T14:50:06.3931165Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_write_task_spec_creates_valid_file
+2026-10-09T14:50:06.3931801Z tests/governance/test_forward_recovery.py::test_freeze_metadata_and_governance_repair_pass
+2026-10-09T14:50:06.3932364Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_implementation_and_completed_evidence[business/file.txt]
+2026-10-09T14:50:06.3933062Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_implementation_and_completed_evidence[evidence/GZ-004/summary.md]
+2026-10-09T14:50:06.3933703Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_activation_or_completion[reserved]
+2026-10-09T14:50:06.3934239Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_activation_or_completion[review]
+2026-10-09T14:50:06.3934778Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_activation_or_completion[completed]
+2026-10-09T14:50:06.3935359Z tests/governance/test_forward_recovery.py::test_frozen_block_cannot_change_identity_without_task_argument[dependsOn-value0]
+2026-10-09T14:50:06.3935979Z tests/governance/test_forward_recovery.py::test_frozen_block_cannot_change_identity_without_task_argument[riskLevel-low]
+2026-10-09T14:50:06.3936589Z tests/governance/test_forward_recovery.py::test_frozen_block_cannot_change_identity_without_task_argument[outputPaths-value2]
+2026-10-09T14:50:06.3937204Z tests/governance/test_forward_recovery.py::test_thaw_requires_merged_proof_and_separate_ordinary_activation
+2026-10-09T14:50:06.3937716Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[hash]
+2026-10-09T14:50:06.3938179Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[echo]
+2026-10-09T14:50:06.3938666Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[wrong_source]
+2026-10-09T14:50:06.3939260Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[wrong_event]
+2026-10-09T14:50:06.3939775Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[missing_check]
+2026-10-09T14:50:06.3940392Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[bool_exit]
+2026-10-09T14:50:06.3940888Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[failure_node]
+2026-10-09T14:50:06.3941374Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[skip]
+2026-10-09T14:50:06.3941853Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[empty_junit]
+2026-10-09T14:50:06.3942345Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[false_count]
+2026-10-09T14:50:06.3942867Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[code_after_validation]
+2026-10-09T14:50:06.3943412Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[proof_not_in_base]
+2026-10-09T14:50:06.3943925Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[one_pass]
+2026-10-09T14:50:06.3944453Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[wrong_pytest_count]
+2026-10-09T14:50:06.3944998Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_does_not_require_old_lease_or_branch
+2026-10-09T14:50:06.3945664Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[specs/coordination/program-plan.yaml]
+2026-10-09T14:50:06.3946424Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[specs/coordination/active-work.yaml]
+2026-10-09T14:50:06.3947188Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[specs/coordination/task-completions.yaml]
+2026-10-09T14:50:06.3947914Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[specs/tasks/GZ-004.md]
+2026-10-09T14:50:06.3948724Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[evidence/GZ-010/correction.md]
+2026-10-09T14:50:06.3949625Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[business/file.txt]
+2026-10-09T14:50:06.3950286Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_wrong_issue_in_shared_validator[issue0]
+2026-10-09T14:50:06.3950890Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_wrong_issue_in_shared_validator[issue1]
+2026-10-09T14:50:06.3951487Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_wrong_issue_in_shared_validator[issue2]
+2026-10-09T14:50:06.3952080Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_wrong_issue_in_shared_validator[issue3]
+2026-10-09T14:50:06.3952688Z tests/governance/test_forward_recovery.py::test_raw_lifecycle_main_enforces_evidence_issue_without_task_argument
+2026-10-09T14:50:06.3953225Z tests/governance/test_forward_recovery.py::test_completed_evidence_rename_cannot_hide_business_origin
+2026-10-09T14:50:06.3953755Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[None]
+2026-10-09T14:50:06.3954323Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[broad_claim]
+2026-10-09T14:50:06.3954908Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[business_claim]
+2026-10-09T14:50:06.3955512Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[shared_claim]
+2026-10-09T14:50:06.3956108Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[expired]
+2026-10-09T14:50:06.3956812Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[same_reviewer]
+2026-10-09T14:50:06.3957392Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[policy]
+2026-10-09T14:50:06.3957970Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[implementation]
+2026-10-09T14:50:06.3958548Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[ledger]
+2026-10-09T14:50:06.3959187Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[completion]
+2026-10-09T14:50:06.3959748Z tests/governance/test_forward_recovery.py::test_existing_foundation_cannot_expand_claim_after_registration
+2026-10-09T14:50:06.3960257Z tests/governance/test_forward_recovery.py::test_frozen_existing_active_snapshot_can_remain
+2026-10-09T14:50:06.3960899Z tests/governance/test_forward_recovery.py::test_frozen_snapshot_revalidates_descriptor_references[sourceCommit-ffffffffffffffffffffffffffffffffffffffff]
+2026-10-09T14:50:06.3961629Z tests/governance/test_forward_recovery.py::test_frozen_snapshot_revalidates_descriptor_references[affectedTasks-value1]
+2026-10-09T14:50:06.3962252Z tests/governance/test_forward_recovery.py::test_frozen_snapshot_revalidates_descriptor_references[frozenAt-2999-01-01T00:00:00Z]
+2026-10-09T14:50:06.3962842Z tests/governance/test_forward_recovery.py::test_frozen_block_or_cancel_cannot_keep_stale_task_status[blocked]
+2026-10-09T14:50:06.3963385Z tests/governance/test_forward_recovery.py::test_frozen_block_or_cancel_cannot_keep_stale_task_status[cancelled]
+2026-10-09T14:50:06.3963910Z tests/governance/test_forward_recovery.py::test_completed_evidence_api_unavailable_fails_closed
+2026-10-09T14:50:06.3964430Z tests/governance/test_forward_recovery.py::test_no_task_frozen_root_or_registry_policy_drift_is_rejected[program]
+2026-10-09T14:50:06.3964987Z tests/governance/test_forward_recovery.py::test_no_task_frozen_root_or_registry_policy_drift_is_rejected[registry]
+2026-10-09T14:50:06.3965646Z tests/governance/test_forward_recovery.py::test_no_task_frozen_code_derives_recovery_owner_and_rejects_stale_base
+2026-10-09T14:50:06.3966265Z tests/governance/test_forward_recovery.py::test_finalization_distinguishes_completed_evidence_repair_from_second_completion[False]
+2026-10-09T14:50:06.3966925Z tests/governance/test_forward_recovery.py::test_finalization_distinguishes_completed_evidence_repair_from_second_completion[True]
+2026-10-09T14:50:06.3967509Z tests/governance/test_forward_recovery.py::test_finalization_evidence_repair_cannot_bypass_open_issue
+2026-10-09T14:50:06.3968148Z tests/governance/test_foundation_lifecycle_states.py::TestFoundationLifecycleStates::test_current_plan_accepts_foundation_review_and_integration
+2026-10-09T14:50:06.3968927Z tests/governance/test_foundation_lifecycle_states.py::TestFoundationLifecycleStates::test_foundation_can_complete_from_integration_with_structured_evidence
+2026-10-09T14:50:06.3969873Z tests/governance/test_foundation_lifecycle_states.py::TestFoundationLifecycleStates::test_foundation_schema_rejects_unknown_state
+2026-10-09T14:50:06.3970577Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_affected_task_ids_are_derived_without_branch_context
+2026-10-09T14:50:06.3971270Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_cancellation_requires_structured_fresh_evidence
+2026-10-09T14:50:06.3971926Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_completed_spec_must_bind_own_evidence
+2026-10-09T14:50:06.3972564Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_completion_requires_structured_results
+2026-10-09T14:50:06.3973161Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_current_repository_passes
+2026-10-09T14:50:06.3973785Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_foundation_claim_accepts_audited_governance_scope
+2026-10-09T14:50:06.3974594Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_foundation_claim_rejects_business_path_and_stale_base
+2026-10-09T14:50:06.3975298Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_lifecycle_guard_is_mandatory_in_workflow_and_make
+2026-10-09T14:50:06.3975971Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_rename_diff_includes_source_and_destination
+2026-10-09T14:50:06.3976618Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_structured_completion_results_pass
+2026-10-09T14:50:06.3977251Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_wrapper_task_derivation_does_not_recurse
+2026-10-09T14:50:06.3977886Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_active_task_exit_gate_must_match_program_plan
+2026-10-09T14:50:06.3978510Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_active_task_requires_completed_dependencies
+2026-10-09T14:50:06.3979053Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_append_only
+2026-10-09T14:50:06.3979645Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_authority_paths_are_canonical
+2026-10-09T14:50:06.3980180Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_completed_exit_gate
+2026-10-09T14:50:06.3980741Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_completed_task_requires_completion_ledger
+2026-10-09T14:50:06.3981316Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_current_repository_passes
+2026-10-09T14:50:06.3981868Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_dependency_must_predate_activation
+2026-10-09T14:50:06.3982406Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_distinct_identity
+2026-10-09T14:50:06.3983037Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_evidence_binding
+2026-10-09T14:50:06.3983530Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_exact_pr_token
+2026-10-09T14:50:06.3984036Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_final_release_closure
+2026-10-09T14:50:06.3984584Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_final_task_is_canonical_gz020_release
+2026-10-09T14:50:06.3985126Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_folded_yaml_exit_gate
+2026-10-09T14:50:06.3985682Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_foundation_commit_must_match_task_and_pr
+2026-10-09T14:50:06.3986221Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_minimal_passes
+2026-10-09T14:50:06.3986778Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_open_blocker_rejects_required_task_activation
+2026-10-09T14:50:06.3987413Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_resolved_blocker_accepts_api_confirmed_ruleset
+2026-10-09T14:50:06.3988021Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_resolved_blocker_requires_live_ruleset
+2026-10-09T14:50:06.3988619Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_shared_path_requires_declared_owner_module
+2026-10-09T14:50:06.3989315Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_complete_ruleset_policy_passes
+2026-10-09T14:50:06.3989975Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_completion_merge_must_already_exist_in_target_base
+2026-10-09T14:50:06.3990672Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_completion_requires_fresh_task_bound_evidence
+2026-10-09T14:50:06.3991480Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_executing_program_task_requires_one_matching_lease
+2026-10-09T14:50:06.3992223Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_explicit_main_applies_even_when_default_branch_differs
+2026-10-09T14:50:06.3992900Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_fresh_evidence_and_base_merge_pass
+2026-10-09T14:50:06.3993585Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_legacy_completed_foundation_allows_historical_approved_spec
+2026-10-09T14:50:06.3994291Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_planned_program_task_rejects_active_lease
+2026-10-09T14:50:06.3994978Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_program_and_registry_execution_status_must_match
+2026-10-09T14:50:06.3995673Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_ruleset_excluding_main_does_not_apply_to_main
+2026-10-09T14:50:06.3996375Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_ruleset_requires_independent_approval_of_latest_push
+2026-10-09T14:50:06.3997076Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_ruleset_requires_latest_target_branch_testing
+2026-10-09T14:50:06.3997762Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_schema_v2_completed_foundation_rejects_approved_spec
+2026-10-09T14:50:06.3998466Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_symbolic_default_branch_applies_when_default_is_main
+2026-10-09T14:50:06.3999292Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_symbolic_default_branch_does_not_mean_main_when_default_differs
+2026-10-09T14:50:06.3999971Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_completed_foundation_is_immutable
+2026-10-09T14:50:06.4000699Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_completion_rejects_unrelated_file
+2026-10-09T14:50:06.4001286Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_completion_transition_passes
+2026-10-09T14:50:06.4001880Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_initial_empty_ledger_migration_passes
+2026-10-09T14:50:06.4002481Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_regular_completion_transition_passes
+2026-10-09T14:50:06.4003096Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_reservation_commit_must_introduce_active_work
+2026-10-09T14:50:06.4003750Z tests/governance/test_program_plan_safety_limits.py::TestProgramPlanSafetyLimits::test_critical_work_cannot_be_made_non_standalone
+2026-10-09T14:50:06.4004434Z tests/governance/test_program_plan_safety_limits.py::TestProgramPlanSafetyLimits::test_independent_high_risk_review_cannot_be_disabled
+2026-10-09T14:50:06.4005138Z tests/governance/test_program_plan_safety_limits.py::TestProgramPlanSafetyLimits::test_max_active_tasks_cannot_exceed_repository_limit
+2026-10-09T14:50:06.4005829Z tests/governance/test_program_plan_safety_limits.py::TestProgramPlanSafetyLimits::test_max_high_risk_tasks_cannot_exceed_repository_limit
+2026-10-09T14:50:06.4006497Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_active_registry_scope_must_match_program
+2026-10-09T14:50:06.4007110Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_current_repository_passes
+2026-10-09T14:50:06.4007750Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_later_wave_cannot_open_while_earlier_wave_is_unfinished
+2026-10-09T14:50:06.4008451Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_recorded_reservation_commit_must_be_metadata_only
+2026-10-09T14:50:06.4009422Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_reservation_transition_rejects_implementation_files
+2026-10-09T14:50:06.4010126Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_reservation_transition_rejects_other_program_mutation
+2026-10-09T14:50:06.4010787Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_same_wave_tasks_may_open_together
+2026-10-09T14:50:06.4011407Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_valid_reservation_transition_passes
+2026-10-09T14:50:06.4012080Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_active_foundation_cannot_rewrite_other_program_task
+2026-10-09T14:50:06.4012777Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_active_foundation_unchanged_program_passes
+2026-10-09T14:50:06.4013446Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_cancellation_rejects_ledger_mutation
+2026-10-09T14:50:06.4014082Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_cancellation_rejects_unrelated_files
+2026-10-09T14:50:06.4014730Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_cancelled_dispatches_metadata_lifecycle
+2026-10-09T14:50:06.4015428Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_reservation_dispatches_global_coordination_and_scope
+2026-10-09T14:50:06.4016083Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_valid_cancellation_passes
+2026-10-09T14:50:06.4016673Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_workflow_uses_push_before_sha
+2026-10-09T14:50:06.4017228Z tests/governance/test_render_agent_prompt.py::TestRenderAgentPrompt::test_prompt_renders_correctly
+2026-10-09T14:50:06.4017846Z tests/governance/test_render_agent_prompt.py::TestRenderAgentPrompt::test_unknown_template_variables_warn
+2026-10-09T14:50:06.4018394Z tests/governance/test_render_agent_prompt.py::TestRenderAgentPrompt::test_v2_collaboration_variables_render
+2026-10-09T14:50:06.4018937Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_ci_no_parent_directory_tests
+2026-10-09T14:50:06.4019570Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_fixtures_locate_scripts_correctly
+2026-10-09T14:50:06.4020134Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_makefile_no_parent_directory_tests
+2026-10-09T14:50:06.4020676Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_no_gitignore_excludes_tests
+2026-10-09T14:50:06.4021216Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_scripts_no_parent_directory_tests
+2026-10-09T14:50:06.4021744Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_tests_directory_exists
+2026-10-09T14:50:06.4022260Z tests/governance/test_repository_boundary.py::TestEvidenceStructure::test_evidence_files_not_empty
+2026-10-09T14:50:06.4022785Z tests/governance/test_repository_boundary.py::TestEvidenceStructure::test_evidence_required_files_exist
+2026-10-09T14:50:06.4140137Z tests/governance/test_repository_boundary.py::TestTraeSpecsDirectory::test_specs_tasks_is_authoritative
+2026-10-09T14:50:06.4141022Z tests/governance/test_repository_boundary.py::TestTraeSpecsDirectory::test_trae_specs_exists
+2026-10-09T14:50:06.4141754Z tests/governance/test_repository_boundary.py::TestTraeSpecsDirectory::test_trae_specs_has_readme_or_note
+2026-10-09T14:50:06.4142304Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_actions_are_pinned_to_immutable_shas
+2026-10-09T14:50:06.4142879Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_checkout_does_not_persist_credentials
+2026-10-09T14:50:06.4143625Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_concurrency_cancels_stale_runs
+2026-10-09T14:50:06.4144163Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_has_pull_request_trigger
+2026-10-09T14:50:06.4144677Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_has_workflow_dispatch_trigger
+2026-10-09T14:50:06.4145169Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_job_has_timeout
+2026-10-09T14:50:06.4145646Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_no_auto_push_or_merge
+2026-10-09T14:50:06.4146178Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_no_continue_on_error_on_critical_steps
+2026-10-09T14:50:06.4146734Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_no_swallow_errors_with_or_true
+2026-10-09T14:50:06.4147276Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_push_validates_all_main_updates
+2026-10-09T14:50:06.4147806Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_pyyaml_dependency_installed
+2026-10-09T14:50:06.4148307Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_test_path_is_internal
+2026-10-09T14:50:06.4148792Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_workflow_is_valid_dict
+2026-10-09T14:50:06.4149584Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_working_directory_not_set
+2026-10-09T14:50:06.4150315Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_agents_md_exists_at_root
+2026-10-09T14:50:06.4150842Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_github_config_at_root
+2026-10-09T14:50:06.4151407Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_github_issue_template_exists_at_root
+2026-10-09T14:50:06.4152020Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_github_workflows_exists_at_root
+2026-10-09T14:50:06.4152713Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_make_verify_executable_from_root
+2026-10-09T14:50:06.4153273Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_makefile_exists_at_root
+2026-10-09T14:50:06.4153813Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_no_guize_solution_agents_md
+2026-10-09T14:50:06.4154378Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_no_guize_solution_github_workflows
+2026-10-09T14:50:06.4154939Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_no_guize_solution_makefile
+2026-10-09T14:50:06.4155529Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_no_guize_solution_wrapper_directory
+2026-10-09T14:50:06.4156115Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_prompts_no_guize_solution_reference
+2026-10-09T14:50:06.4156667Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_readme_exists_at_root
+2026-10-09T14:50:06.4157188Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_scripts_exists_at_root
+2026-10-09T14:50:06.4157716Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_specs_tasks_exists_at_root
+2026-10-09T14:50:06.4158273Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_tests_governance_exists_at_root
+2026-10-09T14:50:06.4158843Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_workflow_checkout_has_full_history
+2026-10-09T14:50:06.4159544Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_workflow_no_working_directory_guize_solution
+2026-10-09T14:50:06.4160149Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_workflow_scope_check_uses_main
+2026-10-09T14:50:06.4160727Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_workflow_secret_scan_no_always_true
+2026-10-09T14:50:06.4161446Z tests/governance/test_task_scope_dispatcher.py::TestTaskScopeDispatcher::test_active_task_runs_ordinary_scope_checker
+2026-10-09T14:50:06.4162061Z tests/governance/test_task_scope_dispatcher.py::TestTaskScopeDispatcher::test_completed_task_is_owned_by_history_scope
+2026-10-09T14:50:06.4162666Z tests/governance/test_task_scope_dispatcher.py::TestTaskScopeDispatcher::test_missing_task_spec_fails_closed
+2026-10-09T14:50:06.4163221Z tests/governance/test_task_scope_dispatcher.py::TestTaskScopeDispatcher::test_unknown_status_fails_closed
+2026-10-09T14:50:06.4163750Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_handoff_outside_evidence_fails
+2026-10-09T14:50:06.4164275Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_high_risk_same_implementer_reviewer_fails
+2026-10-09T14:50:06.4164780Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_invalid_base_sha_fails
+2026-10-09T14:50:06.4165258Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_missing_handoff_file_fails
+2026-10-09T14:50:06.4165721Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_valid_v2_task_passes
+2026-10-09T14:50:06.4166295Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_cancelled_history_releases_capacity_and_path_claims
+2026-10-09T14:50:06.4167008Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_completed_history_releases_slot_for_active_and_planned_tasks
+2026-10-09T14:50:06.4167735Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_non_terminal_critical_task_still_requires_standalone_wave
+2026-10-09T14:50:06.4168434Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_non_terminal_high_risk_limit_remains_fail_closed
+2026-10-09T14:50:06.4169173Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_non_terminal_path_conflict_remains_fail_closed
+2026-10-09T14:50:06.4169944Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_only_terminal_states_release_wave_occupancy
+2026-10-09T14:50:06.4170603Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_terminal_task_remains_in_dependency_validation
+2026-10-09T14:50:06.4171252Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_third_non_terminal_task_still_fails_capacity
+2026-10-09T14:50:06.4171846Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_actions_are_immutable
+2026-10-09T14:50:06.4172475Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_agent_coordination_uses_completion_aware_dispatcher
+2026-10-09T14:50:06.4173122Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_all_main_pushes_trigger_validation
+2026-10-09T14:50:06.4173713Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_evidence_integrity_is_a_gate
+2026-10-09T14:50:06.4174366Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_governance_tests_run_after_earlier_validation_failure
+2026-10-09T14:50:06.4175052Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_program_integrity_and_history_are_mandatory_gates
+2026-10-09T14:50:06.4175675Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_project_readiness_is_a_gate
+2026-10-09T14:50:06.4176270Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_schema_check_uses_shared_schema_script
+2026-10-09T14:50:06.4176840Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_spec_sync_is_a_gate
+2026-10-09T14:50:06.4177370Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_stale_runs_are_cancelled
+2026-10-09T14:50:06.4177926Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_summary_reports_new_gates
+2026-10-09T14:50:06.4178632Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_task_context_allows_non_pr_non_task_refs
+2026-10-09T14:50:06.4178982Z 
+2026-10-09T14:50:06.4179162Z 351 tests collected in 0.33s
+2026-10-09T14:50:06.4480646Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:06.4480929Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:06.4481135Z [36;1mTASK_ID=""[0m
+2026-10-09T14:50:06.4481381Z [36;1mREF_NAME="chore/OPS-004-lifecycle-repair-review"[0m
+2026-10-09T14:50:06.4481789Z [36;1mif [ -z "$TASK_ID" ] && [[ "$REF_NAME" =~ ^(feat|fix|docs|refactor|chore)/([A-Z]+-[0-9]+)-.+$ ]]; then[0m
+2026-10-09T14:50:06.4482165Z [36;1m  TASK_ID="${BASH_REMATCH[2]}"[0m
+2026-10-09T14:50:06.4482390Z [36;1mfi[0m
+2026-10-09T14:50:06.4482655Z [36;1mif [ -z "$TASK_ID" ] && [ -n "chore/OPS-004-lifecycle-repair-review" ]; then[0m
+2026-10-09T14:50:06.4483129Z [36;1m  echo "::error::Pull-request branch '$REF_NAME' does not follow <type>/<TASK-ID>-<short-name>."[0m
+2026-10-09T14:50:06.4483496Z [36;1m  exit 1[0m
+2026-10-09T14:50:06.4483674Z [36;1mfi[0m
+2026-10-09T14:50:06.4483852Z [36;1mif [ -n "$TASK_ID" ]; then[0m
+2026-10-09T14:50:06.4484105Z [36;1m  echo "task_id=$TASK_ID" >> "$GITHUB_OUTPUT"[0m
+2026-10-09T14:50:06.4484420Z [36;1m  echo "task_specific=true" >> "$GITHUB_OUTPUT"[0m
+2026-10-09T14:50:06.4484688Z [36;1m  echo "Resolved task: $TASK_ID"[0m
+2026-10-09T14:50:06.4484911Z [36;1melse[0m
+2026-10-09T14:50:06.4485111Z [36;1m  echo "task_id=" >> "$GITHUB_OUTPUT"[0m
+2026-10-09T14:50:06.4485386Z [36;1m  echo "task_specific=false" >> "$GITHUB_OUTPUT"[0m
+2026-10-09T14:50:06.4485830Z [36;1m  echo "Non-task ref '$REF_NAME'; repository-wide checks will derive affected lifecycle tasks from the full diff."[0m
+2026-10-09T14:50:06.4486237Z [36;1mfi[0m
+2026-10-09T14:50:06.4541541Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:06.4541821Z env:
+2026-10-09T14:50:06.4542023Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:06.4542299Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.4542650Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:06.4542984Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.4543291Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.4543606Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.4543914Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:06.4544180Z ##[endgroup]
+2026-10-09T14:50:06.4614483Z Resolved task: OPS-004
+2026-10-09T14:50:06.4657991Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:06.4658249Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:06.4658512Z [36;1mpython scripts/check-task-file.py --task "OPS-004"[0m
+2026-10-09T14:50:06.4707998Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:06.4708276Z env:
+2026-10-09T14:50:06.4708464Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:06.4708725Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.4709065Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:06.4710125Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.4710444Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.4710748Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.4711052Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:06.4711315Z ##[endgroup]
+2026-10-09T14:50:06.5004277Z {"status": "PASS", "message": "Task file valid: /home/runner/work/Guize/Guize/specs/tasks/OPS-004.md"}
+2026-10-09T14:50:06.5064026Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:06.5064293Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:06.5064539Z [36;1mpython scripts/check-project-readiness.py[0m
+2026-10-09T14:50:06.5116058Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:06.5116483Z env:
+2026-10-09T14:50:06.5116668Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:06.5116969Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.5117313Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:06.5117652Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.5117954Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.5118258Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.5118560Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:06.5118827Z ##[endgroup]
+2026-10-09T14:50:06.8263971Z {"status": "WARN", "message": "GitHub main branch protection/Ruleset remains an external blocker"}
+2026-10-09T14:50:06.8264795Z {"status": "WARN", "message": "Machine contracts not frozen for 10 requirements"}
+2026-10-09T14:50:06.8265436Z {"status": "WARN", "message": "Implementation not verified for 10 requirements"}
+2026-10-09T14:50:06.8266889Z {"status": "PASS", "message": "Project readiness indexes and Program Plan are structurally consistent", "details": {"requirements": 10, "modules": 21, "contractNamespaces": 37, "plannedTasks": 26, "pocs": 10, "waves": 17, "contractGapCount": 10, "implementationGapCount": 10}}
+2026-10-09T14:50:06.8432248Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:06.8432547Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:06.8432790Z [36;1mZERO_SHA="0000000000000000000000000000000000000000"[0m
+2026-10-09T14:50:06.8433120Z [36;1mif [ -n "chore/OPS-004-lifecycle-repair-review" ]; then[0m
+2026-10-09T14:50:06.8433407Z [36;1m  BASE_REF="origin/main"[0m
+2026-10-09T14:50:06.8433622Z [36;1m  HEAD_REF="HEAD"[0m
+2026-10-09T14:50:06.8433872Z [36;1m  BRANCH_NAME="chore/OPS-004-lifecycle-repair-review"[0m
+2026-10-09T14:50:06.8434418Z [36;1melif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "$ZERO_SHA" ] && git rev-parse --verify "$PUSH_BEFORE^{commit}" >/dev/null 2>&1; then[0m
+2026-10-09T14:50:06.8434908Z [36;1m  BASE_REF="$PUSH_BEFORE"[0m
+2026-10-09T14:50:06.8435121Z [36;1m  HEAD_REF="HEAD"[0m
+2026-10-09T14:50:06.8435319Z [36;1m  BRANCH_NAME="74/merge"[0m
+2026-10-09T14:50:06.8435582Z [36;1melif git rev-parse --verify HEAD^ >/dev/null 2>&1; then[0m
+2026-10-09T14:50:06.8435889Z [36;1m  BASE_REF="HEAD^"[0m
+2026-10-09T14:50:06.8436089Z [36;1m  HEAD_REF="HEAD"[0m
+2026-10-09T14:50:06.8436281Z [36;1m  BRANCH_NAME="74/merge"[0m
+2026-10-09T14:50:06.8436481Z [36;1melse[0m
+2026-10-09T14:50:06.8436652Z [36;1m  BASE_REF="HEAD"[0m
+2026-10-09T14:50:06.8436844Z [36;1m  HEAD_REF="HEAD"[0m
+2026-10-09T14:50:06.8437030Z [36;1m  BRANCH_NAME="74/merge"[0m
+2026-10-09T14:50:06.8437224Z [36;1mfi[0m
+2026-10-09T14:50:06.8437444Z [36;1mecho "Program history range: $BASE_REF...$HEAD_REF"[0m
+2026-10-09T14:50:06.8437822Z [36;1mpython scripts/check-program-plan-integrity.py --base-ref "$BASE_REF"[0m
+2026-10-09T14:50:06.8438153Z [36;1mif [ "true" = "true" ]; then[0m
+2026-10-09T14:50:06.8438426Z [36;1m  python scripts/check-program-plan-history.py \[0m
+2026-10-09T14:50:06.8438706Z [36;1m    --base-ref "$BASE_REF" \[0m
+2026-10-09T14:50:06.8438925Z [36;1m    --head-ref "$HEAD_REF" \[0m
+2026-10-09T14:50:06.8439300Z [36;1m    --task "OPS-004" \[0m
+2026-10-09T14:50:06.8439529Z [36;1m    --branch-name "$BRANCH_NAME"[0m
+2026-10-09T14:50:06.8439820Z [36;1m  python scripts/check-program-plan-transitions.py \[0m
+2026-10-09T14:50:06.8440108Z [36;1m    --base-ref "$BASE_REF" \[0m
+2026-10-09T14:50:06.8440322Z [36;1m    --head-ref "$HEAD_REF" \[0m
+2026-10-09T14:50:06.8440535Z [36;1m    --task "OPS-004" \[0m
+2026-10-09T14:50:06.8440749Z [36;1m    --branch-name "$BRANCH_NAME"[0m
+2026-10-09T14:50:06.8441026Z [36;1m  python scripts/check-program-plan-finalization.py \[0m
+2026-10-09T14:50:06.8441301Z [36;1m    --base-ref "$BASE_REF" \[0m
+2026-10-09T14:50:06.8441511Z [36;1m    --head-ref "$HEAD_REF" \[0m
+2026-10-09T14:50:06.8441723Z [36;1m    --task "OPS-004"[0m
+2026-10-09T14:50:06.8442103Z [36;1m  python scripts/check-program-lifecycle-guards.py \[0m
+2026-10-09T14:50:06.8442384Z [36;1m    --base-ref "$BASE_REF" \[0m
+2026-10-09T14:50:06.8442594Z [36;1m    --head-ref "$HEAD_REF" \[0m
+2026-10-09T14:50:06.8442800Z [36;1m    --task "OPS-004" \[0m
+2026-10-09T14:50:06.8443011Z [36;1m    --branch-name "$BRANCH_NAME"[0m
+2026-10-09T14:50:06.8443227Z [36;1melse[0m
+2026-10-09T14:50:06.8443445Z [36;1m  python scripts/check-program-plan-history.py \[0m
+2026-10-09T14:50:06.8443705Z [36;1m    --base-ref "$BASE_REF" \[0m
+2026-10-09T14:50:06.8443925Z [36;1m    --head-ref "$HEAD_REF"[0m
+2026-10-09T14:50:06.8444180Z [36;1m  python scripts/check-program-plan-transitions.py \[0m
+2026-10-09T14:50:06.8444457Z [36;1m    --base-ref "$BASE_REF" \[0m
+2026-10-09T14:50:06.8444667Z [36;1m    --head-ref "$HEAD_REF"[0m
+2026-10-09T14:50:06.8444924Z [36;1m  python scripts/check-program-plan-finalization.py \[0m
+2026-10-09T14:50:06.8445194Z [36;1m    --base-ref "$BASE_REF" \[0m
+2026-10-09T14:50:06.8445409Z [36;1m    --head-ref "$HEAD_REF"[0m
+2026-10-09T14:50:06.8445658Z [36;1m  python scripts/check-program-lifecycle-guards.py \[0m
+2026-10-09T14:50:06.8445923Z [36;1m    --base-ref "$BASE_REF" \[0m
+2026-10-09T14:50:06.8446129Z [36;1m    --head-ref "$HEAD_REF"[0m
+2026-10-09T14:50:06.8446454Z [36;1mfi[0m
+2026-10-09T14:50:06.8501547Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:06.8501827Z env:
+2026-10-09T14:50:06.8502011Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:06.8502277Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.8502629Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:06.8502968Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.8503284Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.8503588Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:06.8503913Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:06.8506349Z   GITHUB_TOKEN: ***
+2026-10-09T14:50:06.8506553Z   EVENT_NAME: pull_request
+2026-10-09T14:50:06.8506805Z   PUSH_BEFORE: 045f063f8c3f394d721290dffd32eae96939dd61
+2026-10-09T14:50:06.8507073Z ##[endgroup]
+2026-10-09T14:50:06.8575524Z Program history range: origin/main...HEAD
+2026-10-09T14:50:07.2306598Z {"status": "PASS", "message": "Program Plan execution and completion integrity passed", "details": {"foundationTasks": 6, "programTasks": 26, "activeTasks": 2, "completionRecords": 2, "baseRef": "origin/main"}}
+2026-10-09T14:50:07.4445656Z {"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "origin/main", "headRef": "HEAD", "completionRecords": 2}}
+2026-10-09T14:50:08.0170976Z {"status": "PASS", "message": "Program reservation scope, wave and lifecycle transitions passed", "details": {"task": "OPS-004", "activeTasks": 2, "completionRecords": 2}}
+2026-10-09T14:50:08.1954800Z {"status": "PASS", "message": "Program finalization invariants passed", "details": {"activeTasks": 2, "completedFoundations": 5, "task": "OPS-004"}}
+2026-10-09T14:50:08.6128986Z {"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-004"], "changedPathCount": 43, "baseRef": "origin/main"}}
+2026-10-09T14:50:08.6273663Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:08.6274105Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:08.6274496Z [36;1mZERO_SHA="0000000000000000000000000000000000000000"[0m
+2026-10-09T14:50:08.6274922Z [36;1mif [ "true" != "true" ]; then[0m
+2026-10-09T14:50:08.6275344Z [36;1m  python scripts/run-agent-coordination-gate.py[0m
+2026-10-09T14:50:08.6275881Z [36;1melif [ -n "chore/OPS-004-lifecycle-repair-review" ]; then[0m
+2026-10-09T14:50:08.6276418Z [36;1m  python scripts/run-agent-coordination-gate.py \[0m
+2026-10-09T14:50:08.6276851Z [36;1m    --task "OPS-004" \[0m
+2026-10-09T14:50:08.6277407Z [36;1m    --base-ref "origin/main" \[0m
+2026-10-09T14:50:08.6277770Z [36;1m    --head-ref "HEAD" \[0m
+2026-10-09T14:50:08.6278197Z [36;1m    --branch-name "chore/OPS-004-lifecycle-repair-review"[0m
+2026-10-09T14:50:08.6279357Z [36;1melif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "$ZERO_SHA" ] && git rev-parse --verify "$PUSH_BEFORE^{commit}" >/dev/null 2>&1; then[0m
+2026-10-09T14:50:08.6280250Z [36;1m  python scripts/run-agent-coordination-gate.py \[0m
+2026-10-09T14:50:08.6280683Z [36;1m    --task "OPS-004" \[0m
+2026-10-09T14:50:08.6281030Z [36;1m    --base-ref "$PUSH_BEFORE" \[0m
+2026-10-09T14:50:08.6281393Z [36;1m    --head-ref HEAD \[0m
+2026-10-09T14:50:08.6281717Z [36;1m    --branch-name "74/merge"[0m
+2026-10-09T14:50:08.6282049Z [36;1melse[0m
+2026-10-09T14:50:08.6282397Z [36;1m  python scripts/run-agent-coordination-gate.py \[0m
+2026-10-09T14:50:08.6282844Z [36;1m    --task "OPS-004" \[0m
+2026-10-09T14:50:08.6283171Z [36;1m    --base-ref HEAD^ \[0m
+2026-10-09T14:50:08.6283500Z [36;1m    --head-ref HEAD \[0m
+2026-10-09T14:50:08.6283829Z [36;1m    --branch-name "74/merge"[0m
+2026-10-09T14:50:08.6284151Z [36;1mfi[0m
+2026-10-09T14:50:08.6361897Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:08.6362197Z env:
+2026-10-09T14:50:08.6362388Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:08.6362677Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:08.6363054Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:08.6363403Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:08.6363714Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:08.6364022Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:08.6364326Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:08.6364599Z   EVENT_NAME: pull_request
+2026-10-09T14:50:08.6364837Z   PUSH_BEFORE: 045f063f8c3f394d721290dffd32eae96939dd61
+2026-10-09T14:50:08.6365095Z ##[endgroup]
+2026-10-09T14:50:08.8990738Z {"status": "FAIL", "message": "High/critical active task count 2 exceeds limit 1"}
+2026-10-09T14:50:08.9256940Z ##[error]Process completed with exit code 1.
+2026-10-09T14:50:08.9300000Z ##[group]Run set -euo pipefail
+2026-10-09T14:50:08.9300276Z [36;1mset -euo pipefail[0m
+2026-10-09T14:50:08.9300513Z [36;1mmkdir -p /tmp/test-results[0m
+2026-10-09T14:50:08.9300895Z [36;1mpython -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml[0m
+2026-10-09T14:50:08.9356417Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:50:08.9356691Z env:
+2026-10-09T14:50:08.9356879Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:50:08.9357141Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:08.9357481Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:50:08.9357818Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:08.9358143Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:08.9358439Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:50:08.9358780Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:50:08.9359044Z ##[endgroup]
+2026-10-09T14:50:09.0993892Z ============================= test session starts ==============================
+2026-10-09T14:50:09.0994658Z platform linux -- Python 3.11.17, pytest-8.4.2, pluggy-1.6.0 -- /opt/hostedtoolcache/Python/3.11.17/x64/bin/python
+2026-10-09T14:50:09.0995278Z cachedir: .pytest_cache
+2026-10-09T14:50:09.0995589Z rootdir: /home/runner/work/Guize/Guize
+2026-10-09T14:50:09.3152137Z collecting ... collected 351 items
+2026-10-09T14:50:09.3152417Z 
+2026-10-09T14:50:18.7619698Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[activation] PASSED [  0%]
+2026-10-09T14:50:28.1536644Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[activation-and-claimed-code] PASSED [  0%]
+2026-10-09T14:50:38.0896618Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[review] PASSED [  0%]
+2026-10-09T14:50:47.9009293Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[integration] PASSED [  1%]
+2026-10-09T14:50:48.6470514Z tests/governance/test_active_metadata_scope.py::test_legal_own_metadata_through_raw_and_ci_gates[evidence-only] PASSED [  1%]
+2026-10-09T14:50:53.3429379Z tests/governance/test_active_metadata_scope.py::test_scope_respects_explicit_ci_branch PASSED [  1%]
+2026-10-09T14:51:02.3867239Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[other-task-status] PASSED [  1%]
+2026-10-09T14:51:12.1409562Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[program-policy] PASSED [  2%]
+2026-10-09T14:51:21.5172148Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[own-plan-risk] PASSED [  2%]
+2026-10-09T14:51:30.8811324Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[registry-claims] PASSED [  2%]
+2026-10-09T14:51:40.1234246Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[registry-risk] PASSED [  3%]
+2026-10-09T14:51:49.5128879Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[reviewer-is-implementer] PASSED [  3%]
+2026-10-09T14:51:58.8600459Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[task-risk] PASSED [  3%]
+2026-10-09T14:51:59.9020643Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[task-id] PASSED [  3%]
+2026-10-09T14:52:09.2538731Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[illegal-transition] PASSED [  4%]
+2026-10-09T14:52:18.6407550Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[ledger] PASSED [  4%]
+2026-10-09T14:52:27.6322568Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[unclaimed-code] PASSED [  4%]
+2026-10-09T14:52:36.6637878Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[rename-source] PASSED [  5%]
+2026-10-09T14:52:46.0378417Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[expired-lease] PASSED [  5%]
+2026-10-09T14:52:47.2349992Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[dirty-metadata] PASSED [  5%]
+2026-10-09T14:52:56.5903045Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[lease-too-long] PASSED [  5%]
+2026-10-09T14:53:05.9717125Z tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[task-issue] PASSED [  6%]
+2026-10-09T14:53:06.2607578Z tests/governance/test_active_metadata_scope.py::test_no_task_global_coordination_keeps_real_capacity_limit PASSED [  6%]
+2026-10-09T14:53:06.3560769Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_active_task_uses_task_specific_coordination PASSED [  6%]
+2026-10-09T14:53:06.4533326Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_accepts_matching_completed_task_spec PASSED [  7%]
+2026-10-09T14:53:06.5330559Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_rejects_approved_task_spec PASSED [  7%]
+2026-10-09T14:53:06.6130486Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_rejects_dependency_drift PASSED [  7%]
+2026-10-09T14:53:06.6931157Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_rejects_exit_gate_drift PASSED [  7%]
+2026-10-09T14:53:06.7730373Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_program_task_rejects_wave_drift PASSED [  8%]
+2026-10-09T14:53:06.8690249Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_completed_task_uses_global_registry_mode PASSED [  8%]
+2026-10-09T14:53:06.9635812Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_legacy_foundation_approved_status_is_allowed PASSED [  8%]
+2026-10-09T14:53:07.0398402Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_missing_task_spec_fails_closed PASSED [  9%]
+2026-10-09T14:53:07.1192178Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_schema_v2_foundation_approved_status_fails PASSED [  9%]
+2026-10-09T14:53:07.2160665Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_schema_v2_foundation_completed_status_passes PASSED [  9%]
+2026-10-09T14:53:07.2951498Z tests/governance/test_agent_coordination_dispatcher.py::TestAgentCoordinationDispatcher::test_unsupported_status_fails_closed PASSED [  9%]
+2026-10-09T14:53:07.4314324Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_bootstrap_task_passes_without_registry_entry PASSED [ 10%]
+2026-10-09T14:53:07.6340920Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_may_only_remove_own_registry_entry PASSED [ 10%]
+2026-10-09T14:53:07.8171085Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_metadata_update_passes PASSED [ 10%]
+2026-10-09T14:53:08.0086152Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_rejects_unrelated_file PASSED [ 11%]
+2026-10-09T14:53:08.2022434Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_requires_all_canonical_files PASSED [ 11%]
+2026-10-09T14:53:08.4019300Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_completion_requires_prior_reservation PASSED [ 11%]
+2026-10-09T14:53:08.5419964Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_coordinated_shared_paths_pass PASSED [ 11%]
+2026-10-09T14:53:08.6819271Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_dependency_cycle_fails PASSED [ 12%]
+2026-10-09T14:53:08.8165415Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_empty_registry_passes PASSED [ 12%]
+2026-10-09T14:53:08.9566413Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_exclusive_overlap_fails PASSED [ 12%]
+2026-10-09T14:53:09.0925389Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_expired_lease_fails PASSED [ 13%]
+2026-10-09T14:53:09.2291628Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_high_risk_role_separation_fails PASSED [ 13%]
+2026-10-09T14:53:09.4154777Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_stale_branch_fails PASSED [ 13%]
+2026-10-09T14:53:09.5553785Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_task_path_claims_must_match_registry PASSED [ 13%]
+2026-10-09T14:53:09.7321247Z tests/governance/test_check_agent_coordination.py::TestAgentCoordination::test_unclaimed_changed_file_fails PASSED [ 14%]
+2026-10-09T14:53:09.7572409Z tests/governance/test_check_evidence.py::TestCheckEvidence::test_explicit_legacy_compatibility_passes PASSED [ 14%]
+2026-10-09T14:53:09.7818402Z tests/governance/test_check_evidence.py::TestCheckEvidence::test_missing_canonical_mapping_fails PASSED [ 14%]
+2026-10-09T14:53:09.8056836Z tests/governance/test_check_evidence.py::TestCheckEvidence::test_missing_evidence_contract_fails PASSED [ 15%]
+2026-10-09T14:53:09.8303926Z tests/governance/test_check_evidence.py::TestCheckEvidence::test_na_mapping_requires_reason PASSED [ 15%]
+2026-10-09T14:53:09.8592123Z tests/governance/test_check_evidence_integrity.py::TestCheckEvidenceIntegrity::test_nonexistent_report PASSED [ 15%]
+2026-10-09T14:53:09.8942320Z tests/governance/test_check_evidence_integrity.py::TestCheckEvidenceIntegrity::test_report_with_nonexistent_commits PASSED [ 15%]
+2026-10-09T14:53:09.9612080Z tests/governance/test_check_evidence_integrity.py::TestCheckEvidenceIntegrity::test_unreachable_commit_fails PASSED [ 16%]
+2026-10-09T14:53:10.0124971Z tests/governance/test_check_evidence_integrity.py::TestCheckEvidenceIntegrity::test_valid_commit_in_report PASSED [ 16%]
+2026-10-09T14:53:10.0306480Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_broken_internal_link_fails PASSED [ 16%]
+2026-10-09T14:53:10.0490240Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_existing_internal_link_passes PASSED [ 17%]
+2026-10-09T14:53:10.0671158Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_git_metadata_markdown_is_excluded PASSED [ 17%]
+2026-10-09T14:53:10.0854847Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_github_markdown_is_not_excluded PASSED [ 17%]
+2026-10-09T14:53:10.1036906Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_no_links_pass PASSED [ 17%]
+2026-10-09T14:53:10.1218500Z tests/governance/test_check_markdown.py::TestCheckMarkdown::test_trailing_whitespace_fails PASSED [ 18%]
+2026-10-09T14:53:10.1446043Z tests/governance/test_check_pr_task_link.py::TestCheckPRTaskLink::test_pr_missing_task_id_fails PASSED [ 18%]
+2026-10-09T14:53:10.3368375Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_asymmetric_requirement_module_mapping_fails PASSED [ 18%]
+2026-10-09T14:53:10.5294959Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_completed_foundation_commit_must_exist PASSED [ 19%]
+2026-10-09T14:53:10.7271135Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_contract_namespace_overlap_fails PASSED [ 19%]
+2026-10-09T14:53:10.9213682Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_contract_owner_mismatch_fails PASSED [ 19%]
+2026-10-09T14:53:11.2436084Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_current_repository_indexes_pass PASSED [ 19%]
+2026-10-09T14:53:11.4494296Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_duplicate_schema_owner_fails PASSED [ 20%]
+2026-10-09T14:53:11.6546526Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_external_blocker_unknown_task_fails PASSED [ 20%]
+2026-10-09T14:53:11.8507826Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_foundation_and_program_task_ids_cannot_overlap PASSED [ 20%]
+2026-10-09T14:53:12.0456055Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_high_risk_owner_reviewer_must_differ PASSED [ 21%]
+2026-10-09T14:53:12.2434095Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_high_risk_placeholder_reviewer_fails PASSED [ 21%]
+2026-10-09T14:53:12.4385011Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_missing_requirement_source_fails PASSED [ 21%]
+2026-10-09T14:53:12.6339258Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_module_dependency_cycle_fails PASSED [ 21%]
+2026-10-09T14:53:12.8294568Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_overlapping_module_path_fails PASSED [ 22%]
+2026-10-09T14:53:13.0238558Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_poc_evidence_path_must_be_owned_fails PASSED [ 22%]
+2026-10-09T14:53:13.2168708Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_poc_mapping_mismatch_fails PASSED [ 22%]
+2026-10-09T14:53:13.4099315Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_poc_risk_mismatch_fails PASSED [ 23%]
+2026-10-09T14:53:13.6029074Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_poc_task_reference_mismatch_fails PASSED [ 23%]
+2026-10-09T14:53:13.7885094Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_program_plan_schema_violation_fails PASSED [ 23%]
+2026-10-09T14:53:13.9822008Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_program_task_cycle_reports_structured_failure PASSED [ 23%]
+2026-10-09T14:53:14.1784886Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_same_wave_output_conflict_fails PASSED [ 24%]
+2026-10-09T14:53:14.3752512Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_shared_writer_reverse_mapping_fails PASSED [ 24%]
+2026-10-09T14:53:14.5677443Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_strict_ready_rejects_waived_release_blocker PASSED [ 24%]
+2026-10-09T14:53:14.7634079Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_task_output_must_match_declared_module_ownership PASSED [ 25%]
+2026-10-09T14:53:14.9566246Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_unknown_module_reference_fails PASSED [ 25%]
+2026-10-09T14:53:15.1513909Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_unknown_next_task_fails PASSED [ 25%]
+2026-10-09T14:53:15.3461613Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_unproduced_contract_consumption_fails PASSED [ 25%]
+2026-10-09T14:53:15.5433938Z tests/governance/test_check_project_readiness.py::TestProjectReadiness::test_valid_indexes_pass PASSED [ 26%]
+2026-10-09T14:53:15.8598826Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_active_policy_must_match_program_policy PASSED [ 26%]
+2026-10-09T14:53:16.1711509Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_copied_current_instances_pass PASSED [ 26%]
+2026-10-09T14:53:16.5591111Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_core_program_safety_policy_cannot_be_disabled PASSED [ 27%]
+2026-10-09T14:53:16.9413201Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_current_repository_coordination_files_pass PASSED [ 27%]
+2026-10-09T14:53:17.3300595Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_foundation_wave_must_be_foundation PASSED [ 27%]
+2026-10-09T14:53:17.7114158Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_program_active_task_requires_registry_lease PASSED [ 27%]
+2026-10-09T14:53:18.0994592Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_program_task_id_must_equal_registry_task_id PASSED [ 28%]
+2026-10-09T14:53:18.4977343Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_activation_passes PASSED [ 28%]
+2026-10-09T14:53:18.8969482Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_branch_mismatch_fails PASSED [ 28%]
+2026-10-09T14:53:19.3165681Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_cannot_downgrade_output_to_shared PASSED [ 29%]
+2026-10-09T14:53:19.7231734Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_cannot_expand_exclusive_paths PASSED [ 29%]
+2026-10-09T14:53:20.1275013Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_contract_mismatch_fails PASSED [ 29%]
+2026-10-09T14:53:20.5151243Z tests/governance/test_check_schemas.py::TestCheckSchemas::test_task_spec_wave_must_match_registry PASSED [ 29%]
+2026-10-09T14:53:20.5576869Z tests/governance/test_check_secrets.py::TestCheckSecrets::test_aws_key_fails PASSED [ 30%]
+2026-10-09T14:53:20.5994298Z tests/governance/test_check_secrets.py::TestCheckSecrets::test_no_secrets_pass PASSED [ 30%]
+2026-10-09T14:53:20.6312162Z tests/governance/test_check_secrets.py::TestCheckSecrets::test_non_git_directory_fails_closed PASSED [ 30%]
+2026-10-09T14:53:20.6738835Z tests/governance/test_check_secrets.py::TestCheckSecrets::test_secret_inside_tests_directory_fails PASSED [ 31%]
+2026-10-09T14:53:20.7294043Z tests/governance/test_check_spec_sync.py::TestCheckSpecSync::test_never_rules_without_changelog_fails PASSED [ 31%]
+2026-10-09T14:53:20.7553157Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_empty_acceptance_section_fails_even_if_other_checklist_exists PASSED [ 31%]
+2026-10-09T14:53:20.7808693Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_empty_validation_commands_fail PASSED [ 31%]
+2026-10-09T14:53:20.8064135Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_invalid_branch_name_fails PASSED [ 32%]
+2026-10-09T14:53:20.8321342Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_missing_task_id_fails PASSED [ 32%]
+2026-10-09T14:53:20.8581160Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_registry_v2_program_task_id_must_match_task_id PASSED [ 32%]
+2026-10-09T14:53:20.8843275Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_registry_v2_requires_program_plan_identity PASSED [ 33%]
+2026-10-09T14:53:20.9110658Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_registry_v2_requires_valid_requirement_ids PASSED [ 33%]
+2026-10-09T14:53:20.9365506Z tests/governance/test_check_task_file.py::TestCheckTaskFile::test_valid_task_file_passes PASSED [ 33%]
+2026-10-09T14:53:20.9868843Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_double_star_crosses_directories PASSED [ 33%]
+2026-10-09T14:53:21.0362080Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_forbidden_scope_overrides_allowed_scope PASSED [ 34%]
+2026-10-09T14:53:21.0856742Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_in_scope_changes_pass PASSED [ 34%]
+2026-10-09T14:53:21.1302367Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_missing_base_fails_closed PASSED [ 34%]
+2026-10-09T14:53:21.1799382Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_out_of_scope_changes_fail PASSED [ 35%]
+2026-10-09T14:53:21.2298022Z tests/governance/test_check_task_scope.py::TestCheckTaskScope::test_single_star_does_not_cross_directories PASSED [ 35%]
+2026-10-09T14:53:21.2305897Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_make_verify_requires_program_history_transitions_and_finalization PASSED [ 35%]
+2026-10-09T14:53:21.2311038Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_makefile_program_recipe_is_fail_fast PASSED [ 35%]
+2026-10-09T14:53:21.2315845Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_makefile_routes_scope_through_dispatcher PASSED [ 36%]
+2026-10-09T14:53:21.2321153Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_workflow_requires_program_history_transitions_and_finalization PASSED [ 36%]
+2026-10-09T14:53:21.2325896Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_workflow_routes_coordination_through_dispatcher PASSED [ 36%]
+2026-10-09T14:53:21.2332573Z tests/governance/test_completion_gate_wiring.py::TestCompletionGateWiring::test_workflow_routes_scope_through_dispatcher PASSED [ 37%]
+2026-10-09T14:53:21.2386333Z tests/governance/test_contract_schemas.py::TestPluginManifestSchema::test_known_manifest_passes PASSED [ 37%]
+2026-10-09T14:53:21.2393522Z tests/governance/test_contract_schemas.py::TestPluginManifestSchema::test_unknown_capability_fails PASSED [ 37%]
+2026-10-09T14:53:21.2400185Z tests/governance/test_contract_schemas.py::TestPluginManifestSchema::test_unknown_permission_key_fails PASSED [ 37%]
+2026-10-09T14:53:21.2406447Z tests/governance/test_contract_schemas.py::TestPluginManifestSchema::test_unknown_runtime_key_fails PASSED [ 38%]
+2026-10-09T14:53:21.2412972Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_fixtures_importable PASSED [ 38%]
+2026-10-09T14:53:21.2422098Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_front_matter_has_correct_newlines PASSED [ 38%]
+2026-10-09T14:53:21.6755773Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_pytest_can_collect_all_governance_tests PASSED [ 39%]
+2026-10-09T14:53:21.6761641Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_python_version_compatibility PASSED [ 39%]
+2026-10-09T14:53:21.6775545Z tests/governance/test_fixture_compatibility.py::TestFixtureCompatibility::test_write_task_spec_creates_valid_file PASSED [ 39%]
+2026-10-09T14:53:21.7502632Z tests/governance/test_forward_recovery.py::test_freeze_metadata_and_governance_repair_pass PASSED [ 39%]
+2026-10-09T14:53:21.8062876Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_implementation_and_completed_evidence[business/file.txt] PASSED [ 40%]
+2026-10-09T14:53:21.8634671Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_implementation_and_completed_evidence[evidence/GZ-004/summary.md] PASSED [ 40%]
+2026-10-09T14:53:21.9249538Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_activation_or_completion[reserved] PASSED [ 40%]
+2026-10-09T14:53:21.9844463Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_activation_or_completion[review] PASSED [ 41%]
+2026-10-09T14:53:22.0432045Z tests/governance/test_forward_recovery.py::test_frozen_rejects_ordinary_activation_or_completion[completed] PASSED [ 41%]
+2026-10-09T14:53:22.2278640Z tests/governance/test_forward_recovery.py::test_frozen_block_cannot_change_identity_without_task_argument[dependsOn-value0] PASSED [ 41%]
+2026-10-09T14:53:22.4128661Z tests/governance/test_forward_recovery.py::test_frozen_block_cannot_change_identity_without_task_argument[riskLevel-low] PASSED [ 41%]
+2026-10-09T14:53:22.5967106Z tests/governance/test_forward_recovery.py::test_frozen_block_cannot_change_identity_without_task_argument[outputPaths-value2] PASSED [ 42%]
+2026-10-09T14:53:22.7801106Z tests/governance/test_forward_recovery.py::test_thaw_requires_merged_proof_and_separate_ordinary_activation PASSED [ 42%]
+2026-10-09T14:53:22.8740575Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[hash] PASSED [ 42%]
+2026-10-09T14:53:22.9621169Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[echo] PASSED [ 43%]
+2026-10-09T14:53:23.0567358Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[wrong_source] PASSED [ 43%]
+2026-10-09T14:53:23.1158300Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[wrong_event] PASSED [ 43%]
+2026-10-09T14:53:23.1845895Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[missing_check] PASSED [ 43%]
+2026-10-09T14:53:23.2716800Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[bool_exit] PASSED [ 44%]
+2026-10-09T14:53:23.3681644Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[failure_node] PASSED [ 44%]
+2026-10-09T14:53:23.4663688Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[skip] PASSED [ 44%]
+2026-10-09T14:53:23.5633512Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[empty_junit] PASSED [ 45%]
+2026-10-09T14:53:23.6603388Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[false_count] PASSED [ 45%]
+2026-10-09T14:53:23.7272501Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[code_after_validation] PASSED [ 45%]
+2026-10-09T14:53:23.7775696Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[proof_not_in_base] PASSED [ 45%]
+2026-10-09T14:53:23.8761894Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[one_pass] PASSED [ 46%]
+2026-10-09T14:53:23.9767924Z tests/governance/test_forward_recovery.py::test_thaw_rejects_forged_or_incomplete_proof[wrong_pytest_count] PASSED [ 46%]
+2026-10-09T14:53:24.0223041Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_does_not_require_old_lease_or_branch PASSED [ 46%]
+2026-10-09T14:53:24.0582473Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[specs/coordination/program-plan.yaml] PASSED [ 47%]
+2026-10-09T14:53:24.0980119Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[specs/coordination/active-work.yaml] PASSED [ 47%]
+2026-10-09T14:53:24.1388699Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[specs/coordination/task-completions.yaml] PASSED [ 47%]
+2026-10-09T14:53:24.1828282Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[specs/tasks/GZ-004.md] PASSED [ 47%]
+2026-10-09T14:53:24.2271524Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[evidence/GZ-010/correction.md] PASSED [ 48%]
+2026-10-09T14:53:24.2722327Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_metadata_and_cross_task_changes[business/file.txt] PASSED [ 48%]
+2026-10-09T14:53:24.3175204Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_wrong_issue_in_shared_validator[issue0] PASSED [ 48%]
+2026-10-09T14:53:24.3626412Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_wrong_issue_in_shared_validator[issue1] PASSED [ 49%]
+2026-10-09T14:53:24.4081145Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_wrong_issue_in_shared_validator[issue2] PASSED [ 49%]
+2026-10-09T14:53:24.4529335Z tests/governance/test_forward_recovery.py::test_completed_evidence_repair_rejects_wrong_issue_in_shared_validator[issue3] PASSED [ 49%]
+2026-10-09T14:53:24.5187087Z tests/governance/test_forward_recovery.py::test_raw_lifecycle_main_enforces_evidence_issue_without_task_argument PASSED [ 49%]
+2026-10-09T14:53:24.5640338Z tests/governance/test_forward_recovery.py::test_completed_evidence_rename_cannot_hide_business_origin PASSED [ 50%]
+2026-10-09T14:53:24.6083815Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[None] PASSED [ 50%]
+2026-10-09T14:53:24.6518498Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[broad_claim] PASSED [ 50%]
+2026-10-09T14:53:24.6956387Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[business_claim] PASSED [ 50%]
+2026-10-09T14:53:24.7400918Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[shared_claim] PASSED [ 51%]
+2026-10-09T14:53:24.7838448Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[expired] PASSED [ 51%]
+2026-10-09T14:53:24.8277661Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[same_reviewer] PASSED [ 51%]
+2026-10-09T14:53:24.8725719Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[policy] PASSED [ 52%]
+2026-10-09T14:53:24.9198089Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[implementation] PASSED [ 52%]
+2026-10-09T14:53:24.9632598Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[ledger] PASSED [ 52%]
+2026-10-09T14:53:25.0068966Z tests/governance/test_forward_recovery.py::test_new_foundation_registration_is_metadata_only_and_strict[completion] PASSED [ 52%]
+2026-10-09T14:53:25.0272077Z tests/governance/test_forward_recovery.py::test_existing_foundation_cannot_expand_claim_after_registration PASSED [ 53%]
+2026-10-09T14:53:25.0832321Z tests/governance/test_forward_recovery.py::test_frozen_existing_active_snapshot_can_remain PASSED [ 53%]
+2026-10-09T14:53:25.1302872Z tests/governance/test_forward_recovery.py::test_frozen_snapshot_revalidates_descriptor_references[sourceCommit-ffffffffffffffffffffffffffffffffffffffff] PASSED [ 53%]
+2026-10-09T14:53:25.1785511Z tests/governance/test_forward_recovery.py::test_frozen_snapshot_revalidates_descriptor_references[affectedTasks-value1] PASSED [ 54%]
+2026-10-09T14:53:25.2268215Z tests/governance/test_forward_recovery.py::test_frozen_snapshot_revalidates_descriptor_references[frozenAt-2999-01-01T00:00:00Z] PASSED [ 54%]
+2026-10-09T14:53:25.2858981Z tests/governance/test_forward_recovery.py::test_frozen_block_or_cancel_cannot_keep_stale_task_status[blocked] PASSED [ 54%]
+2026-10-09T14:53:25.3443007Z tests/governance/test_forward_recovery.py::test_frozen_block_or_cancel_cannot_keep_stale_task_status[cancelled] PASSED [ 54%]
+2026-10-09T14:53:25.3875648Z tests/governance/test_forward_recovery.py::test_completed_evidence_api_unavailable_fails_closed PASSED [ 55%]
+2026-10-09T14:53:25.4460922Z tests/governance/test_forward_recovery.py::test_no_task_frozen_root_or_registry_policy_drift_is_rejected[program] PASSED [ 55%]
+2026-10-09T14:53:25.5049794Z tests/governance/test_forward_recovery.py::test_no_task_frozen_root_or_registry_policy_drift_is_rejected[registry] PASSED [ 55%]
+2026-10-09T14:53:25.5874495Z tests/governance/test_forward_recovery.py::test_no_task_frozen_code_derives_recovery_owner_and_rejects_stale_base PASSED [ 56%]
+2026-10-09T14:53:25.6370735Z tests/governance/test_forward_recovery.py::test_finalization_distinguishes_completed_evidence_repair_from_second_completion[False] PASSED [ 56%]
+2026-10-09T14:53:25.6872871Z tests/governance/test_forward_recovery.py::test_finalization_distinguishes_completed_evidence_repair_from_second_completion[True] PASSED [ 56%]
+2026-10-09T14:53:25.7364220Z tests/governance/test_forward_recovery.py::test_finalization_evidence_repair_cannot_bypass_open_issue PASSED [ 56%]
+2026-10-09T14:53:25.8830674Z tests/governance/test_foundation_lifecycle_states.py::TestFoundationLifecycleStates::test_current_plan_accepts_foundation_review_and_integration PASSED [ 57%]
+2026-10-09T14:53:26.0221140Z tests/governance/test_foundation_lifecycle_states.py::TestFoundationLifecycleStates::test_foundation_can_complete_from_integration_with_structured_evidence PASSED [ 57%]
+2026-10-09T14:53:26.0999344Z tests/governance/test_foundation_lifecycle_states.py::TestFoundationLifecycleStates::test_foundation_schema_rejects_unknown_state PASSED [ 57%]
+2026-10-09T14:53:26.1005237Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_affected_task_ids_are_derived_without_branch_context PASSED [ 58%]
+2026-10-09T14:53:26.1018465Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_cancellation_requires_structured_fresh_evidence PASSED [ 58%]
+2026-10-09T14:53:26.1030034Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_completed_spec_must_bind_own_evidence PASSED [ 58%]
+2026-10-09T14:53:26.1044956Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_completion_requires_structured_results PASSED [ 58%]
+2026-10-09T14:53:26.5901709Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_current_repository_passes PASSED [ 59%]
+2026-10-09T14:53:26.5911018Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_foundation_claim_accepts_audited_governance_scope PASSED [ 59%]
+2026-10-09T14:53:26.5924284Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_foundation_claim_rejects_business_path_and_stale_base PASSED [ 59%]
+2026-10-09T14:53:26.5930336Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_lifecycle_guard_is_mandatory_in_workflow_and_make PASSED [ 60%]
+2026-10-09T14:53:26.6206666Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_rename_diff_includes_source_and_destination PASSED [ 60%]
+2026-10-09T14:53:26.6218578Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_structured_completion_results_pass PASSED [ 60%]
+2026-10-09T14:53:26.6225014Z tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_wrapper_task_derivation_does_not_recurse PASSED [ 60%]
+2026-10-09T14:53:26.7638279Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_active_task_exit_gate_must_match_program_plan PASSED [ 61%]
+2026-10-09T14:53:26.9025353Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_active_task_requires_completed_dependencies PASSED [ 61%]
+2026-10-09T14:53:27.1076957Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_append_only PASSED [ 61%]
+2026-10-09T14:53:27.2459040Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_authority_paths_are_canonical PASSED [ 62%]
+2026-10-09T14:53:27.4323863Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_completed_exit_gate PASSED [ 62%]
+2026-10-09T14:53:27.5694701Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_completed_task_requires_completion_ledger PASSED [ 62%]
+2026-10-09T14:53:27.9538768Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_current_repository_passes PASSED [ 62%]
+2026-10-09T14:53:28.1222075Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_dependency_must_predate_activation PASSED [ 63%]
+2026-10-09T14:53:28.3081320Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_distinct_identity PASSED [ 63%]
+2026-10-09T14:53:28.4942536Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_evidence_binding PASSED [ 63%]
+2026-10-09T14:53:28.6774497Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_exact_pr_token PASSED [ 64%]
+2026-10-09T14:53:28.8161757Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_final_release_closure PASSED [ 64%]
+2026-10-09T14:53:28.9534479Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_final_task_is_canonical_gz020_release PASSED [ 64%]
+2026-10-09T14:53:29.0920829Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_folded_yaml_exit_gate PASSED [ 64%]
+2026-10-09T14:53:29.2535015Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_foundation_commit_must_match_task_and_pr PASSED [ 65%]
+2026-10-09T14:53:29.3912003Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_minimal_passes PASSED [ 65%]
+2026-10-09T14:53:29.5291266Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_open_blocker_rejects_required_task_activation PASSED [ 65%]
+2026-10-09T14:53:30.1575596Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_resolved_blocker_accepts_api_confirmed_ruleset PASSED [ 66%]
+2026-10-09T14:53:30.2953402Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_resolved_blocker_requires_live_ruleset PASSED [ 66%]
+2026-10-09T14:53:30.4332043Z tests/governance/test_program_plan_execution_integrity.py::TestIntegrity::test_shared_path_requires_declared_owner_module PASSED [ 66%]
+2026-10-09T14:53:30.4337869Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_complete_ruleset_policy_passes PASSED [ 66%]
+2026-10-09T14:53:30.4772387Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_completion_merge_must_already_exist_in_target_base PASSED [ 67%]
+2026-10-09T14:53:30.5102030Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_completion_requires_fresh_task_bound_evidence PASSED [ 67%]
+2026-10-09T14:53:30.5108896Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_executing_program_task_requires_one_matching_lease PASSED [ 67%]
+2026-10-09T14:53:30.5113730Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_explicit_main_applies_even_when_default_branch_differs PASSED [ 68%]
+2026-10-09T14:53:30.5464087Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_fresh_evidence_and_base_merge_pass PASSED [ 68%]
+2026-10-09T14:53:30.5476048Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_legacy_completed_foundation_allows_historical_approved_spec PASSED [ 68%]
+2026-10-09T14:53:30.5481324Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_planned_program_task_rejects_active_lease PASSED [ 68%]
+2026-10-09T14:53:30.5486376Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_program_and_registry_execution_status_must_match PASSED [ 69%]
+2026-10-09T14:53:30.5491510Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_ruleset_excluding_main_does_not_apply_to_main PASSED [ 69%]
+2026-10-09T14:53:30.5496419Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_ruleset_requires_independent_approval_of_latest_push PASSED [ 69%]
+2026-10-09T14:53:30.5501393Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_ruleset_requires_latest_target_branch_testing PASSED [ 70%]
+2026-10-09T14:53:30.5513345Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_schema_v2_completed_foundation_rejects_approved_spec PASSED [ 70%]
+2026-10-09T14:53:30.5519198Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_symbolic_default_branch_applies_when_default_is_main PASSED [ 70%]
+2026-10-09T14:53:30.5524383Z tests/governance/test_program_plan_finalization.py::TestProgramPlanFinalization::test_symbolic_default_branch_does_not_mean_main_when_default_differs PASSED [ 70%]
+2026-10-09T14:53:30.7025197Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_completed_foundation_is_immutable PASSED [ 71%]
+2026-10-09T14:53:30.8654848Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_completion_rejects_unrelated_file PASSED [ 71%]
+2026-10-09T14:53:31.0150295Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_completion_transition_passes PASSED [ 71%]
+2026-10-09T14:53:31.2175668Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_initial_empty_ledger_migration_passes PASSED [ 72%]
+2026-10-09T14:53:31.3799973Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_regular_completion_transition_passes PASSED [ 72%]
+2026-10-09T14:53:31.5449899Z tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_reservation_commit_must_introduce_active_work PASSED [ 72%]
+2026-10-09T14:53:31.6153912Z tests/governance/test_program_plan_safety_limits.py::TestProgramPlanSafetyLimits::test_critical_work_cannot_be_made_non_standalone PASSED [ 72%]
+2026-10-09T14:53:31.6309924Z tests/governance/test_program_plan_safety_limits.py::TestProgramPlanSafetyLimits::test_independent_high_risk_review_cannot_be_disabled PASSED [ 73%]
+2026-10-09T14:53:31.6464448Z tests/governance/test_program_plan_safety_limits.py::TestProgramPlanSafetyLimits::test_max_active_tasks_cannot_exceed_repository_limit PASSED [ 73%]
+2026-10-09T14:53:31.6619520Z tests/governance/test_program_plan_safety_limits.py::TestProgramPlanSafetyLimits::test_max_high_risk_tasks_cannot_exceed_repository_limit PASSED [ 73%]
+2026-10-09T14:53:31.6627001Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_active_registry_scope_must_match_program PASSED [ 74%]
+2026-10-09T14:53:32.2439802Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_current_repository_passes PASSED [ 74%]
+2026-10-09T14:53:32.2445234Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_later_wave_cannot_open_while_earlier_wave_is_unfinished PASSED [ 74%]
+2026-10-09T14:53:32.2948728Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_recorded_reservation_commit_must_be_metadata_only PASSED [ 74%]
+2026-10-09T14:53:32.4481102Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_reservation_transition_rejects_implementation_files PASSED [ 75%]
+2026-10-09T14:53:32.6058256Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_reservation_transition_rejects_other_program_mutation PASSED [ 75%]
+2026-10-09T14:53:32.6063842Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_same_wave_tasks_may_open_together PASSED [ 75%]
+2026-10-09T14:53:32.7609758Z tests/governance/test_program_plan_transitions.py::TestProgramPlanTransitions::test_valid_reservation_transition_passes PASSED [ 76%]
+2026-10-09T14:53:32.9014727Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_active_foundation_cannot_rewrite_other_program_task PASSED [ 76%]
+2026-10-09T14:53:33.0342121Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_active_foundation_unchanged_program_passes PASSED [ 76%]
+2026-10-09T14:53:33.1848699Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_cancellation_rejects_ledger_mutation PASSED [ 76%]
+2026-10-09T14:53:33.3301343Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_cancellation_rejects_unrelated_files PASSED [ 77%]
+2026-10-09T14:53:33.4619180Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_cancelled_dispatches_metadata_lifecycle PASSED [ 77%]
+2026-10-09T14:53:33.5935853Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_reservation_dispatches_global_coordination_and_scope PASSED [ 77%]
+2026-10-09T14:53:33.7378567Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_valid_cancellation_passes PASSED [ 78%]
+2026-10-09T14:53:33.7385069Z tests/governance/test_remaining_lifecycle_guards.py::TestRemainingLifecycleGuards::test_workflow_uses_push_before_sha PASSED [ 78%]
+2026-10-09T14:53:33.7619317Z tests/governance/test_render_agent_prompt.py::TestRenderAgentPrompt::test_prompt_renders_correctly PASSED [ 78%]
+2026-10-09T14:53:33.7843291Z tests/governance/test_render_agent_prompt.py::TestRenderAgentPrompt::test_unknown_template_variables_warn PASSED [ 78%]
+2026-10-09T14:53:33.8071650Z tests/governance/test_render_agent_prompt.py::TestRenderAgentPrompt::test_v2_collaboration_variables_render PASSED [ 79%]
+2026-10-09T14:53:33.8080106Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_ci_no_parent_directory_tests PASSED [ 79%]
+2026-10-09T14:53:33.8087066Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_fixtures_locate_scripts_correctly PASSED [ 79%]
+2026-10-09T14:53:33.8092607Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_makefile_no_parent_directory_tests PASSED [ 80%]
+2026-10-09T14:53:33.8098462Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_no_gitignore_excludes_tests PASSED [ 80%]
+2026-10-09T14:53:33.8111569Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_scripts_no_parent_directory_tests PASSED [ 80%]
+2026-10-09T14:53:33.8117543Z tests/governance/test_repository_boundary.py::TestRepositoryBoundary::test_tests_directory_exists PASSED [ 80%]
+2026-10-09T14:53:33.8130060Z tests/governance/test_repository_boundary.py::TestEvidenceStructure::test_evidence_files_not_empty PASSED [ 81%]
+2026-10-09T14:53:33.8135546Z tests/governance/test_repository_boundary.py::TestEvidenceStructure::test_evidence_required_files_exist PASSED [ 81%]
+2026-10-09T14:53:33.8141205Z tests/governance/test_repository_boundary.py::TestTraeSpecsDirectory::test_specs_tasks_is_authoritative PASSED [ 81%]
+2026-10-09T14:53:33.8146104Z tests/governance/test_repository_boundary.py::TestTraeSpecsDirectory::test_trae_specs_exists PASSED [ 82%]
+2026-10-09T14:53:33.8151563Z tests/governance/test_repository_boundary.py::TestTraeSpecsDirectory::test_trae_specs_has_readme_or_note PASSED [ 82%]
+2026-10-09T14:53:33.8261638Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_actions_are_pinned_to_immutable_shas PASSED [ 82%]
+2026-10-09T14:53:33.8266620Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_checkout_does_not_persist_credentials PASSED [ 82%]
+2026-10-09T14:53:33.8271702Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_concurrency_cancels_stale_runs PASSED [ 83%]
+2026-10-09T14:53:33.8276346Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_has_pull_request_trigger PASSED [ 83%]
+2026-10-09T14:53:33.8281243Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_has_workflow_dispatch_trigger PASSED [ 83%]
+2026-10-09T14:53:33.8285847Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_job_has_timeout PASSED [ 84%]
+2026-10-09T14:53:33.8291617Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_no_auto_push_or_merge PASSED [ 84%]
+2026-10-09T14:53:33.8296512Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_no_continue_on_error_on_critical_steps PASSED [ 84%]
+2026-10-09T14:53:33.8303431Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_no_swallow_errors_with_or_true PASSED [ 84%]
+2026-10-09T14:53:33.8308170Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_push_validates_all_main_updates PASSED [ 85%]
+2026-10-09T14:53:33.8312959Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_pyyaml_dependency_installed PASSED [ 85%]
+2026-10-09T14:53:33.8317585Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_test_path_is_internal PASSED [ 85%]
+2026-10-09T14:53:33.8322247Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_workflow_is_valid_dict PASSED [ 86%]
+2026-10-09T14:53:33.8327650Z tests/governance/test_repository_boundary.py::TestCIWorkflowStatic::test_working_directory_not_set PASSED [ 86%]
+2026-10-09T14:53:33.8333089Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_agents_md_exists_at_root PASSED [ 86%]
+2026-10-09T14:53:33.8338136Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_github_config_at_root PASSED [ 86%]
+2026-10-09T14:53:33.8343163Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_github_issue_template_exists_at_root PASSED [ 87%]
+2026-10-09T14:53:33.8347973Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_github_workflows_exists_at_root PASSED [ 87%]
+2026-10-09T14:53:33.8353290Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_make_verify_executable_from_root PASSED [ 87%]
+2026-10-09T14:53:33.8358192Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_makefile_exists_at_root PASSED [ 88%]
+2026-10-09T14:53:33.8363107Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_no_guize_solution_agents_md PASSED [ 88%]
+2026-10-09T14:53:33.8367966Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_no_guize_solution_github_workflows PASSED [ 88%]
+2026-10-09T14:53:33.8372845Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_no_guize_solution_makefile PASSED [ 88%]
+2026-10-09T14:53:33.8377994Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_no_guize_solution_wrapper_directory PASSED [ 89%]
+2026-10-09T14:53:33.8385802Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_prompts_no_guize_solution_reference PASSED [ 89%]
+2026-10-09T14:53:33.8390988Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_readme_exists_at_root PASSED [ 89%]
+2026-10-09T14:53:33.8395758Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_scripts_exists_at_root PASSED [ 90%]
+2026-10-09T14:53:33.8400750Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_specs_tasks_exists_at_root PASSED [ 90%]
+2026-10-09T14:53:33.8405426Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_tests_governance_exists_at_root PASSED [ 90%]
+2026-10-09T14:53:33.8410546Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_workflow_checkout_has_full_history PASSED [ 90%]
+2026-10-09T14:53:33.8415525Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_workflow_no_working_directory_guize_solution PASSED [ 91%]
+2026-10-09T14:53:33.8420626Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_workflow_scope_check_uses_main PASSED [ 91%]
+2026-10-09T14:53:33.8426527Z tests/governance/test_repository_root_layout.py::TestRepositoryRootLayout::test_workflow_secret_scan_no_always_true PASSED [ 91%]
+2026-10-09T14:53:33.9002806Z tests/governance/test_task_scope_dispatcher.py::TestTaskScopeDispatcher::test_active_task_runs_ordinary_scope_checker PASSED [ 92%]
+2026-10-09T14:53:33.9403483Z tests/governance/test_task_scope_dispatcher.py::TestTaskScopeDispatcher::test_completed_task_is_owned_by_history_scope PASSED [ 92%]
+2026-10-09T14:53:33.9797121Z tests/governance/test_task_scope_dispatcher.py::TestTaskScopeDispatcher::test_missing_task_spec_fails_closed PASSED [ 92%]
+2026-10-09T14:53:34.0195065Z tests/governance/test_task_scope_dispatcher.py::TestTaskScopeDispatcher::test_unknown_status_fails_closed PASSED [ 92%]
+2026-10-09T14:53:34.0457351Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_handoff_outside_evidence_fails PASSED [ 93%]
+2026-10-09T14:53:34.0740442Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_high_risk_same_implementer_reviewer_fails PASSED [ 93%]
+2026-10-09T14:53:34.1025502Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_invalid_base_sha_fails PASSED [ 93%]
+2026-10-09T14:53:34.1284708Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_missing_handoff_file_fails PASSED [ 94%]
+2026-10-09T14:53:34.1543838Z tests/governance/test_task_v2_contract.py::TestTaskV2Contract::test_valid_v2_task_passes PASSED [ 94%]
+2026-10-09T14:53:34.3512742Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_cancelled_history_releases_capacity_and_path_claims PASSED [ 94%]
+2026-10-09T14:53:34.5479645Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_completed_history_releases_slot_for_active_and_planned_tasks PASSED [ 94%]
+2026-10-09T14:53:34.7476800Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_non_terminal_critical_task_still_requires_standalone_wave PASSED [ 95%]
+2026-10-09T14:53:34.9474910Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_non_terminal_high_risk_limit_remains_fail_closed PASSED [ 95%]
+2026-10-09T14:53:35.1450063Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_non_terminal_path_conflict_remains_fail_closed PASSED [ 95%]
+2026-10-09T14:53:35.1455513Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_only_terminal_states_release_wave_occupancy PASSED [ 96%]
+2026-10-09T14:53:35.3415116Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_terminal_task_remains_in_dependency_validation PASSED [ 96%]
+2026-10-09T14:53:35.5411386Z tests/governance/test_terminal_wave_occupancy.py::TestTerminalWaveOccupancy::test_third_non_terminal_task_still_fails_capacity PASSED [ 96%]
+2026-10-09T14:53:35.5517541Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_actions_are_immutable PASSED [ 96%]
+2026-10-09T14:53:35.5522625Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_agent_coordination_uses_completion_aware_dispatcher PASSED [ 97%]
+2026-10-09T14:53:35.5527525Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_all_main_pushes_trigger_validation PASSED [ 97%]
+2026-10-09T14:53:35.5532138Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_evidence_integrity_is_a_gate PASSED [ 97%]
+2026-10-09T14:53:35.5537948Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_governance_tests_run_after_earlier_validation_failure PASSED [ 98%]
+2026-10-09T14:53:35.5541886Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_program_integrity_and_history_are_mandatory_gates PASSED [ 98%]
+2026-10-09T14:53:35.5546793Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_project_readiness_is_a_gate PASSED [ 98%]
+2026-10-09T14:53:35.5551461Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_schema_check_uses_shared_schema_script PASSED [ 98%]
+2026-10-09T14:53:35.5555954Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_spec_sync_is_a_gate PASSED [ 99%]
+2026-10-09T14:53:35.5560833Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_stale_runs_are_cancelled PASSED [ 99%]
+2026-10-09T14:53:35.5565399Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_summary_reports_new_gates PASSED [ 99%]
+2026-10-09T14:53:35.5948722Z tests/governance/test_workflow_contract.py::TestGovernanceWorkflowContract::test_task_context_allows_non_pr_non_task_refs PASSED [100%]
+2026-10-09T14:53:35.5949316Z 
+2026-10-09T14:53:35.5949558Z ---------- generated xml file: /tmp/test-results/governance-junit.xml ----------
+2026-10-09T14:53:35.5949944Z ======================= 351 passed in 206.46s (0:03:26) ========================
+2026-10-09T14:53:35.6296622Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:35.6296907Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:35.6297186Z [36;1mif [ ! -f /tmp/test-results/governance-junit.xml ]; then[0m
+2026-10-09T14:53:35.6297650Z [36;1m  echo "::error::JUnit XML not found; governance tests did not produce auditable results."[0m
+2026-10-09T14:53:35.6297998Z [36;1m  exit 1[0m
+2026-10-09T14:53:35.6298170Z [36;1mfi[0m
+2026-10-09T14:53:35.6298563Z [36;1mpython scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt[0m
+2026-10-09T14:53:35.6354830Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:35.6355141Z env:
+2026-10-09T14:53:35.6355324Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:35.6355593Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.6355953Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:35.6356338Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.6356648Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.6356957Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.6357284Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:35.6357546Z ##[endgroup]
+2026-10-09T14:53:35.6706341Z OK: No skipped tests
+2026-10-09T14:53:35.6768943Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:35.6769373Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:35.6769598Z [36;1mpython scripts/check-markdown.py[0m
+2026-10-09T14:53:35.6824387Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:35.6824666Z env:
+2026-10-09T14:53:35.6824849Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:35.6825113Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.6825463Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:35.6825804Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.6826113Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.6826577Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.6826876Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:35.6827138Z ##[endgroup]
+2026-10-09T14:53:35.7200504Z Checking 233 Markdown files...
+2026-10-09T14:53:35.7200771Z 
+2026-10-09T14:53:35.7200876Z OK: No issues found
+2026-10-09T14:53:35.7257317Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:35.7257608Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:35.7257835Z [36;1mpython scripts/check-schemas.py[0m
+2026-10-09T14:53:35.7310409Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:35.7310687Z env:
+2026-10-09T14:53:35.7310869Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:35.7311133Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.7311488Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:35.7311820Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.7312134Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.7312432Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:35.7312733Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:35.7313000Z ##[endgroup]
+2026-10-09T14:53:36.0691385Z OK YAML: .github/workflows/governance-gate.yml
+2026-10-09T14:53:36.0691869Z OK JSON-SCHEMA: contracts/events/event-envelope.schema.json
+2026-10-09T14:53:36.0692390Z OK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml
+2026-10-09T14:53:36.0692885Z OK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml
+2026-10-09T14:53:36.0693347Z OK JSON-SCHEMA: specs/coordination/active-work.schema.yaml
+2026-10-09T14:53:36.0693801Z OK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml
+2026-10-09T14:53:36.0694283Z OK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml
+2026-10-09T14:53:36.0694978Z OK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml
+2026-10-09T14:53:36.0695806Z OK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml
+2026-10-09T14:53:36.0696381Z OK TASK REGISTRY LINK: GZ-005
+2026-10-09T14:53:36.0696670Z OK PROGRAM ACTIVATION: GZ-005 <- W2
+2026-10-09T14:53:36.0696972Z OK TASK REGISTRY LINK: OPS-004
+2026-10-09T14:53:36.0697263Z OK FOUNDATION ACTIVATION: OPS-004
+2026-10-09T14:53:36.0697666Z OK: Schema, Task Spec, Active Work and Program Plan validation completed
+2026-10-09T14:53:36.0852278Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.0852539Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.0852759Z [36;1mpython scripts/check-secrets.py[0m
+2026-10-09T14:53:36.0908145Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.0908416Z env:
+2026-10-09T14:53:36.0908600Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.0908866Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.0909379Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.0909717Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.0910021Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.0910319Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.0910616Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.0910876Z ##[endgroup]
+2026-10-09T14:53:36.1925092Z OK: No high-risk secrets detected
+2026-10-09T14:53:36.2019685Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.2020076Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.2020485Z [36;1mpython scripts/check-evidence.py --task "OPS-004"[0m
+2026-10-09T14:53:36.2098494Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.2098940Z env:
+2026-10-09T14:53:36.2099449Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.2099860Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2100660Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.2101214Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2101712Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2102226Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2102725Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.2103142Z ##[endgroup]
+2026-10-09T14:53:36.2395504Z {"status": "PASS", "message": "Evidence contract passed for OPS-004."}
+2026-10-09T14:53:36.2467910Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.2468292Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.2468601Z [36;1mTASK_ID="OPS-004"[0m
+2026-10-09T14:53:36.2468909Z [36;1mEVIDENCE_DIR="evidence/$TASK_ID"[0m
+2026-10-09T14:53:36.2469454Z [36;1mREPORT=""[0m
+2026-10-09T14:53:36.2469838Z [36;1mif [ -f "$EVIDENCE_DIR/final-report-r5-clean-recovery.md" ]; then[0m
+2026-10-09T14:53:36.2470444Z [36;1m  REPORT="$EVIDENCE_DIR/final-report-r5-clean-recovery.md"[0m
+2026-10-09T14:53:36.2470907Z [36;1melse[0m
+2026-10-09T14:53:36.2471489Z [36;1m  REPORT=$(find "$EVIDENCE_DIR" -maxdepth 1 -type f -name 'final-report-r*.md' -print | sort -V | tail -n 1 || true)[0m
+2026-10-09T14:53:36.2472135Z [36;1mfi[0m
+2026-10-09T14:53:36.2472671Z [36;1mif [ -z "$REPORT" ] && [ -f "$EVIDENCE_DIR/final-report.md" ]; then REPORT="$EVIDENCE_DIR/final-report.md"; fi[0m
+2026-10-09T14:53:36.2473291Z [36;1mif [ -n "$REPORT" ]; then[0m
+2026-10-09T14:53:36.2473860Z [36;1m  python scripts/check-evidence-integrity.py --task "$TASK_ID" --report "$REPORT"[0m
+2026-10-09T14:53:36.2474386Z [36;1melse[0m
+2026-10-09T14:53:36.2474883Z [36;1m  echo "No final-report*.md exists for $TASK_ID; no commit claims require integrity validation."[0m
+2026-10-09T14:53:36.2475448Z [36;1mfi[0m
+2026-10-09T14:53:36.2550484Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.2550785Z env:
+2026-10-09T14:53:36.2550983Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.2551253Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2551604Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.2551943Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2552243Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2552536Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2552831Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.2553091Z ##[endgroup]
+2026-10-09T14:53:36.2645689Z No final-report*.md exists for OPS-004; no commit claims require integrity validation.
+2026-10-09T14:53:36.2676579Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.2676821Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.2677174Z [36;1mpython scripts/check-pr-task-link.py --branch "chore/OPS-004-lifecycle-repair-review"[0m
+2026-10-09T14:53:36.2726686Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.2726977Z env:
+2026-10-09T14:53:36.2727157Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.2727419Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2727766Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.2728095Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2728388Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2728679Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.2728972Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.2729563Z ##[endgroup]
+2026-10-09T14:53:36.2992953Z {"status": "PASS", "message": "PR/branch linkage valid for OPS-004."}
+2026-10-09T14:53:36.3051328Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.3051581Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.3051812Z [36;1mpython scripts/run-task-scope-gate.py \[0m
+2026-10-09T14:53:36.3052202Z [36;1m  --task "OPS-004" \[0m
+2026-10-09T14:53:36.3052407Z [36;1m  --base origin/main[0m
+2026-10-09T14:53:36.3105245Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.3105521Z env:
+2026-10-09T14:53:36.3105702Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.3105957Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.3106290Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.3106624Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.3106929Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.3107225Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.3107555Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.3107823Z ##[endgroup]
+2026-10-09T14:53:36.3824032Z {"status": "INFO", "message": "Changed files: 43, Allowed: 43, Forbidden: 0, Out-of-scope: 0"}
+2026-10-09T14:53:36.3836831Z {"status": "PASS", "message": "Allowed files", "details": {"files": ["evidence/OPS-004/handoff.md", "evidence/OPS-004/source-history/README.md", "evidence/OPS-004/source-history/review-source-map.json", "evidence/OPS-004/summary.md", "evidence/OPS-004/test-results/implementation-remote-592/ops004-implementation-remote-ci.txt", "evidence/OPS-004/test-results/implementation-remote-592/ops004-implementation-remote-proof.json", "evidence/OPS-004/test-results/review-3517a9d/coordination.txt", "evidence/OPS-004/test-results/review-3517a9d/docs.txt", "evidence/OPS-004/test-results/review-3517a9d/evidence.txt", "evidence/OPS-004/test-results/review-3517a9d/finalization.txt", "evidence/OPS-004/test-results/review-3517a9d/history.txt", "evidence/OPS-004/test-results/review-3517a9d/integrity.txt", "evidence/OPS-004/test-results/review-3517a9d/lifecycle.txt", "evidence/OPS-004/test-results/review-3517a9d/raw-lifecycle.txt", "evidence/OPS-004/test-results/review-3517a9d/readiness.txt", "evidence/OPS-004/test-results/review-3517a9d/schemas.txt", "evidence/OPS-004/test-results/review-3517a9d/scope.txt", "evidence/OPS-004/test-results/review-3517a9d/source.txt", "evidence/OPS-004/test-results/review-3517a9d/status.json", "evidence/OPS-004/test-results/review-3517a9d/task.txt", "evidence/OPS-004/test-results/review-3517a9d/transitions.txt", "evidence/OPS-004/test-results/review-3517a9d/tree.txt", "evidence/OPS-004/test-results/review-3517a9d/unaffected.txt", "evidence/OPS-004/test-results/review-first-b1f729a/coordination.txt", "evidence/OPS-004/test-results/review-first-b1f729a/docs.txt", "evidence/OPS-004/test-results/review-first-b1f729a/evidence.txt", "evidence/OPS-004/test-results/review-first-b1f729a/finalization.txt", "evidence/OPS-004/test-results/review-first-b1f729a/history.txt", "evidence/OPS-004/test-results/review-first-b1f729a/integrity.txt", "evidence/OPS-004/test-results/review-first-b1f729a/lifecycle.txt", "evidence/OPS-004/test-results/review-first-b1f729a/raw-lifecycle.txt", "evidence/OPS-004/test-results/review-first-b1f729a/readiness.txt", "evidence/OPS-004/test-results/review-first-b1f729a/schemas.txt", "evidence/OPS-004/test-results/review-first-b1f729a/scope.txt", "evidence/OPS-004/test-results/review-first-b1f729a/source.txt", "evidence/OPS-004/test-results/review-first-b1f729a/status.json", "evidence/OPS-004/test-results/review-first-b1f729a/task.txt", "evidence/OPS-004/test-results/review-first-b1f729a/transitions.txt", "evidence/OPS-004/test-results/review-first-b1f729a/tree.txt", "evidence/OPS-004/test-results/review-first-b1f729a/unaffected.txt", "specs/coordination/active-work.yaml", "specs/coordination/program-plan.yaml", "specs/tasks/OPS-004.md"]}}
+2026-10-09T14:53:36.3849813Z {"status": "PASS", "message": "All changed files are within allowed scope and outside forbidden scope."}
+2026-10-09T14:53:36.3948690Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.3948940Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.3949444Z [36;1mpython scripts/check-spec-sync.py --base origin/main[0m
+2026-10-09T14:53:36.4004783Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.4005052Z env:
+2026-10-09T14:53:36.4005236Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.4005497Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4005837Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.4006162Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4006457Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4006752Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4007046Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.4007301Z ##[endgroup]
+2026-10-09T14:53:36.4325087Z {"status": "PASS", "message": "Spec sync check passed. No synchronization issues detected."}
+2026-10-09T14:53:36.4398773Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.4399019Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.4399430Z [36;1mEXIT_CODE=0[0m
+2026-10-09T14:53:36.4399741Z [36;1mif grep -rnE '\.\./tests/|/workspace/tests/' Makefile scripts/; then EXIT_CODE=1; fi[0m
+2026-10-09T14:53:36.4400081Z [36;1mexit $EXIT_CODE[0m
+2026-10-09T14:53:36.4452112Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.4452384Z env:
+2026-10-09T14:53:36.4452567Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.4452829Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4453163Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.4453493Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4453791Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4454080Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4454407Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.4454669Z ##[endgroup]
+2026-10-09T14:53:36.4575193Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.4575433Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.4575753Z [36;1mpython tests/governance/test_repository_boundary.py TestCIWorkflowStatic[0m
+2026-10-09T14:53:36.4623538Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.4623819Z env:
+2026-10-09T14:53:36.4623998Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.4624264Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4624604Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.4624941Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4625243Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4625541Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.4625840Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.4626099Z ##[endgroup]
+2026-10-09T14:53:36.5415012Z ..............
+2026-10-09T14:53:36.5415339Z ----------------------------------------------------------------------
+2026-10-09T14:53:36.5415645Z Ran 14 tests in 0.021s
+2026-10-09T14:53:36.5415772Z 
+2026-10-09T14:53:36.5415844Z OK
+2026-10-09T14:53:36.5510779Z ##[group]Run set -euo pipefail
+2026-10-09T14:53:36.5511057Z [36;1mset -euo pipefail[0m
+2026-10-09T14:53:36.5511252Z [36;1m{[0m
+2026-10-09T14:53:36.5511440Z [36;1m  echo "## Governance Gate Report"[0m
+2026-10-09T14:53:36.5511668Z [36;1m  echo[0m
+2026-10-09T14:53:36.5511851Z [36;1m  echo "| Check | Status |"[0m
+2026-10-09T14:53:36.5512073Z [36;1m  echo "|---|---|"[0m
+2026-10-09T14:53:36.5512286Z [36;1m  echo "| checkout | $CHECKOUT |"[0m
+2026-10-09T14:53:36.5512547Z [36;1m  echo "| setup_python | $SETUP_PYTHON |"[0m
+2026-10-09T14:53:36.5512810Z [36;1m  echo "| install_deps | $INSTALL_DEPS |"[0m
+2026-10-09T14:53:36.5513061Z [36;1m  echo "| verify_deps | $VERIFY_DEPS |"[0m
+2026-10-09T14:53:36.5513303Z [36;1m  echo "| compile | $COMPILE |"[0m
+2026-10-09T14:53:36.5513683Z [36;1m  echo "| collect_tests | $COLLECT_TESTS |"[0m
+2026-10-09T14:53:36.5513937Z [36;1m  echo "| task_context | $TASK_CONTEXT |"[0m
+2026-10-09T14:53:36.5514214Z [36;1m  echo "| task_file_validation | $TASK_FILE |"[0m
+2026-10-09T14:53:36.5514503Z [36;1m  echo "| project_readiness | $PROJECT_READINESS |"[0m
+2026-10-09T14:53:36.5514794Z [36;1m  echo "| program_integrity | $PROGRAM_INTEGRITY |"[0m
+2026-10-09T14:53:36.5515085Z [36;1m  echo "| agent_coordination | $AGENT_COORDINATION |"[0m
+2026-10-09T14:53:36.5515375Z [36;1m  echo "| governance_tests | $GOVERNANCE_TESTS |"[0m
+2026-10-09T14:53:36.5515639Z [36;1m  echo "| skip_audit | $SKIP_AUDIT |"[0m
+2026-10-09T14:53:36.5515890Z [36;1m  echo "| markdown_check | $MARKDOWN |"[0m
+2026-10-09T14:53:36.5516144Z [36;1m  echo "| schema_check | $SCHEMA |"[0m
+2026-10-09T14:53:36.5516385Z [36;1m  echo "| secret_scan | $SECRET_SCAN |"[0m
+2026-10-09T14:53:36.5516621Z [36;1m  echo "| evidence_check | $EVIDENCE |"[0m
+2026-10-09T14:53:36.5516889Z [36;1m  echo "| evidence_integrity | $EVIDENCE_INTEGRITY |"[0m
+2026-10-09T14:53:36.5517159Z [36;1m  echo "| linkage_check | $LINKAGE |"[0m
+2026-10-09T14:53:36.5517394Z [36;1m  echo "| scope_check | $SCOPE |"[0m
+2026-10-09T14:53:36.5517625Z [36;1m  echo "| spec_sync | $SPEC_SYNC |"[0m
+2026-10-09T14:53:36.5517866Z [36;1m  echo "| parent_dir_check | $PARENT_DIR |"[0m
+2026-10-09T14:53:36.5518123Z [36;1m  echo "| ci_validation | $CI_VALIDATION |"[0m
+2026-10-09T14:53:36.5518346Z [36;1m  echo[0m
+2026-10-09T14:53:36.5518573Z [36;1m  echo "Commit: 97b5fefcfd4350636af7cc8774c149dd54159487"[0m
+2026-10-09T14:53:36.5518854Z [36;1m  echo "Ref: refs/pull/74/merge"[0m
+2026-10-09T14:53:36.5519086Z [36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
+2026-10-09T14:53:36.5574050Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-09T14:53:36.5574328Z env:
+2026-10-09T14:53:36.5574509Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-09T14:53:36.5574772Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.5575127Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-09T14:53:36.5575460Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.5575764Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.5576060Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-09T14:53:36.5576355Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-09T14:53:36.5576613Z   CHECKOUT: success
+2026-10-09T14:53:36.5576788Z   SETUP_PYTHON: success
+2026-10-09T14:53:36.5576974Z   INSTALL_DEPS: success
+2026-10-09T14:53:36.5577150Z   VERIFY_DEPS: success
+2026-10-09T14:53:36.5577333Z   COMPILE: success
+2026-10-09T14:53:36.5577504Z   COLLECT_TESTS: success
+2026-10-09T14:53:36.5577688Z   TASK_CONTEXT: success
+2026-10-09T14:53:36.5577862Z   TASK_FILE: success
+2026-10-09T14:53:36.5578043Z   PROJECT_READINESS: success
+2026-10-09T14:53:36.5578239Z   PROGRAM_INTEGRITY: success
+2026-10-09T14:53:36.5578433Z   AGENT_COORDINATION: failure
+2026-10-09T14:53:36.5578635Z   GOVERNANCE_TESTS: success
+2026-10-09T14:53:36.5578822Z   SKIP_AUDIT: success
+2026-10-09T14:53:36.5578997Z   MARKDOWN: success
+2026-10-09T14:53:36.5579528Z   SCHEMA: success
+2026-10-09T14:53:36.5579700Z   SECRET_SCAN: success
+2026-10-09T14:53:36.5579873Z   EVIDENCE: success
+2026-10-09T14:53:36.5580042Z   EVIDENCE_INTEGRITY: success
+2026-10-09T14:53:36.5580231Z   LINKAGE: success
+2026-10-09T14:53:36.5580403Z   SCOPE: success
+2026-10-09T14:53:36.5580591Z   SPEC_SYNC: success
+2026-10-09T14:53:36.5580766Z   PARENT_DIR: success
+2026-10-09T14:53:36.5580946Z   CI_VALIDATION: success
+2026-10-09T14:53:36.5581128Z ##[endgroup]
+2026-10-09T14:53:36.5753932Z Post job cleanup.
+2026-10-09T14:53:36.6441834Z [command]/usr/bin/git version
+2026-10-09T14:53:36.6478650Z git version 2.55.0
+2026-10-09T14:53:36.6509067Z Temporarily overriding HOME='/home/runner/work/_temp/fafdab05-0851-41b7-8d0d-c8db34bf0513' before making global git config changes
+2026-10-09T14:53:36.6510223Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-09T14:53:36.6513888Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Guize/Guize
+2026-10-09T14:53:36.6545911Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-09T14:53:36.6574022Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-09T14:53:36.6786869Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-09T14:53:36.6818934Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-09T14:53:36.7034151Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-09T14:53:36.7068997Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-09T14:53:36.7424201Z Cleaning up orphan processes
+2026-10-09T14:53:36.7661468Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
