@@ -1,0 +1,5 @@
+Source Commit: 696acea97a50c877a60e7c534650c956bf9d3931
+Command: python scripts/check-program-plan-history.py --base-ref 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-completion
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d", "headRef": "HEAD", "completionRecords": 1}}
+
+Exit Code: 0

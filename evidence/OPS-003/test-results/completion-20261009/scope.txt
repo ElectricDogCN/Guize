@@ -1,0 +1,5 @@
+Source Commit: 696acea97a50c877a60e7c534650c956bf9d3931
+Command: python scripts/run-task-scope-gate.py --task OPS-003 --base 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d
+INFO: OPS-003 is a Completion PR; exact changed-file scope is owned by Program History and Program Transitions against the target branch.
+
+Exit Code: 0
