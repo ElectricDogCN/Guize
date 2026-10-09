@@ -969,6 +969,40 @@ def historical_lifecycle_binding(root: str, commit: str, task_id: str, entry: di
     historical_task_snapshot(root, commit, task_id, entry, f"Foundation {task_id} working node at {commit}", errors)
 
 
+def historical_own_metadata_changed(root: str, previous: str, node: str, task_id: str) -> bool:
+    for path, collections in ((ACTIVE, ("tasks",)), (PLAN, ("tasks", "foundationTasks"))):
+        before, after = load_ref(root, previous, path), load_ref(root, node, path)
+        for collection in collections:
+            left = [item for item in (before or {}).get(collection, []) if item.get("taskId") == task_id]
+            right = [item for item in (after or {}).get(collection, []) if item.get("taskId") == task_id]
+            if left != right:
+                return True
+        if path == PLAN and task_id in {RECOVERY.recovery_owner(before or {}), RECOVERY.recovery_owner(after or {})} and ((before or {}).get("status"), (before or {}).get("recovery")) != ((after or {}).get("status"), (after or {}).get("recovery")):
+            return True
+    paths = {find_task_path(root, task_id, ref) for ref in (previous, node)} - {None}
+    return any(read_ref(root, previous, path) != read_ref(root, node, path) for path in paths)
+
+
+def historical_peer_path(root: str, snapshot: str, task_id: str, path: str) -> bool:
+    # Classification does not certify a peer's Admission or complete Gate.
+    registry = load_ref(root, snapshot, ACTIVE)
+    for peer in (registry or {}).get("tasks", []):
+        identity = peer.get("taskId")
+        if identity == task_id:
+            continue
+        if path == find_task_path(root, identity, snapshot) or path.startswith(f"evidence/{identity}/") or any(RECOVERY.matches_path(path, str(claim)) for claim in (peer.get("exclusivePaths") or []) + (peer.get("sharedPaths") or [])):
+            return True
+    program = load_ref(root, snapshot, PLAN)
+    return any(item.get("taskId") != task_id and item.get("status") == "completed" and path.startswith(f"evidence/{item.get('taskId')}/") for item in (program or {}).get("tasks", []) + (program or {}).get("foundationTasks", []))
+
+
+def historical_peer_metadata_path(root: str, snapshot: str, task_id: str, path: str) -> bool:
+    # Newly admitted peers supply identity for their canonical metadata only.
+    # Their newly declared code claims cannot authorize same-node work.
+    registry = load_ref(root, snapshot, ACTIVE)
+    return any(peer.get("taskId") != task_id and (path == find_task_path(root, peer.get("taskId"), snapshot) or path.startswith(f"evidence/{peer.get('taskId')}/")) for peer in (registry or {}).get("tasks", []))
+
+
 def foundation_implementation(root: str, task_id: str, commit: str, reservation: str, errors: list[str]) -> None:
     """Bind completion identity to a registered implementation diff.
 
@@ -1045,7 +1079,14 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     if nodes.returncode != 0:
         errors.append(f"Foundation {task_id} cannot read registered implementation range")
         return
-    for node in nodes.stdout.split():
+    early_nodes: list[str] = []
+    if len(parents) == 1 and tip_entry.get("integrationStrategy") != "rebase":
+        earlier = git(root, "rev-list", "--first-parent", "--reverse", f"{reservation}..{base}")
+        if earlier.returncode:
+            errors.append(f"Foundation {task_id} cannot read working history before refreshed baseline")
+            return
+        early_nodes = earlier.stdout.split()
+    for node in [*early_nodes, *nodes.stdout.split()]:
         previous = resolve_ref(root, f"{node}^1")
         node_paths = RECOVERY.changed_paths(root, previous, node) if previous else None
         if node_paths is None:
@@ -1054,6 +1095,12 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         incoming = approved_synchronization_parents(root, node, base)
         clean_imports = clean_synchronization_paths(root, node, node_paths, incoming)
         node_paths -= clean_imports
+        if node in early_nodes:
+            # Inspect early work, not integrated metadata-only failures or
+            # independent peer inputs from the approved main base.
+            node_paths = {path for path in node_paths if not historical_peer_path(root, previous, task_id, path) and not historical_peer_metadata_path(root, node, task_id, path)}
+            if not any(path not in {PLAN, ACTIVE, LEDGER, task_path} and not path.startswith(f"evidence/{task_id}/") for path in node_paths):
+                continue
         if LEDGER in node_paths:
             errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
         working = any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in node_paths)
@@ -1061,7 +1108,8 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             if working:
                 errors.append(f"Foundation {task_id} working node predates its original reservation")
             continue
-        historical_foreign_metadata(root, previous, node, incoming, task_id, errors, clean_imports)
+        if node not in early_nodes:
+            historical_foreign_metadata(root, previous, node, incoming, task_id, errors, clean_imports)
         before_registry = load_ref(root, previous, ACTIVE)
         before_entries = [item for item in (before_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
         node_registry = load_ref(root, node, ACTIVE)
@@ -1249,6 +1297,11 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
     entries = [item for item in (registration or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
     mutable = {"status", "agentRole", "baseSha", "branch", "exclusivePaths", "sharedPaths", "lease"}
     stable = {key: value for key, value in entries[0].items() if key not in mutable} if len(entries) == 1 else None
+    main_history = git(root, "rev-list", "--first-parent", f"{implementation}..{base_ref}")
+    if main_history.returncode:
+        errors.append(f"Foundation {task_id} cannot read authoritative post-implementation history")
+        return
+    main_nodes = set(main_history.stdout.split())
     validated_nodes: set[str] = set()
     for node in nodes.stdout.split():
         parent = resolve_ref(root, f"{node}^1")
@@ -1258,7 +1311,15 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             continue
         claims = []
         registered_node = is_ancestor(root, reservation, node)
+        task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot}
         if registered_node:
+            claims.extend(registered_claim_history(root, task_id, reservation, node))
+        own_work = {path for path in paths if path not in {PLAN, ACTIVE, *task_paths} and not path.startswith(f"evidence/{task_id}/") and any(RECOVERY.matches_path(path, str(claim)) for claim in claims)}
+        own_delta = historical_own_metadata_changed(root, parent, node, task_id)
+        parents = git(root, "show", "-s", "--format=%P", node).stdout.split()
+        authoritative = node in main_nodes or len(parents) > 1
+        related = own_delta or bool(own_work) or any(path.startswith(f"evidence/{task_id}/") for path in paths)
+        if registered_node and (authoritative or related):
             node_registry = load_ref(root, node, ACTIVE)
             historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} post-implementation history at {node}", errors, approved_base=base_ref)
             node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
@@ -1279,6 +1340,16 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             claims.extend(registered_claim_history(root, task_id, reservation, node))
         task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot}
         own_work = {path for path in paths if path not in {PLAN, ACTIVE, *task_paths} and not path.startswith(f"evidence/{task_id}/") and any(RECOVERY.matches_path(path, str(claim)) for claim in claims)}
+        code_paths = {path for path in paths if path not in {PLAN, ACTIVE, LEDGER, *task_paths} and not path.startswith(f"evidence/{task_id}/")}
+        if code_paths:
+            incoming = approved_synchronization_parents(root, node, base_ref)
+            imports = clean_synchronization_paths(root, node, paths, incoming)
+            prior_registry = load_ref(root, parent, ACTIVE)
+            prior = [item for item in (prior_registry or {}).get("tasks", []) if item.get("taskId") == task_id]
+            prior_claims = (prior[0].get("exclusivePaths") or []) if len(prior) == 1 else []
+            unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not any(historical_peer_path(root, ref, task_id, path) for ref in (parent, node)))}
+            if unexpected:
+                errors.append(f"Foundation {task_id} post-implementation working node changed paths outside its prior registered scope at {node}: {', '.join(sorted(unexpected))}")
         if own_work:
             errors.append(f"Foundation {task_id} has own code changes after claimed implementation at {node}: {', '.join(sorted(own_work))}; Completion must identify the latest reviewed implementation")
 

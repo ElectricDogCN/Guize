@@ -1,0 +1,18 @@
+...F..............................                                       [100%]
+=================================== FAILURES ===================================
+_ TestProgramPlanHistory.test_foundation_accepts_working_nonconflicting_claim __
+
+self = <tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_accepts_working_nonconflicting_claim>
+
+    def test_foundation_accepts_working_nonconflicting_claim(self):
+>       self.accept_foundation_history("working_nonconflicting_claim")
+
+tests/governance/test_program_plan_history.py:2079: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/governance/test_program_plan_history.py:1820: in accept_foundation_history
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+E   AssertionError: 1 != 0 : {"status": "FAIL", "message": "Foundation GZ-014 working node changed paths outside its prior registered scope"}
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-finite-scope-targeted.xml -
+=========================== short test summary info ============================
+FAILED tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_accepts_working_nonconflicting_claim
+1 failed, 33 passed, 128 deselected in 158.55s (0:02:38)

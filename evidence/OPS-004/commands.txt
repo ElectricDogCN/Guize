@@ -1,3 +1,49 @@
+## 当前有限 working scope / lease 修补候选
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: b463cdb1427c8f3e6c7be84e0a33992799c5723d
+Current full 509 / formal 15 / same-head CI / final integration review: NOT_EXECUTED
+
+实际父来源504完整本地与Gate615治理通过，仅原容量coordination1/make2；独立真实CLI仍证明三处缺陷：独立metadata先推进base截断此前代码，Own Review同提交未声明代码漏验，disjoint Peer side继承旧Own lease被误拒。旧504不得冒充新回归证明。所有原始失败保留。
+
+single-parent merge额外追踪reservation之后、可变base之前的first-parent working节点，跳过纯metadata/Evidence，只允许prior登记scope与已证实clean approved main导入；已合入failed Completion metadata不重当代码准入。Peer code按prior登记分类，新登记Peer身份仅分类canonical Task/Evidence，不授权同提交新声明代码。Post全部引入节点继续验证foreign稳定身份/Recovery；Own lease/context针对主线first-parent、合并节点与Own实际工作/元数据节点，disjoint Peer不会被继承过期Own snapshot误拒。Own工作保留scope/lease与实现身份检查。
+
+五条真实Git回归：独立base推进、推进前代码回退、Review未声明代码、disjoint Peer保留main有效续租、side Own过期租约代码被拒。临时初测33通过1失败158.55s保留（Peer首次登记metadata误判）；最小修正后7 targeted通过40.85s，零失败/错误/跳过。预期history164+其他345=509，完整正式尚未执行。Other夹具仅证明history/scope分类，不声称Other完整Admission/Gate。
+
+93en要求接受早于reservation parent的base，冲突已有Transitions精确reservation source规则，保留拒绝测试。永久maxHigh=1、Owner原窗口/容量FAIL、Ledger/旧completed/GZ005不变。最终实际509/15、同头CI、独立集成仍必需；原窗口内真实PR77实现、独立Review/Completion后主线全部通过才恢复GZ005。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: b463cdb1427c8f3e6c7be84e0a33992799c5723d
+Tested Tree: 5e29ffe4dbccbbbe7dd6b26e1c09e6586de342ff
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 504 passed in 913.07s (0:15:13)，JUnit504 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/post-context-source-b463cdb/。Gate615完整原始在 test-results/post-context-ci-615/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+独立发布审查针对本地alias cc9f78f2bd759db082073678f87720d9cccb4167，树5e29ffe4dbccbbbe7dd6b26e1c09e6586de342ff与本次实际远端b463cdb1427c8f3e6c7be84e0a33992799c5723d一致；它仅是发布前静态与临时Git证明，正式504结果始终只绑定实际远端Source。完整独立原始见post-context-independent；本地alias不冒充已发布祖先。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
 ## 当前 post-implementation context 修补候选
 
 Task: OPS-004 / Issue71

@@ -512,7 +512,7 @@ class TestProgramPlanHistory(unittest.TestCase):
             self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
             if mode == "metadata_only_lease_renewal":
                 self.commit(root, "GZ-014 metadata-only lease renewal (#28)")
-        if mode in {"rebase_earlier_unclaimed", "rebase_unclaimed_reverted", "merge_earlier_unclaimed", "merge_unclaimed_reverted", "merge_same_commit_base_change"}:
+        if mode in {"rebase_earlier_unclaimed", "rebase_unclaimed_reverted", "merge_earlier_unclaimed", "merge_unclaimed_reverted", "merge_same_commit_base_change", "merge_separate_base_advance", "merge_separate_base_advance_after_revert"}:
             self.write_text(root, "backend/unclaimed.py", "# earlier unclaimed rebased change\n")
             self.commit(root, "GZ-014 early rebased change (#22)")
             if mode in {"rebase_unclaimed_reverted", "merge_unclaimed_reverted"}:
@@ -522,6 +522,15 @@ class TestProgramPlanHistory(unittest.TestCase):
                 entry['baseSha'] = early
                 self.write_yaml(root, 'specs/coordination/active-work.yaml', build_registry([entry]))
                 self.write_text(root, f'specs/tasks/{task_id}.md', self.task_spec(entry, 'in_progress', entry['branch'], early))
+        if mode in {"merge_separate_base_advance", "merge_separate_base_advance_after_revert"}:
+            if mode == "merge_separate_base_advance_after_revert":
+                os.remove(os.path.join(root, "backend/unclaimed.py"))
+                self.commit(root, "GZ-014 restore early unclaimed file before base advance (#27)")
+            early = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+            entry['baseSha'] = early
+            self.write_yaml(root, 'specs/coordination/active-work.yaml', build_registry([entry]))
+            self.write_text(root, f'specs/tasks/{task_id}.md', self.task_spec(entry, 'in_progress', entry['branch'], early))
+            self.commit(root, "GZ-014 separate metadata-only base advance (#28)")
         if mode == "rebase_ledger_reverted":
             self.write_text(root, "specs/coordination/task-completions.yaml", "records: []\n# unauthorized ledger change\n")
             self.commit(root, "GZ-014 early rebased ledger change (#22)")
@@ -718,7 +727,11 @@ class TestProgramPlanHistory(unittest.TestCase):
                     rewrite(entry, 'review', bad)
                     return original(location, 'GZ-014 restore actual Review target (#25)')
                 return bad
+            if scenario == 'review_unclaimed_code':
+                self.write_text(root, 'backend/x.py', '# never claimed code bundled with Own Review\n')
             review = original(location, message, timestamp)
+            if scenario == 'review_unclaimed_code':
+                return review
             if scenario in {'side_bad_base', 'side_bad_edge', 'side_owner_identity', 'side_foreign_definition'}:
                 git('checkout', '-b', 'late-metadata-side', review)
                 saved_entry = copy.deepcopy(entry)
@@ -990,6 +1003,62 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_postclaim_shrink_scope_restore(self):
         self.assert_postclaim_history('shrink_scope_restore', False, 'own code changes after claimed implementation')
+
+    def test_foundation_merge_separate_base_advance(self):
+        self.reject_foundation_history('merge_separate_base_advance', 'outside its prior registered scope')
+
+    def test_foundation_merge_separate_base_advance_after_revert(self):
+        self.reject_foundation_history('merge_separate_base_advance_after_revert', 'outside its prior registered scope')
+
+    def assert_post_disjoint_peer_old_lease(self, own_work=False):
+        """Scope/history classification fixture, not full peer Admission/Gate."""
+        spec = importlib.util.spec_from_file_location("peer_old_lease_history", SCRIPT)
+        h = importlib.util.module_from_spec(spec); spec.loader.exec_module(h)
+        now = datetime.now(timezone.utc); early = (now-timedelta(minutes=30)).isoformat()
+        short = {"acquiredAt": (now-timedelta(hours=1)).isoformat(), "expiresAt": (now-timedelta(minutes=10)).isoformat()}; rec = {}
+        with tempfile.TemporaryDirectory(prefix='ops004-oldlease-case-') as folder:
+         root=pathlib.Path(folder);case=self;original=case.commit;future={}
+         def git(*args):return subprocess.check_output(['git',*args],cwd=root,text=True,encoding='utf-8',stderr=subprocess.DEVNULL).strip()
+         def load(p):return yaml.safe_load((root/p).read_text(encoding='utf-8'))
+         def hook(location,message,timestamp=None):
+          if message=='GZ-014 completion metadata (#23)':return original(location,message,timestamp)
+          if (root/h.ACTIVE).exists():
+           doc=load(h.ACTIVE);own=next((x for x in doc['tasks'] if x['taskId']=='GZ-014'),None)
+           if own:
+            if not future:future.update(copy.deepcopy(own['lease']))
+            own['lease']=copy.deepcopy(short);case.write_yaml(folder,h.ACTIVE,doc);case.write_text(folder,'specs/tasks/GZ-014.md',case.task_spec(own,own['status'],own['branch'],own['baseSha']))
+          if message!='GZ-014 independent Review (#24)':return original(location,message,early)
+          review=original(location,message,early);rec['review']=review
+          subprocess.run(['git','checkout','-b','peer-side',review],cwd=root,check=True,capture_output=True)
+          reg=load(h.ACTIVE);peer=next(x for x in reg['tasks'] if x['taskId']=='OPS-100');peer.update(status='in_progress',agentRole='implementer',baseSha=review);case.write_yaml(folder,h.ACTIVE,reg);plan=load(h.PLAN);next(x for x in plan['tasks'] if x['taskId']=='OPS-100')['status']='in_progress';case.write_yaml(folder,h.PLAN,plan);case.write_text(folder,'specs/tasks/OPS-100.md',case.task_spec(peer,peer['status'],peer['branch'],peer['baseSha']));activate=original(folder,'OPS-100 side activation (#30)',(now-timedelta(minutes=20)).isoformat());case.write_text(folder,'scripts/other.py','# disjoint peer code, own registry/task unchanged\n');
+          if own_work:case.write_text(folder,'scripts/fixture-repair.py','# own code using expired own side lease\n')
+          work=original(folder,'OPS-100 disjoint code after own old lease expiry (#31)',now.isoformat());rec.update(peerActivation=activate,peerWork=work,peerWorkPaths=git('diff','--name-only',activate,work).splitlines(),workOwnEntry=copy.deepcopy(next(x for x in load(h.ACTIVE)['tasks'] if x['taskId']=='GZ-014')))
+          subprocess.run(['git','checkout','--detach',review],cwd=root,check=True,capture_output=True)
+          reg=load(h.ACTIVE);own=next(x for x in reg['tasks'] if x['taskId']=='GZ-014');own['lease']=copy.deepcopy(future);case.write_yaml(folder,h.ACTIVE,reg);case.write_text(folder,'specs/tasks/GZ-014.md',case.task_spec(own,own['status'],own['branch'],own['baseSha']));renew=original(folder,'GZ-014 main lease renewal (#32)',(now-timedelta(minutes=15)).isoformat());env=os.environ.copy();env.update(GIT_AUTHOR_DATE=now.isoformat(),GIT_COMMITTER_DATE=now.isoformat());merge=subprocess.run(['git','merge','--no-ff','-m','OPS-100 merge disjoint peer preserving main renewal (#33)',work],cwd=root,env=env,capture_output=True,text=True);rec['normalMergeExit']=merge.returncode;rec['normalMergeStdout']=merge.stdout;rec['normalMergeStderr']=merge.stderr
+          if merge.returncode:raise RuntimeError('unexpected merge conflict '+merge.stdout+merge.stderr)
+          tip=git('rev-parse','HEAD');subprocess.run(['git','branch','-f','main',tip],cwd=root,check=True,capture_output=True);rec.update(renewal=renew,renewalPaths=git('diff','--name-only',review,renew).splitlines(),merged=tip,mergedOwnEntry=copy.deepcopy(next(x for x in load(h.ACTIVE)['tasks'] if x['taskId']=='GZ-014')),mainSideParents=git('show','-s','--format=%P',tip).split());return tip
+         case.commit=hook;sources=case.create_foundation_completion(folder,'working_nonconflicting_claim');case.commit=original
+         # Builder-local peer row remains its old input; retain exact actually merged
+         # peer metadata so the final completion changes only the completing task.
+         base=sources['base'];baseplan=h.load_ref(folder,base,h.PLAN);current=load(h.PLAN);own=next(x for x in current['foundationTasks'] if x['taskId']=='GZ-014');baseplan['foundationTasks']=[own if x['taskId']=='GZ-014' else x for x in baseplan['foundationTasks']];case.write_yaml(folder,h.PLAN,baseplan);basereg=h.load_ref(folder,base,h.ACTIVE);basereg['tasks']=[x for x in basereg['tasks'] if x['taskId']!='GZ-014'];case.write_yaml(folder,h.ACTIVE,basereg);subprocess.run(['git','add','.'],cwd=root,check=True,capture_output=True);subprocess.run(['git','commit','--amend','--no-edit'],cwd=root,check=True,capture_output=True)
+         result=case._run_checker(folder,'GZ-014','chore/GZ-014-completion');pe=[];h.foundation_post_implementation(folder,'GZ-014',sources['implementation'],sources['reservation'],base,pe);rec.update(sources=sources,historyExit=result.returncode,stdout=result.stdout,stderr=result.stderr,postErrors=pe,finalCompletionPaths=git('diff','--name-only',base,'HEAD').splitlines(),oldLease=short,newLease=future,peerAdmissionBoundary='Real disjoint peer Git lifecycle fixture for history classification only; not a claim of full peer Admission/Transitions/Gate',firstParentHistory=git('log','--first-parent','--format=%H %ct %s','main').splitlines())
+         self.assertEqual(rec["normalMergeExit"], 0)
+         self.assertEqual(rec["mergedOwnEntry"]["lease"], future)
+         if own_work:
+          self.assertEqual(result.returncode, 1, result.stdout)
+          self.assertIn("own code changes after claimed implementation", result.stdout)
+         else:
+          self.assertEqual(result.returncode, 0, result.stdout)
+
+
+    def test_foundation_post_disjoint_peer_old_own_lease(self):
+        self.assert_post_disjoint_peer_old_lease()
+
+    def test_foundation_post_own_work_old_side_lease_rejected(self):
+        self.assert_post_disjoint_peer_old_lease(own_work=True)
+
+    def test_foundation_postclaim_review_unclaimed_code(self):
+        self.assert_postclaim_history('review_unclaimed_code', False, 'post-implementation working node changed paths outside its prior registered scope')
 
     def test_foundation_merge_earlier_unclaimed(self):
         self.reject_foundation_history('merge_earlier_unclaimed', 'outside its historical registered scope')

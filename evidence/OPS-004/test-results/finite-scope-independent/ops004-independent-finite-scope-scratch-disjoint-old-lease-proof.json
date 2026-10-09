@@ -1,0 +1,144 @@
+{
+  "kind": "EXPLORATORY_SCRATCH_OVERLAY_ON_PINNED_ACTUAL_SOURCE_REAL_GIT_DISJOINT_STALE_OWN_LEASE_REPRO_NOT_FORMAL_GATE",
+  "source": "b463cdb1427c8f3e6c7be84e0a33992799c5723d",
+  "tree": "5e29ffe4dbccbbbe7dd6b26e1c09e6586de342ff",
+  "checkerSha256": "e37198ef19d41ad21d7fd0367c1ca3f1009e01b2307e8fc39ecc8f9198efcb77",
+  "record": {
+    "review": "456fbeb3ceb213a927d2313c0d6e8db104e08069",
+    "peerActivation": "d08cf4a1cd13768f4f8d5161d9e1cab01f4b8a27",
+    "peerWork": "62b456b17f4ee3738f9b29834ef5267abc2a081d",
+    "peerWorkPaths": [
+      "scripts/other.py"
+    ],
+    "workOwnEntry": {
+      "taskId": "GZ-014",
+      "issue": 30,
+      "title": "Task GZ-014",
+      "status": "review",
+      "riskLevel": "high",
+      "owner": "owner",
+      "coordinator": "coordinator",
+      "implementer": "implementer",
+      "reviewer": "reviewer",
+      "integrator": "integrator",
+      "agentRole": "reviewer",
+      "branch": "chore/GZ-014-review",
+      "baseBranch": "main",
+      "baseSha": "0ec2c35dc30bda2a9a16f90521f0c1a04fd275f9",
+      "workPackage": "WP-TEST",
+      "programPlan": "specs/coordination/program-plan.yaml",
+      "programTaskId": "GZ-014",
+      "programWave": "FOUNDATION",
+      "requirementIds": [
+        "REQ-V1-0001"
+      ],
+      "moduleIds": [
+        "MOD-GOV"
+      ],
+      "producesContracts": [],
+      "consumesContracts": [],
+      "coordinationGroup": "test",
+      "dependsOn": [],
+      "exclusivePaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "sharedPaths": [],
+      "handoffPath": "evidence/GZ-014/handoff.md",
+      "integrationStrategy": "merge",
+      "integrationOrder": 1,
+      "lease": {
+        "acquiredAt": "2026-10-09T22:14:53.103915+00:00",
+        "expiresAt": "2026-10-09T23:04:53.103915+00:00"
+      }
+    },
+    "normalMergeExit": 0,
+    "normalMergeStdout": "Auto-merging specs/coordination/active-work.yaml\nMerge made by the 'ort' strategy.\n scripts/other.py                     | 1 +\n specs/coordination/active-work.yaml  | 6 +++---\n specs/coordination/program-plan.yaml | 2 +-\n specs/tasks/OPS-100.md               | 6 +++---\n 4 files changed, 8 insertions(+), 7 deletions(-)\n create mode 100644 scripts/other.py\n",
+    "normalMergeStderr": "",
+    "renewal": "1cf79ac295a1eb01439521131d3369ddd44b4956",
+    "renewalPaths": [
+      "specs/coordination/active-work.yaml",
+      "specs/tasks/GZ-014.md"
+    ],
+    "merged": "fbfbf73499c83c2d330acb6e20451f8046eb0b29",
+    "mergedOwnEntry": {
+      "taskId": "GZ-014",
+      "issue": 30,
+      "title": "Task GZ-014",
+      "status": "review",
+      "riskLevel": "high",
+      "owner": "owner",
+      "coordinator": "coordinator",
+      "implementer": "implementer",
+      "reviewer": "reviewer",
+      "integrator": "integrator",
+      "agentRole": "reviewer",
+      "branch": "chore/GZ-014-review",
+      "baseBranch": "main",
+      "baseSha": "0ec2c35dc30bda2a9a16f90521f0c1a04fd275f9",
+      "workPackage": "WP-TEST",
+      "programPlan": "specs/coordination/program-plan.yaml",
+      "programTaskId": "GZ-014",
+      "programWave": "FOUNDATION",
+      "requirementIds": [
+        "REQ-V1-0001"
+      ],
+      "moduleIds": [
+        "MOD-GOV"
+      ],
+      "producesContracts": [],
+      "consumesContracts": [],
+      "coordinationGroup": "test",
+      "dependsOn": [],
+      "exclusivePaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "sharedPaths": [],
+      "handoffPath": "evidence/GZ-014/handoff.md",
+      "integrationStrategy": "merge",
+      "integrationOrder": 1,
+      "lease": {
+        "acquiredAt": "2026-10-09T22:14:55.794196+00:00",
+        "expiresAt": "2026-10-10T23:14:55.794196+00:00"
+      }
+    },
+    "mainSideParents": [
+      "1cf79ac295a1eb01439521131d3369ddd44b4956",
+      "62b456b17f4ee3738f9b29834ef5267abc2a081d"
+    ],
+    "sources": {
+      "seed": "d5e4c1b9a1dd12e8912505308bfa11428ba4d6d3",
+      "reservation": "24f67bf798276faa176378d55ef1eba1d1f02163",
+      "implementation": "0ec2c35dc30bda2a9a16f90521f0c1a04fd275f9",
+      "base": "fbfbf73499c83c2d330acb6e20451f8046eb0b29"
+    },
+    "historyExit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+    "stderr": "",
+    "postErrors": [],
+    "finalCompletionPaths": [
+      "specs/coordination/active-work.yaml",
+      "specs/coordination/program-plan.yaml",
+      "specs/tasks/GZ-014.md"
+    ],
+    "oldLease": {
+      "acquiredAt": "2026-10-09T22:14:53.103915+00:00",
+      "expiresAt": "2026-10-09T23:04:53.103915+00:00"
+    },
+    "newLease": {
+      "acquiredAt": "2026-10-09T22:14:55.794196+00:00",
+      "expiresAt": "2026-10-10T23:14:55.794196+00:00"
+    },
+    "peerAdmissionBoundary": "Real disjoint peer Git lifecycle fixture for history classification only; not a claim of full peer Admission/Transitions/Gate",
+    "firstParentHistory": [
+      "fbfbf73499c83c2d330acb6e20451f8046eb0b29 1791587693 OPS-100 merge disjoint peer preserving main renewal (#33)",
+      "1cf79ac295a1eb01439521131d3369ddd44b4956 1791586793 GZ-014 main lease renewal (#32)",
+      "456fbeb3ceb213a927d2313c0d6e8db104e08069 1791585893 GZ-014 independent Review (#24)",
+      "0ec2c35dc30bda2a9a16f90521f0c1a04fd275f9 1791585893 GZ-014 repair (#22)",
+      "4ab6315dbc34a03a37cd1d9165cfd7e0d9d761c0 1791585893 GZ-014 adopt approved peer main baseline (#28)",
+      "266d1d6749d1524480fe200824166f58bc839472 1791585893 OPS-100 later active registration (#29)",
+      "060f6e5e699163e8e7e94d858bf3f0990e3f4832 1791585893 GZ-014 activation (#21)",
+      "24f67bf798276faa176378d55ef1eba1d1f02163 1791585893 GZ-014 metadata reservation (#20)",
+      "d5e4c1b9a1dd12e8912505308bfa11428ba4d6d3 1791585893 GZ-014 early repair before reservation (#22)"
+    ]
+  }
+}

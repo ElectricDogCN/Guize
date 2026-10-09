@@ -1,13 +1,12 @@
-# OPS-004 post-context 全部路径
+# OPS-004 finite scope 全部路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual Parent: b463cdb1427c8f3e6c7be84e0a33992799c5723d
 Branch: chore/OPS-004-history-repair-implementation
-Actual Parent: 10894c7189e2863434147da87c142df40f6a1a3e
 
-全部 390 路径，增量仅登记history checker/test与自身Evidence，504正式未执行。
+全部 424 路径，仅登记代码和自身Evidence；正式509未执行。
 
-```text
 evidence/OPS-004/changed-files.md
 evidence/OPS-004/commands.txt
 evidence/OPS-004/handoff.md
@@ -17,6 +16,15 @@ evidence/OPS-004/scope.md
 evidence/OPS-004/source-history/ops004-scope-fresh-history-proof.json
 evidence/OPS-004/summary.md
 evidence/OPS-004/test-results/README.md
+evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-refined-targeted.txt
+evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-refined-targeted.xml
+evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-targeted.txt
+evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-targeted.xml
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-b463cdb-disjoint-old-lease-proof.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-b463cdb-three-finite-threads-proof.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-finite-scope-b7fe4da-peer-metadata-regression-proof.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-finite-scope-scratch-disjoint-old-lease-proof.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-finite-scope-scratch-prospective-proof.json
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-five-thread-implementation-reproductions.json
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-frozen-policy-admission-proof.json
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-rebase-corrected-reproduction.json
@@ -385,7 +393,11 @@ evidence/OPS-004/test-results/history-snapshot-source-c62096c/transitions.txt
 evidence/OPS-004/test-results/history-snapshot-source-c62096c/tree.txt
 evidence/OPS-004/test-results/history-snapshot-source-c62096c/unaffected.txt
 evidence/OPS-004/test-results/history-snapshot-source-c62096c/verify.txt
+evidence/OPS-004/test-results/post-context-ci-615/job-log.txt
+evidence/OPS-004/test-results/post-context-ci-615/proof.json
 evidence/OPS-004/test-results/post-context-independent/ops004-independent-10894c7-post-context-proof.json
+evidence/OPS-004/test-results/post-context-independent/ops004-independent-b463cdb-prospective-merge-proof.json
+evidence/OPS-004/test-results/post-context-independent/ops004-independent-cc9f78f-finite-static-proof.json
 evidence/OPS-004/test-results/post-context-independent/ops004-independent-post-freeze-clean-import-proof.json
 evidence/OPS-004/test-results/post-context-independent/ops004-independent-refined-post-context-proof.json
 evidence/OPS-004/test-results/post-context-independent/ops004-independent-refined-post-freeze-clean-import-proof.json
@@ -393,9 +405,29 @@ evidence/OPS-004/test-results/post-context-independent/ops004-post-context-refin
 evidence/OPS-004/test-results/post-context-independent/ops004-post-context-refined-targeted.xml
 evidence/OPS-004/test-results/post-context-independent/ops004-post-context-targeted.txt
 evidence/OPS-004/test-results/post-context-independent/ops004-post-context-targeted.xml
+evidence/OPS-004/test-results/post-context-source-b463cdb/clean-after.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/clean-before.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/coordination.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/evidence.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/finalization.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/governance.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/governance.xml
+evidence/OPS-004/test-results/post-context-source-b463cdb/history.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/integrity.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/lifecycle.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/raw-lifecycle.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/readiness.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/schemas.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/scope.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/source.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/status.json
+evidence/OPS-004/test-results/post-context-source-b463cdb/task.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/transitions.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/tree.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/unaffected.txt
+evidence/OPS-004/test-results/post-context-source-b463cdb/verify.txt
 scripts/check-program-plan-history.py
 specs/coordination/active-work.yaml
 specs/coordination/program-plan.yaml
 specs/tasks/OPS-004.md
 tests/governance/test_program_plan_history.py
-```
