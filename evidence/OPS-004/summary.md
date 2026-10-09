@@ -52,3 +52,7 @@ Implementation merge: 726870c8ae161eab19f94a9b96980a7d9197b633
 本候选仅自身Program/Registry/Task的连续合法迁移及Evidence；实现两检查器和测试保持合入字节，GZ-005与旧完成身份不变。实际远端Gate592原始记录在 test-results/implementation-remote-592/。独立Review已确认751正式351零失败/错误/跳过、c085归档仅自身Evidence且exact tree一致；不冒称容量Gate PASS。需要本Review候选真实检查、独立审查、最新HEAD和实际CI，再按有界事件集成；后续Completion绑定实现身份而非Review PR。
 
 Review metadata tested source: 3517a9d633a534f4502938aedec9360887079903；tree e896283d321aa469fc70836aa2e1a70eeac760dc。实际14项检查13退出0，仅coordination=1为容量2>1；完整原始在 test-results/review-3517a9d/。实施代码和测试未变，已有实现阶段351本地/远端回归不冒称是在本Review提交本地重跑；本Review的实际远端CI仍须执行完整治理测试。首次b1f729a机器检查同样只有容量失败，但独立审查指出Task将登记PR72与实现PR73的merge文案混淆，已修正并重新验证；首次结果保留。当前归档只追加自身Evidence，仍需最新候选检查与独立审查。
+
+## 远端可重建源码与原日志绑定
+
+上述本地Source SHA不是远端祖先，原日志保持实际执行Source不改。现以公开archive分支保存完整同树复验入口：b1f729a对应远端5cb09fb1824dfc50a854456f24948b53b1696598/tree9e9876db50cf5ae1707ca834b3fed0c66157f4d3；3517a9d对应5dce717e6224e1cf955926721807cbda4db9034b/treee896283d321aa469fc70836aa2e1a70eeac760dc。两者已实际fetch，原本地Source与各自远端完整diff都退出0；真实父链为726870→5cb09→5dce7。这些远端commit是后来创建的等价入口，不冒称原测试提交、不会把归档创建称为重跑。精确映射、对象检查与fetch/独立checkout/复验命令见 [source-history/README.md](source-history/README.md) 与 `source-history/review-source-map.json`。archive分支须保留。后续检查改在实际已发布PR HEAD执行，避免新增不可达测试源；当前修正候选仍待该实际检查、CI与独立审查。

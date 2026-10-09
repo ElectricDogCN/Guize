@@ -1,0 +1,42 @@
+{
+  "task": "OPS-004",
+  "issue": 71,
+  "archiveBranch": "archive/OPS-004-review-sources-20261009",
+  "retention": "Keep this archive reference; do not delete while evidence depends on it.",
+  "integrationBase": "726870c8ae161eab19f94a9b96980a7d9197b633",
+  "meaning": "The original raw logs were executed on localSource. durableEquivalentCommit was created later with the identical complete Git tree and is a public reproduction entry; it is not the original tested commit and localSource is not asserted to be a remote ancestor.",
+  "snapshots": [
+    {
+      "localSource": "b1f729aa360954ba6036c188c4c0f5d67122305a",
+      "testedTree": "9e9876db50cf5ae1707ca834b3fed0c66157f4d3",
+      "durableEquivalentCommit": "5cb09fb1824dfc50a854456f24948b53b1696598",
+      "actualParent": "726870c8ae161eab19f94a9b96980a7d9197b633",
+      "actualNativeFullDiff": {
+        "command": "git diff --exit-code b1f729aa360954ba6036c188c4c0f5d67122305a 5cb09fb1824dfc50a854456f24948b53b1696598 --",
+        "exitCode": 0,
+        "stdout": ""
+      }
+    },
+    {
+      "localSource": "3517a9d633a534f4502938aedec9360887079903",
+      "testedTree": "e896283d321aa469fc70836aa2e1a70eeac760dc",
+      "durableEquivalentCommit": "5dce717e6224e1cf955926721807cbda4db9034b",
+      "actualParent": "5cb09fb1824dfc50a854456f24948b53b1696598",
+      "actualNativeFullDiff": {
+        "command": "git diff --exit-code 3517a9d633a534f4502938aedec9360887079903 5dce717e6224e1cf955926721807cbda4db9034b --",
+        "exitCode": 0,
+        "stdout": ""
+      }
+    }
+  ],
+  "actualFetch": {
+    "command": "git fetch origin archive/OPS-004-review-sources-20261009",
+    "exitCode": 0
+  },
+  "actualGitObjectOutput": [
+    "5cb09fb1824dfc50a854456f24948b53b1696598 9e9876db50cf5ae1707ca834b3fed0c66157f4d3 726870c8ae161eab19f94a9b96980a7d9197b633",
+    "5dce717e6224e1cf955926721807cbda4db9034b e896283d321aa469fc70836aa2e1a70eeac760dc 5cb09fb1824dfc50a854456f24948b53b1696598"
+  ],
+  "originalLogsUnmodified": true,
+  "reproductionIsNotRetroactiveGatePass": true
+}
