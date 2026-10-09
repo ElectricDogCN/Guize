@@ -1,4 +1,25 @@
 
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: 6ecfcf49477341c90bc729743d05f17f2dc0dc24
+Tested Tree: 132e3606ded45ba8cf82af7d95c91f3b767d51cd
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 372 passed in 326.74s (0:05:26)，JUnit372 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/history-repair-source-6ecfcf4/。Gate603完整原始在 test-results/history-repair-ci-603/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
 ## 本次实现与验证边界
 
 Task: OPS-004 / Issue71
