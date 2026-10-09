@@ -1,0 +1,252 @@
+{
+  "source": "ecae6e7f38a61b7d477a0780689936beef4b0949",
+  "rows": [
+    {
+      "scenario": "main_sync",
+      "latestMain": "ec3dc594aff0c7dc4b30346a88062ba6fe52d1a1",
+      "sideSynchronization": "a9ff7c38ae2ab0b27819cd65a6be4fdb8dafac3e",
+      "mainAncestorSync": 0,
+      "rootMerge": "2f3e429e299483c1b172df86a25a3bc5cb9a20d6",
+      "fixtureSources": {
+        "seed": "d804d2bff6ecdd5ea6480141a989a7691c9023b1",
+        "reservation": "ff62eaa0968753839cebc3977e9bcd47912e9c94",
+        "implementation": "2f3e429e299483c1b172df86a25a3bc5cb9a20d6",
+        "base": "7cd2412b872d783ecb0062190c958f040998f97c"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node changed paths outside its prior registered scope\"}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "metadata_conflict",
+      "invalidMetadataCommit": "d9ff118f998502fbdf51939780fffbad9740f772",
+      "existingClaimPredicateErrors": [
+        "Active Foundation GZ-014 baseSha must equal audited target base 34679ac6a47143991405d94f3d9d49790a73bd61",
+        "Existing conservative overlap predicate detects active exclusive conflict"
+      ],
+      "workingNode": "2c09ddeed1d557429d57e73a123fa2d95cd00aa7",
+      "parents": [
+        "9fd597b2a9dd7455230daba0bbf0628672028b76"
+      ],
+      "fixtureSources": {
+        "seed": "ed80559614f1674524defb76bc3a5c8566a459e9",
+        "reservation": "8691986ae552bcd90060c9d16b56add24cc17b8d",
+        "implementation": "2c09ddeed1d557429d57e73a123fa2d95cd00aa7",
+        "base": "853ac4c9f1a0bf4f11ecece9a1a7bb6821adcb23"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "metadata_ownership",
+      "invalidMetadataCommit": "a1e373b8106d1d3d492e5594845adac0b2713c48",
+      "existingClaimPredicateErrors": [
+        "Active Foundation GZ-014 baseSha must equal audited target base 9dc76d73f6027206d50b96c99810cc7fff1283d0",
+        "Active Foundation GZ-014 path claim backend/unowned.py is outside module ownership and audited repair scope"
+      ],
+      "workingNode": "00d2d2fb44c8290b281ad2b84bd59efb9c522aac",
+      "parents": [
+        "e5bafb8215c4e68e234f7531ddaf53b21142b741"
+      ],
+      "fixtureSources": {
+        "seed": "3817c24a52b1426fa49625e2bdae883480abe09c",
+        "reservation": "a8788cb604c5aa43f511d7baf545d488285e589d",
+        "implementation": "00d2d2fb44c8290b281ad2b84bd59efb9c522aac",
+        "base": "5f6a71b044db483f1cbd9c365036006605027b5d"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "foreign_registry",
+      "foreignBefore": {
+        "taskId": "OPS-100",
+        "issue": 30,
+        "title": "Task OPS-100",
+        "status": "reserved",
+        "riskLevel": "medium",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "implementer",
+        "branch": "chore/OPS-100-other",
+        "baseBranch": "main",
+        "baseSha": "72283b826810cda356a71189b7184358332bd6f2",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "OPS-100",
+        "programWave": "W1",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/other.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/OPS-100/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-08-29T00:00:00Z",
+          "expiresAt": "2026-09-02T00:00:00Z"
+        }
+      },
+      "foreignAfter": {
+        "taskId": "OPS-100",
+        "issue": 30,
+        "title": "Task OPS-100",
+        "status": "reserved",
+        "riskLevel": "medium",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "different-unapproved-reviewer",
+        "integrator": "integrator",
+        "agentRole": "implementer",
+        "branch": "chore/OPS-100-other",
+        "baseBranch": "main",
+        "baseSha": "72283b826810cda356a71189b7184358332bd6f2",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "OPS-100",
+        "programWave": "W1",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/other.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/OPS-100/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-08-29T00:00:00Z",
+          "expiresAt": "2026-09-02T00:00:00Z"
+        }
+      },
+      "workingNode": "436a70d8859212dafbe53909a54cce3b5642e902",
+      "parents": [
+        "121c27572359a6ff9c1ea2e1170749a2d2da4e05"
+      ],
+      "existingTransitionErrors": [
+        "Active transition for GZ-014 may not modify Registry policy or another task"
+      ],
+      "fixtureSources": {
+        "seed": "f09b16b262995a144c395b3d23a253fdd2c07c16",
+        "reservation": "4c732d6fbbf8b1b7351f1fc9dafff50b5d708a22",
+        "implementation": "436a70d8859212dafbe53909a54cce3b5642e902",
+        "base": "968184c4afe3f6374d4396d0ca87eca5152255c4"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "foreign_program",
+      "foreignBefore": {
+        "taskId": "GZ-003",
+        "status": "completed",
+        "completionRef": "PR-19",
+        "mergeCommit": "ba32d1a35e695f30166706a8382e0f40c19050c3"
+      },
+      "foreignAfter": {
+        "taskId": "GZ-003",
+        "status": "completed",
+        "completionRef": "PR-999",
+        "mergeCommit": "ba32d1a35e695f30166706a8382e0f40c19050c3"
+      },
+      "workingNode": "71a8e2b8be6402358235310148e2e494423457f1",
+      "parents": [
+        "18bc317a50f2ff1fedab2647d205f68dadfdaee4"
+      ],
+      "existingTransitionErrors": [
+        "Active transition for GZ-014 may only change that Foundation task's status, its required POC mirror, or its owned live-verified blocker"
+      ],
+      "fixtureSources": {
+        "seed": "34348791e7a33fa454cc1ee2e2503f19319d9f4f",
+        "reservation": "93204ebb11be896403081091f7e6ff69355dadf5",
+        "implementation": "71a8e2b8be6402358235310148e2e494423457f1",
+        "base": "9edc48ae7c2269995d199a7a44e606952e535b17"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "temporary_capacity_policy",
+      "invalidMetadataCommit": "244d71170b31976b45bbc26d74d3ca4596ff7160",
+      "existingTransitionErrors": [
+        "Active transition for GZ-014 may not modify Registry policy or another task"
+      ],
+      "duringWorkHighCount": 2,
+      "originalMaxHigh": 1,
+      "temporaryMaxHigh": 2,
+      "workingNode": "b744a2ef5303d7a013f0437fc70f53cd959c4d03",
+      "parents": [
+        "f5759aab2bb6bb0f6d55135af50196ccdfc3cfd6"
+      ],
+      "fixtureSources": {
+        "seed": "9397f2bdbc17b4d650401fbf80c03bcf5ddea928",
+        "reservation": "848f53ea79bf07944fdc6628aaebe93b6ebf5874",
+        "implementation": "b744a2ef5303d7a013f0437fc70f53cd959c4d03",
+        "base": "4778060cca7a7c3a455248cbafe959366f6451cf"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "integrator_single_parent",
+      "integrationStrategy": "merge",
+      "workingNode": "3af9717bb007020beb14fc3d4ff69492d4e7b5a6",
+      "parents": [
+        "af9a00a2f8c701ed453378818ae0fed463115535"
+      ],
+      "fixtureSources": {
+        "seed": "254bb379d78498314db0de97366a26d4d26279f6",
+        "reservation": "a56b6de5780f594826945ad6bbb813999a8d851d",
+        "implementation": "3af9717bb007020beb14fc3d4ff69492d4e7b5a6",
+        "base": "9f2086fdd88d29e952064d8498c8eb74d5bf9bb1"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "integrator_single_parent_squash",
+      "integrationStrategy": "squash",
+      "workingNode": "a4285a64ba5e7d39ea012bab3c9fee2bba53ec8c",
+      "parents": [
+        "cfdb506d12b3e204c8c310ee6dd5bdb5dec7dc57"
+      ],
+      "fixtureSources": {
+        "seed": "ff89ae12672e2cf722f1254891558a776c98d1db",
+        "reservation": "8ad1be3095838e2934d526bf27a4ffb673264e05",
+        "implementation": "a4285a64ba5e7d39ea012bab3c9fee2bba53ec8c",
+        "base": "1834872f6c4df2d8b1184c258fde22ca5743ae3d"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ]
+}

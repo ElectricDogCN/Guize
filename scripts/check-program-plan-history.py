@@ -46,6 +46,7 @@ TASK_DIR = "specs/tasks"
 ACTIVE_STATES = {"reserved", "in_progress", "blocked", "review", "integration"}
 REGISTRY_SCHEMA = "specs/coordination/active-work.schema.yaml"
 AUDITED_OWNER_CAPACITY_FAILURES: dict[str, dict[str, Any]] = {}
+VALIDATED_TASK_SNAPSHOTS: set[tuple[str, str, str, str]] = set()
 PR_REF_RE = re.compile(r"^PR-([0-9]+)$")
 
 
@@ -487,6 +488,98 @@ def historical_conflicts(task_id: str, entry: dict[str, Any], registry: dict[str
             errors.append(f"{label} claims conflict with active task {other.get('taskId')}")
 
 
+def historical_registration_context(root: str, snapshot: str, observation: str, task_id: str, registry: dict[str, Any], reservation: str, policy: dict[str, Any], label: str, errors: list[str]) -> dict[str, Any] | None:
+    """Validate metadata snapshots too; restoring them cannot erase violations."""
+    historical_registry_schema(root, snapshot, registry, label, errors)
+    if not isinstance(registry, dict):
+        return None
+    if registry.get("policy") != policy:
+        errors.append(f"{label} changed the original registered capacity policy")
+    entries = [item for item in registry.get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+    if len(entries) != 1:
+        errors.append(f"{label} requires exactly one registered task")
+        return None
+    entry = entries[0]
+    if entry.get("status") not in ACTIVE_STATES:
+        errors.append(f"{label} must retain an active registered lifecycle state")
+    historical_lease(root, observation, entry, policy, label, errors)
+    historical_capacity(root, task_id, registry, policy, reservation, observation, label, errors)
+    historical_conflicts(task_id, entry, registry, label, errors)
+    ownership = load_ref(root, snapshot, RECOVERY.OWNERSHIP)
+    legacy = RECOVERY.FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
+    claims = entry.get("exclusivePaths") or []
+    if not isinstance(ownership, dict) or entry.get("sharedPaths") or not claims or any(not RECOVERY.governance_claim_subset(str(claim), ownership) and str(claim) not in legacy for claim in claims):
+        errors.append(f"{label} has invalid historical governance claims")
+    historical_lifecycle_binding(root, snapshot, task_id, entry, errors, working=False)
+    return entry
+
+
+def approved_synchronization_parents(root: str, node: str, base: str) -> list[str]:
+    parents = git(root, "show", "-s", "--format=%P", node)
+    return [parent for parent in parents.stdout.split()[1:] if is_ancestor(root, parent, base)] if parents.returncode == 0 else []
+
+
+def effective_node_paths(root: str, node: str, paths: set[str], incoming: list[str]) -> set[str]:
+    # Incoming main commits already belong to the audited base. Only an exact
+    # imported tree entry (including mode/deletion) is excluded; resolutions
+    # and new work remain subject to the task's pre-change claims.
+    def tree_entry(ref: str, path: str) -> str | None:
+        result = git(root, "ls-tree", ref, "--", path)
+        return result.stdout if result.returncode == 0 else None
+    effective = set()
+    for path in paths:
+        actual = tree_entry(node, path)
+        if actual is None or not any(actual == tree_entry(parent, path) for parent in incoming):
+            effective.add(path)
+    return effective
+
+
+def historical_foreign_metadata(root: str, previous: str, node: str, incoming: list[str], task_id: str, errors: list[str]) -> None:
+    for path, collections in ((ACTIVE, ("tasks",)), (PLAN, ("tasks", "foundationTasks"))):
+        def foreign_document(ref: str) -> dict[str, Any] | None:
+            document = load_ref(root, ref, path)
+            if not isinstance(document, dict):
+                return None
+            document = copy.deepcopy(document)
+            for collection in collections:
+                document[collection] = [item for item in document.get(collection, []) if item.get("taskId") != task_id]
+            return document
+        actual = foreign_document(node)
+        candidates = [foreign_document(ref) for ref in [previous, *incoming]]
+        if path == PLAN and actual is not None and not any(candidate is not None and actual == candidate for candidate in candidates):
+            # Preserve the established metadata-only freeze/thaw protocol.
+            # Its owner and complete source-bound proof must validate before
+            # root recovery fields can be removed from this comparison.
+            before = load_ref(root, previous, PLAN)
+            after = load_ref(root, node, PLAN)
+            if isinstance(before, dict) and isinstance(after, dict) and before.get("status") != after.get("status") and task_id in {RECOVERY.recovery_owner(before), RECOVERY.recovery_owner(after)}:
+                recovery_errors: list[str] = []
+                try:
+                    with tempfile.TemporaryDirectory(prefix="guize-history-recovery-") as temporary:
+                        snapshot = os.path.join(temporary, "snapshot")
+                        clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
+                        checkout = git(snapshot, "checkout", "--detach", "--quiet", node) if clone.returncode == 0 else None
+                        if not checkout or checkout.returncode != 0 or resolve_ref(snapshot, "HEAD") != node:
+                            recovery_errors.append("Cannot reconstruct recovery transition snapshot")
+                        elif RECOVERY.validate_recovery_transition(snapshot, previous, node, recovery_errors) != task_id:
+                            recovery_errors.append("Recovery transition owner does not match registered task")
+                    if after.get("status") == "frozen":
+                        observed = datetime.fromtimestamp(int(git(root, "show", "-s", "--format=%ct", node).stdout.strip()), timezone.utc)
+                        if historical_time(after["recovery"]["frozenAt"]) >= observed + timedelta(seconds=1):
+                            recovery_errors.append("Freeze occurred after its integration commit")
+                except (OSError, KeyError, TypeError, ValueError) as exc:
+                    recovery_errors.append(str(exc))
+                if recovery_errors:
+                    errors.extend(f"Foundation {task_id} historical recovery rejected: {error}" for error in recovery_errors)
+                else:
+                    for document in [actual, *candidates]:
+                        if isinstance(document, dict):
+                            document.pop("status", None)
+                            document.pop("recovery", None)
+        if actual is None or not any(candidate is not None and actual == candidate for candidate in candidates):
+            errors.append(f"Foundation {task_id} implementation node at {node} changed another identity or policy in {path}")
+
+
 def historical_capacity(root: str, task_id: str, registry: dict[str, Any], policy: dict[str, Any], reservation: str, observation: str, label: str, errors: list[str]) -> None:
     active = [item for item in registry.get("tasks", []) if item.get("status") in ACTIVE_STATES]
     high = sum(item.get("riskLevel") in {"high", "critical"} for item in active)
@@ -526,6 +619,10 @@ def historical_capacity(root: str, task_id: str, registry: dict[str, Any], polic
 
 
 def historical_task_snapshot(root: str, commit: str, task_id: str, entry: dict[str, Any], label: str, errors: list[str]) -> None:
+    key = (root, commit, task_id, json.dumps(entry, sort_keys=True))
+    if key in VALIDATED_TASK_SNAPSHOTS:
+        return
+    initial_errors = len(errors)
     try:
         with tempfile.TemporaryDirectory(prefix="guize-foundation-task-") as temporary:
             snapshot = os.path.join(temporary, "snapshot")
@@ -543,6 +640,8 @@ def historical_task_snapshot(root: str, commit: str, task_id: str, entry: dict[s
             errors.extend(f"{label} Task Registry binding: {error}" for error in linked_errors)
     except OSError as exc:
         errors.append(f"{label} cannot reconstruct Task Spec: {exc}")
+    if len(errors) == initial_errors:
+        VALIDATED_TASK_SNAPSHOTS.add(key)
 
 
 def foundation_reservation(
@@ -686,8 +785,7 @@ def foundation_reservation(
     stable = {k: v for k, v in entry.items() if k not in mutable}
     for snapshot_commit, snapshot_entry in snapshots:
         snapshot_registry = load_ref(root, snapshot_commit, ACTIVE)
-        historical_registry_schema(root, snapshot_commit, snapshot_registry, f"Foundation {task_id} audited history at {snapshot_commit}", errors)
-        historical_lease(root, snapshot_commit, snapshot_entry, (snapshot_registry or {}).get("policy", {}), f"Foundation {task_id} audited history at {snapshot_commit}", errors)
+        historical_registration_context(root, snapshot_commit, snapshot_commit, task_id, snapshot_registry, commit, previous_active.get("policy", {}), f"Foundation {task_id} audited history at {snapshot_commit}", errors)
         if {k: v for k, v in snapshot_entry.items() if k not in mutable} != stable:
             errors.append(f"Foundation {task_id} changed stable identity in audited history at {snapshot_commit}")
         if not snapshot_entry.get("implementer") or snapshot_entry.get("implementer") == snapshot_entry.get("reviewer"):
@@ -755,11 +853,12 @@ def foundation_reservation(
     return commit, entry, set(commits)
 
 
-def historical_lifecycle_binding(root: str, commit: str, task_id: str, entry: dict[str, Any], errors: list[str]) -> None:
+def historical_lifecycle_binding(root: str, commit: str, task_id: str, entry: dict[str, Any], errors: list[str], *, working: bool = True) -> None:
     plan = load_ref(root, commit, PLAN)
     front, body = parse_front_matter(read_ref(root, commit, find_task_path(root, task_id, commit) or ""))
     foundation = mapping((plan or {}).get("foundationTasks")).get(task_id, {})
-    if entry.get("status") not in RECOVERY.IMPLEMENTATION_STATES or front.get("status") != entry.get("status") or foundation.get("status") != entry.get("status") or front.get("agentRole") != entry.get("agentRole") or foundation.get("title") != entry.get("title"):
+    allowed_states = RECOVERY.IMPLEMENTATION_STATES if working else ACTIVE_STATES
+    if entry.get("status") not in allowed_states or front.get("status") != entry.get("status") or foundation.get("status") != entry.get("status") or front.get("agentRole") != entry.get("agentRole") or foundation.get("title") != entry.get("title"):
         errors.append(f"Foundation {task_id} working lifecycle documents must match the active Registry status and role")
     stable_spec_matches(task_id, entry, front, body, errors, reservation=True)
     if (
@@ -804,6 +903,11 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         errors.append(f"Foundation {task_id} claimed implementation has no pre-change registered scope or exact diff")
         return
     entry = prior_entries[0]
+    reservation_parent = resolve_ref(root, f"{reservation}^1")
+    original_registry = load_ref(root, reservation_parent, ACTIVE)
+    policy = (original_registry or {}).get("policy", {})
+    mutable = {"status", "agentRole", "baseSha", "branch", "exclusivePaths", "sharedPaths", "lease"}
+    stable = {key: value for key, value in entry.items() if key not in mutable}
     if LEDGER in paths:
         errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
     task_path = find_task_path(root, task_id, commit)
@@ -832,26 +936,30 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         if node_paths is None:
             errors.append(f"Foundation {task_id} cannot read implementation node diff")
             continue
+        incoming = approved_synchronization_parents(root, node, base)
+        node_paths = effective_node_paths(root, node, node_paths, incoming) if incoming else node_paths
         if LEDGER in node_paths:
             errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
-        if not any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in node_paths):
-            continue
+        working = any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in node_paths)
         if not is_ancestor(root, reservation, node):
-            errors.append(f"Foundation {task_id} working node predates its original reservation")
+            if working:
+                errors.append(f"Foundation {task_id} working node predates its original reservation")
             continue
+        historical_foreign_metadata(root, previous, node, incoming, task_id, errors)
         before_registry = load_ref(root, previous, ACTIVE)
         before_entries = [item for item in (before_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
         node_registry = load_ref(root, node, ACTIVE)
         node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
-        historical_registry_schema(root, previous, before_registry, f"Foundation {task_id} working node prior registration at {node}", errors)
-        historical_registry_schema(root, node, node_registry, f"Foundation {task_id} working node at {node}", errors)
-        historical_capacity(root, task_id, before_registry, (before_registry or {}).get("policy", {}), reservation, node, f"Foundation {task_id} working node prior registration at {node}", errors)
-        historical_capacity(root, task_id, node_registry, (before_registry or {}).get("policy", {}), reservation, node, f"Foundation {task_id} working node at {node}", errors)
+        historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} implementation history at {node}", errors)
+        for node_entry in node_entries:
+            if {key: value for key, value in node_entry.items() if key not in mutable} != stable:
+                errors.append(f"Foundation {task_id} changed stable identity in implementation history at {node}")
+        if not working:
+            continue
+        historical_registration_context(root, previous, node, task_id, before_registry, reservation, policy, f"Foundation {task_id} working node prior registration at {node}", errors)
         if len(before_entries) != 1:
             errors.append(f"Foundation {task_id} working node has no prior registered lease")
         else:
-            historical_lease(root, node, before_entries[0], (before_registry or {}).get("policy", {}), f"Foundation {task_id} working node prior registration at {node}", errors)
-            historical_conflicts(task_id, before_entries[0], before_registry, f"Foundation {task_id} working node prior registration at {node}", errors)
             node_claims = list(before_entries[0].get("exclusivePaths") or [])
             node_ownership = load_ref(root, previous, RECOVERY.OWNERSHIP)
             node_implementation = {path for path in node_paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}

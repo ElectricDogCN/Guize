@@ -1,0 +1,11 @@
+{
+  "before": "f6fe076d42de15f697adfc3910c955bb21b8fde4",
+  "freeze": "12f701a6c9aec02e921bf8ae2670fa9ed161bba0",
+  "existingRecoveryOwner": "GZ-014",
+  "existingRecoveryErrors": [],
+  "newForeignMetadataErrors": [
+    "Foundation GZ-014 implementation node at 12f701a6c9aec02e921bf8ae2670fa9ed161bba0 changed another identity or policy in specs/coordination/program-plan.yaml"
+  ],
+  "boundary": "EXPLORATORY UNCOMMITTED HELPER; NOT CLEAN ECAE SOURCE",
+  "checkerSha256": "d82b7d14738c17e00a7ff688ee2e7c2de85456e8e8427faf698e6825eaaaf925"
+}

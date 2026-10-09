@@ -1,3 +1,24 @@
+## 当前 context 修复候选：正式执行尚未完成
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: ecae6e7f38a61b7d477a0780689936beef4b0949
+Execution Status: NOT_EXECUTED for this changed context candidate; no current full465/CI success claim.
+
+历史 DAG 实际已发布来源 ecae6e7f38a61b7d477a0780689936beef4b0949/tree7439c712798a7a67b6ea6e06a94e36f320d2604c：15检查13项exit0，coord1/make2只原容量FAIL；独立完整447 PASS392.17s、JUnit447零失败/错误/跳过，执行前后Source/工作树不变。Gate609同头完整447 PASS280.10s，唯一AgentCoord原容量失败，完整实际原始见 test-results/history-dag-source-ecae6e7/ 和 history-dag-ci-609/。该来源保留为真实父历史，不用本地alias冒充已发布Source或真实集成。
+
+四个新实证漏洞与合法Recovery边界合批修复，独立Reviewer确认不引入6XRR单父禁令。未提交工作树上的120 targeted PASS124.13s仅为探索预检，外部JUnit保留；下一步必须在实际发布的干净来源运行15检查、完整465、同HEAD CI，归档后再独立复核/集成。原窗口、Lease和永久maxHigh不延长。四个受保护Evidence成功字段只在另行Completion中绑定本次实际PR77代码merge的实现治理验证，当前仍不能完成或激活GZ005。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
 
 ## 当前实施侧真实来源节点修复
 

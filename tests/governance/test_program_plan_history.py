@@ -1,4 +1,6 @@
 import os
+import pathlib
+import importlib.util
 import copy
 import re
 import subprocess
@@ -606,6 +608,320 @@ class TestProgramPlanHistory(unittest.TestCase):
             ).strip()
             subprocess.run(["git", "reset", "--soft", candidate], cwd=root, check=True, capture_output=True)
         return {"seed": seed, "reservation": reservation, "implementation": implementation, "base": audited_base}
+
+    def create_context_completion(self, folder, scenario, side_metadata=False):
+        # All branch/merge mutations happen in a disposable real Git fixture.
+        root = pathlib.Path(folder)
+        case = self
+        original = case.commit
+        record = {}
+
+        def git(*arguments):
+            return subprocess.check_output(['git', *arguments], cwd=root, text=True, stderr=subprocess.DEVNULL).strip()
+
+        def load(path):
+            return yaml.safe_load((root / path).read_text(encoding='utf-8'))
+
+        old_entry = case.entry
+        if scenario.endswith('_squash'):
+            def entry(*arguments, **kwargs):
+                item = old_entry(*arguments, **kwargs)
+                if item['taskId'] == 'GZ-014':
+                    item['integrationStrategy'] = 'squash'
+                return item
+            case.entry = entry
+
+        def hook(location, message, timestamp=None):
+            if message != 'GZ-014 repair (#22)':
+                return original(location, message, timestamp)
+            activation = git('rev-parse', 'HEAD')
+            if side_metadata:
+                git('checkout', '-b', 'registered-side-metadata', activation)
+            registry = load('specs/coordination/active-work.yaml')
+            plan = load('specs/coordination/program-plan.yaml')
+            own = copy.deepcopy(next(item for item in registry['tasks'] if item['taskId'] == 'GZ-014'))
+            pending = root / 'scripts/fixture-repair.py'
+            code = pending.read_text(encoding='utf-8')
+            pending.unlink()
+            if scenario == 'main_sync':
+                pending.write_text(code, encoding='utf-8')
+                side_code = original(location, message, timestamp)
+                git('checkout', '-B', 'main', activation)
+                case.write_text(location, 'backend/main-unrelated.py', '# already integrated latest-main change\n')
+                latest = original(location, 'OTHER-001 main baseline update (#29)')
+                git('checkout', '-b', 'side-review', side_code)
+                git('merge', '--no-ff', latest, '-m', 'GZ-014 synchronize latest main')
+                synchronization = git('rev-parse', 'HEAD')
+                git('checkout', 'main')
+                git('merge', '--no-ff', synchronization, '-m', message)
+                merge = git('rev-parse', 'HEAD')
+                record.update(latestMain=latest, sideSynchronization=synchronization, rootMerge=merge)
+                return merge
+            if scenario in {'metadata_task', 'metadata_program'}:
+                if scenario == 'metadata_task':
+                    altered_spec = case.task_spec(own, own['status'], own['branch'], own['baseSha'])
+                    altered_spec = re.sub(r'^leaseExpiresAt:.*$', 'leaseExpiresAt: 2026-01-01T00:00:00Z', altered_spec, flags=re.M)
+                    case.write_text(location, 'specs/tasks/GZ-014.md', altered_spec)
+                else:
+                    altered = copy.deepcopy(plan)
+                    next(item for item in altered['foundationTasks'] if item['taskId'] == 'GZ-014')['status'] = 'reserved'
+                    case.write_yaml(location, 'specs/coordination/program-plan.yaml', altered)
+                original(location, 'GZ-014 invalid metadata-only canonical binding (#26)')
+                case.write_yaml(location, 'specs/coordination/program-plan.yaml', plan)
+                case.write_text(location, 'specs/tasks/GZ-014.md', case.task_spec(own, own['status'], own['branch'], own['baseSha']))
+                original(location, 'GZ-014 restore canonical binding (#27)')
+            elif scenario in {'metadata_conflict', 'metadata_ownership'}:
+                altered = copy.deepcopy(registry)
+                target = altered['tasks'][0]
+                target['exclusivePaths'].append('scripts/foreign.py' if scenario == 'metadata_conflict' else 'backend/unowned.py')
+                other = case.entry('OPS-100', activation, 'reserved', 'chore/OPS-100-other')
+                other['riskLevel'] = 'medium'
+                other['exclusivePaths'] = ['scripts/foreign.py']
+                altered['tasks'].append(other)
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', altered)
+                case.write_text(location, 'specs/tasks/GZ-014.md', case.task_spec(target, target['status'], target['branch'], target['baseSha']))
+                bad = original(location, 'GZ-014 invalid metadata-only scope amendment (#26)')
+                ownership = load('specs/designs/module-ownership.yaml')
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', registry)
+                case.write_text(location, 'specs/tasks/GZ-014.md', case.task_spec(own, own['status'], own['branch'], own['baseSha']))
+                original(location, 'GZ-014 restore scope metadata (#27)')
+            elif scenario == 'temporary_capacity_policy':
+                altered = copy.deepcopy(registry)
+                altered['policy']['maxHighRiskTasks'] = 2
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', altered)
+                bad = original(location, 'GZ-014 temporary metadata capacity increase (#26)')
+                other = case.entry('OPS-100', activation, 'reserved', 'chore/OPS-100-other')
+                other['exclusivePaths'] = ['scripts/other.py']
+                altered['tasks'].append(other)
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', altered)
+                original(location, 'OPS-100 competing high risk registration (#29)')
+                errors = []
+                record.update(invalidMetadataCommit=bad, existingTransitionErrors=errors, duringWorkHighCount=2, originalMaxHigh=1, temporaryMaxHigh=2)
+            elif scenario == 'foreign_registry':
+                altered = copy.deepcopy(registry)
+                foreign = next(item for item in altered['tasks'] if item['taskId'] != 'GZ-014')
+                record['foreignBefore'] = copy.deepcopy(foreign)
+                foreign['reviewer'] = 'different-unapproved-reviewer'
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', altered)
+                record['foreignAfter'] = copy.deepcopy(foreign)
+            elif scenario == 'foreign_program':
+                altered = copy.deepcopy(plan)
+                foreign = next(item for item in altered['foundationTasks'] if item['taskId'] != 'GZ-014')
+                record['foreignBefore'] = copy.deepcopy(foreign)
+                foreign['completionRef'] = 'PR-999'
+                case.write_yaml(location, 'specs/coordination/program-plan.yaml', altered)
+                record['foreignAfter'] = copy.deepcopy(foreign)
+            elif scenario.startswith('integrator_'):
+                reviewed_main_registry, reviewed_main_plan = copy.deepcopy(registry), copy.deepcopy(plan)
+                reviewed_main_entry = reviewed_main_registry['tasks'][0]
+                reviewed_main_entry.update(agentRole='reviewer', status='review')
+                next(item for item in reviewed_main_plan['foundationTasks'] if item['taskId'] == 'GZ-014')['status'] = 'review'
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', reviewed_main_registry)
+                case.write_yaml(location, 'specs/coordination/program-plan.yaml', reviewed_main_plan)
+                case.write_text(location, 'specs/tasks/GZ-014.md', case.task_spec(reviewed_main_entry, 'review', reviewed_main_entry['branch'], reviewed_main_entry['baseSha']))
+                review_baseline = original(location, 'GZ-014 review baseline metadata (#24)')
+                record['integrationReviewBaseline'] = review_baseline
+                if scenario == 'integrator_reviewed_squash':
+                    git('checkout', '--detach', activation)
+                    pending.write_text(code, encoding='utf-8')
+                    implemented = original(location, 'GZ-014 independently implemented source (#22)')
+                    reviewed_registry, reviewed_plan = copy.deepcopy(registry), copy.deepcopy(plan)
+                    review_entry = reviewed_registry['tasks'][0]
+                    review_entry.update(status='review', agentRole='reviewer', baseSha=implemented, branch='chore/GZ-014-source-review')
+                    next(item for item in reviewed_plan['foundationTasks'] if item['taskId'] == 'GZ-014')['status'] = 'review'
+                    case.write_yaml(location, 'specs/coordination/active-work.yaml', reviewed_registry)
+                    case.write_yaml(location, 'specs/coordination/program-plan.yaml', reviewed_plan)
+                    case.write_text(location, 'specs/tasks/GZ-014.md', case.task_spec(review_entry, 'review', review_entry['branch'], implemented))
+                    reviewed = original(location, 'GZ-014 source Review metadata (#24)')
+                    git('branch', 'reviewed-source', reviewed)
+                    git('checkout', '-B', 'main', review_baseline)
+                    squash = subprocess.run(['git', 'merge', '--squash', reviewed], cwd=root, capture_output=True, text=True)
+                    if squash.returncode:
+                        conflicts = git('diff', '--name-only', '--diff-filter=U').splitlines()
+                        if not conflicts or any(path not in {'specs/coordination/program-plan.yaml', 'specs/coordination/active-work.yaml', 'specs/tasks/GZ-014.md'} for path in conflicts):
+                            raise RuntimeError(squash.stdout + squash.stderr)
+                        record['squashOwnMetadataConflictsResolved'] = conflicts
+                    record.update(implementedSource=implemented, reviewMetadataSource=reviewed, reviewProofBoundary='STRUCTURAL SOURCE/REVIEW METADATA ONLY; NOT REAL HUMAN REVIEW OR GATE PASS')
+                altered, altered_plan = copy.deepcopy(registry), copy.deepcopy(plan)
+                target = altered['tasks'][0]
+                target.update(agentRole='integrator', status='integration')
+                next(item for item in altered_plan['foundationTasks'] if item['taskId'] == 'GZ-014')['status'] = 'integration'
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', altered)
+                case.write_yaml(location, 'specs/coordination/program-plan.yaml', altered_plan)
+                case.write_text(location, 'specs/tasks/GZ-014.md', case.task_spec(target, 'integration', target['branch'], target['baseSha']))
+                record['integrationStrategy'] = target['integrationStrategy']
+            pending.write_text(code, encoding='utf-8')
+            node = original(location, message, timestamp)
+            record.update(workingNode=node, parents=git('show', '-s', '--format=%P', node).split())
+            if scenario in {'foreign_registry', 'foreign_program'} or scenario.startswith('integrator_'):
+                errors = []
+                record['existingTransitionErrors'] = errors
+            if scenario == 'integrator_reviewed_squash':
+                record['reviewedCodeBlobEqual'] = git('rev-parse', record['reviewMetadataSource'] + ':scripts/fixture-repair.py') == git('rev-parse', node + ':scripts/fixture-repair.py')
+            if side_metadata:
+                git('checkout', 'main')
+                git('merge', '--no-ff', node, '-m', message)
+                node = git('rev-parse', 'HEAD')
+            return node
+        case.commit = hook
+        mode = 'working_nonconflicting_claim' if scenario == 'foreign_registry' else 'original_dependency_completed' if scenario == 'foreign_program' else 'valid'
+        try:
+            return case.create_foundation_completion(folder, mode)
+        finally:
+            case.commit = original
+            case.entry = old_entry
+
+    def test_foundation_context_main_sync(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'main_sync', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_context_metadata_conflict(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'metadata_conflict', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('claims conflict with active task', result.stdout)
+
+    def test_foundation_context_metadata_conflict_introduced_side(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'metadata_conflict', side_metadata=True)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('claims conflict with active task', result.stdout)
+
+    def test_foundation_context_metadata_ownership(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'metadata_ownership', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('invalid historical governance claims', result.stdout)
+
+    def test_foundation_context_metadata_ownership_introduced_side(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'metadata_ownership', side_metadata=True)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('invalid historical governance claims', result.stdout)
+
+    def test_foundation_context_foreign_registry(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'foreign_registry', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('changed another identity or policy', result.stdout)
+
+    def test_foundation_context_foreign_program(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'foreign_program', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('changed another identity or policy', result.stdout)
+
+    def test_foundation_context_temporary_capacity_policy(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'temporary_capacity_policy', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('changed the original registered capacity policy', result.stdout)
+
+    def test_foundation_context_temporary_capacity_policy_introduced_side(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'temporary_capacity_policy', side_metadata=True)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('changed the original registered capacity policy', result.stdout)
+
+    def test_foundation_context_metadata_task(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'metadata_task', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('Task Registry binding', result.stdout)
+
+    def test_foundation_context_metadata_task_introduced_side(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'metadata_task', side_metadata=True)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('Task Registry binding', result.stdout)
+
+    def test_foundation_context_metadata_program(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'metadata_program', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('lifecycle documents must match', result.stdout)
+
+    def test_foundation_context_metadata_program_introduced_side(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'metadata_program', side_metadata=True)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('lifecycle documents must match', result.stdout)
+
+    def test_foundation_context_integrator_single_parent(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'integrator_single_parent', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_context_integrator_single_parent_squash(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'integrator_single_parent_squash', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_context_integrator_reviewed_squash(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'integrator_reviewed_squash', side_metadata=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def assert_owned_freeze_context(self, foreign_change=False):
+        with tempfile.TemporaryDirectory() as root:
+            original_entry = self.entry
+            def entry(*args, **kwargs):
+                value = original_entry(*args, **kwargs)
+                if value['taskId'] == 'GZ-014':
+                    value['integrationStrategy'] = 'rebase'
+                return value
+            self.entry = entry
+            try:
+                sources = self.create_foundation_completion(root, 'original_dependency_completed')
+            finally:
+                self.entry = original_entry
+            subprocess.run(['git', 'checkout', '--detach', sources['implementation']], cwd=root, check=True, capture_output=True)
+            plan = yaml.safe_load(pathlib.Path(root, 'specs/coordination/program-plan.yaml').read_text(encoding='utf-8'))
+            plan['status'] = 'frozen'
+            plan['recovery'] = {
+                'taskId': 'GZ-014', 'reason': 'Repair verified completed provenance conflict',
+                'affectedTasks': ['GZ-003'], 'sourceCommit': sources['implementation'],
+                'frozenAt': (datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat().replace('+00:00', 'Z'),
+                'verificationPath': 'evidence/GZ-014/recovery-proof.json',
+            }
+            if foreign_change:
+                plan['foundationTasks'][0]['completionRef'] = 'PR-999'
+            self.write_yaml(root, 'specs/coordination/program-plan.yaml', plan)
+            self.commit(root, 'GZ-014 registered metadata-only freeze (#26)')
+            self.write_text(root, 'scripts/fixture-repair.py', '# registered repair after freeze\n')
+            implemented = self.commit(root, 'GZ-014 continuation repair (#22)')
+            spec = importlib.util.spec_from_file_location('owned_freeze_history', SCRIPT)
+            history = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(history)
+            errors = []
+            history.foundation_implementation(root, 'GZ-014', implemented, sources['reservation'], errors)
+            if foreign_change:
+                self.assertTrue(any('historical recovery rejected' in error and 'unrelated Program identities' in error for error in errors), errors)
+            else:
+                self.assertEqual(errors, [])
+
+    def test_foundation_context_accepts_validated_registered_freeze(self):
+        self.assert_owned_freeze_context()
+
+    def test_foundation_context_rejects_freeze_disguising_foreign_identity_change(self):
+        self.assert_owned_freeze_context(foreign_change=True)
 
     def test_regular_completion_transition_passes(self):
         with tempfile.TemporaryDirectory() as root:

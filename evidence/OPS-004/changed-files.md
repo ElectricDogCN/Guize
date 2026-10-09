@@ -1,10 +1,12 @@
-# OPS-004 当前完整实现路径
+# OPS-004 当前完整文件清单
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
+Current Candidate Execution Status: NOT_EXECUTED
+Prior actual formal Source: ecae6e7f38a61b7d477a0780689936beef4b0949
 
-全部190路径，含所有归档与独立证明。新447正式NOT_EXECUTED，445结果仅属actual f402。
+覆盖全部 218 路径，含全部真实历史原始归档及本清单。仅已登记history checker/test新增代码，其余自身 canonical metadata/Evidence。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -46,8 +48,36 @@ evidence/OPS-004/test-results/history-binding-source-f402767/tree.txt
 evidence/OPS-004/test-results/history-binding-source-f402767/unaffected.txt
 evidence/OPS-004/test-results/history-binding-source-f402767/verify.txt
 evidence/OPS-004/test-results/history-context-independent/ops004-independent-historical-context-reproductions.json
+evidence/OPS-004/test-results/history-dag-ci-609/job-log.txt
+evidence/OPS-004/test-results/history-dag-ci-609/proof.json
+evidence/OPS-004/test-results/history-dag-independent/ops004-independent-7a321-dag-proof.json
 evidence/OPS-004/test-results/history-dag-independent/ops004-independent-e67-archive-proof.json
+evidence/OPS-004/test-results/history-dag-independent/ops004-independent-ecae-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-dag-independent/ops004-independent-five-ecae-thread-reproductions.json
+evidence/OPS-004/test-results/history-dag-independent/ops004-independent-integrator-corrected-review-squash-proof.json
 evidence/OPS-004/test-results/history-dag-independent/ops004-independent-late-reservation-merge-proof.json
+evidence/OPS-004/test-results/history-dag-independent/ops004-independent-owned-freeze-context-proof.json
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/clean-after.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/clean-before.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/coordination.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/evidence.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/finalization.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/governance.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/governance.xml
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/history.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/integrity.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/lifecycle.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/readiness.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/schemas.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/scope.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/source.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/status.json
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/task.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/transitions.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/tree.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/unaffected.txt
+evidence/OPS-004/test-results/history-dag-source-ecae6e7/verify.txt
 evidence/OPS-004/test-results/history-identity-ci-606/job-log.txt
 evidence/OPS-004/test-results/history-identity-ci-606/proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-implementation-role-reproductions-utf8.json

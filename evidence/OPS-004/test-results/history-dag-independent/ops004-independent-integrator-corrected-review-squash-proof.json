@@ -1,0 +1,54 @@
+{
+  "script": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004_independent_five_threads.py",
+  "rows": [
+    {
+      "scenario": "integrator_reviewed_squash",
+      "integrationReviewBaseline": "8740c382686d154ef70ecd710a146371efa15589",
+      "squashOwnMetadataConflictsResolved": [
+        "specs/coordination/active-work.yaml"
+      ],
+      "implementedSource": "950e66f7d34493939d3119dc43beb34adba2c49b",
+      "reviewMetadataSource": "7a644383b72f3ded2010bf73618683dff97b0177",
+      "reviewProofBoundary": "STRUCTURAL SOURCE/REVIEW METADATA ONLY; NOT REAL HUMAN REVIEW OR GATE PASS",
+      "integrationStrategy": "squash",
+      "workingNode": "39d3f3558ac450e7edb87bb528616c66cc9d0536",
+      "parents": [
+        "8740c382686d154ef70ecd710a146371efa15589"
+      ],
+      "existingTransitionErrors": [],
+      "reviewedCodeBlobEqual": true,
+      "fixtureSources": {
+        "seed": "4b04fe95bbd4be5e8ab705ded5302d27b9330c90",
+        "reservation": "edcb2f49acdbff858a84d19f8221d6e3b406b49b",
+        "implementation": "39d3f3558ac450e7edb87bb528616c66cc9d0536",
+        "base": "daf1f7839bf2f18414d674b14972a69561fe36db"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "integrator_single_parent",
+      "integrationReviewBaseline": "f17d03cde012d0e8483eb2678d475414160903d2",
+      "integrationStrategy": "merge",
+      "workingNode": "d796c82311bcef32641dbaba37c080b558138c7a",
+      "parents": [
+        "f17d03cde012d0e8483eb2678d475414160903d2"
+      ],
+      "existingTransitionErrors": [],
+      "fixtureSources": {
+        "seed": "0a91fa433fb6d4684b983cf2fd951ff810c46551",
+        "reservation": "f807aa24149631ef50c8c32c6d51af4c49af311f",
+        "implementation": "d796c82311bcef32641dbaba37c080b558138c7a",
+        "base": "b697853d68f28a2e760bf906ecae22e6b67a1731"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ],
+  "gitHead": "ecae6e7f38a61b7d477a0780689936beef4b0949",
+  "sourceBinding": "EXPLORATORY UNCOMMITTED CHECKER; NOT CLEAN ECAE SOURCE",
+  "checkerSha256": "d82b7d14738c17e00a7ff688ee2e7c2de85456e8e8427faf698e6825eaaaf925",
+  "realRepoStatusAtVerification": " M scripts/check-program-plan-history.py\n M tests/governance/test_program_plan_history.py\n"
+}
