@@ -1,0 +1,6 @@
+Command: python scripts/run-task-scope-gate.py --task OPS-003 --base 5833a448473d7191a6984fc6d052b8d9014f4b89
+{"status": "INFO", "message": "Changed files: 14, Allowed: 14, Forbidden: 0, Out-of-scope: 0"}
+{"status": "PASS", "message": "Allowed files", "details": {"files": ["evidence/OPS-003/EVIDENCE-STRUCTURE.md", "evidence/OPS-003/assumptions.md", "evidence/OPS-003/changed-files.md", "evidence/OPS-003/commands.txt", "evidence/OPS-003/follow-ups.md", "evidence/OPS-003/handoff.md", "evidence/OPS-003/risks.md", "evidence/OPS-003/rollback-verification/README.md", "evidence/OPS-003/scope.md", "evidence/OPS-003/summary.md", "evidence/OPS-003/test-results/README.md", "specs/coordination/active-work.yaml", "specs/coordination/program-plan.yaml", "specs/tasks/OPS-003.md"]}}
+{"status": "PASS", "message": "All changed files are within allowed scope and outside forbidden scope."}
+
+Exit Code: 0
