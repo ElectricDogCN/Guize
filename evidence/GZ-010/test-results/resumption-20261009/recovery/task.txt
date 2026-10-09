@@ -1,0 +1,4 @@
+command: python scripts/check-task-file.py --task GZ-010
+{"status": "PASS", "message": "Task file valid: /tmp/gz010-review-recovery.jzChf3/worktree/specs/tasks/GZ-010.md"}
+
+exit code: 0

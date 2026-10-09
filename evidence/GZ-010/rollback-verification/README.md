@@ -4,11 +4,11 @@ Task: GZ-010
 PR: #63
 Result: NEEDS_REVIEW
 Target: `3a11c5f639717993f51a26c5b5970701570fe367`
-Execution status: procedure supplied; a successful full-rehearsal result is not yet claimed
+Execution status: full nonterminal rehearsal passed on c91265bf1430c3e7df6b0f1321705b4a00a66b25; original checkout and worktree list were preserved. Actual logs: test-results/resumption-20261009/recovery/
 
 ## State and Issue recovery
 
-This PR keeps GZ-010 at review. Program, Active Work and Completion Ledger are identical to the target; no completion record is appended or lease removed. Only Task/Evidence documents differ.
+This PR keeps GZ-010 at review. Program and Completion Ledger are identical to the target; Active Work differs only in the existing GZ-010 lease timestamps. No completion record is appended or lease removed. Coordinator proposes a 168-hour renewal, 2026-10-09T08:57:38Z to 2026-10-16T08:57:38Z; all other Registry fields remain exact.
 
 Issue #15 was reopened through the authorized GitHub connection at `2026-09-16T15:52:58Z`; returned state was `open`, reason `reopened`, and `closed_at` was null. Issue comment `5700433671` records the correction. This follows the abort/reopen precedent in `evidence/GZ-004/rollback-verification/README.md`. If this nonterminal PR is abandoned, closed or merged, keep Issue #15 open until an actually validated completion is authorized. Do not leave an external completed signal after withdrawing completion.
 
@@ -16,7 +16,7 @@ Abandoning this PR before merge needs no Git revert: main is unchanged. The old 
 
 ## Full local rehearsal of this documentation recovery
 
-Run the entire block from the clean, fully fetched candidate after installing the existing `requirements-governance.txt`. It creates one isolated detached worktree, restores only Task/Evidence, commits that restoration locally as an explicitly labelled simulation, and runs the actual lifecycle, history, coordination, scope, named `make verify`, planning tests and skip audit against the **candidate commit**, not the old main base. It leaves the original checkout and all remote refs untouched.
+Run the entire block from the clean, fully fetched candidate after installing the existing `requirements-governance.txt`. It creates one isolated detached worktree, restores the target Task/Evidence while preserving the candidate renewal and synchronizing only the restored Task lease, commits that restoration locally as an explicitly labelled simulation, and runs the actual lifecycle, history, coordination, scope, named `make verify`, planning tests and skip audit against the **candidate commit**, not the old main base. It leaves the original checkout and all remote refs untouched.
 
 Commands and stdout/stderr go to individually named logs outside the checkout. The EXIT trap removes only the created worktree and verifies cleanup; logs and the JUnit report remain in the printed directory even on failure. A failed step terminates the rehearsal with its nonzero exit. A simulation commit is not a real PR or merge and must never be pushed.
 
@@ -30,7 +30,8 @@ CANDIDATE=$(git rev-parse HEAD)
 test -z "$(git status --porcelain)"
 git merge-base --is-ancestor "$BASE" "$CANDIDATE"
 git diff --exit-code "$BASE" "$CANDIDATE" -- \
-  specs/coordination specs/poc poc/README.md .github scripts tests
+  specs/coordination/program-plan.yaml specs/coordination/task-completions.yaml \
+  specs/poc poc/README.md .github scripts tests
 OUT=$(mktemp -d "${TMPDIR:-/tmp}/gz010-review-recovery.XXXXXX")
 WT="$OUT/worktree"
 printf 'candidate=%s\nbase=%s\nlogs=%s\n' "$CANDIDATE" "$BASE" "$OUT"
@@ -74,8 +75,50 @@ step dependencies python -c 'import yaml, jsonschema, pytest; print("dependencie
 step add-worktree git worktree add --detach "$WT" "$CANDIDATE"
 step restore git -C "$WT" restore --source="$BASE" --staged --worktree -- \
   specs/tasks/GZ-010.md evidence/GZ-010
+# Fail closed: the candidate Registry differs from target only in one lease.
+# Preserve that renewal during recovery; restoring September expiry would
+# deliberately create an invalid October Task/Registry pair.
+step renewal-overlay python - "$WT" "$BASE" "$CANDIDATE" "$OUT" <<'PY'
+import copy, json, os, re, subprocess, sys
+from pathlib import Path
+import yaml
+wt, base, candidate, out = sys.argv[1:]
+active_path = 'specs/coordination/active-work.yaml'
+task_path = 'specs/tasks/GZ-010.md'
+def git(*args, env=None):
+    return subprocess.check_output(['git', '-C', wt, *args], env=env, text=True).strip()
+before = yaml.safe_load(git('show', f'{base}:{active_path}'))
+after = yaml.safe_load(git('show', f'{candidate}:{active_path}'))
+old = [t for t in before['tasks'] if t['taskId'] == 'GZ-010']
+new = [t for t in after['tasks'] if t['taskId'] == 'GZ-010']
+assert len(old) == len(new) == 1
+assert new[0]['status'] == old[0]['status'] == 'review'
+masked = copy.deepcopy(after)
+next(t for t in masked['tasks'] if t['taskId'] == 'GZ-010')['lease'] = old[0]['lease']
+assert masked == before, 'Unrelated Registry drift'
+lease = new[0]['lease']
+assert lease == {'acquiredAt': '2026-10-09T08:57:38Z', 'expiresAt': '2026-10-16T08:57:38Z'}
+restored = Path(wt, task_path)
+text = restored.read_text(encoding='utf-8')
+text, count = re.subn(r'^leaseExpiresAt: .+$', 'leaseExpiresAt: ' + lease['expiresAt'], text, count=1, flags=re.M)
+assert count == 1
+text = text.replace('2026-09-14T06:00:00Z', lease['acquiredAt']).replace('2026-09-21T06:00:00Z', lease['expiresAt'])
+restored.write_text(text, encoding='utf-8', newline='\n')
+git('add', task_path)
+# Independently build the target tree plus exactly two renewal overlay blobs.
+env = dict(os.environ, GIT_INDEX_FILE=str(Path(out, 'expected-index')))
+git('read-tree', base, env=env)
+task_blob = git('hash-object', '-w', task_path)
+active_blob = git('rev-parse', f'{candidate}:{active_path}')
+git('update-index', '--add', '--cacheinfo', f'100644,{task_blob},{task_path}', env=env)
+git('update-index', '--add', '--cacheinfo', f'100644,{active_blob},{active_path}', env=env)
+expected = git('write-tree', env=env)
+assert git('write-tree') == expected
+Path(out, 'expected-tree.txt').write_text(expected + '\n', encoding='utf-8')
+print(json.dumps({'renewal_preserved': True, 'expected_tree': expected}))
+PY
 RESTORED=$(git -C "$WT" write-tree)
-EXPECTED=$(git rev-parse "$BASE^{tree}")
+EXPECTED=$(cat "$OUT/expected-tree.txt")
 test "$RESTORED" = "$EXPECTED"
 step unchanged-coordination git -C "$WT" diff --cached --exit-code "$CANDIDATE" -- specs/coordination
 step simulation-commit git -C "$WT" \
@@ -112,8 +155,8 @@ Retain `identity.txt`, each command log, `governance.xml`, `verification.txt` if
 
 ## After an authorized documentation-only merge
 
-Resolve the actual PR #63 merge and its first parent. On a separate recovery branch preview `git revert --no-commit -m 1 "$DOCUMENTATION_MERGE"` only after verifying that the merge changed Task/Evidence alone and did not alter coordination files. Run the same lifecycle/history/coordination/scope and named make checks using the real pre-recovery main commit as base. Preserve review and main-merge approval. Stop on conflicts, changed lifecycle, expired lease or any unrelated change; this script is not an automatic rollback authorization.
+Resolve the actual PR #63 merge and its first parent. First capture the actual pre-recovery HEAD and Registry, verify its lease is still valid, and verify the exact original merge diff. On a separate recovery branch preview `git revert --no-commit -m 1 "$DOCUMENTATION_MERGE"` only after verifying the merge changed Task/Evidence plus the exact GZ-010 lease renewal. The intermediate reverted tree is not a recovery candidate: do not validate, commit or push it. Restore active-work.yaml from the captured pre-recovery HEAD, then synchronize the restored Task leaseExpiresAt and body timestamps to that Registry before any checks. Preserve the current valid lease; stop on expiry before starting, conflicts, any other Registry/lifecycle drift or unrelated changes. Run the same lifecycle/history/coordination/scope and named make checks using the real pre-recovery main commit as base. Preserve review and main-merge approval. Stop on conflicts, changed lifecycle, expired lease or any unrelated change; this script is not an automatic rollback authorization.
 
 ## Future completion
 
-No main merge or full local rehearsal is claimed by supplying these instructions. Before proposing completed again, the separate completion prerequisites remain: successful final-candidate checks and an actually tested forward recovery preserving immutable completion records. The nonterminal rehearsal above does not certify a post-completion status regression or ledger deletion.
+No main merge or terminal recovery is claimed. The nonterminal rehearsal actually passed on the source identified above; raw transcripts distinguish it from future Completion requirements. Before proposing completed again, this lease-preserving rehearsal covers nonterminal documentation recovery only. The separate completion prerequisites remain: successful final-candidate checks and an actually tested forward recovery preserving immutable completion records. The nonterminal rehearsal above does not certify a post-completion status regression or ledger deletion.

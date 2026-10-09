@@ -1,3 +1,101 @@
+## Local validation versus connector integration
+
+The actual validation source c91265bf1430c3e7df6b0f1321705b4a00a66b25 and its Evidence-refresh successors are preserved in this task's local Git checkout. Native Git push failed because that transport has no authenticated username. These local commits have NOT been claimed as remotely pushed or as ancestors of the connector-created PR commit. The LOCAL-ONLY recovery simulation is also never pushed.
+
+The authorized GitHub connector publishes the final file tree as a normal successor of the existing remote PR HEAD. Record its returned remote SHA and verify its full tree equals the final local tree before using remote Gate results. Current local transcripts remain bound to their actual local source and environment; an exact remote Gate is a separate result. No remote pass is inferred from local-source pass.
+
+GZ-010 October review execution; source=c91265bf1430c3e7df6b0f1321705b4a00a66b25; base=3a11c5f639717993f51a26c5b5970701570fe367
+Result: PASS for the identified nonterminal validation source only.
+Current scope: existing review lease timestamps plus Task/Evidence; no Program/Ledger/lifecycle/POC change.
+Environment bootstrap: first python3 -m venv failed because ensurepip was unavailable; pip wheel bootstrap then unchanged dependency-file installation succeeded. No requirements or repository checker changed.
+
+command: python -c import\ yaml\,jsonschema\,pytest\;\ print\(\"dependencies=PASS\"\)
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/dependencies.txt
+
+command: python scripts/check-task-file.py --task GZ-010
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/task.txt
+
+command: python scripts/check-project-readiness.py
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/readiness.txt
+
+command: python scripts/check-schemas.py
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/schemas.txt
+
+command: python scripts/run-program-lifecycle-gate.py --base-ref 3a11c5f639717993f51a26c5b5970701570fe367 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/lifecycle.txt
+
+command: python scripts/run-agent-coordination-gate.py --base-ref 3a11c5f639717993f51a26c5b5970701570fe367 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/coordination.txt
+
+command: python scripts/run-task-scope-gate.py --task GZ-010 --base 3a11c5f639717993f51a26c5b5970701570fe367
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/scope.txt
+
+command: python scripts/check-evidence.py --task GZ-010
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/evidence.txt
+
+command: python specs/poc/check_program.py
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/planning-check.txt
+
+command: python specs/poc/test_program.py
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/planning-tests.txt
+
+command: make verify TASK=GZ-010 BASE=3a11c5f639717993f51a26c5b5970701570fe367 HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-baseline
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/verify.txt
+
+command: python -m pytest tests/governance/ -q -ra --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/candidate-results/governance.xml
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/junit.txt
+
+command: python scripts/check-pytest-skips.py /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/candidate-results/governance.xml tests/governance/allowed-skips.txt
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/skips.txt
+
+command: bash /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/candidate-results/recovery.sh
+exit code: 0
+result: PASS
+source: c91265bf1430c3e7df6b0f1321705b4a00a66b25
+raw output: evidence/GZ-010/test-results/resumption-20261009/recovery.txt
+
+No terminal Completion validation, main merge, post-main PASS or real POC execution is claimed.
+
+RETAINED SEPTEMBER COMMAND EVIDENCE (HISTORICAL SNAPSHOT)
 GZ-010 Review Checkpoint Command Evidence
 Task: GZ-010
 Issue: #15

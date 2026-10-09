@@ -1,0 +1,3 @@
+command: git -C /tmp/gz010-review-recovery.jzChf3/worktree diff --cached --exit-code c91265bf1430c3e7df6b0f1321705b4a00a66b25 -- specs/coordination
+
+exit code: 0

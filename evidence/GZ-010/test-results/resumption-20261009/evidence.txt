@@ -1,0 +1,4 @@
+command: python scripts/check-evidence.py --task GZ-010
+{"status": "PASS", "message": "Evidence contract passed for GZ-010."}
+
+exit code: 0

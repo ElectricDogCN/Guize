@@ -1,0 +1,5 @@
+command: python scripts/run-program-lifecycle-gate.py --base-ref c91265bf1430c3e7df6b0f1321705b4a00a66b25 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-baseline
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["GZ-010"], "changedPathCount": 10, "baseRef": "c91265bf1430c3e7df6b0f1321705b4a00a66b25"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+exit code: 0

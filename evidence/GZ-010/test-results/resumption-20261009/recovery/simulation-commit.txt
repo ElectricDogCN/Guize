@@ -1,0 +1,5 @@
+command: git -C /tmp/gz010-review-recovery.jzChf3/worktree -c user.name=Guize\ LOCAL-ONLY\ recovery\ rehearsal -c user.email=guize-rehearsal@example.invalid commit -m test\(GZ-010\):\ LOCAL-ONLY\ review-document\ recovery\ simulation\;\ never\ push
+[detached HEAD 5730923] test(GZ-010): LOCAL-ONLY review-document recovery simulation; never push
+ 10 files changed, 427 insertions(+), 502 deletions(-)
+
+exit code: 0

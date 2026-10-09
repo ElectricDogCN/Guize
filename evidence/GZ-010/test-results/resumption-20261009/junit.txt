@@ -1,0 +1,9 @@
+command: python -m pytest tests/governance/ -q -ra --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/candidate-results/governance.xml
+........................................................................ [ 26%]
+........................................................................ [ 53%]
+........................................................................ [ 80%]
+...................................................                      [100%]
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/candidate-results/governance.xml -
+267 passed in 41.00s
+
+exit code: 0
