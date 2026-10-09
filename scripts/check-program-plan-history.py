@@ -45,6 +45,7 @@ LEDGER = "specs/coordination/task-completions.yaml"
 TASK_DIR = "specs/tasks"
 ACTIVE_STATES = {"reserved", "in_progress", "blocked", "review", "integration"}
 REGISTRY_SCHEMA = "specs/coordination/active-work.schema.yaml"
+PROGRAM_SCHEMA = "specs/coordination/program-plan.schema.yaml"
 AUDITED_OWNER_CAPACITY_FAILURES: dict[str, dict[str, Any]] = {}
 VALIDATED_TASK_SNAPSHOTS: set[tuple[str, str, str, str]] = set()
 PR_REF_RE = re.compile(r"^PR-([0-9]+)$")
@@ -500,6 +501,30 @@ def historical_registration_context(root: str, snapshot: str, observation: str, 
         errors.append(f"{label} requires exactly one registered task")
         return None
     entry = entries[0]
+    program = load_ref(root, snapshot, PLAN)
+    schema = load_ref(root, snapshot, PROGRAM_SCHEMA)
+    try:
+        if not isinstance(schema, dict):
+            raise ValueError("Applicable Program schema is missing")
+        validator = jsonschema.validators.validator_for(schema)
+        validator.check_schema(schema)
+        failures = list(validator(schema, format_checker=jsonschema.FormatChecker()).iter_errors(program))
+        for failure in failures:
+            errors.append(f"{label} Program schema violation: {failure.message}")
+        if not isinstance(program, dict) or failures:
+            return entry
+        rows = program["foundationTasks"] + program["tasks"]
+        identities = [item["taskId"] for item in rows]
+        if len(identities) != len(set(identities)):
+            errors.append(f"{label} Program task identities must be unique")
+        own = [item for item in program["foundationTasks"] if item["taskId"] == task_id]
+        if len(own) != 1 or own[0]["completionRef"] != f"ISSUE-{entry['issue']}" or own[0]["mergeCommit"] is not None:
+            errors.append(f"{label} active Foundation must retain one ISSUE registration and no completion merge")
+        for key in ("maxActiveTasks", "maxHighRiskTasks"):
+            if program["parallelPolicy"][key] != registry["policy"][key]:
+                errors.append(f"{label} Program capacity policy {key} does not match Registry")
+    except (KeyError, TypeError, ValueError, jsonschema.SchemaError) as exc:
+        errors.append(f"{label} cannot validate Program context: {exc}")
     if entry.get("status") not in ACTIVE_STATES:
         errors.append(f"{label} must retain an active registered lifecycle state")
     historical_lease(root, observation, entry, policy, label, errors)
@@ -519,22 +544,61 @@ def approved_synchronization_parents(root: str, node: str, base: str) -> list[st
     return [parent for parent in parents.stdout.split()[1:] if is_ancestor(root, parent, base)] if parents.returncode == 0 else []
 
 
-def effective_node_paths(root: str, node: str, paths: set[str], incoming: list[str]) -> set[str]:
-    # Incoming main commits already belong to the audited base. Only an exact
-    # imported tree entry (including mode/deletion) is excluded; resolutions
-    # and new work remain subject to the task's pre-change claims.
-    def tree_entry(ref: str, path: str) -> str | None:
-        result = git(root, "ls-tree", ref, "--", path)
-        return result.stdout if result.returncode == 0 else None
-    effective = set()
-    for path in paths:
-        actual = tree_entry(node, path)
-        if actual is None or not any(actual == tree_entry(parent, path) for parent in incoming):
-            effective.add(path)
-    return effective
+def clean_synchronization_paths(root: str, node: str, paths: set[str], incoming: list[str]) -> set[str]:
+    """Reproduce the automatic merge without writing the audited repository.
+
+    Selecting an incoming blob while resolving a conflict is task work. Only
+    clean index entries that exactly import an audited incoming parent qualify.
+    """
+    parents = git(root, "show", "-s", "--format=%P", node).stdout.split()
+    if not incoming or len(parents) < 2:
+        return set()
+    try:
+        with tempfile.TemporaryDirectory(prefix="guize-history-sync-") as temporary:
+            snapshot = os.path.join(temporary, "snapshot")
+            if git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot).returncode:
+                return set()
+            for key, value in (("core.autocrlf", "false"), ("user.name", "History audit"), ("user.email", "history@example.invalid")):
+                if git(snapshot, "config", key, value).returncode:
+                    return set()
+            if git(snapshot, "checkout", "--detach", "--quiet", parents[0]).returncode:
+                return set()
+            merged = git(snapshot, "merge", "--no-commit", "--no-ff", *parents[1:])
+            staged = git(snapshot, "ls-files", "--stage", "-z")
+            if merged.returncode not in {0, 1} or staged.returncode:
+                return set()
+            entries: dict[str, tuple[str, str]] = {}
+            conflicts = set()
+            for record in staged.stdout.split("\0"):
+                if not record:
+                    continue
+                metadata, path = record.split("\t", 1)
+                mode, blob, stage = metadata.split()
+                if stage != "0":
+                    conflicts.add(path)
+                else:
+                    entries[path] = (mode, blob)
+            if merged.returncode and not conflicts:
+                return set()  # An aborted octopus merge has no usable result.
+            def tree_entry(ref: str, path: str) -> tuple[str, str] | None:
+                result = git(root, "ls-tree", "-z", ref, "--", path)
+                if result.returncode:
+                    raise ValueError("Cannot read synchronization tree")
+                if not result.stdout:
+                    return None
+                mode, _, blob = result.stdout.split("\t", 1)[0].split()
+                return mode, blob
+            clean = set()
+            for path in paths - conflicts:
+                actual = tree_entry(node, path)
+                if actual == entries.get(path) and any(actual == tree_entry(parent, path) for parent in incoming):
+                    clean.add(path)
+            return clean
+    except (OSError, ValueError):
+        return set()
 
 
-def historical_foreign_metadata(root: str, previous: str, node: str, incoming: list[str], task_id: str, errors: list[str]) -> None:
+def historical_foreign_metadata(root: str, previous: str, node: str, incoming: list[str], task_id: str, errors: list[str], clean_imports: set[str]) -> None:
     for path, collections in ((ACTIVE, ("tasks",)), (PLAN, ("tasks", "foundationTasks"))):
         def foreign_document(ref: str) -> dict[str, Any] | None:
             document = load_ref(root, ref, path)
@@ -545,7 +609,17 @@ def historical_foreign_metadata(root: str, previous: str, node: str, incoming: l
                 document[collection] = [item for item in document.get(collection, []) if item.get("taskId") != task_id]
             return document
         actual = foreign_document(node)
-        candidates = [foreign_document(ref) for ref in [previous, *incoming]]
+        candidates = [foreign_document(ref) for ref in [previous, *(incoming if path in clean_imports else [])]]
+        if path not in clean_imports and len(git(root, "show", "-s", "--format=%P", node).stdout.split()) == 2:
+            # Own lifecycle fields can conflict while the foreign document has
+            # only an incoming change. Prove that independently of the full
+            # YAML blob; foreign conflicts still require scoped task work.
+            prior = candidates[0]
+            for parent in incoming:
+                bases = git(root, "merge-base", "--all", previous, parent)
+                common = bases.stdout.split() if bases.returncode == 0 else []
+                if prior is not None and common and all(foreign_document(base) == prior for base in common):
+                    candidates.append(foreign_document(parent))
         if path == PLAN and actual is not None and not any(candidate is not None and actual == candidate for candidate in candidates):
             # Preserve the established metadata-only freeze/thaw protocol.
             # Its owner and complete source-bound proof must validate before
@@ -937,7 +1011,8 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             errors.append(f"Foundation {task_id} cannot read implementation node diff")
             continue
         incoming = approved_synchronization_parents(root, node, base)
-        node_paths = effective_node_paths(root, node, node_paths, incoming) if incoming else node_paths
+        clean_imports = clean_synchronization_paths(root, node, node_paths, incoming)
+        node_paths -= clean_imports
         if LEDGER in node_paths:
             errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
         working = any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in node_paths)
@@ -945,7 +1020,7 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             if working:
                 errors.append(f"Foundation {task_id} working node predates its original reservation")
             continue
-        historical_foreign_metadata(root, previous, node, incoming, task_id, errors)
+        historical_foreign_metadata(root, previous, node, incoming, task_id, errors, clean_imports)
         before_registry = load_ref(root, previous, ACTIVE)
         before_entries = [item for item in (before_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
         node_registry = load_ref(root, node, ACTIVE)

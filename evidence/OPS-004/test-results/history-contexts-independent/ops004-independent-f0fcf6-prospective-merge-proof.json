@@ -1,0 +1,213 @@
+{
+  "kind": "TEMPORARY_PROSPECTIVE_MERGE_NOT_ACTUAL_PR_MERGE_OR_FORMAL_SOURCE",
+  "cleanLocalCandidate": "f0fcf6c7ecb291cba0b91b994a9db1cc4b717a61",
+  "tree": "d21968b5e862ef5dcca7842b6bd5d472747a6ce8",
+  "actualPublishedParent": "ecae6e7f38a61b7d477a0780689936beef4b0949",
+  "base": "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb",
+  "temporaryMerge": "16711b52f60e7e796589dbf12677f4c1ccfab9d2",
+  "parents": [
+    "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb",
+    "f0fcf6c7ecb291cba0b91b994a9db1cc4b717a61"
+  ],
+  "reservation": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+  "reservationErrors": [],
+  "implementationErrors": [],
+  "DAGNodeCount": 9,
+  "requiredSourcesInDAG": {
+    "6ecfcf49477341c90bc729743d05f17f2dc0dc24": true,
+    "c62096c4c9a6162e8d72720333aa6c65598ab5d4": true,
+    "58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a": true,
+    "2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65": true,
+    "f402767e04f3c8536c14205d2ee548b841dbbae6": true,
+    "ecae6e7f38a61b7d477a0780689936beef4b0949": true
+  },
+  "auditedOwnerCapacityFailures": [
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "726870c8ae161eab19f94a9b96980a7d9197b633",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "62d4ef826e0be1acb2839c3f04fe62d1894f9585",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "16711b52f60e7e796589dbf12677f4c1ccfab9d2",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "6ecfcf49477341c90bc729743d05f17f2dc0dc24",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "6ecfcf49477341c90bc729743d05f17f2dc0dc24",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "b156291d975ae63ad588988fec9e99b39dbc7436",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "c62096c4c9a6162e8d72720333aa6c65598ab5d4",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "c62096c4c9a6162e8d72720333aa6c65598ab5d4",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "f402767e04f3c8536c14205d2ee548b841dbbae6",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "f402767e04f3c8536c14205d2ee548b841dbbae6",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "ecae6e7f38a61b7d477a0780689936beef4b0949",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "ecae6e7f38a61b7d477a0780689936beef4b0949",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "f0fcf6c7ecb291cba0b91b994a9db1cc4b717a61",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "f0fcf6c7ecb291cba0b91b994a9db1cc4b717a61",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "16711b52f60e7e796589dbf12677f4c1ccfab9d2",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "16711b52f60e7e796589dbf12677f4c1ccfab9d2",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    }
+  ],
+  "allCapacityRecordsRemainFAIL": true,
+  "realRepoHeadAfter": "f0fcf6c7ecb291cba0b91b994a9db1cc4b717a61",
+  "realRepoStatusAfter": ""
+}

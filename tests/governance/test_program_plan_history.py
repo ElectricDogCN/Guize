@@ -10,6 +10,7 @@ import unittest
 from datetime import datetime, timedelta, timezone
 
 import yaml
+import jsonschema
 
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -18,6 +19,20 @@ SCRIPT = os.path.join(REPO_ROOT, "scripts", "check-program-plan-history.py")
 
 class TestProgramPlanHistory(unittest.TestCase):
     def write_yaml(self, root, path, value):
+        if path == "specs/coordination/program-plan.yaml" and getattr(self, "foundation_fixture", False):
+            with open(os.path.join(REPO_ROOT, path), encoding="utf-8") as handle:
+                document = yaml.safe_load(handle)
+            document["foundationTasks"] = copy.deepcopy(value["foundationTasks"])
+            for item in document["foundationTasks"]:
+                item.setdefault("title", "Lifecycle fixture " + item["taskId"])
+            if value.get("tasks"):
+                document["tasks"] = copy.deepcopy(value["tasks"])
+            else:
+                document["tasks"] = [item for item in document["tasks"] if item["taskId"] != "GZ-014"]
+                for item in document["tasks"]:
+                    item["status"] = "planned"
+            document.update({key: item for key, item in value.items() if key not in {"foundationTasks", "tasks"}})
+            value = document
         target = os.path.join(root, path)
         os.makedirs(os.path.dirname(target), exist_ok=True)
         with open(target, "w", encoding="utf-8") as handle:
@@ -244,6 +259,9 @@ class TestProgramPlanHistory(unittest.TestCase):
         return reservation
 
     def create_foundation_completion(self, root, mode="valid", with_review=True):
+        self.foundation_fixture = True
+        with open(os.path.join(REPO_ROOT, "specs/coordination/program-plan.schema.yaml"), encoding="utf-8") as handle:
+            self.write_text(root, "specs/coordination/program-plan.schema.yaml", handle.read())
         self.init_git(root)
         self.write_text(root, "seed.txt", "seed\n")
         old_foundations = []
@@ -608,6 +626,387 @@ class TestProgramPlanHistory(unittest.TestCase):
             ).strip()
             subprocess.run(["git", "reset", "--soft", candidate], cwd=root, check=True, capture_output=True)
         return {"seed": seed, "reservation": reservation, "implementation": implementation, "base": audited_base}
+
+    def create_combined_registry_sync_completion(self, folder):
+        root = pathlib.Path(folder)
+        case = self
+        original = case.commit
+        oldreg = case.registry
+        oldwrite = case.write_yaml
+        other_entry = None
+        other_task = None
+        enabled = False
+        record = {}
+
+        def git(*args):
+            p = subprocess.run(['git', *args], cwd=root, capture_output=True, text=True, encoding='utf-8')
+            if p.returncode:
+                raise RuntimeError(p.stdout + p.stderr)
+            return p.stdout.strip()
+
+        def load(p):
+            return yaml.safe_load((root / p).read_text(encoding='utf-8'))
+
+        def registry(entries):
+            result = oldreg(entries)
+            if enabled and (not any((e['taskId'] == 'GZ-099' for e in result['tasks']))):
+                result['tasks'].append(copy.deepcopy(other_entry))
+            return result
+
+        def write(location, path, value):
+            if path == 'specs/coordination/program-plan.yaml' and enabled:
+                oldwrite(location, path, value)
+                doc = load(path)
+                doc['tasks'].append(copy.deepcopy(other_task))
+                case.write_text(location, path, yaml.safe_dump(doc, allow_unicode=True, sort_keys=False))
+                return
+            oldwrite(location, path, value)
+        case.registry = registry
+        case.write_yaml = write
+
+        def hook(location, message, timestamp=None):
+            nonlocal enabled, other_entry, other_task
+            if message != 'GZ-014 repair (#22)':
+                return original(location, message, timestamp)
+            activation = git('rev-parse', 'HEAD')
+            pending = root / 'scripts/fixture-repair.py'
+            code = pending.read_text(encoding='utf-8')
+            pending.unlink()
+            reg = load('specs/coordination/active-work.yaml')
+            own = copy.deepcopy(reg['tasks'][0])
+            git('checkout', '-b', 'side-work', activation)
+            renew = copy.deepcopy(own)
+            from datetime import datetime, timedelta
+            renew['lease']['expiresAt'] = (datetime.fromisoformat(own['lease']['expiresAt']) + timedelta(hours=1)).isoformat()
+            case.write_yaml(location, 'specs/coordination/active-work.yaml', oldreg([renew]))
+            case.write_text(location, 'specs/tasks/GZ-014.md', case.task_spec(renew, 'in_progress', renew['branch'], renew['baseSha']))
+            renewal = original(location, 'GZ-014 metadata-only lease renewal (#28)')
+            pending.write_text(code, encoding='utf-8')
+            implemented = original(location, message, timestamp)
+            git('checkout', '-B', 'main', activation)
+            other_entry = case.entry('GZ-099', activation, 'reserved', 'chore/GZ-099-medium')
+            other_entry.update(agentRole='coordinator', riskLevel='medium', programWave='W1', exclusivePaths=['scripts/other.py'])
+            other_entry['lease'] = copy.deepcopy(own['lease'])
+            doc = load('specs/coordination/program-plan.yaml')
+            other_task = copy.deepcopy(doc['tasks'][0])
+            other_task.update(taskId='GZ-099', title=other_entry['title'], kind='governance', status='reserved', riskLevel='medium', wave='W1', integrationOrder=other_entry['integrationOrder'], dependsOn=[], requirementIds=other_entry['requirementIds'], moduleIds=other_entry['moduleIds'], outputPaths=other_entry['exclusivePaths'], sharedPaths=[], producesContracts=[], consumesContracts=[], issue=other_entry['issue'], coordinationGroup=other_entry['coordinationGroup'], workPackage=other_entry['workPackage'], branchPattern='chore/GZ-099-*')
+            enabled = True
+            case.write_yaml(location, 'specs/coordination/active-work.yaml', case.registry([own]))
+            doc['tasks'].append(other_task)
+            case.write_text(location, 'specs/coordination/program-plan.yaml', yaml.safe_dump(doc, allow_unicode=True, sort_keys=False))
+            case.write_text(location, 'specs/tasks/GZ-099.md', case.task_spec(other_entry, 'reserved', other_entry['branch'], other_entry['baseSha']))
+            latest = original(location, 'GZ-099 medium task reservation (#29)')
+            git('checkout', 'side-work')
+            merging = subprocess.run(['git', 'merge', '--no-ff', latest, '-m', 'GZ-014 synchronize medium-task reservation'], cwd=root, capture_output=True, text=True)
+            record['automaticMergeExit'] = merging.returncode
+            record['automaticMergeStdout'] = merging.stdout
+            if merging.returncode:
+                conflicts = git('diff', '--name-only', '--diff-filter=U').splitlines()
+                assert conflicts == ['specs/coordination/active-work.yaml'], conflicts
+                record['resolvedOnlyOwnRenewalAgainstApprovedForeignRegistry'] = True
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', case.registry([renew]))
+                original(location, 'GZ-014 retain own renewed lease and import approved foreign registry')
+            sync = git('rev-parse', 'HEAD')
+            record.update(activation=activation, renewal=renewal, implemented=implemented, latestMain=latest, synchronization=sync, registryCombinedWithOwnRenewal=True)
+            git('checkout', 'main')
+            git('merge', '--no-ff', 'side-work', '-m', message)
+            merge = git('rev-parse', 'HEAD')
+            record['netDiffPaths'] = git('diff', '--name-only', latest, merge).splitlines()
+            return merge
+        case.commit = hook
+        try:
+            case.create_foundation_completion(folder)
+        finally:
+            case.commit = original
+            case.registry = oldreg
+            case.write_yaml = oldwrite
+        return (case._run_checker(folder, 'GZ-014', 'chore/GZ-014-completion'), record)
+
+    def test_foundation_own_renewal_with_main_foreign_registry_conflict(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_combined_registry_sync_completion(root)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertEqual(record['automaticMergeExit'], 1)
+            self.assertTrue(record['resolvedOnlyOwnRenewalAgainstApprovedForeignRegistry'])
+
+    def create_foreign_conflict_completion(self, folder):
+        root = pathlib.Path(folder)
+        case = self
+        original = case.commit
+        oldreg = case.registry
+        oldwrite = case.write_yaml
+        other_entry = None
+        other_task = None
+        enabled = False
+        record = {}
+
+        def git(*args, allow=False):
+            p = subprocess.run(['git', *args], cwd=root, capture_output=True, text=True, encoding='utf-8')
+            if p.returncode and (not allow):
+                raise RuntimeError(p.stdout + p.stderr)
+            return p if allow else p.stdout.strip()
+
+        def load(p):
+            return yaml.safe_load((root / p).read_text(encoding='utf-8'))
+
+        def registry(entries):
+            result = oldreg(entries)
+            if enabled and (not any((e['taskId'] == 'GZ-099' for e in result['tasks']))):
+                result['tasks'].append(copy.deepcopy(other_entry))
+            return result
+
+        def write(location, path, value):
+            if path == 'specs/coordination/program-plan.yaml' and enabled:
+                oldwrite(location, path, value)
+                doc = load(path)
+                doc['tasks'].append(copy.deepcopy(other_task))
+                case.write_text(location, path, yaml.safe_dump(doc, allow_unicode=True, sort_keys=False))
+                return
+            oldwrite(location, path, value)
+        case.registry = registry
+        case.write_yaml = write
+
+        def hook(location, message, timestamp=None):
+            nonlocal enabled, other_entry, other_task
+            if message != 'GZ-014 repair (#22)':
+                return original(location, message, timestamp)
+            activation = git('rev-parse', 'HEAD')
+            pending = root / 'scripts/fixture-repair.py'
+            code = pending.read_text(encoding='utf-8')
+            pending.unlink()
+            own = copy.deepcopy(load('specs/coordination/active-work.yaml')['tasks'][0])
+            other_entry = case.entry('GZ-099', activation, 'reserved', 'chore/GZ-099-medium')
+            other_entry.update(agentRole='coordinator', riskLevel='medium', programWave='W1', exclusivePaths=['scripts/other.py'])
+            other_entry['lease'] = copy.deepcopy(own['lease'])
+            doc = load('specs/coordination/program-plan.yaml')
+            other_task = copy.deepcopy(doc['tasks'][0])
+            other_task.update(taskId='GZ-099', title=other_entry['title'], kind='governance', status='reserved', riskLevel='medium', wave='W1', integrationOrder=other_entry['integrationOrder'], dependsOn=[], requirementIds=other_entry['requirementIds'], moduleIds=other_entry['moduleIds'], outputPaths=other_entry['exclusivePaths'], sharedPaths=[], producesContracts=[], consumesContracts=[], issue=other_entry['issue'], coordinationGroup=other_entry['coordinationGroup'], workPackage=other_entry['workPackage'], branchPattern='chore/GZ-099-*')
+            enabled = True
+
+            def write_foreign():
+                case.write_yaml(location, 'specs/coordination/active-work.yaml', case.registry([own]))
+                case.write_text(location, 'specs/tasks/GZ-099.md', case.task_spec(other_entry, 'reserved', other_entry['branch'], other_entry['baseSha']))
+            write_foreign()
+            doc['tasks'].append(other_task)
+            case.write_text(location, 'specs/coordination/program-plan.yaml', yaml.safe_dump(doc, allow_unicode=True, sort_keys=False))
+            common = original(location, 'GZ-099 medium task reservation (#29)')
+            base_entry = copy.deepcopy(other_entry)
+            git('checkout', '-B', 'main', common)
+            other_entry['lease']['expiresAt'] = (datetime.fromisoformat(base_entry['lease']['expiresAt']) + timedelta(hours=2)).isoformat()
+            current_entry = copy.deepcopy(other_entry)
+            write_foreign()
+            prior = original(location, 'GZ-099 current main lease renewal (#30)')
+            git('checkout', '-b', 'other-older', common)
+            other_entry = copy.deepcopy(base_entry)
+            other_entry['lease']['expiresAt'] = (datetime.fromisoformat(base_entry['lease']['expiresAt']) + timedelta(hours=1)).isoformat()
+            older_entry = copy.deepcopy(other_entry)
+            write_foreign()
+            older = original(location, 'GZ-099 earlier independent lease renewal (#31)')
+            git('checkout', 'main')
+            p = git('merge', '--no-ff', older, '-m', 'GZ-099 integrate earlier renewal preserving current lease', allow=True)
+            assert p.returncode == 1
+            record['approvedMainConflictPaths'] = git('diff', '--name-only', '--diff-filter=U').splitlines()
+            other_entry = copy.deepcopy(current_entry)
+            write_foreign()
+            latest = original(location, 'GZ-099 approved current lease resolution (#32)')
+            git('checkout', '-b', 'side-work', prior)
+            pending.write_text(code, encoding='utf-8')
+            implemented = original(location, message, timestamp)
+            p = git('merge', '--no-ff', older, '-m', 'GZ-014 select earlier foreign renewal', allow=True)
+            assert p.returncode == 1
+            record['sideConflictPaths'] = git('diff', '--name-only', '--diff-filter=U').splitlines()
+            other_entry = copy.deepcopy(older_entry)
+            write_foreign()
+            bad = original(location, 'GZ-014 unauthorized foreign lease conflict resolution (#33)')
+            p = git('merge', '--no-ff', latest, '-m', 'GZ-014 restore approved foreign lease', allow=True)
+            if p.returncode:
+                assert p.returncode == 1
+                other_entry = copy.deepcopy(current_entry)
+                write_foreign()
+                original(location, 'GZ-014 restore approved current foreign lease (#34)')
+            other_entry = copy.deepcopy(current_entry)
+            git('checkout', 'main')
+            git('merge', '--no-ff', 'side-work', '-m', message)
+            merge = git('rev-parse', 'HEAD')
+            record.update(common=common, prior=prior, older=older, latestMain=latest, working=implemented, staleConflictResolution=bad, rootMerge=merge, netDiffPaths=git('diff', '--name-only', latest, merge).splitlines())
+            return merge
+        case.commit = hook
+        try:
+            case.create_foundation_completion(folder)
+        finally:
+            case.commit = original
+            case.registry = oldreg
+            case.write_yaml = oldwrite
+        return (case._run_checker(folder, 'GZ-014', 'chore/GZ-014-completion'), record)
+
+    def test_foundation_rejects_foreign_registry_conflict_restored_later(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_foreign_conflict_completion(root)
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('changed another identity or policy', result.stdout)
+            self.assertIn('specs/coordination/active-work.yaml', record['sideConflictPaths'])
+            self.assertNotIn('specs/coordination/active-work.yaml', record['netDiffPaths'])
+
+    def create_program_sync_completion(self, folder, scenario):
+        root = pathlib.Path(folder)
+        case = self
+        orig = self.commit
+        oldwrite = self.write_yaml
+        record = {}
+        with open(os.path.join(REPO_ROOT, 'specs/coordination/program-plan.schema.yaml'), encoding='utf-8') as handle:
+            validator = jsonschema.Draft202012Validator(yaml.safe_load(handle), format_checker=jsonschema.FormatChecker())
+
+        def git(*args, allow=False):
+            result = subprocess.run(['git', *args], cwd=root, capture_output=True, text=True, encoding='utf-8')
+            if result.returncode and not allow:
+                raise RuntimeError(result.stdout + result.stderr)
+            return result if allow else result.stdout.strip()
+
+        def hook(location, message, timestamp=None):
+            if message == 'GZ-014 early repair before reservation (#22)':
+                case.write_text(location, 'backend/main-unrelated.py', 'version0\n')
+            if message != 'GZ-014 repair (#22)':
+                return orig(location, message, timestamp)
+            activation = git('rev-parse', 'HEAD')
+            pending = root / 'scripts/fixture-repair.py'
+            code = pending.read_text(encoding='utf-8')
+            pending.unlink()
+            if scenario in {'legitimate_old_main_sync', 'conflicted_stale_resolution'}:
+                git('checkout', '-B', 'main', activation)
+                if scenario == 'legitimate_old_main_sync':
+                    case.write_text(location, 'backend/main-unrelated.py', 'version1\n')
+                    older = orig(location, 'OTHER-001 older main update (#29)')
+                    git('checkout', '-b', 'side-review', activation)
+                    pending.write_text(code, encoding='utf-8')
+                    orig(location, message, timestamp)
+                    git('merge', '--no-ff', older, '-m', 'GZ-014 clean synchronize older main')
+                    old_sync = git('rev-parse', 'HEAD')
+                    git('checkout', 'main')
+                    case.write_text(location, 'backend/main-unrelated.py', 'version2\n')
+                    latest = orig(location, 'OTHER-001 later main update (#30)')
+                    git('checkout', 'side-review')
+                    git('merge', '--no-ff', latest, '-m', 'GZ-014 clean synchronize later main')
+                    latest_sync = git('rev-parse', 'HEAD')
+                    record.update(older=older, latest=latest, oldSynchronization=old_sync, laterSynchronization=latest_sync, olderSynchronizationWasClean=True)
+                else:
+                    case.write_text(location, 'backend/main-unrelated.py', 'version2\n')
+                    prior = orig(location, 'OTHER-001 current main update (#30)')
+                    git('checkout', '-b', 'other-older', activation)
+                    case.write_text(location, 'backend/main-unrelated.py', 'version1\n')
+                    older = orig(location, 'OTHER-001 earlier independent main update (#29)')
+                    git('checkout', 'main')
+                    conflict = git('merge', '--no-ff', older, '-m', 'OTHER-001 approved resolution retains current version', allow=True)
+                    assert conflict.returncode == 1 and git('diff', '--name-only', '--diff-filter=U') == 'backend/main-unrelated.py'
+                    case.write_text(location, 'backend/main-unrelated.py', 'version2\n')
+                    latest = orig(location, 'OTHER-001 approved main resolution (#31)')
+                    git('checkout', '-b', 'side-review', prior)
+                    pending.write_text(code, encoding='utf-8')
+                    orig(location, message, timestamp)
+                    bad = git('merge', '--no-ff', older, '-m', 'GZ-014 resolve foreign path to older content', allow=True)
+                    assert bad.returncode == 1 and git('diff', '--name-only', '--diff-filter=U') == 'backend/main-unrelated.py'
+                    case.write_text(location, 'backend/main-unrelated.py', 'version1\n')
+                    old_sync = orig(location, 'GZ-014 unauthorized foreign conflict resolution (#32)')
+                    restore = git('merge', '--no-ff', latest, '-m', 'GZ-014 synchronize final approved main', allow=True)
+                    if restore.returncode:
+                        assert git('diff', '--name-only', '--diff-filter=U') == 'backend/main-unrelated.py'
+                        case.write_text(location, 'backend/main-unrelated.py', 'version2\n')
+                        orig(location, 'GZ-014 restore approved main content (#33)')
+                    latest_sync = git('rev-parse', 'HEAD')
+                    record.update(older=older, latest=latest, oldSynchronization=old_sync, laterSynchronization=latest_sync, staleMergeHadRealConflict=True, foreignPath='backend/main-unrelated.py', oldSyncBlob=git('show', old_sync + ':backend/main-unrelated.py'), finalMainBlob=git('show', latest + ':backend/main-unrelated.py'))
+                git('checkout', 'main')
+                git('merge', '--no-ff', 'side-review', '-m', message)
+                node = git('rev-parse', 'HEAD')
+                record['netDiffPaths'] = git('diff', '--name-only', latest, node).splitlines()
+                return node
+            if scenario in {'invalid_own_program', 'duplicate_own_program', 'forged_own_reference', 'premature_own_merge', 'duplicate_ordinary', 'missing_program_schema'}:
+                plan = yaml.safe_load((root / 'specs/coordination/program-plan.yaml').read_text(encoding='utf-8'))
+                own = next((e for e in plan['foundationTasks'] if e['taskId'] == 'GZ-014'))
+                record['baselineSchemaErrors'] = [e.message for e in validator.iter_errors(plan)]
+                if scenario == 'invalid_own_program':
+                    own['completionRef'] = 123
+                elif scenario == 'duplicate_own_program':
+                    plan['foundationTasks'].append(copy.deepcopy(own))
+                elif scenario == 'forged_own_reference':
+                    own['completionRef'] = 'PR-999'
+                elif scenario == 'premature_own_merge':
+                    own['mergeCommit'] = activation
+                elif scenario == 'duplicate_ordinary':
+                    plan['tasks'].append(copy.deepcopy(plan['tasks'][0]))
+                oldwrite(location, 'specs/coordination/program-plan.yaml', plan)
+                record['changedSchemaErrors'] = [e.message for e in validator.iter_errors(plan)]
+                record['ownFoundationCount'] = sum((e['taskId'] == 'GZ-014' for e in plan['foundationTasks']))
+            if scenario == 'missing_program_schema':
+                (root / 'specs/coordination/program-plan.schema.yaml').unlink()
+            pending.write_text(code, encoding='utf-8')
+            node = orig(location, message, timestamp)
+            record['workingNode'] = node
+            return node
+        self.commit = hook
+        try:
+            self.create_foundation_completion(folder)
+        finally:
+            self.commit = orig
+        return self._run_checker(folder, 'GZ-014', 'chore/GZ-014-completion'), record
+
+    def test_foundation_program_sync_valid_full_program(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'valid_full_program')
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_program_sync_legitimate_old_main_sync(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'legitimate_old_main_sync')
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_program_sync_conflicted_stale_resolution(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'conflicted_stale_resolution')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('outside its prior registered scope', result.stdout)
+            self.assertTrue(record['staleMergeHadRealConflict'])
+            self.assertNotIn(record['foreignPath'], record['netDiffPaths'])
+
+    def test_foundation_program_sync_invalid_own_program(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'invalid_own_program')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('Program schema violation', result.stdout)
+            self.assertEqual(record['baselineSchemaErrors'], [])
+
+    def test_foundation_program_sync_duplicate_own_program(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'duplicate_own_program')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('Program task identities must be unique', result.stdout)
+            self.assertEqual(record['baselineSchemaErrors'], [])
+
+    def test_foundation_program_sync_forged_own_reference(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'forged_own_reference')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('ISSUE registration', result.stdout)
+            self.assertEqual(record['baselineSchemaErrors'], [])
+
+    def test_foundation_program_sync_premature_own_merge(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'premature_own_merge')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('no completion merge', result.stdout)
+            self.assertEqual(record['baselineSchemaErrors'], [])
+
+    def test_foundation_program_sync_duplicate_ordinary(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'duplicate_ordinary')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('Program task identities must be unique', result.stdout)
+            self.assertEqual(record['baselineSchemaErrors'], [])
+
+    def test_foundation_program_sync_missing_program_schema(self):
+        with tempfile.TemporaryDirectory() as root:
+            result, record = self.create_program_sync_completion(root, 'missing_program_schema')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('Applicable Program schema is missing', result.stdout)
+            self.assertEqual(record['baselineSchemaErrors'], [])
 
     def create_context_completion(self, folder, scenario, side_metadata=False):
         # All branch/merge mutations happen in a disposable real Git fixture.

@@ -1,0 +1,96 @@
+{
+  "source": "0b1f7f6fd3e123069cbb38622d212aaee41d7bf2",
+  "kind": "TEMPORARY_REAL_GIT_REPRODUCTIONS_NOT_FORMAL_GATE",
+  "rows": [
+    {
+      "scenario": "valid_full_program",
+      "workingNode": "5ed59984a4de531b4fc19cd3f84a78acb8a4c187",
+      "fixtureSources": {
+        "seed": "9852cb2e919776e00e887dfc0e2492692c3067e5",
+        "reservation": "d13002f5ed5a6523de6ddd4bb9d59b13fac1170b",
+        "implementation": "5ed59984a4de531b4fc19cd3f84a78acb8a4c187",
+        "base": "025ea2e916a0e4637615b8a5173adf502860fd6c"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "legitimate_old_main_sync",
+      "older": "ebe035551c31e2c2ab6488c1b41a5050bc7078df",
+      "latest": "8203796fddccca5b2c2792d897fa72956a4a2865",
+      "oldSynchronization": "85614aef056ff49af3de93ee2d4765682c3bef4f",
+      "laterSynchronization": "0e94ac72ff1047acac1494ebc1d2bc33ef0c4387",
+      "olderSynchronizationWasClean": true,
+      "netDiffPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "fixtureSources": {
+        "seed": "856652c95e08abd41730157b0a261eefed56cbe9",
+        "reservation": "29bb65946b04d98fa8508571f171b1b8a8678d25",
+        "implementation": "5cd3aa64bd2f9ce598e31700a01c9c2a8c895586",
+        "base": "1cf3a60bfe45c01ce80a8f2a7b96d5efc4595a98"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "conflicted_stale_resolution",
+      "older": "b93267b278205ad1e79833f7a968e6163f948fce",
+      "latest": "d5f2856bf5e899dad8d87b6a44fdfd2cd742866c",
+      "oldSynchronization": "c6f1b815424111ce3b5c56d0891d43a31cf7bdd3",
+      "laterSynchronization": "e0b8a6ec1a4ca84b41836ef6d5d8f783ee140015",
+      "staleMergeHadRealConflict": true,
+      "foreignPath": "backend/main-unrelated.py",
+      "oldSyncBlob": "version1",
+      "finalMainBlob": "version2",
+      "netDiffPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "fixtureSources": {
+        "seed": "8ea4564906cf0fd6aebb8a00251c305a41a7b70b",
+        "reservation": "ac1d3d6d0f3949143f29e12130e127e2a9857af6",
+        "implementation": "f401056cf012eadcd027eb80119dc0a56123e142",
+        "base": "eab7783ae523069032fe513519ab92ae546ff91c"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "invalid_own_program",
+      "baselineSchemaErrors": [],
+      "changedSchemaErrors": [
+        "123 is not of type 'string'"
+      ],
+      "ownFoundationCount": 1,
+      "workingNode": "b3b131421b9f892c92cabd61311d659cb83ef4b7",
+      "fixtureSources": {
+        "seed": "f4f3f8eeddf1e3e5917e16052b9de9ed178de3b2",
+        "reservation": "be9731b744cbda91166a291a325ca855f1e8b865",
+        "implementation": "b3b131421b9f892c92cabd61311d659cb83ef4b7",
+        "base": "681c67f894fa6c3fbeead70e81283cab97ecf57b"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "duplicate_own_program",
+      "baselineSchemaErrors": [],
+      "changedSchemaErrors": [],
+      "ownFoundationCount": 2,
+      "workingNode": "890ea823eb11da84dc946fb15bafe65e18b905da",
+      "fixtureSources": {
+        "seed": "d5b582b659b68e66be2de591d6c6259fe202d9dd",
+        "reservation": "d421866cf7efbe4999f31d3e52950099df4a80d6",
+        "implementation": "890ea823eb11da84dc946fb15bafe65e18b905da",
+        "base": "aa2f59d1f5ee12cabec40645eed3298ef8c9372d"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ]
+}

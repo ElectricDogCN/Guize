@@ -1,0 +1,36 @@
+{
+  "kind": "DIRTY_DESIGN_TEMPORARY_REAL_GIT_REPRODUCTION_NOT_FORMAL_GATE",
+  "gitHead": "0b1f7f6fd3e123069cbb38622d212aaee41d7bf2",
+  "checkerSha256": "999db37e91295f805fc6b410e17d69b552910d2dea2b4a90f3ef5b412956631a",
+  "record": {
+    "automaticMergeExit": 1,
+    "automaticMergeStdout": "Auto-merging specs/coordination/active-work.yaml\nCONFLICT (content): Merge conflict in specs/coordination/active-work.yaml\nAutomatic merge failed; fix conflicts and then commit the result.\n",
+    "resolvedOnlyOwnRenewalAgainstApprovedForeignRegistry": true,
+    "activation": "5908442475558dc2b1d546c486c14c8ba0ca8dd5",
+    "renewal": "2ce51cc25c0db3f79e22eeb7a58ff9769080a083",
+    "implemented": "7bf144b405d8fb407711fe0db4a4f54c6d9d6e86",
+    "latestMain": "15eb9d05b9a552a33f0ebd338f566a9c48e2a2b9",
+    "synchronization": "add651a08b89b7f9ca49ff0131f8150d80b33bbc",
+    "registryCombinedWithOwnRenewal": true,
+    "cleanImports": [
+      "specs/tasks/GZ-099.md",
+      "specs/coordination/program-plan.yaml"
+    ],
+    "foreignErrors": [],
+    "netDiffPaths": [
+      "scripts/fixture-repair.py",
+      "specs/coordination/active-work.yaml",
+      "specs/tasks/GZ-014.md"
+    ],
+    "existingTransitionErrors": [],
+    "sources": {
+      "seed": "3ca854959a3379d09a16da606feefbd5daccfc25",
+      "reservation": "1eada38861139f409eb58665542a026cb571fa30",
+      "implementation": "c859740cd8b99f7ce3fb7e5251295c11a88e5d55",
+      "base": "cb45e933c6914d328c875ed8cb33d042c1bf9ab4"
+    },
+    "historyExit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+    "stderr": ""
+  }
+}

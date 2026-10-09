@@ -1,0 +1,37 @@
+{
+  "kind": "DIRTY_DESIGN_TEMPORARY_REAL_GIT_REPRODUCTION_NOT_FORMAL_GATE",
+  "gitHead": "0b1f7f6fd3e123069cbb38622d212aaee41d7bf2",
+  "checkerSha256": "cb281429a6d82156755e296774341a48a01bbf9b45538ff2f5dff3d9b42b120f",
+  "record": {
+    "automaticMergeExit": 1,
+    "automaticMergeStdout": "Auto-merging specs/coordination/active-work.yaml\nCONFLICT (content): Merge conflict in specs/coordination/active-work.yaml\nAutomatic merge failed; fix conflicts and then commit the result.\n",
+    "resolvedOnlyOwnRenewalAgainstApprovedForeignRegistry": true,
+    "activation": "f6a2d1c17fcef033616c194ce8e9eef5637a7619",
+    "renewal": "13ee4d6f42c59b250c3f5f82f490be606e1caf84",
+    "implemented": "5c759f141cf4ed3a3c45f5abef2bcaa7486ebe45",
+    "latestMain": "6ab1d7463994f39f845372e1eb795a3ec41bb57d",
+    "synchronization": "8f4d1ed1e77abaed1a6d8a49cd26b4a3212be1b2",
+    "registryCombinedWithOwnRenewal": true,
+    "cleanImports": [
+      "specs/coordination/program-plan.yaml",
+      "specs/tasks/GZ-099.md"
+    ],
+    "foreignErrors": [
+      "Foundation GZ-014 implementation node at 8f4d1ed1e77abaed1a6d8a49cd26b4a3212be1b2 changed another identity or policy in specs/coordination/active-work.yaml"
+    ],
+    "netDiffPaths": [
+      "scripts/fixture-repair.py",
+      "specs/coordination/active-work.yaml",
+      "specs/tasks/GZ-014.md"
+    ],
+    "sources": {
+      "seed": "efbfad8c8e2a804d6ef933e3e99505d5453c20ff",
+      "reservation": "943fd34ca2e9f2c4628f251785d709fa05b34650",
+      "implementation": "a3849a987060086edf12286e658530a88ed3969a",
+      "base": "6d6f97d89691c685e16916cb3786acf36d750adb"
+    },
+    "historyExit": 1,
+    "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 implementation node at 8f4d1ed1e77abaed1a6d8a49cd26b4a3212be1b2 changed another identity or policy in specs/coordination/active-work.yaml\"}\n",
+    "stderr": ""
+  }
+}

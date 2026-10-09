@@ -19,3 +19,24 @@ Thread: PRRT_kwDOTgCQ3c6q59O3
 6XRR 属未规定的新证明协议要求。既有 schema 允许 merge/squash/rebase，现有 Transitions 实际允许 Review→Integration 的单父提交；真实 git merge --squash 从 Implementer/Review 侧源产生代码 blob 相同的正例，没有既定强制 source trailer 或父数量证明字段。因此不新增单父禁令，不据此声称实际人类 Review 或完整 Gate 已通过。独立原始边界在 history-dag-independent/ops004-independent-integrator-corrected-review-squash-proof.json。
 
 新修复的18项真实 Git 回归包含四漏洞、引入侧 metadata、Task/Program瞬态、合法主线同步/单父integration/squash，以及经现有 Recovery validator核验的注册后冻结与冻结夹带外国完成身份负例。120 targeted 在未提交工作树上通过，仅为外部探索记录；本候选发布来源、完整465/15检查和同头CI仍为 NOT_EXECUTED。永久限制和 Owner 原窗口不变；所有未预期失败必须修复。
+
+## 当前 Program 与同步冲突修复候选
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 0b1f7f6fd3e123069cbb38622d212aaee41d7bf2
+Execution Status: NOT_EXECUTED for this changed candidate; actual full-suite and same-head CI remain required.
+
+历史实际父Source0b1f7f6fd3e123069cbb38622d212aaee41d7bf2/tree d21968b5e862ef5dcca7842b6bd5d472747a6ce8：15项13项exit0、coord1/make2唯一原容量FAIL；完整465 PASS441.52s，JUnit465零失败/错误/跳过，执行前后Source及工作树不变。同头Gate610完整465 PASS357.56s，唯一AgentCoord原容量FAIL；原始在 history-contexts-source-0b1f7f6 与 history-contexts-ci-610，不转称本候选已执行。
+
+本批修复两个实际审查缺陷7D5h/7D5n：只有临时clone中真实所有父自动合并的无冲突stage0与approved incoming tree entry精确相同，才能排除 imported main 路径；挑选incoming旧blob的冲突解决仍按修改前登记范围核验。完整历史Program适用schema、跨Foundation/普通任务唯一ID、自身active ISSUE登记/null completion及Registry容量一致性逐快照核验。合法自身续租与main新增外国登记的文本冲突，以去除自身记录的真实共同祖先三方比较独立证明；本侧外国部分不变方可准确导入incoming，外国冲突不能借自身字段豁免。保留合法older main同步、冻结、单父/真实squash集成。
+
+dirty工作树和实际0b的真实Git复现分别明确kind/hash，仅为问题与探索证据，不冒充新发布Source正式Gate。本候选正式完整治理与15检查、同头CI、独立真实历史prospective review仍未完成。已通过检查的结果按其原来源和执行时间归档；修改后的候选不能继承成功声明。永久政策、普通任务/已完成记录、Lease和Owner原窗口不变；不得先行激活GZ005。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK

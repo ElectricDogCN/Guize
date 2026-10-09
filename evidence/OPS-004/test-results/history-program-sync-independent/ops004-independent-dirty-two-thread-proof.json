@@ -1,0 +1,98 @@
+{
+  "source": "0b1f7f6fd3e123069cbb38622d212aaee41d7bf2",
+  "kind": "DIRTY_WORKING_CODE_TEMPORARY_REPRODUCTIONS_NOT_PUBLISHED_SOURCE_OR_FORMAL_GATE",
+  "checkerSha256": "cb281429a6d82156755e296774341a48a01bbf9b45538ff2f5dff3d9b42b120f",
+  "status": " M evidence/OPS-004/changed-files.md\n M evidence/OPS-004/commands.txt\n M evidence/OPS-004/handoff.md\n M evidence/OPS-004/summary.md\n M evidence/OPS-004/test-results/README.md\n M scripts/check-program-plan-history.py\n M tests/governance/test_program_plan_history.py\n?? evidence/OPS-004/test-results/history-contexts-ci-610/\n?? evidence/OPS-004/test-results/history-contexts-independent/\n?? evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/\n",
+  "rows": [
+    {
+      "scenario": "valid_full_program",
+      "workingNode": "34d7df84b7e14b24082df61b75f1015a6a1419b8",
+      "fixtureSources": {
+        "seed": "dbe484f005fce847eac5bdb3501cf1bb67892839",
+        "reservation": "4a7a85cb65277331b50d0fa7505424ed7fff0a2c",
+        "implementation": "34d7df84b7e14b24082df61b75f1015a6a1419b8",
+        "base": "4858574dde5136ad1183d77852d288b7fb22be10"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "legitimate_old_main_sync",
+      "older": "995267b475c03851009cd71583a2d95ceaeb0f99",
+      "latest": "73fd34a9ed3bf7670042ebfca27ab3e45cab4618",
+      "oldSynchronization": "3a8b49daf0b74dcf3b1e0565df59284bdce22288",
+      "laterSynchronization": "372ecb1474c0ca8181ec9b509b66c8f127892a7b",
+      "olderSynchronizationWasClean": true,
+      "netDiffPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "fixtureSources": {
+        "seed": "684c63d1e1d74efc81f0c933b8790ad4d68b86c2",
+        "reservation": "939450deda57f305dd1aa104d273c54a5face816",
+        "implementation": "58e0e83554b953683cb9c369dd2198a017616986",
+        "base": "633e6c5288f256b5a7af1cadb59083f7a5963ae7"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "conflicted_stale_resolution",
+      "older": "f6f18e5aa5ff1e3f92929d4e3c297173a69d2f7f",
+      "latest": "df2f776485801e6285fb871c8dea80eadc67e02b",
+      "oldSynchronization": "b0e363f9dd9e039024a33374c6852acfcadeecb4",
+      "laterSynchronization": "c030018c5b6dc63f007e231cda9661cd63380b60",
+      "staleMergeHadRealConflict": true,
+      "foreignPath": "backend/main-unrelated.py",
+      "oldSyncBlob": "version1",
+      "finalMainBlob": "version2",
+      "netDiffPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "fixtureSources": {
+        "seed": "ad70c2120a73b661f4033ceedbe7b0e021b31f9a",
+        "reservation": "90b7a01cd8b8c9cc7fbe24d9c002e93ab99a62c2",
+        "implementation": "b16e5c870eaa7bd72fe71d81d5c241264cbfa1e0",
+        "base": "cabeb5c8f4d34a8e2708355f74a4401969c3b091"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node changed paths outside its prior registered scope\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node changed paths outside its prior registered scope\"}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "invalid_own_program",
+      "baselineSchemaErrors": [],
+      "changedSchemaErrors": [
+        "123 is not of type 'string'"
+      ],
+      "ownFoundationCount": 1,
+      "workingNode": "a76b84d22105b76743e7825bcae24ef85457c5f2",
+      "fixtureSources": {
+        "seed": "917eaad03bf426b7d58df5a6839933db7c199728",
+        "reservation": "a91aed99b00af6063e5b3df336e8afde4103471f",
+        "implementation": "a76b84d22105b76743e7825bcae24ef85457c5f2",
+        "base": "27e1913642f89b1dbe9610f6817812f4eee437f2"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at a76b84d22105b76743e7825bcae24ef85457c5f2 Program schema violation: 123 is not of type 'string'\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 implementation history at a76b84d22105b76743e7825bcae24ef85457c5f2 Program schema violation: 123 is not of type 'string'\"}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "duplicate_own_program",
+      "baselineSchemaErrors": [],
+      "changedSchemaErrors": [],
+      "ownFoundationCount": 2,
+      "workingNode": "6ef0be5ff443df058fdedbeed4ec0de5b4bc22cc",
+      "fixtureSources": {
+        "seed": "a0da86dabf0d190ab66707aa04b29abab97cfb8d",
+        "reservation": "6215325a995693a37ec347f1265e19973e0452ea",
+        "implementation": "6ef0be5ff443df058fdedbeed4ec0de5b4bc22cc",
+        "base": "8699847959e4a8539fe4d42f34513312146aa6b5"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at 6ef0be5ff443df058fdedbeed4ec0de5b4bc22cc Program task identities must be unique\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at 6ef0be5ff443df058fdedbeed4ec0de5b4bc22cc active Foundation must retain one ISSUE registration and no completion merge\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 implementation history at 6ef0be5ff443df058fdedbeed4ec0de5b4bc22cc Program task identities must be unique\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 implementation history at 6ef0be5ff443df058fdedbeed4ec0de5b4bc22cc active Foundation must retain one ISSUE registration and no completion merge\"}\n",
+      "historyStderr": ""
+    }
+  ]
+}

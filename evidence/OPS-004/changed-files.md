@@ -1,12 +1,12 @@
-# OPS-004 当前完整文件清单
+# OPS-004 完整 Program/sync 修复候选清单
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
 Current Candidate Execution Status: NOT_EXECUTED
-Prior actual formal Source: ecae6e7f38a61b7d477a0780689936beef4b0949
+Prior actual formal Source: 0b1f7f6fd3e123069cbb38622d212aaee41d7bf2
 
-覆盖全部 218 路径，含全部真实历史原始归档及本清单。仅已登记history checker/test新增代码，其余自身 canonical metadata/Evidence。
+覆盖全部 247 路径，生产仅两项已登记history checker/test，其余自身metadata/Evidence。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -48,6 +48,30 @@ evidence/OPS-004/test-results/history-binding-source-f402767/tree.txt
 evidence/OPS-004/test-results/history-binding-source-f402767/unaffected.txt
 evidence/OPS-004/test-results/history-binding-source-f402767/verify.txt
 evidence/OPS-004/test-results/history-context-independent/ops004-independent-historical-context-reproductions.json
+evidence/OPS-004/test-results/history-contexts-ci-610/job-log.txt
+evidence/OPS-004/test-results/history-contexts-ci-610/proof.json
+evidence/OPS-004/test-results/history-contexts-independent/ops004-independent-f0fcf6-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/clean-after.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/clean-before.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/coordination.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/evidence.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/finalization.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/governance.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/governance.xml
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/history.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/integrity.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/lifecycle.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/readiness.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/schemas.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/scope.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/source.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/status.json
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/task.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/transitions.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/tree.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/unaffected.txt
+evidence/OPS-004/test-results/history-contexts-source-0b1f7f6/verify.txt
 evidence/OPS-004/test-results/history-dag-ci-609/job-log.txt
 evidence/OPS-004/test-results/history-dag-ci-609/proof.json
 evidence/OPS-004/test-results/history-dag-independent/ops004-independent-7a321-dag-proof.json
@@ -130,6 +154,11 @@ evidence/OPS-004/test-results/history-lineage-source-2d052cb/transitions.txt
 evidence/OPS-004/test-results/history-lineage-source-2d052cb/tree.txt
 evidence/OPS-004/test-results/history-lineage-source-2d052cb/unaffected.txt
 evidence/OPS-004/test-results/history-lineage-source-2d052cb/verify.txt
+evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-0b-two-thread-proof.json
+evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-dirty-combined-registry-sync-fixed-proof.json
+evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-dirty-combined-registry-sync-proof.json
+evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-dirty-foreign-conflict-proof.json
+evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-dirty-two-thread-proof.json
 evidence/OPS-004/test-results/history-repair-ci-603/job-log.txt
 evidence/OPS-004/test-results/history-repair-ci-603/proof.json
 evidence/OPS-004/test-results/history-repair-final-b156/actual-ci-604.txt

@@ -1,3 +1,51 @@
+## 当前 Program 与同步冲突修复候选
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 0b1f7f6fd3e123069cbb38622d212aaee41d7bf2
+Execution Status: NOT_EXECUTED for this changed candidate; actual full-suite and same-head CI remain required.
+
+历史实际父Source0b1f7f6fd3e123069cbb38622d212aaee41d7bf2/tree d21968b5e862ef5dcca7842b6bd5d472747a6ce8：15项13项exit0、coord1/make2唯一原容量FAIL；完整465 PASS441.52s，JUnit465零失败/错误/跳过，执行前后Source及工作树不变。同头Gate610完整465 PASS357.56s，唯一AgentCoord原容量FAIL；原始在 history-contexts-source-0b1f7f6 与 history-contexts-ci-610，不转称本候选已执行。
+
+本批修复两个实际审查缺陷7D5h/7D5n：只有临时clone中真实所有父自动合并的无冲突stage0与approved incoming tree entry精确相同，才能排除 imported main 路径；挑选incoming旧blob的冲突解决仍按修改前登记范围核验。完整历史Program适用schema、跨Foundation/普通任务唯一ID、自身active ISSUE登记/null completion及Registry容量一致性逐快照核验。合法自身续租与main新增外国登记的文本冲突，以去除自身记录的真实共同祖先三方比较独立证明；本侧外国部分不变方可准确导入incoming，外国冲突不能借自身字段豁免。保留合法older main同步、冻结、单父/真实squash集成。
+
+dirty工作树和实际0b的真实Git复现分别明确kind/hash，仅为问题与探索证据，不冒充新发布Source正式Gate。本候选正式完整治理与15检查、同头CI、独立真实历史prospective review仍未完成。已通过检查的结果按其原来源和执行时间归档；修改后的候选不能继承成功声明。永久政策、普通任务/已完成记录、Lease和Owner原窗口不变；不得先行激活GZ005。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+
+新增11个真实Git持久回归：9个Program/同步用例探索PASS24.80s，合法own Lease+外国登记冲突与真正外国冲突恢复2例探索PASS9.13s。此前120旧例探索PASS273.39s。三组分别执行，不冒充修改后131完整执行；新增总数使完整治理候选476项，实际完整Source/CI仍NOT_EXECUTED。生成fixture的两次探索NameError仅在未提交测试整理阶段，已移除残留直接模块导入并取得2例通过，没有继承失败阶段正式证据。当前生产修复hash999db37e91295f805fc6b410e17d69b552910d2dea2b4a90f3ef5b412956631a；独立外国同步两原始证据明确dirty.kind。
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: 0b1f7f6fd3e123069cbb38622d212aaee41d7bf2
+Tested Tree: d21968b5e862ef5dcca7842b6bd5d472747a6ce8
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 465 passed in 441.52s (0:07:21)，JUnit465 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/history-contexts-source-0b1f7f6/。Gate610完整原始在 test-results/history-contexts-ci-610/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+独立发布审查针对本地alias f0fcf6c7ecb291cba0b91b994a9db1cc4b717a61，树d21968b5e862ef5dcca7842b6bd5d472747a6ce8与本次实际远端0b1f7f6fd3e123069cbb38622d212aaee41d7bf2一致；它仅是发布前静态与临时Git证明，正式465结果始终只绑定实际远端Source。完整独立原始见history-contexts-independent；本地alias不冒充已发布祖先。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
 ## 当前 context 修复候选：正式执行尚未完成
 
 Task: OPS-004 / Issue71
