@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import fnmatch
 import json
 import os
@@ -15,6 +16,13 @@ from typing import Any
 
 import jsonschema
 import yaml
+
+RECOVERY_SPEC = importlib.util.spec_from_file_location(
+    "guize_coordination_recovery", os.path.join(os.path.dirname(__file__), "check-program-lifecycle-guards.py")
+)
+RECOVERY = importlib.util.module_from_spec(RECOVERY_SPEC)
+assert RECOVERY_SPEC and RECOVERY_SPEC.loader
+RECOVERY_SPEC.loader.exec_module(RECOVERY)
 
 ACTIVE_STATUSES = {"reserved", "in_progress", "blocked", "review", "integration"}
 HIGH_RISKS = {"high", "critical"}
@@ -468,6 +476,13 @@ def validate_task_context(
     if mode != "registry":
         errors.append(f"Unsupported coordinationMode for {task_id}: {mode}")
         return
+
+    if front.get("status") == "completed" and base_ref and head_ref:
+        before = RECOVERY.load_ref(root, base_ref, CANONICAL_PLAN)
+        current = RECOVERY.load_current(root, CANONICAL_PLAN)
+        if isinstance(before, dict) and RECOVERY.completed_evidence_candidate(before, current, task_id):
+            RECOVERY.validate_evidence_repair(root, base_ref, head_ref, task_id, branch_name, errors)
+            return
 
     completion_mode = str(front.get("status") or "") in COMPLETED_STATUSES
     current_entries = [entry for entry in registry.get("tasks", []) if entry.get("taskId") == task_id]

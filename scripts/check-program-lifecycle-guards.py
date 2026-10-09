@@ -19,12 +19,20 @@ scope gaps that are easy to miss when a metadata PR is internally consistent:
 from __future__ import annotations
 
 import argparse
+import copy
 import fnmatch
+import hashlib
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
+import urllib.error
+import urllib.request
+from datetime import datetime, timezone
+from pathlib import Path
+import xml.etree.ElementTree as ET
 from typing import Any
 
 import yaml
@@ -241,7 +249,7 @@ def matches_path(path: str, pattern: str) -> bool:
 
 def changed_paths(root: str, base_ref: str, head_ref: str) -> set[str] | None:
     """Return every changed path, including both sides of rename/copy records."""
-    result = git(root, "diff", "--name-status", "-M", f"{base_ref}...{head_ref}")
+    result = git(root, "diff", "--name-status", "-M", base_ref, head_ref)
     if result.returncode != 0:
         return None
     paths: set[str] = set()
@@ -437,6 +445,10 @@ def validate_foundation_claims(
     )
     exception_patterns = list(FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ()))
     for claim in list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or []):
+        if entry.get("moduleIds") == ["MOD-GOV"] and task_id not in FOUNDATION_SCOPE_EXCEPTIONS:
+            if not governance_claim_subset(str(claim), ownership):
+                errors.append(f"Active Foundation {task_id} path claim {claim} is outside governance ownership subsets")
+            continue
         if not any(
             paths_overlap(str(claim), pattern)
             for pattern in module_patterns + exception_patterns
@@ -444,6 +456,8 @@ def validate_foundation_claims(
             errors.append(
                 f"Active Foundation {task_id} path claim {claim} is outside module ownership and audited repair scope"
             )
+    if entry.get("moduleIds") == ["MOD-GOV"] and task_id not in FOUNDATION_SCOPE_EXCEPTIONS and entry.get("sharedPaths"):
+        errors.append(f"Active Foundation {task_id} requires exclusive governance claims")
 
 
 def validate_completed_spec_binding(
@@ -468,6 +482,470 @@ def validate_completed_spec_binding(
         errors.append(
             f"Completed Program task {task_id} Task Spec handoffPath must be {expected_handoff}"
         )
+
+
+def metadata_paths(task_id: str, task_path: str) -> tuple[set[str], str]:
+    return {PLAN, ACTIVE, task_path}, f"evidence/{task_id}/"
+
+
+def safe_evidence_path(path: str, task_id: str) -> bool:
+    return (
+        isinstance(path, str)
+        and path.startswith(f"evidence/{task_id}/")
+        and "\\" not in path
+        and all(part not in {"", ".", ".."} for part in path.split("/"))
+    )
+
+
+def unchanged_bytes(root: str, base_ref: str, paths: list[str], head_ref: str = "HEAD") -> bool:
+    for path in paths:
+        previous = subprocess.run(["git", "show", f"{base_ref}:{path}"], cwd=root, capture_output=True)
+        proposed = subprocess.run(["git", "show", f"{head_ref}:{path}"], cwd=root, capture_output=True)
+        try:
+            current = Path(root, path).read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            return False
+        if previous.returncode or proposed.returncode or previous.stdout != proposed.stdout:
+            return False
+        if proposed.stdout.decode("utf-8").replace("\r\n", "\n") != current:
+            return False
+    return True
+
+
+def evidence_task_ids(paths: set[str]) -> set[str]:
+    return {
+        match.group(1)
+        for path in paths
+        if (match := re.match(r"^evidence/([A-Z]+-[0-9]+)/", path))
+    }
+
+
+def completed_evidence_candidate(
+    base_plan: dict[str, Any], current_plan: dict[str, Any], task_id: str
+) -> bool:
+    before = mapping(base_plan.get("tasks")).get(task_id, {})
+    after = mapping(current_plan.get("tasks")).get(task_id, {})
+    return before.get("status") == after.get("status") == "completed"
+
+
+def github_issue(number: int) -> dict[str, Any]:
+    repository = os.environ.get("GITHUB_REPOSITORY", "").strip()
+    if not repository:
+        raise RuntimeError("GITHUB_REPOSITORY is not available")
+    base = os.environ.get("GUIZE_GITHUB_API_URL", "https://api.github.com").rstrip("/")
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": "guize-program-lifecycle-gate", "X-GitHub-Api-Version": "2022-11-28"}
+    token = os.environ.get("GITHUB_TOKEN", "").strip()
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    request = urllib.request.Request(f"{base}/repos/{repository}/issues/{number}", headers=headers)
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            value = json.load(response)
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError) as exc:
+        raise RuntimeError(f"GitHub Issue API request failed: {exc}") from exc
+    if not isinstance(value, dict):
+        raise RuntimeError("GitHub Issue API returned a non-object")
+    return value
+
+
+def validate_evidence_repair(
+    root: str, base_ref: str, head_ref: str, task_id: str,
+    branch_name: str, errors: list[str],
+) -> None:
+    initial_errors = len(errors)
+    base_plan = load_ref(root, base_ref, PLAN)
+    current_plan = load_current(root, PLAN)
+    task_path = find_task_path(root, task_id)
+    paths = changed_paths(root, base_ref, head_ref)
+    if not task_path or paths is None or not paths:
+        errors.append(f"Evidence repair {task_id} requires a Task and a non-empty exact diff")
+        return
+    if not completed_evidence_candidate(base_plan, current_plan, task_id):
+        errors.append(f"Evidence repair {task_id} requires completed at both endpoints")
+    if base_plan.get("status") == "frozen" or current_plan.get("status") == "frozen":
+        errors.append(f"Evidence repair {task_id} cannot run while Program is frozen")
+    if not unchanged_bytes(root, base_ref, [PLAN, ACTIVE, LEDGER, task_path], head_ref):
+        errors.append(f"Evidence repair {task_id} must preserve Program/Registry/Ledger/Task bytes")
+    if any(not safe_evidence_path(path, task_id) for path in paths):
+        errors.append(f"Evidence repair {task_id} changed files outside its own Evidence")
+    if branch_name and branch_name != "main" and not re.fullmatch(
+        rf"(?:chore|fix|docs)/{re.escape(task_id)}-.+", branch_name
+    ):
+        errors.append(f"Evidence repair {task_id} branch must carry the same Task ID")
+    ledger = load_current(root, LEDGER)
+    if len([r for r in ledger.get("records") or [] if r.get("taskId") == task_id]) != 1:
+        errors.append(f"Evidence repair {task_id} requires its immutable completion record")
+    if len(errors) == initial_errors:
+        front = parse_front(Path(root, task_path).read_text(encoding="utf-8"))
+        number = front.get("issue")
+        if type(number) is not int or number <= 0:
+            errors.append(f"Evidence repair {task_id} has no numeric Issue identity")
+            return
+        try:
+            issue = github_issue(number)
+            if issue.get("number") != number or "pull_request" in issue or issue.get("state") != "closed" or issue.get("state_reason") != "completed":
+                errors.append(f"Evidence repair {task_id} requires Issue #{number} closed with state_reason=completed")
+        except RuntimeError as exc:
+            errors.append(f"Evidence repair {task_id} Issue #{number} cannot be verified: {exc}")
+
+
+def governance_claim_subset(claim: str, ownership: dict[str, Any]) -> bool:
+    if "\\" in claim or any(p in {"", ".", ".."} for p in claim.split("/")):
+        return False
+    owned = module_owned_patterns(ownership, {"MOD-GOV"})
+    return any(
+        claim == path or (path.endswith("/**") and claim.startswith(path[:-2]))
+        for path in owned
+    )
+
+
+def recovery_owner(plan: dict[str, Any]) -> str:
+    recovery = plan.get("recovery")
+    return str(recovery.get("taskId") or "") if isinstance(recovery, dict) else ""
+
+
+def validate_frozen_snapshot(root: str, plan: dict[str, Any], errors: list[str]) -> None:
+    if plan.get("status") != "frozen":
+        return
+    try:
+        recovery = plan["recovery"]
+        if not isinstance(recovery, dict) or set(recovery) != {"taskId", "reason", "affectedTasks", "sourceCommit", "frozenAt", "verificationPath"}:
+            raise ValueError("Frozen Program has an invalid recovery descriptor")
+        task_id = recovery_owner(plan)
+        foundation = mapping(plan.get("foundationTasks"))[task_id]
+        entry = mapping(load_current(root, ACTIVE).get("tasks"))[task_id]
+        if foundation.get("status") not in {"reserved", "in_progress", "review", "integration", "blocked"} or foundation.get("status") != entry.get("status") or entry.get("moduleIds") != ["MOD-GOV"]:
+            raise ValueError("Frozen Program must retain a matching active governance recovery owner")
+        task_path = find_task_path(root, task_id)
+        front = parse_front(Path(root, task_path).read_text(encoding="utf-8"))
+        if front.get("id") != task_id or front.get("status") != entry.get("status") or front.get("issue") != entry.get("issue") or foundation.get("completionRef") != f"ISSUE-{entry.get('issue')}":
+            raise ValueError("Frozen recovery owner Task/Issue identity does not match its lease")
+        source = recovery["sourceCommit"]
+        if not isinstance(source, str) or not re.fullmatch(r"[0-9a-f]{40}", source) or not is_ancestor(root, source, "HEAD"):
+            raise ValueError("Frozen source must be an actual current ancestor")
+        original = load_ref(root, source, PLAN)
+        if not isinstance(original, dict) or original.get("status") != "active":
+            raise ValueError("Frozen source must contain the preceding active Program")
+        all_tasks = {**mapping(plan.get("tasks")), **mapping(plan.get("foundationTasks"))}
+        prior = {**mapping(original.get("tasks")), **mapping(original.get("foundationTasks"))}
+        affected = recovery["affectedTasks"]
+        if not isinstance(affected, list) or not affected or any(not isinstance(t, str) for t in affected) or len(set(affected)) != len(affected) or any(all_tasks.get(t, {}).get("status") != "completed" or prior.get(t, {}).get("status") != "completed" for t in affected):
+            raise ValueError("Frozen affected tasks must retain their completed source identities")
+        if not isinstance(recovery["reason"], str) or len(recovery["reason"].strip()) < 12 or not safe_evidence_path(recovery["verificationPath"], task_id) or not recovery["verificationPath"].endswith(".json"):
+            raise ValueError("Frozen reason and verification path are invalid")
+        frozen_at = datetime.fromisoformat(recovery["frozenAt"].replace("Z", "+00:00"))
+        acquired = datetime.fromisoformat(entry["lease"]["acquiredAt"].replace("Z", "+00:00"))
+        expires = datetime.fromisoformat(entry["lease"]["expiresAt"].replace("Z", "+00:00"))
+        now = datetime.now(timezone.utc)
+        if frozen_at.tzinfo is None or frozen_at.utcoffset().total_seconds() != 0 or frozen_at > now or acquired.tzinfo is None or expires.tzinfo is None or not acquired <= now < expires or not 0 < (expires - acquired).total_seconds() <= 168 * 3600:
+            raise ValueError("Frozen timestamp or recovery lease is invalid")
+    except (ValueError, TypeError, KeyError, AttributeError, OSError) as exc:
+        errors.append(f"Frozen Program snapshot rejected: {exc}")
+
+
+def recovery_log(root: str, ref: str, path: str, task_id: str) -> bytes:
+    if not safe_evidence_path(path, task_id):
+        raise ValueError("Recovery evidence path escapes its task")
+    tree = git(root, "ls-tree", ref, "--", path)
+    if tree.returncode or not tree.stdout.startswith("100644 blob "):
+        raise ValueError("Recovery evidence must be a tracked regular file")
+    result = subprocess.run(["git", "show", f"{ref}:{path}"], cwd=root, capture_output=True)
+    if result.returncode:
+        raise ValueError("Recovery evidence cannot be read at the target base")
+    return result.stdout
+
+
+def validate_recovery_command(root: str, command: str, label: str, source: str, task_id: str, recovery: dict[str, Any]) -> None:
+    tokens = shlex.split(command)
+    executable = os.path.basename(tokens[0]) if tokens else ""
+    checks = {
+        "programIntegrity": "scripts/check-program-plan-integrity.py",
+        "lifecycle": "scripts/run-program-lifecycle-gate.py",
+        "coordination": "scripts/run-agent-coordination-gate.py",
+    }
+    if label == "verify":
+        if tokens[:2] != ["make", "verify"] or len(tokens) != 6:
+            raise ValueError("Recovery verify must run the complete make verify target")
+        arguments = dict(token.split("=", 1) for token in tokens[2:])
+        if set(arguments) != {"TASK", "BASE", "HEAD_REF", "BRANCH"} or arguments["TASK"] != task_id or arguments["HEAD_REF"] != source:
+            raise ValueError("Recovery verify does not bind the owner and validated HEAD")
+        base = arguments["BASE"]
+        branch = arguments["BRANCH"]
+    elif label == "governance":
+        if executable not in {"python", "python3"} or tokens[1:5] != ["-m", "pytest", "tests/governance", "-q"] or len(tokens) != 6 or not tokens[5].startswith("--junitxml="):
+            raise ValueError("Recovery governance must run the complete governance suite")
+        if not safe_evidence_path(tokens[5].split("=", 1)[1], task_id):
+            raise ValueError("Recovery JUnit output must belong to its task")
+        return
+    else:
+        if executable not in {"python", "python3"} or len(tokens) < 4 or tokens[1] != checks[label]:
+            raise ValueError(f"Recovery {label} has the wrong executable or script")
+        expected = {"--base-ref"} if label == "programIntegrity" else {"--base-ref", "--head-ref", "--task", "--branch-name"}
+        arguments = dict(zip(tokens[2::2], tokens[3::2]))
+        if len(tokens) != 2 + 2 * len(expected) or set(arguments) != expected:
+            raise ValueError(f"Recovery {label} has incomplete or unsupported arguments")
+        if label != "programIntegrity" and (arguments["--head-ref"] != source or arguments["--task"] != task_id):
+            raise ValueError(f"Recovery {label} does not bind the owner and validated HEAD")
+        base = arguments["--base-ref"]
+        branch = arguments.get("--branch-name", f"chore/{task_id}-recovery")
+    if not re.fullmatch(r"[0-9a-f]{40}", base) or not is_ancestor(root, base, source):
+        raise ValueError("Recovery command base must be an actual repair ancestor")
+    plan = load_ref(root, base, PLAN)
+    if not isinstance(plan, dict) or plan.get("status") != "frozen" or plan.get("recovery") != recovery:
+        raise ValueError("Recovery command base does not belong to this frozen event")
+    if not re.fullmatch(rf"(?:chore|fix|docs)/{re.escape(task_id)}-.+", branch):
+        raise ValueError("Recovery command branch does not carry its owner Task ID")
+
+
+def validate_thaw_proof(
+    root: str, base_ref: str, recovery: dict[str, Any], errors: list[str]
+) -> None:
+    task_id = str(recovery.get("taskId") or "")
+    try:
+        proof = json.loads(recovery_log(root, base_ref, recovery.get("verificationPath"), task_id))
+        if set(proof) != {"taskId", "frozenSourceCommit", "validatedCommit", "commands", "junitPath", "junitSha256"}:
+            raise ValueError("Recovery proof has missing or unknown fields")
+        source = proof["validatedCommit"]
+        frozen_source = recovery["sourceCommit"]
+        if proof["taskId"] != task_id or proof["frozenSourceCommit"] != frozen_source:
+            raise ValueError("Recovery proof belongs to another task or freeze event")
+        if not re.fullmatch(r"[0-9a-f]{40}", source) or not is_ancestor(root, source, base_ref):
+            raise ValueError("Validated repair commit has not merged into the target base")
+        if source == frozen_source or not is_ancestor(root, frozen_source, source):
+            raise ValueError("Validated repair commit must follow the frozen source")
+        validated_plan = load_ref(root, source, PLAN)
+        if not isinstance(validated_plan, dict) or validated_plan.get("status") != "frozen" or validated_plan.get("recovery") != recovery:
+            raise ValueError("Validated commit does not contain this exact frozen event")
+        archival = changed_paths(root, source, base_ref)
+        if archival is None or any(not safe_evidence_path(p, task_id) for p in archival):
+            raise ValueError("Code or control metadata changed after repair validation")
+        commands = proof["commands"]
+        required = {
+            "programIntegrity": "check-program-plan-integrity.py",
+            "lifecycle": "run-program-lifecycle-gate.py",
+            "coordination": "run-agent-coordination-gate.py",
+            "governance": "pytest",
+            "verify": "make verify",
+        }
+        if set(commands) != set(required):
+            raise ValueError("Recovery proof does not cover all mandatory checks")
+        log_texts: dict[str, str] = {}
+        for label, token in required.items():
+            item = commands[label]
+            if set(item) != {"command", "exitCode", "logPath", "sha256"} or type(item["exitCode"]) is not int or item["exitCode"] != 0:
+                raise ValueError(f"Recovery check {label} is not a successful recorded command")
+            if token not in item["command"]:
+                raise ValueError(f"Recovery check {label} has the wrong command")
+            validate_recovery_command(root, item["command"], label, source, task_id, recovery)
+            raw = recovery_log(root, base_ref, item["logPath"], task_id)
+            if hashlib.sha256(raw).hexdigest() != item["sha256"]:
+                raise ValueError(f"Recovery log {label} hash does not match")
+            text = raw.decode("utf-8")
+            log_texts[label] = text
+            if not text.startswith(f"Source Commit: {source}\nCommand: {item['command']}\n") or not text.rstrip().endswith("Exit Code: 0"):
+                raise ValueError(f"Recovery log {label} does not bind its command and exit code")
+        raw = recovery_log(root, base_ref, proof["junitPath"], task_id)
+        if hashlib.sha256(raw).hexdigest() != proof["junitSha256"]:
+            raise ValueError("Recovery JUnit hash does not match")
+        xml = ET.fromstring(raw)
+        suites = [xml] if xml.tag == "testsuite" else list(xml.findall("testsuite"))
+        if not suites or sum(int(s.get("tests", 0)) for s in suites) <= 0:
+            raise ValueError("Recovery JUnit is empty")
+        if any(int(s.get(k, 0)) != 0 for s in suites for k in ("failures", "errors", "skipped")):
+            raise ValueError("Recovery JUnit contains failures, errors or skips")
+        if any(int(s.get("tests", 0)) != len(s.findall("testcase")) for s in suites) or any(next(xml.iter(tag), None) is not None for tag in ("failure", "error", "skipped")):
+            raise ValueError("Recovery JUnit testcase counts or failure nodes contradict its summary")
+        junit_command = commands["governance"]["command"]
+        if shlex.split(junit_command)[-1] != f"--junitxml={proof['junitPath']}":
+            raise ValueError("Recovery governance command and archived JUnit path differ")
+        expected_messages = {
+            "programIntegrity": ["Program Plan execution and completion integrity passed"],
+            "lifecycle": ["Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "Exact lifecycle diff and Completion Issue verification passed"],
+            "coordination": ["Agent coordination valid:"],
+        }
+        for label, messages in expected_messages.items():
+            results = []
+            for line in log_texts[label].splitlines()[2:-1]:
+                if line.startswith("{"):
+                    results.append(json.loads(line))
+            if any(result.get("status") == "FAIL" for result in results) or any(not any(result.get("status") == "PASS" and message in result.get("message", "") for result in results) for message in messages):
+                raise ValueError(f"Recovery {label} log has no actual successful checker output")
+        total = sum(len(s.findall("testcase")) for s in suites)
+        for label in ("governance", "verify"):
+            counts = re.findall(r"(?m)^.*?\b([0-9]+) passed(?: in |,)", log_texts[label])
+            if not counts or int(counts[-1]) != total or re.search(r"\b[1-9][0-9]* (?:failed|errors?|skipped)\b", log_texts[label]):
+                raise ValueError(f"Recovery {label} pytest output does not match its zero-skip JUnit")
+        if any(marker not in log_texts["verify"] for marker in ("=== docs-check", "=== schema-check", "=== secret-scan", "=== task-verify", "=== governance-test")) or re.search(r'"status":\s*"FAIL"|^MISSING:', log_texts["verify"], re.MULTILINE):
+            raise ValueError("Recovery verify log does not contain the successful complete target chain")
+    except (ValueError, TypeError, KeyError, AttributeError, OSError, ET.ParseError) as exc:
+        errors.append(f"Program thaw proof rejected: {exc}")
+
+
+def validate_recovery_transition(
+    root: str, base_ref: str, head_ref: str, errors: list[str]
+) -> str:
+    before = load_ref(root, base_ref, PLAN)
+    after = load_current(root, PLAN)
+    if (before.get("status"), before.get("recovery")) == (after.get("status"), after.get("recovery")):
+        return ""
+    pair = (before.get("status"), after.get("status"))
+    if pair not in {("active", "frozen"), ("frozen", "active")}:
+        errors.append("Program recovery metadata may only change in freeze/thaw transitions")
+        return ""
+    recovery = after.get("recovery")
+    if not isinstance(recovery, dict):
+        errors.append("Program freeze/thaw requires structured recovery metadata")
+        return ""
+    task_id = recovery_owner(after)
+    task_path = find_task_path(root, task_id)
+    paths = changed_paths(root, base_ref, head_ref)
+    entry = mapping(load_current(root, ACTIVE).get("tasks")).get(task_id, {})
+    foundation = mapping(after.get("foundationTasks")).get(task_id, {})
+    if not task_path or not entry or entry.get("moduleIds") != ["MOD-GOV"] or foundation.get("status") not in {"reserved", "in_progress", "review", "integration", "blocked"}:
+        errors.append("Program freeze/thaw requires a registered governance Foundation owner")
+        return task_id
+    exact, prefix = metadata_paths(task_id, task_path)
+    if paths is None or any(p not in exact and not safe_evidence_path(p, task_id) for p in paths):
+        errors.append("Program freeze/thaw must be metadata-only for its recovery owner")
+    left, right = copy.deepcopy(before), copy.deepcopy(after)
+    for document in (left, right):
+        document.pop("status", None)
+        document.pop("recovery", None)
+    # A first reserved Foundation may freeze atomically, without implementation.
+    old_foundations = mapping(left.get("foundationTasks"))
+    if task_id not in old_foundations and foundation.get("status") == "reserved":
+        right["foundationTasks"] = [x for x in right["foundationTasks"] if x["taskId"] != task_id]
+    if left != right:
+        errors.append("Program freeze/thaw changed unrelated Program identities")
+    base_active = load_ref(root, base_ref, ACTIVE)
+    current_active = load_current(root, ACTIVE)
+    for document in (base_active, current_active):
+        document["tasks"] = [x for x in document.get("tasks") or [] if x.get("taskId") != task_id]
+    if base_active != current_active or not unchanged_bytes(root, base_ref, [LEDGER]):
+        errors.append("Program freeze/thaw changed another lease, policy or Ledger")
+    try:
+        if set(recovery) != {"taskId", "reason", "affectedTasks", "sourceCommit", "frozenAt", "verificationPath"}:
+            raise ValueError("Unexpected recovery fields")
+        if not isinstance(recovery["reason"], str) or len(recovery["reason"].strip()) < 12:
+            raise ValueError("Recovery reason must explain the incident")
+        if not safe_evidence_path(recovery["verificationPath"], task_id) or not recovery["verificationPath"].endswith(".json"):
+            raise ValueError("Recovery verificationPath must be task-bound JSON")
+        timestamp = datetime.fromisoformat(recovery["frozenAt"].replace("Z", "+00:00"))
+        if timestamp.tzinfo is None or timestamp.utcoffset().total_seconds() != 0 or timestamp > datetime.now(timezone.utc):
+            raise ValueError("Recovery frozenAt must be an actual UTC timestamp")
+        affected = recovery["affectedTasks"]
+        all_tasks = {**mapping(before.get("tasks")), **mapping(before.get("foundationTasks"))}
+        if not isinstance(affected, list) or not affected or len(set(affected)) != len(affected) or any(all_tasks.get(t, {}).get("status") != "completed" for t in affected):
+            raise ValueError("Recovery affectedTasks must identify existing completed tasks")
+        if pair == ("active", "frozen"):
+            if recovery["sourceCommit"] != resolve_ref(root, base_ref):
+                raise ValueError("Freeze sourceCommit must equal the actual target base")
+        else:
+            if recovery != before.get("recovery"):
+                raise ValueError("Thaw must preserve the exact freeze event")
+            validate_thaw_proof(root, base_ref, recovery, errors)
+    except (ValueError, TypeError, KeyError, AttributeError) as exc:
+        errors.append(f"Program recovery metadata rejected: {exc}")
+    return task_id
+
+
+def validate_frozen_changes(root: str, base_ref: str, head_ref: str, errors: list[str]) -> None:
+    before, after = load_ref(root, base_ref, PLAN), load_current(root, PLAN)
+    if before.get("status") != "frozen" and after.get("status") != "frozen":
+        return
+    validate_frozen_snapshot(root, after, errors)
+    paths = changed_paths(root, base_ref, head_ref)
+    if paths is None:
+        errors.append("Frozen Program cannot determine exact changes")
+        return
+    if before.get("status") != after.get("status"):
+        # The recovery-transition validator enforces the narrower metadata diff.
+        validate_recovery_transition(root, base_ref, head_ref, errors)
+        return
+    if {k: v for k, v in before.items() if k not in {"tasks", "foundationTasks", "pocs"}} != {k: v for k, v in after.items() if k not in {"tasks", "foundationTasks", "pocs"}}:
+        errors.append("Frozen Program cannot change root authority, policy or recovery metadata")
+    previous_tasks, current_tasks = mapping(before.get("tasks")), mapping(after.get("tasks"))
+    if set(previous_tasks) != set(current_tasks):
+        errors.append("Frozen Program cannot add or remove ordinary tasks")
+    old_pocs, new_pocs = copy.deepcopy(before.get("pocs") or []), copy.deepcopy(after.get("pocs") or [])
+    for pocs in (old_pocs, new_pocs):
+        for poc in pocs:
+            task_id = poc.get("taskId")
+            if previous_tasks.get(task_id) != current_tasks.get(task_id) and current_tasks.get(task_id, {}).get("status") in {"blocked", "cancelled"}:
+                poc.pop("status", None)
+    if old_pocs != new_pocs:
+        errors.append("Frozen Program cannot change unrelated POC identities or results")
+    old_active, new_active = load_ref(root, base_ref, ACTIVE), load_current(root, ACTIVE)
+    if {k: v for k, v in old_active.items() if k != "tasks"} != {k: v for k, v in new_active.items() if k != "tasks"}:
+        errors.append("Frozen Program cannot change Registry policy")
+    entries = mapping(load_current(root, ACTIVE).get("tasks"))
+    foundations = mapping(after.get("foundationTasks"))
+    ordinary = mapping(after.get("tasks"))
+    owner = recovery_owner(after)
+    if after.get("status") == "frozen" and (
+        owner not in entries or owner not in foundations or entries[owner].get("moduleIds") != ["MOD-GOV"]
+    ):
+        errors.append("Frozen Program must retain its active governance recovery owner")
+    allowed_exact: set[str] = set()
+    allowed_patterns: list[str] = []
+    for task_id, entry in entries.items():
+        path = find_task_path(root, task_id)
+        if not path:
+            continue
+        if task_id in foundations and entry.get("moduleIds") == ["MOD-GOV"]:
+            ownership = load_current(root, OWNERSHIP)
+            if entry.get("sharedPaths") or any(not governance_claim_subset(str(p), ownership) for p in entry.get("exclusivePaths") or []):
+                errors.append(f"Frozen recovery Foundation {task_id} claims must be governance subsets")
+                continue
+            allowed_exact.update({PLAN, ACTIVE, path})
+            allowed_patterns.append(f"evidence/{task_id}/**")
+            if entry.get("status") in IMPLEMENTATION_STATES:
+                allowed_patterns.extend(entry.get("exclusivePaths") or [])
+        elif ordinary.get(task_id, {}).get("status") == "blocked":
+            allowed_exact.update({PLAN, ACTIVE, path})
+            allowed_patterns.append(f"evidence/{task_id}/**")
+    for task_id, task in ordinary.items():
+        if task.get("status") == "cancelled":
+            path = find_task_path(root, task_id)
+            if path:
+                allowed_exact.update({PLAN, ACTIVE, path})
+                allowed_patterns.append(f"evidence/{task_id}/**")
+    if any(p not in allowed_exact and not any(fnmatch.fnmatchcase(p, pattern) for pattern in allowed_patterns) for p in paths):
+        errors.append("Frozen Program rejects ordinary implementation, completion and Evidence repair")
+    previous = mapping(before.get("tasks"))
+    for task_id, task in ordinary.items():
+        if task != previous.get(task_id) and task.get("status") not in {"blocked", "cancelled"}:
+            errors.append(f"Frozen Program rejects ordinary task activation or completion: {task_id}")
+        elif task != previous.get(task_id) and {
+            k: v for k, v in task.items() if k != "status"
+        } != {k: v for k, v in previous.get(task_id, {}).items() if k != "status"}:
+            errors.append(f"Frozen Program cannot change ordinary task identity or scope: {task_id}")
+        if task != previous.get(task_id) and task.get("status") in {"blocked", "cancelled"}:
+            path = find_task_path(root, task_id)
+            front = parse_front(Path(root, path).read_text(encoding="utf-8")) if path else {}
+            if front.get("status") != task.get("status"):
+                errors.append(f"Frozen ordinary task {task_id} Task Spec must match blocked/cancelled status")
+
+
+def frozen_repair_task_ids(root: str, base_ref: str, head_ref: str) -> set[str]:
+    plan = load_current(root, PLAN)
+    if plan.get("status") != "frozen":
+        return set()
+    paths = (changed_paths(root, base_ref, head_ref) or set()) - {PLAN, ACTIVE, LEDGER}
+    foundations = mapping(plan.get("foundationTasks"))
+    result: set[str] = set()
+    for entry in load_current(root, ACTIVE).get("tasks") or []:
+        task_id = entry.get("taskId")
+        if task_id not in foundations or entry.get("moduleIds") != ["MOD-GOV"]:
+            continue
+        task_path = find_task_path(root, task_id)
+        if any(path == task_path or safe_evidence_path(path, task_id) or any(matches_path(path, str(claim)) for claim in entry.get("exclusivePaths") or []) for path in paths):
+            result.add(task_id)
+    return result
+
+
+def is_ancestor(root: str, before: str, after: str) -> bool:
+    return git(root, "merge-base", "--is-ancestor", before, after).returncode == 0
 
 
 def main() -> int:
@@ -512,6 +990,8 @@ def main() -> int:
     if paths is None:
         emit("FAIL", "Lifecycle guard cannot determine changed paths")
         return 1
+    validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
+    recovery_task = validate_recovery_transition(root, args.base_ref, args.head_ref, errors)
     affected = task_ids_from_diff(
         base_plan,
         current_plan,
@@ -523,6 +1003,10 @@ def main() -> int:
     )
     if args.task:
         affected.add(args.task)
+    affected.update(evidence_task_ids(paths))
+    affected.update(frozen_repair_task_ids(root, args.base_ref, args.head_ref))
+    if recovery_task:
+        affected.add(recovery_task)
 
     base_tasks = mapping(base_plan.get("tasks"))
     current_tasks = mapping(current_plan.get("tasks"))
@@ -542,6 +1026,10 @@ def main() -> int:
         after = (current_tasks if ordinary else current_foundations).get(task_id, {})
         before_status = str(before.get("status") or "")
         after_status = str(after.get("status") or "")
+        if ordinary and before_status == after_status == "completed":
+            validate_evidence_repair(
+                root, args.base_ref, args.head_ref, task_id, args.branch_name, errors
+            )
         task_path = find_task_path(root, task_id)
         if not task_path:
             errors.append(f"Affected lifecycle task {task_id} has no current Task Spec")

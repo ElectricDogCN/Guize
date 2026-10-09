@@ -18,6 +18,12 @@ required:
   - tasks
   - externalBlockers
   - releasePolicy
+allOf:
+  - if:
+      properties:
+        status: {const: frozen}
+    then:
+      required: [recovery]
 properties:
   $schema:
     type: string
@@ -30,6 +36,21 @@ properties:
     pattern: '^[A-Z][A-Z0-9-]+$'
   status:
     enum: [draft, active, frozen, completed, deprecated]
+  recovery:
+    type: object
+    additionalProperties: false
+    required: [taskId, reason, affectedTasks, sourceCommit, frozenAt, verificationPath]
+    properties:
+      taskId: {$ref: '#/$defs/taskId'}
+      reason: {type: string, minLength: 12}
+      affectedTasks:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/taskId'}
+      sourceCommit: {type: string, pattern: '^[0-9a-f]{40}$'}
+      frozenAt: {type: string, format: date-time}
+      verificationPath: {type: string, pattern: '^evidence/[A-Z]+-[0-9]+/[^\\]+\.json$'}
   baseline:
     type: string
     pattern: '^[A-Z]+-[0-9]{3}$'
@@ -108,7 +129,7 @@ $defs:
       taskId: {$ref: '#/$defs/taskId'}
       title: {type: string, minLength: 1}
       status:
-        enum: [completed, in_progress, review, integration, blocked]
+        enum: [reserved, completed, in_progress, review, integration, blocked]
       completionRef: {type: string, minLength: 1}
       mergeCommit:
         type: [string, 'null']

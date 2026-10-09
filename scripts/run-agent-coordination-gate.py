@@ -13,12 +13,20 @@ runs global Registry validation for metadata-only lifecycle PRs.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import os
 import subprocess
 import sys
 from typing import Any
 
 import yaml
+
+RECOVERY_SPEC = importlib.util.spec_from_file_location(
+    "guize_coordination_dispatch_recovery", os.path.join(os.path.dirname(__file__), "check-program-lifecycle-guards.py")
+)
+RECOVERY = importlib.util.module_from_spec(RECOVERY_SPEC)
+assert RECOVERY_SPEC and RECOVERY_SPEC.loader
+RECOVERY_SPEC.loader.exec_module(RECOVERY)
 
 IMPLEMENTATION_TASK_STATES = {"in_progress", "review", "integration"}
 METADATA_TASK_STATES = {"reserved", "blocked", "cancelled", "completed"}
@@ -244,6 +252,16 @@ def main() -> int:
                 "cancelled": "Cancellation PR",
                 "completed": "Completion PR",
             }[status]
+            if status == "completed" and args.base_ref and args.head_ref:
+                before = RECOVERY.load_ref(root, args.base_ref, PROGRAM_PLAN)
+                if isinstance(before, dict) and RECOVERY.completed_evidence_candidate(before, plan, args.task):
+                    repair_errors: list[str] = []
+                    RECOVERY.validate_evidence_repair(root, args.base_ref, args.head_ref, args.task, args.branch_name, repair_errors)
+                    if repair_errors:
+                        for error in repair_errors:
+                            print(f"FAIL: {error}")
+                        return 2
+                    label = "Post-completion Evidence repair PR"
             print(
                 f"INFO: {args.task} is a {label}; exact target-base lifecycle and file scope "
                 "are validated by the mandatory Program History/Transitions/Finalization gates."

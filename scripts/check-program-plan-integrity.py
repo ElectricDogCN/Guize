@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+import importlib.util
 import json
 import os
 import re
@@ -22,6 +23,13 @@ from typing import Any
 
 import jsonschema
 import yaml
+
+RECOVERY_SPEC = importlib.util.spec_from_file_location(
+    "guize_integrity_recovery", os.path.join(os.path.dirname(__file__), "check-program-lifecycle-guards.py")
+)
+RECOVERY = importlib.util.module_from_spec(RECOVERY_SPEC)
+assert RECOVERY_SPEC and RECOVERY_SPEC.loader
+RECOVERY_SPEC.loader.exec_module(RECOVERY)
 
 CANONICAL_PLAN = "specs/coordination/program-plan.yaml"
 CANONICAL_ACTIVE_WORK = "specs/coordination/active-work.yaml"
@@ -508,6 +516,7 @@ def main() -> int:
                 f"Program Plan authority.{key} must be {canonical}, got {authority.get(key)!r}"
             )
 
+    RECOVERY.validate_frozen_snapshot(root, plan, errors)
     foundation_tasks = {item.get("taskId"): item for item in (plan.get("foundationTasks") or [])}
     plan_tasks = {item.get("taskId"): item for item in (plan.get("tasks") or [])}
     active_tasks = {item.get("taskId"): item for item in (active_work.get("tasks") or [])}
