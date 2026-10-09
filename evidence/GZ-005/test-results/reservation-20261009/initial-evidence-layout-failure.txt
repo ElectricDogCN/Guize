@@ -1,0 +1,16 @@
+Source Commit: 30a2aa1aff9f2fb3eaaf30ffdb1325aa0aa3e01f
+Command: python scripts/check-evidence.py --task GZ-005
+{"status": "FAIL", "message": "Missing canonical evidence or explicit compatibility reference: screenshots/"}
+{"status": "FAIL", "message": "Missing canonical evidence or explicit compatibility reference: api-samples/"}
+{"status": "FAIL", "message": "Missing canonical evidence or explicit compatibility reference: migration-report/"}
+{"status": "FAIL", "message": "Missing canonical evidence or explicit compatibility reference: performance/"}
+{"status": "FAIL", "message": "Missing canonical evidence or explicit compatibility reference: security/"}
+{"status": "FAIL", "message": "Missing canonical evidence or explicit compatibility reference: rollback-verification/"}
+{"status": "FAIL", "message": "Missing or empty support evidence file: scope.md"}
+{"status": "FAIL", "message": "Missing or empty support evidence file: changed-files.md"}
+{"status": "FAIL", "message": "Missing or empty support evidence file: assumptions.md"}
+{"status": "FAIL", "message": "Missing or empty support evidence file: risks.md"}
+{"status": "FAIL", "message": "Missing or empty support evidence file: follow-ups.md"}
+{"status": "WARN", "message": "Command evidence may be missing command/exit-code indicators."}
+
+Exit Code: 1

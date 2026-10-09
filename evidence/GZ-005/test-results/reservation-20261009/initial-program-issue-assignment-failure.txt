@@ -1,0 +1,5 @@
+Source Commit: 228e8f44695a3df07b69a6e040a508723c20206e
+Command: python scripts/check-program-plan-transitions.py --base-ref 788e6f257d9052db81a8df793bf8b448a05011a1 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-reservation
+{"status": "FAIL", "message": "Active transition for GZ-005 may only change that Program task's status, its required POC mirror, or its owned live-verified blocker"}
+
+Exit Code: 1

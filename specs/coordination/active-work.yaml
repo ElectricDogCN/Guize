@@ -4,5 +4,66 @@ policy:
   maxHighRiskTasks: 1
   leaseMaxHours: 168
   bootstrapTasks:
-    - GZ-003
-tasks: []
+  - GZ-003
+tasks:
+- taskId: GZ-005
+  issue: 68
+  title: 冻结 OpenAPI、错误码与 HTTP 示例基线
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: openapi-contract-agent
+  reviewer: independent-openapi-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/GZ-005-openapi-baseline
+  baseBranch: main
+  baseSha: 788e6f257d9052db81a8df793bf8b448a05011a1
+  workPackage: WP-M0-03B
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: GZ-005
+  programWave: W2
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0003
+  - REQ-V1-0004
+  - REQ-V1-0005
+  - REQ-V1-0007
+  - REQ-V1-0008
+  - REQ-V1-0009
+  moduleIds:
+  - MOD-PLATFORM
+  - MOD-IAM
+  - MOD-SOURCE
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-POLICY
+  - MOD-CONFIG
+  - MOD-PLAYER
+  - MOD-EDGE
+  producesContracts:
+  - OPENAPI-V1
+  - ERROR-CATALOG-V1
+  consumesContracts:
+  - REQ-V1
+  - NFR-V1
+  coordinationGroup: gz-005
+  dependsOn:
+  - GZ-004
+  exclusivePaths:
+  - contracts/openapi/**
+  - specs/contracts/openapi/**
+  - evidence/GZ-005/**
+  sharedPaths: []
+  handoffPath: evidence/GZ-005/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 1
+  lease:
+    acquiredAt: '2026-10-09T11:52:29Z'
+    expiresAt: '2026-10-16T11:52:29Z'

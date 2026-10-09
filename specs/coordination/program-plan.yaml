@@ -98,7 +98,7 @@ tasks:
     taskId: GZ-005
     title: "冻结 OpenAPI、错误码与 HTTP 示例基线"
     kind: contract
-    status: planned
+    status: reserved
     workPackage: WP-M0-03B
     riskLevel: high
     ownerRole: task-owner-agent
@@ -120,6 +120,7 @@ tasks:
     exitGate: "OpenAPI 可解析、示例可校验、错误码唯一且所有写接口声明幂等与权限"
   - <<: *normal
     taskId: GZ-006
+    status: planned
     title: "冻结 Domain Event Payload 与兼容策略"
     workPackage: WP-M0-03C
     coordinationGroup: gz-006
@@ -134,6 +135,7 @@ tasks:
     exitGate: "每个 eventType 具备版本、Payload Schema、生产者、消费者、幂等与兼容规则"
   - <<: *normal
     taskId: GZ-007
+    status: planned
     title: "冻结 PostgreSQL/Flyway DDL、索引与迁移策略"
     workPackage: WP-M0-03D
     coordinationGroup: gz-007
@@ -148,6 +150,7 @@ tasks:
     exitGate: "DDL/索引/唯一约束/迁移/恢复方案可执行校验，禁止无 Migration 的数据行为"
   - <<: *normal
     taskId: GZ-008
+    status: planned
     title: "冻结 Temporal/LiteFlow/Worker/Plugin 运行时契约"
     workPackage: WP-M0-03E
     coordinationGroup: gz-008
@@ -162,6 +165,7 @@ tasks:
     exitGate: "Workflow/Activity、Retry/Timeout/Heartbeat/Cancellation、LiteFlow Node/Chain/EL 和 Worker 权限边界可校验"
   - <<: *normal
     taskId: GZ-009
+    status: planned
     title: "冻结前端页面、权限、状态与 API 映射"
     kind: design-contract
     workPackage: WP-M0-03F
@@ -199,6 +203,7 @@ tasks:
   - &poc
     <<: *normal
     taskId: POC-001
+    status: planned
     title: "Arc A380 + ESXi 6.7 PCI Passthrough"
     kind: poc
     workPackage: WP-M0-POC-01
@@ -217,6 +222,7 @@ tasks:
     exitGate: "POC-01 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-002
+    status: planned
     title: "A380 AV1/H.264 编码质量、并发与首分片"
     workPackage: WP-M0-POC-02
     wave: W7
@@ -229,6 +235,7 @@ tasks:
     exitGate: "POC-02 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-003
+    status: planned
     title: "ATS Range/Slice、大文件与权限缓存键"
     workPackage: WP-M0-POC-03
     riskLevel: medium
@@ -244,6 +251,7 @@ tasks:
     exitGate: "POC-03 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-004
+    status: planned
     title: "TrueNAS 数据集、水位、吞吐与故障恢复"
     workPackage: WP-M0-POC-04
     wave: W8
@@ -257,6 +265,7 @@ tasks:
     exitGate: "POC-04 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-005
+    status: planned
     title: "700TB 文件数、目录规模、变更率与扫描成本"
     workPackage: WP-M0-POC-05
     riskLevel: medium
@@ -272,6 +281,7 @@ tasks:
     exitGate: "POC-05 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-006
+    status: planned
     title: "百度云合法、稳定、可维护的生产接入路径"
     workPackage: WP-M0-POC-06
     riskLevel: medium
@@ -287,6 +297,7 @@ tasks:
     exitGate: "POC-06 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-007
+    status: planned
     title: "IPv6/TLS/Tunnel/CDN/Range 公网访问"
     workPackage: WP-M0-POC-07
     riskLevel: medium
@@ -302,6 +313,7 @@ tasks:
     exitGate: "POC-07 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-008
+    status: planned
     title: "Vue 3 与 React 管理端场景对比"
     workPackage: WP-M0-POC-08
     riskLevel: medium
@@ -317,6 +329,7 @@ tasks:
     exitGate: "POC-08 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-009
+    status: planned
     title: "AI 质量、成本、隐私、许可证与吞吐"
     workPackage: WP-M0-POC-09
     wave: W9
@@ -330,6 +343,7 @@ tasks:
     exitGate: "POC-09 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *poc
     taskId: POC-010
+    status: planned
     title: "PostgreSQL/OpenBao/文件/Bundle 恢复与回读"
     workPackage: WP-M0-POC-10
     riskLevel: critical
@@ -344,6 +358,7 @@ tasks:
     exitGate: "POC-10 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
   - <<: *normal
     taskId: GZ-011
+    status: planned
     title: "冻结 Golden Dataset、质量阈值与测量方法"
     kind: acceptance
     workPackage: WP-M0-07
@@ -361,6 +376,7 @@ tasks:
     exitGate: "固定样本、指标、阈值、隐私规则、测量脚本和批准流程可版本化复现"
   - <<: *normal
     taskId: GZ-012
+    status: planned
     title: "建立 Java/Python/Frontend/Player/Go 工程骨架与语言 CI"
     kind: scaffold
     workPackage: WP-M0-06
@@ -378,6 +394,7 @@ tasks:
   - &vertical
     <<: *normal
     taskId: GZ-013
+    status: planned
     title: "实现 M1 WebDAV→Asset→授权→ATS Range 播放垂直切片"
     kind: vertical-slice
     workPackage: WP-M1
@@ -394,6 +411,7 @@ tasks:
     exitGate: "真实 WebDAV 对象可归一为 Asset，经 ACL 生成播放授权并通过 ATS Range 播放，测试/Evidence/回滚完整"
   - <<: *vertical
     taskId: GZ-015
+    status: planned
     title: "实现 M2 完整缓存、正式副本、生命周期与备份闭环"
     workPackage: WP-M2
     coordinationGroup: gz-015
@@ -408,6 +426,7 @@ tasks:
     exitGate: "缓存、Hash、扫描、Promotion、水位、Retention、备份和恢复形成可验证闭环"
   - <<: *vertical
     taskId: GZ-016
+    status: planned
     title: "实现 M3 媒体与 AI 加工闭环"
     workPackage: WP-M3
     coordinationGroup: gz-016
@@ -422,6 +441,7 @@ tasks:
     exitGate: "AV1/ABR/临时 H.264 与 ASR/OCR/VLM/翻译/摘要/标签可恢复执行并通过固定样本"
   - <<: *vertical
     taskId: GZ-017
+    status: planned
     title: "实现 M4 全文、向量、混合检索与推荐"
     workPackage: WP-M4
     coordinationGroup: gz-017
@@ -436,6 +456,7 @@ tasks:
     exitGate: "关键词/向量/Fusion/Reranker 在最终 ACL 复核下达到批准相关性和降级阈值"
   - <<: *vertical
     taskId: GZ-018
+    status: planned
     title: "实现 M5 配置中心、规则发布、运维、部署与供应链"
     workPackage: WP-M5
     coordinationGroup: gz-018
@@ -450,6 +471,7 @@ tasks:
     exitGate: "配置/Policy 草稿→验证→模拟→审批→灰度→发布→回滚，部署/可观测/供应链可审计"
   - <<: *vertical
     taskId: GZ-019
+    status: planned
     title: "完成剩余 Connector 与来源一致性矩阵"
     workPackage: WP-M5-08
     riskLevel: medium
@@ -466,6 +488,7 @@ tasks:
     exitGate: "Local/S3/HTTP/SMB/NFS/Drive/OneDrive/百度云按统一能力矩阵通过契约与失败路径测试"
   - <<: *vertical
     taskId: GZ-020
+    status: planned
     title: "M6 RC、生产就绪与人工发布签署"
     kind: release
     workPackage: WP-M6-RC
