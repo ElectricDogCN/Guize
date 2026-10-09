@@ -1,3 +1,96 @@
+## 当前完整 postclaim 上下文候选：正式全量尚未执行
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 8c59b0a0a17249a55e9495f19e8e654da540ce8b
+Execution Status: NOT_EXECUTED for current full150 history / full495 governance / same-head CI.
+
+固定未发布alias8fb的复现确认原登记删除与side非法base/edge漏洞已拒绝，但仍漏掉同批postclaim稳定字段：临时改Ownowner及同步Task、或另普通Task的title/outputPaths、恢复后merge净diff空仍exit0，现有Transitions均拒。当前补原Reservation的Own稳定投影；仅校验普通Task冻结定义（允许status变化和planned/blocked→reserved时issue赋值）、finished状态、already-completed Foundation和旧Ledger身份保护。没有采用non-main side全部foreign equality禁令，OtherTask结构化登记、不相交侧分支代码及Review元数据的归属分类正例通过；未对OtherTask执行真实Admission/Transitions或完整Gate，不称其完整Reservation合法。
+
+20个相关真实Git用例工作树探索PASS73.71s，JUnit零失败/错误/跳过，raw dirty-targeted-20.xml，仅探索而非固定来源150或495全量。前三边界及两新实际问题复现均保留固定8fb raw；kind旧标签含ACTUAL_8C时以source=8fb本地alias字段与本说明为准，不是实际8c正式执行。8fb未更新PR head；等树远端对象0f96789aeae3be42b67d5c880f779b02453fb8c3仅创建未引用，从未正式测试/CI，不当已发布Source/祖先。local alias597/8fb都保留解析原证据。
+
+当前所有发布前探索均不能代替正式全495、15项及同HEAD CI；独立审查必须针对最终固定树。实际已发布父8c正式476和Gate611结果仅其自身历史执行。整个历史保留原Owner事件e25670 blob、容量FAIL、原截止窗口与Lease，不更改任何永久政策、GZ005、旧completed或普通Ledger。只有后续独立Review/Completion和全部main PASS后继续GZ005与完整V1。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+## 完整后续历史审计补齐：当前正式执行尚未开始
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 8c59b0a0a17249a55e9495f19e8e654da540ce8b
+Execution Status: NOT_EXECUTED for current full147 history / full492 governance / same-head CI.
+
+发布前独立Reviewer对本地alias597d4ca33e5657c2b4eb4594c988944478c62547（不是已发布祖先）真实Git复现发现同批漏洞边界：从seed将reservation作为第二父合入并移除Ownentry，first-parent-only scope fallback遗漏后续Owncode；postclaim side纯metadata非法base或非法edge→还原→净diff空也漏审。本候选统一对reservation后裔的全部postclaim DAG节点复用既有历史登记上下文；没有相邻claims时沿全部真实父查此前准确范围，不能用未来scope或整个MOD-GOV代替。新增三个实际Git用例，相关17项工作树探索PASS55.29s，JUnit零失败/错误/跳过，仅探索记录dirty-targeted-17.xml，不冒充固定Source正式完整492。
+
+597的276路径静态核验和四helper prospective errors[]、10 targeted PASS不抵消该两项P1；审查结论暂不发布，修复后须重新独立核验。597保留本地alias供证据解析。曾创建等树远端对象a0dd0cb7e5fc8342136f2ba26648e9d46fe949c3但从未更新PR head、未执行正式测试或CI，不作为已发布Source/祖先。此前实际8c全476与同头Gate611结果仍仅其自身历史结果。
+
+history-final-independent中597 proof的旧kind字样含ACTUAL_8C时属于复用脚本标签，真实source字段为本地候选597，均为临时Git探索而非actual8c/正式Gate。missing-lineage首版noOwnEntryAtWork=false误读最终工作树已保留，corrected直接读取非法work历史blob为true，history实际漏审均为exit0。原始不覆盖、不替换；本候选Scope/Owner事件/Lease/窗口/永久规则/GZ005/旧completed/Ledger不变。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+## 当前历史 Review 与完整实现范围修复候选
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 8c59b0a0a17249a55e9495f19e8e654da540ce8b
+Execution Status: NOT_EXECUTED for this changed candidate; full-suite and same-head CI remain required.
+
+实际父来源8c59b0a0a17249a55e9495f19e8e654da540ce8b/tree924cb6450545610c95de6bdb538d7fd6f8d70b6f，正式15项13项exit0、coord1/make2仅原容量FAIL；完整476 PASS624.81s，JUnit476零失败/错误/跳过；同头Gate611完整476 PASS667.83s，唯一必需检查失败为原AgentCoord容量。可选Python缓存清理Post Setup Python 3.11被CI跳过，未把它说成全部steps通过。原始按原实际来源归档，不冒充本候选结果。
+
+本次仅修71Ch/71Cm/71Cq三个实证缺陷：登记base须真实可达；main进入或更新Review绑定真实集成第一父，保留实际claimed rebase Source在完整实现范围检查无错且未改变prior登记base时的Reviewer Evidence tip；复用现有ALLOWED_ACTIVE_TRANSITIONS拒非法跳转；逐完整DAG审计claimed Source之后至Completion基线的自身代码。pre/post精准exclusiveClaims只做归属，不授权新改动；登记暂时消失沿真实reservation后谱系找此前准确范围。自身canonical metadata/Evidence和其他任务不相交代码保留合法。侧Review可以绑定真实main目标而非side工作父；批准main同步仅精确继承真实已审incoming登记且该incoming可达实际集成基线。
+
+新增13个真实Git回归。未提交工作树预检：旧131例130 PASS/1 FAIL315.36s，失败为已有合法rebase Reviewer Evidence tip被误拒；窄兼容修复后相关1旧例+11新例12 PASS32.64s，另2个side真实main目标/批准main新基线同步例PASS5.38s。分组探索不冒充最终144历史用例或完整489治理正式执行；dirty XML明确只12项。history-final-independent内固定actual8c临时Git复现显示原3漏洞；首次foreign正例夹具误删他任务记录的失败原始保留，fixed证明保留上下文后原8c能合法通过。
+
+71Cd要求的状态→角色强制映射不在现行Schema/Transitions/Task CLI协议中；实际已有两个Role组合Transitions无错。Owner不添加该新协议，独立Reviewer仍由已登记独立执行者承接。当前候选尚未正式通过；须发布真实Source、15检查/完整489、同头CI及独立审查后集成，再独立Review/Completion并取得全部主线PASS。原Owner事件、窗口、Lease、永久政策、GZ005及旧completed/普通Ledger不变。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: 8c59b0a0a17249a55e9495f19e8e654da540ce8b
+Tested Tree: 924cb6450545610c95de6bdb538d7fd6f8d70b6f
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 476 passed in 624.81s (0:10:24)，JUnit476 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/history-program-sync-source-8c59b0a/。Gate611完整原始在 test-results/history-program-sync-ci-611/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+独立发布审查针对本地alias b8e0322d0f332badd85e84c75d3607089f3ab1cd，树924cb6450545610c95de6bdb538d7fd6f8d70b6f与本次实际远端8c59b0a0a17249a55e9495f19e8e654da540ce8b一致；它仅是发布前静态与临时Git证明，正式476结果始终只绑定实际远端Source。完整独立原始见history-program-sync-independent；本地alias不冒充已发布祖先。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
 ## 当前 Program 与同步冲突修复候选
 
 Task: OPS-004 / Issue71

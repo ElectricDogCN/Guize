@@ -568,13 +568,17 @@ class TestProgramPlanHistory(unittest.TestCase):
         if mode == "merge_is_evidence_only":
             self.write_text(root, f"evidence/{task_id}/summary.md", "# Evidence archive only\n")
             evidence_commit = self.commit(root, "GZ-014 Evidence-only archive (#25)")
-        if with_review:
+        implementation_registry = yaml.safe_load(pathlib.Path(root, "specs/coordination/active-work.yaml").read_text(encoding="utf-8"))
+        implementation_entries = [item for item in implementation_registry["tasks"] if item["taskId"] == task_id]
+        already_integrated = len(implementation_entries) == 1 and implementation_entries[0]["status"] == "integration"
+        if with_review and not already_integrated:
             foundation["status"] = "in_progress"
-            entry.update({"status": "review", "agentRole": "reviewer", "baseSha": implementation, "branch": "chore/GZ-014-review"})
+            review_target = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+            entry.update({"status": "review", "agentRole": "reviewer", "baseSha": review_target, "branch": "chore/GZ-014-review"})
             foundation["status"] = "review"
             self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
             self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
-            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "review", entry["branch"], implementation))
+            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "review", entry["branch"], review_target))
             audited_base = self.commit(root, "GZ-014 independent Review (#24)")
         else:
             audited_base = implementation
@@ -626,6 +630,226 @@ class TestProgramPlanHistory(unittest.TestCase):
             ).strip()
             subprocess.run(["git", "reset", "--soft", candidate], cwd=root, check=True, capture_output=True)
         return {"seed": seed, "reservation": reservation, "implementation": implementation, "base": audited_base}
+
+
+    def create_postclaim_completion(self, root, scenario):
+        root = pathlib.Path(root)
+        original = self.commit
+        old_registry, old_write = self.registry, self.write_yaml
+        foreign = {}
+
+        def git(*args):
+            return subprocess.check_output(['git', *args], cwd=root, text=True, stderr=subprocess.DEVNULL).strip()
+
+        def load(path):
+            return yaml.safe_load((root / path).read_text(encoding='utf-8'))
+
+        def registry(items):
+            value = old_registry(items)
+            if foreign and not any(item['taskId'] == 'GZ-099' for item in value['tasks']):
+                value['tasks'].append(copy.deepcopy(foreign['entry']))
+            return value
+
+        def write(location, path, value):
+            if path == 'specs/coordination/program-plan.yaml' and foreign:
+                value = copy.deepcopy(value)
+                if not any(item.get('taskId') == 'GZ-099' for item in value.get('tasks', [])):
+                    value['tasks'] = load(path)['tasks']
+            old_write(location, path, value)
+
+        def rewrite(entry, state, base):
+            plan = load('specs/coordination/program-plan.yaml')
+            next(item for item in plan['foundationTasks'] if item['taskId'] == 'GZ-014')['status'] = state
+            entry.update(status=state, baseSha=base)
+            self.write_yaml(root, 'specs/coordination/program-plan.yaml', plan)
+            self.write_yaml(root, 'specs/coordination/active-work.yaml', self.registry([entry]))
+            self.write_text(root, 'specs/tasks/GZ-014.md', self.task_spec(entry, state, entry['branch'], base))
+
+        def hook(location, message, timestamp=None):
+            if message != 'GZ-014 independent Review (#24)':
+                return original(location, message, timestamp)
+            entry = copy.deepcopy(load('specs/coordination/active-work.yaml')['tasks'][0])
+            parent = git('rev-parse', 'HEAD')
+            if scenario in {'missing_review_base', 'stale_review_base', 'direct_integration', 'review_implementer_role'}:
+                state, base = 'review', parent
+                if scenario == 'missing_review_base':
+                    base = 'f' * 40
+                elif scenario == 'stale_review_base':
+                    base = git('rev-parse', parent + '~2')
+                elif scenario == 'direct_integration':
+                    state, entry['agentRole'] = 'integration', 'integrator'
+                else:
+                    entry['agentRole'] = 'implementer'
+                rewrite(entry, state, base)
+                bad = original(location, message, timestamp)
+                if scenario in {'missing_review_base', 'stale_review_base'}:
+                    rewrite(entry, 'review', bad)
+                    return original(location, 'GZ-014 restore actual Review target (#25)')
+                return bad
+            review = original(location, message, timestamp)
+            if scenario in {'side_bad_base', 'side_bad_edge', 'side_owner_identity', 'side_foreign_definition'}:
+                git('checkout', '-b', 'late-metadata-side', review)
+                saved_entry = copy.deepcopy(entry)
+                state = 'in_progress' if scenario == 'side_bad_edge' else 'review'
+                base = 'f' * 40 if scenario == 'side_bad_base' else parent
+                rewrite(entry, state, base)
+                saved_plan = load('specs/coordination/program-plan.yaml')
+                if scenario == 'side_owner_identity':
+                    entry['owner'] = 'other-valid-owner'
+                    rewrite(entry, 'review', base)
+                elif scenario == 'side_foreign_definition':
+                    changed = copy.deepcopy(saved_plan)
+                    changed['tasks'][0]['title'] = 'Unapproved changed frozen task title'
+                    changed['tasks'][0]['outputPaths'] = ['backend/unapproved-foreign-output.py']
+                    self.write_yaml(root, 'specs/coordination/program-plan.yaml', changed)
+                original(location, 'GZ-014 invalid later side metadata (#25)')
+                self.write_yaml(root, 'specs/coordination/program-plan.yaml', saved_plan)
+                rewrite(saved_entry, 'review', saved_entry['baseSha'])
+                side = original(location, 'GZ-014 restore earlier side metadata (#26)')
+                git('checkout', '-B', 'main', review)
+                git('merge', '--no-ff', '-m', 'GZ-014 merge restored metadata side (#27)', side)
+                self.assertEqual(git('diff', '--name-only', review, 'HEAD'), '')
+                return git('rev-parse', 'HEAD')
+            if scenario == 'integration_implementer_role':
+                entry['agentRole'] = 'implementer'
+                rewrite(entry, 'integration', review)
+                return original(location, 'GZ-014 Integration metadata (#25)')
+            if scenario == 'legal_rework_metadata':
+                for state in ['blocked', 'in_progress', 'review']:
+                    rewrite(entry, state, git('rev-parse', 'HEAD'))
+                    original(location, 'GZ-014 legal metadata rework ' + state + ' (#25)')
+                return git('rev-parse', 'HEAD')
+            if scenario in {'foreign_disjoint', 'foreign_disjoint_side'}:
+                if scenario == 'foreign_disjoint_side':
+                    git('checkout', '-b', 'foreign-task-side', review)
+                other = self.entry('GZ-099', review, 'in_progress', 'chore/GZ-099-other')
+                other.update(agentRole='implementer', riskLevel='medium', programWave='W1', exclusivePaths=['scripts/other-task.py'], lease=copy.deepcopy(entry['lease']))
+                plan = load('specs/coordination/program-plan.yaml')
+                row = copy.deepcopy(plan['tasks'][0])
+                row.update(taskId='GZ-099', title=other['title'], kind='governance', status='in_progress', riskLevel='medium', wave='W1', integrationOrder=other['integrationOrder'], dependsOn=[], requirementIds=other['requirementIds'], moduleIds=other['moduleIds'], outputPaths=other['exclusivePaths'], sharedPaths=[], producesContracts=[], consumesContracts=[], issue=other['issue'], coordinationGroup=other['coordinationGroup'], workPackage=other['workPackage'], branchPattern='chore/GZ-099-*')
+                plan['tasks'].append(row)
+                foreign['entry'] = other
+                self.write_yaml(root, 'specs/coordination/program-plan.yaml', plan)
+                self.write_yaml(root, 'specs/coordination/active-work.yaml', self.registry([entry, other]))
+                self.write_text(root, 'specs/tasks/GZ-099.md', self.task_spec(other, 'in_progress', other['branch'], review))
+                original(location, 'GZ-099 disjoint registered context (#29)')
+                self.write_text(root, 'scripts/other-task.py', '# separately registered disjoint task work\n')
+                work = original(location, 'GZ-099 disjoint implementation (#30)')
+                if scenario == 'foreign_disjoint_side':
+                    other.update(status='review', agentRole='reviewer', baseSha=work)
+                    other['lease']['expiresAt'] = entry['lease']['expiresAt']
+                    next(item for item in plan['tasks'] if item['taskId'] == 'GZ-099')['status'] = 'review'
+                    self.write_yaml(root, 'specs/coordination/program-plan.yaml', plan)
+                    self.write_yaml(root, 'specs/coordination/active-work.yaml', self.registry([entry, other]))
+                    self.write_text(root, 'specs/tasks/GZ-099.md', self.task_spec(other, 'review', other['branch'], work))
+                    side = original(location, 'GZ-099 independent peer Review metadata (#31)')
+                    git('checkout', '-B', 'main', review)
+                    git('merge', '--no-ff', '-m', 'GZ-099 integrate peer side work (#32)', side)
+                    return git('rev-parse', 'HEAD')
+                return work
+            if scenario == 'own_evidence':
+                self.write_text(root, 'evidence/GZ-014/reviewer-findings.md', '# Independent review evidence\n')
+                return original(location, 'GZ-014 own Evidence archive (#25)')
+            path = 'scripts/fixture-repair.py'
+            before = (root / path).read_text(encoding='utf-8')
+            if scenario in {'late_side_restore', 'missing_own_registration', 'second_parent_missing_registration'}:
+                review_plan = load('specs/coordination/program-plan.yaml')
+                if scenario == 'second_parent_missing_registration':
+                    reservation = git('rev-parse', parent + '~2')
+                    seed = git('rev-parse', parent + '~3')
+                    git('checkout', '-b', 'late-reviewer-side', seed)
+                    git('merge', '--no-ff', '--no-commit', reservation)
+                    self.write_yaml(root, 'specs/coordination/active-work.yaml', self.registry([]))
+                    merged = original(location, 'GZ-014 late second-parent reservation without own entry (#25)')
+                    self.assertEqual(git('show', '-s', '--format=%P', merged).split(), [seed, reservation])
+                else:
+                    git('checkout', '-b', 'late-reviewer-side', review)
+                if scenario == 'missing_own_registration':
+                    self.write_yaml(root, 'specs/coordination/active-work.yaml', self.registry([]))
+                    original(location, 'GZ-014 temporarily remove own side registration (#25)')
+                self.write_text(root, path, '# later code omitted from claimed implementation\n')
+                original(location, 'GZ-014 late Reviewer work (#26)')
+                self.write_text(root, path, before)
+                original(location, 'GZ-014 restore earlier code (#27)')
+                if scenario in {'missing_own_registration', 'second_parent_missing_registration'}:
+                    self.write_yaml(root, 'specs/coordination/program-plan.yaml', review_plan)
+                    self.write_yaml(root, 'specs/coordination/active-work.yaml', self.registry([entry]))
+                    self.write_text(root, 'specs/tasks/GZ-014.md', self.task_spec(entry, 'review', entry['branch'], entry['baseSha']))
+                    original(location, 'GZ-014 restore own side registration (#28)')
+                side = git('rev-parse', 'HEAD')
+                git('checkout', '-B', 'main', review)
+                git('merge', '--no-ff', '-m', 'GZ-014 merge restored side (#29)', side)
+                self.assertEqual(git('diff', '--name-only', review, 'HEAD'), '')
+                return git('rev-parse', 'HEAD')
+            self.write_text(root, path, '# unreviewed later Reviewer code\n')
+            return original(location, 'GZ-014 later Reviewer code (#25)')
+
+        self.commit, self.registry, self.write_yaml = hook, registry, write
+        try:
+            return self.create_foundation_completion(root)
+        finally:
+            self.commit, self.registry, self.write_yaml = original, old_registry, old_write
+
+    def assert_postclaim_history(self, scenario, accepted, message=''):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_postclaim_completion(root, scenario)
+            result = self._run_checker(root, 'GZ-014', 'chore/GZ-014-completion')
+            if accepted:
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            else:
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn(message, result.stdout)
+
+    def test_foundation_postclaim_missing_review_base(self):
+        self.assert_postclaim_history('missing_review_base', False, 'baseSha must identify a real ancestor')
+
+    def test_foundation_postclaim_stale_review_base(self):
+        self.assert_postclaim_history('stale_review_base', False, 'audited main Review baseSha must equal')
+
+    def test_foundation_postclaim_direct_integration(self):
+        self.assert_postclaim_history('direct_integration', False, 'forbidden historical lifecycle transition in_progress -> integration')
+
+    def test_foundation_postclaim_review_implementer_role(self):
+        self.assert_postclaim_history('review_implementer_role', True, '')
+
+    def test_foundation_postclaim_integration_implementer_role(self):
+        self.assert_postclaim_history('integration_implementer_role', True, '')
+
+    def test_foundation_postclaim_legal_rework_metadata(self):
+        self.assert_postclaim_history('legal_rework_metadata', True, '')
+
+    def test_foundation_postclaim_foreign_disjoint(self):
+        self.assert_postclaim_history('foreign_disjoint', True, '')
+
+    def test_foundation_postclaim_own_evidence(self):
+        self.assert_postclaim_history('own_evidence', True, '')
+
+    def test_foundation_postclaim_late_side_restore(self):
+        self.assert_postclaim_history('late_side_restore', False, 'own code changes after claimed implementation')
+
+    def test_foundation_postclaim_missing_own_registration(self):
+        self.assert_postclaim_history('missing_own_registration', False, 'own code changes after claimed implementation')
+
+    def test_foundation_postclaim_late_reviewer_code(self):
+        self.assert_postclaim_history('late_reviewer_code', False, 'own code changes after claimed implementation')
+
+    def test_foundation_postclaim_second_parent_missing_registration(self):
+        self.assert_postclaim_history('second_parent_missing_registration', False, 'own code changes after claimed implementation')
+
+    def test_foundation_postclaim_side_bad_base(self):
+        self.assert_postclaim_history('side_bad_base', False, 'baseSha must identify a real ancestor')
+
+    def test_foundation_postclaim_side_bad_edge(self):
+        self.assert_postclaim_history('side_bad_edge', False, 'forbidden historical lifecycle transition review -> in_progress')
+
+    def test_foundation_postclaim_side_owner_identity(self):
+        self.assert_postclaim_history('side_owner_identity', False, 'changed stable identity in post-implementation history')
+
+    def test_foundation_postclaim_side_foreign_definition(self):
+        self.assert_postclaim_history('side_foreign_definition', False, 'changed frozen ordinary Task definition')
+
+    def test_foundation_postclaim_foreign_disjoint_side(self):
+        self.assert_postclaim_history('foreign_disjoint_side', True)
 
     def create_combined_registry_sync_completion(self, folder):
         root = pathlib.Path(folder)
@@ -1042,12 +1266,18 @@ class TestProgramPlanHistory(unittest.TestCase):
             pending = root / 'scripts/fixture-repair.py'
             code = pending.read_text(encoding='utf-8')
             pending.unlink()
-            if scenario == 'main_sync':
+            if scenario in {'main_sync', 'main_sync_new_registered_base'}:
                 pending.write_text(code, encoding='utf-8')
                 side_code = original(location, message, timestamp)
                 git('checkout', '-B', 'main', activation)
                 case.write_text(location, 'backend/main-unrelated.py', '# already integrated latest-main change\n')
                 latest = original(location, 'OTHER-001 main baseline update (#29)')
+                if scenario == 'main_sync_new_registered_base':
+                    refreshed = copy.deepcopy(registry)
+                    refreshed['tasks'][0]['baseSha'] = latest
+                    case.write_yaml(location, 'specs/coordination/active-work.yaml', refreshed)
+                    case.write_text(location, 'specs/tasks/GZ-014.md', case.task_spec(refreshed['tasks'][0], 'in_progress', own['branch'], latest))
+                    latest = original(location, 'GZ-014 registered latest-main baseline (#30)')
                 git('checkout', '-b', 'side-review', side_code)
                 git('merge', '--no-ff', latest, '-m', 'GZ-014 synchronize latest main')
                 synchronization = git('rev-parse', 'HEAD')
@@ -1113,7 +1343,7 @@ class TestProgramPlanHistory(unittest.TestCase):
             elif scenario.startswith('integrator_'):
                 reviewed_main_registry, reviewed_main_plan = copy.deepcopy(registry), copy.deepcopy(plan)
                 reviewed_main_entry = reviewed_main_registry['tasks'][0]
-                reviewed_main_entry.update(agentRole='reviewer', status='review')
+                reviewed_main_entry.update(agentRole='reviewer', status='review', baseSha=activation)
                 next(item for item in reviewed_main_plan['foundationTasks'] if item['taskId'] == 'GZ-014')['status'] = 'review'
                 case.write_yaml(location, 'specs/coordination/active-work.yaml', reviewed_main_registry)
                 case.write_yaml(location, 'specs/coordination/program-plan.yaml', reviewed_main_plan)
@@ -1143,7 +1373,7 @@ class TestProgramPlanHistory(unittest.TestCase):
                     record.update(implementedSource=implemented, reviewMetadataSource=reviewed, reviewProofBoundary='STRUCTURAL SOURCE/REVIEW METADATA ONLY; NOT REAL HUMAN REVIEW OR GATE PASS')
                 altered, altered_plan = copy.deepcopy(registry), copy.deepcopy(plan)
                 target = altered['tasks'][0]
-                target.update(agentRole='integrator', status='integration')
+                target.update(agentRole='integrator', status='integration', baseSha=review_baseline)
                 next(item for item in altered_plan['foundationTasks'] if item['taskId'] == 'GZ-014')['status'] = 'integration'
                 case.write_yaml(location, 'specs/coordination/active-work.yaml', altered)
                 case.write_yaml(location, 'specs/coordination/program-plan.yaml', altered_plan)
@@ -1175,6 +1405,41 @@ class TestProgramPlanHistory(unittest.TestCase):
             self.create_context_completion(root, 'main_sync', side_metadata=False)
             result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_context_approved_main_sync_new_registered_base(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_context_completion(root, 'main_sync_new_registered_base')
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_side_review_retains_real_main_target(self):
+        with tempfile.TemporaryDirectory() as root:
+            sources = self.create_foundation_completion(root)
+            activation = subprocess.check_output(['git', 'rev-parse', sources['implementation'] + '^1'], cwd=root, text=True).strip()
+            subprocess.run(['git', 'checkout', '-B', 'chore/GZ-014-repair', activation], cwd=root, check=True, capture_output=True)
+            registry = yaml.safe_load(pathlib.Path(root, 'specs/coordination/active-work.yaml').read_text(encoding='utf-8'))
+            entry = registry['tasks'][0]
+            entry['baseSha'] = activation
+            self.write_yaml(root, 'specs/coordination/active-work.yaml', registry)
+            self.write_text(root, 'specs/tasks/GZ-014.md', self.task_spec(entry, 'in_progress', entry['branch'], activation))
+            self.write_text(root, 'scripts/fixture-repair.py', '# side implementation while main stays at activation\n')
+            work = self.commit(root, 'GZ-014 side implementation (#22)')
+            plan = yaml.safe_load(pathlib.Path(root, 'specs/coordination/program-plan.yaml').read_text(encoding='utf-8'))
+            next(item for item in plan['foundationTasks'] if item['taskId'] == 'GZ-014')['status'] = 'review'
+            entry.update(status='review', agentRole='reviewer')
+            self.write_yaml(root, 'specs/coordination/program-plan.yaml', plan)
+            self.write_yaml(root, 'specs/coordination/active-work.yaml', registry)
+            self.write_text(root, 'specs/tasks/GZ-014.md', self.task_spec(entry, 'review', entry['branch'], activation))
+            reviewed = self.commit(root, 'GZ-014 side Review against actual main (#24)')
+            spec = importlib.util.spec_from_file_location('side_review_history', SCRIPT)
+            history = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(history)
+            errors = []
+            history.historical_registration_context(root, reviewed, reviewed, 'GZ-014', registry, sources['reservation'], registry['policy'], 'Legal side Review', errors)
+            self.assertEqual(errors, [])
+            self.assertNotEqual(entry['baseSha'], work)
+            raw = subprocess.run([sys.executable, os.path.join(REPO_ROOT, 'scripts/check-program-lifecycle-guards.py'), '--repo-root', root, '--base-ref', activation, '--head-ref', reviewed, '--task', 'GZ-014', '--branch-name', entry['branch']], capture_output=True, text=True)
+            self.assertEqual(raw.returncode, 0, raw.stdout + raw.stderr)
 
     def test_foundation_context_metadata_conflict(self):
         with tempfile.TemporaryDirectory() as root:

@@ -1,12 +1,12 @@
-# OPS-004 完整 Program/sync 修复候选清单
+# OPS-004 完整postclaim上下文修复清单
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
 Current Candidate Execution Status: NOT_EXECUTED
-Prior actual formal Source: 0b1f7f6fd3e123069cbb38622d212aaee41d7bf2
+Actual published parent: 8c59b0a0a17249a55e9495f19e8e654da540ce8b
 
-覆盖全部 247 路径，生产仅两项已登记history checker/test，其余自身metadata/Evidence。
+覆盖全部 289 路径；实现只已登记history checker/test，其余自身canonical metadata/Evidence。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -102,6 +102,24 @@ evidence/OPS-004/test-results/history-dag-source-ecae6e7/transitions.txt
 evidence/OPS-004/test-results/history-dag-source-ecae6e7/tree.txt
 evidence/OPS-004/test-results/history-dag-source-ecae6e7/unaffected.txt
 evidence/OPS-004/test-results/history-dag-source-ecae6e7/verify.txt
+evidence/OPS-004/test-results/history-final-independent/dirty-targeted-12.xml
+evidence/OPS-004/test-results/history-final-independent/dirty-targeted-17.xml
+evidence/OPS-004/test-results/history-final-independent/dirty-targeted-20.xml
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-missing-lineage-corrected-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-missing-lineage-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-postclaim-metadata-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-static-protected-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-597d4ca-targeted-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8c-four-thread-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8c-postclaim-range-fixed-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8c-postclaim-range-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8c-side-review-target-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28a7-missing-lineage-corrected-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28a7-postclaim-foreign-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28a7-postclaim-metadata-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28a7-postclaim-owner-proof.json
+evidence/OPS-004/test-results/history-final-independent/ops004-independent-8fb28a7-prospective-merge-proof.json
 evidence/OPS-004/test-results/history-identity-ci-606/job-log.txt
 evidence/OPS-004/test-results/history-identity-ci-606/proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-implementation-role-reproductions-utf8.json
@@ -154,11 +172,35 @@ evidence/OPS-004/test-results/history-lineage-source-2d052cb/transitions.txt
 evidence/OPS-004/test-results/history-lineage-source-2d052cb/tree.txt
 evidence/OPS-004/test-results/history-lineage-source-2d052cb/unaffected.txt
 evidence/OPS-004/test-results/history-lineage-source-2d052cb/verify.txt
+evidence/OPS-004/test-results/history-program-sync-ci-611/job-log.txt
+evidence/OPS-004/test-results/history-program-sync-ci-611/proof.json
 evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-0b-two-thread-proof.json
+evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-b8e0322-prospective-merge-proof.json
 evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-dirty-combined-registry-sync-fixed-proof.json
 evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-dirty-combined-registry-sync-proof.json
 evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-dirty-foreign-conflict-proof.json
 evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-dirty-two-thread-proof.json
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/clean-after.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/clean-before.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/coordination.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/evidence.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/finalization.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/governance.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/governance.xml
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/history.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/integrity.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/lifecycle.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/readiness.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/schemas.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/scope.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/source.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/status.json
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/task.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/transitions.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/tree.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/unaffected.txt
+evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/verify.txt
 evidence/OPS-004/test-results/history-repair-ci-603/job-log.txt
 evidence/OPS-004/test-results/history-repair-ci-603/proof.json
 evidence/OPS-004/test-results/history-repair-final-b156/actual-ci-604.txt

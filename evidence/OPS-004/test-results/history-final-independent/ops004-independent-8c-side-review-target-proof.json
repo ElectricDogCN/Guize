@@ -1,0 +1,19 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_EXPLORATORY_LEGAL_SIDE_REVIEW_TARGET_NOT_FORMAL_GATE",
+  "source": "8c59b0a0a17249a55e9495f19e8e654da540ce8b",
+  "checkerSha256": "999db37e91295f805fc6b410e17d69b552910d2dea2b4a90f3ef5b412956631a",
+  "reservation": "22674966cfaf66c68c77618487ed5104c7f51070",
+  "activationAuditedMainTarget": "85b31a6393704a7c686874be0aa6aff6edd1ff1e",
+  "sideWork": "11fbb4fb57389dc1c5fb18ece43d758fd9e242fb",
+  "sideReview": "c48853c1095ae23fbc76b036b08bd2853bc67999",
+  "sideReviewFirstParent": "11fbb4fb57389dc1c5fb18ece43d758fd9e242fb",
+  "sideRegistryBase": "85b31a6393704a7c686874be0aa6aff6edd1ff1e",
+  "actualMainAtReview": "85b31a6393704a7c686874be0aa6aff6edd1ff1e",
+  "baseDiffersFromFirstParent": true,
+  "baseAncestorOfFirstParent": true,
+  "foundationClaimErrors": [],
+  "transitionErrors": [],
+  "rawLifecycleExit": 0,
+  "rawLifecycleStdout": "{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"GZ-014\"], \"changedPathCount\": 4, \"baseRef\": \"85b31a6393704a7c686874be0aa6aff6edd1ff1e\"}}\n",
+  "rawLifecycleStderr": ""
+}

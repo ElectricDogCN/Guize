@@ -1,0 +1,44 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "8fb28a7cd7a1b48a80b1390e9bf38a21e97aa478",
+  "checkerSha256": "2343c88ee6912e60596bc3c981c3a0cb3c02c86249cb75f2df9a063bf55a77ff",
+  "rows": [
+    {
+      "scenario": "MISSING_OWN_ENTRY_AND_SECOND_PARENT_RESERVATION_LINEAGE",
+      "review": "855ad0313574065362dfb19134186fe36eadf143",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "lateReservationMerge": "2bcc81c5567ee64b10a4de91b9d1ff85fe001ebd",
+      "reservationParents": [
+        "e886e0fc80e77e3071534002818b8dd426ca468e",
+        "4fce2c5eded3a4f5a66a33082cfe88d79b548810"
+      ],
+      "lateSideWork": "e08e03b487ba98fdd647ccaae37170c6c87c4fd5",
+      "lateRestore": "3b81051f10bf67573e79e986caeec6a65d906aa8",
+      "restoredMetadata": "c63a0b3189f6f713420671dadd33eb696f95d1e0",
+      "actualCompletionBase": "269dd53f03bbdfb6a281a5c5c09942ed3ae41e52",
+      "parents": [
+        "855ad0313574065362dfb19134186fe36eadf143",
+        "c63a0b3189f6f713420671dadd33eb696f95d1e0"
+      ],
+      "netDiffFromReview": [],
+      "transientNodeDiff": [
+        "scripts/fixture-repair.py"
+      ],
+      "noOwnEntryAtWork": true,
+      "sources": {
+        "seed": "e886e0fc80e77e3071534002818b8dd426ca468e",
+        "reservation": "4fce2c5eded3a4f5a66a33082cfe88d79b548810",
+        "implementation": "c17c7973909187be3ae0cd39ba2f944872fb2664",
+        "base": "269dd53f03bbdfb6a281a5c5c09942ed3ae41e52"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 post-implementation history at 2bcc81c5567ee64b10a4de91b9d1ff85fe001ebd requires exactly one registered task\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 post-implementation history at e08e03b487ba98fdd647ccaae37170c6c87c4fd5 requires exactly one registered task\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 has own code changes after claimed implementation at e08e03b487ba98fdd647ccaae37170c6c87c4fd5: scripts/fixture-repair.py; Completion must identify the latest reviewed implementation\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 post-implementation history at 3b81051f10bf67573e79e986caeec6a65d906aa8 requires exactly one registered task\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 has own code changes after claimed implementation at 3b81051f10bf67573e79e986caeec6a65d906aa8: scripts/fixture-repair.py; Completion must identify the latest reviewed implementation\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 post-implementation history at c63a0b3189f6f713420671dadd33eb696f95d1e0 baseSha must identify a real ancestor of its historical parent\"}\n",
+      "historyStderr": "",
+      "existingWorkGuardWhenLateSideAudited": [
+        "Foundation GZ-014 claimed implementation requires an active registered implementation state and exact diff"
+      ]
+    }
+  ]
+}

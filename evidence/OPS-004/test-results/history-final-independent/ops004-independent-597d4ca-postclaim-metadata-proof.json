@@ -1,0 +1,62 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "597d4ca33e5657c2b4eb4594c988944478c62547",
+  "checkerSha256": "aa25825e571d617cb989eecd7e3bce50df84cc427c6ab75e4b79725edaf1117b",
+  "rows": [
+    {
+      "scenario": "late_side_fake_base",
+      "review": "ad84051cd268f8824ee505f1aa8954826fd75e1d",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "transientInvalidMetadata": "17e32cf272465b6929b4a37f455226a1de8edae1",
+      "metadataRestore": "eefd671074798c375dfb56b3b2c40b8bc4d46670",
+      "actualCompletionBase": "7c1e7a7b96cdd66a10519c58a01f1bed5f86cc6b",
+      "netDiffFromReview": [],
+      "changedPathsAtInvalidNode": [
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "existingRegistrationContextErrors": [
+        "Postclaim side metadata baseSha must identify a real ancestor of its historical parent"
+      ],
+      "sources": {
+        "seed": "b490f504ec05d398d7fd3ce2250f809c7611501a",
+        "reservation": "a1ccf59f253b8166cf56d77f785e6d1b352f7299",
+        "implementation": "5c41d133034a89089b7cd7bbef7925960dc44654",
+        "base": "7c1e7a7b96cdd66a10519c58a01f1bed5f86cc6b"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "late_side_illegal_edge",
+      "review": "889e24d29afaf98b5e400a6360018b763965efed",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "transientInvalidMetadata": "624f5aaa9939ac61b28001d8c5d197079876ba2f",
+      "metadataRestore": "55452d6c34408ecc48a2773ed36fb2eec17ad703",
+      "actualCompletionBase": "5fb704873b0040c8c9bae1127bdcddadc1b17f62",
+      "netDiffFromReview": [],
+      "changedPathsAtInvalidNode": [
+        "specs/coordination/active-work.yaml",
+        "specs/coordination/program-plan.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "existingRegistrationContextErrors": [
+        "Postclaim side metadata has forbidden historical lifecycle transition review -> in_progress"
+      ],
+      "sources": {
+        "seed": "9b2dd3880141bc3baa4e571c6305608e64230902",
+        "reservation": "a9634c131a74bf4eb57d74056a1af565ae4c2130",
+        "implementation": "b8690fda1d11d01affbb531a3a8b8f459f021230",
+        "base": "5fb704873b0040c8c9bae1127bdcddadc1b17f62"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ]
+}

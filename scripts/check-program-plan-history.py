@@ -19,6 +19,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from collections import deque
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
@@ -38,6 +39,13 @@ TASK_LINK_SPEC = importlib.util.spec_from_file_location(
 TASK_LINK = importlib.util.module_from_spec(TASK_LINK_SPEC)
 assert TASK_LINK_SPEC and TASK_LINK_SPEC.loader
 TASK_LINK_SPEC.loader.exec_module(TASK_LINK)
+
+TRANSITIONS_SPEC = importlib.util.spec_from_file_location(
+    "guize_history_transitions", os.path.join(os.path.dirname(__file__), "check-program-plan-transitions.py")
+)
+TRANSITIONS = importlib.util.module_from_spec(TRANSITIONS_SPEC)
+assert TRANSITIONS_SPEC and TRANSITIONS_SPEC.loader
+TRANSITIONS_SPEC.loader.exec_module(TRANSITIONS)
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -489,7 +497,7 @@ def historical_conflicts(task_id: str, entry: dict[str, Any], registry: dict[str
             errors.append(f"{label} claims conflict with active task {other.get('taskId')}")
 
 
-def historical_registration_context(root: str, snapshot: str, observation: str, task_id: str, registry: dict[str, Any], reservation: str, policy: dict[str, Any], label: str, errors: list[str]) -> dict[str, Any] | None:
+def historical_registration_context(root: str, snapshot: str, observation: str, task_id: str, registry: dict[str, Any], reservation: str, policy: dict[str, Any], label: str, errors: list[str], *, approved_base: str = "") -> dict[str, Any] | None:
     """Validate metadata snapshots too; restoring them cannot erase violations."""
     historical_registry_schema(root, snapshot, registry, label, errors)
     if not isinstance(registry, dict):
@@ -501,6 +509,24 @@ def historical_registration_context(root: str, snapshot: str, observation: str, 
         errors.append(f"{label} requires exactly one registered task")
         return None
     entry = entries[0]
+    parent = resolve_ref(root, f"{snapshot}^1")
+    registered_base = str(entry.get("baseSha") or "")
+    valid_base = bool(parent and ref_exists(root, registered_base) and is_ancestor(root, registered_base, parent))
+    if not valid_base and parent and approved_base and ref_exists(root, registered_base) and is_ancestor(root, registered_base, snapshot):
+        for incoming in approved_synchronization_parents(root, snapshot, approved_base):
+            incoming_registry = load_ref(root, incoming, ACTIVE)
+            incoming_entries = [item for item in (incoming_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+            if incoming_entries == [entry] and is_ancestor(root, registered_base, incoming):
+                valid_base = True
+                break
+    if not valid_base:
+        errors.append(f"{label} baseSha must identify a real ancestor of its historical parent")
+    previous_registry = load_ref(root, parent, ACTIVE) if parent else None
+    previous_entries = [item for item in (previous_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+    if len(previous_entries) == 1:
+        transition = (previous_entries[0].get("status"), entry.get("status"))
+        if transition[0] != transition[1] and transition not in TRANSITIONS.ALLOWED_ACTIVE_TRANSITIONS:
+            errors.append(f"{label} has forbidden historical lifecycle transition {transition[0]} -> {transition[1]}")
     program = load_ref(root, snapshot, PLAN)
     schema = load_ref(root, snapshot, PROGRAM_SCHEMA)
     try:
@@ -1025,7 +1051,7 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         before_entries = [item for item in (before_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
         node_registry = load_ref(root, node, ACTIVE)
         node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
-        historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} implementation history at {node}", errors)
+        historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} implementation history at {node}", errors, approved_base=base)
         for node_entry in node_entries:
             if {key: value for key, value in node_entry.items() if key not in mutable} != stable:
                 errors.append(f"Foundation {task_id} changed stable identity in implementation history at {node}")
@@ -1051,6 +1077,120 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             historical_lifecycle_binding(root, node, task_id, node_entry, errors)
         if node_entry.get("agentRole") not in {"implementer", "integrator"}:
             errors.append(f"Foundation {task_id} working node requires implementer or integrator role")
+
+
+def foundation_review_targets(root: str, task_id: str, implementation: str, base_ref: str, valid_implementation: bool, errors: list[str]) -> None:
+    history = git(root, "rev-list", "--first-parent", "--reverse", base_ref)
+    if history.returncode:
+        errors.append(f"Foundation {task_id} cannot read main Review targets")
+        return
+    for node in history.stdout.split():
+        parent = resolve_ref(root, f"{node}^1")
+        registry = load_ref(root, node, ACTIVE)
+        previous_registry = load_ref(root, parent, ACTIVE) if parent else None
+        entries = [item for item in (registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+        previous = [item for item in (previous_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+        if len(entries) != 1 or len(previous) != 1 or entries[0].get("status") != "review":
+            continue
+        entry, prior = entries[0], previous[0]
+        if prior.get("status") == "review" and prior.get("baseSha") == entry.get("baseSha"):
+            continue
+        # A registered rebase can finish with a metadata-only Reviewer tip.
+        # Its entire original integration range must already have passed the
+        # implementation audit, including unchanged prior Task/Registry base.
+        registered_rebase = node == implementation and valid_implementation and entry.get("integrationStrategy") == "rebase" and entry.get("baseSha") == prior.get("baseSha")
+        if entry.get("baseSha") != parent and not registered_rebase:
+            errors.append(f"Foundation {task_id} audited main Review baseSha must equal its actual integration parent at {node}")
+
+
+def historical_frozen_definitions(root: str, previous: str, node: str, paths: set[str], errors: list[str]) -> None:
+    """Keep frozen definitions/provenance while peers advance their lifecycle."""
+    if PLAN in paths:
+        before, after = load_ref(root, previous, PLAN), load_ref(root, node, PLAN)
+        if isinstance(before, dict) and isinstance(after, dict):
+            current = mapping(after.get("tasks"))
+            for prior in before.get("tasks") or []:
+                if not isinstance(prior, dict):
+                    continue
+                item = current.get(prior.get("taskId"), {})
+                fields = {"status"}
+                if prior.get("status") in {"planned", "blocked"} and item.get("status") == "reserved":
+                    fields.add("issue")
+                if {key: value for key, value in prior.items() if key not in fields} != {key: value for key, value in item.items() if key not in fields}:
+                    errors.append(f"Post-implementation history at {node} changed frozen ordinary Task definition {prior.get('taskId')}")
+                if prior.get("status") in {"completed", "cancelled"} and prior.get("status") != item.get("status"):
+                    errors.append(f"Post-implementation history at {node} changed finished Task status {prior.get('taskId')}")
+            current_foundations = mapping(after.get("foundationTasks"))
+            for prior in before.get("foundationTasks") or []:
+                if isinstance(prior, dict) and prior.get("status") == "completed" and current_foundations.get(prior.get("taskId")) != prior:
+                    errors.append(f"Post-implementation history at {node} changed immutable completed Foundation {prior.get('taskId')}")
+    if LEDGER in paths:
+        before, after = load_ref(root, previous, LEDGER), load_ref(root, node, LEDGER)
+        if isinstance(before, dict) and isinstance(after, dict):
+            current = mapping(after.get("records"))
+            for prior in before.get("records") or []:
+                if isinstance(prior, dict) and current.get(prior.get("taskId")) != prior:
+                    errors.append(f"Post-implementation history at {node} changed immutable Ledger record {prior.get('taskId')}")
+
+
+def foundation_post_implementation(root: str, task_id: str, implementation: str, reservation: str, base_ref: str, errors: list[str]) -> None:
+    """Completion must name the last integrated version of its own code.
+
+    Inspect introduced side history too: a later revert must not erase work.
+    Ownership comes from that node's actual registration, not commit messages
+    or the completing task's broader scope in some unrelated historical state.
+    """
+    nodes = git(root, "rev-list", "--reverse", f"{implementation}..{base_ref}")
+    if nodes.returncode:
+        errors.append(f"Foundation {task_id} cannot audit history after its claimed implementation")
+        return
+    original_registry = load_ref(root, resolve_ref(root, f"{reservation}^1"), ACTIVE)
+    policy = (original_registry or {}).get("policy", {})
+    registration = load_ref(root, reservation, ACTIVE)
+    entries = [item for item in (registration or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+    mutable = {"status", "agentRole", "baseSha", "branch", "exclusivePaths", "sharedPaths", "lease"}
+    stable = {key: value for key, value in entries[0].items() if key not in mutable} if len(entries) == 1 else None
+    for node in nodes.stdout.split():
+        parent = resolve_ref(root, f"{node}^1")
+        paths = RECOVERY.changed_paths(root, parent, node) if parent else None
+        if paths is None:
+            errors.append(f"Foundation {task_id} cannot read post-implementation node diff at {node}")
+            continue
+        claims = []
+        registered_node = is_ancestor(root, reservation, node)
+        if registered_node:
+            node_registry = load_ref(root, node, ACTIVE)
+            historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} post-implementation history at {node}", errors, approved_base=base_ref)
+            node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+            if len(node_entries) == 1 and {key: value for key, value in node_entries[0].items() if key not in mutable} != stable:
+                errors.append(f"Foundation {task_id} changed stable identity in post-implementation history at {node}")
+            historical_frozen_definitions(root, parent, node, paths, errors)
+        for snapshot in (parent, node):
+            registry = load_ref(root, snapshot, ACTIVE) if snapshot else None
+            entries = [item for item in (registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+            if len(entries) == 1:
+                claims.extend(entries[0].get("exclusivePaths") or [])
+        # A side branch cannot conceal its own later work by temporarily
+        # deleting both adjacent registrations. Follow all its real parents
+        # back to the last exact claim after the original reservation.
+        if not claims and registered_node:
+            ancestors = deque(git(root, "show", "-s", "--format=%P", node).stdout.split())
+            seen = set()
+            while ancestors:
+                ancestor = ancestors.popleft()
+                if ancestor in seen or not is_ancestor(root, reservation, ancestor):
+                    continue
+                seen.add(ancestor)
+                registry = load_ref(root, ancestor, ACTIVE)
+                entries = [item for item in (registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+                if len(entries) == 1 and entries[0].get("exclusivePaths"):
+                    claims.extend(entries[0].get("exclusivePaths") or [])
+                    break
+                ancestors.extend(git(root, "show", "-s", "--format=%P", ancestor).stdout.split())
+        task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot}
+        own_work = {path for path in paths if path not in {PLAN, ACTIVE, *task_paths} and not path.startswith(f"evidence/{task_id}/") and any(RECOVERY.matches_path(path, str(claim)) for claim in claims)}
+        if own_work:
+            errors.append(f"Foundation {task_id} has own code changes after claimed implementation at {node}: {', '.join(sorted(own_work))}; Completion must identify the latest reviewed implementation")
 
 
 def validate_foundations(
@@ -1114,7 +1254,11 @@ def validate_foundations(
                 parents = git(root, "show", "-s", "--format=%P", merge_sha)
                 if parents.returncode != 0 or any(not is_ancestor(root, reservation_commit, side) for side in parents.stdout.split()[1:]):
                     errors.append(f"Foundation {task_id} implementation-side history must descend from original reservation")
-                foundation_implementation(root, task_id, merge_sha, reservation_commit, errors)
+                implementation_errors: list[str] = []
+                foundation_implementation(root, task_id, merge_sha, reservation_commit, implementation_errors)
+                errors.extend(implementation_errors)
+                foundation_review_targets(root, task_id, merge_sha, base_ref, not implementation_errors, errors)
+                foundation_post_implementation(root, task_id, merge_sha, reservation_commit, base_ref, errors)
         task_path = find_task_path(root, task_id, head_ref)
         if not task_path:
             errors.append(f"Foundation {task_id} has no Task Spec")

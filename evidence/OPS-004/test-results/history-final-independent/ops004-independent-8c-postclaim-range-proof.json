@@ -1,0 +1,85 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "8c59b0a0a17249a55e9495f19e8e654da540ce8b",
+  "checkerSha256": "999db37e91295f805fc6b410e17d69b552910d2dea2b4a90f3ef5b412956631a",
+  "rows": [
+    {
+      "scenario": "late_side_transient_reviewer_code",
+      "review": "b6e939e167d390fcd39e09d0345face6ac9daf2e",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "lateSideWork": "1b08cd11fb024c5b0676a3bb994698ac2aaa5f3b",
+      "lateRestore": "42d72fa73490bd5d64727b37eef1ac5e017319af",
+      "actualCompletionBase": "1cec7947da533d8a6c470d56fc7e955d42991a68",
+      "parents": [
+        "b6e939e167d390fcd39e09d0345face6ac9daf2e",
+        "42d72fa73490bd5d64727b37eef1ac5e017319af"
+      ],
+      "netDiffFromReview": [],
+      "transientNodeDiff": [
+        "scripts/fixture-repair.py"
+      ],
+      "postclaimNodeAgentRole": "reviewer",
+      "sources": {
+        "seed": "96f4587c03184592d6f42267200315a026374ba3",
+        "reservation": "642277d6d762a7e389ad11438ffe462e1ee10021",
+        "implementation": "dab40f2e18b03610a9371bad18361c3e5fde3338",
+        "base": "1cec7947da533d8a6c470d56fc7e955d42991a68"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": "",
+      "existingWorkGuardWhenLateSideAudited": [
+        "Foundation GZ-014 working node requires implementer or integrator role"
+      ]
+    },
+    {
+      "scenario": "postclaim_foreign_disjoint_code",
+      "review": "4a9fd401aa2013b66a07e67845e484f49668f840",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "foreignContext": "5aa75fc2b24c5d0d917451a5b4f245bd8bd37fb6",
+      "foreignWork": "31ff405babd20177eda74e6c13307f1317d889a2",
+      "foreignClaims": [
+        "scripts/other-task.py"
+      ],
+      "workDiff": [
+        "scripts/other-task.py"
+      ],
+      "matchesOwnClaims": false,
+      "matchesForeignClaims": true,
+      "proofBoundary": "OTHER TASK CONTEXT/DIFF CLASSIFICATION ONLY; NOT A CLAIM THAT ALL OTHER-TASK ADMISSION GATES RAN",
+      "sources": {
+        "seed": "63dd5e9189cde53d66665f75f82084c19173adc5",
+        "reservation": "77fe861d60001b7d775e1c8148eb6c28a655fc6c",
+        "implementation": "d5f49fe18392d55e63a7cda612556a311fc70215",
+        "base": "31ff405babd20177eda74e6c13307f1317d889a2"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 may only remove its own Active Work entry\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 may only change completion identity fields\"}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "postclaim_own_evidence",
+      "review": "af929b3a85f92b8d31a09979077650ef4a1a5edc",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "actualCompletionBase": "271b1fffe6e3fc8ede667236913291c32a9a7879",
+      "workDiff": [
+        "evidence/GZ-014/independent-review.md"
+      ],
+      "sources": {
+        "seed": "17c847ad5edc1b98faca5164946c5f00237ff59c",
+        "reservation": "78cf214be63913d1fcbb9a46a2f66b4376545921",
+        "implementation": "6e2b4e35d55ee61fe8a2722fe12d7d77216c4401",
+        "base": "271b1fffe6e3fc8ede667236913291c32a9a7879"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ]
+}

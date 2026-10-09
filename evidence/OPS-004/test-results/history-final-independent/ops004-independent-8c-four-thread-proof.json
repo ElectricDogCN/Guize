@@ -1,0 +1,128 @@
+{
+  "kind": "ACTUAL_8C_SOURCE_TEMPORARY_REAL_GIT_EXPLORATORY_REPRODUCTIONS_NOT_FORMAL_GATE",
+  "source": "8c59b0a0a17249a55e9495f19e8e654da540ce8b",
+  "checkerSha256": "999db37e91295f805fc6b410e17d69b552910d2dea2b4a90f3ef5b412956631a",
+  "rows": [
+    {
+      "scenario": "review_implementer_role",
+      "claimedImplementation": "b32af1b4e91da9488313185c1b5796998735a575",
+      "reviewNode": "54dcb663ace8b842140b6544904fd261f43cf825",
+      "existingTransitionErrors": [],
+      "sources": {
+        "seed": "e546a4ad7bd31acc972d390308e7f92cf4378329",
+        "reservation": "402c6b385b6926e4e940589556a2d63124a398e7",
+        "implementation": "b32af1b4e91da9488313185c1b5796998735a575",
+        "base": "54dcb663ace8b842140b6544904fd261f43cf825"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "integration_implementer_role",
+      "claimedImplementation": "de6c218aa042d869d1e51a99a9034895863706c8",
+      "reviewNode": "aa135fdaab1942d3442f217ae5b4fa030f43f8ed",
+      "integrationNode": "7aaa367bb5eaa60b600c5f48f6d7e71110c8dff8",
+      "existingTransitionErrors": [],
+      "sources": {
+        "seed": "d6b4c4161c843acbb9f346f1d2539acc55311f35",
+        "reservation": "8a571a7647e4a034aedc3f8c58419f234e639a6c",
+        "implementation": "de6c218aa042d869d1e51a99a9034895863706c8",
+        "base": "7aaa367bb5eaa60b600c5f48f6d7e71110c8dff8"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "arbitrary_review_base_restored",
+      "claimedImplementation": "477d1782187ddec36c19ced7f2cc7d7991653d51",
+      "invalidReview": "c0ac342cba0931170dc9f0c316f6a2192995036c",
+      "matchingTaskRegistryBase": "ffffffffffffffffffffffffffffffffffffffff",
+      "existingFoundationClaimErrors": [
+        "Active Foundation GZ-014 baseSha must equal audited target base 477d1782187ddec36c19ced7f2cc7d7991653d51"
+      ],
+      "existingTransitionErrors": [],
+      "restoredReview": "634a0d2cd043a1e8e892a2b18e9ad7c027fc717c",
+      "sources": {
+        "seed": "8bcf570d5485d8b44cd08a17dddde136a8c3cafe",
+        "reservation": "1306d68cbd9bf271d2d11fdba3af22e7bd473a3a",
+        "implementation": "477d1782187ddec36c19ced7f2cc7d7991653d51",
+        "base": "634a0d2cd043a1e8e892a2b18e9ad7c027fc717c"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "inprogress_direct_integration",
+      "claimedImplementation": "cbddee8238079fae682eb38393b86696b4efee02",
+      "integrationNode": "64d365f80852672507124d8f49a1fec254342ef7",
+      "existingTransitionErrors": [
+        "Program task GZ-014 has invalid active transition in_progress -> integration"
+      ],
+      "sources": {
+        "seed": "b5987e12470a62e4452c32c0109a8120425f5396",
+        "reservation": "cff0c41b8ef17ce3cd99affefe3322d08cde1fc2",
+        "implementation": "cbddee8238079fae682eb38393b86696b4efee02",
+        "base": "64d365f80852672507124d8f49a1fec254342ef7"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "postclaim_reviewer_code",
+      "claimedImplementation": "e5c9ef306f0a09d39ebb830d4e36a98d28eb3254",
+      "reviewNode": "dba259cc020bc87a165437455e294c7b43015d8a",
+      "postclaimWork": "d06101975523769e2f4d5b06df3e4680c87b0603",
+      "postclaimRole": "reviewer",
+      "changedPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "sources": {
+        "seed": "6662670de72cd6f701a28001a112d93fbbf207c8",
+        "reservation": "29af61955c9f320d945b89448dfef99644fd06e8",
+        "implementation": "e5c9ef306f0a09d39ebb830d4e36a98d28eb3254",
+        "base": "d06101975523769e2f4d5b06df3e4680c87b0603"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": "",
+      "existingWorkGuardIfPostclaimAudited": [
+        "Foundation GZ-014 working node requires implementer or integrator role"
+      ]
+    },
+    {
+      "scenario": "valid_postclaim_evidence",
+      "claimedImplementation": "1b2233520fd5ed5207f2656d147e2b669735f3e2",
+      "reviewNode": "518d1beba20fae3b53b602cb4e30e732e6d6857c",
+      "postclaimEvidence": "1faaa96d5abc9d385487905ae3a062f2414715be",
+      "sources": {
+        "seed": "0378a177db3ae8ad5c142cff286f796b739c9106",
+        "reservation": "3e019c62c21ebae9530e1737de56300e7461f180",
+        "implementation": "1b2233520fd5ed5207f2656d147e2b669735f3e2",
+        "base": "1faaa96d5abc9d385487905ae3a062f2414715be"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "existing_direct_completion",
+      "claimedImplementation": "853b76ba66d7749f6b74e7e279d5285ec0872e96",
+      "sources": {
+        "seed": "5a76ddb94736cbd769df43dd7475ee23e3f273a5",
+        "reservation": "888473549318449d93d1d36b9154b027b25554d9",
+        "implementation": "853b76ba66d7749f6b74e7e279d5285ec0872e96",
+        "base": "853b76ba66d7749f6b74e7e279d5285ec0872e96"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ],
+  "realHeadAfter": "8c59b0a0a17249a55e9495f19e8e654da540ce8b",
+  "realStatusAfter": "M evidence/OPS-004/changed-files.md\n M evidence/OPS-004/commands.txt\n M evidence/OPS-004/handoff.md\n M evidence/OPS-004/summary.md\n M evidence/OPS-004/test-results/README.md\n?? evidence/OPS-004/test-results/history-program-sync-ci-611/\n?? evidence/OPS-004/test-results/history-program-sync-independent/ops004-independent-b8e0322-prospective-merge-proof.json\n?? evidence/OPS-004/test-results/history-program-sync-source-8c59b0a/",
+  "checkerHashAfter": "999db37e91295f805fc6b410e17d69b552910d2dea2b4a90f3ef5b412956631a"
+}

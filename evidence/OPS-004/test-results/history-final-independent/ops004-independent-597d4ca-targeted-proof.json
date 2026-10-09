@@ -1,0 +1,25 @@
+{
+  "kind": "PREPUBLICATION_LOCAL_ALIAS_IMMUTABLE_TEMPORARY_REPO_TARGETED_INDEPENDENT_CHECK_NOT_FORMAL_FULL_GOVERNANCE_OR_CI",
+  "localAlias": "597d4ca33e5657c2b4eb4594c988944478c62547",
+  "tree": "dc6e07ac9985407da422742904355e950bae61f0",
+  "checkerSha256": "aa25825e571d617cb989eecd7e3bce50df84cc427c6ab75e4b79725edaf1117b",
+  "caseNames": [
+    "test_foundation_postclaim_missing_review_base",
+    "test_foundation_postclaim_stale_review_base",
+    "test_foundation_postclaim_direct_integration",
+    "test_foundation_postclaim_late_side_restore",
+    "test_foundation_postclaim_missing_own_registration",
+    "test_foundation_postclaim_foreign_disjoint",
+    "test_foundation_postclaim_own_evidence",
+    "test_foundation_accepts_reviewer_rebase_evidence_tip",
+    "test_foundation_side_review_retains_real_main_target",
+    "test_foundation_context_approved_main_sync_new_registered_base"
+  ],
+  "testsRun": 10,
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "elapsedSeconds": 198.23399999993853,
+  "realHeadAfter": "597d4ca33e5657c2b4eb4594c988944478c62547",
+  "realStatusAfter": ""
+}

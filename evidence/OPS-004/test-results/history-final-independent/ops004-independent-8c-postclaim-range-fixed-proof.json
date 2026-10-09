@@ -1,0 +1,34 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "8c59b0a0a17249a55e9495f19e8e654da540ce8b",
+  "checkerSha256": "999db37e91295f805fc6b410e17d69b552910d2dea2b4a90f3ef5b412956631a",
+  "rows": [
+    {
+      "scenario": "postclaim_foreign_disjoint_code",
+      "review": "ba2619dc9cdd2337d5d728412fe610c768099a4a",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "foreignContext": "1b2a288291ea7f593f666c456a449a22c5a86cef",
+      "foreignWork": "21d5f50925fda9594c77a362029c885dfecba155",
+      "foreignClaims": [
+        "scripts/other-task.py"
+      ],
+      "workDiff": [
+        "scripts/other-task.py"
+      ],
+      "matchesOwnClaims": false,
+      "matchesForeignClaims": true,
+      "proofBoundary": "OTHER TASK CONTEXT/DIFF CLASSIFICATION ONLY; NOT A CLAIM THAT ALL OTHER-TASK ADMISSION GATES RAN",
+      "sources": {
+        "seed": "145fe2b0a5ef114eb0c684c5582c133734a94184",
+        "reservation": "0cbb2a41294e442784aab6e4e6c91898117df361",
+        "implementation": "c1cf1108bc783d03ec7ffa3e9c5cae8c3ffa2abe",
+        "base": "21d5f50925fda9594c77a362029c885dfecba155"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ]
+}
