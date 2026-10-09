@@ -1,0 +1,7 @@
+{
+  "source": "f6b0ff3e2221025fe1a9cddfa942604cc82b32cf",
+  "mode": "Ledger-only implementation within historical governance claims",
+  "exit": 0,
+  "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+  "stderr": ""
+}

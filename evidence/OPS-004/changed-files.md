@@ -1,10 +1,10 @@
-# OPS-004 当前原始登记补全完整路径
+# OPS-004 完整当前实现路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
 
-全部81路径，含本清单及所有Evidence；新Source实际正式验证待执行，旧372不转移。
+全部108路径，含全部历史归档/独立证明/本清单。新404正式结果NOT_EXECUTED，旧392不转移。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -14,6 +14,10 @@ evidence/OPS-004/scope.md
 evidence/OPS-004/source-history/ops004-scope-fresh-history-proof.json
 evidence/OPS-004/summary.md
 evidence/OPS-004/test-results/README.md
+evidence/OPS-004/test-results/history-identity-independent/ops004-independent-implementation-role-reproductions-utf8.json
+evidence/OPS-004/test-results/history-identity-independent/ops004-independent-ledger-implementation-reproduction.json
+evidence/OPS-004/test-results/history-identity-independent/ops004-pr77-independent-history-proof.json
+evidence/OPS-004/test-results/history-identity-independent/ops004-snapshot-fresh-source-history.json
 evidence/OPS-004/test-results/history-repair-ci-603/job-log.txt
 evidence/OPS-004/test-results/history-repair-ci-603/proof.json
 evidence/OPS-004/test-results/history-repair-final-b156/actual-ci-604.txt
@@ -83,11 +87,32 @@ evidence/OPS-004/test-results/history-scope-final-90/tree.txt
 evidence/OPS-004/test-results/history-scope-final-90/unaffected.txt
 evidence/OPS-004/test-results/history-scope-main-602/job-log.txt
 evidence/OPS-004/test-results/history-scope-main-602/proof.json
+evidence/OPS-004/test-results/history-snapshot-ci-605/job-log.txt
+evidence/OPS-004/test-results/history-snapshot-ci-605/proof.json
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/clean-after.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/clean-before.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/coordination.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/evidence.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/finalization.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/governance.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/governance.xml
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/history.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/integrity.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/lifecycle.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/readiness.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/schemas.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/scope.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/source.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/status.json
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/task.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/transitions.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/tree.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/unaffected.txt
+evidence/OPS-004/test-results/history-snapshot-source-c62096c/verify.txt
 scripts/check-program-plan-history.py
 specs/coordination/active-work.yaml
 specs/coordination/program-plan.yaml
 specs/tasks/OPS-004.md
 tests/governance/test_program_plan_history.py
 ```
-
-新增生产路径仅已登记history/test，其余自身metadata/Evidence；无其他任务、政策、Ledger或旧完成修改。

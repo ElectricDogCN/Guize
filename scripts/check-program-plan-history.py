@@ -514,6 +514,9 @@ def foundation_reservation(
     if any(str(path).strip() in {"", "*", "**"} for path in list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or [])):
         errors.append(f"Foundation {task_id} original reservation may not claim the entire repository")
     foundations = [item for item in plan.get("foundationTasks", []) if item.get("taskId") == task_id]
+    identities = [str(entry.get(key) or "").strip() for key in ("owner", "coordinator", "implementer", "reviewer", "integrator")]
+    if any(not value or value.lower() in {"none", "tbd", "pending", "unassigned"} for value in identities):
+        errors.append(f"Foundation {task_id} original reservation requires assigned roles")
     if (
         len(foundations) != 1 or foundations[0].get("status") != "reserved"
         or foundations[0].get("title") != entry.get("title")
@@ -638,6 +641,37 @@ def foundation_reservation(
     return commit, entry, set(commits)
 
 
+def foundation_implementation(root: str, task_id: str, commit: str, errors: list[str]) -> None:
+    """Bind completion identity to a registered implementation diff.
+
+    Activation, Review and Evidence-only commits identify the task and a PR,
+    but those identifiers alone do not make them the implemented repair.
+    """
+    parent = resolve_ref(root, f"{commit}^1")
+    registry = load_ref(root, commit, ACTIVE)
+    entries = [item for item in (registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+    paths = RECOVERY.changed_paths(root, parent, commit) if parent else None
+    if len(entries) != 1 or entries[0].get("status") not in RECOVERY.IMPLEMENTATION_STATES or paths is None:
+        errors.append(f"Foundation {task_id} claimed implementation requires an active registered implementation state and exact diff")
+        return
+    entry = entries[0]
+    if LEDGER in paths:
+        errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
+    task_path = find_task_path(root, task_id, commit)
+    implementation_paths = {path for path in paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}
+    if not implementation_paths:
+        errors.append(f"Foundation {task_id} claimed implementation contains only lifecycle metadata or Evidence")
+        return
+    ownership = load_ref(root, commit, RECOVERY.OWNERSHIP)
+    claims = list(entry.get("exclusivePaths") or [])
+    legacy = RECOVERY.FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
+    if not isinstance(ownership, dict) or entry.get("sharedPaths") or not claims or any(not RECOVERY.governance_claim_subset(str(claim), ownership) and str(claim) not in legacy for claim in claims):
+        errors.append(f"Foundation {task_id} claimed implementation has invalid historical governance claims")
+        return
+    if any(not any(RECOVERY.matches_path(path, str(claim)) for claim in claims) for path in implementation_paths):
+        errors.append(f"Foundation {task_id} claimed implementation changed paths outside its historical registered scope")
+
+
 def validate_foundations(
     root: str,
     base_plan: dict[str, Any],
@@ -695,6 +729,8 @@ def validate_foundations(
                 errors.append(f"Foundation {task_id} implementation must strictly follow original reservation")
             if merge_sha not in audited_commits:
                 errors.append(f"Foundation {task_id} implementation is not integrated on audited first-parent history")
+            elif merge_sha != reservation_commit and is_ancestor(root, reservation_commit, merge_sha):
+                foundation_implementation(root, task_id, merge_sha, errors)
         task_path = find_task_path(root, task_id, head_ref)
         if not task_path:
             errors.append(f"Foundation {task_id} has no Task Spec")

@@ -1,0 +1,38 @@
+{
+  "freshPublicClone": "https://github.com/ElectricDogCN/Guize.git",
+  "singleBranch": "chore/OPS-004-history-repair-implementation",
+  "head": "c62096c4c9a6162e8d72720333aa6c65598ab5d4",
+  "refs": [
+    "refs/heads/chore/OPS-004-history-repair-implementation c62096c4c9a6162e8d72720333aa6c65598ab5d4"
+  ],
+  "parents": {
+    "c62096c4c9a6162e8d72720333aa6c65598ab5d4": [
+      "b156291d975ae63ad588988fec9e99b39dbc7436"
+    ],
+    "b156291d975ae63ad588988fec9e99b39dbc7436": [
+      "6ecfcf49477341c90bc729743d05f17f2dc0dc24"
+    ],
+    "6ecfcf49477341c90bc729743d05f17f2dc0dc24": [
+      "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb"
+    ]
+  },
+  "trees": {
+    "c62096c4c9a6162e8d72720333aa6c65598ab5d4": "e6f3563732c3aeb8a89f805faa27b793324af5cd",
+    "b156291d975ae63ad588988fec9e99b39dbc7436": "4d92f4c981ecef1a0b53eded5020e9e6d4838acd",
+    "6ecfcf49477341c90bc729743d05f17f2dc0dc24": "132e3606ded45ba8cf82af7d95c91f3b767d51cd"
+  },
+  "commands": [
+    {
+      "command": "git merge-base --is-ancestor 6ecfcf49477341c90bc729743d05f17f2dc0dc24 c62096c4c9a6162e8d72720333aa6c65598ab5d4",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "git merge-base --is-ancestor b156291d975ae63ad588988fec9e99b39dbc7436 c62096c4c9a6162e8d72720333aa6c65598ab5d4",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,4 +1,54 @@
 
+## 声明实现节点的既有Ledger保护
+
+独立真实复现证实f6b的Ledger-only注释修改可误判为实现。当前复用本history已有路径规则，在声明实现节点真实第一父双侧diff出现普通Ledger路径时拒绝，覆盖Ledger-only/代码夹带Ledger。没有把当前工作树Ledger强制绑定旧历史blob，不妨碍之后普通任务合法更新账本。有效复现原始在test-results/history-identity-independent/ops004-independent-ledger-implementation-reproduction.json。
+
+当前候选59定向回归实际通过22.72s；仅探索、外部XML保留。新实际Source完整404治理及全部正式检查/CI：NOT_EXECUTED。旧402是尚未发布候选预计数，不是已执行完整治理结果；当前准确预计404。此前c620392结果仍只归属于c620。
+
+
+## 当前实现身份与原登记角色修复
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+
+PR77独立实际UTF8临时Git复现确认两项真实缺陷：activation元数据提交可冒充实现；原登记owner=unassigned可通过。当前代码仅修复已登记history/test路径：声明实现节点必须处于in_progress/review/integration，真实第一父diff有自身canonical元数据和Evidence之外的修改，所有这些修改符合该节点历史claims及ownership；原登记全部五角色拒绝既有空值/占位值。治理schema/文档修复仍允许，不新增文件类型限制或全历史容量/Issue重放。
+
+本地f6b0ff3e2221025fe1a9cddfa942604cc82b32cf的57定向测试实际通过22.12s，仅探索；外部XML保留。新实际发布Source完整402治理及全部正式检查/CI：NOT_EXECUTED。此前c620实际完整392、Gate605完整392及原始容量FAIL保留为历史，不转移到新版本。三份独立证明在test-results/history-identity-independent/；非UTF8首次失败不计有效复现。
+
+PR77祖先误报已有双方独立官方API/公开单分支clone实际证明c620→b156→6ec，原Source真实可达，没有伪造额外父节点。当前发布继续以实际c620为父并保留全部原始结果。最后代码身份仍须真实PR77merge，后续纯Review/Completion与主线全门禁通过才恢复GZ005。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN / CONTRACT-TASK-SPEC / CONTRACT-ACTIVE-WORK
+永久政策、GZ005、旧completed/Ledger、Lease和原Owner时间窗口不变。
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: c62096c4c9a6162e8d72720333aa6c65598ab5d4
+Tested Tree: e6f3563732c3aeb8a89f805faa27b793324af5cd
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 392 passed in 337.82s (0:05:37)，JUnit392 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/history-snapshot-source-c62096c/。Gate605完整原始在 test-results/history-snapshot-ci-605/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
 ## 当前原始登记静态合约补全
 
 Task: OPS-004 / Issue71

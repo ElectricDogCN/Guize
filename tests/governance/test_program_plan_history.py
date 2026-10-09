@@ -266,6 +266,8 @@ class TestProgramPlanHistory(unittest.TestCase):
         entry["exclusivePaths"] = ["scripts/fixture-repair.py"]
         entry["lease"] = {"acquiredAt": (now-timedelta(hours=1)).isoformat(), "expiresAt": (now+timedelta(days=1)).isoformat()}
         valid_entry = copy.deepcopy(entry)
+        if mode.startswith("original_placeholder_"):
+            entry[mode.removeprefix("original_placeholder_")] = "unassigned"
         if mode == "invalid_reservation_status":
             entry["status"] = "in_progress"
         if mode == "invalid_reservation_base":
@@ -368,7 +370,7 @@ class TestProgramPlanHistory(unittest.TestCase):
             self.commit(root, "GZ-014 remove original lease")
             self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
             self.commit(root, "GZ-014 reintroduce lease")
-        entry.update({"status": "in_progress", "agentRole": "implementer", "baseSha": reservation, "lease": valid_entry["lease"], "exclusivePaths": valid_entry["exclusivePaths"], "sharedPaths": []})
+        entry.update({"status": "reserved" if mode == "implementation_reserved_state" else "in_progress", "agentRole": "implementer", "baseSha": reservation, "lease": valid_entry["lease"], "exclusivePaths": valid_entry["exclusivePaths"], "sharedPaths": []})
         if mode == "original_missing_handoff":
             self.write_text(root, f"evidence/{task_id}/handoff.md", "# Added too late\n")
         if mode == "changed_stable_identity":
@@ -379,9 +381,20 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
         self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
-        self.commit(root, "GZ-014 activation (#21)")
-        self.write_text(root, "scripts/fixture-repair.py", "# actual fixture repair\n")
+        activation = self.commit(root, "GZ-014 activation (#21)")
+        if mode in {"implementation_ledger_only", "implementation_with_ledger"}:
+            entry["exclusivePaths"].append("specs/coordination/task-completions.yaml")
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_text(root, "specs/coordination/task-completions.yaml", "records: []\n# ledger-only implementation cannot prove repair\n")
+        if mode != "implementation_ledger_only":
+            self.write_text(root, "scripts/fixture-repair.py", "# actual fixture repair\n")
+        if mode == "implementation_unclaimed_path":
+            self.write_text(root, "backend/unclaimed.py", "# outside historical claims\n")
         implementation = self.commit(root, "GZ-014 repair (#22)")
+        evidence_commit = None
+        if mode == "merge_is_evidence_only":
+            self.write_text(root, f"evidence/{task_id}/summary.md", "# Evidence archive only\n")
+            evidence_commit = self.commit(root, "GZ-014 Evidence-only archive (#25)")
         if with_review:
             entry.update({"status": "review", "agentRole": "reviewer", "baseSha": implementation, "branch": "chore/GZ-014-review"})
             foundation["status"] = "review"
@@ -392,10 +405,21 @@ class TestProgramPlanHistory(unittest.TestCase):
         else:
             audited_base = implementation
         claimed_implementation = implementation
+        completion_ref = "PR-22"
         if mode == "merge_before_reservation":
             claimed_implementation = seed
         elif mode == "merge_is_reservation":
             claimed_implementation = reservation
+            completion_ref = "PR-20"
+        elif mode == "merge_is_activation":
+            claimed_implementation = activation
+            completion_ref = "PR-21"
+        elif mode == "merge_is_review":
+            claimed_implementation = audited_base
+            completion_ref = "PR-24"
+        elif mode == "merge_is_evidence_only":
+            claimed_implementation = evidence_commit
+            completion_ref = "PR-25"
         elif mode in {"unreachable_merge", "candidate_side_parent"}:
             tree = subprocess.check_output(["git", "rev-parse", f"{implementation}^{{tree}}"], cwd=root, text=True).strip()
             claimed_implementation = subprocess.check_output(
@@ -409,7 +433,7 @@ class TestProgramPlanHistory(unittest.TestCase):
             capture_output=True,
         )
         foundation.update(
-            {"status": "completed", "completionRef": "PR-20" if mode == "merge_is_reservation" else "PR-22", "mergeCommit": claimed_implementation}
+            {"status": "completed", "completionRef": completion_ref, "mergeCommit": claimed_implementation}
         )
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
@@ -616,6 +640,42 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_rejects_freeze_future_at_commit_but_past_today(self):
         self.reject_foundation_history("atomic_freeze_future_at_commit", "Original freeze occurred after its integration commit")
+
+    def test_foundation_rejects_original_placeholder_owner(self):
+        self.reject_foundation_history("original_placeholder_owner", "original reservation requires assigned roles")
+
+    def test_foundation_rejects_original_placeholder_coordinator(self):
+        self.reject_foundation_history("original_placeholder_coordinator", "original reservation requires assigned roles")
+
+    def test_foundation_rejects_original_placeholder_implementer(self):
+        self.reject_foundation_history("original_placeholder_implementer", "original reservation requires assigned roles")
+
+    def test_foundation_rejects_original_placeholder_reviewer(self):
+        self.reject_foundation_history("original_placeholder_reviewer", "original reservation requires assigned roles")
+
+    def test_foundation_rejects_original_placeholder_integrator(self):
+        self.reject_foundation_history("original_placeholder_integrator", "original reservation requires assigned roles")
+
+    def test_foundation_rejects_activation_as_implementation_identity(self):
+        self.reject_foundation_history("merge_is_activation", "contains only lifecycle metadata or Evidence")
+
+    def test_foundation_rejects_review_as_implementation_identity(self):
+        self.reject_foundation_history("merge_is_review", "contains only lifecycle metadata or Evidence")
+
+    def test_foundation_rejects_evidence_archive_as_implementation_identity(self):
+        self.reject_foundation_history("merge_is_evidence_only", "contains only lifecycle metadata or Evidence")
+
+    def test_foundation_rejects_unclaimed_implementation_path(self):
+        self.reject_foundation_history("implementation_unclaimed_path", "outside its historical registered scope")
+
+    def test_foundation_rejects_code_while_implementation_still_reserved(self):
+        self.reject_foundation_history("implementation_reserved_state", "requires an active registered implementation state")
+
+    def test_foundation_rejects_ledger_only_implementation(self):
+        self.reject_foundation_history("implementation_ledger_only", "claimed implementation must not modify the ordinary ledger")
+
+    def test_foundation_rejects_implementation_with_ledger_change(self):
+        self.reject_foundation_history("implementation_with_ledger", "claimed implementation must not modify the ordinary ledger")
 
     def test_completed_foundation_is_immutable(self):
         with tempfile.TemporaryDirectory() as root:
