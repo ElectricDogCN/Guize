@@ -1,0 +1,5 @@
+Source Commit: 85e27c8c3f7cacdd778381e26e5c51d9d4e65b96
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 1ab483b6ba578746015c80a48936f64bd1bf6a12 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-completion
+{"status": "FAIL", "message": "Completion task GZ-010 test results have no explicit PASS status"}
+
+Exit Code: 1

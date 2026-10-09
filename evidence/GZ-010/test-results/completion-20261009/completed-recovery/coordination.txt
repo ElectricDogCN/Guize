@@ -1,0 +1,7 @@
+Source Commit: b9799749a382beea0c57b94f7d12582e1d9698cb
+Completion Candidate: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Command: python scripts/run-agent-coordination-gate.py --base-ref 3ec36ee150516a5465e7fb14672ee1bb634ecdb1 --head-ref b9799749a382beea0c57b94f7d12582e1d9698cb --task GZ-010 --branch-name fix/GZ-010-isolated-completed-evidence
+{"status": "PASS", "message": "Agent coordination valid: 0 active tasks, 0 high/critical", "details": {"activeTaskIds": []}}
+INFO: GZ-010 is a Post-completion Evidence repair PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 0

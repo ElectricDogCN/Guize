@@ -1,3 +1,123 @@
+GZ-010 planning completion
+Implementation merge: 2b2d076b68171edd74639e307f8a126cc882186d
+Target base: 1ab483b6ba578746015c80a48936f64bd1bf6a12
+Actual tested completion candidate: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+
+task
+Command: python scripts/check-task-file.py --task GZ-010
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/task.txt
+
+readiness
+Command: python scripts/check-project-readiness.py
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/readiness.txt
+
+schemas
+Command: python scripts/check-schemas.py
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/schemas.txt
+
+integrity
+Command: python scripts/check-program-plan-integrity.py --base-ref 1ab483b6ba578746015c80a48936f64bd1bf6a12
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/integrity.txt
+
+history
+Command: python scripts/check-program-plan-history.py --base-ref 1ab483b6ba578746015c80a48936f64bd1bf6a12 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/history.txt
+
+transitions
+Command: python scripts/check-program-plan-transitions.py --base-ref 1ab483b6ba578746015c80a48936f64bd1bf6a12 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/transitions.txt
+
+finalization
+Command: python scripts/check-program-plan-finalization.py --base-ref 1ab483b6ba578746015c80a48936f64bd1bf6a12 --task GZ-010
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/finalization.txt
+
+raw-lifecycle
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 1ab483b6ba578746015c80a48936f64bd1bf6a12 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/raw-lifecycle.txt
+
+lifecycle
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 1ab483b6ba578746015c80a48936f64bd1bf6a12 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/lifecycle.txt
+
+coordination
+Command: python scripts/run-agent-coordination-gate.py --base-ref 1ab483b6ba578746015c80a48936f64bd1bf6a12 --head-ref HEAD --task GZ-010 --branch-name chore/GZ-010-poc-program-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/coordination.txt
+
+scope
+Command: python scripts/run-task-scope-gate.py --task GZ-010 --base 1ab483b6ba578746015c80a48936f64bd1bf6a12
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/scope.txt
+
+evidence
+Command: python scripts/check-evidence.py --task GZ-010
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/evidence.txt
+
+unaffected
+Command: git diff --exit-code 1ab483b6ba578746015c80a48936f64bd1bf6a12 HEAD -- specs/tasks/OPS-003.md evidence/OPS-003 specs/poc poc/README.md scripts tests AGENTS.md
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/unaffected.txt
+
+verify
+Command: make verify TASK=GZ-010 BASE=1ab483b6ba578746015c80a48936f64bd1bf6a12 HEAD_REF=HEAD BRANCH=chore/GZ-010-poc-program-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/verify.txt
+
+governance
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz010-completion-results/governance.xml
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/governance.txt
+
+planning
+Command: python specs/poc/check_program.py
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/planning.txt
+
+planning-tests
+Command: python specs/poc/test_program.py
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/planning-tests.txt
+
+
+Completed recovery: 12 checks exit 0; immutable Task/Program/Registry/Ledger; actual API; isolated worktree cleanup. See test-results/completion-20261009/completed-recovery/ for source, commands and original logs.
+
+Retained historical commands:
+
+GZ-010 POC-PROTOCOL-V1 planning completion candidate
+Status: COMPLETED
+Target base: 1ab483b6ba578746015c80a48936f64bd1bf6a12
+Implementation merge: 2b2d076b68171edd74639e307f8a126cc882186d (PR #48)
+Reservation: PR #45 / 74ab9d53f29834fda37dcbd726fd58f997f8f21a
+
+This metadata-only candidate records planning completion, not experimental PASS. The ten POCs remain planned/not_started and sample catalogues pending before execution. OPS-003 supplies the tested immutable-history forward recovery route. Exact candidate checks, isolated completed Evidence amendment, independent review and remote CI remain required before merge. Only GZ-010 metadata/own lease/one appended Ledger record change. Older records below are historical and do not claim current execution.
+
 ## Local validation versus connector integration
 
 The actual validation source c91265bf1430c3e7df6b0f1321705b4a00a66b25 and its Evidence-refresh successors are preserved in this task's local Git checkout. Native Git push failed because that transport has no authenticated username. These local commits have NOT been claimed as remotely pushed or as ancestors of the connector-created PR commit. The LOCAL-ONLY recovery simulation is also never pushed.

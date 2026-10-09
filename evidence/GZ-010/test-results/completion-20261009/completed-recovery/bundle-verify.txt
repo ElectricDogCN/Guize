@@ -1,0 +1,6 @@
+/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz010-completed-recovery-results/recovery-history.bundle is okay
+The bundle contains these 2 refs:
+b9799749a382beea0c57b94f7d12582e1d9698cb refs/heads/fix/GZ-010-isolated-completed-evidence
+3ec36ee150516a5465e7fb14672ee1bb634ecdb1 refs/heads/main
+The bundle records a complete history.
+The bundle uses this hash algorithm: sha1

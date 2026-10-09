@@ -1,0 +1,11 @@
+Source Commit: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz010-completion-results/governance.xml
+........................................................................ [ 21%]
+........................................................................ [ 43%]
+........................................................................ [ 65%]
+........................................................................ [ 87%]
+........................................                                 [100%]
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz010-completion-results/governance.xml -
+328 passed in 55.09s
+
+Exit Code: 0

@@ -1,0 +1,482 @@
+{
+  "sourceCommit": "3ec36ee150516a5465e7fb14672ee1bb634ecdb1",
+  "inspectionScope": "Tracked UTF-8 planning descriptors/templates/checkers and task-owned governance logs; not a general sensitive-payload classifier or real sample approval",
+  "sampleDescriptors": 8,
+  "approvalState": "pending_before_execution",
+  "experiments": 10,
+  "executionState": "not_started",
+  "experimentEvidenceAbsent": true,
+  "canonicalPlanningTreeMatchesImplementationMerge": true,
+  "files": [
+    {
+      "path": "evidence/GZ-010/activation.md",
+      "bytes": 1036,
+      "sha256": "99e9a1207eea0294ed9fd46a13a24046a9f28aa32aec2605ff3c00fce262a4e2"
+    },
+    {
+      "path": "evidence/GZ-010/api-samples/README.md",
+      "bytes": 139,
+      "sha256": "b974b800281e7c3eb5f526cd677a3f5ada40402b65ceddc21d955ae72c710b59"
+    },
+    {
+      "path": "evidence/GZ-010/assumptions.md",
+      "bytes": 696,
+      "sha256": "e658018f400dc55d8e89da4ebccd8d197ed7852f47aed16145485ac880431520"
+    },
+    {
+      "path": "evidence/GZ-010/changed-files.md",
+      "bytes": 8464,
+      "sha256": "2613d377eb893385077651d5346ee22e05abc66acc669e945632e264ab0d972c"
+    },
+    {
+      "path": "evidence/GZ-010/commands.txt",
+      "bytes": 11876,
+      "sha256": "c6fd62b4b58d244f0563fa43a7a799e071d042eb013f3c0b1049e1c97d9c76e5"
+    },
+    {
+      "path": "evidence/GZ-010/follow-ups.md",
+      "bytes": 6123,
+      "sha256": "241bfdec1fdef82b1e02397e9be14ebeabcd1632fb2047bd8e57ad6378cde471"
+    },
+    {
+      "path": "evidence/GZ-010/handoff.md",
+      "bytes": 10542,
+      "sha256": "4f9d6c5c838d869149dba58ed9b253906f8085561068b38bbcc24c937f4b05c3"
+    },
+    {
+      "path": "evidence/GZ-010/migration-report/README.md",
+      "bytes": 104,
+      "sha256": "54fecbc1702dd57dbbba7047708ef986cfaa8204e83e10347fa02f18c209c8f2"
+    },
+    {
+      "path": "evidence/GZ-010/performance/README.md",
+      "bytes": 127,
+      "sha256": "39802c75ad05eb41cda8397289f60e02537917b581cad8f955582f1bac9f888a"
+    },
+    {
+      "path": "evidence/GZ-010/risks.md",
+      "bytes": 789,
+      "sha256": "c277cc0a487c45afa4397d404e51a5666cf12cfe85bad472f09fc984dbfc4d91"
+    },
+    {
+      "path": "evidence/GZ-010/rollback-verification/README.md",
+      "bytes": 10891,
+      "sha256": "eab0a8917d39994b742d6e6e06ff32e23b74ef0c56888c6bef410065bb2abfa0"
+    },
+    {
+      "path": "evidence/GZ-010/scope.md",
+      "bytes": 3697,
+      "sha256": "1e3ca4f845264c320a74a5fb210f77806b97c425d9041d3fd0eefb54214149d4"
+    },
+    {
+      "path": "evidence/GZ-010/screenshots/README.md",
+      "bytes": 120,
+      "sha256": "2dc30567c3619e01c8ef77ee2c782cadb80b66445f444d3321205fd7a0fcecc3"
+    },
+    {
+      "path": "evidence/GZ-010/security/README.md",
+      "bytes": 3778,
+      "sha256": "1ca692357a18694c06a908e84eadecd2fe2591f51349391d9a84c0b664e64bdc"
+    },
+    {
+      "path": "evidence/GZ-010/summary.md",
+      "bytes": 6871,
+      "sha256": "cbc7bd3fc559d820478f4a07f0b0fee10f12815d65b56053996c55d8e97c3b99"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/README.md",
+      "bytes": 8507,
+      "sha256": "7a7495baedd4a414772efcb429439e5a86a539767937fd099058909010394369"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/precheck-20261009/planning-tests.txt",
+      "bytes": 9964,
+      "sha256": "10b4f3b2204f2ed028476247a086cda9c0a3687d99085fae8608933ad13c3a58"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/precheck-20261009/planning.txt",
+      "bytes": 265,
+      "sha256": "d8a82a7cf2fa857054b79c429d41b40faf164818ee676e697a78288204a64c95"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/base.txt",
+      "bytes": 41,
+      "sha256": "35d5cdbd762d29f6c807212aa1bb9cd65e9166e2048ffa8ef5ea0a7c07dc31fd"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/coordination.txt",
+      "bytes": 332,
+      "sha256": "6be87f7b4b2887ce1db16fea5edb4f2a66f43eef2182d1559d32f7604dd258d1"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/dependencies.txt",
+      "bytes": 118,
+      "sha256": "e1d9f253be51dce3193f69bd0c200663e06aee1511e19af015072a2c2394230d"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/environment.txt",
+      "bytes": 239,
+      "sha256": "a31b4ee85ece7d9e060d581308ed92cd50f34c5dd9dd9d3bd2d78c8828e0a4ab"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/evidence.txt",
+      "bytes": 140,
+      "sha256": "53c7f4e5bef16dca59c4566f21a9eace47440168e9df0489ec21e70a3b7af67d"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/governance.xml",
+      "bytes": 41116,
+      "sha256": "ac9a50445a6b356d2d5352d24ea93f54621754ae7f235c6307175cc0d51bf4fe"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/junit.txt",
+      "bytes": 701,
+      "sha256": "69c4feab82ac25a0f6185f2178bc7e564c05ab83939d3e44c16d0f59759d28ae"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/lifecycle.txt",
+      "bytes": 530,
+      "sha256": "66ff20864b655a308b2fc7d173914126ee3ad02ce9ae37e122831cea7e3e981c"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/planning-check.txt",
+      "bytes": 174,
+      "sha256": "f8463d2fa25cbc3a23b1046215682b755bf1ca0b0e97a948c49606ae63b8e86b"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/planning-tests.txt",
+      "bytes": 9873,
+      "sha256": "7d719d66e3a8321d110ae13d4138332c5df9486e101a64117d2c934e8ef8ee84"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/readiness.txt",
+      "bytes": 604,
+      "sha256": "2a79cff0164388d9dc5ac045c0b021acccd4b130cc412b96d6628eeeb6187068"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery.txt",
+      "bytes": 56339,
+      "sha256": "9b6c535d96fa30eaf85382ed10b671877fe204bf551ef8536e1d234f867992cf"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/add-worktree.txt",
+      "bytes": 267,
+      "sha256": "08318f270642654066fcfefdcd08fca390269d120dbc7642764ebd554d70efc3"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/cleanup.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/coordination.txt",
+      "bytes": 332,
+      "sha256": "424e32f7d8bed1453fe58c0793c6e79f0f2c7c0c622883ccbf7176ecc0621698"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/dependencies.txt",
+      "bytes": 122,
+      "sha256": "d49391a2d7d7576debcfc33fbfa28e67d3fe46bc8fc91b9eeb452ff031a7b109"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/expected-tree.txt",
+      "bytes": 41,
+      "sha256": "b3ea0bce86d3b81583ea94a30048b0ed4e032caf87a92891f4340d40c0d7e063"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/governance.xml",
+      "bytes": 41116,
+      "sha256": "8a2dbb6e19c4347cf22d05a652e6378dc7fc14ba70e19c524cd1fb1688e7d31f"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/history.txt",
+      "bytes": 385,
+      "sha256": "be30331325995ad8f4ae6fa74aa9705b9385b09664eaf03c673959308f627a31"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/identity.txt",
+      "bytes": 204,
+      "sha256": "cd132b28b78eb470bd54b3950e5bc71b11b0b324125d490d4c78c23fa7991d91"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/junit.txt",
+      "bytes": 547,
+      "sha256": "263c071df5b0002fe873c37136a9835fda1f237666acce71ec58a48b08d9b2ba"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/lifecycle.txt",
+      "bytes": 530,
+      "sha256": "daf7217cb284bebdb15a73d3afc8ae8f0a4b22d065aa9e1fd270346d8b1e089d"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/planning-check.txt",
+      "bytes": 174,
+      "sha256": "f8463d2fa25cbc3a23b1046215682b755bf1ca0b0e97a948c49606ae63b8e86b"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/planning-tests.txt",
+      "bytes": 9873,
+      "sha256": "f31a9390f64d71b4b241cc6efe2758ce323628e8f02e393ee97167b53c70e1c4"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/renewal-overlay.txt",
+      "bytes": 280,
+      "sha256": "c663e3501d54e1df8eb89e9827defe151780d0f4bc220c5e98c88d7d055ffbc6"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/restore.txt",
+      "bytes": 192,
+      "sha256": "10e2f13c53d8969c3643b455ffb16a072a1da8abaeb26382eaee8dfec6bd9bb2"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/result.txt",
+      "bytes": 53,
+      "sha256": "a48318fd8481ad5c51c93176d735d8fe65c618d6a4e1f59d81b87217bd1c26be"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/scope.txt",
+      "bytes": 739,
+      "sha256": "1c7037a108d5df83ec2bf189d6b9f4debd3d063309ba6a3a1ac125b3f499dc88"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/simulation-commit.txt",
+      "bytes": 415,
+      "sha256": "241f04b78520d43e172fd77b95e13b22ed878aa9e57815cbbf695702a358f78d"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/skips.txt",
+      "bytes": 165,
+      "sha256": "f691b568bf45440e47814afc4a313060ff05bfa7355493e7958ad2bdf8fb302e"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/task.txt",
+      "bytes": 186,
+      "sha256": "aa6b666ab8bc58d7c7f893943b2ee2ed8b5394ca07aa92e98691881bc5036545"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/unchanged-coordination.txt",
+      "bytes": 162,
+      "sha256": "0bb08fa265ad763e3e6eb75814120654d052db59fd6fd4e7e1ba062120e5740e"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/verification.txt",
+      "bytes": 179,
+      "sha256": "954e5eb9c8d03ab7da36955892cc4b25117001820b074bfd19a92ae01ceb77f1"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/verify.txt",
+      "bytes": 41447,
+      "sha256": "eb1c156896a768803c4195f16779770b0a4785fc999f0431dea7a9bc4d7f514f"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/worktrees-after.txt",
+      "bytes": 195,
+      "sha256": "80402e4369d54c93f4f80ff1287274ea8942c1ec06ebbee411bcfc9fb8a8fd81"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/recovery/worktrees-before.txt",
+      "bytes": 195,
+      "sha256": "80402e4369d54c93f4f80ff1287274ea8942c1ec06ebbee411bcfc9fb8a8fd81"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/result.txt",
+      "bytes": 26,
+      "sha256": "0fdbef496212e6c5a1e324e0a21945055e509687e0ec231f56484f895e5809a8"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/schemas.txt",
+      "bytes": 817,
+      "sha256": "6cb9bd79a8e6bcb405f210b5950582a2b3bd0c32922bdf709d368a602d84a5a3"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/scope.txt",
+      "bytes": 778,
+      "sha256": "ff3e1e0ecf02a98d74cb4d6d6fcb026ed033ad5ec6ba0c57bf7aa14018e6d23d"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/skips.txt",
+      "bytes": 246,
+      "sha256": "ed1a92226bb3ae5b73e536962691ffb8142799d61226d1cc2e22cce79e1e303f"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/source.txt",
+      "bytes": 41,
+      "sha256": "f424575eba242ac98118b4bc3e26db8f9fd5324f712638c943207663466e07dd"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/status-after.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/status-before.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/task.txt",
+      "bytes": 230,
+      "sha256": "ce999c6758c1575f719158eaea976c0d75e2784a126d1c7004314bdaf9ad0279"
+    },
+    {
+      "path": "evidence/GZ-010/test-results/resumption-20261009/verify.txt",
+      "bytes": 42278,
+      "sha256": "dcdd9d507602c029a0d6b88cf81782b0c73db612c342d1e6585e3bb7577eb805"
+    },
+    {
+      "path": "poc/README.md",
+      "bytes": 5932,
+      "sha256": "68512a2ccae9a4d4aee07cb1e335b96e2628dd1288e309b87629ef5a78bb0bb0"
+    },
+    {
+      "path": "specs/poc/check_program.py",
+      "bytes": 50375,
+      "sha256": "6c59be39ea5630b4bd7859c83157f8777a0700ed83785cf4ff1c1e94b2bf9fac"
+    },
+    {
+      "path": "specs/poc/compliance-review.schema.yaml",
+      "bytes": 617,
+      "sha256": "5e8adde49d63d47859e347abab228166c4d76771b6275dc4513da1fd5dd72461"
+    },
+    {
+      "path": "specs/poc/execution-record.schema.yaml",
+      "bytes": 3277,
+      "sha256": "4e50eb5230a8c3879ddb83a56e6916f241daec9d11fff9a7ab0594c0c0916c8d"
+    },
+    {
+      "path": "specs/poc/plan.schema.yaml",
+      "bytes": 2670,
+      "sha256": "26190cd3739ddae9e61b07e7ed5bab53212790d42c0fd8a155a4de459f6035e9"
+    },
+    {
+      "path": "specs/poc/plans/POC-001.yaml",
+      "bytes": 5505,
+      "sha256": "20bdf070e1511ebb42917dc2c4479c37ea7043598830b863defb0b8fc617ab66"
+    },
+    {
+      "path": "specs/poc/plans/POC-002.yaml",
+      "bytes": 6229,
+      "sha256": "d962dbaadcaa687c48422a8b8388b2b175f5cd8b6293518d63cabefb76a380af"
+    },
+    {
+      "path": "specs/poc/plans/POC-003.yaml",
+      "bytes": 6362,
+      "sha256": "5766786c2fbdb4625fa64b7cff63597d493958e363f1575cf6522644a89528d0"
+    },
+    {
+      "path": "specs/poc/plans/POC-004.yaml",
+      "bytes": 6364,
+      "sha256": "54ac8790e584dc5cb01838c58e4cdfae6e1a488798e7e1586823963813d763b5"
+    },
+    {
+      "path": "specs/poc/plans/POC-005.yaml",
+      "bytes": 5599,
+      "sha256": "b8de5555fd2cfe51d8a15aa49fa02d61f5f58883131b71c3c940cd5da15f6694"
+    },
+    {
+      "path": "specs/poc/plans/POC-006.yaml",
+      "bytes": 5014,
+      "sha256": "715428d601353d560b34f93c8fd89d3d6ba2ab2e53fb438ca77ab088531101ee"
+    },
+    {
+      "path": "specs/poc/plans/POC-007.yaml",
+      "bytes": 4808,
+      "sha256": "879ed1e92cb4b42922c8b449bee94bda6c7d10f604a12601bc21b3939f89d95a"
+    },
+    {
+      "path": "specs/poc/plans/POC-008.yaml",
+      "bytes": 5008,
+      "sha256": "f4943bc3e4164b6a7e3fb3df86c74a920145610c30191e4c66cbab76e62ef563"
+    },
+    {
+      "path": "specs/poc/plans/POC-009.yaml",
+      "bytes": 9931,
+      "sha256": "0f6c32255b592e34c0acaeba86b4ee0f113a50414b88da5ff6d88d6e521f48ec"
+    },
+    {
+      "path": "specs/poc/plans/POC-010.yaml",
+      "bytes": 8918,
+      "sha256": "e73f1bc452ccfd50b06d3ec26cfd1255818283a8f7709c1f7ec554727e395cf8"
+    },
+    {
+      "path": "specs/poc/policy.yaml",
+      "bytes": 2396,
+      "sha256": "43b9baed8722aebabbf2187aed188c92fa074d311b38b181483301335a0bc282"
+    },
+    {
+      "path": "specs/poc/program.schema.yaml",
+      "bytes": 1597,
+      "sha256": "91d5fc1e3664934dac1a4f7b7b7e0ed32af24018c5051f8ee75a9055f8ce910b"
+    },
+    {
+      "path": "specs/poc/program.yaml",
+      "bytes": 1223,
+      "sha256": "bbd521ffc839205d5d8bf0033b4b86634124b9175d1c78b766679a996ebb8ced"
+    },
+    {
+      "path": "specs/poc/protocol.schema.yaml",
+      "bytes": 1053,
+      "sha256": "53eba29cc8087d18042a4ec30e7fe06fed851d26d97164e8cb5a6d1a18a035fa"
+    },
+    {
+      "path": "specs/poc/resources.yaml",
+      "bytes": 2244,
+      "sha256": "a8eee4205fe4f3a2a1174d0a3df9beeb46b01a971cfaca6be6198d60b4f29f49"
+    },
+    {
+      "path": "specs/poc/result-index.schema.yaml",
+      "bytes": 951,
+      "sha256": "581015d2abd12ab167067e1e6352142bbcf6560b7a12986fbd47380d62c17f4d"
+    },
+    {
+      "path": "specs/poc/result-record.schema.yaml",
+      "bytes": 818,
+      "sha256": "48b31d7fb8c05c139f1429172515f5ac57ec65405c0de1803cb189f7197a95ea"
+    },
+    {
+      "path": "specs/poc/results-index.yaml",
+      "bytes": 1626,
+      "sha256": "1bba4d2fa792516ea6f9e902b8e68ed5aa386f0637176c4d5043208e07f15a9a"
+    },
+    {
+      "path": "specs/poc/sample-approval.schema.yaml",
+      "bytes": 703,
+      "sha256": "7d350ce1d6df57e6ba8fd5a37c689c10bb74ebb2519473fa3aaf400cd23aa194"
+    },
+    {
+      "path": "specs/poc/samples.yaml",
+      "bytes": 2432,
+      "sha256": "636e8123453c51504a643cebe83bca41996275b0d1c19efbbe01d8ea459644ca"
+    },
+    {
+      "path": "specs/poc/templates/compliance-review.yaml",
+      "bytes": 244,
+      "sha256": "b74ed2f2195940b4eb975f5fcd3c3bc5da985e68b749dca824790aa773a7b667"
+    },
+    {
+      "path": "specs/poc/templates/execution-record.yaml",
+      "bytes": 813,
+      "sha256": "e1fde6c0a7538bc778c31f0efd8e525db932fca0a358df4406bb256b5739a1d3"
+    },
+    {
+      "path": "specs/poc/templates/plan-template.yaml",
+      "bytes": 739,
+      "sha256": "97f51a676b1957461b6066de04e52ee01975b3f8a1339d22921bb4783c1c54d7"
+    },
+    {
+      "path": "specs/poc/templates/result-record.yaml",
+      "bytes": 315,
+      "sha256": "6a66114b9db62de8d81fbe36e5d432e11a6b83df483cf6593145f8d724b4c791"
+    },
+    {
+      "path": "specs/poc/templates/sample-approval.yaml",
+      "bytes": 297,
+      "sha256": "fa2b7874ecc9930be2936809b96bc4e805968629d295e2568daef5ea977c3df9"
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "bytes": 43309,
+      "sha256": "3435e9fbfd4485496f0e8f948eba8b395663ed88a6f563f164a74dfc280e1936"
+    }
+  ]
+}

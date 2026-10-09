@@ -1,0 +1,5 @@
+Source Commit: b9799749a382beea0c57b94f7d12582e1d9698cb
+Completion Candidate: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Command: git diff --exit-code 3ec36ee150516a5465e7fb14672ee1bb634ecdb1 b9799749a382beea0c57b94f7d12582e1d9698cb -- specs/coordination/program-plan.yaml specs/coordination/active-work.yaml specs/coordination/task-completions.yaml specs/tasks/GZ-010.md
+
+Exit Code: 0

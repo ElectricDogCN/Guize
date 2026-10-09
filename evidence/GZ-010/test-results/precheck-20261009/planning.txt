@@ -1,0 +1,5 @@
+Source Commit: 85e27c8c3f7cacdd778381e26e5c51d9d4e65b96
+Command: /tmp/guize-gz010-20261009-venv/bin/python specs/poc/check_program.py
+PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
+
+Exit Code: 0

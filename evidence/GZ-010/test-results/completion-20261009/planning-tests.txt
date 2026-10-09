@@ -1,0 +1,95 @@
+Source Commit: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Command: python specs/poc/test_program.py
+test_01_positive_baseline (__main__.TestPocProgram.test_01_positive_baseline) ... ok
+test_02_missing_plan (__main__.TestPocProgram.test_02_missing_plan) ... ok
+test_03_poc_task_mismatch (__main__.TestPocProgram.test_03_poc_task_mismatch) ... ok
+test_04_wrong_risk (__main__.TestPocProgram.test_04_wrong_risk) ... ok
+test_05_wrong_wave (__main__.TestPocProgram.test_05_wrong_wave) ... ok
+test_06_wrong_requirement (__main__.TestPocProgram.test_06_wrong_requirement) ... ok
+test_07_wrong_module (__main__.TestPocProgram.test_07_wrong_module) ... ok
+test_08_wrong_evidence_path (__main__.TestPocProgram.test_08_wrong_evidence_path) ... ok
+test_09_wrong_dependency (__main__.TestPocProgram.test_09_wrong_dependency) ... ok
+test_10_duplicate_evidence_path (__main__.TestPocProgram.test_10_duplicate_evidence_path) ... ok
+test_11_unknown_resource (__main__.TestPocProgram.test_11_unknown_resource) ... ok
+test_12_unknown_sample (__main__.TestPocProgram.test_12_unknown_sample) ... ok
+test_13_plan_status_is_immutable (__main__.TestPocProgram.test_13_plan_status_is_immutable) ... ok
+test_14_prefilled_plan_command_rejected (__main__.TestPocProgram.test_14_prefilled_plan_command_rejected) ... ok
+test_15_prefilled_plan_measurement_rejected (__main__.TestPocProgram.test_15_prefilled_plan_measurement_rejected) ... ok
+test_16_prefilled_plan_decision_rejected (__main__.TestPocProgram.test_16_prefilled_plan_decision_rejected) ... ok
+test_17_prefilled_plan_reviewer_rejected (__main__.TestPocProgram.test_17_prefilled_plan_reviewer_rejected) ... ok
+test_18_catalogue_sample_must_remain_pending (__main__.TestPocProgram.test_18_catalogue_sample_must_remain_pending) ... ok
+test_19_catalogue_sample_identity_must_remain_tbd (__main__.TestPocProgram.test_19_catalogue_sample_identity_must_remain_tbd) ... ok
+test_20_required_measurement_cannot_be_removed (__main__.TestPocProgram.test_20_required_measurement_cannot_be_removed) ... ok
+test_21_poc002_encode_provenance_gate_cannot_be_removed (__main__.TestPocProgram.test_21_poc002_encode_provenance_gate_cannot_be_removed) ... ok
+test_22_poc010_secret_roundtrip_gate_cannot_be_removed (__main__.TestPocProgram.test_22_poc010_secret_roundtrip_gate_cannot_be_removed) ... ok
+test_23_ai_provenance_capture_cannot_be_removed (__main__.TestPocProgram.test_23_ai_provenance_capture_cannot_be_removed) ... ok
+test_24_downstream_task_must_own_evidence_path (__main__.TestPocProgram.test_24_downstream_task_must_own_evidence_path) ... ok
+test_25_downstream_task_must_share_results_index (__main__.TestPocProgram.test_25_downstream_task_must_share_results_index) ... ok
+test_26_terminal_pass_fixture_is_valid (__main__.TestPocProgram.test_26_terminal_pass_fixture_is_valid) ... ok
+test_27_terminal_result_ref_must_exist (__main__.TestPocProgram.test_27_terminal_result_ref_must_exist) ... ok
+test_28_terminal_execution_ref_must_exist (__main__.TestPocProgram.test_28_terminal_execution_ref_must_exist) ... ok
+test_29_raw_evidence_must_exist (__main__.TestPocProgram.test_29_raw_evidence_must_exist) ... ok
+test_30_approval_ref_must_exist (__main__.TestPocProgram.test_30_approval_ref_must_exist) ... ok
+test_31_bad_checksum_rejected (__main__.TestPocProgram.test_31_bad_checksum_rejected) ... ok
+test_32_placeholder_immutable_id_rejected (__main__.TestPocProgram.test_32_placeholder_immutable_id_rejected) ... ok
+test_33_empty_environment_value_rejected (__main__.TestPocProgram.test_33_empty_environment_value_rejected) ... ok
+test_34_placeholder_environment_value_rejected (__main__.TestPocProgram.test_34_placeholder_environment_value_rejected) ... ok
+test_35_empty_string_measurement_rejected (__main__.TestPocProgram.test_35_empty_string_measurement_rejected) ... ok
+test_36_nonfinite_measurement_rejected (__main__.TestPocProgram.test_36_nonfinite_measurement_rejected) ... ok
+test_37_pass_false_boolean_gate_rejected (__main__.TestPocProgram.test_37_pass_false_boolean_gate_rejected) ... ok
+test_38_missing_measurement_rejected (__main__.TestPocProgram.test_38_missing_measurement_rejected) ... ok
+test_39_poc002_missing_input_hash_rejected (__main__.TestPocProgram.test_39_poc002_missing_input_hash_rejected) ... ok
+test_40_poc002_invalid_output_hash_rejected (__main__.TestPocProgram.test_40_poc002_invalid_output_hash_rejected) ... ok
+test_41_poc002_empty_encoder_parameters_rejected (__main__.TestPocProgram.test_41_poc002_empty_encoder_parameters_rejected) ... ok
+test_42_wrong_executor_rejected (__main__.TestPocProgram.test_42_wrong_executor_rejected) ... ok
+test_43_self_review_rejected (__main__.TestPocProgram.test_43_self_review_rejected) ... ok
+test_44_result_index_metadata_mismatch_rejected (__main__.TestPocProgram.test_44_result_index_metadata_mismatch_rejected) ... ok
+test_45_nonterminal_fields_must_be_null (__main__.TestPocProgram.test_45_nonterminal_fields_must_be_null) ... ok
+test_46_compound_secret_key_rejected (__main__.TestPocProgram.test_46_compound_secret_key_rejected) ... ok
+test_47_compound_auth_token_key_rejected (__main__.TestPocProgram.test_47_compound_auth_token_key_rejected) ... ok
+test_48_secret_value_rejected (__main__.TestPocProgram.test_48_secret_value_rejected) ... ok
+test_49_result_path_escape_rejected (__main__.TestPocProgram.test_49_result_path_escape_rejected) ... ok
+test_50_raw_path_escape_rejected (__main__.TestPocProgram.test_50_raw_path_escape_rejected) ... ok
+test_51_symlink_escape_rejected (__main__.TestPocProgram.test_51_symlink_escape_rejected) ... ok
+test_52_fail_terminal_allows_false_boolean_gate (__main__.TestPocProgram.test_52_fail_terminal_allows_false_boolean_gate) ... ok
+test_53_program_manifest_requires_record_contracts (__main__.TestPocProgram.test_53_program_manifest_requires_record_contracts) ... ok
+test_54_policy_requires_immutable_plans (__main__.TestPocProgram.test_54_policy_requires_immutable_plans) ... ok
+test_55_missing_concrete_task_spec_rejected (__main__.TestPocProgram.test_55_missing_concrete_task_spec_rejected) ... ok
+test_56_generic_role_labels_rejected (__main__.TestPocProgram.test_56_generic_role_labels_rejected) ... ok
+test_57_task_spec_self_review_rejected (__main__.TestPocProgram.test_57_task_spec_self_review_rejected) ... ok
+test_58_active_work_role_drift_rejected (__main__.TestPocProgram.test_58_active_work_role_drift_rejected) ... ok
+test_59_safe_credential_metadata_requires_false (__main__.TestPocProgram.test_59_safe_credential_metadata_requires_false) ... ok
+test_60_approval_decision_must_be_approved (__main__.TestPocProgram.test_60_approval_decision_must_be_approved) ... ok
+test_61_approval_checksum_must_match_execution_sample (__main__.TestPocProgram.test_61_approval_checksum_must_match_execution_sample) ... ok
+test_62_approval_approver_must_differ_from_implementer (__main__.TestPocProgram.test_62_approval_approver_must_differ_from_implementer) ... ok
+test_63_approval_timestamp_must_be_real_utc_instant (__main__.TestPocProgram.test_63_approval_timestamp_must_be_real_utc_instant) ... ok
+test_64_ai_model_identity_must_be_text (__main__.TestPocProgram.test_64_ai_model_identity_must_be_text) ... ok
+test_65_ai_model_version_must_be_text (__main__.TestPocProgram.test_65_ai_model_version_must_be_text) ... ok
+test_66_poc002_input_hash_must_match_approved_sample (__main__.TestPocProgram.test_66_poc002_input_hash_must_match_approved_sample) ... ok
+test_67_high_risk_running_concurrency_is_limited (__main__.TestPocProgram.test_67_high_risk_running_concurrency_is_limited) ... ok
+test_68_critical_poc_runs_standalone (__main__.TestPocProgram.test_68_critical_poc_runs_standalone) ... ok
+test_69_duplicate_resource_id_rejected (__main__.TestPocProgram.test_69_duplicate_resource_id_rejected) ... ok
+test_70_missing_resource_id_rejected (__main__.TestPocProgram.test_70_missing_resource_id_rejected) ... ok
+test_71_duplicate_sample_id_rejected (__main__.TestPocProgram.test_71_duplicate_sample_id_rejected) ... ok
+test_72_missing_sample_id_rejected (__main__.TestPocProgram.test_72_missing_sample_id_rejected) ... ok
+test_73_missing_execution_template_rejected (__main__.TestPocProgram.test_73_missing_execution_template_rejected) ... ok
+test_74_missing_approval_template_rejected (__main__.TestPocProgram.test_74_missing_approval_template_rejected) ... ok
+test_75_duplicate_yaml_mapping_key_rejected (__main__.TestPocProgram.test_75_duplicate_yaml_mapping_key_rejected) ... ok
+test_76_downstream_task_cannot_own_immutable_poc_plan (__main__.TestPocProgram.test_76_downstream_task_cannot_own_immutable_poc_plan) ... ok
+test_77_result_timestamp_must_be_valid (__main__.TestPocProgram.test_77_result_timestamp_must_be_valid) ... ok
+test_78_row_ownership_rejects_other_task_change (__main__.TestPocProgram.test_78_row_ownership_rejects_other_task_change) ... ok
+test_79_row_ownership_allows_only_own_row_change (__main__.TestPocProgram.test_79_row_ownership_allows_only_own_row_change) ... ok
+test_80_template_missing_required_key_rejected (__main__.TestPocProgram.test_80_template_missing_required_key_rejected) ... ok
+test_81_command_exit_code_must_be_expected (__main__.TestPocProgram.test_81_command_exit_code_must_be_expected) ... ok
+test_82_command_output_ref_must_be_listed (__main__.TestPocProgram.test_82_command_output_ref_must_be_listed) ... ok
+test_83_execution_resources_must_match_plan (__main__.TestPocProgram.test_83_execution_resources_must_match_plan) ... ok
+test_84_resource_configuration_ref_must_exist (__main__.TestPocProgram.test_84_resource_configuration_ref_must_exist) ... ok
+test_85_booking_ref_required_for_booked_resource (__main__.TestPocProgram.test_85_booking_ref_required_for_booked_resource) ... ok
+test_86_every_frozen_measurement_id_is_required (__main__.TestPocProgram.test_86_every_frozen_measurement_id_is_required) ... ok
+
+----------------------------------------------------------------------
+Ran 86 tests in 202.344s
+
+OK
+
+Exit Code: 0

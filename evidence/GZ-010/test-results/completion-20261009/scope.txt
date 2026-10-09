@@ -1,0 +1,5 @@
+Source Commit: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Command: python scripts/run-task-scope-gate.py --task GZ-010 --base 1ab483b6ba578746015c80a48936f64bd1bf6a12
+INFO: GZ-010 is a Completion PR; exact changed-file scope is owned by Program History and Program Transitions against the target branch.
+
+Exit Code: 0

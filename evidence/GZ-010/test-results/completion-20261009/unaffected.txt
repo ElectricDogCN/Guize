@@ -1,0 +1,4 @@
+Source Commit: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Command: git diff --exit-code 1ab483b6ba578746015c80a48936f64bd1bf6a12 HEAD -- specs/tasks/OPS-003.md evidence/OPS-003 specs/poc poc/README.md scripts tests AGENTS.md
+
+Exit Code: 0
