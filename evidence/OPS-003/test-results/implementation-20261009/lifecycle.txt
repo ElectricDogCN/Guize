@@ -1,0 +1,5 @@
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-implementation
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-003"], "changedPathCount": 15, "baseRef": "933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

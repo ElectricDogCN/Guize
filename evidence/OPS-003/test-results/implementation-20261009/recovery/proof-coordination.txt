@@ -1,0 +1,5 @@
+Source Commit: e40aa08e0bc946abc5ba2f04fb35227ccc6eee77
+Command: python scripts/run-agent-coordination-gate.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref e40aa08e0bc946abc5ba2f04fb35227ccc6eee77 --task OPS-003 --branch-name chore/OPS-003-recovery-repair
+{"status": "PASS", "message": "Agent coordination valid: 2 active tasks, 1 high/critical", "details": {"activeTaskIds": ["GZ-010", "OPS-003"]}}
+
+Exit Code: 0

@@ -1,0 +1,7 @@
+worktree /tmp/guize-ops003-recovery-39dp_063/seed
+HEAD 9b40c68d2e37a96458e673dbcde2aef678d9343a
+detached
+
+worktree /tmp/guize-ops003-recovery-39dp_063/worktree
+HEAD 9b40c68d2e37a96458e673dbcde2aef678d9343a
+branch refs/heads/chore/OPS-003-recovery-freeze

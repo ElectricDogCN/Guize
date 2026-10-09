@@ -1,0 +1,4 @@
+Command: python scripts/check-program-plan-transitions.py --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-implementation
+{"status": "PASS", "message": "Program reservation scope, wave and lifecycle transitions passed", "details": {"task": "OPS-003", "activeTasks": 2, "completionRecords": 1}}
+
+Exit Code: 0

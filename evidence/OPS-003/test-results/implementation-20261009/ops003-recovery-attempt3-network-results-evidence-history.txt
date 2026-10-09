@@ -1,0 +1,5 @@
+Source Commit: e59c32170e32aa282236741edc481fa10498e029
+Command: python scripts/check-program-plan-history.py --base-ref 43917c27800a38c527bd2221a116dbd1c4b660c9 --head-ref HEAD --task GZ-004 --branch-name fix/GZ-004-isolated-evidence-repair
+{"status": "FAIL", "message": "Evidence repair GZ-004 Issue #14 cannot be verified: GitHub Issue API request failed: <urlopen error [Errno 111] Connection refused>"}
+
+Exit Code: 1

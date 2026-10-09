@@ -1,0 +1,4 @@
+Source Commit: c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf
+Command: git diff --exit-code 6971d655da297149adc681f10c0f386dfda47016 c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf specs/coordination/program-plan.yaml specs/coordination/active-work.yaml specs/coordination/task-completions.yaml specs/tasks/GZ-004.md
+
+Exit Code: 0

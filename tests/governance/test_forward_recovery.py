@@ -26,6 +26,7 @@ def module(name, script):
 GUARD = module("forward_recovery_guard", "check-program-lifecycle-guards.py")
 TRANSITIONS = module("forward_recovery_transitions", "check-program-plan-transitions.py")
 WRAPPER = module("forward_recovery_wrapper", "run-program-lifecycle-gate.py")
+FINALIZATION = module("forward_recovery_finalization", "check-program-plan-finalization.py")
 
 
 class Repository:
@@ -382,3 +383,26 @@ def test_no_task_frozen_code_derives_recovery_owner_and_rejects_stale_base(repo)
     args = ["guard", "--repo-root", repo.root, "--base-ref", frozen, "--branch-name", "main"]
     with patch.object(sys, "argv", args):
         assert GUARD.main() == 1
+
+
+@pytest.mark.parametrize("drift", [False, True])
+def test_finalization_distinguishes_completed_evidence_repair_from_second_completion(repo, drift):
+    repo.git("checkout", "-b", "fix/GZ-004-evidence")
+    repo.write("evidence/GZ-004/correction.md", "Own Evidence amendment without refreshing Completion bundle\n")
+    if drift:
+        repo.write("specs/tasks/GZ-004.md", Path(repo.root, "specs/tasks/GZ-004.md").read_text() + "Forbidden Task body drift\n")
+    repo.commit("Evidence amendment")
+    errors = []
+    with patch.object(FINALIZATION.RECOVERY, "github_issue", return_value={"number": 14, "state": "closed", "state_reason": "completed"}):
+        FINALIZATION.validate_completion_evidence(repo.root, repo.base, "HEAD", "GZ-004", repo.plan, repo.ledger, errors)
+    assert bool(errors) == drift, errors
+
+
+def test_finalization_evidence_repair_cannot_bypass_open_issue(repo):
+    repo.git("checkout", "-b", "fix/GZ-004-evidence")
+    repo.write("evidence/GZ-004/correction.md", "Amendment\n")
+    repo.commit("Evidence amendment")
+    errors = []
+    with patch.object(FINALIZATION.RECOVERY, "github_issue", return_value={"number": 14, "state": "open"}):
+        FINALIZATION.validate_completion_evidence(repo.root, repo.base, "HEAD", "GZ-004", repo.plan, repo.ledger, errors)
+    assert any("closed with state_reason=completed" in e for e in errors)

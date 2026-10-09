@@ -1,0 +1,5 @@
+Source Commit: c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf
+Command: python scripts/check-program-plan-transitions.py --base-ref 6971d655da297149adc681f10c0f386dfda47016 --head-ref HEAD --task GZ-004 --branch-name fix/GZ-004-isolated-evidence-repair
+{"status": "PASS", "message": "Program reservation scope, wave and lifecycle transitions passed", "details": {"task": "GZ-004", "activeTasks": 2, "completionRecords": 1}}
+
+Exit Code: 0

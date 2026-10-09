@@ -1,0 +1,6 @@
+Command: python scripts/run-task-scope-gate.py --task OPS-003 --base 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26
+{"status": "INFO", "message": "Changed files: 15, Allowed: 15, Forbidden: 0, Out-of-scope: 0"}
+{"status": "PASS", "message": "Allowed files", "details": {"files": ["AGENTS.md", "evidence/OPS-003/scope-adjustment.md", "scripts/check-agent-coordination.py", "scripts/check-program-lifecycle-guards.py", "scripts/check-program-plan-finalization.py", "scripts/check-program-plan-history.py", "scripts/check-program-plan-integrity.py", "scripts/check-program-plan-transitions.py", "scripts/run-agent-coordination-gate.py", "scripts/run-program-lifecycle-gate.py", "specs/coordination/active-work.yaml", "specs/coordination/program-plan.schema.yaml", "specs/coordination/program-plan.yaml", "specs/tasks/OPS-003.md", "tests/governance/test_forward_recovery.py"]}}
+{"status": "PASS", "message": "All changed files are within allowed scope and outside forbidden scope."}
+
+Exit Code: 0

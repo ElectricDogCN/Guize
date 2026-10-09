@@ -97,6 +97,7 @@ tasks:
     - AGENTS.md
     - specs/coordination/program-plan.schema.yaml
     - scripts/check-program-plan-history.py
+    - scripts/check-program-plan-finalization.py
     - scripts/check-program-plan-transitions.py
     - scripts/check-program-plan-integrity.py
     - scripts/check-program-lifecycle-guards.py

@@ -1,0 +1,1 @@
+Isolated worktree removed normally. Local seed retained for independent audit at /tmp/guize-ops003-recovery-39dp_063/seed. Production checkout/remote refs untouched. Bundle verified.

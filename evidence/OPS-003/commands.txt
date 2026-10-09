@@ -1,88 +1,87 @@
 Task: OPS-003
-Base: 5833a448473d7191a6984fc6d052b8d9014f4b89
-Tested local source: 8db474ffd1b27835c9967e931eab7d29e4333d8f
+Base: 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26
+Tested local source: 9b40c68d2e37a96458e673dbcde2aef678d9343a
 
 task
 Command: python scripts/check-task-file.py --task OPS-003
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/task.txt
+Evidence: test-results/implementation-20261009/task.txt
 
 readiness
 Command: python scripts/check-project-readiness.py
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/readiness.txt
+Evidence: test-results/implementation-20261009/readiness.txt
 
 schemas
 Command: python scripts/check-schemas.py
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/schemas.txt
+Evidence: test-results/implementation-20261009/schemas.txt
 
 integrity
-Command: python scripts/check-program-plan-integrity.py --base-ref 5833a448473d7191a6984fc6d052b8d9014f4b89
+Command: python scripts/check-program-plan-integrity.py --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/integrity.txt
+Evidence: test-results/implementation-20261009/integrity.txt
 
 history
-Command: python scripts/check-program-plan-history.py --base-ref 5833a448473d7191a6984fc6d052b8d9014f4b89 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-registration
+Command: python scripts/check-program-plan-history.py --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-implementation
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/history.txt
+Evidence: test-results/implementation-20261009/history.txt
 
 transitions
-Command: python scripts/check-program-plan-transitions.py --base-ref 5833a448473d7191a6984fc6d052b8d9014f4b89 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-registration
-Exit Code: 1
-Result: FAIL
-Evidence: test-results/registration-20261009/transitions.txt
+Command: python scripts/check-program-plan-transitions.py --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-implementation
+Exit Code: 0
+Result: PASS
+Evidence: test-results/implementation-20261009/transitions.txt
 
 finalization
-Command: python scripts/check-program-plan-finalization.py --base-ref 5833a448473d7191a6984fc6d052b8d9014f4b89 --head-ref HEAD --task OPS-003
+Command: python scripts/check-program-plan-finalization.py --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 --head-ref HEAD --task OPS-003
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/finalization.txt
+Evidence: test-results/implementation-20261009/finalization.txt
 
 lifecycle
-Command: python scripts/run-program-lifecycle-gate.py --base-ref 5833a448473d7191a6984fc6d052b8d9014f4b89 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-registration
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-implementation
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/lifecycle.txt
+Evidence: test-results/implementation-20261009/lifecycle.txt
 
 coordination
-Command: python scripts/run-agent-coordination-gate.py --task OPS-003 --base-ref 5833a448473d7191a6984fc6d052b8d9014f4b89 --head-ref HEAD --branch-name chore/OPS-003-forward-recovery-registration
+Command: python scripts/run-agent-coordination-gate.py --task OPS-003 --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 --head-ref HEAD --branch-name chore/OPS-003-forward-recovery-implementation
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/coordination.txt
+Evidence: test-results/implementation-20261009/coordination.txt
 
 scope
-Command: python scripts/run-task-scope-gate.py --task OPS-003 --base 5833a448473d7191a6984fc6d052b8d9014f4b89
+Command: python scripts/run-task-scope-gate.py --task OPS-003 --base 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/scope.txt
+Evidence: test-results/implementation-20261009/scope.txt
 
 evidence
 Command: python scripts/check-evidence.py --task OPS-003
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/evidence.txt
+Evidence: test-results/implementation-20261009/evidence.txt
 
 unaffected
-Command: git diff --exit-code 5833a448473d7191a6984fc6d052b8d9014f4b89 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/poc
+Command: git diff --exit-code 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/poc
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/unaffected.txt
+Evidence: test-results/implementation-20261009/unaffected.txt
 
 verify
-Command: make verify TASK=OPS-003 BASE=5833a448473d7191a6984fc6d052b8d9014f4b89 HEAD_REF=HEAD BRANCH=chore/OPS-003-forward-recovery-registration
-Exit Code: 2
-Result: FAIL
-Evidence: test-results/registration-20261009/verify.txt
-
-governance-tests
-Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops003-results/governance.xml
+Command: make verify TASK=OPS-003 BASE=933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 HEAD_REF=HEAD BRANCH=chore/OPS-003-forward-recovery-implementation
 Exit Code: 0
 Result: PASS
-Evidence: test-results/registration-20261009/governance-tests.txt
+Evidence: test-results/implementation-20261009/verify.txt
 
+governance-tests
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops003-implementation-results/governance.xml
+Exit Code: 0
+Result: PASS
+Evidence: test-results/implementation-20261009/governance-tests.txt

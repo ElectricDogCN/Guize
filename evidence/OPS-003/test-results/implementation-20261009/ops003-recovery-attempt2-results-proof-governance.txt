@@ -1,0 +1,82 @@
+Source Commit: 4e479a933117a275a241f3928df8336ced151bb6
+Command: python -m pytest tests/governance -q --junitxml=evidence/OPS-003/recovery-simulation/governance.xml
+......................................................................F. [ 22%]
+F...F................................................................... [ 44%]
+........................................................................ [ 66%]
+........................................................................ [ 88%]
+.....................................                                    [100%]
+=================================== FAILURES ===================================
+_____________ TestCheckSchemas.test_copied_current_instances_pass ______________
+
+self = <tests.governance.test_check_schemas.TestCheckSchemas testMethod=test_copied_current_instances_pass>
+
+    def test_copied_current_instances_pass(self):
+        with tempfile.TemporaryDirectory() as root:
+            self._copy_coordination(root)
+            result = self._run(root)
+>           self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+E           AssertionError: 1 != 0 : OK JSON-SCHEMA: specs/coordination/active-work.schema.yaml
+E           OK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml
+E           OK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml
+E           OK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml
+E           OK TASK REGISTRY LINK: GZ-010
+E           OK PROGRAM ACTIVATION: GZ-010 <- W1
+E           OK TASK REGISTRY LINK: OPS-003
+E           OK FOUNDATION ACTIVATION: OPS-003
+E           FAIL: Task Spec OPS-003 leaseExpiresAt='2026-10-16 09:32:30+00:00' does not match Active Work lease.expiresAt='2026-10-16T09:32:30Z'
+
+tests/governance/test_check_schemas.py:281: AssertionError
+_______ TestCheckSchemas.test_current_repository_coordination_files_pass _______
+
+self = <tests.governance.test_check_schemas.TestCheckSchemas testMethod=test_current_repository_coordination_files_pass>
+
+    def test_current_repository_coordination_files_pass(self):
+        result = self._run(REPO_ROOT)
+>       self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+E       AssertionError: 1 != 0 : OK YAML: .github/workflows/governance-gate.yml
+E       OK JSON-SCHEMA: contracts/events/event-envelope.schema.json
+E       OK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml
+E       OK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml
+E       OK JSON-SCHEMA: specs/coordination/active-work.schema.yaml
+E       OK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml
+E       OK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml
+E       OK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml
+E       OK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml
+E       OK TASK REGISTRY LINK: GZ-010
+E       OK PROGRAM ACTIVATION: GZ-010 <- W1
+E       OK TASK REGISTRY LINK: OPS-003
+E       OK FOUNDATION ACTIVATION: OPS-003
+E       FAIL: Task Spec OPS-003 leaseExpiresAt='2026-10-16 09:32:30+00:00' does not match Active Work lease.expiresAt='2026-10-16T09:32:30Z'
+
+tests/governance/test_check_schemas.py:238: AssertionError
+_________ TestCheckSchemas.test_regular_program_task_activation_passes _________
+
+self = <tests.governance.test_check_schemas.TestCheckSchemas testMethod=test_regular_program_task_activation_passes>
+
+    def test_regular_program_task_activation_passes(self):
+        with tempfile.TemporaryDirectory() as root:
+            coordination = self._copy_coordination(root)
+            self._activate_gz004(root, coordination)
+            result = self._run(root)
+>           self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+E           AssertionError: 1 != 0 : OK JSON-SCHEMA: specs/coordination/active-work.schema.yaml
+E           OK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml
+E           OK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml
+E           OK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml
+E           OK TASK REGISTRY LINK: GZ-004
+E           OK PROGRAM ACTIVATION: GZ-004 <- W1
+E           OK TASK REGISTRY LINK: GZ-010
+E           OK PROGRAM ACTIVATION: GZ-010 <- W1
+E           OK TASK REGISTRY LINK: OPS-003
+E           OK FOUNDATION ACTIVATION: OPS-003
+E           FAIL: Task Spec OPS-003 leaseExpiresAt='2026-10-16 09:32:30+00:00' does not match Active Work lease.expiresAt='2026-10-16T09:32:30Z'
+
+tests/governance/test_check_schemas.py:364: AssertionError
+- generated xml file: /tmp/guize-ops003-recovery-dg16gnkw/worktree/evidence/OPS-003/recovery-simulation/governance.xml -
+=========================== short test summary info ============================
+FAILED tests/governance/test_check_schemas.py::TestCheckSchemas::test_copied_current_instances_pass
+FAILED tests/governance/test_check_schemas.py::TestCheckSchemas::test_current_repository_coordination_files_pass
+FAILED tests/governance/test_check_schemas.py::TestCheckSchemas::test_regular_program_task_activation_passes
+3 failed, 322 passed in 30.64s
+
+Exit Code: 1

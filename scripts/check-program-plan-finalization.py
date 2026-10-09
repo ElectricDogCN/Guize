@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+import importlib.util
 import json
 import os
 import re
@@ -22,6 +23,13 @@ import urllib.request
 from typing import Any
 
 import yaml
+
+RECOVERY_SPEC = importlib.util.spec_from_file_location(
+    "guize_finalization_recovery", os.path.join(os.path.dirname(__file__), "check-program-lifecycle-guards.py")
+)
+RECOVERY = importlib.util.module_from_spec(RECOVERY_SPEC)
+assert RECOVERY_SPEC and RECOVERY_SPEC.loader
+RECOVERY_SPEC.loader.exec_module(RECOVERY)
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -212,6 +220,12 @@ def validate_completion_evidence(
         return
     front = parse_front(os.path.join(root, path))
     if front.get("status") != "completed":
+        return
+
+    before = RECOVERY.load_ref(root, base_ref, PLAN)
+    if isinstance(before, dict) and RECOVERY.completed_evidence_candidate(before, plan, task_id):
+        branch = git(root, "branch", "--show-current").stdout.strip()
+        RECOVERY.validate_evidence_repair(root, base_ref, head_ref, task_id, branch, errors)
         return
 
     merge_sha = completion_merge_sha(task_id, plan, ledger)
@@ -415,12 +429,18 @@ def main() -> int:
     validate_execution_mapping(plan, active, errors)
     validate_foundation_specs(root, plan, errors)
     validate_resolved_blockers(plan, errors)
-    if args.task:
+    affected = {args.task} if args.task else set()
+    before = RECOVERY.load_ref(root, args.base_ref, PLAN)
+    if isinstance(before, dict):
+        affected.update(task_id for task_id in RECOVERY.evidence_task_ids(
+            RECOVERY.changed_paths(root, args.base_ref, args.head_ref) or set()
+        ) if RECOVERY.completed_evidence_candidate(before, plan, task_id))
+    for task_id in sorted(affected):
         validate_completion_evidence(
             root,
             args.base_ref,
             args.head_ref,
-            args.task,
+            task_id,
             plan,
             ledger,
             errors,

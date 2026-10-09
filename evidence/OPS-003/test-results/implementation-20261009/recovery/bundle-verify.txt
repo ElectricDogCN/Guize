@@ -1,0 +1,19 @@
+/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops003-recovery-results/recovery-history.bundle is okay
+The bundle contains these 15 refs:
+9857b075257071fd91c95b74ba05a64041e06563 refs/heads/chore/GZ-010-forbidden-frozen-work
+9b40c68d2e37a96458e673dbcde2aef678d9343a refs/heads/chore/OPS-003-forward-recovery-implementation
+d5d77e8b2650b37f8bec4e859a7affc1588050b8 refs/heads/chore/OPS-003-recovery-freeze
+dadd49962484b5417c6bf70e0c0852b5f6239738 refs/heads/chore/OPS-003-recovery-repair
+61d71b9a2f7731819624db6d12edccef4d4794be refs/heads/chore/OPS-003-recovery-thaw
+c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf refs/heads/fix/GZ-004-isolated-evidence-repair
+6971d655da297149adc681f10c0f386dfda47016 refs/heads/main
+9b40c68d2e37a96458e673dbcde2aef678d9343a refs/remotes/origin/HEAD
+3df3941c407a6341fe4bdecf02b114c156d73c1d refs/remotes/origin/chore/GZ-010-poc-program-baseline
+9b40c68d2e37a96458e673dbcde2aef678d9343a refs/remotes/origin/chore/OPS-003-forward-recovery-implementation
+aa5a17cf1b9191023462d0357d07910205f0d789 refs/remotes/origin/chore/OPS-003-forward-recovery-registration
+6971d655da297149adc681f10c0f386dfda47016 refs/remotes/origin/main
+57953eda201f35b041a9e3c7da1b37c9893ddd9f refs/tags/archive/GZ-010-reviewed-local-20261009
+6971d655da297149adc681f10c0f386dfda47016 HEAD
+c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf worktrees/worktree/HEAD
+The bundle records a complete history.
+The bundle uses this hash algorithm: sha1

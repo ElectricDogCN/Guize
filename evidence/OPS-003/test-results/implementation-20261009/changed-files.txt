@@ -1,0 +1,15 @@
+AGENTS.md
+evidence/OPS-003/scope-adjustment.md
+scripts/check-agent-coordination.py
+scripts/check-program-lifecycle-guards.py
+scripts/check-program-plan-finalization.py
+scripts/check-program-plan-history.py
+scripts/check-program-plan-integrity.py
+scripts/check-program-plan-transitions.py
+scripts/run-agent-coordination-gate.py
+scripts/run-program-lifecycle-gate.py
+specs/coordination/active-work.yaml
+specs/coordination/program-plan.schema.yaml
+specs/coordination/program-plan.yaml
+specs/tasks/OPS-003.md
+tests/governance/test_forward_recovery.py
