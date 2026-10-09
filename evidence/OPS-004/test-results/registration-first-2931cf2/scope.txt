@@ -1,0 +1,5 @@
+Source Commit: 2931cf2b39ac40d2987a1c4585899861657630f4
+Command: python scripts/run-task-scope-gate.py --task OPS-004 --base 413a6a4dd91b5d79a3d2b7d1e5f03f8121848170
+INFO: OPS-004 is a Reservation PR; exact changed-file scope is owned by Program History and Program Transitions against the target branch.
+
+Exit Code: 0

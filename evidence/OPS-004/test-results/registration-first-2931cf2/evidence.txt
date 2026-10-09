@@ -1,0 +1,9 @@
+Source Commit: 2931cf2b39ac40d2987a1c4585899861657630f4
+Command: python scripts/check-evidence.py --task OPS-004
+{"status": "FAIL", "message": "Support evidence does not contain task ID OPS-004: scope.md"}
+{"status": "FAIL", "message": "Support evidence does not contain task ID OPS-004: changed-files.md"}
+{"status": "FAIL", "message": "Support evidence does not contain task ID OPS-004: assumptions.md"}
+{"status": "FAIL", "message": "Support evidence does not contain task ID OPS-004: follow-ups.md"}
+{"status": "WARN", "message": "Command evidence may be missing command/exit-code indicators."}
+
+Exit Code: 1
