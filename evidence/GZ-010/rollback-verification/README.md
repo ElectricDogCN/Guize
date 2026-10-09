@@ -1,3 +1,18 @@
+# GZ-010 completed forward recovery — current verified route
+
+Status: PASS
+Tested completion candidate: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Implementation identity: PR-48 / 2b2d076b68171edd74639e307f8a126cc882186d
+Local-only Evidence amendment: b9799749a382beea0c57b94f7d12582e1d9698cb
+
+The current supported route is AGENTS 17.8 and the shipped OPS-003 contract. Never delete the Completion Ledger record, regress completed to review, or restore the completed Task from an older tree. An Evidence-only amendment preserves the exact full Task, Program, Registry and Ledger bytes; the actual Issue #15 must remain closed/completed, Program active, and files strictly confined to evidence/GZ-010/**. A known-invalid implementation contract instead requires a newly registered bounded governance task, freeze, independently reviewed forward correction and proof-bound thaw; the full actual OPS-003 exercise is preserved in evidence/OPS-003/test-results/implementation-20261009/.
+
+The exact GZ-010 candidate 3ec36ee150516a5465e7fb14672ee1bb634ecdb1 was cloned without hardlinks into /tmp/guize-gz010-completed-recovery-2yxnjud2/seed, and an isolated Git worktree created at /tmp/guize-gz010-completed-recovery-2yxnjud2/worktree. One controlled Evidence file was committed locally, then real history/transitions/finalization/raw-main/wrappers/coordination/schema/integrity/planning/make checks ran against candidate→amendment. All twelve checks passed, make verify ran 328 tests, and actual Issue15 was read from the official API. Git diff on the four immutable paths exited0. Verified bundle recovery-history.bundle remains outside the repository, with the seed; worktree removed normally, before/after lists identical, production HEAD and checkout unchanged. Every command/source/output/exit/cleanup is in test-results/completion-20261009/completed-recovery/. No local simulation is pushed or claimed as production merge.
+
+## Archived PR #63 nonterminal procedure — historical only
+
+The older procedure below applies solely to the earlier review-state documentation candidate. It is NOT the supported post-completion recovery route and must not be executed on the completed baseline.
+
 # GZ-010 Nonterminal Review Repair — Recovery Rehearsal
 
 Task: GZ-010

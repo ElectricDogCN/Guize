@@ -1,0 +1,5 @@
+Source Commit: c58b4865fcd0810025a6732e530100c8525c052f
+Command: python scripts/check-task-file.py --task GZ-010
+{"status": "FAIL", "message": "Forbidden scope section has no entries."}
+
+Exit Code: 1

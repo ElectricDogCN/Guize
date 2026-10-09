@@ -1,3 +1,38 @@
+# GZ-010 POC planning completion
+
+Task: GZ-010 / Issue #15
+Status: COMPLETED
+Tested completion candidate: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Target base: 1ab483b6ba578746015c80a48936f64bd1bf6a12
+Implementation identity: PR-48 / 2b2d076b68171edd74639e307f8a126cc882186d
+Reservation identity: PR-45 / 74ab9d53f29834fda37dcbd726fd58f997f8f21a
+
+All 17 exact-candidate checks passed, including real lifecycle/coordination wrappers, raw main-entry checks, named make verify, planning checker, 86 planning regressions and 328 governance tests. JUnit has zero failures/errors/skips. The actual live official Issue #15 is closed/completed; its raw API transport provenance is retained. WSL resolves api.github.com to localhost, so a transparent temporary Windows HTTPS transport returned unmodified official JSON; this is not a fixture or cache.
+
+Completed recovery was actually exercised from this same 3ec36ee150516a5465e7fb14672ee1bb634ecdb1 in an independent clone and Git worktree. Its only change is GZ-010 Evidence amendment b9799749a382beea0c57b94f7d12582e1d9698cb; all 12 checks passed including mandatory Finalization, raw main entry, real wrappers and full make verify (328 passed). Exact Git diff proves Program/Registry/Ledger/full Task bytes unchanged; cleanup proves original checkout unchanged and worktree lists equal. The verified Git bundle and seed retain actual local-only simulation SHAs; these are not production merges or remote ancestors.
+
+OPS-003 source 9b40c68d2e37a96458e673dbcde2aef678d9343a independently demonstrated the full 29-outcome freeze, ordinary-admission rejection, bounded forward correction, proof-bound thaw and completed Evidence amendment. It merged in PR #66 / 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d, followed by Foundation Completion PR #67 and successful main Gate #585. GZ-010 uses that shipped generic recovery contract; GZ-004's drill is not claimed as GZ-010's drill.
+
+Artifact audit at 3ec36ee150516a5465e7fb14672ee1bb634ecdb1 and independent content review establish that the delivered POC materials are tracked UTF-8 plans/templates/checkers and governance logs: eight sample descriptors stay pending/TBD, ten result entries stay not_started, no experimental Evidence exists, and specs/poc plus poc/README remain exact Git bytes from PR #48. There are no real media samples or production payloads in this planning deliverable. This audit is not a general sensitive-payload classifier and does not approve actual samples; each future POC still requires task-owned immutable sample approval. The original sensitive-data criterion is satisfied for this planning artifact without waiver.
+
+This completion changes only GZ-010 state/own lease/one appended Ledger record and Task/Evidence. All ten real POCs and full V1 remain incomplete. Earlier failed task-format and missing explicit test-result status attempts are retained as failures. Final archive checks, independent review, latest remote CI, expected-head merge and exact post-main validation remain required; no unexecuted integration PASS is claimed.
+
+Result: PASS
+Scope: exact candidate validation and isolated completed recovery; final archive/remote integration still pending.
+
+
+## Retained earlier candidate and review history
+
+GZ-010 POC-PROTOCOL-V1 planning completion candidate
+Result: PASS
+Scope: actual POC planning checker and 86 regression cases on local source 85e27c8c3f7cacdd778381e26e5c51d9d4e65b96, recorded in test-results/precheck-20261009; this status does not pre-approve the remaining completion gates, recovery or remote CI.
+Status: COMPLETED
+Target base: 1ab483b6ba578746015c80a48936f64bd1bf6a12
+Implementation merge: 2b2d076b68171edd74639e307f8a126cc882186d (PR #48)
+Reservation: PR #45 / 74ab9d53f29834fda37dcbd726fd58f997f8f21a
+
+This metadata-only candidate records planning completion, not experimental PASS. The ten POCs remain planned/not_started and sample catalogues pending before execution. OPS-003 supplies the tested immutable-history forward recovery route. Exact candidate checks, isolated completed Evidence amendment, independent review and remote CI remain required before merge. Only GZ-010 metadata/own lease/one appended Ledger record change. Older records below are historical and do not claim current execution.
+
 ## Local validation versus connector integration
 
 The actual validation source c91265bf1430c3e7df6b0f1321705b4a00a66b25 and its Evidence-refresh successors are preserved in this task's local Git checkout. Native Git push failed because that transport has no authenticated username. These local commits have NOT been claimed as remotely pushed or as ancestors of the connector-created PR commit. The LOCAL-ONLY recovery simulation is also never pushed.

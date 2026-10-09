@@ -1,0 +1,5 @@
+Source Commit: 3ec36ee150516a5465e7fb14672ee1bb634ecdb1
+Command: python scripts/check-evidence.py --task GZ-010
+{"status": "PASS", "message": "Evidence contract passed for GZ-010."}
+
+Exit Code: 0

@@ -1,0 +1,2 @@
+Only created isolated worktree removed; seed/history bundle retained. Worktree lists equal; production HEAD/checkout unchanged.
+Exit Code: 0
