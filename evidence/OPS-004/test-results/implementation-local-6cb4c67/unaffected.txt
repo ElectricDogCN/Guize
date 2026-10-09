@@ -1,0 +1,4 @@
+Source Commit: 6cb4c678153d5b91e8a5de5f0ed87bce18e64d61
+Command: git diff --exit-code d0e9e256552f9d1d47fb24d2e5a4530476b19a5f HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-005.md evidence/GZ-005 specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/poc specs/requirements contracts AGENTS.md
+
+Exit Code: 0

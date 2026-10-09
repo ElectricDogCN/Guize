@@ -2,6 +2,7 @@
 """Validate git diff against task allowed/forbidden scope."""
 
 import argparse
+import importlib.util
 import json
 import os
 import re
@@ -238,7 +239,7 @@ def main():
     except OSError as exc:
         report("ERROR", f"Cannot read task file: {exc}")
         sys.exit(2)
-    _, body = parse_front_matter(content)
+    front, body = parse_front_matter(content)
     allowed_patterns = extract_scope_patterns(body, "allowed")
     forbidden_patterns = extract_scope_patterns(body, "forbidden")
     if not allowed_patterns:
@@ -248,13 +249,49 @@ def main():
     if changed_files is None:
         report("ERROR", "Cannot determine changed files; scope validation fails closed.")
         sys.exit(2)
+    validated_metadata = set()
+    metadata_errors = []
+    task_relative = os.path.relpath(task_path, repo_root).replace("\\", "/")
+    metadata_candidates = {task_relative, "specs/coordination/active-work.yaml", "specs/coordination/program-plan.yaml"}
+    if (front.get("schemaVersion") == "2" and front.get("coordinationMode") == "registry"
+            and any(path in metadata_candidates
+                    and not any(match_pattern(path, pattern) for pattern in allowed_patterns)
+                    for path in changed_files)):
+        spec = importlib.util.spec_from_file_location(
+            "guize_scope_coordination", os.path.join(os.path.dirname(__file__), "check-agent-coordination.py")
+        )
+        coordination = importlib.util.module_from_spec(spec)
+        assert spec and spec.loader
+        spec.loader.exec_module(coordination)
+        branch = os.environ.get("GITHUB_HEAD_REF", "")
+        if not branch:
+            branch = subprocess.run(["git", "branch", "--show-current"], cwd=repo_root,
+                                    capture_output=True, text=True, check=True).stdout.strip()
+        if branch == "main":
+            branch = ""  # Push CI validates the originating task branch in its separate linkage gate.
+        validated_metadata = coordination.validated_active_metadata_paths(
+            repo_root, task_id, task_path, base, "HEAD", branch, metadata_errors
+        )
+        if validated_metadata:
+            coordination.validate_task_context(
+                repo_root, task_id, coordination.load_yaml(os.path.join(repo_root, coordination.CANONICAL_ACTIVE_WORK)),
+                coordination.CANONICAL_ACTIVE_WORK, metadata_errors, [], base, "HEAD", branch,
+                validated_metadata=validated_metadata,
+            )
+            try:
+                expires = coordination.parse_time(front.get("leaseExpiresAt", ""))
+                if expires <= coordination.datetime.now(coordination.timezone.utc):
+                    metadata_errors.append(f"Task {task_id} metadata lease expired")
+            except (TypeError, ValueError):
+                metadata_errors.append(f"Task {task_id} metadata lease is invalid")
     allowed = []
     forbidden = []
     out_of_scope = []
     for filepath in changed_files:
         if any(match_pattern(filepath, pattern) for pattern in forbidden_patterns):
             forbidden.append(filepath)
-        elif any(match_pattern(filepath, pattern) for pattern in allowed_patterns):
+        elif (filepath in validated_metadata
+              or any(match_pattern(filepath, pattern) for pattern in allowed_patterns)):
             allowed.append(filepath)
         else:
             out_of_scope.append(filepath)
@@ -265,7 +302,9 @@ def main():
         report("FAIL", "Forbidden-scope files found", {"files": forbidden})
     if out_of_scope:
         report("FAIL", "Out-of-scope files found", {"files": out_of_scope})
-    if forbidden or out_of_scope:
+    for error in metadata_errors:
+        report("FAIL", error)
+    if forbidden or out_of_scope or metadata_errors:
         sys.exit(1)
     report("PASS", "All changed files are within allowed scope and outside forbidden scope.")
     sys.exit(0)

@@ -1,0 +1,15 @@
+{
+  "pr": 72,
+  "remoteHead": "12dd8a59c11095f9d719d50def7a66a05c152d6c",
+  "tree": "6e36c3fb97277d492ea60d551c97437063d0835e",
+  "reviewedLocal": "174f0addb1714cad4f07e999f24fec1c5a5849cd",
+  "run": 37936214972,
+  "runNumber": 590,
+  "job": 113838811038,
+  "conclusion": "failure",
+  "cause": "High/critical active task count 2 exceeds limit 1",
+  "governance": "328 passed in 35.53s",
+  "reviewThreads": [],
+  "ownerEvent": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+  "deadline": "2026-10-10T01:09:31Z"
+}

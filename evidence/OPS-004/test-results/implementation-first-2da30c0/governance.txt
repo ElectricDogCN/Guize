@@ -1,0 +1,91 @@
+Source Commit: 2da30c011a375f08968a8f11ad0acc3b4277bbea
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-implementation-results/governance.xml
+....................F................................................... [ 20%]
+........................................................................ [ 41%]
+........................................................................ [ 61%]
+........................................................................ [ 82%]
+..............................................................           [100%]
+=================================== FAILURES ===================================
+______ test_metadata_permission_rejects_unauthorized_changes[task-issue] _______
+
+candidate = (PosixPath('/tmp/pytest-of-sur/pytest-26/test_metadata_permission_rejec15/repo'), 'f623c980d23060c693f226496115e5e97ee6ae0b')
+attack = 'task-issue'
+
+    @pytest.mark.parametrize("attack", [
+        "other-task-status", "program-policy", "own-plan-risk", "registry-claims",
+        "registry-risk", "reviewer-is-implementer", "task-risk", "task-id",
+        "illegal-transition", "ledger", "unclaimed-code", "rename-source", "expired-lease", "dirty-metadata",
+        "lease-too-long", "task-issue",
+    ])
+    def test_metadata_permission_rejects_unauthorized_changes(candidate, attack):
+        root, base = candidate
+        plan, active = read(root, PLAN), read(root, ACTIVE)
+        entry = active["tasks"][0]
+        if attack == "other-task-status":
+            next(item for item in plan["tasks"] if item["taskId"] == "GZ-006")["status"] = "in_progress"
+        elif attack == "program-policy":
+            plan["parallelPolicy"]["maxHighRiskTasks"] = 2
+        elif attack == "own-plan-risk":
+            own_plan(plan)["riskLevel"] = "medium"
+        elif attack == "registry-claims":
+            entry["exclusivePaths"].append("backend/**")
+        elif attack == "registry-risk":
+            entry["riskLevel"] = "medium"
+        elif attack == "reviewer-is-implementer":
+            entry["reviewer"] = entry["implementer"]
+        elif attack == "task-risk":
+            text = (root / SPEC).read_text(encoding="utf-8").replace("riskLevel: high", "riskLevel: medium", 1)
+            (root / SPEC).write_text(text, encoding="utf-8")
+        elif attack == "task-id":
+            text = (root / SPEC).read_text(encoding="utf-8").replace("id: GZ-005", "id: GZ-006", 1)
+            (root / SPEC).write_text(text, encoding="utf-8")
+        elif attack == "task-issue":
+            text = (root / SPEC).read_text(encoding="utf-8").replace("issue: 68", "issue: 999999", 1)
+            (root / SPEC).write_text(text, encoding="utf-8")
+        elif attack == "illegal-transition":
+            transition(root, "review", base, "reviewer")
+            plan, active = read(root, PLAN), read(root, ACTIVE)
+        elif attack == "ledger":
+            ledger = read(root, "specs/coordination/task-completions.yaml")
+            ledger["records"][0]["issue"] = 999999
+            write(root, "specs/coordination/task-completions.yaml", ledger)
+        elif attack == "unclaimed-code":
+            (root / "backend").mkdir(exist_ok=True)
+            (root / "backend/unclaimed.txt").write_text("unauthorized\n", encoding="utf-8")
+        elif attack == "rename-source":
+            git(root, "mv", "README.md", "evidence/GZ-005/copied-readme.md")
+        elif attack == "expired-lease":
+            now = datetime.now(timezone.utc).replace(microsecond=0)
+            expired = (now - timedelta(hours=1)).isoformat().replace("+00:00", "Z")
+            entry["lease"] = {"acquiredAt": (now - timedelta(hours=2)).isoformat().replace("+00:00", "Z"), "expiresAt": expired}
+            text = re.sub(r"^leaseExpiresAt:.*$", "leaseExpiresAt: " + expired,
+                          (root / SPEC).read_text(encoding="utf-8"), flags=re.M)
+            (root / SPEC).write_text(text, encoding="utf-8")
+        elif attack == "lease-too-long":
+            now = datetime.now(timezone.utc).replace(microsecond=0)
+            expires = (now + timedelta(hours=169)).isoformat().replace("+00:00", "Z")
+            entry["lease"] = {"acquiredAt": now.isoformat().replace("+00:00", "Z"), "expiresAt": expires}
+            text = re.sub(r"^leaseExpiresAt:.*$", "leaseExpiresAt: " + expires,
+                          (root / SPEC).read_text(encoding="utf-8"), flags=re.M)
+            (root / SPEC).write_text(text, encoding="utf-8")
+        write(root, PLAN, plan)
+        write(root, ACTIVE, active)
+        commit(root, "Actual isolated attack candidate")
+        if attack == "dirty-metadata":
+            plan["parallelPolicy"]["maxHighRiskTasks"] = 2
+            write(root, PLAN, plan)
+        for name, result in gates(root, base):
+>           assert result.returncode != 0, name + " accepted " + attack + "\n" + result.stdout + result.stderr
+E           AssertionError: scripts/check-agent-coordination.py accepted task-issue
+E             {"status": "PASS", "message": "Agent coordination valid: 1 active tasks, 1 high/critical", "details": {"activeTaskIds": ["GZ-005"]}}
+E             
+E           assert 0 != 0
+E            +  where 0 = CompletedProcess(args=['/tmp/guize-gz010-20261009-venv/bin/python', 'scripts/check-agent-coordination.py', '--repo-roo...: "Agent coordination valid: 1 active tasks, 1 high/critical", "details": {"activeTaskIds": ["GZ-005"]}}\n', stderr='').returncode
+
+tests/governance/test_active_metadata_scope.py:197: AssertionError
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-implementation-results/governance.xml -
+=========================== short test summary info ============================
+FAILED tests/governance/test_active_metadata_scope.py::test_metadata_permission_rejects_unauthorized_changes[task-issue]
+1 failed, 349 passed in 301.99s (0:05:01)
+
+Exit Code: 1

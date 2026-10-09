@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="16.231" timestamp="2026-10-09T21:52:33.715579+08:00" hostname="RuifengSu"><testcase classname="tests.governance.test_active_metadata_scope" name="test_legal_own_metadata_through_raw_and_ci_gates[activation]" time="15.781"><failure message="AssertionError: scripts/check-task-scope.py&#10;  {&quot;status&quot;: &quot;INFO&quot;, &quot;message&quot;: &quot;Changed files: 3, Allowed: 3, Forbidden: 0, Out-of-scope: 0&quot;}&#10;  {&quot;status&quot;: &quot;PASS&quot;, &quot;message&quot;: &quot;Allowed files&quot;, &quot;details&quot;: {&quot;files&quot;: [&quot;specs/coordination/active-work.yaml&quot;, &quot;specs/coordination/program-plan.yaml&quot;, &quot;specs/tasks/GZ-005.md&quot;]}}&#10;  {&quot;status&quot;: &quot;FAIL&quot;, &quot;message&quot;: &quot;Actual branch does not carry task ID GZ-005: chore/OPS-004-lifecycle-repair-implementation&quot;}&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/tmp/guize-gz010-20261009-venv/bin/python', 'scripts/check-task-scope.py', '--repo-root', '/tm...&quot;message&quot;: &quot;Actual branch does not carry task ID GZ-005: chore/OPS-004-lifecycle-repair-implementation&quot;}\n', stderr='').returncode">candidate = (PosixPath('/tmp/pytest-of-sur/pytest-28/test_legal_own_metadata_throug0/repo'), '30cbdb29e155b000a2142f4fc5acefd649bda7df')
+kind = 'activation'
+
+    @pytest.mark.parametrize("kind", ["activation", "activation-and-claimed-code", "review", "integration", "evidence-only"])
+    def test_legal_own_metadata_through_raw_and_ci_gates(candidate, kind):
+        root, base = candidate
+        if kind == "activation-and-claimed-code":
+            target = root / "contracts/openapi/regression-example.txt"
+            target.write_text("isolated declared implementation\n", encoding="utf-8")
+        if kind in {"review", "integration", "evidence-only"}:
+            base = commit(root, "Actual isolated activation")
+            if kind in {"review", "integration"}:
+                transition(root, "review", base, "reviewer")
+            if kind == "integration":
+                base = commit(root, "Actual isolated review")
+                transition(root, "integration", base, "integrator")
+            if kind == "evidence-only":
+                (root / "evidence/GZ-005/regression-note.md").write_text("# GZ-005 evidence update\n", encoding="utf-8")
+        commit(root, "Actual isolated legal candidate")
+        for name, result in gates(root, base):
+&gt;           assert result.returncode == 0, name + "\n" + result.stdout + result.stderr
+E           AssertionError: scripts/check-task-scope.py
+E             {"status": "INFO", "message": "Changed files: 3, Allowed: 3, Forbidden: 0, Out-of-scope: 0"}
+E             {"status": "PASS", "message": "Allowed files", "details": {"files": ["specs/coordination/active-work.yaml", "specs/coordination/program-plan.yaml", "specs/tasks/GZ-005.md"]}}
+E             {"status": "FAIL", "message": "Actual branch does not carry task ID GZ-005: chore/OPS-004-lifecycle-repair-implementation"}
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['/tmp/guize-gz010-20261009-venv/bin/python', 'scripts/check-task-scope.py', '--repo-root', '/tm..."message": "Actual branch does not carry task ID GZ-005: chore/OPS-004-lifecycle-repair-implementation"}\n', stderr='').returncode
+
+tests/governance/test_active_metadata_scope.py:130: AssertionError</failure></testcase></testsuite></testsuites>
