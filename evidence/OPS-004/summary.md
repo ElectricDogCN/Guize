@@ -1,4 +1,24 @@
 
+## 当前原始登记静态合约补全
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+
+PR77静态审查确认七处原始登记验证不足，补入既有history checker及同一已登记test路径：原始lease在intro Git秒区间观测有效且正时长不超过原policy/168h；TaskExpires绑定；使用历史ownership及精确治理子集/既有明确审计legacy路径；base严格为intro第一父提交；原始真实clone运行现有完整Task checker，canonical registry/Program/Evidence绑定和可读handoff；沿既有first-parent遍历只检查本任务稳定身份与独立角色；冻结时间不得晚于intro秒区间，保留既有真实历史恢复校验。没有重跑历史容量或今天Issue/到期判断，没有要求handoff必须在intro新增或更新。
+
+当前本地 b5de767d925436fd49706ecabc437b6277ca356d 的47定向回归17.84s通过，仅探索结果。更早56d探索因fixture格式7失败/40通过，已改fixture为现有checker接受的完整flat Task格式，未改checker；外部原始XML保留，不把它冒充正式Source。真实repo原登记d0e9e256552f9d1d47fb24d2e5a4530476b19a5f/base413a6a4dd91b5d79a3d2b7d1e5f03f8121848170也通过新追溯检查。新发布源正式完整392治理、全部检查和CI尚未执行。
+
+此前实际6ec源完整372及b15614/CI604完整372通过170.46s均保留为历史，容量FAIL不改称PASS；原始在test-results/history-repair-final-b156/。新版本不能沿用这些测试结果。仅新history/test及自身Evidence，其他代码/任务/政策/Ledger/claims/Lease和Owner时间不变。最后代码身份仍须真实PR77 merge，随后独立Review/Completion全部通过再恢复GZ005。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN / CONTRACT-TASK-SPEC / CONTRACT-ACTIVE-WORK
+
+## 历史版本记录
+
+
 ## 当前实现精确正式结果
 
 Task: OPS-004 / Issue71

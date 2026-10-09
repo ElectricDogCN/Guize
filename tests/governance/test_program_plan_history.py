@@ -1,4 +1,6 @@
 import os
+import copy
+import re
 import subprocess
 import sys
 import tempfile
@@ -38,13 +40,14 @@ class TestProgramPlanHistory(unittest.TestCase):
             ["git", "config", "user.name", "Test"], cwd=root, check=True
         )
 
-    def commit(self, root, message):
+    def commit(self, root, message, timestamp=None):
         subprocess.run(["git", "add", "."], cwd=root, check=True)
         subprocess.run(
             ["git", "commit", "--allow-empty", "-m", message],
             cwd=root,
             check=True,
             capture_output=True,
+            env={**os.environ, "GIT_AUTHOR_DATE": timestamp, "GIT_COMMITTER_DATE": timestamp} if timestamp else None,
         )
         return subprocess.run(
             ["git", "rev-parse", "HEAD"],
@@ -137,13 +140,19 @@ class TestProgramPlanHistory(unittest.TestCase):
             "handoffPath": item["handoffPath"],
             "integrationStrategy": item["integrationStrategy"],
             "integrationOrder": item["integrationOrder"],
-            "leaseExpiresAt": item["lease"]["expiresAt"],
+            "leaseExpiresAt": item.get("lease", {}).get("expiresAt", "MISSING"),
         }
         return (
             "---\n"
-            + yaml.safe_dump(front, sort_keys=False, allow_unicode=True)
-            + "---\n\n## 独占写范围\n\n- `docs/test/**`\n\n"
-            + "## 共享修改范围\n\n- 无。\n"
+            + "\n".join(key+": "+((", ".join(str(part) for part in value) or "[]") if isinstance(value, list) else str(value)) for key, value in front.items()) + "\n"
+            + "---\n\n## 依赖与集成顺序\n\n- 无。\n\n## 独占写范围\n\n"
+            + "\n".join('- `'+path+'`' for path in item["exclusivePaths"]) + "\n\n"
+            + "## 共享修改范围\n\n" + ("\n".join('- `'+path+'`' for path in item["sharedPaths"]) or '- 无。') + "\n\n"
+            + "## 协作与交接\n\n- 独立 Reviewer 与 Implementer。\n"
+            + "\n## 允许范围\n\n- 已登记路径与自身 canonical metadata。\n"
+            + "\n## 禁止范围\n\n- backend/** 与其他任务。\n"
+            + "\n## 验收标准\n\n- [ ] 验证真实来源与历史基线。\n"
+            + "\n## 必须执行的测试\n\n```bash\npython scripts/check-task-file.py --task "+item["taskId"]+"\n```\n"
         )
 
     def _run_checker(self, root, task="", branch="", base_ref="main"):
@@ -236,12 +245,16 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.init_git(root)
         self.write_text(root, "seed.txt", "seed\n")
         old_foundations = []
+        stale_base = self.commit(root, "Earlier baseline") if mode == "stale_reservation_base" else None
         if mode.startswith("atomic_freeze"):
             bootstrap = self.commit(root, "GZ-003 bootstrap (#11)")
             old_foundations = [{"taskId": "GZ-003", "status": "completed", "completionRef": "PR-11", "mergeCommit": bootstrap}]
         if mode == "external_rename":
             self.write_text(root, "docs/foreign.md", "external baseline content that cannot become own metadata\n")
         previous_plan = {"status": "active", "foundationTasks": old_foundations, "tasks": []}
+        self.write_yaml(root, "specs/designs/module-ownership.yaml", {"modules": [{"id": "MOD-GOV", "ownedPaths": ["scripts/**", "tests/governance/**", "specs/coordination/**"]}]})
+        if mode == "preexisting_handoff":
+            self.write_text(root, "evidence/GZ-014/handoff.md", "# Existing task-bound reservation handoff\n")
         self.write_yaml(root, "specs/coordination/program-plan.yaml", previous_plan)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
         self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
@@ -249,10 +262,32 @@ class TestProgramPlanHistory(unittest.TestCase):
         task_id = "GZ-014"
         entry = self.entry(task_id, seed, "reserved", "chore/GZ-014-repair")
         entry["agentRole"] = "coordinator"
+        now = datetime.now(timezone.utc)
+        entry["exclusivePaths"] = ["scripts/fixture-repair.py"]
+        entry["lease"] = {"acquiredAt": (now-timedelta(hours=1)).isoformat(), "expiresAt": (now+timedelta(days=1)).isoformat()}
+        valid_entry = copy.deepcopy(entry)
         if mode == "invalid_reservation_status":
             entry["status"] = "in_progress"
         if mode == "invalid_reservation_base":
             entry["baseSha"] = "f" * 40
+        if mode == "stale_reservation_base":
+            entry["baseSha"] = stale_base
+        if mode == "original_lease_missing":
+            entry.pop("lease")
+        if mode in {"original_lease_expired", "historically_valid_expired_lease"}:
+            entry["lease"] = {"acquiredAt": (now-timedelta(days=2)).isoformat(), "expiresAt": (now-timedelta(days=1)).isoformat()}
+        if mode == "original_lease_overlong":
+            entry["lease"]["expiresAt"] = (now+timedelta(hours=168)).isoformat()
+        if mode == "original_lease_future_acquisition":
+            entry["lease"]["acquiredAt"] = (now+timedelta(minutes=5)).isoformat()
+        if mode == "original_lease_same_second":
+            entry["lease"]["acquiredAt"] = now.isoformat()
+        if mode == "original_claim_root":
+            entry["exclusivePaths"] = ["**"]
+        if mode == "original_claim_foreign":
+            entry["exclusivePaths"] = ["backend/**"]
+        if mode == "original_claim_shared":
+            entry["sharedPaths"] = ["scripts/shared.py"]
         foundation = {
                     "taskId": task_id,
                     "title": entry["title"],
@@ -291,25 +326,51 @@ class TestProgramPlanHistory(unittest.TestCase):
             original_spec = original_spec.replace("id: GZ-014", "id: GZ-015")
         if mode == "wrong_original_branch":
             original_spec = original_spec.replace("workBranch: chore/GZ-014-repair", "workBranch: chore/GZ-014-other")
+        task_mutations = {
+            "original_task_bootstrap": ("coordinationMode: registry", "coordinationMode: bootstrap"),
+            "original_task_program": ("programPlan: specs/coordination/program-plan.yaml", "programPlan: unrelated.yaml"),
+            "original_task_program_id": ("programTaskId: GZ-014", "programTaskId: OTHER-001"),
+            "original_task_evidence": ("evidencePath: evidence/GZ-014", "evidencePath: evidence/OTHER-001"),
+        }
+        if mode in task_mutations:
+            before, after = task_mutations[mode]
+            assert before in original_spec
+            original_spec = original_spec.replace(before, after)
+        if mode == "original_task_expiry":
+            original_spec = re.sub(r'^leaseExpiresAt:.*$', 'leaseExpiresAt: 2026-01-01T00:00:00Z', original_spec, flags=re.M)
         self.write_text(
             root,
             f"specs/tasks/{task_id}.md",
             original_spec,
         )
-        self.write_text(root, f"evidence/{task_id}/handoff.md", "# Handoff\n")
+        if mode not in {"original_missing_handoff", "preexisting_handoff"}:
+            self.write_text(root, f"evidence/{task_id}/handoff.md", "# Handoff\n")
         if mode == "external_rename":
             os.rename(os.path.join(root, "docs/foreign.md"), os.path.join(root, f"evidence/{task_id}/foreign.md"))
         if mode == "atomic_freeze_ledger_change":
             self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": [{"taskId": "GZ-003"}]})
         if mode == "production_reservation":
             self.write_text(root, "scripts/premature.py", "print('not metadata')\n")
-        reservation = self.commit(root, "GZ-014 metadata reservation (#20)")
+        timestamp = (now-timedelta(minutes=2)).isoformat() if mode == "atomic_freeze_future_at_commit" else None
+        if mode == "historically_valid_expired_lease":
+            timestamp = (now-timedelta(hours=36)).isoformat()
+        reservation = self.commit(root, "GZ-014 metadata reservation (#20)", timestamp=timestamp)
+        if mode in {"intermediate_identity_restore", "intermediate_roles_restore"}:
+            transient = copy.deepcopy(entry)
+            if mode == "intermediate_identity_restore":transient["owner"] = "temporary-other-owner"
+            else:transient["reviewer"] = transient["implementer"]
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([transient]))
+            self.commit(root, "GZ-014 temporarily invalid stable identity")
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.commit(root, "GZ-014 restore stable identity")
         if mode == "duplicate_introduction":
             self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
             self.commit(root, "GZ-014 remove original lease")
             self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
             self.commit(root, "GZ-014 reintroduce lease")
-        entry.update({"status": "in_progress", "agentRole": "implementer", "baseSha": reservation})
+        entry.update({"status": "in_progress", "agentRole": "implementer", "baseSha": reservation, "lease": valid_entry["lease"], "exclusivePaths": valid_entry["exclusivePaths"], "sharedPaths": []})
+        if mode == "original_missing_handoff":
+            self.write_text(root, f"evidence/{task_id}/handoff.md", "# Added too late\n")
         if mode == "changed_stable_identity":
             entry["owner"] = "different-owner"
         foundation["status"] = "in_progress"
@@ -319,7 +380,7 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
         self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
         self.commit(root, "GZ-014 activation (#21)")
-        self.write_text(root, "docs/test/repair.md", "actual fixture repair\n")
+        self.write_text(root, "scripts/fixture-repair.py", "# actual fixture repair\n")
         implementation = self.commit(root, "GZ-014 repair (#22)")
         if with_review:
             entry.update({"status": "review", "agentRole": "reviewer", "baseSha": implementation, "branch": "chore/GZ-014-review"})
@@ -486,6 +547,75 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_rejects_candidate_only_archive_parent(self):
         self.reject_foundation_history("candidate_side_parent", "implementation is not integrated on audited first-parent history")
+
+    def test_foundation_rejects_original_missing_lease(self):
+        self.reject_foundation_history("original_lease_missing", "original reservation lease is invalid")
+
+    def test_foundation_rejects_original_expired_lease_later_renewed(self):
+        self.reject_foundation_history("original_lease_expired", "original reservation lease is invalid")
+
+    def test_foundation_rejects_original_overlong_lease_later_shortened(self):
+        self.reject_foundation_history("original_lease_overlong", "original reservation lease is invalid")
+
+    def test_foundation_rejects_original_future_lease_acquisition(self):
+        self.reject_foundation_history("original_lease_future_acquisition", "original reservation lease is invalid")
+
+    def test_foundation_accepts_same_second_subsecond_lease_acquisition(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_foundation_completion(root, "original_lease_same_second")
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_accepts_original_lease_valid_then_expired_today(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_foundation_completion(root, "historically_valid_expired_lease")
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_rejects_original_root_claim_later_narrowed(self):
+        self.reject_foundation_history("original_claim_root", "original reservation may not claim the entire repository")
+
+    def test_foundation_rejects_original_foreign_claim_later_narrowed(self):
+        self.reject_foundation_history("original_claim_foreign", "original reservation claims are outside governance ownership subsets")
+
+    def test_foundation_rejects_original_shared_claim_later_removed(self):
+        self.reject_foundation_history("original_claim_shared", "original reservation requires exclusive governance claims")
+
+    def test_foundation_rejects_stale_original_base_later_refreshed(self):
+        self.reject_foundation_history("stale_reservation_base", "original reservation baseSha must equal integration parent")
+
+    def test_foundation_rejects_original_bootstrap_mode_later_corrected(self):
+        self.reject_foundation_history("original_task_bootstrap", "Task Spec canonical binding is invalid")
+
+    def test_foundation_rejects_original_program_path_later_corrected(self):
+        self.reject_foundation_history("original_task_program", "Task Spec canonical binding is invalid")
+
+    def test_foundation_rejects_original_program_identity_later_corrected(self):
+        self.reject_foundation_history("original_task_program_id", "Task Spec canonical binding is invalid")
+
+    def test_foundation_rejects_original_foreign_evidence_path(self):
+        self.reject_foundation_history("original_task_evidence", "Task Spec canonical binding is invalid")
+
+    def test_foundation_rejects_original_task_lease_expiry_mismatch(self):
+        self.reject_foundation_history("original_task_expiry", "Task Spec lease is invalid")
+
+    def test_foundation_rejects_handoff_created_after_reservation(self):
+        self.reject_foundation_history("original_missing_handoff", "Original reservation Evidence/handoff does not exist")
+
+    def test_foundation_accepts_readable_preexisting_task_bound_handoff(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_foundation_completion(root, "preexisting_handoff")
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_rejects_transient_stable_identity_later_restored(self):
+        self.reject_foundation_history("intermediate_identity_restore", "changed stable identity in audited history")
+
+    def test_foundation_rejects_transient_collapsed_roles_later_restored(self):
+        self.reject_foundation_history("intermediate_roles_restore", "lost independent roles in audited history")
+
+    def test_foundation_rejects_freeze_future_at_commit_but_past_today(self):
+        self.reject_foundation_history("atomic_freeze_future_at_commit", "Original freeze occurred after its integration commit")
 
     def test_completed_foundation_is_immutable(self):
         with tempfile.TemporaryDirectory() as root:

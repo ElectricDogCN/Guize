@@ -1,11 +1,10 @@
-# OPS-004 完整当前实现文件清单
+# OPS-004 当前原始登记补全完整路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
-Tested Source Commit: 6ecfcf49477341c90bc729743d05f17f2dc0dc24
 
-覆盖当前全部 60 路径，含全部归档及本清单；最终 Source SHA/tree 与14检查/CI独立绑定。
+全部81路径，含本清单及所有Evidence；新Source实际正式验证待执行，旧372不转移。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -17,6 +16,27 @@ evidence/OPS-004/summary.md
 evidence/OPS-004/test-results/README.md
 evidence/OPS-004/test-results/history-repair-ci-603/job-log.txt
 evidence/OPS-004/test-results/history-repair-ci-603/proof.json
+evidence/OPS-004/test-results/history-repair-final-b156/actual-ci-604.txt
+evidence/OPS-004/test-results/history-repair-final-b156/clean-after.txt
+evidence/OPS-004/test-results/history-repair-final-b156/clean-before.txt
+evidence/OPS-004/test-results/history-repair-final-b156/coordination.txt
+evidence/OPS-004/test-results/history-repair-final-b156/docs.txt
+evidence/OPS-004/test-results/history-repair-final-b156/evidence.txt
+evidence/OPS-004/test-results/history-repair-final-b156/finalization.txt
+evidence/OPS-004/test-results/history-repair-final-b156/history.txt
+evidence/OPS-004/test-results/history-repair-final-b156/integrity.txt
+evidence/OPS-004/test-results/history-repair-final-b156/lifecycle.txt
+evidence/OPS-004/test-results/history-repair-final-b156/proof-ci-604.json
+evidence/OPS-004/test-results/history-repair-final-b156/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-repair-final-b156/readiness.txt
+evidence/OPS-004/test-results/history-repair-final-b156/schemas.txt
+evidence/OPS-004/test-results/history-repair-final-b156/scope.txt
+evidence/OPS-004/test-results/history-repair-final-b156/source.txt
+evidence/OPS-004/test-results/history-repair-final-b156/status.json
+evidence/OPS-004/test-results/history-repair-final-b156/task.txt
+evidence/OPS-004/test-results/history-repair-final-b156/transitions.txt
+evidence/OPS-004/test-results/history-repair-final-b156/tree.txt
+evidence/OPS-004/test-results/history-repair-final-b156/unaffected.txt
 evidence/OPS-004/test-results/history-repair-source-6ecfcf4/clean-after.txt
 evidence/OPS-004/test-results/history-repair-source-6ecfcf4/clean-before.txt
 evidence/OPS-004/test-results/history-repair-source-6ecfcf4/coordination.txt
@@ -70,4 +90,4 @@ specs/tasks/OPS-004.md
 tests/governance/test_program_plan_history.py
 ```
 
-复核：git diff --name-only 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb HEAD。新增生产修改仅已登记history checker/test，其余自身canonical metadata/Evidence。
+新增生产路径仅已登记history/test，其余自身metadata/Evidence；无其他任务、政策、Ledger或旧完成修改。

@@ -17,6 +17,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 import yaml
@@ -450,6 +451,7 @@ def foundation_reservation(
         return None
     commits = history.stdout.splitlines()
     introductions: list[tuple[str, dict[str, Any]]] = []
+    snapshots: list[tuple[str, dict[str, Any]]] = []
     present = False
     for commit in commits:
         text = read_ref(root, commit, ACTIVE)
@@ -468,6 +470,8 @@ def foundation_reservation(
             return None
         if entries and not present:
             introductions.append((commit, entries[0]))
+        if entries:
+            snapshots.append((commit, entries[0]))
         present = bool(entries)
     if len(introductions) != 1 or not present:
         errors.append(f"Foundation {task_id} requires exactly one original reservation on audited first-parent history")
@@ -480,6 +484,35 @@ def foundation_reservation(
     if not parent or not isinstance(plan, dict) or not isinstance(previous_plan, dict) or not isinstance(previous_active, dict):
         errors.append(f"Foundation {task_id} reservation has no readable integration parent")
         return None
+    def historical_time(value: Any) -> datetime:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            raise ValueError("Historical timestamps require an explicit timezone")
+        return parsed.astimezone(timezone.utc)
+    try:
+        observed = datetime.fromtimestamp(int(git(root, "show", "-s", "--format=%ct", commit).stdout.strip()), timezone.utc)
+        acquired = historical_time(entry["lease"]["acquiredAt"])
+        expires = historical_time(entry["lease"]["expiresAt"])
+        maximum = min(168, int(previous_active["policy"]["leaseMaxHours"]))
+        # Git records whole seconds; do not reject legitimate same-second
+        # subsecond timestamps as if it recorded a more precise chronology.
+        if not acquired < observed + timedelta(seconds=1) or not observed < expires or not 0 < (expires - acquired).total_seconds() <= maximum * 3600:
+            raise ValueError("Reservation lease is invalid at its integration commit time")
+    except (KeyError, TypeError, ValueError, OverflowError) as exc:
+        errors.append(f"Foundation {task_id} original reservation lease is invalid: {exc}")
+        observed = None
+    ownership = load_ref(root, commit, RECOVERY.OWNERSHIP)
+    if not isinstance(ownership, dict):
+        errors.append(f"Foundation {task_id} original reservation ownership snapshot is unreadable")
+    else:
+        RECOVERY.validate_foundation_claims(task_id, entry, ownership, parent, errors)
+        audited_legacy = RECOVERY.FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
+        if any(not RECOVERY.governance_claim_subset(str(path), ownership) and str(path) not in audited_legacy for path in entry.get("exclusivePaths") or []):
+            errors.append(f"Foundation {task_id} original reservation claims are outside governance ownership subsets")
+    if entry.get("sharedPaths") or not entry.get("exclusivePaths"):
+        errors.append(f"Foundation {task_id} original reservation requires exclusive governance claims")
+    if any(str(path).strip() in {"", "*", "**"} for path in list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or [])):
+        errors.append(f"Foundation {task_id} original reservation may not claim the entire repository")
     foundations = [item for item in plan.get("foundationTasks", []) if item.get("taskId") == task_id]
     if (
         len(foundations) != 1 or foundations[0].get("status") != "reserved"
@@ -511,6 +544,11 @@ def foundation_reservation(
         # Give it the real historical checkout, never the later Completion tree.
         freeze_errors: list[str] = []
         try:
+            if observed is None or historical_time(plan["recovery"]["frozenAt"]) >= observed + timedelta(seconds=1):
+                raise ValueError("Original freeze occurred after its integration commit")
+        except (KeyError, TypeError, ValueError) as exc:
+            freeze_errors.append(str(exc))
+        try:
             with tempfile.TemporaryDirectory(prefix="guize-foundation-reservation-") as temporary:
                 snapshot = os.path.join(temporary, "snapshot")
                 clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
@@ -531,6 +569,12 @@ def foundation_reservation(
     if without_target != previous_plan or without_entry != previous_active:
         errors.append(f"Foundation {task_id} original reservation changed another identity or policy")
     mutable = {"status", "agentRole", "baseSha", "branch", "exclusivePaths", "sharedPaths", "lease"}
+    stable = {k: v for k, v in entry.items() if k not in mutable}
+    for snapshot_commit, snapshot_entry in snapshots:
+        if {k: v for k, v in snapshot_entry.items() if k not in mutable} != stable:
+            errors.append(f"Foundation {task_id} changed stable identity in audited history at {snapshot_commit}")
+        if not snapshot_entry.get("implementer") or snapshot_entry.get("implementer") == snapshot_entry.get("reviewer"):
+            errors.append(f"Foundation {task_id} lost independent roles in audited history at {snapshot_commit}")
     if {k: v for k, v in entry.items() if k not in mutable} != {k: v for k, v in current_entry.items() if k not in mutable}:
         errors.append(f"Foundation {task_id} original reservation does not match current stable identity")
     task_path = find_task_path(root, task_id, commit)
@@ -543,9 +587,44 @@ def foundation_reservation(
         errors.append(f"Foundation {task_id} original reservation Task Spec is invalid")
     else:
         stable_spec_matches(task_id, entry, front, body, errors, reservation=True)
+    if (
+        front.get("coordinationMode") != "registry" or front.get("programPlan") != PLAN
+        or front.get("programTaskId") != task_id
+        or front.get("evidencePath") != f"evidence/{task_id}"
+        or front.get("handoffPath") != f"evidence/{task_id}/handoff.md"
+    ):
+        errors.append(f"Foundation {task_id} original reservation Task Spec canonical binding is invalid")
+    try:
+        if historical_time(front.get("leaseExpiresAt")) != historical_time(entry["lease"]["expiresAt"]):
+            raise ValueError("Task Spec leaseExpiresAt does not match original Registry")
+    except (KeyError, TypeError, ValueError) as exc:
+        errors.append(f"Foundation {task_id} original reservation Task Spec lease is invalid: {exc}")
+    try:
+        with tempfile.TemporaryDirectory(prefix="guize-foundation-task-") as temporary:
+            snapshot = os.path.join(temporary, "snapshot")
+            clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
+            checkout = git(snapshot, "checkout", "--detach", "--quiet", commit) if clone.returncode == 0 else None
+            if not checkout or checkout.returncode != 0 or resolve_ref(snapshot, "HEAD") != commit:
+                errors.append(f"Foundation {task_id} cannot reconstruct original Task Spec snapshot")
+            else:
+                task_errors: list[str] = []
+                validation = subprocess.run(
+                    [sys.executable, os.path.join(os.path.dirname(__file__), "check-task-file.py"), "--repo-root", snapshot, "--task", task_id],
+                    cwd=snapshot, capture_output=True, text=True, check=False,
+                )
+                if validation.returncode != 0:
+                    task_errors.append("Historical Task file validation failed: " + validation.stdout.strip() + validation.stderr.strip())
+                evidence = str(front.get("evidencePath") or "")
+                if not os.path.isdir(os.path.join(snapshot, evidence)) or read_ref(root, commit, f"evidence/{task_id}/handoff.md") is None:
+                    task_errors.append("Original reservation Evidence/handoff does not exist")
+                errors.extend(f"Foundation {task_id} original reservation Task Spec: {error}" for error in task_errors)
+    except OSError as exc:
+        errors.append(f"Foundation {task_id} cannot validate original Task Spec: {exc}")
     base_sha = str(entry.get("baseSha") or "")
     if not re.fullmatch(r"[0-9a-f]{40}", base_sha) or base_sha == commit or not is_ancestor(root, base_sha, commit):
         errors.append(f"Foundation {task_id} original reservation baseSha must be a strict ancestor")
+    if base_sha != parent:
+        errors.append(f"Foundation {task_id} original reservation baseSha must equal integration parent")
     files = RECOVERY.changed_paths(root, parent, commit)
     if files is None:
         errors.append(f"Foundation {task_id} cannot read exact original reservation paths")
