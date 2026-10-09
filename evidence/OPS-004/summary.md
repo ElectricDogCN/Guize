@@ -64,3 +64,17 @@ Actual tested published Source: a50d2406037a496cb9c46ee359bc9f0e16cb9263；tree8
 首次a50检查工作树缺两份source-history文件并保留旧summary，虽然检查返回13零，但源一致性不满足，明确无效、不用作完整发布树验收。原始与实际dirty状态记录保留在 test-results/review-a50-invalid-worktree/。仅恢复三个自身Evidence路径，实际HEAD未变、git diff HEAD零且status空，随后全部14项重新执行；生产代码和旧身份不变。
 
 本次只补自身归档和当前阶段说明；发布时将5dce717置于新提交额外父链，使两个历史快照进入PR的不可变祖先，archive分支仅作辅助。实际发布头必须验证两个祖先/对象/tree、完整14项及其同头351 CI；a50结果不能冒称新归档头重跑。新头结果在后续Completion继续归档，避免要求提交包含自身SHA日志的自引用循环。Completion身份仍PR-73/726870，容量限制不变，业务仍未启动。
+
+## Completion 候选
+
+Phase: completion
+Branch: chore/OPS-004-lifecycle-repair-completion
+Actual review base: 62d4ef826e0be1acb2839c3f04fe62d1894f9585
+Implementation identity: PR-73 / 726870c8ae161eab19f94a9b96980a7d9197b633
+
+本候选仅完成自己的Foundation身份、Task/Evidence并移除OPS-004 Lease。旧普通Ledger和全部完成身份不变；GZ-005保持reserved。独立Review及真实CI原始在test-results/review-remote/。本Completion必须取得所有检查真实零退出、非空完整治理JUnit无失败/错误/跳过、独立审查和最新实际CI成功；收口合入后的主线同样须成功，有界事件才结束并继续业务接口。
+
+## Review 归档中的实际 Git 历史核验
+
+Review PR #74 最终头为 32ca718750ddea6f92b45aec751cd936eabbed3f。官方 Git commit API 及全新公开 single-branch bare clone 均证明其父提交为 a50d2406037a496cb9c46ee359bc9f0e16cb9263 和 5dce717e6224e1cf955926721807cbda4db9034b；实际测试源 a50 和两份可重建等价树均为该头的祖先。审查沙箱报告的 864a49b 规范化提交并非仓库中的实际提交，官方请求未找到该对象。独立 Reviewer 核验实际父链、源树、14项日志及 Gate596 后确认该沙箱结论不适用于实际发布头；5条审查线程已据此解决并合并。证明见 source-history/ops004-review-fresh-history-proof.json，最终实际32ca原始检查见 test-results/review-published-32ca/，Gate596见 test-results/review-remote/。不把后创建等价提交冒称原始本地测试源，不重写任何失败或无效日志。
+

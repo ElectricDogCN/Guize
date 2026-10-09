@@ -1,0 +1,62 @@
+{
+  "cloneCommand": "git clone --bare --single-branch --branch chore/OPS-004-lifecycle-repair-review https://github.com/ElectricDogCN/Guize.git .takeover-tools/ops004-reviewed-history-reproduction-20261009.git",
+  "cloneExit": 0,
+  "head": "32ca718750ddea6f92b45aec751cd936eabbed3f",
+  "checks": [
+    {
+      "command": "git show-ref",
+      "exitCode": 0,
+      "stdout": "32ca718750ddea6f92b45aec751cd936eabbed3f refs/heads/chore/OPS-004-lifecycle-repair-review\n"
+    },
+    {
+      "command": "git show -s --format='%H %T %P' HEAD",
+      "exitCode": 0,
+      "stdout": "32ca718750ddea6f92b45aec751cd936eabbed3f bc29e946e51d64db6a81c4d0e29507f45b0aec5b a50d2406037a496cb9c46ee359bc9f0e16cb9263 5dce717e6224e1cf955926721807cbda4db9034b\n"
+    },
+    {
+      "command": "git cat-file -e '5cb09fb1824dfc50a854456f24948b53b1696598^{commit}'",
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "command": "git cat-file -e '5dce717e6224e1cf955926721807cbda4db9034b^{commit}'",
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "command": "git cat-file -e '9e9876db50cf5ae1707ca834b3fed0c66157f4d3^{tree}'",
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "command": "git cat-file -e 'e896283d321aa469fc70836aa2e1a70eeac760dc^{tree}'",
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "command": "git merge-base --is-ancestor a50d2406037a496cb9c46ee359bc9f0e16cb9263 HEAD",
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "command": "git merge-base --is-ancestor 5cb09fb1824dfc50a854456f24948b53b1696598 HEAD",
+      "exitCode": 0,
+      "stdout": ""
+    },
+    {
+      "command": "git merge-base --is-ancestor 5dce717e6224e1cf955926721807cbda4db9034b HEAD",
+      "exitCode": 0,
+      "stdout": ""
+    }
+  ],
+  "remoteGitAPI": {
+    "sha": "32ca718750ddea6f92b45aec751cd936eabbed3f",
+    "tree": "bc29e946e51d64db6a81c4d0e29507f45b0aec5b",
+    "parents": [
+      "a50d2406037a496cb9c46ee359bc9f0e16cb9263",
+      "5dce717e6224e1cf955926721807cbda4db9034b"
+    ]
+  },
+  "reviewSandboxCommit": "864a49b",
+  "reviewSandboxCommitInActualRepository": "GitHub commits endpoint422 No commit found"
+}

@@ -1,0 +1,228 @@
+{
+  "phase": "review-final-immutable-history",
+  "pr": 74,
+  "head": "32ca718750ddea6f92b45aec751cd936eabbed3f",
+  "tree": "bc29e946e51d64db6a81c4d0e29507f45b0aec5b",
+  "parents": [
+    "a50d2406037a496cb9c46ee359bc9f0e16cb9263",
+    "5dce717e6224e1cf955926721807cbda4db9034b"
+  ],
+  "archiveAncestors": [
+    "5cb09fb1824dfc50a854456f24948b53b1696598",
+    "5dce717e6224e1cf955926721807cbda4db9034b"
+  ],
+  "actualNativeAncestryExitCodes": [
+    0,
+    0
+  ],
+  "run": 37949196316,
+  "gate": 596,
+  "job": 113883253515,
+  "conclusion": "failure",
+  "failures": [
+    {
+      "name": "Agent coordination check",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 12
+    }
+  ],
+  "governance": [
+    "351 passed in 286.03s (0:04:46) ========================"
+  ],
+  "skipAudit": {
+    "name": "Skip audit",
+    "status": "completed",
+    "conclusion": "success",
+    "number": 14
+  },
+  "checkout": "2026-10-09T15:06:24.3563968Z HEAD is now at 500d5b6 Merge 32ca718750ddea6f92b45aec751cd936eabbed3f into 726870c8ae161eab19f94a9b96980a7d9197b633",
+  "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+  "localMetadataChecks": {
+    "source": "32ca718750ddea6f92b45aec751cd936eabbed3f",
+    "checks": 14,
+    "zero": 13,
+    "onlyFailure": "coordination=1 capacity2>1",
+    "cleanBeforeAfter": true
+  },
+  "jobs": [
+    {
+      "id": 113883253515,
+      "name": "Governance Checks",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37949196316,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout repository",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Setup Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Install governance dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify core dependencies importable",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Compile scripts and tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Pytest collect-only",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Resolve task context",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Task file validation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Project readiness check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Agent coordination check",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 12
+        },
+        {
+          "name": "Governance tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Skip audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Markdown basic check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "YAML/JSON schema check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Secret scan",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Evidence check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Evidence integrity check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Task-branch linkage check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Scope check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        },
+        {
+          "name": "Spec sync check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Parent directory reference check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23
+        },
+        {
+          "name": "CI workflow static validation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24
+        },
+        {
+          "name": "Generate governance report",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 25
+        },
+        {
+          "name": "Post Setup Python 3.11",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 49
+        },
+        {
+          "name": "Post Checkout repository",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 50
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 51
+        }
+      ]
+    }
+  ]
+}

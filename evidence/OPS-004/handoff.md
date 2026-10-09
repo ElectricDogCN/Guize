@@ -34,3 +34,17 @@ Implementation PR: #73
 Implementation merge: 726870c8ae161eab19f94a9b96980a7d9197b633
 
 本候选仅自身Program/Registry/Task的连续合法迁移及Evidence；实现两检查器和测试保持合入字节，GZ-005与旧完成身份不变。实际远端Gate592原始记录在 test-results/implementation-remote-592/。独立Review已确认751正式351零失败/错误/跳过、c085归档仅自身Evidence且exact tree一致；不冒称容量Gate PASS。需要本Review候选真实检查、独立审查、最新HEAD和实际CI，再按有界事件集成；后续Completion绑定实现身份而非Review PR。
+
+## Completion 候选
+
+Phase: completion
+Branch: chore/OPS-004-lifecycle-repair-completion
+Actual review base: 62d4ef826e0be1acb2839c3f04fe62d1894f9585
+Implementation identity: PR-73 / 726870c8ae161eab19f94a9b96980a7d9197b633
+
+本候选仅完成自己的Foundation身份、Task/Evidence并移除OPS-004 Lease。旧普通Ledger和全部完成身份不变；GZ-005保持reserved。独立Review及真实CI原始在test-results/review-remote/。本Completion必须取得所有检查真实零退出、非空完整治理JUnit无失败/错误/跳过、独立审查和最新实际CI成功；收口合入后的主线同样须成功，有界事件才结束并继续业务接口。
+
+## Review 归档中的实际 Git 历史核验
+
+Review PR #74 最终头为 32ca718750ddea6f92b45aec751cd936eabbed3f。官方 Git commit API 及全新公开 single-branch bare clone 均证明其父提交为 a50d2406037a496cb9c46ee359bc9f0e16cb9263 和 5dce717e6224e1cf955926721807cbda4db9034b；实际测试源 a50 和两份可重建等价树均为该头的祖先。审查沙箱报告的 864a49b 规范化提交并非仓库中的实际提交，官方请求未找到该对象。独立 Reviewer 核验实际父链、源树、14项日志及 Gate596 后确认该沙箱结论不适用于实际发布头；5条审查线程已据此解决并合并。证明见 source-history/ops004-review-fresh-history-proof.json，最终实际32ca原始检查见 test-results/review-published-32ca/，Gate596见 test-results/review-remote/。不把后创建等价提交冒称原始本地测试源，不重写任何失败或无效日志。
+
