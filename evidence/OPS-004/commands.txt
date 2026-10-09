@@ -22,3 +22,5 @@ governance: Exit Code 0
 
 Command and raw output: test-results/implementation-ci-env-751dc3d/*.txt
 JUnit: 351 tests, failures=0, errors=0, skipped=0
+
+Current phase: history scope metadata registration; NOT_EXECUTED for this source. Failed Completion raw commands: test-results/completion-first-c5bf/*.txt. No production modification before scope registration merge.

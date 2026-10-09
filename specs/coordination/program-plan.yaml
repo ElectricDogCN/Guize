@@ -43,7 +43,7 @@ foundationTasks:
     mergeCommit: 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d
   - taskId: OPS-004
     title: "修复普通任务自身生命周期元数据准入"
-    status: review
+    status: blocked
     completionRef: ISSUE-71
     mergeCommit: null
 waves:

@@ -34,3 +34,9 @@ Implementation PR: #73
 Implementation merge: 726870c8ae161eab19f94a9b96980a7d9197b633
 
 本候选仅自身Program/Registry/Task的连续合法迁移及Evidence；实现两检查器和测试保持合入字节，GZ-005与旧完成身份不变。实际远端Gate592原始记录在 test-results/implementation-remote-592/。独立Review已确认751正式351零失败/错误/跳过、c085归档仅自身Evidence且exact tree一致；不冒称容量Gate PASS。需要本Review候选真实检查、独立审查、最新HEAD和实际CI，再按有界事件集成；后续Completion绑定实现身份而非Review PR。
+
+## 前向返工范围登记
+
+Current phase: metadata-only review -> blocked; actual base 62d4ef826e0be1acb2839c3f04fe62d1894f9585.
+
+Completion源c5bf真实前4项退出0，history退出1，其余本地检查NOT_EXECUTED。Gate598实际349 passed/2 failed（239.73s），原始见test-results/completion-first-c5bf/。history误把最新Registry.baseSha当首次Reservation基线，与合法Review基线刷新冲突；另一个失败是待测Completion尚无合法完成/PASS证据。当前不声称PASS。只登记自身blocked状态和精确追加history及对应test范围，代码不变、Lease不变、GZ005/政策/Ledger/旧完成不变。新范围实现必须在本登记合入后的独立PR，且再次完整验证/独立审查。
