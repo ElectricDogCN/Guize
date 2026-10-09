@@ -526,6 +526,24 @@ class TestProgramPlanHistory(unittest.TestCase):
             side = subprocess.check_output(["git", "commit-tree", tree, "-p", seed if mode == "implementation_side_before_reservation" else reservation, "-m", "GZ-014 implementation branch (#22)"], cwd=root, text=True).strip()
             implementation = subprocess.check_output(["git", "commit-tree", tree, "-p", activation, "-p", side, "-m", "GZ-014 integrated repair (#22)"], cwd=root, text=True).strip()
             subprocess.run(["git", "reset", "--hard", implementation], cwd=root, check=True, capture_output=True)
+        if mode in {"implementation_side_late_registration", "implementation_side_old_work_second_parent"}:
+            subprocess.run(["git", "checkout", "-b", "pre-registration-side", seed], cwd=root, check=True, capture_output=True)
+            self.write_text(root, "scripts/fixture-repair.py", "# actual fixture repair\n")
+            old_work = self.commit(root, "GZ-014 unregistered side work (#22)")
+            if mode == "implementation_side_old_work_second_parent":
+                subprocess.run(["git", "checkout", "--detach", reservation], cwd=root, check=True, capture_output=True)
+                late_parent = old_work
+            else:
+                late_parent = reservation
+            subprocess.run(["git", "merge", "--no-ff", "-m", "GZ-014 synchronize late registration (#22)", late_parent], cwd=root, check=True, capture_output=True)
+            self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
+            side = self.commit(root, "GZ-014 late side activation (#22)")
+            subprocess.run(["git", "checkout", "--detach", activation], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "merge", "--no-ff", "-m", "GZ-014 integrated repair (#22)", side], cwd=root, check=True, capture_output=True)
+            implementation = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+            subprocess.run(["git", "checkout", "-B", "main", implementation], cwd=root, check=True, capture_output=True)
         evidence_commit = None
         if mode == "merge_is_evidence_only":
             self.write_text(root, f"evidence/{task_id}/summary.md", "# Evidence archive only\n")
@@ -941,6 +959,12 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_rejects_rebased_unclaimed_change_even_if_reverted(self):
         self.reject_foundation_history("rebase_unclaimed_reverted", "working node changed paths outside its prior registered scope")
+
+    def test_foundation_rejects_side_work_before_late_reservation_merge(self):
+        self.reject_foundation_history("implementation_side_late_registration", "working node predates its original reservation")
+
+    def test_foundation_rejects_old_work_merged_as_registration_side_parent(self):
+        self.reject_foundation_history("implementation_side_old_work_second_parent", "working node predates its original reservation")
 
     def test_completed_foundation_is_immutable(self):
         with tempfile.TemporaryDirectory() as root:

@@ -1,4 +1,47 @@
 
+## 当前实施侧真实来源节点修复
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+
+actual f402完整445 PASS389.29s / Gate608445 PASS350.55s与唯一capacity FAIL已归档并真实保留，未转移为当前版本结果。自身Evidence归档local e67经独立复核187inventory精确且唯一parentactual f402，但未发布：新59O7实际临时Git旧branch无登记先提交代码，再正常merge登记到side，最后正常merge主线，完整history仍0。59O3固定历史事件的授权处理见owner-review-disposition.md，当前容量仍FAIL，不改任何计数。
+
+当前来源节点检查从first-parent工作集合扩为真实集成base..tip DAG，base祖先自然排除已集成主线/他任务历史。仅真实noncanonical/non-ownEvidence工作节点逐项核验；节点自身必须包含原登记，再按其第一父的scope/ownership/lease和现有schema/Task/Program/role核验。原有metadata-only续租/Evidence跳过与整体净diff真实实现要求不变，不重放完整历史Gate，不新增永久政策。
+
+新增两项真实正常Git merge回归覆盖“旧branch把登记合成第二父”及“登记分支把旧工作合成第二父”两种情况。首轮100通过、2个新fixture因detach后未更新临时main而未审计到真实merge，实际70.41s，原XML保留；已将fixture临时main绑定真实merge后再审计，没有降断言。修正后定向102 testcase实际零失败/错误/跳过，外部原XML保留，仅探索。当前新实际Source完整447与全部正式检查/CI：NOT_EXECUTED。所有旧正式Source继续保留真实祖先；最后身份仍须真实PR77 merge、独立Review/Completion及主线全部通过。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN / CONTRACT-TASK-SPEC / CONTRACT-ACTIVE-WORK
+其他Task、普通Ledger、业务契约、永久政策、租约及Owner窗口不变。V1功能和真实POC仍未完成。
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: f402767e04f3c8536c14205d2ee548b841dbbae6
+Tested Tree: 8c70772ffc965aec55859fac396e743befb7814f
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 445 passed in 389.29s (0:06:29)，JUnit445 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/history-binding-source-f402767/。Gate608完整原始在 test-results/history-binding-ci-608/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+独立发布审查针对本地alias a871e65423a2a38d66760ad8ed1af716881577e0，树8c70772ffc965aec55859fac396e743befb7814f与本次实际远端f402767e04f3c8536c14205d2ee548b841dbbae6一致；它仅是发布前静态与临时Git证明，正式445结果始终只绑定实际远端Source。完整独立原始见history-binding-independent；本地alias不冒充已发布祖先。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
 ## 当前工作绑定与逐节点范围修复
 
 Task: OPS-004 / Issue71

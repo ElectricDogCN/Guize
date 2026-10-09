@@ -1,0 +1,21 @@
+{
+  "oldWork": "50f4bcf7c64926f4ac452120c6b85dd015556c93",
+  "reservation": "d3ea0d990761f3f19b82b9647faaddc2d1319100",
+  "sideTip": "a217ab20d022aae1ace4d9904450ac92a54561a3",
+  "claimedMerge": "7d936a7361170e15e8123628fe22ac72b06d99a9",
+  "sideParents": "50f4bcf7c64926f4ac452120c6b85dd015556c93 d3ea0d990761f3f19b82b9647faaddc2d1319100",
+  "mergeParents": "37fbf26b14103eaeb5626f3785f9a370623a70e6 a217ab20d022aae1ace4d9904450ac92a54561a3",
+  "reservationAncestorSideExit": 0,
+  "oldWorkRegistry": "version: 1\npolicy:\n  maxActiveTasks: 3\n  maxHighRiskTasks: 1\n  leaseMaxHours: 168\n  bootstrapTasks:\n  - GZ-003\ntasks: []",
+  "sourceChecker": "e67c8727aad86d823e3f603188b12bb903eb91c3",
+  "codeSource": "f402767e04f3c8536c14205d2ee548b841dbbae6",
+  "fixtureSources": {
+    "seed": "5a300bd0f79cbfe3ddb412c851dfe14e53aabdad",
+    "reservation": "d3ea0d990761f3f19b82b9647faaddc2d1319100",
+    "implementation": "7d936a7361170e15e8123628fe22ac72b06d99a9",
+    "base": "914f9f707460da00245b94ae4481df20afc56053"
+  },
+  "exit": 0,
+  "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+  "stderr": ""
+}

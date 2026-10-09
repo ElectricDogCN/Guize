@@ -4,13 +4,14 @@ Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
 
-全部163路径，包括所有归档/独立证明/本清单。新445正式NOT_EXECUTED，旧413仅属于2d。
+全部190路径，含所有归档与独立证明。新447正式NOT_EXECUTED，445结果仅属actual f402。
 
 ```text
 evidence/OPS-004/changed-files.md
 evidence/OPS-004/commands.txt
 evidence/OPS-004/handoff.md
 evidence/OPS-004/owner-historical-capacity-proof.md
+evidence/OPS-004/owner-review-disposition.md
 evidence/OPS-004/scope.md
 evidence/OPS-004/source-history/ops004-scope-fresh-history-proof.json
 evidence/OPS-004/summary.md
@@ -18,9 +19,35 @@ evidence/OPS-004/test-results/README.md
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-five-thread-implementation-reproductions.json
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-frozen-policy-admission-proof.json
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-rebase-corrected-reproduction.json
+evidence/OPS-004/test-results/history-binding-ci-608/job-log.txt
+evidence/OPS-004/test-results/history-binding-ci-608/proof.json
 evidence/OPS-004/test-results/history-binding-independent/ops004-independent-7d-context-reproductions.json
+evidence/OPS-004/test-results/history-binding-independent/ops004-independent-a871-final-proof.json
 evidence/OPS-004/test-results/history-binding-independent/ops004-independent-context-final-proof.json
+evidence/OPS-004/test-results/history-binding-source-f402767/clean-after.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/clean-before.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/coordination.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/evidence.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/finalization.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/governance.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/governance.xml
+evidence/OPS-004/test-results/history-binding-source-f402767/history.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/integrity.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/lifecycle.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/readiness.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/schemas.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/scope.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/source.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/status.json
+evidence/OPS-004/test-results/history-binding-source-f402767/task.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/transitions.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/tree.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/unaffected.txt
+evidence/OPS-004/test-results/history-binding-source-f402767/verify.txt
 evidence/OPS-004/test-results/history-context-independent/ops004-independent-historical-context-reproductions.json
+evidence/OPS-004/test-results/history-dag-independent/ops004-independent-e67-archive-proof.json
+evidence/OPS-004/test-results/history-dag-independent/ops004-independent-late-reservation-merge-proof.json
 evidence/OPS-004/test-results/history-identity-ci-606/job-log.txt
 evidence/OPS-004/test-results/history-identity-ci-606/proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-implementation-role-reproductions-utf8.json

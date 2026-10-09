@@ -819,7 +819,10 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         return
     if any(not any(RECOVERY.matches_path(path, str(claim)) for claim in claims) for path in implementation_paths):
         errors.append(f"Foundation {task_id} claimed implementation changed paths outside its historical registered scope")
-    nodes = git(root, "rev-list", "--first-parent", "--reverse", f"{base}..{commit}")
+    # Exclude all history already integrated at the real base, but inspect
+    # actual work introduced through every side parent. A side tip can contain
+    # the reservation even when its earlier work predates that reservation.
+    nodes = git(root, "rev-list", "--reverse", f"{base}..{commit}")
     if nodes.returncode != 0:
         errors.append(f"Foundation {task_id} cannot read registered implementation range")
         return
@@ -832,6 +835,9 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         if LEDGER in node_paths:
             errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
         if not any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in node_paths):
+            continue
+        if not is_ancestor(root, reservation, node):
+            errors.append(f"Foundation {task_id} working node predates its original reservation")
             continue
         before_registry = load_ref(root, previous, ACTIVE)
         before_entries = [item for item in (before_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
