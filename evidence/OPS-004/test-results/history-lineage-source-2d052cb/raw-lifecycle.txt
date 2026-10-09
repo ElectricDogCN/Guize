@@ -1,0 +1,5 @@
+Source Commit: 2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb --head-ref HEAD --task OPS-004 --branch-name chore/OPS-004-history-repair-implementation
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-004"], "changedPathCount": 133, "baseRef": "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb"}}
+
+Exit Code: 0

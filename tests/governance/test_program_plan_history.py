@@ -259,16 +259,25 @@ class TestProgramPlanHistory(unittest.TestCase):
             old_foundations = [{"taskId": "GZ-003", "status": "reserved" if mode == "original_dependency_incomplete" else "completed", "completionRef": "PR-19", "mergeCommit": None if mode == "original_dependency_no_identity" else dependency_merge}]
         previous_plan = {"status": "active", "foundationTasks": old_foundations, "tasks": []}
         self.write_yaml(root, "specs/designs/module-ownership.yaml", {"modules": [{"id": "MOD-GOV", "ownedPaths": ["scripts/**", "tests/governance/**", "specs/coordination/**"]}]})
+        with open(os.path.join(REPO_ROOT, "specs/coordination/active-work.schema.yaml"), encoding="utf-8") as schema:
+            self.write_text(root, "specs/coordination/active-work.schema.yaml", schema.read())
         if mode == "preexisting_handoff":
             self.write_text(root, "evidence/GZ-014/handoff.md", "# Existing task-bound reservation handoff\n")
         self.write_yaml(root, "specs/coordination/program-plan.yaml", previous_plan)
         other_entries = []
         if mode in {"original_exclusive_conflict", "original_shared_conflict", "original_nonconflicting_claim"}:
             other = self.entry("GZ-003", "f" * 40, "reserved", "chore/GZ-003-other")
+            other["riskLevel"] = "medium"
             other["exclusivePaths"] = ["scripts/other.py"] if mode == "original_nonconflicting_claim" else ["scripts/**"]
             if mode == "original_shared_conflict":
                 other["sharedPaths"], other["exclusivePaths"] = other["exclusivePaths"], []
             other_entries.append(other)
+        if mode in {"original_high_capacity", "original_active_capacity"}:
+            for index in range(1 if mode == "original_high_capacity" else 3):
+                other = self.entry(f"OPS-{100+index}", "f" * 40, "reserved", f"chore/OPS-{100+index}-other")
+                other["riskLevel"] = "high" if mode == "original_high_capacity" else "medium"
+                other["exclusivePaths"] = [f"scripts/other-{index}.py"]
+                other_entries.append(other)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry(other_entries))
         self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
         seed = self.commit(root, "GZ-014 early repair before reservation (#22)")
@@ -280,6 +289,12 @@ class TestProgramPlanHistory(unittest.TestCase):
         entry["lease"] = {"acquiredAt": (now-timedelta(hours=1)).isoformat(), "expiresAt": (now+timedelta(days=1)).isoformat()}
         if mode.startswith("original_dependency_"):
             entry["dependsOn"] = ["GZ-003"]
+        if mode.startswith("rebase_"):
+            entry["integrationStrategy"] = "rebase"
+        if mode == "original_schema_issue_string":
+            entry["issue"] = str(entry["issue"])
+        if mode == "original_schema_unknown_property":
+            entry["unknownProperty"] = "persistent schema-invalid identity"
         valid_entry = copy.deepcopy(entry)
         if mode.startswith("original_placeholder_"):
             entry[mode.removeprefix("original_placeholder_")] = "unassigned"
@@ -400,6 +415,65 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
         self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
         activation = self.commit(root, "GZ-014 activation (#21)")
+        if mode in {"working_exclusive_conflict", "working_shared_conflict", "working_nonconflicting_claim"}:
+            other = self.entry("OPS-100", activation, "reserved", "chore/OPS-100-other")
+            other["riskLevel"] = "medium"
+            other["exclusivePaths"] = ["scripts/other.py"] if mode == "working_nonconflicting_claim" else ["scripts/**"]
+            if mode == "working_shared_conflict":
+                other["sharedPaths"], other["exclusivePaths"] = other["exclusivePaths"], []
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry, other]))
+            self.commit(root, "OPS-100 later active registration (#29)")
+        if mode in {"separate_scope_amendment", "blocked_implementation_parent"}:
+            if mode == "separate_scope_amendment":
+                entry["exclusivePaths"].append("scripts/new-repair.py")
+            else:
+                entry["status"] = foundation["status"] = "blocked"
+                self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, entry["status"], entry["branch"], reservation))
+            self.commit(root, "GZ-014 separate scope or blocked metadata (#26)")
+            if mode == "blocked_implementation_parent":
+                entry["status"] = foundation["status"] = "in_progress"
+                self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+                self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
+        if mode in {"same_commit_scope_expansion", "separate_scope_amendment"}:
+            if mode == "same_commit_scope_expansion":
+                entry["exclusivePaths"].append("scripts/new-repair.py")
+                self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_text(root, "scripts/new-repair.py", "# newly claimed work\n")
+        if mode in {"implementation_post_expired_lease", "implementation_post_missing_lease", "implementation_post_future_lease", "implementation_post_overlong_lease", "metadata_only_lease_renewal", "implementation_prior_expired_lease"}:
+            if mode == "implementation_post_missing_lease":
+                entry.pop("lease")
+            elif mode == "implementation_post_future_lease":
+                entry["lease"] = {"acquiredAt": (now+timedelta(hours=1)).isoformat(), "expiresAt": (now+timedelta(days=1)).isoformat()}
+            elif mode == "implementation_post_overlong_lease":
+                entry["lease"] = {"acquiredAt": (now-timedelta(hours=1)).isoformat(), "expiresAt": (now+timedelta(days=8)).isoformat()}
+            else:
+                # Valid when the historical activation is integrated; expired
+                # by the later code/metadata node, all timestamps are explicit.
+                short = {"acquiredAt": (now-timedelta(hours=2)).isoformat(), "expiresAt": (now-timedelta(minutes=1)).isoformat()}
+                if mode in {"metadata_only_lease_renewal", "implementation_prior_expired_lease"}:
+                    entry["lease"] = short
+                    self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                    self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
+                    self.commit(root, "GZ-014 formerly live short lease (#27)", timestamp=(now-timedelta(minutes=2)).isoformat())
+                    entry["lease"] = valid_entry["lease"]
+                else:
+                    entry["lease"] = short
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
+            if mode == "metadata_only_lease_renewal":
+                self.commit(root, "GZ-014 metadata-only lease renewal (#28)")
+        if mode in {"rebase_earlier_unclaimed", "rebase_unclaimed_reverted"}:
+            self.write_text(root, "backend/unclaimed.py", "# earlier unclaimed rebased change\n")
+            self.commit(root, "GZ-014 early rebased change (#22)")
+            if mode == "rebase_unclaimed_reverted":
+                os.remove(os.path.join(root, "backend/unclaimed.py"))
+        if mode == "rebase_ledger_reverted":
+            self.write_text(root, "specs/coordination/task-completions.yaml", "records: []\n# unauthorized ledger change\n")
+            self.commit(root, "GZ-014 early rebased ledger change (#22)")
+            self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
         if mode in {"implementation_ledger_only", "implementation_with_ledger"}:
             entry["exclusivePaths"].append("specs/coordination/task-completions.yaml")
             self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
@@ -408,7 +482,45 @@ class TestProgramPlanHistory(unittest.TestCase):
             self.write_text(root, "scripts/fixture-repair.py", "# actual fixture repair\n")
         if mode == "implementation_unclaimed_path":
             self.write_text(root, "backend/unclaimed.py", "# outside historical claims\n")
+        if mode == "working_task_reserved":
+            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "reserved", entry["branch"], reservation))
+        working_task_mutations = {
+            "working_task_bootstrap": ("coordinationMode: registry", "coordinationMode: bootstrap"),
+            "working_task_expiry": ("leaseExpiresAt: " + str((entry.get("lease") or {}).get("expiresAt", "MISSING")), "leaseExpiresAt: 2026-01-01T00:00:00Z"),
+            "working_task_wave": ("wave: FOUNDATION", "wave: W1"),
+            "working_task_title": ("titleZh: " + entry["title"], "titleZh: Unrelated task"),
+            "working_task_schema": ("schemaVersion: 2", "schemaVersion: 1"),
+            "working_task_evidence": ("evidencePath: evidence/GZ-014", "evidencePath: evidence/OTHER-001"),
+            "working_task_program_identity": ("programTaskId: GZ-014", "programTaskId: OTHER-001"),
+        }
+        if mode in working_task_mutations:
+            old, new = working_task_mutations[mode]
+            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation).replace(old, new))
+        if mode == "working_program_reserved":
+            foundation["status"] = "reserved"
+            self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+        if mode == "working_reviewer_code":
+            entry["status"] = foundation["status"] = "review"
+            entry["agentRole"] = "reviewer"
+            self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "review", entry["branch"], reservation))
         implementation = self.commit(root, "GZ-014 repair (#22)")
+        if mode.startswith("implementation_post_"):
+            entry["lease"] = valid_entry["lease"]
+        if mode in {"rebase_evidence_tip", "rebase_shortened_base", "rebase_reviewer_evidence_tip"}:
+            if mode == "rebase_reviewer_evidence_tip":
+                entry["status"] = foundation["status"] = "review"
+                entry["agentRole"] = "reviewer"
+                self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+                self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "review", entry["branch"], reservation))
+            if mode == "rebase_shortened_base":
+                entry["baseSha"] = implementation
+                self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+                self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], implementation))
+            self.write_text(root, f"evidence/{task_id}/summary.md", "# archive after rebased work\n")
+            implementation = self.commit(root, "GZ-014 final rebased archive (#22)")
         if mode in {"implementation_side_before_reservation", "valid_implementation_merge"}:
             tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root, text=True).strip()
             side = subprocess.check_output(["git", "commit-tree", tree, "-p", seed if mode == "implementation_side_before_reservation" else reservation, "-m", "GZ-014 implementation branch (#22)"], cwd=root, text=True).strip()
@@ -419,6 +531,7 @@ class TestProgramPlanHistory(unittest.TestCase):
             self.write_text(root, f"evidence/{task_id}/summary.md", "# Evidence archive only\n")
             evidence_commit = self.commit(root, "GZ-014 Evidence-only archive (#25)")
         if with_review:
+            foundation["status"] = "in_progress"
             entry.update({"status": "review", "agentRole": "reviewer", "baseSha": implementation, "branch": "chore/GZ-014-review"})
             foundation["status"] = "review"
             self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
@@ -732,6 +845,102 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_rejects_unintegrated_dependency_identity(self):
         self.reject_foundation_history("original_dependency_unintegrated", "lacks an integrated completion identity")
+
+    def test_foundation_rejects_same_commit_scope_expansion(self):
+        self.reject_foundation_history("same_commit_scope_expansion", "outside its historical registered scope")
+
+    def test_foundation_accepts_separate_scope_amendment(self):
+        self.accept_foundation_history("separate_scope_amendment")
+
+    def test_foundation_accepts_blocked_implementation_parent(self):
+        self.accept_foundation_history("blocked_implementation_parent")
+
+    def test_foundation_rejects_expired_working_post_lease(self):
+        self.reject_foundation_history("implementation_post_expired_lease", "audited history at")
+
+    def test_foundation_rejects_missing_working_post_lease(self):
+        self.reject_foundation_history("implementation_post_missing_lease", "audited history at")
+
+    def test_foundation_rejects_future_working_post_lease(self):
+        self.reject_foundation_history("implementation_post_future_lease", "audited history at")
+
+    def test_foundation_rejects_overlong_working_post_lease(self):
+        self.reject_foundation_history("implementation_post_overlong_lease", "audited history at")
+
+    def test_foundation_rejects_code_with_expired_prior_lease(self):
+        self.reject_foundation_history("implementation_prior_expired_lease", "working node prior registration at")
+
+    def test_foundation_accepts_metadata_only_lease_renewal(self):
+        self.accept_foundation_history("metadata_only_lease_renewal")
+
+    def test_foundation_rejects_earlier_unclaimed_rebased_change(self):
+        self.reject_foundation_history("rebase_earlier_unclaimed", "outside its historical registered scope")
+
+    def test_foundation_accepts_rebase_with_evidence_only_tip(self):
+        self.accept_foundation_history("rebase_evidence_tip")
+
+    def test_foundation_rejects_rebase_ledger_change_even_if_reverted(self):
+        self.reject_foundation_history("rebase_ledger_reverted", "claimed implementation must not modify the ordinary ledger")
+
+    def test_foundation_rejects_same_tip_shortening_rebase_range(self):
+        self.reject_foundation_history("rebase_shortened_base", "rebase integration base must match")
+
+    def test_foundation_rejects_original_high_capacity_excess(self):
+        self.reject_foundation_history("original_high_capacity", "exceeds historical active/high capacity limits")
+
+    def test_foundation_rejects_original_active_capacity_excess(self):
+        self.reject_foundation_history("original_active_capacity", "exceeds historical active/high capacity limits")
+
+    def test_foundation_rejects_original_string_issue_schema(self):
+        self.reject_foundation_history("original_schema_issue_string", "Registry schema violation")
+
+    def test_foundation_rejects_original_unknown_schema_property(self):
+        self.reject_foundation_history("original_schema_unknown_property", "Registry schema violation")
+
+    def test_foundation_rejects_working_exclusive_path_conflict(self):
+        self.reject_foundation_history("working_exclusive_conflict", "working node prior registration at")
+
+    def test_foundation_rejects_working_shared_path_conflict(self):
+        self.reject_foundation_history("working_shared_conflict", "working node prior registration at")
+
+    def test_foundation_accepts_working_nonconflicting_claim(self):
+        self.accept_foundation_history("working_nonconflicting_claim")
+
+    def test_foundation_rejects_working_reserved_task(self):
+        self.reject_foundation_history("working_task_reserved", "working lifecycle documents must match")
+
+    def test_foundation_rejects_working_reserved_program(self):
+        self.reject_foundation_history("working_program_reserved", "working lifecycle documents must match")
+
+    def test_foundation_rejects_reviewer_writing_implementation(self):
+        self.reject_foundation_history("working_reviewer_code", "working node requires implementer or integrator role")
+
+    def test_foundation_accepts_reviewer_rebase_evidence_tip(self):
+        self.accept_foundation_history("rebase_reviewer_evidence_tip")
+
+    def test_foundation_rejects_working_bootstrap_task(self):
+        self.reject_foundation_history("working_task_bootstrap", "working Task Spec canonical binding")
+
+    def test_foundation_rejects_working_task_expiry_mismatch(self):
+        self.reject_foundation_history("working_task_expiry", "Task Registry binding")
+
+    def test_foundation_rejects_working_task_wave_mismatch(self):
+        self.reject_foundation_history("working_task_wave", "Task Registry binding")
+
+    def test_foundation_rejects_working_task_title_mismatch(self):
+        self.reject_foundation_history("working_task_title", "Task Registry binding")
+
+    def test_foundation_rejects_working_task_schema_one(self):
+        self.reject_foundation_history("working_task_schema", "working Task Spec canonical binding")
+
+    def test_foundation_rejects_working_foreign_evidence(self):
+        self.reject_foundation_history("working_task_evidence", "working Task Spec canonical binding")
+
+    def test_foundation_rejects_working_program_identity_mismatch(self):
+        self.reject_foundation_history("working_task_program_identity", "Task Registry binding")
+
+    def test_foundation_rejects_rebased_unclaimed_change_even_if_reverted(self):
+        self.reject_foundation_history("rebase_unclaimed_reverted", "working node changed paths outside its prior registered scope")
 
     def test_completed_foundation_is_immutable(self):
         with tempfile.TemporaryDirectory() as root:

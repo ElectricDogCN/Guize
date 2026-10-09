@@ -1,0 +1,33 @@
+{
+  "source": "7d31b6289c7bef543023b2f2f488498887b1262d",
+  "base": "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb",
+  "reservation": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+  "reservationErrors": [],
+  "implementationErrors": [],
+  "auditedOwnerCapacityFailures": [
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "7d31b6289c7bef543023b2f2f488498887b1262d",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "7d31b6289c7bef543023b2f2f488498887b1262d",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    }
+  ]
+}

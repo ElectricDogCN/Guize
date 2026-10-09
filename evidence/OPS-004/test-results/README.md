@@ -1,4 +1,94 @@
 
+## 当前工作绑定与逐节点范围修复
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+
+独立7d真实仓库证明原d0登记与7d工作helper errors=[]，历史容量三处仍明确capacityResult FAIL；旧七非法上下文均拒绝，合法无冲突与Reviewer Evidence tip接受。但实际发现working coordinationMode=bootstrap及Task leaseExpiresAt不匹配仍被接受，以及rebase早期未登记backend文件被后续删除后净diff掩盖，故7d未发布，437正式从未执行。
+
+当前批量修复：保留完整当前Task CLI并在真实历史checkout复用当前check-schemas.validate_task_registry全链接，明确schema2/registry/自身Evidence与handoff；现有链接覆盖Program/身份/标题/波次/角色/leaseExpiresAt。每真实工作node按其第一父claims与ownership验证rename双侧，后续还原不能隐藏曾发生的越界；保留整个netdiff必须有真实实现、pre-scope、逐节点lease及已有Owner历史FAIL处理，不新增政策或历史全Gate重放。
+
+新增8回归：工作bootstrap/到期/波次/标题/schema1/外部Evidence/Program身份，以及rebase越界还原。第一次100定向执行99通过、1 fixture因读取刻意缺失lease的KeyError失败，实际67.26s，外部XML原样保留；fixture空值读取已修正，同一缺失lease用例单独实际1通过1.06s。其他99结果不冒充当前全100同次通过；没有删测试或降断言。
+
+当前实际Source完整445治理及全部正式检查/CI：NOT_EXECUTED。此前actual2d正式413及Gate607完整原始继续保留，结果不转移。7d437、a0426均未发布、未正式执行。最后实现仍绑定真实PR77merge，随后独立Review/Completion及主线全部通过；功能与真实POC仍未完成。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN / CONTRACT-TASK-SPEC / CONTRACT-ACTIVE-WORK
+永久政策、普通Ledger、其他Task、Lease与Owner窗口不变。
+
+## 历史记录
+
+
+## 当前原登记与工作节点静态来源上下文
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+
+独立a0临时Git七case均history0，确认五类缺口：容量、工作时冲突、Registry schema、Task/Program/Registry不同步、Reviewer直接code。当前只在已登记history/test批量补已有静态条件：历史适用Registry schema（fixture seed复制真实schema，无fallback）；原intro与工作节点pre/post容量；工作pre/post exclusive/shared冲突；claimtip与真实工作node重用完整当前Task CLI及stable_spec_matches绑定Program/Registry/Task状态、title、role/契约；真实工作角色只implementer/integrator，Reviewer metadata/Evidence tip保留。Integrator声明不冒充实际独立Review批准；最终独立审查仍必需。
+
+容量只依据owner-historical-capacity-proof.md承认不可变actual d0/parent413、原Owner blob、准确两参与者/原policy/activeProgram/时间边界下的历史FAIL，并在输出auditedOwnerCapacityFailures中保留capacityResult FAIL；通用其他Task/fixture无例外，活跃coord/make/CI计数与FAIL不变。不重放全历史Issue或完整Gate，不改普通Ledger、其他任务或永久policy。
+
+新增11回归涵盖原maxActive/maxHigh超限、string Issue/unknown property、工作exclusive/shared冲突、Task/Program reserved、Reviewer直接code，以及工作不冲突和Reviewer rebase Evidence tip正例。首版探索因漏写辅助函数except而92失败15.70s，外部原XML保留；已补异常处理并先做语法检查，不删测试或降断言。修正候选92定向实际PASS61.13s；仅探索。此前a0的81不是新版本结果，426从未发布/正式执行。
+
+新实际Source完整437及全部正式检查/CI：NOT_EXECUTED。此前actual2d完整413347.01s与Gate607413219.89s保留原始，结果不转移。所有旧Source继续作为实际祖先保存。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN / CONTRACT-TASK-SPEC / CONTRACT-ACTIVE-WORK
+最后实现身份仍须真实PR77 merge，后续Review/Completion和主线全成功；V1功能/真实POC仍未完成。Lease/Owner原窗口不延长。
+
+## 历史记录
+
+
+## 当前实现入口授权、历史租约与rebase完整范围证明
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+
+独立实际2d复现确认同提交扩scope自授权、实现postLease无效后被续租掩盖，以及rebase只检查tip漏掉早期越界/误拒合法Evidence tip。当前仅已登记history/test补已有准入证明：merge/squash取实际第一父入口注册claims/ownership；rebase取Task/Registry和tip priorEntry一致的已登记base，必须位于真实firstparent、包含原intro且严格早于tip，检查完整base→tip净diff，禁止从tip新范围授权；工作node preLease与所有自身历史snapshot postLease按该Git秒区间及policy有效，保留metadata-only续租旧pre可过期；rebase各实际node的Ledger修改即使最后恢复也拒绝。
+
+13新增回归含分离scope登记、blocked父快照、metadata-only续租、rebase代码后Evidence tip正例；同commit扩范围、pre/post无效Lease、earlier unclaimed、Ledger恢复和tip改base负例。完善正例Task状态与到期绑定后81定向实际通过33.90s（前版81也通过34.01s，均仅探索、外部XML保留）。新实际Source完整426及全部正式检查/CI：NOT_EXECUTED。
+
+DvU所谓合法纯Program policy修改实际被已有transition拒绝；DvCf所谓现有唯一freezeOwner准入实际并非现有谓词，三冻结/registration谓词窄实证接受另一治理Foundation，但并非完整capacity/Gate成功。两意见不通过新增history政策或新准入解决。证明原始在history-authorization-independent；首版rebase错误fixture的拒绝保留，earlier越界有效接受复现以corrected-reproduction为准。
+
+此前actual2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65完整413通过347.01s/Gate607完整413通过219.89s和容量FAIL原样在history-lineage-source-2d052cb及history-lineage-ci-607；旧结果不转移。所有原始测试来源继续实际祖先保留。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN / CONTRACT-TASK-SPEC / CONTRACT-ACTIVE-WORK
+最后实现身份仍须PR77真实merge、独立Review/Completion与主线全成功后恢复GZ005。永久policy、其他任务、旧completed/Ledger、Lease及Owner窗口不变。
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: 2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65
+Tested Tree: 64e5523559841e68ac122952cfa861cd77e50676
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 413 passed in 347.01s (0:05:47)，JUnit413 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/history-lineage-source-2d052cb/。Gate607完整原始在 test-results/history-lineage-ci-607/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
 ## 当前原始登记冲突、依赖与实现侧谱系修复
 
 Task: OPS-004 / Issue71

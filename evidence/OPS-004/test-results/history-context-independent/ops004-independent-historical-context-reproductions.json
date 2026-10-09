@@ -1,0 +1,51 @@
+[
+  {
+    "scenario": "original_over_capacity",
+    "source": "a0bff463d4536fedf050432d5f3412211a36cf03",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "implementation_claim_conflict",
+    "source": "a0bff463d4536fedf050432d5f3412211a36cf03",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "original_string_issue",
+    "source": "a0bff463d4536fedf050432d5f3412211a36cf03",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "original_unknown_registry_property",
+    "source": "a0bff463d4536fedf050432d5f3412211a36cf03",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "working_reserved_task_spec",
+    "source": "a0bff463d4536fedf050432d5f3412211a36cf03",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "working_reserved_program_record",
+    "source": "a0bff463d4536fedf050432d5f3412211a36cf03",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "reviewer_direct_implementation",
+    "source": "a0bff463d4536fedf050432d5f3412211a36cf03",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  }
+]

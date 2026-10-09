@@ -4,16 +4,23 @@ Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
 
-全部133路径，含全部归档/独立证明/本清单。新413正式验证NOT_EXECUTED，旧404仅属于58cc。
+全部163路径，包括所有归档/独立证明/本清单。新445正式NOT_EXECUTED，旧413仅属于2d。
 
 ```text
 evidence/OPS-004/changed-files.md
 evidence/OPS-004/commands.txt
 evidence/OPS-004/handoff.md
+evidence/OPS-004/owner-historical-capacity-proof.md
 evidence/OPS-004/scope.md
 evidence/OPS-004/source-history/ops004-scope-fresh-history-proof.json
 evidence/OPS-004/summary.md
 evidence/OPS-004/test-results/README.md
+evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-five-thread-implementation-reproductions.json
+evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-frozen-policy-admission-proof.json
+evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-rebase-corrected-reproduction.json
+evidence/OPS-004/test-results/history-binding-independent/ops004-independent-7d-context-reproductions.json
+evidence/OPS-004/test-results/history-binding-independent/ops004-independent-context-final-proof.json
+evidence/OPS-004/test-results/history-context-independent/ops004-independent-historical-context-reproductions.json
 evidence/OPS-004/test-results/history-identity-ci-606/job-log.txt
 evidence/OPS-004/test-results/history-identity-ci-606/proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-implementation-role-reproductions-utf8.json
@@ -41,8 +48,31 @@ evidence/OPS-004/test-results/history-identity-source-58cc397/transitions.txt
 evidence/OPS-004/test-results/history-identity-source-58cc397/tree.txt
 evidence/OPS-004/test-results/history-identity-source-58cc397/unaffected.txt
 evidence/OPS-004/test-results/history-identity-source-58cc397/verify.txt
+evidence/OPS-004/test-results/history-lineage-ci-607/job-log.txt
+evidence/OPS-004/test-results/history-lineage-ci-607/proof.json
 evidence/OPS-004/test-results/history-lineage-independent/ops004-independent-four-thread-corrected-fixtures.json
 evidence/OPS-004/test-results/history-lineage-independent/ops004-independent-four-thread-reproductions.json
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/clean-after.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/clean-before.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/coordination.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/evidence.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/finalization.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/governance.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/governance.xml
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/history.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/integrity.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/lifecycle.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/readiness.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/schemas.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/scope.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/source.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/status.json
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/task.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/transitions.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/tree.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/unaffected.txt
+evidence/OPS-004/test-results/history-lineage-source-2d052cb/verify.txt
 evidence/OPS-004/test-results/history-repair-ci-603/job-log.txt
 evidence/OPS-004/test-results/history-repair-ci-603/proof.json
 evidence/OPS-004/test-results/history-repair-final-b156/actual-ci-604.txt
