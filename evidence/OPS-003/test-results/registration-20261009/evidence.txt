@@ -1,0 +1,4 @@
+Command: python scripts/check-evidence.py --task OPS-003
+{"status": "PASS", "message": "Evidence contract passed for OPS-003."}
+
+Exit Code: 0

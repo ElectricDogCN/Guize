@@ -1,0 +1,17 @@
+Command: python scripts/check-schemas.py
+OK YAML: .github/workflows/governance-gate.yml
+OK JSON-SCHEMA: contracts/events/event-envelope.schema.json
+OK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml
+OK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml
+OK JSON-SCHEMA: specs/coordination/active-work.schema.yaml
+OK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml
+OK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml
+OK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml
+OK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml
+OK TASK REGISTRY LINK: GZ-010
+OK PROGRAM ACTIVATION: GZ-010 <- W1
+OK TASK REGISTRY LINK: OPS-003
+OK FOUNDATION ACTIVATION: OPS-003
+OK: Schema, Task Spec, Active Work and Program Plan validation completed
+
+Exit Code: 0

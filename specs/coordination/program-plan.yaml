@@ -36,6 +36,11 @@ foundationTasks:
     status: completed
     completionRef: PR-32
     mergeCommit: 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
+  - taskId: OPS-003
+    title: "完成后前向恢复与治理修复准入"
+    status: in_progress
+    completionRef: ISSUE-64
+    mergeCommit: null
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

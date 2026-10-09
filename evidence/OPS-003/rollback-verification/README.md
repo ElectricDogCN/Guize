@@ -1,0 +1,10 @@
+# OPS-003 Recovery
+
+当前候选未合并。登记失败不改主线。
+
+```bash
+git diff 5833a448473d7191a6984fc6d052b8d9014f4b89 HEAD -- specs/coordination/program-plan.yaml specs/coordination/active-work.yaml
+git diff --exit-code 5833a448473d7191a6984fc6d052b8d9014f4b89 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/poc
+```
+
+以上为检查指令；执行证据另行记录，不能替代最终前向恢复演练。

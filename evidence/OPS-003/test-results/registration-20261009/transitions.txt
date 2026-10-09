@@ -1,0 +1,4 @@
+Command: python scripts/check-program-plan-transitions.py --base-ref 5833a448473d7191a6984fc6d052b8d9014f4b89 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-registration
+{"status": "FAIL", "message": "Active transition task OPS-003 did not exist in 5833a448473d7191a6984fc6d052b8d9014f4b89"}
+
+Exit Code: 1
