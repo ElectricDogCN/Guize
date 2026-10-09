@@ -1,0 +1,21 @@
+{
+  "kind": "EXPLORATORY_PINNED_ACTUAL_INPUT_SCRATCH_FOUR_REAL_GIT_CLI_OUTCOMES_NOT_FORMAL_SOURCE_GATE",
+  "actualInput": "b463cdb1427c8f3e6c7be84e0a33992799c5723d",
+  "executedCheckerSha256": "e37198ef19d41ad21d7fd0367c1ca3f1009e01b2307e8fc39ecc8f9198efcb77",
+  "expectedAndActualExitCodes": {
+    "early_unclaimed_metadata_base_advance": 1,
+    "review_bound_unclaimed_code": 1,
+    "disjoint_peer_inherited_own_old_lease": 0,
+    "own_expired_side_lease_code": 1
+  },
+  "rawProofs": [
+    "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-independent-finite-scope-scratch-three-threads-proof.json",
+    "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-independent-finite-scope-scratch-disjoint-old-lease-proof.json",
+    "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-independent-finite-scope-scratch-own-expired-code-proof.json"
+  ],
+  "newPeerMetadataClassification": "Exact canonical Task and own Evidence paths only; new peer code claims not used by this helper",
+  "prospectivePriorScratchProof": "b7fe4da scratch only; latest exact production prospective follows on final actual candidate",
+  "realRepositoryHeadAtConclusion": "84b950696d4c47e10624c7c85355cfe5509b3b29",
+  "realRepositoryStatusAtConclusion": "",
+  "limitedConclusion": "Three reported defects and newly introduced peer metadata false rejection cleared in this exact scratch checker; original exact reservation target remains unchanged"
+}

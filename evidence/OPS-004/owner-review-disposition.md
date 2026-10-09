@@ -118,3 +118,15 @@ PRRT_kwDOTgCQ3c6q8-0a / 8-0h：真实0bec完整CLI均接受非法历史，确认
 9gbH/9gbL独立CLI0精确证实固定身份和恢复漏验，本次复用既有规则；9gbA要求历史Review/Integration状态存在并非AGENT17.2的明确机器规则，已有直接Completion正例仍保留，实际项目独立Review/Integrator分工持续执行；9gbQ人类handoff内容义务继续执行，当前实际handoff覆盖所需字段，未新增没有约定格式的历史强制解析器，有限helper夹具不是完整Admission证明。此判断与用户最高决策授权一致，Owner窗口不延长。当前504正式结果待真实来源执行。
 
 93eP/Y/eh采用独立真实CLI确认的有限修补；93en遵守既有registration精确base规则，不放宽。未知Other准入不从分类helper推定。当前509/15/CI未执行；Owner原窗口不延长。
+
+## 最后51条既存审查意见范围判定
+
+Owner: ElectricDogCN (本会话最高决策权委托)
+Implementer/Reviewer分别为 lifecycle-scope-repair-agent / independent-lifecycle-scope-review-agent。
+实际审查来源5a928426889ae086d73052ea1d3881aa8adfff09；完整结论/逐ID与真实CLI原始见finite-scope-independent。
+
+前47条按实际已修与现行规则解释结案。新-LqS/V/X/Y四条提出全部Peer或Program历史快照的完整Gate重放，超出本修复的Own登记、实际工作授权与完成来源范围。既有Affected-task Transitions、Scope、Integrity仍执行，没有声称Peer非法历史合法。真实CLI证明authority字符串改写/恢复本身未重放全Integrity，但字符串不用于Own工作权限，权限始终从RECOVERY.OWNERSHIP固定canonical读；同一字符串下未claim代码仍被两个真实节点拒绝。Peer非法reserved→integration快照现行Peer Transitions拒绝；Own有限来源helper不代替Peer独立准入和完整Gate。V的B/C冲突与Y的active peer Program字段均未证明Own授权改变。现有Own身份、冻结ordinary定义、已completed Foundation和旧Ledger保护继续保留；不新增全部Peer历史Gate或无约定角色状态映射。
+
+这些范围结论不是V1完成、Other Gate通过或全部历史snapshot Integrity通过的证明。永久政策、GZ005与已完成任务不变，原窗口不延长。最终实际archivehead14检查/同头CI/独立集成、之后Review和全零Completion主线仍必需。
+
+最后-fKf真实Ledger缺陷复用既有冻结记录规则；-fKl诊断保留schema失败；-fKx按既有Git历史时间合同，不引入无约定外部见证、不声称Git时间可信。所有门禁/独立审查完成后按上述保存或引用/Review实际归档/Completed后17.8归档顺序推进，原窗口不延长。当前511正式未执行。

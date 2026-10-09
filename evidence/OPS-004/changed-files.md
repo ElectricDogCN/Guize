@@ -1,11 +1,9 @@
-# OPS-004 finite scope 全部路径
+# OPS-004 最后Ledger候选完整路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
-Actual Parent: b463cdb1427c8f3e6c7be84e0a33992799c5723d
-Branch: chore/OPS-004-history-repair-implementation
-
-全部 424 路径，仅登记代码和自身Evidence；正式509未执行。
+Actual Parent: 5a928426889ae086d73052ea1d3881aa8adfff09
+470 paths: registered code and own Evidence only
 
 evidence/OPS-004/changed-files.md
 evidence/OPS-004/commands.txt
@@ -16,15 +14,61 @@ evidence/OPS-004/scope.md
 evidence/OPS-004/source-history/ops004-scope-fresh-history-proof.json
 evidence/OPS-004/summary.md
 evidence/OPS-004/test-results/README.md
+evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-final-targeted.txt
+evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-final-targeted.xml
+evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-refined-targeted.txt
+evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-refined-targeted.xml
+evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-targeted.txt
+evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-targeted.xml
+evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-5a92842-early-ledger-proof.json
+evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-pr77-fk-three-disposition.json
+evidence/OPS-004/test-results/finite-scope-ci-616/job-log.txt
+evidence/OPS-004/test-results/finite-scope-ci-616/proof.json
 evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-refined-targeted.txt
 evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-refined-targeted.xml
 evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-targeted.txt
 evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-targeted.xml
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-5a92842-limited-peer-authority-proof.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-5a92842-prospective-merge-proof.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-84b9506-finite-static-proof.json
 evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-b463cdb-disjoint-old-lease-proof.json
 evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-b463cdb-three-finite-threads-proof.json
 evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-finite-scope-b7fe4da-peer-metadata-regression-proof.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-finite-scope-e37198e-final-proof.json
 evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-finite-scope-scratch-disjoint-old-lease-proof.json
 evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-finite-scope-scratch-prospective-proof.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-pr77-51-thread-snapshot.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-pr77-lq-four-scope-disposition.json
+evidence/OPS-004/test-results/finite-scope-independent/ops004-independent-pr77-original47-disposition.json
+evidence/OPS-004/test-results/finite-scope-source-5a92842/clean-after.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/clean-before.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/coordination.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/evidence.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/finalization.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/governance.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/governance.xml
+evidence/OPS-004/test-results/finite-scope-source-5a92842/history.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/integrity.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/lifecycle.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/raw-lifecycle.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/readiness.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/schemas.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/scope.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/source.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/status.json
+evidence/OPS-004/test-results/finite-scope-source-5a92842/task.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/transitions.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/tree.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/unaffected.txt
+evidence/OPS-004/test-results/finite-scope-source-5a92842/verify.txt
+evidence/OPS-004/test-results/finite-scope-windows-encoding-failed-results/clean-before.txt
+evidence/OPS-004/test-results/finite-scope-windows-encoding-failed-results/integrity.txt
+evidence/OPS-004/test-results/finite-scope-windows-encoding-failed-results/readiness.txt
+evidence/OPS-004/test-results/finite-scope-windows-encoding-failed-results/schemas.txt
+evidence/OPS-004/test-results/finite-scope-windows-encoding-failed-results/source.txt
+evidence/OPS-004/test-results/finite-scope-windows-encoding-failed-results/status.json
+evidence/OPS-004/test-results/finite-scope-windows-encoding-failed-results/task.txt
+evidence/OPS-004/test-results/finite-scope-windows-encoding-failed-results/tree.txt
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-five-thread-implementation-reproductions.json
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-frozen-policy-admission-proof.json
 evidence/OPS-004/test-results/history-authorization-independent/ops004-independent-rebase-corrected-reproduction.json

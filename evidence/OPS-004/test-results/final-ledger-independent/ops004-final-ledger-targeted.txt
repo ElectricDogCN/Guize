@@ -1,0 +1,20 @@
+.......F                                                                 [100%]
+=================================== FAILURES ===================================
+_ TestProgramPlanHistory.test_foundation_scalar_registry_peer_reports_schema_failure _
+
+self = <tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_scalar_registry_peer_reports_schema_failure>
+
+    def test_foundation_scalar_registry_peer_reports_schema_failure(self):
+        # Intentionally malformed historical input; no claim of peer Admission.
+        with tempfile.TemporaryDirectory() as root:
+            self.create_postclaim_completion(root, 'scalar_registry_peer')
+            result = self._run_checker(root, 'GZ-014', 'chore/GZ-014-completion')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+>           self.assertIn('Registry schema violation', result.stdout)
+E           AssertionError: 'Registry schema violation' not found in ''
+
+tests/governance/test_program_plan_history.py:1135: AssertionError
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-final-ledger-targeted.xml -
+=========================== short test summary info ============================
+FAILED tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_scalar_registry_peer_reports_schema_failure
+1 failed, 7 passed, 158 deselected in 38.26s

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="40.965" timestamp="2026-10-10T07:45:12.969999+08:00" hostname="RuifengSu"><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_accepts_original_nonconflicting_claim" time="3.301" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_accepts_working_nonconflicting_claim" time="4.354" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_context_approved_main_sync_new_registered_base" time="4.699" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_merge_separate_base_advance" time="4.340" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_merge_separate_base_advance_after_revert" time="4.991" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_post_disjoint_peer_old_own_lease" time="9.360" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_rejects_old_ledger_rewrite_restored_before_baseline_advance" time="4.464" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_scalar_registry_peer_reports_schema_failure" time="4.831"><failure message="NameError: name 'json' is not defined. Did you forget to import 'json'">self = &lt;tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_scalar_registry_peer_reports_schema_failure&gt;
+
+    def test_foundation_scalar_registry_peer_reports_schema_failure(self):
+        # Intentionally malformed historical input; no claim of peer Admission.
+        with tempfile.TemporaryDirectory() as root:
+            self.create_postclaim_completion(root, 'scalar_registry_peer')
+            result = self._run_checker(root, 'GZ-014', 'chore/GZ-014-completion')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('Registry schema violation', result.stdout)
+            self.assertNotIn('Traceback', result.stdout + result.stderr)
+&gt;           self.assertTrue(all(json.loads(line)['status'] == 'FAIL' for line in result.stdout.splitlines()))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/governance/test_program_plan_history.py:1137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = &lt;list_iterator object at 0x7c46a25abc40&gt;
+
+&gt;   self.assertTrue(all(json.loads(line)['status'] == 'FAIL' for line in result.stdout.splitlines()))
+                        ^^^^
+E   NameError: name 'json' is not defined. Did you forget to import 'json'
+
+tests/governance/test_program_plan_history.py:1137: NameError</failure></testcase></testsuite></testsuites>

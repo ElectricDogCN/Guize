@@ -1,0 +1,52 @@
+{
+  "kind": "FINITE_EXISTING_THREE_THREADS_READ_ONLY_REVIEW_NOT_FORMAL_GATE",
+  "source": "5a928426889ae086d73052ea1d3881aa8adfff09",
+  "sourceTree": "9e31ada9c11e21f52f494d8f36262bb7519ed87c",
+  "rows": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-fKf",
+      "classification": "REAL_REPRODUCED_BLOCKER_LIMITED_OLD_LEDGER_PROVENANCE",
+      "historyCliExit": 0,
+      "implementationErrors": [],
+      "existingFrozenValidatorRejects": true,
+      "proof": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-independent-5a92842-early-ledger-proof.json",
+      "proposal": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004_independent_early_ledger_regression_proposal.txt",
+      "minimumFix": "Call existing historical_frozen_definitions for early Ledger paths before metadata-only continue. Preserve legal new-record append and proven approved imports; do not turn approved old metadata failures into implementation work.",
+      "references": [
+        "scripts/check-program-plan-history.py:1089 early_nodes",
+        "scripts/check-program-plan-history.py:1102 metadata-only continue",
+        "scripts/check-program-plan-history.py:1169 historical_frozen_definitions",
+        "AGENTS.md:344 immutable existing completion provenance"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-fKl",
+      "classification": "P2_FAIL_CLOSED_DIAGNOSTIC_DEFECT",
+      "evidenceType": "EXACT_OFFICIAL_THREAD_AND_SOURCE_REVIEW_NO_NEW_SCALAR_CLI_REPRO_ASSERTED",
+      "minimumFix": "Dictionary guards in peer classifiers; keep authoritative historical Registry schema errors and exit1. Regression actual malformed scalar historical Registry must produce structured FAIL without traceback. Guard must not certify malformed Registry as valid.",
+      "references": [
+        "scripts/check-program-plan-history.py:986 historical_peer_path",
+        "scripts/check-program-plan-history.py:999 historical_peer_metadata_path",
+        "scripts/check-program-plan-history.py:477 historical_registry_schema"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-fKx",
+      "classification": "TRUE_GIT_TIMESTAMP_TRUST_LIMIT_NOT_EXISTING_EXTERNAL_WITNESS_PROTOCOL",
+      "evidenceType": "SOURCE_AND_PROTOCOL_REVIEW_NO_EXTERNAL_TRUST_CLAIM",
+      "facts": [
+        "Historical lease observations use commit Git %ct second precision; this timestamp can be supplied by the committer and is not a trusted external clock.",
+        "Current coordination Gate independently compares lease expiration to datetime.now or explicit --now.",
+        "No existing per-commit external wall-clock attestation mechanism was demonstrated in the applicable protocol."
+      ],
+      "scopeDecision": "Do not describe Git historical lease audit as externally witnessed real execution time. Under Owner accepted finite source-history contract, do not introduce a new timestamp witness infrastructure in this task. Current lease/Gate and immutable original reservation constraints remain required.",
+      "references": [
+        "scripts/check-program-plan-history.py:462 historical_lease",
+        "scripts/check-agent-coordination.py:699 current now",
+        "scripts/check-agent-coordination.py:766 current expiry rejection",
+        "AGENTS.md:323 unexpired lease requirement"
+      ]
+    }
+  ],
+  "limits": "No full historical Peer Gate certificate; no current Gate PASS claim; no GitHub mutation; final revised source/full suite/same-head CI still required."
+}

@@ -2,6 +2,7 @@ import os
 import pathlib
 import importlib.util
 import copy
+import json
 import re
 import subprocess
 import sys
@@ -732,6 +733,16 @@ class TestProgramPlanHistory(unittest.TestCase):
             review = original(location, message, timestamp)
             if scenario == 'review_unclaimed_code':
                 return review
+            if scenario == 'scalar_registry_peer':
+                saved = load('specs/coordination/active-work.yaml')
+                malformed = copy.deepcopy(saved)
+                malformed['tasks'].append(None)
+                self.write_yaml(root, 'specs/coordination/active-work.yaml', malformed)
+                self.write_text(root, 'backend/scalar-diagnostic.py', '# unclaimed work with malformed peer\n')
+                original(location, 'GZ-014 malformed historical scalar peer (#25)')
+                self.write_yaml(root, 'specs/coordination/active-work.yaml', saved)
+                (root / 'backend/scalar-diagnostic.py').unlink()
+                return original(location, 'GZ-014 restore malformed peer and work (#26)')
             if scenario in {'side_bad_base', 'side_bad_edge', 'side_owner_identity', 'side_foreign_definition'}:
                 git('checkout', '-b', 'late-metadata-side', review)
                 saved_entry = copy.deepcopy(entry)
@@ -1004,6 +1015,64 @@ class TestProgramPlanHistory(unittest.TestCase):
     def test_foundation_postclaim_shrink_scope_restore(self):
         self.assert_postclaim_history('shrink_scope_restore', False, 'own code changes after claimed implementation')
 
+    def test_foundation_rejects_old_ledger_rewrite_restored_before_baseline_advance(self):
+        # Scope: existing record immutability, not full peer historical Gate.
+        with tempfile.TemporaryDirectory() as folder:
+            root = pathlib.Path(folder)
+            self.create_regular_completion(folder)
+            subprocess.run(['git', 'checkout', '-B', 'main', 'HEAD'], cwd=root, check=True, capture_output=True)
+            ledger_path = 'specs/coordination/task-completions.yaml'
+            original_ledger = yaml.safe_load((root / ledger_path).read_text(encoding='utf-8'))
+            original_bytes = (root / ledger_path).read_bytes()
+            self.assertEqual(original_ledger['records'][0]['taskId'], 'GZ-004')
+            ordinary_completion = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+            original_commit, original_write = self.commit, self.write_yaml
+            observations = {}
+
+            def write(location, path, value):
+                # Foundation fixture seeds an empty Ledger; retain the actual
+                # previously created ordinary completion record instead.
+                if path == ledger_path and value == {'records': []}:
+                    value = copy.deepcopy(original_ledger)
+                original_write(location, path, value)
+
+            def hook(location, message, timestamp=None):
+                if message != 'GZ-014 repair (#22)':
+                    return original_commit(location, message, timestamp)
+                code_path = root / 'scripts/fixture-repair.py'
+                code = code_path.read_bytes()
+                code_path.unlink()  # repair file is staged only at claimed code.
+                before = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+                changed = copy.deepcopy(original_ledger)
+                changed['records'][0]['completionRef'] = 'PR-999'
+                original_write(folder, ledger_path, changed)
+                bad = original_commit(folder, 'GZ-014 rewrite old Ledger (#26)', timestamp)
+                (root / ledger_path).write_bytes(original_bytes)
+                restored = original_commit(folder, 'GZ-014 restore old Ledger (#27)', timestamp)
+                entry = yaml.safe_load((root / 'specs/coordination/active-work.yaml').read_text(encoding='utf-8'))['tasks'][0]
+                entry['baseSha'] = restored
+                self.write_yaml(folder, 'specs/coordination/active-work.yaml', self.registry([entry]))
+                self.write_text(folder, 'specs/tasks/GZ-014.md', self.task_spec(entry, entry['status'], entry['branch'], restored))
+                advance = original_commit(folder, 'GZ-014 metadata baseline advance (#28)', timestamp)
+                code_path.write_bytes(code)
+                claimed = original_commit(location, message, timestamp)
+                observations.update(before=before, bad=bad, restored=restored, advance=advance, claimed=claimed)
+                return claimed
+
+            self.write_yaml, self.commit = write, hook
+            try:
+                sources = self.create_foundation_completion(folder, 'valid')
+                result = self._run_checker(folder, 'GZ-014', 'chore/GZ-014-completion')
+            finally:
+                self.write_yaml, self.commit = original_write, original_commit
+            self.assertTrue(ordinary_completion)
+            self.assertEqual(subprocess.check_output(['git', 'diff', '--name-only', observations['before'], observations['bad']], cwd=root, text=True).strip(), ledger_path)
+            self.assertEqual(subprocess.check_output(['git', 'diff', observations['before'], observations['claimed'], '--', ledger_path], cwd=root, text=True), '')
+            self.assertEqual((root / ledger_path).read_bytes(), original_bytes)
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('changed immutable Ledger record GZ-004', result.stdout)
+
+
     def test_foundation_merge_separate_base_advance(self):
         self.reject_foundation_history('merge_separate_base_advance', 'outside its prior registered scope')
 
@@ -1056,6 +1125,17 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_post_own_work_old_side_lease_rejected(self):
         self.assert_post_disjoint_peer_old_lease(own_work=True)
+
+
+    def test_foundation_scalar_registry_peer_reports_schema_failure(self):
+        # Intentionally malformed historical input; no claim of peer Admission.
+        with tempfile.TemporaryDirectory() as root:
+            self.create_postclaim_completion(root, 'scalar_registry_peer')
+            result = self._run_checker(root, 'GZ-014', 'chore/GZ-014-completion')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('Registry schema violation', result.stdout)
+            self.assertNotIn('Traceback', result.stdout + result.stderr)
+            self.assertTrue(all(json.loads(line)['status'] == 'FAIL' for line in result.stdout.splitlines()))
 
     def test_foundation_postclaim_review_unclaimed_code(self):
         self.assert_postclaim_history('review_unclaimed_code', False, 'post-implementation working node changed paths outside its prior registered scope')

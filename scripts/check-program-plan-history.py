@@ -192,7 +192,7 @@ def section_paths(body: str, titles: tuple[str, ...]) -> list[str] | None:
 
 
 def mapping(items: list[dict[str, Any]] | None) -> dict[str, dict[str, Any]]:
-    return {str(item.get("taskId")): item for item in (items or [])}
+    return {str(item.get("taskId")): item for item in (items or []) if isinstance(item, dict)}
 
 
 def exact_token(message: str, token: str) -> bool:
@@ -355,7 +355,7 @@ def validate_reservation_snapshot(
     if not isinstance(active, dict):
         errors.append(f"Completion record {task_id} reservation commit has no readable {ACTIVE}")
         return
-    entries = [item for item in active.get("tasks") or [] if item.get("taskId") == task_id]
+    entries = [item for item in active.get("tasks") or [] if isinstance(item, dict) and item.get("taskId") == task_id]
     if len(entries) != 1 or entries[0].get("status") != "reserved":
         errors.append(
             f"Completion record {task_id} reservation commit must contain one reserved Active Work entry"
@@ -490,6 +490,8 @@ def historical_registry_schema(root: str, ref: str, registry: dict[str, Any], la
 
 def historical_conflicts(task_id: str, entry: dict[str, Any], registry: dict[str, Any], label: str, errors: list[str]) -> None:
     for other in registry.get("tasks", []):
+        if not isinstance(other, dict):
+            continue  # The applicable Registry schema already rejects this.
         if other.get("taskId") == task_id or other.get("status") not in ACTIVE_STATES:
             continue
         if any(RECOVERY.paths_overlap(str(own), str(foreign)) for own in entry.get("exclusivePaths") or [] for foreign in list(other.get("exclusivePaths") or []) + list(other.get("sharedPaths") or [])):
@@ -680,7 +682,7 @@ def historical_foreign_metadata(root: str, previous: str, node: str, incoming: l
 
 
 def historical_capacity(root: str, task_id: str, registry: dict[str, Any], policy: dict[str, Any], reservation: str, observation: str, label: str, errors: list[str]) -> None:
-    active = [item for item in registry.get("tasks", []) if item.get("status") in ACTIVE_STATES]
+    active = [item for item in registry.get("tasks", []) if isinstance(item, dict) and item.get("status") in ACTIVE_STATES]
     high = sum(item.get("riskLevel") in {"high", "critical"} for item in active)
     try:
         excess = len(active) > int(policy["maxActiveTasks"]) or high > int(policy["maxHighRiskTasks"])
@@ -822,7 +824,7 @@ def foundation_reservation(
             errors.append(f"Foundation {task_id} original reservation dependency {dependency} lacks an integrated completion identity")
     if any(str(path).strip() in {"", "*", "**"} for path in list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or [])):
         errors.append(f"Foundation {task_id} original reservation may not claim the entire repository")
-    foundations = [item for item in plan.get("foundationTasks", []) if item.get("taskId") == task_id]
+    foundations = [item for item in plan.get("foundationTasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
     identities = [str(entry.get(key) or "").strip() for key in ("owner", "coordinator", "implementer", "reviewer", "integrator")]
     if any(not value or value.lower() in {"none", "tbd", "pending", "unassigned"} for value in identities):
         errors.append(f"Foundation {task_id} original reservation requires assigned roles")
@@ -973,8 +975,8 @@ def historical_own_metadata_changed(root: str, previous: str, node: str, task_id
     for path, collections in ((ACTIVE, ("tasks",)), (PLAN, ("tasks", "foundationTasks"))):
         before, after = load_ref(root, previous, path), load_ref(root, node, path)
         for collection in collections:
-            left = [item for item in (before or {}).get(collection, []) if item.get("taskId") == task_id]
-            right = [item for item in (after or {}).get(collection, []) if item.get("taskId") == task_id]
+            left = [item for item in (before or {}).get(collection, []) if isinstance(item, dict) and item.get("taskId") == task_id]
+            right = [item for item in (after or {}).get(collection, []) if isinstance(item, dict) and item.get("taskId") == task_id]
             if left != right:
                 return True
         if path == PLAN and task_id in {RECOVERY.recovery_owner(before or {}), RECOVERY.recovery_owner(after or {})} and ((before or {}).get("status"), (before or {}).get("recovery")) != ((after or {}).get("status"), (after or {}).get("recovery")):
@@ -987,6 +989,8 @@ def historical_peer_path(root: str, snapshot: str, task_id: str, path: str) -> b
     # Classification does not certify a peer's Admission or complete Gate.
     registry = load_ref(root, snapshot, ACTIVE)
     for peer in (registry or {}).get("tasks", []):
+        if not isinstance(peer, dict):
+            continue  # Classification cannot turn a schema error into approval.
         identity = peer.get("taskId")
         if identity == task_id:
             continue
@@ -1000,7 +1004,7 @@ def historical_peer_metadata_path(root: str, snapshot: str, task_id: str, path: 
     # Newly admitted peers supply identity for their canonical metadata only.
     # Their newly declared code claims cannot authorize same-node work.
     registry = load_ref(root, snapshot, ACTIVE)
-    return any(peer.get("taskId") != task_id and (path == find_task_path(root, peer.get("taskId"), snapshot) or path.startswith(f"evidence/{peer.get('taskId')}/")) for peer in (registry or {}).get("tasks", []))
+    return any(isinstance(peer, dict) and peer.get("taskId") != task_id and (path == find_task_path(root, peer.get("taskId"), snapshot) or path.startswith(f"evidence/{peer.get('taskId')}/")) for peer in (registry or {}).get("tasks", []))
 
 
 def foundation_implementation(root: str, task_id: str, commit: str, reservation: str, errors: list[str]) -> None:
@@ -1096,6 +1100,8 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         clean_imports = clean_synchronization_paths(root, node, node_paths, incoming)
         node_paths -= clean_imports
         if node in early_nodes:
+            if LEDGER in node_paths:
+                historical_frozen_definitions(root, previous, node, {LEDGER}, errors)
             # Inspect early work, not integrated metadata-only failures or
             # independent peer inputs from the approved main base.
             node_paths = {path for path in node_paths if not historical_peer_path(root, previous, task_id, path) and not historical_peer_metadata_path(root, node, task_id, path)}
@@ -1345,7 +1351,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             incoming = approved_synchronization_parents(root, node, base_ref)
             imports = clean_synchronization_paths(root, node, paths, incoming)
             prior_registry = load_ref(root, parent, ACTIVE)
-            prior = [item for item in (prior_registry or {}).get("tasks", []) if item.get("taskId") == task_id]
+            prior = [item for item in (prior_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             prior_claims = (prior[0].get("exclusivePaths") or []) if len(prior) == 1 else []
             unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not any(historical_peer_path(root, ref, task_id, path) for ref in (parent, node)))}
             if unexpected:

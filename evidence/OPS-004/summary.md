@@ -1,3 +1,63 @@
+## 最后 Ledger / scalar 511 候选
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: 5a928426889ae086d73052ea1d3881aa8adfff09
+Current full511 / formal15 / same-head CI / independent integration: NOT_EXECUTED
+Results reference: PR77 actual HEAD Checks and local .takeover-tools/ops004-final-ledger-results; actual Source/Command/Exit/JUnit will be pinned by execution and exact PR head.
+
+5a实际509本地959.48s与Gate6161129.81s全治理通过，仅原容量失败；原始完整保存。最新三条-fKf/Kl/Kx中，旧真实GZ004 Ledger记录改写/恢复再推进base的CLI0是本范围真实缺陷。对已证明clean main导入之外的early Ledger节点复用existing historical_frozen_definitions，纯metadata跳过之前仍比较既有不可变记录；正常append规则不变，不加入Other全Gate。新增真实old-record测试包含真实ordinary reservation/implementation/completion，净Ledger字节恢复仍拒绝。
+
+Scalar输入修补仅字典类型筛选，用于identity/classification/conflicts/capacity；已有Registry schema FAIL持续保留，完整CLI exit1与逐行结构化FAIL，无Traceback，不将标量变成合法登记。新增malformed historical peer+unclaimed work回归验证真实CLI。首次临时8例7PASS1FAIL38.26s（残留capacity/mapping .get）；修正后7PASS1FAIL40.98s（新增测试漏json import）；补测试导入后的两条新增针对测试PASS，原始探索失败均保留。预期166history+345其他=511，正式当前未执行。
+
+Git %ct是提交者可设的历史秒时间，不是外部可信执行墙钟。保留现有currentLease真实now门禁与历史登记/过期区间检查；未定义逐commit外部见证基础设施，也不声称全部历史执行时间已外部证明。所有其他线程有限范围结论原样保留，Own授权与已完成provenance规则不削弱。
+
+发布后的精确511来源必须完成15检查、完整同头CI、独立最后审查及全部既存线程处置后才能合入PR77；实际原始日志保留并在PR引用精确Source/CI。紧随的独立Review候选将这些已执行511/15/CI原始保存到Own Evidence，并保留四个成功字段仅指实现Gov，不指Review尚未执行部分；当前Review HEAD14检查及完整CI仍必需。Completion实际HEAD14/完整make511/同头CI全零+独立审查后在原窗口内合并，随后主线全零才恢复GZ005。完成后按AGENT17.8另提Own Evidence纠正，归档已经执行的Completion/main原始，完成后的Program/Registry/Ledger/完整Task字节不变，Issue closed/completed，不复用旧Completion分支或Lease。此顺序使用证据‘保存或引用’，不减少任何真实HEAD门禁、不延长窗口。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
+## 最后51条既存审查意见范围判定
+
+Owner: ElectricDogCN (本会话最高决策权委托)
+Implementer/Reviewer分别为 lifecycle-scope-repair-agent / independent-lifecycle-scope-review-agent。
+实际审查来源5a928426889ae086d73052ea1d3881aa8adfff09；完整结论/逐ID与真实CLI原始见finite-scope-independent。
+
+前47条按实际已修与现行规则解释结案。新-LqS/V/X/Y四条提出全部Peer或Program历史快照的完整Gate重放，超出本修复的Own登记、实际工作授权与完成来源范围。既有Affected-task Transitions、Scope、Integrity仍执行，没有声称Peer非法历史合法。真实CLI证明authority字符串改写/恢复本身未重放全Integrity，但字符串不用于Own工作权限，权限始终从RECOVERY.OWNERSHIP固定canonical读；同一字符串下未claim代码仍被两个真实节点拒绝。Peer非法reserved→integration快照现行Peer Transitions拒绝；Own有限来源helper不代替Peer独立准入和完整Gate。V的B/C冲突与Y的active peer Program字段均未证明Own授权改变。现有Own身份、冻结ordinary定义、已completed Foundation和旧Ledger保护继续保留；不新增全部Peer历史Gate或无约定角色状态映射。
+
+这些范围结论不是V1完成、Other Gate通过或全部历史snapshot Integrity通过的证明。永久政策、GZ005与已完成任务不变，原窗口不延长。最终实际archivehead14检查/同头CI/独立集成、之后Review和全零Completion主线仍必需。
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: 5a928426889ae086d73052ea1d3881aa8adfff09
+Tested Tree: 9e31ada9c11e21f52f494d8f36262bb7519ed87c
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 509 passed in 959.48s (0:15:59)，JUnit509 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/finite-scope-source-5a92842/。Gate616完整原始在 test-results/finite-scope-ci-616/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+独立发布审查针对本地alias 84b950696d4c47e10624c7c85355cfe5509b3b29，树9e31ada9c11e21f52f494d8f36262bb7519ed87c与本次实际远端5a928426889ae086d73052ea1d3881aa8adfff09一致；它仅是发布前静态与临时Git证明，正式509结果始终只绑定实际远端Source。完整独立原始见finite-scope-independent；本地alias不冒充已发布祖先。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
 ## 当前有限 working scope / lease 修补候选
 
 Task: OPS-004 / Issue71
