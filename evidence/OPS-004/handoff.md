@@ -24,3 +24,13 @@ Base: d0e9e256552f9d1d47fb24d2e5a4530476b19a5f
 Source Commit: 751dc3db960420f64641c4edd935f7669d026c85; Tree: 53970bc163ca13f5adb7d9fc89f4c25c6cb14878. Issue #71, branch chore/OPS-004-lifecycle-repair-implementation, actual base d0e9e256552f9d1d47fb24d2e5a4530476b19a5f. Implementer lifecycle-scope-repair-agent; Reviewer independent-lifecycle-scope-review-agent. 实际15检查13退出0、仅容量协调1/verify2；治理351 passed in 325.18s (0:05:25)，351个测试零失败/错误/跳过。Commands/raw output: test-results/implementation-ci-env-751dc3d/。claims及全部旧任务/契约不变；sharedPaths为空，integrationOrder=4。可回滚实现 PR 的两个检查器和测试，但须保留失败/审查证据与既有登记，不改旧完成身份。下一角色核对最新 exact tree 和实际 CI，只在有界 owner event 有效且其他检查全成功时集成；随后独立 review→Completion 收口恢复永久容量。
 
 Validation boundary: helper validates committed diff and rejects tracked/index divergence from the checked head. It does not certify all untracked files as clean or grant them any scope. The formal source was separately checked with git status --porcelain (empty actual output), recorded in the result clean-status.txt; publishing must repeat that check and verify exact Git tree identity.
+
+## Review 元数据候选
+
+Phase: review
+Branch: chore/OPS-004-lifecycle-repair-review
+Base: 726870c8ae161eab19f94a9b96980a7d9197b633
+Implementation PR: #73
+Implementation merge: 726870c8ae161eab19f94a9b96980a7d9197b633
+
+本候选仅自身Program/Registry/Task的连续合法迁移及Evidence；实现两检查器和测试保持合入字节，GZ-005与旧完成身份不变。实际远端Gate592原始记录在 test-results/implementation-remote-592/。独立Review已确认751正式351零失败/错误/跳过、c085归档仅自身Evidence且exact tree一致；不冒称容量Gate PASS。需要本Review候选真实检查、独立审查、最新HEAD和实际CI，再按有界事件集成；后续Completion绑定实现身份而非Review PR。
