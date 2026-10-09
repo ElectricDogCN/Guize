@@ -1,11 +1,11 @@
-# OPS-004 当前实现路径
+# OPS-004 post-context 全部路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
-Actual Parent: 487ea870c7a797ff6ed3fe08f4ba1b60452da45a
+Actual Parent: 10894c7189e2863434147da87c142df40f6a1a3e
 
-当前全部 357 路径。增量仅已登记history checker诊断顺序和自身Evidence，正式499未执行。
+全部 390 路径，增量仅登记history checker/test与自身Evidence，504正式未执行。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -149,10 +149,33 @@ evidence/OPS-004/test-results/history-final-source-0bec03d/unaffected.txt
 evidence/OPS-004/test-results/history-final-source-0bec03d/verify.txt
 evidence/OPS-004/test-results/history-identity-ci-606/job-log.txt
 evidence/OPS-004/test-results/history-identity-ci-606/proof.json
+evidence/OPS-004/test-results/history-identity-ci-614/job-log.txt
+evidence/OPS-004/test-results/history-identity-ci-614/proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-implementation-role-reproductions-utf8.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-ledger-implementation-reproduction.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-pr77-independent-history-proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-snapshot-fresh-source-history.json
+evidence/OPS-004/test-results/history-identity-source-10894c7/clean-after.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/clean-before.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/coordination.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/evidence.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/finalization.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/governance.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/governance.xml
+evidence/OPS-004/test-results/history-identity-source-10894c7/history.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/integrity.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/lifecycle.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/readiness.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/schemas.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/scope.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/source.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/status.json
+evidence/OPS-004/test-results/history-identity-source-10894c7/task.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/transitions.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/tree.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/unaffected.txt
+evidence/OPS-004/test-results/history-identity-source-10894c7/verify.txt
 evidence/OPS-004/test-results/history-identity-source-58cc397/clean-after.txt
 evidence/OPS-004/test-results/history-identity-source-58cc397/clean-before.txt
 evidence/OPS-004/test-results/history-identity-source-58cc397/coordination.txt
@@ -258,6 +281,8 @@ evidence/OPS-004/test-results/history-range-independent/ops004-identity-order-ta
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-scope-shrink-fixed-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-single-parent-range-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-0bec-two-threads-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-10894c7-prospective-merge-proof.json
+evidence/OPS-004/test-results/history-range-independent/ops004-independent-272c9f4-finite-static-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-existing-foreign-positive-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-prospective-merge-proof.json
 evidence/OPS-004/test-results/history-range-independent/ops004-independent-55e6544-same-commit-base-proof.json
@@ -360,6 +385,14 @@ evidence/OPS-004/test-results/history-snapshot-source-c62096c/transitions.txt
 evidence/OPS-004/test-results/history-snapshot-source-c62096c/tree.txt
 evidence/OPS-004/test-results/history-snapshot-source-c62096c/unaffected.txt
 evidence/OPS-004/test-results/history-snapshot-source-c62096c/verify.txt
+evidence/OPS-004/test-results/post-context-independent/ops004-independent-10894c7-post-context-proof.json
+evidence/OPS-004/test-results/post-context-independent/ops004-independent-post-freeze-clean-import-proof.json
+evidence/OPS-004/test-results/post-context-independent/ops004-independent-refined-post-context-proof.json
+evidence/OPS-004/test-results/post-context-independent/ops004-independent-refined-post-freeze-clean-import-proof.json
+evidence/OPS-004/test-results/post-context-independent/ops004-post-context-refined-targeted.txt
+evidence/OPS-004/test-results/post-context-independent/ops004-post-context-refined-targeted.xml
+evidence/OPS-004/test-results/post-context-independent/ops004-post-context-targeted.txt
+evidence/OPS-004/test-results/post-context-independent/ops004-post-context-targeted.xml
 scripts/check-program-plan-history.py
 specs/coordination/active-work.yaml
 specs/coordination/program-plan.yaml

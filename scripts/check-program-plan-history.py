@@ -1148,6 +1148,70 @@ def historical_frozen_definitions(root: str, previous: str, node: str, paths: se
                     errors.append(f"Post-implementation history at {node} changed immutable Ledger record {prior.get('taskId')}")
 
 
+def historical_post_metadata(root: str, previous: str, node: str, task_id: str, paths: set[str], errors: list[str], implementation: str, validated_nodes: set[str]) -> None:
+    historical_frozen_definitions(root, previous, node, paths, errors)
+    before, after = load_ref(root, previous, PLAN), load_ref(root, node, PLAN)
+    if ACTIVE in paths:
+        prior_registry, registry = load_ref(root, previous, ACTIVE), load_ref(root, node, ACTIVE)
+        if isinstance(prior_registry, dict) and isinstance(registry, dict):
+            current = mapping(registry.get("tasks"))
+            foundations = mapping((before or {}).get("foundationTasks"))
+            for entry in prior_registry.get("tasks") or []:
+                peer = entry.get("taskId") if isinstance(entry, dict) else None
+                if peer == task_id or peer not in current:
+                    continue
+                # Reuse existing active-transition identity fields. Peer
+                # admissions, releases and legal lifecycle updates remain free.
+                mutable = {"status", "agentRole", "baseSha", "lease"}
+                if peer in foundations:
+                    mutable.update({"branch", "exclusivePaths", "sharedPaths"})
+                if {key: value for key, value in entry.items() if key not in mutable} != {key: value for key, value in current[peer].items() if key not in mutable}:
+                    errors.append(f"Post-implementation history at {node} changed stable Registry identity or scope for {peer}")
+    if PLAN not in paths or not isinstance(before, dict) or not isinstance(after, dict) or (before.get("status"), before.get("recovery")) == (after.get("status"), after.get("recovery")):
+        return
+    # Validate real transition nodes at their own parents. A merge may
+    # import their already-validated root metadata without creating a second
+    # freeze event against a different first parent.
+    parents = git(root, "show", "-s", "--format=%P", node).stdout.split()
+    incoming = [parent for parent in parents[1:] if parent in validated_nodes or is_ancestor(root, parent, implementation)]
+    clean_imports = clean_synchronization_paths(root, node, paths, incoming) if incoming else set()
+    def foreign_plan(ref: str) -> dict[str, Any] | None:
+        document = load_ref(root, ref, PLAN)
+        if not isinstance(document, dict):
+            return None
+        document = copy.deepcopy(document)
+        for collection in ("tasks", "foundationTasks"):
+            document[collection] = [item for item in document.get(collection, []) if item.get("taskId") != task_id]
+        return document
+    actual, prior = foreign_plan(node), foreign_plan(previous)
+    for parent in incoming:
+        if PLAN in clean_imports and git(root, "rev-parse", f"{node}:{PLAN}").stdout == git(root, "rev-parse", f"{parent}:{PLAN}").stdout:
+            return
+        if len(parents) == 2 and actual is not None and actual == foreign_plan(parent):
+            bases = git(root, "merge-base", "--all", previous, parent)
+            common = bases.stdout.split() if bases.returncode == 0 else []
+            if prior is not None and common and all(foreign_plan(base) == prior for base in common):
+                return
+    owner = RECOVERY.recovery_owner(after)
+    recovery_errors: list[str] = []
+    try:
+        with tempfile.TemporaryDirectory(prefix="guize-post-history-recovery-") as temporary:
+            snapshot = os.path.join(temporary, "snapshot")
+            clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
+            checkout = git(snapshot, "checkout", "--detach", "--quiet", node) if clone.returncode == 0 else None
+            if not checkout or checkout.returncode != 0 or resolve_ref(snapshot, "HEAD") != node:
+                recovery_errors.append("Cannot reconstruct recovery transition snapshot")
+            elif RECOVERY.validate_recovery_transition(snapshot, previous, node, recovery_errors) != owner or not owner:
+                recovery_errors.append("Recovery transition owner does not match historical recovery")
+        if after.get("status") == "frozen":
+            observed = datetime.fromtimestamp(int(git(root, "show", "-s", "--format=%ct", node).stdout.strip()), timezone.utc)
+            if historical_time(after["recovery"]["frozenAt"]) >= observed + timedelta(seconds=1):
+                recovery_errors.append("Freeze occurred after its integration commit")
+    except (OSError, KeyError, TypeError, ValueError) as exc:
+        recovery_errors.append(str(exc))
+    errors.extend(f"Post-implementation history at {node} historical recovery rejected: {error}" for error in recovery_errors)
+
+
 def registered_claim_history(root: str, task_id: str, reservation: str, descendant: str) -> set[str]:
     """Identify this task's files from real ancestor registrations.
 
@@ -1175,7 +1239,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
     Ownership comes from that node's actual registration, not commit messages
     or the completing task's broader scope in some unrelated historical state.
     """
-    nodes = git(root, "rev-list", "--reverse", f"{implementation}..{base_ref}")
+    nodes = git(root, "rev-list", "--topo-order", "--reverse", f"{implementation}..{base_ref}")
     if nodes.returncode:
         errors.append(f"Foundation {task_id} cannot audit history after its claimed implementation")
         return
@@ -1185,6 +1249,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
     entries = [item for item in (registration or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
     mutable = {"status", "agentRole", "baseSha", "branch", "exclusivePaths", "sharedPaths", "lease"}
     stable = {key: value for key, value in entries[0].items() if key not in mutable} if len(entries) == 1 else None
+    validated_nodes: set[str] = set()
     for node in nodes.stdout.split():
         parent = resolve_ref(root, f"{node}^1")
         paths = RECOVERY.changed_paths(root, parent, node) if parent else None
@@ -1199,7 +1264,10 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             if len(node_entries) == 1 and {key: value for key, value in node_entries[0].items() if key not in mutable} != stable:
                 errors.append(f"Foundation {task_id} changed stable identity in post-implementation history at {node}")
-            historical_frozen_definitions(root, parent, node, paths, errors)
+        before_metadata_errors = len(errors)
+        historical_post_metadata(root, parent, node, task_id, paths, errors, implementation, validated_nodes)
+        if len(errors) == before_metadata_errors:
+            validated_nodes.add(node)
         for snapshot in (parent, node):
             registry = load_ref(root, snapshot, ACTIVE) if snapshot else None
             entries = [item for item in (registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]

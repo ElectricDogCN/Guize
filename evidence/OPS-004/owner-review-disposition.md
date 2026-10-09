@@ -113,3 +113,6 @@ PRRT_kwDOTgCQ3c6q8-0a / 8-0h：真实0bec完整CLI均接受非法历史，确认
 55e单父claimed同提交换base变体CLI0确认阻断，收尾修正按prior实际登记范围审计而允许tip刷新；merge纯Ev身份既有负例恢复。153原失败不删除，19 targeted仅探索，499正式结果待实际发布。
 
 487/CI613真实单诊断顺序失败不作为通过结果；保留全部原始失败，提前已有pure-metadata/Ev guard，测试不改，10 targeted仅探索，真实499重新执行。
+
+
+9gbH/9gbL独立CLI0精确证实固定身份和恢复漏验，本次复用既有规则；9gbA要求历史Review/Integration状态存在并非AGENT17.2的明确机器规则，已有直接Completion正例仍保留，实际项目独立Review/Integrator分工持续执行；9gbQ人类handoff内容义务继续执行，当前实际handoff覆盖所需字段，未新增没有约定格式的历史强制解析器，有限helper夹具不是完整Admission证明。此判断与用户最高决策授权一致，Owner窗口不延长。当前504正式结果待真实来源执行。

@@ -766,7 +766,7 @@ class TestProgramPlanHistory(unittest.TestCase):
                     rewrite(entry, state, git('rev-parse', 'HEAD'))
                     original(location, 'GZ-014 legal metadata rework ' + state + ' (#25)')
                 return git('rev-parse', 'HEAD')
-            if scenario in {'foreign_disjoint', 'foreign_disjoint_side'}:
+            if scenario in {'foreign_disjoint', 'foreign_disjoint_side', 'foreign_owner_restore'}:
                 if scenario == 'foreign_disjoint_side':
                     git('checkout', '-b', 'foreign-task-side', review)
                 other = self.entry('GZ-099', review, 'in_progress', 'chore/GZ-099-other')
@@ -782,6 +782,18 @@ class TestProgramPlanHistory(unittest.TestCase):
                 original(location, 'GZ-099 disjoint registered context (#29)')
                 self.write_text(root, 'scripts/other-task.py', '# separately registered disjoint task work\n')
                 work = original(location, 'GZ-099 disjoint implementation (#30)')
+                if scenario == 'foreign_owner_restore':
+                    saved = copy.deepcopy(other)
+                    other['owner'] = 'temporary-foreign-owner'
+                    foreign['entry'] = other
+                    self.write_yaml(root, 'specs/coordination/active-work.yaml', self.registry([entry, other]))
+                    self.write_text(root, 'specs/tasks/GZ-099.md', self.task_spec(other, 'in_progress', other['branch'], review))
+                    original(location, 'GZ-099 unapproved peer owner rewrite (#31)')
+                    other.clear(); other.update(saved)
+                    foreign['entry'] = other
+                    self.write_yaml(root, 'specs/coordination/active-work.yaml', self.registry([entry, other]))
+                    self.write_text(root, 'specs/tasks/GZ-099.md', self.task_spec(other, 'in_progress', other['branch'], review))
+                    return original(location, 'GZ-099 restore original peer owner (#32)')
                 if scenario == 'foreign_disjoint_side':
                     other.update(status='review', agentRole='reviewer', baseSha=work)
                     other['lease']['expiresAt'] = entry['lease']['expiresAt']
@@ -794,6 +806,36 @@ class TestProgramPlanHistory(unittest.TestCase):
                     git('merge', '--no-ff', '-m', 'GZ-099 integrate peer side work (#32)', side)
                     return git('rev-parse', 'HEAD')
                 return work
+            if scenario in {'root_freeze_bad_source', 'root_thaw_missing_proof', 'root_recovery_same_status_restore'}:
+                saved_plan = load('specs/coordination/program-plan.yaml')
+                frozen = copy.deepcopy(saved_plan)
+                frozen['status'] = 'frozen'
+                frozen['recovery'] = {
+                    'taskId': 'GZ-014', 'reason': 'Repair completed provenance conflict',
+                    'affectedTasks': ['GZ-003'], 'sourceCommit': 'f' * 40 if scenario == 'root_freeze_bad_source' else review,
+                    'frozenAt': (datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat().replace('+00:00', 'Z'),
+                    'verificationPath': 'evidence/GZ-014/recovery-proof.json',
+                }
+                self.write_yaml(root, 'specs/coordination/program-plan.yaml', frozen)
+                frozen_commit = original(location, 'GZ-014 postclaim root freeze (#25)')
+                if scenario == 'root_thaw_missing_proof':
+                    spec = importlib.util.spec_from_file_location('postclaim_valid_freeze', SCRIPT)
+                    history = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(history)
+                    freeze_errors = []
+                    self.assertEqual(history.RECOVERY.validate_recovery_transition(str(root), review, frozen_commit, freeze_errors), 'GZ-014')
+                    self.assertEqual(freeze_errors, [])
+                if scenario == 'root_recovery_same_status_restore':
+                    changed = copy.deepcopy(frozen)
+                    changed['recovery']['reason'] = 'Unapproved replacement of the frozen incident reason'
+                    self.write_yaml(root, 'specs/coordination/program-plan.yaml', changed)
+                    original(location, 'GZ-014 rewrite frozen event without a transition (#27)')
+                    self.write_yaml(root, 'specs/coordination/program-plan.yaml', frozen)
+                    original(location, 'GZ-014 restore frozen event (#28)')
+                self.write_yaml(root, 'specs/coordination/program-plan.yaml', saved_plan)
+                restored = original(location, 'GZ-014 restore active root without validated repair proof (#26)')
+                self.assertEqual(git('diff', '--name-only', review, restored), '')
+                return restored
             if scenario == 'own_evidence':
                 self.write_text(root, 'evidence/GZ-014/reviewer-findings.md', '# Independent review evidence\n')
                 return original(location, 'GZ-014 own Evidence archive (#25)')
@@ -833,7 +875,7 @@ class TestProgramPlanHistory(unittest.TestCase):
 
         self.commit, self.registry, self.write_yaml = hook, registry, write
         try:
-            sources = self.create_foundation_completion(root)
+            sources = self.create_foundation_completion(root, 'original_dependency_completed' if scenario in {'root_freeze_bad_source', 'root_thaw_missing_proof', 'root_recovery_same_status_restore'} else 'valid')
             if scenario == 'shrink_scope_restore':
                 registered = yaml.safe_load(git('show', sources['base'] + ':specs/coordination/active-work.yaml'))['tasks'][0]
                 self.write_text(root, 'specs/tasks/GZ-014.md', self.task_spec(registered, 'completed', 'chore/GZ-014-completion', sources['base']))
@@ -851,6 +893,52 @@ class TestProgramPlanHistory(unittest.TestCase):
             else:
                 self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
                 self.assertIn(message, result.stdout)
+
+    def test_foundation_postclaim_recovery_same_status_restore(self):
+        self.assert_postclaim_history('root_recovery_same_status_restore', False, 'Program recovery metadata may only change in freeze/thaw transitions')
+
+    def test_foundation_postclaim_accepts_validated_clean_freeze_import(self):
+        with tempfile.TemporaryDirectory() as root:
+            sources = self.create_foundation_completion(root, 'original_dependency_completed')
+            def git(*args):
+                return subprocess.check_output(['git', *args], cwd=root, text=True, stderr=subprocess.DEVNULL).strip()
+            git('checkout', '-B', 'main', sources['base'])
+            git('checkout', '-b', 'valid-freeze-side')
+            self.write_text(root, 'evidence/GZ-014/side.md', '# Side review evidence\n')
+            side_base = self.commit(root, 'GZ-014 side review evidence (#25)')
+            plan = yaml.safe_load(pathlib.Path(root, 'specs/coordination/program-plan.yaml').read_text(encoding='utf-8'))
+            plan['status'] = 'frozen'
+            plan['recovery'] = {
+                'taskId': 'GZ-014', 'reason': 'Repair completed provenance conflict',
+                'affectedTasks': ['GZ-003'], 'sourceCommit': side_base,
+                'frozenAt': (datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat().replace('+00:00', 'Z'),
+                'verificationPath': 'evidence/GZ-014/recovery-proof.json',
+            }
+            self.write_yaml(root, 'specs/coordination/program-plan.yaml', plan)
+            side = self.commit(root, 'GZ-014 registered side freeze (#26)')
+            spec = importlib.util.spec_from_file_location('postclaim_clean_freeze', SCRIPT)
+            history = importlib.util.module_from_spec(spec);spec.loader.exec_module(history)
+            freeze_errors = []
+            self.assertEqual(history.RECOVERY.validate_recovery_transition(root, side_base, side, freeze_errors), 'GZ-014')
+            self.assertEqual(freeze_errors, [])
+            git('checkout', 'main')
+            self.write_text(root, 'evidence/GZ-014/main.md', '# Main review evidence\n')
+            self.commit(root, 'GZ-014 main review evidence (#27)')
+            git('merge', '--no-ff', '-m', 'GZ-014 clean import of validated side freeze (#28)', side)
+            merged = git('rev-parse', 'HEAD')
+            self.assertEqual(git('rev-parse', merged + ':specs/coordination/program-plan.yaml'), git('rev-parse', side + ':specs/coordination/program-plan.yaml'))
+            errors = []
+            history.foundation_post_implementation(root, 'GZ-014', sources['implementation'], sources['reservation'], merged, errors)
+            self.assertEqual(errors, [])
+
+    def test_foundation_postclaim_foreign_owner_restore(self):
+        self.assert_postclaim_history('foreign_owner_restore', False, 'changed stable Registry identity or scope for GZ-099')
+
+    def test_foundation_postclaim_invalid_freeze_restore(self):
+        self.assert_postclaim_history('root_freeze_bad_source', False, 'Freeze sourceCommit must equal the actual target base')
+
+    def test_foundation_postclaim_invalid_thaw_after_valid_freeze(self):
+        self.assert_postclaim_history('root_thaw_missing_proof', False, 'historical recovery rejected')
 
     def test_foundation_postclaim_missing_review_base(self):
         self.assert_postclaim_history('missing_review_base', False, 'baseSha must identify a real ancestor')

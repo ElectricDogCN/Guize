@@ -1,0 +1,34 @@
+{
+  "kind": "TEMP_EXPLORATORY_CHECKER_OVERLAY_REAL_GIT_CLEAN_SIDE_FREEZE_IMPORT_NOT_FORMAL_SOURCE_OR_CI",
+  "actualInputSource": "10894c7189e2863434147da87c142df40f6a1a3e",
+  "exploratoryCheckerHash": "ff6f62be676081f8f9fcd374aed2888ccf98db64fdfd215466119b5b39ae3342",
+  "record": {
+    "actualSideMetadataValidationErrors": [],
+    "review": "491dcb76d7daaf77988043d30fd0f2fb3c2730b0",
+    "sideEvidence": "ebccc816bc58b292e40f006c4c626afe4e683c34",
+    "validSideFreeze": "827dc89ed7ec0bea2d047e97b01f5e1cd6887953",
+    "freezeOwner": "GZ-014",
+    "sideFreezeValidationErrors": [],
+    "mainEvidence": "f9b0c862e37364912a5dfcd4300a3065ec9beb60",
+    "merge": "ff3793f7e2ec86e40831ec86d8171083d64aab1b",
+    "mergeParents": [
+      "f9b0c862e37364912a5dfcd4300a3065ec9beb60",
+      "827dc89ed7ec0bea2d047e97b01f5e1cd6887953"
+    ],
+    "mergePaths": [
+      "evidence/GZ-014/side-archive.md",
+      "specs/coordination/program-plan.yaml"
+    ],
+    "incoming": [
+      "827dc89ed7ec0bea2d047e97b01f5e1cd6887953"
+    ],
+    "cleanPaths": [
+      "evidence/GZ-014/side-archive.md",
+      "specs/coordination/program-plan.yaml"
+    ],
+    "planImportIsStage0AndExact": true,
+    "mergePlanBlob": "46286e4e7dfb9ef8d60521fbb3834aacbebf5a6b",
+    "incomingPlanBlob": "46286e4e7dfb9ef8d60521fbb3834aacbebf5a6b",
+    "postMetadataErrorsAtMerge": []
+  }
+}
