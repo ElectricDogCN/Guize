@@ -1,0 +1,6 @@
+Source Commit: 90beec210e9bf81c797aa1d08b63d6e3c9f0304a
+Command: python scripts/run-agent-coordination-gate.py --base-ref 62d4ef826e0be1acb2839c3f04fe62d1894f9585 --head-ref HEAD --task OPS-004 --branch-name chore/OPS-004-history-scope-registration
+{"status": "FAIL", "message": "High/critical active task count 2 exceeds limit 1"}
+INFO: OPS-004 is a Blocked-state metadata PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 1

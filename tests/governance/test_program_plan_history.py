@@ -3,6 +3,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from datetime import datetime, timedelta, timezone
 
 import yaml
 
@@ -231,33 +232,114 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.commit(root, "GZ-004 completion metadata (#32)")
         return reservation
 
-    def create_foundation_completion(self, root):
+    def create_foundation_completion(self, root, mode="valid", with_review=True):
         self.init_git(root)
         self.write_text(root, "seed.txt", "seed\n")
-        seed = self.commit(root, "seed")
+        old_foundations = []
+        if mode.startswith("atomic_freeze"):
+            bootstrap = self.commit(root, "GZ-003 bootstrap (#11)")
+            old_foundations = [{"taskId": "GZ-003", "status": "completed", "completionRef": "PR-11", "mergeCommit": bootstrap}]
+        if mode == "external_rename":
+            self.write_text(root, "docs/foreign.md", "external baseline content that cannot become own metadata\n")
+        previous_plan = {"status": "active", "foundationTasks": old_foundations, "tasks": []}
+        self.write_yaml(root, "specs/coordination/program-plan.yaml", previous_plan)
+        self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
+        self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
+        seed = self.commit(root, "GZ-014 early repair before reservation (#22)")
         task_id = "GZ-014"
-        entry = self.entry(task_id, seed, "in_progress", "chore/GZ-014-repair")
-        plan = {
-            "foundationTasks": [
-                {
+        entry = self.entry(task_id, seed, "reserved", "chore/GZ-014-repair")
+        entry["agentRole"] = "coordinator"
+        if mode == "invalid_reservation_status":
+            entry["status"] = "in_progress"
+        if mode == "invalid_reservation_base":
+            entry["baseSha"] = "f" * 40
+        foundation = {
                     "taskId": task_id,
-                    "status": "in_progress",
-                    "completionRef": "ISSUE-17",
+                    "title": entry["title"],
+                    "status": entry["status"],
+                    "completionRef": "ISSUE-30",
                     "mergeCommit": None,
                 }
-            ],
+        plan = {
+            "status": "active",
+            "foundationTasks": old_foundations + [foundation],
             "tasks": [],
         }
+        if mode.startswith("atomic_freeze"):
+            plan["status"] = "frozen"
+            plan["recovery"] = {
+                "taskId": task_id,
+                "reason": "Repair verified governance provenance conflict",
+                "affectedTasks": ["GZ-003"],
+                "sourceCommit": seed,
+                "frozenAt": (datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat().replace("+00:00", "Z"),
+                "verificationPath": "evidence/GZ-014/recovery-proof.json",
+            }
+            if mode == "atomic_freeze_bad_descriptor":
+                plan["recovery"]["reason"] = "short"
+            if mode == "atomic_freeze_wrong_owner":
+                plan["recovery"]["taskId"] = "GZ-003"
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
-        self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
-        self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
+        registry = self.registry([entry, dict(entry)] if mode == "duplicate_entry" else [entry])
+        if mode == "registration_policy_change":
+            registry["policy"]["maxActiveTasks"] = 2
+        if mode == "atomic_freeze_other_lease":
+            registry["tasks"].append(self.entry("GZ-003", seed, "reserved", "chore/GZ-003-other"))
+        self.write_yaml(root, "specs/coordination/active-work.yaml", registry)
+        original_spec = self.task_spec(entry, entry["status"], entry["branch"], entry["baseSha"])
+        if mode == "wrong_original_task":
+            original_spec = original_spec.replace("id: GZ-014", "id: GZ-015")
+        if mode == "wrong_original_branch":
+            original_spec = original_spec.replace("workBranch: chore/GZ-014-repair", "workBranch: chore/GZ-014-other")
         self.write_text(
             root,
             f"specs/tasks/{task_id}.md",
-            self.task_spec(entry, "in_progress", entry["branch"], seed),
+            original_spec,
         )
         self.write_text(root, f"evidence/{task_id}/handoff.md", "# Handoff\n")
+        if mode == "external_rename":
+            os.rename(os.path.join(root, "docs/foreign.md"), os.path.join(root, f"evidence/{task_id}/foreign.md"))
+        if mode == "atomic_freeze_ledger_change":
+            self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": [{"taskId": "GZ-003"}]})
+        if mode == "production_reservation":
+            self.write_text(root, "scripts/premature.py", "print('not metadata')\n")
+        reservation = self.commit(root, "GZ-014 metadata reservation (#20)")
+        if mode == "duplicate_introduction":
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
+            self.commit(root, "GZ-014 remove original lease")
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.commit(root, "GZ-014 reintroduce lease")
+        entry.update({"status": "in_progress", "agentRole": "implementer", "baseSha": reservation})
+        if mode == "changed_stable_identity":
+            entry["owner"] = "different-owner"
+        foundation["status"] = "in_progress"
+        if mode == "atomic_freeze_ledger_change":
+            self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
+        self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+        self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+        self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "in_progress", entry["branch"], reservation))
+        self.commit(root, "GZ-014 activation (#21)")
+        self.write_text(root, "docs/test/repair.md", "actual fixture repair\n")
         implementation = self.commit(root, "GZ-014 repair (#22)")
+        if with_review:
+            entry.update({"status": "review", "agentRole": "reviewer", "baseSha": implementation, "branch": "chore/GZ-014-review"})
+            foundation["status"] = "review"
+            self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+            self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([entry]))
+            self.write_text(root, f"specs/tasks/{task_id}.md", self.task_spec(entry, "review", entry["branch"], implementation))
+            audited_base = self.commit(root, "GZ-014 independent Review (#24)")
+        else:
+            audited_base = implementation
+        claimed_implementation = implementation
+        if mode == "merge_before_reservation":
+            claimed_implementation = seed
+        elif mode == "merge_is_reservation":
+            claimed_implementation = reservation
+        elif mode in {"unreachable_merge", "candidate_side_parent"}:
+            tree = subprocess.check_output(["git", "rev-parse", f"{implementation}^{{tree}}"], cwd=root, text=True).strip()
+            claimed_implementation = subprocess.check_output(
+                ["git", "commit-tree", tree, "-p", reservation, "-m", "GZ-014 detached implementation (#22)"], cwd=root, text=True
+            ).strip()
 
         subprocess.run(
             ["git", "checkout", "-b", "chore/GZ-014-completion"],
@@ -265,17 +347,26 @@ class TestProgramPlanHistory(unittest.TestCase):
             check=True,
             capture_output=True,
         )
-        plan["foundationTasks"][0].update(
-            {"status": "completed", "completionRef": "PR-22", "mergeCommit": implementation}
+        foundation.update(
+            {"status": "completed", "completionRef": "PR-20" if mode == "merge_is_reservation" else "PR-22", "mergeCommit": claimed_implementation}
         )
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
         self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
         self.write_text(
             root,
             f"specs/tasks/{task_id}.md",
-            self.task_spec(entry, "completed", "chore/GZ-014-completion", implementation),
+            self.task_spec(entry, "completed", "chore/GZ-014-completion", audited_base),
         )
         self.commit(root, "GZ-014 completion metadata (#23)")
+        if mode == "candidate_side_parent":
+            # An object reachable only through the proposed candidate must not
+            # become an integrated implementation on the audited main history.
+            current_tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root, text=True).strip()
+            candidate = subprocess.check_output(
+                ["git", "commit-tree", current_tree, "-p", audited_base, "-p", claimed_implementation, "-m", "GZ-014 candidate with archive parent (#23)"], cwd=root, text=True
+            ).strip()
+            subprocess.run(["git", "reset", "--soft", candidate], cwd=root, check=True, capture_output=True)
+        return {"seed": seed, "reservation": reservation, "implementation": implementation, "base": audited_base}
 
     def test_regular_completion_transition_passes(self):
         with tempfile.TemporaryDirectory() as root:
@@ -312,6 +403,89 @@ class TestProgramPlanHistory(unittest.TestCase):
             self.create_foundation_completion(root)
             result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_without_review_still_requires_real_reservation(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_foundation_completion(root, with_review=False)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_review_base_can_equal_real_implementation_merge(self):
+        with tempfile.TemporaryDirectory() as root:
+            sources = self.create_foundation_completion(root)
+            text = subprocess.check_output(["git", "show", "main:specs/coordination/active-work.yaml"], cwd=root, text=True)
+            self.assertEqual(yaml.safe_load(text)["tasks"][0]["baseSha"], sources["implementation"])
+            reserved = subprocess.check_output(["git", "show", sources["reservation"] + ":specs/coordination/active-work.yaml"], cwd=root, text=True)
+            self.assertEqual(yaml.safe_load(reserved)["tasks"][0]["baseSha"], sources["seed"])
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def reject_foundation_history(self, mode, message):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_foundation_completion(root, mode)
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn(message, result.stdout)
+
+    def test_foundation_rejects_non_reserved_introduction(self):
+        self.reject_foundation_history("invalid_reservation_status", "original reservation identity is invalid")
+
+    def test_foundation_rejects_unknown_reservation_base(self):
+        self.reject_foundation_history("invalid_reservation_base", "baseSha must be a strict ancestor")
+
+    def test_foundation_rejects_cross_task_original_spec(self):
+        self.reject_foundation_history("wrong_original_task", "Task Spec id does not match")
+
+    def test_foundation_rejects_original_spec_branch_mismatch(self):
+        self.reject_foundation_history("wrong_original_branch", "Task Spec workBranch does not match")
+
+    def test_foundation_rejects_duplicate_original_entries(self):
+        self.reject_foundation_history("duplicate_entry", "duplicate historical Registry entries")
+
+    def test_foundation_rejects_removal_and_reintroduction(self):
+        self.reject_foundation_history("duplicate_introduction", "exactly one original reservation")
+
+    def test_foundation_rejects_production_in_registration(self):
+        self.reject_foundation_history("production_reservation", "reservation must be metadata-only")
+
+    def test_foundation_rejects_external_rename_into_registration_evidence(self):
+        self.reject_foundation_history("external_rename", "reservation must be metadata-only")
+
+    def test_foundation_accepts_verified_atomic_freeze_registration(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_foundation_completion(root, "atomic_freeze")
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_rejects_atomic_freeze_bad_descriptor(self):
+        self.reject_foundation_history("atomic_freeze_bad_descriptor", "original atomic freeze rejected")
+
+    def test_foundation_rejects_atomic_freeze_other_task_lease(self):
+        self.reject_foundation_history("atomic_freeze_other_lease", "original atomic freeze rejected")
+
+    def test_foundation_rejects_atomic_freeze_ledger_change(self):
+        self.reject_foundation_history("atomic_freeze_ledger_change", "original atomic freeze rejected")
+
+    def test_foundation_rejects_atomic_freeze_wrong_owner(self):
+        self.reject_foundation_history("atomic_freeze_wrong_owner", "reservation changed another identity or policy")
+
+    def test_foundation_rejects_registration_policy_changes(self):
+        self.reject_foundation_history("registration_policy_change", "reservation changed another identity or policy")
+
+    def test_foundation_rejects_changed_stable_owner(self):
+        self.reject_foundation_history("changed_stable_identity", "does not match current stable identity")
+
+    def test_foundation_rejects_implementation_before_reservation(self):
+        self.reject_foundation_history("merge_before_reservation", "implementation must strictly follow original reservation")
+
+    def test_foundation_rejects_reservation_as_implementation(self):
+        self.reject_foundation_history("merge_is_reservation", "implementation must strictly follow original reservation")
+
+    def test_foundation_rejects_unreachable_implementation(self):
+        self.reject_foundation_history("unreachable_merge", "is not reachable from HEAD")
+
+    def test_foundation_rejects_candidate_only_archive_parent(self):
+        self.reject_foundation_history("candidate_side_parent", "implementation is not integrated on audited first-parent history")
 
     def test_completed_foundation_is_immutable(self):
         with tempfile.TemporaryDirectory() as root:

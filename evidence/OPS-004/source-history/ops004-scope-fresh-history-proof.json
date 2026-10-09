@@ -1,0 +1,111 @@
+{
+  "task": "OPS-004",
+  "head": "99b5a5bff559c6a9589554d5b251f0127a02277c",
+  "freshBareClone": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "--git-dir",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+        "show-ref"
+      ],
+      "exitCode": 0,
+      "stdout": "99b5a5bff559c6a9589554d5b251f0127a02277c refs/heads/chore/OPS-004-history-scope-registration\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "--git-dir",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+        "show",
+        "-s",
+        "--format=%T %P",
+        "99b5a5bff559c6a9589554d5b251f0127a02277c"
+      ],
+      "exitCode": 0,
+      "stdout": "22a6c13bbd39dbfa616963041e45657b4109708d 7f77774ea2bce6948b4de7214f49e8bbc0fc0c09 c5bf21c9be5ed69fcda283bc64b3e2d4b4755bf4\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "--git-dir",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+        "cat-file",
+        "-e",
+        "7f77774ea2bce6948b4de7214f49e8bbc0fc0c09^{commit}"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "--git-dir",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+        "merge-base",
+        "--is-ancestor",
+        "7f77774ea2bce6948b4de7214f49e8bbc0fc0c09",
+        "99b5a5bff559c6a9589554d5b251f0127a02277c"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "--git-dir",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+        "cat-file",
+        "-e",
+        "c5bf21c9be5ed69fcda283bc64b3e2d4b4755bf4^{commit}"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "--git-dir",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+        "merge-base",
+        "--is-ancestor",
+        "c5bf21c9be5ed69fcda283bc64b3e2d4b4755bf4",
+        "99b5a5bff559c6a9589554d5b251f0127a02277c"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "--git-dir",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+        "rev-parse",
+        "7f77774ea2bce6948b4de7214f49e8bbc0fc0c09^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "6d01c960c1b7cfd5a58e998927a79b4a119a1e72\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "--git-dir",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-scope-fresh-single-branch-20261010.git",
+        "rev-parse",
+        "c5bf21c9be5ed69fcda283bc64b3e2d4b4755bf4^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "7b86f49ac661286611042ae76627296ec6af1794\n",
+      "stderr": ""
+    }
+  ],
+  "result": "PASS: exact original failed and tested sources reachable in fresh single-branch clone; no auxiliary refs"
+}

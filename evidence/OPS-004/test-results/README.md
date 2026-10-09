@@ -1,4 +1,36 @@
 
+## 本次实现与验证边界
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+
+实现从审计基线的完整第一父链追溯唯一首次 reserved 登记，独立验证原始 Program/Registry/Task/范围和实际 Git 祖先；后续合法 Review 更新 baseSha 不会覆盖最初来源。登记范围检查覆盖 rename 两侧。原始原子冻结须在真实历史快照上通过既有 recovery validator，不能只靠冻结标记获得豁免。实现 SHA 必须已进入审计基线第一父链，候选额外父提交不能冒充已集成实现。
+
+本地 ba5cacb1b11ac71dd8fdec9cf3aea8af41fa58a8 的 27 项定向探索测试 27 passed in 9.04s，仅供开发反馈；它不是发布来源或完整套件结果。正式发布来源将通过真实远端 SHA/tree 绑定并单独执行全部检查，当前 NOT_EXECUTED。前序 main31/Gate602 的实际 351 passed in 263.01s 与容量 FAIL 记录位于 test-results/history-scope-main-602/，不转移到新增代码。
+
+只修改本任务历史来源检查器及其回归测试；永久政策、其他任务和 Ledger 不变。Owner 原窗口与角色、claims、Lease 均不延期。正式完整治理、实际 CI 与独立最终审查之后，独立 Review/Completion 绑定最后真实实现 PR/merge。
+
+## 历史记录
+
+
+## 当前历史来源修复实现
+
+Task: OPS-004 / Issue71 open
+Phase: blocked -> in_progress
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Coordinator: program-coordinator-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN / CONTRACT-TASK-SPEC / CONTRACT-ACTIVE-WORK
+
+精确六条范围登记PR76已合入；新增代码仅history与对应test，其他脚本/测试、旧任务/完成/普通Ledger/GZ005/政策不变。范围登记最新90实际14检查13零/唯一coord1，CI601351零失败错误跳过164.07s，原始在test-results/history-scope-final-90/，先前600及公开单分支源证明一并保留。当前新实现正式测试与远端CI NOT_EXECUTED，既有351回归不转移；独立审查后以真实新代码PR merge完成，不能冒称PR74代码身份。sharedPaths空、integrationOrder4、原Lease及容量窗口保留。回滚为前向恢复检查器实现，保留原始失败/身份/登记；下一角色核对真实发布树、全回归/全部非容量门禁和真实CI，再Review与Completion恢复全部主线成功。
+
+## 历史阶段记录（保留）
+
+
 ## 当前 scope 登记精确验证
 
 Task: OPS-004 / Issue71 reopened

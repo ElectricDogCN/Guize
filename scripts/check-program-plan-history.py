@@ -16,6 +16,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 from typing import Any
 
 import yaml
@@ -429,6 +430,135 @@ def validate_regular_completion(
     )
 
 
+def foundation_reservation(
+    root: str,
+    task_id: str,
+    base_ref: str,
+    current_entry: dict[str, Any],
+    errors: list[str],
+) -> tuple[str, dict[str, Any], set[str]] | None:
+    """Prove the original reservation on the audited integration history.
+
+    Active Work baseSha changes when a Foundation enters Review or is rebased.
+    It cannot stand in for the original reservation's immutable Git snapshot.
+    Walk only the target base's first-parent chain, without path simplification:
+    a candidate or an archived side parent cannot manufacture that history.
+    """
+    history = git(root, "rev-list", "--first-parent", "--reverse", base_ref)
+    if history.returncode != 0:
+        errors.append(f"Foundation {task_id} cannot read audited reservation history")
+        return None
+    commits = history.stdout.splitlines()
+    introductions: list[tuple[str, dict[str, Any]]] = []
+    present = False
+    for commit in commits:
+        text = read_ref(root, commit, ACTIVE)
+        active = load_yaml_text(text)
+        if text is not None and (
+            not isinstance(active, dict) or not isinstance(active.get("tasks"), list)
+        ):
+            errors.append(f"Foundation {task_id} has unreadable historical Registry at {commit}")
+            return None
+        entries = [
+            item for item in (active or {}).get("tasks", [])
+            if isinstance(item, dict) and item.get("taskId") == task_id
+        ]
+        if len(entries) > 1:
+            errors.append(f"Foundation {task_id} has duplicate historical Registry entries")
+            return None
+        if entries and not present:
+            introductions.append((commit, entries[0]))
+        present = bool(entries)
+    if len(introductions) != 1 or not present:
+        errors.append(f"Foundation {task_id} requires exactly one original reservation on audited first-parent history")
+        return None
+    commit, entry = introductions[0]
+    parent = resolve_ref(root, f"{commit}^1")
+    plan = load_ref(root, commit, PLAN)
+    previous_plan = load_ref(root, parent, PLAN) if parent else None
+    previous_active = load_ref(root, parent, ACTIVE) if parent else None
+    if not parent or not isinstance(plan, dict) or not isinstance(previous_plan, dict) or not isinstance(previous_active, dict):
+        errors.append(f"Foundation {task_id} reservation has no readable integration parent")
+        return None
+    foundations = [item for item in plan.get("foundationTasks", []) if item.get("taskId") == task_id]
+    if (
+        len(foundations) != 1 or foundations[0].get("status") != "reserved"
+        or foundations[0].get("title") != entry.get("title")
+        or foundations[0].get("completionRef") != f"ISSUE-{entry.get('issue')}"
+        or foundations[0].get("mergeCommit") is not None
+        or entry.get("status") != "reserved"
+        or entry.get("agentRole") != "coordinator"
+        or entry.get("riskLevel") != "high"
+        or entry.get("moduleIds") != ["MOD-GOV"]
+        or entry.get("programWave") != "FOUNDATION"
+        or entry.get("programTaskId") != task_id
+        or entry.get("programPlan") != PLAN
+        or not entry.get("implementer") or not entry.get("reviewer")
+        or entry.get("implementer") == entry.get("reviewer")
+    ):
+        errors.append(f"Foundation {task_id} original reservation identity is invalid")
+        return None
+    without_target = copy.deepcopy(plan)
+    without_target["foundationTasks"] = [item for item in plan.get("foundationTasks", []) if item.get("taskId") != task_id]
+    registry = load_ref(root, commit, ACTIVE)
+    without_entry = copy.deepcopy(registry)
+    without_entry["tasks"] = [item for item in registry.get("tasks", []) if item.get("taskId") != task_id]
+    if (
+        previous_plan.get("status") == "active" and plan.get("status") == "frozen"
+        and RECOVERY.recovery_owner(plan) == task_id
+    ):
+        # The existing recovery validator reads current files and the Ledger.
+        # Give it the real historical checkout, never the later Completion tree.
+        freeze_errors: list[str] = []
+        try:
+            with tempfile.TemporaryDirectory(prefix="guize-foundation-reservation-") as temporary:
+                snapshot = os.path.join(temporary, "snapshot")
+                clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
+                checkout = git(snapshot, "checkout", "--detach", "--quiet", commit) if clone.returncode == 0 else None
+                if not checkout or checkout.returncode != 0 or resolve_ref(snapshot, "HEAD") != commit:
+                    freeze_errors.append("Cannot reconstruct original freeze snapshot")
+                elif RECOVERY.validate_recovery_transition(snapshot, parent, commit, freeze_errors) != task_id:
+                    freeze_errors.append("Original freeze owner does not match reservation")
+        except OSError as exc:
+            freeze_errors.append(f"Cannot verify original freeze snapshot: {exc}")
+        if freeze_errors:
+            errors.extend(f"Foundation {task_id} original atomic freeze rejected: {error}" for error in freeze_errors)
+        else:
+            previous_plan = copy.deepcopy(previous_plan)
+            for document in (without_target, previous_plan):
+                document.pop("status", None)
+                document.pop("recovery", None)
+    if without_target != previous_plan or without_entry != previous_active:
+        errors.append(f"Foundation {task_id} original reservation changed another identity or policy")
+    mutable = {"status", "agentRole", "baseSha", "branch", "exclusivePaths", "sharedPaths", "lease"}
+    if {k: v for k, v in entry.items() if k not in mutable} != {k: v for k, v in current_entry.items() if k not in mutable}:
+        errors.append(f"Foundation {task_id} original reservation does not match current stable identity")
+    task_path = find_task_path(root, task_id, commit)
+    front, body = parse_front_matter(read_ref(root, commit, task_path or ""))
+    if (
+        front.get("schemaVersion") != 2 or front.get("status") != "reserved"
+        or front.get("wave") != "FOUNDATION" or front.get("agentRole") != "coordinator"
+        or front.get("titleZh") != entry.get("title")
+    ):
+        errors.append(f"Foundation {task_id} original reservation Task Spec is invalid")
+    else:
+        stable_spec_matches(task_id, entry, front, body, errors, reservation=True)
+    base_sha = str(entry.get("baseSha") or "")
+    if not re.fullmatch(r"[0-9a-f]{40}", base_sha) or base_sha == commit or not is_ancestor(root, base_sha, commit):
+        errors.append(f"Foundation {task_id} original reservation baseSha must be a strict ancestor")
+    files = RECOVERY.changed_paths(root, parent, commit)
+    if files is None:
+        errors.append(f"Foundation {task_id} cannot read exact original reservation paths")
+        files = set()
+    allowed = {PLAN, ACTIVE, task_path}
+    if not {PLAN, ACTIVE, task_path}.issubset(files) or any(
+        path not in allowed and not path.startswith(f"evidence/{task_id}/")
+        for path in files
+    ):
+        errors.append(f"Foundation {task_id} original reservation must be metadata-only")
+    return commit, entry, set(commits)
+
+
 def validate_foundations(
     root: str,
     base_plan: dict[str, Any],
@@ -476,15 +606,16 @@ def validate_foundations(
         merge_sha = str(after.get("mergeCommit") or "")
         completion_ref = str(after.get("completionRef") or "")
         validate_commit(root, merge_sha, task_id, completion_ref, f"Foundation {task_id}", errors)
-        reservation_base = str(prior_entries[0].get("baseSha") or "")
-        if (
-            not re.fullmatch(r"[0-9a-f]{40}", reservation_base)
-            or merge_sha == reservation_base
-            or not is_ancestor(root, reservation_base, merge_sha)
-        ):
-            errors.append(
-                f"Foundation {task_id} mergeCommit must strictly descend from reservation baseSha"
-            )
+        reservation = foundation_reservation(root, task_id, base_ref, prior_entries[0], errors)
+        if reservation:
+            reservation_commit, reserved_entry, audited_commits = reservation
+            reservation_base = str(reserved_entry.get("baseSha") or "")
+            if merge_sha == reservation_base or not is_ancestor(root, reservation_base, merge_sha):
+                errors.append(f"Foundation {task_id} mergeCommit must strictly descend from reservation baseSha")
+            if merge_sha == reservation_commit or not is_ancestor(root, reservation_commit, merge_sha):
+                errors.append(f"Foundation {task_id} implementation must strictly follow original reservation")
+            if merge_sha not in audited_commits:
+                errors.append(f"Foundation {task_id} implementation is not integrated on audited first-parent history")
         task_path = find_task_path(root, task_id, head_ref)
         if not task_path:
             errors.append(f"Foundation {task_id} has no Task Spec")

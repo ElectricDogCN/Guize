@@ -1,66 +1,49 @@
-# OPS-004 current scope registration complete file inventory
+# OPS-004 本次历史来源修复完整文件清单
 
 Task: OPS-004 / Issue71
-Baseline: 62d4ef826e0be1acb2839c3f04fe62d1894f9585
-Branch: chore/OPS-004-history-scope-registration
-Last verified published head: 99b5a5bff559c6a9589554d5b251f0127a02277c
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Branch: chore/OPS-004-history-repair-implementation
 
-This complete47-path inventory includes the current two-file Evidence correction (this manifest and scope.md), not just the18 paths from tested7f. The final published head must be verified separately. Raw testedSource identities remain unchanged.
+本清单覆盖当前全部 37 条路径，含自身全部 Evidence 与本清单。归档时须刷新为最终全部路径。正式 Source SHA 与检查结果会另行绑定，不把探索测试视作完整验收。
 
 ```text
 evidence/OPS-004/changed-files.md
 evidence/OPS-004/commands.txt
 evidence/OPS-004/handoff.md
-evidence/OPS-004/owner-history-scope-decision.md
 evidence/OPS-004/scope.md
-evidence/OPS-004/source-history/history-scope-reproduction.md
-evidence/OPS-004/source-history/history-scope-source-map.json
+evidence/OPS-004/source-history/ops004-scope-fresh-history-proof.json
 evidence/OPS-004/summary.md
 evidence/OPS-004/test-results/README.md
-evidence/OPS-004/test-results/completion-first-c5bf/actual-ci-598.txt
-evidence/OPS-004/test-results/completion-first-c5bf/clean-before.txt
-evidence/OPS-004/test-results/completion-first-c5bf/history.txt
-evidence/OPS-004/test-results/completion-first-c5bf/integrity.txt
-evidence/OPS-004/test-results/completion-first-c5bf/readiness.txt
-evidence/OPS-004/test-results/completion-first-c5bf/schemas.txt
-evidence/OPS-004/test-results/completion-first-c5bf/source.txt
-evidence/OPS-004/test-results/completion-first-c5bf/status.json
-evidence/OPS-004/test-results/completion-first-c5bf/task.txt
-evidence/OPS-004/test-results/completion-first-c5bf/tree.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/clean-after-governance.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/clean-after.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/clean-before.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/coordination.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/evidence.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/finalization.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/governance.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/governance.xml
-evidence/OPS-004/test-results/history-scope-published-7f77774/history.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/integrity.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/lifecycle.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/raw-lifecycle.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/readiness.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/runner-note.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/schemas.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/scope.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/source.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/status.json
-evidence/OPS-004/test-results/history-scope-published-7f77774/task.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/transitions.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/tree.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/unaffected.txt
-evidence/OPS-004/test-results/history-scope-published-7f77774/verify.txt
-evidence/OPS-004/test-results/history-scope-remote-599/job-log.txt
-evidence/OPS-004/test-results/history-scope-remote-599/proof.json
+evidence/OPS-004/test-results/history-scope-final-90/clean-after.txt
+evidence/OPS-004/test-results/history-scope-final-90/clean-before.txt
+evidence/OPS-004/test-results/history-scope-final-90/coordination.txt
+evidence/OPS-004/test-results/history-scope-final-90/docs.txt
+evidence/OPS-004/test-results/history-scope-final-90/evidence.txt
+evidence/OPS-004/test-results/history-scope-final-90/finalization.txt
+evidence/OPS-004/test-results/history-scope-final-90/history.txt
+evidence/OPS-004/test-results/history-scope-final-90/integrity.txt
+evidence/OPS-004/test-results/history-scope-final-90/lifecycle.txt
+evidence/OPS-004/test-results/history-scope-final-90/ops004-history-scope-final-ci-600-proof.json
+evidence/OPS-004/test-results/history-scope-final-90/ops004-history-scope-final-ci-600.txt
+evidence/OPS-004/test-results/history-scope-final-90/ops004-history-scope-inventory-ci-601-proof.json
+evidence/OPS-004/test-results/history-scope-final-90/ops004-history-scope-inventory-ci-601.txt
+evidence/OPS-004/test-results/history-scope-final-90/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-scope-final-90/readiness.txt
+evidence/OPS-004/test-results/history-scope-final-90/schemas.txt
+evidence/OPS-004/test-results/history-scope-final-90/scope.txt
+evidence/OPS-004/test-results/history-scope-final-90/source.txt
+evidence/OPS-004/test-results/history-scope-final-90/status.json
+evidence/OPS-004/test-results/history-scope-final-90/task.txt
+evidence/OPS-004/test-results/history-scope-final-90/transitions.txt
+evidence/OPS-004/test-results/history-scope-final-90/tree.txt
+evidence/OPS-004/test-results/history-scope-final-90/unaffected.txt
+evidence/OPS-004/test-results/history-scope-main-602/job-log.txt
+evidence/OPS-004/test-results/history-scope-main-602/proof.json
+scripts/check-program-plan-history.py
 specs/coordination/active-work.yaml
 specs/coordination/program-plan.yaml
 specs/tasks/OPS-004.md
+tests/governance/test_program_plan_history.py
 ```
 
-Reconstruct and compare the complete inventory using:
-
-```bash
-git diff --name-only 62d4ef826e0be1acb2839c3f04fe62d1894f9585 HEAD
-```
-
-The canonical non-Evidence differences are only own Program blocked status, own Registry base/branch/role/six precise claims and Task context. All other listed files are own Evidence. No production checker/test is modified before this scope registration merge. No GZ005/policy/Ledger/oldcompleted identity is changed. Final archive14, same-head CI and independentReview remain required; bounded capacity remains FAIL.
+复核：git diff --name-only 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb HEAD。新增生产路径仅 history checker 与对应测试；其余为自身 canonical metadata/Evidence。
