@@ -374,6 +374,58 @@ def is_coordination_metadata(
     return completion_mode and filepath in completion_metadata_paths(task_relative)
 
 
+def validated_active_metadata_paths(
+    root: str, task_id: str, task_path: str, base_ref: str, head_ref: str,
+    branch_name: str, errors: list[str],
+) -> set[str]:
+    """Permit own metadata only after the existing exact lifecycle gates pass.
+
+    This grants no claim on the Program document: those validators prove that
+    only the task's permitted lifecycle fields changed, reject other identities,
+    policy/ledger changes and frozen work, and check the entire changed scope.
+    The task's ordinary identity/branch/claim validation remains mandatory.
+    """
+    front, _ = parse_task(task_path)
+    if (str(front.get("schemaVersion")) != "2"
+            or front.get("coordinationMode") != "registry"
+            or front.get("id") != task_id
+            or front.get("status") not in {"in_progress", "review", "integration"}):
+        errors.append(f"Task {task_id} is not an active registry metadata candidate")
+        return set()
+    if not base_ref or not head_ref or not ref_exists(root, base_ref) or not ref_exists(root, head_ref):
+        errors.append(f"Task {task_id} metadata requires actual base and head commits")
+        return set()
+    code, _, _ = run_git(root, ["diff", "--quiet", head_ref, "--"])
+    if code:
+        errors.append(f"Task {task_id} metadata worktree differs from its checked head")
+        return set()
+    directory = os.path.dirname(__file__)
+    common = ["--repo-root", root, "--base-ref", base_ref, "--head-ref", head_ref,
+              "--task", task_id, "--branch-name", branch_name]
+    checks = [
+        # This checks complete Task/Registry/Program bindings, including Issue.
+        ("check-schemas.py", ["--repo-root", root]),
+        ("check-task-file.py", ["--repo-root", root, "--task", task_id]),
+        # No --task: the global Registry check cannot recurse into this helper.
+        ("check-agent-coordination.py", ["--repo-root", root]),
+        ("check-program-plan-history.py", common),
+        ("check-program-plan-transitions.py", common),
+        ("check-program-plan-finalization.py", ["--repo-root", root, "--base-ref", base_ref, "--task", task_id]),
+        ("run-program-lifecycle-gate.py", common),
+    ]
+    valid = True
+    for script, arguments in checks:
+        result = subprocess.run([sys.executable, os.path.join(directory, script), *arguments],
+                                cwd=root, capture_output=True, text=True)
+        if result.returncode:
+            valid = False
+            errors.append(f"Task {task_id} metadata rejected by {script}: "
+                          + (result.stdout + result.stderr).strip())
+    if not valid:
+        return set()
+    return {os.path.relpath(task_path, root).replace("\\", "/"), CANONICAL_ACTIVE_WORK, CANONICAL_PLAN}
+
+
 def load_completion_context(
     root: str,
     registry_relative: str,
@@ -448,6 +500,7 @@ def validate_task_context(
     base_ref: str = "",
     head_ref: str = "",
     branch_name: str = "",
+    validated_metadata: set[str] | None = None,
 ) -> None:
     task_path = find_task_file(root, task_id)
     if not task_path:
@@ -589,11 +642,19 @@ def validate_task_context(
             errors.append(f"Cannot determine changed files for {base_ref}...{head_ref}")
         else:
             claims = list(entry.get("exclusivePaths", [])) + list(entry.get("sharedPaths", []))
+            if (not completion_mode and CANONICAL_PLAN in files
+                    and not any(match_pattern(CANONICAL_PLAN, pattern) for pattern in claims)
+                    and validated_metadata is None):
+                validated_metadata = validated_active_metadata_paths(
+                    root, task_id, task_path, base_ref, head_ref, branch_name, errors
+                )
             unclaimed: list[str] = []
             for filepath in files:
                 if is_coordination_metadata(
                     filepath, task_id, task_path, root, completion_mode=completion_mode
                 ):
+                    continue
+                if filepath in (validated_metadata or set()):
                     continue
                 if not any(match_pattern(filepath, pattern) for pattern in claims):
                     unclaimed.append(filepath)

@@ -1,0 +1,5 @@
+Source Commit: 2da30c011a375f08968a8f11ad0acc3b4277bbea
+Command: python scripts/check-task-file.py --task OPS-004
+{"status": "PASS", "message": "Task file valid: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize/specs/tasks/OPS-004.md"}
+
+Exit Code: 0
