@@ -1,0 +1,7 @@
+Source Commit: a50d2406037a496cb9c46ee359bc9f0e16cb9263
+Command: python scripts/check-markdown.py
+Checking 233 Markdown files...
+
+OK: No issues found
+
+Exit Code: 0

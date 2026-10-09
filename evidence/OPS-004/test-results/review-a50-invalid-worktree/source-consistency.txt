@@ -1,0 +1,9 @@
+Source Commit: a50d2406037a496cb9c46ee359bc9f0e16cb9263
+Command: git status --porcelain
+D  evidence/OPS-004/source-history/README.md
+D  evidence/OPS-004/source-history/review-source-map.json
+M  evidence/OPS-004/summary.md
+Exit Code: 0
+
+Result: INVALID_SOURCE_CONSISTENCY; not accepted as verification of the complete published tree.
+The initial branch checkout overlapped an unfinished fetch. The branch ref pointed to a50 while three Evidence paths/index reflected the prior tree. Production scripts/tests and lifecycle metadata did not change, but the 14 outputs cannot certify the complete published source. Raw outputs remain unmodified. Restored only those three own Evidence paths from actual HEAD, independently confirmed clean status and git diff HEAD zero, and reran all 14 checks against the same reachable a50.

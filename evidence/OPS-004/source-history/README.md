@@ -2,7 +2,7 @@
 
 The original local test SHAs and the later public archive SHAs are distinct. Raw logs retain the original Source Commit; the archives provide exactly the same complete Git trees for reproduction. They do not claim the original local commits are remote ancestors. The mapping and actual native fetch/tree/parent/full-diff checks are in `review-source-map.json`.
 
-Keep branch `archive/OPS-004-review-sources-20261009` while these records are retained. It makes both archive commits reachable; the second archive is a child of the first, which is a child of the actual implementation merge.
+Both archive commits are included in this Review PR's immutable Git parent history: the evidence archive publication keeps the existing reviewed head as its first parent and `5dce717e6224e1cf955926721807cbda4db9034b` as an additional parent. The second archive is a child of the first, which is a child of the actual implementation merge. The archive branch remains an auxiliary ref; reproduction does not depend solely on retaining that mutable branch. Actual ancestry/object/tree checks on the published head are required before integration.
 
 | Original local tested source | Exact tested tree | Durable equivalent commit |
 | --- | --- | --- |
@@ -12,7 +12,9 @@ Keep branch `archive/OPS-004-review-sources-20261009` while these records are re
 Fetch from a normal repository clone and reproduce the corrected metadata candidate in a separate worktree:
 
 ```bash
-git fetch origin refs/heads/archive/OPS-004-review-sources-20261009:refs/remotes/origin/archive/OPS-004-review-sources-20261009
+git fetch origin refs/heads/chore/OPS-004-lifecycle-repair-review:refs/remotes/origin/chore/OPS-004-lifecycle-repair-review
+git merge-base --is-ancestor 5cb09fb1824dfc50a854456f24948b53b1696598 origin/chore/OPS-004-lifecycle-repair-review
+git merge-base --is-ancestor 5dce717e6224e1cf955926721807cbda4db9034b origin/chore/OPS-004-lifecycle-repair-review
 git cat-file -e 5dce717e6224e1cf955926721807cbda4db9034b^{commit}
 git cat-file -e e896283d321aa469fc70836aa2e1a70eeac760dc^{tree}
 git worktree add --detach ../ops004-review-reproduction 5dce717e6224e1cf955926721807cbda4db9034b

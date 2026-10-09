@@ -56,3 +56,11 @@ Review metadata tested source: 3517a9d633a534f4502938aedec9360887079903；tree e
 ## 远端可重建源码与原日志绑定
 
 上述本地Source SHA不是远端祖先，原日志保持实际执行Source不改。现以公开archive分支保存完整同树复验入口：b1f729a对应远端5cb09fb1824dfc50a854456f24948b53b1696598/tree9e9876db50cf5ae1707ca834b3fed0c66157f4d3；3517a9d对应5dce717e6224e1cf955926721807cbda4db9034b/treee896283d321aa469fc70836aa2e1a70eeac760dc。两者已实际fetch，原本地Source与各自远端完整diff都退出0；真实父链为726870→5cb09→5dce7。这些远端commit是后来创建的等价入口，不冒称原测试提交、不会把归档创建称为重跑。精确映射、对象检查与fetch/独立checkout/复验命令见 [source-history/README.md](source-history/README.md) 与 `source-history/review-source-map.json`。archive分支须保留。后续检查改在实际已发布PR HEAD执行，避免新增不可达测试源；当前修正候选仍待该实际检查、CI与独立审查。
+
+## 实际发布源复验与祖先绑定归档
+
+Actual tested published Source: a50d2406037a496cb9c46ee359bc9f0e16cb9263；tree8848c545ed2307998c4483672d67c6d0e3685361。正确完整检出后真实14项13退出0、仅coordination=1容量2>1，原始在 test-results/review-published-a50/。同头关联的官方Gate595真实351 passed in 206.46s，全部其他实质步骤及Skip audit成功，整体Gate仍FAIL；完整官方记录在 test-results/review-remote-595/，前一头Gate594在 review-remote-594/。
+
+首次a50检查工作树缺两份source-history文件并保留旧summary，虽然检查返回13零，但源一致性不满足，明确无效、不用作完整发布树验收。原始与实际dirty状态记录保留在 test-results/review-a50-invalid-worktree/。仅恢复三个自身Evidence路径，实际HEAD未变、git diff HEAD零且status空，随后全部14项重新执行；生产代码和旧身份不变。
+
+本次只补自身归档和当前阶段说明；发布时将5dce717置于新提交额外父链，使两个历史快照进入PR的不可变祖先，archive分支仅作辅助。实际发布头必须验证两个祖先/对象/tree、完整14项及其同头351 CI；a50结果不能冒称新归档头重跑。新头结果在后续Completion继续归档，避免要求提交包含自身SHA日志的自引用循环。Completion身份仍PR-73/726870，容量限制不变，业务仍未启动。
