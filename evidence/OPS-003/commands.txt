@@ -1,3 +1,12 @@
+OPS-003 Foundation completion
+Implementation merge: 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d
+Completion base: 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d
+Status: COMPLETED
+
+Final PR #66 HEAD a5ded0344454b746240eccea42b6a694f6cb12da: Gate #582 success, 328 passed, zero failures/errors/skips. Post-main Gate #583 success. Issues #64 and #41 verified live closed/completed. Independent source/archive review accepted exact tree 87e355409184f16de08702e5be2617f6bbbf69d1. Only OPS-003 metadata and lease are finalized; GZ-010, the ordinary Ledger and POC results remain unchanged. This candidate requires its own checks and review before merge.
+
+The following implementation-stage records are retained as history:
+
 Task: OPS-003
 Base: 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26
 Tested local source: 9b40c68d2e37a96458e673dbcde2aef678d9343a
@@ -85,3 +94,96 @@ Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.cod
 Exit Code: 0
 Result: PASS
 Evidence: test-results/implementation-20261009/governance-tests.txt
+
+OPS-003 completion candidate: 696acea97a50c877a60e7c534650c956bf9d3931
+Implementation merge / target base: 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d
+
+task
+Command: python scripts/check-task-file.py --task OPS-003
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/task.txt
+
+readiness
+Command: python scripts/check-project-readiness.py
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/readiness.txt
+
+schemas
+Command: python scripts/check-schemas.py
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/schemas.txt
+
+integrity
+Command: python scripts/check-program-plan-integrity.py --base-ref 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/integrity.txt
+
+history
+Command: python scripts/check-program-plan-history.py --base-ref 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/history.txt
+
+transitions
+Command: python scripts/check-program-plan-transitions.py --base-ref 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/transitions.txt
+
+finalization
+Command: python scripts/check-program-plan-finalization.py --base-ref 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d --task OPS-003
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/finalization.txt
+
+raw-lifecycle
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/raw-lifecycle.txt
+
+lifecycle
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/lifecycle.txt
+
+coordination
+Command: python scripts/run-agent-coordination-gate.py --base-ref 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-forward-recovery-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/coordination.txt
+
+scope
+Command: python scripts/run-task-scope-gate.py --task OPS-003 --base 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/scope.txt
+
+evidence
+Command: python scripts/check-evidence.py --task OPS-003
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/evidence.txt
+
+unaffected
+Command: git diff --exit-code 7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/poc
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/unaffected.txt
+
+verify
+Command: make verify TASK=OPS-003 BASE=7eae5ad5a6558f1c16f4ae8399adb739f0a2b47d HEAD_REF=HEAD BRANCH=chore/OPS-003-forward-recovery-completion
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/verify.txt
+
+governance
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops003-completion-results/governance.xml
+Exit Code: 0
+Result: PASS
+Evidence: test-results/completion-20261009/governance.txt

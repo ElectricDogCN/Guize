@@ -1,0 +1,38 @@
+[
+  {
+    "upstream": "https://api.github.com/repos/ElectricDogCN/Guize/issues/64",
+    "retrievedAt": "2026-10-09T11:17:13.538185+00:00",
+    "windowsExitCode": 0,
+    "sha256": "8a58a3e4702ba095c30e59c94830428b304e0c8762ee177cd44fed9dad0d9e85",
+    "number": 64,
+    "state": "closed",
+    "state_reason": "completed",
+    "updated_at": "2026-10-09T11:11:48Z",
+    "closed_at": "2026-10-09T11:11:48Z",
+    "html_url": "https://github.com/ElectricDogCN/Guize/issues/64"
+  },
+  {
+    "upstream": "https://api.github.com/repos/ElectricDogCN/Guize/issues/64",
+    "retrievedAt": "2026-10-09T11:18:06.524718+00:00",
+    "windowsExitCode": 0,
+    "sha256": "8a58a3e4702ba095c30e59c94830428b304e0c8762ee177cd44fed9dad0d9e85",
+    "number": 64,
+    "state": "closed",
+    "state_reason": "completed",
+    "updated_at": "2026-10-09T11:11:48Z",
+    "closed_at": "2026-10-09T11:11:48Z",
+    "html_url": "https://github.com/ElectricDogCN/Guize/issues/64"
+  },
+  {
+    "upstream": "https://api.github.com/repos/ElectricDogCN/Guize/issues/64",
+    "retrievedAt": "2026-10-09T11:19:08.060764+00:00",
+    "windowsExitCode": 0,
+    "sha256": "8a58a3e4702ba095c30e59c94830428b304e0c8762ee177cd44fed9dad0d9e85",
+    "number": 64,
+    "state": "closed",
+    "state_reason": "completed",
+    "updated_at": "2026-10-09T11:11:48Z",
+    "closed_at": "2026-10-09T11:11:48Z",
+    "html_url": "https://github.com/ElectricDogCN/Guize/issues/64"
+  }
+]
