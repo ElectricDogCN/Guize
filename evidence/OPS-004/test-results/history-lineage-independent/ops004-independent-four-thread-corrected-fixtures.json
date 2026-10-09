@@ -1,0 +1,16 @@
+[
+  {
+    "mode": "original_claim_conflict_corrected_fixture",
+    "source": "58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "original_incomplete_dependency_valid_eventual_identity",
+    "source": "58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  }
+]

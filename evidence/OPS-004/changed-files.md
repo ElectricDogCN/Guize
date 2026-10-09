@@ -1,10 +1,10 @@
-# OPS-004 完整当前实现路径
+# OPS-004 当前完整实现路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
 Branch: chore/OPS-004-history-repair-implementation
 
-全部108路径，含全部历史归档/独立证明/本清单。新404正式结果NOT_EXECUTED，旧392不转移。
+全部133路径，含全部归档/独立证明/本清单。新413正式验证NOT_EXECUTED，旧404仅属于58cc。
 
 ```text
 evidence/OPS-004/changed-files.md
@@ -14,10 +14,35 @@ evidence/OPS-004/scope.md
 evidence/OPS-004/source-history/ops004-scope-fresh-history-proof.json
 evidence/OPS-004/summary.md
 evidence/OPS-004/test-results/README.md
+evidence/OPS-004/test-results/history-identity-ci-606/job-log.txt
+evidence/OPS-004/test-results/history-identity-ci-606/proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-implementation-role-reproductions-utf8.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-independent-ledger-implementation-reproduction.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-pr77-independent-history-proof.json
 evidence/OPS-004/test-results/history-identity-independent/ops004-snapshot-fresh-source-history.json
+evidence/OPS-004/test-results/history-identity-source-58cc397/clean-after.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/clean-before.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/coordination.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/evidence.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/finalization.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/governance.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/governance.xml
+evidence/OPS-004/test-results/history-identity-source-58cc397/history.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/integrity.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/lifecycle.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/raw-lifecycle.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/readiness.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/schemas.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/scope.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/source.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/status.json
+evidence/OPS-004/test-results/history-identity-source-58cc397/task.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/transitions.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/tree.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/unaffected.txt
+evidence/OPS-004/test-results/history-identity-source-58cc397/verify.txt
+evidence/OPS-004/test-results/history-lineage-independent/ops004-independent-four-thread-corrected-fixtures.json
+evidence/OPS-004/test-results/history-lineage-independent/ops004-independent-four-thread-reproductions.json
 evidence/OPS-004/test-results/history-repair-ci-603/job-log.txt
 evidence/OPS-004/test-results/history-repair-ci-603/proof.json
 evidence/OPS-004/test-results/history-repair-final-b156/actual-ci-604.txt

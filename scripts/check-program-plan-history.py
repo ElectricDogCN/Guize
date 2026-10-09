@@ -511,6 +511,20 @@ def foundation_reservation(
             errors.append(f"Foundation {task_id} original reservation claims are outside governance ownership subsets")
     if entry.get("sharedPaths") or not entry.get("exclusivePaths"):
         errors.append(f"Foundation {task_id} original reservation requires exclusive governance claims")
+    for other in previous_active.get("tasks", []):
+        if other.get("taskId") == task_id or other.get("status") not in ACTIVE_STATES:
+            continue
+        if any(RECOVERY.paths_overlap(str(own), str(foreign)) for own in entry.get("exclusivePaths") or [] for foreign in list(other.get("exclusivePaths") or []) + list(other.get("sharedPaths") or [])):
+            errors.append(f"Foundation {task_id} original reservation claims conflict with active task {other.get('taskId')}")
+    original_tasks = {**mapping(previous_plan.get("foundationTasks")), **mapping(previous_plan.get("tasks"))}
+    previous_ledger = load_ref(root, parent, LEDGER)
+    for dependency in entry.get("dependsOn") or []:
+        if original_tasks.get(dependency, {}).get("status") != "completed":
+            errors.append(f"Foundation {task_id} original reservation has incomplete dependency {dependency}")
+            continue
+        dependency_merge = RECOVERY.completion_merge_sha(dependency, previous_plan, previous_ledger or {})
+        if not re.fullmatch(r"[0-9a-f]{40}", str(dependency_merge or "")) or not is_ancestor(root, dependency_merge, parent):
+            errors.append(f"Foundation {task_id} original reservation dependency {dependency} lacks an integrated completion identity")
     if any(str(path).strip() in {"", "*", "**"} for path in list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or [])):
         errors.append(f"Foundation {task_id} original reservation may not claim the entire repository")
     foundations = [item for item in plan.get("foundationTasks", []) if item.get("taskId") == task_id]
@@ -730,6 +744,9 @@ def validate_foundations(
             if merge_sha not in audited_commits:
                 errors.append(f"Foundation {task_id} implementation is not integrated on audited first-parent history")
             elif merge_sha != reservation_commit and is_ancestor(root, reservation_commit, merge_sha):
+                parents = git(root, "show", "-s", "--format=%P", merge_sha)
+                if parents.returncode != 0 or any(not is_ancestor(root, reservation_commit, side) for side in parents.stdout.split()[1:]):
+                    errors.append(f"Foundation {task_id} implementation-side history must descend from original reservation")
                 foundation_implementation(root, task_id, merge_sha, errors)
         task_path = find_task_path(root, task_id, head_ref)
         if not task_path:

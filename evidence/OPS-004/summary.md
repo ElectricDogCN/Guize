@@ -1,4 +1,45 @@
 
+## 当前原始登记冲突、依赖与实现侧谱系修复
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+
+独立真实Git复现确认PR77 DvF/M/V：实现侧未包含Reservation的多父merge；原exclusive与其他active exclusive/shared冲突而其他任务后来退出；原依赖未完成而后来完成，均可被旧history接受。当前仅在已登记history/test补已有规则：多父实现全部非第一父节点须包含原Reservation（单父/squash仍支持）；使用已载RECOVERY.paths_overlap检查原parent中自己exclusive对其他active exclusive/shared；原parent Program依赖须completed且复用RECOVERY.completion_merge_sha证明完成SHA是原parent祖先。没有加载/重放全历史Gate、容量或Issue。相对__file__审查是误报，实际正常相对CLI在支持的Python环境__file__已绝对，证明保留；不新增兼容机制。首次错误冲突fixture的FAIL也保留，但有效冲突证据以corrected-fixtures为准。
+
+当前候选68定向回归实际通过26.70s，仅探索、外部XML保留。新实际Source完整413及全部正式检查/CI：NOT_EXECUTED。此前actual58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a完整404通过343.53s、Gate606完整404通过307.51s和真实容量FAIL已原样归档test-results/history-identity-source-58cc397及history-identity-ci-606；这些结果不转移到新候选。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN / CONTRACT-TASK-SPEC / CONTRACT-ACTIVE-WORK
+最后实现身份仍须真实PR77merge，随后独立Review/Completion与主线全成功后恢复GZ005。永久政策、其他任务、旧completed/Ledger、Lease及Owner窗口不变。
+
+## 历史记录
+
+
+## 当前实现精确正式结果
+
+Task: OPS-004 / Issue71
+Phase: history repair implementation
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Tested Source Commit: 58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a
+Tested Tree: cf1d0c9fd8db2eed590d80ce0cda960b9e89a068
+
+实际15项检查：13项退出0；coordination1/make2仅原有容量 FAIL。独立完整治理 404 passed in 343.53s (0:05:43)，JUnit404 testcase、零失败/错误/跳过。make实际在容量检查处终止，完整治理为同一未变、执行前后干净来源上的独立命令，原始见 test-results/history-identity-source-58cc397/。Gate606完整原始在 test-results/history-identity-ci-606/，必须按该 actual proof 解读，不将容量失败称全Gate成功。
+
+当前归档只变自身Evidence，保留 actual testedSource 为真实父提交。最终实际归档14检查、同头CI和独立Reviewer仍必需；之后只在原Owner窗口内集成，独立Review/Completion后全主线必须通过。最后实现身份绑定本次真实代码PR77merge，不能使用历史Review PR74作为代码身份。永久政策、GZ005、旧completed/普通Ledger不变，Lease与容量窗口不延长。
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
+
 ## 声明实现节点的既有Ledger保护
 
 独立真实复现证实f6b的Ledger-only注释修改可误判为实现。当前复用本history已有路径规则，在声明实现节点真实第一父双侧diff出现普通Ledger路径时拒绝，覆盖Ledger-only/代码夹带Ledger。没有把当前工作树Ledger强制绑定旧历史blob，不妨碍之后普通任务合法更新账本。有效复现原始在test-results/history-identity-independent/ops004-independent-ledger-implementation-reproduction.json。

@@ -251,12 +251,25 @@ class TestProgramPlanHistory(unittest.TestCase):
             old_foundations = [{"taskId": "GZ-003", "status": "completed", "completionRef": "PR-11", "mergeCommit": bootstrap}]
         if mode == "external_rename":
             self.write_text(root, "docs/foreign.md", "external baseline content that cannot become own metadata\n")
+        if mode.startswith("original_dependency_"):
+            dependency_merge = self.commit(root, "GZ-003 prerequisite implementation (#19)")
+            if mode == "original_dependency_unintegrated":
+                tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root, text=True).strip()
+                dependency_merge = subprocess.check_output(["git", "commit-tree", tree, "-m", "GZ-003 detached prerequisite (#19)"], cwd=root, text=True).strip()
+            old_foundations = [{"taskId": "GZ-003", "status": "reserved" if mode == "original_dependency_incomplete" else "completed", "completionRef": "PR-19", "mergeCommit": None if mode == "original_dependency_no_identity" else dependency_merge}]
         previous_plan = {"status": "active", "foundationTasks": old_foundations, "tasks": []}
         self.write_yaml(root, "specs/designs/module-ownership.yaml", {"modules": [{"id": "MOD-GOV", "ownedPaths": ["scripts/**", "tests/governance/**", "specs/coordination/**"]}]})
         if mode == "preexisting_handoff":
             self.write_text(root, "evidence/GZ-014/handoff.md", "# Existing task-bound reservation handoff\n")
         self.write_yaml(root, "specs/coordination/program-plan.yaml", previous_plan)
-        self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry([]))
+        other_entries = []
+        if mode in {"original_exclusive_conflict", "original_shared_conflict", "original_nonconflicting_claim"}:
+            other = self.entry("GZ-003", "f" * 40, "reserved", "chore/GZ-003-other")
+            other["exclusivePaths"] = ["scripts/other.py"] if mode == "original_nonconflicting_claim" else ["scripts/**"]
+            if mode == "original_shared_conflict":
+                other["sharedPaths"], other["exclusivePaths"] = other["exclusivePaths"], []
+            other_entries.append(other)
+        self.write_yaml(root, "specs/coordination/active-work.yaml", self.registry(other_entries))
         self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
         seed = self.commit(root, "GZ-014 early repair before reservation (#22)")
         task_id = "GZ-014"
@@ -265,6 +278,8 @@ class TestProgramPlanHistory(unittest.TestCase):
         now = datetime.now(timezone.utc)
         entry["exclusivePaths"] = ["scripts/fixture-repair.py"]
         entry["lease"] = {"acquiredAt": (now-timedelta(hours=1)).isoformat(), "expiresAt": (now+timedelta(days=1)).isoformat()}
+        if mode.startswith("original_dependency_"):
+            entry["dependsOn"] = ["GZ-003"]
         valid_entry = copy.deepcopy(entry)
         if mode.startswith("original_placeholder_"):
             entry[mode.removeprefix("original_placeholder_")] = "unassigned"
@@ -318,6 +333,7 @@ class TestProgramPlanHistory(unittest.TestCase):
                 plan["recovery"]["taskId"] = "GZ-003"
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
         registry = self.registry([entry, dict(entry)] if mode == "duplicate_entry" else [entry])
+        registry["tasks"].extend(other_entries)
         if mode == "registration_policy_change":
             registry["policy"]["maxActiveTasks"] = 2
         if mode == "atomic_freeze_other_lease":
@@ -376,6 +392,8 @@ class TestProgramPlanHistory(unittest.TestCase):
         if mode == "changed_stable_identity":
             entry["owner"] = "different-owner"
         foundation["status"] = "in_progress"
+        if mode == "original_dependency_incomplete":
+            old_foundations[0]["status"] = "completed"
         if mode == "atomic_freeze_ledger_change":
             self.write_yaml(root, "specs/coordination/task-completions.yaml", {"records": []})
         self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
@@ -391,6 +409,11 @@ class TestProgramPlanHistory(unittest.TestCase):
         if mode == "implementation_unclaimed_path":
             self.write_text(root, "backend/unclaimed.py", "# outside historical claims\n")
         implementation = self.commit(root, "GZ-014 repair (#22)")
+        if mode in {"implementation_side_before_reservation", "valid_implementation_merge"}:
+            tree = subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root, text=True).strip()
+            side = subprocess.check_output(["git", "commit-tree", tree, "-p", seed if mode == "implementation_side_before_reservation" else reservation, "-m", "GZ-014 implementation branch (#22)"], cwd=root, text=True).strip()
+            implementation = subprocess.check_output(["git", "commit-tree", tree, "-p", activation, "-p", side, "-m", "GZ-014 integrated repair (#22)"], cwd=root, text=True).strip()
+            subprocess.run(["git", "reset", "--hard", implementation], cwd=root, check=True, capture_output=True)
         evidence_commit = None
         if mode == "merge_is_evidence_only":
             self.write_text(root, f"evidence/{task_id}/summary.md", "# Evidence archive only\n")
@@ -502,6 +525,12 @@ class TestProgramPlanHistory(unittest.TestCase):
             self.assertEqual(yaml.safe_load(text)["tasks"][0]["baseSha"], sources["implementation"])
             reserved = subprocess.check_output(["git", "show", sources["reservation"] + ":specs/coordination/active-work.yaml"], cwd=root, text=True)
             self.assertEqual(yaml.safe_load(reserved)["tasks"][0]["baseSha"], sources["seed"])
+            result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def accept_foundation_history(self, mode):
+        with tempfile.TemporaryDirectory() as root:
+            self.create_foundation_completion(root, mode)
             result = self._run_checker(root, "GZ-014", "chore/GZ-014-completion")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
@@ -676,6 +705,33 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_rejects_implementation_with_ledger_change(self):
         self.reject_foundation_history("implementation_with_ledger", "claimed implementation must not modify the ordinary ledger")
+
+    def test_foundation_rejects_pre_registration_implementation_side(self):
+        self.reject_foundation_history("implementation_side_before_reservation", "implementation-side history must descend from original reservation")
+
+    def test_foundation_accepts_registered_implementation_merge(self):
+        self.accept_foundation_history("valid_implementation_merge")
+
+    def test_foundation_rejects_original_exclusive_claim_conflict(self):
+        self.reject_foundation_history("original_exclusive_conflict", "original reservation claims conflict with active task")
+
+    def test_foundation_rejects_original_shared_claim_conflict(self):
+        self.reject_foundation_history("original_shared_conflict", "original reservation claims conflict with active task")
+
+    def test_foundation_accepts_original_nonconflicting_claim(self):
+        self.accept_foundation_history("original_nonconflicting_claim")
+
+    def test_foundation_accepts_original_completed_dependency(self):
+        self.accept_foundation_history("original_dependency_completed")
+
+    def test_foundation_rejects_original_incomplete_dependency(self):
+        self.reject_foundation_history("original_dependency_incomplete", "original reservation has incomplete dependency")
+
+    def test_foundation_rejects_dependency_without_completion_identity(self):
+        self.reject_foundation_history("original_dependency_no_identity", "lacks an integrated completion identity")
+
+    def test_foundation_rejects_unintegrated_dependency_identity(self):
+        self.reject_foundation_history("original_dependency_unintegrated", "lacks an integrated completion identity")
 
     def test_completed_foundation_is_immutable(self):
         with tempfile.TemporaryDirectory() as root:

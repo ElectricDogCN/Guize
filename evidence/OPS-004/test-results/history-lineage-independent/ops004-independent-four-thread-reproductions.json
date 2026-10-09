@@ -1,0 +1,37 @@
+[
+  {
+    "mode": "implementation_side_before_reservation",
+    "source": "58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": "",
+    "reservation": "55688d48a2385f208ac21d98d15a45ccc6611a02",
+    "seed": "48f72d57f277831232e6a178e479270cacc3fc3d",
+    "sideHasReservation": 1
+  },
+  {
+    "mode": "original_claim_conflict",
+    "source": "58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a",
+    "exit": 1,
+    "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 may only remove its own Active Work entry\"}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "original_incomplete_dependency",
+    "source": "58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "normal_relative_CLI_file_path",
+    "command": "python scripts/check-program-plan-history.py --help",
+    "exit": 0,
+    "observation": {
+      "observedMainFile": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\Guize\\scripts\\check-program-plan-history.py",
+      "isAbsolute": true,
+      "version": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 15:03:56) [MSC v.1929 64 bit (AMD64)]"
+    },
+    "stderr": ""
+  }
+]
