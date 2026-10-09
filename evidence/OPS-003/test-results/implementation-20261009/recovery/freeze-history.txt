@@ -1,0 +1,5 @@
+Source Commit: d5d77e8b2650b37f8bec4e859a7affc1588050b8
+Command: python scripts/check-program-plan-history.py --base-ref 9b40c68d2e37a96458e673dbcde2aef678d9343a --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-freeze
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "9b40c68d2e37a96458e673dbcde2aef678d9343a", "headRef": "HEAD", "completionRecords": 1}}
+
+Exit Code: 0

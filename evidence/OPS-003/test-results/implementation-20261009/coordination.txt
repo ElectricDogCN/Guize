@@ -1,0 +1,4 @@
+Command: python scripts/run-agent-coordination-gate.py --task OPS-003 --base-ref 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 --head-ref HEAD --branch-name chore/OPS-003-forward-recovery-implementation
+{"status": "PASS", "message": "Agent coordination valid: 2 active tasks, 1 high/critical", "details": {"activeTaskIds": ["GZ-010", "OPS-003"]}}
+
+Exit Code: 0

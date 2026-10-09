@@ -1,0 +1,5 @@
+Source Commit: c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf
+Command: python scripts/check-program-plan-history.py --base-ref 6971d655da297149adc681f10c0f386dfda47016 --head-ref HEAD --task GZ-004 --branch-name fix/GZ-004-isolated-evidence-repair
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "6971d655da297149adc681f10c0f386dfda47016", "headRef": "HEAD", "completionRecords": 1}}
+
+Exit Code: 0

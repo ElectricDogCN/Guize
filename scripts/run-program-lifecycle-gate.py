@@ -152,13 +152,20 @@ def validate_completion_issues(
     root: str,
     base_ref: str,
     errors: list[str],
+    head_ref: str = "HEAD",
 ) -> None:
     base_plan = GUARD.load_ref(root, base_ref, GUARD.PLAN)
     current_plan = GUARD.load_current(root, GUARD.PLAN)
     if not isinstance(base_plan, dict) or not isinstance(current_plan, dict):
         errors.append("Completion Issue validation cannot load Program Plan snapshots")
         return
-    for task_id in sorted(completion_transitions(base_plan, current_plan)):
+    require_closed = completion_transitions(base_plan, current_plan)
+    paths = exact_changed_paths(root, base_ref, head_ref) or set()
+    require_closed.update(
+        task_id for task_id in GUARD.evidence_task_ids(paths)
+        if GUARD.completed_evidence_candidate(base_plan, current_plan, task_id)
+    )
+    for task_id in sorted(require_closed):
         issue_number = front_matter_issue(root, task_id)
         if not issue_number:
             errors.append(f"Completion task {task_id} has no numeric Issue identity")
@@ -201,7 +208,7 @@ def main() -> int:
     if result != 0:
         return result
     errors: list[str] = []
-    validate_completion_issues(os.path.abspath(args.repo_root), args.base_ref, errors)
+    validate_completion_issues(os.path.abspath(args.repo_root), args.base_ref, errors, args.head_ref)
     if errors:
         for error in errors:
             GUARD.emit("FAIL", error)

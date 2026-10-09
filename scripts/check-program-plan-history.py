@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import importlib.util
 import json
 import os
 import re
@@ -18,6 +19,13 @@ import sys
 from typing import Any
 
 import yaml
+
+RECOVERY_SPEC = importlib.util.spec_from_file_location(
+    "guize_history_recovery", os.path.join(os.path.dirname(__file__), "check-program-lifecycle-guards.py")
+)
+RECOVERY = importlib.util.module_from_spec(RECOVERY_SPEC)
+assert RECOVERY_SPEC and RECOVERY_SPEC.loader
+RECOVERY_SPEC.loader.exec_module(RECOVERY)
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -562,7 +570,16 @@ def main() -> int:
     for record in current_ledger.get("records") or []:
         validate_reservation_snapshot(root, record, errors)
 
+    paths = RECOVERY.changed_paths(root, args.base_ref, args.head_ref) or set()
+    repair_tasks = RECOVERY.evidence_task_ids(paths)
     if args.task:
+        repair_tasks.add(args.task)
+    repairs: set[str] = set()
+    for task_id in sorted(repair_tasks):
+        if RECOVERY.completed_evidence_candidate(base_plan, current_plan, task_id):
+            RECOVERY.validate_evidence_repair(root, args.base_ref, args.head_ref, task_id, args.branch_name, errors)
+            repairs.add(task_id)
+    if args.task and args.task not in repairs:
         task_path = find_task_path(root, args.task, args.head_ref)
         front, _ = parse_front_matter(read_ref(root, args.head_ref, task_path or ""))
         if front.get("status") == "completed" and args.task not in mapping(

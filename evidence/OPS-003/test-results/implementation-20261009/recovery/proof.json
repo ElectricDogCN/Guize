@@ -1,0 +1,39 @@
+{
+  "taskId": "OPS-003",
+  "frozenSourceCommit": "9b40c68d2e37a96458e673dbcde2aef678d9343a",
+  "validatedCommit": "e40aa08e0bc946abc5ba2f04fb35227ccc6eee77",
+  "commands": {
+    "programIntegrity": {
+      "command": "python scripts/check-program-plan-integrity.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-003/recovery-simulation/programIntegrity.txt",
+      "sha256": "3cd0c96bbe7301236bc6b67fd532fa13ae86dc45ec8770b3269b0f5c6655d326"
+    },
+    "lifecycle": {
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref e40aa08e0bc946abc5ba2f04fb35227ccc6eee77 --task OPS-003 --branch-name chore/OPS-003-recovery-repair",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-003/recovery-simulation/lifecycle.txt",
+      "sha256": "ac3b8ed151d156f9b379479899a6356282405080b0e664db8a45f23ddef6b73b"
+    },
+    "coordination": {
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref e40aa08e0bc946abc5ba2f04fb35227ccc6eee77 --task OPS-003 --branch-name chore/OPS-003-recovery-repair",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-003/recovery-simulation/coordination.txt",
+      "sha256": "802975a70fda6cc75a9786fe3b2cd453f3f70169085781fb54a5a00d47850190"
+    },
+    "governance": {
+      "command": "python -m pytest tests/governance -q --junitxml=evidence/OPS-003/recovery-simulation/governance.xml",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-003/recovery-simulation/governance.txt",
+      "sha256": "c87e2aab787516bb66db09b553f7095ebccd3575a473bd24e714d181fe6497a9"
+    },
+    "verify": {
+      "command": "make verify TASK=OPS-003 BASE=a4f5b75825410675a3a76157048eb6d0dce14bc4 HEAD_REF=e40aa08e0bc946abc5ba2f04fb35227ccc6eee77 BRANCH=chore/OPS-003-recovery-repair",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-003/recovery-simulation/verify.txt",
+      "sha256": "b45c7da7dda8ad92fb8e3a09db7a21c2760887d4f1fbf702130fd42bdf7e27e7"
+    }
+  },
+  "junitPath": "evidence/OPS-003/recovery-simulation/governance.xml",
+  "junitSha256": "8793c3d8751930b543431b58de081cf767b6b74fd7ff972929df8effeac0c039"
+}

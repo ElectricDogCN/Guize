@@ -1,0 +1,3 @@
+Command: git diff --exit-code 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/poc
+
+Exit Code: 0

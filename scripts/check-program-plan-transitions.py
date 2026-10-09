@@ -12,14 +12,23 @@ from __future__ import annotations
 import argparse
 import copy
 import fnmatch
+import importlib.util
 import json
 import os
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 from typing import Any
 
 import yaml
+
+RECOVERY_SPEC = importlib.util.spec_from_file_location(
+    "guize_transition_recovery", os.path.join(os.path.dirname(__file__), "check-program-lifecycle-guards.py")
+)
+RECOVERY = importlib.util.module_from_spec(RECOVERY_SPEC)
+assert RECOVERY_SPEC and RECOVERY_SPEC.loader
+RECOVERY_SPEC.loader.exec_module(RECOVERY)
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -424,6 +433,9 @@ def validate_active_transition(
         return
     base_task = base_map.get(task_id)
     if not base_task:
+        if section == "foundationTasks" and current_task.get("status") == "reserved":
+            validate_foundation_registration(root, base_ref, head_ref, task_id, base_plan, current_plan, base_active, current_active, errors)
+            return
         errors.append(f"Active transition task {task_id} did not exist in {base_ref}")
         return
     base_status = str(base_task.get("status") or "")
@@ -433,8 +445,15 @@ def validate_active_transition(
         errors.append(
             f"Program task {task_id} has invalid active transition {base_status} -> {current_status}"
         )
+    base_for_lifecycle, current_for_lifecycle = copy.deepcopy(base_plan), copy.deepcopy(current_plan)
+    if RECOVERY.recovery_owner(current_plan) == task_id and (
+        base_plan.get("status"), current_plan.get("status")
+    ) in {("active", "frozen"), ("frozen", "active")}:
+        for document in (base_for_lifecycle, current_for_lifecycle):
+            document.pop("status", None)
+            document.pop("recovery", None)
     if not only_lifecycle_target_changed(
-        base_plan, current_plan, section, task_id, {"status"}
+        base_for_lifecycle, current_for_lifecycle, section, task_id, {"status"}
     ):
         label = "Program task" if section == "tasks" else "Foundation task"
         errors.append(
@@ -498,6 +517,65 @@ def validate_active_transition(
             errors.append(
                 f"Active transition for {task_id} changed stable Registry identity or scope"
             )
+
+
+def validate_foundation_registration(
+    root: str, base_ref: str, head_ref: str, task_id: str,
+    base_plan: dict[str, Any], current_plan: dict[str, Any],
+    base_active: dict[str, Any], current_active: dict[str, Any], errors: list[str],
+) -> None:
+    task = mapping(current_plan.get("foundationTasks"))[task_id]
+    own = [x for x in current_active.get("tasks") or [] if x.get("taskId") == task_id]
+    if len(own) != 1 or own[0].get("status") != "reserved":
+        errors.append(f"Foundation registration {task_id} requires one new reserved lease")
+        return
+    entry = own[0]
+    expected = copy.deepcopy(current_plan)
+    expected["foundationTasks"] = [x for x in expected["foundationTasks"] if x["taskId"] != task_id]
+    original = copy.deepcopy(base_plan)
+    if RECOVERY.recovery_owner(current_plan) == task_id and base_plan.get("status") == "active" and current_plan.get("status") == "frozen":
+        for document in (expected, original):
+            document.pop("status", None)
+            document.pop("recovery", None)
+    if expected != original or registry_without_task(current_active, task_id) != base_active:
+        errors.append(f"Foundation registration {task_id} changed another identity or policy")
+    if any(x.get("taskId") == task_id for x in base_active.get("tasks") or []):
+        errors.append(f"Foundation registration {task_id} must introduce its lease")
+    issue = entry.get("issue")
+    if type(issue) is not int or issue <= 0 or task.get("completionRef") != f"ISSUE-{issue}" or task.get("mergeCommit") is not None:
+        errors.append(f"Foundation registration {task_id} cannot prefill completion provenance")
+    if entry.get("moduleIds") != ["MOD-GOV"] or entry.get("riskLevel") != "high" or entry.get("agentRole") != "coordinator":
+        errors.append(f"Foundation registration {task_id} requires governance/high/coordinator")
+    identities = [str(entry.get(key) or "").strip() for key in ("owner", "coordinator", "implementer", "reviewer", "integrator")]
+    if any(not x or x.lower() in {"none", "tbd", "pending", "unassigned"} for x in identities) or entry.get("implementer") == entry.get("reviewer"):
+        errors.append(f"Foundation registration {task_id} requires assigned independent roles")
+    if entry.get("baseSha") != resolve_ref(root, base_ref) or entry.get("programWave") != "FOUNDATION" or entry.get("programTaskId") != task_id or entry.get("programPlan") != PLAN:
+        errors.append(f"Foundation registration {task_id} has invalid base or Program identity")
+    try:
+        acquired = datetime.fromisoformat(str(entry["lease"]["acquiredAt"]).replace("Z", "+00:00"))
+        expires = datetime.fromisoformat(str(entry["lease"]["expiresAt"]).replace("Z", "+00:00"))
+        now = datetime.now(timezone.utc)
+        if acquired.tzinfo is None or expires.tzinfo is None or not acquired <= now < expires or not 0 < (expires - acquired).total_seconds() <= 168 * 3600:
+            raise ValueError("invalid lease")
+    except (ValueError, TypeError, KeyError):
+        errors.append(f"Foundation registration {task_id} requires a live lease of at most 168h")
+    ownership = load_current(root, "specs/designs/module-ownership.yaml")
+    claims = list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or [])
+    if not claims or any(not RECOVERY.governance_claim_subset(str(p), ownership) for p in claims) or entry.get("sharedPaths"):
+        errors.append(f"Foundation registration {task_id} claims must be exclusive governance subsets")
+    task_path = find_task_path(root, task_id)
+    paths = changed_files(root, base_ref, head_ref)
+    if not task_path or paths is None:
+        errors.append(f"Foundation registration {task_id} cannot resolve Task/diff")
+        return
+    if any(p not in {PLAN, ACTIVE, task_path} and not RECOVERY.safe_evidence_path(p, task_id) for p in paths):
+        errors.append(f"Foundation registration {task_id} must be metadata-only")
+    if not RECOVERY.unchanged_bytes(root, base_ref, [LEDGER], head_ref):
+        errors.append(f"Foundation registration {task_id} changed the immutable Ledger")
+    front, body = parse_front_matter(read_ref(root, head_ref, task_path))
+    stable_spec_matches(task_id, entry, front, body, errors)
+    if front.get("status") != "reserved" or front.get("baseSha") != resolve_ref(root, base_ref) or front.get("workBranch") != entry.get("branch") or front.get("titleZh") != task.get("title") or entry.get("title") != task.get("title"):
+        errors.append(f"Foundation registration {task_id} Task Spec does not match its reserved identity")
 
 
 def stable_spec_matches(
@@ -716,19 +794,32 @@ def main() -> int:
 
     validate_active_program_scope(current_plan, current_active, errors)
     validate_wave_activation(current_plan, errors)
+    RECOVERY.validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
+    recovery_task = RECOVERY.validate_recovery_transition(root, args.base_ref, args.head_ref, errors)
     for record in current_ledger.get("records") or []:
         if isinstance(record, dict):
             validate_recorded_reservation_commit(root, record, errors)
-    if args.task:
-        task_path = find_task_path(root, args.task, args.head_ref)
+    transition_tasks = {args.task} if args.task else set()
+    transition_tasks.update(RECOVERY.task_ids_from_diff(
+        base_plan, current_plan, base_active, current_active, base_ledger, current_ledger,
+        changed_files(root, args.base_ref, args.head_ref) or set(),
+    ))
+    transition_tasks.update(RECOVERY.frozen_repair_task_ids(root, args.base_ref, args.head_ref))
+    if recovery_task:
+        transition_tasks.add(recovery_task)
+    # Main/push checks must also prove newly introduced Foundation reservations.
+    transition_tasks.update(set(mapping(current_plan.get("foundationTasks"))) - set(mapping(base_plan.get("foundationTasks"))))
+    for transition_task in sorted(transition_tasks):
+        task_path = find_task_path(root, transition_task, args.head_ref)
         front, _ = parse_front_matter(read_ref(root, args.head_ref, task_path or ""))
-        if front.get("status") == "cancelled":
+        destination = mapping(current_plan.get("tasks")).get(transition_task, {})
+        if destination.get("status") == "cancelled" or front.get("status") == "cancelled":
             validate_cancel_transition(
                 root,
                 args.base_ref,
                 args.head_ref,
                 args.branch_name,
-                args.task,
+                transition_task,
                 base_plan,
                 current_plan,
                 base_active,
@@ -742,7 +833,7 @@ def main() -> int:
                 root,
                 args.base_ref,
                 args.head_ref,
-                args.task,
+                transition_task,
                 base_plan,
                 current_plan,
                 base_active,

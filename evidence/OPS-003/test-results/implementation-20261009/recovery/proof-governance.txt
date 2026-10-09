@@ -1,0 +1,11 @@
+Source Commit: e40aa08e0bc946abc5ba2f04fb35227ccc6eee77
+Command: python -m pytest tests/governance -q --junitxml=evidence/OPS-003/recovery-simulation/governance.xml
+........................................................................ [ 21%]
+........................................................................ [ 43%]
+........................................................................ [ 65%]
+........................................................................ [ 87%]
+........................................                                 [100%]
+- generated xml file: /tmp/guize-ops003-recovery-39dp_063/worktree/evidence/OPS-003/recovery-simulation/governance.xml -
+328 passed in 30.26s
+
+Exit Code: 0

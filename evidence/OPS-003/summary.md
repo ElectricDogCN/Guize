@@ -1,12 +1,14 @@
-# OPS-003 登记候选
+# OPS-003 executable forward recovery
 
-Base: 5833a448473d7191a6984fc6d052b8d9014f4b89
-Tested local source: 8db474ffd1b27835c9967e931eab7d29e4333d8f
+Task: OPS-003 / Issue #64; related defect #41
+Status: REVIEW
+Base: 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26
+Tested local source: 9b40c68d2e37a96458e673dbcde2aef678d9343a
 
-仅登记 Issue #64 对应的治理修复；未实现、未获单次引导例外、未合并。GZ-010 保持 review，所有真实 POC 状态不变。
+The mandatory gates now execute frozen admission, narrowly registered governance repair, separate proof-bound thaw, and strict completed Evidence amendment. New Foundation registration is metadata-only reserved, governance/high/independent/live-lease/subset bounded. No ordinary task, completed identity, Ledger, POC result or business scope is changed.
 
-实际 Task/Readiness/Schema/Integrity/History/Finalization/Lifecycle/Coordination/Scope/Evidence/未改动范围检查全部退出码 0。独立运行治理回归 267 passed，失败/错误/跳过均 0。
+All exact-source checks and make verify passed; governance 328/328 with no failures/errors/skips. The actual isolated recovery exercise and completed Evidence amendment passed, with live Issue #14 verification and immutable Git bytes; raw provenance and earlier failed attempts are retained in test-results/implementation-20261009.
 
-Transitions 退出码 1：Active transition task OPS-003 did not exist in base。make verify 退出码 2，于同一 Program Transition 拒绝中止。这是首次 Foundation + Registry 登记的协议引导缺口；不是全部通过。
+PR #65 registration merged to 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26 under the explicitly delegated, narrowly recorded first-registration decision; main Gate #579 succeeded. Earlier Gate #577 remains recorded as failure. Preliminary PR #66 source commit 04b11e65c46929f25c5f7e4762efcba193bf28cf passed Gate #580, but did not include the finalization fix. Final archive/published HEAD CI, final independent review and merge are still required. OPS-003 remains review with its lease; GZ-010 remains review and full V1 is incomplete.
 
-测试源提交真实存在于本地保留分支；连接器创建的远端提交 SHA 会不同，不能宣称它是远端祖先。原始输出绑定本地测试源；远端精确候选 CI 另行记录。日志归档及撤销审批文字是测试之后的 Evidence/Task 修改，不虚称被原测试覆盖。
+Local tested source and isolated simulation SHAs are retained locally. Connector-created remote commits have different SHAs; exact tree equality is verified separately, and local SHAs are not claimed as remote ancestors.

@@ -65,17 +65,17 @@ tasks:
   - taskId: OPS-003
     issue: 64
     title: 完成后前向恢复与治理修复准入
-    status: in_progress
+    status: review
     riskLevel: high
     owner: ElectricDogCN
     coordinator: program-coordinator-agent
     implementer: forward-recovery-agent
     reviewer: independent-forward-recovery-agent
     integrator: integration-agent
-    agentRole: coordinator
-    branch: chore/OPS-003-forward-recovery-registration
+    agentRole: implementer
+    branch: chore/OPS-003-forward-recovery-implementation
     baseBranch: main
-    baseSha: 5833a448473d7191a6984fc6d052b8d9014f4b89
+    baseSha: 933cb1b9fb40b461790d2c2fa7d374d9a3ebbb26
     workPackage: WP-M0-01
     programPlan: specs/coordination/program-plan.yaml
     programTaskId: OPS-003
@@ -97,6 +97,7 @@ tasks:
     - AGENTS.md
     - specs/coordination/program-plan.schema.yaml
     - scripts/check-program-plan-history.py
+    - scripts/check-program-plan-finalization.py
     - scripts/check-program-plan-transitions.py
     - scripts/check-program-plan-integrity.py
     - scripts/check-program-lifecycle-guards.py

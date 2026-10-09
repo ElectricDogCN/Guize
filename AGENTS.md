@@ -369,3 +369,20 @@ Agent 中断或更换后，只能依据 Git、Task Spec、活动登记、Handoff
 ### 17.7 合并与外部强制层
 
 Integrator 必须确认依赖已合并、最新 HEAD 的 Gate 成功、Review Thread 全解决、共享路径顺序正确、活动登记已完成或释放。GitHub CODEOWNERS 只负责路由；`main` 分支保护、Required Check、禁止 force push/delete 和过期批准失效仍必须由管理员在 Ruleset 中实际启用并通过 API 验证。未启用时不得声称平台已强制阻止直接推送。
+
+
+### 17.8 治理恢复与完成后 Evidence 修正
+
+新治理 Foundation 必须先通过 metadata-only reserved 登记：仅新增自身 Program/Registry 条目和 Task/Evidence，moduleIds 精确为 MOD-GOV、high 风险、独立 Implementer/Reviewer、有效租约，所有路径为 MOD-GOV 所有范围的子集。不得用路径相交、宽泛 claim、既有完成任务或失败 CI 冒充登记。
+
+Program status=frozen 是执行准入阻断状态。恢复任务在 recovery 记录中声明 taskId、具体原因、受影响的 completed Tasks、冻结时主线 sourceCommit、UTC frozenAt 和本任务 verificationPath。冻结转换仅允许自己的 Task/Evidence、Program 恢复元数据与自己的 Lease；不能改变既有任务状态、完成账本、政策或业务实现。
+
+冻结后普通任务不得预留、启动、继续实现、完成或以解冻同一 PR 启动。旧活动快照可保留；普通任务仅可通过严格 metadata-only blocked/cancel 收口。已登记的 MOD-GOV 恢复 Foundation 可在已声明路径内修复。主线无 --task 的检查同样必须执行。
+
+治理恢复同样必须先登记后实现；冻结期间不豁免登记的范围、独立角色、租约或并发上限。无任务参数的代码 diff 必须推导实际登记的修复任务，纯 Program/Registry policy diff 不能绕开稳定身份检查。
+
+解冻须另提 metadata-only PR，并验证本冻结事件之后已经合入冻结主线的修复提交。verificationPath 必须在解冻基线中存在，记录实际 validatedCommit、taskId、冻结 sourceCommit、programIntegrity/lifecycle/coordination/governance/verify 的真实命令、exitCode=0、日志路径与 SHA-256，以及零失败/错误/跳过的非空 JUnit。validatedCommit 之后只允许本任务 Evidence 归档变化，不能以本地未合入提交、旧事件或一句 PASS 替代执行。正常任务必须在解冻合并后的后续独立 PR 才可启动。
+
+复验命令必须直接运行对应 Python 检查器、完整 tests/governance 与 make verify；生命周期/协调/verify 指定完整 validatedCommit 的 HEAD 和本任务、冻结事件内的完整基线 SHA 及本任务分支。每份原始日志以 Source Commit 和 Command 两行绑定实际测试提交和命令，末尾记录 Exit Code；正文保留实际检查器成功输出，pytest passed 数与 JUnit testcase 数一致，verify 保留全部目标链输出。机器结构校验不能单独证明日志真实性，独立审查和实际 CI 仍然必需。
+
+完成后的 Evidence 修正不是第二次 Completion：base/head 均 completed；Program、Active Work、Completion Ledger 和完整 Task Spec 的 Git 字节必须不变；所有变更（含重命名两侧）仅限 evidence/<同一 TASK-ID>/**；Issue 必须保持 closed/completed。PR 分支仍需携带同一 Task ID，但不复用旧 Completion 分支或 prior Active Lease。冻结期间该修正不准入，先由治理恢复任务记录自己的 Evidence，解除后单独修正。普通 active→completed 的全部规则不变。

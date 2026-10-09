@@ -1,0 +1,6 @@
+Source Commit: c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf
+Command: python scripts/run-agent-coordination-gate.py --base-ref 6971d655da297149adc681f10c0f386dfda47016 --head-ref HEAD --task GZ-004 --branch-name fix/GZ-004-isolated-evidence-repair
+{"status": "PASS", "message": "Agent coordination valid: 2 active tasks, 1 high/critical", "details": {"activeTaskIds": ["GZ-010", "OPS-003"]}}
+INFO: GZ-004 is a Post-completion Evidence repair PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 0

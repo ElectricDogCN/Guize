@@ -1,0 +1,5 @@
+Source Commit: 353631f3426dfb36b23f056c86520c2cebc48aa4
+Command: python scripts/check-program-lifecycle-guards.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref HEAD --branch-name main
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-003"], "changedPathCount": 3, "baseRef": "a4f5b75825410675a3a76157048eb6d0dce14bc4"}}
+
+Exit Code: 0

@@ -1,0 +1,205 @@
+[
+  {
+    "label": "freeze-history",
+    "source": "d5d77e8b2650b37f8bec4e859a7affc1588050b8",
+    "command": "python scripts/check-program-plan-history.py --base-ref 9b40c68d2e37a96458e673dbcde2aef678d9343a --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-freeze",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "freeze-transitions",
+    "source": "d5d77e8b2650b37f8bec4e859a7affc1588050b8",
+    "command": "python scripts/check-program-plan-transitions.py --base-ref 9b40c68d2e37a96458e673dbcde2aef678d9343a --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-freeze",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "freeze-lifecycle",
+    "source": "d5d77e8b2650b37f8bec4e859a7affc1588050b8",
+    "command": "python scripts/run-program-lifecycle-gate.py --base-ref 9b40c68d2e37a96458e673dbcde2aef678d9343a --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-freeze",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "freeze-raw-lifecycle-main",
+    "source": "d5d77e8b2650b37f8bec4e859a7affc1588050b8",
+    "command": "python scripts/check-program-lifecycle-guards.py --base-ref 9b40c68d2e37a96458e673dbcde2aef678d9343a --head-ref HEAD --branch-name main",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "freeze-coordination",
+    "source": "d5d77e8b2650b37f8bec4e859a7affc1588050b8",
+    "command": "python scripts/run-agent-coordination-gate.py --base-ref 9b40c68d2e37a96458e673dbcde2aef678d9343a --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-freeze",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "negative-frozen-ordinary",
+    "source": "9857b075257071fd91c95b74ba05a64041e06563",
+    "command": "python scripts/check-program-lifecycle-guards.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref 9857b075257071fd91c95b74ba05a64041e06563 --branch-name main",
+    "exitCode": 1,
+    "expected": 1
+  },
+  {
+    "label": "repair-history",
+    "source": "353631f3426dfb36b23f056c86520c2cebc48aa4",
+    "command": "python scripts/check-program-plan-history.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "repair-transitions",
+    "source": "353631f3426dfb36b23f056c86520c2cebc48aa4",
+    "command": "python scripts/check-program-plan-transitions.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "repair-lifecycle",
+    "source": "353631f3426dfb36b23f056c86520c2cebc48aa4",
+    "command": "python scripts/run-program-lifecycle-gate.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "repair-raw-lifecycle-main",
+    "source": "353631f3426dfb36b23f056c86520c2cebc48aa4",
+    "command": "python scripts/check-program-lifecycle-guards.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref HEAD --branch-name main",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "repair-coordination",
+    "source": "353631f3426dfb36b23f056c86520c2cebc48aa4",
+    "command": "python scripts/run-agent-coordination-gate.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "proof-programIntegrity",
+    "source": "e40aa08e0bc946abc5ba2f04fb35227ccc6eee77",
+    "command": "python scripts/check-program-plan-integrity.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "proof-lifecycle",
+    "source": "e40aa08e0bc946abc5ba2f04fb35227ccc6eee77",
+    "command": "python scripts/run-program-lifecycle-gate.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref e40aa08e0bc946abc5ba2f04fb35227ccc6eee77 --task OPS-003 --branch-name chore/OPS-003-recovery-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "proof-coordination",
+    "source": "e40aa08e0bc946abc5ba2f04fb35227ccc6eee77",
+    "command": "python scripts/run-agent-coordination-gate.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref e40aa08e0bc946abc5ba2f04fb35227ccc6eee77 --task OPS-003 --branch-name chore/OPS-003-recovery-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "proof-governance",
+    "source": "e40aa08e0bc946abc5ba2f04fb35227ccc6eee77",
+    "command": "python -m pytest tests/governance -q --junitxml=evidence/OPS-003/recovery-simulation/governance.xml",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "proof-verify",
+    "source": "e40aa08e0bc946abc5ba2f04fb35227ccc6eee77",
+    "command": "make verify TASK=OPS-003 BASE=a4f5b75825410675a3a76157048eb6d0dce14bc4 HEAD_REF=e40aa08e0bc946abc5ba2f04fb35227ccc6eee77 BRANCH=chore/OPS-003-recovery-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "thaw-history",
+    "source": "61d71b9a2f7731819624db6d12edccef4d4794be",
+    "command": "python scripts/check-program-plan-history.py --base-ref 27fd664e5949ddca1e906a90b5fb36a5aa6c5c8b --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-thaw",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "thaw-transitions",
+    "source": "61d71b9a2f7731819624db6d12edccef4d4794be",
+    "command": "python scripts/check-program-plan-transitions.py --base-ref 27fd664e5949ddca1e906a90b5fb36a5aa6c5c8b --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-thaw",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "thaw-lifecycle",
+    "source": "61d71b9a2f7731819624db6d12edccef4d4794be",
+    "command": "python scripts/run-program-lifecycle-gate.py --base-ref 27fd664e5949ddca1e906a90b5fb36a5aa6c5c8b --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-thaw",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "thaw-raw-lifecycle-main",
+    "source": "61d71b9a2f7731819624db6d12edccef4d4794be",
+    "command": "python scripts/check-program-lifecycle-guards.py --base-ref 27fd664e5949ddca1e906a90b5fb36a5aa6c5c8b --head-ref HEAD --branch-name main",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "thaw-coordination",
+    "source": "61d71b9a2f7731819624db6d12edccef4d4794be",
+    "command": "python scripts/run-agent-coordination-gate.py --base-ref 27fd664e5949ddca1e906a90b5fb36a5aa6c5c8b --head-ref HEAD --task OPS-003 --branch-name chore/OPS-003-recovery-thaw",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "thaw-verify",
+    "source": "61d71b9a2f7731819624db6d12edccef4d4794be",
+    "command": "make verify TASK=OPS-003 BASE=27fd664e5949ddca1e906a90b5fb36a5aa6c5c8b HEAD_REF=61d71b9a2f7731819624db6d12edccef4d4794be BRANCH=chore/OPS-003-recovery-thaw",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "evidence-history",
+    "source": "c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf",
+    "command": "python scripts/check-program-plan-history.py --base-ref 6971d655da297149adc681f10c0f386dfda47016 --head-ref HEAD --task GZ-004 --branch-name fix/GZ-004-isolated-evidence-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "evidence-transitions",
+    "source": "c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf",
+    "command": "python scripts/check-program-plan-transitions.py --base-ref 6971d655da297149adc681f10c0f386dfda47016 --head-ref HEAD --task GZ-004 --branch-name fix/GZ-004-isolated-evidence-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "evidence-lifecycle",
+    "source": "c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf",
+    "command": "python scripts/run-program-lifecycle-gate.py --base-ref 6971d655da297149adc681f10c0f386dfda47016 --head-ref HEAD --task GZ-004 --branch-name fix/GZ-004-isolated-evidence-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "evidence-raw-lifecycle-main",
+    "source": "c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf",
+    "command": "python scripts/check-program-lifecycle-guards.py --base-ref 6971d655da297149adc681f10c0f386dfda47016 --head-ref HEAD --branch-name main",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "evidence-coordination",
+    "source": "c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf",
+    "command": "python scripts/run-agent-coordination-gate.py --base-ref 6971d655da297149adc681f10c0f386dfda47016 --head-ref HEAD --task GZ-004 --branch-name fix/GZ-004-isolated-evidence-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "evidence-verify",
+    "source": "c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf",
+    "command": "make verify TASK=GZ-004 BASE=6971d655da297149adc681f10c0f386dfda47016 HEAD_REF=c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf BRANCH=fix/GZ-004-isolated-evidence-repair",
+    "exitCode": 0,
+    "expected": 0
+  },
+  {
+    "label": "evidence-immutable-bytes",
+    "source": "c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf",
+    "command": "git diff --exit-code 6971d655da297149adc681f10c0f386dfda47016 c2ff873c0ff0307e71cc7e707f94d9d3336cb8cf specs/coordination/program-plan.yaml specs/coordination/active-work.yaml specs/coordination/task-completions.yaml specs/tasks/GZ-004.md",
+    "exitCode": 0,
+    "expected": 0
+  }
+]

@@ -38,7 +38,7 @@ foundationTasks:
     mergeCommit: 8221fd0f6c2c8923e4eea10316eac33a9d7e1d87
   - taskId: OPS-003
     title: "完成后前向恢复与治理修复准入"
-    status: in_progress
+    status: review
     completionRef: ISSUE-64
     mergeCommit: null
 waves:

@@ -1,0 +1,5 @@
+Source Commit: 9857b075257071fd91c95b74ba05a64041e06563
+Command: python scripts/check-program-lifecycle-guards.py --base-ref a4f5b75825410675a3a76157048eb6d0dce14bc4 --head-ref 9857b075257071fd91c95b74ba05a64041e06563 --branch-name main
+{"status": "FAIL", "message": "Frozen Program rejects ordinary implementation, completion and Evidence repair"}
+
+Exit Code: 1
