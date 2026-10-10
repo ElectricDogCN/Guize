@@ -1,0 +1,130 @@
+{
+  "kind": "ACTUAL_PURE_REVIEW_LOCAL14_RESULTS_NOT_FULL_CI_OR_MERGE_APPROVAL",
+  "source": "c506787d9fd52c14300bd212fb1c6c1ca73b759a",
+  "tree": "599c7bb8a3175149f64a5ca9038f1241cb813d1b",
+  "base": "bad012bb137cde0d9282ea2f1976b8218e57edc0",
+  "status": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 0,
+    "lifecycle": 0,
+    "coordination": 1,
+    "scope": 0,
+    "evidence": 0,
+    "unaffected": 0,
+    "docs": 0
+  },
+  "rows": [
+    {
+      "check": "task",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "7380ff5abda33d73399fbf3fdde9a753d09652b8ed9a89b5edeb091923a643de"
+    },
+    {
+      "check": "readiness",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "17e0f27b208aa45fdb4a9f7a1a33c54d06b6a483c3c4f43aafb47c602feeef70"
+    },
+    {
+      "check": "schemas",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "5f1912125f1fb89fa15557bd1e94b059372be0caf341d0e009717ef7f646b206"
+    },
+    {
+      "check": "integrity",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "5b25226597e259c8d0df8fe94ce76eeb8f421dafbcbcd6f587251362657e15a7"
+    },
+    {
+      "check": "history",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "5f4a4c26bf312d74d352a25637b7b17f679b6043e1a182c8ff7cb73d1d4e613a"
+    },
+    {
+      "check": "transitions",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "99e7daab071faecb5e734964fdbc991963d87a91ccb22aad2f3eac7e56c6ceeb"
+    },
+    {
+      "check": "finalization",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "f7732aa09c1e012bb84ef16782bd754a2652c12c37b2f0aaf0f5781bfbfa3e5e"
+    },
+    {
+      "check": "raw-lifecycle",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "b4cc2ee51ac28fb4a231574a5868150189225337c97da2c142a844f593518c1f"
+    },
+    {
+      "check": "lifecycle",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "2737cd05f7c3c747bf3d83e47e8f1ea7f5ae1a0e6f022af8b07be912517d7588"
+    },
+    {
+      "check": "coordination",
+      "exit": 1,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "8b44088f973c4086228bbce343cac76102ededb6b97d8b7ed456330b253594eb"
+    },
+    {
+      "check": "scope",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "39959c342eccee11ef4af7f4a9f0fd0bed32ebb7daafa85b65fe7627df41b3e5"
+    },
+    {
+      "check": "evidence",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "9c0ea50436144c2035831dff0bb5d384ee9803fb2ff989716cf2316ef2f3e63f"
+    },
+    {
+      "check": "unaffected",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "18b40d25c2f350a95723dfde00c921368beb13ee79316149c998b678f6dfc80e"
+    },
+    {
+      "check": "docs",
+      "exit": 0,
+      "sourceBound": true,
+      "footerBound": true,
+      "sha256": "86bf6fce8339775957c6262a6659e8f49877262d027612a3cacfa8e66f4cdae1"
+    }
+  ],
+  "cleanBeforeAfter": {
+    "clean-before.txt": true,
+    "clean-after.txt": true
+  },
+  "onlyCapacityFailure": true,
+  "localGovRerun": false,
+  "sameHeadFull527Ci": "PENDING",
+  "inventory37Exact": true
+}

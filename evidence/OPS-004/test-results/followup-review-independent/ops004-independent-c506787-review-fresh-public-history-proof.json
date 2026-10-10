@@ -1,0 +1,24 @@
+{
+  "cloneCommand": [
+    "git",
+    "-c",
+    "credential.helper=",
+    "clone",
+    "--bare",
+    "--single-branch",
+    "--branch",
+    "chore/OPS-004-followup-review",
+    "https://github.com/ElectricDogCN/Guize.git",
+    "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\c506-public-history-6bk02yzf\\repo.git"
+  ],
+  "cloneExit": 0,
+  "cloneOutput": "Cloning into bare repository 'C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\c506-public-history-6bk02yzf\\repo.git'...\n",
+  "head": "c506787d9fd52c14300bd212fb1c6c1ca73b759a",
+  "parents": [
+    "3c407ac9d6e5c46e5f6e42efbf79bd94e4772208"
+  ],
+  "tree": "599c7bb8a3175149f64a5ca9038f1241cb813d1b",
+  "refs": "c506787d9fd52c14300bd212fb1c6c1ca73b759a refs/heads/chore/OPS-004-followup-review",
+  "priorAncestorExit": 0,
+  "priorTree": "3c202aeaaf593f58395b77050241e912d4101949"
+}

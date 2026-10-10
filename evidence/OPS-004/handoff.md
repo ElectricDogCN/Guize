@@ -1,3 +1,62 @@
+# 当前终端收口交接（真实新决定 2026-10-10T03:10:59Z）
+
+具体当前Owner决定见terminal-owner-decision.md / Event OPS-004-TERMINAL-CLOSURE-20261010；固定截止2026-10-10T04:40:59Z或实际Completion merge先到者。旧2026-10-10T03:09:53Z窗口已到期且原决定保留，仅允许同一PR81纯Own终端Evidence收口，禁止新active两high/代码/政策/Other变化。
+已实际完整测试 Source: 1c94130cfa04212614376e3205ca967c903a8993 / tree bd41281fe428cd98f003f69c6928e4e636c6cc6b。实际14检查全部exit0；完整make527 passed1331.17s，非空JUnit527零失败/错误/跳过，前后Source及clean一致。原始保存或引用.takeover-tools/ops004-followup-completion-results/及ops004-independent-1c94130-completion-local-formal-results-proof.json。新候选父Source 9c6e26a9bb9ba7720c8569a4a2d35eddbaa67e8f / tree0e3cb654c12c2f9899d92cdbffbc66df5a2c38d8，immutable PR81/commit可核对；相对真实Reviewbase fd3d642377eb1ad6de1051ce0d45b5045499b349 的新完整清单见changed-files.md，最新HEAD/tree由实际发布Git/PR和独立证明绑定，不制造自身内容自指。
+Issue71已实际2026-10-10T02:26:43Z closed/completed，必须先确认该状态再跑Completion检查。首次本地生命周期失败及CI6261 failed526passed保留；到期时CI627实际状态见terminal-window-end-state.json，任何旧结果都不能改称新Source通过。
+下一Reviewer对实际新Source执行自身14归档分量检查、完整同头CI527零失败/错误/跳过、全部currentthreads处置与精确独立审查；验证代码/Task/Program/Registry/Ledger/policy/Other及两旧Owner字节等于1c。1c fullmake只证明1c，当前源若任何mandatory分量未覆盖或canonical/code改变，则须补真实适当完整验证。下一Integrator全部当前必需结果实际成功并fresh核对实际UTC在本新窗口内才merge；其后真实main完整make和push CI全0才恢复GZ005。futuremain仍未执行，不可提前tick或称V1完成。失败/到期按本决定如实处理。
+
+## 原窗口及历史记录（下文反映原阶段；当前动作和期限以上述新决定为准）
+
+# Completion 实际来源、前置状态与待验证交接
+
+Published Completion Source: 1c94130cfa04212614376e3205ca967c903a8993
+Published Completion Tree: bd41281fe428cd98f003f69c6928e4e636c6cc6b
+Target Base / Review Merge: fd3d642377eb1ad6de1051ce0d45b5045499b349
+PR: https://github.com/ElectricDogCN/Guize/pull/81
+Published ref: chore/OPS-004-followup-completion
+Immutable inventory: https://github.com/ElectricDogCN/Guize/blob/1c94130cfa04212614376e3205ca967c903a8993/evidence/OPS-004/changed-files.md
+
+上述实际1c Source相对基线的全部34路径见不可变清单；本次跟进只修改Own handoff.md与commands.txt两文件，代码、Task、Program、Registry、Ledger、政策及其他任务的Git blob完全相同。新文档Source由发布后的真实Git/PR标识另行绑定，不能在自身内容中自指尚未存在的commit，也不能将1c结果改称新Source实测。
+
+Issue71前置状态：官方于2026-10-10T02:26:43Z实际closed/completed。1c首次验证8项exit0，精确生命周期检查因Issue仍open而exit1，原始保留项目工作区.takeover-tools/ops004-followup-completion-1c94130-before-issue-close-failure/。关闭后同Source重试目前前13项exit0（含官方Issue状态检查），完整make verify仍在执行，原始保存或引用.takeover-tools/ops004-followup-completion-results/，不能提前声明完整527通过。
+
+CI626实际在02:25:29Z检查到Issue尚open，结果1 failed、526 passed，完整原始保留.takeover-tools/ops004-followup-completion-ci-626-failure.txt，线上来源https://github.com/ElectricDogCN/Guize/actions/runs/38016597939。该失败保留且不作为新版本通过证明。新实际文档Source必须自行取得全部14归档复验、同头完整527 CI零失败/错误/跳过、精确独立批准和最新threads处置；同时核实1c完整make实际全0，以及本次两文件以外所有Git blob一致，方能采用既有归档复验方式，不得冒称新Source另跑过完整make。
+
+下一Reviewer核对实际新HEAD/tree/base、1c完整make真实结果、两文件差异、Issue已closed/completed、新Source全部当前门禁及同头CI。下一Integrator只有全部必需结果实际成功且独立批准和threads已解决，真实UTC仍早于2026-10-10T03:09:53Z，才可合入；主线完整make与push CI必须在实际merge后再验证。候选completed及Own Lease移除是待合入的终端提案，主线此时仍保持Review；future main验收项不得提前打勾，主线全部通过前不得恢复GZ005。失败或期限到达必须准确记录并作独立具体恢复决定。
+
+## 此前 Completion 记录（旧状态及旧命令保留，当前前置顺序以上文为准）
+
+## 已执行的实际 Review 证据引用
+
+Review Source: c506787d9fd52c14300bd212fb1c6c1ca73b759a
+Review Merge: fd3d642377eb1ad6de1051ce0d45b5045499b349
+Review CI: https://github.com/ElectricDogCN/Guize/actions/runs/38015438891
+
+实际14项检查及前后干净工作区见 test-results/followup-review-actual-results/；完整527项治理及唯一容量失败见 test-results/followup-review-actual-ci/。独立本地、预演和最终审查原始见 test-results/followup-review-independent/。这些记录只证明已执行Review，不证明当前Completion或后续main已通过。
+
+## 当前 completion 交接与已执行实现测试
+
+Task: OPS-004 / Issue71
+Phase: completion
+Branch: chore/OPS-004-followup-completion
+Base: fd3d642377eb1ad6de1051ce0d45b5045499b349
+Implementation PR: 79
+Implementation Merge: bad012bb137cde0d9282ea2f1976b8218e57edc0
+Tested Implementation Source: 94750d66fa954055872de2d76380d06aab177618
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-followup-results/governance.xml
+Exit Code: 0
+Result: PASS (implementation governance only)
+
+实际完整实现治理527 testcase，零失败/错误/跳过；原始见test-results/followup-source-94750d6/governance.txt及governance.xml。上述成功字段仅标识已执行的实现治理，整体实现Gate容量仍FAIL。当前 completion 自身与合入后主线验证尚未执行，不声明整体验收PASS或V1完成。
+
+角色Coordinator program-coordinator-agent / Implementer lifecycle-scope-repair-agent / Reviewer independent-lifecycle-scope-review-agent / Integrator integration-agent，CONTRACT-PROGRAM-PLAN/TASK-SPEC/ACTIVE-WORK。只变自身canonical metadata/Evidence；永久政策、其他任务、旧completed及普通Ledger不变。最后代码身份绑定PR79真实merge，回滚只采用前向修复并保留全部来源和失败。
+
+下一角色 independent-lifecycle-scope-review-agent：核对当前真实Completion HEAD/tree/base、last code PR79/bad012bb137cde0d9282ea2f1976b8218e57edc0、纯Ownmetadata/Evidence及仅OwnLease移除；执行Task所列实际14检查（包含完整make verify527）、取得同头CI全成功及非空JUnit零失败/错误/跳过，审查全部threads并给出精确独立批准。Completion不允许容量或其他失败。下一角色 integration-agent：重新核对当前HEAD/main基线、全部threads已解决、实际14/fullmake527/同头CI全部成功和独立批准，真实UTC在2026-10-10T03:09:53Z前方可合入Completion；Issue71必须在Completion候选的生命周期检查之前已closed/completed；实际已于2026-10-10T02:26:43Z关闭。随后在真实main运行完整make verify和main push CI全部成功后才恢复GZ005。失败或固定期限到达须停止新增变更并记录具体恢复决定。
+
+可移植等价复现说明（未执行，不冒充历史原始命令）：完整Git checkout选定真实Source，Python3.11/Git/make/正常官方GitHub网络可用，仓库根目录安装requirements-governance.txt；python -m pytest tests/governance -q --junitxml=governance-repro.xml 输出当前目录。当前阶段全部上下文门禁按Task Spec执行；完整make verify TASK=OPS-004 BASE=fd3d642377eb1ad6de1051ce0d45b5045499b349 HEAD_REF=HEAD BRANCH=chore/OPS-004-followup-completion。保留历史WSL原始命令，新的复现输出/exit/JUnit必须实际保存。
+
+## 历史记录
+
 # 当前 Review 复验与下一角色动作（此前记录保留）
 
 Task: OPS-004 / Issue71
