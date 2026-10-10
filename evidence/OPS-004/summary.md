@@ -1,3 +1,11 @@
+# 当前终端收口交接（真实新决定 2026-10-10T03:10:59Z）
+
+具体当前Owner决定见terminal-owner-decision.md / Event OPS-004-TERMINAL-CLOSURE-20261010；固定截止2026-10-10T04:40:59Z或实际Completion merge先到者。旧2026-10-10T03:09:53Z窗口已到期且原决定保留，仅允许同一PR81纯Own终端Evidence收口，禁止新active两high/代码/政策/Other变化。
+已实际完整测试 Source: 1c94130cfa04212614376e3205ca967c903a8993 / tree bd41281fe428cd98f003f69c6928e4e636c6cc6b。实际14检查全部exit0；完整make527 passed1331.17s，非空JUnit527零失败/错误/跳过，前后Source及clean一致。原始保存或引用.takeover-tools/ops004-followup-completion-results/及ops004-independent-1c94130-completion-local-formal-results-proof.json。新候选父Source 9c6e26a9bb9ba7720c8569a4a2d35eddbaa67e8f / tree0e3cb654c12c2f9899d92cdbffbc66df5a2c38d8，immutable PR81/commit可核对；相对真实Reviewbase fd3d642377eb1ad6de1051ce0d45b5045499b349 的新完整清单见changed-files.md，最新HEAD/tree由实际发布Git/PR和独立证明绑定，不制造自身内容自指。
+Issue71已实际2026-10-10T02:26:43Z closed/completed，必须先确认该状态再跑Completion检查。首次本地生命周期失败及CI6261 failed526passed保留；到期时CI627实际状态见terminal-window-end-state.json，任何旧结果都不能改称新Source通过。
+下一Reviewer对实际新Source执行自身14归档分量检查、完整同头CI527零失败/错误/跳过、全部currentthreads处置与精确独立审查；验证代码/Task/Program/Registry/Ledger/policy/Other及两旧Owner字节等于1c。1c fullmake只证明1c，当前源若任何mandatory分量未覆盖或canonical/code改变，则须补真实适当完整验证。下一Integrator全部当前必需结果实际成功并fresh核对实际UTC在本新窗口内才merge；其后真实main完整make和push CI全0才恢复GZ005。futuremain仍未执行，不可提前tick或称V1完成。失败/到期按本决定如实处理。
+
+## 原窗口及历史记录（下文反映原阶段；当前动作和期限以上述新决定为准）
 
 ## 已执行的实际 Review 证据引用
 
@@ -24,7 +32,7 @@ Result: PASS (implementation governance only)
 
 角色Coordinator program-coordinator-agent / Implementer lifecycle-scope-repair-agent / Reviewer independent-lifecycle-scope-review-agent / Integrator integration-agent，CONTRACT-PROGRAM-PLAN/TASK-SPEC/ACTIVE-WORK。只变自身canonical metadata/Evidence；永久政策、其他任务、旧completed及普通Ledger不变。最后代码身份绑定PR79真实merge，回滚只采用前向修复并保留全部来源和失败。
 
-下一角色 independent-lifecycle-scope-review-agent：核对当前真实Completion HEAD/tree/base、last code PR79/bad012bb137cde0d9282ea2f1976b8218e57edc0、纯Ownmetadata/Evidence及仅OwnLease移除；执行Task所列实际14检查（包含完整make verify527）、取得同头CI全成功及非空JUnit零失败/错误/跳过，审查全部threads并给出精确独立批准。Completion不允许容量或其他失败。下一角色 integration-agent：重新核对当前HEAD/main基线、全部threads已解决、实际14/fullmake527/同头CI全部成功和独立批准，真实UTC在2026-10-10T03:09:53Z前方可合入Completion；随后在真实main运行完整make verify和main push CI全部成功，关闭Issue71后才恢复GZ005。失败或固定期限到达须停止新增变更并记录具体恢复决定。
+下一角色 independent-lifecycle-scope-review-agent：核对当前真实Completion HEAD/tree/base、last code PR79/bad012bb137cde0d9282ea2f1976b8218e57edc0、纯Ownmetadata/Evidence及仅OwnLease移除；执行Task所列实际14检查（包含完整make verify527）、取得同头CI全成功及非空JUnit零失败/错误/跳过，审查全部threads并给出精确独立批准。Completion不允许容量或其他失败。下一角色 integration-agent：重新核对当前HEAD/main基线、全部threads已解决、实际14/fullmake527/同头CI全部成功和独立批准，真实UTC在2026-10-10T03:09:53Z前方可合入Completion；Issue71必须先closed/completed再验证Completion候选；实际已于2026-10-10T02:26:43Z关闭。随后在真实main运行完整make verify和main push CI全部成功后才恢复GZ005。失败或固定期限到达须停止新增变更并记录具体恢复决定。
 
 可移植等价复现说明（未执行，不冒充历史原始命令）：完整Git checkout选定真实Source，Python3.11/Git/make/正常官方GitHub网络可用，仓库根目录安装requirements-governance.txt；python -m pytest tests/governance -q --junitxml=governance-repro.xml 输出当前目录。当前阶段全部上下文门禁按Task Spec执行；完整make verify TASK=OPS-004 BASE=fd3d642377eb1ad6de1051ce0d45b5045499b349 HEAD_REF=HEAD BRANCH=chore/OPS-004-followup-completion。保留历史WSL原始命令，新的复现输出/exit/JUnit必须实际保存。
 
