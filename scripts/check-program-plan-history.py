@@ -633,7 +633,7 @@ def historical_foreign_metadata(root: str, previous: str, node: str, incoming: l
                 return None
             document = copy.deepcopy(document)
             for collection in collections:
-                document[collection] = [item for item in document.get(collection, []) if item.get("taskId") != task_id]
+                document[collection] = [item for item in document.get(collection, []) if isinstance(item, dict) and item.get("taskId") != task_id]
             return document
         actual = foreign_document(node)
         candidates = [foreign_document(ref) for ref in [previous, *(incoming if path in clean_imports else [])]]
@@ -1235,7 +1235,7 @@ def historical_post_metadata(root: str, previous: str, node: str, task_id: str, 
             return None
         document = copy.deepcopy(document)
         for collection in ("tasks", "foundationTasks"):
-            document[collection] = [item for item in document.get(collection, []) if item.get("taskId") != task_id]
+            document[collection] = [item for item in document.get(collection, []) if isinstance(item, dict) and item.get("taskId") != task_id]
         return document
     actual, prior = foreign_plan(node), foreign_plan(previous)
     for parent in incoming:
@@ -1353,7 +1353,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             prior_registry = load_ref(root, parent, ACTIVE)
             prior = [item for item in (prior_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             prior_claims = (prior[0].get("exclusivePaths") or []) if len(prior) == 1 else []
-            unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not any(historical_peer_path(root, ref, task_id, path) for ref in (parent, node)))}
+            unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, parent, task_id, path) or historical_peer_metadata_path(root, node, task_id, path)))}
             if unexpected:
                 errors.append(f"Foundation {task_id} post-implementation working node changed paths outside its prior registered scope at {node}: {', '.join(sorted(unexpected))}")
         if own_work:

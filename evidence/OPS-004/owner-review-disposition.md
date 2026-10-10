@@ -130,3 +130,5 @@ Implementer/Reviewer分别为 lifecycle-scope-repair-agent / independent-lifecyc
 这些范围结论不是V1完成、Other Gate通过或全部历史snapshot Integrity通过的证明。永久政策、GZ005与已完成任务不变，原窗口不延长。最终实际archivehead14检查/同头CI/独立集成、之后Review和全零Completion主线仍必需。
 
 最后-fKf真实Ledger缺陷复用既有冻结记录规则；-fKl诊断保留schema失败；-fKx按既有Git历史时间合同，不引入无约定外部见证、不声称Git时间可信。所有门禁/独立审查完成后按上述保存或引用/Review实际归档/Completed后17.8归档顺序推进，原窗口不延长。当前511正式未执行。
+
+实际c305的-2e5同节点新Peer代码授权是真阻塞，最小prior-only+current canonical metadata修复；-2e8正确实现阶段诊断guard，原POST阶段证明保留其限度。新513实际未执行；原窗口不自动延长，完整V1目标继续。

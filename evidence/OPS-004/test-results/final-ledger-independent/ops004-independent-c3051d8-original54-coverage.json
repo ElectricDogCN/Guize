@@ -1,0 +1,424 @@
+{
+  "rows": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3eHp",
+      "codeConcernMayBeClosed": true,
+      "reason": "Historical lease by Git-second interval, original duration/policy and Task expiry binding.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3eHx",
+      "codeConcernMayBeClosed": true,
+      "reason": "Original ownership/exclusive/shared validation uses historical MOD-GOV ownership, not final claims.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3eH5",
+      "codeConcernMayBeClosed": true,
+      "reason": "Original base equals real introduction parent, matching existing registration target rule.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3eIB",
+      "codeConcernMayBeClosed": true,
+      "reason": "Historical complete Task CLI and current Task/Registry canonical link validation.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3eII",
+      "codeConcernMayBeClosed": true,
+      "reason": "Original task-bound Evidence and readable handoff must exist; preexisting valid artifacts need not be touched again.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3eIN",
+      "codeConcernMayBeClosed": true,
+      "reason": "Every own main/introduced registration preserves original stable identity and independent actors.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3eIV",
+      "codeConcernMayBeClosed": true,
+      "reason": "Historical frozenAt must precede Git observation second upper bound, plus existing Recovery validation.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3o4s",
+      "codeConcernMayBeClosed": true,
+      "reason": "Claimed implementation has registered work; lifecycle-only/Evidence-only merge identities rejected, registered rebase range retained.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3o46",
+      "codeConcernMayBeClosed": true,
+      "reason": "Already resolved: real native/public Git history has original Source as ancestor; flattened sandbox claim was false.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "already_resolved_retain_verified_reason"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q3o5A",
+      "codeConcernMayBeClosed": true,
+      "reason": "All original owner/coordinator/implementer/reviewer/integrator placeholders rejected.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4DvF",
+      "codeConcernMayBeClosed": true,
+      "reason": "Actual introduced DAG working nodes individually descend from reservation.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4DvM",
+      "codeConcernMayBeClosed": true,
+      "reason": "Original target-vs-other exclusive/shared conflicts rechecked.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4DvQ",
+      "codeConcernMayBeClosed": true,
+      "reason": "Already resolved: actual runtime current checker path is absolute; current Task CLI used in snapshot checkout.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "already_resolved_retain_verified_reason"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4DvV",
+      "codeConcernMayBeClosed": true,
+      "reason": "Original dependency completed identity and completion merge must be actual base ancestors.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4db0",
+      "codeConcernMayBeClosed": true,
+      "reason": "Each real working node uses first-parent prior scope/ownership; same-node new claims cannot authorize work.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4dcA",
+      "codeConcernMayBeClosed": true,
+      "reason": "Actual own/work snapshots use observation-time lease and original policy; unrelated inherited side snapshots handled by 93eh fix.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4dcJ",
+      "codeConcernMayBeClosed": true,
+      "reason": "Registered rebase full range and real work nodes audited, including restored changes; Evidence tip remains compatible.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4dcU",
+      "codeConcernMayBeClosed": true,
+      "reason": "Already resolved: policy-only mutation is not a permitted existing implementation workflow; no new policy allowance introduced.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "already_resolved_retain_verified_reason"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4dcf",
+      "codeConcernMayBeClosed": true,
+      "reason": "Already resolved: existing Recovery admission rejects unrelated frozen reservation; no new frozen admission policy.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "already_resolved_retain_verified_reason"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTO",
+      "codeConcernMayBeClosed": true,
+      "reason": "Original/current capacity enforced; exact immutable OPS004 d0/413 Owner exception remains recorded FAIL, no general override.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTU",
+      "codeConcernMayBeClosed": true,
+      "reason": "Historical own work conflicts checked against contemporaneous Registry.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTZ",
+      "codeConcernMayBeClosed": true,
+      "reason": "Applicable historical Registry schema enforced; no missing-schema fallback.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTf",
+      "codeConcernMayBeClosed": true,
+      "reason": "Working Task/Program/Registry schema, status, issue, title, lease, roles and links validated.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTm",
+      "codeConcernMayBeClosed": true,
+      "reason": "Real working node must use implementer/integrator; Reviewer Evidence-only rebase tip retained.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q59O3",
+      "codeConcernMayBeClosed": true,
+      "reason": "Already resolved by explicit human Owner delegation plus immutable narrow event; FAIL, policy and deadline remain unchanged.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "already_resolved_retain_verified_reason"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q59O7",
+      "codeConcernMayBeClosed": true,
+      "reason": "Entire introduced DAG audited, including both late-reservation parent orders.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRE",
+      "codeConcernMayBeClosed": true,
+      "reason": "Only reproduced clean stage0 exact approved-main imports are excluded; own changes/conflict resolutions remain work.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRJ",
+      "codeConcernMayBeClosed": true,
+      "reason": "All own metadata contexts validate policy/schema/claims/conflicts, including temporary restoration.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRR",
+      "codeConcernMayBeClosed": true,
+      "reason": "Already resolved: existing integrator single-parent squash/rebase workflows supported; no new parent-count/source-trailer protocol.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "already_resolved_retain_verified_reason"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRY",
+      "codeConcernMayBeClosed": true,
+      "reason": "Foreign canonical document comparison allows only proven clean legitimate imports; own snapshots still fully bound.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRf",
+      "codeConcernMayBeClosed": true,
+      "reason": "Capacity pinned to original reservation-parent policy, not temporary enlarged policy.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q7D5h",
+      "codeConcernMayBeClosed": true,
+      "reason": "Real automatic-merge clean import proof and foreign projection three-way boundary; legitimate earlier-main sync retained, stale conflict selection rejected.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q7D5n",
+      "codeConcernMayBeClosed": true,
+      "reason": "Applicable full Program schema and all taskId uniqueness before mapping; own issue/null and capacity links enforced.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q71Cd",
+      "codeConcernMayBeClosed": true,
+      "reason": "No new forced status-to-agentRole map. Existing Task/Registry equality and actual independent Review responsibilities remain enforced.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "resolve_with_existing_rule_scope_explanation_no_new_protocol"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q71Ch",
+      "codeConcernMayBeClosed": true,
+      "reason": "Actual Review targets tied to true integration parent; registered rebase Reviewer-Evidence tip and legitimate side sync exceptions bounded.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q71Cm",
+      "codeConcernMayBeClosed": true,
+      "reason": "Existing ALLOWED_ACTIVE_TRANSITIONS reused; direct legally allowed Completion still supported.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q71Cq",
+      "codeConcernMayBeClosed": true,
+      "reason": "Entire post-implementation DAG checked for own work and own metadata context; ancestor claims survive narrowing/removal.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q8-0a",
+      "codeConcernMayBeClosed": true,
+      "reason": "Actual ancestor claim history classifies prior-owned paths, not only current narrower claims.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q8-0h",
+      "codeConcernMayBeClosed": true,
+      "reason": "Single-parent claimed implementation audits registered prior baseline range; actual multi-parent merge preserves approved main boundary.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q9gbA",
+      "codeConcernMayBeClosed": true,
+      "reason": "No mandatory Review/Integration metadata-stage protocol exists; documented external independent Review and final Integrator remain required.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "resolve_with_existing_rule_scope_explanation_no_new_protocol"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q9gbH",
+      "codeConcernMayBeClosed": true,
+      "reason": "Continuous foreign stable Registry identity follows exact existing mutable fields; genuine peer lease/status advances not globally frozen.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q9gbL",
+      "codeConcernMayBeClosed": true,
+      "reason": "Real node Recovery transition reused for status/recovery changes, including same-status descriptor corruption and validated clean merge import.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q9gbQ",
+      "codeConcernMayBeClosed": true,
+      "reason": "AGENTS human handoff contents remain mandatory and actual artifacts reviewed; no invented retrospective machine parser. Fixture path proof does not certify full Admission.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "resolve_with_existing_rule_scope_explanation_no_new_protocol"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q93eP",
+      "codeConcernMayBeClosed": true,
+      "reason": "Exact CLI metadata-only base advance bypass rejected by early actual working-node audit, leaving metadata-only approved failures out of code audit.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q93eY",
+      "codeConcernMayBeClosed": true,
+      "reason": "Exact Own Review plus unclaimed backend code rejected by contemporaneous scope check, with proven imports/peer classification separated.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q93eh",
+      "codeConcernMayBeClosed": true,
+      "reason": "Exact normal peer merge passes with main renewal retained; Own side expired-lease code still rejected.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "reported_concern_fixed_or_exactly_bounded_in_current_source"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q93en",
+      "codeConcernMayBeClosed": true,
+      "reason": "Requested ancestor-only original base relaxation conflicts existing validate_foundation_registration exact actualTargetBase; retain intentional stale-base rejection.",
+      "sourceCoverage": "Retained from reviewed actual5a; c305 production diff limited to existing frozen Ledger check and scalar diagnostics",
+      "inheritedDisposition": "resolve_with_existing_rule_scope_explanation_no_new_protocol"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-LqS",
+      "existingRuleReferences": [
+        "scripts/check-program-plan-transitions.py:39 ALLOWED_ACTIVE_TRANSITIONS",
+        "scripts/check-program-plan-transitions.py:413 validate_active_transition",
+        "scripts/check-program-plan-transitions.py:444 invalid active transition rejection",
+        "AGENTS.md:325 role responsibilities"
+      ],
+      "reason": "Peer edge illegality remains; limited completing-Foundation proof does not certify every Peer history. Own scope/lease/identity unchanged. No demonstrated OPS004 source authorization bypass.",
+      "evidenceType": "ACTUAL_TEMP_GIT_CLI_AND_EXISTING_RULE_REVIEW",
+      "inheritedDisposition": "Owner accepted finite source-proof scope; existing Peer rules not waived"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-LqV",
+      "existingRuleReferences": [
+        "scripts/check-agent-coordination.py:788 exclusive path conflict",
+        "scripts/check-agent-coordination.py:795 reciprocal exclusive path conflict",
+        "scripts/check-program-plan-history.py:491 historical Own conflicts"
+      ],
+      "reason": "Do not replace completing-Foundation proof with all-peer historical conflict/Gate replay. Current conflicts affecting Own and actual latest Registry remain checked.",
+      "evidenceType": "EXISTING_RULE_SCOPE_REVIEW_NO_SPECIFIC_FULL_PEER_ADMISSION_REPRO_ASSERTED",
+      "inheritedDisposition": "Owner accepted finite source-proof scope; existing Peer rules not waived"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-LqX",
+      "existingRuleReferences": [
+        "scripts/check-program-plan-integrity.py:39 CANONICAL_AUTHORITY",
+        "scripts/check-program-plan-integrity.py:512 canonical authority comparison",
+        "scripts/check-program-plan-history.py:558 fixed RECOVERY.OWNERSHIP lookup",
+        "scripts/check-program-plan-history.py:1064 baseline ownership lookup",
+        "scripts/check-program-plan-history.py:1128 working prior ownership lookup"
+      ],
+      "reason": "Isolated historical metadata coverage limit, not demonstrated authorization redirection. Do not claim every historical snapshot passed Integrity.",
+      "evidenceType": "ACTUAL_TEMP_GIT_CLI_AND_EXISTING_RULE_REVIEW",
+      "inheritedDisposition": "Owner accepted finite source-proof scope; existing Peer rules not waived"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-LqY",
+      "existingRuleReferences": [
+        "scripts/check-program-plan-transitions.py:413 validate_active_transition",
+        "scripts/check-program-plan-transitions.py:450 Program active lifecycle status-only validation",
+        "scripts/check-program-plan-history.py:1169 historical_frozen_definitions",
+        "scripts/check-program-plan-history.py:1283 foundation_post_implementation"
+      ],
+      "reason": "No demonstrated use of active-peer Program identity to authorize completing Own work. Full peer Admission/transition claims remain outside this helper.",
+      "evidenceType": "EXISTING_RULE_SCOPE_REVIEW_NO_SPECIFIC_FULL_PEER_ADMISSION_REPRO_ASSERTED",
+      "inheritedDisposition": "Owner accepted finite source-proof scope; existing Peer rules not waived"
+    },
+    {
+      "evidenceReferences": [
+        "scripts/check-program-plan-history.py:1089 early_nodes",
+        "scripts/check-program-plan-history.py:1102 metadata-only continue",
+        "scripts/check-program-plan-history.py:1169 historical_frozen_definitions",
+        "AGENTS.md:344 immutable existing completion provenance"
+      ],
+      "threadId": "PRRT_kwDOTgCQ3c6q-fKf",
+      "currentSourceDisposition": "Existing Ledger freeze called before early metadata skip; real old-ledger regression retained",
+      "inheritedDisposition": "REAL_REPRODUCED_BLOCKER_LIMITED_OLD_LEDGER_PROVENANCE"
+    },
+    {
+      "evidenceReferences": [
+        "scripts/check-program-plan-history.py:986 historical_peer_path",
+        "scripts/check-program-plan-history.py:999 historical_peer_metadata_path",
+        "scripts/check-program-plan-history.py:477 historical_registry_schema"
+      ],
+      "threadId": "PRRT_kwDOTgCQ3c6q-fKl",
+      "currentSourceDisposition": "Dictionary guards plus full-CLI schema FAIL/exit1/JSON/noTraceback regression",
+      "inheritedDisposition": "P2_FAIL_CLOSED_DIAGNOSTIC_DEFECT"
+    },
+    {
+      "evidenceReferences": [
+        "scripts/check-program-plan-history.py:462 historical_lease",
+        "scripts/check-agent-coordination.py:699 current now",
+        "scripts/check-agent-coordination.py:766 current expiry rejection",
+        "AGENTS.md:323 unexpired lease requirement"
+      ],
+      "threadId": "PRRT_kwDOTgCQ3c6q-fKx",
+      "currentSourceDisposition": "Git historical time trust limit explicitly documented; no external time-witness claim or new protocol",
+      "inheritedDisposition": "TRUE_GIT_TIMESTAMP_TRUST_LIMIT_NOT_EXISTING_EXTERNAL_WITNESS_PROTOCOL"
+    }
+  ],
+  "actualSource": "c3051d8d513ebdb0d1805f0bf229894fa2ffb4a1",
+  "priorDispositionFiles": [
+    "ops004-independent-pr77-original47-disposition.json",
+    "ops004-independent-pr77-lq-four-scope-disposition.json",
+    "ops004-independent-pr77-fk-three-disposition.json"
+  ],
+  "formal15Full511SameHeadCI": "PENDING",
+  "count": 54,
+  "sourceTree": "717e9d076f1c0554066e922b71be78328f2cf568",
+  "kind": "FINITE_ORIGINAL_54_THREADS_STATIC_COVERAGE_NOT_GLOBAL_PEER_HISTORY_GATE_OR_MERGE_APPROVAL",
+  "githubMutation": false
+}

@@ -1,0 +1,95 @@
+{
+  "kind": "PINNED_ACTUAL_C305_FINITE_REAL_GIT_TWO_EXISTING_THREAD_CLI_REPRO_NOT_FULL_PEER_GATE",
+  "actualSource": "c3051d8d513ebdb0d1805f0bf229894fa2ffb4a1",
+  "sourceTree": "717e9d076f1c0554066e922b71be78328f2cf568",
+  "checkerSha256": "f98068026c1bf610363d87302740c8b0accc9fa2548ff8fc96c3bad832f736ff",
+  "rows": [
+    {
+      "scenario": "same_node_peer_claim_code_restore",
+      "peer": {
+        "taskId": "OPS-100",
+        "issue": 30,
+        "title": "Task OPS-100",
+        "status": "reserved",
+        "riskLevel": "medium",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "coordinator",
+        "branch": "chore/OPS-100-fabricated",
+        "baseBranch": "main",
+        "baseSha": "4ea938ad9103e2de1b8f948017376ff239cd9e73",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "OPS-100",
+        "programWave": "W1",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "backend/x.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/OPS-100/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-08-29T00:00:00Z",
+          "expiresAt": "2026-09-02T00:00:00Z"
+        }
+      },
+      "priorPeerClassifiesCode": false,
+      "currentPeerClassifiesCode": true,
+      "review": "4ea938ad9103e2de1b8f948017376ff239cd9e73",
+      "bad": "f2aa59cf79ddcc108661172b3f97754d54fb6e7f",
+      "restore": "b8e09f43241e8eb5e2624a435e0276cbe7587d15",
+      "badPaths": [
+        "backend/x.py",
+        "specs/coordination/active-work.yaml"
+      ],
+      "netPaths": [],
+      "sources": {
+        "seed": "0dcf4791a82d0231a3976a14ea9bcc4061543cc7",
+        "reservation": "7ae4fd85893896cf33710f2968f2027896551197",
+        "implementation": "b31113670db220bcbf99941fcdc40ad9c2cba9e6",
+        "base": "b8e09f43241e8eb5e2624a435e0276cbe7587d15"
+      },
+      "historyExit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": "",
+      "threadId": "PRRT_kwDOTgCQ3c6q-2e5",
+      "classification": "REAL_OWN_SOURCE_CLASSIFICATION_AUTHORIZATION_BLOCKER_REQUIRES_PRIOR_ONLY_PEER_CODE_SCOPE"
+    },
+    {
+      "scenario": "scalar_program_tasks_restore",
+      "review": "30578bac6df146bed5a8650c031c547e4671eb8a",
+      "bad": "89c975fb7b3267ac2854a408def5d26d359ea653",
+      "restore": "9a06774264e822c67e0c0c1c09c43283af14aa82",
+      "badPaths": [
+        "specs/coordination/program-plan.yaml"
+      ],
+      "netPaths": [],
+      "sources": {
+        "seed": "6b654e0ceb26c27ad7f56b78af3185940d16bde9",
+        "reservation": "e2190758fb18ae1e7dfe3ca078f497fd923bb0b7",
+        "implementation": "1aaa7ee267483e1199fdd4161a982f6ccea15a5a",
+        "base": "9a06774264e822c67e0c0c1c09c43283af14aa82"
+      },
+      "historyExit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at 89c975fb7b3267ac2854a408def5d26d359ea653 Program schema violation: None is not of type 'object'\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 post-implementation history at 89c975fb7b3267ac2854a408def5d26d359ea653 Program schema violation: None is not of type 'object'\"}\n",
+      "stderr": "",
+      "threadId": "PRRT_kwDOTgCQ3c6q-2e8",
+      "classification": "EXACT_PROGRAM_NULL_REPRO_ALREADY_STRUCTURED_FAIL_CLOSED_NO_TRACEBACK_IN_C305"
+    }
+  ],
+  "integrationConclusion": "BLOCKED_ONLY_BY_REPRODUCED_2e5_UNTIL_LIMITED_FIX_AND_NEW_ACTUAL_SOURCE_FORMAL_GATES"
+}

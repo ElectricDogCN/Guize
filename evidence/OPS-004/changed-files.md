@@ -1,9 +1,9 @@
-# OPS-004 最后Ledger候选完整路径
+# OPS-004 最后prior Peer候选完整路径
 
 Task: OPS-004 / Issue71
 Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
-Actual Parent: 5a928426889ae086d73052ea1d3881aa8adfff09
-470 paths: registered code and own Evidence only
+Actual Parent: c3051d8d513ebdb0d1805f0bf229894fa2ffb4a1
+505 registered-code and Own Evidence paths
 
 evidence/OPS-004/changed-files.md
 evidence/OPS-004/commands.txt
@@ -14,6 +14,8 @@ evidence/OPS-004/scope.md
 evidence/OPS-004/source-history/ops004-scope-fresh-history-proof.json
 evidence/OPS-004/summary.md
 evidence/OPS-004/test-results/README.md
+evidence/OPS-004/test-results/final-ledger-ci-617/job-log.txt
+evidence/OPS-004/test-results/final-ledger-ci-617/proof.json
 evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-final-targeted.txt
 evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-final-targeted.xml
 evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-refined-targeted.txt
@@ -21,7 +23,40 @@ evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-refin
 evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-targeted.txt
 evidence/OPS-004/test-results/final-ledger-independent/ops004-final-ledger-targeted.xml
 evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-5a92842-early-ledger-proof.json
+evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-c3051d8-implementation-scalar-proof.json
+evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-c3051d8-local-formal-results-proof.json
+evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-c3051d8-original54-coverage.json
+evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-c3051d8-prospective-merge-proof.json
+evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-c3051d8-two-final-threads-proof.json
 evidence/OPS-004/test-results/final-ledger-independent/ops004-independent-pr77-fk-three-disposition.json
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/clean-after.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/clean-before.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/coordination.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/evidence.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/finalization.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/governance.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/governance.xml
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/history.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/integrity.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/lifecycle.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/raw-lifecycle.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/readiness.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/schemas.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/scope.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/source.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/status.json
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/task.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/transitions.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/tree.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/unaffected.txt
+evidence/OPS-004/test-results/final-ledger-source-c3051d8/verify.txt
+evidence/OPS-004/test-results/final-peer-independent/ops004-final-peer-collect.txt
+evidence/OPS-004/test-results/final-peer-independent/ops004-final-peer-prepatch-c305-only-scalar.txt
+evidence/OPS-004/test-results/final-peer-independent/ops004-final-peer-prepatch-c305-only-scalar.xml
+evidence/OPS-004/test-results/final-peer-independent/ops004-final-peer-targeted.txt
+evidence/OPS-004/test-results/final-peer-independent/ops004-final-peer-targeted.xml
+evidence/OPS-004/test-results/final-peer-independent/ops004-independent-c3051d8-implementation-scalar-proof.json
+evidence/OPS-004/test-results/final-peer-independent/ops004-independent-c3051d8-two-final-threads-proof.json
 evidence/OPS-004/test-results/finite-scope-ci-616/job-log.txt
 evidence/OPS-004/test-results/finite-scope-ci-616/proof.json
 evidence/OPS-004/test-results/finite-scope-independent/ops004-finite-scope-refined-targeted.txt

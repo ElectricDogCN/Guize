@@ -733,6 +733,19 @@ class TestProgramPlanHistory(unittest.TestCase):
             review = original(location, message, timestamp)
             if scenario == 'review_unclaimed_code':
                 return review
+            if scenario == 'same_node_peer_claim_code_restore':
+                saved = load('specs/coordination/active-work.yaml')
+                malformed = copy.deepcopy(saved)
+                peer = self.entry('OPS-100', review, 'reserved', 'chore/OPS-100-fabricated')
+                peer.update(riskLevel='medium', agentRole='coordinator', exclusivePaths=['backend/x.py'])
+                malformed['tasks'].append(peer)
+                self.write_yaml(root, 'specs/coordination/active-work.yaml', malformed)
+                self.write_text(root, 'backend/x.py', '# fabricated same-node claim cannot authorize code\n')
+                original(location, 'OPS-100 fabricated same-node claim and code (#25)')
+                self.write_yaml(root, 'specs/coordination/active-work.yaml', saved)
+                (root / 'backend/x.py').unlink()
+                return original(location, 'OPS-100 restore fabricated registration and code (#26)')
+
             if scenario == 'scalar_registry_peer':
                 saved = load('specs/coordination/active-work.yaml')
                 malformed = copy.deepcopy(saved)
@@ -1126,6 +1139,37 @@ class TestProgramPlanHistory(unittest.TestCase):
     def test_foundation_post_own_work_old_side_lease_rejected(self):
         self.assert_post_disjoint_peer_old_lease(own_work=True)
 
+
+    def test_foundation_implementation_scalar_program_reports_schema_failure(self):
+        with tempfile.TemporaryDirectory() as root:
+            original = self.commit
+            def commit(location, message, timestamp=None):
+                if message != 'GZ-014 repair (#22)':
+                    return original(location, message, timestamp)
+                path = 'specs/coordination/program-plan.yaml'
+                saved = yaml.safe_load((pathlib.Path(root) / path).read_text(encoding='utf-8'))
+                malformed = copy.deepcopy(saved)
+                malformed['tasks'].append(None)
+                self.write_yaml(root, path, malformed)
+                implementation = original(location, message, timestamp)
+                self.write_yaml(root, path, saved)
+                original(location, 'GZ-014 restore Program scalar after implementation (#26)', timestamp)
+                return implementation
+            self.commit = commit
+            try:
+                self.create_foundation_completion(root, 'valid')
+            finally:
+                self.commit = original
+            result = self._run_checker(root, 'GZ-014', 'chore/GZ-014-completion')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn('Program schema violation', result.stdout)
+            self.assertNotIn('Traceback', result.stdout + result.stderr)
+            self.assertTrue(all(json.loads(line)['status'] == 'FAIL' for line in result.stdout.splitlines()))
+
+    def test_foundation_postclaim_new_peer_claim_cannot_authorize_same_node_code(self):
+        # Malformed/fabricated peer is intentional; no claim of Peer Admission.
+        self.assert_postclaim_history('same_node_peer_claim_code_restore', False,
+            'post-implementation working node changed paths outside its prior registered scope')
 
     def test_foundation_scalar_registry_peer_reports_schema_failure(self):
         # Intentionally malformed historical input; no claim of peer Admission.

@@ -1,3 +1,26 @@
+## 最后 prior Peer / implementation scalar 候选
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-history-repair-implementation
+Base: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+Actual published parent: c3051d8d513ebdb0d1805f0bf229894fa2ffb4a1
+Current full513 / formal15 / same-head CI / independent integration: NOT_EXECUTED
+Results reference: PR77 actual HEAD Checks and durable local .takeover-tools/ops004-final-peer-results.
+
+真实c305本地511 passed961.43s及CI617的511 passed1122.60s均仅原容量FAIL，完整Source/Command/Exit/JUnit与官方source/tree/parents/log保存于final-ledger-source-c3051d8、final-ledger-ci-617。最新两条-2e5/2e8确切阶段复现证明：post-implementation同节点虚构Peer claim与backend/x.py工作、随后同时恢复，最终净diff为空而CLI0，是Own来源分类的真实漏洞；仅前一真实节点claims可用于Peer代码分类，当前节点仅可用既有historical_peer_metadata_path分类Peer Task/Evidence。clean approved imports及Own prior claims规则不变，不引入全Other Admission/Gate重放或新权限协议。
+
+-2e8的最初POST Review Program null反例exit1/结构化FAIL，不能覆盖意见明确的IMPLEMENTATION阶段。独立校正后，真实合法Own代码实现节点附加Program null再恢复仍exit1但foreign_document Traceback；两个既有foreign projection仅筛选dict，保留schema FAIL，不将畸形行变为合法登记。新增两个真Git回归与既有disjoint Peer回归合计3 PASS18.61s，实际collect168history+345其他=513。修补脚本首次在写生产前因同式出现两处而中止；随后的旧源仅scalarRegistry一例PASS5.42s不算新回归，原始另存。无未执行整套成功声明。
+
+Owner 原决定/blob/永久maxHigh=1、其他任务和旧Ledger保持不变。原窗口2026-10-10T01:09:31Z截止，不自动延长；若来不及完成，按原决定记录准确阶段后另作具体收口恢复决定。发布后实际15/513/同头CI与独立最后审查及全部线程必须先完成，才能合入PR77。另提Review保存实际source/CI原始，Review实际14和CI仍必须；另提Completion绑定最后PR77真实merge，仅Own Lease移除，实际14/fullmake513/CI全零，主线CI与actualmain make全零后才能恢复GZ005。最终Completion/main原始按17.8保存或引用，completed后Own Evidence纠正不动Program/Registry/Ledger/完整Task，不复用旧Completion分支。
+
+Coordinator: program-coordinator-agent
+Implementer: lifecycle-scope-repair-agent
+Reviewer: independent-lifecycle-scope-review-agent
+Integrator: integration-agent
+Contract: CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC/CONTRACT-ACTIVE-WORK
+
+## 历史记录
+
 ## 最后 Ledger / scalar 511 候选
 
 Task: OPS-004 / Issue71
