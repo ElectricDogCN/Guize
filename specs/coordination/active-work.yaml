@@ -5,4 +5,53 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
   - GZ-003
-tasks: []
+tasks:
+- taskId: OPS-009
+  issue: 85
+  title: 显式限定未来计划修订准入
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: planning-revision-agent
+  reviewer: independent-planning-revision-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/OPS-009-planning-revision-admission
+  baseBranch: main
+  baseSha: bf0e5cbf51c1f8991986f503e22d1312ac9b5836
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-009
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  consumesContracts:
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: program-planning-revision
+  dependsOn:
+  - GZ-014
+  - OPS-003
+  - OPS-004
+  - GZ-005
+  exclusivePaths:
+  - specs/coordination/program-plan.yaml
+  - specs/coordination/planning-revision.schema.yaml
+  - specs/coordination/README.md
+  - scripts/program-planning-revision.py
+  - scripts/check-program-plan-transitions.py
+  - scripts/check-program-lifecycle-guards.py
+  - scripts/check-program-plan-history.py
+  - tests/governance/test_program_planning_revision.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-009/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 5
+  lease:
+    acquiredAt: '2026-10-10T15:29:31Z'
+    expiresAt: '2026-10-17T15:29:31Z'

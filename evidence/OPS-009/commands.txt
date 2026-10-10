@@ -1,0 +1,23 @@
+OPS-009 metadata-only reservation
+Status: RESERVED
+Verification: PENDING_ACTUAL_SOURCE
+Issue: #85
+Base: bf0e5cbf51c1f8991986f503e22d1312ac9b5836
+Actual reservation branch: chore/OPS-009-planning-revision-reservation
+Implementation branch claim: chore/OPS-009-planning-revision-admission
+Lease: 2026-10-10T15:29:31Z to 2026-10-17T15:29:31Z
+
+Required commands below: NOT EXECUTED, no exit result asserted.
+python scripts/check-task-file.py --task OPS-009
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref bf0e5cbf51c1f8991986f503e22d1312ac9b5836
+python scripts/check-program-plan-history.py --base-ref bf0e5cbf51c1f8991986f503e22d1312ac9b5836 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-reservation
+python scripts/check-program-plan-transitions.py --base-ref bf0e5cbf51c1f8991986f503e22d1312ac9b5836 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-reservation
+python scripts/check-program-plan-finalization.py --base-ref bf0e5cbf51c1f8991986f503e22d1312ac9b5836 --task OPS-009
+python scripts/check-program-lifecycle-guards.py --base-ref bf0e5cbf51c1f8991986f503e22d1312ac9b5836 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref bf0e5cbf51c1f8991986f503e22d1312ac9b5836 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-reservation
+python scripts/run-agent-coordination-gate.py --base-ref bf0e5cbf51c1f8991986f503e22d1312ac9b5836 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-reservation
+python scripts/run-task-scope-gate.py --task OPS-009 --base bf0e5cbf51c1f8991986f503e22d1312ac9b5836
+python scripts/check-evidence.py --task OPS-009
+make verify TASK=OPS-009 BASE=bf0e5cbf51c1f8991986f503e22d1312ac9b5836 HEAD_REF=HEAD BRANCH=chore/OPS-009-planning-revision-reservation
