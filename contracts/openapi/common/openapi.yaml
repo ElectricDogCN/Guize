@@ -482,6 +482,8 @@ components:
       $ref: schemas.yaml#/StorageRequest
     SessionCookieIssuance:
       $ref: schemas.yaml#/SessionCookieIssuance
+    SessionCookieRevocation:
+      $ref: schemas.yaml#/SessionCookieRevocation
     PendingApproval:
       $ref: schemas.yaml#/PendingApproval
     PendingApprovalEnvelope:

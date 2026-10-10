@@ -126,8 +126,11 @@ For declared approval transport, retain the agreed approval ID once outside the
 business body; equivalent header/body carriers have the same fingerprint where
 the operation permits both, but changing the ID changes the fingerprint. All
 other business fields remain covered. Session, CSRF and step-up secrets must not
-be persisted in this representation. In-flight
-duplicates return conflict/backoff, never start an additional side effect.
+be persisted in this representation. In-flight duplicates return HTTP 409
+`INTERNAL_IDEMPOTENCY_IN_PROGRESS` with required `details.retryAfterSeconds` of
+1–60 seconds. Retry the SAME request fingerprint and key after backoff with fresh
+authorization. `INTERNAL_IDEMPOTENCY_CONFLICT` exclusively means a different
+fingerprint and is not automatically retryable. Neither starts another side effect.
 Persist accepted task ID before side effects. Workflow retries and restarts use
 the durable task/input/configuration deduplication identity, not an in-memory lock.
 
@@ -147,7 +150,21 @@ or policy-conflicting merges and preserves all source history. Split uses the sa
 ownership and association checks. Path asset ID and body version must refer to the
 same authorized asset; supplied IDs never select another asset implicitly.
 
+For split, resolve every selected SourceObject server-side under the path asset's
+current immutable version. Check membership, each source ACL and source policy /
+retention restrictions, plus expectedRevision, under the mutation transaction's
+asset and association locks. Denied or foreign sources return the same
+ACCESS_NOT_FOUND; policy/retention denial returns SOURCE_POLICY_BLOCKED. Preserve
+history, immutable provenance, inherited ACL, safety labels and retention rules on
+the resulting assets. Client-supplied source IDs cannot widen access.
+
 ## Passkey wire options
+
+Successful logout first durably revokes the server session, then sends
+`Set-Cookie: guize_session=; Path=/; Max-Age=0; Secure; HttpOnly; SameSite=Strict`.
+It clears the same host-only cookie issued by authentication, with no Domain
+attribute. Issuance and revocation have separate schemas; errors and unrelated
+operations cannot claim either cookie change. Cookie mutations still require CSRF.
 
 Registration returns PublicKeyCredentialCreationOptions with rp, an opaque user
 handle, challenge and a nonempty list of supported public-key algorithms.
@@ -168,6 +185,20 @@ cancel/retry. A command does not create an unrelated fake task or force a termin
 success. Pause honors safe boundaries, cancel stops subsequent side effects and
 retry creates a tracked attempt bound to the original input/configuration versions.
 P0–P8 priority remains constrained by caller capabilities, budgets and storage floor.
+
+Every 202 must have statusUrl exactly `/api/v1/tasks/` followed by data.taskId.
+The checker validates this correlation in schema examples and serialized HTTP;
+runtime task persistence and replay must retain the same durable identity.
+
+Progress merges are scoped to subject + path asset + authorized immutable version.
+Reject lastPlayedAt later than server receipt time + 300 seconds. Clamp accepted
+future skew to server receipt time, persist and return that effective timestamp,
+then atomically compare (effective timestamp, per-key server receipt sequence).
+The server assigns a strictly increasing sequence; it is never client-controlled.
+Older timestamps cannot overwrite newer progress; equal timestamps use server
+receipt order. Idempotent replay retains its original timestamp/sequence. Position
+may decrease on seek. The deterministic reference helper tests ordering facts,
+not actual database locking, device clocks or runtime authorization.
 Dependency uncertainty remains a waiting/error state, never inferred success.
 
 Playback returns 201 only for a ready, safe rendition. When authenticated callers
@@ -214,6 +245,17 @@ uses exact approved revisions, signed locked digests and health observation; all
 real restore, hardware and production checks remain independent acceptance tasks.
 
 ## 可检查的隐私与本地源边界 / Checkable privacy and LOCAL source boundaries
+
+Compatibility classifies exported components by actual local references through
+requests, responses, parameters, streams and nested/shared models. The resolver
+reports its derived `x-resolved-component-directions`; unreferenced exports
+explicitly keep both directions. Request-only components can gain optional input
+fields. Closed response components still reject extensions that old consumers
+cannot parse. These derived directions are tooling metadata, not runtime identity.
+
+Asset.description is optional and bounded to 4096 characters in patch, detail and
+list contracts. Patch/get/list examples demonstrate readback of the same value.
+Deployment targetHostIds must contain 1–100 distinct authorized host identities.
 
 ErrorDetails is closed: only a reviewed public field-name enum and a bounded
 retryAfterSeconds hint are accepted. Unknown provider responses, credential values,

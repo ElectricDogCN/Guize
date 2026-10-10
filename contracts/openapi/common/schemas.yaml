@@ -8,7 +8,7 @@ TaskAccepted:
       description: 异步命令已受理，不代表任务成功。
   additionalProperties: true
   properties:
-    taskId: &id001
+    taskId:
       type: string
       description: Opaque resource identifier; never a file path.
       x-i18n:
@@ -16,7 +16,7 @@ TaskAccepted:
           description: Opaque resource identifier; never a file path.
         zh-CN:
           description: 不透明资源标识，不是文件路径。
-      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      pattern: ^tsk_[A-Za-z0-9_-]{1,64}$
       maxLength: 80
     status:
       type: string
@@ -50,6 +50,10 @@ TaskAccepted:
   - taskId
   - status
   - statusUrl
+  x-task-status-binding:
+    template: /api/v1/tasks/{taskId}
+    source: data.taskId
+    validation: Schema examples and serialized 202 responses must match exactly; runtime uses the same durable task identity.
 Acknowledgement:
   type: object
   description: Durable synchronous command acknowledgement.
@@ -60,7 +64,16 @@ Acknowledgement:
       description: 已持久化的同步命令确认。
   additionalProperties: true
   properties:
-    resourceId: *id001
+    resourceId: &id001
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
     revision: &id003
       type: integer
       description: Optimistic resource revision.
@@ -192,7 +205,7 @@ PasskeyChallenge:
       description: One-time authentication options bound to RP, origin and intent.
     zh-CN:
       description: 绑定 RP、来源和用途的一次性登录选项。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     challengeId:
       type: string
@@ -1346,6 +1359,15 @@ Asset:
       - ADMIN_RELEASED
     revision: *id003
     updatedAt: *id002
+    description:
+      type: string
+      description: Optional user description.
+      x-i18n:
+        en-US:
+          description: Optional user description.
+        zh-CN:
+          description: 可选用户说明。
+      maxLength: 4096
   required:
   - id
   - title
@@ -1736,6 +1758,7 @@ SplitRequest:
       items: *id001
       maxItems: 100
       minItems: 1
+      uniqueItems: true
     expectedRevision: *id003
     reason:
       type: string
@@ -2536,7 +2559,7 @@ PlaybackPlan:
       description: Short-lived revocable gateway grant; authorization precedes cache.
     zh-CN:
       description: 短期可撤销网关授权，鉴权先于缓存访问。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     grantId: *id001
     assetVersionId: *id001
@@ -2968,7 +2991,7 @@ ArtifactContent:
       description: Bounded authorized result; long content paginated or gateway-referenced.
     zh-CN:
       description: 有界且经授权的结果，大内容分页或使用网关引用。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     artifactId: *id001
     revision: *id003
@@ -3387,6 +3410,8 @@ DeploymentRequest:
           description: 已批准主机。
       items: *id001
       maxItems: 100
+      minItems: 1
+      uniqueItems: true
   required:
   - profileVersionId
   - bundleId
@@ -3794,6 +3819,7 @@ ErrorEnvelope:
       - ACCESS_NOT_FOUND
       - INTERNAL_INVALID_REQUEST
       - INTERNAL_IDEMPOTENCY_CONFLICT
+      - INTERNAL_IDEMPOTENCY_IN_PROGRESS
       - INTERNAL_REVISION_CONFLICT
       - INTERNAL_RATE_LIMITED
       - INTERNAL_UNAVAILABLE
@@ -3883,7 +3909,7 @@ PasskeyChallengeEnvelope:
       description: Localized success envelope.
     zh-CN:
       description: 本地化成功响应。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     code:
       type: string
@@ -4330,7 +4356,7 @@ SourceCredentialReferenceEnvelope:
       description: Localized success envelope.
     zh-CN:
       description: 本地化成功响应。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     code:
       type: string
@@ -4590,7 +4616,7 @@ PublicAssetEnvelope:
       description: Localized success envelope.
     zh-CN:
       description: 本地化成功响应。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     code:
       type: string
@@ -5104,7 +5130,7 @@ ArtifactContentEnvelope:
       description: Localized success envelope.
     zh-CN:
       description: 本地化成功响应。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     code:
       type: string
@@ -5253,7 +5279,7 @@ PlaybackPlanEnvelope:
       description: Localized success envelope.
     zh-CN:
       description: 本地化成功响应。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     code:
       type: string
@@ -6500,6 +6526,7 @@ TaskFailure:
       - ACCESS_NOT_FOUND
       - INTERNAL_INVALID_REQUEST
       - INTERNAL_IDEMPOTENCY_CONFLICT
+      - INTERNAL_IDEMPOTENCY_IN_PROGRESS
       - INTERNAL_REVISION_CONFLICT
       - INTERNAL_RATE_LIMITED
       - INTERNAL_UNAVAILABLE
@@ -6610,6 +6637,7 @@ TaskFailure:
           - INTERNAL_RATE_LIMITED
           - INTERNAL_UNAVAILABLE
           - SOURCE_UNAVAILABLE
+          - INTERNAL_IDEMPOTENCY_IN_PROGRESS
       required:
       - code
     then:
@@ -7737,3 +7765,12 @@ SourcePlatformAclPage:
   - message
   - data
   - traceId
+SessionCookieRevocation:
+  type: string
+  const: guize_session=; Path=/; Max-Age=0; Secure; HttpOnly; SameSite=Strict
+  description: Expire the same host-only secure session cookie after durable revocation. No Domain attribute.
+  x-i18n:
+    en-US:
+      description: Expire the same host-only secure session cookie after durable revocation. No Domain attribute.
+    zh-CN:
+      description: 持久化撤销会话后，按相同主机和路径清除安全会话 Cookie，不设置 Domain。

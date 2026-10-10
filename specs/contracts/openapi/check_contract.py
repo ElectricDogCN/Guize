@@ -11,6 +11,7 @@ import argparse
 import base64
 import binascii
 import copy
+from datetime import datetime, timedelta, timezone
 from email.parser import Parser
 import json
 from pathlib import Path
@@ -104,13 +105,22 @@ def read_yaml(path):
     return yaml.load(Path(path).read_text(encoding='utf-8'), Loader=UniqueLoader)
 
 
-def resolve(document, file=ENTRY, boundary=CONTRACT, chain=(), documents=None):
+def resolve(document, file=ENTRY, boundary=CONTRACT, chain=(), documents=None,
+            usage=None, direction=None):
     """Resolve local refs; assertion siblings are unsupported and fail closed."""
-    if documents is None:
+    root_call = documents is None
+    if root_call:
         file, boundary = Path(file).resolve(), Path(boundary).resolve()
-        documents = {}
+        documents = {file: document}
+        usage = {}
+        for name, schema in document.get('components', {}).get('schemas', {}).items() if isinstance(document, dict) else []:
+            usage.setdefault((str(file), '/components/schemas/' + name), []).append(name)
+            if '$ref' in schema:
+                target, _, fragment = schema['$ref'].partition('#')
+                usage.setdefault((str((file.parent / unquote(target)).resolve()), fragment), []).append(name)
+        usage = {'references': usage, 'directions': {name: set() for names in usage.values() for name in names}}
     if isinstance(document, list):
-        return [resolve(value, file, boundary, chain, documents) for value in document]
+        return [resolve(value, file, boundary, chain, documents, usage, direction) for value in document]
     if not isinstance(document, dict):
         return document
     if '$ref' in document:
@@ -122,6 +132,9 @@ def resolve(document, file=ENTRY, boundary=CONTRACT, chain=(), documents=None):
         if not target.is_relative_to(boundary):
             raise ContractError(f'ref escapes contract boundary: {reference}')
         key = (str(target), fragment)
+        if direction:
+            for component in usage['references'].get(key, []):
+                usage['directions'][component].add(direction)
         if key in chain:
             raise ContractError(f'recursive ref needs an explicit supported strategy: {reference}')
         if target not in documents:
@@ -136,7 +149,7 @@ def resolve(document, file=ENTRY, boundary=CONTRACT, chain=(), documents=None):
                     value = value[int(token)] if isinstance(value, list) else value[token]
             except (KeyError, IndexError, ValueError, TypeError) as exc:
                 raise ContractError(f'unresolved ref: {reference}') from exc
-        result = resolve(value, target, boundary, chain + (key,), documents)
+        result = resolve(value, target, boundary, chain + (key,), documents, usage, direction)
         annotation_keys = {'title', 'summary', 'description', '$comment', 'x-i18n'}
         sibling_keys = set(document) - {'$ref'}
         if sibling_keys - annotation_keys:
@@ -146,13 +159,25 @@ def resolve(document, file=ENTRY, boundary=CONTRACT, chain=(), documents=None):
                 raise ContractError(f'ref annotation must be text: {name}')
         if 'x-i18n' in sibling_keys and not isinstance(document['x-i18n'], dict):
             raise ContractError('ref translations must be an annotation mapping')
-        siblings = {k: resolve(v, file, boundary, chain, documents) for k, v in document.items() if k != '$ref'}
+        siblings = {k: resolve(v, file, boundary, chain, documents, usage, direction) for k, v in document.items() if k != '$ref'}
         if not isinstance(result, dict):
             if siblings:
                 raise ContractError(f'non-object ref has siblings: {reference}')
             return result
         return {**result, **siblings}
-    return {key: resolve(value, file, boundary, chain, documents) for key, value in document.items()}
+    result = {}
+    for key, value in document.items():
+        operation_or_path = ('operationId' in document or bool(set(document) & METHODS))
+        child_direction = ('request' if operation_or_path and key in {'requestBody', 'parameters'} else
+                           'response' if operation_or_path and key in {'responses', 'x-stream-schema'} else direction)
+        result[key] = resolve(value, file, boundary, chain, documents, usage, child_direction)
+    if root_call and 'openapi' in document:
+        # Derived from actual local references, including nested/shared models.
+        # Unreferenced exports deliberately retain both consumer directions.
+        result['x-resolved-component-directions'] = {
+            name: sorted(usage['directions'].get(name) or {'request', 'response'})
+            for name in result['components']['schemas']}
+    return result
 
 
 def operations(spec):
@@ -269,6 +294,41 @@ def parse_http(text):
     return first, headers, body
 
 
+def verify_task_status_binding(value):
+    data = value['data']
+    if (not re.fullmatch(r'tsk_[A-Za-z0-9_-]{1,64}', data['taskId'])
+            or data['statusUrl'] != '/api/v1/tasks/' + data['taskId']):
+        raise ContractError('accepted task statusUrl must identify the exact data.taskId')
+
+
+def progress_order(value, received_at, receipt_sequence):
+    """Reference merge key; runtime assigns receipt sequence atomically per key."""
+    played = datetime.fromisoformat(value['lastPlayedAt'].replace('Z', '+00:00'))
+    if played.tzinfo is None or received_at.tzinfo is None or receipt_sequence < 1:
+        raise ContractError('progress ordering requires server time and receipt sequence')
+    if played > received_at + timedelta(seconds=300):
+        raise ContractError('lastPlayedAt exceeds bounded server clock skew')
+    # A tolerated fast clock must never reserve priority over subsequent updates.
+    return min(played, received_at).astimezone(timezone.utc), receipt_sequence
+
+
+def verify_split_selection(asset_id, current_version_id, current_revision, request, sources):
+    """Reference server-fact check; no client metadata grants source authority."""
+    if request['expectedRevision'] != current_revision:
+        raise ContractError('INTERNAL_REVISION_CONFLICT')
+    selected = request['sourceObjectIds']
+    if not selected or len(selected) != len(set(selected)):
+        raise ContractError('INTERNAL_INVALID_REQUEST')
+    for source_id in selected:
+        source = sources.get(source_id, {})
+        if (source.get('assetId') != asset_id or source.get('versionId') != current_version_id
+                or source.get('authorized') is not True):
+            raise ContractError('ACCESS_NOT_FOUND')
+        if source.get('policyAllowsSplit') is not True:
+            raise ContractError('SOURCE_POLICY_BLOCKED')
+    return True
+
+
 def verify_http_samples(spec, samples):
     inventory = {op['operationId']:(path,method,op) for path,method,op in operations(spec)}
     seen=set()
@@ -350,6 +410,20 @@ def verify_http_samples(spec, samples):
         content=response['content'][content_type]
         value=json.loads(response_body) if content_type=='application/json' else response_body
         validate_instance(value,content['schema'])
+        if response_parts[1] == '202':
+            verify_task_status_binding(value)
+        if oid == 'putPlaybackProgress' and response_parts[1] == '200':
+            try:
+                received_at = datetime.fromisoformat(sample['serverReceivedAt'].replace('Z', '+00:00'))
+                receipt_sequence = sample['serverReceiptSequence']
+                if type(receipt_sequence) is not int or receipt_sequence < 1:
+                    raise ValueError('invalid illustrative server receipt sequence')
+            except (KeyError, ValueError, TypeError) as exc:
+                raise ContractError('progress HTTP sample requires explicit illustrative server ordering facts') from exc
+            effective, _ = progress_order(json.loads(body), received_at, receipt_sequence)
+            returned = datetime.fromisoformat(value['data']['lastPlayedAt'].replace('Z', '+00:00'))
+            if returned != effective:
+                raise ContractError('progress response must return the server-clamped effective timestamp')
         if oid in {'createRole','replaceRole'} and response_parts[1].startswith('2'):
             requested=json.loads(body)['capabilities']
             if set(value['data']['capabilities']) != set(requested):
@@ -385,7 +459,9 @@ def verify_http_samples(spec, samples):
 def verify_contract_guarantees(spec, error_map):
     schemas=spec['components']['schemas']
     inventory={op['operationId']:op for _,_,op in operations(spec)}
-    for name in ('SourceCredentialReference','PublicAsset'):
+    for name in ('SourceCredentialReference','SourceCredentialReferenceEnvelope',
+                 'PublicAsset','PublicAssetEnvelope','PlaybackPlan','PlaybackPlanEnvelope',
+                 'ArtifactContent','ArtifactContentEnvelope','PasskeyChallenge','PasskeyChallengeEnvelope'):
         if schemas[name].get('additionalProperties') is not False:
             raise ContractError('dedicated safe response must reject private extensions: '+name)
     for oid in ('rollbackPolicy','rollbackConfiguration'):
@@ -413,6 +489,9 @@ def verify_contract_guarantees(spec, error_map):
     accepted=set(schemas['TaskAccepted']['properties']['status'].get('enum',[]))
     if not accepted or accepted & terminal:
         raise ContractError('202 acceptance must exclude terminal task states')
+    task_binding=schemas['TaskAccepted'].get('x-task-status-binding',{})
+    if task_binding.get('template')!='/api/v1/tasks/{taskId}' or task_binding.get('source')!='data.taskId':
+        raise ContractError('accepted task must declare exact status identity binding')
     if not terminal <= set(schemas['Task']['properties']['status'].get('enum',[])):
         raise ContractError('durable Task must preserve terminal states')
     pending=inventory['createApproval']['responses']['201']['content']['application/json']['schema']['properties']['data']
@@ -424,6 +503,23 @@ def verify_contract_guarantees(spec, error_map):
     if ('assetId' in body['properties'] or binding.get('primary')!='path.assetId'
             or binding.get('related')!=['body.versionId'] or not binding.get('invariants')):
         raise ContractError('playback progress must bind the path asset to its authorized immutable version')
+    ordering=progress.get('x-progress-ordering',{})
+    if (ordering.get('maxFutureSkewSeconds') != 300
+            or ordering.get('effectiveTimestamp') != 'min(body.lastPlayedAt, server.receivedAt)'
+            or ordering.get('tieBreak') != 'server.perKeyReceiptSequence'
+            or not all(ordering.get(key) for key in ('scope','atomicMerge','replay'))):
+        raise ContractError('progress needs bounded server-authoritative ordering')
+    split=inventory['splitAsset'].get('x-resource-binding',{})
+    if (split.get('primary')!='path.assetId' or split.get('related')!=['body.sourceObjectIds']
+            or split.get('version')!='server.currentAssetVersionId'
+            or split.get('revision')!='body.expectedRevision'
+            or not all(split.get(key) for key in ('membership','sourceAuthorization','retention','atomicity','preservation'))):
+        raise ContractError('split must bind every selected source to the authorized current asset version')
+    hosts=schemas['DeploymentRequest']['properties']['targetHostIds']
+    if hosts.get('minItems')!=1 or hosts.get('uniqueItems') is not True:
+        raise ContractError('deployment requires a nonempty unique target host set')
+    if schemas['Asset']['properties'].get('description') != schemas['AssetPatch']['properties']['description']:
+        raise ContractError('asset description must support bounded patch and readback')
     artifact=inventory['getArtifactContent']
     inputs={p['name']:p for p in artifact['parameters'] if p['in']=='query'}
     if not {'cursor','limit'} <= set(inputs) or not artifact.get('x-pagination-binding',{}).get('reauthorizeEachPage'):
@@ -527,6 +623,17 @@ def verify(spec=None, catalog=None, coverage=None):
                 raise ContractError(f'{oid}: required idempotency key/policy missing')
             if any(not policy.get(k) for k in ('scope','samePayload','differentPayload','inFlight','durability')):
                 raise ContractError(f'{oid}: incomplete idempotency behavior')
+            if (policy.get('inFlight') != 'INTERNAL_IDEMPOTENCY_IN_PROGRESS; retry after bounded backoff.'
+                    or 'INTERNAL_IDEMPOTENCY_IN_PROGRESS' not in operation.get('x-error-codes',[])
+                    or error_map['INTERNAL_IDEMPOTENCY_IN_PROGRESS']['retryable'] is not True
+                    or error_map['INTERNAL_IDEMPOTENCY_CONFLICT']['retryable'] is not False):
+                raise ContractError('idempotency must distinguish retryable in-flight work from permanent fingerprint mismatch')
+            conflict_schema=operation['responses']['409']['content']['application/json']['schema']
+            if not any(guard.get('if',{}).get('properties',{}).get('code',{}).get('const')=='INTERNAL_IDEMPOTENCY_IN_PROGRESS'
+                       and guard.get('then',{}).get('properties',{}).get('details',{}).get('required')==['retryAfterSeconds']
+                       and guard['then']['properties']['details'].get('properties',{}).get('retryAfterSeconds')=={'type':'integer','minimum':1,'maximum':60}
+                       for guard in conflict_schema.get('allOf',[])):
+                raise ContractError('in-flight response requires a bounded retryAfterSeconds hint')
         if auth.get('stepUp') and not parameter_map.get(('header','X-Step-Up-Proof'), {}).get('required'):
             raise ContractError(f'{oid}: step-up header required')
         if auth.get('approval') and not parameter_map.get(('header','X-Approval-Id'), {}).get('required'):
@@ -545,6 +652,7 @@ def verify(spec=None, catalog=None, coverage=None):
             raise ContractError('multi-resource merge lacks both-resource invariants')
         if oid == 'createPasskeyChallenge':
             allowed = {'INTERNAL_INVALID_REQUEST', 'INTERNAL_IDEMPOTENCY_CONFLICT',
+                       'INTERNAL_IDEMPOTENCY_IN_PROGRESS',
                        'INTERNAL_RATE_LIMITED', 'INTERNAL_UNAVAILABLE', 'INTERNAL_ERROR'}
             if not set(operation.get('x-error-codes', [])) <= allowed:
                 raise ContractError('anonymous passkey options cannot expose account-dependent errors')
@@ -582,6 +690,10 @@ def verify(spec=None, catalog=None, coverage=None):
                 issued=response.get('headers',{}).get('Set-Cookie',{})
                 if not issued.get('required') or issued.get('schema')!=spec['components']['schemas']['SessionCookieIssuance']:
                     raise ContractError('successful authentication must issue the secure session cookie')
+            elif oid=='logoutSession' and status=='200':
+                revoked=response.get('headers',{}).get('Set-Cookie',{})
+                if not revoked.get('required') or revoked.get('schema')!=spec['components']['schemas']['SessionCookieRevocation']:
+                    raise ContractError('successful logout must expire the same secure host-only session cookie')
             elif 'Set-Cookie' in response.get('headers',{}):
                 raise ContractError('session issuance is only declared on successful authentication')
             content = response.get('content', {})
@@ -610,6 +722,8 @@ def verify(spec=None, catalog=None, coverage=None):
                     raise ContractError(f'{oid}: unreviewed response media type {media_type}')
                 for item in media['examples'].values():
                     validate_instance(item['value'], schema); example_count += 1
+                    if status == '202':
+                        verify_task_status_binding(item['value'])
                     if oid == 'createApproval' and status == '201':
                         if item['value']['data']['status'] != 'PENDING':
                             raise ContractError('approval proposal must not self-approve')
@@ -691,7 +805,11 @@ def compatible(old, new, old_catalog, new_catalog):
         replacement=new['components']['schemas'].get(name)
         if replacement is None:
             raise ContractError('removed exported component schema: '+name)
-        for direction in ('request','response'):
+        directions = set(old.get('x-resolved-component-directions', {}).get(name, ['request','response']))
+        directions.update(new.get('x-resolved-component-directions', {}).get(name, ['request','response']))
+        if not directions or not directions <= {'request','response'}:
+            raise ContractError('invalid exported component direction: '+name)
+        for direction in sorted(directions):
             _schema_compat(schema,replacement,direction,'components.schemas.'+name)
     new_ops={(path,method):op for path,method,op in operations(new)}
     for path,method,left in operations(old):
@@ -702,7 +820,7 @@ def compatible(old, new, old_catalog, new_catalog):
                     'x-multi-resource-invariants','x-resource-binding','x-no-expensive-work','x-playback-readiness',
                     'x-account-enumeration-policy','x-pagination-binding','x-step-up-challenge-binding',
                     'x-rollback-binding','x-worker-credential-binding','x-assistant-boundary',
-                    'x-source-visibility-authorization'):
+                    'x-source-visibility-authorization','x-progress-ordering'):
             if left.get(key) != right.get(key):
                 raise ContractError(f'{path}: operation meaning/security changed: {key}')
         # Parameters and request required/media types cannot silently change.

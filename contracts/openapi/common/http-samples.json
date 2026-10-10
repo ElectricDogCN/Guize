@@ -7,6 +7,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "loginPassword",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/auth/password:login HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-loginPassword\r\nContent-Type: application/json\r\nContent-Length: 65\r\n\r\n{\"username\":\"example-user\",\"password\":\"EXAMPLE_ONLY_NEVER_VALID\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "createPasskeyChallenge",
     "scenario": "baseline",
     "request": "POST /api/v1/auth/passkeys:options HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createPasskeyChallenge\r\nContent-Type: application/json\r\nContent-Length: 27\r\n\r\n{\"username\":\"example-user\"}",
@@ -14,10 +21,24 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createPasskeyChallenge",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/auth/passkeys:options HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createPasskeyChallenge\r\nContent-Type: application/json\r\nContent-Length: 27\r\n\r\n{\"username\":\"example-user\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "verifyPasskey",
     "scenario": "baseline",
     "request": "POST /api/v1/auth/passkeys:verify HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-verifyPasskey\r\nContent-Type: application/json\r\nContent-Length: 416\r\n\r\n{\"challengeId\":\"chl_example01\",\"credentialId\":\"c3ludGhldGljLWNyZWRlbnRpYWwtaWQ\",\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTURFeU16UTFOamM0T1dGaVkyUmxaakF4TWpNME5UWTNPRGxoWW1Oa1pXWSIsIm9yaWdpbiI6Imh0dHBzOi8vZ3VpemUuZXhhbXBsZSJ9\",\"authenticatorData\":\"c3ludGhldGljLW5vdC12YWxpZC1jcnlwdG9ncmFwaGljLWF1dGhlbnRpY2F0b3JEYXRh\",\"signature\":\"c3ludGhldGljLW5vdC12YWxpZC1jcnlwdG9ncmFwaGljLXNpZ25hdHVyZQ\"}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 235\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\nSet-Cookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001; Path=/; Secure; HttpOnly; SameSite=Strict\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"subjectId\":\"usr_example01\",\"expiresAt\":\"2026-10-09T12:15:00Z\",\"csrfToken\":\"EXAMPLE_ONLY_CSRF_VALUE_0000000001\",\"authenticationMethods\":[\"PASSWORD\"]},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "verifyPasskey",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/auth/passkeys:verify HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-verifyPasskey\r\nContent-Type: application/json\r\nContent-Length: 416\r\n\r\n{\"challengeId\":\"chl_example01\",\"credentialId\":\"c3ludGhldGljLWNyZWRlbnRpYWwtaWQ\",\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTURFeU16UTFOamM0T1dGaVkyUmxaakF4TWpNME5UWTNPRGxoWW1Oa1pXWSIsIm9yaWdpbiI6Imh0dHBzOi8vZ3VpemUuZXhhbXBsZSJ9\",\"authenticatorData\":\"c3ludGhldGljLW5vdC12YWxpZC1jcnlwdG9ncmFwaGljLWF1dGhlbnRpY2F0b3JEYXRh\",\"signature\":\"c3ludGhldGljLW5vdC12YWxpZC1jcnlwdG9ncmFwaGljLXNpZ25hdHVyZQ\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -31,14 +52,21 @@
     "operationId": "logoutSession",
     "scenario": "baseline",
     "request": "POST /api/v1/auth/session:logout HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-logoutSession\r\n\r\n",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\nSet-Cookie: guize_session=; Path=/; Max-Age=0; Secure; HttpOnly; SameSite=Strict\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "logoutSession",
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/auth/session:logout HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-logoutSession\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\nSet-Cookie: guize_session=; Path=/; Max-Age=0; Secure; HttpOnly; SameSite=Strict\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "logoutSession",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/auth/session:logout HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-logoutSession\r\n\r\n",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -53,6 +81,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/auth/step-up HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createStepUp\r\nContent-Type: application/json\r\nContent-Length: 203\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"action\":\"publishAsset\",\"resourceId\":\"ast_example01\",\"proof\":{\"method\":\"PASSWORD\",\"password\":\"EXAMPLE_ONLY_NEVER_VALID\"},\"payloadHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
     "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 281\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"proofId\":\"sup_example01\",\"expiresAt\":\"2026-10-09T12:02:00Z\",\"action\":\"publishAsset\",\"resourceId\":\"ast_example01\",\"payloadHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "createStepUp",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/auth/step-up HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createStepUp\r\nContent-Type: application/json\r\nContent-Length: 203\r\n\r\n{\"action\":\"publishAsset\",\"resourceId\":\"ast_example01\",\"proof\":{\"method\":\"PASSWORD\",\"password\":\"EXAMPLE_ONLY_NEVER_VALID\"},\"payloadHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -77,6 +112,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createRole",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/roles HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createRole\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 55\r\n\r\n{\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"]}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "replaceRole",
     "scenario": "baseline",
     "request": "PUT /api/v1/roles/rol_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-replaceRole\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 76\r\n\r\n{\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"expectedRevision\":1}",
@@ -88,6 +130,13 @@
     "scenario": "cookie-csrf",
     "request": "PUT /api/v1/roles/rol_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-replaceRole\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 76\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"expectedRevision\":1}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 174\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "replaceRole",
+    "scenario": "in-flight-retry",
+    "request": "PUT /api/v1/roles/rol_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-replaceRole\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 76\r\n\r\n{\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"expectedRevision\":1}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -112,6 +161,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createUser",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/users HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createUser\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 100\r\n\r\n{\"username\":\"example-user\",\"initialPassword\":\"EXAMPLE_ONLY_NEVER_VALID\",\"roleIds\":[\"rol_example01\"]}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "changeUser",
     "scenario": "baseline",
     "request": "PATCH /api/v1/users/usr_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-changeUser\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 68\r\n\r\n{\"expectedRevision\":1,\"roleIds\":[\"rol_example01\"],\"status\":\"ACTIVE\"}",
@@ -123,6 +179,13 @@
     "scenario": "cookie-csrf",
     "request": "PATCH /api/v1/users/usr_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-changeUser\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 68\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"roleIds\":[\"rol_example01\"],\"status\":\"ACTIVE\"}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 192\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"usr_example01\",\"username\":\"example-user\",\"roleIds\":[\"rol_example01\"],\"status\":\"ACTIVE\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "changeUser",
+    "scenario": "in-flight-retry",
+    "request": "PATCH /api/v1/users/usr_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-changeUser\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 68\r\n\r\n{\"expectedRevision\":1,\"roleIds\":[\"rol_example01\"],\"status\":\"ACTIVE\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -140,6 +203,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createPasskeyRegistrationChallenge",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/auth/passkeys/registration:options HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createPasskeyRegistrationChallenge\r\nX-Step-Up-Proof: sup_example01\r\n\r\n",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "registerPasskey",
     "scenario": "baseline",
     "request": "POST /api/v1/auth/passkeys/registration:verify HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-registerPasskey\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 347\r\n\r\n{\"challengeId\":\"chl_example01\",\"credentialId\":\"c3ludGhldGljLWNyZWRlbnRpYWwtaWQ\",\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiTURFeU16UTFOamM0T1dGaVkyUmxaakF4TWpNME5UWTNPRGxoWW1Oa1pXWSIsIm9yaWdpbiI6Imh0dHBzOi8vZ3VpemUuZXhhbXBsZSJ9\",\"attestationObject\":\"c3ludGhldGljLW5vdC12YWxpZC1jcnlwdG9ncmFwaGljLWF0dGVzdGF0aW9uT2JqZWN0\"}",
@@ -151,6 +221,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/auth/passkeys/registration:verify HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-registerPasskey\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 347\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"challengeId\":\"chl_example01\",\"credentialId\":\"c3ludGhldGljLWNyZWRlbnRpYWwtaWQ\",\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiTURFeU16UTFOamM0T1dGaVkyUmxaakF4TWpNME5UWTNPRGxoWW1Oa1pXWSIsIm9yaWdpbiI6Imh0dHBzOi8vZ3VpemUuZXhhbXBsZSJ9\",\"attestationObject\":\"c3ludGhldGljLW5vdC12YWxpZC1jcnlwdG9ncmFwaGljLWF0dGVzdGF0aW9uT2JqZWN0\"}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "registerPasskey",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/auth/passkeys/registration:verify HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-registerPasskey\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 347\r\n\r\n{\"challengeId\":\"chl_example01\",\"credentialId\":\"c3ludGhldGljLWNyZWRlbnRpYWwtaWQ\",\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiTURFeU16UTFOamM0T1dGaVkyUmxaakF4TWpNME5UWTNPRGxoWW1Oa1pXWSIsIm9yaWdpbiI6Imh0dHBzOi8vZ3VpemUuZXhhbXBsZSJ9\",\"attestationObject\":\"c3ludGhldGljLW5vdC12YWxpZC1jcnlwdG9ncmFwaGljLWF0dGVzdGF0aW9uT2JqZWN0\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -175,6 +252,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createDataSource",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/data-sources HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createDataSource\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 167\r\n\r\n{\"name\":\"Example WebDAV\",\"kind\":\"WEBDAV\",\"endpoint\":\"https://origin.example/webdav/\",\"credentialReference\":\"secretref_example01\",\"root\":\"media\",\"visibility\":\"PRIVATE\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "getDataSource",
     "scenario": "baseline",
     "request": "GET /api/v1/data-sources/src_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n\r\n",
@@ -193,6 +277,13 @@
     "scenario": "cookie-csrf",
     "request": "PATCH /api/v1/data-sources/src_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-patchDataSource\r\nContent-Type: application/json\r\nContent-Length: 54\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"name\":\"Example renamed source\"}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 227\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"src_example01\",\"name\":\"Example WebDAV\",\"kind\":\"WEBDAV\",\"visibility\":\"PRIVATE\",\"ownerId\":\"usr_example01\",\"status\":\"ACTIVE\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "patchDataSource",
+    "scenario": "in-flight-retry",
+    "request": "PATCH /api/v1/data-sources/src_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-patchDataSource\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"name\":\"Example renamed source\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -217,6 +308,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "changeSourceCredentialReference",
+    "scenario": "in-flight-retry",
+    "request": "PUT /api/v1/data-sources/src_example01/credential-reference HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-changeSourceCredentialReference\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 109\r\n\r\n{\"expectedRevision\":1,\"credentialReference\":\"secretref_example02\",\"reason\":\"Owner rotated example reference\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "probeDataSource",
     "scenario": "baseline",
     "request": "POST /api/v1/data-sources/src_example01:probe HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-probeDataSource\r\n\r\n",
@@ -228,6 +326,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/data-sources/src_example01:probe HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-probeDataSource\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "probeDataSource",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/data-sources/src_example01:probe HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-probeDataSource\r\n\r\n",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -245,6 +350,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "syncDataSource",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/data-sources/src_example01:sync HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-syncDataSource\r\nContent-Type: application/json\r\nContent-Length: 22\r\n\r\n{\"mode\":\"INCREMENTAL\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "revokeDataSource",
     "scenario": "baseline",
     "request": "POST /api/v1/data-sources/src_example01:revoke HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-revokeDataSource\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
@@ -259,6 +371,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "revokeDataSource",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/data-sources/src_example01:revoke HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-revokeDataSource\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "listSourceObjects",
     "scenario": "baseline",
     "request": "GET /api/v1/data-sources/src_example01/objects?limit=25 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n\r\n",
@@ -269,28 +388,35 @@
     "operationId": "listAssets",
     "scenario": "baseline",
     "request": "GET /api/v1/assets?limit=25 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n\r\n",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 317\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"items\":[{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\"}],\"nextCursor\":null},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 360\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"items\":[{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\",\"description\":\"Example asset description.\"}],\"nextCursor\":null},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "getAsset",
     "scenario": "baseline",
     "request": "GET /api/v1/assets/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n\r\n",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 287\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\"},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 330\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\",\"description\":\"Example asset description.\"},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "patchAsset",
     "scenario": "baseline",
-    "request": "PATCH /api/v1/assets/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-patchAsset\r\nContent-Type: application/json\r\nContent-Length: 53\r\n\r\n{\"expectedRevision\":1,\"title\":\"Example edited media\"}",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 287\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\"},\"traceId\":\"trace-example-0001\"}",
+    "request": "PATCH /api/v1/assets/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-patchAsset\r\nContent-Type: application/json\r\nContent-Length: 96\r\n\r\n{\"expectedRevision\":1,\"title\":\"Example edited media\",\"description\":\"Example asset description.\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 330\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\",\"description\":\"Example asset description.\"},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "patchAsset",
     "scenario": "cookie-csrf",
-    "request": "PATCH /api/v1/assets/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-patchAsset\r\nContent-Type: application/json\r\nContent-Length: 53\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"title\":\"Example edited media\"}",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 287\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\"},\"traceId\":\"trace-example-0001\"}",
+    "request": "PATCH /api/v1/assets/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-patchAsset\r\nContent-Type: application/json\r\nContent-Length: 96\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"title\":\"Example edited media\",\"description\":\"Example asset description.\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 330\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\",\"description\":\"Example asset description.\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "patchAsset",
+    "scenario": "in-flight-retry",
+    "request": "PATCH /api/v1/assets/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-patchAsset\r\nContent-Type: application/json\r\nContent-Length: 96\r\n\r\n{\"expectedRevision\":1,\"title\":\"Example edited media\",\"description\":\"Example asset description.\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -343,6 +469,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "replaceAssetAcl",
+    "scenario": "in-flight-retry",
+    "request": "PUT /api/v1/assets/ast_example01/acl HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-replaceAssetAcl\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 177\r\n\r\n{\"expectedRevision\":1,\"entries\":[{\"principalId\":\"usr_example01\",\"principalType\":\"USER\",\"permissions\":[\"READ\",\"PLAY\"],\"effect\":\"ALLOW\"}],\"reason\":\"Owner approved example access\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "publishAsset",
     "scenario": "baseline",
     "request": "POST /api/v1/assets/ast_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-publishAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 91\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example publication\"}",
@@ -354,6 +487,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/assets/ast_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-publishAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 91\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example publication\"}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "publishAsset",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-publishAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 91\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example publication\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -371,6 +511,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "unpublishAsset",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01:unpublish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-unpublishAsset\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "mergeAsset",
     "scenario": "baseline",
     "request": "POST /api/v1/assets/ast_example01:merge HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-mergeAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 199\r\n\r\n{\"otherAssetId\":\"ast_example02\",\"expectedRevision\":1,\"verifiedHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"reason\":\"Verified duplicate example\",\"otherExpectedRevision\":1}",
@@ -385,6 +532,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "mergeAsset",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01:merge HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-mergeAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 199\r\n\r\n{\"otherAssetId\":\"ast_example02\",\"expectedRevision\":1,\"verifiedHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"reason\":\"Verified duplicate example\",\"otherExpectedRevision\":1}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "splitAsset",
     "scenario": "baseline",
     "request": "POST /api/v1/assets/ast_example01:split HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-splitAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 83\r\n\r\n{\"sourceObjectIds\":[\"sob_example01\"],\"expectedRevision\":1,\"reason\":\"Example split\"}",
@@ -396,6 +550,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/assets/ast_example01:split HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-splitAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 83\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"sourceObjectIds\":[\"sob_example01\"],\"expectedRevision\":1,\"reason\":\"Example split\"}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "splitAsset",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01:split HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-splitAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 83\r\n\r\n{\"sourceObjectIds\":[\"sob_example01\"],\"expectedRevision\":1,\"reason\":\"Example split\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -427,6 +588,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "pauseTask",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/tasks/tsk_example01:pause HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-pauseTask\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "resumeTask",
     "scenario": "baseline",
     "request": "POST /api/v1/tasks/tsk_example01:resume HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-resumeTask\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
@@ -438,6 +606,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/tasks/tsk_example01:resume HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-resumeTask\r\nContent-Type: application/json\r\nContent-Length: 54\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "resumeTask",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/tasks/tsk_example01:resume HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-resumeTask\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -455,6 +630,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "cancelTask",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/tasks/tsk_example01:cancel HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-cancelTask\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "retryTask",
     "scenario": "baseline",
     "request": "POST /api/v1/tasks/tsk_example01:retry HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-retryTask\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
@@ -469,6 +651,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "retryTask",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/tasks/tsk_example01:retry HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-retryTask\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "changeTaskPriority",
     "scenario": "baseline",
     "request": "PATCH /api/v1/tasks/tsk_example01/priority HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-changeTaskPriority\r\nContent-Type: application/json\r\nContent-Length: 35\r\n\r\n{\"expectedRevision\":1,\"priority\":2}",
@@ -480,6 +669,13 @@
     "scenario": "cookie-csrf",
     "request": "PATCH /api/v1/tasks/tsk_example01/priority HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-changeTaskPriority\r\nContent-Type: application/json\r\nContent-Length: 35\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"priority\":2}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 280\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"tsk_example01\",\"type\":\"source.sync.v1\",\"ownerId\":\"usr_example01\",\"status\":\"RUNNING\",\"priority\":4,\"progress\":42,\"inputVersionId\":\"ver_example01\",\"revision\":1,\"traceId\":\"trace-example-0001\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "changeTaskPriority",
+    "scenario": "in-flight-retry",
+    "request": "PATCH /api/v1/tasks/tsk_example01/priority HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-changeTaskPriority\r\nContent-Type: application/json\r\nContent-Length: 35\r\n\r\n{\"expectedRevision\":1,\"priority\":2}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -511,6 +707,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "cacheAsset",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01:cache HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-cacheAsset\r\nContent-Type: application/json\r\nContent-Length: 129\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"targetId\":\"stg_example01\",\"policyVersionId\":\"plv_example01\",\"reason\":\"Example retain request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "evictCacheEntry",
     "scenario": "baseline",
     "request": "POST /api/v1/cache-entries/cac_example01:evict HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-evictCacheEntry\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
@@ -522,6 +725,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/cache-entries/cac_example01:evict HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-evictCacheEntry\r\nContent-Type: application/json\r\nContent-Length: 54\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "evictCacheEntry",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/cache-entries/cac_example01:evict HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-evictCacheEntry\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -539,6 +749,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "probeMedia",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01:probe HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-probeMedia\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"profileVersionId\":\"prv_example01\",\"forceRerun\":false,\"reason\":\"Example processing\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "transcodeAsset",
     "scenario": "baseline",
     "request": "POST /api/v1/assets/ast_example01/transcode HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-transcodeAsset\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"profileVersionId\":\"prv_example01\",\"forceRerun\":false,\"reason\":\"Example processing\"}",
@@ -553,6 +770,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "transcodeAsset",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01/transcode HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-transcodeAsset\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"profileVersionId\":\"prv_example01\",\"forceRerun\":false,\"reason\":\"Example processing\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "enrichAsset",
     "scenario": "baseline",
     "request": "POST /api/v1/assets/ast_example01:enrich HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-enrichAsset\r\nContent-Type: application/json\r\nContent-Length: 225\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"pipelineVersionId\":\"plv_example01\",\"modelVersion\":\"example-model-v1\",\"promptVersion\":\"example-prompt-v1\",\"language\":\"zh-CN\",\"budgetReference\":\"bgt_example01\",\"allowExternalProcessing\":false}",
@@ -564,6 +788,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/assets/ast_example01:enrich HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-enrichAsset\r\nContent-Type: application/json\r\nContent-Length: 225\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"pipelineVersionId\":\"plv_example01\",\"modelVersion\":\"example-model-v1\",\"promptVersion\":\"example-prompt-v1\",\"language\":\"zh-CN\",\"budgetReference\":\"bgt_example01\",\"allowExternalProcessing\":false}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "enrichAsset",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01:enrich HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-enrichAsset\r\nContent-Type: application/json\r\nContent-Length: 225\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"pipelineVersionId\":\"plv_example01\",\"modelVersion\":\"example-model-v1\",\"promptVersion\":\"example-prompt-v1\",\"language\":\"zh-CN\",\"budgetReference\":\"bgt_example01\",\"allowExternalProcessing\":false}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -602,6 +833,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createArtifactRevision",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/artifacts/art_example01/revisions HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createArtifactRevision\r\nContent-Type: application/json\r\nContent-Length: 95\r\n\r\n{\"expectedRevision\":1,\"text\":\"Example corrected transcript\",\"reason\":\"Human corrected example\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "publishArtifact",
     "scenario": "baseline",
     "request": "POST /api/v1/artifacts/art_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-publishArtifact\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 91\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example publication\"}",
@@ -616,6 +854,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "publishArtifact",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/artifacts/art_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-publishArtifact\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 91\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example publication\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "searchAssets",
     "scenario": "baseline",
     "request": "POST /api/v1/search HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-searchAssets\r\nContent-Type: application/json\r\nContent-Length: 105\r\n\r\n{\"query\":\"example media\",\"mode\":\"HYBRID\",\"assetTypes\":[\"VIDEO\"],\"sourceIds\":[\"src_example01\"],\"limit\":25}",
@@ -627,6 +872,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/search HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-searchAssets\r\nContent-Type: application/json\r\nContent-Length: 105\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"query\":\"example media\",\"mode\":\"HYBRID\",\"assetTypes\":[\"VIDEO\"],\"sourceIds\":[\"src_example01\"],\"limit\":25}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 380\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"items\":[{\"asset\":{\"id\":\"ast_example01\",\"title\":\"Example media\",\"assetType\":\"VIDEO\",\"currentVersionId\":\"ver_example01\",\"visibility\":\"PRIVATE\",\"securityStatus\":\"SCAN_CLEAN\",\"revision\":1,\"updatedAt\":\"2026-10-09T12:00:00Z\"},\"score\":0.8,\"explanation\":\"Authorized keyword match\"}],\"nextCursor\":null},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "searchAssets",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/search HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-searchAssets\r\nContent-Type: application/json\r\nContent-Length: 105\r\n\r\n{\"query\":\"example media\",\"mode\":\"HYBRID\",\"assetTypes\":[\"VIDEO\"],\"sourceIds\":[\"src_example01\"],\"limit\":25}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -651,6 +903,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "rebuildSearchIndexes",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/search/indexes:rebuild HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-rebuildSearchIndexes\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "createPlaybackPlan",
     "scenario": "baseline",
     "request": "POST /api/v1/assets/ast_example01/playback-plans HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createPlaybackPlan\r\nContent-Type: application/json\r\nContent-Length: 126\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"supportedCodecs\":[\"AV1\",\"AAC\"],\"protocols\":[\"RANGE\",\"HLS\"],\"allowTemporaryTranscode\":false}",
@@ -665,10 +924,24 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createPlaybackPlan",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01/playback-plans HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createPlaybackPlan\r\nContent-Type: application/json\r\nContent-Length: 126\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"supportedCodecs\":[\"AV1\",\"AAC\"],\"protocols\":[\"RANGE\",\"HLS\"],\"allowTemporaryTranscode\":false}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "createPublicPlaybackPlan",
     "scenario": "baseline",
     "request": "POST /api/v1/public/assets/ast_example01/playback-plans HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createPublicPlaybackPlan\r\nContent-Type: application/json\r\nContent-Length: 126\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"supportedCodecs\":[\"AV1\",\"AAC\"],\"protocols\":[\"RANGE\",\"HLS\"],\"allowTemporaryTranscode\":false}",
     "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 372\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"grantId\":\"grt_example01\",\"assetVersionId\":\"ver_example01\",\"renditionId\":\"rnd_example01\",\"protocol\":\"RANGE\",\"mediaPath\":\"/media/v1/grt_example01/rnd_example01\",\"expiresAt\":\"2026-10-09T12:02:00Z\",\"authorizationScopeVersion\":1,\"rangePolicy\":\"BOUNDED\",\"grant\":\"EXAMPLE_ONLY_INVALID_GRANT\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "createPublicPlaybackPlan",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/public/assets/ast_example01/playback-plans HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createPublicPlaybackPlan\r\nContent-Type: application/json\r\nContent-Length: 126\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"supportedCodecs\":[\"AV1\",\"AAC\"],\"protocols\":[\"RANGE\",\"HLS\"],\"allowTemporaryTranscode\":false}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -686,6 +959,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "revokePlaybackGrant",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/playback-grants/grt_example01:revoke HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-revokePlaybackGrant\r\n\r\n",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "getPlaybackProgress",
     "scenario": "baseline",
     "request": "GET /api/v1/playback-progress/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n\r\n",
@@ -697,14 +977,27 @@
     "scenario": "baseline",
     "request": "PUT /api/v1/playback-progress/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-putPlaybackProgress\r\nContent-Type: application/json\r\nContent-Length: 151\r\n\r\n{\"versionId\":\"ver_example01\",\"positionMs\":42000,\"durationMs\":120000,\"completed\":false,\"lastPlayedAt\":\"2026-10-09T12:00:00Z\",\"deviceId\":\"dev_example01\"}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 262\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"assetId\":\"ast_example01\",\"versionId\":\"ver_example01\",\"positionMs\":42000,\"durationMs\":120000,\"completed\":false,\"lastPlayedAt\":\"2026-10-09T12:00:00Z\",\"deviceId\":\"dev_example01\"},\"traceId\":\"trace-example-0001\"}",
-    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY",
+    "serverReceivedAt": "2026-10-09T12:00:00Z",
+    "serverReceiptSequence": 1
   },
   {
     "operationId": "putPlaybackProgress",
     "scenario": "cookie-csrf",
     "request": "PUT /api/v1/playback-progress/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-putPlaybackProgress\r\nContent-Type: application/json\r\nContent-Length: 151\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"versionId\":\"ver_example01\",\"positionMs\":42000,\"durationMs\":120000,\"completed\":false,\"lastPlayedAt\":\"2026-10-09T12:00:00Z\",\"deviceId\":\"dev_example01\"}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 262\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"assetId\":\"ast_example01\",\"versionId\":\"ver_example01\",\"positionMs\":42000,\"durationMs\":120000,\"completed\":false,\"lastPlayedAt\":\"2026-10-09T12:00:00Z\",\"deviceId\":\"dev_example01\"},\"traceId\":\"trace-example-0001\"}",
-    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY",
+    "serverReceivedAt": "2026-10-09T12:00:00Z",
+    "serverReceiptSequence": 1
+  },
+  {
+    "operationId": "putPlaybackProgress",
+    "scenario": "in-flight-retry",
+    "request": "PUT /api/v1/playback-progress/ast_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-putPlaybackProgress\r\nContent-Type: application/json\r\nContent-Length: 151\r\n\r\n{\"versionId\":\"ver_example01\",\"positionMs\":42000,\"durationMs\":120000,\"completed\":false,\"lastPlayedAt\":\"2026-10-09T12:00:00Z\",\"deviceId\":\"dev_example01\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY",
+    "serverReceivedAt": "2026-10-09T12:00:00Z",
+    "serverReceiptSequence": 1
   },
   {
     "operationId": "listPolicies",
@@ -725,6 +1018,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/policies HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createPolicy\r\nContent-Type: application/json\r\nContent-Length: 107\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"name\":\"Example cache policy\",\"format\":\"LITEFLOW_EL\",\"definition\":\"THEN(cacheDecision)\",\"schemaVersion\":1}",
     "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 185\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"cfg_example01\",\"name\":\"Example configuration\",\"revision\":1,\"schemaVersion\":1,\"state\":\"DRAFT\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "createPolicy",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/policies HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createPolicy\r\nContent-Type: application/json\r\nContent-Length: 107\r\n\r\n{\"name\":\"Example cache policy\",\"format\":\"LITEFLOW_EL\",\"definition\":\"THEN(cacheDecision)\",\"schemaVersion\":1}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -756,6 +1056,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "validatePolicy",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/policies/pol_example01:validate HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-validatePolicy\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "simulatePolicy",
     "scenario": "baseline",
     "request": "POST /api/v1/policies/pol_example01:simulate HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-simulatePolicy\r\nContent-Type: application/json\r\nContent-Length: 57\r\n\r\n{\"expectedRevision\":1,\"sampleAssetIds\":[\"ast_example01\"]}",
@@ -767,6 +1074,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/policies/pol_example01:simulate HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-simulatePolicy\r\nContent-Type: application/json\r\nContent-Length: 57\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"sampleAssetIds\":[\"ast_example01\"]}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "simulatePolicy",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/policies/pol_example01:simulate HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-simulatePolicy\r\nContent-Type: application/json\r\nContent-Length: 57\r\n\r\n{\"expectedRevision\":1,\"sampleAssetIds\":[\"ast_example01\"]}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -784,6 +1098,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "canaryPolicy",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/policies/pol_example01:canary HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-canaryPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "publishPolicy",
     "scenario": "baseline",
     "request": "POST /api/v1/policies/pol_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-publishPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
@@ -795,6 +1116,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/policies/pol_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-publishPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "publishPolicy",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/policies/pol_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-publishPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -812,6 +1140,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "rollbackPolicy",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/policies/pol_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-rollbackPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"expectedRevision\":3,\"approvalId\":\"apr_example01\",\"reason\":\"Restore approved retained revision 1\",\"targetRevision\":1}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "validateConfiguration",
     "scenario": "baseline",
     "request": "POST /api/v1/configurations/cfg_example01:validate HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-validateConfiguration\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
@@ -823,6 +1158,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/configurations/cfg_example01:validate HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-validateConfiguration\r\nContent-Type: application/json\r\nContent-Length: 54\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "validateConfiguration",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/configurations/cfg_example01:validate HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-validateConfiguration\r\nContent-Type: application/json\r\nContent-Length: 54\r\n\r\n{\"expectedRevision\":1,\"reason\":\"Example user request\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -840,6 +1182,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "simulateConfiguration",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/configurations/cfg_example01:simulate HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-simulateConfiguration\r\nContent-Type: application/json\r\nContent-Length: 57\r\n\r\n{\"expectedRevision\":1,\"sampleAssetIds\":[\"ast_example01\"]}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "canaryConfiguration",
     "scenario": "baseline",
     "request": "POST /api/v1/configurations/cfg_example01:canary HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-canaryConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
@@ -851,6 +1200,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/configurations/cfg_example01:canary HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-canaryConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "canaryConfiguration",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/configurations/cfg_example01:canary HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-canaryConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -868,6 +1224,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "publishConfiguration",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/configurations/cfg_example01:publish HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-publishConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "rollbackConfiguration",
     "scenario": "baseline",
     "request": "POST /api/v1/configurations/cfg_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-rollbackConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"expectedRevision\":3,\"approvalId\":\"apr_example01\",\"reason\":\"Restore approved retained revision 1\",\"targetRevision\":1}",
@@ -879,6 +1242,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/configurations/cfg_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-rollbackConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 118\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":3,\"approvalId\":\"apr_example01\",\"reason\":\"Restore approved retained revision 1\",\"targetRevision\":1}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "rollbackConfiguration",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/configurations/cfg_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-rollbackConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"expectedRevision\":3,\"approvalId\":\"apr_example01\",\"reason\":\"Restore approved retained revision 1\",\"targetRevision\":1}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -900,6 +1270,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/configurations HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createConfiguration\r\nContent-Type: application/json\r\nContent-Length: 153\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"kind\":\"BUDGET\",\"name\":\"Example budget\",\"schemaId\":\"sch_example01\",\"schemaVersion\":1,\"baseRevision\":1,\"document\":\"{\\\"limit\\\":100,\\\"unit\\\":\\\"REQUEST\\\"}\"}",
     "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 185\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"cfg_example01\",\"name\":\"Example configuration\",\"revision\":1,\"schemaVersion\":1,\"state\":\"DRAFT\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "createConfiguration",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/configurations HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createConfiguration\r\nContent-Type: application/json\r\nContent-Length: 153\r\n\r\n{\"kind\":\"BUDGET\",\"name\":\"Example budget\",\"schemaId\":\"sch_example01\",\"schemaVersion\":1,\"baseRevision\":1,\"document\":\"{\\\"limit\\\":100,\\\"unit\\\":\\\"REQUEST\\\"}\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -938,6 +1315,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createDeployment",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/deployments HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createDeployment\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 208\r\n\r\n{\"profileVersionId\":\"dpv_example01\",\"bundleId\":\"bun_example01\",\"bundleSha256\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"approvalId\":\"apr_example01\",\"targetHostIds\":[\"hst_example01\"]}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "listWorkers",
     "scenario": "baseline",
     "request": "GET /api/v1/workers?limit=25 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n\r\n",
@@ -959,6 +1343,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "registerWorker",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/workers/register HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-registerWorker\r\nContent-Type: application/json\r\nContent-Length: 161\r\n\r\n{\"workerId\":\"wrk_example01\",\"capabilities\":[\"media.probe\"],\"softwareVersions\":[\"example-worker@1.0.0\"],\"classification\":\"INTERNAL\",\"diskFreeBytes\":1000000000000}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "heartbeatWorker",
     "scenario": "baseline",
     "request": "POST /api/v1/workers/heartbeat HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-heartbeatWorker\r\nContent-Type: application/json\r\nContent-Length: 84\r\n\r\n{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"diskFreeBytes\":1000000000000}",
@@ -970,6 +1361,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/workers/heartbeat HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-heartbeatWorker\r\nContent-Type: application/json\r\nContent-Length: 84\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"diskFreeBytes\":1000000000000}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 455\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"],\"credential\":{\"tokenType\":\"Bearer\",\"accessToken\":\"EXAMPLE_ONLY_INVALID_WORKER_TOKEN_0001\",\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"audience\":\"guize-worker-control\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"permissions\":[\"worker.self\"]}},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "heartbeatWorker",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/workers/heartbeat HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-heartbeatWorker\r\nContent-Type: application/json\r\nContent-Length: 84\r\n\r\n{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"diskFreeBytes\":1000000000000}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -994,6 +1392,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createApproval",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/approvals HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createApproval\r\nContent-Type: application/json\r\nContent-Length: 336\r\n\r\n{\"action\":\"publishAsset\",\"resourceId\":\"ast_example01\",\"revision\":1,\"reason\":\"Example approval request\",\"requestIntent\":{\"method\":\"POST\",\"path\":\"/api/v1/assets/ast_example01:publish\",\"query\":{},\"body\":{\"expectedRevision\":1,\"reason\":\"Example publication\"}},\"payloadHash\":\"5e9d6b8c077f3b14cd22151be9ab9a12066dd62285409ad3b1eea0cb7f05b5cb\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "decideApproval",
     "scenario": "baseline",
     "request": "POST /api/v1/approvals/apr_example01:decide HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-decideApproval\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 80\r\n\r\n{\"expectedRevision\":1,\"decision\":\"APPROVE\",\"reason\":\"Reviewer approved example\"}",
@@ -1005,6 +1410,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/approvals/apr_example01:decide HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-decideApproval\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 80\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"decision\":\"APPROVE\",\"reason\":\"Reviewer approved example\"}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 461\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"apr_example01\",\"action\":\"publishAsset\",\"resourceId\":\"ast_example01\",\"revision\":1,\"status\":\"APPROVED\",\"expiresAt\":\"2026-10-09T12:05:00Z\",\"payloadHash\":\"5e9d6b8c077f3b14cd22151be9ab9a12066dd62285409ad3b1eea0cb7f05b5cb\",\"requestIntent\":{\"method\":\"POST\",\"path\":\"/api/v1/assets/ast_example01:publish\",\"query\":{},\"body\":{\"expectedRevision\":1,\"reason\":\"Example publication\"}}},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "decideApproval",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/approvals/apr_example01:decide HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-decideApproval\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 80\r\n\r\n{\"expectedRevision\":1,\"decision\":\"APPROVE\",\"reason\":\"Reviewer approved example\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -1022,6 +1434,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "createStepUpPasskeyChallenge",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/auth/step-up/passkeys:options HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createStepUpPasskeyChallenge\r\nContent-Type: application/json\r\nContent-Length: 135\r\n\r\n{\"action\":\"publishAsset\",\"resourceId\":\"ast_example01\",\"payloadHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "setSourceVisibility",
     "scenario": "baseline",
     "request": "POST /api/v1/data-sources/src_example01:set-visibility HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-setSourceVisibility\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 245\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approve platform ACL governed source\",\"visibility\":\"ADMIN_PUBLIC\",\"platformAcl\":[{\"principalId\":\"rol_example01\",\"principalType\":\"ROLE\",\"permissions\":[\"READ\",\"PLAY\"],\"effect\":\"ALLOW\"}]}",
@@ -1033,6 +1452,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/data-sources/src_example01:set-visibility HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-setSourceVisibility\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 245\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approve platform ACL governed source\",\"visibility\":\"ADMIN_PUBLIC\",\"platformAcl\":[{\"principalId\":\"rol_example01\",\"principalType\":\"ROLE\",\"permissions\":[\"READ\",\"PLAY\"],\"effect\":\"ALLOW\"}]}",
     "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "setSourceVisibility",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/data-sources/src_example01:set-visibility HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-setSourceVisibility\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 245\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approve platform ACL governed source\",\"visibility\":\"ADMIN_PUBLIC\",\"platformAcl\":[{\"principalId\":\"rol_example01\",\"principalType\":\"ROLE\",\"permissions\":[\"READ\",\"PLAY\"],\"effect\":\"ALLOW\"}]}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -1050,6 +1476,13 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
+    "operationId": "releaseAssetQuarantine",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/assets/ast_example01/security:release HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-releaseAssetQuarantine\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 162\r\n\r\n{\"expectedRevision\":1,\"assetVersionId\":\"ver_example01\",\"reviewFindingId\":\"fnd_example01\",\"approvalId\":\"apr_example01\",\"reason\":\"Reviewed isolated false positive\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
     "operationId": "requestConfigurationAssistance",
     "scenario": "baseline",
     "request": "POST /api/v1/configurations/cfg_example01:assist HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-requestConfigurationAssistance\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 100\r\n\r\n{\"expectedRevision\":1,\"action\":\"EXPLAIN\",\"instruction\":\"Explain the permitted budget configuration\"}",
@@ -1061,6 +1494,13 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/configurations/cfg_example01:assist HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-requestConfigurationAssistance\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 100\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"action\":\"EXPLAIN\",\"instruction\":\"Explain the permitted budget configuration\"}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "requestConfigurationAssistance",
+    "scenario": "in-flight-retry",
+    "request": "POST /api/v1/configurations/cfg_example01:assist HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-requestConfigurationAssistance\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 100\r\n\r\n{\"expectedRevision\":1,\"action\":\"EXPLAIN\",\"instruction\":\"Explain the permitted budget configuration\"}",
+    "response": "HTTP/1.1 409 Example\r\nContent-Type: application/json\r\nContent-Length: 162\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"INTERNAL_IDEMPOTENCY_IN_PROGRESS\",\"message\":\"The identical request is still executing.\",\"details\":{\"retryAfterSeconds\":2},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {

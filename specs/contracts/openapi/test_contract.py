@@ -10,6 +10,8 @@ from check_contract import (CONTRACT, ENTRY, ContractError, UniqueLoader,
                             verify, verify_http_samples)
 from check_contract import operations, verify_proposed_approval
 from check_contract import parse_http
+from check_contract import progress_order, verify_split_selection, verify_task_status_binding
+from datetime import datetime, timezone
 from intent_hash import (IntentError, canonical_json, intent_digest, normalize_path,
                          normalize_query, request_fingerprint)
 
@@ -38,6 +40,31 @@ def test_full_standard_and_semantics(baseline,catalog):
 
 def op_by_id(spec, oid):
     return next(op for _,_,op in operations(spec) if op['operationId']==oid)
+
+
+@pytest.mark.parametrize('oid,at_data', [
+    ('getPublicAsset', False), ('getPublicAsset', True),
+    ('createPublicPlaybackPlan', False), ('createPublicPlaybackPlan', True),
+    ('getArtifactContent', False), ('getArtifactContent', True),
+    ('createPasskeyChallenge', False), ('createPasskeyChallenge', True),
+    ('getSourceCredentialReference', False), ('getSourceCredentialReference', True),
+])
+@pytest.mark.parametrize('private_field,private_value', [
+    ('providerToken', 'must_never_leave_the_gateway'),
+    ('privateContext', {'credentialValue': 'nested_private_material'}),
+    ('accountExists', True),
+])
+def test_sensitive_response_extensions_are_rejected(baseline, oid, at_data,
+                                                     private_field, private_value):
+    op = op_by_id(baseline, oid)
+    status = '201' if oid in {'createPasskeyChallenge', 'createPublicPlaybackPlan'} else '200'
+    media = op['responses'][status]['content']['application/json']
+    value = copy.deepcopy(next(iter(media['examples'].values()))['value'])
+    validate_instance(value, media['schema'])
+    destination = value['data'] if at_data else value
+    destination[private_field] = private_value
+    with pytest.raises(ContractError):
+        validate_instance(value, media['schema'])
 
 
 @pytest.mark.parametrize('oid',['loginPassword','verifyPasskey'])
@@ -407,10 +434,13 @@ def test_no_store_is_required_in_every_control_response(baseline,catalog):
 
 
 
-def test_only_successful_logins_declare_session_issuance(baseline):
+def test_only_successful_logins_and_logout_declare_session_cookie_changes(baseline):
     locations={(op['operationId'],status) for _,_,op in operations(baseline)
                for status,response in op['responses'].items() if 'Set-Cookie' in response['headers']}
-    assert locations=={('loginPassword','200'),('verifyPasskey','200')}
+    assert locations=={('loginPassword','200'),('verifyPasskey','200'),('logoutSession','200')}
+    logout=op_by_id(baseline,'logoutSession')['responses']['200']['headers']['Set-Cookie']
+    assert logout['required'] is True
+    assert logout['schema']==baseline['components']['schemas']['SessionCookieRevocation']
 
 
 @pytest.mark.parametrize('oid',['loginPassword','verifyPasskey'])
@@ -649,6 +679,182 @@ def test_additive_optional_fields_and_unknown_enums_are_compatible(baseline,cata
     response['properties']['displayHint']={'type':'string'}
     response['properties']['assetType']['enum'].append('FUTURE_SAFE_TYPE')
     assert compatible(baseline,changed,catalog,catalog)
+
+
+def test_request_only_component_and_its_route_can_gain_an_optional_field(baseline,catalog):
+    assert baseline['x-resolved-component-directions']['SourcePatch']==['request']
+    changed=copy.deepcopy(baseline)
+    schemas=[changed['components']['schemas']['SourcePatch'],
+             op_by_id(changed,'patchDataSource')['requestBody']['content']['application/json']['schema']]
+    for schema in schemas:schema['properties']['displayHint']={'type':'string','maxLength':64}
+    assert compatible(baseline,changed,catalog,catalog)
+
+
+def test_nested_shared_and_unreferenced_components_keep_consumer_directions(baseline):
+    usage=baseline['x-resolved-component-directions']
+    assert usage['ErrorDetails']==['response']
+    assert usage['CapabilityId']==['request']
+    assert usage['AclEntry']==['response']
+    assert usage['Replica']==['request','response']
+    assert usage['RetentionHold']==['request','response']
+
+
+def test_reference_directions_follow_nested_shared_models_and_ignore_property_names():
+    schemas={
+        'Shared':{'type':'string'},
+        'Input':{'type':'object','properties':{'value':{'$ref':'#/components/schemas/Shared'}}},
+        'Output':{'type':'object','properties':{'parameters':{'$ref':'#/components/schemas/Shared'}}},
+        'Unused':{'type':'object'}}
+    operation={'operationId':'example',
+        'requestBody':{'content':{'application/json':{'schema':{'$ref':'#/components/schemas/Input'}}}},
+        'responses':{'200':{'content':{'application/json':{'schema':{'$ref':'#/components/schemas/Output'}}}}}}
+    document={'openapi':'3.1.1','components':{'schemas':schemas},'paths':{'/example':{'post':operation}}}
+    usage=resolve(document)['x-resolved-component-directions']
+    assert usage=={'Shared':['request','response'],'Input':['request'],'Output':['response'],'Unused':['request','response']}
+
+
+def test_closed_response_component_still_rejects_optional_extension(baseline,catalog):
+    changed=copy.deepcopy(baseline)
+    changed['components']['schemas']['PublicAsset']['properties']['displayHint']={'type':'string'}
+    with pytest.raises(ContractError,match='strict response'):compatible(baseline,changed,catalog,catalog)
+
+
+@pytest.mark.parametrize('hosts',[[],['host_example01','host_example01']])
+def test_deployment_rejects_empty_or_duplicate_target_hosts(baseline,hosts):
+    op=op_by_id(baseline,'createDeployment')
+    request=copy.deepcopy(op['requestBody']['content']['application/json']['examples']['illustrative']['value'])
+    request['targetHostIds']=hosts
+    with pytest.raises(ContractError):validate_instance(request,baseline['components']['schemas']['DeploymentRequest'])
+
+
+@pytest.mark.parametrize('oid',['probeDataSource','splitAsset','createDeployment'])
+def test_accepted_task_url_must_match_task_in_examples(baseline,catalog,oid):
+    changed=copy.deepcopy(baseline)
+    data=op_by_id(changed,oid)['responses']['202']['content']['application/json']['examples']['illustrative']['value']['data']
+    data['statusUrl']='/api/v1/tasks/tsk_other02'
+    with pytest.raises(ContractError,match='exact data.taskId'):verify(changed,catalog)
+
+
+def replace_wire_json(wire,transform):
+    first,headers,body=parse_http(wire)
+    value=json.loads(body);transform(value)
+    body=json.dumps(value,ensure_ascii=False,separators=(',',':'))
+    headers['content-length']=str(len(body.encode('utf-8')))
+    return first+'\r\n'+'\r\n'.join(k+': '+v for k,v in headers.items())+'\r\n\r\n'+body
+
+
+def test_serialized_accepted_task_url_cannot_select_another_task(baseline,samples):
+    changed=copy.deepcopy(samples)
+    target=next(s for s in changed if s['operationId']=='probeDataSource' and s['scenario']=='baseline')
+    target['response']=replace_wire_json(target['response'],lambda value:value['data'].update(statusUrl='/api/v1/tasks/tsk_other02'))
+    with pytest.raises(ContractError,match='exact data.taskId'):verify_http_samples(baseline,changed)
+
+
+@pytest.mark.parametrize('mutation',['missing','wrong-path','domain','not-expired'])
+def test_logout_requires_exact_cookie_expiry_on_wire(baseline,samples,mutation):
+    changed=copy.deepcopy(samples)
+    target=next(s for s in changed if s['operationId']=='logoutSession' and s['scenario']=='cookie-csrf')
+    expected=baseline['components']['schemas']['SessionCookieRevocation']['const']
+    replacement={'missing':'','wrong-path':expected.replace('Path=/','Path=/auth'),
+                 'domain':expected+'; Domain=guize.example','not-expired':expected.replace('Max-Age=0','Max-Age=3600')}[mutation]
+    target['response']=target['response'].replace('Set-Cookie: '+expected+'\r\n','Set-Cookie: '+replacement+'\r\n' if replacement else '')
+    with pytest.raises(ContractError):verify_http_samples(baseline,changed)
+
+
+def test_logout_missing_expiry_contract_is_rejected(baseline,catalog):
+    changed=copy.deepcopy(baseline)
+    op_by_id(changed,'logoutSession')['responses']['200']['headers'].pop('Set-Cookie')
+    with pytest.raises(ContractError,match='successful logout'):verify(changed,catalog)
+
+
+@pytest.mark.parametrize('hint',[None,0,61])
+def test_inflight_error_requires_a_bounded_retry_hint(baseline,catalog,hint):
+    op=op_by_id(baseline,'probeDataSource')
+    response=op['responses']['409']['content']['application/json']
+    value=copy.deepcopy(response['examples']['inFlight']['value'])
+    if hint is None:value['details'].pop('retryAfterSeconds')
+    else:value['details']['retryAfterSeconds']=hint
+    with pytest.raises(ContractError):validate_instance(value,response['schema'])
+    error_map={e['code']:e for e in catalog['errors']}
+    assert error_map['INTERNAL_IDEMPOTENCY_IN_PROGRESS']['retryable'] is True
+    assert error_map['INTERNAL_IDEMPOTENCY_CONFLICT']['retryable'] is False
+
+
+def test_each_mutation_has_an_inflight_retry_wire_scenario(baseline,samples):
+    expected={op['operationId'] for _,_,op in operations(baseline) if 'x-idempotency' in op}
+    observed={s['operationId'] for s in samples if s['scenario']=='in-flight-retry'}
+    assert observed==expected
+
+
+@pytest.mark.parametrize('mutation',['asset','version','unauthorized','held','stale','duplicate'])
+def test_split_server_facts_reject_foreign_denied_held_or_stale_sources(mutation):
+    request={'sourceObjectIds':['sob_example01'],'expectedRevision':1}
+    source={'assetId':'ast_example01','versionId':'ver_example01','authorized':True,'policyAllowsSplit':True}
+    assert verify_split_selection('ast_example01','ver_example01',1,request,{'sob_example01':source})
+    if mutation=='asset':source['assetId']='ast_other02'
+    elif mutation=='version':source['versionId']='ver_other02'
+    elif mutation=='unauthorized':source['authorized']=False
+    elif mutation=='held':source['policyAllowsSplit']=False
+    elif mutation=='stale':request['expectedRevision']=2
+    elif mutation=='duplicate':request['sourceObjectIds'].append('sob_example01')
+    with pytest.raises(ContractError):verify_split_selection('ast_example01','ver_example01',1,request,{'sob_example01':source})
+
+
+@pytest.mark.parametrize('field',['membership','sourceAuthorization','retention','atomicity','preservation'])
+def test_split_cannot_drop_required_server_binding(baseline,catalog,field):
+    changed=copy.deepcopy(baseline)
+    op_by_id(changed,'splitAsset')['x-resource-binding'].pop(field)
+    with pytest.raises(ContractError,match='split must bind'):verify(changed,catalog)
+
+
+def test_progress_future_clock_cannot_poison_ordering():
+    now=datetime(2026,10,10,12,tzinfo=timezone.utc)
+    with pytest.raises(ContractError,match='clock skew'):
+        progress_order({'lastPlayedAt':'2099-01-01T00:00:00Z'},now,1)
+    fast=progress_order({'lastPlayedAt':'2026-10-10T12:05:00Z'},now,1)
+    assert fast==(now,1)
+    fresh=progress_order({'lastPlayedAt':'2026-10-10T12:00:01Z'},datetime(2026,10,10,12,0,1,tzinfo=timezone.utc),2)
+    assert fresh>fast
+    assert progress_order({'lastPlayedAt':'2026-10-10T11:59:59Z'},now,3)<fast
+    assert progress_order({'lastPlayedAt':'2026-10-10T12:00:00Z'},now,2)>fast
+
+
+@pytest.mark.parametrize('mutation',['skew','tie','atomic','replay'])
+def test_progress_ordering_guarantees_cannot_be_removed(baseline,catalog,mutation):
+    changed=copy.deepcopy(baseline)
+    policy=op_by_id(changed,'putPlaybackProgress')['x-progress-ordering']
+    if mutation=='skew':policy['maxFutureSkewSeconds']=86400
+    else:policy.pop({'tie':'tieBreak','atomic':'atomicMerge','replay':'replay'}[mutation])
+    with pytest.raises(ContractError,match='server-authoritative ordering'):verify(changed,catalog)
+
+
+def test_progress_far_future_is_rejected_on_wire(baseline,samples):
+    changed=copy.deepcopy(samples)
+    target=next(s for s in changed if s['operationId']=='putPlaybackProgress' and s['scenario']=='baseline')
+    target['request']=replace_wire_json(target['request'],lambda value:value.update(lastPlayedAt='2099-01-01T00:00:00Z'))
+    with pytest.raises(ContractError,match='clock skew'):verify_http_samples(baseline,changed)
+
+
+@pytest.mark.parametrize('sequence',[None,True,'1',0])
+def test_progress_wire_requires_server_assigned_integer_order(baseline,samples,sequence):
+    changed=copy.deepcopy(samples)
+    target=next(s for s in changed if s['operationId']=='putPlaybackProgress' and s['scenario']=='baseline')
+    target['serverReceiptSequence']=sequence
+    with pytest.raises(ContractError,match='server ordering facts'):verify_http_samples(baseline,changed)
+
+
+def test_asset_description_survives_patch_get_and_list_examples(baseline):
+    description='Example asset description.'
+    assert op_by_id(baseline,'patchAsset')['requestBody']['content']['application/json']['examples']['illustrative']['value']['description']==description
+    for oid in ('patchAsset','getAsset','listAssets'):
+        response=op_by_id(baseline,oid)['responses']['200']['content']['application/json']
+        data=response['examples']['illustrative']['value']['data']
+        assets=data['items'] if oid=='listAssets' else [data]
+        assert all(asset['description']==description for asset in assets)
+        schema=response['schema']['properties']['data']
+        if oid=='listAssets':schema=schema['properties']['items']['items']
+        assert schema['properties']['description']['maxLength']==4096
+        with pytest.raises(ContractError):validate_instance({**assets[0],'description':'x'*4097},schema)
 
 
 @pytest.mark.parametrize('mutation',['trace','length','approval','identity','missing'])

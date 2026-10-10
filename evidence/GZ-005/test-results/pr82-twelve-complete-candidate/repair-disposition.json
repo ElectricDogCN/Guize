@@ -1,0 +1,87 @@
+{
+  "kind": "IMPLEMENTER_FINITE_TWELVE_REPAIR_CANDIDATE",
+  "parentSource": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "contentAccepted": true,
+  "contentAcceptanceScope": "Independent finite dirty twelve-finding content only; published immutable source pending.",
+  "formalSourceAccepted": false,
+  "runtimeValidated": false,
+  "repairs": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6p",
+      "change": "PublicAssetEnvelope closed; outer/data private-field negatives",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6r",
+      "change": "PlaybackPlan and envelope closed; public playback private-field negatives",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6t",
+      "change": "ArtifactContent and envelope closed; bounded representation rejects extensions",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6w",
+      "change": "Actual reference directions include nested/shared models; unreferenced exports retain both; SourcePatch optional extension passes",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6y",
+      "change": "Permanent mismatch remains nonretryable; new in-progress code retries with required 1\u201360s hint across all62 mutations",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY60",
+      "change": "Passkey challenge and envelope closed; account-enumeration extension negatives",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY66",
+      "change": "Selected sources bind current path asset/version, each source authorization and retention policy, atomic revision/membership recheck and inherited restrictions",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY68",
+      "change": "Deployment targets require at least1 unique bounded host",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7A",
+      "change": "Distinct secure host-only cookie revocation required only on successful logout; wire checks exclude missing/path/domain/nonexpiry variants",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7C",
+      "change": "Every202 example and wire response binds statusUrl to exact durable taskId",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7E",
+      "change": "Reject >300s future skew, clamp accepted skew, use atomic server receipt sequence for ties, preserve ordering identity on replay",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7K",
+      "change": "Explicit optional bounded description is readable in patch/get/list examples",
+      "state": "DIRTY_FINITE_CONTENT_REVIEWED_IMMUTABLE_SOURCE_ACCEPTANCE_PENDING"
+    }
+  ],
+  "necessaryPrivacyLink": "Protected SourceCredentialReferenceEnvelope also closed; no new requirement or runtime surface.",
+  "validation": {
+    "lastFullApiSuite": {
+      "tests": 374,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "postRepairTargetedSubset": {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "newFullApiExpectedTests": 378
+  },
+  "next": "Publish exact source; fresh formal17/latest same-head CI and independent source acceptance; final thread review/integration, actual-main verification, legal Review/Completion."
+}

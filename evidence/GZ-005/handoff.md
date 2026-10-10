@@ -1,3 +1,23 @@
+# Current complete twelve-finding candidate — immutable-source acceptance pending
+
+All twelve independently confirmed e703 findings and the necessary protected-envelope privacy link have been repaired and independently accepted as finite dirty content, with a separate minimal progress exception-boundary follow-up. The independent reviews bind25 stable final contract/spec file hashes; they do not approve formal source integration. Repair dispositions, full dirty checker/API results and four failed exploratory attempts are retained in test-results/pr82-twelve-complete-candidate/. Parent e703 formal17/527/306 and CI634 passed execution but rejected content; no result transfers to this candidate.
+
+Dirty checker passed96operations/155schemas/34errors/1006examples/217wire. Last full API was373passed/1failed285.55s; the failed future-clock rejection diagnostic was repaired. 14 targeted progress/wire tests then passed with zero failures/errors/skips; this is a subset, not a full378-test pass. These executions bind physical file hashes, not a published immutable source. No runtime, locking, browser, AV1, POC or full V1 acceptance is claimed.
+
+Next: publish the exact new source/tree; obtain its fresh formal17, latest same-head CI and independent finite content/source review; resolve only verified threads before code integration; validate actual main and complete legal Review/Completion. Original lease, assigned requirements, other tasks and governance remain unchanged. Newly authorized heterogeneous AV1/OpenList/Baidu deferral stays separate registered work.
+
+## Preserved partial and historical records
+
+# Current twelve-finding partial repair — unpublished and unaccepted
+
+Parent Git source: e70313efeb06c021b3626e5d5728d44acc8c4758; original source formal17/527 governance/306 API and CI634 execution passed, but twelve newer findings reject content acceptance. Exact independent disposition and original execution references: test-results/pr82-twelve-partial-repair/. No PASS transfers to this working tree.
+
+Current dirty repair closes eight response layers: PublicAssetEnvelope, PlaybackPlan and envelope, ArtifactContent and envelope, PasskeyChallenge and envelope, and the analogous protected SourceCredentialReferenceEnvelope. Thirty targeted outer/data private-field rejection tests passed in23.05s, with306 existing tests deliberately deselected; this is a subset, not a full API run. Initial24passed/6failed test setup (wrong public-playback HTTP200 versus actual201) and corrected output/JUnits are retained honestly.
+
+Remaining: export-usage compatibility classification, transient idempotency retry semantics, exact split bindings, deployment empty/duplicate targets, secure logout-cookie expiry, taskId/statusUrl correlation, server-authoritative progress ordering and bounded Asset.description readback. Then regenerate necessary wire examples, run full API checks, independent finite content review, publish a new immutable source and obtain its fresh17/latestCI and final integration review. Do not merge PR82, resolve unaddressed new threads, release the lease, change frozen requirements/POCs or claim runtime/V1 acceptance.
+
+## Preserved prior records
+
 # Current ten-thread repaired candidate: new immutable-source validation pending
 
 The independently confirmed ten threads on actual b234 are repaired: dedicated credential/public DTO privacy, exact role capabilities, all exported model compatibility, IMAGE-only query, explicit rollback target, scoped worker lease credential, owner/admin source visibility and explicit ACL roundtrip, quarantine release with exact-version immutable finding retrieval, and bounded asynchronous configuration assistance with real sensitive-read proof transport and provenance. Source owner can share/retract PRIVATE/SHARED; transitions to/from ADMIN_PUBLIC additionally require verified administrator/source.publish. No automatic asset publication.

@@ -1,3 +1,15 @@
+Current complete twelve-finding exploratory validation: gz005-twelve-progress-repaired-dirty targeted progress/wire subset exit0; prior checker exit0 and full API373pass/1fail retained. Fresh immutable-source formal17/full378/latest CI, independent source acceptance and actual-main integration remain pending. Raw commands/return codes are in test-results/pr82-twelve-complete-candidate/. All four failed exploratory runs are preserved with explicit stderr limitations.
+
+# Current twelve-finding partial repair — unpublished and unaccepted
+
+Parent Git source: e70313efeb06c021b3626e5d5728d44acc8c4758; original source formal17/527 governance/306 API and CI634 execution passed, but twelve newer findings reject content acceptance. Exact independent disposition and original execution references: test-results/pr82-twelve-partial-repair/. No PASS transfers to this working tree.
+
+Current dirty repair closes eight response layers: PublicAssetEnvelope, PlaybackPlan and envelope, ArtifactContent and envelope, PasskeyChallenge and envelope, and the analogous protected SourceCredentialReferenceEnvelope. Thirty targeted outer/data private-field rejection tests passed in23.05s, with306 existing tests deliberately deselected; this is a subset, not a full API run. Initial24passed/6failed test setup (wrong public-playback HTTP200 versus actual201) and corrected output/JUnits are retained honestly.
+
+Remaining: export-usage compatibility classification, transient idempotency retry semantics, exact split bindings, deployment empty/duplicate targets, secure logout-cookie expiry, taskId/statusUrl correlation, server-authoritative progress ordering and bounded Asset.description readback. Then regenerate necessary wire examples, run full API checks, independent finite content review, publish a new immutable source and obtain its fresh17/latestCI and final integration review. Do not merge PR82, resolve unaddressed new threads, release the lease, change frozen requirements/POCs or claim runtime/V1 acceptance.
+
+## Preserved prior records
+
 # Current ten-thread repaired candidate: new immutable-source validation pending
 
 The independently confirmed ten threads on actual b234 are repaired: dedicated credential/public DTO privacy, exact role capabilities, all exported model compatibility, IMAGE-only query, explicit rollback target, scoped worker lease credential, owner/admin source visibility and explicit ACL roundtrip, quarantine release with exact-version immutable finding retrieval, and bounded asynchronous configuration assistance with real sensitive-read proof transport and provenance. Source owner can share/retract PRIVATE/SHARED; transitions to/from ADMIN_PUBLIC additionally require verified administrator/source.publish. No automatic asset publication.

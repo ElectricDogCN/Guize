@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="30" time="24.416" timestamp="2026-10-10T19:06:05.776230+08:00" hostname="RuifengSu"><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-getPublicAsset-False]" time="22.961" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-getPublicAsset-True]" time="0.005" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-createPublicPlaybackPlan-False]" time="0.001"><failure message="KeyError: '200'">baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+oid = 'createPublicPlaybackPlan', at_data = False
+private_field = 'providerToken', private_value = 'must_never_leave_the_gateway'
+
+    @pytest.mark.parametrize('oid,at_data', [
+        ('getPublicAsset', False), ('getPublicAsset', True),
+        ('createPublicPlaybackPlan', False), ('createPublicPlaybackPlan', True),
+        ('getArtifactContent', False), ('getArtifactContent', True),
+        ('createPasskeyChallenge', False), ('createPasskeyChallenge', True),
+        ('getSourceCredentialReference', False), ('getSourceCredentialReference', True),
+    ])
+    @pytest.mark.parametrize('private_field,private_value', [
+        ('providerToken', 'must_never_leave_the_gateway'),
+        ('privateContext', {'credentialValue': 'nested_private_material'}),
+        ('accountExists', True),
+    ])
+    def test_sensitive_response_extensions_are_rejected(baseline, oid, at_data,
+                                                         private_field, private_value):
+        op = op_by_id(baseline, oid)
+        status = '201' if oid == 'createPasskeyChallenge' else '200'
+&gt;       media = op['responses'][status]['content']['application/json']
+                ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: '200'
+
+specs/contracts/openapi/test_contract.py:59: KeyError</failure></testcase><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-createPublicPlaybackPlan-True]" time="0.001"><failure message="KeyError: '200'">baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+oid = 'createPublicPlaybackPlan', at_data = True
+private_field = 'providerToken', private_value = 'must_never_leave_the_gateway'
+
+    @pytest.mark.parametrize('oid,at_data', [
+        ('getPublicAsset', False), ('getPublicAsset', True),
+        ('createPublicPlaybackPlan', False), ('createPublicPlaybackPlan', True),
+        ('getArtifactContent', False), ('getArtifactContent', True),
+        ('createPasskeyChallenge', False), ('createPasskeyChallenge', True),
+        ('getSourceCredentialReference', False), ('getSourceCredentialReference', True),
+    ])
+    @pytest.mark.parametrize('private_field,private_value', [
+        ('providerToken', 'must_never_leave_the_gateway'),
+        ('privateContext', {'credentialValue': 'nested_private_material'}),
+        ('accountExists', True),
+    ])
+    def test_sensitive_response_extensions_are_rejected(baseline, oid, at_data,
+                                                         private_field, private_value):
+        op = op_by_id(baseline, oid)
+        status = '201' if oid == 'createPasskeyChallenge' else '200'
+&gt;       media = op['responses'][status]['content']['application/json']
+                ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: '200'
+
+specs/contracts/openapi/test_contract.py:59: KeyError</failure></testcase><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-getArtifactContent-False]" time="0.013" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-getArtifactContent-True]" time="0.012" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-createPasskeyChallenge-False]" time="0.010" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-createPasskeyChallenge-True]" time="0.008" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-getSourceCredentialReference-False]" time="0.004" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[providerToken-must_never_leave_the_gateway-getSourceCredentialReference-True]" time="0.006" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-getPublicAsset-False]" time="0.008" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-getPublicAsset-True]" time="0.006" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-createPublicPlaybackPlan-False]" time="0.001"><failure message="KeyError: '200'">baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+oid = 'createPublicPlaybackPlan', at_data = False
+private_field = 'privateContext'
+private_value = {'credentialValue': 'nested_private_material'}
+
+    @pytest.mark.parametrize('oid,at_data', [
+        ('getPublicAsset', False), ('getPublicAsset', True),
+        ('createPublicPlaybackPlan', False), ('createPublicPlaybackPlan', True),
+        ('getArtifactContent', False), ('getArtifactContent', True),
+        ('createPasskeyChallenge', False), ('createPasskeyChallenge', True),
+        ('getSourceCredentialReference', False), ('getSourceCredentialReference', True),
+    ])
+    @pytest.mark.parametrize('private_field,private_value', [
+        ('providerToken', 'must_never_leave_the_gateway'),
+        ('privateContext', {'credentialValue': 'nested_private_material'}),
+        ('accountExists', True),
+    ])
+    def test_sensitive_response_extensions_are_rejected(baseline, oid, at_data,
+                                                         private_field, private_value):
+        op = op_by_id(baseline, oid)
+        status = '201' if oid == 'createPasskeyChallenge' else '200'
+&gt;       media = op['responses'][status]['content']['application/json']
+                ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: '200'
+
+specs/contracts/openapi/test_contract.py:59: KeyError</failure></testcase><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-createPublicPlaybackPlan-True]" time="0.001"><failure message="KeyError: '200'">baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+oid = 'createPublicPlaybackPlan', at_data = True
+private_field = 'privateContext'
+private_value = {'credentialValue': 'nested_private_material'}
+
+    @pytest.mark.parametrize('oid,at_data', [
+        ('getPublicAsset', False), ('getPublicAsset', True),
+        ('createPublicPlaybackPlan', False), ('createPublicPlaybackPlan', True),
+        ('getArtifactContent', False), ('getArtifactContent', True),
+        ('createPasskeyChallenge', False), ('createPasskeyChallenge', True),
+        ('getSourceCredentialReference', False), ('getSourceCredentialReference', True),
+    ])
+    @pytest.mark.parametrize('private_field,private_value', [
+        ('providerToken', 'must_never_leave_the_gateway'),
+        ('privateContext', {'credentialValue': 'nested_private_material'}),
+        ('accountExists', True),
+    ])
+    def test_sensitive_response_extensions_are_rejected(baseline, oid, at_data,
+                                                         private_field, private_value):
+        op = op_by_id(baseline, oid)
+        status = '201' if oid == 'createPasskeyChallenge' else '200'
+&gt;       media = op['responses'][status]['content']['application/json']
+                ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: '200'
+
+specs/contracts/openapi/test_contract.py:59: KeyError</failure></testcase><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-getArtifactContent-False]" time="0.011" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-getArtifactContent-True]" time="0.016" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-createPasskeyChallenge-False]" time="0.007" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-createPasskeyChallenge-True]" time="0.007" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-getSourceCredentialReference-False]" time="0.005" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[privateContext-private_value1-getSourceCredentialReference-True]" time="0.004" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-getPublicAsset-False]" time="0.007" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-getPublicAsset-True]" time="0.005" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-createPublicPlaybackPlan-False]" time="0.001"><failure message="KeyError: '200'">baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+oid = 'createPublicPlaybackPlan', at_data = False
+private_field = 'accountExists', private_value = True
+
+    @pytest.mark.parametrize('oid,at_data', [
+        ('getPublicAsset', False), ('getPublicAsset', True),
+        ('createPublicPlaybackPlan', False), ('createPublicPlaybackPlan', True),
+        ('getArtifactContent', False), ('getArtifactContent', True),
+        ('createPasskeyChallenge', False), ('createPasskeyChallenge', True),
+        ('getSourceCredentialReference', False), ('getSourceCredentialReference', True),
+    ])
+    @pytest.mark.parametrize('private_field,private_value', [
+        ('providerToken', 'must_never_leave_the_gateway'),
+        ('privateContext', {'credentialValue': 'nested_private_material'}),
+        ('accountExists', True),
+    ])
+    def test_sensitive_response_extensions_are_rejected(baseline, oid, at_data,
+                                                         private_field, private_value):
+        op = op_by_id(baseline, oid)
+        status = '201' if oid == 'createPasskeyChallenge' else '200'
+&gt;       media = op['responses'][status]['content']['application/json']
+                ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: '200'
+
+specs/contracts/openapi/test_contract.py:59: KeyError</failure></testcase><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-createPublicPlaybackPlan-True]" time="0.001"><failure message="KeyError: '200'">baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+oid = 'createPublicPlaybackPlan', at_data = True
+private_field = 'accountExists', private_value = True
+
+    @pytest.mark.parametrize('oid,at_data', [
+        ('getPublicAsset', False), ('getPublicAsset', True),
+        ('createPublicPlaybackPlan', False), ('createPublicPlaybackPlan', True),
+        ('getArtifactContent', False), ('getArtifactContent', True),
+        ('createPasskeyChallenge', False), ('createPasskeyChallenge', True),
+        ('getSourceCredentialReference', False), ('getSourceCredentialReference', True),
+    ])
+    @pytest.mark.parametrize('private_field,private_value', [
+        ('providerToken', 'must_never_leave_the_gateway'),
+        ('privateContext', {'credentialValue': 'nested_private_material'}),
+        ('accountExists', True),
+    ])
+    def test_sensitive_response_extensions_are_rejected(baseline, oid, at_data,
+                                                         private_field, private_value):
+        op = op_by_id(baseline, oid)
+        status = '201' if oid == 'createPasskeyChallenge' else '200'
+&gt;       media = op['responses'][status]['content']['application/json']
+                ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: '200'
+
+specs/contracts/openapi/test_contract.py:59: KeyError</failure></testcase><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-getArtifactContent-False]" time="0.019" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-getArtifactContent-True]" time="0.012" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-createPasskeyChallenge-False]" time="0.008" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-createPasskeyChallenge-True]" time="0.008" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-getSourceCredentialReference-False]" time="0.004" /><testcase classname="specs.contracts.openapi.test_contract" name="test_sensitive_response_extensions_are_rejected[accountExists-True-getSourceCredentialReference-True]" time="0.005" /></testsuite></testsuites>

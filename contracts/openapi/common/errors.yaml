@@ -101,16 +101,30 @@ errors:
   documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
 - code: INTERNAL_IDEMPOTENCY_CONFLICT
   httpStatus: 409
-  description: Key reused with different request or still executing.
+  description: Idempotency key reused with a different request fingerprint; never retry the unchanged request.
   x-i18n:
     en-US:
-      description: Key reused with different request or still executing.
+      description: Idempotency key reused with a different request fingerprint; never retry the unchanged request.
     zh-CN:
-      description: 幂等键绑定不同请求或仍在执行。
+      description: 幂等键用于不同请求指纹，原请求不应自动重试。
   retryable: false
   action:
     en-US: Inspect authorized request and retry after correction.
     zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: INTERNAL_IDEMPOTENCY_IN_PROGRESS
+  httpStatus: 409
+  description: The same request fingerprint is still executing; retry the same key after bounded backoff.
+  x-i18n:
+    en-US:
+      description: The same request fingerprint is still executing; retry the same key after bounded backoff.
+    zh-CN:
+      description: 相同请求指纹仍在执行，按有界退避使用原幂等键重试。
+  retryable: true
+  action:
+    en-US: Retry the identical request and key after details.retryAfterSeconds (1–60 seconds); recheck current authorization.
+    zh-CN: 按 details.retryAfterSeconds（1–60 秒）使用相同请求和键重试，并重新校验当前授权。
   alarmLevel: WARNING
   documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
 - code: INTERNAL_REVISION_CONFLICT

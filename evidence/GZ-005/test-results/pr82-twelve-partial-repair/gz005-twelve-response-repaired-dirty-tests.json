@@ -1,0 +1,15 @@
+{
+  "kind": "TARGETED_DIRTY_PRIVACY_REPAIR_ONLY",
+  "parentSource": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "physicalSha256": {
+    "contracts/openapi/common/schemas.yaml": "cfce9d45fddb4cb8f76f8112753de545bafa95253b55ecb359414fa0529b3154",
+    "specs/contracts/openapi/test_contract.py": "8f0bf8e4caa9045a8659fbac076ab3cbdb6f3a422526b752f1ec3a5c6f04e0fc"
+  },
+  "exitCode": 0,
+  "raw": "gz005-twelve-response-repaired-dirty-tests.txt",
+  "rawSha256": "3ffdadcf6afa946da0b950fecf41a3a2b3e2e88b4e48dec93b4bf2fc41075290",
+  "formalSourceAccepted": false,
+  "remainingTwelveFindingRepairs": "PENDING",
+  "fullApiSuiteRun": false,
+  "deselectedExistingTests": 306
+}

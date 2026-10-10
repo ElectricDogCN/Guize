@@ -1,0 +1,43 @@
+{
+  "kind": "FULL_API_DIRTY_REPAIR_VALIDATION_ONLY",
+  "parentSource": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "physicalSha256": {
+    "contracts/openapi/ai/paths.yaml": "f4e53d5ee1d2abf61c22046101b46a28f69b14cc13b50ddf419297d17e9c64ab",
+    "contracts/openapi/asset/paths.yaml": "939f71d79c246b3d1b78a3dd5a2e53c632c1131e3c84d1f7d1f2fb57fa71570f",
+    "contracts/openapi/common/errors.yaml": "41eb1b82394177044e4d50430daeb84855c5aa2e29dd91a9c3dce62d5af7ef72",
+    "contracts/openapi/common/http-samples.json": "de87a234041ffa4fa6ad3650a5a04931b1ef7896263ae1fb6ced733523e67f5a",
+    "contracts/openapi/common/openapi.yaml": "72c47922d940015665e780f36ece32527e6e1a7c473abe55b9676a300ecc54f6",
+    "contracts/openapi/common/schemas.yaml": "dd56ec156e8068eb7f537bb47e713664b34178d0b20f30aa8fc7f973d38c6e57",
+    "contracts/openapi/config/paths.yaml": "1464c4a109f6516634966bc5273f6d7018c208ac9c4c7c58115f563b97fa2a84",
+    "contracts/openapi/iam/paths.yaml": "e7d260b9f6a707df41959fc8a166228786d8f32630848d797ebc663c6cc8df4b",
+    "contracts/openapi/media/paths.yaml": "2b50806c4ab961d245aaffd61516cd49d0bbc104f6776387daccd9ef1f1f48fb",
+    "contracts/openapi/playback/paths.yaml": "05c9b611c229d52842df87fb7bc5bc2aa6c00bb3a16a0155e80e0a09ccc51374",
+    "contracts/openapi/policy/paths.yaml": "7125880d71dec2a824751774f733b71dfbab1909a10432485b41a6967645d342",
+    "contracts/openapi/search/paths.yaml": "edf975138291381a11682a41fdefa82e3af50c9c94b917f2e58619f853b61b43",
+    "contracts/openapi/source/paths.yaml": "eecd7cf3394749713178a41fce5418b56940da6a2a7beea841266013b3aa7361",
+    "contracts/openapi/storage/paths.yaml": "153def52b6e5f909150dc0963cac8a78fafe88576e60c635c74c7e767b6b708e",
+    "contracts/openapi/task/paths.yaml": "76e3acd9de0f51ab85d02183108c6c9705faaa0186b5a4aed5a09af6bcfcb3ad",
+    "specs/contracts/openapi/check_contract.py": "b5236709d759146164e06ceebc87c7cf28e48415c97f401cddca3d2df77b76c4",
+    "specs/contracts/openapi/semantics.md": "97d9b6e63120a26cfae8cc680c81a466aeb670a43c01b4cc0bfe69901c3ad4de",
+    "specs/contracts/openapi/test_contract.py": "92d75d8372f1bd7f767ad0b3eb7dcdb221afb74c253fb279dc422269b652c699"
+  },
+  "formalSourceAccepted": false,
+  "checks": {
+    "checker": {
+      "exitCode": 1,
+      "raw": "gz005-twelve-full-dirty-attempt1-checker.txt",
+      "rawSha256": "9bc5cdf3a7f27d35e3c093def57fe35edb5ae145c4ed5436df1ecf047709d6a2"
+    },
+    "tests": {
+      "exitCode": 1,
+      "raw": "gz005-twelve-full-dirty-attempt1-tests.txt",
+      "rawSha256": "e61ea09355c88289f7a2efb3ebc996cb501d23de0e44f7f8930965edfb11bb61"
+    }
+  },
+  "junit": {
+    "tests": 373,
+    "failures": 96,
+    "errors": 0,
+    "skipped": 0
+  }
+}

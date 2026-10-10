@@ -1,0 +1,123 @@
+{
+  "kind": "PRESERVED_REJECTED_SOURCE_EXECUTION_REFERENCES",
+  "source": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "tree": "7ea478f3383375ed0f5640ae7756cc2cd06aea07",
+  "formalChecks": 17,
+  "governanceTests": 527,
+  "governanceSeconds": 757.83,
+  "apiTests": 306,
+  "apiSeconds": 172.0,
+  "failuresErrorsSkips": 0,
+  "ciRun": "https://github.com/ElectricDogCN/Guize/actions/runs/38045799720",
+  "ciJobId": 114194962651,
+  "ciGovernanceSeconds": 801.98,
+  "sourceContentAccepted": false,
+  "fullV1Complete": false,
+  "referenceBoundary": "Original rejected-source local outputs remain outside repository at these absolute paths. Their existence is not represented as durable Git storage or acceptance of this dirty repair.",
+  "records": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\clean-after.txt",
+      "sha256": "e88ef7d4b1f1f6b43d392c09a43995916498ba3d6ea6b895d3d326db1c4a97fd"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\clean-before.txt",
+      "sha256": "e88ef7d4b1f1f6b43d392c09a43995916498ba3d6ea6b895d3d326db1c4a97fd"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\coordination.txt",
+      "sha256": "c9dd28b71c9d3f879dc4b66427d66add4d0e0567cab4323681dab50d9fca1d41"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\evidence.txt",
+      "sha256": "b41c9c2ebe0787961f94ac625f86828b9988e74d158b3129cf74fe42aa5ae506"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\finalization.txt",
+      "sha256": "a5c5f7a9a0e2a9a9a1494af61140b5b73b2eecfec5bd9272e88e735973db57f8"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\history.txt",
+      "sha256": "fd9f2e122621ab53a72dc300902696e1ff837fbb7fb66c0f61ba06d41933d14e"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\integrity.txt",
+      "sha256": "ef170bda6b4094d7f7dfc8704885cc01f983ac0408b43102f07c47f4d3df5ada"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\lifecycle.txt",
+      "sha256": "27910d3f8d36f0b7a5b7116ce4d1db12271f56a58879d9056c78e37de984067d"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\make-governance.xml",
+      "sha256": "b3a78ef0aa7343b849de994b8ea6c041329c33f4d2003b0a320f6f7c363cc1ca"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\openapi-contract.txt",
+      "sha256": "a83dc9a71915bc4f6aa6760c1fbecc783858ec66ab606a49faef0e44b6c65055"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\openapi-negative-tests.txt",
+      "sha256": "42f4f8df6ceaf0b91c5cc71bdab06b726c2eaafea187a03ef2e0b35afd4d778e"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\openapi-standard.txt",
+      "sha256": "4ff548468e5fa4b34fd7a401096a17dcf1414601576081f7f5486e870edc0ba0"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\openapi-tests.xml",
+      "sha256": "9813ed6f35d8e9dd67a64809a266f1100b2bce0eb24390f1182b185417f200e7"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\raw-lifecycle.txt",
+      "sha256": "7912a533413ecbdaf7394b8517e0747d89be4092f43d994f4124a5027857e74a"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\readiness.txt",
+      "sha256": "ce47d0ff6bdb96adbce25490e8585b12e0579f2aa0ff99f555f1a31b42afe484"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\schemas.txt",
+      "sha256": "f768f718204ba35f222c46627d2b9721c7a4981d384f6d3e89a436011136154a"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\scope.txt",
+      "sha256": "0d41ea110a229afce2cdb520e835812f52a62da0ff4775755c74027f3309ff1e"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\source.txt",
+      "sha256": "20d96b23557b90b33a24c489878d946c15912d3da3ba737a62a31c9a30927d08"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\status.json",
+      "sha256": "1d3b9da95de2a3d40e3dfccc98e204acffc0c3665d06f96e4a608c56fd64bb7f"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\task.txt",
+      "sha256": "f565c5462d7d08caa363aed65c6fc6aebaa1d98bc6f5a40d4cc4341e5b86b173"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\transitions.txt",
+      "sha256": "2d37d5b9bf6a363912b5d1c43ae35ea93098eede774e113f62f10c2b0a04db70"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\tree.txt",
+      "sha256": "5fee3e06a3f2c2d94174a9d0d7cbf2c1eb78b0d9ad9488e8df4f53d296828ae6"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\unaffected.txt",
+      "sha256": "e11d74e09cc97819441c612952c4305a02eb2d5f1ec4f282dbbd50760115e23c"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\verification-worktrees-before.json",
+      "sha256": "9dadda854bc0fe80cbe30227ac7ef479865c983b9c3304474b28ebe0fa055e61"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\verification-worktrees.json",
+      "sha256": "8acb1c249c729f160c89a8ea3304e0c36611fc9572d5cb86cf1891d82ced7cf9"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-e70313e-results\\verify.txt",
+      "sha256": "511cd422ce275b996571d750181178bca0ae58e8e4948081411d3919cda6be8a"
+    }
+  ]
+}
