@@ -1,0 +1,387 @@
+{
+  "kind": "INDEPENDENT_ACTUAL_SOURCE_FORMAL_ACCEPTANCE_FINAL_INTEGRATION_PENDING",
+  "recordedAt": "2026-10-10T12:11:59.240529+00:00",
+  "actualSource": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "parent": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "formalSourceAccepted": true,
+  "sourceContentAccepted": true,
+  "finalIntegrationApproved": true,
+  "localStatus": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 0,
+    "lifecycle": 0,
+    "coordination": 0,
+    "scope": 0,
+    "evidence": 0,
+    "unaffected": 0,
+    "verify": 0,
+    "openapi-standard": 0,
+    "openapi-contract": 0,
+    "openapi-negative-tests": 0
+  },
+  "localLogs": {
+    "task": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\task.txt",
+      "sha256": "575829242117bd255a4bad4ee555d31bda611db0d529f4d3595f41558127c564",
+      "command": "python scripts/check-task-file.py --task GZ-005",
+      "exitCode": 0
+    },
+    "readiness": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\readiness.txt",
+      "sha256": "444e99ff3a2b65edad85f3b7187a13edc32205b129b8e2390d267028bc5ece81",
+      "command": "python scripts/check-project-readiness.py",
+      "exitCode": 0
+    },
+    "schemas": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\schemas.txt",
+      "sha256": "df1d78c83f34cd8107b1612725d94be125e4fa09516587ab93573b01dada7519",
+      "command": "python scripts/check-schemas.py",
+      "exitCode": 0
+    },
+    "integrity": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\integrity.txt",
+      "sha256": "e9cb497f934fba3605ef37717de16e2ccac1a3c1faf896551c5a615f5e9fa120",
+      "command": "python scripts/check-program-plan-integrity.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "exitCode": 0
+    },
+    "history": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\history.txt",
+      "sha256": "240a216eaae05888563ac9c4f94223424c45df4e65502c5415db3507c4672b5b",
+      "command": "python scripts/check-program-plan-history.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0
+    },
+    "transitions": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\transitions.txt",
+      "sha256": "d94582988bc8c8149367cae35b2ad8d03a0bf50f6bb3987a661f744b08b7ffa0",
+      "command": "python scripts/check-program-plan-transitions.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0
+    },
+    "finalization": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\finalization.txt",
+      "sha256": "938cf62ce18506292e59924e5a24c58434be766ead53a9100297e869f3c94b0e",
+      "command": "python scripts/check-program-plan-finalization.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --task GZ-005",
+      "exitCode": 0
+    },
+    "raw-lifecycle": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\raw-lifecycle.txt",
+      "sha256": "1460888d4bbbf10f48ef4dbfb9a1c37ba8df5fe599a9195d533640d81edd23d4",
+      "command": "python scripts/check-program-lifecycle-guards.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0
+    },
+    "lifecycle": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\lifecycle.txt",
+      "sha256": "9352b2cb4e01af569792e5335244bb4118f0b55a440f34ada516af5a90d2ab45",
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0
+    },
+    "coordination": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\coordination.txt",
+      "sha256": "9b34b38034fb181d68979b738ebce468b87f8e1897ac377dbbb708b1f6268311",
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0
+    },
+    "scope": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\scope.txt",
+      "sha256": "0af89fe567b630e9ef458ec63da5685f064ebbb997715c777e2d2b05414aa2d0",
+      "command": "python scripts/run-task-scope-gate.py --task GZ-005 --base 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "exitCode": 0
+    },
+    "evidence": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\evidence.txt",
+      "sha256": "48a8936cc71ab270b363113c5a6723b7c561b2c1717a3f4f37d6c6505908de12",
+      "command": "python scripts/check-evidence.py --task GZ-005",
+      "exitCode": 0
+    },
+    "unaffected": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\unaffected.txt",
+      "sha256": "33fc601c6c89305571fefb0d7f50dea32cca0a54f36789635f21fd1a32dcfaf1",
+      "command": "git diff --exit-code 429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/tasks/OPS-004.md evidence/OPS-004 specs/poc specs/requirements scripts tests AGENTS.md",
+      "exitCode": 0
+    },
+    "verify": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\verify.txt",
+      "sha256": "e1a46326ec816cbd420b674d895687b45182e2f66cab16963394432acdd799c4",
+      "command": "make verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline",
+      "exitCode": 0
+    },
+    "openapi-standard": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-standard.txt",
+      "sha256": "42a14c8111fbacfdff65aa8459aa970edd53a30b65d187842f59d6462007f1a5",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml",
+      "exitCode": 0
+    },
+    "openapi-contract": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-contract.txt",
+      "sha256": "a0ca23c82ea6367b283c15f886ec61bcb1c1e7b0ac466b766e1fb2443e2b850e",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline",
+      "exitCode": 0
+    },
+    "openapi-negative-tests": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-negative-tests.txt",
+      "sha256": "56e230fdac2c59b289efe0949c1426885ea76943350836c1ed6b3ec0a3d21bf1",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fresh-implementation-902b0f2-results/openapi-tests.xml",
+      "exitCode": 0
+    }
+  },
+  "junit": {
+    "make-governance.xml": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\make-governance.xml",
+      "sha256": "2419fe8a2acd2f74f391f824270e9aa06ddd38b7cc95516493eb9aa36de7a17e",
+      "nonemptyTestcases": 527,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    "openapi-tests.xml": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-tests.xml",
+      "sha256": "4b7bb75cc97d9559fb1c778f0140851f453653f1f36e1d8efe58a2c26fc35461",
+      "nonemptyTestcases": 378,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  "fullMakeSummary": "527 passed in750.25s",
+  "fullApiSummary": "378 passed in263.04s",
+  "checkerReport": {
+    "status": "PASS",
+    "operations": 96,
+    "schemas": 155,
+    "errorCodes": 34,
+    "examples": 1006,
+    "requirements": [
+      "REQ-V1-0001",
+      "REQ-V1-0002",
+      "REQ-V1-0003",
+      "REQ-V1-0004",
+      "REQ-V1-0005",
+      "REQ-V1-0007",
+      "REQ-V1-0008",
+      "REQ-V1-0009"
+    ],
+    "httpSamples": 217,
+    "compatibility": "INITIAL_BASELINE (no prior published API in actual Git base)"
+  },
+  "cleanRecords": {
+    "clean-before.txt": {
+      "sha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2",
+      "porcelainOutputEmpty": true,
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+    },
+    "clean-after.txt": {
+      "sha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2",
+      "porcelainOutputEmpty": true,
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+    }
+  },
+  "worktreesBefore": {
+    "kind": "ACTUAL_NATIVE_VERIFICATION_PREEXECUTION_BINDING",
+    "phase": "implementation",
+    "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "authoringWorktree": {
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verificationWorktree": {
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    },
+    "result": "NOT_EXECUTED",
+    "condition": "Both immutable worktrees must remain identical and clean; actual tests execute in the recorded native path. Failed raw checks remain failure evidence."
+  },
+  "worktreesAfter": {
+    "kind": "ACTUAL_IDENTICAL_SOURCE_NATIVE_VALIDATION_WORKTREE",
+    "phase": "implementation",
+    "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "authoringWorktree": {
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verificationWorktree": {
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    },
+    "bothCleanBeforeAndAfter": true,
+    "result": "PASS",
+    "testsExecutedIn": "native Linux checkout; exact same immutable Git source/tree, no result transfer from another commit"
+  },
+  "worktreeProofSha256": "07d2d8182e75d3341c7b125551d25ee9de74eead7e6a17807f55e7d9d365d320",
+  "sameHeadCi": {
+    "runId": 38049804263,
+    "jobId": 114206476582,
+    "attempt": 1,
+    "conclusion": "success",
+    "perTestPassed": 527,
+    "skips": 0,
+    "summary": "527 passed in917.82s",
+    "allStepsSuccess": true,
+    "officialReceipt": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-ci635-official-receipt.json",
+    "savedRawSha256": "2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce",
+    "syntheticCheckout": {
+      "source": "e4198d8a1e652447977c52611638046038d9560b",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "parents": [
+        "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+        "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+      ],
+      "isActualMainMerge": false
+    }
+  },
+  "contentProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-actual-source-content-proof.json",
+  "repairCoverage": "Previous ten-thread source content and all twelve DY findings with minimal progress exception connection are retained and bound to the immutable902 source. No result transfer from rejected e703, earlier failed dirty full373/1FAIL or14-test subset.",
+  "freshPrReceipt": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-source-formal-fresh-pr-receipt.json",
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fH",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fJ",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fL",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fM",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fN",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fP",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fR",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fT",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fW",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fY",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY6p",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY6r",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY6t",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY6w",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY6y",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY60",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY66",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY68",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY7A",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY7C",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY7E",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rDY7K",
+      "resolved": false,
+      "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+    }
+  ],
+  "remainingFiniteIntegrationConditions": [
+    "Immediately before merge, recheck expectedhead902/base429, latestCI635success, allthreadsresolved/no new blocking opinion, validlease and cleanworktree; merge only expectedhead."
+  ],
+  "runtimeValidated": false,
+  "actualMainAccepted": false,
+  "fullV1Complete": false,
+  "rootMutation": false,
+  "fullGovRerun": false,
+  "wholeApiSuiteRun": false,
+  "finalIntegrationProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-final-integration-proof.json",
+  "finalIntegrationProofSha256": "de847cc147d5efa977ec908368bbc48d192faff1f8906efd7ea62e29ea5f9b4f",
+  "initialRemainingFiniteIntegrationConditions": [
+    "DurablePR82 references must pin actual902/source/tree/base/commands/all17exits,527and378nonemptyzeroF/E/SJUnitcounts/hashes,CI635run/job and actual raw locations/hashes. Outside local files are not represented as durableGit archives.",
+    "Resolve the22 existing repaired threads with actual correction evidence; then fresh officialGET must show all resolved and no new blocking finding.",
+    "Fresh final independent integration snapshot must match exacthead902/base429/latestsuccessfulCI635/cleanworktree and existing valid lease. Merge only expectedhead.",
+    "Archive these exact source execution and independent records in already-required subsequent OwnReview metadataPR with fresh applicablechecks/CI. Ordinary activeReview preserves registered branch/roles/scope/lease; Completion/main require separate actualall-zero validation."
+  ],
+  "subsequentLifecycleObligations": [
+    "Verify actual main/source merge identity and actual main checks pluspushCI before claiming main acceptance.",
+    "Prepare pureOwnReview on the SAME registered chore/GZ-005-openapi-baseline branch, preserving stableidentity/scope/lease and bindingbase toactualPR82merge; archive source17/API/CI/independent originalrecords there and complete freshapplicable14/latestCI/independentreview.",
+    "Completion from actuallyacceptedReviewmain must bind actualcodePR82merge identity, release onlyOwnlease, append onlyOwnLedger, pass its ownmandatorygates/CI/independentreview.",
+    "ActualCompletionmain mustpassallrequiredchecks before subsequentwork/V1 claims."
+  ],
+  "integrationApprovedAt": "2026-10-10T12:15:52.149966+00:00"
+}

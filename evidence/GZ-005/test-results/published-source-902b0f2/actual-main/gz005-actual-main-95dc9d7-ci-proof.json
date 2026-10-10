@@ -1,0 +1,289 @@
+{
+  "kind": "ACTUAL_GITHUB_MAIN_ALL_ZERO",
+  "repository": "ElectricDogCN/Guize",
+  "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "runId": 38051387339,
+  "runNumber": 636,
+  "jobId": 114211055085,
+  "event": "push",
+  "headBranch": "main",
+  "executionCheckout": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+  "executionTree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "executionParents": [
+    "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+  ],
+  "govResult": "527 passed in 820.87s (0:13:40) ========================",
+  "overallConclusion": "success",
+  "conclusion": "success",
+  "perTestPassed": 527,
+  "testSkips": 0,
+  "taskSpecificConditionalSkips": {
+    "9": "Task file validation",
+    "18": "Evidence check",
+    "19": "Evidence integrity check",
+    "20": "Task-branch linkage check",
+    "21": "Scope check"
+  },
+  "runAttempt": 1,
+  "rawByteCaveat": "Saved UTF-8 text is not claimed byte-identical to transport; declared normalization only.",
+  "onlyFailure": null,
+  "optionalCleanupSkipped": [],
+  "jobs": [
+    {
+      "id": 114211055085,
+      "run_id": 38051387339,
+      "workflow_name": "Governance Gate",
+      "head_branch": "main",
+      "run_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/38051387339",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOTgCQ3c8AAAAal4Jl7Q",
+      "head_sha": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/jobs/114211055085",
+      "html_url": "https://github.com/ElectricDogCN/Guize/actions/runs/38051387339/job/114211055085",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-10T12:16:58Z",
+      "started_at": "2026-10-10T12:17:01Z",
+      "completed_at": "2026-10-10T12:31:02Z",
+      "name": "Governance Checks",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-10T12:17:01Z",
+          "completed_at": "2026-10-10T12:17:02Z"
+        },
+        {
+          "name": "Checkout repository",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-10T12:17:02Z",
+          "completed_at": "2026-10-10T12:17:04Z"
+        },
+        {
+          "name": "Setup Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-10T12:17:04Z",
+          "completed_at": "2026-10-10T12:17:04Z"
+        },
+        {
+          "name": "Install governance dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-10T12:17:04Z",
+          "completed_at": "2026-10-10T12:17:08Z"
+        },
+        {
+          "name": "Verify core dependencies importable",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-10T12:17:08Z",
+          "completed_at": "2026-10-10T12:17:08Z"
+        },
+        {
+          "name": "Compile scripts and tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-10T12:17:08Z",
+          "completed_at": "2026-10-10T12:17:08Z"
+        },
+        {
+          "name": "Pytest collect-only",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-10T12:17:08Z",
+          "completed_at": "2026-10-10T12:17:09Z"
+        },
+        {
+          "name": "Resolve task context",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-10T12:17:09Z",
+          "completed_at": "2026-10-10T12:17:09Z"
+        },
+        {
+          "name": "Task file validation",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-10-10T12:17:09Z",
+          "completed_at": "2026-10-10T12:17:09Z"
+        },
+        {
+          "name": "Project readiness check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-10T12:17:09Z",
+          "completed_at": "2026-10-10T12:17:09Z"
+        },
+        {
+          "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-10T12:17:09Z",
+          "completed_at": "2026-10-10T12:17:11Z"
+        },
+        {
+          "name": "Agent coordination check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-10T12:17:11Z",
+          "completed_at": "2026-10-10T12:17:12Z"
+        },
+        {
+          "name": "Governance tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-10T12:17:12Z",
+          "completed_at": "2026-10-10T12:30:53Z"
+        },
+        {
+          "name": "Skip audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-10T12:30:53Z",
+          "completed_at": "2026-10-10T12:30:53Z"
+        },
+        {
+          "name": "Markdown basic check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-10T12:30:53Z",
+          "completed_at": "2026-10-10T12:30:53Z"
+        },
+        {
+          "name": "YAML/JSON schema check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-10T12:30:53Z",
+          "completed_at": "2026-10-10T12:30:57Z"
+        },
+        {
+          "name": "Secret scan",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-10T12:30:57Z",
+          "completed_at": "2026-10-10T12:30:57Z"
+        },
+        {
+          "name": "Evidence check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 18,
+          "started_at": "2026-10-10T12:30:57Z",
+          "completed_at": "2026-10-10T12:30:57Z"
+        },
+        {
+          "name": "Evidence integrity check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 19,
+          "started_at": "2026-10-10T12:30:57Z",
+          "completed_at": "2026-10-10T12:30:57Z"
+        },
+        {
+          "name": "Task-branch linkage check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 20,
+          "started_at": "2026-10-10T12:30:57Z",
+          "completed_at": "2026-10-10T12:30:57Z"
+        },
+        {
+          "name": "Scope check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 21,
+          "started_at": "2026-10-10T12:30:57Z",
+          "completed_at": "2026-10-10T12:30:57Z"
+        },
+        {
+          "name": "Spec sync check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-10-10T12:30:57Z",
+          "completed_at": "2026-10-10T12:30:58Z"
+        },
+        {
+          "name": "Parent directory reference check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-10-10T12:30:58Z",
+          "completed_at": "2026-10-10T12:30:58Z"
+        },
+        {
+          "name": "CI workflow static validation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24,
+          "started_at": "2026-10-10T12:30:58Z",
+          "completed_at": "2026-10-10T12:30:58Z"
+        },
+        {
+          "name": "Generate governance report",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 25,
+          "started_at": "2026-10-10T12:30:58Z",
+          "completed_at": "2026-10-10T12:30:58Z"
+        },
+        {
+          "name": "Post Setup Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 49,
+          "started_at": "2026-10-10T12:30:58Z",
+          "completed_at": "2026-10-10T12:30:58Z"
+        },
+        {
+          "name": "Post Checkout repository",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 50,
+          "started_at": "2026-10-10T12:30:58Z",
+          "completed_at": "2026-10-10T12:30:58Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 51,
+          "started_at": "2026-10-10T12:30:58Z",
+          "completed_at": "2026-10-10T12:30:58Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/ElectricDogCN/Guize/check-runs/114211055085",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000662,
+      "runner_name": "GitHub Actions 1000000662",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ],
+  "retrievedAt": "2026-10-10T12:31:58.942092+00:00",
+  "rawFileSha256": "1b69cd6649d7b39a1472b26fb7cee1c2ec15c94423bb7f551b652eca3f7c33af"
+}

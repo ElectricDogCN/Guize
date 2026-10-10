@@ -1,0 +1,950 @@
+{
+  "pr": {
+    "url": "https://github.com/ElectricDogCN/Guize/pull/82",
+    "number": 82,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "draft": false,
+    "body": "The V1 control API admitted private response extensions and had inconsistent retry, task identity, logout and resource-binding behavior. This candidate closes protected/anonymous response layers, separates retryable in-flight requests from permanent fingerprint conflicts, derives component compatibility from actual request/response references, and binds split selections, deployment targets, asynchronous status URLs and cross-device progress. Asset description has explicit bounded patch/detail/list readback.\n\nActual tested and published source: `902b0f2f4fc23d1159de7fa1dc78d65118c0ca94`; tree `0bc2e004aa347d072258ce6bfd2d22a4079c30ef`; base `429a6566d81f128cb618c524ee8dc22faba1c0a4`; sole parent `e70313efeb06c021b3626e5d5728d44acc8c4758`. Both clean authoring/native worktrees stayed at this identical immutable source/tree before and after execution. Inventory:96 operations,155 schemas,34 errors,1006 schema examples and217 serialized illustrative HTTP pairs.\n\nValidation: all17 formal checks exited0. Full governance527 passed in750.25s; full API378 passed in263.04s. Both nonempty JUnits contain zero failures/errors/skips. [Same-source GitHub Actions635](https://github.com/ElectricDogCN/Guize/actions/runs/38049804263) / job114206476582 attempt1 succeeded with527 tests in917.82s, skip audit0 and every step successful. Governance CI does not run API tests; those ran separately on the exact actual source. Synthetic checkout e4198d8a1e652447977c52611638046038d9560b has parents429/902 and tree0bc; it is not actual main.\n\nThe twelve findings and minimal progress exception connection received independent exact-source content acceptance. Independent official CI receipt confirmed the official log matches retained text under declared newline normalization. Independent formal-source acceptance verified all17 checks and both JUnits. All22 finite review threads have now been resolved against the accepted actual902 repair; the final independent integration check approved this exact source, dependencies, original lease, scope, current PR/CI and evidence references. A final immediate live head/base/CI/thread check still guards the merge. This PR does not claim actual-main, runtime, POC or full V1 acceptance.\n\nRaw originals are retained local review inputs, accessible to this task and actually inspected by the independent reviewer; they are not Git artifacts or public download links. Source-bound logs and JUnits will be archived byte-faithfully in the already-required subsequent Own Review metadata PR, which retains the registered branch and gets its own applicable checks/CI/review. That legal phase timing is documented in `gz005-independent-route-change-admission-review.json`; no tests are transferred to the later Review head.\n\nRaw directory: `C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results`.\n\n| Formal check | Exit | Retained raw SHA-256 |\n|---|---:|---|\n| task | 0 | `575829242117bd255a4bad4ee555d31bda611db0d529f4d3595f41558127c564` |\n| readiness | 0 | `444e99ff3a2b65edad85f3b7187a13edc32205b129b8e2390d267028bc5ece81` |\n| schemas | 0 | `df1d78c83f34cd8107b1612725d94be125e4fa09516587ab93573b01dada7519` |\n| integrity | 0 | `e9cb497f934fba3605ef37717de16e2ccac1a3c1faf896551c5a615f5e9fa120` |\n| history | 0 | `240a216eaae05888563ac9c4f94223424c45df4e65502c5415db3507c4672b5b` |\n| transitions | 0 | `d94582988bc8c8149367cae35b2ad8d03a0bf50f6bb3987a661f744b08b7ffa0` |\n| finalization | 0 | `938cf62ce18506292e59924e5a24c58434be766ead53a9100297e869f3c94b0e` |\n| raw-lifecycle | 0 | `1460888d4bbbf10f48ef4dbfb9a1c37ba8df5fe599a9195d533640d81edd23d4` |\n| lifecycle | 0 | `9352b2cb4e01af569792e5335244bb4118f0b55a440f34ada516af5a90d2ab45` |\n| coordination | 0 | `9b34b38034fb181d68979b738ebce468b87f8e1897ac377dbbb708b1f6268311` |\n| scope | 0 | `0af89fe567b630e9ef458ec63da5685f064ebbb997715c777e2d2b05414aa2d0` |\n| evidence | 0 | `48a8936cc71ab270b363113c5a6723b7c561b2c1717a3f4f37d6c6505908de12` |\n| unaffected | 0 | `33fc601c6c89305571fefb0d7f50dea32cca0a54f36789635f21fd1a32dcfaf1` |\n| verify | 0 | `e1a46326ec816cbd420b674d895687b45182e2f66cab16963394432acdd799c4` |\n| openapi-standard | 0 | `42a14c8111fbacfdff65aa8459aa970edd53a30b65d187842f59d6462007f1a5` |\n| openapi-contract | 0 | `a0ca23c82ea6367b283c15f886ec61bcb1c1e7b0ac466b766e1fb2443e2b850e` |\n| openapi-negative-tests | 0 | `56e230fdac2c59b289efe0949c1426885ea76943350836c1ed6b3ec0a3d21bf1` |\n\nExact commands (each corresponding raw begins with Source Commit/Command and ends Exit Code0):\n\n```text\npython scripts/check-task-file.py --task GZ-005\npython scripts/check-project-readiness.py\npython scripts/check-schemas.py\npython scripts/check-program-plan-integrity.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4\npython scripts/check-program-plan-history.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline\npython scripts/check-program-plan-transitions.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline\npython scripts/check-program-plan-finalization.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --task GZ-005\npython scripts/check-program-lifecycle-guards.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline\npython scripts/run-program-lifecycle-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline\npython scripts/run-agent-coordination-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline\npython scripts/run-task-scope-gate.py --task GZ-005 --base 429a6566d81f128cb618c524ee8dc22faba1c0a4\npython scripts/check-evidence.py --task GZ-005\ngit diff --exit-code 429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/tasks/OPS-004.md evidence/OPS-004 specs/poc specs/requirements scripts tests AGENTS.md\nmake verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline\n/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml\n/home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline\n/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fresh-implementation-902b0f2-results/openapi-tests.xml\n```\n\nJUnit originals:\n\n- `C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\make-governance.xml`: 527 testcases, zero failures/errors/skips; SHA-256 `2419fe8a2acd2f74f391f824270e9aa06ddd38b7cc95516493eb9aa36de7a17e`.\n\n- `C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-tests.xml`: 378 testcases, zero failures/errors/skips; SHA-256 `4b7bb75cc97d9559fb1c778f0140851f453653f1f36e1d8efe58a2c26fc35461`.\n\nCI saved raw: `C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-ci635.txt`; SHA-256 `2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce`. Saved UTF-8 text hash is distinct from transport bytes; only declared BOM/newline normalization was used to compare official and saved logs. Same directory contains `gz005-ci635-proof.json`, `gz005-ci635-official-run.json`, `gz005-ci635-official-job.json`, `gz005-independent-902b0f2-ci635-official-receipt.json` and `gz005-independent-902b0f2-actual-source-content-proof.json`. The formal source acceptance proof is `gz005-independent-902b0f2-source-acceptance-proof.json`.\n\nExploratory failures remain preserved: four failed attempts and the full373pass/1fail attempt preceded the exception correction and targeted14pass/364deselected subset. The actual new-source378 pass above supersedes their acceptance status while preserving their original results. Archives `evidence/GZ-005/test-results/pr82-twelve-complete-candidate/` and earlier partial records preserve physical/Git-text digests and lossless originals where line endings differ. No prior failed or cancelled source is relabeled successful.\n\nIssue #68; registered GZ-005 contract/spec plus own lifecycle/Evidence only. Requirements, POCs, completed provenance, governance implementation and runtime remain untouched. The user-authorized heterogeneous AV1/HLS/playback-priority route, local OpenList and Baidu deferral require the subsequent separately registered planning/requirements/design work. Follow real code merge with actual-main full governance/API and push-CI, legal Own Review, then independent Completion binding this code PR's real merge identity; retain original lease and other tasks.\n",
+    "title": "chore(GZ-005): freeze V1 API contracts and protected intent validation",
+    "base": "main",
+    "base_sha": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "head": "chore/GZ-005-openapi-baseline",
+    "head_sha": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "head_repo_id": 1308659933,
+    "head_repo_full_name": "ElectricDogCN/Guize",
+    "merge_commit_sha": "e4198d8a1e652447977c52611638046038d9560b",
+    "user": {
+      "login": "ElectricDogCN",
+      "name": "ElectricDogCN",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+      "id": 43232390
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-10-10T04:54:36Z",
+    "updated_at": "2026-10-10T12:16:50Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 6,
+    "changed_files": 252,
+    "additions": 131990,
+    "deletions": 27,
+    "display_url": "https://github.com/ElectricDogCN/Guize/pull/82",
+    "display_title": "chore(GZ-005): freeze V1 API contracts and protected intent validation"
+  },
+  "threads": {
+    "review_threads": [
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fH",
+        "is_resolved": true,
+        "is_outdated": true,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": null,
+        "diff_side": "RIGHT",
+        "start_line": null,
+        "start_diff_side": null,
+        "original_line": 953,
+        "original_start_line": null,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5C",
+            "database_id": 4237200962,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Close the credential-reference response schema**\n\n`getSourceCredentialReference` uses this DTO, but `additionalProperties: true` makes responses containing fields such as `credentialValue`, `providerToken`, or nested secret material schema-valid despite the contract promising reference metadata only. This defeats response validation on the exact endpoint that handles protected credential references; close the object or permit only an explicitly reviewed safe extension shape.\n\nAGENTS.md reference: [AGENTS.md:L175-L175](https://github.com/ElectricDogCN/Guize/blob/b23450ad54e49d9b316233eccb8cb5c9e829c729/AGENTS.md#L175-L175)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:16Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fJ",
+        "is_resolved": true,
+        "is_outdated": true,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": null,
+        "diff_side": "RIGHT",
+        "start_line": null,
+        "start_diff_side": null,
+        "original_line": 1398,
+        "original_start_line": null,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5F",
+            "database_id": 4237200965,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Close the anonymous asset response to private metadata**\n\n`getPublicAsset` returns this schema without authentication, yet `additionalProperties: true` allows a conforming response to include arbitrary source paths, credential fields, ACL data, or other private entity properties. An accidental domain-object serialization would therefore pass the new contract checks while leaking metadata to anonymous callers; the public DTO needs a closed, explicitly safe field set.\n\nAGENTS.md reference: [AGENTS.md:L172-L179](https://github.com/ElectricDogCN/Guize/blob/b23450ad54e49d9b316233eccb8cb5c9e829c729/AGENTS.md#L172-L179)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:16Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fL",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 830,
+        "diff_side": "RIGHT",
+        "start_line": 828,
+        "start_diff_side": "RIGHT",
+        "original_line": 817,
+        "original_start_line": 815,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5H",
+            "database_id": 4237200967,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Add the protected transition to ADMIN_PUBLIC**\n\nWhen an administrator needs to create or promote a public data source, this request enum permits only `PRIVATE` and `SHARED`; `SourcePatch` can change only the name, and the inspected OpenAPI inventory has no source-publication operation. Although `DataSource` defines the `ADMIN_PUBLIC` state and this field says public visibility requires dedicated approval, no API request can ever reach that state, so the frozen control-plane contract cannot support administrator public sources.\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:16Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fM",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 3353,
+        "diff_side": "RIGHT",
+        "start_line": 3349,
+        "start_diff_side": "RIGHT",
+        "original_line": 3328,
+        "original_start_line": 3324,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5J",
+            "database_id": 4237200969,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Return a scoped credential with each worker lease**\n\n`registerWorker` returns `WorkerLeaseEnvelope`, but the lease declares only IDs, expiry, and capabilities—no bearer credential or specified way to bind `leaseId` to `BearerAuth`. The inspected worker design requires registration to return a short-lived token, and `heartbeatWorker` subsequently requires the separate `worker.self` permission, so a worker authenticated only with its bootstrap identity has no interoperable credential for the heartbeat flow.\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:16Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fN",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "specs/contracts/openapi/check_contract.py",
+        "line": 815,
+        "diff_side": "RIGHT",
+        "start_line": 814,
+        "start_diff_side": "RIGHT",
+        "original_line": 650,
+        "original_start_line": 649,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5L",
+            "database_id": 4237200971,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Compare exported component schemas during compatibility checks**\n\n`compatible()` only traverses schemas reachable from existing operations and never compares the exported `components.schemas` map. Components deliberately retained without routes, such as `Replica` and `RetentionHold`, can therefore lose required fields or enum values while this compatibility gate still passes, breaking generated consumers that import those published models; compare exported components as well or remove them from the public contract.\n\nAGENTS.md reference: [AGENTS.md:L145-L146](https://github.com/ElectricDogCN/Guize/blob/b23450ad54e49d9b316233eccb8cb5c9e829c729/AGENTS.md#L145-L146)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:16Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fP",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 2444,
+        "diff_side": "RIGHT",
+        "start_line": 2419,
+        "start_diff_side": "RIGHT",
+        "original_line": 2422,
+        "original_start_line": 2419,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5N",
+            "database_id": 4237200973,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Allow image-only searches without a dummy text query**\n\nThe unconditional `query` requirement also applies when `mode` is `IMAGE`, even though that branch separately requires `imageArtifactId`. Consequently the `/search` contract cannot represent the approved image-to-image flow without clients inventing a nonempty text query that may alter normalization, idempotency, or ranking; require `query` only for text modes and require the artifact for image mode.\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:17Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fR",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 3150,
+        "diff_side": "RIGHT",
+        "start_line": 3148,
+        "start_diff_side": "RIGHT",
+        "original_line": 3125,
+        "original_start_line": 3123,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5R",
+            "database_id": 4237200977,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind rollback approvals to an explicit target revision**\n\n`rollbackPolicy` and `rollbackConfiguration` both reuse `ReleaseCommand`, which carries only the current optimistic `expectedRevision`, approval ID, and reason. Because neither the route nor this body identifies the immutable revision to restore, the approval digest cannot bind a rollback destination and the server cannot distinguish multiple historical targets without an unstated convention; use a rollback-specific request containing both current and target revisions.\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:17Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fT",
+        "is_resolved": true,
+        "is_outdated": true,
+        "path": "contracts/openapi/common/http-samples.json",
+        "line": null,
+        "diff_side": "RIGHT",
+        "start_line": null,
+        "start_diff_side": "RIGHT",
+        "original_line": 69,
+        "original_start_line": 68,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5T",
+            "database_id": 4237200979,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Keep role mutation examples from granting extra capabilities**\n\nBoth serialized role-mutation scenarios request only `asset.read`, but the paired success response grants `asset.play` as well; the same mismatch appears for `replaceRole`. Since these fixtures are the executable examples downstream implementations and contract tests will follow, they currently demonstrate silent privilege expansion as valid behavior rather than an exact role replacement. Align the response with the requested capability set and add request/response correlation coverage.\n\nAGENTS.md reference: [AGENTS.md:L156-L158](https://github.com/ElectricDogCN/Guize/blob/b23450ad54e49d9b316233eccb8cb5c9e829c729/AGENTS.md#L156-L158)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:17Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fW",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 1359,
+        "diff_side": "RIGHT",
+        "start_line": 1359,
+        "start_diff_side": null,
+        "original_line": 1346,
+        "original_start_line": null,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5W",
+            "database_id": 4237200982,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Expose an audited administrator release transition**\n\nThe asset model includes the terminal safety state `ADMIN_RELEASED`, and the approved file-security design explicitly requires administrator release from quarantine, but the inspected asset path inventory contains no release operation and `AssetPatch` cannot change `securityStatus`. A quarantined false positive therefore has no contract-defined, step-up-protected way to reach this state, leaving affected assets permanently unusable through the V1 control API.\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:17Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fY",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/openapi.yaml",
+        "line": 162,
+        "diff_side": "RIGHT",
+        "start_line": 161,
+        "start_diff_side": "RIGHT",
+        "original_line": 162,
+        "original_start_line": 161,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78jo5Z",
+            "database_id": 4237200985,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Add the frozen AI configuration-assistant surface**\n\nThe inspected OpenAPI and coverage inventories expose generic configuration CRUD and lifecycle operations but no endpoint for the frozen REQ-V1-0009 AI configuration assistant, even though that scope requires explaining configuration, generating drafts, checking conflicts, and estimating capacity. GZ-009 consumes this OpenAPI rather than extending it, so clients will have no versioned contract for the assistant; add a controlled suggestion/draft API whose output still passes validation and publication gates.\n\nAGENTS.md reference: [AGENTS.md:L198-L201](https://github.com/ElectricDogCN/Guize/blob/b23450ad54e49d9b316233eccb8cb5c9e829c729/AGENTS.md#L198-L201)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T09:39:17Z",
+            "updated_at": "2026-10-10T09:39:17Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6p",
+        "is_resolved": true,
+        "is_outdated": true,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": null,
+        "diff_side": "RIGHT",
+        "start_line": null,
+        "start_diff_side": null,
+        "original_line": 4593,
+        "original_start_line": null,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjM",
+            "database_id": 4237387980,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Close the public asset response envelope**\n\nFresh evidence in the current revision shows that although `PublicAsset` was closed, `getPublicAsset` still wraps it in this open envelope. An anonymous response containing a safe `data` object plus a top-level `sourcePath`, `credentialValue`, or ACL field remains schema-valid, so response contract tests still cannot detect the private-metadata leak identified previously; close the envelope or define an explicitly reviewed safe extension container.\n\nAGENTS.md reference: [AGENTS.md:L175-L178](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L175-L178)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:30Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6r",
+        "is_resolved": true,
+        "is_outdated": true,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": null,
+        "diff_side": "RIGHT",
+        "start_line": null,
+        "start_diff_side": null,
+        "original_line": 5256,
+        "original_start_line": null,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjP",
+            "database_id": 4237387983,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Close the anonymous playback-plan response shape**\n\n`createPublicPlaybackPlan` returns `PlaybackPlanEnvelope` without authentication, but this envelope is open and its `data` resolves to the also-open `PlaybackPlan`; a response can therefore add an `originUrl`, provider token, or arbitrary media path while remaining contract-valid despite the declared gateway-only design. Close both public response layers or introduce a closed public playback DTO so anonymous contract validation rejects origin metadata and credentials.\n\nAGENTS.md reference: [AGENTS.md:L175-L177](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L175-L177)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:30Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6t",
+        "is_resolved": true,
+        "is_outdated": true,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": null,
+        "diff_side": "RIGHT",
+        "start_line": null,
+        "start_diff_side": null,
+        "original_line": 2971,
+        "original_start_line": null,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjV",
+            "database_id": 4237387989,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Close bounded artifact-content results**\n\n`getArtifactContent` promises bounded text/timeline data or a controlled gateway reference, but `additionalProperties: true` permits schema-valid fields such as an unbounded `rawMediaBase64`, arbitrary URL, or embedded media payload alongside the declared representation. That lets downstream implementations and contract tests treat the exact large-file transport forbidden by the contract as valid; close `ArtifactContent` and its envelope, or allow only an explicitly bounded safe extension shape.\n\nAGENTS.md reference: [AGENTS.md:L114-L116](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L114-L116)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:30Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6w",
+        "is_resolved": true,
+        "is_outdated": true,
+        "path": "specs/contracts/openapi/check_contract.py",
+        "line": null,
+        "diff_side": "RIGHT",
+        "start_line": null,
+        "start_diff_side": "RIGHT",
+        "original_line": 695,
+        "original_start_line": 694,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjZ",
+            "database_id": 4237387993,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Classify exported schemas before checking both directions**\n\nChecking every component as both a request and a response makes the advertised compatible evolution path unusable for closed request DTOs: adding an optional property to `SourcePatch`, for example, passes the request-direction rules but is immediately rejected in the response-direction call because the old schema has `additionalProperties: false`. Since canonical operations reference these components, the later route-specific request check cannot rescue the change; classify component usage or compare each component only in the directions where it is exported.\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:30Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6y",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/errors.yaml",
+        "line": 110,
+        "diff_side": "RIGHT",
+        "start_line": 102,
+        "start_diff_side": "RIGHT",
+        "original_line": 110,
+        "original_start_line": 102,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjc",
+            "database_id": 4237387996,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Split transient and permanent idempotency conflicts**\n\n`INTERNAL_IDEMPOTENCY_CONFLICT` combines a permanently mismatched payload with a request that is merely still executing, yet the catalog marks both cases non-retryable while 62 operation policies explicitly say to retry the in-flight case after backoff. Clients following this stable catalog will abandon valid in-flight operations, while changing the flag to true would make them retry permanent conflicts; use distinct error codes or expose a bounded discriminator and retry delay.\n\nAGENTS.md reference: [AGENTS.md:L147-L149](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L147-L149)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:30Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY60",
+        "is_resolved": true,
+        "is_outdated": true,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": null,
+        "diff_side": "RIGHT",
+        "start_line": null,
+        "start_diff_side": null,
+        "original_line": 195,
+        "original_start_line": null,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjh",
+            "database_id": 4237388001,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Close passkey challenges against account-enumeration fields**\n\n`createPasskeyChallenge` is anonymous and promises account-indistinguishable discoverable-login options, but this open outer object accepts fields such as `accountExists`, `accountStatus`, or `enrolledCredentialCount`. Such responses remain schema-valid even though they directly reveal the username hint's account state; close `PasskeyChallenge` and its success envelope, leaving only the reviewed uniform option fields.\n\nAGENTS.md reference: [AGENTS.md:L156-L160](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L156-L160)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:31Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY66",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 1758,
+        "diff_side": "RIGHT",
+        "start_line": 1750,
+        "start_diff_side": "RIGHT",
+        "original_line": 1736,
+        "original_start_line": 1728,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjn",
+            "database_id": 4237388007,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind every split source object to the path asset**\n\nWhen a caller can edit asset A but supplies a `sourceObjectIds` value belonging to asset B, this schema validates the request and `splitAsset` declares neither `x-resource-binding` nor the multi-resource authorization and atomicity invariants used by `mergeAsset`. The approval digest only preserves the attacker-supplied identifier; it does not establish membership or access, so a conforming implementation can move a foreign source association or discard its independent ACL/retention policy. Require server-derived membership, authorization of every selected source object, and an atomic policy-preserving binding.\n\nAGENTS.md reference: [AGENTS.md:L170-L173](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L170-L173)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:31Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY68",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 3412,
+        "diff_side": "RIGHT",
+        "start_line": 3411,
+        "start_diff_side": "RIGHT",
+        "original_line": 3389,
+        "original_start_line": 3388,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjp",
+            "database_id": 4237388009,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Require at least one deployment target**\n\n`targetHostIds` is required only as a property, but the array has no `minItems`, so an approved deployment request with `targetHostIds: []` is schema-valid and receives the asynchronous deployment flow even though it cannot deploy or observe health on any host. Add `minItems: 1` and reject duplicate target IDs so this high-risk command always names a meaningful bounded target set.\n\nAGENTS.md reference: [AGENTS.md:L176-L179](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L176-L179)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:31Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY7A",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "specs/contracts/openapi/check_contract.py",
+        "line": 698,
+        "diff_side": "RIGHT",
+        "start_line": 581,
+        "start_diff_side": "RIGHT",
+        "original_line": 586,
+        "original_start_line": 581,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWjw",
+            "database_id": 4237388016,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Allow logout to expire the browser session cookie**\n\nThis blanket rejection permits `Set-Cookie` only on successful login or passkey verification, so `logoutSession` cannot contractually return an expired `guize_session` cookie such as one with `Max-Age=0`. Even if the server revokes the session internally, the browser will keep attaching the stale credential until expiry and subsequent requests will continue failing authentication; allow a distinct secure cookie-revocation header schema on successful logout.\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:31Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY7C",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 48,
+        "diff_side": "RIGHT",
+        "start_line": 48,
+        "start_diff_side": null,
+        "original_line": 48,
+        "original_start_line": null,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWj0",
+            "database_id": 4237388020,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Bind task status URLs to returned task IDs**\n\nThe schema validates `taskId` and `statusUrl` independently, so a 202 response may return `taskId: tsk_a` with `/api/v1/tasks/tsk_b` and still pass every contract check. Clients following the advertised status URL will then poll a different task or receive a misleading access/not-found result; derive the URL from the ID, omit one redundant field, or add response correlation validation for every asynchronous operation.\n\nAGENTS.md reference: [AGENTS.md:L147-L148](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L147-L148)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:31Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY7E",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 5885,
+        "diff_side": "RIGHT",
+        "start_line": 5877,
+        "start_diff_side": "RIGHT",
+        "original_line": 5859,
+        "original_start_line": 5851,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWj3",
+            "database_id": 4237388023,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Reject timestamps that can pin playback progress**\n\n`putPlaybackProgress` describes a timestamp-based cross-device merge but accepts any RFC3339 `lastPlayedAt` supplied by the client. A device with a badly skewed clock, or a caller submitting a far-future date, can therefore win all later merges and permanently prevent legitimate progress updates; require a server-issued ordering token or enforce a bounded server-relative timestamp before using this value for conflict resolution.\n\nAGENTS.md reference: [AGENTS.md:L176-L179](https://github.com/ElectricDogCN/Guize/blob/e70313efeb06c021b3626e5d5728d44acc8c4758/AGENTS.md#L176-L179)\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:31Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY7K",
+        "is_resolved": true,
+        "is_outdated": false,
+        "path": "contracts/openapi/common/schemas.yaml",
+        "line": 1409,
+        "diff_side": "RIGHT",
+        "start_line": 1401,
+        "start_diff_side": "RIGHT",
+        "original_line": 1387,
+        "original_start_line": 1379,
+        "resolved_by": {
+          "login": "ElectricDogCN",
+          "name": "ElectricDogCN",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+          "id": null
+        },
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c78kWj-",
+            "database_id": 4237388030,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Expose the metadata field accepted by AssetPatch**\n\n`AssetPatch` accepts and persists `description`, but the `Asset` model used by patch, get, and list responses does not declare that field. Because it is only tolerated implicitly through the open response object, generated clients have no typed way to read back the value they wrote and servers are not required to return it; add `description` as an explicit optional `Asset` property or remove it from the mutation contract.\n\nUseful? React with 👍 / 👎.",
+            "created_at": "2026-10-10T10:57:31Z",
+            "updated_at": "2026-10-10T10:57:31Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      }
+    ]
+  },
+  "ci": {
+    "workflow_runs": [
+      {
+        "id": 38049804263,
+        "name": "Governance Gate",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 635,
+        "jobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/38049804263/jobs",
+        "logs_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/38049804263/logs",
+        "workflow_id": 318794701
+      }
+    ]
+  },
+  "approval": {
+    "kind": "INDEPENDENT_EXACT_HEAD_CODE_INTEGRATION_APPROVAL",
+    "recordedAt": "2026-10-10T12:15:52.149966+00:00",
+    "expectedHead": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "expectedBase": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "prNumber": 82,
+    "prUrl": "https://github.com/ElectricDogCN/Guize/pull/82",
+    "formalSourceAccepted": true,
+    "finalIntegrationApproved": true,
+    "approvalScope": "Exact PR82 code integration only; current implementation remains in_progress and ownlease remains registered.",
+    "freshOfficialSnapshot": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-final-official-snapshot.json",
+    "freshOfficialQueriedAt": "2026-10-10 12:14:27 UTC",
+    "latestSameHeadCi": {
+      "id": 38049804263,
+      "number": 635,
+      "head": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "createdAt": "2026-10-10T11:50:09Z",
+      "event": "pull_request"
+    },
+    "ciRun": 38049804263,
+    "ciJob": 114206476582,
+    "all22ThreadsResolved": true,
+    "noNewThreadIds": true,
+    "durablePrEvidence": {
+      "bodySha256": "8f4dc55f51844def5d033ccf6025b89fd6a2f5935a26cebea570a43d7f8c749b",
+      "bodyLength": 9086,
+      "sourceTreeBaseAndCiPinned": true,
+      "all17RawSha256Present": true,
+      "gov527Api378JunitHashesPresent": true,
+      "savedCiRawSha256Present": true,
+      "rawLocalDirectoryReferenced": true,
+      "officialActionsLinkPresent": true,
+      "outsideFilesAreNotDurableGitArchives": true,
+      "originalRawArchivesRequiredInSubsequentOwnReview": true
+    },
+    "dependency": {
+      "taskId": "GZ-004",
+      "programStatus": "completed",
+      "completionLedger": {
+        "taskId": "GZ-004",
+        "reservationRef": "PR-36",
+        "reservationCommit": "56d6bfacba45d36e82376ebb5a5cea7394c88f0d",
+        "completionRef": "PR-37",
+        "mergeCommit": "1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96",
+        "taskSpec": "specs/tasks/GZ-004.md",
+        "evidencePath": "evidence/GZ-004",
+        "handoffPath": "evidence/GZ-004/handoff.md"
+      },
+      "completionMergeReachableFromActualBase": true,
+      "completedTaskAndLedgerUnchanged": true
+    },
+    "lease": {
+      "acquiredAt": "2026-10-09T11:52:29Z",
+      "expiresAt": "2026-10-16T11:52:29Z",
+      "validAtIndependentReview": true,
+      "hours": 168,
+      "renewedOrChangedByReviewer": false
+    },
+    "registeredIdentity": {
+      "owner": "ElectricDogCN",
+      "implementer": "openapi-contract-agent",
+      "reviewer": "independent-openapi-review-agent",
+      "integrator": "integration-agent",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "exclusivePaths": [
+        "contracts/openapi/**",
+        "specs/contracts/openapi/**",
+        "evidence/GZ-005/**"
+      ],
+      "sharedPaths": []
+    },
+    "scopeBasePathCount": 252,
+    "rootClean": true,
+    "sourceAcceptanceProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-source-acceptance-proof.json",
+    "remainingPremergeConditions": [
+      "Immediately before merge, recheck expectedhead902/base429, latestCI635success, allthreadsresolved/no new blocking opinion, validlease and cleanworktree; merge only expectedhead."
+    ],
+    "postmergeObligations": [
+      "Verify actual main/source merge identity and actual main checks pluspushCI before claiming main acceptance.",
+      "Prepare pureOwnReview on the SAME registered chore/GZ-005-openapi-baseline branch, preserving stableidentity/scope/lease and bindingbase toactualPR82merge; archive source17/API/CI/independent originalrecords there and complete freshapplicable14/latestCI/independentreview.",
+      "Completion from actuallyacceptedReviewmain must bind actualcodePR82merge identity, release onlyOwnlease, append onlyOwnLedger, pass its ownmandatorygates/CI/independentreview.",
+      "ActualCompletionmain mustpassallrequiredchecks before subsequentwork/V1 claims."
+    ],
+    "runtimeValidated": false,
+    "actualMainAccepted": false,
+    "fullV1Complete": false,
+    "rootMutation": false,
+    "githubMutation": false,
+    "fullGovRerun": false,
+    "wholeApiSuiteRun": false
+  },
+  "actualMerge": {
+    "sha": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+    "merged": true,
+    "message": "Pull Request successfully merged"
+  }
+}

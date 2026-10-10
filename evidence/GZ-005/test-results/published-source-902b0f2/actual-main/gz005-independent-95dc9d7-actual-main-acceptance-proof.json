@@ -1,0 +1,138 @@
+{
+  "kind": "INDEPENDENT_ACTUAL_POST_MERGE_MAIN_ACCEPTANCE",
+  "recordedAt": "2026-10-10T12:39:45.787785+00:00",
+  "actualMain": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "parents": [
+    "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+  ],
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "localFourChecksAccepted": true,
+  "actualMainAccepted": true,
+  "localChecks": {
+    "verify": 0,
+    "openapi-standard": 0,
+    "openapi-contract": 0,
+    "openapi-negative-tests": 0
+  },
+  "logs": {
+    "verify": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\verify.txt",
+      "sha256": "877d569547807c871e39349007d64217432d2ca9c7ae70898fedd1f7a807e3c7",
+      "command": "env PYTEST_ADDOPTS=--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-actual-main-95dc9d7-results/make-governance.xml make verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline",
+      "exitCode": 0
+    },
+    "openapi-standard": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\openapi-standard.txt",
+      "sha256": "4df90c5ce2543db7bfead359a8f2b82e38834c823553160c69237bfa877c84d8",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml",
+      "exitCode": 0
+    },
+    "openapi-contract": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\openapi-contract.txt",
+      "sha256": "5107b4f3d88eb74dec02614d1f378b3812a5d063c15bb3e868b1d69ad149416e",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline",
+      "exitCode": 0
+    },
+    "openapi-negative-tests": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\openapi-negative-tests.txt",
+      "sha256": "3f244747057c3f126586a4f629625e68d600936924e04be767367cf400fda50e",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-actual-main-95dc9d7-results/openapi-tests.xml",
+      "exitCode": 0
+    }
+  },
+  "junit": {
+    "make-governance.xml": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\make-governance.xml",
+      "sha256": "5c3bcc36f2de30ec98dd8b29a323603506ecd8f5a8c916d8a83fc364b68a7d36",
+      "nonemptyTestcases": 527,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    "openapi-tests.xml": {
+      "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\openapi-tests.xml",
+      "sha256": "4f45318f9f8da10f6ea931016f7ba6a25c7f6c3ebf002380138f05b97cc28bd7",
+      "nonemptyTestcases": 378,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  "fullMakeSummary": "527 passed in 743.63s",
+  "fullApiSummary": "378 passed in 260.08s",
+  "contextFile": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\context.json",
+  "contextSha256": "b881e122b43b47695be6151fa458934b9e4d7985243e60dacfff5f90ba0bf976",
+  "preexecutionSha256": "f910de4053ae2f21b47c370ea1b93b33957938a116efdf221b6172d674dc3eb8",
+  "worktreesBefore": {
+    "authoring": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verification": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    }
+  },
+  "worktreesAfter": {
+    "authoring": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verification": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    }
+  },
+  "bothWorktreesIdenticalMainBeforeAfter": true,
+  "bothWorktreesCleanBeforeAfter": true,
+  "cleanEvidence": "Successful runner snapshot asserts empty git status --porcelain on both worktrees before and after; the recorded before/after main/source/tree contexts are equal. Current Root clean separately rechecked. No fabricated empty raw status files are claimed.",
+  "localTaskContext": {
+    "suppliedBranchContext": "chore/GZ-005-openapi-baseline",
+    "actualWorkingBranches": "main",
+    "reason": "The active Task Spec retains its merged implementation branch; the logged environment supplies that task context while the actual checkout remains main.",
+    "doesNotClaimSourceCheckedOutOnImplementationBranch": true
+  },
+  "sameActualMainCi": {
+    "officialReceipt": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-95dc9d7-ci636-official-receipt.json",
+    "runId": 38051387339,
+    "jobId": 114211055085,
+    "attempt": 1,
+    "event": "push",
+    "conclusion": "success",
+    "actualCheckout": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "governance527Passed": true,
+    "testSkips": 0,
+    "conditionalTaskSpecificSkippedSteps": [
+      9,
+      18,
+      19,
+      20,
+      21
+    ],
+    "allOtherStepsAndCleanupSuccess": true,
+    "savedRawSha256": "1b69cd6649d7b39a1472b26fb7cee1c2ec15c94423bb7f551b652eca3f7c33af"
+  },
+  "originalContextCiMarker": {
+    "value": "PENDING",
+    "explanation": "Runner context retains its original PENDING marker; independently completed CI636 receipt is separate authoritative evidence. Original context/logs remain unmodified."
+  },
+  "acceptanceScope": "Actual PR82 post-merge main code baseline and its four localchecks plus mainpushCI. No new source review or test rerun.",
+  "taskCompleted": false,
+  "runtimeValidated": false,
+  "fullV1Complete": false,
+  "remainingLifecycle": "OwnReview and Completion metadata/gates/CI/independentreview still require actual subsequent execution; this main acceptance permits preparing the next legal OwnReview.",
+  "rootMutation": false,
+  "fullGovRerun": false,
+  "wholeApiSuiteRun": false
+}

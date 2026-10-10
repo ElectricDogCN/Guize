@@ -1,0 +1,12 @@
+Source Commit: 95dc9d7cec927a753e8017cd3b509ebfee681b72
+Command: /home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-actual-main-95dc9d7-results/openapi-tests.xml
+........................................................................ [ 19%]
+........................................................................ [ 38%]
+........................................................................ [ 57%]
+........................................................................ [ 76%]
+........................................................................ [ 95%]
+..................                                                       [100%]
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-actual-main-95dc9d7-results/openapi-tests.xml -
+378 passed in 260.08s (0:04:20)
+
+Exit Code: 0

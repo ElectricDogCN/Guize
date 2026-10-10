@@ -1,0 +1,95 @@
+{
+  "kind": "INDEPENDENT_EXACT_HEAD_CODE_INTEGRATION_APPROVAL",
+  "recordedAt": "2026-10-10T12:15:52.149966+00:00",
+  "expectedHead": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "expectedBase": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "prNumber": 82,
+  "prUrl": "https://github.com/ElectricDogCN/Guize/pull/82",
+  "formalSourceAccepted": true,
+  "finalIntegrationApproved": true,
+  "approvalScope": "Exact PR82 code integration only; current implementation remains in_progress and ownlease remains registered.",
+  "freshOfficialSnapshot": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-final-official-snapshot.json",
+  "freshOfficialQueriedAt": "2026-10-10 12:14:27 UTC",
+  "latestSameHeadCi": {
+    "id": 38049804263,
+    "number": 635,
+    "head": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "status": "completed",
+    "conclusion": "success",
+    "attempt": 1,
+    "createdAt": "2026-10-10T11:50:09Z",
+    "event": "pull_request"
+  },
+  "ciRun": 38049804263,
+  "ciJob": 114206476582,
+  "all22ThreadsResolved": true,
+  "noNewThreadIds": true,
+  "durablePrEvidence": {
+    "bodySha256": "8f4dc55f51844def5d033ccf6025b89fd6a2f5935a26cebea570a43d7f8c749b",
+    "bodyLength": 9086,
+    "sourceTreeBaseAndCiPinned": true,
+    "all17RawSha256Present": true,
+    "gov527Api378JunitHashesPresent": true,
+    "savedCiRawSha256Present": true,
+    "rawLocalDirectoryReferenced": true,
+    "officialActionsLinkPresent": true,
+    "outsideFilesAreNotDurableGitArchives": true,
+    "originalRawArchivesRequiredInSubsequentOwnReview": true
+  },
+  "dependency": {
+    "taskId": "GZ-004",
+    "programStatus": "completed",
+    "completionLedger": {
+      "taskId": "GZ-004",
+      "reservationRef": "PR-36",
+      "reservationCommit": "56d6bfacba45d36e82376ebb5a5cea7394c88f0d",
+      "completionRef": "PR-37",
+      "mergeCommit": "1ff9fe355f6a4ca9d36d0d82bafd416c56d91b96",
+      "taskSpec": "specs/tasks/GZ-004.md",
+      "evidencePath": "evidence/GZ-004",
+      "handoffPath": "evidence/GZ-004/handoff.md"
+    },
+    "completionMergeReachableFromActualBase": true,
+    "completedTaskAndLedgerUnchanged": true
+  },
+  "lease": {
+    "acquiredAt": "2026-10-09T11:52:29Z",
+    "expiresAt": "2026-10-16T11:52:29Z",
+    "validAtIndependentReview": true,
+    "hours": 168.0,
+    "renewedOrChangedByReviewer": false
+  },
+  "registeredIdentity": {
+    "owner": "ElectricDogCN",
+    "implementer": "openapi-contract-agent",
+    "reviewer": "independent-openapi-review-agent",
+    "integrator": "integration-agent",
+    "branch": "chore/GZ-005-openapi-baseline",
+    "exclusivePaths": [
+      "contracts/openapi/**",
+      "specs/contracts/openapi/**",
+      "evidence/GZ-005/**"
+    ],
+    "sharedPaths": []
+  },
+  "scopeBasePathCount": 252,
+  "rootClean": true,
+  "sourceAcceptanceProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-source-acceptance-proof.json",
+  "remainingPremergeConditions": [
+    "Immediately before merge, recheck expectedhead902/base429, latestCI635success, allthreadsresolved/no new blocking opinion, validlease and cleanworktree; merge only expectedhead."
+  ],
+  "postmergeObligations": [
+    "Verify actual main/source merge identity and actual main checks pluspushCI before claiming main acceptance.",
+    "Prepare pureOwnReview on the SAME registered chore/GZ-005-openapi-baseline branch, preserving stableidentity/scope/lease and bindingbase toactualPR82merge; archive source17/API/CI/independent originalrecords there and complete freshapplicable14/latestCI/independentreview.",
+    "Completion from actuallyacceptedReviewmain must bind actualcodePR82merge identity, release onlyOwnlease, append onlyOwnLedger, pass its ownmandatorygates/CI/independentreview.",
+    "ActualCompletionmain mustpassallrequiredchecks before subsequentwork/V1 claims."
+  ],
+  "runtimeValidated": false,
+  "actualMainAccepted": false,
+  "fullV1Complete": false,
+  "rootMutation": false,
+  "githubMutation": false,
+  "fullGovRerun": false,
+  "wholeApiSuiteRun": false
+}

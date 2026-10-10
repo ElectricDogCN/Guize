@@ -1,0 +1,54 @@
+{
+  "kind": "ACTUAL_GZ005_MAIN_ACCEPTANCE_CHECKS",
+  "actualMerge": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "parents": [
+    "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+  ],
+  "worktreesBefore": {
+    "authoring": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verification": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    }
+  },
+  "worktreesAfter": {
+    "authoring": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verification": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    }
+  },
+  "checks": {
+    "verify": 0,
+    "openapi-standard": 0,
+    "openapi-contract": 0,
+    "openapi-negative-tests": 0
+  },
+  "junitCounts": {
+    "make-governance.xml": 527,
+    "openapi-tests.xml": 378
+  },
+  "failuresErrorsSkips": 0,
+  "taskBranchContext": "chore/GZ-005-openapi-baseline",
+  "actualWorkingBranches": "main",
+  "contextReason": "The active Task Spec retains its merged implementation branch; the logged environment supplies that task context while the actual checkout remains main.",
+  "mainPushCI": "PENDING",
+  "fullV1Complete": false,
+  "result": "PASS"
+}
