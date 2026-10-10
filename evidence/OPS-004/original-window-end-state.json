@@ -1,0 +1,211 @@
+{
+  "observedAt": "2026-10-10T01:09:45Z",
+  "originalDeadline": "2026-10-10T01:09:31Z",
+  "originalOwnerBlob": "e25670a161ff6c33104b24d3bb8f22ce4fb06eac",
+  "main": "1dd347521445a712e0873dc762692b445373e88a",
+  "pr77": {
+    "merged": true,
+    "mergedAt": "2026-10-10T00:49:42Z",
+    "head": "c15693b9a53a1ddeb3613efdd773789e40352136",
+    "actualMerge": "1dd347521445a712e0873dc762692b445373e88a"
+  },
+  "pr78": {
+    "state": "open",
+    "merged": false,
+    "mergedAt": null,
+    "head": "b2cb1839598ee445c3cbacf9761340f3800042c7",
+    "actualMerge": null
+  },
+  "pr78CI": {
+    "jobs": [
+      {
+        "id": 114090451897,
+        "name": "Governance Checks",
+        "status": "in_progress",
+        "conclusion": null,
+        "run_id": 38010915153,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 9
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 12
+          },
+          {
+            "name": "Governance tests",
+            "status": "in_progress",
+            "conclusion": null,
+            "number": 13
+          },
+          {
+            "name": "Skip audit",
+            "status": "pending",
+            "conclusion": null,
+            "number": 14
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "pending",
+            "conclusion": null,
+            "number": 15
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "pending",
+            "conclusion": null,
+            "number": 16
+          },
+          {
+            "name": "Secret scan",
+            "status": "pending",
+            "conclusion": null,
+            "number": 17
+          },
+          {
+            "name": "Evidence check",
+            "status": "pending",
+            "conclusion": null,
+            "number": 18
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "pending",
+            "conclusion": null,
+            "number": 19
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "pending",
+            "conclusion": null,
+            "number": 20
+          },
+          {
+            "name": "Scope check",
+            "status": "pending",
+            "conclusion": null,
+            "number": 21
+          },
+          {
+            "name": "Spec sync check",
+            "status": "pending",
+            "conclusion": null,
+            "number": 22
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "pending",
+            "conclusion": null,
+            "number": 23
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "pending",
+            "conclusion": null,
+            "number": 24
+          },
+          {
+            "name": "Generate governance report",
+            "status": "pending",
+            "conclusion": null,
+            "number": 25
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "pending",
+            "conclusion": null,
+            "number": 49
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "pending",
+            "conclusion": null,
+            "number": 50
+          }
+        ]
+      }
+    ]
+  },
+  "localReviewFirstCheck": {
+    "source": "b2cb1839598ee445c3cbacf9761340f3800042c7",
+    "check": "Task",
+    "exit": 1,
+    "reason": "Missing collaboration/handoff section must contain at least one bullet."
+  },
+  "localCorrectedDraft": {
+    "source": "ca2bfc33c94a698f4f08ad51b6eddb3d4d499c1e",
+    "published": false,
+    "formalChecks": "NOT_EXECUTED"
+  },
+  "mainOPS004": "in_progress",
+  "GZ005": "reserved",
+  "reviewComplete": false,
+  "completionComplete": false,
+  "mainAllChecksPass": false
+}

@@ -1,3 +1,15 @@
+# OPS-004 具体后续恢复实现
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-followup-implementation
+Base: 1dd347521445a712e0873dc762692b445373e88a
+Event: OPS-004-FOLLOWUP-RECOVERY-20261010
+Current formal checks/full governance/same-head CI/independent integration: NOT_EXECUTED
+
+原事件已到期，准确状态和新固定期限见独立决定。原 owner-decision.md 保持原字节；原容量、失败 Review 不改称成功。新实现只增精确新事件历史来源识别和真实 Git 边界回归，后续完成身份绑定新的最后代码 PR。全零 Completion/main 前不恢复 GZ-005。
+
+## 历史记录
+
 ## 最后 prior Peer / implementation scalar 候选
 
 Task: OPS-004 / Issue71

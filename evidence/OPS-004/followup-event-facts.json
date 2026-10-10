@@ -1,0 +1,9 @@
+{
+  "event": "OPS-004-FOLLOWUP-RECOVERY-20261010",
+  "anchor": "1dd347521445a712e0873dc762692b445373e88a",
+  "document": "evidence/OPS-004/followup-owner-decision.md",
+  "blob": "784e0787701fa0b77cb4a4a5e59686a5e0908413",
+  "start": "2026-10-10T01:09:53Z",
+  "deadline": "2026-10-10T03:09:53Z",
+  "candidateChecks": "NOT_EXECUTED"
+}

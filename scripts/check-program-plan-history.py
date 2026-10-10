@@ -716,6 +716,41 @@ def historical_capacity(root: str, task_id: str, registry: dict[str, Any], polic
     ):
         AUDITED_OWNER_CAPACITY_FAILURES[label] = {"event": "OPS-004-LIFECYCLE-ADMISSION-20261009", "observationCommit": observation, "capacityResult": "FAIL", "activeCount": len(active), "highCount": high, "maxHighRiskTasks": policy["maxHighRiskTasks"]}
         return
+    # A separate fixed Owner event after the original deadline; original
+    # decision and capacity FAIL remain intact. No general exception exists.
+    followup_anchor = "1dd347521445a712e0873dc762692b445373e88a"
+    followup_blob = git(root, "rev-parse", f"{observation}:evidence/OPS-004/followup-owner-decision.md")
+    followup_registry = load_ref(root, followup_anchor, ACTIVE)
+    own = mapping(active).get("OPS-004")
+    anchor_own = mapping(followup_registry.get("tasks")).get("OPS-004") if isinstance(followup_registry, dict) else None
+    stable_own = copy.deepcopy(own)
+    stable_anchor_own = copy.deepcopy(anchor_own)
+    for item in (stable_own, stable_anchor_own):
+        if isinstance(item, dict):
+            for field in ("status", "branch", "baseSha", "agentRole"):
+                item.pop(field, None)
+    if (
+        isinstance(baseline, dict) and resolve_ref(root, f"{original}^1") == original_parent
+        and is_ancestor(root, original, followup_anchor)
+        and observation != followup_anchor and is_ancestor(root, followup_anchor, observation)
+        and observed.returncode == owner_blob.returncode == followup_blob.returncode == 0
+        and owner_blob.stdout.strip() == "e25670a161ff6c33104b24d3bb8f22ce4fb06eac"
+        and followup_blob.stdout.strip() == "784e0787701fa0b77cb4a4a5e59686a5e0908413"
+        and historical_time("2026-10-10T01:09:53Z").timestamp() <= int(observed.stdout.strip()) < historical_time("2026-10-10T03:09:53Z").timestamp()
+        and isinstance(plan, dict) and plan.get("status") == "active"
+        and isinstance(followup_registry, dict)
+        and policy == baseline.get("policy") == followup_registry.get("policy")
+        and registry.get("policy") == policy
+        and len(registry.get("tasks", [])) == len(active) == high == 2
+        and {item.get("taskId") for item in active} == {"GZ-005", "OPS-004"}
+        and mapping(active).get("GZ-005") == mapping(baseline.get("tasks")).get("GZ-005")
+        and isinstance(own, dict) and isinstance(anchor_own, dict)
+        and own.get("status") in {"in_progress", "review", "integration"}
+        and stable_own == stable_anchor_own
+        and len(active) <= int(policy["maxActiveTasks"])
+    ):
+        AUDITED_OWNER_CAPACITY_FAILURES[label] = {"event": "OPS-004-FOLLOWUP-RECOVERY-20261010", "observationCommit": observation, "capacityResult": "FAIL", "activeCount": len(active), "highCount": high, "maxHighRiskTasks": policy["maxHighRiskTasks"]}
+        return
     errors.append(f"{label} exceeds historical active/high capacity limits")
 
 

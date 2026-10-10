@@ -1,0 +1,4 @@
+Source Commit: b2cb1839598ee445c3cbacf9761340f3800042c7
+Command: git status --porcelain
+
+Exit Code: 0
