@@ -1,0 +1,13 @@
+Exploratory uncommitted dirty worktree; not exact published source validation.
+Command: ["/tmp/guize-gz005-openapi-20261009-venv/bin/python", "specs/contracts/openapi/check_contract.py", "--base-ref", "429a6566d81f128cb618c524ee8dc22faba1c0a4", "--initial-baseline"]
+Traceback (most recent call last):
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize/specs/contracts/openapi/check_contract.py", line 557, in <module>
+    main()
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize/specs/contracts/openapi/check_contract.py", line 525, in main
+    spec=resolve(read_yaml(ENTRY)); result=verify(spec)
+                                           ^^^^^^^^^^^^
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize/specs/contracts/openapi/check_contract.py", line 433, in verify
+    raise ContractError('coverage differs from actual operation inventory')
+ContractError: coverage differs from actual operation inventory
+
+ExitCode: 1

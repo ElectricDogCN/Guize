@@ -1,0 +1,633 @@
+contractId: OPENAPI-V1
+authority: specs/requirements/v1/requirements.yaml
+operations:
+- operationId: loginPassword
+  method: POST
+  path: /auth/password:login
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: createPasskeyChallenge
+  method: POST
+  path: /auth/passkeys:options
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: verifyPasskey
+  method: POST
+  path: /auth/passkeys:verify
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: getSession
+  method: GET
+  path: /auth/session
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: logoutSession
+  method: POST
+  path: /auth/session:logout
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: createStepUp
+  method: POST
+  path: /auth/step-up
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: listRoles
+  method: GET
+  path: /roles
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: createRole
+  method: POST
+  path: /roles
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: replaceRole
+  method: PUT
+  path: /roles/{roleId}
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: listUsers
+  method: GET
+  path: /users
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: createUser
+  method: POST
+  path: /users
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: changeUser
+  method: PATCH
+  path: /users/{userId}
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: createPasskeyRegistrationChallenge
+  method: POST
+  path: /auth/passkeys/registration:options
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: registerPasskey
+  method: POST
+  path: /auth/passkeys/registration:verify
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008
+- operationId: listDataSources
+  method: GET
+  path: /data-sources
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: createDataSource
+  method: POST
+  path: /data-sources
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: getDataSource
+  method: GET
+  path: /data-sources/{sourceId}
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: patchDataSource
+  method: PATCH
+  path: /data-sources/{sourceId}
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: getSourceCredentialReference
+  method: GET
+  path: /data-sources/{sourceId}/credential-reference
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: changeSourceCredentialReference
+  method: PUT
+  path: /data-sources/{sourceId}/credential-reference
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: probeDataSource
+  method: POST
+  path: /data-sources/{sourceId}:probe
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: syncDataSource
+  method: POST
+  path: /data-sources/{sourceId}:sync
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: revokeDataSource
+  method: POST
+  path: /data-sources/{sourceId}:revoke
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: listSourceObjects
+  method: GET
+  path: /data-sources/{sourceId}/objects
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: listAssets
+  method: GET
+  path: /assets
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: getAsset
+  method: GET
+  path: /assets/{assetId}
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: patchAsset
+  method: PATCH
+  path: /assets/{assetId}
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: getPublicAsset
+  method: GET
+  path: /public/assets/{assetId}
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: listAssetVersions
+  method: GET
+  path: /assets/{assetId}/versions
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: listAssetSources
+  method: GET
+  path: /assets/{assetId}/source-objects
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: listRenditions
+  method: GET
+  path: /assets/{assetId}/renditions
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: getAssetAcl
+  method: GET
+  path: /assets/{assetId}/acl
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: replaceAssetAcl
+  method: PUT
+  path: /assets/{assetId}/acl
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: publishAsset
+  method: POST
+  path: /assets/{assetId}:publish
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: unpublishAsset
+  method: POST
+  path: /assets/{assetId}:unpublish
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: mergeAsset
+  method: POST
+  path: /assets/{assetId}:merge
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: splitAsset
+  method: POST
+  path: /assets/{assetId}:split
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: listTasks
+  method: GET
+  path: /tasks
+  moduleId: MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0008
+- operationId: getTask
+  method: GET
+  path: /tasks/{taskId}
+  moduleId: MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0008
+- operationId: pauseTask
+  method: POST
+  path: /tasks/{taskId}:pause
+  moduleId: MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0008
+- operationId: resumeTask
+  method: POST
+  path: /tasks/{taskId}:resume
+  moduleId: MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0008
+- operationId: cancelTask
+  method: POST
+  path: /tasks/{taskId}:cancel
+  moduleId: MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0008
+- operationId: retryTask
+  method: POST
+  path: /tasks/{taskId}:retry
+  moduleId: MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0008
+- operationId: changeTaskPriority
+  method: PATCH
+  path: /tasks/{taskId}/priority
+  moduleId: MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0008
+- operationId: streamTaskEvents
+  method: GET
+  path: /tasks/{taskId}/events
+  moduleId: MOD-TASK
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0008
+- operationId: listCacheEntries
+  method: GET
+  path: /cache-entries
+  moduleId: MOD-STORAGE
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: cacheAsset
+  method: POST
+  path: /assets/{assetId}:cache
+  moduleId: MOD-STORAGE
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: evictCacheEntry
+  method: POST
+  path: /cache-entries/{cacheId}:evict
+  moduleId: MOD-STORAGE
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: listReplicas
+  method: GET
+  path: /assets/{assetId}/replicas
+  moduleId: MOD-STORAGE
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: retainAsset
+  method: POST
+  path: /assets/{assetId}:retain
+  moduleId: MOD-STORAGE
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: restoreAsset
+  method: POST
+  path: /assets/{assetId}:restore
+  moduleId: MOD-STORAGE
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: listRetentionHolds
+  method: GET
+  path: /assets/{assetId}/retention-holds
+  moduleId: MOD-STORAGE
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: probeMedia
+  method: POST
+  path: /assets/{assetId}:probe
+  moduleId: MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: transcodeAsset
+  method: POST
+  path: /assets/{assetId}/transcode
+  moduleId: MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: enrichAsset
+  method: POST
+  path: /assets/{assetId}:enrich
+  moduleId: MOD-AI
+  requirementIds:
+  - REQ-V1-0004
+  - REQ-V1-0008
+- operationId: listDerivedArtifacts
+  method: GET
+  path: /assets/{assetId}/artifacts
+  moduleId: MOD-AI
+  requirementIds:
+  - REQ-V1-0004
+  - REQ-V1-0008
+- operationId: getArtifactContent
+  method: GET
+  path: /artifacts/{artifactId}/content
+  moduleId: MOD-AI
+  requirementIds:
+  - REQ-V1-0004
+  - REQ-V1-0008
+- operationId: createArtifactRevision
+  method: POST
+  path: /artifacts/{artifactId}/revisions
+  moduleId: MOD-AI
+  requirementIds:
+  - REQ-V1-0004
+  - REQ-V1-0008
+- operationId: publishArtifact
+  method: POST
+  path: /artifacts/{artifactId}:publish
+  moduleId: MOD-AI
+  requirementIds:
+  - REQ-V1-0004
+  - REQ-V1-0008
+- operationId: searchAssets
+  method: POST
+  path: /search
+  moduleId: MOD-SEARCH
+  requirementIds:
+  - REQ-V1-0005
+  - REQ-V1-0008
+- operationId: recommendAssets
+  method: GET
+  path: /assets/{assetId}/recommendations
+  moduleId: MOD-SEARCH
+  requirementIds:
+  - REQ-V1-0005
+  - REQ-V1-0008
+- operationId: rebuildSearchIndexes
+  method: POST
+  path: /search/indexes:rebuild
+  moduleId: MOD-SEARCH
+  requirementIds:
+  - REQ-V1-0005
+  - REQ-V1-0008
+- operationId: createPlaybackPlan
+  method: POST
+  path: /assets/{assetId}/playback-plans
+  moduleId: MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: createPublicPlaybackPlan
+  method: POST
+  path: /public/assets/{assetId}/playback-plans
+  moduleId: MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: revokePlaybackGrant
+  method: POST
+  path: /playback-grants/{grantId}:revoke
+  moduleId: MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: getPlaybackProgress
+  method: GET
+  path: /playback-progress/{assetId}
+  moduleId: MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: putPlaybackProgress
+  method: PUT
+  path: /playback-progress/{assetId}
+  moduleId: MOD-MEDIA
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+- operationId: listPolicies
+  method: GET
+  path: /policies
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: createPolicy
+  method: POST
+  path: /policies
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: getPolicy
+  method: GET
+  path: /policies/{policyId}
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: getPolicyContent
+  method: GET
+  path: /policies/{policyId}/versions/{revision}/content
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: validatePolicy
+  method: POST
+  path: /policies/{policyId}:validate
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: simulatePolicy
+  method: POST
+  path: /policies/{policyId}:simulate
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: canaryPolicy
+  method: POST
+  path: /policies/{policyId}:canary
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: publishPolicy
+  method: POST
+  path: /policies/{policyId}:publish
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: rollbackPolicy
+  method: POST
+  path: /policies/{policyId}:rollback
+  moduleId: MOD-POLICY
+  requirementIds:
+  - REQ-V1-0007
+  - REQ-V1-0009
+- operationId: validateConfiguration
+  method: POST
+  path: /configurations/{configurationId}:validate
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: simulateConfiguration
+  method: POST
+  path: /configurations/{configurationId}:simulate
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: canaryConfiguration
+  method: POST
+  path: /configurations/{configurationId}:canary
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: publishConfiguration
+  method: POST
+  path: /configurations/{configurationId}:publish
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: rollbackConfiguration
+  method: POST
+  path: /configurations/{configurationId}:rollback
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: listConfigurations
+  method: GET
+  path: /configurations
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: createConfiguration
+  method: POST
+  path: /configurations
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: getConfiguration
+  method: GET
+  path: /configurations/{configurationId}
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: getConfigurationContent
+  method: GET
+  path: /configurations/{configurationId}/versions/{revision}/content
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: listDeploymentProfiles
+  method: GET
+  path: /deployment-profiles
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: createDeployment
+  method: POST
+  path: /deployments
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: listWorkers
+  method: GET
+  path: /workers
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: registerWorker
+  method: POST
+  path: /workers/register
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: heartbeatWorker
+  method: POST
+  path: /workers/heartbeat
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: listApprovals
+  method: GET
+  path: /approvals
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: createApproval
+  method: POST
+  path: /approvals
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: decideApproval
+  method: POST
+  path: /approvals/{approvalId}:decide
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009

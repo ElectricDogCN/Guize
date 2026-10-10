@@ -1,0 +1,5 @@
+Source Commit: d0d93f43d6048fd33dbdeab97a06609bc7a2f717
+Command: python scripts/check-program-plan-history.py --base-ref 413a6a4dd91b5d79a3d2b7d1e5f03f8121848170 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "413a6a4dd91b5d79a3d2b7d1e5f03f8121848170", "headRef": "HEAD", "completionRecords": 2}}
+
+Exit Code: 0

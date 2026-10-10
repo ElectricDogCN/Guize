@@ -1,0 +1,482 @@
+openapi: 3.1.1
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Guize V1 Control API
+  version: 1.0.0
+  description: Versioned control-plane API baseline; implementation and production acceptance remain separate.
+  x-i18n:
+    en-US:
+      description: Versioned control-plane API baseline; implementation and production acceptance remain separate.
+      title: Guize V1 Control API
+    zh-CN:
+      description: 版本化控制面接口基线，实现与生产验收另行执行。
+      title: 归泽 V1 控制面接口
+servers:
+- url: /api/v1
+  description: Same-origin versioned gateway.
+  x-i18n:
+    en-US:
+      description: Same-origin versioned gateway.
+    zh-CN:
+      description: 同源版本化网关。
+x-contract-id: OPENAPI-V1
+x-error-catalog: errors.yaml
+paths:
+  /auth/password:login:
+    $ref: ../iam/paths.yaml#/~1auth~1password:login
+  /auth/passkeys:options:
+    $ref: ../iam/paths.yaml#/~1auth~1passkeys:options
+  /auth/passkeys:verify:
+    $ref: ../iam/paths.yaml#/~1auth~1passkeys:verify
+  /auth/session:
+    $ref: ../iam/paths.yaml#/~1auth~1session
+  /auth/session:logout:
+    $ref: ../iam/paths.yaml#/~1auth~1session:logout
+  /auth/step-up:
+    $ref: ../iam/paths.yaml#/~1auth~1step-up
+  /roles:
+    $ref: ../iam/paths.yaml#/~1roles
+  /roles/{roleId}:
+    $ref: ../iam/paths.yaml#/~1roles~1{roleId}
+  /users:
+    $ref: ../iam/paths.yaml#/~1users
+  /users/{userId}:
+    $ref: ../iam/paths.yaml#/~1users~1{userId}
+  /auth/passkeys/registration:options:
+    $ref: ../iam/paths.yaml#/~1auth~1passkeys~1registration:options
+  /auth/passkeys/registration:verify:
+    $ref: ../iam/paths.yaml#/~1auth~1passkeys~1registration:verify
+  /data-sources:
+    $ref: ../source/paths.yaml#/~1data-sources
+  /data-sources/{sourceId}:
+    $ref: ../source/paths.yaml#/~1data-sources~1{sourceId}
+  /data-sources/{sourceId}/credential-reference:
+    $ref: ../source/paths.yaml#/~1data-sources~1{sourceId}~1credential-reference
+  /data-sources/{sourceId}:probe:
+    $ref: ../source/paths.yaml#/~1data-sources~1{sourceId}:probe
+  /data-sources/{sourceId}:sync:
+    $ref: ../source/paths.yaml#/~1data-sources~1{sourceId}:sync
+  /data-sources/{sourceId}:revoke:
+    $ref: ../source/paths.yaml#/~1data-sources~1{sourceId}:revoke
+  /data-sources/{sourceId}/objects:
+    $ref: ../source/paths.yaml#/~1data-sources~1{sourceId}~1objects
+  /assets:
+    $ref: ../asset/paths.yaml#/~1assets
+  /assets/{assetId}:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}
+  /public/assets/{assetId}:
+    $ref: ../asset/paths.yaml#/~1public~1assets~1{assetId}
+  /assets/{assetId}/versions:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}~1versions
+  /assets/{assetId}/source-objects:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}~1source-objects
+  /assets/{assetId}/renditions:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}~1renditions
+  /assets/{assetId}/acl:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}~1acl
+  /assets/{assetId}:publish:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}:publish
+  /assets/{assetId}:unpublish:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}:unpublish
+  /assets/{assetId}:merge:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}:merge
+  /assets/{assetId}:split:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}:split
+  /tasks:
+    $ref: ../task/paths.yaml#/~1tasks
+  /tasks/{taskId}:
+    $ref: ../task/paths.yaml#/~1tasks~1{taskId}
+  /tasks/{taskId}:pause:
+    $ref: ../task/paths.yaml#/~1tasks~1{taskId}:pause
+  /tasks/{taskId}:resume:
+    $ref: ../task/paths.yaml#/~1tasks~1{taskId}:resume
+  /tasks/{taskId}:cancel:
+    $ref: ../task/paths.yaml#/~1tasks~1{taskId}:cancel
+  /tasks/{taskId}:retry:
+    $ref: ../task/paths.yaml#/~1tasks~1{taskId}:retry
+  /tasks/{taskId}/priority:
+    $ref: ../task/paths.yaml#/~1tasks~1{taskId}~1priority
+  /tasks/{taskId}/events:
+    $ref: ../task/paths.yaml#/~1tasks~1{taskId}~1events
+  /cache-entries:
+    $ref: ../storage/paths.yaml#/~1cache-entries
+  /assets/{assetId}:cache:
+    $ref: ../storage/paths.yaml#/~1assets~1{assetId}:cache
+  /cache-entries/{cacheId}:evict:
+    $ref: ../storage/paths.yaml#/~1cache-entries~1{cacheId}:evict
+  /assets/{assetId}/replicas:
+    $ref: ../storage/paths.yaml#/~1assets~1{assetId}~1replicas
+  /assets/{assetId}:retain:
+    $ref: ../storage/paths.yaml#/~1assets~1{assetId}:retain
+  /assets/{assetId}:restore:
+    $ref: ../storage/paths.yaml#/~1assets~1{assetId}:restore
+  /assets/{assetId}/retention-holds:
+    $ref: ../storage/paths.yaml#/~1assets~1{assetId}~1retention-holds
+  /assets/{assetId}:probe:
+    $ref: ../media/paths.yaml#/~1assets~1{assetId}:probe
+  /assets/{assetId}/transcode:
+    $ref: ../media/paths.yaml#/~1assets~1{assetId}~1transcode
+  /assets/{assetId}:enrich:
+    $ref: ../ai/paths.yaml#/~1assets~1{assetId}:enrich
+  /assets/{assetId}/artifacts:
+    $ref: ../ai/paths.yaml#/~1assets~1{assetId}~1artifacts
+  /artifacts/{artifactId}/content:
+    $ref: ../ai/paths.yaml#/~1artifacts~1{artifactId}~1content
+  /artifacts/{artifactId}/revisions:
+    $ref: ../ai/paths.yaml#/~1artifacts~1{artifactId}~1revisions
+  /artifacts/{artifactId}:publish:
+    $ref: ../ai/paths.yaml#/~1artifacts~1{artifactId}:publish
+  /search:
+    $ref: ../search/paths.yaml#/~1search
+  /assets/{assetId}/recommendations:
+    $ref: ../search/paths.yaml#/~1assets~1{assetId}~1recommendations
+  /search/indexes:rebuild:
+    $ref: ../search/paths.yaml#/~1search~1indexes:rebuild
+  /assets/{assetId}/playback-plans:
+    $ref: ../playback/paths.yaml#/~1assets~1{assetId}~1playback-plans
+  /public/assets/{assetId}/playback-plans:
+    $ref: ../playback/paths.yaml#/~1public~1assets~1{assetId}~1playback-plans
+  /playback-grants/{grantId}:revoke:
+    $ref: ../playback/paths.yaml#/~1playback-grants~1{grantId}:revoke
+  /playback-progress/{assetId}:
+    $ref: ../playback/paths.yaml#/~1playback-progress~1{assetId}
+  /policies:
+    $ref: ../policy/paths.yaml#/~1policies
+  /policies/{policyId}:
+    $ref: ../policy/paths.yaml#/~1policies~1{policyId}
+  /policies/{policyId}/versions/{revision}/content:
+    $ref: ../policy/paths.yaml#/~1policies~1{policyId}~1versions~1{revision}~1content
+  /policies/{policyId}:validate:
+    $ref: ../policy/paths.yaml#/~1policies~1{policyId}:validate
+  /policies/{policyId}:simulate:
+    $ref: ../policy/paths.yaml#/~1policies~1{policyId}:simulate
+  /policies/{policyId}:canary:
+    $ref: ../policy/paths.yaml#/~1policies~1{policyId}:canary
+  /policies/{policyId}:publish:
+    $ref: ../policy/paths.yaml#/~1policies~1{policyId}:publish
+  /policies/{policyId}:rollback:
+    $ref: ../policy/paths.yaml#/~1policies~1{policyId}:rollback
+  /configurations/{configurationId}:validate:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}:validate
+  /configurations/{configurationId}:simulate:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}:simulate
+  /configurations/{configurationId}:canary:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}:canary
+  /configurations/{configurationId}:publish:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}:publish
+  /configurations/{configurationId}:rollback:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}:rollback
+  /configurations:
+    $ref: ../config/paths.yaml#/~1configurations
+  /configurations/{configurationId}:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}
+  /configurations/{configurationId}/versions/{revision}/content:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}~1versions~1{revision}~1content
+  /deployment-profiles:
+    $ref: ../config/paths.yaml#/~1deployment-profiles
+  /deployments:
+    $ref: ../config/paths.yaml#/~1deployments
+  /workers:
+    $ref: ../config/paths.yaml#/~1workers
+  /workers/register:
+    $ref: ../config/paths.yaml#/~1workers~1register
+  /workers/heartbeat:
+    $ref: ../config/paths.yaml#/~1workers~1heartbeat
+  /approvals:
+    $ref: ../config/paths.yaml#/~1approvals
+  /approvals/{approvalId}:decide:
+    $ref: ../config/paths.yaml#/~1approvals~1{approvalId}:decide
+components:
+  securitySchemes:
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: guize_session
+      description: Secure HttpOnly SameSite session; CSRF required for writes.
+      x-i18n:
+        en-US:
+          description: Secure HttpOnly SameSite session; CSRF required for writes.
+        zh-CN:
+          description: Secure HttpOnly SameSite 会话，写操作必须防护 CSRF。
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Short-lived scoped user/machine token, never source credentials.
+      x-i18n:
+        en-US:
+          description: Short-lived scoped user/machine token, never source credentials.
+        zh-CN:
+          description: 受限的短期用户或机器令牌，不是来源凭据。
+  schemas:
+    TaskAccepted:
+      $ref: schemas.yaml#/TaskAccepted
+    Acknowledgement:
+      $ref: schemas.yaml#/Acknowledgement
+    Session:
+      $ref: schemas.yaml#/Session
+    PasswordLogin:
+      $ref: schemas.yaml#/PasswordLogin
+    PasskeyOptionsRequest:
+      $ref: schemas.yaml#/PasskeyOptionsRequest
+    PasskeyChallenge:
+      $ref: schemas.yaml#/PasskeyChallenge
+    PasskeyAssertion:
+      $ref: schemas.yaml#/PasskeyAssertion
+    ReauthenticationProof:
+      $ref: schemas.yaml#/ReauthenticationProof
+    StepUpRequest:
+      $ref: schemas.yaml#/StepUpRequest
+    StepUpProof:
+      $ref: schemas.yaml#/StepUpProof
+    AclEntry:
+      $ref: schemas.yaml#/AclEntry
+    AclChange:
+      $ref: schemas.yaml#/AclChange
+    Role:
+      $ref: schemas.yaml#/Role
+    RoleDraft:
+      $ref: schemas.yaml#/RoleDraft
+    RoleReplacement:
+      $ref: schemas.yaml#/RoleReplacement
+    DataSource:
+      $ref: schemas.yaml#/DataSource
+    SourceDraft:
+      $ref: schemas.yaml#/SourceDraft
+    SourcePatch:
+      $ref: schemas.yaml#/SourcePatch
+    SourceCredentialReference:
+      $ref: schemas.yaml#/SourceCredentialReference
+    SourceCredentialChange:
+      $ref: schemas.yaml#/SourceCredentialChange
+    User:
+      $ref: schemas.yaml#/User
+    UserDraft:
+      $ref: schemas.yaml#/UserDraft
+    UserChange:
+      $ref: schemas.yaml#/UserChange
+    PasskeyRegistration:
+      $ref: schemas.yaml#/PasskeyRegistration
+    SourceSyncRequest:
+      $ref: schemas.yaml#/SourceSyncRequest
+    SourceObject:
+      $ref: schemas.yaml#/SourceObject
+    Asset:
+      $ref: schemas.yaml#/Asset
+    AssetPatch:
+      $ref: schemas.yaml#/AssetPatch
+    PublicAsset:
+      $ref: schemas.yaml#/PublicAsset
+    AssetVersion:
+      $ref: schemas.yaml#/AssetVersion
+    Rendition:
+      $ref: schemas.yaml#/Rendition
+    PublicationRequest:
+      $ref: schemas.yaml#/PublicationRequest
+    MergeRequest:
+      $ref: schemas.yaml#/MergeRequest
+    SplitRequest:
+      $ref: schemas.yaml#/SplitRequest
+    Task:
+      $ref: schemas.yaml#/Task
+    TaskCommand:
+      $ref: schemas.yaml#/TaskCommand
+    TaskPriority:
+      $ref: schemas.yaml#/TaskPriority
+    TaskEvent:
+      $ref: schemas.yaml#/TaskEvent
+    ProcessingRequest:
+      $ref: schemas.yaml#/ProcessingRequest
+    AiRequest:
+      $ref: schemas.yaml#/AiRequest
+    DerivedArtifact:
+      $ref: schemas.yaml#/DerivedArtifact
+    ArtifactRevision:
+      $ref: schemas.yaml#/ArtifactRevision
+    CacheEntry:
+      $ref: schemas.yaml#/CacheEntry
+    StorageRequest:
+      $ref: schemas.yaml#/StorageRequest
+    Replica:
+      $ref: schemas.yaml#/Replica
+    RetentionHold:
+      $ref: schemas.yaml#/RetentionHold
+    SearchQuery:
+      $ref: schemas.yaml#/SearchQuery
+    SearchHit:
+      $ref: schemas.yaml#/SearchHit
+    PlaybackRequest:
+      $ref: schemas.yaml#/PlaybackRequest
+    PlaybackPlan:
+      $ref: schemas.yaml#/PlaybackPlan
+    PublicPlaybackRequest:
+      $ref: schemas.yaml#/PublicPlaybackRequest
+    PlaybackProgress:
+      $ref: schemas.yaml#/PlaybackProgress
+    PolicyDraft:
+      $ref: schemas.yaml#/PolicyDraft
+    ConfigurationDraft:
+      $ref: schemas.yaml#/ConfigurationDraft
+    VersionedDraft:
+      $ref: schemas.yaml#/VersionedDraft
+    PolicyContent:
+      $ref: schemas.yaml#/PolicyContent
+    ConfigurationContent:
+      $ref: schemas.yaml#/ConfigurationContent
+    ArtifactContent:
+      $ref: schemas.yaml#/ArtifactContent
+    ReleaseCommand:
+      $ref: schemas.yaml#/ReleaseCommand
+    SimulationRequest:
+      $ref: schemas.yaml#/SimulationRequest
+    Worker:
+      $ref: schemas.yaml#/Worker
+    WorkerRegistration:
+      $ref: schemas.yaml#/WorkerRegistration
+    WorkerHeartbeat:
+      $ref: schemas.yaml#/WorkerHeartbeat
+    WorkerLease:
+      $ref: schemas.yaml#/WorkerLease
+    DeploymentRequest:
+      $ref: schemas.yaml#/DeploymentRequest
+    Approval:
+      $ref: schemas.yaml#/Approval
+    ApprovalRequest:
+      $ref: schemas.yaml#/ApprovalRequest
+    ApprovalDecision:
+      $ref: schemas.yaml#/ApprovalDecision
+    ErrorDetails:
+      $ref: schemas.yaml#/ErrorDetails
+    ErrorEnvelope:
+      $ref: schemas.yaml#/ErrorEnvelope
+    SessionEnvelope:
+      $ref: schemas.yaml#/SessionEnvelope
+    PasskeyChallengeEnvelope:
+      $ref: schemas.yaml#/PasskeyChallengeEnvelope
+    AcknowledgementEnvelope:
+      $ref: schemas.yaml#/AcknowledgementEnvelope
+    StepUpProofEnvelope:
+      $ref: schemas.yaml#/StepUpProofEnvelope
+    RolePageData:
+      $ref: schemas.yaml#/RolePageData
+    RolePage:
+      $ref: schemas.yaml#/RolePage
+    RoleEnvelope:
+      $ref: schemas.yaml#/RoleEnvelope
+    UserPageData:
+      $ref: schemas.yaml#/UserPageData
+    UserPage:
+      $ref: schemas.yaml#/UserPage
+    UserEnvelope:
+      $ref: schemas.yaml#/UserEnvelope
+    DataSourcePageData:
+      $ref: schemas.yaml#/DataSourcePageData
+    DataSourcePage:
+      $ref: schemas.yaml#/DataSourcePage
+    DataSourceEnvelope:
+      $ref: schemas.yaml#/DataSourceEnvelope
+    SourceCredentialReferenceEnvelope:
+      $ref: schemas.yaml#/SourceCredentialReferenceEnvelope
+    TaskAcceptedEnvelope:
+      $ref: schemas.yaml#/TaskAcceptedEnvelope
+    SourceObjectPageData:
+      $ref: schemas.yaml#/SourceObjectPageData
+    SourceObjectPage:
+      $ref: schemas.yaml#/SourceObjectPage
+    AssetPageData:
+      $ref: schemas.yaml#/AssetPageData
+    AssetPage:
+      $ref: schemas.yaml#/AssetPage
+    AssetEnvelope:
+      $ref: schemas.yaml#/AssetEnvelope
+    PublicAssetEnvelope:
+      $ref: schemas.yaml#/PublicAssetEnvelope
+    AssetVersionPageData:
+      $ref: schemas.yaml#/AssetVersionPageData
+    AssetVersionPage:
+      $ref: schemas.yaml#/AssetVersionPage
+    RenditionPageData:
+      $ref: schemas.yaml#/RenditionPageData
+    RenditionPage:
+      $ref: schemas.yaml#/RenditionPage
+    AclEntryPageData:
+      $ref: schemas.yaml#/AclEntryPageData
+    AclEntryPage:
+      $ref: schemas.yaml#/AclEntryPage
+    TaskPageData:
+      $ref: schemas.yaml#/TaskPageData
+    TaskPage:
+      $ref: schemas.yaml#/TaskPage
+    TaskEnvelope:
+      $ref: schemas.yaml#/TaskEnvelope
+    CacheEntryPageData:
+      $ref: schemas.yaml#/CacheEntryPageData
+    CacheEntryPage:
+      $ref: schemas.yaml#/CacheEntryPage
+    ReplicaPageData:
+      $ref: schemas.yaml#/ReplicaPageData
+    ReplicaPage:
+      $ref: schemas.yaml#/ReplicaPage
+    RetentionHoldPageData:
+      $ref: schemas.yaml#/RetentionHoldPageData
+    RetentionHoldPage:
+      $ref: schemas.yaml#/RetentionHoldPage
+    DerivedArtifactPageData:
+      $ref: schemas.yaml#/DerivedArtifactPageData
+    DerivedArtifactPage:
+      $ref: schemas.yaml#/DerivedArtifactPage
+    ArtifactContentEnvelope:
+      $ref: schemas.yaml#/ArtifactContentEnvelope
+    DerivedArtifactEnvelope:
+      $ref: schemas.yaml#/DerivedArtifactEnvelope
+    SearchHitPageData:
+      $ref: schemas.yaml#/SearchHitPageData
+    SearchHitPage:
+      $ref: schemas.yaml#/SearchHitPage
+    PlaybackPlanEnvelope:
+      $ref: schemas.yaml#/PlaybackPlanEnvelope
+    PlaybackProgressEnvelope:
+      $ref: schemas.yaml#/PlaybackProgressEnvelope
+    VersionedDraftPageData:
+      $ref: schemas.yaml#/VersionedDraftPageData
+    VersionedDraftPage:
+      $ref: schemas.yaml#/VersionedDraftPage
+    VersionedDraftEnvelope:
+      $ref: schemas.yaml#/VersionedDraftEnvelope
+    PolicyContentEnvelope:
+      $ref: schemas.yaml#/PolicyContentEnvelope
+    ConfigurationContentEnvelope:
+      $ref: schemas.yaml#/ConfigurationContentEnvelope
+    WorkerPageData:
+      $ref: schemas.yaml#/WorkerPageData
+    WorkerPage:
+      $ref: schemas.yaml#/WorkerPage
+    WorkerLeaseEnvelope:
+      $ref: schemas.yaml#/WorkerLeaseEnvelope
+    ApprovalPageData:
+      $ref: schemas.yaml#/ApprovalPageData
+    ApprovalPage:
+      $ref: schemas.yaml#/ApprovalPage
+    ApprovalEnvelope:
+      $ref: schemas.yaml#/ApprovalEnvelope
+    AclEntryInput:
+      $ref: schemas.yaml#/AclEntryInput
+    PlaybackProgressInput:
+      $ref: schemas.yaml#/PlaybackProgressInput
+    WebAuthnRpEntity:
+      $ref: schemas.yaml#/WebAuthnRpEntity
+    WebAuthnUserEntity:
+      $ref: schemas.yaml#/WebAuthnUserEntity
+    WebAuthnAlgorithm:
+      $ref: schemas.yaml#/WebAuthnAlgorithm
+    WebAuthnCredentialDescriptor:
+      $ref: schemas.yaml#/WebAuthnCredentialDescriptor
+    WebAuthnCreationOptions:
+      $ref: schemas.yaml#/WebAuthnCreationOptions
+    WebAuthnRequestOptions:
+      $ref: schemas.yaml#/WebAuthnRequestOptions
+    PasskeyRegistrationChallenge:
+      $ref: schemas.yaml#/PasskeyRegistrationChallenge
+    PasskeyRegistrationChallengeEnvelope:
+      $ref: schemas.yaml#/PasskeyRegistrationChallengeEnvelope
+    ProtectedRequestIntent:
+      $ref: schemas.yaml#/ProtectedRequestIntent

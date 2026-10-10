@@ -1,10 +1,89 @@
-# GZ-005 changed files
+# GZ-005 implementation changed paths
 
-- specs/coordination/program-plan.yaml: only GZ-005 changes resolved status to reserved.
-- specs/coordination/active-work.yaml: one GZ-005 registration and bounded lease.
-- specs/tasks/GZ-005.md: actual Issue #68, roles, contract scope and acceptance context.
-- evidence/GZ-005/**: reservation scope, actual source validation and explicit applicability.
+Base: 429a6566d81f128cb618c524ee8dc22faba1c0a4
+Branch: chore/GZ-005-openapi-baseline
 
-The Completion Ledger and existing completed tasks remain byte-identical to base
-788e6f257d9052db81a8df793bf8b448a05011a1. Actual 731ee84 source logs are archived
-under test-results/reservation-20261009/. Latest CI and post-main remain pending.
+- contracts/openapi/ai/paths.yaml
+- contracts/openapi/asset/paths.yaml
+- contracts/openapi/common/errors.yaml
+- contracts/openapi/common/http-samples.json
+- contracts/openapi/common/openapi.yaml
+- contracts/openapi/common/schemas.yaml
+- contracts/openapi/config/paths.yaml
+- contracts/openapi/iam/paths.yaml
+- contracts/openapi/media/paths.yaml
+- contracts/openapi/playback/paths.yaml
+- contracts/openapi/policy/paths.yaml
+- contracts/openapi/search/paths.yaml
+- contracts/openapi/source/paths.yaml
+- contracts/openapi/storage/paths.yaml
+- contracts/openapi/task/paths.yaml
+- evidence/GZ-005/changed-files.md
+- evidence/GZ-005/follow-ups.md
+- evidence/GZ-005/handoff.md
+- evidence/GZ-005/scope.md
+- evidence/GZ-005/summary.md
+- evidence/GZ-005/test-results/README.md
+- evidence/GZ-005/test-results/accepted-main-prerequisite/github-main-ci629.txt
+- evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-clean-after.txt
+- evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-clean-before.txt
+- evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-context.json
+- evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-make-governance.xml
+- evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-source.txt
+- evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-status.json
+- evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-tree.txt
+- evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-verify.txt
+- evidence/GZ-005/test-results/accepted-main-prerequisite/ops004-actual-main-acceptance.json
+- evidence/GZ-005/test-results/accepted-main-prerequisite/ops004-followup-main-ci-proof.json
+- evidence/GZ-005/test-results/accepted-main-prerequisite/ops004-independent-main-ci629-native-verification-plan-proof.json
+- evidence/GZ-005/test-results/independent-dirty-preparation/review.json
+- evidence/GZ-005/test-results/preimplementation-archive-index.json
+- evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/context.json
+- evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/contract.txt
+- evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/standard.txt
+- evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/tests.txt
+- evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/tests.xml
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/coordination.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/finalization.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/history.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/integrity.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/lifecycle.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/raw-lifecycle.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/readiness.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/schemas.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/source.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/status.json
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/task.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/transitions.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-activation-results/tree.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/coordination.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/finalization.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/history.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/integrity.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/lifecycle.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/raw-lifecycle.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/readiness.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/schemas.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/source.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/status.json
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/task.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/transitions.txt
+- evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/tree.txt
+- evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/context.json
+- evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/contract.txt
+- evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/preexecution.json
+- evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/standard.txt
+- evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/tests.txt
+- evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/tests.xml
+- specs/contracts/openapi/README.md
+- specs/contracts/openapi/check_contract.py
+- specs/contracts/openapi/coverage.yaml
+- specs/contracts/openapi/intent_hash.py
+- specs/contracts/openapi/requirements.lock.txt
+- specs/contracts/openapi/requirements.txt
+- specs/contracts/openapi/semantics.md
+- specs/contracts/openapi/test_contract.py
+- specs/contracts/openapi/tool-provenance.json
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/GZ-005.md

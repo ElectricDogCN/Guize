@@ -1,0 +1,11 @@
+{
+  "kind": "ACTUAL_MAIN_MAKE_VERIFY",
+  "source": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "base": "fd3d642377eb1ad6de1051ce0d45b5045499b349",
+  "actualWorkingBranch": "main",
+  "taskBranchContext": "chore/OPS-004-followup-completion",
+  "contextReason": "The completed task keeps its actual merged Completion branch in its canonical Task Spec; explicit local task context is reproduced by the logged env command. Separate main push CI uses repository-wide no-task context.",
+  "junitTestcases": 527,
+  "failureOrErrorOrSkip": 0,
+  "result": "PASS"
+}

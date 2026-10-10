@@ -1,3 +1,50 @@
+# GZ-005 current contract implementation
+
+Task: GZ-005 / Issue68
+Base: 429a6566d81f128cb618c524ee8dc22faba1c0a4
+Branch: chore/GZ-005-openapi-baseline
+Status: in_progress / implementer; implementation candidate, not accepted
+
+Actual prerequisite main429 was accepted after OPS-004 Completion: local full make verify 527 tests (1150.51s), zero failures/errors/skips; push CI629 run38021268746/job114122569280 succeeded with 527 tests (850.07s). Root main remained clean at the same source/tree. This prerequisite does not certify the new API.
+
+The existing pure Reservation PR70 and valid original lease permit own reserved -> in_progress plus registered contract implementation in one candidate. No additional pure activation merge is required. Lease remains 2026-10-09T11:52:29Z to 2026-10-16T11:52:29Z without renewal. Other Task/Program/Registry identities, ordinary Ledger, permanent policy, requirements, governance scripts/tests/workflows and POC plans are unchanged.
+
+Implemented candidate: modular OpenAPI3.1.1, stable bilingual errors and93 serialized synthetic HTTP pairs; complete approval request intent with RFC8785/SHA256 reference vectors; full safety-extension compatibility comparison; fail-closed assertion reference siblings; typed WebAuthn creation/authentication options and canonical Base64url. Validation dependency hashes lock the separate Linux x86_64/CPython3.12 tool environment.
+
+Examples establish contract consistency, not runtime authorization, valid signatures, browser execution, real POCs or V1 completion. Independent content review and actual published-source 17 checks (including one full make and three API checks), latest same-head CI, post-main validation and separate Completion remain required.
+
+Prior failed346c9b6 activation and d0d93f4 implementation exploratory results remain preserved under test-results/prior-failed-*; their failure is not counted as current PASS. Original archived reservation facts are historical only.
+
+Rollback: closing the unmerged implementation PR leaves main unchanged. A legal blocked state retains lease and capacity; release only after governed cancellation or Completion.
+
+## Current reviewer and integrator actions
+
+Reviewer: use specs/tasks/GZ-005.md current required-test section and the current
+evidence/GZ-005/changed-files.md inventory. Review the final published Git source
+and tree, all17 actual source checks and raw logs, full make527 nonempty JUnit
+with zero failures/errors/skips, and the three additional API checks/contract JUnit.
+Review authorization, complete approval snapshot binding, idempotency, compatibility,
+reference constraints, typed WebAuthn and all synthetic/runtime limitations.
+Historical reservation commands and failed drafts are provenance, not current proof.
+
+Integrator: verify GZ-004 dependency, original lease and exact latest main baseline;
+obtain independent review of the final source and applicable evidence archive.
+Require latest same-head CI success, resolve every review thread after checking its
+disposition, then merge with the expected reviewed head. Verify actual merged main
+with its real source/parents/tree, local full make and actual main CI. Record the
+actual code integration identity and perform separate legal Completion only after
+post-main acceptance; never release a blocked lease or invent completed identities.
+
+Current parser: python -m openapi_spec_validator contracts/openapi/common/openapi.yaml
+Current API check: python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline
+Current contract tests: python -m pytest specs/contracts/openapi/test_contract.py -q
+Current full gate: make verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline
+
+Contract versions: OPENAPI-V1/API1.0.0/OAS3.1.1 and ERROR-CATALOG-V1/1.0.0.
+Published source/actual outcomes are pending and must come from the real execution
+records and PR; this handoff makes no current acceptance or V1 completion claim.
+
+## Historical reservation records (unchanged)
 # GZ-005 reservation handoff
 
 Task GZ-005 / Issue #68 / WP-M0-03B / W2 / integration order 1.
