@@ -1809,7 +1809,8 @@
           description: Valid exact action/resource/revision/payload-bound approval; body approvalId must match if present.
         zh-CN:
           description: 绑定精确操作、资源、修订与请求摘要的有效审批；正文含 approvalId 时必须一致。
-      schema: *id002
+      schema:
+        $ref: ../common/schemas.yaml#/ApprovalId
     responses:
       '202':
         description: Command accepted; poll task status.
@@ -2668,7 +2669,8 @@
           description: Valid exact action/resource/revision/payload-bound approval; body approvalId must match if present.
         zh-CN:
           description: 绑定精确操作、资源、修订与请求摘要的有效审批；正文含 approvalId 时必须一致。
-      schema: *id002
+      schema:
+        $ref: ../common/schemas.yaml#/ApprovalId
     responses:
       '202':
         description: Command accepted; poll task status.
@@ -3527,7 +3529,8 @@
           description: Valid exact action/resource/revision/payload-bound approval; body approvalId must match if present.
         zh-CN:
           description: 绑定精确操作、资源、修订与请求摘要的有效审批；正文含 approvalId 时必须一致。
-      schema: *id002
+      schema:
+        $ref: ../common/schemas.yaml#/ApprovalId
     responses:
       '202':
         description: Command accepted; poll task status.
@@ -8076,7 +8079,8 @@
           description: Valid exact action/resource/revision/payload-bound approval; body approvalId must match if present.
         zh-CN:
           description: 绑定精确操作、资源、修订与请求摘要的有效审批；正文含 approvalId 时必须一致。
-      schema: *id002
+      schema:
+        $ref: ../common/schemas.yaml#/ApprovalId
     responses:
       '202':
         description: Command accepted; poll task status.
@@ -12862,7 +12866,8 @@
           description: Resource identifier or exact optimistic revision, resolved after authorization.
         zh-CN:
           description: 鉴权后解析的资源标识或精确乐观修订号。
-      schema: *id002
+      schema:
+        $ref: ../common/schemas.yaml#/ApprovalId
     - name: Idempotency-Key
       in: header
       required: true

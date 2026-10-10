@@ -779,18 +779,11 @@
       stepUp: false
       approval: false
     x-error-codes:
-    - AUTH_REQUIRED
-    - AUTH_INVALID
-    - ACCESS_DENIED
-    - ACCESS_NOT_FOUND
     - INTERNAL_INVALID_REQUEST
     - INTERNAL_RATE_LIMITED
     - INTERNAL_UNAVAILABLE
     - INTERNAL_ERROR
-    - AUTH_STEP_UP_REQUIRED
-    - AUTH_LOGIN_LOCKED
     - INTERNAL_IDEMPOTENCY_CONFLICT
-    - INTERNAL_REVISION_CONFLICT
     parameters:
     - name: Accept-Language
       in: header
@@ -950,227 +943,6 @@
                   message: 请求不满足版本化 Schema。
                   details: {}
                   traceId: trace-example-0001
-      '401':
-        description: Redacted failure; stable codes only.
-        x-i18n:
-          en-US:
-            description: Redacted failure; stable codes only.
-          zh-CN:
-            description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id003
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Localized error with stable machine code.
-              x-i18n:
-                en-US:
-                  description: Localized error with stable machine code.
-                zh-CN:
-                  description: 稳定机器错误码与本地化说明。
-              additionalProperties: false
-              properties:
-                code:
-                  type: string
-                  description: Stable error code.
-                  x-i18n:
-                    en-US:
-                      description: Stable error code.
-                    zh-CN:
-                      description: 稳定错误码。
-                  enum:
-                  - AUTH_REQUIRED
-                  - AUTH_INVALID
-                message:
-                  type: string
-                  description: Localized message, never used for branching.
-                  x-i18n:
-                    en-US:
-                      description: Localized message, never used for branching.
-                    zh-CN:
-                      description: 本地化说明，不用于程序分支。
-                  minLength: 1
-                  maxLength: 1024
-                details:
-                  $ref: ../common/schemas.yaml#/ErrorDetails
-                traceId:
-                  type: string
-                  description: Request correlation identifier, including failures.
-                  x-i18n:
-                    en-US:
-                      description: Request correlation identifier, including failures.
-                    zh-CN:
-                      description: 包括失败请求在内的关联标识。
-                  pattern: ^[A-Za-z0-9-]{8,128}$
-                  maxLength: 128
-              required:
-              - code
-              - message
-              - details
-              - traceId
-            examples:
-              illustrative:
-                summary: Illustrative contract value; not live execution.
-                description: Illustrative contract value; not live execution.
-                x-i18n:
-                  en-US:
-                    description: Illustrative contract value; not live execution.
-                    summary: Illustrative contract value; not live execution.
-                  zh-CN:
-                    description: 契约说明值，不是线上执行结果。
-                    summary: 契约说明值，不是线上执行结果。
-                value:
-                  code: AUTH_REQUIRED
-                  message: 需要认证。
-                  details: {}
-                  traceId: trace-example-0001
-      '403':
-        description: Redacted failure; stable codes only.
-        x-i18n:
-          en-US:
-            description: Redacted failure; stable codes only.
-          zh-CN:
-            description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id003
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Localized error with stable machine code.
-              x-i18n:
-                en-US:
-                  description: Localized error with stable machine code.
-                zh-CN:
-                  description: 稳定机器错误码与本地化说明。
-              additionalProperties: false
-              properties:
-                code:
-                  type: string
-                  description: Stable error code.
-                  x-i18n:
-                    en-US:
-                      description: Stable error code.
-                    zh-CN:
-                      description: 稳定错误码。
-                  enum:
-                  - AUTH_STEP_UP_REQUIRED
-                  - ACCESS_DENIED
-                message:
-                  type: string
-                  description: Localized message, never used for branching.
-                  x-i18n:
-                    en-US:
-                      description: Localized message, never used for branching.
-                    zh-CN:
-                      description: 本地化说明，不用于程序分支。
-                  minLength: 1
-                  maxLength: 1024
-                details:
-                  $ref: ../common/schemas.yaml#/ErrorDetails
-                traceId:
-                  type: string
-                  description: Request correlation identifier, including failures.
-                  x-i18n:
-                    en-US:
-                      description: Request correlation identifier, including failures.
-                    zh-CN:
-                      description: 包括失败请求在内的关联标识。
-                  pattern: ^[A-Za-z0-9-]{8,128}$
-                  maxLength: 128
-              required:
-              - code
-              - message
-              - details
-              - traceId
-            examples:
-              illustrative:
-                summary: Illustrative contract value; not live execution.
-                description: Illustrative contract value; not live execution.
-                x-i18n:
-                  en-US:
-                    description: Illustrative contract value; not live execution.
-                    summary: Illustrative contract value; not live execution.
-                  zh-CN:
-                    description: 契约说明值，不是线上执行结果。
-                    summary: 契约说明值，不是线上执行结果。
-                value:
-                  code: AUTH_STEP_UP_REQUIRED
-                  message: 需要近期且绑定操作的再次认证。
-                  details: {}
-                  traceId: trace-example-0001
-      '404':
-        description: Redacted failure; stable codes only.
-        x-i18n:
-          en-US:
-            description: Redacted failure; stable codes only.
-          zh-CN:
-            description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id003
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Localized error with stable machine code.
-              x-i18n:
-                en-US:
-                  description: Localized error with stable machine code.
-                zh-CN:
-                  description: 稳定机器错误码与本地化说明。
-              additionalProperties: false
-              properties:
-                code:
-                  type: string
-                  description: Stable error code.
-                  x-i18n:
-                    en-US:
-                      description: Stable error code.
-                    zh-CN:
-                      description: 稳定错误码。
-                  enum:
-                  - ACCESS_NOT_FOUND
-                message:
-                  type: string
-                  description: Localized message, never used for branching.
-                  x-i18n:
-                    en-US:
-                      description: Localized message, never used for branching.
-                    zh-CN:
-                      description: 本地化说明，不用于程序分支。
-                  minLength: 1
-                  maxLength: 1024
-                details:
-                  $ref: ../common/schemas.yaml#/ErrorDetails
-                traceId:
-                  type: string
-                  description: Request correlation identifier, including failures.
-                  x-i18n:
-                    en-US:
-                      description: Request correlation identifier, including failures.
-                    zh-CN:
-                      description: 包括失败请求在内的关联标识。
-                  pattern: ^[A-Za-z0-9-]{8,128}$
-                  maxLength: 128
-              required:
-              - code
-              - message
-              - details
-              - traceId
-            examples:
-              illustrative:
-                summary: Illustrative contract value; not live execution.
-                description: Illustrative contract value; not live execution.
-                x-i18n:
-                  en-US:
-                    description: Illustrative contract value; not live execution.
-                    summary: Illustrative contract value; not live execution.
-                  zh-CN:
-                    description: 契约说明值，不是线上执行结果。
-                    summary: 契约说明值，不是线上执行结果。
-                value:
-                  code: ACCESS_NOT_FOUND
-                  message: 资源不存在或不可发现。
-                  details: {}
-                  traceId: trace-example-0001
       '409':
         description: Redacted failure; stable codes only.
         x-i18n:
@@ -1201,7 +973,6 @@
                       description: 稳定错误码。
                   enum:
                   - INTERNAL_IDEMPOTENCY_CONFLICT
-                  - INTERNAL_REVISION_CONFLICT
                 message:
                   type: string
                   description: Localized message, never used for branching.
@@ -1231,18 +1002,18 @@
               - traceId
             examples:
               illustrative:
-                summary: Illustrative contract value; not live execution.
-                description: Illustrative contract value; not live execution.
+                summary: Illustrative idempotency conflict; not an account-state error.
+                description: Illustrative idempotency conflict; not an account-state error.
                 x-i18n:
                   en-US:
-                    description: Illustrative contract value; not live execution.
-                    summary: Illustrative contract value; not live execution.
+                    summary: Illustrative idempotency conflict; not an account-state error.
+                    description: Illustrative idempotency conflict; not an account-state error.
                   zh-CN:
-                    description: 契约说明值，不是线上执行结果。
-                    summary: 契约说明值，不是线上执行结果。
+                    summary: 幂等冲突说明值，不是账号状态错误。
+                    description: 幂等冲突说明值，不是账号状态错误。
                 value:
                   code: INTERNAL_IDEMPOTENCY_CONFLICT
-                  message: 幂等键绑定不同请求或仍在执行。
+                  message: 相同幂等键的请求内容不同。
                   details: {}
                   traceId: trace-example-0001
       '429':
@@ -1274,7 +1045,6 @@
                     zh-CN:
                       description: 稳定错误码。
                   enum:
-                  - AUTH_LOGIN_LOCKED
                   - INTERNAL_RATE_LIMITED
                 message:
                   type: string
@@ -1305,19 +1075,20 @@
               - traceId
             examples:
               illustrative:
-                summary: Illustrative contract value; not live execution.
-                description: Illustrative contract value; not live execution.
+                summary: Illustrative idempotency conflict; not an account-state error.
+                description: Illustrative idempotency conflict; not an account-state error.
                 x-i18n:
                   en-US:
-                    description: Illustrative contract value; not live execution.
-                    summary: Illustrative contract value; not live execution.
+                    summary: Illustrative idempotency conflict; not an account-state error.
+                    description: Illustrative idempotency conflict; not an account-state error.
                   zh-CN:
-                    description: 契约说明值，不是线上执行结果。
-                    summary: 契约说明值，不是线上执行结果。
+                    summary: 幂等冲突说明值，不是账号状态错误。
+                    description: 幂等冲突说明值，不是账号状态错误。
                 value:
-                  code: AUTH_LOGIN_LOCKED
-                  message: 登录暂时锁定。
-                  details: {}
+                  code: INTERNAL_RATE_LIMITED
+                  message: 请求频率超过服务限制，请稍后重试。
+                  details:
+                    retryAfterSeconds: 30
                   traceId: trace-example-0001
       '500':
         description: Redacted failure; stable codes only.
@@ -1501,6 +1272,8 @@
                   summary: 契约说明值，不是线上执行结果。
               value:
                 username: example-user
+    x-account-enumeration-policy: Unknown, enrolled, locked and disabled usernames receive indistinguishable discoverable
+      201 options with empty allowCredentials; errors depend only on request validity or global service conditions.
 /auth/passkeys:verify:
   post:
     operationId: verifyPasskey

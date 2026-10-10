@@ -38,6 +38,9 @@ Branch: chore/GZ-005-openapi-baseline
 - evidence/GZ-005/test-results/accepted-main-prerequisite/ops004-followup-main-ci-proof.json
 - evidence/GZ-005/test-results/accepted-main-prerequisite/ops004-independent-main-ci629-native-verification-plan-proof.json
 - evidence/GZ-005/test-results/independent-dirty-preparation/review.json
+- evidence/GZ-005/test-results/pr82-six-finding-review/development-context.json
+- evidence/GZ-005/test-results/pr82-six-finding-review/gz005-independent-pr82-six-comment-disposition.json
+- evidence/GZ-005/test-results/pr82-six-finding-review/gz005-independent-six-findings-source85-repro-proof.json
 - evidence/GZ-005/test-results/preimplementation-archive-index.json
 - evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/context.json
 - evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/contract.txt

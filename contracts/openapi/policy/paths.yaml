@@ -4777,7 +4777,8 @@
           description: Valid exact action/resource/revision/payload-bound approval; body approvalId must match if present.
         zh-CN:
           description: 绑定精确操作、资源、修订与请求摘要的有效审批；正文含 approvalId 时必须一致。
-      schema: *id006
+      schema:
+        $ref: ../common/schemas.yaml#/ApprovalId
     responses:
       '202':
         description: Command accepted; poll task status.
@@ -5635,7 +5636,8 @@
           description: Valid exact action/resource/revision/payload-bound approval; body approvalId must match if present.
         zh-CN:
           description: 绑定精确操作、资源、修订与请求摘要的有效审批；正文含 approvalId 时必须一致。
-      schema: *id006
+      schema:
+        $ref: ../common/schemas.yaml#/ApprovalId
     responses:
       '202':
         description: Command accepted; poll task status.
@@ -6493,7 +6495,8 @@
           description: Valid exact action/resource/revision/payload-bound approval; body approvalId must match if present.
         zh-CN:
           description: 绑定精确操作、资源、修订与请求摘要的有效审批；正文含 approvalId 时必须一致。
-      schema: *id006
+      schema:
+        $ref: ../common/schemas.yaml#/ApprovalId
     responses:
       '202':
         description: Command accepted; poll task status.

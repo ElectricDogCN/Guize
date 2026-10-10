@@ -288,30 +288,6 @@
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
-    "operationId": "listReplicas",
-    "request": "GET /api/v1/assets/ast_example01/replicas?limit=25 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n\r\n",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 279\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"items\":[{\"id\":\"rep_example01\",\"renditionId\":\"rnd_example01\",\"storageTargetId\":\"stg_example01\",\"failureDomainId\":\"fdm_example01\",\"status\":\"UPLOADED_UNVERIFIED\",\"revision\":1}],\"nextCursor\":null},\"traceId\":\"trace-example-0001\"}",
-    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
-  },
-  {
-    "operationId": "retainAsset",
-    "request": "POST /api/v1/assets/ast_example01:retain HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-retainAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 129\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"targetId\":\"stg_example01\",\"policyVersionId\":\"plv_example01\",\"reason\":\"Example retain request\"}",
-    "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
-    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
-  },
-  {
-    "operationId": "restoreAsset",
-    "request": "POST /api/v1/assets/ast_example01:restore HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-restoreAsset\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 129\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"targetId\":\"stg_example01\",\"policyVersionId\":\"plv_example01\",\"reason\":\"Example retain request\"}",
-    "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
-    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
-  },
-  {
-    "operationId": "listRetentionHolds",
-    "request": "GET /api/v1/assets/ast_example01/retention-holds?limit=25 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n\r\n",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 240\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"items\":[{\"id\":\"hld_example01\",\"assetId\":\"ast_example01\",\"policyVersionId\":\"plv_example01\",\"reason\":\"Example legal hold\",\"revision\":1}],\"nextCursor\":null},\"traceId\":\"trace-example-0001\"}",
-    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
-  },
-  {
     "operationId": "probeMedia",
     "request": "POST /api/v1/assets/ast_example01:probe HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-probeMedia\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"assetVersionId\":\"ver_example01\",\"profileVersionId\":\"prv_example01\",\"forceRerun\":false,\"reason\":\"Example processing\"}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",

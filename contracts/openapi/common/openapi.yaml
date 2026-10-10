@@ -104,14 +104,6 @@ paths:
     $ref: ../storage/paths.yaml#/~1assets~1{assetId}:cache
   /cache-entries/{cacheId}:evict:
     $ref: ../storage/paths.yaml#/~1cache-entries~1{cacheId}:evict
-  /assets/{assetId}/replicas:
-    $ref: ../storage/paths.yaml#/~1assets~1{assetId}~1replicas
-  /assets/{assetId}:retain:
-    $ref: ../storage/paths.yaml#/~1assets~1{assetId}:retain
-  /assets/{assetId}:restore:
-    $ref: ../storage/paths.yaml#/~1assets~1{assetId}:restore
-  /assets/{assetId}/retention-holds:
-    $ref: ../storage/paths.yaml#/~1assets~1{assetId}~1retention-holds
   /assets/{assetId}:probe:
     $ref: ../media/paths.yaml#/~1assets~1{assetId}:probe
   /assets/{assetId}/transcode:
@@ -294,8 +286,6 @@ components:
       $ref: schemas.yaml#/ArtifactRevision
     CacheEntry:
       $ref: schemas.yaml#/CacheEntry
-    StorageRequest:
-      $ref: schemas.yaml#/StorageRequest
     Replica:
       $ref: schemas.yaml#/Replica
     RetentionHold:
@@ -412,14 +402,6 @@ components:
       $ref: schemas.yaml#/CacheEntryPageData
     CacheEntryPage:
       $ref: schemas.yaml#/CacheEntryPage
-    ReplicaPageData:
-      $ref: schemas.yaml#/ReplicaPageData
-    ReplicaPage:
-      $ref: schemas.yaml#/ReplicaPage
-    RetentionHoldPageData:
-      $ref: schemas.yaml#/RetentionHoldPageData
-    RetentionHoldPage:
-      $ref: schemas.yaml#/RetentionHoldPage
     DerivedArtifactPageData:
       $ref: schemas.yaml#/DerivedArtifactPageData
     DerivedArtifactPage:
@@ -480,3 +462,7 @@ components:
       $ref: schemas.yaml#/PasskeyRegistrationChallengeEnvelope
     ProtectedRequestIntent:
       $ref: schemas.yaml#/ProtectedRequestIntent
+    ApprovalId:
+      $ref: schemas.yaml#/ApprovalId
+    StorageRequest:
+      $ref: schemas.yaml#/StorageRequest

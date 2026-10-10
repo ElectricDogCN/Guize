@@ -1,0 +1,161 @@
+{
+  "kind": "FINITE_IMMUTABLE_SOURCE_HELPER_REPRO_NOT_FULL_SUITE_OR_RUNTIME_PROOF",
+  "timestampUtc": "2026-10-10T08:29:44.907334+00:00",
+  "actualCodeSource": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+  "archiveHead": "60d51e707728be19188a8b4ceabfeb22ccdf28e9",
+  "codeSourceTree": "a9e33bc684f0ba500586064dc705445568537115",
+  "snapshotDirectory": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-six-source85-snapshot",
+  "sourceFileSHA256": {
+    "contracts/openapi/ai/paths.yaml": "e90e5ba6b6fec410c8a8ce0722c6b657edbbb575c4713bd723fd2574757e228a",
+    "contracts/openapi/asset/paths.yaml": "be224052d0302a4971c6f13425f0fd991102639f030755350a77edbb0be72b21",
+    "contracts/openapi/common/errors.yaml": "4b581996e7bd9c17fbe951f22c671f9b592ede3f12f96189c5fe5a8daa4cd08f",
+    "contracts/openapi/common/http-samples.json": "4edce5fec058f81be29aeba7c361081492f82eac078dd5774468a0deb9919187",
+    "contracts/openapi/common/openapi.yaml": "03c1a49b44d1a9b372ae739dd24643304ade2130c6aeaf0086878574fd70568a",
+    "contracts/openapi/common/schemas.yaml": "ffbe56292f1e267e67cf931cffa0621cc3d5f2665a500866af5b7753423ffd7b",
+    "contracts/openapi/config/paths.yaml": "bfe9d143538a0b9c854859022c53adc032d8e5362413cbcad9bd6474f3529097",
+    "contracts/openapi/iam/paths.yaml": "ba0360751b46707b94c355b6ebff226822c336e5c7e5432d8ab07123312e630d",
+    "contracts/openapi/media/paths.yaml": "57824b74214ab57c75fcd25b1510574c776ed5d6dc33106f107b0fcdbca7f57c",
+    "contracts/openapi/openapi-guidelines.md": "e027c45551f46a283cb6208cbbc28877cf768817a27bf4a1a4fe713296dc6baa",
+    "contracts/openapi/playback/paths.yaml": "6f2c1538fe389d0766b54ca2d94071354fdb03df9e52135d9f4422a0dd14535a",
+    "contracts/openapi/policy/paths.yaml": "3917a3c4cf6f6d6b04b1cb3bebf1a154a15f1c2abdc497aff0ae2c0b9c1ab5d9",
+    "contracts/openapi/search/paths.yaml": "07c44885039fd9b66feab6c7ce3fed2c5be661824844c9450d664397f538e50c",
+    "contracts/openapi/source/paths.yaml": "6a70700c394e4d5f56935e666d49bfbd2cbf7f3589874ed2a51dbdadc5debee0",
+    "contracts/openapi/storage/paths.yaml": "d30d12e1b5c962c8a1797c982d182d79b9d97dab5d91721a63be1d3d7ad0740a",
+    "contracts/openapi/task/paths.yaml": "9a90fc9540b06e5d13a22d9eea9b36a1c741178a5862de5c219461751e120df3",
+    "specs/contracts/openapi/README.md": "73aff3405ba2be196d4ef9e1ad852fbfb6fb84af4f5b811f0d9fd87343e715d5",
+    "specs/contracts/openapi/check_contract.py": "c3249b8102c7cd858a531c835a95b1634a667d9431fca641ab2eb128010fa873",
+    "specs/contracts/openapi/coverage.yaml": "8580382145718aaa206e3d98d43fe8f5fc351074f273cd39f9ddd0afc133e529",
+    "specs/contracts/openapi/intent_hash.py": "284e8a3e21b2dfdfe6766bd1687be0b96e4c8e7bc093621f236063ded3e0ef17",
+    "specs/contracts/openapi/requirements.lock.txt": "dcf59d036784f4282dfdc9b194e83c69ec2ca472650eeb4c6a7b84ddc79cfe52",
+    "specs/contracts/openapi/requirements.txt": "894168a4a0fd8338344b53397e8af76a6e97c842ca7b88af6d1c38bd7ae3336a",
+    "specs/contracts/openapi/semantics.md": "8f0ac6958a789348caadb064fa68896d3696b7b67c8f0a4c7249a929c107b470",
+    "specs/contracts/openapi/test_contract.py": "036905c37bb91b4ab54aa855bed9c7d2c5a89cefb1585178c40ccdc775a78311",
+    "specs/contracts/openapi/tool-provenance.json": "81bf9304f3d40c7a127f5ba6d27a04ae08dae213188996c5818e16df8ff9e9e1"
+  },
+  "results": {
+    "contractIdentity": [
+      {
+        "field": "info.version",
+        "value": "9.9.9",
+        "compatibleAccepted": true
+      },
+      {
+        "field": "x-contract-id",
+        "value": "OTHER-CONTRACT",
+        "compatibleAccepted": true
+      },
+      {
+        "field": "jsonSchemaDialect",
+        "value": "https://json-schema.org/draft-07/schema",
+        "compatibleAccepted": true
+      }
+    ],
+    "errorDetails": {
+      "arbitraryRedactionViolatingShapeAccepted": true,
+      "value": {
+        "field": "name",
+        "credentialValue": "EXAMPLE_ONLY_INVALID",
+        "sourcePath": "../../private",
+        "deniedResourceId": "usr_example01",
+        "providerResponse": {
+          "example": [
+            "unbounded"
+          ]
+        }
+      }
+    },
+    "passkeyDiscovery": {
+      "allowed404Code": "ACCESS_NOT_FOUND",
+      "errorListIncludesAccessNotFound": true,
+      "validSuccessExists": true,
+      "runtimeAccountOracleTestPerformed": false
+    },
+    "approvalCarrier": {
+      "bodySchemaAcceptedNonAprId": true,
+      "headerSchemaAcceptedNonAprId": true,
+      "executableHelperRejected": "invalid approval carrier"
+    },
+    "localSourceRoot": [
+      {
+        "root": "../../etc",
+        "schemaAccepted": true
+      },
+      {
+        "root": "/etc",
+        "schemaAccepted": true
+      },
+      {
+        "root": "C:\\Windows",
+        "schemaAccepted": true
+      },
+      {
+        "root": "..\\private",
+        "schemaAccepted": true
+      }
+    ],
+    "requirementScope": {
+      "GZ005RequirementIds": [
+        "REQ-V1-0001",
+        "REQ-V1-0002",
+        "REQ-V1-0003",
+        "REQ-V1-0004",
+        "REQ-V1-0005",
+        "REQ-V1-0007",
+        "REQ-V1-0008",
+        "REQ-V1-0009"
+      ],
+      "GZ005HasREQ6": false,
+      "GZ015OutputPaths": [
+        "backend/guize-storage-lifecycle/**",
+        "data/**",
+        "tests/e2e/m2/**",
+        "evidence/GZ-015/**"
+      ],
+      "GZ015HasContractWritePath": false,
+      "operations": [
+        {
+          "id": "listReplicas",
+          "path": "/assets/{assetId}/replicas",
+          "requirements": [
+            "REQ-V1-0003",
+            "REQ-V1-0008"
+          ]
+        },
+        {
+          "id": "retainAsset",
+          "path": "/assets/{assetId}:retain",
+          "requirements": [
+            "REQ-V1-0003",
+            "REQ-V1-0008"
+          ]
+        },
+        {
+          "id": "restoreAsset",
+          "path": "/assets/{assetId}:restore",
+          "requirements": [
+            "REQ-V1-0003",
+            "REQ-V1-0008"
+          ]
+        },
+        {
+          "id": "listRetentionHolds",
+          "path": "/assets/{assetId}/retention-holds",
+          "requirements": [
+            "REQ-V1-0003",
+            "REQ-V1-0008"
+          ]
+        }
+      ]
+    }
+  },
+  "fullGovernanceRerun": false,
+  "rootMutation": false,
+  "finalIntegrationApproved": false,
+  "priorSourceAcceptanceSupersededForContent": true,
+  "priorSource17AndCIResultsRemainGenuine": true,
+  "scopeBoundary": "Finite six existing review findings; no universal Peer historical Admission replay or new governance framework.",
+  "priorExploratoryRunnerAttempt": {
+    "exit": 1,
+    "failure": "Proof assembly incorrectly used strict contract UniqueLoader on Program YAML legitimate merge keys; corrected to safe_load of immutable Source85 Program. No production failure inferred; first attempt did not produce a complete proof."
+  }
+}

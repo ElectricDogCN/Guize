@@ -29,6 +29,25 @@ ENTRY = CONTRACT / 'common/openapi.yaml'
 METHODS = {'get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'}
 FORMATS = FormatChecker()
 
+API_IDENTITY = {
+    'openapi': '3.1.1',
+    'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema',
+    'x-contract-id': 'OPENAPI-V1',
+}
+
+
+@FORMATS.checks('source-root')
+def valid_source_root(value):
+    if not isinstance(value, str):
+        return True
+    try:
+        value.encode('utf-8', errors='strict')
+    except UnicodeError:
+        return False
+    return (bool(value) and not any(c in value for c in '\\%:')
+            and not any(ord(c) < 32 or ord(c) == 127 for c in value)
+            and all(part not in {'', '.', '..'} for part in value.split('/')))
+
 
 @FORMATS.checks('base64url')
 def valid_base64url(value):
@@ -301,6 +320,9 @@ def verify(spec=None, catalog=None, coverage=None):
     catalog = read_yaml(CONTRACT / 'common/errors.yaml') if catalog is None else catalog
     coverage = read_yaml(Path(__file__).with_name('coverage.yaml')) if coverage is None else coverage
     validate(spec)
+    if (any(spec.get(key) != value for key, value in API_IDENTITY.items())
+            or spec.get('info', {}).get('version') != '1.0.0'):
+        raise ContractError('wrong API version, contract identity or JSON Schema dialect')
     errors = catalog.get('errors', [])
     codes = [item['code'] for item in errors]
     if len(codes) != len(set(codes)) or not codes:
@@ -368,6 +390,22 @@ def verify(spec=None, catalog=None, coverage=None):
             raise ContractError('protected credential reference operation lacks high-risk gate')
         if oid == 'mergeAsset' and not operation.get('x-multi-resource-invariants'):
             raise ContractError('multi-resource merge lacks both-resource invariants')
+        if oid == 'createPasskeyChallenge':
+            allowed = {'INTERNAL_INVALID_REQUEST', 'INTERNAL_IDEMPOTENCY_CONFLICT',
+                       'INTERNAL_RATE_LIMITED', 'INTERNAL_UNAVAILABLE', 'INTERNAL_ERROR'}
+            if not set(operation.get('x-error-codes', [])) <= allowed:
+                raise ContractError('anonymous passkey options cannot expose account-dependent errors')
+            if not operation.get('x-account-enumeration-policy'):
+                raise ContractError('anonymous passkey options need a uniform account privacy policy')
+            for media in operation['responses']['201']['content'].values():
+                options = media['schema']['properties']['data']['properties']['publicKey']
+                if ('allowCredentials' not in options.get('required', [])
+                        or options['properties']['allowCredentials'].get('maxItems') != 0
+                        or options.get('additionalProperties') is not False):
+                    raise ContractError('anonymous passkey option schema must enforce uniform discoverable login')
+                for example in media['examples'].values():
+                    if example['value']['data']['publicKey']['allowCredentials'] != []:
+                        raise ContractError('anonymous passkey options must be discoverable and uniform')
         if operation.get('x-long-running') and '202' not in operation['responses']:
             raise ContractError(f'{oid}: asynchronous operation requires 202')
         if not set(operation.get('x-error-codes', [])) <= set(codes):
@@ -480,7 +518,9 @@ def _schema_compat(old, new, direction, location):
 def compatible(old, new, old_catalog, new_catalog):
     if old_catalog != new_catalog:
         raise ContractError('stable error catalog changed; major-version review required')
-    if old['servers'] != new['servers'] or old['openapi'] != new['openapi']:
+    if (old['servers'] != new['servers']
+            or any(old.get(key) != new.get(key) for key in API_IDENTITY)
+            or old['info']['version'] != new['info']['version']):
         raise ContractError('base/version changed')
     if old['components']['securitySchemes'] != new['components']['securitySchemes']:
         raise ContractError('authentication scheme changed')
@@ -490,7 +530,8 @@ def compatible(old, new, old_catalog, new_catalog):
             raise ContractError('removed API operation')
         right=new_ops[(path,method)]
         for key in ('operationId','security','x-authorization','x-idempotency','x-long-running','x-error-codes','summary','description',
-                    'x-multi-resource-invariants','x-resource-binding','x-no-expensive-work','x-playback-readiness'):
+                    'x-multi-resource-invariants','x-resource-binding','x-no-expensive-work','x-playback-readiness',
+                    'x-account-enumeration-policy'):
             if left.get(key) != right.get(key):
                 raise ContractError(f'{path}: operation meaning/security changed: {key}')
         # Parameters and request required/media types cannot silently change.

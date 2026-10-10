@@ -34,6 +34,114 @@ def test_full_standard_and_semantics(baseline,catalog):
     assert len(result['requirements'])==8
 
 
+@pytest.mark.parametrize('key,value',[
+    ('version','2.0.0'),('x-contract-id','OTHER-CONTRACT'),
+    ('jsonSchemaDialect','https://json-schema.org/draft/2019-09/schema'),
+])
+def test_api_identity_is_frozen_in_validation_and_compatibility(baseline,catalog,key,value):
+    changed=copy.deepcopy(baseline)
+    if key=='version':changed['info'][key]=value
+    else:changed[key]=value
+    with pytest.raises(ContractError):compatible(baseline,changed,catalog,catalog)
+    with pytest.raises(ContractError,match='identity'):verify(changed,catalog)
+
+
+def test_lifecycle_operations_require_separate_scope_admission(baseline):
+    ids={op['operationId'] for _,_,op in operations(baseline)}
+    assert not ids & {'listReplicas','retainAsset','restoreAsset','listRetentionHolds'}
+    assert {'listCacheEntries','cacheAsset','evictCacheEntry'} <= ids
+    assert {'Replica','RetentionHold'} <= set(baseline['components']['schemas'])
+
+
+@pytest.mark.parametrize('details',[
+    {'credential':'secret-value'},{'sourcePath':'/private/media'},
+    {'deniedResourceId':'ast_private'},{'providerResponse':{'authorization':'secret'}},
+    {'field':'/private/media'},{'field':'a'*257},{'retryAfterSeconds':86401},
+    {'retryAfterSeconds':-1},
+])
+def test_error_details_reject_unreviewed_or_unbounded_context(baseline,details):
+    with pytest.raises(ContractError):
+        validate_instance(details,baseline['components']['schemas']['ErrorDetails'])
+
+
+def test_error_details_accept_only_public_field_and_bounded_retry_hint(baseline):
+    validate_instance({'field':'request','retryAfterSeconds':30},
+                      baseline['components']['schemas']['ErrorDetails'])
+
+
+@pytest.mark.parametrize('code',['ACCESS_NOT_FOUND','ACCESS_DENIED','AUTH_LOGIN_LOCKED',
+                               'AUTH_REQUIRED','AUTH_INVALID'])
+def test_anonymous_passkey_discovery_rejects_account_dependent_errors(baseline,catalog,code):
+    changed=copy.deepcopy(baseline)
+    op=next(op for _,_,op in operations(changed) if op['operationId']=='createPasskeyChallenge')
+    op['x-error-codes'].append(code)
+    with pytest.raises(ContractError,match='account-dependent'):verify(changed,catalog)
+
+
+def test_anonymous_passkey_discovery_has_no_credential_or_account_branch(baseline,catalog):
+    changed=copy.deepcopy(baseline)
+    op=next(op for _,_,op in operations(changed) if op['operationId']=='createPasskeyChallenge')
+    assert set(op['responses'])=={'201','400','409','429','500','503'}
+    op['responses']['201']['content']['application/json']['examples']['illustrative']['value']['data']['publicKey']['allowCredentials']=[
+        {'type':'public-key','id':'ZXhhbXBsZQ'}]
+    with pytest.raises(ContractError,match='uniform'):verify(changed,catalog)
+
+
+@pytest.mark.parametrize('mutation',['credential-list','missing-list','account-hint'])
+def test_anonymous_options_schema_rejects_account_disclosure(baseline,mutation):
+    value={'challenge':'ZXhhbXBsZQ','rpId':'guize.example','allowCredentials':[]}
+    if mutation=='credential-list':value['allowCredentials']=[{'type':'public-key','id':'ZXhhbXBsZQ'}]
+    elif mutation=='missing-list':value.pop('allowCredentials')
+    else:value['username']='registered-account'
+    with pytest.raises(ContractError):
+        validate_instance(value,baseline['components']['schemas']['WebAuthnRequestOptions'])
+
+
+@pytest.mark.parametrize('value',['usr_example01','ast_example01','apr_','apr_'+('a'*65),'apr_../../secret','apr_example01\n'])
+def test_approval_identifier_is_consistent_across_body_header_path_and_result(baseline,value):
+    schemas=baseline['components']['schemas']
+    with pytest.raises(ContractError):validate_instance(value,schemas['ApprovalId'])
+    for _,_,op in operations(baseline):
+        for parameter in op.get('parameters',[]):
+            if parameter['name'] in {'X-Approval-Id','approvalId'}:
+                with pytest.raises(ContractError):validate_instance(value,parameter['schema'])
+        for media in op.get('requestBody',{}).get('content',{}).values():
+            if 'approvalId' in media['schema'].get('properties',{}):
+                body=copy.deepcopy(media['examples']['illustrative']['value'])
+                body['approvalId']=value
+                with pytest.raises(ContractError):validate_instance(body,media['schema'])
+    with pytest.raises(ContractError):validate_instance(value,schemas['Approval']['properties']['id'])
+
+
+@pytest.mark.parametrize('root',['../../etc','/etc','C:\\Windows','..\\private','media/../private',
+                                'media/./private','media//private','media/','%2e%2e/etc',
+                                'media/%252e%252e/private','//server/share','media\x00file','\ud800'])
+def test_local_source_root_cannot_escape_authorized_mount(baseline,root):
+    body={'name':'Local','kind':'LOCAL','endpoint':'mount:media','root':root,'visibility':'PRIVATE'}
+    with pytest.raises(ContractError):validate_instance(body,baseline['components']['schemas']['SourceDraft'])
+
+
+@pytest.mark.parametrize('endpoint',['/etc','C:\\Windows','https://origin.example/','mount:../private','mount:media\n'])
+def test_local_source_endpoint_is_an_authorized_mount_alias(baseline,endpoint):
+    body={'name':'Local','kind':'LOCAL','endpoint':endpoint,'root':'media','visibility':'PRIVATE'}
+    with pytest.raises(ContractError):validate_instance(body,baseline['components']['schemas']['SourceDraft'])
+
+
+def test_local_source_accepts_relative_unicode_path_under_mount(baseline):
+    body={'name':'Local','kind':'LOCAL','endpoint':'mount:media','root':'视频/示例.mp4','visibility':'PRIVATE'}
+    validate_instance(body,baseline['components']['schemas']['SourceDraft'])
+
+
+def test_local_root_portable_pattern_alone_rejects_traversal_and_controls(baseline):
+    from jsonschema import Draft202012Validator
+    schema=baseline['components']['schemas']['SourceDraft']
+    body={'name':'Local','kind':'LOCAL','endpoint':'mount:media','root':'media/file0x.mp4','visibility':'PRIVATE'}
+    Draft202012Validator(schema).validate(body)
+    for root in ['../../etc','/etc','media/../file','media//file','media\\file','media/%2e%2e','media\n']:
+        body['root']=root
+        assert list(Draft202012Validator(schema).iter_errors(body))
+
+
 def test_serialized_http_contracts(baseline,samples):
     assert verify_http_samples(baseline,samples)==len(samples)
 
@@ -224,7 +332,7 @@ def test_reference_annotations_preserve_actual_constraints(tmp_path):
 
 @pytest.mark.parametrize('oid,key,new_value',[
     ('mergeAsset','x-multi-resource-invariants',{'authorization':'only one asset needs authorization'}),
-    ('retainAsset','x-resource-binding','trust the arbitrary supplied version'),
+    ('cacheAsset','x-resource-binding','trust the arbitrary supplied version'),
     ('createPublicPlaybackPlan','x-no-expensive-work',False),
     ('createPlaybackPlan','x-playback-readiness','issue media grant while still preparing'),
 ])

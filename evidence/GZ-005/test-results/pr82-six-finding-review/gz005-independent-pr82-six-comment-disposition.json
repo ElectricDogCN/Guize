@@ -1,0 +1,112 @@
+{
+  "kind": "FINITE_EXISTING_COMMENT_SIX_FINDING_DISPOSITION",
+  "actualCodeSource": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+  "archiveHead": "60d51e707728be19188a8b4ceabfeb22ccdf28e9",
+  "comment": {
+    "id": 6094044109,
+    "url": "https://github.com/ElectricDogCN/Guize/pull/82#issuecomment-6094044109",
+    "created_at": "2026-10-10T05:05:54Z"
+  },
+  "findings": [
+    {
+      "number": 1,
+      "priority": "P1",
+      "accepted": true,
+      "title": "REQ6 lifecycle scope and false attribution",
+      "references": [
+        "specs/requirements/v1/requirements.yaml:263",
+        "specs/requirements/v1/requirements.yaml:68",
+        "specs/coordination/program-plan.yaml:114",
+        "specs/coordination/program-plan.yaml:427",
+        "scripts/check-program-plan-transitions.py:450",
+        "scripts/check-program-plan-transitions.py:510"
+      ],
+      "evidence": "The four endpoints listReplicas/retainAsset/restoreAsset/listRetentionHolds are attributed to REQ3/8, while the assigned task excludes REQ6. Ordinary active metadata cannot amend requirementIds or Program identity; simple Task+Registry+Program addition is rejected.",
+      "minimalRoute": "Remove these four explicit lifecycle endpoints and their entry/coverage/HTTP and orphan-specific schema records, keeping assigned cache and REQ1 asset/source relationship metadata. Record future REQ6 contract scope reconciliation rather than implying GZ015 has existing contract write authority.",
+      "qualification": "REQ1 explicitly includes unified Replica relationships and source retention policy. Do not delete all such existing model fields or claim every read-only Replica representation is necessarily out of scope. GZ015 has no Task spec yet and its frozen outputPaths omit contracts/openapi and specs/contracts/openapi; extension needs future actual legal scope admission."
+    },
+    {
+      "number": 2,
+      "priority": "P2",
+      "accepted": true,
+      "title": "Actual contract identity not frozen",
+      "references": [
+        "specs/contracts/openapi/check_contract.py:483",
+        "contracts/openapi/common/openapi.yaml:2",
+        "contracts/openapi/common/openapi.yaml:5",
+        "contracts/openapi/common/openapi.yaml:23"
+      ],
+      "evidence": "Actual compatible() accepted independent changes of info.version to9.9.9, x-contract-id to OTHER-CONTRACT and dialect to draft07 on the resolved immutable full Source85.",
+      "minimalRoute": "Verify selected initial contract identity/version/dialect and compare the same fields in compatible(), with separate mutation negatives."
+    },
+    {
+      "number": 3,
+      "priority": "P1",
+      "accepted": true,
+      "title": "ErrorDetails accepts promised-redacted secrets and paths",
+      "references": [
+        "contracts/openapi/common/schemas.yaml:3427",
+        "specs/contracts/openapi/semantics.md:26"
+      ],
+      "evidence": "Actual validate_instance accepted an ErrorDetails object containing credentialValue/sourcePath/deniedResourceId/nested providerResponse, in conflict with its own redacted bounded description.",
+      "minimalRoute": "Close ErrorDetails additionalProperties; retain only reviewed bounded public field/backoff context. Add arbitrary-field/nested payload negatives. Keep server redaction responsibility explicit; closed schema alone cannot prove secrecy of arbitrary allowed strings."
+    },
+    {
+      "number": 4,
+      "priority": "P1",
+      "accepted": true,
+      "title": "Passkey discovery allows anonymous account-not-found branch",
+      "references": [
+        "contracts/openapi/iam/paths.yaml:785",
+        "contracts/openapi/iam/paths.yaml:1130"
+      ],
+      "evidence": "Actual createPasskeyChallenge includes valid201 success and a valid404 ACCESS_NOT_FOUND example although the only optional account lookup is username and its contract promises non-disclosure. This is a contract oracle branch; no runtime server account-enumeration test was performed.",
+      "minimalRoute": "Remove account-not-found/other account-specific distinctions from this discovery operation, preserve truly global validation/rate-limit failures and uniform options semantics, and add operation-specific negative regression."
+    },
+    {
+      "number": 5,
+      "priority": "P2",
+      "accepted": true,
+      "title": "Approval carrier schema disagrees with executable helper",
+      "references": [
+        "contracts/openapi/common/schemas.yaml:1565",
+        "specs/contracts/openapi/intent_hash.py:97"
+      ],
+      "evidence": "Actual PublicationRequest body and X-Approval-Id header schemas accepted usr_example01; actual protected-intent helper rejected it as invalid approval carrier.",
+      "minimalRoute": "Add dedicated apr_ ApprovalId schema and reuse at all approval carrier bodies/headers, approval route parameter and Approval id where relevant. Do not mutate the shared generic ResourceId YAML alias and thereby restrict unrelated resources. Add non-apr negative plus valid apr positive."
+    },
+    {
+      "number": 6,
+      "priority": "P1",
+      "accepted": true,
+      "title": "LOCAL source root allows traversal or absolute path",
+      "references": [
+        "contracts/openapi/common/schemas.yaml:815",
+        "docs/07-source-connectors.md:87"
+      ],
+      "evidence": "Actual SourceDraft validation accepted LOCAL roots ../../etc, /etc, C:\\Windows and ..\\private.",
+      "minimalRoute": "Define LOCAL-specific canonical mount/relative-root shape and reject traversal/absolute paths/separators/ambiguous encodings, while preserving valid other connector root semantics. Maintain server mount ACL/realpath/symlink checks as downstream runtime duties; add direct request negative and legitimate connector-root positives."
+    }
+  ],
+  "reproProof": "gz005-independent-six-findings-source85-repro-proof.json",
+  "reproCommand": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -B .takeover-tools/gz005-independent-six-findings-source85-repro.py",
+  "reproExit": 0,
+  "rootMutated": false,
+  "fullGovernanceRerun": false,
+  "prior17AndCI630GenuineHistoricalFacts": true,
+  "priorContentAcceptanceSuperseded": true,
+  "finalIntegrationApproved": false,
+  "requiredNext": [
+    "Implement finite repairs in existing registered contracts/specs/OwnEvidence scope",
+    "Publish new actual source retaining prior actual source ancestry",
+    "Run actual new17/fullmake+API tests+same-headCI and independent content/evidence review"
+  ],
+  "outOfScope": [
+    "No new governance task or general scope amendment framework",
+    "No universal Peer historical Admission replay",
+    "No fabricated runtime browser/cryptographic/file-system test"
+  ],
+  "notes": [
+    "First exploratory proof assembly used wrong strict YAML loader for coordination merge keys, failed exit1, and is recorded externally; corrected immutable safe_load attempt exited0."
+  ]
+}

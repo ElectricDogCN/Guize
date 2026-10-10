@@ -175,12 +175,45 @@ new revisions; publication does not expand ACL. The content endpoint returns bou
 text/timeline pages or authorized gateway references, never full Base64 media.
 
 Full cache, ATS, formal Replica and Retention remain separate. Cache eviction cannot
-change Asset metadata, formal copies or holds. Promotion requires space reservation,
-full hash, scan, copy and read-back verification. Only verified copies become VERIFIED.
-The hard 500GB floor is not lowered by requests or AI. Deleting the last recoverable
-copy is denied; backup existence is not restore evidence. Configuration/deployment
+change Asset metadata, formal copies or holds. This GZ-005 reservation does not include
+REQ-V1-0006: formal replica listing, promotion/retention, restoration and retention-hold
+operations are excluded from this baseline. Replica and RetentionHold relationship
+models remain for the assigned REQ1 asset/source metadata. Lifecycle extensions need
+their own legal requirement and contract-path reservation before implementation;
+GZ-015 currently has no OpenAPI contract write claim. The frozen REQ6 floor, verified
+copies, last-copy protection and actual restore acceptance remain downstream work.
+Configuration/deployment
 uses exact approved revisions, signed locked digests and health observation; all
 real restore, hardware and production checks remain independent acceptance tasks.
+
+## 可检查的隐私与本地源边界 / Checkable privacy and LOCAL source boundaries
+
+ErrorDetails is closed: only a reviewed public field-name enum and a bounded
+retryAfterSeconds hint are accepted. Unknown provider responses, credential values,
+paths and denied resource IDs cannot be arbitrary detail properties. Servers must
+still redact free-text messages and logs; schema checks do not prove runtime redaction.
+
+Anonymous passkey options always return indistinguishable discoverable 201 options
+with empty allowCredentials for unknown, enrolled, locked and disabled usernames.
+Errors depend only on malformed requests, idempotency or global service/rate limits;
+account state cannot select an error response. Authentication verification and actual
+timing/privacy enforcement remain server integration obligations.
+
+Approval identifiers use the same apr_ namespace in bodies, headers, paths and
+approval results. A generic resource identifier is never an approval carrier.
+
+LOCAL SourceDraft requires a server-issued authorized mount: alias and a canonical
+relative root. Absolute paths, dot segments, empty segments, backslashes, control
+characters, percent escapes and drive/URI prefixes are rejected. No URL decoding
+may reinterpret this root. The server must resolve the alias against the caller's
+allowed mount, enforce containment after filesystem resolution, reject symlink
+escapes and recheck authorization during reads. These are contract obligations;
+this task does not claim actual filesystem access or containment execution.
+
+中文：错误详情仅接受公开字段名与有界重试提示；匿名 Passkey 发现不按账号存在、
+锁定或注册状态分支。审批编号统一为 apr_ 命名空间。本地源仅接受经服务端授权的
+挂载别名及规范相对目录，禁止路径穿越与二次解码；真实文件解析、软链接边界和
+读取授权由后续运行时与集成测试验证。REQ6 生命周期接口需另行合法登记合同写范围。
 
 ## Compatibility
 
@@ -190,7 +223,8 @@ ignore unknown fields and tolerate unknown enum values without granting capabili
 Removed/renamed fields, changed meanings/defaults, tightened inputs, loosened required
 response guarantees, status/error/security/base changes and incompatible SSE changes
 require major-version/compatibility review. The checker conservatively rejects
-uncertain changes. New optional request fields and optional response fields are
+uncertain changes. API version, contract ID and JSON Schema dialect are frozen in
+both validation and compatibility. New optional request fields and optional response fields are
 accepted when existing guarantees remain. A first baseline is allowed only with
 explicit `--initial-baseline` against an actual Git base lacking OpenAPI; never
 compare a changed API against its own HEAD as a compatibility substitute.

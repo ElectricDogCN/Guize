@@ -1,3 +1,11 @@
+# Current six-finding repair candidate: formal validation pending
+
+PR82 comment6094044109 identified six real contract defects after source85 local17/CI630 passed. Those pass records remain historical execution facts; their prior content-acceptance conclusion was superseded. Current code changes remove four unassigned REQ6 lifecycle operations while retaining REQ1 relationship models and shared cache DTOs; freeze API identity; close bounded error details; enforce uniform anonymous discoverable passkey schemas and global error responses; unify dedicated approval IDs; and constrain LOCAL mounts and relative roots.
+
+The candidate has89 operations,133 schemas,33 catalog errors and89 illustrative HTTP pairs. Formal published-source checks, latest same-head CI, independent review and post-main acceptance are still pending. No runtime, POC or full V1 acceptance is claimed. Task/Program/Registry requirement IDs, lease, policy and all other task identities remain unchanged.
+
+## Preserved prior execution and handoff records
+
 # GZ-005 exact published implementation results
 
 Actual tested source: 85bd46cfc39fc934c9d43623be09acbb557b6930; tree a9e33bc684f0ba500586064dc705445568537115; base 429a6566d81f128cb618c524ee8dc22faba1c0a4.

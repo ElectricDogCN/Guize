@@ -333,34 +333,6 @@ operations:
   requirementIds:
   - REQ-V1-0003
   - REQ-V1-0008
-- operationId: listReplicas
-  method: GET
-  path: /assets/{assetId}/replicas
-  moduleId: MOD-STORAGE
-  requirementIds:
-  - REQ-V1-0003
-  - REQ-V1-0008
-- operationId: retainAsset
-  method: POST
-  path: /assets/{assetId}:retain
-  moduleId: MOD-STORAGE
-  requirementIds:
-  - REQ-V1-0003
-  - REQ-V1-0008
-- operationId: restoreAsset
-  method: POST
-  path: /assets/{assetId}:restore
-  moduleId: MOD-STORAGE
-  requirementIds:
-  - REQ-V1-0003
-  - REQ-V1-0008
-- operationId: listRetentionHolds
-  method: GET
-  path: /assets/{assetId}/retention-holds
-  moduleId: MOD-STORAGE
-  requirementIds:
-  - REQ-V1-0003
-  - REQ-V1-0008
 - operationId: probeMedia
   method: POST
   path: /assets/{assetId}:probe

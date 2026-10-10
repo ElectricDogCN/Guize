@@ -839,6 +839,37 @@ SourceDraft:
   - endpoint
   - root
   - visibility
+  allOf:
+  - if:
+      properties:
+        kind:
+          const: LOCAL
+      required:
+      - kind
+    then:
+      properties:
+        root:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          format: source-root
+          pattern: ^(?!/)(?!.*(?:^|/)\.{1,2}(?:/|$))(?!.*//)(?!.*[\\%:\x00-\x1f\x7f])[^/]+(?:/[^/]+)*(?![\s\S])
+          description: Canonical relative path under the authorized LOCAL mount; no absolute path, traversal, escapes or backslashes.
+          x-i18n:
+            en-US:
+              description: Canonical relative path under the authorized LOCAL mount; no absolute path, traversal, escapes
+                or backslashes.
+            zh-CN:
+              description: 授权 LOCAL 挂载下的规范相对路径；禁止绝对路径、目录穿越、转义和反斜杠。
+        endpoint:
+          type: string
+          pattern: ^mount:[a-z][a-z0-9_-]{0,63}(?![\s\S])
+          description: Server-issued authorized LOCAL mount alias, never an arbitrary filesystem endpoint.
+          x-i18n:
+            en-US:
+              description: Server-issued authorized LOCAL mount alias, never an arbitrary filesystem endpoint.
+            zh-CN:
+              description: 服务端签发且授权的 LOCAL 挂载别名，不接受任意文件系统端点。
 SourcePatch:
   type: object
   description: Update mutable source metadata using a revision.
@@ -1562,7 +1593,8 @@ PublicationRequest:
   additionalProperties: false
   properties:
     expectedRevision: *id003
-    approvalId: *id001
+    approvalId:
+      $ref: schemas.yaml#/ApprovalId
     reason:
       type: string
       description: Audited publication reason.
@@ -2114,34 +2146,6 @@ CacheEntry:
   - sizeBytes
   - expiresAt
   - revision
-StorageRequest:
-  type: object
-  description: Version-bound cache, retention or recovery request.
-  x-i18n:
-    en-US:
-      description: Version-bound cache, retention or recovery request.
-    zh-CN:
-      description: 绑定版本的缓存、保留或恢复请求。
-  additionalProperties: false
-  properties:
-    assetVersionId: *id001
-    targetId: *id001
-    policyVersionId: *id001
-    reason:
-      type: string
-      description: Audited reason.
-      x-i18n:
-        en-US:
-          description: Audited reason.
-        zh-CN:
-          description: 审计原因。
-      minLength: 1
-      maxLength: 256
-  required:
-  - assetVersionId
-  - targetId
-  - policyVersionId
-  - reason
 Replica:
   type: object
   description: Formal verified replica with independent failure-domain identity.
@@ -3008,7 +3012,8 @@ ReleaseCommand:
   additionalProperties: false
   properties:
     expectedRevision: *id003
-    approvalId: *id001
+    approvalId:
+      $ref: schemas.yaml#/ApprovalId
     reason:
       type: string
       description: Release reason.
@@ -3256,7 +3261,8 @@ DeploymentRequest:
         zh-CN:
           description: 经校验的 Bundle 摘要。
       pattern: ^[0-9a-f]{64}$
-    approvalId: *id001
+    approvalId:
+      $ref: schemas.yaml#/ApprovalId
     targetHostIds:
       type: array
       description: Approved hosts.
@@ -3283,7 +3289,8 @@ Approval:
       description: 绑定操作、资源与修订版本的人工审批，不可变审计。
   additionalProperties: true
   properties:
-    id: *id001
+    id:
+      $ref: schemas.yaml#/ApprovalId
     action:
       type: string
       description: Exact operation ID.
@@ -3424,7 +3431,7 @@ ErrorDetails:
       description: Bounded redacted error context; no paths, tokens or denied IDs.
     zh-CN:
       description: 有界且脱敏的错误上下文，不含路径、令牌或无权对象 ID。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     field:
       type: string
@@ -3436,6 +3443,183 @@ ErrorDetails:
           description: 无效的公开请求字段。
       minLength: 1
       maxLength: 256
+      enum:
+      - action
+      - alg
+      - allowCredentials
+      - allowExternalProcessing
+      - allowTemporaryTranscode
+      - allowedCapabilities
+      - approvalId
+      - artifactId
+      - artifactType
+      - asset
+      - assetId
+      - assetType
+      - assetTypes
+      - assetVersionId
+      - attestation
+      - attestationObject
+      - authenticationMethods
+      - authenticatorData
+      - authenticatorSelection
+      - authorizationScopeVersion
+      - availability
+      - baseRevision
+      - body
+      - budgetReference
+      - bundleId
+      - bundleSha256
+      - cacheClass
+      - capabilities
+      - challenge
+      - challengeId
+      - classification
+      - clientDataJSON
+      - code
+      - codec
+      - completed
+      - confidence
+      - contentKind
+      - contentLength
+      - contentPath
+      - createdAt
+      - credentialId
+      - credentialReference
+      - csrfToken
+      - currentVersionId
+      - cursor
+      - data
+      - dataSourceId
+      - decision
+      - definition
+      - description
+      - details
+      - deviceId
+      - diskFreeBytes
+      - displayName
+      - displayPath
+      - document
+      - durationMs
+      - effect
+      - endMs
+      - endpoint
+      - entries
+      - etag
+      - eventId
+      - excludeCredentials
+      - expectedRevision
+      - expiresAt
+      - explanation
+      - failureDomainId
+      - field
+      - forceRerun
+      - format
+      - generated
+      - grant
+      - grantId
+      - hashStatus
+      - id
+      - imageArtifactId
+      - initialPassword
+      - inputHash
+      - inputVersionId
+      - items
+      - kind
+      - language
+      - lastPlayedAt
+      - leaseExpiresAt
+      - leaseId
+      - limit
+      - mediaPath
+      - message
+      - method
+      - mimeType
+      - mode
+      - modelVersion
+      - name
+      - nextCursor
+      - originSourceObjectId
+      - otherAssetId
+      - otherExpectedRevision
+      - outputHash
+      - ownerId
+      - passkeyAssertion
+      - password
+      - path
+      - payloadHash
+      - permissions
+      - pipelineVersionId
+      - policyVersionId
+      - positionMs
+      - principalId
+      - principalType
+      - priority
+      - profileVersionId
+      - progress
+      - promptVersion
+      - proof
+      - proofId
+      - protocol
+      - protocols
+      - providerObjectId
+      - pubKeyCredParams
+      - publicKey
+      - publicationStatus
+      - qualityStatus
+      - query
+      - rangePolicy
+      - reason
+      - renditionId
+      - request
+      - requestIntent
+      - residentKey
+      - resourceId
+      - retryAfterSeconds
+      - revision
+      - roleIds
+      - root
+      - rp
+      - rpId
+      - sampleAssetIds
+      - schemaId
+      - schemaVersion
+      - score
+      - securityStatus
+      - segments
+      - signature
+      - sizeBytes
+      - softwareVersions
+      - sourceId
+      - sourceIds
+      - sourceObjectIds
+      - startMs
+      - state
+      - status
+      - statusUrl
+      - storageTargetId
+      - subjectId
+      - supportedCodecs
+      - targetHostIds
+      - taskId
+      - text
+      - timeout
+      - title
+      - toolVersion
+      - totpCode
+      - traceId
+      - transports
+      - type
+      - uncertainty
+      - updatedAt
+      - user
+      - userVerification
+      - username
+      - verifiedHash
+      - versionId
+      - versionNumber
+      - visibility
+      - workerId
     retryAfterSeconds:
       type: integer
       description: Backoff hint.
@@ -3455,7 +3639,7 @@ ErrorEnvelope:
       description: Localized error with stable machine code.
     zh-CN:
       description: 稳定机器错误码与本地化说明。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     code:
       type: string
@@ -4703,152 +4887,6 @@ CacheEntryPage:
   - message
   - data
   - traceId
-ReplicaPageData:
-  type: object
-  description: Caller-scoped cursor page with no global count disclosure.
-  x-i18n:
-    en-US:
-      description: Caller-scoped cursor page with no global count disclosure.
-    zh-CN:
-      description: 调用者范围内的游标页，不暴露全局计数。
-  additionalProperties: true
-  properties:
-    items:
-      type: array
-      description: Authorized results.
-      x-i18n:
-        en-US:
-          description: Authorized results.
-        zh-CN:
-          description: 经授权结果。
-      items:
-        $ref: ../common/schemas.yaml#/Replica
-      maxItems: 100
-    nextCursor:
-      type:
-      - string
-      - 'null'
-      description: Opaque caller/query/scope-bound cursor; null at end.
-      x-i18n:
-        en-US:
-          description: Opaque caller/query/scope-bound cursor; null at end.
-        zh-CN:
-          description: 绑定调用者、查询与权限范围的游标，结束时为 null。
-      maxLength: 2048
-  required:
-  - items
-  - nextCursor
-ReplicaPage:
-  type: object
-  description: Localized success envelope.
-  x-i18n:
-    en-US:
-      description: Localized success envelope.
-    zh-CN:
-      description: 本地化成功响应。
-  additionalProperties: true
-  properties:
-    code:
-      type: string
-      description: Success result.
-      x-i18n:
-        en-US:
-          description: Success result.
-        zh-CN:
-          description: 成功结果。
-      enum:
-      - SUCCESS
-    message:
-      type: string
-      description: Localized informational message.
-      x-i18n:
-        en-US:
-          description: Localized informational message.
-        zh-CN:
-          description: 本地化提示。
-      minLength: 1
-      maxLength: 1024
-    data:
-      $ref: ../common/schemas.yaml#/ReplicaPageData
-    traceId: *id010
-  required:
-  - code
-  - message
-  - data
-  - traceId
-RetentionHoldPageData:
-  type: object
-  description: Caller-scoped cursor page with no global count disclosure.
-  x-i18n:
-    en-US:
-      description: Caller-scoped cursor page with no global count disclosure.
-    zh-CN:
-      description: 调用者范围内的游标页，不暴露全局计数。
-  additionalProperties: true
-  properties:
-    items:
-      type: array
-      description: Authorized results.
-      x-i18n:
-        en-US:
-          description: Authorized results.
-        zh-CN:
-          description: 经授权结果。
-      items:
-        $ref: ../common/schemas.yaml#/RetentionHold
-      maxItems: 100
-    nextCursor:
-      type:
-      - string
-      - 'null'
-      description: Opaque caller/query/scope-bound cursor; null at end.
-      x-i18n:
-        en-US:
-          description: Opaque caller/query/scope-bound cursor; null at end.
-        zh-CN:
-          description: 绑定调用者、查询与权限范围的游标，结束时为 null。
-      maxLength: 2048
-  required:
-  - items
-  - nextCursor
-RetentionHoldPage:
-  type: object
-  description: Localized success envelope.
-  x-i18n:
-    en-US:
-      description: Localized success envelope.
-    zh-CN:
-      description: 本地化成功响应。
-  additionalProperties: true
-  properties:
-    code:
-      type: string
-      description: Success result.
-      x-i18n:
-        en-US:
-          description: Success result.
-        zh-CN:
-          description: 成功结果。
-      enum:
-      - SUCCESS
-    message:
-      type: string
-      description: Localized informational message.
-      x-i18n:
-        en-US:
-          description: Localized informational message.
-        zh-CN:
-          description: 本地化提示。
-      minLength: 1
-      maxLength: 1024
-    data:
-      $ref: ../common/schemas.yaml#/RetentionHoldPageData
-    traceId: *id010
-  required:
-  - code
-  - message
-  - data
-  - traceId
 DerivedArtifactPageData:
   type: object
   description: Caller-scoped cursor page with no global count disclosure.
@@ -5963,7 +6001,7 @@ WebAuthnRequestOptions:
       description: JSON authentication options; decode with parseRequestOptionsFromJSON before navigator.credentials.get.
     zh-CN:
       description: JSON 登录选项；获取凭据前须通过 parseRequestOptionsFromJSON 解码。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     challenge: *id014
     rpId: *id015
@@ -5979,10 +6017,11 @@ WebAuthnRequestOptions:
           description: 统一的可发现登录策略不得暴露账户是否存在。
       items:
         $ref: schemas.yaml#/WebAuthnCredentialDescriptor
-      maxItems: 100
+      maxItems: 0
   required:
   - challenge
   - rpId
+  - allowCredentials
 PasskeyRegistrationChallenge:
   type: object
   description: One-time creation options bound to the authenticated own account.
@@ -6129,3 +6168,51 @@ ProtectedRequestIntent:
   - path
   - query
   - body
+ApprovalId:
+  type: string
+  description: Dedicated approval identifier; never a generic resource ID.
+  x-i18n:
+    en-US:
+      description: Dedicated approval identifier; never a generic resource ID.
+    zh-CN:
+      description: 专用审批标识，不接受通用资源 ID。
+  pattern: ^apr_[A-Za-z0-9_-]{1,64}(?![\s\S])
+  minLength: 5
+  maxLength: 68
+StorageRequest:
+  type: object
+  description: Version-bound cache, retention or recovery request.
+  x-i18n:
+    en-US:
+      description: Version-bound cache, retention or recovery request.
+    zh-CN:
+      description: 绑定版本的缓存、保留或恢复请求。
+  additionalProperties: false
+  properties:
+    assetVersionId: &id018
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    targetId: *id018
+    policyVersionId: *id018
+    reason:
+      type: string
+      description: Audited reason.
+      x-i18n:
+        en-US:
+          description: Audited reason.
+        zh-CN:
+          description: 审计原因。
+      minLength: 1
+      maxLength: 256
+  required:
+  - assetVersionId
+  - targetId
+  - policyVersionId
+  - reason
