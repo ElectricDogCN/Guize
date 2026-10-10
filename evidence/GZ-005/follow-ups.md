@@ -1,3 +1,25 @@
+# GZ-005 current Completion candidate — successor verification pending
+
+Task:GZ-005 / Issue68; phase:independent Completion; candidate metadata status:completed; current execution status:PENDING. Issue68 is actually closed/completed. Branch:chore/GZ-005-openapi-completion; base:8f2beb00c568ecb79c8ae0204f36fe445599fc37.
+
+Code completion identity remains PR82 /95dc9d7cec927a753e8017cd3b509ebfee681b72. Review PR83 actually merged as 8f2beb00c568ecb79c8ae0204f36fe445599fc37. This candidate removes only its original lease and appends only its actual code identity. Metadata completed or historical PASS does not constitute acceptance or merge.
+
+Roles:Coordinator program-coordinator-agent; Implementer openapi-contract-agent; Reviewer independent-openapi-review-agent; Integrator integration-agent. Current agentRole:integrator.
+
+## Actual prior source execution, not successor acceptance
+
+Prior Completion source:9dc57530c773c2753cc7047762a85ac00b381501 /tree:14163ff7a756ab2889ba5a3dce9ddc6d352d2900. Actual15 all exit0, full527 in717.57s/JUnit527 zero failures/errors/skips, CI639 full527 in683.45s/all steps success are retained losslessly in test-results/completion-9dc5753/raw-results.bundle.json and its README index. Three subsequent evidence corrections prevent final integration acceptance. Those results do not certify the corrected successor head; accepted earlier code/Review records remain preserved.
+
+## Current required integration actions
+
+Publish the exact corrected successor source/tree; run its actual15 including one full make verify TASK=GZ-005 BASE=8f2beb00c568ecb79c8ae0204f36fe445599fc37 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-completion with full527 and nonempty JUnit zero failures/errors/skips. Retain all raw Source Commit/Command/Exit Code and identical clean worktree binding. Obtain latest same-head full CI, finite independent content/evidence acceptance, verified threads and fresh head/base/closed Issue before expected-head merge. Failures prevent merge and remain retained. Then verify real Completion main/parents/tree, all applicable push-main gates/full527 and clean Root/native with independent acceptance before subsequent work. Full V1/runtime/multidevice/POCs remain incomplete.
+
+Current scope: own GZ-005 Completion metadata/Evidence only. The original lease is removed in this candidate pending accepted integration. Other tasks/policies/contracts remain unchanged.
+
+After accepted actual Completion main, register the separately reviewed planning-route work for heterogeneous AV1 workers, HLS caching, playback priorities, local OpenList-first environment and Baidu deferral. No runtime/POC is marked complete.
+
+## Historical prior phase records; not current state or actions
+
 # GZ-005 current contract implementation
 
 Task: GZ-005 / Issue68
