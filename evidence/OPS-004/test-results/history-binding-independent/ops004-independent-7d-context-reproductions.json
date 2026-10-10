@@ -1,0 +1,107 @@
+{
+  "source": "7d31b6289c7bef543023b2f2f488498887b1262d",
+  "rows": [
+    {
+      "mode": "original_high_capacity",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 original reservation exceeds historical active/high capacity limits\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "original_schema_issue_string",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 original reservation Registry schema violation: '30' is not of type 'integer'\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at 4f1b4564dbe1ec5f6d799f577e76bf5295c43f32 Registry schema violation: '30' is not of type 'integer'\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at efb7ec2273d4d3f044ed9445b22364b7f0dca16c Registry schema violation: '30' is not of type 'integer'\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at 258b1ba9a3d223dc3f18b473fcbb46b2182d113b Registry schema violation: '30' is not of type 'integer'\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at 456394fdccaa3e292b8a002d3620e3eaf469265b Registry schema violation: '30' is not of type 'integer'\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node prior registration at 258b1ba9a3d223dc3f18b473fcbb46b2182d113b Registry schema violation: '30' is not of type 'integer'\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node at 258b1ba9a3d223dc3f18b473fcbb46b2182d113b Registry schema violation: '30' is not of type 'integer'\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "original_schema_unknown_property",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 original reservation Registry schema violation: Additional properties are not allowed ('unknownProperty' was unexpected)\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at 7a426a125b040c878957b74ec23c1e1cf402d481 Registry schema violation: Additional properties are not allowed ('unknownProperty' was unexpected)\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at ad1fc59167bf970c77941cb5572e621ad339f927 Registry schema violation: Additional properties are not allowed ('unknownProperty' was unexpected)\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at e104799937325ce9f005081de9d6ff640220e399 Registry schema violation: Additional properties are not allowed ('unknownProperty' was unexpected)\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 audited history at 672b6bc34316178367da89960e001b349a601b28 Registry schema violation: Additional properties are not allowed ('unknownProperty' was unexpected)\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node prior registration at e104799937325ce9f005081de9d6ff640220e399 Registry schema violation: Additional properties are not allowed ('unknownProperty' was unexpected)\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node at e104799937325ce9f005081de9d6ff640220e399 Registry schema violation: Additional properties are not allowed ('unknownProperty' was unexpected)\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_exclusive_conflict",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node prior registration at 49f8bc69947fd2d28e8826143fcb8d7c0e344f83 claims conflict with active task OPS-100\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node at 49f8bc69947fd2d28e8826143fcb8d7c0e344f83 claims conflict with active task OPS-100\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_task_reserved",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working lifecycle documents must match the active Registry status and role\"}\n{\"status\": \"FAIL\", \"message\": \"GZ-014 Task Spec status does not match Active Work status\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_program_reserved",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working lifecycle documents must match the active Registry status and role\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_reviewer_code",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node requires implementer or integrator role\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_nonconflicting_claim",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "rebase_reviewer_evidence_tip",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "same_commit_scope_expansion",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"GZ-014 Task Spec exclusive paths do not match Active Work\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 claimed implementation changed paths outside its historical registered scope\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "implementation_prior_expired_lease",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node prior registration at 42843ffc98ec33bd3afe5132df6d0d873089efac lease is invalid: Lease is invalid at its integration commit time\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "rebase_earlier_unclaimed",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 claimed implementation changed paths outside its historical registered scope\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "work_mode_bootstrap",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "work_program_id",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node at 5f4829b905315ca83cfd2b8241841b44fee09eb5 Task file validation failed: {\\\"status\\\": \\\"FAIL\\\", \\\"message\\\": \\\"programTaskId must equal the Task Spec id.\\\"}\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "work_expiry",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "work_evidence",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node at 9992a40338e48b609c49ca7d81a9509ac5925169 Task file validation failed: {\\\"status\\\": \\\"FAIL\\\", \\\"message\\\": \\\"Evidence path does not exist: evidence/OTHER-001\\\"}\\n{\\\"status\\\": \\\"FAIL\\\", \\\"message\\\": \\\"handoffPath must be inside evidencePath.\\\"}\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "rebase_earlier_unclaimed_restored",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "scenario": "already frozen owner OPS003/new distinct Foundation OPS005",
+    "checks": {
+      "frozenChanges": [],
+      "recoveryTransition": [],
+      "foundationRegistration": []
+    },
+    "scope": "target existing predicates only; not capacity/global Gate"
+  },
+  {
+    "scenario": "registered active Foundation Program-policy-only",
+    "existingTransitionErrors": [
+      "Active transition for OPS-003 may only change that Foundation task's status, its required POC mirror, or its owned live-verified blocker"
+    ]
+  }
+]

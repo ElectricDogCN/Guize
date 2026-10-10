@@ -1,0 +1,37 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "8fb28a7cd7a1b48a80b1390e9bf38a21e97aa478",
+  "checkerSha256": "2343c88ee6912e60596bc3c981c3a0cb3c02c86249cb75f2df9a063bf55a77ff",
+  "rows": [
+    {
+      "scenario": "late_side_foreign_definition",
+      "review": "fdae33e813d20490ffa106ed41ddf096b07c137b",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "existingForeignMetadataErrors": [
+        "Foundation GZ-014 implementation node at cf177bd56dbefa75dfeebd64de56f6648ef97d38 changed another identity or policy in specs/coordination/program-plan.yaml"
+      ],
+      "existingTransitionsErrors": [
+        "Active transition for GZ-014 may only change that Foundation task's status, its required POC mirror, or its owned live-verified blocker"
+      ],
+      "transientInvalidMetadata": "cf177bd56dbefa75dfeebd64de56f6648ef97d38",
+      "metadataRestore": "0f459cecd24ace04c5a623266ab1826b89da80eb",
+      "actualCompletionBase": "c0d4f8fe900cb0ef467e452c4692f24f60edca4d",
+      "netDiffFromReview": [],
+      "changedPathsAtInvalidNode": [
+        "specs/coordination/program-plan.yaml"
+      ],
+      "existingRegistrationContextErrors": [],
+      "sources": {
+        "seed": "efafb05e1ac0ac46717cdd49bcc4fe0e0e54fce5",
+        "reservation": "4591bdebc8fb2598aa6299d7d4d988320202d887",
+        "implementation": "3b6b59a18e8f4ba4ac5ff4d3fa6efe1f17cc21cf",
+        "base": "c0d4f8fe900cb0ef467e452c4692f24f60edca4d"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ]
+}

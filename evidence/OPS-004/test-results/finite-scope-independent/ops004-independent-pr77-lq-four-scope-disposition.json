@@ -1,0 +1,60 @@
+{
+  "kind": "READ_ONLY_FINITE_EXISTING_FOUR_THREAD_SCOPE_DISPOSITION_NO_RULE_WAIVER_OR_GITHUB_MUTATION",
+  "actualSource": "5a928426889ae086d73052ea1d3881aa8adfff09",
+  "checkerSha256": "e37198ef19d41ad21d7fd0367c1ca3f1009e01b2307e8fc39ecc8f9198efcb77",
+  "rows": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-LqS",
+      "evidence": "Real CLI accepts restored disjoint Peer history; existing affected-Peer transition validator rejects reserved -> integration. No mandatory Review-state role map exists.",
+      "scopeJudgment": "Peer edge illegality remains; limited completing-Foundation proof does not certify every Peer history. Own scope/lease/identity unchanged. No demonstrated OPS004 source authorization bypass.",
+      "existingRuleReferences": [
+        "scripts/check-program-plan-transitions.py:39 ALLOWED_ACTIVE_TRANSITIONS",
+        "scripts/check-program-plan-transitions.py:413 validate_active_transition",
+        "scripts/check-program-plan-transitions.py:444 invalid active transition rejection",
+        "AGENTS.md:325 role responsibilities"
+      ],
+      "evidenceType": "ACTUAL_TEMP_GIT_CLI_AND_EXISTING_RULE_REVIEW"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-LqV",
+      "evidence": "Rule-based scope review: existing coordination checks peer claim conflicts. Reported B/C-only overlap, disjoint from Own, is not Own exclusive-claim acquisition; no complete legal Peer Admission fixture asserted.",
+      "scopeJudgment": "Do not replace completing-Foundation proof with all-peer historical conflict/Gate replay. Current conflicts affecting Own and actual latest Registry remain checked.",
+      "existingRuleReferences": [
+        "scripts/check-agent-coordination.py:788 exclusive path conflict",
+        "scripts/check-agent-coordination.py:795 reciprocal exclusive path conflict",
+        "scripts/check-program-plan-history.py:491 historical Own conflicts"
+      ],
+      "evidenceType": "EXISTING_RULE_SCOPE_REVIEW_NO_SPECIFIC_FULL_PEER_ADMISSION_REPRO_ASSERTED"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-LqX",
+      "evidence": "Real CLI accepts authority string restoration; with same authority redirection, unclaimed code and its restore both rejected. Existing current Integrity canonical authority rule remains. Historical Own working authorization reads fixed RECOVERY.OWNERSHIP, not that Program string.",
+      "scopeJudgment": "Isolated historical metadata coverage limit, not demonstrated authorization redirection. Do not claim every historical snapshot passed Integrity.",
+      "existingRuleReferences": [
+        "scripts/check-program-plan-integrity.py:39 CANONICAL_AUTHORITY",
+        "scripts/check-program-plan-integrity.py:512 canonical authority comparison",
+        "scripts/check-program-plan-history.py:558 fixed RECOVERY.OWNERSHIP lookup",
+        "scripts/check-program-plan-history.py:1064 baseline ownership lookup",
+        "scripts/check-program-plan-history.py:1128 working prior ownership lookup"
+      ],
+      "evidenceType": "ACTUAL_TEMP_GIT_CLI_AND_EXISTING_RULE_REVIEW"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q-LqY",
+      "evidence": "Rule-based scope review: current validate_active_transition allows own Foundation Program status only, so arbitrary peer title/ref/merge editing is not certified legal. Limited proof protects completing Own original identity and already-completed peers/Ledger, not whole active-Peer source history.",
+      "scopeJudgment": "No demonstrated use of active-peer Program identity to authorize completing Own work. Full peer Admission/transition claims remain outside this helper.",
+      "existingRuleReferences": [
+        "scripts/check-program-plan-transitions.py:413 validate_active_transition",
+        "scripts/check-program-plan-transitions.py:450 Program active lifecycle status-only validation",
+        "scripts/check-program-plan-history.py:1169 historical_frozen_definitions",
+        "scripts/check-program-plan-history.py:1283 foundation_post_implementation"
+      ],
+      "evidenceType": "EXISTING_RULE_SCOPE_REVIEW_NO_SPECIFIC_FULL_PEER_ADMISSION_REPRO_ASSERTED"
+    }
+  ],
+  "currentTaskBlockingFindings": [],
+  "doesNotCertify": "Every historical Program/Peer snapshot passing full Integrity/Admission/Gate",
+  "formal509AndSameHeadCI": "Pending independent final integration validation",
+  "rawCliProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-independent-5a92842-limited-peer-authority-proof.json",
+  "scopeDecision": "Owner accepted finite completing-Foundation source-proof scope; no waiver of Peer rules and no certification of all historical Peer/Program Gate legality."
+}

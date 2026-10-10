@@ -1,0 +1,83 @@
+{
+  "source": "a871e65423a2a38d66760ad8ed1af716881577e0",
+  "base": "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb",
+  "reservation": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+  "reservationErrors": [],
+  "implementationErrors": [],
+  "auditedOwnerCapacityFailures": [
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "a871e65423a2a38d66760ad8ed1af716881577e0",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "a871e65423a2a38d66760ad8ed1af716881577e0",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    }
+  ],
+  "fixtures": [
+    {
+      "mode": "working_task_bootstrap",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working Task Spec canonical binding is invalid\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_task_expiry",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node at 8d71fcbec87fa6432c865cbc6219aa1320fbeeb2 Task Registry binding: Task Spec GZ-014 leaseExpiresAt='2026-01-01T00:00:00Z' does not match Active Work lease.expiresAt='2026-10-10T18:36:27.760863+00:00'\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "rebase_unclaimed_reverted",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node changed paths outside its prior registered scope\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node changed paths outside its prior registered scope\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "metadata_only_lease_renewal",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "rebase_reviewer_evidence_tip",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_task_wave",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node at 6543260704150ad262a3b627806512279ce17d8b Task Registry binding: Task Spec GZ-014 wave='W1' does not match Active Work programWave='FOUNDATION'\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_task_schema",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working Task Spec canonical binding is invalid\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node at 389cb244b263ee5c2e17793ab71b3d0e786d3c42 Task file validation failed: {\\\"status\\\": \\\"FAIL\\\", \\\"message\\\": \\\"schemaVersion must be 2 when the field is present.\\\"}\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "working_nonconflicting_claim",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    }
+  ]
+}

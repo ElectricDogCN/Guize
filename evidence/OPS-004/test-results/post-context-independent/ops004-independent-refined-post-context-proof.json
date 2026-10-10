@@ -1,0 +1,148 @@
+{
+  "kind": "TEMP_EXPLORATORY_CHECKER_OVERLAY_REAL_GIT_POSTCLAIM_CONTEXT_REPRO_NOT_FORMAL_SOURCE_OR_GATE",
+  "source": "10894c7189e2863434147da87c142df40f6a1a3e",
+  "tree": "ccb31b0b2000ed9b41e70145ac98e6fcfd6de1a6",
+  "checkerSha256": "ff6f62be676081f8f9fcd374aed2888ccf98db64fdfd215466119b5b39ae3342",
+  "rows": [
+    {
+      "scenario": "foreign_registry_owner_restore",
+      "review": "376bfa2e5b1e5702f564a27bee30f9da8dc3ab07",
+      "peerBefore": {
+        "taskId": "OPS-100",
+        "issue": 30,
+        "title": "Task OPS-100",
+        "status": "reserved",
+        "riskLevel": "medium",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "coordinator",
+        "branch": "chore/OPS-100-other",
+        "baseBranch": "main",
+        "baseSha": "8f79a48912ee8aac76870b2a756f4c70e49ea6dc",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "OPS-100",
+        "programWave": "W1",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/other.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/OPS-100/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T21:41:32.602071+00:00",
+          "expiresAt": "2026-10-10T22:41:32.602071+00:00"
+        }
+      },
+      "existingPeerTransitionsErrors": [
+        "Active transition for OPS-100 changed stable Registry identity or scope"
+      ],
+      "peerAfter": {
+        "taskId": "OPS-100",
+        "issue": 30,
+        "title": "Task OPS-100",
+        "status": "reserved",
+        "riskLevel": "medium",
+        "owner": "temporary-foreign-owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "coordinator",
+        "branch": "chore/OPS-100-other",
+        "baseBranch": "main",
+        "baseSha": "8f79a48912ee8aac76870b2a756f4c70e49ea6dc",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "OPS-100",
+        "programWave": "W1",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/other.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/OPS-100/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T21:41:32.602071+00:00",
+          "expiresAt": "2026-10-10T22:41:32.602071+00:00"
+        }
+      },
+      "bad": "d4c08ca4d7cefe79d1f6bb7669afabafdb112789",
+      "restored": "a9be642ef983ccde4fa985a42f549021ae8bc7f2",
+      "badPaths": [
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/OPS-100.md"
+      ],
+      "netDiffFromReview": [],
+      "sources": {
+        "seed": "2aaf4b8eda2e89700bbd5a9bbbb166d851ccb287",
+        "reservation": "9aa779b58c83093a9928815c9fad17ec5aa6cae6",
+        "implementation": "966f39341a14a04357f866e27286746ff35b6be0",
+        "base": "a9be642ef983ccde4fa985a42f549021ae8bc7f2"
+      },
+      "historyExit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Post-implementation history at d4c08ca4d7cefe79d1f6bb7669afabafdb112789 changed stable Registry identity or scope for OPS-100\"}\n{\"status\": \"FAIL\", \"message\": \"Post-implementation history at a9be642ef983ccde4fa985a42f549021ae8bc7f2 changed stable Registry identity or scope for OPS-100\"}\n",
+      "stderr": "",
+      "fixtureBoundary": "Peer classification context only; not a claim of running full peer Admission/Transitions/Gate"
+    },
+    {
+      "scenario": "invalid_root_freeze_restore",
+      "review": "b593ed7343d6aff028fff84e1a6ca50cc8aac3af",
+      "existingRecoveryErrors": [
+        "Program recovery metadata rejected: Freeze sourceCommit must equal the actual target base"
+      ],
+      "existingRecoveryOwner": "GZ-014",
+      "invalidRecovery": {
+        "taskId": "GZ-014",
+        "reason": "Repair verified governance provenance conflict",
+        "affectedTasks": [
+          "GZ-003"
+        ],
+        "sourceCommit": "ffffffffffffffffffffffffffffffffffffffff",
+        "frozenAt": "2026-10-09T22:42:11.837469+00:00",
+        "verificationPath": "evidence/GZ-014/recovery-proof.json"
+      },
+      "bad": "cba25b74c4a943a17fb0d72ff637c13b1e90f646",
+      "restored": "866de8eaf9b2f727ed9a07750a8a5c7a06e52d11",
+      "badPaths": [
+        "specs/coordination/program-plan.yaml"
+      ],
+      "netDiffFromReview": [],
+      "sources": {
+        "seed": "b7b8cf777064931499a46355ea03504dc6b6521c",
+        "reservation": "7149c82992a8b1dd328256d31732eed587156900",
+        "implementation": "536a3c254c8748690d92ace34c4766282a8df0b6",
+        "base": "866de8eaf9b2f727ed9a07750a8a5c7a06e52d11"
+      },
+      "historyExit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Post-implementation history at cba25b74c4a943a17fb0d72ff637c13b1e90f646 historical recovery rejected: Program recovery metadata rejected: Freeze sourceCommit must equal the actual target base\"}\n{\"status\": \"FAIL\", \"message\": \"Post-implementation history at 866de8eaf9b2f727ed9a07750a8a5c7a06e52d11 historical recovery rejected: Program freeze/thaw requires structured recovery metadata\"}\n{\"status\": \"FAIL\", \"message\": \"Post-implementation history at 866de8eaf9b2f727ed9a07750a8a5c7a06e52d11 historical recovery rejected: Recovery transition owner does not match historical recovery\"}\n",
+      "stderr": "",
+      "fixtureBoundary": "Peer classification context only; not a claim of running full peer Admission/Transitions/Gate"
+    }
+  ]
+}

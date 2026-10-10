@@ -1,0 +1,4 @@
+Source Commit: 0b1f7f6fd3e123069cbb38622d212aaee41d7bf2
+Command: git diff --exit-code 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-005.md evidence/GZ-005 specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/poc specs/requirements contracts AGENTS.md scripts/check-agent-coordination.py scripts/check-task-scope.py tests/governance/test_active_metadata_scope.py
+
+Exit Code: 0

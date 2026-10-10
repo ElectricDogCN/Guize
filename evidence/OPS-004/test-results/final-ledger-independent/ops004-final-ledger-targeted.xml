@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="38.221" timestamp="2026-10-10T07:42:58.257859+08:00" hostname="RuifengSu"><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_accepts_original_nonconflicting_claim" time="3.357" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_accepts_working_nonconflicting_claim" time="4.271" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_context_approved_main_sync_new_registered_base" time="4.645" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_merge_separate_base_advance" time="4.348" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_merge_separate_base_advance_after_revert" time="5.123" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_post_disjoint_peer_old_own_lease" time="9.369" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_rejects_old_ledger_rewrite_restored_before_baseline_advance" time="4.448" /><testcase classname="tests.governance.test_program_plan_history.TestProgramPlanHistory" name="test_foundation_scalar_registry_peer_reports_schema_failure" time="2.013"><failure message="AssertionError: 'Registry schema violation' not found in ''">self = &lt;tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_scalar_registry_peer_reports_schema_failure&gt;
+
+    def test_foundation_scalar_registry_peer_reports_schema_failure(self):
+        # Intentionally malformed historical input; no claim of peer Admission.
+        with tempfile.TemporaryDirectory() as root:
+            self.create_postclaim_completion(root, 'scalar_registry_peer')
+            result = self._run_checker(root, 'GZ-014', 'chore/GZ-014-completion')
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+&gt;           self.assertIn('Registry schema violation', result.stdout)
+E           AssertionError: 'Registry schema violation' not found in ''
+
+tests/governance/test_program_plan_history.py:1135: AssertionError</failure></testcase></testsuite></testsuites>

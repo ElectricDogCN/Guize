@@ -1,0 +1,86 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "8fb28a7cd7a1b48a80b1390e9bf38a21e97aa478",
+  "checkerSha256": "2343c88ee6912e60596bc3c981c3a0cb3c02c86249cb75f2df9a063bf55a77ff",
+  "rows": [
+    {
+      "scenario": "late_side_fake_base",
+      "review": "855ad0313574065362dfb19134186fe36eadf143",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "existingTransitionsErrors": [],
+      "transientInvalidMetadata": "61770f5ebb3410427418e1c5d89a423b0feccfb1",
+      "metadataRestore": "b1c27a10b0c477375f09c528abbbb4327bc9c610",
+      "actualCompletionBase": "51a4d9e1ab46481795ee2e9dd11c60259e4b029b",
+      "netDiffFromReview": [],
+      "changedPathsAtInvalidNode": [
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "existingRegistrationContextErrors": [
+        "Postclaim side metadata baseSha must identify a real ancestor of its historical parent"
+      ],
+      "sources": {
+        "seed": "e886e0fc80e77e3071534002818b8dd426ca468e",
+        "reservation": "4fce2c5eded3a4f5a66a33082cfe88d79b548810",
+        "implementation": "c17c7973909187be3ae0cd39ba2f944872fb2664",
+        "base": "51a4d9e1ab46481795ee2e9dd11c60259e4b029b"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 post-implementation history at 61770f5ebb3410427418e1c5d89a423b0feccfb1 baseSha must identify a real ancestor of its historical parent\"}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "late_side_illegal_edge",
+      "review": "034fcb0870b8dcd1a3fd7c4674fa2363592f2756",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "existingTransitionsErrors": [
+        "Program task GZ-014 has invalid active transition review -> in_progress"
+      ],
+      "transientInvalidMetadata": "432e12f2c07141e117b751417d17c6f96bb80fb7",
+      "metadataRestore": "4a46d17122a23fafb436d8d4349b2b9c3d09901b",
+      "actualCompletionBase": "8d3c6b9843b606a44a094e99a7370a2820af61d1",
+      "netDiffFromReview": [],
+      "changedPathsAtInvalidNode": [
+        "specs/coordination/active-work.yaml",
+        "specs/coordination/program-plan.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "existingRegistrationContextErrors": [
+        "Postclaim side metadata has forbidden historical lifecycle transition review -> in_progress"
+      ],
+      "sources": {
+        "seed": "caf32a6121d36787b1327018b10415dd8e22e6f0",
+        "reservation": "485f63857f48195ebaed9bec0e3acc969d3b747a",
+        "implementation": "c85c52faa61511fe5e6b6361d3371a77bd977dde",
+        "base": "8d3c6b9843b606a44a094e99a7370a2820af61d1"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 post-implementation history at 432e12f2c07141e117b751417d17c6f96bb80fb7 has forbidden historical lifecycle transition review -> in_progress\"}\n",
+      "historyStderr": ""
+    },
+    {
+      "scenario": "late_side_owner_change",
+      "review": "765d5bf80212598fb4c024fc9b5d293102b02443",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "actualCompletionBase": "dace855e6ad8ad577fb677e4a338cbb949c9dbef",
+      "workDiff": [
+        "evidence/GZ-014/independent-review.md"
+      ],
+      "sources": {
+        "seed": "b028f971f6eaa2e04aeb515055effe8ed3ab7582",
+        "reservation": "7ae030390cf8576adbe08a79b28d68134e2ff7ab",
+        "implementation": "c3d9eda888f3ca01a650e3227289c7218ffb3683",
+        "base": "dace855e6ad8ad577fb677e4a338cbb949c9dbef"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ]
+}

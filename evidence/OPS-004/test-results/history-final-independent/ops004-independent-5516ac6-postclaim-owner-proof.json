@@ -1,0 +1,35 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "5516ac62a4f90e924fa7ab13d5a76b0a898aa4ae",
+  "checkerSha256": "bfc1bda36863327512d5833a61d29ba7f73ee813dd68460f8a71c2c4abb5896c",
+  "rows": [
+    {
+      "scenario": "late_side_owner_change",
+      "review": "bf12ff5382836f4af381d3ecde1130e1c0c42609",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "existingTransitionsErrors": [
+        "Active transition for GZ-014 changed stable Registry identity or scope"
+      ],
+      "transientInvalidMetadata": "c2a05c1989db67a2d8e66d970c9e754e4acaa9bb",
+      "metadataRestore": "b83474de2efa3c12c00379e043c1978b9d9a3835",
+      "actualCompletionBase": "f39e19ca62cc8814e928e399f63bfad4d4418598",
+      "netDiffFromReview": [],
+      "changedPathsAtInvalidNode": [
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "existingRegistrationContextErrors": [],
+      "sources": {
+        "seed": "164bcb1f9fb1af1147a7c7dc422cafd1f3ebb57b",
+        "reservation": "ee412be64a32e44cddfc7be4bc9984228bba93e1",
+        "implementation": "ded3a1adf708c070a971221efd5f8129412e2ec3",
+        "base": "f39e19ca62cc8814e928e399f63bfad4d4418598"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 changed stable identity in post-implementation history at c2a05c1989db67a2d8e66d970c9e754e4acaa9bb\"}\n",
+      "historyStderr": ""
+    }
+  ]
+}

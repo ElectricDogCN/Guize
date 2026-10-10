@@ -1,0 +1,16 @@
+{
+  "task": 0,
+  "readiness": 0,
+  "schemas": 0,
+  "integrity": 0,
+  "history": 0,
+  "transitions": 0,
+  "finalization": 0,
+  "raw-lifecycle": 0,
+  "lifecycle": 0,
+  "coordination": 1,
+  "scope": 0,
+  "evidence": 0,
+  "unaffected": 0,
+  "docs": 0
+}

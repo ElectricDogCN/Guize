@@ -1,0 +1,259 @@
+{
+  "kind": "PREPUBLICATION_LOCAL_ALIAS_READ_ONLY_PINNED_STATIC_AUDIT_NOT_NEW_FORMAL_RESULT",
+  "head": "597d4ca33e5657c2b4eb4594c988944478c62547",
+  "tree": "dc6e07ac9985407da422742904355e950bae61f0",
+  "soleParent": "8c59b0a0a17249a55e9495f19e8e654da540ce8b",
+  "protectedProgramOutsideOwn": true,
+  "protectedRegistryOutsideOwn": true,
+  "ownRegistryChanges": {
+    "agentRole": {
+      "before": "coordinator",
+      "after": "implementer"
+    },
+    "branch": {
+      "before": "chore/OPS-004-history-scope-registration",
+      "after": "chore/OPS-004-history-repair-implementation"
+    },
+    "status": {
+      "before": "blocked",
+      "after": "in_progress"
+    },
+    "baseSha": {
+      "before": "62d4ef826e0be1acb2839c3f04fe62d1894f9585",
+      "after": "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb"
+    }
+  },
+  "ownLeaseUnchanged": true,
+  "protectedChangedPaths": [],
+  "modifiedOldRaw": [],
+  "parent476Record": {
+    "source": "8c59b0a0a17249a55e9495f19e8e654da540ce8b",
+    "tree": "924cb6450545610c95de6bdb538d7fd6f8d70b6f",
+    "tests": 476,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "status": {
+      "task": 0,
+      "readiness": 0,
+      "schemas": 0,
+      "integrity": 0,
+      "history": 0,
+      "transitions": 0,
+      "finalization": 0,
+      "raw-lifecycle": 0,
+      "lifecycle": 0,
+      "coordination": 1,
+      "scope": 0,
+      "evidence": 0,
+      "unaffected": 0,
+      "verify": 2,
+      "governance": 0
+    }
+  },
+  "CI611Proof": {
+    "kind": "ACTUAL_GITHUB_CI_COMPLETE_SAME_EVENT_SOURCE",
+    "repository": "ElectricDogCN/Guize",
+    "source": "8c59b0a0a17249a55e9495f19e8e654da540ce8b",
+    "tree": "924cb6450545610c95de6bdb538d7fd6f8d70b6f",
+    "runId": 37985657735,
+    "runNumber": 611,
+    "jobId": 114006881668,
+    "event": "pull_request",
+    "executionCheckout": "12a066e8530ae025196c52c7e7d23ad3417b49e2",
+    "executionTree": "924cb6450545610c95de6bdb538d7fd6f8d70b6f",
+    "executionParents": [
+      "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb",
+      "8c59b0a0a17249a55e9495f19e8e654da540ce8b"
+    ],
+    "govResult": "476 passed in 667.83s (0:11:07) ========================",
+    "overallConclusion": "failure",
+    "onlyFailure": "Agent coordination check: original capacity FAIL retained",
+    "optionalCleanupSkipped": [
+      "Post Setup Python 3.11"
+    ],
+    "jobs": [
+      {
+        "id": 114006881668,
+        "name": "Governance Checks",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 37985657735,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 12
+          },
+          {
+            "name": "Governance tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Skip audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Secret scan",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Evidence check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Scope check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Spec sync check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Generate governance report",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 49
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          }
+        ]
+      }
+    ],
+    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/37985657735"
+  },
+  "realHeadAfter": "597d4ca33e5657c2b4eb4594c988944478c62547",
+  "realStatusAfter": ""
+}

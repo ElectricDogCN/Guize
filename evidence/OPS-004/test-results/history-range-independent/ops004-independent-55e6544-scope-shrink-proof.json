@@ -1,0 +1,96 @@
+{
+  "kind": "PINNED_ACTUAL_SOURCE_TEMPORARY_REAL_GIT_TWO_THREAD_REPRO_NOT_FORMAL_GATE",
+  "source": "55e6544f8c6aba83aeaf3fb32cce45cb119d6365",
+  "tree": "87bebbdbaba580f92ca6d07dbdca8daab039f1c4",
+  "checkerSha256": "eb7aecfa21733cced276497434d0321f74bddb4dbe7f492682ce5fc422282a22",
+  "rows": [
+    {
+      "scenario": "postclaim_scope_shrink_foo_restore",
+      "restoredEntry": {
+        "taskId": "GZ-014",
+        "issue": 30,
+        "title": "Task GZ-014",
+        "status": "review",
+        "riskLevel": "high",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "reviewer",
+        "branch": "chore/GZ-014-review",
+        "baseBranch": "main",
+        "baseSha": "4ad0be05fc3876bcb33ad58be8e977329da20d38",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "GZ-014",
+        "programWave": "FOUNDATION",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/fixture-repair.py",
+          "scripts/second-repair.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/GZ-014/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T20:49:49.051329+00:00",
+          "expiresAt": "2026-10-10T21:49:49.051329+00:00"
+        }
+      },
+      "review": "0e51c1bb8c3e3433c79e2f09946b562386bf1f6a",
+      "shrink": "12165b6f3ceaee32ff64e845acb6b300cdc46e4f",
+      "bad": "c52ecb9e5e2840949131ad73a1e841c63743df48",
+      "restore": "ebd16f329ed81391961e055d98b9c09bac208c71",
+      "tip": "a4cbf3d4fb485e2e45e811f8dd78285c9a536f9e",
+      "badPreClaims": [
+        "scripts/second-repair.py"
+      ],
+      "badPostClaims": [
+        "scripts/second-repair.py"
+      ],
+      "badStatus": "review",
+      "badPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "netDiffFromReview": [],
+      "sources": {
+        "seed": "32a325bbf8c6ccbddfe373bf62c114b9bc3a2d55",
+        "reservation": "e063db076346d621232b6ea463dc189614855f3c",
+        "implementation": "4ad0be05fc3876bcb33ad58be8e977329da20d38",
+        "base": "a4cbf3d4fb485e2e45e811f8dd78285c9a536f9e"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 has own code changes after claimed implementation at c52ecb9e5e2840949131ad73a1e841c63743df48: scripts/fixture-repair.py; Completion must identify the latest reviewed implementation\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 has own code changes after claimed implementation at ebd16f329ed81391961e055d98b9c09bac208c71: scripts/fixture-repair.py; Completion must identify the latest reviewed implementation\"}\n",
+      "historyStderr": "",
+      "firstParentHistory": [
+        "a4cbf3d4fb485e2e45e811f8dd78285c9a536f9e GZ-014 restore original scope (#30)",
+        "ebd16f329ed81391961e055d98b9c09bac208c71 GZ-014 restore foo work (#29)",
+        "c52ecb9e5e2840949131ad73a1e841c63743df48 GZ-014 narrowed-scope foo work (#28)",
+        "12165b6f3ceaee32ff64e845acb6b300cdc46e4f GZ-014 narrow own scope (#27)",
+        "0e51c1bb8c3e3433c79e2f09946b562386bf1f6a GZ-014 independent Review (#24)",
+        "4ad0be05fc3876bcb33ad58be8e977329da20d38 GZ-014 repair (#22)",
+        "c7182fe40581dbacac7bd8e26ce2a31ad3951df7 GZ-014 activation (#21)",
+        "e063db076346d621232b6ea463dc189614855f3c GZ-014 metadata reservation (#20)",
+        "32a325bbf8c6ccbddfe373bf62c114b9bc3a2d55 GZ-014 early repair before reservation (#22)"
+      ],
+      "implementationHelperErrors": [],
+      "postHelperErrors": [
+        "Foundation GZ-014 has own code changes after claimed implementation at c52ecb9e5e2840949131ad73a1e841c63743df48: scripts/fixture-repair.py; Completion must identify the latest reviewed implementation",
+        "Foundation GZ-014 has own code changes after claimed implementation at ebd16f329ed81391961e055d98b9c09bac208c71: scripts/fixture-repair.py; Completion must identify the latest reviewed implementation"
+      ]
+    }
+  ],
+  "realRepositoryHeadAfter": "55e6544f8c6aba83aeaf3fb32cce45cb119d6365",
+  "realRepositoryStatusAfter": ""
+}

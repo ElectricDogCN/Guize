@@ -1,0 +1,44 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "597d4ca33e5657c2b4eb4594c988944478c62547",
+  "checkerSha256": "aa25825e571d617cb989eecd7e3bce50df84cc427c6ab75e4b79725edaf1117b",
+  "rows": [
+    {
+      "scenario": "MISSING_OWN_ENTRY_AND_SECOND_PARENT_RESERVATION_LINEAGE",
+      "review": "46cf7685b8d264934810b798521e2727ea125cf6",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "lateReservationMerge": "925c9658f13de689b321ae71ae3a9c8e67201aee",
+      "reservationParents": [
+        "183c343d07e2badba988743d6d94365ddd337bc6",
+        "e3bce4be5430b7621af3eebd0b0ab437e8f48110"
+      ],
+      "lateSideWork": "4c472ff3846262769eb3e7611004e1dc2975c4f7",
+      "lateRestore": "eb8c9bbbbd17a066761d9f38a1ccbf8a62f2104c",
+      "restoredMetadata": "85a15418c9c38caf39a79dd7a45ca28601607221",
+      "actualCompletionBase": "e15887fe304534c8378298032e1acf0af88718fd",
+      "parents": [
+        "46cf7685b8d264934810b798521e2727ea125cf6",
+        "85a15418c9c38caf39a79dd7a45ca28601607221"
+      ],
+      "netDiffFromReview": [],
+      "transientNodeDiff": [
+        "scripts/fixture-repair.py"
+      ],
+      "noOwnEntryAtWork": true,
+      "sources": {
+        "seed": "183c343d07e2badba988743d6d94365ddd337bc6",
+        "reservation": "e3bce4be5430b7621af3eebd0b0ab437e8f48110",
+        "implementation": "bd8b8ffae17a641e90b4fb0086f13ce521060eed",
+        "base": "e15887fe304534c8378298032e1acf0af88718fd"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": "",
+      "existingWorkGuardWhenLateSideAudited": [
+        "Foundation GZ-014 claimed implementation requires an active registered implementation state and exact diff"
+      ]
+    }
+  ]
+}

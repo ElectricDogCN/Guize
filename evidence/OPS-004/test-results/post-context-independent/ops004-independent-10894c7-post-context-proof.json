@@ -1,0 +1,148 @@
+{
+  "kind": "PINNED_ACTUAL_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_CONTEXT_REPRO_NOT_FORMAL_GATE",
+  "source": "10894c7189e2863434147da87c142df40f6a1a3e",
+  "tree": "ccb31b0b2000ed9b41e70145ac98e6fcfd6de1a6",
+  "checkerSha256": "7c378bd4d1f3812305ec5d363bc06d88779a98e03a022c66827f6fbacbd47dc5",
+  "rows": [
+    {
+      "scenario": "foreign_registry_owner_restore",
+      "review": "9cb65c2cb18880864fb8889a6d9aa5a4db577469",
+      "peerBefore": {
+        "taskId": "OPS-100",
+        "issue": 30,
+        "title": "Task OPS-100",
+        "status": "reserved",
+        "riskLevel": "medium",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "coordinator",
+        "branch": "chore/OPS-100-other",
+        "baseBranch": "main",
+        "baseSha": "3c3b65f93630c180535aa3d2959b5ea4b3350a1b",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "OPS-100",
+        "programWave": "W1",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/other.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/OPS-100/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T21:31:20.446300+00:00",
+          "expiresAt": "2026-10-10T22:31:20.446300+00:00"
+        }
+      },
+      "existingPeerTransitionsErrors": [
+        "Active transition for OPS-100 changed stable Registry identity or scope"
+      ],
+      "peerAfter": {
+        "taskId": "OPS-100",
+        "issue": 30,
+        "title": "Task OPS-100",
+        "status": "reserved",
+        "riskLevel": "medium",
+        "owner": "temporary-foreign-owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "coordinator",
+        "branch": "chore/OPS-100-other",
+        "baseBranch": "main",
+        "baseSha": "3c3b65f93630c180535aa3d2959b5ea4b3350a1b",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "OPS-100",
+        "programWave": "W1",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/other.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/OPS-100/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T21:31:20.446300+00:00",
+          "expiresAt": "2026-10-10T22:31:20.446300+00:00"
+        }
+      },
+      "bad": "58e5acda4335cff121126f496272af0393758bbd",
+      "restored": "06d47832c6d138b8e492ea9fd12e22f43b6ae64e",
+      "badPaths": [
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/OPS-100.md"
+      ],
+      "netDiffFromReview": [],
+      "sources": {
+        "seed": "ea4a899408b87c4ee69cd4ba4d483232c8acf905",
+        "reservation": "d8a4e9b0e4b1246fd9032646265f4d880ce3b453",
+        "implementation": "98266d471f662ec517ce5ce185f4c55befa29415",
+        "base": "06d47832c6d138b8e492ea9fd12e22f43b6ae64e"
+      },
+      "historyExit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": "",
+      "fixtureBoundary": "Peer classification context only; not a claim of running full peer Admission/Transitions/Gate"
+    },
+    {
+      "scenario": "invalid_root_freeze_restore",
+      "review": "5d0169f30adef66aa1e1158cd5d97b6815d43ced",
+      "existingRecoveryErrors": [
+        "Program recovery metadata rejected: Freeze sourceCommit must equal the actual target base"
+      ],
+      "existingRecoveryOwner": "GZ-014",
+      "invalidRecovery": {
+        "taskId": "GZ-014",
+        "reason": "Repair verified governance provenance conflict",
+        "affectedTasks": [
+          "GZ-003"
+        ],
+        "sourceCommit": "ffffffffffffffffffffffffffffffffffffffff",
+        "frozenAt": "2026-10-09T22:32:02.450833+00:00",
+        "verificationPath": "evidence/GZ-014/recovery-proof.json"
+      },
+      "bad": "0d793278e3dabeee1a289649cf3d4fc45b1d421c",
+      "restored": "8f56f414d801d65a44df90d310528cf9a6937b4c",
+      "badPaths": [
+        "specs/coordination/program-plan.yaml"
+      ],
+      "netDiffFromReview": [],
+      "sources": {
+        "seed": "f5f4bb57a7f124316eb22c8bd08253af26fc59f8",
+        "reservation": "dd1c2bde1d64a8d90c391745237098437abf9be0",
+        "implementation": "dc28b73ba35e9b3bb622850f8b450515f4bfe4fd",
+        "base": "8f56f414d801d65a44df90d310528cf9a6937b4c"
+      },
+      "historyExit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": "",
+      "fixtureBoundary": "Peer classification context only; not a claim of running full peer Admission/Transitions/Gate"
+    }
+  ]
+}

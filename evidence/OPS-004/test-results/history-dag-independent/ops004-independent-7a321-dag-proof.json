@@ -1,0 +1,79 @@
+{
+  "source": "7a3211062ea45e08e762b623c5ff46d7b2936730",
+  "base": "31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb",
+  "reservation": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+  "reservationErrors": [],
+  "implementationErrors": [],
+  "auditedOwnerCapacityFailures": [
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "7a3211062ea45e08e762b623c5ff46d7b2936730",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    },
+    {
+      "event": "OPS-004-LIFECYCLE-ADMISSION-20261009",
+      "observationCommit": "7a3211062ea45e08e762b623c5ff46d7b2936730",
+      "capacityResult": "FAIL",
+      "activeCount": 2,
+      "highCount": 2,
+      "maxHighRiskTasks": 1
+    }
+  ],
+  "fixtures": [
+    {
+      "mode": "implementation_side_late_registration",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node predates its original reservation\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "implementation_side_old_work_second_parent",
+      "exit": 1,
+      "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node predates its original reservation\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working lifecycle documents must match the active Registry status and role\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node requires implementer or integrator role\"}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "valid_implementation_merge",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "rebase_evidence_tip",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "metadata_only_lease_renewal",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "rebase_reviewer_evidence_tip",
+      "exit": 0,
+      "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "stderr": ""
+    }
+  ],
+  "manifest": {
+    "actual": 190,
+    "listed": 190,
+    "missing": [],
+    "extra": []
+  },
+  "445ArchiveUnchanged": true,
+  "445ArchiveFiles": 23
+}

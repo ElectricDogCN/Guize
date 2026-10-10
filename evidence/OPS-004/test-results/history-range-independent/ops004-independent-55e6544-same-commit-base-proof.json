@@ -1,0 +1,132 @@
+{
+  "kind": "PINNED_ACTUAL_SOURCE_TEMPORARY_REAL_GIT_TWO_THREAD_REPRO_NOT_FORMAL_GATE",
+  "source": "55e6544f8c6aba83aeaf3fb32cce45cb119d6365",
+  "tree": "87bebbdbaba580f92ca6d07dbdca8daab039f1c4",
+  "checkerSha256": "eb7aecfa21733cced276497434d0321f74bddb4dbe7f492682ce5fc422282a22",
+  "rows": [
+    {
+      "scenario": "merge_single_parent_earlier_unclaimed",
+      "earlierUnclaimed": "9edc4825ea54cd74763622f33321de6a529de768",
+      "earlierPaths": [
+        "backend/unclaimed.py"
+      ],
+      "earlierEntry": {
+        "taskId": "GZ-014",
+        "issue": 30,
+        "title": "Task GZ-014",
+        "status": "in_progress",
+        "riskLevel": "high",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "implementer",
+        "branch": "chore/GZ-014-repair",
+        "baseBranch": "main",
+        "baseSha": "9448e067680d9099ab59982168c7f17b4b9f85ec",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "GZ-014",
+        "programWave": "FOUNDATION",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/fixture-repair.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/GZ-014/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T20:50:15.073001+00:00",
+          "expiresAt": "2026-10-10T21:50:15.073001+00:00"
+        }
+      },
+      "priorRegisteredBase": "9448e067680d9099ab59982168c7f17b4b9f85ec",
+      "claimed": "f43e8e7656a555ab225281ca253f243498875f60",
+      "claimedParent": "9edc4825ea54cd74763622f33321de6a529de768",
+      "claimedPaths": [
+        "scripts/fixture-repair.py",
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "claimedEntry": {
+        "taskId": "GZ-014",
+        "issue": 30,
+        "title": "Task GZ-014",
+        "status": "in_progress",
+        "riskLevel": "high",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "implementer",
+        "branch": "chore/GZ-014-repair",
+        "baseBranch": "main",
+        "baseSha": "9edc4825ea54cd74763622f33321de6a529de768",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "GZ-014",
+        "programWave": "FOUNDATION",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/fixture-repair.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/GZ-014/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T20:50:15.073001+00:00",
+          "expiresAt": "2026-10-10T21:50:15.073001+00:00"
+        }
+      },
+      "registeredBaseToClaimedPaths": [
+        "scripts/fixture-repair.py",
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "parentCount": 1,
+      "sources": {
+        "seed": "379ca1df9877464eeb425ef747125c20d05a3024",
+        "reservation": "9448e067680d9099ab59982168c7f17b4b9f85ec",
+        "implementation": "f43e8e7656a555ab225281ca253f243498875f60",
+        "base": "1cc4fcf2016adb67b15d4e9c8c56fbaadb7f5b2d"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": "",
+      "firstParentHistory": [
+        "1cc4fcf2016adb67b15d4e9c8c56fbaadb7f5b2d GZ-014 independent Review (#24)",
+        "f43e8e7656a555ab225281ca253f243498875f60 GZ-014 repair (#22)",
+        "9edc4825ea54cd74763622f33321de6a529de768 GZ-014 earlier unclaimed work (#26)",
+        "73ff9080bf0553ca3254147ed856974e8df401b5 GZ-014 activation (#21)",
+        "9448e067680d9099ab59982168c7f17b4b9f85ec GZ-014 metadata reservation (#20)",
+        "379ca1df9877464eeb425ef747125c20d05a3024 GZ-014 early repair before reservation (#22)"
+      ],
+      "implementationHelperErrors": [],
+      "postHelperErrors": []
+    }
+  ],
+  "realRepositoryHeadAfter": "55e6544f8c6aba83aeaf3fb32cce45cb119d6365",
+  "realRepositoryStatusAfter": ""
+}

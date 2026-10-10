@@ -1,0 +1,44 @@
+{
+  "kind": "DIRTY_WORKING_CODE_REAL_GIT_FOREIGN_CONFLICT_NEGATIVE_NOT_FORMAL_GATE",
+  "gitHead": "0b1f7f6fd3e123069cbb38622d212aaee41d7bf2",
+  "checkerSha256": "999db37e91295f805fc6b410e17d69b552910d2dea2b4a90f3ef5b412956631a",
+  "record": {
+    "approvedMainConflictPaths": [
+      "specs/coordination/active-work.yaml",
+      "specs/tasks/GZ-099.md"
+    ],
+    "sideConflictPaths": [
+      "specs/coordination/active-work.yaml",
+      "specs/tasks/GZ-099.md"
+    ],
+    "foreignErrors": [
+      "Foundation GZ-014 implementation node at 41dc5186c939b0b838ea27c756e44f51f25704cc changed another identity or policy in specs/coordination/active-work.yaml"
+    ],
+    "cleanImports": [],
+    "mergeBases": [
+      "326a59d7ec7fbb49612910a610ad0c733e0ba7be"
+    ],
+    "selectedForeignExpiry": "2026-10-10T21:05:55.413529+00:00",
+    "priorForeignExpiry": "2026-10-10T22:05:55.413529+00:00",
+    "commonForeignExpiry": "2026-10-10T20:05:55.413529+00:00",
+    "common": "326a59d7ec7fbb49612910a610ad0c733e0ba7be",
+    "prior": "4bc800a32e442a20c1c4dfdfcac77b5f0b768931",
+    "older": "114e6d903cc680c5a548641f2257aa3e614aed9b",
+    "latestMain": "ba692c5efbd448c787f5a72c142316303f622ffd",
+    "working": "f6c737dc81f33858f38490eb4b4c8525cc7a3de0",
+    "staleConflictResolution": "41dc5186c939b0b838ea27c756e44f51f25704cc",
+    "rootMerge": "806bd29da0cafe58eef5bac12318c4f2bf7cbf39",
+    "netDiffPaths": [
+      "scripts/fixture-repair.py"
+    ],
+    "sources": {
+      "seed": "6fa5e6b5bdba3809d301bbba94acf1858481ddea",
+      "reservation": "a5e37c070bed25a21575dd0e143de9958e0e5b14",
+      "implementation": "806bd29da0cafe58eef5bac12318c4f2bf7cbf39",
+      "base": "40b9805f46f728410f4ab1c0b933ad00cd2885ef"
+    },
+    "historyExit": 1,
+    "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 implementation node at 41dc5186c939b0b838ea27c756e44f51f25704cc changed another identity or policy in specs/coordination/active-work.yaml\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node changed paths outside its prior registered scope\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 implementation node at 103999d154eb420a08eb8740b84df2cb8b999628 changed another identity or policy in specs/coordination/active-work.yaml\"}\n{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 working node changed paths outside its prior registered scope\"}\n",
+    "stderr": ""
+  }
+}

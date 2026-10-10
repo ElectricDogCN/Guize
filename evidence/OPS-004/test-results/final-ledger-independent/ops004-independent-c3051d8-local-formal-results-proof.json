@@ -1,0 +1,145 @@
+{
+  "kind": "READ_ONLY_PINNED_LOCAL_FORMAL_RESULTS_INSPECTION_CI_STILL_PENDING_NO_MERGE_APPROVAL",
+  "source": "c3051d8d513ebdb0d1805f0bf229894fa2ffb4a1",
+  "tree": "717e9d076f1c0554066e922b71be78328f2cf568",
+  "status": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 0,
+    "lifecycle": 0,
+    "coordination": 1,
+    "scope": 0,
+    "evidence": 0,
+    "unaffected": 0,
+    "verify": 2,
+    "governance": 0
+  },
+  "rows": [
+    {
+      "check": "task",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "f24f1aac978b69f60ff4170aac28e2007f936ef25abbbcdffb7d22bc46bbc509"
+    },
+    {
+      "check": "readiness",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "ebeb898e3fed169eaf43b325756ec55c6a92d26bb0896bddc800aee341652fb7"
+    },
+    {
+      "check": "schemas",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "d3b39b68e0bf6253dcef43a16ee5a5f3e6cf6c0abed53c1801ea946f2591593d"
+    },
+    {
+      "check": "integrity",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "e9520c6f0fa5409fd783d28043b0fb4174404cb37bae0971b6d0b08425dfccd3"
+    },
+    {
+      "check": "history",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "7c873c87e2d6e38950de1caa3eaa33308255a465623ac4ebc4900647ec641601"
+    },
+    {
+      "check": "transitions",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "bea9825efe07019d059a30d95ac23c506345dcbd407f7149ab0feecf006e9e64"
+    },
+    {
+      "check": "finalization",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "21d6149978f11e2638568450e026fd446ac3eac9f1784af113bc1e8aa9396375"
+    },
+    {
+      "check": "raw-lifecycle",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "21033903af11ef127aab19f4b5bcbc1c2c60ba999416df99aea07e397fce10f1"
+    },
+    {
+      "check": "lifecycle",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "151d224267cfa79d44cc6cd30145aaf13885114776a6879dd5f1c0d58fab3919"
+    },
+    {
+      "check": "coordination",
+      "exit": 1,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "9b332f499248de496f082d7135fff12460e6937dee19403d886e045e29d81e78"
+    },
+    {
+      "check": "scope",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "2fe69cf162690335740289faf537d6b8e4dcd772293dfc37886ec7417adf6f1d"
+    },
+    {
+      "check": "evidence",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "57765323cf0942d159456dea985d0a394d230984e2f4561367dadfdd0571cc24"
+    },
+    {
+      "check": "unaffected",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "843a92068d931815726d2a2a92087c541cd3272f1af9930d509e3d01e11fae51"
+    },
+    {
+      "check": "verify",
+      "exit": 2,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "5deb495e2eb88db8db9f431f799ebc3fc0d0be888ac4bd19436e3ee72b6d9b09"
+    },
+    {
+      "check": "governance",
+      "exit": 0,
+      "sourceBound": true,
+      "exitFooterBound": true,
+      "sha256": "67d0503851f72a6ceac92e1121f4fc526c4ae136db543912d73ff7b3ad2461c9"
+    }
+  ],
+  "junit": {
+    "testcases": 511,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "governanceRaw": true,
+  "cleanBeforeAfter": {
+    "clean-before.txt": true,
+    "clean-after.txt": true
+  },
+  "capacityOnly": true,
+  "makeStoppedAtCapacity": true,
+  "makeFullGovernanceRunClaim": false,
+  "sameHeadCI617": "PENDING_ACTUAL_RAW",
+  "followupFlow": "Review own-metadata-only archives implementation raw and four implementation-governance fields; latest Review head14+fullCI still required. Completion actualhead14/fullmake511/CI all-zero and independent review required. Main realmake plus no-task pushCI required; later completed OwnEvidence correction keeps Task/Plan/Registry/Ledger bytes and Issueclosed."
+}

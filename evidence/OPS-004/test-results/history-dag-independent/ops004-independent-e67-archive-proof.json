@@ -1,0 +1,29 @@
+{
+  "source": "f402767e04f3c8536c14205d2ee548b841dbbae6",
+  "archive": "e67c8727aad86d823e3f603188b12bb903eb91c3",
+  "manifest": {
+    "actual": 187,
+    "listed": 187,
+    "missing": [],
+    "extra": []
+  },
+  "archiveDeltaOutsideOwnEvidence": [],
+  "junit": {
+    "cases": 445,
+    "failure": 0,
+    "error": 0,
+    "skipped": 0
+  },
+  "localGovernance": "Source Commit: f402767e04f3c8536c14205d2ee548b841dbbae6\nCommand: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-history-binding-results/governance.xml\n........................................................................ [ 16%]\n........................................................................ [ 32%]\n........................................................................ [ 48%]\n........................................................................ [ 64%]\n........................................................................ [ 80%]\n........................................................................ [ 97%]\n.............                                                            [100%]\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-history-binding-results/governance.xml -\n445 passed in 389.29s (0:06:29)\n\nExit Code: 0\n",
+  "sourceFile": "f402767e04f3c8536c14205d2ee548b841dbbae6\n",
+  "treeFile": "8c70772ffc965aec55859fac396e743befb7814f\n",
+  "cleanBefore": "Source Commit: f402767e04f3c8536c14205d2ee548b841dbbae6\nCommand: git status --porcelain\n\nExit Code: 0\n",
+  "cleanAfter": "Source Commit: f402767e04f3c8536c14205d2ee548b841dbbae6\nCommand: git status --porcelain\n\nExit Code: 0\n",
+  "CIRelevantLines": [
+    "2026-10-09T18:38:50.0735815Z {\"status\": \"FAIL\", \"message\": \"High/critical active task count 2 exceeds limit 1\"}",
+    "2026-10-09T18:38:50.1032924Z ##[error]Process completed with exit code 1.",
+    "2026-10-09T18:44:40.9072418Z ======================= 445 passed in 350.55s (0:05:50) ========================",
+    "2026-10-09T18:44:40.9975785Z OK: No skipped tests",
+    "2026-10-09T18:44:41.7932264Z OK: No high-risk secrets detected"
+  ]
+}

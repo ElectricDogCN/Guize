@@ -1,0 +1,35 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "8fb28a7cd7a1b48a80b1390e9bf38a21e97aa478",
+  "checkerSha256": "2343c88ee6912e60596bc3c981c3a0cb3c02c86249cb75f2df9a063bf55a77ff",
+  "rows": [
+    {
+      "scenario": "late_side_owner_change",
+      "review": "1240acc8b9b414e20ddfe113e5ff2ccf7015644e",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "existingTransitionsErrors": [
+        "Active transition for GZ-014 changed stable Registry identity or scope"
+      ],
+      "transientInvalidMetadata": "01beb08dcb0868029e77e4998f95ada9589282d0",
+      "metadataRestore": "3453356afc0d8a38f559833b66873ba5d5f5abdc",
+      "actualCompletionBase": "a7c9214a722505d05003157812908838b7a09668",
+      "netDiffFromReview": [],
+      "changedPathsAtInvalidNode": [
+        "specs/coordination/active-work.yaml",
+        "specs/tasks/GZ-014.md"
+      ],
+      "existingRegistrationContextErrors": [],
+      "sources": {
+        "seed": "6d855019e9ccf9575684862833bf8f605bce0508",
+        "reservation": "48d4ad547999a7862ac40c089a3c5cc29a307463",
+        "implementation": "5b419d214be2adac417a4c28366f2b3e43d4d536",
+        "base": "a7c9214a722505d05003157812908838b7a09668"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": ""
+    }
+  ]
+}

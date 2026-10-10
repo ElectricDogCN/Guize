@@ -1,0 +1,5 @@
+Source Commit: 90beec210e9bf81c797aa1d08b63d6e3c9f0304a
+Command: python scripts/run-task-scope-gate.py --task OPS-004 --base 62d4ef826e0be1acb2839c3f04fe62d1894f9585
+INFO: OPS-004 is a Blocked-state metadata PR; exact changed-file scope is owned by Program History and Program Transitions against the target branch.
+
+Exit Code: 0

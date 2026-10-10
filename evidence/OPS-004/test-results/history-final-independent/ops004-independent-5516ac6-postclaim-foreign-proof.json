@@ -1,0 +1,37 @@
+{
+  "kind": "ACTUAL_8C_IMMUTABLE_SOURCE_TEMPORARY_REAL_GIT_POSTCLAIM_SCOPE_EXPLORATION_NOT_FORMAL_GATE",
+  "source": "5516ac62a4f90e924fa7ab13d5a76b0a898aa4ae",
+  "checkerSha256": "bfc1bda36863327512d5833a61d29ba7f73ee813dd68460f8a71c2c4abb5896c",
+  "rows": [
+    {
+      "scenario": "late_side_foreign_definition",
+      "review": "bf12ff5382836f4af381d3ecde1130e1c0c42609",
+      "ownClaims": [
+        "scripts/fixture-repair.py"
+      ],
+      "existingForeignMetadataErrors": [
+        "Foundation GZ-014 implementation node at 061296c428fa9cb2625cd7ced383a5a3d4b9ee5e changed another identity or policy in specs/coordination/program-plan.yaml"
+      ],
+      "existingTransitionsErrors": [
+        "Active transition for GZ-014 may only change that Foundation task's status, its required POC mirror, or its owned live-verified blocker"
+      ],
+      "transientInvalidMetadata": "061296c428fa9cb2625cd7ced383a5a3d4b9ee5e",
+      "metadataRestore": "cb58e5a1c266dd706b7dc2c9409ced3116c6b769",
+      "actualCompletionBase": "b015a24c519ac312b9f6cfa37f8a5ae2032ab5a0",
+      "netDiffFromReview": [],
+      "changedPathsAtInvalidNode": [
+        "specs/coordination/program-plan.yaml"
+      ],
+      "existingRegistrationContextErrors": [],
+      "sources": {
+        "seed": "164bcb1f9fb1af1147a7c7dc422cafd1f3ebb57b",
+        "reservation": "ee412be64a32e44cddfc7be4bc9984228bba93e1",
+        "implementation": "ded3a1adf708c070a971221efd5f8129412e2ec3",
+        "base": "b015a24c519ac312b9f6cfa37f8a5ae2032ab5a0"
+      },
+      "historyExit": 1,
+      "historyStdout": "{\"status\": \"FAIL\", \"message\": \"Post-implementation history at 061296c428fa9cb2625cd7ced383a5a3d4b9ee5e changed frozen ordinary Task definition GZ-004\"}\n{\"status\": \"FAIL\", \"message\": \"Post-implementation history at cb58e5a1c266dd706b7dc2c9409ced3116c6b769 changed frozen ordinary Task definition GZ-004\"}\n",
+      "historyStderr": ""
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "mode": "same_commit_scope_expansion",
+    "source": "2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "expired_implementation_lease_then_renewed",
+    "source": "2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65",
+    "exit": 0,
+    "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0}}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "rebase_earlier_unclaimed_path",
+    "source": "2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65",
+    "exit": 1,
+    "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 claimed implementation contains only lifecycle metadata or Evidence\"}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "rebase_valid_evidence_tip",
+    "source": "2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65",
+    "exit": 1,
+    "stdout": "{\"status\": \"FAIL\", \"message\": \"Foundation GZ-014 claimed implementation contains only lifecycle metadata or Evidence\"}\n",
+    "stderr": ""
+  }
+]

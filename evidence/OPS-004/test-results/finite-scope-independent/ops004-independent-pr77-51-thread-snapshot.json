@@ -1,0 +1,1572 @@
+{
+  "kind": "OFFICIAL_READ_ONLY_PR77_REVIEW_THREAD_SNAPSHOT",
+  "reviewedHead": "5a928426889ae086d73052ea1d3881aa8adfff09",
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3eHp",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 892,
+      "diff_side": "RIGHT",
+      "start_line": 533,
+      "start_diff_side": "RIGHT",
+      "original_line": 534,
+      "original_start_line": 533,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78Rbpx",
+          "database_id": 4232428145,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate the historical Foundation lease**\n\nWhen an original Foundation reservation had a missing, overlong, or already-expired lease and the lease was later corrected before Completion, this audit accepts it: no earlier predicate validates the historical lease, `stable_spec_matches` omits `leaseExpiresAt`, and this line explicitly removes `lease` from the only comparison with the current validated entry. This allows an invalid reservation to acquire completed provenance; validate the original timestamps and maximum duration against the reservation commit time before excluding later renewals from identity comparison.\n\nAGENTS.md reference: [AGENTS.md:L374-L376](https://github.com/ElectricDogCN/Guize/blob/6ecfcf49477341c90bc729743d05f17f2dc0dc24/AGENTS.md#L374-L376)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:43:51Z",
+          "updated_at": "2026-10-09T16:43:52Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3eHx",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 840,
+      "diff_side": "RIGHT",
+      "start_line": 836,
+      "start_diff_side": "RIGHT",
+      "original_line": 495,
+      "original_start_line": 491,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78Rbp9",
+          "database_id": 4232428157,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Recheck original claims against MOD-GOV ownership**\n\nIf the original reservation declared `**`, a non-governance path, or any shared path and later narrowed its claims before Completion, this function still accepts the reservation: checking `moduleIds == [\"MOD-GOV\"]` does not validate the claimed paths, while the later stable comparison deliberately ignores both path lists. Validate the original `exclusivePaths` and `sharedPaths` against the module-ownership snapshot at the reservation commit so an invalid governance reservation cannot be legitimized retroactively.\n\nAGENTS.md reference: [AGENTS.md:L374-L376](https://github.com/ElectricDogCN/Guize/blob/6ecfcf49477341c90bc729743d05f17f2dc0dc24/AGENTS.md#L374-L376)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:43:51Z",
+          "updated_at": "2026-10-09T16:43:52Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3eH5",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 939,
+      "diff_side": "RIGHT",
+      "start_line": 937,
+      "start_diff_side": "RIGHT",
+      "original_line": 548,
+      "original_start_line": 546,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78RbqI",
+          "database_id": 4232428168,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Require the reservation base to equal its integration parent**\n\nWhen a Foundation reservation records any stale ancestor as `baseSha`, this check accepts it because it only requires ancestry; a later activation can replace that value because `baseSha` is excluded from the stable comparison. The normal registration validator requires the recorded base to equal the actual target base, so this historical proof should likewise require `base_sha == parent`; otherwise a reservation created from an outdated baseline can later receive completed provenance.\n\nAGENTS.md reference: [AGENTS.md:L353-L358](https://github.com/ElectricDogCN/Guize/blob/6ecfcf49477341c90bc729743d05f17f2dc0dc24/AGENTS.md#L353-L358)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:43:51Z",
+          "updated_at": "2026-10-09T16:43:52Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3eIB",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 903,
+      "diff_side": "RIGHT",
+      "start_line": 896,
+      "start_diff_side": "RIGHT",
+      "original_line": 545,
+      "original_start_line": 538,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78RbqS",
+          "database_id": 4232428178,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate the complete historical Task Spec binding**\n\nFor a non-bootstrap Foundation whose original Task Spec used `coordinationMode: bootstrap`, pointed `programTaskId` or `programPlan` elsewhere, or used an unrelated `evidencePath`, this partial validation still succeeds and the fields can be corrected before Completion. `stable_spec_matches` does not inspect those fields, so checking only schema version, state, wave, role, and title does not prove that the original version-2 spec was actually registry-bound; validate the complete historical Task Spec contract at this snapshot.\n\nAGENTS.md reference: [AGENTS.md:L312-L323](https://github.com/ElectricDogCN/Guize/blob/6ecfcf49477341c90bc729743d05f17f2dc0dc24/AGENTS.md#L312-L323)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:43:51Z",
+          "updated_at": "2026-10-09T16:43:52Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3eII",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 951,
+      "diff_side": "RIGHT",
+      "start_line": 946,
+      "start_diff_side": "RIGHT",
+      "original_line": 558,
+      "original_start_line": 553,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78Rbqc",
+          "database_id": 4232428188,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Require Evidence in the original reservation snapshot**\n\nIf the reservation commit adds only the Program entry, Registry entry, and Task Spec, this condition accepts it because Evidence files are merely allowed, not required; Evidence and the handoff can then be created later before Completion. That loses the auditable reservation and handoff state that must exist before implementation starts, so require the task-bound Evidence/handoff artifacts to exist in—and be introduced or updated by—the original reservation commit.\n\nAGENTS.md reference: [AGENTS.md:L336-L342](https://github.com/ElectricDogCN/Guize/blob/6ecfcf49477341c90bc729743d05f17f2dc0dc24/AGENTS.md#L336-L342)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:43:51Z",
+          "updated_at": "2026-10-09T16:43:52Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3eIN",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 787,
+      "diff_side": "RIGHT",
+      "start_line": 462,
+      "start_diff_side": "RIGHT",
+      "original_line": 471,
+      "original_start_line": 462,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78Rbql",
+          "database_id": 4232428197,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit every intermediate Registry state**\n\nWhen a Foundation temporarily changes a stable identity or collapses `implementer` and `reviewer` to the same actor on an integrated mainline commit, then restores the valid values before Completion, this loop sees only that the task remained present and the later original-to-current comparison succeeds. Such an invalid intermediate state can authorize implementation or review before being hidden, so validate each adjacent first-parent Registry transition—or at minimum enforce stable identity and role separation at every snapshot—not just the introduction and final state.\n\nAGENTS.md reference: [AGENTS.md:L325-L334](https://github.com/ElectricDogCN/Guize/blob/6ecfcf49477341c90bc729743d05f17f2dc0dc24/AGENTS.md#L325-L334)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:43:51Z",
+          "updated_at": "2026-10-09T16:43:52Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3eIV",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 870,
+      "diff_side": "RIGHT",
+      "start_line": 867,
+      "start_diff_side": "RIGHT",
+      "original_line": 520,
+      "original_start_line": 517,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78Rbqw",
+          "database_id": 4232428208,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind frozenAt validation to the reservation commit time**\n\nFor an atomic freeze whose recorded `frozenAt` was in the future when the reservation commit was created but is in the past by the time Completion is audited, this call accepts the forged chronology because `validate_recovery_transition` compares the timestamp with the current wall clock. Historical reconstruction must additionally require `frozenAt` to be no later than the reservation commit timestamp; otherwise an impossible freeze event can become valid merely by waiting.\n\nAGENTS.md reference: [AGENTS.md:L374-L378](https://github.com/ElectricDogCN/Guize/blob/6ecfcf49477341c90bc729743d05f17f2dc0dc24/AGENTS.md#L374-L378)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:43:51Z",
+          "updated_at": "2026-10-09T16:43:52Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3o4s",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1413,
+      "diff_side": "RIGHT",
+      "start_line": 1410,
+      "start_diff_side": "RIGHT",
+      "original_line": 618,
+      "original_start_line": 615,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78Rsk6",
+          "database_id": 4232497466,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind completion provenance to the implementation commit**\n\nWhen a Foundation has any post-reservation metadata commit whose message names the task and a PR—such as its activation or Review transition—using that commit and PR as `mergeCommit`/`completionRef` passes: `validate_commit` accepts the identifiers, and these checks require only that the commit follow the reservation and appear on the audited first-parent history. The Foundation can therefore complete while permanently recording a metadata transition rather than the commit containing the repair; verify that the claimed commit contains the registered implementation changes or is bound by the reviewed implementation proof.\n\nAGENTS.md reference: [AGENTS.md:L338-L342](https://github.com/ElectricDogCN/Guize/blob/b156291d975ae63ad588988fec9e99b39dbc7436/AGENTS.md#L338-L342)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:52:09Z",
+          "updated_at": "2026-10-09T16:52:09Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3o46",
+      "is_resolved": true,
+      "is_outdated": true,
+      "path": "evidence/OPS-004/changed-files.md",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": null,
+      "original_line": 6,
+      "original_start_line": null,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78RslN",
+          "database_id": 4232497485,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Archive the tested source in the candidate history**\n\nAt the reviewed commit, `6ecfcf49477341c90bc729743d05f17f2dc0dc24` is not an ancestor of the candidate (`git merge-base --is-ancestor` exits 1); both commits instead share parent `31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb`. Nevertheless, this canonical inventory and the accompanying summary, handoff, commands, and raw logs identify that sibling as the tested source and even state that it is retained as the real parent. The submitted history therefore does not preserve the commit to which its verification is bound, so reviewers cannot establish that the archived results apply to the candidate and the source may disappear when its external ref is removed; archive it as an ancestor or rerun and rebind the evidence to this candidate.\n\nAGENTS.md reference: [AGENTS.md:L363-L367](https://github.com/ElectricDogCN/Guize/blob/b156291d975ae63ad588988fec9e99b39dbc7436/AGENTS.md#L363-L367)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:52:09Z",
+          "updated_at": "2026-10-09T16:52:09Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q3o5A",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 842,
+      "diff_side": "RIGHT",
+      "start_line": 841,
+      "start_diff_side": "RIGHT",
+      "original_line": 497,
+      "original_start_line": 496,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78RslV",
+          "database_id": 4232497493,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject placeholder identities in the original reservation**\n\nWhen the original Foundation reservation assigns placeholders such as `coordinator: TBD`, `owner: unassigned`, or `integrator: pending` and keeps them through Completion, this condition accepts the reservation because it validates only that `implementer` and `reviewer` are nonempty and unequal. The current schemas permit those placeholder strings, and the completion-time coordination checks only apply placeholder rejection to implementer/reviewer, so the task can acquire immutable completed provenance without the explicitly assigned coordinator or integrator required for the high-risk workflow; apply the same all-role placeholder validation used by `validate_foundation_registration` to this historical entry.\n\nAGENTS.md reference: [AGENTS.md:L325-L334](https://github.com/ElectricDogCN/Guize/blob/b156291d975ae63ad588988fec9e99b39dbc7436/AGENTS.md#L325-L334)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T16:52:09Z",
+          "updated_at": "2026-10-09T16:52:09Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4DvF",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1413,
+      "diff_side": "RIGHT",
+      "start_line": 1410,
+      "start_diff_side": "RIGHT",
+      "original_line": 697,
+      "original_start_line": 694,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78SXVz",
+          "database_id": 4232672627,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Verify the implementation-side lineage after reservation**\n\nFor a normal merge commit, `is_ancestor(reservation_commit, merge_sha)` can succeed solely through the merge commit's first parent. An implementation branch forked before the reservation, containing work performed before registration, can therefore be merged afterward and satisfy both this check and first-parent membership. Inspect the implementation-side parent or merge base so the recorded implementation actually descends from the reservation rather than merely being integrated after it.\n\nAGENTS.md reference: [AGENTS.md:L338-L342](https://github.com/ElectricDogCN/Guize/blob/c62096c4c9a6162e8d72720333aa6c65598ab5d4/AGENTS.md#L338-L342)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:13:23Z",
+          "updated_at": "2026-10-09T17:13:24Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4DvM",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 807,
+      "diff_side": "RIGHT",
+      "start_line": 807,
+      "start_diff_side": null,
+      "original_line": 508,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78SXV8",
+          "database_id": 4232672636,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject conflicts in the historical reservation snapshot**\n\nWhen the reservation parent already contains another active task with an overlapping exclusive or shared claim, this call validates only the new Foundation's paths against module ownership; the later parent comparison merely proves the other entry was unchanged. If that other task is removed before Foundation completion, the conflicting reservation is accepted, allowing completed provenance for work that never held an exclusive path lease. Validate the target's claims against every active entry in the reconstructed reservation snapshot.\n\nAGENTS.md reference: [AGENTS.md:L346-L347](https://github.com/ElectricDogCN/Guize/blob/c62096c4c9a6162e8d72720333aa6c65598ab5d4/AGENTS.md#L346-L347)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:13:23Z",
+          "updated_at": "2026-10-09T17:13:24Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4DvQ",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 927,
+      "diff_side": "RIGHT",
+      "start_line": 925,
+      "start_diff_side": "RIGHT",
+      "original_line": 613,
+      "original_start_line": 611,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78SXWE",
+          "database_id": 4232672644,
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Run the current Task validator against the snapshot**\n\nUnder the repository's normal `python scripts/check-program-plan-history.py` invocation, `__file__` is relative, so this path is `scripts/check-task-file.py`; because the subprocess changes `cwd` to the historical clone, it executes the checker stored in the reservation commit rather than the current checker. After Task validation is strengthened, an older weaker checker can therefore approve a historical spec that the completion gate is meant to reject, while these unit tests miss the discrepancy because they invoke the history script through an absolute path. Resolve the validator path to an absolute current-worktree path before launching it.\n\nAGENTS.md reference: [AGENTS.md:L314-L320](https://github.com/ElectricDogCN/Guize/blob/c62096c4c9a6162e8d72720333aa6c65598ab5d4/AGENTS.md#L314-L320)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:13:23Z",
+          "updated_at": "2026-10-09T17:13:24Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4DvV",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 903,
+      "diff_side": "RIGHT",
+      "start_line": 903,
+      "start_diff_side": null,
+      "original_line": 589,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78SXWM",
+          "database_id": 4232672652,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Recheck dependencies at the reservation snapshot**\n\nIf a Foundation lists a dependency that is still incomplete when its reservation is integrated, but that dependency completes before this Foundation's completion, this call only proves that the `dependsOn` text matched the Registry and never checks the dependency's status in the reconstructed Program snapshot. The invalid reservation therefore gains completed provenance even though implementation was allowed to start before its prerequisite contract entered the baseline; validate every original dependency against `plan` at the reservation commit.\n\nAGENTS.md reference: [AGENTS.md:L353-L358](https://github.com/ElectricDogCN/Guize/blob/c62096c4c9a6162e8d72720333aa6c65598ab5d4/AGENTS.md#L353-L358)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:13:24Z",
+          "updated_at": "2026-10-09T17:13:24Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4db0",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1014,
+      "diff_side": "RIGHT",
+      "start_line": 1012,
+      "start_diff_side": "RIGHT",
+      "original_line": 652,
+      "original_start_line": 650,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TAXD",
+          "database_id": 4232840643,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate implementation against the pre-change scope**\n\nWhen an implementation commit broadens its own `exclusivePaths` in `active-work.yaml` and modifies a newly claimed file in the same commit, loading the Registry from `commit` makes the broadened post-change claims authorize that diff; `active-work.yaml` itself is then excluded from `implementation_paths`, and the claims can be restored before Completion because they are treated as mutable. This permits implementation outside the previously registered lease, so validate against the first-parent entry or require a separate metadata-only scope amendment before the implementation commit.\n\nAGENTS.md reference: [AGENTS.md:L338-L342](https://github.com/ElectricDogCN/Guize/blob/58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a/AGENTS.md#L338-L342)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:34:00Z",
+          "updated_at": "2026-10-09T17:34:00Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4dcA",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 891,
+      "diff_side": "RIGHT",
+      "start_line": 574,
+      "start_diff_side": "RIGHT",
+      "original_line": 580,
+      "original_start_line": 574,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TAXZ",
+          "database_id": 4232840665,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Revalidate the lease at each historical snapshot**\n\nWhen the lease is expired or otherwise invalid at the claimed implementation commit but is renewed before Completion, this audit accepts the history because only the original lease is validated and the snapshot loop explicitly excludes `lease` from comparison without validating it. Fresh evidence in this revision is that the new loop classifies `lease` as mutable while checking only stable identity and role separation. Validate each snapshot's lease against that commit's timestamp so work performed without a valid lease cannot acquire completed provenance.\n\nAGENTS.md reference: [AGENTS.md:L376-L376](https://github.com/ElectricDogCN/Guize/blob/58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a/AGENTS.md#L376-L376)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:34:00Z",
+          "updated_at": "2026-10-09T17:34:00Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4dcJ",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 653,
+      "original_start_line": 650,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TAXr",
+          "database_id": 4232840683,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate the complete rebased implementation range**\n\nFor a task using the supported `rebase` integration strategy, the recorded `mergeCommit` can be the last of several consecutive rebased commits, but this checks only that final commit against its immediate parent. An earlier rebased commit can therefore change an unclaimed path while the final commit changes one valid claimed file, causing Completion to accept the unauthorized change; an evidence-only final commit can also reject an otherwise valid implementation. Validate every commit in the integrated implementation range, or diff the complete range from its pre-integration base to the recorded tip.\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:34:00Z",
+          "updated_at": "2026-10-09T17:34:00Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4dcU",
+      "is_resolved": true,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 663,
+      "original_start_line": 660,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TAX8",
+          "database_id": 4232840700,
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Recognize registered policy-only repairs as implementation**\n\nWhen a governance Foundation's legitimate implementation consists solely of changes to Program/Registry policy, filtering out the entire `PLAN` and `ACTIVE` documents leaves `implementation_paths` empty and rejects the recorded merge as lifecycle-only. Repository policy explicitly contemplates pure Program/Registry policy repairs while requiring them to remain bound to a stable registered task, so compare those documents structurally and exclude only the task's lifecycle fields rather than excluding both files wholesale.\n\nAGENTS.md reference: [AGENTS.md:L382-L382](https://github.com/ElectricDogCN/Guize/blob/58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a/AGENTS.md#L382-L382)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:34:00Z",
+          "updated_at": "2026-10-09T17:34:00Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4dcf",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 854,
+      "diff_side": "RIGHT",
+      "start_line": 851,
+      "start_diff_side": "RIGHT",
+      "original_line": 545,
+      "original_start_line": 542,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TAYK",
+          "database_id": 4232840714,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject unrelated reservations in an already-frozen Program**\n\nWhen the parent and reservation snapshots are already frozen for recovery task A, a newly added Foundation B skips this branch because it handles only an `active`→`frozen` transition owned by B; removing B then makes the remaining Program and Registry compare equal, so B's reservation is accepted and can later receive completed provenance. Require the original reservation either to occur while the Program is active or to be the atomic freeze owned by that same task, since only the declared, already-registered recovery Foundation may proceed during a freeze.\n\nAGENTS.md reference: [AGENTS.md:L378-L380](https://github.com/ElectricDogCN/Guize/blob/58cc39793fcc5fdaf3420a9a99c1184f28cd1c9a/AGENTS.md#L378-L380)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:34:00Z",
+          "updated_at": "2026-10-09T17:34:00Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4rTO",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 518,
+      "original_start_line": 514,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TWOe",
+          "database_id": 4232930206,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Enforce capacity at the historical reservation**\n\nWhen the reservation parent already has `maxActiveTasks` active entries or one high-risk task, adding this high-risk Foundation exceeds the Registry limits, but the reconstructed snapshot only checks conflicts and dependencies. If another task leaves before Completion, the invalid reservation is accepted and gains completed provenance; count the parent’s active/high-risk entries against `previous_active.policy` before accepting the introduction.\n\nAGENTS.md reference: [AGENTS.md:L359-L360](https://github.com/ElectricDogCN/Guize/blob/2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65/AGENTS.md#L359-L360)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:44:10Z",
+          "updated_at": "2026-10-09T17:44:10Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4rTU",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 685,
+      "original_start_line": 679,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TWOk",
+          "database_id": 4232930212,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Recheck path conflicts at the implementation snapshot**\n\nWhen another active task acquires an overlapping exclusive or shared claim after this Foundation’s valid reservation but before its claimed implementation commit, this validation accepts the implementation because it checks only ownership and whether changed files match this task’s claims. Removing the other task before Completion then hides that the repair ran without an exclusive lease, so compare the implementation snapshot’s claims with every other active Registry entry here.\n\nAGENTS.md reference: [AGENTS.md:L346-L347](https://github.com/ElectricDogCN/Guize/blob/2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65/AGENTS.md#L346-L347)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:44:10Z",
+          "updated_at": "2026-10-09T17:44:10Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4rTZ",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 775,
+      "diff_side": "RIGHT",
+      "start_line": 769,
+      "start_diff_side": "RIGHT",
+      "original_line": 463,
+      "original_start_line": 457,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TWOp",
+          "database_id": 4232930217,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Schema-validate the reconstructed Registry**\n\nWhen the original Active Work entry contains a schema-invalid value that persists until Completion—such as an unknown property or a string-valued `issue`—this check accepts it because it verifies only that `tasks` is a list and later compares the same malformed entry with the prior Completion entry. The current Registry becomes schema-valid as soon as Completion removes that entry, so the invalid reservation can acquire completed provenance; validate the reconstructed `active-work.yaml` against its applicable schema before using it.\n\nAGENTS.md reference: [AGENTS.md:L314-L320](https://github.com/ElectricDogCN/Guize/blob/2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65/AGENTS.md#L314-L320)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:44:10Z",
+          "updated_at": "2026-10-09T17:44:10Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4rTf",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1016,
+      "diff_side": "RIGHT",
+      "start_line": 664,
+      "start_diff_side": "RIGHT",
+      "original_line": 669,
+      "original_start_line": 664,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TWOy",
+          "database_id": 4232930226,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Verify all lifecycle documents at the implementation commit**\n\nWhen the claimed commit has an `in_progress` Registry entry but its Task Spec or Foundation Program record is still `reserved` (or otherwise disagrees), this condition accepts the implementation because it inspects only the Registry status. A later Review commit can synchronize those documents before Completion, permanently hiding that implementation occurred before the required lifecycle transition; load the claimed commit’s Task Spec and Program entry and require their status and task binding to match the active Registry snapshot.\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:44:10Z",
+          "updated_at": "2026-10-09T17:44:10Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q4rTm",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1016,
+      "diff_side": "RIGHT",
+      "start_line": 664,
+      "start_diff_side": "RIGHT",
+      "original_line": 669,
+      "original_start_line": 664,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78TWPA",
+          "database_id": 4232930240,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject reviewer-role commits as implementation**\n\nWhen a commit changes a claimed implementation file while the historical entry is in `review` with `agentRole: reviewer`, this condition accepts it because `review` is included in `IMPLEMENTATION_STATES` and the role is never checked. Completion can then bind the reviewer’s unreviewed code change as the implementation merge, defeating the required separation; reject direct implementation changes made in the reviewer role unless the commit is proven to be an integration of an already independently reviewed implementation.\n\nAGENTS.md reference: [AGENTS.md:L330-L332](https://github.com/ElectricDogCN/Guize/blob/2d052cbf6d1b7d8ae66e23791036d1ddf0a9ef65/AGENTS.md#L330-L332)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T17:44:10Z",
+          "updated_at": "2026-10-09T17:44:10Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q59O3",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 716,
+      "diff_side": "RIGHT",
+      "start_line": 715,
+      "start_diff_side": "RIGHT",
+      "original_line": 524,
+      "original_start_line": 523,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78VWoU",
+          "database_id": 4233456148,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject the hard-coded capacity override**\n\nWhen OPS-004 is reserved alongside another high-risk task, this branch records `capacityResult: \"FAIL\"` but returns without adding an error, allowing that over-capacity reservation and its later implementation nodes to acquire completed provenance. Fresh evidence in this revision is the explicit task/SHA-specific exemption for exactly two high-risk tasks; an Owner evidence file cannot override the rule that governance recovery remains subject to concurrency limits, so this case must remain a validation failure.\n\nAGENTS.md reference: [AGENTS.md:L382-L382](https://github.com/ElectricDogCN/Guize/blob/f402767e04f3c8536c14205d2ee548b841dbbae6/AGENTS.md#L382-L382)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T18:44:39Z",
+          "updated_at": "2026-10-09T18:44:39Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q59O7",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1417,
+      "diff_side": "RIGHT",
+      "start_line": 1416,
+      "start_diff_side": "RIGHT",
+      "original_line": 927,
+      "original_start_line": 926,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78VWob",
+          "database_id": 4233456155,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit every implementation-side parent after reservation**\n\nWhen work was committed before reservation and that old branch later merges the reservation commit before being integrated, the resulting side tip satisfies `is_ancestor(reservation_commit, side)` even though the actual implementation commit predates registration. Fresh evidence in this revision is that the new check examines only each side-parent tip; `foundation_implementation` subsequently walks only the merge commit’s first-parent range, so the pre-registration work is never inspected and can receive completed provenance.\n\nAGENTS.md reference: [AGENTS.md:L338-L342](https://github.com/ElectricDogCN/Guize/blob/f402767e04f3c8536c14205d2ee548b841dbbae6/AGENTS.md#L338-L342)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T18:44:39Z",
+          "updated_at": "2026-10-09T18:44:39Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q6XRE",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1091,
+      "diff_side": "RIGHT",
+      "start_line": 1091,
+      "start_diff_side": null,
+      "original_line": 831,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78V_lM",
+          "database_id": 4233623884,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Ignore base-reachable changes in side-merge diffs**\n\nWhen an implementation branch merges the latest main before integration and main contains unrelated changes outside this task’s claims, `base..commit` correctly excludes those main commits, but this per-node diff compares the synchronization merge only with its first parent. The main-side files therefore reappear in `node_implementation` and are rejected as out of scope even though they are already present in the integration base. Because tasks must synchronize latest main before Review, valid merge-strategy Foundations can be blocked; exclude changes reachable from `base` when inspecting merge nodes or evaluate their parent deltas appropriately.\n\nAGENTS.md reference: [AGENTS.md:L353-L358](https://github.com/ElectricDogCN/Guize/blob/ecae6e7f38a61b7d477a0780689936beef4b0949/AGENTS.md#L353-L358)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T19:05:01Z",
+          "updated_at": "2026-10-09T19:05:01Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q6XRJ",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 690,
+      "original_start_line": 685,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78V_lU",
+          "database_id": 4233623892,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Revalidate path claims at every Registry snapshot**\n\nWhen a metadata-only amendment temporarily changes `exclusivePaths` to overlap another active task and that task leaves before implementation, Completion accepts the history: both path lists are treated as mutable, while the snapshot loop validates only schema, lease, stable fields, and role separation. The later working-node check then sees no conflict, hiding a Registry state that never held a valid exclusive lease. Fresh evidence in this revision is that the path lists remain excluded here without ownership or conflict validation; revalidate claims against ownership and every contemporaneous active entry at each snapshot.\n\nAGENTS.md reference: [AGENTS.md:L344-L351](https://github.com/ElectricDogCN/Guize/blob/ecae6e7f38a61b7d477a0780689936beef4b0949/AGENTS.md#L344-L351)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T19:05:01Z",
+          "updated_at": "2026-10-09T19:05:01Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q6XRR",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1142,
+      "diff_side": "RIGHT",
+      "start_line": 1141,
+      "start_diff_side": "RIGHT",
+      "original_line": 870,
+      "original_start_line": 869,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78V_lf",
+          "database_id": 4233623903,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Limit integrator code to proven integration commits**\n\nWhen a single-parent code commit sets `agentRole: integrator`, this condition accepts it exactly like an implementer commit. Fresh evidence in this revision is the unconditional integrator allowance without checking that the node actually integrates independently implemented and reviewed history; an integrator can therefore add new, unreviewed repair code during the Review→Integration transition and bind that commit as the implementation. Require ordinary work nodes to use the implementer role and permit integrator-role changes only for a proven integration commit.\n\nAGENTS.md reference: [AGENTS.md:L327-L332](https://github.com/ElectricDogCN/Guize/blob/ecae6e7f38a61b7d477a0780689936beef4b0949/AGENTS.md#L327-L332)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T19:05:01Z",
+          "updated_at": "2026-10-09T19:05:01Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q6XRY",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1129,
+      "diff_side": "RIGHT",
+      "start_line": 1129,
+      "start_diff_side": null,
+      "original_line": 857,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78V_ln",
+          "database_id": 4233623911,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject cross-task lifecycle edits in implementation nodes**\n\nWhen a claimed implementation commit also removes or rewrites another task’s Registry entry, `ACTIVE` is discarded from `node_implementation`, and the remaining checks inspect only this Foundation’s entry plus aggregate schema and capacity. The foreign entry can therefore have its assigned reviewer, lease, status, or claims changed and then be restored before Completion without invalidating the recorded implementation history. Compare the Program and Registry structurally at every work node and reject changes to identities belonging to other tasks.\n\nAGENTS.md reference: [AGENTS.md:L327-L334](https://github.com/ElectricDogCN/Guize/blob/ecae6e7f38a61b7d477a0780689936beef4b0949/AGENTS.md#L327-L334)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T19:05:01Z",
+          "updated_at": "2026-10-09T19:05:01Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q6XRf",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 849,
+      "original_start_line": 848,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78V_lv",
+          "database_id": 4233623919,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Pin historical capacity checks to the approved policy**\n\nWhen a metadata-only commit after reservation temporarily raises `active-work.policy.maxHighRiskTasks` from 1 to 2, later work nodes pass capacity validation because this call trusts that mutable historical policy; the Registry schema itself permits values up to 3. Restoring the policy before Completion hides the change because the snapshot loop never compares policy values. Fresh evidence here is that working-node capacity is evaluated against the mutable Registry limit rather than the approved Program limit, allowing two high-risk tasks to run despite the fixed concurrency rule; reject historical policy changes or validate against the canonical policy.\n\nAGENTS.md reference: [AGENTS.md:L353-L361](https://github.com/ElectricDogCN/Guize/blob/ecae6e7f38a61b7d477a0780689936beef4b0949/AGENTS.md#L353-L361)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T19:05:01Z",
+          "updated_at": "2026-10-09T19:05:01Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q7D5h",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 533,
+      "original_start_line": 531,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78XG26",
+          "database_id": 4233915834,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Compare synchronized paths against the audited base**\n\nWhen a side branch merges a main commit that is an ancestor of `base` but not the latest one, resolving an unclaimed file to that stale parent's blob causes this function to discard the path merely because it matches an `incoming` parent. A later merge of the actual base can similarly discard the restoration, while the net `base..commit` diff contains neither change, so both transient out-of-scope commits pass the history audit. Only exclude an imported entry when it also matches the audited base state, or otherwise prove the synchronization parent is the exact approved base.\n\nAGENTS.md reference: [AGENTS.md:L344-L351](https://github.com/ElectricDogCN/Guize/blob/0b1f7f6fd3e123069cbb38622d212aaee41d7bf2/AGENTS.md#L344-L351)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T19:40:51Z",
+          "updated_at": "2026-10-09T19:40:51Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q7D5n",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 960,
+      "diff_side": "RIGHT",
+      "start_line": 956,
+      "start_diff_side": "RIGHT",
+      "original_line": 861,
+      "original_start_line": 857,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78XG3C",
+          "database_id": 4233915842,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate each historical Program snapshot before mapping it**\n\nWhen an implementation node temporarily adds a schema-invalid or duplicate own `foundationTasks` record and restores it before Completion, `mapping()` collapses duplicate task IDs and this check validates only the selected record's status and title; the foreign-metadata comparison also removes every record for this task. The audit can therefore accept work performed while the authoritative Program identity or provenance was ambiguous or schema-invalid. Validate each reconstructed Program document, including task-ID uniqueness, before deriving the Foundation record.\n\nAGENTS.md reference: [AGENTS.md:L378-L382](https://github.com/ElectricDogCN/Guize/blob/0b1f7f6fd3e123069cbb38622d212aaee41d7bf2/AGENTS.md#L378-L382)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T19:40:51Z",
+          "updated_at": "2026-10-09T19:40:51Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q71Cd",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 961,
+      "diff_side": "RIGHT",
+      "start_line": 960,
+      "start_diff_side": "RIGHT",
+      "original_line": 936,
+      "original_start_line": 935,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78YVBq",
+          "database_id": 4234236010,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Enforce the reviewer role on Review snapshots**\n\nWhen a high-risk Foundation changes its status to `review` but leaves both Registry and Task `agentRole` as `implementer`, this equality-only condition accepts the snapshot, and the task can later complete without any historical state assigning the independent reviewer. Require `review` snapshots to use the registered reviewer role, and similarly bind integration snapshots to the integrator role, rather than only checking that the documents agree.\n\nAGENTS.md reference: [AGENTS.md:L327-L334](https://github.com/ElectricDogCN/Guize/blob/8c59b0a0a17249a55e9495f19e8e654da540ce8b/AGENTS.md#L327-L334)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T20:22:25Z",
+          "updated_at": "2026-10-09T20:22:26Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q71Ch",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 883,
+      "diff_side": "RIGHT",
+      "start_line": 883,
+      "start_diff_side": null,
+      "original_line": 858,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78YVBv",
+          "database_id": 4234236015,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind Review baseSha to the integration parent**\n\nWhen an intermediate Review transition records an arbitrary matching 40-character `baseSha` in the Registry and Task Spec and restores it before Completion, the snapshot checks accept it because `baseSha` is treated as mutable and is never related to that transition's integration parent. Completion can therefore certify a history in which Review began without synchronizing the latest main baseline; detect the Review transition and require its `baseSha` to identify the audited integration parent.\n\nAGENTS.md reference: [AGENTS.md:L353-L358](https://github.com/ElectricDogCN/Guize/blob/8c59b0a0a17249a55e9495f19e8e654da540ce8b/AGENTS.md#L353-L358)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T20:22:25Z",
+          "updated_at": "2026-10-09T20:22:26Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q71Cm",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 887,
+      "diff_side": "RIGHT",
+      "start_line": 885,
+      "start_diff_side": "RIGHT",
+      "original_line": 862,
+      "original_start_line": 860,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78YVB1",
+          "database_id": 4234236021,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate adjacent historical lifecycle transitions**\n\nEach first-parent snapshot is validated independently, but consecutive statuses are never checked against the allowed transition graph. A Foundation can therefore implement in `in_progress`, jump directly to `integration`, and later complete without ever entering `review`; all individual snapshots remain schema-valid and lifecycle-bound, so the history audit misses the skipped independent-review stage. Compare each snapshot with its predecessor and reject invalid edges before accepting Completion.\n\nAGENTS.md reference: [AGENTS.md:L327-L334](https://github.com/ElectricDogCN/Guize/blob/8c59b0a0a17249a55e9495f19e8e654da540ce8b/AGENTS.md#L327-L334)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T20:22:25Z",
+          "updated_at": "2026-10-09T20:22:26Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q71Cq",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 1117,
+      "original_start_line": 1113,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78YVB6",
+          "database_id": 4234236026,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit registered work after the claimed implementation**\n\nThe implementation audit stops at `merge_sha`, while the later first-parent snapshots are checked only as metadata states. Thus, after a valid implementation and Review transition, a correctly assigned reviewer can commit additional code, leave the Registry in `review`, and complete while still recording the earlier implementation SHA; the new per-node reviewer-role rejection never sees that later commit. Audit changed paths through the Completion base, or reject any post-`merge_sha` work so Review and Completion remain bound to the latest code.\n\nAGENTS.md reference: [AGENTS.md:L369-L371](https://github.com/ElectricDogCN/Guize/blob/8c59b0a0a17249a55e9495f19e8e654da540ce8b/AGENTS.md#L369-L371)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T20:22:26Z",
+          "updated_at": "2026-10-09T20:22:26Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q8-0a",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1342,
+      "diff_side": "RIGHT",
+      "start_line": 1342,
+      "start_diff_side": null,
+      "original_line": 1191,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78aLg2",
+          "database_id": 4234721334,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit late work against previously registered claims**\n\nWhen a post-implementation metadata commit narrows `exclusivePaths` from `[foo, bar]` to `[bar]`, a following commit can modify `foo` and then restore the original claims before Completion. Because `claims` is rebuilt only from the code commit's parent/current snapshots, `foo` is absent and `own_work` stays empty; the completion can therefore continue pointing to the earlier implementation despite later unreviewed, out-of-scope work. Retain the task's prior claims throughout this audit or otherwise reject code not covered by a contemporaneous lease.\n\nAGENTS.md reference: [AGENTS.md:L338-L342](https://github.com/ElectricDogCN/Guize/blob/0bec03dd3ee3dd540ad22d4edfab63b48f5a0589/AGENTS.md#L338-L342)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T21:32:57Z",
+          "updated_at": "2026-10-09T21:32:58Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q8-0h",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": null,
+      "original_line": 987,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78aLg-",
+          "database_id": 4234721342,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit merge-strategy work from the registered baseline**\n\nFor `integrationStrategy: merge`, setting `base` to the claimed commit's immediate parent means only the final commit is scope-audited. A task can therefore make an earlier post-reservation commit that changes an unclaimed file, follow it with a valid claimed-file commit, and record the latter as `mergeCommit`; the reservation snapshot loop checks only metadata, while the post-implementation audit starts after the claimed commit, so the unauthorized earlier change is never examined and becomes part of the completed tree. Audit the complete registered implementation range rather than only `commit^1..commit`.\n\nAGENTS.md reference: [AGENTS.md:L338-L342](https://github.com/ElectricDogCN/Guize/blob/0bec03dd3ee3dd540ad22d4edfab63b48f5a0589/AGENTS.md#L338-L342)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T21:32:57Z",
+          "updated_at": "2026-10-09T21:32:58Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q9gbA",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1157,
+      "diff_side": "RIGHT",
+      "start_line": 1156,
+      "start_diff_side": "RIGHT",
+      "original_line": 1109,
+      "original_start_line": 1108,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78bA0K",
+          "database_id": 4234939658,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Require a Review stage before Foundation completion**\n\nWhen a Foundation remains `in_progress` from implementation until Completion, this loop finds no `review` snapshot and returns without an error, so no independent Review or Integration stage is required. Fresh evidence in this revision is `test_foundation_without_review_still_requires_real_reservation`, which explicitly expects that no-review history to pass despite high-risk work requiring separate Reviewer and Integrator responsibilities; reject Completion unless the audited history contains the required Review and Integration handoffs.\n\nAGENTS.md reference: [AGENTS.md:L327-L334](https://github.com/ElectricDogCN/Guize/blob/487ea870c7a797ff6ed3fe08f4ba1b60452da45a/AGENTS.md#L327-L334)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:09:27Z",
+          "updated_at": "2026-10-09T22:09:28Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q9gbH",
+      "is_resolved": false,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 1202,
+      "original_start_line": 1197,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78bA0R",
+          "database_id": 4234939665,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit foreign Registry identities after implementation**\n\nWhen a post-implementation commit temporarily rewrites another active task's Registry entry—such as its reviewer, owner, lease, or status—and a later commit restores it, this path accepts the history: `historical_registration_context` validates only the completing task plus aggregate constraints, while `historical_frozen_definitions` compares Program/Ledger data but never `active-work.yaml`. Fresh evidence in this revision is that the foreign-metadata comparison used for implementation nodes is not called in this new post-implementation loop, allowing Completion to preserve provenance over corrupted role assignments; apply an equivalent foreign Registry comparison throughout this range.\n\nAGENTS.md reference: [AGENTS.md:L327-L334](https://github.com/ElectricDogCN/Guize/blob/487ea870c7a797ff6ed3fe08f4ba1b60452da45a/AGENTS.md#L327-L334)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:09:27Z",
+          "updated_at": "2026-10-09T22:09:28Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q9gbL",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1173,
+      "diff_side": "RIGHT",
+      "start_line": 1171,
+      "start_diff_side": "RIGHT",
+      "original_line": 1125,
+      "original_start_line": 1123,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78bA0W",
+          "database_id": 4234939670,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate recovery transitions after implementation**\n\nWhen a commit after the recorded implementation changes the Program root from `active` to `frozen` or back while leaving task rows unchanged, this function examines only `tasks`, `foundationTasks`, and the Ledger, so an invalid recovery owner/source/proof—or a same-history thaw—can be restored before Completion without an error. Fresh evidence in this revision is that `validate_recovery_transition` is invoked through `historical_foreign_metadata` only for the implementation range, whereas the new post-implementation loop calls this narrower helper; run the recovery-transition validation for every post-implementation Program status change.\n\nAGENTS.md reference: [AGENTS.md:L378-L384](https://github.com/ElectricDogCN/Guize/blob/487ea870c7a797ff6ed3fe08f4ba1b60452da45a/AGENTS.md#L378-L384)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:09:27Z",
+          "updated_at": "2026-10-09T22:09:28Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q9gbQ",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 933,
+      "diff_side": "RIGHT",
+      "start_line": 931,
+      "start_diff_side": "RIGHT",
+      "original_line": 933,
+      "original_start_line": 931,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78bA0d",
+          "database_id": 4234939677,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate the historical Handoff contract contents**\n\nWhen the reservation contains an empty or placeholder handoff such as the fixture's `# Handoff`, this check accepts it because it verifies only that the directory and file exist; `check-task-file.py` likewise checks the path, not the handoff document's contents. Completion can therefore certify immutable provenance without the required Task/Issue/Branch/Base SHA, roles, commit, changed files, test exit codes, limitations, rollback, and next-role action, leaving a later agent unable to recover from Git and Evidence alone; parse and validate the task-bound Handoff at the reservation and final handoff snapshots.\n\nAGENTS.md reference: [AGENTS.md:L363-L367](https://github.com/ElectricDogCN/Guize/blob/487ea870c7a797ff6ed3fe08f4ba1b60452da45a/AGENTS.md#L363-L367)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:09:28Z",
+          "updated_at": "2026-10-09T22:09:28Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q93eP",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1034,
+      "diff_side": "RIGHT",
+      "start_line": 1029,
+      "start_diff_side": "RIGHT",
+      "original_line": 1000,
+      "original_start_line": 995,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78bmhD",
+          "database_id": 4235094083,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Anchor single-parent audits before all implementation work**\n\nWhen an unauthorized code commit is followed by a metadata-only commit that advances `baseSha` to that code commit, a later valid single-parent implementation tip uses the advanced value here and audits only the shortened range. The earlier code commit is inspected only as a metadata snapshot, while the post-implementation audit starts after the recorded tip, so Completion can certify work that occurred outside the registered scope. Fresh evidence in this revision is that the new range logic trusts the immediately preceding, mutable `baseSha`; anchor the range to the last audited baseline before any implementation work instead.\n\nAGENTS.md reference: [AGENTS.md:L338-L342](https://github.com/ElectricDogCN/Guize/blob/10894c7189e2863434147da87c142df40f6a1a3e/AGENTS.md#L338-L342)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:35:12Z",
+          "updated_at": "2026-10-09T22:35:12Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q93eY",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1354,
+      "diff_side": "RIGHT",
+      "start_line": 1213,
+      "start_diff_side": "RIGHT",
+      "original_line": 1215,
+      "original_start_line": 1213,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78bmhQ",
+          "database_id": 4235094096,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Reject late code outside every registered claim**\n\nWhen a post-implementation commit changes a never-claimed code path—such as a reviewer transition that also edits `backend/x`—this filter excludes the path from `own_work` because it matches none of the accumulated claims, so Completion can continue pointing at the earlier reviewed implementation. Fresh evidence in this revision is that the new post-implementation traversal audits only files already classified as owned rather than rejecting code in task-bound commits that falls outside the contemporaneous lease; validate such code against scope instead of silently ignoring it.\n\nAGENTS.md reference: [AGENTS.md:L344-L351](https://github.com/ElectricDogCN/Guize/blob/10894c7189e2863434147da87c142df40f6a1a3e/AGENTS.md#L344-L351)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:35:12Z",
+          "updated_at": "2026-10-09T22:35:12Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q93eh",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1324,
+      "diff_side": "RIGHT",
+      "start_line": 1195,
+      "start_diff_side": "RIGHT",
+      "original_line": 1198,
+      "original_start_line": 1195,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78bmhg",
+          "database_id": 4235094112,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Ignore stale task metadata on unrelated side commits**\n\nWhen a disjoint branch forks after this task's reservation, main renews the task's lease, and the branch later commits or synchronizes after its inherited lease expires, `rev-list` includes that side commit and `registered_node` is true merely because it descends from the reservation. This call then validates the stale side-branch copy of this task at the side commit's timestamp and rejects Completion even if the branch changes no task-owned file and the merge result retains main's valid renewed entry. Audit authoritative first-parent/merge snapshots, or task-related side nodes, rather than requiring unrelated branch histories to carry every later lease renewal.\n\nAGENTS.md reference: [AGENTS.md:L353-L358](https://github.com/ElectricDogCN/Guize/blob/10894c7189e2863434147da87c142df40f6a1a3e/AGENTS.md#L353-L358)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:35:12Z",
+          "updated_at": "2026-10-09T22:35:12Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q93en",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 941,
+      "diff_side": "RIGHT",
+      "start_line": 940,
+      "start_diff_side": "RIGHT",
+      "original_line": 941,
+      "original_start_line": 940,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78bmht",
+          "database_id": 4235094125,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Allow reservation bases that precede the merge parent**\n\nWhen a reservation branch is created from commit A and an unrelated commit B lands on main before the metadata-only reservation is merged, the Task and Registry correctly retain A as their branch-creation `baseSha`, but this equality check requires B, the reservation merge's first parent. That rejects an otherwise valid reservation even though the preceding checks can prove A is an ancestor and validate conflicts, dependencies, capacity, and ownership at B; require ancestry and audit the integration-parent snapshot rather than rewriting branch provenance as exact-parent identity.\n\nAGENTS.md reference: [AGENTS.md:L353-L358](https://github.com/ElectricDogCN/Guize/blob/10894c7189e2863434147da87c142df40f6a1a3e/AGENTS.md#L353-L358)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:35:12Z",
+          "updated_at": "2026-10-09T22:35:12Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q-LqS",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1213,
+      "diff_side": "RIGHT",
+      "start_line": 1213,
+      "start_diff_side": null,
+      "original_line": 1165,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78cINT",
+          "database_id": 4235232083,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate peer lifecycle transitions before exempting them**\n\nWhen a post-implementation commit moves another active task directly from `reserved` to `integration`, or assigns `review` while retaining the implementer role, and a later commit restores it, this whitelist ignores both `status` and `agentRole`; only the completing task receives historical transition and role validation, so the invalid peer snapshots pass and Completion certifies a history that skipped the required handoff. Fresh evidence in this revision is the newly added comparator explicitly treating these fields as mutable without validating the peer's transition or role.\n\nAGENTS.md reference: [AGENTS.md:L327-L334](https://github.com/ElectricDogCN/Guize/blob/b463cdb1427c8f3e6c7be84e0a33992799c5723d/AGENTS.md#L327-L334)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:56:34Z",
+          "updated_at": "2026-10-09T22:56:34Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q-LqV",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1215,
+      "diff_side": "RIGHT",
+      "start_line": 1214,
+      "start_diff_side": "RIGHT",
+      "original_line": 1167,
+      "original_start_line": 1166,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78cINX",
+          "database_id": 4235232087,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Recheck conflicts when peer Foundation scopes change**\n\nWith three active tasks, a post-implementation commit can change Foundation B's `exclusivePaths` to overlap Foundation C while neither overlaps the completing Foundation A, then restore B before Completion. These lines exempt every Foundation peer's path claims from comparison, while `historical_registration_context` checks conflicts only for A, so the temporarily invalid Registry is accepted despite two peers lacking mutually valid leases. Fresh evidence in this revision is the explicit new exemption for peer Foundation scopes without an accompanying all-peer conflict check.\n\nAGENTS.md reference: [AGENTS.md:L344-L351](https://github.com/ElectricDogCN/Guize/blob/b463cdb1427c8f3e6c7be84e0a33992799c5723d/AGENTS.md#L344-L351)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:56:34Z",
+          "updated_at": "2026-10-09T22:56:34Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q-LqX",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1218,
+      "diff_side": "RIGHT",
+      "start_line": 1218,
+      "start_diff_side": null,
+      "original_line": 1170,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78cINZ",
+          "database_id": 4235232089,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit same-status Program authority rewrites**\n\nWhen a post-implementation commit changes a root authority field such as `authority.moduleOwnership` to a different nonempty path and a later commit restores it, the historical Program schema accepts the value, `historical_frozen_definitions` compares only task collections, and this early return skips the remaining root-metadata validation because `status` and `recovery` did not change. Completion can therefore certify history that temporarily redirected the canonical ownership authority while subsequent work was admitted. Fresh evidence in this revision is that the new post-implementation validator only examines root metadata for recovery transitions rather than every Program snapshot.\n\nAGENTS.md reference: [AGENTS.md:L314-L320](https://github.com/ElectricDogCN/Guize/blob/b463cdb1427c8f3e6c7be84e0a33992799c5723d/AGENTS.md#L314-L320)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:56:34Z",
+          "updated_at": "2026-10-09T22:56:34Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q-LqY",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1189,
+      "diff_side": "RIGHT",
+      "start_line": 1188,
+      "start_diff_side": "RIGHT",
+      "original_line": 1141,
+      "original_start_line": 1140,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c78cINb",
+          "database_id": 4235232091,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Preserve active peer Foundation identities**\n\nWhen a post-implementation commit rewrites an active peer Foundation's stable Program identity—such as its `taskId`, title, `completionRef`, or `mergeCommit`—and a later commit restores it, this condition performs no comparison because the peer was not already `completed`. The Registry comparison does not inspect Program rows, and the completing task's lifecycle binding validates only its own Foundation record, so Completion accepts the transiently corrupted peer identity. Fresh evidence in this revision is the new `historical_frozen_definitions` check explicitly limiting Foundation immutability to records whose prior status was `completed`.\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-09T22:56:34Z",
+          "updated_at": "2026-10-09T22:56:34Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    }
+  ]
+}

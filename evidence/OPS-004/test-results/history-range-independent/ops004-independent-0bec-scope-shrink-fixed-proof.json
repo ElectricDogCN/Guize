@@ -1,0 +1,93 @@
+{
+  "kind": "PINNED_ACTUAL_SOURCE_TEMPORARY_REAL_GIT_TWO_THREAD_REPRO_NOT_FORMAL_GATE",
+  "source": "0bec03dd3ee3dd540ad22d4edfab63b48f5a0589",
+  "tree": "db7374af2d024f19a4373bc95767fa7153ad5bb9",
+  "checkerSha256": "bfc1bda36863327512d5833a61d29ba7f73ee813dd68460f8a71c2c4abb5896c",
+  "rows": [
+    {
+      "scenario": "postclaim_scope_shrink_foo_restore",
+      "restoredEntry": {
+        "taskId": "GZ-014",
+        "issue": 30,
+        "title": "Task GZ-014",
+        "status": "review",
+        "riskLevel": "high",
+        "owner": "owner",
+        "coordinator": "coordinator",
+        "implementer": "implementer",
+        "reviewer": "reviewer",
+        "integrator": "integrator",
+        "agentRole": "reviewer",
+        "branch": "chore/GZ-014-review",
+        "baseBranch": "main",
+        "baseSha": "f589bba2d11b176f24567564e815d752cb78e458",
+        "workPackage": "WP-TEST",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "GZ-014",
+        "programWave": "FOUNDATION",
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-GOV"
+        ],
+        "producesContracts": [],
+        "consumesContracts": [],
+        "coordinationGroup": "test",
+        "dependsOn": [],
+        "exclusivePaths": [
+          "scripts/fixture-repair.py",
+          "scripts/second-repair.py"
+        ],
+        "sharedPaths": [],
+        "handoffPath": "evidence/GZ-014/handoff.md",
+        "integrationStrategy": "merge",
+        "integrationOrder": 1,
+        "lease": {
+          "acquiredAt": "2026-10-09T20:41:52.314514+00:00",
+          "expiresAt": "2026-10-10T21:41:52.314514+00:00"
+        }
+      },
+      "review": "a524a7fc86b7508a059f3a49ed9c6db5779738cd",
+      "shrink": "8d8aa419953eb3b17ce020099fe140c0165b5a8c",
+      "bad": "881c67be59d730ab718d7bde072a2c6746dcc26f",
+      "restore": "614fb81dff986f0d6a58f23731e615a749b97577",
+      "tip": "0d519866324a443a380c5952b5c656b9854c3e9f",
+      "badPreClaims": [
+        "scripts/second-repair.py"
+      ],
+      "badPostClaims": [
+        "scripts/second-repair.py"
+      ],
+      "badStatus": "review",
+      "badPaths": [
+        "scripts/fixture-repair.py"
+      ],
+      "netDiffFromReview": [],
+      "sources": {
+        "seed": "93f3e2217856397dcab0589318d4d0757c2da634",
+        "reservation": "899d658f62eff35d0d110780f2a29696ad7db9c6",
+        "implementation": "f589bba2d11b176f24567564e815d752cb78e458",
+        "base": "0d519866324a443a380c5952b5c656b9854c3e9f"
+      },
+      "historyExit": 0,
+      "historyStdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n",
+      "historyStderr": "",
+      "firstParentHistory": [
+        "0d519866324a443a380c5952b5c656b9854c3e9f GZ-014 restore original scope (#30)",
+        "614fb81dff986f0d6a58f23731e615a749b97577 GZ-014 restore foo work (#29)",
+        "881c67be59d730ab718d7bde072a2c6746dcc26f GZ-014 narrowed-scope foo work (#28)",
+        "8d8aa419953eb3b17ce020099fe140c0165b5a8c GZ-014 narrow own scope (#27)",
+        "a524a7fc86b7508a059f3a49ed9c6db5779738cd GZ-014 independent Review (#24)",
+        "f589bba2d11b176f24567564e815d752cb78e458 GZ-014 repair (#22)",
+        "a7be2432887c64ce8480c6d5daf93503db383943 GZ-014 activation (#21)",
+        "899d658f62eff35d0d110780f2a29696ad7db9c6 GZ-014 metadata reservation (#20)",
+        "93f3e2217856397dcab0589318d4d0757c2da634 GZ-014 early repair before reservation (#22)"
+      ],
+      "implementationHelperErrors": [],
+      "postHelperErrors": []
+    }
+  ],
+  "realRepositoryHeadAfter": "0bec03dd3ee3dd540ad22d4edfab63b48f5a0589",
+  "realRepositoryStatusAfter": "M evidence/OPS-004/changed-files.md\n M evidence/OPS-004/commands.txt\n M evidence/OPS-004/handoff.md\n M evidence/OPS-004/summary.md\n M evidence/OPS-004/test-results/README.md\n?? evidence/OPS-004/test-results/history-final-ci-612/\n?? evidence/OPS-004/test-results/history-final-independent/ops004-independent-5516ac6-postclaim-foreign-proof.json\n?? evidence/OPS-004/test-results/history-final-independent/ops004-independent-5516ac6-postclaim-owner-proof.json\n?? evidence/OPS-004/test-results/history-final-independent/ops004-independent-5516ac6-prospective-merge-proof.json\n?? evidence/OPS-004/test-results/history-final-independent/ops004-independent-5516ac6-targeted-proof.json\n?? evidence/OPS-004/test-results/history-final-independent/ops004-independent-bec64f9-prospective-merge-proof.json\n?? evidence/OPS-004/test-results/history-final-source-0bec03d/"
+}

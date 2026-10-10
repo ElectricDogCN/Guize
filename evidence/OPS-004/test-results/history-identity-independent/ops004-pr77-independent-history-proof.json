@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-09T17:14:09.149500+00:00",
+  "clonePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-independent-pr77-history-iavt5k9h",
+  "cloneExit": 0,
+  "cloneOutput": "Cloning into bare repository 'C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops004-independent-pr77-history-iavt5k9h'...\n",
+  "refs": {
+    "exit": 0,
+    "output": "c62096c4c9a6162e8d72720333aa6c65598ab5d4 refs/heads/chore/OPS-004-history-repair-implementation\n"
+  },
+  "head": {
+    "exit": 0,
+    "output": "c62096c4c9a6162e8d72720333aa6c65598ab5d4\ne6f3563732c3aeb8a89f805faa27b793324af5cd\nb156291d975ae63ad588988fec9e99b39dbc7436\n"
+  },
+  "b156": {
+    "exit": 0,
+    "output": "b156291d975ae63ad588988fec9e99b39dbc7436\n4d92f4c981ecef1a0b53eded5020e9e6d4838acd\n6ecfcf49477341c90bc729743d05f17f2dc0dc24\n"
+  },
+  "sourceAncestor": {
+    "exit": 0,
+    "output": ""
+  },
+  "archiveAncestor": {
+    "exit": 0,
+    "output": ""
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "kind": "TEMP_EXPLORATORY_CHECKER_OVERLAY_REAL_GIT_CLEAN_SIDE_FREEZE_IMPORT_NOT_FORMAL_SOURCE_OR_CI",
+  "actualInputSource": "10894c7189e2863434147da87c142df40f6a1a3e",
+  "exploratoryCheckerHash": "e78cb5a54c92787a1d14a654afde5853131b7def14c8958a4985e94e10244410",
+  "record": {
+    "review": "dd594b5ea14ac10a09d28d02b1681ad8bc3547fe",
+    "sideEvidence": "13dc2f4be360445c3219d28075428d1b2c1d8a27",
+    "validSideFreeze": "d375f347bc0097fcbe0aedc6d4e37a3d74e14298",
+    "freezeOwner": "GZ-014",
+    "sideFreezeValidationErrors": [],
+    "mainEvidence": "ed55b7c4881b173d40515e6425491cf9176aa721",
+    "merge": "d0eff7f50da68e8ea2d1b1121979e5690714d14d",
+    "mergeParents": [
+      "ed55b7c4881b173d40515e6425491cf9176aa721",
+      "d375f347bc0097fcbe0aedc6d4e37a3d74e14298"
+    ],
+    "mergePaths": [
+      "evidence/GZ-014/side-archive.md",
+      "specs/coordination/program-plan.yaml"
+    ],
+    "incoming": [
+      "d375f347bc0097fcbe0aedc6d4e37a3d74e14298"
+    ],
+    "cleanPaths": [
+      "evidence/GZ-014/side-archive.md",
+      "specs/coordination/program-plan.yaml"
+    ],
+    "planImportIsStage0AndExact": true,
+    "mergePlanBlob": "520ff3de4ff410cb17d9aed6e6dab422373f7cba",
+    "incomingPlanBlob": "520ff3de4ff410cb17d9aed6e6dab422373f7cba",
+    "postMetadataErrorsAtMerge": [
+      "Post-implementation history at d0eff7f50da68e8ea2d1b1121979e5690714d14d historical recovery rejected: Program recovery metadata rejected: Freeze sourceCommit must equal the actual target base"
+    ]
+  }
+}

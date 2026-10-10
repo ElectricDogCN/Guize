@@ -1,0 +1,436 @@
+{
+  "kind": "READ_ONLY_EXISTING_47_THREAD_DISPOSITION_NOT_GITHUB_MUTATION_OR_MERGE_APPROVAL",
+  "actualReviewedSource": "5a928426889ae086d73052ea1d3881aa8adfff09",
+  "checkerSha256": "e37198ef19d41ad21d7fd0367c1ca3f1009e01b2307e8fc39ecc8f9198efcb77",
+  "rows": [
+    {
+      "index": 1,
+      "threadId": "PRRT_kwDOTgCQ3c6q3eHp",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Historical lease by Git-second interval, original duration/policy and Task expiry binding.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 2,
+      "threadId": "PRRT_kwDOTgCQ3c6q3eHx",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Original ownership/exclusive/shared validation uses historical MOD-GOV ownership, not final claims.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 3,
+      "threadId": "PRRT_kwDOTgCQ3c6q3eH5",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Original base equals real introduction parent, matching existing registration target rule.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 4,
+      "threadId": "PRRT_kwDOTgCQ3c6q3eIB",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Historical complete Task CLI and current Task/Registry canonical link validation.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 5,
+      "threadId": "PRRT_kwDOTgCQ3c6q3eII",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Original task-bound Evidence and readable handoff must exist; preexisting valid artifacts need not be touched again.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 6,
+      "threadId": "PRRT_kwDOTgCQ3c6q3eIN",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Every own main/introduced registration preserves original stable identity and independent actors.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 7,
+      "threadId": "PRRT_kwDOTgCQ3c6q3eIV",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Historical frozenAt must precede Git observation second upper bound, plus existing Recovery validation.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 8,
+      "threadId": "PRRT_kwDOTgCQ3c6q3o4s",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Claimed implementation has registered work; lifecycle-only/Evidence-only merge identities rejected, registered rebase range retained.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 9,
+      "threadId": "PRRT_kwDOTgCQ3c6q3o46",
+      "officialResolvedAtRead": true,
+      "disposition": "already_resolved_retain_verified_reason",
+      "reason": "Already resolved: real native/public Git history has original Source as ancestor; flattened sandbox claim was false.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 10,
+      "threadId": "PRRT_kwDOTgCQ3c6q3o5A",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "All original owner/coordinator/implementer/reviewer/integrator placeholders rejected.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 11,
+      "threadId": "PRRT_kwDOTgCQ3c6q4DvF",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Actual introduced DAG working nodes individually descend from reservation.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 12,
+      "threadId": "PRRT_kwDOTgCQ3c6q4DvM",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Original target-vs-other exclusive/shared conflicts rechecked.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 13,
+      "threadId": "PRRT_kwDOTgCQ3c6q4DvQ",
+      "officialResolvedAtRead": true,
+      "disposition": "already_resolved_retain_verified_reason",
+      "reason": "Already resolved: actual runtime current checker path is absolute; current Task CLI used in snapshot checkout.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 14,
+      "threadId": "PRRT_kwDOTgCQ3c6q4DvV",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Original dependency completed identity and completion merge must be actual base ancestors.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 15,
+      "threadId": "PRRT_kwDOTgCQ3c6q4db0",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Each real working node uses first-parent prior scope/ownership; same-node new claims cannot authorize work.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 16,
+      "threadId": "PRRT_kwDOTgCQ3c6q4dcA",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Actual own/work snapshots use observation-time lease and original policy; unrelated inherited side snapshots handled by 93eh fix.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 17,
+      "threadId": "PRRT_kwDOTgCQ3c6q4dcJ",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Registered rebase full range and real work nodes audited, including restored changes; Evidence tip remains compatible.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 18,
+      "threadId": "PRRT_kwDOTgCQ3c6q4dcU",
+      "officialResolvedAtRead": true,
+      "disposition": "already_resolved_retain_verified_reason",
+      "reason": "Already resolved: policy-only mutation is not a permitted existing implementation workflow; no new policy allowance introduced.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 19,
+      "threadId": "PRRT_kwDOTgCQ3c6q4dcf",
+      "officialResolvedAtRead": true,
+      "disposition": "already_resolved_retain_verified_reason",
+      "reason": "Already resolved: existing Recovery admission rejects unrelated frozen reservation; no new frozen admission policy.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 20,
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTO",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Original/current capacity enforced; exact immutable OPS004 d0/413 Owner exception remains recorded FAIL, no general override.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 21,
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTU",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Historical own work conflicts checked against contemporaneous Registry.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 22,
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTZ",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Applicable historical Registry schema enforced; no missing-schema fallback.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 23,
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTf",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Working Task/Program/Registry schema, status, issue, title, lease, roles and links validated.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 24,
+      "threadId": "PRRT_kwDOTgCQ3c6q4rTm",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Real working node must use implementer/integrator; Reviewer Evidence-only rebase tip retained.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 25,
+      "threadId": "PRRT_kwDOTgCQ3c6q59O3",
+      "officialResolvedAtRead": true,
+      "disposition": "already_resolved_retain_verified_reason",
+      "reason": "Already resolved by explicit human Owner delegation plus immutable narrow event; FAIL, policy and deadline remain unchanged.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 26,
+      "threadId": "PRRT_kwDOTgCQ3c6q59O7",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Entire introduced DAG audited, including both late-reservation parent orders.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 27,
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRE",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Only reproduced clean stage0 exact approved-main imports are excluded; own changes/conflict resolutions remain work.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 28,
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRJ",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "All own metadata contexts validate policy/schema/claims/conflicts, including temporary restoration.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 29,
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRR",
+      "officialResolvedAtRead": true,
+      "disposition": "already_resolved_retain_verified_reason",
+      "reason": "Already resolved: existing integrator single-parent squash/rebase workflows supported; no new parent-count/source-trailer protocol.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 30,
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRY",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Foreign canonical document comparison allows only proven clean legitimate imports; own snapshots still fully bound.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 31,
+      "threadId": "PRRT_kwDOTgCQ3c6q6XRf",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Capacity pinned to original reservation-parent policy, not temporary enlarged policy.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 32,
+      "threadId": "PRRT_kwDOTgCQ3c6q7D5h",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Real automatic-merge clean import proof and foreign projection three-way boundary; legitimate earlier-main sync retained, stale conflict selection rejected.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 33,
+      "threadId": "PRRT_kwDOTgCQ3c6q7D5n",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Applicable full Program schema and all taskId uniqueness before mapping; own issue/null and capacity links enforced.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 34,
+      "threadId": "PRRT_kwDOTgCQ3c6q71Cd",
+      "officialResolvedAtRead": false,
+      "disposition": "resolve_with_existing_rule_scope_explanation_no_new_protocol",
+      "reason": "No new forced status-to-agentRole map. Existing Task/Registry equality and actual independent Review responsibilities remain enforced.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 35,
+      "threadId": "PRRT_kwDOTgCQ3c6q71Ch",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Actual Review targets tied to true integration parent; registered rebase Reviewer-Evidence tip and legitimate side sync exceptions bounded.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 36,
+      "threadId": "PRRT_kwDOTgCQ3c6q71Cm",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Existing ALLOWED_ACTIVE_TRANSITIONS reused; direct legally allowed Completion still supported.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 37,
+      "threadId": "PRRT_kwDOTgCQ3c6q71Cq",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Entire post-implementation DAG checked for own work and own metadata context; ancestor claims survive narrowing/removal.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 38,
+      "threadId": "PRRT_kwDOTgCQ3c6q8-0a",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Actual ancestor claim history classifies prior-owned paths, not only current narrower claims.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 39,
+      "threadId": "PRRT_kwDOTgCQ3c6q8-0h",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Single-parent claimed implementation audits registered prior baseline range; actual multi-parent merge preserves approved main boundary.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 40,
+      "threadId": "PRRT_kwDOTgCQ3c6q9gbA",
+      "officialResolvedAtRead": false,
+      "disposition": "resolve_with_existing_rule_scope_explanation_no_new_protocol",
+      "reason": "No mandatory Review/Integration metadata-stage protocol exists; documented external independent Review and final Integrator remain required.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 41,
+      "threadId": "PRRT_kwDOTgCQ3c6q9gbH",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Continuous foreign stable Registry identity follows exact existing mutable fields; genuine peer lease/status advances not globally frozen.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 42,
+      "threadId": "PRRT_kwDOTgCQ3c6q9gbL",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Real node Recovery transition reused for status/recovery changes, including same-status descriptor corruption and validated clean merge import.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 43,
+      "threadId": "PRRT_kwDOTgCQ3c6q9gbQ",
+      "officialResolvedAtRead": false,
+      "disposition": "resolve_with_existing_rule_scope_explanation_no_new_protocol",
+      "reason": "AGENTS human handoff contents remain mandatory and actual artifacts reviewed; no invented retrospective machine parser. Fixture path proof does not certify full Admission.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 44,
+      "threadId": "PRRT_kwDOTgCQ3c6q93eP",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Exact CLI metadata-only base advance bypass rejected by early actual working-node audit, leaving metadata-only approved failures out of code audit.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 45,
+      "threadId": "PRRT_kwDOTgCQ3c6q93eY",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Exact Own Review plus unclaimed backend code rejected by contemporaneous scope check, with proven imports/peer classification separated.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 46,
+      "threadId": "PRRT_kwDOTgCQ3c6q93eh",
+      "officialResolvedAtRead": false,
+      "disposition": "reported_concern_fixed_or_exactly_bounded_in_current_source",
+      "reason": "Exact normal peer merge passes with main renewal retained; Own side expired-lease code still rejected.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    },
+    {
+      "index": 47,
+      "threadId": "PRRT_kwDOTgCQ3c6q93en",
+      "officialResolvedAtRead": false,
+      "disposition": "resolve_with_existing_rule_scope_explanation_no_new_protocol",
+      "reason": "Requested ancestor-only original base relaxation conflicts existing validate_foundation_registration exact actualTargetBase; retain intentional stale-base rejection.",
+      "codeConcernMayBeClosed": true,
+      "mergeReadiness": "Still requires actual source 5a full509/same-head CI except explicitly retained capacity FAIL and final independent integration review"
+    }
+  ],
+  "newExistingThreadsNotYetClassified": [
+    "PRRT_kwDOTgCQ3c6q-LqS",
+    "PRRT_kwDOTgCQ3c6q-LqV",
+    "PRRT_kwDOTgCQ3c6q-LqX",
+    "PRRT_kwDOTgCQ3c6q-LqY"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "kind": "PINNED_C305_EXACT_IMPLEMENTATION_STAGE_SCALAR_TEMP_GIT_CLI_REPRO",
+  "threadId": "PRRT_kwDOTgCQ3c6q-2e8",
+  "source": "c3051d8d513ebdb0d1805f0bf229894fa2ffb4a1",
+  "sourceTree": "717e9d076f1c0554066e922b71be78328f2cf568",
+  "checkerSha256": "f98068026c1bf610363d87302740c8b0accc9fa2548ff8fc96c3bad832f736ff",
+  "sources": {
+    "seed": "f79b9a748c088e4ee3012494f60a1cd7784dc9bb",
+    "reservation": "64cee0e65199bdeceb768e5e72a17e3c031b2559",
+    "implementation": "ac9c9fb2612141d0e01fd759762a7df7c55046e9",
+    "base": "4eec0ef9907a3cb0409e91082004c59d110da203"
+  },
+  "record": {
+    "prior": "e11b87e32d9fa2e2267728906121dfada71798a1",
+    "claimedImplementation": "ac9c9fb2612141d0e01fd759762a7df7c55046e9",
+    "restore": "b658d57f49804f067181afa155b0571a087080f4",
+    "badPaths": [
+      "scripts/fixture-repair.py",
+      "specs/coordination/program-plan.yaml"
+    ],
+    "ownRegistryStatus": "in_progress",
+    "claimedProgramScalar": null
+  },
+  "historyExit": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"C:\\Users\\13997\\AppData\\Local\\Temp\\ops004-implscalar-source-bljvu3ps\\scripts\\check-program-plan-history.py\", line 1562, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"C:\\Users\\13997\\AppData\\Local\\Temp\\ops004-implscalar-source-bljvu3ps\\scripts\\check-program-plan-history.py\", line 1498, in main\n    validate_foundations(\n  File \"C:\\Users\\13997\\AppData\\Local\\Temp\\ops004-implscalar-source-bljvu3ps\\scripts\\check-program-plan-history.py\", line 1425, in validate_foundations\n    foundation_implementation(root, task_id, merge_sha, reservation_commit, implementation_errors)\n  File \"C:\\Users\\13997\\AppData\\Local\\Temp\\ops004-implscalar-source-bljvu3ps\\scripts\\check-program-plan-history.py\", line 1118, in foundation_implementation\n    historical_foreign_metadata(root, previous, node, incoming, task_id, errors, clean_imports)\n  File \"C:\\Users\\13997\\AppData\\Local\\Temp\\ops004-implscalar-source-bljvu3ps\\scripts\\check-program-plan-history.py\", line 638, in historical_foreign_metadata\n    actual = foreign_document(node)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\13997\\AppData\\Local\\Temp\\ops004-implscalar-source-bljvu3ps\\scripts\\check-program-plan-history.py\", line 636, in foreign_document\n    document[collection] = [item for item in document.get(collection, []) if item.get(\"taskId\") != task_id]\n                                                                             ^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'get'\n",
+  "postStagePriorProofDoesNotCoverThisStage": true
+}

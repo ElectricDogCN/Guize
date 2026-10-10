@@ -1,0 +1,44 @@
+{
+  "kind": "PINNED_ACTUAL_SOURCE_FINITE_TEMP_GIT_EARLY_LEDGER_REPRO_NOT_FULL_ADMISSION_GATE",
+  "source": "5a928426889ae086d73052ea1d3881aa8adfff09",
+  "checkerSha256": "e37198ef19d41ad21d7fd0367c1ca3f1009e01b2307e8fc39ecc8f9198efcb77",
+  "ordinaryRecordRealCompletion": "c70af839a9794badebcad60ac8e11a36112cc473",
+  "sources": {
+    "seed": "26f00c1faf715ecdddd1a075150f08654b7ed752",
+    "reservation": "5c7473cb1f364f61ca62c3f655296596e419f71c",
+    "implementation": "d6781b173eefda23fe8b0579cc8a11a20ffec8b2",
+    "base": "186fd3a108924042f6f18f3956ca4cb9de7b1db2"
+  },
+  "record": {
+    "prior": "5ad3b9c02e6f0fe0cedb500db56a0850bd5ef7fe",
+    "bad": "a7148610785aaf0a473fda8b41db8f05bb7ded2b",
+    "restore": "1c4783cb03c4409bdacd303302a62734ab4e8552",
+    "metadataAdvance": "3445263de1c04d44814cff8dd5e014f9f879b728",
+    "oldBase": "5c7473cb1f364f61ca62c3f655296596e419f71c",
+    "newBase": "1c4783cb03c4409bdacd303302a62734ab4e8552",
+    "claimed": "d6781b173eefda23fe8b0579cc8a11a20ffec8b2",
+    "badPaths": [
+      "specs/coordination/task-completions.yaml"
+    ],
+    "restorePaths": [
+      "specs/coordination/task-completions.yaml"
+    ],
+    "advancePaths": [
+      "specs/coordination/active-work.yaml",
+      "specs/tasks/GZ-014.md"
+    ],
+    "ledgerNetDiff": "",
+    "claimedPaths": [
+      "scripts/fixture-repair.py"
+    ]
+  },
+  "historyExit": 0,
+  "stdout": "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"main\", \"headRef\": \"HEAD\", \"completionRecords\": 1, \"auditedOwnerCapacityFailures\": []}}\n",
+  "stderr": "",
+  "implementationErrors": [],
+  "existingFrozenValidatorErrors": [
+    "Post-implementation history at a7148610785aaf0a473fda8b41db8f05bb7ded2b changed immutable Ledger record GZ-004"
+  ],
+  "fixtureCompletionTree": "6819ece086ed307a1cd663f140390485f8e648d2",
+  "sourceTree": "9e31ada9c11e21f52f494d8f36262bb7519ed87c"
+}
