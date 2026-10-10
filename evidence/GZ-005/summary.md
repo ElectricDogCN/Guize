@@ -1,3 +1,12 @@
+# GZ-005 exact published implementation results
+
+Actual tested source: 85bd46cfc39fc934c9d43623be09acbb557b6930; tree a9e33bc684f0ba500586064dc705445568537115; base 429a6566d81f128cb618c524ee8dc22faba1c0a4.
+All17 actual source checks exit0. Full make527 tests773.46s and contract116 tests71.36s; both nonempty JUnits have zero failures/errors/skips. Standard parser and contract checker pass93 operations/136 schemas/33 errors/920 examples/93 HTTP pairs. Authoring and native verification roots stayed clean at the identical immutable source/tree.
+Same-head PR CI630 run38025689889/job114135937984 succeeded,527 tests604.87s with skip audit0; all applicable1–25 and cleanup steps succeed. Its synthetic checkout61eb423d730f03f37cc6295941ff48403b5c307e has [base429,actual85] parents and the same source tree; it is not the actual main merge.
+Raw commands, exits, source identity, JUnits, worktree binding and saved CI log are in test-results/published-source-85bd46c/. Extra saved transport newline is disclosed. API checks were local additions; existing governance CI did not execute those new API checks.
+Current archive changes only Own Evidence. Actual archive-head gates, latest CI and independent final integration review remain required. Prior failed and unstable exploratory runs are retained as unaccepted. No runtime browser/signature, POC, consumer or full V1 success is asserted.
+
+## Prior current implementation handoff and historical records
 # GZ-005 current contract implementation
 
 Task: GZ-005 / Issue68

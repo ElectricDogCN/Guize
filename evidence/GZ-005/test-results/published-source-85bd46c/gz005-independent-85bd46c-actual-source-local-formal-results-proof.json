@@ -1,0 +1,418 @@
+{
+  "kind": "ACTUAL_SOURCE_LOCAL_FORMAL_RESULTS_READ_ONLY_REVIEW",
+  "timestampUtc": "2026-10-10T08:14:18.470411+00:00",
+  "actualSource": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+  "tree": "a9e33bc684f0ba500586064dc705445568537115",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "checks": {
+    "all17RawPresentExactly": true,
+    "all17StatusExitZero": true,
+    "everyRawSourceCommandExit": true,
+    "sourceFileExact": true,
+    "treeFileExact": true,
+    "junitNonemptyExpectedUniqueZeroFailuresErrorsSkips": true,
+    "cleanBeforeAfter": true,
+    "beforeAfterExactBothWorktrees": true,
+    "contractCountsAndStatus": true,
+    "makeFull527Recorded": true,
+    "api116Recorded": true
+  },
+  "statuses": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 0,
+    "lifecycle": 0,
+    "coordination": 0,
+    "scope": 0,
+    "evidence": 0,
+    "unaffected": 0,
+    "verify": 0,
+    "openapi-standard": 0,
+    "openapi-contract": 0,
+    "openapi-negative-tests": 0
+  },
+  "raw": [
+    {
+      "name": "task",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\task.txt",
+      "sha256": "18eb759e1a933519905370d9b40d8c81fdb381fd9d25fc1b27f4505aa12df832",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-task-file.py --task GZ-005"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "readiness",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\readiness.txt",
+      "sha256": "455ae015cbc24928aa876209c1eaca10bdeccb564448d1a97b80d1a50369a538",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-project-readiness.py"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "schemas",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\schemas.txt",
+      "sha256": "f3ac2322cef01494d64ca146880274decbf8007be173da8aadc62e73a8e5153c",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-schemas.py"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "integrity",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\integrity.txt",
+      "sha256": "770e383275d35b324f24a9fd75f3859c2202eae66386ed6e548765dbbdd6dec1",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-program-plan-integrity.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "history",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\history.txt",
+      "sha256": "d35b351e091d81c44e7cf0627cd3acb08170e5cc30dafb082fc9913c98a82010",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-program-plan-history.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "transitions",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\transitions.txt",
+      "sha256": "5406a8bcebc72df2e3eb43236c0543562e2ee7eb52eb4f1338aea977be288057",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-program-plan-transitions.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "finalization",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\finalization.txt",
+      "sha256": "11c7409a4fc08423a9a2d7383d0cc8d16e9887cb06c2551d7d4d0f4319c74794",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-program-plan-finalization.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --task GZ-005"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "raw-lifecycle",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\raw-lifecycle.txt",
+      "sha256": "9049efef157c3bb1da242ad1d3980bcdbcbd29c659df988600d89f99f232408e",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-program-lifecycle-guards.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "lifecycle",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\lifecycle.txt",
+      "sha256": "bc0059b440f44c60f16d957e2d67ccf079fedc69c522d6ad6c5c767fd063c78f",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/run-program-lifecycle-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "coordination",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\coordination.txt",
+      "sha256": "2b81c93beacaa2c1921ebe86db5e0e1d0185ea88d8a56d0e41573ae4daf6d27f",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/run-agent-coordination-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "scope",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\scope.txt",
+      "sha256": "ee5af7f324bf354db1cd723d39f126e7d47d2c6f7492c3045b6c92b8c96ecf0e",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/run-task-scope-gate.py --task GZ-005 --base 429a6566d81f128cb618c524ee8dc22faba1c0a4"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "evidence",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\evidence.txt",
+      "sha256": "e3e637f5ca4e01d40722adaf3916165fb5cb2c815b038dcddcab4ec0b107d602",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "python scripts/check-evidence.py --task GZ-005"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "unaffected",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\unaffected.txt",
+      "sha256": "007fd52dcc2cf213c4d12ad28f1ecfba1ff75c6abbc4a7ff43a4af90f124155a",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "git diff --exit-code 429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/tasks/OPS-004.md evidence/OPS-004 specs/poc specs/requirements scripts tests AGENTS.md"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "verify",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\verify.txt",
+      "sha256": "4b778f3a0aca1112b72850494186c5be172a1b54f5646ed625d8dafaca9cb6f3",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "make verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "openapi-standard",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\openapi-standard.txt",
+      "sha256": "e383925b3bdfac037fd0234ee37f408edcb639ad60e93d9c7e2ca7b23f4e2682",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "/tmp/guize-gz005-openapi-20261009-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "openapi-contract",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\openapi-contract.txt",
+      "sha256": "715430cfd6ec1f7ad00a23e8f6073421ab35570baf2a3f913599faea866727b6",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "/tmp/guize-gz005-openapi-20261009-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    },
+    {
+      "name": "openapi-negative-tests",
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\openapi-negative-tests.txt",
+      "sha256": "ac4121c276fa35edc4bc62b628feb6d0ae1aed98ba288e84d93feb2b65393ca7",
+      "sourceHeaders": [
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ],
+      "command": [
+        "/tmp/guize-gz005-openapi-20261009-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fresh-implementation-results/openapi-tests.xml"
+      ],
+      "footerExits": [
+        0
+      ],
+      "statusExit": 0
+    }
+  ],
+  "junit": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\make-governance.xml",
+      "sha256": "6975e043158103dc1be409a4b3767dbe5e31e747fdf17bb9aefb7427658d26a6",
+      "testcaseCount": 527,
+      "expected": 527,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "uniqueCases": 527,
+      "suiteAttributes": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "527",
+          "time": "773.450",
+          "timestamp": "2026-10-10T12:55:58.970429+08:00",
+          "hostname": "RuifengSu"
+        }
+      ]
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\openapi-tests.xml",
+      "sha256": "b7800977e79daf9d733b37922ee11a88746987c6d9854a3c9a9ec5308b1b6cae",
+      "testcaseCount": 116,
+      "expected": 116,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "uniqueCases": 116,
+      "suiteAttributes": [
+        {
+          "name": "pytest",
+          "errors": "0",
+          "failures": "0",
+          "skipped": "0",
+          "tests": "116",
+          "time": "71.361",
+          "timestamp": "2026-10-10T13:09:27.326702+08:00",
+          "hostname": "RuifengSu"
+        }
+      ]
+    }
+  ],
+  "clean": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\clean-before.txt",
+      "sha256": "d9d5d45cdf0cceb41aba5e8f590b85ef10027fab54a51afafc5a631e269be3c7",
+      "actualEmptyStatus": true
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-results\\clean-after.txt",
+      "sha256": "d9d5d45cdf0cceb41aba5e8f590b85ef10027fab54a51afafc5a631e269be3c7",
+      "actualEmptyStatus": true
+    }
+  ],
+  "before": {
+    "kind": "ACTUAL_NATIVE_VERIFICATION_PREEXECUTION_BINDING",
+    "phase": "implementation",
+    "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+    "tree": "a9e33bc684f0ba500586064dc705445568537115",
+    "authoringWorktree": {
+      "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+      "tree": "a9e33bc684f0ba500586064dc705445568537115",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verificationWorktree": {
+      "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+      "tree": "a9e33bc684f0ba500586064dc705445568537115",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/tmp/guize-native-verification-20261010"
+    },
+    "result": "NOT_EXECUTED",
+    "condition": "Both immutable worktrees must remain identical and clean; actual tests execute in the recorded native path. Failed raw checks remain failure evidence."
+  },
+  "after": {
+    "kind": "ACTUAL_IDENTICAL_SOURCE_NATIVE_VALIDATION_WORKTREE",
+    "phase": "implementation",
+    "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+    "tree": "a9e33bc684f0ba500586064dc705445568537115",
+    "authoringWorktree": {
+      "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+      "tree": "a9e33bc684f0ba500586064dc705445568537115",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verificationWorktree": {
+      "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+      "tree": "a9e33bc684f0ba500586064dc705445568537115",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/tmp/guize-native-verification-20261010"
+    },
+    "bothCleanBeforeAndAfter": true,
+    "result": "PASS",
+    "testsExecutedIn": "native Linux checkout; exact same immutable Git source/tree, no result transfer from another commit"
+  },
+  "contractResult": {
+    "status": "PASS",
+    "operations": 93,
+    "schemas": 136,
+    "errorCodes": 33,
+    "examples": 920,
+    "requirements": [
+      "REQ-V1-0001",
+      "REQ-V1-0002",
+      "REQ-V1-0003",
+      "REQ-V1-0004",
+      "REQ-V1-0005",
+      "REQ-V1-0007",
+      "REQ-V1-0008",
+      "REQ-V1-0009"
+    ],
+    "httpSamples": 93,
+    "compatibility": "INITIAL_BASELINE (no prior published API in actual Git base)"
+  },
+  "actualLocal17Accepted": true,
+  "testsRerunByReviewer": false,
+  "finalIntegrationApproved": false,
+  "next": "Archive-only candidate and latest expected-head CI require separate review."
+}

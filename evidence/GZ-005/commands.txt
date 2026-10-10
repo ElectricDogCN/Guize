@@ -1,3 +1,7 @@
+Current exact published source: 85bd46cfc39fc934c9d43623be09acbb557b6930
+Actual17checks: test-results/published-source-85bd46c/status.json; each raw label log records Source Commit, Command and Exit Code0.
+Full make:527 passed773.46s; API:116 passed71.36s; complete raw/JUnit files archived.
+Historical reservation commands below do not certify current implementation.
 Task: GZ-005
 Base: 788e6f257d9052db81a8df793bf8b448a05011a1
 Status: RESERVED

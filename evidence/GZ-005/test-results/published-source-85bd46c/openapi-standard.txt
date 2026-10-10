@@ -1,0 +1,5 @@
+Source Commit: 85bd46cfc39fc934c9d43623be09acbb557b6930
+Command: /tmp/guize-gz005-openapi-20261009-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml
+contracts/openapi/common/openapi.yaml: OK
+
+Exit Code: 0

@@ -75,5 +75,6 @@
       "path": "independent-dirty-preparation/review.json",
       "sha256": "efd46e4d72bc625826999f125682880a6724dc32b351b1d48cb04e96876b3465"
     }
-  ]
+  ],
+  "historicalHashRepresentation": "Original physical UTF-8 bytes at capture before Git normalization; Git may normalize CRLF to LF. These historical hashes are not assertions about current Git blob bytes."
 }

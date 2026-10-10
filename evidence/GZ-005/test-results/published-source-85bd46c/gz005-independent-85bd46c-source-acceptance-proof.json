@@ -1,0 +1,246 @@
+{
+  "kind": "ACTUAL_SOURCE_CONTENT_LOCAL_AND_OFFICIAL_CI_ACCEPTANCE_NOT_ARCHIVE_HEAD_MERGE_APPROVAL",
+  "timestampUtc": "2026-10-10T08:14:18.470411+00:00",
+  "actualSource": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+  "tree": "a9e33bc684f0ba500586064dc705445568537115",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "localProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-85bd46c-actual-source-local-formal-results-proof.json",
+  "localAccepted": true,
+  "ciChecks": {
+    "officialRunCompletedSameSourceSuccess": true,
+    "officialAllJobsAndRequiredStepsSuccess": true,
+    "syntheticCheckoutExactTreeParents": true,
+    "individual527Passed": true,
+    "ci527Summary": true,
+    "ciNoSkippedTests": true,
+    "savedRawOnlyOptionalTrailingNewline": true,
+    "freshPrHeadBaseOpen": true,
+    "freshThreadsNone": true
+  },
+  "ci": {
+    "run": {
+      "id": 38025689889,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+      "event": "pull_request"
+    },
+    "jobs": [
+      {
+        "id": 114135937984,
+        "name": "Governance Checks",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38025689889,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Governance tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Skip audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Secret scan",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Evidence check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Scope check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Spec sync check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Generate governance report",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          }
+        ]
+      }
+    ],
+    "checkout": {
+      "sha": "61eb423d730f03f37cc6295941ff48403b5c307e",
+      "tree": "a9e33bc684f0ba500586064dc705445568537115",
+      "parents": [
+        "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+        "85bd46cfc39fc934c9d43623be09acbb557b6930"
+      ]
+    },
+    "pr": {
+      "head": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+      "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "merged": false
+    },
+    "threads": [],
+    "logLength": 235577,
+    "testSummary": [
+      "2026-10-10T05:04:58.5915723Z ======================= 527 passed in 604.87s (0:10:04) ========================"
+    ],
+    "individualPASSED": 527
+  },
+  "officialRawSHA256": "60a704fe35cc0dad93d98cbfa55e566d02e8cc0461e16b193bbe93e688643918",
+  "savedRawSHA256": "ad5cbae4fb6e6d8b741aafb8833b7608f20af204a41036161fb1d16560f45558",
+  "savedRawLength": 235740,
+  "officialRawLength": 235739,
+  "savedRawRelation": "official bytes plus one newline",
+  "actualSourceAccepted": true,
+  "finalIntegrationApproved": false,
+  "limits": [
+    "No formal result transfer to a future archive head.",
+    "Current governance CI runs527; separate local API116/parser/contract were genuinely run on actual same source.",
+    "Synthetic CI checkout is not an actual code merge identity.",
+    "No runtime/browser/cryptographic/complete-V1 certification."
+  ],
+  "requiredNext": [
+    "Finite archive-only scope/raw/hash/Handoff review",
+    "Actual archive HEAD metadata checks/latest same-head CI",
+    "Fresh exact head/base/allthreads/lease/independent final integration decision"
+  ]
+}

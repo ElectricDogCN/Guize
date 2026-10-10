@@ -30,5 +30,6 @@
       "path": "tests.xml",
       "sha256": "4f03f164683f52f23a72bc99f488be94f70b48325ac49d3fa5555be5a1753251"
     }
-  ]
+  ],
+  "historicalHashRepresentation": "Original physical UTF-8 bytes at capture before Git normalization; Git may normalize CRLF to LF. These historical hashes are not assertions about current Git blob bytes."
 }
