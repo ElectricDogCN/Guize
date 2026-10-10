@@ -1,0 +1,108 @@
+{
+  "kind": "REJECTED_COMPLETION_SOURCE_PARTIAL_EXECUTION",
+  "source": "ca0fb00dd2824fb6529a60484272af843d6af5ad",
+  "tree": "e363e99641d7f82b5c12672b0162f24eabf20cba",
+  "base": "8f2beb00c568ecb79c8ae0204f36fe445599fc37",
+  "result": "FAIL",
+  "checks": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 1
+  },
+  "full15Executed": false,
+  "governanceTestsExecuted": false,
+  "sameHeadCIPassClaimed": false,
+  "reason": "raw lifecycle rejected missing anchored explicit historical result/status markers; no full make or docs executed.",
+  "allOriginalsLosslesslyRecoverable": true,
+  "records": [
+    {
+      "path": "clean-before.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\clean-before.txt",
+      "originalPhysicalSize": 102,
+      "originalPhysicalSha256": "44b4eff19e74a6c1708549f9f119e94ac16ad100e888d87c0fc859c2ffa2745a",
+      "originalPhysicalBytesZlibBase64": "eNoVzEEKgCAQQNG9p5gLBMNkZm6jE3SCydEQKqMUOn61/rw/53r5AGPe91QceMa4IIqQJR0X09HABrXV1BNHq1sxHDsW9QM+xMGaCtyFS72hac78zTZOh1LT84UxS3CA6gVnkB+p"
+    },
+    {
+      "path": "finalization.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\finalization.txt",
+      "originalPhysicalSize": 343,
+      "originalPhysicalSha256": "d634b4a84c5eb902d08b249ff2c0e6e4605d3454feef61cd5971f6f3bd7effed",
+      "originalPhysicalBytesZlibBase64": "eNpNkLFuwyAQhnc/BWIuLcLYsb1FVdu1kjt1O8ORoNiADI6aRnn3QrJ0vPv1/d/pRr+tCsmrXxabBqKAm4lzrUUnpJnaRvTQctlJsRNgOlnrFkwDuioAOD2QcElH70hUqw0pvqgjqhMLqz+ssLAwg2PGOpjtLyTr3XO4EMYmiMhWNKQzYsLsU03boZp2veoAueDS1K1BKZum742qd5lJEE/k45tx3lRXGhOkLdKB0M/9ONInQheMEQ54Xz3s5L+YWHeG1YJLkQSIEXWBNCawc+m5UlDJnvEra8rMc6r8EmZMqN/95vS9pkRtjso1RfU4iN5uVfX2Y1P+o8YMV3+HHG2+"
+    },
+    {
+      "path": "history.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\history.txt",
+      "originalPhysicalSize": 475,
+      "originalPhysicalSha256": "1aa016f603081d7d40ba2eccbe23acde2a2630cde2d5b8810c9063f16631f4c2",
+      "originalPhysicalBytesZlibBase64": "eNqNkb1uwyAURnc/BfJcGuS/2N6iNG23RsnWqsM1XGIU2yAgba0o715IInXtyIVz7veJvT5ZjmStx1H5lnBgsmNMiKzOCtlVZdZAxYq6yJYZyLrIRQWyBJFEACbREjP7Xk/EcauMdwveIz9SY/XBwkjNABPtlfPazo9mJpR24JBalKSWWYdhFS+rGnm3bHgNyDJWyLySWBRl2TSS58vA9AjiyrxuVk/h7MEdycs7ZayMRgsT7+kEIxLea4uL2xXVBicwinI9mgG90lNyTp0Hf3JpS9Ltar9PH0g6onNwwOvoFptsQ2xyj0188DsVcUfAIvmCQYkICvSghug6p7HWDmWU/LdYVMRmdyx2i6O/tDvk2oroz8McTkJ5FG/fE9o1GODKz89h/8lifPLxebkkyeZH+fCXAlvCkl8/55dj"
+    },
+    {
+      "path": "integrity.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\integrity.txt",
+      "originalPhysicalSize": 418,
+      "originalPhysicalSha256": "143a4cc4222a40d2e6178822c84c7b7f357c1dd232f313748dc2b6e8e471238d",
+      "originalPhysicalBytesZlibBase64": "eNqNkc1uwyAMx+95CsR52RAhadLbNO1etXsBx5gWtQkIyNSq6rsPunW77uif7P+HvHNLQGJvbppsWjMEYUYhtJa9VGbsWjlAJ1Sv5EqC6VWjOzAt6KocwKzXzF/Swc0sYrA+xRc8EB5rH9w+wFT7E8y1nRPtg02XZ39hdT1CpDqQYb2RI2UzbLuecFwN2AMJKZRpOkNKte0wGGxW1ZXHBGmJfM345nW340+MTxQj7OmOvs3YJpsxOhMuyeZEOR1DN/kT3cffFMxDjKSLiKYE9lR0r9y4ZdZQVj8gHgvr8sZPkQeShQEm+0kPJDL5s9kSuqALbzIvVbdkSsj/luW3W1W9n23KL9GU5asvkKKF6w=="
+    },
+    {
+      "path": "raw-lifecycle.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\raw-lifecycle.txt",
+      "originalPhysicalSize": 590,
+      "originalPhysicalSha256": "50e0ec6dd93dd3293aac45875c8df33386a5033e82384964ccbbd35ab40064b2",
+      "originalPhysicalBytesZlibBase64": "eNqtkTtvgzAQx3c+xYm5Li4BAmxRmj6kDpWydTvsc7AC2LJNFFT1u5e0qGrHSN3u9b/fPfZmdIJga/pehxoEctVwLmVapplqijytsOBZmaXrFFWZrWSBKkcZXQQ4yBrsFFozgBdO2+AT0ZI4MuvMwWHPOq1ITKIjdhjRSX9rJ2CsQU/MkYJSpQ3NOJEXJYlmXYkSiac8U6tCUZbleVUpsVrPmpZQfmmedpv72Q/oj/D4xjjPLx0dDqJlA/YEojWOku8UM5YGtJoJ09uOgjZD9B77gGH0cQ3xw+b5Jb6BuCfv8UCX0PanEn4zAvkAjvzYBQ8tnggGA3S2nRY6wOtmv4el7ccVhN1JSxrm+9NiLHMnfpzP66bbXs4w/4e1rEIysej9v1Lb+aNGqWuo0e48Z7dGUg130Se6OML8"
+    },
+    {
+      "path": "readiness.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\readiness.txt",
+      "originalPhysicalSize": 660,
+      "originalPhysicalSha256": "a2a3a70bf704a7f1493b0e5f1b23ddd5ae7e9d90e1b174244644b932abbf37a4",
+      "originalPhysicalBytesZlibBase64": "eNqNUstOwzAQvOcrVjlTSNMnuSGEgAOoapE4b+wNNU3sYG+gBfXfWYeHKBc47s54Znbkleu8Ijh3TWO4AIVZVWaZ1vk8H1fldJKf4jQbz8f5LMdqPh7pKVYT1El8gFYX0O547SwE5U3L4UStSW0GrXePpHjgCbWxFMJxu0ve0sDIXUgLSO/PlrfpEaSNYPhAcXVp+KoroUFjofRo1RpEhkXGOHuy7GoKxOApEgKgBdoyeYs1lLVTG/Lp/i+LG1RriQPKWfaoOIB1DJV3r2Shch6GmRg8dUZcyHL4W/G6aeueizFlL/dM3lSG9D8EF2er1S/BxUdz8N0cGKtpS/FiDYI+eGxgUcv96AkC+05x57Gud/GsYAKLURTVxGjq6POWHmQoJFU0dTp2KmM+lPGrk1uUNC2qHhnNBGnFzJK+w7Dp2dO4c+pb6AWfe/Jw9kPmEttz10mST5I5KOoA3e+T5GJrWD6hpgKy5B3419y5"
+    },
+    {
+      "path": "schemas.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\schemas.txt",
+      "originalPhysicalSize": 1681,
+      "originalPhysicalSha256": "c9edf24dddaeb5a2ea4e93f0d3efc8174f03e19b701640221e4f4b530c7b8c21",
+      "originalPhysicalBytesZlibBase64": "eNqdlduOmzAQhu95Cj/AchDNpmnUG0Qj9RSyKlTVXk7sAdyAbdkOW96+JslW7UqbBl9ZI/mbw++ZcSmPmiLJZd9zuyYUknqfJIylq3RR75f36TtYJovVIn2bQr1avGFLqO+BBRMAgq2JGm0rBTFUc2VNTFukh9C4owcTqTHYfSGP2fbrmkQNt+1xHz9Jfag7+WTiRg6oBQiKYQMWo7Hvpuufy10RlvnHzTZzCUlhNVDnGQcUz0eIYsBOKozOkaKfRoqJzXdF9S3LK/Jhl3/fborqbw/uvgDFY+CxAtuaaIRzxNsoY9D6gNRJJUWMWkvth7bWqtBArzo080q9OLiYXsGf33ImK2re+KjFoffBemQcfEDVwbgHevBiZcfp6EMaBE1bL/I0sF6klRoaL9SCeSnQK1N66ZaYoerk2E+zqrSsefdnVG90oLpjw0Xolgyv0dirtFFI3eqRUjMuwHLXtc4XHzCcls1c1OXbaOhD1xliLjsJFbrBcZM62eYlf0bJp6KssiLf/Df1iSPvw5kV3hLlnyqvhLmixpqUJ/uOVK5sUjr4jmSntMgPlxZxHwR5OPPkwfFkgI6zk19yEQlZEGx+cet+IIZrkgS/AVxgQ9I="
+    },
+    {
+      "path": "source.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\source.txt",
+      "originalPhysicalSize": 41,
+      "originalPhysicalSha256": "52e4d6ef25bc9142718adec77321f91adbf24969e29bb61fe092aba3b0edca76",
+      "originalPhysicalBytesZlibBase64": "eNoFwcERACAIA7C/03AVEMcpct1/BJNHU5vNoODqDFymeTkOqPI9SQVnfe50CyA="
+    },
+    {
+      "path": "status.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\status.json",
+      "originalPhysicalSize": 146,
+      "originalPhysicalSha256": "5a3cd493b5c22682521211779895c488f53726b2c63cf243f7d7ad1a60da2461",
+      "originalPhysicalBytesZlibBase64": "eNpFzTEKgDAQRNHeUwRrBW29zRI3Ohg3kF0QFe+uNkn5HwxzN861Rrq1kxu6PzLTDGHVIupX3qk2xHjJsLPICrWUa1smURiS1FWAUMRFv9YzOvqIwP70kT8dm+cFdHopKw=="
+    },
+    {
+      "path": "task.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\task.txt",
+      "originalPhysicalSize": 260,
+      "originalPhysicalSha256": "5030e2da8372f03dbe2c6a0a5f7059993929184638ab3dfe1ae1bae14b7d606d",
+      "originalPhysicalBytesZlibBase64": "eNolj7FOxDAQRPt8heUaxz6ThJAOIUSLFCq6PXt9sXKOo6wTcSD+HRu6mdHOG+0Y980ge44h+DQwA8qdlbJW97px567Vj9Cppm/0gwbXN/e2A9eCrUoBFjuw9ZamuDAym18TSTOhmUUCmoXzV6zXGxN/lr1+CKXa6ptTgrQTHxh/expHfsd4QCK4YIney2lpsgOuPvPlFANK2jdZG8h0edn9F2bkjPHATS6Q/IEiS++8ySYuQivdndRJSVrRkCzzJP/362D5T1W9fPqUn7Y4MFX9Asd/U+k="
+    },
+    {
+      "path": "transitions.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\transitions.txt",
+      "originalPhysicalSize": 427,
+      "originalPhysicalSha256": "24433fa2bc00be1c4d93ac0e6c02070bd4254b55b3852775ed27a71d8fb1b1e2",
+      "originalPhysicalBytesZlibBase64": "eNpNUT1PwzAQ3fMrTplraqVJmnZDUMGIKBPb5XwmVpPYst1CVfW/Y7cDjPfu3pdub4+eGJ7sNJm4BUKpeymVqrqq1n3bVBtsZd3V1bpC3dUr1aJuUBWZgLPagjvHwc4QyBsXw5IGpoNw3n55nIQbcRbR4xxMNHYOD+4MQvQYWHjW0Omq52RHTdsx9esNdciykrVetZrrumk2G02rdeIMjOrGed09Pqc5YjjAy6eQssmKyYIGMePEQIP1vLyvhHU8ozOC7ORGzhmKSxkixmMot1C+Pe735QLKiUPAL75B9+jgObA/YaakcklnAd94YkilYTSa6Uwjw79u4DAEVllOcUQzZodLmYNm3XugvEWK5sQfCc8XMiF/6d6ZrFcZX12vRbH7MTH9RnG6K34BvcSKXA=="
+    },
+    {
+      "path": "tree.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-completion-ca0fb00-results\\tree.txt",
+      "originalPhysicalSize": 41,
+      "originalPhysicalSha256": "70d31d208f39da945147b75164c510f9a1b118dd1299fdf7b78ad83f3ce6ed16",
+      "originalPhysicalBytesZlibBase64": "eNoFwdEBACAEBcD/puERGYdi/xG6azHpCFN+Pge1L8McRWwYaGcN6FauD+ErCvI="
+    }
+  ]
+}

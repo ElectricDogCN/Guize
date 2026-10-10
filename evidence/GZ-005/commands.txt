@@ -1,3 +1,30 @@
+# GZ-005 current Completion candidate — successor verification pending
+
+Task:GZ-005 / Issue68; phase:independent Completion; candidate metadata status:completed; current execution status:PENDING. Issue68 is actually closed/completed. Branch:chore/GZ-005-openapi-completion; base:8f2beb00c568ecb79c8ae0204f36fe445599fc37.
+
+Code completion identity remains PR82 /95dc9d7cec927a753e8017cd3b509ebfee681b72. Review PR83 actually merged as 8f2beb00c568ecb79c8ae0204f36fe445599fc37. This candidate removes only its original lease and appends only its actual code identity. Metadata completed or historical PASS does not constitute acceptance or merge.
+
+Roles:Coordinator program-coordinator-agent; Implementer openapi-contract-agent; Reviewer independent-openapi-review-agent; Integrator integration-agent. Current agentRole:integrator.
+
+## Actual prior source execution, not successor acceptance
+
+Historical execution scope: immutable prior Completion source9dc only; this result does not apply to the pending successor.
+Source Commit: 9dc57530c773c2753cc7047762a85ac00b381501
+Command: make verify TASK=GZ-005 BASE=8f2beb00c568ecb79c8ae0204f36fe445599fc37 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-completion
+Exit Code: 0
+Result: PASS
+Raw record: test-results/completion-9dc5753/raw-results.bundle.json logical verify.txt; nonempty logical make-governance.xml has527 cases and zero failures/errors/skips. Same-source CI639 independently remains source9dc, not successor/main.
+
+Current rejected intermediate source:ca0fb00dd2824fb6529a60484272af843d6af5ad; first7 exit0/raw-lifecycle exit1, full15/fullmake not executed. Exact originals: test-results/completion-ca0fb00-rejected/. Corrected successor checks and CI remain PENDING.
+
+Prior Completion source:9dc57530c773c2753cc7047762a85ac00b381501 /tree:14163ff7a756ab2889ba5a3dce9ddc6d352d2900. Actual15 all exit0, full527 in717.57s/JUnit527 zero failures/errors/skips, CI639 full527 in683.45s/all steps success are retained losslessly in test-results/completion-9dc5753/raw-results.bundle.json and its README index. Three subsequent evidence corrections prevent final integration acceptance. Those results do not certify the corrected successor head; accepted earlier code/Review records remain preserved.
+
+## Current required integration actions
+
+Publish the exact corrected successor source/tree; run its actual15 including one full make verify TASK=GZ-005 BASE=8f2beb00c568ecb79c8ae0204f36fe445599fc37 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-completion with full527 and nonempty JUnit zero failures/errors/skips. Retain all raw Source Commit/Command/Exit Code and identical clean worktree binding. Obtain latest same-head full CI, finite independent content/evidence acceptance, verified threads and fresh head/base/closed Issue before expected-head merge. Failures prevent merge and remain retained. Then verify real Completion main/parents/tree, all applicable push-main gates/full527 and clean Root/native with independent acceptance before subsequent work. Full V1/runtime/multidevice/POCs remain incomplete.
+
+## Historical code, Review and earlier candidate records
+
 # Current repaired published-source results
 
 Actual tested source: 902b0f2f4fc23d1159de7fa1dc78d65118c0ca94; tree 0bc2e004aa347d072258ce6bfd2d22a4079c30ef; base 429a6566d81f128cb618c524ee8dc22faba1c0a4.
