@@ -1,0 +1,86 @@
+{
+  "kind": "FINITE_ACTUAL_SOURCE_THREAD_SCOPE_ADJUDICATION_NOT_GATE_OR_MERGE_APPROVAL",
+  "thread": "PRRT_kwDOTgCQ3c6q_ifz",
+  "pr": 79,
+  "reviewedSource": "94750d66fa954055872de2d76380d06aab177618",
+  "reviewedTree": "e21767d8fc0321f1ab11780fac2923de438dd42b",
+  "verifiedCommentCreatedUtc": "2026-10-10T01:18:30Z",
+  "verifiedCommentRequest": "Enforce high-risk max1 instead of audited return for high2; block/release one task.",
+  "literalPolicyViolation": true,
+  "policyViolationIsNotPass": true,
+  "classification": "DOCUMENTED_SPECIFIC_DELEGATED_OWNER_EXCEPTION_NOT_NEW_OWN_AUTHORIZATION_HOLE",
+  "reason": "The branch deliberately recognizes the single immutable followup decision anchored at actual main1dd with original d0 reservation, exact two participants and unchanged lease/claims/policy. It is a concrete Owner decision under the directly delegated highest decision authority, not an ordinary AGENTS capacity-compliant path. The literal high2>1 remains a failure in the live coordination counter, make and same-head CI; historical recognition alone does not mean overall Gate success.",
+  "originalOwnerBlob": "e25670a161ff6c33104b24d3bb8f22ce4fb06eac",
+  "newOwnerBlob": "784e0787701fa0b77cb4a4a5e59686a5e0908413",
+  "followupWindow": {
+    "start": "2026-10-10T01:09:53Z",
+    "deadline": "2026-10-10T03:09:53Z",
+    "earlyEnd": "OPS-004 Completion merge"
+  },
+  "existingRuleEvidence": [
+    {
+      "path": "AGENTS.md",
+      "lines": [
+        353,
+        359,
+        360,
+        371,
+        382
+      ],
+      "meaning": "Mandatory capacity and Gate success remain the default; frozen recovery does not generally exempt capacity."
+    },
+    {
+      "path": "scripts/check-agent-coordination.py",
+      "lines": [
+        27,
+        704,
+        709,
+        710,
+        712
+      ],
+      "meaning": "blocked remains active; unmodified live high counter errors for2>1."
+    },
+    {
+      "path": "scripts/check-program-plan-transitions.py",
+      "lines": [
+        37,
+        39,
+        41,
+        646,
+        661
+      ],
+      "meaning": "No reversible active lease-release transition; blocked remains active; ordinary cancellation removes own lease but is terminal."
+    },
+    {
+      "path": "scripts/check-program-lifecycle-guards.py",
+      "lines": [
+        1071,
+        1072,
+        1074
+      ],
+      "meaning": "Foundation cannot complete directly from in_progress; actual Review/Integration is required."
+    },
+    {
+      "path": "scripts/check-program-plan-history.py",
+      "lines": [
+        719,
+        738,
+        747,
+        753
+      ],
+      "meaning": "Separate fixed event/blob/window/anchor/participants and stable snapshot recognition preserves capacityResult FAIL."
+    }
+  ],
+  "narrowerLegalOptions": {
+    "blocked": "Does not release capacity.",
+    "freeze": "Does not release capacity and does not exempt it.",
+    "ordinaryGz005Cancellation": "An explicit independent cancellation can release GZ005, but terminal cancellation has no current restoration-to-reserved edge. It changes the preserved GZ005 identity/snapshot and conflicts with the authorized objective/event; it is not a reversible pause or smaller correction.",
+    "ownPrematureLeaseRemoval": "Not valid while own task remains active, and completed transition requires Review/Integration and full actual Completion verification.",
+    "riskOrPolicyChange": "Changes permanent policy/identity and is outside approved scope.",
+    "chosenConstrainedRoute": "Complete exact OPS004 followup implementation, independently verified Review, then all-zero Completion removing only OPS004 Lease and all-zero main. No GZ005 activation beforehand."
+  },
+  "threadDisposition": "May resolve as explicitly scoped Owner decision after recording this limitation; do not label capacity or overall Gate PASS. No production correction required for this comment alone.",
+  "currentFormal15Full527SameHeadCi": "PENDING_NOT_CERTIFIED_HERE",
+  "finalIntegrationConditions": "Only exact expected published HEAD after actual formal15/full527 and same-head CI, no failure except specifically authorized capacity, independent review and all applicable threads resolved, valid event deadline. Completion/main still require actual all-zero gates.",
+  "realRepoStatusAfter": ""
+}
