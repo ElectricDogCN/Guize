@@ -2336,5 +2336,104 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
+
+    def followup_owner_capacity_fixture(self, case):
+        # Real Git fixtures only: fixture dates test exact boundaries and are
+        # never timestamps or PASS claims for a published implementation.
+        facts = json.loads(pathlib.Path(REPO_ROOT, "evidence/OPS-004/followup-event-facts.json").read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory(prefix="guize-followup-capacity-") as temporary:
+            root = os.path.join(temporary, "repo")
+            subprocess.run(["git", "clone", "--shared", "--no-checkout", "--quiet", "--", REPO_ROOT, root], check=True, capture_output=True)
+            base = "413a6a4dd91b5d79a3d2b7d1e5f03f8121848170" if case == "missing_anchor" else facts["anchor"]
+            subprocess.run(["git", "checkout", "--detach", "--quiet", base], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "config", "user.name", "Fixture"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.email", "fixture@example.com"], cwd=root, check=True)
+            def at_anchor(path):
+                return subprocess.check_output(["git", "show", facts["anchor"] + ":" + path], cwd=root, text=True)
+            registry = yaml.safe_load(at_anchor("specs/coordination/active-work.yaml"))
+            plan = yaml.safe_load(at_anchor("specs/coordination/program-plan.yaml"))
+            owner = at_anchor("evidence/OPS-004/owner-decision.md")
+            document = pathlib.Path(REPO_ROOT, facts["document"]).read_text(encoding="utf-8")
+            own = next(item for item in registry["tasks"] if item["taskId"] == "OPS-004")
+            other = next(item for item in registry["tasks"] if item["taskId"] == "GZ-005")
+            if case == "review":
+                own.update(status="review", agentRole="reviewer", branch="chore/OPS-004-followup-review", baseSha=facts["anchor"])
+            elif case == "document": document += "\nUnapproved change\n"
+            elif case == "original_document": owner += "\nChanged original decision\n"
+            elif case == "third_task":
+                registry["tasks"].append({**copy.deepcopy(other), "taskId": "OTHER-001", "riskLevel": "medium"})
+            elif case == "other_entry": other["status"] = "in_progress"
+            elif case == "own_lease": own["lease"]["expiresAt"] = "2026-10-17T13:09:31Z"
+            elif case == "own_claims": own["exclusivePaths"].append("backend/**")
+            elif case == "policy": registry["policy"]["maxActiveTasks"] = 4
+            elif case == "frozen": plan["status"] = "frozen"
+            stamp = datetime.fromisoformat(facts["start"].replace("Z", "+00:00"))
+            if case == "before_start": stamp -= timedelta(seconds=1)
+            elif case == "deadline": stamp = datetime.fromisoformat(facts["deadline"].replace("Z", "+00:00"))
+            self.write_yaml(root, "specs/coordination/active-work.yaml", registry)
+            # Write exact documents directly; avoid the unrelated generic
+            # foundation-fixture rewrite used by older tests.
+            self.write_text(root, "specs/coordination/program-plan.yaml", yaml.safe_dump(plan, sort_keys=False, allow_unicode=True))
+            self.write_text(root, "evidence/OPS-004/owner-decision.md", owner)
+            self.write_text(root, facts["document"], document)
+            source = self.commit(root, "Finite followup fixture " + case, stamp.isoformat())
+            spec = importlib.util.spec_from_file_location("followup_capacity_fixture", SCRIPT)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            errors = []
+            module.historical_capacity(root, "OTHER-001" if case == "other_task" else "OPS-004", registry, registry["policy"], "d0e9e256552f9d1d47fb24d2e5a4530476b19a5f", source, "fixture", errors)
+            if case in {"start", "review"}:
+                self.assertEqual(errors, [])
+                audit = module.AUDITED_OWNER_CAPACITY_FAILURES["fixture"]
+                self.assertEqual(audit["event"], facts["event"])
+                self.assertEqual(audit["capacityResult"], "FAIL")
+                self.assertEqual((audit["highCount"], audit["maxHighRiskTasks"]), (2, 1))
+            else:
+                self.assertEqual(errors, ["fixture exceeds historical active/high capacity limits"])
+                self.assertNotIn("fixture", module.AUDITED_OWNER_CAPACITY_FAILURES)
+
+    def test_foundation_followup_capacity_start(self):
+        self.followup_owner_capacity_fixture("start")
+
+    def test_foundation_followup_capacity_review(self):
+        self.followup_owner_capacity_fixture("review")
+
+    def test_foundation_followup_capacity_document(self):
+        self.followup_owner_capacity_fixture("document")
+
+    def test_foundation_followup_capacity_original_document(self):
+        self.followup_owner_capacity_fixture("original_document")
+
+    def test_foundation_followup_capacity_third_task(self):
+        self.followup_owner_capacity_fixture("third_task")
+
+    def test_foundation_followup_capacity_other_entry(self):
+        self.followup_owner_capacity_fixture("other_entry")
+
+    def test_foundation_followup_capacity_own_lease(self):
+        self.followup_owner_capacity_fixture("own_lease")
+
+    def test_foundation_followup_capacity_own_claims(self):
+        self.followup_owner_capacity_fixture("own_claims")
+
+    def test_foundation_followup_capacity_policy(self):
+        self.followup_owner_capacity_fixture("policy")
+
+    def test_foundation_followup_capacity_frozen(self):
+        self.followup_owner_capacity_fixture("frozen")
+
+    def test_foundation_followup_capacity_before_start(self):
+        self.followup_owner_capacity_fixture("before_start")
+
+    def test_foundation_followup_capacity_deadline(self):
+        self.followup_owner_capacity_fixture("deadline")
+
+    def test_foundation_followup_capacity_missing_anchor(self):
+        self.followup_owner_capacity_fixture("missing_anchor")
+
+    def test_foundation_followup_capacity_other_task(self):
+        self.followup_owner_capacity_fixture("other_task")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,27 @@
+{
+  "kind": "FINITE_DIRTY_DRAFT_STATIC_REVIEW_NOT_ACTUAL_SOURCE_OR_TEST_PASS",
+  "base": "1dd347521445a712e0873dc762692b445373e88a",
+  "branch": "chore/OPS-004-followup-implementation",
+  "status": "M evidence/OPS-004/commands.txt\n M evidence/OPS-004/handoff.md\n M evidence/OPS-004/summary.md\n M evidence/OPS-004/test-results/README.md\n M scripts/check-program-plan-history.py\n M specs/coordination/active-work.yaml\n M specs/tasks/OPS-004.md\n M tests/governance/test_program_plan_history.py\n?? evidence/OPS-004/followup-event-facts.json\n?? evidence/OPS-004/followup-owner-decision.md\n?? evidence/OPS-004/original-window-end-state.json\n?? evidence/OPS-004/test-results/history-review-b2cb-task-format-failure/",
+  "trackedDelta": [
+    "evidence/OPS-004/commands.txt",
+    "evidence/OPS-004/handoff.md",
+    "evidence/OPS-004/summary.md",
+    "evidence/OPS-004/test-results/README.md",
+    "scripts/check-program-plan-history.py",
+    "specs/coordination/active-work.yaml",
+    "specs/tasks/OPS-004.md",
+    "tests/governance/test_program_plan_history.py"
+  ],
+  "unexpectedTrackedPaths": [],
+  "checkerSha256": "1cbb40d9e3c998fe62f105c7c86381c3d593fe714659837e544c6f97496528d5",
+  "newDecisionBlob": "784e0787701fa0b77cb4a4a5e59686a5e0908413",
+  "originalOwnerBlobUnchanged": true,
+  "registryOnlyOwnBranchBaseChanged": true,
+  "protectedNoDiff": true,
+  "realGitFollowupTestDefinitions": 14,
+  "guardReview": "Exact immutable new event/window/anchor/snapshot recognition, original recognition unchanged, capacityResult FAIL not live counter PASS. Dictionary/schema/Task/lifecycle rules retained.",
+  "recommendation": "No material static blocker in this finite dirty design. Prepare clean reviewed alias/inventory; actual published source full checks/fullsuite/same-head CI and independent integration review required.",
+  "targeted14": "RUNNING_NO_PASS_CLAIM",
+  "formalFullSource": "NOT_EXECUTED"
+}

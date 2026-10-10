@@ -1,0 +1,5 @@
+Source Commit: b2cb1839598ee445c3cbacf9761340f3800042c7
+Command: python scripts/check-task-file.py --task OPS-004
+{"status": "FAIL", "message": "Missing collaboration/handoff section must contain at least one bullet."}
+
+Exit Code: 1

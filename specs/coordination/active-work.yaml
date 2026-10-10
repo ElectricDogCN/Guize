@@ -78,9 +78,9 @@ tasks:
   reviewer: independent-lifecycle-scope-review-agent
   integrator: integration-agent
   agentRole: implementer
-  branch: chore/OPS-004-history-repair-implementation
+  branch: chore/OPS-004-followup-implementation
   baseBranch: main
-  baseSha: 31ffefe0b4ba9a8b413a590bb46ee43ae6288dfb
+  baseSha: 1dd347521445a712e0873dc762692b445373e88a
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-004
