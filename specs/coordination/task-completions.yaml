@@ -18,3 +18,11 @@ records:
     taskSpec: specs/tasks/GZ-010.md
     evidencePath: evidence/GZ-010
     handoffPath: evidence/GZ-010/handoff.md
+  - taskId: GZ-005
+    reservationRef: PR-70
+    reservationCommit: 413a6a4dd91b5d79a3d2b7d1e5f03f8121848170
+    completionRef: PR-82
+    mergeCommit: 95dc9d7cec927a753e8017cd3b509ebfee681b72
+    taskSpec: specs/tasks/GZ-005.md
+    evidencePath: evidence/GZ-005
+    handoffPath: evidence/GZ-005/handoff.md

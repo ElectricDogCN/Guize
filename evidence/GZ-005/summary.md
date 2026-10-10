@@ -1,3 +1,20 @@
+# GZ-005 accepted baseline; independent Completion candidate pending
+
+Task: GZ-005
+Issue: #68
+Status: PASS
+Scope of PASS: accepted code PR82 source902/main95dc and Review PR83 source103; this new Completion head is pending verification.
+Implementation merge: 95dc9d7cec927a753e8017cd3b509ebfee681b72
+Review merge/base: 8f2beb00c568ecb79c8ae0204f36fe445599fc37
+Branch: chore/GZ-005-openapi-completion
+Roles: Coordinator program-coordinator-agent; Implementer openapi-contract-agent; Reviewer independent-openapi-review-agent; Integrator integration-agent. Current agentRole: integrator.
+
+Only own completion metadata and Evidence change; old identities and policies remain unchanged. Accepted Review14 and same-head CI637, cancelled attempt1, independent proof and actual Review-main acceptance are preserved losslessly in test-results/review-103139d/raw-results.bundle.json with a human-readable README.md index.
+
+Current Completion next actions: close Issue68 with completed reason before the exact-head lifecycle wrapper; publish the candidate on the distinct Completion branch; run its actual15 checks including full make verify TASK=GZ-005 BASE=8f2beb00c568ecb79c8ae0204f36fe445599fc37 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-completion and all527 governance tests, zero failures/errors/skips. Persist exact new HEAD/tree, every command/exit and nonempty527-case JUnit/hash; obtain same-head full CI, independent content/evidence acceptance, fresh all-resolved threads and unchanged expectedHead/base before authorized merge. Any failure remains a failure and prevents merge; retain raw outputs and correct the candidate. After actual merge verify its real main identity/full applicable push-main gates and independent acceptance before treating the development task as closed. No prior103/902 result is called new Completion execution. Full V1/runtime/POC work remains.
+
+## Preserved earlier records
+
 # Current GZ-005 Own Review phase
 
 Task: GZ-005
