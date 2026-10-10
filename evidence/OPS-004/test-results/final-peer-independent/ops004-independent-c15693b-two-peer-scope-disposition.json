@@ -1,0 +1,35 @@
+{
+  "kind": "FINITE_EXISTING_TWO_THREAD_SCOPE_TRIAGE_NO_NEW_PEER_FRAMEWORK",
+  "actualSource": "c15693b9a53a1ddeb3613efdd773789e40352136",
+  "rows": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q_KKC",
+      "officialBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate peer leases before trusting their path claims**\n\nWhen a post-implementation commit changes a path claimed by a peer whose lease has expired—or by a peer entry fabricated in an earlier commit—`historical_peer_path(root, parent, ...)` returns true based only on the path claim, so this filter omits the change from `unexpected`; the code can then be reverted and the peer removed before Completion without detection. Fresh evidence in this revision is that the lookup was moved to the parent snapshot, but that peer snapshot is still never required to have a valid admission, active status, or unexpired lease. Validate the peer's complete contemporaneous registration before using its claims to exempt code.\n\nAGENTS.md reference: [AGENTS.md:L323-L323](https://github.com/ElectricDogCN/Guize/blob/c15693b9a53a1ddeb3613efdd773789e40352136/AGENTS.md#L323-L323)\n\nUseful? React with 👍 / 👎.",
+      "evidenceType": "OFFICIAL_THREAD_AND_EXISTING_RULE_SCOPE_REVIEW_NO_NEW_REAL_CLI_REPRO_ASSERTED",
+      "currentScopeDisposition": "Prior Peer classification does not certify Peer admission/status/lease; separate Own ancestor-claim work detection and Own-delta unexpected-code checks remain. Disjoint Peer history legality is not certified by limited Own Foundation proof. No demonstrated Own registration scope/lease/identity bypass in this reported variant.",
+      "ruleReferences": [
+        "scripts/check-program-plan-history.py:987 classifier explicitly not Peer Admission/Gate certificate",
+        "scripts/check-program-plan-history.py:1340-1359 Own ancestor claims/own_work/unexpected checks",
+        "AGENTS.md:323 valid reservation and lease requirement for working task",
+        "AGENTS.md:365 recoverable task-specific Handoff"
+      ],
+      "notClaimed": "Peer historical illegality is allowed or all Peer/Program historical Gates passed.",
+      "githubMutation": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6q_KKG",
+      "officialBody": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Validate completed-peer Evidence repairs before exempting them**\n\nWhen a post-implementation commit rewrites a completed peer's Evidence and a later commit restores it, this unconditional Program-based classification treats both changes as peer work even though the peer has no active registration and no completed-Evidence repair checks are run. The `unexpected` filter consequently drops those paths and Completion can certify a history containing an unauthorized cross-task Evidence rewrite once the final tree is clean; require the commits to satisfy the completed task's same-task Evidence-repair protocol before exempting them.\n\nAGENTS.md reference: [AGENTS.md:L388-L388](https://github.com/ElectricDogCN/Guize/blob/c15693b9a53a1ddeb3613efdd773789e40352136/AGENTS.md#L388-L388)\n\nUseful? React with 👍 / 👎.",
+      "evidenceType": "OFFICIAL_THREAD_AND_EXISTING_RULE_SCOPE_REVIEW_NO_NEW_REAL_CLI_REPRO_ASSERTED",
+      "currentScopeDisposition": "Completed Peer Evidence classification does not certify that Peer full17.8 repair/Issue/branch checks historically passed. Existing affected-Peer repair validator remains mandatory for its own Gate. Own original identity, old completed Program identities and Ledger are independently protected; no whole-Peer historical Evidence Gate certificate is claimed.",
+      "ruleReferences": [
+        "scripts/check-program-plan-lifecycle-guards.py:563-590 affected completed-task repair checks",
+        "scripts/check-program-plan-history.py:1000 completed Peer Evidence attribution",
+        "scripts/check-program-plan-history.py:1175 historical immutable definitions/provenance",
+        "AGENTS.md:388 completed-task Evidence repair contract"
+      ],
+      "notClaimed": "Peer historical illegality is allowed or all Peer/Program historical Gates passed.",
+      "githubMutation": false
+    }
+  ],
+  "currentTaskNewBlockingFinding": "No demonstrated Own authorization/provenance bypass in the reported disjoint-Peer variants; Owner finite scope disposition remains required, current-source CI final validation pending."
+}

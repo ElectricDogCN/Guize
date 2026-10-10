@@ -1,0 +1,28 @@
+{
+  "kind": "FINITE_READ_ONLY_OWNER_WINDOW_AND_COMPLETE_CONTRACT_REVIEW_NO_PHASE_EXECUTION",
+  "actualSource": "c15693b9a53a1ddeb3613efdd773789e40352136",
+  "deadline": "2026-10-10T01:09:31Z",
+  "originalOwnerBlob": "e25670a161ff6c33104b24d3bb8f22ce4fb06eac",
+  "automaticExtensionAllowed": false,
+  "historicalCapacity": "Only exact original OPS004 event/participants/policy/blob is recognized; every excess observation commit timestamp must strictly precede deadline. Appending a new Owner document alone does not change this existing validator.",
+  "atDeadline": "Stop new changes/active merges/renewals under expired event, retain real state and remaining checks externally, make a separate concrete recovery decision. Read-only collection of already-running test/CI results remains possible. Never alter old Owner blob or claim failed current capacity PASS.",
+  "blockedIsCapacityRelease": false,
+  "foundationCancelledSupported": false,
+  "directCompletionFromInProgressWholeGateSupported": false,
+  "correction": "Earlier no-Review suggestion was based on a history-only positive, not complete Gate. Raw lifecycle independently requires review/integration base for both ordinary and Foundation completion. Do not use the partial positive to waive that mandatory rule.",
+  "references": [
+    "scripts/check-program-plan-history.py:684 historical_capacity and exact immutable event/time/participants predicate",
+    "specs/coordination/program-plan.schema.yaml:131 Foundation status enum excludes cancelled",
+    "scripts/check-program-plan-transitions.py:628 cancellation handles ordinary tasks only",
+    "scripts/check-program-lifecycle-guards.py:47 COMPLETION_BASE_STATES={review,integration}",
+    "scripts/check-program-lifecycle-guards.py:1071-1075 universal completion base-status rejection",
+    "tests/governance/test_program_plan_history.py:1971 history-only noReview positive",
+    "AGENTS.md:325 independent role responsibilities",
+    "AGENTS.md:365 recoverable Handoff",
+    "AGENTS.md:371 latest actual head Gate and resolved threads",
+    "evidence/OPS-004/owner-decision.md:10 stop/new concrete recovery decision at deadline"
+  ],
+  "gateCompliantPlan": "Source formal15/full513/same-head CI and independent Source review first; real pure metadata Review/integration baseline plus required current-head checks; completed terminal candidate removes only own lease, names real PR77 implementation merge, runs full required Completion checks and same-head CI. No claimed final Source/Completion PASS until actual results.",
+  "afterDeadlineTerminalPossibility": "Only if all historical active observations and real implementation/Review merges were within the original event, a new concrete Owner terminal-only decision may permit administrative Completion that releases own capacity; this is conditional on existing helpers/full Gate actually accepting it, not an automatic extension or authorization for after-deadline excess active nodes. No production modification or waiver proposed here.",
+  "rootMutation": false
+}
