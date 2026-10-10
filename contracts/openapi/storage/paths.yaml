@@ -1,0 +1,2604 @@
+/cache-entries:
+  get:
+    operationId: listCacheEntries
+    summary: List complete-cache entries, not ATS replicas
+    description: List complete-cache entries, not ATS replicas
+    x-i18n:
+      en-US:
+        description: List complete-cache entries, not ATS replicas
+        summary: List complete-cache entries, not ATS replicas
+      zh-CN:
+        description: 列出完整缓存条目，不把 ATS 视为副本
+        summary: 列出完整缓存条目，不把 ATS 视为副本
+    tags:
+    - storage
+    security:
+    - SessionCookie: []
+    - BearerAuth: []
+    x-module-id: MOD-STORAGE
+    x-requirement-ids:
+    - REQ-V1-0003
+    - REQ-V1-0008
+    x-authorization:
+      mode: AUTHENTICATED
+      permission: storage.read
+      scope: subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets
+      stepUp: false
+      approval: false
+    x-error-codes:
+    - AUTH_REQUIRED
+    - AUTH_INVALID
+    - ACCESS_DENIED
+    - ACCESS_NOT_FOUND
+    - INTERNAL_INVALID_REQUEST
+    - INTERNAL_RATE_LIMITED
+    - INTERNAL_UNAVAILABLE
+    - INTERNAL_ERROR
+    - CACHE_UNSAFE_EVICTION
+    - STORAGE_SAFETY_FLOOR
+    - STORAGE_LAST_RECOVERABLE_COPY
+    - BACKUP_VERIFICATION_REQUIRED
+    parameters:
+    - name: Accept-Language
+      in: header
+      required: false
+      description: Response language; unsupported language falls back to zh-CN.
+      x-i18n:
+        en-US:
+          description: Response language; unsupported language falls back to zh-CN.
+        zh-CN:
+          description: 响应语言，不支持的语言回退至 zh-CN。
+      schema:
+        type: string
+        enum:
+        - zh-CN
+        - en-US
+        default: zh-CN
+    - name: cursor
+      in: query
+      required: false
+      description: Opaque scope-bound cursor.
+      x-i18n:
+        en-US:
+          description: Opaque scope-bound cursor.
+        zh-CN:
+          description: 绑定权限范围的不透明游标。
+      schema:
+        type: string
+        maxLength: 2048
+    - name: limit
+      in: query
+      required: false
+      description: Results per page, maximum 100.
+      x-i18n:
+        en-US:
+          description: Results per page, maximum 100.
+        zh-CN:
+          description: 每页结果，最多 100。
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 25
+    responses:
+      '200':
+        description: Authorized result.
+        x-i18n:
+          en-US:
+            description: Authorized result.
+          zh-CN:
+            description: 经授权的结果。
+        headers: &id001
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../common/schemas.yaml#/CacheEntryPage
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: SUCCESS
+                  message: 操作成功。
+                  data:
+                    items:
+                    - id: cac_example01
+                      assetVersionId: ver_example01
+                      cacheClass: FULL_FILE
+                      state: COMPLETE_CACHE
+                      sizeBytes: 1048576
+                      expiresAt: '2026-10-16T12:00:00Z'
+                      revision: 1
+                    nextCursor: null
+                  traceId: trace-example-0001
+      '400':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_INVALID_REQUEST
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_INVALID_REQUEST
+                  message: 请求不满足版本化 Schema。
+                  details: {}
+                  traceId: trace-example-0001
+      '401':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - AUTH_REQUIRED
+                  - AUTH_INVALID
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: AUTH_REQUIRED
+                  message: 需要认证。
+                  details: {}
+                  traceId: trace-example-0001
+      '403':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - ACCESS_DENIED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCESS_DENIED
+                  message: 无权限，且不暴露资源元数据。
+                  details: {}
+                  traceId: trace-example-0001
+      '404':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - ACCESS_NOT_FOUND
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCESS_NOT_FOUND
+                  message: 资源不存在或不可发现。
+                  details: {}
+                  traceId: trace-example-0001
+      '409':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - CACHE_UNSAFE_EVICTION
+                  - STORAGE_LAST_RECOVERABLE_COPY
+                  - BACKUP_VERIFICATION_REQUIRED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: CACHE_UNSAFE_EVICTION
+                  message: 固定、使用中缓存或正式副本不可淘汰。
+                  details: {}
+                  traceId: trace-example-0001
+      '429':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_RATE_LIMITED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_RATE_LIMITED
+                  message: 超过调用者限流阈值。
+                  details: {}
+                  traceId: trace-example-0001
+      '500':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_ERROR
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_ERROR
+                  message: 已脱敏的服务端异常。
+                  details: {}
+                  traceId: trace-example-0001
+      '503':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_UNAVAILABLE
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_UNAVAILABLE
+                  message: 依赖暂时不可用。
+                  details: {}
+                  traceId: trace-example-0001
+      '507':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id001
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - STORAGE_SAFETY_FLOOR
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: STORAGE_SAFETY_FLOOR
+                  message: 硬安全水位之上的空间不足。
+                  details: {}
+                  traceId: trace-example-0001
+/assets/{assetId}:cache:
+  post:
+    operationId: cacheAsset
+    summary: Reserve space and obtain a verified full cache
+    description: Reserve space and obtain a verified full cache
+    x-i18n:
+      en-US:
+        description: Reserve space and obtain a verified full cache
+        summary: Reserve space and obtain a verified full cache
+      zh-CN:
+        description: 预留空间并获取经校验的完整缓存
+        summary: 预留空间并获取经校验的完整缓存
+    tags:
+    - storage
+    security:
+    - SessionCookie: []
+    - BearerAuth: []
+    x-module-id: MOD-STORAGE
+    x-requirement-ids:
+    - REQ-V1-0003
+    - REQ-V1-0008
+    x-authorization:
+      mode: AUTHENTICATED
+      permission: storage.write
+      scope: subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets
+      stepUp: false
+      approval: false
+    x-error-codes:
+    - AUTH_REQUIRED
+    - AUTH_INVALID
+    - ACCESS_DENIED
+    - ACCESS_NOT_FOUND
+    - INTERNAL_INVALID_REQUEST
+    - INTERNAL_RATE_LIMITED
+    - INTERNAL_UNAVAILABLE
+    - INTERNAL_ERROR
+    - CACHE_UNSAFE_EVICTION
+    - STORAGE_SAFETY_FLOOR
+    - STORAGE_LAST_RECOVERABLE_COPY
+    - BACKUP_VERIFICATION_REQUIRED
+    - INTERNAL_IDEMPOTENCY_CONFLICT
+    - INTERNAL_IDEMPOTENCY_IN_PROGRESS
+    - INTERNAL_REVISION_CONFLICT
+    parameters:
+    - name: Accept-Language
+      in: header
+      required: false
+      description: Response language; unsupported language falls back to zh-CN.
+      x-i18n:
+        en-US:
+          description: Response language; unsupported language falls back to zh-CN.
+        zh-CN:
+          description: 响应语言，不支持的语言回退至 zh-CN。
+      schema:
+        type: string
+        enum:
+        - zh-CN
+        - en-US
+        default: zh-CN
+    - name: assetId
+      in: path
+      required: true
+      description: Resource identifier or exact optimistic revision, resolved after authorization.
+      x-i18n:
+        en-US:
+          description: Resource identifier or exact optimistic revision, resolved after authorization.
+        zh-CN:
+          description: 鉴权后解析的资源标识或精确乐观修订号。
+      schema:
+        type: string
+        description: Opaque resource identifier; never a file path.
+        x-i18n:
+          en-US:
+            description: Opaque resource identifier; never a file path.
+          zh-CN:
+            description: 不透明资源标识，不是文件路径。
+        pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+        maxLength: 80
+    - name: Idempotency-Key
+      in: header
+      required: true
+      description: Caller+operation scoped key; same request replays original result for 24h.
+      x-i18n:
+        en-US:
+          description: Caller+operation scoped key; same request replays original result for 24h.
+        zh-CN:
+          description: 按调用者与操作隔离，同请求在 24 小时内重放原结果。
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 128
+        pattern: ^[A-Za-z0-9_-]+$
+    - name: X-CSRF-Token
+      in: header
+      required: false
+      description: Required for cookie sessions; machine bearer callers use scoped identity.
+      x-i18n:
+        en-US:
+          description: Required for cookie sessions; machine bearer callers use scoped identity.
+        zh-CN:
+          description: Cookie 会话必须提供；机器 Bearer 使用受限身份。
+      schema:
+        type: string
+        minLength: 32
+        maxLength: 128
+    responses:
+      '202':
+        description: Command accepted; poll task status.
+        x-i18n:
+          en-US:
+            description: Command accepted; poll task status.
+          zh-CN:
+            description: 命令已受理，请查询任务状态。
+        headers: &id002
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../common/schemas.yaml#/TaskAcceptedEnvelope
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCEPTED
+                  message: 请求已受理。
+                  data:
+                    taskId: tsk_example01
+                    status: RUNNING
+                    statusUrl: /api/v1/tasks/tsk_example01
+                  traceId: trace-example-0001
+      '400':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_INVALID_REQUEST
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_INVALID_REQUEST
+                  message: 请求不满足版本化 Schema。
+                  details: {}
+                  traceId: trace-example-0001
+      '401':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - AUTH_REQUIRED
+                  - AUTH_INVALID
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: AUTH_REQUIRED
+                  message: 需要认证。
+                  details: {}
+                  traceId: trace-example-0001
+      '403':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - ACCESS_DENIED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCESS_DENIED
+                  message: 无权限，且不暴露资源元数据。
+                  details: {}
+                  traceId: trace-example-0001
+      '404':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - ACCESS_NOT_FOUND
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCESS_NOT_FOUND
+                  message: 资源不存在或不可发现。
+                  details: {}
+                  traceId: trace-example-0001
+      '409':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_IDEMPOTENCY_CONFLICT
+                  - INTERNAL_REVISION_CONFLICT
+                  - CACHE_UNSAFE_EVICTION
+                  - STORAGE_LAST_RECOVERABLE_COPY
+                  - BACKUP_VERIFICATION_REQUIRED
+                  - INTERNAL_IDEMPOTENCY_IN_PROGRESS
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+              allOf:
+              - if:
+                  properties:
+                    code:
+                      const: INTERNAL_IDEMPOTENCY_IN_PROGRESS
+                  required:
+                  - code
+                then:
+                  properties:
+                    details:
+                      required:
+                      - retryAfterSeconds
+                      properties:
+                        retryAfterSeconds:
+                          type: integer
+                          minimum: 1
+                          maximum: 60
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_IDEMPOTENCY_CONFLICT
+                  message: 幂等键绑定不同请求或仍在执行。
+                  details: {}
+                  traceId: trace-example-0001
+              inFlight:
+                summary: Identical request still executing; illustrative contract example only.
+                x-i18n:
+                  en-US:
+                    summary: Identical request still executing; illustrative contract example only.
+                  zh-CN:
+                    summary: 相同请求仍在执行，仅为契约示例。
+                value:
+                  code: INTERNAL_IDEMPOTENCY_IN_PROGRESS
+                  message: The identical request is still executing.
+                  details:
+                    retryAfterSeconds: 2
+                  traceId: trace-example-0001
+      '429':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_RATE_LIMITED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_RATE_LIMITED
+                  message: 超过调用者限流阈值。
+                  details: {}
+                  traceId: trace-example-0001
+      '500':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_ERROR
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_ERROR
+                  message: 已脱敏的服务端异常。
+                  details: {}
+                  traceId: trace-example-0001
+      '503':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_UNAVAILABLE
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_UNAVAILABLE
+                  message: 依赖暂时不可用。
+                  details: {}
+                  traceId: trace-example-0001
+      '507':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id002
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - STORAGE_SAFETY_FLOOR
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: STORAGE_SAFETY_FLOOR
+                  message: 硬安全水位之上的空间不足。
+                  details: {}
+                  traceId: trace-example-0001
+    x-idempotency:
+      scope: authenticated subject (or pre-auth client session)+operationId+key
+      fingerprint: SHA-256 of canonical method+normalized path resource IDs+query+body; identity is server-derived
+      retentionSeconds: 86400
+      samePayload: replay durable non-sensitive result only after current authorization
+      differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
+      inFlight: INTERNAL_IDEMPOTENCY_IN_PROGRESS; retry after bounded backoff.
+      reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
+      durability: transactional unique claim; task dedupe survives workflow retries
+    requestBody:
+      required: true
+      description: Schema-validated bounded input.
+      x-i18n:
+        en-US:
+          description: Schema-validated bounded input.
+        zh-CN:
+          description: 经 Schema 校验的有界输入。
+      content:
+        application/json:
+          schema:
+            $ref: ../common/schemas.yaml#/StorageRequest
+          examples:
+            illustrative:
+              summary: Illustrative contract value; not live execution.
+              description: Illustrative contract value; not live execution.
+              x-i18n:
+                en-US:
+                  description: Illustrative contract value; not live execution.
+                  summary: Illustrative contract value; not live execution.
+                zh-CN:
+                  description: 契约说明值，不是线上执行结果。
+                  summary: 契约说明值，不是线上执行结果。
+              value:
+                assetVersionId: ver_example01
+                targetId: stg_example01
+                policyVersionId: plv_example01
+                reason: Example retain request
+    x-long-running: true
+    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust an arbitrary version ID
+/cache-entries/{cacheId}:evict:
+  post:
+    operationId: evictCacheEntry
+    summary: Evict cache without touching formal replicas or retention
+    description: Evict cache without touching formal replicas or retention
+    x-i18n:
+      en-US:
+        description: Evict cache without touching formal replicas or retention
+        summary: Evict cache without touching formal replicas or retention
+      zh-CN:
+        description: 淘汰缓存，不改变正式副本或保留
+        summary: 淘汰缓存，不改变正式副本或保留
+    tags:
+    - storage
+    security:
+    - SessionCookie: []
+    - BearerAuth: []
+    x-module-id: MOD-STORAGE
+    x-requirement-ids:
+    - REQ-V1-0003
+    - REQ-V1-0008
+    x-authorization:
+      mode: AUTHENTICATED
+      permission: storage.cache.evict
+      scope: subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets
+      stepUp: false
+      approval: false
+    x-error-codes:
+    - AUTH_REQUIRED
+    - AUTH_INVALID
+    - ACCESS_DENIED
+    - ACCESS_NOT_FOUND
+    - INTERNAL_INVALID_REQUEST
+    - INTERNAL_RATE_LIMITED
+    - INTERNAL_UNAVAILABLE
+    - INTERNAL_ERROR
+    - CACHE_UNSAFE_EVICTION
+    - STORAGE_SAFETY_FLOOR
+    - STORAGE_LAST_RECOVERABLE_COPY
+    - BACKUP_VERIFICATION_REQUIRED
+    - INTERNAL_IDEMPOTENCY_CONFLICT
+    - INTERNAL_IDEMPOTENCY_IN_PROGRESS
+    - INTERNAL_REVISION_CONFLICT
+    parameters:
+    - name: Accept-Language
+      in: header
+      required: false
+      description: Response language; unsupported language falls back to zh-CN.
+      x-i18n:
+        en-US:
+          description: Response language; unsupported language falls back to zh-CN.
+        zh-CN:
+          description: 响应语言，不支持的语言回退至 zh-CN。
+      schema:
+        type: string
+        enum:
+        - zh-CN
+        - en-US
+        default: zh-CN
+    - name: cacheId
+      in: path
+      required: true
+      description: Resource identifier or exact optimistic revision, resolved after authorization.
+      x-i18n:
+        en-US:
+          description: Resource identifier or exact optimistic revision, resolved after authorization.
+        zh-CN:
+          description: 鉴权后解析的资源标识或精确乐观修订号。
+      schema:
+        type: string
+        description: Opaque resource identifier; never a file path.
+        x-i18n:
+          en-US:
+            description: Opaque resource identifier; never a file path.
+          zh-CN:
+            description: 不透明资源标识，不是文件路径。
+        pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+        maxLength: 80
+    - name: Idempotency-Key
+      in: header
+      required: true
+      description: Caller+operation scoped key; same request replays original result for 24h.
+      x-i18n:
+        en-US:
+          description: Caller+operation scoped key; same request replays original result for 24h.
+        zh-CN:
+          description: 按调用者与操作隔离，同请求在 24 小时内重放原结果。
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 128
+        pattern: ^[A-Za-z0-9_-]+$
+    - name: X-CSRF-Token
+      in: header
+      required: false
+      description: Required for cookie sessions; machine bearer callers use scoped identity.
+      x-i18n:
+        en-US:
+          description: Required for cookie sessions; machine bearer callers use scoped identity.
+        zh-CN:
+          description: Cookie 会话必须提供；机器 Bearer 使用受限身份。
+      schema:
+        type: string
+        minLength: 32
+        maxLength: 128
+    responses:
+      '202':
+        description: Command accepted; poll task status.
+        x-i18n:
+          en-US:
+            description: Command accepted; poll task status.
+          zh-CN:
+            description: 命令已受理，请查询任务状态。
+        headers: &id003
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../common/schemas.yaml#/TaskAcceptedEnvelope
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCEPTED
+                  message: 请求已受理。
+                  data:
+                    taskId: tsk_example01
+                    status: RUNNING
+                    statusUrl: /api/v1/tasks/tsk_example01
+                  traceId: trace-example-0001
+      '400':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_INVALID_REQUEST
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_INVALID_REQUEST
+                  message: 请求不满足版本化 Schema。
+                  details: {}
+                  traceId: trace-example-0001
+      '401':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - AUTH_REQUIRED
+                  - AUTH_INVALID
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: AUTH_REQUIRED
+                  message: 需要认证。
+                  details: {}
+                  traceId: trace-example-0001
+      '403':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - ACCESS_DENIED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCESS_DENIED
+                  message: 无权限，且不暴露资源元数据。
+                  details: {}
+                  traceId: trace-example-0001
+      '404':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - ACCESS_NOT_FOUND
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCESS_NOT_FOUND
+                  message: 资源不存在或不可发现。
+                  details: {}
+                  traceId: trace-example-0001
+      '409':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_IDEMPOTENCY_CONFLICT
+                  - INTERNAL_REVISION_CONFLICT
+                  - CACHE_UNSAFE_EVICTION
+                  - STORAGE_LAST_RECOVERABLE_COPY
+                  - BACKUP_VERIFICATION_REQUIRED
+                  - INTERNAL_IDEMPOTENCY_IN_PROGRESS
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+              allOf:
+              - if:
+                  properties:
+                    code:
+                      const: INTERNAL_IDEMPOTENCY_IN_PROGRESS
+                  required:
+                  - code
+                then:
+                  properties:
+                    details:
+                      required:
+                      - retryAfterSeconds
+                      properties:
+                        retryAfterSeconds:
+                          type: integer
+                          minimum: 1
+                          maximum: 60
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_IDEMPOTENCY_CONFLICT
+                  message: 幂等键绑定不同请求或仍在执行。
+                  details: {}
+                  traceId: trace-example-0001
+              inFlight:
+                summary: Identical request still executing; illustrative contract example only.
+                x-i18n:
+                  en-US:
+                    summary: Identical request still executing; illustrative contract example only.
+                  zh-CN:
+                    summary: 相同请求仍在执行，仅为契约示例。
+                value:
+                  code: INTERNAL_IDEMPOTENCY_IN_PROGRESS
+                  message: The identical request is still executing.
+                  details:
+                    retryAfterSeconds: 2
+                  traceId: trace-example-0001
+      '429':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_RATE_LIMITED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_RATE_LIMITED
+                  message: 超过调用者限流阈值。
+                  details: {}
+                  traceId: trace-example-0001
+      '500':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_ERROR
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_ERROR
+                  message: 已脱敏的服务端异常。
+                  details: {}
+                  traceId: trace-example-0001
+      '503':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_UNAVAILABLE
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_UNAVAILABLE
+                  message: 依赖暂时不可用。
+                  details: {}
+                  traceId: trace-example-0001
+      '507':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id003
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - STORAGE_SAFETY_FLOOR
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: STORAGE_SAFETY_FLOOR
+                  message: 硬安全水位之上的空间不足。
+                  details: {}
+                  traceId: trace-example-0001
+    x-idempotency:
+      scope: authenticated subject (or pre-auth client session)+operationId+key
+      fingerprint: SHA-256 of canonical method+normalized path resource IDs+query+body; identity is server-derived
+      retentionSeconds: 86400
+      samePayload: replay durable non-sensitive result only after current authorization
+      differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
+      inFlight: INTERNAL_IDEMPOTENCY_IN_PROGRESS; retry after bounded backoff.
+      reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
+      durability: transactional unique claim; task dedupe survives workflow retries
+    requestBody:
+      required: true
+      description: Schema-validated bounded input.
+      x-i18n:
+        en-US:
+          description: Schema-validated bounded input.
+        zh-CN:
+          description: 经 Schema 校验的有界输入。
+      content:
+        application/json:
+          schema:
+            $ref: ../common/schemas.yaml#/TaskCommand
+          examples:
+            illustrative:
+              summary: Illustrative contract value; not live execution.
+              description: Illustrative contract value; not live execution.
+              x-i18n:
+                en-US:
+                  description: Illustrative contract value; not live execution.
+                  summary: Illustrative contract value; not live execution.
+                zh-CN:
+                  description: 契约说明值，不是线上执行结果。
+                  summary: 契约说明值，不是线上执行结果。
+              value:
+                expectedRevision: 1
+                reason: Example user request
+    x-long-running: true

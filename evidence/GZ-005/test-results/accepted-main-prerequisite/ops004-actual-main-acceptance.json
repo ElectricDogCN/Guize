@@ -1,0 +1,33 @@
+{
+  "kind": "ACTUAL_POST_COMPLETION_MAIN_ACCEPTED",
+  "source": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "tree": "b0c02203994e89a411f9ce5184a336aaa4c540ac",
+  "acceptedUtc": "2026-10-10 04:03:56 UTC",
+  "local": {
+    "result": "PASS",
+    "exit": 0,
+    "cases": 527,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "govResult": "527 passed in 1150.51s",
+    "rawSha256": "874c8c945ae21fac316200d8ef9569a674be72997479d9666e797ae32c7825cf",
+    "beforeAfterClean": true,
+    "actualBranch": "main",
+    "proof": "ops004-followup-main-results/context.json"
+  },
+  "ci": {
+    "result": "success",
+    "run": 38021268746,
+    "number": 629,
+    "job": 114122569280,
+    "govResult": "527 passed in 850.07s",
+    "perTestPassed": 527,
+    "skipAudit": 0,
+    "proof": "ops004-followup-main-ci-proof.json",
+    "independentProof": "ops004-independent-main-ci629-native-verification-plan-proof.json"
+  },
+  "defaultCapacity": "PASS; GZ005 reserved high1/max1 only",
+  "GZ005MayStartWithinExistingReservation": true,
+  "fullV1Complete": false
+}

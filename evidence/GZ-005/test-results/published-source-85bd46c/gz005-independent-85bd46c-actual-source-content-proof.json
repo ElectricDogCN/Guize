@@ -1,0 +1,222 @@
+{
+  "kind": "ACTUAL_PUBLISHED_SOURCE_FINITE_CONTENT_REVIEW_FORMAL_PENDING",
+  "timestampUtc": "2026-10-10T04:57:50.491038+00:00",
+  "actualSource": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+  "tree": "a9e33bc684f0ba500586064dc705445568537115",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "official": {
+    "kind": "OFFICIAL_GITHUB_SOURCE_PR82_READ_ONLY_SNAPSHOT",
+    "commit": {
+      "sha": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+      "tree": "a9e33bc684f0ba500586064dc705445568537115",
+      "parents": [
+        "429a6566d81f128cb618c524ee8dc22faba1c0a4"
+      ],
+      "authorDate": "2026-10-10T04:54:22Z",
+      "commitDate": "2026-10-10T04:54:22Z"
+    },
+    "pr": {
+      "number": 82,
+      "url": "https://github.com/ElectricDogCN/Guize/pull/82",
+      "head": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+      "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "state": "open",
+      "merged": false,
+      "changedFiles": 84,
+      "body": "GZ-005: freeze the full assigned V1 control-plane interface so later consumers can implement consistent authorization, concurrency, playback and errors.\n\nAdds93 operations,136 schemas,33 bilingual stable errors,920 examples and93 serialized synthetic HTTP pairs. Approval proposals carry complete immutable request intent, with RFC8785/SHA256 reference vectors and carrier-aware idempotency. Safety-extension compatibility values are frozen; assertion reference siblings fail closed. WebAuthn creation and authentication use distinct typed options with canonical Base64url.\n\nActual main prerequisite429a6566d81f128cb618c524ee8dc22faba1c0a4 passed local full527 and push CI629 full527. Original Reservation PR70/lease remain valid; only GZ-005 activation/registered paths change. Prior failures and unstable dirty probes remain explicitly unaccepted in Own Evidence. No runtime cryptographic, browser, POC or full-V1 acceptance is claimed.\n\nActual source 85bd46cfc39fc934c9d43623be09acbb557b6930; tree a9e33bc684f0ba500586064dc705445568537115; soleparent/base429a6566d81f128cb618c524ee8dc22faba1c0a4. Published-source17 checks, full make527, three API checks, independent review and latest same-head CI are pending. GZ-012 will wire API checks into language CI; current governance CI runs its existing527.\n\nRefs #68. Merge only after exact-source gates/review; separate Completion follows actual integration/main acceptance."
+    },
+    "formalResultPending": true,
+    "finalIntegrationApproved": false
+  },
+  "rootContext": {
+    "head": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+    "tree": "a9e33bc684f0ba500586064dc705445568537115",
+    "branch": "chore/GZ-005-openapi-baseline",
+    "status": ""
+  },
+  "nativeContext": {
+    "head": {
+      "exit": 0,
+      "stdout": "85bd46cfc39fc934c9d43623be09acbb557b6930\n",
+      "stderrHex": "770073006c003a002000c0684b6d305220006c006f00630061006c0068006f00730074002000e34e06744d916e7f0cff464f2a675c95cf5030522000570053004c0002304e00410054002000216a0f5f0b4e84762000570053004c0020000d4e2f65016320006c006f00630061006c0068006f00730074002000e34e067402300d000a00"
+    },
+    "tree": {
+      "exit": 0,
+      "stdout": "a9e33bc684f0ba500586064dc705445568537115\n",
+      "stderrHex": "770073006c003a002000c0684b6d305220006c006f00630061006c0068006f00730074002000e34e06744d916e7f0cff464f2a675c95cf5030522000570053004c0002304e00410054002000216a0f5f0b4e84762000570053004c0020000d4e2f65016320006c006f00630061006c0068006f00730074002000e34e067402300d000a00"
+    },
+    "branch": {
+      "exit": 0,
+      "stdout": "chore/GZ-005-openapi-baseline\n",
+      "stderrHex": "770073006c003a002000c0684b6d305220006c006f00630061006c0068006f00730074002000e34e06744d916e7f0cff464f2a675c95cf5030522000570053004c0002304e00410054002000216a0f5f0b4e84762000570053004c0020000d4e2f65016320006c006f00630061006c0068006f00730074002000e34e067402300d000a00"
+    },
+    "status": {
+      "exit": 0,
+      "stdout": "",
+      "stderrHex": "770073006c003a002000c0684b6d305220006c006f00630061006c0068006f00730074002000e34e06744d916e7f0cff464f2a675c95cf5030522000570053004c0002304e00410054002000216a0f5f0b4e84762000570053004c0020000d4e2f65016320006c006f00630061006c0068006f00730074002000e34e067402300d000a00"
+    }
+  },
+  "changedPathCount": 84,
+  "changedPaths": [
+    "contracts/openapi/ai/paths.yaml",
+    "contracts/openapi/asset/paths.yaml",
+    "contracts/openapi/common/errors.yaml",
+    "contracts/openapi/common/http-samples.json",
+    "contracts/openapi/common/openapi.yaml",
+    "contracts/openapi/common/schemas.yaml",
+    "contracts/openapi/config/paths.yaml",
+    "contracts/openapi/iam/paths.yaml",
+    "contracts/openapi/media/paths.yaml",
+    "contracts/openapi/playback/paths.yaml",
+    "contracts/openapi/policy/paths.yaml",
+    "contracts/openapi/search/paths.yaml",
+    "contracts/openapi/source/paths.yaml",
+    "contracts/openapi/storage/paths.yaml",
+    "contracts/openapi/task/paths.yaml",
+    "evidence/GZ-005/changed-files.md",
+    "evidence/GZ-005/follow-ups.md",
+    "evidence/GZ-005/handoff.md",
+    "evidence/GZ-005/scope.md",
+    "evidence/GZ-005/summary.md",
+    "evidence/GZ-005/test-results/README.md",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/github-main-ci629.txt",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-clean-after.txt",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-clean-before.txt",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-context.json",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-make-governance.xml",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-source.txt",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-status.json",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-tree.txt",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/local-main-verify.txt",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/ops004-actual-main-acceptance.json",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/ops004-followup-main-ci-proof.json",
+    "evidence/GZ-005/test-results/accepted-main-prerequisite/ops004-independent-main-ci629-native-verification-plan-proof.json",
+    "evidence/GZ-005/test-results/independent-dirty-preparation/review.json",
+    "evidence/GZ-005/test-results/preimplementation-archive-index.json",
+    "evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/context.json",
+    "evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/contract.txt",
+    "evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/standard.txt",
+    "evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/tests.txt",
+    "evidence/GZ-005/test-results/prior-failed-current-dirty-exploration/tests.xml",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/coordination.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/finalization.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/history.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/integrity.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/lifecycle.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/raw-lifecycle.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/readiness.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/schemas.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/source.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/status.json",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/task.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/transitions.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-activation-results/tree.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/coordination.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/finalization.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/history.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/integrity.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/lifecycle.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/raw-lifecycle.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/readiness.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/schemas.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/source.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/status.json",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/task.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/transitions.txt",
+    "evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/tree.txt",
+    "evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/context.json",
+    "evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/contract.txt",
+    "evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/preexecution.json",
+    "evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/standard.txt",
+    "evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/tests.txt",
+    "evidence/GZ-005/test-results/unaccepted-dirty-fixed-probe/tests.xml",
+    "specs/contracts/openapi/README.md",
+    "specs/contracts/openapi/check_contract.py",
+    "specs/contracts/openapi/coverage.yaml",
+    "specs/contracts/openapi/intent_hash.py",
+    "specs/contracts/openapi/requirements.lock.txt",
+    "specs/contracts/openapi/requirements.txt",
+    "specs/contracts/openapi/semantics.md",
+    "specs/contracts/openapi/test_contract.py",
+    "specs/contracts/openapi/tool-provenance.json",
+    "specs/coordination/active-work.yaml",
+    "specs/coordination/program-plan.yaml",
+    "specs/tasks/GZ-005.md"
+  ],
+  "deltaFromReviewedPrivateAlias": [
+    "evidence/GZ-005/handoff.md"
+  ],
+  "checks": {
+    "officialSourceTreeParent": true,
+    "officialPRHeadBase": true,
+    "inventoryExact84": true,
+    "scopeAuthorized": true,
+    "programOnlyOwnActivation": true,
+    "registryOnlyOwnStatusRoleBase": true,
+    "originalLeaseAndClaimsUnchanged": true,
+    "currentHandoffActionsPresent": true,
+    "rootExactClean": true,
+    "nativeExactClean": true,
+    "onlyCurrentOwnHandoffChangedSinceReviewedPrivate": true
+  },
+  "contentFindings": [],
+  "previousFiniteContentReview": "gz005-independent-763aa7f-private-alias-static-proof.json",
+  "previousCodeResultTransferredAsTests": false,
+  "sourceContentSupported": true,
+  "formal17Result": "PENDING",
+  "sameHeadCI": "PENDING",
+  "finalIntegrationApproved": false,
+  "testsRun": [],
+  "lifecycleRules": {
+    "combinedImplementationActivation": {
+      "allowed": true,
+      "references": [
+        "scripts/check-program-plan-transitions.py:42",
+        "scripts/check-program-plan-transitions.py:444",
+        "scripts/check-program-plan-transitions.py:477"
+      ],
+      "note": "Actual PR70 reservation and valid lease already exist. reserved->in_progress with registered contract code is allowed; no second pure activation is required."
+    },
+    "afterImplementationMerge": {
+      "required": "Actual accepted in_progress main -> own review metadata; retain original lease/claims/stable ordinary branch, refresh own role/base and matching Task/Program/Registry; independent actual checks/CI/review before review merge.",
+      "references": [
+        "scripts/check-program-plan-transitions.py:43",
+        "scripts/check-program-plan-transitions.py:510",
+        "scripts/check-schemas.py:156"
+      ]
+    },
+    "completion": {
+      "allowedPriorMainStates": [
+        "review",
+        "integration"
+      ],
+      "integrationStageNotSeparatelyRequired": true,
+      "directInProgressCompletionForbidden": true,
+      "required": "Actual review main -> completed; remove only own Registry row, append one immutable own ordinary Ledger reservation+implementation identity, completed Task uses current true target base and completion branch, refresh four structured Evidence; live Issue68 closed/completed before exact lifecycle wrapper; real current checks+CI+independent final review+post-main. Implementation identity must use actual code PR82 merge, not future review metadata merge.",
+      "references": [
+        "scripts/check-program-lifecycle-guards.py:47",
+        "scripts/check-program-lifecycle-guards.py:1072",
+        "scripts/check-program-plan-history.py:415",
+        "scripts/check-program-plan-history.py:428",
+        "scripts/check-program-plan-history.py:441",
+        "scripts/run-program-lifecycle-gate.py:162",
+        "scripts/check-program-lifecycle-guards.py:341"
+      ]
+    }
+  },
+  "limitations": [
+    "Finite Own content and lifecycle-rule review; does not replay universal Peer history.",
+    "No new tests or governance suite rerun.",
+    "Formal17 and same-head CI are ongoing; no actual-source PASS or integration approval yet."
+  ],
+  "initialProofExpectationCorrection": {
+    "expected": [
+      "evidence/GZ-005/handoff.md",
+      "evidence/GZ-005/summary.md"
+    ],
+    "actual": [
+      "evidence/GZ-005/handoff.md"
+    ],
+    "reason": "Actual immutable Git diff shows only handoff changed; no second documentation difference is necessary."
+  }
+}

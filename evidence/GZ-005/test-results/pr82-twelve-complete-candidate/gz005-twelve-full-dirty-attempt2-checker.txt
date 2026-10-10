@@ -1,0 +1,15 @@
+Parent Commit: e70313efeb06c021b3626e5d5728d44acc8c4758
+Working Tree: DIRTY, unpublished complete twelve-finding repair
+Command: wsl -d Ubuntu --cd /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize -- /home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline
+wsl: 检测到 localhost 代理配置，但未镜像到 WSL。NAT 模式下的 WSL 不支持 localhost 代理。
+Traceback (most recent call last):
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize/specs/contracts/openapi/check_contract.py", line 887, in <module>
+    main()
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize/specs/contracts/openapi/check_contract.py", line 855, in main
+    spec=resolve(read_yaml(ENTRY)); result=verify(spec)
+                                           ^^^^^^^^^^^^
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize/specs/contracts/openapi/check_contract.py", line 695, in verify
+    raise ContractError('session issuance is only declared on successful authentication')
+ContractError: session issuance is only declared on successful authentication
+
+Exit Code: 1

@@ -1,0 +1,80 @@
+{
+  "kind": "ACTUAL_PREREQUISITE_AND_HISTORICAL_FAILURE_ARCHIVE",
+  "archiveUtc": "2026-10-10T04:48:53.675725+00:00",
+  "currentImplementationAccepted": false,
+  "records": [
+    {
+      "path": "accepted-main-prerequisite/github-main-ci629.txt",
+      "sha256": "c73467a563be5b4f7f809b0b2ed0ee1718089e8325f4aff21460736169a9aa84"
+    },
+    {
+      "path": "accepted-main-prerequisite/local-main-clean-after.txt",
+      "sha256": "050299b90f15f33e773e02340085f18597fde659ca6c268b865c14bf830bd587"
+    },
+    {
+      "path": "accepted-main-prerequisite/local-main-clean-before.txt",
+      "sha256": "050299b90f15f33e773e02340085f18597fde659ca6c268b865c14bf830bd587"
+    },
+    {
+      "path": "accepted-main-prerequisite/local-main-context.json",
+      "sha256": "52a2ef5b3ebf8af9d30bf9da7405b22990987484cd2c459476b218834731e9fc"
+    },
+    {
+      "path": "accepted-main-prerequisite/local-main-make-governance.xml",
+      "sha256": "629001bb778235dc0668ea52da73b677271a88309530cd950478cdcfd8993d74"
+    },
+    {
+      "path": "accepted-main-prerequisite/local-main-source.txt",
+      "sha256": "8a1cecd45fd3117fde57e514d65d93ce8351d6c7d834d82e2ffb7cb3ebe68aa5"
+    },
+    {
+      "path": "accepted-main-prerequisite/local-main-status.json",
+      "sha256": "4127c27d5c9d39358068e30b647cc1dc4e524175548efb963b72727f3f764a39"
+    },
+    {
+      "path": "accepted-main-prerequisite/local-main-tree.txt",
+      "sha256": "01631c7a3243f2dc2fa7a61f74b18a3752f1ebb9bc0ec86329c1ff90165e7281"
+    },
+    {
+      "path": "accepted-main-prerequisite/local-main-verify.txt",
+      "sha256": "874c8c945ae21fac316200d8ef9569a674be72997479d9666e797ae32c7825cf"
+    },
+    {
+      "path": "accepted-main-prerequisite/ops004-actual-main-acceptance.json",
+      "sha256": "5208ab02bf0351230ef2a5ee5787a8aa7ca4f92dc416daf8481c050dbeb8e1a3"
+    },
+    {
+      "path": "accepted-main-prerequisite/ops004-followup-main-ci-proof.json",
+      "sha256": "69795788dff641c7417237c818fea6719eb6455c3012933a1af0377ba1f52fe0"
+    },
+    {
+      "path": "accepted-main-prerequisite/ops004-independent-main-ci629-native-verification-plan-proof.json",
+      "sha256": "4c40e3e70aa3f8050134ff2af2c33199c693d86aaf12c9fa48c34982030cb3fc"
+    },
+    {
+      "path": "prior-failed-current-dirty-exploration/context.json",
+      "sha256": "7aaf32cd3275dcb8fbabce20dd0a96d3e158e2c38e6fff4f88161e4d538bf3b5"
+    },
+    {
+      "path": "prior-failed-current-dirty-exploration/contract.txt",
+      "sha256": "c2a58e8a6ec06088804abcd0472443b377c70309bdd0ff83e414d9ce930b355c"
+    },
+    {
+      "path": "prior-failed-current-dirty-exploration/standard.txt",
+      "sha256": "6d8a28514667de162bf0079d7be5d01573eff146a14dfd1ecef1f64ba654a15a"
+    },
+    {
+      "path": "prior-failed-current-dirty-exploration/tests.txt",
+      "sha256": "936d262ae765ac56b25634205722000e0454f2547326f3283f0c166d4b297f2e"
+    },
+    {
+      "path": "prior-failed-current-dirty-exploration/tests.xml",
+      "sha256": "21d1d4509bb6ef094fe516e053dcb7841cd74886e069502614cee0f820d64385"
+    },
+    {
+      "path": "independent-dirty-preparation/review.json",
+      "sha256": "efd46e4d72bc625826999f125682880a6724dc32b351b1d48cb04e96876b3465"
+    }
+  ],
+  "historicalHashRepresentation": "Original physical UTF-8 bytes at capture before Git normalization; Git may normalize CRLF to LF. These historical hashes are not assertions about current Git blob bytes."
+}

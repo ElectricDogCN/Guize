@@ -1,0 +1,3508 @@
+{
+  "kind": "FINITE_IMMUTABLE_SOURCE_NEW14_REVIEW_NOT_GOV_OR_RUNTIME",
+  "source": "9b556484145aa396ebe97fc34872034b859bb4b7",
+  "tree": "412355a40630bde0e46258f6beb009f6cd36a11d",
+  "utc": "2026-10-10T08:57:43.446496+00:00",
+  "hashes": {
+    "contracts/openapi/ai/paths.yaml": "ac45c95bdd4c0be4950fdfed6156dc7dae5f11eb2fc4431dcaccd13336b6ca70",
+    "contracts/openapi/asset/paths.yaml": "3796163d0e1d252ba349d067f36010014be03284f48b4daf0e26d492d8cb0153",
+    "contracts/openapi/common/errors.yaml": "4b581996e7bd9c17fbe951f22c671f9b592ede3f12f96189c5fe5a8daa4cd08f",
+    "contracts/openapi/common/http-samples.json": "19310fce751b83954f0905020be6ce7741ac76de4408ba99bb81ce43e3df9f8a",
+    "contracts/openapi/common/openapi.yaml": "6dc5f30c94061d1396aab591f8539e22205f9e4aa005cb644d5550ac43f929dc",
+    "contracts/openapi/common/schemas.yaml": "ad12947a77a85570bec5fbbd0179c07fb4291839c26a046e3af1e0337af42a62",
+    "contracts/openapi/config/paths.yaml": "91ff6fbd1930c506b8c35ef0d4dd902e5dd46cbd2e5fe7b16bc9ebfad8113334",
+    "contracts/openapi/iam/paths.yaml": "554cc2839e8cea2acebb928ff6169bbe65746e282979a6a865b7fa7a12d678d2",
+    "contracts/openapi/media/paths.yaml": "57824b74214ab57c75fcd25b1510574c776ed5d6dc33106f107b0fcdbca7f57c",
+    "contracts/openapi/openapi-guidelines.md": "e027c45551f46a283cb6208cbbc28877cf768817a27bf4a1a4fe713296dc6baa",
+    "contracts/openapi/playback/paths.yaml": "6f2c1538fe389d0766b54ca2d94071354fdb03df9e52135d9f4422a0dd14535a",
+    "contracts/openapi/policy/paths.yaml": "393c22da37973cc257281c72bb51fab3083993e71f587ff3e027e9369ce4073c",
+    "contracts/openapi/search/paths.yaml": "d65a0bff738c2bbfae8f2c12d6b38b889d0c51520d8183dd9050dfd2c481fb84",
+    "contracts/openapi/source/paths.yaml": "6a70700c394e4d5f56935e666d49bfbd2cbf7f3589874ed2a51dbdadc5debee0",
+    "contracts/openapi/storage/paths.yaml": "1b497b6d50d331db66145ae0ab1396672cc6fbf40079b077e59b8e2bfa994d43",
+    "contracts/openapi/task/paths.yaml": "9a90fc9540b06e5d13a22d9eea9b36a1c741178a5862de5c219461751e120df3",
+    "specs/contracts/openapi/README.md": "73aff3405ba2be196d4ef9e1ad852fbfb6fb84af4f5b811f0d9fd87343e715d5",
+    "specs/contracts/openapi/check_contract.py": "3e4b46a1d25fa7b104940ce8e9e256b8113868c663912126e65eddff2f9a89e7",
+    "specs/contracts/openapi/coverage.yaml": "dea868b0d9eaa3c085bbd1cb4fc43975cabf19ca77848caf12439211e4623561",
+    "specs/contracts/openapi/intent_hash.py": "284e8a3e21b2dfdfe6766bd1687be0b96e4c8e7bc093621f236063ded3e0ef17",
+    "specs/contracts/openapi/requirements.lock.txt": "dcf59d036784f4282dfdc9b194e83c69ec2ca472650eeb4c6a7b84ddc79cfe52",
+    "specs/contracts/openapi/requirements.txt": "894168a4a0fd8338344b53397e8af76a6e97c842ca7b88af6d1c38bd7ae3336a",
+    "specs/contracts/openapi/semantics.md": "0b3d58c906692d4e72482ce570855e0215d9f728dd6bef5feb4345d3ffbe1134",
+    "specs/contracts/openapi/test_contract.py": "3acb48cc3e1e9a136a687e15ce4bdde79fe533d99c49ecd83d7d4335162a9ccf",
+    "specs/contracts/openapi/tool-provenance.json": "81bf9304f3d40c7a127f5ba6d27a04ae08dae213188996c5818e16df8ff9e9e1"
+  },
+  "snapshot": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-new14-source9b-snapshot",
+  "results": {
+    "ordinarySourceSecretFields": {
+      "accepted": true
+    },
+    "terminal202": {
+      "SUCCEEDED": {
+        "accepted": true
+      },
+      "PARTIAL_SUCCESS": {
+        "accepted": true
+      },
+      "FAILED": {
+        "accepted": true
+      },
+      "CANCELLED": {
+        "accepted": true
+      }
+    },
+    "selfApprovedCreation201": {
+      "accepted": true
+    },
+    "inlineEndpointCredential": {
+      "accepted": true
+    },
+    "unknownRoleCapability": {
+      "RoleDraft": {
+        "accepted": true
+      },
+      "RoleReplacement": {
+        "accepted": true
+      }
+    },
+    "taskFailedWithoutFailureDetails": {
+      "accepted": true
+    },
+    "progressBodyDifferentAssetSchema": {
+      "accepted": true
+    },
+    "progressResourceBinding": null,
+    "sessionIssuance": {
+      "loginPassword": {
+        "headers": [
+          "X-Trace-Id",
+          "Cache-Control"
+        ],
+        "sessionProperties": [
+          "subjectId",
+          "expiresAt",
+          "csrfToken",
+          "authenticationMethods"
+        ]
+      },
+      "verifyPasskey": {
+        "headers": [
+          "X-Trace-Id",
+          "Cache-Control"
+        ],
+        "sessionProperties": [
+          "subjectId",
+          "expiresAt",
+          "csrfToken",
+          "authenticationMethods"
+        ]
+      }
+    },
+    "cookieFixtureRejected": "authenticated HTTP sample requires an illustrative bearer identity",
+    "cookieHeadersOriginallyPresent": false,
+    "missingNoStoreRequired": [
+      {
+        "operation": "loginPassword",
+        "status": "200"
+      },
+      {
+        "operation": "loginPassword",
+        "status": "400"
+      },
+      {
+        "operation": "loginPassword",
+        "status": "401"
+      },
+      {
+        "operation": "loginPassword",
+        "status": "403"
+      },
+      {
+        "operation": "loginPassword",
+        "status": "404"
+      },
+      {
+        "operation": "loginPassword",
+        "status": "409"
+      },
+      {
+        "operation": "loginPassword",
+        "status": "429"
+      },
+      {
+        "operation": "loginPassword",
+        "status": "500"
+      },
+      {
+        "operation": "loginPassword",
+        "status": "503"
+      },
+      {
+        "operation": "createPasskeyChallenge",
+        "status": "201"
+      },
+      {
+        "operation": "createPasskeyChallenge",
+        "status": "400"
+      },
+      {
+        "operation": "createPasskeyChallenge",
+        "status": "409"
+      },
+      {
+        "operation": "createPasskeyChallenge",
+        "status": "429"
+      },
+      {
+        "operation": "createPasskeyChallenge",
+        "status": "500"
+      },
+      {
+        "operation": "createPasskeyChallenge",
+        "status": "503"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "200"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "400"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "401"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "403"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "404"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "409"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "429"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "500"
+      },
+      {
+        "operation": "verifyPasskey",
+        "status": "503"
+      },
+      {
+        "operation": "getSession",
+        "status": "200"
+      },
+      {
+        "operation": "getSession",
+        "status": "400"
+      },
+      {
+        "operation": "getSession",
+        "status": "401"
+      },
+      {
+        "operation": "getSession",
+        "status": "403"
+      },
+      {
+        "operation": "getSession",
+        "status": "404"
+      },
+      {
+        "operation": "getSession",
+        "status": "429"
+      },
+      {
+        "operation": "getSession",
+        "status": "500"
+      },
+      {
+        "operation": "getSession",
+        "status": "503"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "200"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "400"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "401"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "403"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "404"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "409"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "429"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "500"
+      },
+      {
+        "operation": "logoutSession",
+        "status": "503"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "201"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "400"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "401"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "403"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "404"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "409"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "429"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "500"
+      },
+      {
+        "operation": "createStepUp",
+        "status": "503"
+      },
+      {
+        "operation": "listRoles",
+        "status": "200"
+      },
+      {
+        "operation": "listRoles",
+        "status": "400"
+      },
+      {
+        "operation": "listRoles",
+        "status": "401"
+      },
+      {
+        "operation": "listRoles",
+        "status": "403"
+      },
+      {
+        "operation": "listRoles",
+        "status": "404"
+      },
+      {
+        "operation": "listRoles",
+        "status": "429"
+      },
+      {
+        "operation": "listRoles",
+        "status": "500"
+      },
+      {
+        "operation": "listRoles",
+        "status": "503"
+      },
+      {
+        "operation": "createRole",
+        "status": "201"
+      },
+      {
+        "operation": "createRole",
+        "status": "400"
+      },
+      {
+        "operation": "createRole",
+        "status": "401"
+      },
+      {
+        "operation": "createRole",
+        "status": "403"
+      },
+      {
+        "operation": "createRole",
+        "status": "404"
+      },
+      {
+        "operation": "createRole",
+        "status": "409"
+      },
+      {
+        "operation": "createRole",
+        "status": "429"
+      },
+      {
+        "operation": "createRole",
+        "status": "500"
+      },
+      {
+        "operation": "createRole",
+        "status": "503"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "200"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "400"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "401"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "403"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "404"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "409"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "429"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "500"
+      },
+      {
+        "operation": "replaceRole",
+        "status": "503"
+      },
+      {
+        "operation": "listUsers",
+        "status": "200"
+      },
+      {
+        "operation": "listUsers",
+        "status": "400"
+      },
+      {
+        "operation": "listUsers",
+        "status": "401"
+      },
+      {
+        "operation": "listUsers",
+        "status": "403"
+      },
+      {
+        "operation": "listUsers",
+        "status": "404"
+      },
+      {
+        "operation": "listUsers",
+        "status": "429"
+      },
+      {
+        "operation": "listUsers",
+        "status": "500"
+      },
+      {
+        "operation": "listUsers",
+        "status": "503"
+      },
+      {
+        "operation": "createUser",
+        "status": "201"
+      },
+      {
+        "operation": "createUser",
+        "status": "400"
+      },
+      {
+        "operation": "createUser",
+        "status": "401"
+      },
+      {
+        "operation": "createUser",
+        "status": "403"
+      },
+      {
+        "operation": "createUser",
+        "status": "404"
+      },
+      {
+        "operation": "createUser",
+        "status": "409"
+      },
+      {
+        "operation": "createUser",
+        "status": "429"
+      },
+      {
+        "operation": "createUser",
+        "status": "500"
+      },
+      {
+        "operation": "createUser",
+        "status": "503"
+      },
+      {
+        "operation": "changeUser",
+        "status": "200"
+      },
+      {
+        "operation": "changeUser",
+        "status": "400"
+      },
+      {
+        "operation": "changeUser",
+        "status": "401"
+      },
+      {
+        "operation": "changeUser",
+        "status": "403"
+      },
+      {
+        "operation": "changeUser",
+        "status": "404"
+      },
+      {
+        "operation": "changeUser",
+        "status": "409"
+      },
+      {
+        "operation": "changeUser",
+        "status": "429"
+      },
+      {
+        "operation": "changeUser",
+        "status": "500"
+      },
+      {
+        "operation": "changeUser",
+        "status": "503"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "201"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "400"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "401"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "403"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "404"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "409"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "429"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "500"
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "status": "503"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "200"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "400"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "401"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "403"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "404"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "409"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "429"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "500"
+      },
+      {
+        "operation": "registerPasskey",
+        "status": "503"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "200"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "400"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "401"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "403"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "404"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "409"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "429"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "500"
+      },
+      {
+        "operation": "listDataSources",
+        "status": "503"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "201"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "400"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "401"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "403"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "404"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "409"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "429"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "500"
+      },
+      {
+        "operation": "createDataSource",
+        "status": "503"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "200"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "400"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "401"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "403"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "404"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "409"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "429"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "500"
+      },
+      {
+        "operation": "getDataSource",
+        "status": "503"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "200"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "400"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "401"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "403"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "404"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "409"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "429"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "500"
+      },
+      {
+        "operation": "patchDataSource",
+        "status": "503"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "200"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "400"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "401"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "403"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "404"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "409"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "429"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "500"
+      },
+      {
+        "operation": "getSourceCredentialReference",
+        "status": "503"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "200"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "400"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "401"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "403"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "404"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "409"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "429"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "500"
+      },
+      {
+        "operation": "changeSourceCredentialReference",
+        "status": "503"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "202"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "400"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "401"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "403"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "404"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "409"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "429"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "500"
+      },
+      {
+        "operation": "probeDataSource",
+        "status": "503"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "202"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "400"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "401"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "403"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "404"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "409"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "429"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "500"
+      },
+      {
+        "operation": "syncDataSource",
+        "status": "503"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "200"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "400"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "401"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "403"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "404"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "409"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "429"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "500"
+      },
+      {
+        "operation": "revokeDataSource",
+        "status": "503"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "200"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "400"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "401"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "403"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "404"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "409"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "429"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "500"
+      },
+      {
+        "operation": "listSourceObjects",
+        "status": "503"
+      },
+      {
+        "operation": "listAssets",
+        "status": "200"
+      },
+      {
+        "operation": "listAssets",
+        "status": "400"
+      },
+      {
+        "operation": "listAssets",
+        "status": "401"
+      },
+      {
+        "operation": "listAssets",
+        "status": "403"
+      },
+      {
+        "operation": "listAssets",
+        "status": "404"
+      },
+      {
+        "operation": "listAssets",
+        "status": "409"
+      },
+      {
+        "operation": "listAssets",
+        "status": "429"
+      },
+      {
+        "operation": "listAssets",
+        "status": "500"
+      },
+      {
+        "operation": "listAssets",
+        "status": "503"
+      },
+      {
+        "operation": "getAsset",
+        "status": "200"
+      },
+      {
+        "operation": "getAsset",
+        "status": "400"
+      },
+      {
+        "operation": "getAsset",
+        "status": "401"
+      },
+      {
+        "operation": "getAsset",
+        "status": "403"
+      },
+      {
+        "operation": "getAsset",
+        "status": "404"
+      },
+      {
+        "operation": "getAsset",
+        "status": "409"
+      },
+      {
+        "operation": "getAsset",
+        "status": "429"
+      },
+      {
+        "operation": "getAsset",
+        "status": "500"
+      },
+      {
+        "operation": "getAsset",
+        "status": "503"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "200"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "400"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "401"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "403"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "404"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "409"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "429"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "500"
+      },
+      {
+        "operation": "patchAsset",
+        "status": "503"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "200"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "400"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "401"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "403"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "404"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "409"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "429"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "500"
+      },
+      {
+        "operation": "getPublicAsset",
+        "status": "503"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "200"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "400"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "401"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "403"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "404"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "409"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "429"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "500"
+      },
+      {
+        "operation": "listAssetVersions",
+        "status": "503"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "200"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "400"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "401"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "403"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "404"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "409"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "429"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "500"
+      },
+      {
+        "operation": "listAssetSources",
+        "status": "503"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "200"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "400"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "401"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "403"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "404"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "409"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "429"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "500"
+      },
+      {
+        "operation": "listRenditions",
+        "status": "503"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "200"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "400"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "401"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "403"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "404"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "409"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "429"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "500"
+      },
+      {
+        "operation": "getAssetAcl",
+        "status": "503"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "200"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "400"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "401"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "403"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "404"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "409"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "429"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "500"
+      },
+      {
+        "operation": "replaceAssetAcl",
+        "status": "503"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "200"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "400"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "401"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "403"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "404"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "409"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "429"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "500"
+      },
+      {
+        "operation": "publishAsset",
+        "status": "503"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "200"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "400"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "401"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "403"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "404"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "409"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "429"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "500"
+      },
+      {
+        "operation": "unpublishAsset",
+        "status": "503"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "202"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "400"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "401"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "403"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "404"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "409"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "429"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "500"
+      },
+      {
+        "operation": "mergeAsset",
+        "status": "503"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "202"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "400"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "401"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "403"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "404"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "409"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "429"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "500"
+      },
+      {
+        "operation": "splitAsset",
+        "status": "503"
+      },
+      {
+        "operation": "listTasks",
+        "status": "200"
+      },
+      {
+        "operation": "listTasks",
+        "status": "400"
+      },
+      {
+        "operation": "listTasks",
+        "status": "401"
+      },
+      {
+        "operation": "listTasks",
+        "status": "403"
+      },
+      {
+        "operation": "listTasks",
+        "status": "404"
+      },
+      {
+        "operation": "listTasks",
+        "status": "409"
+      },
+      {
+        "operation": "listTasks",
+        "status": "429"
+      },
+      {
+        "operation": "listTasks",
+        "status": "500"
+      },
+      {
+        "operation": "listTasks",
+        "status": "503"
+      },
+      {
+        "operation": "getTask",
+        "status": "200"
+      },
+      {
+        "operation": "getTask",
+        "status": "400"
+      },
+      {
+        "operation": "getTask",
+        "status": "401"
+      },
+      {
+        "operation": "getTask",
+        "status": "403"
+      },
+      {
+        "operation": "getTask",
+        "status": "404"
+      },
+      {
+        "operation": "getTask",
+        "status": "409"
+      },
+      {
+        "operation": "getTask",
+        "status": "429"
+      },
+      {
+        "operation": "getTask",
+        "status": "500"
+      },
+      {
+        "operation": "getTask",
+        "status": "503"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "202"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "400"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "401"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "403"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "404"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "409"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "429"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "500"
+      },
+      {
+        "operation": "pauseTask",
+        "status": "503"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "202"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "400"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "401"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "403"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "404"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "409"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "429"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "500"
+      },
+      {
+        "operation": "resumeTask",
+        "status": "503"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "202"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "400"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "401"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "403"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "404"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "409"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "429"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "500"
+      },
+      {
+        "operation": "cancelTask",
+        "status": "503"
+      },
+      {
+        "operation": "retryTask",
+        "status": "202"
+      },
+      {
+        "operation": "retryTask",
+        "status": "400"
+      },
+      {
+        "operation": "retryTask",
+        "status": "401"
+      },
+      {
+        "operation": "retryTask",
+        "status": "403"
+      },
+      {
+        "operation": "retryTask",
+        "status": "404"
+      },
+      {
+        "operation": "retryTask",
+        "status": "409"
+      },
+      {
+        "operation": "retryTask",
+        "status": "429"
+      },
+      {
+        "operation": "retryTask",
+        "status": "500"
+      },
+      {
+        "operation": "retryTask",
+        "status": "503"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "200"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "400"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "401"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "403"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "404"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "409"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "429"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "500"
+      },
+      {
+        "operation": "changeTaskPriority",
+        "status": "503"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "200"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "400"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "401"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "403"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "404"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "409"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "429"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "500"
+      },
+      {
+        "operation": "streamTaskEvents",
+        "status": "503"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "200"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "400"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "401"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "403"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "404"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "409"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "429"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "500"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "503"
+      },
+      {
+        "operation": "listCacheEntries",
+        "status": "507"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "202"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "400"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "401"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "403"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "404"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "409"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "429"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "500"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "503"
+      },
+      {
+        "operation": "cacheAsset",
+        "status": "507"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "202"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "400"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "401"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "403"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "404"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "409"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "429"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "500"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "503"
+      },
+      {
+        "operation": "evictCacheEntry",
+        "status": "507"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "202"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "400"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "401"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "403"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "404"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "409"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "422"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "429"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "500"
+      },
+      {
+        "operation": "probeMedia",
+        "status": "503"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "202"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "400"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "401"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "403"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "404"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "409"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "422"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "429"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "500"
+      },
+      {
+        "operation": "transcodeAsset",
+        "status": "503"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "202"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "400"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "401"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "403"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "404"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "409"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "429"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "500"
+      },
+      {
+        "operation": "enrichAsset",
+        "status": "503"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "200"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "400"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "401"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "403"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "404"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "409"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "429"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "500"
+      },
+      {
+        "operation": "listDerivedArtifacts",
+        "status": "503"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "200"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "400"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "401"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "403"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "404"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "409"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "429"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "500"
+      },
+      {
+        "operation": "getArtifactContent",
+        "status": "503"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "201"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "400"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "401"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "403"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "404"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "409"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "429"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "500"
+      },
+      {
+        "operation": "createArtifactRevision",
+        "status": "503"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "200"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "400"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "401"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "403"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "404"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "409"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "429"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "500"
+      },
+      {
+        "operation": "publishArtifact",
+        "status": "503"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "200"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "400"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "401"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "403"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "404"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "409"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "429"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "500"
+      },
+      {
+        "operation": "searchAssets",
+        "status": "503"
+      },
+      {
+        "operation": "recommendAssets",
+        "status": "200"
+      },
+      {
+        "operation": "recommendAssets",
+        "status": "400"
+      },
+      {
+        "operation": "recommendAssets",
+        "status": "401"
+      },
+      {
+        "operation": "recommendAssets",
+        "status": "403"
+      },
+      {
+        "operation": "recommendAssets",
+        "status": "404"
+      },
+      {
+        "operation": "recommendAssets",
+        "status": "429"
+      },
+      {
+        "operation": "recommendAssets",
+        "status": "500"
+      },
+      {
+        "operation": "recommendAssets",
+        "status": "503"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "202"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "400"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "401"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "403"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "404"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "409"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "429"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "500"
+      },
+      {
+        "operation": "rebuildSearchIndexes",
+        "status": "503"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "201"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "400"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "401"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "403"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "404"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "409"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "422"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "429"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "500"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "503"
+      },
+      {
+        "operation": "createPlaybackPlan",
+        "status": "202"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "201"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "400"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "401"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "403"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "404"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "409"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "422"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "429"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "500"
+      },
+      {
+        "operation": "createPublicPlaybackPlan",
+        "status": "503"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "200"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "400"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "401"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "403"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "404"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "409"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "422"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "429"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "500"
+      },
+      {
+        "operation": "revokePlaybackGrant",
+        "status": "503"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "200"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "400"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "401"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "403"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "404"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "422"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "429"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "500"
+      },
+      {
+        "operation": "getPlaybackProgress",
+        "status": "503"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "200"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "400"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "401"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "403"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "404"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "409"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "422"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "429"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "500"
+      },
+      {
+        "operation": "putPlaybackProgress",
+        "status": "503"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "200"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "400"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "401"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "403"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "404"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "422"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "429"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "500"
+      },
+      {
+        "operation": "listPolicies",
+        "status": "503"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "201"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "400"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "401"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "403"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "404"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "409"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "422"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "429"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "500"
+      },
+      {
+        "operation": "createPolicy",
+        "status": "503"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "200"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "400"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "401"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "403"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "404"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "422"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "429"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "500"
+      },
+      {
+        "operation": "getPolicy",
+        "status": "503"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "200"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "400"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "401"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "403"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "404"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "422"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "429"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "500"
+      },
+      {
+        "operation": "getPolicyContent",
+        "status": "503"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "202"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "400"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "401"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "403"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "404"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "409"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "422"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "429"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "500"
+      },
+      {
+        "operation": "validatePolicy",
+        "status": "503"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "202"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "400"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "401"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "403"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "404"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "409"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "422"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "429"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "500"
+      },
+      {
+        "operation": "simulatePolicy",
+        "status": "503"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "202"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "400"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "401"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "403"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "404"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "409"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "422"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "429"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "500"
+      },
+      {
+        "operation": "canaryPolicy",
+        "status": "503"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "202"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "400"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "401"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "403"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "404"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "409"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "422"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "429"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "500"
+      },
+      {
+        "operation": "publishPolicy",
+        "status": "503"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "202"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "400"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "401"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "403"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "404"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "409"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "422"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "429"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "500"
+      },
+      {
+        "operation": "rollbackPolicy",
+        "status": "503"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "202"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "400"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "401"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "403"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "404"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "409"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "422"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "429"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "500"
+      },
+      {
+        "operation": "validateConfiguration",
+        "status": "503"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "202"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "400"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "401"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "403"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "404"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "409"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "422"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "429"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "500"
+      },
+      {
+        "operation": "simulateConfiguration",
+        "status": "503"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "202"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "400"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "401"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "403"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "404"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "409"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "422"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "429"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "500"
+      },
+      {
+        "operation": "canaryConfiguration",
+        "status": "503"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "202"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "400"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "401"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "403"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "404"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "409"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "422"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "429"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "500"
+      },
+      {
+        "operation": "publishConfiguration",
+        "status": "503"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "202"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "400"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "401"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "403"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "404"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "409"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "422"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "429"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "500"
+      },
+      {
+        "operation": "rollbackConfiguration",
+        "status": "503"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "200"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "400"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "401"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "403"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "404"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "422"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "429"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "500"
+      },
+      {
+        "operation": "listConfigurations",
+        "status": "503"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "201"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "400"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "401"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "403"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "404"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "409"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "422"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "429"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "500"
+      },
+      {
+        "operation": "createConfiguration",
+        "status": "503"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "200"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "400"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "401"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "403"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "404"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "422"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "429"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "500"
+      },
+      {
+        "operation": "getConfiguration",
+        "status": "503"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "200"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "400"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "401"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "403"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "404"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "422"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "429"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "500"
+      },
+      {
+        "operation": "getConfigurationContent",
+        "status": "503"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "200"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "400"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "401"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "403"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "404"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "422"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "429"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "500"
+      },
+      {
+        "operation": "listDeploymentProfiles",
+        "status": "503"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "202"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "400"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "401"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "403"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "404"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "409"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "422"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "429"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "500"
+      },
+      {
+        "operation": "createDeployment",
+        "status": "503"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "200"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "400"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "401"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "403"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "404"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "422"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "429"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "500"
+      },
+      {
+        "operation": "listWorkers",
+        "status": "503"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "200"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "400"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "401"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "403"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "404"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "409"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "422"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "429"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "500"
+      },
+      {
+        "operation": "registerWorker",
+        "status": "503"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "200"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "400"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "401"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "403"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "404"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "409"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "422"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "429"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "500"
+      },
+      {
+        "operation": "heartbeatWorker",
+        "status": "503"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "200"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "400"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "401"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "403"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "404"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "422"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "429"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "500"
+      },
+      {
+        "operation": "listApprovals",
+        "status": "503"
+      },
+      {
+        "operation": "createApproval",
+        "status": "201"
+      },
+      {
+        "operation": "createApproval",
+        "status": "400"
+      },
+      {
+        "operation": "createApproval",
+        "status": "401"
+      },
+      {
+        "operation": "createApproval",
+        "status": "403"
+      },
+      {
+        "operation": "createApproval",
+        "status": "404"
+      },
+      {
+        "operation": "createApproval",
+        "status": "409"
+      },
+      {
+        "operation": "createApproval",
+        "status": "422"
+      },
+      {
+        "operation": "createApproval",
+        "status": "429"
+      },
+      {
+        "operation": "createApproval",
+        "status": "500"
+      },
+      {
+        "operation": "createApproval",
+        "status": "503"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "200"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "400"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "401"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "403"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "404"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "409"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "422"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "429"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "500"
+      },
+      {
+        "operation": "decideApproval",
+        "status": "503"
+      }
+    ],
+    "artifactContentQueries": [],
+    "artifactHasNextCursor": true,
+    "renditionRequired": [
+      "id",
+      "assetVersionId",
+      "kind",
+      "codec",
+      "qualityStatus",
+      "publicationStatus",
+      "toolVersion",
+      "inputHash",
+      "outputHash"
+    ],
+    "derivedArtifactRequired": [
+      "id",
+      "assetVersionId",
+      "artifactType",
+      "modelVersion",
+      "promptVersion",
+      "confidence",
+      "uncertainty",
+      "generated",
+      "publicationStatus",
+      "revision"
+    ],
+    "stepUpRequestProperties": [
+      "action",
+      "resourceId",
+      "proof",
+      "payloadHash"
+    ],
+    "stepUpRequestRequired": [
+      "action",
+      "resourceId",
+      "proof",
+      "payloadHash"
+    ],
+    "challengeOperations": [
+      {
+        "operation": "createPasskeyChallenge",
+        "authorization": {
+          "mode": "PUBLIC_RATE_LIMITED",
+          "permission": "public.login",
+          "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+          "stepUp": false,
+          "approval": false
+        },
+        "requestSchemaProperties": [
+          "username"
+        ]
+      },
+      {
+        "operation": "createPasskeyRegistrationChallenge",
+        "authorization": {
+          "mode": "AUTHENTICATED",
+          "permission": "session.self",
+          "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+          "stepUp": true,
+          "approval": false
+        },
+        "requestSchemaProperties": []
+      }
+    ],
+    "operationPermissionSet": [
+      "ai.read",
+      "approval.decide",
+      "approval.read",
+      "approval.request",
+      "asset.edit",
+      "asset.play",
+      "asset.process",
+      "asset.publish",
+      "asset.read",
+      "asset.share",
+      "asset.write",
+      "config.canary",
+      "config.publish",
+      "config.read",
+      "config.rollback",
+      "config.sensitive.read",
+      "config.simulate",
+      "config.validate",
+      "config.write",
+      "deployment.execute",
+      "deployment.read",
+      "explicit.safe.publication",
+      "grant.owner",
+      "iam.roles.manage",
+      "iam.roles.read",
+      "iam.users.manage",
+      "iam.users.read",
+      "policy.canary",
+      "policy.publish",
+      "policy.read",
+      "policy.rollback",
+      "policy.simulate",
+      "policy.validate",
+      "policy.write",
+      "progress.self",
+      "public.login",
+      "search.manage",
+      "session.self",
+      "source.create",
+      "source.credential.manage",
+      "source.owner",
+      "source.read",
+      "source.write",
+      "storage.cache.evict",
+      "storage.read",
+      "storage.write",
+      "task.owner",
+      "task.read",
+      "worker.bootstrap",
+      "worker.read",
+      "worker.self"
+    ]
+  },
+  "rootMutation": false,
+  "governanceRerun": false,
+  "finalIntegrationApproved": false,
+  "priorContentSupportSuperseded": true
+}

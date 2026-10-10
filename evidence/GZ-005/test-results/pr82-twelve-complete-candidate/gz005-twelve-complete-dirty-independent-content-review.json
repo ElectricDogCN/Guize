@@ -1,0 +1,282 @@
+{
+  "kind": "INDEPENDENT_FINITE_TWELVE_DIRTY_CONTENT_REVIEW_NOT_PUBLISHED_SOURCE_ACCEPTANCE",
+  "recordedAt": "2026-10-10T11:39:05.694525+00:00",
+  "head": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "identity": "DIRTY PHYSICAL WORKTREE; no immutable candidate commit/tree yet",
+  "contentAccepted": true,
+  "contentScope": "Existing twelve DY threads and necessary connecting schemas/errors/examples/checker/tests only.",
+  "findings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6p",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "PublicAssetEnvelope closed, including the safe nested PublicAsset.",
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:4616",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6r",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "PlaybackPlan and its public envelope closed; injected nested/outer privateContext rejected.",
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:2559,5279",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6t",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "ArtifactContent and its envelope closed; arbitrary payload extensions rejected.",
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:2991,5130",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6w",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "Resolver derives nested/local usage directions; SourcePatch component plus route optional addition accepted, PublicAsset response addition rejected; unreferenced exports retain both directions.",
+      "sourceLocation": "specs/contracts/openapi/check_contract.py:108-182,805-810",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6y",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "Permanent CONFLICT remains non-retryable; new IN_PROGRESS retryable. All62 mutation409 schemas require1–60 seconds hint and have distinct in-flight samples. TaskFailure enum/retryability and ErrorEnvelope synchronized.",
+      "sourceLocation": "specs/contracts/openapi/check_contract.py:623-633; contracts/openapi/common/errors.yaml:102-132",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY60",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "PasskeyChallenge and its anonymous envelope closed; account-state/nested private extensions rejected.",
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:205,3909",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY66",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "Original ownership prose retained and strengthened with current immutable asset-version membership, each source ACL/policy/retention, transactional revision/recheck and inherited policy/provenance. Checker requires the binding; finite server-fact reference cases reject foreign/denied/held sources. This is a contract, not executed authorization or locking.",
+      "sourceLocation": "contracts/openapi/asset/paths.yaml:10164-10174; specs/contracts/openapi/check_contract.py:315-332,509-514",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY68",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "Deployment targets require1–100 unique hosts; empty/duplicate negative instances rejected.",
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:3410-3412",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7A",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "Dedicated host-only secure SessionCookieRevocation const expires the same cookie after durable revocation; onlylogout200 plus the two authentication200 responses declare Set-Cookie. Other error headers were not altered by alias.",
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:7768; specs/contracts/openapi/check_contract.py:687-696",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7C",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "TaskAccepted.taskId typedtsk, status URL exact task identity declared and checked in all27 async examples and wire verification; mismatches rejected.",
+      "sourceLocation": "specs/contracts/openapi/check_contract.py:297-301,414-415,722-723",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7E",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "Explicit server-relative max300s future skew, accepted-future clamp, atomic per-key receipt sequence and original replay ordering; finite reference future rejection/clamp/later-update boundary confirmed.",
+      "sourceLocation": "specs/contracts/openapi/semantics.md:193-202; specs/contracts/openapi/check_contract.py:304-312",
+      "immutableSourceAccepted": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7K",
+      "finiteContentDisposition": "addressed_in_dirty_candidate",
+      "evidence": "Bounded optional Asset.description matches mutation property and typed patch/get/list examples demonstrate readback.",
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:1362-1369; specs/contracts/openapi/check_contract.py:518-519",
+      "immutableSourceAccepted": false
+    }
+  ],
+  "remainingMaterialFindingsInThisScope": [],
+  "physicalSha256Before": {
+    "contracts/openapi/ai/paths.yaml": "187bf1cc38aff73e05088c14e0ecc2137ab85943b88e2f356229e427959ff6ab",
+    "contracts/openapi/asset/paths.yaml": "897e05cf15a0d67cfb76e7322c055ccc6a4af918857098265a60cd71403d48ea",
+    "contracts/openapi/common/errors.yaml": "41eb1b82394177044e4d50430daeb84855c5aa2e29dd91a9c3dce62d5af7ef72",
+    "contracts/openapi/common/http-samples.json": "de87a234041ffa4fa6ad3650a5a04931b1ef7896263ae1fb6ced733523e67f5a",
+    "contracts/openapi/common/openapi.yaml": "72c47922d940015665e780f36ece32527e6e1a7c473abe55b9676a300ecc54f6",
+    "contracts/openapi/common/schemas.yaml": "313590e6da4eda8be3b41fcce98dcfdc34cf8354eeb1a9cd0bcc7595b7c14ea8",
+    "contracts/openapi/config/paths.yaml": "d4d1b114c573007aa1e9e65e2d4b5395e691da7ed0c23f610229470812cd464f",
+    "contracts/openapi/iam/paths.yaml": "0ddd6b86eab7a639db548f42a27202abb7ab585670ae026996d52a2669953a4d",
+    "contracts/openapi/media/paths.yaml": "e21b2089c89e9e8f1762ec4d35a8f5ec5be6d6ce5aca9f3d16aa868e196edce2",
+    "contracts/openapi/openapi-guidelines.md": "e027c45551f46a283cb6208cbbc28877cf768817a27bf4a1a4fe713296dc6baa",
+    "contracts/openapi/playback/paths.yaml": "437c8cb0f31530dc20756dc615322fa1faf23c0d0d2002e540a7f9512d11f88d",
+    "contracts/openapi/policy/paths.yaml": "5a077fd8494ff772b6c7d054da29fac4cdd98408e21c476d4b6759754dcbaa59",
+    "contracts/openapi/search/paths.yaml": "407d29e6f37c351c883775f512fedb5894b5f88ea03da01911254d0fadc25f15",
+    "contracts/openapi/source/paths.yaml": "58a42235edd3f97cc1de3a22120b9be45d98e1484f4c2d8bdc283952b46e859c",
+    "contracts/openapi/storage/paths.yaml": "d56d922de90b1e19d6b80ad1fcc3a899a9a96cc525fb0457499cfde198821ef2",
+    "contracts/openapi/task/paths.yaml": "083318d94ecd29b8d358b7eb8c83f2cc40713ff3c930c2a9b51a69c60fdc0e62",
+    "specs/contracts/openapi/check_contract.py": "46ac1c2e455c4bf9aa00f63c4e1bfb44cc43730cd83100f28b768edfd6d012ec",
+    "specs/contracts/openapi/coverage.yaml": "8b6dbb1f98c549008d992f32caf9018341a71eabc552b07f99f4585392eaa4a7",
+    "specs/contracts/openapi/intent_hash.py": "284e8a3e21b2dfdfe6766bd1687be0b96e4c8e7bc093621f236063ded3e0ef17",
+    "specs/contracts/openapi/README.md": "73aff3405ba2be196d4ef9e1ad852fbfb6fb84af4f5b811f0d9fd87343e715d5",
+    "specs/contracts/openapi/requirements.lock.txt": "dcf59d036784f4282dfdc9b194e83c69ec2ca472650eeb4c6a7b84ddc79cfe52",
+    "specs/contracts/openapi/requirements.txt": "894168a4a0fd8338344b53397e8af76a6e97c842ca7b88af6d1c38bd7ae3336a",
+    "specs/contracts/openapi/semantics.md": "97d9b6e63120a26cfae8cc680c81a466aeb670a43c01b4cc0bfe69901c3ad4de",
+    "specs/contracts/openapi/test_contract.py": "34a43649a19770874ec43eab797eb6db13c5f1cc74af611ba0d6d908a69a7e2d",
+    "specs/contracts/openapi/tool-provenance.json": "81bf9304f3d40c7a127f5ba6d27a04ae08dae213188996c5818e16df8ff9e9e1"
+  },
+  "physicalSha256After": {
+    "contracts/openapi/ai/paths.yaml": "187bf1cc38aff73e05088c14e0ecc2137ab85943b88e2f356229e427959ff6ab",
+    "contracts/openapi/asset/paths.yaml": "897e05cf15a0d67cfb76e7322c055ccc6a4af918857098265a60cd71403d48ea",
+    "contracts/openapi/common/errors.yaml": "41eb1b82394177044e4d50430daeb84855c5aa2e29dd91a9c3dce62d5af7ef72",
+    "contracts/openapi/common/http-samples.json": "de87a234041ffa4fa6ad3650a5a04931b1ef7896263ae1fb6ced733523e67f5a",
+    "contracts/openapi/common/openapi.yaml": "72c47922d940015665e780f36ece32527e6e1a7c473abe55b9676a300ecc54f6",
+    "contracts/openapi/common/schemas.yaml": "313590e6da4eda8be3b41fcce98dcfdc34cf8354eeb1a9cd0bcc7595b7c14ea8",
+    "contracts/openapi/config/paths.yaml": "d4d1b114c573007aa1e9e65e2d4b5395e691da7ed0c23f610229470812cd464f",
+    "contracts/openapi/iam/paths.yaml": "0ddd6b86eab7a639db548f42a27202abb7ab585670ae026996d52a2669953a4d",
+    "contracts/openapi/media/paths.yaml": "e21b2089c89e9e8f1762ec4d35a8f5ec5be6d6ce5aca9f3d16aa868e196edce2",
+    "contracts/openapi/openapi-guidelines.md": "e027c45551f46a283cb6208cbbc28877cf768817a27bf4a1a4fe713296dc6baa",
+    "contracts/openapi/playback/paths.yaml": "437c8cb0f31530dc20756dc615322fa1faf23c0d0d2002e540a7f9512d11f88d",
+    "contracts/openapi/policy/paths.yaml": "5a077fd8494ff772b6c7d054da29fac4cdd98408e21c476d4b6759754dcbaa59",
+    "contracts/openapi/search/paths.yaml": "407d29e6f37c351c883775f512fedb5894b5f88ea03da01911254d0fadc25f15",
+    "contracts/openapi/source/paths.yaml": "58a42235edd3f97cc1de3a22120b9be45d98e1484f4c2d8bdc283952b46e859c",
+    "contracts/openapi/storage/paths.yaml": "d56d922de90b1e19d6b80ad1fcc3a899a9a96cc525fb0457499cfde198821ef2",
+    "contracts/openapi/task/paths.yaml": "083318d94ecd29b8d358b7eb8c83f2cc40713ff3c930c2a9b51a69c60fdc0e62",
+    "specs/contracts/openapi/check_contract.py": "46ac1c2e455c4bf9aa00f63c4e1bfb44cc43730cd83100f28b768edfd6d012ec",
+    "specs/contracts/openapi/coverage.yaml": "8b6dbb1f98c549008d992f32caf9018341a71eabc552b07f99f4585392eaa4a7",
+    "specs/contracts/openapi/intent_hash.py": "284e8a3e21b2dfdfe6766bd1687be0b96e4c8e7bc093621f236063ded3e0ef17",
+    "specs/contracts/openapi/README.md": "73aff3405ba2be196d4ef9e1ad852fbfb6fb84af4f5b811f0d9fd87343e715d5",
+    "specs/contracts/openapi/requirements.lock.txt": "dcf59d036784f4282dfdc9b194e83c69ec2ca472650eeb4c6a7b84ddc79cfe52",
+    "specs/contracts/openapi/requirements.txt": "894168a4a0fd8338344b53397e8af76a6e97c842ca7b88af6d1c38bd7ae3336a",
+    "specs/contracts/openapi/semantics.md": "97d9b6e63120a26cfae8cc680c81a466aeb670a43c01b4cc0bfe69901c3ad4de",
+    "specs/contracts/openapi/test_contract.py": "34a43649a19770874ec43eab797eb6db13c5f1cc74af611ba0d6d908a69a7e2d",
+    "specs/contracts/openapi/tool-provenance.json": "81bf9304f3d40c7a127f5ba6d27a04ae08dae213188996c5818e16df8ff9e9e1"
+  },
+  "physicalFilesStableDuringFinalSnapshotReview": true,
+  "firstObservation": {
+    "file": "gz005-twelve-independent-content-review-first-observation.json",
+    "changedBeforeFinalCapture": [],
+    "explanation": "Parent reported and fixed a small resolver test fixture bracket before this final capture. The initial observation is retained separately; it is not presented as stable final review."
+  },
+  "changedTrackedPaths": [
+    "contracts/openapi/ai/paths.yaml",
+    "contracts/openapi/asset/paths.yaml",
+    "contracts/openapi/common/errors.yaml",
+    "contracts/openapi/common/http-samples.json",
+    "contracts/openapi/common/openapi.yaml",
+    "contracts/openapi/common/schemas.yaml",
+    "contracts/openapi/config/paths.yaml",
+    "contracts/openapi/iam/paths.yaml",
+    "contracts/openapi/media/paths.yaml",
+    "contracts/openapi/playback/paths.yaml",
+    "contracts/openapi/policy/paths.yaml",
+    "contracts/openapi/search/paths.yaml",
+    "contracts/openapi/source/paths.yaml",
+    "contracts/openapi/storage/paths.yaml",
+    "contracts/openapi/task/paths.yaml",
+    "evidence/GZ-005/changed-files.md",
+    "evidence/GZ-005/commands.txt",
+    "evidence/GZ-005/handoff.md",
+    "evidence/GZ-005/summary.md",
+    "evidence/GZ-005/test-results/README.md",
+    "specs/contracts/openapi/check_contract.py",
+    "specs/contracts/openapi/semantics.md",
+    "specs/contracts/openapi/test_contract.py"
+  ],
+  "untrackedPaths": [
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/gz005-independent-e70313e-source-acceptance-proof.json",
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/gz005-independent-e70313e-twelve-findings-probes.json",
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/gz005-independent-e70313e-twelve-thread-disposition.json",
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/gz005-twelve-response-initial-failed-tests.xml",
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/gz005-twelve-response-initial-failure.json",
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/gz005-twelve-response-repaired-dirty-tests.json",
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/gz005-twelve-response-repaired-dirty-tests.txt",
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/gz005-twelve-response-repaired-dirty-tests.xml",
+    "evidence/GZ-005/test-results/pr82-twelve-partial-repair/rejected-source-execution-references.json"
+  ],
+  "noChangesOutsideRegisteredContractsSpecsOwnEvidence": true,
+  "metadataScopeIdentitiesLeaseGovernanceOtherTasksUnchangedVsHead": true,
+  "probes": {
+    "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-twelve-independent-current-content-probes.json",
+    "sha256": "313b7ceeabc42394a87f99e1bb84767eea0d38bac9cc3276dfa26f93464c991c",
+    "finiteChecks": {
+      "getPublicAsset.envelope": true,
+      "getPublicAsset.data": true,
+      "createPublicPlaybackPlan.envelope": true,
+      "createPublicPlaybackPlan.data": true,
+      "getArtifactContent.envelope": true,
+      "getArtifactContent.data": true,
+      "createPasskeyChallenge.envelope": true,
+      "createPasskeyChallenge.data": true,
+      "getSourceCredentialReference.envelope": true,
+      "getSourceCredentialReference.data": true,
+      "optionalRequestCompatibility": true,
+      "responseStillRejectsAdditions": true,
+      "directions": {
+        "SourcePatch": [
+          "request"
+        ],
+        "PublicAsset": [
+          "response"
+        ],
+        "ErrorDetails": [
+          "response"
+        ],
+        "CapabilityId": [
+          "request"
+        ],
+        "Replica": [
+          "request",
+          "response"
+        ],
+        "RetentionHold": [
+          "request",
+          "response"
+        ]
+      },
+      "allMutationBoundedHints": {
+        "operations": 62,
+        "missingOrOutOfRangeRejected": true
+      },
+      "cookieLocations": [
+        [
+          "loginPassword",
+          "200"
+        ],
+        [
+          "logoutSession",
+          "200"
+        ],
+        [
+          "verifyPasskey",
+          "200"
+        ]
+      ],
+      "all202Correlation": {
+        "examples": 27,
+        "mismatchRejected": true
+      },
+      "progressOrdering": {
+        "farFutureRejected": true,
+        "acceptedFutureClamped": true,
+        "laterUpdateWins": true
+      },
+      "splitFacts": {
+        "validAccepted": true,
+        "foreignVersionDeniedPolicyRejected": true,
+        "atomicRuntimeTested": false
+      },
+      "deploymentTargets": {
+        "emptyRejected": true,
+        "duplicatesRejected": true
+      },
+      "descriptionReadback": {
+        "bounded4096": true,
+        "patchGetListExamples": true
+      }
+    },
+    "fullGovRerun": false,
+    "wholeApiSuiteRun": false
+  },
+  "testFileSyntaxParsed": true,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeValidated": false,
+  "rootMutation": false,
+  "currentParentProbeExecution": "Parent attempt4 checker/API in progress at review time; this proof does not claim its result or transfer e703 historical17/CI634 to dirty files. Earlier probe failures remain failure evidence.",
+  "requiredNext": "Publish immutable candidate/source with exact scope and tree, then complete its actual17 checks and same-headCI and independent final review."
+}

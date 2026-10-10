@@ -1,0 +1,104 @@
+{
+  "kind": "FINITE_EXISTING_TWELVE_FINDING_CONTENT_PROBES_NOT_FULL_API_OR_RUNTIME",
+  "actualSource": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "tree": "7ea478f3383375ed0f5640ae7756cc2cd06aea07",
+  "recordedAt": "2026-10-10T11:02:08.546782+00:00",
+  "snapshotBinding": "These snapshot files were independently proven equivalent to all25 exact e703 Git blobs after CRLF normalization in gz005-independent-e70313e-actual-source-content-proof.json.",
+  "checks": {
+    "publicAssetEnvelope": {
+      "operation": "getPublicAsset",
+      "injectedField": "sourcePath",
+      "schemaAccepted": true
+    },
+    "playbackEnvelope": {
+      "operation": "createPublicPlaybackPlan",
+      "injectedField": "originUrl",
+      "schemaAccepted": true
+    },
+    "artifactEnvelope": {
+      "operation": "getArtifactContent",
+      "injectedField": "rawMediaBase64",
+      "schemaAccepted": true
+    },
+    "passkeyEnvelope": {
+      "operation": "createPasskeyChallenge",
+      "injectedField": "accountExists",
+      "schemaAccepted": true
+    },
+    "playbackData": {
+      "operation": "createPublicPlaybackPlan",
+      "injectedField": "providerToken",
+      "schemaAccepted": true
+    },
+    "artifactData": {
+      "operation": "getArtifactContent",
+      "injectedField": "rawMediaBase64",
+      "schemaAccepted": true
+    },
+    "passkeyData": {
+      "operation": "createPasskeyChallenge",
+      "injectedField": "accountExists",
+      "schemaAccepted": true
+    },
+    "optionalRequestExport": {
+      "requestDirectionAccepted": true,
+      "combinedCompatibility": {
+        "accepted": false,
+        "error": "components.schemas.SourcePatch: old strict response consumers reject added fields"
+      }
+    },
+    "idempotency": {
+      "retryable": false,
+      "catalogDescription": "Key reused with different request or still executing.",
+      "inFlightBackoffPolicies": 62
+    },
+    "split": {
+      "arbitrarySourceIdSchemaAccepted": true,
+      "resourceBinding": null,
+      "multiResourceInvariants": null,
+      "existingSemantics": true,
+      "originalExactSearchMiss": true,
+      "semanticsEvidence": {
+        "path": "specs/contracts/openapi/semantics.md",
+        "lines": [
+          146,
+          147,
+          148
+        ],
+        "statement": "Split uses the same ownership and association checks.",
+        "correction": "Initial false flag was a literal exact-search miss across a newline, not absence of ownership prose."
+      },
+      "limitedConclusion": "Missing precise per-selected-source server membership, authorization, atomic policy-preservation binding and targeted checker assertion; existing prose does not authorize cross-asset moves."
+    },
+    "deploymentTargets": {
+      "emptyAccepted": true,
+      "duplicateAccepted": true
+    },
+    "logout": {
+      "declaredSetCookieHeaders": [],
+      "checkerBlanketRejection": true
+    },
+    "taskCorrelation": {
+      "operation": "probeDataSource",
+      "taskId": "tsk_example01",
+      "mismatchedStatusUrl": "/api/v1/tasks/tsk_other02",
+      "schemaAccepted": true,
+      "checkerContainsStatusUrlCorrelation": false
+    },
+    "progressOrdering": {
+      "farFutureTimestampSchemaAccepted": true,
+      "summary": "Merge own progress using playback timestamp policy",
+      "orderingExtension": null
+    },
+    "assetReadback": {
+      "patchDescriptionDeclared": true,
+      "assetDescriptionDeclared": false
+    }
+  },
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeValidated": false,
+  "fullGovRerun": false,
+  "wholeApiSuiteRun": false,
+  "rootMutation": false
+}

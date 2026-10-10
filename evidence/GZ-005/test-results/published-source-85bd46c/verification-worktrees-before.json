@@ -1,0 +1,20 @@
+{
+  "kind": "ACTUAL_NATIVE_VERIFICATION_PREEXECUTION_BINDING",
+  "phase": "implementation",
+  "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+  "tree": "a9e33bc684f0ba500586064dc705445568537115",
+  "authoringWorktree": {
+    "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+    "tree": "a9e33bc684f0ba500586064dc705445568537115",
+    "branch": "chore/GZ-005-openapi-baseline",
+    "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+  },
+  "verificationWorktree": {
+    "source": "85bd46cfc39fc934c9d43623be09acbb557b6930",
+    "tree": "a9e33bc684f0ba500586064dc705445568537115",
+    "branch": "chore/GZ-005-openapi-baseline",
+    "path": "/tmp/guize-native-verification-20261010"
+  },
+  "result": "NOT_EXECUTED",
+  "condition": "Both immutable worktrees must remain identical and clean; actual tests execute in the recorded native path. Failed raw checks remain failure evidence."
+}

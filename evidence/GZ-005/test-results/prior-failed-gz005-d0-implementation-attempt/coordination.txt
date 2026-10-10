@@ -1,0 +1,5 @@
+Source Commit: d0d93f43d6048fd33dbdeab97a06609bc7a2f717
+Command: python scripts/run-agent-coordination-gate.py --base-ref 413a6a4dd91b5d79a3d2b7d1e5f03f8121848170 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline
+{"status": "FAIL", "message": "Task GZ-005 changed files outside registered path claims: ['specs/coordination/program-plan.yaml']"}
+
+Exit Code: 1

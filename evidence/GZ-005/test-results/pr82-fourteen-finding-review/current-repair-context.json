@@ -1,0 +1,36 @@
+{
+  "utc": "2026-10-10T09:16:50.179606+00:00",
+  "parentActualSource": "9b556484145aa396ebe97fc34872034b859bb4b7",
+  "workingTree": "DIRTY_REPAIR_CANDIDATE",
+  "formalSourceAccepted": false,
+  "mergeAccepted": false,
+  "operations": 90,
+  "schemas": 141,
+  "stableErrors": 33,
+  "illustrativeHTTPPairs": 146,
+  "comments": [
+    6095687218,
+    6095857734
+  ],
+  "distinctConfirmedFindings": 14,
+  "runtimePassed": false,
+  "fullV1Accepted": false,
+  "authorityChanges": false,
+  "policyChanges": false,
+  "otherTaskChanges": false,
+  "independentDirtySnapshotImmutable": false,
+  "remaining": "complete exploratory tests, commit/publish actual source, formal17/CI/independent final and actual-main validation",
+  "exploratoryChecks": {
+    "standardExit": 0,
+    "checkerExit": 0,
+    "apiExit": 0,
+    "apiPassed": 261,
+    "apiSeconds": 169.56,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "formalSourceAcceptance": false,
+    "dirtyExplorationOnly": true
+  },
+  "updatedAt": "2026-10-10T09:19:37.144844+00:00"
+}

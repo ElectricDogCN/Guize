@@ -1,0 +1,5 @@
+Source Commit: 346c9b6e7d25e4ea45f33be43c325ee5c0bb2d82
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 413a6a4dd91b5d79a3d2b7d1e5f03f8121848170 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["GZ-005"], "changedPathCount": 22, "baseRef": "413a6a4dd91b5d79a3d2b7d1e5f03f8121848170"}}
+
+Exit Code: 0

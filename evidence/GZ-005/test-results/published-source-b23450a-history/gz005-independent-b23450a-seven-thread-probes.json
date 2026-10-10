@@ -1,0 +1,223 @@
+{
+  "kind": "FINITE_IMMUTABLE_B234_SEVEN_THREAD_CONTENT_PROBES",
+  "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "recordedAt": "2026-10-10T10:19:17.504901+00:00",
+  "exportedComponentCompatibilityProbe": {
+    "component": "Replica",
+    "changedEnumField": "status",
+    "removedEnumValue": "DELETED",
+    "compatibleReturned": true,
+    "onlyChangedExportedComponent": true
+  },
+  "imageQueryProbe": {
+    "payload": {
+      "mode": "IMAGE",
+      "imageArtifactId": "art_example01",
+      "limit": 25
+    },
+    "errors": [
+      "'query' is a required property"
+    ]
+  },
+  "workerLeaseFields": {
+    "properties": [
+      "workerId",
+      "leaseId",
+      "expiresAt",
+      "allowedCapabilities"
+    ],
+    "required": [
+      "workerId",
+      "leaseId",
+      "expiresAt",
+      "allowedCapabilities"
+    ]
+  },
+  "workerOperations": {
+    "listWorkers": {
+      "method": "get",
+      "path": "/workers",
+      "permission": {
+        "mode": "AUTHENTICATED",
+        "permission": "worker.read",
+        "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+        "stepUp": false,
+        "approval": false
+      },
+      "bodyProperties": []
+    },
+    "registerWorker": {
+      "method": "post",
+      "path": "/workers/register",
+      "permission": {
+        "mode": "AUTHENTICATED",
+        "permission": "worker.bootstrap",
+        "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+        "stepUp": false,
+        "approval": false
+      },
+      "bodyProperties": [
+        "workerId",
+        "capabilities",
+        "softwareVersions",
+        "classification",
+        "diskFreeBytes"
+      ]
+    },
+    "heartbeatWorker": {
+      "method": "post",
+      "path": "/workers/heartbeat",
+      "permission": {
+        "mode": "AUTHENTICATED",
+        "permission": "worker.self",
+        "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+        "stepUp": false,
+        "approval": false
+      },
+      "bodyProperties": [
+        "workerId",
+        "leaseId",
+        "diskFreeBytes"
+      ]
+    }
+  },
+  "rollbackOperations": {
+    "rollbackPolicy": {
+      "path": "/policies/{policyId}:rollback",
+      "method": "post",
+      "bodyFields": [
+        "expectedRevision",
+        "approvalId",
+        "reason"
+      ],
+      "required": [
+        "expectedRevision",
+        "approvalId",
+        "reason"
+      ]
+    },
+    "rollbackConfiguration": {
+      "path": "/configurations/{configurationId}:rollback",
+      "method": "post",
+      "bodyFields": [
+        "expectedRevision",
+        "approvalId",
+        "reason"
+      ],
+      "required": [
+        "expectedRevision",
+        "approvalId",
+        "reason"
+      ]
+    }
+  },
+  "sourceVisibility": {
+    "dataSourceEnum": [
+      "PRIVATE",
+      "SHARED",
+      "ADMIN_PUBLIC"
+    ],
+    "draftEnum": [
+      "PRIVATE",
+      "SHARED"
+    ],
+    "patchFields": [
+      "expectedRevision",
+      "name"
+    ]
+  },
+  "sourceOperations": [
+    {
+      "path": "/data-sources",
+      "method": "get",
+      "operationId": "listDataSources"
+    },
+    {
+      "path": "/data-sources",
+      "method": "post",
+      "operationId": "createDataSource"
+    },
+    {
+      "path": "/data-sources/{sourceId}",
+      "method": "get",
+      "operationId": "getDataSource"
+    },
+    {
+      "path": "/data-sources/{sourceId}",
+      "method": "patch",
+      "operationId": "patchDataSource"
+    },
+    {
+      "path": "/data-sources/{sourceId}/credential-reference",
+      "method": "get",
+      "operationId": "getSourceCredentialReference"
+    },
+    {
+      "path": "/data-sources/{sourceId}/credential-reference",
+      "method": "put",
+      "operationId": "changeSourceCredentialReference"
+    },
+    {
+      "path": "/data-sources/{sourceId}:probe",
+      "method": "post",
+      "operationId": "probeDataSource"
+    },
+    {
+      "path": "/data-sources/{sourceId}:sync",
+      "method": "post",
+      "operationId": "syncDataSource"
+    },
+    {
+      "path": "/data-sources/{sourceId}:revoke",
+      "method": "post",
+      "operationId": "revokeDataSource"
+    },
+    {
+      "path": "/data-sources/{sourceId}/objects",
+      "method": "get",
+      "operationId": "listSourceObjects"
+    }
+  ],
+  "assetOperations": [
+    "listAssets",
+    "getAsset",
+    "patchAsset",
+    "listAssetVersions",
+    "listAssetSources",
+    "listRenditions",
+    "getAssetAcl",
+    "replaceAssetAcl",
+    "publishAsset",
+    "unpublishAsset",
+    "mergeAsset",
+    "splitAsset",
+    "cacheAsset",
+    "probeMedia",
+    "transcodeAsset",
+    "enrichAsset",
+    "listDerivedArtifacts",
+    "recommendAssets",
+    "createPlaybackPlan"
+  ],
+  "assetPatchFields": [
+    "expectedRevision",
+    "title",
+    "description"
+  ],
+  "configurationOperations": [
+    "validateConfiguration",
+    "simulateConfiguration",
+    "canaryConfiguration",
+    "publishConfiguration",
+    "rollbackConfiguration",
+    "listConfigurations",
+    "createConfiguration",
+    "getConfiguration",
+    "getConfigurationContent"
+  ],
+  "runAiPipeline": null,
+  "operationsCount": 90,
+  "fullGovRerun": false,
+  "rootMutation": false,
+  "syntheticContractProbesOnly": true
+}

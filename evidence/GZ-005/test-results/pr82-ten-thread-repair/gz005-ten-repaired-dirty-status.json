@@ -1,0 +1,24 @@
+{
+  "headDuringExploration": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "worktree": "DIRTY_UNACCEPTED_EXPLORATION",
+  "sourceAccepted": false,
+  "formalAccepted": false,
+  "results": {
+    "fixtures": {
+      "exitCode": 0,
+      "rawSha256": "559f418891c485600c748b4b96f6c6ad26ca8d37b46ec4e9b538f31fa130a177"
+    },
+    "standard": {
+      "exitCode": 0,
+      "rawSha256": "286c60db6cb41a12a4f294689fea2cda4725ae238e1832090adc222d78218554"
+    },
+    "checker": {
+      "exitCode": 0,
+      "rawSha256": "20dbf8bc8cad2d702803aaa8e1d634b6793e5026927d73bedd60341d72562008"
+    },
+    "tests": {
+      "exitCode": 0,
+      "rawSha256": "3c1a0b1b8dad9bf0ccf89cb1e8eee952cb53b7e90e6bcbf4244e35784c6ec09b"
+    }
+  }
+}

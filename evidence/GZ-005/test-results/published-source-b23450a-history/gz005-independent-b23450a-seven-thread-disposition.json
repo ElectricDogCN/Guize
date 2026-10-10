@@ -1,0 +1,271 @@
+{
+  "kind": "FINITE_SEVEN_THREAD_DISPOSITION_ON_IMMUTABLE_SOURCE",
+  "recordedAt": "2026-10-10T10:21:24.955320+00:00",
+  "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+  "pr": 82,
+  "findings": [
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fL",
+      "topic": "ADMIN_PUBLIC transition",
+      "成立": true,
+      "actualSourceEvidence": [
+        {
+          "path": "contracts/openapi/common/schemas.yaml",
+          "line": 724,
+          "fact": "DataSource has ADMIN_PUBLIC; SourceDraft visibility enum at 815–817 excludes it; SourcePatch only expectedRevision/name."
+        },
+        {
+          "path": "contracts/openapi/common/openapi.yaml",
+          "line": 49,
+          "fact": "Complete source route inventory contains no visibility/publish mutation."
+        }
+      ],
+      "frozenBasis": [
+        {
+          "path": "docs/12-security-identity-and-permissions.md",
+          "line": 66,
+          "fact": "Administrator public sources use platform ACL; private sources default owner-only."
+        },
+        {
+          "path": "specs/tasks/GZ-005.md",
+          "line": 17,
+          "fact": "REQ1 and IAM/control-plane interfaces are already assigned."
+        }
+      ],
+      "minimumFix": "Dedicated bounded source visibility mutation with expectedRevision and target visibility; ADMIN_PUBLIC requires server-enforced administrator permission, fresh step-up, approval bound to source/current revision/full target payload, platform ACL, and audit. Keep ordinary create default private and do not expand its enum as a bypass."
+    },
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fM",
+      "topic": "Worker lease credential",
+      "成立": true,
+      "actualSourceEvidence": [
+        {
+          "path": "contracts/openapi/common/schemas.yaml",
+          "line": 3315,
+          "fact": "WorkerLease has only workerId,leaseId,expiresAt,allowedCapabilities; no operational credential or BearerAuth binding."
+        },
+        {
+          "path": "contracts/openapi/config/paths.yaml",
+          "fact": "registerWorker requires worker.bootstrap; heartbeatWorker separately requires worker.self."
+        }
+      ],
+      "frozenBasis": [
+        {
+          "path": "docs/00-guize-engineering-design-baseline.md",
+          "line": 413,
+          "fact": "Registration returns short-lived credentials and allowed capabilities."
+        },
+        {
+          "path": "docs/21-low-level-design.md",
+          "line": 487,
+          "fact": "Control plane returns short-lived token and permitted capabilities."
+        }
+      ],
+      "minimumFix": "Dedicated scoped short-lived WorkerCredential in registration/renewal response with explicit token type, token, worker/lease/audience/expiry/capability bindings. Heartbeat must verify current lease binding; renewal rotates/revokes prior token; idempotent replay never issues fresh credentials for expired lease/token. Preserve no-store and synthetic nonfunctional fixtures."
+    },
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fN",
+      "topic": "Exported component compatibility",
+      "成立": true,
+      "actualSourceEvidence": [
+        {
+          "path": "specs/contracts/openapi/check_contract.py",
+          "line": 649,
+          "fact": "compatible traverses operation schemas only, omits components.schemas."
+        }
+      ],
+      "frozenBasis": [
+        {
+          "path": "AGENTS.md",
+          "line": 145,
+          "fact": "External/internal contracts versioned; breaking changes need major version/compatibility."
+        },
+        {
+          "path": "specs/tasks/GZ-005.md",
+          "line": 44,
+          "fact": "Deliver compatibility rules and meaningful negative tests."
+        }
+      ],
+      "actualProbe": {
+        "component": "Replica",
+        "changedEnumField": "status",
+        "removedEnumValue": "DELETED",
+        "compatibleReturned": true,
+        "onlyChangedExportedComponent": true
+      },
+      "minimumFix": "Preserve each old exported component name and conservatively compare its schema with existing compatibility helper for request and response usage, or explicitly classify actual usage. Add non-operation-reachable Replica/RetentionHold removal/required/enum regressions. No need to restore deferred REQ6 operations."
+    },
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fP",
+      "topic": "IMAGE-only search",
+      "成立": true,
+      "actualSourceEvidence": [
+        {
+          "path": "contracts/openapi/common/schemas.yaml",
+          "line": 2419,
+          "fact": "SearchQuery unconditionally requires query; IMAGE conditional only additionally requires imageArtifactId."
+        }
+      ],
+      "frozenBasis": [
+        {
+          "path": "docs/11-search-and-recommendation.md",
+          "line": 14,
+          "fact": "Image-to-image search is a V1 goal."
+        },
+        {
+          "path": "specs/tasks/GZ-005.md",
+          "line": 17,
+          "fact": "REQ7 search is assigned."
+        }
+      ],
+      "actualProbe": {
+        "payload": {
+          "mode": "IMAGE",
+          "imageArtifactId": "art_example01",
+          "limit": 25
+        },
+        "errors": [
+          "'query' is a required property"
+        ]
+      },
+      "minimumFix": "Globally require mode/limit; IMAGE requires authorized imageArtifactId; KEYWORD/SEMANTIC/HYBRID require nonempty query. Define whether optional IMAGE text is supported rather than forcing dummy text. Add image-only positive and missing/wrong source artifact negatives."
+    },
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fR",
+      "topic": "Rollback immutable target",
+      "成立": true,
+      "actualSourceEvidence": [
+        {
+          "path": "contracts/openapi/common/schemas.yaml",
+          "line": 3113,
+          "fact": "ReleaseCommand has expectedRevision/approvalId/reason only."
+        },
+        {
+          "path": "contracts/openapi/config/paths.yaml",
+          "line": 3421,
+          "fact": "rollbackConfiguration uses ReleaseCommand, route has no target revision."
+        },
+        {
+          "path": "contracts/openapi/policy/paths.yaml",
+          "line": 6390,
+          "fact": "rollbackPolicy uses same body; no target revision."
+        }
+      ],
+      "frozenBasis": [
+        {
+          "path": "specs/requirements/v1/requirements.yaml",
+          "line": 407,
+          "fact": "REQ9 validation/approval/release/rollback frozen."
+        },
+        {
+          "path": "specs/contracts/openapi/semantics.md",
+          "line": 79,
+          "fact": "Rollback references reviewed immutable revision; actual body does not express it."
+        }
+      ],
+      "actualProbe": {
+        "rollbackPolicy": {
+          "path": "/policies/{policyId}:rollback",
+          "method": "post",
+          "bodyFields": [
+            "expectedRevision",
+            "approvalId",
+            "reason"
+          ],
+          "required": [
+            "expectedRevision",
+            "approvalId",
+            "reason"
+          ]
+        },
+        "rollbackConfiguration": {
+          "path": "/configurations/{configurationId}:rollback",
+          "method": "post",
+          "bodyFields": [
+            "expectedRevision",
+            "approvalId",
+            "reason"
+          ],
+          "required": [
+            "expectedRevision",
+            "approvalId",
+            "reason"
+          ]
+        }
+      },
+      "minimumFix": "Separate RollbackCommand with optimistic current expectedRevision and immutable targetRevision plus approvalId/reason. Resolve target under same policy/config resource; validate full stored target and approval request intent; reject wrong resource/missing/nonexistent/unvalidated target. Keep normal release request semantics unchanged."
+    },
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fW",
+      "topic": "ADMIN_RELEASED transition",
+      "成立": true,
+      "actualSourceEvidence": [
+        {
+          "path": "contracts/openapi/common/schemas.yaml",
+          "line": 1346,
+          "fact": "Asset includes ADMIN_RELEASED; AssetPatch only expectedRevision/title/description."
+        },
+        {
+          "path": "contracts/openapi/common/openapi.yaml",
+          "fact": "Complete asset route inventory lacks administrator security release command."
+        }
+      ],
+      "frozenBasis": [
+        {
+          "path": "docs/12-security-identity-and-permissions.md",
+          "line": 161,
+          "fact": "File-security states include quarantine and ADMIN_RELEASED; processing explicitly includes administrator release at 186."
+        },
+        {
+          "path": "AGENTS.md",
+          "line": 156,
+          "fact": "High-risk and asset publication/security actions require targeted tests."
+        }
+      ],
+      "minimumFix": "Explicit administrator security release with expected asset revision plus exact assetVersionId/security finding, reason, step-up, approval, and audit. Recheck current version/finding/safety policy; release only security status and must not publish or bypass ACL. Add stale version/finding and unauthorized/approval mismatches."
+    },
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fY",
+      "topic": "AI configuration assistant",
+      "成立": true,
+      "actualSourceEvidence": [
+        {
+          "path": "contracts/openapi/common/openapi.yaml",
+          "line": 151,
+          "fact": "Config inventory only CRUD/content/validate/simulate/canary/publish/rollback; no assistance operation."
+        },
+        {
+          "path": "specs/contracts/openapi/semantics.md",
+          "line": 76,
+          "fact": "Suggestions forbidden from self-publishing but no API produces them."
+        }
+      ],
+      "frozenBasis": [
+        {
+          "path": "specs/requirements/v1/requirements.yaml",
+          "line": 411,
+          "fact": "REQ9 explicitly includes AI configuration assistant; GZ005 nextTask at 438."
+        },
+        {
+          "path": "docs/13-configuration-center.md",
+          "line": 255,
+          "fact": "Explain configuration/generate draft/check conflicts/estimate capacity/validation/rollback suggestions; no direct high-risk publication/secrets/permissions/budget/approval bypass."
+        }
+      ],
+      "minimumFix": "Controlled config-scoped assist request with exact authorized immutable configuration revision, bounded assistance kind/input and async TaskAccepted if long running; config/task-bound result read exposes closed report/optional draft. Preserve model/prompt/input provenance, uncertainty/budget and existing validation→simulation→approval→publication gates. Do not add a general arbitrary model execution or deploy endpoint."
+    }
+  ],
+  "previousThreeMaterialFindingsRetained": [
+    "PRRT_kwDOTgCQ3c6rC7fH",
+    "PRRT_kwDOTgCQ3c6rC7fJ",
+    "PRRT_kwDOTgCQ3c6rC7fT"
+  ],
+  "probeFile": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-b23450a-seven-thread-probes.json",
+  "probeSha256": "9d23cd8b5345cdf909268df0e067a32adff4490b440e04fc7d607a441ce38959",
+  "fullGovRerun": false,
+  "rootMutation": false,
+  "runtimeValidated": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false
+}

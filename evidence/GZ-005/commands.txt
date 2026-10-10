@@ -1,3 +1,45 @@
+Current complete twelve-finding exploratory validation: gz005-twelve-progress-repaired-dirty targeted progress/wire subset exit0; prior checker exit0 and full API373pass/1fail retained. Fresh immutable-source formal17/full378/latest CI, independent source acceptance and actual-main integration remain pending. Raw commands/return codes are in test-results/pr82-twelve-complete-candidate/. All four failed exploratory runs are preserved with explicit stderr limitations.
+
+# Current twelve-finding partial repair — unpublished and unaccepted
+
+Parent Git source: e70313efeb06c021b3626e5d5728d44acc8c4758; original source formal17/527 governance/306 API and CI634 execution passed, but twelve newer findings reject content acceptance. Exact independent disposition and original execution references: test-results/pr82-twelve-partial-repair/. No PASS transfers to this working tree.
+
+Current dirty repair closes eight response layers: PublicAssetEnvelope, PlaybackPlan and envelope, ArtifactContent and envelope, PasskeyChallenge and envelope, and the analogous protected SourceCredentialReferenceEnvelope. Thirty targeted outer/data private-field rejection tests passed in23.05s, with306 existing tests deliberately deselected; this is a subset, not a full API run. Initial24passed/6failed test setup (wrong public-playback HTTP200 versus actual201) and corrected output/JUnits are retained honestly.
+
+Remaining: export-usage compatibility classification, transient idempotency retry semantics, exact split bindings, deployment empty/duplicate targets, secure logout-cookie expiry, taskId/statusUrl correlation, server-authoritative progress ordering and bounded Asset.description readback. Then regenerate necessary wire examples, run full API checks, independent finite content review, publish a new immutable source and obtain its fresh17/latestCI and final integration review. Do not merge PR82, resolve unaddressed new threads, release the lease, change frozen requirements/POCs or claim runtime/V1 acceptance.
+
+## Preserved prior records
+
+# Current ten-thread repaired candidate: new immutable-source validation pending
+
+The independently confirmed ten threads on actual b234 are repaired: dedicated credential/public DTO privacy, exact role capabilities, all exported model compatibility, IMAGE-only query, explicit rollback target, scoped worker lease credential, owner/admin source visibility and explicit ACL roundtrip, quarantine release with exact-version immutable finding retrieval, and bounded asynchronous configuration assistance with real sensitive-read proof transport and provenance. Source owner can share/retract PRIVATE/SHARED; transitions to/from ADMIN_PUBLIC additionally require verified administrator/source.publish. No automatic asset publication.
+
+Current synthetic inventory is96 operations/154 schemas/33 errors/944 examples/155 HTTP pairs. Exploratory API tests: 306 passed, zero failures/errors/skips; dirty content review is complete but cannot establish immutable-source acceptance. Original299/1 exploratory failure and fixture-generator failure remain preserved.
+
+Actual b234 formal17/527/261 and CI633 attempt2 success remain historical execution facts; all ten content gaps reject that source for merge. Its attempt1 cancellation and actual source rejection proofs remain in published-source-b23450a-history. New formal17, same-head CI, independent actual-source review, archive/integration/main acceptance and legal Review/Completion are pending. No runtime/POC/full V1 completion is claimed.
+
+## Preserved earlier records
+
+# Current finite ten-thread repair candidate
+
+The b23450a execution passed formal17/527 governance/261 API tests and CI633 attempt2, but independent review confirmed ten material contract gaps. Source acceptance is false; original results and attempt1 cancellation are preserved in test-results/published-source-b23450a-history/. Current contract repairs remain an unaccepted dirty candidate until new immutable source, formal17, same-head CI and independent review are obtained. Archive/integration/main acceptance and legal Review/Completion remain pending. No runtime/POC/full V1 completion is claimed.
+
+## Prior candidate and execution facts
+
+CURRENT FOURTEEN-FINDING REPAIR: new immutable-source formal17, CI and final review pending; all earlier records below retain their actual execution and acceptance boundaries.
+
+# Current six-finding repair candidate: formal validation pending
+
+PR82 comment6094044109 identified six real contract defects after source85 local17/CI630 passed. Those pass records remain historical execution facts; their prior content-acceptance conclusion was superseded. Current code changes remove four unassigned REQ6 lifecycle operations while retaining REQ1 relationship models and shared cache DTOs; freeze API identity; close bounded error details; enforce uniform anonymous discoverable passkey schemas and global error responses; unify dedicated approval IDs; and constrain LOCAL mounts and relative roots.
+
+The candidate has89 operations,133 schemas,33 catalog errors and89 illustrative HTTP pairs. Formal published-source checks, latest same-head CI, independent review and post-main acceptance are still pending. No runtime, POC or full V1 acceptance is claimed. Task/Program/Registry requirement IDs, lease, policy and all other task identities remain unchanged.
+
+## Preserved prior execution and handoff records
+
+Current exact published source: 85bd46cfc39fc934c9d43623be09acbb557b6930
+Actual17checks: test-results/published-source-85bd46c/status.json; each raw label log records Source Commit, Command and Exit Code0.
+Full make:527 passed773.46s; API:116 passed71.36s; complete raw/JUnit files archived.
+Historical reservation commands below do not certify current implementation.
 Task: GZ-005
 Base: 788e6f257d9052db81a8df793bf8b448a05011a1
 Status: RESERVED

@@ -1,0 +1,35 @@
+{
+  "kind": "UNCOMMITTED_EXPLORATORY_CHECKS_WITH_UNSTABLE_PREEXECUTION_CAPTURE",
+  "formalPublishedSourceValidation": false,
+  "commandExits": {
+    "standard": 0,
+    "contract": 0,
+    "tests": 0
+  },
+  "completeProbeExit": 1,
+  "beforeAfterStable": false,
+  "reason": "HTTP sample regeneration completed after preexecution capture. Raw checks passed on the repaired files; this run does not establish an immutable source result. Exact published-source formal validation is still required.",
+  "records": [
+    {
+      "path": "contract.txt",
+      "sha256": "8f0eac2e35ff5e9af7e828f90a13ee39056d28ea6589da9f4c2f0b632cbf5412"
+    },
+    {
+      "path": "preexecution.json",
+      "sha256": "207af5a4d15eef5ba3ed8f311f96b2859acbb2e59b9bf079fc3c71e2eef46838"
+    },
+    {
+      "path": "standard.txt",
+      "sha256": "6d8a28514667de162bf0079d7be5d01573eff146a14dfd1ecef1f64ba654a15a"
+    },
+    {
+      "path": "tests.txt",
+      "sha256": "11eba9ae20beb376a516e656fc24e732a0a3cc24467c602d858e9a7661a32c5f"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "4f03f164683f52f23a72bc99f488be94f70b48325ac49d3fa5555be5a1753251"
+    }
+  ],
+  "historicalHashRepresentation": "Original physical UTF-8 bytes at capture before Git normalization; Git may normalize CRLF to LF. These historical hashes are not assertions about current Git blob bytes."
+}

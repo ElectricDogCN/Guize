@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-10-10T09:11:29.963702+00:00",
+  "actualSource": "9b556484145aa396ebe97fc34872034b859bb4b7",
+  "tree": "412355a40630bde0e46258f6beb009f6cd36a11d",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "formalChecks": 17,
+  "allFormalExitCodes": 0,
+  "governance": {
+    "passed": 527,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 766.11
+  },
+  "api": {
+    "passed": 164,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 121.95
+  },
+  "ci632": "CANCELLED; no CI acceptance",
+  "contentAcceptance": "SUPERSEDED_BY_14_CONFIRMED_CONTRACT_GAPS",
+  "actualSourceAccepted": false,
+  "mergeAccepted": false,
+  "runtimePassed": false,
+  "fullV1Accepted": false,
+  "nextSourceMustRerunFormal17CIAndIndependentReview": true
+}

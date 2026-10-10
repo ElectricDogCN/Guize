@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-10T10:39:29.898175+00:00",
+  "parentActualSource": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "workingTree": "DIRTY_REPAIR_CANDIDATE",
+  "confirmedReviewThreads": 10,
+  "operations": 96,
+  "schemas": 154,
+  "stableErrors": 33,
+  "httpPairs": 155,
+  "exploratoryTests": 306,
+  "formalSourceAccepted": false,
+  "mergeAccepted": false,
+  "runtimePassed": false,
+  "fullV1Accepted": false,
+  "authorityChanges": false,
+  "policyChanges": false,
+  "otherTaskChanges": false,
+  "remaining": "Publish new immutable source, formal17, same-head CI, independent actual-source and actual-main acceptance; legal Review/Completion remain pending."
+}

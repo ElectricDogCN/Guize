@@ -1,0 +1,50 @@
+{
+  "kind": "FINITE_ACTUAL_MAIN_CI_FACT_CONFIRMATION_AND_NATIVE_SOURCE_VERIFICATION_PLAN_REVIEW_NOT_MAIN_FULL_ACCEPTANCE",
+  "actualMainSource": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "tree": "b0c02203994e89a411f9ce5184a336aaa4c540ac",
+  "actualMainParents": [
+    "fd3d642377eb1ad6de1051ce0d45b5045499b349",
+    "b3b69248bcb735a54b9811b413c16db6bb9813df"
+  ],
+  "ciRun": 38021268746,
+  "ciRunNumber": 629,
+  "ciJob": 114122569280,
+  "actualCiConclusion": "success",
+  "requiredApplicableStepsAllSuccess": true,
+  "legitimateMainTaskSpecificSkips": {
+    "numbers": [
+      9,
+      18,
+      19,
+      20,
+      21
+    ],
+    "reason": "main push is non-task ref. Existing workflow task_specific true conditions skip TaskFile/Evidence/EvidenceIntegrity/TaskBranch/TaskScope; repository-wide history/lifecycle/coordination and schemas plus fullgovernance remainexecuted."
+  },
+  "officialGovernance527Passed850_07seconds": true,
+  "all527IndividualTestsPassed": true,
+  "testSkipAuditZero": true,
+  "savedRawFileSha256": "c73467a563be5b4f7f809b0b2ed0ee1718089e8325f4aff21460736169a9aa84",
+  "savedRawNotClaimedByteIdenticalToOfficialBecauseTrailingNewlineArtifact": true,
+  "mainLocalFullMake": "RUNNING_NOT_CERTIFIED_HERE",
+  "mainFullAcceptanceApproved": false,
+  "gz005ActivationAllowedByThisProof": false,
+  "nativeVerificationPlan": {
+    "reviewedRunnerSha256": "2d3d386a393d6422c9cf662b205bfc94bb765dc3a9444eb07376c8fc51a24c0a",
+    "nativeRoot": "/tmp/guize-native-verification-20261010",
+    "nativeSnapshotActuallyRead": {
+      "HEAD": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "tree": "b0c02203994e89a411f9ce5184a336aaa4c540ac",
+      "branch": "main",
+      "clean": true
+    },
+    "beforeAfterBinding": "Authoring andnativeclean sameHEAD/tree/branch before; source HEAD stable and nativeclean after withinrunner; authoring/native complete snapshots unchanged after. OutputRoot stays external.takeover-tools, cwd/schema/ref/API tests resolveinside native exactcheckout.",
+    "sourceSpecificProvenanceRequired": true,
+    "publishedCandidateMustUseRegisteredGz005Branch": "chore/GZ-005-openapi-baseline",
+    "actualFutureNativeChecks": "NOT_EXECUTED",
+    "materialOmissionsFound": [],
+    "failureRecordingSuggestion": "If future native verificationfails, retain original raw and source/branch/path before snapshot; after-context PASS remains absent. No need fornewGate orduplicatefullsuite."
+  },
+  "rootMutation": false,
+  "governanceRerun": false
+}

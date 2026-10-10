@@ -1,0 +1,31 @@
+..................................F..................................... [ 24%]
+........................................................................ [ 48%]
+........................................................................ [ 72%]
+........................................................................ [ 96%]
+............                                                             [100%]
+=================================== FAILURES ===================================
+_ test_exported_models_remain_compatible_without_operations[remove-enum-RetentionHold] _
+
+baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+catalog = {'contractId': 'ERROR-CATALOG-V1', 'errors': [{'action': {'en-US': 'Inspect authorized request and retry after correct...ING', 'code': 'ACCESS_NOT_FOUND', 'description': 'Unknown or undiscoverable resource.', ...}, ...], 'version': '1.0.0'}
+name = 'RetentionHold', mutation = 'remove-enum'
+
+    @pytest.mark.parametrize('name,mutation',[
+        ('Replica','remove-model'),('Replica','remove-field'),('Replica','remove-enum'),
+        ('RetentionHold','remove-model'),('RetentionHold','remove-field'),
+    ])
+    def test_exported_models_remain_compatible_without_operations(baseline,catalog,name,mutation):
+        changed=copy.deepcopy(baseline)
+        model=changed['components']['schemas'][name]
+        if mutation=='remove-model':
+            del changed['components']['schemas'][name]
+        elif mutation=='remove-field':
+>           model['properties'].pop(model['required'][0])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           StopIteration
+
+specs/contracts/openapi/test_contract.py:145: StopIteration
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-ten-dirty-tests.xml -
+=========================== short test summary info ============================
+FAILED specs/contracts/openapi/test_contract.py::test_exported_models_remain_compatible_without_operations[remove-enum-RetentionHold]
+1 failed, 299 passed in 188.10s (0:03:08)

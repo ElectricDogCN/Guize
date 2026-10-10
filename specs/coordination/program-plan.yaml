@@ -103,7 +103,7 @@ tasks:
     taskId: GZ-005
     title: "冻结 OpenAPI、错误码与 HTTP 示例基线"
     kind: contract
-    status: reserved
+    status: in_progress
     workPackage: WP-M0-03B
     riskLevel: high
     ownerRole: task-owner-agent

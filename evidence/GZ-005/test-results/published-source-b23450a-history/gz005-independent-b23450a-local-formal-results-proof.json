@@ -1,0 +1,424 @@
+{
+  "kind": "ACTUAL_IMMUTABLE_SOURCE_LOCAL_FORMAL_EXECUTION_RESULT_CI_NOT_ACCEPTED",
+  "recordedAt": "2026-10-10T09:45:50.053185+00:00",
+  "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+  "local17AllExit0": true,
+  "statuses": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 0,
+    "lifecycle": 0,
+    "coordination": 0,
+    "scope": 0,
+    "evidence": 0,
+    "unaffected": 0,
+    "verify": 0,
+    "openapi-standard": 0,
+    "openapi-contract": 0,
+    "openapi-negative-tests": 0
+  },
+  "raw": {
+    "task": {
+      "sha256": "e5ca3a66c7dfb4f9137c18a05c571a385de92bf373afaaef91f07cdd1d0515c0",
+      "command": "python scripts/check-task-file.py --task GZ-005",
+      "exit": 0
+    },
+    "readiness": {
+      "sha256": "3f39315f478f2eb47d0c8221af490ba601013761bded8f9345a15ab1bbfdb968",
+      "command": "python scripts/check-project-readiness.py",
+      "exit": 0
+    },
+    "schemas": {
+      "sha256": "245ff48d3a3097748adb6e6691d1426685938a965ae58377cb2dec1a7a9a29ef",
+      "command": "python scripts/check-schemas.py",
+      "exit": 0
+    },
+    "integrity": {
+      "sha256": "d875790e72a424ce2c4a8f2c8d41b1e676daf7ef1e5211e2e4e11eae6645b31b",
+      "command": "python scripts/check-program-plan-integrity.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "exit": 0
+    },
+    "history": {
+      "sha256": "d0f7009d71ab025d7d8faadf656e13e59de3361baa2575e6e31a9786c777bb89",
+      "command": "python scripts/check-program-plan-history.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "transitions": {
+      "sha256": "b639edd39f8b4caa1d597707c7373f35122e3e4b9c597d240a63889793d47c0f",
+      "command": "python scripts/check-program-plan-transitions.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "finalization": {
+      "sha256": "883e9ddb7e3b6f4e58e0b626b4fdb7c7314205008218aba3821499b59e66248b",
+      "command": "python scripts/check-program-plan-finalization.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --task GZ-005",
+      "exit": 0
+    },
+    "raw-lifecycle": {
+      "sha256": "44059a0df9b10c3481879a7012b412e8c0670c0e64cdfb4428fd22b4d520c111",
+      "command": "python scripts/check-program-lifecycle-guards.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "lifecycle": {
+      "sha256": "d584e06da762200dfaf518d045f7293eeea21767631e9d85f50bd348f68d2661",
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "coordination": {
+      "sha256": "a3efbc42dcb301c4376f6ff8f7cfb5da7f15dbf65d2f77ad8dcf3bbfadb96814",
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "scope": {
+      "sha256": "a9f9d586819ef9457aebf63b7be8c282d47133b846de1f2cf42f1f516561c9f8",
+      "command": "python scripts/run-task-scope-gate.py --task GZ-005 --base 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "exit": 0
+    },
+    "evidence": {
+      "sha256": "cae47a365feee3f97c4181bf69fbff6af3687c33f4eb78bffb118aa825bade6e",
+      "command": "python scripts/check-evidence.py --task GZ-005",
+      "exit": 0
+    },
+    "unaffected": {
+      "sha256": "3faf0c8f5307ac17a27df338b3ad957e895a1800f85064ba3999a4e7dbf9810b",
+      "command": "git diff --exit-code 429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/tasks/OPS-004.md evidence/OPS-004 specs/poc specs/requirements scripts tests AGENTS.md",
+      "exit": 0
+    },
+    "verify": {
+      "sha256": "9d835a79435c477dd81c95247081b98cfaa02a01414322e7ce53298959bd810c",
+      "command": "make verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "openapi-standard": {
+      "sha256": "986262a54f5800b7eeed3fed2b09dbb5af0682ae63b2b1b64c900993e41fc912",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml",
+      "exit": 0
+    },
+    "openapi-contract": {
+      "sha256": "63502a16d17a9b29e93898093ad74752ba77100c26facde50bc47b6fa1917548",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline",
+      "exit": 0
+    },
+    "openapi-negative-tests": {
+      "sha256": "bfbfa8286878172aece80056b0834b3ced0a9b7a147137beda3e14e137e50f19",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fresh-implementation-b23450a-results/openapi-tests.xml",
+      "exit": 0
+    }
+  },
+  "junit": {
+    "make-governance.xml": {
+      "testcases": 527,
+      "failure": 0,
+      "error": 0,
+      "skip": 0,
+      "sha256": "5e7846281758736eaae578808043ef92712ecaf59619924394af89596f961166",
+      "suiteTime": 783.997
+    },
+    "openapi-tests.xml": {
+      "testcases": 261,
+      "failure": 0,
+      "error": 0,
+      "skip": 0,
+      "sha256": "f641a075d5fa80c4dbe9300f63d5460b7ff1a08006f6ffea368441dd712259d2",
+      "suiteTime": 165.325
+    }
+  },
+  "actualWorktreeBefore": {
+    "kind": "ACTUAL_NATIVE_VERIFICATION_PREEXECUTION_BINDING",
+    "phase": "implementation",
+    "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+    "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+    "authoringWorktree": {
+      "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+      "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verificationWorktree": {
+      "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+      "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    },
+    "result": "NOT_EXECUTED",
+    "condition": "Both immutable worktrees must remain identical and clean; actual tests execute in the recorded native path. Failed raw checks remain failure evidence."
+  },
+  "actualWorktreeAfter": {
+    "kind": "ACTUAL_IDENTICAL_SOURCE_NATIVE_VALIDATION_WORKTREE",
+    "phase": "implementation",
+    "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+    "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+    "authoringWorktree": {
+      "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+      "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verificationWorktree": {
+      "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+      "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    },
+    "bothCleanBeforeAndAfter": true,
+    "result": "PASS",
+    "testsExecutedIn": "native Linux checkout; exact same immutable Git source/tree, no result transfer from another commit"
+  },
+  "cleanBeforeAndAfter": true,
+  "localFormalResultsVerified": true,
+  "sourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "ci633Conclusion": "cancelled; later mandatory steps not run",
+  "runtimeSecurityValidated": false,
+  "fullGovRerun": false,
+  "rootMutation": false,
+  "governanceTimingByClass": [
+    {
+      "class": "tests.governance.test_program_plan_history.TestProgramPlanHistory",
+      "seconds": 583.266
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "seconds": 164.264
+    },
+    {
+      "class": "tests.governance.test_check_schemas.TestCheckSchemas",
+      "seconds": 8.733
+    },
+    {
+      "class": "tests.governance.test_forward_recovery",
+      "seconds": 6.61
+    },
+    {
+      "class": "tests.governance.test_check_project_readiness.TestProjectReadiness",
+      "seconds": 5.543
+    },
+    {
+      "class": "tests.governance.test_program_plan_execution_integrity.TestIntegrity",
+      "seconds": 4.235
+    },
+    {
+      "class": "tests.governance.test_check_agent_coordination.TestAgentCoordination",
+      "seconds": 2.55
+    },
+    {
+      "class": "tests.governance.test_terminal_wave_occupancy.TestTerminalWaveOccupancy",
+      "seconds": 1.319
+    },
+    {
+      "class": "tests.governance.test_program_plan_transitions.TestProgramPlanTransitions",
+      "seconds": 1.208
+    },
+    {
+      "class": "tests.governance.test_remaining_lifecycle_guards.TestRemainingLifecycleGuards",
+      "seconds": 1.05
+    },
+    {
+      "class": "tests.governance.test_agent_coordination_dispatcher.TestAgentCoordinationDispatcher",
+      "seconds": 0.887
+    },
+    {
+      "class": "tests.governance.test_fixture_compatibility.TestFixtureCompatibility",
+      "seconds": 0.841
+    },
+    {
+      "class": "tests.governance.test_program_lifecycle_guards.TestProgramLifecycleGuards",
+      "seconds": 0.519
+    },
+    {
+      "class": "tests.governance.test_check_task_scope.TestCheckTaskScope",
+      "seconds": 0.366
+    },
+    {
+      "class": "tests.governance.test_foundation_lifecycle_states.TestFoundationLifecycleStates",
+      "seconds": 0.362
+    },
+    {
+      "class": "tests.governance.test_check_evidence_integrity.TestCheckEvidenceIntegrity",
+      "seconds": 0.238
+    },
+    {
+      "class": "tests.governance.test_check_secrets.TestCheckSecrets",
+      "seconds": 0.229
+    },
+    {
+      "class": "tests.governance.test_program_plan_finalization.TestProgramPlanFinalization",
+      "seconds": 0.21
+    },
+    {
+      "class": "tests.governance.test_check_task_file.TestCheckTaskFile",
+      "seconds": 0.204
+    },
+    {
+      "class": "tests.governance.test_task_scope_dispatcher.TestTaskScopeDispatcher",
+      "seconds": 0.152
+    },
+    {
+      "class": "tests.governance.test_task_v2_contract.TestTaskV2Contract",
+      "seconds": 0.125
+    },
+    {
+      "class": "tests.governance.test_check_markdown.TestCheckMarkdown",
+      "seconds": 0.108
+    },
+    {
+      "class": "tests.governance.test_program_plan_safety_limits.TestProgramPlanSafetyLimits",
+      "seconds": 0.105
+    },
+    {
+      "class": "tests.governance.test_check_evidence.TestCheckEvidence",
+      "seconds": 0.097
+    },
+    {
+      "class": "tests.governance.test_check_spec_sync.TestCheckSpecSync",
+      "seconds": 0.069
+    },
+    {
+      "class": "tests.governance.test_render_agent_prompt.TestRenderAgentPrompt",
+      "seconds": 0.063
+    },
+    {
+      "class": "tests.governance.test_check_pr_task_link.TestCheckPRTaskLink",
+      "seconds": 0.022
+    },
+    {
+      "class": "tests.governance.test_repository_boundary.TestCIWorkflowStatic",
+      "seconds": 0.011
+    },
+    {
+      "class": "tests.governance.test_workflow_contract.TestGovernanceWorkflowContract",
+      "seconds": 0.01
+    },
+    {
+      "class": "tests.governance.test_contract_schemas.TestPluginManifestSchema",
+      "seconds": 0.004
+    },
+    {
+      "class": "tests.governance.test_repository_boundary.TestRepositoryBoundary",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.governance.test_completion_gate_wiring.TestCompletionGateWiring",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.governance.test_repository_boundary.TestEvidenceStructure",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.governance.test_repository_root_layout.TestRepositoryRootLayout",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.governance.test_repository_boundary.TestTraeSpecsDirectory",
+      "seconds": 0.0
+    }
+  ],
+  "slowestGovernanceCases": [
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[registry-risk]",
+      "seconds": 9.875
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[unclaimed-code]",
+      "seconds": 9.768
+    },
+    {
+      "class": "tests.governance.test_program_plan_history.TestProgramPlanHistory",
+      "name": "test_foundation_post_own_work_old_side_lease_rejected",
+      "seconds": 9.673
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[task-risk]",
+      "seconds": 9.261
+    },
+    {
+      "class": "tests.governance.test_program_plan_history.TestProgramPlanHistory",
+      "name": "test_foundation_post_disjoint_peer_old_own_lease",
+      "seconds": 9.254
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[reviewer-is-implementer]",
+      "seconds": 8.915
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[ledger]",
+      "seconds": 8.835
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[expired-lease]",
+      "seconds": 8.665
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_legal_own_metadata_through_raw_and_ci_gates[activation]",
+      "seconds": 8.643
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_legal_own_metadata_through_raw_and_ci_gates[integration]",
+      "seconds": 8.63
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_legal_own_metadata_through_raw_and_ci_gates[activation-and-claimed-code]",
+      "seconds": 8.62
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[illegal-transition]",
+      "seconds": 8.576
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[task-issue]",
+      "seconds": 8.576
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[lease-too-long]",
+      "seconds": 8.517
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[own-plan-risk]",
+      "seconds": 8.444
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[registry-claims]",
+      "seconds": 8.351
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_legal_own_metadata_through_raw_and_ci_gates[review]",
+      "seconds": 8.319
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[program-policy]",
+      "seconds": 8.308
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[other-task-status]",
+      "seconds": 8.242
+    },
+    {
+      "class": "tests.governance.test_active_metadata_scope",
+      "name": "test_metadata_permission_rejects_unauthorized_changes[rename-source]",
+      "seconds": 8.206
+    }
+  ]
+}

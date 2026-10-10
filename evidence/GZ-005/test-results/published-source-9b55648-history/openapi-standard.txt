@@ -1,0 +1,5 @@
+Source Commit: 9b556484145aa396ebe97fc34872034b859bb4b7
+Command: /home/sur/.cache/guize-takeover/openapi-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml
+contracts/openapi/common/openapi.yaml: OK
+
+Exit Code: 0

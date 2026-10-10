@@ -1,0 +1,12 @@
+{
+  "kind": "UNCOMMITTED_EXPLORATORY_FAILURE",
+  "publishedSourceResult": false,
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "standardExit": 0,
+  "contractExit": 1,
+  "testExit": 1,
+  "testResult": "1 failed, 114 passed in 83.22s",
+  "cause": "Exact93 operation inventory had different ordering; full record multiset subsequently proved identical and coverage was reordered to actual entry. Worktree changed during this exploratory run, so before/after invariant also failed.",
+  "earlierProbe": "Earlier direct probe failed missing authentication rpId due shared YAML sample value; 2 failed, 113 passed in75.95s. This is a summarized direct-tool result, not a saved raw log claim.",
+  "acceptedAsCurrentPass": false
+}

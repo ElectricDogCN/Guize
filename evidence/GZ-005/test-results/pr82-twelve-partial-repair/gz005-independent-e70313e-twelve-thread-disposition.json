@@ -1,0 +1,138 @@
+{
+  "kind": "INDEPENDENT_FINITE_EXISTING_TWELVE_THREADS_CONTENT_REJECTION",
+  "actualSource": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "tree": "7ea478f3383375ed0f5640ae7756cc2cd06aea07",
+  "recordedAt": "2026-10-10T11:05:57.401821+00:00",
+  "findings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6p",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 4593,
+      "disposition": "true",
+      "evidence": "PublicAssetEnvelope accepts top-level sourcePath in the finite schema probe.",
+      "minimalCorrection": "Close the public envelope; keep its safe PublicAsset data closed and add outer private-field rejection.",
+      "existingRuleOrSource": "AGENTS.md:175-178",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6r",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 5256,
+      "disposition": "true",
+      "evidence": "Anonymous playback envelope and PlaybackPlan data both accept injected originUrl/providerToken.",
+      "minimalCorrection": "Close both public response layers or use a dedicated closed public DTO, preserving only reviewed gateway fields.",
+      "existingRuleOrSource": "AGENTS.md:175-177",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6t",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 2971,
+      "disposition": "true",
+      "evidence": "ArtifactContent and its envelope accept extra rawMediaBase64 outside the bounded declared representation.",
+      "minimalCorrection": "Close both layers; any extensions must be explicitly bounded and safe. Add data and envelope negative samples.",
+      "existingRuleOrSource": "AGENTS.md:114-116",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6w",
+      "path": "specs/contracts/openapi/check_contract.py",
+      "line": 695,
+      "disposition": "true",
+      "evidence": "Optional SourcePatch field passes request compatibility but compatible() rejects it as a strict response extension.",
+      "minimalCorrection": "Classify actual export usage directions, including nested refs; allow request-only optional additions while preserving response restrictions and protection of unreferenced exported components through explicit classification.",
+      "existingRuleOrSource": "specs/contracts/openapi/check_contract.py:642-697; AGENTS.md:145-149",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY6y",
+      "path": "contracts/openapi/common/errors.yaml",
+      "line": 110,
+      "disposition": "true",
+      "evidence": "The stable non-retryable code also names still-executing requests, while 62 policies prescribe backoff retry.",
+      "minimalCorrection": "Separate transient in-flight conflict from permanent fingerprint mismatch, or provide an explicit bounded discriminator/retry delay. Keep catalog, operation policies, examples and TaskFailure retryability synchronized.",
+      "existingRuleOrSource": "contracts/openapi/common/errors.yaml:102-110; AGENTS.md:147-149",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY60",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 195,
+      "disposition": "true",
+      "evidence": "Anonymous PasskeyChallenge outer data and envelope accept accountExists.",
+      "minimalCorrection": "Close data and success envelope, retaining account-indistinguishable reviewed options and uniform failures.",
+      "existingRuleOrSource": "AGENTS.md:156-160",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY66",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 1736,
+      "disposition": "partially_true_precise_binding_gap",
+      "evidence": "Split has existing same-ownership/association prose at semantics.md:146-148. The route has no x-resource-binding or x-multi-resource-invariants and a foreign-looking ID is syntactically valid; this is not a runtime authorization bypass demonstration.",
+      "minimalCorrection": "Bind path asset/body version/current revision and every selected source to server-verified membership; require each source authorization, preserve independent ACL/labels/path/retention, atomically move associations without widening access; enforce the declarative route invariants in checker and negative samples.",
+      "existingRuleOrSource": "specs/contracts/openapi/semantics.md:142-148; contracts/openapi/asset/paths.yaml:9041; AGENTS.md:170-173",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY68",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 3389,
+      "disposition": "true",
+      "evidence": "DeploymentRequest accepts empty and duplicate targetHostIds.",
+      "minimalCorrection": "Add minItems:1 and uniqueItems:true within the existing bounded target limit; add both negative instances.",
+      "existingRuleOrSource": "contracts/openapi/common/schemas.yaml:3388-3389",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7A",
+      "path": "specs/contracts/openapi/check_contract.py",
+      "line": 586,
+      "disposition": "true",
+      "evidence": "Logout has no Set-Cookie contract; the checker blanket rejects every non-login/verification Set-Cookie.",
+      "minimalCorrection": "Add a distinct secure logout revocation schema/header with expired cookie matching host-only name/path, HttpOnly/Secure/SameSite and Max-Age=0. Permit only successful logout, without restoring issuance on errors or other operations.",
+      "existingRuleOrSource": "specs/contracts/openapi/check_contract.py:581-587",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7C",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 48,
+      "disposition": "true",
+      "evidence": "probeDataSource accepts tsk_example01 with statusUrl pointing to tsk_other02, and checker has no correlation check.",
+      "minimalCorrection": "Derive statusUrl from taskId; validate exact correlation for every async TaskAccepted response/example and reject mismatched IDs.",
+      "existingRuleOrSource": "contracts/openapi/common/schemas.yaml:1-48; AGENTS.md:147-148",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7E",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 5859,
+      "disposition": "true_bounded_ordering_contract_gap",
+      "evidence": "2099-01-01T00:00:00Z is accepted; putPlaybackProgress declares timestamp-based merge without a server-relative ordering bound. No runtime merge was executed.",
+      "minimalCorrection": "Define server-authoritative ordering or explicit bounded server-relative client time acceptance before conflict resolution; preserve meaningful observed playback time separately. Add deterministic checker/fixture assertions without inventing external clock infrastructure.",
+      "existingRuleOrSource": "contracts/openapi/common/schemas.yaml:5851-5859; putPlaybackProgress summary; docs/09-media-av1-and-streaming.md:139-164",
+      "mustAddressBeforeIntegration": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rDY7K",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 1387,
+      "disposition": "true",
+      "evidence": "AssetPatch explicitly accepts description, while Asset lacks a typed description property.",
+      "minimalCorrection": "Expose a bounded optional Asset.description consistent with mutation/readback semantics, and demonstrate patch/get/list readback.",
+      "existingRuleOrSource": "contracts/openapi/common/schemas.yaml:1281,1379-1387",
+      "mustAddressBeforeIntegration": true
+    }
+  ],
+  "probes": "gz005-independent-e70313e-twelve-findings-probes.json",
+  "probesSha256": "70a9f3dddf9b8fc5c4cf92211a06ad830b4fd39a57903db4646e0f61997818ca",
+  "executionVersusContent": "Actual all-zero local and CI execution is retained. These finite content defects supersede earlier limited ten-item content support; passing current tests does not demonstrate absence of these defects.",
+  "contentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeValidated": false,
+  "rootMutation": false,
+  "wholeApiSuiteRun": false,
+  "fullGovRerun": false
+}

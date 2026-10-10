@@ -1,0 +1,479 @@
+contractId: ERROR-CATALOG-V1
+version: 1.0.0
+errors:
+- code: AUTH_REQUIRED
+  httpStatus: 401
+  description: Authentication required.
+  x-i18n:
+    en-US:
+      description: Authentication required.
+    zh-CN:
+      description: 需要认证。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: AUTH_INVALID
+  httpStatus: 401
+  description: Invalid or expired authentication.
+  x-i18n:
+    en-US:
+      description: Invalid or expired authentication.
+    zh-CN:
+      description: 认证无效或过期。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: AUTH_STEP_UP_REQUIRED
+  httpStatus: 403
+  description: Fresh action-bound step-up proof required.
+  x-i18n:
+    en-US:
+      description: Fresh action-bound step-up proof required.
+    zh-CN:
+      description: 需要近期且绑定操作的再次认证。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: AUTH_LOGIN_LOCKED
+  httpStatus: 429
+  description: Login temporarily locked.
+  x-i18n:
+    en-US:
+      description: Login temporarily locked.
+    zh-CN:
+      description: 登录暂时锁定。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: ACCESS_DENIED
+  httpStatus: 403
+  description: Permission denied without disclosing resource metadata.
+  x-i18n:
+    en-US:
+      description: Permission denied without disclosing resource metadata.
+    zh-CN:
+      description: 无权限，且不暴露资源元数据。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: ACCESS_NOT_FOUND
+  httpStatus: 404
+  description: Unknown or undiscoverable resource.
+  x-i18n:
+    en-US:
+      description: Unknown or undiscoverable resource.
+    zh-CN:
+      description: 资源不存在或不可发现。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: INTERNAL_INVALID_REQUEST
+  httpStatus: 400
+  description: Request fails the versioned schema.
+  x-i18n:
+    en-US:
+      description: Request fails the versioned schema.
+    zh-CN:
+      description: 请求不满足版本化 Schema。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: INTERNAL_IDEMPOTENCY_CONFLICT
+  httpStatus: 409
+  description: Idempotency key reused with a different request fingerprint; never retry the unchanged request.
+  x-i18n:
+    en-US:
+      description: Idempotency key reused with a different request fingerprint; never retry the unchanged request.
+    zh-CN:
+      description: 幂等键用于不同请求指纹，原请求不应自动重试。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: INTERNAL_IDEMPOTENCY_IN_PROGRESS
+  httpStatus: 409
+  description: The same request fingerprint is still executing; retry the same key after bounded backoff.
+  x-i18n:
+    en-US:
+      description: The same request fingerprint is still executing; retry the same key after bounded backoff.
+    zh-CN:
+      description: 相同请求指纹仍在执行，按有界退避使用原幂等键重试。
+  retryable: true
+  action:
+    en-US: Retry the identical request and key after details.retryAfterSeconds (1–60 seconds); recheck current authorization.
+    zh-CN: 按 details.retryAfterSeconds（1–60 秒）使用相同请求和键重试，并重新校验当前授权。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: INTERNAL_REVISION_CONFLICT
+  httpStatus: 409
+  description: Expected revision is stale.
+  x-i18n:
+    en-US:
+      description: Expected revision is stale.
+    zh-CN:
+      description: 预期修订号已过期。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: INTERNAL_RATE_LIMITED
+  httpStatus: 429
+  description: Caller rate limit exceeded.
+  x-i18n:
+    en-US:
+      description: Caller rate limit exceeded.
+    zh-CN:
+      description: 超过调用者限流阈值。
+  retryable: true
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: INTERNAL_UNAVAILABLE
+  httpStatus: 503
+  description: Dependency temporarily unavailable.
+  x-i18n:
+    en-US:
+      description: Dependency temporarily unavailable.
+    zh-CN:
+      description: 依赖暂时不可用。
+  retryable: true
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: ERROR
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: INTERNAL_ERROR
+  httpStatus: 500
+  description: Unexpected redacted server failure.
+  x-i18n:
+    en-US:
+      description: Unexpected redacted server failure.
+    zh-CN:
+      description: 已脱敏的服务端异常。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: ERROR
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: SOURCE_UNAVAILABLE
+  httpStatus: 503
+  description: Authorized source cannot be read.
+  x-i18n:
+    en-US:
+      description: Authorized source cannot be read.
+    zh-CN:
+      description: 经授权来源无法读取。
+  retryable: true
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: ERROR
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: SOURCE_CREDENTIAL_REVOKED
+  httpStatus: 409
+  description: Source credential reference revoked.
+  x-i18n:
+    en-US:
+      description: Source credential reference revoked.
+    zh-CN:
+      description: 来源凭据引用已撤销。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: SOURCE_POLICY_BLOCKED
+  httpStatus: 403
+  description: Endpoint violates connector or SSRF policy.
+  x-i18n:
+    en-US:
+      description: Endpoint violates connector or SSRF policy.
+    zh-CN:
+      description: 端点违反连接器或 SSRF 策略。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: ASSET_HASH_UNVERIFIED
+  httpStatus: 409
+  description: Full verified content hash required.
+  x-i18n:
+    en-US:
+      description: Full verified content hash required.
+    zh-CN:
+      description: 需要经完整校验的内容哈希。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: ASSET_MERGE_CONFLICT
+  httpStatus: 409
+  description: Merge cannot preserve independent source policy.
+  x-i18n:
+    en-US:
+      description: Merge cannot preserve independent source policy.
+    zh-CN:
+      description: 合并无法保留独立来源策略。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: CACHE_UNSAFE_EVICTION
+  httpStatus: 409
+  description: Pinned/in-use entry or formal copy cannot be evicted.
+  x-i18n:
+    en-US:
+      description: Pinned/in-use entry or formal copy cannot be evicted.
+    zh-CN:
+      description: 固定、使用中缓存或正式副本不可淘汰。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: STORAGE_SAFETY_FLOOR
+  httpStatus: 507
+  description: Insufficient space above the hard safety floor.
+  x-i18n:
+    en-US:
+      description: Insufficient space above the hard safety floor.
+    zh-CN:
+      description: 硬安全水位之上的空间不足。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: ERROR
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: STORAGE_LAST_RECOVERABLE_COPY
+  httpStatus: 409
+  description: Cannot delete the last recoverable copy.
+  x-i18n:
+    en-US:
+      description: Cannot delete the last recoverable copy.
+    zh-CN:
+      description: 不可删除最后可恢复副本。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: MEDIA_UNSUPPORTED
+  httpStatus: 422
+  description: No approved compatible playback capability.
+  x-i18n:
+    en-US:
+      description: No approved compatible playback capability.
+    zh-CN:
+      description: 没有经批准的兼容播放能力。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: MEDIA_GRANT_EXPIRED
+  httpStatus: 401
+  description: Playback grant expired or revoked.
+  x-i18n:
+    en-US:
+      description: Playback grant expired or revoked.
+    zh-CN:
+      description: 播放授权过期或已撤销。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: AI_DATA_POLICY_DENIED
+  httpStatus: 403
+  description: Data policy prohibits provider send.
+  x-i18n:
+    en-US:
+      description: Data policy prohibits provider send.
+    zh-CN:
+      description: 数据策略禁止向提供方发送。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: AI_BUDGET_EXCEEDED
+  httpStatus: 429
+  description: Hard AI budget exhausted.
+  x-i18n:
+    en-US:
+      description: Hard AI budget exhausted.
+    zh-CN:
+      description: AI 硬预算已耗尽。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: AI_PROFILE_UNAPPROVED
+  httpStatus: 409
+  description: Model or pipeline version not approved.
+  x-i18n:
+    en-US:
+      description: Model or pipeline version not approved.
+    zh-CN:
+      description: 模型或流水线版本未批准。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: SEARCH_CURSOR_INVALID
+  httpStatus: 400
+  description: Cursor does not match caller, query or current ACL version.
+  x-i18n:
+    en-US:
+      description: Cursor does not match caller, query or current ACL version.
+    zh-CN:
+      description: 游标与调用者、查询或当前 ACL 版本不一致。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: TASK_INVALID_TRANSITION
+  httpStatus: 409
+  description: Requested state transition is not legal.
+  x-i18n:
+    en-US:
+      description: Requested state transition is not legal.
+    zh-CN:
+      description: 请求的状态转换不合法。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: TASK_BUDGET_BLOCKED
+  httpStatus: 429
+  description: Task constrained by hard budget.
+  x-i18n:
+    en-US:
+      description: Task constrained by hard budget.
+    zh-CN:
+      description: 任务受硬预算限制。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: POLICY_VALIDATION_FAILED
+  httpStatus: 422
+  description: Rule/schema/conflict validation failed.
+  x-i18n:
+    en-US:
+      description: Rule/schema/conflict validation failed.
+    zh-CN:
+      description: 规则、Schema 或冲突校验失败。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: POLICY_APPROVAL_REQUIRED
+  httpStatus: 403
+  description: Exact revision lacks valid approval.
+  x-i18n:
+    en-US:
+      description: Exact revision lacks valid approval.
+    zh-CN:
+      description: 精确修订版本缺少有效审批。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: DEPLOYMENT_BUNDLE_INVALID
+  httpStatus: 422
+  description: Bundle digest, signature or lock invalid.
+  x-i18n:
+    en-US:
+      description: Bundle digest, signature or lock invalid.
+    zh-CN:
+      description: Bundle 摘要、签名或锁定信息无效。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: SECURITY_CONTENT_BLOCKED
+  httpStatus: 403
+  description: Detected content safety policy blocks release.
+  x-i18n:
+    en-US:
+      description: Detected content safety policy blocks release.
+    zh-CN:
+      description: 内容安全检测策略阻止发布。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors
+- code: BACKUP_VERIFICATION_REQUIRED
+  httpStatus: 409
+  description: Restore or deletion lacks verified recoverable backup.
+  x-i18n:
+    en-US:
+      description: Restore or deletion lacks verified recoverable backup.
+    zh-CN:
+      description: 恢复或删除缺少经验证的可恢复备份。
+  retryable: false
+  action:
+    en-US: Inspect authorized request and retry after correction.
+    zh-CN: 检查经授权的请求并按错误原因修正；不得降低权限或安全策略。
+  alarmLevel: WARNING
+  documentation: https://github.com/ElectricDogCN/Guize/blob/main/specs/contracts/openapi/semantics.md#errors

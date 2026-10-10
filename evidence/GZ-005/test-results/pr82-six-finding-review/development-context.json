@@ -1,0 +1,30 @@
+{
+  "kind": "UNACCEPTED_DIRTY_DEVELOPMENT_CHECKS",
+  "sourceBeforeEdits": "60d51e707728be19188a8b4ceabfeb22ccdf28e9",
+  "formalAcceptance": false,
+  "events": [
+    {
+      "command": "pytest specs/contracts/openapi/test_contract.py -q",
+      "result": "first full semantics failure; interrupted before completion",
+      "formalPass": false
+    },
+    {
+      "command": "check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline",
+      "exitCode": 1,
+      "failure": "createPasskeyChallenge: response examples required",
+      "observedExecutions": 2
+    },
+    {
+      "command": "same checker after global 429 fixture correction",
+      "exitCode": 0,
+      "observed": "89 operations/133 schemas/33 errors/875 examples/89 HTTP pairs; dirty exploratory only"
+    }
+  ],
+  "corrections": [
+    "Restored shared StorageRequest used by cacheAsset after exclusive lifecycle DTO removal.",
+    "Corrected examples for idempotency409 and global rate429.",
+    "Independent review required empty mandatory allowCredentials in actual schema.",
+    "Dedicated approval and mount aliases use portable absolute end assertion to reject terminal newline."
+  ],
+  "fullSourceChecksPending": true
+}

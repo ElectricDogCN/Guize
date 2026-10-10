@@ -1,0 +1,8 @@
+Exploratory uncommitted dirty worktree; not exact published source validation.
+Command: ["/tmp/guize-gz005-openapi-20261009-venv/bin/python", "-m", "pytest", "specs/contracts/openapi/test_contract.py", "-q", "--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-dirty-contract-probe-fixed/tests.xml"]
+........................................................................ [ 62%]
+............................................                             [100%]
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-dirty-contract-probe-fixed/tests.xml -
+116 passed in 89.81s (0:01:29)
+
+ExitCode: 0

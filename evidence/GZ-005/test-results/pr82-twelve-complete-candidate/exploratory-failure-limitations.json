@@ -1,0 +1,6 @@
+{
+  "kind": "EXPLORATORY_FAILURE_LOG_LIMITATION",
+  "firstAttempt": "gz005-twelve-full-dirty-attempt1",
+  "limitation": "Original mixed UTF-16 WSL / UTF-8 stderr bytes were not retained on attempt1. Its original saved display log remains unchanged and partly misdecoded; full pytest stdout and JUnit failures are retained. Later runs retain exact stderr bytes as reconstructable hex plus original binary digest in context.",
+  "failures": "Attempt1 rejected invalid example annotation parenting, unintended shared ID-pattern mutation and a wrong usage-test expectation. Attempt2 rejected logout Set-Cookie leakage across aliased error headers and another incorrect usage-test expectation. Attempt3 checker passed but tests stopped at collection on a missing brace in the new small resolver fixture; no tests executed. Attempt4 checker passed; full API373passed/1failed285.55s because ContractError inherited ValueError and a future-clock rejection was masked as invalid context. The corrected exception boundary and positive integer server sequence were independently reviewed and checked by the recorded targeted subset. Fresh immutable-source full378 execution remains pending. Failed exploratory runs are never acceptance."
+}

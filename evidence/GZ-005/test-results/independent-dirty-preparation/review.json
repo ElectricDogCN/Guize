@@ -1,0 +1,109 @@
+{
+  "kind": "READ_ONLY_DIRTY_DRAFT_CONTENT_REVIEW",
+  "timestampUtc": "2026-10-10T04:47:16.767539+00:00",
+  "repository": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\Guize",
+  "head": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "status": [
+    " M evidence/GZ-005/changed-files.md",
+    " M evidence/GZ-005/follow-ups.md",
+    " M evidence/GZ-005/handoff.md",
+    " M evidence/GZ-005/scope.md",
+    " M evidence/GZ-005/summary.md",
+    " M evidence/GZ-005/test-results/README.md",
+    " M specs/coordination/active-work.yaml",
+    " M specs/coordination/program-plan.yaml",
+    " M specs/tasks/GZ-005.md",
+    "?? contracts/openapi/ai/",
+    "?? contracts/openapi/asset/",
+    "?? contracts/openapi/common/",
+    "?? contracts/openapi/config/",
+    "?? contracts/openapi/iam/",
+    "?? contracts/openapi/media/",
+    "?? contracts/openapi/playback/",
+    "?? contracts/openapi/policy/",
+    "?? contracts/openapi/search/",
+    "?? contracts/openapi/source/",
+    "?? contracts/openapi/storage/",
+    "?? contracts/openapi/task/",
+    "?? evidence/GZ-005/test-results/prior-failed-gz005-activation-results/",
+    "?? evidence/GZ-005/test-results/prior-failed-gz005-d0-implementation-attempt/",
+    "?? specs/contracts/openapi/"
+  ],
+  "fileSHA256": {
+    "specs/contracts/openapi/intent_hash.py": "284e8a3e21b2dfdfe6766bd1687be0b96e4c8e7bc093621f236063ded3e0ef17",
+    "specs/contracts/openapi/check_contract.py": "c3249b8102c7cd858a531c835a95b1634a667d9431fca641ab2eb128010fa873",
+    "specs/contracts/openapi/test_contract.py": "036905c37bb91b4ab54aa855bed9c7d2c5a89cefb1585178c40ccdc775a78311",
+    "specs/contracts/openapi/README.md": "73aff3405ba2be196d4ef9e1ad852fbfb6fb84af4f5b811f0d9fd87343e715d5",
+    "specs/contracts/openapi/semantics.md": "8f0ac6958a789348caadb064fa68896d3696b7b67c8f0a4c7249a929c107b470",
+    "specs/contracts/openapi/requirements.lock.txt": "dcf59d036784f4282dfdc9b194e83c69ec2ca472650eeb4c6a7b84ddc79cfe52",
+    "contracts/openapi/common/schemas.yaml": "ffbe56292f1e267e67cf931cffa0621cc3d5f2665a500866af5b7753423ffd7b",
+    "contracts/openapi/common/http-samples.json": "447ab2046317ba43aeee6a3bdf8664a80a97de9fcc59a0a360292502c4aae8d5",
+    "contracts/openapi/iam/paths.yaml": "1ee164198fcf887d5e47fca769c42af095da760ffc1d5161140cd43c8a2b5e7c",
+    "contracts/openapi/config/paths.yaml": "b8366079ca685a66c8f0de9bf001d77e5bf141db34913c87ebb16535a30f3a92"
+  },
+  "endSHA256": {
+    "specs/contracts/openapi/intent_hash.py": "284e8a3e21b2dfdfe6766bd1687be0b96e4c8e7bc093621f236063ded3e0ef17",
+    "specs/contracts/openapi/check_contract.py": "c3249b8102c7cd858a531c835a95b1634a667d9431fca641ab2eb128010fa873",
+    "specs/contracts/openapi/test_contract.py": "036905c37bb91b4ab54aa855bed9c7d2c5a89cefb1585178c40ccdc775a78311",
+    "specs/contracts/openapi/README.md": "73aff3405ba2be196d4ef9e1ad852fbfb6fb84af4f5b811f0d9fd87343e715d5",
+    "specs/contracts/openapi/semantics.md": "8f0ac6958a789348caadb064fa68896d3696b7b67c8f0a4c7249a929c107b470",
+    "specs/contracts/openapi/requirements.lock.txt": "dcf59d036784f4282dfdc9b194e83c69ec2ca472650eeb4c6a7b84ddc79cfe52",
+    "contracts/openapi/common/schemas.yaml": "ffbe56292f1e267e67cf931cffa0621cc3d5f2665a500866af5b7753423ffd7b",
+    "contracts/openapi/common/http-samples.json": "447ab2046317ba43aeee6a3bdf8664a80a97de9fcc59a0a360292502c4aae8d5",
+    "contracts/openapi/iam/paths.yaml": "1ee164198fcf887d5e47fca769c42af095da760ffc1d5161140cd43c8a2b5e7c",
+    "contracts/openapi/config/paths.yaml": "b8366079ca685a66c8f0de9bf001d77e5bf141db34913c87ebb16535a30f3a92"
+  },
+  "stableWithinCapture": true,
+  "finiteScope": [
+    "RFC8785 protected intent, separate carrier-bound execution fingerprint",
+    "canonical Base64url and typed creation versus authentication options",
+    "fail-closed assertion ref siblings",
+    "compatibility freeze of four safety extensions",
+    "complete proposal request/server-derived targets/immutable snapshot/approver visibility/execution digest"
+  ],
+  "priorDraftFindings": [
+    {
+      "path": "contracts/openapi/common/http-samples.json",
+      "line": 11,
+      "finding": "HTTP authentication sample overwritten by creation options due shared YAML alias",
+      "authorReportsCorrected": true
+    },
+    {
+      "path": "contracts/openapi/config/paths.yaml",
+      "line": 12080,
+      "also": "contracts/openapi/common/http-samples.json:551",
+      "finding": "createApproval response modeled self-approved rather than pending separated decision",
+      "authorReportsCorrectionInProgress": true
+    }
+  ],
+  "currentObservedExamples": {
+    "authenticationYaml": {
+      "challenge": "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY",
+      "rpId": "guize.example",
+      "timeout": 60000,
+      "userVerification": "required",
+      "allowCredentials": []
+    },
+    "authenticationHTTP": {
+      "challenge": "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY",
+      "rpId": "guize.example",
+      "timeout": 60000,
+      "userVerification": "required",
+      "allowCredentials": []
+    },
+    "matchingAuthentication": true,
+    "approvalCreationYamlStatus": "PENDING",
+    "approvalCreationHTTPStatus": "APPROVED"
+  },
+  "staticCodeFindings": [],
+  "testsRun": [],
+  "formalExactSourcePass": false,
+  "publicationApproved": false,
+  "assessment": "Finite static code review found no additional material defect in requested four repairs and complete-intent contract. Exact published source, truthful results and final evidence review remain pending.",
+  "limitations": [
+    "Dirty uncommitted content is not an actual published source.",
+    "Task/Evidence descriptions being updated by author were not approved as final.",
+    "No package reinstall, runtime ACL service, browser or crypto verification; no full suite rerun."
+  ],
+  "firstCaptureAttempt": "Previous capture stopped on unequal before/after hashes during author edits; it wrote no stable proof and established no PASS."
+}

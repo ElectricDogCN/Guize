@@ -1,0 +1,165 @@
+Exploratory uncommitted dirty worktree; not exact published source validation.
+Command: ["/tmp/guize-gz005-openapi-20261009-venv/bin/python", "-m", "pytest", "specs/contracts/openapi/test_contract.py", "-q", "--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-dirty-contract-probe/tests.xml"]
+F....................................................................... [ 62%]
+...........................................                              [100%]
+=================================== FAILURES ===================================
+_______________________ test_full_standard_and_semantics _______________________
+
+baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+catalog = {'contractId': 'ERROR-CATALOG-V1', 'errors': [{'action': {'en-US': 'Inspect authorized request and retry after correct...ING', 'code': 'ACCESS_NOT_FOUND', 'description': 'Unknown or undiscoverable resource.', ...}, ...], 'version': '1.0.0'}
+
+    def test_full_standard_and_semantics(baseline,catalog):
+>       result=verify(baseline,catalog)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+specs/contracts/openapi/test_contract.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+spec = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+catalog = {'contractId': 'ERROR-CATALOG-V1', 'errors': [{'action': {'en-US': 'Inspect authorized request and retry after correct...ING', 'code': 'ACCESS_NOT_FOUND', 'description': 'Unknown or undiscoverable resource.', ...}, ...], 'version': '1.0.0'}
+coverage = {'authority': 'specs/requirements/v1/requirements.yaml', 'contractId': 'OPENAPI-V1', 'operations': [{'method': 'POST',...t', ...}, {'method': 'POST', 'moduleId': 'MOD-IAM', 'operationId': 'createStepUp', 'path': '/auth/step-up', ...}, ...]}
+
+    def verify(spec=None, catalog=None, coverage=None):
+        spec = resolve(read_yaml(ENTRY)) if spec is None else spec
+        catalog = read_yaml(CONTRACT / 'common/errors.yaml') if catalog is None else catalog
+        coverage = read_yaml(Path(__file__).with_name('coverage.yaml')) if coverage is None else coverage
+        validate(spec)
+        errors = catalog.get('errors', [])
+        codes = [item['code'] for item in errors]
+        if len(codes) != len(set(codes)) or not codes:
+            raise ContractError('error codes must be nonempty and unique')
+        error_map = {item['code']: item for item in errors}
+        if catalog.get('contractId') != 'ERROR-CATALOG-V1':
+            raise ContractError('wrong error contract identity')
+        for item in errors:
+            if not re.fullmatch(r'[A-Z]+_[A-Z0-9_]+', item['code']):
+                raise ContractError('non-English error code')
+            if not 400 <= item['httpStatus'] <= 599 or not isinstance(item['retryable'], bool):
+                raise ContractError('invalid error HTTP/retry semantics')
+            if item.get('alarmLevel') not in {'INFO', 'WARNING', 'ERROR', 'CRITICAL'}:
+                raise ContractError('missing error alarm level')
+            if not item.get('documentation', '').startswith('https://'):
+                raise ContractError('missing error documentation')
+            if any(not item.get('action', {}).get(lang) for lang in ('zh-CN','en-US')):
+                raise ContractError('missing localized error action')
+            bilingual(item, item['code'])
+        for node in walk(spec):
+            bilingual(node, 'OpenAPI object')
+        ids, requirements, example_count = set(), set(), 0
+        exact_coverage = []
+        for path, method, operation in operations(spec):
+            oid = operation['operationId']
+            if oid in ids or not re.fullmatch(r'[a-z][A-Za-z0-9]+', oid):
+                raise ContractError(f'duplicate/non-English operationId: {oid}')
+            ids.add(oid)
+            auth = operation.get('x-authorization', {})
+            if not operation.get('security') or not auth.get('permission') or not auth.get('scope'):
+                raise ContractError(f'{oid}: authentication and authorization intent required')
+            if auth.get('mode') not in {'AUTHENTICATED','PUBLIC_RATE_LIMITED'}:
+                raise ContractError(f'{oid}: invalid authorization mode')
+            public = auth['mode'] == 'PUBLIC_RATE_LIMITED'
+            if public != (operation['security'] == [{}]):
+                raise ContractError(f'{oid}: public/authenticated security mismatch')
+            params = operation.get('parameters', [])
+            parameter_map = {(p['in'], p['name']): p for p in params}
+            if len(parameter_map) != len(params):
+                raise ContractError(f'{oid}: duplicate parameter')
+            names = set(re.findall(r'\{([^}]+)\}', path))
+            declared = {p['name'] for p in params if p['in'] == 'path' and p['required']}
+            if names != declared:
+                raise ContractError(f'{oid}: path parameters do not match')
+            if method not in {'get','head','options'}:
+                key = parameter_map.get(('header','Idempotency-Key'))
+                policy = operation.get('x-idempotency', {})
+                if not key or not key.get('required') or policy.get('retentionSeconds') != 86400:
+                    raise ContractError(f'{oid}: required idempotency key/policy missing')
+                if any(not policy.get(k) for k in ('scope','samePayload','differentPayload','inFlight','durability')):
+                    raise ContractError(f'{oid}: incomplete idempotency behavior')
+            if auth.get('stepUp') and not parameter_map.get(('header','X-Step-Up-Proof'), {}).get('required'):
+                raise ContractError(f'{oid}: step-up header required')
+            if auth.get('approval') and not parameter_map.get(('header','X-Approval-Id'), {}).get('required'):
+                raise ContractError(f'{oid}: action-bound approval header required')
+            if method not in {'get','head','options'} and any(not operation['x-idempotency'].get(key) for key in ('fingerprint','reauthorization','expiredEphemeralResult')):
+                raise ContractError(f'{oid}: unsafe idempotent replay boundary')
+            if oid == 'createPublicPlaybackPlan':
+                body = operation['requestBody']['content']['application/json']['schema']
+                if body['properties']['allowTemporaryTranscode'].get('const') is not False or not operation.get('x-no-expensive-work'):
+                    raise ContractError('public playback cannot trigger expensive work')
+            if oid == 'createPlaybackPlan' and ('202' not in operation['responses'] or not operation.get('x-playback-readiness')):
+                raise ContractError('playback preparation needs asynchronous task response')
+            if oid in {'getSourceCredentialReference','changeSourceCredentialReference'} and (not auth.get('stepUp') or auth.get('permission') != 'source.credential.manage'):
+                raise ContractError('protected credential reference operation lacks high-risk gate')
+            if oid == 'mergeAsset' and not operation.get('x-multi-resource-invariants'):
+                raise ContractError('multi-resource merge lacks both-resource invariants')
+            if operation.get('x-long-running') and '202' not in operation['responses']:
+                raise ContractError(f'{oid}: asynchronous operation requires 202')
+            if not set(operation.get('x-error-codes', [])) <= set(codes):
+                raise ContractError(f'{oid}: unknown error code')
+            observed_codes = set()
+            if operation.get('requestBody'):
+                for media in operation['requestBody']['content'].values():
+                    if not media.get('examples'):
+                        raise ContractError(f'{oid}: request examples required')
+                    for item in media['examples'].values():
+                        validate_instance(item['value'], media['schema']); example_count += 1
+                        if oid == 'createApproval':
+                            verify_proposed_approval(spec, item['value'])
+            for status, response in operation['responses'].items():
+                if not response.get('headers', {}).get('X-Trace-Id', {}).get('required'):
+                    raise ContractError(f'{oid}: trace response header required')
+                content = response.get('content', {})
+                if not content:
+                    raise ContractError(f'{oid}: response schema required (no untraceable 204)')
+                for media_type, media in content.items():
+                    if not media.get('examples'):
+                        raise ContractError(f'{oid}: response examples required')
+                    schema = media['schema']
+                    if media_type == 'application/json':
+                        if 'traceId' not in schema.get('required', []):
+                            raise ContractError(f'{oid}: required envelope traceId missing')
+                        if status == '202' and 'taskId' not in schema['properties']['data'].get('required', []):
+                            raise ContractError(f'{oid}: 202 data.taskId required')
+                        if status.startswith(('4','5')):
+                            response_codes = set(schema['properties']['code']['enum'])
+                            if not response_codes or any(error_map[c]['httpStatus'] != int(status) for c in response_codes):
+                                raise ContractError(f'{oid}: error HTTP code mismatch')
+                            observed_codes |= response_codes
+                    elif media_type == 'text/event-stream':
+                        if ('header','Last-Event-ID') not in parameter_map or not operation.get('x-stream-schema'):
+                            raise ContractError(f'{oid}: resumable SSE schema missing')
+                        if 'traceId' not in operation['x-stream-schema'].get('required', []):
+                            raise ContractError(f'{oid}: SSE payload traceId required')
+                    else:
+                        raise ContractError(f'{oid}: unreviewed response media type {media_type}')
+                    for item in media['examples'].values():
+                        validate_instance(item['value'], schema); example_count += 1
+                        if media_type == 'text/event-stream':
+                            frames = item['value'].strip().split('\n\n')
+                            for frame in frames:
+                                data = [line[6:] for line in frame.splitlines() if line.startswith('data: ')]
+                                if len(data) != 1:
+                                    raise ContractError(f'{oid}: missing/bounded SSE data')
+                                validate_instance(json.loads(data[0]), operation['x-stream-schema'])
+            if observed_codes != set(operation['x-error-codes']):
+                raise ContractError(f'{oid}: errors missing or undeclared in responses')
+            if oid in {'getDataSource','listDataSources'}:
+                data=operation['responses']['200']['content']['application/json']['schema']['properties']['data']
+                source=data['properties']['items']['items'] if oid=='listDataSources' else data
+                if 'credentialReference' in source['properties']:
+                    raise ContractError('ordinary source metadata must not expose protected reference')
+            reqs = operation.get('x-requirement-ids', [])
+            if not reqs or not operation.get('x-module-id'):
+                raise ContractError(f'{oid}: requirement/module trace missing')
+            requirements.update(reqs)
+            exact_coverage.append({'operationId':oid,'method':method.upper(),'path':path,'moduleId':operation['x-module-id'],'requirementIds':reqs})
+        if exact_coverage != coverage['operations']:
+>           raise ContractError('coverage differs from actual operation inventory')
+E           check_contract.ContractError: coverage differs from actual operation inventory
+
+specs/contracts/openapi/check_contract.py:433: ContractError
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-dirty-contract-probe/tests.xml -
+=========================== short test summary info ============================
+FAILED specs/contracts/openapi/test_contract.py::test_full_standard_and_semantics
+1 failed, 114 passed in 83.22s (0:01:23)
+
+ExitCode: 1

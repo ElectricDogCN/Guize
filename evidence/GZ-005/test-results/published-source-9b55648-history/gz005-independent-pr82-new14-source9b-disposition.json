@@ -1,0 +1,299 @@
+{
+  "kind": "FINITE_INDEPENDENT_TRIAGE_14_EXISTING_GITHUB_FINDINGS",
+  "utc": "2026-10-10T08:59:45.631770+00:00",
+  "actualSource": "9b556484145aa396ebe97fc34872034b859bb4b7",
+  "tree": "412355a40630bde0e46258f6beb009f6cd36a11d",
+  "comments": [
+    6095687218,
+    6095857734
+  ],
+  "commentItemCount": 17,
+  "distinctFindingCount": 14,
+  "dispositions": [
+    {
+      "id": "session-issuance",
+      "comments": [
+        6095687218,
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/iam/paths.yaml:77",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "loginPassword": {
+          "headers": [
+            "X-Trace-Id",
+            "Cache-Control"
+          ],
+          "sessionProperties": [
+            "subjectId",
+            "expiresAt",
+            "csrfToken",
+            "authenticationMethods"
+          ]
+        },
+        "verifyPasskey": {
+          "headers": [
+            "X-Trace-Id",
+            "Cache-Control"
+          ],
+          "sessionProperties": [
+            "subjectId",
+            "expiresAt",
+            "csrfToken",
+            "authenticationMethods"
+          ]
+        }
+      },
+      "minimumFix": "Successful loginPassword and verifyPasskey must declare required Set-Cookie with guize_session issuance and Secure/HttpOnly/SameSite/Path/expiry policy. Add serialized illustrative cookie issuance; no need to invent OAuth or bearer minting."
+    },
+    {
+      "id": "cookie-csrf-fixtures",
+      "comments": [
+        6095687218
+      ],
+      "sourceLocation": "specs/contracts/openapi/check_contract.py:289",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "cookieRejected": "authenticated HTTP sample requires an illustrative bearer identity",
+        "cookieFixtures": false
+      },
+      "minimumFix": "Accept one declared authentication branch. On SessionCookie writes require nonempty X-CSRF-Token and test a valid cookie write, missing/wrong-format CSRF rejection, and bearer branch. If multiple HTTP samples per operation are added, allow explicit unique scenario IDs while retaining complete operation coverage and validation of every pair."
+    },
+    {
+      "id": "ordinary-source-secret-fields",
+      "comments": [
+        6095687218,
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:700",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "accepted": true
+      },
+      "minimumFix": "Close DataSource ordinary-read DTO or enforce explicit prohibited sensitive keys with a bounded safe extension shape. Closing this sensitive DTO is the smallest deterministic contract fix; retain dedicated protected credential-reference endpoint and negative response validation."
+    },
+    {
+      "id": "terminal-202",
+      "comments": [
+        6095687218
+      ],
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:29",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "SUCCEEDED": {
+          "accepted": true
+        },
+        "PARTIAL_SUCCESS": {
+          "accepted": true
+        },
+        "FAILED": {
+          "accepted": true
+        },
+        "CANCELLED": {
+          "accepted": true
+        }
+      },
+      "minimumFix": "Copy a separate nonterminal TaskAccepted enum; preserve terminal states on Task.status. Assert terminal 202 envelope rejection, including cancellation acceptance/command observation semantics."
+    },
+    {
+      "id": "playback-progress-binding",
+      "comments": [
+        6095687218,
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/playback/paths.yaml:4102",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "bodyDifferentAssetAccepted": {
+          "accepted": true
+        },
+        "binding": null
+      },
+      "minimumFix": "Remove redundant request body assetId using a dedicated write DTO, or retain it with required explicit path/body equality and version ownership checks, verifier enforcement and mismatch HTTP negative. Path authorization and idempotency must use the same canonical asset."
+    },
+    {
+      "id": "approval-creation-pending",
+      "comments": [
+        6095687218
+      ],
+      "sourceLocation": "contracts/openapi/config/paths.yaml:12060",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "accepted": true
+      },
+      "minimumFix": "Add creation-specific Approval data/envelope with status const PENDING; keep general Approval for decide/list including all legal states. Add real schema validation negative for APPROVED/REJECTED/EXPIRED 201, not only a checked-in example guard."
+    },
+    {
+      "id": "artifact-content-pagination",
+      "comments": [
+        6095687218
+      ],
+      "sourceLocation": "contracts/openapi/ai/paths.yaml:1538",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "queries": [],
+        "nextCursor": true
+      },
+      "minimumFix": "Declare cursor plus bounded page-size input, bind token to artifact/revision/current caller scope and representation, and serialize a second-page request. Keep response text/segment bounds and reauthorize every page."
+    },
+    {
+      "id": "durable-task-failure",
+      "comments": [
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:1757",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "accepted": true
+      },
+      "minimumFix": "Add bounded failure data for FAILED/PARTIAL_SUCCESS with stable supported error code, retryability, attempt information and redacted details; conditional schema requires it for these states. Reuse existing error catalog/error details and add state/schema negatives; no new job engine."
+    },
+    {
+      "id": "rendition-encoding-provenance",
+      "comments": [
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:1575",
+      "disposition": "TRUE",
+      "actualEvidence": [
+        "id",
+        "assetVersionId",
+        "kind",
+        "codec",
+        "qualityStatus",
+        "publicationStatus",
+        "toolVersion",
+        "inputHash",
+        "outputHash"
+      ],
+      "minimumFix": "Require immutable profileVersionId and recoverable canonical encoding-parameter provenance (bounded snapshot or immutable snapshot reference/hash with explicit retrieval). Preserve input/output hashes and tool version; test missing/mismatched provenance."
+    },
+    {
+      "id": "ai-pipeline-parameter-provenance",
+      "comments": [
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:2025",
+      "disposition": "TRUE",
+      "actualEvidence": [
+        "id",
+        "assetVersionId",
+        "artifactType",
+        "modelVersion",
+        "promptVersion",
+        "confidence",
+        "uncertainty",
+        "generated",
+        "publicationStatus",
+        "revision"
+      ],
+      "minimumFix": "Require exact pipelineVersionId and parameter provenance on every persisted DerivedArtifact. Reuse immutable pipeline configuration/read contract and model/Prompt/input-version binding rather than a new pipeline framework."
+    },
+    {
+      "id": "passkey-step-up-challenge",
+      "comments": [
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:386",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "stepUpProperties": [
+          "action",
+          "resourceId",
+          "proof",
+          "payloadHash"
+        ],
+        "challengeOperations": [
+          {
+            "operation": "createPasskeyChallenge",
+            "authorization": {
+              "mode": "PUBLIC_RATE_LIMITED",
+              "permission": "public.login",
+              "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+              "stepUp": false,
+              "approval": false
+            },
+            "requestSchemaProperties": [
+              "username"
+            ]
+          },
+          {
+            "operation": "createPasskeyRegistrationChallenge",
+            "authorization": {
+              "mode": "AUTHENTICATED",
+              "permission": "session.self",
+              "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+              "stepUp": true,
+              "approval": false
+            },
+            "requestSchemaProperties": []
+          }
+        ]
+      },
+      "minimumFix": "Add authenticated single-use step-up options operation with purpose=step-up, current subject/session and the existing exact action/resourceId/payloadHash tuple; createStepUp must verify that tuple, purpose and expiry against the assertion challenge. Login and enrollment challenges cannot be reused. The current StepUpRequest already carries proof and this tuple; full approval payload/schema need not be reinvented."
+    },
+    {
+      "id": "source-inline-uri-credentials",
+      "comments": [
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:795",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "accepted": true
+      },
+      "minimumFix": "Kind-specific endpoint syntax/scheme/credential rejection must reject URI userinfo and credential query/fragment forms before persistence/logging; keep authorized LOCAL mount alias and credentialReference-only secret transport. For unknown provider forms fail closed or accept a server-issued connector alias; avoid claiming generic URI parsing alone proves no connector credentials or SSRF runtime enforcement."
+    },
+    {
+      "id": "required-no-store",
+      "comments": [
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/iam/paths.yaml:96",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "missingRequiredHeaderResponseCount": 821
+      },
+      "minimumFix": "Mark Cache-Control required:true with no-store on control responses and verify header definitions plus serialized responses. Keep public media data-plane caching distinct; this baseline contains control responses."
+    },
+    {
+      "id": "unknown-role-capability",
+      "comments": [
+        6095857734
+      ],
+      "sourceLocation": "contracts/openapi/common/schemas.yaml:634",
+      "disposition": "TRUE",
+      "actualEvidence": {
+        "RoleDraft": {
+          "accepted": true
+        },
+        "RoleReplacement": {
+          "accepted": true
+        }
+      },
+      "minimumFix": "Define shared frozen IAM CapabilityId support set in authorized OpenAPI scope; reference it from RoleDraft/RoleReplacement, verify operation permission consistency and compatibility, reject unknown values. AGENTS179 gives deny-unknown rule, docs12 gives authorization principles, but no existing machine catalog was found. Freeze the current explicitly supported IAM permission names, preserving authorization intersection; do not mix Connector PROBE/Worker codec domains or invent new privileges."
+    }
+  ],
+  "all14CurrentContractGaps": true,
+  "priorContentSupportSuperseded": true,
+  "sourceLocal17AndCIPendingOrHistoricalExecutionDoNotTransferContentAcceptance": true,
+  "rootMutation": false,
+  "fullGovRerun": false,
+  "runtimeSecurityOrACLEnforcementClaim": false,
+  "finalIntegrationApproved": false,
+  "reproProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-9b-new14-repro-proof.json",
+  "sourceReferences": [
+    "AGENTS.md:148",
+    "AGENTS.md:172",
+    "AGENTS.md:175",
+    "AGENTS.md:179",
+    "AGENTS.md:188",
+    "AGENTS.md:196",
+    "docs/12-security-identity-and-permissions.md:17",
+    "docs/12-security-identity-and-permissions.md:64",
+    "docs/00-guize-engineering-design-baseline.md:690",
+    "specs/contracts/openapi/semantics.md:13",
+    "specs/contracts/openapi/semantics.md:40"
+  ],
+  "boundary": "Assigned interface consistency/security contract review only; no runtime PASS, new governance task, universal historical Peer Gate or new authorization framework."
+}

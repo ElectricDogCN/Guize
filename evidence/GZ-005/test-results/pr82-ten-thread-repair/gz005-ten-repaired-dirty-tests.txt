@@ -1,0 +1,12 @@
+Source Commit: b23450ad54e49d9b316233eccb8cb5c9e829c729
+Working Tree: DIRTY_UNACCEPTED_EXPLORATION
+Command: ['/home/sur/.cache/guize-takeover/openapi-venv/bin/python', '-m', 'pytest', 'specs/contracts/openapi/test_contract.py', '-q', '--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-ten-repaired-dirty-tests.xml']
+........................................................................ [ 23%]
+........................................................................ [ 47%]
+........................................................................ [ 70%]
+........................................................................ [ 94%]
+..................                                                       [100%]
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-ten-repaired-dirty-tests.xml -
+306 passed in 190.61s (0:03:10)
+
+Exit Code: 0

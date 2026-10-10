@@ -1,0 +1,255 @@
+Parent Commit: e70313efeb06c021b3626e5d5728d44acc8c4758
+Working Tree: DIRTY, unpublished complete twelve-finding repair
+Command: wsl -d Ubuntu --cd /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize -- /home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-twelve-full-dirty-attempt4.xml
+........................................................................ [ 19%]
+........................................................................ [ 38%]
+........................................................................ [ 57%]
+........................................................................ [ 77%]
+..........F............................................................. [ 96%]
+..............                                                           [100%]
+=================================== FAILURES ===================================
+_________________ test_progress_far_future_is_rejected_on_wire _________________
+
+spec = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+samples = [{'execution': 'ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY', 'operationId': 'loginPassword', 'request': 'POST /api/v1/auth/pa...e identical request is still executing.","details":{"retryAfterSeconds":2},"traceId":"trace-example-0001"}', ...}, ...]
+
+    def verify_http_samples(spec, samples):
+        inventory = {op['operationId']:(path,method,op) for path,method,op in operations(spec)}
+        seen=set()
+        scenarios=set()
+        for sample in samples:
+            oid=sample['operationId']
+            scenario=sample.get('scenario', 'baseline')
+            if not isinstance(scenario,str) or not re.fullmatch(r'[a-z][a-z0-9-]{0,63}',scenario):
+                raise ContractError('invalid HTTP scenario')
+            if (oid,scenario) in scenarios or oid not in inventory:
+                raise ContractError('duplicate/unknown HTTP sample operation scenario')
+            scenarios.add((oid,scenario))
+            seen.add(oid)
+            path,method,op=inventory[oid]
+            first,headers,body=parse_http(sample['request'])
+            parts=first.split(' ')
+            if len(parts)!=3 or parts[0]!=method.upper() or parts[2]!='HTTP/1.1':
+                raise ContractError('HTTP sample method/version mismatch')
+            uri=urlsplit(parts[1])
+            if uri.scheme or uri.netloc or not uri.path.startswith('/api/v1/') or uri.fragment:
+                raise ContractError('HTTP sample URI must use the versioned relative gateway')
+            actual=uri.path[len('/api/v1'):]
+            pattern='^'+re.sub(r'\\\{[A-Za-z0-9]+\\\}',r'([^/]+)',re.escape(path))+'$'
+            matched=re.match(pattern,actual)
+            if not matched:raise ContractError('HTTP sample path mismatch')
+            names=re.findall(r'\{([^}]+)\}',path)
+            path_values=dict(zip(names,matched.groups()))
+            query=parse_qs(uri.query,keep_blank_values=True)
+            declared_query={p['name'] for p in op.get('parameters',[]) if p['in']=='query'}
+            if set(query)-declared_query or any(len(values)!=1 for values in query.values()):
+                raise ContractError('undeclared or repeated HTTP scalar query')
+            for parameter in op.get('parameters',[]):
+                where,name=parameter['in'],parameter['name']
+                value=headers.get(name.lower()) if where=='header' else path_values.get(name) if where=='path' else query.get(name,[None])[0]
+                if value is None:
+                    if parameter.get('required'):raise ContractError('missing required HTTP sample parameter: '+name)
+                    continue
+                schema=parameter['schema']
+                if schema.get('type')=='integer':
+                    try:value=int(value)
+                    except ValueError as exc:raise ContractError('invalid integer HTTP parameter') from exc
+                validate_instance(value,schema)
+            if op['x-authorization']['mode']=='AUTHENTICATED':
+                bearer=bool(re.fullmatch(r'Bearer [A-Za-z0-9_-]{16,256}',headers.get('authorization','')))
+                cookie=bool(re.fullmatch(r'guize_session=[A-Za-z0-9_-]{32,256}',headers.get('cookie','')))
+                if ('authorization' in headers and not bearer) or ('cookie' in headers and not cookie):
+                    raise ContractError('malformed HTTP sample authentication')
+                if bearer == cookie:
+                    raise ContractError('authenticated HTTP sample requires exactly one declared bearer or cookie identity')
+                scheme='BearerAuth' if bearer else 'SessionCookie'
+                if {scheme:[]} not in op['security']:
+                    raise ContractError('HTTP identity scheme is not declared')
+                if cookie and method not in {'get','head','options'}:
+                    csrf=next((p for p in op['parameters'] if p['in']=='header' and p['name']=='X-CSRF-Token'),None)
+                    if not csrf or 'x-csrf-token' not in headers:
+                        raise ContractError('cookie mutation requires CSRF token')
+                    validate_instance(headers['x-csrf-token'],csrf['schema'])
+            if op.get('requestBody'):
+                if headers.get('content-type')!='application/json':raise ContractError('HTTP request media mismatch')
+                validate_instance(json.loads(body),op['requestBody']['content']['application/json']['schema'])
+                if oid == 'createApproval':
+                    verify_proposed_approval(spec, json.loads(body))
+            elif body:
+                raise ContractError('unexpected HTTP request body')
+            response_first,response_headers,response_body=parse_http(sample['response'])
+            response_parts=response_first.split(' ',2)
+            if len(response_parts)!=3 or response_parts[0]!='HTTP/1.1' or response_parts[1] not in op['responses']:
+                raise ContractError('HTTP sample status mismatch')
+            response=op['responses'][response_parts[1]]
+            for name,definition in response.get('headers',{}).items():
+                header_value=response_headers.get(name.lower())
+                if header_value is None:
+                    if definition.get('required'):
+                        raise ContractError('missing required HTTP response header: '+name)
+                else:
+                    validate_instance(header_value,definition['schema'])
+            content_type=response_headers.get('content-type')
+            if content_type not in response['content']:raise ContractError('HTTP sample response media mismatch')
+            content=response['content'][content_type]
+            value=json.loads(response_body) if content_type=='application/json' else response_body
+            validate_instance(value,content['schema'])
+            if response_parts[1] == '202':
+                verify_task_status_binding(value)
+            if oid == 'putPlaybackProgress' and response_parts[1] == '200':
+                try:
+                    received_at = datetime.fromisoformat(sample['serverReceivedAt'].replace('Z', '+00:00'))
+>                   effective, _ = progress_order(json.loads(body), received_at, sample['serverReceiptSequence'])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+specs/contracts/openapi/check_contract.py:418: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = {'completed': False, 'deviceId': 'dev_example01', 'durationMs': 120000, 'lastPlayedAt': '2099-01-01T00:00:00Z', ...}
+received_at = datetime.datetime(2026, 10, 9, 12, 0, tzinfo=datetime.timezone.utc)
+receipt_sequence = 1
+
+    def progress_order(value, received_at, receipt_sequence):
+        """Reference merge key; runtime assigns receipt sequence atomically per key."""
+        played = datetime.fromisoformat(value['lastPlayedAt'].replace('Z', '+00:00'))
+        if played.tzinfo is None or received_at.tzinfo is None or receipt_sequence < 1:
+            raise ContractError('progress ordering requires server time and receipt sequence')
+        if played > received_at + timedelta(seconds=300):
+>           raise ContractError('lastPlayedAt exceeds bounded server clock skew')
+E           check_contract.ContractError: lastPlayedAt exceeds bounded server clock skew
+
+specs/contracts/openapi/check_contract.py:310: ContractError
+
+The above exception was the direct cause of the following exception:
+
+baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+samples = [{'execution': 'ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY', 'operationId': 'loginPassword', 'request': 'POST /api/v1/auth/pa...e identical request is still executing.","details":{"retryAfterSeconds":2},"traceId":"trace-example-0001"}', ...}, ...]
+
+    def test_progress_far_future_is_rejected_on_wire(baseline,samples):
+        changed=copy.deepcopy(samples)
+        target=next(s for s in changed if s['operationId']=='putPlaybackProgress' and s['scenario']=='baseline')
+        target['request']=replace_wire_json(target['request'],lambda value:value.update(lastPlayedAt='2099-01-01T00:00:00Z'))
+>       with pytest.raises(ContractError,match='clock skew'):verify_http_samples(baseline,changed)
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+specs/contracts/openapi/test_contract.py:835: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+spec = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+samples = [{'execution': 'ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY', 'operationId': 'loginPassword', 'request': 'POST /api/v1/auth/pa...e identical request is still executing.","details":{"retryAfterSeconds":2},"traceId":"trace-example-0001"}', ...}, ...]
+
+    def verify_http_samples(spec, samples):
+        inventory = {op['operationId']:(path,method,op) for path,method,op in operations(spec)}
+        seen=set()
+        scenarios=set()
+        for sample in samples:
+            oid=sample['operationId']
+            scenario=sample.get('scenario', 'baseline')
+            if not isinstance(scenario,str) or not re.fullmatch(r'[a-z][a-z0-9-]{0,63}',scenario):
+                raise ContractError('invalid HTTP scenario')
+            if (oid,scenario) in scenarios or oid not in inventory:
+                raise ContractError('duplicate/unknown HTTP sample operation scenario')
+            scenarios.add((oid,scenario))
+            seen.add(oid)
+            path,method,op=inventory[oid]
+            first,headers,body=parse_http(sample['request'])
+            parts=first.split(' ')
+            if len(parts)!=3 or parts[0]!=method.upper() or parts[2]!='HTTP/1.1':
+                raise ContractError('HTTP sample method/version mismatch')
+            uri=urlsplit(parts[1])
+            if uri.scheme or uri.netloc or not uri.path.startswith('/api/v1/') or uri.fragment:
+                raise ContractError('HTTP sample URI must use the versioned relative gateway')
+            actual=uri.path[len('/api/v1'):]
+            pattern='^'+re.sub(r'\\\{[A-Za-z0-9]+\\\}',r'([^/]+)',re.escape(path))+'$'
+            matched=re.match(pattern,actual)
+            if not matched:raise ContractError('HTTP sample path mismatch')
+            names=re.findall(r'\{([^}]+)\}',path)
+            path_values=dict(zip(names,matched.groups()))
+            query=parse_qs(uri.query,keep_blank_values=True)
+            declared_query={p['name'] for p in op.get('parameters',[]) if p['in']=='query'}
+            if set(query)-declared_query or any(len(values)!=1 for values in query.values()):
+                raise ContractError('undeclared or repeated HTTP scalar query')
+            for parameter in op.get('parameters',[]):
+                where,name=parameter['in'],parameter['name']
+                value=headers.get(name.lower()) if where=='header' else path_values.get(name) if where=='path' else query.get(name,[None])[0]
+                if value is None:
+                    if parameter.get('required'):raise ContractError('missing required HTTP sample parameter: '+name)
+                    continue
+                schema=parameter['schema']
+                if schema.get('type')=='integer':
+                    try:value=int(value)
+                    except ValueError as exc:raise ContractError('invalid integer HTTP parameter') from exc
+                validate_instance(value,schema)
+            if op['x-authorization']['mode']=='AUTHENTICATED':
+                bearer=bool(re.fullmatch(r'Bearer [A-Za-z0-9_-]{16,256}',headers.get('authorization','')))
+                cookie=bool(re.fullmatch(r'guize_session=[A-Za-z0-9_-]{32,256}',headers.get('cookie','')))
+                if ('authorization' in headers and not bearer) or ('cookie' in headers and not cookie):
+                    raise ContractError('malformed HTTP sample authentication')
+                if bearer == cookie:
+                    raise ContractError('authenticated HTTP sample requires exactly one declared bearer or cookie identity')
+                scheme='BearerAuth' if bearer else 'SessionCookie'
+                if {scheme:[]} not in op['security']:
+                    raise ContractError('HTTP identity scheme is not declared')
+                if cookie and method not in {'get','head','options'}:
+                    csrf=next((p for p in op['parameters'] if p['in']=='header' and p['name']=='X-CSRF-Token'),None)
+                    if not csrf or 'x-csrf-token' not in headers:
+                        raise ContractError('cookie mutation requires CSRF token')
+                    validate_instance(headers['x-csrf-token'],csrf['schema'])
+            if op.get('requestBody'):
+                if headers.get('content-type')!='application/json':raise ContractError('HTTP request media mismatch')
+                validate_instance(json.loads(body),op['requestBody']['content']['application/json']['schema'])
+                if oid == 'createApproval':
+                    verify_proposed_approval(spec, json.loads(body))
+            elif body:
+                raise ContractError('unexpected HTTP request body')
+            response_first,response_headers,response_body=parse_http(sample['response'])
+            response_parts=response_first.split(' ',2)
+            if len(response_parts)!=3 or response_parts[0]!='HTTP/1.1' or response_parts[1] not in op['responses']:
+                raise ContractError('HTTP sample status mismatch')
+            response=op['responses'][response_parts[1]]
+            for name,definition in response.get('headers',{}).items():
+                header_value=response_headers.get(name.lower())
+                if header_value is None:
+                    if definition.get('required'):
+                        raise ContractError('missing required HTTP response header: '+name)
+                else:
+                    validate_instance(header_value,definition['schema'])
+            content_type=response_headers.get('content-type')
+            if content_type not in response['content']:raise ContractError('HTTP sample response media mismatch')
+            content=response['content'][content_type]
+            value=json.loads(response_body) if content_type=='application/json' else response_body
+            validate_instance(value,content['schema'])
+            if response_parts[1] == '202':
+                verify_task_status_binding(value)
+            if oid == 'putPlaybackProgress' and response_parts[1] == '200':
+                try:
+                    received_at = datetime.fromisoformat(sample['serverReceivedAt'].replace('Z', '+00:00'))
+                    effective, _ = progress_order(json.loads(body), received_at, sample['serverReceiptSequence'])
+                except (KeyError, ValueError, TypeError) as exc:
+>                   raise ContractError('progress HTTP sample requires explicit illustrative server ordering facts') from exc
+E                   check_contract.ContractError: progress HTTP sample requires explicit illustrative server ordering facts
+
+specs/contracts/openapi/check_contract.py:420: ContractError
+
+During handling of the above exception, another exception occurred:
+
+baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+samples = [{'execution': 'ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY', 'operationId': 'loginPassword', 'request': 'POST /api/v1/auth/pa...e identical request is still executing.","details":{"retryAfterSeconds":2},"traceId":"trace-example-0001"}', ...}, ...]
+
+    def test_progress_far_future_is_rejected_on_wire(baseline,samples):
+        changed=copy.deepcopy(samples)
+        target=next(s for s in changed if s['operationId']=='putPlaybackProgress' and s['scenario']=='baseline')
+        target['request']=replace_wire_json(target['request'],lambda value:value.update(lastPlayedAt='2099-01-01T00:00:00Z'))
+>       with pytest.raises(ContractError,match='clock skew'):verify_http_samples(baseline,changed)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'clock skew'
+E        Input: 'progress HTTP sample requires explicit illustrative server ordering facts'
+
+specs/contracts/openapi/test_contract.py:835: AssertionError
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-twelve-full-dirty-attempt4.xml -
+=========================== short test summary info ============================
+FAILED specs/contracts/openapi/test_contract.py::test_progress_far_future_is_rejected_on_wire
+1 failed, 373 passed in 285.55s (0:04:45)
+wsl: 检测到 localhost 代理配置，但未镜像到 WSL。NAT 模式下的 WSL 不支持 localhost 代理。
+
+Exit Code: 1

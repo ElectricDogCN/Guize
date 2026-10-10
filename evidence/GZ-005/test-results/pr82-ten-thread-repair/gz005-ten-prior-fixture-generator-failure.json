@@ -1,0 +1,13 @@
+{
+  "headDuringExploration": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "worktree": "DIRTY_UNACCEPTED_EXPLORATION",
+  "sourceAccepted": false,
+  "formalAccepted": false,
+  "results": {
+    "fixtures": {
+      "exitCode": 1,
+      "rawSha256": "5bf5d1216950c4471502720864a7b6f48ef42362e86a78d15acf09690b01ea68"
+    }
+  },
+  "rawAvailability": "Original failed fixture-generator raw was overwritten by repair retry; exact exit status and original digest retained, stack trace exists in tool transcript only. Current repaired raw is a different successful execution; no claim original raw file is archived."
+}

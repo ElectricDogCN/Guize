@@ -1,0 +1,5 @@
+Exploratory uncommitted dirty worktree; not exact published source validation.
+Command: ["/tmp/guize-gz005-openapi-20261009-venv/bin/python", "-m", "openapi_spec_validator", "contracts/openapi/common/openapi.yaml"]
+contracts/openapi/common/openapi.yaml: OK
+
+ExitCode: 0

@@ -1,0 +1,439 @@
+{
+  "kind": "FINITE_DIRTY_CONTENT_REVIEW_NOT_PUBLISHED_SOURCE_ACCEPTANCE",
+  "recordedAt": "2026-10-10T10:38:50.940531+00:00",
+  "reviewer": "/root/independent_review",
+  "parentActualSource": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "dirtyCandidate": true,
+  "contentAccepted": true,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeValidated": false,
+  "fullGovRerun": false,
+  "rootMutation": false,
+  "scope": "Only ten existing GZ-005 review findings and their necessary source ACL, finding lookup and assistant authorization links; no universal runtime certification.",
+  "reviewedPhysicalFileSha256": {
+    "contracts/openapi/ai/paths.yaml": "7beaefaad84b32a9ce5c26672fb50adc7472f263c81a699c5632d261aa041a3e",
+    "contracts/openapi/asset/paths.yaml": "24f11e9bb454dca04ebe6746dbc7a4b067b58531ed64049058219bac04589f21",
+    "contracts/openapi/common/errors.yaml": "4b581996e7bd9c17fbe951f22c671f9b592ede3f12f96189c5fe5a8daa4cd08f",
+    "contracts/openapi/common/http-samples.json": "f96de8ad015958b52685af131ab5437b99aa2561224c4f57931445a0032f80a5",
+    "contracts/openapi/common/openapi.yaml": "b864391d13504a64ac804910f316967328c85836ecbf0d36d6ea2b208663822b",
+    "contracts/openapi/common/schemas.yaml": "38e5b7a33905acc51a2af76c1089f1a82845c9e2ac34c593250a73f9321a4e5c",
+    "contracts/openapi/config/paths.yaml": "0332a480b060bd07a3e9b90fd77d2fbb35d1cd3ae9d8183e8ed50c23ba9ffc46",
+    "contracts/openapi/iam/paths.yaml": "df7ab3e6ffe19186d51f5bf4c6f3d52952b97d840ff6419f6bd9fe7b3642db85",
+    "contracts/openapi/media/paths.yaml": "4285f51933c773253ecadca7a1a37d5627b20bd18c39841b234aa2e3d890bfeb",
+    "contracts/openapi/openapi-guidelines.md": "e027c45551f46a283cb6208cbbc28877cf768817a27bf4a1a4fe713296dc6baa",
+    "contracts/openapi/playback/paths.yaml": "88097063c0b1226987b4fefd8a7a4a7a0284cb50268d20eba0f820fdc34bd21a",
+    "contracts/openapi/policy/paths.yaml": "04a6b6dbcb05aa935cf2a2467a42f123929320e9ef2f7328b46080f241c71112",
+    "contracts/openapi/search/paths.yaml": "580f5b9416d03041c2ca6a8e04220958d20484857880385a30b6ac19b02c236f",
+    "contracts/openapi/source/paths.yaml": "dde6b8a11e70ab0b240445f8e284471169b2f67ef77bdd620fd4190847521c03",
+    "contracts/openapi/storage/paths.yaml": "a93374630d4b3ed0080c574499670731b7bd87bcfdb31de946756e75bca79703",
+    "contracts/openapi/task/paths.yaml": "57cfe87a7b49f399e63c3fdf13c876b7826296ea6dabd6d9e42313bca55464f5",
+    "specs/contracts/openapi/README.md": "73aff3405ba2be196d4ef9e1ad852fbfb6fb84af4f5b811f0d9fd87343e715d5",
+    "specs/contracts/openapi/check_contract.py": "c85d71fc6e52be71675543edb96a0a821b43d1cedc317f1e1e4a04ad61bbe5a9",
+    "specs/contracts/openapi/coverage.yaml": "8b6dbb1f98c549008d992f32caf9018341a71eabc552b07f99f4585392eaa4a7",
+    "specs/contracts/openapi/intent_hash.py": "284e8a3e21b2dfdfe6766bd1687be0b96e4c8e7bc093621f236063ded3e0ef17",
+    "specs/contracts/openapi/requirements.lock.txt": "dcf59d036784f4282dfdc9b194e83c69ec2ca472650eeb4c6a7b84ddc79cfe52",
+    "specs/contracts/openapi/requirements.txt": "894168a4a0fd8338344b53397e8af76a6e97c842ca7b88af6d1c38bd7ae3336a",
+    "specs/contracts/openapi/semantics.md": "fbe02f47d590c043beec766bff2d9c871777ecf0ca9a8a914904c9b325467c08",
+    "specs/contracts/openapi/test_contract.py": "8e886edecdb7730aed37344a3c1d2cb44a68adf97fc17efc517bd2efe99fa8d0",
+    "specs/contracts/openapi/tool-provenance.json": "81bf9304f3d40c7a127f5ba6d27a04ae08dae213188996c5818e16df8ff9e9e1"
+  },
+  "representation": "Hashes identify the exact dirty physical bytes reviewed; Git LF normalization or later commit identity must be separately bound. The parent HEAD is not the dirty content identity.",
+  "snapshotStableAtFinalRecord": true,
+  "rootChangedPaths": [
+    "contracts/openapi/asset/paths.yaml",
+    "contracts/openapi/common/http-samples.json",
+    "contracts/openapi/common/openapi.yaml",
+    "contracts/openapi/common/schemas.yaml",
+    "contracts/openapi/config/paths.yaml",
+    "contracts/openapi/iam/paths.yaml",
+    "contracts/openapi/policy/paths.yaml",
+    "contracts/openapi/source/paths.yaml",
+    "evidence/GZ-005/commands.txt",
+    "evidence/GZ-005/handoff.md",
+    "evidence/GZ-005/scope.md",
+    "evidence/GZ-005/summary.md",
+    "evidence/GZ-005/test-results/README.md",
+    "specs/contracts/openapi/check_contract.py",
+    "specs/contracts/openapi/coverage.yaml",
+    "specs/contracts/openapi/semantics.md",
+    "specs/contracts/openapi/test_contract.py"
+  ],
+  "threadDispositions": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fH",
+      "contentIssueClosed": true,
+      "reason": "SourceCredentialReference rejects undeclared secret-bearing fields"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fJ",
+      "contentIssueClosed": true,
+      "reason": "PublicAsset rejects undeclared private anonymous response fields"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fL",
+      "contentIssueClosed": true,
+      "reason": "Explicit source visibility mutation with owner sharing and administrator-only public transitions"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fM",
+      "contentIssueClosed": true,
+      "reason": "Lease replies carry short-lived worker-bound credential with rotation and replay restrictions"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fN",
+      "contentIssueClosed": true,
+      "reason": "Exported component compatibility checked in request and response directions"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fP",
+      "contentIssueClosed": true,
+      "reason": "IMAGE query requires its artifact without dummy text"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fR",
+      "contentIssueClosed": true,
+      "reason": "Rollback binds exact immutable targetRevision and expected current revision"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fT",
+      "contentIssueClosed": true,
+      "reason": "Role HTTP responses exactly reflect requested capabilities"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fW",
+      "contentIssueClosed": true,
+      "reason": "Administrator quarantine release binds exact version and review finding without publication side effects"
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6rC7fY",
+      "contentIssueClosed": true,
+      "reason": "Asynchronous configuration assistant with protected immutable report and ordinary adoption gates"
+    }
+  ],
+  "supplementalLinks": {
+    "sourceAcl": "Inline bounded USER/ROLE ACL replaces unresolvable ACL ID; protected ACL read returns the same closed entries. PRIVATE rejects supplied ACL and retracts grants. Both current and target ADMIN_PUBLIC trigger administrator identity plus source.publish.",
+    "finding": "Protected exact asset-version finding lookup provides reviewFindingId consumed by release; cursor, finding, version and immutable input hash are bound.",
+    "assistant": "Request and result both require config.assist and config.sensitive.read plus recent proof; result binds subject/configuration/task. Model, prompt, pipeline and parameters provenance retained; no automatic publish or validation success."
+  },
+  "counts": {
+    "operations": 96,
+    "schemas": 154,
+    "wirePairs": 155
+  },
+  "independentProbe": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-ten-dirty-final-content-probes.json",
+    "exitCode": 0,
+    "sha256": "811e9412449c1e8af754b96cd271d07b96ab1b496cfe8f8637ca9db240c9140b",
+    "checks": {
+      "SourceCredentialReference": {
+        "closed": true,
+        "extraRejected": true
+      },
+      "PublicAsset": {
+        "closed": true,
+        "extraRejected": true
+      },
+      "IMAGE": {
+        "imageOnlyAccepted": true,
+        "missingArtifactRejected": true,
+        "missingTextRejected": true
+      },
+      "exports": {
+        "enumRemovalRejected": true,
+        "error": "components.schemas.Replica.status: enum value removed"
+      },
+      "roles": {
+        "pairCount": 4,
+        "exact": true
+      },
+      "rollbackPolicy": {
+        "path": "/policies/{policyId}:rollback",
+        "protected": {
+          "mode": "AUTHENTICATED",
+          "permission": "policy.rollback",
+          "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+          "stepUp": true,
+          "approval": true
+        },
+        "missingBoundFieldRejected": true,
+        "binding": {
+          "current": "body.expectedRevision",
+          "target": "body.targetRevision",
+          "invariants": [
+            "Target is immutable and belongs to the path resource; reject missing, foreign or incompatible targets before effects.",
+            "Approval binds both revisions and the complete rollback body. Current revision is atomically compared; no implicit previous/latest selection.",
+            "Revalidate target against current security policy and deployment compatibility; keep history and audit, never overwrite the historical revision."
+          ]
+        }
+      },
+      "rollbackConfiguration": {
+        "path": "/configurations/{configurationId}:rollback",
+        "protected": {
+          "mode": "AUTHENTICATED",
+          "permission": "config.rollback",
+          "scope": "subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets",
+          "stepUp": true,
+          "approval": true
+        },
+        "missingBoundFieldRejected": true,
+        "binding": {
+          "current": "body.expectedRevision",
+          "target": "body.targetRevision",
+          "invariants": [
+            "Target is immutable and belongs to the path resource; reject missing, foreign or incompatible targets before effects.",
+            "Approval binds both revisions and the complete rollback body. Current revision is atomically compared; no implicit previous/latest selection.",
+            "Revalidate target against current security policy and deployment compatibility; keep history and audit, never overwrite the historical revision."
+          ]
+        }
+      },
+      "setSourceVisibility": {
+        "path": "/data-sources/{sourceId}:set-visibility",
+        "protected": {
+          "mode": "AUTHENTICATED",
+          "permission": "source.owner",
+          "scope": "Authenticated source owner or explicitly authorized proxy may share/retract PRIVATE and SHARED sources; transition to or from ADMIN_PUBLIC additionally requires administrator identity and source.publish. Exact USER/ROLE ACL, step-up and approval remain mandatory; no inherited service account authority.",
+          "stepUp": true,
+          "approval": true,
+          "conditionalCapabilities": [
+            "source.publish"
+          ]
+        },
+        "missingBoundFieldRejected": true,
+        "binding": {
+          "primary": "path.sourceId",
+          "related": [
+            "body.platformAcl[*].principalId when visibility=SHARED or ADMIN_PUBLIC"
+          ],
+          "invariants": [
+            "Require authenticated source owner/proxy, current source authority, separated approval and recent exact step-up; transitions to/from ADMIN_PUBLIC also require administrator identity and source.publish.",
+            "Resolve each USER/ROLE principal through authorized identity inventory, check its type and grant authority, intersect platform capability/source policy and compare expectedRevision atomically. Complete explicit ACL is included in exact approval intent.",
+            "PRIVATE/SHARED/ADMIN_PUBLIC transitions preserve provider identity and source history; recheck/revoke obsolete source access and playback grants.",
+            "ADMIN_PUBLIC cannot implicitly publish Asset or expose provider token/path; each asset still needs its own publication, ACL and security checks.",
+            "SHARED and ADMIN_PUBLIC require explicit bounded platformAcl entries; empty is deny all. PRIVATE rejects supplied ACL and atomically removes shared ACL and revokes obsolete access. No implicit anonymous principal or resource scope is accepted."
+          ]
+        }
+      },
+      "releaseAssetQuarantine": {
+        "path": "/assets/{assetId}/security:release",
+        "protected": {
+          "mode": "AUTHENTICATED",
+          "permission": "asset.security.release",
+          "scope": "Authenticated security administrator plus exact asset/version ACL; separated false-positive review and current policy; never implicit public access.",
+          "stepUp": true,
+          "approval": true
+        },
+        "missingBoundFieldRejected": true,
+        "binding": {
+          "primary": "path.assetId",
+          "related": [
+            "body.assetVersionId",
+            "body.reviewFindingId"
+          ],
+          "invariants": [
+            "Resolve version within path asset and immutable review finding within exact version/hash; reject foreign, stale or unresolved findings before effects.",
+            "Require quarantined state, authorized administrator review of false positive, current safety policy, recent exact step-up and separate approval; compare expectedRevision atomically.",
+            "Record ADMIN_RELEASED, reviewer, input hash, finding and audit; preserve quarantine history. This operation does not publish content, alter ACL, grant playback or enable execution.",
+            "Other MIME, archive and media safety policy checks still govern reads and publication; never use release as a universal scan bypass."
+          ]
+        }
+      },
+      "registerWorker": {
+        "credentialRequired": true,
+        "equalLeaseBinding": true,
+        "permission": [
+          "worker.self"
+        ],
+        "binding": {
+          "audience": "guize-worker-control",
+          "subject": "server authenticated bootstrap enrollment or worker credential; must own body.workerId",
+          "resource": "body.workerId + body.leaseId on heartbeat",
+          "maxLifetimeSeconds": 300,
+          "issuance": "Lease response credential binds workerId, leaseId and expiresAt exactly; expiration is at most 300 seconds from issue and never beyond approved bootstrap enrollment.",
+          "renewal": "Heartbeat verifies worker.self, audience, current lease, revocation and expiry before renewal; rotate token, revoke replaced token, never extend enrollment or capability scope.",
+          "replay": "Recheck current authorization before replay; an expired or revoked token result is not renewed by replay. Use a fresh key and current identity; expired worker identity re-registers via bootstrap."
+        }
+      },
+      "heartbeatWorker": {
+        "credentialRequired": true,
+        "equalLeaseBinding": true,
+        "permission": [
+          "worker.self"
+        ],
+        "binding": {
+          "audience": "guize-worker-control",
+          "subject": "server authenticated bootstrap enrollment or worker credential; must own body.workerId",
+          "resource": "body.workerId + body.leaseId on heartbeat",
+          "maxLifetimeSeconds": 300,
+          "issuance": "Lease response credential binds workerId, leaseId and expiresAt exactly; expiration is at most 300 seconds from issue and never beyond approved bootstrap enrollment.",
+          "renewal": "Heartbeat verifies worker.self, audience, current lease, revocation and expiry before renewal; rotate token, revoke replaced token, never extend enrollment or capability scope.",
+          "replay": "Recheck current authorization before replay; an expired or revoked token result is not renewed by replay. Use a fresh key and current identity; expired worker identity re-registers via bootstrap."
+        }
+      },
+      "assistant": {
+        "requestConfigurationAssistance": {
+          "path": "/configurations/{configurationId}:assist",
+          "authorization": {
+            "mode": "AUTHENTICATED",
+            "permission": "config.assist",
+            "scope": "Current configuration read authority, config.assist and config.sensitive.read capabilities; exact subject/configuration/task ownership; recent action-bound step-up before reading input or results. Provider data policy, hard budget and redaction still apply.",
+            "stepUp": true,
+            "approval": false,
+            "requiredCapabilities": [
+              "config.assist",
+              "config.sensitive.read"
+            ]
+          },
+          "parameters": [
+            "Accept-Language",
+            "configurationId",
+            "Idempotency-Key",
+            "X-CSRF-Token",
+            "X-Step-Up-Proof"
+          ],
+          "errors": [
+            "AUTH_REQUIRED",
+            "AUTH_INVALID",
+            "ACCESS_DENIED",
+            "ACCESS_NOT_FOUND",
+            "INTERNAL_INVALID_REQUEST",
+            "INTERNAL_RATE_LIMITED",
+            "INTERNAL_UNAVAILABLE",
+            "INTERNAL_ERROR",
+            "POLICY_VALIDATION_FAILED",
+            "POLICY_APPROVAL_REQUIRED",
+            "DEPLOYMENT_BUNDLE_INVALID",
+            "INTERNAL_IDEMPOTENCY_CONFLICT",
+            "INTERNAL_REVISION_CONFLICT",
+            "AUTH_STEP_UP_REQUIRED"
+          ],
+          "boundary": {
+            "input": "Server-retained exact configuration revision and authorized redacted context; reject stale revision before queueing. Never send inline Secrets or inaccessible data to a provider.",
+            "execution": "Record immutable model/prompt/parameters/input snapshot, enforce provider/data policy, timeout and hard budget, persist task before effects; replay rechecks access and never duplicates inference.",
+            "output": "Validate/redact report and proposed draft against the bound schema and semantic policy. Keep output private and immutable; no automatic mutation, privilege change, deployment or publication.",
+            "adoption": "Caller must explicitly submit permitted draft through ordinary create/replace configuration, schema/semantic validation, simulation, separate approval and publish workflow. Assistant success is not validation success."
+          }
+        },
+        "getConfigurationAssistance": {
+          "path": "/configurations/{configurationId}/assistance/{taskId}",
+          "authorization": {
+            "mode": "AUTHENTICATED",
+            "permission": "config.assist",
+            "scope": "Current configuration read authority, config.assist and config.sensitive.read capabilities; exact subject/configuration/task ownership; recent action-bound step-up before reading input or results. Provider data policy, hard budget and redaction still apply.",
+            "stepUp": true,
+            "approval": false,
+            "requiredCapabilities": [
+              "config.assist",
+              "config.sensitive.read"
+            ]
+          },
+          "parameters": [
+            "Accept-Language",
+            "configurationId",
+            "taskId",
+            "X-Step-Up-Proof"
+          ],
+          "errors": [
+            "AUTH_REQUIRED",
+            "AUTH_INVALID",
+            "ACCESS_DENIED",
+            "ACCESS_NOT_FOUND",
+            "INTERNAL_INVALID_REQUEST",
+            "INTERNAL_RATE_LIMITED",
+            "INTERNAL_UNAVAILABLE",
+            "INTERNAL_ERROR",
+            "POLICY_VALIDATION_FAILED",
+            "POLICY_APPROVAL_REQUIRED",
+            "DEPLOYMENT_BUNDLE_INVALID",
+            "AUTH_STEP_UP_REQUIRED"
+          ],
+          "boundary": {
+            "primary": "path.configurationId",
+            "related": [
+              "path.taskId"
+            ],
+            "invariants": [
+              "Task must belong to the same configuration, immutable input revision and authorized subject; reject foreign or absent pairs with the same redacted not-found.",
+              "Return only a completed validated immutable report; while pending/failed, use getTask status and stable failure, no partial report claimed as complete.",
+              "Reauthorize current configuration/task scope and required sensitive-config step-up on every read; outputs never expand access or expose secrets."
+            ]
+          }
+        }
+      },
+      "sourceAclFinal": {
+        "inlineAclNotId": true,
+        "ownerPermission": "source.owner",
+        "authorization": {
+          "ownerTransitions": [
+            "PRIVATE",
+            "SHARED"
+          ],
+          "administratorTrigger": "target visibility=ADMIN_PUBLIC OR current visibility=ADMIN_PUBLIC",
+          "additionalCapability": "source.publish",
+          "administratorIdentityRequired": true,
+          "invariants": [
+            "Verify source.owner and actual ownership/proxy authority before reading or changing ACL.",
+            "Any transition to/from an administrator public source also requires a server-verified administrator and source.publish; source.owner alone can never promote, demote or take over ADMIN_PUBLIC.",
+            "Step-up and independent approval bind exact target visibility, full ACL and current revision. PRIVATE retracts shared grants atomically; no automatic asset publication."
+          ]
+        },
+        "sharedWithAclAccepted": true,
+        "privateWithoutAclAccepted": true,
+        "privateWithAclRejected": true,
+        "closedEntry": true,
+        "principalTypes": [
+          "USER",
+          "ROLE"
+        ],
+        "permissions": [
+          "READ",
+          "PLAY",
+          "PROCESS"
+        ],
+        "providerTokenRejected": true,
+        "readPath": "/data-sources/{sourceId}/platform-acl",
+        "readAuthorization": {
+          "ownerTransitions": [],
+          "administratorTrigger": "current visibility=ADMIN_PUBLIC",
+          "additionalCapability": "source.publish",
+          "administratorIdentityRequired": true,
+          "invariants": [
+            "Resolve current source ownership/proxy and visibility before reading ACL.",
+            "Administrator public source ACL additionally requires administrator identity and source.publish; do not expose service-account authority."
+          ]
+        }
+      },
+      "findingFinal": {
+        "readPath": "/assets/{assetId}/versions/{versionId}/security-findings",
+        "authorization": {
+          "mode": "AUTHENTICATED",
+          "permission": "asset.security.release",
+          "scope": "Authenticated security administrator plus current asset/version read authority and recent action-bound step-up; no public or ordinary asset-reader finding access.",
+          "stepUp": true,
+          "approval": false
+        },
+        "binding": {
+          "primary": "path.assetId",
+          "related": [
+            "path.versionId"
+          ],
+          "invariants": [
+            "Resolve versionId within assetId and current security administrator authority before reading findings.",
+            "Every finding belongs to this exact immutable version/hash; return only redacted bounded metadata, retain raw scanner evidence separately.",
+            "Cursor binds subject, asset/version and evidence snapshot; reauthorize every page and reject foreign or stale cursors.",
+            "Finding id is the reviewFindingId consumed by releaseAssetQuarantine; approval reviews retained exact finding/version/hash and does not alter the original scan."
+          ]
+        },
+        "closedMetadata": true
+      }
+    }
+  },
+  "priorEvidencePreserved": [
+    "gz005-independent-b23450a-source-acceptance-proof.json",
+    "gz005-independent-b23450a-seven-thread-disposition.json",
+    "gz005-independent-ten-dirty-review-proof.json"
+  ],
+  "priorSourceDisposition": "b234 executed local/CI results remain historical evidence; its ten content findings prevent transferring acceptance to this dirty repair.",
+  "remainingRequired": "Publish the exact repaired Git tree, bind actual source/branch/base, execute formal 17 checks and same-head CI, then independently review any own Evidence archive and actual final head. Parent-reported dirty probes are not independent formal source acceptance.",
+  "materialFindings": []
+}

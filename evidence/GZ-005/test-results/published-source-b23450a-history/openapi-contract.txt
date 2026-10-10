@@ -1,0 +1,5 @@
+Source Commit: b23450ad54e49d9b316233eccb8cb5c9e829c729
+Command: /home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline
+{"status": "PASS", "operations": 90, "schemas": 141, "errorCodes": 33, "examples": 886, "requirements": ["REQ-V1-0001", "REQ-V1-0002", "REQ-V1-0003", "REQ-V1-0004", "REQ-V1-0005", "REQ-V1-0007", "REQ-V1-0008", "REQ-V1-0009"], "httpSamples": 146, "compatibility": "INITIAL_BASELINE (no prior published API in actual Git base)"}
+
+Exit Code: 0

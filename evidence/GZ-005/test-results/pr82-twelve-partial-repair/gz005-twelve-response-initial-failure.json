@@ -1,0 +1,14 @@
+{
+  "kind": "TARGETED_DIRTY_EXPLORATORY_FAILURE",
+  "parentSource": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "tests": 30,
+  "passed": 24,
+  "failed": 6,
+  "deselected": 306,
+  "seconds": 24.44,
+  "reason": "New test incorrectly looked up HTTP200 for createPublicPlaybackPlan, whose documented success is HTTP201. Repair the test to target its real success schema; no production assertion removed.",
+  "junit": "gz005-twelve-response-initial-failed-tests.xml",
+  "sha256": "65d2cd111ce3e10857bd92e3ce3389298d337bc52495402b280699ec6f423b87",
+  "rawConsole": "Tool transcript only, truncated; no full saved raw console claim.",
+  "formalSourceAccepted": false
+}

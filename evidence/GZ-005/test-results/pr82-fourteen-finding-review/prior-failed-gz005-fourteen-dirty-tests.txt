@@ -1,0 +1,75 @@
+........................................................................ [ 33%]
+........................................................................ [ 66%]
+..F...........................................................F......... [100%]
+=================================== FAILURES ===================================
+_________________ test_http_sample_boundary_failures[missing] __________________
+
+baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+samples = [{'execution': 'ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY', 'operationId': 'loginPassword', 'request': 'POST /api/v1/auth/pa...CESS","message":"操作成功。","data":{"resourceId":"ack_example01","revision":1},"traceId":"trace-example-0001"}', ...}, ...]
+mutation = 'missing'
+
+    @pytest.mark.parametrize('mutation',['trace','length','approval','identity','missing'])
+    def test_http_sample_boundary_failures(baseline,samples,mutation):
+        changed=copy.deepcopy(samples)
+        target=next(s for s in changed if s['operationId']=='publishAsset')
+        if mutation=='trace':target['response']=target['response'].replace('X-Trace-Id: trace-example-0001','X-Trace-Id: trace-different-0001',1)
+        elif mutation=='length':target['request']=target['request'].replace('Content-Length: ','Content-Length: 999',1)
+        elif mutation=='approval':target['request']=target['request'].replace('X-Approval-Id: apr_example01','X-Approval-Id: apr_example02',1)
+        elif mutation=='identity':target['request']=target['request'].replace('Authorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\n','')
+        elif mutation=='missing':changed.pop()
+>       with pytest.raises(ContractError):verify_http_samples(baseline,changed)
+E       Failed: DID NOT RAISE <class 'check_contract.ContractError'>
+
+specs/contracts/openapi/test_contract.py:446: Failed
+____ test_approval_creation_cannot_claim_approval_without_separate_decision ____
+
+baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+catalog = {'contractId': 'ERROR-CATALOG-V1', 'errors': [{'action': {'en-US': 'Inspect authorized request and retry after correct...ING', 'code': 'ACCESS_NOT_FOUND', 'description': 'Unknown or undiscoverable resource.', ...}, ...], 'version': '1.0.0'}
+
+    def test_approval_creation_cannot_claim_approval_without_separate_decision(baseline,catalog):
+        changed=copy.deepcopy(baseline)
+        media=changed['paths']['/approvals']['post']['responses']['201']['content']['application/json']
+        media['examples']['illustrative']['value']['data']['status']='APPROVED'
+>       with pytest.raises(ContractError,match='must not self-approve'):verify(changed,catalog)
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^^
+
+specs/contracts/openapi/test_contract.py:582: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+specs/contracts/openapi/check_contract.py:559: in verify
+    validate_instance(item['value'], schema); example_count += 1
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = {'code': 'SUCCESS', 'data': {'action': 'publishAsset', 'expiresAt': '2026-10-09T12:05:00Z', 'id': 'apr_example01', 'pa...8c077f3b14cd22151be9ab9a12066dd62285409ad3b1eea0cb7f05b5cb', ...}, 'message': '操作成功。', 'traceId': 'trace-example-0001'}
+schema = {'additionalProperties': True, 'description': 'Localized success envelope.', 'properties': {'code': {'description': 'S..., 'pattern': '^[A-Za-z0-9-]{8,128}$', 'type': 'string', ...}}, 'required': ['code', 'message', 'data', 'traceId'], ...}
+
+    def validate_instance(value, schema):
+        Draft202012Validator.check_schema(schema)
+        validator = Draft202012Validator(schema, format_checker=FORMATS)
+        errors = sorted(validator.iter_errors(value), key=lambda e: str(e.path))
+        if errors:
+>           raise ContractError('; '.join(f'{list(e.path)}: {e.message}' for e in errors))
+E           check_contract.ContractError: ['data', 'status']: 'PENDING' was expected
+
+specs/contracts/openapi/check_contract.py:183: ContractError
+
+During handling of the above exception, another exception occurred:
+
+baseline = {'components': {'schemas': {'Acknowledgement': {'additionalProperties': True, 'description': 'Durable synchronous comm...title': '归泽 V1 控制面接口'}}}, 'jsonSchemaDialect': 'https://json-schema.org/draft/2020-12/schema', 'openapi': '3.1.1', ...}
+catalog = {'contractId': 'ERROR-CATALOG-V1', 'errors': [{'action': {'en-US': 'Inspect authorized request and retry after correct...ING', 'code': 'ACCESS_NOT_FOUND', 'description': 'Unknown or undiscoverable resource.', ...}, ...], 'version': '1.0.0'}
+
+    def test_approval_creation_cannot_claim_approval_without_separate_decision(baseline,catalog):
+        changed=copy.deepcopy(baseline)
+        media=changed['paths']['/approvals']['post']['responses']['201']['content']['application/json']
+        media['examples']['illustrative']['value']['data']['status']='APPROVED'
+>       with pytest.raises(ContractError,match='must not self-approve'):verify(changed,catalog)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'must not self-approve'
+E        Input: "['data', 'status']: 'PENDING' was expected"
+
+specs/contracts/openapi/test_contract.py:582: AssertionError
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fourteen-dirty-tests.xml -
+=========================== short test summary info ============================
+FAILED specs/contracts/openapi/test_contract.py::test_http_sample_boundary_failures[missing]
+FAILED specs/contracts/openapi/test_contract.py::test_approval_creation_cannot_claim_approval_without_separate_decision
+2 failed, 214 passed in 160.91s (0:02:40)
