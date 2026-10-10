@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-10T09:14:49.224233+00:00",
+  "headDuringExploration": "9b556484145aa396ebe97fc34872034b859bb4b7",
+  "workingTree": "DIRTY_UNACCEPTED_EXPLORATION",
+  "tests": {
+    "passed": 214,
+    "failed": 2,
+    "seconds": 160.91
+  },
+  "failures": [
+    "missing wire fixture case now needs both authentication branch coverage",
+    "approval schema PENDING rejects before older message assertion"
+  ],
+  "additionalIndependentFindings": [
+    "shared-header cookie issuance alias",
+    "task code/retryability binding",
+    "artifact cursor revision error declaration"
+  ],
+  "contentAccepted": false,
+  "formalSourceAccepted": false,
+  "runtimePassed": false,
+  "next": "repair, new dirty probe, then immutable published-source formal17, same-head CI and independent review"
+}

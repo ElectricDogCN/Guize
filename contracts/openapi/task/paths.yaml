@@ -115,6 +115,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -833,6 +834,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1569,6 +1571,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -2188,8 +2191,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -2339,6 +2341,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -2951,8 +2954,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -3102,6 +3104,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -3714,8 +3717,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -3865,6 +3867,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -4477,8 +4480,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -4628,6 +4630,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -5240,8 +5243,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -5373,6 +5375,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           text/event-stream:
             schema:

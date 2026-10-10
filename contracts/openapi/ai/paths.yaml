@@ -138,6 +138,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -758,8 +759,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -793,8 +793,7 @@
                 budgetReference: bgt_example01
                 allowExternalProcessing: false
     x-long-running: true
-    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust
-      an arbitrary version ID
+    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust an arbitrary version ID
 /assets/{assetId}/artifacts:
   get:
     operationId: listDerivedArtifacts
@@ -914,6 +913,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -944,6 +944,8 @@
                       generated: true
                       publicationStatus: DRAFT
                       revision: 1
+                      pipelineVersionId: pip_example01
+                      parametersHash: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                     nextCursor: null
                   traceId: trace-example-0001
       '400':
@@ -1572,6 +1574,7 @@
     - AI_DATA_POLICY_DENIED
     - AI_BUDGET_EXCEEDED
     - AI_PROFILE_UNAPPROVED
+    - INTERNAL_REVISION_CONFLICT
     parameters:
     - name: Accept-Language
       in: header
@@ -1598,6 +1601,33 @@
         zh-CN:
           description: 鉴权后解析的资源标识或精确乐观修订号。
       schema: *id002
+    - name: cursor
+      in: query
+      required: false
+      description: Opaque cursor bound server-side to subject, artifactId, immutable revision and query. Reauthorize each page; changed revision or foreign cursor is rejected.
+      x-i18n:
+        en-US:
+          description: Opaque cursor bound server-side to subject, artifactId, immutable revision and query. Reauthorize each page; changed revision or foreign cursor is rejected.
+        zh-CN:
+          description: 服务端将不透明游标绑定主体、artifactId、不可变修订号及查询；每页重新授权，拒绝修订变化或外来游标。
+      schema:
+        type: string
+        maxLength: 2048
+        minLength: 1
+    - name: limit
+      in: query
+      required: false
+      description: Results per page, maximum 100.
+      x-i18n:
+        en-US:
+          description: Results per page, maximum 100.
+        zh-CN:
+          description: 每页结果，最多 100。
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 25
     responses:
       '200':
         description: Authorized result.
@@ -1626,6 +1656,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1976,6 +2007,7 @@
                       description: 稳定错误码。
                   enum:
                   - AI_PROFILE_UNAPPROVED
+                  - INTERNAL_REVISION_CONFLICT
                 message:
                   type: string
                   description: Localized message, never used for branching.
@@ -2017,6 +2049,21 @@
                 value:
                   code: AI_PROFILE_UNAPPROVED
                   message: 模型或流水线版本未批准。
+                  details: {}
+                  traceId: trace-example-0001
+              revision-conflict:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_REVISION_CONFLICT
+                  message: Expected revision is stale.
                   details: {}
                   traceId: trace-example-0001
       '429':
@@ -2239,6 +2286,16 @@
                   message: 依赖暂时不可用。
                   details: {}
                   traceId: trace-example-0001
+    x-pagination-binding:
+      scope:
+      - authenticated subject
+      - path.artifactId
+      - artifact.revision
+      - query.limit
+      reauthorizeEachPage: true
+      invalidOrForeignCursor: INTERNAL_INVALID_REQUEST
+      changedRevision: INTERNAL_REVISION_CONFLICT
+      end: nextCursor=null
 /artifacts/{artifactId}/revisions:
   post:
     operationId: createArtifactRevision
@@ -2361,6 +2418,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -2390,6 +2448,8 @@
                     generated: true
                     publicationStatus: DRAFT
                     revision: 1
+                    pipelineVersionId: pip_example01
+                    parametersHash: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                   traceId: trace-example-0001
       '400':
         description: Redacted failure; stable codes only.
@@ -2988,8 +3048,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -3163,6 +3222,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -3784,8 +3844,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true

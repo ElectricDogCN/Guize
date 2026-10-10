@@ -36,6 +36,23 @@ API_IDENTITY = {
 }
 
 
+@FORMATS.checks('credential-free-endpoint')
+def valid_credential_free_endpoint(value):
+    if not isinstance(value, str):
+        return True
+    try:
+        value.encode('utf-8', errors='strict')
+        uri = urlsplit(value)
+        _ = uri.port
+    except (UnicodeError, ValueError):
+        return False
+    return (uri.scheme in {'http', 'https', 'smb', 'nfs'} and bool(uri.hostname)
+            and uri.username is None and uri.password is None
+            and not uri.query and not uri.fragment and '?' not in value and '#' not in value
+            and '%' not in uri.netloc and not any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in value)
+            and '\\' not in value)
+
+
 @FORMATS.checks('source-root')
 def valid_source_root(value):
     if not isinstance(value, str):
@@ -255,10 +272,15 @@ def parse_http(text):
 def verify_http_samples(spec, samples):
     inventory = {op['operationId']:(path,method,op) for path,method,op in operations(spec)}
     seen=set()
+    scenarios=set()
     for sample in samples:
         oid=sample['operationId']
-        if oid in seen or oid not in inventory:
-            raise ContractError('duplicate/unknown HTTP sample operation')
+        scenario=sample.get('scenario', 'baseline')
+        if not isinstance(scenario,str) or not re.fullmatch(r'[a-z][a-z0-9-]{0,63}',scenario):
+            raise ContractError('invalid HTTP scenario')
+        if (oid,scenario) in scenarios or oid not in inventory:
+            raise ContractError('duplicate/unknown HTTP sample operation scenario')
+        scenarios.add((oid,scenario))
         seen.add(oid)
         path,method,op=inventory[oid]
         first,headers,body=parse_http(sample['request'])
@@ -275,6 +297,9 @@ def verify_http_samples(spec, samples):
         names=re.findall(r'\{([^}]+)\}',path)
         path_values=dict(zip(names,matched.groups()))
         query=parse_qs(uri.query,keep_blank_values=True)
+        declared_query={p['name'] for p in op.get('parameters',[]) if p['in']=='query'}
+        if set(query)-declared_query or any(len(values)!=1 for values in query.values()):
+            raise ContractError('undeclared or repeated HTTP scalar query')
         for parameter in op.get('parameters',[]):
             where,name=parameter['in'],parameter['name']
             value=headers.get(name.lower()) if where=='header' else path_values.get(name) if where=='path' else query.get(name,[None])[0]
@@ -286,8 +311,21 @@ def verify_http_samples(spec, samples):
                 try:value=int(value)
                 except ValueError as exc:raise ContractError('invalid integer HTTP parameter') from exc
             validate_instance(value,schema)
-        if op['x-authorization']['mode']=='AUTHENTICATED' and not headers.get('authorization','').startswith('Bearer '):
-            raise ContractError('authenticated HTTP sample requires an illustrative bearer identity')
+        if op['x-authorization']['mode']=='AUTHENTICATED':
+            bearer=bool(re.fullmatch(r'Bearer [A-Za-z0-9_-]{16,256}',headers.get('authorization','')))
+            cookie=bool(re.fullmatch(r'guize_session=[A-Za-z0-9_-]{32,256}',headers.get('cookie','')))
+            if ('authorization' in headers and not bearer) or ('cookie' in headers and not cookie):
+                raise ContractError('malformed HTTP sample authentication')
+            if bearer == cookie:
+                raise ContractError('authenticated HTTP sample requires exactly one declared bearer or cookie identity')
+            scheme='BearerAuth' if bearer else 'SessionCookie'
+            if {scheme:[]} not in op['security']:
+                raise ContractError('HTTP identity scheme is not declared')
+            if cookie and method not in {'get','head','options'}:
+                csrf=next((p for p in op['parameters'] if p['in']=='header' and p['name']=='X-CSRF-Token'),None)
+                if not csrf or 'x-csrf-token' not in headers:
+                    raise ContractError('cookie mutation requires CSRF token')
+                validate_instance(headers['x-csrf-token'],csrf['schema'])
         if op.get('requestBody'):
             if headers.get('content-type')!='application/json':raise ContractError('HTTP request media mismatch')
             validate_instance(json.loads(body),op['requestBody']['content']['application/json']['schema'])
@@ -300,11 +338,23 @@ def verify_http_samples(spec, samples):
         if len(response_parts)!=3 or response_parts[0]!='HTTP/1.1' or response_parts[1] not in op['responses']:
             raise ContractError('HTTP sample status mismatch')
         response=op['responses'][response_parts[1]]
+        for name,definition in response.get('headers',{}).items():
+            header_value=response_headers.get(name.lower())
+            if header_value is None:
+                if definition.get('required'):
+                    raise ContractError('missing required HTTP response header: '+name)
+            else:
+                validate_instance(header_value,definition['schema'])
         content_type=response_headers.get('content-type')
         if content_type not in response['content']:raise ContractError('HTTP sample response media mismatch')
         content=response['content'][content_type]
         value=json.loads(response_body) if content_type=='application/json' else response_body
         validate_instance(value,content['schema'])
+        if (oid in {'createStepUp','createStepUpPasskeyChallenge'}
+                and response_parts[1]=='201'):
+            request_value=json.loads(body)
+            if any(value['data'][key]!=request_value[key] for key in ('action','resourceId','payloadHash')):
+                raise ContractError('step-up response must retain the exact requested tuple')
         if content_type=='application/json' and response_headers.get('x-trace-id')!=value['traceId']:
             raise ContractError('HTTP sample trace header/body mismatch')
         if response_headers.get('cache-control')!='no-store':raise ContractError('control HTTP sample cannot be shared-cached')
@@ -312,8 +362,70 @@ def verify_http_samples(spec, samples):
             approved=json.loads(body).get('approvalId')
             if approved and approved!=headers['x-approval-id']:raise ContractError('HTTP sample approval header/body mismatch')
     if seen!=set(inventory):raise ContractError('missing HTTP operation samples')
-    return len(seen)
+    for oid,(_,method,operation) in inventory.items():
+        if operation['x-authorization']['mode']=='AUTHENTICATED' and method not in {'get','head','options'}:
+            if not {(oid,'baseline'),(oid,'cookie-csrf')} <= scenarios:
+                raise ContractError('missing bearer or cookie-CSRF HTTP mutation scenario')
+    if ('getArtifactContent','cursor-second-page') not in scenarios:
+        raise ContractError('missing consumable artifact cursor HTTP scenario')
+    return len(scenarios)
 
+
+
+def verify_contract_guarantees(spec, error_map):
+    schemas=spec['components']['schemas']
+    inventory={op['operationId']:op for _,_,op in operations(spec)}
+    terminal={'SUCCEEDED','PARTIAL_SUCCESS','FAILED','CANCELLED'}
+    accepted=set(schemas['TaskAccepted']['properties']['status'].get('enum',[]))
+    if not accepted or accepted & terminal:
+        raise ContractError('202 acceptance must exclude terminal task states')
+    if not terminal <= set(schemas['Task']['properties']['status'].get('enum',[])):
+        raise ContractError('durable Task must preserve terminal states')
+    pending=inventory['createApproval']['responses']['201']['content']['application/json']['schema']['properties']['data']
+    if pending['properties']['status'].get('const')!='PENDING':
+        raise ContractError('creation response schema must enforce PENDING approval')
+    progress=inventory['putPlaybackProgress']
+    body=progress['requestBody']['content']['application/json']['schema']
+    binding=progress.get('x-resource-binding',{})
+    if ('assetId' in body['properties'] or binding.get('primary')!='path.assetId'
+            or binding.get('related')!=['body.versionId'] or not binding.get('invariants')):
+        raise ContractError('playback progress must bind the path asset to its authorized immutable version')
+    artifact=inventory['getArtifactContent']
+    inputs={p['name']:p for p in artifact['parameters'] if p['in']=='query'}
+    if not {'cursor','limit'} <= set(inputs) or not artifact.get('x-pagination-binding',{}).get('reauthorizeEachPage'):
+        raise ContractError('artifact content must accept scoped bounded pagination')
+    failure=schemas['TaskFailure']
+    if (failure.get('additionalProperties') is not False
+            or not {'code','retryable','attempts','details'} <= set(failure.get('required',[]))
+            or set(failure['properties']['code'].get('enum',[]))!=set(error_map)
+            or failure['properties']['details']!=schemas['ErrorDetails']):
+        raise ContractError('durable failure must use bounded redacted stable catalog data')
+    for state in ('FAILED','PARTIAL_SUCCESS'):
+        guards=schemas['Task'].get('allOf',[])
+        if not any(state in g.get('if',{}).get('properties',{}).get('status',{}).get('enum',[])
+                   and 'failure' in g.get('then',{}).get('required',[]) for g in guards):
+            raise ContractError('terminal failed Task requires durable failure')
+    for name,required in [('Rendition',{'profileVersionId'}),('DerivedArtifact',{'pipelineVersionId','parametersHash'})]:
+        if not required <= set(schemas[name].get('required',[])):
+            raise ContractError('processing provenance must identify exact immutable versions and parameters')
+    permissions={op['x-authorization']['permission'] for op in inventory.values() if op['x-authorization']['mode']=='AUTHENTICATED'}
+    capability=schemas['CapabilityId']
+    if set(capability.get('enum',[]))!=permissions:
+        raise ContractError('capability catalog must exactly cover supported authenticated permissions')
+    for name in ('RoleDraft','RoleReplacement'):
+        if schemas[name]['properties']['capabilities']['items']!=capability:
+            raise ContractError('role mutations must reject unknown capabilities')
+    for oid in ('createStepUp','createStepUpPasskeyChallenge'):
+        binding=inventory[oid].get('x-step-up-challenge-binding',{})
+        if (binding.get('purpose')!='STEP_UP' or binding.get('tuple')!=['action','resourceId','payloadHash']
+                or not binding.get('subject') or not binding.get('verification') or not binding.get('execution')):
+            raise ContractError('PASSKEY step-up needs an authenticated purpose and exact tuple binding')
+    challenge=inventory['createStepUpPasskeyChallenge']
+    if challenge['x-authorization']['mode']!='AUTHENTICATED':
+        raise ContractError('step-up options must require authentication')
+    result=challenge['responses']['201']['content']['application/json']['schema']['properties']['data']
+    if result['properties']['purpose'].get('const')!='STEP_UP' or not {'action','resourceId','payloadHash','purpose'} <= set(result['required']):
+        raise ContractError('step-up challenge schema must enforce purpose and exact tuple')
 
 def verify(spec=None, catalog=None, coverage=None):
     spec = resolve(read_yaml(ENTRY)) if spec is None else spec
@@ -342,6 +454,7 @@ def verify(spec=None, catalog=None, coverage=None):
         if any(not item.get('action', {}).get(lang) for lang in ('zh-CN','en-US')):
             raise ContractError('missing localized error action')
         bilingual(item, item['code'])
+    verify_contract_guarantees(spec, error_map)
     for node in walk(spec):
         bilingual(node, 'OpenAPI object')
     ids, requirements, example_count = set(), set(), 0
@@ -422,6 +535,15 @@ def verify(spec=None, catalog=None, coverage=None):
         for status, response in operation['responses'].items():
             if not response.get('headers', {}).get('X-Trace-Id', {}).get('required'):
                 raise ContractError(f'{oid}: trace response header required')
+            cache=response.get('headers',{}).get('Cache-Control',{})
+            if not cache.get('required') or cache.get('schema',{}).get('const')!='no-store':
+                raise ContractError(f'{oid}: required no-store response header missing')
+            if oid in {'loginPassword','verifyPasskey'} and status=='200':
+                issued=response.get('headers',{}).get('Set-Cookie',{})
+                if not issued.get('required') or issued.get('schema')!=spec['components']['schemas']['SessionCookieIssuance']:
+                    raise ContractError('successful authentication must issue the secure session cookie')
+            elif 'Set-Cookie' in response.get('headers',{}):
+                raise ContractError('session issuance is only declared on successful authentication')
             content = response.get('content', {})
             if not content:
                 raise ContractError(f'{oid}: response schema required (no untraceable 204)')
@@ -463,8 +585,8 @@ def verify(spec=None, catalog=None, coverage=None):
         if oid in {'getDataSource','listDataSources'}:
             data=operation['responses']['200']['content']['application/json']['schema']['properties']['data']
             source=data['properties']['items']['items'] if oid=='listDataSources' else data
-            if 'credentialReference' in source['properties']:
-                raise ContractError('ordinary source metadata must not expose protected reference')
+            if 'credentialReference' in source['properties'] or source.get('additionalProperties') is not False:
+                raise ContractError('ordinary source metadata must be closed and exclude protected references')
         reqs = operation.get('x-requirement-ids', [])
         if not reqs or not operation.get('x-module-id'):
             raise ContractError(f'{oid}: requirement/module trace missing')
@@ -531,7 +653,7 @@ def compatible(old, new, old_catalog, new_catalog):
         right=new_ops[(path,method)]
         for key in ('operationId','security','x-authorization','x-idempotency','x-long-running','x-error-codes','summary','description',
                     'x-multi-resource-invariants','x-resource-binding','x-no-expensive-work','x-playback-readiness',
-                    'x-account-enumeration-policy'):
+                    'x-account-enumeration-policy','x-pagination-binding','x-step-up-challenge-binding'):
             if left.get(key) != right.get(key):
                 raise ContractError(f'{path}: operation meaning/security changed: {key}')
         # Parameters and request required/media types cannot silently change.

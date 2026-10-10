@@ -603,3 +603,9 @@ operations:
   moduleId: MOD-CONFIG
   requirementIds:
   - REQ-V1-0009
+- operationId: createStepUpPasskeyChallenge
+  method: POST
+  path: /auth/step-up/passkeys:options
+  moduleId: MOD-IAM
+  requirementIds:
+  - REQ-V1-0008

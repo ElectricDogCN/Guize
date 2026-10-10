@@ -137,6 +137,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -862,6 +863,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -893,8 +895,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -933,8 +934,7 @@
       notReadyAndAllowed: 202 taskId; no grant until safe representation ready
       notReadyAndDenied: MEDIA_UNSUPPORTED
       anonymous: never create expensive work
-    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust
-      an arbitrary version ID
+    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust an arbitrary version ID
 /public/assets/{assetId}/playback-plans:
   post:
     operationId: createPublicPlaybackPlan
@@ -1042,6 +1042,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1726,8 +1727,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -1762,8 +1762,7 @@
                 - HLS
                 allowTemporaryTranscode: false
     x-no-expensive-work: true
-    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust
-      an arbitrary version ID
+    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust an arbitrary version ID
 /playback-grants/{grantId}:revoke:
   post:
     operationId: revokePlaybackGrant
@@ -1885,6 +1884,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -2575,8 +2575,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
 /playback-progress/{assetId}:
   get:
@@ -2670,6 +2669,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -3403,6 +3403,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -4087,8 +4088,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -4114,10 +4114,17 @@
                   description: 契约说明值，不是线上执行结果。
                   summary: 契约说明值，不是线上执行结果。
               value:
-                assetId: ast_example01
                 versionId: ver_example01
                 positionMs: 42000
                 durationMs: 120000
                 completed: false
                 lastPlayedAt: '2026-10-09T12:00:00Z'
                 deviceId: dev_example01
+    x-resource-binding:
+      primary: path.assetId
+      related:
+      - body.versionId
+      invariants:
+      - Resolve versionId within path.assetId and authenticated subject before reading or writing progress.
+      - Reject absent, unauthorized or foreign versions with the same redacted not-found response.
+      - Stored progress is keyed by authenticated subject + path.assetId + resolved immutable versionId.

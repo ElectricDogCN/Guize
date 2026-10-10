@@ -1,0 +1,5 @@
+Source Commit: 9b556484145aa396ebe97fc34872034b859bb4b7
+Command: python scripts/check-program-plan-transitions.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline
+{"status": "PASS", "message": "Program reservation scope, wave and lifecycle transitions passed", "details": {"task": "GZ-005", "activeTasks": 1, "completionRecords": 2}}
+
+Exit Code: 0

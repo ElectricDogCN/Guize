@@ -1,0 +1,1 @@
+contracts/openapi/common/openapi.yaml: OK

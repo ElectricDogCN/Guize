@@ -178,6 +178,8 @@ paths:
     $ref: ../config/paths.yaml#/~1approvals
   /approvals/{approvalId}:decide:
     $ref: ../config/paths.yaml#/~1approvals~1{approvalId}:decide
+  /auth/step-up/passkeys:options:
+    $ref: ../iam/paths.yaml#/~1auth~1step-up~1passkeys:options
 components:
   securitySchemes:
     SessionCookie:
@@ -466,3 +468,19 @@ components:
       $ref: schemas.yaml#/ApprovalId
     StorageRequest:
       $ref: schemas.yaml#/StorageRequest
+    SessionCookieIssuance:
+      $ref: schemas.yaml#/SessionCookieIssuance
+    PendingApproval:
+      $ref: schemas.yaml#/PendingApproval
+    PendingApprovalEnvelope:
+      $ref: schemas.yaml#/PendingApprovalEnvelope
+    TaskFailure:
+      $ref: schemas.yaml#/TaskFailure
+    StepUpChallengeRequest:
+      $ref: schemas.yaml#/StepUpChallengeRequest
+    StepUpChallenge:
+      $ref: schemas.yaml#/StepUpChallenge
+    StepUpChallengeEnvelope:
+      $ref: schemas.yaml#/StepUpChallengeEnvelope
+    CapabilityId:
+      $ref: schemas.yaml#/CapabilityId

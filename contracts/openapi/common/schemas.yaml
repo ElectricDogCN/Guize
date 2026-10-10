@@ -26,7 +26,7 @@ TaskAccepted:
           description: Observed task state at acceptance; not completed command outcome.
         zh-CN:
           description: 受理时观测的任务状态，不代表命令已完成。
-      enum: &id009
+      enum:
       - CREATED
       - QUEUED
       - DISPATCHING
@@ -37,10 +37,6 @@ TaskAccepted:
       - WAITING_BUDGET
       - WAITING_APPROVAL
       - RETRYING
-      - SUCCEEDED
-      - PARTIAL_SUCCESS
-      - FAILED
-      - CANCELLED
     statusUrl:
       type: string
       description: Relative status resource.
@@ -632,16 +628,9 @@ RoleDraft:
         zh-CN:
           description: 待授予能力。
       items:
-        type: string
-        description: Capability.
-        x-i18n:
-          en-US:
-            description: Capability.
-          zh-CN:
-            description: 能力。
-        minLength: 1
-        maxLength: 256
+        $ref: schemas.yaml#/CapabilityId
       maxItems: 100
+      uniqueItems: true
   required:
   - name
   - capabilities
@@ -674,16 +663,9 @@ RoleReplacement:
         zh-CN:
           description: 待授予能力。
       items:
-        type: string
-        description: Capability.
-        x-i18n:
-          en-US:
-            description: Capability.
-          zh-CN:
-            description: 能力。
-        minLength: 1
-        maxLength: 256
+        $ref: schemas.yaml#/CapabilityId
       maxItems: 100
+      uniqueItems: true
     expectedRevision: *id003
   required:
   - name
@@ -697,7 +679,7 @@ DataSource:
       description: Caller-visible source metadata; private by default.
     zh-CN:
       description: 调用者可见的数据源元数据，默认私有。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     id: *id001
     name:
@@ -857,8 +839,7 @@ SourceDraft:
           description: Canonical relative path under the authorized LOCAL mount; no absolute path, traversal, escapes or backslashes.
           x-i18n:
             en-US:
-              description: Canonical relative path under the authorized LOCAL mount; no absolute path, traversal, escapes
-                or backslashes.
+              description: Canonical relative path under the authorized LOCAL mount; no absolute path, traversal, escapes or backslashes.
             zh-CN:
               description: 授权 LOCAL 挂载下的规范相对路径；禁止绝对路径、目录穿越、转义和反斜杠。
         endpoint:
@@ -870,6 +851,74 @@ SourceDraft:
               description: Server-issued authorized LOCAL mount alias, never an arbitrary filesystem endpoint.
             zh-CN:
               description: 服务端签发且授权的 LOCAL 挂载别名，不接受任意文件系统端点。
+  - if:
+      properties:
+        kind:
+          enum:
+          - WEBDAV
+          - HTTP
+          - BAIDU
+          - GOOGLE_DRIVE
+          - S3
+          - ONEDRIVE
+      required:
+      - kind
+    then:
+      properties:
+        endpoint:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          format: credential-free-endpoint
+          pattern: ^https?://(?![^/]*[@%\\])[^/?#\s]+(?:/[^?#\s\\]*)?(?![\s\S])
+          description: Connector endpoint without URI userinfo, query or fragment; credentials only use the protected reference. Server independently enforces host allowlist, SSRF, redirects and provider policy.
+          x-i18n:
+            en-US:
+              description: Connector endpoint without URI userinfo, query or fragment; credentials only use the protected reference. Server independently enforces host allowlist, SSRF, redirects and provider policy.
+            zh-CN:
+              description: 连接器端点不得包含 URI 用户信息、查询或片段；凭据只能通过受保护引用传入。服务端独立检查主机白名单、SSRF、重定向及提供方策略。
+  - if:
+      properties:
+        kind:
+          enum:
+          - SMB
+      required:
+      - kind
+    then:
+      properties:
+        endpoint:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          format: credential-free-endpoint
+          pattern: ^smb://(?![^/]*[@%\\])[^/?#\s]+(?:/[^?#\s\\]*)?(?![\s\S])
+          description: Connector endpoint without URI userinfo, query or fragment; credentials only use the protected reference. Server independently enforces host allowlist, SSRF, redirects and provider policy.
+          x-i18n:
+            en-US:
+              description: Connector endpoint without URI userinfo, query or fragment; credentials only use the protected reference. Server independently enforces host allowlist, SSRF, redirects and provider policy.
+            zh-CN:
+              description: 连接器端点不得包含 URI 用户信息、查询或片段；凭据只能通过受保护引用传入。服务端独立检查主机白名单、SSRF、重定向及提供方策略。
+  - if:
+      properties:
+        kind:
+          enum:
+          - NFS
+      required:
+      - kind
+    then:
+      properties:
+        endpoint:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          format: credential-free-endpoint
+          pattern: ^nfs://(?![^/]*[@%\\])[^/?#\s]+(?:/[^?#\s\\]*)?(?![\s\S])
+          description: Connector endpoint without URI userinfo, query or fragment; credentials only use the protected reference. Server independently enforces host allowlist, SSRF, redirects and provider policy.
+          x-i18n:
+            en-US:
+              description: Connector endpoint without URI userinfo, query or fragment; credentials only use the protected reference. Server independently enforces host allowlist, SSRF, redirects and provider policy.
+            zh-CN:
+              description: 连接器端点不得包含 URI 用户信息、查询或片段；凭据只能通过受保护引用传入。服务端独立检查主机白名单、SSRF、重定向及提供方策略。
 SourcePatch:
   type: object
   description: Update mutable source metadata using a revision.
@@ -1572,6 +1621,16 @@ Rendition:
         zh-CN:
           description: 输出 SHA-256 摘要。
       pattern: ^[0-9a-f]{64}$
+    profileVersionId:
+      type: string
+      description: Exact immutable approved encoder profile version used by this rendition; resolved parameters remain immutable with the profile version.
+      x-i18n:
+        en-US:
+          description: Exact immutable approved encoder profile version used by this rendition; resolved parameters remain immutable with the profile version.
+        zh-CN:
+          description: 生成此表现形式所使用的精确、不可变、已批准的编码配置版本；解析后的参数随该配置版本保持不可变。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
   required:
   - id
   - assetVersionId
@@ -1582,6 +1641,7 @@ Rendition:
   - toolVersion
   - inputHash
   - outputHash
+  - profileVersionId
 PublicationRequest:
   type: object
   description: Explicit safe publication requires approval and step-up.
@@ -1721,7 +1781,21 @@ Task:
           description: Workflow state; transitions are constrained.
         zh-CN:
           description: 工作流状态，转换受状态机约束。
-      enum: *id009
+      enum: &id009
+      - CREATED
+      - QUEUED
+      - DISPATCHING
+      - RUNNING
+      - PAUSING
+      - PAUSED
+      - WAITING_RESOURCE
+      - WAITING_BUDGET
+      - WAITING_APPROVAL
+      - RETRYING
+      - SUCCEEDED
+      - PARTIAL_SUCCESS
+      - FAILED
+      - CANCELLED
     priority:
       type: integer
       description: P0 highest through P8 lowest.
@@ -1754,6 +1828,8 @@ Task:
           description: 包括失败请求在内的关联标识。
       pattern: ^[A-Za-z0-9-]{8,128}$
       maxLength: 128
+    failure:
+      $ref: schemas.yaml#/TaskFailure
   required:
   - id
   - type
@@ -1764,6 +1840,18 @@ Task:
   - inputVersionId
   - revision
   - traceId
+  allOf:
+  - if:
+      properties:
+        status:
+          enum:
+          - FAILED
+          - PARTIAL_SUCCESS
+      required:
+      - status
+    then:
+      required:
+      - failure
 TaskCommand:
   type: object
   description: Audited state-machine command; cannot force terminal success.
@@ -2022,6 +2110,25 @@ DerivedArtifact:
       - PUBLISHED
       - REVOKED
     revision: *id003
+    pipelineVersionId:
+      type: string
+      description: Exact immutable approved pipeline version used by this result.
+      x-i18n:
+        en-US:
+          description: Exact immutable approved pipeline version used by this result.
+        zh-CN:
+          description: 此结果使用的精确、不可变、已批准的流水线版本。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    parametersHash:
+      type: string
+      pattern: ^[0-9a-f]{64}(?![\s\S])
+      description: Server-computed SHA256 of RFC8785 canonical resolved model parameter snapshot retained with the immutable pipeline version; never a caller claim.
+      x-i18n:
+        en-US:
+          description: Server-computed SHA256 of RFC8785 canonical resolved model parameter snapshot retained with the immutable pipeline version; never a caller claim.
+        zh-CN:
+          description: 服务端对已解析的模型参数快照做 RFC8785 规范化后计算的 SHA256；快照随不可变流水线版本保留，不接受调用者自报。
   required:
   - id
   - assetVersionId
@@ -2033,6 +2140,8 @@ DerivedArtifact:
   - generated
   - publicationStatus
   - revision
+  - pipelineVersionId
+  - parametersHash
   allOf:
   - if:
       properties:
@@ -3458,6 +3567,7 @@ ErrorDetails:
       - assetType
       - assetTypes
       - assetVersionId
+      - attempts
       - attestation
       - attestationObject
       - authenticationMethods
@@ -3511,6 +3621,7 @@ ErrorDetails:
       - expectedRevision
       - expiresAt
       - explanation
+      - failure
       - failureDomainId
       - field
       - forceRerun
@@ -3544,6 +3655,7 @@ ErrorDetails:
       - otherExpectedRevision
       - outputHash
       - ownerId
+      - parametersHash
       - passkeyAssertion
       - password
       - path
@@ -3566,6 +3678,7 @@ ErrorDetails:
       - pubKeyCredParams
       - publicKey
       - publicationStatus
+      - purpose
       - qualityStatus
       - query
       - rangePolicy
@@ -3576,6 +3689,7 @@ ErrorDetails:
       - residentKey
       - resourceId
       - retryAfterSeconds
+      - retryable
       - revision
       - roleIds
       - root
@@ -3601,6 +3715,7 @@ ErrorDetails:
       - subjectId
       - supportedCodecs
       - targetHostIds
+      - targetId
       - taskId
       - text
       - timeout
@@ -5676,7 +5791,7 @@ PlaybackProgressInput:
       description: 登录用户的跨设备进度，匿名进度留在本地。
   additionalProperties: false
   properties:
-    assetId: &id013
+    versionId: &id013
       type: string
       description: Opaque resource identifier; never a file path.
       x-i18n:
@@ -5686,7 +5801,6 @@ PlaybackProgressInput:
           description: 不透明资源标识，不是文件路径。
       pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
       maxLength: 80
-    versionId: *id013
     positionMs:
       type: integer
       description: Playback offset.
@@ -5724,7 +5838,6 @@ PlaybackProgressInput:
       format: date-time
     deviceId: *id013
   required:
-  - assetId
   - versionId
   - positionMs
   - durationMs
@@ -6106,12 +6219,10 @@ PasskeyRegistrationChallengeEnvelope:
   - traceId
 ProtectedRequestIntent:
   type: object
-  description: Complete proposed business request without approvalId transport; server validates the exact resolved operation
-    schema.
+  description: Complete proposed business request without approvalId transport; server validates the exact resolved operation schema.
   x-i18n:
     en-US:
-      description: Complete proposed business request without approvalId transport; server validates the exact resolved operation
-        schema.
+      description: Complete proposed business request without approvalId transport; server validates the exact resolved operation schema.
     zh-CN:
       description: 不含审批编号传递字段的完整拟执行业务请求；服务端验证精确操作的请求 Schema。
   additionalProperties: false
@@ -6216,3 +6327,496 @@ StorageRequest:
   - targetId
   - policyVersionId
   - reason
+SessionCookieIssuance:
+  type: string
+  minLength: 89
+  maxLength: 313
+  pattern: ^guize_session=[A-Za-z0-9_-]{32,256}; Path=/; Secure; HttpOnly; SameSite=Strict(?![\s\S])
+  description: Opaque rotated host-only browser session; exact secure attributes, no Domain. Session lifetime is enforced server-side against Session.expiresAt. No bearer token is returned.
+  x-i18n:
+    en-US:
+      description: Opaque rotated host-only browser session; exact secure attributes, no Domain. Session lifetime is enforced server-side against Session.expiresAt. No bearer token is returned.
+    zh-CN:
+      description: 轮换后的不透明浏览器会话，仅限当前主机；固定安全属性，无 Domain。服务端按 Session.expiresAt 校验有效期，不返回 Bearer 令牌。
+PendingApproval:
+  type: object
+  description: Action/resource/revision-bound human approval, immutable audit.
+  x-i18n:
+    en-US:
+      description: Action/resource/revision-bound human approval, immutable audit.
+    zh-CN:
+      description: 绑定操作、资源与修订版本的人工审批，不可变审计。
+  additionalProperties: true
+  properties:
+    id:
+      $ref: schemas.yaml#/ApprovalId
+    action:
+      type: string
+      description: Exact operation ID.
+      x-i18n:
+        en-US:
+          description: Exact operation ID.
+        zh-CN:
+          description: 精确操作 ID。
+      minLength: 1
+      maxLength: 256
+    resourceId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    revision:
+      type: integer
+      description: Optimistic resource revision.
+      x-i18n:
+        en-US:
+          description: Optimistic resource revision.
+        zh-CN:
+          description: 资源的乐观并发修订号。
+      minimum: 1
+    status:
+      type: string
+      const: PENDING
+      description: Creation cannot approve its own proposal.
+      x-i18n:
+        en-US:
+          description: Creation cannot approve its own proposal.
+        zh-CN:
+          description: 创建不能自行批准申请。
+    expiresAt:
+      type: string
+      description: UTC RFC3339 timestamp.
+      x-i18n:
+        en-US:
+          description: UTC RFC3339 timestamp.
+        zh-CN:
+          description: UTC RFC3339 时间。
+      format: date-time
+    payloadHash:
+      type: string
+      description: Server-verified SHA-256 of the RFC 8785 protected intent; not an opaque unchecked client assertion.
+      x-i18n:
+        en-US:
+          description: Server-verified SHA-256 of the RFC 8785 protected intent; not an opaque unchecked client assertion.
+        zh-CN:
+          description: 服务端核对的 RFC 8785 完整操作意图 SHA-256 摘要，不是未经校验的客户端断言。
+      pattern: ^[0-9a-f]{64}$
+    requestIntent:
+      $ref: schemas.yaml#/ProtectedRequestIntent
+  required:
+  - id
+  - action
+  - resourceId
+  - revision
+  - status
+  - expiresAt
+  - payloadHash
+  - requestIntent
+PendingApprovalEnvelope:
+  type: object
+  description: Localized success envelope.
+  x-i18n:
+    en-US:
+      description: Localized success envelope.
+    zh-CN:
+      description: 本地化成功响应。
+  additionalProperties: true
+  properties:
+    code:
+      type: string
+      description: Success result.
+      x-i18n:
+        en-US:
+          description: Success result.
+        zh-CN:
+          description: 成功结果。
+      enum:
+      - SUCCESS
+    message:
+      type: string
+      description: Localized informational message.
+      x-i18n:
+        en-US:
+          description: Localized informational message.
+        zh-CN:
+          description: 本地化提示。
+      minLength: 1
+      maxLength: 1024
+    data:
+      $ref: schemas.yaml#/PendingApproval
+    traceId:
+      type: string
+      description: Request correlation identifier, including failures.
+      x-i18n:
+        en-US:
+          description: Request correlation identifier, including failures.
+        zh-CN:
+          description: 包括失败请求在内的关联标识。
+      pattern: ^[A-Za-z0-9-]{8,128}$
+      maxLength: 128
+  required:
+  - code
+  - message
+  - data
+  - traceId
+TaskFailure:
+  type: object
+  additionalProperties: false
+  properties:
+    code:
+      type: string
+      enum:
+      - AUTH_REQUIRED
+      - AUTH_INVALID
+      - AUTH_STEP_UP_REQUIRED
+      - AUTH_LOGIN_LOCKED
+      - ACCESS_DENIED
+      - ACCESS_NOT_FOUND
+      - INTERNAL_INVALID_REQUEST
+      - INTERNAL_IDEMPOTENCY_CONFLICT
+      - INTERNAL_REVISION_CONFLICT
+      - INTERNAL_RATE_LIMITED
+      - INTERNAL_UNAVAILABLE
+      - INTERNAL_ERROR
+      - SOURCE_UNAVAILABLE
+      - SOURCE_CREDENTIAL_REVOKED
+      - SOURCE_POLICY_BLOCKED
+      - ASSET_HASH_UNVERIFIED
+      - ASSET_MERGE_CONFLICT
+      - CACHE_UNSAFE_EVICTION
+      - STORAGE_SAFETY_FLOOR
+      - STORAGE_LAST_RECOVERABLE_COPY
+      - MEDIA_UNSUPPORTED
+      - MEDIA_GRANT_EXPIRED
+      - AI_DATA_POLICY_DENIED
+      - AI_BUDGET_EXCEEDED
+      - AI_PROFILE_UNAPPROVED
+      - SEARCH_CURSOR_INVALID
+      - TASK_INVALID_TRANSITION
+      - TASK_BUDGET_BLOCKED
+      - POLICY_VALIDATION_FAILED
+      - POLICY_APPROVAL_REQUIRED
+      - DEPLOYMENT_BUNDLE_INVALID
+      - SECURITY_CONTENT_BLOCKED
+      - BACKUP_VERIFICATION_REQUIRED
+      description: Stable catalog failure code.
+      x-i18n:
+        en-US:
+          description: Stable catalog failure code.
+        zh-CN:
+          description: 目录中的稳定失败码。
+    retryable:
+      type: boolean
+      description: Must equal the stable error catalog retry policy; current budget and authorization are still rechecked.
+      x-i18n:
+        en-US:
+          description: Must equal the stable error catalog retry policy; current budget and authorization are still rechecked.
+        zh-CN:
+          description: 须等于稳定错误目录的重试策略；仍需重新检查当前预算和授权。
+    attempts:
+      type: integer
+      minimum: 1
+      maximum: 100
+      description: Persisted completed attempt count, including the failing attempt.
+      x-i18n:
+        en-US:
+          description: Persisted completed attempt count, including the failing attempt.
+        zh-CN:
+          description: 持久化的已完成尝试次数，含失败尝试。
+    details:
+      $ref: schemas.yaml#/ErrorDetails
+  required:
+  - code
+  - retryable
+  - attempts
+  - details
+  description: Durable redacted failure for FAILED or PARTIAL_SUCCESS; no provider exception or secret.
+  x-i18n:
+    en-US:
+      description: Durable redacted failure for FAILED or PARTIAL_SUCCESS; no provider exception or secret.
+    zh-CN:
+      description: FAILED 或 PARTIAL_SUCCESS 的持久化脱敏失败信息，不含提供方异常或秘密。
+  allOf:
+  - if:
+      properties:
+        code:
+          enum:
+          - AUTH_REQUIRED
+          - AUTH_INVALID
+          - AUTH_STEP_UP_REQUIRED
+          - AUTH_LOGIN_LOCKED
+          - ACCESS_DENIED
+          - ACCESS_NOT_FOUND
+          - INTERNAL_INVALID_REQUEST
+          - INTERNAL_IDEMPOTENCY_CONFLICT
+          - INTERNAL_REVISION_CONFLICT
+          - INTERNAL_ERROR
+          - SOURCE_CREDENTIAL_REVOKED
+          - SOURCE_POLICY_BLOCKED
+          - ASSET_HASH_UNVERIFIED
+          - ASSET_MERGE_CONFLICT
+          - CACHE_UNSAFE_EVICTION
+          - STORAGE_SAFETY_FLOOR
+          - STORAGE_LAST_RECOVERABLE_COPY
+          - MEDIA_UNSUPPORTED
+          - MEDIA_GRANT_EXPIRED
+          - AI_DATA_POLICY_DENIED
+          - AI_BUDGET_EXCEEDED
+          - AI_PROFILE_UNAPPROVED
+          - SEARCH_CURSOR_INVALID
+          - TASK_INVALID_TRANSITION
+          - TASK_BUDGET_BLOCKED
+          - POLICY_VALIDATION_FAILED
+          - POLICY_APPROVAL_REQUIRED
+          - DEPLOYMENT_BUNDLE_INVALID
+          - SECURITY_CONTENT_BLOCKED
+          - BACKUP_VERIFICATION_REQUIRED
+      required:
+      - code
+    then:
+      properties:
+        retryable:
+          const: false
+  - if:
+      properties:
+        code:
+          enum:
+          - INTERNAL_RATE_LIMITED
+          - INTERNAL_UNAVAILABLE
+          - SOURCE_UNAVAILABLE
+      required:
+      - code
+    then:
+      properties:
+        retryable:
+          const: true
+StepUpChallengeRequest:
+  type: object
+  description: Authenticated exact action, resource and payload tuple for one-time PASSKEY step-up.
+  x-i18n:
+    en-US:
+      description: Authenticated exact action, resource and payload tuple for one-time PASSKEY step-up.
+    zh-CN:
+      description: 为一次性 PASSKEY 二次认证提供已认证的精确操作、资源和负载元组。
+  additionalProperties: false
+  properties:
+    action:
+      type: string
+      description: Exact high-risk operation ID.
+      x-i18n:
+        en-US:
+          description: Exact high-risk operation ID.
+        zh-CN:
+          description: 精确的高风险操作 ID。
+      minLength: 1
+      maxLength: 256
+    resourceId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    payloadHash:
+      type: string
+      description: Canonical protected request SHA-256 digest.
+      x-i18n:
+        en-US:
+          description: Canonical protected request SHA-256 digest.
+        zh-CN:
+          description: 受保护规范化请求的 SHA-256 摘要。
+      pattern: ^[0-9a-f]{64}$
+  required:
+  - action
+  - resourceId
+  - payloadHash
+StepUpChallenge:
+  type: object
+  description: One-time PASSKEY challenge bound server-side to current authenticated subject/session, RP/origin, expiry and exact tuple; verify credential ownership and consume once.
+  x-i18n:
+    en-US:
+      description: One-time PASSKEY challenge bound server-side to current authenticated subject/session, RP/origin, expiry and exact tuple; verify credential ownership and consume once.
+    zh-CN:
+      description: 服务端将一次性 PASSKEY 挑战绑定当前认证主体及会话、RP/来源、有效期和精确元组；校验凭据归属且仅消费一次。
+  additionalProperties: false
+  properties:
+    challengeId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    expiresAt:
+      type: string
+      description: UTC RFC3339 timestamp.
+      x-i18n:
+        en-US:
+          description: UTC RFC3339 timestamp.
+        zh-CN:
+          description: UTC RFC3339 时间。
+      format: date-time
+    publicKey:
+      $ref: schemas.yaml#/WebAuthnRequestOptions
+    action:
+      type: string
+      description: Exact high-risk operation ID.
+      x-i18n:
+        en-US:
+          description: Exact high-risk operation ID.
+        zh-CN:
+          description: 精确的高风险操作 ID。
+      minLength: 1
+      maxLength: 256
+    resourceId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    payloadHash:
+      type: string
+      description: Canonical protected request SHA-256 digest.
+      x-i18n:
+        en-US:
+          description: Canonical protected request SHA-256 digest.
+        zh-CN:
+          description: 受保护规范化请求的 SHA-256 摘要。
+      pattern: ^[0-9a-f]{64}$
+    purpose:
+      type: string
+      const: STEP_UP
+      description: Challenge purpose; login or registration challenges cannot be reused.
+      x-i18n:
+        en-US:
+          description: Challenge purpose; login or registration challenges cannot be reused.
+        zh-CN:
+          description: 挑战用途；不得复用登录或注册挑战。
+  required:
+  - challengeId
+  - expiresAt
+  - publicKey
+  - action
+  - resourceId
+  - payloadHash
+  - purpose
+StepUpChallengeEnvelope:
+  type: object
+  description: Localized success envelope.
+  x-i18n:
+    en-US:
+      description: Localized success envelope.
+    zh-CN:
+      description: 本地化成功响应。
+  additionalProperties: true
+  properties:
+    code:
+      type: string
+      description: Success result.
+      x-i18n:
+        en-US:
+          description: Success result.
+        zh-CN:
+          description: 成功结果。
+      enum:
+      - SUCCESS
+    message:
+      type: string
+      description: Localized informational message.
+      x-i18n:
+        en-US:
+          description: Localized informational message.
+        zh-CN:
+          description: 本地化提示。
+      minLength: 1
+      maxLength: 1024
+    data:
+      $ref: schemas.yaml#/StepUpChallenge
+    traceId:
+      type: string
+      description: Request correlation identifier, including failures.
+      x-i18n:
+        en-US:
+          description: Request correlation identifier, including failures.
+        zh-CN:
+          description: 包括失败请求在内的关联标识。
+      pattern: ^[A-Za-z0-9-]{8,128}$
+      maxLength: 128
+  required:
+  - code
+  - message
+  - data
+  - traceId
+CapabilityId:
+  type: string
+  enum:
+  - ai.read
+  - approval.decide
+  - approval.read
+  - approval.request
+  - asset.edit
+  - asset.play
+  - asset.process
+  - asset.publish
+  - asset.read
+  - asset.share
+  - asset.write
+  - config.canary
+  - config.publish
+  - config.read
+  - config.rollback
+  - config.sensitive.read
+  - config.simulate
+  - config.validate
+  - config.write
+  - deployment.execute
+  - deployment.read
+  - grant.owner
+  - iam.roles.manage
+  - iam.roles.read
+  - iam.users.manage
+  - iam.users.read
+  - policy.canary
+  - policy.publish
+  - policy.read
+  - policy.rollback
+  - policy.simulate
+  - policy.validate
+  - policy.write
+  - progress.self
+  - search.manage
+  - session.self
+  - source.create
+  - source.credential.manage
+  - source.owner
+  - source.read
+  - source.write
+  - storage.cache.evict
+  - storage.read
+  - storage.write
+  - task.owner
+  - task.read
+  - worker.bootstrap
+  - worker.read
+  - worker.self
+  description: Closed current V1 authenticated operation permission catalog; unknown or future capabilities cannot be granted.
+  x-i18n:
+    en-US:
+      description: Closed current V1 authenticated operation permission catalog; unknown or future capabilities cannot be granted.
+    zh-CN:
+      description: 当前 V1 已认证操作权限的封闭目录；不得授予未知或未来权限。

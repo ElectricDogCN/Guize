@@ -1,6 +1,17 @@
 # OPENAPI-V1 / ERROR-CATALOG-V1 semantics
 
 Contract version: 1.0.0, effective upon reviewed implementation merge.
+202 TaskAccepted statuses exclude terminal outcomes. Task FAILED and PARTIAL_SUCCESS
+require durable TaskFailure with stable error code, catalog retryability, bounded
+attempt count and closed redacted details. No raw provider exception is allowed.
+Rendition identifies its exact immutable approved profileVersionId. DerivedArtifact
+identifies its immutable pipelineVersionId and server-derived canonical parameter
+snapshot hash; this contract does not prove that an encoder or model ran.
+Playback progress takes its sole asset identity from the route, and the server
+resolves body.versionId within that asset and the authenticated subject before use.
+Artifact content consumes scoped cursor/limit inputs and reauthorizes each page
+against subject, artifact and immutable revision. All control response headers
+require Cache-Control: no-store; public media caching is governed separately.
 Authority: frozen REQ-V1/NFR-V1; docs/06, docs/12, docs/21 and module designs.
 OpenAPI entry: `contracts/openapi/common/openapi.yaml`; pinned OAS 3.1.1, API 1.0.0.
 This freezes the assigned V1 control interface after acceptance. It does not assert
@@ -12,6 +23,13 @@ Same-origin `/api/v1` uses a Secure, HttpOnly, SameSite session cookie or short-
 scoped user/machine bearer identity. TLS is required outside isolated local tests.
 Cookie-authenticated writes require the session CSRF token; bearer machine requests
 must have an allowed audience/capability and cannot act as arbitrary users.
+Password and passkey login 200 responses require Set-Cookie with a fresh opaque
+guize_session, Path=/, Secure, HttpOnly and SameSite=Strict, without Domain.
+The session lifetime is enforced against expiresAt on the server. Both declared
+authentication schemes have serialized illustrative write cases; Cookie cases
+require X-CSRF-Token. These examples do not establish browser enforcement.
+RoleDraft and RoleReplacement accept only CapabilityId values from the closed
+current V1 authenticated permission catalog; unknown permissions are rejected.
 Password login follows Argon2id, lockout, rate-limit, short-session and notification
 policies. It never returns a password/hash/provider token. Offline recovery keys
 are never accepted at ordinary login. WebAuthn challenges are one-time, expiring,
@@ -34,12 +52,19 @@ logical assets or verified copies as a side effect.
 引用必须属于调用者或有显式代理授权。配置与规则正文必须按精确版本读取，
 再次确认涉及引用的配置读取；服务端按其绑定 Schema 脱敏并拒绝内联 Secrets。
 CLI/UI 不得从配置文档中补回原始密钥。
+普通 DataSource 响应为封闭对象，不能附带未声明的凭据字段。网络端点按连接器
+类型限制协议，并拒绝用户信息、查询和片段；LOCAL 保持授权挂载别名与相对根。
 
 ## 高风险绑定 / Protected action binding
 
 `X-Step-Up-Proof` binds current subject, exact operation ID, target resource or
 collection ID, protected-intent digest, expiry and intended action. The configured
 reauthentication policy is applied server-side, not inferred from a client assertion.
+Authenticated POST /auth/step-up/passkeys:options accepts the exact action,
+resourceId and payloadHash tuple. Its STEP_UP challenge is bound to the current
+subject/session, RP/origin and expiry, and consumed once. createStepUp must verify
+signed credential ownership and that same tuple; LOGIN and REGISTRATION challenges
+cannot be substituted. The protected action recomputes the actual request digest.
 Collection creates bind `col_sources`, `col_roles`, `col_users` or the applicable
 server-issued collection resource and the complete create payload.
 
@@ -49,6 +74,8 @@ hash and expiry, with a separated approver under policy. If a request also inclu
 `approvalId`, it must equal the header. Approval decision itself requires step-up
 and separation of duties, never recursive prior approval of the same decision.
 Proposals, simulations and AI configuration suggestions never self-publish.
+The createApproval 201 schema fixes status=PENDING; later decisions use the
+general approval schema and keep the existing independent approval gates.
 Policy/config publication and rollback reference the reviewed immutable revision;
 validation/simulation results cannot stand in for approval or health observation.
 

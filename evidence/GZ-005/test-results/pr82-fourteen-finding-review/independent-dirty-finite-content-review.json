@@ -1,0 +1,161 @@
+{
+  "kind": "DIRTY_FINITE_CONTRACT_REVIEW_NOT_FORMAL_SOURCE_OR_RUNTIME_PASS",
+  "at": "2026-10-10T09:15:19.754069+00:00",
+  "baseHEAD": "9b556484145aa396ebe97fc34872034b859bb4b7",
+  "snapshot": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fourteen-dirty-review-snapshot",
+  "hashes": {
+    "contracts/openapi/ai/paths.yaml": "7beaefaad84b32a9ce5c26672fb50adc7472f263c81a699c5632d261aa041a3e",
+    "contracts/openapi/asset/paths.yaml": "e26c5bfe4db8ed3cadb1824ac0a92549fcc674c8586e0e8106e13bd473d0b328",
+    "contracts/openapi/common/errors.yaml": "4b581996e7bd9c17fbe951f22c671f9b592ede3f12f96189c5fe5a8daa4cd08f",
+    "contracts/openapi/common/http-samples.json": "716cc4b4b4f617db67318ea3d3e1f9eebf32589728dad82ed484d82316ee6578",
+    "contracts/openapi/common/openapi.yaml": "52ada7da7d5fc983e94a9dca5531e6fdc61e74ec89418814cd29a3bff6eeddbd",
+    "contracts/openapi/common/schemas.yaml": "b1f3193015eefd7ecff2f8b673f265887dc51aa18cb72c9f97fd3b88a50c9635",
+    "contracts/openapi/config/paths.yaml": "2eea00144d7f885f1959238bccfcb8e45d62eaf875ffa32c5321a426db7aa12c",
+    "contracts/openapi/iam/paths.yaml": "dbf9d3b77b7f8a69ad27cc6e9876ef827eff6e4c0ccbcf9815ef13c80b95786e",
+    "contracts/openapi/media/paths.yaml": "4285f51933c773253ecadca7a1a37d5627b20bd18c39841b234aa2e3d890bfeb",
+    "contracts/openapi/openapi-guidelines.md": "e027c45551f46a283cb6208cbbc28877cf768817a27bf4a1a4fe713296dc6baa",
+    "contracts/openapi/playback/paths.yaml": "88097063c0b1226987b4fefd8a7a4a7a0284cb50268d20eba0f820fdc34bd21a",
+    "contracts/openapi/policy/paths.yaml": "47f1d7d7565e4dcb45c34aedec2a643394daca2e4e6f1cd76b54a32a481844f5",
+    "contracts/openapi/search/paths.yaml": "580f5b9416d03041c2ca6a8e04220958d20484857880385a30b6ac19b02c236f",
+    "contracts/openapi/source/paths.yaml": "b7405d917c63d9eb505ad6d73f18461896f164c8ce65d7a4f19b807978270937",
+    "contracts/openapi/storage/paths.yaml": "a93374630d4b3ed0080c574499670731b7bd87bcfdb31de946756e75bca79703",
+    "contracts/openapi/task/paths.yaml": "57cfe87a7b49f399e63c3fdf13c876b7826296ea6dabd6d9e42313bca55464f5",
+    "specs/contracts/openapi/README.md": "73aff3405ba2be196d4ef9e1ad852fbfb6fb84af4f5b811f0d9fd87343e715d5",
+    "specs/contracts/openapi/check_contract.py": "42855b707b6ded86164ee271949fae0f06670f2e2f71c21ea2220f3e6ea47e1a",
+    "specs/contracts/openapi/coverage.yaml": "aeb26c45de7a9e817ad85811c6730f9ae8beed3d7fc76b00839998e83ecf8c22",
+    "specs/contracts/openapi/intent_hash.py": "284e8a3e21b2dfdfe6766bd1687be0b96e4c8e7bc093621f236063ded3e0ef17",
+    "specs/contracts/openapi/requirements.lock.txt": "dcf59d036784f4282dfdc9b194e83c69ec2ca472650eeb4c6a7b84ddc79cfe52",
+    "specs/contracts/openapi/requirements.txt": "894168a4a0fd8338344b53397e8af76a6e97c842ca7b88af6d1c38bd7ae3336a",
+    "specs/contracts/openapi/semantics.md": "9c4df27f7a64228b368a1d6200c839ea62e0eaef22f3acd5cce2ee6ce6b358c5",
+    "specs/contracts/openapi/test_contract.py": "2ee14a2b6609823e15f32e0531e68503557bcf70f561e82a9806842345777050",
+    "specs/contracts/openapi/tool-provenance.json": "81bf9304f3d40c7a127f5ba6d27a04ae08dae213188996c5818e16df8ff9e9e1"
+  },
+  "unchangedDuringIndependentRun": false,
+  "results": {
+    "URIcredentialRejected": {
+      "https://user:password@origin.example/media": true,
+      "https://origin.example/dav?token=secret": true,
+      "https://origin.example/bucket#secret": true,
+      "smb://user:password@server.example/share": true,
+      "https://user%40secret@origin.example/media": true,
+      "https://origin.example/media\n": true
+    },
+    "URIvalidAccepted": {
+      "HTTP": true,
+      "SMB": true,
+      "NFS": true,
+      "LOCAL": true
+    },
+    "sourceCredentialFieldRejected": true,
+    "terminal202Rejected": {
+      "SUCCEEDED": true,
+      "PARTIAL_SUCCESS": true,
+      "FAILED": true,
+      "CANCELLED": true
+    },
+    "TaskTerminalEnumPreserved": true,
+    "approvalCreationApprovedRejected": true,
+    "generalApprovalFullStates": [
+      "PENDING",
+      "APPROVED",
+      "REJECTED",
+      "EXPIRED"
+    ],
+    "cookieLocations": [
+      {
+        "op": "loginPassword",
+        "status": "200"
+      },
+      {
+        "op": "verifyPasskey",
+        "status": "200"
+      }
+    ],
+    "wrongCookieLocations": [],
+    "cacheHeadersRequired": true,
+    "HTTPpairCount": 146,
+    "allAuthenticatedWritesBearerAndCookieScenarios": true,
+    "missingCookieCSRFRejected": "cookie mutation requires CSRF token",
+    "playbackInputAssetAbsent": true,
+    "playbackBinding": {
+      "primary": "path.assetId",
+      "related": [
+        "body.versionId"
+      ],
+      "invariants": [
+        "Resolve versionId within path.assetId and authenticated subject before reading or writing progress.",
+        "Reject absent, unauthorized or foreign versions with the same redacted not-found response.",
+        "Stored progress is keyed by authenticated subject + path.assetId + resolved immutable versionId."
+      ]
+    },
+    "artifactQueryInputs": [
+      "cursor",
+      "limit"
+    ],
+    "artifactHasSecondPageFixture": true,
+    "artifactRevisionErrorDeclared": true,
+    "failedTaskMissingFailureRejected": true,
+    "TaskFailureWrongRetryableAccepted": false,
+    "catalogInternalErrorRetryable": false,
+    "provenanceRequired": {
+      "Rendition": [
+        "id",
+        "assetVersionId",
+        "kind",
+        "codec",
+        "qualityStatus",
+        "publicationStatus",
+        "toolVersion",
+        "inputHash",
+        "outputHash",
+        "profileVersionId"
+      ],
+      "DerivedArtifact": [
+        "id",
+        "assetVersionId",
+        "artifactType",
+        "modelVersion",
+        "promptVersion",
+        "confidence",
+        "uncertainty",
+        "generated",
+        "publicationStatus",
+        "revision",
+        "pipelineVersionId",
+        "parametersHash"
+      ]
+    },
+    "stepUpBinding": {
+      "createStepUp": {
+        "purpose": "STEP_UP",
+        "tuple": [
+          "action",
+          "resourceId",
+          "payloadHash"
+        ],
+        "subject": "current authenticated subject and session",
+        "verification": "Verify signed credential ownership, RP/origin and exact tuple; consume unexpired challenge once; reject LOGIN or REGISTRATION purpose, different subject/session or changed tuple.",
+        "execution": "At the protected action, recompute payloadHash from the actual immutable request and require the same proof tuple; options or client hashes alone never authorize execution."
+      },
+      "createStepUpPasskeyChallenge": {
+        "purpose": "STEP_UP",
+        "tuple": [
+          "action",
+          "resourceId",
+          "payloadHash"
+        ],
+        "subject": "current authenticated subject and session",
+        "verification": "Verify signed credential ownership, RP/origin and exact tuple; consume unexpired challenge once; reject LOGIN or REGISTRATION purpose, different subject/session or changed tuple.",
+        "execution": "At the protected action, recompute payloadHash from the actual immutable request and require the same proof tuple; options or client hashes alone never authorize execution."
+      }
+    },
+    "stepUpWrongPurposeRejected": true,
+    "unknownRoleRejected": {
+      "RoleDraft": true,
+      "RoleReplacement": true
+    }
+  },
+  "fullGovRerun": false,
+  "rootMutation": false,
+  "finalIntegrationApproved": false
+}

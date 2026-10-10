@@ -1,3 +1,5 @@
+CURRENT FOURTEEN-FINDING REPAIR: new immutable-source formal17, CI and final review pending; all earlier records below retain their actual execution and acceptance boundaries.
+
 # Current six-finding repair candidate: formal validation pending
 
 PR82 comment6094044109 identified six real contract defects after source85 local17/CI630 passed. Those pass records remain historical execution facts; their prior content-acceptance conclusion was superseded. Current code changes remove four unassigned REQ6 lifecycle operations while retaining REQ1 relationship models and shared cache DTOs; freeze API identity; close bounded error details; enforce uniform anonymous discoverable passkey schemas and global error responses; unify dedicated approval IDs; and constrain LOCAL mounts and relative roots.

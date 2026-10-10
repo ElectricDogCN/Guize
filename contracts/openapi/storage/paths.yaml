@@ -117,6 +117,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -938,6 +939,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1631,8 +1633,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -1663,8 +1664,7 @@
                 policyVersionId: plv_example01
                 reason: Example retain request
     x-long-running: true
-    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust
-      an arbitrary version ID
+    x-resource-binding: server must prove body.assetVersionId belongs to path.assetId and remains authorized; never trust an arbitrary version ID
 /cache-entries/{cacheId}:evict:
   post:
     operationId: evictCacheEntry
@@ -1788,6 +1788,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -2474,8 +2475,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true

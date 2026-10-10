@@ -9,6 +9,7 @@ from check_contract import (CONTRACT, ENTRY, ContractError, UniqueLoader,
                             compatible, read_yaml, resolve, validate_instance,
                             verify, verify_http_samples)
 from check_contract import operations, verify_proposed_approval
+from check_contract import parse_http
 from intent_hash import (IntentError, canonical_json, intent_digest, normalize_path,
                          normalize_query, request_fingerprint)
 
@@ -32,6 +33,263 @@ def test_full_standard_and_semantics(baseline,catalog):
     result=verify(baseline,catalog)
     assert result['examples']>=result['operations']
     assert len(result['requirements'])==8
+
+
+
+def op_by_id(spec, oid):
+    return next(op for _,_,op in operations(spec) if op['operationId']==oid)
+
+
+@pytest.mark.parametrize('oid',['loginPassword','verifyPasskey'])
+def test_authenticated_session_is_issued_with_browser_security(baseline,catalog,samples,oid):
+    op=op_by_id(baseline,oid)
+    header=op['responses']['200']['headers']['Set-Cookie']
+    assert header['required']
+    sample=next(s for s in samples if s['operationId']==oid)
+    _,headers,_=parse_http(sample['response'])
+    validate_instance(headers['set-cookie'],header['schema'])
+    changed=copy.deepcopy(baseline)
+    op_by_id(changed,oid)['responses']['200']['headers'].pop('Set-Cookie')
+    with pytest.raises(ContractError,match='issue'):verify(changed,catalog)
+
+
+@pytest.mark.parametrize('suffix',[
+    '; Path=/; HttpOnly; SameSite=Strict',
+    '; Path=/; Secure; SameSite=Strict',
+    '; Path=/; Secure; HttpOnly; SameSite=None',
+    '; Path=/; Secure; HttpOnly; SameSite=Strict; Domain=example.com',
+])
+def test_issued_session_cannot_drop_browser_security(baseline,suffix):
+    with pytest.raises(ContractError):
+        validate_instance('guize_session='+'x'*32+suffix,baseline['components']['schemas']['SessionCookieIssuance'])
+
+
+@pytest.mark.parametrize('mutation',['missing','short','ambiguous','malformed-cookie'])
+def test_cookie_writes_require_explicit_csrf_and_one_identity(baseline,samples,mutation):
+    changed=copy.deepcopy(samples)
+    sample=next(s for s in changed if s.get('scenario')=='cookie-csrf')
+    if mutation=='missing':
+        sample['request']=sample['request'].replace('X-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n','')
+    elif mutation=='short':
+        sample['request']=sample['request'].replace('EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001','short')
+    elif mutation=='ambiguous':
+        sample['request']=sample['request'].replace('Host:','Authorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nHost:')
+    else:
+        sample['request']=sample['request'].replace('guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001','guize_session=short')
+    with pytest.raises(ContractError):verify_http_samples(baseline,changed)
+
+
+def test_http_scenarios_cover_bearer_and_cookie_for_every_authenticated_write(baseline,samples):
+    cases={(s['operationId'],s['scenario']) for s in samples}
+    for _,method,op in operations(baseline):
+        if method not in {'get','head','options'} and op['x-authorization']['mode']=='AUTHENTICATED':
+            assert (op['operationId'],'baseline') in cases
+            assert (op['operationId'],'cookie-csrf') in cases
+
+
+def test_duplicate_http_scenario_is_rejected(baseline,samples):
+    changed=copy.deepcopy(samples)
+    changed.append(copy.deepcopy(changed[0]))
+    with pytest.raises(ContractError,match='duplicate'):verify_http_samples(baseline,changed)
+
+
+@pytest.mark.parametrize('name',['credentialReference','providerToken','secret'])
+@pytest.mark.parametrize('oid',['getDataSource','listDataSources'])
+def test_ordinary_source_response_cannot_carry_private_fields(baseline,name,oid):
+    media=op_by_id(baseline,oid)['responses']['200']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value'])
+    data=value['data']['items'][0] if oid=='listDataSources' else value['data']
+    data[name]='PRIVATE_EXAMPLE_MUST_BE_REJECTED'
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+@pytest.mark.parametrize('status',['SUCCEEDED','PARTIAL_SUCCESS','FAILED','CANCELLED'])
+def test_every_202_schema_rejects_terminal_acceptance(baseline,status):
+    for _,_,op in operations(baseline):
+        if '202' not in op['responses']:continue
+        media=op['responses']['202']['content']['application/json']
+        value=copy.deepcopy(media['examples']['illustrative']['value'])
+        value['data']['status']=status
+        with pytest.raises(ContractError):validate_instance(value,media['schema'])
+    assert status in baseline['components']['schemas']['Task']['properties']['status']['enum']
+
+
+@pytest.mark.parametrize('status',['APPROVED','REJECTED','EXPIRED','EXECUTED'])
+def test_create_approval_response_schema_cannot_self_approve(baseline,status):
+    media=op_by_id(baseline,'createApproval')['responses']['201']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value'])
+    value['data']['status']=status
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+def test_progress_has_one_asset_identity_and_declares_version_ownership(baseline):
+    op=op_by_id(baseline,'putPlaybackProgress')
+    media=op['requestBody']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value'])
+    assert 'assetId' not in value
+    value['assetId']='ast_foreign'
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+    assert op['x-resource-binding']['primary']=='path.assetId'
+    assert op['x-resource-binding']['related']==['body.versionId']
+
+
+def test_artifact_content_cursor_is_consumable_by_the_next_page(baseline,samples):
+    first=next(s for s in samples if s['operationId']=='getArtifactContent' and s['scenario']=='baseline')
+    second=next(s for s in samples if s['operationId']=='getArtifactContent' and s['scenario']=='cursor-second-page')
+    _,_,first_body=parse_http(first['response'])
+    cursor=json.loads(first_body)['data']['nextCursor']
+    assert cursor and 'cursor='+cursor in second['request'].split('\r\n')[0]
+    _,_,second_body=parse_http(second['response'])
+    assert json.loads(second_body)['data']['nextCursor'] is None
+
+
+@pytest.mark.parametrize('status',['FAILED','PARTIAL_SUCCESS'])
+def test_failed_task_response_requires_durable_redacted_failure(baseline,status):
+    media=op_by_id(baseline,'getTask')['responses']['200']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value'])
+    value['data']['status']=status
+    value['data'].pop('failure',None)
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+    value['data']['failure']={'code':'INTERNAL_ERROR','retryable':False,'attempts':1,'details':{}}
+    validate_instance(value,media['schema'])
+
+
+@pytest.mark.parametrize('mutation',[
+    {'code':'PROVIDER_FREE_FORM'}, {'attempts':0}, {'attempts':101},
+    {'details':{'providerResponse':'secret'}}, {'providerException':'secret'},
+])
+def test_task_failure_rejects_unstable_unbounded_or_private_context(baseline,mutation):
+    value={'code':'INTERNAL_ERROR','retryable':False,'attempts':1,'details':{}}
+    value.update(mutation)
+    with pytest.raises(ContractError):validate_instance(value,baseline['components']['schemas']['TaskFailure'])
+
+
+@pytest.mark.parametrize('schema,field',[
+    ('Rendition','profileVersionId'),('DerivedArtifact','pipelineVersionId'),
+    ('DerivedArtifact','parametersHash'),
+])
+def test_provenance_is_required_on_the_result_schema(baseline,schema,field):
+    result=baseline['components']['schemas'][schema]
+    candidates=[]
+    def collect(value):
+        if isinstance(value,dict):
+            if set(result['required']) <= set(value):candidates.append(value)
+            for child in value.values():collect(child)
+        elif isinstance(value,list):
+            for child in value:collect(child)
+    for _,_,op in operations(baseline):
+        for response in op['responses'].values():
+            for media in response['content'].values():
+                for example in media['examples'].values():collect(example['value'])
+    assert candidates
+    value=copy.deepcopy(candidates[0])
+    validate_instance(value,result)
+    value.pop(field)
+    with pytest.raises(ContractError):validate_instance(value,result)
+
+
+def test_step_up_passkey_options_require_authenticated_exact_purpose_and_tuple(baseline):
+    op=op_by_id(baseline,'createStepUpPasskeyChallenge')
+    assert op['security']==[{'SessionCookie':[]},{'BearerAuth':[]}]
+    media=op['responses']['201']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value'])
+    value['data']['purpose']='LOGIN'
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+    for oid in ('createStepUp','createStepUpPasskeyChallenge'):
+        binding=op_by_id(baseline,oid)['x-step-up-challenge-binding']
+        assert binding['tuple']==['action','resourceId','payloadHash']
+        assert binding['purpose']=='STEP_UP'
+
+
+@pytest.mark.parametrize('kind,endpoint',[
+    ('HTTP','https://user:password@origin.example/media'),
+    ('WEBDAV','https://origin.example/dav?token=secret'),
+    ('S3','https://origin.example/bucket#secret'),
+    ('SMB','smb://user:password@server.example/share'),
+    ('NFS','https://server.example/share'),
+    ('HTTP','https://user%40secret@origin.example/media'),
+    ('HTTP','https://origin.example\\evil/media'),
+    ('HTTP','https://origin.example/media\n'),
+])
+def test_source_endpoints_cannot_smuggle_inline_credentials(baseline,kind,endpoint):
+    value={'name':'Example','kind':kind,'endpoint':endpoint,'root':'media','visibility':'PRIVATE'}
+    with pytest.raises(ContractError):validate_instance(value,baseline['components']['schemas']['SourceDraft'])
+
+
+@pytest.mark.parametrize('name',['RoleDraft','RoleReplacement'])
+def test_unknown_permissions_cannot_be_granted_in_role_mutations(baseline,name):
+    op=op_by_id(baseline,'createRole' if name=='RoleDraft' else 'replaceRole')
+    media=op['requestBody']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value'])
+    value['capabilities']=['future.root.access']
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+@pytest.mark.parametrize('header',['Cache-Control','Set-Cookie'])
+def test_serialized_auth_response_requires_declared_security_headers(baseline,samples,header):
+    changed=copy.deepcopy(samples)
+    sample=next(s for s in changed if s['operationId']=='loginPassword')
+    lines=sample['response'].split('\r\n')
+    sample['response']='\r\n'.join(line for line in lines if not line.startswith(header+':'))
+    with pytest.raises(ContractError,match='header'):verify_http_samples(baseline,changed)
+
+
+def test_no_store_is_required_in_every_control_response(baseline,catalog):
+    changed=copy.deepcopy(baseline)
+    op_by_id(changed,'getTask')['responses']['200']['headers']['Cache-Control'].pop('required')
+    with pytest.raises(ContractError,match='no-store'):verify(changed,catalog)
+
+
+
+def test_only_successful_logins_declare_session_issuance(baseline):
+    locations={(op['operationId'],status) for _,_,op in operations(baseline)
+               for status,response in op['responses'].items() if 'Set-Cookie' in response['headers']}
+    assert locations=={('loginPassword','200'),('verifyPasskey','200')}
+
+
+@pytest.mark.parametrize('oid',['loginPassword','verifyPasskey'])
+def test_failed_login_cannot_claim_new_session(baseline,catalog,oid):
+    changed=copy.deepcopy(baseline)
+    op=op_by_id(changed,oid)
+    op['responses']['401']['headers']['Set-Cookie']=copy.deepcopy(op['responses']['200']['headers']['Set-Cookie'])
+    with pytest.raises(ContractError,match='only declared'):verify(changed,catalog)
+
+
+@pytest.mark.parametrize('code',[e['code'] for e in read_yaml(CONTRACT/'common/errors.yaml')['errors']])
+def test_task_failure_retryability_cannot_disagree_with_catalog(baseline,catalog,code):
+    entry=next(e for e in catalog['errors'] if e['code']==code)
+    value={'code':code,'retryable':entry['retryable'],'attempts':1,'details':{}}
+    validate_instance(value,baseline['components']['schemas']['TaskFailure'])
+    value['retryable']=not value['retryable']
+    with pytest.raises(ContractError):validate_instance(value,baseline['components']['schemas']['TaskFailure'])
+
+
+@pytest.mark.parametrize('kind,endpoint',[
+    ('HTTP','https://origin.example/media'),('SMB','smb://server.example/share'),
+    ('NFS','nfs://server.example/share'),
+])
+def test_network_source_accepts_typed_credential_free_endpoints(baseline,kind,endpoint):
+    value={'name':'Example','kind':kind,'endpoint':endpoint,'root':'media','visibility':'PRIVATE'}
+    validate_instance(value,baseline['components']['schemas']['SourceDraft'])
+
+
+@pytest.mark.parametrize('oid',['createStepUp','createStepUpPasskeyChallenge'])
+@pytest.mark.parametrize('key,altered',[
+    ('action','deleteAsset'),('resourceId','ast_foreign'),('payloadHash','b'*64),
+])
+def test_step_up_wire_response_cannot_switch_requested_tuple(baseline,samples,oid,key,altered):
+    changed=copy.deepcopy(samples)
+    sample=next(s for s in changed if s['operationId']==oid)
+    head,body=sample['response'].split('\r\n\r\n',1)
+    value=json.loads(body)
+    value['data'][key]=altered
+    encoded=json.dumps(value,ensure_ascii=False,separators=(',',':'))
+    lines=head.split('\r\n')
+    head='\r\n'.join('Content-Length: '+str(len(encoded.encode('utf-8'))) if l.startswith('Content-Length: ') else l for l in lines)
+    sample['response']=head+'\r\n\r\n'+encoded
+    with pytest.raises(ContractError,match='tuple'):verify_http_samples(baseline,changed)
+
+
 
 
 @pytest.mark.parametrize('key,value',[
@@ -372,7 +630,7 @@ def test_approval_creation_cannot_claim_approval_without_separate_decision(basel
     changed=copy.deepcopy(baseline)
     media=changed['paths']['/approvals']['post']['responses']['201']['content']['application/json']
     media['examples']['illustrative']['value']['data']['status']='APPROVED'
-    with pytest.raises(ContractError,match='must not self-approve'):verify(changed,catalog)
+    with pytest.raises(ContractError,match='PENDING|must not self-approve'):verify(changed,catalog)
 
 
 @pytest.mark.parametrize('mutation',['rp-name','user-id','user-name','displayName','empty-algorithms','wrong-type','padded-id','invalid-id','bad-challenge'])

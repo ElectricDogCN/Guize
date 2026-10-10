@@ -74,7 +74,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id001
+        headers:
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -83,7 +83,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: &id002
+            schema:
               type: string
               description: Request correlation identifier, including failures.
               x-i18n:
@@ -103,6 +103,17 @@
             schema:
               type: string
               const: no-store
+            required: true
+          Set-Cookie:
+            required: true
+            description: Issue a fresh browser session only after successful authentication; never replay an expired or revoked session.
+            x-i18n:
+              en-US:
+                description: Issue a fresh browser session only after successful authentication; never replay an expired or revoked session.
+              zh-CN:
+                description: 仅在认证成功后签发新的浏览器会话；不得重放过期或撤销会话。
+            schema:
+              $ref: ../common/schemas.yaml#/SessionCookieIssuance
         content:
           application/json:
             schema:
@@ -118,7 +129,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: &id004
+                value: &id002
                   code: SUCCESS
                   message: 操作成功。
                   data:
@@ -135,7 +146,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id001
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -208,7 +248,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id001
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -282,7 +351,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id001
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -356,7 +454,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id001
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -429,7 +556,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id001
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -503,7 +659,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id001
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -577,7 +762,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id001
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -650,7 +864,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id001
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -724,8 +967,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -822,7 +1064,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id003
+        headers: &id001
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -831,7 +1073,16 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: &id003
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -842,6 +1093,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -877,7 +1129,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id003
+        headers: *id001
         content:
           application/json:
             schema:
@@ -950,7 +1202,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id003
+        headers: *id001
         content:
           application/json:
             schema:
@@ -1023,7 +1275,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id003
+        headers: *id001
         content:
           application/json:
             schema:
@@ -1097,7 +1349,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id003
+        headers: *id001
         content:
           application/json:
             schema:
@@ -1170,7 +1422,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id003
+        headers: *id001
         content:
           application/json:
             schema:
@@ -1244,8 +1496,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -1272,8 +1523,7 @@
                   summary: 契约说明值，不是线上执行结果。
               value:
                 username: example-user
-    x-account-enumeration-policy: Unknown, enrolled, locked and disabled usernames receive indistinguishable discoverable
-      201 options with empty allowCredentials; errors depend only on request validity or global service conditions.
+    x-account-enumeration-policy: Unknown, enrolled, locked and disabled usernames receive indistinguishable discoverable 201 options with empty allowCredentials; errors depend only on request validity or global service conditions.
 /auth/passkeys:verify:
   post:
     operationId: verifyPasskey
@@ -1350,7 +1600,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id005
+        headers:
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -1359,7 +1609,16 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -1370,6 +1629,17 @@
             schema:
               type: string
               const: no-store
+            required: true
+          Set-Cookie:
+            required: true
+            description: Issue a fresh browser session only after successful authentication; never replay an expired or revoked session.
+            x-i18n:
+              en-US:
+                description: Issue a fresh browser session only after successful authentication; never replay an expired or revoked session.
+              zh-CN:
+                description: 仅在认证成功后签发新的浏览器会话；不得重放过期或撤销会话。
+            schema:
+              $ref: ../common/schemas.yaml#/SessionCookieIssuance
         content:
           application/json:
             schema:
@@ -1385,7 +1655,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: *id004
+                value: *id002
       '400':
         description: Redacted failure; stable codes only.
         x-i18n:
@@ -1393,7 +1663,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id005
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1466,7 +1765,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id005
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1540,7 +1868,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id005
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1614,7 +1971,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id005
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1687,7 +2073,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id005
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1761,7 +2176,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id005
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1835,7 +2279,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id005
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1908,7 +2381,36 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id005
+        headers:
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -1982,8 +2484,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -2075,7 +2576,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id006
+        headers: &id004
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -2084,7 +2585,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -2095,6 +2596,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -2110,7 +2612,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: *id004
+                value: *id002
       '400':
         description: Redacted failure; stable codes only.
         x-i18n:
@@ -2118,7 +2620,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id006
+        headers: *id004
         content:
           application/json:
             schema:
@@ -2191,7 +2693,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id006
+        headers: *id004
         content:
           application/json:
             schema:
@@ -2265,7 +2767,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id006
+        headers: *id004
         content:
           application/json:
             schema:
@@ -2339,7 +2841,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id006
+        headers: *id004
         content:
           application/json:
             schema:
@@ -2412,7 +2914,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id006
+        headers: *id004
         content:
           application/json:
             schema:
@@ -2486,7 +2988,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id006
+        headers: *id004
         content:
           application/json:
             schema:
@@ -2559,7 +3061,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id006
+        headers: *id004
         content:
           application/json:
             schema:
@@ -2715,7 +3217,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id007
+        headers: &id005
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -2724,7 +3226,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -2735,6 +3237,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -2750,7 +3253,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: &id019
+                value: &id017
                   code: SUCCESS
                   message: 操作成功。
                   data:
@@ -2764,7 +3267,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id007
+        headers: *id005
         content:
           application/json:
             schema:
@@ -2837,7 +3340,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id007
+        headers: *id005
         content:
           application/json:
             schema:
@@ -2911,7 +3414,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id007
+        headers: *id005
         content:
           application/json:
             schema:
@@ -2985,7 +3488,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id007
+        headers: *id005
         content:
           application/json:
             schema:
@@ -3058,7 +3561,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id007
+        headers: *id005
         content:
           application/json:
             schema:
@@ -3132,7 +3635,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id007
+        headers: *id005
         content:
           application/json:
             schema:
@@ -3206,7 +3709,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id007
+        headers: *id005
         content:
           application/json:
             schema:
@@ -3279,7 +3782,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id007
+        headers: *id005
         content:
           application/json:
             schema:
@@ -3353,8 +3856,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
 /auth/step-up:
   post:
@@ -3446,7 +3948,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id008
+        headers: &id006
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -3455,7 +3957,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -3466,6 +3968,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -3498,7 +4001,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id008
+        headers: *id006
         content:
           application/json:
             schema:
@@ -3571,7 +4074,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id008
+        headers: *id006
         content:
           application/json:
             schema:
@@ -3645,7 +4148,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id008
+        headers: *id006
         content:
           application/json:
             schema:
@@ -3719,7 +4222,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id008
+        headers: *id006
         content:
           application/json:
             schema:
@@ -3792,7 +4295,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id008
+        headers: *id006
         content:
           application/json:
             schema:
@@ -3866,7 +4369,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id008
+        headers: *id006
         content:
           application/json:
             schema:
@@ -3940,7 +4443,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id008
+        headers: *id006
         content:
           application/json:
             schema:
@@ -4013,7 +4516,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id008
+        headers: *id006
         content:
           application/json:
             schema:
@@ -4087,8 +4590,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -4120,6 +4622,15 @@
                   method: PASSWORD
                   password: EXAMPLE_ONLY_NEVER_VALID
                 payloadHash: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    x-step-up-challenge-binding:
+      purpose: STEP_UP
+      tuple:
+      - action
+      - resourceId
+      - payloadHash
+      subject: current authenticated subject and session
+      verification: Verify signed credential ownership, RP/origin and exact tuple; consume unexpired challenge once; reject LOGIN or REGISTRATION purpose, different subject/session or changed tuple.
+      execution: At the protected action, recompute payloadHash from the actual immutable request and require the same proof tuple; options or client hashes alone never authorize execution.
 /roles:
   get:
     operationId: listRoles
@@ -4207,7 +4718,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id009
+        headers: &id007
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -4216,7 +4727,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -4227,6 +4738,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -4262,7 +4774,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id009
+        headers: *id007
         content:
           application/json:
             schema:
@@ -4335,7 +4847,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id009
+        headers: *id007
         content:
           application/json:
             schema:
@@ -4409,7 +4921,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id009
+        headers: *id007
         content:
           application/json:
             schema:
@@ -4483,7 +4995,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id009
+        headers: *id007
         content:
           application/json:
             schema:
@@ -4556,7 +5068,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id009
+        headers: *id007
         content:
           application/json:
             schema:
@@ -4630,7 +5142,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id009
+        headers: *id007
         content:
           application/json:
             schema:
@@ -4703,7 +5215,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id009
+        headers: *id007
         content:
           application/json:
             schema:
@@ -4860,7 +5372,7 @@
           description: Fresh subject+action+resource+payload-bound proof; cannot substitute approval.
         zh-CN:
           description: 近期且绑定主体、操作、资源与请求摘要的凭证，不能代替审批。
-      schema: &id011
+      schema: &id009
         type: string
         description: Opaque resource identifier; never a file path.
         x-i18n:
@@ -4878,7 +5390,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id010
+        headers: &id008
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -4887,7 +5399,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -4898,6 +5410,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -4913,7 +5426,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: &id012
+                value: &id010
                   code: SUCCESS
                   message: 操作成功。
                   data:
@@ -4931,7 +5444,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id010
+        headers: *id008
         content:
           application/json:
             schema:
@@ -5004,7 +5517,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id010
+        headers: *id008
         content:
           application/json:
             schema:
@@ -5078,7 +5591,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id010
+        headers: *id008
         content:
           application/json:
             schema:
@@ -5153,7 +5666,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id010
+        headers: *id008
         content:
           application/json:
             schema:
@@ -5226,7 +5739,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id010
+        headers: *id008
         content:
           application/json:
             schema:
@@ -5300,7 +5813,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id010
+        headers: *id008
         content:
           application/json:
             schema:
@@ -5374,7 +5887,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id010
+        headers: *id008
         content:
           application/json:
             schema:
@@ -5447,7 +5960,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id010
+        headers: *id008
         content:
           application/json:
             schema:
@@ -5521,8 +6034,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -5616,7 +6128,7 @@
           description: Resource identifier or exact optimistic revision, resolved after authorization.
         zh-CN:
           description: 鉴权后解析的资源标识或精确乐观修订号。
-      schema: *id011
+      schema: *id009
     - name: Idempotency-Key
       in: header
       required: true
@@ -5653,7 +6165,7 @@
           description: Fresh subject+action+resource+payload-bound proof; cannot substitute approval.
         zh-CN:
           description: 近期且绑定主体、操作、资源与请求摘要的凭证，不能代替审批。
-      schema: *id011
+      schema: *id009
     responses:
       '200':
         description: Authorized result.
@@ -5662,7 +6174,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id013
+        headers: &id011
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -5671,7 +6183,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -5682,6 +6194,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -5697,7 +6210,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: *id012
+                value: *id010
       '400':
         description: Redacted failure; stable codes only.
         x-i18n:
@@ -5705,7 +6218,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id013
+        headers: *id011
         content:
           application/json:
             schema:
@@ -5778,7 +6291,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id013
+        headers: *id011
         content:
           application/json:
             schema:
@@ -5852,7 +6365,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id013
+        headers: *id011
         content:
           application/json:
             schema:
@@ -5927,7 +6440,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id013
+        headers: *id011
         content:
           application/json:
             schema:
@@ -6000,7 +6513,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id013
+        headers: *id011
         content:
           application/json:
             schema:
@@ -6074,7 +6587,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id013
+        headers: *id011
         content:
           application/json:
             schema:
@@ -6148,7 +6661,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id013
+        headers: *id011
         content:
           application/json:
             schema:
@@ -6221,7 +6734,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id013
+        headers: *id011
         content:
           application/json:
             schema:
@@ -6295,8 +6808,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -6413,7 +6925,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id014
+        headers: &id012
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -6422,7 +6934,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -6433,6 +6945,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -6468,7 +6981,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id014
+        headers: *id012
         content:
           application/json:
             schema:
@@ -6541,7 +7054,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id014
+        headers: *id012
         content:
           application/json:
             schema:
@@ -6615,7 +7128,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id014
+        headers: *id012
         content:
           application/json:
             schema:
@@ -6689,7 +7202,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id014
+        headers: *id012
         content:
           application/json:
             schema:
@@ -6762,7 +7275,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id014
+        headers: *id012
         content:
           application/json:
             schema:
@@ -6836,7 +7349,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id014
+        headers: *id012
         content:
           application/json:
             schema:
@@ -6909,7 +7422,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id014
+        headers: *id012
         content:
           application/json:
             schema:
@@ -7066,7 +7579,7 @@
           description: Fresh subject+action+resource+payload-bound proof; cannot substitute approval.
         zh-CN:
           description: 近期且绑定主体、操作、资源与请求摘要的凭证，不能代替审批。
-      schema: *id011
+      schema: *id009
     responses:
       '201':
         description: Authorized result.
@@ -7075,7 +7588,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id015
+        headers: &id013
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -7084,7 +7597,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -7095,6 +7608,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -7110,7 +7624,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: &id016
+                value: &id014
                   code: SUCCESS
                   message: 操作成功。
                   data:
@@ -7128,7 +7642,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id015
+        headers: *id013
         content:
           application/json:
             schema:
@@ -7201,7 +7715,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id015
+        headers: *id013
         content:
           application/json:
             schema:
@@ -7275,7 +7789,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id015
+        headers: *id013
         content:
           application/json:
             schema:
@@ -7350,7 +7864,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id015
+        headers: *id013
         content:
           application/json:
             schema:
@@ -7423,7 +7937,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id015
+        headers: *id013
         content:
           application/json:
             schema:
@@ -7497,7 +8011,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id015
+        headers: *id013
         content:
           application/json:
             schema:
@@ -7571,7 +8085,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id015
+        headers: *id013
         content:
           application/json:
             schema:
@@ -7644,7 +8158,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id015
+        headers: *id013
         content:
           application/json:
             schema:
@@ -7718,8 +8232,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -7814,7 +8327,7 @@
           description: Resource identifier or exact optimistic revision, resolved after authorization.
         zh-CN:
           description: 鉴权后解析的资源标识或精确乐观修订号。
-      schema: *id011
+      schema: *id009
     - name: Idempotency-Key
       in: header
       required: true
@@ -7851,7 +8364,7 @@
           description: Fresh subject+action+resource+payload-bound proof; cannot substitute approval.
         zh-CN:
           description: 近期且绑定主体、操作、资源与请求摘要的凭证，不能代替审批。
-      schema: *id011
+      schema: *id009
     responses:
       '200':
         description: Authorized result.
@@ -7860,7 +8373,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id017
+        headers: &id015
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -7869,7 +8382,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -7880,6 +8393,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -7895,7 +8409,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: *id016
+                value: *id014
       '400':
         description: Redacted failure; stable codes only.
         x-i18n:
@@ -7903,7 +8417,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id017
+        headers: *id015
         content:
           application/json:
             schema:
@@ -7976,7 +8490,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id017
+        headers: *id015
         content:
           application/json:
             schema:
@@ -8050,7 +8564,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id017
+        headers: *id015
         content:
           application/json:
             schema:
@@ -8125,7 +8639,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id017
+        headers: *id015
         content:
           application/json:
             schema:
@@ -8198,7 +8712,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id017
+        headers: *id015
         content:
           application/json:
             schema:
@@ -8272,7 +8786,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id017
+        headers: *id015
         content:
           application/json:
             schema:
@@ -8346,7 +8860,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id017
+        headers: *id015
         content:
           application/json:
             schema:
@@ -8419,7 +8933,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id017
+        headers: *id015
         content:
           application/json:
             schema:
@@ -8493,8 +9007,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -8616,7 +9129,7 @@
           description: Fresh subject+action+resource+payload-bound proof; cannot substitute approval.
         zh-CN:
           description: 近期且绑定主体、操作、资源与请求摘要的凭证，不能代替审批。
-      schema: *id011
+      schema: *id009
     responses:
       '201':
         description: Authorized result.
@@ -8625,7 +9138,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id018
+        headers: &id016
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -8634,7 +9147,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -8645,6 +9158,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -8694,7 +9208,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id018
+        headers: *id016
         content:
           application/json:
             schema:
@@ -8767,7 +9281,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id018
+        headers: *id016
         content:
           application/json:
             schema:
@@ -8841,7 +9355,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id018
+        headers: *id016
         content:
           application/json:
             schema:
@@ -8916,7 +9430,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id018
+        headers: *id016
         content:
           application/json:
             schema:
@@ -8989,7 +9503,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id018
+        headers: *id016
         content:
           application/json:
             schema:
@@ -9063,7 +9577,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id018
+        headers: *id016
         content:
           application/json:
             schema:
@@ -9137,7 +9651,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id018
+        headers: *id016
         content:
           application/json:
             schema:
@@ -9210,7 +9724,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id018
+        headers: *id016
         content:
           application/json:
             schema:
@@ -9284,8 +9798,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
 /auth/passkeys/registration:verify:
   post:
@@ -9379,7 +9892,7 @@
           description: Fresh subject+action+resource+payload-bound proof; cannot substitute approval.
         zh-CN:
           description: 近期且绑定主体、操作、资源与请求摘要的凭证，不能代替审批。
-      schema: *id011
+      schema: *id009
     responses:
       '200':
         description: Authorized result.
@@ -9388,7 +9901,7 @@
             description: Authorized result.
           zh-CN:
             description: 经授权的结果。
-        headers: &id020
+        headers: &id018
           X-Trace-Id:
             description: Trace correlation matching envelope traceId.
             x-i18n:
@@ -9397,7 +9910,7 @@
               zh-CN:
                 description: 与响应 traceId 一致的关联标识。
             required: true
-            schema: *id002
+            schema: *id003
           Cache-Control:
             description: Private control-plane responses must not be shared-cached.
             x-i18n:
@@ -9408,6 +9921,7 @@
             schema:
               type: string
               const: no-store
+            required: true
         content:
           application/json:
             schema:
@@ -9423,7 +9937,7 @@
                   zh-CN:
                     description: 契约说明值，不是线上执行结果。
                     summary: 契约说明值，不是线上执行结果。
-                value: *id019
+                value: *id017
       '400':
         description: Redacted failure; stable codes only.
         x-i18n:
@@ -9431,7 +9945,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id020
+        headers: *id018
         content:
           application/json:
             schema:
@@ -9504,7 +10018,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id020
+        headers: *id018
         content:
           application/json:
             schema:
@@ -9578,7 +10092,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id020
+        headers: *id018
         content:
           application/json:
             schema:
@@ -9653,7 +10167,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id020
+        headers: *id018
         content:
           application/json:
             schema:
@@ -9726,7 +10240,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id020
+        headers: *id018
         content:
           application/json:
             schema:
@@ -9800,7 +10314,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id020
+        headers: *id018
         content:
           application/json:
             schema:
@@ -9874,7 +10388,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id020
+        headers: *id018
         content:
           application/json:
             schema:
@@ -9947,7 +10461,7 @@
             description: Redacted failure; stable codes only.
           zh-CN:
             description: 脱敏失败，仅依赖稳定错误码。
-        headers: *id020
+        headers: *id018
         content:
           application/json:
             schema:
@@ -10021,8 +10535,7 @@
       differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
       inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
       reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
-      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed
-        side effect
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
       durability: transactional unique claim; task dedupe survives workflow retries
     requestBody:
       required: true
@@ -10052,3 +10565,789 @@
                 credentialId: c3ludGhldGljLWNyZWRlbnRpYWwtaWQ
                 clientDataJSON: eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiTURFeU16UTFOamM0T1dGaVkyUmxaakF4TWpNME5UWTNPRGxoWW1Oa1pXWSIsIm9yaWdpbiI6Imh0dHBzOi8vZ3VpemUuZXhhbXBsZSJ9
                 attestationObject: c3ludGhldGljLW5vdC12YWxpZC1jcnlwdG9ncmFwaGljLWF0dGVzdGF0aW9uT2JqZWN0
+/auth/step-up/passkeys:options:
+  post:
+    operationId: createStepUpPasskeyChallenge
+    summary: Create authenticated action-bound PASSKEY step-up options
+    description: Create authenticated action-bound PASSKEY step-up options
+    x-i18n:
+      en-US:
+        description: Create authenticated action-bound PASSKEY step-up options
+        summary: Create authenticated action-bound PASSKEY step-up options
+      zh-CN:
+        description: 创建绑定操作的已认证 PASSKEY 二次认证选项。
+        summary: 创建绑定操作的已认证 PASSKEY 二次认证选项
+    tags:
+    - iam
+    security:
+    - SessionCookie: []
+    - BearerAuth: []
+    x-module-id: MOD-IAM
+    x-requirement-ids:
+    - REQ-V1-0008
+    x-authorization:
+      mode: AUTHENTICATED
+      permission: session.self
+      scope: subject+resource ACL+source policy; deny before hydration; anonymous only explicit safe published assets
+      stepUp: false
+      approval: false
+    x-error-codes:
+    - AUTH_REQUIRED
+    - AUTH_INVALID
+    - ACCESS_DENIED
+    - ACCESS_NOT_FOUND
+    - INTERNAL_INVALID_REQUEST
+    - INTERNAL_RATE_LIMITED
+    - INTERNAL_UNAVAILABLE
+    - INTERNAL_ERROR
+    - AUTH_STEP_UP_REQUIRED
+    - AUTH_LOGIN_LOCKED
+    - INTERNAL_IDEMPOTENCY_CONFLICT
+    - INTERNAL_REVISION_CONFLICT
+    parameters:
+    - name: Accept-Language
+      in: header
+      required: false
+      description: Response language; unsupported language falls back to zh-CN.
+      x-i18n:
+        en-US:
+          description: Response language; unsupported language falls back to zh-CN.
+        zh-CN:
+          description: 响应语言，不支持的语言回退至 zh-CN。
+      schema:
+        type: string
+        enum:
+        - zh-CN
+        - en-US
+        default: zh-CN
+    - name: Idempotency-Key
+      in: header
+      required: true
+      description: Caller+operation scoped key; same request replays original result for 24h.
+      x-i18n:
+        en-US:
+          description: Caller+operation scoped key; same request replays original result for 24h.
+        zh-CN:
+          description: 按调用者与操作隔离，同请求在 24 小时内重放原结果。
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 128
+        pattern: ^[A-Za-z0-9_-]+$
+    - name: X-CSRF-Token
+      in: header
+      required: false
+      description: Required for cookie sessions; machine bearer callers use scoped identity.
+      x-i18n:
+        en-US:
+          description: Required for cookie sessions; machine bearer callers use scoped identity.
+        zh-CN:
+          description: Cookie 会话必须提供；机器 Bearer 使用受限身份。
+      schema:
+        type: string
+        minLength: 32
+        maxLength: 128
+    responses:
+      '201':
+        description: Authorized result.
+        x-i18n:
+          en-US:
+            description: Authorized result.
+          zh-CN:
+            description: 经授权的结果。
+        headers: &id019
+          X-Trace-Id:
+            description: Trace correlation matching envelope traceId.
+            x-i18n:
+              en-US:
+                description: Trace correlation matching envelope traceId.
+              zh-CN:
+                description: 与响应 traceId 一致的关联标识。
+            required: true
+            schema:
+              type: string
+              description: Request correlation identifier, including failures.
+              x-i18n:
+                en-US:
+                  description: Request correlation identifier, including failures.
+                zh-CN:
+                  description: 包括失败请求在内的关联标识。
+              pattern: ^[A-Za-z0-9-]{8,128}$
+              maxLength: 128
+          Cache-Control:
+            description: Private control-plane responses must not be shared-cached.
+            x-i18n:
+              en-US:
+                description: Private control-plane responses must not be shared-cached.
+              zh-CN:
+                description: 控制面私有响应不得共享缓存。
+            schema:
+              type: string
+              const: no-store
+            required: true
+        content:
+          application/json:
+            schema:
+              $ref: ../common/schemas.yaml#/StepUpChallengeEnvelope
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: SUCCESS
+                  message: 操作成功。
+                  data:
+                    challengeId: chl_example01
+                    expiresAt: '2026-10-09T12:02:00Z'
+                    publicKey:
+                      challenge: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY
+                      rpId: guize.example
+                      timeout: 60000
+                      userVerification: required
+                      allowCredentials: []
+                    action: publishAsset
+                    resourceId: ast_example01
+                    payloadHash: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    purpose: STEP_UP
+                  traceId: trace-example-0001
+      '400':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id019
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_INVALID_REQUEST
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_INVALID_REQUEST
+                  message: 请求不满足版本化 Schema。
+                  details: {}
+                  traceId: trace-example-0001
+      '401':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id019
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - AUTH_REQUIRED
+                  - AUTH_INVALID
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: AUTH_REQUIRED
+                  message: 需要认证。
+                  details: {}
+                  traceId: trace-example-0001
+      '403':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id019
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - AUTH_STEP_UP_REQUIRED
+                  - ACCESS_DENIED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: AUTH_STEP_UP_REQUIRED
+                  message: 需要近期且绑定操作的再次认证。
+                  details: {}
+                  traceId: trace-example-0001
+      '404':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id019
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - ACCESS_NOT_FOUND
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: ACCESS_NOT_FOUND
+                  message: 资源不存在或不可发现。
+                  details: {}
+                  traceId: trace-example-0001
+      '409':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id019
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_IDEMPOTENCY_CONFLICT
+                  - INTERNAL_REVISION_CONFLICT
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_IDEMPOTENCY_CONFLICT
+                  message: 幂等键绑定不同请求或仍在执行。
+                  details: {}
+                  traceId: trace-example-0001
+      '429':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id019
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - AUTH_LOGIN_LOCKED
+                  - INTERNAL_RATE_LIMITED
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: AUTH_LOGIN_LOCKED
+                  message: 登录暂时锁定。
+                  details: {}
+                  traceId: trace-example-0001
+      '500':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id019
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_ERROR
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_ERROR
+                  message: 已脱敏的服务端异常。
+                  details: {}
+                  traceId: trace-example-0001
+      '503':
+        description: Redacted failure; stable codes only.
+        x-i18n:
+          en-US:
+            description: Redacted failure; stable codes only.
+          zh-CN:
+            description: 脱敏失败，仅依赖稳定错误码。
+        headers: *id019
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Localized error with stable machine code.
+              x-i18n:
+                en-US:
+                  description: Localized error with stable machine code.
+                zh-CN:
+                  description: 稳定机器错误码与本地化说明。
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Stable error code.
+                  x-i18n:
+                    en-US:
+                      description: Stable error code.
+                    zh-CN:
+                      description: 稳定错误码。
+                  enum:
+                  - INTERNAL_UNAVAILABLE
+                message:
+                  type: string
+                  description: Localized message, never used for branching.
+                  x-i18n:
+                    en-US:
+                      description: Localized message, never used for branching.
+                    zh-CN:
+                      description: 本地化说明，不用于程序分支。
+                  minLength: 1
+                  maxLength: 1024
+                details:
+                  $ref: ../common/schemas.yaml#/ErrorDetails
+                traceId:
+                  type: string
+                  description: Request correlation identifier, including failures.
+                  x-i18n:
+                    en-US:
+                      description: Request correlation identifier, including failures.
+                    zh-CN:
+                      description: 包括失败请求在内的关联标识。
+                  pattern: ^[A-Za-z0-9-]{8,128}$
+                  maxLength: 128
+              required:
+              - code
+              - message
+              - details
+              - traceId
+            examples:
+              illustrative:
+                summary: Illustrative contract value; not live execution.
+                description: Illustrative contract value; not live execution.
+                x-i18n:
+                  en-US:
+                    description: Illustrative contract value; not live execution.
+                    summary: Illustrative contract value; not live execution.
+                  zh-CN:
+                    description: 契约说明值，不是线上执行结果。
+                    summary: 契约说明值，不是线上执行结果。
+                value:
+                  code: INTERNAL_UNAVAILABLE
+                  message: 依赖暂时不可用。
+                  details: {}
+                  traceId: trace-example-0001
+    x-idempotency:
+      scope: authenticated subject (or pre-auth client session)+operationId+key
+      fingerprint: SHA-256 of canonical method+normalized path resource IDs+query+body; identity is server-derived
+      retentionSeconds: 86400
+      samePayload: replay durable non-sensitive result only after current authorization
+      differentPayload: INTERNAL_IDEMPOTENCY_CONFLICT, including a different path resource
+      inFlight: INTERNAL_IDEMPOTENCY_CONFLICT; retry after backoff
+      reauthorization: recheck current authentication, resource/source ACL, step-up and approval validity before replay
+      expiredEphemeralResult: never replay expired session/proof/grant; require a fresh key and reauthorization; no renewed side effect
+      durability: transactional unique claim; task dedupe survives workflow retries
+    requestBody:
+      required: true
+      description: Schema-validated bounded input.
+      x-i18n:
+        en-US:
+          description: Schema-validated bounded input.
+        zh-CN:
+          description: 经 Schema 校验的有界输入。
+      content:
+        application/json:
+          schema:
+            $ref: ../common/schemas.yaml#/StepUpChallengeRequest
+          examples:
+            illustrative:
+              summary: Illustrative contract value; not live execution.
+              description: Illustrative contract value; not live execution.
+              x-i18n:
+                en-US:
+                  description: Illustrative contract value; not live execution.
+                  summary: Illustrative contract value; not live execution.
+                zh-CN:
+                  description: 契约说明值，不是线上执行结果。
+                  summary: 契约说明值，不是线上执行结果。
+              value:
+                action: publishAsset
+                resourceId: ast_example01
+                payloadHash: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    x-step-up-challenge-binding:
+      purpose: STEP_UP
+      tuple:
+      - action
+      - resourceId
+      - payloadHash
+      subject: current authenticated subject and session
+      verification: Verify signed credential ownership, RP/origin and exact tuple; consume unexpired challenge once; reject LOGIN or REGISTRATION purpose, different subject/session or changed tuple.
+      execution: At the protected action, recompute payloadHash from the actual immutable request and require the same proof tuple; options or client hashes alone never authorize execution.

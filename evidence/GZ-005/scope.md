@@ -1,3 +1,15 @@
+# Current fourteen-finding repair candidate: immutable-source validation pending
+
+PR82 comments6095687218/6095857734 were independently deduplicated into14 confirmed contract gaps against actual source9b55648. The repaired candidate adds secure host-only successful-login cookie issuance, verifies Cookie+CSRF and Bearer branches, closes ordinary DataSource privacy, excludes terminal TaskAccepted outcomes, binds progress to path asset/version ownership, fixes approval creation status=PENDING, accepts scoped artifact pagination, requires durable catalog-bound task failures, records immutable media/AI provenance, provides authenticated purpose/tuple-bound PASSKEY step-up options, constrains credential-free connector endpoints, requires no-store and closes role capabilities to current supported permissions.
+
+Independent follow-up caught and corrected a shared-header cookie issuance alias, task retryability/code mismatch and undeclared artifact revision conflict. Synthetic HTTP fixtures cover90 operations with146 pairs including both authenticated write branches and an artifact second page. There are141 schemas and33 stable errors. Fixtures establish contract consistency only.
+
+Historical source9b actual17 checks passed:527 governance tests766.11s and164 API tests121.95s, no failures/errors/skips. CI632 was cancelled; it is not a CI pass. Those local executions are preserved in published-source-9b55648-history, with all14 content findings and explicit content/merge rejection. Initial fourteen-gap exploratory tests214passed/2failed160.91s remain unaccepted.
+
+Formal checks on the new published immutable source, latest same-head CI, final independent review and actual-main verification are pending. No runtime, POC or full-V1 acceptance is claimed. Frozen authority, requirement scope, lease, policy, other task identities and governance implementation remain unchanged.
+
+## Preserved historical records; prior acceptance conclusions do not apply
+
 # GZ-005 current contract implementation
 
 Task: GZ-005 / Issue68
