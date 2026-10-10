@@ -329,6 +329,27 @@
         "branchPattern": "chore/GZ-020-*",
         "exitGate": "全量 E2E/性能/故障注入/安全/恢复/供应链通过，OPS-001 关闭，人工批准后方可发布"
       }
+    },
+    {
+      "kind": "add-planning-baseline",
+      "id": "BASELINE-GZ-021",
+      "before": null,
+      "after": {
+        "id": "BASELINE-GZ-021",
+        "taskId": "GZ-021",
+        "requiredBy": [
+          "GZ-006",
+          "GZ-009",
+          "POC-001",
+          "POC-003",
+          "POC-004",
+          "POC-005",
+          "POC-006",
+          "POC-007",
+          "POC-008",
+          "POC-009"
+        ]
+      }
     }
   ]
 }

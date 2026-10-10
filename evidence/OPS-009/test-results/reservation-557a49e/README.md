@@ -1,19 +1,3 @@
-OPS-009 metadata-only reservation
-Status: RESERVED
-Verification: PENDING_ACTUAL_SOURCE
-Issue: #85
-Base: bf0e5cbf51c1f8991986f503e22d1312ac9b5836
-Actual reservation branch: chore/OPS-009-planning-revision-reservation
-Implementation branch claim: chore/OPS-009-planning-revision-admission
-Lease: 2026-10-10T15:29:31Z to 2026-10-17T15:29:31Z
-
-Roles: {"coordinator": "program-coordinator-agent", "implementer": "planning-revision-agent", "reviewer": "independent-planning-revision-review-agent", "integrator": "integration-agent"}
-
-Historical verified Commit: 557a49e8848f6bbf7b90af286cb1eb6b65f8cea5. Current amended candidate: PENDING_ACTUAL_PUBLISHED_SOURCE; obtain exact PR86 HEAD before execution and do not transfer historical results. Inputs: own immutable planning-revision.json and accepted source main. Candidate 9 exact MOD-GOV paths listed in Task; no shared paths, integrationOrder5. Exact command/exit/SHA and actual changed-files belong to the forthcoming execution refs. Do not activate before real registration and actual main acceptance. After actual reservation, successor updates phase via legal lifecycle, never amends original manifest. Rollback: close an unmerged PR. After registration merge, a reserved task stops further activation and retains Registry, Lease and capacity; it cannot directly become blocked or release its Lease. From in_progress/review/integration only, a separate own metadata-only blocked PR retains Registry, valid Lease and capacity. Lawful later repair and independent Review/actual Completion are required before Lease removal. All Lease changes remain subject to existing time limits and gates; preserve original registration and failure evidence. Foundation cancelled is not available; completed recovery uses correct new registered task/AGENTS17.8.
-
-
-## Historical execution and current candidate
-
 # Historical actual reservation source 557a49e8848f6bbf7b90af286cb1eb6b65f8cea5
 
 Source Commit: 557a49e8848f6bbf7b90af286cb1eb6b65f8cea5
@@ -41,5 +25,3 @@ Actual local15 all exit0; 527 passed in 713.38s (0:11:53) ======================
 Original 22 files/170929 bytes are losslessly bundled, with per-file size/SHA and zlib-base64; bundle SHA256 fbd3bf23b0ccbd98c964b689db3ecc5c3c541c3e51ce645a0005ab255835c1aa. Decode each record and verify bytes/sha256 before use. Original plaintext was checked against five secret patterns, zero matches; no credentials copied.
 
 CI644/run38064965557/job114250692429 was still running at amendment preparation, no success claimed. The current candidate requires its own actual published-source gates, nonempty zero-FES JUnit, official same-head CI and independent acceptance.
-
-Original canonical registration has not merged. V2 inputs SHAba9316d5f9ccd020b27fae11c3dbbff7293bcaba1c05b80a5851cc0f86868780 and finite scope preparation do not confer actual execution permission. Manifest now declares two original Task targets and one exact BASELINE-GZ-021; no future Program/POC implementation here. Current source/test/CI approval remain PENDING; implementation only after actual metadata-only registration merge and main acceptance.

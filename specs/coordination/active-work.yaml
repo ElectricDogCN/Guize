@@ -41,6 +41,7 @@ tasks:
   - GZ-005
   exclusivePaths:
   - specs/coordination/program-plan.yaml
+  - specs/coordination/program-plan.schema.yaml
   - specs/coordination/planning-revision.schema.yaml
   - specs/coordination/README.md
   - scripts/program-planning-revision.py

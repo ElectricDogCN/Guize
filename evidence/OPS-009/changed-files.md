@@ -1,11 +1,6 @@
-OPS-009 metadata-only reservation
+OPS-009 unmerged original reservation amendment V2
 Status: RESERVED
 Verification: PENDING_ACTUAL_SOURCE
-Issue: #85
-Base: bf0e5cbf51c1f8991986f503e22d1312ac9b5836
-Actual reservation branch: chore/OPS-009-planning-revision-reservation
-Implementation branch claim: chore/OPS-009-planning-revision-admission
-Lease: 2026-10-10T15:29:31Z to 2026-10-17T15:29:31Z
 
 - evidence/OPS-009/api-samples/README.md
 - evidence/OPS-009/assumptions.md
@@ -23,6 +18,8 @@ Lease: 2026-10-10T15:29:31Z to 2026-10-17T15:29:31Z
 - evidence/OPS-009/security/README.md
 - evidence/OPS-009/summary.md
 - evidence/OPS-009/test-results/README.md
+- evidence/OPS-009/test-results/reservation-557a49e/README.md
+- evidence/OPS-009/test-results/reservation-557a49e/raw-results.bundle.json
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/OPS-009.md
