@@ -8,6 +8,15 @@ Roles:Coordinator program-coordinator-agent; Implementer openapi-contract-agent;
 
 ## Actual prior source execution, not successor acceptance
 
+Historical execution scope: immutable prior Completion source9dc only; this result does not apply to the pending successor.
+Source Commit: 9dc57530c773c2753cc7047762a85ac00b381501
+Command: make verify TASK=GZ-005 BASE=8f2beb00c568ecb79c8ae0204f36fe445599fc37 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-completion
+Exit Code: 0
+Result: PASS
+Raw record: test-results/completion-9dc5753/raw-results.bundle.json logical verify.txt; nonempty logical make-governance.xml has527 cases and zero failures/errors/skips. Same-source CI639 independently remains source9dc, not successor/main.
+
+Current rejected intermediate source:ca0fb00dd2824fb6529a60484272af843d6af5ad; first7 exit0/raw-lifecycle exit1, full15/fullmake not executed. Exact originals: test-results/completion-ca0fb00-rejected/. Corrected successor checks and CI remain PENDING.
+
 Prior Completion source:9dc57530c773c2753cc7047762a85ac00b381501 /tree:14163ff7a756ab2889ba5a3dce9ddc6d352d2900. Actual15 all exit0, full527 in717.57s/JUnit527 zero failures/errors/skips, CI639 full527 in683.45s/all steps success are retained losslessly in test-results/completion-9dc5753/raw-results.bundle.json and its README index. Three subsequent evidence corrections prevent final integration acceptance. Those results do not certify the corrected successor head; accepted earlier code/Review records remain preserved.
 
 ## Current required integration actions
