@@ -1,3 +1,9 @@
+Current evidence binding: published Completion Source 1c94130cfa04212614376e3205ca967c903a8993 / tree bd41281fe428cd98f003f69c6928e4e636c6cc6b / PR81 / base fd3d642377eb1ad6de1051ce0d45b5045499b349.
+Issue71 closed/completed at 2026-10-10T02:26:43Z BEFORE exact Completion lifecycle gate; the first failure and CI626 1 failed/526 passed remain preserved.
+1c retry: 13 exit0, full make still RUNNING at preparation; actual source-bound output .takeover-tools/ops004-followup-completion-results/ must be inspected after completion.
+New two-document Source: not yet executed; require its own 14 archive checks and full same-head CI527 zero failures/errors/skips plus independent exact approval. Reuse of completed 1c fullmake is permitted only if code, Task, Program, Registry, Ledger and all remaining blobs equal 1c and every mandatory current-head component is covered. Never label 1c fullmake as a new-head execution.
+Actual portable full command: make verify TASK=OPS-004 BASE=fd3d642377eb1ad6de1051ce0d45b5045499b349 HEAD_REF=HEAD BRANCH=chore/OPS-004-followup-completion
+Historical command records follow, with their original source and exits; current proof is saved or referenced in PR81 and source-bound local files.
 
 ## 当前 completion 交接与已执行实现测试
 
