@@ -1,0 +1,151 @@
+{
+  "kind": "FINITE_READ_ONLY_FUTURE_ADMISSION_AND_EVIDENCE_TIMING_REVIEW",
+  "reviewedActualSource": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+  "tree": "7ea478f3383375ed0f5640ae7756cc2cd06aea07",
+  "recordedDateUtc": "2026-10-10",
+  "rootMutation": false,
+  "fullSuitesRun": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "scope": "Only legal admission of the explicitly authorized heterogeneous AV1/HLS/playback-priority and local OpenList/Baidu-deferral route, plus finite GZ-005 evidence timing. No new task, Issue, governance implementation or Peer-history protocol was created.",
+  "routeConclusion": {
+    "existingCompleteLegalPlanningRevisionEntry": false,
+    "firstLegalStepAfterGz005Completion": "After GZ-005 actual Completion and accepted main release its high-risk lease, reserve a new independent high-risk MOD-GOV Foundation with exact already-owned governance paths. Reservation remains metadata-only and must not include the planning revision or requirement changes. No concurrency waiver is then needed.",
+    "narrowMissingCapability": "The documented independent governance Program planning revision has no machine classification. Existing active transitions allow only the governance task's own status/mirror/blocker; raw lifecycle treats every changed future Task as an executable affected task requiring a current Task Spec. Thus the registered governance task cannot revise planned Task/POC titles, dependency/wave/output declarations or introduce the future requirements/design revision through the ordinary lifecycle path.",
+    "existingEvidence": [
+      {
+        "path": "docs/25-multi-agent-collaboration-protocol.md",
+        "line": 38,
+        "rule": "Program Plan cannot alter frozen requirements; Program changes are high-risk governance tasks requiring reservation, independent Review and Gate."
+      },
+      {
+        "path": "specs/coordination/README.md",
+        "line": 38,
+        "rule": "Unplanned nongovernance work first requires an independent high-risk governance Program revision."
+      },
+      {
+        "path": "scripts/check-program-plan-transitions.py",
+        "line": 455,
+        "rule": "only_lifecycle_target_changed permits own status only; all other Task identities and the POC map remain equal."
+      },
+      {
+        "path": "scripts/check-program-plan-transitions.py",
+        "line": 535,
+        "rule": "New Foundation registration may only add its own identity, with metadata-only paths at line572."
+      },
+      {
+        "path": "scripts/check-program-lifecycle-guards.py",
+        "line": 1033,
+        "rule": "Every diff-derived affected task needs a current Task Spec; planned future POCs currently have none."
+      },
+      {
+        "path": "specs/designs/module-ownership.yaml",
+        "line": 347,
+        "rule": "MOD-GOV owns coordination/task/checker/governance paths; it does not own product requirements, specs/poc or the outside design."
+      },
+      {
+        "path": "scripts/check-program-lifecycle-guards.py",
+        "line": 449,
+        "rule": "New MOD-GOV Foundation claims must be governance ownership subsets; legacy GZ-014 exception cannot be reused by a new task."
+      }
+    ],
+    "pureFunctionProof": "gz005-independent-route-change-admission-probes.json",
+    "minimalPermissibleRepairBoundary": [
+      "Recognize an explicitly registered and independently reviewed planning-revision operation for specified unstarted planned tasks and matching POC mirrors; allow new planned work without retroactively requiring its executable reservation Task Spec.",
+      "Keep existing active task identity/claims/lease, completed Task/POC/Foundation definitions and provenance, old Ledger, authority paths, concurrency/release/security policies unchanged. Do not globally weaken lifecycle guards or widen ordinary implementation claims.",
+      "Keep full schema, ownership, unique identity, requirement/module coverage, DAG, contract producer/consumer and wave validation. A planning revision does not reserve or start its future tasks.",
+      "Ensure the bounded planning operation is recognized consistently where existing lifecycle and Foundation source-history checks would otherwise reject foreign planned metadata. A failure in any current entry is a real failure; owner authorization is not a fabricated machine PASS.",
+      "Then use the revised Plan to separately reserve a requirements/design/POC-plan revision task with its actual document paths and appropriate modules. MOD-GOV bootstrap claims themselves cannot silently include business requirements/design/poc files."
+    ],
+    "targetPlanningWork": [
+      "Record the approved route in versioned authoritative requirements/ADR/design and traceability before runtime implementation; retain the original GZ-004 and GZ-010 completion records and historical protocol identity.",
+      "Plan replacement or supplemental heterogeneous worker AV1/HLS tests with Windows/Linux/Android coverage, timestamp continuity, priority/fairness/seek epochs and ACL cache boundaries from the reviewed outside design. Do not relabel old A380 or ESXi POCs as executed.",
+      "Local OpenList WebDAV is an environment/simulation input, not proof of TrueNAS production storage semantics, watermarks, throughput, durable replicas or recovery. The eight observed environment checks do not complete POC-004 or full source integration.",
+      "Baidu deferral is an explicit delivery decision, not a passed or cancelled immutable identity. Existing early wave and final-task dependencies still block later work/release until a reviewed Plan/requirement revision resolves their intended delivery ordering; do not silently remove production acceptance obligations.",
+      "Do not reuse completed GZ-004/GZ-010/GZ-005 for new route work or change their original Task/Registry/Ledger identity. A later contract extension gets its own registered task and compatible versioned contract treatment."
+    ],
+    "freezeRequiredByThisDecision": false,
+    "freezeReason": "An approved future route change is not itself evidence that completed provenance is defective. Existing frozen recovery is for independently registered governance correction and cannot be used as a generic planning waiver."
+  },
+  "evidenceTimingDecision": {
+    "extraPreMergeEvidenceOnlyCommitExplicitlyMandatory": false,
+    "conditionalSupportedSequence": "Keep exact e703 as the code PR head. After its actual formal17, same-head CI634 and independent exact-source acceptance, persist exact source/tree, immutable Actions run and accurate commands/results/JUnit counts and raw hashes/locations in PR82. Preserve the local raw outputs and independently inspect them before merge. Archive those same originals and source acceptance in the already-required subsequent Own Review metadata PR, then actually run that new Review head's applicable14 and full same-head CI with independent review. Completion and actual main checks remain mandatory.",
+    "instructionEvidence": [
+      {
+        "path": "AGENTS.md",
+        "line": 231,
+        "quote": "每个任务必须在 `evidence/<task-id>/` 保存或引用："
+      },
+      {
+        "path": "AGENTS.md",
+        "line": 245,
+        "quote": "证据必须能够由审查者复现。不得只写“测试通过”。"
+      },
+      {
+        "path": "AGENTS.md",
+        "line": 365,
+        "rule": "Handoff records actual commit, files, contract version, commands/exits, Evidence, failures and next-role actions."
+      },
+      {
+        "path": "AGENTS.md",
+        "line": 371,
+        "rule": "Latest HEAD Gate, independent roles/dependencies, resolved threads and exact integration conditions; it does not prescribe a separate archive-only code-PR commit."
+      },
+      {
+        "path": "evidence/GZ-005/handoff.md",
+        "line": 76,
+        "quote": "obtain independent review of the final source and applicable evidence archive."
+      },
+      {
+        "path": "evidence/GZ-005/handoff.md",
+        "line": 7,
+        "rule": "Archive/integration are currently pending chosen stages; no explicit rule says a distinct archive commit must precede code merge."
+      }
+    ],
+    "durableReferenceRequirements": [
+      "PR82 must cite full e703 SHA/tree and immutable CI run URL/head/result, accurate formal17 commands/exits, both nonempty JUnit totals/zero failures/errors/skips and explicit API-local versus governance-CI coverage.",
+      "Record exact raw/JUnit SHA-256 and accessible raw locations; external Windows files are retained review inputs, not falsely labeled durable Git artifacts or publicly downloadable URLs.",
+      "The current Evidence/Handoff supplies the task/PR/execution-reference context; the accepted phase timing decision and immutable PR receipt must be preserved in subsequent Own Evidence together with original raw results. Keep prior cancelled/failed/source-rejected records.",
+      "Before code merge the independent reviewer must actually read the local results and official CI, and resolve findings against the exact reviewed head. A bare PASS sentence or future promise is insufficient.",
+      "The Review archive records source e703 results as e703 results; it cannot claim its own new head ran e703 local17, nor avoid new head metadata/CI checks. No self-referential new-head SHA archive loop is required."
+    ],
+    "notSupported": "Merge with missing or inaccessible evidence, treating parent-reported execution as independently checked, loss of the local originals, transferred tests to a later head, or skipping subsequent Review/Completion/main acceptance."
+  },
+  "materialFinding": "A narrowly defined documented Program planning-revision admission capability is missing. Existing new Foundation registration itself is available once GZ-005 capacity is released; no live policy/capacity exception is needed.",
+  "limits": "These are read-only rule and in-memory helper observations. No actual planning PR/Gate, new governance implementation, runtime/POC or formal e703 acceptance is claimed.",
+  "ordinaryReviewBranchBinding": {
+    "conclusion": "The subsequent pure GZ-005 Review PR must retain Registry.branch and Task.workBranch as chore/GZ-005-openapi-baseline and actually run on that registered branch. A new review-named branch while the ordinary active Registry row remains present is rejected by existing machine rules.",
+    "reviewMetadataChanges": "After actual PR82 merge, advance the same registered branch from latest accepted main, bind Task.baseSha and Registry.baseSha to the real PR82 merge/current audit base, set own Program/Task/Registry status=review and applicable agentRole=reviewer, preserve assigned role identities, scope, requirements, contracts and original lease. Include own Evidence archive as planned. No force rewrite of old published source ancestry is required.",
+    "evidence": [
+      {
+        "path": "scripts/check-program-plan-transitions.py",
+        "line": 510,
+        "rule": "Ordinary active Registry mutable fields are only status, agentRole, baseSha and lease. branch is added only for Foundation at lines512–513; ordinary branch changes fail stable identity comparison."
+      },
+      {
+        "path": "scripts/check-agent-coordination.py",
+        "line": 575,
+        "rule": "For active non-completion context, Task.workBranch, baseSha and status equal Registry.branch/baseSha/status."
+      },
+      {
+        "path": "scripts/check-agent-coordination.py",
+        "line": 634,
+        "rule": "Non-reserved active task actual branch must equal registered branch."
+      },
+      {
+        "path": "specs/coordination/active-work.yaml",
+        "line": 19,
+        "rule": "Current ordinary GZ-005 registered branch is chore/GZ-005-openapi-baseline."
+      },
+      {
+        "path": "AGENTS.md",
+        "line": 358,
+        "rule": "Before Review synchronize latest main and reverify; this does not grant an ordinary branch identity change."
+      }
+    ],
+    "completionBoundary": "This restriction applies to the still-active Review stage. A later legal Completion removes the own Registry row and binds Task.workBranch to its actual Completion branch under existing completion-mode rules; it does not authorize an active Review branch rename.",
+    "rootMutation": false,
+    "suitesRun": false,
+    "actualReviewOrCompletionExecuted": false
+  }
+}

@@ -1,0 +1,335 @@
+{
+  "kind": "ORIGINAL_PHYSICAL_BYTES_AND_CANONICAL_GIT_TEXT",
+  "allOriginalsLosslesslyRecoverable": true,
+  "records": [
+    {
+      "path": "clean-after.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\clean-after.txt",
+      "originalPhysicalSha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2",
+      "canonicalGitTextSha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2"
+    },
+    {
+      "path": "clean-before.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\clean-before.txt",
+      "originalPhysicalSha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2",
+      "canonicalGitTextSha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2"
+    },
+    {
+      "path": "coordination.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\coordination.txt",
+      "originalPhysicalSha256": "9b34b38034fb181d68979b738ebce468b87f8e1897ac377dbbb708b1f6268311",
+      "canonicalGitTextSha256": "9b34b38034fb181d68979b738ebce468b87f8e1897ac377dbbb708b1f6268311"
+    },
+    {
+      "path": "evidence.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\evidence.txt",
+      "originalPhysicalSha256": "48a8936cc71ab270b363113c5a6723b7c561b2c1717a3f4f37d6c6505908de12",
+      "canonicalGitTextSha256": "48a8936cc71ab270b363113c5a6723b7c561b2c1717a3f4f37d6c6505908de12"
+    },
+    {
+      "path": "finalization.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\finalization.txt",
+      "originalPhysicalSha256": "938cf62ce18506292e59924e5a24c58434be766ead53a9100297e869f3c94b0e",
+      "canonicalGitTextSha256": "938cf62ce18506292e59924e5a24c58434be766ead53a9100297e869f3c94b0e"
+    },
+    {
+      "path": "history.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\history.txt",
+      "originalPhysicalSha256": "240a216eaae05888563ac9c4f94223424c45df4e65502c5415db3507c4672b5b",
+      "canonicalGitTextSha256": "240a216eaae05888563ac9c4f94223424c45df4e65502c5415db3507c4672b5b"
+    },
+    {
+      "path": "integrity.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\integrity.txt",
+      "originalPhysicalSha256": "e9cb497f934fba3605ef37717de16e2ccac1a3c1faf896551c5a615f5e9fa120",
+      "canonicalGitTextSha256": "e9cb497f934fba3605ef37717de16e2ccac1a3c1faf896551c5a615f5e9fa120"
+    },
+    {
+      "path": "lifecycle.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\lifecycle.txt",
+      "originalPhysicalSha256": "9352b2cb4e01af569792e5335244bb4118f0b55a440f34ada516af5a90d2ab45",
+      "canonicalGitTextSha256": "9352b2cb4e01af569792e5335244bb4118f0b55a440f34ada516af5a90d2ab45"
+    },
+    {
+      "path": "make-governance.xml",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\make-governance.xml",
+      "originalPhysicalSha256": "2419fe8a2acd2f74f391f824270e9aa06ddd38b7cc95516493eb9aa36de7a17e",
+      "canonicalGitTextSha256": "2419fe8a2acd2f74f391f824270e9aa06ddd38b7cc95516493eb9aa36de7a17e"
+    },
+    {
+      "path": "openapi-contract.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-contract.txt",
+      "originalPhysicalSha256": "a0ca23c82ea6367b283c15f886ec61bcb1c1e7b0ac466b766e1fb2443e2b850e",
+      "canonicalGitTextSha256": "a0ca23c82ea6367b283c15f886ec61bcb1c1e7b0ac466b766e1fb2443e2b850e"
+    },
+    {
+      "path": "openapi-negative-tests.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-negative-tests.txt",
+      "originalPhysicalSha256": "56e230fdac2c59b289efe0949c1426885ea76943350836c1ed6b3ec0a3d21bf1",
+      "canonicalGitTextSha256": "56e230fdac2c59b289efe0949c1426885ea76943350836c1ed6b3ec0a3d21bf1"
+    },
+    {
+      "path": "openapi-standard.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-standard.txt",
+      "originalPhysicalSha256": "42a14c8111fbacfdff65aa8459aa970edd53a30b65d187842f59d6462007f1a5",
+      "canonicalGitTextSha256": "42a14c8111fbacfdff65aa8459aa970edd53a30b65d187842f59d6462007f1a5"
+    },
+    {
+      "path": "openapi-tests.xml",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-tests.xml",
+      "originalPhysicalSha256": "4b7bb75cc97d9559fb1c778f0140851f453653f1f36e1d8efe58a2c26fc35461",
+      "canonicalGitTextSha256": "4b7bb75cc97d9559fb1c778f0140851f453653f1f36e1d8efe58a2c26fc35461"
+    },
+    {
+      "path": "raw-lifecycle.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\raw-lifecycle.txt",
+      "originalPhysicalSha256": "1460888d4bbbf10f48ef4dbfb9a1c37ba8df5fe599a9195d533640d81edd23d4",
+      "canonicalGitTextSha256": "1460888d4bbbf10f48ef4dbfb9a1c37ba8df5fe599a9195d533640d81edd23d4"
+    },
+    {
+      "path": "readiness.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\readiness.txt",
+      "originalPhysicalSha256": "444e99ff3a2b65edad85f3b7187a13edc32205b129b8e2390d267028bc5ece81",
+      "canonicalGitTextSha256": "444e99ff3a2b65edad85f3b7187a13edc32205b129b8e2390d267028bc5ece81"
+    },
+    {
+      "path": "schemas.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\schemas.txt",
+      "originalPhysicalSha256": "df1d78c83f34cd8107b1612725d94be125e4fa09516587ab93573b01dada7519",
+      "canonicalGitTextSha256": "df1d78c83f34cd8107b1612725d94be125e4fa09516587ab93573b01dada7519"
+    },
+    {
+      "path": "scope.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\scope.txt",
+      "originalPhysicalSha256": "0af89fe567b630e9ef458ec63da5685f064ebbb997715c777e2d2b05414aa2d0",
+      "canonicalGitTextSha256": "0af89fe567b630e9ef458ec63da5685f064ebbb997715c777e2d2b05414aa2d0"
+    },
+    {
+      "path": "source.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\source.txt",
+      "originalPhysicalSha256": "51e8ac44b5a1892a840804ccb54058de457cb79ef9d4e8c10f950898344179bf",
+      "canonicalGitTextSha256": "51e8ac44b5a1892a840804ccb54058de457cb79ef9d4e8c10f950898344179bf"
+    },
+    {
+      "path": "status.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\status.json",
+      "originalPhysicalSha256": "1d3b9da95de2a3d40e3dfccc98e204acffc0c3665d06f96e4a608c56fd64bb7f",
+      "canonicalGitTextSha256": "1d3b9da95de2a3d40e3dfccc98e204acffc0c3665d06f96e4a608c56fd64bb7f"
+    },
+    {
+      "path": "task.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\task.txt",
+      "originalPhysicalSha256": "575829242117bd255a4bad4ee555d31bda611db0d529f4d3595f41558127c564",
+      "canonicalGitTextSha256": "575829242117bd255a4bad4ee555d31bda611db0d529f4d3595f41558127c564"
+    },
+    {
+      "path": "transitions.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\transitions.txt",
+      "originalPhysicalSha256": "d94582988bc8c8149367cae35b2ad8d03a0bf50f6bb3987a661f744b08b7ffa0",
+      "canonicalGitTextSha256": "d94582988bc8c8149367cae35b2ad8d03a0bf50f6bb3987a661f744b08b7ffa0"
+    },
+    {
+      "path": "tree.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\tree.txt",
+      "originalPhysicalSha256": "db4de083b5fef300526afdd2365b4e5d75e3515d5f8290d98f13549a327a97d6",
+      "canonicalGitTextSha256": "db4de083b5fef300526afdd2365b4e5d75e3515d5f8290d98f13549a327a97d6"
+    },
+    {
+      "path": "unaffected.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\unaffected.txt",
+      "originalPhysicalSha256": "33fc601c6c89305571fefb0d7f50dea32cca0a54f36789635f21fd1a32dcfaf1",
+      "canonicalGitTextSha256": "33fc601c6c89305571fefb0d7f50dea32cca0a54f36789635f21fd1a32dcfaf1"
+    },
+    {
+      "path": "verification-worktrees-before.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\verification-worktrees-before.json",
+      "originalPhysicalSha256": "c57f66274dddcbdb8dec8da58cd08c5cbc8651261e1fdf25f68ea7de59ca5489",
+      "canonicalGitTextSha256": "c57f66274dddcbdb8dec8da58cd08c5cbc8651261e1fdf25f68ea7de59ca5489"
+    },
+    {
+      "path": "verification-worktrees.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\verification-worktrees.json",
+      "originalPhysicalSha256": "07d2d8182e75d3341c7b125551d25ee9de74eead7e6a17807f55e7d9d365d320",
+      "canonicalGitTextSha256": "07d2d8182e75d3341c7b125551d25ee9de74eead7e6a17807f55e7d9d365d320"
+    },
+    {
+      "path": "verify.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\verify.txt",
+      "originalPhysicalSha256": "e1a46326ec816cbd420b674d895687b45182e2f66cab16963394432acdd799c4",
+      "canonicalGitTextSha256": "e1a46326ec816cbd420b674d895687b45182e2f66cab16963394432acdd799c4"
+    },
+    {
+      "path": "gz005-independent-902b0f2-final-integration-proof.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-final-integration-proof.json",
+      "originalPhysicalSha256": "de847cc147d5efa977ec908368bbc48d192faff1f8906efd7ea62e29ea5f9b4f",
+      "canonicalGitTextSha256": "d14d33e06907a9758cc58cdb9f1ddebbc2de2bd02263415c898955aea754b992",
+      "originalPhysicalBytesZlibBase64": "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"
+    },
+    {
+      "path": "gz005-independent-902b0f2-ci635-official-receipt.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-ci635-official-receipt.json",
+      "originalPhysicalSha256": "66b5ded6e2d922bfe0d07337eb238ee723d526074c645f07d119c5ee6951eaaf",
+      "canonicalGitTextSha256": "b611d1f86dd2f81ca2b881ad8bb1864d63d67a383a3808d13abc83a1fc8f7acb",
+      "originalPhysicalBytesZlibBase64": "eJzFWG1v2zYQ/l6g/4Hw57Qlqfd881yn8xY7RpwMG4bCoMhTrEYmNVJKmhX77zvKips0KjAMswe0Taoj75473j2845fXrwgZ3ZZajU7JaLZ4P11O8Z/F1fri7Gw2mY3P16vxfLr+cTp+v57M1tNfp5Prq9nFYn05nUxny6v1+cUEF42Xs7XfOVt8GJ10Ov9owZagxo1XzCmP3zCKfwjjpzQ95Qm5vpr0S4VsWlGtTGsl+NUZ5TkteBEWkgeKsShTkBSCKZmkKo4YSyWVIgv77Y2FbhvNJQdKQyGCMFE04TxKJcR5objiXIQ0yWRAoei32VbPvNdBSsMM//I42AsW7TYHi8I4iHqMTQPb2jvDdh/gDnTnW91W1doC+uuaXrVrRNM6L5RmW1fQgOol0mhZta402ktdKyU418s+mbwDxFjIaRwmcZTyR31Qe3W/+/8R8mX3AwX6EecO1O6b2HbhWEFD2pqg1tFX4XeRddJhdDvxXyffNc5fGp9sQN6atiEWauPKxtiHQ6MIBkOAEVg+NBujSfCWsUNjCF9imGm0VFXkxtyB1UJLIApq0Aq0LMEdGlH0EtEvWJjFA5HGPodCym1tbCPyCg6NKh7IGNReVkCctGXdOCK0Ig2W1MEjlLzEghmDljFCVQWyeWN0dfDsTV+iuARnqjsgjXC3iEU38Lk5NIzsJYwrb77wR3MnqlKJxus8MAxGBw7Fmk94GsgoQpUa1RDpSebgUAaoFaHcWLEly0poUuLB3NiyeTghm9J5pjshjRUaWQ9tuROMncbA/dkF7qTL66osQD5IDOlNK6w6uAsDBD2+wesLs8pYDGYH7UjhHKDpD1+p8SgVzwZoenVb1kS0qjx4ibEBSp4Le6vMvSa5cKU80kkMkPBv4/n5u59WFwuk4Q1sxZGQDFDwCqTFBsZJcXiyGeDe6V3pb0U4UgAGaHePYM8vx8HCB6jXXwFvcuQ0uUHu0rfi5kiB4UN9rTT1scwPEOeqBkncgz5SlfIBvlwK68lblRbvQ7xv8EoswB4vXfkAf05m5N7Y26Iy98QbRRY7XrvAByj1A2iwooGnjbcfRuzBCT4cqOalwX7y6ONINNRGeST/w3gWDZTypFf/3w2p/sfHfmKvqpWfm1f9ilPsylrYyWqwV9hpLIVz4EfuiO+uoBEmy6rdbgXGA5XjZ1J3a5CFScaStyl/nNYdNgxj3y+c+2bUD+e9XeSGZgNYAI9BRlkfj5Hbv3FAyLJUpYJBHPEwTLIkkRGPGYv9e0RMg1RlUUz3YfmXrxze144tnjwf4LeQZyKO4lilrGA8lXnMUjQfAqRKcl6IXDBJRfgk7P/4UWa34+Oj+dKNu+eduSj1HOyNd6IQlQMv3+XLyBRFKUtRvQdpFKgrHHRWG8Gj2DuchQwYDQsQokhy4AzCNBdUcJolURAX6EgSZ1kAUcaoDJIkBgkhT5O0iJWg/Sy7t+FzTlg/5D43Q4tIShYEeZBDESnI0IgK8EiKmCdRHkUhxiVMJGUZU5FIAoqHJLIiBzSX8nT/wOPVl87ohbHbfd+/m+e2SEWk6uaXG3KtS+8t+eFifkJ0vxjI5PL8jDSGnJ/tZgW729UNEUTDPd6/0E2kxLXo0ue3ZGnBgcU1/pnBdwu2NJb4afHd/abEjroWEt72+IrO0O6tbYyFUTddAXQn0q/wlmZd09FBH9e1RQTfrKqMFNVZW1VBki5Be4+eVZg1ppm3zaPzT/XjJuz4L8G230juN6aCcV2uWkR9+a3UCQRxKe6/HhkXgMcUFkzlcRLkkU/8lMkcQkxNlaVC0TSjtMBvoGKacZHllGZChhQUFs3oueK5aPD6dBeDifLMuX3t44jeVt0r4MXPp2RhiJfU8OzlYuR/9+OFL0H6mCXdy4JPddeV5p6AtLnW8LneC/3G3vbrV0hvfwN7F9eK"
+    },
+    {
+      "path": "gz005-902-immediate-merge-guard.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-902-immediate-merge-guard.json",
+      "originalPhysicalSha256": "b36686a2a30ab669ae9f8c19d211d95a2d337939e85d24c07e7e29ae5fce6ae9",
+      "canonicalGitTextSha256": "b36686a2a30ab669ae9f8c19d211d95a2d337939e85d24c07e7e29ae5fce6ae9"
+    },
+    {
+      "path": "gz005-pr82-actual-merge.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-pr82-actual-merge.json",
+      "originalPhysicalSha256": "92baf0078daa58563974941f7bd04edec9951ab00ea6dadcf4a499fc2494e40c",
+      "canonicalGitTextSha256": "92baf0078daa58563974941f7bd04edec9951ab00ea6dadcf4a499fc2494e40c"
+    },
+    {
+      "path": "gz005-902-formal-pr-reference.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-902-formal-pr-reference.json",
+      "originalPhysicalSha256": "1ef62e3581a2fadd9a2be12a5dbd05eba7fbcdcdc3b7aa4289ab09af2dc9a70b",
+      "canonicalGitTextSha256": "1ef62e3581a2fadd9a2be12a5dbd05eba7fbcdcdc3b7aa4289ab09af2dc9a70b"
+    },
+    {
+      "path": "gz005-independent-route-change-admission-review.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-route-change-admission-review.json",
+      "originalPhysicalSha256": "b1c98899dad0556c7bd23ac5ce3dc1f6f0650409301316f2e90ea0fb4b3b4adf",
+      "canonicalGitTextSha256": "70d1a5c7dbe385694ea92f73a44b83d2e0e33b269dd178b9fe986c762846d183",
+      "originalPhysicalBytesZlibBase64": "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"
+    },
+    {
+      "path": "gz005-ci635.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-ci635.txt",
+      "originalPhysicalSha256": "2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce",
+      "canonicalGitTextSha256": "2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce"
+    },
+    {
+      "path": "gz005-ci635-proof.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-ci635-proof.json",
+      "originalPhysicalSha256": "6ab7b2d50b76843f26ca7a69dfc054d5869da7be2999dac2c593afd64fe3c236",
+      "canonicalGitTextSha256": "3b8a9d8cd636650beaabfd92f16bde22ab591e82b1a66cd6211f161028c90ab9",
+      "originalPhysicalBytesZlibBase64": "eJzFmW1PHDcQx99X6neweA3E69tH8upCKKECgjhSqamqk9eevXPY825tL+QS5bt3vPcQIqXBoNtU4oRke2z/Zmbtv+3Pv/5CyN6t0nLviOyNj2/ejc+np2c3b969ml5dTyfji5Ppm5Px6+n4/Hz6/uT67d5+b2GgbaxyjVl6u5MahDNKvG5mx5cvTjv1CdbtbNMZAb5NQVlJK1bFlWAjGUVJISGreCRFlss0iaJcUMGLeG3oDPRmtBQMKI05H8WZpBljSS4gLSvJJGM8plkhRhSqtVnJbW8Ws4KnSZrKPKoilosyxf4TFgPkUjBW8ZJHgvLNaKbTZ94Do5zGBf5YOtpWXHaLEgxWpqNkVfihKfvWURQzmsZZmuRs23zsHCxa56tXZa1Rjflaqru6XlXAHWhfstdi0dTAPx1Yt56QaLSoO6sa7RvYTgiwduNTx40DOe5tGWXpQUTx7yaKjhJ6RIv363ZdK/l327Ejmh5Fo007u9RuDk6J4zmI26bz7T/7mm/iB3FU5DLnEaToxzgrsgwdmkZR6p2W0lEuiySl5apTz80N8lm0/WtVQp4alt4kOG9WFn9vhn9eAqGhsmPhOl5fcKUvwMx8LxWvLfj6LyuXzZq7a7Bd3bs2YRlpubUgidJFlB3mbBOqFswNBvWqr8W22HTt81vVetfQTUihfeCpz1t6zRc9xQQc6VqCmffANZgIrvNmmC6LtgYM9oPaH6TQqutNXkff9OhTa8q/n1vbnFkPsB70R81Xrb/s/xfYJufIgxVl54RsMMLkcUIMHUbuaunmjSajwyjaPd8onC95Gl/6ON+ZxjHrmuA3AUZzLYBIaEFL0EKB3T1tHE6bPomWZY/T/gFGVUsiGvMtJlGLtjGOlzXsnjgJJvYIOyY+xk5UDcQKo1pnCdeSOFzUBohs+n9y4heKVBjZ2quZg0bXA6xE2WCE+eOEuGU19R0Qx+0tcmoHH93uEfNwxHzniDcerfLpesdrhfrHz3fniMVgiEVAnprmAyYobphcKo0zJMLvoQPoAhqOWQyBOTN8Qa5qrlFXOZgZ5Zb7ZK6sFwn7xBmuUTAgh93HkGuM96c+3vv9ElWrCsRSYCbMOm7kAO4J101PdM8oetw94xmKa/yIG4NJ0GMPlgbh6slP/CmcAR/06VdVMdCmE4Wrp1Hw14xHrOQoCVBPEzwIEN5JNcBKHAUppe1Ud0x2wc2tbO41wTO5EoNlZ5A2ehZjgGb4c3xx/uL3ydtLVEdzWPDBKIOU0XbawZTpEWUhJxhh8PxpBR9gL42CJNF2rjtGO7lTXsDDYIELUkOD0233z8E4gyTRUJxe9R2UqAfEHPd9fctngwWUBYmioUAnommHQwsSNM9CC9B7kxYEsUs92E7BgnTMdr47xrvqb0OJVAa1O+pXlO8VmCGXHhaka4biPT4j9425rermnnggVABDnshYqNQZBPYUNBju4OEdmL/PNAOIOhYqeIZJ48Y68hNuNOMn7CdPo4xoIOVPuZlOwrcTP/Edcx6vOxnmXSEJ30+ez+b/rd589gy/P29m3mD2idLkQKh0lBy6zR3XnuV3IK/5/WTOWZL2HXOAIo+rSJZpNioT/xKUR6KEWEImi5xLmheUVlgGMqUF40VJacFFTEHmYvPIiQO/Wjo4xv5XE574kci7m98OclI3M7Lgy/6+jStN3BwIb9t6OW25Q73S31wQDfcoXOBlX91PlMy5nRNliYWW94tLZZoFaapKCYUW/fWHX2IOyWVDShz/wIs9XGixUtRcLbzxgks4XE+Tt+qmP0L3kn7dKe/fusjqnQ8n21v7zLcvCXxU1ik9e7is4bouG7BENw7rQXTYx/jqbHU4P8SoYET+Bee2uOs="
+    },
+    {
+      "path": "gz005-ci635-official-run.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-ci635-official-run.json",
+      "originalPhysicalSha256": "5e15ad8447381abff6f959308218875785fb884d64c3f9dfd51b1d509b991aeb",
+      "canonicalGitTextSha256": "ae8cec84def975abeda9e1a9dc252c289d964198a3c18467bfe6bb2c9efdbd7a",
+      "originalPhysicalBytesZlibBase64": "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"
+    },
+    {
+      "path": "gz005-ci635-official-job.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-ci635-official-job.json",
+      "originalPhysicalSha256": "8a31fcf78d2b2b9452d1b66609d5714a60822f14f589e0761d458fde3d0ebb20",
+      "canonicalGitTextSha256": "af2c57d66b4469d28f19e20c1a6e5aefd69e9daedb2a933fb21b58af756abb91",
+      "originalPhysicalBytesZlibBase64": "eJzFmW1v2zYQx98P2Hcg/NqORNmSH94FbpE1WNusCQo0wxDQFC2zpkmBpJI5xb77jlLsKoOT0KnYGQkMi6cjf7wT7y/y26+/INTjeW+GMB4lcTYaZ+kk6deXdSVv6qbhJB5N4T/Jhk3LndLrpVB3N5JsGBj0ztQt05JIytAZsazXmK0YyW8WGi6vnBFdKc2is+tBHKcDVTJJSj5YEMMEl7tbXJ+VFs58ZW1pZlEEVicFt6tqcULVJtKsVCZ6Kxi1mtM3qph/iM4qfs8iQi1X0kTgw0StMbdcE2vZprQOt7koVc4ayN7808367s3Hq2L+x5BOTuFDxP32/Lxo05gVcbbTOFnEy2Q5WtJkmGOcTnM2XhKc0/Ekz1KMJzSmZDp6uPVHib6qhYnaAdoNyW7Ef6er5fiYSXJ9HOrCWGIrU4dPbUrBLMsfWqiSVFQGvLlWU1HKjNm1aQZpkMN8u7YkTrIBjuHvCuNZGs/i6fV39/oZQ5xc73t76P2AaTKLsxke7kwPJOV8xeja7PtkpSP60/1C6Fvz1brxkllUlQhmpLmjbnxyIurWZyajcV1tFkzv827n8Vn2HdBDB0/z780b63/6T4HV06Aqi+qU41bpbfeESTDC9GVCCB1E7mJrV0qi4QnG3fMN/fnS4/iyl/neSehTCFR8z+2cwVKaM0k5M93Tjvxps6Nok/HLtJ+Z5sstolA3HmEivimVtmQhWPfEqTexQ+iYeA5OuGDIUM1LaxCRObLM2ACRzf5PTnhCgQoiK1yNGigpAqxE42CEk5cJPzGjxC1Dlpg1cErL/rbdI078ESedI145tKVL11sieE6csugecRoMceqRp1p9hQSFgklyUKnGIOpqaABdEPtjTkNgFpps0IUgEnHI1UJzu+2jFTdOJPSRBRUPgsFJxz6EXEK87+t49+slSvAlo1sKmVBUROcBpsdfNx05PUP88vScFky6xUppSIIaO1ga+KsnN/BjOD0e6JZiDlR0sL96Gno/zaD/01nqoZ4u17xEpMp5gJUYeyml/VA7JntP9DpXdxLB+zSnwbLTSxu9itFDM3w5ff97dH758QOooxXbkGCUXspoP2xvymwWJz5vMPDybAGRBKil2EsS7cfaMdrbW+4EPAsWOC81FJxuXz+DcXpJolCcTvUNml09qPtyTYpgAU28RFEo0EuqynBoXoLmVWgeeu+yZBSZrQxWKRIvHbMfb8d4F0Q7wZZzDdod9CvI9yXTIZeexEvXhOKdv0O7LXnkgEABhHwjS3ylThDYMyaZJpa198DcfqYOIOoSX8ETJo2Vsegn7GiOjqgnx1Hi2JPyp+xMp/7lxA28Y875g5Mw5wqpfz15PZv7+qu+tVevozc/clxXexjU51AHzp0EWTDROqXpVYtK2mogiHsz7bVGAh5gQWgO8XBcf7IMP2rbLx3c/lYt0GlzBtay7j0yL7SqysZhfKDhsDcYEszPv9n4ets="
+    },
+    {
+      "path": "gz005-independent-902b0f2-actual-source-content-proof.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-actual-source-content-proof.json",
+      "originalPhysicalSha256": "f0be47313d259b318628cc04ce70e1d627fc18f735434b96ccf9db967df748dd",
+      "canonicalGitTextSha256": "c2c431f2999cf2a57b82370adb61853d5fec900e98393f202302318a2c70fc25",
+      "originalPhysicalBytesZlibBase64": "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"
+    },
+    {
+      "path": "gz005-independent-902b0f2-source-acceptance-proof.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-source-acceptance-proof.json",
+      "originalPhysicalSha256": "c08f06c581001a9a4bf469f9a86169906b3478bab6aa7e242fe54bec08e82047",
+      "canonicalGitTextSha256": "2369eef5ec1d80afa46f429f6e78583974257d487c03eebeb41da057c6a3052c",
+      "originalPhysicalBytesZlibBase64": "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"
+    },
+    {
+      "path": "actual-main\\context.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\context.json",
+      "originalPhysicalSha256": "b881e122b43b47695be6151fa458934b9e4d7985243e60dacfff5f90ba0bf976",
+      "canonicalGitTextSha256": "b881e122b43b47695be6151fa458934b9e4d7985243e60dacfff5f90ba0bf976"
+    },
+    {
+      "path": "actual-main\\make-governance.xml",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\make-governance.xml",
+      "originalPhysicalSha256": "5c3bcc36f2de30ec98dd8b29a323603506ecd8f5a8c916d8a83fc364b68a7d36",
+      "canonicalGitTextSha256": "5c3bcc36f2de30ec98dd8b29a323603506ecd8f5a8c916d8a83fc364b68a7d36"
+    },
+    {
+      "path": "actual-main\\openapi-contract.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\openapi-contract.txt",
+      "originalPhysicalSha256": "5107b4f3d88eb74dec02614d1f378b3812a5d063c15bb3e868b1d69ad149416e",
+      "canonicalGitTextSha256": "5107b4f3d88eb74dec02614d1f378b3812a5d063c15bb3e868b1d69ad149416e"
+    },
+    {
+      "path": "actual-main\\openapi-negative-tests.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\openapi-negative-tests.txt",
+      "originalPhysicalSha256": "3f244747057c3f126586a4f629625e68d600936924e04be767367cf400fda50e",
+      "canonicalGitTextSha256": "3f244747057c3f126586a4f629625e68d600936924e04be767367cf400fda50e"
+    },
+    {
+      "path": "actual-main\\openapi-standard.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\openapi-standard.txt",
+      "originalPhysicalSha256": "4df90c5ce2543db7bfead359a8f2b82e38834c823553160c69237bfa877c84d8",
+      "canonicalGitTextSha256": "4df90c5ce2543db7bfead359a8f2b82e38834c823553160c69237bfa877c84d8"
+    },
+    {
+      "path": "actual-main\\openapi-tests.xml",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\openapi-tests.xml",
+      "originalPhysicalSha256": "4f45318f9f8da10f6ea931016f7ba6a25c7f6c3ebf002380138f05b97cc28bd7",
+      "canonicalGitTextSha256": "4f45318f9f8da10f6ea931016f7ba6a25c7f6c3ebf002380138f05b97cc28bd7"
+    },
+    {
+      "path": "actual-main\\preexecution.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\preexecution.json",
+      "originalPhysicalSha256": "f910de4053ae2f21b47c370ea1b93b33957938a116efdf221b6172d674dc3eb8",
+      "canonicalGitTextSha256": "f910de4053ae2f21b47c370ea1b93b33957938a116efdf221b6172d674dc3eb8"
+    },
+    {
+      "path": "actual-main\\source.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\source.txt",
+      "originalPhysicalSha256": "a2ff0a26783134c79c8c32f1fa6a1d37c4dbbfc73231ee523e893459c6eaa273",
+      "canonicalGitTextSha256": "a2ff0a26783134c79c8c32f1fa6a1d37c4dbbfc73231ee523e893459c6eaa273"
+    },
+    {
+      "path": "actual-main\\status.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\status.json",
+      "originalPhysicalSha256": "b2166f615989e6413bd7ce8d7b3f038b9d5de4f6101503d7e53bcf35d2507aca",
+      "canonicalGitTextSha256": "b2166f615989e6413bd7ce8d7b3f038b9d5de4f6101503d7e53bcf35d2507aca"
+    },
+    {
+      "path": "actual-main\\tree.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\tree.txt",
+      "originalPhysicalSha256": "db4de083b5fef300526afdd2365b4e5d75e3515d5f8290d98f13549a327a97d6",
+      "canonicalGitTextSha256": "db4de083b5fef300526afdd2365b4e5d75e3515d5f8290d98f13549a327a97d6"
+    },
+    {
+      "path": "actual-main\\verify.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-results\\verify.txt",
+      "originalPhysicalSha256": "877d569547807c871e39349007d64217432d2ca9c7ae70898fedd1f7a807e3c7",
+      "canonicalGitTextSha256": "877d569547807c871e39349007d64217432d2ca9c7ae70898fedd1f7a807e3c7"
+    },
+    {
+      "path": "actual-main\\gz005-actual-main-95dc9d7-ci.txt",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-ci.txt",
+      "originalPhysicalSha256": "1b69cd6649d7b39a1472b26fb7cee1c2ec15c94423bb7f551b652eca3f7c33af",
+      "canonicalGitTextSha256": "1b69cd6649d7b39a1472b26fb7cee1c2ec15c94423bb7f551b652eca3f7c33af"
+    },
+    {
+      "path": "actual-main\\gz005-actual-main-95dc9d7-ci-proof.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-actual-main-95dc9d7-ci-proof.json",
+      "originalPhysicalSha256": "3b735864a4803a542ec4823c9360e1c4162b6ea47b48f35d2795711043d950b1",
+      "canonicalGitTextSha256": "3b735864a4803a542ec4823c9360e1c4162b6ea47b48f35d2795711043d950b1"
+    },
+    {
+      "path": "actual-main\\gz005-independent-95dc9d7-ci636-official-receipt.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-95dc9d7-ci636-official-receipt.json",
+      "originalPhysicalSha256": "bbe199e9163f8adebc862bf64972589bc567686d9a7900d0c8317ed9080279c7",
+      "canonicalGitTextSha256": "84cc50e7c8871c3ad5c293499066d129162f9107a4d99c9ea388f6400b3dd22a",
+      "originalPhysicalBytesZlibBase64": "eJzFWG1v2zYQ/j6g/4Hw57QTqffsk6smnbfYMWK3wDAUAUWebDWyqFFUXK/Yf99Rfktidcva2gMMy+bx7h4ejw/v9PnFD4T07vJS9s5JbzB6czG+wK/R9Pb68nKQDPpXt/1k+g4fw/5gdJsMbifvkuRiMrm9uk62o30cGU/7o+Ti1moPRm97Z63dPxrQOci+scaZw4KX1MEPoezcdc89Rt5Nk81ULkzDiyHPSzs39qWIZShAxCzkoe9C5NBQSDf1nRjSDCCIaBqyjbLRAFbNSQUDx/E4d71QOiFjfiQgSDPJJGPcc8JYuA5kG7WKayhNjZq/2/844rGYB34QyIhmlEUiDWgkfOYBRFIwlvGUU+Fwb20AFWKHpU7GMi8TzJWU+rGEMONUijCSgU9R3RE89np2/oe1W92UAxtuN3J86kah68Y7wahZpKBRGLjBJjDGwKKyEaTrAbhH0Ha1VVPPNyupDTeNXUhPqEVVgAG5kQhViqKpc9XGtW6EgLreyD6qtAVCqccodXzfifydJPkHxdpA9SBsn9cPFJRb+PRsP8YX7eZMwJCmImi6txd+EXgr7Qa/Fv919kXn7NB5MgdxpxpDNFSqzo3Sq2OjcDtDgBEYr8xclcR9RemxMXiHGAYleioKMlP3oEteCiASKigllCKH+tiI/ENE75EkshURSj+GQvJFpbThaQHHRhV0ZAxazwsgtdB5ZWrCS0kM1OboEQoPsWDGoGeMUFGAMC9VWRw9e6NDFDdQq+IeiOH1HWIpDXwyx4YRH8KYWveZ3Zp7XuSSG2vzK2Hc5VWF8n+FQZ2OTdHqI+4GMgqXeYmrIcKSzLEjQjuoFaHMNF+QccFLkuPGzHRuVmdknteW6c6I0bxE1kNf9RnGrsTA/dkG7qzN6yLPQKwEhnTWcC2PvoQOgu7P8FbDrFIag9lCO1E4O2j67Z4aT3LiaQdNTzA1CW9kfvQjRjsoecj1nVTLkqS8zsWJdqKDhH/rD69+/GVyPUIansOCnwhJBwVPQGgsYGrBv5psnu2+g3sv7nN7K8K3BeDZdNdBuzsEO345DRbWQb32CniZIqeJOXJXecdnJwoM66prhapO5b6DOCcVCFKvyhOdUtbBl+O2jyIy13gf4n2DV2IG+tvT9dmYOvgzGZCl0ndZoZbEOkUW+/Zy4dmAOij1LZSguYGHhbdtRvTRCd7rOM1jhfXkydsRv6uMskj+h/bM7zjKycb892tS7ePDrhOXbQnGC8tf9tzmWS4m68M/edxSb7dsdxfsKHnHh4w+ML5PqmlbsZxvl9zbNA1gG32fbW+2XgXazhzzun4qqpvFguMG4GpwlFTtFKR9EjHnVRTuyqGeLY4sfOvO2WnjQL+tW1D/+tdzMlJkQ3CbaspOXG9ML6/7u/c+2xxAPaMb2E6YrEozBzy/Q9Azu0sZL+qNtFCCF5eq0a0u2hJQrVf6YNL+zVK33LYzyW5fH4l0U5p8Ae/XxPFUmjVF8Z5uVZ9oKmWGjVmzzYEWFpg3gMYfS5ZzVUC/yidNbuDmqbTm9yBv+HIy58wPbHBpGsRCBoEXyzB1Y069kKUsyNJQAFDBQFBfxJ7H3DQNM9/H+T4OcjcLhevy7VswlWEW5ryYWAdvQCgJ8krNvrufdgH9Ul5v/NnAcW27+yk2knt3GY9cEMILZeZGWSw9SPGHjHzuh27muwGA56SOI8H3vMDzKX7zOEo5hF6UBaL3OF5DbvASqru9Pso1zZdraV6rcqT0YtclrbvfBZ4xUrTd3oy8vh6ekeTm6pIYRa4u2xYrL6ykhCU+oe3SSd2g308/kVK1dZPOlSbLOe5vXXG8APBfoWbrZhpvUMBjU78i7U6gXVWgpFqRBV8RLuW6cdvaf7VdJ6a/gBvMt58RWu+/vzzdG3jdVlTWxMK+h30qTnDt5aOItedvf7Is/YyhtPE5nIaJffEJRGPjOVKmLz8iSQh7ql6vptioJvk1BuwG7nNYbrRf/ID8+Tdo5CTY"
+    },
+    {
+      "path": "actual-main\\gz005-independent-95dc9d7-actual-main-acceptance-proof.json",
+      "originalExternalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-95dc9d7-actual-main-acceptance-proof.json",
+      "originalPhysicalSha256": "4910ea3159ab833c4f7d183eb1e92fe3916c19c1e39589517a3c19989fbf3835",
+      "canonicalGitTextSha256": "dec230a5bad9744673a9d35848e2d156ceca5798831a986058fea190eb6fb2f4",
+      "originalPhysicalBytesZlibBase64": "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"
+    }
+  ],
+  "interpretation": "Original SHA references in copied execution/review records identify preserved source inputs. Canonical Git LF digests identify readable archived files; any different original physical bytes are recoverable from zlib/base64. No transport-byte equality or new Review-head test result is claimed."
+}

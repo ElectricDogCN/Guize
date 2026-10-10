@@ -1,0 +1,211 @@
+{
+  "kind": "INDEPENDENT_OFFICIAL_SAME_HEAD_CI_EXECUTION_RECEIPT_LOCAL_API_PENDING",
+  "queriedAt": "2026-10-10 12:08:27 UTC",
+  "actualSource": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "runId": 38049804263,
+  "runNumber": 635,
+  "attempt": 1,
+  "event": "pull_request",
+  "status": "completed",
+  "conclusion": "success",
+  "jobId": 114206476582,
+  "steps": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 2,
+      "name": "Checkout repository",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 3,
+      "name": "Setup Python 3.11",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 4,
+      "name": "Install governance dependencies",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 5,
+      "name": "Verify core dependencies importable",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 6,
+      "name": "Compile scripts and tests",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 7,
+      "name": "Pytest collect-only",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 8,
+      "name": "Resolve task context",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 9,
+      "name": "Task file validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 10,
+      "name": "Project readiness check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 11,
+      "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 12,
+      "name": "Agent coordination check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 13,
+      "name": "Governance tests",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 14,
+      "name": "Skip audit",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 15,
+      "name": "Markdown basic check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 16,
+      "name": "YAML/JSON schema check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 17,
+      "name": "Secret scan",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 18,
+      "name": "Evidence check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 19,
+      "name": "Evidence integrity check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 20,
+      "name": "Task-branch linkage check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 21,
+      "name": "Scope check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 22,
+      "name": "Spec sync check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 23,
+      "name": "Parent directory reference check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 24,
+      "name": "CI workflow static validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 25,
+      "name": "Generate governance report",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 49,
+      "name": "Post Setup Python 3.11",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 50,
+      "name": "Post Checkout repository",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 51,
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "allStepsSuccess": true,
+  "perTestPassed": 527,
+  "govSummary": "527 passed in 917.82s",
+  "skipAuditLines": [],
+  "syntheticCheckout": {
+    "source": "e4198d8a1e652447977c52611638046038d9560b",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "parents": [
+      "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+    ],
+    "isActualMainMerge": false
+  },
+  "officialDecodedTextSha256": "941e104feaaf7be21e48ba0a2097536fa6576993e5910c3776ece42878f6da0e",
+  "officialComparableTextSha256": "0f5cc133b3bef5de98bad3526f6275b55422f47c0191d5a730603a9fbeece828",
+  "comparisonNormalization": "Remove leading Unicode BOM, normalize CRLF to LF, and remove final newline-only suffix. Preserve all interior text/whitespace.",
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "localFull378Pending": true,
+  "rootMutation": false,
+  "fullGovRerun": false,
+  "wholeApiSuiteRun": false,
+  "savedRawSha256": "2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce",
+  "savedRawMatchesOfficialComparableText": true,
+  "skipAuditResult": "OK: No skipped tests",
+  "testSkips": 0,
+  "collectedTests": 527,
+  "noUnexpectedTestSkip": true
+}

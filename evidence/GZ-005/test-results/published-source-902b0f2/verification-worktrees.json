@@ -1,0 +1,21 @@
+{
+  "kind": "ACTUAL_IDENTICAL_SOURCE_NATIVE_VALIDATION_WORKTREE",
+  "phase": "implementation",
+  "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "authoringWorktree": {
+    "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "branch": "chore/GZ-005-openapi-baseline",
+    "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+  },
+  "verificationWorktree": {
+    "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "branch": "chore/GZ-005-openapi-baseline",
+    "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+  },
+  "bothCleanBeforeAndAfter": true,
+  "result": "PASS",
+  "testsExecutedIn": "native Linux checkout; exact same immutable Git source/tree, no result transfer from another commit"
+}

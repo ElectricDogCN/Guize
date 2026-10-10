@@ -1,0 +1,411 @@
+{
+  "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "sourceRawDirectory": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results",
+  "checks": [
+    {
+      "label": "task",
+      "command": "python scripts/check-task-file.py --task GZ-005",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\task.txt",
+      "sha256": "575829242117bd255a4bad4ee555d31bda611db0d529f4d3595f41558127c564"
+    },
+    {
+      "label": "readiness",
+      "command": "python scripts/check-project-readiness.py",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\readiness.txt",
+      "sha256": "444e99ff3a2b65edad85f3b7187a13edc32205b129b8e2390d267028bc5ece81"
+    },
+    {
+      "label": "schemas",
+      "command": "python scripts/check-schemas.py",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\schemas.txt",
+      "sha256": "df1d78c83f34cd8107b1612725d94be125e4fa09516587ab93573b01dada7519"
+    },
+    {
+      "label": "integrity",
+      "command": "python scripts/check-program-plan-integrity.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\integrity.txt",
+      "sha256": "e9cb497f934fba3605ef37717de16e2ccac1a3c1faf896551c5a615f5e9fa120"
+    },
+    {
+      "label": "history",
+      "command": "python scripts/check-program-plan-history.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\history.txt",
+      "sha256": "240a216eaae05888563ac9c4f94223424c45df4e65502c5415db3507c4672b5b"
+    },
+    {
+      "label": "transitions",
+      "command": "python scripts/check-program-plan-transitions.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\transitions.txt",
+      "sha256": "d94582988bc8c8149367cae35b2ad8d03a0bf50f6bb3987a661f744b08b7ffa0"
+    },
+    {
+      "label": "finalization",
+      "command": "python scripts/check-program-plan-finalization.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --task GZ-005",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\finalization.txt",
+      "sha256": "938cf62ce18506292e59924e5a24c58434be766ead53a9100297e869f3c94b0e"
+    },
+    {
+      "label": "raw-lifecycle",
+      "command": "python scripts/check-program-lifecycle-guards.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\raw-lifecycle.txt",
+      "sha256": "1460888d4bbbf10f48ef4dbfb9a1c37ba8df5fe599a9195d533640d81edd23d4"
+    },
+    {
+      "label": "lifecycle",
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\lifecycle.txt",
+      "sha256": "9352b2cb4e01af569792e5335244bb4118f0b55a440f34ada516af5a90d2ab45"
+    },
+    {
+      "label": "coordination",
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\coordination.txt",
+      "sha256": "9b34b38034fb181d68979b738ebce468b87f8e1897ac377dbbb708b1f6268311"
+    },
+    {
+      "label": "scope",
+      "command": "python scripts/run-task-scope-gate.py --task GZ-005 --base 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\scope.txt",
+      "sha256": "0af89fe567b630e9ef458ec63da5685f064ebbb997715c777e2d2b05414aa2d0"
+    },
+    {
+      "label": "evidence",
+      "command": "python scripts/check-evidence.py --task GZ-005",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\evidence.txt",
+      "sha256": "48a8936cc71ab270b363113c5a6723b7c561b2c1717a3f4f37d6c6505908de12"
+    },
+    {
+      "label": "unaffected",
+      "command": "git diff --exit-code 429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/tasks/OPS-004.md evidence/OPS-004 specs/poc specs/requirements scripts tests AGENTS.md",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\unaffected.txt",
+      "sha256": "33fc601c6c89305571fefb0d7f50dea32cca0a54f36789635f21fd1a32dcfaf1"
+    },
+    {
+      "label": "verify",
+      "command": "make verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\verify.txt",
+      "sha256": "e1a46326ec816cbd420b674d895687b45182e2f66cab16963394432acdd799c4"
+    },
+    {
+      "label": "openapi-standard",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-standard.txt",
+      "sha256": "42a14c8111fbacfdff65aa8459aa970edd53a30b65d187842f59d6462007f1a5"
+    },
+    {
+      "label": "openapi-contract",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-contract.txt",
+      "sha256": "a0ca23c82ea6367b283c15f886ec61bcb1c1e7b0ac466b766e1fb2443e2b850e"
+    },
+    {
+      "label": "openapi-negative-tests",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fresh-implementation-902b0f2-results/openapi-tests.xml",
+      "exitCode": 0,
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-negative-tests.txt",
+      "sha256": "56e230fdac2c59b289efe0949c1426885ea76943350836c1ed6b3ec0a3d21bf1"
+    }
+  ],
+  "junit": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\make-governance.xml",
+      "sha256": "2419fe8a2acd2f74f391f824270e9aa06ddd38b7cc95516493eb9aa36de7a17e",
+      "testcases": 527,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-tests.xml",
+      "sha256": "4b7bb75cc97d9559fb1c778f0140851f453653f1f36e1d8efe58a2c26fc35461",
+      "testcases": 378,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  ],
+  "govSummary": "527 passed in750.25s",
+  "apiSummary": "378 passed in263.04s",
+  "ci": {
+    "kind": "ACTUAL_GITHUB_PR_SAME_HEAD_ALL_ZERO",
+    "repository": "ElectricDogCN/Guize",
+    "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "runId": 38049804263,
+    "runNumber": 635,
+    "jobId": 114206476582,
+    "runAttempt": 1,
+    "priorAttempt": null,
+    "event": "pull_request",
+    "conclusion": "success",
+    "startedAt": "2026-10-10T11:50:09Z",
+    "updatedAt": "2026-10-10T12:06:13Z",
+    "syntheticCheckout": {
+      "source": "e4198d8a1e652447977c52611638046038d9560b",
+      "parents": [
+        "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+        "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+      ],
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "isActualMainMerge": false
+    },
+    "govResult": "527 passed in917.82s",
+    "perTestPassed": 527,
+    "skips": 0,
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-10-10T11:50:13Z",
+        "completed_at": "2026-10-10T11:50:13Z"
+      },
+      {
+        "name": "Checkout repository",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-10-10T11:50:13Z",
+        "completed_at": "2026-10-10T11:50:15Z"
+      },
+      {
+        "name": "Setup Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-10-10T11:50:15Z",
+        "completed_at": "2026-10-10T11:50:16Z"
+      },
+      {
+        "name": "Install governance dependencies",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-10-10T11:50:16Z",
+        "completed_at": "2026-10-10T11:50:27Z"
+      },
+      {
+        "name": "Verify core dependencies importable",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-10-10T11:50:27Z",
+        "completed_at": "2026-10-10T11:50:27Z"
+      },
+      {
+        "name": "Compile scripts and tests",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-10-10T11:50:27Z",
+        "completed_at": "2026-10-10T11:50:27Z"
+      },
+      {
+        "name": "Pytest collect-only",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-10-10T11:50:27Z",
+        "completed_at": "2026-10-10T11:50:28Z"
+      },
+      {
+        "name": "Resolve task context",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-10-10T11:50:28Z",
+        "completed_at": "2026-10-10T11:50:28Z"
+      },
+      {
+        "name": "Task file validation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-10-10T11:50:28Z",
+        "completed_at": "2026-10-10T11:50:29Z"
+      },
+      {
+        "name": "Project readiness check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-10-10T11:50:29Z",
+        "completed_at": "2026-10-10T11:50:29Z"
+      },
+      {
+        "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-10-10T11:50:29Z",
+        "completed_at": "2026-10-10T11:50:31Z"
+      },
+      {
+        "name": "Agent coordination check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-10-10T11:50:31Z",
+        "completed_at": "2026-10-10T11:50:38Z"
+      },
+      {
+        "name": "Governance tests",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-10-10T11:50:38Z",
+        "completed_at": "2026-10-10T12:05:56Z"
+      },
+      {
+        "name": "Skip audit",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-10-10T12:05:56Z",
+        "completed_at": "2026-10-10T12:05:56Z"
+      },
+      {
+        "name": "Markdown basic check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-10-10T12:05:56Z",
+        "completed_at": "2026-10-10T12:05:57Z"
+      },
+      {
+        "name": "YAML/JSON schema check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-10-10T12:05:57Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Secret scan",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Evidence check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Evidence integrity check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Task-branch linkage check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Scope check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "Spec sync check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 22,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "Parent directory reference check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "CI workflow static validation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "Generate governance report",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "Post Setup Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 49,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:10Z"
+      },
+      {
+        "name": "Post Checkout repository",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 50,
+        "started_at": "2026-10-10T12:06:10Z",
+        "completed_at": "2026-10-10T12:06:10Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 51,
+        "started_at": "2026-10-10T12:06:10Z",
+        "completed_at": "2026-10-10T12:06:10Z"
+      }
+    ],
+    "rawLog": "gz005-ci635.txt",
+    "savedRawSha256": "2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce",
+    "rawByteCaveat": "Saved UTF-8 log may contain the apply_patch final newline; the saved hash is separate from official transport. No byte-identical claim is made.",
+    "apiTests": "Separate actual source local checks; existing governance CI does not execute API tests."
+  },
+  "sourceRawLocationsAreExternalRetainedReviewInputs": true,
+  "formalChecksAllZero": true,
+  "independentFormalAcceptance": "PENDING",
+  "finalIntegrationApproval": "PENDING",
+  "actualMainAcceptance": "PENDING",
+  "fullV1Complete": false
+}

@@ -1,0 +1,222 @@
+{
+  "kind": "INDEPENDENT_OFFICIAL_ACTUAL_MAIN_CI_SUCCESS_LOCAL_MAIN_ACCEPTANCE_PENDING",
+  "queriedAt": "2026-10-10 12:33:42 UTC",
+  "actualMain": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "parents": [
+    "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+  ],
+  "runId": 38051387339,
+  "runNumber": 636,
+  "attempt": 1,
+  "event": "push",
+  "status": "completed",
+  "conclusion": "success",
+  "jobId": 114211055085,
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 2,
+      "name": "Checkout repository",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 3,
+      "name": "Setup Python 3.11",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 4,
+      "name": "Install governance dependencies",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 5,
+      "name": "Verify core dependencies importable",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 6,
+      "name": "Compile scripts and tests",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 7,
+      "name": "Pytest collect-only",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 8,
+      "name": "Resolve task context",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 9,
+      "name": "Task file validation",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "number": 10,
+      "name": "Project readiness check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 11,
+      "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 12,
+      "name": "Agent coordination check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 13,
+      "name": "Governance tests",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 14,
+      "name": "Skip audit",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 15,
+      "name": "Markdown basic check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 16,
+      "name": "YAML/JSON schema check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 17,
+      "name": "Secret scan",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 18,
+      "name": "Evidence check",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "number": 19,
+      "name": "Evidence integrity check",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "number": 20,
+      "name": "Task-branch linkage check",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "number": 21,
+      "name": "Scope check",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "number": 22,
+      "name": "Spec sync check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 23,
+      "name": "Parent directory reference check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 24,
+      "name": "CI workflow static validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 25,
+      "name": "Generate governance report",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 49,
+      "name": "Post Setup Python 3.11",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 50,
+      "name": "Post Checkout repository",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 51,
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "conditionalTaskSpecificSkippedSteps": [
+    9,
+    18,
+    19,
+    20,
+    21
+  ],
+  "governanceTests": {
+    "collected": 527,
+    "perTestPassed": 527,
+    "summary": "527 passed in 820.87s",
+    "testSkips": 0,
+    "skipAudit": "OK: No skipped tests"
+  },
+  "isActualMainCheckout": true,
+  "isSyntheticMerge": false,
+  "localFourChecksAccepted": false,
+  "actualMainAccepted": false,
+  "taskCompleted": false,
+  "runtimeValidated": false,
+  "fullV1Complete": false,
+  "rootMutation": false,
+  "fullGovRerun": false,
+  "wholeApiSuiteRun": false,
+  "savedRawSha256": "1b69cd6649d7b39a1472b26fb7cee1c2ec15c94423bb7f551b652eca3f7c33af",
+  "officialSavedDecodedLogSha256": "1b69cd6649d7b39a1472b26fb7cee1c2ec15c94423bb7f551b652eca3f7c33af",
+  "savedAndOfficialComparableTextSha256": "fa83ecc47df38f9d4ebf38d85a573f536ee40b00de5446451446a98bae748f6c",
+  "savedRawMatchesOfficialComparableText": true,
+  "rawComparisonNormalization": "Remove leading BOM, CRLF to LF, trailing newline-only suffix; no interior whitespace or log content edits. Saved tool copy may add final newline.",
+  "sourceRootHead": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+  "sourceRootBranch": "main",
+  "sourceRootClean": true,
+  "localMainAcceptancePending": true,
+  "localApiExecutionNotAdjudicatedByThisCiOnlyReview": true
+}

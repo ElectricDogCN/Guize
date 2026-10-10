@@ -1,0 +1,6 @@
+Source Commit: 902b0f2f4fc23d1159de7fa1dc78d65118c0ca94
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["GZ-005"], "changedPathCount": 252, "baseRef": "429a6566d81f128cb618c524ee8dc22faba1c0a4"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

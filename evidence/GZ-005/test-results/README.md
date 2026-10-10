@@ -1,3 +1,12 @@
+# Current repaired published-source results
+
+Actual tested source: 902b0f2f4fc23d1159de7fa1dc78d65118c0ca94; tree 0bc2e004aa347d072258ce6bfd2d22a4079c30ef; base 429a6566d81f128cb618c524ee8dc22faba1c0a4.
+All17 checks exit0: full make527 tests in750.25s; API378 tests in263.04s; nonempty JUnits have zero failures/errors/skips. Parser/checker validate96 operations,155 schemas,34 errors,1006 examples and217 synthetic HTTP pairs. Both clean authoring/native roots stayed at the same immutable source/tree.
+Same-source CI635 run38049804263/job114206476582 attempt1 succeeded with527 tests and skip audit0. Its synthetic checkout is not actual main. Independent actual-source acceptance is archived. The twelve latest findings, minimal progress exception connection, ten earlier findings, fourteen preceding findings and six prior findings are fixed; earlier source results remain retained historical facts, without transferring acceptance.
+Raw checks/commands/JUnits/CI and independent proof: test-results/published-source-902b0f2/. This Own Evidence archive still requires actual latest-head14 checks, latest CI and finite independent integration review. The actual code merge 95dc9d7cec927a753e8017cd3b509ebfee681b72 passed its recorded main checks and push-CI; legal Review/Completion remain pending. No runtime, POC or full V1 completion is claimed.
+
+## Preserved earlier candidate and execution records
+
 # Current complete twelve-finding candidate — immutable-source acceptance pending
 
 All twelve independently confirmed e703 findings and the necessary protected-envelope privacy link have been repaired and independently accepted as finite dirty content, with a separate minimal progress exception-boundary follow-up. The independent reviews bind25 stable final contract/spec file hashes; they do not approve formal source integration. Repair dispositions, full dirty checker/API results and four failed exploratory attempts are retained in test-results/pr82-twelve-complete-candidate/. Parent e703 formal17/527/306 and CI634 passed execution but rejected content; no result transfers to this candidate.

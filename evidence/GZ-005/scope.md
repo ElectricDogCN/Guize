@@ -1,3 +1,27 @@
+# Current GZ-005 Own Review phase
+
+Task: GZ-005
+Issue: #68
+Branch: chore/GZ-005-openapi-baseline
+Base SHA: 95dc9d7cec927a753e8017cd3b509ebfee681b72
+Role: reviewer; independent-openapi-review-agent
+Implementation PR: #82
+Implementation merge identity: 95dc9d7cec927a753e8017cd3b509ebfee681b72
+Status: review
+
+This candidate changes only own lifecycle status/role/base and own Evidence. Original lease remains unchanged. Actual source902 formal17/527 governance/378 API/CI635 and actual-main checks/push-CI are separately preserved in test-results/published-source-902b0f2/. They do not establish this new Review head's applicable14/CI results. Run the applicable14 against this actual base on the same registered branch, obtain latest-head CI and finite independent review, then integrate the metadata PR. Completion is a later independent phase binding PR82 actual merge 95dc9d7cec927a753e8017cd3b509ebfee681b72; do not use Review merge identity or claim full V1/POC/runtime completion.
+
+## Preserved execution and earlier phase records
+
+# Current repaired published-source results
+
+Actual tested source: 902b0f2f4fc23d1159de7fa1dc78d65118c0ca94; tree 0bc2e004aa347d072258ce6bfd2d22a4079c30ef; base 429a6566d81f128cb618c524ee8dc22faba1c0a4.
+All17 checks exit0: full make527 tests in750.25s; API378 tests in263.04s; nonempty JUnits have zero failures/errors/skips. Parser/checker validate96 operations,155 schemas,34 errors,1006 examples and217 synthetic HTTP pairs. Both clean authoring/native roots stayed at the same immutable source/tree.
+Same-source CI635 run38049804263/job114206476582 attempt1 succeeded with527 tests and skip audit0. Its synthetic checkout is not actual main. Independent actual-source acceptance is archived. The twelve latest findings, minimal progress exception connection, ten earlier findings, fourteen preceding findings and six prior findings are fixed; earlier source results remain retained historical facts, without transferring acceptance.
+Raw checks/commands/JUnits/CI and independent proof: test-results/published-source-902b0f2/. This Own Evidence archive still requires actual latest-head14 checks, latest CI and finite independent integration review. The actual code merge 95dc9d7cec927a753e8017cd3b509ebfee681b72 passed its recorded main checks and push-CI; legal Review/Completion remain pending. No runtime, POC or full V1 completion is claimed.
+
+## Preserved earlier candidate and execution records
+
 # Current ten-thread repaired candidate: new immutable-source validation pending
 
 The independently confirmed ten threads on actual b234 are repaired: dedicated credential/public DTO privacy, exact role capabilities, all exported model compatibility, IMAGE-only query, explicit rollback target, scoped worker lease credential, owner/admin source visibility and explicit ACL roundtrip, quarantine release with exact-version immutable finding retrieval, and bounded asynchronous configuration assistance with real sensitive-read proof transport and provenance. Source owner can share/retract PRIVATE/SHARED; transitions to/from ADMIN_PUBLIC additionally require verified administrator/source.publish. No automatic asset publication.

@@ -1,0 +1,23 @@
+{
+  "kind": "ACTUAL_POST_MERGE_MAIN_PREEXECUTION",
+  "actualMerge": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+  "parents": [
+    "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+  ],
+  "worktrees": {
+    "authoring": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verification": {
+      "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "main",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    }
+  },
+  "result": "NOT_EXECUTED"
+}

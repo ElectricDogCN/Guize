@@ -1,0 +1,1275 @@
+{
+  "kind": "ACTUAL_REPAIRED_PUBLISHED_SOURCE_17_CHECKS_ALL_ZERO",
+  "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+  "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "branch": "chore/GZ-005-openapi-baseline",
+  "checks": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 0,
+    "lifecycle": 0,
+    "coordination": 0,
+    "scope": 0,
+    "evidence": 0,
+    "unaffected": 0,
+    "verify": 0,
+    "openapi-standard": 0,
+    "openapi-contract": 0,
+    "openapi-negative-tests": 0
+  },
+  "junit": {
+    "governance": {
+      "tests": 527,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    "api": {
+      "tests": 378,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  "worktreeBinding": {
+    "kind": "ACTUAL_IDENTICAL_SOURCE_NATIVE_VALIDATION_WORKTREE",
+    "phase": "implementation",
+    "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "authoringWorktree": {
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verificationWorktree": {
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    },
+    "bothCleanBeforeAndAfter": true,
+    "result": "PASS",
+    "testsExecutedIn": "native Linux checkout; exact same immutable Git source/tree, no result transfer from another commit"
+  },
+  "fullMakeSeconds": 750.25,
+  "apiSeconds": 263.04,
+  "ci": {
+    "kind": "ACTUAL_GITHUB_PR_SAME_HEAD_ALL_ZERO",
+    "repository": "ElectricDogCN/Guize",
+    "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "runId": 38049804263,
+    "runNumber": 635,
+    "jobId": 114206476582,
+    "runAttempt": 1,
+    "priorAttempt": null,
+    "event": "pull_request",
+    "conclusion": "success",
+    "startedAt": "2026-10-10T11:50:09Z",
+    "updatedAt": "2026-10-10T12:06:13Z",
+    "syntheticCheckout": {
+      "source": "e4198d8a1e652447977c52611638046038d9560b",
+      "parents": [
+        "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+        "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+      ],
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "isActualMainMerge": false
+    },
+    "govResult": "527 passed in917.82s",
+    "perTestPassed": 527,
+    "skips": 0,
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-10-10T11:50:13Z",
+        "completed_at": "2026-10-10T11:50:13Z"
+      },
+      {
+        "name": "Checkout repository",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-10-10T11:50:13Z",
+        "completed_at": "2026-10-10T11:50:15Z"
+      },
+      {
+        "name": "Setup Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-10-10T11:50:15Z",
+        "completed_at": "2026-10-10T11:50:16Z"
+      },
+      {
+        "name": "Install governance dependencies",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-10-10T11:50:16Z",
+        "completed_at": "2026-10-10T11:50:27Z"
+      },
+      {
+        "name": "Verify core dependencies importable",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-10-10T11:50:27Z",
+        "completed_at": "2026-10-10T11:50:27Z"
+      },
+      {
+        "name": "Compile scripts and tests",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-10-10T11:50:27Z",
+        "completed_at": "2026-10-10T11:50:27Z"
+      },
+      {
+        "name": "Pytest collect-only",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-10-10T11:50:27Z",
+        "completed_at": "2026-10-10T11:50:28Z"
+      },
+      {
+        "name": "Resolve task context",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-10-10T11:50:28Z",
+        "completed_at": "2026-10-10T11:50:28Z"
+      },
+      {
+        "name": "Task file validation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-10-10T11:50:28Z",
+        "completed_at": "2026-10-10T11:50:29Z"
+      },
+      {
+        "name": "Project readiness check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-10-10T11:50:29Z",
+        "completed_at": "2026-10-10T11:50:29Z"
+      },
+      {
+        "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-10-10T11:50:29Z",
+        "completed_at": "2026-10-10T11:50:31Z"
+      },
+      {
+        "name": "Agent coordination check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-10-10T11:50:31Z",
+        "completed_at": "2026-10-10T11:50:38Z"
+      },
+      {
+        "name": "Governance tests",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-10-10T11:50:38Z",
+        "completed_at": "2026-10-10T12:05:56Z"
+      },
+      {
+        "name": "Skip audit",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-10-10T12:05:56Z",
+        "completed_at": "2026-10-10T12:05:56Z"
+      },
+      {
+        "name": "Markdown basic check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-10-10T12:05:56Z",
+        "completed_at": "2026-10-10T12:05:57Z"
+      },
+      {
+        "name": "YAML/JSON schema check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-10-10T12:05:57Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Secret scan",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Evidence check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Evidence integrity check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Task-branch linkage check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:02Z"
+      },
+      {
+        "name": "Scope check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-10-10T12:06:02Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "Spec sync check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 22,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "Parent directory reference check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "CI workflow static validation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "Generate governance report",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:09Z"
+      },
+      {
+        "name": "Post Setup Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 49,
+        "started_at": "2026-10-10T12:06:09Z",
+        "completed_at": "2026-10-10T12:06:10Z"
+      },
+      {
+        "name": "Post Checkout repository",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 50,
+        "started_at": "2026-10-10T12:06:10Z",
+        "completed_at": "2026-10-10T12:06:10Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 51,
+        "started_at": "2026-10-10T12:06:10Z",
+        "completed_at": "2026-10-10T12:06:10Z"
+      }
+    ],
+    "rawLog": "gz005-ci635.txt",
+    "savedRawSha256": "2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce",
+    "rawByteCaveat": "Saved UTF-8 log may contain the apply_patch final newline; the saved hash is separate from official transport. No byte-identical claim is made.",
+    "apiTests": "Separate actual source local checks; existing governance CI does not execute API tests."
+  },
+  "independentSourceAcceptance": {
+    "kind": "INDEPENDENT_ACTUAL_SOURCE_FORMAL_ACCEPTANCE_FINAL_INTEGRATION_PENDING",
+    "recordedAt": "2026-10-10T12:11:59.240529+00:00",
+    "actualSource": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "parent": "e70313efeb06c021b3626e5d5728d44acc8c4758",
+    "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "formalSourceAccepted": true,
+    "sourceContentAccepted": true,
+    "finalIntegrationApproved": true,
+    "localStatus": {
+      "task": 0,
+      "readiness": 0,
+      "schemas": 0,
+      "integrity": 0,
+      "history": 0,
+      "transitions": 0,
+      "finalization": 0,
+      "raw-lifecycle": 0,
+      "lifecycle": 0,
+      "coordination": 0,
+      "scope": 0,
+      "evidence": 0,
+      "unaffected": 0,
+      "verify": 0,
+      "openapi-standard": 0,
+      "openapi-contract": 0,
+      "openapi-negative-tests": 0
+    },
+    "localLogs": {
+      "task": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\task.txt",
+        "sha256": "575829242117bd255a4bad4ee555d31bda611db0d529f4d3595f41558127c564",
+        "command": "python scripts/check-task-file.py --task GZ-005",
+        "exitCode": 0
+      },
+      "readiness": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\readiness.txt",
+        "sha256": "444e99ff3a2b65edad85f3b7187a13edc32205b129b8e2390d267028bc5ece81",
+        "command": "python scripts/check-project-readiness.py",
+        "exitCode": 0
+      },
+      "schemas": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\schemas.txt",
+        "sha256": "df1d78c83f34cd8107b1612725d94be125e4fa09516587ab93573b01dada7519",
+        "command": "python scripts/check-schemas.py",
+        "exitCode": 0
+      },
+      "integrity": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\integrity.txt",
+        "sha256": "e9cb497f934fba3605ef37717de16e2ccac1a3c1faf896551c5a615f5e9fa120",
+        "command": "python scripts/check-program-plan-integrity.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+        "exitCode": 0
+      },
+      "history": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\history.txt",
+        "sha256": "240a216eaae05888563ac9c4f94223424c45df4e65502c5415db3507c4672b5b",
+        "command": "python scripts/check-program-plan-history.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+        "exitCode": 0
+      },
+      "transitions": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\transitions.txt",
+        "sha256": "d94582988bc8c8149367cae35b2ad8d03a0bf50f6bb3987a661f744b08b7ffa0",
+        "command": "python scripts/check-program-plan-transitions.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+        "exitCode": 0
+      },
+      "finalization": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\finalization.txt",
+        "sha256": "938cf62ce18506292e59924e5a24c58434be766ead53a9100297e869f3c94b0e",
+        "command": "python scripts/check-program-plan-finalization.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --task GZ-005",
+        "exitCode": 0
+      },
+      "raw-lifecycle": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\raw-lifecycle.txt",
+        "sha256": "1460888d4bbbf10f48ef4dbfb9a1c37ba8df5fe599a9195d533640d81edd23d4",
+        "command": "python scripts/check-program-lifecycle-guards.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+        "exitCode": 0
+      },
+      "lifecycle": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\lifecycle.txt",
+        "sha256": "9352b2cb4e01af569792e5335244bb4118f0b55a440f34ada516af5a90d2ab45",
+        "command": "python scripts/run-program-lifecycle-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+        "exitCode": 0
+      },
+      "coordination": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\coordination.txt",
+        "sha256": "9b34b38034fb181d68979b738ebce468b87f8e1897ac377dbbb708b1f6268311",
+        "command": "python scripts/run-agent-coordination-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+        "exitCode": 0
+      },
+      "scope": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\scope.txt",
+        "sha256": "0af89fe567b630e9ef458ec63da5685f064ebbb997715c777e2d2b05414aa2d0",
+        "command": "python scripts/run-task-scope-gate.py --task GZ-005 --base 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+        "exitCode": 0
+      },
+      "evidence": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\evidence.txt",
+        "sha256": "48a8936cc71ab270b363113c5a6723b7c561b2c1717a3f4f37d6c6505908de12",
+        "command": "python scripts/check-evidence.py --task GZ-005",
+        "exitCode": 0
+      },
+      "unaffected": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\unaffected.txt",
+        "sha256": "33fc601c6c89305571fefb0d7f50dea32cca0a54f36789635f21fd1a32dcfaf1",
+        "command": "git diff --exit-code 429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/tasks/OPS-004.md evidence/OPS-004 specs/poc specs/requirements scripts tests AGENTS.md",
+        "exitCode": 0
+      },
+      "verify": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\verify.txt",
+        "sha256": "e1a46326ec816cbd420b674d895687b45182e2f66cab16963394432acdd799c4",
+        "command": "make verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline",
+        "exitCode": 0
+      },
+      "openapi-standard": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-standard.txt",
+        "sha256": "42a14c8111fbacfdff65aa8459aa970edd53a30b65d187842f59d6462007f1a5",
+        "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml",
+        "exitCode": 0
+      },
+      "openapi-contract": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-contract.txt",
+        "sha256": "a0ca23c82ea6367b283c15f886ec61bcb1c1e7b0ac466b766e1fb2443e2b850e",
+        "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline",
+        "exitCode": 0
+      },
+      "openapi-negative-tests": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-negative-tests.txt",
+        "sha256": "56e230fdac2c59b289efe0949c1426885ea76943350836c1ed6b3ec0a3d21bf1",
+        "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fresh-implementation-902b0f2-results/openapi-tests.xml",
+        "exitCode": 0
+      }
+    },
+    "junit": {
+      "make-governance.xml": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\make-governance.xml",
+        "sha256": "2419fe8a2acd2f74f391f824270e9aa06ddd38b7cc95516493eb9aa36de7a17e",
+        "nonemptyTestcases": 527,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "openapi-tests.xml": {
+        "file": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-fresh-implementation-902b0f2-results\\openapi-tests.xml",
+        "sha256": "4b7bb75cc97d9559fb1c778f0140851f453653f1f36e1d8efe58a2c26fc35461",
+        "nonemptyTestcases": 378,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      }
+    },
+    "fullMakeSummary": "527 passed in750.25s",
+    "fullApiSummary": "378 passed in263.04s",
+    "checkerReport": {
+      "status": "PASS",
+      "operations": 96,
+      "schemas": 155,
+      "errorCodes": 34,
+      "examples": 1006,
+      "requirements": [
+        "REQ-V1-0001",
+        "REQ-V1-0002",
+        "REQ-V1-0003",
+        "REQ-V1-0004",
+        "REQ-V1-0005",
+        "REQ-V1-0007",
+        "REQ-V1-0008",
+        "REQ-V1-0009"
+      ],
+      "httpSamples": 217,
+      "compatibility": "INITIAL_BASELINE (no prior published API in actual Git base)"
+    },
+    "cleanRecords": {
+      "clean-before.txt": {
+        "sha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2",
+        "porcelainOutputEmpty": true,
+        "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+      },
+      "clean-after.txt": {
+        "sha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2",
+        "porcelainOutputEmpty": true,
+        "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+      }
+    },
+    "worktreesBefore": {
+      "kind": "ACTUAL_NATIVE_VERIFICATION_PREEXECUTION_BINDING",
+      "phase": "implementation",
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "authoringWorktree": {
+        "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "branch": "chore/GZ-005-openapi-baseline",
+        "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+      },
+      "verificationWorktree": {
+        "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "branch": "chore/GZ-005-openapi-baseline",
+        "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+      },
+      "result": "NOT_EXECUTED",
+      "condition": "Both immutable worktrees must remain identical and clean; actual tests execute in the recorded native path. Failed raw checks remain failure evidence."
+    },
+    "worktreesAfter": {
+      "kind": "ACTUAL_IDENTICAL_SOURCE_NATIVE_VALIDATION_WORKTREE",
+      "phase": "implementation",
+      "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+      "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+      "authoringWorktree": {
+        "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "branch": "chore/GZ-005-openapi-baseline",
+        "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+      },
+      "verificationWorktree": {
+        "source": "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "branch": "chore/GZ-005-openapi-baseline",
+        "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+      },
+      "bothCleanBeforeAndAfter": true,
+      "result": "PASS",
+      "testsExecutedIn": "native Linux checkout; exact same immutable Git source/tree, no result transfer from another commit"
+    },
+    "worktreeProofSha256": "07d2d8182e75d3341c7b125551d25ee9de74eead7e6a17807f55e7d9d365d320",
+    "sameHeadCi": {
+      "runId": 38049804263,
+      "jobId": 114206476582,
+      "attempt": 1,
+      "conclusion": "success",
+      "perTestPassed": 527,
+      "skips": 0,
+      "summary": "527 passed in917.82s",
+      "allStepsSuccess": true,
+      "officialReceipt": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-ci635-official-receipt.json",
+      "savedRawSha256": "2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce",
+      "syntheticCheckout": {
+        "source": "e4198d8a1e652447977c52611638046038d9560b",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "parents": [
+          "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+          "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+        ],
+        "isActualMainMerge": false
+      }
+    },
+    "contentProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-actual-source-content-proof.json",
+    "repairCoverage": "Previous ten-thread source content and all twelve DY findings with minimal progress exception connection are retained and bound to the immutable902 source. No result transfer from rejected e703, earlier failed dirty full373/1FAIL or14-test subset.",
+    "freshPrReceipt": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-source-formal-fresh-pr-receipt.json",
+    "threads": [
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fH",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fJ",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fL",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fM",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fN",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fP",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fR",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fT",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fW",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rC7fY",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6p",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6r",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6t",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6w",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY6y",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY60",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY66",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY68",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY7A",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY7C",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY7E",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6rDY7K",
+        "resolved": false,
+        "disposition": "Existing repaired content independently accepted; resolution remains pending before integration."
+      }
+    ],
+    "remainingFiniteIntegrationConditions": [
+      "Immediately before merge, recheck expectedhead902/base429, latestCI635success, allthreadsresolved/no new blocking opinion, validlease and cleanworktree; merge only expectedhead."
+    ],
+    "runtimeValidated": false,
+    "actualMainAccepted": false,
+    "fullV1Complete": false,
+    "rootMutation": false,
+    "fullGovRerun": false,
+    "wholeApiSuiteRun": false,
+    "finalIntegrationProof": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz005-independent-902b0f2-final-integration-proof.json",
+    "finalIntegrationProofSha256": "de847cc147d5efa977ec908368bbc48d192faff1f8906efd7ea62e29ea5f9b4f",
+    "initialRemainingFiniteIntegrationConditions": [
+      "DurablePR82 references must pin actual902/source/tree/base/commands/all17exits,527and378nonemptyzeroF/E/SJUnitcounts/hashes,CI635run/job and actual raw locations/hashes. Outside local files are not represented as durableGit archives.",
+      "Resolve the22 existing repaired threads with actual correction evidence; then fresh officialGET must show all resolved and no new blocking finding.",
+      "Fresh final independent integration snapshot must match exacthead902/base429/latestsuccessfulCI635/cleanworktree and existing valid lease. Merge only expectedhead.",
+      "Archive these exact source execution and independent records in already-required subsequent OwnReview metadataPR with fresh applicablechecks/CI. Ordinary activeReview preserves registered branch/roles/scope/lease; Completion/main require separate actualall-zero validation."
+    ],
+    "subsequentLifecycleObligations": [
+      "Verify actual main/source merge identity and actual main checks pluspushCI before claiming main acceptance.",
+      "Prepare pureOwnReview on the SAME registered chore/GZ-005-openapi-baseline branch, preserving stableidentity/scope/lease and bindingbase toactualPR82merge; archive source17/API/CI/independent originalrecords there and complete freshapplicable14/latestCI/independentreview.",
+      "Completion from actuallyacceptedReviewmain must bind actualcodePR82merge identity, release onlyOwnlease, append onlyOwnLedger, pass its ownmandatorygates/CI/independentreview.",
+      "ActualCompletionmain mustpassallrequiredchecks before subsequentwork/V1 claims."
+    ],
+    "integrationApprovedAt": "2026-10-10T12:15:52.149966+00:00"
+  },
+  "archivedUtc": "2026-10-10T12:39:58.405214+00:00",
+  "archiveDeltaRestrictedToOwnEvidence": true,
+  "latestArchiveHead14Checks": "PENDING",
+  "latestArchiveHeadCI": "PENDING",
+  "finalIntegrationReview": "PENDING",
+  "actualMainAcceptance": {
+    "kind": "ACTUAL_GZ005_MAIN_ACCEPTANCE_CHECKS",
+    "actualMerge": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+    "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+    "parents": [
+      "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+    ],
+    "worktreesBefore": {
+      "authoring": {
+        "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "branch": "main",
+        "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+      },
+      "verification": {
+        "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "branch": "main",
+        "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+      }
+    },
+    "worktreesAfter": {
+      "authoring": {
+        "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "branch": "main",
+        "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+      },
+      "verification": {
+        "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+        "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+        "branch": "main",
+        "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+      }
+    },
+    "checks": {
+      "verify": 0,
+      "openapi-standard": 0,
+      "openapi-contract": 0,
+      "openapi-negative-tests": 0
+    },
+    "junitCounts": {
+      "make-governance.xml": 527,
+      "openapi-tests.xml": 378
+    },
+    "failuresErrorsSkips": 0,
+    "taskBranchContext": "chore/GZ-005-openapi-baseline",
+    "actualWorkingBranches": "main",
+    "contextReason": "The active Task Spec retains its merged implementation branch; the logged environment supplies that task context while the actual checkout remains main.",
+    "mainPushCI": "PENDING",
+    "fullV1Complete": false,
+    "result": "PASS"
+  },
+  "actualMainPushCI": {
+    "kind": "ACTUAL_GITHUB_MAIN_ALL_ZERO",
+    "repository": "ElectricDogCN/Guize",
+    "source": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+    "tree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "runId": 38051387339,
+    "runNumber": 636,
+    "jobId": 114211055085,
+    "event": "push",
+    "headBranch": "main",
+    "executionCheckout": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+    "executionTree": "0bc2e004aa347d072258ce6bfd2d22a4079c30ef",
+    "executionParents": [
+      "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "902b0f2f4fc23d1159de7fa1dc78d65118c0ca94"
+    ],
+    "govResult": "527 passed in 820.87s (0:13:40) ========================",
+    "overallConclusion": "success",
+    "conclusion": "success",
+    "perTestPassed": 527,
+    "testSkips": 0,
+    "taskSpecificConditionalSkips": {
+      "9": "Task file validation",
+      "18": "Evidence check",
+      "19": "Evidence integrity check",
+      "20": "Task-branch linkage check",
+      "21": "Scope check"
+    },
+    "runAttempt": 1,
+    "rawByteCaveat": "Saved UTF-8 text is not claimed byte-identical to transport; declared normalization only.",
+    "onlyFailure": null,
+    "optionalCleanupSkipped": [],
+    "jobs": [
+      {
+        "id": 114211055085,
+        "run_id": 38051387339,
+        "workflow_name": "Governance Gate",
+        "head_branch": "main",
+        "run_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/38051387339",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTgCQ3c8AAAAal4Jl7Q",
+        "head_sha": "95dc9d7cec927a753e8017cd3b509ebfee681b72",
+        "url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/jobs/114211055085",
+        "html_url": "https://github.com/ElectricDogCN/Guize/actions/runs/38051387339/job/114211055085",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-10T12:16:58Z",
+        "started_at": "2026-10-10T12:17:01Z",
+        "completed_at": "2026-10-10T12:31:02Z",
+        "name": "Governance Checks",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-10T12:17:01Z",
+            "completed_at": "2026-10-10T12:17:02Z"
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-10T12:17:02Z",
+            "completed_at": "2026-10-10T12:17:04Z"
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-10T12:17:04Z",
+            "completed_at": "2026-10-10T12:17:04Z"
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-10T12:17:04Z",
+            "completed_at": "2026-10-10T12:17:08Z"
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-10T12:17:08Z",
+            "completed_at": "2026-10-10T12:17:08Z"
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-10T12:17:08Z",
+            "completed_at": "2026-10-10T12:17:08Z"
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-10T12:17:08Z",
+            "completed_at": "2026-10-10T12:17:09Z"
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-10T12:17:09Z",
+            "completed_at": "2026-10-10T12:17:09Z"
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9,
+            "started_at": "2026-10-10T12:17:09Z",
+            "completed_at": "2026-10-10T12:17:09Z"
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-10T12:17:09Z",
+            "completed_at": "2026-10-10T12:17:09Z"
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-10T12:17:09Z",
+            "completed_at": "2026-10-10T12:17:11Z"
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-10T12:17:11Z",
+            "completed_at": "2026-10-10T12:17:12Z"
+          },
+          {
+            "name": "Governance tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-10T12:17:12Z",
+            "completed_at": "2026-10-10T12:30:53Z"
+          },
+          {
+            "name": "Skip audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-10T12:30:53Z",
+            "completed_at": "2026-10-10T12:30:53Z"
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-10T12:30:53Z",
+            "completed_at": "2026-10-10T12:30:53Z"
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-10T12:30:53Z",
+            "completed_at": "2026-10-10T12:30:57Z"
+          },
+          {
+            "name": "Secret scan",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-10T12:30:57Z",
+            "completed_at": "2026-10-10T12:30:57Z"
+          },
+          {
+            "name": "Evidence check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18,
+            "started_at": "2026-10-10T12:30:57Z",
+            "completed_at": "2026-10-10T12:30:57Z"
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19,
+            "started_at": "2026-10-10T12:30:57Z",
+            "completed_at": "2026-10-10T12:30:57Z"
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 20,
+            "started_at": "2026-10-10T12:30:57Z",
+            "completed_at": "2026-10-10T12:30:57Z"
+          },
+          {
+            "name": "Scope check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 21,
+            "started_at": "2026-10-10T12:30:57Z",
+            "completed_at": "2026-10-10T12:30:57Z"
+          },
+          {
+            "name": "Spec sync check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-10-10T12:30:57Z",
+            "completed_at": "2026-10-10T12:30:58Z"
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-10-10T12:30:58Z",
+            "completed_at": "2026-10-10T12:30:58Z"
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-10-10T12:30:58Z",
+            "completed_at": "2026-10-10T12:30:58Z"
+          },
+          {
+            "name": "Generate governance report",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-10-10T12:30:58Z",
+            "completed_at": "2026-10-10T12:30:58Z"
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49,
+            "started_at": "2026-10-10T12:30:58Z",
+            "completed_at": "2026-10-10T12:30:58Z"
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50,
+            "started_at": "2026-10-10T12:30:58Z",
+            "completed_at": "2026-10-10T12:30:58Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51,
+            "started_at": "2026-10-10T12:30:58Z",
+            "completed_at": "2026-10-10T12:30:58Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/ElectricDogCN/Guize/check-runs/114211055085",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000000662,
+        "runner_name": "GitHub Actions 1000000662",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ],
+    "retrievedAt": "2026-10-10T12:31:58.942092+00:00",
+    "rawFileSha256": "1b69cd6649d7b39a1472b26fb7cee1c2ec15c94423bb7f551b652eca3f7c33af"
+  },
+  "fullV1Complete": false,
+  "records": [
+    {
+      "path": "actual-main\\context.json",
+      "sha256": "b881e122b43b47695be6151fa458934b9e4d7985243e60dacfff5f90ba0bf976"
+    },
+    {
+      "path": "actual-main\\gz005-actual-main-95dc9d7-ci-proof.json",
+      "sha256": "3b735864a4803a542ec4823c9360e1c4162b6ea47b48f35d2795711043d950b1"
+    },
+    {
+      "path": "actual-main\\gz005-actual-main-95dc9d7-ci.txt",
+      "sha256": "1b69cd6649d7b39a1472b26fb7cee1c2ec15c94423bb7f551b652eca3f7c33af"
+    },
+    {
+      "path": "actual-main\\gz005-independent-95dc9d7-actual-main-acceptance-proof.json",
+      "sha256": "dec230a5bad9744673a9d35848e2d156ceca5798831a986058fea190eb6fb2f4"
+    },
+    {
+      "path": "actual-main\\gz005-independent-95dc9d7-ci636-official-receipt.json",
+      "sha256": "84cc50e7c8871c3ad5c293499066d129162f9107a4d99c9ea388f6400b3dd22a"
+    },
+    {
+      "path": "actual-main\\make-governance.xml",
+      "sha256": "5c3bcc36f2de30ec98dd8b29a323603506ecd8f5a8c916d8a83fc364b68a7d36"
+    },
+    {
+      "path": "actual-main\\openapi-contract.txt",
+      "sha256": "5107b4f3d88eb74dec02614d1f378b3812a5d063c15bb3e868b1d69ad149416e"
+    },
+    {
+      "path": "actual-main\\openapi-negative-tests.txt",
+      "sha256": "3f244747057c3f126586a4f629625e68d600936924e04be767367cf400fda50e"
+    },
+    {
+      "path": "actual-main\\openapi-standard.txt",
+      "sha256": "4df90c5ce2543db7bfead359a8f2b82e38834c823553160c69237bfa877c84d8"
+    },
+    {
+      "path": "actual-main\\openapi-tests.xml",
+      "sha256": "4f45318f9f8da10f6ea931016f7ba6a25c7f6c3ebf002380138f05b97cc28bd7"
+    },
+    {
+      "path": "actual-main\\preexecution.json",
+      "sha256": "f910de4053ae2f21b47c370ea1b93b33957938a116efdf221b6172d674dc3eb8"
+    },
+    {
+      "path": "actual-main\\source.txt",
+      "sha256": "a2ff0a26783134c79c8c32f1fa6a1d37c4dbbfc73231ee523e893459c6eaa273"
+    },
+    {
+      "path": "actual-main\\status.json",
+      "sha256": "b2166f615989e6413bd7ce8d7b3f038b9d5de4f6101503d7e53bcf35d2507aca"
+    },
+    {
+      "path": "actual-main\\tree.txt",
+      "sha256": "db4de083b5fef300526afdd2365b4e5d75e3515d5f8290d98f13549a327a97d6"
+    },
+    {
+      "path": "actual-main\\verify.txt",
+      "sha256": "877d569547807c871e39349007d64217432d2ca9c7ae70898fedd1f7a807e3c7"
+    },
+    {
+      "path": "clean-after.txt",
+      "sha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2"
+    },
+    {
+      "path": "clean-before.txt",
+      "sha256": "2ca31de5be52898df15b332e28ffc399797acbe49070f6787d76d6915dc2adb2"
+    },
+    {
+      "path": "coordination.txt",
+      "sha256": "9b34b38034fb181d68979b738ebce468b87f8e1897ac377dbbb708b1f6268311"
+    },
+    {
+      "path": "evidence.txt",
+      "sha256": "48a8936cc71ab270b363113c5a6723b7c561b2c1717a3f4f37d6c6505908de12"
+    },
+    {
+      "path": "finalization.txt",
+      "sha256": "938cf62ce18506292e59924e5a24c58434be766ead53a9100297e869f3c94b0e"
+    },
+    {
+      "path": "gz005-902-formal-pr-reference.json",
+      "sha256": "1ef62e3581a2fadd9a2be12a5dbd05eba7fbcdcdc3b7aa4289ab09af2dc9a70b"
+    },
+    {
+      "path": "gz005-902-immediate-merge-guard.json",
+      "sha256": "b36686a2a30ab669ae9f8c19d211d95a2d337939e85d24c07e7e29ae5fce6ae9"
+    },
+    {
+      "path": "gz005-ci635-official-job.json",
+      "sha256": "af2c57d66b4469d28f19e20c1a6e5aefd69e9daedb2a933fb21b58af756abb91"
+    },
+    {
+      "path": "gz005-ci635-official-run.json",
+      "sha256": "ae8cec84def975abeda9e1a9dc252c289d964198a3c18467bfe6bb2c9efdbd7a"
+    },
+    {
+      "path": "gz005-ci635-proof.json",
+      "sha256": "3b8a9d8cd636650beaabfd92f16bde22ab591e82b1a66cd6211f161028c90ab9"
+    },
+    {
+      "path": "gz005-ci635.txt",
+      "sha256": "2aee984f1db673b59c3081cbe4de7d98ad08900f81ced6092a9b009ac40ed8ce"
+    },
+    {
+      "path": "gz005-independent-902b0f2-actual-source-content-proof.json",
+      "sha256": "c2c431f2999cf2a57b82370adb61853d5fec900e98393f202302318a2c70fc25"
+    },
+    {
+      "path": "gz005-independent-902b0f2-ci635-official-receipt.json",
+      "sha256": "b611d1f86dd2f81ca2b881ad8bb1864d63d67a383a3808d13abc83a1fc8f7acb"
+    },
+    {
+      "path": "gz005-independent-902b0f2-final-integration-proof.json",
+      "sha256": "d14d33e06907a9758cc58cdb9f1ddebbc2de2bd02263415c898955aea754b992"
+    },
+    {
+      "path": "gz005-independent-902b0f2-source-acceptance-proof.json",
+      "sha256": "2369eef5ec1d80afa46f429f6e78583974257d487c03eebeb41da057c6a3052c"
+    },
+    {
+      "path": "gz005-independent-route-change-admission-review.json",
+      "sha256": "70d1a5c7dbe385694ea92f73a44b83d2e0e33b269dd178b9fe986c762846d183"
+    },
+    {
+      "path": "gz005-pr82-actual-merge.json",
+      "sha256": "92baf0078daa58563974941f7bd04edec9951ab00ea6dadcf4a499fc2494e40c"
+    },
+    {
+      "path": "history.txt",
+      "sha256": "240a216eaae05888563ac9c4f94223424c45df4e65502c5415db3507c4672b5b"
+    },
+    {
+      "path": "integrity.txt",
+      "sha256": "e9cb497f934fba3605ef37717de16e2ccac1a3c1faf896551c5a615f5e9fa120"
+    },
+    {
+      "path": "lifecycle.txt",
+      "sha256": "9352b2cb4e01af569792e5335244bb4118f0b55a440f34ada516af5a90d2ab45"
+    },
+    {
+      "path": "make-governance.xml",
+      "sha256": "2419fe8a2acd2f74f391f824270e9aa06ddd38b7cc95516493eb9aa36de7a17e"
+    },
+    {
+      "path": "openapi-contract.txt",
+      "sha256": "a0ca23c82ea6367b283c15f886ec61bcb1c1e7b0ac466b766e1fb2443e2b850e"
+    },
+    {
+      "path": "openapi-negative-tests.txt",
+      "sha256": "56e230fdac2c59b289efe0949c1426885ea76943350836c1ed6b3ec0a3d21bf1"
+    },
+    {
+      "path": "openapi-standard.txt",
+      "sha256": "42a14c8111fbacfdff65aa8459aa970edd53a30b65d187842f59d6462007f1a5"
+    },
+    {
+      "path": "openapi-tests.xml",
+      "sha256": "4b7bb75cc97d9559fb1c778f0140851f453653f1f36e1d8efe58a2c26fc35461"
+    },
+    {
+      "path": "original-byte-provenance.json",
+      "sha256": "1c637ff2282ecaada9cd22dc588d2d4a62f715d76f30167d1918069d28289165"
+    },
+    {
+      "path": "raw-lifecycle.txt",
+      "sha256": "1460888d4bbbf10f48ef4dbfb9a1c37ba8df5fe599a9195d533640d81edd23d4"
+    },
+    {
+      "path": "readiness.txt",
+      "sha256": "444e99ff3a2b65edad85f3b7187a13edc32205b129b8e2390d267028bc5ece81"
+    },
+    {
+      "path": "schemas.txt",
+      "sha256": "df1d78c83f34cd8107b1612725d94be125e4fa09516587ab93573b01dada7519"
+    },
+    {
+      "path": "scope.txt",
+      "sha256": "0af89fe567b630e9ef458ec63da5685f064ebbb997715c777e2d2b05414aa2d0"
+    },
+    {
+      "path": "source.txt",
+      "sha256": "51e8ac44b5a1892a840804ccb54058de457cb79ef9d4e8c10f950898344179bf"
+    },
+    {
+      "path": "status.json",
+      "sha256": "1d3b9da95de2a3d40e3dfccc98e204acffc0c3665d06f96e4a608c56fd64bb7f"
+    },
+    {
+      "path": "task.txt",
+      "sha256": "575829242117bd255a4bad4ee555d31bda611db0d529f4d3595f41558127c564"
+    },
+    {
+      "path": "transitions.txt",
+      "sha256": "d94582988bc8c8149367cae35b2ad8d03a0bf50f6bb3987a661f744b08b7ffa0"
+    },
+    {
+      "path": "tree.txt",
+      "sha256": "db4de083b5fef300526afdd2365b4e5d75e3515d5f8290d98f13549a327a97d6"
+    },
+    {
+      "path": "unaffected.txt",
+      "sha256": "33fc601c6c89305571fefb0d7f50dea32cca0a54f36789635f21fd1a32dcfaf1"
+    },
+    {
+      "path": "verification-worktrees-before.json",
+      "sha256": "c57f66274dddcbdb8dec8da58cd08c5cbc8651261e1fdf25f68ea7de59ca5489"
+    },
+    {
+      "path": "verification-worktrees.json",
+      "sha256": "07d2d8182e75d3341c7b125551d25ee9de74eead7e6a17807f55e7d9d365d320"
+    },
+    {
+      "path": "verify.txt",
+      "sha256": "e1a46326ec816cbd420b674d895687b45182e2f66cab16963394432acdd799c4"
+    }
+  ]
+}
