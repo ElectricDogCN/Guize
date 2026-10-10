@@ -29,6 +29,7 @@
           "REQ-V1-0001",
           "REQ-V1-0003",
           "REQ-V1-0006",
+          "REQ-V1-0007",
           "REQ-V1-0008",
           "REQ-V1-0010"
         ],
@@ -61,6 +62,7 @@
           "specs/requirements/v1/validate.py",
           "specs/acceptance/requirements/acceptance.yaml",
           "docs/requirements/README.md",
+          "docs/00-guize-engineering-design-baseline.md",
           "docs/02-requirements-and-scope.md",
           "docs/03-system-architecture.md",
           "docs/04-deployment-topology.md",
