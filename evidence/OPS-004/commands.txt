@@ -1,3 +1,27 @@
+# 当前 Review 复验与下一角色动作（此前记录保留）
+
+Task: OPS-004 / Issue71
+Branch: chore/OPS-004-followup-review
+Base: bad012bb137cde0d9282ea2f1976b8218e57edc0
+已实际测试 Review Source: 3c407ac9d6e5c46e5f6e42efbf79bd94e4772208
+已实际测试 Review Tree: 3c202aeaaf593f58395b77050241e912d4101949
+真实本地14项：13 exit0，仅coordination exit1为两high任务容量；前后干净，原始保存在项目工作区 .takeover-tools/ops004-followup-review-source-3c407ac-results/。
+真实同头 CI623: https://github.com/ElectricDogCN/Guize/actions/runs/38014213688
+完整527 passed821.60s，required1–25唯一Agent coordination失败；没有测试失败/错误/跳过。原始保存或引用 .takeover-tools/ops004-followup-review-ci-623.txt 及 -proof.json，日志SHA2560175352c2124ef71f60e00ba3b4673b46b8643ef5a814a83b0cb83d4b36c13fe。
+整体Gate仍FAIL_SPECIFIC_FOLLOWUP_CAPACITY_ONLY。以下两文档修正产生的后续真实Source尚未执行14/同头527 CI，必须另行验证，不能沿用3c结果证明新HEAD。
+
+下一角色 independent-lifecycle-scope-review-agent：首先读取PR80最新真实HEAD及main基线，核对上述3c结果和本次仅Own Handoff/Commands的修正。对新实际Source执行Task所列bad012基线/chore/OPS-004-followup-review上下文的14项检查，保存Source Commit、Command、Exit Code及前后clean；取得新HEAD完整527同头CI及全部非容量门禁成功。仅精确Owner事件的2high容量FAIL可保留，其他失败必须修复。独立核对last code identity PR79/bad012、纯Own范围、全部现有threads处置及固定截止2026-10-10T03:09:53Z，给出绑定新HEAD/base/tree的有限集成批准。
+下一角色 integration-agent：重新核对最新HEAD/main/threads已解决、CI和独立批准及真实UTC仍在固定窗口内，再合入PR80。然后从真实Review merge另建chore/OPS-004-followup-completion，最后代码身份绑定PR79真实merge bad012，只移除OPS-004 Lease。Completion实际14/fullmake527/同头CI与独立审查必须全部通过；合入后main完整make与push CI全部通过才恢复GZ005。失败或到期则停止新增变更，准确记录阶段并另作具体恢复决定。回滚采用前向修复，保留原始失败/来源，禁止重置其他任务或Ledger。
+
+可移植治理复验（这是等价复现说明，未把它冒充上述实测原始命令）：在独立完整Git checkout选定需复验的真实Source，采用Python3.11+Git+make环境并安装requirements-governance.txt。仓库根目录执行以下命令，JUnit写入当前目录：
+
+    python -m pip install -r requirements-governance.txt
+    python -m pytest tests/governance -q --junitxml=governance-repro.xml
+
+以上执行后保留真实输出/退出码/JUnit；对本候选还须按Task Spec执行全部bad012基线的上下文检查并读取最新同头CI。原WSL绝对路径命令是已执行历史来源，仍原样保留。不得使用等价说明作为新Source成功证据。
+
+## 历史记录（下文按当时阶段保留）
+
 
 ## 当前 review 交接与已执行实现测试
 
