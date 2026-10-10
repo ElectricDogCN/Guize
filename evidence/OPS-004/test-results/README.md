@@ -1,4 +1,28 @@
 
+## 当前 completion 交接与已执行实现测试
+
+Task: OPS-004 / Issue71
+Phase: completion
+Branch: chore/OPS-004-followup-completion
+Base: fd3d642377eb1ad6de1051ce0d45b5045499b349
+Implementation PR: 79
+Implementation Merge: bad012bb137cde0d9282ea2f1976b8218e57edc0
+Tested Implementation Source: 94750d66fa954055872de2d76380d06aab177618
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-followup-results/governance.xml
+Exit Code: 0
+Result: PASS (implementation governance only)
+
+实际完整实现治理527 testcase，零失败/错误/跳过；原始见test-results/followup-source-94750d6/governance.txt及governance.xml。上述成功字段仅标识已执行的实现治理，整体实现Gate容量仍FAIL。当前 completion 自身与合入后主线验证尚未执行，不声明整体验收PASS或V1完成。
+
+角色Coordinator program-coordinator-agent / Implementer lifecycle-scope-repair-agent / Reviewer independent-lifecycle-scope-review-agent / Integrator integration-agent，CONTRACT-PROGRAM-PLAN/TASK-SPEC/ACTIVE-WORK。只变自身canonical metadata/Evidence；永久政策、其他任务、旧completed及普通Ledger不变。最后代码身份绑定PR79真实merge，回滚只采用前向修复并保留全部来源和失败。
+
+下一角色 independent-lifecycle-scope-review-agent：核对当前真实Completion HEAD/tree/base、last code PR79/bad012bb137cde0d9282ea2f1976b8218e57edc0、纯Ownmetadata/Evidence及仅OwnLease移除；执行Task所列实际14检查（包含完整make verify527）、取得同头CI全成功及非空JUnit零失败/错误/跳过，审查全部threads并给出精确独立批准。Completion不允许容量或其他失败。下一角色 integration-agent：重新核对当前HEAD/main基线、全部threads已解决、实际14/fullmake527/同头CI全部成功和独立批准，真实UTC在2026-10-10T03:09:53Z前方可合入Completion；随后在真实main运行完整make verify和main push CI全部成功，关闭Issue71后才恢复GZ005。失败或固定期限到达须停止新增变更并记录具体恢复决定。
+
+可移植等价复现说明（未执行，不冒充历史原始命令）：完整Git checkout选定真实Source，Python3.11/Git/make/正常官方GitHub网络可用，仓库根目录安装requirements-governance.txt；python -m pytest tests/governance -q --junitxml=governance-repro.xml 输出当前目录。当前阶段全部上下文门禁按Task Spec执行；完整make verify TASK=OPS-004 BASE=fd3d642377eb1ad6de1051ce0d45b5045499b349 HEAD_REF=HEAD BRANCH=chore/OPS-004-followup-completion。保留历史WSL原始命令，新的复现输出/exit/JUnit必须实际保存。
+
+## 历史记录
+
+
 ## 当前 review 交接与已执行实现测试
 
 Task: OPS-004 / Issue71

@@ -1,0 +1,25 @@
+{
+  "kind": "FINITE_ACTUAL_REVIEW_SOURCE_EXISTING_THREAD_DISPOSITIONS_CI_PENDING",
+  "source": "c506787d9fd52c14300bd212fb1c6c1ca73b759a",
+  "tree": "599c7bb8a3175149f64a5ca9038f1241cb813d1b",
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6q_w7S",
+      "disposition": "The published prior3c Source actually completed14 andCI623, now referenced precisely in current docs. Current c506 actual14 complete; its ownCI624 still pending and must complete before final approval. Source pending statements preserve publication-time truth and are not a claim of unexecuted success. Resolve timing concern with source-bound actual results when currentCI completes; no need to revert lawful Review candidate metadata while validation runs."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q_w7T",
+      "disposition": "Static content fixed in actual c506 handoff current header: precise next reviewer and integrator actions, actualSource/base, checks/CI/thread criteria, fixed deadline, PR79 implementation identity, all-zero Completion/main and failure response. May resolve content defect; not merge approval."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6q_w7W",
+      "disposition": "Static content fixed in actual c506 Commands and Handoff: portable dependency and pytest command with current-directory governance-repro.xml, explicitly equivalent reproduction not historical execution; original WSL command retained byte for byte. May resolve content defect; does not transfer priorCI to currentSource."
+    }
+  ],
+  "actualLocal14": "13zero+coordination1 specific capacity only; source/commands/footers/clean verified",
+  "ci624": "PENDING",
+  "finalIntegrationApproval": false,
+  "rootMutation": false,
+  "githubThreadMutation": false,
+  "scopeLimit": "Own Foundation provenance and explicit handoff/reproduction obligations; no universal historical OtherPeer Gate certification"
+}
