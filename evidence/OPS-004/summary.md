@@ -1,3 +1,23 @@
+
+## 当前 review 交接与已执行实现测试
+
+Task: OPS-004 / Issue71
+Phase: review
+Branch: chore/OPS-004-followup-review
+Base: bad012bb137cde0d9282ea2f1976b8218e57edc0
+Implementation PR: 79
+Implementation Merge: bad012bb137cde0d9282ea2f1976b8218e57edc0
+Tested Implementation Source: 94750d66fa954055872de2d76380d06aab177618
+Command: python -m pytest tests/governance -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops004-followup-results/governance.xml
+Exit Code: 0
+Result: PASS (implementation governance only)
+
+实际完整实现治理527 testcase，零失败/错误/跳过；原始见test-results/followup-source-94750d6/governance.txt及governance.xml。上述成功字段仅标识已执行的实现治理，整体实现Gate容量仍FAIL。当前 review 自身与合入后主线验证尚未执行，不声明整体验收PASS或V1完成。
+
+角色Coordinator program-coordinator-agent / Implementer lifecycle-scope-repair-agent / Reviewer independent-lifecycle-scope-review-agent / Integrator integration-agent，CONTRACT-PROGRAM-PLAN/TASK-SPEC/ACTIVE-WORK。只变自身canonical metadata/Evidence；永久政策、其他任务、旧completed及普通Ledger不变。最后代码身份绑定PR79真实merge，回滚只采用前向修复并保留全部来源和失败。
+
+## 历史记录
+
 # OPS-004 具体后续恢复实现
 
 Task: OPS-004 / Issue71

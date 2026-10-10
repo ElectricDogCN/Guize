@@ -70,17 +70,17 @@ tasks:
 - taskId: OPS-004
   issue: 71
   title: 修复普通任务自身生命周期元数据准入
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: lifecycle-scope-repair-agent
   reviewer: independent-lifecycle-scope-review-agent
   integrator: integration-agent
-  agentRole: implementer
-  branch: chore/OPS-004-followup-implementation
+  agentRole: reviewer
+  branch: chore/OPS-004-followup-review
   baseBranch: main
-  baseSha: 1dd347521445a712e0873dc762692b445373e88a
+  baseSha: bad012bb137cde0d9282ea2f1976b8218e57edc0
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-004
