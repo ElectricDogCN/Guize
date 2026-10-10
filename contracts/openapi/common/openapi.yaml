@@ -180,6 +180,18 @@ paths:
     $ref: ../config/paths.yaml#/~1approvals~1{approvalId}:decide
   /auth/step-up/passkeys:options:
     $ref: ../iam/paths.yaml#/~1auth~1step-up~1passkeys:options
+  /data-sources/{sourceId}:set-visibility:
+    $ref: ../source/paths.yaml#/~1data-sources~1{sourceId}:set-visibility
+  /assets/{assetId}/security:release:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}~1security:release
+  /configurations/{configurationId}:assist:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}:assist
+  /configurations/{configurationId}/assistance/{taskId}:
+    $ref: ../config/paths.yaml#/~1configurations~1{configurationId}~1assistance~1{taskId}
+  /assets/{assetId}/versions/{versionId}/security-findings:
+    $ref: ../asset/paths.yaml#/~1assets~1{assetId}~1versions~1{versionId}~1security-findings
+  /data-sources/{sourceId}/platform-acl:
+    $ref: ../source/paths.yaml#/~1data-sources~1{sourceId}~1platform-acl
 components:
   securitySchemes:
     SessionCookie:
@@ -484,3 +496,29 @@ components:
       $ref: schemas.yaml#/StepUpChallengeEnvelope
     CapabilityId:
       $ref: schemas.yaml#/CapabilityId
+    RollbackCommand:
+      $ref: schemas.yaml#/RollbackCommand
+    WorkerCredential:
+      $ref: schemas.yaml#/WorkerCredential
+    SourceVisibilityCommand:
+      $ref: schemas.yaml#/SourceVisibilityCommand
+    AssetSecurityReleaseCommand:
+      $ref: schemas.yaml#/AssetSecurityReleaseCommand
+    ConfigurationAssistanceRequest:
+      $ref: schemas.yaml#/ConfigurationAssistanceRequest
+    ConfigurationAssistanceReport:
+      $ref: schemas.yaml#/ConfigurationAssistanceReport
+    ConfigurationAssistanceEnvelope:
+      $ref: schemas.yaml#/ConfigurationAssistanceEnvelope
+    AssetSecurityFinding:
+      $ref: schemas.yaml#/AssetSecurityFinding
+    AssetSecurityFindingsPage:
+      $ref: schemas.yaml#/AssetSecurityFindingsPage
+    AssetSecurityFindingsEnvelope:
+      $ref: schemas.yaml#/AssetSecurityFindingsEnvelope
+    SourcePlatformAclEntry:
+      $ref: schemas.yaml#/SourcePlatformAclEntry
+    SourcePlatformAclPageData:
+      $ref: schemas.yaml#/SourcePlatformAclPageData
+    SourcePlatformAclPage:
+      $ref: schemas.yaml#/SourcePlatformAclPage

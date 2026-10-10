@@ -7227,7 +7227,7 @@
       content:
         application/json:
           schema:
-            $ref: ../common/schemas.yaml#/ReleaseCommand
+            $ref: ../common/schemas.yaml#/RollbackCommand
           examples:
             illustrative:
               summary: Illustrative contract value; not live execution.
@@ -7240,7 +7240,15 @@
                   description: 契约说明值，不是线上执行结果。
                   summary: 契约说明值，不是线上执行结果。
               value:
-                expectedRevision: 1
+                expectedRevision: 3
                 approvalId: apr_example01
-                reason: Approved example release
+                reason: Restore approved retained revision 1
+                targetRevision: 1
     x-long-running: true
+    x-rollback-binding:
+      current: body.expectedRevision
+      target: body.targetRevision
+      invariants:
+      - Target is immutable and belongs to the path resource; reject missing, foreign or incompatible targets before effects.
+      - Approval binds both revisions and the complete rollback body. Current revision is atomically compared; no implicit previous/latest selection.
+      - Revalidate target against current security policy and deployment compatibility; keep history and audit, never overwrite the historical revision.

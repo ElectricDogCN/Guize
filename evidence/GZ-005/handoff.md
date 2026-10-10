@@ -1,3 +1,19 @@
+# Current ten-thread repaired candidate: new immutable-source validation pending
+
+The independently confirmed ten threads on actual b234 are repaired: dedicated credential/public DTO privacy, exact role capabilities, all exported model compatibility, IMAGE-only query, explicit rollback target, scoped worker lease credential, owner/admin source visibility and explicit ACL roundtrip, quarantine release with exact-version immutable finding retrieval, and bounded asynchronous configuration assistance with real sensitive-read proof transport and provenance. Source owner can share/retract PRIVATE/SHARED; transitions to/from ADMIN_PUBLIC additionally require verified administrator/source.publish. No automatic asset publication.
+
+Current synthetic inventory is96 operations/154 schemas/33 errors/944 examples/155 HTTP pairs. Exploratory API tests: 306 passed, zero failures/errors/skips; dirty content review is complete but cannot establish immutable-source acceptance. Original299/1 exploratory failure and fixture-generator failure remain preserved.
+
+Actual b234 formal17/527/261 and CI633 attempt2 success remain historical execution facts; all ten content gaps reject that source for merge. Its attempt1 cancellation and actual source rejection proofs remain in published-source-b23450a-history. New formal17, same-head CI, independent actual-source review, archive/integration/main acceptance and legal Review/Completion are pending. No runtime/POC/full V1 completion is claimed.
+
+## Preserved earlier records
+
+# Current finite ten-thread repair candidate
+
+The b23450a execution passed formal17/527 governance/261 API tests and CI633 attempt2, but independent review confirmed ten material contract gaps. Source acceptance is false; original results and attempt1 cancellation are preserved in test-results/published-source-b23450a-history/. Current contract repairs remain an unaccepted dirty candidate until new immutable source, formal17, same-head CI and independent review are obtained. Archive/integration/main acceptance and legal Review/Completion remain pending. No runtime/POC/full V1 completion is claimed.
+
+## Prior candidate and execution facts
+
 # Current fourteen-finding repair candidate: immutable-source validation pending
 
 PR82 comments6095687218/6095857734 were independently deduplicated into14 confirmed contract gaps against actual source9b55648. The repaired candidate adds secure host-only successful-login cookie issuance, verifies Cookie+CSRF and Bearer branches, closes ordinary DataSource privacy, excludes terminal TaskAccepted outcomes, binds progress to path asset/version ownership, fixes approval creation status=PENDING, accepts scoped artifact pagination, requires durable catalog-bound task failures, records immutable media/AI provenance, provides authenticated purpose/tuple-bound PASSKEY step-up options, constrains credential-free connector endpoints, requires no-store and closes role capabilities to current supported permissions.

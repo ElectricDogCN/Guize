@@ -1,0 +1,368 @@
+{
+  "kind": "ACTUAL_SOURCE_EXECUTION_VERIFIED_CONTENT_ACCEPTANCE_BLOCKED_BY_FRESH_REVIEW",
+  "recordedAt": "2026-10-10T10:15:03.047873+00:00",
+  "actualSource": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+  "parent": "9b556484145aa396ebe97fc34872034b859bb4b7",
+  "base": "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+  "pr": 82,
+  "local17AllExit0": true,
+  "raw": {
+    "task": {
+      "sha256": "e5ca3a66c7dfb4f9137c18a05c571a385de92bf373afaaef91f07cdd1d0515c0",
+      "command": "python scripts/check-task-file.py --task GZ-005",
+      "exit": 0
+    },
+    "readiness": {
+      "sha256": "3f39315f478f2eb47d0c8221af490ba601013761bded8f9345a15ab1bbfdb968",
+      "command": "python scripts/check-project-readiness.py",
+      "exit": 0
+    },
+    "schemas": {
+      "sha256": "245ff48d3a3097748adb6e6691d1426685938a965ae58377cb2dec1a7a9a29ef",
+      "command": "python scripts/check-schemas.py",
+      "exit": 0
+    },
+    "integrity": {
+      "sha256": "d875790e72a424ce2c4a8f2c8d41b1e676daf7ef1e5211e2e4e11eae6645b31b",
+      "command": "python scripts/check-program-plan-integrity.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "exit": 0
+    },
+    "history": {
+      "sha256": "d0f7009d71ab025d7d8faadf656e13e59de3361baa2575e6e31a9786c777bb89",
+      "command": "python scripts/check-program-plan-history.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "transitions": {
+      "sha256": "b639edd39f8b4caa1d597707c7373f35122e3e4b9c597d240a63889793d47c0f",
+      "command": "python scripts/check-program-plan-transitions.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "finalization": {
+      "sha256": "883e9ddb7e3b6f4e58e0b626b4fdb7c7314205008218aba3821499b59e66248b",
+      "command": "python scripts/check-program-plan-finalization.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --task GZ-005",
+      "exit": 0
+    },
+    "raw-lifecycle": {
+      "sha256": "44059a0df9b10c3481879a7012b412e8c0670c0e64cdfb4428fd22b4d520c111",
+      "command": "python scripts/check-program-lifecycle-guards.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "lifecycle": {
+      "sha256": "d584e06da762200dfaf518d045f7293eeea21767631e9d85f50bd348f68d2661",
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "coordination": {
+      "sha256": "a3efbc42dcb301c4376f6ff8f7cfb5da7f15dbf65d2f77ad8dcf3bbfadb96814",
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --head-ref HEAD --task GZ-005 --branch-name chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "scope": {
+      "sha256": "a9f9d586819ef9457aebf63b7be8c282d47133b846de1f2cf42f1f516561c9f8",
+      "command": "python scripts/run-task-scope-gate.py --task GZ-005 --base 429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "exit": 0
+    },
+    "evidence": {
+      "sha256": "cae47a365feee3f97c4181bf69fbff6af3687c33f4eb78bffb118aa825bade6e",
+      "command": "python scripts/check-evidence.py --task GZ-005",
+      "exit": 0
+    },
+    "unaffected": {
+      "sha256": "3faf0c8f5307ac17a27df338b3ad957e895a1800f85064ba3999a4e7dbf9810b",
+      "command": "git diff --exit-code 429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD -- specs/coordination/task-completions.yaml specs/tasks/GZ-010.md evidence/GZ-010 specs/tasks/OPS-003.md evidence/OPS-003 specs/tasks/OPS-004.md evidence/OPS-004 specs/poc specs/requirements scripts tests AGENTS.md",
+      "exit": 0
+    },
+    "verify": {
+      "sha256": "9d835a79435c477dd81c95247081b98cfaa02a01414322e7ce53298959bd810c",
+      "command": "make verify TASK=GZ-005 BASE=429a6566d81f128cb618c524ee8dc22faba1c0a4 HEAD_REF=HEAD BRANCH=chore/GZ-005-openapi-baseline",
+      "exit": 0
+    },
+    "openapi-standard": {
+      "sha256": "986262a54f5800b7eeed3fed2b09dbb5af0682ae63b2b1b64c900993e41fc912",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m openapi_spec_validator contracts/openapi/common/openapi.yaml",
+      "exit": 0
+    },
+    "openapi-contract": {
+      "sha256": "63502a16d17a9b29e93898093ad74752ba77100c26facde50bc47b6fa1917548",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python specs/contracts/openapi/check_contract.py --base-ref 429a6566d81f128cb618c524ee8dc22faba1c0a4 --initial-baseline",
+      "exit": 0
+    },
+    "openapi-negative-tests": {
+      "sha256": "bfbfa8286878172aece80056b0834b3ced0a9b7a147137beda3e14e137e50f19",
+      "command": "/home/sur/.cache/guize-takeover/openapi-venv/bin/python -m pytest specs/contracts/openapi/test_contract.py -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz005-fresh-implementation-b23450a-results/openapi-tests.xml",
+      "exit": 0
+    }
+  },
+  "junit": {
+    "make-governance.xml": {
+      "testcases": 527,
+      "failure": 0,
+      "error": 0,
+      "skip": 0,
+      "sha256": "5e7846281758736eaae578808043ef92712ecaf59619924394af89596f961166"
+    },
+    "openapi-tests.xml": {
+      "testcases": 261,
+      "failure": 0,
+      "error": 0,
+      "skip": 0,
+      "sha256": "f641a075d5fa80c4dbe9300f63d5460b7ff1a08006f6ffea368441dd712259d2"
+    }
+  },
+  "rootNativeBeforeAfter": {
+    "kind": "ACTUAL_IDENTICAL_SOURCE_NATIVE_VALIDATION_WORKTREE",
+    "phase": "implementation",
+    "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+    "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+    "authoringWorktree": {
+      "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+      "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    },
+    "verificationWorktree": {
+      "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+      "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+      "branch": "chore/GZ-005-openapi-baseline",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    },
+    "bothCleanBeforeAndAfter": true,
+    "result": "PASS",
+    "testsExecutedIn": "native Linux checkout; exact same immutable Git source/tree, no result transfer from another commit"
+  },
+  "cleanBeforeAndAfter": true,
+  "ciRun": 38041192594,
+  "ciAttempt": 2,
+  "ciJob": 114186392594,
+  "ciAllStepsSuccess": true,
+  "ciPerTestPassed": 527,
+  "ciSkipAuditZero": true,
+  "ciSavedRawSha256": "bd80d690ae0e52927fc0fc4bb536000a30c78fcad99df4c765414c2e8b3a0265",
+  "rawByteCaveat": "Saved UTF-8 log may contain the apply_patch final newline; the saved hash is separate from official transport. No byte-identical claim is made.",
+  "syntheticCheckout": {
+    "sha": "7d7e2f5057cc7ff130ac7d4ecd73c2f133100921",
+    "tree": "7e55fa64816d54cd1082a343e7ff87929ec4debd",
+    "parents": [
+      "429a6566d81f128cb618c524ee8dc22faba1c0a4",
+      "b23450ad54e49d9b316233eccb8cb5c9e829c729"
+    ]
+  },
+  "priorCancelledAttemptPreserved": {
+    "jobId": 114181606800,
+    "conclusion": "cancelled",
+    "proof": "gz005-ci633-cancelled-disposition.json"
+  },
+  "executionResultsVerified": true,
+  "confirmedMaterialFindings": [
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fH",
+      "file": "contracts/openapi/common/schemas.yaml",
+      "line": 953,
+      "finding": "Credential-reference response accepts arbitrary secret fields.",
+      "probe": {
+        "schema": "SourceCredentialReference",
+        "payload": {
+          "sourceId": "src_example01",
+          "credentialReference": "secretref_example01",
+          "revision": 1,
+          "credentialValue": "EXAMPLE_ONLY_SECRET_SHOULD_BE_REJECTED",
+          "providerToken": {
+            "value": "EXAMPLE_ONLY"
+          }
+        },
+        "schemaErrors": [],
+        "unsafeExtraFieldsAccepted": true
+      }
+    },
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fJ",
+      "file": "contracts/openapi/common/schemas.yaml",
+      "line": 1398,
+      "finding": "Anonymous public-asset response accepts private fields.",
+      "probe": {
+        "schema": "PublicAsset",
+        "payload": {
+          "id": "ast_example01",
+          "title": "Public",
+          "assetType": "VIDEO",
+          "currentVersionId": "ver_example01",
+          "visibility": "PUBLIC",
+          "securityStatus": "SCAN_CLEAN",
+          "revision": 1,
+          "updatedAt": "2026-10-10T00:00:00Z",
+          "sourcePath": "/EXAMPLE_ONLY/private",
+          "credentials": {
+            "token": "EXAMPLE_ONLY"
+          }
+        },
+        "schemaErrors": [],
+        "unsafeExtraFieldsAccepted": true
+      }
+    },
+    {
+      "thread": "PRRT_kwDOTgCQ3c6rC7fT",
+      "file": "contracts/openapi/common/http-samples.json",
+      "line": 69,
+      "finding": "Four executable role mutation pairs return an unrequested asset.play capability.",
+      "probe": [
+        {
+          "operationId": "createRole",
+          "scenario": "baseline",
+          "requested": [
+            "asset.read"
+          ],
+          "returned": [
+            "asset.read",
+            "asset.play"
+          ],
+          "extraGranted": [
+            "asset.play"
+          ]
+        },
+        {
+          "operationId": "createRole",
+          "scenario": "cookie-csrf",
+          "requested": [
+            "asset.read"
+          ],
+          "returned": [
+            "asset.read",
+            "asset.play"
+          ],
+          "extraGranted": [
+            "asset.play"
+          ]
+        },
+        {
+          "operationId": "replaceRole",
+          "scenario": "baseline",
+          "requested": [
+            "asset.read"
+          ],
+          "returned": [
+            "asset.read",
+            "asset.play"
+          ],
+          "extraGranted": [
+            "asset.play"
+          ]
+        },
+        {
+          "operationId": "replaceRole",
+          "scenario": "cookie-csrf",
+          "requested": [
+            "asset.read"
+          ],
+          "returned": [
+            "asset.read",
+            "asset.play"
+          ],
+          "extraGranted": [
+            "asset.play"
+          ]
+        }
+      ]
+    }
+  ],
+  "freshThreads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fH",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 953,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:16Z",
+      "disposition": "confirmed material"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fJ",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 1398,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:16Z",
+      "disposition": "confirmed material"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fL",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 817,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:16Z",
+      "disposition": "finite content/scope triage pending"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fM",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 3328,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:16Z",
+      "disposition": "finite content/scope triage pending"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fN",
+      "path": "specs/contracts/openapi/check_contract.py",
+      "line": 650,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:16Z",
+      "disposition": "finite content/scope triage pending"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fP",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 2422,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:17Z",
+      "disposition": "finite content/scope triage pending"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fR",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 3125,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:17Z",
+      "disposition": "finite content/scope triage pending"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fT",
+      "path": "contracts/openapi/common/http-samples.json",
+      "line": 69,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:17Z",
+      "disposition": "confirmed material"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fW",
+      "path": "contracts/openapi/common/schemas.yaml",
+      "line": 1346,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:17Z",
+      "disposition": "finite content/scope triage pending"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rC7fY",
+      "path": "contracts/openapi/common/openapi.yaml",
+      "line": 162,
+      "resolved": false,
+      "outdated": false,
+      "createdAt": "2026-10-10T09:39:17Z",
+      "disposition": "finite content/scope triage pending"
+    }
+  ],
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "fullV1Accepted": false,
+  "runtimeSecurityValidated": false,
+  "fullGovRerun": false,
+  "rootMutation": false,
+  "decision": "Existing successful execution records remain true. Fresh concrete response privacy and role fixture defects block content acceptance and merge; seven other new threads require finite disposition."
+}

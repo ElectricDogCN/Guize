@@ -66,28 +66,28 @@
     "operationId": "createRole",
     "scenario": "baseline",
     "request": "POST /api/v1/roles HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-createRole\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 55\r\n\r\n{\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"]}",
-    "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 187\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\",\"asset.play\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 174\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "createRole",
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/roles HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createRole\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 55\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"]}",
-    "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 187\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\",\"asset.play\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 174\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "replaceRole",
     "scenario": "baseline",
     "request": "PUT /api/v1/roles/rol_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-replaceRole\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 76\r\n\r\n{\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"expectedRevision\":1}",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 187\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\",\"asset.play\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 174\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "replaceRole",
     "scenario": "cookie-csrf",
     "request": "PUT /api/v1/roles/rol_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-replaceRole\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 76\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"expectedRevision\":1}",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 187\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\",\"asset.play\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 174\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"id\":\"rol_example01\",\"name\":\"Example viewer\",\"capabilities\":[\"asset.read\"],\"revision\":1},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -800,14 +800,14 @@
   {
     "operationId": "rollbackPolicy",
     "scenario": "baseline",
-    "request": "POST /api/v1/policies/pol_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-rollbackPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "request": "POST /api/v1/policies/pol_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-rollbackPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"expectedRevision\":3,\"approvalId\":\"apr_example01\",\"reason\":\"Restore approved retained revision 1\",\"targetRevision\":1}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "rollbackPolicy",
     "scenario": "cookie-csrf",
-    "request": "POST /api/v1/policies/pol_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-rollbackPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "request": "POST /api/v1/policies/pol_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-rollbackPolicy\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 118\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":3,\"approvalId\":\"apr_example01\",\"reason\":\"Restore approved retained revision 1\",\"targetRevision\":1}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
@@ -870,14 +870,14 @@
   {
     "operationId": "rollbackConfiguration",
     "scenario": "baseline",
-    "request": "POST /api/v1/configurations/cfg_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-rollbackConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "request": "POST /api/v1/configurations/cfg_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-rollbackConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 118\r\n\r\n{\"expectedRevision\":3,\"approvalId\":\"apr_example01\",\"reason\":\"Restore approved retained revision 1\",\"targetRevision\":1}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "rollbackConfiguration",
     "scenario": "cookie-csrf",
-    "request": "POST /api/v1/configurations/cfg_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-rollbackConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 87\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approved example release\"}",
+    "request": "POST /api/v1/configurations/cfg_example01:rollback HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-rollbackConfiguration\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 118\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":3,\"approvalId\":\"apr_example01\",\"reason\":\"Restore approved retained revision 1\",\"targetRevision\":1}",
     "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
@@ -948,28 +948,28 @@
     "operationId": "registerWorker",
     "scenario": "baseline",
     "request": "POST /api/v1/workers/register HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-registerWorker\r\nContent-Type: application/json\r\nContent-Length: 161\r\n\r\n{\"workerId\":\"wrk_example01\",\"capabilities\":[\"media.probe\"],\"softwareVersions\":[\"example-worker@1.0.0\"],\"classification\":\"INTERNAL\",\"diskFreeBytes\":1000000000000}",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 212\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"]},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 455\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"],\"credential\":{\"tokenType\":\"Bearer\",\"accessToken\":\"EXAMPLE_ONLY_INVALID_WORKER_TOKEN_0001\",\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"audience\":\"guize-worker-control\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"permissions\":[\"worker.self\"]}},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "registerWorker",
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/workers/register HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-registerWorker\r\nContent-Type: application/json\r\nContent-Length: 161\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"workerId\":\"wrk_example01\",\"capabilities\":[\"media.probe\"],\"softwareVersions\":[\"example-worker@1.0.0\"],\"classification\":\"INTERNAL\",\"diskFreeBytes\":1000000000000}",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 212\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"]},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 455\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"],\"credential\":{\"tokenType\":\"Bearer\",\"accessToken\":\"EXAMPLE_ONLY_INVALID_WORKER_TOKEN_0001\",\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"audience\":\"guize-worker-control\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"permissions\":[\"worker.self\"]}},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "heartbeatWorker",
     "scenario": "baseline",
     "request": "POST /api/v1/workers/heartbeat HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-heartbeatWorker\r\nContent-Type: application/json\r\nContent-Length: 84\r\n\r\n{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"diskFreeBytes\":1000000000000}",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 212\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"]},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 455\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"],\"credential\":{\"tokenType\":\"Bearer\",\"accessToken\":\"EXAMPLE_ONLY_INVALID_WORKER_TOKEN_0001\",\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"audience\":\"guize-worker-control\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"permissions\":[\"worker.self\"]}},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
     "operationId": "heartbeatWorker",
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/workers/heartbeat HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-heartbeatWorker\r\nContent-Type: application/json\r\nContent-Length: 84\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"diskFreeBytes\":1000000000000}",
-    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 212\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"]},\"traceId\":\"trace-example-0001\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 455\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"allowedCapabilities\":[\"media.probe\"],\"credential\":{\"tokenType\":\"Bearer\",\"accessToken\":\"EXAMPLE_ONLY_INVALID_WORKER_TOKEN_0001\",\"workerId\":\"wrk_example01\",\"leaseId\":\"lse_example01\",\"audience\":\"guize-worker-control\",\"expiresAt\":\"2026-10-09T12:01:00Z\",\"permissions\":[\"worker.self\"]}},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   },
   {
@@ -1019,6 +1019,69 @@
     "scenario": "cookie-csrf",
     "request": "POST /api/v1/auth/step-up/passkeys:options HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-createStepUpPasskeyChallenge\r\nContent-Type: application/json\r\nContent-Length: 135\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"action\":\"publishAsset\",\"resourceId\":\"ast_example01\",\"payloadHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
     "response": "HTTP/1.1 201 Example\r\nContent-Type: application/json\r\nContent-Length: 468\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"challengeId\":\"chl_example01\",\"expiresAt\":\"2026-10-09T12:02:00Z\",\"publicKey\":{\"challenge\":\"MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY\",\"rpId\":\"guize.example\",\"timeout\":60000,\"userVerification\":\"required\",\"allowCredentials\":[]},\"action\":\"publishAsset\",\"resourceId\":\"ast_example01\",\"payloadHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"purpose\":\"STEP_UP\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "setSourceVisibility",
+    "scenario": "baseline",
+    "request": "POST /api/v1/data-sources/src_example01:set-visibility HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-setSourceVisibility\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 245\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approve platform ACL governed source\",\"visibility\":\"ADMIN_PUBLIC\",\"platformAcl\":[{\"principalId\":\"rol_example01\",\"principalType\":\"ROLE\",\"permissions\":[\"READ\",\"PLAY\"],\"effect\":\"ALLOW\"}]}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "setSourceVisibility",
+    "scenario": "cookie-csrf",
+    "request": "POST /api/v1/data-sources/src_example01:set-visibility HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-setSourceVisibility\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 245\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"approvalId\":\"apr_example01\",\"reason\":\"Approve platform ACL governed source\",\"visibility\":\"ADMIN_PUBLIC\",\"platformAcl\":[{\"principalId\":\"rol_example01\",\"principalType\":\"ROLE\",\"permissions\":[\"READ\",\"PLAY\"],\"effect\":\"ALLOW\"}]}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "releaseAssetQuarantine",
+    "scenario": "baseline",
+    "request": "POST /api/v1/assets/ast_example01/security:release HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-releaseAssetQuarantine\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 162\r\n\r\n{\"expectedRevision\":1,\"assetVersionId\":\"ver_example01\",\"reviewFindingId\":\"fnd_example01\",\"approvalId\":\"apr_example01\",\"reason\":\"Reviewed isolated false positive\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "releaseAssetQuarantine",
+    "scenario": "cookie-csrf",
+    "request": "POST /api/v1/assets/ast_example01/security:release HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-releaseAssetQuarantine\r\nX-Step-Up-Proof: sup_example01\r\nX-Approval-Id: apr_example01\r\nContent-Type: application/json\r\nContent-Length: 162\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"assetVersionId\":\"ver_example01\",\"reviewFindingId\":\"fnd_example01\",\"approvalId\":\"apr_example01\",\"reason\":\"Reviewed isolated false positive\"}",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 128\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"resourceId\":\"ack_example01\",\"revision\":1},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "requestConfigurationAssistance",
+    "scenario": "baseline",
+    "request": "POST /api/v1/configurations/cfg_example01:assist HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nIdempotency-Key: example-key-requestConfigurationAssistance\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 100\r\n\r\n{\"expectedRevision\":1,\"action\":\"EXPLAIN\",\"instruction\":\"Explain the permitted budget configuration\"}",
+    "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "requestConfigurationAssistance",
+    "scenario": "cookie-csrf",
+    "request": "POST /api/v1/configurations/cfg_example01:assist HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nIdempotency-Key: example-key-requestConfigurationAssistance\r\nX-Step-Up-Proof: sup_example01\r\nContent-Type: application/json\r\nContent-Length: 100\r\nCookie: guize_session=EXAMPLE_ONLY_INVALID_SESSION_00001\r\nX-CSRF-Token: EXAMPLE_ONLY_INVALID_CSRF_TOKEN_0001\r\n\r\n{\"expectedRevision\":1,\"action\":\"EXPLAIN\",\"instruction\":\"Explain the permitted budget configuration\"}",
+    "response": "HTTP/1.1 202 Example\r\nContent-Type: application/json\r\nContent-Length: 176\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"ACCEPTED\",\"message\":\"请求已受理。\",\"data\":{\"taskId\":\"tsk_example01\",\"status\":\"RUNNING\",\"statusUrl\":\"/api/v1/tasks/tsk_example01\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "getConfigurationAssistance",
+    "scenario": "baseline",
+    "request": "GET /api/v1/configurations/cfg_example01/assistance/tsk_example01 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nX-Step-Up-Proof: sup_example01\r\n\r\n",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 544\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"taskId\":\"tsk_example01\",\"configurationId\":\"cfg_example01\",\"configurationRevision\":1,\"action\":\"EXPLAIN\",\"modelVersion\":\"mdl_example01\",\"promptVersion\":\"prm_example01\",\"inputHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"explanation\":\"Illustrative explanation only; no model invocation performed.\",\"findings\":[],\"pipelineVersionId\":\"pip_example01\",\"parametersHash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "listAssetSecurityFindings",
+    "scenario": "baseline",
+    "request": "GET /api/v1/assets/ast_example01/versions/ver_example01/security-findings?limit=25 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nX-Step-Up-Proof: sup_example01\r\n\r\n",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 430\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"items\":[{\"id\":\"fnd_example01\",\"assetVersionId\":\"ver_example01\",\"inputHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"securityStatus\":\"QUARANTINED\",\"scannerVersion\":\"example-scanner@1.0.0\",\"createdAt\":\"2026-10-09T12:00:00Z\",\"summary\":\"Illustrative quarantined detection; operator review required.\"}],\"nextCursor\":null},\"traceId\":\"trace-example-0001\"}",
+    "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
+  },
+  {
+    "operationId": "getSourcePlatformAcl",
+    "scenario": "baseline",
+    "request": "GET /api/v1/data-sources/src_example01/platform-acl?limit=25 HTTP/1.1\r\nHost: guize.example\r\nAccept-Language: zh-CN\r\nAuthorization: Bearer EXAMPLE_ONLY_INVALID_TOKEN\r\nX-Step-Up-Proof: sup_example01\r\n\r\n",
+    "response": "HTTP/1.1 200 Example\r\nContent-Type: application/json\r\nContent-Length: 216\r\nX-Trace-Id: trace-example-0001\r\nCache-Control: no-store\r\n\r\n{\"code\":\"SUCCESS\",\"message\":\"操作成功。\",\"data\":{\"items\":[{\"principalId\":\"rol_example01\",\"principalType\":\"ROLE\",\"permissions\":[\"READ\",\"PLAY\"],\"effect\":\"ALLOW\"}],\"nextCursor\":null},\"traceId\":\"trace-example-0001\"}",
     "execution": "ILLUSTRATIVE_SCHEMA_VALIDATION_ONLY"
   }
 ]

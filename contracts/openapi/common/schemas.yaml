@@ -950,7 +950,7 @@ SourceCredentialReference:
       description: Protected reference metadata; never secret contents.
     zh-CN:
       description: 受保护的引用元数据，不含凭据正文。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     sourceId: *id001
     credentialReference: *id005
@@ -1395,7 +1395,7 @@ PublicAsset:
       description: Explicitly published safe asset metadata only.
     zh-CN:
       description: 仅明确公开且安全的资产元数据。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     id: &id006
       type: string
@@ -2417,7 +2417,6 @@ SearchQuery:
       maximum: 100
       default: 25
   required:
-  - query
   - mode
   - limit
   allOf:
@@ -2428,6 +2427,9 @@ SearchQuery:
     then:
       required:
       - imageArtifactId
+    else:
+      required:
+      - query
 SearchHit:
   type: object
   description: Final ACL-checked result; counts and snippets are equally filtered.
@@ -3320,7 +3322,7 @@ WorkerLease:
       description: Short-lived worker identity and policy-constrained lease.
     zh-CN:
       description: 短期 Worker 身份与受策略约束的租约。
-  additionalProperties: true
+  additionalProperties: false
   properties:
     workerId: *id001
     leaseId: *id001
@@ -3344,11 +3346,14 @@ WorkerLease:
         minLength: 1
         maxLength: 256
       maxItems: 100
+    credential:
+      $ref: schemas.yaml#/WorkerCredential
   required:
   - workerId
   - leaseId
   - expiresAt
   - allowedCapabilities
+  - credential
 DeploymentRequest:
   type: object
   description: Deploy only an approved signed digest-locked Bundle.
@@ -3553,6 +3558,7 @@ ErrorDetails:
       minLength: 1
       maxLength: 256
       enum:
+      - accessToken
       - action
       - alg
       - allowCredentials
@@ -3567,9 +3573,11 @@ ErrorDetails:
       - assetType
       - assetTypes
       - assetVersionId
+      - assumptions
       - attempts
       - attestation
       - attestationObject
+      - audience
       - authenticationMethods
       - authenticatorData
       - authenticatorSelection
@@ -3582,6 +3590,7 @@ ErrorDetails:
       - bundleSha256
       - cacheClass
       - capabilities
+      - capacityEstimate
       - challenge
       - challengeId
       - classification
@@ -3590,10 +3599,13 @@ ErrorDetails:
       - codec
       - completed
       - confidence
+      - configurationId
+      - configurationRevision
       - contentKind
       - contentLength
       - contentPath
       - createdAt
+      - credential
       - credentialId
       - credentialReference
       - csrfToken
@@ -3610,6 +3622,7 @@ ErrorDetails:
       - displayName
       - displayPath
       - document
+      - draft
       - durationMs
       - effect
       - endMs
@@ -3624,6 +3637,7 @@ ErrorDetails:
       - failure
       - failureDomainId
       - field
+      - findings
       - forceRerun
       - format
       - generated
@@ -3635,6 +3649,7 @@ ErrorDetails:
       - initialPassword
       - inputHash
       - inputVersionId
+      - instruction
       - items
       - kind
       - language
@@ -3662,6 +3677,7 @@ ErrorDetails:
       - payloadHash
       - permissions
       - pipelineVersionId
+      - platformAclId
       - policyVersionId
       - positionMs
       - principalId
@@ -3690,12 +3706,14 @@ ErrorDetails:
       - resourceId
       - retryAfterSeconds
       - retryable
+      - reviewFindingId
       - revision
       - roleIds
       - root
       - rp
       - rpId
       - sampleAssetIds
+      - scannerVersion
       - schemaId
       - schemaVersion
       - score
@@ -3713,13 +3731,16 @@ ErrorDetails:
       - statusUrl
       - storageTargetId
       - subjectId
+      - summary
       - supportedCodecs
       - targetHostIds
       - targetId
+      - targetRevision
       - taskId
       - text
       - timeout
       - title
+      - tokenType
       - toolVersion
       - totpCode
       - traceId
@@ -6774,8 +6795,10 @@ CapabilityId:
   - asset.process
   - asset.publish
   - asset.read
+  - asset.security.release
   - asset.share
   - asset.write
+  - config.assist
   - config.canary
   - config.publish
   - config.read
@@ -6804,6 +6827,7 @@ CapabilityId:
   - source.create
   - source.credential.manage
   - source.owner
+  - source.publish
   - source.read
   - source.write
   - storage.cache.evict
@@ -6820,3 +6844,896 @@ CapabilityId:
       description: Closed current V1 authenticated operation permission catalog; unknown or future capabilities cannot be granted.
     zh-CN:
       description: 当前 V1 已认证操作权限的封闭目录；不得授予未知或未来权限。
+RollbackCommand:
+  type: object
+  description: Restore an explicit immutable target revision, bound together with the current optimistic revision in the approval digest.
+  x-i18n:
+    en-US:
+      description: Restore an explicit immutable target revision, bound together with the current optimistic revision in the approval digest.
+    zh-CN:
+      description: 恢复显式不可变目标修订号，审批摘要同时绑定当前乐观修订号与目标修订号。
+  additionalProperties: false
+  properties:
+    expectedRevision:
+      type: integer
+      description: Optimistic resource revision.
+      x-i18n:
+        en-US:
+          description: Optimistic resource revision.
+        zh-CN:
+          description: 资源的乐观并发修订号。
+      minimum: 1
+    approvalId:
+      $ref: schemas.yaml#/ApprovalId
+    reason:
+      type: string
+      description: Release reason.
+      x-i18n:
+        en-US:
+          description: Release reason.
+        zh-CN:
+          description: 发布原因。
+      minLength: 1
+      maxLength: 256
+    targetRevision:
+      type: integer
+      description: Immutable retained revision of the same policy/configuration to restore; server checks ownership, approval, validation and compatibility before effects.
+      x-i18n:
+        en-US:
+          description: Immutable retained revision of the same policy/configuration to restore; server checks ownership, approval, validation and compatibility before effects.
+        zh-CN:
+          description: 待恢复的同一规则或配置的保留不可变修订号；服务端在执行前检查归属、审批、验证与兼容性。
+      minimum: 1
+  required:
+  - expectedRevision
+  - approvalId
+  - reason
+  - targetRevision
+WorkerCredential:
+  type: object
+  additionalProperties: false
+  properties:
+    tokenType:
+      type: string
+      const: Bearer
+      description: 'Use Authorization: Bearer accessToken.'
+      x-i18n:
+        en-US:
+          description: 'Use Authorization: Bearer accessToken.'
+        zh-CN:
+          description: '使用 Authorization: Bearer accessToken。'
+    accessToken:
+      type: string
+      minLength: 32
+      maxLength: 256
+      pattern: ^[A-Za-z0-9_-]+(?![\s\S])
+      writeOnly: false
+      description: Opaque short-lived revocable worker token, returned only over TLS; never persist in task parameters, logs or evidence.
+      x-i18n:
+        en-US:
+          description: Opaque short-lived revocable worker token, returned only over TLS; never persist in task parameters, logs or evidence.
+        zh-CN:
+          description: 不透明短期可撤销 Worker 令牌，仅经 TLS 返回，不存入任务参数、日志或证据。
+    workerId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    leaseId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    audience:
+      type: string
+      const: guize-worker-control
+      description: Audience limited to worker control operations.
+      x-i18n:
+        en-US:
+          description: Audience limited to worker control operations.
+        zh-CN:
+          description: 受众仅限 Worker 控制操作。
+    expiresAt:
+      type: string
+      description: UTC RFC3339 timestamp.
+      x-i18n:
+        en-US:
+          description: UTC RFC3339 timestamp.
+        zh-CN:
+          description: UTC RFC3339 时间。
+      format: date-time
+    permissions:
+      type: array
+      items:
+        type: string
+        const: worker.self
+      minItems: 1
+      maxItems: 1
+      uniqueItems: true
+      description: Only self heartbeat permission; compute capabilities are separately constrained by allowedCapabilities.
+      x-i18n:
+        en-US:
+          description: Only self heartbeat permission; compute capabilities are separately constrained by allowedCapabilities.
+        zh-CN:
+          description: 仅允许自身心跳；计算能力另受 allowedCapabilities 限制。
+  required:
+  - tokenType
+  - accessToken
+  - workerId
+  - leaseId
+  - audience
+  - expiresAt
+  - permissions
+  description: Lease-bound credential issued to the authenticated worker; never grants bootstrap, user or administrator authority.
+  x-i18n:
+    en-US:
+      description: Lease-bound credential issued to the authenticated worker; never grants bootstrap, user or administrator authority.
+    zh-CN:
+      description: 向已认证 Worker 签发绑定租约的凭据，不授予引导、用户或管理员权限。
+SourceVisibilityCommand:
+  type: object
+  additionalProperties: false
+  properties:
+    expectedRevision:
+      type: integer
+      description: Optimistic resource revision.
+      x-i18n:
+        en-US:
+          description: Optimistic resource revision.
+        zh-CN:
+          description: 资源的乐观并发修订号。
+      minimum: 1
+    approvalId:
+      $ref: schemas.yaml#/ApprovalId
+    reason:
+      type: string
+      minLength: 1
+      maxLength: 256
+      description: Audited visibility change reason.
+      x-i18n:
+        en-US:
+          description: Audited visibility change reason.
+        zh-CN:
+          description: 可审计的可见性变更原因。
+    visibility:
+      type: string
+      enum:
+      - PRIVATE
+      - SHARED
+      - ADMIN_PUBLIC
+      description: Target visibility; ADMIN_PUBLIC means platform ACL governed source, not anonymous asset publication.
+      x-i18n:
+        en-US:
+          description: Target visibility; ADMIN_PUBLIC means platform ACL governed source, not anonymous asset publication.
+        zh-CN:
+          description: 目标可见性；ADMIN_PUBLIC 表示平台 ACL 管理的来源，并非匿名资产公开。
+    platformAcl:
+      type: array
+      maxItems: 100
+      items:
+        $ref: schemas.yaml#/SourcePlatformAclEntry
+      description: Explicit bounded source ACL. Empty means deny all, never anonymous access; intersect platform capability and source policy.
+      x-i18n:
+        en-US:
+          description: Explicit bounded source ACL. Empty means deny all, never anonymous access; intersect platform capability and source policy.
+        zh-CN:
+          description: 显式有界来源 ACL；空列表表示拒绝全部，并非匿名访问；须与平台能力及来源策略取交集。
+  required:
+  - expectedRevision
+  - approvalId
+  - reason
+  - visibility
+  description: Owner-authorized source visibility transition; ADMIN_PUBLIC transitions additionally require an administrator. No provider credential or implicit asset publication.
+  x-i18n:
+    en-US:
+      description: Owner-authorized source visibility transition; ADMIN_PUBLIC transitions additionally require an administrator. No provider credential or implicit asset publication.
+    zh-CN:
+      description: 来源所有者可执行的可见性转换；涉及 ADMIN_PUBLIC 的转换额外要求管理员。不返回提供方凭据，不隐式公开资产。
+  allOf:
+  - if:
+      properties:
+        visibility:
+          enum:
+          - SHARED
+          - ADMIN_PUBLIC
+      required:
+      - visibility
+    then:
+      required:
+      - platformAcl
+    else:
+      not:
+        required:
+        - platformAcl
+AssetSecurityReleaseCommand:
+  type: object
+  additionalProperties: false
+  properties:
+    expectedRevision:
+      type: integer
+      description: Optimistic resource revision.
+      x-i18n:
+        en-US:
+          description: Optimistic resource revision.
+        zh-CN:
+          description: 资源的乐观并发修订号。
+      minimum: 1
+    assetVersionId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    reviewFindingId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    approvalId:
+      $ref: schemas.yaml#/ApprovalId
+    reason:
+      type: string
+      minLength: 1
+      maxLength: 256
+      description: Administrator review reason for releasing a quarantined false positive.
+      x-i18n:
+        en-US:
+          description: Administrator review reason for releasing a quarantined false positive.
+        zh-CN:
+          description: 管理员确认隔离误报并释放的审查原因。
+  required:
+  - expectedRevision
+  - assetVersionId
+  - reviewFindingId
+  - approvalId
+  - reason
+  description: Release an exact quarantined version after reviewed immutable security findings, current policy and separated approval; never publish or widen ACL.
+  x-i18n:
+    en-US:
+      description: Release an exact quarantined version after reviewed immutable security findings, current policy and separated approval; never publish or widen ACL.
+    zh-CN:
+      description: 在审查不可变安全发现、当前策略及独立审批后释放精确隔离版本，不公开或扩大 ACL。
+ConfigurationAssistanceRequest:
+  type: object
+  additionalProperties: false
+  properties:
+    expectedRevision:
+      type: integer
+      description: Optimistic resource revision.
+      x-i18n:
+        en-US:
+          description: Optimistic resource revision.
+        zh-CN:
+          description: 资源的乐观并发修订号。
+      minimum: 1
+    action:
+      type: string
+      enum: &id019
+      - EXPLAIN
+      - GENERATE_DRAFT
+      - CHECK_CONFLICTS
+      - ESTIMATE_CAPACITY
+      description: Bounded assistant action.
+      x-i18n:
+        en-US:
+          description: Bounded assistant action.
+        zh-CN:
+          description: 有界配置助手动作。
+    instruction:
+      type: string
+      minLength: 1
+      maxLength: 4096
+      description: Bounded user instruction; server still restricts accessible context, secrets, provider route and budget.
+      x-i18n:
+        en-US:
+          description: Bounded user instruction; server still restricts accessible context, secrets, provider route and budget.
+        zh-CN:
+          description: 有界用户指令；服务端仍限制可访问上下文、秘密、提供方路由及预算。
+  required:
+  - expectedRevision
+  - action
+  - instruction
+  description: Request assistance on one authorized immutable configuration revision; no direct mutation or publication.
+  x-i18n:
+    en-US:
+      description: Request assistance on one authorized immutable configuration revision; no direct mutation or publication.
+    zh-CN:
+      description: 请求对一个已授权的不可变配置修订号提供辅助，不直接修改或发布。
+ConfigurationAssistanceReport:
+  type: object
+  additionalProperties: false
+  properties:
+    taskId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    configurationId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    configurationRevision:
+      type: integer
+      description: Optimistic resource revision.
+      x-i18n:
+        en-US:
+          description: Optimistic resource revision.
+        zh-CN:
+          description: 资源的乐观并发修订号。
+      minimum: 1
+    action:
+      type: string
+      enum: *id019
+      description: Completed request action.
+      x-i18n:
+        en-US:
+          description: Completed request action.
+        zh-CN:
+          description: 已完成的请求动作。
+    modelVersion:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    promptVersion:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    inputHash:
+      type: string
+      pattern: ^[0-9a-f]{64}(?![\s\S])
+      description: Hash of retained redacted configuration and permitted context snapshot.
+      x-i18n:
+        en-US:
+          description: Hash of retained redacted configuration and permitted context snapshot.
+        zh-CN:
+          description: 保留的脱敏配置及允许上下文快照哈希。
+    explanation:
+      type: string
+      minLength: 1
+      maxLength: 8192
+      description: Bounded non-authoritative explanation; server redacts secrets and denied resource references.
+      x-i18n:
+        en-US:
+          description: Bounded non-authoritative explanation; server redacts secrets and denied resource references.
+        zh-CN:
+          description: 有界非权威解释；服务端脱敏秘密及无权资源引用。
+    findings:
+      type: array
+      items:
+        type: string
+        minLength: 1
+        maxLength: 1024
+        description: Redacted conflict, constraint or uncertainty finding.
+        x-i18n:
+          en-US:
+            description: Redacted conflict, constraint or uncertainty finding.
+          zh-CN:
+            description: 脱敏的冲突、约束或不确定性发现。
+      maxItems: 100
+      description: Bounded findings; absence of findings is not validation success.
+      x-i18n:
+        en-US:
+          description: Bounded findings; absence of findings is not validation success.
+        zh-CN:
+          description: 有界发现列表；没有发现不代表验证通过。
+    draft:
+      $ref: schemas.yaml#/ConfigurationDraft
+    capacityEstimate:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - ESTIMATED
+          - INCONCLUSIVE
+          description: Estimate is not a measured capacity promise.
+          x-i18n:
+            en-US:
+              description: Estimate is not a measured capacity promise.
+            zh-CN:
+              description: 估算不是实测容量承诺。
+        assumptions:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1024
+            description: Required assumption or missing measurement.
+            x-i18n:
+              en-US:
+                description: Required assumption or missing measurement.
+              zh-CN:
+                description: 必要假设或缺失测量。
+          maxItems: 100
+          description: Explicit estimate assumptions and missing measurements.
+          x-i18n:
+            en-US:
+              description: Explicit estimate assumptions and missing measurements.
+            zh-CN:
+              description: 显式估算假设与缺失测量。
+        summary:
+          type: string
+          minLength: 1
+          maxLength: 4096
+          description: Bounded capacity estimate with units and limitations.
+          x-i18n:
+            en-US:
+              description: Bounded capacity estimate with units and limitations.
+            zh-CN:
+              description: 包含单位及限制的有界容量估算。
+      required:
+      - status
+      - assumptions
+      - summary
+      description: Non-authoritative capacity estimate; downstream deployment needs real validation.
+      x-i18n:
+        en-US:
+          description: Non-authoritative capacity estimate; downstream deployment needs real validation.
+        zh-CN:
+          description: 非权威容量估算，后续部署仍需真实验证。
+    pipelineVersionId:
+      type: string
+      description: Exact immutable approved pipeline version used by this result.
+      x-i18n:
+        en-US:
+          description: Exact immutable approved pipeline version used by this result.
+        zh-CN:
+          description: 此结果使用的精确、不可变、已批准的流水线版本。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    parametersHash:
+      type: string
+      pattern: ^[0-9a-f]{64}(?![\s\S])
+      description: Server-computed SHA256 of RFC8785 canonical resolved model parameter snapshot retained with the immutable pipeline version; never a caller claim.
+      x-i18n:
+        en-US:
+          description: Server-computed SHA256 of RFC8785 canonical resolved model parameter snapshot retained with the immutable pipeline version; never a caller claim.
+        zh-CN:
+          description: 服务端对已解析的模型参数快照做 RFC8785 规范化后计算的 SHA256；快照随不可变流水线版本保留，不接受调用者自报。
+  required:
+  - taskId
+  - configurationId
+  - configurationRevision
+  - action
+  - modelVersion
+  - promptVersion
+  - inputHash
+  - explanation
+  - findings
+  - pipelineVersionId
+  - parametersHash
+  description: Immutable validated assistant output inheriting configuration access; proposals never change authoritative settings or auto-publish.
+  x-i18n:
+    en-US:
+      description: Immutable validated assistant output inheriting configuration access; proposals never change authoritative settings or auto-publish.
+    zh-CN:
+      description: 继承配置访问权限的不可变已校验助手输出；建议不修改权威配置、不自动发布。
+  allOf:
+  - if:
+      properties:
+        action:
+          const: GENERATE_DRAFT
+      required:
+      - action
+    then:
+      required:
+      - draft
+  - if:
+      properties:
+        action:
+          const: ESTIMATE_CAPACITY
+      required:
+      - action
+    then:
+      required:
+      - capacityEstimate
+ConfigurationAssistanceEnvelope:
+  type: object
+  description: Localized success envelope.
+  x-i18n:
+    en-US:
+      description: Localized success envelope.
+    zh-CN:
+      description: 本地化成功响应。
+  additionalProperties: true
+  properties:
+    code:
+      type: string
+      description: Success result.
+      x-i18n:
+        en-US:
+          description: Success result.
+        zh-CN:
+          description: 成功结果。
+      enum:
+      - SUCCESS
+    message:
+      type: string
+      description: Localized informational message.
+      x-i18n:
+        en-US:
+          description: Localized informational message.
+        zh-CN:
+          description: 本地化提示。
+      minLength: 1
+      maxLength: 1024
+    data:
+      $ref: schemas.yaml#/ConfigurationAssistanceReport
+    traceId:
+      type: string
+      description: Request correlation identifier, including failures.
+      x-i18n:
+        en-US:
+          description: Request correlation identifier, including failures.
+        zh-CN:
+          description: 包括失败请求在内的关联标识。
+      pattern: ^[A-Za-z0-9-]{8,128}$
+      maxLength: 128
+  required:
+  - code
+  - message
+  - data
+  - traceId
+AssetSecurityFinding:
+  type: object
+  additionalProperties: false
+  properties:
+    id:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    assetVersionId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    inputHash:
+      type: string
+      pattern: ^[0-9a-f]{64}(?![\s\S])
+      description: Hash of retained redacted configuration and permitted context snapshot.
+      x-i18n:
+        en-US:
+          description: Hash of retained redacted configuration and permitted context snapshot.
+        zh-CN:
+          description: 保留的脱敏配置及允许上下文快照哈希。
+    securityStatus:
+      type: string
+      description: Detected safety state.
+      x-i18n:
+        en-US:
+          description: Detected safety state.
+        zh-CN:
+          description: 内容安全检测状态。
+      enum:
+      - SCAN_PENDING
+      - SCAN_CLEAN
+      - MIME_MISMATCH
+      - MALWARE_SUSPECTED
+      - MALWARE_CONFIRMED
+      - ARCHIVE_UNSAFE
+      - QUARANTINED
+      - ADMIN_RELEASED
+    scannerVersion:
+      type: string
+      minLength: 1
+      maxLength: 256
+      description: Exact scanner/tool version; immutable evidence retained server-side.
+      x-i18n:
+        en-US:
+          description: Exact scanner/tool version; immutable evidence retained server-side.
+        zh-CN:
+          description: 精确扫描器或工具版本；服务端保留不可变证据。
+    createdAt:
+      type: string
+      description: UTC RFC3339 timestamp.
+      x-i18n:
+        en-US:
+          description: UTC RFC3339 timestamp.
+        zh-CN:
+          description: UTC RFC3339 时间。
+      format: date-time
+    summary:
+      type: string
+      minLength: 1
+      maxLength: 1024
+      description: Redacted finding summary; never raw media, local paths or secrets.
+      x-i18n:
+        en-US:
+          description: Redacted finding summary; never raw media, local paths or secrets.
+        zh-CN:
+          description: 脱敏发现摘要，不含原始媒体、本地路径或秘密。
+  required:
+  - id
+  - assetVersionId
+  - inputHash
+  - securityStatus
+  - scannerVersion
+  - createdAt
+  - summary
+  description: Immutable scanner finding owned by an exact asset version/hash. Administrator approval reviews this evidence before quarantine release.
+  x-i18n:
+    en-US:
+      description: Immutable scanner finding owned by an exact asset version/hash. Administrator approval reviews this evidence before quarantine release.
+    zh-CN:
+      description: 精确资产版本及哈希所属的不可变扫描发现；管理员在隔离释放前审批并审查此证据。
+AssetSecurityFindingsPage:
+  type: object
+  description: Caller-scoped cursor page with no global count disclosure.
+  x-i18n:
+    en-US:
+      description: Caller-scoped cursor page with no global count disclosure.
+    zh-CN:
+      description: 调用者范围内的游标页，不暴露全局计数。
+  additionalProperties: false
+  properties:
+    items:
+      type: array
+      maxItems: 100
+      items:
+        $ref: schemas.yaml#/AssetSecurityFinding
+    nextCursor:
+      type:
+      - string
+      - 'null'
+      description: Opaque caller/query/scope-bound cursor; null at end.
+      x-i18n:
+        en-US:
+          description: Opaque caller/query/scope-bound cursor; null at end.
+        zh-CN:
+          description: 绑定调用者、查询与权限范围的游标，结束时为 null。
+      maxLength: 2048
+  required:
+  - items
+  - nextCursor
+AssetSecurityFindingsEnvelope:
+  type: object
+  description: Localized success envelope.
+  x-i18n:
+    en-US:
+      description: Localized success envelope.
+    zh-CN:
+      description: 本地化成功响应。
+  additionalProperties: true
+  properties:
+    code:
+      type: string
+      description: Success result.
+      x-i18n:
+        en-US:
+          description: Success result.
+        zh-CN:
+          description: 成功结果。
+      enum:
+      - SUCCESS
+    message:
+      type: string
+      description: Localized informational message.
+      x-i18n:
+        en-US:
+          description: Localized informational message.
+        zh-CN:
+          description: 本地化提示。
+      minLength: 1
+      maxLength: 1024
+    data:
+      $ref: schemas.yaml#/AssetSecurityFindingsPage
+    traceId:
+      type: string
+      description: Request correlation identifier, including failures.
+      x-i18n:
+        en-US:
+          description: Request correlation identifier, including failures.
+        zh-CN:
+          description: 包括失败请求在内的关联标识。
+      pattern: ^[A-Za-z0-9-]{8,128}$
+      maxLength: 128
+  required:
+  - code
+  - message
+  - data
+  - traceId
+SourcePlatformAclEntry:
+  type: object
+  description: Closed platform source ACL entry; principal comes from authorized listUsers/listRoles. Server checks identity/type and grant authority before approval.
+  x-i18n:
+    en-US:
+      description: Closed platform source ACL entry; principal comes from authorized listUsers/listRoles. Server checks identity/type and grant authority before approval.
+    zh-CN:
+      description: 封闭平台来源 ACL 条目；主体来自授权的用户或角色列表。服务端在审批前检查身份、类型与授予权限。
+  additionalProperties: false
+  properties:
+    principalId:
+      type: string
+      description: Opaque resource identifier; never a file path.
+      x-i18n:
+        en-US:
+          description: Opaque resource identifier; never a file path.
+        zh-CN:
+          description: 不透明资源标识，不是文件路径。
+      pattern: ^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$
+      maxLength: 80
+    principalType:
+      type: string
+      description: Principal type.
+      x-i18n:
+        en-US:
+          description: Principal type.
+        zh-CN:
+          description: 主体类型。
+      enum:
+      - USER
+      - ROLE
+    permissions:
+      type: array
+      description: Granted resource actions.
+      x-i18n:
+        en-US:
+          description: Granted resource actions.
+        zh-CN:
+          description: 授予的资源操作。
+      items:
+        type: string
+        description: Allowed action.
+        x-i18n:
+          en-US:
+            description: Allowed action.
+          zh-CN:
+            description: 允许操作。
+        enum:
+        - READ
+        - PLAY
+        - PROCESS
+      maxItems: 100
+      uniqueItems: true
+    effect:
+      type: string
+      description: Default deny with explicit rule.
+      x-i18n:
+        en-US:
+          description: Default deny with explicit rule.
+        zh-CN:
+          description: 默认拒绝并使用明确规则。
+      enum:
+      - ALLOW
+      - DENY
+  required:
+  - principalId
+  - principalType
+  - permissions
+  - effect
+SourcePlatformAclPageData:
+  type: object
+  description: Caller-scoped cursor page with no global count disclosure.
+  x-i18n:
+    en-US:
+      description: Caller-scoped cursor page with no global count disclosure.
+    zh-CN:
+      description: 调用者范围内的游标页，不暴露全局计数。
+  additionalProperties: false
+  properties:
+    items:
+      type: array
+      description: Authorized results.
+      x-i18n:
+        en-US:
+          description: Authorized results.
+        zh-CN:
+          description: 经授权结果。
+      items:
+        $ref: schemas.yaml#/SourcePlatformAclEntry
+      maxItems: 100
+    nextCursor:
+      type:
+      - string
+      - 'null'
+      description: Opaque caller/query/scope-bound cursor; null at end.
+      x-i18n:
+        en-US:
+          description: Opaque caller/query/scope-bound cursor; null at end.
+        zh-CN:
+          description: 绑定调用者、查询与权限范围的游标，结束时为 null。
+      maxLength: 2048
+  required:
+  - items
+  - nextCursor
+SourcePlatformAclPage:
+  type: object
+  description: Localized success envelope.
+  x-i18n:
+    en-US:
+      description: Localized success envelope.
+    zh-CN:
+      description: 本地化成功响应。
+  additionalProperties: true
+  properties:
+    code:
+      type: string
+      description: Success result.
+      x-i18n:
+        en-US:
+          description: Success result.
+        zh-CN:
+          description: 成功结果。
+      enum:
+      - SUCCESS
+    message:
+      type: string
+      description: Localized informational message.
+      x-i18n:
+        en-US:
+          description: Localized informational message.
+        zh-CN:
+          description: 本地化提示。
+      minLength: 1
+      maxLength: 1024
+    data:
+      $ref: schemas.yaml#/SourcePlatformAclPageData
+    traceId:
+      type: string
+      description: Request correlation identifier, including failures.
+      x-i18n:
+        en-US:
+          description: Request correlation identifier, including failures.
+        zh-CN:
+          description: 包括失败请求在内的关联标识。
+      pattern: ^[A-Za-z0-9-]{8,128}$
+      maxLength: 128
+  required:
+  - code
+  - message
+  - data
+  - traceId

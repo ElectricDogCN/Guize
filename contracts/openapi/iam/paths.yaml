@@ -5434,7 +5434,6 @@
                     name: Example viewer
                     capabilities:
                     - asset.read
-                    - asset.play
                     revision: 1
                   traceId: trace-example-0001
       '400':

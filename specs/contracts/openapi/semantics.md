@@ -244,8 +244,15 @@ this task does not claim actual filesystem access or containment execution.
 
 ## Compatibility
 
+Exported components.schemas are public models even when no operation reaches them.
+Compatibility compares every previously exported model in both request and response
+directions, including Replica and RetentionHold; removal or weakening cannot hide
+behind route-only traversal. Dedicated PublicAsset and SourceCredentialReference
+responses are closed safe DTOs. Role creation/replacement returns exactly the
+requested capability set, never silently adds privileges.
+
 Requests reject undeclared input fields, including client ACL scopes, provider
-credentials and backend search DSL. Responses allow optional future fields; clients
+credentials and backend search DSL. Responses with explicitly open schemas allow optional future fields; clients
 ignore unknown fields and tolerate unknown enum values without granting capabilities.
 Removed/renamed fields, changed meanings/defaults, tightened inputs, loosened required
 response guarantees, status/error/security/base changes and incompatible SSE changes
@@ -265,6 +272,73 @@ assertion siblings are rejected instead of overriding referenced constraints.
 GZ-012 must run the official parser, this validator, meaningful negative tests and
 actual consumer contracts in language CI. Governance CI currently validates its own
 scope/schema/evidence; it does not already execute these new contract checks.
+
+## 十条有限审查修复 / Finite review repairs
+
+IMAGE search requires imageArtifactId without a dummy text query. KEYWORD, SEMANTIC
+and HYBRID require nonempty query. Resolve image artifacts within current caller
+ACL before embedding/content access; text and image inputs never establish scope.
+
+Policy and configuration rollback take current expectedRevision and explicit
+immutable targetRevision. Both are covered by the complete approval request digest.
+The server checks that the retained target belongs to the same resource, revalidates
+current security/compatibility and atomically compares the current revision. A
+previous/latest convention cannot select the target.
+
+Worker registration and heartbeat return a closed lease credential with opaque
+accessToken, Bearer transport, audience guize-worker-control, exact workerId/leaseId/
+expiresAt and only worker.self permission. Maximum issued lifetime is 300 seconds,
+bounded by enrollment. Validate actual worker ownership, lease, audience, revocation
+and expiry before heartbeat; rotate the credential without extending enrollment or
+compute capabilities. Bootstrap authority is separate. Operator cookie identity
+must own the explicit enrollment and obey the same worker limits. Expired or revoked
+results are never replayed or renewed by an old idempotency key; re-register with
+valid bootstrap authority when the worker identity has expired. Illustrative tokens
+are intentionally invalid. No token issuance/authentication has run in this task.
+
+POST /data-sources/{sourceId}:set-visibility supports PRIVATE/SHARED/ADMIN_PUBLIC.
+PRIVATE/SHARED changes require source.owner and actual owner/proxy authority, recent
+step-up, separate exact approval and optimistic revision. Any transition to or from
+ADMIN_PUBLIC additionally requires verified administrator identity and source.publish.
+SHARED/ADMIN_PUBLIC carries the complete bounded platformAcl using authorized USER/
+ROLE identities from the existing user/role inventory, restricted resource actions
+and explicit ALLOW/DENY. Empty means deny all; PRIVATE rejects shared ACL inputs and
+atomically retracts old grants. The protected platform-acl GET allows an authorized
+owner to read private/shared source ACL; administrator public ACL additionally
+requires administrator identity and source.publish. It grants no provider service-account
+authority and cannot implicitly publish assets. Changed access revokes obsolete
+grants and each subsequent access rechecks current policy.
+
+POST /assets/{assetId}/security:release binds assetVersionId, immutable
+reviewFindingId, current revision and approval. The security administrator reviews
+the exact quarantined version/hash as a false positive under current safety policy.
+The server rejects foreign/stale findings and records ADMIN_RELEASED and the full
+audit while preserving quarantine history. Release changes neither publication nor
+ACL, grants no playback and never bypasses remaining MIME/archive/media policies.
+The protected GET /assets/{assetId}/versions/{versionId}/security-findings supplies
+the immutable finding ID/version/hash and redacted scan metadata. Resolve version
+inside the asset before hydration, scope each page to the authorized security
+administrator and evidence snapshot, and never return raw media, paths or secrets.
+
+POST /configurations/{configurationId}:assist is asynchronous and accepts only
+EXPLAIN, GENERATE_DRAFT, CHECK_CONFLICTS or ESTIMATE_CAPACITY on an exact revision.
+Both assistance endpoints require config.assist, config.sensitive.read and recent
+action-bound step-up with the declared proof header and stable rejection response.
+Enforce read authority, assistant capability, approved provider/model/prompt route,
+data-send policy and hard budget before inference. Retain authorized redacted input,
+model/prompt/parameters provenance and immutable output. The result GET resolves
+taskId within the same configuration and owner/operator before hydration and
+rechecks current access and sensitive-config step-up. Pending/failed jobs use
+getTask; no partial report is presented as completed. Reports and draft documents
+are validated and redacted; generated drafts and capacity estimates remain
+non-authoritative. Explicit adoption still uses normal configuration CRUD, schema/
+semantic validation, simulation, separate approval and publication. An assistant
+never executes Secrets, ACL, deletion or budget changes. No actual model execution
+or downstream consumer integration is claimed by these contract fixtures.
+
+中文：图片检索无需虚构文本；回滚审批绑定当前与目标修订；Worker 凭据短期且仅限
+自身租约。来源可见性和隔离释放须管理员审查、二次认证及独立审批，不自动公开。
+配置助手只产出经校验的非权威报告或草案，预算、授权及既有发布流程仍然生效。
 
 ## Errors
 

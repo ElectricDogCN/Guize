@@ -350,6 +350,16 @@ def verify_http_samples(spec, samples):
         content=response['content'][content_type]
         value=json.loads(response_body) if content_type=='application/json' else response_body
         validate_instance(value,content['schema'])
+        if oid in {'createRole','replaceRole'} and response_parts[1].startswith('2'):
+            requested=json.loads(body)['capabilities']
+            if set(value['data']['capabilities']) != set(requested):
+                raise ContractError('role response capabilities must exactly match the requested set')
+        if oid in {'registerWorker','heartbeatWorker'} and response_parts[1]=='200':
+            lease=value['data'];credential=lease['credential'];request_value=json.loads(body)
+            if (any(credential[key]!=lease[key] for key in ('workerId','leaseId','expiresAt'))
+                    or request_value['workerId']!=lease['workerId']
+                    or (oid=='heartbeatWorker' and request_value['leaseId']!=lease['leaseId'])):
+                raise ContractError('worker credential must bind the exact authenticated worker lease')
         if (oid in {'createStepUp','createStepUpPasskeyChallenge'}
                 and response_parts[1]=='201'):
             request_value=json.loads(body)
@@ -375,6 +385,30 @@ def verify_http_samples(spec, samples):
 def verify_contract_guarantees(spec, error_map):
     schemas=spec['components']['schemas']
     inventory={op['operationId']:op for _,_,op in operations(spec)}
+    for name in ('SourceCredentialReference','PublicAsset'):
+        if schemas[name].get('additionalProperties') is not False:
+            raise ContractError('dedicated safe response must reject private extensions: '+name)
+    for oid in ('rollbackPolicy','rollbackConfiguration'):
+        request=inventory[oid]['requestBody']['content']['application/json']['schema']
+        if not {'expectedRevision','targetRevision','approvalId'} <= set(request.get('required',[])) or not inventory[oid].get('x-rollback-binding'):
+            raise ContractError('rollback must bind explicit current and target revisions')
+    credential=schemas['WorkerCredential']
+    if (credential.get('additionalProperties') is not False
+            or not {'accessToken','workerId','leaseId','audience','expiresAt','permissions'} <= set(credential.get('required',[]))
+            or credential['properties']['permissions']['items'].get('const')!='worker.self'):
+        raise ContractError('worker credential must be closed and scoped to self control')
+    for oid in ('registerWorker','heartbeatWorker'):
+        binding=inventory[oid].get('x-worker-credential-binding',{})
+        if (binding.get('maxLifetimeSeconds')!=300 or not all(binding.get(k) for k in ('subject','resource','issuance','renewal','replay'))
+                or 'credential' not in inventory[oid]['responses']['200']['content']['application/json']['schema']['properties']['data']['required']):
+            raise ContractError('worker lease requires a short-lived bound credential and renewal policy')
+    for oid in ('setSourceVisibility','releaseAssetQuarantine'):
+        operation=inventory.get(oid,{})
+        auth=operation.get('x-authorization',{})
+        if not auth.get('stepUp') or not auth.get('approval') or not operation.get('x-resource-binding'):
+            raise ContractError('administrator safety transition requires protected resource binding')
+    if not inventory.get('requestConfigurationAssistance',{}).get('x-assistant-boundary') or not inventory.get('getConfigurationAssistance',{}).get('x-resource-binding'):
+        raise ContractError('configuration assistance needs bounded asynchronous request and authorized result')
     terminal={'SUCCEEDED','PARTIAL_SUCCESS','FAILED','CANCELLED'}
     accepted=set(schemas['TaskAccepted']['properties']['status'].get('enum',[]))
     if not accepted or accepted & terminal:
@@ -408,7 +442,13 @@ def verify_contract_guarantees(spec, error_map):
     for name,required in [('Rendition',{'profileVersionId'}),('DerivedArtifact',{'pipelineVersionId','parametersHash'})]:
         if not required <= set(schemas[name].get('required',[])):
             raise ContractError('processing provenance must identify exact immutable versions and parameters')
-    permissions={op['x-authorization']['permission'] for op in inventory.values() if op['x-authorization']['mode']=='AUTHENTICATED'}
+    permissions=set()
+    for operation in inventory.values():
+        auth=operation['x-authorization']
+        if auth['mode']=='AUTHENTICATED':
+            permissions.add(auth['permission'])
+            permissions.update(auth.get('requiredCapabilities',[]))
+            permissions.update(auth.get('conditionalCapabilities',[]))
     capability=schemas['CapabilityId']
     if set(capability.get('enum',[]))!=permissions:
         raise ContractError('capability catalog must exactly cover supported authenticated permissions')
@@ -646,6 +686,13 @@ def compatible(old, new, old_catalog, new_catalog):
         raise ContractError('base/version changed')
     if old['components']['securitySchemes'] != new['components']['securitySchemes']:
         raise ContractError('authentication scheme changed')
+    # Exported models are also consumed directly, including models without routes.
+    for name, schema in old['components']['schemas'].items():
+        replacement=new['components']['schemas'].get(name)
+        if replacement is None:
+            raise ContractError('removed exported component schema: '+name)
+        for direction in ('request','response'):
+            _schema_compat(schema,replacement,direction,'components.schemas.'+name)
     new_ops={(path,method):op for path,method,op in operations(new)}
     for path,method,left in operations(old):
         if (path,method) not in new_ops:
@@ -653,7 +700,9 @@ def compatible(old, new, old_catalog, new_catalog):
         right=new_ops[(path,method)]
         for key in ('operationId','security','x-authorization','x-idempotency','x-long-running','x-error-codes','summary','description',
                     'x-multi-resource-invariants','x-resource-binding','x-no-expensive-work','x-playback-readiness',
-                    'x-account-enumeration-policy','x-pagination-binding','x-step-up-challenge-binding'):
+                    'x-account-enumeration-policy','x-pagination-binding','x-step-up-challenge-binding',
+                    'x-rollback-binding','x-worker-credential-binding','x-assistant-boundary',
+                    'x-source-visibility-authorization'):
             if left.get(key) != right.get(key):
                 raise ContractError(f'{path}: operation meaning/security changed: {key}')
         # Parameters and request required/media types cannot silently change.

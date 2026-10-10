@@ -1,0 +1,25 @@
+{
+  "capturedAt": "2026-10-10T09:50:48.968789+00:00",
+  "source": "b23450ad54e49d9b316233eccb8cb5c9e829c729",
+  "official": {
+    "run": {
+      "id": 38041192594,
+      "conclusion": "cancelled",
+      "status": "completed"
+    },
+    "job": {
+      "id": 114181606800,
+      "conclusion": "cancelled",
+      "status": "completed"
+    }
+  },
+  "rawLog": "gz005-ci633-cancelled.txt",
+  "governanceTests": {
+    "passed": 527,
+    "seconds": 1176.36
+  },
+  "diagnosis": "Governance tests consumed19m36s of20min total job budget; schema printed OK within about6s, but step16 cancelled and required steps17-24 skipped.",
+  "ciAccepted": false,
+  "retryPolicy": "one bounded retry of identical immutable source; do not reinterpret first attempt as PASS",
+  "localFormalProof": "gz005-independent-b23450a-local-formal-results-proof.json"
+}

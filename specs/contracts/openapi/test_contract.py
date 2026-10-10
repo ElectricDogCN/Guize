@@ -103,6 +103,172 @@ def test_ordinary_source_response_cannot_carry_private_fields(baseline,name,oid)
     with pytest.raises(ContractError):validate_instance(value,media['schema'])
 
 
+@pytest.mark.parametrize('oid,field',[
+    ('getSourceCredentialReference','credentialValue'),
+    ('getSourceCredentialReference','providerToken'),
+    ('getSourceCredentialReference','nestedSecret'),
+    ('getPublicAsset','sourcePath'),('getPublicAsset','credentials'),
+    ('getPublicAsset','acl'),
+])
+def test_dedicated_safe_response_rejects_private_extensions(baseline,oid,field):
+    media=op_by_id(baseline,oid)['responses']['200']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value'])
+    value['data'][field]={'secret':'PRIVATE_EXAMPLE_MUST_BE_REJECTED'}
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+@pytest.mark.parametrize('oid',['createRole','replaceRole'])
+@pytest.mark.parametrize('scenario',['baseline','cookie-csrf'])
+def test_role_wire_response_cannot_expand_requested_capabilities(baseline,samples,oid,scenario):
+    changed=copy.deepcopy(samples)
+    sample=next(s for s in changed if s['operationId']==oid and s['scenario']==scenario)
+    head,body=sample['response'].split('\r\n\r\n',1)
+    value=json.loads(body)
+    value['data']['capabilities'].append('asset.play')
+    wire=json.dumps(value,ensure_ascii=False,separators=(',',':'))
+    import re
+    head=re.sub(r'Content-Length: [0-9]+','Content-Length: '+str(len(wire.encode('utf-8'))),head)
+    sample['response']=head+'\r\n\r\n'+wire
+    with pytest.raises(ContractError,match='exactly match'):verify_http_samples(baseline,changed)
+
+
+@pytest.mark.parametrize('name,mutation',[
+    ('Replica','remove-model'),('Replica','remove-field'),('Replica','remove-enum'),
+    ('RetentionHold','remove-model'),('RetentionHold','remove-field'),
+])
+def test_exported_models_remain_compatible_without_operations(baseline,catalog,name,mutation):
+    changed=copy.deepcopy(baseline)
+    model=changed['components']['schemas'][name]
+    if mutation=='remove-model':
+        del changed['components']['schemas'][name]
+    elif mutation=='remove-field':
+        model['properties'].pop(model['required'][0])
+    else:
+        enum=next(v['enum'] for v in model['properties'].values() if 'enum' in v)
+        enum.pop()
+    with pytest.raises(ContractError):compatible(baseline,changed,catalog,catalog)
+
+
+def test_image_search_works_without_text_and_text_modes_require_query(baseline):
+    schema=baseline['components']['schemas']['SearchQuery']
+    image={'mode':'IMAGE','imageArtifactId':'art_example01','limit':25}
+    validate_instance(image,schema)
+    image.pop('imageArtifactId')
+    with pytest.raises(ContractError):validate_instance(image,schema)
+    for mode in ('KEYWORD','SEMANTIC','HYBRID'):
+        with pytest.raises(ContractError):validate_instance({'mode':mode,'limit':25},schema)
+        validate_instance({'mode':mode,'query':'example','limit':25},schema)
+
+
+@pytest.mark.parametrize('oid',['rollbackPolicy','rollbackConfiguration'])
+def test_rollback_approval_binds_current_and_target_revision(baseline,oid):
+    operation=op_by_id(baseline,oid)
+    media=operation['requestBody']['content']['application/json']
+    payload=copy.deepcopy(media['examples']['illustrative']['value'])
+    resource='pol_example01' if oid=='rollbackPolicy' else 'cfg_example01'
+    path='/api/v1/'+('policies/' if oid=='rollbackPolicy' else 'configurations/')+resource+':rollback'
+    body={key:value for key,value in payload.items() if key!='approvalId'}
+    proposal={'action':oid,'resourceId':resource,'revision':body['expectedRevision'],
+              'payloadHash':intent_digest(oid,resource,body['expectedRevision'],'POST',path,{},body,approval_carrier=True),
+              'requestIntent':{'method':'POST','path':path,'query':{},'body':body},'reason':'Exact rollback target review'}
+    verify_proposed_approval(baseline,proposal)
+    altered=copy.deepcopy(proposal);altered['requestIntent']['body']['targetRevision']=2
+    with pytest.raises(ContractError,match='digest mismatch'):verify_proposed_approval(baseline,altered)
+    payload.pop('targetRevision')
+    with pytest.raises(ContractError):validate_instance(payload,media['schema'])
+
+
+@pytest.mark.parametrize('oid',['registerWorker','heartbeatWorker'])
+@pytest.mark.parametrize('field',['workerId','leaseId','expiresAt'])
+def test_worker_wire_credential_cannot_bind_a_different_lease(baseline,samples,oid,field):
+    changed=copy.deepcopy(samples);sample=next(s for s in changed if s['operationId']==oid and s['scenario']=='baseline')
+    head,body=sample['response'].split('\r\n\r\n',1);value=json.loads(body)
+    value['data']['credential'][field]='2026-10-09T12:02:00Z' if field=='expiresAt' else 'wrk_foreign01' if field=='workerId' else 'lse_foreign01'
+    wire=json.dumps(value,ensure_ascii=False,separators=(',',':'))
+    import re
+    head=re.sub(r'Content-Length: [0-9]+','Content-Length: '+str(len(wire.encode('utf-8'))),head)
+    sample['response']=head+'\r\n\r\n'+wire
+    with pytest.raises(ContractError,match='exact authenticated worker lease'):verify_http_samples(baseline,changed)
+
+
+@pytest.mark.parametrize('permission',['worker.bootstrap','asset.publish','admin.all'])
+def test_worker_credential_cannot_grant_user_or_bootstrap_permission(baseline,permission):
+    media=op_by_id(baseline,'registerWorker')['responses']['200']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value']);value['data']['credential']['permissions']=[permission]
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+@pytest.mark.parametrize('oid,field',[
+    ('setSourceVisibility','platformAcl'),('setSourceVisibility','approvalId'),
+    ('releaseAssetQuarantine','assetVersionId'),('releaseAssetQuarantine','reviewFindingId'),
+    ('releaseAssetQuarantine','approvalId'),
+])
+def test_admin_transitions_cannot_omit_target_or_approval(baseline,oid,field):
+    media=op_by_id(baseline,oid)['requestBody']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value']);value.pop(field)
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+def test_source_owner_can_share_and_retract_without_admin_public_authority(baseline):
+    operation=op_by_id(baseline,'setSourceVisibility')
+    assert operation['x-authorization']['permission']=='source.owner'
+    guard=operation['x-source-visibility-authorization']
+    assert guard['ownerTransitions']==['PRIVATE','SHARED']
+    assert guard['administratorIdentityRequired'] is True
+    assert guard['additionalCapability']=='source.publish'
+    assert guard['administratorTrigger']=='target visibility=ADMIN_PUBLIC OR current visibility=ADMIN_PUBLIC'
+    media=operation['requestBody']['content']['application/json'];value=copy.deepcopy(media['examples']['illustrative']['value'])
+    value['visibility']='SHARED';validate_instance(value,media['schema'])
+    value['visibility']='PRIVATE';value.pop('platformAcl');validate_instance(value,media['schema'])
+    value['platformAcl']=[]
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+@pytest.mark.parametrize('mutation',['unknown-principal','unknown-action','raw-secret'])
+def test_source_sharing_uses_known_closed_identity_acl_shape(baseline,mutation):
+    media=op_by_id(baseline,'setSourceVisibility')['requestBody']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value']);entry=value['platformAcl'][0]
+    if mutation=='unknown-principal':entry['principalType']='ANONYMOUS'
+    elif mutation=='unknown-action':entry['permissions']=['ADMINISTRATOR']
+    else:entry['providerToken']='PRIVATE_EXAMPLE_MUST_BE_REJECTED'
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+def test_quarantine_release_finding_is_available_on_exact_version_route(baseline):
+    read=op_by_id(baseline,'listAssetSecurityFindings')
+    assert read['x-authorization']['stepUp'] and read['x-authorization']['permission']=='asset.security.release'
+    media=read['responses']['200']['content']['application/json']
+    page=media['examples']['illustrative']['value']
+    finding=page['data']['items'][0]
+    release=op_by_id(baseline,'releaseAssetQuarantine')['requestBody']['content']['application/json']['examples']['illustrative']['value']
+    assert release['reviewFindingId']==finding['id'] and release['assetVersionId']==finding['assetVersionId']
+    leaked=copy.deepcopy(page);leaked['data']['items'][0]['sourcePath']='/private/example'
+    with pytest.raises(ContractError):validate_instance(leaked,media['schema'])
+
+
+@pytest.mark.parametrize('oid',['requestConfigurationAssistance','getConfigurationAssistance'])
+def test_assistant_declares_real_sensitive_read_proof_transport(baseline,oid):
+    operation=op_by_id(baseline,oid)
+    assert operation['x-authorization']['stepUp']
+    assert operation['x-authorization']['requiredCapabilities']==['config.assist','config.sensitive.read']
+    assert any(p['name']=='X-Step-Up-Proof' and p['required'] for p in operation['parameters'])
+    assert 'AUTH_STEP_UP_REQUIRED' in operation['responses']['403']['content']['application/json']['schema']['properties']['code']['enum']
+
+
+@pytest.mark.parametrize('field',['publish','secrets','capabilities','budgetOverride'])
+def test_assistant_request_cannot_execute_privileged_changes(baseline,field):
+    media=op_by_id(baseline,'requestConfigurationAssistance')['requestBody']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value']);value[field]=True
+    with pytest.raises(ContractError):validate_instance(value,media['schema'])
+
+
+@pytest.mark.parametrize('action,field',[('GENERATE_DRAFT','draft'),('ESTIMATE_CAPACITY','capacityEstimate')])
+def test_assistant_report_requires_action_specific_output(baseline,action,field):
+    media=op_by_id(baseline,'getConfigurationAssistance')['responses']['200']['content']['application/json']
+    value=copy.deepcopy(media['examples']['illustrative']['value']);value['data']['action']=action
+    with pytest.raises(ContractError,match=field):validate_instance(value,media['schema'])
+
+
 @pytest.mark.parametrize('status',['SUCCEEDED','PARTIAL_SUCCESS','FAILED','CANCELLED'])
 def test_every_202_schema_rejects_terminal_acceptance(baseline,status):
     for _,_,op in operations(baseline):

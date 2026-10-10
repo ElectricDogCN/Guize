@@ -609,3 +609,43 @@ operations:
   moduleId: MOD-IAM
   requirementIds:
   - REQ-V1-0008
+- operationId: setSourceVisibility
+  method: POST
+  path: /data-sources/{sourceId}:set-visibility
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0008
+- operationId: releaseAssetQuarantine
+  method: POST
+  path: /assets/{assetId}/security:release
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: requestConfigurationAssistance
+  method: POST
+  path: /configurations/{configurationId}:assist
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: getConfigurationAssistance
+  method: GET
+  path: /configurations/{configurationId}/assistance/{taskId}
+  moduleId: MOD-CONFIG
+  requirementIds:
+  - REQ-V1-0009
+- operationId: listAssetSecurityFindings
+  method: GET
+  path: /assets/{assetId}/versions/{versionId}/security-findings
+  moduleId: MOD-ASSET
+  requirementIds:
+  - REQ-V1-0002
+  - REQ-V1-0008
+- operationId: getSourcePlatformAcl
+  method: GET
+  path: /data-sources/{sourceId}/platform-acl
+  moduleId: MOD-SOURCE
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0008
