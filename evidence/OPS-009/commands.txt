@@ -1,3 +1,38 @@
+OPS-009 forward identity delivery
+Status: INTEGRATION
+Verification: PENDING_ACTUAL_PUBLISHED_IDENTITY_REDELIVERY_SOURCE
+Issue: #85 reopened after rejected Completion.
+Branch: chore/OPS-009-planning-revision-ci-budget
+Base: c0b54b045debaf0b1ae31f1ff6782360da64622c
+Actual rejected source: 41d10d93c638100186361949b93563eff4648448 / PR92; native integrity exit1, fullmake not started; sameheadCI666 step11 failed and full run still live.
+Current change: claimed coordination README executable merge-identity procedure plus Own integration metadata/Evidence; original lease/11claims, original manifest/Ledger/policy/future definitions and implementation code remain.
+Next: actual new source15/full630/latestCI/independent latest-code Review, expected-head merge with explicit OPS-009/#actualPR title, actual Integrationmain identity/full gates acceptance, then normal Completion bound to the new last implementation. GZ021/fullV1 remain incomplete.
+
+## Historical records
+
+## 必须执行的测试
+
+```bash
+python scripts/check-task-file.py --task OPS-009
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref c0b54b045debaf0b1ae31f1ff6782360da64622c
+python scripts/check-program-plan-history.py --base-ref c0b54b045debaf0b1ae31f1ff6782360da64622c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/check-program-plan-transitions.py --base-ref c0b54b045debaf0b1ae31f1ff6782360da64622c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/check-program-plan-finalization.py --base-ref c0b54b045debaf0b1ae31f1ff6782360da64622c --task OPS-009
+python scripts/check-program-lifecycle-guards.py --base-ref c0b54b045debaf0b1ae31f1ff6782360da64622c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/run-program-lifecycle-gate.py --base-ref c0b54b045debaf0b1ae31f1ff6782360da64622c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/run-agent-coordination-gate.py --base-ref c0b54b045debaf0b1ae31f1ff6782360da64622c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/run-task-scope-gate.py --task OPS-009 --base c0b54b045debaf0b1ae31f1ff6782360da64622c
+python scripts/check-evidence.py --task OPS-009
+make verify TASK=OPS-009 BASE=c0b54b045debaf0b1ae31f1ff6782360da64622c HEAD_REF=HEAD BRANCH=chore/OPS-009-planning-revision-ci-budget
+```
+
+当前前向文档修复 source 必须实际执行15项本地门禁、完整630项治理测试、同头CI及最新代码独立审查；旧成功不转移。
+
+
+## Historical commands
+
 OPS-009 normal Review
 Status: REVIEW / reviewer
 Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
