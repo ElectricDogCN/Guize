@@ -17,9 +17,9 @@ tasks:
   reviewer: independent-planning-revision-review-agent
   integrator: integration-agent
   agentRole: coordinator
-  branch: chore/OPS-009-planning-revision-admission
+  branch: chore/OPS-009-planning-revision-ci-budget
   baseBranch: main
-  baseSha: 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b
+  baseSha: 86e39646bda0e623ae712ecfde85e14ac6aa5cef
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-009
@@ -50,6 +50,7 @@ tasks:
   - scripts/check-program-plan-history.py
   - scripts/check-project-readiness.py
   - tests/governance/test_program_planning_revision.py
+  - .github/workflows/governance-gate.yml
   sharedPaths: []
   handoffPath: evidence/OPS-009/handoff.md
   integrationStrategy: merge
