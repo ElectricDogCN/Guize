@@ -1,0 +1,1346 @@
+{
+  "schemaVersion": 1,
+  "taskId": "GZ-021",
+  "reservationParent": "56edb228adbafdb6c9526229c31bbebad9a1e673",
+  "targets": [
+    {
+      "kind": "edit-planned-task",
+      "id": "POC-001",
+      "originalDefinitionSha256": "4a8275196e794f7be220ec5ed44904962aeada96028a6e1c492eab532f01d550",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "POC-001",
+        "title": "Arc A380 + ESXi 6.7 PCI Passthrough",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-01",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W6",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "poc/POC-01-a380-passthrough/**",
+          "evidence/POC-001/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-01-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-01"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-001-*",
+        "exitGate": "POC-01 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+      },
+      "after": {
+        "taskId": "POC-001",
+        "title": "Arc A380 + ESXi 6.7 PCI Passthrough",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-01",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W6",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "poc/POC-01-a380-passthrough/**",
+          "evidence/POC-001/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-01-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-01"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-001-*",
+        "exitGate": "POC-01 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 异构 worker 能力准入 profile：实际工具/编码探测、资源边界、离线与重启恢复；一主机两进程不冒称跨物理机，手机实际温升/电源/后台生存性及旧 A380/ESXi 直通保留未测生产义务。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "POC-002",
+      "originalDefinitionSha256": "2005641ee1242b40ffc34e2562140495d287b7220a76cecd475ec6c735267333",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "POC-002",
+        "title": "A380 AV1/H.264 编码质量、并发与首分片",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-02",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W7",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-010",
+          "POC-001"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA"
+        ],
+        "outputPaths": [
+          "poc/POC-02-a380-encoding/**",
+          "evidence/POC-002/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-02-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-02"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-002-*",
+        "exitGate": "POC-02 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+      },
+      "after": {
+        "taskId": "POC-002",
+        "title": "A380 AV1/H.264 编码质量、并发与首分片",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-02",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W7",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-010",
+          "POC-001"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA"
+        ],
+        "outputPaths": [
+          "poc/POC-02-a380-encoding/**",
+          "evidence/POC-002/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-02-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-02"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-002-*",
+        "exitGate": "POC-02 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 Windows/Linux worker 并行 AV1、连续 HLS 时间轴/init/av1C、质量/首片/吞吐、输入版本和过期尝试拒绝 profile；旧 A380 专用质量/功耗/温度测量单列，不以编码器枚举或本地结果冒称硬件验证。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "POC-004",
+      "originalDefinitionSha256": "78da2e94d331ba5a1b605db882e566bcd5a06ac6b67f970033aa95d8c065662e",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "POC-004",
+        "title": "TrueNAS 数据集、水位、吞吐与故障恢复",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-04",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W8",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0006",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-STORAGE",
+          "MOD-DATA",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "poc/POC-04-truenas/**",
+          "evidence/POC-004/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-04-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-04"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-004-*",
+        "exitGate": "POC-04 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+      },
+      "after": {
+        "taskId": "POC-004",
+        "title": "TrueNAS 数据集、水位、吞吐与故障恢复",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-04",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W8",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0006",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-STORAGE",
+          "MOD-DATA",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "poc/POC-04-truenas/**",
+          "evidence/POC-004/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-04-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-04"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-004-*",
+        "exitGate": "POC-04 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 本地 OpenList 来源与独立本地产物存储 profile：真实认证读取/Range/哈希、空间水位、正式副本验证、断连/恢复；原 TrueNAS/iSCSI 与生产 500GB 水位约束保留，测试容量参数不能降低生产水位。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "POC-005",
+      "originalDefinitionSha256": "5668988836b8de1ede1ecbe95b39079073e93395b91989ca480f916827ecbe8c",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "POC-005",
+        "title": "700TB 文件数、目录规模、变更率与扫描成本",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-05",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W2",
+        "integrationOrder": 3,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002"
+        ],
+        "moduleIds": [
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-CONNECTOR"
+        ],
+        "outputPaths": [
+          "poc/POC-05-metadata-scale/**",
+          "evidence/POC-005/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-05-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-05"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-005-*",
+        "exitGate": "POC-05 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+      },
+      "after": {
+        "taskId": "POC-005",
+        "title": "700TB 文件数、目录规模、变更率与扫描成本",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-05",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W2",
+        "integrationOrder": 3,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002"
+        ],
+        "moduleIds": [
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-CONNECTOR"
+        ],
+        "outputPaths": [
+          "poc/POC-05-metadata-scale/**",
+          "evidence/POC-005/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-05-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-05"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-005-*",
+        "exitGate": "POC-05 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 OpenList 与固定合成目录规模 profile，实际记录文件数/目录深度/增量扫描/版本/限流和故障；原约700TB生产规模及真实提供方 API 配额继续待测，合成样本不冒称真实规模。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "POC-006",
+      "originalDefinitionSha256": "55e0f5c69e400ae3004dd6c6e1c4c1c31f8758ed38431be0dc9d686ab65f0346",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "POC-006",
+        "title": "百度云合法、稳定、可维护的生产接入路径",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-06",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W3",
+        "integrationOrder": 2,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-SOURCE",
+          "MOD-CONNECTOR"
+        ],
+        "outputPaths": [
+          "poc/POC-06-baidu-cloud/**",
+          "evidence/POC-006/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-06-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-06"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-006-*",
+        "exitGate": "POC-06 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+      },
+      "after": {
+        "taskId": "POC-006",
+        "title": "百度云合法、稳定、可维护的生产接入路径",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-06",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W3",
+        "integrationOrder": 2,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001"
+        ],
+        "moduleIds": [
+          "MOD-SOURCE",
+          "MOD-CONNECTOR"
+        ],
+        "outputPaths": [
+          "poc/POC-06-baidu-cloud/**",
+          "evidence/POC-006/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-06-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-06"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-006-*",
+        "exitGate": "POC-06 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 通用 WebDAV/OpenList 接入与可复现协议故障 profile，验证鉴权/限流/断连/幂等同步/源删除保留资产；百度生产接入按用户决定后置，原合法性/隐私/许可证与真实云盘互通义务保留，不将模拟测试标为百度成功。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "POC-007",
+      "originalDefinitionSha256": "c6efe0aec06a4c9d72e017ad1ccbcbc37c7564831f1b5cb2946cc46b164a6c22",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "POC-007",
+        "title": "IPv6/TLS/Tunnel/CDN/Range 公网访问",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-07",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W3",
+        "integrationOrder": 3,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003",
+          "REQ-V1-0008"
+        ],
+        "moduleIds": [
+          "MOD-EDGE",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "poc/POC-07-public-network/**",
+          "evidence/POC-007/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-07-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-07"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-007-*",
+        "exitGate": "POC-07 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+      },
+      "after": {
+        "taskId": "POC-007",
+        "title": "IPv6/TLS/Tunnel/CDN/Range 公网访问",
+        "kind": "poc",
+        "status": "planned",
+        "workPackage": "WP-M0-POC-07",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "poc-results",
+        "wave": "W3",
+        "integrationOrder": 3,
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003",
+          "REQ-V1-0008"
+        ],
+        "moduleIds": [
+          "MOD-EDGE",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "poc/POC-07-public-network/**",
+          "evidence/POC-007/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "producesContracts": [
+          "POC-07-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [
+          "POC-07"
+        ],
+        "issue": null,
+        "branchPattern": "chore/POC-007-*",
+        "exitGate": "POC-07 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 受控播放入口与缓存鉴权/撤权/Range/TLS客户端验证 profile；公网 IPv6/DDNS/Tunnel/CDN/大文件实测保留未来生产义务，回环网络不冒称公网通过。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-008",
+      "originalDefinitionSha256": "e9da15c00ffd688568d75e8008b637291eccbb4e1e09e6fd44283b08fa83ea21",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-008",
+        "title": "冻结 Temporal/LiteFlow/Worker/Plugin 运行时契约",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03E",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-008",
+        "wave": "W5",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006",
+          "GZ-007"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-TASK",
+          "MOD-POLICY",
+          "MOD-WORKER",
+          "MOD-CONNECTOR",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "contracts/workflows/**",
+          "contracts/policies/**",
+          "contracts/workers/**",
+          "contracts/connectors/**",
+          "specs/contracts/runtime/**",
+          "evidence/GZ-008/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "PLUGIN-CONTRACT-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-008-*",
+        "exitGate": "Workflow/Activity、Retry/Timeout/Heartbeat/Cancellation、LiteFlow Node/Chain/EL 和 Worker 权限边界可校验"
+      },
+      "after": {
+        "taskId": "GZ-008",
+        "title": "冻结 Temporal/LiteFlow/Worker/Plugin 运行时契约",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03E",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-008",
+        "wave": "W5",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006",
+          "GZ-007"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-TASK",
+          "MOD-POLICY",
+          "MOD-WORKER",
+          "MOD-CONNECTOR",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "contracts/workflows/**",
+          "contracts/policies/**",
+          "contracts/workers/**",
+          "contracts/connectors/**",
+          "specs/contracts/runtime/**",
+          "evidence/GZ-008/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "PLUGIN-CONTRACT-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-008-*",
+        "exitGate": "Workflow/Activity、Retry/Timeout/Heartbeat/Cancellation、LiteFlow Node/Chain/EL 和 Worker 权限边界可校验；异构执行协议还须版本化能力与执行组、资源上限、受限输入输出引用、分片任务领取/续租/尝试编号/fencing、取消和结果验证；机器身份心跳租约不等于分片执行租约；保留归泽P0-P8语义及API/事件/数据权威边界。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-016",
+      "originalDefinitionSha256": "062968fb8825931393b0dca24b1b9e47e3ca77cfb1a99fe8254576e83fb4aab0",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-016",
+        "title": "实现 M3 媒体与 AI 加工闭环",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M3",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-016",
+        "wave": "W14",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-011",
+          "POC-001",
+          "POC-002",
+          "POC-009"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0007"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-TASK",
+          "MOD-STORAGE"
+        ],
+        "outputPaths": [
+          "backend/guize-media-control/**",
+          "backend/guize-ai-control/**",
+          "services/guize-media-service/**",
+          "services/guize-ai-*/**",
+          "tests/e2e/m3/**",
+          "evidence/GZ-016/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-01-EVIDENCE",
+          "POC-02-EVIDENCE",
+          "POC-09-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-016-*",
+        "exitGate": "AV1/ABR/临时 H.264 与 ASR/OCR/VLM/翻译/摘要/标签可恢复执行并通过固定样本"
+      },
+      "after": {
+        "taskId": "GZ-016",
+        "title": "实现 M3 媒体与 AI 加工闭环",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M3",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-016",
+        "wave": "W14",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-011",
+          "POC-001",
+          "POC-002",
+          "POC-009"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0007"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-TASK",
+          "MOD-STORAGE"
+        ],
+        "outputPaths": [
+          "backend/guize-media-control/**",
+          "backend/guize-ai-control/**",
+          "services/guize-media-service/**",
+          "services/guize-ai-*/**",
+          "tests/e2e/m3/**",
+          "evidence/GZ-016/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-01-EVIDENCE",
+          "POC-02-EVIDENCE",
+          "POC-09-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-016-*",
+        "exitGate": "AV1/ABR/临时 H.264 与 ASR/OCR/VLM/翻译/摘要/标签可恢复执行并通过固定样本；按已批准 local-v1 profile 实际接入独立 Windows/Linux worker、OpenList 源、HLS连续播放/跳转/兼容回退、P0播放/P3预热/P6后台、租约重派与迟到结果拒绝、热缓存鉴权和全部媒体/AI固定样本；物理多机/手机和生产硬件性能分别实测，不能以模拟成功代替。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-018",
+      "originalDefinitionSha256": "f8ea8ef164bb53f61812171ab0f106ed1fb0d3b2ab184b2134e16e265e0e678c",
+      "allowedFields": [
+        "integrationOrder",
+        "dependsOn",
+        "requirementIds",
+        "moduleIds",
+        "consumesContracts",
+        "acceptanceIds",
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-018",
+        "title": "实现 M5 配置中心、规则发布、运维、部署与供应链",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M5",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-018",
+        "wave": "W16",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-016",
+          "GZ-017",
+          "POC-010"
+        ],
+        "requirementIds": [
+          "REQ-V1-0007",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-OBS",
+          "MOD-DEPLOY",
+          "MOD-CLI",
+          "MOD-GOV",
+          "MOD-WORKER"
+        ],
+        "outputPaths": [
+          "backend/guize-rule-policy/**",
+          "backend/guize-configuration-center/**",
+          "backend/guize-observability/**",
+          "observability/**",
+          "deployment/**",
+          "infrastructure/**",
+          "guizectl/**",
+          "tests/e2e/m5/**",
+          "evidence/GZ-018/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "POC-10-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0009",
+          "验收V1-0010",
+          "验收V1-0012"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-018-*",
+        "exitGate": "配置/Policy 草稿→验证→模拟→审批→灰度→发布→回滚，部署/可观测/供应链可审计"
+      },
+      "after": {
+        "taskId": "GZ-018",
+        "title": "实现 M5 配置中心、规则发布、运维、部署与供应链",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M5",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-018",
+        "wave": "W16",
+        "integrationOrder": 3,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-016",
+          "GZ-017",
+          "POC-010",
+          "GZ-019"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-GOV",
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-CONNECTOR",
+          "MOD-WORKER",
+          "MOD-PLAYER",
+          "MOD-EDGE",
+          "MOD-DATA",
+          "MOD-DEPLOY",
+          "MOD-CLI"
+        ],
+        "outputPaths": [
+          "backend/guize-rule-policy/**",
+          "backend/guize-configuration-center/**",
+          "backend/guize-observability/**",
+          "observability/**",
+          "deployment/**",
+          "infrastructure/**",
+          "guizectl/**",
+          "tests/e2e/m5/**",
+          "evidence/GZ-018/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "POC-10-EVIDENCE",
+          "REQ-V1",
+          "NFR-V1",
+          "OPENAPI-V1",
+          "QUALITY-THRESHOLDS-V1"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0004",
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007",
+          "验收V1-0008",
+          "验收V1-0009",
+          "验收V1-0010",
+          "验收V1-0011",
+          "验收V1-0012"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-018-*",
+        "exitGate": "配置/Policy 草稿→验证→模拟→审批→灰度→发布→回滚，部署/可观测/供应链可审计；作为GZ-019之后的完整 local-v1 集成验收里程碑，全部十项功能与十二项验收、实际OpenList/数据库/独立worker/媒体与AI/搜索/权限/恢复/运维/签名与SBOM必须可运行并通过端到端测试；生产资源、真实手机/跨机、公网和百度生产义务明确未测时不得报告已通过或批准生产。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-019",
+      "originalDefinitionSha256": "35a7f24b246434814cbaad88b25aac58ec804ef6eebed6bc523332547ebd9b26",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-019",
+        "title": "完成剩余 Connector 与来源一致性矩阵",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M5-08",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-019",
+        "wave": "W16",
+        "integrationOrder": 2,
+        "dependsOn": [
+          "GZ-013",
+          "POC-006"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002"
+        ],
+        "moduleIds": [
+          "MOD-SOURCE",
+          "MOD-CONNECTOR",
+          "MOD-TASK"
+        ],
+        "outputPaths": [
+          "plugins/connectors/**",
+          "services/guize-connectors/**",
+          "tests/contract/connectors/**",
+          "evidence/GZ-019/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "PLUGIN-CONTRACT-V1",
+          "POC-06-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "ACCEPT-CONNECTOR-CONTRACT",
+          "ACCEPT-SOURCE-SYNC"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-019-*",
+        "exitGate": "Local/S3/HTTP/SMB/NFS/Drive/OneDrive/百度云按统一能力矩阵通过契约与失败路径测试"
+      },
+      "after": {
+        "taskId": "GZ-019",
+        "title": "完成剩余 Connector 与来源一致性矩阵",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M5-08",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-019",
+        "wave": "W16",
+        "integrationOrder": 2,
+        "dependsOn": [
+          "GZ-013",
+          "POC-006"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002"
+        ],
+        "moduleIds": [
+          "MOD-SOURCE",
+          "MOD-CONNECTOR",
+          "MOD-TASK"
+        ],
+        "outputPaths": [
+          "plugins/connectors/**",
+          "services/guize-connectors/**",
+          "tests/contract/connectors/**",
+          "evidence/GZ-019/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "PLUGIN-CONTRACT-V1",
+          "POC-06-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "ACCEPT-CONNECTOR-CONTRACT",
+          "ACCEPT-SOURCE-SYNC"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-019-*",
+        "exitGate": "Local/S3/HTTP/SMB/NFS/Drive/OneDrive/百度云按统一能力矩阵通过契约与失败路径测试；本地开发以真实 OpenList WebDAV/Local 与可复现协议沙箱验收；其余连接器保留真实实现、能力矩阵、鉴权及失败路径契约测试，外部账号/生产互通证据单列；百度生产接入后置不冒称通过，GZ-020保留生产确认义务。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-020",
+      "originalDefinitionSha256": "85e547a53fc85550e961d8e73bd1181c377b6379982e9bd734fd544613fc4312",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-020",
+        "title": "M6 RC、生产就绪与人工发布签署",
+        "kind": "release",
+        "status": "planned",
+        "workPackage": "WP-M6-RC",
+        "riskLevel": "critical",
+        "ownerRole": "release-coordinator-agent",
+        "reviewerRole": "independent-release-review-agent",
+        "coordinationGroup": "production-release",
+        "wave": "W17",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-016",
+          "GZ-017",
+          "GZ-018",
+          "GZ-019",
+          "POC-001",
+          "POC-002",
+          "POC-003",
+          "POC-004",
+          "POC-005",
+          "POC-006",
+          "POC-007",
+          "POC-008",
+          "POC-009",
+          "POC-010",
+          "GZ-021"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-GOV",
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-CONNECTOR",
+          "MOD-WORKER",
+          "MOD-PLAYER",
+          "MOD-EDGE",
+          "MOD-DATA",
+          "MOD-DEPLOY",
+          "MOD-CLI"
+        ],
+        "outputPaths": [
+          "release/**",
+          "docs/runbooks/**",
+          "evidence/GZ-020/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-01-EVIDENCE",
+          "POC-02-EVIDENCE",
+          "POC-03-EVIDENCE",
+          "POC-04-EVIDENCE",
+          "POC-05-EVIDENCE",
+          "POC-06-EVIDENCE",
+          "POC-07-EVIDENCE",
+          "POC-08-EVIDENCE",
+          "POC-09-EVIDENCE",
+          "POC-10-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0004",
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007",
+          "验收V1-0008",
+          "验收V1-0009",
+          "验收V1-0010",
+          "验收V1-0011",
+          "验收V1-0012"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-020-*",
+        "exitGate": "全量 E2E/性能/故障注入/安全/恢复/供应链通过，OPS-001 关闭，人工批准后方可发布"
+      },
+      "after": {
+        "taskId": "GZ-020",
+        "title": "M6 RC、生产就绪与人工发布签署",
+        "kind": "release",
+        "status": "planned",
+        "workPackage": "WP-M6-RC",
+        "riskLevel": "critical",
+        "ownerRole": "release-coordinator-agent",
+        "reviewerRole": "independent-release-review-agent",
+        "coordinationGroup": "production-release",
+        "wave": "W17",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-016",
+          "GZ-017",
+          "GZ-018",
+          "GZ-019",
+          "POC-001",
+          "POC-002",
+          "POC-003",
+          "POC-004",
+          "POC-005",
+          "POC-006",
+          "POC-007",
+          "POC-008",
+          "POC-009",
+          "POC-010",
+          "GZ-021"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-GOV",
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-CONNECTOR",
+          "MOD-WORKER",
+          "MOD-PLAYER",
+          "MOD-EDGE",
+          "MOD-DATA",
+          "MOD-DEPLOY",
+          "MOD-CLI"
+        ],
+        "outputPaths": [
+          "release/**",
+          "docs/runbooks/**",
+          "evidence/GZ-020/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-01-EVIDENCE",
+          "POC-02-EVIDENCE",
+          "POC-03-EVIDENCE",
+          "POC-04-EVIDENCE",
+          "POC-05-EVIDENCE",
+          "POC-06-EVIDENCE",
+          "POC-07-EVIDENCE",
+          "POC-08-EVIDENCE",
+          "POC-09-EVIDENCE",
+          "POC-10-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0004",
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007",
+          "验收V1-0008",
+          "验收V1-0009",
+          "验收V1-0010",
+          "验收V1-0011",
+          "验收V1-0012"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-020-*",
+        "exitGate": "全量 E2E/性能/故障注入/安全/恢复/供应链通过，OPS-001 关闭，人工批准后方可发布；本地 V1 集成里程碑不能授权生产发布；生产仍须原全部E2E/性能容量/故障注入/安全/恢复/供应链、实际外部来源/设备/公网测量、OPS-001和分支保护关闭及授权发布签署，百度后置义务须在生产接入时真实确认。"
+      }
+    }
+  ]
+}

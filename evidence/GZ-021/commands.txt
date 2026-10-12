@@ -1,0 +1,29 @@
+GZ-021 metadata-only Reservation
+Status: RESERVED
+Verification: PENDING_ACTUAL_PUBLISHED_RESERVATION_SOURCE
+Issue: #95 (open)
+Actual parent/base: 56edb228adbafdb6c9526229c31bbebad9a1e673
+Current role: coordinator
+Reservation branch: chore/GZ-021-route-reservation
+Implementation claim: chore/GZ-021-local-v1-route
+Lease: 2026-10-12T17:32:13Z to 2026-10-19T17:32:13Z
+
+Only Own Program status/issue, Registry, Task and Evidence; original46 exact claims/17 modules and original11-target manifest. No future definitions/profiles, runtime or POC result installed. No PASS claim for this source. Actual source is the published PR head/Git HEAD; commands/raw exits/full630/JUnit/latest same-headCI/independent review and actualmain acceptance are required. Full localV1 incomplete.
+
+Commands to execute on actual published source (not executed yet):
+python scripts/check-task-file.py --task GZ-021
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673
+python scripts/check-program-plan-history.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-route-reservation
+python scripts/check-program-plan-transitions.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-route-reservation
+python scripts/check-program-plan-finalization.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --task GZ-021
+python scripts/check-program-lifecycle-guards.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-route-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-route-reservation
+python scripts/run-agent-coordination-gate.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-route-reservation
+python scripts/run-task-scope-gate.py --task GZ-021 --base 56edb228adbafdb6c9526229c31bbebad9a1e673
+python scripts/check-evidence.py --task GZ-021
+make verify TASK=GZ-021 BASE=56edb228adbafdb6c9526229c31bbebad9a1e673 HEAD_REF=HEAD BRANCH=chore/GZ-021-route-reservation
+python scripts/check-markdown.py
+
+Exit Code: NOT_RUN; actual results PENDING.
