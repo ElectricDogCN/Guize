@@ -1,3 +1,16 @@
+OPS-010 normal Completion candidate
+Status: PASS
+Scope of PASS: accepted code PR99, Review PR100 and true Review main; current Completion source is PENDING_ACTUAL_PUBLISHED_COMPLETION_SOURCE.
+Branch: chore/OPS-010-planning-base-completion
+Base: 3293f85b536a93cfbe11c2e10419105e7539f6c0
+Last implementation: PR-99 / 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
+Issue97 must be closed/completed.
+Archive: test-results/accepted-review-a485ece/raw-results.bundle.json
+Public accepted handoff: https://github.com/ElectricDogCN/Guize/pull/100
+Next Reviewer: inspect current actual source18/JUnits/CI/threads then independent final acceptance. Next Integrator: fresh exacthead/base/Issue97completed after approval, expected-head merge, actual-main CI/independent acceptance, then GZ021 reservation. Full local V1 incomplete.
+
+Historical Review record:
+
 OPS-010 normal Review candidate
 Status: REVIEW
 Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
@@ -43,3 +56,16 @@ Command: python scripts/run-agent-coordination-gate.py --base-ref 55d7ac47f02254
 Exit Code: 1
 Result: exclusive and shared Task path claims did not exactly match Registry. The scope bullets contained prose instead of literal paths. Native validation stopped after this gate; no full-suite PASS is claimed for this source. Raw output retained at .takeover-tools/ops010-review-8097f66-results/coordination.txt. CI677 remains a separate historical run.
 Repair: exact two original exclusive-path bullets and the recognized empty shared marker; no checker, code, Registry claims, lease or foreign changes.
+
+Private Completion preparation (not published-source validation):
+prepare_ops010_completion.py finished metadata/archive preparation but final git diff --check exit2: Task document had a new blank line at EOF. Removed that trailing blank; no checker or code changes.
+Corrected private git diff --check, check-task-file --task OPS-010 and check-evidence --task OPS-010 exit0. Actual immutable Completion-source full gates/CI/independent acceptance remain pending.
+
+Rejected actual Completion source validation:
+Source Commit: bb85372660d3e6ab22c996f28b6e2a3ba30642c5
+Command: python scripts/check-program-plan-finalization.py --base-ref 3293f85b536a93cfbe11c2e10419105e7539f6c0 --task OPS-010
+{"status": "FAIL", "message": "Completed task OPS-010 must refresh completion Evidence file: evidence/OPS-010/test-results/README.md"}
+
+Exit Code: 1
+
+Only the first six native gates passed; validation stopped at finalization exit1. No current full-suite result is claimed. CI680 step11 failed and was still running at repair preparation. Required canonical completion evidence is handoff.md, summary.md, commands.txt and test-results/README.md; the first three were refreshed, the fourth is now refreshed. No checker, assertion, code, lease or foreign changes.
