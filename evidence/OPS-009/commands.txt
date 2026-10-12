@@ -1,3 +1,35 @@
+OPS-009 current metadata-only readiness scope revision
+Status: RESERVED / coordinator
+Verification: PENDING_ACTUAL_SOURCE
+Current base: 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b
+Actual scope branch: chore/OPS-009-readiness-scope
+Implementation branch claim: chore/OPS-009-planning-revision-admission
+Issue: #85 (open)
+Original Lease: 2026-10-10T15:29:31Z to 2026-10-17T15:29:31Z
+
+Current authority: specs/tasks/OPS-009.md and specs/coordination/active-work.yaml; ten exact exclusive paths are listed in evidence/OPS-009/scope.md. Current reproducible commands are in evidence/OPS-009/commands.txt. Source checks/CI/main acceptance remain pending for this revised candidate. Original reservation records below retain historical facts and parameters and are not current execution instructions or approval.
+
+Required current scope-revision commands below: NOT EXECUTED for the revised published candidate; no current exit result asserted. Run against the actual immutable published HEAD with the audited target base and scope branch below. Completion must preserve exact Source/Command/Exit and nonempty zero-FES JUnit plus same-source official CI and independent acceptance. Never use the historical bf0 reservation commands for this amendment.
+
+python scripts/check-task-file.py --task OPS-009
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b
+python scripts/check-program-plan-history.py --base-ref 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-readiness-scope
+python scripts/check-program-plan-transitions.py --base-ref 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-readiness-scope
+python scripts/check-program-plan-finalization.py --base-ref 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b --task OPS-009
+python scripts/check-program-lifecycle-guards.py --base-ref 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-readiness-scope
+python scripts/run-program-lifecycle-gate.py --base-ref 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-readiness-scope
+python scripts/run-agent-coordination-gate.py --base-ref 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-readiness-scope
+python scripts/run-task-scope-gate.py --task OPS-009 --base 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b
+python scripts/check-evidence.py --task OPS-009
+make verify TASK=OPS-009 BASE=82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b HEAD_REF=HEAD BRANCH=chore/OPS-009-readiness-scope
+python scripts/check-markdown.py
+
+The verifier additionally asserts an unchanged diff for foreign completed Task/Evidence, Program Completion Ledger, POC/requirement/contracts/scripts/tests/AGENTS paths and clean exact-source Root/native worktrees before and after. New metadata is no execution or pass proof. The incomplete1a67276 local run was deliberately superseded after the current command-evidence review finding; its full verify did not pass. Historical d039 results remain source-bound outside the current candidate and are not transferred.
+
+## Historical original reservation commands (not current instructions)
+
 OPS-009 metadata-only reservation
 Status: RESERVED
 Verification: PENDING_ACTUAL_SOURCE
