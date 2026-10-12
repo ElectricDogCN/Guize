@@ -1,3 +1,74 @@
+OPS-009 normal Review
+Status: REVIEW / reviewer
+Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
+Issue: #85 (open)
+Current branch: chore/OPS-009-planning-revision-ci-budget
+Current base: 03496c353a1057086cb2d26eb36c5bbc497f730c
+Actual last code merge: PR-90 / 03496c353a1057086cb2d26eb36c5bbc497f730c
+Actual tested code source: 4451370972a4b9ce7095950060f2f72b64df711e
+Original lease and11claims preserved. Native15/6301133.31s, same-headCI6626301557.86s and true mainCI663630 were actually accepted. Exact raw bytes and independent proofs: test-results/accepted-implementation-4451370/raw-results.bundle.json. Current Review15 checks/full native make/full same-headCI/independent review and main acceptance are pending. Completion and full localV1 remain incomplete.
+
+## Historical implementation and scope records
+
+Current Review delta relative to actual accepted main:
+
+- evidence/OPS-009/api-samples/README.md
+- evidence/OPS-009/assumptions.md
+- evidence/OPS-009/changed-files.md
+- evidence/OPS-009/commands.txt
+- evidence/OPS-009/follow-ups.md
+- evidence/OPS-009/handoff.md
+- evidence/OPS-009/migration-report/README.md
+- evidence/OPS-009/performance/README.md
+- evidence/OPS-009/risks.md
+- evidence/OPS-009/rollback-verification/README.md
+- evidence/OPS-009/scope.md
+- evidence/OPS-009/screenshots/README.md
+- evidence/OPS-009/security/README.md
+- evidence/OPS-009/summary.md
+- evidence/OPS-009/test-results/README.md
+- evidence/OPS-009/test-results/accepted-implementation-4451370/README.md
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-00-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-01-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-02-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-03-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-04-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-05-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-06-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-07-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-08-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-09-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-10-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-11-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-12-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-13-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-14-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-15-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-16-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-17-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-18-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-18-02.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-18-03.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-18-04.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-19-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-20-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-21-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-22-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-23-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-24-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-25-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-25-02.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-25-03.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-25-04.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-26-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-27-01.part.txt
+- evidence/OPS-009/test-results/accepted-implementation-4451370/raw-results.bundle.json
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-009.md
+
+## Historical implementation inventory
+
 OPS-009 fresh registered implementation
 Status: IN_PROGRESS / implementer
 Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE
