@@ -1,31 +1,22 @@
-OPS-010 implementation candidate
-Status: IN_PROGRESS
-Issue: #97
-Base: 6acc0f0aded96f417aa107b3e249dd3c925330a1
-Branch: chore/OPS-010-planning-base-resolution
-Role: implementer
+OPS-010 normal Review candidate
+Status: REVIEW
+Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
+Issue: #97 open
+Branch: chore/OPS-010-planning-base-review
+Base: 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
+Last implementation: PR-99 / 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
+Actual implementation source: a7b027092db1edc7dc4d63aad141de21ecce37b5
+Role: reviewer
 
-Actual candidate paths relative to accepted base:
+Actual Review candidate delta:
 
-- evidence/OPS-010/api-samples/README.md
-- evidence/OPS-010/assumptions.md
 - evidence/OPS-010/changed-files.md
 - evidence/OPS-010/commands.txt
-- evidence/OPS-010/follow-ups.md
 - evidence/OPS-010/handoff.md
-- evidence/OPS-010/migration-report/README.md
-- evidence/OPS-010/performance/README.md
-- evidence/OPS-010/risks.md
-- evidence/OPS-010/rollback-verification/README.md
-- evidence/OPS-010/scope.md
-- evidence/OPS-010/screenshots/README.md
-- evidence/OPS-010/security/README.md
+- evidence/OPS-010/historical-implementation-task.md
 - evidence/OPS-010/summary.md
-- evidence/OPS-010/test-results/README.md
-- scripts/program-planning-revision.py
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/OPS-010.md
-- tests/governance/test_program_planning_revision.py
 
-Only two implementation claims plus own task/lifecycle/evidence metadata. Original lease and all foreign definitions, contracts, policies and completion history remain unchanged.
+Only Own metadata/evidence; both code claims and all foreign Git bytes unchanged.

@@ -1,3 +1,18 @@
+OPS-010 normal Review candidate
+Status: REVIEW
+Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
+Issue: #97 open
+Branch: chore/OPS-010-planning-base-review
+Base: 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
+Last implementation: PR-99 / 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
+Actual implementation source: a7b027092db1edc7dc4d63aad141de21ecce37b5
+Role: reviewer
+
+Actual implementation-main acceptance input: ops010-independent-implementation-main-55d7ac4-acceptance.json
+Only Own metadata/evidence; code/lease/claims/foreign preserved. Current Review results pending.
+
+Historical implementation record:
+
 OPS-010 implementation candidate
 Status: IN_PROGRESS
 Issue: #97
@@ -17,3 +32,7 @@ Exit Code: 0
 Result: 637 tests collected in 0.43s.
 
 JUnit references: local .takeover-tools/ops010-alias-red.xml and ops010-alias-green.xml. These preparation checks do not represent validation of a published source. Required full gates, planning-file tests, alias checker invocations, same-head CI and independent acceptance remain pending and will be bound to the actual immutable source in its PR handoff.
+
+Private Review preparation checks (not published-source execution):
+check-task-file initially exit1: mandatory scope/dependency/handoff sections absent; second exit1: sections lacked required bullet entries. Task description corrected; checker unchanged.
+Final git diff --check, check-task-file --task OPS-010 and check-evidence --task OPS-010 all exit0. Current actual-source full verification/CI pending.
