@@ -49,16 +49,33 @@ def git(root: str, *args: str, missing: bool = False) -> str | None:
     return result.stdout.strip()
 
 
-def blob(root: str, ref: str, path: str) -> bytes | None:
-    result = subprocess.run(["git", "-C", root, "show", f"{ref}:{path}"], capture_output=True)
+def snapshot(root: str, ref: str) -> tuple[str, str]:
+    source = ref if re.fullmatch(r"[0-9a-f]{40}", ref) else git(root, "rev-parse", f"{ref}^{{commit}}")
+    require(bool(source) and bool(re.fullmatch(r"[0-9a-f]{40}", source)), "Snapshot requires an actual immutable commit")
+    return str(Path(root).resolve()), source
+
+
+@lru_cache(maxsize=1024)
+def committed_blob(root: str, source: str, path: str) -> bytes | None:
+    result = subprocess.run(["git", "-C", root, "show", f"{source}:{path}"], capture_output=True)
     return result.stdout if result.returncode == 0 else None
 
 
-def document(root: str, ref: str, path: str) -> dict[str, Any]:
-    raw = blob(root, ref, path)
+def blob(root: str, ref: str, path: str) -> bytes | None:
+    return committed_blob(*snapshot(root, ref), path)
+
+
+@lru_cache(maxsize=512)
+def committed_document(root: str, source: str, path: str) -> dict[str, Any]:
+    raw = committed_blob(root, source, path)
     value = yaml.safe_load(raw.decode("utf-8")) if raw is not None else {}
-    require(isinstance(value, dict), f"Invalid document {path} at {ref}")
+    require(isinstance(value, dict), f"Invalid document {path} at {source}")
     return value
+
+
+def document(root: str, ref: str, path: str) -> dict[str, Any]:
+    # Cache data by immutable SHA, never alias resolution or admission results.
+    return copy.deepcopy(committed_document(*snapshot(root, ref), path))
 
 
 def records(items: Any, key: str = "taskId") -> dict[str, dict[str, Any]]:
@@ -326,10 +343,18 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
     try:
         old_tasks, new_tasks = records(before.get("tasks", [])), records(after.get("tasks", []))
         changed = {tid for tid in old_tasks.keys() | new_tasks.keys() if {k: v for k, v in old_tasks.get(tid, {}).items() if k not in {"status", "issue"}} != {k: v for k, v in new_tasks.get(tid, {}).items() if k not in {"status", "issue"}}}
-        old_baselines, new_baselines = validate_baselines(before), validate_baselines(after)
         real_before, real_after = document(root, base_ref, PLAN), document(root, head_ref, PLAN)
-        if changed or old_baselines or new_baselines or "planningBaselines" in real_before or "planningBaselines" in real_after:
+        def definitions(plan):
+            return {tid: {k: v for k, v in row.items() if k not in {"status", "issue"}} for tid, row in records(plan.get("tasks", [])).items()}
+        def baseline_view(plan):
+            return "planningBaselines" in plan, plan.get("planningBaselines")
+        if changed or definitions(real_before) != definitions(real_after) or "planningBaselines" in real_before or "planningBaselines" in real_after:
             require(before == real_before and after == real_after, "Planning/baseline views must bind the actual Git snapshots")
+        if definitions(real_before) == definitions(real_after) and baseline_view(real_before) == baseline_view(real_after):
+            # No projection or planning permission is supplied. Ordinary
+            # lifecycle/history and relevant consumer gates still run.
+            return None
+        old_baselines, new_baselines = validate_baselines(before), validate_baselines(after)
         require(all(new_baselines.get(bid) == row for bid, row in old_baselines.items()), "Existing planning baseline removed, narrowed or substituted")
         added_baselines = new_baselines.keys() - old_baselines.keys()
         if not changed and not added_baselines:
@@ -344,7 +369,21 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         current_active = document(root, head, ACTIVE)
         eligible = [r for r in prior_active.get("tasks", []) if PLAN in r.get("exclusivePaths", []) and blob(root, base, f"evidence/{r.get('taskId')}/planning-revision.json") is not None]
         if owner_hint:
-            eligible = [r for r in eligible if r["taskId"] == owner_hint]
+            prior_hint, current_hint = tasks(before).get(owner_hint, {}), tasks(after).get(owner_hint, {})
+            prior_spec, current_spec = spec(root, base, owner_hint), spec(root, head, owner_hint)
+            paths = changed_paths(root, base, head)
+            historical_context = (
+                prior_hint.get("status") == current_hint.get("status") == "completed"
+                and prior_hint == current_hint
+                and owner_hint not in records(prior_active.get("tasks", []))
+                and owner_hint not in records(current_active.get("tasks", []))
+                and prior_spec == current_spec
+                and (prior_spec is None or blob(root, base, prior_spec[0]) == blob(root, head, prior_spec[0]))
+                and not any(p.startswith(f"evidence/{owner_hint}/") or p.startswith(f"specs/tasks/{owner_hint}") for p in paths)
+                and blob(root, base, LEDGER) == blob(root, head, LEDGER)
+            )
+            if not historical_context:
+                eligible = [r for r in eligible if r["taskId"] == owner_hint]
         require(len(eligible) == 1, "Planning transaction requires one previously registered manifest owner")
         owner = eligible[0]["taskId"]
         entry = records(current_active.get("tasks", [])).get(owner)
@@ -528,12 +567,18 @@ def serial_baseline_pairs(root: str, head_ref: str, plan: dict[str, Any], errors
 def enforce_consumers(root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any], affected: set[str], paths: set[str], errors: list[str], *, admitted_base_ref: str | None = None) -> None:
     """Apply pending baselines to explicit IDs and no-task code owner diffs."""
     try:
-        baselines = validate_baselines(after)
-        if not baselines:
+        rows = after.get("planningBaselines", [])
+        baseline_changed = ("planningBaselines" in before, before.get("planningBaselines")) != ("planningBaselines" in after, after.get("planningBaselines"))
+        if not rows and not baseline_changed:
             return
         by_id = tasks(after)
         consumers = set(affected)
         live = records(document(root, head_ref, ACTIVE).get("tasks", []))
+        prior_live = records(document(root, base_ref, ACTIVE).get("tasks", []))
+        consumers.update(tid for tid in live.keys() | prior_live.keys() if live.get(tid) != prior_live.get(tid))
+        source = snapshot(root, head_ref)[1]
+        if any(p.startswith("specs/tasks/") for p in paths):
+            consumers.update(front.get("id") for path, front in spec_index(str(Path(root).resolve()), source) if path in paths and isinstance(front.get("id"), str))
         for path in paths - METADATA:
             if path.startswith("specs/tasks/") or path.startswith("evidence/"):
                 continue
@@ -545,9 +590,14 @@ def enforce_consumers(root: str, base_ref: str, head_ref: str, before: dict[str,
                 owners = {tid for tid, row in by_id.items() if any(fnmatch.fnmatchcase(path, claim) for claim in row.get("outputPaths", []) + row.get("sharedPaths", []))}
             consumers.update(owners)
             affected.update(owners)
+        pending_by_baseline = {row["id"]: consumers & frontier(after, row["requiredBy"]) for row in rows}
+        if not baseline_changed and not any(pending_by_baseline.values()):
+            return
+        old_baselines, baselines = validate_baselines(before), validate_baselines(after)
+        require(all(baselines.get(key) == row for key, row in old_baselines.items()), "Existing planning baseline removed, narrowed or substituted")
         base = git(root, "rev-parse", f"{admitted_base_ref or base_ref}^{{commit}}") or ""
         for baseline in baselines.values():
-            pending = consumers & frontier(after, baseline["requiredBy"])
+            pending = pending_by_baseline[baseline["id"]]
             if not pending:
                 continue
             if not completed_producer(root, base, baseline["taskId"]):

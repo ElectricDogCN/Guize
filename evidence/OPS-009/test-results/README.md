@@ -12,6 +12,14 @@ Current implementation changes: canonical prior-main reserved scope authenticati
 
 ## Historical accepted scope and original reservation records
 
+### Actual published implementation 345180a failed verification
+
+Source 345180aae0fcf55f23bf675ca49d53019adc918f / tree 7849ba1efed816047a2214eb2fc4808bf1e5eb6c / base 86e39646bda0e623ae712ecfde85e14ac6aa5cef was actually published in PR88. Local first thirteen gates passed, but make verify exited2: actual nonempty JUnit600 contained567 passed,33 failed,0 errors,0 skipped (1094.65s). The32 legacy Foundation-history positives inherited future definitions while their focused fixtures removed unrelated OPS009; the new callback incorrectly demanded global planning authentication on unchanged ordinary/baseline definitions. One existing repository-wide transition test supplied an unchanged completed GZ014 context and incorrectly overrode the actual unique planner. All existing tests and assertions remain intact.
+
+Local raw commands/results are referenced at .takeover-tools/ops009-admission-345180a-results/; the public source and current Task commands reproduce the failed run. Official CI653/run38210241734/job114682620236 reached the twenty-minute job limit and was cancelled; it did not complete or pass the suite. Its decoded raw is referenced at .takeover-tools/ops009-admission-345180a-ci653-cancelled.txt and the official GitHub Actions job. The earlier775 source failed its Own Evidence Scope declaration; its CI652 was cancelled after the successor. No failed, cancelled or partial execution approves any successor source.
+
+The subsequent draft restricts callbacks to actual planning changes and relevant consumer execution; completed historical context cannot supply authority; immutable Git data is cached without caching decisions or aliases. New real-Git regressions verify these boundaries. Actual successor publication/full verification/CI/independent integration remain pending.
+
 OPS-009 current metadata-only readiness scope revision
 Status: RESERVED / coordinator
 Verification: PENDING_ACTUAL_SOURCE

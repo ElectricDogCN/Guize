@@ -105,6 +105,8 @@ Foundation 后续范围修订须先在实际集成基线的第一父历史中完
 
 共享校验器 `scripts/program-planning-revision.py` 完整认证后，三个既有检查器仅投影声明的未来定义；任何无效认证都不隐藏变更。原 schema、依赖 DAG、POC 镜像、Wave、契约覆盖、最终发布闭合、冻结与完成后限制继续执行。历史检查按实际引入节点认证，恢复过的最终文件不能掩盖中途的违规。
 
+普通定义和 baseline 的实际 Git 两端均未变时，分类回调不生成任何投影或规划权限；相关生命周期继续由原门禁处理。消费者按真实 Registry、Task Spec 身份和代码 diff 识别，实际消费者准入仍校验完整图和 producer 完成历史。仅已 completed、Registry 中不存在、Program/完整 Task/Own Evidence/账本均未变的历史 CLI 上下文不会替代唯一真正执行者；其他错误上下文继续拒绝。Git 数据缓存只绑定规范仓库路径、完整不可变 commit SHA 和路径，解析结果返回深拷贝；引用别名每次重新解析，租约、时间、权限和准入结论均不缓存。
+
 ## Planning baseline 与消费者
 
 `planningBaselines` 是可选的闭合记录列表，每项只有 `id`、`taskId` 和非空唯一 `requiredBy`。旧计划不含此字段仍然有效。producer 与消费者须存在，不能自依赖、重复或与普通依赖共同成环。创建时，producer 和全部消费者闭包必须未启动、无 Task Spec、无 Lease/Completion；已有 baseline 不得删除、缩小、替换或静默修改。

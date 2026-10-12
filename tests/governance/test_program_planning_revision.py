@@ -508,3 +508,83 @@ def test_readiness_serialization_retains_other_guards(history, case, message):
     result = readiness(history)
     assert result.returncode != 0
     assert message in result.stdout, result.stdout + result.stderr
+
+
+def test_unrelated_legacy_callback_supplies_no_planning_projection(history):
+    install_serial_baseline(history)
+    # Existing Foundation-history fixtures remove unrelated Foundation rows
+    # from both snapshots; focused lifecycle callbacks supply no permission
+    # to edit ordinary definitions or execute baseline consumers.
+    history.plan["foundationTasks"] = [r for r in history.plan["foundationTasks"] if r["taskId"] != history.owner]
+    history.dump(PLANNING.PLAN, history.plan)
+    base = history.commit("Legacy focused history baseline")
+    errors = []
+    result = PLANNING.classifier(str(history.root), base, base, history.plan, history.plan, errors)
+    assert result is None and not errors
+    PLANNING.enforce_consumers(str(history.root), base, base, history.plan, history.plan, {"GZ-014"}, set(), errors)
+    assert not errors
+    # A relevant execution still performs the complete graph checks.
+    PLANNING.enforce_consumers(str(history.root), base, base, history.plan, history.plan, {"GZ-006"}, set(), errors)
+    assert any("Unknown dependency" in e for e in errors)
+    history.plan["tasks"][-1]["title"] += " unapproved"
+    history.dump(PLANNING.PLAN, history.plan)
+    head = history.commit("Attempt ordinary definition change")
+    errors = []
+    result = PLANNING.classifier(str(history.root), base, head, PLANNING.document(str(history.root), base, PLANNING.PLAN), history.plan, errors)
+    assert result is None and errors
+
+
+def test_no_task_parameter_spec_identity_still_detects_consumer_start(history):
+    base = install_serial_baseline(history)
+    path = "specs/tasks/alternate-filename.md"
+    history.write(path, "---\nid: GZ-006\n---\n")
+    head = history.commit("Consumer Task Spec without Program or Registry change")
+    errors = []
+    PLANNING.enforce_consumers(str(history.root), base, head, history.plan, history.plan, set(), {path}, errors)
+    assert any("pending real completed producer" in e and "GZ-006" in e for e in errors)
+
+
+def test_immutable_data_cache_does_not_cache_aliases_or_mutable_views(history):
+    install_serial_baseline(history)
+    path = f"evidence/{history.owner}/planning-revision.json"
+    original = PLANNING.blob(str(history.root), "HEAD", path)
+    view = PLANNING.document(str(history.root), "HEAD", PLANNING.PLAN)
+    view["planningBaselines"][0]["requiredBy"].clear()
+    assert PLANNING.document(str(history.root), "HEAD", PLANNING.PLAN) == history.plan
+    changed = copy.deepcopy(history.manifest)
+    changed["targets"][0]["after"]["title"] += " forged"
+    history.dump(path, changed)
+    history.commit("Alias advances to changed manifest")
+    assert PLANNING.blob(str(history.root), "HEAD", path) != original
+    errors = []
+    assert not PLANNING.serial_baseline_pairs(str(history.root), "HEAD", history.plan, errors)
+    assert any("original manifest changed" in e for e in errors)
+
+
+def test_immutable_data_cache_never_reuses_lease_decisions(history):
+    install_serial_baseline(history)
+    assert history.decision()[0] is not None
+    expired = datetime.fromisoformat(history.entry["lease"]["expiresAt"].replace("Z", "+00:00")) + timedelta(seconds=1)
+    result, errors = history.decision(observed_at=expired)
+    assert result is None and any("lease expired" in e for e in errors)
+
+
+def test_completed_unchanged_context_does_not_replace_real_owner(history):
+    install_serial_baseline(history)
+    result, errors = history.decision(owner_hint="GZ-014")
+    assert not errors and result["owner"] == history.owner
+
+
+@pytest.mark.parametrize("case", ["unknown", "own_evidence", "own_task_body"])
+def test_wrong_or_modified_completed_context_cannot_filter_owner(history, case):
+    install_serial_baseline(history)
+    hint = "GZ-999" if case == "unknown" else "GZ-014"
+    if case == "own_evidence":
+        history.write("evidence/GZ-014/extra.md", "Unrelated completed evidence change.\n")
+        history.commit("Mixed completed Evidence")
+    elif case == "own_task_body":
+        path, _ = PLANNING.spec(str(history.root), "HEAD", hint)
+        history.write(path, (history.root/path).read_text(encoding="utf-8")+"\nUnrelated body change.\n")
+        history.commit("Mixed completed Task body")
+    result, errors = history.decision(owner_hint=hint)
+    assert result is None and errors
