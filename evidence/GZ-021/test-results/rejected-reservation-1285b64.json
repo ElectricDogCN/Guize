@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "source": "1285b643c071e8f534284cb59eafdff945811783",
+  "base": "56edb228adbafdb6c9526229c31bbebad9a1e673",
+  "nativeTerminalExitCode": 1,
+  "checks": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 1
+  },
+  "fullMakeVerifyStarted": false,
+  "cause": "Ordinary planned-to-reserved permits only Program status, not issue change. Program issue remains original null; Task and Registry retain Issue95. No checker weakened.",
+  "ciRun": 38285794406,
+  "ciJob": 114933732977,
+  "ciTerminalStatus": "not_yet_observed_at_snapshot",
+  "records": [
+    {
+      "path": "history.txt",
+      "sha256": "74e1061efdadbf1cbdfa0e5aa99c1327480085aab8760f5845737c8d8be387b0",
+      "utf8": "Source Commit: 1285b643c071e8f534284cb59eafdff945811783\nCommand: python scripts/check-program-plan-history.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-route-reservation\n{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"56edb228adbafdb6c9526229c31bbebad9a1e673\", \"headRef\": \"HEAD\", \"completionRecords\": 3, \"auditedOwnerCapacityFailures\": []}}\n\nExit Code: 0\n"
+    },
+    {
+      "path": "integrity.txt",
+      "sha256": "4ba13c59a7cc7dcb4a5ec37616859516d56f7092dc27bc9c55fb1102f6106f77",
+      "utf8": "Source Commit: 1285b643c071e8f534284cb59eafdff945811783\nCommand: python scripts/check-program-plan-integrity.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673\n{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 7, \"programTasks\": 27, \"activeTasks\": 1, \"completionRecords\": 3, \"baseRef\": \"56edb228adbafdb6c9526229c31bbebad9a1e673\"}}\n\nExit Code: 0\n"
+    },
+    {
+      "path": "readiness.txt",
+      "sha256": "66144a1d0d72dbbe1b8d40d4cc71f273715c15d641de05dec5bbf38526c8b289",
+      "utf8": "Source Commit: 1285b643c071e8f534284cb59eafdff945811783\nCommand: python scripts/check-project-readiness.py\n{\"status\": \"WARN\", \"message\": \"GitHub main branch protection/Ruleset remains an external blocker\"}\n{\"status\": \"WARN\", \"message\": \"Machine contracts not frozen for 10 requirements\"}\n{\"status\": \"WARN\", \"message\": \"Implementation not verified for 10 requirements\"}\n{\"status\": \"PASS\", \"message\": \"Project readiness indexes and Program Plan are structurally consistent\", \"details\": {\"requirements\": 10, \"modules\": 21, \"contractNamespaces\": 37, \"plannedTasks\": 27, \"pocs\": 10, \"waves\": 17, \"contractGapCount\": 10, \"implementationGapCount\": 10}}\n\nExit Code: 0\n"
+    },
+    {
+      "path": "schemas.txt",
+      "sha256": "94f4b8cb224441570e4ad1e3faba5b3cd434042bc3b3ef7742c2c4c42e989833",
+      "utf8": "Source Commit: 1285b643c071e8f534284cb59eafdff945811783\nCommand: python scripts/check-schemas.py\nOK YAML: .github/workflows/governance-gate.yml\nOK JSON-SCHEMA: contracts/events/event-envelope.schema.json\nOK CONTRACT DOCUMENT: contracts/openapi/ai/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/asset/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/errors.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/http-samples.json\nOK CONTRACT DOCUMENT: contracts/openapi/common/openapi.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/schemas.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/config/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/iam/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/media/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/playback/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/policy/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/search/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/source/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/storage/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/task/paths.yaml\nOK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml\nOK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml\nOK JSON-SCHEMA: specs/coordination/active-work.schema.yaml\nOK JSON-SCHEMA: specs/coordination/planning-revision.schema.yaml\nOK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml\nOK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml\nOK TASK REGISTRY LINK: GZ-021\nOK PROGRAM ACTIVATION: GZ-021 <- W2\nOK: Schema, Task Spec, Active Work and Program Plan validation completed\n\nExit Code: 0\n"
+    },
+    {
+      "path": "status.json",
+      "sha256": "7cdd44ef1fc19f9dd8a198983056b7cd76365a62e35472fc93c4c99c9c3275c3",
+      "utf8": "{\n  \"task\": 0,\n  \"readiness\": 0,\n  \"schemas\": 0,\n  \"integrity\": 0,\n  \"history\": 0,\n  \"transitions\": 1\n}\n"
+    },
+    {
+      "path": "task.txt",
+      "sha256": "a72d3a46a5ad799a28755e2a47ecd92570cdc8e9d216f6c71f37b14a50ab327f",
+      "utf8": "Source Commit: 1285b643c071e8f534284cb59eafdff945811783\nCommand: python scripts/check-task-file.py --task GZ-021\n{\"status\": \"PASS\", \"message\": \"Task file valid: /home/sur/.cache/guize-takeover/native-verification-20261010/specs/tasks/GZ-021.md\"}\n\nExit Code: 0\n"
+    },
+    {
+      "path": "transitions.txt",
+      "sha256": "34fba10d8b078c3d73052961209149ffa59891abf0e7c2eab1946cfb03889905",
+      "utf8": "Source Commit: 1285b643c071e8f534284cb59eafdff945811783\nCommand: python scripts/check-program-plan-transitions.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-route-reservation\n{\"status\": \"FAIL\", \"message\": \"Active transition for GZ-021 may only change that Program task's status, its required POC mirror, or its owned live-verified blocker\"}\n\nExit Code: 1\n"
+    }
+  ],
+  "formalAcceptance": false
+}

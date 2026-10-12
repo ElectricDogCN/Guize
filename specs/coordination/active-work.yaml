@@ -5,4 +5,113 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
   - GZ-003
-tasks: []
+tasks:
+- taskId: GZ-021
+  issue: 95
+  title: 异构AV1 worker、HLS调度与本地V1验收路线修订
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: requirements-route-revision-agent
+  reviewer: independent-requirements-route-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/GZ-021-local-v1-route
+  baseBranch: main
+  baseSha: 56edb228adbafdb6c9526229c31bbebad9a1e673
+  workPackage: WP-M0-03A
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: GZ-021
+  programWave: W2
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0003
+  - REQ-V1-0006
+  - REQ-V1-0007
+  - REQ-V1-0008
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  - MOD-PLATFORM
+  - MOD-SOURCE
+  - MOD-CONNECTOR
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-WORKER
+  - MOD-PLAYER
+  - MOD-EDGE
+  - MOD-IAM
+  - MOD-POLICY
+  - MOD-AUDIT
+  - MOD-DATA
+  - MOD-DEPLOY
+  - MOD-OBS
+  producesContracts: []
+  consumesContracts:
+  - REQ-V1
+  - NFR-V1
+  - POC-PROTOCOL-V1
+  - OPENAPI-V1
+  coordinationGroup: requirements-route-revision
+  dependsOn:
+  - GZ-004
+  - GZ-005
+  - GZ-010
+  - OPS-009
+  exclusivePaths:
+  - specs/coordination/program-plan.yaml
+  - specs/requirements/product-requirements.md
+  - specs/requirements/requirements-index.yaml
+  - specs/requirements/v1/requirements.yaml
+  - specs/requirements/v1/nfr.yaml
+  - specs/requirements/v1/traceability.yaml
+  - specs/requirements/v1/validate.py
+  - specs/acceptance/requirements/acceptance.yaml
+  - docs/requirements/README.md
+  - docs/00-guize-engineering-design-baseline.md
+  - docs/02-requirements-and-scope.md
+  - docs/03-system-architecture.md
+  - docs/04-deployment-topology.md
+  - docs/07-source-connectors.md
+  - docs/08-cache-and-storage-lifecycle.md
+  - docs/09-media-av1-and-streaming.md
+  - docs/14-rules-and-workflows.md
+  - docs/15-observability-and-operations.md
+  - docs/18-testing-and-acceptance.md
+  - docs/19-risk-assumptions-and-poc.md
+  - docs/20-roadmap-and-wbs.md
+  - docs/21-low-level-design.md
+  - docs/appendices/deployment-profiles.md
+  - docs/appendices/acceptance-matrix.md
+  - docs/appendices/decision-log.md
+  - adr/0015-heterogeneous-av1-workers-and-local-storage-validation.md
+  - specs/poc/program.yaml
+  - specs/poc/resources.yaml
+  - specs/poc/samples.yaml
+  - specs/poc/plans/POC-001.yaml
+  - specs/poc/plans/POC-002.yaml
+  - specs/poc/plans/POC-003.yaml
+  - specs/poc/plans/POC-004.yaml
+  - specs/poc/plans/POC-006.yaml
+  - specs/poc/check_program.py
+  - specs/poc/test_program.py
+  - poc/README.md
+  - specs/requirements/v1/requirements.schema.yaml
+  - specs/requirements/v1/nfr.schema.yaml
+  - specs/requirements/v1/traceability.schema.yaml
+  - specs/acceptance/requirements/acceptance.schema.yaml
+  - specs/poc/program.schema.yaml
+  - specs/poc/plan.schema.yaml
+  - specs/poc/protocol.schema.yaml
+  - specs/poc/plans/POC-005.yaml
+  - specs/poc/plans/POC-007.yaml
+  sharedPaths: []
+  handoffPath: evidence/GZ-021/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 2
+  lease:
+    acquiredAt: '2026-10-12T17:32:13Z'
+    expiresAt: '2026-10-19T17:32:13Z'
