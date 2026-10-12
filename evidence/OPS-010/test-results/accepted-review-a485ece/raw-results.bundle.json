@@ -1,0 +1,410 @@
+{
+  "kind": "ACCEPTED_REVIEW_AND_TRUE_MAIN_NOT_COMPLETION_EXECUTION",
+  "source": "a485ece43a6bbf5c235585722b7c1945a90458ae",
+  "actualMain": "3293f85b536a93cfbe11c2e10419105e7539f6c0",
+  "lastCodePR": "PR-99",
+  "lastCodeMerge": "55d7ac47f022549dd249cd0cd5a7f03a0c04db2e",
+  "entries": [
+    {
+      "name": "alias-history.txt",
+      "size": 421,
+      "sha256": "7fb61b97fec10bd587937a1f85297418d99aa746de6120692fd6ce4a89eef52b",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-00-01.part.txt",
+          "sha256": "e43d3e1b0cf08656e822454aadb73c592ae9ef8a7964b0e75a391b4fa3f85556"
+        }
+      ]
+    },
+    {
+      "name": "alias-lifecycle.txt",
+      "size": 439,
+      "sha256": "ca7b00d58bf8bab1f090ec9178c5ed7ace37ad5a90172c8f01443ff3d4589284",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-01-01.part.txt",
+          "sha256": "baba8710893cee4549c16fb1100aa7ea7705bea126e158c6208f123cf99bb983"
+        }
+      ]
+    },
+    {
+      "name": "coordination.txt",
+      "size": 391,
+      "sha256": "291d5f464c9a4de83d17436657ea04f9f9eb23db2383a00d706bb2c70062704d",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-02-01.part.txt",
+          "sha256": "33e0ee2a68b5ba02696513ddd2f23523ce0752f7f1a1309e6f4992d7df4eea66"
+        }
+      ]
+    },
+    {
+      "name": "docs.txt",
+      "size": 164,
+      "sha256": "43740c77d91a0af3769ed0752c70c4fcaa1f8f4e94d67f218775c0e01b651db9",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-03-01.part.txt",
+          "sha256": "d01f554390015bfa3586ba63bf026b08af329c0c5a6e9abf773e6bb36d740300"
+        }
+      ]
+    },
+    {
+      "name": "evidence.txt",
+      "size": 198,
+      "sha256": "4978612bb802ff4b3e764e703e69069ce6647fe6a071da4a898438df2301d6c5",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-04-01.part.txt",
+          "sha256": "6edff1361c259fc20a5981e8c92da467a98ceec3a726a951b8c40fafa70d476b"
+        }
+      ]
+    },
+    {
+      "name": "finalization.txt",
+      "size": 345,
+      "sha256": "ac49add43c6033bc649d89ab2703d13226a2808fde32af510a8e3354417a379a",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-05-01.part.txt",
+          "sha256": "6182dd7672c6463b168e061eb691bce68514ce6a408ec43c6d6089e41439d480"
+        }
+      ]
+    },
+    {
+      "name": "history.txt",
+      "size": 479,
+      "sha256": "b4c4074e0b4ec554052f0b22bf2221f33a95c377ee9ecb80cefc1936ab8d7c95",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-06-01.part.txt",
+          "sha256": "971b650fe30e17c1829f4daf745bb5fd34caf244d70c58f99d75206328f8c514"
+        }
+      ]
+    },
+    {
+      "name": "integrity.txt",
+      "size": 418,
+      "sha256": "e88fa9ec47b501029713637bbb6c38cfc92b61cab62aca7a61c893af20429003",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-07-01.part.txt",
+          "sha256": "9e751f8ce3aa293523142f0763bad0ce7f2cdf77e4c9c9a374b25c1a8ebc1ab1"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle.txt",
+      "size": 588,
+      "sha256": "bb8b03955bdc6a6f0a27f61d646e82ccde5d00dfce3aeacdce3f958fc1a573a5",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-08-01.part.txt",
+          "sha256": "72ee3dfc681a6339d4c083380700408ab75d79ce7f4cac4eb9d019588d96e3df"
+        }
+      ]
+    },
+    {
+      "name": "make-governance.xml",
+      "size": 100148,
+      "sha256": "3a51dba837d34fba96bc3a1ddf953c345b0e555d51d3f2381e868a67fabe8fb4",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-09-01.part.txt",
+          "sha256": "d902cf9a072e6bdde66bc7d97eabf835db223e2c618f81628c8dd89fd2cb5687"
+        }
+      ]
+    },
+    {
+      "name": "planning.txt",
+      "size": 15253,
+      "sha256": "168c6c496e9be8b1e13a92fcfa84da56cd5eb89b01614cb3075a77fdf62fab17",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-10-01.part.txt",
+          "sha256": "5177d6825fa5e2412cad5fd5c5e18daf7197e40538350e5f3dfcc7bc7390c8ff"
+        }
+      ]
+    },
+    {
+      "name": "planning.xml",
+      "size": 17478,
+      "sha256": "542da18469a865024f311c0ee2ab1e41c11ca12cb53a912d748bc4b3b2ca4921",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-11-01.part.txt",
+          "sha256": "dd432e9864c77e67913edc240ccea2569599a180f63897f18680183cf108352b"
+        }
+      ]
+    },
+    {
+      "name": "raw-lifecycle.txt",
+      "size": 497,
+      "sha256": "b9b92f76af2042e1825e83e4bb0e65a25738adfa2b05f6d3bcf40692dadbcea4",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-12-01.part.txt",
+          "sha256": "f99bb2a0c304db5f44e7d0d91043a08f6d03696aed9e0685464a4c24fd0b1d98"
+        }
+      ]
+    },
+    {
+      "name": "readiness.txt",
+      "size": 660,
+      "sha256": "0ab23d94b0e59ecc7eb844b96419429633b9317fcb947e29e0c328ba8ec3e944",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-13-01.part.txt",
+          "sha256": "28c0e23165189bd44f48787dbae7af51b482d9f8450f0e49d17277548a23dd80"
+        }
+      ]
+    },
+    {
+      "name": "schemas.txt",
+      "size": 1811,
+      "sha256": "7e0338983e4cd2486ec13614dd99fe34ee01a681027d0a0ee869bbadf7ac1380",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-14-01.part.txt",
+          "sha256": "af39edd8933ab46c524562efc1b6d3ab25d635381b5176ef8a070683929b5143"
+        }
+      ]
+    },
+    {
+      "name": "scope.txt",
+      "size": 740,
+      "sha256": "08c86059ca34cde5ad4a904732160e01eee3aea0ea3698bf1029011b8dfa9e95",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-15-01.part.txt",
+          "sha256": "d1d953f1fe774d16621faa94aa10bd97b2bdb8ee23b00e433b78c0f025b6e3a6"
+        }
+      ]
+    },
+    {
+      "name": "status.json",
+      "size": 327,
+      "sha256": "80530cf335ce15e2d96f9c7b158091c0a52e034777f839da3a8d6ab9e3c79c87",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-16-01.part.txt",
+          "sha256": "12036aaf8d9cf5cb69c0f19cab91e4ab41593ac7dbd3e690a12899cd581a9bb9"
+        }
+      ]
+    },
+    {
+      "name": "task.txt",
+      "size": 262,
+      "sha256": "c37b820a475673444e0d12a2e2619b33a7c304dfdfdb91ee3e59d794fb6889a0",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-17-01.part.txt",
+          "sha256": "80901e6994fe4b4380cd893dba42922b24c94efab041205de9dc2a5b9d13c471"
+        }
+      ]
+    },
+    {
+      "name": "transitions.txt",
+      "size": 432,
+      "sha256": "401fed9899144c2959f0cce7663833ac58949b3d646343623d56591a8e296a3b",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-18-01.part.txt",
+          "sha256": "9e7805b9c194326a6b31024c14ffa5c9603c733d36e555fba37dc10348eedf62"
+        }
+      ]
+    },
+    {
+      "name": "unaffected.txt",
+      "size": 999,
+      "sha256": "49236482df80833c49b64b26518b02a439620a2420945d134684ed0ce26b69f1",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-19-01.part.txt",
+          "sha256": "a56cdf96da6c67e35e5256a81040b62ac2e5cf72f25316b941c986c095779161"
+        }
+      ]
+    },
+    {
+      "name": "verification-worktrees.json",
+      "size": 2576,
+      "sha256": "d8f0d4549ce587880ae8fd1702f87abc51518c30c666df92bc89a88b4b14513e",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-20-01.part.txt",
+          "sha256": "a9292df2cf29efaa6ceb866d79db4ade3607c1f20f23140144c0b13d590431a7"
+        }
+      ]
+    },
+    {
+      "name": "verify.txt",
+      "size": 92711,
+      "sha256": "7f42fe8d07c0b218e4a4b1351ef599f3c1d47d31c8b0a994f06e176b088ba5fb",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-21-01.part.txt",
+          "sha256": "3fe52c9f227f7b2c3156dda70c51e630b291e68d53ebaaf0021b305d6df2e56d"
+        }
+      ]
+    },
+    {
+      "name": "ops010-review-a485ece-ci678.txt",
+      "size": 266483,
+      "sha256": "91de1051bce00ec696a07aee31d26ec64dbb4118871a18a220bba6fc7ece97ef",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-22-01.part.txt",
+          "sha256": "71ba90377742b32d07c3b0926a808c2f3829ffb0925bd307c732d53c1313a2c4"
+        },
+        {
+          "path": "raw-22-02.part.txt",
+          "sha256": "b126be52238b0ce45f38452840d110563dbe60bb2ed51cdd903b97ed268d2e60"
+        },
+        {
+          "path": "raw-22-03.part.txt",
+          "sha256": "67e5c7f5a217eda0ee50f900fe79a19145061aa76bc4b2899987cb52cafe2ae6"
+        },
+        {
+          "path": "raw-22-04.part.txt",
+          "sha256": "207d4aa7cede5b1eefcf163b4f5174679ea6e69742d7958fcb8788ba5328adf6"
+        }
+      ]
+    },
+    {
+      "name": "ops010-review-a485ece-ci678-receipt.json",
+      "size": 67512,
+      "sha256": "31a12a5b5b72fa4403ee5f45d34f3ac0456e3db06f7e9a2593e0f303afddb335",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-23-01.part.txt",
+          "sha256": "cf12d2f87ae267720dfcca787c6863e68b72248ade0a2af3cba8f9a3310c406c"
+        },
+        {
+          "path": "raw-23-02.part.txt",
+          "sha256": "54282cbee32f219bae693b665e28a2bdae56eed754047285f9326e7a99ca02f8"
+        }
+      ]
+    },
+    {
+      "name": "ops010-independent-a485ece-local18-results-acceptance.json",
+      "size": 15502,
+      "sha256": "7cf04934a161ed1432a3161e071216ff9c0d9ffaaff99b533a1c98eca80c619f",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-24-01.part.txt",
+          "sha256": "68615e05ca688d37f4500fc45d5a45e31f2b7a594b1dad159a3573bff8b38c27"
+        }
+      ]
+    },
+    {
+      "name": "ops010-independent-a485ece-ci678-official-receipt.json",
+      "size": 79463,
+      "sha256": "b5490af732a2f3a0e4a36835a4b46eb166affa04c4b9534ef8677a55ca9b3b56",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-25-01.part.txt",
+          "sha256": "e4e12c2f979a467c9786cebbff9f790f7c8ea8750c07bb81cee10cafeb8ca837"
+        },
+        {
+          "path": "raw-25-02.part.txt",
+          "sha256": "3d3ee5a7255b7abab73e702af8a46b11095af2e4f432f527e49110e926a49d98"
+        }
+      ]
+    },
+    {
+      "name": "ops010-independent-a485ece-final-integration-acceptance.json",
+      "size": 99415,
+      "sha256": "6411ed3b66eda1de9edfb24660ccbb3f68ce41584d22f76d1347256d1f2d3c48",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-26-01.part.txt",
+          "sha256": "8cf50ee1ba85bec72be437fbd55deca5c252dcbec361f1d865e6bf0dc12d72b5"
+        },
+        {
+          "path": "raw-26-02.part.txt",
+          "sha256": "db97baced2077077283aa20caee198c60adaa70bf7637a150ac4a05731432001"
+        }
+      ]
+    },
+    {
+      "name": "ops010-review-main-3293f85-ci679.txt",
+      "size": 257722,
+      "sha256": "bd72652e5430472c8ddb1fe6302ba125262cc66573399e64e6c776377a2cb6e4",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-27-01.part.txt",
+          "sha256": "1529608cdef743ba730b42b6b8417dde855fa752a5a1edb0e6e9a7049aace1e5"
+        },
+        {
+          "path": "raw-27-02.part.txt",
+          "sha256": "42bea00ede93a74efa463fbbf022dc4eeb9808b9c848dfba3c7231b92fe7f7a0"
+        },
+        {
+          "path": "raw-27-03.part.txt",
+          "sha256": "aa8841bf6539223d105b6795a16d5579503eb2b5b2777423168c0881a80e3d45"
+        },
+        {
+          "path": "raw-27-04.part.txt",
+          "sha256": "9269479a0903001435be0eaeff7d4aa0dcadb9a78c46a29c57539eac20a79cbd"
+        }
+      ]
+    },
+    {
+      "name": "ops010-review-main-3293f85-ci679-proof.json",
+      "size": 9519,
+      "sha256": "88e20ba74d03553fc953eeceeee158b00893e1a1cdcf310dc716ae49c3f9d09a",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-28-01.part.txt",
+          "sha256": "2cbb0c88e5bd539d6edf39143454e1cbef217f47bdc4073d98b4eeb4513c6760"
+        }
+      ]
+    },
+    {
+      "name": "ops010-independent-review-main-3293f85-acceptance.json",
+      "size": 107154,
+      "sha256": "4a5fb127339b420c3b568752858c7d2985cda78298233c2c6df98271e82c4e8f",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-29-01.part.txt",
+          "sha256": "8f7cce590883e695e5195d88db1e50622d9b90b52cbf972c3581b391e77ba494"
+        },
+        {
+          "path": "raw-29-02.part.txt",
+          "sha256": "20c63d17aaf65a05dd3bb0c9085e4e0c060a8879a316f4a11a286e2fb21f97e8"
+        }
+      ]
+    }
+  ],
+  "decodedOriginalsSecretMatches": 0
+}
