@@ -1,3 +1,15 @@
+OPS-009 current registered implementation
+Status: IN_PROGRESS / implementer
+Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE
+Issue: #85 (open)
+Actual implementation base: 86e39646bda0e623ae712ecfde85e14ac6aa5cef
+Implementation branch: chore/OPS-009-planning-revision-admission
+Original Lease: 2026-10-10T15:29:31Z to 2026-10-17T15:29:31Z
+
+Current Task/Registry carry the ten exact claims accepted by actual Scope-main/PR87/CI651 and independent main review. This implementation preserves the M86 immutable manifest and atomically applies only GZ-021/GZ-020/BASELINE-GZ-021. GZ-021 remains planned without Issue/TaskSpec/Lease. Actual implementation source/local/full tests/CI/independent integration are pending; original nine-path private tests and Scope-only successes do not approve this code. Current commands and file delta are in commands.txt/changed-files.md. Full V1 and runtime/physical/production acceptance remain incomplete.
+
+## Historical accepted scope and original reservation records
+
 OPS-009 current metadata-only readiness scope revision
 Status: RESERVED / coordinator
 Verification: PENDING_ACTUAL_SOURCE

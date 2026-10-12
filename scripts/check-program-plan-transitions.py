@@ -30,6 +30,13 @@ RECOVERY = importlib.util.module_from_spec(RECOVERY_SPEC)
 assert RECOVERY_SPEC and RECOVERY_SPEC.loader
 RECOVERY_SPEC.loader.exec_module(RECOVERY)
 
+PLANNING_SPEC = importlib.util.spec_from_file_location(
+    "guize_transition_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py")
+)
+PLANNING = importlib.util.module_from_spec(PLANNING_SPEC)
+assert PLANNING_SPEC and PLANNING_SPEC.loader
+PLANNING_SPEC.loader.exec_module(PLANNING)
+
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
 LEDGER = "specs/coordination/task-completions.yaml"
@@ -796,6 +803,10 @@ def main() -> int:
     validate_wave_activation(current_plan, errors)
     RECOVERY.validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
     recovery_task = RECOVERY.validate_recovery_transition(root, args.base_ref, args.head_ref, errors)
+    planning = PLANNING.classifier(
+        root, args.base_ref, args.head_ref, base_plan, current_plan, errors,
+        owner_hint=args.task,
+    )
     for record in current_ledger.get("records") or []:
         if isinstance(record, dict):
             validate_recorded_reservation_commit(root, record, errors)
@@ -809,6 +820,13 @@ def main() -> int:
         transition_tasks.add(recovery_task)
     # Main/push checks must also prove newly introduced Foundation reservations.
     transition_tasks.update(set(mapping(current_plan.get("foundationTasks"))) - set(mapping(base_plan.get("foundationTasks"))))
+    if planning:
+        transition_tasks.difference_update(planning["targetTaskIds"])
+        transition_tasks.add(planning["owner"])
+    PLANNING.enforce_consumers(
+        root, args.base_ref, args.head_ref, base_plan, current_plan,
+        transition_tasks, changed_files(root, args.base_ref, args.head_ref) or set(), errors,
+    )
     for transition_task in sorted(transition_tasks):
         task_path = find_task_path(root, transition_task, args.head_ref)
         front, _ = parse_front_matter(read_ref(root, args.head_ref, task_path or ""))
@@ -835,7 +853,7 @@ def main() -> int:
                 args.head_ref,
                 transition_task,
                 base_plan,
-                current_plan,
+                planning["projectedPlan"] if planning and transition_task == planning["owner"] else current_plan,
                 base_active,
                 current_active,
                 errors,

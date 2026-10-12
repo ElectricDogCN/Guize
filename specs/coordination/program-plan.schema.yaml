@@ -92,6 +92,11 @@ properties:
     type: array
     minItems: 1
     items: {$ref: '#/$defs/task'}
+  planningBaselines:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items: {$ref: '#/$defs/planningBaseline'}
   externalBlockers:
     type: array
     items: {$ref: '#/$defs/blocker'}
@@ -234,6 +239,18 @@ $defs:
         type: string
         pattern: '^(feat|fix|docs|refactor|chore)/[A-Z]+-[0-9]{3}-\*$'
       exitGate: {type: string, minLength: 10}
+  planningBaseline:
+    type: object
+    additionalProperties: false
+    required: [id, taskId, requiredBy]
+    properties:
+      id: {type: string, pattern: '^[A-Z][A-Z0-9-]+$'}
+      taskId: {$ref: '#/$defs/taskId'}
+      requiredBy:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items: {$ref: '#/$defs/taskId'}
   blocker:
     type: object
     additionalProperties: false
