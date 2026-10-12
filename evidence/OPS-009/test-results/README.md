@@ -12,6 +12,12 @@ Current implementation changes: canonical prior-main reserved scope authenticati
 
 ## Historical accepted scope and original reservation records
 
+### Actual published implementation ab06983 and subsequent three-thread repair
+
+Source ab0698360c49a8c29eb0b3d52b28f26075e47589 / tree 947530350f31e105cc433033adc181236f68cfcc completed official PR CI654/run38214317584/job114695373637: all28 steps succeeded,608 tests passed in850.06s,zero skipped tests. Decoded official output is referenced at .takeover-tools/ops009-admission-ab06983-ci654.txt. The local complete verifier was deliberately cancelled after thirteen successful gates because three genuine PR review findings remained; the partial run is not a make verify pass or integration approval.
+
+The successor fixes PRRT_kwDOTgCQ3c6rWBuK/P/Q by preserving each baseline's original consumer closure until real producer completion, validating the semantic dependency's Wave order, and auditing registered manifest bytes before the no-Program-change return and throughout Readiness history. Seven new focused regressions passed privately (179.54s,zero failures/errors/skips;81 existing cases deselected). This private result approves no published successor: complete same-source local verification, official CI and independent integration review remain pending. Existing legacy tests, original manifest bytes, ten claims, original lease and all twenty-three unstarted consumers remain unchanged.
+
 ### Actual published implementation 345180a failed verification
 
 Source 345180aae0fcf55f23bf675ca49d53019adc918f / tree 7849ba1efed816047a2214eb2fc4808bf1e5eb6c / base 86e39646bda0e623ae712ecfde85e14ac6aa5cef was actually published in PR88. Local first thirteen gates passed, but make verify exited2: actual nonempty JUnit600 contained567 passed,33 failed,0 errors,0 skipped (1094.65s). The32 legacy Foundation-history positives inherited future definitions while their focused fixtures removed unrelated OPS009; the new callback incorrectly demanded global planning authentication on unchanged ordinary/baseline definitions. One existing repository-wide transition test supplied an unchanged completed GZ014 context and incorrectly overrode the actual unique planner. All existing tests and assertions remain intact.

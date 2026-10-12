@@ -588,3 +588,72 @@ def test_wrong_or_modified_completed_context_cannot_filter_owner(history, case):
         history.commit("Mixed completed Task body")
     result, errors = history.decision(owner_hint=hint)
     assert result is None and errors
+
+
+def test_original_consumer_closure_survives_dependency_removal(history):
+    installed = install_serial_baseline(history)
+    original = copy.deepcopy(history.plan)
+    row = original["planningBaselines"][0]
+    assert len(PLANNING.original_consumers(str(history.root), installed, row)) == 23
+    next(t for t in history.plan["tasks"] if t["taskId"] == "GZ-007")["dependsOn"].remove("GZ-006")
+    assert len(PLANNING.frontier(history.plan, row["requiredBy"])) == 22
+    with pytest.raises(PLANNING.PlanningError, match="original consumer closure was narrowed"):
+        PLANNING.preserve_consumer_closures(str(history.root), installed, history.plan, {row["id"]: row})
+    history.dump(PLANNING.PLAN, history.plan)
+    narrowed = history.commit("Narrow descendant dependency without changing baseline row")
+    errors = []
+    # This predicate denies narrowing; it does not pretend the old immutable
+    # manifest authorizes a new planning transaction.
+    PLANNING.enforce_consumers(str(history.root), installed, narrowed, original, history.plan, {"GZ-007"}, set(), errors)
+    assert any("original consumer closure was narrowed" in e for e in errors)
+    errors = []
+    PLANNING.enforce_consumers(str(history.root), narrowed, narrowed, history.plan, history.plan, {"GZ-007"}, set(), errors)
+    assert errors
+    result = readiness(history)
+    assert result.returncode != 0 and "original consumer closure was narrowed" in result.stdout
+
+
+def test_original_consumer_closure_allows_superset_without_authorizing_changes(history):
+    installed = install_serial_baseline(history)
+    row = history.plan["planningBaselines"][0]
+    proposed = copy.deepcopy(history.plan)
+    task = copy.deepcopy(next(t for t in proposed["tasks"] if t["taskId"] == "GZ-007"))
+    task["taskId"] = "GZ-998"
+    proposed["tasks"].append(task)
+    assert len(PLANNING.frontier(proposed, row["requiredBy"])) == 24
+    PLANNING.preserve_consumer_closures(str(history.root), installed, proposed, {row["id"]: row})
+    assert "GZ-998" not in PLANNING.original_consumers(str(history.root), installed, row)
+
+
+@pytest.mark.parametrize("wave", ["W10", "UNKNOWN"])
+def test_baseline_semantic_edges_enforce_wave_order(history, wave):
+    install_serial_baseline(history)
+    next(t for t in history.plan["tasks"] if t["taskId"] == "GZ-021")["wave"] = wave
+    with pytest.raises(PLANNING.PlanningError, match="wave"):
+        PLANNING.validate_baselines(history.plan)
+
+
+@pytest.mark.parametrize("script", ["check-program-plan-transitions.py", "check-program-lifecycle-guards.py", "check-program-plan-history.py"])
+def test_manifest_mutation_restoration_cannot_disappear(history, script):
+    installed = install_serial_baseline(history)
+    path = f"evidence/{history.owner}/planning-revision.json"
+    original = PLANNING.blob(str(history.root), installed, path).decode("utf-8")
+    changed = copy.deepcopy(history.manifest)
+    changed["targets"][0]["after"]["title"] += " tampered"
+    history.dump(path, changed)
+    altered = history.commit("Intermediate manifest mutation")
+    history.write(path, original)
+    restored = history.commit("Restore manifest before review")
+    for base, head in [(installed, altered), (altered, restored)]:
+        errors = []
+        result = PLANNING.classifier(str(history.root), base, head, history.plan, history.plan, errors, admitted_base_ref=history.registration)
+        assert result is None and any("manifest changed in history" in e for e in errors)
+    result = readiness(history)
+    assert result.returncode != 0 and "intermediate history" in result.stdout
+    result = history.gate(script, task=False)
+    if script == "check-program-plan-history.py":
+        assert result.returncode != 0 and "manifest changed in history" in result.stdout
+    else:
+        # Endpoint-only transition/lifecycle checks may see restored bytes;
+        # the mandatory history and Readiness checks enforce intervening nodes.
+        assert result.returncode == 0, result.stdout + result.stderr

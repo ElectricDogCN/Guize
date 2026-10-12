@@ -305,6 +305,8 @@ def frontier(plan: dict[str, Any], roots: list[str]) -> set[str]:
 def validate_baselines(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
     baselines = records(plan.get("planningBaselines", []), "id")
     by_id = tasks(plan)
+    waves = records(plan.get("waves", []), "id")
+    foundations = records(plan.get("foundationTasks", []))
     graph = {tid: set(row.get("dependsOn", [])) for tid, row in by_id.items()}
     for row in baselines.values():
         require(set(row) == {"id", "taskId", "requiredBy"}, "Unknown baseline fields")
@@ -312,6 +314,12 @@ def validate_baselines(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
         require(producer in by_id and isinstance(roots, list) and roots and all(isinstance(r, str) for r in roots) and len(set(roots)) == len(roots), "Invalid baseline producer/consumers")
         require(producer not in roots and set(roots) <= by_id.keys(), "Baseline self edge or unknown consumer")
         for consumer in roots:
+            producer_wave, consumer_wave = by_id[producer].get("wave"), by_id[consumer].get("wave")
+            require(producer in foundations or producer_wave in waves, "Baseline producer references unknown wave")
+            require(consumer in foundations or consumer_wave in waves, "Baseline consumer references unknown wave")
+            producer_order = 0 if producer in foundations else waves[producer_wave]["order"]
+            consumer_order = 0 if consumer in foundations else waves[consumer_wave]["order"]
+            require(producer_order <= consumer_order, "Baseline consumer depends on later-wave producer")
             graph[consumer].add(producer)
     visiting, done = set(), set()
     def visit(tid: str) -> None:
@@ -327,6 +335,57 @@ def validate_baselines(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
     for tid in graph:
         visit(tid)
     return baselines
+
+
+@lru_cache(maxsize=128)
+def baseline_snapshot(root: str, source: str, baseline_id: str) -> tuple[str, str, frozenset[str]]:
+    """Return immutable creation data, not an admission or completion result."""
+    for node in (git(root, "log", "--first-parent", "--reverse", "--format=%H", source, "--", PLAN) or "").splitlines():
+        plan = document(root, node, PLAN)
+        row = records(plan.get("planningBaselines", []), "id").get(baseline_id)
+        if row:
+            return node, json.dumps(row, sort_keys=True, separators=(",", ":")), frozenset(frontier(plan, row["requiredBy"]))
+    raise PlanningError(f"Baseline {baseline_id} has no creation snapshot")
+
+
+def original_consumers(root: str, ref: str, row: dict[str, Any]) -> set[str]:
+    _, original, consumers = baseline_snapshot(*snapshot(root, ref), row["id"])
+    require(original == json.dumps(row, sort_keys=True, separators=(",", ":")), "Baseline differs from its original creation snapshot")
+    return set(consumers)
+
+
+def preserve_consumer_closures(root: str, base_ref: str, after: dict[str, Any], rows: dict[str, dict[str, Any]], *, admitted_base_ref: str | None = None) -> None:
+    for row in rows.values():
+        original = original_consumers(root, base_ref, row)
+        if not original <= frontier(after, row["requiredBy"]):
+            require(completed_producer(root, admitted_base_ref or base_ref, row["taskId"]), "Pending baseline original consumer closure was narrowed")
+
+
+def audit_changed_manifests(root: str, base_ref: str, head_ref: str, *, admitted_base_ref: str | None = None) -> None:
+    """Audit original manifest bytes even when no Program definition changes."""
+    for path in changed_paths(root, base_ref, head_ref):
+        match = re.fullmatch(r"evidence/([A-Z]+-\d{3})/planning-revision\.json", path)
+        if not match:
+            continue
+        owner = match.group(1)
+        before_active = records(document(root, base_ref, ACTIVE).get("tasks", []))
+        authority = admitted_base_ref or before_active.get(owner, {}).get("baseSha") or base_ref
+        canonical = [ref for ref in ("origin/main", "main") if git(root, "rev-parse", "--verify", ref, missing=True)]
+        require(any(ancestor(root, authority, git(root, "rev-parse", ref) or "") for ref in canonical), "Manifest audit requires an admitted canonical base")
+        prior = False
+        introduction = None
+        for node in (git(root, "rev-list", "--first-parent", "--reverse", authority) or "").splitlines():
+            present = owner in records(document(root, node, ACTIVE).get("tasks", []))
+            if present and not prior:
+                require(introduction is None, "Manifest owner has multiple canonical introductions")
+                introduction = node
+            prior = present
+        if introduction is None:
+            # Unmerged original reservation proposals supply no permission.
+            continue
+        registration, _, _ = original_registration(root, introduction, owner)
+        original = blob(root, registration, path)
+        require(original is not None and original == blob(root, base_ref, path) == blob(root, head_ref, path), "Original registered planning manifest changed in history")
 
 
 def unstarted(root: str, ref: str, plan: dict[str, Any], ids: set[str], allow_missing: bool = False) -> None:
@@ -350,11 +409,13 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             return "planningBaselines" in plan, plan.get("planningBaselines")
         if changed or definitions(real_before) != definitions(real_after) or "planningBaselines" in real_before or "planningBaselines" in real_after:
             require(before == real_before and after == real_after, "Planning/baseline views must bind the actual Git snapshots")
+        audit_changed_manifests(root, base_ref, head_ref, admitted_base_ref=admitted_base_ref)
         if definitions(real_before) == definitions(real_after) and baseline_view(real_before) == baseline_view(real_after):
             # No projection or planning permission is supplied. Ordinary
             # lifecycle/history and relevant consumer gates still run.
             return None
         old_baselines, new_baselines = validate_baselines(before), validate_baselines(after)
+        preserve_consumer_closures(root, base_ref, after, old_baselines, admitted_base_ref=admitted_base_ref)
         require(all(new_baselines.get(bid) == row for bid, row in old_baselines.items()), "Existing planning baseline removed, narrowed or substituted")
         added_baselines = new_baselines.keys() - old_baselines.keys()
         if not changed and not added_baselines:
@@ -528,6 +589,7 @@ def serial_baseline_pairs(root: str, head_ref: str, plan: dict[str, Any], errors
         require(not git(root, "status", "--porcelain", "--", ACTIVE, LEDGER, "specs/tasks"), "Readiness baseline identities must bind their actual Git snapshot")
         proven = {}
         manifests = {}
+        registrations = {}
         nodes = (git(root, "log", "--first-parent", "--reverse", "--format=%H", head, "--", PLAN) or "").splitlines()
         for node in nodes:
             node_plan = document(root, node, PLAN)
@@ -535,6 +597,8 @@ def serial_baseline_pairs(root: str, head_ref: str, plan: dict[str, Any], errors
                 continue
             baselines = validate_baselines(node_plan)
             require(all(baselines.get(key) == row for key, row in proven.items()), "Historical baseline removed, narrowed or substituted")
+            if proven:
+                preserve_consumer_closures(root, node, node_plan, proven)
             added = baselines.keys() - proven.keys()
             if added:
                 parent = git(root, "rev-parse", f"{node}^1") or ""
@@ -547,9 +611,15 @@ def serial_baseline_pairs(root: str, head_ref: str, plan: dict[str, Any], errors
                 decision = classifier(root, parent, node, document(root, parent, PLAN), node_plan, admission_errors, owner_hint=owner, observed_at=commit_time(root, node), admitted_base_ref=entry.get("baseSha", ""))
                 require(decision is not None and not admission_errors, "Readiness baseline introduction unauthenticated: " + "; ".join(admission_errors))
                 manifests[owner] = blob(root, parent, f"evidence/{owner}/planning-revision.json")
+                registrations[owner] = decision["registration"]
                 proven.update({key: baselines[key] for key in added})
         require(proven == current, "Readiness baseline lacks authenticated history")
         require(all(blob(root, head, f"evidence/{owner}/planning-revision.json") == original for owner, original in manifests.items()), "Readiness baseline original manifest changed")
+        for owner, registration in registrations.items():
+            path = f"evidence/{owner}/planning-revision.json"
+            for node in (git(root, "log", "--first-parent", "--format=%H", head, "--", path) or "").splitlines():
+                if ancestor(root, registration, node):
+                    require(blob(root, node, path) == manifests[owner], "Readiness original manifest changed in intermediate history")
         by_id = tasks(plan)
         active = records(document(root, head, ACTIVE).get("tasks", []))
         completed = records(document(root, head, LEDGER).get("records", []))
@@ -590,11 +660,12 @@ def enforce_consumers(root: str, base_ref: str, head_ref: str, before: dict[str,
                 owners = {tid for tid, row in by_id.items() if any(fnmatch.fnmatchcase(path, claim) for claim in row.get("outputPaths", []) + row.get("sharedPaths", []))}
             consumers.update(owners)
             affected.update(owners)
-        pending_by_baseline = {row["id"]: consumers & frontier(after, row["requiredBy"]) for row in rows}
+        pending_by_baseline = {row["id"]: consumers & (frontier(after, row["requiredBy"]) | original_consumers(root, head_ref, row)) for row in rows}
         if not baseline_changed and not any(pending_by_baseline.values()):
             return
         old_baselines, baselines = validate_baselines(before), validate_baselines(after)
         require(all(baselines.get(key) == row for key, row in old_baselines.items()), "Existing planning baseline removed, narrowed or substituted")
+        preserve_consumer_closures(root, base_ref, after, old_baselines, admitted_base_ref=admitted_base_ref)
         base = git(root, "rev-parse", f"{admitted_base_ref or base_ref}^{{commit}}") or ""
         for baseline in baselines.values():
             pending = pending_by_baseline[baseline["id"]]
