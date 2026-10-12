@@ -1,3 +1,45 @@
+OPS-009 normal Completion candidate
+Status: PASS
+Scope of PASS: accepted identity delivery code PR93 plus actual Integration main; current Completion source remains PENDING.
+Issue: #85 must be closed/completed before exact Completion gates.
+Current agentRole: integrator
+Current branch: chore/OPS-009-planning-revision-completion-final
+Current base: dcd0b55749427eabeb708e0e0dc5e88ca2e00981
+Actual last code merge: PR-93 / dcd0b55749427eabeb708e0e0dc5e88ca2e00981
+Actual accepted implementation source: 29361aae71e4083010f435f14abab2e3ed2be077
+Archive: test-results/accepted-identity-redelivery-29361aa/raw-results.bundle.json. Original manifest/Ledger/policy/code preserved; only Own Foundation completion, OwnTask/Evidence and removal of OwnLease. Current source native15/full630/same-headCI/independent approval and true-main acceptance remain pending. Full localV1 incomplete.
+
+## Historical records
+
+Accepted historical implementation source: 29361aae71e4083010f435f14abab2e3ed2be077
+Command: make verify TASK=OPS-009 BASE=c0b54b045debaf0b1ae31f1ff6782360da64622c HEAD_REF=HEAD BRANCH=chore/OPS-009-planning-revision-ci-budget
+Exit Code: 0
+Result: PASS
+This execution binds only to source293, not the new Completion head.
+
+## 必须执行的测试
+
+```bash
+python scripts/check-task-file.py --task OPS-009
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref dcd0b55749427eabeb708e0e0dc5e88ca2e00981
+python scripts/check-program-plan-history.py --base-ref dcd0b55749427eabeb708e0e0dc5e88ca2e00981 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-completion-final
+python scripts/check-program-plan-transitions.py --base-ref dcd0b55749427eabeb708e0e0dc5e88ca2e00981 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-completion-final
+python scripts/check-program-plan-finalization.py --base-ref dcd0b55749427eabeb708e0e0dc5e88ca2e00981 --task OPS-009
+python scripts/check-program-lifecycle-guards.py --base-ref dcd0b55749427eabeb708e0e0dc5e88ca2e00981 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-completion-final
+python scripts/run-program-lifecycle-gate.py --base-ref dcd0b55749427eabeb708e0e0dc5e88ca2e00981 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-completion-final
+python scripts/run-agent-coordination-gate.py --base-ref dcd0b55749427eabeb708e0e0dc5e88ca2e00981 --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-completion-final
+python scripts/run-task-scope-gate.py --task OPS-009 --base dcd0b55749427eabeb708e0e0dc5e88ca2e00981
+python scripts/check-evidence.py --task OPS-009
+make verify TASK=OPS-009 BASE=dcd0b55749427eabeb708e0e0dc5e88ca2e00981 HEAD_REF=HEAD BRANCH=chore/OPS-009-planning-revision-completion-final
+```
+
+当前 Completion 的实际发布 source 必须完成15项本地门禁、完整630项测试、同头CI和独立审查；旧结果不转移。
+
+
+## Historical commands
+
 OPS-009 forward identity delivery
 Status: INTEGRATION
 Verification: PENDING_ACTUAL_PUBLISHED_IDENTITY_REDELIVERY_SOURCE
