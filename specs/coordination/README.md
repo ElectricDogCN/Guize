@@ -120,3 +120,32 @@ Readiness 从实际 Git 第一父历史认证 baseline 的完整原始事务及�
 既有 baseline 的规划交易如果扩大消费者闭包，新增成员在交易前后必须保持未启动（交易新增的 Task 可在 before 中不存在）。检查逐交易 before/after 的差集，不能把历史上已经合法加入的成员在后续正常启动时再次当作新成员。普通规划任务只可登记精确 docs/、adr/、specs/ 文件及 poc/README.md；specs 中的已登记业务 Schema、校验器和相应回归文件仍允许。运行时目录、治理 scripts/tests 与通配符不属于普通规划例外，自身 Evidence 仍按普通元数据规则管理。
 
 OPS-009 首次使用只执行原始三目标：新增 planned GZ-021、给 planned GZ-020 尾追加 GZ-021 依赖，以及新增 BASELINE-GZ-021。十个消费者根经既有图覆盖二十三个未启动任务；POC 依赖镜像和 GZ-020 的生产最终义务保持。原始登记到机制合入之间的暂停派发与失败关闭顺序记录于 OPS-009 Handoff/PR86；这项 Coordinator 排序不表示登记 PR 已安装持续机器阻断。发布和合并首次使用之前，必须再核全部消费者未启动；已启动则停止首次使用，保留真实身份与原始声明，按既有合法生命周期作具体恢复决定。
+
+## 实现合并提交与 Completion 身份
+
+Completion 的 `mergeCommit` 必须指向已登记、已审查、已集成的最后实现版本；激活、Review、纯 Task/Evidence 提交和空提交不能替代实现身份。Git 提交说明必须同时包含精确 Task ID 和真实 PR 的 `#<number>`。实现 source 的说明含这些标识不能替代实际合并提交自身的说明。
+
+Integrator 在合并已通过最新源测试与独立审查的实现 PR 时，显式设置提交标题，例如 `Merge PR #123: OPS-009 <本次交付目的>`；数字必须来自当前真实 PR，不能照抄示例。通过 GitHub merge 接口时设置 `commit_title`，并在实际合并后读取新的 merge SHA 和完整 Git message。保留真实父提交、Tree 和通过检查的 source；不重写既有主线历史。
+
+合入后，在真实 main 上以本次实际 Task、PR 和 merge SHA 运行现有两个身份检查，再办理正常 Completion：
+
+```bash
+python - TASK-ID PR-N ACTUAL-MERGE-SHA <<'PY'
+import importlib.util
+import sys
+task, reference, merge = sys.argv[1:]
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+integrity = load("identity_integrity", "scripts/check-program-plan-integrity.py")
+history = load("identity_history", "scripts/check-program-plan-history.py")
+errors = integrity.commit_identity_errors(".", merge, task, reference, "Actual implementation")
+history.validate_commit(".", merge, task, reference, "Actual implementation", errors)
+assert not errors, errors
+print("PASS: actual implementation commit identifies Task and PR and is reachable")
+PY
+```
+
+这项预检使用现有检查函数，只核对实际 Git 身份；它不替代完整 Scope/历史/生命周期检查、非空治理测试、最新 CI、独立 Review 或真实主线验收。失败时保留原始日志并停止 Completion，在原有效登记和精确授权范围内完成必要的前向修复后重新交付，不能改写历史提交、使用元数据身份或放宽断言冒充完成。

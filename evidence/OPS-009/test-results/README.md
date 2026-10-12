@@ -1,3 +1,15 @@
+OPS-009 forward identity delivery
+Status: INTEGRATION
+Verification: PENDING_ACTUAL_PUBLISHED_IDENTITY_REDELIVERY_SOURCE
+Issue: #85 reopened after rejected Completion.
+Branch: chore/OPS-009-planning-revision-ci-budget
+Base: c0b54b045debaf0b1ae31f1ff6782360da64622c
+Actual rejected source: 41d10d93c638100186361949b93563eff4648448 / PR92; native integrity exit1, fullmake not started; sameheadCI666 step11 failed and full run still live.
+Current change: claimed coordination README executable merge-identity procedure plus Own integration metadata/Evidence; original lease/11claims, original manifest/Ledger/policy/future definitions and implementation code remain.
+Next: actual new source15/full630/latestCI/independent latest-code Review, expected-head merge with explicit OPS-009/#actualPR title, actual Integrationmain identity/full gates acceptance, then normal Completion bound to the new last implementation. GZ021/fullV1 remain incomplete.
+
+## Historical records
+
 OPS-009 normal Review
 Status: REVIEW / reviewer
 Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE

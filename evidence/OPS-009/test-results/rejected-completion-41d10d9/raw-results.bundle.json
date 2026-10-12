@@ -1,0 +1,52 @@
+{
+  "kind": "REJECTED_ACTUAL_COMPLETION_NATIVE_RAW",
+  "source": "41d10d93c638100186361949b93563eff4648448",
+  "entries": [
+    {
+      "name": "integrity.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-normal-completion-41d10d9-results\\integrity.txt",
+      "size": 317,
+      "sha256": "6552a9518655b8f7ecde1dc520b927d63104562dc56f0b7bbb06d560496c9963",
+      "originalPhysicalBytesZlibBase64": "eNo1z81KxDAUBeB9n+LStdGbJk2b7mRQEASFeYL83HTC2KQ0GbCI7+446PbA+TjnmC+bIzjkZYl1Ask9R6+FU2LkiHxUQnEttdWiV4JCkEqOUo7Nb8EkP8G611NOUNwW11oe3Incma1bnjezsPXDJBZTpXmLdb9fd2DMmkJsowAObS8tyt6TNQEtNyR44CGoYeyEQm+UVF3nmq+2VFMvpZ2gfX58eW3voF2oFDPTLcqX5E2N1xXVlDO8vR8ZogZ3+wQopFZO9MJw7AcclbOd7xRZoVxvrZN6CINAB38k+EwFUq4QPaUaw/4vtt9N8/R5JQ/Z0wS8+QHlLWEk"
+    },
+    {
+      "name": "readiness.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-normal-completion-41d10d9-results\\readiness.txt",
+      "size": 660,
+      "sha256": "5c1129696f27d0ceffa21eb284f5f6de8c34fb53d04a6a9476e2fb16fd0fad4f",
+      "originalPhysicalBytesZlibBase64": "eNqNUstOwzAQvOcrVjnzSEgIbW4IIeAAqigS5629oaaJHewNtKD+O+vwEOUCx90Zz8yOPHeDVwRnrusM11DmOs/0tFBVMcmzLJ9URZVPy+liWhxXBTVNWZWTspwk8QFaXUO/4aWzEJQ3PYdDtSS12u+9eyTF+55QG0shHPSb5C0NjDyEtIb0/vT2Jt2DtBMMHyiuLgxfDgvo0FhYeLRqCSLDImOcPbwdWgrE4CkSAqAFWjN5iy0sWqdW5NPtXxbXqJYSB5Sz7FFxAOsYGu9eyULjPOSZGDwNRlzIcvhb8arr25GLMeUo90zeNIb0PwRnp/P5L8HZR3Pw3RwYq2lN8WINgj547GDWyv3oCQL7QfHgsW038axgAotRFNXEaNro85buZKglVTR1OnYq41Eu41cnNyhpelQjUpwI0ouZJX2HYTWyx51T30Iv+DyS85MfMhfYn7lBknySzE5RO+h2myTna8PyCTXVkCXvHR7bJg=="
+    },
+    {
+      "name": "schemas.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-normal-completion-41d10d9-results\\schemas.txt",
+      "size": 1746,
+      "sha256": "a784bcd9fcc73f5e8d44df4eec62d4fb5ca2cafafdac481056a120d003384d77",
+      "originalPhysicalBytesZlibBase64": "eNqdld2OmzAQhe95inmANSSCRgnqDaKR+pdkVVKteumYAdyAbdkOW96+JslW3ZWaBl9Zg/yd8Rxm7EKeNEPIZddxm0IyL+ezchWzRbycz2bz5SJezFfJ6rCK3y1irKpkkSyTZBmMABVlCmqwjRRgmObKmog1yI7EuKWjJlRDsPsCP7LN1xTCmtvmdIiepT5WrXw2US171IIKhqSmFsOha8ftn4vdlhT5x/UmS4FJYTVlThl7FC8LQdFjKxWGl0zhTyPFyOa77f5blu/hwy7/vllv938ruP2CKh5RHilqGxMO9JLxPsoYtD4gc1ZJEaHWUvuhjbWKGNqpFs20Uq8C19Ar+cu/nMiKitc+bnHa+WAdlpz6gKqlw4GyoxcrW84GH9Ig1azxIs8D60VaqWnthVpq3hr0jym9dktUomrl0I2zqrSsePtnVO8UUO2p5oK4S4ZXaOxN2ihk7uqRUpdcUMtd1zot3iMZL5upqOsIIbioicaeG/dlsoCWtaYdGYWmsqPTxE2eG/UxNm/5CwqftsU+2+br/9Y+cvCeTLToniyvqryR5oYbKRTn+AH2rmwoHPwA2flY8OSOBe6FgccLD4+Oh562vDzrwtUkLINg/Ytb94SVmMIs+A2Dt1ls"
+    },
+    {
+      "name": "status.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-normal-completion-41d10d9-results\\status.json",
+      "size": 68,
+      "sha256": "d6074413a0cc2a443839d6f872d5c616ad7255495daa6141c95e33768526a105",
+      "originalPhysicalBytesZlibBase64": "eNqr5lJQUCpJLM5WslIw0AFxilITUzLzUouL4SLFyRmpuYkIfmZeSWp6UWZJJVDEkKuWCwBoIxIm"
+    },
+    {
+      "name": "task.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-normal-completion-41d10d9-results\\task.txt",
+      "size": 262,
+      "sha256": "18cff6d8fc2381065890aba97ae94b33bfc6e62b27484adf72c4ff9b364f82b0",
+      "originalPhysicalBytesZlibBase64": "eNotT8tuwyAQvPMViHMxECgyvkVVzonk/gDF6xg5NpYXW02r/ntx1dvMaOexbdrWAPQtTVPMDTWqU7JzOlhdKylVbbVVzrgPp1+thr431tTG1OQw+Llr6PLMQ5ophjUuGUUYIIw8exx5Hx9QLU/K/yi93loupSPfDLPPG7KGstu5bdkLZRMg+jsc0vtxe1jp7h+xFIghTSBwW0UVfIkX9y1+QckcIe2witnnuAMvMPYxFJJmfpInq6SSAhcIKI5+FP8DqqljP4RcPmMub3fQUEl+AQvnUv8="
+    },
+    {
+      "name": "ops009-41d10d9-completion-failure.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-41d10d9-completion-failure.json",
+      "size": 1430,
+      "sha256": "a22ded94be58066b95a89c22953e76687e9835b992c39f9c8857a62d89b3570d",
+      "originalPhysicalBytesZlibBase64": "eNp1VMtu2zgU3QfIPxDezjhDiiIlZVaG476mqQPH00VRIODjKiEsUwZJ5YGi/95L2e40k3Rjg1f3nPs4h/x2ekLIZOO8nZyTyWy+/nf28Wa+vLz6uFi/X366mc8+Xby/mK0XN6vFh8V8vbiY/DlCjNqlIYCdpQwsaCGnjE5ZsWblOefnTJ6xkjJe/kHpOaUHUOyHYCADSmYZtQ03kteMUlZLLllTNrrhQnJo21KWdVnWB2AKMMKqWltlBBMNlRVlVVVqsJZVUpRalm3DVMsK3qoDTKs4wgzVmEBLYUGrlmqmgLOWta2s6oJLapUsZVGYA6xTMc17C1crBDf0efASwu1ISnnZSMMFV4yKitbS6MIWEjSXRmhtyqZqK06PpOYOzCYi8Fs+5plU3OBxT4/nAMo6DzH+GowI26pnIecT3AaXnjDIcuz7voBXyd3DZwiudRDWELbOq27x6LJCbJ/TDl13qTZwnVRIkDVvVRdh//En8Uo9XKl0l4c8S5jd30OYpr7v4tev/S5S2kx9H7aqm5p+u+sgud5PD4pOA8ShS5j5k+4sPabJyxLXd6oQMheRQhSqEWgCIXTdVmAsMGtEQXVTVFZyhtLJAiMSxau01lRaIWnef9NIfiBXJg2qe6Nch8Yc7TwGiMs9bsEnlRsl2ywg/sao8L9TqAqBRwST5dX1FIcjzmLyuMUz8s7F1AdnkAeH3bpEjPK+T0QDCfCAsyTwpA942CEXWPLg0h3SJ2VVUtPed08HQtzE8R6oLbxDuVeDxz55XeCIvGKyeP75Q6+zdKysRV02uCT+An6U+bmSx4R/fP/grxPsGPtvLSkM/0t7mwX2yhv0hes6pPXO376auoIw9vyrbWIcoBYr6Hfg8UFoE4RXq42Xf2YM7F5YL/vyM5vv3QSv8i91hHAPFq07ZkxyucnvU1agYp9bxYu172zySr/roHzc9SEth4T67omDu807JYPf5AViM65DYbfDwUH3+ztmSczrIqbrI9i/DyYKkMITesV7MGn0Bb6TWJ3kcn8deyEqkRePphBfJqcn309PfgAa/q79"
+    }
+  ],
+  "nativeTerminalExit": 1,
+  "fullMakeStarted": false,
+  "sourceAccepted": false,
+  "sameHeadCITerminal": false
+}
