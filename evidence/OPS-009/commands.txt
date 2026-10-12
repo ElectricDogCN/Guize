@@ -1,3 +1,38 @@
+OPS-009 normal Review
+Status: REVIEW / reviewer
+Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
+Issue: #85 (open)
+Current branch: chore/OPS-009-planning-revision-ci-budget
+Current base: 03496c353a1057086cb2d26eb36c5bbc497f730c
+Actual last code merge: PR-90 / 03496c353a1057086cb2d26eb36c5bbc497f730c
+Actual tested code source: 4451370972a4b9ce7095950060f2f72b64df711e
+Original lease and11claims preserved. Native15/6301133.31s, same-headCI6626301557.86s and true mainCI663630 were actually accepted. Exact raw bytes and independent proofs: test-results/accepted-implementation-4451370/raw-results.bundle.json. Current Review15 checks/full native make/full same-headCI/independent review and main acceptance are pending. Completion and full localV1 remain incomplete.
+
+## Historical implementation and scope records
+
+## 必须执行的测试
+
+```bash
+python scripts/check-task-file.py --task OPS-009
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 03496c353a1057086cb2d26eb36c5bbc497f730c
+python scripts/check-program-plan-history.py --base-ref 03496c353a1057086cb2d26eb36c5bbc497f730c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/check-program-plan-transitions.py --base-ref 03496c353a1057086cb2d26eb36c5bbc497f730c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/check-program-plan-finalization.py --base-ref 03496c353a1057086cb2d26eb36c5bbc497f730c --task OPS-009
+python scripts/check-program-lifecycle-guards.py --base-ref 03496c353a1057086cb2d26eb36c5bbc497f730c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/run-program-lifecycle-gate.py --base-ref 03496c353a1057086cb2d26eb36c5bbc497f730c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/run-agent-coordination-gate.py --base-ref 03496c353a1057086cb2d26eb36c5bbc497f730c --head-ref HEAD --task OPS-009 --branch-name chore/OPS-009-planning-revision-ci-budget
+python scripts/run-task-scope-gate.py --task OPS-009 --base 03496c353a1057086cb2d26eb36c5bbc497f730c
+python scripts/check-evidence.py --task OPS-009
+make verify TASK=OPS-009 BASE=03496c353a1057086cb2d26eb36c5bbc497f730c HEAD_REF=HEAD BRANCH=chore/OPS-009-planning-revision-ci-budget
+```
+
+当前Review必须在实际发布source执行全部15项本地门禁（含完整make verify）并通过完整同头630项CI。代码source445的本地完整15项/630测试和CI662只绑定原source；本Review本地完整make和同头CI仍待执行，不转移旧成功。
+
+
+## Historical commands
+
 OPS-009 fresh registered implementation
 Status: IN_PROGRESS / implementer
 Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE

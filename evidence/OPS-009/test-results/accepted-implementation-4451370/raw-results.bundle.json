@@ -1,0 +1,396 @@
+{
+  "kind": "ACCEPTED_CODE_SOURCE_AND_TRUE_MAIN_RAW_ARCHIVE_NOT_REVIEW_EXECUTION",
+  "source": "4451370972a4b9ce7095950060f2f72b64df711e",
+  "actualMain": "03496c353a1057086cb2d26eb36c5bbc497f730c",
+  "tree": "827e5d17ad2e971490ec6edec74d446fa65c02e1",
+  "entries": [
+    {
+      "name": "coordination.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\coordination.txt",
+      "size": 398,
+      "sha256": "f5ee33ad5a8b7545936362246695fcada5088d5e8c656ccc859e4212c51f96bb",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-00-01.part.txt",
+          "sha256": "fe5fc307cb247cbe4b59417794f6b500eb39460a58da5e6ba2615c09a07d9345"
+        }
+      ]
+    },
+    {
+      "name": "docs.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\docs.txt",
+      "size": 164,
+      "sha256": "9de8a920541d7f762c1b798de7fd47115aa6c5e7c733e2f178a4365b4f60fe6a",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-01-01.part.txt",
+          "sha256": "f5733b2cfd6d7328f48c43c1df96d574552339ed7f8fcfcec963f2b8b967e9d3"
+        }
+      ]
+    },
+    {
+      "name": "evidence.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\evidence.txt",
+      "size": 307,
+      "sha256": "c5a4cc6349652939012d5348bd023d00b2bd86cbd5223bfbc1a190b572b92e9c",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-02-01.part.txt",
+          "sha256": "b053efc02f2d55973334210f3ee0fdbd9f71f413c8556eb436015baa7234be1c"
+        }
+      ]
+    },
+    {
+      "name": "finalization.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\finalization.txt",
+      "size": 345,
+      "sha256": "20f235ffdbac8f6813d2a267d35ce9b9c9ef05383fccbdfdffaf1e60232e2a45",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-03-01.part.txt",
+          "sha256": "be4ed72edafd24ff24cba8dc21b388ce5e60a39a63d473cc16be24d64eca711a"
+        }
+      ]
+    },
+    {
+      "name": "history.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\history.txt",
+      "size": 486,
+      "sha256": "e5ce2206f29a5d34b2b42b728e273a7b45dbcf931be0813397a3a4ba225bf3d5",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-04-01.part.txt",
+          "sha256": "af9a37380a5188c2b1552f2095f6467aa75dda66722e324eb7190d2b27c8748d"
+        }
+      ]
+    },
+    {
+      "name": "integrity.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\integrity.txt",
+      "size": 418,
+      "sha256": "7c5a68938dba7f217d421375fbee340d1e07ca660265cdcac6e8479d13276263",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-05-01.part.txt",
+          "sha256": "91c96652cf1a0b3f063923e489a112d84c21a3f7d2c54da6107c28ffdddfa23b"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\lifecycle.txt",
+      "size": 596,
+      "sha256": "a0715e94f5815a6efef52ce08c8d4c53cbf8213242ceb1e04454713523b7ccd9",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-06-01.part.txt",
+          "sha256": "137ede6adc53ec3aee1c057d4014bb2eafd669b5baebca8d3a88db93d2b91cf3"
+        }
+      ]
+    },
+    {
+      "name": "make-governance.xml",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\make-governance.xml",
+      "size": 99000,
+      "sha256": "64d54ec31201b530fcc3a80dd6924562fa9a9faf6539494c836787d8d1664dff",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-07-01.part.txt",
+          "sha256": "dd3681c45347613725d6073bb02e082c4a1658c42a0d79c7e104f5d7bc2db0bb"
+        }
+      ]
+    },
+    {
+      "name": "raw-lifecycle.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\raw-lifecycle.txt",
+      "size": 505,
+      "sha256": "e474cff29f0b716442e7df77024cd35dd4edd2efcb620300037ace16b147929d",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-08-01.part.txt",
+          "sha256": "fc13a10bbe1ee993be11c9978572a8c3ba1318698c69c13f614e025cb0962457"
+        }
+      ]
+    },
+    {
+      "name": "readiness.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\readiness.txt",
+      "size": 660,
+      "sha256": "edc430d82861cf0d08ff7fdab3f2742ac34aad7369103946e332ecf8b1673f0a",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-09-01.part.txt",
+          "sha256": "a476e2efd4ab5af2ad03e82c8388ae56dfa35c9c4c66bbce596b0d19b6326c3f"
+        }
+      ]
+    },
+    {
+      "name": "schemas.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\schemas.txt",
+      "size": 1811,
+      "sha256": "0c1df530e835a5f7cd14a3693eb38adb1d231d887e3d990e3690851b1c5a7759",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-10-01.part.txt",
+          "sha256": "61f994dbb353f87d1a1122bb46c461bd5cab0ac6c46f1ef619260737efb0468d"
+        }
+      ]
+    },
+    {
+      "name": "scope.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\scope.txt",
+      "size": 1557,
+      "sha256": "e29fd6968d3ce4a86f095fb12d413e7ba8c734eac0e1e693ab0ca308796af10d",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-11-01.part.txt",
+          "sha256": "ea1a9ac86ac6b50077a58a229abe283453e84033c91166aa5d64480c61f82551"
+        }
+      ]
+    },
+    {
+      "name": "status.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\status.json",
+      "size": 264,
+      "sha256": "a6b61cf3530757a532919ab09479e2f5fcb6bb3beb34d2920b31c66e84f55ebd",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-12-01.part.txt",
+          "sha256": "4fff8879d4159b0f73c189ab57a7d6fcaf0ba1a0536e7f5e0c35dc4b50cba368"
+        }
+      ]
+    },
+    {
+      "name": "task.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\task.txt",
+      "size": 262,
+      "sha256": "7a20f650d443aac8f9e18ab40ebfe334cc436128fdadc3a737770f5e9cc2f0b6",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-13-01.part.txt",
+          "sha256": "55de844ccdfb17113160ccb51ce09cd7d8ea49ad320ec5cd6809f62da00706bd"
+        }
+      ]
+    },
+    {
+      "name": "transitions.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\transitions.txt",
+      "size": 439,
+      "sha256": "c31d0f2b0592506aa38717c9fef50141ed1bc4dea3975de21e9dcb56467be1b0",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-14-01.part.txt",
+          "sha256": "52e78bf82ae6f5900d7b87e8c089c2f541714e8bd1bd2121a01df5b5200e6d2b"
+        }
+      ]
+    },
+    {
+      "name": "unaffected.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\unaffected.txt",
+      "size": 1704,
+      "sha256": "6e2ccce22edc502249e37d8f60f937957afb96834a3ddd924db5cee8258db065",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-15-01.part.txt",
+          "sha256": "2988344090227e00600876751fc471b2249b9381b440698fbd66e862b486a978"
+        }
+      ]
+    },
+    {
+      "name": "verification-worktrees.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\verification-worktrees.json",
+      "size": 2525,
+      "sha256": "58248a9b814b8337a61e3572eabe7c9e694db6bdaa23f5f1e738d1ba2774735d",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-16-01.part.txt",
+          "sha256": "d445457248f510c539747ce88eb0db7ba512182170b295e37dce2a2532a4c74d"
+        }
+      ]
+    },
+    {
+      "name": "verify.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-results\\verify.txt",
+      "size": 92803,
+      "sha256": "791801f7836f7fb6a712a7827ea57d87e2b826efa3b0ccee99794f7f1eeec4c3",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-17-01.part.txt",
+          "sha256": "f5201d9fe7d3a49573f00d3a7ed0af55081f1f69cac6cddc6c04f77f7f093c53"
+        }
+      ]
+    },
+    {
+      "name": "ops009-budget-implementation-4451370-ci662.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-ci662.txt",
+      "size": 263852,
+      "sha256": "dbad9ed1596f63161e7fca0e94ad697454b7ebc7cc2b5e3879c256067ed32525",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-18-01.part.txt",
+          "sha256": "13491176b12c142ab16a28babdbef6a739a577b02771a4eb5f1e35a06cbac8d8"
+        },
+        {
+          "path": "raw-18-02.part.txt",
+          "sha256": "607d0522ecf1150f3ffac6eda0a822845eece7d927a96b55ca5552dd74735a8c"
+        },
+        {
+          "path": "raw-18-03.part.txt",
+          "sha256": "3467662aed3a076bc3f2a630e1b42163b4d98e453112fffe917ff45f2a924edf"
+        },
+        {
+          "path": "raw-18-04.part.txt",
+          "sha256": "9245c8360c179cc28f7198cd68cc5d7e5b85e0a1963629c3737e8135344a3887"
+        }
+      ]
+    },
+    {
+      "name": "ops009-budget-implementation-4451370-ci662-receipt.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-4451370-ci662-receipt.json",
+      "size": 47414,
+      "sha256": "d03b4f538c65313c6a210312b14792d5f848aeabf714af9c813c106b89e1e4ad",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-19-01.part.txt",
+          "sha256": "25bf7c456c2b340517b67a28b639eaeda7b2099ffbd058d81e10f80a1319cd4f"
+        }
+      ]
+    },
+    {
+      "name": "ops009-independent-4451370-actual-source-content-review.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-independent-4451370-actual-source-content-review.json",
+      "size": 12791,
+      "sha256": "40b2473f3294c0d4c9aadc66b673d4878d36608fa7f70fbd36388aad9fa2fe98",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-20-01.part.txt",
+          "sha256": "74788b93dbdca8203e71c039a0615fd9c00bd79447efb59360e0b4c276c55f14"
+        }
+      ]
+    },
+    {
+      "name": "ops009-independent-4451370-local15-results-acceptance.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-independent-4451370-local15-results-acceptance.json",
+      "size": 11505,
+      "sha256": "de28e8e9b6adcae8110a8d178fab3518f98e88f9753a1fc282e3c4f143505d8f",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-21-01.part.txt",
+          "sha256": "6fd18aa9fa2f3c5095a9fdb38ca850e63699d23a35c157432b1e20dcc0bbe46b"
+        }
+      ]
+    },
+    {
+      "name": "ops009-independent-4451370-final-integration-acceptance.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-independent-4451370-final-integration-acceptance.json",
+      "size": 16789,
+      "sha256": "f364d4e7038c9487a0d6d5b8dabf30af4f3ddcafc5ed5cc0a3f2ab1e40099cb2",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-22-01.part.txt",
+          "sha256": "8219ca3eb5832cee55f0c63ba9e5c519d89affa473dbb00da7108e601573fe0a"
+        }
+      ]
+    },
+    {
+      "name": "ops009-independent-4451370-ci662-official-receipt.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-independent-4451370-ci662-official-receipt.json",
+      "size": 47567,
+      "sha256": "bc55ad2effa43689a8f15d278b04b024f7d32af9ecc1149f0105acf24a076db3",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-23-01.part.txt",
+          "sha256": "c6536aaa6a2aa67a837bc483bf3b857e4cff76e6e76c9fca45fb475d963c4f18"
+        }
+      ]
+    },
+    {
+      "name": "ops009-4451370-immediate-merge-guard.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-4451370-immediate-merge-guard.json",
+      "size": 60640,
+      "sha256": "a104049d3a450221e5f8678b4e0d475cc022225e199855a8b743a12c52b9ed3b",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-24-01.part.txt",
+          "sha256": "73619a3df573fa27786a25d800e23d6b87eccb63c046f09510f680b3594fb894"
+        }
+      ]
+    },
+    {
+      "name": "ops009-budget-implementation-main-03496c3-ci663.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-main-03496c3-ci663.txt",
+      "size": 254085,
+      "sha256": "ab7a956a9d8389e8fda08f45fbed671c320063ef557bb67aa7485776165f875c",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-25-01.part.txt",
+          "sha256": "2334d701e952b0cf789562e00de3738c00f0779025008e543bb783917fc47fe9"
+        },
+        {
+          "path": "raw-25-02.part.txt",
+          "sha256": "3aa5d24af87e2c3ec12d1c61b994ddcb62a6f1b3d436364f184e81865ae93eb1"
+        },
+        {
+          "path": "raw-25-03.part.txt",
+          "sha256": "98917c6161aec3054c97f877f2271c633a4da9e2ef93e24f0ce26c60a9bfc58f"
+        },
+        {
+          "path": "raw-25-04.part.txt",
+          "sha256": "991afeff1fb6d6a40532e13b8a6c3765ebbf652613a7d0cf8d1d1a8c5053b0c3"
+        }
+      ]
+    },
+    {
+      "name": "ops009-budget-implementation-main-03496c3-ci663-proof.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-budget-implementation-main-03496c3-ci663-proof.json",
+      "size": 9519,
+      "sha256": "ce6e26dc544f70ee99d5bbc2aa5971090ce1c7c7f2331f8fdfc77fac6d2b31be",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-26-01.part.txt",
+          "sha256": "413d304beb7fc621e6cc76f0c1c07a1f9b72ba3a889ef7ae445f6ca5a4a37266"
+        }
+      ]
+    },
+    {
+      "name": "ops009-independent-implementation-main-03496c3-acceptance.json",
+      "originalPath": ".takeover-tools\\ops009-independent-implementation-main-03496c3-acceptance.json",
+      "size": 65164,
+      "sha256": "da777d40ef2d7e517e8bde92d78f22ea019d1431a1c6df3abd8c883f4cecdb40",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-27-01.part.txt",
+          "sha256": "d3d1e07df0efb075b4bda7858d3ab369564e39122d1ad4f169d78a4926a2ffd1"
+        }
+      ]
+    }
+  ]
+}

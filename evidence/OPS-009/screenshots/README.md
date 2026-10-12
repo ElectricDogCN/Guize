@@ -1,3 +1,15 @@
+OPS-009 normal Review
+Status: REVIEW / reviewer
+Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
+Issue: #85 (open)
+Current branch: chore/OPS-009-planning-revision-ci-budget
+Current base: 03496c353a1057086cb2d26eb36c5bbc497f730c
+Actual last code merge: PR-90 / 03496c353a1057086cb2d26eb36c5bbc497f730c
+Actual tested code source: 4451370972a4b9ce7095950060f2f72b64df711e
+Original lease and11claims preserved. Native15/6301133.31s, same-headCI6626301557.86s and true mainCI663630 were actually accepted. Exact raw bytes and independent proofs: test-results/accepted-implementation-4451370/raw-results.bundle.json. Current Review15 checks/full native make/full same-headCI/independent review and main acceptance are pending. Completion and full localV1 remain incomplete.
+
+## Historical implementation and scope records
+
 OPS-009 fresh registered implementation
 Status: IN_PROGRESS / implementer
 Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE
