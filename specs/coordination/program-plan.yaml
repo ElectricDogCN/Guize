@@ -51,6 +51,11 @@ foundationTasks:
     status: completed
     completionRef: PR-93
     mergeCommit: dcd0b55749427eabeb708e0e0dc5e88ca2e00981
+  - taskId: OPS-010
+    title: 修复规划原始manifest准入的分支基线解析
+    status: reserved
+    completionRef: ISSUE-97
+    mergeCommit: null
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

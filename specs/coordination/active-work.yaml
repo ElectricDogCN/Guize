@@ -5,4 +5,44 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
   - GZ-003
-tasks: []
+tasks:
+- taskId: OPS-010
+  issue: 97
+  title: 修复规划原始manifest准入的分支基线解析
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: planning-base-resolution-agent
+  reviewer: independent-planning-base-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/OPS-010-planning-base-resolution
+  baseBranch: main
+  baseSha: 56edb228adbafdb6c9526229c31bbebad9a1e673
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-010
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: planning-manifest-base-resolution
+  dependsOn:
+  - OPS-009
+  exclusivePaths:
+  - scripts/program-planning-revision.py
+  - tests/governance/test_program_planning_revision.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-010/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 6
+  lease:
+    acquiredAt: '2026-10-12T18:03:26Z'
+    expiresAt: '2026-10-19T18:03:26Z'

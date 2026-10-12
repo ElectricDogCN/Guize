@@ -1,0 +1,29 @@
+{
+  "rootCause": {
+    "kind": "FINITE_READ_ONLY_CI_BASE_ALIAS_REPRODUCTION",
+    "source": "dae12c91bca6bc37faf9a9a355821ea3c3ad7ed3",
+    "syntheticCheckout": "6c54295dc4f03e9fbe0f48208730a6678399a29f",
+    "base": "56edb228adbafdb6c9526229c31bbebad9a1e673",
+    "aliasResolvedToSameBase": true,
+    "moduleGitBlob": "ded88cb4547fd4a192b11f1823eb5432823efad7",
+    "modulePhysicalSha256": "defb7eeb584d92687b4e3f902aea6014e6b6b43b015e02c3dbaa693e38f723b3",
+    "outcomes": {
+      "origin/main": {
+        "exit": 1,
+        "error": "Manifest audit requires an admitted canonical base"
+      },
+      "56edb228adbafdb6c9526229c31bbebad9a1e673": {
+        "exit": 0,
+        "error": null
+      }
+    },
+    "cause": "audit_changed_manifests sends unresolved base alias as ancestor older; ancestor requires exact 40-character SHA. New reservation has no prior active owner baseSha.",
+    "canonicalFilesModified": false,
+    "sourceAccepted": false,
+    "runtimeAccepted": false
+  },
+  "independentProofPath": "gz021-independent-alias-admission-failure-scope-route.json",
+  "independentProofSha256": "ff2516c669ab49fe0d1d7cf6aaacca6b2c730bed31eaf63e581504365499332c",
+  "scopeInputSha256": "5915a29cc4a51f790ffda98c1423fc02963309b6f891b7317e58133e6e7d63b2",
+  "sourceAccepted": false
+}

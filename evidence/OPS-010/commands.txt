@@ -1,0 +1,26 @@
+OPS-010 metadata-only reservation
+Status: RESERVED
+Verification: PENDING_ACTUAL_PUBLISHED_SOURCE
+Issue: #97 (open)
+Base: 56edb228adbafdb6c9526229c31bbebad9a1e673
+Reservation branch: chore/OPS-010-base-alias-reservation
+Implementation claim: chore/OPS-010-planning-base-resolution
+Lease: 2026-10-12T18:03:26Z to 2026-10-19T18:03:26Z
+
+Only OwnFoundation/Registry/Task/Evidence; two exact MOD-GOV claims, no manifest/planning/baseline/business change. No PASS for current source. Actual immutable PR source/raw commands/exits/JUnit/same-head CI/independent approval/main acceptance remain required.
+
+Required commands: NOT EXECUTED
+python scripts/check-task-file.py --task OPS-010
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673
+python scripts/check-program-plan-history.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
+python scripts/check-program-plan-transitions.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
+python scripts/check-program-plan-finalization.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --task OPS-010
+python scripts/check-program-lifecycle-guards.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
+python scripts/run-agent-coordination-gate.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
+python scripts/run-task-scope-gate.py --task OPS-010 --base 56edb228adbafdb6c9526229c31bbebad9a1e673
+python scripts/check-evidence.py --task OPS-010
+make verify TASK=OPS-010 BASE=56edb228adbafdb6c9526229c31bbebad9a1e673 HEAD_REF=HEAD BRANCH=chore/OPS-010-base-alias-reservation
+python scripts/check-markdown.py
