@@ -1,3 +1,15 @@
+OPS-009 normal Completion candidate
+Status: PASS
+Scope of PASS: accepted code PR90 and Review PR91 plus actual Review main; current Completion source remains PENDING.
+Issue: #85 must be closed/completed before exact Completion gates.
+Current branch: chore/OPS-009-planning-revision-completion
+Current base: c0b54b045debaf0b1ae31f1ff6782360da64622c
+Actual last code merge: PR-90 / 03496c353a1057086cb2d26eb36c5bbc497f730c
+Actual accepted Review source: 23609cc5ba7b148efcb6f616d915537019f000ad
+Archive: test-results/accepted-review-23609cc/raw-results.bundle.json. Original manifest/Ledger/policy/code preserved; only Own Foundation completion, OwnTask/Evidence and removal of OwnLease. Current source native15/full630/same-headCI/independent approval and true-main acceptance remain pending. Full localV1 incomplete.
+
+## Historical records
+
 OPS-009 normal Review
 Status: REVIEW / reviewer
 Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
