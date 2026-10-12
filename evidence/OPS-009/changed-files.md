@@ -1,3 +1,48 @@
+OPS-009 fresh registered implementation
+Status: IN_PROGRESS / implementer
+Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE
+Issue: #85 (open)
+Actual implementation base: 7b5667f6518c78fcd88ae4113a1853a609545fbc
+Implementation branch: chore/OPS-009-planning-revision-ci-budget
+Original lease: 2026-10-10T15:29:31Z to 2026-10-17T15:29:31Z
+
+Accepted scope provenance: actual main 7b5667f6518c78fcd88ae4113a1853a609545fbc / tree8ec2035038407e33c9cc560532d7c0aeae7424b3, ordered parents M87/e2fd3542b528e1df6651b2ff5af09098e2b9db85. Public [scope PR89](https://github.com/ElectricDogCN/Guize/pull/89), [source CI660](https://github.com/ElectricDogCN/Guize/actions/runs/38235770762), and [actual main CI661 attempt2](https://github.com/ElectricDogCN/Guize/actions/runs/38237809876/attempts/2) bind the scope source and actual main. Main527 tests1165.49s/zero test skips and all applicable steps succeeded, independently accepted; its first attempt is historical overallcancelled and remains labelled cancelled. These results admit the scope only and never approve this fresh implementation source.
+
+Eleven exact claims admitted by actual PR89 scope-main, original immutable manifest and lease unchanged. First implementation DAG is rebuilt directly on accepted main. Nine code/schema/test files reuse reviewed old2e8 content; Program applies only original GZ-021/GZ-020/BASELINE-GZ-021 and own status; workflow differs from accepted base only by timeout20 to30. All630 tests/assertions and existing timeout<=30 guard remain. Current actual source/local complete gates/CI/review are pending; old results are historical. No runtime/POC/GZ-021 implementation is included and full V1 is incomplete.
+
+Current implementation delta relative to actual scope-main (28 files):
+
+- .github/workflows/governance-gate.yml
+- evidence/OPS-009/api-samples/README.md
+- evidence/OPS-009/assumptions.md
+- evidence/OPS-009/changed-files.md
+- evidence/OPS-009/commands.txt
+- evidence/OPS-009/follow-ups.md
+- evidence/OPS-009/handoff.md
+- evidence/OPS-009/migration-report/README.md
+- evidence/OPS-009/performance/README.md
+- evidence/OPS-009/risks.md
+- evidence/OPS-009/rollback-verification/README.md
+- evidence/OPS-009/scope.md
+- evidence/OPS-009/screenshots/README.md
+- evidence/OPS-009/security/README.md
+- evidence/OPS-009/summary.md
+- evidence/OPS-009/test-results/README.md
+- scripts/check-program-lifecycle-guards.py
+- scripts/check-program-plan-history.py
+- scripts/check-program-plan-transitions.py
+- scripts/check-project-readiness.py
+- scripts/program-planning-revision.py
+- specs/coordination/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/planning-revision.schema.yaml
+- specs/coordination/program-plan.schema.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-009.md
+- tests/governance/test_program_planning_revision.py
+
+## Historical accepted scopes and reservation records
+
 OPS-009 metadata-only CI budget scope amendment
 Status: RESERVED / coordinator
 Verification: PENDING_ACTUAL_PUBLISHED_SCOPE_SOURCE

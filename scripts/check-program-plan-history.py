@@ -46,6 +46,13 @@ TRANSITIONS = importlib.util.module_from_spec(TRANSITIONS_SPEC)
 assert TRANSITIONS_SPEC and TRANSITIONS_SPEC.loader
 TRANSITIONS_SPEC.loader.exec_module(TRANSITIONS)
 
+PLANNING_SPEC = importlib.util.spec_from_file_location(
+    "guize_history_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py")
+)
+PLANNING = importlib.util.module_from_spec(PLANNING_SPEC)
+assert PLANNING_SPEC and PLANNING_SPEC.loader
+PLANNING_SPEC.loader.exec_module(PLANNING)
+
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
 LEDGER = "specs/coordination/task-completions.yaml"
@@ -625,13 +632,22 @@ def clean_synchronization_paths(root: str, node: str, paths: set[str], incoming:
         return set()
 
 
-def historical_foreign_metadata(root: str, previous: str, node: str, incoming: list[str], task_id: str, errors: list[str], clean_imports: set[str]) -> None:
+def historical_foreign_metadata(root: str, previous: str, node: str, incoming: list[str], task_id: str, errors: list[str], clean_imports: set[str], *, admitted_base: str = "") -> None:
+    planning = None
+    if PLANNING.blob(root, node, f"evidence/{task_id}/planning-revision.json") is not None:
+        planning = PLANNING.classifier(
+            root, previous, node, load_ref(root, previous, PLAN), load_ref(root, node, PLAN), errors,
+            owner_hint=task_id, observed_at=PLANNING.commit_time(root, node),
+            admitted_base_ref=admitted_base or previous,
+        )
     for path, collections in ((ACTIVE, ("tasks",)), (PLAN, ("tasks", "foundationTasks"))):
         def foreign_document(ref: str) -> dict[str, Any] | None:
             document = load_ref(root, ref, path)
             if not isinstance(document, dict):
                 return None
             document = copy.deepcopy(document)
+            if path == PLAN and ref == node and planning:
+                document = copy.deepcopy(planning["projectedPlan"])
             for collection in collections:
                 document[collection] = [item for item in document.get(collection, []) if isinstance(item, dict) and item.get("taskId") != task_id]
             return document
@@ -1150,7 +1166,7 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
                 errors.append(f"Foundation {task_id} working node predates its original reservation")
             continue
         if node not in early_nodes:
-            historical_foreign_metadata(root, previous, node, incoming, task_id, errors, clean_imports)
+            historical_foreign_metadata(root, previous, node, incoming, task_id, errors, clean_imports, admitted_base=base)
         before_registry = load_ref(root, previous, ACTIVE)
         before_entries = [item for item in (before_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
         node_registry = load_ref(root, node, ACTIVE)
@@ -1212,6 +1228,14 @@ def historical_frozen_definitions(root: str, previous: str, node: str, paths: se
     if PLAN in paths:
         before, after = load_ref(root, previous, PLAN), load_ref(root, node, PLAN)
         if isinstance(before, dict) and isinstance(after, dict):
+            active = load_ref(root, previous, ACTIVE) or {}
+            if any(PLANNING.blob(root, previous, f"evidence/{entry.get('taskId')}/planning-revision.json") is not None for entry in active.get("tasks", [])):
+                planning = PLANNING.classifier(
+                    root, previous, node, before, after, errors,
+                    observed_at=PLANNING.commit_time(root, node),
+                )
+                if planning:
+                    after = planning["projectedPlan"]
             current = mapping(after.get("tasks"))
             for prior in before.get("tasks") or []:
                 if not isinstance(prior, dict):
@@ -1529,6 +1553,60 @@ def main() -> int:
     if not all(isinstance(item, dict) for item in documents):
         emit("FAIL", "Program history documents are missing or invalid")
         return 1
+
+    planning = PLANNING.classifier(
+        root, args.base_ref, args.head_ref, base_plan, current_plan, errors,
+        owner_hint=args.task,
+    )
+    planning_affected = RECOVERY.task_ids_from_diff(
+        base_plan, current_plan, base_active, current_active, base_ledger, current_ledger,
+        RECOVERY.changed_paths(root, args.base_ref, args.head_ref) or set(),
+    )
+    # Creation changes planned definitions, not consumer execution. Only an
+    # authenticated transaction may remove those IDs from consumer admission.
+    if planning:
+        planning_affected.difference_update(planning["targetTaskIds"])
+        planning_affected.add(planning["owner"])
+    if args.task:
+        planning_affected.add(args.task)
+    PLANNING.enforce_consumers(
+        root, args.base_ref, args.head_ref, base_plan, current_plan,
+        planning_affected, RECOVERY.changed_paths(root, args.base_ref, args.head_ref) or set(), errors,
+    )
+
+    # Inspect the actual introduced nodes as well as the endpoints. A restored
+    # tip must not erase an earlier attempted consumer start or altered manifest.
+    introduced = git(root, "rev-list", "--reverse", f"{args.base_ref}..{args.head_ref}")
+    if introduced.returncode:
+        errors.append("Cannot inspect introduced planning/baseline history")
+    for node in introduced.stdout.split():
+        previous = resolve_ref(root, f"{node}^1")
+        if not previous:
+            continue
+        before_node, after_node = load_ref(root, previous, PLAN), load_ref(root, node, PLAN)
+        before_registry, after_registry = load_ref(root, previous, ACTIVE), load_ref(root, node, ACTIVE)
+        if not all(isinstance(item, dict) for item in (before_node, after_node, before_registry, after_registry)):
+            continue
+        declared = any(PLANNING.blob(root, node, f"evidence/{entry.get('taskId')}/planning-revision.json") is not None for entry in after_registry.get("tasks", []))
+        if not declared and "planningBaselines" not in before_node and "planningBaselines" not in after_node:
+            continue
+        node_planning = PLANNING.classifier(
+            root, previous, node, before_node, after_node, errors,
+            observed_at=PLANNING.commit_time(root, node), admitted_base_ref=args.base_ref,
+        )
+        node_paths = RECOVERY.changed_paths(root, previous, node) or set()
+        node_affected = RECOVERY.task_ids_from_diff(
+            before_node, after_node, before_registry, after_registry,
+            load_ref(root, previous, LEDGER) or {"records": []},
+            load_ref(root, node, LEDGER) or {"records": []}, node_paths,
+        )
+        if node_planning:
+            node_affected.difference_update(node_planning["targetTaskIds"])
+            node_affected.add(node_planning["owner"])
+        PLANNING.enforce_consumers(
+            root, previous, node, before_node, after_node, node_affected, node_paths, errors,
+            admitted_base_ref=args.base_ref,
+        )
 
     validate_foundations(
         root,
