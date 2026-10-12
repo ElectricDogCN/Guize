@@ -1,3 +1,42 @@
+OPS-009 metadata-only CI budget scope amendment
+Status: RESERVED / coordinator
+Verification: PENDING_ACTUAL_PUBLISHED_SCOPE_SOURCE
+Issue: #85 (open)
+Actual parent/base: 86e39646bda0e623ae712ecfde85e14ac6aa5cef
+Scope branch: chore/OPS-009-ci-budget-scope
+New implementation branch claim: chore/OPS-009-planning-revision-ci-budget
+Original lease: 2026-10-10T15:29:31Z to 2026-10-17T15:29:31Z
+
+Only Task/Registry and own Evidence change. Existing reserved/coordinator Foundation gains one exact MOD-GOV claim .github/workflows/governance-gate.yml (eleven total) and a fresh implementation branch, with base bound to the actual parent. All roles, Issue, original lease, Program, Ledger, immutable manifest and foreign files remain unchanged. The workflow itself and all implementation bytes are unchanged. Current claims are authoritative in Task/Registry; this reservation does not install the planning mechanism or perform any GZ-021/POC/runtime work.
+
+Reason: actual unaccepted2e8 code passed native fifteen checks/630 tests in1167.32s,zero failures/errors/skips. Official CI656 attempts1/2 reached the existing20-minute budget, observing508/523 PASSED and zero observed FAILED,without completion. Original decoded outputs and local source/JUnit/clean records remain source-bound in .takeover-tools/; private two-cancellation Evidence ref08bcf3ff0e7bff283d59fb162a9d8e3386013f7a preserves the unaccepted archive. Neither cancelled attempt is a CI pass.
+
+Next roles/actions: publish this metadata-only scope source; verify its task/readiness/schema/integrity/history/transitions/finalization/lifecycle/coordination/scope/evidence/complete make verify/docs commands against this real parent and chore/OPS-009-ci-budget-scope, record actual raw exits and nonempty zero-FES JUnit, obtain same-head CI and independent approval, expected-head merge then verify actual push/main. After actual scope-main acceptance, build fresh implementation from that true main on the newly declared branch, apply the unchanged three targets and previously reviewed code with the new registered scope/base, and change only timeout20 to45. Preserve old unaccepted branch/PR/raws, close the superseded PR without force, and require new-source complete gates/CI/review before normal integration/Review/Completion. Issue85 remains open and all twenty-three planned consumers remain undispatched until actual GZ-021 completion. Full V1 is incomplete.
+
+Rollback: close an unmerged amendment while preserving original authority. No direct reserved release/cancel, no lease extension, no code-before-scope admission, no new governance task, no force rewrite, no skipped tests or weakened assertions.
+
+Current metadata-only delta (17 files):
+
+- evidence/OPS-009/api-samples/README.md
+- evidence/OPS-009/assumptions.md
+- evidence/OPS-009/changed-files.md
+- evidence/OPS-009/commands.txt
+- evidence/OPS-009/follow-ups.md
+- evidence/OPS-009/handoff.md
+- evidence/OPS-009/migration-report/README.md
+- evidence/OPS-009/performance/README.md
+- evidence/OPS-009/risks.md
+- evidence/OPS-009/rollback-verification/README.md
+- evidence/OPS-009/scope.md
+- evidence/OPS-009/screenshots/README.md
+- evidence/OPS-009/security/README.md
+- evidence/OPS-009/summary.md
+- evidence/OPS-009/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-009.md
+
+## Previous accepted scope and reservation records (historical)
+
 OPS-009 current metadata-only readiness scope revision
 Status: RESERVED / coordinator
 Verification: PENDING_ACTUAL_SOURCE
