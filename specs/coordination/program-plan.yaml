@@ -518,7 +518,7 @@ tasks:
   - taskId: GZ-021
     title: 异构AV1 worker、HLS调度与本地V1验收路线修订
     kind: requirements
-    status: planned
+    status: reserved
     workPackage: WP-M0-03A
     riskLevel: high
     ownerRole: requirements-route-revision-agent
