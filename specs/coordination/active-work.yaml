@@ -19,7 +19,7 @@ tasks:
   agentRole: coordinator
   branch: chore/OPS-009-planning-revision-admission
   baseBranch: main
-  baseSha: bf0e5cbf51c1f8991986f503e22d1312ac9b5836
+  baseSha: 82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-009
@@ -48,6 +48,7 @@ tasks:
   - scripts/check-program-plan-transitions.py
   - scripts/check-program-lifecycle-guards.py
   - scripts/check-program-plan-history.py
+  - scripts/check-project-readiness.py
   - tests/governance/test_program_planning_revision.py
   sharedPaths: []
   handoffPath: evidence/OPS-009/handoff.md
