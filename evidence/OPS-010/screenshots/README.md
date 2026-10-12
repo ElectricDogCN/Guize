@@ -1,3 +1,5 @@
+Historical reservation-preparation snapshot (not current implementation results).
+
 OPS-010 metadata-only reservation
 Status: RESERVED
 Verification: PENDING_ACTUAL_PUBLISHED_SOURCE

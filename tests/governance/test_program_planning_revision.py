@@ -739,3 +739,59 @@ def test_manifest_mutation_restoration_cannot_disappear(history, script):
         # Endpoint-only transition/lifecycle checks may see restored bytes;
         # the mandatory history and Readiness checks enforce intervening nodes.
         assert result.returncode == 0, result.stdout + result.stderr
+
+
+@pytest.mark.parametrize("alias", ["main", "origin/main"])
+def test_new_reservation_manifest_base_alias_matches_immutable_sha(tmp_path, alias):
+    proposal = History(tmp_path, ordinary=True, merge_registration=False)
+    proposal.git("update-ref", "refs/remotes/origin/main", proposal.base)
+    assert proposal.git("rev-parse", alias) == proposal.base
+    for base in (alias, proposal.base):
+        PLANNING.audit_changed_manifests(str(proposal.root), base, proposal.registration)
+        errors = []
+        decision = PLANNING.classifier(
+            str(proposal.root), base, proposal.registration,
+            PLANNING.document(str(proposal.root), base, PLANNING.PLAN),
+            PLANNING.document(str(proposal.root), proposal.registration, PLANNING.PLAN),
+            errors,
+        )
+        assert decision is None and not errors  # Valid metadata supplies no planning permission.
+
+
+@pytest.mark.parametrize("authority", ["missing", "sibling", "unmerged_head"])
+def test_manifest_base_alias_rejects_invalid_or_noncanonical_authority(tmp_path, authority):
+    proposal = History(tmp_path, ordinary=True, merge_registration=False)
+    proposal.git("update-ref", "refs/remotes/origin/main", proposal.base)
+    if authority == "missing":
+        selected = "refs/heads/missing-admission-base"
+    elif authority == "sibling":
+        selected = proposal.git("commit-tree", proposal.git("rev-parse", proposal.base + "^{tree}"), "-p", PREDECESSOR, "-m", "Noncanonical sibling")
+    else:
+        selected = proposal.registration
+    with pytest.raises(PLANNING.PlanningError):
+        PLANNING.audit_changed_manifests(
+            str(proposal.root), proposal.base, proposal.registration,
+            admitted_base_ref=selected,
+        )
+
+
+def test_manifest_base_alias_is_resolved_fresh_after_ref_moves(tmp_path):
+    proposal = History(tmp_path, ordinary=True, merge_registration=False)
+    proposal.git("update-ref", "refs/remotes/origin/main", proposal.base)
+    selected = "refs/heads/selected-admission-base"
+    proposal.git("update-ref", selected, proposal.base)
+    PLANNING.audit_changed_manifests(str(proposal.root), proposal.base, proposal.registration, admitted_base_ref=selected)
+    sibling = proposal.git("commit-tree", proposal.git("rev-parse", proposal.base + "^{tree}"), "-p", PREDECESSOR, "-m", "Moved alias to noncanonical sibling")
+    proposal.git("update-ref", selected, sibling)
+    with pytest.raises(PLANNING.PlanningError, match="admitted canonical base"):
+        PLANNING.audit_changed_manifests(str(proposal.root), proposal.base, proposal.registration, admitted_base_ref=selected)
+
+
+def test_manifest_base_alias_still_rejects_registered_manifest_rewrite(tmp_path):
+    registered = History(tmp_path)
+    changed = copy.deepcopy(registered.manifest)
+    changed["targets"][0]["after"]["title"] += " unauthorized rewrite"
+    registered.dump(f"evidence/{registered.owner}/planning-revision.json", changed)
+    head = registered.commit("Mutate original registered manifest")
+    with pytest.raises(PLANNING.PlanningError, match="Original registered planning manifest changed in history"):
+        PLANNING.audit_changed_manifests(str(registered.root), registered.registration, head, admitted_base_ref="main")

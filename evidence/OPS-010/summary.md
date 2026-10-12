@@ -1,10 +1,8 @@
-OPS-010 metadata-only reservation
-Status: RESERVED
-Verification: PENDING_ACTUAL_PUBLISHED_SOURCE
-Issue: #97 (open)
-Base: 56edb228adbafdb6c9526229c31bbebad9a1e673
-Reservation branch: chore/OPS-010-base-alias-reservation
-Implementation claim: chore/OPS-010-planning-base-resolution
-Lease: 2026-10-12T18:03:26Z to 2026-10-19T18:03:26Z
+OPS-010 implementation candidate
+Status: IN_PROGRESS
+Issue: #97
+Base: 6acc0f0aded96f417aa107b3e249dd3c925330a1
+Branch: chore/OPS-010-planning-base-resolution
+Role: implementer
 
-Only OwnFoundation/Registry/Task/Evidence; two exact MOD-GOV claims, no manifest/planning/baseline/business change. No PASS for current source. Actual immutable PR source/raw commands/exits/JUnit/same-head CI/independent approval/main acceptance remain required.
+The selected manifest authority is resolved with the existing snapshot helper to an immutable commit before the existing strict canonical ancestry and history audit. Seven real-Git regression cases cover main/origin-main equivalence, missing/sibling/unmerged rejection, fresh alias movement and immutable registered manifest enforcement. Private red 4/7 failures became green 7/7; actual source full gates/CI/review remain pending. Full local V1 development continues after this repair.

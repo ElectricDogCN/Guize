@@ -372,6 +372,7 @@ def audit_changed_manifests(root: str, base_ref: str, head_ref: str, *, admitted
         owner = match.group(1)
         before_active = records(document(root, base_ref, ACTIVE).get("tasks", []))
         authority = admitted_base_ref or before_active.get(owner, {}).get("baseSha") or base_ref
+        authority = snapshot(root, authority)[1]
         canonical = [ref for ref in ("origin/main", "main") if git(root, "rev-parse", "--verify", ref, missing=True)]
         require(any(ancestor(root, authority, git(root, "rev-parse", ref) or "") for ref in canonical), "Manifest audit requires an admitted canonical base")
         prior = False

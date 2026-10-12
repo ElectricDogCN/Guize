@@ -1,26 +1,19 @@
-OPS-010 metadata-only reservation
-Status: RESERVED
-Verification: PENDING_ACTUAL_PUBLISHED_SOURCE
-Issue: #97 (open)
-Base: 56edb228adbafdb6c9526229c31bbebad9a1e673
-Reservation branch: chore/OPS-010-base-alias-reservation
-Implementation claim: chore/OPS-010-planning-base-resolution
-Lease: 2026-10-12T18:03:26Z to 2026-10-19T18:03:26Z
+OPS-010 implementation candidate
+Status: IN_PROGRESS
+Issue: #97
+Base: 6acc0f0aded96f417aa107b3e249dd3c925330a1
+Branch: chore/OPS-010-planning-base-resolution
+Role: implementer
 
-Only OwnFoundation/Registry/Task/Evidence; two exact MOD-GOV claims, no manifest/planning/baseline/business change. No PASS for current source. Actual immutable PR source/raw commands/exits/JUnit/same-head CI/independent approval/main acceptance remain required.
+Private working-tree regression (prepublication only):
+Command: C:/ProgramData/anaconda3/python.exe -X utf8 -m pytest tests/governance/test_program_planning_revision.py -q -k manifest_base_alias --junitxml=../ops010-alias-red.xml
+Exit Code: 1
+Result: 4 failed, 3 passed, 103 deselected in 34.14s. Original helper rejects valid aliases; negative cases already rejected.
+Command: C:/ProgramData/anaconda3/python.exe -X utf8 -m pytest tests/governance/test_program_planning_revision.py -q -k manifest_base_alias --junitxml=../ops010-alias-green.xml
+Exit Code: 0
+Result: 7 passed, 103 deselected in 52.79s; no failures/errors/skips after the one-line immutable resolution.
+Command: C:/ProgramData/anaconda3/python.exe -X utf8 -m pytest tests/governance --collect-only -q
+Exit Code: 0
+Result: 637 tests collected in 0.43s.
 
-Required commands: NOT EXECUTED
-python scripts/check-task-file.py --task OPS-010
-python scripts/check-project-readiness.py
-python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673
-python scripts/check-program-plan-history.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
-python scripts/check-program-plan-transitions.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
-python scripts/check-program-plan-finalization.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --task OPS-010
-python scripts/check-program-lifecycle-guards.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
-python scripts/run-agent-coordination-gate.py --base-ref 56edb228adbafdb6c9526229c31bbebad9a1e673 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-base-alias-reservation
-python scripts/run-task-scope-gate.py --task OPS-010 --base 56edb228adbafdb6c9526229c31bbebad9a1e673
-python scripts/check-evidence.py --task OPS-010
-make verify TASK=OPS-010 BASE=56edb228adbafdb6c9526229c31bbebad9a1e673 HEAD_REF=HEAD BRANCH=chore/OPS-010-base-alias-reservation
-python scripts/check-markdown.py
+JUnit references: local .takeover-tools/ops010-alias-red.xml and ops010-alias-green.xml. These preparation checks do not represent validation of a published source. Required full gates, planning-file tests, alias checker invocations, same-head CI and independent acceptance remain pending and will be bound to the actual immutable source in its PR handoff.
