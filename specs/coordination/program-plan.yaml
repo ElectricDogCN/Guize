@@ -53,7 +53,7 @@ foundationTasks:
     mergeCommit: dcd0b55749427eabeb708e0e0dc5e88ca2e00981
   - taskId: OPS-010
     title: 修复规划原始manifest准入的分支基线解析
-    status: in_progress
+    status: review
     completionRef: ISSUE-97
     mergeCommit: null
 waves:

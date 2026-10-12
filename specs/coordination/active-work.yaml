@@ -9,17 +9,17 @@ tasks:
 - taskId: OPS-010
   issue: 97
   title: 修复规划原始manifest准入的分支基线解析
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: planning-base-resolution-agent
   reviewer: independent-planning-base-review-agent
   integrator: integration-agent
-  agentRole: implementer
-  branch: chore/OPS-010-planning-base-resolution
+  agentRole: reviewer
+  branch: chore/OPS-010-planning-base-review
   baseBranch: main
-  baseSha: 6acc0f0aded96f417aa107b3e249dd3c925330a1
+  baseSha: 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-010

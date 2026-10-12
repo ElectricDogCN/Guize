@@ -1,0 +1,140 @@
+Historical accepted implementation Task Spec, not the current Review source.
+
+---
+schemaVersion: 2
+id: OPS-010
+title: Resolve immutable planning manifest authority from CI base aliases
+titleZh: 修复规划原始manifest准入的分支基线解析
+type: chore
+status: in_progress
+baseBranch: main
+baseSha: 6acc0f0aded96f417aa107b3e249dd3c925330a1
+workBranch: chore/OPS-010-planning-base-resolution
+evidencePath: evidence/OPS-010
+issue: 97
+workPackage: WP-M0-01
+programPlan: specs/coordination/program-plan.yaml
+programTaskId: OPS-010
+wave: FOUNDATION
+requirementIds: REQ-V1-0010
+moduleIds: MOD-GOV
+producesContracts: []
+consumesContracts: CONTRACT-PROGRAM-PLAN,CONTRACT-TASK-SPEC,CONTRACT-ACTIVE-WORK
+exitGate: 已有严格规划manifest准入先绑定真实不可变基线；CI分支别名与同SHA等价，invalid/noncanonical基线与manifest重写继续拒绝；当前源码全部门禁、完整零失败错误跳过测试、同头CI及独立审查通过，不改变业务计划与生产政策
+taskOwner: ElectricDogCN
+coordinator: program-coordinator-agent
+implementer: planning-base-resolution-agent
+reviewer: independent-planning-base-review-agent
+integrator: integration-agent
+agentRole: implementer
+riskLevel: high
+coordinationMode: registry
+coordinationGroup: planning-manifest-base-resolution
+dependsOn: OPS-009
+handoffPath: evidence/OPS-010/handoff.md
+integrationStrategy: merge
+integrationOrder: 6
+leaseExpiresAt: 2026-10-19T18:03:26Z
+---
+
+# OPS-010 修复规划原始manifest准入的分支基线解析
+
+## 背景
+
+Issue #97。GZ-021未合入reservation中发现真实CI拒绝origin/main，而该别名解析到的同一40位SHA被接受；原因是audit_changed_manifests将未解析selected authority传给严格SHA祖先判断。真实main 6acc0f0aded96f417aa107b3e249dd3c925330a1已接受；OPS-009完成历史保持。本任务只修这一个可复现准入缺陷，不安装GZ-021业务规格。
+
+## 目标
+
+已有snapshot解析selected authority一次为真实不可变SHA，再保留原canonical ancestry及manifest历史检查；使用真实Git回归验证别名/SHA等价、fresh alias解析、invalid/nonancestor及原始manifest重写拒绝。
+
+## 非目标
+
+不新增规划targets/baselines/consumer；不改变工作流、其他检查器、生产释放政策、业务需求或运行时。登记时不提前修改两条实现路径。
+
+## 关联
+
+REQ-V1-0010 / MOD-GOV / WP-M0-01 / FOUNDATION / order6；AGENTS17、NeverRules、现有CONTRACT-PROGRAM-PLAN/TASK-SPEC/ACTIVE-WORK。独立根因proof ff2516c669ab49fe0d1d7cf6aaacca6b2c730bed31eaf63e581504365499332c。
+
+## 允许范围
+
+仅自身Foundation/Registry/Task及Evidence；后续两条精确实现路径：
+
+- `scripts/program-planning-revision.py`
+- `tests/governance/test_program_planning_revision.py`
+- `evidence/OPS-010/**`
+
+OwnEvidence只是记录本任务结果，非新增Registryclaim；无planning-revision manifest或future定义授权。
+
+## 禁止范围
+
+- 其他Task/Evidence/lease、完成账本、既有OPS009/GZ005历史与代码身份、Program普通tasks/POCs/waves/baselines/外部blockers/政策。
+- AGENTS/NeverRules/所有未claim的源码、工作流、业务契约、样本或生产数据/凭据。
+
+## 输入与输出
+
+输入为已接受actualmain、有限CI别名复现和本次精确两claim。登记输出仅自身元数据；实现输出仅当前严格准入前的不可变解析及有意义回归。没有新机器契约或POC结果。
+
+## 依赖与集成顺序
+
+- OPS009已completed且实际main已独审接受。先实际reservation门禁/CI/独审和main接受，再从main创建chore/OPS-010-planning-base-resolution并reserved→in_progress。
+- 登记与实现分开；Review/Integration/Completion遵循正常生命周期，并引用真实最后实现merge。GZ021保持planned/nocanonicalSpecLease，待本任务完成实际main接受后重新绑定其reservationParent。
+
+## 独占写范围
+
+- `scripts/program-planning-revision.py`
+- `tests/governance/test_program_planning_revision.py`
+
+## 共享修改范围
+
+- 无。
+
+## 协作与交接
+
+- Owner ElectricDogCN；Coordinator program-coordinator-agent；Implementer planning-base-resolution-agent；Reviewer independent-planning-base-review-agent；Integrator integration-agent。
+- 当前implementer/in_progress；actualbase 6acc0f0aded96f417aa107b3e249dd3c925330a1，登记branch chore/OPS-010-planning-base-resolution，实现claim chore/OPS-010-planning-base-resolution；lease 2026-10-12T18:03:26Z 至 2026-10-19T18:03:26Z。当前source待真实发布，实际PR持久handoff绑定immutable source/结果，不能以未来HEAD或旧PASS批准。
+
+## 验收标准
+
+- [ ] 登记只自身metadata/两claim/MOD-GOV/high/独立角色/有效正常168h租约；全部peer/policy/完成历史不变。
+- [ ] 先合法登记，再对真实源执行全门禁；实现真实Git正负回归证明别名等价但未削弱canonical/history/manifest权限。
+- [ ] source与同头CI、独立审查及actualmain接受完整；生产与业务功能没有由治理测试证明。
+
+## 必须执行的测试
+
+```bash
+python scripts/check-task-file.py --task OPS-010
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 6acc0f0aded96f417aa107b3e249dd3c925330a1
+python scripts/check-program-plan-history.py --base-ref 6acc0f0aded96f417aa107b3e249dd3c925330a1 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-planning-base-resolution
+python scripts/check-program-plan-transitions.py --base-ref 6acc0f0aded96f417aa107b3e249dd3c925330a1 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-planning-base-resolution
+python scripts/check-program-plan-finalization.py --base-ref 6acc0f0aded96f417aa107b3e249dd3c925330a1 --task OPS-010
+python scripts/check-program-lifecycle-guards.py --base-ref 6acc0f0aded96f417aa107b3e249dd3c925330a1 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-planning-base-resolution
+python scripts/run-program-lifecycle-gate.py --base-ref 6acc0f0aded96f417aa107b3e249dd3c925330a1 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-planning-base-resolution
+python scripts/run-agent-coordination-gate.py --base-ref 6acc0f0aded96f417aa107b3e249dd3c925330a1 --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-planning-base-resolution
+python scripts/run-task-scope-gate.py --task OPS-010 --base 6acc0f0aded96f417aa107b3e249dd3c925330a1
+python scripts/check-evidence.py --task OPS-010
+make verify TASK=OPS-010 BASE=6acc0f0aded96f417aa107b3e249dd3c925330a1 HEAD_REF=HEAD BRANCH=chore/OPS-010-planning-base-resolution
+python scripts/check-markdown.py
+python -m pytest tests/governance/test_program_planning_revision.py -v -ra
+python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-planning-base-resolution
+python scripts/check-program-lifecycle-guards.py --base-ref origin/main --head-ref HEAD --task OPS-010 --branch-name chore/OPS-010-planning-base-resolution
+```
+
+当前PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE；以下验证绑定实现新base/branch，另追加真实planning回归及origin/main别名调用检查。原断言不可删除/放宽/跳过。
+
+## Evidence
+
+evidence/OPS-010/保存或引用每个真实Source/Command/Exit/原始日志/JUnit/CI/独审。当前无该源执行成功；GZ021失败源1285/dae记录是缺陷输入，不转移为本任务PASS。
+
+## 风险
+
+不解析别名造成真实CI误拒；错误宽放别名或反复读取可变ref可能绕过基线绑定。一次snapshot成immutableSHA，严格canonical祖先校验与原始manifest字节保持；不存在或非祖先仍拒。
+
+## 回滚
+
+未合入关闭本reservation PR并保留历史。已登记Foundation在reserved无法继续时停止启动，保持登记、有效租约和容量，并按现有可准入协调规则处理；没有cancelled状态，也不得reserved→blocked。in_progress/review/integration可通过自身metadata转blocked，但保留租约、登记和容量；后续须合法修复、Review、真实Completion收口才移除登记。代码合入后的缺陷由正确新登记前向修复，不重开completed；必要冻结恢复遵循AGENTS17.8。无生产操作。
+
+## 未解决问题
+
+实际登记已合入并由主线CI674/独立验收接受。当前实现候选待实际源码验证/CI/独审及后续正常Review/Completion。GZ021路线修订与完整本地V1实现仍待继续，不是本Foundation的业务交付。
