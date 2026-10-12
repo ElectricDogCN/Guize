@@ -11,7 +11,7 @@ Only Task/Registry and own Evidence change. Existing reserved/coordinator Founda
 
 Reason: actual unaccepted2e8 code passed native fifteen checks/630 tests in1167.32s,zero failures/errors/skips. Official CI656 attempts1/2 reached the existing20-minute budget, observing508/523 PASSED and zero observed FAILED,without completion. Original decoded outputs and local source/JUnit/clean records remain source-bound in .takeover-tools/; private two-cancellation Evidence ref08bcf3ff0e7bff283d59fb162a9d8e3386013f7a preserves the unaccepted archive. Neither cancelled attempt is a CI pass.
 
-Next roles/actions: publish this metadata-only scope source; verify its task/readiness/schema/integrity/history/transitions/finalization/lifecycle/coordination/scope/evidence/complete make verify/docs commands against this real parent and chore/OPS-009-ci-budget-scope, record actual raw exits and nonempty zero-FES JUnit, obtain same-head CI and independent approval, expected-head merge then verify actual push/main. After actual scope-main acceptance, build fresh implementation from that true main on the newly declared branch, apply the unchanged three targets and previously reviewed code with the new registered scope/base, and change only timeout20 to45. Preserve old unaccepted branch/PR/raws, close the superseded PR without force, and require new-source complete gates/CI/review before normal integration/Review/Completion. Issue85 remains open and all twenty-three planned consumers remain undispatched until actual GZ-021 completion. Full V1 is incomplete.
+Next roles/actions: publish this metadata-only scope source; verify its task/readiness/schema/integrity/history/transitions/finalization/lifecycle/coordination/scope/evidence/complete make verify/docs commands against this real parent and chore/OPS-009-ci-budget-scope, record actual raw exits and nonempty zero-FES JUnit, obtain same-head CI and independent approval, expected-head merge then verify actual push/main. After actual scope-main acceptance, build fresh implementation from that true main on the newly declared branch, apply the unchanged three targets and previously reviewed code with the new registered scope/base, and change only timeout20 to30. Preserve old unaccepted branch/PR/raws, close the superseded PR without force, and require new-source complete gates/CI/review before normal integration/Review/Completion. Issue85 remains open and all twenty-three planned consumers remain undispatched until actual GZ-021 completion. Full V1 is incomplete.
 
 Rollback: close an unmerged amendment while preserving original authority. No direct reserved release/cancel, no lease extension, no code-before-scope admission, no new governance task, no force rewrite, no skipped tests or weakened assertions.
 
@@ -34,6 +34,8 @@ Current metadata-only delta (17 files):
 - evidence/OPS-009/test-results/README.md
 - specs/coordination/active-work.yaml
 - specs/tasks/OPS-009.md
+
+The existing tests/governance/test_repository_boundary.py caps workflow timeout at30 minutes. The admitted implementation must retain that test and every other assertion, and may change only the existing timeout scalar20 to30. Independent source review will compare the entire workflow blob to the actual scope-main parent and require exactly this single scalar diff; altered steps, conditions, permissions, concurrency, assertions or skip behavior reject integration. The former45-minute proposal was rejected before scope acceptance and grants no authority.
 
 ## Previous accepted scope and reservation records (historical)
 
