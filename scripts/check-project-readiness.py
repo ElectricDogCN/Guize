@@ -3,12 +3,14 @@
 
 import argparse
 import fnmatch
+import importlib.util
 import json
 import os
 import re
 import subprocess
 import sys
 from collections import defaultdict
+from pathlib import Path
 
 import jsonschema
 import yaml
@@ -450,6 +452,16 @@ def main():
                 elif producer not in lineage:
                     errors.append(f"Planned task {task_id} consumes {contract} but producer {producer} is not a dependency ancestor")
 
+    serial_pairs = set()
+    if plan.get("planningBaselines"):
+        planning_spec = importlib.util.spec_from_file_location("readiness_planning", Path(__file__).with_name("program-planning-revision.py"))
+        planning = importlib.util.module_from_spec(planning_spec)
+        planning_spec.loader.exec_module(planning)
+        if args.plan != planning.PLAN:
+            errors.append("Planning baseline requires the canonical Program path")
+        else:
+            serial_pairs = planning.serial_baseline_pairs(root, "HEAD", plan, errors)
+
     for wave_id, wave_tasks in tasks_by_wave.items():
         wave = wave_by_id.get(wave_id, {})
         occupying_tasks = wave_occupying_tasks(wave_tasks)
@@ -471,7 +483,8 @@ def main():
                 if left_task["taskId"] == right_task["taskId"] or not overlaps(left_path, right_path):
                     continue
                 coordinated = left_kind == right_kind == "shared" and left_task.get("coordinationGroup") == right_task.get("coordinationGroup") and left_task.get("integrationOrder") != right_task.get("integrationOrder")
-                if not coordinated:
+                serial = frozenset((left_task["taskId"], right_task["taskId"])) in serial_pairs
+                if not coordinated and not serial:
                     errors.append(f"Wave {wave_id} output path conflict: {left_task['taskId']}:{left_path} and {right_task['taskId']}:{right_path}")
 
     uncovered = sorted(requirement_ids - covered_requirements)

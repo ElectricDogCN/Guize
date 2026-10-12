@@ -22,6 +22,7 @@ import argparse
 import copy
 import fnmatch
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -36,6 +37,13 @@ import xml.etree.ElementTree as ET
 from typing import Any
 
 import yaml
+
+PLANNING_SPEC = importlib.util.spec_from_file_location(
+    "guize_lifecycle_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py")
+)
+PLANNING = importlib.util.module_from_spec(PLANNING_SPEC)
+assert PLANNING_SPEC and PLANNING_SPEC.loader
+PLANNING_SPEC.loader.exec_module(PLANNING)
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -992,6 +1000,10 @@ def main() -> int:
         return 1
     validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
     recovery_task = validate_recovery_transition(root, args.base_ref, args.head_ref, errors)
+    planning = PLANNING.classifier(
+        root, args.base_ref, args.head_ref, base_plan, current_plan, errors,
+        owner_hint=args.task,
+    )
     affected = task_ids_from_diff(
         base_plan,
         current_plan,
@@ -1007,6 +1019,14 @@ def main() -> int:
     affected.update(frozen_repair_task_ids(root, args.base_ref, args.head_ref))
     if recovery_task:
         affected.add(recovery_task)
+
+    if planning:
+        affected.difference_update(planning["targetTaskIds"])
+        affected.add(planning["owner"])
+    PLANNING.enforce_consumers(
+        root, args.base_ref, args.head_ref, base_plan, current_plan,
+        affected, paths, errors,
+    )
 
     base_tasks = mapping(base_plan.get("tasks"))
     current_tasks = mapping(current_plan.get("tasks"))

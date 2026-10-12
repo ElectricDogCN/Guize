@@ -15,6 +15,7 @@
 | `program-plan.schema.yaml` | Program Plan 结构契约 |
 | `active-work.yaml` | 当前活动任务 Registry |
 | `active-work.schema.yaml` | Registry 结构契约 |
+| `planning-revision.schema.yaml` | 已登记任务的原始精确计划修订声明 |
 
 旧 `work-package-plan.yaml` 已被 Program Plan 替代，不得重新创建第二份后续任务计划。
 
@@ -48,6 +49,7 @@ Program Plan 中任务可启动
 5. Requirement、Module、output/shared path 和 contract producer/consumer 与计划一致；
 6. high/critical 任务具有独立 Implementer 与 Reviewer；
 7. Task Spec、Registry、Issue 和 branch name 使用同一任务定义。
+8. 若位于 `planningBaselines` 的消费者根或其后续依赖闭包，基线任务必须已在实际集成基线中完成，并具有正常登记、实现、独立 Review 与 Completion 的可达提交证据；冻结契约不能替代此完成条件。
 
 ## 两阶段协议
 
@@ -90,3 +92,31 @@ python scripts/check-agent-coordination.py --task GZ-XXX
 ```
 
 `python scripts/check-project-readiness.py --strict-ready` 用于最终生产就绪检查；在机器契约、实现或外部 GitHub Ruleset 未完成时应失败。
+
+## 原始计划修订声明
+
+规划权限来自实际 `main` 第一父历史上最终 metadata-only reserved 登记快照的 `evidence/<TASK-ID>/planning-revision.json`。声明绑定 `schemaVersion: 1`、登记任务和登记主线第一父 SHA。审查期未合入的早期草稿不是原始权限；真正登记之后，声明的 Git 字节必须保持不变。
+
+声明的 `targets` 只支持三个闭合类型：新增完整 `planned` Task、修改声明字段内的完整未启动 `planned` Task，以及新增精确 planning baseline。修改目标同时保存完整 before/after、原定义规范 JSON 的 SHA-256 和精确 `allowedFields`。不得加入目标状态、Issue、Task Spec、租约、政策、恢复信息、完成账本或未声明的计划变更。所有目标必须一次完整应用；不能分批授权、拓宽路径或用字符串 SHA 代替可达历史。
+
+执行者须已独立登记为 high 风险、声明 `MOD-GOV`、持有精确独占 Program 路径与有效租约，处于 `in_progress`/`integration` 的 implementer/integrator 阶段。Foundation 的所有 claims 仍须是治理所有权范围的子集；普通需求规划任务可声明其实际业务模块及已经审查的精确业务文档路径，保持既有模块所有权规则。登记、Scope、容量、独立角色和最新实际 main 检查均不豁免。
+
+Foundation 后续范围修订须先在实际集成基线的第一父历史中完成独立 reserved/coordinator 元数据登记：只改自身 Registry/Task/Evidence，绑定该节点的真实第一父，保留原始声明、Program、账本、稳定身份与租约。实现提交自行追加 claim、未合入 sibling 或晚于实现基线的修订均不赋予执行权限。
+
+共享校验器 `scripts/program-planning-revision.py` 完整认证后，三个既有检查器仅投影声明的未来定义；任何无效认证都不隐藏变更。原 schema、依赖 DAG、POC 镜像、Wave、契约覆盖、最终发布闭合、冻结与完成后限制继续执行。历史检查按实际引入节点认证，恢复过的最终文件不能掩盖中途的违规。
+
+普通定义和 baseline 的实际 Git 两端均未变时，分类回调不生成任何投影或规划权限；相关生命周期继续由原门禁处理。消费者按真实 Registry、Task Spec 身份和代码 diff 识别，实际消费者准入仍校验完整图和 producer 完成历史。仅已 completed、Registry 中不存在、Program/完整 Task/Own Evidence/账本均未变的历史 CLI 上下文不会替代唯一真正执行者；其他错误上下文继续拒绝。Git 数据缓存只绑定规范仓库路径、完整不可变 commit SHA 和路径，解析结果返回深拷贝；引用别名每次重新解析，租约、时间、权限和准入结论均不缓存。
+
+## Planning baseline 与消费者
+
+`planningBaselines` 是可选的闭合记录列表，每项只有 `id`、`taskId` 和非空唯一 `requiredBy`。旧计划不含此字段仍然有效。producer 与消费者须存在，不能自依赖、重复或与普通依赖共同成环。创建时，producer 和全部消费者闭包必须未启动、无 Task Spec、无 Lease/Completion；已有 baseline 不得删除、缩小、替换或静默修改。
+
+基线 producer 的完成必须已经存在于接受的集成基线，具备真实主线登记、非元数据实现、独立 Review 和独立 Completion 的历史。伪造 completed/ledger、非祖先或同一 PR 完成 producer 并启动 consumer 都不能放行。显式 Task 启动和没有 `--task` 的代码变更都检查实际代码 owner；声明外的消费者输出代码也不能绕开门禁。producer 完成后，消费者仍须满足所有普通准入条件。
+
+Readiness 从实际 Git 第一父历史认证 baseline 的完整原始事务及后续不可变记录，只对 producer 与仍 planned、无 Task Spec/Lease/Completion 的消费者闭包识别前后串行关系。该关系仅解除这两个未并行执行任务的未来输出冲突；已启动消费者、无关任务冲突、共享写入顺序、容量、高风险/critical、模块所有权、DAG、Wave 和 POC 镜像规则全部保留。Program 与身份输入必须绑定实际 Git 快照，原始声明在当前 HEAD 中仍须字节一致；无 baseline 的旧计划沿用原检查。
+
+每个 baseline 保留创建提交中的消费者依赖闭包；producer 尚未在实际主线完成时，后续计划修订不得缩小这个集合。baseline 的消费者到 producer 的语义依赖同样检查已知 Wave 和阶段顺序。原始声明的字节检查覆盖登记后的中间历史，即使最终恢复原字节也不能抹去违规修改；没有 Program 定义变化的节点也必须执行声明审计。缓存只保存完整提交 SHA 绑定的不可变数据，不能保存准入、租约或完成判断。
+
+既有 baseline 的规划交易如果扩大消费者闭包，新增成员在交易前后必须保持未启动（交易新增的 Task 可在 before 中不存在）。检查逐交易 before/after 的差集，不能把历史上已经合法加入的成员在后续正常启动时再次当作新成员。普通规划任务只可登记精确 docs/、adr/、specs/ 文件及 poc/README.md；specs 中的已登记业务 Schema、校验器和相应回归文件仍允许。运行时目录、治理 scripts/tests 与通配符不属于普通规划例外，自身 Evidence 仍按普通元数据规则管理。
+
+OPS-009 首次使用只执行原始三目标：新增 planned GZ-021、给 planned GZ-020 尾追加 GZ-021 依赖，以及新增 BASELINE-GZ-021。十个消费者根经既有图覆盖二十三个未启动任务；POC 依赖镜像和 GZ-020 的生产最终义务保持。原始登记到机制合入之间的暂停派发与失败关闭顺序记录于 OPS-009 Handoff/PR86；这项 Coordinator 排序不表示登记 PR 已安装持续机器阻断。发布和合并首次使用之前，必须再核全部消费者未启动；已启动则停止首次使用，保留真实身份与原始声明，按既有合法生命周期作具体恢复决定。

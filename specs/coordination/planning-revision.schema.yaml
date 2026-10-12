@@ -1,0 +1,59 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://guize.local/schemas/planning-revision.schema.yaml
+title: Original registered future Program revision
+type: object
+additionalProperties: false
+required: [schemaVersion, taskId, reservationParent, targets]
+properties:
+  schemaVersion: {const: 1}
+  taskId: {$ref: 'program-plan.schema.yaml#/$defs/taskId'}
+  reservationParent: {type: string, pattern: '^[0-9a-f]{40}$'}
+  targets:
+    type: array
+    minItems: 1
+    items:
+      oneOf:
+        - {$ref: '#/$defs/addTask'}
+        - {$ref: '#/$defs/editTask'}
+        - {$ref: '#/$defs/addBaseline'}
+$defs:
+  plannedTask:
+    allOf:
+      - {$ref: 'program-plan.schema.yaml#/$defs/task'}
+      - properties:
+          status: {const: planned}
+          issue: {type: 'null'}
+  addTask:
+    type: object
+    additionalProperties: false
+    required: [kind, id, before, after]
+    properties:
+      kind: {const: add-planned-task}
+      id: {$ref: 'program-plan.schema.yaml#/$defs/taskId'}
+      before: {type: 'null'}
+      after: {$ref: '#/$defs/plannedTask'}
+  editTask:
+    type: object
+    additionalProperties: false
+    required: [kind, id, originalDefinitionSha256, allowedFields, before, after]
+    properties:
+      kind: {const: edit-planned-task}
+      id: {$ref: 'program-plan.schema.yaml#/$defs/taskId'}
+      originalDefinitionSha256: {type: string, pattern: '^[0-9a-f]{64}$'}
+      allowedFields:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          enum: [title, kind, workPackage, riskLevel, ownerRole, reviewerRole, coordinationGroup, wave, integrationOrder, dependsOn, requirementIds, moduleIds, outputPaths, sharedPaths, producesContracts, consumesContracts, acceptanceIds, pocIds, branchPattern, exitGate]
+      before: {$ref: '#/$defs/plannedTask'}
+      after: {$ref: '#/$defs/plannedTask'}
+  addBaseline:
+    type: object
+    additionalProperties: false
+    required: [kind, id, before, after]
+    properties:
+      kind: {const: add-planning-baseline}
+      id: {type: string, pattern: '^[A-Z][A-Z0-9-]+$'}
+      before: {type: 'null'}
+      after: {$ref: 'program-plan.schema.yaml#/$defs/planningBaseline'}
