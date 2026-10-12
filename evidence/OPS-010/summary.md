@@ -1,3 +1,18 @@
+OPS-010 normal Review candidate
+Status: REVIEW
+Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
+Issue: #97 open
+Branch: chore/OPS-010-planning-base-review
+Base: 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
+Last implementation: PR-99 / 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
+Actual implementation source: a7b027092db1edc7dc4d63aad141de21ecce37b5
+Role: reviewer
+
+Actual implementation-main acceptance input: ops010-independent-implementation-main-55d7ac4-acceptance.json
+Only Own metadata/evidence; code/lease/claims/foreign preserved. Current Review results pending.
+
+Historical implementation record:
+
 OPS-010 implementation candidate
 Status: IN_PROGRESS
 Issue: #97
