@@ -168,6 +168,8 @@ def ownership(root: str, ref: str, entry: dict[str, Any]) -> None:
         if foundation:
             require(any(fnmatch.fnmatchcase(claim, pattern) for pattern in patterns), f"Foundation planner claim outside governance ownership: {claim}")
         else:
+            require(not re.search(r"[*?\[]", claim), f"Ordinary planner requires exact document/specification claims: {claim}")
+            require(claim.startswith(("docs/", "adr/", "specs/")) or claim == "poc/README.md", f"Ordinary planner claim outside document/specification surfaces: {claim}")
             # Ordinary tasks may claim a reviewed common document with no
             # module owner. Existing owned surfaces require their actual module.
             for module in modules:
@@ -397,6 +399,13 @@ def unstarted(root: str, ref: str, plan: dict[str, Any], ids: set[str], allow_mi
         require(tid not in active and tid not in completed and spec(root, ref, tid) is None, f"Planning target/consumer {tid} has Task Spec, lease or completion")
 
 
+def validate_new_consumers(root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any], rows: dict[str, dict[str, Any]]) -> None:
+    for row in rows.values():
+        added = frontier(after, row["requiredBy"]) - frontier(before, row["requiredBy"])
+        unstarted(root, base_ref, before, added, allow_missing=True)
+        unstarted(root, head_ref, after, added)
+
+
 def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any], errors: list[str], *, owner_hint: str = "", observed_at: datetime | None = None, admitted_base_ref: str | None = None) -> dict[str, Any] | None:
     """Return only a fully authenticated exact transaction projection."""
     try:
@@ -416,6 +425,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             return None
         old_baselines, new_baselines = validate_baselines(before), validate_baselines(after)
         preserve_consumer_closures(root, base_ref, after, old_baselines, admitted_base_ref=admitted_base_ref)
+        validate_new_consumers(root, base_ref, head_ref, before, after, old_baselines)
         require(all(new_baselines.get(bid) == row for bid, row in old_baselines.items()), "Existing planning baseline removed, narrowed or substituted")
         added_baselines = new_baselines.keys() - old_baselines.keys()
         if not changed and not added_baselines:
@@ -599,6 +609,8 @@ def serial_baseline_pairs(root: str, head_ref: str, plan: dict[str, Any], errors
             require(all(baselines.get(key) == row for key, row in proven.items()), "Historical baseline removed, narrowed or substituted")
             if proven:
                 preserve_consumer_closures(root, node, node_plan, proven)
+                parent = git(root, "rev-parse", f"{node}^1") or ""
+                validate_new_consumers(root, parent, node, document(root, parent, PLAN), node_plan, proven)
             added = baselines.keys() - proven.keys()
             if added:
                 parent = git(root, "rev-parse", f"{node}^1") or ""

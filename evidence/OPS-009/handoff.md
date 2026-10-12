@@ -1,6 +1,9 @@
 OPS-009 current registered implementation
 Status: IN_PROGRESS / implementer
 Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE
+Latest preserved actual verification: source3833bb15356abae5ce97cc40babdbdbaf672ae4d / fifteen checks exit0 /615 passed1134.98s/zero failures-errors-skips; official CI655 all28success /615 passed877.00s. Original commands, exits, nonempty JUnit, source/tree/base and clean worktree snapshots are archived in test-results/implementation-3833bb1/. This actual result does not approve the subsequent consumer-growth and ordinary-scope fixes or their Evidence head.
+
+Next action: verify the actual published boundary-fix source with all registered commands and official same-head CI, then obtain independent source acceptance. Before Review/Integration, persist those exact code-source receipts through an Own Evidence amendment; that Evidence head needs its own fourteen finite checks and official same-head CI. No source-SHA self-reference or result transfer is permitted. After lawful integration, verify actual main and use separate normal Review/Completion tied to the real implementation merge; Issue85 and original lease remain unchanged. Runtime and complete V1 acceptance remain incomplete.
 Issue: #85 (open)
 Actual implementation base: 86e39646bda0e623ae712ecfde85e14ac6aa5cef
 Implementation branch: chore/OPS-009-planning-revision-admission

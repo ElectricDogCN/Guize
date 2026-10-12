@@ -3,6 +3,7 @@ import copy
 import importlib.util
 import hashlib
 import json
+import re
 import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
@@ -52,7 +53,10 @@ class History:
             self.write(path, (ROOT / path).read_text(encoding="utf-8"))
         if ordinary:
             self.entry["moduleIds"] = ["MOD-GOV", "MOD-PLATFORM"]
-            self.entry["exclusivePaths"].append("docs/00-guize-engineering-design-baseline.md")
+            self.entry["exclusivePaths"] = [PLANNING.PLAN, "docs/00-guize-engineering-design-baseline.md"]
+            exact_claims = "\n".join(f"- `{path}`" for path in self.entry["exclusivePaths"])
+            for heading in ("允许范围", "独占写范围"):
+                self.body = re.sub(rf"(?ms)^## {heading}\r?\n.*?(?=^## |\Z)", f"## {heading}\n\n{exact_claims}\n\n", self.body)
             self.front["moduleIds"] = "MOD-GOV, MOD-PLATFORM"
             self.entry["programWave"] = self.front["wave"] = "W2"
             planner = copy.deepcopy(self.manifest["targets"][0]["after"])
@@ -195,6 +199,15 @@ def test_ordinary_requirements_planner_with_business_module(tmp_path):
     result, errors = history.decision()
     assert not errors
     assert result["owner"] == "GZ-777"
+
+
+@pytest.mark.parametrize("script", ["check-program-plan-transitions.py", "check-program-lifecycle-guards.py", "check-program-plan-history.py"])
+def test_ordinary_document_planner_through_actual_checkers(tmp_path, script):
+    history = History(tmp_path, ordinary=True)
+    history.apply()
+    history.finish()
+    result = history.gate(script)
+    assert result.returncode == 0, result.stdout + result.stderr
 
 
 def test_prior_canonical_metadata_scope_authorizes_claims(history):
@@ -623,6 +636,75 @@ def test_original_consumer_closure_allows_superset_without_authorizing_changes(h
     assert len(PLANNING.frontier(proposed, row["requiredBy"])) == 24
     PLANNING.preserve_consumer_closures(str(history.root), installed, proposed, {row["id"]: row})
     assert "GZ-998" not in PLANNING.original_consumers(str(history.root), installed, row)
+
+
+@pytest.mark.parametrize("identity", ["status", "task_spec", "lease", "completion"])
+def test_new_baseline_consumers_require_unstarted_identity(history, identity):
+    installed = install_serial_baseline(history)
+    before = copy.deepcopy(history.plan)
+    row = before["planningBaselines"][0]
+    proposed = copy.deepcopy(before)
+    task = copy.deepcopy(next(t for t in proposed["tasks"] if t["taskId"] == "GZ-007"))
+    task["taskId"] = "GZ-998"
+    proposed["tasks"].append(task)
+    if identity == "status":
+        task["status"] = "in_progress"
+    elif identity == "task_spec":
+        history.write("specs/tasks/alternate-new-consumer.md", "---\nid: GZ-998\n---\n")
+    elif identity == "lease":
+        history.active["tasks"].append(dict(history.entry, taskId="GZ-998"))
+        history.dump(PLANNING.ACTIVE, history.active)
+    else:
+        ledger = history.read(PLANNING.LEDGER)
+        ledger["records"].append({"taskId": "GZ-998"})
+        history.dump(PLANNING.LEDGER, ledger)
+    history.dump(PLANNING.PLAN, proposed)
+    head = history.commit("New consumer identity predicate fixture")
+    # A predicate test supplies no authority for a planning transaction.
+    with pytest.raises(PLANNING.PlanningError, match="GZ-998"):
+        PLANNING.validate_new_consumers(str(history.root), installed, head, before, proposed, {row["id"]: row})
+
+
+def test_unstarted_new_consumer_predicate_accepts_without_planning_permission(history):
+    installed = install_serial_baseline(history)
+    before = copy.deepcopy(history.plan)
+    row = before["planningBaselines"][0]
+    task = copy.deepcopy(next(t for t in history.plan["tasks"] if t["taskId"] == "GZ-007"))
+    task["taskId"] = "GZ-998"
+    history.plan["tasks"].append(task)
+    history.dump(PLANNING.PLAN, history.plan)
+    head = history.commit("Unstarted superset predicate fixture")
+    PLANNING.validate_new_consumers(str(history.root), installed, head, before, history.plan, {row["id"]: row})
+
+
+def test_existing_consumer_identity_transition_is_not_new_enrollment(history):
+    installed = install_serial_baseline(history)
+    before = copy.deepcopy(history.plan)
+    row = before["planningBaselines"][0]
+    next(t for t in history.plan["tasks"] if t["taskId"] == "GZ-007")["status"] = "in_progress"
+    history.write("specs/tasks/consumer.md", "---\nid: GZ-007\n---\n")
+    history.dump(PLANNING.PLAN, history.plan)
+    head = history.commit("Existing consumer identity delta predicate fixture")
+    # This delta check does not waive normal producer-completion admission.
+    PLANNING.validate_new_consumers(str(history.root), installed, head, before, history.plan, {row["id"]: row})
+
+
+@pytest.mark.parametrize("claim", ["backend/guize-platform-api/**", "backend/guize-platform-api/Main.java", "docs/**", "specs/requirements/v1/*.yaml", "scripts/program-planning-revision.py"])
+def test_ordinary_planner_rejects_runtime_or_glob_claims(tmp_path, claim):
+    history = History(tmp_path, ordinary=True)
+    entry = copy.deepcopy(history.entry)
+    entry["exclusivePaths"].append(claim)
+    with pytest.raises(PLANNING.PlanningError, match="Ordinary planner"):
+        PLANNING.ownership(str(history.root), history.registration, entry)
+
+
+def test_ordinary_planner_keeps_exact_business_validators_and_schemas(tmp_path):
+    history = History(tmp_path, ordinary=True)
+    entry = copy.deepcopy(history.entry)
+    original = history.manifest["targets"][0]["after"]
+    entry["moduleIds"] = original["moduleIds"]
+    entry["exclusivePaths"] = original["outputPaths"]
+    PLANNING.ownership(str(history.root), history.registration, entry)
 
 
 @pytest.mark.parametrize("wave", ["W10", "UNKNOWN"])

@@ -12,6 +12,12 @@ Current implementation changes: canonical prior-main reserved scope authenticati
 
 ## Historical accepted scope and original reservation records
 
+### Preserved actual3833 execution and subsequent bounded-scope fixes
+
+The exact published3833 source completed all fifteen local checks,615 passed in1134.98s,zero failures/errors/skips; official CI655 completed all28 steps successfully with615 passed in877.00s and zero test skips. Its source-bound raw commands/exits, JUnit, clean snapshots and official CI/content receipts are preserved in implementation-3833bb1/raw-results.bundle.json (SHA2560503f14138e832c3fd64190d5a8e61a25827504074ba063864372a2f9edcd206). This is historical3833 execution, not successor approval.
+
+Subsequent XmkV/d handling adds per-transaction unstarted checks for newly enrolled baseline consumers and restricts ordinary planners to reviewed exact document/specification surfaces. The V example's already-started Y depending on planned X is rejected by existing dependency Integrity; it was not proven as a legal Gate bypass. The additional delta predicate protects enrollment without replaying normal later consumer starts. The ordinary fixture now uses actual ordinary Program/document claims; original positive/negative assertions remain. Thirteen focused private regressions passed in96.07s,86 existing cases deselected. New published source/full checks/CI/independent acceptance remain pending.
+
 ### Actual published implementation ab06983 and subsequent three-thread repair
 
 Source ab0698360c49a8c29eb0b3d52b28f26075e47589 / tree 947530350f31e105cc433033adc181236f68cfcc completed official PR CI654/run38214317584/job114695373637: all28 steps succeeded,608 tests passed in850.06s,zero skipped tests. Decoded official output is referenced at .takeover-tools/ops009-admission-ab06983-ci654.txt. The local complete verifier was deliberately cancelled after thirteen successful gates because three genuine PR review findings remained; the partial run is not a make verify pass or integration approval.
