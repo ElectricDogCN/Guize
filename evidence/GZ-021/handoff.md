@@ -1,3 +1,16 @@
+Current revision: dirty six-opinion repair of source 4dded087d5f60dc6d78902e125b0104654e14c92.
+Status: IN_PROGRESS; this candidate has no published-source acceptance.
+
+Source4dd completed all20 native gates,126 POC regression methods in472.173s,31/31 requirement negatives and637 governance methods in1407.58s, zero failures/errors/skips. Same-source CI694/run38364712348/job115186950946 completed all28 steps and637 governance methods in1600.02s. All three tested worktrees stayed clean and unchanged. Synthetic CI checkout78c4576aee6a79aa6434aa8b6242f86d67723fa6 is not actual main.
+
+Durable commands/exits/raw logs/JUnit/worktree proof/CI receipt/independent execution acceptance and byte manifest: executions/4dded087d5f60dc6d78902e125b0104654e14c92/manifest.json. These accept only historical execution; current4dd content and final integration remain rejected after six material findings. They never transfer to this repair. The newly published repair requires its own20/132POC/33negative/637-governance/same-headCI and independent exact-head integration approval. The original31 negatives remain and two runtime API verifier-removal cases are added.
+
+The six repairs permit sibling records from the20 canonical evidence slots while preserving selected-slot reference boundaries, reject future execution/approval claims, assign API runtime performance to localGZ-018 and productionGZ-020, require exercised scan population/change work for POC-005 PASS, reject separated credential keys, and require typed dedicated raw artifacts with actual byte counts and checksums. Original124 regression method assertions, production protocols and immutable planning manifest remain unchanged. Candidate validation and content review are pending.
+
+Android15/API35/x86_64 VM boot was observed through ADB; AV1 encoding, Worker integration, actualPOC, runtime and fullV1 remain unaccepted. Normal GZ-021 completion is still required before downstream task starts.
+
+--- Historical source and reservation stages ---
+
 Current revision: dirty repair of published source 86430c504b11a2eff797c61354b752c32313ccc8.
 Status: IN_PROGRESS; current candidate has no published-source acceptance.
 

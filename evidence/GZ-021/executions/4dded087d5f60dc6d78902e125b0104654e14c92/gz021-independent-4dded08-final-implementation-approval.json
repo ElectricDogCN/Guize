@@ -1,0 +1,46 @@
+{
+  "actualSource": "4dded087d5f60dc6d78902e125b0104654e14c92",
+  "tree": "b593566e178663c15ccfaa66b10d02d41121959b",
+  "expectedBase": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "ciAccepted": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "remainingFindings": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy3x",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy33",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy37",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy4A",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy4I",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy4O",
+      "material": true
+    }
+  ],
+  "sixFindingsDispositionSha256": "aaec7c92cc3d6aaec4b9ec359a21b1e769d45e527a178ae64c84f056162cee96",
+  "local20AcceptanceSha256": "d5abf23e22170ff448b214b0bb0c551331e08d53b7be494244c28dabc075a718",
+  "ciExecutionReceiptSha256": "92446682f38c679b76f5ecda05749498a932e38b9c73c86e683d7b47c47f4e7a",
+  "executionScopeOnly": true,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false
+}

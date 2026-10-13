@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import math
 import re
@@ -144,6 +145,7 @@ PROFILE_EVIDENCE_BINDING = {
     'executionWindowSchema':'program.schema.yaml#/$defs/executionWindow',
     'measurementDomainReviewSchema':'program.schema.yaml#/$defs/measurementDomainReview',
     'testedSourceSchema':'program.schema.yaml#/$defs/testedSource',
+    'rawExecutionArtifactSchema':'program.schema.yaml#/$defs/rawExecutionArtifact',
 }
 LOCAL_REQUIRED_MEASUREMENTS = {
     **REQUIRED_MEASUREMENTS,
@@ -430,6 +432,9 @@ def qualified_window(execution, schema, label, errors):
     if start is None or end is None or not start < end:
         errors.append(f'{label}: executionWindow requires ordered valid UTC instants')
         return None
+    if end > datetime.now(timezone.utc):
+        errors.append(f'{label}: executionWindow must have finished by validation time')
+        return None
     return start, end
 
 
@@ -445,6 +450,9 @@ def qualified_record(root, ref, prefix, schema, expected, label, errors):
         return None
     validate_schema(record, schema, label, errors)
     secret_scan(record, label, errors)
+    approved = utc(record.get('approvedAt')) if isinstance(record,dict) else None
+    if approved is not None and approved > datetime.now(timezone.utc):
+        errors.append(f'{label}: approval must have occurred by validation time')
     if not isinstance(record, dict) or any(json.dumps(record.get(k),sort_keys=True,separators=(',',':')) != json.dumps(v,sort_keys=True,separators=(',',':')) for k,v in expected.items()):
         errors.append(f'{label}: record must bind exact POC, owner, resource/metric and profile')
         return None
@@ -477,8 +485,8 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
         dirty = git('diff','--name-only','HEAD').splitlines()
         untracked = git('ls-files','--others','--exclude-standard').splitlines()
         poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
-        own_prefixes = tuple(str(Path(profile_index_ref(poc_task,profile)).parent).replace('\\','/')+'/'
-                             for profile in PROFILE_SCOPES)
+        own_prefixes = tuple(str(Path(profile_index_ref(task,profile)).parent).replace('\\','/')+'/'
+                             for task in sorted(TASKS) for profile in PROFILE_SCOPES)
         phase_paths = {f'specs/tasks/{owner}.md' for owner in (poc_task,'GZ-020')}
         def phase_only(before, after):
             # Authenticate the existing document, permitting only the terminal status transition.
@@ -568,6 +576,72 @@ def validate_qualified_domains(root, plan, execution, route, configuration, defs
         value = actual.get(mid)
         if not good_actual(measurement['unit'], value, mid) or (bounded and not lower <= value <= upper) or (domain.get('integral') is True and value != int(value)):
             errors.append(f'{label}: actual value violates approved numeric domain')
+
+
+def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, status, record_refs, errors):
+    label = f"qualified raw artifacts {plan['taskId']}"
+    if isinstance(configuration,dict) and 'approvedAt' in configuration:
+        approved = utc(configuration['approvedAt'])
+        if approved is None or approved > datetime.now(timezone.utc):
+            errors.append(f'{label}: profile configuration approval must have occurred by validation time')
+    refs = execution.get('rawOutputRefs') or []
+    records = (execution.get('environmentCaptured') or {}).get('rawExecutionArtifacts')
+    if not isinstance(records,list) or not records:
+        errors.append(f'{label}: typed rawExecutionArtifacts are required')
+        return
+    structured = {ref for ref in record_refs if isinstance(ref,str)}
+    def reserve(ref):
+        if isinstance(ref,str): structured.add(ref)
+    for resource in execution.get('resources') or []:
+        if isinstance(resource,dict):
+            for key in ('configurationRef','bookingRef'): reserve(resource.get(key))
+    for sample in execution.get('samples') or []:
+        if isinstance(sample,dict): reserve(sample.get('approvalRef'))
+    for review in execution.get('complianceReviews') or []:
+        if isinstance(review,dict): reserve(review.get('reviewRef'))
+    reserve((execution.get('environmentCaptured') or {}).get('acceptanceProfileConfigurationRef'))
+    poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
+    profile = ((execution.get('environmentCaptured') or {}).get('acceptanceProfile') or {}).get('id')
+    if profile in PROFILE_SCOPES: structured.add(profile_index_ref(poc_task,profile))
+    domains = configuration.get('numericDomainReviewRefs',{}) if isinstance(configuration,dict) else {}
+    if isinstance(domains,dict):
+        for ref in domains.values():
+            reserve(ref)
+            path = existing_ref(root,ref,prefix)
+            if path:
+                try: reserve(load(path).get('definitionRef'))
+                except (OSError,ValueError,AttributeError,yaml.YAMLError): pass
+    structured_paths = [path for ref in structured if (path := existing_ref(root,ref,prefix)) is not None]
+    seen, kinds, total_bytes = [], {}, 0
+    for record in records:
+        validate_schema(record,defs.get('rawExecutionArtifact',{}),label,errors)
+        if not isinstance(record,dict): continue
+        ref = record.get('ref')
+        seen.append(ref)
+        if isinstance(ref,str): kinds[ref] = record.get('artifactType')
+        path = existing_ref(root,ref,prefix)
+        if path is None:
+            errors.append(f'{label}: artifact must exist in selected slot')
+            continue
+        if ref in structured or any(path.samefile(peer) for peer in structured_paths):
+            errors.append(f'{label}: raw outputs must be disjoint from structured records and approvals')
+        try:
+            data = path.read_bytes()
+        except OSError as exc:
+            errors.append(f'{label}: cannot read raw artifact: {exc}')
+            continue
+        total_bytes += len(data)
+        if type(record.get('byteCount')) is not int or record['byteCount'] != len(data):
+            errors.append(f'{label}: byteCount must bind actual raw bytes')
+        if record.get('sha256') != 'sha256:'+hashlib.sha256(data).hexdigest():
+            errors.append(f'{label}: checksum must bind actual raw bytes')
+    if any(not isinstance(ref,str) for ref in seen+refs) or len(seen) != len(set(ref for ref in seen if isinstance(ref,str))) or set(ref for ref in seen if isinstance(ref,str)) != set(ref for ref in refs if isinstance(ref,str)):
+        errors.append(f'{label}: exact unique rawOutputRefs mapping is required')
+    for command in execution.get('commands') or []:
+        if isinstance(command,dict) and kinds.get(command.get('outputRef')) != 'command_output':
+            errors.append(f'{label}: command output must identify a command_output artifact')
+    if status == 'pass' and total_bytes == 0:
+        errors.append(f'{label}: PASS requires nonempty dedicated raw output')
 
 
 def validate_android_execution(root, plan, execution, status, prefix, errors):
@@ -695,9 +769,9 @@ def validate_schema(value: Any, schema: Any, label: str, errors: list[str]) -> N
 
 
 def normalize_key(key: Any) -> str:
-    text = str(key).replace("-", "_")
+    text = str(key)
     text = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", text)
-    return text.lower()
+    return re.sub(r'[^a-z0-9]+','_',text.lower()).strip('_')
 
 
 def secret_key(key: Any, value: Any) -> bool:
@@ -1018,6 +1092,7 @@ def validate_execution(
     reference_prefix: str | None = None,
     record_definitions: dict[str, Any] | None = None,
     task_reviewer: str | None = None,
+    record_refs: set[str] | None = None,
 ) -> None:
     task_id = plan["taskId"]
     poc_id = plan["pocId"]
@@ -1035,6 +1110,7 @@ def validate_execution(
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
+        validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
@@ -1188,6 +1264,11 @@ def validate_execution(
     ]
     if false_gates:
         errors.append(f"{label}: PASS has false/non-true boolean gates {sorted(false_gates)}")
+    if poc_id == 'POC-05' and status == 'pass':
+        for mid in ('file_count','directory_count','enumeration_rate','source_change_frequency','incremental_scan_cost'):
+            value = actual_map.get(mid)
+            if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value <= 0:
+                errors.append(f'{label}: POC-005 PASS requires positive exercised workload: {mid}')
     if poc_id == 'POC-03':
         correctness = actual_map.get('range_correctness')
         if planned_measurements.get('range_correctness', {}).get('unit') != 'percent':
@@ -1303,11 +1384,14 @@ def validate_terminal(
         root, plan, implementer, execution, resource_catalog,
         execution_schema, approval_schema, status, errors,
         compliance_schema, reference_boundary, record_definitions, reviewer,
+        {entry.get('resultRef'),result.get('executionRef')},
     )
     if record_definitions is not None:
         captured_window = (execution.get('environmentCaptured') or {}).get('executionWindow')
         end = utc(captured_window.get('finishedAt')) if isinstance(captured_window,dict) else None
         approval = utc(result.get('approvedAt'))
+        if approval is not None and approval > datetime.now(timezone.utc):
+            errors.append(f'result record {task_id}: approval must have occurred by validation time')
         if end is not None and (approval is None or approval < end):
             errors.append(f'result record {task_id}: result review must follow completed executionWindow')
 

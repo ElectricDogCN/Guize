@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
+import os
 import shutil
 import subprocess
 import tempfile
@@ -328,33 +330,21 @@ class TestPocProgram(unittest.TestCase):
             subprocess.run(['git','init','-q',str(root)],check=True)
             subprocess.run(['git','-C',str(root),'config','core.autocrlf','false'],check=True)
             (root/'fixture-tested-source.txt').write_text('Synthetic fixture code revision one; never platform execution evidence.\n',encoding='utf-8')
-            self.write_task_spec(root,task_id)
+            for fixture_task in sorted(CHECK.TASKS): self.write_task_spec(root,fixture_task)
             self.write_task_spec(root,'GZ-020')
         plan = load_yaml(self.plan_path(root,task_id))
         ref = CHECK.profile_index_ref(task_id,profile)
-        if profile == 'local-v1':
-            _,execution,result = self.make_terminal(root,task_id,profile=profile)
-            folder = root/Path(ref).parent
-            folder.mkdir(parents=True,exist_ok=True)
-            # All references for this local result remain in its own selected slot.
-            old_prefix = plan['evidencePath']
-            new_prefix = str(Path(ref).parent).replace('\\','/')
-            source_dir = root/old_prefix
-            sources = [p for p in source_dir.rglob('*') if p.is_file() and 'profiles' not in p.relative_to(source_dir).parts]
-            owner = task_id
-            implementer,reviewer = (task_id.lower()+'-implementer',task_id.lower()+'-reviewer')
-            production = False
-        else:
-            fixture,source_root = self.temp_repo()
-            self.make_terminal(source_root,task_id,profile='production')
-            old_prefix = plan['evidencePath']
-            source_dir = source_root/old_prefix
-            sources = [p for p in source_dir.rglob('*') if p.is_file()]
-            new_prefix = str(Path(ref).parent).replace('\\','/')
-            folder = root/new_prefix
-            owner = 'GZ-020'
-            implementer,reviewer = self.write_task_spec(root,owner)
-            production = True
+        # Build the legacy fixture independently; later qualified slots never mutate its shared progress index.
+        fixture,source_root = self.temp_repo()
+        self.make_terminal(source_root,task_id,profile=profile)
+        old_prefix = plan['evidencePath']
+        source_dir = source_root/old_prefix
+        sources = [p for p in source_dir.rglob('*') if p.is_file()]
+        new_prefix = str(Path(ref).parent).replace('\\','/')
+        folder = root/new_prefix
+        production = profile == 'production'
+        owner = 'GZ-020' if production else task_id
+        implementer,reviewer = self.write_task_spec(root,owner)
         def relocate(value):
             if isinstance(value,dict):
                 result = {k:relocate(v) for k,v in value.items()}
@@ -383,6 +373,10 @@ class TestPocProgram(unittest.TestCase):
                 subprocess.run(['git','-C',str(root),'-c','user.name=POC Fixture','-c','user.email=poc-fixture@guize.invalid','commit','-q','-m','synthetic fixture source'],check=True)
             tested_source = {key:subprocess.check_output(['git','-C',str(root),'rev-parse',ref],text=True).strip() for key,ref in (('commit','HEAD'),('tree','HEAD^{tree}'))}
             execution['environmentCaptured']['testedSource'] = tested_source
+            execution['environmentCaptured']['rawExecutionArtifacts'] = [
+                dict(ref=raw_ref,artifactType='command_output',byteCount=len((root/raw_ref).read_bytes()),
+                     sha256='sha256:'+hashlib.sha256((root/raw_ref).read_bytes()).hexdigest())
+                for raw_ref in execution['rawOutputRefs']]
             execution['environmentCaptured']['executionWindow'] = dict(startedAt='2026-09-03T00:00:00Z', finishedAt='2026-09-04T00:00:00Z')
             common = dict(schemaVersion=2,pocId=plan['pocId'],taskId=owner,acceptanceProfile=CHECK.profile_identity(profile),status='approved',approvedBy=reviewer,approvedAt='2026-09-02T00:00:00Z',validFrom='2026-09-02T00:00:00Z',validUntil='2026-09-04T00:00:00Z')
             for resource in execution['resources']:
@@ -418,7 +412,7 @@ class TestPocProgram(unittest.TestCase):
                 ownerTask=owner,acceptanceProfile=CHECK.profile_identity(profile),
                 resultRef=new_prefix+'/result.yaml'))
         finally:
-            if production: fixture.cleanup()
+            fixture.cleanup()
         return root/ref
 
     def test_01_positive_baseline(self):
@@ -1781,6 +1775,11 @@ class TestPocProgram(unittest.TestCase):
                 unrelated = root/'evidence/POC-007/profiles/local-v1/v1/unrelated.txt'
                 unrelated.parent.mkdir(parents=True,exist_ok=True)
                 unrelated.write_text('Not the selected experiment.\n',encoding='utf-8')
+                self.assertEqual(validate(),[])
+                unrelated.unlink()
+                unrelated = root/'evidence/POC-011/profiles/local-v1/v1/unrelated.txt'
+                unrelated.parent.mkdir(parents=True,exist_ok=True)
+                unrelated.write_text('Not a canonical experiment.\n',encoding='utf-8')
                 self.assertTrue(any('current validation context' in e for e in validate()))
                 unrelated.unlink()
                 original_code = code.read_text(encoding='utf-8')
@@ -1797,6 +1796,125 @@ class TestPocProgram(unittest.TestCase):
                 self.assertEqual(validate(),[])
             finally:
                 temp.cleanup()
+
+
+    def test_127_sibling_slots_can_coexist_in_both_full_milestones(self):
+        temp,root = self.temp_repo()
+        try:
+            for profile in ('local-v1','production'):
+                for task in sorted(CHECK.TASKS): self.make_profile_slot(root,task,profile)
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,'GZ-018'),[])
+            self.assertEqual(CHECK.validate_repository(root,'production',True,'GZ-020'),[])
+        finally: temp.cleanup()
+
+    def test_128_qualified_execution_and_approval_times_cannot_be_future(self):
+        future = '2099-09-04T00:02:00Z'
+        for profile in ('local-v1','production'):
+            temp,root = self.temp_repo()
+            try:
+                index = self.make_profile_slot(root,'POC-006',profile)
+                validate = lambda: CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
+                result_path = root/load_yaml(index)['resultRef'];result=load_yaml(result_path)
+                execution_path = root/result['executionRef'];execution=load_yaml(execution_path)
+                data = load_yaml(execution_path)
+                data['environmentCaptured']['executionWindow'] = dict(startedAt='2099-09-03T00:00:00Z',finishedAt='2099-09-04T00:00:00Z')
+                write_yaml(execution_path,data)
+                self.assertTrue(any('validation time' in e for e in validate()))
+                write_yaml(execution_path,execution)
+                result['approvedAt']=future;write_yaml(result_path,result)
+                self.assertTrue(any('validation time' in e for e in validate()))
+                result['approvedAt']='2026-09-04T00:02:00Z';write_yaml(result_path,result)
+                refs = [execution['environmentCaptured']['acceptanceProfileConfigurationRef'],execution['resources'][0]['configurationRef']]
+                for ref in refs:
+                    path=root/ref;original=path.read_bytes();data=load_yaml(path)
+                    data['approvedAt']=future;write_yaml(path,data)
+                    self.assertTrue(any('validation time' in e for e in validate()))
+                    path.write_bytes(original)
+                path=root/execution['resources'][0]['configurationRef'];data=load_yaml(path)
+                data['validUntil']=future;write_yaml(path,data)
+                self.assertEqual(validate(),[])
+            finally: temp.cleanup()
+
+    def test_129_api_performance_has_local_and_production_runtime_owners(self):
+        nfr = load_yaml(self.repo/'specs/requirements/v1/nfr.yaml')
+        item = next(item for item in nfr['items'] if item['id']=='NFR-V1-PERF-001')
+        self.assertEqual(item['measurement']['verificationOwners'],['GZ-011','GZ-018','GZ-020'])
+        self.assertEqual(item['applicableProfiles'],['local-v1','production'])
+        self.assertEqual(item['measurement']['state'],'MEASUREMENT_REQUIRED')
+        self.assertIsNone(item['measurement']['value'])
+
+    def test_130_scale_pass_requires_exercised_population_and_change_work(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-005',profile)
+                result_path=root/load_yaml(index)['resultRef'];result=load_yaml(result_path)
+                path=root/result['executionRef'];original=path.read_bytes()
+                for mid in ('file_count','directory_count','enumeration_rate','source_change_frequency','incremental_scan_cost'):
+                    data=load_yaml(path);next(m for m in data['measurements'] if m['id']==mid)['actual']=0
+                    write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-05'})
+                    self.assertTrue(any('positive exercised workload' in e and mid in e for e in errors),errors)
+                    path.write_bytes(original)
+                data=load_yaml(path)
+                for measurement in data['measurements']:
+                    if type(measurement['actual']) in (int,float): measurement['actual']=0
+                write_yaml(path,data);result.update(status='fail',decision='fail');write_yaml(result_path,result)
+                self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-05'}),[])
+            finally: temp.cleanup()
+
+    def test_131_separator_secret_keys_cannot_enter_qualified_configuration(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-006',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);execution=load_yaml(root/result['executionRef'])
+                path=root/execution['resources'][0]['configurationRef'];original=path.read_bytes()
+                for key in ('auth.token','api.key','auth/token','auth:token','private key','clientAuthTokenValue'):
+                    data=load_yaml(path);data['configuration'][key]='opaque-fixture-value'
+                    write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
+                    self.assertTrue(any('secret-like key forbidden' in e for e in errors),errors)
+                    path.write_bytes(original)
+                data=load_yaml(path);data['configuration']['credentials.stored.in.repository']=False;write_yaml(path,data)
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),[])
+            finally: temp.cleanup()
+
+    def test_132_raw_artifacts_require_dedicated_typed_actual_bytes(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-009',profile)
+                result_ref=load_yaml(index)['resultRef'];result=load_yaml(root/result_ref)
+                path=root/result['executionRef'];original=path.read_bytes();execution=load_yaml(path)
+                configuration=load_yaml(root/execution['environmentCaptured']['acceptanceProfileConfigurationRef'])
+                protected=[index.relative_to(root).as_posix(),result_ref,result['executionRef'],execution['environmentCaptured']['acceptanceProfileConfigurationRef']]
+                protected += [r[key] for r in execution['resources'] for key in ('configurationRef','bookingRef') if r.get(key)]
+                protected += [s['approvalRef'] for s in execution['samples']]+[r['reviewRef'] for r in execution['complianceReviews']]
+                for ref in configuration['numericDomainReviewRefs'].values():
+                    protected += [ref,load_yaml(root/ref)['definitionRef']]
+                def artifacts(ref):
+                    data=(root/ref).read_bytes()
+                    return [dict(ref=ref,artifactType='command_output',byteCount=len(data),sha256='sha256:'+hashlib.sha256(data).hexdigest())]
+                for ref in protected:
+                    data=load_yaml(path);data['rawOutputRefs']=[ref]
+                    for command in data['commands']: command['outputRef']=ref
+                    data['environmentCaptured']['rawExecutionArtifacts']=artifacts(ref)
+                    write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
+                    self.assertTrue(any('raw outputs must be disjoint' in e for e in errors),errors)
+                    path.write_bytes(original)
+                for field,value in (('artifactType','resource_configuration'),('artifactType','measurement_output'),('byteCount',-1),('sha256','sha256:'+'0'*64)):
+                    data=load_yaml(path);data['environmentCaptured']['rawExecutionArtifacts'][0][field]=value;write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
+                    self.assertTrue(any('qualified raw artifacts' in e for e in errors),errors)
+                    path.write_bytes(original)
+                raw_ref=execution['rawOutputRefs'][0];raw_path=root/raw_ref;raw_path.unlink()
+                os.link(root/execution['environmentCaptured']['acceptanceProfileConfigurationRef'],raw_path)
+                data=load_yaml(path);data['environmentCaptured']['rawExecutionArtifacts']=artifacts(raw_ref);write_yaml(path,data)
+                errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
+                self.assertTrue(any('raw outputs must be disjoint' in e for e in errors),errors)
+            finally: temp.cleanup()
 
 
 if __name__ == "__main__":

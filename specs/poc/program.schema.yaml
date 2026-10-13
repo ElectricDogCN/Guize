@@ -193,6 +193,7 @@ properties:
     - executionWindowSchema
     - measurementDomainReviewSchema
     - testedSourceSchema
+    - rawExecutionArtifactSchema
     properties:
       revision:
         const: 1
@@ -226,6 +227,8 @@ properties:
         const: program.schema.yaml#/$defs/measurementDomainReview
       testedSourceSchema:
         const: program.schema.yaml#/$defs/testedSource
+      rawExecutionArtifactSchema:
+        const: program.schema.yaml#/$defs/rawExecutionArtifact
 $defs:
   profileEvidenceIndex:
     type: object
@@ -833,3 +836,19 @@ $defs:
       tree:
         type: string
         pattern: ^[0-9a-f]{40}$
+  rawExecutionArtifact:
+    type: object
+    additionalProperties: false
+    required: [ref, artifactType, byteCount, sha256]
+    properties:
+      ref:
+        type: string
+        minLength: 1
+      artifactType:
+        enum: [command_output, measurement_output, scope_observation]
+      byteCount:
+        type: integer
+        minimum: 0
+      sha256:
+        type: string
+        pattern: '^sha256:[0-9a-f]{64}$'
