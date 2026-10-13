@@ -393,6 +393,7 @@ items:
     - POC-01
     - POC-02
     - GZ-011
+    - GZ-020
   applicableProfiles:
   - local-v1
   - production

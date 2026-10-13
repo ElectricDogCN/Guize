@@ -61,12 +61,13 @@ resources:
   credentialsStored: false
   description: Isolated PostgreSQL/OpenBao/file/deployment-bundle recovery sandbox.
 - id: RES-HETEROGENEOUS-WORKERS
-  type: local-worker-pool
+  type: heterogeneous-worker-pool
   availability: unknown
   bookingRequired: false
   credentialsStored: false
-  description: Bounded Windows/Linux worker pool; record OS, build, capabilities, limits, physical host identities and whether
-    Linux is WSL. Android compatibility is a separate capability; no phone or physical multi-host claim without actual devices.
+  description: Captured Windows/Linux/Android worker pool; record OS, physical host/device identities, pinned encoder builds,
+    compatibility groups and resource limits. Local WSL/same-host or untested-phone scope is explicit; production compatibility
+    requires actual Android and physical-scope measurements. No admin credentials in task payloads.
 - id: RES-OPENLIST-LOCAL
   type: local-storage-lab
   availability: unknown

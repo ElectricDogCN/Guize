@@ -213,6 +213,8 @@ class TestPocProgram(unittest.TestCase):
         measurements = []
         for measurement in route["protocol"]["measurements"]:
             actual = True if str(measurement["unit"]).lower() == "boolean" else 1
+            if measurement['id'] == 'range_correctness':
+                actual = 100
             if measurement['id'] == 'local_minimum_free_bytes':
                 actual = 400
             elif measurement['id'] == 'local_maximum_reserved_bytes':
@@ -257,6 +259,16 @@ class TestPocProgram(unittest.TestCase):
             "complianceReviews": [],
             "notes": None,
         }
+        required_reviews = [kind for kind in ('privacy','license') if plan['security'].get(kind+'ReviewRequired') is True]
+        if required_reviews:
+            for kind in required_reviews:
+                ref = f"{plan['evidencePath']}/compliance/{kind}.yaml"
+                version = CHECK.compliance_subject_version(plan,execution)
+                scope = environment['source_validation_scope'] if task_id=='POC-006' else CHECK.PROFILE_SCOPES[profile]
+                write_yaml(root/ref, dict(schemaVersion=1,pocId=plan['pocId'],taskId=task_id,
+                    type=kind,subjectVersion=version,decision='approved',reviewer='source-compliance-reviewer',
+                    approvedAt='2026-09-03T00:00:00Z',scope=scope))
+                execution['complianceReviews'].append(dict(type=kind,subjectVersion=version,reviewRef=ref))
         write_yaml(root / execution_ref, execution)
 
         result_ref = f"{plan['evidencePath']}/result.yaml"
@@ -298,6 +310,59 @@ class TestPocProgram(unittest.TestCase):
     def approval_path(self, root, execution_path):
         execution = load_yaml(execution_path)
         return root / execution["samples"][0]["approvalRef"]
+
+    def make_profile_slot(self, root, task_id='POC-006', profile='local-v1'):
+        plan = load_yaml(self.plan_path(root,task_id))
+        ref = CHECK.profile_index_ref(task_id,profile)
+        if profile == 'local-v1':
+            _,execution,result = self.make_terminal(root,task_id,profile=profile)
+            folder = root/Path(ref).parent
+            folder.mkdir(parents=True,exist_ok=True)
+            # All references for this local result remain in its own selected slot.
+            old_prefix = plan['evidencePath']
+            new_prefix = str(Path(ref).parent).replace('\\','/')
+            source_dir = root/old_prefix
+            sources = [p for p in source_dir.rglob('*') if p.is_file() and 'profiles' not in p.relative_to(source_dir).parts]
+            owner = task_id
+            implementer,reviewer = (task_id.lower()+'-implementer',task_id.lower()+'-reviewer')
+            production = False
+        else:
+            fixture,source_root = self.temp_repo()
+            self.make_terminal(source_root,task_id,profile='production')
+            old_prefix = plan['evidencePath']
+            source_dir = source_root/old_prefix
+            sources = [p for p in source_dir.rglob('*') if p.is_file()]
+            new_prefix = str(Path(ref).parent).replace('\\','/')
+            folder = root/new_prefix
+            owner = 'GZ-020'
+            implementer,reviewer = self.write_task_spec(root,owner)
+            production = True
+        def relocate(value):
+            if isinstance(value,dict):
+                result = {k:relocate(v) for k,v in value.items()}
+                if production:
+                    if result.get('taskId') == task_id: result['taskId'] = owner
+                    if result.get('evidencePath') == old_prefix: result['evidencePath'] = 'evidence/GZ-020'
+                    if 'schemaVersion' in result: result['schemaVersion'] = 2
+                    if 'executor' in result: result['executor'] = implementer
+                    if 'reviewer' in result and 'executionRef' in result: result['reviewer'] = reviewer
+                return result
+            if isinstance(value,list): return [relocate(v) for v in value]
+            if isinstance(value,str) and value.startswith(old_prefix+'/'):
+                return new_prefix+value[len(old_prefix):]
+            return value
+        try:
+            for source in sources:
+                target = folder/source.relative_to(source_dir)
+                target.parent.mkdir(parents=True,exist_ok=True)
+                if source.suffix == '.yaml': write_yaml(target,relocate(load_yaml(source)))
+                else: shutil.copy2(source,target)
+            write_yaml(root/ref,dict(schemaVersion=2,pocId=plan['pocId'],pocTaskId=task_id,
+                ownerTask=owner,acceptanceProfile=CHECK.profile_identity(profile),
+                resultRef=new_prefix+'/result.yaml'))
+        finally:
+            if production: fixture.cleanup()
+        return root/ref
 
     def test_01_positive_baseline(self):
         self.assertEqual(CHECK.validate_repository(self.repo), [])
@@ -1226,6 +1291,113 @@ class TestPocProgram(unittest.TestCase):
                     configuration['acceptanceProfile'][key] = True
                     write_yaml(root / ref, configuration)
                 self.assert_invalid(mutate, 'profile configuration version/revision must be integers')
+
+    def test_102_local_source_pass_requires_actual_compliance_records(self):
+        def mutate(root):
+            _,execution,_ = self.make_terminal(root,'POC-006',profile='local-v1')
+            data = load_yaml(execution)
+            data['complianceReviews'] = []
+            write_yaml(execution,data)
+        self.assert_invalid(mutate,'PASS requires privacy/license review references')
+
+    def test_103_compliance_records_bind_version_scope_and_file(self):
+        for mutation in ('version','scope','missing_file','same_executor'):
+            with self.subTest(mutation=mutation):
+                def mutate(root):
+                    _,execution,_ = self.make_terminal(root,'POC-006',profile='local-v1')
+                    data = load_yaml(execution)
+                    ref = root/data['complianceReviews'][0]['reviewRef']
+                    review = load_yaml(ref)
+                    if mutation == 'missing_file':
+                        ref.unlink()
+                        return
+                    if mutation == 'version': review['subjectVersion'] = 'other-version'
+                    if mutation == 'scope': review['scope'] = 'BAIDU_PRODUCTION_SANDBOX'
+                    if mutation == 'same_executor': review['reviewer'] = data['executor']
+                    write_yaml(ref,review)
+                self.assert_invalid(mutate,'compliance')
+
+    def test_104_range_pass_requires_complete_correctness_on_both_profiles(self):
+        for profile in ('local-v1','production'):
+            for actual in (0,-1,99,101):
+                with self.subTest(profile=profile,actual=actual):
+                    def mutate(root):
+                        _,execution,_ = self.make_terminal(root,profile=profile)
+                        data = load_yaml(execution)
+                        next(m for m in data['measurements'] if m['id']=='range_correctness')['actual'] = actual
+                        write_yaml(execution,data)
+                    self.assert_invalid(mutate,'Range')
+
+    def test_105_required_local_provenance_cannot_be_dropped(self):
+        def mutate(root):
+            path = self.plan_path(root,'POC-001')
+            data = load_yaml(path)
+            data['localValidation']['captureBeforeExecution'].remove('physical_host_scope')
+            write_yaml(path,data)
+        self.assert_invalid(mutate,'missing required local environment fields')
+
+    def test_106_local_slot_cannot_satisfy_production_contract(self):
+        temp,root = self.temp_repo()
+        try:
+            self.make_profile_slot(root)
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'}),[])
+            errors = CHECK.validate_repository(root,'production',True,selected_pocs={'POC-06'})
+            self.assertTrue(any('selected profile index is required' in e for e in errors),errors)
+        finally: temp.cleanup()
+
+    def test_107_production_slot_coexists_without_replacing_closed_local_evidence(self):
+        temp,root = self.temp_repo()
+        try:
+            local = self.make_profile_slot(root)
+            task_spec = self.task_path(root,'POC-006')
+            task_spec.write_text(task_spec.read_text(encoding='utf-8').replace('status: in_progress','status: completed'),encoding='utf-8')
+            old_files = {str(p.relative_to(root)):p.read_bytes() for p in (root/'evidence/POC-006').rglob('*') if p.is_file()}
+            self.make_profile_slot(root,profile='production')
+            for ref,content in old_files.items(): self.assertEqual((root/ref).read_bytes(),content)
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'}),[])
+            self.assertEqual(CHECK.validate_repository(root,'production',True,selected_pocs={'POC-06'}),[])
+        finally: temp.cleanup()
+
+    def test_108_full_production_milestone_cannot_use_subset_or_local_profile(self):
+        temp,root = self.temp_repo()
+        try:
+            self.make_profile_slot(root,profile='production')
+            errors = CHECK.validate_repository(root,'production',True,'GZ-020')
+            self.assertTrue(any('POC-001/production: selected profile index is required' in e for e in errors),errors)
+            errors = CHECK.validate_repository(root,'local-v1',True,'GZ-020',{'POC-06'})
+            self.assertTrue(any('milestone must bind' in e for e in errors),errors)
+            self.assertTrue(any('cannot select a POC subset' in e for e in errors),errors)
+        finally: temp.cleanup()
+
+    def test_109_production_compatibility_measurements_and_owner_are_required(self):
+        def mutate(root):
+            path = self.plan_path(root,'POC-001')
+            data = load_yaml(path)
+            data['protocol']['measurements'] = [m for m in data['protocol']['measurements'] if m['id'] != 'android_thermal_background_profiled']
+            write_yaml(path,data)
+        self.assert_invalid(mutate,'missing production compatibility measurements')
+
+    def test_110_profile_slot_cannot_claim_another_owner_or_scope(self):
+        temp,root = self.temp_repo()
+        try:
+            ref = self.make_profile_slot(root,profile='production')
+            self.assertEqual(CHECK.validate_repository(root,'production',True,selected_pocs={'POC-06'}),[])
+            data = load_yaml(ref)
+            data['ownerTask'] = 'POC-006'
+            write_yaml(ref,data)
+            errors = CHECK.validate_repository(root,'production',True,selected_pocs={'POC-06'})
+            self.assertTrue(any('index must bind exact' in e for e in errors),errors)
+        finally: temp.cleanup()
+
+    def test_111_declared_ai_and_recovery_reviews_cannot_be_boolean_only(self):
+        for task_id in ('POC-009','POC-010'):
+            with self.subTest(task=task_id):
+                def mutate(root):
+                    _,execution,_ = self.make_terminal(root,task_id,profile='local-v1')
+                    data = load_yaml(execution)
+                    data['complianceReviews'] = []
+                    write_yaml(execution,data)
+                self.assert_invalid(mutate,'PASS requires privacy/license review references')
 
 
 if __name__ == "__main__":

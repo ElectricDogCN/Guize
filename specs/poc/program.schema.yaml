@@ -23,6 +23,7 @@ required:
 - executionEnabled
 - notes
 - acceptanceProfileBinding
+- profileEvidenceBinding
 properties:
   schemaVersion:
     const: 2
@@ -172,3 +173,399 @@ properties:
                   const: GZ-020
                 canSatisfyProductionGate:
                   const: true
+  profileEvidenceBinding:
+    type: object
+    additionalProperties: false
+    required:
+    - revision
+    - legacyResultIndexPurpose
+    - localOwner
+    - productionOwner
+    - localIndexPattern
+    - productionIndexPattern
+    - indexSchema
+    - productionExecutionSchema
+    - productionResultSchema
+    - productionSampleApprovalSchema
+    - productionComplianceSchema
+    properties:
+      revision:
+        const: 1
+      legacyResultIndexPurpose:
+        const: TASK_PROGRESS_ONLY_NOT_PROFILE_ACCEPTANCE
+      localOwner:
+        const: POC_TASK
+      productionOwner:
+        const: GZ-020
+      localIndexPattern:
+        const: evidence/{pocTaskId}/profiles/local-v1/v1/index.yaml
+      productionIndexPattern:
+        const: evidence/GZ-020/poc/{pocTaskId}/production/v1/index.yaml
+      indexSchema:
+        const: program.schema.yaml#/$defs/profileEvidenceIndex
+      productionExecutionSchema:
+        const: program.schema.yaml#/$defs/productionExecution
+      productionResultSchema:
+        const: program.schema.yaml#/$defs/productionResult
+      productionSampleApprovalSchema:
+        const: program.schema.yaml#/$defs/productionSampleApproval
+      productionComplianceSchema:
+        const: program.schema.yaml#/$defs/productionComplianceReview
+$defs:
+  profileEvidenceIndex:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - pocTaskId
+    - ownerTask
+    - acceptanceProfile
+    - resultRef
+    properties:
+      schemaVersion:
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      pocTaskId:
+        type: string
+        pattern: ^POC-[0-9]{3}$
+      ownerTask:
+        type: string
+        pattern: ^(POC-[0-9]{3}|GZ-020)$
+      acceptanceProfile:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - version
+        - bindingRevision
+        - scope
+        properties:
+          id:
+            enum:
+            - local-v1
+            - production
+          version:
+            type: integer
+            const: 1
+          bindingRevision:
+            type: integer
+            const: 1
+          scope:
+            enum:
+            - LOCAL_FULL_V1
+            - PRODUCTION_RELEASE
+      resultRef:
+        type: string
+        minLength: 1
+  productionExecution:
+    $schema: https://json-schema.org/draft/2020-12/schema
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - taskId
+    - evidencePath
+    - executor
+    - resources
+    - environmentCaptured
+    - commands
+    - rawOutputRefs
+    - samples
+    - measurements
+    - provenance
+    - complianceReviews
+    - notes
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      taskId:
+        const: GZ-020
+      evidencePath:
+        const: evidence/GZ-020
+      executor:
+        type: string
+        minLength: 1
+      resources:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - configurationRef
+          - bookingRef
+          properties:
+            id:
+              type: string
+              pattern: ^RES-[A-Z0-9-]+$
+            configurationRef:
+              type: string
+              minLength: 1
+            bookingRef:
+              type:
+              - string
+              - 'null'
+      environmentCaptured:
+        type: object
+        minProperties: 1
+        additionalProperties: true
+      commands:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - command
+          - expectedExitCodes
+          - exitCode
+          - outputRef
+          properties:
+            command:
+              type: string
+              minLength: 1
+            expectedExitCodes:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items:
+                type: integer
+            exitCode:
+              type: integer
+            outputRef:
+              type: string
+              minLength: 1
+      rawOutputRefs:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      samples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          - approved
+          - approvalRef
+          properties:
+            id:
+              type: string
+              pattern: ^SAMPLE-[A-Z0-9-]+$
+            immutableId:
+              type: string
+              pattern: ^[A-Za-z0-9][A-Za-z0-9._:@/-]{7,127}$
+            checksum:
+              type: string
+              pattern: ^sha256:[0-9a-fA-F]{64}$
+            approved:
+              const: true
+            approvalRef:
+              type: string
+              minLength: 1
+      measurements:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - actual
+          properties:
+            id:
+              type: string
+              pattern: ^[a-z0-9_]+$
+            actual:
+              oneOf:
+              - type: number
+              - type: boolean
+      provenance:
+        type: object
+        additionalProperties: false
+        properties:
+          input_sha256:
+            type: string
+            pattern: ^sha256:[0-9a-fA-F]{64}$
+          output_sha256:
+            type: string
+            pattern: ^sha256:[0-9a-fA-F]{64}$
+          encoder_parameters:
+            oneOf:
+            - type: string
+              minLength: 1
+            - type: object
+              minProperties: 1
+      complianceReviews:
+        type: array
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - type
+          - subjectVersion
+          - reviewRef
+          properties:
+            type:
+              enum:
+              - privacy
+              - license
+            subjectVersion:
+              type: string
+              minLength: 1
+            reviewRef:
+              type: string
+              minLength: 1
+      notes:
+        type:
+        - string
+        - 'null'
+  productionResult:
+    $schema: https://json-schema.org/draft/2020-12/schema
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - taskId
+    - status
+    - evidencePath
+    - executionRef
+    - decision
+    - rationale
+    - reviewer
+    - approvedAt
+    - approval
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      taskId:
+        const: GZ-020
+      status:
+        enum:
+        - pass
+        - fail
+        - inconclusive
+      evidencePath:
+        const: evidence/GZ-020
+      executionRef:
+        type: string
+        minLength: 1
+      decision:
+        enum:
+        - pass
+        - fail
+        - inconclusive
+      rationale:
+        type: string
+        minLength: 1
+      reviewer:
+        type: string
+        minLength: 1
+      approvedAt:
+        type: string
+        pattern: ^20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$
+      approval:
+        const: approved
+  productionSampleApproval:
+    $schema: https://json-schema.org/draft/2020-12/schema
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - taskId
+    - sampleId
+    - immutableId
+    - checksum
+    - decision
+    - approver
+    - approvedAt
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      taskId:
+        const: GZ-020
+      sampleId:
+        type: string
+        pattern: ^SAMPLE-[A-Z0-9-]+$
+      immutableId:
+        type: string
+        pattern: ^[A-Za-z0-9][A-Za-z0-9._:@/-]{7,127}$
+      checksum:
+        type: string
+        pattern: ^sha256:[0-9a-fA-F]{64}$
+      decision:
+        const: approved
+      approver:
+        type: string
+        minLength: 1
+      approvedAt:
+        type: string
+        format: date-time
+  productionComplianceReview:
+    $schema: https://json-schema.org/draft/2020-12/schema
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - taskId
+    - type
+    - subjectVersion
+    - decision
+    - reviewer
+    - approvedAt
+    - scope
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      taskId:
+        const: GZ-020
+      type:
+        enum:
+        - privacy
+        - license
+      subjectVersion:
+        type: string
+        minLength: 1
+      decision:
+        const: approved
+      reviewer:
+        type: string
+        minLength: 1
+      approvedAt:
+        type: string
+        format: date-time
+      scope:
+        type: string
+        minLength: 1

@@ -74,3 +74,15 @@ acceptanceProfileBinding:
     canSatisfyProductionGate: true
     requirementIds: *id001
     acceptanceIds: *id002
+profileEvidenceBinding:
+  revision: 1
+  legacyResultIndexPurpose: TASK_PROGRESS_ONLY_NOT_PROFILE_ACCEPTANCE
+  localOwner: POC_TASK
+  productionOwner: GZ-020
+  localIndexPattern: evidence/{pocTaskId}/profiles/local-v1/v1/index.yaml
+  productionIndexPattern: evidence/GZ-020/poc/{pocTaskId}/production/v1/index.yaml
+  indexSchema: program.schema.yaml#/$defs/profileEvidenceIndex
+  productionExecutionSchema: program.schema.yaml#/$defs/productionExecution
+  productionResultSchema: program.schema.yaml#/$defs/productionResult
+  productionSampleApprovalSchema: program.schema.yaml#/$defs/productionSampleApproval
+  productionComplianceSchema: program.schema.yaml#/$defs/productionComplianceReview

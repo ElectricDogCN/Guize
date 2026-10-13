@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import copy
+import json
 import math
 import re
 import subprocess
@@ -127,6 +129,17 @@ REQUIRED_PROVENANCE = {
 }
 
 PROFILE_SCOPES = {"local-v1": "LOCAL_FULL_V1", "production": "PRODUCTION_RELEASE"}
+PROFILE_EVIDENCE_BINDING = {
+    'revision':1,'legacyResultIndexPurpose':'TASK_PROGRESS_ONLY_NOT_PROFILE_ACCEPTANCE',
+    'localOwner':'POC_TASK','productionOwner':'GZ-020',
+    'localIndexPattern':'evidence/{pocTaskId}/profiles/local-v1/v1/index.yaml',
+    'productionIndexPattern':'evidence/GZ-020/poc/{pocTaskId}/production/v1/index.yaml',
+    'indexSchema':'program.schema.yaml#/$defs/profileEvidenceIndex',
+    'productionExecutionSchema':'program.schema.yaml#/$defs/productionExecution',
+    'productionResultSchema':'program.schema.yaml#/$defs/productionResult',
+    'productionSampleApprovalSchema':'program.schema.yaml#/$defs/productionSampleApproval',
+    'productionComplianceSchema':'program.schema.yaml#/$defs/productionComplianceReview',
+}
 LOCAL_REQUIRED_MEASUREMENTS = {
     **REQUIRED_MEASUREMENTS,
     "POC-01": {
@@ -165,6 +178,16 @@ LOCAL_RESOURCES = {
     "POC-07": {"RES-LOCAL-ACCESS-PATH", "RES-OPENLIST-LOCAL"},
 }
 
+REQUIRED_LOCAL_ENV = {
+    "POC-01": {"worker_node_inventory", "physical_host_scope", "encoder_capability_matrix", "android_validation_scope"},
+    "POC-02": {"worker_node_inventory", "physical_host_scope", "encoder_capability_matrix", "segment_profile", "scheduler_configuration"},
+    "POC-03": set(),
+    "POC-04": {"openlist_version", "sandbox_root_boundary", "capacity_watermark_configuration"},
+    "POC-05": {"openlist_version", "synthetic_hierarchy_manifest"},
+    "POC-06": {"openlist_version", "source_validation_scope", "injected_failure_matrix"},
+    "POC-07": {"local_tls_path_configuration", "openlist_version"},
+}
+
 LOCAL_BOOLEAN_GATES = {
     "POC-01": LOCAL_REQUIRED_MEASUREMENTS["POC-01"],
     "POC-02": LOCAL_REQUIRED_MEASUREMENTS["POC-02"] - {
@@ -182,6 +205,17 @@ LOCAL_BOOLEAN_GATES = {
 }
 LOCAL_REQUIRED_MEASUREMENTS["POC-04"] = LOCAL_REQUIRED_MEASUREMENTS["POC-04"] | {
     "local_minimum_free_bytes", "local_maximum_reserved_bytes",
+}
+
+PRODUCTION_COMPAT_MEASUREMENTS = {
+    'POC-01': LOCAL_BOOLEAN_GATES['POC-01'] | {'android_thermal_background_profiled'},
+    'POC-02': {'parallel_av1_concat_decodes','hls_ready_only_contiguous',
+               'attempt_fencing_single_publish','playback_priority_reserved_capacity',
+               'seek_epoch_rejects_stale_demand','hls_acl_and_revocation'},
+}
+PRODUCTION_COMPAT_ENV = {
+    'POC-01': REQUIRED_LOCAL_ENV['POC-01'] | {'android_thermal_background_observation'},
+    'POC-02': REQUIRED_LOCAL_ENV['POC-02'],
 }
 
 
@@ -243,6 +277,9 @@ def validate_local_route(plan, resource_map, protocol_schema, errors):
     capture = set(local.get("captureBeforeExecution") or [])
     if not set(plan["environment"]["captureBeforeExecution"]).issubset(capture):
         errors.append(f"{label}: local route must retain common environment capture")
+    missing_capture = REQUIRED_LOCAL_ENV[poc_id] - capture
+    if missing_capture:
+        errors.append(f"{label}: missing required local environment fields {sorted(missing_capture)}")
 
 
 def validate_execution_profile(root, plan, execution, errors):
@@ -310,6 +347,57 @@ def validate_local_capacity(plan, execution, configuration, status, errors):
         errors.append(f"{label}: measured free/reserved bytes must be bounded integers")
     elif status == 'pass' and minimum - reserved < floor:
         errors.append(f"{label}: PASS requires measured free bytes minus maximum reservations to preserve floor")
+
+
+def compliance_subject_version(plan, execution):
+    environment = execution.get('environmentCaptured') or {}
+    key = {'POC-06':'provider_api_or_sdk_version','POC-09':'model_version'}.get(plan['pocId'],'tool_versions')
+    value = environment.get(key)
+    return json.dumps(value,sort_keys=True,separators=(',',':')) if isinstance(value,dict) else value
+
+
+def validate_source_compliance(root, plan, execution, implementer, status, errors, schema_override=None):
+    """Declared approval booleans cannot substitute for version-bound review records."""
+    required = {kind for kind in ('privacy','license') if plan['security'].get(kind+'ReviewRequired') is True}
+    if not required:
+        return
+    label = f"execution record {plan['taskId']}: compliance"
+    environment = execution.get('environmentCaptured') or {}
+    version = compliance_subject_version(plan,execution)
+    profile = (environment.get('acceptanceProfile') or {}).get('id')
+    scope = ('GENERIC_OPENLIST_SANDBOX' if profile == 'local-v1' else 'BAIDU_PRODUCTION_SANDBOX') if plan['pocId']=='POC-06' else PROFILE_SCOPES.get(profile)
+    reviews = execution.get('complianceReviews') or []
+    kinds = [r.get('type') for r in reviews if isinstance(r, dict)]
+    if len(kinds) != len(set(kinds)):
+        errors.append(f"{label}: review types must be unique")
+    if status == 'pass' and not required.issubset(set(kinds)):
+        errors.append(f"{label}: PASS requires privacy/license review references")
+    schema = schema_override or load(root/'specs/poc/compliance-review.schema.yaml')
+    for review in reviews:
+        if not isinstance(review, dict):
+            continue
+        if review.get('subjectVersion') != version or not recorded_text(version):
+            errors.append(f"{label}: review subjectVersion must bind exact captured API/tool version")
+        path = existing_ref(root, review.get('reviewRef'), plan['evidencePath'])
+        if path is None:
+            errors.append(f"{label}: reviewRef must exist under task Evidence")
+            continue
+        try:
+            record = load(path)
+        except Exception as exc:
+            errors.append(f"{label}: cannot read review: {exc}")
+            continue
+        validate_schema(record, schema, label+'/review', errors)
+        secret_scan(record, label+'/review', errors)
+        expected = dict(pocId=plan['pocId'], taskId=plan['taskId'], type=review.get('type'),
+                        subjectVersion=version, decision='approved', scope=scope)
+        if not isinstance(record, dict) or any(record.get(k) != v for k,v in expected.items()):
+            errors.append(f"{label}: review must bind exact task, type, version, approved decision and source scope")
+            continue
+        if not recorded_text(record.get('reviewer')) or record.get('reviewer') == implementer:
+            errors.append(f"{label}: review requires a concrete independent reviewer")
+        if not valid_utc_timestamp(record.get('approvedAt')):
+            errors.append(f"{label}: review approvedAt must be valid UTC")
 
 
 class UniqueKeyLoader(yaml.SafeLoader):
@@ -680,6 +768,7 @@ def validate_execution(
     approval_schema: dict[str, Any],
     status: str,
     errors: list[str],
+    compliance_schema: dict[str, Any] | None = None,
 ) -> None:
     task_id = plan["taskId"]
     poc_id = plan["pocId"]
@@ -689,6 +778,7 @@ def validate_execution(
     secret_scan(execution, label, errors)
     route, profile_configuration = validate_execution_profile(root, plan, execution, errors)
     validate_local_capacity(plan, execution, profile_configuration, status, errors)
+    validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
@@ -842,6 +932,14 @@ def validate_execution(
     ]
     if false_gates:
         errors.append(f"{label}: PASS has false/non-true boolean gates {sorted(false_gates)}")
+    if poc_id == 'POC-03':
+        correctness = actual_map.get('range_correctness')
+        if planned_measurements.get('range_correctness', {}).get('unit') != 'percent':
+            errors.append(f"{label}: Range correctness unit must remain percent")
+        if isinstance(correctness, bool) or not isinstance(correctness, (int,float)) or not math.isfinite(correctness) or not 0 <= correctness <= 100:
+            errors.append(f"{label}: Range correctness must be a finite percentage in [0,100]")
+        elif status == 'pass' and correctness != 100:
+            errors.append(f"{label}: PASS requires 100 percent Range byte correctness")
 
     provenance = execution.get("provenance") or {}
     required_provenance = REQUIRED_PROVENANCE.get(poc_id, set())
@@ -872,6 +970,7 @@ def validate_terminal(
     execution_schema: dict[str, Any],
     approval_schema: dict[str, Any],
     errors: list[str],
+    compliance_schema: dict[str, Any] | None = None,
 ) -> None:
     task_id = plan["taskId"]
     evidence = plan["evidencePath"]
@@ -944,7 +1043,88 @@ def validate_terminal(
     validate_execution(
         root, plan, implementer, execution, resource_catalog,
         execution_schema, approval_schema, status, errors,
+        compliance_schema,
     )
+
+
+def profile_index_ref(poc_task_id: str, profile: str) -> str:
+    key = 'localIndexPattern' if profile == 'local-v1' else 'productionIndexPattern'
+    return PROFILE_EVIDENCE_BINDING[key].format(pocTaskId=poc_task_id)
+
+
+def validate_profile_evidence(root, plans, tasks, program_schema, result_schema,
+                              execution_schema, approval_schema, resources,
+                              selected_profile, require_results, selected_pocs, errors):
+    """Qualified slots coexist; production is newly owned by GZ020, never rewritten POC history."""
+    defs = program_schema.get('$defs') or {}
+    for poc_task_id, plan in plans.items():
+        if selected_pocs and plan['pocId'] not in selected_pocs:
+            continue
+        for profile in PROFILE_SCOPES:
+            ref = profile_index_ref(poc_task_id,profile)
+            owner = poc_task_id if profile == 'local-v1' else 'GZ-020'
+            evidence = 'evidence/'+owner
+            index_path = existing_ref(root,ref,evidence)
+            label = f"profile evidence {poc_task_id}/{profile}"
+            required = require_results and profile == selected_profile
+            if index_path is None:
+                if required: errors.append(f"{label}: selected profile index is required")
+                continue
+            try:
+                index = load(index_path)
+            except Exception as exc:
+                errors.append(f"{label}: cannot parse profile index: {exc}")
+                continue
+            validate_schema(index,defs.get('profileEvidenceIndex',{}),label,errors)
+            secret_scan(index,label,errors)
+            identity = profile_identity(profile)
+            expected = dict(schemaVersion=2,pocId=plan['pocId'],pocTaskId=poc_task_id,
+                            ownerTask=owner,acceptanceProfile=identity)
+            if not isinstance(index,dict) or any(index.get(k) != v for k,v in expected.items()):
+                errors.append(f"{label}: index must bind exact experiment, owner and profile")
+                continue
+            configured = index.get('acceptanceProfile') or {}
+            if any(type(configured.get(k)) is not int for k in ('version','bindingRevision')):
+                errors.append(f"{label}: profile versions must be integers")
+            prefix = str(Path(ref).parent).replace('\\','/')
+            result_path = existing_ref(root,index.get('resultRef'),prefix)
+            if result_path is None:
+                errors.append(f"{label}: resultRef must exist under the selected profile slot")
+                continue
+            try:
+                result = load(result_path)
+            except Exception as exc:
+                errors.append(f"{label}: cannot parse profile result: {exc}")
+                continue
+            if not isinstance(result,dict):
+                errors.append(f"{label}: profile result must be a mapping")
+                continue
+            execution_path = existing_ref(root,result.get('executionRef'),prefix)
+            if execution_path is None:
+                errors.append(f"{label}: executionRef must exist under the selected profile slot")
+                continue
+            try:
+                execution = load(execution_path)
+            except Exception as exc:
+                errors.append(f"{label}: cannot parse execution: {exc}")
+                continue
+            if not isinstance(execution,dict) or (execution.get('environmentCaptured') or {}).get('acceptanceProfile') != identity:
+                errors.append(f"{label}: execution must bind selected profile identity")
+                continue
+            if required and result.get('status') != 'pass':
+                errors.append(f"{label}: selected profile requires independently approved PASS")
+            projected_plan = copy.deepcopy(plan)
+            projected_plan.update(taskId=owner,evidencePath=evidence)
+            entry = dict(pocId=plan['pocId'],taskId=owner,evidencePath=evidence,
+                         status=result.get('status'),decision=result.get('decision'),
+                         resultRef=index.get('resultRef'),reviewer=result.get('reviewer'),
+                         approvedAt=result.get('approvedAt'))
+            production = profile == 'production'
+            validate_terminal(root,projected_plan,tasks[owner],entry,resources,
+                defs.get('productionResult',{}) if production else result_schema,
+                defs.get('productionExecution',{}) if production else execution_schema,
+                defs.get('productionSampleApproval',{}) if production else approval_schema,
+                errors,defs.get('productionComplianceReview',{}) if production else None)
 
 
 def validate_templates(
@@ -1072,8 +1252,22 @@ def load_index_from_git(root: Path, base_ref: str, errors: list[str]) -> dict[st
     return value if isinstance(value, dict) else None
 
 
-def validate_repository(root: Path) -> list[str]:
+def validate_repository(root: Path, selected_profile=None, require_results=False,
+                        milestone=None, selected_pocs=None) -> list[str]:
     errors: list[str] = []
+    if selected_profile is not None and selected_profile not in PROFILE_SCOPES:
+        errors.append('unknown selected acceptance profile')
+    if milestone is not None:
+        expected_profile = {'GZ-018':'local-v1','GZ-020':'production'}.get(milestone)
+        if expected_profile is None or selected_profile != expected_profile:
+            errors.append('milestone must bind its exact local/production profile')
+        if selected_pocs:
+            errors.append('full milestone cannot select a POC subset')
+        require_results = True
+    if require_results and selected_profile not in PROFILE_SCOPES:
+        errors.append('qualified results require an explicit known profile')
+    if selected_pocs and not set(selected_pocs).issubset(POCS):
+        errors.append('unknown selected POC')
     base = root / "specs" / "poc"
     try:
         program = load(base / "program.yaml")
@@ -1089,7 +1283,8 @@ def validate_repository(root: Path) -> list[str]:
         results = load(base / "results-index.yaml")
         policy = load(base / "policy.yaml")
         program_plan = load(root / "specs" / "coordination" / "program-plan.yaml")
-        nfr_binding = load(root / "specs/requirements/v1/nfr.yaml")["acceptanceProfileBinding"]
+        nfr_document = load(root / "specs/requirements/v1/nfr.yaml")
+        nfr_binding = nfr_document["acceptanceProfileBinding"]
     except Exception as exc:
         return [f"cannot load POC Program: {exc}"]
 
@@ -1104,9 +1299,14 @@ def validate_repository(root: Path) -> list[str]:
     ):
         schema_check(schema, name, errors)
     validate_schema(program, program_schema, "program.yaml", errors)
+    if program.get('profileEvidenceBinding') != PROFILE_EVIDENCE_BINDING:
+        errors.append('profile-qualified evidence binding must retain exact owners, paths and schemas')
     validate_schema(results, result_index_schema, "results-index.yaml", errors)
     if program.get("acceptanceProfileBinding") != nfr_binding:
         errors.append("program.yaml acceptanceProfileBinding must equal authoritative NFR binding")
+    compatibility = next((n for n in nfr_document.get('items',[]) if n.get('id') == 'NFR-V1-COMP-003'), {})
+    if not {'POC-01','POC-02','GZ-011','GZ-020'}.issubset(set(compatibility.get('measurement',{}).get('verificationOwners') or [])):
+        errors.append('NFR-V1-COMP-003 must bind actual production compatibility verifiers and GZ-020')
     for profile in (program.get("acceptanceProfileBinding") or {}).get("profiles", []):
         if set(profile.get("requirementIds") or []) != {f"REQ-V1-{i:04d}" for i in range(1, 11)} or set(profile.get("acceptanceIds") or []) != {f"验收V1-{i:04d}" for i in range(1, 13)}:
             errors.append("program.yaml profile must preserve original full 10 requirements and 12 acceptances")
@@ -1254,6 +1454,12 @@ def validate_repository(root: Path) -> list[str]:
             errors.append(
                 f"{relative}: missing frozen required measurements {sorted(missing_measurements)}"
             )
+        missing_compatibility = PRODUCTION_COMPAT_MEASUREMENTS.get(poc_id,set()) - set(measurement_ids)
+        if missing_compatibility:
+            errors.append(f"{relative}: missing production compatibility measurements {sorted(missing_compatibility)}")
+        for measurement in (plan.get('protocol') or {}).get('measurements',[]):
+            if measurement.get('id') in PRODUCTION_COMPAT_MEASUREMENTS.get(poc_id,set()) and measurement.get('unit') != 'boolean':
+                errors.append(f"{relative}: production compatibility gate unit must remain boolean")
         capture_fields = set(
             (plan.get("environment") or {}).get("captureBeforeExecution", [])
         )
@@ -1262,6 +1468,11 @@ def validate_repository(root: Path) -> list[str]:
             errors.append(
                 f"{relative}: missing required environment provenance fields {sorted(missing_environment)}"
             )
+        missing_production_environment = PRODUCTION_COMPAT_ENV.get(poc_id,set()) - capture_fields
+        if missing_production_environment:
+            errors.append(f"{relative}: missing production compatibility environment fields {sorted(missing_production_environment)}")
+        if poc_id in PRODUCTION_COMPAT_MEASUREMENTS and 'RES-HETEROGENEOUS-WORKERS' not in (plan.get('resourceIds') or []):
+            errors.append(f"{relative}: production compatibility requires captured heterogeneous worker pool")
 
         for resource_id in plan.get("resourceIds") or []:
             if resource_id not in resource_map:
@@ -1346,6 +1557,10 @@ def validate_repository(root: Path) -> list[str]:
         ("policy.yaml", policy),
     ):
         secret_scan(value, name, errors)
+    all_tasks = {t['taskId']:t for t in program_plan.get('tasks',[])}
+    validate_profile_evidence(root,by_task,all_tasks,program_schema,result_record_schema,
+        execution_schema,approval_schema,resource_map,selected_profile,require_results,
+        set(selected_pocs or []),errors)
     return errors
 
 
@@ -1354,13 +1569,17 @@ def main() -> int:
     parser.add_argument("--repo-root")
     parser.add_argument("--task", help="Executing POC task for results-index row ownership validation")
     parser.add_argument("--base-ref", help="Git base ref used to prove only --task row changed")
+    parser.add_argument('--profile',choices=sorted(PROFILE_SCOPES),help='Select qualified acceptance profile')
+    parser.add_argument('--require-results',action='store_true',help='Require independently reviewed PASS in every selected profile slot')
+    parser.add_argument('--poc',action='append',choices=sorted(POCS),help='Select a scoped POC contract; forbidden for full milestones')
+    parser.add_argument('--milestone',choices=['GZ-018','GZ-020'],help='Require all ten qualified POC results for the exact milestone profile')
     args = parser.parse_args()
     root = (
         Path(args.repo_root).resolve()
         if args.repo_root
         else Path(__file__).resolve().parents[2]
     )
-    errors = validate_repository(root)
+    errors = validate_repository(root,args.profile,args.require_results,args.milestone,args.poc)
 
     if bool(args.task) != bool(args.base_ref):
         errors.append("--task and --base-ref must be supplied together")
@@ -1378,6 +1597,10 @@ def main() -> int:
         "PASS: POC-PROTOCOL-V1 immutable planning baseline and "
         "task-owned Evidence contracts are consistent with Program Plan"
     )
+    if args.require_results or args.milestone:
+        print(f"PASS: qualified POC prerequisites for {args.profile}; milestone={args.milestone or 'scoped contract'}; no platform/runtime/production release granted")
+    elif args.profile:
+        print(f"Profile declarations checked: {args.profile}; qualified result acceptance not requested")
     if args.task:
         print(
             f"PASS: results-index row ownership verified for {args.task} "

@@ -16,6 +16,7 @@ moduleIds:
 evidencePath: evidence/POC-002
 resourceIds:
 - RES-A380-ENCODE
+- RES-HETEROGENEOUS-WORKERS
 sampleIds:
 - SAMPLE-MEDIA-CLEAR
 environment:
@@ -30,6 +31,11 @@ environment:
   - tool_versions
   - network_profile
   - storage_profile
+  - worker_node_inventory
+  - physical_host_scope
+  - encoder_capability_matrix
+  - segment_profile
+  - scheduler_configuration
   capturedValues: {}
 protocol:
   commands: []
@@ -121,6 +127,54 @@ protocol:
     method: Capture device temperature telemetry across warmup, concurrency and soak phases with the sampling method recorded.
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
+  - id: parallel_av1_concat_decodes
+    metric: parallel av1 concat decodes
+    unit: boolean
+    method: Encode contiguous spans on the actual nodes in one admitted compatibility group; compare init/config, timing,
+      frame counts and whole-asset decode across boundaries. Record audio and no-audio scope separately. Execute and retain
+      evidence on the captured production worker pool; a local-profile result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: hls_ready_only_contiguous
+    metric: hls ready only contiguous
+    unit: boolean
+    method: Complete segments out of order; serve only a contiguous READY playback window with immutable init/version and
+      no holes or premature ENDLIST. Execute and retain evidence on the captured production worker pool; a local-profile result
+      cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: attempt_fencing_single_publish
+    metric: attempt fencing single publish
+    unit: boolean
+    method: Expire an attempt, retry, then deliver duplicate/late/cancelled completions; only the current fenced attempt may
+      publish READY once. Execute and retain evidence on the captured production worker pool; a local-profile result cannot
+      satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: playback_priority_reserved_capacity
+    metric: playback priority reserved capacity
+    unit: boolean
+    method: Saturate background jobs then enqueue authorized playback demand; measure admission/first-ready latency and prove
+      reserved capacity, aging and source/H.264 fallback. Do not claim running FFmpeg is preempted. Execute and retain evidence
+      on the captured production worker pool; a local-profile result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: seek_epoch_rejects_stale_demand
+    metric: seek epoch rejects stale demand
+    unit: boolean
+    method: Seek or revoke playback while work is queued/running; stale demand cannot consume new reserved slots or expose
+      protected bytes. Execute and retain evidence on the captured production worker pool; a local-profile result cannot satisfy
+      this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: hls_acl_and_revocation
+    metric: hls acl and revocation
+    unit: boolean
+    method: Test manifest, init, segment and cache-hit authorization, cross-user isolation, expired/revoked grants and direct-origin
+      denial. Execute and retain evidence on the captured production worker pool; a local-profile result cannot satisfy this
+      measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
   exitCriteria:
   - AV1 and fallback H.264 paths produce decodable outputs.
   - Quality/throughput/first-segment measurements are captured for approved immutable samples.
@@ -132,6 +186,8 @@ protocol:
   - Worker interruption retry is idempotent, and cancellation leaves no publishable partial artifact or leaked resource.
   - A380-backed Range first-byte latency is measured with the encoder provenance and public/origin path recorded.
   - Peak encoder power and temperature are recorded across warmup, concurrency and soak phases.
+  - Preserve every original A380/ESXi measurement and exit criterion; additionally pass NFR-V1-COMP-003 heterogeneous production
+    measurements using actual version-bound pool evidence. Do not reuse local-profile results.
   failureFallbacks:
   - If A380 AV1 path or sustained stability is insufficient, retain H.264 compatibility path and evaluate another worker/GPU
     profile.

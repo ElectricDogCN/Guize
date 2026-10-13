@@ -16,6 +16,7 @@ moduleIds:
 evidencePath: evidence/POC-001
 resourceIds:
 - RES-A380-ESXI67
+- RES-HETEROGENEOUS-WORKERS
 sampleIds:
 - SAMPLE-MEDIA-CLEAR
 environment:
@@ -30,6 +31,11 @@ environment:
   - tool_versions
   - network_profile
   - storage_profile
+  - worker_node_inventory
+  - physical_host_scope
+  - encoder_capability_matrix
+  - android_validation_scope
+  - android_thermal_background_observation
   capturedValues: {}
 protocol:
   commands: []
@@ -106,6 +112,51 @@ protocol:
       during the recorded soak duration.
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
+  - id: worker_capabilities_reproducible
+    metric: worker capabilities reproducible
+    unit: boolean
+    method: Probe each actual node and retain OS/architecture, encoder build/config, AV1/H.264 support and output hashes;
+      never infer capabilities from OS name. Execute and retain evidence on the captured production worker pool; a local-profile
+      result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: worker_resource_limits_enforced
+    metric: worker resource limits enforced
+    unit: boolean
+    method: Exercise CPU/memory/time/temp-output limits on the actual worker pool. Execute and retain evidence on the captured
+      production worker pool; a local-profile result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: worker_restart_recovery
+    metric: worker restart recovery
+    unit: boolean
+    method: Restart/disconnect a worker and prove lease expiry, re-registration and bounded task recovery. Execute and retain
+      evidence on the captured production worker pool; a local-profile result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: worker_physical_scope_recorded
+    metric: worker physical scope recorded
+    unit: boolean
+    method: Bind node IDs to actual host IDs; identify WSL/same-host processes and any actually tested Android device explicitly.
+      Execute and retain evidence on the captured production worker pool; a local-profile result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: worker_network_boundary_enforced
+    metric: worker network boundary enforced
+    unit: boolean
+    method: Prove outbound task-scoped access; reject private/unsupported input targets, administrative storage access and
+      expired grants. Execute and retain evidence on the captured production worker pool; a local-profile result cannot satisfy
+      this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: android_thermal_background_profiled
+    metric: Actual Android encoding, thermal and background survivability are measured
+    unit: boolean
+    method: Use an actual Android device with pinned encoder build and approved sample. Retain encoding output hashes, temperature/power/network
+      observations and background/restart outcomes; emulator, capability enumeration or untested-device labels cannot establish
+      production PASS.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
   exitCriteria:
   - Guest can enumerate A380 through supported passthrough path.
   - Driver/runtime initialization succeeds with reproducible version capture.
@@ -117,6 +168,8 @@ protocol:
   - The A380 IOMMU group is isolated sufficiently for the approved passthrough design.
   - The observed multi-day soak duration is recorded and completes without unrecovered passthrough, host, guest, driver or
     media-runtime failure.
+  - Preserve every original A380/ESXi measurement and exit criterion; additionally pass NFR-V1-COMP-003 heterogeneous production
+    measurements using actual version-bound pool evidence. Do not reuse local-profile results.
   failureFallbacks:
   - If ESXi 6.7 passthrough or reboot/reset recovery is unsupported, document the blocker and evaluate a supported hypervisor/bare-metal
     worker path.
@@ -158,6 +211,7 @@ localValidation:
   - physical_host_scope
   - encoder_capability_matrix
   - android_validation_scope
+  - android_thermal_background_observation
   protocol:
     commands: []
     rawOutputRefs: []

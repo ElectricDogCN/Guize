@@ -14,7 +14,11 @@
 | 007 | 隔离 TLS/Range/ACL/限流/直接回源拒绝 | 公网 IPv6/DDNS/高端口/tunnel/CDN |
 | 008/009/010 | 原前端、AI 与恢复协议继续适用 | 同一共享安全/质量义务 |
 
-执行记录保持原 Schema 1，在 `environmentCaptured.acceptanceProfile` 中绑定 `{id, version, bindingRevision, scope}`，并用 `acceptanceProfileConfigurationRef` 指向同任务 Evidence 的配置。配置必须匹配 POC/Task、所选资源与全部测量 ID。结果记录经 executionRef 绑定该范围；未知范围、版本错配、本地记录冒充生产、缺安全测量及通用来源结果冒充百度生产均拒绝。安全门单位必须保持 boolean。本地存储配置以整数 bytes 绑定实际正水位、高低水位及预留预算；实际最小空闲量减去最大在途预留量必须保持安全水位，不能用零配置或文字说明获得 PASS。
+本地/历史 POC 执行记录保持原 Schema 1，在 `environmentCaptured.acceptanceProfile` 中绑定 `{id, version, bindingRevision, scope}`，并用 `acceptanceProfileConfigurationRef` 指向同任务 Evidence 的配置。配置必须匹配 POC/Task、所选资源与全部测量 ID。结果记录经 executionRef 绑定该范围；未知范围、版本错配、本地记录冒充生产、缺安全测量及通用来源结果冒充百度生产均拒绝。安全门单位必须保持 boolean。本地存储配置以整数 bytes 绑定实际正水位、高低水位及预留预算；实际最小空闲量减去最大在途预留量必须保持安全水位，不能用零配置或文字说明获得 PASS。
+
+配置要求的隐私/许可审查必须有实际独立批准文件，并绑定任务、类型、被测版本及范围；不能只填通过布尔值。Range 字节正确率须在 0～100% 范围内，PASS 必须为 100%。本地专属环境字段不可删除。生产 POC-001/002 在保留原 A380/ESXi 测量的基础上增加异构执行组及真实 Android 温升/后台生存性测量，NFR-V1-COMP-003 同时由 GZ-020 验证。
+
+原共享 POC 索引只表示任务进度；完整 GZ-018/GZ-020 分别执行 `check_program.py --profile local-v1 --milestone GZ-018` / `--profile production --milestone GZ-020`，要求各自全部十项合格证据，不能选择子集。local-v1 证据保留在原 POC 自身目录；生产重测由 GZ-020 在自身 Evidence 下保存独立版本 2 的记录和范围索引，不重开或覆盖已完成 POC。结果/执行引用必须留在其所选目录，并由实际所有者的 Implementer/Reviewer 绑定。POC 前置验证不替代完整平台验收或生产发布。
 
 跨 OS 小样本、WSL、多进程或模拟故障必须报告实际范围，不冒充物理多机、Android、长时负载、完整浏览器播放或生产测量。
 

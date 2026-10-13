@@ -17,7 +17,7 @@
    - the execution record contains the concrete Task Spec implementer, approved sample binding, captured environment, exact commands, raw-output references, measurements and required provenance;
    - the result record contains terminal decision and the concrete Task Spec reviewer.
 
-3. **Shared result index**
+3. **Shared task-progress result index (legacy schema 1)**
    - `specs/poc/results-index.yaml` is the only POC Program file shared with downstream POC tasks;
    - nonterminal rows contain no decision/reviewer/result reference;
    - terminal rows point to an existing task-owned result record;
@@ -54,7 +54,7 @@ For `POC-XXX`:
 4. Each used sample must have an approved Evidence record, stable immutable ID and `sha256:<64 hex>` checksum. The approval record must match those exact values and contain a concrete approver and valid UTC approval instant.
 5. Required environment/provenance fields must contain real non-placeholder values; AI identity/version/Prompt/input-version fields are textual.
 6. Exact commands and raw outputs are recorded; every raw-output reference must resolve to an existing regular file inside that task Evidence path without path/symlink escape.
-7. Measurement IDs must exactly match the selected immutable profile route; production uses the original plan protocol. Boolean measurements are actual booleans; other measurements are finite numbers.
+7. Measurement IDs must exactly match the selected immutable profile route. Original production measurements remain required; POC-001/002 additionally measure production heterogeneous compatibility. Boolean gates stay booleans. POC-003 correctness is a percentage in [0,100] and PASS requires 100; observational latency/quality values remain separately measured.
 8. Media POC-002 records input SHA-256, output SHA-256 and exact encoder parameters; input SHA-256 must match an approved execution sample checksum.
 9. AI POC-009 records model/version/Prompt/inference parameters/input version and access/budget gates.
 10. Recovery POC-010 verifies actual Secret value round-trip and fail-closed behavior for unreadable/decryption-mismatched backups without committing plaintext.
@@ -66,13 +66,34 @@ For `POC-XXX`:
 
 ## Acceptance profile routing (GZ-021 revision 1)
 
-The manifest uses schemaVersion 2 and the same acceptanceProfileBinding as authoritative NFR/requirements. Original production protocols, resources, samples and measurements remain intact. Revised POC-001..007 plans use schemaVersion 2 with localValidation; POC-008..010 retain schemaVersion 1 and their shared protocols.
+The manifest uses schemaVersion 2 and the same acceptanceProfileBinding as authoritative NFR/requirements. All original production measurement definitions, samples and obligations remain required; POC-001/002 add a captured worker pool, environment and NFR-V1-COMP-003 compatibility/actual-Android measurements. GZ-020 verifies these production-profile results; local results are not reused. Revised POC-001..007 plans use schemaVersion 2 with localValidation; POC-008..010 retain schemaVersion 1 and their shared protocols.
 
 Before execution, select local-v1 or production version 1. In the existing execution record's environmentCaptured, add acceptanceProfile with exact id, version: 1, bindingRevision: 1 and scope (LOCAL_FULL_V1 or PRODUCTION_RELEASE), plus acceptanceProfileConfigurationRef to an existing configuration under that task's Evidence. The configuration binds pocId, taskId, the same acceptanceProfile, sorted resourceIds and sorted measurementIds for the selected route. Result records bind the profile through executionRef. Templates and execution/result schemas stay unchanged; the checker adds semantic binding and rejects unknown/mismatched profiles or attempts to relabel local results as production.
 
 Local POC-001/002 use the captured heterogeneous pool; POC-004 uses bounded OpenList with measured positive watermarks/reservations; POC-005 adds OpenList metadata coverage; POC-007 uses isolated TLS/access tests. POC-003 and POC-008..010 retain shared obligations. POC-006 local-v1 executes the generic OpenList/WebDAV and bounded injected-failure protocol explicitly authorized by its original planning manifest. The profile configuration and captured environment bind GENERIC_OPENLIST_SANDBOX; production binds BAIDU_PRODUCTION_SANDBOX. A scoped local result supplies POC-06-EVIDENCE to GZ-019 without changing the dependency DAG, and cannot establish Baidu production/compliance success.
 
 Record actual physical host/device scope and media coverage. Windows plus WSL on one host, a synthetic no-audio clip, or injected provider failures cannot establish physical multi-host, Android-phone, general-media or real-provider performance. No plan/catalogue contains actual results. A profile declaration or validator PASS does not grant runtime or production acceptance. Local safety measurements retain boolean units. POC-004 binds exact integer-byte localCapacity (capacityBytes, safetyFloorBytes, pauseFreeBytes, resumeFreeBytes, maxReservedBytes), requiring 0 < floor < pause < resume <= capacity and a bounded nonnegative reservation budget. The environment must match this configuration; measured local_minimum_free_bytes minus local_maximum_reserved_bytes must preserve the floor for PASS.
+
+## Qualified profile evidence and milestone prerequisites
+
+The shared results-index.yaml remains schema 1 and tracks the original POC task's progress. Completion there alone does not satisfy a local or production acceptance contract. Each qualified contract is selected by POC identity, acceptance profile and version; profileEvidenceBinding in program.yaml fixes separate index paths and owners:
+
+- Local: evidence/POC-XXX/profiles/local-v1/v1/index.yaml, owned by that original POC task before its completion.
+- Production: evidence/GZ-020/poc/POC-XXX/production/v1/index.yaml, independently owned by GZ-020. Later production execution does not reopen a completed local POC, replace its records or edit the legacy POC index.
+
+Each schema-2 profile index binds pocId, pocTaskId, ownerTask, the exact acceptanceProfile and a resultRef under that selected slot. Local result/execution/approval records retain their original schema 1 and POC owner. Production result/execution/sample-approval/compliance records explicitly use schema 2 definitions in program.schema.yaml, taskId GZ-020 and evidencePath evidence/GZ-020; concrete release-task implementer/reviewer roles are checked. Their experiment pocId still identifies the original protocol. No existing schema/template or completed evidence is rewritten.
+
+The result and execution must remain under the selected slot, their profile identities must agree, and all resource/measurement/sample/compliance checks run on the exact selected protocol. POC-006 reviews bind the tested API/tool version and GENERIC_OPENLIST_SANDBOX or BAIDU_PRODUCTION_SANDBOX. Declared AI reviews bind model_version; recovery reviews bind captured tool_versions (canonical JSON for a structured version map). Required review references must exist, match the task/type/version/scope, record an approved decision, independent reviewer and UTC time. Approval booleans alone cannot grant PASS.
+
+```bash
+# Consume one scoped connector experiment during development:
+python specs/poc/check_program.py --profile local-v1 --require-results --poc POC-06
+# Full milestone prerequisites cannot select a smaller POC subset:
+python specs/poc/check_program.py --profile local-v1 --milestone GZ-018
+python specs/poc/check_program.py --profile production --milestone GZ-020
+```
+
+Milestone selection requires all ten independently reviewed PASS records in its exact profile slots. A production slot cannot point into a local POC directory, use a local result or change its owner. These commands validate POC prerequisites only; they do not replace full functional/E2E/quality/recovery/supply-chain validation or authorize production release. Baseline/profile declaration checks without require-results do not grant result acceptance.
 
 ## Security
 
