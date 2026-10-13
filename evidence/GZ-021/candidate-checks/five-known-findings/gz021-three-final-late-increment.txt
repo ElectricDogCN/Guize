@@ -1,0 +1,12 @@
+DIRTY_CANDIDATE_ONLY; parent537d4966c00e5c308da488755f76276c71441055
+Command: python specs/poc/test_program.py TestPocProgram.test_149_authenticated_lifecycle_closure_preserves_tested_source TestPocProgram.test_150_local_hierarchy_pass_matches_exact_approved_workload TestPocProgram.test_151_local_tls_origins_validate_semantic_host_and_port
+test_149_authenticated_lifecycle_closure_preserves_tested_source (__main__.TestPocProgram.test_149_authenticated_lifecycle_closure_preserves_tested_source) ... ok
+test_150_local_hierarchy_pass_matches_exact_approved_workload (__main__.TestPocProgram.test_150_local_hierarchy_pass_matches_exact_approved_workload) ... ok
+test_151_local_tls_origins_validate_semantic_host_and_port (__main__.TestPocProgram.test_151_local_tls_origins_validate_semantic_host_and_port) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 82.994s
+
+OK
+
+Exit Code: 0

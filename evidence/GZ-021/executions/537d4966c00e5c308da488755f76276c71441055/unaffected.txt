@@ -1,0 +1,5 @@
+Source Commit: 537d4966c00e5c308da488755f76276c71441055
+Command: python /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/check_gz021_implementation_scope.py /home/sur/.cache/guize-takeover/native-verification-20261010 d7f1ab8f727ce3879408653736b972e21bb45b7a 537d4966c00e5c308da488755f76276c71441055
+{"source": "537d4966c00e5c308da488755f76276c71441055", "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a", "changedPaths": 260, "exactClaims": 46, "exactElevenTargetProjection": true, "immutableManifest": true, "productionPlansPreserved": true, "indexOriginalRequirementsPreserved": true, "fullV1Complete": false}
+
+Exit Code: 0

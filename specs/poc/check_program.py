@@ -4,14 +4,20 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import copy
 import codecs
 import hashlib
+import importlib.util
+import ipaddress
 import json
 import math
 import re
 import subprocess
 import sys
+import tempfile
+import urllib.parse
+import zlib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -476,7 +482,7 @@ LOCAL_STRUCTURED_CAPTURES = {
 }
 
 
-def validate_qualified_configuration(root, plan, execution, configuration, defs, prefix, reviewer, implementer, window, errors):
+def validate_qualified_configuration(root, plan, execution, configuration, defs, prefix, reviewer, implementer, window, errors, status=None):
     label=f"qualified profile configuration {plan['taskId']}"
     validate_schema(configuration,defs.get('profileConfiguration',{}),label,errors)
     if not isinstance(configuration,dict):return
@@ -494,6 +500,17 @@ def validate_qualified_configuration(root, plan, execution, configuration, defs,
         value=env.get(field)
         capture_label=f"qualified local capture {plan['taskId']}/{field}"
         validate_schema(value,defs.get(schema,{}),capture_label,errors)
+        if field=='synthetic_hierarchy_manifest' and status=='pass' and isinstance(value,dict):
+            actual={measurement.get('id'):measurement.get('actual') for measurement in execution.get('measurements') or [] if isinstance(measurement,dict)}
+            generator=value.get('generator')
+            if not isinstance(generator,dict):generator={}
+            for measured,captured in (('file_count','fileCount'),('directory_count','directoryCount'),('directory_depth_max','maximumDepth')):
+                if type(actual.get(measured)) is not int or actual.get(measured)!=generator.get(captured):
+                    errors.append(f'{capture_label}: {measured} must match the exact approved generated hierarchy {captured}')
+        if field=='local_tls_path_configuration' and isinstance(value,dict):
+            for key,schemes in (('entryOrigin',{'https'}),('openlistOrigin',{'http','https'})):
+                if not valid_local_origin(value.get(key),schemes):
+                    errors.append(f'{capture_label}: {key} requires a valid host and explicit port in 1..65535')
         if field=='injected_failure_matrix' and isinstance(value,dict):
             cases=value.get('cases')
             if isinstance(cases,list):
@@ -510,8 +527,24 @@ def validate_qualified_configuration(root, plan, execution, configuration, defs,
                         errors.append(f'{capture_label}: exercised fault must retain a selected-slot typed observation artifact')
 
 
+def valid_local_origin(value,schemes):
+    try:
+        if not isinstance(value,str):return False
+        origin=urllib.parse.urlsplit(value)
+        host=origin.hostname;port=origin.port
+        if origin.scheme not in schemes or not host or origin.username is not None or origin.password is not None or origin.path or origin.query or origin.fragment:return False
+        if port is not None and not 1<=port<=65535:return False
+        if ':' in host:ipaddress.IPv6Address(host)
+        elif re.fullmatch(r'[0-9]+(?:\.[0-9]+){3}',host):ipaddress.IPv4Address(host)
+        else:
+            name=host[:-1] if host.endswith('.') else host
+            if len(name)>253 or any(not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?',label) for label in name.split('.')):return False
+        return True
+    except (ValueError,TypeError):return False
+
+
 def validate_qualified_inputs(root, plan, execution, defs, prefix, status, errors, cache, record_refs=None, configuration=None):
-    if plan['pocId'] not in ('POC-01','POC-02') or status != 'pass':return
+    if status != 'pass' or not plan.get('sampleIds'):return
     label=f"qualified input samples {plan['taskId']}"
     env=execution.get('environmentCaptured') or {}
     records=env.get('inputSampleArtifacts')
@@ -553,6 +586,169 @@ def validate_qualified_inputs(root, plan, execution, defs, prefix, status, error
                 errors.append(f'{label}: sample/approval checksum must bind actual nonempty input bytes')
         except OSError:
             errors.append(f'{label}: input bytes must be readable')
+
+
+def qualified_lifecycle_archive_paths(owner,before_ref,after_ref,changed,git):
+    allowed=set()
+    prefix=f'evidence/{owner}/'
+    def blob(ref,path,limit):
+        if int(git('cat-file','-s',f'{ref}:{path}'))>limit:return None
+        return git('show',f'{ref}:{path}')
+    for manifest_path in changed:
+        if not manifest_path.startswith(prefix) or not manifest_path.endswith(('/manifest.json','/raw-results.bundle.json')):continue
+        text=blob(after_ref,manifest_path,1048576)
+        if text is None:continue
+        manifest=yaml.load(text,Loader=UniqueKeyLoader)
+        if not isinstance(manifest,dict):continue
+        source=manifest.get('actualSource',manifest.get('source'))
+        if not isinstance(source,str) or not re.fullmatch('[a-f0-9]{40}',source):continue
+        git('merge-base','--is-ancestor',source,before_ref)
+        if 'tree' in manifest and manifest['tree']!=git('show','-s','--format=%T',source):continue
+        if 'actualMain' in manifest:git('merge-base','--is-ancestor',manifest['actualMain'],before_ref)
+        key='entries' if 'entries' in manifest else 'artifacts' if 'artifacts' in manifest else 'files'
+        records=manifest.get(key)
+        if not isinstance(records,list) or not records:continue
+        try:
+            text=blob(before_ref,manifest_path,1048576)
+            if text is None:return set()
+            previous=yaml.load(text,Loader=UniqueKeyLoader)
+        except subprocess.CalledProcessError:previous=None
+        if previous is not None:
+            old=previous.get(key) or []
+            expected=copy.deepcopy(previous);expected[key]=records
+            if records[:len(old)]!=old or manifest!=expected:continue
+        paths={manifest_path}
+        for record in records:
+            if not isinstance(record,dict):return set()
+            if key in ('artifacts','files'):
+                path=record.get('path')
+                if key=='files':
+                    if not isinstance(path,str) or Path(path).name!=path or path in ('.','..'):return set()
+                    path=str(Path(manifest_path).parent/path).replace('\\','/')
+                if not lexical_ref(path,prefix.rstrip('/')):return set()
+                text=blob(after_ref,path,33554432)
+                if text is None:return set()
+                raw=text.encode('utf8')
+                size=record.get('canonicalBytes') if key=='files' else record.get('canonicalByteCount')
+                digest=record.get('canonicalLfSha256') if key=='files' else record.get('canonicalSha256')
+                if len(raw)!=size or hashlib.sha256(raw).hexdigest()!=digest:return set()
+                paths.add(path)
+            else:
+                if record.get('encoding')!='concatenated-zlib-base64-parts' or type(record.get('size')) is not int or not 0<=record['size']<=33554432:return set()
+                encoded=[]
+                for part in record.get('parts') or []:
+                    name=part.get('path')
+                    if not isinstance(name,str) or Path(name).name!=name or name in ('.','..'):return set()
+                    path=str(Path(manifest_path).parent/name).replace('\\','/')
+                    text=blob(after_ref,path,65536)
+                    if text is None:return set()
+                    raw=text.encode('ascii')
+                    if hashlib.sha256(raw).hexdigest()!=part.get('sha256'):return set()
+                    encoded.append(raw.strip());paths.add(path)
+                decoder=zlib.decompressobj()
+                raw=decoder.decompress(base64.b64decode(b''.join(encoded),validate=True),33554433)
+                if not decoder.eof or decoder.unused_data or decoder.unconsumed_tail or len(raw)!=record['size'] or hashlib.sha256(raw).hexdigest()!=record.get('sha256'):return set()
+        allowed.update(paths)
+    return allowed
+
+
+def qualified_lifecycle_delta_paths(root,before_ref,after_ref,git):
+    """Authenticate one committed metadata delivery; never exempt whole paths."""
+    changed=set(git('diff','--name-only',before_ref,after_ref).splitlines())
+    shared={'specs/coordination/program-plan.yaml','specs/coordination/active-work.yaml','specs/coordination/task-completions.yaml'}
+    if not changed or not changed.intersection(shared):return set()
+    if any(path not in shared and not path.startswith(('specs/tasks/','evidence/')) for path in changed):return set()
+    def document(ref,path):return yaml.load(git('show',f'{ref}:{path}'),Loader=UniqueKeyLoader)
+    before,after=(document(ref,'specs/coordination/program-plan.yaml') for ref in (before_ref,after_ref))
+    if not isinstance(before,dict) or not isinstance(after,dict):return set()
+    old_rows={row['taskId']:row for row in before.get('tasks') or []}
+    new_rows={row['taskId']:row for row in after.get('tasks') or []}
+    if len(old_rows)!=len(before.get('tasks') or []) or len(new_rows)!=len(after.get('tasks') or []):return set()
+    owners=[task for task in old_rows if task in new_rows and old_rows[task]!=new_rows[task]]
+    if len(owners)!=1:return set()
+    owner=owners[0]
+    if not re.fullmatch('[A-Z]+-[0-9]{3}',owner):return set()
+    task_path=f'specs/tasks/{owner}.md'
+    if any(path not in shared|{task_path} and not path.startswith(f'evidence/{owner}/') for path in changed):return set()
+    # The existing history library reads immutable reservation/task snapshots.
+    helper_path=Path(__file__).resolve().parents[2]/'scripts/check-program-plan-history.py'
+    spec=importlib.util.spec_from_file_location('qualified_poc_lifecycle_history',helper_path)
+    history=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(history)
+    history.git=lambda repository,*args:subprocess.run(['git',*args],cwd=repository,capture_output=True,text=True,encoding='utf8')
+    transitions=history.TRANSITIONS
+    if not transitions.only_lifecycle_target_changed(before,after,'tasks',owner,{'status'}):return set()
+    old_state,new_state=old_rows[owner].get('status'),new_rows[owner].get('status')
+    if new_state!='completed' and (old_state,new_state) not in transitions.ALLOWED_ACTIVE_TRANSITIONS:return set()
+    if old_state not in history.ACTIVE_STATES:return set()
+    active_path='specs/coordination/active-work.yaml'
+    old_active,new_active=(document(ref,active_path) for ref in (before_ref,after_ref))
+    old_entries=[row for row in old_active.get('tasks') or [] if row.get('taskId')==owner]
+    new_entries=[row for row in new_active.get('tasks') or [] if row.get('taskId')==owner]
+    if len(old_entries)!=1:return set()
+    entry=old_entries[0]
+    old_spec,old_body=history.parse_front_matter(git('show',f'{before_ref}:{task_path}'))
+    new_spec,new_body=history.parse_front_matter(git('show',f'{after_ref}:{task_path}'))
+    checks=[]
+    history.stable_spec_matches(owner,entry,old_spec,old_body,checks,reservation=False)
+    history.stable_spec_matches(owner,entry,new_spec,new_body,checks,reservation=False)
+    phase_fields={'status','agentRole','baseSha','workBranch'}
+    if transitions.entry_without_fields(old_spec,phase_fields)!=transitions.entry_without_fields(new_spec,phase_fields):return set()
+    if new_spec.get('status')!=new_state or new_spec.get('baseSha')!=before_ref:return set()
+    def authority_sections(body):
+        sections=re.split(r'(?m)^## ',body)
+        result={}
+        for section in sections:
+            title,_,text=section.partition('\n')
+            phase_titles={'当前 Review（以上实施/预留阶段描述为历史记录）','当前 Completion（实施阶段为历史记录）'}
+            if title in {'必须执行的测试','Evidence','协作与交接','未解决问题'}|phase_titles:continue
+            if title in result:return None
+            result[title]=text.replace('[x]','[ ]').replace('[X]','[ ]')
+        return result
+    if authority_sections(old_body)!=authority_sections(new_body):return set()
+    ledger_path='specs/coordination/task-completions.yaml'
+    old_ledger,new_ledger=(document(ref,ledger_path) for ref in (before_ref,after_ref))
+    if new_state=='completed':
+        if not history.only_task_removed(old_active,new_active,owner):return set()
+        old_records,new_records=old_ledger.get('records') or [],new_ledger.get('records') or []
+        expected=copy.deepcopy(old_ledger)
+        if len(new_records)!=len(old_records)+1 or new_records[:-1]!=old_records:return set()
+        if any(old.get('taskId')==owner for old in old_records):return set()
+        record=new_records[-1];expected['records']=new_records
+        if expected!=new_ledger or record.get('taskId')!=owner:return set()
+        if record.get('taskSpec')!=task_path or record.get('evidencePath')!=f'evidence/{owner}' or record.get('handoffPath')!=f'evidence/{owner}/handoff.md':return set()
+        reservation,implementation=record.get('reservationCommit'),record.get('mergeCommit')
+        if reservation==implementation or record.get('reservationRef')==record.get('completionRef'):return set()
+        history.validate_commit(str(root),str(reservation),owner,record.get('reservationRef',''),'qualified reservation',checks)
+        history.validate_commit(str(root),str(implementation),owner,record.get('completionRef',''),'qualified implementation',checks)
+        history.validate_reservation_snapshot(str(root),record,checks)
+        if checks:return set()
+        if len(git('show','-s','--format=%P',implementation).split())<2:return set()
+        git('merge-base','--is-ancestor',reservation,implementation)
+        git('merge-base','--is-ancestor',implementation,before_ref)
+        required={f'evidence/{owner}/{name}' for name in ('summary.md','handoff.md','commands.txt','test-results/README.md')}
+        if not required.issubset(changed):return set()
+        # Supply the actual node's four blobs to the established evidence parser.
+        with tempfile.TemporaryDirectory() as directory:
+            for path in required:
+                target=Path(directory)/path;target.parent.mkdir(parents=True,exist_ok=True)
+                target.write_text(git('show',f'{after_ref}:{path}'),encoding='utf8')
+            history.RECOVERY.validate_structured_completion_evidence(directory,owner,implementation,required,checks)
+        if checks:return set()
+    else:
+        if old_ledger!=new_ledger or len(new_entries)!=1:return set()
+        if transitions.registry_without_task(old_active,owner)!=transitions.registry_without_task(new_active,owner):return set()
+        if transitions.entry_without_fields(entry,{'status','agentRole','baseSha'})!=transitions.entry_without_fields(new_entries[0],{'status','agentRole','baseSha'}):return set()
+        if new_entries[0].get('status')!=new_state or new_entries[0].get('baseSha')!=before_ref:return set()
+        history.stable_spec_matches(owner,new_entries[0],new_spec,new_body,checks,reservation=True)
+        if checks:return set()
+    conventional={'api-samples/README.md','assumptions.md','changed-files.md','commands.txt','follow-ups.md','handoff.md','migration-report/README.md','performance/README.md','risks.md','rollback-verification/README.md','scope.md','screenshots/README.md','security/README.md','summary.md','test-results/README.md'}
+    allowed=shared|{task_path}|{f'evidence/{owner}/{name}' for name in conventional}
+    allowed.update(qualified_lifecycle_archive_paths(owner,before_ref,after_ref,changed,git))
+    if any(path not in allowed for path in changed):return set()
+    message=git('show','-s','--format=%B',after_ref)
+    if not history.exact_token(message,owner):return set()
+    return changed
 
 
 def validate_qualified_source(root, plan, execution, configuration, defs, prefix, errors, record_refs=None):
@@ -618,8 +814,23 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
             header = before.split('---',2)[1] if before.startswith('---') else ''
             return (match is not None and len(re.findall(r'^status:',header,re.MULTILINE)) == 1
                     and after == match[1]+'completed'+match[2])
-        for paths, before_ref, after_ref in ((changed,commit,context),(dirty,context,None)):
+        cursor=commit
+        deliveries=[]
+        for node in git('rev-list','--first-parent','--reverse',f'{commit}..{context}').splitlines():
+            paths=git('diff','--name-only',cursor,node).splitlines()
+            deliveries.append((paths,cursor,node))
+            cursor=node
+        if cursor!=context:deliveries.append((changed,commit,context))
+        deliveries.append((dirty,context,None))
+        for paths, before_ref, after_ref in deliveries:
+            authenticated=qualified_lifecycle_delta_paths(root,before_ref,after_ref,git) if after_ref else set()
             for path in paths:
+                # Existing tested-byte semantics permit restored implementation bytes.
+                # Lifecycle metadata must still authenticate every historical edge.
+                if after_ref and path not in changed and not path.startswith(('specs/coordination/','specs/tasks/','evidence/')):
+                    continue
+                if path in authenticated:
+                    continue
                 if path.startswith(own_prefixes):
                     continue
                 if path in phase_paths:
@@ -630,7 +841,7 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
                 raise ValueError('current validation context changes non-Own-Evidence source content')
         if any(not path.startswith(own_prefixes) for path in untracked):
             raise ValueError('current validation context contains untracked non-Own-Evidence source content')
-    except (subprocess.CalledProcessError,ValueError,OSError) as exc:
+    except (subprocess.CalledProcessError,ValueError,OSError,yaml.YAMLError,KeyError,TypeError,AttributeError,zlib.error) as exc:
         errors.append(f'{label}: immutable source must match actual Git objects and current validation context: {exc}')
 
 
@@ -821,7 +1032,7 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
             errors.append(f'{label}: POC-002 output_sha256 must match produced media bytes')
 
 
-def validate_qualified_encode_workers(root, plan, execution, prefix, status, window, errors, artifact_cache=None):
+def validate_qualified_encode_workers(root, plan, execution, prefix, status, window, errors, artifact_cache=None, defs=None):
     artifact_cache = {} if artifact_cache is None else artifact_cache
     if plan['pocId'] != 'POC-02' or status != 'pass':
         return
@@ -884,6 +1095,65 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         completed.add(node['nodeId'])
     if completed != set(nodes) or not any(a[0] != b[0] and max(a[1],b[1]) < min(a[2],b[2]) for i,a in enumerate(intervals) for b in intervals[i+1:]):
         errors.append(f'{label}: all inventory nodes must execute, with overlapping work on distinct nodes')
+    validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
+
+
+def validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs,errors,cache):
+    label=f"qualified media assembly {execution['taskId']}"
+    env=execution.get('environmentCaptured') or {}
+    assembly=env.get('parallelMediaAssembly')
+    validate_schema(assembly,defs.get('parallelMediaAssembly',{}),label,errors)
+    if not isinstance(assembly,dict):
+        errors.append(f'{label}: typed parallelMediaAssembly is required');return
+    samples={s['id']:s for s in execution.get('samples') or []}
+    sample=samples.get(assembly.get('inputSampleId'))
+    total=assembly.get('sourceFrameCount')
+    if sample is None or assembly.get('inputSha256')!=sample['checksum'] or type(total) is not int or total<=0:
+        errors.append(f'{label}: exact approved input and positive source frame count are required');return
+    if not recorded_text(assembly.get('decoderBuild')):
+        errors.append(f'{label}: decoder build must identify the exercised validation tool')
+    parts=[]
+    for run in runs:
+        if not isinstance(run,dict):continue
+        start,end=run.get('sourceStartFrame'),run.get('sourceEndFrame')
+        if run.get('inputSampleId')!=sample['id'] or run.get('inputSha256')!=sample['checksum'] or type(start) is not int or type(end) is not int or not 0<=start<end<=total:
+            errors.append(f'{label}: each worker must bind an exact positive source-frame span');continue
+        parts.append({key:run.get(key) for key in ('nodeId','outputArtifactRef','outputSha256','sourceStartFrame','sourceEndFrame')})
+    parts.sort(key=lambda part:part['sourceStartFrame'])
+    cursor=0
+    for part in parts:
+        if part['sourceStartFrame']!=cursor:
+            errors.append(f'{label}: source spans must be contiguous and non-overlapping')
+        cursor=part['sourceEndFrame']
+    if len(parts)!=len(runs) or cursor!=total or assembly.get('parts')!=parts:
+        errors.append(f'{label}: ordered parts must cover the entire approved input exactly once')
+    output_ref=assembly.get('outputArtifactRef')
+    output=artifacts.get(output_ref) if isinstance(output_ref,str) else None
+    if output_ref!=env.get('producedMediaArtifactRef') or output is None or output.get('artifactType')!='produced_media' or assembly.get('outputSha256')!=(execution.get('provenance') or {}).get('output_sha256'):
+        errors.append(f'{label}: assembly must bind the designated produced output and actual digest')
+    output_path=existing_ref(root,output_ref,prefix)
+    part_paths=[path for part in parts if (path:=existing_ref(root,part.get('outputArtifactRef'),prefix)) is not None]
+    if any(part.get('outputArtifactRef')==output_ref for part in parts) or (output_path and any(output_path.samefile(path) for path in part_paths)):
+        errors.append(f'{label}: assembled output must be distinct from worker parts')
+    validation_ref=assembly.get('validationRef')
+    artifact=artifacts.get(validation_ref) if isinstance(validation_ref,str) else None
+    path=existing_ref(root,validation_ref,prefix)
+    if artifact is None or artifact.get('artifactType')!='measurement_output' or validation_ref not in (execution.get('rawOutputRefs') or []) or path is None:
+        errors.append(f'{label}: assembled decode/timeline validation must retain typed selected-slot raw output');return
+    if (output_path and path.samefile(output_path)) or any(path.samefile(part_path) for part_path in part_paths):
+        errors.append(f'{label}: decode/timeline report must be distinct from encoded media');return
+    if inspect_artifact(path,cache)['size']>262144:
+        errors.append(f'{label}: decode/timeline report exceeds bounded structured-report size');return
+    try:
+        with path.open(encoding='utf8') as stream:
+            report=yaml.load(stream.read(262145),Loader=UniqueKeyLoader)
+    except (OSError,UnicodeError,yaml.YAMLError):
+        errors.append(f'{label}: decode/timeline report must be readable structured output');return
+    validate_schema(report,defs.get('assembledDecodeReport',{}),label,errors)
+    if not isinstance(report,dict):return
+    expected={key:assembly.get(key) for key in ('inputSampleId','inputSha256','sourceFrameCount','outputSha256','parts','decoderBuild')}
+    if any(report.get(key)!=value for key,value in expected.items()) or type(report.get('decodedFrameCount')) is not int or report['decodedFrameCount']!=total or type(report.get('decodeErrorCount')) is not int or report['decodeErrorCount']!=0 or type(report.get('timelineDiscontinuityCount')) is not int or report['timelineDiscontinuityCount']!=0:
+        errors.append(f'{label}: decoded output and continuous timeline must bind the complete ordered assembly')
 
 
 def validate_qualified_android_media(root, plan, execution, prefix, status, errors, artifact_cache):
@@ -1383,14 +1653,14 @@ def validate_execution(
     validate_android_execution(root, plan, execution, status, reference_boundary, errors)
     if record_definitions is not None:
         artifact_cache = {}
-        validate_qualified_configuration(root,plan,execution,profile_configuration,record_definitions,reference_boundary,task_reviewer,implementer,window,errors)
+        validate_qualified_configuration(root,plan,execution,profile_configuration,record_definitions,reference_boundary,task_reviewer,implementer,window,errors,status)
         validate_qualified_inputs(root,plan,execution,record_definitions,reference_boundary,status,errors,artifact_cache,record_refs,profile_configuration)
         validate_qualified_production_capacity(plan,execution,status,errors)
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
         validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
-        validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache)
+        validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)
         validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache)
     for key, expected in (
         ("pocId", poc_id),

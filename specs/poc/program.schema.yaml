@@ -1347,3 +1347,138 @@ $defs:
       localCapacity:
         type: object
         minProperties: 5
+
+  parallelMediaAssembly:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - inputSampleId
+    - inputSha256
+    - sourceFrameCount
+    - outputSha256
+    - parts
+    - decoderBuild
+    - outputArtifactRef
+    - validationRef
+    properties:
+      schemaVersion:
+        const: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      sourceFrameCount:
+        type: integer
+        minimum: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      parts:
+        type: array
+        minItems: 2
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - nodeId
+          - outputArtifactRef
+          - outputSha256
+          - sourceStartFrame
+          - sourceEndFrame
+          properties:
+            nodeId:
+              type: string
+              minLength: 1
+            outputArtifactRef:
+              type: string
+              minLength: 1
+            outputSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      validationRef:
+        type: string
+        minLength: 1
+  assembledDecodeReport:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - inputSampleId
+    - inputSha256
+    - sourceFrameCount
+    - outputSha256
+    - parts
+    - decoderBuild
+    - decodedFrameCount
+    - decodeErrorCount
+    - timelineDiscontinuityCount
+    properties:
+      schemaVersion:
+        const: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      sourceFrameCount:
+        type: integer
+        minimum: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      parts:
+        type: array
+        minItems: 2
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - nodeId
+          - outputArtifactRef
+          - outputSha256
+          - sourceStartFrame
+          - sourceEndFrame
+          properties:
+            nodeId:
+              type: string
+              minLength: 1
+            outputArtifactRef:
+              type: string
+              minLength: 1
+            outputSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      decodedFrameCount:
+        type: integer
+        minimum: 1
+      decodeErrorCount:
+        type: integer
+        const: 0
+      timelineDiscontinuityCount:
+        type: integer
+        const: 0

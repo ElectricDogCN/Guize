@@ -1,0 +1,98 @@
+{
+  "actualSource": "537d4966c00e5c308da488755f76276c71441055",
+  "tree": "d4b46934427a3de4b68029e722307e987849cc8b",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "ciAccepted": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "local20Proof": {
+    "path": "gz021-independent-537d496-local20-execution-acceptance.json",
+    "sha256": "a15709eb4e15f43a751af4c30c05d5258d80dcda32fb61ec9a1a5c19448743cb"
+  },
+  "ciExecutionProof": {
+    "path": "gz021-independent-537d496-ci700-execution-receipt.json",
+    "sha256": "d15298ae751e927bc1a5e2d235cd4ab8dd99854b10cdc8ce6d4abc33244b2fd9"
+  },
+  "remainingFindings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r4jfJ",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 514,
+      "finding": "Input byte validation exits for qualified POCs other than001/002. Sample-required POC003/009 accept matching arbitrary immutableId/checksum in execution and approval with no actual bytes.",
+      "minimalFix": "Apply the existing qualified inputSampleArtifacts exact sample-set/immutableId/actual bounded byte-size/SHA/selected-slot/disjoint guard to every qualified PASS whose frozen plan has sampleIds. Reuse owned inputSampleArtifact definition and helpers, preserve factual failures and legacy canonical records.",
+      "directRegression": "Range POC003 and AI POC009 approved actual-byte baseline then cofabricated execution/approval digest rejected; no new storage/object protocol needed."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r4jfR",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 869,
+      "finding": "POC002 two exact typed worker runs can claim identical full source span[0,120), while wall-clock overlap and both media SHA checks succeed. No media-range/partition fields are currently consumed, and concat boolean has no assembled-validation binding.",
+      "minimalFix": "In owned qualified evidence definitions, bind runs to exact source sample and integer frame boundaries or exact rational timebase boundaries; require positive spans within captured source extent, sorted nonoverlapping contiguous complete coverage of the selected source span. Preserve independent wall-clock overlap requirement. Bind assembled producedMediaArtifactRef/digest to selected ordered parts plus a dedicated typed decode/timeline validation raw record. Do not implement worker runtime or edit immutable DAG/frozen production plans.",
+      "directRegression": "Valid contiguous split baseline; same whole-source span/overlap/gap/out-of-range/wrong input or assembled-part identity rejected. Retain exact hashes, group and physical-host limits."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r4jfU",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 613,
+      "finding": "Source drift gate accepts only canonical profile evidence slots and one Task status edit; every shared Program/Registry/Ledger or required Own completion Evidence delta is rejected, irrespective of whether existing lifecycle guards admit its contents. This prevents mandatory post-execution finalization from being revalidated at later milestone.",
+      "proofLimits": "Synthetic probe is not asserted to be a full governance-admissible Completion transaction. It demonstrates deterministic Program-path rejection after an otherwise accepted Task status terminal edit; mandatory real Completion metadata/evidence requirements are independently visible in existing finalization code.",
+      "existingRulesEvidence": [
+        {
+          "path": "scripts/check-program-plan-finalization.py",
+          "lines": [
+            40,
+            231,
+            247
+          ],
+          "fact": "Completed identity must resolve to real ancestral implementation merge; completion must refresh handoff, summary, commands andtest-results README."
+        },
+        {
+          "path": "specs/poc/test_program.py",
+          "line": 1471,
+          "fact": "Existing107 only models Task status-only terminal edit, not full required canonical completion metadata."
+        }
+      ],
+      "minimalFix": "Authenticate narrowly scoped real lifecycle-only metadata transitions using existing admission/completion identities and invariants before exempting them from source drift. Program definitions/policy/contracts, peer identity/scope/lease and implementation blobs remain immutable; registry removal and ledger append must be only valid corresponding completion, with real merge ancestry/identity. Own finalization evidence is allowed only in the bound owner lifecycle context. Do not blanket-whitelist shared files or evidence/** and do not require execution after owner is alreadycompleted.",
+      "directRegression": "Real canonical lifecycle projection for completed POC and later milestone retains tested implementation hashes and old slot bytes; authenticated normal finalization accepted. Forged completion merge, altered requirement/claim/policy/foreign row, new runtime code and invalid lease/identity remain rejected. Check shared-document completion combinations needed by the existing milestone without adding arbitrary consumer authority."
+    }
+  ],
+  "materialDispositionProof": {
+    "path": "gz021-independent-537d496-three-new-thread-disposition.json",
+    "sha256": "83df127cac49be835533ba1748642799832d91bb4e86b3bb794cd4f30474bb71"
+  },
+  "actualLocalGovernanceTests": 637,
+  "actualLocalPocTests": 146,
+  "actualRequirementsNegativeRejected": 35,
+  "freshThreads": {
+    "total": 45,
+    "resolved": 39,
+    "unresolved": [
+      "PRRT_kwDOTgCQ3c6r4jfJ",
+      "PRRT_kwDOTgCQ3c6r4jfR",
+      "PRRT_kwDOTgCQ3c6r4jfU",
+      "PRRT_kwDOTgCQ3c6r5Pgi",
+      "PRRT_kwDOTgCQ3c6r5Pgs",
+      "PRRT_kwDOTgCQ3c6r5Pgx"
+    ],
+    "snapshotSha256": "40ac8b83777342bc27c0cdd3522c937b8d23514c2022601de2ceafc749cc007f"
+  },
+  "newThreadIdsPendingNotAutomaticallyMaterial": [
+    "PRRT_kwDOTgCQ3c6r5Pgi",
+    "PRRT_kwDOTgCQ3c6r5Pgs",
+    "PRRT_kwDOTgCQ3c6r5Pgx"
+  ],
+  "newThreadAuditPerformed": false,
+  "sourceResultsNeverTransferredToSuccessor": true,
+  "actualMainAccepted": false,
+  "normalReviewMayStart": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false
+}

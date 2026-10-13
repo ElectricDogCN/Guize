@@ -4,12 +4,15 @@
 from __future__ import annotations
 
 import importlib.util
+import base64
 import hashlib
+import json
 import os
 import shutil
 import subprocess
 import tempfile
 import unittest
+import zlib
 from unittest import mock
 from pathlib import Path
 
@@ -369,7 +372,7 @@ class TestPocProgram(unittest.TestCase):
             execution_path = folder/'execution.yaml'
             execution = load_yaml(execution_path)
             artifact_nodes = {}
-            if task_id in ('POC-001','POC-002'):
+            if execution['samples']:
                 env=execution['environmentCaptured'];inputs=[]
                 for sample in execution['samples']:
                     input_ref=new_prefix+'/inputs/'+sample['id']+'.bin'
@@ -382,7 +385,7 @@ class TestPocProgram(unittest.TestCase):
                 env['inputSampleArtifacts']=inputs
                 if task_id=='POC-001':
                     scope=env['android_validation_scope'] if production else env['vm_validation_scope'];scope['inputSha256']=execution['samples'][0]['checksum']
-                else:execution['provenance']['input_sha256']=execution['samples'][0]['checksum']
+                elif task_id=='POC-002':execution['provenance']['input_sha256']=execution['samples'][0]['checksum']
             if not production:
                 env=execution['environmentCaptured']
                 if task_id=='POC-002':
@@ -428,15 +431,23 @@ class TestPocProgram(unittest.TestCase):
                 execution['provenance']['output_sha256'] = 'sha256:'+hashlib.sha256((root/media_ref).read_bytes()).hexdigest()
                 execution['rawOutputRefs'].append(media_ref)
                 runs = []
-                for node in nodes:
+                for part_index,node in enumerate(nodes):
                     log_ref = new_prefix+'/raw/'+node['nodeId']+'.txt'
                     output_ref = new_prefix+'/raw/'+node['nodeId']+'.bin'
                     (root/log_ref).write_text('Synthetic node trace, never actual encode execution.\n',encoding='utf8')
                     (root/output_ref).write_bytes(b'Synthetic per-worker media fixture.\n'+node['nodeId'].encode())
                     execution['rawOutputRefs'].extend([log_ref,output_ref])
                     artifact_nodes[log_ref] = artifact_nodes[output_ref] = node['nodeId']
-                    runs.append(dict(nodeId=node['nodeId'],encoderBuild=node['encoderBuild'],compatibilityGroupId=node['compatibilityGroupId'],inputSha256=execution['samples'][0]['checksum'],outputSha256='sha256:'+hashlib.sha256((root/output_ref).read_bytes()).hexdigest(),rawOutputRef=log_ref,outputArtifactRef=output_ref,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:01:00Z'))
+                    runs.append(dict(nodeId=node['nodeId'],encoderBuild=node['encoderBuild'],compatibilityGroupId=node['compatibilityGroupId'],inputSampleId=execution['samples'][0]['id'],inputSha256=execution['samples'][0]['checksum'],sourceStartFrame=part_index*60,sourceEndFrame=(part_index+1)*60,outputSha256='sha256:'+hashlib.sha256((root/output_ref).read_bytes()).hexdigest(),rawOutputRef=log_ref,outputArtifactRef=output_ref,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:01:00Z'))
                 env['workerEncodeExecutions'] = runs
+                validation_ref=new_prefix+'/raw/assembled-decode-report.yaml'
+                parts=[{key:run[key] for key in ('nodeId','outputArtifactRef','outputSha256','sourceStartFrame','sourceEndFrame')} for run in runs]
+                assembly=dict(schemaVersion=1,inputSampleId=execution['samples'][0]['id'],inputSha256=execution['samples'][0]['checksum'],sourceFrameCount=120,outputArtifactRef=media_ref,outputSha256=execution['provenance']['output_sha256'],parts=parts,validationRef=validation_ref,decoderBuild='synthetic-fixture-decoder; never actual media validation')
+                env['parallelMediaAssembly']=assembly
+                report={key:assembly[key] for key in ('schemaVersion','inputSampleId','inputSha256','sourceFrameCount','outputSha256','parts','decoderBuild')}
+                report.update(decodedFrameCount=120,decodeErrorCount=0,timelineDiscontinuityCount=0)
+                write_yaml(root/validation_ref,report)
+                execution['rawOutputRefs'].append(validation_ref)
             if subprocess.run(['git','-C',str(root),'rev-parse','--verify','HEAD'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode:
                 # Freeze all prepared fixture inputs, including actual specifications and Task Specs.
                 subprocess.run(['git','-C',str(root),'add','--','.'],check=True)
@@ -448,6 +459,8 @@ class TestPocProgram(unittest.TestCase):
                      sha256='sha256:'+hashlib.sha256((root/raw_ref).read_bytes()).hexdigest(),
                      **({'nodeId':artifact_nodes[raw_ref]} if raw_ref in artifact_nodes else {}))
                 for raw_ref in execution['rawOutputRefs']]
+            if task_id=='POC-002':
+                next(record for record in execution['environmentCaptured']['rawExecutionArtifacts'] if record['ref']==validation_ref)['artifactType']='measurement_output'
             execution['environmentCaptured']['executionWindow'] = dict(startedAt='2026-09-03T00:00:00Z', finishedAt='2026-09-04T00:00:00Z')
             common = dict(schemaVersion=2,pocId=plan['pocId'],taskId=owner,acceptanceProfile=CHECK.profile_identity(profile),status='approved',approvedBy=reviewer,approvedAt='2026-09-02T00:00:00Z',validFrom='2026-09-02T00:00:00Z',validUntil='2026-09-04T00:00:00Z')
             for resource in execution['resources']:
@@ -2329,6 +2342,197 @@ class TestPocProgram(unittest.TestCase):
                         errors=validate()
                         self.assertTrue(any('qualified local capture' in e and field in e for e in errors),errors)
             finally:temp.cleanup()
+
+
+    def test_147_every_qualified_sample_binds_actual_input_bytes(self):
+        for profile in ('local-v1','production'):
+            for task in sorted(CHECK.TASKS):
+                with self.subTest(profile=profile,task=task):
+                    temp,root=self.temp_repo()
+                    try:
+                        index=self.make_profile_slot(root,task,profile)
+                        result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                        validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={result['pocId']})
+                        self.assertEqual(validate(),[])
+                        execution=load_yaml(path);sample=execution['samples'][0]
+                        approval_path=root/sample['approvalRef'];approval_bytes=approval_path.read_bytes()
+                        input_path=root/execution['environmentCaptured']['inputSampleArtifacts'][0]['inputArtifactRef'];input_bytes=input_path.read_bytes()
+                        for mode in ('missing','fabricated','bytes'):
+                            path.write_bytes(original);approval_path.write_bytes(approval_bytes);input_path.write_bytes(input_bytes)
+                            data=load_yaml(path);env=data['environmentCaptured']
+                            if mode=='missing':env.pop('inputSampleArtifacts')
+                            elif mode=='bytes':input_path.write_bytes(input_bytes+b'changed bytes')
+                            else:
+                                digest='sha256:'+'f'*64
+                                data['samples'][0]['checksum']=env['inputSampleArtifacts'][0]['sha256']=digest
+                                approval=load_yaml(approval_path);approval['checksum']=digest;write_yaml(approval_path,approval)
+                            write_yaml(path,data)
+                            errors=validate()
+                            self.assertTrue(any('qualified input samples' in error for error in errors),errors)
+                    finally:temp.cleanup()
+
+
+    def test_148_parallel_media_spans_and_assembled_decode_bind_actual_outputs(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-002',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                execution=load_yaml(path);report_path=root/execution['environmentCaptured']['parallelMediaAssembly']['validationRef'];report_bytes=report_path.read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
+                self.assertEqual(validate(),[])
+                for mode in ('duplicate','gap','incomplete','boolean_frame','reordered','missing_report','decoded_count','decode_error','timeline_error','report_hash','part_as_assembly'):
+                    path.write_bytes(original);report_path.write_bytes(report_bytes)
+                    data=load_yaml(path);env=data['environmentCaptured'];assembly=env['parallelMediaAssembly'];runs=env['workerEncodeExecutions'];report=load_yaml(report_path)
+                    if mode in ('duplicate','gap','incomplete','boolean_frame'):
+                        if mode=='duplicate':runs[1].update(sourceStartFrame=0,sourceEndFrame=120)
+                        elif mode=='gap':runs[1]['sourceStartFrame']=61
+                        elif mode=='incomplete':runs[1]['sourceEndFrame']=119
+                        else:runs[0]['sourceStartFrame']=False
+                        assembly['parts']=[{key:run[key] for key in ('nodeId','outputArtifactRef','outputSha256','sourceStartFrame','sourceEndFrame')} for run in runs]
+                        report['parts']=assembly['parts']
+                    elif mode=='reordered':assembly['parts'].reverse();report['parts']=assembly['parts']
+                    elif mode=='missing_report':assembly['validationRef']=runs[0]['rawOutputRef']
+                    elif mode=='decoded_count':report['decodedFrameCount']=119
+                    elif mode=='decode_error':report['decodeErrorCount']=1
+                    elif mode=='timeline_error':report['timelineDiscontinuityCount']=1
+                    elif mode=='report_hash':report['outputSha256']='sha256:'+'f'*64
+                    else:assembly['outputArtifactRef']=runs[0]['outputArtifactRef']
+                    write_yaml(report_path,report)
+                    record=next(item for item in env['rawExecutionArtifacts'] if item['ref']==report_path.relative_to(root).as_posix())
+                    record.update(byteCount=report_path.stat().st_size,sha256='sha256:'+hashlib.sha256(report_path.read_bytes()).hexdigest())
+                    write_yaml(path,data)
+                    errors=validate()
+                    self.assertTrue(any('qualified media assembly' in error for error in errors),errors)
+            finally:temp.cleanup()
+
+
+    def test_149_authenticated_lifecycle_closure_preserves_tested_source(self):
+        spec=importlib.util.spec_from_file_location('poc_lifecycle_unit_fixture',self.repo/'tests/governance/test_program_plan_history.py')
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        fixture=module.TestProgramPlanHistory()
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            def git(*args,input=None):
+                return subprocess.run(['git',*args],cwd=root,text=True,encoding='utf8',input=input,capture_output=True,check=True).stdout.strip()
+            fixture.create_regular_completion(str(root))
+            old_closure=git('rev-parse','HEAD');source=git('rev-parse','HEAD^1')
+            ledger=CHECK.yaml.safe_load(git('show',old_closure+':specs/coordination/task-completions.yaml'))
+            record=ledger['records'][0];reservation=record['reservationCommit']
+            terminal_spec=git('show',old_closure+':specs/tasks/GZ-004.md')+'\n'
+            terminal_plan=CHECK.yaml.safe_load(git('show',old_closure+':specs/coordination/program-plan.yaml'))
+            terminal_active=CHECK.yaml.safe_load(git('show',old_closure+':specs/coordination/active-work.yaml'))
+            tree=git('rev-parse',source+'^{tree}')
+            merged=git('commit-tree',tree,'-p',reservation,'-p',source,input='GZ-004 implementation (#31)\n')
+            git('reset','--hard',merged)
+            record['mergeCommit']=merged
+            write_yaml(root/'specs/coordination/program-plan.yaml',terminal_plan)
+            write_yaml(root/'specs/coordination/active-work.yaml',terminal_active)
+            write_yaml(root/'specs/coordination/task-completions.yaml',ledger)
+            (root/'specs/tasks/GZ-004.md').write_text(terminal_spec.replace(source,merged),encoding='utf8')
+            for name in ('summary.md','handoff.md','commands.txt','test-results/README.md'):
+                path=root/'evidence/GZ-004'/name;path.parent.mkdir(parents=True,exist_ok=True)
+                path.write_text(f'GZ-004 synthetic lifecycle unit fixture; never actual execution acceptance\nImplementation: {merged}\nStatus: COMPLETED\nCommand: python fixture-check.py\nExit Code: 0\nResult: PASS\n',encoding='utf8')
+            archive=root/'evidence/GZ-004/test-results/accepted-fixture';archive.mkdir()
+            raw=b'Synthetic history archive; never actual accepted test execution.\n'
+            part=base64.b64encode(zlib.compress(raw))+b'\n';(archive/'raw.part.txt').write_bytes(part)
+            (archive/'raw-results.bundle.json').write_text(json.dumps(dict(source=source,actualMain=merged,tree=tree,entries=[dict(size=len(raw),sha256=hashlib.sha256(raw).hexdigest(),encoding='concatenated-zlib-base64-parts',parts=[dict(path='raw.part.txt',sha256=hashlib.sha256(part).hexdigest())])]))+'\n',encoding='utf8')
+            canonical=root/'evidence/GZ-004/test-results/canonical-fixture';canonical.mkdir()
+            (canonical/'history.txt').write_bytes(raw)
+            (canonical/'manifest.json').write_text(json.dumps(dict(actualSource=source,tree=tree,files=[dict(path='history.txt',canonicalBytes=len(raw),canonicalLfSha256=hashlib.sha256(raw).hexdigest())]))+'\n',encoding='utf8')
+            git('add','.');git('commit','-qm','GZ-004 completion metadata (#32)');good=git('rev-parse','HEAD')
+            identity=dict(commit=source,tree=tree)
+            execution=dict(environmentCaptured=dict(testedSource=identity,acceptanceProfile=CHECK.profile_identity('local-v1')))
+            definitions=load_yaml(self.repo/'specs/poc/program.schema.yaml')['$defs']
+            def validate():
+                errors=[]
+                CHECK.validate_qualified_source(root,dict(pocId='POC-06',taskId='POC-006'),execution,dict(testedSource=identity),definitions,'evidence/POC-006/profiles/local-v1',errors)
+                return errors
+            self.assertEqual(validate(),[])
+            for title in ('当前 Review（以上实施/预留阶段描述为历史记录）','当前 Completion（实施阶段为历史记录）'):
+                git('reset','--hard',good);git('reset','--soft',merged)
+                path=root/'specs/tasks/GZ-004.md'
+                phase=path.read_text(encoding='utf8')+'\n## '+title+'\n\nOnly authenticated phase metadata; original scope and runtime remain unchanged.\n'
+                path.write_text(phase,encoding='utf8')
+                git('add','.');git('commit','-qm','GZ-004 phase handoff fixture (#32)')
+                self.assertEqual(validate(),[],title)
+                git('reset','--soft',merged)
+                path.write_text(phase.replace('docs/test/**','backend/**'),encoding='utf8')
+                git('add','.');git('commit','-qm','GZ-004 invalid phase authority fixture (#32)')
+                self.assertTrue(any('qualified tested source' in error for error in validate()),title)
+            for mode in ('fake_identity','scope','policy','duplicate_row','arbitrary_evidence','archive_digest','canonical_digest','wrong_actor','wrong_base'):
+                git('reset','--hard',good);git('reset','--soft',merged)
+                if mode=='fake_identity':
+                    path=root/'specs/coordination/task-completions.yaml';data=load_yaml(path);data['records'][0]['reservationCommit']='f'*40;write_yaml(path,data)
+                elif mode=='scope':
+                    path=root/'specs/tasks/GZ-004.md';path.write_text(path.read_text(encoding='utf8').replace('docs/test/**','backend/**'),encoding='utf8')
+                elif mode=='policy':
+                    path=root/'specs/coordination/program-plan.yaml';data=load_yaml(path);data['fabricatedPolicy']='weakened';write_yaml(path,data)
+                elif mode=='duplicate_row':
+                    path=root/'specs/coordination/program-plan.yaml';data=load_yaml(path);data['tasks'].append(dict(data['tasks'][0]));write_yaml(path,data)
+                elif mode=='arbitrary_evidence':(root/'evidence/GZ-004/unlisted.txt').write_text('Unlisted mutation.\n',encoding='utf8')
+                elif mode=='archive_digest':(archive/'raw.part.txt').write_bytes(part+b'changed')
+                elif mode=='canonical_digest':(canonical/'history.txt').write_bytes(raw+b'changed')
+                else:
+                    path=root/'specs/tasks/GZ-004.md';text=path.read_text(encoding='utf8')
+                    text=text.replace('reviewer: reviewer','reviewer: implementer') if mode=='wrong_actor' else text.replace('baseSha: '+merged,'baseSha: '+'f'*40)
+                    path.write_text(text,encoding='utf8')
+                git('add','.');git('commit','-qm','GZ-004 invalid completion fixture (#32)')
+                self.assertTrue(any('qualified tested source' in error for error in validate()),mode)
+            git('reset','--hard',merged)
+            original=(root/'seed.txt').read_bytes()
+            (root/'seed.txt').write_bytes(b'Runtime drift.\n');git('add','.');git('commit','-qm','GZ-004 runtime drift fixture')
+            (root/'seed.txt').write_bytes(original);git('add','.');git('commit','-qm','GZ-004 restored runtime fixture')
+            self.assertEqual(validate(),[])
+            policy_path=root/'specs/coordination/program-plan.yaml';original_policy=policy_path.read_bytes()
+            policy=load_yaml(policy_path);policy['fabricatedPolicy']='weakened';write_yaml(policy_path,policy)
+            git('add','.');git('commit','-qm','GZ-004 policy drift fixture')
+            policy_path.write_bytes(original_policy);git('add','.');git('commit','-qm','GZ-004 restored policy fixture')
+            self.assertTrue(any('qualified tested source' in error for error in validate()))
+
+
+    def test_150_local_hierarchy_pass_matches_exact_approved_workload(self):
+        for profile,status in (('local-v1','pass'),('local-v1','fail'),('production','pass')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-005',profile,status=status)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-05'})
+                self.assertEqual(validate(),[])
+                if profile=='production':continue
+                for metric in ('file_count','directory_count','directory_depth_max'):
+                    path.write_bytes(original);data=load_yaml(path)
+                    next(item for item in data['measurements'] if item['id']==metric)['actual']=11
+                    write_yaml(path,data);errors=validate()
+                    if status=='pass':self.assertTrue(any('qualified local capture' in error and metric in error for error in errors),errors)
+                    else:self.assertEqual(errors,[])
+                if status=='pass':
+                    path.write_bytes(original);data=load_yaml(path)
+                    data['environmentCaptured']['synthetic_hierarchy_manifest']['generator']=True
+                    write_yaml(path,data)
+                    self.assertTrue(any('qualified local capture' in error for error in validate()))
+            finally:temp.cleanup()
+
+    def test_151_local_tls_origins_validate_semantic_host_and_port(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-007','local-v1')
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+            configuration_path=root/load_yaml(path)['environmentCaptured']['acceptanceProfileConfigurationRef'];configuration_bytes=configuration_path.read_bytes()
+            validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-07'})
+            self.assertEqual(validate(),[])
+            for field in ('entryOrigin','openlistOrigin'):
+                for host,accepted in (('guize.local:1',True),('guize.local:443',True),('127.0.0.1:65535',True),('[::1]:443',True),('guize.local:99999',False),('guize.local:00000',False),('bad..local:443',False),('-bad.local:443',False),('999.1.1.1:443',False),('[:::1]:443',False)):
+                    path.write_bytes(original);configuration_path.write_bytes(configuration_bytes)
+                    data=load_yaml(path);configuration=load_yaml(configuration_path)
+                    value='https://'+host
+                    data['environmentCaptured']['local_tls_path_configuration'][field]=value
+                    configuration['capturedSettings']['local_tls_path_configuration'][field]=value
+                    write_yaml(path,data);write_yaml(configuration_path,configuration);self.sync_capture_reviews(root,data)
+                    errors=validate()
+                    if accepted:self.assertEqual(errors,[],value)
+                    else:self.assertTrue(any('qualified local capture' in error and field in error for error in errors),errors)
+        finally:temp.cleanup()
 
 
 if __name__ == "__main__":
