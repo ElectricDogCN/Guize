@@ -1,3 +1,18 @@
+Current revision: dirty repair of five verified media/environment/throughput/sandbox findings on actual8bf74335038f87a9aeed074cd509ccb30edfe336.
+Status: IN_PROGRESS; no successor-source full execution or final acceptance.
+
+Actual8bf completed20 native gates,154 POC validator methods865.452s,35/35 requirement negatives,637 engineering methods1109.03s, nonempty JUnit zero failures/errors/skips, and three clean unchanged worktrees; native48274 CLOSED Exit0. CI702/run38434938292/job115426363935 completed28 successful steps/637 methods1589.46s/NoSkipped. Synthetic073aeeeec577c49da53253abb905eca3bb8040bb is not actualmain. Independent local20 and CI executions are accepted, but five material counterexamples reject currentContent/formal/final integration. All31 original historical execution/acceptance/rejection/counter/binding artifacts are retained at executions/8bf74335038f87a9aeed074cd509ccb30edfe336/manifest.json with original physical SHA/size and canonicalLF SHA/size. No historical PASS transfers to this candidate.
+
+Candidate repairs only the five findings: POC001 PASS retains a distinct bounded typed decoder report tied to exact AV1 input/output/node/encoder and concrete decoder build, positive decoded frames/duration and zero errors. Production POC001 PASS additionally binds approved VMware ESXi6.7/Intel Arc A380 host/guest/device/build identity to exactly one inventory node and selected RES-A380-ESXI67 configuration. Dedicated nonempty structured multi-day observation binds that same identity/configuration and exact continuous observed interval; phone/media/probe physical aliases are rejected. Qualified POC009 PASS requires positive finite measured throughput, while FAIL/inconclusive can record zero. Local POC005 PASS binds a normalized portable relative generator root to the exact independently approved controlled disposable sandbox/mount/host boundary. Local Android VM does not acquire production A380/ESXi requirements; failed incompatible captures remain factual.
+
+Original154 test-method ASTs, original whole schema prefix/definitions,35 requirement negatives, frozen planning manifest/plans/requirements/DAG/claims and all other source files remain. Only shared synthetic fixture preparation adapts to the appended owned report/capture definitions; new155-159 test contract data, never actual media or production execution.
+
+Four incremental runs are retained at candidate-checks/media-environment-boundaries/manifest.json: new155 passed1 method40.255s;138/141/145/new156 passed4 methods118.004s;145/154/new157/new158 passed4 methods117.682s;146/150/new159 passed3 methods124.134s. Every run ended Exit0. These are separate dirty-candidate increments, not a combined complete159 or a published successor-source acceptance. Finite independent content/archive review remains pending; a published successor requires its own20/159/35/637 and same-source CI plus independent final admission before merge.
+
+Docker and Android VM boot are verified. Actual AV1/Worker/runtime/real POC/real-phone/full local V1 remain incomplete. Normal GZ021 Review/Completion and actualmain acceptance are still required before downstream work starts.
+
+--- Historical performance/soak/Secret-reference source and previous stages ---
+
 Current revision: dirty repair of three verified performance/soak/Secret-reference findings on actual source b0917c8946649ec816d2ace114293decd97c3869.
 Status: IN_PROGRESS; no successor-source full execution or final acceptance.
 

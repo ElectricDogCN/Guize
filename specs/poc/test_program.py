@@ -393,6 +393,8 @@ class TestPocProgram(unittest.TestCase):
                     env['scheduler_configuration']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',priorities=dict(playback=0,prewarm=3,background=6),maxConcurrentSegments=2,perNodeConcurrency=1)
                 elif task_id=='POC-005':
                     env['synthetic_hierarchy_manifest']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',generator=dict(algorithm='deterministic-tree-v1',seed=42,rootPath='fixture-hierarchy',fileCount=1,directoryCount=1,maximumDepth=1))
+                    sandbox_resource=next(r for r in execution['resources'] if r['id']=='RES-METADATA-SCALE')
+                    env['syntheticHierarchySandbox']=dict(schemaVersion=1,configurationRef=sandbox_resource['configurationRef'],boundary=dict(schemaVersion=1,scope='LOCAL_FULL_V1',resourceId='RES-METADATA-SCALE',sandboxId='fixture-disposable-sandbox',mountId='fixture-controlled-mount',physicalHostId='fixture-scanner-host',controlled=True,disposable=True,rootPath='fixture-hierarchy'))
                 elif task_id=='POC-006':
                     observation_ref=new_prefix+'/raw/fault-observation.log'
                     (root/observation_ref).write_text('Synthetic exercised fixture cases: http_429 http_5xx network_disconnect auth_expired; never real POC evidence.\n',encoding='utf8')
@@ -410,6 +412,11 @@ class TestPocProgram(unittest.TestCase):
                 scope['outputSha256']='sha256:'+hashlib.sha256((root/media_ref).read_bytes()).hexdigest()
                 artifact_nodes[media_ref]=scope['nodeId']
                 execution['rawOutputRefs'].append(media_ref)
+                probe_ref=new_prefix+'/raw/android-media-probe.yaml'
+                write_yaml(root/probe_ref,dict(schemaVersion=1,kind='android_media_probe',nodeId=scope['nodeId'],encoderBuild=scope['encoderBuild'],inputSha256=scope['inputSha256'],outputArtifactRef=media_ref,outputSha256=scope['outputSha256'],decoderBuild='synthetic-fixture-decoder; never actual media validation',codec='av1',decodable=True,decodedFrameCount=120,durationSeconds=4,decodeErrorCount=0))
+                env['androidMediaProbeRef']=probe_ref
+                artifact_nodes[probe_ref]=scope['nodeId']
+                execution['rawOutputRefs'].append(probe_ref)
                 if production:
                     observation_ref=new_prefix+'/raw/android-scope-observation.log'
                     (root/observation_ref).write_text('Synthetic observations only: temperaturePeakCelsius=38 powerPeakWatts=3 testDurationSeconds=60 backgroundSurvivedSeconds=60\n',encoding='utf8')
@@ -417,10 +424,15 @@ class TestPocProgram(unittest.TestCase):
                     artifact_nodes[observation_ref]=scope['nodeId']
                     execution['rawOutputRefs'].append(observation_ref)
                     if status=='pass':
+                        a380_identity=dict(schemaVersion=1,resourceId='RES-A380-ESXI67',nodeId='fixture-a380-node',physicalHostId='fixture-esxi-host',guestId='fixture-a380-guest',platform='linux',hypervisorVendor='VMware',hypervisorProduct='ESXi',hypervisorVersion='6.7',hypervisorBuild='synthetic-esxi-build',gpuVendor='Intel',gpuModel='Arc A380',gpuDeviceId='fixture-a380-device',driverBuild='synthetic-driver-build',runtimeBuild='synthetic-worker-build',encoderBuild='synthetic-av1-build')
+                        a380_resource=next(r for r in execution['resources'] if r['id']=='RES-A380-ESXI67')
+                        env['productionPassthroughIdentity']=dict(schemaVersion=1,configurationRef=a380_resource['configurationRef'],identity=a380_identity)
+                        env['worker_node_inventory'].append({key:value for key,value in a380_identity.items() if key not in ('schemaVersion','resourceId')})
                         soak_ref=new_prefix+'/raw/passthrough-soak-observation.log'
-                        (root/soak_ref).write_text('Synthetic continuous passthrough fixture only; never actual POC acceptance. Observed 2026-09-03T00:00:00Z through 2026-09-05T00:00:00Z.\n',encoding='utf8')
+                        write_yaml(root/soak_ref,dict(schemaVersion=1,kind='passthrough_soak_observation',configurationRef=a380_resource['configurationRef'],identity=a380_identity,observedStartedAt='2026-09-03T00:00:00Z',observedFinishedAt='2026-09-05T00:00:00Z',continuous=True))
+                        artifact_nodes[soak_ref]=a380_identity['nodeId']
                         execution['rawOutputRefs'].append(soak_ref)
-                        env['productionPassthroughSoak']=dict(schemaVersion=1,configurationRef=execution['resources'][0]['configurationRef'],minimumContinuousDays=2,observedStartedAt='2026-09-03T00:00:00Z',observedFinishedAt='2026-09-05T00:00:00Z',rawOutputRef=soak_ref)
+                        env['productionPassthroughSoak']=dict(schemaVersion=1,configurationRef=a380_resource['configurationRef'],minimumContinuousDays=2,observedStartedAt='2026-09-03T00:00:00Z',observedFinishedAt='2026-09-05T00:00:00Z',rawOutputRef=soak_ref)
                         next(m for m in execution['measurements'] if m['id']=='multi_day_stability_duration')['actual']=48
             if task_id == 'POC-004' and production:
                 next(m for m in execution['measurements'] if m['id']=='minimum_free_space_gib')['actual']=500
@@ -467,6 +479,8 @@ class TestPocProgram(unittest.TestCase):
                 for raw_ref in execution['rawOutputRefs']]
             if task_id=='POC-002':
                 next(record for record in execution['environmentCaptured']['rawExecutionArtifacts'] if record['ref']==validation_ref)['artifactType']='measurement_output'
+            if task_id=='POC-001':
+                next(record for record in execution['environmentCaptured']['rawExecutionArtifacts'] if record['ref']==probe_ref)['artifactType']='measurement_output'
             if task_id=='POC-001' and production and status=='pass':
                 next(record for record in execution['environmentCaptured']['rawExecutionArtifacts'] if record['ref']==soak_ref)['artifactType']='scope_observation'
             execution['environmentCaptured']['executionWindow'] = dict(startedAt='2026-09-03T00:00:00Z', finishedAt='2026-09-04T00:00:00Z')
@@ -482,7 +496,13 @@ class TestPocProgram(unittest.TestCase):
                 floor_path=root/execution['environmentCaptured']['productionPassthroughSoak']['configurationRef']
                 floor_record=load_yaml(floor_path)
                 floor_record['configuration']['productionPassthroughSoak']=dict(minimumContinuousDays=2)
+                floor_record['configuration']['productionPassthroughIdentity']=env['productionPassthroughIdentity']['identity']
                 write_yaml(floor_path,floor_record)
+            if task_id=='POC-005' and not production:
+                sandbox_path=root/env['syntheticHierarchySandbox']['configurationRef']
+                sandbox_record=load_yaml(sandbox_path)
+                sandbox_record['configuration']['syntheticHierarchySandbox']=env['syntheticHierarchySandbox']['boundary']
+                write_yaml(sandbox_path,sandbox_record)
             selected_route = CHECK.execution_route(plan,profile)
             config_ref = execution['environmentCaptured']['acceptanceProfileConfigurationRef']
             config = load_yaml(root/config_ref)
@@ -2633,6 +2653,217 @@ class TestPocProgram(unittest.TestCase):
                         floor=load_yaml(floor_path);floor['approvedAt']='2026-09-03T00:00:01Z';write_yaml(floor_path,floor)
                     write_yaml(path,record)
                     self.assertTrue(any('qualified production soak' in e or 'approval must precede' in e for e in validate()),mode)
+            finally:temp.cleanup()
+
+
+    def test_155_inference_pass_requires_positive_measured_throughput(self):
+        for profile in ('local-v1','production'):
+            for status in ('pass','fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    index=self.make_profile_slot(root,'POC-009',profile,status=status)
+                    result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                    validate=lambda:CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-09'})
+                    self.assertEqual(validate(),[])
+                    for value in ((0,-1,True,float('nan')) if status=='pass' else (0,)):
+                        path.write_bytes(original);record=load_yaml(path)
+                        next(m for m in record['measurements'] if m['id']=='throughput')['actual']=value
+                        write_yaml(path,record)
+                        if status=='pass':
+                            self.assertTrue(any('positive measured inference throughput' in e for e in validate()),(profile,status,value))
+                        else:
+                            self.assertEqual(validate(),[],(profile,status,value))
+                finally:temp.cleanup()
+
+
+    def test_156_android_media_requires_bound_av1_decoder_report(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                baseline=load_yaml(path);env=baseline['environmentCaptured']
+                scope=env['vm_validation_scope'] if profile=='local-v1' else env['android_validation_scope']
+                probe_ref=env['androidMediaProbeRef'];probe_path=root/probe_ref;probe_bytes=probe_path.read_bytes()
+                media_path=root/scope['rawOutputRef'];media_bytes=media_path.read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
+                self.assertEqual(validate(),[])
+                for mode in ('missing','hash','output','input','node','encoder','decoder','codec','frames','duration','errors','decodable','boolean_frames','empty','malformed','oversize','alias_ref','hardlink','artifact_node','arbitrary_media','metadata_alias'):
+                    path.write_bytes(original);probe_path.unlink();probe_path.write_bytes(probe_bytes);media_path.write_bytes(media_bytes)
+                    record=load_yaml(path);env=record['environmentCaptured'];scope=env['vm_validation_scope'] if profile=='local-v1' else env['android_validation_scope'];report=load_yaml(probe_path)
+                    if mode=='missing':env.pop('androidMediaProbeRef')
+                    elif mode=='hash':report['outputSha256']='sha256:'+'f'*64
+                    elif mode=='output':report['outputArtifactRef']=record['rawOutputRefs'][0]
+                    elif mode=='input':report['inputSha256']='sha256:'+'f'*64
+                    elif mode=='node':report['nodeId']='other-node'
+                    elif mode=='encoder':report['encoderBuild']='other-build'
+                    elif mode=='decoder':report['decoderBuild']=''
+                    elif mode=='codec':report['codec']='h264'
+                    elif mode=='frames':report['decodedFrameCount']=0
+                    elif mode=='duration':report['durationSeconds']=0
+                    elif mode=='errors':report['decodeErrorCount']=1
+                    elif mode=='decodable':report['decodable']=False
+                    elif mode=='boolean_frames':report['decodedFrameCount']=True
+                    elif mode=='alias_ref':env['androidMediaProbeRef']=scope['rawOutputRef']
+                    elif mode=='artifact_node':next(a for a in env['rawExecutionArtifacts'] if a['ref']==probe_ref)['nodeId']='other-node'
+                    elif mode=='arbitrary_media':
+                        media_path.write_bytes(b'NOT A VIDEO; synthetic malformed media counterexample.\n')
+                        scope['outputSha256']='sha256:'+hashlib.sha256(media_path.read_bytes()).hexdigest()
+                        artifact=next(a for a in env['rawExecutionArtifacts'] if a['ref']==scope['rawOutputRef'])
+                        artifact.update(byteCount=media_path.stat().st_size,sha256=scope['outputSha256'])
+                    elif mode=='metadata_alias':
+                        cfg_ref=env['acceptanceProfileConfigurationRef'];cfg_path=root/cfg_ref
+                        env['androidMediaProbeRef']=cfg_ref;record['rawOutputRefs'].append(cfg_ref)
+                        env['rawExecutionArtifacts'].append(dict(ref=cfg_ref,artifactType='measurement_output',nodeId=scope['nodeId'],byteCount=cfg_path.stat().st_size,sha256='sha256:'+hashlib.sha256(cfg_path.read_bytes()).hexdigest()))
+                    if mode=='empty':probe_path.write_bytes(b'')
+                    elif mode=='malformed':probe_path.write_text('[unterminated',encoding='utf8')
+                    elif mode=='oversize':probe_path.write_bytes(b'x'*262145)
+                    elif mode=='hardlink':probe_path.unlink();os.link(media_path,probe_path)
+                    else:write_yaml(probe_path,report)
+                    artifact=next(a for a in env['rawExecutionArtifacts'] if a['ref']==probe_ref)
+                    artifact.update(byteCount=probe_path.stat().st_size,sha256='sha256:'+hashlib.sha256(probe_path.read_bytes()).hexdigest())
+                    write_yaml(path,record)
+                    self.assertTrue(any('qualified Android media probe' in e for e in validate()),(profile,mode))
+            finally:temp.cleanup()
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-001','local-v1',status='fail')
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];record=load_yaml(path)
+            record['environmentCaptured'].pop('androidMediaProbeRef');write_yaml(path,record)
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',False,selected_pocs={'POC-01'}),[])
+        finally:temp.cleanup()
+
+
+    def test_157_production_passthrough_matches_frozen_approved_inventory(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-001','production')
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+            baseline=load_yaml(path);config_path=root/baseline['environmentCaptured']['productionPassthroughIdentity']['configurationRef'];config_bytes=config_path.read_bytes()
+            validate=lambda:CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
+            self.assertEqual(validate(),[])
+            mutations=(('hypervisorVendor','OTHER_VENDOR'),('hypervisorProduct','OTHER_PRODUCT'),('hypervisorVersion','8.0'),('gpuVendor','OTHER_VENDOR'),('gpuModel','OTHER_GPU'),('platform','android'),('gpuDeviceId',''),('physicalHostId',''),('guestId',''),('runtimeBuild',''),('driverBuild',''),('encoderBuild',''))
+            for mode in [key for key,value in mutations]+['missing','generic_configuration','wrong_ref','approved_mismatch','missing_inventory','inventory_mismatch','duplicate_inventory']:
+                path.write_bytes(original);config_path.write_bytes(config_bytes);record=load_yaml(path);env=record['environmentCaptured'];capture=env['productionPassthroughIdentity'];config=load_yaml(config_path)
+                identity=capture['identity'];node=next(n for n in env['worker_node_inventory'] if n['nodeId']==identity['nodeId'])
+                if mode in dict(mutations):
+                    value=dict(mutations)[mode];identity[mode]=value;node[mode]=value;config['configuration']['productionPassthroughIdentity'][mode]=value
+                elif mode=='missing':env.pop('productionPassthroughIdentity')
+                elif mode=='generic_configuration':config['configuration'].pop('productionPassthroughIdentity')
+                elif mode=='wrong_ref':capture['configurationRef']=env['acceptanceProfileConfigurationRef']
+                elif mode=='approved_mismatch':config['configuration']['productionPassthroughIdentity']['physicalHostId']='other-approved-host'
+                elif mode=='missing_inventory':env['worker_node_inventory'].remove(node)
+                elif mode=='inventory_mismatch':node['gpuDeviceId']='other-device'
+                else:env['worker_node_inventory'].append(dict(node))
+                write_yaml(config_path,config);write_yaml(path,record)
+                self.assertTrue(any('qualified production passthrough identity' in e for e in validate()),mode)
+        finally:temp.cleanup()
+        for profile,status in (('local-v1','pass'),('production','fail'),('production','inconclusive')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile,status=status)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];record=load_yaml(path)
+                self.assertNotIn('productionPassthroughIdentity',record['environmentCaptured'])
+                if status!='pass':
+                    record['environmentCaptured']['productionPassthroughIdentity']=dict(identity=dict(hypervisorVendor='OTHER_VENDOR',hypervisorVersion='8.0',gpuModel='OTHER_GPU'))
+                    write_yaml(path,record)
+                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),[])
+            finally:temp.cleanup()
+
+    def test_158_production_soak_requires_dedicated_bound_observation(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-001','production')
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+            env=load_yaml(path)['environmentCaptured'];raw_ref=env['productionPassthroughSoak']['rawOutputRef'];raw_path=root/raw_ref;raw_bytes=raw_path.read_bytes()
+            validate=lambda:CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
+            self.assertEqual(validate(),[])
+            for mode in ('phone_alias','media_alias','probe_alias','phone_hardlink','wrong_node','wrong_host','wrong_resource','wrong_configuration','wrong_start','short_finish','not_continuous','empty','malformed','oversize','artifact_node','metadata_alias'):
+                path.write_bytes(original);raw_path.unlink();raw_path.write_bytes(raw_bytes)
+                record=load_yaml(path);env=record['environmentCaptured'];capture=env['productionPassthroughSoak'];report=load_yaml(raw_path)
+                if mode=='phone_alias':capture['rawOutputRef']=env['android_thermal_background_observation']['rawOutputRef']
+                elif mode=='media_alias':capture['rawOutputRef']=env['android_validation_scope']['rawOutputRef']
+                elif mode=='probe_alias':capture['rawOutputRef']=env['androidMediaProbeRef']
+                elif mode=='wrong_node':report['identity']['nodeId']='other-node'
+                elif mode=='wrong_host':report['identity']['physicalHostId']='other-host'
+                elif mode=='wrong_resource':report['identity']['resourceId']='RES-A380-ENCODE'
+                elif mode=='wrong_configuration':report['configurationRef']=env['acceptanceProfileConfigurationRef']
+                elif mode=='wrong_start':report['observedStartedAt']='2026-09-03T00:00:01Z'
+                elif mode=='short_finish':report['observedFinishedAt']='2026-09-03T00:01:00Z'
+                elif mode=='not_continuous':report['continuous']=False
+                elif mode=='artifact_node':next(a for a in env['rawExecutionArtifacts'] if a['ref']==raw_ref)['nodeId']='other-node'
+                elif mode=='metadata_alias':
+                    cfg_ref=env['acceptanceProfileConfigurationRef'];cfg_path=root/cfg_ref;capture['rawOutputRef']=cfg_ref;record['rawOutputRefs'].append(cfg_ref)
+                    env['rawExecutionArtifacts'].append(dict(ref=cfg_ref,artifactType='scope_observation',nodeId=report['identity']['nodeId'],byteCount=cfg_path.stat().st_size,sha256='sha256:'+hashlib.sha256(cfg_path.read_bytes()).hexdigest()))
+                if mode=='empty':raw_path.write_bytes(b'')
+                elif mode=='malformed':raw_path.write_text('[unterminated',encoding='utf8')
+                elif mode=='oversize':raw_path.write_bytes(b'x'*262145)
+                elif mode=='phone_hardlink':raw_path.unlink();os.link(root/env['android_thermal_background_observation']['rawOutputRef'],raw_path)
+                else:write_yaml(raw_path,report)
+                artifact=next(a for a in env['rawExecutionArtifacts'] if a['ref']==raw_ref)
+                artifact.update(byteCount=raw_path.stat().st_size,sha256='sha256:'+hashlib.sha256(raw_path.read_bytes()).hexdigest())
+                write_yaml(path,record)
+                self.assertTrue(any('qualified production soak' in e for e in validate()),mode)
+        finally:temp.cleanup()
+
+
+    def test_159_local_hierarchy_root_binds_safe_controlled_sandbox(self):
+        unsafe=['/etc','../../outside','C:/Windows','C:'+chr(92)+'Windows',chr(92)*2+'server'+chr(92)+'share','//server/share','fixture/../outside','fixture/./inside','fixture//inside','fixture/','fixture/.','fixture/..','fixture/con.txt','fixture/LPT1','fixture/name.','fixture/name ','fixture:stream',' fixture','fixture'+chr(0),'fixture'+chr(10),'fixture?name']
+        for value in unsafe:self.assertFalse(CHECK.safe_generator_relative_path(value),value)
+        for value in ('fixture-hierarchy','fixture-hierarchy/subfolder','归泽/fixtures','fixtures/space inside'):
+            self.assertTrue(CHECK.safe_generator_relative_path(value),value)
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-005','local-v1')
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+            baseline=load_yaml(path);env=baseline['environmentCaptured']
+            cfg_path=root/env['acceptanceProfileConfigurationRef'];cfg_bytes=cfg_path.read_bytes()
+            resource_path=root/env['syntheticHierarchySandbox']['configurationRef'];resource_bytes=resource_path.read_bytes()
+            validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-05'})
+            self.assertEqual(validate(),[])
+            def synchronize(record,resource):
+                env=record['environmentCaptured'];cfg=load_yaml(cfg_path)
+                cfg['capturedSettings']['synthetic_hierarchy_manifest']=env['synthetic_hierarchy_manifest']
+                for ref in cfg['numericDomainReviewRefs'].values():
+                    review_path=root/ref;review=load_yaml(review_path)
+                    review['environmentCaptured']['synthetic_hierarchy_manifest']=env['synthetic_hierarchy_manifest'];write_yaml(review_path,review)
+                write_yaml(cfg_path,cfg);write_yaml(resource_path,resource);write_yaml(path,record)
+            for value in ['fixture-hierarchy/subfolder']+unsafe:
+                path.write_bytes(original);cfg_path.write_bytes(cfg_bytes);resource_path.write_bytes(resource_bytes)
+                record=load_yaml(path);resource=load_yaml(resource_path)
+                record['environmentCaptured']['synthetic_hierarchy_manifest']['generator']['rootPath']=value
+                record['environmentCaptured']['syntheticHierarchySandbox']['boundary']['rootPath']=value
+                resource['configuration']['syntheticHierarchySandbox']['rootPath']=value
+                synchronize(record,resource)
+                if value=='fixture-hierarchy/subfolder':self.assertEqual(validate(),[])
+                else:self.assertTrue(any('qualified local hierarchy sandbox' in e for e in validate()),value)
+            for mode in ('missing','missing_configuration','wrong_ref','wrong_bound_root','wrong_host','empty_mount','unsafe_mount','uncontrolled','not_disposable','wrong_scope','wrong_resource'):
+                path.write_bytes(original);cfg_path.write_bytes(cfg_bytes);resource_path.write_bytes(resource_bytes)
+                record=load_yaml(path);env=record['environmentCaptured'];resource=load_yaml(resource_path)
+                boundary=env['syntheticHierarchySandbox']['boundary'];approved=resource['configuration']['syntheticHierarchySandbox']
+                if mode=='missing':env.pop('syntheticHierarchySandbox')
+                elif mode=='missing_configuration':resource['configuration'].pop('syntheticHierarchySandbox')
+                elif mode=='wrong_ref':env['syntheticHierarchySandbox']['configurationRef']=env['acceptanceProfileConfigurationRef']
+                elif mode=='wrong_bound_root':boundary['rootPath']='other-root'
+                elif mode=='wrong_host':approved['physicalHostId']='other-host'
+                elif mode=='empty_mount':boundary['mountId']=approved['mountId']=''
+                elif mode=='unsafe_mount':boundary['mountId']=approved['mountId']='../../outside'
+                elif mode=='uncontrolled':boundary['controlled']=approved['controlled']=False
+                elif mode=='not_disposable':boundary['disposable']=approved['disposable']=False
+                elif mode=='wrong_scope':boundary['scope']=approved['scope']='PRODUCTION_RELEASE'
+                else:boundary['resourceId']=approved['resourceId']='RES-OPENLIST-LOCAL'
+                synchronize(record,resource)
+                self.assertTrue(any('qualified local hierarchy sandbox' in e for e in validate()),mode)
+        finally:temp.cleanup()
+        for profile,status in (('production','pass'),('local-v1','fail')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-005',profile,status=status)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];record=load_yaml(path)
+                if profile=='production':self.assertNotIn('syntheticHierarchySandbox',record['environmentCaptured'])
+                else:
+                    record['environmentCaptured'].pop('syntheticHierarchySandbox');write_yaml(path,record)
+                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-05'}),[])
             finally:temp.cleanup()
 
 

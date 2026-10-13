@@ -1,0 +1,132 @@
+{
+  "actualSource": "8bf74335038f87a9aeed074cd509ccb30edfe336",
+  "counterexamples": [
+    {
+      "threadSuffix": "r-ZkI",
+      "task": "POC-001",
+      "profile": "production",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "oldDedicatedRef": "evidence/GZ-020/poc/POC-001/production/v1/raw/passthrough-soak-observation.log",
+        "aliasedToPhoneObservation": "evidence/GZ-020/poc/POC-001/production/v1/raw/android-scope-observation.log",
+        "phoneSeconds": 60,
+        "soakHours": 48
+      },
+      "syntheticOnly": true
+    },
+    {
+      "threadSuffix": "r-ZkQ",
+      "task": "POC-001",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "rawOutputRef": "evidence/POC-001/profiles/local-v1/v1/raw/android-produced-media.bin",
+        "bytes": "NOT A VIDEO. Arbitrary nonempty text bytes; no AV1 stream or decoder evidence.\n",
+        "sha256": "sha256:6fc2f7a8623c01e5642cae265a3ad14551e72960f4afd71bbaeb48a5a90a3729",
+        "artifactType": "produced_media",
+        "decoderReportPresent": false
+      },
+      "syntheticOnly": true
+    },
+    {
+      "threadSuffix": "r-ZkQ",
+      "task": "POC-001",
+      "profile": "production",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "rawOutputRef": "evidence/GZ-020/poc/POC-001/production/v1/raw/android-produced-media.bin",
+        "bytes": "NOT A VIDEO. Arbitrary nonempty text bytes; no AV1 stream or decoder evidence.\n",
+        "sha256": "sha256:6fc2f7a8623c01e5642cae265a3ad14551e72960f4afd71bbaeb48a5a90a3729",
+        "artifactType": "produced_media",
+        "decoderReportPresent": false
+      },
+      "syntheticOnly": true
+    },
+    {
+      "threadSuffix": "r-ZkW",
+      "task": "POC-009",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "throughput": 0,
+        "unit": "items/s",
+        "booleanGatesUnchanged": true
+      },
+      "syntheticOnly": true
+    },
+    {
+      "threadSuffix": "r-ZkW",
+      "task": "POC-009",
+      "profile": "production",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "throughput": 0,
+        "unit": "items/s",
+        "booleanGatesUnchanged": true
+      },
+      "syntheticOnly": true
+    },
+    {
+      "threadSuffix": "r-Zkj",
+      "task": "POC-005",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "rootPath": "/etc",
+        "exactApprovedCaptureUpdated": true
+      },
+      "syntheticOnly": true
+    },
+    {
+      "threadSuffix": "r-Zkj",
+      "task": "POC-005",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "rootPath": "../../outside",
+        "exactApprovedCaptureUpdated": true
+      },
+      "syntheticOnly": true
+    },
+    {
+      "threadSuffix": "r-Zkt",
+      "task": "POC-001",
+      "profile": "production",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "resourceId": "RES-A380-ESXI67",
+        "configurationRef": "evidence/GZ-020/poc/POC-001/production/v1/resources/RES-A380-ESXI67-configuration.yaml",
+        "originalGenericConfig": {
+          "build": "fixture-versioned-configuration",
+          "productionPassthroughSoak": {
+            "minimumContinuousDays": 2
+          }
+        },
+        "wrongHypervisorConfig": {
+          "build": "fixture-versioned-configuration",
+          "productionPassthroughSoak": {
+            "minimumContinuousDays": 2
+          },
+          "hypervisorVendor": "OTHER_VENDOR",
+          "hypervisorVersion": "8.0",
+          "gpuModel": "OTHER_GPU"
+        },
+        "matchingA380InventoryRequired": false
+      },
+      "syntheticOnly": true
+    }
+  ],
+  "finiteOnlyFiveKnownThreads": true,
+  "syntheticContractOnly": true,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullSuiteRerun": false
+}

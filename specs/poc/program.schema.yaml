@@ -1513,3 +1513,84 @@ $defs:
       rawOutputRef:
         type: string
         minLength: 1
+  androidMediaProbeReport:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, nodeId, encoderBuild, inputSha256, outputArtifactRef, outputSha256, decoderBuild, codec, decodable, decodedFrameCount, durationSeconds, decodeErrorCount]
+    properties:
+      schemaVersion: {type: integer, const: 1}
+      kind: {const: android_media_probe}
+      nodeId: {type: string, minLength: 1}
+      encoderBuild: {type: string, minLength: 1}
+      inputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      outputArtifactRef: {type: string, minLength: 1}
+      outputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      decoderBuild: {type: string, minLength: 1}
+      codec: {const: av1}
+      decodable: {type: boolean, const: true}
+      decodedFrameCount: {type: integer, minimum: 1}
+      durationSeconds: {type: number, exclusiveMinimum: 0}
+      decodeErrorCount: {type: integer, const: 0}
+  productionPassthroughIdentity: &productionPassthroughIdentityObject
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, resourceId, nodeId, physicalHostId, guestId, platform, hypervisorVendor, hypervisorProduct, hypervisorVersion, hypervisorBuild, gpuVendor, gpuModel, gpuDeviceId, driverBuild, runtimeBuild, encoderBuild]
+    properties:
+      schemaVersion: {type: integer, const: 1}
+      resourceId: {const: RES-A380-ESXI67}
+      nodeId: {type: string, minLength: 1}
+      physicalHostId: {type: string, minLength: 1}
+      guestId: {type: string, minLength: 1}
+      platform: {enum: [linux, windows]}
+      hypervisorVendor: {const: VMware}
+      hypervisorProduct: {const: ESXi}
+      hypervisorVersion: {const: '6.7'}
+      hypervisorBuild: {type: string, minLength: 1}
+      gpuVendor: {const: Intel}
+      gpuModel: {const: Arc A380}
+      gpuDeviceId: {type: string, minLength: 1}
+      driverBuild: {type: string, minLength: 1}
+      runtimeBuild: {type: string, minLength: 1}
+      encoderBuild: {type: string, minLength: 1}
+  productionPassthroughCapture:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, configurationRef, identity]
+    properties:
+      schemaVersion: {type: integer, const: 1}
+      configurationRef: {type: string, minLength: 1}
+      identity: *productionPassthroughIdentityObject
+  productionPassthroughSoakObservation:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, configurationRef, identity, observedStartedAt, observedFinishedAt, continuous]
+    properties:
+      schemaVersion: {type: integer, const: 1}
+      kind: {const: passthrough_soak_observation}
+      configurationRef: {type: string, minLength: 1}
+      identity: *productionPassthroughIdentityObject
+      observedStartedAt: {type: string, format: date-time}
+      observedFinishedAt: {type: string, format: date-time}
+      continuous: {type: boolean, const: true}
+  localHierarchySandboxBoundary: &localHierarchySandboxBoundaryObject
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, scope, resourceId, sandboxId, mountId, physicalHostId, controlled, disposable, rootPath]
+    properties:
+      schemaVersion: {type: integer, const: 1}
+      scope: {const: LOCAL_FULL_V1}
+      resourceId: {const: RES-METADATA-SCALE}
+      sandboxId: {type: string, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+      mountId: {type: string, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$'}
+      physicalHostId: {type: string, minLength: 1}
+      controlled: {type: boolean, const: true}
+      disposable: {type: boolean, const: true}
+      rootPath: {type: string, minLength: 1}
+  localHierarchySandboxCapture:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, configurationRef, boundary]
+    properties:
+      schemaVersion: {type: integer, const: 1}
+      configurationRef: {type: string, minLength: 1}
+      boundary: *localHierarchySandboxBoundaryObject

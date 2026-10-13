@@ -870,6 +870,75 @@ def validate_qualified_resources(root, plan, execution, resource_catalog, defs, 
                 errors.append(f'{label}: configuration must be a nonempty captured record')
 
 
+def safe_generator_relative_path(value):
+    if not isinstance(value,str) or not value or value.strip()!=value or value.startswith('/') or any(ord(char)<32 or ord(char)==127 or char in '\\:<>"|?*' for char in value):
+        return False
+    reserved={'CON','PRN','AUX','NUL'}|{f'{prefix}{number}' for prefix in ('COM','LPT') for number in range(1,10)}
+    return all(part and part not in ('.','..') and not part.endswith((' ','.')) and part.split('.')[0].upper() not in reserved for part in value.split('/'))
+
+
+def validate_qualified_hierarchy_sandbox(root, plan, execution, defs, prefix, status, errors):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-05' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):
+        return
+    label=f"qualified local hierarchy sandbox {plan['taskId']}"
+    capture=env.get('syntheticHierarchySandbox')
+    validate_schema(capture,defs.get('localHierarchySandboxCapture',{}),label,errors)
+    manifest=env.get('synthetic_hierarchy_manifest')
+    generator=manifest.get('generator') if isinstance(manifest,dict) else None
+    root_path=generator.get('rootPath') if isinstance(generator,dict) else None
+    if not safe_generator_relative_path(root_path):
+        errors.append(f'{label}: generator rootPath must be a normalized safe relative sandbox path')
+    if not isinstance(capture,dict):return
+    boundary=capture.get('boundary')
+    resources=[r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-METADATA-SCALE']
+    ref=capture.get('configurationRef')
+    if len(resources)!=1 or ref!=resources[0].get('configurationRef'):
+        errors.append(f'{label}: selected independently approved RES-METADATA-SCALE configuration required');return
+    path=existing_ref(root,ref,prefix)
+    if path is None:
+        errors.append(f'{label}: selected-slot controlled mount configuration must exist');return
+    try:record=load(path)
+    except (OSError,yaml.YAMLError,ValueError):
+        errors.append(f'{label}: controlled mount configuration must be readable');return
+    config=record.get('configuration') if isinstance(record,dict) else None
+    approved=config.get('syntheticHierarchySandbox') if isinstance(config,dict) else None
+    validate_schema(approved,defs.get('localHierarchySandboxBoundary',{}),label+'/approved boundary',errors)
+    if not isinstance(boundary,dict) or boundary!=approved or boundary.get('rootPath')!=root_path or any(not recorded_text(boundary.get(key)) for key in ('sandboxId','mountId','physicalHostId')):
+        errors.append(f'{label}: exact generator root and concrete controlled disposable mount identity must match approved resource boundary')
+
+
+def validate_qualified_passthrough_identity(root, plan, execution, defs, prefix, status, errors):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-01' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):
+        return
+    label=f"qualified production passthrough identity {plan['taskId']}"
+    capture=env.get('productionPassthroughIdentity')
+    validate_schema(capture,defs.get('productionPassthroughCapture',{}),label,errors)
+    if not isinstance(capture,dict):return
+    resources=[r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-A380-ESXI67']
+    ref=capture.get('configurationRef')
+    if len(resources)!=1 or ref!=resources[0].get('configurationRef'):
+        errors.append(f'{label}: exact selected RES-A380-ESXI67 configuration required');return
+    path=existing_ref(root,ref,prefix)
+    if path is None:
+        errors.append(f'{label}: approved selected-slot configuration must exist');return
+    try:record=load(path)
+    except (OSError,yaml.YAMLError,ValueError):
+        errors.append(f'{label}: approved configuration must be readable');return
+    config=record.get('configuration') if isinstance(record,dict) else None
+    approved=config.get('productionPassthroughIdentity') if isinstance(config,dict) else None
+    validate_schema(approved,defs.get('productionPassthroughIdentity',{}),label+'/approved identity',errors)
+    identity=capture.get('identity')
+    if not isinstance(identity,dict):return
+    if identity!=approved or any(not recorded_text(identity.get(key)) for key in ('nodeId','physicalHostId','guestId','hypervisorBuild','gpuDeviceId','driverBuild','runtimeBuild','encoderBuild')):
+        errors.append(f'{label}: concrete host/guest/GPU/build identity must exactly match approved resource configuration')
+    inventory=env.get('worker_node_inventory')
+    nodes=[node for node in inventory if isinstance(node,dict) and node.get('nodeId')==identity.get('nodeId')] if isinstance(inventory,list) else []
+    if len(nodes)!=1 or any(nodes[0].get(key)!=value for key,value in identity.items() if key not in ('schemaVersion','resourceId')):
+        errors.append(f'{label}: one exact captured A380 passthrough node must match approved hypervisor/GPU/build identity')
+
+
 def validate_qualified_production_soak(root, plan, execution, defs, prefix, status, window, errors):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-01' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):
@@ -902,8 +971,25 @@ def validate_qualified_production_soak(root, plan, execution, defs, prefix, stat
         return
     raw=capture.get('rawOutputRef')
     records=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==raw]
-    if len(records)!=1 or records[0].get('artifactType')!='scope_observation' or existing_ref(root,raw,prefix) is None:
+    raw_path=existing_ref(root,raw,prefix)
+    passthrough=env.get('productionPassthroughIdentity')
+    identity=passthrough.get('identity') if isinstance(passthrough,dict) else None
+    if len(records)!=1 or records[0].get('artifactType')!='scope_observation' or raw not in (execution.get('rawOutputRefs') or []) or raw_path is None:
         errors.append(f'{label}: observed soak must bind selected-slot typed scope_observation bytes')
+    elif not isinstance(identity,dict) or records[0].get('nodeId')!=identity.get('nodeId') or ref!=passthrough.get('configurationRef'):
+        errors.append(f'{label}: dedicated observation must bind the selected approved A380 node/configuration')
+    else:
+        phone=env.get('android_thermal_background_observation')
+        scope=env.get('android_validation_scope')
+        other_refs=[value.get('rawOutputRef') for value in (phone,scope) if isinstance(value,dict)]+[env.get('androidMediaProbeRef')]
+        aliases=any(raw==other or ((other_path:=existing_ref(root,other,prefix)) is not None and raw_path.samefile(other_path)) for other in other_refs)
+        if aliases:
+            errors.append(f'{label}: dedicated A380 soak observation must be physically distinct from phone/media/probe artifacts')
+        else:
+            report=qualified_observation_report(raw_path,defs,'productionPassthroughSoakObservation',label,errors,{})
+            expected=dict(configurationRef=ref,identity=identity,observedStartedAt=capture.get('observedStartedAt'),observedFinishedAt=capture.get('observedFinishedAt'),continuous=True)
+            if report is not None and any(report.get(key)!=value for key,value in expected.items()):
+                errors.append(f'{label}: dedicated observation contents must bind exact approved A380 identity and continuous captured interval')
     observed_hours=(end-start).total_seconds()/3600
     actual=next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='multi_day_stability_duration'),None)
     if observed_hours<days*24 or not good_actual('hours',actual) or not math.isclose(actual,observed_hours,rel_tol=1e-9,abs_tol=1e-9):
@@ -1217,7 +1303,22 @@ def validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs,
         errors.append(f'{label}: decoded output and continuous timeline must bind the complete ordered assembly')
 
 
-def validate_qualified_android_media(root, plan, execution, prefix, status, errors, artifact_cache):
+def qualified_observation_report(path, defs, schema, label, errors, cache):
+    try:
+        size=inspect_artifact(path,cache)['size']
+        if not 0<size<=262144:
+            errors.append(f'{label}: structured observation must be nonempty and at most 262144 bytes')
+            return None
+        with path.open(encoding='utf8') as stream:
+            report=yaml.load(stream.read(262145),Loader=UniqueKeyLoader)
+    except (OSError,UnicodeError,yaml.YAMLError):
+        errors.append(f'{label}: readable structured observation required')
+        return None
+    validate_schema(report,defs.get(schema,{}),label,errors)
+    return report if isinstance(report,dict) else None
+
+
+def validate_qualified_android_media(root, plan, execution, prefix, status, errors, artifact_cache, defs):
     if plan['pocId'] != 'POC-01' or status != 'pass':
         return
     env = execution.get('environmentCaptured') or {}
@@ -1239,6 +1340,21 @@ def validate_qualified_android_media(root, plan, execution, prefix, status, erro
             errors.append(f'{label}: outputSha256 must bind actual nonempty produced media bytes')
     except OSError:
         errors.append(f'{label}: produced media must be readable')
+    probe_label=f"qualified Android media probe {plan['taskId']}"
+    probe_ref=env.get('androidMediaProbeRef')
+    probes=[item for item in records if isinstance(item,dict) and item.get('ref')==probe_ref]
+    probe_path=existing_ref(root,probe_ref,prefix)
+    if len(probes)!=1 or probes[0].get('artifactType')!='measurement_output' or probes[0].get('nodeId')!=scope.get('nodeId') or probe_ref not in (execution.get('rawOutputRefs') or []) or probe_path is None:
+        errors.append(f'{probe_label}: selected-slot node-bound typed decoder report required')
+    elif probe_ref==ref or probe_path.samefile(path):
+        errors.append(f'{probe_label}: decoder report must be distinct from produced media')
+    else:
+        report=qualified_observation_report(probe_path,defs,'androidMediaProbeReport',probe_label,errors,artifact_cache)
+        if report is not None:
+            expected=dict(nodeId=scope.get('nodeId'),encoderBuild=scope.get('encoderBuild'),inputSha256=scope.get('inputSha256'),outputArtifactRef=ref,outputSha256=scope.get('outputSha256'))
+            frames=report.get('decodedFrameCount');duration=report.get('durationSeconds')
+            if any(report.get(key)!=value for key,value in expected.items()) or not recorded_text(report.get('decoderBuild')) or report.get('codec')!='av1' or report.get('decodable') is not True or type(frames) is not int or frames<=0 or not good_actual('seconds',duration) or duration<=0 or type(report.get('decodeErrorCount')) is not int or report['decodeErrorCount']!=0:
+                errors.append(f'{probe_label}: decodable AV1 frames/duration and zero errors must bind the exact input/output/node/build')
     if env.get('acceptanceProfile') == profile_identity('production'):
         observation = env.get('android_thermal_background_observation')
         observation_ref = observation.get('rawOutputRef') if isinstance(observation,dict) else None
@@ -1722,11 +1838,13 @@ def validate_execution(
         validate_qualified_production_capacity(plan,execution,status,errors)
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
+        validate_qualified_hierarchy_sandbox(root,plan,execution,record_definitions,reference_boundary,status,errors)
+        validate_qualified_passthrough_identity(root,plan,execution,record_definitions,reference_boundary,status,errors)
         validate_qualified_production_soak(root,plan,execution,record_definitions,reference_boundary,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
         validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
         validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)
-        validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache)
+        validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache,record_definitions)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
@@ -1894,6 +2012,10 @@ def validate_execution(
         duration=actual_map.get('multi_day_stability_duration')
         if not good_actual('hours',duration) or duration<=0:
             errors.append(f'{label}: production POC-001 PASS requires positive multi_day_stability_duration')
+    if poc_id == 'POC-09' and status == 'pass' and record_definitions is not None:
+        throughput=actual_map.get('throughput')
+        if isinstance(throughput,bool) or not isinstance(throughput,(int,float)) or not math.isfinite(throughput) or throughput<=0:
+            errors.append(f'{label}: POC-009 PASS requires positive measured inference throughput')
     if poc_id == 'POC-03':
         correctness = actual_map.get('range_correctness')
         if planned_measurements.get('range_correctness', {}).get('unit') != 'percent':
