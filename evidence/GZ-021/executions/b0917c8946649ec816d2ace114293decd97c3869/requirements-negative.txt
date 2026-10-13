@@ -1,0 +1,40 @@
+Source Commit: b0917c8946649ec816d2ace114293decd97c3869
+Command: python specs/requirements/v1/validate.py --negative-fixtures
+[PASS] duplicate-alias: rejected
+[PASS] unknown-module: rejected
+[PASS] missing-requirement: rejected
+[PASS] asymmetric-trace: rejected
+[PASS] unknown-acceptance-requirement: rejected
+[PASS] supplement-without-program-source: rejected
+[PASS] unrecorded-program-task-conflict: rejected
+[PASS] measurement-required-with-value: rejected
+[PASS] fake-poc-pass: rejected
+[PASS] profile-binding-drift-req: rejected
+[PASS] profile-binding-drift-trace: rejected
+[PASS] profile-binding-drift-acc: rejected
+[PASS] profile-binding-drift-idx: rejected
+[PASS] unknown-profile-declaration: rejected
+[PASS] local-result-cannot-satisfy-production: rejected
+[PASS] local-milestone-cannot-be-production: rejected
+[PASS] index-format-version-drift: rejected
+[PASS] unknown-profile-version: rejected
+[PASS] missing-production-floor: rejected
+[PASS] production-floor-value-drift: rejected
+[PASS] shared-permission-cannot-be-production-only: rejected
+[PASS] incomplete-local-requirement-scope: rejected
+[PASS] incomplete-local-acceptance-scope: rejected
+[PASS] fabricated-local-floor-value: rejected
+[PASS] local-secret-verifier-missing: rejected
+[PASS] local-release-boundary-verifier-missing: rejected
+[PASS] local-api-performance-verifier-missing: rejected
+[PASS] production-api-performance-verifier-missing: rejected
+[PASS] local-permission-isolation-verifier-missing: rejected
+[PASS] production-permission-isolation-verifier-missing: rejected
+[PASS] consistent-forged-local-production-claim: rejected
+[PASS] consistent-missing-production-profile: rejected
+[PASS] consistent-duplicate-local-profile: rejected
+[PASS] consistent-canonical-acceptance-replacement: rejected
+[PASS] unknown-profile-selector: rejected
+GZ-004 negative fixtures: PASS (35/35 rejected)
+
+Exit Code: 0

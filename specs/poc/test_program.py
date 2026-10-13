@@ -416,6 +416,12 @@ class TestPocProgram(unittest.TestCase):
                     env['android_thermal_background_observation']['rawOutputRef']=observation_ref
                     artifact_nodes[observation_ref]=scope['nodeId']
                     execution['rawOutputRefs'].append(observation_ref)
+                    if status=='pass':
+                        soak_ref=new_prefix+'/raw/passthrough-soak-observation.log'
+                        (root/soak_ref).write_text('Synthetic continuous passthrough fixture only; never actual POC acceptance. Observed 2026-09-03T00:00:00Z through 2026-09-05T00:00:00Z.\n',encoding='utf8')
+                        execution['rawOutputRefs'].append(soak_ref)
+                        env['productionPassthroughSoak']=dict(schemaVersion=1,configurationRef=execution['resources'][0]['configurationRef'],minimumContinuousDays=2,observedStartedAt='2026-09-03T00:00:00Z',observedFinishedAt='2026-09-05T00:00:00Z',rawOutputRef=soak_ref)
+                        next(m for m in execution['measurements'] if m['id']=='multi_day_stability_duration')['actual']=48
             if task_id == 'POC-004' and production:
                 next(m for m in execution['measurements'] if m['id']=='minimum_free_space_gib')['actual']=500
             if task_id == 'POC-002':
@@ -461,12 +467,22 @@ class TestPocProgram(unittest.TestCase):
                 for raw_ref in execution['rawOutputRefs']]
             if task_id=='POC-002':
                 next(record for record in execution['environmentCaptured']['rawExecutionArtifacts'] if record['ref']==validation_ref)['artifactType']='measurement_output'
+            if task_id=='POC-001' and production and status=='pass':
+                next(record for record in execution['environmentCaptured']['rawExecutionArtifacts'] if record['ref']==soak_ref)['artifactType']='scope_observation'
             execution['environmentCaptured']['executionWindow'] = dict(startedAt='2026-09-03T00:00:00Z', finishedAt='2026-09-04T00:00:00Z')
             common = dict(schemaVersion=2,pocId=plan['pocId'],taskId=owner,acceptanceProfile=CHECK.profile_identity(profile),status='approved',approvedBy=reviewer,approvedAt='2026-09-02T00:00:00Z',validFrom='2026-09-02T00:00:00Z',validUntil='2026-09-04T00:00:00Z')
+            if task_id=='POC-001' and production and status=='pass':
+                execution['environmentCaptured']['executionWindow']['finishedAt']='2026-09-05T00:00:00Z'
+                common['validUntil']='2026-09-05T00:00:00Z'
             for resource in execution['resources']:
                 write_yaml(root/resource['configurationRef'],{**common,'kind':'resource_configuration','resourceId':resource['id'],'configuration':{'build':'fixture-versioned-configuration'}})
                 if resource['bookingRef'] is not None:
                     write_yaml(root/resource['bookingRef'],{**common,'kind':'resource_booking','resourceId':resource['id']})
+            if task_id=='POC-001' and production and status=='pass':
+                floor_path=root/execution['environmentCaptured']['productionPassthroughSoak']['configurationRef']
+                floor_record=load_yaml(floor_path)
+                floor_record['configuration']['productionPassthroughSoak']=dict(minimumContinuousDays=2)
+                write_yaml(floor_path,floor_record)
             selected_route = CHECK.execution_route(plan,profile)
             config_ref = execution['environmentCaptured']['acceptanceProfileConfigurationRef']
             config = load_yaml(root/config_ref)
@@ -492,6 +508,7 @@ class TestPocProgram(unittest.TestCase):
             result_path = folder/'result.yaml'
             result = load_yaml(result_path)
             result['approvedAt'] = '2026-09-04T00:02:00Z'
+            if task_id=='POC-001' and production and status=='pass':result['approvedAt']='2026-09-05T00:02:00Z'
             write_yaml(result_path,result)
             write_yaml(root/ref,dict(schemaVersion=2,pocId=plan['pocId'],pocTaskId=task_id,
                 ownerTask=owner,acceptanceProfile=CHECK.profile_identity(profile),
@@ -2533,6 +2550,90 @@ class TestPocProgram(unittest.TestCase):
                     if accepted:self.assertEqual(errors,[],value)
                     else:self.assertTrue(any('qualified local capture' in error and field in error for error in errors),errors)
         finally:temp.cleanup()
+
+
+    def test_152_canonical_secret_reference_preserves_plaintext_guards(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-006',profile)
+                execution=load_yaml(root/load_yaml(root/index)['resultRef'])
+                execution=load_yaml(root/execution['executionRef'])
+                path=root/execution['resources'][0]['configurationRef']
+                record=load_yaml(path);record['configuration']['credentialReference']='secretref_example01'
+                write_yaml(path,record)
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),[])
+                record['configuration']['credentialReference']='plaintext-not-reference'
+                write_yaml(path,record)
+                self.assertTrue(any('Secret reference' in e for e in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})))
+            finally:temp.cleanup()
+        for invalid in ('secretref_','secretref_'+'x'*65,'secretref_valid\n','https://vault/token',True,None,{'password':'plaintext'}):
+            errors=[];CHECK.secret_scan({'credentialReference':invalid},'fixture',errors)
+            self.assertTrue(errors,invalid)
+        for key in ('credential_reference','credential-reference','password','accessToken','secretReference'):
+            errors=[];CHECK.secret_scan({key:'secretref_example01'},'fixture',errors)
+            self.assertTrue(errors,key)
+
+    def test_153_encode_metrics_bound_measured_continuous_intervals(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-002',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
+                self.assertEqual(validate(),[])
+                for metric,actual in (('encode_throughput',3),('encode_throughput',1000000),('sustained_encode_duration',2),('sustained_encode_duration',1000000)):
+                    path.write_bytes(original);record=load_yaml(path)
+                    next(m for m in record['measurements'] if m['id']==metric)['actual']=actual
+                    write_yaml(path,record)
+                    self.assertTrue(any('captured continuous worker interval capacity' in e for e in validate()),metric)
+            finally:temp.cleanup()
+        instant=lambda seconds:CHECK.utc('2026-09-03T00:'+f'{seconds//60:02d}:'+f'{seconds%60:02d}'+'Z')
+        cases=[
+            ([('a',0,60),('b',0,60)],(2,1)),
+            ([('a',0,60),('a',0,60)],(1,1)),
+            ([('a',0,60),('b',60,120)],(1,2)),
+            ([('a',0,60),('b',120,180)],(1,1)),
+            ([('a',0,60),('b',30,90)],(2,1.5)),
+        ]
+        for runs,expected in cases:
+            self.assertEqual(CHECK.encode_interval_capacity([(node,instant(start),instant(end)) for node,start,end in runs]),expected)
+
+
+    def test_154_production_soak_binds_approved_days_and_observed_hours(self):
+        for profile,status in (('production','pass'),('production','fail'),('local-v1','pass')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile,status=status)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'})
+                self.assertEqual(validate(),[])
+                if profile!='production':
+                    self.assertNotIn('productionPassthroughSoak',load_yaml(path)['environmentCaptured'])
+                    continue
+                if status!='pass':
+                    record=load_yaml(path);next(m for m in record['measurements'] if m['id']=='multi_day_stability_duration')['actual']=0.001
+                    write_yaml(path,record);self.assertEqual(validate(),[])
+                    continue
+                baseline=load_yaml(path);floor_path=root/baseline['environmentCaptured']['productionPassthroughSoak']['configurationRef'];floor_bytes=floor_path.read_bytes()
+                for mode in ('nominal','overclaim','short_observed','below_approved','wrong_ref','wrong_raw','wrong_floor','invalid_days','late_approval'):
+                    path.write_bytes(original);floor_path.write_bytes(floor_bytes);record=load_yaml(path);capture=record['environmentCaptured']['productionPassthroughSoak']
+                    metric=next(m for m in record['measurements'] if m['id']=='multi_day_stability_duration')
+                    if mode=='nominal':metric['actual']=0.001
+                    elif mode=='overclaim':metric['actual']=49
+                    elif mode=='short_observed':capture['observedFinishedAt']='2026-09-03T00:01:00Z';metric['actual']=1/60
+                    elif mode=='below_approved':
+                        capture['minimumContinuousDays']=3;floor=load_yaml(floor_path);floor['configuration']['productionPassthroughSoak']['minimumContinuousDays']=3;write_yaml(floor_path,floor)
+                    elif mode=='wrong_ref':capture['configurationRef']=record['environmentCaptured']['acceptanceProfileConfigurationRef']
+                    elif mode=='wrong_raw':capture['rawOutputRef']=record['rawOutputRefs'][0]
+                    elif mode=='wrong_floor':capture['minimumContinuousDays']=3
+                    elif mode=='invalid_days':
+                        capture['minimumContinuousDays']=True;floor=load_yaml(floor_path);floor['configuration']['productionPassthroughSoak']['minimumContinuousDays']=True;write_yaml(floor_path,floor)
+                    else:
+                        floor=load_yaml(floor_path);floor['approvedAt']='2026-09-03T00:00:01Z';write_yaml(floor_path,floor)
+                    write_yaml(path,record)
+                    self.assertTrue(any('qualified production soak' in e or 'approval must precede' in e for e in validate()),mode)
+            finally:temp.cleanup()
 
 
 if __name__ == "__main__":

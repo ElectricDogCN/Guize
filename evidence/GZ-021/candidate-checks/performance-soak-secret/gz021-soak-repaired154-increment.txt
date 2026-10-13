@@ -1,0 +1,10 @@
+DIRTY_CANDIDATE_ONLY; parentb0917c8946649ec816d2ace114293decd97c3869
+Command: python specs/poc/test_program.py TestPocProgram.test_154_production_soak_binds_approved_days_and_observed_hours
+test_154_production_soak_binds_approved_days_and_observed_hours (__main__.TestPocProgram.test_154_production_soak_binds_approved_days_and_observed_hours) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 12.848s
+
+OK
+
+Exit Code: 0

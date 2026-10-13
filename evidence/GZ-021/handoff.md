@@ -1,3 +1,16 @@
+Current revision: dirty repair of three verified performance/soak/Secret-reference findings on actual source b0917c8946649ec816d2ace114293decd97c3869.
+Status: IN_PROGRESS; no successor-source full execution or final acceptance.
+
+Actualb091 completed20 native gates,151 POC validator methods792.943s,35/35 requirement negatives,637 governance methods1096.06s, JUnit zero failures/errors/skips, three worktrees clean/unchanged; session40158 CLOSED Exit0. CI701/run38424288000/job115389460355 completed28 successful steps/637 methods1646.34s/NoSkipped, watch2191 CLOSED. Synthetic325e02c459a89bd5e1f1ac88146f2615f4ba520e is not actualmain. Independent local20 and CI execution are accepted, while three verified code findings keep currentContent/formal/final rejected. Actual commands/exits/status/JUnit/worktree/CI/independent acceptance/rejection/counterexamples/content-binding are retained in executions/b0917c8946649ec816d2ace114293decd97c3869/manifest.json with original physical SHA/size and canonicalLF SHA/size. No historical PASS transfers to this candidate.
+
+The candidate binds POC002 reported streams to peak distinct-node half-open intervals and sustained minutes to the longest continuous active component; overlapping time is not summed and gaps are not bridged. Qualified production POC001 PASS binds an explicit minimumContinuousDays (integer, at least two complete days) from a selected independently approved resource configuration to observed UTC hours and selected-slot typed scope_observation bytes; local Android VM and factual FAIL remain outside this production PASS gate. Only exact canonical credentialReference may carry a strict existing secretref_ identifier; plaintext and other sensitive keys/raw-text checks remain. Original151 method ASTs,35 negatives, prior owned schema prefix, frozen plans/manifest/DAG/claims stay. Shared synthetic fixtures adapt to the new production capture; new152-154 regressions never establish actual AV1/media/POC or runtime acceptance.
+
+Dirty incremental sequence:131/136/139/152/153 passed5methods57.149s/Exit0. Soak145/147/154 ran3methods102.818s:145/147passed,154ERROR because the new test incorrectly accessed a production-only metric in local VM. The checker was not weakened; only new154 now asserts the local route lacks production soak capture. Repaired154 passed12.848s/Exit0. All three original logs including failure and original physical/canonical digests are retained at candidate-checks/performance-soak-secret/manifest.json. These are incremental checks, not a final combined or complete154 run. Finite independent content/archive/hash review remains pending; any published successor needs its own20/154/35/637 and same-source CI plus independent final acceptance before merge.
+
+Docker health and Android VM boot are verified. ActualAV1/Worker/runtime/realPOC/real-phone/fullV1 acceptance remains false. Normal GZ-021 Review/Completion with actualmain acceptance remain necessary before downstream starts.
+
+--- Historical five-finding source and previous stages ---
+
 Current revision: dirty repair of five independently verified code findings on actual source537d4966c00e5c308da488755f76276c71441055.
 Status: IN_PROGRESS; no successor-source execution or final acceptance.
 

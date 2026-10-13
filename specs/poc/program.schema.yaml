@@ -1482,3 +1482,34 @@ $defs:
       timelineDiscontinuityCount:
         type: integer
         const: 0
+  productionPassthroughSoakConfiguration:
+    type: object
+    additionalProperties: false
+    required: [minimumContinuousDays]
+    properties:
+      minimumContinuousDays:
+        type: integer
+        minimum: 2
+  productionPassthroughSoakCapture:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, configurationRef, minimumContinuousDays, observedStartedAt, observedFinishedAt, rawOutputRef]
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      minimumContinuousDays:
+        type: integer
+        minimum: 2
+      observedStartedAt:
+        type: string
+        format: date-time
+      observedFinishedAt:
+        type: string
+        format: date-time
+      rawOutputRef:
+        type: string
+        minLength: 1

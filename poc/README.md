@@ -150,3 +150,12 @@ python specs/poc/check_program.py --task POC-003 --base-ref origin/main
 ```
 
 The validation commands do not run hardware, cloud, media, AI, storage or recovery experiments.
+
+
+Qualified performance and production soak evidence binds recorded work:
+
+- POC002 streams cannot exceed peak distinct workers with positive overlapping half-open intervals. Sustained minutes cannot exceed the longest continuous active interval component; overlapping minutes and intervals separated by a gap do not accumulate into a larger soak claim.
+- Production POC001 PASS supplies `environmentCaptured.productionPassthroughSoak` using the owned appended capture definition. Its `configurationRef` must name a selected resource_configuration record already approved by the independent Task reviewer before execution and valid over the execution window. That record's `configuration.productionPassthroughSoak.minimumContinuousDays` states the approved complete-day floor (integer >=2). Capture days must equal it, observed UTC instants must be ordered inside executionWindow, and reported stability hours must equal the observed interval and reach the approved floor. `rawOutputRef` binds selected-slot typed scope_observation bytes. Numeric domain approvals remain value-range approvals; they do not define a soak workload floor. Local Android VM and factual FAIL do not acquire this production PASS obligation.
+- Exact canonical `credentialReference` accepts only the existing `secretref_[A-Za-z0-9_-]{1,64}` identifier format (maximum74 characters). This is reference syntax validation; it does not resolve or expose a secret. Plaintext values, separator variants and other sensitive fields remain rejected.
+
+Synthetic fixture observations and binary files test these contracts only; actual worker, media and production acceptance require separately executed evidence.

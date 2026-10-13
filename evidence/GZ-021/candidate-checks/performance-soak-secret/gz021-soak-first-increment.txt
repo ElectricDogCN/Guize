@@ -1,0 +1,21 @@
+DIRTY_CANDIDATE_ONLY; parentb0917c8946649ec816d2ace114293decd97c3869
+Command: python specs/poc/test_program.py TestPocProgram.test_145_production_phone_pass_requires_positive_soak_duration TestPocProgram.test_147_every_qualified_sample_binds_actual_input_bytes TestPocProgram.test_154_production_soak_binds_approved_days_and_observed_hours
+test_145_production_phone_pass_requires_positive_soak_duration (__main__.TestPocProgram.test_145_production_phone_pass_requires_positive_soak_duration) ... ok
+test_147_every_qualified_sample_binds_actual_input_bytes (__main__.TestPocProgram.test_147_every_qualified_sample_binds_actual_input_bytes) ... ok
+test_154_production_soak_binds_approved_days_and_observed_hours (__main__.TestPocProgram.test_154_production_soak_binds_approved_days_and_observed_hours) ... ERROR
+
+======================================================================
+ERROR: test_154_production_soak_binds_approved_days_and_observed_hours (__main__.TestPocProgram.test_154_production_soak_binds_approved_days_and_observed_hours)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-performance-review-worktree/specs/poc/test_program.py", line 2612, in test_154_production_soak_binds_approved_days_and_observed_hours
+    record=load_yaml(path);next(m for m in record['measurements'] if m['id']=='multi_day_stability_duration')['actual']=0.001
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+----------------------------------------------------------------------
+Ran 3 tests in 102.818s
+
+FAILED (errors=1)
+
+Exit Code: 1

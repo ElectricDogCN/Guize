@@ -870,6 +870,46 @@ def validate_qualified_resources(root, plan, execution, resource_catalog, defs, 
                 errors.append(f'{label}: configuration must be a nonempty captured record')
 
 
+def validate_qualified_production_soak(root, plan, execution, defs, prefix, status, window, errors):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-01' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):
+        return
+    label=f"qualified production soak {plan['taskId']}"
+    capture=env.get('productionPassthroughSoak')
+    validate_schema(capture,defs.get('productionPassthroughSoakCapture',{}),label,errors)
+    if not isinstance(capture,dict):return
+    ref=capture.get('configurationRef')
+    if not isinstance(ref,str) or ref not in {r.get('configurationRef') for r in execution.get('resources') or [] if isinstance(r,dict) and isinstance(r.get('configurationRef'),str)}:
+        errors.append(f'{label}: soak floor must bind a selected independently approved resource configuration')
+        return
+    path=existing_ref(root,ref,prefix)
+    if path is None:return
+    try:record=load(path)
+    except (OSError,yaml.YAMLError,ValueError) as exc:
+        errors.append(f'{label}: cannot read approved soak floor: {exc}')
+        return
+    settings=record.get('configuration') if isinstance(record,dict) else None
+    floor=settings.get('productionPassthroughSoak') if isinstance(settings,dict) else None
+    validate_schema(floor,defs.get('productionPassthroughSoakConfiguration',{}),label+'/approved floor',errors)
+    if not isinstance(floor,dict):return
+    days=floor.get('minimumContinuousDays')
+    if type(days) is not int or days<2 or capture.get('minimumContinuousDays')!=days:
+        errors.append(f'{label}: exact approved minimumContinuousDays must represent at least two complete days')
+        return
+    start,end=utc(capture.get('observedStartedAt')),utc(capture.get('observedFinishedAt'))
+    if start is None or end is None or window is None or not window[0]<=start<end<=window[1]:
+        errors.append(f'{label}: continuous observed interval must be within executionWindow')
+        return
+    raw=capture.get('rawOutputRef')
+    records=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==raw]
+    if len(records)!=1 or records[0].get('artifactType')!='scope_observation' or existing_ref(root,raw,prefix) is None:
+        errors.append(f'{label}: observed soak must bind selected-slot typed scope_observation bytes')
+    observed_hours=(end-start).total_seconds()/3600
+    actual=next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='multi_day_stability_duration'),None)
+    if observed_hours<days*24 or not good_actual('hours',actual) or not math.isclose(actual,observed_hours,rel_tol=1e-9,abs_tol=1e-9):
+        errors.append(f'{label}: multi_day_stability_duration must match observed hours and reach the approved continuous multi-day floor')
+
+
 def validate_qualified_domains(root, plan, execution, route, configuration, defs, prefix, reviewer, window, errors):
     known = NONNEGATIVE_UNITS | {'boolean','percent','ratio','celsius'}
     required = {m['id']:m for m in route['protocol']['measurements'] if m['unit'] not in known}
@@ -1095,7 +1135,28 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         completed.add(node['nodeId'])
     if completed != set(nodes) or not any(a[0] != b[0] and max(a[1],b[1]) < min(a[2],b[2]) for i,a in enumerate(intervals) for b in intervals[i+1:]):
         errors.append(f'{label}: all inventory nodes must execute, with overlapping work on distinct nodes')
+    peak,minutes=encode_interval_capacity(intervals)
+    measurements={item.get('id'):item.get('actual') for item in execution.get('measurements') or [] if isinstance(item,dict)}
+    for metric,observed in (('encode_throughput',peak),('sustained_encode_duration',minutes)):
+        actual=measurements.get(metric)
+        if not isinstance(actual,bool) and isinstance(actual,(int,float)) and math.isfinite(actual) and actual>observed+1e-9:
+            errors.append(f'{label}: {metric} exceeds captured continuous worker interval capacity')
     validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
+
+
+def encode_interval_capacity(intervals):
+    """Bound distinct-node streams and the longest continuous active component."""
+    instants=sorted({instant for _,start,end in intervals for instant in (start,end)})
+    peak=max((len({node for node,start,end in intervals if start<=instant<end}) for instant in instants),default=0)
+    longest=0.0
+    component_start=component_end=None
+    for _,start,end in sorted(intervals,key=lambda item:(item[1],item[2])):
+        if component_end is None or start>component_end:
+            component_start,component_end=start,end
+        else:
+            component_end=max(component_end,end)
+        longest=max(longest,(component_end-component_start).total_seconds()/60)
+    return peak,longest
 
 
 def validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs,errors,cache):
@@ -1332,7 +1393,10 @@ def secret_key(key: Any, value: Any) -> bool:
 def secret_scan(value: Any, path: str, errors: list[str]) -> None:
     if isinstance(value, dict):
         for key, item in value.items():
-            if secret_key(key, item):
+            if key=='credentialReference':
+                if not isinstance(item,str) or len(item)>74 or re.fullmatch(r'secretref_[A-Za-z0-9_-]{1,64}',item) is None:
+                    errors.append(f"invalid canonical Secret reference at {path}/{key}")
+            elif secret_key(key, item):
                 errors.append(f"secret-like key forbidden at {path}/{key}")
             secret_scan(item, f"{path}/{key}", errors)
     elif isinstance(value, list):
@@ -1658,6 +1722,7 @@ def validate_execution(
         validate_qualified_production_capacity(plan,execution,status,errors)
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
+        validate_qualified_production_soak(root,plan,execution,record_definitions,reference_boundary,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
         validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
         validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)

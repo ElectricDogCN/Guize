@@ -1,0 +1,28 @@
+{
+  "kind": "DIRTY_CANDIDATE_INCREMENTAL_CHECKS_ONLY_NOT_ACTUAL_SOURCE_ACCEPTANCE",
+  "sourceParent": "b0917c8946649ec816d2ace114293decd97c3869",
+  "full154RunClaimed": false,
+  "files": [
+    {
+      "path": "gz021-performance-secret-first-increment.txt",
+      "originalPhysicalSha256": "68bc3a1140f48b62442073677949549c4f6758d551109eaac8edb8ebc8fa24f3",
+      "originalPhysicalBytes": 1421,
+      "canonicalLfSha256": "68bc3a1140f48b62442073677949549c4f6758d551109eaac8edb8ebc8fa24f3",
+      "canonicalBytes": 1421
+    },
+    {
+      "path": "gz021-soak-first-increment.txt",
+      "originalPhysicalSha256": "f05f76526ccde9e268c812180abee7e4f4e4d3d0669a20f17b3b62a605df99d5",
+      "originalPhysicalBytes": 1773,
+      "canonicalLfSha256": "f05f76526ccde9e268c812180abee7e4f4e4d3d0669a20f17b3b62a605df99d5",
+      "canonicalBytes": 1773
+    },
+    {
+      "path": "gz021-soak-repaired154-increment.txt",
+      "originalPhysicalSha256": "a4a63cfd3f07ba1a318249feafc7e972d3ddda653ff3f02f4df1fdf3f3e188e3",
+      "originalPhysicalBytes": 463,
+      "canonicalLfSha256": "a4a63cfd3f07ba1a318249feafc7e972d3ddda653ff3f02f4df1fdf3f3e188e3",
+      "canonicalBytes": 463
+    }
+  ]
+}
