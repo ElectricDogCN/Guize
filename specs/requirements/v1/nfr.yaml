@@ -47,6 +47,7 @@ items:
     value: null
     unit: null
     verificationOwners:
+    - GZ-018
     - GZ-020
   applicableProfiles:
   - local-v1

@@ -352,6 +352,8 @@ def validate_local_capacity(plan, execution, configuration, status, errors):
 
 def compliance_subject_version(plan, execution):
     environment = execution.get('environmentCaptured') or {}
+    if plan['pocId'] == 'POC-06' and (environment.get('acceptanceProfile') or {}).get('id') == 'local-v1':
+        return json.dumps({key: environment.get(key) for key in ('openlist_version', 'provider_api_or_sdk_version')}, sort_keys=True, separators=(',', ':'))
     key = {'POC-06':'provider_api_or_sdk_version','POC-09':'model_version'}.get(plan['pocId'],'tool_versions')
     value = environment.get(key)
     return json.dumps(value,sort_keys=True,separators=(',',':')) if isinstance(value,dict) else value

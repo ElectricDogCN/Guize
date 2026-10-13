@@ -1428,5 +1428,16 @@ class TestPocProgram(unittest.TestCase):
                 self.assert_invalid(mutate, 'local capacity')
 
 
+    def test_114_local_source_reviews_cannot_survive_openlist_version_drift(self):
+        for key in ('openlist_version', 'provider_api_or_sdk_version'):
+            with self.subTest(key=key):
+                def mutate(root):
+                    _, execution, _ = self.make_terminal(root, 'POC-006', profile='local-v1')
+                    data = load_yaml(execution)
+                    data['environmentCaptured'][key] = 'different-captured-version'
+                    write_yaml(execution, data)
+                self.assert_invalid(mutate, 'review subjectVersion')
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
