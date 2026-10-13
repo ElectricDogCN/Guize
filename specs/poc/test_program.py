@@ -326,7 +326,7 @@ class TestPocProgram(unittest.TestCase):
         execution = load_yaml(execution_path)
         return root / execution["samples"][0]["approvalRef"]
 
-    def make_profile_slot(self, root, task_id='POC-006', profile='local-v1'):
+    def make_profile_slot(self, root, task_id='POC-006', profile='local-v1', status='pass'):
         if not (root/'.git').exists():
             subprocess.run(['git','init','-q',str(root)],check=True)
             subprocess.run(['git','-C',str(root),'config','core.autocrlf','false'],check=True)
@@ -337,7 +337,7 @@ class TestPocProgram(unittest.TestCase):
         ref = CHECK.profile_index_ref(task_id,profile)
         # Build the legacy fixture independently; later qualified slots never mutate its shared progress index.
         fixture,source_root = self.temp_repo()
-        self.make_terminal(source_root,task_id,profile=profile)
+        self.make_terminal(source_root,task_id,status=status,profile=profile)
         old_prefix = plan['evidencePath']
         source_dir = source_root/old_prefix
         sources = [p for p in source_dir.rglob('*') if p.is_file()]
@@ -369,6 +369,34 @@ class TestPocProgram(unittest.TestCase):
             execution_path = folder/'execution.yaml'
             execution = load_yaml(execution_path)
             artifact_nodes = {}
+            if task_id in ('POC-001','POC-002'):
+                env=execution['environmentCaptured'];inputs=[]
+                for sample in execution['samples']:
+                    input_ref=new_prefix+'/inputs/'+sample['id']+'.bin'
+                    target=root/input_ref;target.parent.mkdir(parents=True,exist_ok=True)
+                    data=b'Synthetic input sample; never an actual experiment. '+sample['id'].encode()
+                    target.write_bytes(data);checksum='sha256:'+hashlib.sha256(data).hexdigest()
+                    sample['checksum']=checksum
+                    approval=load_yaml(root/sample['approvalRef']);approval['checksum']=checksum;write_yaml(root/sample['approvalRef'],approval)
+                    inputs.append(dict(sampleId=sample['id'],immutableId=sample['immutableId'],inputArtifactRef=input_ref,byteCount=len(data),sha256=checksum))
+                env['inputSampleArtifacts']=inputs
+                if task_id=='POC-001':
+                    scope=env['android_validation_scope'] if production else env['vm_validation_scope'];scope['inputSha256']=execution['samples'][0]['checksum']
+                else:execution['provenance']['input_sha256']=execution['samples'][0]['checksum']
+            if not production:
+                env=execution['environmentCaptured']
+                if task_id=='POC-002':
+                    env['segment_profile']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',codec='av1',container='fmp4',segmentDurationSeconds=4,keyframeAligned=True)
+                    env['scheduler_configuration']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',priorities=dict(playback=0,prewarm=3,background=6),maxConcurrentSegments=2,perNodeConcurrency=1)
+                elif task_id=='POC-005':
+                    env['synthetic_hierarchy_manifest']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',generator=dict(algorithm='deterministic-tree-v1',seed=42,rootPath='fixture-hierarchy',fileCount=1,directoryCount=1,maximumDepth=1))
+                elif task_id=='POC-006':
+                    observation_ref=new_prefix+'/raw/fault-observation.log'
+                    (root/observation_ref).write_text('Synthetic exercised fixture cases: http_429 http_5xx network_disconnect auth_expired; never real POC evidence.\n',encoding='utf8')
+                    execution['rawOutputRefs'].append(observation_ref)
+                    env['injected_failure_matrix']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',cases=[dict(caseId='fixture-'+fault,fault=fault,parameters=dict(injection='synthetic-only'),observation='exercised',rawOutputRef=observation_ref) for fault in ('http_429','http_5xx','network_disconnect','auth_expired')])
+                elif task_id=='POC-007':
+                    env['local_tls_path_configuration']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',entryOrigin='https://guize.local',openlistOrigin='http://127.0.0.1:15525',reverseProxy='fixture-proxy-build',certificateIdentity='sha256:'+'c'*64,sandboxId='fixture-local-sandbox')
             if task_id == 'POC-001':
                 # A typed synthetic media fixture, never evidence of an actual VM/device encode.
                 env=execution['environmentCaptured']
@@ -416,7 +444,7 @@ class TestPocProgram(unittest.TestCase):
             tested_source = {key:subprocess.check_output(['git','-C',str(root),'rev-parse',ref],text=True).strip() for key,ref in (('commit','HEAD'),('tree','HEAD^{tree}'))}
             execution['environmentCaptured']['testedSource'] = tested_source
             execution['environmentCaptured']['rawExecutionArtifacts'] = [
-                dict(ref=raw_ref,artifactType='produced_media' if task_id in ('POC-001','POC-002') and raw_ref.endswith('.bin') else 'scope_observation' if task_id=='POC-001' and production and raw_ref.endswith('/android-scope-observation.log') else 'command_output',byteCount=len((root/raw_ref).read_bytes()),
+                dict(ref=raw_ref,artifactType='produced_media' if task_id in ('POC-001','POC-002') and raw_ref.endswith('.bin') else 'scope_observation' if (task_id=='POC-001' and production and raw_ref.endswith('/android-scope-observation.log')) or (task_id=='POC-006' and not production and raw_ref.endswith('/fault-observation.log')) else 'command_output',byteCount=len((root/raw_ref).read_bytes()),
                      sha256='sha256:'+hashlib.sha256((root/raw_ref).read_bytes()).hexdigest(),
                      **({'nodeId':artifact_nodes[raw_ref]} if raw_ref in artifact_nodes else {}))
                 for raw_ref in execution['rawOutputRefs']]
@@ -430,6 +458,7 @@ class TestPocProgram(unittest.TestCase):
             config_ref = execution['environmentCaptured']['acceptanceProfileConfigurationRef']
             config = load_yaml(root/config_ref)
             config['testedSource'] = tested_source
+            config.update(schemaVersion=2,decision='approved',approvedBy=reviewer,approvedAt='2026-09-02T00:00:00Z',capturedSettings={key:execution['environmentCaptured'][key] for key in CHECK.LOCAL_STRUCTURED_CAPTURES.get(plan['pocId'],{})} if not production else {})
             refs = {}
             known = CHECK.NONNEGATIVE_UNITS | {'boolean','percent','ratio','celsius'}
             captured = {key:execution['environmentCaptured'][key] for key in selected_route['captureBeforeExecution']}
@@ -2194,6 +2223,109 @@ class TestPocProgram(unittest.TestCase):
                 CHECK.validate_qualified_production_capacity(plan,data,'fail',errors)
                 self.assertEqual(errors,[])
             finally: temp.cleanup()
+
+
+    def sync_capture_reviews(self,root,execution):
+        env=execution['environmentCaptured'];configuration=load_yaml(root/env['acceptanceProfileConfigurationRef'])
+        poc=execution['pocId'];profile=env['acceptanceProfile']['id']
+        plan=load_yaml(root/f"specs/poc/plans/POC-{int(poc.split('-')[1]):03d}.yaml")
+        route=CHECK.execution_route(plan,profile)
+        for ref in configuration['numericDomainReviewRefs'].values():
+            review=load_yaml(root/ref);review['environmentCaptured']={k:env[k] for k in route['captureBeforeExecution']};write_yaml(root/ref,review)
+
+    def test_143_qualified_input_bytes_bind_approved_sample_hashes(self):
+        for profile in ('local-v1','production'):
+            for task in ('POC-001','POC-002'):
+                temp,root=self.temp_repo()
+                try:
+                    index=self.make_profile_slot(root,task,profile)
+                    result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                    validate=lambda: CHECK.validate_repository(root,profile,True,selected_pocs={result['pocId']})
+                    self.assertEqual(validate(),[])
+                    execution=load_yaml(path);sample=execution['samples'][0];approval_path=root/sample['approvalRef'];approval_bytes=approval_path.read_bytes()
+                    input_path=root/execution['environmentCaptured']['inputSampleArtifacts'][0]['inputArtifactRef'];input_bytes=input_path.read_bytes()
+                    for mode in ('fabricated','bytes','alias','result','index'):
+                        path.write_bytes(original);approval_path.write_bytes(approval_bytes);input_path.write_bytes(input_bytes)
+                        data=load_yaml(path);env=data['environmentCaptured'];sample=data['samples'][0];artifact=env['inputSampleArtifacts'][0]
+                        if mode=='bytes':input_path.write_bytes(input_bytes+b'changed bytes')
+                        else:
+                            digest='sha256:'+'f'*64
+                            if mode=='alias':
+                                output=next(r for r in env['rawExecutionArtifacts'] if r['artifactType']=='produced_media')
+                                artifact.update(inputArtifactRef=output['ref'],byteCount=output['byteCount']);digest=output['sha256']
+                            elif mode in ('result','index'):
+                                structured_path=root/load_yaml(index)['resultRef'] if mode=='result' else index
+                                structured_bytes=structured_path.read_bytes()
+                                digest='sha256:'+hashlib.sha256(structured_bytes).hexdigest()
+                                artifact.update(inputArtifactRef=structured_path.relative_to(root).as_posix(),byteCount=len(structured_bytes))
+                            sample['checksum']=artifact['sha256']=digest
+                            approval=load_yaml(approval_path);approval['checksum']=digest;write_yaml(approval_path,approval)
+                            if task=='POC-001':env['android_validation_scope' if profile=='production' else 'vm_validation_scope']['inputSha256']=digest
+                            else:
+                                data['provenance']['input_sha256']=digest
+                                for run in env['workerEncodeExecutions']:run['inputSha256']=digest
+                        write_yaml(path,data);self.sync_capture_reviews(root,data)
+                        errors=validate()
+                        self.assertTrue(any('qualified input samples' in e for e in errors),errors)
+                finally:temp.cleanup()
+
+    def test_144_profile_configuration_requires_independent_pre_execution_approval(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-004',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);execution=load_yaml(root/result['executionRef'])
+                path=root/execution['environmentCaptured']['acceptanceProfileConfigurationRef'];original=path.read_bytes()
+                validate=lambda: CHECK.validate_repository(root,profile,True,selected_pocs={'POC-04'})
+                self.assertEqual(validate(),[])
+                for mode in ('no_time','no_reviewer','implementer','late','wrong_profile','wrong_task','rejected'):
+                    path.write_bytes(original);data=load_yaml(path)
+                    if mode=='no_time':data.pop('approvedAt')
+                    elif mode=='no_reviewer':data.pop('approvedBy')
+                    elif mode=='implementer':data['approvedBy']=execution['executor']
+                    elif mode=='late':data['approvedAt']='2026-09-03T00:00:01Z'
+                    elif mode=='wrong_profile':data['acceptanceProfile']=CHECK.profile_identity('production' if profile=='local-v1' else 'local-v1')
+                    elif mode=='wrong_task':data['taskId']='POC-999'
+                    else:data['decision']='rejected'
+                    write_yaml(path,data);errors=validate()
+                    self.assertTrue(any('profile configuration' in e for e in errors),errors)
+            finally:temp.cleanup()
+
+    def test_145_production_phone_pass_requires_positive_soak_duration(self):
+        for profile,status in (('local-v1','pass'),('production','pass'),('production','fail')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile,status=status)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef']
+                validate=lambda: CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'})
+                self.assertEqual(validate(),[])
+                if profile=='local-v1':continue
+                data=load_yaml(path);next(m for m in data['measurements'] if m['id']=='multi_day_stability_duration')['actual']=0;write_yaml(path,data)
+                errors=validate()
+                if status=='pass':self.assertTrue(any('positive multi_day_stability_duration' in e for e in errors),errors)
+                else:self.assertEqual(errors,[])
+            finally:temp.cleanup()
+
+    def test_146_local_captures_require_reproducible_structured_settings(self):
+        for task in ('POC-002','POC-005','POC-006','POC-007'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,task,'local-v1')
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                execution=load_yaml(path);config_path=root/execution['environmentCaptured']['acceptanceProfileConfigurationRef'];config_original=config_path.read_bytes()
+                validate=lambda: CHECK.validate_repository(root,'local-v1',True,selected_pocs={result['pocId']})
+                self.assertEqual(validate(),[])
+                for field in CHECK.LOCAL_STRUCTURED_CAPTURES[result['pocId']]:
+                    for mode in ('boolean','empty','foreign_scope',*(['foreign_ref'] if field=='injected_failure_matrix' else [])):
+                        path.write_bytes(original);config_path.write_bytes(config_original);data=load_yaml(path);env=data['environmentCaptured'];config=load_yaml(config_path)
+                        value=True if mode=='boolean' else {} if mode=='empty' else env[field]
+                        if mode=='foreign_scope':value['scope']='PRODUCTION_RELEASE'
+                        elif mode=='foreign_ref':value['cases'][0]['rawOutputRef']=value['cases'][0]['rawOutputRef'].replace('local-v1','production')
+                        env[field]=config['capturedSettings'][field]=value
+                        write_yaml(path,data);write_yaml(config_path,config);self.sync_capture_reviews(root,data)
+                        errors=validate()
+                        self.assertTrue(any('qualified local capture' in e and field in e for e in errors),errors)
+            finally:temp.cleanup()
 
 
 if __name__ == "__main__":

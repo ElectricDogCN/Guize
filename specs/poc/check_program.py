@@ -468,6 +468,93 @@ def qualified_record(root, ref, prefix, schema, expected, label, errors):
     return record
 
 
+LOCAL_STRUCTURED_CAPTURES = {
+    'POC-02': {'segment_profile':'localSegmentCapture','scheduler_configuration':'localSchedulerCapture'},
+    'POC-05': {'synthetic_hierarchy_manifest':'localHierarchyCapture'},
+    'POC-06': {'injected_failure_matrix':'localFailureCapture'},
+    'POC-07': {'local_tls_path_configuration':'localTlsCapture'},
+}
+
+
+def validate_qualified_configuration(root, plan, execution, configuration, defs, prefix, reviewer, implementer, window, errors):
+    label=f"qualified profile configuration {plan['taskId']}"
+    validate_schema(configuration,defs.get('profileConfiguration',{}),label,errors)
+    if not isinstance(configuration,dict):return
+    approved=utc(configuration.get('approvedAt'))
+    if configuration.get('decision') != 'approved' or not recorded_text(reviewer) or configuration.get('approvedBy') != reviewer or reviewer == implementer:
+        errors.append(f'{label}: current independent Task reviewer must approve configuration')
+    if approved is None or window is None or approved > window[0] or approved > datetime.now(timezone.utc):
+        errors.append(f'{label}: valid UTC approval must precede captured execution start')
+    env=execution.get('environmentCaptured') or {}
+    fields=LOCAL_STRUCTURED_CAPTURES.get(plan['pocId'],{}) if env.get('acceptanceProfile') == profile_identity('local-v1') else {}
+    captured={key:env.get(key) for key in fields}
+    if configuration.get('capturedSettings') != captured:
+        errors.append(f'{label}: approval must bind exact captured structured settings')
+    for field,schema in fields.items():
+        value=env.get(field)
+        capture_label=f"qualified local capture {plan['taskId']}/{field}"
+        validate_schema(value,defs.get(schema,{}),capture_label,errors)
+        if field=='injected_failure_matrix' and isinstance(value,dict):
+            cases=value.get('cases')
+            if isinstance(cases,list):
+                ids=[case.get('caseId') for case in cases if isinstance(case,dict)]
+                faults={case.get('fault') for case in cases if isinstance(case,dict)}
+                if len(ids)!=len(set(ids)) or not {'http_429','http_5xx','network_disconnect','auth_expired'}.issubset(faults):
+                    errors.append(f'{capture_label}: distinct exercised case identities must retain HTTP429/5xx/network/auth faults')
+                records=env.get('rawExecutionArtifacts') or []
+                for case in cases:
+                    if not isinstance(case,dict):continue
+                    ref=case.get('rawOutputRef')
+                    record=next((r for r in records if isinstance(r,dict) and r.get('ref')==ref),None) if isinstance(records,list) else None
+                    if record is None or record.get('artifactType')!='scope_observation' or ref not in (execution.get('rawOutputRefs') or []) or existing_ref(root,ref,prefix) is None:
+                        errors.append(f'{capture_label}: exercised fault must retain a selected-slot typed observation artifact')
+
+
+def validate_qualified_inputs(root, plan, execution, defs, prefix, status, errors, cache, record_refs=None, configuration=None):
+    if plan['pocId'] not in ('POC-01','POC-02') or status != 'pass':return
+    label=f"qualified input samples {plan['taskId']}"
+    env=execution.get('environmentCaptured') or {}
+    records=env.get('inputSampleArtifacts')
+    samples={s.get('id'):s for s in execution.get('samples') or [] if isinstance(s,dict)}
+    if not isinstance(records,list) or not records:
+        errors.append(f'{label}: typed inputSampleArtifacts required');return
+    ids=[r.get('sampleId') for r in records if isinstance(r,dict)]
+    if len(ids)!=len(records) or len(ids)!=len(set(ids)) or set(ids)!=set(samples):
+        errors.append(f'{label}: input artifact identities must exactly bind approved execution samples')
+    forbidden=[env.get('acceptanceProfileConfigurationRef'),*(execution.get('rawOutputRefs') or [])]
+    forbidden += list(record_refs or ())
+    forbidden += [s.get('approvalRef') for s in samples.values()]
+    forbidden += [r.get(k) for r in execution.get('resources') or [] if isinstance(r,dict) for k in ('configurationRef','bookingRef')]
+    forbidden += [r.get('reviewRef') for r in execution.get('complianceReviews') or [] if isinstance(r,dict)]
+    profile=(env.get('acceptanceProfile') or {}).get('id')
+    if profile in PROFILE_SCOPES:
+        forbidden.append(profile_index_ref(f"POC-{int(plan['pocId'].split('-')[-1]):03d}",profile))
+    domains=configuration.get('numericDomainReviewRefs',{}) if isinstance(configuration,dict) else {}
+    if isinstance(domains,dict):
+        for ref in domains.values():
+            forbidden.append(ref)
+            path=existing_ref(root,ref,prefix)
+            if path:
+                try: forbidden.append(load(path).get('definitionRef'))
+                except (OSError,ValueError,AttributeError,yaml.YAMLError): pass
+    peers=[path for ref in forbidden if (path:=existing_ref(root,ref,prefix)) is not None]
+    for record in records:
+        validate_schema(record,defs.get('inputSampleArtifact',{}),label,errors)
+        if not isinstance(record,dict):continue
+        sample=samples.get(record.get('sampleId'))
+        path=existing_ref(root,record.get('inputArtifactRef'),prefix)
+        if sample is None or path is None or record.get('immutableId')!=sample.get('immutableId'):
+            errors.append(f'{label}: input reference/immutable identity must bind the exact selected sample');continue
+        if any(path.samefile(peer) for peer in peers):
+            errors.append(f'{label}: binary input must be distinct from structured records and execution outputs');continue
+        try:
+            actual=inspect_artifact(path,cache)
+            if actual['size']<=0 or record.get('byteCount')!=actual['size'] or record.get('sha256')!=actual['sha256'] or sample.get('checksum')!=actual['sha256']:
+                errors.append(f'{label}: sample/approval checksum must bind actual nonempty input bytes')
+        except OSError:
+            errors.append(f'{label}: input bytes must be readable')
+
+
 def validate_qualified_source(root, plan, execution, configuration, defs, prefix, errors, record_refs=None):
     label = f"qualified tested source {plan['taskId']}"
     source = (execution.get('environmentCaptured') or {}).get('testedSource')
@@ -1296,6 +1383,8 @@ def validate_execution(
     validate_android_execution(root, plan, execution, status, reference_boundary, errors)
     if record_definitions is not None:
         artifact_cache = {}
+        validate_qualified_configuration(root,plan,execution,profile_configuration,record_definitions,reference_boundary,task_reviewer,implementer,window,errors)
+        validate_qualified_inputs(root,plan,execution,record_definitions,reference_boundary,status,errors,artifact_cache,record_refs,profile_configuration)
         validate_qualified_production_capacity(plan,execution,status,errors)
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
@@ -1466,6 +1555,10 @@ def validate_execution(
             value = actual_map.get(mid)
             if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value <= 0:
                 errors.append(f'{label}: POC-002 PASS requires positive exercised workload: {mid}')
+    if poc_id == 'POC-01' and status == 'pass' and record_definitions is not None and execution.get('environmentCaptured',{}).get('acceptanceProfile') == profile_identity('production'):
+        duration=actual_map.get('multi_day_stability_duration')
+        if not good_actual('hours',duration) or duration<=0:
+            errors.append(f'{label}: production POC-001 PASS requires positive multi_day_stability_duration')
     if poc_id == 'POC-03':
         correctness = actual_map.get('range_correctness')
         if planned_measurements.get('range_correctness', {}).get('unit') != 'percent':

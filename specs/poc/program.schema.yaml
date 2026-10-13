@@ -855,3 +855,495 @@ $defs:
       sha256:
         type: string
         pattern: '^sha256:[0-9a-f]{64}$'
+  inputSampleArtifact:
+    type: object
+    additionalProperties: false
+    required:
+    - sampleId
+    - immutableId
+    - inputArtifactRef
+    - byteCount
+    - sha256
+    properties:
+      sampleId:
+        type: string
+        pattern: ^SAMPLE-[A-Z0-9-]+$
+      immutableId:
+        type: string
+        pattern: ^[A-Za-z0-9][A-Za-z0-9._:@/-]{7,127}$
+      inputArtifactRef:
+        type: string
+        minLength: 1
+      byteCount:
+        type: integer
+        minimum: 1
+      sha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+  localHierarchyCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - scope
+    - generator
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      scope:
+        const: LOCAL_FULL_V1
+      generator:
+        type: object
+        additionalProperties: false
+        required:
+        - algorithm
+        - seed
+        - rootPath
+        - fileCount
+        - directoryCount
+        - maximumDepth
+        properties:
+          algorithm:
+            const: deterministic-tree-v1
+          seed:
+            type: integer
+            minimum: 0
+          rootPath:
+            type: string
+            minLength: 1
+          fileCount:
+            type: integer
+            minimum: 1
+          directoryCount:
+            type: integer
+            minimum: 1
+          maximumDepth:
+            type: integer
+            minimum: 1
+  localFailureCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - scope
+    - cases
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      scope:
+        const: LOCAL_FULL_V1
+      cases:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - caseId
+          - fault
+          - parameters
+          - observation
+          - rawOutputRef
+          properties:
+            caseId:
+              type: string
+              minLength: 1
+            fault:
+              enum:
+              - http_429
+              - http_5xx
+              - network_disconnect
+              - auth_expired
+            parameters:
+              type: object
+              minProperties: 1
+            observation:
+              const: exercised
+            rawOutputRef:
+              type: string
+              minLength: 1
+  localTlsCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - scope
+    - entryOrigin
+    - openlistOrigin
+    - reverseProxy
+    - certificateIdentity
+    - sandboxId
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      scope:
+        const: LOCAL_FULL_V1
+      entryOrigin:
+        type: string
+        pattern: ^https://(?:[A-Za-z0-9.-]+|\[[0-9a-fA-F:]+\])(?::[0-9]{1,5})?$
+      openlistOrigin:
+        type: string
+        pattern: ^https?://(?:[A-Za-z0-9.-]+|\[[0-9a-fA-F:]+\])(?::[0-9]{1,5})?$
+      reverseProxy:
+        type: string
+        minLength: 1
+      certificateIdentity:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sandboxId:
+        type: string
+        minLength: 1
+  localSegmentCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - scope
+    - codec
+    - container
+    - segmentDurationSeconds
+    - keyframeAligned
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      scope:
+        const: LOCAL_FULL_V1
+      codec:
+        const: av1
+      container:
+        enum:
+        - fmp4
+        - cmaf
+      segmentDurationSeconds:
+        type: number
+        exclusiveMinimum: 0
+      keyframeAligned:
+        const: true
+  localSchedulerCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - scope
+    - priorities
+    - maxConcurrentSegments
+    - perNodeConcurrency
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      scope:
+        const: LOCAL_FULL_V1
+      priorities:
+        type: object
+        required:
+        - playback
+        - prewarm
+        - background
+        properties:
+          playback:
+            type: integer
+            const: 0
+          prewarm:
+            type: integer
+            const: 3
+          background:
+            type: integer
+            const: 6
+        additionalProperties:
+          type: integer
+          minimum: 0
+          maximum: 6
+      maxConcurrentSegments:
+        type: integer
+        minimum: 1
+      perNodeConcurrency:
+        type: integer
+        minimum: 1
+  profileConfiguration:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - taskId
+    - acceptanceProfile
+    - resourceIds
+    - measurementIds
+    - testedSource
+    - numericDomainReviewRefs
+    - decision
+    - approvedBy
+    - approvedAt
+    - capturedSettings
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      taskId:
+        type: string
+        pattern: ^(POC-[0-9]{3}|GZ-020)$
+      acceptanceProfile:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - version
+        - bindingRevision
+        - scope
+        properties:
+          id:
+            enum:
+            - local-v1
+            - production
+          version:
+            type: integer
+            const: 1
+          bindingRevision:
+            type: integer
+            const: 1
+          scope:
+            enum:
+            - LOCAL_FULL_V1
+            - PRODUCTION_RELEASE
+      resourceIds:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      measurementIds:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      testedSource:
+        type: object
+        additionalProperties: false
+        required:
+        - commit
+        - tree
+        properties:
+          commit:
+            type: string
+            pattern: ^[0-9a-f]{40}$
+          tree:
+            type: string
+            pattern: ^[0-9a-f]{40}$
+      numericDomainReviewRefs:
+        type: object
+        additionalProperties:
+          type: string
+          minLength: 1
+      decision:
+        const: approved
+      approvedBy:
+        type: string
+        minLength: 1
+      approvedAt:
+        type: string
+        format: date-time
+      capturedSettings:
+        type: object
+        additionalProperties: false
+        required: []
+        properties:
+          synthetic_hierarchy_manifest:
+            type: object
+            additionalProperties: false
+            required:
+            - schemaVersion
+            - scope
+            - generator
+            properties:
+              schemaVersion:
+                type: integer
+                const: 1
+              scope:
+                const: LOCAL_FULL_V1
+              generator:
+                type: object
+                additionalProperties: false
+                required:
+                - algorithm
+                - seed
+                - rootPath
+                - fileCount
+                - directoryCount
+                - maximumDepth
+                properties:
+                  algorithm:
+                    const: deterministic-tree-v1
+                  seed:
+                    type: integer
+                    minimum: 0
+                  rootPath:
+                    type: string
+                    minLength: 1
+                  fileCount:
+                    type: integer
+                    minimum: 1
+                  directoryCount:
+                    type: integer
+                    minimum: 1
+                  maximumDepth:
+                    type: integer
+                    minimum: 1
+          injected_failure_matrix:
+            type: object
+            additionalProperties: false
+            required:
+            - schemaVersion
+            - scope
+            - cases
+            properties:
+              schemaVersion:
+                type: integer
+                const: 1
+              scope:
+                const: LOCAL_FULL_V1
+              cases:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - caseId
+                  - fault
+                  - parameters
+                  - observation
+                  - rawOutputRef
+                  properties:
+                    caseId:
+                      type: string
+                      minLength: 1
+                    fault:
+                      enum:
+                      - http_429
+                      - http_5xx
+                      - network_disconnect
+                      - auth_expired
+                    parameters:
+                      type: object
+                      minProperties: 1
+                    observation:
+                      const: exercised
+                    rawOutputRef:
+                      type: string
+                      minLength: 1
+          local_tls_path_configuration:
+            type: object
+            additionalProperties: false
+            required:
+            - schemaVersion
+            - scope
+            - entryOrigin
+            - openlistOrigin
+            - reverseProxy
+            - certificateIdentity
+            - sandboxId
+            properties:
+              schemaVersion:
+                type: integer
+                const: 1
+              scope:
+                const: LOCAL_FULL_V1
+              entryOrigin:
+                type: string
+                pattern: ^https://(?:[A-Za-z0-9.-]+|\[[0-9a-fA-F:]+\])(?::[0-9]{1,5})?$
+              openlistOrigin:
+                type: string
+                pattern: ^https?://(?:[A-Za-z0-9.-]+|\[[0-9a-fA-F:]+\])(?::[0-9]{1,5})?$
+              reverseProxy:
+                type: string
+                minLength: 1
+              certificateIdentity:
+                type: string
+                pattern: ^sha256:[0-9a-f]{64}$
+              sandboxId:
+                type: string
+                minLength: 1
+          segment_profile:
+            type: object
+            additionalProperties: false
+            required:
+            - schemaVersion
+            - scope
+            - codec
+            - container
+            - segmentDurationSeconds
+            - keyframeAligned
+            properties:
+              schemaVersion:
+                type: integer
+                const: 1
+              scope:
+                const: LOCAL_FULL_V1
+              codec:
+                const: av1
+              container:
+                enum:
+                - fmp4
+                - cmaf
+              segmentDurationSeconds:
+                type: number
+                exclusiveMinimum: 0
+              keyframeAligned:
+                const: true
+          scheduler_configuration:
+            type: object
+            additionalProperties: false
+            required:
+            - schemaVersion
+            - scope
+            - priorities
+            - maxConcurrentSegments
+            - perNodeConcurrency
+            properties:
+              schemaVersion:
+                type: integer
+                const: 1
+              scope:
+                const: LOCAL_FULL_V1
+              priorities:
+                type: object
+                required:
+                - playback
+                - prewarm
+                - background
+                properties:
+                  playback:
+                    type: integer
+                    const: 0
+                  prewarm:
+                    type: integer
+                    const: 3
+                  background:
+                    type: integer
+                    const: 6
+                additionalProperties:
+                  type: integer
+                  minimum: 0
+                  maximum: 6
+              maxConcurrentSegments:
+                type: integer
+                minimum: 1
+              perNodeConcurrency:
+                type: integer
+                minimum: 1
+      sourceValidationScope:
+        enum:
+        - GENERIC_OPENLIST_SANDBOX
+        - BAIDU_PRODUCTION_SANDBOX
+      localCapacity:
+        type: object
+        minProperties: 5
