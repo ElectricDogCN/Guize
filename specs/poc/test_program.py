@@ -1439,5 +1439,55 @@ class TestPocProgram(unittest.TestCase):
                 self.assert_invalid(mutate, 'review subjectVersion')
 
 
+    def test_115_qualified_raw_output_cannot_reference_another_experiment_slot(self):
+        for profile in ('local-v1', 'production'):
+            with self.subTest(profile=profile):
+                temp, root = self.temp_repo()
+                try:
+                    index_path = self.make_profile_slot(root, profile=profile)
+                    self.assertEqual(CHECK.validate_repository(root, profile, True, selected_pocs={'POC-06'}), [])
+                    index = load_yaml(index_path)
+                    result = load_yaml(root / index['resultRef'])
+                    execution_path = root / result['executionRef']
+                    execution = load_yaml(execution_path)
+                    owner = 'POC-006' if profile == 'local-v1' else 'GZ-020'
+                    outside = f'evidence/{owner}/unqualified/raw/unrelated-experiment.log'
+                    (root / outside).parent.mkdir(parents=True)
+                    (root / outside).write_text('unrelated experiment output', encoding='utf-8')
+                    old_ref = execution['rawOutputRefs'][0]
+                    execution['rawOutputRefs'][0] = outside
+                    for command in execution['commands']:
+                        if command['outputRef'] == old_ref:
+                            command['outputRef'] = outside
+                    write_yaml(execution_path, execution)
+                    errors = CHECK.validate_repository(root, profile, True, selected_pocs={'POC-06'})
+                    self.assertTrue(any('raw evidence file must exist' in e for e in errors), errors)
+                finally:
+                    temp.cleanup()
+
+
+    def test_116_qualified_resource_refs_cannot_escape_selected_slot(self):
+        for profile in ('local-v1', 'production'):
+            for field in ('configurationRef', 'bookingRef'):
+                with self.subTest(profile=profile, field=field):
+                    temp, root = self.temp_repo()
+                    try:
+                        index_path = self.make_profile_slot(root, profile=profile)
+                        self.assertEqual(CHECK.validate_repository(root, profile, True, selected_pocs={'POC-06'}), [])
+                        result = load_yaml(root / load_yaml(index_path)['resultRef'])
+                        execution_path = root / result['executionRef']
+                        execution = load_yaml(execution_path)
+                        owner = 'POC-006' if profile == 'local-v1' else 'GZ-020'
+                        outside = f'evidence/{owner}/unqualified/{field}.yaml'
+                        (root / outside).parent.mkdir(parents=True)
+                        (root / outside).write_text('record: unrelated experiment\n', encoding='utf-8')
+                        execution['resources'][0][field] = outside
+                        write_yaml(execution_path, execution)
+                        errors = CHECK.validate_repository(root, profile, True, selected_pocs={'POC-06'})
+                        self.assertTrue(any(f'{field} must' in e for e in errors), errors)
+                    finally:
+                        temp.cleanup()
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -283,7 +283,7 @@ def validate_local_route(plan, resource_map, protocol_schema, errors):
         errors.append(f"{label}: missing required local environment fields {sorted(missing_capture)}")
 
 
-def validate_execution_profile(root, plan, execution, errors):
+def validate_execution_profile(root, plan, execution, errors, reference_prefix=None):
     environment = execution.get("environmentCaptured") or {}
     identity = environment.get("acceptanceProfile") if isinstance(environment, dict) else None
     profile = identity.get("id") if isinstance(identity, dict) else None
@@ -297,7 +297,7 @@ def validate_execution_profile(root, plan, execution, errors):
     route = execution_route(plan, profile)
     if route.get("mode") != "required":
         errors.append(f"{label}: deferred local route cannot produce a terminal result or PASS")
-    config_path = existing_ref(root, environment.get("acceptanceProfileConfigurationRef"), plan['evidencePath'])
+    config_path = existing_ref(root, environment.get("acceptanceProfileConfigurationRef"), reference_prefix or plan['evidencePath'])
     configuration = None
     if config_path is None:
         errors.append(f"{label}: acceptanceProfileConfigurationRef must exist under task Evidence")
@@ -359,7 +359,7 @@ def compliance_subject_version(plan, execution):
     return json.dumps(value,sort_keys=True,separators=(',',':')) if isinstance(value,dict) else value
 
 
-def validate_source_compliance(root, plan, execution, implementer, status, errors, schema_override=None):
+def validate_source_compliance(root, plan, execution, implementer, status, errors, schema_override=None, reference_prefix=None):
     """Declared approval booleans cannot substitute for version-bound review records."""
     required = {kind for kind in ('privacy','license') if plan['security'].get(kind+'ReviewRequired') is True}
     if not required:
@@ -381,7 +381,7 @@ def validate_source_compliance(root, plan, execution, implementer, status, error
             continue
         if review.get('subjectVersion') != version or not recorded_text(version):
             errors.append(f"{label}: review subjectVersion must bind exact captured API/tool version")
-        path = existing_ref(root, review.get('reviewRef'), plan['evidencePath'])
+        path = existing_ref(root, review.get('reviewRef'), reference_prefix or plan['evidencePath'])
         if path is None:
             errors.append(f"{label}: reviewRef must exist under task Evidence")
             continue
@@ -724,8 +724,9 @@ def validate_approval_record(
     sample: dict[str, Any],
     approval_schema: dict[str, Any],
     errors: list[str],
+    reference_prefix: str | None = None,
 ) -> None:
-    evidence = plan["evidencePath"]
+    evidence = reference_prefix or plan["evidencePath"]
     sample_id = sample.get("id")
     path = existing_ref(root, sample.get("approvalRef"), evidence)
     label = f"sample approval {plan['taskId']}/{sample_id}"
@@ -772,16 +773,18 @@ def validate_execution(
     status: str,
     errors: list[str],
     compliance_schema: dict[str, Any] | None = None,
+    reference_prefix: str | None = None,
 ) -> None:
     task_id = plan["taskId"]
     poc_id = plan["pocId"]
     evidence = plan["evidencePath"]
+    reference_boundary = reference_prefix or evidence
     label = f"execution record {task_id}"
     validate_schema(execution, schema, label, errors)
     secret_scan(execution, label, errors)
-    route, profile_configuration = validate_execution_profile(root, plan, execution, errors)
+    route, profile_configuration = validate_execution_profile(root, plan, execution, errors, reference_boundary)
     validate_local_capacity(plan, execution, profile_configuration, status, errors)
-    validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema)
+    validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema, reference_boundary)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
@@ -818,19 +821,19 @@ def validate_execution(
             errors.append(f"{label}: unknown execution resource {resource_id!r}")
             continue
         configuration_ref = resource.get("configurationRef")
-        if existing_ref(root, configuration_ref, evidence) is None:
+        if existing_ref(root, configuration_ref, reference_boundary) is None:
             errors.append(
-                f"{label}: resource {resource_id} configurationRef must point to an existing file under {evidence}"
+                f"{label}: resource {resource_id} configurationRef must point to an existing file under {reference_boundary}"
             )
         booking_ref = resource.get("bookingRef")
         if definition.get("bookingRequired") is True:
-            if existing_ref(root, booking_ref, evidence) is None:
+            if existing_ref(root, booking_ref, reference_boundary) is None:
                 errors.append(
-                    f"{label}: resource {resource_id} bookingRef must point to an existing file under {evidence}"
+                    f"{label}: resource {resource_id} bookingRef must point to an existing file under {reference_boundary}"
                 )
-        elif booking_ref is not None and existing_ref(root, booking_ref, evidence) is None:
+        elif booking_ref is not None and existing_ref(root, booking_ref, reference_boundary) is None:
             errors.append(
-                f"{label}: resource {resource_id} bookingRef must be null or an existing file under {evidence}"
+                f"{label}: resource {resource_id} bookingRef must be null or an existing file under {reference_boundary}"
             )
 
     environment = execution.get("environmentCaptured") or {}
@@ -855,8 +858,8 @@ def validate_execution(
     if not raw_refs:
         errors.append(f"{label}: at least one raw output reference is required")
     for ref in raw_refs:
-        if existing_ref(root, ref, evidence) is None:
-            errors.append(f"{label}: raw evidence file must exist under {evidence}: {ref!r}")
+        if existing_ref(root, ref, reference_boundary) is None:
+            errors.append(f"{label}: raw evidence file must exist under {reference_boundary}: {ref!r}")
 
     commands = execution.get("commands") or []
     if not commands:
@@ -886,9 +889,9 @@ def validate_execution(
         output_ref = command.get("outputRef")
         if output_ref not in raw_refs:
             errors.append(f"{command_label} outputRef must be listed in rawOutputRefs")
-        if existing_ref(root, output_ref, evidence) is None:
+        if existing_ref(root, output_ref, reference_boundary) is None:
             errors.append(
-                f"{command_label} outputRef must point to an existing file under {evidence}"
+                f"{command_label} outputRef must point to an existing file under {reference_boundary}"
             )
 
     samples = execution.get("samples") or []
@@ -905,7 +908,7 @@ def validate_execution(
             errors.append(f"{label}: sample {sample_id} immutableId is invalid/placeholder")
         if not good_checksum(sample.get("checksum")):
             errors.append(f"{label}: sample {sample_id} checksum must be sha256:<64 hex>")
-        validate_approval_record(root, plan, implementer, sample, approval_schema, errors)
+        validate_approval_record(root, plan, implementer, sample, approval_schema, errors, reference_boundary)
 
     planned_measurements = {
         item["id"]: item for item in (route.get("protocol") or {}).get("measurements", [])
@@ -974,9 +977,11 @@ def validate_terminal(
     approval_schema: dict[str, Any],
     errors: list[str],
     compliance_schema: dict[str, Any] | None = None,
+    reference_prefix: str | None = None,
 ) -> None:
     task_id = plan["taskId"]
     evidence = plan["evidencePath"]
+    reference_boundary = reference_prefix or evidence
     status = entry.get("status")
     label = f"results-index {task_id}"
     roles = concrete_roles(root, task_id, task, errors)
@@ -984,10 +989,10 @@ def validate_terminal(
         return
     implementer, reviewer = roles
 
-    result_path = existing_ref(root, entry.get("resultRef"), evidence)
+    result_path = existing_ref(root, entry.get("resultRef"), reference_boundary)
     if result_path is None:
         errors.append(
-            f"{label}: terminal resultRef must point to an existing file under {evidence}"
+            f"{label}: terminal resultRef must point to an existing file under {reference_boundary}"
         )
         return
     try:
@@ -1027,10 +1032,10 @@ def validate_terminal(
     if not valid_utc_timestamp(result.get("approvedAt")):
         errors.append(f"result record {task_id}: approvedAt must be a valid UTC instant")
 
-    execution_path = existing_ref(root, result.get("executionRef"), evidence)
+    execution_path = existing_ref(root, result.get("executionRef"), reference_boundary)
     if execution_path is None:
         errors.append(
-            f"result record {task_id}: executionRef must point to an existing file under {evidence}"
+            f"result record {task_id}: executionRef must point to an existing file under {reference_boundary}"
         )
         return
     try:
@@ -1046,7 +1051,7 @@ def validate_terminal(
     validate_execution(
         root, plan, implementer, execution, resource_catalog,
         execution_schema, approval_schema, status, errors,
-        compliance_schema,
+        compliance_schema, reference_boundary,
     )
 
 
@@ -1127,7 +1132,7 @@ def validate_profile_evidence(root, plans, tasks, program_schema, result_schema,
                 defs.get('productionResult',{}) if production else result_schema,
                 defs.get('productionExecution',{}) if production else execution_schema,
                 defs.get('productionSampleApproval',{}) if production else approval_schema,
-                errors,defs.get('productionComplianceReview',{}) if production else None)
+                errors,defs.get('productionComplianceReview',{}) if production else None,prefix)
 
 
 def validate_templates(
