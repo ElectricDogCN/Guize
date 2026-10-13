@@ -126,6 +126,191 @@ REQUIRED_PROVENANCE = {
     "POC-02": {"input_sha256", "output_sha256", "encoder_parameters"},
 }
 
+PROFILE_SCOPES = {"local-v1": "LOCAL_FULL_V1", "production": "PRODUCTION_RELEASE"}
+LOCAL_REQUIRED_MEASUREMENTS = {
+    **REQUIRED_MEASUREMENTS,
+    "POC-01": {
+        "worker_capabilities_reproducible", "worker_resource_limits_enforced",
+        "worker_restart_recovery", "worker_physical_scope_recorded",
+        "worker_network_boundary_enforced",
+    },
+    "POC-02": (REQUIRED_MEASUREMENTS["POC-02"] - {
+        "a380_range_first_byte_latency", "encoder_power_peak_watts",
+        "encoder_temperature_peak_celsius",
+    }) | {
+        "parallel_av1_concat_decodes", "hls_ready_only_contiguous",
+        "attempt_fencing_single_publish", "playback_priority_reserved_capacity",
+        "seek_epoch_rejects_stale_demand", "hls_acl_and_revocation",
+    },
+    "POC-04": (REQUIRED_MEASUREMENTS["POC-04"] - {
+        "iscsi_transport_ready", "minimum_free_space_gib", "free_space_floor_preserved",
+        "disconnect_recovery", "snapshot_restore",
+    }) | {
+        "local_capacity_reservations_preserved", "openlist_disconnect_recovery",
+        "local_backup_restore_verified",
+    },
+    "POC-06": REQUIRED_MEASUREMENTS["POC-06"] | {"generic_source_scope_verified"},
+    "POC-07": (REQUIRED_MEASUREMENTS["POC-07"] - {
+        "ipv6_reachability", "high_port_route", "ddns_propagation",
+        "range_through_path", "public_large_file_streaming",
+    }) | {"local_range_through_path", "local_large_file_streaming", "local_direct_origin_denied"},
+}
+LOCAL_RESOURCES = {
+    "POC-01": {"RES-HETEROGENEOUS-WORKERS"},
+    "POC-02": {"RES-HETEROGENEOUS-WORKERS", "RES-OPENLIST-LOCAL"},
+    "POC-03": {"RES-ATS-SANDBOX"},
+    "POC-04": {"RES-OPENLIST-LOCAL"},
+    "POC-05": {"RES-METADATA-SCALE", "RES-OPENLIST-LOCAL"},
+    "POC-06": {"RES-OPENLIST-LOCAL"},
+    "POC-07": {"RES-LOCAL-ACCESS-PATH", "RES-OPENLIST-LOCAL"},
+}
+
+LOCAL_BOOLEAN_GATES = {
+    "POC-01": LOCAL_REQUIRED_MEASUREMENTS["POC-01"],
+    "POC-02": LOCAL_REQUIRED_MEASUREMENTS["POC-02"] - {
+        "av1_quality", "encode_throughput", "first_segment_latency", "sustained_encode_duration",
+    },
+    "POC-03": LOCAL_REQUIRED_MEASUREMENTS["POC-03"] - {
+        "range_correctness", "range_cold_cache_latency", "range_hot_cache_latency",
+        "range_multi_user_latency", "range_slow_origin_latency",
+    },
+    "POC-04": LOCAL_REQUIRED_MEASUREMENTS["POC-04"] - {"sequential_throughput", "io_latency"},
+    "POC-05": {"filename_characteristics_profiled", "provider_characteristics_profiled",
+               "range_support_profiled", "etag_behavior_profiled"},
+    "POC-06": LOCAL_REQUIRED_MEASUREMENTS["POC-06"] - {"maintainability"},
+    "POC-07": LOCAL_REQUIRED_MEASUREMENTS["POC-07"],
+}
+LOCAL_REQUIRED_MEASUREMENTS["POC-04"] = LOCAL_REQUIRED_MEASUREMENTS["POC-04"] | {
+    "local_minimum_free_bytes", "local_maximum_reserved_bytes",
+}
+
+
+def execution_route(plan: dict[str, Any], profile: str) -> dict[str, Any]:
+    """Production remains the original plan; only authorized local routes differ."""
+    if profile == "local-v1" and isinstance(plan.get("localValidation"), dict):
+        return plan["localValidation"]
+    return {
+        "mode": "required", "resourceIds": plan.get("resourceIds") or [],
+        "captureBeforeExecution": (plan.get("environment") or {}).get("captureBeforeExecution") or [],
+        "protocol": plan.get("protocol") or {},
+    }
+
+
+def profile_identity(profile: str) -> dict[str, Any]:
+    return {"id": profile, "version": 1, "bindingRevision": 1,
+            "scope": PROFILE_SCOPES[profile]}
+
+
+def validate_local_route(plan, resource_map, protocol_schema, errors):
+    poc_id = plan.get("pocId")
+    local = plan.get("localValidation")
+    label = f"{plan.get('taskId')}: local-v1"
+    if poc_id not in LOCAL_RESOURCES:
+        if local is not None or plan.get("schemaVersion") != 1:
+            errors.append(f"{label}: unchanged shared POC must retain schemaVersion 1 and original protocol")
+        return
+    if not isinstance(local, dict) or plan.get("schemaVersion") != 2:
+        errors.append(f"{label}: revised POC requires schemaVersion 2 and localValidation")
+        return
+    expected_mode = "required"
+    if local.get("mode") != expected_mode or local.get("profileVersion") != 1:
+        errors.append(f"{label}: mode/version does not match authorized route")
+    ids = local.get("resourceIds") or []
+    if set(ids) != LOCAL_RESOURCES[poc_id] or len(ids) != len(set(ids)):
+        errors.append(f"{label}: resource IDs must match authorized local route")
+    for resource_id in ids:
+        if resource_id not in resource_map:
+            errors.append(f"{label}: unknown resource {resource_id}")
+    protocol = local.get("protocol")
+    validate_schema(protocol, protocol_schema, label + "/protocol", errors)
+    if not isinstance(protocol, dict):
+        return
+    # The original frozen measurement obligations are still checked separately.
+    measurements = protocol.get("measurements") or []
+    measurement_ids = [m.get("id") for m in measurements if isinstance(m, dict)]
+    if len(measurement_ids) != len(set(measurement_ids)):
+        errors.append(f"{label}: measurement IDs must be unique")
+    missing = LOCAL_REQUIRED_MEASUREMENTS[poc_id] - set(measurement_ids)
+    if missing:
+        errors.append(f"{label}: missing required local measurements {sorted(missing)}")
+    for measurement in measurements:
+        if measurement.get("id") in LOCAL_BOOLEAN_GATES[poc_id] and measurement.get("unit") != "boolean":
+            errors.append(f"{label}: safety gate {measurement.get('id')} unit must remain boolean")
+        if measurement.get("id") in {"local_minimum_free_bytes", "local_maximum_reserved_bytes"} and measurement.get("unit") != "bytes":
+            errors.append(f"{label}: capacity measurement unit must remain bytes")
+    if protocol.get("commands") or protocol.get("rawOutputRefs") or any(m.get("actual") is not None for m in measurements):
+        errors.append(f"{label}: canonical local protocol must not contain execution evidence")
+    capture = set(local.get("captureBeforeExecution") or [])
+    if not set(plan["environment"]["captureBeforeExecution"]).issubset(capture):
+        errors.append(f"{label}: local route must retain common environment capture")
+
+
+def validate_execution_profile(root, plan, execution, errors):
+    environment = execution.get("environmentCaptured") or {}
+    identity = environment.get("acceptanceProfile") if isinstance(environment, dict) else None
+    profile = identity.get("id") if isinstance(identity, dict) else None
+    label = f"execution record {plan['taskId']}"
+    if not isinstance(profile, str) or profile not in PROFILE_SCOPES:
+        errors.append(f"{label}: known acceptanceProfile is required")
+        profile = "production"  # Continue original strict checks after reporting the error.
+    expected = profile_identity(profile)
+    if identity != expected or not isinstance(identity, dict) or any(type(identity.get(k)) is not int for k in ("version", "bindingRevision")):
+        errors.append(f"{label}: acceptanceProfile version/revision/scope must equal {expected!r}")
+    route = execution_route(plan, profile)
+    if route.get("mode") != "required":
+        errors.append(f"{label}: deferred local route cannot produce a terminal result or PASS")
+    config_path = existing_ref(root, environment.get("acceptanceProfileConfigurationRef"), plan['evidencePath'])
+    configuration = None
+    if config_path is None:
+        errors.append(f"{label}: acceptanceProfileConfigurationRef must exist under task Evidence")
+    else:
+        try:
+            configuration = load(config_path)
+            secret_scan(configuration, f"{label}/profile configuration", errors)
+            configured_identity = configuration.get('acceptanceProfile') if isinstance(configuration, dict) else None
+            if not isinstance(configured_identity, dict) or any(type(configured_identity.get(k)) is not int for k in ('version', 'bindingRevision')):
+                errors.append(f"{label}: profile configuration version/revision must be integers")
+            expected_configuration = {
+                "pocId": plan['pocId'], "taskId": plan['taskId'], "acceptanceProfile": expected,
+                "resourceIds": sorted(route.get("resourceIds") or []),
+                "measurementIds": sorted(m['id'] for m in (route.get("protocol") or {}).get("measurements", [])),
+            }
+            if plan['pocId'] == 'POC-06':
+                expected_configuration['sourceValidationScope'] = (
+                    'GENERIC_OPENLIST_SANDBOX' if profile == 'local-v1' else 'BAIDU_PRODUCTION_SANDBOX'
+                )
+                if environment.get('source_validation_scope') != expected_configuration['sourceValidationScope']:
+                    errors.append(f"{label}: source_validation_scope must match selected generic/production route")
+            if not isinstance(configuration, dict) or any(configuration.get(k) != v for k, v in expected_configuration.items()):
+                errors.append(f"{label}: profile configuration must bind the exact task, profile, resources and measurements")
+        except Exception as exc:
+            errors.append(f"{label}: cannot parse profile configuration: {exc}")
+    return route, configuration
+
+
+def validate_local_capacity(plan, execution, configuration, status, errors):
+    if plan['pocId'] != 'POC-04' or execution.get('environmentCaptured', {}).get('acceptanceProfile') != profile_identity('local-v1'):
+        return
+    label = f"execution record {plan['taskId']}: local capacity"
+    capacity = configuration.get('localCapacity') if isinstance(configuration, dict) else None
+    fields = {'capacityBytes', 'safetyFloorBytes', 'pauseFreeBytes', 'resumeFreeBytes', 'maxReservedBytes'}
+    if not isinstance(capacity, dict) or set(capacity) != fields or any(type(capacity.get(k)) is not int for k in fields):
+        errors.append(f"{label}: localCapacity requires exact integer byte configuration")
+        return
+    total, floor, pause, resume, reservation = (capacity[k] for k in ('capacityBytes', 'safetyFloorBytes', 'pauseFreeBytes', 'resumeFreeBytes', 'maxReservedBytes'))
+    if not (0 < floor < pause < resume <= total and 0 <= reservation <= total - floor):
+        errors.append(f"{label}: positive floor and ordered free-space watermarks/reservation budget required")
+    environment = execution.get('environmentCaptured') or {}
+    observed_configuration = environment.get('capacity_watermark_configuration')
+    if observed_configuration != capacity or not isinstance(observed_configuration, dict) or any(type(observed_configuration.get(k)) is not int for k in fields):
+        errors.append(f"{label}: environment capacity configuration must match profile configuration")
+    actual = {m.get('id'): m.get('actual') for m in execution.get('measurements') or []}
+    minimum, reserved = (actual.get(k) for k in ('local_minimum_free_bytes', 'local_maximum_reserved_bytes'))
+    if type(minimum) is not int or type(reserved) is not int or not (0 <= minimum <= total and 0 <= reserved <= reservation):
+        errors.append(f"{label}: measured free/reserved bytes must be bounded integers")
+    elif status == 'pass' and minimum - reserved < floor:
+        errors.append(f"{label}: PASS requires measured free bytes minus maximum reservations to preserve floor")
+
 
 class UniqueKeyLoader(yaml.SafeLoader):
     """SafeLoader that rejects duplicate mapping keys instead of overwriting them."""
@@ -502,6 +687,8 @@ def validate_execution(
     label = f"execution record {task_id}"
     validate_schema(execution, schema, label, errors)
     secret_scan(execution, label, errors)
+    route, profile_configuration = validate_execution_profile(root, plan, execution, errors)
+    validate_local_capacity(plan, execution, profile_configuration, status, errors)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
@@ -524,7 +711,7 @@ def validate_execution(
         resource_ids.append(resource_id)
     if len(resource_ids) != len(resources) or len(resource_ids) != len(set(resource_ids)):
         errors.append(f"{label}: resources must contain unique structured records")
-    planned_resource_ids = set(plan.get("resourceIds") or [])
+    planned_resource_ids = set(route.get("resourceIds") or [])
     if set(resource_ids) != planned_resource_ids:
         errors.append(f"{label}: resource IDs must exactly match plan")
     for resource in resources:
@@ -554,7 +741,7 @@ def validate_execution(
             )
 
     environment = execution.get("environmentCaptured") or {}
-    required_environment = set(plan["environment"]["captureBeforeExecution"])
+    required_environment = set(route.get("captureBeforeExecution") or [])
     missing = required_environment - set(environment)
     if missing:
         errors.append(f"{label}: missing environment fields {sorted(missing)}")
@@ -628,7 +815,7 @@ def validate_execution(
         validate_approval_record(root, plan, implementer, sample, approval_schema, errors)
 
     planned_measurements = {
-        item["id"]: item for item in plan["protocol"]["measurements"]
+        item["id"]: item for item in (route.get("protocol") or {}).get("measurements", [])
     }
     actual_measurements = execution.get("measurements") or []
     actual_map = {
@@ -902,6 +1089,7 @@ def validate_repository(root: Path) -> list[str]:
         results = load(base / "results-index.yaml")
         policy = load(base / "policy.yaml")
         program_plan = load(root / "specs" / "coordination" / "program-plan.yaml")
+        nfr_binding = load(root / "specs/requirements/v1/nfr.yaml")["acceptanceProfileBinding"]
     except Exception as exc:
         return [f"cannot load POC Program: {exc}"]
 
@@ -917,6 +1105,11 @@ def validate_repository(root: Path) -> list[str]:
         schema_check(schema, name, errors)
     validate_schema(program, program_schema, "program.yaml", errors)
     validate_schema(results, result_index_schema, "results-index.yaml", errors)
+    if program.get("acceptanceProfileBinding") != nfr_binding:
+        errors.append("program.yaml acceptanceProfileBinding must equal authoritative NFR binding")
+    for profile in (program.get("acceptanceProfileBinding") or {}).get("profiles", []):
+        if set(profile.get("requirementIds") or []) != {f"REQ-V1-{i:04d}" for i in range(1, 11)} or set(profile.get("acceptanceIds") or []) != {f"验收V1-{i:04d}" for i in range(1, 13)}:
+            errors.append("program.yaml profile must preserve original full 10 requirements and 12 acceptances")
 
     expected_manifest = {
         "executionRecordSchema": "execution-record.schema.yaml",
@@ -982,6 +1175,7 @@ def validate_repository(root: Path) -> list[str]:
         validate_schema(plan.get("protocol"), protocol_schema, relative + "/protocol", errors)
         secret_scan(plan, relative, errors)
         baseline_plan(plan, relative, errors)
+        validate_local_route(plan, resource_map, protocol_schema, errors)
 
         poc_id = plan.get("pocId")
         task_id = plan.get("taskId")

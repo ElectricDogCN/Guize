@@ -3,44 +3,203 @@ $id: acceptance.schema.yaml
 title: Guize V1 Requirement Acceptance
 type: object
 additionalProperties: false
-required: [$schema, schemaVersion, contractId, status, authority, acceptances]
+required:
+- $schema
+- schemaVersion
+- contractId
+- status
+- authority
+- acceptances
+- acceptanceProfileBinding
 properties:
-  $schema: {const: acceptance.schema.yaml}
-  schemaVersion: {const: 1}
-  contractId: {const: ACCEPTANCE-TRACE-V1}
-  status: {const: frozen}
+  $schema:
+    const: acceptance.schema.yaml
+  schemaVersion:
+    const: 2
+  contractId:
+    const: ACCEPTANCE-TRACE-V1
+  status:
+    const: frozen
   authority:
     type: object
     additionalProperties: false
-    required: [requirements, product]
+    required:
+    - requirements
+    - product
     properties:
-      requirements: {const: specs/requirements/v1/requirements.yaml}
-      product: {const: specs/requirements/product-requirements.md}
-  acceptances: {type: array, minItems: 1, items: {$ref: '#/$defs/acceptance'}}
+      requirements:
+        const: specs/requirements/v1/requirements.yaml
+      product:
+        const: specs/requirements/product-requirements.md
+  acceptances:
+    type: array
+    minItems: 1
+    items:
+      $ref: '#/$defs/acceptance'
+  acceptanceProfileBinding:
+    type: object
+    additionalProperties: false
+    required:
+    - revision
+    - authorityTask
+    - decisionRef
+    - profiles
+    properties:
+      revision:
+        const: 1
+      authorityTask:
+        const: GZ-021
+      decisionRef:
+        const: adr/0015-heterogeneous-av1-workers-and-local-storage-validation.md
+      profiles:
+        type: array
+        minItems: 2
+        maxItems: 2
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - version
+          - scope
+          - milestoneTask
+          - canSatisfyProductionGate
+          - requirementIds
+          - acceptanceIds
+          properties:
+            id:
+              enum:
+              - local-v1
+              - production
+            version:
+              const: 1
+            scope:
+              enum:
+              - LOCAL_FULL_V1
+              - PRODUCTION_RELEASE
+            milestoneTask:
+              enum:
+              - GZ-018
+              - GZ-020
+            canSatisfyProductionGate:
+              type: boolean
+            requirementIds:
+              type: array
+              minItems: 10
+              maxItems: 10
+              uniqueItems: true
+              items:
+                enum:
+                - REQ-V1-0001
+                - REQ-V1-0002
+                - REQ-V1-0003
+                - REQ-V1-0004
+                - REQ-V1-0005
+                - REQ-V1-0006
+                - REQ-V1-0007
+                - REQ-V1-0008
+                - REQ-V1-0009
+                - REQ-V1-0010
+            acceptanceIds:
+              type: array
+              minItems: 12
+              maxItems: 12
+              uniqueItems: true
+              items:
+                type: string
+                minLength: 1
+          allOf:
+          - if:
+              properties:
+                id:
+                  const: local-v1
+            then:
+              properties:
+                scope:
+                  const: LOCAL_FULL_V1
+                milestoneTask:
+                  const: GZ-018
+                canSatisfyProductionGate:
+                  const: false
+          - if:
+              properties:
+                id:
+                  const: production
+            then:
+              properties:
+                scope:
+                  const: PRODUCTION_RELEASE
+                milestoneTask:
+                  const: GZ-020
+                canSatisfyProductionGate:
+                  const: true
 $defs:
   acceptance:
     type: object
     additionalProperties: false
-    required: [id, title, requirementIds, scenarios]
+    required:
+    - id
+    - title
+    - requirementIds
+    - scenarios
     properties:
-      id: {type: string, minLength: 1}
-      title: {type: string, minLength: 1}
-      requirementIds: {type: array, minItems: 1, uniqueItems: true, items: {type: string, pattern: '^REQ-V1-[0-9]{4}$'}}
+      id:
+        type: string
+        minLength: 1
+      title:
+        type: string
+        minLength: 1
+      requirementIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          pattern: ^REQ-V1-[0-9]{4}$
       provenance:
         type: object
         additionalProperties: false
-        required: [type, source]
+        required:
+        - type
+        - source
         properties:
-          type: {const: PROGRAM_SUPPLEMENT}
-          source: {const: specs/coordination/program-plan.yaml}
-      scenarios: {type: array, minItems: 1, items: {$ref: '#/$defs/scenario'}}
+          type:
+            const: PROGRAM_SUPPLEMENT
+          source:
+            const: specs/coordination/program-plan.yaml
+      scenarios:
+        type: array
+        minItems: 1
+        items:
+          $ref: '#/$defs/scenario'
   scenario:
     type: object
     additionalProperties: false
-    required: [requirementId, type, given, when, then]
+    required:
+    - requirementId
+    - type
+    - given
+    - when
+    - then
     properties:
-      requirementId: {type: string, pattern: '^REQ-V1-[0-9]{4}$'}
-      type: {enum: [success, failure, permission, data_integrity, recovery, production_gate]}
-      given: {type: string, minLength: 3}
-      when: {type: string, minLength: 2}
-      then: {type: string, minLength: 3}
+      requirementId:
+        type: string
+        pattern: ^REQ-V1-[0-9]{4}$
+      type:
+        enum:
+        - success
+        - failure
+        - permission
+        - data_integrity
+        - recovery
+        - production_gate
+      given:
+        type: string
+        minLength: 3
+      when:
+        type: string
+        minLength: 2
+      then:
+        type: string
+        minLength: 3

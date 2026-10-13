@@ -22,25 +22,45 @@ required:
 - planFiles
 - executionEnabled
 - notes
+- acceptanceProfileBinding
 properties:
-  schemaVersion: {const: 1}
-  contractId: {const: POC-PROTOCOL-V1}
+  schemaVersion:
+    const: 2
+  contractId:
+    const: POC-PROTOCOL-V1
   status:
-    enum: [defined, frozen, deprecated]
-  taskId: {const: GZ-010}
-  sourceProgramPlan: {const: specs/coordination/program-plan.yaml}
-  policyFile: {const: policy.yaml}
-  resourceCatalog: {const: resources.yaml}
-  sampleCatalog: {const: samples.yaml}
-  resultsIndex: {const: results-index.yaml}
-  executionRecordSchema: {const: execution-record.schema.yaml}
-  resultRecordSchema: {const: result-record.schema.yaml}
-  sampleApprovalSchema: {const: sample-approval.schema.yaml}
-  complianceReviewSchema: {const: compliance-review.schema.yaml}
-  executionRecordTemplate: {const: templates/execution-record.yaml}
-  resultRecordTemplate: {const: templates/result-record.yaml}
-  sampleApprovalTemplate: {const: templates/sample-approval.yaml}
-  complianceReviewTemplate: {const: templates/compliance-review.yaml}
+    enum:
+    - defined
+    - frozen
+    - deprecated
+  taskId:
+    const: GZ-010
+  sourceProgramPlan:
+    const: specs/coordination/program-plan.yaml
+  policyFile:
+    const: policy.yaml
+  resourceCatalog:
+    const: resources.yaml
+  sampleCatalog:
+    const: samples.yaml
+  resultsIndex:
+    const: results-index.yaml
+  executionRecordSchema:
+    const: execution-record.schema.yaml
+  resultRecordSchema:
+    const: result-record.schema.yaml
+  sampleApprovalSchema:
+    const: sample-approval.schema.yaml
+  complianceReviewSchema:
+    const: compliance-review.schema.yaml
+  executionRecordTemplate:
+    const: templates/execution-record.yaml
+  resultRecordTemplate:
+    const: templates/result-record.yaml
+  sampleApprovalTemplate:
+    const: templates/sample-approval.yaml
+  complianceReviewTemplate:
+    const: templates/compliance-review.yaml
   planFiles:
     type: array
     minItems: 10
@@ -49,7 +69,106 @@ properties:
     items:
       type: string
       pattern: ^plans/POC-[0-9]{3}\.yaml$
-  executionEnabled: {const: false}
+  executionEnabled:
+    const: false
   notes:
     type: string
     minLength: 1
+  acceptanceProfileBinding:
+    type: object
+    additionalProperties: false
+    required:
+    - revision
+    - authorityTask
+    - decisionRef
+    - profiles
+    properties:
+      revision:
+        const: 1
+      authorityTask:
+        const: GZ-021
+      decisionRef:
+        const: adr/0015-heterogeneous-av1-workers-and-local-storage-validation.md
+      profiles:
+        type: array
+        minItems: 2
+        maxItems: 2
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - version
+          - scope
+          - milestoneTask
+          - canSatisfyProductionGate
+          - requirementIds
+          - acceptanceIds
+          properties:
+            id:
+              enum:
+              - local-v1
+              - production
+            version:
+              const: 1
+            scope:
+              enum:
+              - LOCAL_FULL_V1
+              - PRODUCTION_RELEASE
+            milestoneTask:
+              enum:
+              - GZ-018
+              - GZ-020
+            canSatisfyProductionGate:
+              type: boolean
+            requirementIds:
+              type: array
+              minItems: 10
+              maxItems: 10
+              uniqueItems: true
+              items:
+                enum:
+                - REQ-V1-0001
+                - REQ-V1-0002
+                - REQ-V1-0003
+                - REQ-V1-0004
+                - REQ-V1-0005
+                - REQ-V1-0006
+                - REQ-V1-0007
+                - REQ-V1-0008
+                - REQ-V1-0009
+                - REQ-V1-0010
+            acceptanceIds:
+              type: array
+              minItems: 12
+              maxItems: 12
+              uniqueItems: true
+              items:
+                type: string
+                minLength: 1
+          allOf:
+          - if:
+              properties:
+                id:
+                  const: local-v1
+            then:
+              properties:
+                scope:
+                  const: LOCAL_FULL_V1
+                milestoneTask:
+                  const: GZ-018
+                canSatisfyProductionGate:
+                  const: false
+          - if:
+              properties:
+                id:
+                  const: production
+            then:
+              properties:
+                scope:
+                  const: PRODUCTION_RELEASE
+                milestoneTask:
+                  const: GZ-020
+                canSatisfyProductionGate:
+                  const: true

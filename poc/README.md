@@ -4,7 +4,7 @@
 
 ## Three-layer model
 
-1. **Immutable Program baseline (GZ-010 owned)**
+1. **Immutable Program baseline (original GZ-010; authorized GZ-021 route revision)**
    - `plans/POC-001.yaml` ～ `POC-010.yaml`
    - `resources.yaml`
    - `samples.yaml`
@@ -54,7 +54,7 @@ For `POC-XXX`:
 4. Each used sample must have an approved Evidence record, stable immutable ID and `sha256:<64 hex>` checksum. The approval record must match those exact values and contain a concrete approver and valid UTC approval instant.
 5. Required environment/provenance fields must contain real non-placeholder values; AI identity/version/Prompt/input-version fields are textual.
 6. Exact commands and raw outputs are recorded; every raw-output reference must resolve to an existing regular file inside that task Evidence path without path/symlink escape.
-7. Measurement IDs must exactly match the immutable plan. Boolean measurements are actual booleans; other measurements are finite numbers.
+7. Measurement IDs must exactly match the selected immutable profile route; production uses the original plan protocol. Boolean measurements are actual booleans; other measurements are finite numbers.
 8. Media POC-002 records input SHA-256, output SHA-256 and exact encoder parameters; input SHA-256 must match an approved execution sample checksum.
 9. AI POC-009 records model/version/Prompt/inference parameters/input version and access/budget gates.
 10. Recovery POC-010 verifies actual Secret value round-trip and fail-closed behavior for unreadable/decryption-mismatched backups without committing plaintext.
@@ -63,6 +63,16 @@ For `POC-XXX`:
 13. The task must prove it changed only its own shared index row by running the row-ownership check against the integration base.
 
 `running`, `blocked`, `cancelled` and `not_started` index rows must keep `resultRef`, `decision`, `reviewer` and `approvedAt` null. At most one high/critical POC may be running; POC-010 (critical) must run alone.
+
+## Acceptance profile routing (GZ-021 revision 1)
+
+The manifest uses schemaVersion 2 and the same acceptanceProfileBinding as authoritative NFR/requirements. Original production protocols, resources, samples and measurements remain intact. Revised POC-001..007 plans use schemaVersion 2 with localValidation; POC-008..010 retain schemaVersion 1 and their shared protocols.
+
+Before execution, select local-v1 or production version 1. In the existing execution record's environmentCaptured, add acceptanceProfile with exact id, version: 1, bindingRevision: 1 and scope (LOCAL_FULL_V1 or PRODUCTION_RELEASE), plus acceptanceProfileConfigurationRef to an existing configuration under that task's Evidence. The configuration binds pocId, taskId, the same acceptanceProfile, sorted resourceIds and sorted measurementIds for the selected route. Result records bind the profile through executionRef. Templates and execution/result schemas stay unchanged; the checker adds semantic binding and rejects unknown/mismatched profiles or attempts to relabel local results as production.
+
+Local POC-001/002 use the captured heterogeneous pool; POC-004 uses bounded OpenList with measured positive watermarks/reservations; POC-005 adds OpenList metadata coverage; POC-007 uses isolated TLS/access tests. POC-003 and POC-008..010 retain shared obligations. POC-006 local-v1 executes the generic OpenList/WebDAV and bounded injected-failure protocol explicitly authorized by its original planning manifest. The profile configuration and captured environment bind GENERIC_OPENLIST_SANDBOX; production binds BAIDU_PRODUCTION_SANDBOX. A scoped local result supplies POC-06-EVIDENCE to GZ-019 without changing the dependency DAG, and cannot establish Baidu production/compliance success.
+
+Record actual physical host/device scope and media coverage. Windows plus WSL on one host, a synthetic no-audio clip, or injected provider failures cannot establish physical multi-host, Android-phone, general-media or real-provider performance. No plan/catalogue contains actual results. A profile declaration or validator PASS does not grant runtime or production acceptance. Local safety measurements retain boolean units. POC-004 binds exact integer-byte localCapacity (capacityBytes, safetyFloorBytes, pauseFreeBytes, resumeFreeBytes, maxReservedBytes), requiring 0 < floor < pause < resume <= capacity and a bounded nonnegative reservation budget. The environment must match this configuration; measured local_minimum_free_bytes minus local_maximum_reserved_bytes must preserve the floor for PASS.
 
 ## Security
 

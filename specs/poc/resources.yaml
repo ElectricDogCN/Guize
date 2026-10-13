@@ -60,3 +60,24 @@ resources:
   bookingRequired: true
   credentialsStored: false
   description: Isolated PostgreSQL/OpenBao/file/deployment-bundle recovery sandbox.
+- id: RES-HETEROGENEOUS-WORKERS
+  type: local-worker-pool
+  availability: unknown
+  bookingRequired: false
+  credentialsStored: false
+  description: Bounded Windows/Linux worker pool; record OS, build, capabilities, limits, physical host identities and whether
+    Linux is WSL. Android compatibility is a separate capability; no phone or physical multi-host claim without actual devices.
+- id: RES-OPENLIST-LOCAL
+  type: local-storage-lab
+  availability: unknown
+  bookingRequired: false
+  credentialsStored: false
+  description: Non-production OpenList backed by a disposable local directory; record service version, root boundary and configured
+    measured capacity/watermarks. No TrueNAS, iSCSI, 500 GiB or 700 TB equivalence.
+- id: RES-LOCAL-ACCESS-PATH
+  type: local-network-lab
+  availability: unknown
+  bookingRequired: false
+  credentialsStored: false
+  description: Isolated local TLS/reverse-proxy path for Range, identity, cache isolation and rate limiting. Does not attest
+    public IPv6, DDNS, tunnel or CDN reachability.

@@ -1,6 +1,14 @@
 # 04. 部署拓扑设计 / Deployment Topology
 
-## 1. 当前物理拓扑
+## GZ-021：本地完整 V1 与异构媒体执行
+
+本地测试拓扑由 Guize 控制与编排服务、实际 PostgreSQL 等依赖、隔离 TLS/缓存入口、私有 OpenList 根目录，以及主动连接的 Windows/Linux Worker 组成。可先在单机运行多个节点，但每个节点必须报告实际物理主机标识、OS/架构、工具构建、资源预算和工作目录。手机加入前单独验证 Android 工具链、温度/供电/联网限制和对应媒体能力。
+
+本地服务仅使用隔离目录和有限测试样本；管理入口及来源凭据不交给 Worker 或播放器。Worker 输入/输出访问由短期任务授权约束；不能直接公开源站、工作目录或数据库。
+
+`local-v1`/`production` 是验收范围，不新增或替换本章既有 DeploymentProfile 枚举。旧物理拓扑、A380/ESXi、TrueNAS/iSCSI、500GB 水位和公网链路属于生产验证；本地配置容量不得伪装为这些生产测量。
+
+## 1. 生产目标物理拓扑（需实际环境验证）
 
 ```mermaid
 flowchart TB

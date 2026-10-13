@@ -1,4 +1,4 @@
-schemaVersion: 1
+schemaVersion: 2
 pocId: POC-06
 taskId: POC-006
 title: 百度云合法、稳定、可维护的生产接入路径
@@ -87,7 +87,8 @@ protocol:
   - id: interrupted_sync_resume_or_idempotent_rerun
     metric: Interrupted synchronization resumes from a safe checkpoint or reruns idempotently
     unit: boolean
-    method: Interrupt synchronization after partial progress and verify checkpoint resume or full idempotent rerun produces the same logical state.
+    method: Interrupt synchronization after partial progress and verify checkpoint resume or full idempotent rerun produces
+      the same logical state.
     thresholdSource: ACCEPT-SOURCE-SYNC
     actual: null
   - id: duplicate_objects_prevented
@@ -99,7 +100,8 @@ protocol:
   - id: source_deletion_preserves_logical_asset
     metric: Source deletion does not delete the logical asset
     unit: boolean
-    method: Delete or hide the source object in the sandbox and verify the logical asset remains with governed source-unavailable state.
+    method: Delete or hide the source object in the sandbox and verify the logical asset remains with governed source-unavailable
+      state.
     thresholdSource: ACCEPT-SOURCE-SYNC
     actual: null
   exitCriteria:
@@ -129,3 +131,120 @@ review:
   reviewer: null
   approvedAt: null
   approval: null
+localValidation:
+  profileVersion: 1
+  mode: required
+  resourceIds:
+  - RES-OPENLIST-LOCAL
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  - provider_api_or_sdk_version
+  - openlist_version
+  - source_validation_scope
+  - injected_failure_matrix
+  protocol:
+    commands: []
+    exitCriteria:
+    - Actual local WebDAV/OpenList auth, listing, bounded retry, checkpoint/idempotent sync and source-deletion asset protection
+      are reproduced with approved immutable fixtures.
+    - Privacy/license review decisions cover only the exact local tools and fixtures tested; injected 429/5xx/network cases
+      are explicitly identified as injected.
+    - sourceValidationScope is GENERIC_OPENLIST_SANDBOX. Baidu production API/account/compliance remains untested and cannot
+      be promoted by this local result.
+    failureFallbacks:
+    - Reject local source access or pause sync when shared auth, integrity or retry gates fail; retain logical assets and
+      record the unresolved Baidu production obligation.
+    measurements:
+    - actual: null
+      id: auth_flow_supported
+      method: Validate documented/legal integration flow with local service credentials stored outside repository.
+      metric: Supported authentication flow
+      thresholdSource: POC_EXIT_CRITERIA
+      unit: boolean
+    - actual: null
+      id: listing_stability
+      method: Repeat bounded metadata operations and capture response/error characteristics.
+      metric: Listing/API stability
+      thresholdSource: POC_EXIT_CRITERIA
+      unit: boolean
+    - actual: null
+      id: maintainability
+      method: Record documented API/SDK/versioning/support constraints.
+      metric: Integration maintainability assessment
+      thresholdSource: POC_EXIT_CRITERIA
+      unit: ordinal
+    - actual: null
+      id: privacy_review_approved
+      method: Bind an approved privacy review record to the exact local OpenList/WebDAV API version captured for execution.
+      metric: Privacy review approved for tested API/SDK version
+      thresholdSource: POC_EXIT_CRITERIA
+      unit: boolean
+    - actual: null
+      id: license_review_approved
+      method: Bind an approved license review record to the exact local OpenList/WebDAV API version captured for execution.
+      metric: License review approved for tested API/SDK version
+      thresholdSource: POC_EXIT_CRITERIA
+      unit: boolean
+    - actual: null
+      id: rate_limit_429_classified_retried
+      method: Inject or receive a sandbox 429, honor retry guidance/backoff and prove no duplicate logical object is created.
+      metric: Provider 429 responses are classified and retried safely
+      thresholdSource: ACCEPT-SOURCE-SYNC
+      unit: boolean
+    - actual: null
+      id: upstream_5xx_classified_retried
+      method: Exercise bounded 5xx failures and recovery, retaining checkpoint/idempotency evidence.
+      metric: Provider 5xx responses are classified and retried safely
+      thresholdSource: ACCEPT-SOURCE-SYNC
+      unit: boolean
+    - actual: null
+      id: network_failure_classified_retried
+      method: Interrupt the sandbox network path and verify bounded retry or explicit failure without corrupting sync state.
+      metric: Network failures are classified and recovered safely
+      thresholdSource: ACCEPT-SOURCE-SYNC
+      unit: boolean
+    - actual: null
+      id: interrupted_sync_resume_or_idempotent_rerun
+      method: Interrupt synchronization after partial progress and verify checkpoint resume or full idempotent rerun produces
+        the same logical state.
+      metric: Interrupted synchronization resumes from a safe checkpoint or reruns idempotently
+      thresholdSource: ACCEPT-SOURCE-SYNC
+      unit: boolean
+    - actual: null
+      id: duplicate_objects_prevented
+      method: Compare stable source/object identities before and after each retry/recovery scenario.
+      metric: Failure and retry paths do not create duplicate logical objects
+      thresholdSource: ACCEPT-SOURCE-SYNC
+      unit: boolean
+    - actual: null
+      id: source_deletion_preserves_logical_asset
+      method: Delete or hide the source object in the sandbox and verify the logical asset remains with governed source-unavailable
+        state.
+      metric: Source deletion does not delete the logical asset
+      thresholdSource: ACCEPT-SOURCE-SYNC
+      unit: boolean
+    - id: generic_source_scope_verified
+      metric: generic source scope verified
+      unit: boolean
+      method: Bind GENERIC_OPENLIST_SANDBOX and exact local service/tool versions; require actual authenticated OpenList reads/sync
+        plus bounded injected 429/5xx/disconnect/duplicate/deletion cases. No Baidu account/API/license or real-provider success
+        is asserted.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
+    rawOutputRefs: []
+    rollbackCleanup:
+    - Stop test workloads and remove temporary test artifacts.
+    - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+    - Do not delete governance/Evidence history.
+  reason: The immutable authorized POC-006 exit gate explicitly adds generic local WebDAV/OpenList fault validation. Completion
+    of this local route supplies scoped POC-06-EVIDENCE to GZ-019 without changing the dependency DAG. Baidu production remains
+    deferred; local PASS never means Baidu PASS.

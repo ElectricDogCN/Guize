@@ -1,5 +1,23 @@
 # 18. 测试与验收 / Testing and Acceptance
 
+## GZ-021：本地完整 V1 与异构媒体执行
+
+机器声明固定 `local-v1` version 1 / revision 1 → GZ-018，以及 `production` version 1 / revision 1 → GZ-020；两者均覆盖原 10 项需求和 12 项验收。GZ-018 依赖 GZ-019 及完整功能集成，仍须真实依赖、AI/搜索、权限、规则、恢复、供应链及故障测试。路线定义通过不等于这些运行验收已经通过。
+
+| POC | 本地执行 | 保留的生产义务 |
+|---|---|---|
+| 001/002 | 实际异构节点能力、并行 AV1、HLS、租约/取消/优先级/权限 | A380/ESXi、质量/并发/长期稳定性、功耗温度 |
+| 003 | 隔离 ATS Range/Slice、版本、缓存完整性与 ACL | 原协议全部测量 |
+| 004 | OpenList、本地容量预留/水位、完整性与恢复 | TrueNAS/iSCSI/ZFS、500GB |
+| 005 | 有界元数据与 OpenList 扫描/来源特征 | 原规模测量与生产容量目标 |
+| 006 | 通用 OpenList 接入、明确注入的故障、幂等同步与删除保护 | 百度真实 API、许可/隐私与恢复 |
+| 007 | 隔离 TLS/Range/ACL/限流/直接回源拒绝 | 公网 IPv6/DDNS/高端口/tunnel/CDN |
+| 008/009/010 | 原前端、AI 与恢复协议继续适用 | 同一共享安全/质量义务 |
+
+执行记录保持原 Schema 1，在 `environmentCaptured.acceptanceProfile` 中绑定 `{id, version, bindingRevision, scope}`，并用 `acceptanceProfileConfigurationRef` 指向同任务 Evidence 的配置。配置必须匹配 POC/Task、所选资源与全部测量 ID。结果记录经 executionRef 绑定该范围；未知范围、版本错配、本地记录冒充生产、缺安全测量及通用来源结果冒充百度生产均拒绝。安全门单位必须保持 boolean。本地存储配置以整数 bytes 绑定实际正水位、高低水位及预留预算；实际最小空闲量减去最大在途预留量必须保持安全水位，不能用零配置或文字说明获得 PASS。
+
+跨 OS 小样本、WSL、多进程或模拟故障必须报告实际范围，不冒充物理多机、Android、长时负载、完整浏览器播放或生产测量。
+
 ## 1. 原则
 
 - 测试覆盖行为，不仅覆盖代码行；

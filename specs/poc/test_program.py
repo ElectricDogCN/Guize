@@ -46,6 +46,9 @@ class TestPocProgram(unittest.TestCase):
         active = self.repo / "specs" / "coordination" / "active-work.yaml"
         if active.is_file():
             shutil.copy2(active, coordination / "active-work.yaml")
+        requirements = root / "specs/requirements/v1"
+        requirements.mkdir(parents=True)
+        shutil.copy2(self.repo / "specs/requirements/v1/nfr.yaml", requirements / "nfr.yaml")
         return temp, root
 
     def assert_invalid(self, mutator, needle=None):
@@ -99,8 +102,9 @@ class TestPocProgram(unittest.TestCase):
         )
         return implementer, reviewer
 
-    def make_terminal(self, root, task_id="POC-003", status="pass"):
+    def make_terminal(self, root, task_id="POC-003", status="pass", profile="production"):
         plan = load_yaml(self.plan_path(root, task_id))
+        route = CHECK.execution_route(plan, profile)
         implementer, reviewer = self.write_task_spec(root, task_id)
         evidence_dir = root / plan["evidencePath"]
         evidence_dir.mkdir(parents=True, exist_ok=True)
@@ -110,7 +114,7 @@ class TestPocProgram(unittest.TestCase):
             for item in load_yaml(root / "specs" / "poc" / "resources.yaml")["resources"]
         }
         resource_bindings = []
-        for resource_id in plan["resourceIds"]:
+        for resource_id in route["resourceIds"]:
             configuration_ref = (
                 f"{plan['evidencePath']}/resources/{resource_id}-configuration.yaml"
             )
@@ -185,12 +189,34 @@ class TestPocProgram(unittest.TestCase):
                 if key == "inference_parameters"
                 else f"captured-{key}"
             )
-            for key in plan["environment"]["captureBeforeExecution"]
+            for key in route["captureBeforeExecution"]
         }
+        profile_ref = f"{plan['evidencePath']}/profile-configuration.yaml"
+        identity = CHECK.profile_identity(profile)
+        environment.update(acceptanceProfile=identity, acceptanceProfileConfigurationRef=profile_ref)
+        profile_configuration = {
+            "pocId": plan['pocId'], "taskId": task_id, "acceptanceProfile": identity,
+            "resourceIds": sorted(route['resourceIds']),
+            "measurementIds": sorted(m['id'] for m in route['protocol']['measurements']),
+        }
+        if task_id == 'POC-006':
+            scope = 'GENERIC_OPENLIST_SANDBOX' if profile == 'local-v1' else 'BAIDU_PRODUCTION_SANDBOX'
+            profile_configuration['sourceValidationScope'] = scope
+            environment['source_validation_scope'] = scope
+        if task_id == 'POC-004' and profile == 'local-v1':
+            capacity = dict(capacityBytes=1000, safetyFloorBytes=100, pauseFreeBytes=200,
+                            resumeFreeBytes=300, maxReservedBytes=100)
+            profile_configuration['localCapacity'] = capacity
+            environment['capacity_watermark_configuration'] = capacity
+        write_yaml(root / profile_ref, profile_configuration)
 
         measurements = []
-        for measurement in plan["protocol"]["measurements"]:
+        for measurement in route["protocol"]["measurements"]:
             actual = True if str(measurement["unit"]).lower() == "boolean" else 1
+            if measurement['id'] == 'local_minimum_free_bytes':
+                actual = 400
+            elif measurement['id'] == 'local_maximum_reserved_bytes':
+                actual = 50
             if status != "pass" and str(measurement["unit"]).lower() == "boolean":
                 actual = False
             measurements.append({"id": measurement["id"], "actual": actual})
@@ -1047,6 +1073,159 @@ class TestPocProgram(unittest.TestCase):
                         )
                     finally:
                         temp.cleanup()
+
+
+    def test_87_local_terminal_routes_and_shared_ai_protocol(self):
+        for task_id in ("POC-001", "POC-002", "POC-004", "POC-006", "POC-007", "POC-009"):
+            with self.subTest(task=task_id):
+                temp, root = self.temp_repo()
+                try:
+                    self.make_terminal(root, task_id, profile="local-v1")
+                    self.assertEqual(CHECK.validate_repository(root), [])
+                finally:
+                    temp.cleanup()
+
+    def test_88_execution_profile_identity_required_and_exact(self):
+        for key, value in (("id", "unknown"), ("version", 2), ("version", True),
+                           ("bindingRevision", 2), ("scope", "PRODUCTION_RELEASE")):
+            with self.subTest(key=key, value=value):
+                def mutate(root):
+                    _, execution, _ = self.make_terminal(root, "POC-002", profile="local-v1")
+                    data = load_yaml(execution)
+                    data["environmentCaptured"]["acceptanceProfile"][key] = value
+                    write_yaml(execution, data)
+                self.assert_invalid(mutate, "acceptanceProfile")
+
+    def test_89_local_result_cannot_be_promoted_to_production(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root, "POC-002", profile="local-v1")
+            data = load_yaml(execution)
+            data["environmentCaptured"]["acceptanceProfile"] = CHECK.profile_identity("production")
+            write_yaml(execution, data)
+        self.assert_invalid(mutate, "profile configuration must bind")
+
+    def test_90_profile_configuration_binds_task_resources_and_measurements(self):
+        for key, value in (("taskId", "POC-004"), ("pocId", "POC-04"),
+                           ("resourceIds", ["RES-A380-ENCODE"]), ("measurementIds", [])):
+            with self.subTest(key=key):
+                def mutate(root):
+                    _, execution, _ = self.make_terminal(root, "POC-002", profile="local-v1")
+                    ref = load_yaml(execution)["environmentCaptured"]["acceptanceProfileConfigurationRef"]
+                    configuration = load_yaml(root / ref)
+                    configuration[key] = value
+                    write_yaml(root / ref, configuration)
+                self.assert_invalid(mutate, "profile configuration must bind")
+
+    def test_91_profile_configuration_must_exist_under_own_evidence(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root)
+            data = load_yaml(execution)
+            ref = "evidence/POC-002/stolen-profile.yaml"
+            write_yaml(root / ref, {"copied": "other task"})
+            data["environmentCaptured"]["acceptanceProfileConfigurationRef"] = ref
+            write_yaml(execution, data)
+        self.assert_invalid(mutate, "acceptanceProfileConfigurationRef must exist under task Evidence")
+
+    def test_92_generic_local_source_route_cannot_be_removed_by_deferral(self):
+        def mutate(root):
+            path = self.plan_path(root, "POC-006")
+            data = load_yaml(path)
+            data["localValidation"]["mode"] = "deferred"
+            write_yaml(path, data)
+        self.assert_invalid(mutate, "mode/version does not match authorized route")
+
+    def test_93_generic_local_source_cannot_claim_baidu_production_scope(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root, 'POC-006', profile='local-v1')
+            data = load_yaml(execution)
+            ref = data['environmentCaptured']['acceptanceProfileConfigurationRef']
+            configuration = load_yaml(root / ref)
+            configuration['sourceValidationScope'] = 'BAIDU_PRODUCTION_SANDBOX'
+            data['environmentCaptured']['source_validation_scope'] = 'BAIDU_PRODUCTION_SANDBOX'
+            write_yaml(root / ref, configuration)
+            write_yaml(execution, data)
+        self.assert_invalid(mutate, 'source_validation_scope must match')
+
+    def test_94_shared_local_security_measurement_cannot_be_removed(self):
+        def mutate(root):
+            path = self.plan_path(root, "POC-002")
+            data = load_yaml(path)
+            protocol = data["localValidation"]["protocol"]
+            protocol['measurements'] = [m for m in protocol['measurements'] if m['id'] != 'hls_acl_and_revocation']
+            write_yaml(path, data)
+        self.assert_invalid(mutate, "missing required local measurements")
+
+    def test_95_program_profile_binding_cannot_drift(self):
+        def mutate(root):
+            path = root / 'specs/poc/program.yaml'
+            data = load_yaml(path)
+            data['acceptanceProfileBinding']['profiles'][0]['acceptanceIds'][-1] = 'ACCEPT-SOURCE-SYNC'
+            write_yaml(path, data)
+        self.assert_invalid(mutate, "preserve original full 10 requirements and 12 acceptances")
+
+    def test_96_local_resource_route_cannot_substitute_production_hardware(self):
+        def mutate(root):
+            path = self.plan_path(root, "POC-004")
+            data = load_yaml(path)
+            data['localValidation']['resourceIds'] = ['RES-TRUENAS-SANDBOX']
+            write_yaml(path, data)
+        self.assert_invalid(mutate, "resource IDs must match authorized local route")
+
+    def test_97_local_safety_gate_unit_drift_cannot_bypass_true(self):
+        def mutate(root):
+            path = self.plan_path(root, 'POC-002')
+            plan = load_yaml(path)
+            gate = next(m for m in plan['localValidation']['protocol']['measurements'] if m['id'] == 'hls_acl_and_revocation')
+            gate['unit'] = 'ordinal'
+            write_yaml(path, plan)
+        self.assert_invalid(mutate, 'unit must remain boolean')
+
+    def test_98_local_capacity_requires_typed_positive_ordered_watermarks(self):
+        for key, value in (('safetyFloorBytes', 0), ('safetyFloorBytes', True),
+                           ('pauseFreeBytes', 50), ('resumeFreeBytes', 1200), ('maxReservedBytes', -1)):
+            with self.subTest(key=key, value=value):
+                def mutate(root):
+                    _, execution, _ = self.make_terminal(root, 'POC-004', profile='local-v1')
+                    data = load_yaml(execution)
+                    ref = data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                    configuration = load_yaml(root / ref)
+                    configuration['localCapacity'][key] = value
+                    data['environmentCaptured']['capacity_watermark_configuration'] = configuration['localCapacity']
+                    write_yaml(root / ref, configuration)
+                    write_yaml(execution, data)
+                self.assert_invalid(mutate, 'local capacity')
+
+    def test_99_local_capacity_measurements_must_preserve_actual_floor(self):
+        for measurement, actual in (('local_minimum_free_bytes', 0),
+                                    ('local_minimum_free_bytes', 120),
+                                    ('local_maximum_reserved_bytes', 101),
+                                    ('local_maximum_reserved_bytes', True)):
+            with self.subTest(measurement=measurement, actual=actual):
+                def mutate(root):
+                    _, execution, _ = self.make_terminal(root, 'POC-004', profile='local-v1')
+                    data = load_yaml(execution)
+                    next(m for m in data['measurements'] if m['id'] == measurement)['actual'] = actual
+                    write_yaml(execution, data)
+                self.assert_invalid(mutate, 'local capacity')
+
+    def test_100_local_capacity_configuration_must_match_environment(self):
+        def mutate(root):
+            _, execution, _ = self.make_terminal(root, 'POC-004', profile='local-v1')
+            data = load_yaml(execution)
+            data['environmentCaptured']['capacity_watermark_configuration']['safetyFloorBytes'] = 50
+            write_yaml(execution, data)
+        self.assert_invalid(mutate, 'environment capacity configuration must match')
+
+    def test_101_profile_configuration_boolean_versions_are_not_integers(self):
+        for key in ('version', 'bindingRevision'):
+            with self.subTest(key=key):
+                def mutate(root):
+                    _, execution, _ = self.make_terminal(root, 'POC-002', profile='local-v1')
+                    ref = load_yaml(execution)['environmentCaptured']['acceptanceProfileConfigurationRef']
+                    configuration = load_yaml(root / ref)
+                    configuration['acceptanceProfile'][key] = True
+                    write_yaml(root / ref, configuration)
+                self.assert_invalid(mutate, 'profile configuration version/revision must be integers')
 
 
 if __name__ == "__main__":

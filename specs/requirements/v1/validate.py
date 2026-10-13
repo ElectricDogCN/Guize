@@ -29,6 +29,7 @@ PRODUCT = "specs/requirements/product-requirements.md"
 INDEX = "specs/requirements/requirements-index.yaml"
 PROGRAM = "specs/coordination/program-plan.yaml"
 REQS = {f"REQ-V1-{i:04d}" for i in range(1, 11)}
+CANONICAL_ACCEPTANCES = {f"验收V1-{i:04d}" for i in range(1, 13)}
 CONTRACTS = ["REQ-V1", "NFR-V1", "ACCEPTANCE-TRACE-V1"]
 CATS = {
     "security",
@@ -47,6 +48,80 @@ FROZEN = {
     "NFR-V1-CAP-002": (500, "GB_MIN"),
     "NFR-V1-COMP-001": ("6.7", "ESXI_VERSION"),
 }
+PROFILE_BINDINGS = {
+    "local-v1": ("GZ-018", "LOCAL_FULL_V1", False),
+    "production": ("GZ-020", "PRODUCTION_RELEASE", True),
+}
+PRODUCTION_ONLY_NFR = set(FROZEN) | {"NFR-V1-COMP-002"}
+LOCAL_FLOOR_NFR = "NFR-V1-CAP-005"
+HETEROGENEOUS_NFR = "NFR-V1-COMP-003"
+
+
+def string_ids(value):
+    return set(value) if isinstance(value, list) and all(isinstance(x, str) for x in value) else set()
+
+
+def validate_profile_bindings(b, errors, selected_profile):
+    """Validate declarations only; baseline validation never grants a measured result."""
+    if selected_profile is not None and selected_profile not in PROFILE_BINDINGS:
+        errors.append("unknown acceptance profile")
+    if type(b["idx"].get("version")) is not int or b["idx"].get("version") != 2:
+        errors.append("requirements index format must retain version 2")
+    binding = b["nfr"].get("acceptanceProfileBinding")
+    if not isinstance(binding, dict):
+        errors.append("missing structured acceptance profile binding")
+        return
+    for key in ["req", "trace", "acc", "idx"]:
+        if b[key].get("acceptanceProfileBinding") != binding:
+            errors.append(f"{key} acceptance profile binding drift")
+    if (binding.get("revision"), binding.get("authorityTask"), binding.get("decisionRef")) != (
+        1, "GZ-021", "adr/0015-heterogeneous-av1-workers-and-local-storage-validation.md"
+    ):
+        errors.append("acceptance profile authority/version drift")
+    profiles = binding.get("profiles")
+    if not isinstance(profiles, list) or not all(isinstance(p, dict) for p in profiles):
+        errors.append("acceptance profiles must be structured records")
+        return
+    ids = [p.get("id") for p in profiles]
+    if len(ids) != 2 or any(not isinstance(x, str) for x in ids) or set(ids) != set(PROFILE_BINDINGS):
+        errors.append("acceptance profile IDs must be exactly local-v1 and production")
+    tasks = {t.get("taskId"): t for t in b["prog"].get("tasks", []) if isinstance(t, dict)}
+    production = tasks.get("GZ-020", {})
+    required_acceptances = CANONICAL_ACCEPTANCES
+    known_acceptances = {a.get("id") for a in b["acc"].get("acceptances", [])}
+    if string_ids(production.get("acceptanceIds")) != required_acceptances or not required_acceptances <= known_acceptances:
+        errors.append("full V1 must retain twelve canonical acceptances")
+    for profile in profiles:
+        identity = profile.get("id")
+        expected = PROFILE_BINDINGS.get(identity) if isinstance(identity, str) else None
+        if expected is None:
+            errors.append("unknown acceptance profile declaration")
+            continue
+        milestone, scope, can_satisfy_production = expected
+        if profile.get("version") != 1 or profile.get("milestoneTask") != milestone or profile.get("scope") != scope:
+            errors.append(f"{identity} profile version/milestone/scope mismatch")
+        if profile.get("canSatisfyProductionGate") is not can_satisfy_production:
+            errors.append(f"{identity} production gate boundary mismatch")
+        task = tasks.get(milestone, {})
+        if string_ids(profile.get("requirementIds")) != REQS or string_ids(task.get("requirementIds")) != REQS:
+            errors.append(f"{identity} must cover all ten V1 requirements")
+        if string_ids(profile.get("acceptanceIds")) != required_acceptances or string_ids(task.get("acceptanceIds")) != required_acceptances:
+            errors.append(f"{identity} must cover all twelve V1 acceptances")
+    nfrs = {n.get("id"): n for n in b["nfr"].get("items", [])}
+    missing = (PRODUCTION_ONLY_NFR | {LOCAL_FLOOR_NFR, HETEROGENEOUS_NFR}) - set(nfrs)
+    if missing:
+        errors.append(f"missing protected production/local NFRs {sorted(missing)}")
+    for identity, item in nfrs.items():
+        expected = {"production"} if identity in PRODUCTION_ONLY_NFR else ({"local-v1"} if identity == LOCAL_FLOOR_NFR else set(PROFILE_BINDINGS))
+        if string_ids(item.get("applicableProfiles")) != expected:
+            errors.append(f"{identity} NFR profile applicability drift")
+    floor = nfrs.get(LOCAL_FLOOR_NFR, {}).get("measurement", {})
+    if floor and (floor.get("state") != "DESIGN_TARGET" or floor.get("value") is not None or floor.get("unit") is not None):
+        errors.append("local floor must remain configured/measured per execution, never a fabricated baseline value")
+    for identity in PROFILE_BINDINGS:
+        categories = {item.get("category") for item in nfrs.values() if identity in string_ids(item.get("applicableProfiles"))}
+        if not CATS <= categories:
+            errors.append(f"{identity} missing mandatory NFR categories")
 
 
 def y(path):
@@ -154,7 +229,7 @@ def fake_claims(v, path=""):
     return out
 
 
-def validate(b):
+def validate(b, selected_profile=None):
     req, nfr, tr, acc = b["req"], b["nfr"], b["trace"], b["acc"]
     idx, mods, prog = b["idx"], b["mods"], b["prog"]
     E = []
@@ -166,6 +241,8 @@ def validate(b):
         ("acc", "accs"),
     ]:
         E += schema_errors(b[k], b[sk], FILES[k])
+
+    validate_profile_bindings(b, E, selected_profile)
 
     rr = req.get("requirements", []) or []
     rb = {x.get("id"): x for x in rr if x.get("id")}
@@ -411,7 +488,7 @@ def negatives(b):
     def run(name, fn):
         copied = {
             k: copy.deepcopy(b[k])
-            for k in ("req", "nfr", "trace", "acc", "prog")
+            for k in ("req", "nfr", "trace", "acc", "prog", "idx")
         }
         data = dict(b)
         data.update(copied)
@@ -506,6 +583,38 @@ def negatives(b):
             ),
         )
     )
+    for key in ["req", "trace", "acc", "idx"]:
+        tests.append(run("profile-binding-drift-" + key, lambda d, key=key: d[key]["acceptanceProfileBinding"].update(revision=2)))
+    tests.append(run("unknown-profile-declaration", lambda d: d["nfr"]["acceptanceProfileBinding"]["profiles"][0].update(id="test-production")))
+    tests.append(run("local-result-cannot-satisfy-production", lambda d: d["nfr"]["acceptanceProfileBinding"]["profiles"][0].update(canSatisfyProductionGate=True)))
+    tests.append(run("local-milestone-cannot-be-production", lambda d: d["nfr"]["acceptanceProfileBinding"]["profiles"][0].update(milestoneTask="GZ-020")))
+    tests.append(run("index-format-version-drift", lambda d: d["idx"].update(version=3)))
+    tests.append(run("unknown-profile-version", lambda d: d["nfr"]["acceptanceProfileBinding"]["profiles"][0].update(version=99)))
+    tests.append(run("missing-production-floor", lambda d: d["nfr"].update(items=[n for n in d["nfr"]["items"] if n["id"] != "NFR-V1-CAP-002"])))
+    tests.append(run("production-floor-value-drift", lambda d: next(n for n in d["nfr"]["items"] if n["id"] == "NFR-V1-CAP-002")["measurement"].update(value=1)))
+    tests.append(run("shared-permission-cannot-be-production-only", lambda d: next(n for n in d["nfr"]["items"] if n["id"] == "NFR-V1-SEC-001").update(applicableProfiles=["production"])))
+    tests.append(run("incomplete-local-requirement-scope", lambda d: next(t for t in d["prog"]["tasks"] if t["taskId"] == "GZ-018")["requirementIds"].pop()))
+    tests.append(run("incomplete-local-acceptance-scope", lambda d: next(t for t in d["prog"]["tasks"] if t["taskId"] == "GZ-018")["acceptanceIds"].pop()))
+    tests.append(run("fabricated-local-floor-value", lambda d: next(n for n in d["nfr"]["items"] if n["id"] == LOCAL_FLOOR_NFR)["measurement"].update(value=0,unit="GB")))
+    def all_bindings(data, mutate):
+        for key in ["req", "nfr", "trace", "acc", "idx"]:
+            mutate(data[key]["acceptanceProfileBinding"])
+    tests.append(run("consistent-forged-local-production-claim", lambda d: all_bindings(d, lambda binding: binding["profiles"][0].update(canSatisfyProductionGate=True))))
+    tests.append(run("consistent-missing-production-profile", lambda d: all_bindings(d, lambda binding: binding["profiles"].pop())))
+    tests.append(run("consistent-duplicate-local-profile", lambda d: all_bindings(d, lambda binding: binding["profiles"].__setitem__(1, copy.deepcopy(binding["profiles"][0])))))
+    def replace_canonical_acceptance(data):
+        def replace(ids):
+            return ["ACCEPT-SOURCE-SYNC" if identity == "验收V1-0001" else identity for identity in ids]
+        for key in ["req", "nfr", "trace", "acc", "idx"]:
+            for profile in data[key]["acceptanceProfileBinding"]["profiles"]:
+                profile["acceptanceIds"] = replace(profile["acceptanceIds"])
+        for task in data["prog"]["tasks"]:
+            if task["taskId"] in ["GZ-018", "GZ-020"]:
+                task["acceptanceIds"] = replace(task["acceptanceIds"])
+    tests.append(run("consistent-canonical-acceptance-replacement", replace_canonical_acceptance))
+    rejected = bool(validate(b, selected_profile="unknown"))
+    print(f"[{'PASS' if rejected else 'FAIL'}] unknown-profile-selector: {'rejected' if rejected else 'accepted'}")
+    tests.append(rejected)
 
     print(
         "GZ-004 negative fixtures: "
@@ -518,6 +627,7 @@ def negatives(b):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--negative-fixtures", action="store_true")
+    parser.add_argument("--profile", choices=sorted(PROFILE_BINDINGS))
     args = parser.parse_args()
 
     try:
@@ -526,7 +636,7 @@ def main():
         print(f"load failure: {exc}", file=sys.stderr)
         return 1
 
-    errors = validate(data)
+    errors = validate(data, selected_profile=args.profile)
     if errors:
         print(
             f"GZ-004 V1 requirements baseline: FAIL ({len(errors)})",
@@ -544,6 +654,7 @@ def main():
     print(f"- nfr items: {len(data['nfr']['items'])}")
     print(f"- acceptances: {len(data['acc']['acceptances'])}")
     print(f"- trace records: {len(data['trace']['requirements'])}")
+    print(f"- acceptance binding: revision 1; {args.profile or 'both declared profiles'}; no POC or release result granted")
     return 0
 
 

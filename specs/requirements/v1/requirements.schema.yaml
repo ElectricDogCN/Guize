@@ -3,43 +3,250 @@ $id: requirements.schema.yaml
 title: Guize V1 Derived Requirements Baseline
 type: object
 additionalProperties: false
-required: [$schema, schemaVersion, contractId, status, authority, derivedFrom, requirements]
+required:
+- $schema
+- schemaVersion
+- contractId
+- status
+- authority
+- derivedFrom
+- requirements
+- acceptanceProfileBinding
 properties:
-  $schema: {const: requirements.schema.yaml}
-  schemaVersion: {const: 1}
-  contractId: {const: REQ-V1}
-  status: {const: frozen}
+  $schema:
+    const: requirements.schema.yaml
+  schemaVersion:
+    const: 2
+  contractId:
+    const: REQ-V1
+  status:
+    const: frozen
   authority:
     type: object
     additionalProperties: false
-    required: [product, index, conflictPolicy]
+    required:
+    - product
+    - index
+    - conflictPolicy
     properties:
-      product: {const: specs/requirements/product-requirements.md}
-      index: {const: specs/requirements/requirements-index.yaml}
-      conflictPolicy: {type: string, minLength: 20}
-  derivedFrom: {type: array, minItems: 2, uniqueItems: true, items: {type: string, minLength: 1}}
-  requirements: {type: array, minItems: 10, maxItems: 10, items: {$ref: '#/$defs/requirement'}}
+      product:
+        const: specs/requirements/product-requirements.md
+      index:
+        const: specs/requirements/requirements-index.yaml
+      conflictPolicy:
+        type: string
+        minLength: 20
+  derivedFrom:
+    type: array
+    minItems: 2
+    uniqueItems: true
+    items:
+      type: string
+      minLength: 1
+  requirements:
+    type: array
+    minItems: 10
+    maxItems: 10
+    items:
+      $ref: '#/$defs/requirement'
+  acceptanceProfileBinding:
+    type: object
+    additionalProperties: false
+    required:
+    - revision
+    - authorityTask
+    - decisionRef
+    - profiles
+    properties:
+      revision:
+        const: 1
+      authorityTask:
+        const: GZ-021
+      decisionRef:
+        const: adr/0015-heterogeneous-av1-workers-and-local-storage-validation.md
+      profiles:
+        type: array
+        minItems: 2
+        maxItems: 2
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - version
+          - scope
+          - milestoneTask
+          - canSatisfyProductionGate
+          - requirementIds
+          - acceptanceIds
+          properties:
+            id:
+              enum:
+              - local-v1
+              - production
+            version:
+              const: 1
+            scope:
+              enum:
+              - LOCAL_FULL_V1
+              - PRODUCTION_RELEASE
+            milestoneTask:
+              enum:
+              - GZ-018
+              - GZ-020
+            canSatisfyProductionGate:
+              type: boolean
+            requirementIds:
+              type: array
+              minItems: 10
+              maxItems: 10
+              uniqueItems: true
+              items:
+                enum:
+                - REQ-V1-0001
+                - REQ-V1-0002
+                - REQ-V1-0003
+                - REQ-V1-0004
+                - REQ-V1-0005
+                - REQ-V1-0006
+                - REQ-V1-0007
+                - REQ-V1-0008
+                - REQ-V1-0009
+                - REQ-V1-0010
+            acceptanceIds:
+              type: array
+              minItems: 12
+              maxItems: 12
+              uniqueItems: true
+              items:
+                type: string
+                minLength: 1
+          allOf:
+          - if:
+              properties:
+                id:
+                  const: local-v1
+            then:
+              properties:
+                scope:
+                  const: LOCAL_FULL_V1
+                milestoneTask:
+                  const: GZ-018
+                canSatisfyProductionGate:
+                  const: false
+          - if:
+              properties:
+                id:
+                  const: production
+            then:
+              properties:
+                scope:
+                  const: PRODUCTION_RELEASE
+                milestoneTask:
+                  const: GZ-020
+                canSatisfyProductionGate:
+                  const: true
 $defs:
   requirement:
     type: object
     additionalProperties: false
-    required: [id, aliases, title, status, statement, scope, nonGoals, sourceRefs, moduleIds, workPackages, acceptanceIds, blockers, nextTasks, requiredScenarioTypes]
+    required:
+    - id
+    - aliases
+    - title
+    - status
+    - statement
+    - scope
+    - nonGoals
+    - sourceRefs
+    - moduleIds
+    - workPackages
+    - acceptanceIds
+    - blockers
+    - nextTasks
+    - requiredScenarioTypes
     properties:
-      id: {type: string, pattern: '^REQ-V1-[0-9]{4}$'}
-      aliases: {type: array, minItems: 1, uniqueItems: true, items: {type: string, minLength: 1}}
-      title: {type: string, minLength: 1}
-      status: {const: frozen}
-      statement: {type: string, minLength: 10}
-      scope: {type: array, minItems: 1, items: {type: string, minLength: 3}}
-      nonGoals: {type: array, minItems: 1, items: {type: string, minLength: 3}}
-      sourceRefs: {type: array, minItems: 1, uniqueItems: true, items: {type: string, minLength: 1}}
-      moduleIds: {type: array, minItems: 1, uniqueItems: true, items: {type: string, pattern: '^MOD-[A-Z0-9-]+$'}}
-      workPackages: {type: array, minItems: 1, uniqueItems: true, items: {type: string, minLength: 1}}
-      acceptanceIds: {type: array, minItems: 1, uniqueItems: true, items: {type: string, minLength: 1}}
-      blockers: {type: array, uniqueItems: true, items: {type: string, minLength: 1}}
-      nextTasks: {type: array, minItems: 1, uniqueItems: true, items: {type: string, pattern: '^(GZ|POC)-[0-9]{3}$'}}
+      id:
+        type: string
+        pattern: ^REQ-V1-[0-9]{4}$
+      aliases:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      title:
+        type: string
+        minLength: 1
+      status:
+        const: frozen
+      statement:
+        type: string
+        minLength: 10
+      scope:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 3
+      nonGoals:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 3
+      sourceRefs:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      moduleIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          pattern: ^MOD-[A-Z0-9-]+$
+      workPackages:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      acceptanceIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      blockers:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      nextTasks:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          pattern: ^(GZ|POC)-[0-9]{3}$
       requiredScenarioTypes:
         type: array
         minItems: 2
         uniqueItems: true
-        items: {enum: [success, failure, permission, data_integrity, recovery, production_gate]}
+        items:
+          enum:
+          - success
+          - failure
+          - permission
+          - data_integrity
+          - recovery
+          - production_gate
