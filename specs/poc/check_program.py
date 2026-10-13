@@ -161,6 +161,7 @@ LOCAL_REQUIRED_MEASUREMENTS = {
     }) | {
         "local_capacity_reservations_preserved", "openlist_disconnect_recovery",
         "local_backup_restore_verified",
+        "local_authenticated_reads", "local_range_correctness", "local_read_hash_verified",
     },
     "POC-06": REQUIRED_MEASUREMENTS["POC-06"] | {"generic_source_scope_verified"},
     "POC-07": (REQUIRED_MEASUREMENTS["POC-07"] - {
@@ -335,7 +336,7 @@ def validate_local_capacity(plan, execution, configuration, status, errors):
         errors.append(f"{label}: localCapacity requires exact integer byte configuration")
         return
     total, floor, pause, resume, reservation = (capacity[k] for k in ('capacityBytes', 'safetyFloorBytes', 'pauseFreeBytes', 'resumeFreeBytes', 'maxReservedBytes'))
-    if not (0 < floor < pause < resume <= total and 0 <= reservation <= total - floor):
+    if not (0 < floor < pause < resume <= total and 0 < reservation <= total - floor):
         errors.append(f"{label}: positive floor and ordered free-space watermarks/reservation budget required")
     environment = execution.get('environmentCaptured') or {}
     observed_configuration = environment.get('capacity_watermark_configuration')
@@ -345,8 +346,8 @@ def validate_local_capacity(plan, execution, configuration, status, errors):
     minimum, reserved = (actual.get(k) for k in ('local_minimum_free_bytes', 'local_maximum_reserved_bytes'))
     if type(minimum) is not int or type(reserved) is not int or not (0 <= minimum <= total and 0 <= reserved <= reservation):
         errors.append(f"{label}: measured free/reserved bytes must be bounded integers")
-    elif status == 'pass' and minimum - reserved < floor:
-        errors.append(f"{label}: PASS requires measured free bytes minus maximum reservations to preserve floor")
+    elif status == 'pass' and (reserved <= 0 or minimum - reserved < floor):
+        errors.append(f"{label}: PASS requires positive observed reservations and measured free bytes minus maximum reservations to preserve floor")
 
 
 def compliance_subject_version(plan, execution):

@@ -1400,5 +1400,33 @@ class TestPocProgram(unittest.TestCase):
                 self.assert_invalid(mutate,'PASS requires privacy/license review references')
 
 
+    def test_112_local_storage_requires_authenticated_range_and_hash_gates(self):
+        for gate in ('local_authenticated_reads', 'local_range_correctness', 'local_read_hash_verified'):
+            with self.subTest(gate=gate):
+                def mutate(root):
+                    path = self.plan_path(root, 'POC-004')
+                    plan = load_yaml(path)
+                    self.assertIn(gate, {m['id'] for m in plan['localValidation']['protocol']['measurements']})
+                    plan['localValidation']['protocol']['measurements'] = [m for m in plan['localValidation']['protocol']['measurements'] if m['id'] != gate]
+                    write_yaml(path, plan)
+                self.assert_invalid(mutate, 'missing required local measurements')
+
+    def test_113_local_capacity_pass_requires_exercised_positive_reservations(self):
+        for zero_budget in (False, True):
+            with self.subTest(zero_budget=zero_budget):
+                def mutate(root):
+                    _, execution, _ = self.make_terminal(root, 'POC-004', profile='local-v1')
+                    data = load_yaml(execution)
+                    next(m for m in data['measurements'] if m['id'] == 'local_maximum_reserved_bytes')['actual'] = 0
+                    if zero_budget:
+                        ref = data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                        config = load_yaml(root / ref)
+                        config['localCapacity']['maxReservedBytes'] = 0
+                        data['environmentCaptured']['capacity_watermark_configuration'] = config['localCapacity']
+                        write_yaml(root / ref, config)
+                    write_yaml(execution, data)
+                self.assert_invalid(mutate, 'local capacity')
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

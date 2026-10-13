@@ -242,6 +242,24 @@ localValidation:
         complete.
       thresholdSource: ACCEPTANCE_TRACE_V1
       actual: null
+    - id: local_authenticated_reads
+      metric: Authorized reads succeed and unauthorized reads fail closed
+      unit: boolean
+      method: Read through the configured authenticated OpenList path; verify valid credentials succeed and missing or invalid credentials cannot read the same sandbox objects.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
+    - id: local_range_correctness
+      metric: Authenticated Range responses exactly match requested byte intervals
+      unit: boolean
+      method: Exercise bounded, suffix and unsatisfiable ranges through the authenticated sandbox path; compare status, headers and returned bytes against the source.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
+    - id: local_read_hash_verified
+      metric: Complete authenticated reads match source content hashes
+      unit: boolean
+      method: Read each approved sandbox sample through OpenList and compare its complete content hash to the independently recorded source hash.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
     - id: local_capacity_reservations_preserved
       metric: local capacity reservations preserved
       unit: boolean
