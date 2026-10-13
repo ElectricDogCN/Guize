@@ -1,0 +1,27 @@
+{
+  "actualSource": "8ddb9717005133ffdbc987883a79720ab32f84ff",
+  "scope": "Only seven current comments; six isolated synthetic contract mutations; R7 identity separately verified",
+  "counterexamples": [
+    {
+      "threadSuffix": "localValidationRegression146",
+      "task": "POC-002",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": {
+        "uncaughtException": "AttributeError",
+        "message": "'bool' object has no attribute 'get'"
+      },
+      "mutation": {
+        "scheduler_configuration": true,
+        "matchesOriginal146BooleanNegative": true
+      },
+      "syntheticContractOnly": true
+    }
+  ],
+  "fullSuiteRerun": false,
+  "testedTreesEdited": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false
+}

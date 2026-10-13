@@ -1,0 +1,6 @@
+test_169_production_a380_metrics_bind_device_telemetry_and_range_bytes (specs.poc.test_program.TestPocProgram.test_169_production_a380_metrics_bind_device_telemetry_and_range_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 19.079s
+
+OK

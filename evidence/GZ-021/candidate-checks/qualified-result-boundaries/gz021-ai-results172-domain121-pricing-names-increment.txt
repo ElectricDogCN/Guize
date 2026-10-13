@@ -1,0 +1,98 @@
+test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) ... 
+  test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='asr_wer', value=2.0) ... ERROR
+  test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='asr_cer', value=2.0) ... ERROR
+  test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='speaker_der', value=1.2) ... ERROR
+  test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='translation_comet', value=-0.3) ... ERROR
+  test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='retrieval_recall', value=1.1) ... ERROR
+  test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='ocr_accuracy', value=1.1) ... ERROR
+  test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='quality_score', value=1.1) ... ERROR
+test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch (specs.poc.test_program.TestPocProgram.test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch) ... ok
+
+======================================================================
+ERROR: test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='asr_wer', value=2.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in <genexpr>
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+              ~^^^^^^^^
+KeyError: 'unit'
+
+======================================================================
+ERROR: test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='asr_cer', value=2.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in <genexpr>
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+              ~^^^^^^^^
+KeyError: 'unit'
+
+======================================================================
+ERROR: test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='speaker_der', value=1.2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in <genexpr>
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+              ~^^^^^^^^
+KeyError: 'unit'
+
+======================================================================
+ERROR: test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='translation_comet', value=-0.3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in <genexpr>
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+              ~^^^^^^^^
+KeyError: 'unit'
+
+======================================================================
+ERROR: test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='retrieval_recall', value=1.1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in <genexpr>
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+              ~^^^^^^^^
+KeyError: 'unit'
+
+======================================================================
+ERROR: test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='ocr_accuracy', value=1.1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in <genexpr>
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+              ~^^^^^^^^
+KeyError: 'unit'
+
+======================================================================
+ERROR: test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) (metric='quality_score', value=1.1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2602, in <genexpr>
+    unit=next(m['unit'] for m in data['measurements'] if m['id']==mid);errors=[]
+              ~^^^^^^^^
+KeyError: 'unit'
+
+----------------------------------------------------------------------
+Ran 2 tests in 112.951s
+
+FAILED (errors=7)

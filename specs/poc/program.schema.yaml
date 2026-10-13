@@ -2487,3 +2487,2536 @@ $defs:
       sha256:
         type: string
         pattern: ^sha256:[0-9a-f]{64}$
+  recoveryTimingReport:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - subjects
+    - resourceId
+    - subjectVersion
+    - acceptanceProfile
+    - inputSamples
+    - kind
+    - configurationRef
+    - baselineRef
+    - restoredRef
+    - comparisonRef
+    - events
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      subjects:
+        type: object
+        additionalProperties: false
+        required:
+        - recoveryRunId
+        - physicalHostId
+        - serviceSetId
+        - vmSetId
+        - authorizedUserId
+        - assetId
+        - backupCheckpointAt
+        properties:
+          recoveryRunId:
+            type: string
+            minLength: 1
+          physicalHostId:
+            type: string
+            minLength: 1
+          serviceSetId:
+            type: string
+            minLength: 1
+          vmSetId:
+            type: string
+            minLength: 1
+          authorizedUserId:
+            type: string
+            minLength: 1
+          assetId:
+            type: string
+            minLength: 1
+          backupCheckpointAt:
+            type: string
+            format: date-time
+      resourceId:
+        const: RES-RECOVERY-SANDBOX
+      subjectVersion:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: recovery_timing_report
+      configurationRef:
+        type: string
+        minLength: 1
+      baselineRef:
+        type: string
+        minLength: 1
+      restoredRef:
+        type: string
+        minLength: 1
+      comparisonRef:
+        type: string
+        minLength: 1
+      events:
+        type: array
+        minItems: 8
+        maxItems: 8
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - event
+          - observedAt
+          - witnessRef
+          properties:
+            event:
+              enum:
+              - backup_checkpoint
+              - recoverable_data_boundary
+              - recovery_started
+              - services_ready
+              - vm_set_ready
+              - authenticated_browsing_succeeded
+              - authorized_playback_succeeded
+              - recovery_completed
+            observedAt:
+              type: string
+              format: date-time
+            witnessRef:
+              type: string
+              minLength: 1
+  recoveryBusinessEvent:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - subjects
+    - resourceId
+    - subjectVersion
+    - acceptanceProfile
+    - inputSamples
+    - kind
+    - event
+    - observedAt
+    - outcome
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      subjects:
+        type: object
+        additionalProperties: false
+        required:
+        - recoveryRunId
+        - physicalHostId
+        - serviceSetId
+        - vmSetId
+        - authorizedUserId
+        - assetId
+        - backupCheckpointAt
+        properties:
+          recoveryRunId:
+            type: string
+            minLength: 1
+          physicalHostId:
+            type: string
+            minLength: 1
+          serviceSetId:
+            type: string
+            minLength: 1
+          vmSetId:
+            type: string
+            minLength: 1
+          authorizedUserId:
+            type: string
+            minLength: 1
+          assetId:
+            type: string
+            minLength: 1
+          backupCheckpointAt:
+            type: string
+            format: date-time
+      resourceId:
+        const: RES-RECOVERY-SANDBOX
+      subjectVersion:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: recovery_business_event
+      event:
+        enum:
+        - backup_checkpoint
+        - recoverable_data_boundary
+        - recovery_started
+        - services_ready
+        - vm_set_ready
+        - authenticated_browsing_succeeded
+        - authorized_playback_succeeded
+        - recovery_completed
+      observedAt:
+        type: string
+        format: date-time
+      outcome:
+        const: succeeded
+  productionA380Encode:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - identity
+    - configurationRef
+    - outputArtifactRef
+    - telemetryRef
+    - rangeRef
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      identity:
+        type: object
+        additionalProperties: false
+        required:
+        - schemaVersion
+        - resourceId
+        - nodeId
+        - platform
+        - physicalHostId
+        - gpuVendor
+        - gpuModel
+        - gpuDeviceId
+        - driverBuild
+        - runtimeBuild
+        - encoderBuild
+        - encoderBackend
+        properties:
+          schemaVersion:
+            type: integer
+            const: 1
+          resourceId:
+            const: RES-A380-ENCODE
+          nodeId:
+            type: string
+            minLength: 1
+          platform:
+            enum:
+            - windows
+            - linux
+          physicalHostId:
+            type: string
+            minLength: 1
+          gpuVendor:
+            const: Intel
+          gpuModel:
+            const: Arc A380
+          gpuDeviceId:
+            type: string
+            minLength: 1
+          driverBuild:
+            type: string
+            minLength: 1
+          runtimeBuild:
+            type: string
+            minLength: 1
+          encoderBuild:
+            type: string
+            minLength: 1
+          encoderBackend:
+            const: hardware
+      configurationRef:
+        type: string
+        minLength: 1
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      telemetryRef:
+        type: string
+        minLength: 1
+      rangeRef:
+        type: string
+        minLength: 1
+  a380TelemetrySampling:
+    type: object
+    additionalProperties: false
+    required:
+    - toolBuild
+    - intervalSeconds
+    - scope
+    - phases
+    properties:
+      toolBuild:
+        type: string
+        minLength: 1
+      intervalSeconds:
+        type: number
+        exclusiveMinimum: 0
+      scope:
+        enum:
+        - device
+        - host
+      phases:
+        type: array
+        minItems: 3
+        maxItems: 3
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - phase
+          - startedAt
+          - finishedAt
+          properties:
+            phase:
+              enum:
+              - warmup
+              - concurrency
+              - soak
+            startedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+  a380TelemetryObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - identity
+    - configurationRef
+    - inputSampleId
+    - inputSha256
+    - outputArtifactRef
+    - outputSha256
+    - kind
+    - sampling
+    - samples
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      identity:
+        type: object
+        additionalProperties: false
+        required:
+        - schemaVersion
+        - resourceId
+        - nodeId
+        - platform
+        - physicalHostId
+        - gpuVendor
+        - gpuModel
+        - gpuDeviceId
+        - driverBuild
+        - runtimeBuild
+        - encoderBuild
+        - encoderBackend
+        properties:
+          schemaVersion:
+            type: integer
+            const: 1
+          resourceId:
+            const: RES-A380-ENCODE
+          nodeId:
+            type: string
+            minLength: 1
+          platform:
+            enum:
+            - windows
+            - linux
+          physicalHostId:
+            type: string
+            minLength: 1
+          gpuVendor:
+            const: Intel
+          gpuModel:
+            const: Arc A380
+          gpuDeviceId:
+            type: string
+            minLength: 1
+          driverBuild:
+            type: string
+            minLength: 1
+          runtimeBuild:
+            type: string
+            minLength: 1
+          encoderBuild:
+            type: string
+            minLength: 1
+          encoderBackend:
+            const: hardware
+      configurationRef:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: a380_telemetry_observation
+      sampling:
+        type: object
+        additionalProperties: false
+        required:
+        - toolBuild
+        - intervalSeconds
+        - scope
+        - phases
+        properties:
+          toolBuild:
+            type: string
+            minLength: 1
+          intervalSeconds:
+            type: number
+            exclusiveMinimum: 0
+          scope:
+            enum:
+            - device
+            - host
+          phases:
+            type: array
+            minItems: 3
+            maxItems: 3
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - phase
+              - startedAt
+              - finishedAt
+              properties:
+                phase:
+                  enum:
+                  - warmup
+                  - concurrency
+                  - soak
+                startedAt:
+                  type: string
+                  format: date-time
+                finishedAt:
+                  type: string
+                  format: date-time
+      samples:
+        type: array
+        minItems: 3
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - observedAt
+          - phase
+          - powerWatts
+          - temperatureCelsius
+          properties:
+            observedAt:
+              type: string
+              format: date-time
+            phase:
+              enum:
+              - warmup
+              - concurrency
+              - soak
+            powerWatts:
+              type: number
+              minimum: 0
+            temperatureCelsius:
+              type: number
+  a380RangeObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - identity
+    - configurationRef
+    - inputSampleId
+    - inputSha256
+    - outputArtifactRef
+    - outputSha256
+    - kind
+    - mediaPath
+    - requestRange
+    - rangeStart
+    - rangeEnd
+    - statusCode
+    - contentRange
+    - requestStartedAt
+    - firstByteAt
+    - responseBodyRef
+    - responseSha256
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      identity:
+        type: object
+        additionalProperties: false
+        required:
+        - schemaVersion
+        - resourceId
+        - nodeId
+        - platform
+        - physicalHostId
+        - gpuVendor
+        - gpuModel
+        - gpuDeviceId
+        - driverBuild
+        - runtimeBuild
+        - encoderBuild
+        - encoderBackend
+        properties:
+          schemaVersion:
+            type: integer
+            const: 1
+          resourceId:
+            const: RES-A380-ENCODE
+          nodeId:
+            type: string
+            minLength: 1
+          platform:
+            enum:
+            - windows
+            - linux
+          physicalHostId:
+            type: string
+            minLength: 1
+          gpuVendor:
+            const: Intel
+          gpuModel:
+            const: Arc A380
+          gpuDeviceId:
+            type: string
+            minLength: 1
+          driverBuild:
+            type: string
+            minLength: 1
+          runtimeBuild:
+            type: string
+            minLength: 1
+          encoderBuild:
+            type: string
+            minLength: 1
+          encoderBackend:
+            const: hardware
+      configurationRef:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: a380_range_observation
+      mediaPath:
+        type: string
+        minLength: 1
+      requestRange:
+        type: string
+        minLength: 1
+      rangeStart:
+        type: integer
+        minimum: 0
+      rangeEnd:
+        type: integer
+        minimum: 0
+      statusCode:
+        type: integer
+        const: 206
+      contentRange:
+        type: string
+        minLength: 1
+      requestStartedAt:
+        type: string
+        format: date-time
+      firstByteAt:
+        type: string
+        format: date-time
+      responseBodyRef:
+        type: string
+        minLength: 1
+      responseSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+  accessOutcomePolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - assetId
+    - sourceVersion
+    - aclVersion
+    - authorizedUserId
+    - deniedUserId
+    - authorizedGrantId
+    - deniedGrantId
+    - expiredGrantId
+    - protectedCacheKey
+    - grantValidFrom
+    - grantValidUntil
+    - expiredAt
+    - maximumBufferedBytes
+    - rateLimit
+    - paths
+    properties:
+      assetId:
+        type: string
+        minLength: 1
+      sourceVersion:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      authorizedUserId:
+        type: string
+        minLength: 1
+      deniedUserId:
+        type: string
+        minLength: 1
+      authorizedGrantId:
+        type: string
+        minLength: 1
+      deniedGrantId:
+        type: string
+        minLength: 1
+      expiredGrantId:
+        type: string
+        minLength: 1
+      protectedCacheKey:
+        type: string
+        minLength: 1
+      grantValidFrom:
+        type: string
+        format: date-time
+      grantValidUntil:
+        type: string
+        format: date-time
+      expiredAt:
+        type: string
+        format: date-time
+      maximumBufferedBytes:
+        type: integer
+        minimum: 1
+      rateLimit:
+        type: object
+        additionalProperties: false
+        required:
+        - maximumRequests
+        - windowSeconds
+        properties:
+          maximumRequests:
+            type: integer
+            minimum: 1
+          windowSeconds:
+            type: number
+            exclusiveMinimum: 0
+      paths:
+        type: object
+        additionalProperties: false
+        required:
+        - range
+        - stream
+        - source
+        - admin
+        - worker
+        properties:
+          range:
+            type: string
+            minLength: 1
+          stream:
+            type: string
+            minLength: 1
+          source:
+            type: string
+            minLength: 1
+          admin:
+            type: string
+            minLength: 1
+          worker:
+            type: string
+            minLength: 1
+  accessRequestOutcome:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - pathConfigurationRef
+    - resourceId
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - assetId
+    - sourceVersion
+    - aclVersion
+    - inputSampleId
+    - case
+    - observedAt
+    - userId
+    - grantId
+    - requestURL
+    - rangeStart
+    - rangeEnd
+    - requestRange
+    - ifRange
+    - statusCode
+    - etag
+    - contentRange
+    - cacheKey
+    - responseBodyRef
+    - responseSha256
+    - responseByteCount
+    - maximumBufferedBytes
+    - requestCount
+    - originRequestCount
+    - rateWindowSeconds
+    - rateAttempts
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: access_request_outcome
+      configurationRef:
+        type: string
+        minLength: 1
+      pathConfigurationRef:
+        type: string
+        minLength: 1
+      resourceId:
+        enum:
+        - RES-LOCAL-ACCESS-PATH
+        - RES-PUBLIC-NETWORK
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      assetId:
+        type: string
+        minLength: 1
+      sourceVersion:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      case:
+        enum:
+        - authorized_range
+        - authorized_if_range
+        - authorized_stream
+        - unauthorized
+        - expired
+        - cross_user
+        - rate_limit
+        - direct_source
+        - direct_admin
+        - direct_worker
+      observedAt:
+        type: string
+        format: date-time
+      userId:
+        type: string
+        minLength: 1
+      grantId:
+        type:
+        - string
+        - 'null'
+      requestURL:
+        type: string
+        minLength: 1
+      rangeStart:
+        type: integer
+        minimum: 0
+      rangeEnd:
+        type: integer
+        minimum: 0
+      requestRange:
+        type: string
+      ifRange:
+        type: string
+      statusCode:
+        type: integer
+      etag:
+        type: string
+      contentRange:
+        type: string
+      cacheKey:
+        type: string
+        minLength: 1
+      responseBodyRef:
+        type: string
+        minLength: 1
+      responseSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      responseByteCount:
+        type: integer
+        minimum: 0
+      maximumBufferedBytes:
+        type: integer
+        minimum: 0
+      requestCount:
+        type: integer
+        minimum: 1
+      originRequestCount:
+        type: integer
+        minimum: 0
+      rateWindowSeconds:
+        type: number
+        exclusiveMinimum: 0
+      rateAttempts:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - sequence
+          - observedAt
+          - statusCode
+          - originContacted
+          - responseBodyRef
+          - responseSha256
+          - responseByteCount
+          properties:
+            sequence:
+              type: integer
+              minimum: 1
+            observedAt:
+              type: string
+              format: date-time
+            statusCode:
+              type: integer
+            originContacted:
+              type: boolean
+            responseBodyRef:
+              type: string
+              minLength: 1
+            responseSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            responseByteCount:
+              type: integer
+              minimum: 0
+  accessOutcomeReport:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - pathConfigurationRef
+    - resourceId
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - assetId
+    - sourceVersion
+    - aclVersion
+    - inputSampleId
+    - cases
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: access_outcome_report
+      configurationRef:
+        type: string
+        minLength: 1
+      pathConfigurationRef:
+        type: string
+        minLength: 1
+      resourceId:
+        enum:
+        - RES-LOCAL-ACCESS-PATH
+        - RES-PUBLIC-NETWORK
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      assetId:
+        type: string
+        minLength: 1
+      sourceVersion:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      cases:
+        type: array
+        minItems: 7
+        maxItems: 10
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - case
+          - witnessRef
+          properties:
+            case:
+              enum:
+              - authorized_range
+              - authorized_if_range
+              - authorized_stream
+              - unauthorized
+              - expired
+              - cross_user
+              - rate_limit
+              - direct_source
+              - direct_admin
+              - direct_worker
+            witnessRef:
+              type: string
+              minLength: 1
+  rangeMatrixPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - assetId
+    - aclVersion
+    - baseVersion
+    - updatedVersion
+    - updatedInputRef
+    - entryURL
+    - deniedUser
+    - updatedInputSha256
+    - authorizedUsers
+    - sliceBytes
+    - maximumBufferedBytes
+    - maximumRetries
+    - slowOriginDelayMs
+    - slowOriginBandwidthBytesPerSecond
+    - concurrentUsers
+    - latencySampleCount
+    - percentileMethod
+    - baseETag
+    - updatedETag
+    properties:
+      assetId:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      baseVersion:
+        type: string
+        minLength: 1
+      updatedVersion:
+        type: string
+        minLength: 1
+      updatedInputRef:
+        type: string
+        minLength: 1
+      entryURL:
+        type: string
+        minLength: 1
+      deniedUser:
+        type: string
+        minLength: 1
+      updatedInputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      authorizedUsers:
+        type: array
+        minItems: 2
+        items:
+          type: string
+          minLength: 1
+      sliceBytes:
+        type: integer
+        minimum: 1
+      maximumBufferedBytes:
+        type: integer
+        minimum: 1
+      maximumRetries:
+        type: integer
+        minimum: 0
+      slowOriginDelayMs:
+        type: number
+        minimum: 0
+      slowOriginBandwidthBytesPerSecond:
+        type: number
+        exclusiveMinimum: 0
+      concurrentUsers:
+        type: integer
+        minimum: 2
+      latencySampleCount:
+        type: integer
+        minimum: 2
+      percentileMethod:
+        enum:
+        - mean
+        - nearest-rank-p95
+      baseETag:
+        type: string
+        minLength: 1
+      updatedETag:
+        type: string
+        minLength: 1
+  rangeRequestObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - inputSamples
+    - inputSampleId
+    - subjectVersion
+    - acceptanceProfile
+    - assetId
+    - aclVersion
+    - case
+    - requests
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: range_request_observation
+      configurationRef:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      inputSampleId:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      assetId:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      case:
+        enum:
+        - denied_user
+        - fill
+        - hit
+        - if_match
+        - if_stale
+        - interrupted
+        - latency_cold
+        - latency_hot
+        - latency_multi
+        - latency_slow
+        - miss
+        - other_user
+        - partial_read
+        - range_end
+        - range_middle
+        - range_start
+        - recovered
+        - stream
+        - suffix
+        - unsatisfiable
+        - updated
+      requests:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - startedAt
+          - firstByteAt
+          - finishedAt
+          - sourceVersion
+          - sourceSha256
+          - requestURL
+          - aclVersion
+          - userId
+          - cacheKey
+          - requestRange
+          - ifRange
+          - statusCode
+          - etag
+          - contentRange
+          - responseBodyRef
+          - responseSha256
+          - responseByteCount
+          - cacheComplete
+          - cacheVisible
+          - transferCompleted
+          - maximumBufferedBytes
+          - retryCount
+          - cacheStatus
+          - cachePurged
+          - originDelayMs
+          - originBandwidthBytesPerSecond
+          - concurrentUsers
+          properties:
+            startedAt:
+              type: string
+              format: date-time
+            firstByteAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+            sourceVersion:
+              type: string
+              minLength: 1
+            sourceSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            requestURL:
+              type: string
+              minLength: 1
+            aclVersion:
+              type: string
+              minLength: 1
+            userId:
+              type: string
+              minLength: 1
+            cacheKey:
+              type: string
+              minLength: 1
+            requestRange:
+              type: string
+            ifRange:
+              type: string
+            statusCode:
+              type: integer
+            etag:
+              type: string
+            contentRange:
+              type: string
+            responseBodyRef:
+              type: string
+              minLength: 1
+            responseSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            responseByteCount:
+              type: integer
+              minimum: 0
+            cacheComplete:
+              type: boolean
+            cacheVisible:
+              type: boolean
+            transferCompleted:
+              type: boolean
+            maximumBufferedBytes:
+              type: integer
+              minimum: 0
+            retryCount:
+              type: integer
+              minimum: 0
+            cacheStatus:
+              enum:
+              - MISS
+              - FILL
+              - HIT
+              - INVALIDATED
+              - PARTIAL
+              - BYPASS
+            cachePurged:
+              type: boolean
+            originDelayMs:
+              type: number
+              minimum: 0
+            originBandwidthBytesPerSecond:
+              type: number
+              exclusiveMinimum: 0
+            concurrentUsers:
+              type: integer
+              minimum: 1
+  rangeSourceUpdate:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - inputSamples
+    - inputSampleId
+    - subjectVersion
+    - acceptanceProfile
+    - assetId
+    - aclVersion
+    - observedAt
+    - baseVersion
+    - updatedVersion
+    - baseSha256
+    - updatedSha256
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: range_source_update
+      configurationRef:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      inputSampleId:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      assetId:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      observedAt:
+        type: string
+        format: date-time
+      baseVersion:
+        type: string
+        minLength: 1
+      updatedVersion:
+        type: string
+        minLength: 1
+      baseSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      updatedSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+  rangeCacheLifecycle:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - inputSamples
+    - inputSampleId
+    - subjectVersion
+    - acceptanceProfile
+    - assetId
+    - aclVersion
+    - stages
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: range_cache_lifecycle
+      configurationRef:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      inputSampleId:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      assetId:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      stages:
+        type: array
+        minItems: 6
+        maxItems: 6
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - stage
+          - observedAt
+          - allocatedBytes
+          - objects
+          properties:
+            stage:
+              enum:
+              - before
+              - filled
+              - interrupted
+              - recovered
+              - updated
+              - cleanup
+            observedAt:
+              type: string
+              format: date-time
+            allocatedBytes:
+              type: integer
+              minimum: 0
+            objects:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - sourceVersion
+                - artifactRef
+                - sha256
+                - byteCount
+                - complete
+                - visible
+                properties:
+                  sourceVersion:
+                    type: string
+                    minLength: 1
+                  artifactRef:
+                    type: string
+                    minLength: 1
+                  sha256:
+                    type: string
+                    pattern: ^sha256:[a-f0-9]{64}$
+                  byteCount:
+                    type: integer
+                    minimum: 0
+                  complete:
+                    type: boolean
+                  visible:
+                    type: boolean
+  rangeMatrixReport:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - inputSamples
+    - inputSampleId
+    - subjectVersion
+    - acceptanceProfile
+    - assetId
+    - aclVersion
+    - sourceUpdateRef
+    - cacheLifecycleRef
+    - cases
+    - slices
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: range_matrix_report
+      configurationRef:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      inputSampleId:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      assetId:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      sourceUpdateRef:
+        type: string
+        minLength: 1
+      cacheLifecycleRef:
+        type: string
+        minLength: 1
+      cases:
+        type: array
+        minItems: 21
+        maxItems: 21
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - case
+          - witnessRef
+          properties:
+            case:
+              enum:
+              - denied_user
+              - fill
+              - hit
+              - if_match
+              - if_stale
+              - interrupted
+              - latency_cold
+              - latency_hot
+              - latency_multi
+              - latency_slow
+              - miss
+              - other_user
+              - partial_read
+              - range_end
+              - range_middle
+              - range_start
+              - recovered
+              - stream
+              - suffix
+              - unsatisfiable
+              - updated
+            witnessRef:
+              type: string
+              minLength: 1
+      slices:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - start
+          - end
+          - artifactRef
+          - sha256
+          properties:
+            start:
+              type: integer
+              minimum: 0
+            end:
+              type: integer
+              minimum: 0
+            artifactRef:
+              type: string
+              minLength: 1
+            sha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+  aiEvaluationPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - subjectVersion
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - items
+    - strata
+    - evaluationMethods
+    - queries
+    - corpusItemIds
+    - retrievalCutoff
+    - warmupCount
+    - percentileMethod
+    - pricing
+    - gatePolicy
+    properties:
+      subjectVersion:
+        type: string
+        minLength: 1
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      items:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - itemId
+          - sampleId
+          - stratumId
+          properties:
+            itemId:
+              type: string
+              minLength: 1
+            sampleId:
+              type: string
+              minLength: 1
+            stratumId:
+              type: string
+              minLength: 1
+      strata:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - stratumId
+          - language
+          - mediaQuality
+          - durationBand
+          - scenario
+          - minimumSamples
+          properties:
+            stratumId:
+              type: string
+              minLength: 1
+            language:
+              type: string
+              minLength: 1
+            mediaQuality:
+              type: string
+              minLength: 1
+            durationBand:
+              type: string
+              minLength: 1
+            scenario:
+              type: string
+              minLength: 1
+            minimumSamples:
+              type: integer
+              minimum: 1
+      evaluationMethods:
+        type: array
+        minItems: 11
+        maxItems: 11
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - metricId
+          - mode
+          - methodId
+          - evaluatorBuild
+          - rubricVersion
+          properties:
+            metricId:
+              enum:
+              - asr_cer
+              - asr_wer
+              - factual_consistency
+              - multimodal_correction_accuracy
+              - ocr_accuracy
+              - quality_score
+              - speaker_der
+              - tag_f1
+              - thumbnail_human_selection_rate
+              - translation_bleu
+              - translation_comet
+            mode:
+              enum:
+              - count_ratio
+              - f1
+              - human_score
+              - tool_score
+            methodId:
+              type: string
+              minLength: 1
+            evaluatorBuild:
+              type: string
+              minLength: 1
+            rubricVersion:
+              type: string
+              minLength: 1
+      queries:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - queryId
+          - relevance
+          properties:
+            queryId:
+              type: string
+              minLength: 1
+            relevance:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - itemId
+                - grade
+                properties:
+                  itemId:
+                    type: string
+                    minLength: 1
+                  grade:
+                    type: integer
+                    minimum: 0
+      corpusItemIds:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      retrievalCutoff:
+        type: integer
+        minimum: 1
+      warmupCount:
+        type: integer
+        minimum: 0
+      percentileMethod:
+        enum:
+        - mean
+        - nearest-rank-p95
+      pricing:
+        type: object
+        additionalProperties: false
+        required:
+        - version
+        - currency
+        - inputUnitPrice
+        - outputUnitPrice
+        properties:
+          version:
+            type: string
+            minLength: 1
+          currency:
+            type: string
+            minLength: 1
+          inputUnitPrice:
+            type: number
+            minimum: 0
+          outputUnitPrice:
+            type: number
+            minimum: 0
+      gatePolicy:
+        type: object
+        additionalProperties: false
+        required:
+        - authorizedCallerId
+        - unauthorizedCallerId
+        - assetId
+        - currentAclVersion
+        - revokedAclVersion
+        - budgetPeriodId
+        - budgetLimit
+        - requestRateLimit
+        - concurrencyLimit
+        - plannedInputTokens
+        - plannedOutputTokens
+        properties:
+          authorizedCallerId:
+            type: string
+            minLength: 1
+          unauthorizedCallerId:
+            type: string
+            minLength: 1
+          assetId:
+            type: string
+            minLength: 1
+          currentAclVersion:
+            type: string
+            minLength: 1
+          revokedAclVersion:
+            type: string
+            minLength: 1
+          budgetPeriodId:
+            type: string
+            minLength: 1
+          budgetLimit:
+            type: number
+            minimum: 0
+          requestRateLimit:
+            type: integer
+            minimum: 1
+          concurrencyLimit:
+            type: integer
+            minimum: 1
+          plannedInputTokens:
+            type: integer
+            minimum: 0
+          plannedOutputTokens:
+            type: integer
+            minimum: 0
+  aiResultsReport:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - subjectVersion
+    - inputSamples
+    - acceptanceProfile
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - evaluationRef
+    - usageRef
+    - dispatchRef
+    - privacyReviewRef
+    - licenseReviewRef
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: ai_results_report
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      acceptanceProfile:
+        type: object
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      evaluationRef:
+        type: string
+        minLength: 1
+      usageRef:
+        type: string
+        minLength: 1
+      dispatchRef:
+        type: string
+        minLength: 1
+      privacyReviewRef:
+        type: string
+        minLength: 1
+      licenseReviewRef:
+        type: string
+        minLength: 1
+  aiUsageObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - subjectVersion
+    - inputSamples
+    - acceptanceProfile
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - pricingVersion
+    - currency
+    - items
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: ai_usage_observation
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      acceptanceProfile:
+        type: object
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      pricingVersion:
+        type: string
+        minLength: 1
+      currency:
+        type: string
+        minLength: 1
+      items:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - itemId
+          - sampleId
+          - stratumId
+          - inputSha256
+          - inputTokens
+          - outputTokens
+          - outputRef
+          - outputSha256
+          - startedAt
+          - finishedAt
+          properties:
+            itemId:
+              type: string
+              minLength: 1
+            sampleId:
+              type: string
+              minLength: 1
+            stratumId:
+              type: string
+              minLength: 1
+            inputSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            inputTokens:
+              type: integer
+              minimum: 0
+            outputTokens:
+              type: integer
+              minimum: 0
+            outputRef:
+              type: string
+              minLength: 1
+            outputSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            startedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+  aiEvaluationResults:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - subjectVersion
+    - inputSamples
+    - acceptanceProfile
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - evaluations
+    - queries
+    - warmupQueries
+    - percentileMethod
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: ai_evaluation_results
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      acceptanceProfile:
+        type: object
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      evaluations:
+        type: array
+        minItems: 11
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - metricId
+          - itemId
+          - sampleId
+          - stratumId
+          - outputRef
+          - outputSha256
+          - methodId
+          - evaluatorBuild
+          - rubricVersion
+          - observedAt
+          - numerator
+          - denominator
+          - truePositive
+          - falsePositive
+          - falseNegative
+          - score
+          properties:
+            metricId:
+              enum:
+              - asr_cer
+              - asr_wer
+              - factual_consistency
+              - multimodal_correction_accuracy
+              - ocr_accuracy
+              - quality_score
+              - speaker_der
+              - tag_f1
+              - thumbnail_human_selection_rate
+              - translation_bleu
+              - translation_comet
+            itemId:
+              type: string
+              minLength: 1
+            sampleId:
+              type: string
+              minLength: 1
+            stratumId:
+              type: string
+              minLength: 1
+            outputRef:
+              type: string
+              minLength: 1
+            outputSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            methodId:
+              type: string
+              minLength: 1
+            evaluatorBuild:
+              type: string
+              minLength: 1
+            rubricVersion:
+              type: string
+              minLength: 1
+            observedAt:
+              type: string
+              format: date-time
+            numerator:
+              type: number
+              minimum: 0
+            denominator:
+              type: number
+              minimum: 0
+            truePositive:
+              type: integer
+              minimum: 0
+            falsePositive:
+              type: integer
+              minimum: 0
+            falseNegative:
+              type: integer
+              minimum: 0
+            score:
+              type:
+              - number
+              - 'null'
+      queries:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - queryId
+          - querySetId
+          - corpusId
+          - retrievedIds
+          - startedAt
+          - finishedAt
+          - outputRef
+          - outputSha256
+          properties:
+            queryId:
+              type: string
+              minLength: 1
+            querySetId:
+              type: string
+              minLength: 1
+            corpusId:
+              type: string
+              minLength: 1
+            retrievedIds:
+              type: array
+              items:
+                type: string
+                minLength: 1
+            startedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+            outputRef:
+              type: string
+              minLength: 1
+            outputSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      warmupQueries:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - queryId
+          - querySetId
+          - corpusId
+          - retrievedIds
+          - startedAt
+          - finishedAt
+          - outputRef
+          - outputSha256
+          properties:
+            queryId:
+              type: string
+              minLength: 1
+            querySetId:
+              type: string
+              minLength: 1
+            corpusId:
+              type: string
+              minLength: 1
+            retrievedIds:
+              type: array
+              items:
+                type: string
+                minLength: 1
+            startedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+            outputRef:
+              type: string
+              minLength: 1
+            outputSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      percentileMethod:
+        enum:
+        - mean
+        - nearest-rank-p95
+  aiDispatchOutcomes:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - subjectVersion
+    - inputSamples
+    - acceptanceProfile
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - outcomes
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: ai_dispatch_outcomes
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      acceptanceProfile:
+        type: object
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      outcomes:
+        type: array
+        minItems: 6
+        maxItems: 6
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - case
+          - observedAt
+          - callerId
+          - assetId
+          - aclVersion
+          - callerAllowed
+          - assetAllowed
+          - budgetPeriodId
+          - budgetRemaining
+          - estimatedCost
+          - requestCount
+          - concurrentCalls
+          - requestWindowSeconds
+          - decision
+          - providerRequestIds
+          - outboundRef
+          - outboundSha256
+          properties:
+            case:
+              enum:
+              - authorized
+              - permission_denied
+              - acl_revoked
+              - budget_exhausted
+              - request_rate_exceeded
+              - concurrency_exceeded
+            observedAt:
+              type: string
+              format: date-time
+            callerId:
+              type: string
+              minLength: 1
+            assetId:
+              type: string
+              minLength: 1
+            aclVersion:
+              type: string
+              minLength: 1
+            callerAllowed:
+              type: boolean
+            assetAllowed:
+              type: boolean
+            budgetPeriodId:
+              type: string
+              minLength: 1
+            budgetRemaining:
+              type: number
+              minimum: 0
+            estimatedCost:
+              type: number
+              minimum: 0
+            requestCount:
+              type: integer
+              minimum: 0
+            concurrentCalls:
+              type: integer
+              minimum: 0
+            requestWindowSeconds:
+              type: integer
+              minimum: 1
+            decision:
+              enum:
+              - dispatched
+              - permission_denied
+              - acl_revoked
+              - budget_exhausted
+              - request_rate_exceeded
+              - concurrency_exceeded
+            providerRequestIds:
+              type: array
+              items:
+                type: string
+                minLength: 1
+            outboundRef:
+              type: string
+              minLength: 1
+            outboundSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+  aiRetrievalOutput:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - subjectVersion
+    - inputSamples
+    - acceptanceProfile
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - queryId
+    - retrievedIds
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: ai_retrieval_output
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      acceptanceProfile:
+        type: object
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      queryId:
+        type: string
+        minLength: 1
+      retrievedIds:
+        type: array
+        items:
+          type: string
+          minLength: 1
+  aiProviderDispatch:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - subjectVersion
+    - inputSamples
+    - acceptanceProfile
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - requestIds
+    - callerId
+    - assetId
+    - aclVersion
+    - observedAt
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: ai_provider_dispatch
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      acceptanceProfile:
+        type: object
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      requestIds:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      callerId:
+        type: string
+        minLength: 1
+      assetId:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      observedAt:
+        type: string
+        format: date-time

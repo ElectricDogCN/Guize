@@ -513,6 +513,10 @@ class TestPocProgram(unittest.TestCase):
                 sandbox_record['configuration']['syntheticHierarchySandbox']=env['syntheticHierarchySandbox']['boundary']
                 write_yaml(sandbox_path,sandbox_record)
             if task_id=='POC-010' and status=='pass':self.prepare_qualified_recovery_fixture(root,execution,new_prefix)
+            if task_id=='POC-002' and production and status=='pass':self.prepare_qualified_a380_fixture(root,execution,new_prefix)
+            if task_id=='POC-007' and status=='pass':self.prepare_qualified_access_fixture(root,execution,new_prefix)
+            if task_id=='POC-003' and status=='pass':self.prepare_qualified_range_fixture(root,execution,new_prefix)
+            if task_id=='POC-009' and status=='pass':self.prepare_qualified_ai_results_fixture(root,execution,new_prefix)
             selected_route = CHECK.execution_route(plan,profile)
             config_ref = execution['environmentCaptured']['acceptanceProfileConfigurationRef']
             config = load_yaml(root/config_ref)
@@ -576,7 +580,7 @@ class TestPocProgram(unittest.TestCase):
             sig_ref,sig_sha,_=retain(phase+'-image-signature.bin',b'Synthetic signature; not actual cryptographic verification.\n')
             verification_ref,_,_=retain(phase+'-signature-verification.yaml',dict(schemaVersion=1,kind='signature_verification',imageSha256=image_sha,signatureSha256=sig_sha,signerIdentity='fixture-approved-signer',algorithm='ed25519',verified=True),'measurement_output')
             states['deployment']=[dict(imageId='fixture-image',imageArtifactRef=image_ref,imageSha256=image_sha,signatureArtifactRef=sig_ref,signatureSha256=sig_sha,signerIdentity='fixture-approved-signer',verificationRef=verification_ref)]
-            report=dict(**common,kind='recovery_'+phase,observedStartedAt='2026-09-01T00:00:00Z' if phase=='baseline' else '2026-09-03T00:00:00Z',observedFinishedAt='2026-09-01T00:01:00Z' if phase=='baseline' else '2026-09-03T00:01:00Z',states=states)
+            report=dict(**common,kind='recovery_'+phase,observedStartedAt='2026-09-02T23:59:57Z' if phase=='baseline' else '2026-09-03T00:00:01Z',observedFinishedAt='2026-09-02T23:59:59Z' if phase=='baseline' else '2026-09-03T00:01:00Z',states=states)
             ref,sha,_=retain('recovery-'+phase+'.yaml',report,'measurement_output');manifests.append((ref,sha,report))
         baseline_ref,baseline_sha,baseline=manifests[0];restored_ref,restored_sha,restored=manifests[1]
         rows=[dict(gate=gate,before={d:CHECK.recovery_domain_digest(baseline['states'][d]) for d in domains},after={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}) for gate,domains in CHECK.RECOVERY_GATE_DOMAINS.items()]
@@ -585,6 +589,142 @@ class TestPocProgram(unittest.TestCase):
         resource=next(r for r in execution['resources'] if r['id']=='RES-RECOVERY-SANDBOX');config_path=root/resource['configurationRef'];config=load_yaml(config_path)
         config['configuration']['recoveryBaseline']=dict(baselineRef=baseline_ref,baselineSha256=baseline_sha,approvedReplayEventIds=['fixture-event'],approvedComparisonContexts=[{key:item[key] for key in ('referenceId','method','comparisonContextId')} for item in baseline['states']['valueComparisons']]);write_yaml(config_path,config)
         env['recoveryEvidence']=dict(configurationRef=resource['configurationRef'],baselineRef=baseline_ref,restoredRef=restored_ref,comparisonRef=comparison_ref)
+        subjects=dict(recoveryRunId='fixture-recovery-run',physicalHostId='fixture-recovery-host',serviceSetId='fixture-services',vmSetId='fixture-vm-set',authorizedUserId='fixture-user',assetId='fixture-asset',backupCheckpointAt='2026-09-02T23:59:59Z')
+        config['approvedAt']='2026-09-03T00:00:00Z';config['configuration']['recoveryTimingSubjects']=subjects;write_yaml(config_path,config)
+        events=[]
+        for event in ('backup_checkpoint','recoverable_data_boundary','recovery_started','services_ready','vm_set_ready','authenticated_browsing_succeeded','authorized_playback_succeeded','recovery_completed'):
+            at=subjects['backupCheckpointAt'] if event=='backup_checkpoint' else '2026-09-03T00:00:00Z' if event in ('recoverable_data_boundary','recovery_started') else '2026-09-03T00:00:01Z'
+            ref,_,_=retain('recovery-event-'+event+'.yaml',dict(**common,kind='recovery_business_event',subjects=subjects,event=event,observedAt=at,outcome='succeeded'),'measurement_output')
+            events.append(dict(event=event,observedAt=at,witnessRef=ref))
+        timing_ref,_,_=retain('recovery-timing.yaml',dict(**common,kind='recovery_timing_report',subjects=subjects,**{key:env['recoveryEvidence'][key] for key in ('configurationRef','baselineRef','restoredRef','comparisonRef')},events=events),'measurement_output')
+        env['recoveryTimingRef']=timing_ref
+
+
+    def prepare_qualified_a380_fixture(self,root,execution,prefix):
+        """Synthetic A380 identity and observations for schema tests, never hardware evidence."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-A380-ENCODE');node=env['worker_node_inventory'][0];run=env['workerEncodeExecutions'][0]
+        identity=dict(schemaVersion=1,resourceId='RES-A380-ENCODE',**{k:node[k] for k in ('nodeId','platform','physicalHostId','encoderBuild')},gpuVendor='Intel',gpuModel='Arc A380',gpuDeviceId='synthetic-a380-device',driverBuild='synthetic-driver',runtimeBuild='synthetic-runtime',encoderBackend='hardware')
+        node.update({k:v for k,v in identity.items() if k not in ('schemaVersion','resourceId')});run.update({k:identity[k] for k in ('gpuDeviceId','driverBuild','runtimeBuild','encoderBackend')})
+        phases=[dict(phase=name,startedAt=f'2026-09-03T00:00:{start:02d}Z',finishedAt=f'2026-09-03T00:00:{end:02d}Z' if end<60 else '2026-09-03T00:01:00Z') for name,start,end in (('warmup',0,20),('concurrency',20,40),('soak',40,60))]
+        sampling=dict(toolBuild='synthetic-telemetry-tool-v1',intervalSeconds=10,scope='device',phases=phases)
+        config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['productionA380Encode']=dict(identity=identity,telemetrySampling=sampling,outputServingPath='/synthetic/a380-output');write_yaml(config_path,config)
+        def retain(name,data,kind='measurement_output'):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(data,bytes):path.write_bytes(data)
+            else:write_yaml(path,data)
+            raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,nodeId=identity['nodeId'],byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref
+        common=dict(schemaVersion=1,identity=identity,configurationRef=resource['configurationRef'],**{k:run[k] for k in ('inputSampleId','inputSha256','outputArtifactRef','outputSha256')})
+        samples=[dict(observedAt=f'2026-09-03T00:00:{second:02d}Z' if second<60 else '2026-09-03T00:01:00Z',phase='warmup' if second<20 else 'concurrency' if second<40 else 'soak',powerWatts=1,temperatureCelsius=1) for second in range(0,61,10)]
+        telemetry_ref=retain('a380-telemetry.yaml',dict(**common,kind='a380_telemetry_observation',sampling=sampling,samples=samples))
+        body=(root/run['outputArtifactRef']).read_bytes()[:8];body_ref=retain('a380-range-body.bin',body,'produced_media')
+        range_ref=retain('a380-range.yaml',dict(**common,kind='a380_range_observation',mediaPath='/synthetic/a380-output',requestRange='bytes=0-7',rangeStart=0,rangeEnd=7,statusCode=206,contentRange=f'bytes 0-7/{(root/run["outputArtifactRef"]).stat().st_size}',requestStartedAt='2026-09-03T00:01:00Z',firstByteAt='2026-09-03T00:01:00.001Z',responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest()))
+        env['productionA380Encode']=dict(schemaVersion=1,identity=identity,configurationRef=resource['configurationRef'],outputArtifactRef=run['outputArtifactRef'],telemetryRef=telemetry_ref,rangeRef=range_ref)
+
+
+    def prepare_qualified_access_fixture(self,root,execution,prefix):
+        """Retained synthetic request/response cases, never actual ACL or network execution."""
+        env=execution['environmentCaptured'];local=env['acceptanceProfile']['id']=='local-v1';resource_id='RES-LOCAL-ACCESS-PATH' if local else 'RES-PUBLIC-NETWORK';resource=next(r for r in execution['resources'] if r['id']==resource_id)
+        tls=env.get('local_tls_path_configuration') or {};entry=tls.get('entryOrigin','https://synthetic-public.invalid');origin=tls.get('openlistOrigin','https://synthetic-source.invalid')
+        policy=dict(assetId='synthetic-protected-asset',sourceVersion='synthetic-source-version',aclVersion='synthetic-current-acl',authorizedUserId='synthetic-allowed-user',deniedUserId='synthetic-denied-user',authorizedGrantId='synthetic-current-grant',deniedGrantId='synthetic-denied-subject-grant',expiredGrantId='synthetic-expired-grant',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-04T00:00:00Z',expiredAt='2026-09-02T00:00:00Z',protectedCacheKey='synthetic-cache-asset-version',maximumBufferedBytes=4096,rateLimit=dict(maximumRequests=2,windowSeconds=10),paths=dict(range=entry+'/protected/range',stream=entry+'/protected/stream',source=origin+'/protected/source',admin=origin+'/api/admin',worker='http://127.0.0.1:17000/protected/worker'))
+        config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['accessPolicy']=policy;write_yaml(config_path,config)
+        sample=execution['samples'][0];source=root/env['inputSampleArtifacts'][0]['inputArtifactRef'];data=source.read_bytes();etag='"'+sample['checksum'].removeprefix('sha256:')+'"'
+        def retain(name,data,kind):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(data,bytes):path.write_bytes(data)
+            else:write_yaml(path,data)
+            raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref
+        common=dict(configurationRef=resource['configurationRef'],pathConfigurationRef=env['acceptanceProfileConfigurationRef'],resourceId=resource_id,acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-007')),execution),inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],assetId=policy['assetId'],sourceVersion=policy['sourceVersion'],aclVersion=policy['aclVersion'],inputSampleId=sample['id'])
+        cases=[]
+        names=['authorized_range','authorized_if_range','authorized_stream','unauthorized','expired','cross_user','rate_limit']+(['direct_source','direct_admin','direct_worker'] if local else [])
+        for case in names:
+            authorized=case.startswith('authorized_');stream=case=='authorized_stream';body=data if stream else data[:8] if authorized else b'';body_ref=retain('access-'+case+'-body.bin',body,'produced_media')
+            role='stream' if stream else case.removeprefix('direct_') if case.startswith('direct_') else 'range'
+            user=policy['authorizedUserId'] if authorized or case in ('expired','rate_limit') else policy['deniedUserId'] if case=='cross_user' else 'anonymous'
+            grant=policy['authorizedGrantId'] if authorized or case=='rate_limit' else policy['expiredGrantId'] if case=='expired' else policy['deniedGrantId'] if case=='cross_user' else None
+            at='2026-09-03T00:00:03Z' if case=='rate_limit' else '2026-09-03T00:00:02Z' if case=='cross_user' else '2026-09-03T00:00:01Z'
+            witness=dict(schemaVersion=1,kind='access_request_outcome',**common,case=case,observedAt=at,userId=user,grantId=grant,requestURL=policy['paths'][role],rangeStart=0,rangeEnd=len(data)-1 if stream else 7,requestRange='' if stream else 'bytes=0-7',ifRange=etag if case=='authorized_if_range' else '',statusCode=200 if stream else 206 if authorized else 429 if case=='rate_limit' else 403,etag=etag if authorized else '',contentRange='' if stream or not authorized else f'bytes 0-7/{len(data)}',cacheKey=policy['protectedCacheKey'],responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest(),responseByteCount=len(body),maximumBufferedBytes=min(4096,len(body)),requestCount=3 if case=='rate_limit' else 1,originRequestCount=2 if case=='rate_limit' else 1 if authorized else 0,rateWindowSeconds=10,rateAttempts=[dict(sequence=i,observedAt=f'2026-09-03T00:00:0{i}Z',statusCode=206 if i<=2 else 429,originContacted=i<=2) for i in range(1,4)] if case=='rate_limit' else [])
+            for attempt in witness['rateAttempts']:
+                returned=data[:8] if attempt['sequence']<=2 else body
+                returned_ref=retain('access-rate-attempt-'+str(attempt['sequence'])+'-body.bin',returned,'produced_media') if attempt['sequence']<=2 else body_ref
+                attempt.update(responseBodyRef=returned_ref,responseSha256='sha256:'+hashlib.sha256(returned).hexdigest(),responseByteCount=len(returned))
+            ref=retain('access-'+case+'.yaml',witness,'measurement_output');cases.append(dict(case=case,witnessRef=ref))
+        env['accessOutcomeRef']=retain('access-outcomes.yaml',dict(schemaVersion=1,kind='access_outcome_report',**common,cases=cases),'measurement_output')
+
+
+    def prepare_qualified_range_fixture(self,root,execution,prefix):
+        """Synthetic retained Range/cache cases; never actual ATS or network execution."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-ATS-SANDBOX');sample=execution['samples'][0];source=root/env['inputSampleArtifacts'][0]['inputArtifactRef'];data=source.read_bytes();changed=data.replace(b'Synthetic',b'Updated!!',1)
+        def retain(name,value,kind='produced_media'):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(value,bytes):path.write_bytes(value)
+            else:write_yaml(path,value)
+            raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref
+        changed_ref=retain('range-updated-source.bin',changed);changed_sha='sha256:'+hashlib.sha256(changed).hexdigest()
+        policy=dict(assetId='synthetic-range-asset',aclVersion='synthetic-current-acl',baseVersion='synthetic-v1',updatedVersion='synthetic-v2',updatedInputRef=changed_ref,updatedInputSha256=changed_sha,entryURL='https://synthetic-range.invalid/asset',authorizedUsers=['synthetic-user-a','synthetic-user-b'],deniedUser='synthetic-user-denied',sliceBytes=16,maximumBufferedBytes=4096,maximumRetries=2,slowOriginDelayMs=1,slowOriginBandwidthBytesPerSecond=1024,concurrentUsers=2,latencySampleCount=2,percentileMethod='mean')
+        policy.update(baseETag='"'+sample['checksum'].removeprefix('sha256:')+'"',updatedETag='"'+changed_sha.removeprefix('sha256:')+'"')
+        config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['rangeMatrixPolicy']=policy;write_yaml(config_path,config)
+        common=dict(configurationRef=resource['configurationRef'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],inputSampleId=sample['id'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-003')),execution),acceptanceProfile=env['acceptanceProfile'],assetId=policy['assetId'],aclVersion=policy['aclVersion'])
+        update_ref=retain('range-source-update.yaml',dict(schemaVersion=1,kind='range_source_update',**common,observedAt='2026-09-03T00:00:20Z',baseVersion=policy['baseVersion'],updatedVersion=policy['updatedVersion'],baseSha256=sample['checksum'],updatedSha256=changed_sha),'measurement_output')
+        cases=[]
+        for name in sorted(CHECK.RANGE_MATRIX_CASES):
+            version=policy['updatedVersion'] if name=='updated' else policy['baseVersion'];content=changed if name=='updated' else data;size=len(content);sha='sha256:'+hashlib.sha256(content).hexdigest();etag='"'+sha.removeprefix('sha256:')+'"';requests=[]
+            for number in range(2 if name.startswith('latency_') else 1):
+                full=name in ('stream','if_stale');start,end=(0,size-1) if full else (8,15) if name=='range_middle' else (size-8,size-1) if name in ('range_end','suffix') else (0,7)
+                header='' if name=='stream' else 'bytes=8-15' if name=='range_middle' else f'bytes={size-8}-{size-1}' if name=='range_end' else 'bytes=-8' if name=='suffix' else f'bytes={size}-{size+7}' if name=='unsatisfiable' else 'bytes=0-7'
+                body=b'' if name in ('unsatisfiable','denied_user','partial_read') else content[start:start+3] if name=='interrupted' else content[start:end+1];body_ref=retain('range-'+name+'-'+str(number)+'-body.bin',body)
+                second=21 if name=='updated' else 3 if name=='interrupted' else 4 if name=='partial_read' else 5 if name=='recovered' else 1 if name=='latency_multi' else 1+number
+                user=policy['deniedUser'] if name=='denied_user' else policy['authorizedUsers'][1] if name=='other_user' or name=='latency_multi' and number else policy['authorizedUsers'][0]
+                status_code=403 if name=='denied_user' else 503 if name=='partial_read' else 416 if name=='unsatisfiable' else 200 if full else 206
+                cache_status={'miss':'MISS','fill':'FILL','hit':'HIT','updated':'INVALIDATED','interrupted':'PARTIAL','partial_read':'PARTIAL','recovered':'FILL','latency_hot':'HIT','latency_cold':'MISS','latency_slow':'MISS','latency_multi':'HIT'}.get(name,'BYPASS')
+                requests.append(dict(startedAt=f'2026-09-03T00:00:{second:02d}Z',firstByteAt=f'2026-09-03T00:00:{second:02d}.001Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',sourceVersion=version,sourceSha256=sha,requestURL=policy['entryURL'],aclVersion=policy['aclVersion'],userId=user,cacheKey='synthetic-cache-'+user,requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',statusCode=status_code,etag=etag if name not in ('denied_user','partial_read') else '',contentRange=f'bytes */{size}' if name=='unsatisfiable' else '' if full or name in ('denied_user','partial_read') else f'bytes {start}-{end}/{size}',responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest(),responseByteCount=len(body),cacheComplete=name not in ('interrupted','partial_read','denied_user'),cacheVisible=name not in ('interrupted','partial_read','denied_user'),transferCompleted=name not in ('interrupted','partial_read'),maximumBufferedBytes=len(body),retryCount=1 if name=='recovered' else 0,cacheStatus=cache_status,cachePurged=name=='latency_cold',originDelayMs=policy['slowOriginDelayMs'] if name=='latency_slow' else 0,originBandwidthBytesPerSecond=policy['slowOriginBandwidthBytesPerSecond'],concurrentUsers=2 if name=='latency_multi' else 1))
+            ref=retain('range-'+name+'.yaml',dict(schemaVersion=1,kind='range_request_observation',**common,case=name,requests=requests),'measurement_output');cases.append(dict(case=name,witnessRef=ref))
+        slices=[]
+        for start in range(0,len(data),policy['sliceBytes']):
+            body=data[start:start+policy['sliceBytes']];ref=retain('range-slice-'+str(start)+'.bin',body);slices.append(dict(start=start,end=start+len(body)-1,artifactRef=ref,sha256='sha256:'+hashlib.sha256(body).hexdigest()))
+        stages=[]
+        for stage,second,content,version in (('before',0,b'',policy['baseVersion']),('filled',2,data,policy['baseVersion']),('interrupted',3,data[:3],policy['baseVersion']),('recovered',5,data,policy['baseVersion']),('updated',21,changed,policy['updatedVersion']),('cleanup',22,b'',policy['updatedVersion'])):
+            objects=[]
+            if content:
+                ref=retain('range-cache-'+stage+'.bin',content);objects=[dict(sourceVersion=version,artifactRef=ref,sha256='sha256:'+hashlib.sha256(content).hexdigest(),byteCount=len(content),complete=stage!='interrupted',visible=stage!='interrupted')]
+            stages.append(dict(stage=stage,observedAt=f'2026-09-03T00:00:{second:02d}Z',allocatedBytes=len(content),objects=objects))
+        lifecycle_ref=retain('range-cache-lifecycle.yaml',dict(schemaVersion=1,kind='range_cache_lifecycle',**common,stages=stages),'measurement_output')
+        env['rangeMatrixRef']=retain('range-matrix.yaml',dict(schemaVersion=1,kind='range_matrix_report',**common,sourceUpdateRef=update_ref,cacheLifecycleRef=lifecycle_ref,cases=cases,slices=slices),'measurement_output')
+
+
+    def prepare_qualified_ai_results_fixture(self,root,execution,prefix):
+        """Synthetic outputs, scores, usage and dispatch traces; no provider API execution."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-AI-BENCH');sample=execution['samples'][0];plan=load_yaml(self.plan_path(root,'POC-009'));subject=CHECK.compliance_subject_version(plan,execution)
+        def retain(name,value,kind='measurement_output'):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(value,bytes):path.write_bytes(value)
+            else:write_yaml(path,value)
+            raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref,'sha256:'+hashlib.sha256(raw).hexdigest()
+        methods=[dict(metricId=metric,mode='f1' if metric=='tag_f1' else 'tool_score' if metric in ('translation_comet','translation_bleu') else 'human_score' if metric=='quality_score' else 'count_ratio',methodId='synthetic-'+metric,evaluatorBuild='synthetic-independent-evaluator',rubricVersion='synthetic-approved-rubric') for metric in sorted(CHECK.AI_EVALUATED_METRICS)]
+        policy=dict(subjectVersion=subject,benchmarkId='synthetic-immutable-benchmark',querySetId='synthetic-fixed-query-set',corpusId='synthetic-immutable-corpus',items=[dict(itemId='synthetic-item-'+str(i),sampleId=sample['id'],stratumId='synthetic-stratum') for i in range(60)],strata=[dict(stratumId='synthetic-stratum',language='synthetic-language',mediaQuality='synthetic-quality',durationBand='synthetic-duration',scenario='synthetic-scenario',minimumSamples=1)],evaluationMethods=methods,queries=[dict(queryId='synthetic-query',relevance=[dict(itemId='synthetic-document',grade=1)])],corpusItemIds=['synthetic-document'],retrievalCutoff=1,warmupCount=1,percentileMethod='mean',pricing=dict(version='synthetic-approved-pricing',currency='synthetic-currency',inputUnitPrice=.001,outputUnitPrice=0),gatePolicy=dict(authorizedCallerId='synthetic-authorized-caller',unauthorizedCallerId='synthetic-unauthorized-caller',assetId='synthetic-current-asset',currentAclVersion='synthetic-current-acl',revokedAclVersion='synthetic-revoked-acl',budgetPeriodId='synthetic-budget-period',budgetLimit=1,requestRateLimit=1,concurrencyLimit=1,plannedInputTokens=1,plannedOutputTokens=0))
+        config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['aiEvaluationPolicy']=policy;write_yaml(config_path,config)
+        common=dict(configurationRef=resource['configurationRef'],subjectVersion=subject,inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],acceptanceProfile=env['acceptanceProfile'],benchmarkId=policy['benchmarkId'],querySetId=policy['querySetId'],corpusId=policy['corpusId'])
+        usage=[]
+        for item in policy['items']:
+            ref,sha=retain(item['itemId']+'-output.txt',b'Synthetic retained result; never provider/model output. '+item['itemId'].encode(),'produced_media')
+            usage.append(dict(**item,inputSha256=sample['checksum'],inputTokens=1,outputTokens=0,outputRef=ref,outputSha256=sha,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:01:00Z'))
+        usage_ref,_=retain('ai-usage.yaml',dict(schemaVersion=1,kind='ai_usage_observation',**common,pricingVersion=policy['pricing']['version'],currency=policy['pricing']['currency'],items=usage))
+        first=usage[0];evaluations=[]
+        for method in methods:
+            evaluations.append(dict(metricId=method['metricId'],itemId=first['itemId'],sampleId=first['sampleId'],stratumId=first['stratumId'],outputRef=first['outputRef'],outputSha256=first['outputSha256'],methodId=method['methodId'],evaluatorBuild=method['evaluatorBuild'],rubricVersion=method['rubricVersion'],observedAt='2026-09-03T00:01:01Z',numerator=1,denominator=1,truePositive=1,falsePositive=0,falseNegative=0,score=1))
+        queries=[];warmup=[]
+        for phase,started,finished in (('warmup','2026-09-03T00:01:30Z','2026-09-03T00:01:30.001Z'),('measured','2026-09-03T00:02:00Z','2026-09-03T00:02:00.001Z')):
+            ref,sha=retain('ai-query-'+phase+'.yaml',dict(schemaVersion=1,kind='ai_retrieval_output',**common,queryId='synthetic-query',retrievedIds=['synthetic-document']),'produced_media')
+            row=dict(queryId='synthetic-query',querySetId=policy['querySetId'],corpusId=policy['corpusId'],retrievedIds=['synthetic-document'],startedAt=started,finishedAt=finished,outputRef=ref,outputSha256=sha);(warmup if phase=='warmup' else queries).append(row)
+        evaluation_ref,_=retain('ai-evaluation.yaml',dict(schemaVersion=1,kind='ai_evaluation_results',**common,evaluations=evaluations,queries=queries,warmupQueries=warmup,percentileMethod=policy['percentileMethod']))
+        outcomes=[];gates=policy['gatePolicy']
+        for case in ['authorized']+sorted(CHECK.AI_POLICY_GATES):
+            caller=gates['unauthorizedCallerId'] if case=='permission_denied' else gates['authorizedCallerId'];acl=gates['revokedAclVersion'] if case=='acl_revoked' else gates['currentAclVersion'];at='2026-09-03T00:03:00Z';request_ids=['synthetic-authorized-provider-request'] if case=='authorized' else []
+            value=dict(schemaVersion=1,kind='ai_provider_dispatch',**common,requestIds=request_ids,callerId=caller,assetId=gates['assetId'],aclVersion=acl,observedAt=at) if case=='authorized' else b''
+            ref,sha=retain('ai-dispatch-'+case+'.yaml' if case=='authorized' else 'ai-dispatch-'+case+'.bin',value,'produced_media')
+            outcomes.append(dict(case=case,observedAt=at,callerId=caller,assetId=gates['assetId'],aclVersion=acl,callerAllowed=case!='permission_denied',assetAllowed=case!='acl_revoked',budgetPeriodId=gates['budgetPeriodId'],budgetRemaining=0 if case=='budget_exhausted' else 1,estimatedCost=.001,requestCount=2 if case=='request_rate_exceeded' else 0,concurrentCalls=2 if case=='concurrency_exceeded' else 0,requestWindowSeconds=60,decision='dispatched' if case=='authorized' else case,providerRequestIds=request_ids,outboundRef=ref,outboundSha256=sha))
+        dispatch_ref,_=retain('ai-policy-outcomes.yaml',dict(schemaVersion=1,kind='ai_dispatch_outcomes',**common,outcomes=outcomes));reviews={r['type']:r['reviewRef'] for r in execution['complianceReviews']}
+        env['aiResultsRef'],_=retain('ai-results.yaml',dict(schemaVersion=1,kind='ai_results_report',**common,evaluationRef=evaluation_ref,usageRef=usage_ref,dispatchRef=dispatch_ref,privacyReviewRef=reviews['privacy'],licenseReviewRef=reviews['license']))
+
 
     def refresh_qualified_observation_fixture(self,root,record,approve_captures=False):
         """Refresh explicitly synthetic retained bytes; never actual experiment evidence."""
@@ -798,6 +938,448 @@ class TestPocProgram(unittest.TestCase):
                 write_yaml(comparison_path,comparison);self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
                 self.assertTrue(any('qualified recovery observation' in e for e in validate()),mode)
         finally:temp.cleanup()
+
+    def test_165_invalid_scheduler_shapes_are_rejected_without_exceptions(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-002','local-v1');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=path.read_bytes()
+            baseline=load_yaml(path);config_path=root/baseline['environmentCaptured']['acceptanceProfileConfigurationRef'];config_raw=config_path.read_bytes()
+            validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'})
+            self.assertEqual(validate(),[])
+            for value in (True,False,None,'not-a-config',[1],17,{}):
+                path.write_bytes(original);config_path.write_bytes(config_raw);record=load_yaml(path);config=load_yaml(config_path)
+                record['environmentCaptured']['scheduler_configuration']=config['capturedSettings']['scheduler_configuration']=value
+                write_yaml(path,record);write_yaml(config_path,config);self.sync_capture_reviews(root,record)
+                self.assertTrue(any('qualified local capture' in e or 'positive integer local concurrency caps' in e for e in validate()),repr(value))
+        finally:temp.cleanup()
+
+    def test_166_retention_schedule_requires_parseable_utc_before_state_comparison(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=path.read_bytes();record=load_yaml(path);capture=record['environmentCaptured']['recoveryEvidence']
+                base_path=root/capture['baselineRef'];restored_path=root/capture['restoredRef'];comparison_path=root/capture['comparisonRef'];config_path=root/capture['configurationRef']
+                saved={p:p.read_bytes() for p in (base_path,restored_path,comparison_path,config_path)}
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-10'})
+                self.assertEqual(validate(),[])
+                for value in ('not-a-date','2026-09-06T00:00:00','2026-02-30T00:00:00Z',''):
+                    path.write_bytes(original)
+                    for p,raw in saved.items():p.write_bytes(raw)
+                    record=load_yaml(path);base=load_yaml(base_path);restored=load_yaml(restored_path);comparison=load_yaml(comparison_path);config=load_yaml(config_path)
+                    for report in (base,restored):report['states']['retention'][0]['scheduledAt']=value
+                    for row in comparison['rows']:
+                        domains=CHECK.RECOVERY_GATE_DOMAINS[row['gate']];row['before']={d:CHECK.recovery_domain_digest(base['states'][d]) for d in domains};row['after']={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}
+                    write_yaml(base_path,base);write_yaml(restored_path,restored)
+                    comparison['baselineSha256']=config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+hashlib.sha256(base_path.read_bytes()).hexdigest();comparison['restoredSha256']='sha256:'+hashlib.sha256(restored_path.read_bytes()).hexdigest()
+                    write_yaml(comparison_path,comparison);write_yaml(config_path,config);self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
+                    self.assertTrue(any('retention scheduledAt' in e or 'qualified recovery observation' in e and 'schema' in e for e in validate()),(profile,value))
+            finally:temp.cleanup()
+
+    def test_167_six_recovery_times_bind_business_events_and_allow_zero_rpo(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=path.read_bytes();record=load_yaml(path);env=record['environmentCaptured']
+                timing_path=root/env['recoveryTimingRef'];config_path=root/env['recoveryEvidence']['configurationRef'];timing=load_yaml(timing_path)
+                saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};saved[config_path]=config_path.read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-10'})
+                self.assertEqual(validate(),[])
+                for mode in ('rpo_observed','rto_observed','service_recovery_time','vm_recovery_time','core_browsing_recovery_time','playback_recovery_time','missing_report','wrong_config','wrong_subject','wrong_input','wrong_tool','missing_event','duplicate_event','arbitrary_event','wrong_event_time','wrong_event_subject','outside_window','reverse_recovery','checkpoint_after_baseline','missing_witness','alias_witness','malformed','oversize'):
+                    path.write_bytes(original)
+                    for artifact,raw in saved.items():artifact.write_bytes(raw)
+                    record=load_yaml(path);env=record['environmentCaptured'];report=load_yaml(timing_path)
+                    if mode in CHECK.RECOVERY_TIME_ENDPOINTS:next(m for m in record['measurements'] if m['id']==mode)['actual']=0
+                    elif mode=='missing_report':env.pop('recoveryTimingRef')
+                    elif mode=='wrong_config':report['configurationRef']=env['acceptanceProfileConfigurationRef']
+                    elif mode=='wrong_subject':report['subjects']['physicalHostId']='unapproved-host'
+                    elif mode=='wrong_input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='wrong_tool':report['subjectVersion']='wrong-tool-version'
+                    elif mode=='missing_event':report['events'].pop()
+                    elif mode=='duplicate_event':report['events'][-1]=dict(report['events'][0])
+                    elif mode in ('arbitrary_event','wrong_event_time','wrong_event_subject'):
+                        event_path=root/report['events'][3]['witnessRef'];witness=load_yaml(event_path)
+                        if mode=='arbitrary_event':event_path.write_text('Unrelated recovery time assertions\n',encoding='utf8')
+                        else:
+                            if mode=='wrong_event_time':witness['observedAt']='2026-09-03T00:00:02Z'
+                            else:witness['subjects']['vmSetId']='another-vm-set'
+                            write_yaml(event_path,witness)
+                    elif mode in ('outside_window','reverse_recovery','checkpoint_after_baseline'):
+                        event=report['events'][3] if mode=='outside_window' else report['events'][2] if mode=='reverse_recovery' else report['events'][0]
+                        event['observedAt']='2026-09-05T00:00:00Z' if mode=='outside_window' else '2026-09-03T00:00:02Z'
+                        witness_path=root/event['witnessRef'];witness=load_yaml(witness_path);witness['observedAt']=event['observedAt'];write_yaml(witness_path,witness)
+                    elif mode=='missing_witness':report['events'][3]['witnessRef']=str(timing_path.relative_to(root)).replace('\\','/')+'-missing'
+                    elif mode=='alias_witness':report['events'][3]['witnessRef']=report['events'][4]['witnessRef']
+                    elif mode=='malformed':timing_path.write_text('[unterminated',encoding='utf8')
+                    else:timing_path.write_text('x'*262145,encoding='utf8')
+                    if mode not in ('malformed','oversize'):write_yaml(timing_path,report)
+                    self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
+                    self.assertTrue(any('qualified recovery timing' in e for e in validate()),(profile,mode))
+                # Independent endpoints may differ; readiness is not report capture duration.
+                path.write_bytes(original)
+                for artifact,raw in saved.items():artifact.write_bytes(raw)
+                record=load_yaml(path);report=load_yaml(timing_path)
+                offsets={'services_ready':1,'vm_set_ready':2,'authenticated_browsing_succeeded':3,'authorized_playback_succeeded':4,'recovery_completed':4}
+                for event in report['events']:
+                    if event['event'] in offsets:
+                        event['observedAt']='2026-09-03T00:00:0'+str(offsets[event['event']])+'Z';witness_path=root/event['witnessRef'];witness=load_yaml(witness_path);witness['observedAt']=event['observedAt'];write_yaml(witness_path,witness)
+                for metric,(_,last) in CHECK.RECOVERY_TIME_ENDPOINTS.items():
+                    if metric!='rpo_observed':next(m for m in record['measurements'] if m['id']==metric)['actual']=offsets[last]
+                write_yaml(timing_path,report);self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record);self.assertEqual(validate(),[])
+                # Zero RPO is valid when the approved recoverable checkpoint equals the boundary.
+                base_path=root/record['environmentCaptured']['recoveryEvidence']['baselineRef'];comparison_path=root/record['environmentCaptured']['recoveryEvidence']['comparisonRef'];base=load_yaml(base_path);comparison=load_yaml(comparison_path);config=load_yaml(config_path)
+                base['observedFinishedAt']='2026-09-03T00:00:00Z';report['subjects']['backupCheckpointAt']=config['configuration']['recoveryTimingSubjects']['backupCheckpointAt']='2026-09-03T00:00:00Z'
+                for event in report['events']:
+                    if event['event']=='backup_checkpoint':event['observedAt']='2026-09-03T00:00:00Z'
+                    witness_path=root/event['witnessRef'];witness=load_yaml(witness_path);witness['subjects']=report['subjects'];witness['observedAt']=event['observedAt'];write_yaml(witness_path,witness)
+                write_yaml(base_path,base);comparison['baselineSha256']=config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+hashlib.sha256(base_path.read_bytes()).hexdigest()
+                write_yaml(comparison_path,comparison);write_yaml(config_path,config);write_yaml(timing_path,report);next(m for m in record['measurements'] if m['id']=='rpo_observed')['actual']=0
+                self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record);self.assertEqual(validate(),[])
+            finally:temp.cleanup()
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    self.make_profile_slot(root,'POC-010',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-10'}),[])
+                finally:temp.cleanup()
+
+    def test_168_recovery_timing_never_reloads_unbounded_state_reports(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-010','local-v1');result=load_yaml(root/load_yaml(index)['resultRef']);record=load_yaml(root/result['executionRef']);env=record['environmentCaptured']
+            capture=env['recoveryEvidence'];prefix=Path(result['executionRef']).parent.as_posix()
+            defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];plan=load_yaml(self.plan_path(root,'POC-010'))
+            window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+            reports=[root/capture[key] for key in ('baselineRef','restoredRef','comparisonRef')];original={p:p.read_bytes() for p in reports};ordinary_load=CHECK.load
+            def guarded_load(path):
+                self.assertNotIn(Path(path),reports,'State reports must use the bounded typed reader')
+                return ordinary_load(path)
+            for selected in reports:
+                for invalid in ('x'*262145,'[unterminated','states: true\n'):
+                    for path,raw in original.items():path.write_bytes(raw)
+                    selected.write_text(invalid,encoding='utf8');errors=[]
+                    with mock.patch.object(CHECK,'load',side_effect=guarded_load):
+                        CHECK.validate_qualified_recovery_timing(root,plan,record,prefix,'pass',window,defs,errors,{})
+                    self.assertTrue(errors,(selected.name,invalid[:20]))
+        finally:temp.cleanup()
+
+    def test_169_production_a380_metrics_bind_device_telemetry_and_range_bytes(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-002','production');result=load_yaml(root/load_yaml(index)['resultRef']);record=load_yaml(root/result['executionRef']);env=record['environmentCaptured'];capture=env['productionA380Encode'];prefix=Path(result['executionRef']).parent.as_posix()
+            plan=load_yaml(self.plan_path(root,'POC-002'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+            telemetry_path=root/capture['telemetryRef'];request_path=root/capture['rangeRef'];config_path=root/capture['configurationRef'];request=load_yaml(request_path);body_path=root/request['responseBodyRef']
+            originals={p:p.read_bytes() for p in (telemetry_path,request_path,config_path,body_path)};original=copy.deepcopy(record)
+            def validate(data):
+                errors=[];CHECK.validate_qualified_a380_encode(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+            self.assertEqual(CHECK.validate_repository(root,'production',True,selected_pocs={'POC-02'}),[]);self.assertEqual(validate(record),[])
+            for mode in ('missing','bad_capture','cpu_only','non_intel','other_gpu','software','wrong_device','wrong_host','wrong_driver','wrong_runtime','unapproved_config','bad_inventory','bad_runs','wrong_node','wrong_run_device','wrong_run_backend','wrong_output','bad_run_time','wrong_report_identity','wrong_input','wrong_report_output','missing_telemetry','arbitrary_telemetry','oversize_telemetry','bad_sample_type','nan_sample','bad_sample_time','out_of_phase','missing_phase','wrong_interval','repeated_sample','sampling_tool','peak_power','peak_temperature','range_latency','wrong_path','wrong_status','wrong_range_header','wrong_body','wrong_body_hash','wrong_body_node','request_before_encode','invalid_first_byte'):
+                for p,raw in originals.items():p.write_bytes(raw)
+                data=copy.deepcopy(original);env=data['environmentCaptured'];capture=env['productionA380Encode'];telemetry=load_yaml(telemetry_path);request=load_yaml(request_path);config=load_yaml(config_path)
+                if mode=='missing':env.pop('productionA380Encode')
+                elif mode=='bad_capture':env['productionA380Encode']=True
+                elif mode=='cpu_only':config['configuration']={'cpu_only':True}
+                elif mode in ('non_intel','other_gpu','software','wrong_device','wrong_host','wrong_driver','wrong_runtime'):
+                    key,value={'non_intel':('gpuVendor','Other'),'other_gpu':('gpuModel','Another GPU'),'software':('encoderBackend','software'),'wrong_device':('gpuDeviceId','another-device'),'wrong_host':('physicalHostId','another-host'),'wrong_driver':('driverBuild','another-driver'),'wrong_runtime':('runtimeBuild','another-runtime')}[mode];capture['identity'][key]=value
+                elif mode=='unapproved_config':capture['configurationRef']=env['acceptanceProfileConfigurationRef']
+                elif mode=='bad_inventory':env['worker_node_inventory']=True
+                elif mode=='bad_runs':env['workerEncodeExecutions']=True
+                elif mode=='wrong_node':env['worker_node_inventory'][0]['gpuDeviceId']='another-device'
+                elif mode=='wrong_run_device':env['workerEncodeExecutions'][0]['gpuDeviceId']='another-device'
+                elif mode=='wrong_run_backend':env['workerEncodeExecutions'][0]['encoderBackend']='software'
+                elif mode=='wrong_output':capture['outputArtifactRef']=env['workerEncodeExecutions'][1]['outputArtifactRef']
+                elif mode=='bad_run_time':env['workerEncodeExecutions'][0]['startedAt']='not-a-date'
+                elif mode=='wrong_report_identity':telemetry['identity']['physicalHostId']='another-host'
+                elif mode=='wrong_input':telemetry['inputSha256']='sha256:'+'0'*64
+                elif mode=='wrong_report_output':request['outputArtifactRef']=env['producedMediaArtifactRef']
+                elif mode=='missing_telemetry':capture['telemetryRef']+='-missing'
+                elif mode=='arbitrary_telemetry':telemetry_path.write_text('Claimed peaks without retained telemetry\n',encoding='utf8')
+                elif mode=='oversize_telemetry':telemetry_path.write_text('x'*262145,encoding='utf8')
+                elif mode=='bad_sample_type':telemetry['samples'][0]['powerWatts']=True
+                elif mode=='nan_sample':telemetry['samples'][0]['temperatureCelsius']=float('nan')
+                elif mode=='bad_sample_time':telemetry['samples'][0]['observedAt']='not-a-date'
+                elif mode=='out_of_phase':telemetry['samples'][0]['phase']='soak'
+                elif mode=='missing_phase':telemetry['samples']=[s for s in telemetry['samples'] if s['phase']!='concurrency']
+                elif mode=='wrong_interval':telemetry['samples'][1]['observedAt']='2026-09-03T00:00:11Z'
+                elif mode=='repeated_sample':telemetry['samples'].insert(1,copy.deepcopy(telemetry['samples'][0]))
+                elif mode=='sampling_tool':telemetry['sampling']['toolBuild']='another-tool'
+                elif mode in ('peak_power','peak_temperature','range_latency'):
+                    mid={'peak_power':'encoder_power_peak_watts','peak_temperature':'encoder_temperature_peak_celsius','range_latency':'a380_range_first_byte_latency'}[mode];next(m for m in data['measurements'] if m['id']==mid)['actual']=2
+                elif mode=='wrong_path':request['mediaPath']='/unapproved/path'
+                elif mode=='wrong_status':request['statusCode']=200
+                elif mode=='wrong_range_header':request['contentRange']='bytes 0-8/99'
+                elif mode=='wrong_body':
+                    body_path.write_bytes(b'Corrupt!');request['responseSha256']='sha256:'+hashlib.sha256(body_path.read_bytes()).hexdigest()
+                elif mode=='wrong_body_hash':request['responseSha256']='sha256:'+'0'*64
+                elif mode=='wrong_body_node':next(a for a in env['rawExecutionArtifacts'] if a['ref']==request['responseBodyRef'])['nodeId']='other-node'
+                elif mode=='request_before_encode':request['requestStartedAt']=request['firstByteAt']='2026-09-03T00:00:30Z'
+                else:request['firstByteAt']='invalid-utc'
+                if mode not in ('arbitrary_telemetry','oversize_telemetry'):write_yaml(telemetry_path,telemetry)
+                write_yaml(request_path,request);write_yaml(config_path,config);self.assertTrue(validate(data),mode)
+            # Values come from measured rows, including legitimate subzero temperatures.
+            for p,raw in originals.items():p.write_bytes(raw)
+            record=copy.deepcopy(original);telemetry=load_yaml(telemetry_path);request=load_yaml(request_path)
+            for row in telemetry['samples']:row['powerWatts']=2;row['temperatureCelsius']=-10
+            request['firstByteAt']='2026-09-03T00:01:00.002Z'
+            for mid,value in (('encoder_power_peak_watts',2),('encoder_temperature_peak_celsius',-10),('a380_range_first_byte_latency',2)):next(m for m in record['measurements'] if m['id']==mid)['actual']=value
+            write_yaml(telemetry_path,telemetry);write_yaml(request_path,request);self.assertEqual(validate(record),[])
+        finally:temp.cleanup()
+        for profile,status in (('local-v1','pass'),('production','fail'),('production','inconclusive')):
+            temp,root=self.temp_repo()
+            try:
+                self.make_profile_slot(root,'POC-002',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-02'}),[])
+            finally:temp.cleanup()
+
+    def test_170_access_gates_bind_requests_acl_cache_and_actual_returned_bytes(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-007',profile);result=load_yaml(root/load_yaml(index)['resultRef']);record=load_yaml(root/result['executionRef']);env=record['environmentCaptured'];report_path=root/env['accessOutcomeRef'];report=load_yaml(report_path);config_path=root/report['configurationRef'];prefix=Path(result['executionRef']).parent.as_posix();plan=load_yaml(self.plan_path(root,'POC-007'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+                originals={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};originals[config_path]=config_path.read_bytes();original=copy.deepcopy(record)
+                def validate(data):
+                    errors=[];CHECK.validate_qualified_access_outcomes(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-07'}),[]);self.assertEqual(validate(record),[])
+                modes=['missing_report','arbitrary_report','oversize_report','bad_policy','wrong_config','wrong_profile','wrong_acl','wrong_input','missing_case','duplicate_case','wrong_witness_type','bad_source','authorized_corrupt','if_range','stream_buffer','deny_payload','deny_duplicate_error','deny_status','deny_other_range','expired_current_grant','unexpired_grant','cross_user_subject','cross_user_grant','cache_key','cache_order','rate_below_limit','rate_no_attempts','rate_bad_sequence','rate_wrong_status','rate_origin_bypass','rate_window','rate_warmup_corrupt','rate_attempt_hash','rate_attempt_payload','wrong_path','bad_time','body_hash','body_count','aliased_body','claimed_gate']+(['missing_direct_source','missing_direct_admin','missing_direct_worker'] if profile=='local-v1' else [])
+                for mode in modes:
+                    for p,raw in originals.items():p.write_bytes(raw)
+                    data=copy.deepcopy(original);env=data['environmentCaptured'];report=load_yaml(report_path);config=load_yaml(config_path);policy=config['configuration']['accessPolicy']
+                    case='expired' if mode in ('expired_current_grant','unexpired_grant') else 'cross_user' if mode in ('cross_user_subject','cross_user_grant','cache_key','cache_order') else 'rate_limit' if mode.startswith('rate_') else 'authorized_range' if mode in ('authorized_corrupt','wrong_path','body_hash','body_count','aliased_body','bad_time') else 'authorized_if_range' if mode=='if_range' else 'authorized_stream' if mode=='stream_buffer' else 'unauthorized'
+                    row=next(r for r in report['cases'] if r['case']==case);witness_path=root/row['witnessRef'];witness=load_yaml(witness_path);body_path=root/witness['responseBodyRef']
+                    if mode=='missing_report':env.pop('accessOutcomeRef')
+                    elif mode=='arbitrary_report':report_path.write_text('Unrelated ACL claims\n',encoding='utf8')
+                    elif mode=='oversize_report':report_path.write_text('x'*262145,encoding='utf8')
+                    elif mode=='bad_policy':config['configuration']['accessPolicy']=True
+                    elif mode=='wrong_config':report['configurationRef']=env['acceptanceProfileConfigurationRef']
+                    elif mode=='wrong_profile':report['acceptanceProfile']['id']='production' if profile=='local-v1' else 'local-v1'
+                    elif mode=='wrong_acl':witness['aclVersion']='stale-acl'
+                    elif mode=='wrong_input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='missing_case':report['cases'].pop()
+                    elif mode=='duplicate_case':report['cases'][-1]=copy.deepcopy(report['cases'][0])
+                    elif mode=='wrong_witness_type':next(a for a in env['rawExecutionArtifacts'] if a['ref']==row['witnessRef'])['artifactType']='command_output'
+                    elif mode=='bad_source':env['inputSampleArtifacts']=True
+                    elif mode in ('authorized_corrupt','deny_payload','deny_duplicate_error'):
+                        body_path.write_bytes(b'Corrupt!' if mode=='authorized_corrupt' else b'{"error":"protected bytes","error":"access_denied"}' if mode=='deny_duplicate_error' else b'Synthetic protected payload leaked')
+                        witness['responseByteCount']=body_path.stat().st_size;witness['responseSha256']='sha256:'+hashlib.sha256(body_path.read_bytes()).hexdigest()
+                    elif mode=='if_range':witness['ifRange']='stale-version'
+                    elif mode=='stream_buffer':witness['maximumBufferedBytes']=policy['maximumBufferedBytes']+1
+                    elif mode=='deny_status':witness['statusCode']=206
+                    elif mode=='deny_other_range':witness['rangeStart']=1;witness['rangeEnd']=8;witness['requestRange']='bytes=1-8'
+                    elif mode=='expired_current_grant':witness['grantId']=policy['authorizedGrantId']
+                    elif mode=='unexpired_grant':policy['expiredAt']='2026-09-04T00:00:00Z'
+                    elif mode=='cross_user_subject':witness['userId']=policy['authorizedUserId']
+                    elif mode=='cross_user_grant':witness['grantId']=policy['authorizedGrantId']
+                    elif mode=='cache_key':witness['cacheKey']='other-cache'
+                    elif mode=='cache_order':witness['observedAt']='2026-09-03T00:00:00Z'
+                    elif mode=='rate_below_limit':witness['requestCount']=2
+                    elif mode=='rate_no_attempts':witness['rateAttempts']=[]
+                    elif mode=='rate_bad_sequence':witness['rateAttempts'][1]['sequence']=3
+                    elif mode=='rate_wrong_status':witness['rateAttempts'][-1]['statusCode']=206
+                    elif mode=='rate_origin_bypass':witness['rateAttempts'][-1]['originContacted']=True;witness['originRequestCount']=3
+                    elif mode=='rate_window':witness['rateWindowSeconds']=1
+                    elif mode in ('rate_warmup_corrupt','rate_attempt_hash','rate_attempt_payload'):
+                        attempt=witness['rateAttempts'][0 if mode!='rate_attempt_payload' else -1]
+                        if mode=='rate_attempt_hash':attempt['responseSha256']='sha256:'+'0'*64
+                        else:
+                            returned=root/attempt['responseBodyRef'];returned.write_bytes(b'Corrupt!' if mode=='rate_warmup_corrupt' else b'Protected payload');attempt['responseSha256']='sha256:'+hashlib.sha256(returned.read_bytes()).hexdigest();attempt['responseByteCount']=returned.stat().st_size
+                    elif mode=='wrong_path':witness['requestURL']='https://other.invalid/protected'
+                    elif mode=='bad_time':witness['observedAt']='not-a-date'
+                    elif mode=='body_hash':witness['responseSha256']='sha256:'+'0'*64
+                    elif mode=='body_count':witness['responseByteCount']+=1
+                    elif mode=='aliased_body':witness['responseBodyRef']=row['witnessRef']
+                    elif mode=='claimed_gate':next(m for m in data['measurements'] if m['id']=='unauthorized_identity_denied')['actual']=False
+                    else:report['cases']=[r for r in report['cases'] if r['case']!=mode.removeprefix('missing_')]
+                    if mode not in ('arbitrary_report','oversize_report'):write_yaml(report_path,report)
+                    write_yaml(config_path,config);write_yaml(witness_path,witness);self.assertTrue(validate(data),(profile,mode))
+                # Denial may retain an exact public error document with no arbitrary protected payload.
+                for p,raw in originals.items():p.write_bytes(raw)
+                record=copy.deepcopy(original);report=load_yaml(report_path)
+                for row in report['cases']:
+                    if row['case'].startswith('authorized_'):continue
+                    path=root/row['witnessRef'];witness=load_yaml(path);body=root/witness['responseBodyRef'];body.write_text(json.dumps({'error':'rate_limited' if row['case']=='rate_limit' else 'access_denied'}),encoding='utf8');witness['responseByteCount']=body.stat().st_size;witness['responseSha256']='sha256:'+hashlib.sha256(body.read_bytes()).hexdigest()
+                    if row['case']=='rate_limit':witness['rateAttempts'][-1].update(responseSha256=witness['responseSha256'],responseByteCount=witness['responseByteCount'])
+                    write_yaml(path,witness)
+                self.assertEqual(validate(record),[])
+            finally:temp.cleanup()
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    self.make_profile_slot(root,'POC-007',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-07'}),[])
+                finally:temp.cleanup()
+
+    def test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-003',profile);result=load_yaml(root/load_yaml(index)['resultRef']);record=load_yaml(root/result['executionRef']);env=record['environmentCaptured'];report_path=root/env['rangeMatrixRef'];report=load_yaml(report_path);config_path=root/report['configurationRef'];prefix=Path(result['executionRef']).parent.as_posix();plan=load_yaml(self.plan_path(root,'POC-003'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+                originals={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};originals[config_path]=config_path.read_bytes();original=copy.deepcopy(record)
+                def validate(data):
+                    errors=[];CHECK.validate_qualified_range_matrix(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-03'}),[]);self.assertEqual(validate(record),[])
+                for mode in ('missing_report','arbitrary_report','oversize_report','bad_policy','wrong_config','wrong_input','missing_case','duplicate_case','wrong_witness_type','wrong_status','corrupt_bytes','wrong_range','wrong_etag','if_match_validator','if_stale_partial','updated_stale_bytes','update_hash','updated_before_change','partial_complete','partial_read_payload','recovery_order','retry_excess','buffer_excess','cache_hit_miss','cold_without_purge','slow_profile','multi_serial','multi_same_user','cache_shared_key','transient_shared_key','other_user_identity','denied_payload','slice_gap','slice_corrupt','slice_size','cache_object_corrupt','cache_allocation','cache_duplicate','cache_alias','cache_partial_visible','cache_updated_stale','cache_cleanup_objects','hot_latency','cold_latency','slow_latency','multi_latency','correctness','bad_time','wrong_path'):
+                    for p,raw in originals.items():p.write_bytes(raw)
+                    data=copy.deepcopy(original);env=data['environmentCaptured'];report=load_yaml(report_path);config=load_yaml(config_path);policy=config['configuration']['rangeMatrixPolicy']
+                    case='if_match' if mode=='if_match_validator' else 'if_stale' if mode=='if_stale_partial' else 'updated' if mode in ('updated_stale_bytes','updated_before_change') else 'interrupted' if mode=='partial_complete' else 'partial_read' if mode=='partial_read_payload' else 'recovered' if mode in ('recovery_order','retry_excess') else 'hit' if mode=='cache_hit_miss' else 'latency_cold' if mode=='cold_without_purge' else 'latency_slow' if mode=='slow_profile' else 'latency_multi' if mode in ('multi_serial','multi_same_user') else 'denied_user' if mode=='denied_payload' else 'range_start'
+                    row=next(r for r in report['cases'] if r['case']==case);witness_path=root/row['witnessRef'];witness=load_yaml(witness_path);request=witness['requests'][0];body=root/request['responseBodyRef'];update_path=root/report['sourceUpdateRef'];update=load_yaml(update_path);lifecycle_path=root/report['cacheLifecycleRef'];lifecycle=load_yaml(lifecycle_path)
+                    if mode in ('transient_shared_key','other_user_identity'):
+                        row=next(r for r in report['cases'] if r['case']=='other_user');witness_path=root/row['witnessRef'];witness=load_yaml(witness_path);request=witness['requests'][0]
+                    if mode=='missing_report':env.pop('rangeMatrixRef')
+                    elif mode=='arbitrary_report':report_path.write_text('All Range cases allegedly pass\n',encoding='utf8')
+                    elif mode=='oversize_report':report_path.write_text('x'*262145,encoding='utf8')
+                    elif mode=='bad_policy':config['configuration']['rangeMatrixPolicy']=True
+                    elif mode=='wrong_config':report['configurationRef']=env['acceptanceProfileConfigurationRef']
+                    elif mode=='wrong_input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='missing_case':report['cases'].pop()
+                    elif mode=='duplicate_case':report['cases'][-1]=copy.deepcopy(report['cases'][0])
+                    elif mode=='wrong_witness_type':next(a for a in env['rawExecutionArtifacts'] if a['ref']==row['witnessRef'])['artifactType']='command_output'
+                    elif mode=='wrong_status':request['statusCode']=200
+                    elif mode in ('corrupt_bytes','denied_payload','partial_read_payload','updated_stale_bytes'):
+                        if mode=='updated_stale_bytes':body.write_bytes((root/env['inputSampleArtifacts'][0]['inputArtifactRef']).read_bytes()[:8])
+                        else:body.write_bytes(b'Corrupt!')
+                        request['responseByteCount']=body.stat().st_size;request['responseSha256']='sha256:'+hashlib.sha256(body.read_bytes()).hexdigest()
+                    elif mode=='wrong_range':request['requestRange']='bytes=1-8'
+                    elif mode=='wrong_etag':request['etag']='"stale-version"'
+                    elif mode=='if_match_validator':request['ifRange']='"stale-version"'
+                    elif mode=='if_stale_partial':request['statusCode']=206
+                    elif mode=='update_hash':update['updatedSha256']=update['baseSha256']
+                    elif mode=='updated_before_change':request['startedAt']=request['firstByteAt']=request['finishedAt']='2026-09-03T00:00:19Z'
+                    elif mode=='partial_complete':request['cacheComplete']=request['cacheVisible']=True
+                    elif mode=='recovery_order':request['startedAt']=request['firstByteAt']=request['finishedAt']='2026-09-03T00:00:02Z'
+                    elif mode=='retry_excess':request['retryCount']=policy['maximumRetries']+1
+                    elif mode=='buffer_excess':request['maximumBufferedBytes']=policy['maximumBufferedBytes']+1
+                    elif mode=='cache_hit_miss':request['cacheStatus']='MISS'
+                    elif mode=='cold_without_purge':request['cachePurged']=False
+                    elif mode=='slow_profile':request['originDelayMs']=policy['slowOriginDelayMs']+1
+                    elif mode=='multi_serial':
+                        later=witness['requests'][1];later['startedAt']='2026-09-03T00:00:02Z';later['firstByteAt']='2026-09-03T00:00:02.001Z';later['finishedAt']='2026-09-03T00:00:02.002Z'
+                    elif mode=='multi_same_user':witness['requests'][1]['userId']=request['userId']
+                    elif mode=='transient_shared_key':request['cacheKey']='synthetic-cache-'+policy['authorizedUsers'][0]
+                    elif mode=='other_user_identity':request['userId']=policy['authorizedUsers'][0];request['cacheKey']='synthetic-cache-'+policy['authorizedUsers'][0]
+                    elif mode=='cache_shared_key':
+                        for entry in report['cases']:
+                            path=root/entry['witnessRef'];captured=load_yaml(path)
+                            for r in captured['requests']:r['cacheKey']='shared-protected-key'
+                            write_yaml(path,captured)
+                        for r in witness['requests']:r['cacheKey']='shared-protected-key'
+                    elif mode=='slice_gap':report['slices'][1]['start']+=1
+                    elif mode=='slice_size':policy['sliceBytes']=8
+                    elif mode=='slice_corrupt':
+                        segment=report['slices'][0];path=root/segment['artifactRef'];path.write_bytes(b'x'*16);segment['sha256']='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+                    elif mode=='cache_object_corrupt':
+                        item=lifecycle['stages'][1]['objects'][0];path=root/item['artifactRef'];path.write_bytes(b'x'*item['byteCount']);item['sha256']='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+                    elif mode=='cache_allocation':lifecycle['stages'][1]['allocatedBytes']+=1
+                    elif mode in ('cache_duplicate','cache_alias'):
+                        stage=lifecycle['stages'][1];duplicate=copy.deepcopy(stage['objects'][0])
+                        if mode=='cache_alias':
+                            alias=root/prefix/'raw/cache-physical-alias.bin';os.link(root/duplicate['artifactRef'],alias);duplicate['artifactRef']=alias.relative_to(root).as_posix();data['rawOutputRefs'].append(duplicate['artifactRef']);env['rawExecutionArtifacts'].append(dict(ref=duplicate['artifactRef'],artifactType='produced_media',byteCount=duplicate['byteCount'],sha256=duplicate['sha256']))
+                        stage['objects'].append(duplicate);stage['allocatedBytes']*=2
+                    elif mode=='cache_partial_visible':lifecycle['stages'][2]['objects'][0]['visible']=True
+                    elif mode=='cache_updated_stale':lifecycle['stages'][4]['objects'][0]['sourceVersion']=policy['baseVersion']
+                    elif mode=='cache_cleanup_objects':lifecycle['stages'][-1]['objects']=copy.deepcopy(lifecycle['stages'][1]['objects'])
+                    elif mode in ('hot_latency','cold_latency','slow_latency','multi_latency'):
+                        mid={'hot_latency':'range_hot_cache_latency','cold_latency':'range_cold_cache_latency','slow_latency':'range_slow_origin_latency','multi_latency':'range_multi_user_latency'}[mode];next(m for m in data['measurements'] if m['id']==mid)['actual']=2
+                    elif mode=='correctness':next(m for m in data['measurements'] if m['id']=='range_correctness')['actual']=99
+                    elif mode=='bad_time':request['firstByteAt']='not-a-date'
+                    else:request['requestURL']='https://other.invalid/asset'
+                    if mode not in ('arbitrary_report','oversize_report'):write_yaml(report_path,report)
+                    write_yaml(config_path,config);write_yaml(witness_path,witness);write_yaml(update_path,update);write_yaml(lifecycle_path,lifecycle);self.assertTrue(validate(data),(profile,mode))
+                for p,raw in originals.items():p.write_bytes(raw)
+                data=copy.deepcopy(original);config=load_yaml(config_path);config['configuration']['rangeMatrixPolicy']['percentileMethod']='nearest-rank-p95';write_yaml(config_path,config);self.assertEqual(validate(data),[])
+                # Stable opaque ETags are permitted; they need not encode the content hash.
+                config['configuration']['rangeMatrixPolicy'].update(baseETag='"opaque-old"',updatedETag='"opaque-new"');write_yaml(config_path,config)
+                for row in load_yaml(report_path)['cases']:
+                    path=root/row['witnessRef'];witness=load_yaml(path)
+                    for request in witness['requests']:
+                        if request['etag']:request['etag']='"opaque-new"' if row['case']=='updated' else '"opaque-old"'
+                        if row['case']=='if_match':request['ifRange']='"opaque-old"'
+                    write_yaml(path,witness)
+                self.assertEqual(validate(data),[])
+                # Different source versions may reuse a key; immutable cache objects may be observed at later stages.
+                current=load_yaml(report_path);row=next(r for r in current['cases'] if r['case']=='updated');path=root/row['witnessRef'];witness=load_yaml(path)
+                for request in witness['requests']:request['cacheKey']='synthetic-cache-'+config['configuration']['rangeMatrixPolicy']['authorizedUsers'][1]
+                write_yaml(path,witness);lifecycle_path=root/current['cacheLifecycleRef'];lifecycle=load_yaml(lifecycle_path);lifecycle['stages'][3]['objects']=copy.deepcopy(lifecycle['stages'][1]['objects']);write_yaml(lifecycle_path,lifecycle);self.assertEqual(validate(data),[])
+            finally:temp.cleanup()
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    self.make_profile_slot(root,'POC-003',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-03'}),[])
+                finally:temp.cleanup()
+
+    def test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-009',profile);result=load_yaml(root/load_yaml(index)['resultRef']);record=load_yaml(root/result['executionRef']);env=record['environmentCaptured'];report_path=root/env['aiResultsRef'];report=load_yaml(report_path);config_path=root/report['configurationRef'];evaluation_path=root/report['evaluationRef'];usage_path=root/report['usageRef'];dispatch_path=root/report['dispatchRef'];prefix=Path(result['executionRef']).parent.as_posix();plan=load_yaml(self.plan_path(root,'POC-009'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+                originals={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};originals[config_path]=config_path.read_bytes();original=copy.deepcopy(record)
+                def validate(data):
+                    errors=[];CHECK.validate_qualified_ai_results(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[]);self.assertEqual(validate(record),[])
+                numeric=CHECK.AI_EVALUATED_METRICS|{'retrieval_recall','retrieval_mrr','retrieval_ndcg','query_latency','cost_estimate','provider_budget_limit','provider_request_rate_limit','provider_concurrency_limit'}
+                for metric in sorted(numeric):
+                    data=copy.deepcopy(original);next(m for m in data['measurements'] if m['id']==metric)['actual']+=.125;self.assertTrue(validate(data),(profile,metric))
+                for mode in ('missing','arbitrary','oversize','bad_policy','wrong_config','wrong_subject','wrong_input','wrong_benchmark','missing_metric','duplicate_evaluation','wrong_output','wrong_rubric','wrong_method','wrong_method_mode','missing_stratum','coverage_count','score_nan','denominator_zero','duplicate_usage','missing_usage','output_alias','output_hash','token_usage','pricing_version','currency','wrong_query','unknown_rank','duplicate_rank','ranked_output','query_latency_time','query_set','corpus','no_warmup','late_warmup','missing_policy_case','duplicate_policy_case','permission_caller','acl_version','budget_not_exceeded','rate_not_exceeded','concurrency_not_exceeded','denied_dispatch_ids','denied_outbound_bytes','authorized_arbitrary_outbound','budget_period','review_binding','claimed_gate'):
+                    for p,raw in originals.items():p.write_bytes(raw)
+                    data=copy.deepcopy(original);env=data['environmentCaptured'];report=load_yaml(report_path);config=load_yaml(config_path);policy=config['configuration']['aiEvaluationPolicy'];evaluation=load_yaml(evaluation_path);usage=load_yaml(usage_path);dispatch=load_yaml(dispatch_path)
+                    selected_case='acl_revoked' if mode=='acl_version' else 'budget_exhausted' if mode=='budget_not_exceeded' else 'request_rate_exceeded' if mode=='rate_not_exceeded' else 'concurrency_exceeded' if mode=='concurrency_not_exceeded' else 'authorized' if mode=='authorized_arbitrary_outbound' else 'permission_denied';outcome=next(o for o in dispatch['outcomes'] if o['case']==selected_case)
+                    if mode=='missing':env.pop('aiResultsRef')
+                    elif mode=='arbitrary':report_path.write_text('Unrelated assertions of quality and quota success\n',encoding='utf8')
+                    elif mode=='oversize':report_path.write_text('x'*262145,encoding='utf8')
+                    elif mode=='bad_policy':config['configuration']['aiEvaluationPolicy']=True
+                    elif mode=='wrong_config':report['configurationRef']=env['acceptanceProfileConfigurationRef']
+                    elif mode=='wrong_subject':report['subjectVersion']='another-model-prompt-parameter-runtime'
+                    elif mode=='wrong_input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='wrong_benchmark':report['benchmarkId']='another-benchmark'
+                    elif mode=='missing_metric':evaluation['evaluations'].pop()
+                    elif mode=='duplicate_evaluation':evaluation['evaluations'][-1]=copy.deepcopy(evaluation['evaluations'][0])
+                    elif mode=='wrong_output':evaluation['evaluations'][0]['outputRef']=usage['items'][1]['outputRef']
+                    elif mode=='wrong_rubric':evaluation['evaluations'][0]['rubricVersion']='unapproved-rubric'
+                    elif mode=='wrong_method':evaluation['evaluations'][0]['evaluatorBuild']='other-evaluator'
+                    elif mode=='wrong_method_mode':policy['evaluationMethods'][0]['mode']='tool_score'
+                    elif mode=='missing_stratum':evaluation['evaluations'][0]['stratumId']='unapproved-stratum'
+                    elif mode=='coverage_count':policy['strata'][0]['minimumSamples']=2
+                    elif mode=='score_nan':next(r for r in evaluation['evaluations'] if r['metricId']=='quality_score')['score']=float('nan')
+                    elif mode=='denominator_zero':next(r for r in evaluation['evaluations'] if r['metricId']=='asr_wer')['denominator']=0
+                    elif mode=='duplicate_usage':usage['items'][-1]=copy.deepcopy(usage['items'][0])
+                    elif mode=='missing_usage':usage['items'].pop()
+                    elif mode=='output_alias':usage['items'][1].update(outputRef=usage['items'][0]['outputRef'],outputSha256=usage['items'][0]['outputSha256'])
+                    elif mode=='output_hash':usage['items'][0]['outputSha256']='sha256:'+'0'*64
+                    elif mode=='token_usage':usage['items'][0]['inputTokens']=2
+                    elif mode=='pricing_version':usage['pricingVersion']='other-price-version'
+                    elif mode=='currency':usage['currency']='other-currency'
+                    elif mode=='wrong_query':evaluation['queries'][0]['queryId']='unapproved-query'
+                    elif mode=='unknown_rank':evaluation['queries'][0]['retrievedIds']=['unapproved-document']
+                    elif mode=='duplicate_rank':evaluation['queries'][0]['retrievedIds']*=2
+                    elif mode=='ranked_output':
+                        row=evaluation['queries'][0];path=root/row['outputRef'];captured=load_yaml(path);captured['retrievedIds']=[];write_yaml(path,captured);row['outputSha256']='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+                    elif mode=='query_latency_time':evaluation['queries'][0]['finishedAt']='2026-09-03T00:02:00.002Z'
+                    elif mode=='query_set':evaluation['queries'][0]['querySetId']='other-query-set'
+                    elif mode=='corpus':evaluation['queries'][0]['corpusId']='other-corpus'
+                    elif mode=='no_warmup':evaluation['warmupQueries']=[]
+                    elif mode=='late_warmup':evaluation['warmupQueries'][0]['finishedAt']='2026-09-03T00:04:00Z'
+                    elif mode=='missing_policy_case':dispatch['outcomes'].pop()
+                    elif mode=='duplicate_policy_case':dispatch['outcomes'][-1]=copy.deepcopy(dispatch['outcomes'][0])
+                    elif mode=='permission_caller':outcome['callerId']=policy['gatePolicy']['authorizedCallerId']
+                    elif mode=='acl_version':outcome['aclVersion']=policy['gatePolicy']['currentAclVersion']
+                    elif mode=='budget_not_exceeded':outcome['budgetRemaining']=1
+                    elif mode=='rate_not_exceeded':outcome['requestCount']=1
+                    elif mode=='concurrency_not_exceeded':outcome['concurrentCalls']=1
+                    elif mode=='denied_dispatch_ids':outcome['providerRequestIds']=['leaked-provider-request']
+                    elif mode in ('denied_outbound_bytes','authorized_arbitrary_outbound'):
+                        path=root/outcome['outboundRef'];path.write_text('Unexpected provider request bytes\n',encoding='utf8');outcome['outboundSha256']='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+                    elif mode=='budget_period':outcome['budgetPeriodId']='other-budget-period'
+                    elif mode=='review_binding':report['privacyReviewRef']=report['licenseReviewRef']
+                    else:next(m for m in data['measurements'] if m['id']=='hard_budget_gate')['actual']=False
+                    if mode not in ('arbitrary','oversize'):write_yaml(report_path,report)
+                    write_yaml(config_path,config);write_yaml(evaluation_path,evaluation);write_yaml(usage_path,usage);write_yaml(dispatch_path,dispatch);self.assertTrue(validate(data),(profile,mode))
+                # Error rates may exceed one and COMET may be negative when the retained evaluator actually observed them.
+                for p,raw in originals.items():p.write_bytes(raw)
+                data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path)
+                for metric,value,numerator,denominator in (('asr_wer',2,2,1),('asr_cer',2,2,1),('speaker_der',1.2,12,10),('translation_comet',-.3,1,1)):
+                    row=next(r for r in evaluation['evaluations'] if r['metricId']==metric);row.update(numerator=numerator,denominator=denominator,score=value);next(m for m in data['measurements'] if m['id']==metric)['actual']=value
+                write_yaml(evaluation_path,evaluation);self.refresh_qualified_observation_fixture(root,data);path=root/result['executionRef'];write_yaml(path,data);self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[])
+            finally:temp.cleanup()
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    self.make_profile_slot(root,'POC-009',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-09'}),[])
+                finally:temp.cleanup()
 
     def test_01_positive_baseline(self):
         self.assertEqual(CHECK.validate_repository(self.repo), [])
@@ -2016,7 +2598,10 @@ class TestPocProgram(unittest.TestCase):
                 with self.subTest(metric=mid,value=value):
                     path.write_text(original,encoding='utf-8');data=load_yaml(path)
                     next(m for m in data['measurements'] if m['id']==mid)['actual']=value;write_yaml(path,data)
-                    errors=CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-09'})
+                    plan=load_yaml(self.plan_path(root,'POC-009'));route=CHECK.execution_route(plan,'local-v1');env=data['environmentCaptured'];configuration=load_yaml(root/env['acceptanceProfileConfigurationRef']);defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];prefix=Path(result['executionRef']).parent.as_posix();window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+                    unit=next(m['unit'] for m in route['protocol']['measurements'] if m['id']==mid);errors=[]
+                    if not CHECK.good_actual(unit,value,mid):errors.append('invalid numeric unit domain')
+                    CHECK.validate_qualified_domains(root,plan,data,route,configuration,defs,prefix,result['reviewer'],window,errors)
                     self.assertEqual(not errors,valid,errors)
             self.assertTrue(CHECK.good_actual('celsius',-10))
             self.assertTrue(CHECK.good_actual('bytes',1.5,'average_file_size'))
@@ -2545,6 +3130,14 @@ class TestPocProgram(unittest.TestCase):
         poc=execution['pocId'];profile=env['acceptanceProfile']['id']
         plan=load_yaml(root/f"specs/poc/plans/POC-{int(poc.split('-')[1]):03d}.yaml")
         route=CHECK.execution_route(plan,profile)
+        if poc=='POC-07' and profile=='local-v1' and env.get('accessOutcomeRef'):
+            report=load_yaml(root/env['accessOutcomeRef']);resource_path=root/report['configurationRef'];resource=load_yaml(resource_path);policy=resource['configuration']['accessPolicy'];tls=env['local_tls_path_configuration']
+            for key,origin,path in (('range',tls['entryOrigin'],'/protected/range'),('stream',tls['entryOrigin'],'/protected/stream'),('source',tls['openlistOrigin'],'/protected/source'),('admin',tls['openlistOrigin'],'/api/admin')):policy['paths'][key]=origin+path
+            write_yaml(resource_path,resource)
+            for case in report['cases']:
+                path=root/case['witnessRef'];witness=load_yaml(path);role='stream' if case['case']=='authorized_stream' else case['case'].removeprefix('direct_') if case['case'].startswith('direct_') else 'range';witness['requestURL']=policy['paths'][role];write_yaml(path,witness)
+            self.refresh_qualified_observation_fixture(root,execution)
+            index=CHECK.profile_index_ref('POC-'+str(int(poc.split('-')[1])).zfill(3),profile);result=load_yaml(root/load_yaml(root/index)['resultRef']);write_yaml(root/result['executionRef'],execution)
         for ref in configuration['numericDomainReviewRefs'].values():
             review=load_yaml(root/ref);review['environmentCaptured']={k:env[k] for k in route['captureBeforeExecution']};write_yaml(root/ref,review)
 

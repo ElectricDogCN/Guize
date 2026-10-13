@@ -1,3 +1,22 @@
+Current revision: repair of six verified result/timing/Range/access/A380/UTC findings and the local146 bad-type regression on actual8ddb9717005133ffdbc987883a79720ab32f84ff.
+Status: IN_PROGRESS; candidate content review pending. No successor published-source full execution or formal acceptance.
+
+Actual8ddb local execution stopped with Exit1:17 prior gates passed;164 POC methods1360.450s had163ok and original146ERROR(bool caps.get). Native verify/docs/637/JUnit did not execute. Same-source CI704/run38453989531/job115491847123 completed28 successful steps/637 methods1261.97s with no failures/errors/skips, independently accepted as CI execution. Final implementation acceptance remains rejected. Exact raw/terminal failure/CI/independent rejection/counterexample/identity/body records are retained in executions/8ddb9717005133ffdbc987883a79720ab32f84ff/manifest.json. Historical execution success does not transfer to this candidate.
+
+Candidate fixes bad-typed concurrency captures without exceptions and parses every baseline/restored retention schedule as UTC. POC010 timing binds approved run/host/service/VM/access subjects and eight retained business events to the current bounded baseline/restored/comparison reports; six times derive their own endpoints, preserving zero RPO and separate readiness times. Production POC002 binds approved A380 hardware/device/builds to its designated inventory/run/output, sampled telemetry phases/peaks and byte-correct timed Range response; local VM remains independent and no ESXi obligation is added here.
+
+POC003 now parses actual Range/If-Range/ETag/returned bytes, immutable source update, Slice reassembly, cache miss/fill/hit/partial recovery/disk lifecycle and four measured latency scenarios. Each stage counts physical objects once; different stages may reuse a snapshot. ACL cache-key stability/isolation applies per version and permits cross-version key reuse. POC007 binds authorized and denied requests to current user/grant/ACL/source/path, actual returned bytes and approved rate attempts; local direct-source/admin/worker denials do not attest production IPv6/CDN.
+
+POC009 binds exact approved benchmark/query/corpus/model/Prompt/parameters/runtime/tool identities, measured completed-item outputs/usage/pricing, approved evaluator/rubric quality rows and stratum coverage, actual ranked retrieval output and independently labelled relevance, warmup/query times, and explicit authorized/permission/revoked-ACL/budget/request/concurrency dispatch observations. Denials require zero outbound bytes and provider IDs. Existing independently validated privacy/license reviews remain required; no provider API was invoked during these checker tests.
+
+Current172 methods add165-172. Original163 methods other than121 retain their ASTs. Test121 necessarily isolates numeric-unit and approved-domain rules using its unchanged seven values/expectations and full valid baseline; new172 separately rejects unbacked result changes and permits genuinely retained WER/CER>1, DER1.2 and negative COMET. Earlier schema whole prefix/definitions,35 requirement negatives, frozen plans/manifest/requirements/DAG/claims/metadata remain. Credential scanners are unchanged; pricing uses public inputUnitPrice/outputUnitPrice fields rather than false-positive TokenPrice names.
+
+All16 truthful candidate increments, including failed selector/helper/URL/pricing/domain-adaptation attempts, are retained in candidate-checks/qualified-result-boundaries/manifest.json. Latest final Range171 passed1/71.266s after earlier171/original1042/101.127s. AI172 individually passed within the failed2/112.951s run (121 had seven unit-source errors); fixed121 alone passed1/8.095s. These outcomes are not combined into a full172 or even a final2-test command. Full source20/172/35/637 and same-source CI plus independent final admission remain necessary after publication.
+
+Docker/Android VM boot only is verified. Actual AV1/Worker/platform runtime/real POC/full local V1 remain incomplete. Normal GZ021 Review/Completion and accepted actualmain are still required before downstream implementation.
+
+--- Historical actual4139 observation candidate and previous stages ---
+
 Current revision: dirty repair of five verified observation/physical-device/stream/recovery findings on actual4139a987780339c7b22c78b5c35402bb4c30ee87.
 Status: IN_PROGRESS; candidate increments only, no successor-source full execution or final acceptance.
 

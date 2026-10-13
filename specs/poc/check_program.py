@@ -1239,7 +1239,8 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
     _,minutes=encode_interval_capacity(intervals)
     peak,_=encode_interval_capacity([(identity,start,end) for identity,start,end,_ in stream_intervals])
     if (env.get('acceptanceProfile') or {}).get('id')=='local-v1':
-        caps=env.get('scheduler_configuration') or {}
+        caps=env.get('scheduler_configuration')
+        caps=caps if isinstance(caps,dict) else {}
         total_cap,per_node=caps.get('maxConcurrentSegments'),caps.get('perNodeConcurrency')
         if type(total_cap) is not int or total_cap<1 or type(per_node) is not int or per_node<1:
             errors.append(f'{label}: positive integer local concurrency caps required')
@@ -1251,6 +1252,94 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         if not isinstance(actual,bool) and isinstance(actual,(int,float)) and math.isfinite(actual) and actual>observed+1e-9:
             errors.append(f'{label}: {metric} exceeds captured continuous worker interval capacity')
     validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
+
+
+def validate_qualified_a380_encode(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-02' or status!='pass' or (env.get('acceptanceProfile') or {}).get('id')!='production':return
+    label=f"qualified A380 encode {plan['taskId']}";capture=env.get('productionA380Encode');before=len(errors)
+    validate_schema(capture,defs.get('productionA380Encode',{}),label,errors)
+    if not isinstance(capture,dict) or len(errors)!=before:return
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-A380-ENCODE'),None)
+    if resource is None or capture['configurationRef']!=resource.get('configurationRef'):
+        errors.append(f'{label}: exact approved RES-A380-ENCODE configuration required');return
+    config_path=existing_ref(root,capture['configurationRef'],prefix)
+    try:approved=load(config_path).get('configuration',{}).get('productionA380Encode') if config_path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):approved=None
+    if not isinstance(approved,dict) or approved.get('identity')!=capture['identity']:
+        errors.append(f'{label}: exact previously approved A380 device/host/driver/runtime/encoder identity required');return
+    identity=capture['identity'];nodes=env.get('worker_node_inventory') or [];runs=env.get('workerEncodeExecutions') or []
+    if not isinstance(nodes,list) or not isinstance(runs,list):
+        errors.append(f'{label}: typed inventory and encode-run lists required');return
+    if any(not recorded_text(value) for key,value in identity.items() if key!='schemaVersion'):
+        errors.append(f'{label}: concrete A380 identity values required');return
+    selected_nodes=[n for n in nodes if isinstance(n,dict) and n.get('nodeId')==identity['nodeId']]
+    selected_runs=[r for r in runs if isinstance(r,dict) and r.get('nodeId')==identity['nodeId'] and r.get('outputArtifactRef')==capture['outputArtifactRef']]
+    keys=('nodeId','physicalHostId','platform','gpuVendor','gpuModel','gpuDeviceId','driverBuild','runtimeBuild','encoderBuild','encoderBackend')
+    if len(selected_nodes)!=1 or any(selected_nodes[0].get(k)!=identity[k] for k in keys) or len(selected_runs)!=1:
+        errors.append(f'{label}: approved physical A380 must bind one inventory node and designated encode run/output');return
+    run=selected_runs[0]
+    if any(run.get(k)!=identity[k] for k in ('encoderBuild','gpuDeviceId','driverBuild','runtimeBuild','encoderBackend')):
+        errors.append(f'{label}: designated encode must use the approved hardware device and builds');return
+    start,end=utc(run.get('startedAt')),utc(run.get('finishedAt'))
+    if start is None or end is None or window is None or not window[0]<=start<end<=window[1]:
+        errors.append(f'{label}: valid designated A380 encode interval required');return
+    before=len(errors)
+    telemetry=selected_observation(root,execution,prefix,capture['telemetryRef'],defs,'a380TelemetryObservation',label,errors,cache)
+    request=selected_observation(root,execution,prefix,capture['rangeRef'],defs,'a380RangeObservation',label,errors,cache)
+    if len(errors)!=before or telemetry is None or request is None:return
+    expected=dict(identity=identity,configurationRef=capture['configurationRef'],inputSampleId=run.get('inputSampleId'),inputSha256=run.get('inputSha256'),outputArtifactRef=run.get('outputArtifactRef'),outputSha256=run.get('outputSha256'))
+    if any(report.get(k)!=v for report in (telemetry,request) for k,v in expected.items()):
+        errors.append(f'{label}: observations must bind the exact approved device, input and produced output')
+    sampling=approved.get('telemetrySampling')
+    before=len(errors);validate_schema(sampling,defs.get('a380TelemetrySampling',{}),label,errors)
+    if len(errors)!=before:return
+    if telemetry['sampling']!=sampling:errors.append(f'{label}: telemetry must bind approved sampling tool/build/interval/scope/phases')
+    step=sampling['intervalSeconds'];phases=sampling['phases'];phase_windows=[]
+    if isinstance(step,bool) or not math.isfinite(step) or step<=0 or not recorded_text(sampling['toolBuild']):
+        errors.append(f'{label}: concrete sampling tool and finite positive interval required');return
+    for phase in phases:
+        first,last=utc(phase['startedAt']),utc(phase['finishedAt'])
+        if first is None or last is None or not start<=first<last<=end:
+            errors.append(f'{label}: each approved workload phase needs valid UTC encode endpoints');return
+        phase_windows.append((phase['phase'],first,last))
+    if [p[0] for p in phase_windows]!=['warmup','concurrency','soak'] or phase_windows[0][1]!=start or phase_windows[-1][2]!=end or any(a[2]!=b[1] for a,b in zip(phase_windows,phase_windows[1:])):
+        errors.append(f'{label}: approved warmup/concurrency/soak phases must cover the designated workload');return
+    stamps=[];observed_phases=set();power=[];temperature=[]
+    for row in telemetry['samples']:
+        at=utc(row['observedAt']);watts=row['powerWatts'];celsius=row['temperatureCelsius']
+        if at is None or not any(row['phase']==name and first<=at<=last for name,first,last in phase_windows) or isinstance(watts,bool) or not isinstance(watts,(int,float)) or not math.isfinite(watts) or watts<0 or isinstance(celsius,bool) or not isinstance(celsius,(int,float)) or not math.isfinite(celsius):
+            errors.append(f'{label}: retained telemetry samples require finite readings and exact UTC workload phase');return
+        stamps.append(at);observed_phases.add(row['phase']);power.append(watts);temperature.append(celsius)
+    if observed_phases!={'warmup','concurrency','soak'} or stamps[0]!=start or stamps[-1]!=end or any(not math.isclose((b-a).total_seconds(),step,rel_tol=1e-9,abs_tol=1e-9) for a,b in zip(stamps,stamps[1:])):
+        errors.append(f'{label}: actual sampling timestamps must cover all phases at the approved interval')
+    if not recorded_text(approved.get('outputServingPath')) or request['mediaPath']!=approved['outputServingPath']:
+        errors.append(f'{label}: first-byte request must use the approved produced-media serving path')
+    output=existing_ref(root,capture['outputArtifactRef'],prefix);body=existing_ref(root,request['responseBodyRef'],prefix)
+    artifacts=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==request['responseBodyRef']]
+    if output is None or body is None or len(artifacts)!=1 or artifacts[0].get('artifactType')!='produced_media' or artifacts[0].get('nodeId')!=identity['nodeId'] or request['responseBodyRef'] not in (execution.get('rawOutputRefs') or []):
+        errors.append(f'{label}: retained response bytes must bind the A380 node in this selected slot');return
+    paths=[existing_ref(root,capture[key],prefix) for key in ('telemetryRef','rangeRef','outputArtifactRef')]+[body]
+    if any(a.samefile(b) for i,a in enumerate(paths) if a for b in paths[i+1:] if b):errors.append(f'{label}: telemetry, request, media and returned bytes must be physically distinct')
+    source=inspect_artifact(output,cache);response=inspect_artifact(body,cache)
+    first,last=request['rangeStart'],request['rangeEnd'];began,received=utc(request['requestStartedAt']),utc(request['firstByteAt'])
+    if request['statusCode']!=206 or request['contentRange']!=f'bytes {first}-{last}/{source["size"]}' or request['requestRange']!=f'bytes={first}-{last}' or not 0<=first<=last<source['size'] or response['size']!=last-first+1 or response['sha256']!=request['responseSha256']:
+        errors.append(f'{label}: retained Range status/headers/body hash must match the produced byte interval');return
+    digest=hashlib.sha256();remaining=last-first+1
+    with output.open('rb') as stream:
+        stream.seek(first)
+        while remaining:
+            block=stream.read(min(ARTIFACT_CHUNK_BYTES,remaining))
+            if not block:break
+            digest.update(block);remaining-=len(block)
+    if remaining or response['sha256']!='sha256:'+digest.hexdigest():errors.append(f'{label}: actual Range response must equal exact A380-produced media bytes')
+    if began is None or received is None or not end<=began<=received<=window[1]:
+        errors.append(f'{label}: first-byte request must follow the designated encode inside executionWindow');return
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    for metric,value in (('encoder_power_peak_watts',max(power)),('encoder_temperature_peak_celsius',max(temperature)),('a380_range_first_byte_latency',(received-began).total_seconds()*1000)):
+        claimed=actual.get(metric)
+        if isinstance(claimed,bool) or not isinstance(claimed,(int,float)) or not math.isfinite(claimed) or not math.isclose(claimed,value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must equal actual retained telemetry/request observation')
+
 
 
 def encode_interval_capacity(intervals):
@@ -1448,6 +1537,8 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
         errors.append(f'{label}: index entries must exactly reconcile restored authoritative metadata')
     if any(sum(item['primary'] is True for item in state['replicas'] if item['assetId']==asset)!=1 for asset in assets):
         errors.append(f'{label}: each asset requires exactly one verified authoritative primary replica')
+    if any(utc(item['scheduledAt']) is None for item in state['retention']):
+        errors.append(f'{label}: retained retention scheduledAt must be a valid UTC date-time')
     previous='sha256:'+'0'*64
     for sequence,item in enumerate(state['audit']):
         payload={key:item[key] for key in ('entryId','sequence','entityId','previousSha256')}
@@ -1553,6 +1644,525 @@ def validate_qualified_recovery_observation(root, plan, execution, prefix, statu
             errors.append(f'{label}: replay must process each exact dedup identity only once')
         transitioned=transitioned or event in selected and item['status']=='pending' and target.get('status')=='processed'
     if not transitioned:errors.append(f'{label}: an approved pending fixture must actually undergo replay')
+
+
+RECOVERY_TIME_ENDPOINTS = {
+    'rpo_observed':('backup_checkpoint','recoverable_data_boundary'),
+    'rto_observed':('recovery_started','recovery_completed'),
+    'service_recovery_time':('recovery_started','services_ready'),
+    'vm_recovery_time':('recovery_started','vm_set_ready'),
+    'core_browsing_recovery_time':('recovery_started','authenticated_browsing_succeeded'),
+    'playback_recovery_time':('recovery_started','authorized_playback_succeeded'),
+}
+
+
+def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-10' or status!='pass':return
+    label=f"qualified recovery timing {plan['taskId']}"
+    env=execution.get('environmentCaptured') or {};capture=env.get('recoveryEvidence')
+    if not isinstance(capture,dict):return  # The recovery-state validator reports the missing capture.
+    before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('recoveryTimingRef'),defs,'recoveryTimingReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    config_path=existing_ref(root,capture.get('configurationRef'),prefix)
+    try:config=load(config_path) if config_path else {};approved=config.get('configuration',{}).get('recoveryTimingSubjects')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):approved=None
+    if not isinstance(approved,dict) or report['subjects']!=approved or any(not recorded_text(approved.get(key)) for key in ('recoveryRunId','physicalHostId','serviceSetId','vmSetId','authorizedUserId','assetId')):
+        errors.append(f'{label}: exact previously approved recovery run/host/service/VM/access subjects required');return
+    expected=dict(configurationRef=capture.get('configurationRef'),baselineRef=capture.get('baselineRef'),restoredRef=capture.get('restoredRef'),comparisonRef=capture.get('comparisonRef'),resourceId='RES-RECOVERY-SANDBOX',subjectVersion=compliance_subject_version(plan,execution),acceptanceProfile=env.get('acceptanceProfile'),inputSamples=[{key:s.get(key) for key in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    if any(report.get(key)!=value for key,value in expected.items()):errors.append(f'{label}: timing must bind exact baseline/restored/comparison/resource/tool/input/profile identities')
+    names={event for pair in RECOVERY_TIME_ENDPOINTS.values() for event in pair};rows=report['events']
+    if len(rows)!=len(names) or {row['event'] for row in rows}!=names:
+        errors.append(f'{label}: exact unique recovery business events required');return
+    times={};paths=[]
+    for key in ('baselineRef','restoredRef','comparisonRef'):
+        path=existing_ref(root,capture.get(key),prefix)
+        if path:paths.append(path)
+    timing_path=existing_ref(root,env.get('recoveryTimingRef'),prefix)
+    if timing_path:paths.append(timing_path)
+    for row in rows:
+        name=row['event'];at=utc(row['observedAt']);path=existing_ref(root,row['witnessRef'],prefix)
+        before=len(errors)
+        witness=selected_observation(root,execution,prefix,row['witnessRef'],defs,'recoveryBusinessEvent',label,errors,cache)
+        if witness is None or len(errors)!=before:continue
+        if path and any(path.samefile(peer) for peer in paths):errors.append(f'{label}: business event witnesses must be physically distinct from reports and other events')
+        if path:paths.append(path)
+        identity=dict(event=name,observedAt=row['observedAt'],subjects=approved,resourceId='RES-RECOVERY-SANDBOX',subjectVersion=expected['subjectVersion'],acceptanceProfile=expected['acceptanceProfile'],inputSamples=expected['inputSamples'],outcome='succeeded')
+        if any(witness.get(key)!=value for key,value in identity.items()):errors.append(f'{label}: retained event must bind its exact timestamp and approved execution subjects')
+        if at is None:errors.append(f'{label}: each business event requires a valid UTC timestamp')
+        else:times[name]=at
+    if set(times)!=names or window is None:return
+    checkpoint=utc(approved.get('backupCheckpointAt'))
+    before=len(errors)
+    baseline=selected_observation(root,execution,prefix,capture.get('baselineRef'),defs,'recoveryStateManifest',label,errors,cache)
+    restored=selected_observation(root,execution,prefix,capture.get('restoredRef'),defs,'recoveryStateManifest',label,errors,cache)
+    comparison=selected_observation(root,execution,prefix,capture.get('comparisonRef'),defs,'recoveryComparisonReport',label,errors,cache)
+    if len(errors)!=before or any(report is None for report in (baseline,restored,comparison)):return
+    baseline_end=utc(baseline.get('observedFinishedAt')) if isinstance(baseline,dict) else None
+    comparison_end=utc(comparison.get('observedFinishedAt')) if isinstance(comparison,dict) else None
+    if checkpoint is None or checkpoint!=times['backup_checkpoint'] or baseline_end is None or checkpoint>baseline_end:
+        errors.append(f'{label}: backup checkpoint must bind approved baseline recoverable data boundary')
+    for name,at in times.items():
+        if name!='backup_checkpoint' and not window[0]<=at<=window[1]:errors.append(f'{label}: recovery business event must occur inside executionWindow')
+    start=times['recovery_started'];complete=times['recovery_completed'];boundary=times['recoverable_data_boundary']
+    ready=('services_ready','vm_set_ready','authenticated_browsing_succeeded','authorized_playback_succeeded')
+    if not times['backup_checkpoint']<=boundary<=start<=complete or any(not start<=times[key]<=complete for key in ready) or comparison_end is None or complete>comparison_end:
+        errors.append(f'{label}: checkpoint/disruption/recovery/readiness/completion events must be ordered')
+    try:states=restored['states'];users={item['userId'] for item in states['permissions']};assets={item['assetId'] for item in states['assets']};playback=states['playback']
+    except (TypeError,KeyError,AttributeError):return
+    if approved['authorizedUserId'] not in users or approved['assetId'] not in assets or not any(item['assetId']==approved['assetId'] and item['authorizedUserId']==approved['authorizedUserId'] and item['statusCode']==206 for item in playback):
+        errors.append(f'{label}: browsing/playback ready events must bind restored authorized subjects')
+    actual={item.get('id'):item.get('actual') for item in execution.get('measurements') or []}
+    for metric,(first,last) in RECOVERY_TIME_ENDPOINTS.items():
+        measured=(times[last]-times[first]).total_seconds();claimed=actual.get(metric)
+        if isinstance(claimed,bool) or not isinstance(claimed,(int,float)) or not math.isfinite(claimed) or measured<0 or not math.isclose(claimed,measured,rel_tol=1e-9,abs_tol=1e-9):
+            errors.append(f'{label}: {metric} must equal retained business-event elapsed seconds')
+
+
+ACCESS_DENIAL_GATES={'unauthorized':'unauthorized_identity_denied','expired':'expired_authorization_denied','cross_user':'cross_user_cache_isolation','rate_limit':'rate_limit_enforced','direct_source':'local_direct_origin_denied','direct_admin':'local_direct_origin_denied','direct_worker':'local_direct_origin_denied'}
+
+
+def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-07' or status!='pass':return
+    label=f"qualified access outcomes {plan['taskId']}";env=execution.get('environmentCaptured') or {};profile=(env.get('acceptanceProfile') or {}).get('id');local=profile=='local-v1';before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('accessOutcomeRef'),defs,'accessOutcomeReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    resource_id='RES-LOCAL-ACCESS-PATH' if local else 'RES-PUBLIC-NETWORK'
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')==resource_id),None)
+    if resource is None or report['configurationRef']!=resource.get('configurationRef') or report['pathConfigurationRef']!=env.get('acceptanceProfileConfigurationRef'):
+        errors.append(f'{label}: exact selected profile/resource/path configuration required');return
+    config_path=existing_ref(root,report['configurationRef'],prefix)
+    try:policy=load(config_path).get('configuration',{}).get('accessPolicy') if config_path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,defs.get('accessOutcomePolicy',{}),label,errors)
+    if len(errors)!=before or policy is None:return
+    if not math.isfinite(policy['rateLimit']['windowSeconds']):
+        errors.append(f'{label}: finite approved rate window required');return
+    inputs=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []]
+    expected=dict(resourceId=resource_id,acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=inputs,assetId=policy['assetId'],sourceVersion=policy['sourceVersion'],aclVersion=policy['aclVersion'])
+    if any(report.get(k)!=v for k,v in expected.items()):errors.append(f'{label}: report must bind approved subjects, ACL/source versions, input/tool/profile')
+    if policy['authorizedUserId']==policy['deniedUserId'] or policy['authorizedGrantId']==policy['expiredGrantId'] or any(not recorded_text(policy[k]) for k in ('assetId','sourceVersion','aclVersion','authorizedUserId','deniedUserId','authorizedGrantId','expiredGrantId')):
+        errors.append(f'{label}: concrete distinct authorized/denied subjects and grants required')
+    valid_from,valid_until,expired=map(utc,(policy['grantValidFrom'],policy['grantValidUntil'],policy['expiredAt']))
+    if valid_from is None or valid_until is None or expired is None or valid_from>=valid_until or window is None:
+        errors.append(f'{label}: valid UTC approved grant lifetime required');return
+    source_rows=env.get('inputSampleArtifacts') or []
+    if not isinstance(source_rows,list):
+        errors.append(f'{label}: typed actual input sample artifacts required');return
+    selected=[r for r in source_rows if isinstance(r,dict) and r.get('sampleId')==report['inputSampleId']]
+    sample=next((s for s in execution.get('samples') or [] if s.get('id')==report['inputSampleId']),None)
+    source=existing_ref(root,selected[0].get('inputArtifactRef'),prefix) if len(selected)==1 else None
+    if sample is None or source is None or selected[0].get('immutableId')!=sample.get('immutableId') or inspect_artifact(source,cache)['sha256']!=sample.get('checksum'):
+        errors.append(f'{label}: actual approved source bytes required');return
+    source_info=inspect_artifact(source,cache);etag='"'+sample['checksum'].removeprefix('sha256:')+'"'
+    required={'authorized_range','authorized_if_range','authorized_stream','unauthorized','expired','cross_user','rate_limit'}
+    if local:required|={'direct_source','direct_admin','direct_worker'}
+    rows=report['cases']
+    if len(rows)!=len(required) or {r['case'] for r in rows}!=required:
+        errors.append(f'{label}: exact unique authorized, denial, cache, rate and route cases required');return
+    if local:
+        tls=env.get('local_tls_path_configuration')
+        try:
+            parsed={key:urllib.parse.urlsplit(policy['paths'][key]) for key in ('range','stream','source')}
+        except ValueError:
+            errors.append(f'{label}: valid approved local access URLs required');return
+        if not isinstance(tls,dict) or any(parsed[key].scheme+'://'+parsed[key].netloc!=tls.get('entryOrigin') for key in ('range','stream')) or parsed['source'].scheme+'://'+parsed['source'].netloc!=tls.get('openlistOrigin'):
+            errors.append(f'{label}: access policy must bind the captured local TLS/OpenList origins')
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)};paths=[source];passed={};primed_at=None;primed_range=None;denied_ranges=[];rate_case=None
+    def public_denial(body,actual,case):
+        if actual['size']==0:return True
+        if actual['size']>1024:return False
+        def public_fields(pairs):
+            if len({key for key,_ in pairs})!=len(pairs):raise ValueError('duplicate public error fields')
+            return dict(pairs)
+        try:
+            with body.open(encoding='utf8') as stream:document=json.load(stream,object_pairs_hook=public_fields)
+        except (OSError,ValueError,UnicodeError):return False
+        return document=={'error':'rate_limited' if case=='rate_limit' else 'access_denied'}
+    for row in rows:
+        case=row['case'];before=len(errors);witness=selected_observation(root,execution,prefix,row['witnessRef'],defs,'accessRequestOutcome',label,errors,cache)
+        if witness is None or len(errors)!=before:continue
+        common={k:report[k] for k in ('configurationRef','pathConfigurationRef','resourceId','acceptanceProfile','subjectVersion','inputSamples','assetId','sourceVersion','aclVersion','inputSampleId')}
+        if any(witness.get(k)!=v for k,v in common.items()) or witness['case']!=case:errors.append(f'{label}: retained request must bind exact case/subject/ACL/source/configuration')
+        at=utc(witness['observedAt']);body=existing_ref(root,witness['responseBodyRef'],prefix);trace=existing_ref(root,row['witnessRef'],prefix)
+        if at is None or not window[0]<=at<=window[1] or body is None or artifacts.get(witness['responseBodyRef'],{}).get('artifactType')!='produced_media' or witness['responseBodyRef'] not in (execution.get('rawOutputRefs') or []):
+            errors.append(f'{label}: selected-slot actual returned bytes and valid UTC request time required');continue
+        for path in (trace,body):
+            if path and any(path.samefile(peer) for peer in paths):errors.append(f'{label}: each request and response artifact must be physically distinct')
+            if path:paths.append(path)
+        actual=inspect_artifact(body,cache)
+        if actual['sha256']!=witness['responseSha256'] or actual['size']!=witness['responseByteCount']:errors.append(f'{label}: response hash/count must bind actual returned bytes')
+        role='stream' if case=='authorized_stream' else case.removeprefix('direct_') if case.startswith('direct_') else 'range'
+        if witness['requestURL']!=policy['paths'][role]:errors.append(f'{label}: exact approved entry/origin/admin/worker path required')
+        if case.startswith('authorized_'):
+            if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['authorizedGrantId'] or not valid_from<=at<valid_until:errors.append(f'{label}: authorized request must use the approved currently valid subject/grant')
+            first,last=witness['rangeStart'],witness['rangeEnd'];is_stream=case=='authorized_stream'
+            if witness['statusCode']!=(200 if is_stream else 206) or witness['etag']!=etag or witness['requestRange']!=('' if is_stream else f'bytes={first}-{last}') or witness['ifRange']!=(etag if case=='authorized_if_range' else '') or not 0<=first<=last<source_info['size'] or (is_stream and (first!=0 or last!=source_info['size']-1)) or witness['contentRange']!=('' if is_stream else f'bytes {first}-{last}/{source_info["size"]}') or actual['size']!=last-first+1:
+                errors.append(f'{label}: authorized Range/If-Range/stream status and headers must match exact approved source')
+            else:
+                digest=hashlib.sha256();remaining=last-first+1
+                with source.open('rb') as stream:
+                    stream.seek(first)
+                    while remaining:
+                        block=stream.read(min(remaining,ARTIFACT_CHUNK_BYTES))
+                        if not block:break
+                        digest.update(block);remaining-=len(block)
+                if remaining or actual['sha256']!='sha256:'+digest.hexdigest():errors.append(f'{label}: authorized response bytes must equal the actual approved source interval')
+            if case=='authorized_stream':
+                if witness['maximumBufferedBytes']>policy['maximumBufferedBytes']:errors.append(f'{label}: streaming buffer exceeds approved bound')
+            if case=='authorized_range':primed_at=at;primed_range=(witness['rangeStart'],witness['rangeEnd'],witness['requestRange'])
+        else:
+            denied_ranges.append((witness['rangeStart'],witness['rangeEnd'],witness['requestRange']))
+            if case=='expired':
+                if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['expiredGrantId'] or at<expired:errors.append(f'{label}: expired denial must exercise the approved expired grant')
+            elif case=='cross_user':
+                if witness['userId']!=policy['deniedUserId'] or witness['grantId']!=policy['deniedGrantId'] or not valid_from<=at<valid_until or witness['cacheKey']!=policy['protectedCacheKey']:errors.append(f'{label}: cross-user request must exercise the same protected cached object with the denied subject/grant')
+            elif case=='rate_limit':
+                rate_case=witness
+                if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['authorizedGrantId'] or not valid_from<=at<valid_until or witness['statusCode']!=429 or witness['requestCount']<=policy['rateLimit']['maximumRequests'] or witness['originRequestCount']>policy['rateLimit']['maximumRequests'] or witness['rateWindowSeconds']!=policy['rateLimit']['windowSeconds']:errors.append(f'{label}: rate outcome must exceed approved limit with bounded origin requests and 429')
+                attempts=witness['rateAttempts'];limit=policy['rateLimit']['maximumRequests'];times=[utc(a['observedAt']) for a in attempts]
+                if len(attempts)!=witness['requestCount'] or [a['sequence'] for a in attempts]!=list(range(1,len(attempts)+1)) or any(t is None for t in times) or not times or times[-1]!=at or any(not window[0]<=t<=at for t in times) or any(a>b for a,b in zip(times,times[1:])) or (times[-1]-times[0]).total_seconds()>policy['rateLimit']['windowSeconds'] or sum(a['originContacted'] for a in attempts)!=witness['originRequestCount'] or any(a['statusCode']!=206 if a['sequence']<=limit else a['statusCode']!=429 or a['originContacted'] for a in attempts):
+                    errors.append(f'{label}: rate counts/statuses/timestamps must derive from retained consecutive request attempts')
+                elif any(not valid_from<=t<valid_until for t in times):errors.append(f'{label}: each rate attempt must use a currently valid grant')
+                for attempt in attempts:
+                    returned=existing_ref(root,attempt['responseBodyRef'],prefix)
+                    if returned is None or artifacts.get(attempt['responseBodyRef'],{}).get('artifactType')!='produced_media' or attempt['responseBodyRef'] not in (execution.get('rawOutputRefs') or []):
+                        errors.append(f'{label}: each rate attempt requires actual selected-slot returned bytes');continue
+                    observed=inspect_artifact(returned,cache)
+                    if observed['sha256']!=attempt['responseSha256'] or observed['size']!=attempt['responseByteCount']:errors.append(f'{label}: rate attempt response count/hash must bind actual bytes')
+                    if attempt['sequence']>limit:
+                        if not public_denial(returned,observed,'rate_limit'):errors.append(f'{label}: excess rate attempt leaked protected payload')
+                    else:
+                        first,last=witness['rangeStart'],witness['rangeEnd'];digest=hashlib.sha256();remaining=last-first+1
+                        if not 0<=first<=last<source_info['size']:errors.append(f'{label}: rate warmup request needs valid approved source interval');continue
+                        with source.open('rb') as stream:
+                            stream.seek(first)
+                            while remaining:
+                                block=stream.read(min(remaining,ARTIFACT_CHUNK_BYTES))
+                                if not block:break
+                                digest.update(block);remaining-=len(block)
+                        if remaining or observed['size']!=last-first+1 or observed['sha256']!='sha256:'+digest.hexdigest():errors.append(f'{label}: allowed rate warmup bytes must equal the approved protected interval')
+                if attempts and attempts[-1]['responseBodyRef']!=witness['responseBodyRef']:errors.append(f'{label}: final throttled response must bind the actual last request attempt')
+            elif witness['userId']!='anonymous' or witness['grantId'] is not None:errors.append(f'{label}: unauthorized/direct-origin denial must lack valid subject/grant')
+            if witness['statusCode'] not in ([429] if case=='rate_limit' else [401,403]):errors.append(f'{label}: denied requests require fail-closed HTTP status')
+            if not public_denial(body,actual,case):errors.append(f'{label}: denial body must be empty or an exact public error document without protected bytes')
+        passed[case]=len(errors)==before
+        if case in ('authorized_range','cross_user') and witness['cacheKey']!=policy['protectedCacheKey']:errors.append(f'{label}: authorized/cache-isolation cases must use exact shared cache identity')
+    if primed_range is None or any(value!=primed_range for value in denied_ranges):errors.append(f'{label}: denied cases must exercise the same protected Range as authorized cache priming')
+    cross=next((r for r in rows if r['case']=='cross_user'),None)
+    if cross:
+        before=len(errors);witness=selected_observation(root,execution,prefix,cross['witnessRef'],defs,'accessRequestOutcome',label,errors,cache)
+        if witness is not None and len(errors)==before and (primed_at is None or utc(witness['observedAt']) is None or utc(witness['observedAt'])<=primed_at):errors.append(f'{label}: cross-user denial must follow authorized cache priming')
+    if rate_case is None:errors.append(f'{label}: approved rate-limit exercise required')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    for case,gate in ACCESS_DENIAL_GATES.items():
+        if case in required and (not passed.get(case) or actual.get(gate) is not True):errors.append(f'{label}: {gate} must be supported by the corresponding observed denial')
+    for gate,case in (('local_range_through_path' if local else 'range_through_path','authorized_range'),('local_large_file_streaming' if local else 'public_large_file_streaming','authorized_stream')):
+        if actual.get(gate) is not True or not passed.get(case) or not passed.get('authorized_if_range'):errors.append(f'{label}: authorized Range/If-Range and streaming gate must bind observed bytes')
+
+
+
+RANGE_MATRIX_CASES={'range_start','range_middle','range_end','suffix','unsatisfiable','if_match','if_stale','miss','fill','hit','updated','interrupted','partial_read','recovered','stream','other_user','denied_user','latency_hot','latency_cold','latency_slow','latency_multi'}
+
+
+def range_slice_hash(path,first,count):
+    digest=hashlib.sha256();remaining=count
+    with path.open('rb') as stream:
+        stream.seek(first)
+        while remaining:
+            block=stream.read(min(ARTIFACT_CHUNK_BYTES,remaining))
+            if not block:break
+            digest.update(block);remaining-=len(block)
+    return None if remaining else 'sha256:'+digest.hexdigest()
+
+
+def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-03' or status!='pass':return
+    label=f"qualified Range matrix {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('rangeMatrixRef'),defs,'rangeMatrixReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-ATS-SANDBOX'),None)
+    if resource is None or report['configurationRef']!=resource.get('configurationRef'):
+        errors.append(f'{label}: exact approved ATS sandbox configuration required');return
+    path=existing_ref(root,report['configurationRef'],prefix)
+    try:policy=load(path).get('configuration',{}).get('rangeMatrixPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,defs.get('rangeMatrixPolicy',{}),label,errors)
+    if policy is None or len(errors)!=before:return
+    if policy['baseVersion']==policy['updatedVersion'] or policy['baseETag']==policy['updatedETag'] or len(set(policy['authorizedUsers']))!=len(policy['authorizedUsers']) or policy['deniedUser'] in policy['authorizedUsers'] or any(not math.isfinite(policy[k]) for k in ('slowOriginDelayMs','slowOriginBandwidthBytesPerSecond')):
+        errors.append(f'{label}: distinct governed versions/users and finite controlled origin profile required');return
+    inputs=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []]
+    common=dict(configurationRef=report['configurationRef'],inputSamples=inputs,inputSampleId=report['inputSampleId'],subjectVersion=compliance_subject_version(plan,execution),acceptanceProfile=env.get('acceptanceProfile'),assetId=policy['assetId'],aclVersion=policy['aclVersion'])
+    if any(report.get(k)!=v for k,v in common.items()):errors.append(f'{label}: exact approved input/tool/profile/asset/ACL binding required')
+    rows=env.get('inputSampleArtifacts') or [];rows=rows if isinstance(rows,list) else []
+    selected=[r for r in rows if isinstance(r,dict) and r.get('sampleId')==report['inputSampleId']]
+    sample=next((s for s in execution.get('samples') or [] if s.get('id')==report['inputSampleId']),None)
+    source=existing_ref(root,selected[0].get('inputArtifactRef'),prefix) if len(selected)==1 else None
+    updated=existing_ref(root,policy['updatedInputRef'],prefix)
+    if sample is None or source is None or updated is None or selected[0].get('immutableId')!=sample.get('immutableId') or inspect_artifact(source,cache)['sha256']!=sample.get('checksum') or inspect_artifact(updated,cache)['sha256']!=policy['updatedInputSha256'] or policy['updatedInputSha256']==sample.get('checksum'):
+        errors.append(f'{label}: actual immutable base and independently approved changed source bytes required');return
+    sources={policy['baseVersion']:source,policy['updatedVersion']:updated};sizes={version:inspect_artifact(file,cache)['size'] for version,file in sources.items()};hashes={version:inspect_artifact(file,cache)['sha256'] for version,file in sources.items()}
+    if any(size<16 for size in sizes.values()):errors.append(f'{label}: approved matrix needs nonempty start/middle/end source intervals');return
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)};retained_paths=[source,updated]
+    def retained(ref):
+        file=existing_ref(root,ref,prefix)
+        if file is None or ref not in (execution.get('rawOutputRefs') or []) or artifacts.get(ref,{}).get('artifactType')!='produced_media':
+            errors.append(f'{label}: actual selected-slot response/cache bytes required');return None
+        return file
+    before=len(errors);update=selected_observation(root,execution,prefix,report['sourceUpdateRef'],defs,'rangeSourceUpdate',label,errors,cache)
+    lifecycle=selected_observation(root,execution,prefix,report['cacheLifecycleRef'],defs,'rangeCacheLifecycle',label,errors,cache)
+    if len(errors)!=before or update is None or lifecycle is None:return
+    for observation in (update,lifecycle):
+        if any(observation.get(k)!=v for k,v in common.items()):errors.append(f'{label}: source/cache journal must bind exact configured subjects')
+    changed=utc(update['observedAt'])
+    if changed is None or window is None or not window[0]<=changed<=window[1] or update['baseVersion']!=policy['baseVersion'] or update['updatedVersion']!=policy['updatedVersion'] or update['baseSha256']!=hashes[policy['baseVersion']] or update['updatedSha256']!=hashes[policy['updatedVersion']]:
+        errors.append(f'{label}: source update needs exact versions, actual byte hashes and UTC event');return
+    cases=report['cases']
+    if len(cases)!=len(RANGE_MATRIX_CASES) or {r['case'] for r in cases}!=RANGE_MATRIX_CASES:
+        errors.append(f'{label}: complete unique approved Range/cache/recovery/latency case matrix required');return
+    valid={};latencies={};version_cache_users={};recovery_times={};range_results=[]
+    for row in cases:
+        name=row['case'];before=len(errors);observation=selected_observation(root,execution,prefix,row['witnessRef'],defs,'rangeRequestObservation',label,errors,cache)
+        if observation is None or len(errors)!=before:continue
+        if observation['case']!=name or any(observation.get(k)!=v for k,v in common.items()):errors.append(f'{label}: typed request must bind exact case/input/tool/configuration/ACL')
+        requests=observation['requests'];expected_count=policy['latencySampleCount'] if name.startswith('latency_') else 1
+        if len(requests)!=expected_count:errors.append(f'{label}: exact approved latency/request sample count required')
+        version=policy['updatedVersion'] if name=='updated' else policy['baseVersion'];file=sources[version];size=sizes[version];etag=policy['updatedETag'] if name=='updated' else policy['baseETag'];times=[];users=set();load_intervals=[]
+        for request in requests:
+            began,first_byte,finished=(utc(request[k]) for k in ('startedAt','firstByteAt','finishedAt'));body=retained(request['responseBodyRef'])
+            if began is None or first_byte is None or finished is None or not window[0]<=began<=first_byte<=finished<=window[1] or body is None:
+                errors.append(f'{label}: valid UTC request/first-byte/completion and actual returned bytes required');continue
+            if (began<changed if name=='updated' else finished>changed):errors.append(f'{label}: requests must bind the observed source version before/after update')
+            if request['sourceVersion']!=version or request['sourceSha256']!=hashes[version] or request['requestURL']!=policy['entryURL'] or request['aclVersion']!=policy['aclVersion']:
+                errors.append(f'{label}: current source/version/ACL and approved path required')
+            users.add(request['userId']);actual=inspect_artifact(body,cache)
+            load_intervals.append((request['userId'],began,finished))
+            if actual['sha256']!=request['responseSha256'] or actual['size']!=request['responseByteCount']:errors.append(f'{label}: returned-byte count/hash must match actual artifact')
+            if any(body.samefile(peer) for peer in retained_paths):errors.append(f'{label}: response bodies must be physically distinct from sources and other requests')
+            retained_paths.append(body)
+            expected_range='bytes=0-7'
+            if name=='range_middle':expected_range='bytes=8-15'
+            elif name=='range_end':expected_range=f'bytes={size-8}-{size-1}'
+            elif name=='suffix':expected_range='bytes=-8'
+            elif name=='unsatisfiable':expected_range=f'bytes={size}-{size+7}'
+            elif name=='stream':expected_range=''
+            if request['requestRange']!=expected_range or request['ifRange']!=(etag if name=='if_match' else '"stale-version"' if name=='if_stale' else ''):errors.append(f'{label}: exact deterministic Range/If-Range request required')
+            if name=='denied_user':
+                if request['userId']!=policy['deniedUser'] or request['statusCode'] not in (401,403) or actual['size']!=0 or request['cacheComplete'] or request['cacheVisible']:errors.append(f'{label}: denied cache context must expose no protected payload')
+            elif name=='partial_read':
+                if request['statusCode']!=503 or actual['size']!=0 or request['cacheComplete'] or request['cacheVisible'] or request['transferCompleted']:errors.append(f'{label}: interrupted partial cache must not be published/read as complete')
+            else:
+                if request['userId'] not in policy['authorizedUsers']:errors.append(f'{label}: valid approved authorization context required')
+                if name=='other_user' and request['userId']==policy['authorizedUsers'][0]:errors.append(f'{label}: other-user cache case must exercise a distinct approved authorization context')
+                first,last=(0,size-1) if name in ('stream','if_stale') else (8,15) if name=='range_middle' else (size-8,size-1) if name in ('range_end','suffix') else (0,7)
+                status_code=416 if name=='unsatisfiable' else 200 if name in ('stream','if_stale') else 206
+                content_range=f'bytes */{size}' if name=='unsatisfiable' else '' if status_code==200 else f'bytes {first}-{last}/{size}'
+                if request['statusCode']!=status_code or request['etag']!=etag or request['contentRange']!=content_range:errors.append(f'{label}: actual status/ETag/Content-Range must implement partial/full/unsatisfiable semantics')
+                if name=='unsatisfiable':
+                    if actual['size']:errors.append(f'{label}: unsatisfiable request must not return protected bytes')
+                elif name=='interrupted':
+                    if not 0<actual['size']<last-first+1 or request['transferCompleted'] or request['cacheComplete'] or request['cacheVisible'] or actual['sha256']!=range_slice_hash(file,first,actual['size']):errors.append(f'{label}: interrupted bytes must remain a correct unpublished partial prefix')
+                elif actual['size']!=last-first+1 or actual['sha256']!=range_slice_hash(file,first,last-first+1) or not request['transferCompleted'] or not request['cacheComplete'] or not request['cacheVisible']:
+                    errors.append(f'{label}: response must equal the exact current source interval with complete transfer')
+                if request['maximumBufferedBytes']>policy['maximumBufferedBytes'] or request['retryCount']>policy['maximumRetries']:errors.append(f'{label}: approved memory/retry bounds exceeded')
+            expected_cache={'miss':'MISS','fill':'FILL','hit':'HIT','updated':'INVALIDATED','interrupted':'PARTIAL','partial_read':'PARTIAL','recovered':'FILL','latency_hot':'HIT','latency_cold':'MISS','latency_slow':'MISS','latency_multi':'HIT'}.get(name)
+            if expected_cache and request['cacheStatus']!=expected_cache:errors.append(f'{label}: retained cache status must distinguish miss/fill/hit/invalidation/partial recovery')
+            if name=='latency_cold' and not request['cachePurged']:errors.append(f'{label}: cold measurement requires observed sandbox purge')
+            if name=='latency_slow' and (request['originDelayMs']!=policy['slowOriginDelayMs'] or request['originBandwidthBytesPerSecond']!=policy['slowOriginBandwidthBytesPerSecond']):errors.append(f'{label}: slow-origin request must bind the approved controlled delay/bandwidth')
+            if name=='latency_multi' and request['concurrentUsers']!=policy['concurrentUsers']:errors.append(f'{label}: multi-user measurement must bind approved concurrency')
+            key=(version,request['userId']);previous=version_cache_users.get(key)
+            if previous is not None and previous!=request['cacheKey'] or any(peer_version==version and peer_user!=request['userId'] and peer_key==request['cacheKey'] for (peer_version,peer_user),peer_key in version_cache_users.items()):errors.append(f'{label}: each version needs stable distinct cache keys for every authorization context')
+            version_cache_users[key]=request['cacheKey']
+            times.append((first_byte-began).total_seconds()*1000)
+            if name in ('interrupted','partial_read','recovered'):recovery_times[name]=began
+        if name=='latency_multi':
+            instants={instant for _,start,end in load_intervals for instant in (start,end)}
+            peak=max((len({user for user,start,end in load_intervals if start<=instant<end}) for instant in instants),default=0)
+            if len(users)<2 or not users.issubset(set(policy['authorizedUsers'])) or peak<policy['concurrentUsers']:errors.append(f'{label}: multi-user latency requires overlapping requests at approved distinct-user concurrency')
+        if name.startswith('latency_') and times:
+            latencies[name]=sum(times)/len(times) if policy['percentileMethod']=='mean' else sorted(times)[max(0,math.ceil(.95*len(times))-1)]
+        valid[name]=len(errors)==before
+        if name in ('range_start','range_middle','range_end','suffix','unsatisfiable','if_match','if_stale'):range_results.append(valid[name])
+    for version in sources:
+        contexts={user:key for (observed_version,user),key in version_cache_users.items() if observed_version==version}
+        if version==policy['baseVersion'] and not set(policy['authorizedUsers']+[policy['deniedUser']]).issubset(contexts) or len(set(contexts.values()))!=len(contexts):errors.append(f'{label}: each version needs covered distinct ACL cache identities')
+    if set(recovery_times)!={'interrupted','partial_read','recovered'} or not recovery_times.get('interrupted',changed)<recovery_times.get('partial_read',changed)<recovery_times.get('recovered',changed):errors.append(f'{label}: interruption, unpublished read and bounded recovery must be ordered')
+    # Slice files are actual returned fragments; their union must cover the immutable source exactly.
+    cursor=0
+    for segment in report['slices']:
+        body=retained(segment['artifactRef']);count=segment['end']-segment['start']+1
+        if body is None or segment['start']!=cursor or not 0<count<=policy['sliceBytes'] or count!=min(policy['sliceBytes'],sizes[policy['baseVersion']]-cursor) or inspect_artifact(body,cache)['size']!=count or inspect_artifact(body,cache)['sha256']!=segment['sha256'] or segment['sha256']!=range_slice_hash(source,cursor,count):errors.append(f'{label}: actual ATS Slice fragments must be contiguous and byte-correct at approved boundaries')
+        cursor=segment['end']+1
+    if cursor!=sizes[policy['baseVersion']]:errors.append(f'{label}: Slice reassembly must cover the whole immutable source')
+    stages=lifecycle['stages'];expected_stages=['before','filled','interrupted','recovered','updated','cleanup'];stage_times=[]
+    if [s['stage'] for s in stages]!=expected_stages:errors.append(f'{label}: exact cache allocation/partial/recovery/update/cleanup lifecycle required')
+    for stage in stages:
+        at=utc(stage['observedAt']);stage_times.append(at);total=0;objects=stage['objects'];stage_name=stage['stage'];stage_paths=[]
+        if at is None or not window[0]<=at<=window[1]:errors.append(f'{label}: valid UTC cache lifecycle observation required')
+        elif stage_name=='updated' and at<changed or stage_name in ('before','filled','interrupted','recovered') and at>changed:errors.append(f'{label}: cache lifecycle must bind version transition at the observed update')
+        if stage_name in ('before','cleanup') and objects:errors.append(f'{label}: cache baseline/cleanup must have no retained test objects')
+        if stage_name in ('filled','recovered','updated') and not objects:errors.append(f'{label}: actual completed cache objects required')
+        for item in objects:
+            body=retained(item['artifactRef']);version=policy['updatedVersion'] if stage_name=='updated' else policy['baseVersion']
+            if body is None:continue
+            if any(body.samefile(peer) for peer in stage_paths):
+                errors.append(f'{label}: a cache stage must not count duplicate references or physical aliases');continue
+            stage_paths.append(body)
+            if any(body.samefile(file) for file in sources.values()):errors.append(f'{label}: cache snapshots must be physically distinct from immutable source files')
+            info=inspect_artifact(body,cache);total+=info['size']
+            if item['sourceVersion']!=version or item['sha256']!=info['sha256'] or item['byteCount']!=info['size']:errors.append(f'{label}: cache object identity/count/hash must bind actual retained bytes')
+            if stage_name=='interrupted':
+                if item['complete'] or item['visible'] or not 0<info['size']<sizes[version] or info['sha256']!=range_slice_hash(sources[version],0,info['size']):errors.append(f'{label}: interrupted cache content must remain quarantined partial bytes')
+            elif not item['complete'] or not item['visible'] or info['sha256']!=hashes[version]:errors.append(f'{label}: complete cache object must equal the actual current source version')
+        if total!=stage['allocatedBytes']:errors.append(f'{label}: observed cache allocation must derive actual retained object byte counts')
+    if any(t is None for t in stage_times) or any(a>b for a,b in zip(stage_times,stage_times[1:])):errors.append(f'{label}: cache lifecycle must be ordered')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    correctness=100*sum(range_results)/len(range_results) if range_results else 0
+    if actual.get('range_correctness')!=correctness:errors.append(f'{label}: Range correctness must derive actual compared request cases')
+    for metric,scenario in (('range_hot_cache_latency','latency_hot'),('range_cold_cache_latency','latency_cold'),('range_slow_origin_latency','latency_slow'),('range_multi_user_latency','latency_multi')):
+        claimed=actual.get(metric);observed=latencies.get(scenario)
+        if observed is None or isinstance(claimed,bool) or not isinstance(claimed,(int,float)) or not math.isfinite(claimed) or not math.isclose(claimed,observed,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive approved percentile/method and retained request timestamps')
+    gates={m['id'] for m in plan['protocol']['measurements'] if m['unit']=='boolean'}
+    if any(actual.get(gate) is not True for gate in gates) or not all(valid.values()):errors.append(f'{label}: true cache/Range gates require complete observed successful cases')
+
+
+
+AI_EVALUATED_METRICS={'quality_score','asr_wer','asr_cer','speaker_der','translation_comet','translation_bleu','ocr_accuracy','factual_consistency','tag_f1','thumbnail_human_selection_rate','multimodal_correction_accuracy'}
+AI_POLICY_GATES={'permission_denied':'caller_permission_gate','acl_revoked':'asset_acl_gate','budget_exhausted':'hard_budget_gate','request_rate_exceeded':'request_quota_gate','concurrency_exceeded':'concurrency_quota_gate'}
+
+
+def ai_finite(value):
+    try:return not isinstance(value,bool) and isinstance(value,(int,float)) and math.isfinite(value)
+    except OverflowError:return False
+
+
+def validate_qualified_ai_results(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-09' or status!='pass':return
+    label=f"qualified AI results {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('aiResultsRef'),defs,'aiResultsReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-AI-BENCH'),None)
+    if resource is None or report['configurationRef']!=resource.get('configurationRef'):
+        errors.append(f'{label}: exact approved AI benchmark configuration required');return
+    path=existing_ref(root,report['configurationRef'],prefix)
+    try:policy=load(path).get('configuration',{}).get('aiEvaluationPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,defs.get('aiEvaluationPolicy',{}),label,errors)
+    if policy is None or len(errors)!=before:return
+    expected=dict(configurationRef=report['configurationRef'],subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],acceptanceProfile=env.get('acceptanceProfile'),benchmarkId=policy['benchmarkId'],querySetId=policy['querySetId'],corpusId=policy['corpusId'])
+    if policy['subjectVersion']!=expected['subjectVersion']:errors.append(f'{label}: approved configuration must pin the complete evaluated model/prompt/parameter/runtime/tool subject')
+    if any(report.get(k)!=v for k,v in expected.items()):errors.append(f'{label}: exact approved benchmark/query/corpus/input/model/prompt/parameters/runtime/tool identities required')
+    before=len(errors);evaluation=selected_observation(root,execution,prefix,report['evaluationRef'],defs,'aiEvaluationResults',label,errors,cache);usage=selected_observation(root,execution,prefix,report['usageRef'],defs,'aiUsageObservation',label,errors,cache);dispatch=selected_observation(root,execution,prefix,report['dispatchRef'],defs,'aiDispatchOutcomes',label,errors,cache)
+    if len(errors)!=before or any(r is None for r in (evaluation,usage,dispatch)):return
+    for observation in (evaluation,usage,dispatch):
+        if any(observation.get(k)!=v for k,v in expected.items()):errors.append(f'{label}: every result/usage/dispatch observation must bind exact approved subjects')
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)}
+    def payload(ref,sha,allow_empty=False):
+        file=existing_ref(root,ref,prefix)
+        if file is None or ref not in (execution.get('rawOutputRefs') or []) or artifacts.get(ref,{}).get('artifactType')!='produced_media':
+            errors.append(f'{label}: actual selected-slot retained output/dispatch bytes required');return None
+        info=inspect_artifact(file,cache)
+        if info['sha256']!=sha or not allow_empty and info['size']==0:errors.append(f'{label}: retained output hash must bind actual nonempty bytes')
+        return info
+    items={i['itemId']:i for i in policy['items']};strata={s['stratumId']:s for s in policy['strata']};methods={m['metricId']:m for m in policy['evaluationMethods']};samples={s['id']:s for s in execution.get('samples') or []}
+    if len(items)!=len(policy['items']) or len(strata)!=len(policy['strata']) or set(methods)!=AI_EVALUATED_METRICS or len(methods)!=len(policy['evaluationMethods']) or any(i['sampleId'] not in samples or i['stratumId'] not in strata for i in items.values()):
+        errors.append(f'{label}: unique approved benchmark items/strata and exact evaluation metric methods required');return
+    modes={metric:('f1' if metric=='tag_f1' else 'tool_score' if metric in ('translation_comet','translation_bleu') else 'human_score' if metric=='quality_score' else 'count_ratio') for metric in AI_EVALUATED_METRICS}
+    if any(methods[metric]['mode']!=mode for metric,mode in modes.items()):errors.append(f'{label}: retained evaluation methods must implement the frozen metric semantics');return
+    pricing=policy['pricing'];gates=policy['gatePolicy'];numeric=(pricing['inputUnitPrice'],pricing['outputUnitPrice'],gates['budgetLimit'])
+    if any(not ai_finite(v) or v<0 for v in numeric) or gates['authorizedCallerId']==gates['unauthorizedCallerId'] or gates['currentAclVersion']==gates['revokedAclVersion']:
+        errors.append(f'{label}: finite approved pricing/budget and distinct permission/ACL subjects required');return
+    records=usage['items'];outputs={};paths=[];cost=0;usage_times=[]
+    for item in records:
+        identity=items.get(item['itemId']);start,end=utc(item['startedAt']),utc(item['finishedAt'])
+        if not all(ai_finite(item[k]) for k in ('inputTokens','outputTokens')):errors.append(f'{label}: finite measured token usage required');continue
+        if identity is None or item['itemId'] in outputs or item['sampleId']!=identity['sampleId'] or item['stratumId']!=identity['stratumId'] or item['inputSha256']!=samples[item['sampleId']]['checksum']:
+            errors.append(f'{label}: measured usage must cover each exact approved immutable benchmark item once');continue
+        if start is None or end is None or window is None or not window[0]<=start<end<=window[1]:errors.append(f'{label}: valid UTC completed-item usage interval required')
+        else:usage_times.append((start,end))
+        payload(item['outputRef'],item['outputSha256']);file=existing_ref(root,item['outputRef'],prefix)
+        if file and any(file.samefile(peer) for peer in paths):errors.append(f'{label}: completed items require distinct retained result artifacts')
+        if file:paths.append(file)
+        outputs[item['itemId']]=item;cost+=item['inputTokens']*pricing['inputUnitPrice']+item['outputTokens']*pricing['outputUnitPrice']
+    if set(outputs)!=set(items):errors.append(f'{label}: exact completed benchmark-item output/usage coverage required')
+    before=len(errors);inference=selected_observation(root,execution,prefix,env.get('inferenceObservationRef'),defs,'inferenceObservation',label,errors,cache)
+    if inference is None or len(errors)!=before:return
+    if inference['completedItemCount']!=len(outputs) or usage['pricingVersion']!=pricing['version'] or usage['currency']!=pricing['currency'] or not usage_times or min(t[0] for t in usage_times)!=utc(inference['observedStartedAt']) or max(t[1] for t in usage_times)!=utc(inference['observedFinishedAt']):errors.append(f'{label}: throughput count/window and pricing must bind measured completed items')
+    scores={metric:[] for metric in AI_EVALUATED_METRICS};coverage={};seen=set()
+    for row in evaluation['evaluations']:
+        metric=row['metricId'];item=outputs.get(row['itemId']);method=methods[metric];at=utc(row['observedAt']);key=(row['itemId'],metric)
+        if key in seen or item is None or row['sampleId']!=item['sampleId'] or row['stratumId']!=item['stratumId'] or row['outputRef']!=item['outputRef'] or row['outputSha256']!=item['outputSha256'] or row['methodId']!=method['methodId'] or row['evaluatorBuild']!=method['evaluatorBuild'] or row['rubricVersion']!=method['rubricVersion']:
+            errors.append(f'{label}: each evaluation must bind its actual retained output and approved method/build/rubric');continue
+        seen.add(key)
+        if at is None or window is None or not window[0]<=at<=window[1] or utc(item['finishedAt']) is None or at<utc(item['finishedAt']):errors.append(f'{label}: evaluation must follow the completed output in valid UTC execution scope')
+        mode=method['mode']
+        if any(not ai_finite(row[k]) for k in ('numerator','denominator','truePositive','falsePositive','falseNegative')):errors.append(f'{label}: finite retained comparison counts required');continue
+        if mode=='count_ratio':
+            if row['denominator']<=0:errors.append(f'{label}: observed count ratio requires positive reference denominator');continue
+            value=row['numerator']/row['denominator']
+        elif mode=='f1':
+            denominator=2*row['truePositive']+row['falsePositive']+row['falseNegative']
+            if denominator<=0:errors.append(f'{label}: F1 requires an observed nonempty label comparison');continue
+            value=2*row['truePositive']/denominator
+        else:
+            value=row['score']
+            if not ai_finite(value):errors.append(f'{label}: retained human/tool score must be finite');continue
+        scores[metric].append(value);coverage.setdefault((row['stratumId'],metric),set()).add(row['itemId'])
+    if any(len(coverage.get((s['stratumId'],metric),set()))<s['minimumSamples'] for s in strata.values() for metric in AI_EVALUATED_METRICS):errors.append(f'{label}: every approved language/quality/duration/scenario stratum needs its required samples and quality metrics')
+    queries={q['queryId']:q for q in policy['queries']};query_ids=[];retrieval={key:[] for key in ('retrieval_recall','retrieval_mrr','retrieval_ndcg','query_latency')}
+    if len(queries)!=len(policy['queries']) or len(set(policy['corpusItemIds']))!=len(policy['corpusItemIds']):errors.append(f'{label}: approved query and corpus item identities must be unique')
+    for row in evaluation['queries']:
+        query=queries.get(row['queryId']);query_ids.append(row['queryId']);start,end=utc(row['startedAt']),utc(row['finishedAt'])
+        if query is None or row['querySetId']!=policy['querySetId'] or row['corpusId']!=policy['corpusId'] or len(row['retrievedIds'])!=len(set(row['retrievedIds'])) or not set(row['retrievedIds']).issubset(policy['corpusItemIds']) or len(row['retrievedIds'])>policy['retrievalCutoff']:
+            errors.append(f'{label}: retrieval results must bind exact fixed query/corpus and unique approved ranked items');continue
+        if start is None or end is None or window is None or not window[0]<=start<=end<=window[1]:errors.append(f'{label}: valid end-to-end query timestamps required');continue
+        payload(row['outputRef'],row['outputSha256']);output_path=existing_ref(root,row['outputRef'],prefix);before=len(errors)
+        captured=qualified_observation_report(output_path,defs,'aiRetrievalOutput',label,errors,cache) if output_path else None
+        if captured is None or len(errors)!=before:continue
+        if any(captured.get(k)!=v for k,v in expected.items()) or captured['queryId']!=row['queryId'] or captured['retrievedIds']!=row['retrievedIds']:errors.append(f'{label}: ranked retrieval items must bind the actual retained model/query output')
+        labels={r['itemId']:r['grade'] for r in query['relevance']}
+        if len(labels)!=len(query['relevance']) or not set(labels).issubset(policy['corpusItemIds']) or not any(g>0 for g in labels.values()) or any(not ai_finite(g) for g in labels.values()):errors.append(f'{label}: independent relevance labels for approved corpus required');continue
+        ranked=[labels.get(item,0) for item in row['retrievedIds']];relevant=sum(g>0 for g in labels.values());ideal=sorted(labels.values(),reverse=True)[:policy['retrievalCutoff']]
+        highest=float(max(ideal));weight=lambda grade:math.exp2(float(grade)-highest)-math.exp2(-highest)
+        dcg=sum(weight(g)/math.log2(index+2) for index,g in enumerate(ranked));idcg=sum(weight(g)/math.log2(index+2) for index,g in enumerate(ideal))
+        retrieval['retrieval_recall'].append(sum(g>0 for g in ranked)/relevant);retrieval['retrieval_mrr'].append(next((1/(index+1) for index,g in enumerate(ranked) if g>0),0));retrieval['retrieval_ndcg'].append(dcg/idcg);retrieval['query_latency'].append((end-start).total_seconds()*1000)
+    if len(query_ids)!=len(queries) or set(query_ids)!=set(queries):errors.append(f'{label}: every approved fixed query must have exactly one observed result')
+    if len(evaluation['warmupQueries'])!=policy['warmupCount'] or evaluation['percentileMethod']!=policy['percentileMethod']:errors.append(f'{label}: query warmup/sample-count/percentile method must bind approved evaluation configuration')
+    query_starts=[utc(q['startedAt']) for q in evaluation['queries']]
+    for row in evaluation['warmupQueries']:
+        first,last=utc(row['startedAt']),utc(row['finishedAt'])
+        if row['queryId'] not in queries or row['querySetId']!=policy['querySetId'] or row['corpusId']!=policy['corpusId'] or first is None or last is None or window is None or not window[0]<=first<last<=window[1] or not query_starts or any(t is None for t in query_starts) or last>min(query_starts):errors.append(f'{label}: retained warmup queries must precede the measured fixed-query observations')
+        payload(row['outputRef'],row['outputSha256']);output_path=existing_ref(root,row['outputRef'],prefix);before=len(errors);captured=qualified_observation_report(output_path,defs,'aiRetrievalOutput',label,errors,cache) if output_path else None
+        if captured is not None and len(errors)==before and (any(captured.get(k)!=v for k,v in expected.items()) or captured['queryId']!=row['queryId'] or captured['retrievedIds']!=row['retrievedIds']):errors.append(f'{label}: warmup must bind actual retained ranked output')
+    outcomes=dispatch['outcomes'];required=set(AI_POLICY_GATES)|{'authorized'}
+    if len(outcomes)!=len(required) or {o['case'] for o in outcomes}!=required:errors.append(f'{label}: exact authorized and permission/ACL/budget/request/concurrency denial cases required');return
+    estimated=gates['plannedInputTokens']*pricing['inputUnitPrice']+gates['plannedOutputTokens']*pricing['outputUnitPrice']
+    for row in outcomes:
+        case=row['case'];at=utc(row['observedAt']);outbound=payload(row['outboundRef'],row['outboundSha256'],allow_empty=True)
+        if at is None or window is None or not window[0]<=at<=window[1] or outbound is None:errors.append(f'{label}: actual dispatch bytes and valid policy evaluation timestamp required');continue
+        if not all(ai_finite(row[k]) for k in ('budgetRemaining','estimatedCost')) or not ai_finite(estimated):errors.append(f'{label}: finite priced policy evaluation required');continue
+        if row['assetId']!=gates['assetId'] or row['callerId']!=(gates['unauthorizedCallerId'] if case=='permission_denied' else gates['authorizedCallerId']) or row['aclVersion']!=(gates['revokedAclVersion'] if case=='acl_revoked' else gates['currentAclVersion']) or not 0<=row['budgetRemaining']<=gates['budgetLimit'] or row['budgetPeriodId']!=gates['budgetPeriodId'] or not math.isclose(row['estimatedCost'],estimated,rel_tol=1e-9,abs_tol=1e-12):errors.append(f'{label}: policy outcome must bind exact caller/current asset ACL and priced invocation')
+        if row['callerAllowed'] is not (case!='permission_denied') or row['assetAllowed'] is not (case!='acl_revoked'):errors.append(f'{label}: permission and current/revoked ACL decisions must be exercised independently')
+        exceeded=(row['estimatedCost']>row['budgetRemaining'],row['requestCount']>gates['requestRateLimit'],row['concurrentCalls']>gates['concurrencyLimit'])
+        if exceeded!=(case=='budget_exhausted',case=='request_rate_exceeded',case=='concurrency_exceeded') or row['requestWindowSeconds']!=60:errors.append(f'{label}: each denial must independently exceed its exact approved budget/rate/concurrency ceiling')
+        if case=='authorized':
+            if row['decision']!='dispatched' or len(row['providerRequestIds'])!=1 or outbound['size']==0:errors.append(f'{label}: authorized control request requires one actual nonempty dispatch observation')
+            path=existing_ref(root,row['outboundRef'],prefix);before=len(errors);captured=qualified_observation_report(path,defs,'aiProviderDispatch',label,errors,cache) if path else None
+            if captured is not None and len(errors)==before and (any(captured.get(k)!=v for k,v in expected.items()) or captured['requestIds']!=row['providerRequestIds'] or captured['callerId']!=row['callerId'] or captured['assetId']!=row['assetId'] or captured['aclVersion']!=row['aclVersion'] or captured['observedAt']!=row['observedAt']):errors.append(f'{label}: provider dispatch must bind actual authorized request and current evaluated subjects')
+        elif row['decision']!=case or row['providerRequestIds'] or outbound['size']!=0:errors.append(f'{label}: denied permission/ACL/budget/quota invocation must produce zero provider requests and outbound bytes')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)};derived={m:sum(values)/len(values) for m,values in scores.items() if values}
+    for metric,values in retrieval.items():
+        if values:derived[metric]=sorted(values)[max(0,math.ceil(.95*len(values))-1)] if metric=='query_latency' and policy['percentileMethod']=='nearest-rank-p95' else sum(values)/len(values)
+    derived.update(cost_estimate=cost*1000/len(outputs) if outputs else 0,provider_budget_limit=gates['budgetLimit'],provider_request_rate_limit=gates['requestRateLimit'],provider_concurrency_limit=gates['concurrencyLimit'])
+    for metric,value in derived.items():
+        claimed=actual.get(metric)
+        if not ai_finite(claimed) or not ai_finite(value) or not math.isclose(claimed,value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive retained evaluation/relevance/pricing/usage/quota observations')
+    expected_metrics={m['id'] for m in plan['protocol']['measurements']};provided=set(derived)|{'throughput','fixed_query_set_bound','quality_strata_coverage','license_privacy_pass'}|set(AI_POLICY_GATES.values())
+    if provided!=expected_metrics:errors.append(f'{label}: exact plan metric and policy gate coverage required')
+    if any(actual.get(gate) is not True for gate in {'fixed_query_set_bound','quality_strata_coverage','license_privacy_pass'}|set(AI_POLICY_GATES.values())):errors.append(f'{label}: true quality/policy gates require the corresponding observed results')
+    reviews={r['type']:r.get('reviewRef') for r in execution.get('complianceReviews') or [] if isinstance(r,dict)}
+    if report['privacyReviewRef']!=reviews.get('privacy') or report['licenseReviewRef']!=reviews.get('license'):errors.append(f'{label}: policy compatibility must bind the existing independently validated license/privacy reviews')
+
 
 
 def validate_qualified_android_media(root, plan, execution, prefix, status, errors, artifact_cache, defs):
@@ -2083,9 +2693,14 @@ def validate_execution(
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
         validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
         validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)
+        validate_qualified_a380_encode(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache,record_definitions)
         validate_qualified_inference_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_recovery_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_recovery_timing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_access_outcomes(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_range_matrix(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_ai_results(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),

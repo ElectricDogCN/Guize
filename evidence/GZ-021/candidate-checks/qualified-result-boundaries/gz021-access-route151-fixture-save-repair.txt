@@ -1,0 +1,39 @@
+test_151_local_tls_origins_validate_semantic_host_and_port (specs.poc.test_program.TestPocProgram.test_151_local_tls_origins_validate_semantic_host_and_port) ... ERROR
+
+======================================================================
+ERROR: test_151_local_tls_origins_validate_semantic_host_and_port (specs.poc.test_program.TestPocProgram.test_151_local_tls_origins_validate_semantic_host_and_port)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 3167, in test_151_local_tls_origins_validate_semantic_host_and_port
+    errors=validate()
+           ^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 3157, in <lambda>
+    validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-07'})
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\check_program.py", line 3204, in validate_repository
+    validate_profile_evidence(root,by_task,all_tasks,program_schema,result_record_schema,
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\check_program.py", line 2766, in validate_profile_evidence
+    validate_terminal(root,projected_plan,tasks[owner],entry,resources,
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\check_program.py", line 2677, in validate_terminal
+    validate_execution(
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\check_program.py", line 2394, in validate_execution
+    validate_qualified_access_outcomes(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\check_program.py", line 1765, in validate_qualified_access_outcomes
+    if not isinstance(tls,dict) or any(urllib.parse.urlsplit(policy['paths'][key]).scheme+'://'+urllib.parse.urlsplit(policy['paths'][key]).netloc!=tls.get('entryOrigin') for key in ('range','stream')) or urllib.parse.urlsplit(policy['paths']['source']).scheme+'://'+urllib.parse.urlsplit(policy['paths']['source']).netloc!=tls.get('openlistOrigin'):
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\check_program.py", line 1765, in <genexpr>
+    if not isinstance(tls,dict) or any(urllib.parse.urlsplit(policy['paths'][key]).scheme+'://'+urllib.parse.urlsplit(policy['paths'][key]).netloc!=tls.get('entryOrigin') for key in ('range','stream')) or urllib.parse.urlsplit(policy['paths']['source']).scheme+'://'+urllib.parse.urlsplit(policy['paths']['source']).netloc!=tls.get('openlistOrigin'):
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\Lib\urllib\parse.py", line 500, in urlsplit
+    _check_bracketed_host(bracketed_host)
+  File "C:\ProgramData\anaconda3\Lib\urllib\parse.py", line 446, in _check_bracketed_host
+    ip = ipaddress.ip_address(hostname) # Throws Value Error if not IPv6 or IPv4
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\Lib\ipaddress.py", line 54, in ip_address
+    raise ValueError(f'{address!r} does not appear to be an IPv4 or IPv6 address')
+ValueError: ':::1' does not appear to be an IPv4 or IPv6 address
+
+----------------------------------------------------------------------
+Ran 1 test in 27.771s
+
+FAILED (errors=1)

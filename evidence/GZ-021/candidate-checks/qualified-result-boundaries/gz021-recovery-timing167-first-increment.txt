@@ -1,0 +1,8 @@
+test_167_six_recovery_times_bind_business_events_and_allow_zero_rpo (__main__.TestPocProgram.test_167_six_recovery_times_bind_business_events_and_allow_zero_rpo) ... ok
+test_163_recovery_pass_requires_approved_parsed_states_and_real_comparisons (__main__.TestPocProgram.test_163_recovery_pass_requires_approved_parsed_states_and_real_comparisons) ... ok
+test_164_binary_recovery_credentials_and_approved_single_event_replay (__main__.TestPocProgram.test_164_binary_recovery_credentials_and_approved_single_event_replay) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 326.013s
+
+OK

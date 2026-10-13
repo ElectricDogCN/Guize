@@ -1,0 +1,44 @@
+test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) ... FAIL
+test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch (specs.poc.test_program.TestPocProgram.test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch) ... FAIL
+
+======================================================================
+FAIL: test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 2595, in test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores
+    self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-09'}),[])
+AssertionError: Lists differ: ['secret-like key forbidden at qualified r[258 chars]ice'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'secret-like key forbidden at qualified resource POC-009/RES-AI-BENCH/resource_configuration/configuration/aiEvaluationPolicy/pricing/inputTokenPrice'
+
++ []
+- ['secret-like key forbidden at qualified resource '
+-  'POC-009/RES-AI-BENCH/resource_configuration/configuration/aiEvaluationPolicy/pricing/inputTokenPrice',
+-  'secret-like key forbidden at qualified resource '
+-  'POC-009/RES-AI-BENCH/resource_configuration/configuration/aiEvaluationPolicy/pricing/outputTokenPrice']
+
+======================================================================
+FAIL: test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch (specs.poc.test_program.TestPocProgram.test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 1313, in test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch
+    self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[]);self.assertEqual(validate(record),[])
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['secret-like key forbidden at qualified r[258 chars]ice'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'secret-like key forbidden at qualified resource POC-009/RES-AI-BENCH/resource_configuration/configuration/aiEvaluationPolicy/pricing/inputTokenPrice'
+
++ []
+- ['secret-like key forbidden at qualified resource '
+-  'POC-009/RES-AI-BENCH/resource_configuration/configuration/aiEvaluationPolicy/pricing/inputTokenPrice',
+-  'secret-like key forbidden at qualified resource '
+-  'POC-009/RES-AI-BENCH/resource_configuration/configuration/aiEvaluationPolicy/pricing/outputTokenPrice']
+
+----------------------------------------------------------------------
+Ran 2 tests in 12.269s
+
+FAILED (failures=2)

@@ -1,0 +1,7 @@
+test_169_production_a380_metrics_bind_device_telemetry_and_range_bytes (specs.poc.test_program.TestPocProgram.test_169_production_a380_metrics_bind_device_telemetry_and_range_bytes) ... ok
+test_153_encode_metrics_bound_measured_continuous_intervals (specs.poc.test_program.TestPocProgram.test_153_encode_metrics_bound_measured_continuous_intervals) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 42.943s
+
+OK

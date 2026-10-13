@@ -1,0 +1,6 @@
+test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores (specs.poc.test_program.TestPocProgram.test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 8.095s
+
+OK
