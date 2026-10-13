@@ -1,3 +1,18 @@
+Current revision: dirty raw-three repair of actual source 8557d6e5b0d511e619acca7c0678fcac12c1baa3.
+Status: IN_PROGRESS; this candidate has no published-source acceptance.
+
+Dirty-candidate validation: complete 140 regression methods passed in 702.510s with Exit Code 0 before the final JSON-order adjustment. Finite independent review then proved a remaining credential-scan miss when a safe JSON field precedes password; first rejection and its counterexample remain preserved externally. The matcher now reads value through lookahead without consuming later assignment keys, and regression 139 adds the safe-before-secret case. That repaired incremental run passed with Exit Code 0; it supplements the earlier full run and is not described as a post-adjustment full run. The published successor still requires its own complete 140 regression and other gates. Independent updated content admission remains pending.
+
+Actual8557 completed20 native gates,137 POC regression methods in565.834s,35/35 requirement negatives and637 governance methods in1130.86s, zero failures/errors/skips. Same-source CI696/run38383720504/job115250205684 completed28 steps and637 governance methods in1579.29s. All three tested worktrees stayed clean and unchanged. Synthetic checkout7b8bae0b2a5cce017c633e121b69e8788ab4c253 is not actual main.
+
+Durable commands/exits/raw logs/JUnit/worktree proof/CI receipt/independent execution acceptance/three-finding rejection and original/canonical byte manifest: executions/8557d6e5b0d511e619acca7c0678fcac12c1baa3/manifest.json. These accept only historical execution; current8557 content/formal/final remain rejected. No result transfers to this repair. The new published source needs its own20/140POC/35negative/637-governance/same-headCI and independent final admission.
+
+The three repairs bind qualified VM/device POC-001 output hashes to node-bound typed produced media bytes, decode and credential-scan raw textual artifacts while handling binary media separately, and hash files in bounded1MiB chunks with actual sizes and invocation-only digest reuse. No persistent acceptance cache, size gate or legacy-schema replacement is introduced. Original137 regression methods and35 negative cases remain unchanged; three new owned regressions are added. Synthetic fixtures are never actual AV1/POC evidence. Candidate validation and finite content review remain pending.
+
+Android15/API35/x86_64 VM boot is observed; actual AV1, Worker integration, runtime, actual POC, physical Android and fullV1 remain unaccepted. Normal GZ-021 completion remains required before downstream starts.
+
+--- Historical source and reservation stages ---
+
 Current revision: dirty five-opinion repair of actual source 8b6919c46e2f7bf10d138da93a782e2136f476f7.
 Status: IN_PROGRESS; this candidate has no published-source acceptance.
 

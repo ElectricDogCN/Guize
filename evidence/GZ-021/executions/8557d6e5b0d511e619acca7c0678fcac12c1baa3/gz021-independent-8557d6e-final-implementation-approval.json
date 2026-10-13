@@ -1,0 +1,83 @@
+{
+  "actualSource": "8557d6e5b0d511e619acca7c0678fcac12c1baa3",
+  "tree": "79811406cf76654db2a02dcf8f338791944379c7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "ciAccepted": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "local20Proof": {
+    "path": "gz021-independent-8557d6e-local20-execution-acceptance.json",
+    "sha256": "856370608cf84ccf470ebe0ed2f771985e9e2ae574abc9224e7a7ed9b9bc93e3"
+  },
+  "ciExecutionProof": {
+    "path": "gz021-independent-8557d6e-ci696-execution-receipt.json",
+    "sha256": "224d06002d24324d7078060ecb1a55c63eb721d23c7fbcdc30317a29f80d9d1e"
+  },
+  "remainingFindings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r0W5C",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        765,
+        767,
+        786
+      ],
+      "counterexampleProfiles": [
+        "local-v1",
+        "production"
+      ],
+      "finding": "POC001 claimed VM/device outputSha256 only syntax checked, no equality to actual produced media bytes; both profile PASS accepts f*64 with unchanged raw bytes.",
+      "minimalFix": "For qualified POC001 PASS, require scope output artifact reference to mapped nonempty produced_media artifact in selected slot and compare scope outputSha256 to computed byte digest. Keep command/thermal raw separately typed; preserve VM-first local and real-device production obligations and legacy record contract.",
+      "directRegression": "Both qualified profiles: valid synthetic produced_media baseline then only claimed hash drift, missing/wrong-kind output ref, actual media byte drift reject."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r0W5K",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        655,
+        663,
+        891
+      ],
+      "counterexampleProfiles": [
+        "local-v1",
+        "production"
+      ],
+      "finding": "Qualified command_output file password=hunter2 accepted after true byteCount/SHA recomputation; existing secret_scan rejects identical decoded text when called directly.",
+      "minimalFix": "Scan decoded textual/command-output artifact contents with existing secret_scan before acceptance, preserving path/type/checksum binding and handling produced_media as binary. Decode/read failures must produce validation rejection rather than silent skip.",
+      "directRegression": "Qualified local/production valid safe log -> literal credential log with correct SHA/byteCount rejected. Include a read-boundary credential case if implementation scans chunks."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r0W5N",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        656,
+        677,
+        738
+      ],
+      "boundedEvidenceOnly": true,
+      "giantStressTestRun": false,
+      "finding": "Every artifact is fully allocated via Path.read_bytes, designated POC002 output and each worker output are read again to hash. Valid file size has no bound, so working memory grows with artifact bytes rather than a bounded chunk.",
+      "minimalFix": "Calculate actual size and SHA with bounded reads/stat and reuse invocation-local validated digest in later output/provenance comparisons. Preserve selected-slot/samefile checks and real bytes/type/size equality; do not introduce a file-size acceptance cap or persistent decision cache.",
+      "directRegression": "Small synthetic file + read wrapper rejects whole-file reads and records max read size; repeated typed/provenance/worker digest consumers reuse matching computed result. No giant artifact or throughput benchmark needed."
+    }
+  ],
+  "materialDispositionProof": {
+    "path": "gz021-independent-8557d6e-three-new-thread-disposition.json",
+    "sha256": "37d208fe1c2c5ba4233d7f30db3e452a40f86bb7588fde75204ed3b1805622ee"
+  },
+  "actualLocalGovernanceTests": 637,
+  "actualLocalPocTests": 137,
+  "actualRequirementsNegativeRejected": 35,
+  "sourceResultsNeverTransferredToSuccessor": true,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false
+}

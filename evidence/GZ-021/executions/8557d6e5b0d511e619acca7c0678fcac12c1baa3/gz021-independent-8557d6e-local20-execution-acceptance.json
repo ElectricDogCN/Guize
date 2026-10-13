@@ -1,0 +1,167 @@
+{
+  "actualSource": "8557d6e5b0d511e619acca7c0678fcac12c1baa3",
+  "tree": "79811406cf76654db2a02dcf8f338791944379c7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "checks": [
+    {
+      "check": "task",
+      "command": "python scripts/check-task-file.py --task GZ-021",
+      "exitCode": 0,
+      "rawSha256": "a0bc8789a6f94c79c36eb6decb96f1e61d268809287b7d4a746ed026e54b627a"
+    },
+    {
+      "check": "readiness",
+      "command": "python scripts/check-project-readiness.py",
+      "exitCode": 0,
+      "rawSha256": "e3975939718e1a8430cafff9866345ca8781605dd9eb5bb8650e0bbb202a908a"
+    },
+    {
+      "check": "schemas",
+      "command": "python scripts/check-schemas.py",
+      "exitCode": 0,
+      "rawSha256": "b55f8a31d1cc0933293d5b6c0bab059e6867e4bf7f78ef0beb94d54329ea798b"
+    },
+    {
+      "check": "integrity",
+      "command": "python scripts/check-program-plan-integrity.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "exitCode": 0,
+      "rawSha256": "227874ac7f37f70db997b4ba6905328a7b607b43369833b8cd8216e32ddea502"
+    },
+    {
+      "check": "history",
+      "command": "python scripts/check-program-plan-history.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "29538e96c46416a14537c0238033c7ea13da41851d4f6802d3331165c614c242"
+    },
+    {
+      "check": "transitions",
+      "command": "python scripts/check-program-plan-transitions.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "321daccaf44fb08eb13f351b93d4bec3c7e16f5ae0e97bf501f8d4ddae271357"
+    },
+    {
+      "check": "finalization",
+      "command": "python scripts/check-program-plan-finalization.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --task GZ-021",
+      "exitCode": 0,
+      "rawSha256": "ea1d243d1a9672251604c216ea9b465a691226cb4dae345102d7ffcdd7174fd6"
+    },
+    {
+      "check": "raw-lifecycle",
+      "command": "python scripts/check-program-lifecycle-guards.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "2225e026fd3f6a76e5a0711af4a99ab86d1d078d935ef2dfb2d28f7c1d6f0439"
+    },
+    {
+      "check": "lifecycle",
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "61ec79666b6f815017fde654586cf18f0c09820da0399b154e3407747d6ebdb0"
+    },
+    {
+      "check": "coordination",
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "4cffd9714ac767ee6557d7707b9d7cb4f7c8711bbc43dad3bb19f72e2e247598"
+    },
+    {
+      "check": "scope",
+      "command": "python scripts/run-task-scope-gate.py --task GZ-021 --base d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "exitCode": 0,
+      "rawSha256": "c2df12aa28378dc0f0018c2cb6beee94918652e8175786b55082c03694165771"
+    },
+    {
+      "check": "evidence",
+      "command": "python scripts/check-evidence.py --task GZ-021",
+      "exitCode": 0,
+      "rawSha256": "3772e33f0ff9640fd126bb9c57343d1b1e51e818961d1cb5f91ca40df0a9eb7c"
+    },
+    {
+      "check": "unaffected",
+      "command": "python /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/check_gz021_implementation_scope.py /home/sur/.cache/guize-takeover/native-verification-20261010 d7f1ab8f727ce3879408653736b972e21bb45b7a 8557d6e5b0d511e619acca7c0678fcac12c1baa3",
+      "exitCode": 0,
+      "rawSha256": "9c116b9a1551ed7be471f2be179c4dd19b4176f933769b7530a1e76614a2542b"
+    },
+    {
+      "check": "requirements-local",
+      "command": "python specs/requirements/v1/validate.py --profile local-v1",
+      "exitCode": 0,
+      "rawSha256": "bc6b20fca06842cf5c2e05e15e30e55f6677f84bd4732a700d41af3c1f28d855"
+    },
+    {
+      "check": "requirements-production",
+      "command": "python specs/requirements/v1/validate.py --profile production",
+      "exitCode": 0,
+      "rawSha256": "6d938930c4445827d1ca03079456cbd22c931cbd674b63c990efde4bc57ea61e"
+    },
+    {
+      "check": "requirements-negative",
+      "command": "python specs/requirements/v1/validate.py --negative-fixtures",
+      "exitCode": 0,
+      "rawSha256": "4b57aeffd433ff2e883ba3560c9abcd3d2425b1271660beb9febcb15145cbb7a"
+    },
+    {
+      "check": "poc-baseline",
+      "command": "python specs/poc/check_program.py",
+      "exitCode": 0,
+      "rawSha256": "54d33a9be2420fca6bcd986975f7f7f0f4e7410e91da96a83f6d4596f0208e65"
+    },
+    {
+      "check": "poc-tests",
+      "command": "python specs/poc/test_program.py",
+      "exitCode": 0,
+      "rawSha256": "7738634a06e90e543f66f9f764402e12702be1345318e7596952ce034bafcaf1"
+    },
+    {
+      "check": "verify",
+      "command": "make verify TASK=GZ-021 BASE=d7f1ab8f727ce3879408653736b972e21bb45b7a HEAD_REF=HEAD BRANCH=chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "5f5cb0b933dc6df8eec5cc6d40a02f4f3d94f48b3415f061799217df518b7922"
+    },
+    {
+      "check": "docs",
+      "command": "python scripts/check-markdown.py",
+      "exitCode": 0,
+      "rawSha256": "52591399bc95ab3615442dda477d0a8efc20bcf5b53c45811246bda65f319602"
+    }
+  ],
+  "governanceTests": 637,
+  "governanceDurationSeconds": 1130.86,
+  "junitSha256": "01f1975aa7d4a9aedb403eb88d5e1047745bb0d08211cd2e49b79bdfeb05e6fa",
+  "failuresErrorsSkips": 0,
+  "pocRegressionTests": 137,
+  "pocRegressionDurationSeconds": 565.834,
+  "requirementsNegativeFixturesRejected": 35,
+  "worktreeBindingSha256": "0dff07d2c32e039fb4cd8ba08ea16780d17705ae35c1d84f2893fda02de325b1",
+  "beforeAfterSameClean": true,
+  "freshWorktrees": {
+    "authoring": {
+      "source": "8557d6e5b0d511e619acca7c0678fcac12c1baa3",
+      "tree": "79811406cf76654db2a02dcf8f338791944379c7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "status": ""
+    },
+    "verification": {
+      "source": "8557d6e5b0d511e619acca7c0678fcac12c1baa3",
+      "tree": "79811406cf76654db2a02dcf8f338791944379c7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    }
+  },
+  "contentBindingSha256": "dea8031e661f1d7a3fbc9f7e9830dc5de0260ce99a7d27aede3f0766ad35c1bc",
+  "ciReceiptSha256": "224d06002d24324d7078060ecb1a55c63eb721d23c7fbcdc30317a29f80d9d1e",
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "freshOfficialFinalConditionsStillRequired": true,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "androidWorkerEncodingAccepted": false,
+  "fullV1Complete": false
+}

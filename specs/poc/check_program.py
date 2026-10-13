@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import codecs
 import hashlib
 import json
 import math
@@ -605,7 +606,49 @@ def validate_qualified_domains(root, plan, execution, route, configuration, defs
             errors.append(f'{label}: actual value violates approved numeric domain')
 
 
-def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, status, record_refs, errors):
+ARTIFACT_CHUNK_BYTES = 1024 * 1024
+RAW_ASSIGNMENT = re.compile(r'''(?:["'](?P<quoted>[^\r\n"']{1,128})["']|(?P<plain>[A-Za-z][A-Za-z0-9_.:/-]{0,127}))\s*[:=](?=(?P<value>[^\r\n]{0,128}))''')
+RAW_AUTHORIZATION = re.compile(r'''(?i)\b(?:authorization|proxy-authorization)["']?\s*[:=]\s*["']?(?:Bearer|Basic)\s+\S+''')
+
+
+def inspect_artifact(path, cache, textual=False):
+    """One bounded read per artifact type within this validation invocation."""
+    cached = cache.get(path)
+    if cached is not None and (not textual or cached['textScanned']):
+        return cached
+    digest = hashlib.sha256()
+    size = path.stat().st_size
+    decoder = codecs.getincrementaldecoder('utf8')('strict') if textual else None
+    tail, credential, invalid_utf8 = '', False, False
+    def scan(text):
+        nonlocal tail, credential
+        window = tail+text
+        findings = []
+        secret_scan(window,'raw textual artifact',findings)
+        for match in RAW_ASSIGNMENT.finditer(window):
+            key = match['quoted'] or match['plain']
+            value = False if re.match(r'(?i)^false(?:\s*$|\s*[,}])',match['value'].strip()) else match['value']
+            if secret_key(key,value): findings.append('credential-bearing assignment')
+        credential = credential or bool(findings) or RAW_AUTHORIZATION.search(window) is not None
+        tail = window[-4096:]
+    with path.open('rb') as handle:
+        for chunk in iter(lambda: handle.read(ARTIFACT_CHUNK_BYTES),b''):
+            digest.update(chunk)
+            if decoder is not None:
+                try: scan(decoder.decode(chunk))
+                except UnicodeDecodeError:
+                    invalid_utf8 = True
+                    decoder = None
+        if decoder is not None:
+            try: scan(decoder.decode(b'',final=True))
+            except UnicodeDecodeError: invalid_utf8 = True
+    cached = dict(size=size,sha256='sha256:'+digest.hexdigest(),textScanned=textual,credential=credential,invalidUtf8=invalid_utf8)
+    cache[path] = cached
+    return cached
+
+
+def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, status, record_refs, errors, artifact_cache=None):
+    artifact_cache = {} if artifact_cache is None else artifact_cache
     label = f"qualified raw artifacts {plan['taskId']}"
     if isinstance(configuration,dict) and 'approvedAt' in configuration:
         approved = utc(configuration['approvedAt'])
@@ -653,14 +696,19 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
         if ref in structured or any(path.samefile(peer) for peer in structured_paths):
             errors.append(f'{label}: raw outputs must be disjoint from structured records and approvals')
         try:
-            data = path.read_bytes()
+            actual = inspect_artifact(path,artifact_cache,textual=record.get('artifactType') != 'produced_media')
         except OSError as exc:
+            artifact_cache[path] = dict(size=0,sha256=None,textScanned=True,credential=False,invalidUtf8=False,readError=True)
             errors.append(f'{label}: cannot read raw artifact: {exc}')
             continue
-        total_bytes += len(data)
-        if type(record.get('byteCount')) is not int or record['byteCount'] != len(data):
+        total_bytes += actual['size']
+        if actual['credential']:
+            errors.append(f'{label}: credentials forbidden in raw textual artifacts')
+        if actual['invalidUtf8']:
+            errors.append(f'{label}: raw textual artifacts must decode as UTF-8')
+        if type(record.get('byteCount')) is not int or record['byteCount'] != actual['size']:
             errors.append(f'{label}: byteCount must bind actual raw bytes')
-        if record.get('sha256') != 'sha256:'+hashlib.sha256(data).hexdigest():
+        if record.get('sha256') != actual['sha256']:
             errors.append(f'{label}: checksum must bind actual raw bytes')
     if any(not isinstance(ref,str) for ref in seen+refs) or len(seen) != len(set(ref for ref in seen if isinstance(ref,str))) or set(ref for ref in seen if isinstance(ref,str)) != set(ref for ref in refs if isinstance(ref,str)):
         errors.append(f'{label}: exact unique rawOutputRefs mapping is required')
@@ -674,11 +722,12 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
         media = existing_ref(root,ref,prefix)
         if not isinstance(ref,str) or kinds.get(ref) != 'produced_media' or media is None or media.stat().st_size == 0:
             errors.append(f'{label}: POC-002 PASS requires a designated nonempty produced_media artifact')
-        elif (execution.get('provenance') or {}).get('output_sha256') != 'sha256:'+hashlib.sha256(media.read_bytes()).hexdigest():
+        elif (execution.get('provenance') or {}).get('output_sha256') != inspect_artifact(media,artifact_cache)['sha256']:
             errors.append(f'{label}: POC-002 output_sha256 must match produced media bytes')
 
 
-def validate_qualified_encode_workers(root, plan, execution, prefix, status, window, errors):
+def validate_qualified_encode_workers(root, plan, execution, prefix, status, window, errors, artifact_cache=None):
+    artifact_cache = {} if artifact_cache is None else artifact_cache
     if plan['pocId'] != 'POC-02' or status != 'pass':
         return
     label = f"qualified encode workers {plan['taskId']}"
@@ -735,11 +784,35 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
             if artifact is None or artifact.get('artifactType') != kind or artifact.get('nodeId') != node['nodeId']:
                 errors.append(f'{label}: worker artifacts must bind exact node and artifact type')
         output = existing_ref(root,run.get('outputArtifactRef'),prefix)
-        if output is None or output.stat().st_size == 0 or run.get('outputSha256') != 'sha256:'+hashlib.sha256(output.read_bytes()).hexdigest():
+        if output is None or output.stat().st_size == 0 or run.get('outputSha256') != inspect_artifact(output,artifact_cache)['sha256']:
             errors.append(f'{label}: worker output hash must bind nonempty produced bytes')
         completed.add(node['nodeId'])
     if completed != set(nodes) or not any(a[0] != b[0] and max(a[1],b[1]) < min(a[2],b[2]) for i,a in enumerate(intervals) for b in intervals[i+1:]):
         errors.append(f'{label}: all inventory nodes must execute, with overlapping work on distinct nodes')
+
+
+def validate_qualified_android_media(root, plan, execution, prefix, status, errors, artifact_cache):
+    if plan['pocId'] != 'POC-01' or status != 'pass':
+        return
+    env = execution.get('environmentCaptured') or {}
+    key = 'vm_validation_scope' if env.get('acceptanceProfile') == profile_identity('local-v1') else 'android_validation_scope'
+    scope = env.get(key)
+    label = f"qualified Android output {plan['taskId']}"
+    if not isinstance(scope,dict):
+        return  # The existing VM/device validator reports invalid scopes.
+    ref = scope.get('rawOutputRef')
+    records = env.get('rawExecutionArtifacts') or []
+    artifact = next((item for item in records if isinstance(item,dict) and item.get('ref') == ref),None) if isinstance(records,list) else None
+    path = existing_ref(root,ref,prefix)
+    if artifact is None or artifact.get('artifactType') != 'produced_media' or artifact.get('nodeId') != scope.get('nodeId') or path is None:
+        errors.append(f'{label}: encode scope must reference a node-bound typed produced_media artifact')
+        return
+    try:
+        actual = inspect_artifact(path,artifact_cache)
+        if actual['size'] == 0 or scope.get('outputSha256') != actual['sha256']:
+            errors.append(f'{label}: outputSha256 must bind actual nonempty produced media bytes')
+    except OSError:
+        errors.append(f'{label}: produced media must be readable')
 
 
 def validate_android_execution(root, plan, execution, status, prefix, errors):
@@ -1205,11 +1278,13 @@ def validate_execution(
     validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema, reference_boundary, window)
     validate_android_execution(root, plan, execution, status, reference_boundary, errors)
     if record_definitions is not None:
+        artifact_cache = {}
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
-        validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors)
-        validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors)
+        validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
+        validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache)
+        validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),

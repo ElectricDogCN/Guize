@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 import yaml
@@ -368,6 +369,16 @@ class TestPocProgram(unittest.TestCase):
             execution_path = folder/'execution.yaml'
             execution = load_yaml(execution_path)
             artifact_nodes = {}
+            if task_id == 'POC-001':
+                # A typed synthetic media fixture, never evidence of an actual VM/device encode.
+                env=execution['environmentCaptured']
+                scope=env['vm_validation_scope'] if profile=='local-v1' else env['android_validation_scope']
+                media_ref=new_prefix+'/raw/android-produced-media.bin'
+                (root/media_ref).write_bytes(b'Synthetic Android output; never actual encoded media.\n')
+                scope['rawOutputRef']=media_ref
+                scope['outputSha256']='sha256:'+hashlib.sha256((root/media_ref).read_bytes()).hexdigest()
+                artifact_nodes[media_ref]=scope['nodeId']
+                execution['rawOutputRefs'].append(media_ref)
             if task_id == 'POC-002':
                 # Schema fixtures only: these bytes do not claim to be encoded media.
                 env = execution['environmentCaptured']
@@ -397,7 +408,7 @@ class TestPocProgram(unittest.TestCase):
             tested_source = {key:subprocess.check_output(['git','-C',str(root),'rev-parse',ref],text=True).strip() for key,ref in (('commit','HEAD'),('tree','HEAD^{tree}'))}
             execution['environmentCaptured']['testedSource'] = tested_source
             execution['environmentCaptured']['rawExecutionArtifacts'] = [
-                dict(ref=raw_ref,artifactType='produced_media' if task_id=='POC-002' and raw_ref.endswith('.bin') else 'command_output',byteCount=len((root/raw_ref).read_bytes()),
+                dict(ref=raw_ref,artifactType='produced_media' if task_id in ('POC-001','POC-002') and raw_ref.endswith('.bin') else 'command_output',byteCount=len((root/raw_ref).read_bytes()),
                      sha256='sha256:'+hashlib.sha256((root/raw_ref).read_bytes()).hexdigest(),
                      **({'nodeId':artifact_nodes[raw_ref]} if raw_ref in artifact_nodes else {}))
                 for raw_ref in execution['rawOutputRefs']]
@@ -2043,6 +2054,87 @@ class TestPocProgram(unittest.TestCase):
                     self.assertTrue(any('referenced qualified evidence must not be ignored and untracked' in e and 'index-data.log' in e for e in errors),errors)
                     subprocess.run(['git','-C',str(root),'add','-f','--',index_target.relative_to(root).as_posix()],check=True)
                     self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),[])
+            finally: temp.cleanup()
+
+
+    def test_138_vm_and_device_output_hashes_bind_typed_media_bytes(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),[])
+                key='vm_validation_scope' if profile=='local-v1' else 'android_validation_scope'
+                for mode in ('hash','type','node'):
+                    data=load_yaml(path);scope=data['environmentCaptured'][key]
+                    if mode=='hash': scope['outputSha256']='sha256:'+'f'*64
+                    else:
+                        artifact=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==scope['rawOutputRef'])
+                        artifact.update(artifactType='command_output') if mode=='type' else artifact.update(nodeId='other-node')
+                    write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
+                    self.assertTrue(any('qualified Android output' in e for e in errors),errors)
+                    path.write_bytes(original)
+            finally: temp.cleanup()
+
+    def test_139_qualified_text_credentials_and_decode_failures_are_rejected(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-006',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];execution=load_yaml(path)
+                raw_ref=execution['rawOutputRefs'][0];raw=root/raw_ref
+                def capture(data):
+                    raw.write_bytes(data)
+                    execution['environmentCaptured']['rawExecutionArtifacts'][0].update(byteCount=len(data),sha256='sha256:'+hashlib.sha256(data).hexdigest())
+                    write_yaml(path,execution)
+                for data in (b'password=fixture-secret\n',b'{"api.key":"opaque-fixture-secret"}\n',b'{"scope":"fixture","password":"opaque-fixture-secret"}\n',b'Authorization: Bearer opaque-fixture-secret\n',b'{"Authorization":"Bearer opaque-fixture-secret"}\n',b'x'*(CHECK.ARTIFACT_CHUNK_BYTES-5)+b'\npassword=fixture-secret\n'):
+                    capture(data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
+                    self.assertTrue(any('credentials forbidden in raw textual artifacts' in e for e in errors),errors)
+                capture(b'\xff\xfe')
+                self.assertTrue(any('must decode as UTF-8' in e for e in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})))
+                for safe in ('已完成；credentials.stored.in.repository=false\n','{"credentialsStoredInRepository":false,"scope":"fixture"}\n'):
+                    capture(safe.encode('utf8'))
+                    self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),[])
+                original_open=Path.open
+                def deny(selected,*args,**kwargs):
+                    if selected==raw and (args[0] if args else kwargs.get('mode','r'))=='rb': raise OSError('synthetic unreadable raw artifact')
+                    return original_open(selected,*args,**kwargs)
+                with mock.patch.object(Path,'open',deny):
+                    self.assertTrue(any('cannot read raw artifact' in e for e in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})))
+            finally: temp.cleanup()
+
+    def test_140_media_hashing_is_bounded_and_reused_per_validation(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-002',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);execution=load_yaml(root/result['executionRef'])
+                media={root/a['ref'] for a in execution['environmentCaptured']['rawExecutionArtifacts'] if a['artifactType']=='produced_media'}
+                counts={path:0 for path in media};original_open=Path.open
+                test=self
+                class BoundedReader:
+                    def __init__(self,handle): self.handle=handle
+                    def __enter__(self): self.handle.__enter__();return self
+                    def __exit__(self,*args): return self.handle.__exit__(*args)
+                    def read(self,size):
+                        test.assertGreater(size,0);test.assertLessEqual(size,CHECK.ARTIFACT_CHUNK_BYTES)
+                        return self.handle.read(size)
+                def spy(path,*args,**kwargs):
+                    handle=original_open(path,*args,**kwargs)
+                    if path in media and (args[0] if args else kwargs.get('mode','r'))=='rb':
+                        counts[path]+=1;return BoundedReader(handle)
+                    return handle
+                with mock.patch.object(Path,'read_bytes',side_effect=AssertionError('whole artifact reads forbidden')),mock.patch.object(Path,'open',spy):
+                    self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'}),[])
+                self.assertTrue(all(count==1 for count in counts.values()),counts)
+                # Binary media is hashed without attempting textual credential decoding.
+                path=next(iter(media));data=b'\xff\x00password=synthetic-binary-metadata'
+                path.write_bytes(data)
+                info=CHECK.inspect_artifact(path,{},textual=False)
+                self.assertEqual(info['sha256'],'sha256:'+hashlib.sha256(data).hexdigest())
+                self.assertFalse(info['invalidUtf8']);self.assertFalse(info['credential'])
             finally: temp.cleanup()
 
 
