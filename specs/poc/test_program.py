@@ -2075,9 +2075,12 @@ class TestPocProgram(unittest.TestCase):
                     target=root/target_ref;target.write_text('Synthetic alias target.\n',encoding='utf8')
                     os.symlink(target.name,root/alias_ref)
                     subprocess.run(['git','-C',str(root),'add','--',alias_ref],check=True)
-                    data['rawOutputRefs']=[alias_ref]
+                    # Retain exercised fault observations while replacing only command output.
+                    observations=[r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['artifactType']=='scope_observation']
+                    data['rawOutputRefs']=[alias_ref,*[r['ref'] for r in observations]]
                     for command in data['commands']: command['outputRef']=alias_ref
                     data['environmentCaptured']['rawExecutionArtifacts']=[dict(ref=alias_ref,artifactType='command_output',byteCount=target.stat().st_size,sha256='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest())]
+                    data['environmentCaptured']['rawExecutionArtifacts'].extend(observations)
                     write_yaml(execution_path,data)
                     errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
                     self.assertTrue(any('referenced qualified evidence must not be ignored and untracked' in e and target_ref in e for e in errors),errors)

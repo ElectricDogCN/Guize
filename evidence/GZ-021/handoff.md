@@ -1,3 +1,18 @@
+Current revision: dirty Linux137 fixture compatibility repair of actual a701511d8445f47aa5c9971d603d5cfb87bc7efd.
+Status: IN_PROGRESS; no successor source is published or accepted.
+
+Later actuala701 CI699/run38404788123/job115321456295 completed28 successful steps and637 PASS methods886.43s/zero failures/errors/skips, synthetic29aa12f24628bee07dd4edcb1951ba400c31b380/treef391/parentsD7+a701. Raw/strict receipt/independent CI execution proof are appended to the same actual-source manifest. CI execution acceptance does not override the failed native146 or grant formal/final integration. Initial25 finite content approval is preserved externally; final28 archive/hash review remains pending.
+
+Actuala701 completed17 native gates including35/35 requirement negatives, then full146 POC regressions ran662.412s and failed only137 (145passed/1failure/0errors/0skips). Session52126 closed Exit1; verify/637 and docs were not run by the stopped20-gate chain. Authoring/native/coordinator stayed clean at the expected source/tree after failure. Actuala701 content binding was accepted and39threads resolved, but execution/formal/final integration is rejected. Failed raw outputs, commands/exits/status, explicit stopped-chain receipt and original/canonical byte manifest are retained at executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/manifest.json. CI699 was still running when archived; no CI execution acceptance is claimed.
+
+The only source-code delta is test137's Linux positive fixture: replacing command output now retains the already exercised scope_observation records and their raw refs. Fault cases, independently approved configuration and command_output type remain valid. All original ignore/untracked-target/tracked-alias/index-symlink assertions remain; the checker is unchanged. Of the original142 methods, only137 has this necessary fixture adaptation; the other141 method ASTs remain unchanged, as do added143-146,35 negatives, owned definitions and frozen plans/manifest.
+
+The first dirty137/146 attempt tried to reuse the command alias as scope_observation and failed the required command_output type:2tests/21.870s/1failure/Exit1. The retained-observation repair passed both tests on Linux:2tests/28.465s/Exit0. Both original raw logs are retained under fixture-repair/. No full146 dirty-candidate or successor acceptance is claimed. Finite independent content/archive/hash review is pending; any published successor still requires its own20/146/35/637, same-headCI and independent final acceptance before merge.
+
+Android VM boot is verified; actualAV1/Worker/runtime/realPOC/real-phone/fullV1 acceptance remains false. Normal GZ-021 Review/Completion and actualmain acceptance remain required before downstream work.
+
+--- Historical four-evidence source and prior stages ---
+
 Current revision: dirty four-evidence repair of actual source f63332dd8b2a87d4e3eda975557eb6b5e4275054.
 Status: IN_PROGRESS; no published successor-source acceptance.
 
