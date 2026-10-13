@@ -1,5 +1,7 @@
 # Guize V1 POC Program
 
+Qualified production POC-001 PASS requires thermal/background observation evidence to use a dedicated `scope_observation` artifact bound to the tested Android node/device and physically distinct from encoded media. This requirement does not introduce physical-device observations into the local VM route. Qualified production POC-004 PASS requires its measured `minimum_free_space_gib` to meet the frozen 500 GiB plan floor; a boolean assertion alone cannot replace that observation. FAIL records can retain an observed value below the floor. Local capacity retains its configured integer-byte watermark and reservation checks. Synthetic fixtures and validator regressions do not establish actual encoding, physical-device observations or production acceptance.
+
 `GZ-010` defines **POC-PROTOCOL-V1**. It freezes ten independent POC planning baselines; it does **not** execute any POC.
 
 ## Three-layer model

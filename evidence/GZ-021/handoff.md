@@ -1,3 +1,20 @@
+Completed historical execution for actual source 67e1f05a8ed6960c5778a14492eed0a641b9cde2:20 native gates,140 POC validator regressions560.879s,35/35 requirement negatives,637 governance methods1085.63s with zero failures/errors/skips. CI697/run38391079702/job115274744394 completed28 steps/637 methods1304.61s. Three tested worktrees stayed clean/unchanged. Synthetic ab1fa6659220f60751eeaf9c33a8aa15c194d0f9 is not actual main.
+
+Actual67e execution is independently accepted; its two production defects still reject content/formal/final integration. Durable original/canonical byte manifest, raw commands/exits/JUnit/worktree proof/CI receipt/independent accepts and two-finding rejection: executions/67e1f05a8ed6960c5778a14492eed0a641b9cde2/manifest.json. No historical result transfers to the successor. New actual source requires20/142/35/637/full same-headCI and independent final admission. This candidate's targeted119/138/141/142 passed27.789s; no candidate complete142 run is claimed. Runtime, actualPOC and fullV1 remain false.
+
+--- Candidate repair and historical stages ---
+
+Current revision: dirty two-production-boundary repair of actual source 67e1f05a8ed6960c5778a14492eed0a641b9cde2.
+Status: IN_PROGRESS; this candidate has no published-source acceptance.
+
+Actual67e's complete 140 POC validator regressions passed in 560.879s, with 35/35 requirement negatives rejected. Its native20 gate chain and CI697/run38391079702/job115274744394 remain in progress. Finite independent counterexamples confirmed two content defects: production Android observations could reuse encoded media, and production POC-004 could claim PASS with zero observed free GiB despite the frozen500 floor. Current67e formal/final integration remain rejected regardless of execution success.
+
+This candidate requires production qualified Android observations to reference a node-bound typed scope_observation artifact physically distinct from encoded media. Production qualified POC-004 PASS requires measured minimum_free_space_gib >=500, retaining below-floor values for FAIL and the existing configured local capacity route. Original140 regression methods and35 requirement negatives remain unchanged; fixture preparation now supplies synthetic dedicated observations and a valid production boundary value. New141/142 cover the defects; targeted119/138/141/142 passed in27.789s/Exit0. No final-candidate complete142 run is claimed. The eventual actual published successor requires its own20/142/35/637 and same-headCI plus independent approval.
+
+Android VM boot is verified; actualAV1/Worker/runtime/actualPOC/physical-device/fullV1 acceptance remains false. Normal GZ-021 Review/Completion must follow independently accepted implementation main before downstream starts. This candidate's finite review and historical67e execution archive remain pending.
+
+--- Historical raw-three repair ---
+
 Current revision: dirty raw-three repair of actual source 8557d6e5b0d511e619acca7c0678fcac12c1baa3.
 Status: IN_PROGRESS; this candidate has no published-source acceptance.
 

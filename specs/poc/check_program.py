@@ -358,6 +358,14 @@ def validate_local_capacity(plan, execution, configuration, status, errors):
         errors.append(f"{label}: PASS requires positive observed reservations and measured free bytes minus maximum reservations to preserve floor")
 
 
+def validate_qualified_production_capacity(plan, execution, status, errors):
+    if plan['pocId'] != 'POC-04' or status != 'pass' or execution.get('environmentCaptured',{}).get('acceptanceProfile') != profile_identity('production'):
+        return
+    minimum = next((m.get('actual') for m in execution.get('measurements') or [] if m.get('id') == 'minimum_free_space_gib'),None)
+    if not good_actual('GiB',minimum) or minimum < 500:
+        errors.append(f"qualified production capacity {plan['taskId']}: PASS requires measured minimum_free_space_gib >= frozen 500 GiB floor (NFR-V1-CAP-002)")
+
+
 def compliance_subject_version(plan, execution):
     environment = execution.get('environmentCaptured') or {}
     if plan['pocId'] == 'POC-06' and (environment.get('acceptanceProfile') or {}).get('id') == 'local-v1':
@@ -813,6 +821,15 @@ def validate_qualified_android_media(root, plan, execution, prefix, status, erro
             errors.append(f'{label}: outputSha256 must bind actual nonempty produced media bytes')
     except OSError:
         errors.append(f'{label}: produced media must be readable')
+    if env.get('acceptanceProfile') == profile_identity('production'):
+        observation = env.get('android_thermal_background_observation')
+        observation_ref = observation.get('rawOutputRef') if isinstance(observation,dict) else None
+        observation_artifact = next((item for item in records if isinstance(item,dict) and item.get('ref') == observation_ref),None)
+        observation_path = existing_ref(root,observation_ref,prefix)
+        if observation_artifact is None or observation_artifact.get('artifactType') != 'scope_observation' or observation_artifact.get('nodeId') != scope.get('nodeId') or observation_path is None:
+            errors.append(f'{label}: physical device observation requires a node-bound typed scope_observation artifact')
+        elif observation_ref == ref or observation_path.samefile(path):
+            errors.append(f'{label}: physical device observation must be distinct from encoded media')
 
 
 def validate_android_execution(root, plan, execution, status, prefix, errors):
@@ -1279,6 +1296,7 @@ def validate_execution(
     validate_android_execution(root, plan, execution, status, reference_boundary, errors)
     if record_definitions is not None:
         artifact_cache = {}
+        validate_qualified_production_capacity(plan,execution,status,errors)
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)

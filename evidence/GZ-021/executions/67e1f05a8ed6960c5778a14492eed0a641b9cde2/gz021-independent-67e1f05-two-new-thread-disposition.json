@@ -1,0 +1,63 @@
+{
+  "reviewKind": "FINITE_ONLY_TWO_NEW_PRODUCTION_OPINIONS",
+  "actualSource": "67e1f05a8ed6960c5778a14492eed0a641b9cde2",
+  "tree": "335a4ad503a14319c0e7a818143145a03962d1e5",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "counterexampleProof": {
+    "path": "gz021-independent-67e1f05-two-comment-counterexamples.json",
+    "sha256": "757c545143d5f6667a2a0972dc3ffafd7c4f9b82421d9680c396c6e3740cabab"
+  },
+  "officialThreadSnapshotSha256": "b7c75f4ec58fe7ce72563a15be809e8859a22923116ecc27e0535f07ba15095b",
+  "findings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r1suw",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 864,
+      "finding": "Production POC001 thermal/background observation can reuse the valid typed produced_media encode artifact; only raw membership/existence enforced.",
+      "minimalFix": "Only qualified production POC001 PASS: observation rawOutputRef must select a node-bound scope_observation artifact matching the tested device node and actual observation deviceId, physically distinct from encode produced_media. Existing actual byte/hash and selected-slot checks remain.",
+      "localVmNotPhysicalDeviceObligation": true,
+      "negativeBoundary": "Valid separate production observation baseline; media reuse/wrong kind/wrong node or samefile alias rejected; local VM remains representable."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r1svB",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1036,
+      "finding": "Production POC004 PASS accepts minimum_free_space_gib0 with free_space_floor_preserved=true; frozen plan explicitly requires500GiB.",
+      "minimalFix": "Require production POC004 PASS minimum_free_space_gib >=500 using existing frozen numeric observation and unit, alongside existing boolean gate. Preserve production NFR/plan values; local byte-configured floor remains separate; failure/inconclusive observations below floor remain factual.",
+      "negativeBoundary": "Production PASS499 or0 rejected/500 accepted; local positive configured floor case unaffected; production failure may record0."
+    }
+  ],
+  "mustFix": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r1suw",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 864,
+      "finding": "Production POC001 thermal/background observation can reuse the valid typed produced_media encode artifact; only raw membership/existence enforced.",
+      "minimalFix": "Only qualified production POC001 PASS: observation rawOutputRef must select a node-bound scope_observation artifact matching the tested device node and actual observation deviceId, physically distinct from encode produced_media. Existing actual byte/hash and selected-slot checks remain.",
+      "localVmNotPhysicalDeviceObligation": true,
+      "negativeBoundary": "Valid separate production observation baseline; media reuse/wrong kind/wrong node or samefile alias rejected; local VM remains representable."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r1svB",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1036,
+      "finding": "Production POC004 PASS accepts minimum_free_space_gib0 with free_space_floor_preserved=true; frozen plan explicitly requires500GiB.",
+      "minimalFix": "Require production POC004 PASS minimum_free_space_gib >=500 using existing frozen numeric observation and unit, alongside existing boolean gate. Preserve production NFR/plan values; local byte-configured floor remains separate; failure/inconclusive observations below floor remain factual.",
+      "negativeBoundary": "Production PASS499 or0 rejected/500 accepted; local positive configured floor case unaffected; production failure may record0."
+    }
+  ],
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "noFullSuiteRerun": true,
+  "noCanonicalMutation": true,
+  "syntheticContractOnly": true,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false
+}

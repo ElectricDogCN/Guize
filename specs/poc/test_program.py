@@ -379,6 +379,14 @@ class TestPocProgram(unittest.TestCase):
                 scope['outputSha256']='sha256:'+hashlib.sha256((root/media_ref).read_bytes()).hexdigest()
                 artifact_nodes[media_ref]=scope['nodeId']
                 execution['rawOutputRefs'].append(media_ref)
+                if production:
+                    observation_ref=new_prefix+'/raw/android-scope-observation.log'
+                    (root/observation_ref).write_text('Synthetic observations only: temperaturePeakCelsius=38 powerPeakWatts=3 testDurationSeconds=60 backgroundSurvivedSeconds=60\n',encoding='utf8')
+                    env['android_thermal_background_observation']['rawOutputRef']=observation_ref
+                    artifact_nodes[observation_ref]=scope['nodeId']
+                    execution['rawOutputRefs'].append(observation_ref)
+            if task_id == 'POC-004' and production:
+                next(m for m in execution['measurements'] if m['id']=='minimum_free_space_gib')['actual']=500
             if task_id == 'POC-002':
                 # Schema fixtures only: these bytes do not claim to be encoded media.
                 env = execution['environmentCaptured']
@@ -408,7 +416,7 @@ class TestPocProgram(unittest.TestCase):
             tested_source = {key:subprocess.check_output(['git','-C',str(root),'rev-parse',ref],text=True).strip() for key,ref in (('commit','HEAD'),('tree','HEAD^{tree}'))}
             execution['environmentCaptured']['testedSource'] = tested_source
             execution['environmentCaptured']['rawExecutionArtifacts'] = [
-                dict(ref=raw_ref,artifactType='produced_media' if task_id in ('POC-001','POC-002') and raw_ref.endswith('.bin') else 'command_output',byteCount=len((root/raw_ref).read_bytes()),
+                dict(ref=raw_ref,artifactType='produced_media' if task_id in ('POC-001','POC-002') and raw_ref.endswith('.bin') else 'scope_observation' if task_id=='POC-001' and production and raw_ref.endswith('/android-scope-observation.log') else 'command_output',byteCount=len((root/raw_ref).read_bytes()),
                      sha256='sha256:'+hashlib.sha256((root/raw_ref).read_bytes()).hexdigest(),
                      **({'nodeId':artifact_nodes[raw_ref]} if raw_ref in artifact_nodes else {}))
                 for raw_ref in execution['rawOutputRefs']]
@@ -2135,6 +2143,56 @@ class TestPocProgram(unittest.TestCase):
                 info=CHECK.inspect_artifact(path,{},textual=False)
                 self.assertEqual(info['sha256'],'sha256:'+hashlib.sha256(data).hexdigest())
                 self.assertFalse(info['invalidUtf8']);self.assertFalse(info['credential'])
+            finally: temp.cleanup()
+
+
+    def test_141_production_android_observations_require_distinct_node_bound_artifact(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-001','production')
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+            validate=lambda: CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
+            self.assertEqual(validate(),[])
+            for mode in ('media','generic','type','node','alias'):
+                path.write_bytes(original);data=load_yaml(path);env=data['environmentCaptured']
+                scope=env['android_validation_scope'];observation=env['android_thermal_background_observation']
+                artifact=next(a for a in env['rawExecutionArtifacts'] if a['ref']==observation['rawOutputRef'])
+                if mode=='media': observation['rawOutputRef']=scope['rawOutputRef']
+                elif mode=='generic': observation['rawOutputRef']=data['commands'][0]['outputRef']
+                elif mode=='type': artifact['artifactType']='command_output'
+                elif mode=='node': artifact['nodeId']='other-node'
+                else:
+                    output=root/observation['rawOutputRef'];output.unlink();os.symlink(root/scope['rawOutputRef'],output)
+                    artifact.update(byteCount=output.stat().st_size,sha256='sha256:'+hashlib.sha256(output.read_bytes()).hexdigest())
+                configuration=load_yaml(root/env['acceptanceProfileConfigurationRef'])
+                route=CHECK.execution_route(load_yaml(root/'specs/poc/plans/POC-001.yaml'),'production')
+                for ref in configuration['numericDomainReviewRefs'].values():
+                    review=load_yaml(root/ref);review['environmentCaptured']={k:env[k] for k in route['captureBeforeExecution']};write_yaml(root/ref,review)
+                write_yaml(path,data)
+                errors=validate()
+                self.assertTrue(any('qualified Android output' in e and ('scope_observation' in e or 'distinct from encoded media' in e) for e in errors),errors)
+        finally: temp.cleanup()
+
+    def test_142_production_capacity_preserves_frozen_floor_and_local_route(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-004',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                validate=lambda: CHECK.validate_repository(root,profile,True,selected_pocs={'POC-04'})
+                self.assertEqual(validate(),[])
+                if profile=='local-v1': continue
+                for value in (0,499,499.99,500,501):
+                    data=load_yaml(path)
+                    next(m for m in data['measurements'] if m['id']=='minimum_free_space_gib')['actual']=value
+                    write_yaml(path,data);errors=validate()
+                    if value < 500:self.assertTrue(any('qualified production capacity' in e for e in errors),errors)
+                    else:self.assertEqual(errors,[])
+                data=load_yaml(path)
+                next(m for m in data['measurements'] if m['id']=='minimum_free_space_gib')['actual']=0
+                plan=load_yaml(root/'specs/poc/plans/POC-004.yaml');errors=[]
+                CHECK.validate_qualified_production_capacity(plan,data,'fail',errors)
+                self.assertEqual(errors,[])
             finally: temp.cleanup()
 
 
