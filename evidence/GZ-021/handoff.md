@@ -14,6 +14,13 @@ Dirty-tree checks and limited independent content probes are development feedbac
 
 Historical reservation text below describes the earlier metadata-only stage. Its pending fields and absence-of-implementation statements are historical, not the current candidate's state.
 
+Current handoff actions:
+1. Reviewer accepts the actual published implementation content plus complete source-bound commands/raw exits/JUnit/POC/requirements results and matching CI; partial/private results never substitute.
+2. Integrator rechecks the exact current head/base, open Issue, valid lease, resolved threads, immutable manifest, full scope and protected consumers, then merges the implementation with expected-head protection.
+3. Verify and independently accept the actual implementation main; this does not by itself authorize downstream starts.
+4. Complete this task's normal Review/Completion transitions and independently accept those corresponding actual main states, preserving Last Code PR/source identity and releasing only Own registration under the original rules.
+5. Only after the completed producer baseline is accepted may downstream tasks consume the revised requirements/POC route. Runtime/full local V1/production remain separate required work.
+
 --- Historical reservation stage ---
 
 GZ-021 metadata-only Reservation
