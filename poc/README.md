@@ -190,3 +190,7 @@ These additional records apply to qualified PASS slots. FAIL and inconclusive sl
 Test121 isolates numeric-unit and independently approved model-domain rules using its original seven value cases. Test172 separately rejects unbacked whole-result claims and permits observed WER/CER above one, DER1.2 and negative COMET. This necessary test adaptation does not relax result binding. Other original163 methods, the earlier owned schema byte prefix, frozen plans/requirements and requirement negatives remain.
 
 These records validate retained experiment evidence. Synthetic fixture results do not establish actual AI/provider, AV1, restoration, public-network or cache-service execution.
+
+### Capture and Range cache regression follow-up
+
+Malformed TLS fixture settings are passed to the validator without eager dictionary reads. Produced A380 media and partial-response hashes share one bounded read; default partial response stays covered by unchanged test140 and added partial positives/corrupt-byte negatives in169. The parent a84 actual172 run failed two tests; separate4/107.295 and2/20.342 dirty increments passed. These are checker fixtures, not actual media execution/POC or full successor acceptance. See evidence/GZ-021/executions/a84bab726157b031208de14aaf438dc7e55f5263/manifest.json and evidence/GZ-021/candidate-checks/capture-and-range-cache-boundaries/manifest.json.

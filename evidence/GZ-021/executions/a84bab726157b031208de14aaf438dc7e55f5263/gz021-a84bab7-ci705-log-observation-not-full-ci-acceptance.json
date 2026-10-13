@@ -1,0 +1,39 @@
+{
+  "capturedAt": "2026-10-13T21:49:45.558850+00:00",
+  "actualSource": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "runId": 38469620584,
+  "jobId": 115545001014,
+  "jobReportedSuccess": true,
+  "officialStepCount": 0,
+  "all28StepsSuccessProven": false,
+  "directPublicJobAlsoHasNoSteps": true,
+  "governancePassedObservedInOfficialRaw": 637,
+  "individualPassed": 637,
+  "governanceDurationSeconds": 1572.4,
+  "noSkippedTestsObserved": true,
+  "decodedOfficialRawPreserved": true,
+  "normalizationOnly": [
+    "UTF8 BOM",
+    "CRLF to LF",
+    "terminal newlines"
+  ],
+  "rawPath": "gz021-implementation-a84bab7-ci705.txt",
+  "rawSha256": "0987e9d8e512e01c980ac4127f1a2494179b9727d4a9b176e2a9d5259c8bff87",
+  "officialSnapshotSha256": "cfc5dba8a29bc7540fcbbe8188dc9b9f79046f19490634153d06008850ef9bb9",
+  "directPublicJobSha256": "cf9173e6f49969bc646b88e60fb14790b62db0fb91caefd2b22119d973ff6ccb",
+  "syntheticCheckout": "740247f21e3d9e4e3d8072811b31b3b687b4ce47",
+  "orderedParents": [
+    "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+    "a84bab726157b031208de14aaf438dc7e55f5263"
+  ],
+  "syntheticIsNotActualMain": true,
+  "ciAccepted": false,
+  "actualSourceCiExecutionAccepted": false,
+  "reason": "Official job steps empty in connector and direct public API; cannot prove original full28-step condition. Raw637 and reported success retained separately.",
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false
+}

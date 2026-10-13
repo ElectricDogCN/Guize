@@ -1,3 +1,17 @@
+Current successor candidate: repair of actual a84 test140/test146 interactions; status IN_PROGRESS, no successor source execution accepted.
+
+Actual source a84bab726157b031208de14aaf438dc7e55f5263 stopped with Exit1 after18 gates:17 passed, then172 POC methods2104.544s had170ok and2ERROR. Original140 detected a second media open/seek by new A380 partial-byte comparison; original146 detected new POC007 fixture helper subscripting deliberately malformed TLS=True before validator. Full tracebacks match independent single-test probes and fresh three clean source worktrees. Native verify/docs/637/JUnit did not execute. Exact execution/independent rejection/counterexample records are in executions/a84bab726157b031208de14aaf438dc7e55f5263/manifest.json.
+
+CI705/run38469620584/job115545001014 reports completed/success; official raw637 tests1572.40s with NoSkipped are independently observed. Synthetic checkout740247f21e3d9e4e3d8072811b31b3b687b4ce47 has same tree and ordered[D7,a84] parents, not actualmain. Official APIs first returned steps=[] then26 steps with5success/21pending/null. These conflicting/incomplete observations are preserved; original all28Success condition remains unproven and fullCI accepted=false. Do not convert reported success into formal approval.
+
+Candidate keeps default partial first8-byte A380 response and original140 unchanged. inspect_artifact computes whole-media and selected-byte-range digests in one bounded read; A380 primes this cache before raw/worker checks so later checks reuse the same actual bytes without seek/reopening. Full-body ranges reuse the full digest. Existing device/telemetry/headers/body/ACL/approval/privacy/secret checks remain. New169 retains all previous cases/assertions and adds partial boundary positives and self-consistent corrupt-body negatives. POC007 fixture URL refresh requires a dict and two origin strings, leaving bad shapes for the original validator.
+
+First dirty stage146/151/165/170 passed4 tests107.295s; next stage140/expanded169 passed2 tests20.342s. They are separate commands/stages, not a six-test or full172 pass. Finite two-path content review is accepted; source publication and own full20/172/35/637/CI/formal admission still pending. Records are in candidate-checks/capture-and-range-cache-boundaries/manifest.json. Relative to a84,171 method ASTs remain and169 only gains coverage; relative to8ddb,163 original methods and the already justified numeric-purpose121 adaptation remain. Schemas, frozen plans/manifest/metadata,35 negatives,46claims/17modules/lease are unchanged.
+
+Actual AV1/Worker/platform runtime/realPOC/full localV1 remain incomplete. Normal GZ021 Review/Completion and accepted actualmain remain required before downstream implementation.
+
+--- Historical a84 publication and earlier candidates ---
+
 Current revision: repair of six verified result/timing/Range/access/A380/UTC findings and the local146 bad-type regression on actual8ddb9717005133ffdbc987883a79720ab32f84ff.
 Status: IN_PROGRESS; candidate content review pending. No successor published-source full execution or formal acceptance.
 

@@ -1043,13 +1043,17 @@ RAW_ASSIGNMENT = re.compile(r'''(?:["'](?P<quoted>[^\r\n"']{1,128})["']|(?P<plai
 RAW_AUTHORIZATION = re.compile(r'''(?i)\b(?:authorization|proxy-authorization)["']?\s*[:=]\s*["']?(?:Bearer|Basic)\s+\S+''')
 
 
-def inspect_artifact(path, cache, textual=False):
+def inspect_artifact(path, cache, textual=False, byte_range=None):
     """One bounded read per artifact type within this validation invocation."""
     cached = cache.get(path)
-    if cached is not None and (not textual or cached['textScanned']):
+    if cached is not None and (not textual or cached['textScanned']) and (byte_range is None or byte_range in cached.get('rangeHashes',{})):
         return cached
     digest = hashlib.sha256()
     size = path.stat().st_size
+    valid_range=byte_range is not None and len(byte_range)==2 and all(type(value) is int for value in byte_range) and 0<=byte_range[0]<=byte_range[1]<size
+    complete_range=valid_range and byte_range==(0,size-1)
+    range_digest=hashlib.sha256() if valid_range and not complete_range else None
+    offset=0
     decoder = codecs.getincrementaldecoder('utf8')('strict') if textual else None
     scan_decoder = codecs.getincrementaldecoder('utf8')('replace') if textual else None
     tail, credential, invalid_utf8 = '', False, False
@@ -1067,6 +1071,11 @@ def inspect_artifact(path, cache, textual=False):
     with path.open('rb') as handle:
         for chunk in iter(lambda: handle.read(ARTIFACT_CHUNK_BYTES),b''):
             digest.update(chunk)
+            if range_digest is not None:
+                first,last=byte_range
+                low,high=max(0,first-offset),min(len(chunk),last+1-offset)
+                if low<high:range_digest.update(chunk[low:high])
+            offset+=len(chunk)
             if scan_decoder is not None:scan(scan_decoder.decode(chunk))
             if decoder is not None:
                 try: decoder.decode(chunk)
@@ -1078,6 +1087,8 @@ def inspect_artifact(path, cache, textual=False):
             try: decoder.decode(b'',final=True)
             except UnicodeDecodeError: invalid_utf8 = True
     cached = dict(size=size,sha256='sha256:'+digest.hexdigest(),textScanned=textual,credential=credential,invalidUtf8=invalid_utf8)
+    if valid_range:
+        cached['rangeHashes']={byte_range:cached['sha256'] if complete_range else 'sha256:'+range_digest.hexdigest() if offset>byte_range[1] else None}
     cache[path] = cached
     return cached
 
@@ -1321,18 +1332,15 @@ def validate_qualified_a380_encode(root,plan,execution,prefix,status,window,defs
         errors.append(f'{label}: retained response bytes must bind the A380 node in this selected slot');return
     paths=[existing_ref(root,capture[key],prefix) for key in ('telemetryRef','rangeRef','outputArtifactRef')]+[body]
     if any(a.samefile(b) for i,a in enumerate(paths) if a for b in paths[i+1:] if b):errors.append(f'{label}: telemetry, request, media and returned bytes must be physically distinct')
-    source=inspect_artifact(output,cache);response=inspect_artifact(body,cache)
     first,last=request['rangeStart'],request['rangeEnd'];began,received=utc(request['requestStartedAt']),utc(request['firstByteAt'])
+    try:
+        source=inspect_artifact(output,cache,byte_range=(first,last));response=inspect_artifact(body,cache)
+    except OSError as exc:
+        errors.append(f'{label}: cannot read actual produced/returned Range bytes: {exc}');return
     if request['statusCode']!=206 or request['contentRange']!=f'bytes {first}-{last}/{source["size"]}' or request['requestRange']!=f'bytes={first}-{last}' or not 0<=first<=last<source['size'] or response['size']!=last-first+1 or response['sha256']!=request['responseSha256']:
         errors.append(f'{label}: retained Range status/headers/body hash must match the produced byte interval');return
-    digest=hashlib.sha256();remaining=last-first+1
-    with output.open('rb') as stream:
-        stream.seek(first)
-        while remaining:
-            block=stream.read(min(ARTIFACT_CHUNK_BYTES,remaining))
-            if not block:break
-            digest.update(block);remaining-=len(block)
-    if remaining or response['sha256']!='sha256:'+digest.hexdigest():errors.append(f'{label}: actual Range response must equal exact A380-produced media bytes')
+    range_hash=source.get('rangeHashes',{}).get((first,last))
+    if response['sha256']!=range_hash:errors.append(f'{label}: actual Range response must equal exact A380-produced media bytes')
     if began is None or received is None or not end<=began<=received<=window[1]:
         errors.append(f'{label}: first-byte request must follow the designated encode inside executionWindow');return
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
@@ -2691,9 +2699,9 @@ def validate_execution(
         validate_qualified_passthrough_identity(root,plan,execution,record_definitions,reference_boundary,status,errors)
         validate_qualified_production_soak(root,plan,execution,record_definitions,reference_boundary,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
+        validate_qualified_a380_encode(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
         validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)
-        validate_qualified_a380_encode(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache,record_definitions)
         validate_qualified_inference_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_recovery_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)

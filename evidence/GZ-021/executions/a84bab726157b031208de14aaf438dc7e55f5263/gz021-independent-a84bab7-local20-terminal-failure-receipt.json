@@ -1,0 +1,239 @@
+{
+  "actualSource": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "soleParent": "8ddb9717005133ffdbc987883a79720ab32f84ff",
+  "capturedAt": "2026-10-13T22:06:46.985555+00:00",
+  "nativeClosedExit1": true,
+  "nativeTerminalReportedByCoordinator": true,
+  "innerTerminalExit1VerifiedFromSourceBoundStatusFooter": true,
+  "nativeFailureReceiptVerified": true,
+  "actualSourceExecutionAccepted": false,
+  "local20Accepted": false,
+  "executedGateCount": 18,
+  "passedGates": 17,
+  "failedGates": 1,
+  "checks": [
+    {
+      "check": "task",
+      "command": "python scripts/check-task-file.py --task GZ-021",
+      "exitCode": 0,
+      "rawSha256": "debfc4f2a25b6d07c23338e7a3ac6df1e9469490215794fb7e14d6ea117cb2bc",
+      "byteCount": 260
+    },
+    {
+      "check": "readiness",
+      "command": "python scripts/check-project-readiness.py",
+      "exitCode": 0,
+      "rawSha256": "2b59f3e187395f607993d5863fdd50c30841e3043fea1bf1f68a786fc1386452",
+      "byteCount": 660
+    },
+    {
+      "check": "schemas",
+      "command": "python scripts/check-schemas.py",
+      "exitCode": 0,
+      "rawSha256": "6d822ccdf20822a018486a7c2c05bb7ebd900c06c37da53b275c5b7bdd6ae5a5",
+      "byteCount": 1812
+    },
+    {
+      "check": "integrity",
+      "command": "python scripts/check-program-plan-integrity.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "exitCode": 0,
+      "rawSha256": "30f581fbfdd2e60f76f0299a68daa45ae848d1634676b7914d00f94325eebdc8",
+      "byteCount": 418
+    },
+    {
+      "check": "history",
+      "command": "python scripts/check-program-plan-history.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "5b74f0da7235543f2706c4255feba35b0055c49c4cc5680e93eaf17489768aa6",
+      "byteCount": 471
+    },
+    {
+      "check": "transitions",
+      "command": "python scripts/check-program-plan-transitions.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "6e8e63e4771b5d3a489c92f9f3c887bd0dc8f132ae7c14b12ea2847f34158083",
+      "byteCount": 423
+    },
+    {
+      "check": "finalization",
+      "command": "python scripts/check-program-plan-finalization.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --task GZ-021",
+      "exitCode": 0,
+      "rawSha256": "2ea93e6cda2dfbd320adf6f9e81960d5bb121e58373770744a317ef08a515d99",
+      "byteCount": 343
+    },
+    {
+      "check": "raw-lifecycle",
+      "command": "python scripts/check-program-lifecycle-guards.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "1ef732ca8c257ecbe5bb08cb24f2292db097abaa1a19d30379e4d7262ce881c0",
+      "byteCount": 490
+    },
+    {
+      "check": "lifecycle",
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "8f239326742008dbc6af5f5175ea08d17b40aaffee5ea3b513c118bd997bf92c",
+      "byteCount": 581
+    },
+    {
+      "check": "coordination",
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "rawSha256": "682e3c016a90b955f716aeb6aa89f69d79dc3b6820740ae679f7922f5ecd1c57",
+      "byteCount": 382
+    },
+    {
+      "check": "scope",
+      "command": "python scripts/run-task-scope-gate.py --task GZ-021 --base d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "exitCode": 0,
+      "rawSha256": "85fe0728ba0c975fd3c972c039dd32c179d0b5599cf445cfcf84fd0e57d1e301",
+      "byteCount": 42360
+    },
+    {
+      "check": "evidence",
+      "command": "python scripts/check-evidence.py --task GZ-021",
+      "exitCode": 0,
+      "rawSha256": "a77405d05c3cbc46fc07874f2dae282f6d20ea1f50d199182dcbba4d3eb84f0e",
+      "byteCount": 196
+    },
+    {
+      "check": "unaffected",
+      "command": "python /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/check_gz021_implementation_scope.py /home/sur/.cache/guize-takeover/native-verification-20261010 d7f1ab8f727ce3879408653736b972e21bb45b7a a84bab726157b031208de14aaf438dc7e55f5263",
+      "exitCode": 0,
+      "rawSha256": "a9500a15ab20991131bd7a16355adefae10adb91d3db8891b4444fdbe1819fc9",
+      "byteCount": 676
+    },
+    {
+      "check": "requirements-local",
+      "command": "python specs/requirements/v1/validate.py --profile local-v1",
+      "exitCode": 0,
+      "rawSha256": "0cd2de6560d712785c9cef5a2880a2338fcc06713af1b8183b0926d6d92c7dbd",
+      "byteCount": 327
+    },
+    {
+      "check": "requirements-production",
+      "command": "python specs/requirements/v1/validate.py --profile production",
+      "exitCode": 0,
+      "rawSha256": "a999e5447bb38b473b9c8eef57a6aac525b97f6d39523f80643b1da0a4f71a56",
+      "byteCount": 331
+    },
+    {
+      "check": "requirements-negative",
+      "command": "python specs/requirements/v1/validate.py --negative-fixtures",
+      "exitCode": 0,
+      "rawSha256": "a2c0222ec9d188f936130b82cd9932d9d40bc9a298f87cd7c9a66d3f73e19849",
+      "byteCount": 1881
+    },
+    {
+      "check": "poc-baseline",
+      "command": "python specs/poc/check_program.py",
+      "exitCode": 0,
+      "rawSha256": "e4b4b69f23b9f51701762591c1d596e0edc76e40f6e7f1a4376db5ea73377445",
+      "byteCount": 230
+    },
+    {
+      "check": "poc-tests",
+      "command": "python specs/poc/test_program.py",
+      "exitCode": 1,
+      "rawSha256": "8ce801977702f68f783eafb7d187cda1c4afc388cab1a05eb7a09496ba782e7c",
+      "byteCount": 27017
+    }
+  ],
+  "statusSha256": "17868cd118668eb81eef72ffd86af418cc28e34138b02951cf102a2994a16589",
+  "pocTestsRun": 172,
+  "pocPassed": 170,
+  "pocErrors": 2,
+  "pocFailures": 0,
+  "pocDurationSeconds": 2104.544,
+  "errors": [
+    {
+      "test": 140,
+      "path": "specs/poc/check_program.py",
+      "line": 1330,
+      "exception": "AttributeError: BoundedReader has no attribute seek",
+      "counterexample": "gz021-independent-a84bab7-native140-media-counterexample.json",
+      "counterexampleSha256": "ad5d9593b4f7345e75f288f6c109d9649b02025e47f3ccf96cf999517c9a7f65"
+    },
+    {
+      "test": 146,
+      "path": "specs/poc/test_program.py",
+      "line": 3135,
+      "exception": "TypeError: bool object is not subscriptable",
+      "counterexample": "gz021-independent-a84bab7-native146-helper-counterexample.json",
+      "counterexampleSha256": "f52878d3dcda39c1107021c19ba911846867b85342ae463554ad52086d9047e5"
+    }
+  ],
+  "requirementsNegativesRejected": 35,
+  "nativeGovernance637Executed": false,
+  "nativeJUnitCreated": false,
+  "verifyExecuted": false,
+  "docsExecuted": false,
+  "wrapperSuccessSnapshotCreated": false,
+  "beforeSourceContentBindingSha256": "5cd3755e185441fde7b563cf1a65d8a186703bd872fdafb1d2f497ed8233a3fc",
+  "beforeSourceBindingWorktrees": [
+    {
+      "role": "authoring",
+      "root": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-helper-worktree",
+      "head": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "clean": true
+    },
+    {
+      "role": "coordinator",
+      "root": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\Guize",
+      "head": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "clean": true
+    },
+    {
+      "role": "native",
+      "root": "/home/sur/.cache/guize-takeover/native-verification-20261010",
+      "head": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "clean": true
+    }
+  ],
+  "freshTerminalWorktrees": [
+    {
+      "role": "authoring",
+      "root": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops009-helper-worktree",
+      "head": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "clean": true
+    },
+    {
+      "role": "coordinator",
+      "root": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\Guize",
+      "head": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "clean": true
+    },
+    {
+      "role": "native",
+      "root": "/home/sur/.cache/guize-takeover/native-verification-20261010",
+      "head": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "clean": true
+    }
+  ],
+  "initialBindingVsFreshSameClean": true,
+  "contextLimit": "Independent source-binding snapshots compared with fresh terminal identities. A nonexistent wrapper success before/after receipt is not claimed.",
+  "manifestGitBlob": "6c95b70463bfa52e8d858c208d78989a84b0e4a8",
+  "ci705Raw637OnlyObserved": true,
+  "ci705FullAccepted": false,
+  "ciLimitedObservationProofSha256": "4c50501016120526d6a543e89d4574e8e819a5af1b0c3b0490e4d25443256b20",
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "suiteRerunByReviewerDuringTerminalReview": false,
+  "sourceEdited": false
+}

@@ -1,0 +1,79 @@
+{
+  "actualSource": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "nativeClosedExit1": true,
+  "local20Accepted": false,
+  "actualSourceExecutionAccepted": false,
+  "nativeFailureReceiptAccepted": true,
+  "nativeFailureReceiptSha256": "a87f64339836627c1ccd991abf636acd0e36580f3226ab67ba7d2999b363ad34",
+  "priorFiniteSourceContentBindingAccepted": true,
+  "priorSourceContentBindingSha256": "5cd3755e185441fde7b563cf1a65d8a186703bd872fdafb1d2f497ed8233a3fc",
+  "currentContentAccepted": false,
+  "ciAccepted": false,
+  "actualSourceCiExecutionAccepted": false,
+  "ci705LimitedRaw637ObservationAccepted": true,
+  "ci705ReportedJobSuccess": true,
+  "ci705FreshMetadata": {
+    "steps": 26,
+    "successfulSteps": 5,
+    "pendingOrUnprovenSteps": 21,
+    "requiredSuccessSteps": 28
+  },
+  "ci705LimitedProofSha256": "4c50501016120526d6a543e89d4574e8e819a5af1b0c3b0490e4d25443256b20",
+  "mustFix": [
+    {
+      "test": 140,
+      "path": "specs/poc/check_program.py",
+      "line": 1330,
+      "exception": "AttributeError: BoundedReader has no attribute seek",
+      "counterexample": "gz021-independent-a84bab7-native140-media-counterexample.json",
+      "counterexampleSha256": "ad5d9593b4f7345e75f288f6c109d9649b02025e47f3ccf96cf999517c9a7f65"
+    },
+    {
+      "test": 146,
+      "path": "specs/poc/test_program.py",
+      "line": 3135,
+      "exception": "TypeError: bool object is not subscriptable",
+      "counterexample": "gz021-independent-a84bab7-native146-helper-counterexample.json",
+      "counterexampleSha256": "f52878d3dcda39c1107021c19ba911846867b85342ae463554ad52086d9047e5"
+    },
+    {
+      "id": "ci705-original28success-contract-unproven",
+      "reason": "Original28 completedSuccess steps not proven; do not relax receiver or elevate raw637 facts."
+    }
+  ],
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "candidateFiniteTwoPathContentProof": {
+    "path": "gz021-independent-capture-bounded-io-two-path-dirty-review.json",
+    "sha256": "9800221829459917f57805ac01a8d8a89440ff15745b58b4f2178dc58a6533f0"
+  },
+  "separateDirtyIncrements": [
+    {
+      "path": "gz021-capture-fixture146-151-165-170-increment.txt",
+      "rawSha256": "03b9e559ddf964ca6a6dca81b5de0cb370bc6d6b70a59bb1c2d424ad788db48b",
+      "tests": 4,
+      "seconds": 107.295,
+      "exitCode": 0,
+      "dirtyCandidateStageOnly": true
+    },
+    {
+      "path": "gz021-a380-range-cache140-169-first-increment.txt",
+      "rawSha256": "36682df68ea5068dd6b274ee5821a0d6a0b1d6ef5a21cfa64f0ef61c21cc708f",
+      "tests": 2,
+      "seconds": 20.342,
+      "exitCode": 0,
+      "dirtyCandidateStageOnly": true
+    }
+  ],
+  "candidateResultsDoNotTransferToActualA84": true,
+  "fullCandidate172PassClaimed": false,
+  "reviewThreadsChanged": false,
+  "sourceEdited": false,
+  "suiteRestarted": false
+}

@@ -1121,6 +1121,21 @@ class TestPocProgram(unittest.TestCase):
             request['firstByteAt']='2026-09-03T00:01:00.002Z'
             for mid,value in (('encoder_power_peak_watts',2),('encoder_temperature_peak_celsius',-10),('a380_range_first_byte_latency',2)):next(m for m in record['measurements'] if m['id']==mid)['actual']=value
             write_yaml(telemetry_path,telemetry);write_yaml(request_path,request);self.assertEqual(validate(record),[])
+            # Partial responses still bind exact bytes even with self-consistent returned-body hashes.
+            source_bytes=(root/original['environmentCaptured']['productionA380Encode']['outputArtifactRef']).read_bytes()
+            self.assertGreater(len(source_bytes),2)
+            for first,last in ((0,len(source_bytes)-2),(1,len(source_bytes)-1)):
+                for p,raw in originals.items():p.write_bytes(raw)
+                data=copy.deepcopy(original);request=load_yaml(request_path);body=source_bytes[first:last+1]
+                request.update(rangeStart=first,rangeEnd=last,requestRange=f'bytes={first}-{last}',contentRange=f'bytes {first}-{last}/{len(source_bytes)}')
+                body_path.write_bytes(body);request['responseSha256']='sha256:'+hashlib.sha256(body).hexdigest()
+                write_yaml(request_path,request);self.refresh_qualified_observation_fixture(root,data)
+                self.assertEqual(validate(data),[])
+                corrupt=bytes([body[0]^1])+body[1:]
+                body_path.write_bytes(corrupt);request['responseSha256']='sha256:'+hashlib.sha256(corrupt).hexdigest()
+                write_yaml(request_path,request);self.refresh_qualified_observation_fixture(root,data)
+                errors=validate(data)
+                self.assertTrue(any('actual Range response must equal' in error for error in errors),errors)
         finally:temp.cleanup()
         for profile,status in (('local-v1','pass'),('production','fail'),('production','inconclusive')):
             temp,root=self.temp_repo()
@@ -3130,8 +3145,9 @@ class TestPocProgram(unittest.TestCase):
         poc=execution['pocId'];profile=env['acceptanceProfile']['id']
         plan=load_yaml(root/f"specs/poc/plans/POC-{int(poc.split('-')[1]):03d}.yaml")
         route=CHECK.execution_route(plan,profile)
-        if poc=='POC-07' and profile=='local-v1' and env.get('accessOutcomeRef'):
-            report=load_yaml(root/env['accessOutcomeRef']);resource_path=root/report['configurationRef'];resource=load_yaml(resource_path);policy=resource['configuration']['accessPolicy'];tls=env['local_tls_path_configuration']
+        tls=env.get('local_tls_path_configuration')
+        if poc=='POC-07' and profile=='local-v1' and env.get('accessOutcomeRef') and isinstance(tls,dict) and all(isinstance(tls.get(key),str) for key in ('entryOrigin','openlistOrigin')):
+            report=load_yaml(root/env['accessOutcomeRef']);resource_path=root/report['configurationRef'];resource=load_yaml(resource_path);policy=resource['configuration']['accessPolicy']
             for key,origin,path in (('range',tls['entryOrigin'],'/protected/range'),('stream',tls['entryOrigin'],'/protected/stream'),('source',tls['openlistOrigin'],'/protected/source'),('admin',tls['openlistOrigin'],'/api/admin')):policy['paths'][key]=origin+path
             write_yaml(resource_path,resource)
             for case in report['cases']:
