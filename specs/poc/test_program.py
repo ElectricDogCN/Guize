@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import importlib.util
 import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -323,6 +324,12 @@ class TestPocProgram(unittest.TestCase):
         return root / execution["samples"][0]["approvalRef"]
 
     def make_profile_slot(self, root, task_id='POC-006', profile='local-v1'):
+        if not (root/'.git').exists():
+            subprocess.run(['git','init','-q',str(root)],check=True)
+            subprocess.run(['git','-C',str(root),'config','core.autocrlf','false'],check=True)
+            (root/'fixture-tested-source.txt').write_text('Synthetic fixture code revision one; never platform execution evidence.\n',encoding='utf-8')
+            self.write_task_spec(root,task_id)
+            self.write_task_spec(root,'GZ-020')
         plan = load_yaml(self.plan_path(root,task_id))
         ref = CHECK.profile_index_ref(task_id,profile)
         if profile == 'local-v1':
@@ -370,6 +377,12 @@ class TestPocProgram(unittest.TestCase):
                 else: shutil.copy2(source,target)
             execution_path = folder/'execution.yaml'
             execution = load_yaml(execution_path)
+            if subprocess.run(['git','-C',str(root),'rev-parse','--verify','HEAD'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode:
+                # Freeze all prepared fixture inputs, including actual specifications and Task Specs.
+                subprocess.run(['git','-C',str(root),'add','--','.'],check=True)
+                subprocess.run(['git','-C',str(root),'-c','user.name=POC Fixture','-c','user.email=poc-fixture@guize.invalid','commit','-q','-m','synthetic fixture source'],check=True)
+            tested_source = {key:subprocess.check_output(['git','-C',str(root),'rev-parse',ref],text=True).strip() for key,ref in (('commit','HEAD'),('tree','HEAD^{tree}'))}
+            execution['environmentCaptured']['testedSource'] = tested_source
             execution['environmentCaptured']['executionWindow'] = dict(startedAt='2026-09-03T00:00:00Z', finishedAt='2026-09-04T00:00:00Z')
             common = dict(schemaVersion=2,pocId=plan['pocId'],taskId=owner,acceptanceProfile=CHECK.profile_identity(profile),status='approved',approvedBy=reviewer,approvedAt='2026-09-02T00:00:00Z',validFrom='2026-09-02T00:00:00Z',validUntil='2026-09-04T00:00:00Z')
             for resource in execution['resources']:
@@ -379,6 +392,7 @@ class TestPocProgram(unittest.TestCase):
             selected_route = CHECK.execution_route(plan,profile)
             config_ref = execution['environmentCaptured']['acceptanceProfileConfigurationRef']
             config = load_yaml(root/config_ref)
+            config['testedSource'] = tested_source
             refs = {}
             known = CHECK.NONNEGATIVE_UNITS | {'boolean','percent','ratio','celsius'}
             captured = {key:execution['environmentCaptured'][key] for key in selected_route['captureBeforeExecution']}
@@ -1705,6 +1719,84 @@ class TestPocProgram(unittest.TestCase):
             self.assertTrue(any('independent Task reviewer authorization' in e for e in errors),errors)
         finally:
             temp.cleanup()
+
+
+    def test_125_ai_reviews_cannot_survive_captured_input_sample_version_drift(self):
+        for profile in ('local-v1','production'):
+            temp,root = self.temp_repo()
+            try:
+                index = self.make_profile_slot(root,'POC-009',profile)
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[])
+                result = load_yaml(root/load_yaml(index)['resultRef'])
+                path = root/result['executionRef']
+                execution = load_yaml(path)
+                execution['environmentCaptured']['input_sample_version'] = 'changed-benchmark-revision'
+                write_yaml(path,execution)
+                errors = CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
+                self.assertTrue(any('compliance' in e and 'subject' in e for e in errors),errors)
+            finally:
+                temp.cleanup()
+
+
+    def test_126_qualified_source_requires_real_current_objects_and_own_evidence_only_drift(self):
+        for profile in ('local-v1','production'):
+            temp,root = self.temp_repo()
+            try:
+                index = self.make_profile_slot(root,'POC-006',profile)
+                validate = lambda: CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
+                self.assertEqual(validate(),[])
+                result = load_yaml(root/load_yaml(index)['resultRef'])
+                path = root/result['executionRef']
+                execution = load_yaml(path)
+                config_path = root/execution['environmentCaptured']['acceptanceProfileConfigurationRef']
+                config = load_yaml(config_path)
+                for mutation in ('missing','fake_matching','wrong_tree','config_mismatch'):
+                    with self.subTest(profile=profile,mutation=mutation):
+                        data = load_yaml(path);configured = load_yaml(config_path)
+                        if mutation=='missing': data['environmentCaptured'].pop('testedSource')
+                        elif mutation=='fake_matching':
+                            data['environmentCaptured']['testedSource'] = dict(commit='1'*40,tree='2'*40)
+                            configured['testedSource'] = data['environmentCaptured']['testedSource']
+                        elif mutation=='wrong_tree':
+                            data['environmentCaptured']['testedSource']['tree'] = '0'*40
+                            configured['testedSource'] = data['environmentCaptured']['testedSource']
+                        else: configured['testedSource']['commit'] = '1'*40
+                        write_yaml(path,data);write_yaml(config_path,configured)
+                        self.assertTrue(any('qualified tested source' in e for e in validate()))
+                        write_yaml(path,execution);write_yaml(config_path,config)
+                code = root/'fixture-tested-source.txt'
+                untracked_code = root/'new_worker.py'
+                untracked_code.write_text('print("new untested behavior")\n',encoding='utf-8')
+                self.assertTrue(any('current validation context' in e for e in validate()))
+                untracked_code.unlink()
+                self.assertEqual(validate(),[])
+                task_path = self.task_path(root,'POC-006')
+                original_task = task_path.read_text(encoding='utf-8')
+                for modified in (original_task.replace('status: in_progress','status: completed')+'Changed body.\n',
+                                 original_task.replace('implementer: poc-006-implementer','implementer: untested-author'),
+                                 original_task+'\n'):
+                    task_path.write_text(modified,encoding='utf-8')
+                    self.assertTrue(any('current validation context' in e for e in validate()))
+                task_path.write_text(original_task,encoding='utf-8')
+                unrelated = root/'evidence/POC-007/profiles/local-v1/v1/unrelated.txt'
+                unrelated.parent.mkdir(parents=True,exist_ok=True)
+                unrelated.write_text('Not the selected experiment.\n',encoding='utf-8')
+                self.assertTrue(any('current validation context' in e for e in validate()))
+                unrelated.unlink()
+                original_code = code.read_text(encoding='utf-8')
+                code.write_text('Changed behavior, still old matching execution/configuration.\n',encoding='utf-8')
+                self.assertTrue(any('current validation context' in e for e in validate()))
+                def commit(*paths):
+                    subprocess.run(['git','-C',str(root),'add','--',*paths],check=True)
+                    subprocess.run(['git','-C',str(root),'-c','user.name=POC Fixture','-c','user.email=poc-fixture@guize.invalid','commit','-q','-m','synthetic fixture change'],check=True)
+                commit('fixture-tested-source.txt')
+                self.assertTrue(any('current validation context' in e for e in validate()))
+                code.write_text(original_code,encoding='utf-8');commit('fixture-tested-source.txt')
+                own_slot = str(index.parent.relative_to(root)).replace('\\','/')
+                commit(own_slot)
+                self.assertEqual(validate(),[])
+            finally:
+                temp.cleanup()
 
 
 if __name__ == "__main__":

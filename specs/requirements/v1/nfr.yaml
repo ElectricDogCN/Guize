@@ -108,7 +108,7 @@ items:
 - id: NFR-V1-PERF-002
   category: performance
   title: 播放首帧与 Range 性能
-  statement: 首帧、Range、热/冷缓存、多用户、慢源和 A380 场景必须通过 POC/Golden Sample 实测后冻结。
+  statement: local-v1与production均须对首帧、Range、热/冷缓存、多用户及慢源场景通过POC/Golden Sample实测后冻结；local-v1使用捕获的异构Worker池，production另须原A380场景实测。本地结果不能代替A380生产义务。
   sourceRefs:
   - docs/18-testing-and-acceptance.md
   - docs/19-risk-assumptions-and-poc.md

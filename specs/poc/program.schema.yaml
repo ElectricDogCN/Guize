@@ -192,6 +192,7 @@ properties:
     - resourceBookingSchema
     - executionWindowSchema
     - measurementDomainReviewSchema
+    - testedSourceSchema
     properties:
       revision:
         const: 1
@@ -223,6 +224,8 @@ properties:
         const: program.schema.yaml#/$defs/executionWindow
       measurementDomainReviewSchema:
         const: program.schema.yaml#/$defs/measurementDomainReview
+      testedSourceSchema:
+        const: program.schema.yaml#/$defs/testedSource
 $defs:
   profileEvidenceIndex:
     type: object
@@ -817,3 +820,16 @@ $defs:
         const: approved
       reviewer: *id002
       approvedAt: *id004
+  testedSource:
+    type: object
+    additionalProperties: false
+    required:
+    - commit
+    - tree
+    properties:
+      commit:
+        type: string
+        pattern: ^[0-9a-f]{40}$
+      tree:
+        type: string
+        pattern: ^[0-9a-f]{40}$

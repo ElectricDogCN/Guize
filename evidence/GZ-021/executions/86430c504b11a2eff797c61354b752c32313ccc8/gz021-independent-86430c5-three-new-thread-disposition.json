@@ -1,0 +1,99 @@
+{
+  "actualSource": "86430c504b11a2eff797c61354b752c32313ccc8",
+  "tree": "da096dd8df47eead349572e11fc503886981c28d",
+  "prNumber": 103,
+  "reviewScope": "Only three new u1by/u1b6/u1b_ allegations and necessary links; immutable Git source",
+  "counterexampleProof": "gz021-independent-86430c5-three-comment-counterexamples.json",
+  "counterexampleSha256": "e0c57dc6d14d285dc31a5149c007313e93fbc4db15e6e7b662734aa387d75a5b",
+  "findings": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6ru1by",
+      "material": true,
+      "evidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "line": 362,
+          "detail": "POC09 subject uses input_version"
+        },
+        {
+          "path": "specs/poc/plans/POC-009.yaml",
+          "line": 40,
+          "detail": "Actual captured identity is input_sample_version"
+        }
+      ],
+      "counterexample": "Change input_sample_version sample-v1 to sample-v2; compliance subject JSON remains byte-identical",
+      "minimumFix": "Use captured input_sample_version in canonical full AI tuple; local/production old-approved-subject version drift must reject."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6ru1b6",
+      "material": true,
+      "evidence": [
+        {
+          "path": "specs/requirements/v1/nfr.yaml",
+          "line": 111,
+          "detail": "PERF002 statement unconditionally includes A380; applicableProfiles both at lines124–126"
+        },
+        {
+          "path": "specs/poc/plans/POC-002.yaml",
+          "line": 111,
+          "detail": "Original production A380 measurement retained; localValidation line212 has distinct authorized worker protocol"
+        },
+        {
+          "path": "docs/18-testing-and-acceptance.md",
+          "line": 9,
+          "detail": "Local heterogeneous workers vs production A380/ESXi"
+        }
+      ],
+      "minimumFix": "Statement must explicitly retain shared first-frame/Range/hot-cold-cache/multiuser/slow-source obligations in both profiles, local actual worker provenance and production additional original A380 obligation. Preserve all original measured values/verificationOwners/profile applicability; do not mark entire performance requirement production-only."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6ru1b_",
+      "material": true,
+      "evidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "line": 317,
+          "detail": "Configuration expected task/profile/resources/measurements only"
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "line": 976,
+          "detail": "Qualified execution calls profile validator without authoritative tested-source context"
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "line": 1334,
+          "detail": "Qualified terminal call passes profile schemas, not immutable source authority"
+        }
+      ],
+      "counterexample": "Existing qualified local POC06 PASS has no tested-source binding; adding matching invented commit 40x1/tree40x2 to execution captured environment and config still returns errors[]. Synthetic contract fixture only.",
+      "minimumFix": {
+        "identity": "Typed testedSource {commit: full40hex, tree: full40hex} in qualified execution and selected profile configuration; exact equality and actual Git commit/tree/ancestry checks.",
+        "authority": "Resolve current validation checkout HEAD once as authoritative acceptance context; never infer expected source from evidence or accept merely matching stale execution+config. Explicit context argument must be checked against actual validation checkout, not grant arbitrary stale PASS.",
+        "evidenceOnly": "Evidence-bearing successor can retain actual tested ancestor commit/tree without self-reference only if tested->acceptance-context diff is proven strictly permitted OwnEvidence-only and every nonEvidence Git blob identical. Unknown commit/tree, mismatched source, changed nonEvidence source/protocol/config/plans must reject. Legacy caller stays legacy; qualified boundary requires source.",
+        "phaseMetadata": "Do not blanket exclude Task/Program/Registry from comparison. Any later lawful phase-only use requires existing exact metadata projection authentication, or retain records as source-scoped historical rather than current milestone acceptance.",
+        "tests": [
+          "No testedSource / malformed identity / nonexistent object / wrong tree rejected",
+          "Matching stale execution+config after behavior/protocol/config changes rejected",
+          "Execution vs configuration source disagreement rejected",
+          "Actual tested-source same context accepted",
+          "Permitted pure OwnEvidence successor accepted without evidence self-SHA",
+          "Local/production and FAIL/inconclusive preserve factual source provenance without conferring stale PASS"
+        ]
+      }
+    }
+  ],
+  "durableHandoffRequirement": {
+    "currentSnapshotBodyStillPending": true,
+    "required": "Public PR must bind new actual source/tree/base/parent, actual commands/exits/rawSHA, local20/POC count/negative count/Gov JUnit count+FES+hash, clean context hash, same-head CI run/job/raw/hash/synthetic distinction, independent proofs and next Reviewer/Integrator/main/Review/Completion steps. Preserve 864 actual execution as 864-only history when repaired successor publishes; no result transfer."
+  },
+  "actualSourceExecutionAccepted": true,
+  "ciAccepted": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "emulatorActuallyExecuted": false,
+  "fullV1Complete": false
+}

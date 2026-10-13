@@ -1,0 +1,10 @@
+Source Commit: 86430c504b11a2eff797c61354b752c32313ccc8
+Command: python specs/requirements/v1/validate.py --profile local-v1
+GZ-004 V1 requirements baseline: PASS
+- requirements: 10
+- nfr items: 22
+- acceptances: 14
+- trace records: 10
+- acceptance binding: revision 1; local-v1; no POC or release result granted
+
+Exit Code: 0

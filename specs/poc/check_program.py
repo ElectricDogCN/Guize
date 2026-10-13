@@ -143,6 +143,7 @@ PROFILE_EVIDENCE_BINDING = {
     'resourceBookingSchema':'program.schema.yaml#/$defs/resourceBooking',
     'executionWindowSchema':'program.schema.yaml#/$defs/executionWindow',
     'measurementDomainReviewSchema':'program.schema.yaml#/$defs/measurementDomainReview',
+    'testedSourceSchema':'program.schema.yaml#/$defs/testedSource',
 }
 LOCAL_REQUIRED_MEASUREMENTS = {
     **REQUIRED_MEASUREMENTS,
@@ -359,7 +360,7 @@ def compliance_subject_version(plan, execution):
     if plan['pocId'] == 'POC-06' and (environment.get('acceptanceProfile') or {}).get('id') == 'local-v1':
         return json.dumps({key: environment.get(key) for key in ('openlist_version', 'provider_api_or_sdk_version')}, sort_keys=True, separators=(',', ':'))
     if plan['pocId'] == 'POC-09':
-        return json.dumps({key: environment.get(key) for key in ('model_identity', 'model_version', 'runtime', 'tool_versions', 'prompt_template_version', 'inference_parameters', 'input_version')}, sort_keys=True, separators=(',', ':'))
+        return json.dumps({key: environment.get(key) for key in ('model_identity', 'model_version', 'runtime', 'tool_versions', 'prompt_template_version', 'inference_parameters', 'input_sample_version')}, sort_keys=True, separators=(',', ':'))
     key = {'POC-06':'provider_api_or_sdk_version','POC-09':'model_version'}.get(plan['pocId'],'tool_versions')
     value = environment.get(key)
     return json.dumps(value,sort_keys=True,separators=(',',':')) if isinstance(value,dict) else value
@@ -448,6 +449,58 @@ def qualified_record(root, ref, prefix, schema, expected, label, errors):
         errors.append(f'{label}: record must bind exact POC, owner, resource/metric and profile')
         return None
     return record
+
+
+def validate_qualified_source(root, plan, execution, configuration, defs, prefix, errors):
+    label = f"qualified tested source {plan['taskId']}"
+    source = (execution.get('environmentCaptured') or {}).get('testedSource')
+    validate_schema(source, defs.get('testedSource', {}), label, errors)
+    configured = configuration.get('testedSource') if isinstance(configuration, dict) else None
+    if not isinstance(source, dict) or json.dumps(source, sort_keys=True) != json.dumps(configured, sort_keys=True):
+        errors.append(f'{label}: execution and profile configuration must bind the same immutable testedSource')
+        return
+    commit, tree = source.get('commit'), source.get('tree')
+    if not all(isinstance(v,str) and re.fullmatch('[0-9a-f]{40}',v) for v in (commit,tree)):
+        errors.append(f'{label}: exact Git commit/tree object IDs are required')
+        return
+    def git(*args):
+        output = subprocess.check_output(['git',*args],cwd=root,text=True,encoding='utf-8',stderr=subprocess.PIPE)
+        return output if args[0] == 'show' and len(args) == 2 else output.strip()
+    try:
+        context = git('rev-parse','HEAD')
+        if git('cat-file','-t',commit) != 'commit' or git('cat-file','-t',tree) != 'tree':
+            raise ValueError('testedSource must identify a commit object and its tree object')
+        if git('show','-s','--format=%T',commit) != tree:
+            raise ValueError('tested commit does not have the recorded tree')
+        git('merge-base','--is-ancestor',commit,context)
+        changed = git('diff','--name-only',commit,context).splitlines()
+        dirty = git('diff','--name-only','HEAD').splitlines()
+        untracked = git('ls-files','--others','--exclude-standard').splitlines()
+        poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
+        own_prefixes = tuple(str(Path(profile_index_ref(poc_task,profile)).parent).replace('\\','/')+'/'
+                             for profile in PROFILE_SCOPES)
+        phase_paths = {f'specs/tasks/{owner}.md' for owner in (poc_task,'GZ-020')}
+        def phase_only(before, after):
+            # Authenticate the existing document, permitting only the terminal status transition.
+            pattern = r'\A(---\r?\n(?:(?!^---).)*?^status: )in_progress(\r?\n(?:(?!^---).)*?^---(?:\r?\n|\Z).*)\Z'
+            match = re.fullmatch(pattern,before,re.MULTILINE|re.DOTALL)
+            header = before.split('---',2)[1] if before.startswith('---') else ''
+            return (match is not None and len(re.findall(r'^status:',header,re.MULTILINE)) == 1
+                    and after == match[1]+'completed'+match[2])
+        for paths, before_ref, after_ref in ((changed,commit,context),(dirty,context,None)):
+            for path in paths:
+                if path.startswith(own_prefixes):
+                    continue
+                if path in phase_paths:
+                    before = git('show',f'{before_ref}:{path}')
+                    after = git('show',f'{after_ref}:{path}') if after_ref else (root/path).read_text(encoding='utf-8')
+                    if phase_only(before,after):
+                        continue
+                raise ValueError('current validation context changes non-Own-Evidence source content')
+        if any(not path.startswith(own_prefixes) for path in untracked):
+            raise ValueError('current validation context contains untracked non-Own-Evidence source content')
+    except (subprocess.CalledProcessError,ValueError,OSError) as exc:
+        errors.append(f'{label}: immutable source must match actual Git objects and current validation context: {exc}')
 
 
 def validate_qualified_resources(root, plan, execution, resource_catalog, defs, prefix, reviewer, status, window, errors):
@@ -979,6 +1032,7 @@ def validate_execution(
     validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema, reference_boundary, window)
     validate_android_execution(root, plan, execution, status, reference_boundary, errors)
     if record_definitions is not None:
+        validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
     for key, expected in (

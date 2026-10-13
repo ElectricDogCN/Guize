@@ -90,3 +90,4 @@ profileEvidenceBinding:
   resourceBookingSchema: program.schema.yaml#/$defs/resourceBooking
   executionWindowSchema: program.schema.yaml#/$defs/executionWindow
   measurementDomainReviewSchema: program.schema.yaml#/$defs/measurementDomainReview
+  testedSourceSchema: program.schema.yaml#/$defs/testedSource

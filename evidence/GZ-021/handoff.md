@@ -1,3 +1,16 @@
+Current revision: dirty repair of published source 86430c504b11a2eff797c61354b752c32313ccc8.
+Status: IN_PROGRESS; current candidate has no published-source acceptance.
+
+Actual source 86430c5 completed 20 native gates, 124 POC regression methods (444.330s), 31/31 requirement negatives, and 637 governance methods (1172.40s), zero failures/errors/skips. Same-source CI693/run38354711200/job115154786254 completed all28 steps and637 governance methods in1312.48s. Three worktrees were clean and unchanged before/after that execution. Synthetic CI checkout8691d76550672ce4bd22b2e2af17ff39cc1226cd is not actual main.
+
+Durable commands/raw exits/JUnit/worktree proof/decoded CI log/strict receipt/independent execution acceptance and byte manifests: executions/86430c504b11a2eff797c61354b752c32313ccc8/manifest.json. Those results accept only that execution, whose content/final integration remain unaccepted after three new material findings. They never transfer to this repair or a later head. The new published repair must obtain its own complete20/126POC/31negative/637-governance/same-headCI and independent exact-head integration approval, then record that actual execution durably.
+
+Current repairs bind AI input_sample_version, separate local playback/Range measurements from additional production A380 measurements, and require qualified tested commit/tree to bind actual Git objects and the current source context. Original production measurements, old116 assertions, immutable planning manifest and task ownership are retained. Current candidate content review and complete actual-source validation are pending.
+
+Android15/API35/x86_64 VM boot was observed through ADB in the local tool lab; AV1 encode/Worker integration/actualPOC/fullV1 remain unaccepted. Runtime and downstream task starts remain gated on normal GZ-021 completion.
+
+--- Historical candidate and reservation stages ---
+
 GZ-021 implementation candidate: heterogeneous AV1 and full local V1 route
 Status: IN_PROGRESS / implementer
 Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE

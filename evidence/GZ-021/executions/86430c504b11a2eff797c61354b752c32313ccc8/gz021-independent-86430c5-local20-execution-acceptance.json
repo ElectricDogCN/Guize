@@ -1,0 +1,147 @@
+{
+  "actualSource": "86430c504b11a2eff797c61354b752c32313ccc8",
+  "tree": "da096dd8df47eead349572e11fc503886981c28d",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "checks": [
+    {
+      "check": "task",
+      "command": "python scripts/check-task-file.py --task GZ-021",
+      "exitCode": 0,
+      "sha256": "73a733d880bed522f314aa46b8939d3e7d138d576acf42c5eba9c0f5692271d2"
+    },
+    {
+      "check": "readiness",
+      "command": "python scripts/check-project-readiness.py",
+      "exitCode": 0,
+      "sha256": "6ec7051725d84a06f7013f25894935a326191163eafd0d6acdd2a447fb527b9b"
+    },
+    {
+      "check": "schemas",
+      "command": "python scripts/check-schemas.py",
+      "exitCode": 0,
+      "sha256": "b22ec3d35d618184edba548a550e32dd66794f8e4aa4735cdbeaf2cab164fe54"
+    },
+    {
+      "check": "integrity",
+      "command": "python scripts/check-program-plan-integrity.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "exitCode": 0,
+      "sha256": "e54f25536d8462d03fa64142cee634eff4f7812e44714843b3a6d48aadf14138"
+    },
+    {
+      "check": "history",
+      "command": "python scripts/check-program-plan-history.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "sha256": "eb4ec457ba62301e746700dcf593e952c2d7eb9b49c27d7fe14b0379e6da7fe5"
+    },
+    {
+      "check": "transitions",
+      "command": "python scripts/check-program-plan-transitions.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "sha256": "97bc1e9b81040eb78fd352ec9f6148968ef685cc9458c8f03b868ffbdd6599ec"
+    },
+    {
+      "check": "finalization",
+      "command": "python scripts/check-program-plan-finalization.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --task GZ-021",
+      "exitCode": 0,
+      "sha256": "bdab677b32ccec19947441bcb1c4e9cca90893e5397d11792277adac42154e80"
+    },
+    {
+      "check": "raw-lifecycle",
+      "command": "python scripts/check-program-lifecycle-guards.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "sha256": "0eeba16c8ede1fb446b4bdd7bf1cc25f66e6a2bdce972d720c79c66d1a5a56f3"
+    },
+    {
+      "check": "lifecycle",
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "sha256": "4728de175c79b9aa7f9d7f2c0b0dd14459a920a2aa1edc82a199994cb0329541"
+    },
+    {
+      "check": "coordination",
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "sha256": "c55c29d0abbf08b620a2a38fbeb6e19ccff6fc858da1bd36c25031ec5f6577a5"
+    },
+    {
+      "check": "scope",
+      "command": "python scripts/run-task-scope-gate.py --task GZ-021 --base d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "exitCode": 0,
+      "sha256": "261734bf1ffc23d95f291d042db7e59b20df1ae30a97b07cd4605767c4c2b27d"
+    },
+    {
+      "check": "evidence",
+      "command": "python scripts/check-evidence.py --task GZ-021",
+      "exitCode": 0,
+      "sha256": "69bcac54a7c405d472db64ee174f88421d28e937984671f594f7b5e3864fc681"
+    },
+    {
+      "check": "unaffected",
+      "command": "python /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/check_gz021_implementation_scope.py /home/sur/.cache/guize-takeover/native-verification-20261010 d7f1ab8f727ce3879408653736b972e21bb45b7a 86430c504b11a2eff797c61354b752c32313ccc8",
+      "exitCode": 0,
+      "sha256": "f5d0638ad8d4d8051565fefd57cf5cbd21792f3898bd8de03481c897551cf557"
+    },
+    {
+      "check": "requirements-local",
+      "command": "python specs/requirements/v1/validate.py --profile local-v1",
+      "exitCode": 0,
+      "sha256": "8fdcec34c5e9bfd5f03405dd9004eb8ee1f24ddeb49bad0c9e799e434b79ea98"
+    },
+    {
+      "check": "requirements-production",
+      "command": "python specs/requirements/v1/validate.py --profile production",
+      "exitCode": 0,
+      "sha256": "4391a7d9ad4a25d36f6c6a2be246823439e9b40406831a96a9907c4239a71bce"
+    },
+    {
+      "check": "requirements-negative",
+      "command": "python specs/requirements/v1/validate.py --negative-fixtures",
+      "exitCode": 0,
+      "sha256": "6ea2fa3d102e92ed0a5e2029de2b18391219e9e12ea6b61a87bfb7f126c29861"
+    },
+    {
+      "check": "poc-baseline",
+      "command": "python specs/poc/check_program.py",
+      "exitCode": 0,
+      "sha256": "904fc4e345aa6b9d12d41ece7dc3c8dfcd792c1ff8ad3f8cf5e6315115ec3fe2"
+    },
+    {
+      "check": "poc-tests",
+      "command": "python specs/poc/test_program.py",
+      "exitCode": 0,
+      "sha256": "63b112c5f978048a498f12ae66551b580d67540a3ea94ad9f2b0de882e83829c"
+    },
+    {
+      "check": "verify",
+      "command": "make verify TASK=GZ-021 BASE=d7f1ab8f727ce3879408653736b972e21bb45b7a HEAD_REF=HEAD BRANCH=chore/GZ-021-local-v1-route",
+      "exitCode": 0,
+      "sha256": "4e0e55e974bf761e269e0c62a577353c080db5325024ba43cc7446463db0739d"
+    },
+    {
+      "check": "docs",
+      "command": "python scripts/check-markdown.py",
+      "exitCode": 0,
+      "sha256": "4a35d8e59611cfefb5f5811b1bba75bf1c0b2b344fd350f113514edb87561bdf"
+    }
+  ],
+  "governanceTests": 637,
+  "governanceDurationSeconds": 1172.4,
+  "junitSha256": "bc358b22863d6a9cf7d22d375635a06afe4043ef297f57b0b0bf2ed76ae1dc02",
+  "failuresErrorsSkips": 0,
+  "pocRegressionTests": 124,
+  "pocRegressionDurationSeconds": 444.33,
+  "requirementsNegativeFixturesRejected": 31,
+  "worktreeBindingSha256": "52203a60cb17b0a2e7fb32a78c30b5447a8072cdd0add9eefebc572dc0fb7c57",
+  "beforeAfterSameClean": true,
+  "currentAuthoringStatus": "M specs/poc/check_program.py\n M specs/poc/test_program.py\n M specs/requirements/v1/nfr.yaml",
+  "currentAuthoringStatusIsAfterCompletedExecution": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "emulatorActuallyExecuted": false,
+  "fullV1Complete": false
+}
