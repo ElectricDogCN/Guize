@@ -440,7 +440,7 @@ def validate(b, selected_profile=None):
         unit = measurement.get("unit")
         owners = measurement.get("verificationOwners") or []
 
-        if nfr_id == "NFR-V1-SEC-002" and not {"GZ-018", "GZ-020"}.issubset(set(owners)):
+        if nfr_id in {"NFR-V1-SEC-002", "NFR-V1-GOV-001"} and not {"GZ-018", "GZ-020"}.issubset(set(owners)):
             E.append(f"{nfr_id} requires local GZ-018 and production GZ-020 verification owners")
 
         if nfr_id in seen_nfr:
@@ -600,6 +600,7 @@ def negatives(b):
     tests.append(run("incomplete-local-acceptance-scope", lambda d: next(t for t in d["prog"]["tasks"] if t["taskId"] == "GZ-018")["acceptanceIds"].pop()))
     tests.append(run("fabricated-local-floor-value", lambda d: next(n for n in d["nfr"]["items"] if n["id"] == LOCAL_FLOOR_NFR)["measurement"].update(value=0,unit="GB")))
     tests.append(run("local-secret-verifier-missing", lambda d: next(n for n in d["nfr"]["items"] if n["id"] == "NFR-V1-SEC-002")["measurement"].update(verificationOwners=["GZ-020"])))
+    tests.append(run("local-release-boundary-verifier-missing", lambda d: next(n for n in d["nfr"]["items"] if n["id"] == "NFR-V1-GOV-001")["measurement"].update(verificationOwners=["GZ-020"])))
     def all_bindings(data, mutate):
         for key in ["req", "nfr", "trace", "acc", "idx"]:
             mutate(data[key]["acceptanceProfileBinding"])
