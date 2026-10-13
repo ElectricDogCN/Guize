@@ -459,7 +459,7 @@ def qualified_record(root, ref, prefix, schema, expected, label, errors):
     return record
 
 
-def validate_qualified_source(root, plan, execution, configuration, defs, prefix, errors):
+def validate_qualified_source(root, plan, execution, configuration, defs, prefix, errors, record_refs=None):
     label = f"qualified tested source {plan['taskId']}"
     source = (execution.get('environmentCaptured') or {}).get('testedSource')
     validate_schema(source, defs.get('testedSource', {}), label, errors)
@@ -484,6 +484,33 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
         changed = git('diff','--name-only',commit,context).splitlines()
         dirty = git('diff','--name-only','HEAD').splitlines()
         untracked = git('ls-files','--others','--exclude-standard').splitlines()
+        ignored = set(git('ls-files','--others','--ignored','--exclude-standard').splitlines())
+        referenced = set(record_refs or ())
+        identity = (execution.get('environmentCaptured') or {}).get('acceptanceProfile')
+        profile = identity.get('id') if isinstance(identity,dict) else None
+        if profile in PROFILE_SCOPES:
+            poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
+            referenced.add(profile_index_ref(poc_task,profile))
+        def collect(value):
+            if isinstance(value,dict):
+                for item in value.values(): collect(item)
+            elif isinstance(value,list):
+                for item in value: collect(item)
+            elif isinstance(value,str) and lexical_ref(value,prefix):
+                referenced.add(value)
+        collect(execution)
+        collect(configuration)
+        domains = configuration.get('numericDomainReviewRefs',{}) if isinstance(configuration,dict) else {}
+        if isinstance(domains,dict):
+            for ref in domains.values():
+                path = existing_ref(root,ref,prefix)
+                if path is not None: collect(load(path))
+        for ref in list(referenced):
+            path = existing_ref(root,ref,prefix)
+            if path is not None:
+                referenced.add(path.relative_to(root.resolve()).as_posix())
+        if referenced & ignored:
+            raise ValueError('referenced qualified evidence must not be ignored and untracked: '+', '.join(sorted(referenced & ignored)))
         poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
         own_prefixes = tuple(str(Path(profile_index_ref(task,profile)).parent).replace('\\','/')+'/'
                              for task in sorted(TASKS) for profile in PROFILE_SCOPES)
@@ -642,6 +669,77 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
             errors.append(f'{label}: command output must identify a command_output artifact')
     if status == 'pass' and total_bytes == 0:
         errors.append(f'{label}: PASS requires nonempty dedicated raw output')
+    if plan['pocId'] == 'POC-02' and status == 'pass':
+        ref = (execution.get('environmentCaptured') or {}).get('producedMediaArtifactRef')
+        media = existing_ref(root,ref,prefix)
+        if not isinstance(ref,str) or kinds.get(ref) != 'produced_media' or media is None or media.stat().st_size == 0:
+            errors.append(f'{label}: POC-002 PASS requires a designated nonempty produced_media artifact')
+        elif (execution.get('provenance') or {}).get('output_sha256') != 'sha256:'+hashlib.sha256(media.read_bytes()).hexdigest():
+            errors.append(f'{label}: POC-002 output_sha256 must match produced media bytes')
+
+
+def validate_qualified_encode_workers(root, plan, execution, prefix, status, window, errors):
+    if plan['pocId'] != 'POC-02' or status != 'pass':
+        return
+    label = f"qualified encode workers {plan['taskId']}"
+    env = execution.get('environmentCaptured') or {}
+    inventory = env.get('worker_node_inventory')
+    required = {'nodeId','platform','physicalHostId','encoderBuild','compatibilityGroupId'}
+    if not isinstance(inventory,list) or len(inventory) < 2 or any(not isinstance(node,dict) or not required.issubset(node) or any(not recorded_text(node[key]) for key in required) for node in inventory):
+        errors.append(f'{label}: typed worker inventory requires at least two identified tested nodes')
+        return
+    nodes = {node['nodeId']:node for node in inventory}
+    if len(nodes) != len(inventory) or not {'windows','linux'}.issubset({node['platform'] for node in inventory}):
+        errors.append(f'{label}: distinct Windows and Linux workers are required')
+    if len({node['compatibilityGroupId'] for node in inventory}) != 1:
+        errors.append(f'{label}: parallel encode workers must bind the same admitted compatibility group')
+    scope = env.get('physical_host_scope')
+    hosts = {node['physicalHostId'] for node in inventory}
+    if not isinstance(scope,dict) or not isinstance(scope.get('physicalHostIds'),list) or any(not recorded_text(host) for host in scope['physicalHostIds']) or set(scope['physicalHostIds']) != hosts or scope.get('physicalMultiHostValidated') is not (len(hosts) > 1):
+        errors.append(f'{label}: physical host scope must bind inventory and disclose same-host limits')
+    capabilities = env.get('encoder_capability_matrix')
+    if not isinstance(capabilities,list) or len(capabilities) != len(nodes):
+        errors.append(f'{label}: typed AV1 capability matrix must cover exact inventory')
+        return
+    seen = set()
+    for capability in capabilities:
+        if not isinstance(capability,dict) or not isinstance(capability.get('nodeId'),str) or capability['nodeId'] not in nodes:
+            errors.append(f'{label}: capability must bind an inventory node')
+            continue
+        node = nodes[capability['nodeId']]
+        if capability['nodeId'] in seen or capability.get('encoderBuild') != node['encoderBuild'] or capability.get('compatibilityGroupId') != node['compatibilityGroupId'] or capability.get('codec') != 'av1' or capability.get('supported') is not True:
+            errors.append(f'{label}: tested AV1 capability must bind exact node/build')
+        seen.add(capability['nodeId'])
+    runs = env.get('workerEncodeExecutions')
+    if not isinstance(runs,list) or len(runs) < 2:
+        errors.append(f'{label}: identified parallel worker encode executions are required')
+        return
+    artifacts = {record.get('ref'):record for record in env.get('rawExecutionArtifacts') or [] if isinstance(record,dict) and isinstance(record.get('ref'),str)}
+    inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
+    intervals = []
+    completed = set()
+    for run in runs:
+        if not isinstance(run,dict) or not isinstance(run.get('nodeId'),str) or run['nodeId'] not in nodes:
+            errors.append(f'{label}: encode execution must bind an inventory node')
+            continue
+        node = nodes[run['nodeId']]
+        start,end = utc(run.get('startedAt')),utc(run.get('finishedAt'))
+        if start is None or end is None or not start < end or window is None or not window[0] <= start < end <= window[1]:
+            errors.append(f'{label}: worker encode interval must be positive and within executionWindow')
+        else:
+            intervals.append((run['nodeId'],start,end))
+        if run.get('encoderBuild') != node['encoderBuild'] or run.get('compatibilityGroupId') != node['compatibilityGroupId'] or not isinstance(run.get('inputSha256'),str) or run['inputSha256'] not in inputs:
+            errors.append(f'{label}: worker encode must bind tested build and approved input')
+        for key,kind in (('rawOutputRef','command_output'),('outputArtifactRef','produced_media')):
+            artifact = artifacts.get(run[key]) if isinstance(run.get(key),str) else None
+            if artifact is None or artifact.get('artifactType') != kind or artifact.get('nodeId') != node['nodeId']:
+                errors.append(f'{label}: worker artifacts must bind exact node and artifact type')
+        output = existing_ref(root,run.get('outputArtifactRef'),prefix)
+        if output is None or output.stat().st_size == 0 or run.get('outputSha256') != 'sha256:'+hashlib.sha256(output.read_bytes()).hexdigest():
+            errors.append(f'{label}: worker output hash must bind nonempty produced bytes')
+        completed.add(node['nodeId'])
+    if completed != set(nodes) or not any(a[0] != b[0] and max(a[1],b[1]) < min(a[2],b[2]) for i,a in enumerate(intervals) for b in intervals[i+1:]):
+        errors.append(f'{label}: all inventory nodes must execute, with overlapping work on distinct nodes')
 
 
 def validate_android_execution(root, plan, execution, status, prefix, errors):
@@ -1107,10 +1205,11 @@ def validate_execution(
     validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema, reference_boundary, window)
     validate_android_execution(root, plan, execution, status, reference_boundary, errors)
     if record_definitions is not None:
-        validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors)
+        validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
         validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors)
+        validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
@@ -1269,6 +1368,11 @@ def validate_execution(
             value = actual_map.get(mid)
             if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value <= 0:
                 errors.append(f'{label}: POC-005 PASS requires positive exercised workload: {mid}')
+    if poc_id == 'POC-02' and status == 'pass' and record_definitions is not None:
+        for mid in ('encode_throughput','sustained_encode_duration'):
+            value = actual_map.get(mid)
+            if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value <= 0:
+                errors.append(f'{label}: POC-002 PASS requires positive exercised workload: {mid}')
     if poc_id == 'POC-03':
         correctness = actual_map.get('range_correctness')
         if planned_measurements.get('range_correctness', {}).get('unit') != 'percent':

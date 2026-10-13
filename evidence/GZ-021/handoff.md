@@ -1,3 +1,16 @@
+Current revision: dirty five-opinion repair of actual source 8b6919c46e2f7bf10d138da93a782e2136f476f7.
+Status: IN_PROGRESS; this candidate has no published-source acceptance.
+
+Actual8b completed all20 native gates,132 POC regression methods in523.240s,33/33 requirement negatives and637 governance methods in1179.27s, zero failures/errors/skips. Same-source CI695/run38374029280/job115217777122 completed all28 steps and637 governance methods in1609.77s. All three tested worktrees stayed clean and unchanged. Synthetic CI checkout9cceb137a36579678b03d7aff53ca3e7123a3905 is not actual main.
+
+Durable commands/exits/raw logs/JUnit/worktree proof/CI receipt/independent execution acceptance/five-finding rejection and byte manifest: executions/8b6919c46e2f7bf10d138da93a782e2136f476f7/manifest.json. These accept only historical execution, never this repair. Current8b content and final integration remain rejected after five material findings. The published repair needs its own20/137POC/35negative/637-governance/same-headCI and independent final approval.
+
+The five repairs assign local permission isolation to GZ-018 alongside GZ-011/GZ-020, bind designated produced media bytes to provenance hashes, bind typed Windows/Linux inventory/capabilities/physical scope and overlapping worker runs to node-specific artifacts, require positive encode throughput/soak for PASS, and reject ignored untracked referenced evidence. The original132 regression method assertions and original33 negative cases remain, with5/2 additional cases. Synthetic fixture bytes/timestamps are not actual encoding or POC evidence. Planning manifest and legacy schemas remain unchanged.
+
+Android15/API35/x86_64 VM boot was observed through ADB; actual AV1, Worker integration, runtime, actual POC, physical Android and fullV1 remain unaccepted. Normal GZ-021 completion remains required before downstream starts.
+
+--- Historical source and reservation stages ---
+
 Current revision: dirty six-opinion repair of source 4dded087d5f60dc6d78902e125b0104654e14c92.
 Status: IN_PROGRESS; this candidate has no published-source acceptance.
 

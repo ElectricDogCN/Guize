@@ -367,6 +367,29 @@ class TestPocProgram(unittest.TestCase):
                 else: shutil.copy2(source,target)
             execution_path = folder/'execution.yaml'
             execution = load_yaml(execution_path)
+            artifact_nodes = {}
+            if task_id == 'POC-002':
+                # Schema fixtures only: these bytes do not claim to be encoded media.
+                env = execution['environmentCaptured']
+                nodes = [dict(nodeId='fixture-'+platform,platform=platform,physicalHostId='fixture-same-host',encoderBuild='fixture-av1-build',compatibilityGroupId='fixture-av1-group') for platform in ('windows','linux')]
+                env['worker_node_inventory'] = nodes
+                env['physical_host_scope'] = dict(physicalHostIds=['fixture-same-host'],physicalMultiHostValidated=False)
+                env['encoder_capability_matrix'] = [dict(nodeId=node['nodeId'],encoderBuild=node['encoderBuild'],compatibilityGroupId=node['compatibilityGroupId'],codec='av1',supported=True) for node in nodes]
+                media_ref = new_prefix+'/raw/produced-media.bin'
+                (root/media_ref).write_bytes(b'Synthetic schema fixture, never actual AV1 media.\n')
+                env['producedMediaArtifactRef'] = media_ref
+                execution['provenance']['output_sha256'] = 'sha256:'+hashlib.sha256((root/media_ref).read_bytes()).hexdigest()
+                execution['rawOutputRefs'].append(media_ref)
+                runs = []
+                for node in nodes:
+                    log_ref = new_prefix+'/raw/'+node['nodeId']+'.txt'
+                    output_ref = new_prefix+'/raw/'+node['nodeId']+'.bin'
+                    (root/log_ref).write_text('Synthetic node trace, never actual encode execution.\n',encoding='utf8')
+                    (root/output_ref).write_bytes(b'Synthetic per-worker media fixture.\n'+node['nodeId'].encode())
+                    execution['rawOutputRefs'].extend([log_ref,output_ref])
+                    artifact_nodes[log_ref] = artifact_nodes[output_ref] = node['nodeId']
+                    runs.append(dict(nodeId=node['nodeId'],encoderBuild=node['encoderBuild'],compatibilityGroupId=node['compatibilityGroupId'],inputSha256=execution['samples'][0]['checksum'],outputSha256='sha256:'+hashlib.sha256((root/output_ref).read_bytes()).hexdigest(),rawOutputRef=log_ref,outputArtifactRef=output_ref,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:01:00Z'))
+                env['workerEncodeExecutions'] = runs
             if subprocess.run(['git','-C',str(root),'rev-parse','--verify','HEAD'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode:
                 # Freeze all prepared fixture inputs, including actual specifications and Task Specs.
                 subprocess.run(['git','-C',str(root),'add','--','.'],check=True)
@@ -374,8 +397,9 @@ class TestPocProgram(unittest.TestCase):
             tested_source = {key:subprocess.check_output(['git','-C',str(root),'rev-parse',ref],text=True).strip() for key,ref in (('commit','HEAD'),('tree','HEAD^{tree}'))}
             execution['environmentCaptured']['testedSource'] = tested_source
             execution['environmentCaptured']['rawExecutionArtifacts'] = [
-                dict(ref=raw_ref,artifactType='command_output',byteCount=len((root/raw_ref).read_bytes()),
-                     sha256='sha256:'+hashlib.sha256((root/raw_ref).read_bytes()).hexdigest())
+                dict(ref=raw_ref,artifactType='produced_media' if task_id=='POC-002' and raw_ref.endswith('.bin') else 'command_output',byteCount=len((root/raw_ref).read_bytes()),
+                     sha256='sha256:'+hashlib.sha256((root/raw_ref).read_bytes()).hexdigest(),
+                     **({'nodeId':artifact_nodes[raw_ref]} if raw_ref in artifact_nodes else {}))
                 for raw_ref in execution['rawOutputRefs']]
             execution['environmentCaptured']['executionWindow'] = dict(startedAt='2026-09-03T00:00:00Z', finishedAt='2026-09-04T00:00:00Z')
             common = dict(schemaVersion=2,pocId=plan['pocId'],taskId=owner,acceptanceProfile=CHECK.profile_identity(profile),status='approved',approvedBy=reviewer,approvedAt='2026-09-02T00:00:00Z',validFrom='2026-09-02T00:00:00Z',validUntil='2026-09-04T00:00:00Z')
@@ -1914,6 +1938,111 @@ class TestPocProgram(unittest.TestCase):
                 data=load_yaml(path);data['environmentCaptured']['rawExecutionArtifacts']=artifacts(raw_ref);write_yaml(path,data)
                 errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
                 self.assertTrue(any('raw outputs must be disjoint' in e for e in errors),errors)
+            finally: temp.cleanup()
+
+
+    def test_133_permission_isolation_requires_both_runtime_milestone_owners(self):
+        nfr = load_yaml(self.repo/'specs/requirements/v1/nfr.yaml')
+        item = next(item for item in nfr['items'] if item['id']=='NFR-V1-SEC-001')
+        self.assertEqual(item['measurement']['verificationOwners'],['GZ-011','GZ-018','GZ-020'])
+        self.assertEqual(item['applicableProfiles'],['local-v1','production'])
+
+    def test_134_encode_output_provenance_binds_actual_media_bytes(self):
+        for profile in ('local-v1','production'):
+            temp,root = self.temp_repo()
+            try:
+                index = self.make_profile_slot(root,'POC-002',profile)
+                result = load_yaml(root/load_yaml(index)['resultRef'])
+                path = root/result['executionRef']; original = path.read_bytes()
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'}),[])
+                for field,value in (('producedMediaArtifactRef',None),('producedMediaArtifactRef',load_yaml(path)['rawOutputRefs'][0])):
+                    data=load_yaml(path); data['environmentCaptured'][field]=value; write_yaml(path,data)
+                    self.assertTrue(any('designated nonempty produced_media' in e for e in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})))
+                    path.write_bytes(original)
+                data=load_yaml(path); data['provenance']['output_sha256']='sha256:'+'0'*64; write_yaml(path,data)
+                self.assertTrue(any('output_sha256 must match produced media bytes' in e for e in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})))
+            finally: temp.cleanup()
+
+    def test_135_encode_worker_identity_and_parallel_intervals_are_required(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-002',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
+                mutations = [
+                    lambda env: env.update(worker_node_inventory='captured-workers'),
+                    lambda env: env.update(worker_node_inventory=env['worker_node_inventory'][:1]),
+                    lambda env: env['worker_node_inventory'][1].update(platform='windows'),
+                    lambda env: env.update(encoder_capability_matrix='captured-capability'),
+                    lambda env: env.update(physical_host_scope='captured-host-scope'),
+                    lambda env: env.update(workerEncodeExecutions=[]),
+                    lambda env: env['workerEncodeExecutions'][0].update(nodeId='unqualified-node'),
+                    lambda env: env['worker_node_inventory'][0].update(compatibilityGroupId='other-group'),
+                    lambda env: env['workerEncodeExecutions'][0].update(compatibilityGroupId='other-group'),
+                    lambda env: env['workerEncodeExecutions'][0].update(inputSha256={}),
+                    lambda env: env['workerEncodeExecutions'][0].update(outputSha256='sha256:'+'0'*64),
+                    lambda env: env['workerEncodeExecutions'][0].update(rawOutputRef=env['workerEncodeExecutions'][1]['rawOutputRef']),
+                    lambda env: env['workerEncodeExecutions'][1].update(startedAt='2026-09-03T00:01:00Z',finishedAt='2026-09-03T00:02:00Z'),
+                ]
+                for mutate in mutations:
+                    data=load_yaml(path);mutate(data['environmentCaptured']);write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
+                    self.assertTrue(any('qualified encode workers' in e for e in errors),errors)
+                    path.write_bytes(original)
+            finally: temp.cleanup()
+
+    def test_136_encode_pass_requires_positive_throughput_and_soak(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-002',profile)
+                result_path=root/load_yaml(index)['resultRef'];result=load_yaml(result_path)
+                path=root/result['executionRef'];original=path.read_bytes()
+                for mid in ('encode_throughput','sustained_encode_duration'):
+                    data=load_yaml(path);next(m for m in data['measurements'] if m['id']==mid)['actual']=0;write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
+                    self.assertTrue(any('positive exercised workload' in e and mid in e for e in errors),errors)
+                    result.update(status='fail',decision='fail');write_yaml(result_path,result)
+                    self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-02'}),[])
+                    result.update(status='pass',decision='pass');write_yaml(result_path,result);path.write_bytes(original)
+            finally: temp.cleanup()
+
+    def test_137_ignored_untracked_referenced_evidence_cannot_pass(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                (root/'.gitignore').write_text('*.log\n',encoding='utf8')
+                index=self.make_profile_slot(root,'POC-006',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef']);execution=load_yaml(root/result['executionRef'])
+                errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
+                self.assertTrue(any('referenced qualified evidence must not be ignored and untracked' in e for e in errors),errors)
+                for ref in execution['rawOutputRefs']:
+                    subprocess.run(['git','-C',str(root),'add','-f','--',ref],check=True)
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),[])
+                if os.name != 'nt':
+                    # A tracked symlink cannot preserve an ignored, untracked target.
+                    execution_path=root/result['executionRef']; data=load_yaml(execution_path)
+                    prefix=str(index.parent.relative_to(root)).replace('\\','/')
+                    target_ref=prefix+'/raw/ignored-target.log';alias_ref=prefix+'/raw/tracked-alias.txt'
+                    target=root/target_ref;target.write_text('Synthetic alias target.\n',encoding='utf8')
+                    os.symlink(target.name,root/alias_ref)
+                    subprocess.run(['git','-C',str(root),'add','--',alias_ref],check=True)
+                    data['rawOutputRefs']=[alias_ref]
+                    for command in data['commands']: command['outputRef']=alias_ref
+                    data['environmentCaptured']['rawExecutionArtifacts']=[dict(ref=alias_ref,artifactType='command_output',byteCount=target.stat().st_size,sha256='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest())]
+                    write_yaml(execution_path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
+                    self.assertTrue(any('referenced qualified evidence must not be ignored and untracked' in e and target_ref in e for e in errors),errors)
+                    subprocess.run(['git','-C',str(root),'add','-f','--',target_ref],check=True)
+                    self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),[])
+                    index_bytes=index.read_bytes();index.unlink()
+                    index_target=index.parent/'index-data.log';index_target.write_bytes(index_bytes)
+                    os.symlink(index_target.name,index)
+                    subprocess.run(['git','-C',str(root),'add','--',index.relative_to(root).as_posix()],check=True)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
+                    self.assertTrue(any('referenced qualified evidence must not be ignored and untracked' in e and 'index-data.log' in e for e in errors),errors)
+                    subprocess.run(['git','-C',str(root),'add','-f','--',index_target.relative_to(root).as_posix()],check=True)
+                    self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),[])
             finally: temp.cleanup()
 
 
