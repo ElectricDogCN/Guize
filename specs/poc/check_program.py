@@ -139,6 +139,10 @@ PROFILE_EVIDENCE_BINDING = {
     'productionResultSchema':'program.schema.yaml#/$defs/productionResult',
     'productionSampleApprovalSchema':'program.schema.yaml#/$defs/productionSampleApproval',
     'productionComplianceSchema':'program.schema.yaml#/$defs/productionComplianceReview',
+    'resourceConfigurationSchema':'program.schema.yaml#/$defs/resourceConfiguration',
+    'resourceBookingSchema':'program.schema.yaml#/$defs/resourceBooking',
+    'executionWindowSchema':'program.schema.yaml#/$defs/executionWindow',
+    'measurementDomainReviewSchema':'program.schema.yaml#/$defs/measurementDomainReview',
 }
 LOCAL_REQUIRED_MEASUREMENTS = {
     **REQUIRED_MEASUREMENTS,
@@ -180,7 +184,7 @@ LOCAL_RESOURCES = {
 }
 
 REQUIRED_LOCAL_ENV = {
-    "POC-01": {"worker_node_inventory", "physical_host_scope", "encoder_capability_matrix", "android_validation_scope"},
+    "POC-01": {"worker_node_inventory", "physical_host_scope", "encoder_capability_matrix", "android_validation_scope", "vm_validation_scope"},
     "POC-02": {"worker_node_inventory", "physical_host_scope", "encoder_capability_matrix", "segment_profile", "scheduler_configuration"},
     "POC-03": set(),
     "POC-04": {"openlist_version", "sandbox_root_boundary", "capacity_watermark_configuration"},
@@ -215,7 +219,7 @@ PRODUCTION_COMPAT_MEASUREMENTS = {
                'seek_epoch_rejects_stale_demand','hls_acl_and_revocation'},
 }
 PRODUCTION_COMPAT_ENV = {
-    'POC-01': REQUIRED_LOCAL_ENV['POC-01'] | {'android_thermal_background_observation'},
+    'POC-01': (REQUIRED_LOCAL_ENV['POC-01'] - {'vm_validation_scope'}) | {'android_thermal_background_observation'},
     'POC-02': REQUIRED_LOCAL_ENV['POC-02'],
 }
 
@@ -354,18 +358,24 @@ def compliance_subject_version(plan, execution):
     environment = execution.get('environmentCaptured') or {}
     if plan['pocId'] == 'POC-06' and (environment.get('acceptanceProfile') or {}).get('id') == 'local-v1':
         return json.dumps({key: environment.get(key) for key in ('openlist_version', 'provider_api_or_sdk_version')}, sort_keys=True, separators=(',', ':'))
+    if plan['pocId'] == 'POC-09':
+        return json.dumps({key: environment.get(key) for key in ('model_identity', 'model_version', 'runtime', 'tool_versions', 'prompt_template_version', 'inference_parameters', 'input_version')}, sort_keys=True, separators=(',', ':'))
     key = {'POC-06':'provider_api_or_sdk_version','POC-09':'model_version'}.get(plan['pocId'],'tool_versions')
     value = environment.get(key)
     return json.dumps(value,sort_keys=True,separators=(',',':')) if isinstance(value,dict) else value
 
 
-def validate_source_compliance(root, plan, execution, implementer, status, errors, schema_override=None, reference_prefix=None):
+def validate_source_compliance(root, plan, execution, implementer, status, errors, schema_override=None, reference_prefix=None, execution_window=None):
     """Declared approval booleans cannot substitute for version-bound review records."""
     required = {kind for kind in ('privacy','license') if plan['security'].get(kind+'ReviewRequired') is True}
     if not required:
         return
     label = f"execution record {plan['taskId']}: compliance"
     environment = execution.get('environmentCaptured') or {}
+    if plan['pocId'] == 'POC-09':
+        for key in ('runtime','tool_versions'):
+            if not isinstance(environment.get(key), (str,dict)) or not recorded(environment.get(key)):
+                errors.append(f'{label}: concrete captured AI runtime/tool identity required')
     version = compliance_subject_version(plan,execution)
     profile = (environment.get('acceptanceProfile') or {}).get('id')
     scope = ('GENERIC_OPENLIST_SANDBOX' if profile == 'local-v1' else 'BAIDU_PRODUCTION_SANDBOX') if plan['pocId']=='POC-06' else PROFILE_SCOPES.get(profile)
@@ -401,6 +411,163 @@ def validate_source_compliance(root, plan, execution, implementer, status, error
             errors.append(f"{label}: review requires a concrete independent reviewer")
         if not valid_utc_timestamp(record.get('approvedAt')):
             errors.append(f"{label}: review approvedAt must be valid UTC")
+        elif execution_window and utc(record['approvedAt']) > execution_window[0]:
+            errors.append(f'{label}: privacy/license approval must precede execution')
+
+
+def utc(value):
+    return datetime.fromisoformat(value.replace('Z', '+00:00')) if valid_utc_timestamp(value) else None
+
+
+def qualified_window(execution, schema, label, errors):
+    window = (execution.get('environmentCaptured') or {}).get('executionWindow')
+    validate_schema(window, schema, label+'/executionWindow', errors)
+    if not isinstance(window, dict):
+        errors.append(f'{label}: qualified executionWindow is required')
+        return None
+    start, end = utc(window.get('startedAt')), utc(window.get('finishedAt'))
+    if start is None or end is None or not start < end:
+        errors.append(f'{label}: executionWindow requires ordered valid UTC instants')
+        return None
+    return start, end
+
+
+def qualified_record(root, ref, prefix, schema, expected, label, errors):
+    path = existing_ref(root, ref, prefix)
+    if path is None:
+        errors.append(f'{label}: record must exist inside the selected profile slot')
+        return None
+    try:
+        record = load(path)
+    except Exception as exc:
+        errors.append(f'{label}: cannot parse record: {exc}')
+        return None
+    validate_schema(record, schema, label, errors)
+    secret_scan(record, label, errors)
+    if not isinstance(record, dict) or any(json.dumps(record.get(k),sort_keys=True,separators=(',',':')) != json.dumps(v,sort_keys=True,separators=(',',':')) for k,v in expected.items()):
+        errors.append(f'{label}: record must bind exact POC, owner, resource/metric and profile')
+        return None
+    return record
+
+
+def validate_qualified_resources(root, plan, execution, resource_catalog, defs, prefix, reviewer, status, window, errors):
+    identity = (execution.get('environmentCaptured') or {}).get('acceptanceProfile')
+    for resource in execution.get('resources') or []:
+        if not isinstance(resource, dict):
+            continue
+        rid = resource.get('id')
+        common = dict(schemaVersion=2, pocId=plan['pocId'], taskId=plan['taskId'], resourceId=rid, acceptanceProfile=identity)
+        for field, kind, definition in (('configurationRef','resource_configuration','resourceConfiguration'), ('bookingRef','resource_booking','resourceBooking')):
+            if field == 'bookingRef' and resource.get(field) is None and not resource_catalog.get(rid, {}).get('bookingRequired'):
+                continue
+            label = f"qualified resource {plan['taskId']}/{rid}/{kind}"
+            record = qualified_record(root, resource.get(field), prefix, defs.get(definition, {}), {**common, 'kind':kind}, label, errors)
+            if record is None:
+                continue
+            approved, first, last = (utc(record.get(k)) for k in ('approvedAt','validFrom','validUntil'))
+            if approved is None or first is None or last is None or first >= last:
+                errors.append(f'{label}: valid approval and resource validity UTC instants are required')
+            elif status == 'pass' and window and not (approved <= window[0] and first <= window[0] and window[1] <= last):
+                errors.append(f'{label}: approval must precede and validity must cover the captured executionWindow')
+            if status == 'pass' and (record.get('status') != 'approved' or record.get('approvedBy') != reviewer or not recorded_text(reviewer)):
+                errors.append(f'{label}: PASS requires approved independent Task reviewer authorization')
+            if field == 'configurationRef' and not recorded(record.get('configuration')):
+                errors.append(f'{label}: configuration must be a nonempty captured record')
+
+
+def validate_qualified_domains(root, plan, execution, route, configuration, defs, prefix, reviewer, window, errors):
+    known = NONNEGATIVE_UNITS | {'boolean','percent','ratio','celsius'}
+    required = {m['id']:m for m in route['protocol']['measurements'] if m['unit'] not in known}
+    refs = configuration.get('numericDomainReviewRefs', {}) if isinstance(configuration, dict) else {}
+    if not isinstance(refs, dict) or set(refs) != set(required):
+        errors.append(f"qualified domains {plan['taskId']}: exact model/rubric-specific domain review references required")
+        return
+    env = execution.get('environmentCaptured') or {}
+    captured = {key:env.get(key) for key in route['captureBeforeExecution']}
+    actual = {m.get('id'):m.get('actual') for m in execution.get('measurements') or []}
+    for mid, measurement in required.items():
+        label = f"qualified domain {plan['taskId']}/{mid}"
+        expected = dict(schemaVersion=2, kind='measurement_domain_review', pocId=plan['pocId'], taskId=plan['taskId'],
+                        acceptanceProfile=env.get('acceptanceProfile'), measurementId=mid, unit=measurement['unit'], environmentCaptured=captured)
+        record = qualified_record(root, refs[mid], prefix, defs.get('measurementDomainReview', {}), expected, label, errors)
+        if record is None:
+            continue
+        if record.get('decision') != 'approved' or record.get('reviewer') != reviewer or not recorded_text(reviewer):
+            errors.append(f'{label}: independent Task reviewer approval required')
+        approved = utc(record.get('approvedAt'))
+        if approved is None or (window and approved > window[0]):
+            errors.append(f'{label}: domain approval must precede the captured executionWindow')
+        if existing_ref(root, record.get('definitionRef'), prefix) is None:
+            errors.append(f'{label}: reviewed scale definition must exist inside selected slot')
+        domain = record.get('domain') or {}
+        if not isinstance(domain, dict):
+            errors.append(f'{label}: numeric domain must be a structured record')
+            continue
+        lower, upper = domain.get('minimum'), domain.get('maximum')
+        bounded = domain.get('mode') == 'bounded'
+        if bounded:
+            if any(isinstance(v, bool) or not isinstance(v, (int,float)) or not math.isfinite(float(v)) for v in (lower,upper)) or lower > upper:
+                errors.append(f'{label}: bounded scale requires finite ordered numeric limits')
+                continue
+        elif domain.get('mode') != 'finite' or lower is not None or upper is not None:
+            errors.append(f'{label}: unbounded model scale must explicitly declare finite mode and null limits')
+            continue
+        value = actual.get(mid)
+        if not good_actual(measurement['unit'], value, mid) or (bounded and not lower <= value <= upper) or (domain.get('integral') is True and value != int(value)):
+            errors.append(f'{label}: actual value violates approved numeric domain')
+
+
+def validate_android_execution(root, plan, execution, status, prefix, errors):
+    if plan['pocId'] != 'POC-01' or status != 'pass':
+        return
+    env = execution.get('environmentCaptured') or {}
+    if env.get('acceptanceProfile') == profile_identity('local-v1'):
+        scope = env.get('vm_validation_scope')
+        label = f"execution record {plan['taskId']}: actual VM"
+        if not isinstance(scope, dict) or scope.get('status') != 'VALIDATED_ON_VM':
+            errors.append(f'{label}: PASS requires captured VM encoding, never an untested marker')
+            return
+        for key in ('nodeId','guestId','physicalHostId','encoderBuild','hypervisor','guestOs'):
+            if not recorded_text(scope.get(key)):
+                errors.append(f'{label}: concrete {key} required')
+        if scope.get('guestOs') != 'android':
+            errors.append(f'{label}: Android guest encoding required for virtual phone validation')
+        inventory = env.get('worker_node_inventory')
+        match = any(isinstance(node,dict) and node.get('platform') == 'android' and node.get('isEmulator') is True and node.get('isVirtualMachine') is True and all(node.get(k) == scope.get(k) for k in ('nodeId','guestId','physicalHostId','encoderBuild','hypervisor','guestOs')) for node in inventory) if isinstance(inventory,list) else False
+        if scope.get('isVirtualMachine') is not True or scope.get('physicalMultiHostValidated') is not False or not match:
+            errors.append(f'{label}: tested VM must match inventory and disclose same-host limits')
+        approved_inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
+        ref = scope.get('rawOutputRef')
+        if scope.get('inputSha256') not in approved_inputs or not good_checksum(scope.get('outputSha256')) or ref not in (execution.get('rawOutputRefs') or []) or existing_ref(root,ref,prefix) is None:
+            errors.append(f'{label}: actual encode must bind approved input, output hashes and raw evidence')
+        if env.get('android_validation_scope') != 'ANDROID_DEVICE_NOT_TESTED':
+            errors.append(f'{label}: VM-only local profile must declare physical Android untested')
+        return
+    scope, observation = env.get('android_validation_scope'), env.get('android_thermal_background_observation')
+    label = f"execution record {plan['taskId']}: actual Android"
+    if not isinstance(scope, dict) or scope.get('status') != 'VALIDATED_ON_DEVICE' or not isinstance(observation, dict):
+        errors.append(f'{label}: PASS requires structured actual device validation, never an untested marker')
+        return
+    for key in ('nodeId','deviceId','physicalHostId','encoderBuild'):
+        if not recorded_text(scope.get(key)):
+            errors.append(f'{label}: concrete {key} required')
+    inventory = env.get('worker_node_inventory')
+    match = any(isinstance(node,dict) and node.get('platform') == 'android' and node.get('isEmulator') is False and all(node.get(k) == scope.get(k) for k in ('nodeId','deviceId','physicalHostId','encoderBuild')) for node in inventory) if isinstance(inventory,list) else False
+    if scope.get('isEmulator') is not False or not match:
+        errors.append(f'{label}: tested physical Android node must match captured worker inventory')
+    approved_inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
+    if scope.get('inputSha256') not in approved_inputs or not good_checksum(scope.get('outputSha256')):
+        errors.append(f'{label}: actual encode must bind approved input and output hashes')
+    if observation.get('deviceId') != scope.get('deviceId'):
+        errors.append(f'{label}: thermal/background observation must bind exact tested device')
+    for record in (scope, observation):
+        ref = record.get('rawOutputRef')
+        if ref not in (execution.get('rawOutputRefs') or []) or existing_ref(root,ref,prefix) is None:
+            errors.append(f'{label}: device and observation raw evidence must bind execution outputs')
+    temp, power = observation.get('temperaturePeakCelsius'), observation.get('powerPeakWatts')
+    duration, survived = observation.get('testDurationSeconds'), observation.get('backgroundSurvivedSeconds')
+    if not good_actual('celsius', temp) or not good_actual('W', power) or not good_actual('s', duration) or not good_actual('s', survived) or duration <= 0 or survived < duration:
+        errors.append(f'{label}: valid thermal/power observations and positive completed background interval required')
 
 
 class UniqueKeyLoader(yaml.SafeLoader):
@@ -550,14 +717,33 @@ def good_id(value: Any) -> bool:
     )
 
 
-def good_actual(unit: Any, value: Any) -> bool:
+COUNT_UNITS = {'files', 'directories', 'levels', 'requests', 'streams'}
+NONNEGATIVE_UNITS = COUNT_UNITS | {'hours', 'minutes', 's', 'ms', 'W', 'MB/s', 'GiB', 'bytes', 'MiB', 'KiB', 'requests_per_minute', 'changes_per_hour', 'objects/s', 'items/s', 'currency', 'currency_per_1000_items'}
+BOUNDED_RATIO_METRICS = {'retrieval_recall', 'retrieval_mrr', 'retrieval_ndcg', 'ocr_accuracy', 'factual_consistency', 'tag_f1', 'thumbnail_human_selection_rate', 'multimodal_correction_accuracy'}
+
+
+def good_actual(unit: Any, value: Any, metric_id: str | None = None) -> bool:
     if str(unit).lower() == "boolean":
         return isinstance(value, bool)
-    return (
+    finite = (
         isinstance(value, (int, float))
         and not isinstance(value, bool)
         and math.isfinite(float(value))
     )
+    if not finite:
+        return False
+    if unit in COUNT_UNITS:
+        return value >= 0 and value == int(value)
+    if unit in NONNEGATIVE_UNITS:
+        return value >= 0
+    if unit == 'percent':
+        return 0 <= value <= 100
+    if unit == 'ratio':
+        return value >= 0 and (metric_id not in BOUNDED_RATIO_METRICS or value <= 1)
+    if unit == 'celsius':
+        return value >= -273.15
+    # Model/rubric-specific scores are bounded by approved qualified scale records.
+    return True
 
 
 def valid_utc_timestamp(value: Any) -> bool:
@@ -725,6 +911,7 @@ def validate_approval_record(
     approval_schema: dict[str, Any],
     errors: list[str],
     reference_prefix: str | None = None,
+    execution_window=None,
 ) -> None:
     evidence = reference_prefix or plan["evidencePath"]
     sample_id = sample.get("id")
@@ -760,6 +947,8 @@ def validate_approval_record(
         errors.append(f"{label}: approver must differ from execution implementer")
     if not valid_utc_timestamp(approval.get("approvedAt")):
         errors.append(f"{label}: approvedAt must be a valid UTC instant")
+    elif execution_window and utc(approval['approvedAt']) > execution_window[0]:
+        errors.append(f'{label}: sample approval must precede execution')
 
 
 def validate_execution(
@@ -774,6 +963,8 @@ def validate_execution(
     errors: list[str],
     compliance_schema: dict[str, Any] | None = None,
     reference_prefix: str | None = None,
+    record_definitions: dict[str, Any] | None = None,
+    task_reviewer: str | None = None,
 ) -> None:
     task_id = plan["taskId"]
     poc_id = plan["pocId"]
@@ -783,8 +974,13 @@ def validate_execution(
     validate_schema(execution, schema, label, errors)
     secret_scan(execution, label, errors)
     route, profile_configuration = validate_execution_profile(root, plan, execution, errors, reference_boundary)
+    window = qualified_window(execution,record_definitions.get('executionWindow',{}),label,errors) if record_definitions is not None else None
     validate_local_capacity(plan, execution, profile_configuration, status, errors)
-    validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema, reference_boundary)
+    validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema, reference_boundary, window)
+    validate_android_execution(root, plan, execution, status, reference_boundary, errors)
+    if record_definitions is not None:
+        validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
+        validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
@@ -908,7 +1104,7 @@ def validate_execution(
             errors.append(f"{label}: sample {sample_id} immutableId is invalid/placeholder")
         if not good_checksum(sample.get("checksum")):
             errors.append(f"{label}: sample {sample_id} checksum must be sha256:<64 hex>")
-        validate_approval_record(root, plan, implementer, sample, approval_schema, errors, reference_boundary)
+        validate_approval_record(root, plan, implementer, sample, approval_schema, errors, reference_boundary, window)
 
     planned_measurements = {
         item["id"]: item for item in (route.get("protocol") or {}).get("measurements", [])
@@ -925,7 +1121,7 @@ def validate_execution(
         measurement_id
         for measurement_id, definition in planned_measurements.items()
         if measurement_id in actual_map
-        and not good_actual(definition.get("unit"), actual_map[measurement_id])
+        and not good_actual(definition.get("unit"), actual_map[measurement_id], measurement_id)
     ]
     if bad:
         errors.append(f"{label}: invalid/placeholder measurement values {sorted(bad)}")
@@ -978,6 +1174,7 @@ def validate_terminal(
     errors: list[str],
     compliance_schema: dict[str, Any] | None = None,
     reference_prefix: str | None = None,
+    record_definitions: dict[str, Any] | None = None,
 ) -> None:
     task_id = plan["taskId"]
     evidence = plan["evidencePath"]
@@ -1051,8 +1248,14 @@ def validate_terminal(
     validate_execution(
         root, plan, implementer, execution, resource_catalog,
         execution_schema, approval_schema, status, errors,
-        compliance_schema, reference_boundary,
+        compliance_schema, reference_boundary, record_definitions, reviewer,
     )
+    if record_definitions is not None:
+        captured_window = (execution.get('environmentCaptured') or {}).get('executionWindow')
+        end = utc(captured_window.get('finishedAt')) if isinstance(captured_window,dict) else None
+        approval = utc(result.get('approvedAt'))
+        if end is not None and (approval is None or approval < end):
+            errors.append(f'result record {task_id}: result review must follow completed executionWindow')
 
 
 def profile_index_ref(poc_task_id: str, profile: str) -> str:
@@ -1132,7 +1335,7 @@ def validate_profile_evidence(root, plans, tasks, program_schema, result_schema,
                 defs.get('productionResult',{}) if production else result_schema,
                 defs.get('productionExecution',{}) if production else execution_schema,
                 defs.get('productionSampleApproval',{}) if production else approval_schema,
-                errors,defs.get('productionComplianceReview',{}) if production else None,prefix)
+                errors,defs.get('productionComplianceReview',{}) if production else None,prefix,defs)
 
 
 def validate_templates(

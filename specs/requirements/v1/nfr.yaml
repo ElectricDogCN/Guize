@@ -383,7 +383,7 @@ items:
 - id: NFR-V1-COMP-003
   category: compatibility
   title: 异构worker实际能力与执行组兼容
-  statement: Windows/Linux/Android节点必须实际验证编码能力、工具构建、参数和连接点；手机温升与后台生存性单独记录，单机双进程不能声明物理跨机故障域，解码或枚举能力不能证明AV1编码可用。
+  statement: 按用户决定，local-v1先使用Android虚拟机实际验证Worker编码、工具构建、参数、连接点与恢复，并绑定guest、hypervisor和物理宿主机身份；真实Android标记为未测试。production仍须实际验证Windows/Linux/Android节点，单独记录手机温升与后台生存性。虚拟机和单机多进程不能声明物理跨机故障域或真机支持，解码或枚举能力不能证明AV1编码可用。
   sourceRefs:
   - specs/requirements/product-requirements.md
   - adr/0015-heterogeneous-av1-workers-and-local-storage-validation.md

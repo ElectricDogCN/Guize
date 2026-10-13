@@ -194,6 +194,17 @@ class TestPocProgram(unittest.TestCase):
         profile_ref = f"{plan['evidencePath']}/profile-configuration.yaml"
         identity = CHECK.profile_identity(profile)
         environment.update(acceptanceProfile=identity, acceptanceProfileConfigurationRef=profile_ref)
+        if task_id == 'POC-001':
+            phone = dict(nodeId='fixture-android-node', deviceId='fixture-phone', physicalHostId='fixture-physical-phone', encoderBuild='fixture-av1-encoder', platform='android', isEmulator=False)
+            environment['worker_node_inventory'] = [phone]
+            environment['android_validation_scope'] = {**phone, 'status':'VALIDATED_ON_DEVICE', 'inputSha256':samples[0]['checksum'], 'outputSha256':'sha256:'+'c'*64, 'rawOutputRef':raw_ref}
+            environment['android_thermal_background_observation'] = dict(deviceId=phone['deviceId'], temperaturePeakCelsius=38, powerPeakWatts=3, testDurationSeconds=60, backgroundSurvivedSeconds=60, rawOutputRef=raw_ref)
+            if profile == 'local-v1':
+                vm = dict(nodeId='fixture-vm-worker', guestId='fixture-android-guest', physicalHostId='fixture-host', encoderBuild='fixture-av1-encoder', hypervisor='fixture-hypervisor', guestOs='android', platform='android', isEmulator=True, isVirtualMachine=True)
+                environment['worker_node_inventory'] = [vm]
+                environment['vm_validation_scope'] = {**vm, 'status':'VALIDATED_ON_VM', 'physicalMultiHostValidated':False, 'inputSha256':samples[0]['checksum'], 'outputSha256':'sha256:'+'c'*64, 'rawOutputRef':raw_ref}
+                environment['android_validation_scope'] = 'ANDROID_DEVICE_NOT_TESTED'
+                environment['android_thermal_background_observation'] = 'ANDROID_DEVICE_NOT_TESTED'
         profile_configuration = {
             "pocId": plan['pocId'], "taskId": task_id, "acceptanceProfile": identity,
             "resourceIds": sorted(route['resourceIds']),
@@ -357,6 +368,38 @@ class TestPocProgram(unittest.TestCase):
                 target.parent.mkdir(parents=True,exist_ok=True)
                 if source.suffix == '.yaml': write_yaml(target,relocate(load_yaml(source)))
                 else: shutil.copy2(source,target)
+            execution_path = folder/'execution.yaml'
+            execution = load_yaml(execution_path)
+            execution['environmentCaptured']['executionWindow'] = dict(startedAt='2026-09-03T00:00:00Z', finishedAt='2026-09-04T00:00:00Z')
+            common = dict(schemaVersion=2,pocId=plan['pocId'],taskId=owner,acceptanceProfile=CHECK.profile_identity(profile),status='approved',approvedBy=reviewer,approvedAt='2026-09-02T00:00:00Z',validFrom='2026-09-02T00:00:00Z',validUntil='2026-09-04T00:00:00Z')
+            for resource in execution['resources']:
+                write_yaml(root/resource['configurationRef'],{**common,'kind':'resource_configuration','resourceId':resource['id'],'configuration':{'build':'fixture-versioned-configuration'}})
+                if resource['bookingRef'] is not None:
+                    write_yaml(root/resource['bookingRef'],{**common,'kind':'resource_booking','resourceId':resource['id']})
+            selected_route = CHECK.execution_route(plan,profile)
+            config_ref = execution['environmentCaptured']['acceptanceProfileConfigurationRef']
+            config = load_yaml(root/config_ref)
+            refs = {}
+            known = CHECK.NONNEGATIVE_UNITS | {'boolean','percent','ratio','celsius'}
+            captured = {key:execution['environmentCaptured'][key] for key in selected_route['captureBeforeExecution']}
+            for metric in selected_route['protocol']['measurements']:
+                if metric['unit'] in known:
+                    continue
+                mid = metric['id']
+                domain_ref = new_prefix+'/domains/'+mid+'-review.yaml'
+                definition_ref = new_prefix+'/domains/'+mid+'-definition.txt'
+                (root/definition_ref).parent.mkdir(parents=True,exist_ok=True)
+                (root/definition_ref).write_text('Approved synthetic fixture scale; not a production quality threshold.\n',encoding='utf-8')
+                domain = dict(mode='finite',minimum=None,maximum=None,integral=False) if mid=='translation_comet' else dict(mode='bounded',minimum=0,maximum=100 if metric['unit']=='VMAF' or mid=='translation_bleu' else 5 if metric['unit']=='ordinal' else 1,integral=False)
+                write_yaml(root/domain_ref,dict(schemaVersion=2,kind='measurement_domain_review',pocId=plan['pocId'],taskId=owner,acceptanceProfile=CHECK.profile_identity(profile),measurementId=mid,unit=metric['unit'],environmentCaptured=captured,domain=domain,definitionRef=definition_ref,decision='approved',reviewer=reviewer,approvedAt='2026-09-02T00:00:00Z'))
+                refs[mid] = domain_ref
+            config['numericDomainReviewRefs'] = refs
+            write_yaml(root/config_ref,config)
+            write_yaml(execution_path,execution)
+            result_path = folder/'result.yaml'
+            result = load_yaml(result_path)
+            result['approvedAt'] = '2026-09-04T00:02:00Z'
+            write_yaml(result_path,result)
             write_yaml(root/ref,dict(schemaVersion=2,pocId=plan['pocId'],pocTaskId=task_id,
                 ownerTask=owner,acceptanceProfile=CHECK.profile_identity(profile),
                 resultRef=new_prefix+'/result.yaml'))
@@ -1487,6 +1530,181 @@ class TestPocProgram(unittest.TestCase):
                         self.assertTrue(any(f'{field} must' in e for e in errors), errors)
                     finally:
                         temp.cleanup()
+
+
+    def test_117_ai_reviews_bind_model_and_tested_tool_stack(self):
+        for profile in ('local-v1','production'):
+            for key in ('model_identity','model_version','runtime','tool_versions'):
+                with self.subTest(profile=profile,key=key):
+                    def mutate(root):
+                        _, execution, _ = self.make_terminal(root,'POC-009',profile=profile)
+                        data = load_yaml(execution)
+                        data['environmentCaptured'][key] = 'different-tested-provider-or-build'
+                        write_yaml(execution,data)
+                    self.assert_invalid(mutate,'review subjectVersion')
+
+    def test_118_qualified_counts_sizes_rates_and_latencies_reject_impossible_values(self):
+        for profile in ('local-v1','production'):
+            temp,root = self.temp_repo()
+            try:
+                index = self.make_profile_slot(root,'POC-005',profile)
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-05'}),[])
+                result = load_yaml(root/load_yaml(index)['resultRef'])
+                path = root/result['executionRef']
+                original = path.read_text(encoding='utf-8')
+                for mid,value in (('file_count',-1),('file_count',1.5),('directory_count',-1),('directory_depth_max',1.5),('average_file_size',-1),('enumeration_rate',-1),('source_api_quota',-1),('incremental_scan_cost',-1),('memory_peak',-1)):
+                    with self.subTest(profile=profile,metric=mid,value=value):
+                        path.write_text(original,encoding='utf-8')
+                        data = load_yaml(path)
+                        next(m for m in data['measurements'] if m['id']==mid)['actual'] = value
+                        write_yaml(path,data)
+                        errors = CHECK.validate_repository(root,profile,True,selected_pocs={'POC-05'})
+                        self.assertTrue(any(mid in e and 'invalid/placeholder measurement values' in e for e in errors),errors)
+            finally: temp.cleanup()
+
+    def test_119_local_vm_encoding_and_production_phone_observations_are_distinct(self):
+        for profile in ('local-v1','production'):
+            temp,root = self.temp_repo()
+            try:
+                index = self.make_profile_slot(root,'POC-001',profile)
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),[])
+                result = load_yaml(root/load_yaml(index)['resultRef'])
+                path = root/result['executionRef']
+                original = path.read_text(encoding='utf-8')
+                mutations = ('untested','wrong_guest','wrong_hash','phone_claim') if profile == 'local-v1' else ('untested','emulator','wrong_device','empty_background')
+                for mutation in mutations:
+                    with self.subTest(profile=profile,mutation=mutation):
+                        path.write_text(original,encoding='utf-8')
+                        data = load_yaml(path);env=data['environmentCaptured']
+                        if profile == 'local-v1':
+                            if mutation=='untested':env['vm_validation_scope']='VM_NOT_TESTED'
+                            elif mutation=='wrong_guest':env['vm_validation_scope']['guestId']='another-guest'
+                            elif mutation=='wrong_hash':env['vm_validation_scope']['inputSha256']='sha256:'+'d'*64
+                            else:env['android_validation_scope']='VALIDATED_ON_DEVICE'
+                        elif mutation=='untested':env['android_validation_scope']='ANDROID_DEVICE_NOT_TESTED'
+                        elif mutation=='emulator':env['android_validation_scope']['isEmulator']=True
+                        elif mutation=='wrong_device':env['android_thermal_background_observation']['deviceId']='another-phone'
+                        else:env['android_thermal_background_observation']['testDurationSeconds']=0
+                        write_yaml(path,data)
+                        errors = CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
+                        self.assertTrue(any(('actual VM' if profile=='local-v1' else 'actual Android') in e for e in errors),errors)
+            finally: temp.cleanup()
+
+    def test_120_qualified_resource_records_require_identity_approval_and_execution_validity(self):
+        temp,root = self.temp_repo()
+        try:
+            index = self.make_profile_slot(root,'POC-001','production')
+            self.assertEqual(CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'}),[])
+            result = load_yaml(root/load_yaml(index)['resultRef']);execution=load_yaml(root/result['executionRef'])
+            resource = execution['resources'][0]
+            for field in ('configurationRef','bookingRef'):
+                path = root/resource[field];original=path.read_text(encoding='utf-8')
+                for mutation in ('rejected','wrong_resource','wrong_owner','wrong_profile','expired','self_approved'):
+                    with self.subTest(field=field,mutation=mutation):
+                        path.write_text(original,encoding='utf-8');data=load_yaml(path)
+                        if mutation=='rejected':data['status']='rejected'
+                        elif mutation=='wrong_resource':data['resourceId']='another-resource'
+                        elif mutation=='wrong_owner':data['taskId']='POC-001'
+                        elif mutation=='wrong_profile':data['acceptanceProfile']=CHECK.profile_identity('local-v1')
+                        elif mutation=='self_approved':data['approvedBy']=execution['executor']
+                        else:data.update(validFrom='2026-09-01T00:00:00Z',validUntil='2026-09-02T00:00:00Z')
+                        write_yaml(path,data)
+                        errors=CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
+                        self.assertTrue(any('qualified resource' in e for e in errors),errors)
+                path.write_text(original,encoding='utf-8')
+        finally:temp.cleanup()
+
+    def test_121_metric_domains_preserve_valid_error_ratios_and_model_specific_scores(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-009','local-v1')
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-09'}),[])
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_text(encoding='utf-8')
+            for mid,value,valid in (('asr_wer',2.0,True),('asr_cer',2.0,True),('speaker_der',1.2,True),('translation_comet',-0.3,True),('retrieval_recall',1.1,False),('ocr_accuracy',1.1,False),('quality_score',1.1,False)):
+                with self.subTest(metric=mid,value=value):
+                    path.write_text(original,encoding='utf-8');data=load_yaml(path)
+                    next(m for m in data['measurements'] if m['id']==mid)['actual']=value;write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-09'})
+                    self.assertEqual(not errors,valid,errors)
+            self.assertTrue(CHECK.good_actual('celsius',-10))
+            self.assertTrue(CHECK.good_actual('bytes',1.5,'average_file_size'))
+        finally:temp.cleanup()
+
+    def test_122_qualified_window_and_scale_reviews_cannot_be_missing_or_relabelled(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-002','local-v1')
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'}),[])
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_text(encoding='utf-8')
+            data=load_yaml(path);config_path=root/data['environmentCaptured']['acceptanceProfileConfigurationRef'];config_original=config_path.read_text(encoding='utf-8')
+            domain_path=root/load_yaml(config_path)['numericDomainReviewRefs']['av1_quality'];domain_original=domain_path.read_text(encoding='utf-8')
+            for mutation in ('bad_window','missing_domain','wrong_environment','late_approval','reversed_bounds'):
+                with self.subTest(mutation=mutation):
+                    path.write_text(original,encoding='utf-8');config_path.write_text(config_original,encoding='utf-8');domain_path.write_text(domain_original,encoding='utf-8')
+                    if mutation=='bad_window':
+                        data=load_yaml(path);data['environmentCaptured']['executionWindow']=[];write_yaml(path,data)
+                    elif mutation=='missing_domain':
+                        data=load_yaml(config_path);data['numericDomainReviewRefs']={};write_yaml(config_path,data)
+                    else:
+                        data=load_yaml(domain_path)
+                        if mutation=='wrong_environment':data['environmentCaptured']['tool_versions']='another-metric-build'
+                        elif mutation=='late_approval':data['approvedAt']='2026-09-04T00:00:00Z'
+                        else:data['domain'].update(minimum=110,maximum=100)
+                        write_yaml(domain_path,data)
+                    self.assertTrue(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'}))
+        finally:temp.cleanup()
+
+
+    def test_123_review_environment_preserves_types_and_explicit_model_ranges(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-002','local-v1')
+            result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];execution=load_yaml(path)
+            config=load_yaml(root/execution['environmentCaptured']['acceptanceProfileConfigurationRef'])
+            domain_path=root/config['numericDomainReviewRefs']['av1_quality'];domain=load_yaml(domain_path)
+            execution['environmentCaptured']['memory']=1;domain['environmentCaptured']['memory']=1
+            write_yaml(path,execution);write_yaml(domain_path,domain)
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'}),[])
+            domain['environmentCaptured']['memory']=True;write_yaml(domain_path,domain)
+            self.assertTrue(any('bind exact' in e for e in CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'})))
+            domain['environmentCaptured']['memory']=1;write_yaml(domain_path,domain)
+            next(m for m in execution['measurements'] if m['id']=='av1_quality')['actual']=110;write_yaml(path,execution)
+            self.assertTrue(any('violates approved numeric domain' in e for e in CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'})))
+            domain['domain']['maximum']=110;write_yaml(domain_path,domain)
+            (root/domain['definitionRef']).write_text('Explicit approved synthetic model range0..110; not a frozen performance target.\n',encoding='utf-8')
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'}),[])
+        finally:temp.cleanup()
+
+
+    def test_124_resource_fail_records_capture_expiry_without_authorizing_pass(self):
+        temp, root = self.temp_repo()
+        try:
+            index = self.make_profile_slot(root, 'POC-001', 'production')
+            result = load_yaml(root/load_yaml(index)['resultRef'])
+            execution = load_yaml(root/result['executionRef'])
+            plan = load_yaml(self.plan_path(root,'POC-001'))
+            plan['taskId'] = 'GZ-020'
+            for resource in execution['resources']:
+                for field in ('configurationRef','bookingRef'):
+                    if resource.get(field) is None:
+                        continue
+                    path = root/resource[field]
+                    data = load_yaml(path)
+                    data.update(status='expired', validFrom='2026-09-01T00:00:00Z', validUntil='2026-09-02T00:00:00Z')
+                    write_yaml(path,data)
+            defs = load_yaml(root/'specs/poc/program.schema.yaml')['$defs']
+            prefix = str(Path(load_yaml(index)['resultRef']).parent).replace('\\','/')
+            window = (CHECK.utc('2026-09-03T00:00:00Z'),CHECK.utc('2026-09-04T00:00:00Z'))
+            for status in ('fail','inconclusive'):
+                errors = []
+                CHECK.validate_qualified_resources(root,plan,execution,{},defs,prefix,result['reviewer'],status,window,errors)
+                self.assertEqual(errors,[])
+            errors = []
+            CHECK.validate_qualified_resources(root,plan,execution,{},defs,prefix,result['reviewer'],'pass',window,errors)
+            self.assertTrue(any('validity must cover' in e for e in errors),errors)
+            self.assertTrue(any('independent Task reviewer authorization' in e for e in errors),errors)
+        finally:
+            temp.cleanup()
 
 
 if __name__ == "__main__":

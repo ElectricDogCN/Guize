@@ -212,6 +212,7 @@ localValidation:
   - encoder_capability_matrix
   - android_validation_scope
   - android_thermal_background_observation
+  - vm_validation_scope
   protocol:
     commands: []
     rawOutputRefs: []
@@ -220,7 +221,9 @@ localValidation:
       metric: worker capabilities reproducible
       unit: boolean
       method: Probe each actual node and retain OS/architecture, encoder build/config, AV1/H.264 support and output hashes;
-        never infer capabilities from OS name.
+        never infer capabilities from OS name. Execute AV1 encoding in the captured Android VM guest, retain approved input/output
+        hashes and raw outputs, and bind guest OS, hypervisor, guest ID, encoder build and physical host ID to the worker
+        inventory. Enumeration alone is insufficient.
       thresholdSource: ADR-0015_LOCAL_VALIDATION
       actual: null
     - id: worker_resource_limits_enforced
@@ -252,6 +255,9 @@ localValidation:
     - Actual worker capabilities and limitations are reproducible from task-owned raw evidence.
     - Limits, restart recovery and outbound access boundaries pass on each tested capability group.
     - Same-host/WSL results never assert physical multi-host or Android-phone validation.
+    - Local PASS requires actual Android VM guest encoding and recovery evidence. Record Android as ANDROID_DEVICE_NOT_TESTED; VM
+      results do not establish phone thermal/background behavior or physical multi-host independence. Real-phone obligations
+      remain in production.
     failureFallbacks:
     - Quarantine an unsupported capability group; retain H.264/source fallback and report untested devices explicitly.
     rollbackCleanup:

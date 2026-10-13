@@ -86,3 +86,7 @@ profileEvidenceBinding:
   productionResultSchema: program.schema.yaml#/$defs/productionResult
   productionSampleApprovalSchema: program.schema.yaml#/$defs/productionSampleApproval
   productionComplianceSchema: program.schema.yaml#/$defs/productionComplianceReview
+  resourceConfigurationSchema: program.schema.yaml#/$defs/resourceConfiguration
+  resourceBookingSchema: program.schema.yaml#/$defs/resourceBooking
+  executionWindowSchema: program.schema.yaml#/$defs/executionWindow
+  measurementDomainReviewSchema: program.schema.yaml#/$defs/measurementDomainReview

@@ -188,6 +188,10 @@ properties:
     - productionResultSchema
     - productionSampleApprovalSchema
     - productionComplianceSchema
+    - resourceConfigurationSchema
+    - resourceBookingSchema
+    - executionWindowSchema
+    - measurementDomainReviewSchema
     properties:
       revision:
         const: 1
@@ -211,6 +215,14 @@ properties:
         const: program.schema.yaml#/$defs/productionSampleApproval
       productionComplianceSchema:
         const: program.schema.yaml#/$defs/productionComplianceReview
+      resourceConfigurationSchema:
+        const: program.schema.yaml#/$defs/resourceConfiguration
+      resourceBookingSchema:
+        const: program.schema.yaml#/$defs/resourceBooking
+      executionWindowSchema:
+        const: program.schema.yaml#/$defs/executionWindow
+      measurementDomainReviewSchema:
+        const: program.schema.yaml#/$defs/measurementDomainReview
 $defs:
   profileEvidenceIndex:
     type: object
@@ -569,3 +581,239 @@ $defs:
       scope:
         type: string
         minLength: 1
+  resourceConfiguration:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - taskId
+    - acceptanceProfile
+    - kind
+    - resourceId
+    - status
+    - approvedBy
+    - approvedAt
+    - validFrom
+    - validUntil
+    - configuration
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      taskId:
+        type: string
+        pattern: ^(POC-[0-9]{3}|GZ-020)$
+      acceptanceProfile:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - version
+        - bindingRevision
+        - scope
+        properties:
+          id:
+            enum:
+            - local-v1
+            - production
+          version:
+            type: integer
+            const: 1
+          bindingRevision:
+            type: integer
+            const: 1
+          scope:
+            enum:
+            - LOCAL_FULL_V1
+            - PRODUCTION_RELEASE
+      kind:
+        const: resource_configuration
+      resourceId: &id002
+        type: string
+        minLength: 1
+      status:
+        enum:
+        - approved
+        - rejected
+        - cancelled
+        - expired
+      approvedBy:
+        type: string
+        minLength: 1
+      approvedAt:
+        type: string
+        format: date-time
+      validFrom: &id001
+        type: string
+        format: date-time
+      validUntil: *id001
+      configuration:
+        type: object
+        minProperties: 1
+  resourceBooking:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - taskId
+    - acceptanceProfile
+    - kind
+    - resourceId
+    - status
+    - approvedBy
+    - approvedAt
+    - validFrom
+    - validUntil
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      taskId:
+        type: string
+        pattern: ^(POC-[0-9]{3}|GZ-020)$
+      acceptanceProfile:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - version
+        - bindingRevision
+        - scope
+        properties:
+          id:
+            enum:
+            - local-v1
+            - production
+          version:
+            type: integer
+            const: 1
+          bindingRevision:
+            type: integer
+            const: 1
+          scope:
+            enum:
+            - LOCAL_FULL_V1
+            - PRODUCTION_RELEASE
+      kind:
+        const: resource_booking
+      resourceId: *id002
+      status:
+        enum:
+        - approved
+        - rejected
+        - cancelled
+        - expired
+      approvedBy:
+        type: string
+        minLength: 1
+      approvedAt:
+        type: string
+        format: date-time
+      validFrom: &id003
+        type: string
+        format: date-time
+      validUntil: *id003
+  executionWindow:
+    type: object
+    additionalProperties: false
+    required:
+    - startedAt
+    - finishedAt
+    properties:
+      startedAt: &id004
+        type: string
+        format: date-time
+      finishedAt: *id004
+  measurementDomainReview:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - pocId
+    - taskId
+    - acceptanceProfile
+    - kind
+    - measurementId
+    - unit
+    - environmentCaptured
+    - domain
+    - definitionRef
+    - decision
+    - reviewer
+    - approvedAt
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      pocId:
+        type: string
+        pattern: ^POC-[0-9]{2}$
+      taskId:
+        type: string
+        pattern: ^(POC-[0-9]{3}|GZ-020)$
+      acceptanceProfile:
+        type: object
+        additionalProperties: false
+        required:
+        - id
+        - version
+        - bindingRevision
+        - scope
+        properties:
+          id:
+            enum:
+            - local-v1
+            - production
+          version:
+            type: integer
+            const: 1
+          bindingRevision:
+            type: integer
+            const: 1
+          scope:
+            enum:
+            - LOCAL_FULL_V1
+            - PRODUCTION_RELEASE
+      kind:
+        const: measurement_domain_review
+      measurementId: *id002
+      unit: *id002
+      environmentCaptured:
+        type: object
+        minProperties: 1
+      domain:
+        type: object
+        additionalProperties: false
+        required:
+        - mode
+        - minimum
+        - maximum
+        - integral
+        properties:
+          mode:
+            enum:
+            - finite
+            - bounded
+          minimum:
+            type:
+            - number
+            - 'null'
+          maximum:
+            type:
+            - number
+            - 'null'
+          integral:
+            type: boolean
+      definitionRef: *id002
+      decision:
+        const: approved
+      reviewer: *id002
+      approvedAt: *id004
