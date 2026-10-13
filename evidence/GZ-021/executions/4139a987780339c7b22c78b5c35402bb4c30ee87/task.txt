@@ -1,0 +1,5 @@
+Source Commit: 4139a987780339c7b22c78b5c35402bb4c30ee87
+Command: python scripts/check-task-file.py --task GZ-021
+{"status": "PASS", "message": "Task file valid: /home/sur/.cache/guize-takeover/native-verification-20261010/specs/tasks/GZ-021.md"}
+
+Exit Code: 0

@@ -1,0 +1,59 @@
+{
+  "sourceParent": "4139a987780339c7b22c78b5c35402bb4c30ee87",
+  "candidateOnly": true,
+  "combinedComplete164Claimed": false,
+  "newPublishedSourceAcceptance": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "files": [
+    {
+      "path": "gz021-observation160163-first-increment.txt",
+      "exitCode": 0,
+      "attemptedTests": 4,
+      "passedMethods": 4,
+      "seconds": 302.624,
+      "revision": "Initial dirty candidate before binary/replay residual repair",
+      "originalPhysicalSha256": "8ff664a39fcc239bc98aee431c4c07bd343f83e5edc445f4357a9a7d18639f72",
+      "originalPhysicalBytes": 803,
+      "canonicalLfSha256": "f24f8dba67f461aa0e289b69b6b8c3e90fee665de407a1205250bbf5c932a03f",
+      "canonicalBytes": 988,
+      "testedCodeDigests": null
+    },
+    {
+      "path": "gz021-recovery163164-second-increment.txt",
+      "exitCode": 1,
+      "attemptedTests": 3,
+      "passedMethods": 2,
+      "seconds": 170.755,
+      "revision": "Repaired dirty candidate; two tests passed and one nonexistent old selector failed to load",
+      "originalPhysicalSha256": "d733f09f4e6513b5e8e89a9eaf5db1842cbf3962fe95f158d5edc9ae2a999b6d",
+      "originalPhysicalBytes": 1140,
+      "canonicalLfSha256": "ffd721cbb20ec3a41b7364d84666f0b38e208f08b69cb20497457731da92d228",
+      "canonicalBytes": 1351,
+      "testedCodeDigests": {
+        "specs/poc/check_program.py": "2c7af1f87f3ecf6e5e6970f8f86c751f4c2c3eccb8bcffa86928f26fab40e00b",
+        "specs/poc/program.schema.yaml": "a789312d5b68bf731f8375f8da1deccd734946d5fb41c6cc59337358bf4e78f9",
+        "specs/poc/test_program.py": "c28c8127d43fe22220fe408833f72413a5842f252baf59e7d962da9e219053c9"
+      }
+    },
+    {
+      "path": "gz021-observation-original139141153-third-increment.txt",
+      "exitCode": 0,
+      "attemptedTests": 3,
+      "passedMethods": 3,
+      "seconds": 83.234,
+      "revision": "Same repaired checker/schema/test bytes; three existing directly related regressions",
+      "originalPhysicalSha256": "5393de1e6c2146eaa81c6e6cd72bfc19e2fba3e727c8006e0f42aeaec89843b4",
+      "originalPhysicalBytes": 620,
+      "canonicalLfSha256": "884bf220005cf100115164df63ceb5a56a75c47657bd848043555b96abd16c50",
+      "canonicalBytes": 830,
+      "testedCodeDigests": {
+        "specs/poc/check_program.py": "2c7af1f87f3ecf6e5e6970f8f86c751f4c2c3eccb8bcffa86928f26fab40e00b",
+        "specs/poc/program.schema.yaml": "a789312d5b68bf731f8375f8da1deccd734946d5fb41c6cc59337358bf4e78f9",
+        "specs/poc/test_program.py": "c28c8127d43fe22220fe408833f72413a5842f252baf59e7d962da9e219053c9"
+      }
+    }
+  ],
+  "failedSelectorPreserved": true
+}

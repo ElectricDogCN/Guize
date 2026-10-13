@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import importlib.util
+import copy
 import base64
 import hashlib
 import json
@@ -202,7 +203,7 @@ class TestPocProgram(unittest.TestCase):
         identity = CHECK.profile_identity(profile)
         environment.update(acceptanceProfile=identity, acceptanceProfileConfigurationRef=profile_ref)
         if task_id == 'POC-001':
-            phone = dict(nodeId='fixture-android-node', deviceId='fixture-phone', physicalHostId='fixture-physical-phone', encoderBuild='fixture-av1-encoder', platform='android', isEmulator=False)
+            phone = dict(nodeId='fixture-android-node', deviceId='fixture-phone', physicalHostId='fixture-physical-phone', encoderBuild='fixture-av1-encoder', platform='android', isEmulator=False, isVirtualMachine=False)
             environment['worker_node_inventory'] = [phone]
             environment['android_validation_scope'] = {**phone, 'status':'VALIDATED_ON_DEVICE', 'inputSha256':samples[0]['checksum'], 'outputSha256':'sha256:'+'c'*64, 'rawOutputRef':raw_ref}
             environment['android_thermal_background_observation'] = dict(deviceId=phone['deviceId'], temperaturePeakCelsius=38, powerPeakWatts=3, testDurationSeconds=60, backgroundSurvivedSeconds=60, rawOutputRef=raw_ref)
@@ -419,7 +420,7 @@ class TestPocProgram(unittest.TestCase):
                 execution['rawOutputRefs'].append(probe_ref)
                 if production:
                     observation_ref=new_prefix+'/raw/android-scope-observation.log'
-                    (root/observation_ref).write_text('Synthetic observations only: temperaturePeakCelsius=38 powerPeakWatts=3 testDurationSeconds=60 backgroundSurvivedSeconds=60\n',encoding='utf8')
+                    write_yaml(root/observation_ref,dict(schemaVersion=1,kind='physical_phone_observation',**{key:scope[key] for key in ('nodeId','deviceId','physicalHostId','encoderBuild')},temperaturePeakCelsius=38,powerPeakWatts=3,testDurationSeconds=60,backgroundSurvivedSeconds=60,observedStartedAt='2026-09-03T00:00:00Z',observedFinishedAt='2026-09-03T00:01:00Z'))
                     env['android_thermal_background_observation']['rawOutputRef']=observation_ref
                     artifact_nodes[observation_ref]=scope['nodeId']
                     execution['rawOutputRefs'].append(observation_ref)
@@ -466,6 +467,12 @@ class TestPocProgram(unittest.TestCase):
                 report.update(decodedFrameCount=120,decodeErrorCount=0,timelineDiscontinuityCount=0)
                 write_yaml(root/validation_ref,report)
                 execution['rawOutputRefs'].append(validation_ref)
+            if task_id=='POC-009' and status=='pass':
+                env=execution['environmentCaptured']
+                inference_ref=new_prefix+'/raw/inference-observation.yaml'
+                env['inferenceObservationRef']=inference_ref
+                write_yaml(root/inference_ref,dict(schemaVersion=1,kind='inference_observation',subjectVersion=CHECK.compliance_subject_version(plan,execution),inputSamples=[{key:s[key] for key in ('id','immutableId','checksum')} for s in execution['samples']],completedItemCount=60,observedStartedAt='2026-09-03T00:00:00Z',observedFinishedAt='2026-09-03T00:01:00Z'))
+                execution['rawOutputRefs'].append(inference_ref)
             if subprocess.run(['git','-C',str(root),'rev-parse','--verify','HEAD'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode:
                 # Freeze all prepared fixture inputs, including actual specifications and Task Specs.
                 subprocess.run(['git','-C',str(root),'add','--','.'],check=True)
@@ -477,6 +484,8 @@ class TestPocProgram(unittest.TestCase):
                      sha256='sha256:'+hashlib.sha256((root/raw_ref).read_bytes()).hexdigest(),
                      **({'nodeId':artifact_nodes[raw_ref]} if raw_ref in artifact_nodes else {}))
                 for raw_ref in execution['rawOutputRefs']]
+            if task_id=='POC-009' and status=='pass':
+                next(record for record in execution['environmentCaptured']['rawExecutionArtifacts'] if record['ref']==inference_ref)['artifactType']='measurement_output'
             if task_id=='POC-002':
                 next(record for record in execution['environmentCaptured']['rawExecutionArtifacts'] if record['ref']==validation_ref)['artifactType']='measurement_output'
             if task_id=='POC-001':
@@ -503,6 +512,7 @@ class TestPocProgram(unittest.TestCase):
                 sandbox_record=load_yaml(sandbox_path)
                 sandbox_record['configuration']['syntheticHierarchySandbox']=env['syntheticHierarchySandbox']['boundary']
                 write_yaml(sandbox_path,sandbox_record)
+            if task_id=='POC-010' and status=='pass':self.prepare_qualified_recovery_fixture(root,execution,new_prefix)
             selected_route = CHECK.execution_route(plan,profile)
             config_ref = execution['environmentCaptured']['acceptanceProfileConfigurationRef']
             config = load_yaml(root/config_ref)
@@ -536,6 +546,258 @@ class TestPocProgram(unittest.TestCase):
         finally:
             fixture.cleanup()
         return root/ref
+
+    def prepare_qualified_recovery_fixture(self,root,execution,prefix):
+        """Synthetic typed recovery reports; no backup/restore was performed."""
+        env=execution['environmentCaptured'];artifact_records=env['rawExecutionArtifacts']
+        def retain(name,data,kind='recovery_output'):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(data,dict):write_yaml(path,data)
+            else:path.write_bytes(data)
+            raw=path.read_bytes();digest='sha256:'+hashlib.sha256(raw).hexdigest()
+            execution['rawOutputRefs'].append(ref);artifact_records.append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256=digest))
+            return ref,digest,len(raw)
+        hash_value='sha256:'+'a'*64
+        state=dict(database=dict(schemaSha256=hash_value,dataSha256=hash_value),permissions=[dict(userId='fixture-user',roleIds=['fixture-role'],permissionIds=['asset:read'])],assets=[dict(assetId='fixture-asset',version='fixture-v1',metadataSha256=hash_value)],sourceMappings=[dict(sourceId='fixture-source',assetId='fixture-asset',connectorId='fixture-connector',checkpoint='fixture-checkpoint')],replicas=[dict(replicaId='fixture-primary',assetId='fixture-asset',storageRef='fixture-storage',sha256=hash_value,state='verified',primary=True)],retention=[dict(assetId='fixture-asset',policyId='fixture-policy',lifecycleState='retained',scheduledAt='2026-09-06T00:00:00Z')],delivery=[dict(eventId='fixture-event',dedupId='fixture-dedup',aggregateId='fixture-asset',status='pending',publicationCount=0,inboxProcessedCount=0)],tasks=[dict(taskId='fixture-task',assetId='fixture-asset',status='running',attemptCount=1,ownerId='fixture-user')],openbao=dict(mountIds=['fixture-mount'],policyIds=['fixture-policy'],referenceIds=['secretref_fixture']),unreadableFixture=dict(fixtureId='fixture-corrupt-backup',backupSha256=hash_value,expectedErrorCode='DECRYPTION_MISMATCH'),revisions=[dict(revisionId='fixture-revision',assetId='fixture-asset',authorUserId='fixture-user',revisionNumber=1,provenanceSha256=hash_value)],indexEntries=[dict(entryId='fixture-index',assetId='fixture-asset',metadataSha256=hash_value)])
+        audit=dict(entryId='fixture-audit',sequence=0,entityId='fixture-asset',previousSha256='sha256:'+'0'*64)
+        audit['sha256']='sha256:'+hashlib.sha256(json.dumps(audit,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest();state['audit']=[audit]
+        common=dict(schemaVersion=1,resourceId='RES-RECOVERY-SANDBOX',acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version({'pocId':'POC-10'},execution),inputSamples=[{key:s[key] for key in ('id','immutableId','checksum')} for s in execution['samples']])
+        manifests=[]
+        for phase in ('baseline','restored'):
+            states=json.loads(json.dumps(state))
+            context=dict(referenceId='secretref_fixture',method='hmac-sha256',comparisonContextId='fixture-approved-comparison-context')
+            ref,digest,_=retain(phase+'-one-way-comparison.yaml',dict(schemaVersion=1,kind='one_way_value_comparison',**context,comparisonDigest=hash_value),'measurement_output')
+            states['valueComparisons']=[dict(**context,artifactRef=ref,sha256=digest)]
+            ref,digest,size=retain(phase+'-restored-file.bin',b'Synthetic file restore fixture; never an actual backup.\n')
+            states['files']=[dict(logicalPath='fixture/restored-file.bin',artifactRef=ref,byteCount=size,sha256=digest)]
+            ref,digest,size=retain(phase+'-playback-range.bin',b'Synthetic Range fixture only.\n')
+            states['playback']=[dict(assetId='fixture-asset',authorizedUserId='fixture-user',statusCode=206,rangeStart=0,rangeEnd=size-1,artifactRef=ref,sha256=digest)]
+            image_ref,image_sha,_=retain(phase+'-image.bin',b'Synthetic deployment image; not an actual image.\n')
+            sig_ref,sig_sha,_=retain(phase+'-image-signature.bin',b'Synthetic signature; not actual cryptographic verification.\n')
+            verification_ref,_,_=retain(phase+'-signature-verification.yaml',dict(schemaVersion=1,kind='signature_verification',imageSha256=image_sha,signatureSha256=sig_sha,signerIdentity='fixture-approved-signer',algorithm='ed25519',verified=True),'measurement_output')
+            states['deployment']=[dict(imageId='fixture-image',imageArtifactRef=image_ref,imageSha256=image_sha,signatureArtifactRef=sig_ref,signatureSha256=sig_sha,signerIdentity='fixture-approved-signer',verificationRef=verification_ref)]
+            report=dict(**common,kind='recovery_'+phase,observedStartedAt='2026-09-01T00:00:00Z' if phase=='baseline' else '2026-09-03T00:00:00Z',observedFinishedAt='2026-09-01T00:01:00Z' if phase=='baseline' else '2026-09-03T00:01:00Z',states=states)
+            ref,sha,_=retain('recovery-'+phase+'.yaml',report,'measurement_output');manifests.append((ref,sha,report))
+        baseline_ref,baseline_sha,baseline=manifests[0];restored_ref,restored_sha,restored=manifests[1]
+        rows=[dict(gate=gate,before={d:CHECK.recovery_domain_digest(baseline['states'][d]) for d in domains},after={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}) for gate,domains in CHECK.RECOVERY_GATE_DOMAINS.items()]
+        comparison=dict(**common,kind='recovery_comparison',baselineRef=baseline_ref,baselineSha256=baseline_sha,restoredRef=restored_ref,restoredSha256=restored_sha,observedStartedAt='2026-09-03T00:01:00Z',observedFinishedAt='2026-09-03T00:02:00Z',rows=rows,replayedEventIds=['fixture-event'],postReplayDelivery=[{**item,'status':'processed','publicationCount':1,'inboxProcessedCount':1} for item in state['delivery']],unreadableWitness=dict(fixtureId='fixture-corrupt-backup',backupSha256=hash_value,errorCode='DECRYPTION_MISMATCH',restoreOutcome='failed',readbackOutcome='failed',successfulReadCount=0))
+        comparison_ref,_,_=retain('recovery-comparison.yaml',comparison,'measurement_output')
+        resource=next(r for r in execution['resources'] if r['id']=='RES-RECOVERY-SANDBOX');config_path=root/resource['configurationRef'];config=load_yaml(config_path)
+        config['configuration']['recoveryBaseline']=dict(baselineRef=baseline_ref,baselineSha256=baseline_sha,approvedReplayEventIds=['fixture-event'],approvedComparisonContexts=[{key:item[key] for key in ('referenceId','method','comparisonContextId')} for item in baseline['states']['valueComparisons']]);write_yaml(config_path,config)
+        env['recoveryEvidence']=dict(configurationRef=resource['configurationRef'],baselineRef=baseline_ref,restoredRef=restored_ref,comparisonRef=comparison_ref)
+
+    def refresh_qualified_observation_fixture(self,root,record,approve_captures=False):
+        """Refresh explicitly synthetic retained bytes; never actual experiment evidence."""
+        env=record['environmentCaptured']
+        for artifact in env['rawExecutionArtifacts']:
+            path=root/artifact['ref']
+            if path.exists():
+                raw=path.read_bytes();artifact['byteCount']=len(raw);artifact['sha256']='sha256:'+hashlib.sha256(raw).hexdigest()
+        if approve_captures:
+            plan=load_yaml(self.plan_path(root,'POC-'+record['pocId'][-2:].zfill(3)))
+            route=CHECK.execution_route(plan,'local-v1')
+            config_path=root/env['acceptanceProfileConfigurationRef'];config=load_yaml(config_path)
+            config['capturedSettings']={key:env[key] for key in CHECK.LOCAL_STRUCTURED_CAPTURES.get(plan['pocId'],{})}
+            write_yaml(config_path,config)
+            for ref in config.get('numericDomainReviewRefs',{}).values():
+                path=root/ref;domain=load_yaml(path);domain['environmentCaptured']={key:env[key] for key in route['captureBeforeExecution']};write_yaml(path,domain)
+
+    def test_160_physical_phone_report_and_non_vm_marker_bind_actual_scope(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-001','production')
+            path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=path.read_bytes();baseline=load_yaml(path)
+            ref=baseline['environmentCaptured']['android_thermal_background_observation']['rawOutputRef'];raw_path=root/ref;raw=raw_path.read_bytes()
+            validate=lambda:CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
+            self.assertEqual(validate(),[])
+            for mode in ('arbitrary','empty','malformed','oversize','node','device','host','build','temperature','power','duration','background','start','end','zero_interval','vm_scope','vm_inventory','missing_scope_marker','missing_inventory_marker','numeric_scope_marker','numeric_inventory_marker'):
+                path.write_bytes(original);raw_path.write_bytes(raw);record=load_yaml(path);env=record['environmentCaptured'];report=load_yaml(raw_path)
+                if mode in ('arbitrary','empty','malformed','oversize'):
+                    raw_path.write_text({'arbitrary':'Unrelated UTF8 report without observations','empty':'','malformed':'[unterminated','oversize':'x'*262145}[mode],encoding='utf8')
+                elif mode.startswith('vm_') or 'marker' in mode:
+                    target=env['android_validation_scope'] if mode.endswith('scope') or 'scope_marker' in mode else next(n for n in env['worker_node_inventory'] if n['platform']=='android')
+                    if mode.startswith('missing'):target.pop('isVirtualMachine')
+                    else:target['isVirtualMachine']=0 if mode.startswith('numeric') else True
+                else:
+                    key={'node':'nodeId','device':'deviceId','host':'physicalHostId','build':'encoderBuild','temperature':'temperaturePeakCelsius','power':'powerPeakWatts','duration':'testDurationSeconds','background':'backgroundSurvivedSeconds','start':'observedStartedAt','end':'observedFinishedAt','zero_interval':'observedFinishedAt'}[mode]
+                    report[key]=99 if mode in ('temperature','power','duration','background') else '2026-09-02T00:00:00Z' if mode=='start' else '2026-09-06T00:00:00Z' if mode=='end' else report['observedStartedAt'] if mode=='zero_interval' else 'wrong-observation-identity'
+                    write_yaml(raw_path,report)
+                self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
+                self.assertTrue(any('physical phone observation' in e or 'tested physical Android' in e for e in validate()),mode)
+        finally:temp.cleanup()
+        for profile,status in (('local-v1','pass'),('production','fail')):
+            temp,root=self.temp_repo()
+            try:
+                self.make_profile_slot(root,'POC-001',profile,status)
+                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),[])
+            finally:temp.cleanup()
+
+    def test_161_inference_rate_is_derived_from_retained_count_time_and_subject(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-009',profile)
+                path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=path.read_bytes();baseline=load_yaml(path)
+                raw_path=root/baseline['environmentCaptured']['inferenceObservationRef'];raw=raw_path.read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
+                self.assertEqual(validate(),[])
+                for mode in ('overclaim','missing','wrong_type','arbitrary','empty','malformed','oversize','count_zero','count_bool','subject','input','zero_interval','before_window','after_window'):
+                    path.write_bytes(original);raw_path.write_bytes(raw);record=load_yaml(path);env=record['environmentCaptured'];report=load_yaml(raw_path)
+                    if mode=='overclaim':next(m for m in record['measurements'] if m['id']=='throughput')['actual']=1e9
+                    elif mode=='missing':env.pop('inferenceObservationRef')
+                    elif mode=='wrong_type':next(a for a in env['rawExecutionArtifacts'] if a['ref']==env['inferenceObservationRef'])['artifactType']='command_output'
+                    elif mode in ('arbitrary','empty','malformed','oversize'):raw_path.write_text({'arbitrary':'Unrelated throughput assertion','empty':'','malformed':'[unterminated','oversize':'x'*262145}[mode],encoding='utf8')
+                    else:
+                        if mode in ('count_zero','count_bool'):report['completedItemCount']=0 if mode=='count_zero' else True
+                        elif mode=='subject':report['subjectVersion']='wrong-model-prompt-parameters-runtime-tools'
+                        elif mode=='input':report['inputSamples'][0]['checksum']='sha256:'+'a'*64
+                        elif mode=='zero_interval':report['observedFinishedAt']=report['observedStartedAt']
+                        elif mode=='before_window':report['observedStartedAt']='2026-09-02T00:00:00Z'
+                        else:report['observedFinishedAt']='2026-09-05T00:00:00Z'
+                        write_yaml(raw_path,report)
+                    self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
+                    self.assertTrue(any('qualified inference observation' in e for e in validate()),(profile,mode))
+            finally:temp.cleanup()
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    index=self.make_profile_slot(root,'POC-009',profile,status)
+                    path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];record=load_yaml(path)
+                    next(m for m in record['measurements'] if m['id']=='throughput')['actual']=0;write_yaml(path,record)
+                    self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-09'}),[])
+                finally:temp.cleanup()
+
+    def test_162_three_streams_on_two_nodes_honor_trace_identity_and_caps(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-002','local-v1')
+            path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];record=load_yaml(path);env=record['environmentCaptured'];runs=env['workerEncodeExecutions']
+            added=copy.deepcopy(runs[0]);prefix=str(path.parent.relative_to(root)).replace('\\','/')
+            for key,kind in (('rawOutputRef','command_output'),('outputArtifactRef','produced_media')):
+                ref=prefix+'/raw/third-stream-'+key+'.bin';(root/ref).write_bytes(b'Synthetic third stream fixture; never an encode. '+key.encode());added[key]=ref
+                env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,nodeId=added['nodeId'],byteCount=0,sha256='sha256:'+'0'*64));record['rawOutputRefs'].append(ref)
+            added['outputSha256']='sha256:'+hashlib.sha256((root/added['outputArtifactRef']).read_bytes()).hexdigest();runs.append(added)
+            for i,run in enumerate(runs):run['sourceStartFrame']=i*40;run['sourceEndFrame']=(i+1)*40
+            assembly=env['parallelMediaAssembly'];assembly['parts']=[{key:r[key] for key in ('nodeId','outputArtifactRef','outputSha256','sourceStartFrame','sourceEndFrame')} for r in runs]
+            report_path=root/assembly['validationRef'];report=load_yaml(report_path);report['parts']=assembly['parts'];write_yaml(report_path,report)
+            env['scheduler_configuration'].update(perNodeConcurrency=2,maxConcurrentSegments=3)
+            next(m for m in record['measurements'] if m['id']=='encode_throughput')['actual']=3
+            self.refresh_qualified_observation_fixture(root,record,approve_captures=True);write_yaml(path,record);baseline=path.read_bytes()
+            validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'})
+            self.assertEqual(validate(),[])
+            for mode in ('duplicate_trace','duplicate_output','per_node_cap','total_cap','overclaim','no_distinct_overlap'):
+                path.write_bytes(baseline);record=load_yaml(path);env=record['environmentCaptured'];runs=env['workerEncodeExecutions']
+                if mode=='duplicate_trace':runs[2]['rawOutputRef']=runs[0]['rawOutputRef']
+                elif mode=='duplicate_output':runs[2]['outputArtifactRef']=runs[0]['outputArtifactRef'];runs[2]['outputSha256']=runs[0]['outputSha256']
+                elif mode=='per_node_cap':env['scheduler_configuration']['perNodeConcurrency']=1
+                elif mode=='total_cap':env['scheduler_configuration']['maxConcurrentSegments']=2
+                elif mode=='overclaim':next(m for m in record['measurements'] if m['id']=='encode_throughput')['actual']=4
+                else:runs[1].update(startedAt='2026-09-03T00:01:00Z',finishedAt='2026-09-03T00:02:00Z')
+                self.refresh_qualified_observation_fixture(root,record,approve_captures=True);write_yaml(path,record)
+                self.assertTrue(any('qualified encode workers' in e for e in validate()),mode)
+        finally:temp.cleanup()
+
+    def test_163_recovery_pass_requires_approved_parsed_states_and_real_comparisons(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile)
+                path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=path.read_bytes();record=load_yaml(path);capture=record['environmentCaptured']['recoveryEvidence']
+                saved={root/a['ref']:(root/a['ref']).read_bytes() for a in record['environmentCaptured']['rawExecutionArtifacts']}
+                config_path=root/capture['configurationRef'];config_bytes=config_path.read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-10'})
+                self.assertEqual(validate(),[])
+                for mode in ('missing','wrong_config','missing_approval','wrong_baseline_hash','alias_reports','unrelated','empty','malformed','oversize','wrong_inputs','wrong_tool','wrong_profile','baseline_after_start','restored_outside','comparison_before_restore','state_mismatch','matching_bad_relationships','audit_link','delivery_duplicate','replay_duplicate','no_replay','value_mismatch','plaintext','unreadable_success','unreadable_count','unreadable_identity','file_bytes','file_alias','signature_mismatch','missing_gate','fake_rows','unapproved_context','wrong_artifact_type'):
+                    path.write_bytes(original);config_path.write_bytes(config_bytes)
+                    for artifact,raw in saved.items():artifact.write_bytes(raw)
+                    record=load_yaml(path);env=record['environmentCaptured'];capture=env['recoveryEvidence'];config=load_yaml(config_path)
+                    base_path=root/capture['baselineRef'];restored_path=root/capture['restoredRef'];comparison_path=root/capture['comparisonRef']
+                    base=load_yaml(base_path);restored=load_yaml(restored_path);comparison=load_yaml(comparison_path)
+                    if mode=='missing':env.pop('recoveryEvidence')
+                    elif mode=='wrong_config':capture['configurationRef']=env['acceptanceProfileConfigurationRef']
+                    elif mode=='missing_approval':config['configuration'].pop('recoveryBaseline')
+                    elif mode=='wrong_baseline_hash':config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+'0'*64
+                    elif mode=='alias_reports':capture['restoredRef']=capture['baselineRef']
+                    elif mode in ('unrelated','empty','malformed','oversize'):
+                        restored_path.write_text({'unrelated':'Unrelated UTF8 restore success claims','empty':'','malformed':'[unterminated','oversize':'x'*262145}[mode],encoding='utf8')
+                    elif mode=='wrong_inputs':restored['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='wrong_tool':restored['subjectVersion']='wrong-tool-build'
+                    elif mode=='wrong_profile':restored['acceptanceProfile']={'id':'wrong'}
+                    elif mode=='baseline_after_start':base['observedFinishedAt']='2026-09-03T00:00:01Z'
+                    elif mode=='restored_outside':restored['observedFinishedAt']='2026-09-05T00:00:00Z'
+                    elif mode=='comparison_before_restore':comparison['observedStartedAt']='2026-09-03T00:00:00Z'
+                    elif mode=='state_mismatch':restored['states']['assets'][0]['version']='wrong-restored-version'
+                    elif mode=='matching_bad_relationships':base['states']['sourceMappings'][0]['assetId']=restored['states']['sourceMappings'][0]['assetId']='nonexistent-asset'
+                    elif mode=='audit_link':restored['states']['audit'][0]['previousSha256']='sha256:'+'1'*64
+                    elif mode=='delivery_duplicate':comparison['postReplayDelivery'].append(dict(comparison['postReplayDelivery'][0]))
+                    elif mode=='replay_duplicate':comparison['postReplayDelivery'][0]['publicationCount']=2
+                    elif mode=='no_replay':comparison['postReplayDelivery']=json.loads(json.dumps(restored['states']['delivery']))
+                    elif mode in ('value_mismatch','plaintext'):
+                        item=restored['states']['valueComparisons'][0];artifact=root/item['artifactRef'];value=load_yaml(artifact)
+                        if mode=='plaintext':value['password']='forbidden-plaintext-fixture'
+                        else:value['comparisonDigest']='sha256:'+'b'*64
+                        write_yaml(artifact,value);item['sha256']='sha256:'+hashlib.sha256(artifact.read_bytes()).hexdigest()
+                    elif mode=='unreadable_success':comparison['unreadableWitness']['readbackOutcome']='succeeded'
+                    elif mode=='unreadable_count':comparison['unreadableWitness']['successfulReadCount']=1
+                    elif mode=='unreadable_identity':comparison['unreadableWitness']['fixtureId']='unrelated-backup'
+                    elif mode=='file_bytes':(root/restored['states']['files'][0]['artifactRef']).write_bytes(b'Wrong restored file bytes.\n')
+                    elif mode=='file_alias':restored['states']['files'][0]['artifactRef']=base['states']['files'][0]['artifactRef']
+                    elif mode=='signature_mismatch':
+                        artifact=root/restored['states']['deployment'][0]['verificationRef'];verification=load_yaml(artifact);verification['imageSha256']='sha256:'+'b'*64;write_yaml(artifact,verification)
+                    elif mode=='missing_gate':comparison['rows'].pop()
+                    elif mode=='fake_rows':comparison['rows'][0]['before']['database']='sha256:'+'0'*64
+                    elif mode=='unapproved_context':config['configuration']['recoveryBaseline']['approvedComparisonContexts']=[]
+                    else:next(a for a in env['rawExecutionArtifacts'] if a['ref']==capture['comparisonRef'])['artifactType']='command_output'
+                    if mode not in ('unrelated','empty','malformed','oversize'):write_yaml(restored_path,restored)
+                    write_yaml(base_path,base)
+                    if mode in ('state_mismatch','matching_bad_relationships','audit_link','value_mismatch','plaintext','file_alias'):
+                        for row in comparison['rows']:
+                            domains=CHECK.RECOVERY_GATE_DOMAINS[row['gate']];row['before']={d:CHECK.recovery_domain_digest(base['states'][d]) for d in domains};row['after']={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}
+                    if mode=='matching_bad_relationships':config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+hashlib.sha256(base_path.read_bytes()).hexdigest()
+                    comparison['baselineSha256']='sha256:'+hashlib.sha256(base_path.read_bytes()).hexdigest();comparison['restoredSha256']='sha256:'+hashlib.sha256(restored_path.read_bytes()).hexdigest()
+                    write_yaml(comparison_path,comparison);write_yaml(config_path,config)
+                    self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
+                    self.assertTrue(any('qualified recovery observation' in e for e in validate()),(profile,mode))
+            finally:temp.cleanup()
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    self.make_profile_slot(root,'POC-010',profile,status)
+                    self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-10'}),[])
+                finally:temp.cleanup()
+
+    def test_164_binary_recovery_credentials_and_approved_single_event_replay(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'retained.bin'
+            with mock.patch.object(CHECK,'ARTIFACT_CHUNK_BYTES',7):
+                for raw in (b'\xffpassword=fixture-forbidden-value\n',b'\xff'+b'x'*40+b'\nAuthorization: Bearer fixture-forbidden-value\n',b'\xff'+b'x'*40+b'\n{"api_key":"fixture-forbidden-value"}\n'):
+                    path.write_bytes(raw);result=CHECK.inspect_artifact(path,{},textual=True)
+                    self.assertTrue(result['invalidUtf8']);self.assertTrue(result['credential'])
+                path.write_bytes(b'\xff\x00harmless binary recovery payload');result=CHECK.inspect_artifact(path,{},textual=True)
+                self.assertTrue(result['invalidUtf8']);self.assertFalse(result['credential'])
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-010','local-v1');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];record=load_yaml(path);capture=record['environmentCaptured']['recoveryEvidence']
+            base_path=root/capture['baselineRef'];restored_path=root/capture['restoredRef'];comparison_path=root/capture['comparisonRef'];config_path=root/capture['configurationRef']
+            base=load_yaml(base_path);restored=load_yaml(restored_path);comparison=load_yaml(comparison_path);config=load_yaml(config_path)
+            unselected=dict(eventId='fixture-unselected-event',dedupId='fixture-unselected-dedup',aggregateId='fixture-asset',status='pending',publicationCount=0,inboxProcessedCount=0)
+            for report in (base,restored):report['states']['delivery'].append(dict(unselected))
+            comparison['postReplayDelivery'].append(dict(unselected))
+            for row in comparison['rows']:
+                domains=CHECK.RECOVERY_GATE_DOMAINS[row['gate']];row['before']={d:CHECK.recovery_domain_digest(base['states'][d]) for d in domains};row['after']={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}
+            write_yaml(base_path,base);write_yaml(restored_path,restored)
+            comparison['baselineSha256']=config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+hashlib.sha256(base_path.read_bytes()).hexdigest();comparison['restoredSha256']='sha256:'+hashlib.sha256(restored_path.read_bytes()).hexdigest()
+            write_yaml(comparison_path,comparison);write_yaml(config_path,config);self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
+            validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-10'})
+            self.assertEqual(validate(),[])
+            raw=comparison_path.read_bytes();original=path.read_bytes()
+            for mode in ('unapproved_replay','changed_unselected'):
+                comparison_path.write_bytes(raw);path.write_bytes(original);comparison=load_yaml(comparison_path);record=load_yaml(path)
+                if mode=='unapproved_replay':comparison['replayedEventIds'].append('fixture-unselected-event')
+                else:comparison['postReplayDelivery'][1].update(status='processed',publicationCount=1,inboxProcessedCount=1)
+                write_yaml(comparison_path,comparison);self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
+                self.assertTrue(any('qualified recovery observation' in e for e in validate()),mode)
+        finally:temp.cleanup()
 
     def test_01_positive_baseline(self):
         self.assertEqual(CHECK.validate_repository(self.repo), [])

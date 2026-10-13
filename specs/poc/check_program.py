@@ -1051,6 +1051,7 @@ def inspect_artifact(path, cache, textual=False):
     digest = hashlib.sha256()
     size = path.stat().st_size
     decoder = codecs.getincrementaldecoder('utf8')('strict') if textual else None
+    scan_decoder = codecs.getincrementaldecoder('utf8')('replace') if textual else None
     tail, credential, invalid_utf8 = '', False, False
     def scan(text):
         nonlocal tail, credential
@@ -1066,13 +1067,15 @@ def inspect_artifact(path, cache, textual=False):
     with path.open('rb') as handle:
         for chunk in iter(lambda: handle.read(ARTIFACT_CHUNK_BYTES),b''):
             digest.update(chunk)
+            if scan_decoder is not None:scan(scan_decoder.decode(chunk))
             if decoder is not None:
-                try: scan(decoder.decode(chunk))
+                try: decoder.decode(chunk)
                 except UnicodeDecodeError:
                     invalid_utf8 = True
                     decoder = None
+        if scan_decoder is not None:scan(scan_decoder.decode(b'',final=True))
         if decoder is not None:
-            try: scan(decoder.decode(b'',final=True))
+            try: decoder.decode(b'',final=True)
             except UnicodeDecodeError: invalid_utf8 = True
     cached = dict(size=size,sha256='sha256:'+digest.hexdigest(),textScanned=textual,credential=credential,invalidUtf8=invalid_utf8)
     cache[path] = cached
@@ -1116,7 +1119,7 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
     structured_paths = [path for ref in structured if (path := existing_ref(root,ref,prefix)) is not None]
     seen, kinds, total_bytes = [], {}, 0
     for record in records:
-        validate_schema(record,defs.get('rawExecutionArtifact',{}),label,errors)
+        validate_schema(record,defs.get('recoveryRawExecutionArtifact' if plan['pocId']=='POC-10' else 'rawExecutionArtifact',{}),label,errors)
         if not isinstance(record,dict): continue
         ref = record.get('ref')
         seen.append(ref)
@@ -1136,7 +1139,7 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
         total_bytes += actual['size']
         if actual['credential']:
             errors.append(f'{label}: credentials forbidden in raw textual artifacts')
-        if actual['invalidUtf8']:
+        if actual['invalidUtf8'] and not (plan['pocId']=='POC-10' and record.get('artifactType')=='recovery_output'):
             errors.append(f'{label}: raw textual artifacts must decode as UTF-8')
         if type(record.get('byteCount')) is not int or record['byteCount'] != actual['size']:
             errors.append(f'{label}: byteCount must bind actual raw bytes')
@@ -1198,6 +1201,9 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
     artifacts = {record.get('ref'):record for record in env.get('rawExecutionArtifacts') or [] if isinstance(record,dict) and isinstance(record.get('ref'),str)}
     inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
     intervals = []
+    stream_intervals = []
+    run_paths = []
+    run_refs = set()
     completed = set()
     for run in runs:
         if not isinstance(run,dict) or not isinstance(run.get('nodeId'),str) or run['nodeId'] not in nodes:
@@ -1218,10 +1224,27 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         output = existing_ref(root,run.get('outputArtifactRef'),prefix)
         if output is None or output.stat().st_size == 0 or run.get('outputSha256') != inspect_artifact(output,artifact_cache)['sha256']:
             errors.append(f'{label}: worker output hash must bind nonempty produced bytes')
+        trace=existing_ref(root,run.get('rawOutputRef'),prefix)
+        pair=(run.get('rawOutputRef'),run.get('outputArtifactRef'))
+        if any(not isinstance(ref,str) for ref in pair) or any(ref in run_refs for ref in pair) or (trace and output and trace.samefile(output)) or any(path.samefile(prior) for path in (trace,output) if path for prior in run_paths):
+            errors.append(f'{label}: each stream requires unique physically distinct trace and output identities')
+        else:
+            run_refs.update(pair)
+            run_paths.extend(path for path in (trace,output) if path)
+            if start is not None and end is not None and start<end:
+                stream_intervals.append((pair,start,end,node['nodeId']))
         completed.add(node['nodeId'])
     if completed != set(nodes) or not any(a[0] != b[0] and max(a[1],b[1]) < min(a[2],b[2]) for i,a in enumerate(intervals) for b in intervals[i+1:]):
         errors.append(f'{label}: all inventory nodes must execute, with overlapping work on distinct nodes')
-    peak,minutes=encode_interval_capacity(intervals)
+    _,minutes=encode_interval_capacity(intervals)
+    peak,_=encode_interval_capacity([(identity,start,end) for identity,start,end,_ in stream_intervals])
+    if (env.get('acceptanceProfile') or {}).get('id')=='local-v1':
+        caps=env.get('scheduler_configuration') or {}
+        total_cap,per_node=caps.get('maxConcurrentSegments'),caps.get('perNodeConcurrency')
+        if type(total_cap) is not int or total_cap<1 or type(per_node) is not int or per_node<1:
+            errors.append(f'{label}: positive integer local concurrency caps required')
+        elif peak>total_cap or any(encode_interval_capacity([(identity,start,end) for identity,start,end,owner in stream_intervals if owner==node])[0]>per_node for node in nodes):
+            errors.append(f'{label}: captured stream concurrency exceeds approved total/per-node caps')
     measurements={item.get('id'):item.get('actual') for item in execution.get('measurements') or [] if isinstance(item,dict)}
     for metric,observed in (('encode_throughput',peak),('sustained_encode_duration',minutes)):
         actual=measurements.get(metric)
@@ -1318,6 +1341,220 @@ def qualified_observation_report(path, defs, schema, label, errors, cache):
     return report if isinstance(report,dict) else None
 
 
+
+def selected_observation(root, execution, prefix, ref, defs, schema, label, errors, cache):
+    env = execution.get('environmentCaptured') or {}
+    matches = [item for item in env.get('rawExecutionArtifacts') or [] if isinstance(item,dict) and item.get('ref') == ref]
+    path = existing_ref(root,ref,prefix)
+    if len(matches) != 1 or matches[0].get('artifactType') != 'measurement_output' or ref not in (execution.get('rawOutputRefs') or []) or path is None:
+        errors.append(f'{label}: selected-slot typed measurement output required')
+        return None
+    return qualified_observation_report(path,defs,schema,label,errors,cache)
+
+
+def observation_interval(report, execution, label, errors):
+    start,end = utc(report.get('observedStartedAt')),utc(report.get('observedFinishedAt'))
+    window = (execution.get('environmentCaptured') or {}).get('executionWindow') or {}
+    first,last = utc(window.get('startedAt')),utc(window.get('finishedAt'))
+    if start is None or end is None or first is None or last is None or not first <= start < end <= last:
+        errors.append(f'{label}: positive observed interval must be inside executionWindow')
+        return None
+    return (end-start).total_seconds()
+
+
+def validate_qualified_phone_observation(root, execution, prefix, scope, observation, path, defs, errors, cache):
+    label = f"qualified physical phone observation {execution['taskId']}"
+    report = qualified_observation_report(path,defs,'physicalPhoneObservation',label,errors,cache)
+    if report is None:
+        return
+    expected = {key:scope.get(key) for key in ('nodeId','deviceId','physicalHostId','encoderBuild')}
+    expected.update({key:observation.get(key) for key in ('temperaturePeakCelsius','powerPeakWatts','testDurationSeconds','backgroundSurvivedSeconds')})
+    if any(report.get(key) != value for key,value in expected.items()):
+        errors.append(f'{label}: retained report must match exact device/node/host/build and measured temperature/power/background values')
+    duration = observation_interval(report,execution,label,errors)
+    if duration is not None and report.get('testDurationSeconds') != duration:
+        errors.append(f'{label}: completed test duration must equal observed interval')
+
+
+def validate_qualified_inference_observation(root, plan, execution, prefix, status, window, defs, errors, cache):
+    if plan['pocId'] != 'POC-09' or status != 'pass':
+        return
+    label = f"qualified inference observation {plan['taskId']}"
+    env = execution.get('environmentCaptured') or {}
+    report = selected_observation(root,execution,prefix,env.get('inferenceObservationRef'),defs,'inferenceObservation',label,errors,cache)
+    if report is None:
+        return
+    expected_inputs = [{key:sample.get(key) for key in ('id','immutableId','checksum')} for sample in execution.get('samples') or []]
+    if report.get('subjectVersion') != compliance_subject_version(plan,execution) or report.get('inputSamples') != expected_inputs:
+        errors.append(f'{label}: report must bind exact model/prompt/parameters/runtime/tools and approved input identities')
+    count = report.get('completedItemCount')
+    elapsed = observation_interval(report,execution,label,errors)
+    actual = next((item.get('actual') for item in execution.get('measurements') or [] if item.get('id') == 'throughput'),None)
+    if type(count) is not int or count <= 0:
+        errors.append(f'{label}: positive integer completed item count required')
+    elif elapsed is not None and (isinstance(actual,bool) or not isinstance(actual,(int,float)) or not math.isfinite(actual) or not math.isclose(actual,count/elapsed,rel_tol=1e-9,abs_tol=1e-9)):
+        errors.append(f'{label}: throughput must equal retained completed count divided by elapsed seconds')
+
+
+RECOVERY_GATE_DOMAINS = {
+    'db_restore':('database',), 'users_permissions_restore':('permissions',),
+    'assets_restore':('assets',), 'source_mappings_restore':('sourceMappings',),
+    'formal_replicas_restore':('replicas',), 'retention_restore':('retention',),
+    'audit_restore':('audit',), 'outbox_restore':('delivery',), 'tasks_restore':('tasks',),
+    'authoritative_relationships_restore':('permissions','assets','sourceMappings','replicas','retention','audit','delivery','tasks'),
+    'secret_store_restore':('openbao',), 'secret_value_roundtrip':('valueComparisons',),
+    'secret_unreadable_failure_detected':('unreadableFixture',), 'file_restore':('files',),
+    'playback_restore':('playback',), 'ai_manual_revisions_restore':('revisions',),
+    'search_index_consistency_restore':('indexEntries',), 'image_signature_restore':('deployment',),
+}
+
+
+def recovery_domain_digest(value):
+    """Hash parsed state; transport references may differ after a legitimate restore."""
+    def semantic(item):
+        if isinstance(item,dict):
+            return {key:semantic(value) for key,value in item.items() if key not in ('artifactRef','imageArtifactRef','signatureArtifactRef','verificationRef')}
+        if isinstance(item,list):return [semantic(value) for value in item]
+        return item
+    return 'sha256:'+hashlib.sha256(json.dumps(semantic(value),sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8')).hexdigest()
+
+
+def validate_recovery_state(root, execution, prefix, report, defs, label, errors, cache, all_paths):
+    state=report['states']
+    env=execution['environmentCaptured']
+    artifacts={item['ref']:item for item in env['rawExecutionArtifacts'] if isinstance(item,dict) and isinstance(item.get('ref'),str)}
+    def retained(ref,digest,kind='recovery_output',size=None):
+        path=existing_ref(root,ref,prefix)
+        artifact=artifacts.get(ref)
+        if path is None or artifact is None or artifact.get('artifactType')!=kind or ref not in execution['rawOutputRefs']:
+            errors.append(f'{label}: state must bind selected-slot typed retained bytes');return
+        actual=inspect_artifact(path,cache)
+        if actual['sha256']!=digest or actual['size']<=0 or (size is not None and actual['size']!=size):
+            errors.append(f'{label}: state digest/size must match actual retained bytes')
+        if any(path.samefile(prior) for prior in all_paths):
+            errors.append(f'{label}: recovery states, comparisons and retained outputs must be physically distinct')
+        all_paths.append(path)
+    assets={item['assetId']:item for item in state['assets']}
+    users={item['userId'] for item in state['permissions']}
+    for domain,key in (('assets','assetId'),('permissions','userId'),('sourceMappings','sourceId'),('replicas','replicaId'),('retention','assetId'),('tasks','taskId'),('revisions','revisionId'),('indexEntries','entryId'),('deployment','imageId'),('delivery','eventId')):
+        if len({item[key] for item in state[domain]})!=len(state[domain]):
+            errors.append(f'{label}: {domain} identities must be unique')
+    for domain in ('sourceMappings','replicas','retention','tasks','playback','revisions','indexEntries'):
+        if any(item['assetId'] not in assets for item in state[domain]):errors.append(f'{label}: {domain} must reference restored authoritative assets')
+    if any(item['ownerId'] not in users for item in state['tasks']) or any(item['authorUserId'] not in users for item in state['revisions']):
+        errors.append(f'{label}: tasks/revisions must reference restored users')
+    if any(item['authorizedUserId'] not in users for item in state['playback']):errors.append(f'{label}: playback must bind restored permission subjects')
+    if any(item['metadataSha256']!=assets.get(item['assetId'],{}).get('metadataSha256') for item in state['indexEntries']) or {item['assetId'] for item in state['indexEntries']}!=set(assets):
+        errors.append(f'{label}: index entries must exactly reconcile restored authoritative metadata')
+    if any(sum(item['primary'] is True for item in state['replicas'] if item['assetId']==asset)!=1 for asset in assets):
+        errors.append(f'{label}: each asset requires exactly one verified authoritative primary replica')
+    previous='sha256:'+'0'*64
+    for sequence,item in enumerate(state['audit']):
+        payload={key:item[key] for key in ('entryId','sequence','entityId','previousSha256')}
+        actual='sha256:'+hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest()
+        if item['sequence']!=sequence or item['previousSha256']!=previous or item['sha256']!=actual or item['entityId'] not in assets:
+            errors.append(f'{label}: audit ordering and computed integrity chain must bind authoritative entities')
+        previous=item['sha256']
+    if len({item['dedupId'] for item in state['delivery']})!=len(state['delivery']) or any(item['aggregateId'] not in assets or item['publicationCount']!=(1 if item['status']=='processed' else 0) or item['inboxProcessedCount']!=(1 if item['status']=='processed' else 0) for item in state['delivery']):
+        errors.append(f'{label}: delivery state must bind unique dedup/event identities and publication/inbox counts')
+    if {item['referenceId'] for item in state['valueComparisons']}!=set(state['openbao']['referenceIds']):
+        errors.append(f'{label}: actual value comparisons must cover exact restored OpenBao references')
+    for item in state['valueComparisons']:
+        retained(item['artifactRef'],item['sha256'],'measurement_output')
+        value=selected_observation(root,execution,prefix,item['artifactRef'],defs,'recoveryValueComparisonArtifact',label,errors,cache)
+        if value is None or any(value.get(key)!=item[key] for key in ('referenceId','method','comparisonContextId')):
+            errors.append(f'{label}: retained one-way comparison artifact must bind exact approved method/reference/context')
+    if len({item['logicalPath'] for item in state['files']})!=len(state['files']):errors.append(f'{label}: restored logical file paths must be unique')
+    for item in state['files']:
+        if not safe_generator_relative_path(item['logicalPath']):errors.append(f'{label}: logical file path must be safe and relative')
+        retained(item['artifactRef'],item['sha256'],size=item['byteCount'])
+    for item in state['playback']:
+        if item['rangeEnd']<item['rangeStart']:errors.append(f'{label}: playback range must be ordered')
+        retained(item['artifactRef'],item['sha256'],size=item['rangeEnd']-item['rangeStart']+1)
+    for item in state['deployment']:
+        retained(item['imageArtifactRef'],item['imageSha256'])
+        retained(item['signatureArtifactRef'],item['signatureSha256'])
+        verification=selected_observation(root,execution,prefix,item['verificationRef'],defs,'recoveryDeploymentVerification',label,errors,cache)
+        path=existing_ref(root,item['verificationRef'],prefix)
+        if path:
+            if any(path.samefile(prior) for prior in all_paths):errors.append(f'{label}: signature verification must be distinct from retained payloads')
+            all_paths.append(path)
+        if verification is None or any(verification.get(key)!=item[key] for key in ('imageSha256','signatureSha256','signerIdentity')):
+            errors.append(f'{label}: signature verification must bind actual image/signature digests and approved signer')
+
+
+def validate_qualified_recovery_observation(root, plan, execution, prefix, status, window, defs, errors, cache):
+    if plan['pocId']!='POC-10' or status!='pass':return
+    label=f"qualified recovery observation {plan['taskId']}"
+    env=execution.get('environmentCaptured') or {}
+    capture=env.get('recoveryEvidence')
+    resources=[item for item in execution.get('resources') or [] if item.get('id')=='RES-RECOVERY-SANDBOX']
+    if not isinstance(capture,dict) or len(resources)!=1 or capture.get('configurationRef')!=resources[0].get('configurationRef'):
+        errors.append(f'{label}: recovery evidence must bind approved recovery resource configuration');return
+    config_path=existing_ref(root,capture['configurationRef'],prefix)
+    try:approved=load(config_path).get('configuration',{}).get('recoveryBaseline') if config_path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):approved=None
+    if not isinstance(approved,dict) or approved.get('baselineRef')!=capture.get('baselineRef'):
+        errors.append(f'{label}: approved baseline reference required');return
+    reports={};paths=[];before=len(errors)
+    for key,schema in (('baselineRef','recoveryStateManifest'),('restoredRef','recoveryStateManifest'),('comparisonRef','recoveryComparisonReport')):
+        report=selected_observation(root,execution,prefix,capture.get(key),defs,schema,label,errors,cache)
+        path=existing_ref(root,capture.get(key),prefix)
+        if path:
+            if any(path.samefile(prior) for prior in paths):errors.append(f'{label}: baseline/restored/comparison reports must be physically distinct')
+            paths.append(path)
+        reports[key]=report
+    if len(errors)!=before or any(report is None for report in reports.values()):return
+    baseline,restored,comparison=(reports[key] for key in ('baselineRef','restoredRef','comparisonRef'))
+    baseline_sha=inspect_artifact(paths[0],cache)['sha256'];restored_sha=inspect_artifact(paths[1],cache)['sha256']
+    if approved.get('baselineSha256')!=baseline_sha or comparison.get('baselineRef')!=capture['baselineRef'] or comparison.get('baselineSha256')!=baseline_sha or comparison.get('restoredRef')!=capture['restoredRef'] or comparison.get('restoredSha256')!=restored_sha:
+        errors.append(f'{label}: approved baseline and comparison must bind actual manifest bytes')
+    inputs=[{key:sample.get(key) for key in ('id','immutableId','checksum')} for sample in execution.get('samples') or []]
+    subject=compliance_subject_version(plan,execution)
+    for report in (baseline,restored,comparison):
+        if report.get('inputSamples')!=inputs or report.get('subjectVersion')!=subject or report.get('acceptanceProfile')!=env.get('acceptanceProfile'):
+            errors.append(f'{label}: manifests/comparison must bind exact approved inputs, tool build and profile')
+    begin,end=utc(baseline['observedStartedAt']),utc(baseline['observedFinishedAt'])
+    config=load(config_path);approval=utc(config.get('approvedAt'))
+    if begin is None or end is None or approval is None or window is None or not begin<end<=approval<=window[0]:
+        errors.append(f'{label}: baseline capture and independent approval must precede restore execution')
+    if baseline['kind']!='recovery_baseline' or restored['kind']!='recovery_restored':errors.append(f'{label}: exact baseline/restored report roles required')
+    observation_interval(restored,execution,label,errors);observation_interval(comparison,execution,label,errors)
+    if utc(restored['observedFinishedAt']) and utc(comparison['observedStartedAt']) and utc(restored['observedFinishedAt'])>utc(comparison['observedStartedAt']):errors.append(f'{label}: comparison must follow restored-state capture')
+    for report in (baseline,restored):validate_recovery_state(root,execution,prefix,report,defs,label,errors,cache,paths)
+    expected_gates={item['id'] for item in plan['protocol']['measurements'] if item['unit']=='boolean'}
+    rows=comparison['rows']
+    if set(RECOVERY_GATE_DOMAINS)!=expected_gates or len(rows)!=len(expected_gates) or {row['gate'] for row in rows}!=expected_gates:
+        errors.append(f'{label}: comparison must cover exact frozen boolean recovery gates')
+    for row in rows:
+        domains=RECOVERY_GATE_DOMAINS.get(row['gate'])
+        if domains is None:continue
+        left={domain:recovery_domain_digest(baseline['states'][domain]) for domain in domains}
+        right={domain:recovery_domain_digest(restored['states'][domain]) for domain in domains}
+        if row['before']!=left or row['after']!=right or left!=right:
+            errors.append(f'{label}: {row["gate"]} must be supported by computed parsed-state comparisons')
+    contexts=[{key:item[key] for key in ('referenceId','method','comparisonContextId')} for item in baseline['states']['valueComparisons']]
+    if approved.get('approvedComparisonContexts')!=contexts:errors.append(f'{label}: one-way/HMAC comparison context requires explicit prior resource approval')
+    negative=baseline['states']['unreadableFixture'];witness=comparison['unreadableWitness']
+    if any(witness.get(key)!=negative[key] for key in ('fixtureId','backupSha256')) or witness.get('errorCode')!=negative['expectedErrorCode']:
+        errors.append(f'{label}: unreadable backup witness must identify exact approved negative fixture and expected failure')
+    before_delivery={item['eventId']:item for item in restored['states']['delivery']};after_delivery={item['eventId']:item for item in comparison['postReplayDelivery']}
+    if len(after_delivery)!=len(comparison['postReplayDelivery']) or set(before_delivery)!=set(after_delivery):
+        errors.append(f'{label}: replay must preserve exact event identities without duplicates')
+    selected=comparison['replayedEventIds']
+    approved_events=approved.get('approvedReplayEventIds')
+    if selected!=approved_events or not set(selected).issubset(before_delivery):
+        errors.append(f'{label}: replay must bind exact previously approved event identities')
+    transitioned=False
+    for event,item in before_delivery.items():
+        target=after_delivery.get(event) or {}
+        expected={**item,'status':'processed','publicationCount':1,'inboxProcessedCount':1} if event in selected else item
+        if target!=expected:
+            errors.append(f'{label}: replay must process each exact dedup identity only once')
+        transitioned=transitioned or event in selected and item['status']=='pending' and target.get('status')=='processed'
+    if not transitioned:errors.append(f'{label}: an approved pending fixture must actually undergo replay')
+
+
 def validate_qualified_android_media(root, plan, execution, prefix, status, errors, artifact_cache, defs):
     if plan['pocId'] != 'POC-01' or status != 'pass':
         return
@@ -1364,6 +1601,8 @@ def validate_qualified_android_media(root, plan, execution, prefix, status, erro
             errors.append(f'{label}: physical device observation requires a node-bound typed scope_observation artifact')
         elif observation_ref == ref or observation_path.samefile(path):
             errors.append(f'{label}: physical device observation must be distinct from encoded media')
+        else:
+            validate_qualified_phone_observation(root,execution,prefix,scope,observation,observation_path,defs,errors,artifact_cache)
 
 
 def validate_android_execution(root, plan, execution, status, prefix, errors):
@@ -1401,8 +1640,8 @@ def validate_android_execution(root, plan, execution, status, prefix, errors):
         if not recorded_text(scope.get(key)):
             errors.append(f'{label}: concrete {key} required')
     inventory = env.get('worker_node_inventory')
-    match = any(isinstance(node,dict) and node.get('platform') == 'android' and node.get('isEmulator') is False and all(node.get(k) == scope.get(k) for k in ('nodeId','deviceId','physicalHostId','encoderBuild')) for node in inventory) if isinstance(inventory,list) else False
-    if scope.get('isEmulator') is not False or not match:
+    match = any(isinstance(node,dict) and node.get('platform') == 'android' and node.get('isEmulator') is False and node.get('isVirtualMachine') is False and all(node.get(k) == scope.get(k) for k in ('nodeId','deviceId','physicalHostId','encoderBuild')) for node in inventory) if isinstance(inventory,list) else False
+    if scope.get('isEmulator') is not False or scope.get('isVirtualMachine') is not False or not match:
         errors.append(f'{label}: tested physical Android node must match captured worker inventory')
     approved_inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
     if scope.get('inputSha256') not in approved_inputs or not good_checksum(scope.get('outputSha256')):
@@ -1845,6 +2084,8 @@ def validate_execution(
         validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
         validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)
         validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache,record_definitions)
+        validate_qualified_inference_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_recovery_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
