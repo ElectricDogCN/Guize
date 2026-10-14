@@ -365,6 +365,13 @@ def validate_local_capacity(plan, execution, configuration, status, errors):
         errors.append(f"{label}: PASS requires positive observed reservations and measured free bytes minus maximum reservations to preserve floor")
 
 
+def validate_deferred_production_qualification(plan,execution,status,errors):
+    # The user's production storage and Baidu exercises are deferred. Until their
+    # outcome validators exist, new qualified PASS cannot certify those routes.
+    if status=='pass' and plan['pocId'] in ('POC-04','POC-06') and (execution.get('environmentCaptured') or {}).get('acceptanceProfile')==profile_identity('production'):
+        errors.append(f"deferred production qualification {plan['pocId']}: production outcome validation is not implemented; PASS unavailable")
+
+
 def validate_qualified_production_capacity(plan, execution, status, errors):
     if plan['pocId'] != 'POC-04' or status != 'pass' or execution.get('environmentCaptured',{}).get('acceptanceProfile') != profile_identity('production'):
         return
@@ -1000,6 +1007,45 @@ def streamed_metadata_records(path,schema):
     return count,'sha256:'+digest.hexdigest()
 
 
+def validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs,errors,cache,resource,scan_policy,intervals):
+    label=f"qualified metadata scan resources {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('metadataResourceRef'),defs,'metadataResourceObservation',label,errors,cache)
+    path=existing_ref(root,resource['configurationRef'],prefix)
+    try:policy=load(path).get('configuration',{}).get('metadataResourcePolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('metadataResourcePolicy',{}),label+'/approved resource policy',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    bound=('scannerBuild','scanId','manifestId','processId','collectorBuild','sourceIdentity','quotaDocumentRef','quotaDocumentSha256')
+    if any(report[k]!=v for k,v in expected.items()) or any(report[k]!=policy[k] for k in bound) or any(policy[k]!=scan_policy[k] for k in ('scannerBuild','scanId','manifestId')):
+        errors.append(f'{label}: exact approved source adapter/version, scan, process, collector, input and profile identities required');return
+    quota_path=existing_ref(root,policy['quotaDocumentRef'],prefix)
+    if quota_path is None:
+        errors.append(f'{label}: approved selected-slot quota documentation required');return
+    try:
+        if inspect_artifact(quota_path,cache,textual=True)['sha256']!=policy['quotaDocumentSha256']:raise ValueError('quota documentation hash mismatch')
+    except (OSError,ValueError,UnicodeError,yaml.YAMLError):
+        errors.append(f'{label}: readable immutable approved quota documentation required');return
+    quota=qualified_observation_report(quota_path,defs,'metadataQuotaDocument',label+'/quota documentation',errors,cache)
+    if len(errors)!=before or not isinstance(quota,dict):return
+    if quota['sourceIdentity']!=policy['sourceIdentity'] or not all(recorded_text(quota[k]) for k in ('resetSemantics','backoffStrategy','documentationRevision')) or not ai_finite(quota['requestLimit']) or not ai_finite(quota['periodSeconds']) or quota['periodSeconds']<=0 or not ai_finite(quota['maximumBackoffSeconds']):
+        errors.append(f'{label}: documented adapter quota must retain exact source/version and finite reset/backoff semantics');return
+    rows=report['memorySamples'];times=[utc(r['observedAt']) for r in rows]
+    if any(t is None for t in times) or window is None or times!=sorted(times) or not window[0]<=times[0]<=intervals[0][0] or not intervals[-1][1]<=times[-1]<=window[1] or times[0]>=times[-1] or any(any(row[k]!=policy[k] for k in ('processId','scanId','scannerBuild')) for row in rows):
+        errors.append(f'{label}: the same scanner process peak-resident counter must bracket the complete scan workload within its UTC execution');return
+    counters=[r['peakResidentBytes'] for r in rows]
+    if counters!=sorted(counters) or counters[-1]<=0 or not all(ai_finite(c) for c in counters):
+        errors.append(f'{label}: cumulative OS process peak memory must be positive and never reset inside the measured scan');return
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    try:derived=(('source_api_quota',quota['requestLimit']*60/quota['periodSeconds']),('memory_peak',counters[-1]/(1024*1024)))
+    except (OverflowError,ZeroDivisionError):
+        errors.append(f'{label}: resource metrics must have a representable finite derived value');return
+    if any(not ai_finite(value) for _,value in derived):
+        errors.append(f'{label}: resource metrics must have a representable finite derived value');return
+    for metric,value in derived:
+        if not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive the retained approved quota or observed process peak counter in its declared unit')
+
+
 def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-05' or status!='pass':return
     label=f"qualified metadata scan {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -1022,6 +1068,7 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
         if first is None or last is None or window is None or not window[0]<=first<last<=window[1]:errors.append(f'{label}: positive measured UTC enumeration/change/traversal intervals within execution required');return
         intervals.append((first,last,(last-first).total_seconds()))
     if intervals[0][1]>intervals[1][0] or intervals[1][1]>intervals[2][0] or phases[0]['scanId']!=policy['scanId'] or any(p['changeSetId']!=policy['changeSetId'] for p in phases[1:]):errors.append(f'{label}: baseline enumeration, controlled change set and incremental traversal must bind ordered approved runs')
+    validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs,errors,cache,resource,policy,intervals)
     handle=tempfile.NamedTemporaryFile(prefix='guize-metadata-',suffix='.sqlite',delete=False);database=Path(handle.name);handle.close();connection=None
     try:
         connection=sqlite3.connect(str(database));connection.execute('PRAGMA journal_mode=OFF');connection.execute('PRAGMA temp_store=FILE');connection.execute('PRAGMA cache_size=-8192')
@@ -1056,8 +1103,9 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
             connection.execute('DELETE FROM current WHERE objectId=?',(object_id,))
             if after_version!='absent':connection.execute('INSERT INTO current VALUES (?,?)',(object_id,after_version))
         if connection.execute("SELECT objectId FROM traversed WHERE objectId NOT IN (SELECT objectId FROM baseline UNION SELECT objectId FROM expected WHERE operation='create') LIMIT 1").fetchone():raise ValueError('incremental traversal may only visit governed baseline/created object identities')
-        counts=connection.execute("SELECT sum(kind='file'),sum(kind='directory'),max(depth) FROM baseline").fetchone();actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
-        derived=dict(enumeration_rate=enumerated_count/intervals[0][2],source_change_frequency=event_count*3600/intervals[1][2],incremental_scan_cost=intervals[2][2],file_count=counts[0],directory_count=counts[1],directory_depth_max=counts[2])
+        counts=connection.execute("SELECT sum(kind='file'),sum(kind='directory'),max(depth),sum(CASE WHEN kind='file' THEN fileSizeBytes ELSE 0 END) FROM baseline").fetchone();actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+        if not counts[0]:raise ValueError('average file size requires a nonempty approved file population')
+        derived=dict(enumeration_rate=enumerated_count/intervals[0][2],source_change_frequency=event_count*3600/intervals[1][2],incremental_scan_cost=intervals[2][2],file_count=counts[0],directory_count=counts[1],directory_depth_max=counts[2],average_file_size=counts[3]/counts[0])
         for metric,value in derived.items():
             if not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive actual complete streamed object/event counts and measured traversal timestamps')
     except (OSError,ValueError,UnicodeError,OverflowError,sqlite3.Error,jsonschema.ValidationError) as failure:errors.append(f'{label}: invalid retained metadata observations ({type(failure).__name__})')
@@ -1402,6 +1450,342 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
             errors.append(f'{label}: POC-002 output_sha256 must match produced media bytes')
 
 
+
+
+def validate_qualified_media_scheduling(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified playback scheduling {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('mediaSchedulingRef'),defs,'mediaSchedulingObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:configuration=load(path).get('configuration',{}) if path else {};policy=configuration.get('mediaSchedulingPolicy');security=configuration.get('mediaNegativePolicy')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=security=None
+    validate_schema(policy,defs.get('mediaSchedulingPolicy',{}),label+'/approved policy',errors)
+    validate_schema(security,defs.get('mediaNegativePolicy',{}),label+'/existing approved permissions',errors)
+    if report is None or len(errors)!=before:return
+    context_keys=('assetId','assetVersion','authorizedUserId','deniedUserId','currentGrantId','expiredGrantId','revokedGrantId','aclVersion','grantValidFrom','grantValidUntil','revokedAt')
+    context={k:security[k] for k in context_keys}
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],context=context,schedulerBuild=policy['schedulerBuild'],demandEpoch=policy['demandEpoch'])
+    if policy['context']!=context or any(report[k]!=v for k,v in expected.items()) or not all(ai_finite(policy[k]) for k in ('agingStepSeconds','maximumAdmissionSeconds','maximumFirstReadySeconds')):
+        errors.append(f'{label}: exact approved resource/profile/input and existing asset/user/ACL/grant context required');return
+    inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
+    assembly=env.get('parallelMediaAssembly');assembly=assembly if isinstance(assembly,dict) else {}
+    sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==policy['inputSampleId']),None)
+    total,per_node,reserved=policy['totalCapacity'],policy['perNodeCapacity'],policy['reservedPlaybackSlots']
+    if not nodes or sample is None or sample['checksum']!=policy['inputSha256'] or sample['immutableId']!=context['assetVersion'] or policy['sourceFrameCount']!=assembly.get('sourceFrameCount') or not 0<reserved<total<=len(nodes)*per_node:
+        errors.append(f'{label}: controlled inventory, source and positive bounded reserved capacity required');return
+    if env.get('acceptanceProfile')==profile_identity('local-v1'):
+        caps=env.get('scheduler_configuration');caps=caps if isinstance(caps,dict) else {}
+        if caps.get('maxConcurrentSegments')!=total or caps.get('perNodeConcurrency')!=per_node or type(caps.get('maxConcurrentSegments')) is not int or type(caps.get('perNodeConcurrency')) is not int:errors.append(f'{label}: scheduling caps must equal the approved local capture');return
+    grant_from,grant_until=utc(context['grantValidFrom']),utc(context['grantValidUntil'])
+    if grant_from is None or grant_until is None or grant_from>=grant_until or window is None:errors.append(f'{label}: approved grant and execution UTC window required');return
+    approved={j['jobId']:j for j in policy['jobs']};jobs={j['jobId']:j for j in report['jobs']}
+    if len(approved)!=len(policy['jobs']) or len(jobs)!=len(report['jobs']) or set(jobs)!=set(approved):errors.append(f'{label}: unique complete approved job matrix required');return
+    if any(policy[k] not in jobs for k in ('playbackJobId','prewarmJobId','agingJobId')) or not policy['saturationJobIds'] or len(set(policy['saturationJobIds']))!=len(policy['saturationJobIds']) or any(j not in jobs for j in policy['saturationJobIds']):errors.append(f'{label}: exact playback/prewarm/aging and background saturation subjects required');return
+    clocks={};allowed={};outputs=[];priorities={'playback':0,'prewarm':3,'background':6}
+    for job_id,row in jobs.items():
+        spec=approved[job_id];node=nodes.get(spec['nodeId'])
+        if any(row[k]!=v for k,v in spec.items()) or node is None or spec['encoderBuild']!=node.get('encoderBuild') or not 0<=spec['sourceStartFrame']<spec['sourceEndFrame']<=policy['sourceFrameCount']:
+            errors.append(f'{label}: each job must bind approved node/build/purpose/input span');continue
+        stamps={k:utc(row[k]) if row[k] is not None else None for k in ('queuedAt','admittedAt','startedAt','finishedAt','readyAt')};queued=stamps['queuedAt']
+        if queued is None or not window[0]<=queued<=window[1]:errors.append(f'{label}: actual queue timestamp required');continue
+        valid=spec['userId']==context['authorizedUserId'] and spec['grantId']==context['currentGrantId'] and spec['aclVersion']==context['aclVersion'] and spec['demandEpoch']==policy['demandEpoch'] and grant_from<=queued<=grant_until
+        allowed[job_id]=valid;clocks[job_id]=stamps
+        if not valid:
+            file=existing_ref(root,row['denialBodyRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['denialBodyRef']]
+            if any(stamps[k] is not None for k in ('admittedAt','startedAt','finishedAt','readyAt')) or any(row[k] is not None for k in ('outputArtifactRef','outputSha256','decodeRef')) or file is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or row['denialBodyRef'] not in (execution.get('rawOutputRefs') or []) or inspect_artifact(file,cache)['size']!=0 or inspect_artifact(file,cache)['sha256']!=row['denialBodySha256']:
+                errors.append(f'{label}: unauthorized/expired/revoked/stale demand cannot consume slots or return media bytes')
+            continue
+        admitted,start,end,ready=(stamps[k] for k in ('admittedAt','startedAt','finishedAt','readyAt'))
+        if any(t is None for t in (admitted,start,end,ready)) or not queued<=admitted<=start<end<=ready<=window[1] or admitted>grant_until or row['denialBodyRef'] is not None:
+            errors.append(f'{label}: authorized job queue/admission/run/completion/READY clocks required');continue
+        file=existing_ref(root,row['outputArtifactRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['outputArtifactRef']]
+        if file is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=spec['nodeId'] or row['outputArtifactRef'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: exact node-produced output bytes required');continue
+        info=inspect_artifact(file,cache);other_refs=[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')!=row['outputArtifactRef']]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]
+        other_refs += [j.get('outputArtifactRef') for j in report['jobs'] if j['jobId']!=job_id]+[r.get('outputArtifactRef') for r in env.get('workerEncodeExecutions') or [] if isinstance(r,dict)]
+        if info['size']<=0 or info['sha256']!=row['outputSha256'] or any(file.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):errors.append(f'{label}: scheduling outputs must have actual distinct nonempty bytes/hash');continue
+        decode_before=len(errors);probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'mediaSchedulingDecode',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=decode_before:continue
+        decoded=utc(probe['observedAt']);identity=dict(jobId=job_id,demandEpoch=policy['demandEpoch'],nodeId=spec['nodeId'],encoderBuild=spec['encoderBuild'],decoderBuild=policy['decoderBuild'],inputSampleId=policy['inputSampleId'],inputSha256=policy['inputSha256'],sourceStartFrame=spec['sourceStartFrame'],sourceEndFrame=spec['sourceEndFrame'],outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256'])
+        if any(probe[k]!=v for k,v in identity.items()) or decoded is None or not end<=decoded<=ready or probe['decodedFrameCount']!=spec['sourceEndFrame']-spec['sourceStartFrame'] or probe['decodeErrorCount']!=0 or probe['decodable'] is not True:errors.append(f'{label}: first READY and completion must bind exact AV1 decoder/input/build/span/output')
+        outputs.append(file)
+    if len(clocks)!=len(jobs) or len(errors)!=before:return
+    if any(not ai_finite(max(0,(window[1]-times['queuedAt']).total_seconds())/policy['agingStepSeconds']) for times in clocks.values()):
+        errors.append(f'{label}: finite representable approved aging interval required');return
+    def priority(job_id,at):
+        waited=max(0,(at-clocks[job_id]['queuedAt']).total_seconds())
+        return max(policy['agingFloorPriority'],priorities[jobs[job_id]['purpose']]-math.floor(waited/policy['agingStepSeconds'])) if jobs[job_id]['purpose']!='playback' else 0
+    def active(at,strict=False):return [j for j in jobs if allowed[j] and clocks[j]['admittedAt'] is not None and (clocks[j]['admittedAt']<at if strict else clocks[j]['admittedAt']<=at) and at<clocks[j]['finishedAt']]
+    # State snapshots and admission intervals describe cooperative capacity;
+    # no running encoder is stopped to grant the playback reservation.
+    snapshots=report['snapshots'];observed=[]
+    for snapshot in snapshots:
+        at=utc(snapshot['observedAt']);observed.append(at)
+        if at is None or not window[0]<=at<=window[1] or len(snapshot['jobs'])!=len(jobs) or {r['jobId'] for r in snapshot['jobs']}!=set(jobs):errors.append(f'{label}: bounded complete UTC queue-state snapshots required');continue
+        for state in snapshot['jobs']:
+            j=state['jobId'];t=clocks[j]
+            wanted='not_queued' if at<t['queuedAt'] else 'denied' if not allowed[j] else 'queued' if at<t['admittedAt'] else 'admitted' if at<t['startedAt'] else 'running' if at<t['finishedAt'] else 'completed' if at<t['readyAt'] else 'ready'
+            aging_at=min(at,t['admittedAt']) if allowed[j] and t['admittedAt'] is not None else at
+            if state['state']!=wanted or state['basePriority']!=priorities[jobs[j]['purpose']] or state['effectivePriority']!=priority(j,aging_at):errors.append(f'{label}: P0/P3/P6 queue state and aging priority must derive actual timestamps')
+        running=active(at)
+        if len(running)>total or sum(jobs[j]['purpose']!='playback' for j in running)>total-reserved or any(sum(jobs[j]['nodeId']==n for j in running)>per_node for n in nodes):errors.append(f'{label}: reserved playback/total/per-node capacity cannot be oversubscribed')
+    if any(t is None for t in observed) or observed!=sorted(observed) or len(set(observed))!=len(observed):errors.append(f'{label}: ordered distinct state snapshots required')
+    admissions=[(j,clocks[j]['admittedAt'],clocks[j]['finishedAt']) for j in jobs if allowed[j]]
+    if encode_interval_capacity(admissions)[0]>total or encode_interval_capacity([interval for interval in admissions if jobs[interval[0]]['purpose']!='playback'])[0]>total-reserved or any(encode_interval_capacity([interval for interval in admissions if jobs[interval[0]]['nodeId']==node])[0]>per_node for node in nodes):
+        errors.append(f'{label}: admission intervals exceed total/per-node/non-playback reserved capacity')
+    for j in jobs:
+        if not allowed[j]:continue
+        at=clocks[j]['admittedAt'];running=active(at,True);n=jobs[j]['nodeId'];eligible=[]
+        for q in jobs:
+            t=clocks[q]
+            if not allowed[q] or t['queuedAt']>at or q!=j and t['admittedAt']<=at:continue
+            if len(running)>=total or sum(jobs[a]['nodeId']==jobs[q]['nodeId'] for a in running)>=per_node or jobs[q]['purpose']!='playback' and sum(jobs[a]['purpose']!='playback' for a in running)>=total-reserved:continue
+            eligible.append(q)
+        if j not in eligible or any(priority(q,at)<priority(j,at) for q in eligible):errors.append(f'{label}: admission must honor effective queue priority and reserved capacity')
+    playback=policy['playbackJobId'];prewarm=policy['prewarmJobId'];aged=policy['agingJobId'];p=clocks[playback]
+    if not all(allowed[j] for j in (playback,prewarm,aged)) or jobs[playback]['purpose']!='playback' or jobs[prewarm]['purpose']!='prewarm' or jobs[aged]['purpose']!='background' or priority(aged,clocks[aged]['admittedAt'])>=6:errors.append(f'{label}: exercised P0 playback, P3 prewarm and aged P6 background required')
+    saturated=policy['saturationJobIds'];queued=p['queuedAt'];admitted=p['admittedAt']
+    if len(saturated)!=total-reserved or any(not allowed[j] or jobs[j]['purpose']!='background' or not clocks[j]['startedAt']<=queued<admitted<clocks[j]['finishedAt'] for j in saturated) or queued not in observed or admitted not in observed or report['preemptedRunningProcessIds']:
+        errors.append(f'{label}: actual background saturation must persist across reserved playback admission without FFmpeg preemption')
+    admission=(admitted-queued).total_seconds();ready_latency=(p['readyAt']-queued).total_seconds()
+    if not ai_finite(report['admissionLatencySeconds']) or not ai_finite(report['firstReadyLatencySeconds']) or not math.isclose(report['admissionLatencySeconds'],admission,rel_tol=1e-9,abs_tol=1e-9) or not math.isclose(report['firstReadyLatencySeconds'],ready_latency,rel_tol=1e-9,abs_tol=1e-9) or admission>policy['maximumAdmissionSeconds'] or ready_latency>policy['maximumFirstReadySeconds'] or p['readyAt'] not in observed:errors.append(f'{label}: admission and decoded first READY latency must derive complete observed playback clocks')
+    fallback=report['fallback'];at=utc(fallback['observedAt']);fallback_before=len(errors);h264=selected_observation(root,execution,prefix,env.get('h264FallbackRef'),defs,'mediaFallbackObservation',label+'/fallback',errors,cache)
+    if h264 is not None and len(errors)==fallback_before:
+        expected_fallback=dict(jobId=playback,userId=context['authorizedUserId'],grantId=context['currentGrantId'],aclVersion=context['aclVersion'],assetId=context['assetId'],assetVersion=context['assetVersion'],demandEpoch=policy['demandEpoch'],outputArtifactRef=h264['outputArtifactRef'],outputSha256=h264['outputSha256'],decodeRef=h264['decodeRef'])
+        file=existing_ref(root,fallback['outputArtifactRef'],prefix);decode=selected_observation(root,execution,prefix,fallback['decodeRef'],defs,'mediaFallbackDecodeObservation',label+'/fallback decode',errors,cache)
+        decoded=utc(decode.get('observedAt')) if isinstance(decode,dict) else None
+        decode_identity={k:h264[k] for k in ('runId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame')}
+        if any(fallback[k]!=v for k,v in expected_fallback.items()) or at is None or not max(queued,grant_from)<=at<=min(p['readyAt'],grant_until) or file is None or inspect_artifact(file,cache)['size']<=0 or inspect_artifact(file,cache)['sha256']!=fallback['outputSha256'] or decode is None or decoded is None or at is None or decoded>at or any(decode.get(k)!=v for k,v in decode_identity.items()) or decode.get('decodedFrameCount')!=h264['encodedFrameCount'] or decode.get('codec')!='h264' or decode.get('outputArtifactRef')!=fallback['outputArtifactRef'] or decode.get('outputSha256')!=fallback['outputSha256'] or decode.get('decodable') is not True or decode.get('decodeErrorCount')!=0:errors.append(f'{label}: authorized source/H264 fallback must retain exact independent decoder and actual bytes before first AV1 READY')
+    if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='playback_priority_reserved_capacity'),None) is not True:errors.append(f'{label}: scheduling gate must agree with observed priority/reserved capacity outcomes')
+
+
+def validate_qualified_worker_capabilities(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-01' or status!='pass':return
+    label=f"qualified worker capabilities {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('workerCapabilitiesRef'),defs,'workerCapabilityObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('workerCapabilityPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('workerCapabilityPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
+    if any(report[k]!=v for k,v in expected.items()) or not nodes or len(nodes)!=len(inventory) or env.get('encoder_capability_matrix')!=policy['claims'] or not ai_finite(policy['framesPerSecond']):errors.append(f'{label}: exact approved inventory/codec matrix, input/profile and build required');return
+    try:duration=policy['sourceFrameCount']/policy['framesPerSecond']
+    except (OverflowError,ZeroDivisionError):duration=None
+    if not ai_finite(duration) or duration<=0:errors.append(f'{label}: finite positive approved source duration required');return
+    claims=policy['claims'];ids=[c['caseId'] for c in claims];pairs=[(c['nodeId'],c['codec']) for c in claims]
+    scope=env.get('vm_validation_scope') if env.get('acceptanceProfile')==profile_identity('local-v1') else env.get('android_validation_scope');android=scope.get('nodeId') if isinstance(scope,dict) else None
+    if len(ids)!=len(set(ids)) or len({c['runId'] for c in claims})!=len(claims) or len(pairs)!=len(set(pairs)) or {n for n,c in pairs}!=set(nodes) or any(not {'av1','h264'}.issubset({codec for node,codec in pairs if node==n}) for n in nodes) or any(c['status']=='untested' and c['codec'] in ('av1','h264') for c in claims) or not any(c['nodeId']==android and c['codec']=='av1' and c['status']=='supported' for c in claims) or len(report['claims'])!=len(claims) or {r['caseId'] for r in report['claims']}!=set(ids):
+        errors.append(f'{label}: every exact node needs AV1/H264 probe disposition and every advertised codec claim needs a unique retained observation');return
+    media_paths=[]
+    for row in report['claims']:
+        claim=next(c for c in claims if c['caseId']==row['caseId']);node=nodes[claim['nodeId']];sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==claim['inputSampleId']),None)
+        if any(row[k]!=v for k,v in claim.items()) or any(claim[k]!=node.get(k) for k in ('nodeId','physicalHostId','platform','osBuild','architecture','encoderBuild','compatibilityGroupId','nodeConfiguration')) or sample is None or claim['inputSha256']!=sample['checksum'] or claim['sourceStartFrame']!=0 or claim['sourceEndFrame']!=policy['sourceFrameCount'] or any(not recorded_text(claim[k]) for k in ('osBuild','architecture','encoderBuild','decoderBuild')) or claim['encoderParameters'].get('codec')!=claim['codec']:
+            errors.append(f'{label}: codec probe must bind exact approved node OS/architecture/build/config/command/input');continue
+        before=len(errors)
+        if claim['status']!='supported':
+            diagnostic=selected_observation(root,execution,prefix,row['diagnosticRef'],defs,'workerCapabilityDiagnostic',label+'/diagnostic',errors,cache)
+            if diagnostic is None or len(errors)!=before:continue
+            observed=utc(diagnostic['observedAt']);raw=existing_ref(root,diagnostic['rawProbeRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==diagnostic['rawProbeRef']]
+            if any(diagnostic[k]!=v for k,v in claim.items()) or not recorded_text(diagnostic['reason']) or not recorded_text(diagnostic['probeToolBuild']) or observed is None or window is None or not window[0]<=observed<=window[1] or raw is None or len(records)!=1 or records[0].get('artifactType')!='command_output' or records[0].get('nodeId')!=claim['nodeId'] or not 0<raw.stat().st_size<=65536 or inspect_artifact(raw,cache)['sha256']!=diagnostic['rawProbeSha256']:
+                errors.append(f'{label}: unsupported/untested claims require exact node-bound bounded diagnostic probe bytes')
+            continue
+        start,end=utc(row['startedAt']),utc(row['finishedAt'])
+        if start is None or end is None or window is None or not window[0]<=start<end<=window[1] or row['exitCode']!=0 or row['encodedFrameCount']!=policy['sourceFrameCount']:errors.append(f'{label}: supported claim needs successful full input encode inside UTC execution');continue
+        probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'workerCapabilityDecode',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=before:continue
+        identity={k:claim[k] for k in ('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')};identity.update(outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256']);decoded=utc(probe['observedAt'])
+        if any(probe[k]!=v for k,v in identity.items()) or decoded is None or not end<=decoded<=window[1] or probe['decodable'] is not True or probe['decodedFrameCount']!=policy['sourceFrameCount'] or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or not math.isclose(probe['durationSeconds'],duration,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: every supported codec needs exact complete zero-error node/output decoder result');continue
+        media=existing_ref(root,row['outputArtifactRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['outputArtifactRef']]
+        if media is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=claim['nodeId']:errors.append(f'{label}: exact per-node codec produced output required');continue
+        info=inspect_artifact(media,cache);other_refs=[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[row['decodeRef'],env.get('workerCapabilitiesRef')]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media' and a.get('ref')!=row['outputArtifactRef']]
+        if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):errors.append(f'{label}: each supported codec must retain physically distinct nonempty output bytes/hash')
+        media_paths.append(media)
+    if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='worker_capabilities_reproducible'),None) is not True:errors.append(f'{label}: capability gate must agree with complete per-node codec observations')
+
+
+def validate_qualified_hls_ready(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified HLS READY {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('hlsReadyRef'),defs,'hlsReadyObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('hlsReadyPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('hlsReadyPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],**{k:policy[k] for k in ('jobId','attemptEpoch','inputSampleId','inputSha256','initNodeId','initUri')})
+    sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==policy['inputSampleId']),None)
+    inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
+    assembly=env.get('parallelMediaAssembly');assembly=assembly if isinstance(assembly,dict) else {}
+    if any(report[k]!=v for k,v in expected.items()) or sample is None or sample['checksum']!=policy['inputSha256'] or not ai_finite(policy['framesPerSecond']) or policy['sourceFrameCount']!=assembly.get('sourceFrameCount') or policy['initNodeId'] not in nodes:
+        errors.append(f'{label}: exact approved job/attempt/input/profile/build and finite frame rate required');return
+    segments=policy['segments'];ids=[s['segmentId'] for s in segments];count=len(segments)
+    if len(ids)!=len(set(ids)) or len({s['uri'] for s in segments})!=count or [s['index'] for s in segments]!=list(range(count)) or segments[0]['sourceStartFrame']!=0 or segments[-1]['sourceEndFrame']!=policy['sourceFrameCount'] or any(s['sourceStartFrame']>=s['sourceEndFrame'] for s in segments) or any(a['sourceEndFrame']!=b['sourceStartFrame'] for a,b in zip(segments,segments[1:])) or len(report['segments'])!=count or {s['segmentId'] for s in report['segments']}!=set(ids):
+        errors.append(f'{label}: exact unique ordered segment identities must cover the entire approved source');return
+    try:durations=[(s['sourceEndFrame']-s['sourceStartFrame'])/policy['framesPerSecond'] for s in segments]
+    except (OverflowError,ZeroDivisionError):durations=[]
+    if len(durations)!=count or not all(ai_finite(d) and d>0 for d in durations):errors.append(f'{label}: finite positive derived segment durations required');return
+    init=existing_ref(root,report['initArtifactRef'],prefix);init_at=utc(report['initReadyAt']);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==report['initArtifactRef']]
+    if init is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=policy['initNodeId'] or init_at is None or window is None or not window[0]<=init_at<=window[1]:
+        errors.append(f'{label}: identified nonempty initialization artifact and UTC readiness required');return
+    init_info=inspect_artifact(init,cache);other_refs=[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[env.get('hlsReadyRef')]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')!=report['initArtifactRef']]
+    if init_info['size']<=0 or init_info['sha256']!=report['initSha256'] or any(init.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):
+        errors.append(f'{label}: initialization bytes/hash must be distinct from sources, segments and observations');return
+    times={};starts={};media_paths=[init];intervals=[]
+    for row in report['segments']:
+        segment=next(s for s in segments if s['segmentId']==row['segmentId']);node=nodes.get(segment['nodeId']);start,end,ready=(utc(row[k]) for k in ('startedAt','finishedAt','readyAt'));frames=segment['sourceEndFrame']-segment['sourceStartFrame']
+        if any(row[k]!=v for k,v in segment.items()) or node is None or any(segment[k]!=node.get(k) for k in ('physicalHostId','encoderBuild','compatibilityGroupId')) or any(v is None for v in (start,end,ready)) or window is None or not window[0]<=start<end<=ready<=window[1] or row['exitCode']!=0 or row['encodedFrameCount']!=frames:
+            errors.append(f'{label}: READY segment must bind successful identified encode and ordered UTC times');continue
+        before=len(errors);probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'hlsSegmentDecode',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=before:continue
+        identity=dict(jobId=policy['jobId'],attemptEpoch=policy['attemptEpoch'],segmentId=segment['segmentId'],nodeId=segment['nodeId'],encoderBuild=segment['encoderBuild'],decoderBuild=policy['decoderBuild'],inputSha256=policy['inputSha256'],outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256'],initArtifactRef=report['initArtifactRef'],initSha256=report['initSha256'])
+        decoded=utc(probe['observedAt'])
+        if any(probe[k]!=v for k,v in identity.items()) or decoded is None or not end<=decoded<=ready or not init_at<=decoded or probe['decodable'] is not True or probe['decodedFrameCount']!=frames or probe['decodeErrorCount']!=0:
+            errors.append(f'{label}: READY requires matching complete zero-error decoder probe');continue
+        media=existing_ref(root,row['outputArtifactRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['outputArtifactRef']]
+        if media is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=segment['nodeId']:
+            errors.append(f'{label}: exact node-produced segment artifact required');continue
+        info=inspect_artifact(media,cache)
+        other_refs=[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[row['decodeRef'],env.get('hlsReadyRef')]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media' and a.get('ref')!=row['outputArtifactRef']]
+        if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):
+            errors.append(f'{label}: segment bytes/hash must be nonempty and physically distinct');continue
+        times[segment['segmentId']]=ready;starts[segment['segmentId']]=start;media_paths.append(media);intervals.append((segment['segmentId'],start,end,segment['nodeId']))
+    if len(times)!=count:return
+    if not any(times[a['segmentId']]>times[b['segmentId']] for a,b in zip(segments,segments[1:])):
+        errors.append(f'{label}: retained scenario must exercise out-of-order READY completion')
+    if env.get('acceptanceProfile')==profile_identity('local-v1'):
+        caps=env.get('scheduler_configuration');caps=caps if isinstance(caps,dict) else {};total,per_node=caps.get('maxConcurrentSegments'),caps.get('perNodeConcurrency')
+        if type(total) is not int or type(per_node) is not int or total<1 or per_node<1 or encode_interval_capacity([(sid,a,b) for sid,a,b,n in intervals])[0]>total or any(encode_interval_capacity([(sid,a,b) for sid,a,b,n in intervals if n==node])[0]>per_node for node in nodes):errors.append(f'{label}: observed segment encodes must respect total and per-node caps')
+    clocks=[];prefixes=[];playlist_paths=[];hole_observed=False
+    for snapshot in report['snapshots']:
+        clock=utc(snapshot['observedAt']);clocks.append(clock)
+        if clock is None or window is None or not window[0]<=init_at<=clock<=window[1]:errors.append(f'{label}: manifest snapshot UTC must lie in execution window after initialization');continue
+        ready_ids={sid for sid,at in times.items() if at<=clock};states=snapshot['segmentStates']
+        if len(states)!=count or {s['segmentId'] for s in states}!=set(ids) or any(s['state']!=('ready' if s['segmentId'] in ready_ids else 'queued' if clock<starts[s['segmentId']] else 'encoding') for s in states):errors.append(f'{label}: intermediate state must derive from each completed encode/decode time')
+        contiguous=[]
+        for s in segments:
+            if s['segmentId'] not in ready_ids:break
+            contiguous.append(s)
+        prefixes.append(len(contiguous));hole_observed=hole_observed or len(ready_ids)>len(contiguous)
+        playlist=existing_ref(root,snapshot['playlistRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==snapshot['playlistRef']]
+        if playlist is None or len(records)!=1 or records[0].get('artifactType')!='command_output' or playlist.stat().st_size>65536 or any(playlist.samefile(p) for p in playlist_paths+media_paths):errors.append(f'{label}: bounded distinct retained manifest bytes required');continue
+        playlist_paths.append(playlist)
+        try:body=playlist.read_text(encoding='utf8');info=inspect_artifact(playlist,cache)
+        except (OSError,UnicodeError):errors.append(f'{label}: UTF8 manifest bytes required');continue
+        if info['sha256']!=snapshot['playlistSha256']:errors.append(f'{label}: retained playlist hash mismatch')
+        lines=body.splitlines();expected_lines=['#EXTM3U','#EXT-X-VERSION:7','#EXT-X-TARGETDURATION:'+str(math.ceil(max(durations))),'#EXT-X-MEDIA-SEQUENCE:0','#EXT-X-MAP:URI="'+policy['initUri']+'"']
+        for s in contiguous:expected_lines.extend(['#EXTINF:'+format(durations[s['index']],'.6f')+',',s['uri']])
+        if len(contiguous)==count:expected_lines.append('#EXT-X-ENDLIST')
+        if lines!=expected_lines:errors.append(f'{label}: manifest must advertise exactly the contiguous READY prefix and ENDLIST only at full completion')
+    if any(t is None for t in clocks) or any(a>=b for a,b in zip(clocks,clocks[1:])) or not hole_observed or not any(0<p<count for p in prefixes) or not prefixes or prefixes[-1]!=count:
+        errors.append(f'{label}: retain ordered hole, intermediate prefix and complete manifest snapshots')
+    if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='hls_ready_only_contiguous'),None) is not True:errors.append(f'{label}: boolean gate must agree with observed contiguous READY manifests')
+
+
+def validate_qualified_media_soak(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified media soak {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('mediaSoakRef'),defs,'mediaSoakObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('mediaSoakPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('mediaSoakPolicy',{}),label+'/approved soak',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    limits=('minimumDurationMinutes','maximumProgressGapSeconds','maximumRecoverySeconds','maximumResidentBytes','maximumResidentGrowthBytes','maximumTemporaryBytes','maximumCpuSeconds')
+    if any(report[k]!=v for k,v in expected.items()) or not all(ai_finite(policy[k]) for k in limits):
+        errors.append(f'{label}: approved finite soak budgets and exact selected input/profile/build context required');return
+    inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
+    cases=policy['cases'];ids=[c['caseId'] for c in cases];runs=[c['runId'] for c in cases];pairs=[(c['nodeId'],c['codec']) for c in cases]
+    if not nodes or len(ids)!=len(set(ids)) or len(runs)!=len(set(runs)) or len(pairs)!=len(set(pairs)) or {n for n,codec in pairs if codec=='av1'}!=set(nodes) or not any(codec=='h264' for _,codec in pairs) or any(n not in nodes for n,_ in pairs) or len(report['cases'])!=len(cases) or {r['caseId'] for r in report['cases']}!=set(ids):
+        errors.append(f'{label}: approved complete AV1 inventory coverage and distinct H264 soak workload required');return
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if not ai_finite(actual.get('sustained_encode_duration')) or actual['sustained_encode_duration']+1e-9<policy['minimumDurationMinutes']:
+        errors.append(f'{label}: continuous measured duration must cover the independently approved minimum');return
+    event_ids=set();media_paths=[];trace_intervals=[]
+    for row in report['cases']:
+        approved=next(c for c in cases if c['caseId']==row['caseId']);node=nodes[approved['nodeId']];sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==approved['inputSampleId']),None)
+        total=(env.get('parallelMediaAssembly') or {}).get('sourceFrameCount') if isinstance(env.get('parallelMediaAssembly'),dict) else None
+        if any(row[k]!=v for k,v in approved.items()) or any(approved[k]!=node.get(k) for k in ('encoderBuild','physicalHostId','compatibilityGroupId')) or sample is None or approved['inputSha256']!=sample['checksum'] or type(total) is not int or not 0<=approved['sourceStartFrame']<approved['sourceEndFrame']<=total:
+            errors.append(f'{label}: each exercised codec must bind approved node/build/config/command and input span');continue
+        first,last=utc(row['startedAt']),utc(row['finishedAt'])
+        if first is None or last is None or window is None or not window[0]<=first<last<=window[1] or (last-first).total_seconds()/60+1e-9<policy['minimumDurationMinutes']:
+            errors.append(f'{label}: each continuous codec workload must cover the approved minimum within UTC execution');continue
+        trace_intervals.append((approved['runId'],first,last,approved['nodeId']))
+        if row['processExitCode']!=0 or row['terminalStatus']!='completed' or row['processTerminationReason']!='approved_window_completed':
+            errors.append(f'{label}: the complete controlled workload must finish normally with a successful final process exit')
+        samples=row['progress'];times=[utc(r['observedAt']) for r in samples]
+        if any(t is None for t in times) or times[0]!=first or times[-1]!=last or times!=sorted(times) or any((b-a).total_seconds()>policy['maximumProgressGapSeconds'] for a,b in zip(times,times[1:])):
+            errors.append(f'{label}: bounded ordered progress must cover the complete continuous soak without an unobserved gap');continue
+        frames=approved['sourceEndFrame']-approved['sourceStartFrame']
+        iterations=[s['completedIterations'] for s in samples];cpu=[s['cpuSeconds'] for s in samples];resident=[s['residentBytes'] for s in samples]
+        progress_times=[first]+[times[i] for i in range(1,len(samples)) if iterations[i]>iterations[i-1]]+[last]
+        if iterations[0]!=0 or iterations[-1]<=0 or iterations!=sorted(iterations) or any((b-a).total_seconds()>policy['maximumProgressGapSeconds'] for a,b in zip(progress_times,progress_times[1:])) or any(s['completedFrames']!=s['completedIterations']*frames for s in samples) or not all(ai_finite(s[k]) for s in samples for k in ('completedIterations','completedFrames','residentBytes','temporaryBytes','cpuSeconds')) or cpu!=sorted(cpu) or cpu[-1]>policy['maximumCpuSeconds'] or max(resident)>policy['maximumResidentBytes'] or max(resident)-resident[0]>policy['maximumResidentGrowthBytes'] or any(s['temporaryBytes']>policy['maximumTemporaryBytes'] for s in samples) or samples[-1]['temporaryBytes']!=0:
+            errors.append(f'{label}: actual completed iterations/frames and CPU/memory/temp observations must remain within approved stability budgets')
+        for event in row['failureEvents']:
+            occurred,recovered=utc(event['occurredAt']),utc(event['recoveredAt']) if event['recoveredAt'] is not None else None
+            if event['eventId'] in event_ids or event['kind'] in ('gpu_hang','corrupt_segment') or occurred is None or recovered is None or not first<=occurred<=recovered<=last or (recovered-occurred).total_seconds()>policy['maximumRecoverySeconds']:
+                errors.append(f'{label}: no GPU hang, corrupt segment or unrecovered/out-of-bound encoder/runtime failure may qualify')
+            event_ids.add(event['eventId'])
+        ref=row['outputArtifactRef'];media=existing_ref(root,ref,prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+        if media is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=approved['nodeId']:
+            errors.append(f'{label}: codec soak must retain its exact node-bound produced output');continue
+        try:
+            info=inspect_artifact(media,cache)
+            separate=[env.get('mediaSoakRef'),row['decodeRef']]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media' and a.get('ref')!=ref]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]
+            if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for other in separate if (p:=existing_ref(root,other,prefix)) is not None):raise ValueError()
+            media_paths.append(media)
+        except (OSError,ValueError):errors.append(f'{label}: distinct retained codec outputs must bind actual nonempty bytes/hash');continue
+        decode_before=len(errors);probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'mediaSoakDecodeObservation',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=decode_before:continue
+        keys=('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')
+        decoded=utc(probe['observedAt'])
+        if any(probe[k]!=approved[k] for k in keys) or probe['outputArtifactRef']!=ref or probe['outputSha256']!=row['outputSha256'] or probe['decodable'] is not True or probe['decodedFrameCount']!=frames or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or decoded is None or not last<=decoded<=window[1]:
+            errors.append(f'{label}: each sustained codec output must decode its approved span without errors after the measured workload')
+    if env.get('acceptanceProfile')==profile_identity('local-v1'):
+        caps=env.get('scheduler_configuration');caps=caps if isinstance(caps,dict) else {}
+        if type(caps.get('maxConcurrentSegments')) is not int or type(caps.get('perNodeConcurrency')) is not int or encode_interval_capacity([(r,a,b) for r,a,b,_ in trace_intervals])[0]>caps.get('maxConcurrentSegments',0) or any(encode_interval_capacity([(r,a,b) for r,a,b,n in trace_intervals if n==node])[0]>caps.get('perNodeConcurrency',0) for node in nodes):errors.append(f'{label}: controlled soak must respect approved total and per-node concurrency')
+    if actual.get('sustained_encode_stability') is not (len(errors)==before):errors.append(f'{label}: stability gate must derive complete continuous workload and failure/resource/decode observations')
+
+
+def validate_qualified_h264_fallback(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified H264 fallback {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report_ref=env.get('h264FallbackRef')
+    report=selected_observation(root,execution,prefix,report_ref,defs,'mediaFallbackObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('mediaFallbackPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('mediaFallbackPolicy',{}),label+'/approved fallback',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==policy['inputSampleId']),None)
+    inventory=env.get('worker_node_inventory');nodes=[n for n in inventory if isinstance(n,dict) and n.get('nodeId')==policy['nodeId']] if isinstance(inventory,list) else []
+    assembly=env.get('parallelMediaAssembly');total=assembly.get('sourceFrameCount') if isinstance(assembly,dict) else None
+    if any(report[k]!=v for k,v in expected.items()) or any(report[k]!=v for k,v in policy.items()) or sample is None or policy['inputSha256']!=sample['checksum'] or len(nodes)!=1 or any(policy[k]!=nodes[0].get(k) for k in ('physicalHostId','encoderBuild','compatibilityGroupId')) or type(total) is not int or not 0<=policy['sourceStartFrame']<policy['sourceEndFrame']<=total:
+        errors.append(f'{label}: exact approved input, participating node/build/profile and fallback parameters/span required');return
+    start,end=utc(report['startedAt']),utc(report['finishedAt'])
+    if start is None or end is None or window is None or not window[0]<=start<end<=window[1] or report['exitCode']!=0 or report['encodedFrameCount']!=policy['sourceEndFrame']-policy['sourceStartFrame']:
+        errors.append(f'{label}: successful ordered H264 encode must cover its approved frame span inside execution');return
+    probe=selected_observation(root,execution,prefix,report['decodeRef'],defs,'mediaFallbackDecodeObservation',label+'/decode',errors,cache)
+    if probe is None or len(errors)!=before:return
+    identity={k:policy[k] for k in ('runId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')}
+    decoded=utc(probe['observedAt'])
+    if any(probe[k]!=v for k,v in identity.items()) or probe['outputArtifactRef']!=report['outputArtifactRef'] or probe['outputSha256']!=report['outputSha256'] or probe['decodable'] is not True or probe['decodedFrameCount']!=report['encodedFrameCount'] or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or decoded is None or not end<=decoded<=window[1]:
+        errors.append(f'{label}: exact retained H264 output must decode its complete span with approved decoder and zero errors');return
+    ref=report['outputArtifactRef'];records=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==ref];media=existing_ref(root,ref,prefix)
+    if media is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=policy['nodeId']:
+        errors.append(f'{label}: exact node-bound nonempty produced H264 bytes required');return
+    distinct=[report_ref,report['decodeRef']]+[r.get('ref') for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('artifactType')=='produced_media' and r.get('ref')!=ref]+[r.get('inputArtifactRef') for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict)]
+    try:
+        actual=inspect_artifact(media,cache)
+        if actual['size']<=0 or actual['size']!=report['outputByteCount'] or actual['sha256']!=report['outputSha256'] or any(media.samefile(other) for other_ref in distinct if (other:=existing_ref(root,other_ref,prefix)) is not None):raise ValueError('invalid fallback output binding')
+    except (OSError,ValueError):errors.append(f'{label}: H264 output bytes/hash must be distinct from AV1 outputs, source input and observation artifacts')
+
+
 def validate_qualified_encode_workers(root, plan, execution, prefix, status, window, errors, artifact_cache=None, defs=None):
     artifact_cache = {} if artifact_cache is None else artifact_cache
     if plan['pocId'] != 'POC-02' or status != 'pass':
@@ -1490,7 +1874,9 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
     measurements={item.get('id'):item.get('actual') for item in execution.get('measurements') or [] if isinstance(item,dict)}
     for metric,observed in (('encode_throughput',peak),('sustained_encode_duration',minutes)):
         actual=measurements.get(metric)
-        if not isinstance(actual,bool) and isinstance(actual,(int,float)) and math.isfinite(actual) and actual>observed+1e-9:
+        if metric=='sustained_encode_duration' and (not ai_finite(actual) or not math.isclose(actual,observed,rel_tol=1e-9,abs_tol=1e-9)):
+            errors.append(f'{label}: sustained_encode_duration must equal captured continuous worker interval capacity in minutes')
+        elif metric=='encode_throughput' and ai_finite(actual) and actual>observed+1e-9:
             errors.append(f'{label}: {metric} exceeds captured continuous worker interval capacity')
     validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
 
@@ -1758,7 +2144,7 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
             start,end=instant(case['startedAt']),instant(case['finishedAt']);kind=case['case'];observed=case['observed']
             if case['requestId'] in request_ids or start is None or end is None or start>end or any(not ai_finite(v) or v<0 for v in observed.values()) or observed[kind]<=limits[kind] or any(observed[k]>limits[k] for k in limit_ids-{kind}) or kind=='elapsedSeconds' and not math.isclose(observed[kind],(end-start).total_seconds(),rel_tol=1e-9,abs_tol=1e-9) or case['terminationReason']!=kind or case['processStatus']!='terminated' or case['remainingTemporaryBytes']!=0 or case['remainingOutputBytes']!=0 or case['publicationCount']!=0:errors.append(f'{label}: each actual exceeded limit requires matching termination and bounded cleanup without publication')
             request_ids.add(case['requestId'])
-        lifecycle=row['lifecycle'];parts=[r for r in env.get('workerEncodeExecutions') or [] if isinstance(r,dict) and r.get('nodeId')==node];partial=payload(lifecycle['partialRef'],lifecycle['partialSha256'],node);times=[instant(lifecycle[k]) for k in ('partialCreatedAt','interruptedAt','oldAttemptExpiresAt','retriedAt','retryFinishedAt','cancelledAt','cleanupFinishedAt')]
+        lifecycle=row['lifecycle'];parts=[r for r in env.get('workerEncodeExecutions') or [] if isinstance(r,dict) and r.get('nodeId')==node and r.get('sourceStartFrame')==lifecycle['retrySourceStartFrame'] and r.get('sourceEndFrame')==lifecycle['retrySourceEndFrame']];partial=payload(lifecycle['partialRef'],lifecycle['partialSha256'],node);times=[instant(lifecycle[k]) for k in ('partialCreatedAt','interruptedAt','oldAttemptExpiresAt','retriedAt','retryFinishedAt','cancelledAt','cleanupFinishedAt')]
         if any(t is None for t in times) or times!=sorted(times) or partial is None or partial['size']<=0 or lifecycle['oldAttemptEpoch']>=lifecycle['currentAttemptEpoch'] or lifecycle['retryJobId']!=policy['jobId'] or lifecycle['terminalResultCount']!=1 or lifecycle['remainingTemporaryBytes']!=0 or lifecycle['remainingOutputBytes']!=0 or lifecycle['activeProcessCount']!=0 or lifecycle['cancelledAttemptPublicationCount']!=0 or lifecycle['cancelledPartialDisposition'] not in ('removed','quarantined') or lifecycle['cancelledPartialPublishable'] is not False or len(parts)!=1:
             errors.append(f'{label}: interrupted partial retry must preserve job identity, terminate cancellation and clean or quarantine without duplicate results');continue
         result=payload(lifecycle['publishedRef'],lifecycle['publishedSha256'],node)
@@ -3473,9 +3859,14 @@ def validate_execution(
         artifact_cache = {}
         validate_qualified_configuration(root,plan,execution,profile_configuration,record_definitions,reference_boundary,task_reviewer,implementer,window,errors,status)
         validate_qualified_inputs(root,plan,execution,record_definitions,reference_boundary,status,errors,artifact_cache,record_refs,profile_configuration)
+        validate_deferred_production_qualification(plan,execution,status,errors)
         validate_qualified_production_capacity(plan,execution,status,errors)
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_local_source_faults(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_h264_fallback(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_media_soak(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_hls_ready(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_media_scheduling(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
         validate_qualified_hierarchy_sandbox(root,plan,execution,record_definitions,reference_boundary,status,errors)
         validate_qualified_metadata_scan(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
@@ -3491,6 +3882,7 @@ def validate_execution(
         validate_qualified_media_negative(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache,record_definitions)
         validate_qualified_worker_safety(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_worker_capabilities(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_inference_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_recovery_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_recovery_timing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)

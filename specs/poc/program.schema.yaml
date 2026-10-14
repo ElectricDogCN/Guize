@@ -9845,3 +9845,2409 @@ $defs:
               enum:
               - paused
               - admitted
+  metadataResourcePolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - scannerBuild
+    - scanId
+    - manifestId
+    - processId
+    - collectorBuild
+    - sourceIdentity
+    - quotaDocumentRef
+    - quotaDocumentSha256
+    properties:
+      scannerBuild:
+        type: string
+        minLength: 1
+      scanId:
+        type: string
+        minLength: 1
+      manifestId:
+        type: string
+        minLength: 1
+      processId:
+        type: string
+        minLength: 1
+      collectorBuild:
+        type: string
+        minLength: 1
+      sourceIdentity:
+        type: object
+        additionalProperties: false
+        required:
+        - adapterId
+        - adapterBuild
+        - sourceId
+        - sourceVersion
+        properties:
+          adapterId:
+            type: string
+            minLength: 1
+          adapterBuild:
+            type: string
+            minLength: 1
+          sourceId:
+            type: string
+            minLength: 1
+          sourceVersion:
+            type: string
+            minLength: 1
+      quotaDocumentRef:
+        type: string
+        minLength: 1
+      quotaDocumentSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+  metadataQuotaDocument:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - sourceIdentity
+    - requestLimit
+    - periodSeconds
+    - resetSemantics
+    - backoffStrategy
+    - maximumBackoffSeconds
+    - documentationRevision
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: documented_source_quota
+      sourceIdentity:
+        type: object
+        additionalProperties: false
+        required:
+        - adapterId
+        - adapterBuild
+        - sourceId
+        - sourceVersion
+        properties:
+          adapterId:
+            type: string
+            minLength: 1
+          adapterBuild:
+            type: string
+            minLength: 1
+          sourceId:
+            type: string
+            minLength: 1
+          sourceVersion:
+            type: string
+            minLength: 1
+      requestLimit:
+        type: integer
+        minimum: 1
+      periodSeconds:
+        type: number
+        exclusiveMinimum: 0
+      resetSemantics:
+        type: string
+        minLength: 1
+      backoffStrategy:
+        type: string
+        minLength: 1
+      maximumBackoffSeconds:
+        type: number
+        minimum: 0
+      documentationRevision:
+        type: string
+        minLength: 1
+  metadataResourceObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - manifestId
+    - scannerBuild
+    - kind
+    - scanId
+    - processId
+    - collectorBuild
+    - method
+    - sourceIdentity
+    - quotaDocumentRef
+    - quotaDocumentSha256
+    - memorySamples
+    properties:
+      schemaVersion:
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      manifestId:
+        type: string
+        minLength: 1
+      scannerBuild:
+        type: string
+        minLength: 1
+      kind:
+        const: metadata_resource_observation
+      scanId:
+        type: string
+        minLength: 1
+      processId:
+        type: string
+        minLength: 1
+      collectorBuild:
+        type: string
+        minLength: 1
+      method:
+        const: os_process_peak_resident_counter
+      sourceIdentity:
+        type: object
+        additionalProperties: false
+        required:
+        - adapterId
+        - adapterBuild
+        - sourceId
+        - sourceVersion
+        properties:
+          adapterId:
+            type: string
+            minLength: 1
+          adapterBuild:
+            type: string
+            minLength: 1
+          sourceId:
+            type: string
+            minLength: 1
+          sourceVersion:
+            type: string
+            minLength: 1
+      quotaDocumentRef:
+        type: string
+        minLength: 1
+      quotaDocumentSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      memorySamples:
+        type: array
+        minItems: 2
+        maxItems: 64
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - observedAt
+          - processId
+          - scanId
+          - scannerBuild
+          - peakResidentBytes
+          properties:
+            observedAt:
+              type: string
+              format: date-time
+            processId:
+              type: string
+              minLength: 1
+            scanId:
+              type: string
+              minLength: 1
+            scannerBuild:
+              type: string
+              minLength: 1
+            peakResidentBytes:
+              type: integer
+              minimum: 0
+  mediaFallbackPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - runId
+    - nodeId
+    - physicalHostId
+    - encoderBuild
+    - compatibilityGroupId
+    - decoderBuild
+    - inputSampleId
+    - inputSha256
+    - sourceStartFrame
+    - sourceEndFrame
+    - codec
+    - encoderParameters
+    - commandArgs
+    properties:
+      runId:
+        type: string
+        minLength: 1
+      nodeId:
+        type: string
+        minLength: 1
+      physicalHostId:
+        type: string
+        minLength: 1
+      encoderBuild:
+        type: string
+        minLength: 1
+      compatibilityGroupId:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sourceStartFrame:
+        type: integer
+        minimum: 0
+      sourceEndFrame:
+        type: integer
+        minimum: 1
+      codec:
+        const: h264
+      encoderParameters:
+        type: object
+        minProperties: 1
+      commandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+  mediaFallbackObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - kind
+    - runId
+    - nodeId
+    - physicalHostId
+    - encoderBuild
+    - compatibilityGroupId
+    - decoderBuild
+    - inputSampleId
+    - inputSha256
+    - sourceStartFrame
+    - sourceEndFrame
+    - codec
+    - encoderParameters
+    - commandArgs
+    - startedAt
+    - finishedAt
+    - exitCode
+    - encodedFrameCount
+    - outputArtifactRef
+    - outputSha256
+    - outputByteCount
+    - decodeRef
+    properties:
+      schemaVersion:
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: h264_fallback_encode
+      runId:
+        type: string
+        minLength: 1
+      nodeId:
+        type: string
+        minLength: 1
+      physicalHostId:
+        type: string
+        minLength: 1
+      encoderBuild:
+        type: string
+        minLength: 1
+      compatibilityGroupId:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sourceStartFrame:
+        type: integer
+        minimum: 0
+      sourceEndFrame:
+        type: integer
+        minimum: 1
+      codec:
+        const: h264
+      encoderParameters:
+        type: object
+        minProperties: 1
+      commandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+      encodedFrameCount:
+        type: integer
+        minimum: 1
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      outputByteCount:
+        type: integer
+        minimum: 1
+      decodeRef:
+        type: string
+        minLength: 1
+  mediaFallbackDecodeObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - runId
+    - nodeId
+    - physicalHostId
+    - encoderBuild
+    - compatibilityGroupId
+    - decoderBuild
+    - inputSampleId
+    - inputSha256
+    - sourceStartFrame
+    - sourceEndFrame
+    - codec
+    - outputArtifactRef
+    - outputSha256
+    - observedAt
+    - decodable
+    - decodedFrameCount
+    - durationSeconds
+    - decodeErrorCount
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: h264_fallback_decode
+      runId:
+        type: string
+        minLength: 1
+      nodeId:
+        type: string
+        minLength: 1
+      physicalHostId:
+        type: string
+        minLength: 1
+      encoderBuild:
+        type: string
+        minLength: 1
+      compatibilityGroupId:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sourceStartFrame:
+        type: integer
+        minimum: 0
+      sourceEndFrame:
+        type: integer
+        minimum: 1
+      codec:
+        const: h264
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      observedAt:
+        type: string
+        format: date-time
+      decodable:
+        type: boolean
+      decodedFrameCount:
+        type: integer
+        minimum: 1
+      durationSeconds:
+        type: number
+        exclusiveMinimum: 0
+      decodeErrorCount:
+        type: integer
+        minimum: 0
+  mediaSoakPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - minimumDurationMinutes
+    - maximumProgressGapSeconds
+    - maximumRecoverySeconds
+    - maximumResidentBytes
+    - maximumResidentGrowthBytes
+    - maximumTemporaryBytes
+    - maximumCpuSeconds
+    - cases
+    properties:
+      minimumDurationMinutes:
+        type: number
+        exclusiveMinimum: 0
+      maximumProgressGapSeconds:
+        type: number
+        exclusiveMinimum: 0
+      maximumRecoverySeconds:
+        type: number
+        exclusiveMinimum: 0
+      maximumResidentBytes:
+        type: integer
+        minimum: 1
+      maximumResidentGrowthBytes:
+        type: integer
+        minimum: 0
+      maximumTemporaryBytes:
+        type: integer
+        minimum: 0
+      maximumCpuSeconds:
+        type: number
+        exclusiveMinimum: 0
+      cases:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - runId
+          - nodeId
+          - physicalHostId
+          - encoderBuild
+          - compatibilityGroupId
+          - decoderBuild
+          - inputSampleId
+          - inputSha256
+          - sourceStartFrame
+          - sourceEndFrame
+          - codec
+          - encoderParameters
+          - commandArgs
+          - caseId
+          properties:
+            runId:
+              type: string
+              minLength: 1
+            nodeId:
+              type: string
+              minLength: 1
+            physicalHostId:
+              type: string
+              minLength: 1
+            encoderBuild:
+              type: string
+              minLength: 1
+            compatibilityGroupId:
+              type: string
+              minLength: 1
+            decoderBuild:
+              type: string
+              minLength: 1
+            inputSampleId:
+              type: string
+              minLength: 1
+            inputSha256:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+            codec:
+              enum:
+              - av1
+              - h264
+            encoderParameters:
+              type: object
+              minProperties: 1
+            commandArgs:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                minLength: 1
+            caseId:
+              type: string
+              minLength: 1
+  mediaSoakObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - kind
+    - cases
+    properties:
+      schemaVersion:
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: media_soak_observation
+      cases:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - runId
+          - nodeId
+          - physicalHostId
+          - encoderBuild
+          - compatibilityGroupId
+          - decoderBuild
+          - inputSampleId
+          - inputSha256
+          - sourceStartFrame
+          - sourceEndFrame
+          - codec
+          - encoderParameters
+          - commandArgs
+          - caseId
+          - startedAt
+          - finishedAt
+          - processExitCode
+          - terminalStatus
+          - processTerminationReason
+          - outputArtifactRef
+          - outputSha256
+          - outputByteCount
+          - decodeRef
+          - progress
+          - failureEvents
+          properties:
+            runId:
+              type: string
+              minLength: 1
+            nodeId:
+              type: string
+              minLength: 1
+            physicalHostId:
+              type: string
+              minLength: 1
+            encoderBuild:
+              type: string
+              minLength: 1
+            compatibilityGroupId:
+              type: string
+              minLength: 1
+            decoderBuild:
+              type: string
+              minLength: 1
+            inputSampleId:
+              type: string
+              minLength: 1
+            inputSha256:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+            codec:
+              enum:
+              - av1
+              - h264
+            encoderParameters:
+              type: object
+              minProperties: 1
+            commandArgs:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                minLength: 1
+            caseId:
+              type: string
+              minLength: 1
+            startedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+            processExitCode:
+              type: integer
+            terminalStatus:
+              enum:
+              - completed
+              - failed
+              - terminated
+            processTerminationReason:
+              enum:
+              - approved_window_completed
+              - unrecovered_failure
+              - resource_limit
+              - cancelled
+            outputArtifactRef:
+              type: string
+              minLength: 1
+            outputSha256:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+            outputByteCount:
+              type: integer
+              minimum: 1
+            decodeRef:
+              type: string
+              minLength: 1
+            progress:
+              type: array
+              minItems: 2
+              maxItems: 128
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - observedAt
+                - completedIterations
+                - completedFrames
+                - residentBytes
+                - temporaryBytes
+                - cpuSeconds
+                properties:
+                  observedAt:
+                    type: string
+                    format: date-time
+                  completedIterations:
+                    type: integer
+                    minimum: 0
+                  completedFrames:
+                    type: integer
+                    minimum: 0
+                  residentBytes:
+                    type: integer
+                    minimum: 0
+                  temporaryBytes:
+                    type: integer
+                    minimum: 0
+                  cpuSeconds:
+                    type: number
+                    minimum: 0
+            failureEvents:
+              type: array
+              maxItems: 128
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - eventId
+                - kind
+                - occurredAt
+                - recoveredAt
+                properties:
+                  eventId:
+                    type: string
+                    minLength: 1
+                  kind:
+                    enum:
+                    - encoder
+                    - runtime
+                    - gpu_hang
+                    - corrupt_segment
+                  occurredAt:
+                    type: string
+                    format: date-time
+                  recoveredAt:
+                    anyOf:
+                    - type: string
+                      format: date-time
+                    - type: 'null'
+  mediaSoakDecodeObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - runId
+    - nodeId
+    - physicalHostId
+    - encoderBuild
+    - compatibilityGroupId
+    - decoderBuild
+    - inputSampleId
+    - inputSha256
+    - sourceStartFrame
+    - sourceEndFrame
+    - codec
+    - outputArtifactRef
+    - outputSha256
+    - observedAt
+    - decodable
+    - decodedFrameCount
+    - durationSeconds
+    - decodeErrorCount
+    - caseId
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: media_soak_decode
+      runId:
+        type: string
+        minLength: 1
+      nodeId:
+        type: string
+        minLength: 1
+      physicalHostId:
+        type: string
+        minLength: 1
+      encoderBuild:
+        type: string
+        minLength: 1
+      compatibilityGroupId:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sourceStartFrame:
+        type: integer
+        minimum: 0
+      sourceEndFrame:
+        type: integer
+        minimum: 1
+      codec:
+        enum:
+        - av1
+        - h264
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      observedAt:
+        type: string
+        format: date-time
+      decodable:
+        type: boolean
+      decodedFrameCount:
+        type: integer
+        minimum: 1
+      durationSeconds:
+        type: number
+        exclusiveMinimum: 0
+      decodeErrorCount:
+        type: integer
+        minimum: 0
+      caseId:
+        type: string
+        minLength: 1
+  hlsReadyPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - jobId
+    - attemptEpoch
+    - inputSampleId
+    - inputSha256
+    - sourceFrameCount
+    - framesPerSecond
+    - decoderBuild
+    - segments
+    - initNodeId
+    - initUri
+    properties:
+      jobId:
+        type: string
+        minLength: 1
+      attemptEpoch:
+        type: integer
+        minimum: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sourceFrameCount:
+        type: integer
+        minimum: 1
+      framesPerSecond:
+        type: number
+        exclusiveMinimum: 0
+      decoderBuild:
+        type: string
+        minLength: 1
+      segments:
+        type: array
+        minItems: 3
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - segmentId
+          - index
+          - nodeId
+          - physicalHostId
+          - encoderBuild
+          - compatibilityGroupId
+          - sourceStartFrame
+          - sourceEndFrame
+          - uri
+          properties:
+            segmentId:
+              type: string
+              minLength: 1
+            index:
+              type: integer
+              minimum: 0
+            nodeId:
+              type: string
+              minLength: 1
+            physicalHostId:
+              type: string
+              minLength: 1
+            encoderBuild:
+              type: string
+              minLength: 1
+            compatibilityGroupId:
+              type: string
+              minLength: 1
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+            uri:
+              type: string
+              pattern: ^[A-Za-z0-9_-]+[.]m4s$
+      initNodeId:
+        type: string
+        minLength: 1
+      initUri:
+        type: string
+        pattern: ^[A-Za-z0-9_-]+[.]mp4$
+  hlsReadyObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - kind
+    - jobId
+    - attemptEpoch
+    - inputSampleId
+    - inputSha256
+    - segments
+    - snapshots
+    - initNodeId
+    - initUri
+    - initArtifactRef
+    - initSha256
+    - initReadyAt
+    properties:
+      schemaVersion:
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: hls_ready_observation
+      jobId:
+        type: string
+        minLength: 1
+      attemptEpoch:
+        type: integer
+        minimum: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      segments:
+        type: array
+        minItems: 3
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - segmentId
+          - index
+          - nodeId
+          - physicalHostId
+          - encoderBuild
+          - compatibilityGroupId
+          - sourceStartFrame
+          - sourceEndFrame
+          - uri
+          - startedAt
+          - finishedAt
+          - readyAt
+          - exitCode
+          - encodedFrameCount
+          - outputArtifactRef
+          - outputSha256
+          - outputByteCount
+          - decodeRef
+          properties:
+            segmentId:
+              type: string
+              minLength: 1
+            index:
+              type: integer
+              minimum: 0
+            nodeId:
+              type: string
+              minLength: 1
+            physicalHostId:
+              type: string
+              minLength: 1
+            encoderBuild:
+              type: string
+              minLength: 1
+            compatibilityGroupId:
+              type: string
+              minLength: 1
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+            uri:
+              type: string
+              pattern: ^[A-Za-z0-9_-]+[.]m4s$
+            startedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+            readyAt:
+              type: string
+              format: date-time
+            exitCode:
+              type: integer
+            encodedFrameCount:
+              type: integer
+              minimum: 1
+            outputArtifactRef:
+              type: string
+              minLength: 1
+            outputSha256:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+            outputByteCount:
+              type: integer
+              minimum: 1
+            decodeRef:
+              type: string
+              minLength: 1
+      snapshots:
+        type: array
+        minItems: 3
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - observedAt
+          - segmentStates
+          - playlistRef
+          - playlistSha256
+          properties:
+            observedAt:
+              type: string
+              format: date-time
+            segmentStates:
+              type: array
+              minItems: 3
+              maxItems: 128
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - segmentId
+                - state
+                properties:
+                  segmentId:
+                    type: string
+                    minLength: 1
+                  state:
+                    enum:
+                    - queued
+                    - encoding
+                    - ready
+            playlistRef:
+              type: string
+              minLength: 1
+            playlistSha256:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+      initNodeId:
+        type: string
+        minLength: 1
+      initUri:
+        type: string
+        pattern: ^[A-Za-z0-9_-]+[.]mp4$
+      initArtifactRef:
+        type: string
+        minLength: 1
+      initSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      initReadyAt:
+        type: string
+        format: date-time
+  hlsSegmentDecode:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - jobId
+    - attemptEpoch
+    - segmentId
+    - nodeId
+    - encoderBuild
+    - decoderBuild
+    - inputSha256
+    - outputArtifactRef
+    - outputSha256
+    - observedAt
+    - codec
+    - decodable
+    - decodedFrameCount
+    - decodeErrorCount
+    - initArtifactRef
+    - initSha256
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: hls_segment_decode
+      jobId:
+        type: string
+        minLength: 1
+      attemptEpoch:
+        type: integer
+        minimum: 1
+      segmentId:
+        type: string
+        minLength: 1
+      nodeId:
+        type: string
+        minLength: 1
+      encoderBuild:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      observedAt:
+        type: string
+        format: date-time
+      codec:
+        const: av1
+      decodable:
+        type: boolean
+      decodedFrameCount:
+        type: integer
+        minimum: 1
+      decodeErrorCount:
+        type: integer
+        minimum: 0
+      initArtifactRef:
+        type: string
+        minLength: 1
+      initSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+  mediaSchedulingPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - schedulerBuild
+    - decoderBuild
+    - demandEpoch
+    - inputSampleId
+    - inputSha256
+    - sourceFrameCount
+    - context
+    - totalCapacity
+    - perNodeCapacity
+    - reservedPlaybackSlots
+    - agingStepSeconds
+    - agingFloorPriority
+    - maximumAdmissionSeconds
+    - maximumFirstReadySeconds
+    - playbackJobId
+    - prewarmJobId
+    - agingJobId
+    - saturationJobIds
+    - jobs
+    properties:
+      schedulerBuild:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      demandEpoch:
+        type: integer
+        minimum: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sourceFrameCount:
+        type: integer
+        minimum: 1
+      context:
+        type: object
+        additionalProperties: false
+        required:
+        - assetId
+        - assetVersion
+        - authorizedUserId
+        - deniedUserId
+        - currentGrantId
+        - expiredGrantId
+        - revokedGrantId
+        - aclVersion
+        - grantValidFrom
+        - grantValidUntil
+        - revokedAt
+        properties:
+          assetId:
+            type: string
+            minLength: 1
+          assetVersion:
+            type: string
+            minLength: 1
+          authorizedUserId:
+            type: string
+            minLength: 1
+          deniedUserId:
+            type: string
+            minLength: 1
+          currentGrantId:
+            type: string
+            minLength: 1
+          expiredGrantId:
+            type: string
+            minLength: 1
+          revokedGrantId:
+            type: string
+            minLength: 1
+          aclVersion:
+            type: string
+            minLength: 1
+          grantValidFrom:
+            type: string
+            format: date-time
+          grantValidUntil:
+            type: string
+            format: date-time
+          revokedAt:
+            type: string
+            format: date-time
+      totalCapacity:
+        type: integer
+        minimum: 1
+      perNodeCapacity:
+        type: integer
+        minimum: 1
+      reservedPlaybackSlots:
+        type: integer
+        minimum: 1
+      agingStepSeconds:
+        type: number
+        exclusiveMinimum: 0
+      agingFloorPriority:
+        type: integer
+        minimum: 1
+        maximum: 3
+      maximumAdmissionSeconds:
+        type: number
+        minimum: 0
+      maximumFirstReadySeconds:
+        type: number
+        minimum: 0
+      playbackJobId:
+        type: string
+        minLength: 1
+      prewarmJobId:
+        type: string
+        minLength: 1
+      agingJobId:
+        type: string
+        minLength: 1
+      saturationJobIds:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+      jobs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - jobId
+          - purpose
+          - nodeId
+          - encoderBuild
+          - userId
+          - grantId
+          - aclVersion
+          - demandEpoch
+          - sourceStartFrame
+          - sourceEndFrame
+          properties:
+            jobId:
+              type: string
+              minLength: 1
+            purpose:
+              enum:
+              - playback
+              - prewarm
+              - background
+            nodeId:
+              type: string
+              minLength: 1
+            encoderBuild:
+              type: string
+              minLength: 1
+            userId:
+              type: string
+              minLength: 1
+            grantId:
+              type: string
+              minLength: 1
+            aclVersion:
+              type: string
+              minLength: 1
+            demandEpoch:
+              type: integer
+              minimum: 1
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+  mediaSchedulingObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - kind
+    - context
+    - schedulerBuild
+    - demandEpoch
+    - jobs
+    - snapshots
+    - admissionLatencySeconds
+    - firstReadyLatencySeconds
+    - preemptedRunningProcessIds
+    - fallback
+    properties:
+      schemaVersion:
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: media_scheduling_observation
+      context:
+        type: object
+        additionalProperties: false
+        required:
+        - assetId
+        - assetVersion
+        - authorizedUserId
+        - deniedUserId
+        - currentGrantId
+        - expiredGrantId
+        - revokedGrantId
+        - aclVersion
+        - grantValidFrom
+        - grantValidUntil
+        - revokedAt
+        properties:
+          assetId:
+            type: string
+            minLength: 1
+          assetVersion:
+            type: string
+            minLength: 1
+          authorizedUserId:
+            type: string
+            minLength: 1
+          deniedUserId:
+            type: string
+            minLength: 1
+          currentGrantId:
+            type: string
+            minLength: 1
+          expiredGrantId:
+            type: string
+            minLength: 1
+          revokedGrantId:
+            type: string
+            minLength: 1
+          aclVersion:
+            type: string
+            minLength: 1
+          grantValidFrom:
+            type: string
+            format: date-time
+          grantValidUntil:
+            type: string
+            format: date-time
+          revokedAt:
+            type: string
+            format: date-time
+      schedulerBuild:
+        type: string
+        minLength: 1
+      demandEpoch:
+        type: integer
+        minimum: 1
+      jobs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - jobId
+          - purpose
+          - nodeId
+          - encoderBuild
+          - userId
+          - grantId
+          - aclVersion
+          - demandEpoch
+          - sourceStartFrame
+          - sourceEndFrame
+          - queuedAt
+          - admittedAt
+          - startedAt
+          - finishedAt
+          - readyAt
+          - outputArtifactRef
+          - outputSha256
+          - decodeRef
+          - denialBodyRef
+          - denialBodySha256
+          properties:
+            jobId:
+              type: string
+              minLength: 1
+            purpose:
+              enum:
+              - playback
+              - prewarm
+              - background
+            nodeId:
+              type: string
+              minLength: 1
+            encoderBuild:
+              type: string
+              minLength: 1
+            userId:
+              type: string
+              minLength: 1
+            grantId:
+              type: string
+              minLength: 1
+            aclVersion:
+              type: string
+              minLength: 1
+            demandEpoch:
+              type: integer
+              minimum: 1
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+            queuedAt:
+              type: string
+              format: date-time
+            admittedAt:
+              anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            startedAt:
+              anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            finishedAt:
+              anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            readyAt:
+              anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            outputArtifactRef:
+              anyOf:
+              - type: string
+                minLength: 1
+              - type: 'null'
+            outputSha256:
+              anyOf:
+              - type: string
+                pattern: ^sha256:[0-9a-f]{64}$
+              - type: 'null'
+            decodeRef:
+              anyOf:
+              - type: string
+                minLength: 1
+              - type: 'null'
+            denialBodyRef:
+              anyOf:
+              - type: string
+                minLength: 1
+              - type: 'null'
+            denialBodySha256:
+              anyOf:
+              - type: string
+                pattern: ^sha256:[0-9a-f]{64}$
+              - type: 'null'
+      snapshots:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - observedAt
+          - jobs
+          properties:
+            observedAt:
+              type: string
+              format: date-time
+            jobs:
+              type: array
+              minItems: 1
+              maxItems: 128
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - jobId
+                - state
+                - basePriority
+                - effectivePriority
+                properties:
+                  jobId:
+                    type: string
+                    minLength: 1
+                  state:
+                    enum:
+                    - not_queued
+                    - queued
+                    - admitted
+                    - running
+                    - completed
+                    - ready
+                    - denied
+                  basePriority:
+                    type: integer
+                    enum:
+                    - 0
+                    - 3
+                    - 6
+                  effectivePriority:
+                    type: integer
+                    minimum: 0
+                    maximum: 6
+      admissionLatencySeconds:
+        type: number
+        minimum: 0
+      firstReadyLatencySeconds:
+        type: number
+        minimum: 0
+      preemptedRunningProcessIds:
+        type: array
+        maxItems: 0
+        items:
+          type: string
+          minLength: 1
+      fallback:
+        type: object
+        additionalProperties: false
+        required:
+        - jobId
+        - observedAt
+        - userId
+        - grantId
+        - aclVersion
+        - assetId
+        - assetVersion
+        - demandEpoch
+        - outputArtifactRef
+        - outputSha256
+        - decodeRef
+        properties:
+          jobId:
+            type: string
+            minLength: 1
+          observedAt:
+            type: string
+            format: date-time
+          userId:
+            type: string
+            minLength: 1
+          grantId:
+            type: string
+            minLength: 1
+          aclVersion:
+            type: string
+            minLength: 1
+          assetId:
+            type: string
+            minLength: 1
+          assetVersion:
+            type: string
+            minLength: 1
+          demandEpoch:
+            type: integer
+            minimum: 1
+          outputArtifactRef:
+            type: string
+            minLength: 1
+          outputSha256:
+            type: string
+            pattern: ^sha256:[0-9a-f]{64}$
+          decodeRef:
+            type: string
+            minLength: 1
+  mediaSchedulingDecode:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - jobId
+    - demandEpoch
+    - nodeId
+    - encoderBuild
+    - decoderBuild
+    - inputSampleId
+    - inputSha256
+    - outputArtifactRef
+    - outputSha256
+    - observedAt
+    - codec
+    - decodedFrameCount
+    - decodeErrorCount
+    - decodable
+    - sourceStartFrame
+    - sourceEndFrame
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: media_scheduling_decode
+      jobId:
+        type: string
+        minLength: 1
+      demandEpoch:
+        type: integer
+        minimum: 1
+      nodeId:
+        type: string
+        minLength: 1
+      encoderBuild:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      observedAt:
+        type: string
+        format: date-time
+      codec:
+        const: av1
+      decodedFrameCount:
+        type: integer
+        minimum: 1
+      decodeErrorCount:
+        type: integer
+        minimum: 0
+      decodable:
+        type: boolean
+      sourceStartFrame:
+        type: integer
+        minimum: 0
+      sourceEndFrame:
+        type: integer
+        minimum: 1
+  workerCapabilityPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - sourceFrameCount
+    - framesPerSecond
+    - claims
+    properties:
+      sourceFrameCount:
+        type: integer
+        minimum: 1
+      framesPerSecond:
+        type: number
+        exclusiveMinimum: 0
+      claims:
+        type: array
+        minItems: 2
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - runId
+          - nodeId
+          - physicalHostId
+          - encoderBuild
+          - compatibilityGroupId
+          - decoderBuild
+          - inputSampleId
+          - inputSha256
+          - sourceStartFrame
+          - sourceEndFrame
+          - codec
+          - encoderParameters
+          - commandArgs
+          - caseId
+          - status
+          - platform
+          - osBuild
+          - architecture
+          - nodeConfiguration
+          properties:
+            runId:
+              type: string
+              minLength: 1
+            nodeId:
+              type: string
+              minLength: 1
+            physicalHostId:
+              type: string
+              minLength: 1
+            encoderBuild:
+              type: string
+              minLength: 1
+            compatibilityGroupId:
+              type: string
+              minLength: 1
+            decoderBuild:
+              type: string
+              minLength: 1
+            inputSampleId:
+              type: string
+              minLength: 1
+            inputSha256:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+            sourceStartFrame:
+              type: integer
+              minimum: 0
+            sourceEndFrame:
+              type: integer
+              minimum: 1
+            codec:
+              type: string
+              pattern: ^[a-z0-9_]{1,32}$
+            encoderParameters:
+              type: object
+              minProperties: 1
+            commandArgs:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                minLength: 1
+            caseId:
+              type: string
+              minLength: 1
+            status:
+              enum:
+              - supported
+              - unsupported
+              - untested
+            platform:
+              type: string
+              minLength: 1
+            osBuild:
+              type: string
+              minLength: 1
+            architecture:
+              type: string
+              minLength: 1
+            nodeConfiguration:
+              type: object
+              minProperties: 1
+  workerCapabilityObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - kind
+    - claims
+    properties:
+      schemaVersion:
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: worker_capability_observation
+      claims:
+        type: array
+        minItems: 2
+        maxItems: 128
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - runId
+            - nodeId
+            - physicalHostId
+            - encoderBuild
+            - compatibilityGroupId
+            - decoderBuild
+            - inputSampleId
+            - inputSha256
+            - sourceStartFrame
+            - sourceEndFrame
+            - codec
+            - encoderParameters
+            - commandArgs
+            - caseId
+            - status
+            - platform
+            - osBuild
+            - architecture
+            - nodeConfiguration
+            - startedAt
+            - finishedAt
+            - exitCode
+            - encodedFrameCount
+            - outputArtifactRef
+            - outputSha256
+            - outputByteCount
+            - decodeRef
+            properties:
+              runId:
+                type: string
+                minLength: 1
+              nodeId:
+                type: string
+                minLength: 1
+              physicalHostId:
+                type: string
+                minLength: 1
+              encoderBuild:
+                type: string
+                minLength: 1
+              compatibilityGroupId:
+                type: string
+                minLength: 1
+              decoderBuild:
+                type: string
+                minLength: 1
+              inputSampleId:
+                type: string
+                minLength: 1
+              inputSha256:
+                type: string
+                pattern: ^sha256:[0-9a-f]{64}$
+              sourceStartFrame:
+                type: integer
+                minimum: 0
+              sourceEndFrame:
+                type: integer
+                minimum: 1
+              codec:
+                type: string
+                pattern: ^[a-z0-9_]{1,32}$
+              encoderParameters:
+                type: object
+                minProperties: 1
+              commandArgs:
+                type: array
+                minItems: 1
+                items:
+                  type: string
+                  minLength: 1
+              caseId:
+                type: string
+                minLength: 1
+              status:
+                const: supported
+              platform:
+                type: string
+                minLength: 1
+              osBuild:
+                type: string
+                minLength: 1
+              architecture:
+                type: string
+                minLength: 1
+              nodeConfiguration:
+                type: object
+                minProperties: 1
+              startedAt:
+                type: string
+                format: date-time
+              finishedAt:
+                type: string
+                format: date-time
+              exitCode:
+                type: integer
+              encodedFrameCount:
+                type: integer
+                minimum: 1
+              outputArtifactRef:
+                type: string
+                minLength: 1
+              outputSha256:
+                type: string
+                pattern: ^sha256:[0-9a-f]{64}$
+              outputByteCount:
+                type: integer
+                minimum: 1
+              decodeRef:
+                type: string
+                minLength: 1
+          - type: object
+            additionalProperties: false
+            required:
+            - runId
+            - nodeId
+            - physicalHostId
+            - encoderBuild
+            - compatibilityGroupId
+            - decoderBuild
+            - inputSampleId
+            - inputSha256
+            - sourceStartFrame
+            - sourceEndFrame
+            - codec
+            - encoderParameters
+            - commandArgs
+            - caseId
+            - status
+            - platform
+            - osBuild
+            - architecture
+            - nodeConfiguration
+            - diagnosticRef
+            properties:
+              runId:
+                type: string
+                minLength: 1
+              nodeId:
+                type: string
+                minLength: 1
+              physicalHostId:
+                type: string
+                minLength: 1
+              encoderBuild:
+                type: string
+                minLength: 1
+              compatibilityGroupId:
+                type: string
+                minLength: 1
+              decoderBuild:
+                type: string
+                minLength: 1
+              inputSampleId:
+                type: string
+                minLength: 1
+              inputSha256:
+                type: string
+                pattern: ^sha256:[0-9a-f]{64}$
+              sourceStartFrame:
+                type: integer
+                minimum: 0
+              sourceEndFrame:
+                type: integer
+                minimum: 1
+              codec:
+                type: string
+                pattern: ^[a-z0-9_]{1,32}$
+              encoderParameters:
+                type: object
+                minProperties: 1
+              commandArgs:
+                type: array
+                minItems: 1
+                items:
+                  type: string
+                  minLength: 1
+              caseId:
+                type: string
+                minLength: 1
+              status:
+                enum:
+                - unsupported
+                - untested
+              platform:
+                type: string
+                minLength: 1
+              osBuild:
+                type: string
+                minLength: 1
+              architecture:
+                type: string
+                minLength: 1
+              nodeConfiguration:
+                type: object
+                minProperties: 1
+              diagnosticRef:
+                type: string
+                minLength: 1
+  workerCapabilityDecode:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - runId
+    - nodeId
+    - physicalHostId
+    - encoderBuild
+    - compatibilityGroupId
+    - decoderBuild
+    - inputSampleId
+    - inputSha256
+    - sourceStartFrame
+    - sourceEndFrame
+    - codec
+    - outputArtifactRef
+    - outputSha256
+    - observedAt
+    - decodable
+    - decodedFrameCount
+    - durationSeconds
+    - decodeErrorCount
+    - caseId
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: worker_capability_decode
+      runId:
+        type: string
+        minLength: 1
+      nodeId:
+        type: string
+        minLength: 1
+      physicalHostId:
+        type: string
+        minLength: 1
+      encoderBuild:
+        type: string
+        minLength: 1
+      compatibilityGroupId:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sourceStartFrame:
+        type: integer
+        minimum: 0
+      sourceEndFrame:
+        type: integer
+        minimum: 1
+      codec:
+        type: string
+        pattern: ^[a-z0-9_]{1,32}$
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      observedAt:
+        type: string
+        format: date-time
+      decodable:
+        type: boolean
+      decodedFrameCount:
+        type: integer
+        minimum: 1
+      durationSeconds:
+        type: number
+        exclusiveMinimum: 0
+      decodeErrorCount:
+        type: integer
+        minimum: 0
+      caseId:
+        type: string
+        minLength: 1
+  workerCapabilityDiagnostic:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - runId
+    - nodeId
+    - physicalHostId
+    - encoderBuild
+    - compatibilityGroupId
+    - decoderBuild
+    - inputSampleId
+    - inputSha256
+    - sourceStartFrame
+    - sourceEndFrame
+    - codec
+    - encoderParameters
+    - commandArgs
+    - caseId
+    - status
+    - platform
+    - osBuild
+    - architecture
+    - nodeConfiguration
+    - observedAt
+    - probeToolBuild
+    - reason
+    - rawProbeRef
+    - rawProbeSha256
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: worker_capability_diagnostic
+      runId:
+        type: string
+        minLength: 1
+      nodeId:
+        type: string
+        minLength: 1
+      physicalHostId:
+        type: string
+        minLength: 1
+      encoderBuild:
+        type: string
+        minLength: 1
+      compatibilityGroupId:
+        type: string
+        minLength: 1
+      decoderBuild:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      sourceStartFrame:
+        type: integer
+        minimum: 0
+      sourceEndFrame:
+        type: integer
+        minimum: 1
+      codec:
+        type: string
+        pattern: ^[a-z0-9_]{1,32}$
+      encoderParameters:
+        type: object
+        minProperties: 1
+      commandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      caseId:
+        type: string
+        minLength: 1
+      status:
+        enum:
+        - unsupported
+        - untested
+      platform:
+        type: string
+        minLength: 1
+      osBuild:
+        type: string
+        minLength: 1
+      architecture:
+        type: string
+        minLength: 1
+      nodeConfiguration:
+        type: object
+        minProperties: 1
+      observedAt:
+        type: string
+        format: date-time
+      probeToolBuild:
+        type: string
+        minLength: 1
+      reason:
+        type: string
+        minLength: 1
+      rawProbeRef:
+        type: string
+        minLength: 1
+      rawProbeSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
