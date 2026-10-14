@@ -610,6 +610,45 @@ def validate_qualified_local_source_faults(root,plan,execution,prefix,status,win
     if any(actual.get(gate) is not True for gate in gates):errors.append(f'{label}: true sync safety gates require the parsed observed outcomes')
 
 
+def validate_qualified_local_source_listing(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
+    label=f"qualified local source listing {plan['taskId']}";before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('sourceListingRef'),defs,'localSourceListingObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-OPENLIST-LOCAL'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:config=load(path).get('configuration',{}) if path else {};policy=config.get('localSourceListingPolicy');fault=config.get('localSourceFaultPolicy')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=fault=None
+    validate_schema(policy,defs.get('localSourceListingPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],**{k:policy[k] for k in ('sourceId','sandboxId','endpointURL')})
+    if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or not isinstance(fault,dict) or any(policy[k]!=fault.get(k) for k in ('sourceId','sandboxId','subjectVersion')) or not recorded_text(policy['endpointURL']):errors.append(f'{label}: exact approved OpenList/API versions, source/sandbox/input and listing endpoint required');return
+    objects=policy['objects'];ids=[o['objectId'] for o in objects];criteria=policy['criteria'];criteria_ids={'api','sdk','versioning','support'}
+    if len(ids)!=len(set(ids)) or len(report['runs'])<policy['minimumListingRuns'] or {c['criterionId'] for c in criteria}!=criteria_ids or {c['criterionId'] for c in report['assessment']}!=criteria_ids or not all(ai_finite(c['weight']) for c in criteria) or not all(ai_finite(v) for v in policy['gradeValues'].values()):errors.append(f'{label}: exact distinct approved population, repeated listing and finite rubric required');return
+    request_ids=set();run_ids=set();previous=None
+    for run in report['runs']:
+        if run['runId'] in run_ids:errors.append(f'{label}: unique repeated listing run identities required')
+        run_ids.add(run['runId']);cursor=None;seen_cursors=set();listed=[]
+        for number,page in enumerate(run['pages']):
+            start,end=utc(page['requestedAt']),utc(page['finishedAt'])
+            if start is None or end is None or window is None or not window[0]<=start<=end<=window[1] or previous is not None and start<previous:errors.append(f'{label}: listing request timestamps must be ordered inside execution')
+            previous=end
+            if page['requestId'] in request_ids or page['statusCode']!=200 or page['requestCursor']!=cursor or number+1<len(run['pages']) and (not recorded_text(page['nextCursor']) or page['nextCursor'] in seen_cursors) or number+1==len(run['pages']) and page['nextCursor'] is not None:errors.append(f'{label}: actual successful pagination must follow unique cursors and end completely')
+            request_ids.add(page['requestId']);cursor=page['nextCursor'];seen_cursors.add(cursor);listed.extend(page['objects'])
+        if len(listed)!=len(objects) or {o['objectId'] for o in listed}!=set(ids) or len({o['objectId'] for o in listed})!=len(listed) or any(o!=next(p for p in objects if p['objectId']==o['objectId']) for o in listed if o['objectId'] in ids):errors.append(f'{label}: every repeated listing must retain the exact complete approved object identities/versions/names')
+    grades=[];basis_paths=[]
+    for row in report['assessment']:
+        before=len(errors);basis=selected_observation(root,execution,prefix,row['basisRef'],defs,'localSourceAssessmentBasis',label+'/assessment',errors,cache);basis_path=existing_ref(root,row['basisRef'],prefix)
+        if basis is None or len(errors)!=before:continue
+        at=utc(row['observedAt']);basis_at=utc(basis['observedAt'])
+        if at is None or basis_at is None or window is None or not window[0]<=basis_at<=at<=window[1] or basis['criterionId']!=row['criterionId'] or basis['subjectVersion']!=expected['subjectVersion'] or inspect_artifact(basis_path,cache)['sha256']!=row['basisSha256'] or any(not recorded_text(basis[k]) for k in ('toolBuild','reference','details')) or not recorded_text(row['rationale']) or any(basis_path.samefile(p) for p in basis_paths):errors.append(f'{label}: distinct assessed API/SDK/versioning/support basis must bind captured versions and rubric')
+        basis_paths.append(basis_path);criterion=next(c for c in criteria if c['criterionId']==row['criterionId']);grades.append((criterion['weight'],policy['gradeValues'][row['status']]))
+    try:score=sum(w*g for w,g in grades)/sum(w for w,g in grades) if len(grades)==4 else None
+    except (OverflowError,ZeroDivisionError):score=None
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if actual.get('listing_stability') is not True:errors.append(f'{label}: listing stability gate must agree with complete repeated page observations')
+    if not ai_finite(score) or not ai_finite(actual.get('maintainability')) or not math.isclose(actual['maintainability'],score,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: maintainability must derive the independently approved weighted assessment rubric')
+
+
 def valid_local_origin(value,schemes):
     try:
         if not isinstance(value,str):return False
@@ -1108,10 +1147,100 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
         derived=dict(enumeration_rate=enumerated_count/intervals[0][2],source_change_frequency=event_count*3600/intervals[1][2],incremental_scan_cost=intervals[2][2],file_count=counts[0],directory_count=counts[1],directory_depth_max=counts[2],average_file_size=counts[3]/counts[0])
         for metric,value in derived.items():
             if not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive actual complete streamed object/event counts and measured traversal timestamps')
+        validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,errors,cache,resource,policy,connection)
     except (OSError,ValueError,UnicodeError,OverflowError,sqlite3.Error,jsonschema.ValidationError) as failure:errors.append(f'{label}: invalid retained metadata observations ({type(failure).__name__})')
     finally:
         if connection is not None:connection.close()
         database.unlink(missing_ok=True)
+
+
+def validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,errors,cache,resource,scan_policy,connection):
+    label=f"qualified metadata profiling {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('metadataProfilingRef'),defs,'metadataProfilingObservation',label,errors,cache)
+    path=existing_ref(root,resource['configurationRef'],prefix)
+    try:config=load(path).get('configuration',{}) if path else {};policy=config.get('metadataProfilingPolicy');resources=config.get('metadataResourcePolicy')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=resources=None
+    validate_schema(policy,defs.get('metadataProfilingPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],manifestId=scan_policy['manifestId'],scannerBuild=scan_policy['scannerBuild'],sourceIdentity=policy['sourceIdentity'])
+    if any(report[k]!=v for k,v in expected.items()) or any(policy[k]!=scan_policy[k] for k in ('manifestId','scannerBuild')) or not isinstance(resources,dict) or policy['sourceIdentity']!=resources.get('sourceIdentity') or report['rangeDisposition']!=policy['rangeDisposition'] or report['validatorKind']!=policy['validatorKind']:errors.append(f'{label}: exact approved source/adapter/build/immutable population/profile required');return
+    columns=('objectId','kind','versionId','depth','fileSizeBytes','name','path','modifiedAt');basic=columns[:5]
+    connection.executescript('CREATE TABLE profile_approved(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER,name TEXT,path TEXT,modifiedAt TEXT);CREATE TABLE profile_observed AS SELECT * FROM profile_approved;CREATE UNIQUE INDEX profile_observed_id ON profile_observed(objectId);CREATE TABLE profile_page AS SELECT * FROM profile_approved;CREATE UNIQUE INDEX profile_page_id ON profile_page(objectId);')
+    def records(descriptor,schema_name):
+        path=existing_ref(root,descriptor['ref'],prefix);matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==descriptor['ref']]
+        if path is None or len(matches)!=1 or matches[0].get('artifactType')!='command_output' or descriptor['ref'] not in (execution.get('rawOutputRefs') or []):raise ValueError('exact selected-slot typed record stream required')
+        iterator=streamed_metadata_records(path,defs[schema_name]);count=0
+        while True:
+            try:row=next(iterator)
+            except StopIteration as terminal:
+                total,digest=terminal.value;break
+            count+=1;yield row
+        if total!=descriptor['count'] or total!=count or digest!=descriptor['sha256']:raise ValueError('complete retained record stream must bind count/hash')
+    def ingest(table,descriptor):
+        for row in records(descriptor,'metadataProfiledObjectRecord'):
+            parts=row['path'].split('/')
+            if any(not p or p in ('.','..') for p in parts) or parts[-1]!=row['name'] or '/' in row['name'] or '\x00' in row['name'] or len(parts)!=row['depth'] or utc(row['modifiedAt']) is None:raise ValueError('actual filename/path/depth/UTC semantics required')
+            connection.execute('INSERT INTO '+table+' VALUES (?,?,?,?,?,?,?,?)',tuple(row[k] for k in columns))
+    def differs(a,b,cols=columns):
+        selection=','.join(cols)
+        return connection.execute('SELECT '+selection+' FROM '+a+' EXCEPT SELECT '+selection+' FROM '+b+' LIMIT 1').fetchone() is not None or connection.execute('SELECT '+selection+' FROM '+b+' EXCEPT SELECT '+selection+' FROM '+a+' LIMIT 1').fetchone() is not None
+    ingest('profile_approved',policy['filenameInput']);ingest('profile_observed',report['filenameObjects'])
+    if differs('profile_approved','baseline',basic) or differs('profile_observed','profile_approved') or connection.execute('SELECT count(*) FROM profile_approved').fetchone()[0]==0:raise ValueError('filename observation must cover the complete exact immutable baseline population')
+    approved_path=existing_ref(root,policy['filenameInput']['ref'],prefix);observed_path=existing_ref(root,report['filenameObjects']['ref'],prefix)
+    if approved_path.samefile(observed_path):raise ValueError('filename output must retain independently observed bytes')
+    categories=policy['extensionCategories']
+    if len(categories)!=len(set(categories)) or any(c!=c.lower() or not recorded_text(c) or c in ('none','other') for c in categories):raise ValueError('distinct approved extension categories required')
+    distributions={k:{} for k in ('nameLength','characterSet','extension','pathDepth')}
+    for kind,name,depth in connection.execute('SELECT kind,name,depth FROM profile_observed'):
+        suffix=name.rsplit('.',1)[1].lower() if '.' in name and not name.startswith('.') else '';extension=suffix if suffix in categories else 'other' if suffix else 'none'
+        values=dict(nameLength=str(len(name)),characterSet='ascii' if name.isascii() else 'non_ascii',pathDepth=str(depth))
+        if kind=='file':values['extension']=extension
+        for k,v in values.items():distributions[k][v]=distributions[k].get(v,0)+1
+    if report['filenameDistributions']!=distributions:raise ValueError('name-length/character-set/approved-extension/path-depth distributions must derive the complete filename stream')
+    run_id=None;run_ids=set();request_ids=set();cursor=None;cursors=set();last=None
+    def finish_run():
+        if cursor is not None or differs('profile_page','profile_approved'):raise ValueError('every repeated provider listing must terminate and cover exact identities/versions/names/timestamps')
+        connection.execute('DELETE FROM profile_page')
+    for row in records(report['providerPages'],'metadataProviderPageRecord'):
+        if row['runId']!=run_id:
+            if run_id is not None:finish_run()
+            if row['runId'] in run_ids:raise ValueError('listing runs must be distinct contiguous observations')
+            run_id=row['runId'];run_ids.add(run_id);cursor=None;cursors=set()
+        first,end,provider_at=(utc(row[k]) for k in ('requestedAt','finishedAt','providerTimestamp'))
+        if any(t is None for t in (first,end,provider_at)) or window is None or not window[0]<=first<=end<=window[1] or last is not None and first<last or row['sourceIdentity']!=policy['sourceIdentity'] or row['endpointURL']!=policy['endpointURL'] or row['statusCode']!=200 or row['requestId'] in request_ids or row['requestCursor']!=cursor or row['nextCursor'] is not None and (not recorded_text(row['nextCursor']) or row['nextCursor'] in cursors):raise ValueError('provider pagination must bind unique actual requests/cursors, source endpoint and UTC behavior')
+        last=end;request_ids.add(row['requestId']);cursor=row['nextCursor'];cursors.add(cursor);ingest('profile_page',row['objects'])
+    if run_id is None or len(run_ids)<policy['minimumListingRuns']:raise ValueError('at least the approved number of complete repeated provider listings required')
+    finish_run();identity=connection.execute('SELECT kind,versionId,fileSizeBytes FROM baseline WHERE objectId=?',(policy['probeObjectId'],)).fetchone()
+    updates=list(connection.execute("SELECT beforeVersion,afterVersion FROM expected WHERE objectId=? AND operation='update'",(policy['probeObjectId'],)))
+    if identity is None or identity[:2]!=('file',policy['baselineVersion']) or (policy['baselineVersion'],policy['updatedVersion']) not in updates:raise ValueError('Range/validator probe must bind governed baseline and actual controlled object update')
+    payloads=[]
+    for key in ('baselinePayload','updatedPayload'):
+        descriptor=policy[key];path=existing_ref(root,descriptor['ref'],prefix);matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==descriptor['ref']]
+        if path is None or len(matches)!=1 or matches[0].get('artifactType')!='produced_media' or not 1<=path.stat().st_size<=65536 or inspect_artifact(path,cache)['sha256']!=descriptor['sha256']:raise ValueError('bounded approved object-version probe bytes required')
+        payloads.append(path.read_bytes())
+    if len(payloads[0])!=identity[2]:raise ValueError('baseline Range probe bytes must bind actual complete approved object metadata size')
+    if payloads[0]==payloads[1]:raise ValueError('controlled update must exercise changed probe content')
+    rows=report['probes'];names={'unchanged_first','unchanged_second','bounded','unsatisfiable','changed'}
+    if {r['case'] for r in rows}!=names or len({r['requestId'] for r in rows})!=5:raise ValueError('exact unique before/repeat/Range/unsupported/update probes required')
+    for row in rows:
+        changed=row['case']=='changed';content=payloads[int(changed)];version=policy['updatedVersion'] if changed else policy['baselineVersion'];at=utc(row['observedAt']);ref=row['responseRef'];path=existing_ref(root,ref,prefix);matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+        if row['objectId']!=policy['probeObjectId'] or row['objectVersion']!=version or at is None or window is None or not window[0]<=at<=window[1] or path is None or len(matches)!=1 or matches[0].get('artifactType')!='produced_media' or path.stat().st_size>65536:raise ValueError('actual source/version/time/response bytes required')
+        info=inspect_artifact(path,cache)
+        if info['sha256']!=row['responseSha256'] or info['size']!=row['responseByteCount']:raise ValueError('response body byte count/hash mismatch')
+        body=path.read_bytes();case=row['case'];expected_range='bytes=0-1' if case=='bounded' else 'bytes='+str(len(content))+'-' if case=='unsatisfiable' else ''
+        if row['requestRange']!=expected_range:raise ValueError('actual bounded/unsatisfiable/full Range request required')
+        if case in ('bounded','unsatisfiable'):
+            disposition=policy['rangeDisposition']
+            expected_status=206 if case=='bounded' else 416
+            expected_body=content[:2] if case=='bounded' else b'';expected_header=f'bytes 0-{min(1,len(content)-1)}/{len(content)}' if case=='bounded' else f'bytes */{len(content)}'
+            good=(row['statusCode']==expected_status and body==expected_body and row['contentRange']==expected_header) if disposition=='supported' else (row['statusCode']==200 and body==content and row['contentRange']=='') if disposition=='ignored' else (row['statusCode'] in (400,405,501) and body==b'' and row['contentRange']=='')
+        else:good=row['statusCode']==200 and body==content and row['contentRange']==''
+        if not good:raise ValueError('Range disposition must derive actual status/header/body behavior, including truthful unsupported support')
+        if policy['validatorKind']=='etag' and (not recorded_text(row['etag']) or row['versionValidator']) or policy['validatorKind']=='version_token' and (row['etag'] or row['versionValidator']!=version) or policy['validatorKind']=='none' and (row['etag'] or row['versionValidator']):raise ValueError('validator kind must match retained HTTP ETag/equivalent version/absence observations')
+    first,second,changed=(next(r for r in rows if r['case']==k) for k in ('unchanged_first','unchanged_second','changed'));key='etag' if policy['validatorKind']=='etag' else 'versionValidator';available=policy['validatorKind']!='none'
+    if not utc(first['observedAt'])<utc(second['observedAt'])<utc(changed['observedAt']) or report['validatorStableOnUnchanged'] is not (available and first[key]==second[key]) or report['validatorChangedOnUpdate'] is not (available and second[key]!=changed[key]):raise ValueError('validator stability/change results must derive before/repeat/update response observations')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if any(actual.get(k) is not True for k in ('filename_characteristics_profiled','provider_characteristics_profiled','range_support_profiled','etag_behavior_profiled')):raise ValueError('four profiling gates must agree with retained derived observations')
 
 
 def validate_qualified_passthrough_identity(root, plan, execution, defs, prefix, status, errors):
@@ -1571,6 +1700,13 @@ def validate_qualified_worker_capabilities(root,plan,execution,prefix,status,win
     expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
     inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
     if any(report[k]!=v for k,v in expected.items()) or not nodes or len(nodes)!=len(inventory) or env.get('encoder_capability_matrix')!=policy['claims'] or not ai_finite(policy['framesPerSecond']):errors.append(f'{label}: exact approved inventory/codec matrix, input/profile and build required');return
+    scope=env.get('physical_host_scope');host_values=[n.get('physicalHostId') for n in nodes.values()];scope_hosts=scope.get('physicalHostIds') if isinstance(scope,dict) else None
+    if any(not recorded_text(h) for h in host_values):errors.append(f'{label}: every inventory node needs a concrete physical host identity');return
+    hosts=set(host_values)
+    if not all(recorded_text(h) for h in hosts) or not isinstance(scope_hosts,list) or not scope_hosts or any(not recorded_text(h) for h in scope_hosts) or len(scope_hosts)!=len(set(scope_hosts)) or set(scope_hosts)!=hosts or scope.get('physicalMultiHostValidated') is not (len(hosts)>1):
+        errors.append(f'{label}: physical host scope must cover every exact inventory node and disclose same-host limits');return
+    if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='worker_physical_scope_recorded'),None) is not True:
+        errors.append(f'{label}: physical scope gate must derive the complete node-to-host comparison');return
     try:duration=policy['sourceFrameCount']/policy['framesPerSecond']
     except (OverflowError,ZeroDivisionError):duration=None
     if not ai_finite(duration) or duration<=0:errors.append(f'{label}: finite positive approved source duration required');return
@@ -3863,6 +3999,7 @@ def validate_execution(
         validate_qualified_production_capacity(plan,execution,status,errors)
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_local_source_faults(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_local_source_listing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_h264_fallback(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_media_soak(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_hls_ready(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)

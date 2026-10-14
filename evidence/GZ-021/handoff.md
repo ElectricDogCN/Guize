@@ -1,3 +1,17 @@
+Current successor preparation: three qualified-profile repairs; publication and own complete198/local20 execution pending.
+
+Public parent35d completed18 local gates, with17 passing. Its complete195 POC run took6157.726s: 192 passed, failed methods 162,177,186, error methods none. It stopped before native governance/JUnit/docs. Test162's legal three-stream capture was not synchronized to its approved scheduling scenario; test177/186 production assertions expected PASS despite existing deferred-production rejections. Separately CI708 completed28 steps and637 governance tests in1226.92s. CI does not override the actual local failure or content findings.
+
+Parent original execution, source/adoption identities, separate accepted CI and fresh review dispositions are retained in executions/35d53f020274eff14ccd74a3f132af4e989f12c8/manifest.json. All three finite candidate findings and their latest separate targeted checks are independently accepted; earlier failures and green-but-content-rejected stages remain distinct in candidate-checks/three-qualified-profile-observations/manifest.json. No complete198 or actual runtime result is claimed. The following candidate-archival and earlier implementation/reservation entries are historical preparation records.
+
+## Three qualified-profile repair candidate
+
+This candidate follows public source35d53f020274eff14ccd74a3f132af4e989f12c8, which has actual CI708 with28 successful steps and637 passing governance tests. Its own complete195/local20 execution is still pending at this preparation point. CI and targeted checks cannot replace successor-source validation.
+
+The three reviewed gaps cover POC001 exact physical host scope, POC005 complete filename/provider/Range/validator profiling and local POC006 repeated listing/approved maintainability assessment. Their finite content and latest separate targeted checks are independently accepted. Earlier failed and content-rejected stages are retained independently. The existing177 production-PASS assertion and187 legitimate changed-population sidecar are adapted only for those purposes.
+
+The candidate has198 methods, five modified paths (checker, schema, tests, POC guidance and this handoff) before evidence archival. Published successor source/full198/full20/latest same-sourceCI, formal review, true main integration, normal Review and Completion remain pending. Actual AV1/HLS/Android Worker/OpenList runtime acceptance and full localV1 remain incomplete. The following earlier implementation and reservation entries are historical stage records.
+
 Current successor candidate: eight qualified media/scheduling boundaries; publication and own complete execution pending.
 
 The published parent 7f879277ff751af08e737a6af7c2b2700d849500 completed 18 local gates, with 17 passing. Its full186 POC run took4946.966s:184 passed and159/162 failed. Execution stopped before governance/JUnit/docs. Separately, same-source CI707 completed28 steps with637 governance tests880.11s, independently accepted. CI success does not close local failure or content findings. Parent originals are in executions/7f879277ff751af08e737a6af7c2b2700d849500/manifest.json.
@@ -261,3 +275,7 @@ Next exact actions:
 3. Integrator fresh-check head/base/Issue95open/allthreads resolved/dependencies/wave/lease/scope then expected-head merge with GZ-021/#actualPR title.
 4. Verify true push/main full637/all applicable gates and independent main acceptance before Implementer creates claimed branch from that actualmain and changes only registered paths.
 Limits: original production obligations/profile types remain unimplemented; no runtime, real-phone/multihost or fullV1 result. Rejected/no-terminal executions never authorize integration.
+
+The separate candidate records are retained losslessly in candidate-checks/three-qualified-profile-observations/manifest.json. Decode base64 then zlib and verify each originalPhysicalSha256; mixed-encoding original logs remain original bytes. Parent35d complete-source execution is still pending at this archival preparation stage.
+
+The actual parent full195 failures also require two necessary fixture adaptations. Original162 keeps its legal three streams/two nodes and all six encode-negative assertions, while explicitly approving a3-total/2-per-node scheduling scenario with two saturated background jobs, distinct generated outputs/probes and complete state snapshots. Default2/1 scheduling fixtures and all validators remain. Original186 production PASS now expects the existing deferred POC004 error; local FAIL/INCONCLUSIVE and all storage boundaries remain. Its separate162/186/194 check passed3 tests215.648s; this is not a complete198 run. Original177 production-PASS adaptation and187 legal sidecar synchronization remain separate accepted purposes. Records are in candidate-checks/three-profile-parent-regression-compatibility/manifest.json.

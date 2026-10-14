@@ -12251,3 +12251,772 @@ $defs:
       rawProbeSha256:
         type: string
         pattern: ^sha256:[0-9a-f]{64}$
+  localSourceListingPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - sourceId
+    - sandboxId
+    - subjectVersion
+    - endpointURL
+    - objects
+    - minimumListingRuns
+    - criteria
+    - gradeValues
+    properties:
+      sourceId:
+        type: string
+        minLength: 1
+      sandboxId:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      endpointURL:
+        type: string
+        minLength: 1
+      objects:
+        type: array
+        minItems: 1
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - objectId
+          - versionId
+          - name
+          - kind
+          properties:
+            objectId:
+              type: string
+              minLength: 1
+            versionId:
+              type: string
+              minLength: 1
+            name:
+              type: string
+              minLength: 1
+            kind:
+              enum:
+              - file
+              - directory
+      minimumListingRuns:
+        type: integer
+        minimum: 2
+        maximum: 32
+      criteria:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - criterionId
+          - weight
+          properties:
+            criterionId:
+              enum:
+              - api
+              - sdk
+              - versioning
+              - support
+            weight:
+              type: number
+              exclusiveMinimum: 0
+      gradeValues:
+        type: object
+        additionalProperties: false
+        required:
+        - available
+        - limited
+        - unavailable
+        properties:
+          available:
+            type: number
+          limited:
+            type: number
+          unavailable:
+            type: number
+  localSourceListingObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - sourceId
+    - sandboxId
+    - endpointURL
+    - runs
+    - assessment
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: local_source_listing_observations
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+      sourceId:
+        type: string
+        minLength: 1
+      sandboxId:
+        type: string
+        minLength: 1
+      endpointURL:
+        type: string
+        minLength: 1
+      runs:
+        type: array
+        minItems: 2
+        maxItems: 32
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - runId
+          - pages
+          properties:
+            runId:
+              type: string
+              minLength: 1
+            pages:
+              type: array
+              minItems: 1
+              maxItems: 256
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - requestId
+                - requestedAt
+                - finishedAt
+                - requestCursor
+                - nextCursor
+                - statusCode
+                - objects
+                properties:
+                  requestId:
+                    type: string
+                    minLength: 1
+                  requestedAt:
+                    type: string
+                    format: date-time
+                  finishedAt:
+                    type: string
+                    format: date-time
+                  requestCursor:
+                    type:
+                    - string
+                    - 'null'
+                  nextCursor:
+                    type:
+                    - string
+                    - 'null'
+                  statusCode:
+                    type: integer
+                  objects:
+                    type: array
+                    minItems: 0
+                    maxItems: 256
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - objectId
+                      - versionId
+                      - name
+                      - kind
+                      properties:
+                        objectId:
+                          type: string
+                          minLength: 1
+                        versionId:
+                          type: string
+                          minLength: 1
+                        name:
+                          type: string
+                          minLength: 1
+                        kind:
+                          enum:
+                          - file
+                          - directory
+      assessment:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - criterionId
+          - status
+          - basisRef
+          - basisSha256
+          - observedAt
+          - rationale
+          properties:
+            criterionId:
+              enum:
+              - api
+              - sdk
+              - versioning
+              - support
+            status:
+              enum:
+              - available
+              - limited
+              - unavailable
+            basisRef:
+              type: string
+              minLength: 1
+            basisSha256:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+            observedAt:
+              type: string
+              format: date-time
+            rationale:
+              type: string
+              minLength: 1
+  localSourceAssessmentBasis:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - criterionId
+    - subjectVersion
+    - observedAt
+    - toolBuild
+    - reference
+    - details
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: source_maintainability_basis
+      criterionId:
+        enum:
+        - api
+        - sdk
+        - versioning
+        - support
+      subjectVersion:
+        type: string
+        minLength: 1
+      observedAt:
+        type: string
+        format: date-time
+      toolBuild:
+        type: string
+        minLength: 1
+      reference:
+        type: string
+        minLength: 1
+      details:
+        type: string
+        minLength: 1
+  metadataProfiledObjectRecord:
+    type: object
+    additionalProperties: false
+    required:
+    - objectId
+    - kind
+    - versionId
+    - depth
+    - fileSizeBytes
+    - name
+    - path
+    - modifiedAt
+    properties:
+      objectId:
+        type: string
+        minLength: 1
+      kind:
+        enum:
+        - file
+        - directory
+      versionId:
+        type: string
+        minLength: 1
+      depth:
+        type: integer
+        minimum: 0
+      fileSizeBytes:
+        type: integer
+        minimum: 0
+      name:
+        type: string
+        minLength: 1
+        maxLength: 1024
+      path:
+        type: string
+        minLength: 1
+        maxLength: 8192
+      modifiedAt:
+        type: string
+        format: date-time
+  metadataProviderPageRecord:
+    type: object
+    additionalProperties: false
+    required:
+    - runId
+    - requestId
+    - sourceIdentity
+    - endpointURL
+    - requestedAt
+    - finishedAt
+    - requestCursor
+    - nextCursor
+    - statusCode
+    - providerTimestamp
+    - objects
+    properties:
+      runId:
+        type: string
+        minLength: 1
+      requestId:
+        type: string
+        minLength: 1
+      sourceIdentity:
+        type: object
+        additionalProperties: false
+        required:
+        - adapterId
+        - adapterBuild
+        - sourceId
+        - sourceVersion
+        properties:
+          adapterId:
+            type: string
+            minLength: 1
+          adapterBuild:
+            type: string
+            minLength: 1
+          sourceId:
+            type: string
+            minLength: 1
+          sourceVersion:
+            type: string
+            minLength: 1
+      endpointURL:
+        type: string
+        minLength: 1
+      requestedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      requestCursor:
+        type:
+        - string
+        - 'null'
+      nextCursor:
+        type:
+        - string
+        - 'null'
+      statusCode:
+        type: integer
+      providerTimestamp:
+        type: string
+        format: date-time
+      objects:
+        type: object
+        additionalProperties: false
+        required:
+        - ref
+        - sha256
+        - count
+        properties:
+          ref:
+            type: string
+            minLength: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[0-9a-f]{64}$
+          count:
+            type: integer
+            minimum: 0
+  metadataProfilingPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - manifestId
+    - scannerBuild
+    - sourceIdentity
+    - endpointURL
+    - filenameInput
+    - extensionCategories
+    - minimumListingRuns
+    - probeObjectId
+    - baselineVersion
+    - updatedVersion
+    - baselinePayload
+    - updatedPayload
+    - rangeDisposition
+    - validatorKind
+    properties:
+      manifestId:
+        type: string
+        minLength: 1
+      scannerBuild:
+        type: string
+        minLength: 1
+      sourceIdentity:
+        type: object
+        additionalProperties: false
+        required:
+        - adapterId
+        - adapterBuild
+        - sourceId
+        - sourceVersion
+        properties:
+          adapterId:
+            type: string
+            minLength: 1
+          adapterBuild:
+            type: string
+            minLength: 1
+          sourceId:
+            type: string
+            minLength: 1
+          sourceVersion:
+            type: string
+            minLength: 1
+      endpointURL:
+        type: string
+        minLength: 1
+      filenameInput:
+        type: object
+        additionalProperties: false
+        required:
+        - ref
+        - sha256
+        - count
+        properties:
+          ref:
+            type: string
+            minLength: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[0-9a-f]{64}$
+          count:
+            type: integer
+            minimum: 0
+      extensionCategories:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+      minimumListingRuns:
+        type: integer
+        minimum: 2
+        maximum: 32
+      probeObjectId:
+        type: string
+        minLength: 1
+      baselineVersion:
+        type: string
+        minLength: 1
+      updatedVersion:
+        type: string
+        minLength: 1
+      baselinePayload:
+        type: object
+        additionalProperties: false
+        required:
+        - ref
+        - sha256
+        properties:
+          ref:
+            type: string
+            minLength: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[0-9a-f]{64}$
+      updatedPayload:
+        type: object
+        additionalProperties: false
+        required:
+        - ref
+        - sha256
+        properties:
+          ref:
+            type: string
+            minLength: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[0-9a-f]{64}$
+      rangeDisposition:
+        enum:
+        - supported
+        - ignored
+        - unsupported
+      validatorKind:
+        enum:
+        - etag
+        - version_token
+        - none
+  metadataProfilingObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - manifestId
+    - scannerBuild
+    - sourceIdentity
+    - filenameObjects
+    - filenameDistributions
+    - providerPages
+    - rangeDisposition
+    - validatorKind
+    - validatorStableOnUnchanged
+    - validatorChangedOnUpdate
+    - probes
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: metadata_profiling_observations
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+      manifestId:
+        type: string
+        minLength: 1
+      scannerBuild:
+        type: string
+        minLength: 1
+      sourceIdentity:
+        type: object
+        additionalProperties: false
+        required:
+        - adapterId
+        - adapterBuild
+        - sourceId
+        - sourceVersion
+        properties:
+          adapterId:
+            type: string
+            minLength: 1
+          adapterBuild:
+            type: string
+            minLength: 1
+          sourceId:
+            type: string
+            minLength: 1
+          sourceVersion:
+            type: string
+            minLength: 1
+      filenameObjects:
+        type: object
+        additionalProperties: false
+        required:
+        - ref
+        - sha256
+        - count
+        properties:
+          ref:
+            type: string
+            minLength: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[0-9a-f]{64}$
+          count:
+            type: integer
+            minimum: 0
+      filenameDistributions:
+        type: object
+        additionalProperties: false
+        required:
+        - nameLength
+        - characterSet
+        - extension
+        - pathDepth
+        properties:
+          nameLength:
+            type: object
+            minProperties: 1
+            maxProperties: 4096
+            additionalProperties:
+              type: integer
+              minimum: 0
+          characterSet:
+            type: object
+            minProperties: 1
+            maxProperties: 4096
+            additionalProperties:
+              type: integer
+              minimum: 0
+          extension:
+            type: object
+            minProperties: 1
+            maxProperties: 4096
+            additionalProperties:
+              type: integer
+              minimum: 0
+          pathDepth:
+            type: object
+            minProperties: 1
+            maxProperties: 4096
+            additionalProperties:
+              type: integer
+              minimum: 0
+      providerPages:
+        type: object
+        additionalProperties: false
+        required:
+        - ref
+        - sha256
+        - count
+        properties:
+          ref:
+            type: string
+            minLength: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[0-9a-f]{64}$
+          count:
+            type: integer
+            minimum: 0
+      rangeDisposition:
+        enum:
+        - supported
+        - ignored
+        - unsupported
+      validatorKind:
+        enum:
+        - etag
+        - version_token
+        - none
+      validatorStableOnUnchanged:
+        type: boolean
+      validatorChangedOnUpdate:
+        type: boolean
+      probes:
+        type: array
+        minItems: 5
+        maxItems: 5
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - case
+          - requestId
+          - objectId
+          - objectVersion
+          - observedAt
+          - requestRange
+          - statusCode
+          - contentRange
+          - etag
+          - versionValidator
+          - responseRef
+          - responseSha256
+          - responseByteCount
+          properties:
+            case:
+              enum:
+              - unchanged_first
+              - unchanged_second
+              - bounded
+              - unsatisfiable
+              - changed
+            requestId:
+              type: string
+              minLength: 1
+            objectId:
+              type: string
+              minLength: 1
+            objectVersion:
+              type: string
+              minLength: 1
+            observedAt:
+              type: string
+              format: date-time
+            requestRange:
+              type: string
+            statusCode:
+              type: integer
+            contentRange:
+              type: string
+            etag:
+              type: string
+            versionValidator:
+              type: string
+            responseRef:
+              type: string
+              minLength: 1
+            responseSha256:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+            responseByteCount:
+              type: integer
+              minimum: 0
