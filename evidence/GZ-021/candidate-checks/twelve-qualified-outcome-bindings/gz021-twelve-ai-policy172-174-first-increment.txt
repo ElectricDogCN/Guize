@@ -1,0 +1,49 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_AI_POLICY172_174_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL174
+Candidate Files SHA256: {'specs/poc/check_program.py': '4dd210e988a588392ff1199ed5985ff4768788e51f2e2dec8d26350164e68bd3', 'specs/poc/program.schema.yaml': '1e8785751565a6a21b060080c285f4360321018e387455f3880ec90d98796970', 'specs/poc/test_program.py': 'f73f87072ecd184854748fadcd0ebf31be9d8630c87ffe978d7fadcda522c3c2'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial TestPocProgram.test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch
+test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial (__main__.TestPocProgram.test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial) ... FAIL
+test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch (__main__.TestPocProgram.test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch) ... C:\ProgramData\anaconda3\Lib\tempfile.py:936: ResourceWarning: Implicitly cleaning up <TemporaryDirectory 'C:\\Users\\13997\\AppData\\Local\\Temp\\tmpqw6a6ydw'>
+  _warnings.warn(warn_message, ResourceWarning)
+FAIL
+
+======================================================================
+FAIL: test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial (__main__.TestPocProgram.test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 1427, in test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial
+    index=self.make_profile_slot(root,'POC-009',profile)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 344, in make_profile_slot
+    self.make_terminal(source_root,task_id,status=status,profile=profile)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 323, in make_terminal
+    raise AssertionError(
+AssertionError: terminal fixture invalid before mutation:
+cannot load POC Program: found duplicate anchor 'id001'; first occurrence
+  in "C:\Users\13997\AppData\Local\Temp\tmpqw6a6ydw\specs\poc\program.schema.yaml", line 656, column 18
+second occurrence
+  in "C:\Users\13997\AppData\Local\Temp\tmpqw6a6ydw\specs\poc\program.schema.yaml", line 5120, column 20
+
+======================================================================
+FAIL: test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch (__main__.TestPocProgram.test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 1332, in test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch
+    index=self.make_profile_slot(root,'POC-009',profile);result=load_yaml(root/load_yaml(index)['resultRef']);record=load_yaml(root/result['executionRef']);env=record['environmentCaptured'];report_path=root/env['aiResultsRef'];report=load_yaml(report_path);config_path=root/report['configurationRef'];evaluation_path=root/report['evaluationRef'];usage_path=root/report['usageRef'];dispatch_path=root/report['dispatchRef'];prefix=Path(result['executionRef']).parent.as_posix();plan=load_yaml(self.plan_path(root,'POC-009'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 344, in make_profile_slot
+    self.make_terminal(source_root,task_id,status=status,profile=profile)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 323, in make_terminal
+    raise AssertionError(
+AssertionError: terminal fixture invalid before mutation:
+cannot load POC Program: found duplicate anchor 'id001'; first occurrence
+  in "C:\Users\13997\AppData\Local\Temp\tmp2ea4poc_\specs\poc\program.schema.yaml", line 656, column 18
+second occurrence
+  in "C:\Users\13997\AppData\Local\Temp\tmp2ea4poc_\specs\poc\program.schema.yaml", line 5120, column 20
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.296s
+
+FAILED (failures=2)
+
+Exit Code: 1

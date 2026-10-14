@@ -1,0 +1,21 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_PUBLIC181_COMPATIBLE_POINTS_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL181
+Candidate Files SHA256: {'specs/poc/check_program.py': '41ee2983cdffb45affeac3abeaa8bf137b5e44725421d392049d98972b810529', 'specs/poc/program.schema.yaml': 'e6f22bc31cc182ad4f64ea3c3ed38804082030048ff74da099a69c384cff162f', 'specs/poc/test_program.py': 'f8a73262865fe7994692b54450bb99e88277d4fbf29ab92f122f1f51f12979bb'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes
+test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes (__main__.TestPocProgram.test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes) ... FAIL
+
+======================================================================
+FAIL: test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes (__main__.TestPocProgram.test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 2034, in test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes
+    write_yaml(config_path,config);self.assertTrue(any('qualified public network' in e for e in validate(data)),mode)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : tls_clock
+
+----------------------------------------------------------------------
+Ran 1 test in 117.188s
+
+FAILED (failures=1)
+
+Exit Code: 1

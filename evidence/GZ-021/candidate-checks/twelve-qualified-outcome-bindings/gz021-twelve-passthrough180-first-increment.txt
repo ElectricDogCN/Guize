@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_PASSTHROUGH180_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL180
+Candidate Files SHA256: {'specs/poc/check_program.py': '8843478150fd5d178eaa610baf2852b9696de0a0214ebfaa9ebdaf6dd07a5003', 'specs/poc/program.schema.yaml': 'e44d1aedc6bb7f7e1eb74186aaeb76a364a18d19b27143122d5ea57255ada6d3', 'specs/poc/test_program.py': '8c17a015f3170558dd25b62333965108670264117a274f7352f5ed7dc73f99bc'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_180_passthrough_recovery_requires_changed_boots_and_recovered_runtime
+test_180_passthrough_recovery_requires_changed_boots_and_recovered_runtime (__main__.TestPocProgram.test_180_passthrough_recovery_requires_changed_boots_and_recovered_runtime) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 91.448s
+
+OK
+
+Exit Code: 0

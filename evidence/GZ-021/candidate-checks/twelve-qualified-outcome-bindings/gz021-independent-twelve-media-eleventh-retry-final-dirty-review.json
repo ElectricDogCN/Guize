@@ -1,0 +1,82 @@
+{
+  "capturedAt": "2026-10-14T01:43:57.311854+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYe3",
+  "finiteScope": "Only eleventh fresh retry typed decode observation and physical artifact alias repairs; other bounded matrix review reused",
+  "contentAccepted": true,
+  "eleventhFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "ed4815f7da1f16e1039f2059a36efeb6bd53eae5eb72c54b1d3709a31e4c1fbe",
+    "specs/poc/program.schema.yaml": "cff4b8e83fb3286b899484775a23f567a1fc5ef3d2ce0b4b8333da350eab1bd9",
+    "specs/poc/test_program.py": "c3257003875720df78baf542d698e9ad0bbc17ec1e8b7a6ada96a97f6ccd6641"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "ed4815f7da1f16e1039f2059a36efeb6bd53eae5eb72c54b1d3709a31e4c1fbe",
+    "specs/poc/program.schema.yaml": "cff4b8e83fb3286b899484775a23f567a1fc5ef3d2ce0b4b8333da350eab1bd9",
+    "specs/poc/test_program.py": "c3257003875720df78baf542d698e9ad0bbc17ec1e8b7a6ada96a97f6ccd6641"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "6e6b695793c074e44972a49a73deda09d907bca15f83dc2d7e7917789388a5ac",
+    "specs/poc/program.schema.yaml": "ec11cc1e8264a525e9d765957af5be40ca4a74b1f3d06a56da793100c2ed7d22",
+    "specs/poc/test_program.py": "531febf4f35ed3ae55f1e84aaeded0b82e274e171b99a0cc64b0cd4001c2d4e6"
+  },
+  "hashesStable": true,
+  "firstRetryRejection": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-media-eleventh-first-dirty-rejection.json",
+    "sha256": "8249198103742f0e62c87094085efd679f4514fbcdacc6bb32749d8582d059f7"
+  },
+  "priorTenWholeSchemaPrefixAndAllOldDefinitionsUnchanged": true,
+  "onlyNewMediaPolicyDecoderPinAndOutcomesProbeRefPlusAppendedRetryDefinitionChanged": true,
+  "allPrior184MethodAstsAndUnrelatedHelpersUnchanged": true,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "repairCoverage": [
+    "Selected-slot bounded generic typed retry decode report, without pretending it is an Android observation",
+    "Exact job/current-attempt/node/input/output-ref+SHA/encoder/approved decoder/AV1/decodable/span/frame count/zero error binding",
+    "Decode UTC inside admitted retry interval before retry completion, positive finite media duration; existing lifecycle counters must match parsed report",
+    "Samefile rejection across interrupted partial/fresh retry/original admitted output/probe/cancelled partial, while independent files with deterministic identical bytes remain legal",
+    "New185 retains prior negative matrix and adds probe identity/input/output/build/codec/count/time and hardlink alias cases plus independently retained same-byte positive"
+  ],
+  "firstInputVersionStage": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-media185-input-version-increment.txt",
+    "physicalSha256": "bfe576a49cc3ca44d2a6cb6610984e7508e2ba02fc3931ebe22f5e713593a4dc",
+    "tests": 1,
+    "seconds": 386.705,
+    "exitCode": 0,
+    "contentRejected": true,
+    "doesNotOverrideContentRejectionOrTransferToLatestHash": true
+  },
+  "earlierFixtureKeyErrorRetainedInFirstRejection": true,
+  "currentSingle185ExecutionAccepted": false,
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-media185-retry-probe-increment.txt",
+    "observedPhysicalSha256": "aefc62277ce8762d2326a95d1391c9424805fa59721e9861e475fe4edbbce833",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl",
+    "testsRequested": 1,
+    "terminalObserved": false,
+    "exitCode": null,
+    "seconds": null,
+    "pendingAtObservation": true,
+    "executionAccepted": false
+  },
+  "stagesNotSummedIntoFull185OrPublishedAcceptance": true,
+  "fixtureOnlyNotActualFfmpegRecoveryOrHlsRun": true,
+  "remainingOneFindingPending": true,
+  "whole185SuitePassed": false,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

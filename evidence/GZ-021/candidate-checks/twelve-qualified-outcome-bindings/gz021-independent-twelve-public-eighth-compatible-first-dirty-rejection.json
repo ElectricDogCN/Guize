@@ -1,0 +1,82 @@
+{
+  "capturedAt": "2026-10-14T00:39:06.033281+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sFdMr",
+  "finiteScope": "Only eighth compatibility and per-point request-witness correction against the preserved first rejection",
+  "contentAccepted": false,
+  "eighthCheckerRepairContentSupported": true,
+  "mustFix": [
+    {
+      "id": "EIGHTH-181-STALE-EQUALITY-NEGATIVE",
+      "path": "specs/poc/test_program.py",
+      "line": 2020,
+      "problem": "New181 retains old tls_clock equality as an invalid-data assertion, contradicting the corrected nondecreasing timestamp contract and its same_clock positive.",
+      "minimalRepair": "Change this new181 mutation to genuine reversed time, or remove the redundant equality-negative case. Do not change checker <= behavior or previous180 methods.",
+      "counterexample": "finishedAt==startedAt now satisfies the approved time chain; assertion expecting qualified-public-network errors is no longer valid.",
+      "evidenceType": "direct source/predicate inspection; no reviewer test run"
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "41ee2983cdffb45affeac3abeaa8bf137b5e44725421d392049d98972b810529",
+    "specs/poc/program.schema.yaml": "e6f22bc31cc182ad4f64ea3c3ed38804082030048ff74da099a69c384cff162f",
+    "specs/poc/test_program.py": "f8a73262865fe7994692b54450bb99e88277d4fbf29ab92f122f1f51f12979bb"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "41ee2983cdffb45affeac3abeaa8bf137b5e44725421d392049d98972b810529",
+    "specs/poc/program.schema.yaml": "e6f22bc31cc182ad4f64ea3c3ed38804082030048ff74da099a69c384cff162f",
+    "specs/poc/test_program.py": "f8a73262865fe7994692b54450bb99e88277d4fbf29ab92f122f1f51f12979bb"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "33680578c8c33d36a64b1b67f2ba2f24a51a7851adb2e485e5a891d5568f973c",
+    "specs/poc/program.schema.yaml": "80d794e4a862aacad9ff0f5f20b9db744242067714d001034c63135cc93e5c01",
+    "specs/poc/test_program.py": "ef426b2a7b2cb4814065b7eb21647c2d574741c724fec44955a73396dd31b4c5"
+  },
+  "hashesStable": true,
+  "firstRejection": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-public-eighth-first-dirty-rejection.json",
+    "sha256": "1d6cfba9f4de7c4676d59c348acd6758066874b24b73cd23c97b2b67a88d4724"
+  },
+  "firstSnapshotHashesBound": true,
+  "priorSevenSchemaWholePrefixAndDefinitionsRetained": true,
+  "onlyCurrentObservationSerialTypeAndAppendedRequestDefinitionChanged": true,
+  "requestSchemaExactCopyOfImmutableAccessOutcomePlusThreeIdentityFields": true,
+  "old180MethodsAndOtherHelpersUnchanged": true,
+  "checkerRepairCoverage": [
+    "Monotonic <= handshake/request timestamps retaining reversals and exact window/witness time checks",
+    "Real unchanged or null DNS serial metadata; distinct actual approved AAAA, resolver/name and propagation window still enforced",
+    "Per-point typed request exact point/request/baseline/subject/grant/time and protected Range/header/hash binding",
+    "Physical request-witness and response-body uniqueness across approved points; no single-point restriction",
+    "Existing IPv6/high-port/proxy/origin/TLS/denial and zero-leak gates retained; qualified production PASS only"
+  ],
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-public181-compatible-points-increment.txt",
+    "observedPhysicalSha256": "7338c9d46b6ac1ace3d167b8221896919f42d65a326055801e4e886d0b805d29",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes",
+    "testsRequested": 1,
+    "terminalObserved": false,
+    "exitCode": null,
+    "seconds": null,
+    "pendingAtObservation": true,
+    "executionAccepted": false
+  },
+  "firstSingle181PassDoesNotTransferToCurrentCandidate": true,
+  "whole181SuitePassed": false,
+  "remainingFourFindingsPending": true,
+  "publicationContentSupported": false,
+  "publicationContentApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

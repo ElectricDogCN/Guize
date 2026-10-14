@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_QUALITY176_PRIOR_APPROVAL_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL176
+Candidate Files SHA256: {'specs/poc/check_program.py': '39e83d8a44c96984d8a27963034e893f169062f4baa9d6ded86eb8f6b5527bc2', 'specs/poc/program.schema.yaml': '9d607f962e6fcaa69b381302f511635bfe489a9295645bcb174bcdde17c47adf', 'specs/poc/test_program.py': '66ea15e6b1da55a691101307d1546661c3c7ae3a07d52fefe6501122e3b41786'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_176_media_quality_and_first_playable_latency_bind_retained_observations
+test_176_media_quality_and_first_playable_latency_bind_retained_observations (__main__.TestPocProgram.test_176_media_quality_and_first_playable_latency_bind_retained_observations) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 229.325s
+
+OK
+
+Exit Code: 0

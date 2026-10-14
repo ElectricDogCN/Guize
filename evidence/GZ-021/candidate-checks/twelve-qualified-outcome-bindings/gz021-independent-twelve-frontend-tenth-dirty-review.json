@@ -1,0 +1,83 @@
+{
+  "capturedAt": "2026-10-14T01:17:09.784544+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYev",
+  "finiteScope": "Only tenth frontend fixed-matrix, build, scenario and rubric retained-outcome repair",
+  "contentAccepted": true,
+  "tenthFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "280cbb7f0f3c8d670db73f18f4ac2731956256272916ff58915188a686072820",
+    "specs/poc/program.schema.yaml": "64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762",
+    "specs/poc/test_program.py": "989e2532c6c2bb7557809c1643c1d15adc0a0fbf3503a85caf78b90c3f12c915"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "280cbb7f0f3c8d670db73f18f4ac2731956256272916ff58915188a686072820",
+    "specs/poc/program.schema.yaml": "64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762",
+    "specs/poc/test_program.py": "989e2532c6c2bb7557809c1643c1d15adc0a0fbf3503a85caf78b90c3f12c915"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "cf5df60ef1d78f26b060518cbef43acde1c6fb3b8271d9c3b69554000a430388",
+    "specs/poc/program.schema.yaml": "f42ddfd8008f111436fefbe1863024032151c73cf6e7e409cab4936fc0d7f670",
+    "specs/poc/test_program.py": "1b9343be4ad16a6b0a6f78a48fc04cf37c57cf91529900f25f420e1ef814b229"
+  },
+  "hashesStable": true,
+  "priorNineContent": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-metadata-ninth-observed-order-final-dirty-review.json",
+    "sha256": "7255a9d2d3d37fa722cb47a5bd60ab6a9d171c211bae5a72ee7bb815925ca194",
+    "snapshotManifestSha256": "628fb50aab1a212db8b454ef751a70bae4c3d539523b84c7ab462224eda58f00"
+  },
+  "originalAndPriorNineSchemaWholeBytePrefixesAndDefinitionsRetained": true,
+  "onlyAppendedDefinitions": [
+    "frontendBuildObservation",
+    "frontendComparisonPolicy",
+    "frontendComparisonReport",
+    "frontendRubricObservation",
+    "frontendScenarioFixture",
+    "frontendScenarioObservation"
+  ],
+  "allPrior183MethodAstsAndUnrelatedHelpersUnchanged": true,
+  "priorModuleConstantsUnchangedAndOnlyFrontendScenarioActionsAdded": true,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "newMethod": 184,
+  "reviewedCoverage": [
+    "Both approved locked Vue/React build identities, source/compiler/command and actual dependency-lock SHA; distinct successful build IDs and retained nonempty bundle byte sizes/digests",
+    "Independently approved immutable exact ten-scenario input, fixed interaction identities and one-million-row input argument",
+    "Each candidate covers ten exact scenarios once; typed retained actual actions/results tied to build/input/driver, ordered UTC and duration derived from trace interval",
+    "Three approved rubric criteria, positive finite weights and grade levels, assessor/version/nonplaceholder basis and all completed trace refs; assessment occurs after scenario completion",
+    "Twenty-case coverage percentage, selected approved baseline bundle KiB and weighted score derive actual reports; ten equivalence booleans derive both candidates matching approved outcomes",
+    "Physically distinct build/bundle/scenario/score artifacts; selected-slot bounded typed report and existing raw byte validation retained",
+    "Qualified POC008 PASS both profiles only; FAIL/inconclusive stay ungated; fixture data explicitly synthetic, no actual build/UI claim"
+  ],
+  "targetedSingle184ExecutionAccepted": false,
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-frontend184-first-increment.txt",
+    "observedPhysicalSha256": "d1fdc66cfaf3e9c1926cf255ffa13e3922bdf30d2e3a88a6e6ca667212b84b6b",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric",
+    "testsRequested": 1,
+    "terminalObserved": false,
+    "exitCode": null,
+    "seconds": null,
+    "pendingAtObservation": true,
+    "executionAccepted": false
+  },
+  "whole184SuitePassed": false,
+  "previousStagesNotTransferredToPublishedSource": true,
+  "remainingTwoFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

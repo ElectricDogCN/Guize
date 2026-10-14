@@ -512,10 +512,20 @@ class TestPocProgram(unittest.TestCase):
                 sandbox_record=load_yaml(sandbox_path)
                 sandbox_record['configuration']['syntheticHierarchySandbox']=env['syntheticHierarchySandbox']['boundary']
                 write_yaml(sandbox_path,sandbox_record)
+            if task_id=='POC-001' and production and status=='pass':self.prepare_qualified_firmware_fixture(root,execution,new_prefix)
+            if task_id=='POC-001' and production and status=='pass':self.prepare_qualified_passthrough_transitions_fixture(root,execution,new_prefix)
+            if task_id=='POC-001' and status=='pass':self.prepare_qualified_worker_safety_fixture(root,execution,new_prefix)
+            if task_id=='POC-006' and not production and status=='pass':self.prepare_qualified_source_fault_fixture(root,execution,new_prefix)
             if task_id=='POC-010' and status=='pass':self.prepare_qualified_recovery_fixture(root,execution,new_prefix)
             if task_id=='POC-002' and production and status=='pass':self.prepare_qualified_a380_fixture(root,execution,new_prefix)
+            if task_id=='POC-002' and status=='pass':self.prepare_qualified_quality_timing_fixture(root,execution,new_prefix)
+            if task_id=='POC-002' and status=='pass':self.prepare_qualified_media_negative_fixture(root,execution,new_prefix)
+            if task_id=='POC-005' and status=='pass':self.prepare_qualified_metadata_scan_fixture(root,execution,new_prefix)
             if task_id=='POC-007' and status=='pass':self.prepare_qualified_access_fixture(root,execution,new_prefix)
+            if task_id=='POC-007' and production and status=='pass':self.prepare_qualified_public_network_fixture(root,execution,new_prefix)
             if task_id=='POC-003' and status=='pass':self.prepare_qualified_range_fixture(root,execution,new_prefix)
+            if task_id=='POC-008' and status=='pass':self.prepare_qualified_frontend_fixture(root,execution,new_prefix)
+            if task_id=='POC-004' and not production and status=='pass':self.prepare_qualified_local_storage_fixture(root,execution,new_prefix)
             if task_id=='POC-009' and status=='pass':self.prepare_qualified_ai_results_fixture(root,execution,new_prefix)
             selected_route = CHECK.execution_route(plan,profile)
             config_ref = execution['environmentCaptured']['acceptanceProfileConfigurationRef']
@@ -651,6 +661,79 @@ class TestPocProgram(unittest.TestCase):
         env['accessOutcomeRef']=retain('access-outcomes.yaml',dict(schemaVersion=1,kind='access_outcome_report',**common,cases=cases),'measurement_output')
 
 
+    def prepare_qualified_frontend_fixture(self,root,execution,prefix):
+        """Synthetic frontend observations; never actual prototypes or build/UI execution."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-FRONTEND-COMPARE');sample=execution['samples'][0];input_record=next(r for r in env['inputSampleArtifacts'] if r['sampleId']==sample['id'])
+        scenarios=[dict(scenarioId=scenario,fixtureId='synthetic-'+scenario,arguments=dict(rowCount=1000000,viewportRows=30,overscanRows=5) if scenario=='million_row_virtual_list_equivalent' else dict(controlledFixture='synthetic-'+scenario),expectedResults={action:dict(fixture='synthetic-'+scenario,interaction=action,normalizedOutcome='synthetic-expected-state') for action in actions}) for scenario,actions in CHECK.FRONTEND_SCENARIO_ACTIONS.items()]
+        path=root/input_record['inputArtifactRef'];write_yaml(path,dict(schemaVersion=1,kind='frontend_fixed_scenario_fixture',scenarios=scenarios));raw=path.read_bytes();digest='sha256:'+hashlib.sha256(raw).hexdigest();sample['checksum']=digest;input_record.update(byteCount=len(raw),sha256=digest);approval=load_yaml(root/sample['approvalRef']);approval['checksum']=digest;write_yaml(root/sample['approvalRef'],approval)
+        def retain(name,data,kind):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(data,bytes):path.write_bytes(data)
+            else:write_yaml(path,data)
+            raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref,'sha256:'+hashlib.sha256(raw).hexdigest(),len(raw)
+        identities=[];rows=[]
+        for candidate in ('vue','react'):
+            lock_ref,lock_sha,_=retain(candidate+'-dependency-lock.json',json.dumps(dict(synthetic=True,candidate=candidate,version='synthetic-locked-'+candidate)).encode(),'command_output');identity=dict(candidateId=candidate,frameworkVersion='synthetic-locked-'+candidate,sourceRevision='synthetic-'+candidate+'-source-snapshot',compilerBuild='synthetic-pinned-compiler',lockRef=lock_ref,lockSha256=lock_sha,commandArgs=['synthetic-build',candidate]);identities.append(identity);build_id='synthetic-'+candidate+'-build'
+            bundle_ref,bundle_sha,bundle_size=retain(candidate+'-bundle.js',('/* Synthetic '+candidate+' bundle; never an actual build. */').encode(),'command_output');build_ref,_,_=retain(candidate+'-build.yaml',dict(schemaVersion=1,kind='frontend_build_observation',identity=identity,buildId=build_id,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:01Z',exitCode=0,bundles=[dict(ref=bundle_ref,sha256=bundle_sha,byteCount=bundle_size)]),'measurement_output')
+            case_rows=[]
+            for scenario in scenarios:
+                actions=[dict(actionId=action,startedAt='2026-09-03T00:00:02Z',finishedAt='2026-09-03T00:00:02Z',result=value) for action,value in scenario['expectedResults'].items()];ref,_,_=retain(candidate+'-'+scenario['scenarioId']+'.yaml',dict(schemaVersion=1,kind='frontend_scenario_observation',candidateId=candidate,buildId=build_id,scenarioId=scenario['scenarioId'],fixtureId=scenario['fixtureId'],inputSha256=sample['checksum'],scenarioDriverBuild='synthetic-pinned-ui-driver',startedAt='2026-09-03T00:00:02Z',finishedAt='2026-09-03T00:00:03Z',status='completed',actions=actions,measurements=[dict(measurementId='interaction_duration',unit='ms',value=1000)]+([dict(measurementId='measured_input_rows',unit='rows',value=1000000),dict(measurementId='rendered_dom_rows_peak',unit='rows',value=30 if candidate=='vue' else 40)] if scenario['scenarioId']=='million_row_virtual_list_equivalent' else [])),'measurement_output');case_rows.append(dict(scenarioId=scenario['scenarioId'],observationRef=ref))
+            score_rows=[]
+            for criterion in ('ecosystem_team_fit','component_reuse','long_term_maintenance'):
+                ref,_,_=retain(candidate+'-'+criterion+'.yaml',dict(schemaVersion=1,kind='frontend_rubric_observation',candidateId=candidate,buildId=build_id,rubricId='synthetic-fixed-rubric',rubricVersion='synthetic-rubric-version',criterionId=criterion,assessorId='synthetic-approved-assessor',observedAt='2026-09-03T00:00:04Z',grade=1,basis='Synthetic rubric justification; never an actual team assessment.',scenarioRefs=[r['observationRef'] for r in case_rows]),'measurement_output');score_rows.append(dict(criterionId=criterion,observationRef=ref))
+            rows.append(dict(candidateId=candidate,buildRef=build_ref,scenarios=case_rows,scores=score_rows))
+            if candidate=='vue':baseline_bytes=bundle_size
+        policy=dict(inputSampleId=sample['id'],scenarioDriverBuild='synthetic-pinned-ui-driver',candidates=identities,bundleCandidate='vue',scoreCandidate='vue',rubricId='synthetic-fixed-rubric',rubricVersion='synthetic-rubric-version',assessorId='synthetic-approved-assessor',criteria=[dict(criterionId=criterion,weight=1) for criterion in ('ecosystem_team_fit','component_reuse','long_term_maintenance')],gradeValues=[1,2,3,4,5]);config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['frontendComparisonPolicy']=policy;write_yaml(config_path,config)
+        report=dict(schemaVersion=1,kind='frontend_comparison_report',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-008')),execution),inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],inputFixtureRef=input_record['inputArtifactRef'],inputFixtureSha256=sample['checksum'],candidates=rows);ref,_,_=retain('frontend-comparison.yaml',report,'measurement_output');env['frontendComparisonRef']=ref
+        for measurement in execution['measurements']:
+            if measurement['id']=='prototype_coverage':measurement['actual']=100
+            elif measurement['id']=='bundle_baseline':measurement['actual']=baseline_bytes/1024
+
+
+    def prepare_qualified_metadata_scan_fixture(self,root,execution,prefix):
+        """Synthetic metadata/control records, never a scanner workload measurement."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-METADATA-SCALE');sample=execution['samples'][0];input_record=next(r for r in env['inputSampleArtifacts'] if r['sampleId']==sample['id'])
+        objects=[dict(objectId='synthetic-directory-1',kind='directory',versionId='version-1',depth=1,fileSizeBytes=0),dict(objectId='synthetic-file-1',kind='file',versionId='version-1',depth=1,fileSizeBytes=1)]
+        baseline_bytes=b''.join((json.dumps(record,separators=(',',':'))+'\n').encode() for record in objects);(root/input_record['inputArtifactRef']).write_bytes(baseline_bytes);digest='sha256:'+hashlib.sha256(baseline_bytes).hexdigest();sample['checksum']=digest;input_record.update(byteCount=len(baseline_bytes),sha256=digest);approval=load_yaml(root/sample['approvalRef']);approval['checksum']=digest;write_yaml(root/sample['approvalRef'],approval)
+        def retain(name,records):
+            raw=b''.join((json.dumps(record,separators=(',',':'))+'\n').encode() for record in records);ref=prefix+'/raw/'+name;(root/ref).write_bytes(raw);digest='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='command_output',byteCount=len(raw),sha256=digest));execution['rawOutputRefs'].append(ref);return dict(ref=ref,sha256=digest,count=len(records))
+        changes=[dict(eventId='synthetic-change-'+str(i),sequence=i,objectId=object_id,operation=operation,beforeVersion=before,afterVersion=after) for i,object_id,operation,before,after in ((1,'synthetic-file-1','update','version-1','version-2'),(2,'synthetic-file-2','create','absent','version-1'),(3,'synthetic-file-1','delete','version-2','absent'))]
+        policy=dict(manifestId=sample['immutableId'],baselineInputSampleId=sample['id'],scannerBuild=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-005')),execution),scanId='synthetic-baseline-scan',changeSetId='synthetic-controlled-changes',hierarchyGenerator=copy.deepcopy(env.get('synthetic_hierarchy_manifest',{}).get('generator')) if isinstance(env.get('synthetic_hierarchy_manifest'),dict) else None,baseline=dict(ref=input_record['inputArtifactRef'],sha256=digest,count=len(objects)),expectedChanges=retain('approved-metadata-changes.jsonl',changes))
+        if policy['hierarchyGenerator'] is None:policy.pop('hierarchyGenerator')
+        config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['metadataScanPolicy']=policy;write_yaml(config_path,config)
+        report=dict(schemaVersion=1,kind='metadata_scan_observation',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=policy['scannerBuild'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],manifestId=policy['manifestId'],scannerBuild=policy['scannerBuild'],enumeration=dict(scanId=policy['scanId'],startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:02Z',objects=retain('enumerated-metadata.jsonl',objects)),changeStream=dict(changeSetId=policy['changeSetId'],startedAt='2026-09-03T00:00:05Z',finishedAt='2026-09-03T00:00:15Z',events=retain('observed-metadata-changes.jsonl',[dict(**event,observedAt=f'2026-09-03T00:00:0{event["sequence"]+5}Z') for event in changes])),incremental=dict(changeSetId=policy['changeSetId'],startedAt='2026-09-03T00:00:16Z',finishedAt='2026-09-03T00:00:20Z',appliedEvents=retain('applied-metadata-changes.jsonl',[dict(eventId=event['eventId']) for event in changes]),traversedObjects=retain('incremental-metadata-visits.jsonl',[dict(objectId=record['objectId']) for record in objects]+[dict(objectId='synthetic-file-2')])))
+        ref=prefix+'/raw/metadata-scan.yaml';path=root/ref;write_yaml(path,report);raw=path.read_bytes();env['metadataScanRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
+        for measurement in execution['measurements']:
+            if measurement['id']=='source_change_frequency':measurement['actual']=1080
+            elif measurement['id']=='incremental_scan_cost':measurement['actual']=4
+
+
+    def prepare_qualified_public_network_fixture(self,root,execution,prefix):
+        """Explicitly synthetic external DNS/TLS/routing cases, never public network measurements."""
+        env=execution['environmentCaptured'];access=load_yaml(root/env['accessOutcomeRef']);path=root/access['configurationRef'];config=load_yaml(path);access_policy=config['configuration']['accessPolicy'];entry='https://synthetic-public.invalid:8443'
+        for key in ('range','stream'):access_policy['paths'][key]=entry+'/protected/'+key
+        for case in access['cases']:
+            witness_path=root/case['witnessRef'];witness=load_yaml(witness_path);witness['requestURL']=access_policy['paths']['stream' if case['case']=='authorized_stream' else 'range'];write_yaml(witness_path,witness)
+        policy=dict(endpointURL=access_policy['paths']['range'],testPointIds=['synthetic-external-point'],newAddress='2001:db8::2',oldAddress='2001:db8::1',ddnsName='synthetic-public.invalid',ddnsUpdatedAt='2026-09-03T00:00:00.100Z',maximumPropagationSeconds=1,resolverBuild='synthetic-resolver-build',trustStoreBuild='synthetic-trust-store-build',certificateSha256='sha256:'+'a'*64,trustAnchorSha256='sha256:'+'b'*64,approvedProtocols=['TLSv1.3'],approvedCiphers=['TLS_AES_128_GCM_SHA256'],routeId='synthetic-approved-proxy-route',proxyBuild='synthetic-proxy-build',originHost='synthetic-source.invalid',originPort=443,originAddress='2001:db8::3',unintendedURL='https://synthetic-public.invalid:8444/protected/range',bypassURL=access_policy['paths']['source'])
+        config['configuration']['publicNetworkPolicy']=policy;write_yaml(path,config)
+        def retain(name,data,kind):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(data,bytes):path.write_bytes(data)
+            else:write_yaml(path,data)
+            raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref
+        witness_ref=next(r['witnessRef'] for r in access['cases'] if r['case']=='authorized_range');witness=load_yaml(root/witness_ref)
+        baseline_ref=witness_ref;body=(root/witness['responseBodyRef']).read_bytes();witness['responseBodyRef']=retain('public-current-response.bin',body,'produced_media');witness.update(kind='public_access_request_outcome',requestId='synthetic-current-public-request',testPointId=policy['testPointIds'][0],baselineAccessWitnessRef=baseline_ref)
+        witness_ref=retain('public-current-request.yaml',witness,'measurement_output')
+        dns=lambda address,at,serial:dict(name=policy['ddnsName'],recordType='AAAA',addresses=[address],observedAt=at,resolverBuild=policy['resolverBuild'],recordSerial=serial)
+        tls=dict(startedAt='2026-09-03T00:00:00.650Z',finishedAt='2026-09-03T00:00:00.700Z',sni=policy['ddnsName'],protocol='TLSv1.3',cipher=policy['approvedCiphers'][0],trustStoreBuild=policy['trustStoreBuild'],certificateSha256=policy['certificateSha256'],chainFingerprints=[policy['certificateSha256'],policy['trustAnchorSha256']],chainValidated=True,hostnameValidated=True)
+        control=dict(testPointId=policy['testPointIds'][0],testPointScope='external',requestId='synthetic-current-public-request',requestURL=policy['endpointURL'],accessWitnessRef=witness_ref,connectedAt='2026-09-03T00:00:00.600Z',requestStartedAt='2026-09-03T00:00:00.800Z',requestFinishedAt=witness['observedAt'],addressFamily='IPv6',connectedAddress=policy['newAddress'],remotePort=8443,tls=tls,routeId=policy['routeId'],proxyBuild=policy['proxyBuild'],originHost=policy['originHost'],originPort=policy['originPort'],**{k:witness[k] for k in ('responseBodyRef','responseSha256','responseByteCount')})
+        denials=[]
+        for case in ('unintended_listener','direct_bypass','stale_address'):
+            body=retain('public-'+case+'-body.bin',b'','produced_media');denials.append(dict(case=case,testPointId=policy['testPointIds'][0],testPointScope='external',requestId='synthetic-denied-public-'+case,requestURL=policy['unintendedURL'] if case=='unintended_listener' else policy['bypassURL'] if case=='direct_bypass' else policy['endpointURL'],connectedAddress=policy['originAddress'] if case=='direct_bypass' else policy['oldAddress'] if case=='stale_address' else policy['newAddress'],remotePort=8444 if case=='unintended_listener' else 443 if case=='direct_bypass' else 8443,observedAt='2026-09-03T00:00:02Z',statusCode=0,outcome='connection_refused',routeId=None,originRequestCount=0,responseBodyRef=body,responseSha256='sha256:'+hashlib.sha256(b'').hexdigest(),responseByteCount=0))
+        report=dict(schemaVersion=1,kind='public_network_observations',configurationRef=access['configurationRef'],accessOutcomeRef=env['accessOutcomeRef'],**{k:access[k] for k in ('acceptanceProfile','subjectVersion','inputSamples')},dnsBefore=dns(policy['oldAddress'],'2026-09-03T00:00:00Z','synthetic-old-record'),dnsAfter=dns(policy['newAddress'],'2026-09-03T00:00:00.500Z','synthetic-new-record'),controls=[control],denials=denials)
+        env['publicNetworkRef']=retain('public-network.yaml',report,'measurement_output');self.refresh_qualified_observation_fixture(root,execution)
+
+
     def prepare_qualified_range_fixture(self,root,execution,prefix):
         """Synthetic retained Range/cache cases; never actual ATS or network execution."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-ATS-SANDBOX');sample=execution['samples'][0];source=root/env['inputSampleArtifacts'][0]['inputArtifactRef'];data=source.read_bytes();changed=data.replace(b'Synthetic',b'Updated!!',1)
@@ -691,6 +774,170 @@ class TestPocProgram(unittest.TestCase):
         env['rangeMatrixRef']=retain('range-matrix.yaml',dict(schemaVersion=1,kind='range_matrix_report',**common,sourceUpdateRef=update_ref,cacheLifecycleRef=lifecycle_ref,cases=cases,slices=slices),'measurement_output')
 
 
+    def prepare_qualified_passthrough_transitions_fixture(self,root,execution,prefix):
+        """Synthetic reboot/reset witnesses; never actual hardware validation."""
+        env=execution['environmentCaptured'];capture=env['productionPassthroughIdentity'];identity=capture['identity'];device=identity['gpuDeviceId'];config=capture['configurationRef'];rows=[]
+        def retain(name,data,kind):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(data,bytes):path.write_bytes(data)
+            else:write_yaml(path,data)
+            raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,nodeId=identity['nodeId'],byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref
+        def state(index,host,guest,generation):
+            start=f'2026-09-03T00:04:{index*10:02d}Z';finish=f'2026-09-03T00:04:{index*10+1:02d}Z';at=f'2026-09-03T00:04:{index*10+2:02d}Z';payload=b'Synthetic passthrough probe output, never actual encoded media.'+str(index).encode();output=retain('passthrough-probe-'+str(index)+'.bin',payload,'produced_media')
+            probe=dict(schemaVersion=1,kind='passthrough_runtime_probe',configurationRef=config,identity=identity,hostBootId=host,guestBootId=guest,deviceGenerationId=generation,startedAt=start,finishedAt=finish,inputSha256=execution['samples'][0]['checksum'],outputRef=output,outputSha256='sha256:'+hashlib.sha256(payload).hexdigest(),codec='av1',decodedFrameCount=1,decodeErrorCount=0,runtimeReady=True);ref=retain('passthrough-probe-'+str(index)+'.yaml',probe,'measurement_output')
+            return dict(observedAt=at,hostBootId=host,guestBootId=guest,deviceGenerationId=generation,enumeratedDeviceIds=[device],assignedDeviceIds=[device],runtimeReady=True,probeRef=ref)
+        states=[state(0,'synthetic-captured-host-boot','synthetic-guest-boot-0','synthetic-device-generation-0'),state(1,'synthetic-captured-host-boot','synthetic-guest-boot-1','synthetic-device-generation-1'),state(2,'synthetic-host-boot-1','synthetic-guest-boot-2','synthetic-device-generation-2'),state(3,'synthetic-host-boot-1','synthetic-guest-boot-2','synthetic-device-generation-3')]
+        for i,case in enumerate(('guest_reboot','host_reboot','device_reset')):
+            rows.append(dict(case=case,startedAt=f'2026-09-03T00:04:{i*10+3:02d}Z',finishedAt=f'2026-09-03T00:04:{i*10+4:02d}Z',manualRebuildCount=0,before=states[i],after=states[i+1]))
+        env['passthroughTransitionRef']=retain('passthrough-transitions.yaml',dict(schemaVersion=1,kind='production_passthrough_transitions',configurationRef=config,identity=identity,cases=rows),'measurement_output')
+
+
+    def prepare_qualified_worker_safety_fixture(self,root,execution,prefix):
+        """Synthetic per-node safety observations; never actual worker execution evidence."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');subject=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-001')),execution)
+        nodes=[{k:n[k] for k in ('nodeId','physicalHostId','encoderBuild')} for n in env['worker_node_inventory']]
+        limits=dict(cpuSeconds=5,memoryBytes=100,elapsedSeconds=5,temporaryBytes=100,outputBytes=100)
+        policy=dict(subjectVersion=subject,nodes=nodes,limits=limits,maximumRecoverySeconds=10,taskId='synthetic-worker-safety-task',allowedTarget='https://synthetic-task.invalid/approved-input',privateTarget='http://127.0.0.1/private',unsupportedTarget='file:///synthetic-input',administrativeTarget='https://synthetic-storage.invalid/api/admin',grantId='synthetic-task-grant',expiredGrantId='synthetic-expired-task-grant',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-03T01:00:00Z',expiredAt='2026-09-02T00:00:00Z')
+        path=root/resource['configurationRef'];config=load_yaml(path);config['configuration']['workerSafetyPolicy']=policy;write_yaml(path,config)
+        rows=[]
+        for node in nodes:
+            identity=node['nodeId'];cases=[]
+            for kind,ceiling in limits.items():
+                observed={k:1 for k in limits};observed[kind]=ceiling+1
+                cases.append(dict(case=kind,requestId=identity+'-limit-'+kind,startedAt='2026-09-03T00:01:00Z',finishedAt='2026-09-03T00:01:06Z' if kind=='elapsedSeconds' else '2026-09-03T00:01:01Z',observed=observed,terminationReason=kind,processExited=True,remainingTemporaryBytes=0,remainingOutputBytes=0,publishedArtifactIds=[]))
+            restart=dict(taskId=policy['taskId'],oldLeaseId=identity+'-old-lease',newLeaseId=identity+'-new-lease',oldRegistrationId=identity+'-old-registration',newRegistrationId=identity+'-new-registration',oldLeaseIssuedAt='2026-09-03T00:02:00Z',disconnectedAt='2026-09-03T00:02:01Z',oldLeaseExpiresAt='2026-09-03T00:02:02Z',expiredLeaseObservedAt='2026-09-03T00:02:03Z',reRegisteredAt='2026-09-03T00:02:04Z',newLeaseIssuedAt='2026-09-03T00:02:04Z',recoveredAt='2026-09-03T00:02:05Z',newLeaseExpiresAt='2026-09-03T00:02:10Z',completedTaskId=policy['taskId'],completionLeaseId=identity+'-new-lease',completionRegistrationId=identity+'-new-registration',taskCompletionCount=1,staleLeasePublicationCount=0)
+            network=[]
+            for kind,key in dict(authorized='allowedTarget',private_target='privateTarget',unsupported_target='unsupportedTarget',administrative_target='administrativeTarget',expired_grant='allowedTarget').items():
+                data=b'Synthetic task-scoped outbound control; never actual network traffic.' if kind=='authorized' else b'';ref=prefix+'/raw/worker-'+identity+'-'+kind+'.bin';(root/ref).write_bytes(data);digest='sha256:'+hashlib.sha256(data).hexdigest()
+                env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='produced_media',nodeId=identity,byteCount=len(data),sha256=digest));execution['rawOutputRefs'].append(ref)
+                network.append(dict(case=kind,requestId=identity+'-network-'+kind,taskId=policy['taskId'],grantId=policy['expiredGrantId'] if kind=='expired_grant' else policy['grantId'],requestURL=policy[key],observedAt='2026-09-03T00:03:00Z',decision='allowed' if kind=='authorized' else 'denied',outboundRef=ref,outboundSha256=digest,outboundByteCount=len(data)))
+            rows.append(dict(identity=node,limitCases=cases,restart=restart,networkCases=network))
+        report=dict(schemaVersion=1,kind='worker_safety_outcomes',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=subject,inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],nodes=rows)
+        ref=prefix+'/raw/worker-safety.yaml';path=root/ref;write_yaml(path,report);raw=path.read_bytes();env['workerSafetyRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
+
+
+    def prepare_qualified_source_fault_fixture(self,root,execution,prefix):
+        """Synthetic request/state observations; never actual OpenList execution."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-OPENLIST-LOCAL');plan=load_yaml(self.plan_path(root,'POC-006'))
+        policy=dict(scope='GENERIC_OPENLIST_SANDBOX',sandboxId='fixture-local-source-sandbox',sourceId='fixture-source-id',objectId='fixture-stable-object-id',objectVersion='fixture-source-object-v1',assetId='fixture-stable-asset-id',assetVersion='fixture-asset-version-v1',subjectVersion=CHECK.compliance_subject_version(plan,execution),idempotencyKey='fixture-stable-source-sync-key',maxAttempts=3,maxBackoffSeconds=2)
+        config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['localSourceFaultPolicy']=policy;write_yaml(config_path,config)
+        full=dict(assets=[dict(assetId=policy['assetId'],versionId=policy['assetVersion'])],sourceObjects=[dict(sourceId=policy['sourceId'],objectId=policy['objectId'],versionId=policy['objectVersion'],availability='available')],links=[dict(sourceId=policy['sourceId'],objectId=policy['objectId'],assetId=policy['assetId'])])
+        rows=[];configured={case['fault']:case['caseId'] for case in env['injected_failure_matrix']['cases']}
+        for index,case in enumerate(('http_429','http_5xx','network_disconnect','auth_expired','interrupted_sync','duplicate_replay','source_delete')):
+            attempts=[];count=1 if case in ('auth_expired','source_delete') else 2
+            for number in range(1,count+1):
+                classification=case if number==1 and case!='duplicate_replay' else 'success';base=1+index*10+(number-1)*2
+                code=429 if classification=='http_429' else 503 if classification=='http_5xx' else 401 if classification=='auth_expired' else 204 if classification=='source_delete' else None if classification in ('network_disconnect','interrupted_sync') else 200
+                checkpoint='fixture-retained-partial-checkpoint' if case=='interrupted_sync' else None
+                attempts.append(dict(attemptNo=number,requestId=f'fixture-{case}-request-{number}',idempotencyKey=policy['idempotencyKey'],requestedAt=f'2026-09-03T00:{base//60:02d}:{base%60:02d}Z',finishedAt=f'2026-09-03T00:{(base+1)//60:02d}:{(base+1)%60:02d}Z',transport='network_disconnect' if classification=='network_disconnect' else 'interrupted' if classification=='interrupted_sync' else 'http_response',httpStatus=code,classification=classification,authorization='expired' if case=='auth_expired' else 'valid',retryAfterSeconds=1 if classification=='http_429' else 0,backoffAfterSeconds=1 if number<count else 0,checkpointBefore=checkpoint if number>1 else None,checkpointAfter=checkpoint,completedObjectIds=[policy['objectId']] if classification=='success' else [],returnedAssetIds=[policy['assetId']] if classification=='success' else [],createdAssetIds=[]))
+            after=copy.deepcopy(full)
+            if case=='source_delete':after['sourceObjects'][0]['availability']='source_unavailable'
+            rows.append(dict(case=case,caseId=configured.get(case,'fixture-'+case),recoveryMode='none' if count==1 else 'resume',outcome='explicit_failure' if case=='auth_expired' else 'source_unavailable' if case=='source_delete' else 'recovered',before=copy.deepcopy(full),after=after,attempts=attempts))
+        report=dict(schemaVersion=1,kind='local_source_fault_outcomes',configurationRef=resource['configurationRef'],subjectVersion=policy['subjectVersion'],inputSamples=[{k:sample[k] for k in ('id','immutableId','checksum')} for sample in execution['samples']],acceptanceProfile=env['acceptanceProfile'],scope=policy['scope'],sandboxId=policy['sandboxId'],cases=rows)
+        ref=prefix+'/raw/source-fault-outcomes.yaml';path=root/ref;write_yaml(path,report);raw=path.read_bytes();env['sourceFaultOutcomeRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='scope_observation',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
+        for case in env['injected_failure_matrix']['cases']:case['rawOutputRef']=ref
+
+
+    def prepare_qualified_local_storage_fixture(self,root,execution,prefix):
+        """Synthetic storage observations; never actual OpenList or backup execution."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-OPENLIST-LOCAL');subject=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-004')),execution);common=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=subject,inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']])
+        def retain(name,data,kind='produced_media'):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(data,bytes):path.write_bytes(data)
+            else:write_yaml(path,data)
+            raw=path.read_bytes();digest='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256=digest));execution['rawOutputRefs'].append(ref);return ref,digest
+        objects=[];baseline=dict(assets=[],sourceMappings=[],retention=[],replicas=[],caches=[]);payloads={}
+        for index,sample in enumerate(execution['samples']):
+            source=next(r for r in env['inputSampleArtifacts'] if r['sampleId']==sample['id']);payload=(root/source['inputArtifactRef']).read_bytes();payloads[sample['id']]=payload;asset='synthetic-storage-asset-'+str(index);version=sample['immutableId'];replica='synthetic-old-replica-'+str(index);cache_id='synthetic-cache-'+str(index);old_ref,old_sha=retain(replica+'.bin',payload);cache_ref,cache_sha=retain(cache_id+'.bin',payload)
+            objects.append(dict(sampleId=sample['id'],assetId=asset,versionId=version,sourceId='synthetic-source',objectId='synthetic-object-'+str(index),oldReplicaId=replica,newReplicaId='synthetic-new-replica-'+str(index),objectURL='http://127.0.0.1:15525/d/synthetic-'+str(index)));baseline['assets'].append(dict(assetId=asset,versionId=version,metadata=dict(title='Synthetic retained object '+str(index),mediaType='synthetic/test')));baseline['sourceMappings'].append(dict(sourceId='synthetic-source',objectId='synthetic-object-'+str(index),assetId=asset,versionId=version));baseline['retention'].append(dict(assetId=asset,policyId='synthetic-retention-policy',state='retained'));baseline['replicas'].append(dict(replicaId=replica,assetId=asset,versionId=version,state='VERIFIED',payloadRef=old_ref,sha256=old_sha));baseline['caches'].append(dict(cacheId=cache_id,assetId=asset,versionId=version,state='COMPLETE',payloadRef=cache_ref,sha256=cache_sha))
+        policy=dict(subjectVersion=subject,sandboxRoot=env['sandbox_root_boundary'],openlistBuild=env['openlist_version'],authorizedAuthRef='secretref_synthetic_storage_authorized',invalidAuthRef='secretref_synthetic_storage_invalid',maximumRetries=2,objects=objects,baselineState=baseline);config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['localStoragePolicy']=policy;write_yaml(config_path,config)
+        def snapshot(name,value,at='2026-09-03T00:00:00Z'):return retain(name,dict(schemaVersion=1,kind='local_storage_state',observedAt=at,**common,**value),'measurement_output')[0]
+        baseline_ref=snapshot('storage-baseline-state.yaml',baseline);rows=[];complete_bytes=0
+        for index,obj in enumerate(objects):
+            payload=payloads[obj['sampleId']];total=len(payload);requests=[];complete_bytes+=total
+            for kind in ('full','bounded','suffix','unsatisfiable','missing_auth','invalid_auth','concurrent_a','concurrent_b'):
+                authorized=kind not in ('missing_auth','invalid_auth');partial=kind in ('bounded','suffix');data=payload[:8] if kind=='bounded' else payload[-4:] if kind=='suffix' else payload if authorized and kind!='unsatisfiable' else b'';ref,sha=retain('storage-'+str(index)+'-'+kind+'.bin',data);start='2026-09-03T00:01:00Z' if not kind.startswith('concurrent_') else '2026-09-03T00:02:00Z';finish='2026-09-03T00:01:01Z' if not kind.startswith('concurrent_') else '2026-09-03T00:02:01Z';requests.append(dict(case=kind,requestId='storage-'+str(index)+'-'+kind,objectURL=obj['objectURL'],assetId=obj['assetId'],versionId=obj['versionId'],authRef=policy['authorizedAuthRef'] if authorized else policy['invalidAuthRef'] if kind=='invalid_auth' else None,requestRange='bytes=0-7' if kind=='bounded' else 'bytes=-4' if kind=='suffix' else f'bytes={total}-' if kind=='unsatisfiable' else None,statusCode=206 if partial else 416 if kind=='unsatisfiable' else 200 if authorized else 403,contentRange=f'bytes 0-7/{total}' if kind=='bounded' else f'bytes {total-4}-{total-1}/{total}' if kind=='suffix' else f'bytes */{total}' if kind=='unsatisfiable' else None,responseRef=ref,responseSha256=sha,originByteCount=len(data),startedAt=start,finishedAt=finish))
+            copies=[]
+            for case in ('incomplete','hash_mismatch'):
+                bad=payload[:len(payload)//2] if case=='incomplete' else bytes([payload[0]^1])+payload[1:];ref,sha=retain('storage-'+str(index)+'-'+case+'.bin',bad);copies.append(dict(case=case,assetId=obj['assetId'],versionId=obj['versionId'],payloadRef=ref,sha256=sha,expectedSha256='sha256:'+hashlib.sha256(payload).hexdigest(),promotionDecision='rejected',afterStateRef=snapshot('storage-'+str(index)+'-'+case+'-state.yaml',baseline,'2026-09-03T00:03:01Z'),startedAt='2026-09-03T00:03:00Z',finishedAt='2026-09-03T00:03:01Z'))
+            attempts=[]
+            for attempt,data in ((1,payload[:min(8,total-1)]),(2,payload)):
+                ref,sha=retain('storage-'+str(index)+'-recovery-'+str(attempt)+'.bin',data);attempts.append(dict(attemptNo=attempt,startedAt=f'2026-09-03T00:04:0{attempt*2}Z',finishedAt=f'2026-09-03T00:04:0{attempt*2+1}Z',transport='disconnected' if attempt==1 else 'success',responseRef=ref,responseSha256=sha,partialPromotedCount=0))
+            disconnect=dict(attempts=attempts,serviceRestartedAt='2026-09-03T00:04:03Z',afterStateRef=snapshot('storage-'+str(index)+'-recovered-state.yaml',baseline,'2026-09-03T00:04:05Z'));backup_ref,backup_sha=retain('storage-'+str(index)+'-backup.bin',payload);restored_ref,restored_sha=retain('storage-'+str(index)+'-restored.bin',payload);backup_state=copy.deepcopy(baseline);restored_state=copy.deepcopy(baseline);next(r for r in backup_state['replicas'] if r['replicaId']==obj['oldReplicaId'])['payloadRef']=backup_ref;next(r for r in restored_state['replicas'] if r['replicaId']==obj['oldReplicaId'])['payloadRef']=restored_ref;backup=dict(backupDataRef=backup_ref,backupSha256=backup_sha,restoredDataRef=restored_ref,restoredSha256=restored_sha,backupStateRef=snapshot('storage-'+str(index)+'-backup-state.yaml',backup_state,'2026-09-03T00:05:00Z'),restoredStateRef=snapshot('storage-'+str(index)+'-restored-state.yaml',restored_state,'2026-09-03T00:05:01Z'),startedAt='2026-09-03T00:05:00Z',finishedAt='2026-09-03T00:05:01Z');evicted=copy.deepcopy(baseline);evicted['caches']=[r for r in evicted['caches'] if r['assetId']!=obj['assetId']]
+            pending_ref,pending_sha=retain('storage-'+str(index)+'-migration-pending.bin',payload[:min(8,total-1)]);new_ref,new_sha=retain('storage-'+str(index)+'-migration-verified.bin',payload);copying=copy.deepcopy(baseline);copying['replicas'].append(dict(replicaId=obj['newReplicaId'],assetId=obj['assetId'],versionId=obj['versionId'],state='COPYING',payloadRef=pending_ref,sha256=pending_sha));verified=copy.deepcopy(baseline);verified['replicas'].append(dict(replicaId=obj['newReplicaId'],assetId=obj['assetId'],versionId=obj['versionId'],state='VERIFIED',payloadRef=new_ref,sha256=new_sha));migration=dict(newReplicaId=obj['newReplicaId'],copyingStateRef=snapshot('storage-'+str(index)+'-migration-copying-state.yaml',copying,'2026-09-03T00:06:00Z'),verifiedStateRef=snapshot('storage-'+str(index)+'-migration-verified-state.yaml',verified,'2026-09-03T00:06:01Z'),startedAt='2026-09-03T00:06:00Z',verifiedAt='2026-09-03T00:06:01Z');rows.append(dict(sampleId=obj['sampleId'],requests=requests,copyRejections=copies,disconnect=disconnect,backupRestore=backup,evictionAfterStateRef=snapshot('storage-'+str(index)+'-evicted-state.yaml',evicted,'2026-09-03T00:05:30Z'),evictedAt='2026-09-03T00:05:30Z',migration=migration))
+        observations=[dict(phase=phase,observedAt=f'2026-09-03T00:07:0{index}Z',freeBytes=free,reservedBytes=reserved,admission=admission) for index,(phase,free,reserved,admission) in enumerate((('baseline',400,50,'admitted'),('fill',200,50,'paused'),('pause',180,50,'paused'),('evict',400,0,'paused'),('resume',400,0,'admitted')))];report=dict(schemaVersion=1,kind='local_storage_outcomes',**common,baselineStateRef=baseline_ref,objects=rows,capacityObservations=observations);env['localStorageRef'],_=retain('local-storage-outcomes.yaml',report,'measurement_output')
+        values=dict(local_minimum_free_bytes=180,local_maximum_reserved_bytes=50,sequential_throughput=complete_bytes/len(objects)/1000000,io_latency=1000)
+        for measurement in execution['measurements']:
+            if measurement['id'] in values:measurement['actual']=values[measurement['id']]
+
+
+    def prepare_qualified_media_negative_fixture(self,root,execution,prefix):
+        """Synthetic failure observations; never actual worker, FFmpeg or HLS execution."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');quality=load_yaml(root/env['mediaQualityTimingRef']);assembly=env['parallelMediaAssembly'];nodes=[{k:n[k] for k in ('nodeId','physicalHostId','encoderBuild')} for n in env['worker_node_inventory']]
+        def retain(name,data,node=None,kind='produced_media'):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(data,bytes):path.write_bytes(data)
+            else:write_yaml(path,data)
+            raw=path.read_bytes();digest='sha256:'+hashlib.sha256(raw).hexdigest();record=dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256=digest)
+            if node is not None:record['nodeId']=node
+            env['rawExecutionArtifacts'].append(record);execution['rawOutputRefs'].append(ref);return ref,digest
+        outputs=[]
+        for surface in ('manifest','init'):
+            ref,sha=retain('synthetic-protected-'+surface+'.bin',b'Synthetic protected '+surface.encode()+b'; never actual HLS bytes.');outputs.append(dict(surface=surface,ref=ref,sha256=sha))
+        outputs.extend(dict(surface=surface,ref=quality['firstSegment']['segmentRef'],sha256=quality['firstSegment']['segmentSha256']) for surface in ('segment','cache_hit'))
+        policy=dict(subjectVersion=quality['subjectVersion'],jobId=quality['jobId'],retryDecoderBuild=assembly['decoderBuild'],cancelJobId='synthetic-independent-cancel-job',assetId='synthetic-media-asset',assetVersion=next(r['immutableId'] for r in execution['samples'] if r['id']==assembly['inputSampleId']),nodes=nodes,limits=dict(cpuSeconds=5,memoryBytes=100,elapsedSeconds=5,temporaryBytes=100,outputBytes=100),deniedTargets=[dict(case=case,target=target) for case,target in (('protocol','file:///synthetic-denied-input'),('path','/synthetic/../denied-input'),('proxy','http://127.0.0.1/synthetic-private'))],authorizedUserId='synthetic-owner',deniedUserId='synthetic-other-user',currentGrantId='synthetic-current-grant',expiredGrantId='synthetic-expired-grant',revokedGrantId='synthetic-revoked-grant',aclVersion='synthetic-acl-v1',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-04T00:00:00Z',expiredAt='2026-09-02T00:00:00Z',revokedAt='2026-09-03T00:01:00Z',protectedOutputs=outputs)
+        config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['mediaNegativePolicy']=policy;write_yaml(config_path,config);rows=[]
+        for identity in nodes:
+            node=identity['nodeId'];denials=[];checks=[]
+            for target in policy['deniedTargets']:
+                ref,sha=retain(node+'-denied-'+target['case']+'.bin',b'',node);denials.append(dict(**target,requestId=node+'-denied-'+target['case'],observedAt='2026-09-03T00:02:00Z',status='denied',inputBytesRead=0,outputBytesWritten=0,publicationCount=0,outboundRef=ref,outboundSha256=sha))
+            for kind,ceiling in policy['limits'].items():
+                observed={k:1 for k in policy['limits']};observed[kind]=ceiling+1;checks.append(dict(case=kind,requestId=node+'-limit-'+kind,startedAt='2026-09-03T00:03:00Z',finishedAt='2026-09-03T00:03:06Z' if kind=='elapsedSeconds' else '2026-09-03T00:03:01Z',observed=observed,terminationReason=kind,processStatus='terminated',remainingTemporaryBytes=0,remainingOutputBytes=0,publicationCount=0))
+            partial_ref,partial_sha=retain(node+'-interrupted-partial.bin',b'Synthetic interrupted partial; never actual AV1.',node);run=next(r for r in env['workerEncodeExecutions'] if r['nodeId']==node)
+            retry_ref,retry_sha=retain(node+'-fresh-retry-output.bin',b'Synthetic retry output; never actual AV1.',node)
+            retry_probe_ref,_=retain(node+'-retry-av1-probe.yaml',dict(schemaVersion=1,kind='media_retry_decode_observation',jobId=policy['jobId'],attemptEpoch=2,nodeId=node,encoderBuild=identity['encoderBuild'],inputSha256=assembly['inputSha256'],outputArtifactRef=retry_ref,outputSha256=retry_sha,decoderBuild=policy['retryDecoderBuild'],codec='av1',decodable=True,sourceStartFrame=run['sourceStartFrame'],sourceEndFrame=run['sourceEndFrame'],decodedFrameCount=run['sourceEndFrame']-run['sourceStartFrame'],durationSeconds=2,decodeErrorCount=0,startedAt='2026-09-03T00:04:04Z',finishedAt='2026-09-03T00:04:04.001Z'),node,kind='measurement_output')
+            cancel_ref,cancel_sha=retain(node+'-cancel-partial.bin',b'Synthetic active cancelled partial; never actual AV1.',node)
+            life=dict(retryProbeRef=retry_probe_ref,cancelJobId=policy['cancelJobId'],cancelledAttemptEpoch=3,cancelledStartedAt='2026-09-03T00:04:04Z',cancelledPartialCreatedAt='2026-09-03T00:04:04Z',cancelledPartialRef=cancel_ref,cancelledPartialSha256=cancel_sha,cancelledProcessStatusBefore='running',cancelledProcessStatusAfter='terminated',partialRef=partial_ref,partialSha256=partial_sha,partialCreatedAt='2026-09-03T00:04:00Z',interruptedAt='2026-09-03T00:04:01Z',oldAttemptExpiresAt='2026-09-03T00:04:02Z',retriedAt='2026-09-03T00:04:03Z',retryFinishedAt='2026-09-03T00:04:04.002Z',cancelledAt='2026-09-03T00:04:05Z',cleanupFinishedAt='2026-09-03T00:04:06Z',oldAttemptEpoch=1,currentAttemptEpoch=2,retryJobId=policy['jobId'],terminalResultCount=1,remainingTemporaryBytes=0,remainingOutputBytes=0,activeProcessCount=0,cancelledAttemptPublicationCount=0,cancelledPartialDisposition='removed',cancelledPartialPublishable=False,publishedRef=retry_ref,publishedSha256=retry_sha,retryEncoderBuild=identity['encoderBuild'],retryInputSha256=assembly['inputSha256'],retrySourceStartFrame=run['sourceStartFrame'],retrySourceEndFrame=run['sourceEndFrame'],retryDecodedFrameCount=run['sourceEndFrame']-run['sourceStartFrame'],retryDecodeErrorCount=0,submissions=[dict(case=case,observedAt='2026-09-03T00:04:04.002Z' if case=='current' else '2026-09-03T00:04:07Z',attemptEpoch=1 if case=='late' else 3 if case=='cancelled' else 2,jobId=policy['cancelJobId'] if case=='cancelled' else policy['jobId'],decision='published' if case=='current' else 'rejected',publicationDelta=1 if case=='current' else 0,terminalResultDelta=1 if case=='current' else 0) for case in ('current','duplicate','late','cancelled')]);seek=[]
+            for case in ('current','stale_seek','revoked'):
+                ref,sha=retain(node+'-seek-'+case+'.bin',b'Synthetic authorized demand bytes' if case=='current' else b'',node);seek.append(dict(case=case,observedAt='2026-09-03T00:05:00Z',previousSeekEpoch=1,currentSeekEpoch=2,requestedSeekEpoch=1 if case=='stale_seek' else 2,grantId=policy['revokedGrantId'] if case=='revoked' else policy['currentGrantId'],decision='admitted' if case=='current' else 'denied',newReservedSlots=1 if case=='current' else 0,responseRef=ref,responseSha256=sha))
+            rows.append(dict(identity=identity,deniedTargets=denials,limitCases=checks,lifecycle=life,seekCases=seek))
+        access=[]
+        for surface in outputs:
+            for case in ('authorized','cross_user','expired','revoked','direct_origin'):
+                ref,sha=retain('hls-'+surface['surface']+'-'+case+'.bin',(root/surface['ref']).read_bytes() if case=='authorized' else b'');access.append(dict(surface=surface['surface'],case=case,requestId='hls-'+surface['surface']+'-'+case,observedAt='2026-09-03T00:06:00Z',assetId=policy['assetId'],assetVersion=policy['assetVersion'],aclVersion=policy['aclVersion'],userId=policy['deniedUserId'] if case=='cross_user' else policy['authorizedUserId'],grantId=policy['expiredGrantId'] if case=='expired' else policy['revokedGrantId'] if case=='revoked' else policy['currentGrantId'],route='origin' if case=='direct_origin' else 'entry',decision='allowed' if case=='authorized' else 'denied',originContactCount=1 if case=='authorized' and surface['surface']!='cache_hit' else 0,statusCode=200 if case=='authorized' else 403,responseRef=ref,responseSha256=sha))
+        report=dict(schemaVersion=1,kind='media_negative_outcomes',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=quality['subjectVersion'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],jobId=policy['jobId'],assetId=policy['assetId'],assetVersion=policy['assetVersion'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'],nodes=rows,accessCases=access);env['mediaNegativeRef'],_=retain('media-negative-outcomes.yaml',report,kind='measurement_output')
+
+
+    def prepare_qualified_quality_timing_fixture(self,root,execution,prefix):
+        """Synthetic retained quality/timing observations, not AV1 or VMAF execution."""
+        env=execution['environmentCaptured'];assembly=env['parallelMediaAssembly'];run=env['workerEncodeExecutions'][0];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS')
+        def retain(name,value,kind='measurement_output'):
+            ref=prefix+'/raw/'+name;path=root/ref
+            if isinstance(value,bytes):path.write_bytes(value)
+            else:write_yaml(path,value)
+            raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,nodeId=run['nodeId'],byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref,'sha256:'+hashlib.sha256(raw).hexdigest()
+        plan=load_yaml(self.plan_path(root,'POC-002'));policy=dict(jobId='synthetic-approved-media-job',evaluatorBuild='synthetic-vmaf-evaluator-build',modelId='synthetic-approved-vmaf-model',modelSha256='sha256:'+'a'*64,encoderBuild=run['encoderBuild'],encoderParameters=copy.deepcopy(execution['provenance']['encoder_parameters']),inputSamples=[{k:sample[k] for k in ('id','immutableId','checksum')} for sample in execution['samples']])
+        config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['mediaEvaluationPolicy']=policy;write_yaml(config_path,config)
+        common=dict(configurationRef=resource['configurationRef'],subjectVersion=CHECK.compliance_subject_version(plan,execution),acceptanceProfile=env['acceptanceProfile'],jobId=policy['jobId'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'],outputArtifactRef=assembly['outputArtifactRef'],outputSha256=assembly['outputSha256'],encoderBuild=run['encoderBuild'],encoderParameters=policy['encoderParameters'])
+        job_event={k:common[k] for k in ('configurationRef','subjectVersion','acceptanceProfile','jobId','inputSampleId','inputSha256','encoderBuild','encoderParameters')}
+        job_event_ref,_=retain('media-job-start.yaml',dict(schemaVersion=1,kind='media_job_start_observation',**job_event,encodeRunRef=run['rawOutputRef'],nodeId=run['nodeId'],jobStartedAt=run['startedAt'],workerStartedAt=run['startedAt']))
+        command,_=retain('vmaf-command.txt',b'Synthetic evaluator invocation fixture, never actual VMAF.\n','command_output')
+        quality_ref,_=retain('vmaf-evaluator-output.yaml',dict(schemaVersion=1,kind='vmaf_evaluator_output',**common,evaluatorBuild=policy['evaluatorBuild'],modelId=policy['modelId'],modelSha256=policy['modelSha256'],evaluatedAt='2026-09-03T00:01:01Z',evaluatedFrameCount=assembly['sourceFrameCount'],vmafMean=1,evaluatorCommandRef=command))
+        segment_ref,segment_sha=retain('first-playable-segment.bin',b'Synthetic first segment, never actual encoded AV1.','produced_media')
+        probe_ref,_=retain('first-playable-segment-probe.yaml',dict(schemaVersion=1,kind='first_playable_segment_probe',jobId=policy['jobId'],nodeId=run['nodeId'],segmentRef=segment_ref,segmentSha256=segment_sha,inputSha256=assembly['inputSha256'],sourceStartFrame=0,sourceEndFrame=1,decodedFrameCount=1,decodeErrorCount=0,decoderBuild=assembly['decoderBuild'],codec='av1',decodable=True,observedAt='2026-09-03T00:00:00.001Z'))
+        segment=dict(encodeRunRef=run['rawOutputRef'],nodeId=run['nodeId'],jobStartedAt=run['startedAt'],segmentProducedAt='2026-09-03T00:00:00.001Z',firstPlayableAt='2026-09-03T00:00:00.001Z',segmentRef=segment_ref,segmentSha256=segment_sha,sourceStartFrame=0,sourceEndFrame=1,decodeRef=probe_ref)
+        env['mediaQualityTimingRef'],_=retain('media-quality-timing.yaml',dict(schemaVersion=1,kind='media_quality_timing_report',**common,jobEventRef=job_event_ref,qualityRef=quality_ref,firstSegment=segment))
+
+
+    def prepare_qualified_firmware_fixture(self,root,execution,prefix):
+        """Explicitly synthetic firmware/group witness, never a hardware experiment."""
+        env=execution['environmentCaptured'];capture=env['productionPassthroughIdentity'];identity=capture['identity'];device=identity['gpuDeviceId'];audio=device+'-audio-function'
+        policy=dict(firmwareBuild='synthetic-firmware-build',biosConfigurationId='synthetic-approved-bios-config',iommuGroupId='synthetic-approved-iommu-group',approvedGroupDeviceIds=[device,audio])
+        path=root/capture['configurationRef'];config=load_yaml(path);config['configuration']['passthroughFirmwarePolicy']=policy;write_yaml(path,config)
+        report=dict(schemaVersion=1,kind='production_passthrough_firmware',configurationRef=capture['configurationRef'],identity=copy.deepcopy(identity),firmwareBuild=policy['firmwareBuild'],biosConfigurationId=policy['biosConfigurationId'],hostBootId='synthetic-captured-host-boot',settingsCapturedAt='2026-09-03T00:00:00Z',guestEnumeratedAt='2026-09-03T00:00:01Z',runtimeInitializedAt='2026-09-03T00:00:02Z',iommuEnabled=True,iommuGroupId=policy['iommuGroupId'],iommuMembers=[dict(deviceId=value,requiredHostDevice=False,assignedToGuest=True) for value in policy['approvedGroupDeviceIds']],above4gEnabled=True,resizableBarEnabled=True,allocatedDeviceId=device,addressSpaceAllocatedBytes=4096,allocationSucceeded=True,enumeratedDeviceIds=[device,audio],runtimeReady=True)
+        ref=prefix+'/raw/passthrough-firmware.yaml';path=root/ref;write_yaml(path,report);raw=path.read_bytes();env['productionFirmwareRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',nodeId=identity['nodeId'],byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
+
+
     def prepare_qualified_ai_results_fixture(self,root,execution,prefix):
         """Synthetic outputs, scores, usage and dispatch traces; no provider API execution."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-AI-BENCH');sample=execution['samples'][0];plan=load_yaml(self.plan_path(root,'POC-009'));subject=CHECK.compliance_subject_version(plan,execution)
@@ -724,6 +971,15 @@ class TestPocProgram(unittest.TestCase):
             outcomes.append(dict(case=case,observedAt=at,callerId=caller,assetId=gates['assetId'],aclVersion=acl,callerAllowed=case!='permission_denied',assetAllowed=case!='acl_revoked',budgetPeriodId=gates['budgetPeriodId'],budgetRemaining=0 if case=='budget_exhausted' else 1,estimatedCost=.001,requestCount=2 if case=='request_rate_exceeded' else 0,concurrentCalls=2 if case=='concurrency_exceeded' else 0,requestWindowSeconds=60,decision='dispatched' if case=='authorized' else case,providerRequestIds=request_ids,outboundRef=ref,outboundSha256=sha))
         dispatch_ref,_=retain('ai-policy-outcomes.yaml',dict(schemaVersion=1,kind='ai_dispatch_outcomes',**common,outcomes=outcomes));reviews={r['type']:r['reviewRef'] for r in execution['complianceReviews']}
         env['aiResultsRef'],_=retain('ai-results.yaml',dict(schemaVersion=1,kind='ai_results_report',**common,evaluationRef=evaluation_ref,usageRef=usage_ref,dispatchRef=dispatch_ref,privacyReviewRef=reviews['privacy'],licenseReviewRef=reviews['license']))
+        data_policy=dict(policyId='synthetic-reviewed-data-policy',policyVersion='synthetic-data-policy-v1',subjectVersion=subject,assetId=gates['assetId'],classificationId='synthetic-approved-input-classification',allowedPurpose='synthetic-approved-purpose',deniedPurpose='synthetic-disallowed-purpose',privacyReviewRef=reviews['privacy'])
+        data_policy.update(providerMode='commercial_external',assetVersion=env['input_sample_version'],inputSamples=copy.deepcopy(common['inputSamples']),allowedPayloadScope=[sample['immutableId'] for sample in execution['samples']])
+        config['configuration']['aiDataPolicy']=data_policy;write_yaml(config_path,config)
+        authorized=next(row for row in outcomes if row['case']=='authorized')
+        denial_ref,denial_sha=retain('ai-data-policy-denied.bin',b'','produced_media')
+        data_rows=[]
+        for allowed in (True,False):
+            data_rows.append(dict(case='authorized' if allowed else 'data_policy_denied',policyId=data_policy['policyId'],policyVersion=data_policy['policyVersion'],classificationId=data_policy['classificationId'],purpose=data_policy['allowedPurpose'] if allowed else data_policy['deniedPurpose'],callerId=gates['authorizedCallerId'],assetId=gates['assetId'],aclVersion=gates['currentAclVersion'],evaluatedAt='2026-09-03T00:02:59Z',dispatchedAt=authorized['observedAt'] if allowed else None,decision='allowed' if allowed else 'denied',providerRequestIds=authorized['providerRequestIds'] if allowed else [],outboundRef=authorized['outboundRef'] if allowed else denial_ref,outboundSha256=authorized['outboundSha256'] if allowed else denial_sha))
+        env['aiDataPolicyRef'],_=retain('ai-data-policy-outcomes.yaml',dict(schemaVersion=1,kind='ai_data_policy_outcomes',**common,providerMode=data_policy['providerMode'],assetVersion=data_policy['assetVersion'],dispatchRef=dispatch_ref,privacyReviewRef=reviews['privacy'],outcomes=data_rows))
 
 
     def refresh_qualified_observation_fixture(self,root,record,approve_captures=False):
@@ -1395,6 +1651,900 @@ class TestPocProgram(unittest.TestCase):
                 try:
                     self.make_profile_slot(root,'POC-009',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-09'}),[])
                 finally:temp.cleanup()
+
+    def test_173_recovery_resource_non_objects_return_contract_errors(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile)
+                path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']
+                original=load_yaml(path)
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-10'})
+                self.assertEqual(validate(),[])
+                for value in (None,True,42,'invalid-resource',[]):
+                    data=copy.deepcopy(original);data['resources'].append(value);write_yaml(path,data)
+                    errors=validate()
+                    self.assertTrue(errors,(profile,value))
+                    self.assertTrue(any('schema' in error for error in errors),(profile,value,errors))
+            finally:temp.cleanup()
+
+    def test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-009',profile)
+                path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path)
+                report_path=root/original['environmentCaptured']['aiDataPolicyRef'];report_original=load_yaml(report_path)
+                config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
+                denied_path=root/report_original['outcomes'][1]['outboundRef'];saved_denial=denied_path.read_bytes()
+                def validate(data):
+                    self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                    return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+                for mode in ('missing','arbitrary','bad_policy','policy_version','wrong_subject','wrong_privacy','wrong_input','missing_case','duplicate_case','allowed_purpose_for_denial','unapproved_payload','wrong_asset_version','wrong_provider_mode','policy_input_mismatch','late_allow','invalid_time','denied_dispatch','denied_bytes','allow_wrong_dispatch'):
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);denied_path.write_bytes(saved_denial)
+                    allow,deny=report['outcomes']
+                    if mode=='missing':data['environmentCaptured'].pop('aiDataPolicyRef')
+                    elif mode=='arbitrary':report=None
+                    elif mode=='bad_policy':config['configuration']['aiDataPolicy']=True
+                    elif mode=='policy_version':deny['policyVersion']='unapproved-policy-version'
+                    elif mode=='wrong_subject':config['configuration']['aiDataPolicy']['subjectVersion']='other-provider-model'
+                    elif mode=='wrong_privacy':report['privacyReviewRef']='unapproved-privacy-review'
+                    elif mode=='wrong_input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='missing_case':report['outcomes'].pop()
+                    elif mode=='duplicate_case':report['outcomes'][1]=copy.deepcopy(allow)
+                    elif mode=='allowed_purpose_for_denial':deny['purpose']=config['configuration']['aiDataPolicy']['allowedPurpose']
+                    elif mode=='unapproved_payload':config['configuration']['aiDataPolicy']['allowedPayloadScope']=['another-input-version']
+                    elif mode=='wrong_asset_version':report['assetVersion']='other-asset-version'
+                    elif mode=='wrong_provider_mode':report['providerMode']='private_local'
+                    elif mode=='policy_input_mismatch':config['configuration']['aiDataPolicy']['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='late_allow':allow['evaluatedAt']='2026-09-03T00:03:01Z'
+                    elif mode=='invalid_time':deny['evaluatedAt']='not-a-date'
+                    elif mode=='denied_dispatch':deny.update(dispatchedAt=allow['dispatchedAt'],providerRequestIds=['unexpected-provider-request'])
+                    elif mode=='denied_bytes':
+                        denied_path.write_bytes(b'Protected bytes dispatched despite data denial');deny['outboundSha256']='sha256:'+hashlib.sha256(denied_path.read_bytes()).hexdigest()
+                    else:allow.update(outboundRef=deny['outboundRef'],outboundSha256=deny['outboundSha256'])
+                    if report is None:report_path.write_text('Unrelated data-policy assertions\n',encoding='utf8')
+                    else:write_yaml(report_path,report)
+                    write_yaml(config_path,config)
+                    self.assertTrue(any('qualified AI data policy' in error for error in validate(data)),(profile,mode))
+            finally:temp.cleanup()
+
+    def test_175_production_firmware_binds_approved_group_settings_and_runtime(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-001','production')
+            path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path)
+            report_path=root/original['environmentCaptured']['productionFirmwareRef'];report_original=load_yaml(report_path)
+            config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
+            def validate(data):
+                self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                return CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
+            # The approved GPU and audio functions may legitimately share a group.
+            self.assertEqual(len(report_original['iommuMembers']),2)
+            self.assertEqual(validate(copy.deepcopy(original)),[])
+            modes=('missing','arbitrary','bad_policy','wrong_config','wrong_identity','wrong_firmware','wrong_bios','wrong_group','iommu_off','above4g_off','bar_off','required_host_device','unassigned_member','foreign_member','duplicate_member','missing_gpu','wrong_allocation','no_allocation','zero_address_space','guest_missing_gpu','runtime_failed','invalid_time','settings_after_guest','outside_window','claimed_gate')
+            for mode in modes:
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original)
+                if mode=='missing':data['environmentCaptured'].pop('productionFirmwareRef')
+                elif mode=='arbitrary':report=None
+                elif mode=='bad_policy':config['configuration']['passthroughFirmwarePolicy']=True
+                elif mode=='wrong_config':report['configurationRef']=data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                elif mode=='wrong_identity':report['identity']['gpuDeviceId']='another-device'
+                elif mode=='wrong_firmware':report['firmwareBuild']='unapproved-firmware'
+                elif mode=='wrong_bios':report['biosConfigurationId']='unapproved-bios-config'
+                elif mode=='wrong_group':report['iommuGroupId']='other-iommu-group'
+                elif mode=='iommu_off':report['iommuEnabled']=False
+                elif mode=='above4g_off':report['above4gEnabled']=False
+                elif mode=='bar_off':report['resizableBarEnabled']=False
+                elif mode=='required_host_device':report['iommuMembers'][1]['requiredHostDevice']=True
+                elif mode=='unassigned_member':report['iommuMembers'][1]['assignedToGuest']=False
+                elif mode=='foreign_member':report['iommuMembers'].append(dict(deviceId='unrelated-host-controller',requiredHostDevice=False,assignedToGuest=True))
+                elif mode=='duplicate_member':report['iommuMembers'].append(copy.deepcopy(report['iommuMembers'][0]))
+                elif mode=='missing_gpu':report['iommuMembers'].pop(0)
+                elif mode=='wrong_allocation':report['allocatedDeviceId']='another-device'
+                elif mode=='no_allocation':report['allocationSucceeded']=False
+                elif mode=='zero_address_space':report['addressSpaceAllocatedBytes']=0
+                elif mode=='guest_missing_gpu':report['enumeratedDeviceIds']=report['enumeratedDeviceIds'][1:]
+                elif mode=='runtime_failed':report['runtimeReady']=False
+                elif mode=='invalid_time':report['settingsCapturedAt']='not-a-date'
+                elif mode=='settings_after_guest':report['settingsCapturedAt']='2026-09-03T00:00:03Z'
+                elif mode=='outside_window':report['runtimeInitializedAt']='2026-09-06T00:00:00Z'
+                else:next(m for m in data['measurements'] if m['id']=='iommu_group_isolation_verified')['actual']=False
+                if report is None:report_path.write_text('Unrelated firmware assertions\n',encoding='utf8')
+                else:write_yaml(report_path,report)
+                write_yaml(config_path,config)
+                self.assertTrue(any('qualified production passthrough firmware' in error for error in validate(data)),mode)
+        finally:temp.cleanup()
+        for profile,status in (('local-v1','pass'),('production','fail'),('production','inconclusive')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile,status=status)
+                record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'])
+                self.assertNotIn('productionFirmwareRef',record['environmentCaptured'])
+                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),[])
+            finally:temp.cleanup()
+
+    def test_176_media_quality_and_first_playable_latency_bind_retained_observations(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-002',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path)
+                report_path=root/original['environmentCaptured']['mediaQualityTimingRef'];report_original=load_yaml(report_path)
+                quality_path=root/report_original['qualityRef'];quality_original=load_yaml(quality_path)
+                job_path=root/report_original['jobEventRef'];job_original=load_yaml(job_path)
+                probe_path=root/report_original['firstSegment']['decodeRef'];probe_original=load_yaml(probe_path)
+                config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
+                def validate(data):
+                    self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                    return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+                modes=('missing','arbitrary','bad_policy','wrong_config','input_sha','output_sha','parameters','build','model','model_sha','evaluator_build','frames','score_claim','score_nan','latency_claim','quality_before_encode','quality_outside','missing_command','command_type','job_id','run_ref','node_id','job_start','produced_after_ready','invalid_time','segment_hash','probe_hash','probe_frames','probe_errors','not_decodable','probe_input','decoder_build','nonzero_start','unbounded_span','bad_run_end','missing_job_event','job_event_identity','job_event_input','job_event_time','late_job_event')
+                for mode in modes:
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);quality=copy.deepcopy(quality_original);probe=copy.deepcopy(probe_original);config=copy.deepcopy(config_original);job=copy.deepcopy(job_original);segment=report['firstSegment']
+                    if mode=='missing':data['environmentCaptured'].pop('mediaQualityTimingRef')
+                    elif mode=='arbitrary':quality=None
+                    elif mode=='bad_policy':config['configuration']['mediaEvaluationPolicy']=True
+                    elif mode=='wrong_config':report['configurationRef']=data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                    elif mode=='input_sha':quality['inputSha256']='sha256:'+'0'*64
+                    elif mode=='output_sha':quality['outputSha256']='sha256:'+'0'*64
+                    elif mode=='parameters':quality['encoderParameters']={'unapproved':'parameters'}
+                    elif mode=='build':quality['encoderBuild']='other-encoder'
+                    elif mode=='model':quality['modelId']='other-model'
+                    elif mode=='model_sha':quality['modelSha256']='sha256:'+'0'*64
+                    elif mode=='evaluator_build':quality['evaluatorBuild']='unapproved-evaluator'
+                    elif mode=='frames':quality['evaluatedFrameCount']-=1
+                    elif mode=='score_claim':next(m for m in data['measurements'] if m['id']=='av1_quality')['actual']+=.2
+                    elif mode=='score_nan':quality['vmafMean']=float('nan')
+                    elif mode=='latency_claim':next(m for m in data['measurements'] if m['id']=='first_segment_latency')['actual']+=1
+                    elif mode=='quality_before_encode':quality['evaluatedAt']='2026-09-03T00:00:00Z'
+                    elif mode=='quality_outside':quality['evaluatedAt']='2026-09-06T00:00:00Z'
+                    elif mode=='missing_command':quality['evaluatorCommandRef']='missing-command-ref'
+                    elif mode=='command_type':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==quality['evaluatorCommandRef'])['artifactType']='measurement_output'
+                    elif mode=='job_id':probe['jobId']='other-job'
+                    elif mode=='run_ref':segment['encodeRunRef']='another-run-ref'
+                    elif mode=='node_id':segment['nodeId']='another-node'
+                    elif mode=='job_start':segment['jobStartedAt']='2026-09-03T00:00:00.0001Z'
+                    elif mode=='produced_after_ready':segment['segmentProducedAt']='2026-09-03T00:00:01Z'
+                    elif mode=='invalid_time':segment['firstPlayableAt']='not-a-date'
+                    elif mode=='segment_hash':segment['segmentSha256']='sha256:'+'0'*64
+                    elif mode=='probe_hash':probe['segmentSha256']='sha256:'+'0'*64
+                    elif mode=='probe_frames':probe['decodedFrameCount']+=1
+                    elif mode=='probe_errors':probe['decodeErrorCount']=1
+                    elif mode=='not_decodable':probe['decodable']=False
+                    elif mode=='probe_input':probe['inputSha256']='sha256:'+'0'*64
+                    elif mode=='decoder_build':probe['decoderBuild']='other-decoder'
+                    elif mode=='nonzero_start':segment['sourceStartFrame']=1
+                    elif mode=='unbounded_span':segment['sourceEndFrame']=121
+                    elif mode=='bad_run_end':data['environmentCaptured']['workerEncodeExecutions'][0]['sourceEndFrame']='invalid-span-end'
+                    elif mode=='missing_job_event':report['jobEventRef']='missing-job-event'
+                    elif mode=='job_event_identity':job['jobId']='another-job'
+                    elif mode=='job_event_input':job['inputSha256']='sha256:'+'0'*64
+                    elif mode=='job_event_time':job['jobStartedAt']='2026-09-03T00:00:00.0001Z'
+                    else:job['jobStartedAt']=segment['jobStartedAt']='2026-09-03T00:00:00.002Z'
+                    if quality is None:quality_path.write_text('Unrelated quality assertions\n',encoding='utf8')
+                    else:write_yaml(quality_path,quality)
+                    write_yaml(report_path,report);write_yaml(probe_path,probe);write_yaml(config_path,config);write_yaml(job_path,job)
+                    self.assertTrue(any('qualified media quality/timing' in error for error in validate(data)),(profile,mode))
+                # The platform job starts 50 ms before its selected worker: all 51 ms count.
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);probe=copy.deepcopy(probe_original);job=copy.deepcopy(job_original)
+                job_start='2026-09-02T23:59:59.950Z';worker_start='2026-09-03T00:00:00Z';ready='2026-09-03T00:00:00.001Z'
+                data['environmentCaptured']['executionWindow']['startedAt']=job_start
+                job['jobStartedAt']=report['firstSegment']['jobStartedAt']=job_start
+                sample_approval_path=root/data['samples'][0]['approvalRef'];sample_approval_raw=sample_approval_path.read_bytes()
+                sample_approval=load_yaml(sample_approval_path);sample_approval['approvedAt']='2026-09-02T23:59:59.949Z';write_yaml(sample_approval_path,sample_approval)
+                data['environmentCaptured']['workerEncodeExecutions'][0]['startedAt']=worker_start
+                job['workerStartedAt']=worker_start;report['firstSegment'].update(segmentProducedAt=ready,firstPlayableAt=ready);probe['observedAt']=ready
+                next(m for m in data['measurements'] if m['id']=='first_segment_latency')['actual']=51
+                write_yaml(config_path,config_original);write_yaml(quality_path,quality_original);write_yaml(report_path,report);write_yaml(probe_path,probe);write_yaml(job_path,job)
+                self.assertEqual(validate(data),[],profile)
+                next(m for m in data['measurements'] if m['id']=='first_segment_latency')['actual']=1
+                self.assertTrue(any('first_segment_latency must derive' in error for error in validate(data)),profile)
+                sample_approval_path.write_bytes(sample_approval_raw)
+            finally:temp.cleanup()
+        for status in ('fail','inconclusive'):
+            temp,root=self.temp_repo()
+            try:
+                self.make_profile_slot(root,'POC-002','local-v1',status)
+                self.assertEqual(CHECK.validate_repository(root,'local-v1',False,selected_pocs={'POC-02'}),[])
+            finally:temp.cleanup()
+
+    def test_177_local_source_faults_bind_retry_checkpoint_and_logical_state(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-006','local-v1');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path)
+            report_path=root/original['environmentCaptured']['sourceFaultOutcomeRef'];report_original=load_yaml(report_path)
+            config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
+            def validate(data):
+                self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                return CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'})
+            self.assertEqual(validate(copy.deepcopy(original)),[])
+            modes=('missing','arbitrary','bad_policy','wrong_config','wrong_versions','wrong_input','wrong_sandbox','foreign_scope','missing_case','duplicate_case','wrong_case_id','wrong_matrix_ref','response_class','auth_isolation','retry_guidance','backoff_timing','backoff_limit','attempt_budget','duplicate_request','wrong_key','checkpoint_mismatch','no_checkpoint','foreign_object','duplicate_asset','duplicate_create','expired_result','expired_mutation','deleted_asset','deletion_not_observed','asset_version','claimed_gate')
+            for mode in modes:
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original)
+                rows={row['case']:row for row in report['cases']};rate=rows['http_429'];interrupted=rows['interrupted_sync'];expired=rows['auth_expired'];deleted=rows['source_delete']
+                if mode=='missing':data['environmentCaptured'].pop('sourceFaultOutcomeRef')
+                elif mode=='arbitrary':report=None
+                elif mode=='bad_policy':config['configuration']['localSourceFaultPolicy']=True
+                elif mode=='wrong_config':report['configurationRef']=data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                elif mode=='wrong_versions':report['subjectVersion']='another-service-api-version'
+                elif mode=='wrong_input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                elif mode=='wrong_sandbox':report['sandboxId']='unapproved-sandbox'
+                elif mode=='foreign_scope':report['scope']='BAIDU_PRODUCTION'
+                elif mode=='missing_case':report['cases'].pop()
+                elif mode=='duplicate_case':report['cases'][-1]=copy.deepcopy(report['cases'][0])
+                elif mode=='wrong_case_id':rate['caseId']='another-exercised-case'
+                elif mode=='wrong_matrix_ref':data['environmentCaptured']['injected_failure_matrix']['cases'][0]['rawOutputRef']=data['rawOutputRefs'][0]
+                elif mode=='response_class':rate['attempts'][0]['httpStatus']=200
+                elif mode=='auth_isolation':rate['attempts'][0]['authorization']='expired'
+                elif mode=='retry_guidance':rate['attempts'][0]['retryAfterSeconds']=2
+                elif mode=='backoff_timing':rate['attempts'][0]['backoffAfterSeconds']=.5
+                elif mode=='backoff_limit':config['configuration']['localSourceFaultPolicy']['maxBackoffSeconds']=.5
+                elif mode=='attempt_budget':config['configuration']['localSourceFaultPolicy']['maxAttempts']=1
+                elif mode=='duplicate_request':rate['attempts'][1]['requestId']=rate['attempts'][0]['requestId']
+                elif mode=='wrong_key':rate['attempts'][1]['idempotencyKey']='another-sync-key'
+                elif mode=='checkpoint_mismatch':interrupted['attempts'][1]['checkpointBefore']='other-checkpoint'
+                elif mode=='no_checkpoint':
+                    interrupted['attempts'][0]['checkpointAfter']=None;interrupted['attempts'][1]['checkpointBefore']=None
+                elif mode=='foreign_object':rate['after']['sourceObjects'][0]['objectId']='another-source-object'
+                elif mode=='duplicate_asset':rate['after']['assets'].append(copy.deepcopy(rate['after']['assets'][0]))
+                elif mode=='duplicate_create':rate['attempts'][1]['createdAssetIds']=[config['configuration']['localSourceFaultPolicy']['assetId']]*2
+                elif mode=='expired_result':expired['attempts'][0]['returnedAssetIds']=[config['configuration']['localSourceFaultPolicy']['assetId']]
+                elif mode=='expired_mutation':expired['after']['assets']=[]
+                elif mode=='deleted_asset':deleted['after']['assets']=[]
+                elif mode=='deletion_not_observed':deleted['after']['sourceObjects'][0]['availability']='available'
+                elif mode=='asset_version':rate['after']['assets'][0]['versionId']='another-logical-version'
+                else:next(m for m in data['measurements'] if m['id']=='duplicate_objects_prevented')['actual']=False
+                if report is None:report_path.write_text('Unrelated fault success assertions\n',encoding='utf8')
+                else:write_yaml(report_path,report)
+                write_yaml(config_path,config)
+                self.assertTrue(any('qualified local source faults' in error for error in validate(data)),mode)
+            # Network loss may terminate safely, immediately or after bounded retries.
+            def explicit_network_failure(count,empty=False):
+                report=copy.deepcopy(report_original);row=next(r for r in report['cases'] if r['case']=='network_disconnect')
+                row['outcome']='explicit_failure';row['recoveryMode']='none';row['attempts']=row['attempts'][:count]
+                if empty:row['before']=dict(assets=[],sourceObjects=[],links=[]);row['after']=copy.deepcopy(row['before'])
+                for i,attempt in enumerate(row['attempts']):
+                    attempt.update(classification='network_disconnect',transport='network_disconnect',httpStatus=None,returnedAssetIds=[],createdAssetIds=[],completedObjectIds=[],checkpointBefore='retained-network-cursor',checkpointAfter='retained-network-cursor',backoffAfterSeconds=1 if i+1<count else 0)
+                return report
+            for count,empty in ((1,False),(2,False),(1,True)):
+                write_yaml(report_path,explicit_network_failure(count,empty));write_yaml(config_path,config_original)
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+            for mode in ('result','create','progress','logical_mutation','promotion','checkpoint_change','checkpoint_gap','classification','timing','backoff','budget','idempotency'):
+                report=explicit_network_failure(2);row=next(r for r in report['cases'] if r['case']=='network_disconnect');attempt=row['attempts'][-1];config=copy.deepcopy(config_original);policy=config['configuration']['localSourceFaultPolicy']
+                if mode=='result':attempt['returnedAssetIds']=[policy['assetId']]
+                elif mode=='create':attempt['createdAssetIds']=[policy['assetId']]
+                elif mode=='progress':attempt['completedObjectIds']=[policy['objectId']]
+                elif mode=='logical_mutation':row['after']['assets']=[]
+                elif mode=='promotion':row['before']=dict(assets=[],sourceObjects=[],links=[])
+                elif mode=='checkpoint_change':attempt['checkpointAfter']='corrupt-cursor'
+                elif mode=='checkpoint_gap':attempt.update(checkpointBefore='lost-cursor',checkpointAfter='lost-cursor')
+                elif mode=='classification':attempt.update(classification='success',transport='http_response',httpStatus=200)
+                elif mode=='timing':attempt['requestedAt']=row['attempts'][0]['requestedAt']
+                elif mode=='backoff':policy['maxBackoffSeconds']=.5
+                elif mode=='budget':policy['maxAttempts']=1
+                else:attempt['idempotencyKey']='unapproved-key'
+                write_yaml(report_path,report);write_yaml(config_path,config)
+                self.assertTrue(any('qualified local source faults' in error for error in validate(copy.deepcopy(original))),mode)
+            # Both checkpoint resume and an explicitly reset idempotent rerun are legal.
+            report=copy.deepcopy(report_original);row=next(row for row in report['cases'] if row['case']=='interrupted_sync');row['recoveryMode']='idempotent_rerun';row['attempts'][1]['checkpointBefore']=None
+            write_yaml(report_path,report);write_yaml(config_path,config_original);self.assertEqual(validate(copy.deepcopy(original)),[])
+            # First synchronization may create one asset; repeated recovery may not create two.
+            report=copy.deepcopy(report_original);row=next(row for row in report['cases'] if row['case']=='http_429');row['before']=dict(assets=[],sourceObjects=[],links=[]);row['attempts'][1]['createdAssetIds']=[config_original['configuration']['localSourceFaultPolicy']['assetId']]
+            write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+        finally:temp.cleanup()
+        for profile,status in (('local-v1','fail'),('local-v1','inconclusive'),('production','pass')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-006',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'])
+                self.assertNotIn('sourceFaultOutcomeRef',record['environmentCaptured'])
+                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-06'}),[])
+            finally:temp.cleanup()
+
+    def test_178_worker_safety_requires_per_node_limits_restart_and_network_outcomes(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['workerSafetyRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
+                def validate(data):
+                    self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                    return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+                # Active leases may have been issued before the experiment begins.
+                report=copy.deepcopy(report_original)
+                for row in report['nodes']:row['restart']['oldLeaseIssuedAt']='2026-09-02T23:59:59Z'
+                write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+                for mode,value in (('invalid_issue','invalid-utc'),('future_issue','2026-09-03T00:02:02Z'),('after_expiry_issue','2026-09-03T00:02:03Z')):
+                    report=copy.deepcopy(report_original);report['nodes'][0]['restart']['oldLeaseIssuedAt']=value
+                    write_yaml(report_path,report);self.assertTrue(any('qualified worker safety' in e for e in validate(copy.deepcopy(original))),(profile,mode))
+                for mode in ('missing','arbitrary','policy','profile','input','subject','config','missing_node','duplicate_node','host','limit_case','not_exceeded','multiple_exceeded','termination','cleanup','publication','limit_clock','lease_expiry','registration','same_lease','stale_completion','duplicate_completion','stale_publication','recovery_bound','missing_denial','target','grant','decision','network_bytes','network_hash','network_node','expired_time','request_id','gate'):
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);row=report['nodes'][0];limit=row['limitCases'][0];restart=row['restart'];network=row['networkCases'][1];policy=config['configuration']['workerSafetyPolicy']
+                    if mode=='missing':data['environmentCaptured'].pop('workerSafetyRef')
+                    elif mode=='arbitrary':report=None
+                    elif mode=='policy':config['configuration']['workerSafetyPolicy']=True
+                    elif mode=='profile':report['acceptanceProfile']=CHECK.profile_identity('production' if profile=='local-v1' else 'local-v1')
+                    elif mode=='input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='subject':report['subjectVersion']='foreign-worker-build'
+                    elif mode=='config':report['configurationRef']=data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                    elif mode=='missing_node':report['nodes']=[]
+                    elif mode=='duplicate_node':report['nodes'].append(copy.deepcopy(row))
+                    elif mode=='host':row['identity']['physicalHostId']='other-host'
+                    elif mode=='limit_case':row['limitCases'].pop()
+                    elif mode=='not_exceeded':limit['observed'][limit['case']]=policy['limits'][limit['case']]
+                    elif mode=='multiple_exceeded':limit['observed']['memoryBytes']=101
+                    elif mode=='termination':limit['terminationReason']='success'
+                    elif mode=='cleanup':limit['remainingTemporaryBytes']=1
+                    elif mode=='publication':limit['publishedArtifactIds']=['unsafe-artifact']
+                    elif mode=='limit_clock':limit['finishedAt']=limit['startedAt']
+                    elif mode=='lease_expiry':restart['expiredLeaseObservedAt']=restart['disconnectedAt']
+                    elif mode=='registration':restart['newRegistrationId']=restart['oldRegistrationId']
+                    elif mode=='same_lease':restart['newLeaseId']=restart['oldLeaseId']
+                    elif mode=='stale_completion':restart['completionLeaseId']=restart['oldLeaseId']
+                    elif mode=='duplicate_completion':restart['taskCompletionCount']=2
+                    elif mode=='stale_publication':restart['staleLeasePublicationCount']=1
+                    elif mode=='recovery_bound':policy['maximumRecoverySeconds']=1
+                    elif mode=='missing_denial':row['networkCases'].pop()
+                    elif mode=='target':network['requestURL']=policy['allowedTarget']
+                    elif mode=='grant':network['grantId']='unapproved-grant'
+                    elif mode=='decision':network['decision']='allowed'
+                    elif mode=='network_bytes':network.update(outboundRef=row['networkCases'][0]['outboundRef'],outboundSha256=row['networkCases'][0]['outboundSha256'],outboundByteCount=row['networkCases'][0]['outboundByteCount'])
+                    elif mode=='network_hash':network['outboundSha256']='sha256:'+'0'*64
+                    elif mode=='network_node':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==network['outboundRef'])['nodeId']='another-node'
+                    elif mode=='expired_time':policy['expiredAt']='2026-09-03T00:04:00Z'
+                    elif mode=='request_id':network['requestId']=limit['requestId']
+                    else:next(m for m in data['measurements'] if m['id']=='worker_network_boundary_enforced')['actual']=False
+                    if report is None:report_path.write_text('Unrelated worker safety success assertions\n',encoding='utf8')
+                    else:write_yaml(report_path,report)
+                    write_yaml(config_path,config)
+                    self.assertTrue(any('qualified worker safety' in e for e in validate(data)),(profile,mode))
+            finally:temp.cleanup()
+        for profile in ('local-v1','production'):
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    index=self.make_profile_slot(root,'POC-001',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('workerSafetyRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-01'}),[])
+                finally:temp.cleanup()
+
+    def test_179_worker_safety_returns_errors_for_unhashable_inventory_node_ids(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path)
+                # Preserve a successful valid-node control alongside malformed cases.
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),[])
+                for value in (['invalid-node-id'],{'invalid':'node-id'}):
+                    data=copy.deepcopy(original);data['environmentCaptured']['worker_node_inventory'][0]['nodeId']=value;write_yaml(path,data)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
+                    self.assertTrue(any('qualified worker safety' in error for error in errors),(profile,value))
+            finally:temp.cleanup()
+
+    def test_180_passthrough_recovery_requires_changed_boots_and_recovered_runtime(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-001','production');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['passthroughTransitionRef'];report_original=load_yaml(report_path);probe_path=root/report_original['cases'][0]['after']['probeRef'];probe_original=load_yaml(probe_path)
+            def validate(data):
+                self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                return CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
+            self.assertEqual(validate(copy.deepcopy(original)),[])
+            for mode in ('missing','arbitrary','identity','config','duplicate_case','unchanged_guest','unchanged_host','unchanged_reset','lost_enumeration','lost_assignment','runtime','manual_rebuild','clock','probe_reused','probe_input','probe_identity','probe_boot','probe_clock','probe_errors','probe_output','probe_hash','probe_frames','chain','initial_host','gate'):
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);probe=copy.deepcopy(probe_original);row=report['cases'][0]
+                if mode=='missing':data['environmentCaptured'].pop('passthroughTransitionRef')
+                elif mode=='arbitrary':report=None
+                elif mode=='identity':report['identity']['driverBuild']='foreign-driver'
+                elif mode=='config':report['configurationRef']=data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                elif mode=='duplicate_case':report['cases'][-1]['case']=row['case']
+                elif mode=='unchanged_guest':row['after']['guestBootId']=row['before']['guestBootId']
+                elif mode=='unchanged_host':report['cases'][1]['after']['hostBootId']=report['cases'][1]['before']['hostBootId']
+                elif mode=='unchanged_reset':report['cases'][2]['after']['deviceGenerationId']=report['cases'][2]['before']['deviceGenerationId']
+                elif mode=='lost_enumeration':row['after']['enumeratedDeviceIds']=['foreign-gpu']
+                elif mode=='lost_assignment':row['after']['assignedDeviceIds']=['foreign-gpu']
+                elif mode=='runtime':row['after']['runtimeReady']=False
+                elif mode=='manual_rebuild':row['manualRebuildCount']=1
+                elif mode=='clock':row['finishedAt']=row['startedAt']
+                elif mode=='probe_reused':row['after']['probeRef']=row['before']['probeRef']
+                elif mode=='probe_input':probe['inputSha256']='sha256:'+'0'*64
+                elif mode=='probe_identity':probe['identity']['encoderBuild']='foreign-encoder'
+                elif mode=='probe_boot':probe['guestBootId']='foreign-boot'
+                elif mode=='probe_clock':probe['startedAt']=row['startedAt']
+                elif mode=='probe_errors':probe['decodeErrorCount']=1
+                elif mode=='probe_output':probe['outputRef']=original['environmentCaptured']['inputSampleArtifacts'][0]['inputArtifactRef']
+                elif mode=='probe_hash':probe['outputSha256']='sha256:'+'0'*64
+                elif mode=='probe_frames':probe['decodedFrameCount']=0
+                elif mode=='chain':report['cases'][1]['before']['deviceGenerationId']='foreign-chain'
+                elif mode=='initial_host':row['before']['hostBootId']='foreign-host-boot'
+                else:next(m for m in data['measurements'] if m['id']=='vm_reboot_recovery')['actual']=False
+                if report is None:report_path.write_text('Unrelated recovery success assertions\n',encoding='utf8')
+                else:write_yaml(report_path,report)
+                write_yaml(probe_path,probe);self.assertTrue(any('qualified passthrough transitions' in e for e in validate(data)),mode)
+        finally:temp.cleanup()
+        for profile,status in (('local-v1','pass'),('production','fail'),('production','inconclusive')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-001',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('passthroughTransitionRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),[])
+            finally:temp.cleanup()
+
+    def test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-007','production');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['publicNetworkRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
+            def validate(data):
+                self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                return CHECK.validate_repository(root,'production',True,selected_pocs={'POC-07'})
+            self.assertEqual(validate(copy.deepcopy(original)),[])
+            # Coarse observation clocks and unavailable/stable serial metadata are legitimate.
+            for mode in ('same_clock','same_serial','no_serial'):
+                report=copy.deepcopy(report_original);control=report['controls'][0]
+                if mode=='same_clock':
+                    control['connectedAt']=control['tls']['startedAt']=control['tls']['finishedAt']=control['requestStartedAt']=control['requestFinishedAt']
+                elif mode=='same_serial':report['dnsAfter']['recordSerial']=report['dnsBefore']['recordSerial']
+                else:report['dnsBefore']['recordSerial']=report['dnsAfter']['recordSerial']=None
+                write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+            for mode in ('tls_reversed','request_reversed'):
+                report=copy.deepcopy(report_original);control=report['controls'][0]
+                if mode=='tls_reversed':control['tls']['finishedAt']='2026-09-03T00:00:00.640Z'
+                else:control['requestStartedAt']='2026-09-03T00:00:01.001Z'
+                write_yaml(report_path,report);self.assertTrue(any('qualified public network' in e for e in validate(copy.deepcopy(original))),mode)
+            def add_point(report,data):
+                point='synthetic-second-external-point';control=copy.deepcopy(report['controls'][0]);control.update(testPointId=point,requestId='synthetic-second-public-request');source=load_yaml(root/control['accessWitnessRef']);body_path=root/control['responseBodyRef']
+                def retain(name,payload,kind):
+                    ref=report_path.parent.as_posix().removeprefix(root.as_posix()+'/')+'/'+name;path=root/ref
+                    if isinstance(payload,bytes):path.write_bytes(payload)
+                    else:write_yaml(path,payload)
+                    raw=path.read_bytes();data['environmentCaptured']['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));data['rawOutputRefs'].append(ref);return ref
+                control['responseBodyRef']=retain('second-point-response.bin',body_path.read_bytes(),'produced_media');source.update(testPointId=point,requestId=control['requestId'],responseBodyRef=control['responseBodyRef']);control['accessWitnessRef']=retain('second-point-request.yaml',source,'measurement_output');report['controls'].append(control)
+                for old in list(report['denials']):
+                    row=copy.deepcopy(old);row.update(testPointId=point,requestId='second-point-'+row['case'],responseBodyRef=retain('second-point-'+row['case']+'.bin',(root/row['responseBodyRef']).read_bytes(),'produced_media'));report['denials'].append(row)
+                return point
+            report=copy.deepcopy(report_original);data=copy.deepcopy(original);config=copy.deepcopy(config_original);point=add_point(report,data);config['configuration']['publicNetworkPolicy']['testPointIds'].append(point);write_yaml(config_path,config);write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(data)),[])
+            second_request_original=load_yaml(root/report['controls'][1]['accessWitnessRef'])
+            for mode in ('reused_request','reused_body','wrong_point_request'):
+                write_yaml(root/report['controls'][1]['accessWitnessRef'],second_request_original)
+                damaged=copy.deepcopy(report);second=damaged['controls'][1]
+                if mode=='reused_request':second['accessWitnessRef']=damaged['controls'][0]['accessWitnessRef']
+                elif mode=='reused_body':
+                    second['responseBodyRef']=damaged['controls'][0]['responseBodyRef'];witness=load_yaml(root/second['accessWitnessRef']);witness['responseBodyRef']=second['responseBodyRef'];write_yaml(root/second['accessWitnessRef'],witness)
+                else:
+                    witness=load_yaml(root/second['accessWitnessRef']);witness['requestId']='unrelated-recorded-request';write_yaml(root/second['accessWitnessRef'],witness)
+                write_yaml(report_path,damaged);self.assertTrue(any('qualified public network' in e for e in validate(copy.deepcopy(data))),mode)
+            write_yaml(config_path,config_original)
+            for mode in ('missing','arbitrary','policy','config','profile','input','access_ref','ddns_name','same_mapping','old_dns','stale_dns','resolver','propagation','point','missing_control','address_family','address','port','route','proxy','origin','tls_chain','tls_hostname','tls_sni','tls_cipher','tls_protocol','tls_store','tls_leaf','tls_anchor','tls_clock','request_clock','witness_ref','response_hash','missing_denial','stale_time','bypass_origin','denial_target','denial_address','denial_bytes','duplicate_request','gate'):
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['publicNetworkPolicy'];control=report['controls'][0];tls=control['tls'];denial=report['denials'][-1]
+                if mode=='missing':data['environmentCaptured'].pop('publicNetworkRef')
+                elif mode=='arbitrary':report=None
+                elif mode=='policy':config['configuration']['publicNetworkPolicy']=True
+                elif mode=='config':report['configurationRef']=data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                elif mode=='profile':report['acceptanceProfile']=CHECK.profile_identity('local-v1')
+                elif mode=='input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                elif mode=='access_ref':report['accessOutcomeRef']=data['rawOutputRefs'][0]
+                elif mode=='ddns_name':report['dnsAfter']['name']='foreign-endpoint.invalid'
+                elif mode=='same_mapping':policy['oldAddress']=policy['newAddress']
+                elif mode=='old_dns':report['dnsBefore']['addresses']=[policy['newAddress']]
+                elif mode=='stale_dns':report['dnsAfter']['addresses'].append(policy['oldAddress'])
+                elif mode=='resolver':report['dnsAfter']['resolverBuild']='foreign-resolver'
+                elif mode=='propagation':policy['maximumPropagationSeconds']=.1
+                elif mode=='point':control['testPointId']='unapproved-test-point'
+                elif mode=='missing_control':report['controls']=[]
+                elif mode=='address_family':control['addressFamily']='IPv4'
+                elif mode=='address':control['connectedAddress']=policy['oldAddress']
+                elif mode=='port':control['remotePort']=443
+                elif mode=='route':control['routeId']='bypass-route'
+                elif mode=='proxy':control['proxyBuild']='foreign-proxy'
+                elif mode=='origin':control['originPort']=8444
+                elif mode=='tls_chain':tls['chainValidated']=False
+                elif mode=='tls_hostname':tls['hostnameValidated']=False
+                elif mode=='tls_sni':tls['sni']='foreign-host.invalid'
+                elif mode=='tls_cipher':tls['cipher']='unapproved-cipher'
+                elif mode=='tls_protocol':tls['protocol']='unapproved-protocol'
+                elif mode=='tls_store':tls['trustStoreBuild']='foreign-trust-store'
+                elif mode=='tls_leaf':tls['certificateSha256']='sha256:'+'0'*64
+                elif mode=='tls_anchor':tls['chainFingerprints'][-1]='sha256:'+'0'*64
+                elif mode=='tls_clock':tls['finishedAt']='2026-09-03T00:00:00.640Z'
+                elif mode=='request_clock':control['requestFinishedAt']='2026-09-03T00:00:01.001Z'
+                elif mode=='witness_ref':control['accessWitnessRef']=next(r['witnessRef'] for r in load_yaml(root/report['accessOutcomeRef'])['cases'] if r['case']=='unauthorized')
+                elif mode=='response_hash':control['responseSha256']='sha256:'+'0'*64
+                elif mode=='missing_denial':report['denials'].pop()
+                elif mode=='stale_time':denial['observedAt']='2026-09-03T00:00:01Z'
+                elif mode=='bypass_origin':denial['originRequestCount']=1
+                elif mode=='denial_target':denial['requestURL']=policy['bypassURL']
+                elif mode=='denial_address':denial['connectedAddress']=policy['newAddress']
+                elif mode=='denial_bytes':denial.update(**{k:control[k] for k in ('responseBodyRef','responseSha256','responseByteCount')})
+                elif mode=='duplicate_request':denial['requestId']=control['requestId']
+                else:next(m for m in data['measurements'] if m['id']=='tls_valid')['actual']=False
+                if report is None:report_path.write_text('Unrelated public network success assertions\n',encoding='utf8')
+                else:write_yaml(report_path,report)
+                write_yaml(config_path,config);self.assertTrue(any('qualified public network' in e for e in validate(data)),mode)
+        finally:temp.cleanup()
+        for profile,status in (('local-v1','pass'),('production','fail'),('production','inconclusive')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-007',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('publicNetworkRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-07'}),[])
+            finally:temp.cleanup()
+
+    def test_182_metadata_rates_and_costs_derive_complete_streamed_observations(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-005',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['metadataScanRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path);files={root/a['ref']:(root/a['ref']).read_bytes() for a in original['environmentCaptured']['rawExecutionArtifacts']}
+                def validate(data):
+                    self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                    return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-05'})
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+                # Equal-granularity event times retain the approved deterministic sequence.
+                report=copy.deepcopy(report_original);file=root/report['changeStream']['events']['ref'];records=[json.loads(line) for line in file.read_bytes().splitlines()]
+                for record in records:record['observedAt']='2026-09-03T00:00:06Z'
+                raw=b''.join((json.dumps(record,separators=(',',':'))+'\n').encode() for record in records);file.write_bytes(raw);report['changeStream']['events']['sha256']='sha256:'+hashlib.sha256(raw).hexdigest();write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+                for mode in ('missing','arbitrary','policy','config','profile','input','build','baseline_sample','scan_id','changes_id','enumeration_count','event_count','enumeration_clock','event_clock','traversal_clock','phase_order','rate','frequency','cost','objects_incomplete','object_duplicate','object_version','event_duplicate','event_sequence','event_version','event_timestamp','event_reordered','event_missing','applied_missing','applied_duplicate','traversed_foreign','generator','row_type','error_echo','duplicate_field','stream_hash'):
+                    for file,raw in files.items():file.write_bytes(raw)
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['metadataScanPolicy'];enum=report['enumeration'];events=report['changeStream'];incremental=report['incremental']
+                    def rewrite(descriptor,mutate):
+                        file=root/descriptor['ref'];records=[json.loads(line) for line in file.read_bytes().splitlines()];mutate(records);raw=b''.join((json.dumps(record,separators=(',',':'))+'\n').encode() for record in records);file.write_bytes(raw);descriptor.update(count=len(records),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+                    if mode=='missing':data['environmentCaptured'].pop('metadataScanRef')
+                    elif mode=='arbitrary':report=None
+                    elif mode=='policy':config['configuration']['metadataScanPolicy']=True
+                    elif mode=='config':report['configurationRef']=data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                    elif mode=='profile':report['acceptanceProfile']=CHECK.profile_identity('production' if profile=='local-v1' else 'local-v1')
+                    elif mode=='input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='build':report['scannerBuild']='foreign-scanner'
+                    elif mode=='baseline_sample':policy['baselineInputSampleId']='other-sample'
+                    elif mode=='scan_id':enum['scanId']='other-scan'
+                    elif mode=='changes_id':events['changeSetId']='other-changes'
+                    elif mode=='enumeration_count':enum['objects']['count']+=1
+                    elif mode=='event_count':events['events']['count']+=1
+                    elif mode=='enumeration_clock':enum['finishedAt']=enum['startedAt']
+                    elif mode=='event_clock':events['finishedAt']=events['startedAt']
+                    elif mode=='traversal_clock':incremental['finishedAt']=incremental['startedAt']
+                    elif mode=='phase_order':incremental['startedAt']='2026-09-03T00:00:10Z'
+                    elif mode in ('rate','frequency','cost'):
+                        metric={'rate':'enumeration_rate','frequency':'source_change_frequency','cost':'incremental_scan_cost'}[mode];next(m for m in data['measurements'] if m['id']==metric)['actual']+=1
+                    elif mode=='objects_incomplete':rewrite(enum['objects'],lambda records:records.pop())
+                    elif mode=='object_duplicate':rewrite(enum['objects'],lambda records:records.append(copy.deepcopy(records[0])))
+                    elif mode=='object_version':rewrite(enum['objects'],lambda records:records[0].update(versionId='foreign-version'))
+                    elif mode=='event_duplicate':rewrite(events['events'],lambda records:records.append(copy.deepcopy(records[0])))
+                    elif mode=='event_sequence':rewrite(events['events'],lambda records:records[0].update(sequence=9))
+                    elif mode=='event_version':rewrite(events['events'],lambda records:records[0].update(beforeVersion='foreign-version'))
+                    elif mode=='event_timestamp':rewrite(events['events'],lambda records:records[0].update(observedAt='2026-09-03T00:00:19Z'))
+                    elif mode=='event_reordered':
+                        def reorder(records):
+                            records[:]=[records[2],records[0],records[1]]
+                            for offset,record in enumerate(records):record['observedAt']=f'2026-09-03T00:00:0{offset+6}Z'
+                        rewrite(events['events'],reorder)
+                    elif mode=='event_missing':rewrite(events['events'],lambda records:records.pop())
+                    elif mode=='applied_missing':rewrite(incremental['appliedEvents'],lambda records:records.pop())
+                    elif mode=='applied_duplicate':rewrite(incremental['appliedEvents'],lambda records:records.append(copy.deepcopy(records[0])))
+                    elif mode=='traversed_foreign':rewrite(incremental['traversedObjects'],lambda records:records[0].update(objectId='foreign-object'))
+                    elif mode=='generator':policy['hierarchyGenerator']={'invalid':'generator'}
+                    elif mode=='row_type':rewrite(enum['objects'],lambda records:records.__setitem__(0,True))
+                    elif mode=='error_echo':rewrite(enum['objects'],lambda records:records[0].update(objectId={'marker':'INPUT_VALUE_MUST_NOT_APPEAR_IN_ERRORS'}))
+                    elif mode=='duplicate_field':
+                        file=root/enum['objects']['ref'];raw=file.read_bytes().replace(b'{',b'{"objectId":"duplicate",',1);file.write_bytes(raw);enum['objects']['sha256']='sha256:'+hashlib.sha256(raw).hexdigest()
+                    else:enum['objects']['sha256']='sha256:'+'0'*64
+                    if report is None:report_path.write_text('Unrelated scan success assertions\n',encoding='utf8')
+                    else:write_yaml(report_path,report)
+                    write_yaml(config_path,config);errors=validate(data);self.assertTrue(any('qualified metadata scan' in e for e in errors),(profile,mode))
+                    if mode=='error_echo':self.assertNotIn('INPUT_VALUE_MUST_NOT_APPEAR_IN_ERRORS','\n'.join(errors))
+            finally:temp.cleanup()
+        for profile in ('local-v1','production'):
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    index=self.make_profile_slot(root,'POC-005',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('metadataScanRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-05'}),[])
+                finally:temp.cleanup()
+
+    def test_183_streamed_metadata_representation_reads_one_million_records_bounded(self):
+        # Actual million-record parser coverage; no scanner throughput/POC claim.
+        with tempfile.TemporaryDirectory(prefix='guize-million-records-') as folder:
+            path=Path(folder)/'metadata.jsonl';digest=hashlib.sha256();total=1000000
+            with path.open('wb') as output:
+                for index in range(total):
+                    line=(json.dumps(dict(objectId='synthetic-object-'+str(index),kind='file',versionId='version-1',depth=1,fileSizeBytes=1),separators=(',',':'))+'\n').encode();output.write(line);digest.update(line)
+            schema=load_yaml(self.repo/'specs/poc/program.schema.yaml')['$defs']['metadataObjectRecord'];original_open=Path.open
+            class BoundedReader:
+                def __init__(self,handle):self.handle=handle
+                def __enter__(self):self.handle.__enter__();return self
+                def __exit__(self,*args):return self.handle.__exit__(*args)
+                def readline(self,size):
+                    self.assert_size=size
+                    if not 0<size<=CHECK.ARTIFACT_CHUNK_BYTES+1:raise AssertionError('unbounded metadata line read')
+                    return self.handle.readline(size)
+                def read(self,*args):raise AssertionError('manifest materialization forbidden')
+            def opening(file,*args,**kwargs):
+                handle=original_open(file,*args,**kwargs)
+                return BoundedReader(handle) if file==path and args and args[0]=='rb' else handle
+            with mock.patch.object(Path,'open',opening):
+                iterator=CHECK.streamed_metadata_records(path,schema);count=0
+                while True:
+                    try:next(iterator);count+=1
+                    except StopIteration as terminal:observed_count,sha=terminal.value;break
+            self.assertEqual((count,observed_count,sha),(total,total,'sha256:'+digest.hexdigest()))
+
+    def test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-008',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['frontendComparisonRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path);files={root/a['ref']:(root/a['ref']).read_bytes() for a in original['environmentCaptured']['rawExecutionArtifacts']}
+                def validate(data):
+                    self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                    return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-08'})
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+                for mode in ('missing','arbitrary','policy','config','profile','input','fixture_ref','missing_candidate','duplicate_candidate','version','lock_hash','build_status','build_time','bundle_count','bundle_hash','missing_scenario','duplicate_scenario','scenario_build','scenario_fixture','scenario_input','scenario_driver','scenario_status','missing_action','action_result','action_time','scenario_measurement','missing_score','duplicate_score','rubric','assessor','score_build','grade','grade_nan','basis','score_time','score_refs','weight','criterion','coverage','bundle','maintainability','gate'):
+                    for file,raw in files.items():file.write_bytes(raw)
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['frontendComparisonPolicy'];row=report['candidates'][0];build_path=root/row['buildRef'];build=load_yaml(build_path);trace_path=root/row['scenarios'][0]['observationRef'];trace=load_yaml(trace_path);score_path=root/row['scores'][0]['observationRef'];score=load_yaml(score_path)
+                    if mode=='missing':data['environmentCaptured'].pop('frontendComparisonRef')
+                    elif mode=='arbitrary':report=None
+                    elif mode=='policy':config['configuration']['frontendComparisonPolicy']=True
+                    elif mode=='config':report['configurationRef']=data['environmentCaptured']['acceptanceProfileConfigurationRef']
+                    elif mode=='profile':report['acceptanceProfile']=CHECK.profile_identity('production' if profile=='local-v1' else 'local-v1')
+                    elif mode=='input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='fixture_ref':report['inputFixtureRef']=data['rawOutputRefs'][0]
+                    elif mode=='missing_candidate':report['candidates'].pop()
+                    elif mode=='duplicate_candidate':report['candidates'][-1]['candidateId']='vue'
+                    elif mode=='version':build['identity']['frameworkVersion']='foreign-framework'
+                    elif mode=='lock_hash':policy['candidates'][0]['lockSha256']='sha256:'+'0'*64
+                    elif mode=='build_status':build['exitCode']=1
+                    elif mode=='build_time':build['finishedAt']='2026-09-03T00:00:05Z'
+                    elif mode=='bundle_count':build['bundles'][0]['byteCount']+=1
+                    elif mode=='bundle_hash':build['bundles'][0]['sha256']='sha256:'+'0'*64
+                    elif mode=='missing_scenario':row['scenarios'].pop()
+                    elif mode=='duplicate_scenario':row['scenarios'][-1]['scenarioId']=row['scenarios'][0]['scenarioId']
+                    elif mode=='scenario_build':trace['buildId']='foreign-build'
+                    elif mode=='scenario_fixture':trace['fixtureId']='foreign-fixture'
+                    elif mode=='scenario_input':trace['inputSha256']='sha256:'+'0'*64
+                    elif mode=='scenario_driver':trace['scenarioDriverBuild']='foreign-driver'
+                    elif mode=='scenario_status':trace['status']='failed'
+                    elif mode=='missing_action':trace['actions'].pop()
+                    elif mode=='action_result':trace['actions'][0]['result']={'unrelated':'success'}
+                    elif mode=='action_time':trace['actions'][0]['finishedAt']='2026-09-03T00:00:01Z'
+                    elif mode=='scenario_measurement':trace['measurements'][0]['value']+=1
+                    elif mode=='missing_score':row['scores'].pop()
+                    elif mode=='duplicate_score':row['scores'][-1]['criterionId']=row['scores'][0]['criterionId']
+                    elif mode=='rubric':score['rubricVersion']='foreign-rubric'
+                    elif mode=='assessor':score['assessorId']='unapproved-assessor'
+                    elif mode=='score_build':score['buildId']='foreign-build'
+                    elif mode=='grade':score['grade']=9
+                    elif mode=='grade_nan':score['grade']=float('nan')
+                    elif mode=='basis':score['basis']='UNKNOWN'
+                    elif mode=='score_time':score['observedAt']='2026-09-03T00:00:02Z'
+                    elif mode=='score_refs':score['scenarioRefs'][0]=data['rawOutputRefs'][0]
+                    elif mode=='weight':policy['criteria'][0]['weight']=float('nan')
+                    elif mode=='criterion':policy['criteria'][0]['criterionId']='unapproved-criterion'
+                    elif mode in ('coverage','bundle','maintainability'):
+                        metric={'coverage':'prototype_coverage','bundle':'bundle_baseline','maintainability':'maintainability_score'}[mode];next(m for m in data['measurements'] if m['id']==metric)['actual']+=1
+                    else:next(m for m in data['measurements'] if m['id']=='million_row_virtual_list_equivalent')['actual']=False
+                    if report is None:report_path.write_text('Unrelated frontend success assertions\n',encoding='utf8')
+                    else:write_yaml(report_path,report)
+                    write_yaml(config_path,config);write_yaml(build_path,build);write_yaml(trace_path,trace);write_yaml(score_path,score);self.assertTrue(any('qualified frontend comparison' in e for e in validate(data)),(profile,mode))
+                # Identical functional results can have different valid DOM window sizes.
+                input_path=root/report_original['inputFixtureRef'];input_original=load_yaml(input_path)
+                for mode in ('valid_window','missing_counts','short_input','full_dom','wrong_unit','fractional_input','fractional_dom','zero_dom','bool_dom','invalid_viewport','invalid_overscan','unbounded_window','missing_window'):
+                    for file,raw in files.items():file.write_bytes(raw)
+                    data=copy.deepcopy(original);fixture=copy.deepcopy(input_original);million=next(s for s in fixture['scenarios'] if s['scenarioId']=='million_row_virtual_list_equivalent');trace_path=root/report_original['candidates'][0]['scenarios'][0]['observationRef'];trace=load_yaml(trace_path)
+                    if mode=='valid_window':trace['measurements'][2]['value']=35
+                    elif mode=='missing_counts':trace['measurements']=trace['measurements'][:1]
+                    elif mode=='short_input':trace['measurements'][1]['value']=999999
+                    elif mode=='full_dom':trace['measurements'][2]['value']=1000000
+                    elif mode=='wrong_unit':trace['measurements'][1]['unit']='ms'
+                    elif mode=='fractional_input':trace['measurements'][1]['value']=1000000.0
+                    elif mode=='fractional_dom':trace['measurements'][2]['value']=30.5
+                    elif mode=='zero_dom':trace['measurements'][2]['value']=0
+                    elif mode=='bool_dom':trace['measurements'][2]['value']=True
+                    else:
+                        if mode=='invalid_viewport':million['arguments']['viewportRows']=0
+                        elif mode=='invalid_overscan':million['arguments']['overscanRows']=-1
+                        elif mode=='unbounded_window':million['arguments']['viewportRows']=1000000
+                        else:million['arguments'].pop('overscanRows')
+                        write_yaml(input_path,fixture);digest='sha256:'+hashlib.sha256(input_path.read_bytes()).hexdigest();sample=data['samples'][0];sample['checksum']=digest;approval=load_yaml(root/sample['approvalRef']);approval['checksum']=digest;write_yaml(root/sample['approvalRef'],approval);record=next(r for r in data['environmentCaptured']['inputSampleArtifacts'] if r['sampleId']==sample['id']);record.update(byteCount=len(input_path.read_bytes()),sha256=digest);report=copy.deepcopy(report_original);report['inputFixtureSha256']=digest;report['inputSamples'][0]['checksum']=digest;write_yaml(report_path,report)
+                        for row in report['candidates']:
+                            for case in row['scenarios']:
+                                location=root/case['observationRef'];other=load_yaml(location);other['inputSha256']=digest;write_yaml(location,other)
+                        trace=load_yaml(trace_path)
+                    write_yaml(trace_path,trace);errors=validate(data)
+                    if mode=='valid_window':self.assertEqual(errors,[],(profile,mode))
+                    else:self.assertTrue(any('qualified frontend comparison' in e for e in errors),(profile,mode))
+
+            finally:temp.cleanup()
+        for profile in ('local-v1','production'):
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    index=self.make_profile_slot(root,'POC-008',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('frontendComparisonRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-08'}),[])
+                finally:temp.cleanup()
+
+    def test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-002',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['mediaNegativeRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path);files={root/a['ref']:(root/a['ref']).read_bytes() for a in original['environmentCaptured']['rawExecutionArtifacts']}
+                def validate(data):
+                    self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+                for mode in ('missing','arbitrary','policy','profile','input','job','version','node','missing_target','target','input_read','denied_outbound','missing_limit','not_exceeded','multiple_exceeded','termination','limit_cleanup','limit_publish','elapsed_clock','partial_empty','retry_job','old_epoch','lifecycle_clock','duplicate_terminal','cancel_process','cancel_before','cancel_partial_empty','cancel_job','cancel_cleanup','cancel_publish','cancel_partial','published_hash','missing_probe','probe_output','probe_input','probe_node','probe_build','probe_decoder','probe_codec','probe_frames','probe_errors','probe_epoch','probe_clock','missing_fencing','late_publish','duplicate_result','completion_epoch','missing_seek','stale_slots','revoked_bytes','seek_epoch','seek_grant','missing_hls','cross_user','expired_grant','revoked_decision','origin_read','cache_hash','hls_version','hls_acl','hls_time','gate'):
+                    for file,raw in files.items():file.write_bytes(raw)
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['mediaNegativePolicy'];row=report['nodes'][0];target=row['deniedTargets'][0];limit=row['limitCases'][0];life=row['lifecycle'];seek=row['seekCases'][1];access=report['accessCases'][1]
+                    if mode=='missing':data['environmentCaptured'].pop('mediaNegativeRef')
+                    elif mode=='arbitrary':report=None
+                    elif mode=='policy':config['configuration']['mediaNegativePolicy']=True
+                    elif mode=='profile':report['acceptanceProfile']=CHECK.profile_identity('production' if profile=='local-v1' else 'local-v1')
+                    elif mode=='input':report['inputSha256']='sha256:'+'0'*64
+                    elif mode=='job':report['jobId']='foreign-job'
+                    elif mode=='version':report['assetVersion']='foreign-version'
+                    elif mode=='node':row['identity']['encoderBuild']='foreign-build'
+                    elif mode=='missing_target':row['deniedTargets'].pop()
+                    elif mode=='target':target['target']='https://unapproved.invalid/input'
+                    elif mode=='input_read':target['inputBytesRead']=1
+                    elif mode=='denied_outbound':(root/target['outboundRef']).write_bytes(b'Unexpected outbound bytes')
+                    elif mode=='missing_limit':row['limitCases'].pop()
+                    elif mode=='not_exceeded':limit['observed']['cpuSeconds']=policy['limits']['cpuSeconds']
+                    elif mode=='multiple_exceeded':limit['observed']['memoryBytes']=policy['limits']['memoryBytes']+1
+                    elif mode=='termination':limit['processStatus']='running'
+                    elif mode=='limit_cleanup':limit['remainingTemporaryBytes']=1
+                    elif mode=='limit_publish':limit['publicationCount']=1
+                    elif mode=='elapsed_clock':row['limitCases'][2]['observed']['elapsedSeconds']=7
+                    elif mode=='partial_empty':(root/life['partialRef']).write_bytes(b'')
+                    elif mode=='retry_job':life['retryJobId']='foreign-job'
+                    elif mode=='old_epoch':life['currentAttemptEpoch']=life['oldAttemptEpoch']
+                    elif mode=='lifecycle_clock':life['retriedAt']='2026-09-03T00:04:01Z'
+                    elif mode=='duplicate_terminal':life['terminalResultCount']=2
+                    elif mode=='cancel_process':life['activeProcessCount']=1
+                    elif mode=='cancel_before':life['cancelledProcessStatusBefore']='terminated'
+                    elif mode=='cancel_partial_empty':(root/life['cancelledPartialRef']).write_bytes(b'')
+                    elif mode=='cancel_job':life['cancelJobId']=policy['jobId']
+                    elif mode=='cancel_cleanup':life['remainingOutputBytes']=1
+                    elif mode=='cancel_publish':life['cancelledAttemptPublicationCount']=1
+                    elif mode=='cancel_partial':life['cancelledPartialPublishable']=True
+                    elif mode=='published_hash':life['publishedSha256']='sha256:'+'0'*64
+                    elif mode=='missing_probe':life['retryProbeRef']=data['rawOutputRefs'][0]
+                    elif mode.startswith('probe_'):
+                        probe_path=root/life['retryProbeRef'];probe=load_yaml(probe_path);field={'probe_output':'outputSha256','probe_input':'inputSha256','probe_node':'nodeId','probe_build':'encoderBuild','probe_decoder':'decoderBuild','probe_codec':'codec','probe_frames':'decodedFrameCount','probe_errors':'decodeErrorCount','probe_epoch':'attemptEpoch','probe_clock':'finishedAt'}[mode]
+                        probe[field]='sha256:'+'0'*64 if mode in ('probe_output','probe_input') else 1 if mode=='probe_errors' else 3 if mode=='probe_epoch' else 999 if mode=='probe_frames' else '2026-09-03T00:04:07Z' if mode=='probe_clock' else 'foreign-probe-value';write_yaml(probe_path,probe)
+
+                    elif mode=='missing_fencing':life['submissions'].pop()
+                    elif mode=='late_publish':life['submissions'][2]['publicationDelta']=1
+                    elif mode=='duplicate_result':life['submissions'][1]['terminalResultDelta']=1
+                    elif mode=='completion_epoch':life['submissions'][0]['attemptEpoch']=1
+                    elif mode=='missing_seek':row['seekCases'].pop()
+                    elif mode=='stale_slots':seek['newReservedSlots']=1
+                    elif mode=='revoked_bytes':(root/row['seekCases'][2]['responseRef']).write_bytes(b'Protected bytes')
+                    elif mode=='seek_epoch':seek['requestedSeekEpoch']=seek['currentSeekEpoch']
+                    elif mode=='seek_grant':seek['grantId']='foreign-grant'
+                    elif mode=='missing_hls':report['accessCases'].pop()
+                    elif mode=='cross_user':access['userId']=policy['authorizedUserId']
+                    elif mode=='expired_grant':report['accessCases'][2]['grantId']=policy['currentGrantId']
+                    elif mode=='revoked_decision':report['accessCases'][3]['decision']='allowed'
+                    elif mode=='origin_read':report['accessCases'][4]['originContactCount']=1
+                    elif mode=='cache_hash':report['accessCases'][15]['responseSha256']='sha256:'+'0'*64
+                    elif mode=='hls_version':access['assetVersion']='foreign-version'
+                    elif mode=='hls_acl':access['aclVersion']='foreign-acl'
+                    elif mode=='hls_time':report['accessCases'][0]['observedAt']=policy['grantValidUntil']
+                    else:next(m for m in data['measurements'] if m['id']=='hls_acl_and_revocation')['actual']=False
+                    if report is None:report_path.write_text('Unrelated media success assertions\n',encoding='utf8')
+                    else:write_yaml(report_path,report)
+                    write_yaml(config_path,config);self.assertTrue(any('qualified media negative matrix' in e for e in validate(data)),(profile,mode))
+            finally:temp.cleanup()
+        for profile in ('local-v1','production'):
+            for mode in ('partial_alias','original_alias','cancel_alias','distinct_same_bytes'):
+                temp,root=self.temp_repo()
+                try:
+                    index=self.make_profile_slot(root,'POC-002',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];data=load_yaml(path);report_path=root/data['environmentCaptured']['mediaNegativeRef'];report=load_yaml(report_path);life=report['nodes'][0]['lifecycle'];probe_path=root/life['retryProbeRef'];probe=load_yaml(probe_path)
+                    if mode in ('original_alias','distinct_same_bytes'):
+                        original_run=data['environmentCaptured']['workerEncodeExecutions'][0];link=root/life['publishedRef'];link.unlink()
+                        if mode=='original_alias':link.hardlink_to(root/original_run['outputArtifactRef'])
+                        else:link.write_bytes((root/original_run['outputArtifactRef']).read_bytes())
+                        life['publishedSha256']=original_run['outputSha256'];probe['outputSha256']=life['publishedSha256'];write_yaml(probe_path,probe)
+                    else:
+                        field='partialRef' if mode=='partial_alias' else 'cancelledPartialRef';digest='partialSha256' if mode=='partial_alias' else 'cancelledPartialSha256';link=root/life[field];link.unlink();link.hardlink_to(root/life['publishedRef']);life[digest]=life['publishedSha256']
+                    write_yaml(report_path,report);self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
+                    if mode=='distinct_same_bytes':self.assertEqual(errors,[],(profile,mode))
+                    else:self.assertTrue(any('physically distinct' in e for e in errors),(profile,mode))
+                finally:temp.cleanup()
+        for profile in ('local-v1','production'):
+            for status in ('fail','inconclusive'):
+                temp,root=self.temp_repo()
+                try:
+                    index=self.make_profile_slot(root,'POC-002',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('mediaNegativeRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-02'}),[])
+                finally:temp.cleanup()
+
+    def test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-004','local-v1');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['localStorageRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path);files={root/a['ref']:(root/a['ref']).read_bytes() for a in original['environmentCaptured']['rawExecutionArtifacts']}
+            def validate(data):
+                self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);return CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-04'})
+            self.assertEqual(validate(copy.deepcopy(original)),[])
+            for mode in ('missing','arbitrary','policy','root','build','profile','input','missing_object','version','missing_request','path','credential','unauthorized_bytes','full_hash','bounded_bytes','suffix_header','unsatisfiable','concurrency','duplicate_request','baseline_metadata','baseline_invalid','copy_missing','incomplete_promoted','hash_copy_valid','copy_state','copy_old_snapshot','disconnect_attempts','disconnect_full_hash','disconnect_promoted','disconnect_restart','recovery_old_snapshot','backup_hash','restore_hash','restore_metadata','restore_state_bytes','backup_time','eviction_asset','eviction_replica','eviction_retention','eviction_cache','eviction_time','migration_old_missing','migration_unverified','migration_pending_verified','migration_pending_asset','migration_pending_version','migration_hash','migration_version','migration_state_time','capacity_phase','capacity_order','capacity_admission','capacity_floor','capacity_count','throughput','latency','gate'):
+                for file,raw in files.items():file.write_bytes(raw)
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['localStoragePolicy'];row=report['objects'][0];request=row['requests'][0];copy_case=row['copyRejections'][0];backup=row['backupRestore'];migration=row['migration']
+                def change_state(ref,change):
+                    location=root/ref;state=load_yaml(location);change(state);write_yaml(location,state)
+                def change_body(record,payload,field='responseRef',digest='responseSha256'):
+                    (root/record[field]).write_bytes(payload);record[digest]='sha256:'+hashlib.sha256(payload).hexdigest()
+                if mode=='missing':data['environmentCaptured'].pop('localStorageRef')
+                elif mode=='arbitrary':report=None
+                elif mode=='policy':config['configuration']['localStoragePolicy']=True
+                elif mode=='root':policy['sandboxRoot']='foreign-storage-root'
+                elif mode=='build':policy['openlistBuild']='foreign-openlist-build'
+                elif mode=='profile':report['acceptanceProfile']=CHECK.profile_identity('production')
+                elif mode=='input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                elif mode=='missing_object':report['objects'].pop()
+                elif mode=='version':policy['objects'][0]['versionId']='foreign-version'
+                elif mode=='missing_request':row['requests'].pop()
+                elif mode=='path':request['objectURL']='http://127.0.0.1/foreign-object'
+                elif mode=='credential':request['authRef']=policy['invalidAuthRef']
+                elif mode=='unauthorized_bytes':change_body(row['requests'][4],b'Protected source bytes')
+                elif mode=='full_hash':change_body(request,b'Unrelated full source response')
+                elif mode=='bounded_bytes':change_body(row['requests'][1],b'BADBYTES')
+                elif mode=='suffix_header':row['requests'][2]['contentRange']='bytes 0-3/99'
+                elif mode=='unsatisfiable':row['requests'][3]['statusCode']=200
+                elif mode=='concurrency':row['requests'][7]['startedAt']='2026-09-03T00:02:02Z';row['requests'][7]['finishedAt']='2026-09-03T00:02:03Z'
+                elif mode=='duplicate_request':row['requests'][1]['requestId']=request['requestId']
+                elif mode=='baseline_metadata':change_state(report['baselineStateRef'],lambda s:s['assets'][0]['metadata'].update(title='Changed metadata'))
+                elif mode=='baseline_invalid':write_yaml(root/report['baselineStateRef'],True)
+                elif mode=='copy_missing':row['copyRejections'].pop()
+                elif mode=='incomplete_promoted':copy_case['promotionDecision']='verified'
+                elif mode=='hash_copy_valid':
+                    source=data['environmentCaptured']['inputSampleArtifacts'][0]['inputArtifactRef'];change_body(row['copyRejections'][1],(root/source).read_bytes(),'payloadRef','sha256')
+                elif mode=='copy_state':change_state(copy_case['afterStateRef'],lambda s:s['replicas'].append({**s['replicas'][0],'replicaId':'unsafe-promoted-replica'}))
+                elif mode=='copy_old_snapshot':copy_case['afterStateRef']=report['baselineStateRef']
+                elif mode=='disconnect_attempts':row['disconnect']['attempts']=row['disconnect']['attempts'][-1:]
+                elif mode=='disconnect_full_hash':change_body(row['disconnect']['attempts'][-1],b'Corrupt recovered data')
+                elif mode=='disconnect_promoted':row['disconnect']['attempts'][0]['partialPromotedCount']=1
+                elif mode=='disconnect_restart':row['disconnect']['serviceRestartedAt']='2026-09-03T00:04:06Z'
+                elif mode=='recovery_old_snapshot':row['disconnect']['afterStateRef']=report['baselineStateRef']
+                elif mode=='backup_hash':change_body(backup,b'Corrupt backup','backupDataRef','backupSha256')
+                elif mode=='restore_hash':change_body(backup,b'Corrupt restored object','restoredDataRef','restoredSha256')
+                elif mode=='restore_metadata':change_state(backup['restoredStateRef'],lambda s:s['assets'][0]['metadata'].update(title='Wrong restored metadata'))
+                elif mode=='restore_state_bytes':change_state(backup['restoredStateRef'],lambda s:s['replicas'][0].update(payloadRef=policy['baselineState']['replicas'][0]['payloadRef']))
+                elif mode=='backup_time':change_state(backup['backupStateRef'],lambda s:s.update(observedAt='2026-09-03T00:04:00Z'))
+                elif mode=='eviction_asset':change_state(row['evictionAfterStateRef'],lambda s:s['assets'][0]['metadata'].update(title='Eviction changed asset'))
+                elif mode=='eviction_replica':change_state(row['evictionAfterStateRef'],lambda s:s['replicas'].clear())
+                elif mode=='eviction_retention':change_state(row['evictionAfterStateRef'],lambda s:s['retention'][0].update(state='released'))
+                elif mode=='eviction_cache':change_state(row['evictionAfterStateRef'],lambda s:s['caches'].extend(copy.deepcopy(policy['baselineState']['caches'])))
+                elif mode=='eviction_time':row['evictedAt']='2026-09-03T00:05:31Z'
+                elif mode=='migration_old_missing':change_state(migration['copyingStateRef'],lambda s:s['replicas'].pop(0))
+                elif mode=='migration_unverified':change_state(migration['verifiedStateRef'],lambda s:s['replicas'][-1].update(state='COPYING'))
+                elif mode=='migration_pending_verified':change_state(migration['copyingStateRef'],lambda s:s['replicas'][-1].update(state='VERIFIED'))
+                elif mode=='migration_pending_asset':change_state(migration['copyingStateRef'],lambda s:s['replicas'][-1].update(assetId='foreign-asset'))
+                elif mode=='migration_pending_version':change_state(migration['copyingStateRef'],lambda s:s['replicas'][-1].update(versionId='foreign-version'))
+                elif mode=='migration_hash':
+                    location=root/migration['verifiedStateRef'];state=load_yaml(location);replica=state['replicas'][-1];change_body(replica,b'Corrupt migrated replica','payloadRef','sha256');write_yaml(location,state)
+                elif mode=='migration_version':change_state(migration['verifiedStateRef'],lambda s:s['replicas'][-1].update(versionId='foreign-version'))
+                elif mode=='migration_state_time':change_state(migration['verifiedStateRef'],lambda s:s.update(observedAt='2026-09-03T00:05:59Z'))
+                elif mode=='capacity_phase':report['capacityObservations'][2]['phase']='fill'
+                elif mode=='capacity_order':
+                    observations=report['capacityObservations'];report['capacityObservations']=[observations[0],observations[4],observations[1],observations[2],observations[3]]
+                    for i,item in enumerate(report['capacityObservations']):item['observedAt']=f'2026-09-03T00:07:0{i}Z'
+                elif mode=='capacity_admission':report['capacityObservations'][2]['admission']='admitted'
+                elif mode=='capacity_floor':report['capacityObservations'][2]['freeBytes']=120
+                elif mode in ('capacity_count','throughput','latency'):
+                    metric={'capacity_count':'local_minimum_free_bytes','throughput':'sequential_throughput','latency':'io_latency'}[mode];next(m for m in data['measurements'] if m['id']==metric)['actual']+=1
+                else:next(m for m in data['measurements'] if m['id']=='local_backup_restore_verified')['actual']=False
+                if report is None:report_path.write_text('Unrelated storage success assertions\n',encoding='utf8')
+                else:write_yaml(report_path,report)
+                write_yaml(config_path,config);self.assertTrue(any('qualified local storage' in e for e in validate(data)),mode)
+        finally:temp.cleanup()
+        # Exact eight-byte data can exercise bounded, suffix and unsatisfiable Range controls.
+        from unittest.mock import patch
+        native_fixture=self.prepare_qualified_local_storage_fixture
+        def eight_byte_fixture(root,execution,prefix):
+            for sample in execution['samples']:
+                record=next(r for r in execution['environmentCaptured']['inputSampleArtifacts'] if r['sampleId']==sample['id']);payload=b'01234567';(root/record['inputArtifactRef']).write_bytes(payload);digest='sha256:'+hashlib.sha256(payload).hexdigest();sample['checksum']=digest;record.update(byteCount=8,sha256=digest);approval=load_yaml(root/sample['approvalRef']);approval['checksum']=digest;write_yaml(root/sample['approvalRef'],approval)
+            native_fixture(root,execution,prefix)
+        temp,root=self.temp_repo()
+        try:
+            with patch.object(self,'prepare_qualified_local_storage_fixture',new=eight_byte_fixture):self.make_profile_slot(root,'POC-004','local-v1')
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-04'}),[])
+        finally:temp.cleanup()
+        # Same-clock and repeated legitimate observations preserve the ordered lifecycle.
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-004','local-v1');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];data=load_yaml(path);report_path=root/data['environmentCaptured']['localStorageRef'];report=load_yaml(report_path);observations=report['capacityObservations'];report['capacityObservations']=[observations[0],observations[1],copy.deepcopy(observations[1]),observations[2],observations[3],observations[4]]
+            for item in report['capacityObservations']:item['observedAt']='2026-09-03T00:07:00Z'
+            write_yaml(report_path,report);self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-04'}),[])
+        finally:temp.cleanup()
+        for profile,status in (('local-v1','fail'),('local-v1','inconclusive'),('production','pass')):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-004',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('localStorageRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-04'}),[])
+            finally:temp.cleanup()
 
     def test_01_positive_baseline(self):
         self.assertEqual(CHECK.validate_repository(self.repo), [])
@@ -2664,6 +3814,9 @@ class TestPocProgram(unittest.TestCase):
             self.assertTrue(any('violates approved numeric domain' in e for e in CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'})))
             domain['domain']['maximum']=110;write_yaml(domain_path,domain)
             (root/domain['definitionRef']).write_text('Explicit approved synthetic model range0..110; not a frozen performance target.\n',encoding='utf-8')
+            # Keep this domain-focused positive consistent with its retained evaluator output.
+            report=load_yaml(root/execution['environmentCaptured']['mediaQualityTimingRef']);quality_path=root/report['qualityRef'];quality=load_yaml(quality_path);quality['vmafMean']=110;write_yaml(quality_path,quality)
+            self.refresh_qualified_observation_fixture(root,execution);write_yaml(path,execution)
             self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'}),[])
         finally:temp.cleanup()
 

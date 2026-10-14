@@ -1,0 +1,30 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_QUALITY123_140_176_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL176
+Candidate Files SHA256: {'specs/poc/check_program.py': '39e83d8a44c96984d8a27963034e893f169062f4baa9d6ded86eb8f6b5527bc2', 'specs/poc/program.schema.yaml': '9d607f962e6fcaa69b381302f511635bfe489a9295645bcb174bcdde17c47adf', 'specs/poc/test_program.py': '59184d85a0ac93e971661ad6442c1370f9962581657d270350783675177649d8'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_176_media_quality_and_first_playable_latency_bind_retained_observations TestPocProgram.test_123_review_environment_preserves_types_and_explicit_model_ranges TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation
+test_176_media_quality_and_first_playable_latency_bind_retained_observations (__main__.TestPocProgram.test_176_media_quality_and_first_playable_latency_bind_retained_observations) ... FAIL
+test_123_review_environment_preserves_types_and_explicit_model_ranges (__main__.TestPocProgram.test_123_review_environment_preserves_types_and_explicit_model_ranges) ... ok
+test_140_media_hashing_is_bounded_and_reused_per_validation (__main__.TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation) ... ok
+
+======================================================================
+FAIL: test_176_media_quality_and_first_playable_latency_bind_retained_observations (__main__.TestPocProgram.test_176_media_quality_and_first_playable_latency_bind_retained_observations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 1621, in test_176_media_quality_and_first_playable_latency_bind_retained_observations
+    self.assertEqual(validate(data),[],profile)
+AssertionError: Lists differ: ['qualified A380 encode GZ-020: each appro[48 chars]nts'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'qualified A380 encode GZ-020: each approved workload phase needs valid UTC encode endpoints'
+
++ []
+- ['qualified A380 encode GZ-020: each approved workload phase needs valid UTC '
+-  'encode endpoints'] : production
+
+----------------------------------------------------------------------
+Ran 3 tests in 239.962s
+
+FAILED (failures=1)
+
+Exit Code: 1

@@ -1,0 +1,673 @@
+{
+  "capturedAt": "2026-10-13T23:05:20.361441+00:00",
+  "actualSource": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "tree": "14791de3ae8c1dcbade7c70a8405dadd7d4b2387",
+  "soleParent": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "finiteScope": "Exactly the twelve saved PR103 comments, no new audit findings; isolated selected-POC probes only",
+  "threadSnapshot": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-c5d54e3-twelve-new-review-threads.json",
+    "sha256": "b38cd643a5f2728971a785894228cb687053439374c817dff2fc250f411a9b9b",
+    "officialThreadCount": 78,
+    "resolved": 59,
+    "unresolved": 19,
+    "reviewedNewCount": 12
+  },
+  "counterexamples": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+    "sha256": "6748f6ab914f0162a3c87e879585d4e15c05e9c1ca533061a9932a0e954f1f8e",
+    "logPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-probes.txt",
+    "logSha256": "9c3a6d168236480a3c01d2d32da02e4915c8c507b6706b545cab747587bbf04c",
+    "scriptPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\probe_c5d54_twelve_comments.py",
+    "scriptSha256": "6837e996e1b9d26a48cc2365111c79dd8d80f342cb233db3aa7921de4d633bab",
+    "caseCount": 12
+  },
+  "currentCheckerGitBlob": "b1afedc0aa9fa6eb382d27ed2f27a85be5921400",
+  "frozenPlanGitBlobs": {
+    "specs/poc/plans/POC-001.yaml": "43a0fda52ee5a7c98154f5682aea5e6fbe25c5aa",
+    "specs/poc/plans/POC-002.yaml": "9c8fe00b806bd931f3e4082f9eb3450c4f59c376",
+    "specs/poc/plans/POC-004.yaml": "d743c7d99b229b214a014fd984cc5681076a1b7c",
+    "specs/poc/plans/POC-005.yaml": "0a83dbb711fca6e0ba3d54ebf8a208a1f7f665bd",
+    "specs/poc/plans/POC-006.yaml": "d7bb5e53b5cb5d7276248b28bc3b45af0162824c",
+    "specs/poc/plans/POC-007.yaml": "c43613fb3097da57dfe82a75d2c3ceaf6a685649",
+    "specs/poc/plans/POC-008.yaml": "05849dc7ec1d9064d5e0cfe2092dca74a2b79334",
+    "specs/poc/plans/POC-009.yaml": "3c77e50bd0e0ab6777c3dcd6ba6ffb6e2ae84845",
+    "specs/poc/plans/POC-010.yaml": "29ef5324fa7e5f552fed891e51168af1953af841"
+  },
+  "classifications": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYeL",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-009",
+      "affectedScope": "qualified both; commercial/external dispatch must be exercised, local/private fallback is preserved",
+      "finding": "Existing exact-subject independent privacy/license approvals are enforced, but approved AI evaluation policy and every dispatch outcome omit a payload-specific data-policy identity/decision and denial. Authorized external dispatch is accepted without that gate.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_ai_results",
+          "startLine": 2047,
+          "endLine": 2172
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_source_compliance",
+          "startLine": 386,
+          "endLine": 433
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYeL",
+        "kind": "authorized_dispatch_without_data_policy_subject_or_denial",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "license_privacy_pass": true,
+          "caller_permission_gate": true,
+          "asset_acl_gate": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append a separate qualified data-policy report/definition and an independently approved selected resource-configuration policy subject (provider mode/version, input/asset version and data classification/allowed payload scope). Bind allow to the existing actual authorized dispatch and deny to the same prohibited payload with zero provider request IDs/outbound bytes. Keep existing privacy/license reviews and all permission/ACL/budget/rate/concurrency outcomes. A private/local provider fallback must not be mislabeled external execution.",
+      "requiredRegressionAndPreservation": [
+        "Missing policy/report rejected",
+        "Disallowed input with otherwise authorized caller/ACL and self-consistent outbound bytes rejected",
+        "Allow/deny payload identity, provider version or policy revision drift rejected",
+        "Existing five denial cases, budget ceilings and legitimate quality domains retained"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYeO",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-002",
+      "affectedScope": "qualified local-v1 and production",
+      "finding": "Only stream peak/continuous minutes and assembly decode/frame coverage are reconciled. av1_quality=37.125 and first_segment_latency=987.625 ms independently changed while the retained outputs and reports stayed unchanged still validate []. Numeric domain approval is a range, not a measurement witness.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_encode_workers",
+          "startLine": 1175,
+          "endLine": 1265
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_media_assembly",
+          "startLine": 1368,
+          "endLine": 1423
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYeO",
+        "kind": "unreconciled_quality_latency_values",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "av1_quality": 37.125,
+          "first_segment_latency": 987.625
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append an evaluator report binding the exact approved input SHA, assembled output SHA, encoder parameters/build and evaluator/model version with retained evaluation result; bind VMAF to that result without inventing a universal range. Append ordered jobStartedAt/firstPlayableSegmentAt observations for the same run/segment and decodeable first segment, derive milliseconds from their difference. Reuse bounded byte/hash/cache helpers and exact-slot physical separation.",
+      "requiredRegressionAndPreservation": [
+        "Changing either numeric metric without changing its retained evaluator/timing report rejected",
+        "Wrong input/output/run/first segment/model version rejected",
+        "Positive lawful VMAF approved model domains preserved",
+        "Original bounded-reader140 and partial Range169 expectations retained"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYeY",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-006",
+      "affectedScope": "qualified local-v1 GENERIC_OPENLIST_SANDBOX; production Baidu obligations are not substituted",
+      "finding": "Four local injected-fault rows require scope_observation type/existence, but the file is not parsed. Replacing it with unrelated UTF8 text and updating actual byte/hash metadata leaves all retry/checkpoint/idempotency/deletion gates true and validation [].",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_configuration",
+          "startLine": 485,
+          "endLine": 527
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYeY",
+        "kind": "unrelated_fault_observation_accepted",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "auth_flow_supported": true,
+          "listing_stability": true,
+          "privacy_review_approved": true,
+          "license_review_approved": true,
+          "rate_limit_429_classified_retried": true,
+          "upstream_5xx_classified_retried": true,
+          "network_failure_classified_retried": true,
+          "interrupted_sync_resume_or_idempotent_rerun": true,
+          "duplicate_objects_prevented": true,
+          "source_deletion_preserves_logical_asset": true,
+          "generic_source_scope_verified": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append one typed source-fault outcome report for the existing named 429/5xx/disconnect/auth scenarios plus the frozen interrupted-resume/idempotency and source-deletion gates. Bind exact approved generic service/API versions, source/logical-object identities, request classification, bounded backoff/attempt sequence, checkpoint and before/after logical asset/source-unavailable state. Derive duplicate-free recovery and deletion-preserves-asset relationships; do not accept a second all-true dictionary. Keep GENERIC and BAIDU scopes distinct and retain existing independent compliance approvals.",
+      "requiredRegressionAndPreservation": [
+        "Arbitrary text/absent typed outcome rejected",
+        "Retry guidance/backoff/checkpoint mismatch or duplicate logical object rejected",
+        "Source deletion removing the logical asset rejected",
+        "Local generic success cannot qualify Baidu production; FAIL evidence remains representable"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYee",
+      "classification": "MATERIAL",
+      "severity": "P2",
+      "task": "POC-010",
+      "affectedScope": "qualified PASS malformed-input validation",
+      "finding": "Appending True to a previously valid resources list causes AttributeError: bool has no attribute get at the RES-RECOVERY-SANDBOX comprehension, after schema validation has already found the malformed entry.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_recovery_observation",
+          "startLine": 1585,
+          "endLine": 1654
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYee",
+        "kind": "invalid_resource_exception",
+        "baselineErrors": [],
+        "afterErrors": null,
+        "exceptionType": "AttributeError",
+        "claimedMeasurements": {},
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Guard each resource entry with isinstance(item,dict) before item.get in this exact comprehension. Retain accumulated schema errors and the exact-one approved recovery-resource requirement; return validation errors rather than a traceback. No new report/schema or runtime framework is needed.",
+      "requiredRegressionAndPreservation": [
+        "Boolean/string/list/null resource entry rejected without uncaught exception",
+        "Missing/duplicate valid recovery resource remains rejected",
+        "Valid recovery, zero RPO, selected single-event replay and bounded manifests remain supported"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYei",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-004",
+      "affectedScope": "qualified local-v1 only for these newly added local gates; frozen production500GiB/TrueNAS/iSCSI/ZFS obligations remain",
+      "finding": "The local capacity byte relationship is enforced, but authenticated reads/Range/full-read hash, disconnect/recovery, local backup/restore, incomplete/hash mismatch replica rejection, cache eviction and migration gates can all be true with only unrelated raw command output and no corresponding request/state/byte witness.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_local_capacity",
+          "startLine": 343,
+          "endLine": 364
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_production_capacity",
+          "startLine": 367,
+          "endLine": 372
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_execution",
+          "startLine": 2663,
+          "endLine": 2908
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYei",
+        "kind": "asserted_storage_safety_without_request_state_or_byte_witness",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "watermark_behavior": true,
+          "concurrent_workload_stability": true,
+          "failure_recovery": true,
+          "incomplete_replica_rejected": true,
+          "hash_mismatch_replica_rejected": true,
+          "cache_eviction_preserves_authoritative_state": true,
+          "replica_migration_preserves_old_valid_copy": true,
+          "local_authenticated_reads": true,
+          "local_range_correctness": true,
+          "local_read_hash_verified": true,
+          "local_capacity_reservations_preserved": true,
+          "openlist_disconnect_recovery": true,
+          "local_backup_restore_verified": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append a qualified local storage observation/report bound to selected OpenList resource and approved disposable sandbox, exact sample bytes and config. Retain authorized versus absent/invalid credential requests; bounded/suffix/unsatisfiable Range status/headers/actual slice bytes; complete read hashes. Bind before/after authoritative asset/retention/replica states for disconnect, local backup restore, partial/mismatched promotion, eviction and migration. Derive the frozen gate relationships; reuse capacity rules unchanged. No simulated ZFS/700TB/500GiB success claim.",
+      "requiredRegressionAndPreservation": [
+        "Each existing local gate missing a corresponding case/state witness rejected",
+        "Self-consistent wrong returned bytes, partial promotion and lost authoritative replica/state rejected",
+        "Local byte floors/reservations and production500GiB boundary retained",
+        "FAIL/inconclusive records remain factual and do not require PASS outcomes"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYen",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-005",
+      "affectedScope": "qualified local-v1 and production where the same frozen metrics apply",
+      "finding": "Hierarchy file/directory/depth reconciliation and positive workload checks exist. enumeration_rate=123.125 objects/s, source_change_frequency=456.625 changes/hour, incremental_scan_cost=789.875 s are nevertheless accepted with unchanged observations.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_configuration",
+          "startLine": 485,
+          "endLine": 527
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_execution",
+          "startLine": 2663,
+          "endLine": 2908
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYen",
+        "kind": "unreconciled_positive_scan_rate_cost",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "enumeration_rate": 123.125,
+          "source_change_frequency": 456.625,
+          "incremental_scan_cost": 789.875
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append bounded scan/change observation records tied to the existing approved hierarchy/adapter/generator manifest and task/profile. Derive enumeration objects/s from retained unique enumerated object identities/count and elapsed scan time; changes/hour from approved deterministic create/update/delete event count and its observation window; incremental_scan_cost from incremental traversal start/end in seconds. Preserve quota reset/backoff inputs and current hierarchy count/sandbox guards. Do not interpret seconds cost as currency or add an invented performance threshold.",
+      "requiredRegressionAndPreservation": [
+        "Changed claimed rate/cost without corresponding observation rejected",
+        "Duplicate/missing object/event identities or invalid ordered UTC window rejected",
+        "Existing positive PASS workload, legitimate FAIL zero measurements and schema/domain units retained"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYev",
+      "classification": "MATERIAL",
+      "severity": "P2",
+      "task": "POC-008",
+      "affectedScope": "qualified selected profiles; legacy completed evidence is not rewritten",
+      "finding": "No POC-008-specific report is called. The frozen ten equivalence booleans plus coverage, bundle KiB and ordinal maintainability values validate with generic command output, numeric-domain reviews and no Vue/React build/scenario/rubric evidence.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_execution",
+          "startLine": 2663,
+          "endLine": 2908
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_terminal",
+          "startLine": 2911,
+          "endLine": 3007
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_profile_evidence",
+          "startLine": 3015,
+          "endLine": 3087
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYev",
+        "kind": "missing_build_scenario_rubric_comparison_witness",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "prototype_coverage": 1,
+          "bundle_baseline": 1,
+          "maintainability_score": 1,
+          "million_row_virtual_list_equivalent": true,
+          "dynamic_form_equivalent": true,
+          "flowchart_equivalent": true,
+          "decision_table_equivalent": true,
+          "monitoring_view_equivalent": true,
+          "sse_websocket_equivalent": true,
+          "player_integration_equivalent": true,
+          "mobile_experience_equivalent": true,
+          "permission_model_equivalent": true,
+          "design_token_equivalent": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append a qualified comparison report with exact locked Vue/React versions/build identities, actual retained build bundle bytes/hash, the ten frozen scenario IDs and both candidate outcomes, plus an independently approved fixed maintainability rubric/reviewer rows. Derive coverage and equivalence from the exact matrix and bundle KiB/ordinal score from the approved measurement method. Preserve recommendation as a POC decision, not a rewrite of frontend requirements or a deployment mandate.",
+      "requiredRegressionAndPreservation": [
+        "Missing candidate build/scenario/rubric record rejected",
+        "Omitted/duplicated/mismatched frozen scenario and falsified bundle/score rejected",
+        "Opaque approved rubric/aggregation kept explicit; no invented winner or universal numeric floor",
+        "Full milestone cannot count generic booleans as comparison completion"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYe0",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-001",
+      "affectedScope": "qualified production only; local Android VM route unchanged",
+      "finding": "Approved static VMware ESXi6.7/Intel Arc A380 host/guest/GPU/build identity and continuous soak are enforced. vm_reboot_recovery, esxi_host_reboot_reenumeration and device_reset_recovery still have no parsed transition report and validate true without any restart/reset witness.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_passthrough_identity",
+          "startLine": 911,
+          "endLine": 939
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_production_soak",
+          "startLine": 942,
+          "endLine": 996
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYe0",
+        "kind": "static_inventory_and_soak_without_restart_reset_transition_witness",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "vm_reboot_recovery": true,
+          "esxi_host_reboot_reenumeration": true,
+          "device_reset_recovery": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append typed guest-reboot/host-reboot/device-reset transitions tied to the same selected A380 config/host/guest/PCI device/builds and window. Bind before and after enumeration/runtime initialization plus the event, changed boot/reset identity and recovered encode/probe outcome. Derive the three exact gates; preserve the separate continuous soak approval/floor and current firmware/hardware identity scope.",
+      "requiredRegressionAndPreservation": [
+        "Missing event or unchanged boot/reset epoch with asserted recovery rejected",
+        "Wrong host/guest/GPU/build or failed after-enumeration/runtime recovery rejected",
+        "Same approved identity, lawful recovery and local VM/non-production remain supported"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYe3",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-002",
+      "affectedScope": "qualified local-v1 and production",
+      "finding": "Positive parallel runs, actual media bytes, spans and assembly are enforced, but the frozen denied-input, five resource-limit, interrupted-retry, cancellation, epoch fencing, seek/revocation/HLS ACL gates can be true without exercised negative outcomes.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_encode_workers",
+          "startLine": 1175,
+          "endLine": 1265
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_media_assembly",
+          "startLine": 1368,
+          "endLine": 1423
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_execution",
+          "startLine": 2663,
+          "endLine": 2908
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sEYe3",
+        "kind": "positive_encode_only_without_failure_authorization_matrix",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "disallowed_input_targets_denied": true,
+          "resource_limits_enforced": true,
+          "worker_interruption_idempotent_recovery": true,
+          "cancellation_cleanup_complete": true,
+          "attempt_fencing_single_publish": true,
+          "seek_epoch_rejects_stale_demand": true,
+          "hls_acl_and_revocation": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append a typed failure/authorization matrix for the existing protocol cases with approved target/limit configuration, node/job/attempt/seek epochs, attempted protocol/path/proxy target, classification/status and retained before/after publication/cleanup/resource state. Independently exceed CPU/memory/time/temp/output limits; show no forbidden read/write/publication, exactly one current-epoch terminal publication, idempotent recovery, stale seek/attempt denial, cancellation cleanup and HLS revoked/unauthorized requests. Reuse approved subject identities and selected-slot raw bytes; do not broaden denied policy or reduce limits merely to pass.",
+      "requiredRegressionAndPreservation": [
+        "Omission of any frozen case family rejected",
+        "Unsafe target dispatch, exceeded limit with no termination/cleanup, stale/duplicate publication rejected",
+        "Existing successful AV1 assembly/stream concurrency and all negative gate semantics retained",
+        "PASS-only outcomes with factual failed runs still allowed in FAIL records"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sFdMi",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-001",
+      "affectedScope": "qualified both; local Android VM disclosure and production physical-phone scope retained",
+      "finding": "Inventory/capability/scope and typed Android VM/device encode outputs are checked. No POC-001 path parses per-node resource-limit exhaustion, worker lease/re-registration restart recovery, or denied worker egress; the three frozen safety booleans validate true without outcomes.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_android_execution",
+          "startLine": 2226,
+          "endLine": 2276
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_android_media",
+          "startLine": 2176,
+          "endLine": 2223
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_execution",
+          "startLine": 2663,
+          "endLine": 2908
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sFdMi",
+        "kind": "inventory_media_without_worker_limit_restart_egress_witness",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "worker_resource_limits_enforced": true,
+          "worker_restart_recovery": true,
+          "worker_network_boundary_enforced": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append one per-participating-node worker safety report bound to exact approved inventory/build/profile and worker config. Retain limit-exhaustion response/observed resource ceiling/cleanup, restart old/new lease or registration epoch plus recovery result, and an attempted disallowed network endpoint with denied result and zero unauthorized egress. Derive the three existing gates. Do not convert VM success into physical Android/multi-host validation or require current production execution.",
+      "requiredRegressionAndPreservation": [
+        "Missing tested node/gate outcome or wrong node/build/lease epoch rejected",
+        "Limit breach/restart orphan work/unauthorized outbound bytes rejected",
+        "Local VM-only physical scope and existing production Android thermal/background requirements preserved"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sFdMl",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-001",
+      "affectedScope": "qualified production ESXi6.7/A380 only",
+      "finding": "The current identity schema and approved config comparison cover host/guest/GPU/builds but no actual BIOS/IOMMU, isolation membership, Above-4G or Resizable-BAR state. All four frozen booleans qualify without a configuration report.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_passthrough_identity",
+          "startLine": 911,
+          "endLine": 939
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sFdMl",
+        "kind": "static_identity_without_firmware_and_isolation_capture",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "bios_iommu_configuration_verified": true,
+          "iommu_group_isolation_verified": true,
+          "above_4g_enabled": true,
+          "resizable_bar_enabled": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append a separate production firmware/isolation capture under the independently approved selected resource configuration and typed observation, binding selected host/device and BIOS build/config snapshot. Parse IOMMU enabled state and actual group membership versus approved safe isolation membership, Above-4G and Resizable-BAR states, and derive the four frozen gates. Avoid an invented rule that a legitimate multi-function device group must contain only one function. Keep original identity def byte prefix, ESXi6.7/A380 requirements and local VM scope unchanged.",
+      "requiredRegressionAndPreservation": [
+        "Absent/off firmware setting or wrong host/device/BIOS identity rejected",
+        "Foreign unsafe isolation member/group mismatch rejected",
+        "Approved legitimate group membership and original reboot/reset/soak requirements preserved"
+      ],
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sFdMr",
+      "classification": "MATERIAL",
+      "severity": "P1",
+      "task": "POC-007",
+      "affectedScope": "qualified production only; local reverse-proxy sandbox route remains separate",
+      "finding": "Range/If-Range/stream actual bytes and denial/cache/rate cases are parsed. Production tls_valid, ipv6_reachability, high_port_route and ddns_propagation still rely solely on true metrics; HTTPS text does not establish these transport observations.",
+      "codeEvidence": [
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_qualified_access_outcomes",
+          "startLine": 1733,
+          "endLine": 1869
+        },
+        {
+          "path": "specs/poc/check_program.py",
+          "function": "validate_execution",
+          "startLine": 2663,
+          "endLine": 2908
+        }
+      ],
+      "counterexample": {
+        "proofPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-twelve-comment-counterexamples.json",
+        "caseThreadId": "PRRT_kwDOTgCQ3c6sFdMr",
+        "kind": "access_matrix_without_dns_tls_ipv6_port_ingress_witness",
+        "baselineErrors": [],
+        "afterErrors": [],
+        "exceptionType": null,
+        "claimedMeasurements": {
+          "tls_valid": true,
+          "ipv6_reachability": true,
+          "high_port_route": true,
+          "ddns_propagation": true
+        },
+        "fixtureOnlyNotActualPoc": true
+      },
+      "minimumRepair": "Append a production ingress report bound to the approved public endpoint/DNS names/selected resource and configuration version/window. Retain timestamped DNS/DDNS records and resolver observations, certificate/chain/hostname/validity result and public certificate fingerprint, actual remote IPv6 address family, configured external high-port destination and routed upstream endpoint. Cross-bind successful protected request IDs to the existing access report so a different TLS/socket route cannot satisfy the gate. Derive four existing gates; production tests remain deferred until genuine user-run public evidence exists, and never impose them on local VM access.",
+      "requiredRegressionAndPreservation": [
+        "Missing or wrong DNS/endpoint/family/port/certificate observation rejected",
+        "Expired/wrong hostname/invalid chain or unpropagated DDNS rejected",
+        "Local sandbox access matrix and production Range/ACL/rate outcomes retained",
+        "No claimed actual public connectivity from checker fixtures"
+      ],
+      "resolveEligible": false
+    }
+  ],
+  "materialCount": 12,
+  "nonMaterialCount": 0,
+  "commonMinimalOwnedRepairScope": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py",
+    "specs/poc/program.schema.yaml appended definitions only",
+    "poc/README.md and Own evidence/GZ-021/handoff.md truthful successor/historical stage descriptions"
+  ],
+  "commonPreservationRequirements": [
+    "Do not change frozen production plans, original manifest6c95, Program DAG/roles/46claims/17modules/lease or non-owned standalone schemas",
+    "Use qualified PASS-only semantic witnesses, preserve legacy completed records and factual FAIL/inconclusive paths; no simulated production obligations as satisfied",
+    "Append separate report definitions/configuration subrecords rather than weakening old whole schema prefix or replacing old strict enums; retain exact selected-slot refs, actual bytes/hash, samefile separation, bounded reads, independent approval and source binding",
+    "Preserve existing172 test assertions/cases and previously justified121 numeric-purpose adaptation; add meaningful missing/mismatched outcome regressions. Required fixture helper adaptations must retain original negative assertions and be recorded explicitly",
+    "Do not invent universal VMAF/rubric/hardware/RTO thresholds, require current real-public/physical execution, add a benchmark subsystem, new governance task or release permission",
+    "Current source172/CI706 passes are execution facts only; successor must receive its own actual20/POC-count/35/637/CI acceptance; no selfSHA evidence-head loop"
+  ],
+  "beforeWorktrees": [
+    {
+      "role": "authoring",
+      "head": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+      "tree": "14791de3ae8c1dcbade7c70a8405dadd7d4b2387",
+      "branch": "chore/GZ-021-local-v1-route",
+      "clean": true
+    },
+    {
+      "role": "coordinator",
+      "head": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "clean": true
+    },
+    {
+      "role": "native",
+      "head": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+      "tree": "14791de3ae8c1dcbade7c70a8405dadd7d4b2387",
+      "branch": "chore/GZ-021-local-v1-route",
+      "clean": true
+    }
+  ],
+  "afterWorktrees": [
+    {
+      "role": "authoring",
+      "head": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+      "tree": "14791de3ae8c1dcbade7c70a8405dadd7d4b2387",
+      "branch": "chore/GZ-021-local-v1-route",
+      "clean": true
+    },
+    {
+      "role": "coordinator",
+      "head": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "clean": true
+    },
+    {
+      "role": "native",
+      "head": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+      "tree": "14791de3ae8c1dcbade7c70a8405dadd7d4b2387",
+      "branch": "chore/GZ-021-local-v1-route",
+      "clean": true
+    }
+  ],
+  "worktreesUnchangedClean": true,
+  "ci706PreviouslyAccepted": true,
+  "local20AcceptanceGranted": false,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "sourceEdited": false,
+  "branchesOrPrOrThreadsMutated": false,
+  "fullSuiteRerun": false,
+  "nativeOrCiRestarted": false
+}

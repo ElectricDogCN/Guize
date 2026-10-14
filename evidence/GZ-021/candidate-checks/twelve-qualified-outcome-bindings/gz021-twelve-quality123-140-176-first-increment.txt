@@ -1,0 +1,14 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_QUALITY123_140_176_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL176
+Candidate Files SHA256: {'specs/poc/check_program.py': '983bca4b4f0d8fb372353bd777af688880c80aed0427d48f97cf4adaa6c9b73e', 'specs/poc/program.schema.yaml': 'aba8ec824953145e9a1613d59f38c5ff9b1dff8e5c6c864ae2d0e40d31b6f2ed', 'specs/poc/test_program.py': '64ac1c8f4c4cd42881bdaf1cdd752ff6e764393c5c1710108c9f9da36c7ff80a'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_176_media_quality_and_first_playable_latency_bind_retained_observations TestPocProgram.test_123_review_environment_preserves_types_and_explicit_model_ranges TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation
+test_176_media_quality_and_first_playable_latency_bind_retained_observations (__main__.TestPocProgram.test_176_media_quality_and_first_playable_latency_bind_retained_observations) ... ok
+test_123_review_environment_preserves_types_and_explicit_model_ranges (__main__.TestPocProgram.test_123_review_environment_preserves_types_and_explicit_model_ranges) ... ok
+test_140_media_hashing_is_bounded_and_reused_per_validation (__main__.TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 212.461s
+
+OK
+
+Exit Code: 0

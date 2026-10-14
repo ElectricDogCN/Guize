@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_AI_POLICY172_174_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL174
+Candidate Files SHA256: {'specs/poc/check_program.py': '3b5cb3f3d5781a7766a5479eb8403299a0d07159c466afee6a6cb0bba1e31277', 'specs/poc/program.schema.yaml': 'a116372cd0928d79878381dd601b7b0ee29cfbdf3bce42697b4dfb075afa35a5', 'specs/poc/test_program.py': '17cb06582ab10fc5d9a927b969c94fce2ee0b4822d9aab09d66fd6b6771d5073'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial
+test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial (__main__.TestPocProgram.test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 149.440s
+
+OK
+
+Exit Code: 0

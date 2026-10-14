@@ -1,0 +1,111 @@
+{
+  "capturedAt": "2026-10-13T23:11:20.510665+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only sEYee recovery-resource type guard and sEYeL AI data-policy delta, not other ten findings or whole candidate approval",
+  "contentAccepted": true,
+  "twoFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "3b5cb3f3d5781a7766a5479eb8403299a0d07159c466afee6a6cb0bba1e31277",
+    "specs/poc/program.schema.yaml": "a116372cd0928d79878381dd601b7b0ee29cfbdf3bce42697b4dfb075afa35a5",
+    "specs/poc/test_program.py": "17cb06582ab10fc5d9a927b969c94fce2ee0b4822d9aab09d66fd6b6771d5073"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "3b5cb3f3d5781a7766a5479eb8403299a0d07159c466afee6a6cb0bba1e31277",
+    "specs/poc/program.schema.yaml": "a116372cd0928d79878381dd601b7b0ee29cfbdf3bce42697b4dfb075afa35a5",
+    "specs/poc/test_program.py": "17cb06582ab10fc5d9a927b969c94fce2ee0b4822d9aab09d66fd6b6771d5073"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "d07d2b5341f892c5a36ff6386a3ea3e9c4b19844098028c3d47a229a70d32d59",
+    "specs/poc/program.schema.yaml": "52cb95f4e7de0f9beaeaba50d06180e6656ee1c1f6cf7352570985776158c49c",
+    "specs/poc/test_program.py": "ec2c3370e27a200bbafc80ac3408a6a9e7be7d9e43846c0e08711c4a0f02f81a"
+  },
+  "hashesStable": true,
+  "originalSchemaWholeBytePrefixRetained": true,
+  "allOriginalSchemaDefinitionsRetained": true,
+  "onlyAppendedDefinitions": [
+    "aiDataPolicy",
+    "aiDataPolicyOutcomes"
+  ],
+  "all172OriginalTestMethodAstsUnchanged": true,
+  "newTests": [
+    173,
+    174
+  ],
+  "allOtherTrackedAndUntrackedPathsUnchanged": true,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "originalFindingCoverage": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYee",
+      "function": "validate_qualified_recovery_observation",
+      "line": 1585,
+      "supported": "Dict guard skips malformed resource entries while the existing schema validation retains rejection; exact-one recovery configuration and recovery state/timing rules are not weakened."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYeL",
+      "function": "validate_qualified_ai_data_policy",
+      "line": 2177,
+      "supported": "Separate qualified selected-slot bounded typed report binds independently approved data policy to exact model/provider subject, resource config, input samples/immutable payload scope, asset version, privacy review, provider mode and current authorized caller/ACL. Exact allow/denied-purpose controls precede and bind existing actual dispatched bytes/IDs; data denial requires no sent timestamp, no requests and zero actual bytes. Existing independent compliance and all five original quota/permission/ACL denial cases remain."
+    }
+  ],
+  "guardPreservation": [
+    "Old typed schemas byte-prefix and definitions unchanged; append-only independent report avoids changing old outcome enums",
+    "Existing payload helper enforces exact selected-slot produced bytes and actual SHA; bounded selected_observation, privacy refs, independent approvals and execution UTC window are reused",
+    "Allowed purpose differs from approved denied purpose; denied data control otherwise uses current authorized caller/asset/ACL so it is separate from permission/ACL rejection",
+    "Provider mode and asset version match the selected independently approved policy; all immutable samples and allowed payload scope match captured input subjects",
+    "No changes to local-v1/production profile routing, original evidence ownership, source binding or runtime/release permissions"
+  ],
+  "closedEarlierIncrements": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-recovery-resource173-first-increment.txt",
+      "physicalSha256": "3e4ac345ce0e7238b087deb6a90031b3717b83211424f8fd6cceaa982701768b",
+      "tests": 1,
+      "seconds": 39.438,
+      "exitCode": 0,
+      "stage": "Resource type guard"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-ai-policy172-174-second-increment.txt",
+      "physicalSha256": "c57cf1d68345b861b628ecb410951c0527fbedcd23918d58c45cf657d456ad2e",
+      "tests": 2,
+      "seconds": 234.952,
+      "exitCode": 0,
+      "stage": "Before final providerMode/assetVersion/inputSamples/allowedPayloadScope pinning"
+    }
+  ],
+  "firstAliasConflictFailureRetained": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-ai-policy172-174-first-increment.txt",
+    "physicalSha256": "834c2567c58aeaff8a504dcbf0502847b2e7884d8c997c9506082a91185a15b0",
+    "acceptedAsSuccess": false
+  },
+  "latestSubjectsIncrement": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-ai-policy174-subjects-increment.txt",
+    "physicalSha256": "d64a9f817d8be42d2c670331e67f5010d8836df4670538fed153930429c97815",
+    "observedTerminal": false,
+    "pendingAtReview": true,
+    "currentFileHashesIncludedInLog": true,
+    "successIfObservedTerminal": false
+  },
+  "earlierTwoTestsNotTransferredToLatestHashes": true,
+  "complete174RunClaimed": false,
+  "otherTenFindingsStillPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "actualSuccessorPublished": false,
+  "actualSourceExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "sourceEdited": false,
+  "threadsResolved": false
+}

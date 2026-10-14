@@ -1,0 +1,460 @@
+{
+  "capturedAt": "2026-10-14T02:10:08.919471+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidateTestMethods": 186,
+  "knownTwelveFiniteCandidateContentAccepted": true,
+  "latestTargetedExecutionsAccepted": true,
+  "finalThreeCodePhysicalHashes": {
+    "specs/poc/check_program.py": "5099dbd296fa06d75cdf5f50a58b7225335dcf25b42cfd7cbcd1545ae25b0e53",
+    "specs/poc/program.schema.yaml": "49b5e93c6d54487f56a10aa7da433ceb1f61e0cf61f5af543339ed5736faa8a5",
+    "specs/poc/test_program.py": "6f1df4dce9ee78843772f6210ca8613f9219d245746a09553d45730af4ba2042"
+  },
+  "whole186ExecutionAccepted": false,
+  "publishedSourceOwnLocal20Accepted": false,
+  "publishedSourceOwnCiAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "earlierFailedOrContentRejectedStagesPreserved": true,
+  "separateRunsAndCandidateStagesNotCombined": true,
+  "original171C5MethodAstsUnchanged": true,
+  "original123OnlyPreviouslyAcceptedPurposeAdaptation": true,
+  "sourcePublicationAndOwnFullExecutionStillRequired": true,
+  "representation": "Canonical UTF-8 LF; original external physical bytes and snapshots retained separately",
+  "files": [
+    {
+      "path": "gz021-independent-twelve-firmware-third-finding-dirty-review.json",
+      "originalPhysicalSha256": "7639feae0b52465c2020f247c106e48e00f198eae2dce7d160dad1d5d0933e4d",
+      "originalPhysicalBytes": 5692,
+      "canonicalLfSha256": "ce800d9db0889713011bd20d084d6510c6e48d855f1c0dfcac945d34d6fbc06f",
+      "canonicalLfBytes": 5596
+    },
+    {
+      "path": "gz021-independent-twelve-frontend-tenth-dirty-review.json",
+      "originalPhysicalSha256": "655a6b74d69399e67be8c575924ef47fb5f6b770134be333f420d8819e9b8708",
+      "originalPhysicalBytes": 5011,
+      "canonicalLfSha256": "31c56a34851d98a1e7f5dfdf519e43205bb1c15d21bee1ed551cd5ce23c98c8b",
+      "canonicalLfBytes": 4928
+    },
+    {
+      "path": "gz021-independent-twelve-frontend-tenth-million-final-dirty-review.json",
+      "originalPhysicalSha256": "99d18521650d3e2419a5702f8e685d7a6a592fec05cd7b3299fa8c1c866ebb73",
+      "originalPhysicalBytes": 4787,
+      "canonicalLfSha256": "80d511736d1f375ea264b01bdbdcf42baf1e6f6146bae546d84ee5613bb75f15",
+      "canonicalLfBytes": 4706
+    },
+    {
+      "path": "gz021-independent-twelve-frontend-tenth-million-first-dirty-rejection.json",
+      "originalPhysicalSha256": "cd520bfcc7d744c49a40db256099b33bd50e7525be88aae0ee7ec8c9001ce76a",
+      "originalPhysicalBytes": 4667,
+      "canonicalLfSha256": "cd606841db1e66fd51629dd13a45b6fd9a3d6bec6e1391037cc66f5eb943273f",
+      "canonicalLfBytes": 4592
+    },
+    {
+      "path": "gz021-independent-twelve-frontend184-current-single-execution-receipt.json",
+      "originalPhysicalSha256": "7abb6369592c8c8d5539c738e2db85cfb47b470d9179c76709b5bdf67fe580ed",
+      "originalPhysicalBytes": 3749,
+      "canonicalLfSha256": "3981c512ebe80d6d990a63754c894989a1ecf701af0b114c964bb40678543eda",
+      "canonicalLfBytes": 3678
+    },
+    {
+      "path": "gz021-independent-twelve-media-eleventh-first-dirty-rejection.json",
+      "originalPhysicalSha256": "8249198103742f0e62c87094085efd679f4514fbcdacc6bb32749d8582d059f7",
+      "originalPhysicalBytes": 6819,
+      "canonicalLfSha256": "9f25af37ad8c39554f73aad577e9d0a033db8258ab6e2c79f29b2b141edc00ba",
+      "canonicalLfBytes": 6717
+    },
+    {
+      "path": "gz021-independent-twelve-media-eleventh-retry-final-dirty-review.json",
+      "originalPhysicalSha256": "7b6c986c2f50084a35fe8036f67c3ba4100e5b892df554ea5bd6224fe9fa5ab3",
+      "originalPhysicalBytes": 4862,
+      "canonicalLfSha256": "c4a77ad2665b3506103defdccda4454761aedcf8b320646946f3d1a1d18b0ac6",
+      "canonicalLfBytes": 4780
+    },
+    {
+      "path": "gz021-independent-twelve-media185-current-single-execution-receipt.json",
+      "originalPhysicalSha256": "b47b4b2750f5c81aadbd7032542031b106a42dcd5c7fb1f6660a0d299a58a461",
+      "originalPhysicalBytes": 4528,
+      "canonicalLfSha256": "8f0d9fc46110a73a0712bba977fd0b88b74fb7480d084ca8d1f1c128f989e9db",
+      "canonicalLfBytes": 4442
+    },
+    {
+      "path": "gz021-independent-twelve-metadata-ninth-dirty-review.json",
+      "originalPhysicalSha256": "de18ebc9dc385ff2c4ff4d987b0985467540bc8379d8bd64c0fc09f75bca1cb2",
+      "originalPhysicalBytes": 5094,
+      "canonicalLfSha256": "01b7925c35f258f0e8cee2db18022f92ee0e841c765372387b96f71f5cf161e0",
+      "canonicalLfBytes": 5006
+    },
+    {
+      "path": "gz021-independent-twelve-metadata-ninth-observed-order-final-dirty-review.json",
+      "originalPhysicalSha256": "7255a9d2d3d37fa722cb47a5bd60ab6a9d171c211bae5a72ee7bb815925ca194",
+      "originalPhysicalBytes": 4858,
+      "canonicalLfSha256": "94e9b33573160d513193c2ae0d43858b0116d7335bd3f94bdd45c68999ba776e",
+      "canonicalLfBytes": 4774
+    },
+    {
+      "path": "gz021-independent-twelve-metadata-ninth-observed-order-first-dirty-rejection.json",
+      "originalPhysicalSha256": "0521c490142a94d24c48b0b5001c8a9ec5640d6310d401c6e80565d3abe6940a",
+      "originalPhysicalBytes": 5520,
+      "canonicalLfSha256": "d60529aa4f8bb9a8d088daebf781221e8361541b2a5146e48a7173bd65bf0728",
+      "canonicalLfBytes": 5417
+    },
+    {
+      "path": "gz021-independent-twelve-metadata182-current-single-execution-receipt.json",
+      "originalPhysicalSha256": "2deb764ac320da9c7a39227d3893a64f62f8c49d2040a8e76da36914cb716892",
+      "originalPhysicalBytes": 3877,
+      "canonicalLfSha256": "c604f5f918c664586e96ecef1a42876dc5210c51cb9de15ee4eacf4cc0f9ced1",
+      "canonicalLfBytes": 3805
+    },
+    {
+      "path": "gz021-independent-twelve-passthrough-seventh-dirty-review.json",
+      "originalPhysicalSha256": "9a821b7e551b3219db8f847fd4c059e57863845d1dc33b018e83bdfa9af9b7e9",
+      "originalPhysicalBytes": 4531,
+      "canonicalLfSha256": "f5e3d11dc17be43dfba12b72a3fa5557a3c6e4e425b3f94cb51a5d36dcdb47c2",
+      "canonicalLfBytes": 4455
+    },
+    {
+      "path": "gz021-independent-twelve-public-eighth-compatible-first-dirty-rejection.json",
+      "originalPhysicalSha256": "09566d23b04ddb5f68e1a85c24f6d27c8bb9d4ed9b93443aa638c5d113a4b005",
+      "originalPhysicalBytes": 4893,
+      "canonicalLfSha256": "1f431fae371df820eef62e9c2c88c13c78fce0be0d4db00c1c8217a46012d5c6",
+      "canonicalLfBytes": 4811
+    },
+    {
+      "path": "gz021-independent-twelve-public-eighth-first-dirty-rejection.json",
+      "originalPhysicalSha256": "1d6cfba9f4de7c4676d59c348acd6758066874b24b73cd23c97b2b67a88d4724",
+      "originalPhysicalBytes": 6500,
+      "canonicalLfSha256": "ce418455927afdb0a701961b08125d6d80d0b9c086f1eb06f065c871084fd7a1",
+      "canonicalLfBytes": 6403
+    },
+    {
+      "path": "gz021-independent-twelve-public-eighth-negative-clock-final-dirty-review.json",
+      "originalPhysicalSha256": "81a3ace99029c539312ae159a13eb4dac86999c268fcbc751225e48e59b922ab",
+      "originalPhysicalBytes": 4135,
+      "canonicalLfSha256": "ca6d23d2c9de1c5c18cc7114571882ba5df22b245813dba9c25e257a084309d3",
+      "canonicalLfBytes": 4059
+    },
+    {
+      "path": "gz021-independent-twelve-public181-current-single-execution-receipt.json",
+      "originalPhysicalSha256": "e76cc3f6a54ab2d037564ed58073eeff71aae331afd95f00cc1ee7f4756a374d",
+      "originalPhysicalBytes": 4591,
+      "canonicalLfSha256": "2b93fa187cca1d556fbb882c3211976e06d835d2518ff39ff8e5b2d548582f4d",
+      "canonicalLfBytes": 4504
+    },
+    {
+      "path": "gz021-independent-twelve-quality-fourth-first-dirty-rejection.json",
+      "originalPhysicalSha256": "4642334dd3b45903dfda14601938437245b807c9957fd40548ef4645e37fcfb2",
+      "originalPhysicalBytes": 6582,
+      "canonicalLfSha256": "2d6945e62d654532b758d0db6790af2d470b31213a4958e47b0d3d4155361a32",
+      "canonicalLfBytes": 6475
+    },
+    {
+      "path": "gz021-independent-twelve-quality-fourth-job-event-dirty-review.json",
+      "originalPhysicalSha256": "9fb278d397efad32a33ff8e24b7407d9c5cab49263353d5200d853007f1b2eac",
+      "originalPhysicalBytes": 4728,
+      "canonicalLfSha256": "bc2dce443f7a94cad95de9d95c129653a698bbeb4791d45274f8c2e03f8fae37",
+      "canonicalLfBytes": 4648
+    },
+    {
+      "path": "gz021-independent-twelve-quality176-current-single-execution-receipt.json",
+      "originalPhysicalSha256": "9ea35d5b5cd10b47e5dba7b8d59f3c2eee5981dcf498687de51c434077c83376",
+      "originalPhysicalBytes": 5101,
+      "canonicalLfSha256": "cef7ff53b2311a5ef89dbb13ea93218102e87694d249e3558f12edf733898690",
+      "canonicalLfBytes": 5008
+    },
+    {
+      "path": "gz021-independent-twelve-quality176-prior-approval-dirty-review.json",
+      "originalPhysicalSha256": "dfcb4d2871fbede8faec02b0e9c53ac0445ad3b26e68334214eae54ae2d76b86",
+      "originalPhysicalBytes": 4000,
+      "canonicalLfSha256": "42e623f71965e19c2df2d65e9d508e9fb846ec7d994f42ef1b6cd24fa8ccd4f2",
+      "canonicalLfBytes": 3920
+    },
+    {
+      "path": "gz021-independent-twelve-quality176-queued-window-first-dirty-rejection.json",
+      "originalPhysicalSha256": "64797a4ed79fae8a7a124cfd2ed1ee2774fdd61a3ba0e58badae536b338bc47c",
+      "originalPhysicalBytes": 5125,
+      "canonicalLfSha256": "69f0f53a7511d2eb5050c7f1ed66ee22aa82a61080f5d967d18e3d3dbd209891",
+      "canonicalLfBytes": 5036
+    },
+    {
+      "path": "gz021-independent-twelve-resource-ai-policy-two-finding-dirty-review.json",
+      "originalPhysicalSha256": "e6291f708a981373e11811f2227e32aef9ebe69991cbd771359aef7e4a8927c1",
+      "originalPhysicalBytes": 6230,
+      "canonicalLfSha256": "7ae20dd98289aa59d6d4483c27fe31478ef3c438f165f7f6be0f5bf20330204a",
+      "canonicalLfBytes": 6119
+    },
+    {
+      "path": "gz021-independent-twelve-source-fault-fifth-explicit-failure-dirty-review.json",
+      "originalPhysicalSha256": "f42075c3d87ee9f9c6cd1c3edc1d9f6831a5c1870c267bc12d16cedd275439d5",
+      "originalPhysicalBytes": 4599,
+      "canonicalLfSha256": "86862e5e57ffd24dfcdb1a15c05a4afc22fb92cf59695cf4d5329939df1bd090",
+      "canonicalLfBytes": 4519
+    },
+    {
+      "path": "gz021-independent-twelve-source-fault-fifth-first-dirty-rejection.json",
+      "originalPhysicalSha256": "fbe05d62a06f674c0bf9cf59e9bba8479ec3c37020275ade82e008e756b4d822",
+      "originalPhysicalBytes": 6714,
+      "canonicalLfSha256": "7ebec1cfc9b9d314f4780c289b115cf619c58100c0d92950c8a02c7ca103c4cb",
+      "canonicalLfBytes": 6599
+    },
+    {
+      "path": "gz021-independent-twelve-source-fault177-single-execution-receipt.json",
+      "originalPhysicalSha256": "cc0e0d0b8dd4b010606963e11a75e7b8850576311912c512c681108a94f07f3b",
+      "originalPhysicalBytes": 3109,
+      "canonicalLfSha256": "aa389f34d038e6bed4a243e79c9d25bdf05e35a34f881c108310053593a4973d",
+      "canonicalLfBytes": 3052
+    },
+    {
+      "path": "gz021-independent-twelve-storage-twelfth-first-dirty-rejection.json",
+      "originalPhysicalSha256": "a48a9f066ecf68a2ae8f3bcf12f8e0ff872471f03ddd25305466d8a7a1ebe2ca",
+      "originalPhysicalBytes": 8067,
+      "canonicalLfSha256": "c6185df5933ee7111a59c9c2c39caf4c1f7c40b2485db24412b272f661c627cf",
+      "canonicalLfBytes": 7921
+    },
+    {
+      "path": "gz021-independent-twelve-storage-twelfth-three-boundaries-final-dirty-review.json",
+      "originalPhysicalSha256": "5966bc6edf6b6886229034ff674aaa6af02f6b7fd3095af25482402550249f84",
+      "originalPhysicalBytes": 4879,
+      "canonicalLfSha256": "1d4210107662d499d9867daa226eba43dc3cd035647de3905582460ca42d4bf0",
+      "canonicalLfBytes": 4798
+    },
+    {
+      "path": "gz021-independent-twelve-storage186-current-single-execution-receipt.json",
+      "originalPhysicalSha256": "7e322b43b6a88f843c3a72ccf8791e5c42bce03b054c197d767e40d98760411f",
+      "originalPhysicalBytes": 4538,
+      "canonicalLfSha256": "f63f2ab75e824c4aaee15770a0f86574039f09a66eb3132fdd3c79103de062cb",
+      "canonicalLfBytes": 4453
+    },
+    {
+      "path": "gz021-independent-twelve-worker-sixth-first-dirty-rejection.json",
+      "originalPhysicalSha256": "793e2711cd59d17d32df7387ac059334d68e766a34c0db1b149f4a180ee6748b",
+      "originalPhysicalBytes": 6468,
+      "canonicalLfSha256": "044cbf889770ceca7ee697a8d9626a4bb257eaa2806b26fc602156a77401f5fe",
+      "canonicalLfBytes": 6360
+    },
+    {
+      "path": "gz021-independent-twelve-worker-sixth-inventory-guard-final-dirty-review.json",
+      "originalPhysicalSha256": "e68ae231f9d506acda16f667551b24a667e61351ac932c9f1d8025058ae60a17",
+      "originalPhysicalBytes": 5538,
+      "canonicalLfSha256": "8bd99757a35af7e43e52a1d4d67ea5c16294ad1f5bd9995a3a7973347032715f",
+      "canonicalLfBytes": 5448
+    },
+    {
+      "path": "gz021-independent-twelve-worker-sixth-inventory-shape-dirty-rejection.json",
+      "originalPhysicalSha256": "b936983885645c9c0840c4d66354f449dba6db86176392fbe1a088c94eaf69bb",
+      "originalPhysicalBytes": 3555,
+      "canonicalLfSha256": "9279af5ffa1a259f31389885402e25e7aee2925f037a37fc7b43fdb0f4f600d9",
+      "canonicalLfBytes": 3485
+    },
+    {
+      "path": "gz021-independent-twelve-worker-sixth-prior-lease-dirty-review.json",
+      "originalPhysicalSha256": "c0a4fa5c22a4f7b2837897567fedce24860a6616f28bfd3d92094d5e0bf3883e",
+      "originalPhysicalBytes": 3949,
+      "canonicalLfSha256": "d33c6d46784771ab5b8989e1c2d7f9d33bd7e0ebd3221d617a85c63da47a1de0",
+      "canonicalLfBytes": 3877
+    },
+    {
+      "path": "gz021-pr103-c5d54-twelve-candidate-repairs-body.md",
+      "originalPhysicalSha256": "797a353fbe62e1325b19b2b188235b6cd4e973e17fb5930eac296afc9312adff",
+      "originalPhysicalBytes": 4421,
+      "canonicalLfSha256": "1b8db8c16d8176d762124d511775b0c61d3b394d325b10fea27886e8f0ec388c",
+      "canonicalLfBytes": 4404
+    },
+    {
+      "path": "gz021-twelve-ai-policy172-174-first-increment.txt",
+      "originalPhysicalSha256": "834c2567c58aeaff8a504dcbf0502847b2e7884d8c997c9506082a91185a15b0",
+      "originalPhysicalBytes": 5140,
+      "canonicalLfSha256": "4f18633bb8228ba403d36392551203cb26efc9498885d69842e3639bb258a072",
+      "canonicalLfBytes": 5091
+    },
+    {
+      "path": "gz021-twelve-ai-policy172-174-second-increment.txt",
+      "originalPhysicalSha256": "c57cf1d68345b861b628ecb410951c0527fbedcd23918d58c45cf657d456ad2e",
+      "originalPhysicalBytes": 1170,
+      "canonicalLfSha256": "fc89849ef92dca4f0115dcc426bd00d12c0e82028f7a5b34ab8bc34cbb5f3594",
+      "canonicalLfBytes": 1157
+    },
+    {
+      "path": "gz021-twelve-ai-policy174-subjects-increment.txt",
+      "originalPhysicalSha256": "39d1073d68033f90bd54e00dd3afba43b5c80b1775146650370cc1992f787e41",
+      "originalPhysicalBytes": 913,
+      "canonicalLfSha256": "ce410d32bc9dde633df5e3670a67831227260d25eedd08ffd01f3316b8ac0950",
+      "canonicalLfBytes": 901
+    },
+    {
+      "path": "gz021-twelve-firmware157-175-first-increment.txt",
+      "originalPhysicalSha256": "b27b89f438385a91a3970e3b3992f515b7b83eb96e5bf1f5aa38d5642690bc3f",
+      "originalPhysicalBytes": 1163,
+      "canonicalLfSha256": "983acad07fe52923eba68be8a2d8eee6da5b6f0df2158f2964a8bc11f4388b75",
+      "canonicalLfBytes": 1150
+    },
+    {
+      "path": "gz021-twelve-frontend184-first-increment.txt",
+      "originalPhysicalSha256": "e919ccdb28566b6ce49a69d195b8e6a11a0c1a5ebbd76132a763f75b3699f991",
+      "originalPhysicalBytes": 920,
+      "canonicalLfSha256": "188054efeb315fb266ac77f3c7ee91ad12be88479709ed1b66ca25e3a1117011",
+      "canonicalLfBytes": 908
+    },
+    {
+      "path": "gz021-twelve-frontend184-million-counts-increment.txt",
+      "originalPhysicalSha256": "95e15c3d517ea503f575fffdf4f647f74243e61adccd4c71c23d433710a71009",
+      "originalPhysicalBytes": 920,
+      "canonicalLfSha256": "7a83834e09f73961e0cc91e34d00290deedaaf15001b0a48003fb88ba9eea513",
+      "canonicalLfBytes": 908
+    },
+    {
+      "path": "gz021-twelve-media185-first-increment.txt",
+      "originalPhysicalSha256": "dec504fe7bbcf0a47291d1d8cec5f207d6be776e51c9ad673441f6ae3713bdbf",
+      "originalPhysicalBytes": 3872,
+      "canonicalLfSha256": "a594fd4ecda058e297164715de695b74f279928ec9aaf4c8b304f54d87d55927",
+      "canonicalLfBytes": 3845
+    },
+    {
+      "path": "gz021-twelve-media185-input-version-increment.txt",
+      "originalPhysicalSha256": "bfe576a49cc3ca44d2a6cb6610984e7508e2ba02fc3931ebe22f5e713593a4dc",
+      "originalPhysicalBytes": 926,
+      "canonicalLfSha256": "09f3b415eaaea8a0843cf10872c1ce2f46fde93f6ee30b8e76e24accbf5f55a9",
+      "canonicalLfBytes": 914
+    },
+    {
+      "path": "gz021-twelve-media185-retry-probe-increment.txt",
+      "originalPhysicalSha256": "bf132b7e4af1c37f2f4ab08e46d79cd9647c494932081480059f5599edefbe9c",
+      "originalPhysicalBytes": 926,
+      "canonicalLfSha256": "4feb9586e8e70d928639e46174ab7603887ccd00da160f1c26007ebad3602519",
+      "canonicalLfBytes": 914
+    },
+    {
+      "path": "gz021-twelve-metadata182-183-first-increment.txt",
+      "originalPhysicalSha256": "d85b24380bc056f74daf94b92640e7b937f59ce81fd4d46e38da72ae48013f89",
+      "originalPhysicalBytes": 2307,
+      "canonicalLfSha256": "02f032d44d494397503db58e9441ad997d46f8957b90dd75c231b3efa56e0304",
+      "canonicalLfBytes": 2278
+    },
+    {
+      "path": "gz021-twelve-metadata182-observed-order-increment.txt",
+      "originalPhysicalSha256": "2520bdf69adae99eb2c25a882820f94aab3700a9350ca70fa999346e63802f59",
+      "originalPhysicalBytes": 929,
+      "canonicalLfSha256": "af01cb1c5c29fc0e36983cefe2be77abc606b6c23a8c37699a9a1a1f43a5ffd6",
+      "canonicalLfBytes": 917
+    },
+    {
+      "path": "gz021-twelve-passthrough180-first-increment.txt",
+      "originalPhysicalSha256": "1835c5b7f6e2c96de510f18147de53c1e792209cf6714f09a47746a141fa1f09",
+      "originalPhysicalBytes": 925,
+      "canonicalLfSha256": "48b0cf9b060ec6182eb5b5ca78b08eca1168125daeb419534738a6b6ef69453b",
+      "canonicalLfBytes": 913
+    },
+    {
+      "path": "gz021-twelve-public181-compatible-points-increment.txt",
+      "originalPhysicalSha256": "07f2e7d2aefb0a10a071807b70dd4adedb232c62006ec4faa05e501bfc6a3057",
+      "originalPhysicalBytes": 1864,
+      "canonicalLfSha256": "8711a8467fa4458e90dc5d7841c9ea16328ca689624356e46b9def89b49e831a",
+      "canonicalLfBytes": 1843
+    },
+    {
+      "path": "gz021-twelve-public181-first-increment.txt",
+      "originalPhysicalSha256": "0a3d8b62a4133878fb18a6d8ecb4e535a7839b8ce8e84f0c2beb760d8940a579",
+      "originalPhysicalBytes": 924,
+      "canonicalLfSha256": "e8edb8a2b987c341a61ab10d601eca8017dfba3ecb219343d483a76762bf094c",
+      "canonicalLfBytes": 912
+    },
+    {
+      "path": "gz021-twelve-public181-negative-clock-increment.txt",
+      "originalPhysicalSha256": "5e3b4c2bad424a954559f828b30ff4312e7f8cc43719b257c2681c0d7a8d36d7",
+      "originalPhysicalBytes": 939,
+      "canonicalLfSha256": "0f1c70a2ed6d5a34e464ab5ea6b6629e93a067b64028f259347ca4415eda46c4",
+      "canonicalLfBytes": 927
+    },
+    {
+      "path": "gz021-twelve-quality123-140-176-first-increment.txt",
+      "originalPhysicalSha256": "641e119516a20b43b840a187acc9cbf7d6a3bba5c53c712cbd2a404b1168a677",
+      "originalPhysicalBytes": 1425,
+      "canonicalLfSha256": "b560229f8c248907a9fc389e6cd66306aeee587172c148650f1f96096a6e4101",
+      "canonicalLfBytes": 1411
+    },
+    {
+      "path": "gz021-twelve-quality123-140-176-job-event-increment.txt",
+      "originalPhysicalSha256": "0b86a915565d1ffc6881bb8f9746169316b5b5843a7ff31abcd10268d0463cd4",
+      "originalPhysicalBytes": 2501,
+      "canonicalLfSha256": "8af648d551c1c747378dc89fd3a8cc7bfa4d21d3e348196b6b5fbfc43e9cbea3",
+      "canonicalLfBytes": 2471
+    },
+    {
+      "path": "gz021-twelve-quality176-prior-sample-approval-increment.txt",
+      "originalPhysicalSha256": "3dec1daa78759c8cc91071c2427af9f670d9acdf5bb89acb6e72bcf185ee9402",
+      "originalPhysicalBytes": 943,
+      "canonicalLfSha256": "a9c67e2d48ee8d1cc3c0d3ca816ef10b5449a4eacc43ddb652824e54e8bb4057",
+      "canonicalLfBytes": 931
+    },
+    {
+      "path": "gz021-twelve-quality176-queued-window-increment.txt",
+      "originalPhysicalSha256": "db0eadf887a2133af1511218fbbe77011421040e04c25950301668f2d63897c2",
+      "originalPhysicalBytes": 1992,
+      "canonicalLfSha256": "769f0d7da316f9cd1dd038dccb744cbeb214cc2c26c202b953cffa895d0b2d7c",
+      "canonicalLfBytes": 1964
+    },
+    {
+      "path": "gz021-twelve-recovery-resource173-first-increment.txt",
+      "originalPhysicalSha256": "3e4ac345ce0e7238b087deb6a90031b3717b83211424f8fd6cceaa982701768b",
+      "originalPhysicalBytes": 782,
+      "canonicalLfSha256": "795e465d40c05ff1f3da48ad41a36d12fb23becf285f74891c67753c2cdd7428",
+      "canonicalLfBytes": 770
+    },
+    {
+      "path": "gz021-twelve-source-fault146-177-first-increment.txt",
+      "originalPhysicalSha256": "0ad91f37e0dd3c4493b738985240633ec6ffdde39f6463b11423ed5d57ed4977",
+      "originalPhysicalBytes": 1158,
+      "canonicalLfSha256": "327fd997121add188f2df88371a53992eeae75a8d86bce0da6c0e53334f396f7",
+      "canonicalLfBytes": 1145
+    },
+    {
+      "path": "gz021-twelve-source-fault177-explicit-failure-increment.txt",
+      "originalPhysicalSha256": "d3437b0a0485aff5761cf024a727ce34abd364f74f1b42530782ec5514fbae6a",
+      "originalPhysicalBytes": 926,
+      "canonicalLfSha256": "5821f2879aecf3d20a898a82afd9f406c372a5a25a7af29691aea47c26899f23",
+      "canonicalLfBytes": 914
+    },
+    {
+      "path": "gz021-twelve-storage186-auth-refs-increment.txt",
+      "originalPhysicalSha256": "c55748928220a78618d54b364a8c7f76e70600ce4188c8d33622ae8cde35379e",
+      "originalPhysicalBytes": 907,
+      "canonicalLfSha256": "d15c80bde998365a3cbfbee345e89baf3af64060ba0d7d7875f446ed5c1e4568",
+      "canonicalLfBytes": 895
+    },
+    {
+      "path": "gz021-twelve-storage186-first-increment.txt",
+      "originalPhysicalSha256": "1a753b73e8104678d2ca2890915932f70aa75ee0c1b1960afed3abdbf519d4cb",
+      "originalPhysicalBytes": 2345,
+      "canonicalLfSha256": "54dbbf931b61243660ff4c440616b7b8e425a09746377f22eb0369028572f671",
+      "canonicalLfBytes": 2313
+    },
+    {
+      "path": "gz021-twelve-storage186-three-boundaries-increment.txt",
+      "originalPhysicalSha256": "c035f258758bcc13b8990207894010f83dd7260007a257a1f0ba5c935ac6f0c1",
+      "originalPhysicalBytes": 907,
+      "canonicalLfSha256": "ed9f39a1d0c6a12d0f9eda1e976a360b68f5176155a4721addb5ac9d0c2ff28a",
+      "canonicalLfBytes": 895
+    },
+    {
+      "path": "gz021-twelve-worker178-first-increment.txt",
+      "originalPhysicalSha256": "e277506c4b37845f04522f73c521091abe6c2c8165055fbc5fb8c8ab91af81df",
+      "originalPhysicalBytes": 927,
+      "canonicalLfSha256": "8bf20ea0323970e8240f5cd7c84a83b6c7a15907f154003df468c7ada1b08b33",
+      "canonicalLfBytes": 915
+    },
+    {
+      "path": "gz021-twelve-worker178-prior-lease-increment.txt",
+      "originalPhysicalSha256": "efb97315faa5b4f2fe8752063b0cb24dc63a1cb0c4b87961af22e3937f118532",
+      "originalPhysicalBytes": 939,
+      "canonicalLfSha256": "5b1183764888e6f43a64a7b27dbff7bbdade38d3c9af81f4524f1ba050ac926a",
+      "canonicalLfBytes": 927
+    },
+    {
+      "path": "gz021-twelve-worker179-inventory-shape-increment.txt",
+      "originalPhysicalSha256": "1c240445963c233ac80722207b3ef8da2f1148cb927acbc188df3c9a9410563a",
+      "originalPhysicalBytes": 921,
+      "canonicalLfSha256": "b828e070f2fc1b7da7cc196dd28fc6de48380194c70f09005139ce844956a726",
+      "canonicalLfBytes": 909
+    }
+  ]
+}

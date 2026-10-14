@@ -1,0 +1,80 @@
+{
+  "capturedAt": "2026-10-13T23:32:46.672254+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only fourth-comment residual job-event/timing correction, reusing first review quality/cache findings",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYeO",
+  "contentAccepted": true,
+  "fourthFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "39e83d8a44c96984d8a27963034e893f169062f4baa9d6ded86eb8f6b5527bc2",
+    "specs/poc/program.schema.yaml": "9d607f962e6fcaa69b381302f511635bfe489a9295645bcb174bcdde17c47adf",
+    "specs/poc/test_program.py": "59184d85a0ac93e971661ad6442c1370f9962581657d270350783675177649d8"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "39e83d8a44c96984d8a27963034e893f169062f4baa9d6ded86eb8f6b5527bc2",
+    "specs/poc/program.schema.yaml": "9d607f962e6fcaa69b381302f511635bfe489a9295645bcb174bcdde17c47adf",
+    "specs/poc/test_program.py": "59184d85a0ac93e971661ad6442c1370f9962581657d270350783675177649d8"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "031e55cab515b9545211528935e22baf1b94c413c6bf9a8760748e4c99194832",
+    "specs/poc/program.schema.yaml": "714336ffa2e6053194acc5099d0be46c6a4d2bf4be2c56d403020bbe417b7eaf",
+    "specs/poc/test_program.py": "782b03f019f95f5978a1b1fb0de8b7f258a1910c662124037f12f6ce75a56a71"
+  },
+  "hashesStable": true,
+  "firstContentRejectionRetained": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-quality-fourth-first-dirty-rejection.json",
+    "sha256": "4642334dd3b45903dfda14601938437245b807c9957fd40548ef4645e37fcfb2",
+    "snapshotManifestSha256": "a5f037a0ec28ed8353a86757e3ec3a9585e1dc29c394297f3de83172dd7fb0ad"
+  },
+  "firstStageExecutionPassedDidNotCancelContentRejection": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-quality123-140-176-first-increment.txt",
+    "sha256": "641e119516a20b43b840a187acc9cbf7d6a3bba5c53c712cbd2a404b1168a677",
+    "tests": 3,
+    "seconds": 212.461,
+    "exitCode": 0
+  },
+  "originalC5AndThreeFindingSchemaWholeBytePrefixesRetained": true,
+  "allPriorAcceptedDefinitionsUnchanged": true,
+  "firstRejectedFourNewDefinitionsOnlyQualityReportAddsJobEventRef": true,
+  "onlyNewDefinition": "mediaJobStartObservation",
+  "all171OtherOriginalC5MethodAstsUnchanged": true,
+  "test123AcceptedPurposeCaseAndAssertionAdaptationUnchangedFromFirstReview": true,
+  "test173174175MethodAstsUnchanged": true,
+  "currentTestMethods": 176,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "residualClosure": [
+    "Retained selected-slot typed bounded job-start event matches approved job/config/input SHA/encoder/parameters/profile and exact initial-span run/node",
+    "Report jobStart equals event jobStart, event workerStart equals chosen actual worker run start; mismatched/late event cannot substitute report timestamp",
+    "Allows jobStart <= workerStart <= produced <= decoded <= firstPlayable and derives latency from jobStart, preserving queue interval",
+    "176 retains earlier negatives and adds event identity/input/time/missing/late negatives, lawful50ms queue+1ms encode51ms positive and worker-only1ms negative",
+    "Previously reviewed exact input/output/frame/model/evaluator/actual media/probe bindings remain; original140 bounded cache path remains unchanged"
+  ],
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-quality123-140-176-job-event-increment.txt",
+    "physicalSha256": "af2d4f5aa72092806fa0bea61d38257cb713f19be842b5b2b0f2fb4f9d680d33",
+    "observedTerminal": false,
+    "pendingAtReview": true
+  },
+  "oldStagePassNotTransferredToCurrentHashes": true,
+  "whole176Passed": false,
+  "remainingEightFindingsPending": true,
+  "publicationContentSupported": false,
+  "wholeCandidatePublicationApproved": false,
+  "actualSourceExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "sourceEdited": false,
+  "threadsResolved": false
+}

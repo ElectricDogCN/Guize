@@ -1,0 +1,81 @@
+{
+  "capturedAt": "2026-10-14T01:27:04.429310+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYev",
+  "finiteScope": "Only tenth million-row observed input and virtual DOM counts repair; prior fixed matrix/build/rubric bounded review reused",
+  "contentAccepted": true,
+  "tenthFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "de306911dcc64c7948b892449d2ce5f1f338fbfc9f11bcd805bfce69487995be",
+    "specs/poc/program.schema.yaml": "64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762",
+    "specs/poc/test_program.py": "809d0ba64fd8ffb7729f720b4a11af2f6564ef268513b0615f3cb06277538149"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "de306911dcc64c7948b892449d2ce5f1f338fbfc9f11bcd805bfce69487995be",
+    "specs/poc/program.schema.yaml": "64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762",
+    "specs/poc/test_program.py": "809d0ba64fd8ffb7729f720b4a11af2f6564ef268513b0615f3cb06277538149"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "7c9e11224e692a8eb91129dd9103ea0faed384cb805e52ba1e2e06b100e6acfe",
+    "specs/poc/program.schema.yaml": "f42ddfd8008f111436fefbe1863024032151c73cf6e7e409cab4936fc0d7f670",
+    "specs/poc/test_program.py": "9c95575da5fd901b81ff73351eb342e099dd40b173ff39a965b8cf7e7424f7e5"
+  },
+  "hashesStable": true,
+  "firstMillionRejection": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-frontend-tenth-million-first-dirty-rejection.json",
+    "sha256": "cd520bfcc7d744c49a40db256099b33bd50e7525be88aae0ee7ec8c9001ce76a"
+  },
+  "initial655AndCd520ProofsPreserved": true,
+  "schemaBytesUnchangedFromInitialTenthCandidate": true,
+  "allPrior183MethodsAndUnrelatedHelpersUnchanged": true,
+  "onlyFrontendValidatorFixtureAndNew184Changed": true,
+  "repairCoverage": [
+    "Approved exact integer one-million dataset, positive integer viewport, nonnegative integer overscan and viewport+2overscan strictly smaller than dataset",
+    "Retained typed rows units and exact integer measured input count1M; positive integer DOM peak bounded by approved viewport+2overscan; bool/fraction/zero/full-DOM rejected",
+    "Existing trace/build/input/driver/time/raw binding and duration derivation retained; other nine scenarios retain duration-only measurement contract",
+    "Different legitimate DOM-window sizes are permitted for equivalent functional outcomes; no invented performance-equality or fixed numeric benchmark",
+    "New184 preserves prior cases and adds legal window, missing/short/full/fraction/bool/wrong-unit counts and malformed approved window negatives"
+  ],
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "firstSingle184Execution": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-frontend184-first-increment.txt",
+    "physicalSha256": "e919ccdb28566b6ce49a69d195b8e6a11a0c1a5ebbd76132a763f75b3699f991",
+    "tests": 1,
+    "seconds": 303.621,
+    "exitCode": 0,
+    "doesNotOverrideInitialContentRejection": true
+  },
+  "currentSingle184ExecutionAccepted": false,
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-frontend184-million-counts-increment.txt",
+    "observedPhysicalSha256": "f55384dadf9f3a2fbaa7959e59b102a63a262d491ac60faf3f569eafb4eb16fc",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric",
+    "testsRequested": 1,
+    "terminalObserved": false,
+    "exitCode": null,
+    "seconds": null,
+    "pendingAtObservation": true,
+    "executionAccepted": false
+  },
+  "stagesNotSummedOrTransferredToActualSource": true,
+  "fixtureOnlyNotActualBuildOrMillionRowUiRun": true,
+  "remainingTwoFindingsPending": true,
+  "whole184SuitePassed": false,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

@@ -1,0 +1,72 @@
+{
+  "capturedAt": "2026-10-14T01:05:02.292300+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYen",
+  "finiteScope": "Only final single182 execution receipt; unchanged183 fact retained separately from earlier failed pair",
+  "contentProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-metadata-ninth-observed-order-final-dirty-review.json",
+    "sha256": "7255a9d2d3d37fa722cb47a5bd60ab6a9d171c211bae5a72ee7bb815925ca194"
+  },
+  "contentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "276a891531f2ca71410a13ce520a8d58ad93f3093b8572c08a54c8084c89537e",
+    "specs/poc/program.schema.yaml": "29f4009e2859a363386d4e2365df62706f34a1979591bf2797d362bc46365665",
+    "specs/poc/test_program.py": "396cb32a64f3cfb60f119f2194a7f8a3eecec5c10d13f0f5f03e19ed6f9296c1"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "276a891531f2ca71410a13ce520a8d58ad93f3093b8572c08a54c8084c89537e",
+    "specs/poc/program.schema.yaml": "29f4009e2859a363386d4e2365df62706f34a1979591bf2797d362bc46365665",
+    "specs/poc/test_program.py": "396cb32a64f3cfb60f119f2194a7f8a3eecec5c10d13f0f5f03e19ed6f9296c1"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "579c32b998b4c3e3c0d43d017ac836f1122288b83649d078c7a0efcb25f8b3c6",
+    "specs/poc/program.schema.yaml": "a7738917c54c87ff9b376173a78765b99c62160e5d0d9ead15388b362e0ed1e3",
+    "specs/poc/test_program.py": "481603a163c03f70ad45388f19775e6a91e38f46384c01408cf8cb5735a94c7d"
+  },
+  "hashesStable": true,
+  "currentSingle182ExecutionAccepted": true,
+  "execution": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-metadata182-observed-order-increment.txt",
+    "physicalSha256": "2520bdf69adae99eb2c25a882820f94aab3700a9350ca70fa999346e63802f59",
+    "canonicalLfSha256": "af01cb1c5c29fc0e36983cefe2be77abc606b6c23a8c37699a9a1a1f43a5ffd6",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_182_metadata_rates_and_costs_derive_complete_streamed_observations",
+    "tests": 1,
+    "seconds": 224.308,
+    "exitCode": 0,
+    "candidateHashesMatchHeader": true
+  },
+  "priorPair": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-metadata182-183-first-increment.txt",
+    "physicalSha256": "d85b24380bc056f74daf94b92640e7b937f59ce81fd4d46e38da72ae48013f89",
+    "tests": 2,
+    "seconds": 132.548,
+    "exitCode": 1,
+    "182": "production null generator configuration positive failed",
+    "183": "one-million-record bounded parser individually ok",
+    "pairAccepted": false
+  },
+  "unchanged183ParserObjectDefinitionAndMethodBoundTo7255ContentProof": true,
+  "183IndividualHistoricalExecutionFactRetained": true,
+  "separateStagesNotSummedIntoCurrentCommandOrWhole183": true,
+  "whole183SuitePassed": false,
+  "publishedSuccessorAccepted": false,
+  "remainingThreeFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualScannerPerformanceAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "fixtureOnly": true,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_WORKER179_INVENTORY_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL179
+Candidate Files SHA256: {'specs/poc/check_program.py': '83dd61304e71a288775071c9d363f9bc92310423290789c8a54e24fe925a9235', 'specs/poc/program.schema.yaml': 'caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e', 'specs/poc/test_program.py': '246bac4282da88f0ad37ca5a72c0bdaefb5874a4264022882943c0db7e874ee3'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_179_worker_safety_returns_errors_for_unhashable_inventory_node_ids
+test_179_worker_safety_returns_errors_for_unhashable_inventory_node_ids (__main__.TestPocProgram.test_179_worker_safety_returns_errors_for_unhashable_inventory_node_ids) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 20.129s
+
+OK
+
+Exit Code: 0

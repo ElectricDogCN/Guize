@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_FRONTEND184_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL184
+Candidate Files SHA256: {'specs/poc/check_program.py': 'de306911dcc64c7948b892449d2ce5f1f338fbfc9f11bcd805bfce69487995be', 'specs/poc/program.schema.yaml': '64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762', 'specs/poc/test_program.py': '809d0ba64fd8ffb7729f720b4a11af2f6564ef268513b0615f3cb06277538149'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric
+test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric (__main__.TestPocProgram.test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 383.830s
+
+OK
+
+Exit Code: 0

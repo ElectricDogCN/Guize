@@ -1,0 +1,108 @@
+{
+  "capturedAt": "2026-10-14T00:13:46.674719+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only sixth sFdMi per-node worker safety increment; no remaining-six audit",
+  "threadId": "PRRT_kwDOTgCQ3c6sFdMi",
+  "contentAccepted": false,
+  "sixthFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sFdMi",
+      "path": "specs/poc/check_program.py",
+      "function": "validate_qualified_worker_safety",
+      "line": 2461,
+      "reason": "The restart key list passes oldLeaseIssuedAt through the window-bound timestamp validator. An already active Worker lease may have been issued before this measured interruption/recovery window; the frozen method does not require new issuance inside that window. Legitimate retained initial state is rejected.",
+      "frozenMethod": {
+        "id": "worker_restart_recovery",
+        "metric": "worker restart recovery",
+        "unit": "boolean",
+        "method": "Restart/disconnect a worker and prove lease expiry, re-registration and bounded task recovery.",
+        "thresholdSource": "ADR-0015_LOCAL_VALIDATION",
+        "actual": null
+      },
+      "logicalCounterexample": {
+        "kind": "Static exact-condition counter, no reviewer test/runtime run",
+        "executionWindowStartedAt": "2026-09-03T00:00:00Z",
+        "oldLeaseIssuedAt": "2026-09-02T23:59:59Z",
+        "disconnectedAt": "2026-09-03T00:02:01Z",
+        "oldLeaseExpiresAt": "2026-09-03T00:02:02Z",
+        "expiredLeaseObservedAt": "2026-09-03T00:02:03Z",
+        "reRegisteredAt": "2026-09-03T00:02:04Z",
+        "newLeaseIssuedAt": "2026-09-03T00:02:04Z",
+        "recoveredAt": "2026-09-03T00:02:05Z",
+        "allOtherReportAndPolicyFieldsValid": true,
+        "currentValidatorRejectsOnlyPriorIssueTimestamp": true
+      },
+      "minimumRepair": "Read oldLeaseIssuedAt with the existing strict UTC parser without requiring it inside executionWindow. Preserve current monotonic lease/disconnect/expiry/re-registration/new-issue/recovery ordering, oldIssue<oldExpiry, fresh identities, exact task-once and approved recovery duration. Keep actual measured interruption/expiry/re-registration/new issue/recovery timestamps window-bound. Do not add a stricter disconnect<expiry precision rule or relax any safety gate.",
+      "necessaryRegressions": [
+        "Valid pre-window old-lease issuance positive for both profiles",
+        "Invalid UTC, old issue after disconnect, inverted old expiry and stale new-lease recovery negatives",
+        "Original per-node5 limit/5 network controls, stale-publication/duplicate-completion/cleanup negatives retained"
+      ]
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "d4265ee870e2e43068b3b4666a7b8dcbb2048d6c37e5625a0d594ea3c91d685b",
+    "specs/poc/program.schema.yaml": "caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e",
+    "specs/poc/test_program.py": "242ecbd270f88de25f92e5e52d6960a046c9be162a9755fe112e1f48310f05ba"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "d4265ee870e2e43068b3b4666a7b8dcbb2048d6c37e5625a0d594ea3c91d685b",
+    "specs/poc/program.schema.yaml": "caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e",
+    "specs/poc/test_program.py": "242ecbd270f88de25f92e5e52d6960a046c9be162a9755fe112e1f48310f05ba"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "0b7746cdfee1158c83392510c4eb91c82adbd4f06e5dd74b6736a88f4c6182d5",
+    "specs/poc/program.schema.yaml": "f4f893d403948c5aa6b723c1aec08674588074971d678790bfc24636f3c4568c",
+    "specs/poc/test_program.py": "2f965d941f0768292ed67c89788f88a9985893658fcb3f6256721231f2201d72"
+  },
+  "hashesStable": true,
+  "priorFiveAcceptedContent": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-source-fault-fifth-explicit-failure-dirty-review.json",
+    "sha256": "f42075c3d87ee9f9c6cd1c3edc1d9f6831a5c1870c267bc12d16cedd275439d5",
+    "snapshotManifestSha256": "4355cbbc6ed8f313afbefc5622d6f3bf5118a272cae06f39c1a6beb2d164722d"
+  },
+  "originalAndPriorFiveSchemaWholeBytePrefixAndDefinitionsRetained": true,
+  "onlyAppendedDefinitions": [
+    "workerSafetyPolicy",
+    "workerSafetyOutcomes"
+  ],
+  "allPrior177MethodsAnd123PurposeAdaptationPreserved": true,
+  "newTest": 178,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "supportedCoverage": [
+    "Complete approved node/physical-host/encoder inventory, profile/input/provider subject and exact selected resource configuration",
+    "Each node independently exceeds CPU/memory/time/temp/output approved limit with actual elapsed interval, terminated process, zero remaining output/temp and no publication",
+    "Per-node distinct old/new lease/registration IDs, current task once and zero stale-lease publications under bounded recovery",
+    "Each node authorized actual nonempty outbound bytes plus private/unsupported/admin/expired grant denial with zero actual bytes/hash and node/type binding",
+    "Existing local Android VM disclosure, production physical/hardware constraints and factual FAIL/inconclusive paths retained"
+  ],
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-worker178-first-increment.txt",
+    "physicalSha256": "e277506c4b37845f04522f73c521091abe6c2c8165055fbc5fb8c8ab91af81df",
+    "observedTerminal": true,
+    "pendingAtReview": false,
+    "tests": 1,
+    "seconds": 200.398,
+    "exitCode": 0
+  },
+  "incrementDoesNotOverrideTemporalCompatibilityRejection": true,
+  "staticCounterNotClaimedExecuted": true,
+  "complete178Passed": false,
+  "remainingSixFindingsPending": true,
+  "publicationContentSupported": false,
+  "wholeCandidatePublicationApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "threadsResolved": false
+}

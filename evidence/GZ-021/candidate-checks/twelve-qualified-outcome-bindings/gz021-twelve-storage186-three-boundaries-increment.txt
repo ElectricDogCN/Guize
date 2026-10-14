@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_STORAGE186_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL186
+Candidate Files SHA256: {'specs/poc/check_program.py': '5099dbd296fa06d75cdf5f50a58b7225335dcf25b42cfd7cbcd1545ae25b0e53', 'specs/poc/program.schema.yaml': '49b5e93c6d54487f56a10aa7da433ceb1f61e0cf61f5af543339ed5736faa8a5', 'specs/poc/test_program.py': '6f1df4dce9ee78843772f6210ca8613f9219d245746a09553d45730af4ba2042'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle
+test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle (__main__.TestPocProgram.test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 219.744s
+
+OK
+
+Exit Code: 0
