@@ -1,0 +1,80 @@
+{
+  "capturedAt": "2026-10-13T23:40:11.574241+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only new176 synthetic prior-sample approval fixture and exact delta/hash binding",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYeO",
+  "contentAccepted": true,
+  "fourthFindingContentAccepted": true,
+  "queuedFixtureContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "39e83d8a44c96984d8a27963034e893f169062f4baa9d6ded86eb8f6b5527bc2",
+    "specs/poc/program.schema.yaml": "9d607f962e6fcaa69b381302f511635bfe489a9295645bcb174bcdde17c47adf",
+    "specs/poc/test_program.py": "66ea15e6b1da55a691101307d1546661c3c7ae3a07d52fefe6501122e3b41786"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "39e83d8a44c96984d8a27963034e893f169062f4baa9d6ded86eb8f6b5527bc2",
+    "specs/poc/program.schema.yaml": "9d607f962e6fcaa69b381302f511635bfe489a9295645bcb174bcdde17c47adf",
+    "specs/poc/test_program.py": "66ea15e6b1da55a691101307d1546661c3c7ae3a07d52fefe6501122e3b41786"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "031e55cab515b9545211528935e22baf1b94c413c6bf9a8760748e4c99194832",
+    "specs/poc/program.schema.yaml": "714336ffa2e6053194acc5099d0be46c6a4d2bf4be2c56d403020bbe417b7eaf",
+    "specs/poc/test_program.py": "e99f33f8d2cf214274b69de5a762f990b437f8d990eef15d283963f001be9c7b"
+  },
+  "hashesStable": true,
+  "onlyThreeAddedApprovalLinesByReverseCanonicalHash": true,
+  "checkerSchemaSameAsAccepted9fb": true,
+  "approvalBoundarySupported": "Only the existing synthetic POC002 sample approval approvedAt moves to23:59:59.949Z,1ms before new jobStart23:59:59.950Z. Reviewer, immutable identity/checksum and all other record values are retained. Original approval bytes are saved and restored after51ms positive and1ms missing-queue negative. The frozen single sample and unchanged approved resource/config/domain approvals cover the new window; original worker/A380 phase times stay00:00:00Z.",
+  "old171Methods123Purpose173175AndAllOtherCandidateBytesPreserved": true,
+  "firstQueuedFixtureRejectionRetained": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-quality176-queued-window-first-dirty-rejection.json",
+    "sha256": "64797a4ed79fae8a7a124cfd2ed1ee2774fdd61a3ba0e58badae536b338bc47c"
+  },
+  "oldStagesRemainSeparate": [
+    {
+      "tests": 3,
+      "seconds": 212.461,
+      "exitCode": 0,
+      "contentRejected4642": true
+    },
+    {
+      "tests": 3,
+      "seconds": 239.962,
+      "exitCode": 1,
+      "176ProductionA380PhaseFailure": true,
+      "123140Passed": true
+    },
+    {
+      "tests": 1,
+      "seconds": 104.473,
+      "exitCode": 1,
+      "176LocalPriorSampleApprovalFailure": true
+    }
+  ],
+  "latestSingle176Increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-quality176-prior-sample-approval-increment.txt",
+    "physicalSha256": "a650c1916e0c97a089643468e0cb2fe7413a853ea2844ea26fd4bfb6beff344d",
+    "observedTerminal": false,
+    "pendingAtReview": true,
+    "actualCommandTests": 1
+  },
+  "complete176RunClaimed": false,
+  "remainingEightFindingsPending": true,
+  "publicationContentSupported": false,
+  "wholeCandidatePublicationApproved": false,
+  "actualSourceExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "threadsResolved": false
+}

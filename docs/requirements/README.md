@@ -2,6 +2,8 @@
 
 > GZ-004 / `REQ-V1` + `NFR-V1` + `ACCEPTANCE-TRACE-V1`
 
+GZ-021 路线修订候选将本目录四份机器文档升级到 schemaVersion 2，并以 `acceptanceProfileBinding` revision 1 一致绑定 `local-v1`/`production`、ADR-0015、GZ-018/GZ-020、全十需求和原十二项 `验收V1-0001～0012`。原合同 ID 与历史 GZ-004/GZ-014 完成证据保留；不以文档版本变更声明新运行时或测量通过。
+
 ## 1. 权威层级
 
 本目录不是第二套产品需求。冲突时始终按以下顺序解释：
@@ -13,7 +15,9 @@
 
 GZ-004 的职责是把已批准范围收敛为可验证输入，而不是扩展范围。新增/删除产品能力或关键边界变化必须另走需求/ADR 审批。
 
-`requirements.yaml` 中的 `aliases`、`moduleIds`、`workPackages`、`acceptanceIds`、`blockers`、`nextTasks` 必须与只读 `requirements-index.yaml` 保持 exact-set；本任务不得为了修补追踪缺口回写索引。
+`requirements.yaml` 中的 `aliases`、`moduleIds`、`workPackages`、`acceptanceIds`、`blockers`、`nextTasks` 必须与 `requirements-index.yaml` 保持 exact-set。索引对原 GZ-004 任务为只读；GZ-021 已显式登记索引及这些派生文件，按本次用户路线决定版本化修订，不回写历史完成记录。
+
+本地 GZ-018 在 GZ-019 之后验收全十需求/原十二验收，生产 GZ-020 义务保持。两个通用 Source/Connector 补充验收仍由需求反向追踪保留，不能替换原十二项中的任一项。未知配置或版本、文件间漂移、错误里程碑/范围、生产约束丢失和本地结果冒充生产释放均拒绝。
 
 ## 2. 文件与合同
 
@@ -53,6 +57,8 @@ NFR 使用三种测量状态：
 - `MEASUREMENT_REQUIRED`：吞吐、时延、首帧、AI 质量、搜索相关性、文件数量分布、并发、RPO/RTO、商业 Provider 预算/调用配额具体数值等尚无批准实测结果的指标。
 
 `MEASUREMENT_REQUIRED` 必须 `value: null`、`unit: null` 并声明 `verificationOwners`。POC/GZ-011 测量并审批前，禁止把这些项目写成已达到、PASS 或生产 SLA。
+
+GZ-021 的 `applicableProfiles` 明确保留 700TB、500GB、ESXi 6.7 与 A380 原生产义务；共享权限、隐私、恢复、供应链等要求仍覆盖两个配置。本地安全水位必须由具体执行环境显式配置和测量，派生基线不能伪造一个已测数值。单机双进程、OpenList 健康、AV1 枚举或协议沙箱均不授予物理设备、生产容量、公网或百度生产通过。
 
 商业 AI/外部 Provider 的**控制机制**已经是硬要求：调用前必须检查调用者权限、当前 Asset ACL、数据策略，并执行硬预算/配额门禁；但具体预算/配额数字仍由后续批准配置或测量确定。
 

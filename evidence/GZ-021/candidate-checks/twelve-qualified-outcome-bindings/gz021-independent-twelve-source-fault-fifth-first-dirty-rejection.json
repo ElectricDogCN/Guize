@@ -1,0 +1,115 @@
+{
+  "capturedAt": "2026-10-14T00:00:05.487171+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only fifth sEYeY local source-fault outcome delta, no remaining-seven audit",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYeY",
+  "contentAccepted": false,
+  "fifthFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYeY",
+      "path": "specs/poc/check_program.py",
+      "line": 588,
+      "function": "validate_qualified_local_source_faults",
+      "reason": "network_disconnect is grouped with429/5xx/interrupted and requires at least2 attempts/outcome recovered/final success. Frozen network method permits bounded retry OR safe explicit failure; valid fail-closed fault control is rejected.",
+      "frozenMeasurementContract": {
+        "actual": null,
+        "id": "network_failure_classified_retried",
+        "method": "Interrupt the sandbox network path and verify bounded retry or explicit failure without corrupting sync state.",
+        "metric": "Network failures are classified and recovered safely",
+        "thresholdSource": "ACCEPT-SOURCE-SYNC",
+        "unit": "boolean"
+      },
+      "staticCounterexample": {
+        "kind": "Exact-condition logical counter; no extra test/runtime run",
+        "case": "network_disconnect",
+        "outcome": "explicit_failure",
+        "recoveryMode": "none",
+        "attempts": 1,
+        "terminalTransport": "network_disconnect",
+        "terminalHttpStatus": null,
+        "returnedAssetIds": [],
+        "createdAssetIds": [],
+        "backoffAfterSeconds": 0,
+        "logicalAssetVersionLinkBeforeEqualsAfter": true,
+        "requestClassificationAndUtcAndApprovedBudgetValid": true,
+        "currentBranchRejects": true
+      },
+      "minimumRepair": "Add a narrow network_disconnect explicit_failure path, retaining observed bounded attempts, actual classification/UTC/backoff/request uniqueness/idempotency rules and safe checkpoint handling. Require no successful protected response/new duplicate/unsafe promotion and preserve the governed logical asset/version/link graph (or initial empty graph); keep any observed source-availability disclosure consistent. Do not force recovery or exhaust maxAttempts as a minimum when the frozen method allows explicit failure. Keep429/5xx recovery and interrupted resume/idempotent-rerun requirements unchanged.",
+      "necessaryRegressions": [
+        "Safe one-attempt explicit network failure positive",
+        "Safe bounded retry then explicit network failure positive",
+        "Failure with protected returned result/new logical mutation/duplicate/promotion/corrupt checkpoint rejected",
+        "Wrong classification/UTC/backoff/budget/idempotency rejected",
+        "Existing recovered network/429/5xx, interrupted resume/rerun, auth expiry and source deletion cases retained"
+      ]
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "9c1b334d186b7e53ec1f396586f48ec8038ec4deb7840ec22a5d63e3fac4736b",
+    "specs/poc/program.schema.yaml": "14bada6da8a6e2c2487b3da5d3f614d1489225069769bc4e4d94b4d5e337bb3a",
+    "specs/poc/test_program.py": "019590a15048a1ca34d7e1b6c43baed8db27332ce7617e11c71764a671624d2e"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "9c1b334d186b7e53ec1f396586f48ec8038ec4deb7840ec22a5d63e3fac4736b",
+    "specs/poc/program.schema.yaml": "14bada6da8a6e2c2487b3da5d3f614d1489225069769bc4e4d94b4d5e337bb3a",
+    "specs/poc/test_program.py": "019590a15048a1ca34d7e1b6c43baed8db27332ce7617e11c71764a671624d2e"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "fa3cd28088dad9ca4ec5431f28422363ad3de07ecf7ce78401fda0698baa4448",
+    "specs/poc/program.schema.yaml": "30c300ad5f3efa14f8e2d97d01bb6331452c9060b7742edd148bbb5dde8c1005",
+    "specs/poc/test_program.py": "3daa5de3211184340b5688e7f9a896febb861fa8bac966f44b0701c09c5a291b"
+  },
+  "hashesStable": true,
+  "priorFourAcceptedContent": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-quality176-prior-approval-dirty-review.json",
+    "sha256": "dfcb4d2871fbede8faec02b0e9c53ac0445ad3b26e68334214eae54ae2d76b86",
+    "snapshotManifestSha256": "ccc31c069a764b3e044c800e9ae481a2edd1f669e3bf716dc49a967d8d5d7c79"
+  },
+  "priorFourSchemaWholeBytePrefixAndDefinitionsRetained": true,
+  "originalC5SchemaWholeBytePrefixRetained": true,
+  "onlyAppendedDefinitions": [
+    "localSourceFaultPolicy",
+    "localSourceFaultOutcomes"
+  ],
+  "all171OriginalC5MethodsUnchanged": true,
+  "test123AcceptedPurposeAdaptationPreserved": true,
+  "test173174175176AstsUnchanged": true,
+  "newTest": 177,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "supportedDirectCoverage": [
+    "Selected-slot typed scope observation tied to approved RES-OPENLIST-LOCAL config, sandbox, input and canonical OpenList/API subject",
+    "Exact7 distinct fault/replay/delete cases with original4 injected case IDs and report refs reconciled",
+    "Actual HTTP/transport classification, ordered execution UTC, Retry-After/backoff/count limits and checkpoint resume/idempotent reset",
+    "Stable source/object/asset/version/link identities, unique requests, no duplicate creation and governed source_unavailable deletion preserving asset/version/link",
+    "Qualified local-v1 PASS only; production Baidu and factual FAIL/inconclusive routing unchanged"
+  ],
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-source-fault146-177-first-increment.txt",
+    "physicalSha256": "0ad91f37e0dd3c4493b738985240633ec6ffdde39f6463b11423ed5d57ed4977",
+    "observedTerminal": true,
+    "pendingAtReview": false,
+    "tests": 2,
+    "seconds": 158.814,
+    "exitCode": 0
+  },
+  "incrementExecutionPassDoesNotCancelCompatibilityRejection": true,
+  "staticCounterNotClaimedExecuted": true,
+  "whole177Passed": false,
+  "remainingSevenFindingsPending": true,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "threadsResolved": false
+}

@@ -1,0 +1,74 @@
+{
+  "actualSource": "8b6919c46e2f7bf10d138da93a782e2136f476f7",
+  "tree": "5ca6217b0e3f840a29016112158ce8d589f6945f",
+  "prNumber": 103,
+  "reviewKind": "ONLY_FIVE_FRESH_OPINIONS_BOUNDED_IMMUTABLE_SOURCE_REVIEW",
+  "counterexampleProof": "gz021-independent-8b6919c-five-comment-counterexamples.json",
+  "counterexampleSha256": "75b77cee0f2150dc84430d1151a6e8d64f936de9eba86ca6fd10cfd81772b1ed",
+  "findings": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6ryge7",
+      "material": true,
+      "path": "specs/requirements/v1/nfr.yaml",
+      "line": 32,
+      "evidence": "SEC001 applicable local-v1 and production has only GZ011/GZ020 verificationOwners. GZ011 freezes datasets/methods, GZ020 is downstream of local GZ018. The statement includes search/recommendation/thumbnail/cache/playback isolation.",
+      "minimumFix": "Append GZ018, retain GZ011/GZ020 and original frozen security statement/measurement/applicability. Extend existing dual local/production verifier guard to SEC001 and add per-owner removal negatives. This fills runtime responsibility; no dependency-cycle bypass was established and no DAG change required."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rygfB",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 637,
+      "counterexample": "Qualified local POC002 PASS retains only command-output logs while provenance.output_sha256 changes to arbitrary f*64; errors[].",
+      "protocolBasis": "POC002 local measurement encode_provenance_complete method at lines271–276 explicitly requires output hash against produced media bytes.",
+      "minimumFix": "Require qualified POC002 PASS to designate actual produced-media artifact/ref in the selected slot, using owned artifact definitions; byte count/hash are calculated from its real bytes and computed SHA must equal provenance.output_sha256. A command/measurement/metadata log is not the produced media artifact. Keep approved-input, encoder-parameter, source and independent-review bindings. Legacy schemas/templates/history stay unchanged.",
+      "limitation": "Matching bytes/hash proves identity/integrity only; codec, continuity/decode and real execution still require actual protocol evidence and independent review."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rygfH",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 649,
+      "counterexample": "POC002 arbitrary scalar worker inventory/host scope/capability matrix with correspondingly bound numeric-domain review environment still errors[].",
+      "existingProtectionPreserved": "Changing those environment fields alone while retaining the old domain-review capture already rejects via exact environment matching. The missing contract is typed actual pool/concurrency evidence; do not weaken that existing approval binding.",
+      "protocolBasis": "Original manifest exact-after POC002 exitGate requires local Windows/Linux worker parallel AV1; local parallel_av1_concat_decodes method lines306–312 requires contiguous spans on actual nodes in an admitted compatibility group.",
+      "minimumFix": "In owned program.schema $defs/checker qualified POC002 path, require structured inventory of distinct actual node identities/platforms/host IDs/pinned encoder builds, at least the Windows and Linux participating nodes required by the existing local route, and a structured capability/compatibility relation. Bind per-node command/media/parallel-span artifacts to those inventory identities/builds/group and actual execution. One node or untested/nonencoding capabilities cannot satisfy parallel PASS. Permit disclosed same physical host/VM deployment; do not invent multi-physical-host or real-phone local requirements. Preserve original production A380 and separately required phone obligations."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rygfM",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 865,
+      "counterexample": "Qualified POC002 encode_throughput=0 and sustained_encode_duration=0 with true bool gates still errors[].",
+      "minimumFix": "For qualified POC002 PASS require positive existing throughput and positive actual sustained duration; keep numeric type/unit rules and zero-valued FAIL/inconclusive capture. No new fixed throughput/soak threshold or hardware performance claim. Preserve original production protocol and methods."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rygfU",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 486,
+      "counterexample": "Actual source .gitignore is committed into fixture; encode.log is verified ignored and untracked, yet command ref/type/actual byte count/hash still grants qualified PASS.",
+      "minimumFix": "Authenticate availability of each qualified referenced artifact/record, including nested raw, configuration/booking, sample/compliance/domain/definition and index/result/execution refs. Require committed current-context Git retrieval, or at minimum explicitly reject ignored-untracked referenced files with the existing clean-publication gate; do not rely solely on --exclude-standard. Check resolved paths so a tracked symlink cannot hide an ignored missing target. Tracked deliberately force-added .log is valid if actual bytes/hash and scope checks succeed; a blanket extension ban is unnecessary.",
+      "noSelfShaLoop": "Capture tested code commit/tree first; publish evidence in a later pure permitted evidence commit; source-drift exceptions already support this. Qualified fixture can commit prepared evidence before consumption while retaining old testedSource. No evidence blob needs its own future commit SHA.",
+      "scopeLimit": "Do not blanket reject legitimate installed/ignored tool dependencies or broaden source/lifecycle exceptions; this check is for referenced qualified evidence and its reproducibility."
+    }
+  ],
+  "suggestedOwnedPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py",
+    "specs/requirements/v1/nfr.yaml",
+    "specs/requirements/v1/validate.py",
+    "poc/README.md",
+    "evidence/GZ-021/handoff.md"
+  ],
+  "runtimeScopePreserved": "VM-first local can use actual Windows/Linux nodes on one disclosed physical host. No actual AV1/Worker/POC/physical-phone/fullV1 result is inferred from fixtures or SDK setup. No new DAG/manifest/lease/Task/legacy schema change needed.",
+  "actualSourceExecutionAccepted": true,
+  "ciAccepted": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false
+}

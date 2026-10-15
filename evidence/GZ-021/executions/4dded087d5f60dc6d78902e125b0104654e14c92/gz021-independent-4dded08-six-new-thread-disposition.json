@@ -1,0 +1,129 @@
+{
+  "actualSource": "4dded087d5f60dc6d78902e125b0104654e14c92",
+  "tree": "b593566e178663c15ccfaa66b10d02d41121959b",
+  "prNumber": 103,
+  "reviewKind": "ONLY_SIX_FRESH_THREAD_DISPOSITION_IMMUTABLE_SOURCE_AND_BOUNDED_SYNTHETIC_CONTRACT_COUNTEREXAMPLES",
+  "counterexampleProof": "gz021-independent-4dded08-six-comment-counterexamples.json",
+  "counterexampleSha256": "93aed0f6944fc64e42bdea8607ada593a87c9ce5c243d8bc11ba1b8075b81be6",
+  "findings": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy3x",
+      "material": true,
+      "source": {
+        "path": "specs/poc/check_program.py",
+        "line": 483
+      },
+      "counterexample": "Qualified local POC006 positive errors[]; adding only canonical POC007 production-slot evidence produces current-context rejection.",
+      "minimumFix": "Source drift may exclude only all 20 canonical slots computed by TASKS (POC001..010) x known two profile_index_ref patterns. Do not exclude all evidence/GZ020 or owner root. Keep each record's resolved reference boundary exactly its selected slot, source objects/ancestry/current HEAD/dirty/untracked checks, two existing current POC/GZ020 Task single-status exception, and no Program/Registry exception.",
+      "compatibilityLimit": "Sufficient for pure sibling evidence co-publication, as alleged; does not authorize unrelated Task/Program lifecycle/spec/source changes. Full milestone still all ten selected profile PASS, no subset/owner/profile mixing.",
+      "targetedTests": [
+        "Other canonical sibling local and production slots coexist",
+        "Unknown POC/profile/version path rejected",
+        "NonEvidence tracked/untracked implementation rejected",
+        "Reference to sibling slot still rejected"
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy33",
+      "material": true,
+      "source": {
+        "path": "specs/poc/check_program.py",
+        "line": 433
+      },
+      "counterexample": "Ordered execution window and all matching approval dates shifted to September2099 still grant qualified PASS.",
+      "minimumFix": "Take validation UTC once from independent actual clock, not evidence. Qualified finishedAt must be <= validation UTC; prior strict startedAt<finishedAt remains. Every timestamp claiming an occurred approval/review (result, sample, compliance, domain, resource approvedAt) must be <= validation UTC; retain before-start/after-finish ordering. Apply provenance guard to qualified terminal records; no future occurred facts in FAIL/inconclusive either.",
+      "validityBoundary": "validFrom/validUntil are scheduled authorization coverage, not occurred execution/review facts. PASS retains interval coverage. Preserve FAIL/inconclusive ability to record unavailable/expired/out-of-window authorization; do not conflate future validity endpoints with future approvals.",
+      "targetedTests": [
+        "Future ordered execution window rejected",
+        "Past execution plus future result approval rejected",
+        "Historical window/actual approval accepted",
+        "Future validity end accepted when historical coverage valid",
+        "FAIL/inconclusive historical authorization failure remains representable"
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy37",
+      "material": true,
+      "source": {
+        "path": "specs/requirements/v1/nfr.yaml",
+        "line": 103
+      },
+      "evidence": "PERF001 verificationOwners=[GZ011] while applicableProfiles=[local-v1,production]. Program GZ011 freezes Golden Dataset/threshold/methods/scripts; it does not own the operational API benchmark evidence. GZ018 local milestone and GZ020 production milestone remain required.",
+      "minimumFix": "Append GZ018 and GZ020 to PERF001 verificationOwners, retaining GZ011 and original measurement/statement/applicability. Requirements validator must require both runtime owner IDs and a targeted removal-negative. Preserve actual API P95/P99/pagination/permission-filter/Outbox performance measurements and approved thresholds, not merely POC protocol PASS.",
+      "notEstablished": "No demonstrated dependency cycle or current runtime gate bypass; this is an actual ownership annotation omission. No DAG or producer identity changes needed."
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy4A",
+      "material": true,
+      "source": {
+        "path": "specs/poc/check_program.py",
+        "line": 788
+      },
+      "counterexample": "Qualified local POC005 positive then all numeric measurements set0, true boolean gates unchanged; errors[] and terminal PASS.",
+      "minimumFix": "Add POC005 PASS-specific nonempty/exercised-work gate, preserving generic nonnegative domains for other POCs and failure/inconclusive. Require positive file_count/directory_count/enumeration_rate, and positive observed controlled-change activity for incremental scan (existing source_change_frequency or an explicitly bound count/window). Apply to selected local and production qualified routes; no invented capacity or throughput threshold.",
+      "boundary": "Do not globally force every numeric metric positive: zero average file size may describe empty files, zero observed quota/change facts in failure records must remain possible. Measure actual population/work, not 700TB payload transfer.",
+      "targetedTests": [
+        "Empty population PASS rejected",
+        "No enumeration/controlled change work PASS rejected",
+        "Measured positive local workload accepted without production capacity claim",
+        "Zero workload failure/inconclusive representable"
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy4I",
+      "material": true,
+      "source": {
+        "path": "specs/poc/check_program.py",
+        "line": 697
+      },
+      "counterexample": "Approved qualified resource configuration containing auth.token and api.key with synthetic opaque values still returns errors[].",
+      "minimumFix": "After existing camelCase split, normalize all nonalphanumeric separator runs to underscore before existing sensitive-boundary match. Preserve exact existing SAFE_KEYS false-only behavior; no generic credential/approval bypass. Validate qualified records using existing recursive secret_scan; no unclaimed secret schema required.",
+      "targetedTests": [
+        "auth.token and api.key opaque values rejected",
+        "Slash/colon/hyphen separator variants rejected",
+        "Existing credentialsStored:false safe declaration preserved",
+        "Tokenizer/build/version ordinary nonsensitive fields remain valid"
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rwy4O",
+      "material": true,
+      "source": {
+        "path": "specs/poc/check_program.py",
+        "line": 1107
+      },
+      "counterexample": "Profile configuration itself becomes sole rawOutputRef and every command outputRef; all structured configuration validation still succeeds and qualified PASS remains errors[].",
+      "minimumFix": {
+        "ownership": "Use owned program.schema.yaml $defs for typed rawExecutionArtifact plus profileEvidenceBinding schema reference, and environmentCaptured.rawExecutionArtifacts only in qualified path. Keep legacy execution/result/sample/compliance schemas/templates and completed legacy records unchanged.",
+        "artifact": "Each artifact binds exact selected-slot ref, declared raw-output kind, sha256 checksum and optional exact byte length. Read actual file bytes and verify checksum/length; require unique artifact refs with exact coverage of rawOutputRefs and command/VM/Android/thermal raw pointers. No metadata-only pointer may substitute for command output.",
+        "disjoint": "Disjoint from profile configuration, resource configuration/booking, sample/compliance approval, numeric domain reviews/definitions, index/result/execution structured documents. Compare resolved file paths as well as references to avoid a renamed path or symlink to the same metadata file. Selected-slot boundary stays enforced.",
+        "limitation": "Type/hash/disjointness establishes artifact identity/integrity, not proof that a claimed command physically ran. Independent actual execution review and original source/approval/UTC context still required."
+      },
+      "targetedTests": [
+        "Config/booking/approval substituted as output rejected",
+        "Actual dedicated artifact with matching byte hash accepted",
+        "Wrong hash/length, duplicate/missing mapping or cross-slot rejected",
+        "VM/Android rawRef requires matching dedicated artifact",
+        "Legacy protocol callers retain original contracts"
+      ]
+    }
+  ],
+  "suggestedOwnedPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/program.yaml",
+    "poc/README.md",
+    "specs/requirements/v1/nfr.yaml",
+    "specs/requirements/v1/validate.py",
+    "evidence/GZ-021/handoff.md"
+  ],
+  "scopeLimit": "Only necessary six fixes. Preserve original124 method assertions, original production plan/measurements, existing manifest/DAG/lease/Task and legacy schemas/templates. No new governance task, policy exemption, unclaimed schema or Android runtime acceptance.",
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "currentSourceExecutionAccepted": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false
+}

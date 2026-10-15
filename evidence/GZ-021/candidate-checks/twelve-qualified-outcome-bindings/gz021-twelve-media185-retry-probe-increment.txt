@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_MEDIA185_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL185
+Candidate Files SHA256: {'specs/poc/check_program.py': 'ed4815f7da1f16e1039f2059a36efeb6bd53eae5eb72c54b1d3709a31e4c1fbe', 'specs/poc/program.schema.yaml': 'cff4b8e83fb3286b899484775a23f567a1fc5ef3d2ce0b4b8333da350eab1bd9', 'specs/poc/test_program.py': 'c3257003875720df78baf542d698e9ad0bbc17ec1e8b7a6ada96a97f6ccd6641'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl
+test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl (__main__.TestPocProgram.test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 540.290s
+
+OK
+
+Exit Code: 0

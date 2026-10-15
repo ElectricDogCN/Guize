@@ -1,0 +1,57 @@
+{
+  "actualCommit": {
+    "sha": "8ddb9717005133ffdbc987883a79720ab32f84ff",
+    "node_id": "C_kwDOTgCQ3doAKDhkZGI5NzE3MDA1MTMzZmZkYmM5ODc4ODNhNzk3MjBhYjMyZjg0ZmY",
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits/8ddb9717005133ffdbc987883a79720ab32f84ff",
+    "html_url": "https://github.com/ElectricDogCN/Guize/commit/8ddb9717005133ffdbc987883a79720ab32f84ff",
+    "author": {
+      "name": "Su",
+      "email": "suruifeng98@gmail.com",
+      "date": "2026-10-13T19:19:51Z"
+    },
+    "committer": {
+      "name": "Su",
+      "email": "suruifeng98@gmail.com",
+      "date": "2026-10-13T19:19:51Z"
+    },
+    "tree": {
+      "sha": "ebeecc5d098f5c379694bdeb9cd315b2e90fd16f",
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees/ebeecc5d098f5c379694bdeb9cd315b2e90fd16f"
+    },
+    "message": "fix(poc): bind measured observation and recovery evidence\n\nIssue: #95\nEvidence: evidence/GZ-021/",
+    "parents": [
+      {
+        "sha": "4139a987780339c7b22c78b5c35402bb4c30ee87",
+        "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits/4139a987780339c7b22c78b5c35402bb4c30ee87",
+        "html_url": "https://github.com/ElectricDogCN/Guize/commit/4139a987780339c7b22c78b5c35402bb4c30ee87"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  },
+  "commentReferencedCommit": "1cbaa532f1614543e6857dae99e645cf4a1c8d69",
+  "localGitBadObjectExit": 128,
+  "officialGitCommitRead": {
+    "content": [
+      {
+        "type": "text",
+        "text": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/commits#get-a-commit-object\",\"status\":\"404\"}"
+      }
+    ],
+    "structuredContent": {
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/commits#get-a-commit-object\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND",
+      "error_data": {
+        "message": "Not Found",
+        "documentation_url": "https://docs.github.com/rest/git/commits#get-a-commit-object",
+        "status": "404"
+      }
+    },
+    "isError": true
+  }
+}

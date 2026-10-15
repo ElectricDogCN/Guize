@@ -1,0 +1,11 @@
+Candidate Parent: 8bf74335038f87a9aeed074cd509ccb30edfe336
+Validation: DIRTY_CANDIDATE_TARGETED_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL155
+Command: 'C:\ProgramData\anaconda3\python.exe' -X utf8 specs/poc/test_program.py TestPocProgram.test_155_inference_pass_requires_positive_measured_throughput
+test_155_inference_pass_requires_positive_measured_throughput (__main__.TestPocProgram.test_155_inference_pass_requires_positive_measured_throughput) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 40.255s
+
+OK
+
+Exit Code: 0

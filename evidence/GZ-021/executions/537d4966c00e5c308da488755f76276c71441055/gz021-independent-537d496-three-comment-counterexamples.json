@@ -1,0 +1,45 @@
+{
+  "actualSource": "537d4966c00e5c308da488755f76276c71441055",
+  "counterexamples": [
+    {
+      "threadSuffix": "r4jfJ",
+      "task": "POC-003",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": "sample-required execution/approval use same fabricated checksum and immutableId, no actual input artifact retained"
+    },
+    {
+      "threadSuffix": "r4jfJ",
+      "task": "POC-009",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": "sample-required execution/approval use same fabricated checksum and immutableId, no actual input artifact retained"
+    },
+    {
+      "threadSuffix": "r4jfR",
+      "task": "POC-002",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": "two overlapping wall-clock workers claim identical complete source span [0,120) of120frames; both exact actual output byte digests retained"
+    },
+    {
+      "threadSuffix": "r4jfU",
+      "task": "POC-006",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [
+        "qualified tested source POC-006: immutable source must match actual Git objects and current validation context: current validation context changes non-Own-Evidence source content"
+      ],
+      "mutation": "existing local POC006 tested slot unchanged; accepted task status-only terminal delta then only own Program row status completed",
+      "afterTaskStatusOnlyErrors": [],
+      "notClaimedFullGovernanceAdmissibleCompletionTransaction": true,
+      "observedMandatoryProgramPathFalseRejectionOnly": true
+    }
+  ],
+  "syntheticContractOnly": true,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false
+}

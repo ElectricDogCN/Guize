@@ -1,0 +1,23 @@
+Source Commit: a84bab726157b031208de14aaf438dc7e55f5263
+Command: wsl -u sur --cd /home/sur/.cache/guize-takeover/native-verification-20261010 -- env PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1 /home/sur/.cache/guize-takeover/governance-venv/bin/python -B -m unittest -v specs.poc.test_program.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings
+wsl: 检测到 localhost 代理配置，但未镜像到 WSL。NAT 模式下的 WSL 不支持 localhost 代理。
+test_146_local_captures_require_reproducible_structured_settings (specs.poc.test_program.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings) ... ERROR
+
+======================================================================
+ERROR: test_146_local_captures_require_reproducible_structured_settings (specs.poc.test_program.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/native-verification-20261010/specs/poc/test_program.py", line 3233, in test_146_local_captures_require_reproducible_structured_settings
+    write_yaml(path,data);write_yaml(config_path,config);self.sync_capture_reviews(root,data)
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/native-verification-20261010/specs/poc/test_program.py", line 3135, in sync_capture_reviews
+    for key,origin,path in (('range',tls['entryOrigin'],'/protected/range'),('stream',tls['entryOrigin'],'/protected/stream'),('source',tls['openlistOrigin'],'/protected/source'),('admin',tls['openlistOrigin'],'/api/admin')):policy['paths'][key]=origin+path
+                                     ~~~^^^^^^^^^^^^^^^
+TypeError: 'bool' object is not subscriptable
+
+----------------------------------------------------------------------
+Ran 1 test in 25.980s
+
+FAILED (errors=1)
+
+Exit Code: 1

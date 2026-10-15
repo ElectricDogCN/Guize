@@ -1,0 +1,73 @@
+{
+  "kind": "ACTUAL_PUBLISHED_IMPLEMENTATION_NATIVE_VALIDATION",
+  "source": "86430c504b11a2eff797c61354b752c32313ccc8",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "tree": "da096dd8df47eead349572e11fc503886981c28d",
+  "worktreesBefore": {
+    "authoring": {
+      "source": "86430c504b11a2eff797c61354b752c32313ccc8",
+      "tree": "da096dd8df47eead349572e11fc503886981c28d",
+      "branch": "chore/GZ-021-local-v1-route",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops009-helper-worktree"
+    },
+    "verification": {
+      "source": "86430c504b11a2eff797c61354b752c32313ccc8",
+      "tree": "da096dd8df47eead349572e11fc503886981c28d",
+      "branch": "chore/GZ-021-local-v1-route",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    }
+  },
+  "worktreesAfter": {
+    "authoring": {
+      "source": "86430c504b11a2eff797c61354b752c32313ccc8",
+      "tree": "da096dd8df47eead349572e11fc503886981c28d",
+      "branch": "chore/GZ-021-local-v1-route",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops009-helper-worktree"
+    },
+    "verification": {
+      "source": "86430c504b11a2eff797c61354b752c32313ccc8",
+      "tree": "da096dd8df47eead349572e11fc503886981c28d",
+      "branch": "chore/GZ-021-local-v1-route",
+      "path": "/home/sur/.cache/guize-takeover/native-verification-20261010"
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize"
+    }
+  },
+  "allCleanBeforeAndAfter": true,
+  "checks": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 0,
+    "lifecycle": 0,
+    "coordination": 0,
+    "scope": 0,
+    "evidence": 0,
+    "unaffected": 0,
+    "requirements-local": 0,
+    "requirements-production": 0,
+    "requirements-negative": 0,
+    "poc-baseline": 0,
+    "poc-tests": 0,
+    "verify": 0,
+    "docs": 0
+  },
+  "governanceTests": 637,
+  "failuresErrorsSkips": 0,
+  "result": "PASS",
+  "fullV1Complete": false
+}

@@ -1,0 +1,102 @@
+{
+  "capturedAt": "2026-10-14T01:39:13.841157+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYe3",
+  "finiteScope": "Only eleventh media negative matrix, fresh interruption-retry output decoder evidence and physical alias boundary",
+  "contentAccepted": false,
+  "eleventhFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "id": "ELEVENTH-RETRY-DECODE-WITNESS",
+      "path": "specs/poc/check_program.py",
+      "line": 1633,
+      "problem": "Fresh published retry bytes are only nonempty/hash-bound; successful decoded count and zero errors are self-declared lifecycle scalars with no parsed decoder/probe bound to this output. Existing original-run AV1 proof does not prove the new retry artifact.",
+      "counterexample": "Retain arbitrary nonempty UTF8 retry bytes, update publishedSha256 and typed raw artifact digest, leave retryDecodedFrameCount equal approved span and retryDecodeErrorCount=0; this new validator has no decoder report or codec/build binding that distinguishes these bytes from a successfully decoded fresh retry output.",
+      "minimalRepair": "Add selected-slot lifecycle retryProbeRef and append a generic typed retry decode observation borrowing existing androidMediaProbeReport field structure without Android-specific kind. Bind job/current attempt/node/input/output ref+SHA/encoder/decoder/AV1/decodable/span/count/zero errors and relevant UTC; derive retained lifecycle scalars from the parsed probe. Preserve original definitions and old184 methods.",
+      "evidenceType": "independent static source/fixture counter inspection, reviewer did not run test"
+    },
+    {
+      "id": "ELEVENTH-FRESH-OUTPUT-PHYSICAL-ALIAS",
+      "path": "specs/poc/check_program.py",
+      "line": 1633,
+      "problem": "Fresh retry and distinct cancelled partial checks compare reference strings only; a new selected-slot ref can alias the original or partial physical file.",
+      "minimalRepair": "Reject samefile aliases between retry published output, interrupted partial, original admitted run output and distinct cancelled partial where fresh/distinct artifacts are required; do not require different digest for independently produced deterministic identical bytes. Add alias negative with distinct-path/same-bytes legitimate positive.",
+      "counterexample": "Use a different allowed ref backed by a hardlink/symlink to the existing original output, while matching digest and node-bound raw metadata. Ref comparisons alone treat it as fresh output.",
+      "evidenceType": "independent missing samefile guard source inspection, no reviewer fixture execution"
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "bf7f1a1562d4cd2b7e010e7e7b3b007cef92d1c7649574c486d11a604b79caf2",
+    "specs/poc/program.schema.yaml": "6ac293c71121ce2ee08965b23af469a18a9cda7f730158e09d95077b6058fb73",
+    "specs/poc/test_program.py": "679132803989888757fca80cd96f42854e987ef1e1dd7f905025f205775307c4"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "bf7f1a1562d4cd2b7e010e7e7b3b007cef92d1c7649574c486d11a604b79caf2",
+    "specs/poc/program.schema.yaml": "6ac293c71121ce2ee08965b23af469a18a9cda7f730158e09d95077b6058fb73",
+    "specs/poc/test_program.py": "679132803989888757fca80cd96f42854e987ef1e1dd7f905025f205775307c4"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "86c91e43c2d28dc1f9a8ef6ed694a01bbbc757788f76b540dcbdd840deb7d515",
+    "specs/poc/program.schema.yaml": "c4157846edadd4ec7f1a743bd94b1ed7d9eedac4b5f91534619865fe5e30b36d",
+    "specs/poc/test_program.py": "842f08c4d94fe466e2d3f3dc4fa7c7b163cda4b968e11483f5c97626f0a728d5"
+  },
+  "hashesStable": true,
+  "priorTenContent": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-frontend-tenth-million-final-dirty-review.json",
+    "sha256": "99d18521650d3e2419a5702f8e685d7a6a592fec05cd7b3299fa8c1c866ebb73",
+    "snapshotManifestSha256": "5eec80d1ba6061a902869d1c8beb88fcaf2adeb3b43aa965c50aafeec0887e79"
+  },
+  "priorTenSchemaWholePrefixAndAllDefinitionsRetained": true,
+  "allPrior184MethodsAndUnrelatedHelpersUnchanged": true,
+  "onlyAppendedDefinitions": [
+    "mediaNegativePolicy",
+    "mediaNegativeOutcomes"
+  ],
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "otherFiniteCoverageReviewed": [
+    "All admitted nodes denied protocol/path/proxy retained zero outbound/input/output bytes",
+    "Five limits independently exceeded, deterministic termination and bounded cleanup without publication",
+    "Distinct active cancellation job/epochs and process-before/process-after partial cleanup",
+    "Current/duplicate/late/cancelled completion decision/publication counts",
+    "Stale/revoked seek no new reserved slots or protected bytes",
+    "Four protected HLS surfaces times five authorization variants, exact user/version/ACL/grants and actual returned bytes/hash"
+  ],
+  "firstFixtureError": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-media185-first-increment.txt",
+    "physicalSha256": "dec504fe7bbcf0a47291d1d8cec5f207d6be776e51c9ad673441f6ae3713bdbf",
+    "tests": 1,
+    "seconds": 3.262,
+    "exitCode": 1,
+    "error": "missing synthetic env input_sample_version",
+    "acceptedAsPass": false
+  },
+  "currentIncrement": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-media185-input-version-increment.txt",
+    "observedPhysicalSha256": "8d3386e50e67830d0eab0fb530be7db9f81c99fa233f2be650f03226594615f1",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl",
+    "testsRequested": 1,
+    "terminalObserved": false,
+    "exitCode": null,
+    "seconds": null,
+    "pendingAtObservation": true,
+    "executionAccepted": false
+  },
+  "remainingOneFindingPending": true,
+  "whole185SuitePassed": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "fixtureOnly": true,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

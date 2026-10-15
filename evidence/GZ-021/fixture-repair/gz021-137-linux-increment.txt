@@ -1,0 +1,27 @@
+DIRTY_CANDIDATE_ONLY; parent a701511d8445f47aa5c9971d603d5cfb87bc7efd
+Command: python specs/poc/test_program.py TestPocProgram.test_137_ignored_untracked_referenced_evidence_cannot_pass TestPocProgram.test_146_local_captures_require_reproducible_structured_settings
+test_137_ignored_untracked_referenced_evidence_cannot_pass (__main__.TestPocProgram.test_137_ignored_untracked_referenced_evidence_cannot_pass) ... FAIL
+test_146_local_captures_require_reproducible_structured_settings (__main__.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings) ... ok
+
+======================================================================
+FAIL: test_137_ignored_untracked_referenced_evidence_cannot_pass (__main__.TestPocProgram.test_137_ignored_untracked_referenced_evidence_cannot_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-137-review-worktree/specs/poc/test_program.py", line 2096, in test_137_ignored_untracked_referenced_evidence_cannot_pass
+    self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),[])
+AssertionError: Lists differ: ['qualified raw artifacts POC-006: command[44 chars]act'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'qualified raw artifacts POC-006: command output must identify a command_output artifact'
+
++ []
+- ['qualified raw artifacts POC-006: command output must identify a '
+-  'command_output artifact']
+
+----------------------------------------------------------------------
+Ran 2 tests in 21.870s
+
+FAILED (failures=1)
+
+Exit Code: 1

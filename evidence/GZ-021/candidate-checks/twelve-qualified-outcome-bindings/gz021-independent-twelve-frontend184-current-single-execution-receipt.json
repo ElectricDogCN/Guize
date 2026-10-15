@@ -1,0 +1,71 @@
+{
+  "capturedAt": "2026-10-14T01:33:17.290974+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYev",
+  "finiteScope": "Only current single184 execution receipt; no new content audit",
+  "contentProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-frontend-tenth-million-final-dirty-review.json",
+    "sha256": "99d18521650d3e2419a5702f8e685d7a6a592fec05cd7b3299fa8c1c866ebb73"
+  },
+  "contentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "de306911dcc64c7948b892449d2ce5f1f338fbfc9f11bcd805bfce69487995be",
+    "specs/poc/program.schema.yaml": "64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762",
+    "specs/poc/test_program.py": "809d0ba64fd8ffb7729f720b4a11af2f6564ef268513b0615f3cb06277538149"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "de306911dcc64c7948b892449d2ce5f1f338fbfc9f11bcd805bfce69487995be",
+    "specs/poc/program.schema.yaml": "64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762",
+    "specs/poc/test_program.py": "809d0ba64fd8ffb7729f720b4a11af2f6564ef268513b0615f3cb06277538149"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "7c9e11224e692a8eb91129dd9103ea0faed384cb805e52ba1e2e06b100e6acfe",
+    "specs/poc/program.schema.yaml": "f42ddfd8008f111436fefbe1863024032151c73cf6e7e409cab4936fc0d7f670",
+    "specs/poc/test_program.py": "9c95575da5fd901b81ff73351eb342e099dd40b173ff39a965b8cf7e7424f7e5"
+  },
+  "hashesStable": true,
+  "currentSingle184ExecutionAccepted": true,
+  "execution": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-frontend184-million-counts-increment.txt",
+    "physicalSha256": "95e15c3d517ea503f575fffdf4f647f74243e61adccd4c71c23d433710a71009",
+    "canonicalLfSha256": "7a83834e09f73961e0cc91e34d00290deedaaf15001b0a48003fb88ba9eea513",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric",
+    "tests": 1,
+    "seconds": 383.83,
+    "exitCode": 0,
+    "currentCandidateHashesMatchHeader": true
+  },
+  "priorStage": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-frontend184-first-increment.txt",
+    "physicalSha256": "e919ccdb28566b6ce49a69d195b8e6a11a0c1a5ebbd76132a763f75b3699f991",
+    "tests": 1,
+    "seconds": 303.621,
+    "exitCode": 0,
+    "contentRejected": true,
+    "rejectionProof": "gz021-independent-twelve-frontend-tenth-million-first-dirty-rejection.json",
+    "doesNotOverrideOrTransferCurrentContentAndExecution": true
+  },
+  "separateStagesNotSummedIntoOneSuite": true,
+  "whole184SuitePassed": false,
+  "publishedSuccessorAccepted": false,
+  "remainingTwoFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualFrontendBuildAccepted": false,
+  "actualMillionRowUiAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "fixtureOnly": true,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

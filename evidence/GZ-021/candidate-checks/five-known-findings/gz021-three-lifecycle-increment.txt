@@ -1,0 +1,52 @@
+DIRTY_CANDIDATE_ONLY; parent537d4966c00e5c308da488755f76276c71441055
+Command: python specs/poc/test_program.py TestPocProgram.test_107_production_slot_coexists_without_replacing_closed_local_evidence TestPocProgram.test_126_qualified_source_requires_real_current_objects_and_own_evidence_only_drift TestPocProgram.test_127_sibling_slots_can_coexist_in_both_full_milestones TestPocProgram.test_149_authenticated_lifecycle_closure_preserves_tested_source
+test_107_production_slot_coexists_without_replacing_closed_local_evidence (__main__.TestPocProgram.test_107_production_slot_coexists_without_replacing_closed_local_evidence) ... ok
+test_126_qualified_source_requires_real_current_objects_and_own_evidence_only_drift (__main__.TestPocProgram.test_126_qualified_source_requires_real_current_objects_and_own_evidence_only_drift) ... FAIL
+test_127_sibling_slots_can_coexist_in_both_full_milestones (__main__.TestPocProgram.test_127_sibling_slots_can_coexist_in_both_full_milestones) ... ok
+test_149_authenticated_lifecycle_closure_preserves_tested_source (__main__.TestPocProgram.test_149_authenticated_lifecycle_closure_preserves_tested_source) ... Exception in thread Thread-1163 (_readerthread):
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\ProgramData\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\ProgramData\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x8f in position 796: illegal multibyte sequence
+ERROR
+
+======================================================================
+ERROR: test_149_authenticated_lifecycle_closure_preserves_tested_source (__main__.TestPocProgram.test_149_authenticated_lifecycle_closure_preserves_tested_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-three-review-worktree\specs\poc\test_program.py", line 2420, in test_149_authenticated_lifecycle_closure_preserves_tested_source
+    terminal_spec=git('show',old_closure+':specs/tasks/GZ-004.md')+'\n'
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-three-review-worktree\specs\poc\test_program.py", line 2415, in git
+    def git(*args,input=None):return subprocess.check_output(['git',*args],cwd=root,text=True,input=input,stderr=subprocess.PIPE).strip()
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strip'
+
+======================================================================
+FAIL: test_126_qualified_source_requires_real_current_objects_and_own_evidence_only_drift (__main__.TestPocProgram.test_126_qualified_source_requires_real_current_objects_and_own_evidence_only_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-three-review-worktree\specs\poc\test_program.py", line 1880, in test_126_qualified_source_requires_real_current_objects_and_own_evidence_only_drift
+    self.assertEqual(validate(),[])
+AssertionError: Lists differ: ['qualified tested source POC-006: immutab[135 chars]ent'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'qualified tested source POC-006: immutable source must match actual Git objects and current validation context: current validation context changes non-Own-Evidence source content'
+
++ []
+- ['qualified tested source POC-006: immutable source must match actual Git '
+-  'objects and current validation context: current validation context changes '
+-  'non-Own-Evidence source content']
+
+----------------------------------------------------------------------
+Ran 4 tests in 96.381s
+
+FAILED (failures=1, errors=1)
+
+Exit Code: 1

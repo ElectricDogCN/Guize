@@ -1,0 +1,31 @@
+Source Commit: a84bab726157b031208de14aaf438dc7e55f5263
+Command: wsl -u sur --cd /home/sur/.cache/guize-takeover/native-verification-20261010 -- env PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1 /home/sur/.cache/guize-takeover/governance-venv/bin/python -B -m unittest -v specs.poc.test_program.TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation
+wsl: 检测到 localhost 代理配置，但未镜像到 WSL。NAT 模式下的 WSL 不支持 localhost 代理。
+test_140_media_hashing_is_bounded_and_reused_per_validation (specs.poc.test_program.TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation) ... ERROR
+
+======================================================================
+ERROR: test_140_media_hashing_is_bounded_and_reused_per_validation (specs.poc.test_program.TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/native-verification-20261010/specs/poc/test_program.py", line 3067, in test_140_media_hashing_is_bounded_and_reused_per_validation
+    self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'}),[])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/native-verification-20261010/specs/poc/check_program.py", line 3513, in validate_repository
+    validate_profile_evidence(root,by_task,all_tasks,program_schema,result_record_schema,
+  File "/home/sur/.cache/guize-takeover/native-verification-20261010/specs/poc/check_program.py", line 3075, in validate_profile_evidence
+    validate_terminal(root,projected_plan,tasks[owner],entry,resources,
+  File "/home/sur/.cache/guize-takeover/native-verification-20261010/specs/poc/check_program.py", line 2986, in validate_terminal
+    validate_execution(
+  File "/home/sur/.cache/guize-takeover/native-verification-20261010/specs/poc/check_program.py", line 2696, in validate_execution
+    validate_qualified_a380_encode(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+  File "/home/sur/.cache/guize-takeover/native-verification-20261010/specs/poc/check_program.py", line 1330, in validate_qualified_a380_encode
+    stream.seek(first)
+    ^^^^^^^^^^^
+AttributeError: 'BoundedReader' object has no attribute 'seek'
+
+----------------------------------------------------------------------
+Ran 1 test in 4.932s
+
+FAILED (errors=1)
+
+Exit Code: 1

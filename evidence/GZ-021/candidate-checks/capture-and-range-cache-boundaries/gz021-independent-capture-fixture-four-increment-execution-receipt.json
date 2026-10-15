@@ -1,0 +1,25 @@
+{
+  "actualParent": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "finiteScope": "Only dirty fixture helper four targeted methods result; not actual source full20 or full172",
+  "dirtyIncrementExecutionAccepted": true,
+  "tests": 4,
+  "methods": [
+    146,
+    151,
+    165,
+    170
+  ],
+  "durationSeconds": 107.295,
+  "exitCode": 0,
+  "sourceFileSha256": "e5581fe1c377868a1d709a65bbf13ed69853bdd140a0092acf11be7a873f3b78",
+  "acceptedFiniteContentProofSha256": "039e0f161e4e777ce9afc681dba7835619bc3fd62193eec21715b99962a542b8",
+  "all172MethodsAstPreservedPerAcceptedContent": true,
+  "rawLog": "gz021-capture-fixture146-151-165-170-increment.txt",
+  "rawSha256": "03b9e559ddf964ca6a6dca81b5de0cb370bc6d6b70a59bb1c2d424ad788db48b",
+  "whole172Passed": false,
+  "actualSourceExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "reviewerRanTests": false
+}

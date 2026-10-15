@@ -1,4 +1,4 @@
-schemaVersion: 1
+schemaVersion: 2
 pocId: POC-05
 taskId: POC-005
 title: 700TB 文件数、目录规模、变更率与扫描成本
@@ -40,7 +40,8 @@ protocol:
   - id: file_count
     metric: Representative source file count
     unit: files
-    method: Count immutable metadata records in the approved source/synthetic hierarchy and retain the enumeration manifest reference.
+    method: Count immutable metadata records in the approved source/synthetic hierarchy and retain the enumeration manifest
+      reference.
     thresholdSource: NFR_MEASUREMENT_REQUIRED
     actual: null
   - id: directory_count
@@ -58,20 +59,22 @@ protocol:
   - id: average_file_size
     metric: Average file size for the representative source population
     unit: bytes
-    method: Calculate from approved metadata size fields or immutable synthetic fixture metadata without transferring production payload.
+    method: Calculate from approved metadata size fields or immutable synthetic fixture metadata without transferring production
+      payload.
     thresholdSource: NFR_MEASUREMENT_REQUIRED
     actual: null
   - id: source_api_quota
     metric: Source API/listing quota or rate-limit characteristic
     unit: requests_per_minute
-    method: Record the documented or sandbox-observed listing/request quota for the tested source adapter profile, including reset/backoff semantics.
+    method: Record the documented or sandbox-observed listing/request quota for the tested source adapter profile, including
+      reset/backoff semantics.
     thresholdSource: NFR_MEASUREMENT_REQUIRED
     actual: null
   - id: source_change_frequency
     metric: Observed source metadata change frequency
     unit: changes_per_hour
-    method: Apply and observe the approved deterministic create/update/delete change stream, recording event count and observation window from
-      the immutable fixture manifest.
+    method: Apply and observe the approved deterministic create/update/delete change stream, recording event count and observation
+      window from the immutable fixture manifest.
     thresholdSource: NFR-V1-CAP-003
     actual: null
   - id: enumeration_rate
@@ -95,19 +98,22 @@ protocol:
   - id: filename_characteristics_profiled
     metric: Filename and path characteristics are profiled
     unit: boolean
-    method: Measure name length, character-set, extension and path-depth distributions from the approved immutable metadata fixture.
+    method: Measure name length, character-set, extension and path-depth distributions from the approved immutable metadata
+      fixture.
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
   - id: provider_characteristics_profiled
     metric: Provider/source characteristics are recorded
     unit: boolean
-    method: Record provider listing, pagination, consistency, timestamp and object-identity semantics for the tested source profile.
+    method: Record provider listing, pagination, consistency, timestamp and object-identity semantics for the tested source
+      profile.
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
   - id: range_support_profiled
     metric: Source Range support is measured
     unit: boolean
-    method: Exercise supported and unsupported Range requests and record status/header/body behavior for the tested provider profile.
+    method: Exercise supported and unsupported Range requests and record status/header/body behavior for the tested provider
+      profile.
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
   - id: etag_behavior_profiled
@@ -117,15 +123,17 @@ protocol:
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
   exitCriteria:
-  - File count, directory count/depth, average file size and source API quota/rate-limit facts are captured for the immutable representative hierarchy/source
-    profile.
-  - Source change frequency is measured from a deterministic create/update/delete observation window rather than asserted in prose.
+  - File count, directory count/depth, average file size and source API quota/rate-limit facts are captured for the immutable
+    representative hierarchy/source profile.
+  - Source change frequency is measured from a deterministic create/update/delete observation window rather than asserted
+    in prose.
   - Scale model covers file count, directory fanout/depth and change rate with raw manifest/provenance references.
   - Enumeration rate, incremental scan cost and memory peak are measured without assuming 700TB byte transfer.
-  - Filename/path and provider characteristics, Range support and ETag/version semantics are captured for the tested source profile.
+  - Filename/path and provider characteristics, Range support and ETag/version semantics are captured for the tested source
+    profile.
   failureFallbacks:
-  - If direct full enumeration is infeasible or source quotas dominate cost, evaluate incremental journals/change tokens, adaptive backoff or
-    staged indexing.
+  - If direct full enumeration is infeasible or source quotas dominate cost, evaluate incremental journals/change tokens,
+    adaptive backoff or staged indexing.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
@@ -144,3 +152,129 @@ review:
   reviewer: null
   approvedAt: null
   approval: null
+localValidation:
+  profileVersion: 1
+  mode: required
+  resourceIds:
+  - RES-METADATA-SCALE
+  - RES-OPENLIST-LOCAL
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  - openlist_version
+  - synthetic_hierarchy_manifest
+  protocol:
+    commands: []
+    rawOutputRefs: []
+    measurements:
+    - id: file_count
+      metric: Representative source file count
+      unit: files
+      method: Count immutable metadata records in the approved source/synthetic hierarchy and retain the enumeration manifest
+        reference.
+      thresholdSource: NFR_MEASUREMENT_REQUIRED
+      actual: null
+    - id: directory_count
+      metric: Representative directory count
+      unit: directories
+      method: Count directory nodes from the same immutable hierarchy used for file-count and scan tests.
+      thresholdSource: NFR_MEASUREMENT_REQUIRED
+      actual: null
+    - id: directory_depth_max
+      metric: Maximum observed directory depth
+      unit: levels
+      method: Compute maximum path depth from the approved hierarchy manifest.
+      thresholdSource: NFR_MEASUREMENT_REQUIRED
+      actual: null
+    - id: average_file_size
+      metric: Average file size for the representative source population
+      unit: bytes
+      method: Calculate from approved metadata size fields or immutable synthetic fixture metadata without transferring production
+        payload.
+      thresholdSource: NFR_MEASUREMENT_REQUIRED
+      actual: null
+    - id: source_api_quota
+      metric: Source API/listing quota or rate-limit characteristic
+      unit: requests_per_minute
+      method: Record the documented or sandbox-observed listing/request quota for the tested source adapter profile, including
+        reset/backoff semantics.
+      thresholdSource: NFR_MEASUREMENT_REQUIRED
+      actual: null
+    - id: source_change_frequency
+      metric: Observed source metadata change frequency
+      unit: changes_per_hour
+      method: Apply and observe the approved deterministic create/update/delete change stream, recording event count and observation
+        window from the immutable fixture manifest.
+      thresholdSource: NFR-V1-CAP-003
+      actual: null
+    - id: enumeration_rate
+      metric: Metadata enumeration rate
+      unit: objects/s
+      method: Scan synthetic/approved representative hierarchy and record rate.
+      thresholdSource: POC_EXIT_CRITERIA
+      actual: null
+    - id: incremental_scan_cost
+      metric: Incremental scan cost
+      unit: s
+      method: Replay controlled change sets and measure incremental traversal.
+      thresholdSource: POC_EXIT_CRITERIA
+      actual: null
+    - id: memory_peak
+      metric: Scanner peak memory
+      unit: MiB
+      method: Capture process peak memory during scale sweeps.
+      thresholdSource: POC_EXIT_CRITERIA
+      actual: null
+    - id: filename_characteristics_profiled
+      metric: Filename and path characteristics are profiled
+      unit: boolean
+      method: Measure name length, character-set, extension and path-depth distributions from the approved immutable metadata
+        fixture.
+      thresholdSource: APPROVED_POC_SCOPE
+      actual: null
+    - id: provider_characteristics_profiled
+      metric: Provider/source characteristics are recorded
+      unit: boolean
+      method: Record provider listing, pagination, consistency, timestamp and object-identity semantics for the tested source
+        profile.
+      thresholdSource: APPROVED_POC_SCOPE
+      actual: null
+    - id: range_support_profiled
+      metric: Source Range support is measured
+      unit: boolean
+      method: Exercise supported and unsupported Range requests and record status/header/body behavior for the tested provider
+        profile.
+      thresholdSource: APPROVED_POC_SCOPE
+      actual: null
+    - id: etag_behavior_profiled
+      metric: Source ETag or equivalent version semantics are measured
+      unit: boolean
+      method: Record validator stability for unchanged objects and change behavior after an approved source update.
+      thresholdSource: APPROVED_POC_SCOPE
+      actual: null
+    exitCriteria:
+    - File count, directory count/depth, average file size and source API quota/rate-limit facts are captured for the immutable
+      representative hierarchy/source profile.
+    - Source change frequency is measured from a deterministic create/update/delete observation window rather than asserted
+      in prose.
+    - Scale model covers file count, directory fanout/depth and change rate with raw manifest/provenance references.
+    - Enumeration rate, incremental scan cost and memory peak are measured without assuming 700TB byte transfer.
+    - Filename/path and provider characteristics, Range support and ETag/version semantics are captured for the tested source
+      profile.
+    failureFallbacks:
+    - If direct full enumeration is infeasible or source quotas dominate cost, evaluate incremental journals/change tokens,
+      adaptive backoff or staged indexing.
+    rollbackCleanup:
+    - Stop test workloads and remove temporary test artifacts.
+    - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
+    - Do not delete governance/Evidence history.
+  reason: Run the original metadata/scan protocol against bounded synthetic metadata and local OpenList; capture actual population
+    and scaling limits. This is not a 700 TB payload-transfer or Baidu production result.

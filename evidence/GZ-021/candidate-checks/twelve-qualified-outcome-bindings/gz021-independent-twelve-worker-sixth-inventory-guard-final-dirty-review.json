@@ -1,0 +1,90 @@
+{
+  "capturedAt": "2026-10-14T00:20:08.007753+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only sixth residual captured inventory type guard and separately observed178/179 increments, reusing prior per-node safety review",
+  "threadId": "PRRT_kwDOTgCQ3c6sFdMi",
+  "contentAccepted": true,
+  "sixthFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "83dd61304e71a288775071c9d363f9bc92310423290789c8a54e24fe925a9235",
+    "specs/poc/program.schema.yaml": "caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e",
+    "specs/poc/test_program.py": "246bac4282da88f0ad37ca5a72c0bdaefb5874a4264022882943c0db7e874ee3"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "83dd61304e71a288775071c9d363f9bc92310423290789c8a54e24fe925a9235",
+    "specs/poc/program.schema.yaml": "caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e",
+    "specs/poc/test_program.py": "246bac4282da88f0ad37ca5a72c0bdaefb5874a4264022882943c0db7e874ee3"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "83dd61304e71a288775071c9d363f9bc92310423290789c8a54e24fe925a9235",
+    "specs/poc/program.schema.yaml": "f4f893d403948c5aa6b723c1aec08674588074971d678790bfc24636f3c4568c",
+    "specs/poc/test_program.py": "246bac4282da88f0ad37ca5a72c0bdaefb5874a4264022882943c0db7e874ee3"
+  },
+  "hashesStable": true,
+  "typeRejectionRetained": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-worker-sixth-inventory-shape-dirty-rejection.json",
+    "sha256": "b936983885645c9c0840c4d66354f449dba6db86176392fbe1a088c94eaf69bb",
+    "snapshotManifestSha256": "dd33740a3e1c0edd57e226281ba4461946a79406d640b0ec79f48a419759daff"
+  },
+  "priorLeaseCompatibilityAcceptedProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-worker-sixth-prior-lease-dirty-review.json",
+    "sha256": "c0a4fa5c22a4f7b2837897567fedce24860a6616f28bfd3d92094d5e0bf3883e"
+  },
+  "onlyCheckerChangeIdentityMismatchComparisonBeforeSetByReverseByteEquality": true,
+  "guardReason": "Policy nodes already passed strict schema validation. Comparing captured identities first rejects list/dict identifiers with the existing contract error; matching validated string identities then enter the unchanged uniqueness/per-node checks.",
+  "schemaWholeBytesUnchanged": true,
+  "allPrevious178MethodAstsAndFixtureHelpersUnchanged": true,
+  "newMethodOnly179": true,
+  "currentTestMethods": 179,
+  "original171C5Methods123PurposeAndEarlier173177Preserved": true,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "sixthCoverageAccepted": [
+    "Exact approved per-node inventory/input/profile/build/resource binding",
+    "Independent five resource-limit observations with termination, cleanup and no publication",
+    "Current task-once restart under distinct fresh lease/registration, bounded recovery and zero stale publications",
+    "Valid pre-window old issuance allowed while all other observed events remain window-bound and ordering unchanged",
+    "Node-bound authorized actual bytes and four denied target/grant controls with zero actual bytes",
+    "Malformed list/dict inventory nodeId returns validation errors without a set TypeError"
+  ],
+  "limitedIncrementExecutionAccepted": true,
+  "separateIncrementRecords": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-worker178-prior-lease-increment.txt",
+      "physicalSha256": "efb97315faa5b4f2fe8752063b0cb24dc63a1cb0c4b87961af22e3937f118532",
+      "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_178_worker_safety_requires_per_node_limits_restart_and_network_outcomes",
+      "tests": 1,
+      "seconds": 221.18,
+      "exitCode": 0,
+      "stage": "Before type guard; prior-lease repaired178 only"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-worker179-inventory-shape-increment.txt",
+      "physicalSha256": "1c240445963c233ac80722207b3ef8da2f1148cb927acbc188df3c9a9410563a",
+      "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_179_worker_safety_returns_errors_for_unhashable_inventory_node_ids",
+      "tests": 1,
+      "seconds": 20.129,
+      "exitCode": 0,
+      "stage": "After type guard; new179 valid controls and list/dict negatives only"
+    }
+  ],
+  "incrementsNotCombinedIntoTwoTestCommand": true,
+  "postGuardFull178NotClaimedRerun": true,
+  "full179SuitePassed": false,
+  "remainingSixFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

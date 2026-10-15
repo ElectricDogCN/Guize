@@ -1,0 +1,14 @@
+Source: DIRTY_CANDIDATE_NOT_ACTUAL_SOURCE_ACCEPTANCE
+Source Parent: 4139a987780339c7b22c78b5c35402bb4c30ee87
+Revision: Initial dirty candidate before binary/replay residual repair
+test_160_physical_phone_report_and_non_vm_marker_bind_actual_scope (__main__.TestPocProgram.test_160_physical_phone_report_and_non_vm_marker_bind_actual_scope) ... ok
+test_161_inference_rate_is_derived_from_retained_count_time_and_subject (__main__.TestPocProgram.test_161_inference_rate_is_derived_from_retained_count_time_and_subject) ... ok
+test_162_three_streams_on_two_nodes_honor_trace_identity_and_caps (__main__.TestPocProgram.test_162_three_streams_on_two_nodes_honor_trace_identity_and_caps) ... ok
+test_163_recovery_pass_requires_approved_parsed_states_and_real_comparisons (__main__.TestPocProgram.test_163_recovery_pass_requires_approved_parsed_states_and_real_comparisons) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 302.624s
+
+OK
+
+Exit Code: 0

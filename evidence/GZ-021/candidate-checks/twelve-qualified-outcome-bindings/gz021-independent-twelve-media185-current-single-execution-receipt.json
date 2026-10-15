@@ -1,0 +1,86 @@
+{
+  "capturedAt": "2026-10-14T01:53:42.927909+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYe3",
+  "finiteScope": "Only current single185 execution receipt, no content audit or tests",
+  "contentProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-media-eleventh-retry-final-dirty-review.json",
+    "sha256": "7b6c986c2f50084a35fe8036f67c3ba4100e5b892df554ea5bd6224fe9fa5ab3"
+  },
+  "contentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "ed4815f7da1f16e1039f2059a36efeb6bd53eae5eb72c54b1d3709a31e4c1fbe",
+    "specs/poc/program.schema.yaml": "cff4b8e83fb3286b899484775a23f567a1fc5ef3d2ce0b4b8333da350eab1bd9",
+    "specs/poc/test_program.py": "c3257003875720df78baf542d698e9ad0bbc17ec1e8b7a6ada96a97f6ccd6641"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "ed4815f7da1f16e1039f2059a36efeb6bd53eae5eb72c54b1d3709a31e4c1fbe",
+    "specs/poc/program.schema.yaml": "cff4b8e83fb3286b899484775a23f567a1fc5ef3d2ce0b4b8333da350eab1bd9",
+    "specs/poc/test_program.py": "c3257003875720df78baf542d698e9ad0bbc17ec1e8b7a6ada96a97f6ccd6641"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "6e6b695793c074e44972a49a73deda09d907bca15f83dc2d7e7917789388a5ac",
+    "specs/poc/program.schema.yaml": "ec11cc1e8264a525e9d765957af5be40ca4a74b1f3d06a56da793100c2ed7d22",
+    "specs/poc/test_program.py": "531febf4f35ed3ae55f1e84aaeded0b82e274e171b99a0cc64b0cd4001c2d4e6"
+  },
+  "hashesStable": true,
+  "currentSingle185ExecutionAccepted": true,
+  "execution": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-media185-retry-probe-increment.txt",
+    "physicalSha256": "bf132b7e4af1c37f2f4ab08e46d79cd9647c494932081480059f5599edefbe9c",
+    "canonicalLfSha256": "4feb9586e8e70d928639e46174ab7603887ccd00da160f1c26007ebad3602519",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl",
+    "tests": 1,
+    "seconds": 540.29,
+    "exitCode": 0,
+    "candidateHashesMatchHeader": true
+  },
+  "separateStages": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-media185-first-increment.txt",
+      "physicalSha256": "dec504fe7bbcf0a47291d1d8cec5f207d6be776e51c9ad673441f6ae3713bdbf",
+      "tests": 1,
+      "seconds": 3.262,
+      "exitCode": 1,
+      "stageMeaning": "synthetic missing input_sample_version KeyError; not pass"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-media185-input-version-increment.txt",
+      "physicalSha256": "bfe576a49cc3ca44d2a6cb6610984e7508e2ba02fc3931ebe22f5e713593a4dc",
+      "tests": 1,
+      "seconds": 386.705,
+      "exitCode": 0,
+      "stageMeaning": "single185 passed, but fresh retry decoder/alias content rejected by8249"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-media185-retry-probe-increment.txt",
+      "physicalSha256": "bf132b7e4af1c37f2f4ab08e46d79cd9647c494932081480059f5599edefbe9c",
+      "tests": 1,
+      "seconds": 540.29,
+      "exitCode": 0,
+      "stageMeaning": "current typed retry-probe and physical-alias repair single185 passed"
+    }
+  ],
+  "separateStagesNotSummedIntoOneSuite": true,
+  "earlierErrorAndContentRejectionNotReclassified": true,
+  "whole185SuitePassed": false,
+  "publishedSuccessorAccepted": false,
+  "remainingOneFindingPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "fixtureOnlyNotActualRecoveryHlsRun": true,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_RESOURCE173_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL173
+Candidate Files SHA256: {'specs/poc/check_program.py': '567cca29fbd5af510195183170b849543b2cf07797625277565466f1d61adccf', 'specs/poc/test_program.py': '9b23ac6b0545e6a5485f3f935da3326653492a409448573a0b0a1a8f1aaefb98'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_173_recovery_resource_non_objects_return_contract_errors
+test_173_recovery_resource_non_objects_return_contract_errors (__main__.TestPocProgram.test_173_recovery_resource_non_objects_return_contract_errors) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 39.438s
+
+OK
+
+Exit Code: 0

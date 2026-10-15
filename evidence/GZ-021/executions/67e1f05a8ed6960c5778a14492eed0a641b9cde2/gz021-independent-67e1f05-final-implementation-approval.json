@@ -1,0 +1,54 @@
+{
+  "actualSource": "67e1f05a8ed6960c5778a14492eed0a641b9cde2",
+  "tree": "335a4ad503a14319c0e7a818143145a03962d1e5",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "ciAccepted": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "local20Proof": {
+    "path": "gz021-independent-67e1f05-local20-execution-acceptance.json",
+    "sha256": "fffbc6b07f8829204044f81be07b086525f177d6d86df36f3ca58dfd9525b66f"
+  },
+  "ciExecutionProof": {
+    "path": "gz021-independent-67e1f05-ci697-execution-receipt.json",
+    "sha256": "7d8caa79767837fab2fa48194f041d2d6e493a1c79c8c3000c561e41e8315cc3"
+  },
+  "remainingFindings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r1suw",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 864,
+      "finding": "Production POC001 thermal/background observation can reuse the valid typed produced_media encode artifact; only raw membership/existence enforced.",
+      "minimalFix": "Only qualified production POC001 PASS: observation rawOutputRef must select a node-bound scope_observation artifact matching the tested device node and actual observation deviceId, physically distinct from encode produced_media. Existing actual byte/hash and selected-slot checks remain.",
+      "localVmNotPhysicalDeviceObligation": true,
+      "negativeBoundary": "Valid separate production observation baseline; media reuse/wrong kind/wrong node or samefile alias rejected; local VM remains representable."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r1svB",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1036,
+      "finding": "Production POC004 PASS accepts minimum_free_space_gib0 with free_space_floor_preserved=true; frozen plan explicitly requires500GiB.",
+      "minimalFix": "Require production POC004 PASS minimum_free_space_gib >=500 using existing frozen numeric observation and unit, alongside existing boolean gate. Preserve production NFR/plan values; local byte-configured floor remains separate; failure/inconclusive observations below floor remain factual.",
+      "negativeBoundary": "Production PASS499 or0 rejected/500 accepted; local positive configured floor case unaffected; production failure may record0."
+    }
+  ],
+  "materialDispositionProof": {
+    "path": "gz021-independent-67e1f05-two-new-thread-disposition.json",
+    "sha256": "5147c61d2a6413e3b8fba3217dcd81831aded9a2c5c030f8454b72297aa63cc2"
+  },
+  "actualLocalGovernanceTests": 637,
+  "actualLocalPocTests": 140,
+  "actualRequirementsNegativeRejected": 35,
+  "sourceResultsNeverTransferredToSuccessor": true,
+  "actualMainAccepted": false,
+  "normalReviewMayStart": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false
+}

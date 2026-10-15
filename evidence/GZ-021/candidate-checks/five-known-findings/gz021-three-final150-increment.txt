@@ -1,0 +1,10 @@
+DIRTY_CANDIDATE_ONLY; parent537d4966c00e5c308da488755f76276c71441055
+Command: python specs/poc/test_program.py TestPocProgram.test_150_local_hierarchy_pass_matches_exact_approved_workload
+test_150_local_hierarchy_pass_matches_exact_approved_workload (__main__.TestPocProgram.test_150_local_hierarchy_pass_matches_exact_approved_workload) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 20.833s
+
+OK
+
+Exit Code: 0

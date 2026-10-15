@@ -4,10 +4,21 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import copy
+import codecs
+import hashlib
+import importlib.util
+import ipaddress
+import json
 import math
 import re
+import sqlite3
 import subprocess
 import sys
+import tempfile
+import urllib.parse
+import zlib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -126,6 +137,3602 @@ REQUIRED_PROVENANCE = {
     "POC-02": {"input_sha256", "output_sha256", "encoder_parameters"},
 }
 
+PROFILE_SCOPES = {"local-v1": "LOCAL_FULL_V1", "production": "PRODUCTION_RELEASE"}
+PROFILE_EVIDENCE_BINDING = {
+    'revision':1,'legacyResultIndexPurpose':'TASK_PROGRESS_ONLY_NOT_PROFILE_ACCEPTANCE',
+    'localOwner':'POC_TASK','productionOwner':'GZ-020',
+    'localIndexPattern':'evidence/{pocTaskId}/profiles/local-v1/v1/index.yaml',
+    'productionIndexPattern':'evidence/GZ-020/poc/{pocTaskId}/production/v1/index.yaml',
+    'indexSchema':'program.schema.yaml#/$defs/profileEvidenceIndex',
+    'productionExecutionSchema':'program.schema.yaml#/$defs/productionExecution',
+    'productionResultSchema':'program.schema.yaml#/$defs/productionResult',
+    'productionSampleApprovalSchema':'program.schema.yaml#/$defs/productionSampleApproval',
+    'productionComplianceSchema':'program.schema.yaml#/$defs/productionComplianceReview',
+    'resourceConfigurationSchema':'program.schema.yaml#/$defs/resourceConfiguration',
+    'resourceBookingSchema':'program.schema.yaml#/$defs/resourceBooking',
+    'executionWindowSchema':'program.schema.yaml#/$defs/executionWindow',
+    'measurementDomainReviewSchema':'program.schema.yaml#/$defs/measurementDomainReview',
+    'testedSourceSchema':'program.schema.yaml#/$defs/testedSource',
+    'rawExecutionArtifactSchema':'program.schema.yaml#/$defs/rawExecutionArtifact',
+}
+LOCAL_REQUIRED_MEASUREMENTS = {
+    **REQUIRED_MEASUREMENTS,
+    "POC-01": {
+        "worker_capabilities_reproducible", "worker_resource_limits_enforced",
+        "worker_restart_recovery", "worker_physical_scope_recorded",
+        "worker_network_boundary_enforced",
+    },
+    "POC-02": (REQUIRED_MEASUREMENTS["POC-02"] - {
+        "a380_range_first_byte_latency", "encoder_power_peak_watts",
+        "encoder_temperature_peak_celsius",
+    }) | {
+        "parallel_av1_concat_decodes", "hls_ready_only_contiguous",
+        "attempt_fencing_single_publish", "playback_priority_reserved_capacity",
+        "seek_epoch_rejects_stale_demand", "hls_acl_and_revocation",
+    },
+    "POC-04": (REQUIRED_MEASUREMENTS["POC-04"] - {
+        "iscsi_transport_ready", "minimum_free_space_gib", "free_space_floor_preserved",
+        "disconnect_recovery", "snapshot_restore",
+    }) | {
+        "local_capacity_reservations_preserved", "openlist_disconnect_recovery",
+        "local_backup_restore_verified",
+        "local_authenticated_reads", "local_range_correctness", "local_read_hash_verified",
+    },
+    "POC-06": REQUIRED_MEASUREMENTS["POC-06"] | {"generic_source_scope_verified"},
+    "POC-07": (REQUIRED_MEASUREMENTS["POC-07"] - {
+        "ipv6_reachability", "high_port_route", "ddns_propagation",
+        "range_through_path", "public_large_file_streaming",
+    }) | {"local_range_through_path", "local_large_file_streaming", "local_direct_origin_denied"},
+}
+LOCAL_RESOURCES = {
+    "POC-01": {"RES-HETEROGENEOUS-WORKERS"},
+    "POC-02": {"RES-HETEROGENEOUS-WORKERS", "RES-OPENLIST-LOCAL"},
+    "POC-03": {"RES-ATS-SANDBOX"},
+    "POC-04": {"RES-OPENLIST-LOCAL"},
+    "POC-05": {"RES-METADATA-SCALE", "RES-OPENLIST-LOCAL"},
+    "POC-06": {"RES-OPENLIST-LOCAL"},
+    "POC-07": {"RES-LOCAL-ACCESS-PATH", "RES-OPENLIST-LOCAL"},
+}
+
+REQUIRED_LOCAL_ENV = {
+    "POC-01": {"worker_node_inventory", "physical_host_scope", "encoder_capability_matrix", "android_validation_scope", "vm_validation_scope"},
+    "POC-02": {"worker_node_inventory", "physical_host_scope", "encoder_capability_matrix", "segment_profile", "scheduler_configuration"},
+    "POC-03": set(),
+    "POC-04": {"openlist_version", "sandbox_root_boundary", "capacity_watermark_configuration"},
+    "POC-05": {"openlist_version", "synthetic_hierarchy_manifest"},
+    "POC-06": {"openlist_version", "source_validation_scope", "injected_failure_matrix"},
+    "POC-07": {"local_tls_path_configuration", "openlist_version"},
+}
+
+LOCAL_BOOLEAN_GATES = {
+    "POC-01": LOCAL_REQUIRED_MEASUREMENTS["POC-01"],
+    "POC-02": LOCAL_REQUIRED_MEASUREMENTS["POC-02"] - {
+        "av1_quality", "encode_throughput", "first_segment_latency", "sustained_encode_duration",
+    },
+    "POC-03": LOCAL_REQUIRED_MEASUREMENTS["POC-03"] - {
+        "range_correctness", "range_cold_cache_latency", "range_hot_cache_latency",
+        "range_multi_user_latency", "range_slow_origin_latency",
+    },
+    "POC-04": LOCAL_REQUIRED_MEASUREMENTS["POC-04"] - {"sequential_throughput", "io_latency"},
+    "POC-05": {"filename_characteristics_profiled", "provider_characteristics_profiled",
+               "range_support_profiled", "etag_behavior_profiled"},
+    "POC-06": LOCAL_REQUIRED_MEASUREMENTS["POC-06"] - {"maintainability"},
+    "POC-07": LOCAL_REQUIRED_MEASUREMENTS["POC-07"],
+}
+LOCAL_REQUIRED_MEASUREMENTS["POC-04"] = LOCAL_REQUIRED_MEASUREMENTS["POC-04"] | {
+    "local_minimum_free_bytes", "local_maximum_reserved_bytes",
+}
+
+PRODUCTION_COMPAT_MEASUREMENTS = {
+    'POC-01': LOCAL_BOOLEAN_GATES['POC-01'] | {'android_thermal_background_profiled'},
+    'POC-02': {'parallel_av1_concat_decodes','hls_ready_only_contiguous',
+               'attempt_fencing_single_publish','playback_priority_reserved_capacity',
+               'seek_epoch_rejects_stale_demand','hls_acl_and_revocation'},
+}
+PRODUCTION_COMPAT_ENV = {
+    'POC-01': (REQUIRED_LOCAL_ENV['POC-01'] - {'vm_validation_scope'}) | {'android_thermal_background_observation'},
+    'POC-02': REQUIRED_LOCAL_ENV['POC-02'],
+}
+
+
+def execution_route(plan: dict[str, Any], profile: str) -> dict[str, Any]:
+    """Production remains the original plan; only authorized local routes differ."""
+    if profile == "local-v1" and isinstance(plan.get("localValidation"), dict):
+        return plan["localValidation"]
+    return {
+        "mode": "required", "resourceIds": plan.get("resourceIds") or [],
+        "captureBeforeExecution": (plan.get("environment") or {}).get("captureBeforeExecution") or [],
+        "protocol": plan.get("protocol") or {},
+    }
+
+
+def profile_identity(profile: str) -> dict[str, Any]:
+    return {"id": profile, "version": 1, "bindingRevision": 1,
+            "scope": PROFILE_SCOPES[profile]}
+
+
+def validate_local_route(plan, resource_map, protocol_schema, errors):
+    poc_id = plan.get("pocId")
+    local = plan.get("localValidation")
+    label = f"{plan.get('taskId')}: local-v1"
+    if poc_id not in LOCAL_RESOURCES:
+        if local is not None or plan.get("schemaVersion") != 1:
+            errors.append(f"{label}: unchanged shared POC must retain schemaVersion 1 and original protocol")
+        return
+    if not isinstance(local, dict) or plan.get("schemaVersion") != 2:
+        errors.append(f"{label}: revised POC requires schemaVersion 2 and localValidation")
+        return
+    expected_mode = "required"
+    if local.get("mode") != expected_mode or local.get("profileVersion") != 1:
+        errors.append(f"{label}: mode/version does not match authorized route")
+    ids = local.get("resourceIds") or []
+    if set(ids) != LOCAL_RESOURCES[poc_id] or len(ids) != len(set(ids)):
+        errors.append(f"{label}: resource IDs must match authorized local route")
+    for resource_id in ids:
+        if resource_id not in resource_map:
+            errors.append(f"{label}: unknown resource {resource_id}")
+    protocol = local.get("protocol")
+    validate_schema(protocol, protocol_schema, label + "/protocol", errors)
+    if not isinstance(protocol, dict):
+        return
+    # The original frozen measurement obligations are still checked separately.
+    measurements = protocol.get("measurements") or []
+    measurement_ids = [m.get("id") for m in measurements if isinstance(m, dict)]
+    if len(measurement_ids) != len(set(measurement_ids)):
+        errors.append(f"{label}: measurement IDs must be unique")
+    missing = LOCAL_REQUIRED_MEASUREMENTS[poc_id] - set(measurement_ids)
+    if missing:
+        errors.append(f"{label}: missing required local measurements {sorted(missing)}")
+    for measurement in measurements:
+        if measurement.get("id") in LOCAL_BOOLEAN_GATES[poc_id] and measurement.get("unit") != "boolean":
+            errors.append(f"{label}: safety gate {measurement.get('id')} unit must remain boolean")
+        if measurement.get("id") in {"local_minimum_free_bytes", "local_maximum_reserved_bytes"} and measurement.get("unit") != "bytes":
+            errors.append(f"{label}: capacity measurement unit must remain bytes")
+    if protocol.get("commands") or protocol.get("rawOutputRefs") or any(m.get("actual") is not None for m in measurements):
+        errors.append(f"{label}: canonical local protocol must not contain execution evidence")
+    capture = set(local.get("captureBeforeExecution") or [])
+    if not set(plan["environment"]["captureBeforeExecution"]).issubset(capture):
+        errors.append(f"{label}: local route must retain common environment capture")
+    missing_capture = REQUIRED_LOCAL_ENV[poc_id] - capture
+    if missing_capture:
+        errors.append(f"{label}: missing required local environment fields {sorted(missing_capture)}")
+
+
+def validate_execution_profile(root, plan, execution, errors, reference_prefix=None):
+    environment = execution.get("environmentCaptured") or {}
+    identity = environment.get("acceptanceProfile") if isinstance(environment, dict) else None
+    profile = identity.get("id") if isinstance(identity, dict) else None
+    label = f"execution record {plan['taskId']}"
+    if not isinstance(profile, str) or profile not in PROFILE_SCOPES:
+        errors.append(f"{label}: known acceptanceProfile is required")
+        profile = "production"  # Continue original strict checks after reporting the error.
+    expected = profile_identity(profile)
+    if identity != expected or not isinstance(identity, dict) or any(type(identity.get(k)) is not int for k in ("version", "bindingRevision")):
+        errors.append(f"{label}: acceptanceProfile version/revision/scope must equal {expected!r}")
+    route = execution_route(plan, profile)
+    if route.get("mode") != "required":
+        errors.append(f"{label}: deferred local route cannot produce a terminal result or PASS")
+    config_path = existing_ref(root, environment.get("acceptanceProfileConfigurationRef"), reference_prefix or plan['evidencePath'])
+    configuration = None
+    if config_path is None:
+        errors.append(f"{label}: acceptanceProfileConfigurationRef must exist under task Evidence")
+    else:
+        try:
+            configuration = load(config_path)
+            secret_scan(configuration, f"{label}/profile configuration", errors)
+            configured_identity = configuration.get('acceptanceProfile') if isinstance(configuration, dict) else None
+            if not isinstance(configured_identity, dict) or any(type(configured_identity.get(k)) is not int for k in ('version', 'bindingRevision')):
+                errors.append(f"{label}: profile configuration version/revision must be integers")
+            expected_configuration = {
+                "pocId": plan['pocId'], "taskId": plan['taskId'], "acceptanceProfile": expected,
+                "resourceIds": sorted(route.get("resourceIds") or []),
+                "measurementIds": sorted(m['id'] for m in (route.get("protocol") or {}).get("measurements", [])),
+            }
+            if plan['pocId'] == 'POC-06':
+                expected_configuration['sourceValidationScope'] = (
+                    'GENERIC_OPENLIST_SANDBOX' if profile == 'local-v1' else 'BAIDU_PRODUCTION_SANDBOX'
+                )
+                if environment.get('source_validation_scope') != expected_configuration['sourceValidationScope']:
+                    errors.append(f"{label}: source_validation_scope must match selected generic/production route")
+            if not isinstance(configuration, dict) or any(configuration.get(k) != v for k, v in expected_configuration.items()):
+                errors.append(f"{label}: profile configuration must bind the exact task, profile, resources and measurements")
+        except Exception as exc:
+            errors.append(f"{label}: cannot parse profile configuration: {exc}")
+    return route, configuration
+
+
+def validate_local_capacity(plan, execution, configuration, status, errors):
+    if plan['pocId'] != 'POC-04' or execution.get('environmentCaptured', {}).get('acceptanceProfile') != profile_identity('local-v1'):
+        return
+    label = f"execution record {plan['taskId']}: local capacity"
+    capacity = configuration.get('localCapacity') if isinstance(configuration, dict) else None
+    fields = {'capacityBytes', 'safetyFloorBytes', 'pauseFreeBytes', 'resumeFreeBytes', 'maxReservedBytes'}
+    if not isinstance(capacity, dict) or set(capacity) != fields or any(type(capacity.get(k)) is not int for k in fields):
+        errors.append(f"{label}: localCapacity requires exact integer byte configuration")
+        return
+    total, floor, pause, resume, reservation = (capacity[k] for k in ('capacityBytes', 'safetyFloorBytes', 'pauseFreeBytes', 'resumeFreeBytes', 'maxReservedBytes'))
+    if not (0 < floor < pause < resume <= total and 0 < reservation <= total - floor):
+        errors.append(f"{label}: positive floor and ordered free-space watermarks/reservation budget required")
+    environment = execution.get('environmentCaptured') or {}
+    observed_configuration = environment.get('capacity_watermark_configuration')
+    if observed_configuration != capacity or not isinstance(observed_configuration, dict) or any(type(observed_configuration.get(k)) is not int for k in fields):
+        errors.append(f"{label}: environment capacity configuration must match profile configuration")
+    actual = {m.get('id'): m.get('actual') for m in execution.get('measurements') or []}
+    minimum, reserved = (actual.get(k) for k in ('local_minimum_free_bytes', 'local_maximum_reserved_bytes'))
+    if type(minimum) is not int or type(reserved) is not int or not (0 <= minimum <= total and 0 <= reserved <= reservation):
+        errors.append(f"{label}: measured free/reserved bytes must be bounded integers")
+    elif status == 'pass' and (reserved <= 0 or minimum - reserved < floor):
+        errors.append(f"{label}: PASS requires positive observed reservations and measured free bytes minus maximum reservations to preserve floor")
+
+
+def validate_deferred_production_qualification(plan,execution,status,errors):
+    # The user's production storage and Baidu exercises are deferred. Until their
+    # outcome validators exist, new qualified PASS cannot certify those routes.
+    if status=='pass' and plan['pocId'] in ('POC-04','POC-06') and (execution.get('environmentCaptured') or {}).get('acceptanceProfile')==profile_identity('production'):
+        errors.append(f"deferred production qualification {plan['pocId']}: production outcome validation is not implemented; PASS unavailable")
+
+
+def validate_qualified_production_capacity(plan, execution, status, errors):
+    if plan['pocId'] != 'POC-04' or status != 'pass' or execution.get('environmentCaptured',{}).get('acceptanceProfile') != profile_identity('production'):
+        return
+    minimum = next((m.get('actual') for m in execution.get('measurements') or [] if m.get('id') == 'minimum_free_space_gib'),None)
+    if not good_actual('GiB',minimum) or minimum < 500:
+        errors.append(f"qualified production capacity {plan['taskId']}: PASS requires measured minimum_free_space_gib >= frozen 500 GiB floor (NFR-V1-CAP-002)")
+
+
+def compliance_subject_version(plan, execution):
+    environment = execution.get('environmentCaptured') or {}
+    if plan['pocId'] == 'POC-06' and (environment.get('acceptanceProfile') or {}).get('id') == 'local-v1':
+        return json.dumps({key: environment.get(key) for key in ('openlist_version', 'provider_api_or_sdk_version')}, sort_keys=True, separators=(',', ':'))
+    if plan['pocId'] == 'POC-09':
+        return json.dumps({key: environment.get(key) for key in ('model_identity', 'model_version', 'runtime', 'tool_versions', 'prompt_template_version', 'inference_parameters', 'input_sample_version')}, sort_keys=True, separators=(',', ':'))
+    key = {'POC-06':'provider_api_or_sdk_version','POC-09':'model_version'}.get(plan['pocId'],'tool_versions')
+    value = environment.get(key)
+    return json.dumps(value,sort_keys=True,separators=(',',':')) if isinstance(value,dict) else value
+
+
+def validate_source_compliance(root, plan, execution, implementer, status, errors, schema_override=None, reference_prefix=None, execution_window=None):
+    """Declared approval booleans cannot substitute for version-bound review records."""
+    required = {kind for kind in ('privacy','license') if plan['security'].get(kind+'ReviewRequired') is True}
+    if not required:
+        return
+    label = f"execution record {plan['taskId']}: compliance"
+    environment = execution.get('environmentCaptured') or {}
+    if plan['pocId'] == 'POC-09':
+        for key in ('runtime','tool_versions'):
+            if not isinstance(environment.get(key), (str,dict)) or not recorded(environment.get(key)):
+                errors.append(f'{label}: concrete captured AI runtime/tool identity required')
+    version = compliance_subject_version(plan,execution)
+    profile = (environment.get('acceptanceProfile') or {}).get('id')
+    scope = ('GENERIC_OPENLIST_SANDBOX' if profile == 'local-v1' else 'BAIDU_PRODUCTION_SANDBOX') if plan['pocId']=='POC-06' else PROFILE_SCOPES.get(profile)
+    reviews = execution.get('complianceReviews') or []
+    kinds = [r.get('type') for r in reviews if isinstance(r, dict)]
+    if len(kinds) != len(set(kinds)):
+        errors.append(f"{label}: review types must be unique")
+    if status == 'pass' and not required.issubset(set(kinds)):
+        errors.append(f"{label}: PASS requires privacy/license review references")
+    schema = schema_override or load(root/'specs/poc/compliance-review.schema.yaml')
+    for review in reviews:
+        if not isinstance(review, dict):
+            continue
+        if review.get('subjectVersion') != version or not recorded_text(version):
+            errors.append(f"{label}: review subjectVersion must bind exact captured API/tool version")
+        path = existing_ref(root, review.get('reviewRef'), reference_prefix or plan['evidencePath'])
+        if path is None:
+            errors.append(f"{label}: reviewRef must exist under task Evidence")
+            continue
+        try:
+            record = load(path)
+        except Exception as exc:
+            errors.append(f"{label}: cannot read review: {exc}")
+            continue
+        validate_schema(record, schema, label+'/review', errors)
+        secret_scan(record, label+'/review', errors)
+        expected = dict(pocId=plan['pocId'], taskId=plan['taskId'], type=review.get('type'),
+                        subjectVersion=version, decision='approved', scope=scope)
+        if not isinstance(record, dict) or any(record.get(k) != v for k,v in expected.items()):
+            errors.append(f"{label}: review must bind exact task, type, version, approved decision and source scope")
+            continue
+        if not recorded_text(record.get('reviewer')) or record.get('reviewer') == implementer:
+            errors.append(f"{label}: review requires a concrete independent reviewer")
+        if not valid_utc_timestamp(record.get('approvedAt')):
+            errors.append(f"{label}: review approvedAt must be valid UTC")
+        elif execution_window and utc(record['approvedAt']) > execution_window[0]:
+            errors.append(f'{label}: privacy/license approval must precede execution')
+
+
+def utc(value):
+    return datetime.fromisoformat(value.replace('Z', '+00:00')) if valid_utc_timestamp(value) else None
+
+
+def qualified_window(execution, schema, label, errors):
+    window = (execution.get('environmentCaptured') or {}).get('executionWindow')
+    validate_schema(window, schema, label+'/executionWindow', errors)
+    if not isinstance(window, dict):
+        errors.append(f'{label}: qualified executionWindow is required')
+        return None
+    start, end = utc(window.get('startedAt')), utc(window.get('finishedAt'))
+    if start is None or end is None or not start < end:
+        errors.append(f'{label}: executionWindow requires ordered valid UTC instants')
+        return None
+    if end > datetime.now(timezone.utc):
+        errors.append(f'{label}: executionWindow must have finished by validation time')
+        return None
+    return start, end
+
+
+def qualified_record(root, ref, prefix, schema, expected, label, errors):
+    path = existing_ref(root, ref, prefix)
+    if path is None:
+        errors.append(f'{label}: record must exist inside the selected profile slot')
+        return None
+    try:
+        record = load(path)
+    except Exception as exc:
+        errors.append(f'{label}: cannot parse record: {exc}')
+        return None
+    validate_schema(record, schema, label, errors)
+    secret_scan(record, label, errors)
+    approved = utc(record.get('approvedAt')) if isinstance(record,dict) else None
+    if approved is not None and approved > datetime.now(timezone.utc):
+        errors.append(f'{label}: approval must have occurred by validation time')
+    if not isinstance(record, dict) or any(json.dumps(record.get(k),sort_keys=True,separators=(',',':')) != json.dumps(v,sort_keys=True,separators=(',',':')) for k,v in expected.items()):
+        errors.append(f'{label}: record must bind exact POC, owner, resource/metric and profile')
+        return None
+    return record
+
+
+LOCAL_STRUCTURED_CAPTURES = {
+    'POC-02': {'segment_profile':'localSegmentCapture','scheduler_configuration':'localSchedulerCapture'},
+    'POC-05': {'synthetic_hierarchy_manifest':'localHierarchyCapture'},
+    'POC-06': {'injected_failure_matrix':'localFailureCapture'},
+    'POC-07': {'local_tls_path_configuration':'localTlsCapture'},
+}
+
+
+def validate_qualified_configuration(root, plan, execution, configuration, defs, prefix, reviewer, implementer, window, errors, status=None):
+    label=f"qualified profile configuration {plan['taskId']}"
+    validate_schema(configuration,defs.get('profileConfiguration',{}),label,errors)
+    if not isinstance(configuration,dict):return
+    approved=utc(configuration.get('approvedAt'))
+    if configuration.get('decision') != 'approved' or not recorded_text(reviewer) or configuration.get('approvedBy') != reviewer or reviewer == implementer:
+        errors.append(f'{label}: current independent Task reviewer must approve configuration')
+    if approved is None or window is None or approved > window[0] or approved > datetime.now(timezone.utc):
+        errors.append(f'{label}: valid UTC approval must precede captured execution start')
+    env=execution.get('environmentCaptured') or {}
+    fields=LOCAL_STRUCTURED_CAPTURES.get(plan['pocId'],{}) if env.get('acceptanceProfile') == profile_identity('local-v1') else {}
+    captured={key:env.get(key) for key in fields}
+    if configuration.get('capturedSettings') != captured:
+        errors.append(f'{label}: approval must bind exact captured structured settings')
+    for field,schema in fields.items():
+        value=env.get(field)
+        capture_label=f"qualified local capture {plan['taskId']}/{field}"
+        validate_schema(value,defs.get(schema,{}),capture_label,errors)
+        if field=='synthetic_hierarchy_manifest' and status=='pass' and isinstance(value,dict):
+            actual={measurement.get('id'):measurement.get('actual') for measurement in execution.get('measurements') or [] if isinstance(measurement,dict)}
+            generator=value.get('generator')
+            if not isinstance(generator,dict):generator={}
+            for measured,captured in (('file_count','fileCount'),('directory_count','directoryCount'),('directory_depth_max','maximumDepth')):
+                if type(actual.get(measured)) is not int or actual.get(measured)!=generator.get(captured):
+                    errors.append(f'{capture_label}: {measured} must match the exact approved generated hierarchy {captured}')
+        if field=='local_tls_path_configuration' and isinstance(value,dict):
+            for key,schemes in (('entryOrigin',{'https'}),('openlistOrigin',{'http','https'})):
+                if not valid_local_origin(value.get(key),schemes):
+                    errors.append(f'{capture_label}: {key} requires a valid host and explicit port in 1..65535')
+        if field=='injected_failure_matrix' and isinstance(value,dict):
+            cases=value.get('cases')
+            if isinstance(cases,list):
+                ids=[case.get('caseId') for case in cases if isinstance(case,dict)]
+                faults={case.get('fault') for case in cases if isinstance(case,dict)}
+                if len(ids)!=len(set(ids)) or not {'http_429','http_5xx','network_disconnect','auth_expired'}.issubset(faults):
+                    errors.append(f'{capture_label}: distinct exercised case identities must retain HTTP429/5xx/network/auth faults')
+                records=env.get('rawExecutionArtifacts') or []
+                for case in cases:
+                    if not isinstance(case,dict):continue
+                    ref=case.get('rawOutputRef')
+                    record=next((r for r in records if isinstance(r,dict) and r.get('ref')==ref),None) if isinstance(records,list) else None
+                    if record is None or record.get('artifactType')!='scope_observation' or ref not in (execution.get('rawOutputRefs') or []) or existing_ref(root,ref,prefix) is None:
+                        errors.append(f'{capture_label}: exercised fault must retain a selected-slot typed observation artifact')
+
+
+def validate_qualified_local_source_faults(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
+    label=f"qualified local source faults {plan['taskId']}";ref=env.get('sourceFaultOutcomeRef');path=existing_ref(root,ref,prefix)
+    artifacts=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==ref]
+    if path is None or ref not in (execution.get('rawOutputRefs') or []) or len(artifacts)!=1 or artifacts[0].get('artifactType')!='scope_observation':
+        errors.append(f'{label}: selected-slot typed source fault output required');return
+    before=len(errors);report=qualified_observation_report(path,defs,'localSourceFaultOutcomes',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-OPENLIST-LOCAL'),None)
+    if resource is None or report['configurationRef']!=resource.get('configurationRef'):
+        errors.append(f'{label}: exact approved local OpenList configuration required');return
+    config_path=existing_ref(root,report['configurationRef'],prefix)
+    try:policy=load(config_path).get('configuration',{}).get('localSourceFaultPolicy') if config_path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,defs.get('localSourceFaultPolicy',{}),label+'/approved policy',errors)
+    if len(errors)!=before or not isinstance(policy,dict):return
+    expected=dict(subjectVersion=compliance_subject_version(plan,execution),acceptanceProfile=env.get('acceptanceProfile'),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],scope='GENERIC_OPENLIST_SANDBOX',sandboxId=policy['sandboxId'])
+    if any(report.get(k)!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or env.get('source_validation_scope')!='GENERIC_OPENLIST_SANDBOX' or any(not recorded_text(policy[k]) for k in ('sandboxId','sourceId','objectId','objectVersion','assetId','assetVersion','idempotencyKey')):
+        errors.append(f'{label}: exact approved generic service/API versions, inputs and source/object/asset/sandbox required')
+    rows=report['cases'];required={'http_429','http_5xx','network_disconnect','auth_expired','interrupted_sync','duplicate_replay','source_delete'}
+    if len(rows)!=7 or {r['case'] for r in rows}!=required or len({r['caseId'] for r in rows})!=7:
+        errors.append(f'{label}: exact unique faults, interruption, duplicate replay and source deletion cases required');return
+    matrix=env.get('injected_failure_matrix');configured=matrix.get('cases') if isinstance(matrix,dict) else None
+    if not isinstance(configured,list):return  # Original capture validator retains its schema error.
+    by_fault={r['case']:r for r in rows}
+    if any(not isinstance(c,dict) or c.get('fault') not in by_fault or c.get('caseId')!=by_fault[c.get('fault')]['caseId'] or c.get('rawOutputRef')!=ref for c in configured):errors.append(f'{label}: every approved injected fault must bind its exact parsed outcome')
+    asset=dict(assetId=policy['assetId'],versionId=policy['assetVersion']);source=dict(sourceId=policy['sourceId'],objectId=policy['objectId'],versionId=policy['objectVersion'],availability='available');link=dict(sourceId=policy['sourceId'],objectId=policy['objectId'],assetId=policy['assetId']);full=dict(assets=[asset],sourceObjects=[source],links=[link]);request_ids=set()
+    for row in rows:
+        case=row['case'];old,new=row['before'],row['after'];attempts=row['attempts']
+        for state in (old,new):
+            expected_state=full if state['assets'] else dict(assets=[],sourceObjects=[],links=[])
+            normalized={**state,'sourceObjects':[{**s,'availability':'available'} for s in state['sourceObjects']]}
+            if normalized!=expected_state:errors.append(f'{label}: parsed state must contain exact unique governed source/object/asset/version/link identities')
+        if len(attempts)>policy['maxAttempts'] or [a['attemptNo'] for a in attempts]!=list(range(1,len(attempts)+1)):errors.append(f'{label}: attempts must be ordered and bounded by approved retry budget')
+        created=[];completed=set()
+        for index,attempt in enumerate(attempts):
+            start,end=utc(attempt['requestedAt']),utc(attempt['finishedAt'])
+            if start is None or end is None or window is None or not window[0]<=start<=end<=window[1]:errors.append(f'{label}: request outcomes need ordered UTC execution timestamps')
+            if attempt['requestId'] in request_ids or attempt['idempotencyKey']!=policy['idempotencyKey']:errors.append(f'{label}: unique observed requests must reuse the approved idempotency identity')
+            request_ids.add(attempt['requestId']);created.extend(attempt['createdAssetIds'])
+            if attempt['authorization']!=('expired' if case=='auth_expired' else 'valid'):errors.append(f'{label}: authorization expiry must be isolated from otherwise authorized fault cases')
+            if len(attempt['completedObjectIds'])!=len(set(attempt['completedObjectIds'])) or not set(attempt['completedObjectIds']).issubset({policy['objectId']}) or len(attempt['returnedAssetIds'])!=len(set(attempt['returnedAssetIds'])) or not set(attempt['returnedAssetIds']).issubset({policy['assetId']}) or any(a!=policy['assetId'] for a in attempt['createdAssetIds']):errors.append(f'{label}: responses/progress must bind exact logical identities without duplicates')
+            completed.update(attempt['completedObjectIds'])
+            values=(attempt['retryAfterSeconds'],attempt['backoffAfterSeconds'],policy['maxBackoffSeconds'])
+            if not all(ai_finite(v) for v in values) or attempt['backoffAfterSeconds']>policy['maxBackoffSeconds']:errors.append(f'{label}: finite observed backoff must respect approved ceiling')
+            if index+1<len(attempts):
+                following=attempts[index+1];next_at=utc(following['requestedAt']);delay=(next_at-end).total_seconds() if end is not None and next_at is not None else -1
+                if delay<0 or not math.isclose(delay,attempt['backoffAfterSeconds'],rel_tol=1e-9,abs_tol=1e-9) or delay<attempt['retryAfterSeconds']:errors.append(f'{label}: observed retry timing must honor backoff and upstream Retry-After')
+                if row['recoveryMode']=='resume' and following['checkpointBefore']!=attempt['checkpointAfter']:errors.append(f'{label}: resumed attempt must use the retained preceding checkpoint')
+                if row['recoveryMode']=='idempotent_rerun' and following['checkpointBefore'] is not None:errors.append(f'{label}: idempotent rerun must disclose reset checkpoint')
+            elif attempt['backoffAfterSeconds']!=0:errors.append(f'{label}: terminal outcome cannot invent an unexecuted retry')
+            status_code=attempt['httpStatus'];classification=attempt['classification'];transport=attempt['transport']
+            valid=(transport=='http_response' and type(status_code) is int and ((classification=='success' and 200<=status_code<300 and attempt['authorization']=='valid') or (classification=='http_429' and status_code==429) or (classification=='http_5xx' and 500<=status_code<600) or (classification=='auth_expired' and status_code in (401,403) and attempt['authorization']=='expired') or (classification=='source_delete' and status_code in (200,204)))) or (status_code is None and ((classification=='network_disconnect' and transport=='network_disconnect') or (classification=='interrupted_sync' and transport=='interrupted')))
+            if not valid:errors.append(f'{label}: HTTP/network/auth/interruption classifications must match observed responses')
+        if len(created)>(0 if old['assets'] else 1):errors.append(f'{label}: retries cannot create a duplicate logical asset')
+        first,last=attempts[0],attempts[-1]
+        if case=='network_disconnect' and row['outcome']=='explicit_failure':
+            if row['recoveryMode']!='none' or old!=new or any(a['classification']!='network_disconnect' or a['returnedAssetIds'] or a['createdAssetIds'] or a['completedObjectIds'] or a['checkpointAfter']!=a['checkpointBefore'] for a in attempts) or any(b['checkpointBefore']!=a['checkpointAfter'] for a,b in zip(attempts,attempts[1:])):
+                errors.append(f'{label}: explicit network failure must preserve logical state and retained checkpoint without protected result or promotion')
+        elif case in ('http_429','http_5xx','network_disconnect','interrupted_sync'):
+            if len(attempts)<2 or first['classification']!=case or row['recoveryMode'] not in ('resume','idempotent_rerun') or row['outcome']!='recovered' or last['classification']!='success' or last['returnedAssetIds']!=[policy['assetId']] or completed!={policy['objectId']} or new!=full:errors.append(f'{label}: classified faults must recover through bounded observed retry without state corruption')
+            if case=='interrupted_sync' and not recorded_text(first['checkpointAfter']):errors.append(f'{label}: interrupted progress must retain a checkpoint before resume/rerun')
+        elif case=='auth_expired':
+            if len(attempts)!=1 or first['classification']!='auth_expired' or row['outcome']!='explicit_failure' or old!=new or first['returnedAssetIds'] or first['createdAssetIds']:errors.append(f'{label}: expired authorization must fail explicitly without protected result or logical mutation')
+        elif case=='duplicate_replay':
+            if len(attempts)<2 or any(a['classification']!='success' or a['returnedAssetIds']!=[policy['assetId']] for a in attempts) or row['outcome']!='recovered' or new!=full:errors.append(f'{label}: duplicate replay must return the same unique logical asset')
+        else:
+            unavailable={**full,'sourceObjects':[{**source,'availability':'source_unavailable'}]}
+            if old!=full or new!=unavailable or row['outcome']!='source_unavailable' or len(attempts)!=1 or first['classification']!='source_delete' or first['createdAssetIds']:errors.append(f'{label}: source deletion must preserve exact asset/version/link with governed unavailable source state')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    gates={'rate_limit_429_classified_retried','upstream_5xx_classified_retried','network_failure_classified_retried','interrupted_sync_resume_or_idempotent_rerun','duplicate_objects_prevented','source_deletion_preserves_logical_asset','generic_source_scope_verified'}
+    if any(actual.get(gate) is not True for gate in gates):errors.append(f'{label}: true sync safety gates require the parsed observed outcomes')
+
+
+def validate_qualified_local_source_authentication(root,plan,execution,prefix,status,window,defs,errors,cache):
+    """Derive local authentication from retained request outcomes, never execute credentials."""
+    from urllib.parse import urlsplit
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
+    label=f"qualified local source authentication {plan['taskId']}";before=len(errors)
+    ref=env.get('sourceAuthenticationRef')
+    report=selected_observation(root,execution,prefix,ref,defs,'localSourceAuthenticationObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-OPENLIST-LOCAL'),None)
+    config_path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    config=qualified_observation_report(config_path,defs,'resourceConfiguration',label+'/configuration',errors,cache) if config_path else None
+    settings=config.get('configuration',{}) if isinstance(config,dict) else {}
+    policy=settings.get('localSourceAuthenticationPolicy') if isinstance(settings,dict) else None
+    validate_schema(policy,defs.get('localSourceAuthenticationPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    fault=settings.get('localSourceFaultPolicy');listing=settings.get('localSourceListingPolicy')
+    sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==policy['sampleId']),None)
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],scope='GENERIC_OPENLIST_SANDBOX',**{k:policy[k] for k in ('sourceId','sandboxId','endpointURL','objectId','objectVersion','authMethod','principalId')})
+    if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or env.get('source_validation_scope')!='GENERIC_OPENLIST_SANDBOX' or not isinstance(fault,dict) or not isinstance(listing,dict) or any(policy[k]!=fault.get(k) for k in ('sourceId','sandboxId','subjectVersion','objectId','objectVersion')) or any(policy[k]!=listing.get(k) for k in ('sourceId','sandboxId','subjectVersion')) or sample is None or (sample['immutableId'],sample['checksum'])!=(policy['immutableId'],policy['payloadSha256']) or policy['authorizedAuthRef']==policy['invalidAuthRef']:
+        errors.append(f'{label}: approved method, principal, service/API versions, source/object/sandbox and immutable input must match');return
+    try:
+        endpoint=urlsplit(policy['endpointURL']);listing_endpoint=urlsplit(listing['endpointURL'])
+        origin=endpoint.scheme+'://'+endpoint.netloc
+        valid=valid_local_origin(origin,{'http','https'}) and origin==listing_endpoint.scheme+'://'+listing_endpoint.netloc and endpoint.path not in ('','/') and not endpoint.username and not endpoint.password and not endpoint.query and not endpoint.fragment
+    except (ValueError,TypeError):valid=False
+    if not valid:errors.append(f'{label}: exact approved protected endpoint must share the local listing origin');return
+    rows=report['requests'];cases={'authenticated','anonymous_denied','invalid_auth_denied'}
+    if len(rows)!=3 or {r['case'] for r in rows}!=cases or len({r['requestId'] for r in rows})!=3:
+        errors.append(f'{label}: distinct actual authenticated, anonymous and invalid-auth requests required');return
+    artifacts=env.get('rawExecutionArtifacts') or [];paths=[existing_ref(root,ref,prefix),config_path]
+    input_records=env.get('inputSampleArtifacts') or []
+    for record in input_records:
+        if isinstance(record,dict):
+            path=existing_ref(root,record.get('inputArtifactRef'),prefix)
+            if path is not None:paths.append(path)
+    for row in rows:
+        success=row['case']=='authenticated';anonymous=row['case']=='anonymous_denied'
+        requested,finished=utc(row['requestedAt']),utc(row['finishedAt'])
+        expected_auth=None if anonymous else policy['authorizedAuthRef'] if success else policy['invalidAuthRef']
+        if row['httpMethod']!='GET' or row['endpointURL']!=policy['endpointURL'] or row['authMethod']!=('none' if anonymous else policy['authMethod']) or row['authRef']!=expected_auth or row['requestPrincipalId']!=(None if anonymous else policy['principalId']) or row['authenticatedPrincipalId']!=(policy['principalId'] if success else None) or requested is None or finished is None or window is None or not window[0]<=requested<=finished<=window[1] or row['statusCode'] not in ((200,206) if success else (401,403)):
+            errors.append(f'{label}: request identity/method/non-secret auth reference, actual HTTP outcome and UTC must match')
+        body=existing_ref(root,row['responseBodyRef'],prefix)
+        records=[a for a in artifacts if isinstance(a,dict) and a.get('ref')==row['responseBodyRef']]
+        if body is None or row['responseBodyRef'] not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or any(body.samefile(p) for p in paths if p is not None):
+            errors.append(f'{label}: selected-slot independently retained actual response bytes required');continue
+        paths.append(body)
+        try:actual=inspect_artifact(body,cache)
+        except OSError:errors.append(f'{label}: readable response bytes required');continue
+        if actual['size']!=row['responseByteCount'] or actual['sha256']!=row['responseSha256'] or records[0].get('byteCount')!=actual['size'] or records[0].get('sha256')!=actual['sha256']:
+            errors.append(f'{label}: observed response byte count/hash must match actual retained bytes')
+        if success:
+            if actual['size']<=0 or actual['sha256']!=policy['payloadSha256'] or row['returnedObjectId']!=policy['objectId'] or row['returnedObjectVersion']!=policy['objectVersion']:
+                errors.append(f'{label}: successful protected read must return the exact approved immutable object bytes')
+        else:
+            safe=actual['size']==0
+            if 0<actual['size']<=1024:
+                def fields(pairs):
+                    if len({k for k,_ in pairs})!=len(pairs):raise ValueError('duplicate public error fields')
+                    return dict(pairs)
+                try:
+                    with body.open(encoding='utf8') as stream:safe=json.load(stream,object_pairs_hook=fields)=={'error':'access_denied'}
+                except (OSError,ValueError,UnicodeError):safe=False
+            if not safe or row['returnedObjectId'] is not None or row['returnedObjectVersion'] is not None:
+                errors.append(f'{label}: anonymous/invalid authentication must expose no protected object bytes or identity')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if actual.get('auth_flow_supported') is not True:errors.append(f'{label}: true auth_flow_supported requires all parsed authentication outcomes')
+
+
+def validate_qualified_local_source_listing(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
+    label=f"qualified local source listing {plan['taskId']}";before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('sourceListingRef'),defs,'localSourceListingObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-OPENLIST-LOCAL'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:config=load(path).get('configuration',{}) if path else {};policy=config.get('localSourceListingPolicy');fault=config.get('localSourceFaultPolicy')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=fault=None
+    validate_schema(policy,defs.get('localSourceListingPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],**{k:policy[k] for k in ('sourceId','sandboxId','endpointURL')})
+    if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or not isinstance(fault,dict) or any(policy[k]!=fault.get(k) for k in ('sourceId','sandboxId','subjectVersion')) or not recorded_text(policy['endpointURL']):errors.append(f'{label}: exact approved OpenList/API versions, source/sandbox/input and listing endpoint required');return
+    objects=policy['objects'];ids=[o['objectId'] for o in objects];criteria=policy['criteria'];criteria_ids={'api','sdk','versioning','support'}
+    if len(ids)!=len(set(ids)) or len(report['runs'])<policy['minimumListingRuns'] or {c['criterionId'] for c in criteria}!=criteria_ids or {c['criterionId'] for c in report['assessment']}!=criteria_ids or not all(ai_finite(c['weight']) for c in criteria) or not all(ai_finite(v) for v in policy['gradeValues'].values()):errors.append(f'{label}: exact distinct approved population, repeated listing and finite rubric required');return
+    request_ids=set();run_ids=set();previous=None
+    for run in report['runs']:
+        if run['runId'] in run_ids:errors.append(f'{label}: unique repeated listing run identities required')
+        run_ids.add(run['runId']);cursor=None;seen_cursors=set();listed=[]
+        for number,page in enumerate(run['pages']):
+            start,end=utc(page['requestedAt']),utc(page['finishedAt'])
+            if start is None or end is None or window is None or not window[0]<=start<=end<=window[1] or previous is not None and start<previous:errors.append(f'{label}: listing request timestamps must be ordered inside execution')
+            previous=end
+            if page['requestId'] in request_ids or page['statusCode']!=200 or page['requestCursor']!=cursor or number+1<len(run['pages']) and (not recorded_text(page['nextCursor']) or page['nextCursor'] in seen_cursors) or number+1==len(run['pages']) and page['nextCursor'] is not None:errors.append(f'{label}: actual successful pagination must follow unique cursors and end completely')
+            request_ids.add(page['requestId']);cursor=page['nextCursor'];seen_cursors.add(cursor);listed.extend(page['objects'])
+        if len(listed)!=len(objects) or {o['objectId'] for o in listed}!=set(ids) or len({o['objectId'] for o in listed})!=len(listed) or any(o!=next(p for p in objects if p['objectId']==o['objectId']) for o in listed if o['objectId'] in ids):errors.append(f'{label}: every repeated listing must retain the exact complete approved object identities/versions/names')
+    grades=[];basis_paths=[]
+    for row in report['assessment']:
+        before=len(errors);basis=selected_observation(root,execution,prefix,row['basisRef'],defs,'localSourceAssessmentBasis',label+'/assessment',errors,cache);basis_path=existing_ref(root,row['basisRef'],prefix)
+        if basis is None or len(errors)!=before:continue
+        at=utc(row['observedAt']);basis_at=utc(basis['observedAt'])
+        if at is None or basis_at is None or window is None or not window[0]<=basis_at<=at<=window[1] or basis['criterionId']!=row['criterionId'] or basis['subjectVersion']!=expected['subjectVersion'] or inspect_artifact(basis_path,cache)['sha256']!=row['basisSha256'] or any(not recorded_text(basis[k]) for k in ('toolBuild','reference','details')) or not recorded_text(row['rationale']) or any(basis_path.samefile(p) for p in basis_paths):errors.append(f'{label}: distinct assessed API/SDK/versioning/support basis must bind captured versions and rubric')
+        basis_paths.append(basis_path);criterion=next(c for c in criteria if c['criterionId']==row['criterionId']);grades.append((criterion['weight'],policy['gradeValues'][row['status']]))
+    try:score=sum(w*g for w,g in grades)/sum(w for w,g in grades) if len(grades)==4 else None
+    except (OverflowError,ZeroDivisionError):score=None
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if actual.get('listing_stability') is not True:errors.append(f'{label}: listing stability gate must agree with complete repeated page observations')
+    if not ai_finite(score) or not ai_finite(actual.get('maintainability')) or not math.isclose(actual['maintainability'],score,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: maintainability must derive the independently approved weighted assessment rubric')
+
+
+def valid_local_origin(value,schemes):
+    try:
+        if not isinstance(value,str):return False
+        origin=urllib.parse.urlsplit(value)
+        host=origin.hostname;port=origin.port
+        if origin.scheme not in schemes or not host or origin.username is not None or origin.password is not None or origin.path or origin.query or origin.fragment:return False
+        if port is not None and not 1<=port<=65535:return False
+        if ':' in host:ipaddress.IPv6Address(host)
+        elif re.fullmatch(r'[0-9]+(?:\.[0-9]+){3}',host):ipaddress.IPv4Address(host)
+        else:
+            name=host[:-1] if host.endswith('.') else host
+            if len(name)>253 or any(not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?',label) for label in name.split('.')):return False
+        return True
+    except (ValueError,TypeError):return False
+
+
+def validate_qualified_inputs(root, plan, execution, defs, prefix, status, errors, cache, record_refs=None, configuration=None):
+    if status != 'pass' or not plan.get('sampleIds'):return
+    label=f"qualified input samples {plan['taskId']}"
+    env=execution.get('environmentCaptured') or {}
+    records=env.get('inputSampleArtifacts')
+    samples={s.get('id'):s for s in execution.get('samples') or [] if isinstance(s,dict)}
+    if not isinstance(records,list) or not records:
+        errors.append(f'{label}: typed inputSampleArtifacts required');return
+    ids=[r.get('sampleId') for r in records if isinstance(r,dict)]
+    if len(ids)!=len(records) or len(ids)!=len(set(ids)) or set(ids)!=set(samples):
+        errors.append(f'{label}: input artifact identities must exactly bind approved execution samples')
+    forbidden=[env.get('acceptanceProfileConfigurationRef'),*(execution.get('rawOutputRefs') or [])]
+    forbidden += list(record_refs or ())
+    forbidden += [s.get('approvalRef') for s in samples.values()]
+    forbidden += [r.get(k) for r in execution.get('resources') or [] if isinstance(r,dict) for k in ('configurationRef','bookingRef')]
+    forbidden += [r.get('reviewRef') for r in execution.get('complianceReviews') or [] if isinstance(r,dict)]
+    profile=(env.get('acceptanceProfile') or {}).get('id')
+    if profile in PROFILE_SCOPES:
+        forbidden.append(profile_index_ref(f"POC-{int(plan['pocId'].split('-')[-1]):03d}",profile))
+    domains=configuration.get('numericDomainReviewRefs',{}) if isinstance(configuration,dict) else {}
+    if isinstance(domains,dict):
+        for ref in domains.values():
+            forbidden.append(ref)
+            path=existing_ref(root,ref,prefix)
+            if path:
+                try: forbidden.append(load(path).get('definitionRef'))
+                except (OSError,ValueError,AttributeError,yaml.YAMLError): pass
+    peers=[path for ref in forbidden if (path:=existing_ref(root,ref,prefix)) is not None]
+    for record in records:
+        validate_schema(record,defs.get('inputSampleArtifact',{}),label,errors)
+        if not isinstance(record,dict):continue
+        sample=samples.get(record.get('sampleId'))
+        path=existing_ref(root,record.get('inputArtifactRef'),prefix)
+        if sample is None or path is None or record.get('immutableId')!=sample.get('immutableId'):
+            errors.append(f'{label}: input reference/immutable identity must bind the exact selected sample');continue
+        if any(path.samefile(peer) for peer in peers):
+            errors.append(f'{label}: binary input must be distinct from structured records and execution outputs');continue
+        try:
+            actual=inspect_artifact(path,cache)
+            if actual['size']<=0 or record.get('byteCount')!=actual['size'] or record.get('sha256')!=actual['sha256'] or sample.get('checksum')!=actual['sha256']:
+                errors.append(f'{label}: sample/approval checksum must bind actual nonempty input bytes')
+        except OSError:
+            errors.append(f'{label}: input bytes must be readable')
+
+
+def qualified_lifecycle_archive_paths(owner,before_ref,after_ref,changed,git):
+    allowed=set()
+    prefix=f'evidence/{owner}/'
+    def blob(ref,path,limit):
+        if int(git('cat-file','-s',f'{ref}:{path}'))>limit:return None
+        return git('show',f'{ref}:{path}')
+    for manifest_path in changed:
+        if not manifest_path.startswith(prefix) or not manifest_path.endswith(('/manifest.json','/raw-results.bundle.json')):continue
+        text=blob(after_ref,manifest_path,1048576)
+        if text is None:continue
+        manifest=yaml.load(text,Loader=UniqueKeyLoader)
+        if not isinstance(manifest,dict):continue
+        source=manifest.get('actualSource',manifest.get('source'))
+        if not isinstance(source,str) or not re.fullmatch('[a-f0-9]{40}',source):continue
+        git('merge-base','--is-ancestor',source,before_ref)
+        if 'tree' in manifest and manifest['tree']!=git('show','-s','--format=%T',source):continue
+        if 'actualMain' in manifest:git('merge-base','--is-ancestor',manifest['actualMain'],before_ref)
+        key='entries' if 'entries' in manifest else 'artifacts' if 'artifacts' in manifest else 'files'
+        records=manifest.get(key)
+        if not isinstance(records,list) or not records:continue
+        try:
+            text=blob(before_ref,manifest_path,1048576)
+            if text is None:return set()
+            previous=yaml.load(text,Loader=UniqueKeyLoader)
+        except subprocess.CalledProcessError:previous=None
+        if previous is not None:
+            old=previous.get(key) or []
+            expected=copy.deepcopy(previous);expected[key]=records
+            if records[:len(old)]!=old or manifest!=expected:continue
+        paths={manifest_path}
+        for record in records:
+            if not isinstance(record,dict):return set()
+            if key in ('artifacts','files'):
+                path=record.get('path')
+                if key=='files':
+                    if not isinstance(path,str) or Path(path).name!=path or path in ('.','..'):return set()
+                    path=str(Path(manifest_path).parent/path).replace('\\','/')
+                if not lexical_ref(path,prefix.rstrip('/')):return set()
+                text=blob(after_ref,path,33554432)
+                if text is None:return set()
+                raw=text.encode('utf8')
+                size=record.get('canonicalBytes') if key=='files' else record.get('canonicalByteCount')
+                digest=record.get('canonicalLfSha256') if key=='files' else record.get('canonicalSha256')
+                if len(raw)!=size or hashlib.sha256(raw).hexdigest()!=digest:return set()
+                paths.add(path)
+            else:
+                if record.get('encoding')!='concatenated-zlib-base64-parts' or type(record.get('size')) is not int or not 0<=record['size']<=33554432:return set()
+                encoded=[]
+                for part in record.get('parts') or []:
+                    name=part.get('path')
+                    if not isinstance(name,str) or Path(name).name!=name or name in ('.','..'):return set()
+                    path=str(Path(manifest_path).parent/name).replace('\\','/')
+                    text=blob(after_ref,path,65536)
+                    if text is None:return set()
+                    raw=text.encode('ascii')
+                    if hashlib.sha256(raw).hexdigest()!=part.get('sha256'):return set()
+                    encoded.append(raw.strip());paths.add(path)
+                decoder=zlib.decompressobj()
+                raw=decoder.decompress(base64.b64decode(b''.join(encoded),validate=True),33554433)
+                if not decoder.eof or decoder.unused_data or decoder.unconsumed_tail or len(raw)!=record['size'] or hashlib.sha256(raw).hexdigest()!=record.get('sha256'):return set()
+        allowed.update(paths)
+    return allowed
+
+
+def qualified_lifecycle_delta_paths(root,before_ref,after_ref,git):
+    """Authenticate one committed metadata delivery; never exempt whole paths."""
+    changed=set(git('diff','--name-only',before_ref,after_ref).splitlines())
+    shared={'specs/coordination/program-plan.yaml','specs/coordination/active-work.yaml','specs/coordination/task-completions.yaml'}
+    if not changed or not changed.intersection(shared):return set()
+    if any(path not in shared and not path.startswith(('specs/tasks/','evidence/')) for path in changed):return set()
+    def document(ref,path):return yaml.load(git('show',f'{ref}:{path}'),Loader=UniqueKeyLoader)
+    before,after=(document(ref,'specs/coordination/program-plan.yaml') for ref in (before_ref,after_ref))
+    if not isinstance(before,dict) or not isinstance(after,dict):return set()
+    old_rows={row['taskId']:row for row in before.get('tasks') or []}
+    new_rows={row['taskId']:row for row in after.get('tasks') or []}
+    if len(old_rows)!=len(before.get('tasks') or []) or len(new_rows)!=len(after.get('tasks') or []):return set()
+    owners=[task for task in old_rows if task in new_rows and old_rows[task]!=new_rows[task]]
+    if len(owners)!=1:return set()
+    owner=owners[0]
+    if not re.fullmatch('[A-Z]+-[0-9]{3}',owner):return set()
+    task_path=f'specs/tasks/{owner}.md'
+    if any(path not in shared|{task_path} and not path.startswith(f'evidence/{owner}/') for path in changed):return set()
+    # The existing history library reads immutable reservation/task snapshots.
+    helper_path=Path(__file__).resolve().parents[2]/'scripts/check-program-plan-history.py'
+    spec=importlib.util.spec_from_file_location('qualified_poc_lifecycle_history',helper_path)
+    history=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(history)
+    history.git=lambda repository,*args:subprocess.run(['git',*args],cwd=repository,capture_output=True,text=True,encoding='utf8')
+    transitions=history.TRANSITIONS
+    if not transitions.only_lifecycle_target_changed(before,after,'tasks',owner,{'status'}):return set()
+    old_state,new_state=old_rows[owner].get('status'),new_rows[owner].get('status')
+    if new_state!='completed' and (old_state,new_state) not in transitions.ALLOWED_ACTIVE_TRANSITIONS:return set()
+    if old_state not in history.ACTIVE_STATES:return set()
+    active_path='specs/coordination/active-work.yaml'
+    old_active,new_active=(document(ref,active_path) for ref in (before_ref,after_ref))
+    old_entries=[row for row in old_active.get('tasks') or [] if row.get('taskId')==owner]
+    new_entries=[row for row in new_active.get('tasks') or [] if row.get('taskId')==owner]
+    if len(old_entries)!=1:return set()
+    entry=old_entries[0]
+    old_spec,old_body=history.parse_front_matter(git('show',f'{before_ref}:{task_path}'))
+    new_spec,new_body=history.parse_front_matter(git('show',f'{after_ref}:{task_path}'))
+    checks=[]
+    history.stable_spec_matches(owner,entry,old_spec,old_body,checks,reservation=False)
+    history.stable_spec_matches(owner,entry,new_spec,new_body,checks,reservation=False)
+    phase_fields={'status','agentRole','baseSha','workBranch'}
+    if transitions.entry_without_fields(old_spec,phase_fields)!=transitions.entry_without_fields(new_spec,phase_fields):return set()
+    if new_spec.get('status')!=new_state or new_spec.get('baseSha')!=before_ref:return set()
+    def authority_sections(body):
+        sections=re.split(r'(?m)^## ',body)
+        result={}
+        for section in sections:
+            title,_,text=section.partition('\n')
+            phase_titles={'当前 Review（以上实施/预留阶段描述为历史记录）','当前 Completion（实施阶段为历史记录）'}
+            if title in {'必须执行的测试','Evidence','协作与交接','未解决问题'}|phase_titles:continue
+            if title in result:return None
+            result[title]=text.replace('[x]','[ ]').replace('[X]','[ ]')
+        return result
+    if authority_sections(old_body)!=authority_sections(new_body):return set()
+    ledger_path='specs/coordination/task-completions.yaml'
+    old_ledger,new_ledger=(document(ref,ledger_path) for ref in (before_ref,after_ref))
+    if new_state=='completed':
+        if not history.only_task_removed(old_active,new_active,owner):return set()
+        old_records,new_records=old_ledger.get('records') or [],new_ledger.get('records') or []
+        expected=copy.deepcopy(old_ledger)
+        if len(new_records)!=len(old_records)+1 or new_records[:-1]!=old_records:return set()
+        if any(old.get('taskId')==owner for old in old_records):return set()
+        record=new_records[-1];expected['records']=new_records
+        if expected!=new_ledger or record.get('taskId')!=owner:return set()
+        if record.get('taskSpec')!=task_path or record.get('evidencePath')!=f'evidence/{owner}' or record.get('handoffPath')!=f'evidence/{owner}/handoff.md':return set()
+        reservation,implementation=record.get('reservationCommit'),record.get('mergeCommit')
+        if reservation==implementation or record.get('reservationRef')==record.get('completionRef'):return set()
+        history.validate_commit(str(root),str(reservation),owner,record.get('reservationRef',''),'qualified reservation',checks)
+        history.validate_commit(str(root),str(implementation),owner,record.get('completionRef',''),'qualified implementation',checks)
+        history.validate_reservation_snapshot(str(root),record,checks)
+        if checks:return set()
+        if len(git('show','-s','--format=%P',implementation).split())<2:return set()
+        git('merge-base','--is-ancestor',reservation,implementation)
+        git('merge-base','--is-ancestor',implementation,before_ref)
+        required={f'evidence/{owner}/{name}' for name in ('summary.md','handoff.md','commands.txt','test-results/README.md')}
+        if not required.issubset(changed):return set()
+        # Supply the actual node's four blobs to the established evidence parser.
+        with tempfile.TemporaryDirectory() as directory:
+            for path in required:
+                target=Path(directory)/path;target.parent.mkdir(parents=True,exist_ok=True)
+                target.write_text(git('show',f'{after_ref}:{path}'),encoding='utf8')
+            history.RECOVERY.validate_structured_completion_evidence(directory,owner,implementation,required,checks)
+        if checks:return set()
+    else:
+        if old_ledger!=new_ledger or len(new_entries)!=1:return set()
+        if transitions.registry_without_task(old_active,owner)!=transitions.registry_without_task(new_active,owner):return set()
+        if transitions.entry_without_fields(entry,{'status','agentRole','baseSha'})!=transitions.entry_without_fields(new_entries[0],{'status','agentRole','baseSha'}):return set()
+        if new_entries[0].get('status')!=new_state or new_entries[0].get('baseSha')!=before_ref:return set()
+        history.stable_spec_matches(owner,new_entries[0],new_spec,new_body,checks,reservation=True)
+        if checks:return set()
+    conventional={'api-samples/README.md','assumptions.md','changed-files.md','commands.txt','follow-ups.md','handoff.md','migration-report/README.md','performance/README.md','risks.md','rollback-verification/README.md','scope.md','screenshots/README.md','security/README.md','summary.md','test-results/README.md'}
+    allowed=shared|{task_path}|{f'evidence/{owner}/{name}' for name in conventional}
+    allowed.update(qualified_lifecycle_archive_paths(owner,before_ref,after_ref,changed,git))
+    if any(path not in allowed for path in changed):return set()
+    message=git('show','-s','--format=%B',after_ref)
+    if not history.exact_token(message,owner):return set()
+    return changed
+
+
+def validate_qualified_source(root, plan, execution, configuration, defs, prefix, errors, record_refs=None):
+    label = f"qualified tested source {plan['taskId']}"
+    source = (execution.get('environmentCaptured') or {}).get('testedSource')
+    validate_schema(source, defs.get('testedSource', {}), label, errors)
+    configured = configuration.get('testedSource') if isinstance(configuration, dict) else None
+    if not isinstance(source, dict) or json.dumps(source, sort_keys=True) != json.dumps(configured, sort_keys=True):
+        errors.append(f'{label}: execution and profile configuration must bind the same immutable testedSource')
+        return
+    commit, tree = source.get('commit'), source.get('tree')
+    if not all(isinstance(v,str) and re.fullmatch('[0-9a-f]{40}',v) for v in (commit,tree)):
+        errors.append(f'{label}: exact Git commit/tree object IDs are required')
+        return
+    def git(*args):
+        output = subprocess.check_output(['git',*args],cwd=root,text=True,encoding='utf-8',stderr=subprocess.PIPE)
+        return output if args[0] == 'show' and len(args) == 2 else output.strip()
+    try:
+        context = git('rev-parse','HEAD')
+        if git('cat-file','-t',commit) != 'commit' or git('cat-file','-t',tree) != 'tree':
+            raise ValueError('testedSource must identify a commit object and its tree object')
+        if git('show','-s','--format=%T',commit) != tree:
+            raise ValueError('tested commit does not have the recorded tree')
+        git('merge-base','--is-ancestor',commit,context)
+        changed = git('diff','--name-only',commit,context).splitlines()
+        dirty = git('diff','--name-only','HEAD').splitlines()
+        untracked = git('ls-files','--others','--exclude-standard').splitlines()
+        ignored = set(git('ls-files','--others','--ignored','--exclude-standard').splitlines())
+        referenced = set(record_refs or ())
+        identity = (execution.get('environmentCaptured') or {}).get('acceptanceProfile')
+        profile = identity.get('id') if isinstance(identity,dict) else None
+        if profile in PROFILE_SCOPES:
+            poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
+            referenced.add(profile_index_ref(poc_task,profile))
+        def collect(value):
+            if isinstance(value,dict):
+                for item in value.values(): collect(item)
+            elif isinstance(value,list):
+                for item in value: collect(item)
+            elif isinstance(value,str) and lexical_ref(value,prefix):
+                referenced.add(value)
+        collect(execution)
+        collect(configuration)
+        domains = configuration.get('numericDomainReviewRefs',{}) if isinstance(configuration,dict) else {}
+        if isinstance(domains,dict):
+            for ref in domains.values():
+                path = existing_ref(root,ref,prefix)
+                if path is not None: collect(load(path))
+        for ref in list(referenced):
+            path = existing_ref(root,ref,prefix)
+            if path is not None:
+                referenced.add(path.relative_to(root.resolve()).as_posix())
+        if referenced & ignored:
+            raise ValueError('referenced qualified evidence must not be ignored and untracked: '+', '.join(sorted(referenced & ignored)))
+        if referenced & set(untracked):
+            raise ValueError('referenced qualified evidence must be tracked: '+', '.join(sorted(referenced & set(untracked))))
+        poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
+        own_prefixes = tuple(str(Path(profile_index_ref(task,profile)).parent).replace('\\','/')+'/'
+                             for task in sorted(TASKS) for profile in PROFILE_SCOPES)
+        phase_paths = {f'specs/tasks/{owner}.md' for owner in (poc_task,'GZ-020')}
+        def phase_only(before, after):
+            # Authenticate the existing document, permitting only the terminal status transition.
+            pattern = r'\A(---\r?\n(?:(?!^---).)*?^status: )in_progress(\r?\n(?:(?!^---).)*?^---(?:\r?\n|\Z).*)\Z'
+            match = re.fullmatch(pattern,before,re.MULTILINE|re.DOTALL)
+            header = before.split('---',2)[1] if before.startswith('---') else ''
+            return (match is not None and len(re.findall(r'^status:',header,re.MULTILINE)) == 1
+                    and after == match[1]+'completed'+match[2])
+        cursor=commit
+        deliveries=[]
+        for node in git('rev-list','--first-parent','--reverse',f'{commit}..{context}').splitlines():
+            paths=git('diff','--name-only',cursor,node).splitlines()
+            deliveries.append((paths,cursor,node))
+            cursor=node
+        if cursor!=context:deliveries.append((changed,commit,context))
+        deliveries.append((dirty,context,None))
+        for paths, before_ref, after_ref in deliveries:
+            authenticated=qualified_lifecycle_delta_paths(root,before_ref,after_ref,git) if after_ref else set()
+            for path in paths:
+                # Existing tested-byte semantics permit restored implementation bytes.
+                # Lifecycle metadata must still authenticate every historical edge.
+                if after_ref and path not in changed and not path.startswith(('specs/coordination/','specs/tasks/','evidence/')):
+                    continue
+                if path in authenticated:
+                    continue
+                if path.startswith(own_prefixes):
+                    continue
+                if path in phase_paths:
+                    before = git('show',f'{before_ref}:{path}')
+                    after = git('show',f'{after_ref}:{path}') if after_ref else (root/path).read_text(encoding='utf-8')
+                    if phase_only(before,after):
+                        continue
+                raise ValueError('current validation context changes non-Own-Evidence source content')
+        if any(not path.startswith(own_prefixes) for path in untracked):
+            raise ValueError('current validation context contains untracked non-Own-Evidence source content')
+    except (subprocess.CalledProcessError,ValueError,OSError,yaml.YAMLError,KeyError,TypeError,AttributeError,zlib.error) as exc:
+        errors.append(f'{label}: immutable source must match actual Git objects and current validation context: {exc}')
+
+
+def validate_qualified_resources(root, plan, execution, resource_catalog, defs, prefix, reviewer, status, window, errors):
+    identity = (execution.get('environmentCaptured') or {}).get('acceptanceProfile')
+    for resource in execution.get('resources') or []:
+        if not isinstance(resource, dict):
+            continue
+        rid = resource.get('id')
+        common = dict(schemaVersion=2, pocId=plan['pocId'], taskId=plan['taskId'], resourceId=rid, acceptanceProfile=identity)
+        for field, kind, definition in (('configurationRef','resource_configuration','resourceConfiguration'), ('bookingRef','resource_booking','resourceBooking')):
+            if field == 'bookingRef' and resource.get(field) is None and not resource_catalog.get(rid, {}).get('bookingRequired'):
+                continue
+            label = f"qualified resource {plan['taskId']}/{rid}/{kind}"
+            record = qualified_record(root, resource.get(field), prefix, defs.get(definition, {}), {**common, 'kind':kind}, label, errors)
+            if record is None:
+                continue
+            approved, first, last = (utc(record.get(k)) for k in ('approvedAt','validFrom','validUntil'))
+            if approved is None or first is None or last is None or first >= last:
+                errors.append(f'{label}: valid approval and resource validity UTC instants are required')
+            elif status == 'pass' and window and not (approved <= window[0] and first <= window[0] and window[1] <= last):
+                errors.append(f'{label}: approval must precede and validity must cover the captured executionWindow')
+            if status == 'pass' and (record.get('status') != 'approved' or record.get('approvedBy') != reviewer or not recorded_text(reviewer)):
+                errors.append(f'{label}: PASS requires approved independent Task reviewer authorization')
+            if field == 'configurationRef' and not recorded(record.get('configuration')):
+                errors.append(f'{label}: configuration must be a nonempty captured record')
+
+
+def safe_generator_relative_path(value):
+    if not isinstance(value,str) or not value or value.strip()!=value or value.startswith('/') or any(ord(char)<32 or ord(char)==127 or char in '\\:<>"|?*' for char in value):
+        return False
+    reserved={'CON','PRN','AUX','NUL'}|{f'{prefix}{number}' for prefix in ('COM','LPT') for number in range(1,10)}
+    return all(part and part not in ('.','..') and not part.endswith((' ','.')) and part.split('.')[0].upper() not in reserved for part in value.split('/'))
+
+
+def validate_qualified_hierarchy_sandbox(root, plan, execution, defs, prefix, status, errors):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-05' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):
+        return
+    label=f"qualified local hierarchy sandbox {plan['taskId']}"
+    capture=env.get('syntheticHierarchySandbox')
+    validate_schema(capture,defs.get('localHierarchySandboxCapture',{}),label,errors)
+    manifest=env.get('synthetic_hierarchy_manifest')
+    generator=manifest.get('generator') if isinstance(manifest,dict) else None
+    root_path=generator.get('rootPath') if isinstance(generator,dict) else None
+    if not safe_generator_relative_path(root_path):
+        errors.append(f'{label}: generator rootPath must be a normalized safe relative sandbox path')
+    if not isinstance(capture,dict):return
+    boundary=capture.get('boundary')
+    resources=[r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-METADATA-SCALE']
+    ref=capture.get('configurationRef')
+    if len(resources)!=1 or ref!=resources[0].get('configurationRef'):
+        errors.append(f'{label}: selected independently approved RES-METADATA-SCALE configuration required');return
+    path=existing_ref(root,ref,prefix)
+    if path is None:
+        errors.append(f'{label}: selected-slot controlled mount configuration must exist');return
+    try:record=load(path)
+    except (OSError,yaml.YAMLError,ValueError):
+        errors.append(f'{label}: controlled mount configuration must be readable');return
+    config=record.get('configuration') if isinstance(record,dict) else None
+    approved=config.get('syntheticHierarchySandbox') if isinstance(config,dict) else None
+    validate_schema(approved,defs.get('localHierarchySandboxBoundary',{}),label+'/approved boundary',errors)
+    if not isinstance(boundary,dict) or boundary!=approved or boundary.get('rootPath')!=root_path or any(not recorded_text(boundary.get(key)) for key in ('sandboxId','mountId','physicalHostId')):
+        errors.append(f'{label}: exact generator root and concrete controlled disposable mount identity must match approved resource boundary')
+
+
+def streamed_metadata_records(path,schema):
+    """Read projected JSONL metadata with bounded line memory; never materialize the manifest."""
+    validator=jsonschema.Draft202012Validator(schema);digest=hashlib.sha256();count=0
+    def fields(pairs):
+        if len({key for key,_ in pairs})!=len(pairs):raise ValueError('duplicate metadata fields')
+        return dict(pairs)
+    with path.open('rb') as stream:
+        while True:
+            line=stream.readline(ARTIFACT_CHUNK_BYTES+1)
+            if not line:break
+            if len(line)>ARTIFACT_CHUNK_BYTES:raise ValueError('metadata record exceeds bounded line representation')
+            digest.update(line);record=json.loads(line,object_pairs_hook=fields);validator.validate(record);count+=1
+            yield record
+    return count,'sha256:'+digest.hexdigest()
+
+
+def validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs,errors,cache,resource,scan_policy,intervals):
+    label=f"qualified metadata scan resources {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('metadataResourceRef'),defs,'metadataResourceObservation',label,errors,cache)
+    path=existing_ref(root,resource['configurationRef'],prefix)
+    try:policy=load(path).get('configuration',{}).get('metadataResourcePolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('metadataResourcePolicy',{}),label+'/approved resource policy',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    bound=('scannerBuild','scanId','manifestId','processId','collectorBuild','sourceIdentity','quotaDocumentRef','quotaDocumentSha256')
+    if any(report[k]!=v for k,v in expected.items()) or any(report[k]!=policy[k] for k in bound) or any(policy[k]!=scan_policy[k] for k in ('scannerBuild','scanId','manifestId')):
+        errors.append(f'{label}: exact approved source adapter/version, scan, process, collector, input and profile identities required');return
+    quota_path=existing_ref(root,policy['quotaDocumentRef'],prefix)
+    if quota_path is None:
+        errors.append(f'{label}: approved selected-slot quota documentation required');return
+    try:
+        if inspect_artifact(quota_path,cache,textual=True)['sha256']!=policy['quotaDocumentSha256']:raise ValueError('quota documentation hash mismatch')
+    except (OSError,ValueError,UnicodeError,yaml.YAMLError):
+        errors.append(f'{label}: readable immutable approved quota documentation required');return
+    quota=qualified_observation_report(quota_path,defs,'metadataQuotaDocument',label+'/quota documentation',errors,cache)
+    if len(errors)!=before or not isinstance(quota,dict):return
+    if quota['sourceIdentity']!=policy['sourceIdentity'] or not all(recorded_text(quota[k]) for k in ('resetSemantics','backoffStrategy','documentationRevision')) or not ai_finite(quota['requestLimit']) or not ai_finite(quota['periodSeconds']) or quota['periodSeconds']<=0 or not ai_finite(quota['maximumBackoffSeconds']):
+        errors.append(f'{label}: documented adapter quota must retain exact source/version and finite reset/backoff semantics');return
+    rows=report['memorySamples'];times=[utc(r['observedAt']) for r in rows]
+    if any(t is None for t in times) or window is None or times!=sorted(times) or not window[0]<=times[0]<=intervals[0][0] or not intervals[-1][1]<=times[-1]<=window[1] or times[0]>=times[-1] or any(any(row[k]!=policy[k] for k in ('processId','scanId','scannerBuild')) for row in rows):
+        errors.append(f'{label}: the same scanner process peak-resident counter must bracket the complete scan workload within its UTC execution');return
+    counters=[r['peakResidentBytes'] for r in rows]
+    if counters!=sorted(counters) or counters[-1]<=0 or not all(ai_finite(c) for c in counters):
+        errors.append(f'{label}: cumulative OS process peak memory must be positive and never reset inside the measured scan');return
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    try:derived=(('source_api_quota',quota['requestLimit']*60/quota['periodSeconds']),('memory_peak',counters[-1]/(1024*1024)))
+    except (OverflowError,ZeroDivisionError):
+        errors.append(f'{label}: resource metrics must have a representable finite derived value');return
+    if any(not ai_finite(value) for _,value in derived):
+        errors.append(f'{label}: resource metrics must have a representable finite derived value');return
+    for metric,value in derived:
+        if not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive the retained approved quota or observed process peak counter in its declared unit')
+
+
+def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-05' or status!='pass':return
+    label=f"qualified metadata scan {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('metadataScanRef'),defs,'metadataScanObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-METADATA-SCALE'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('metadataScanPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('metadataScanPolicy',{}),label+'/approved scan',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    sample=next((s for s in execution.get('samples') or [] if s.get('id')==policy['baselineInputSampleId']),None);input_record=next((r for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict) and r.get('sampleId')==policy['baselineInputSampleId']),None)
+    if any(report[k]!=v for k,v in expected.items()) or policy['scannerBuild']!=expected['subjectVersion'] or any(report[k]!=policy[k] for k in ('manifestId','scannerBuild')) or sample is None or input_record is None or policy['manifestId']!=sample['immutableId'] or policy['baseline']['ref']!=input_record.get('inputArtifactRef') or policy['baseline']['sha256']!=sample['checksum']:
+        errors.append(f'{label}: exact approved immutable metadata input/resource/scanner/profile identities required');return
+    if env.get('acceptanceProfile')==profile_identity('local-v1'):
+        captured=env.get('synthetic_hierarchy_manifest');generator=captured.get('generator') if isinstance(captured,dict) else None
+        if policy.get('hierarchyGenerator')!=generator:errors.append(f'{label}: approved complete hierarchy generator must bind the retained baseline manifest')
+    phases=(report['enumeration'],report['changeStream'],report['incremental']);intervals=[]
+    for phase in phases:
+        first,last=utc(phase['startedAt']),utc(phase['finishedAt'])
+        if first is None or last is None or window is None or not window[0]<=first<last<=window[1]:errors.append(f'{label}: positive measured UTC enumeration/change/traversal intervals within execution required');return
+        intervals.append((first,last,(last-first).total_seconds()))
+    if intervals[0][1]>intervals[1][0] or intervals[1][1]>intervals[2][0] or phases[0]['scanId']!=policy['scanId'] or any(p['changeSetId']!=policy['changeSetId'] for p in phases[1:]):errors.append(f'{label}: baseline enumeration, controlled change set and incremental traversal must bind ordered approved runs')
+    validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs,errors,cache,resource,policy,intervals)
+    handle=tempfile.NamedTemporaryFile(prefix='guize-metadata-',suffix='.sqlite',delete=False);database=Path(handle.name);handle.close();connection=None
+    try:
+        connection=sqlite3.connect(str(database));connection.execute('PRAGMA journal_mode=OFF');connection.execute('PRAGMA temp_store=FILE');connection.execute('PRAGMA cache_size=-8192')
+        connection.executescript('CREATE TABLE baseline(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);CREATE TABLE enumerated(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);CREATE TABLE expected(eventId TEXT PRIMARY KEY,sequence INTEGER UNIQUE,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);CREATE TABLE observed(eventId TEXT PRIMARY KEY,sequence INTEGER UNIQUE,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);CREATE TABLE applied(eventId TEXT PRIMARY KEY);CREATE TABLE traversed(objectId TEXT PRIMARY KEY);CREATE TABLE current(objectId TEXT PRIMARY KEY,versionId TEXT);')
+        def ingest(table,descriptor,schema_name,columns,input_manifest=False):
+            path=existing_ref(root,descriptor['ref'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==descriptor['ref']]
+            if path is None or not input_manifest and (len(records)!=1 or records[0].get('artifactType')!='command_output' or descriptor['ref'] not in (execution.get('rawOutputRefs') or [])):raise ValueError('selected-slot typed retained metadata record stream required')
+            inspected=inspect_artifact(path,cache,textual=True)
+            if inspected['sha256']!=descriptor['sha256']:raise ValueError('metadata stream must bind exact approved/observed immutable bytes')
+            iterator=streamed_metadata_records(path,defs[schema_name]);observed_count=0;previous=None
+            while True:
+                try:record=next(iterator)
+                except StopIteration as terminal:
+                    count,digest=terminal.value;break
+                if schema_name=='metadataObservedChangeRecord':
+                    at=utc(record['observedAt'])
+                    if record['sequence']!=observed_count+1 or at is None or not intervals[1][0]<=at<=intervals[1][1] or at>intervals[2][0] or previous is not None and at<previous:raise ValueError('retained controlled changes need the approved actual sequence and ordered observed timestamps before replay')
+                    previous=at
+                connection.execute('INSERT INTO '+table+' VALUES ('+','.join('?' for _ in columns)+')',tuple(record[k] for k in columns));observed_count+=1
+            if count!=descriptor['count'] or count!=observed_count or digest!=descriptor['sha256']:raise ValueError('actual streamed record count/hash must match the retained observation')
+            return count
+        object_columns=('objectId','kind','versionId','depth','fileSizeBytes');event_columns=('eventId','sequence','objectId','operation','beforeVersion','afterVersion')
+        baseline_count=ingest('baseline',policy['baseline'],'metadataObjectRecord',object_columns,True);enumerated_count=ingest('enumerated',phases[0]['objects'],'metadataObjectRecord',object_columns);expected_count=ingest('expected',policy['expectedChanges'],'metadataChangeRecord',event_columns);event_count=ingest('observed',phases[1]['events'],'metadataObservedChangeRecord',event_columns);ingest('applied',phases[2]['appliedEvents'],'metadataAppliedEventRecord',('eventId',));ingest('traversed',phases[2]['traversedObjects'],'metadataTraversedObjectRecord',('objectId',))
+        def mismatch(first,second,columns='*'):
+            return connection.execute('SELECT '+columns+' FROM '+first+' EXCEPT SELECT '+columns+' FROM '+second+' LIMIT 1').fetchone() is not None or connection.execute('SELECT '+columns+' FROM '+second+' EXCEPT SELECT '+columns+' FROM '+first+' LIMIT 1').fetchone() is not None
+        if baseline_count==0 or mismatch('baseline','enumerated') or mismatch('expected','observed') or mismatch('expected','applied','eventId'):raise ValueError('enumeration and replay must cover the complete approved object/change manifests exactly once')
+        if connection.execute('SELECT min(sequence),max(sequence),count(*) FROM expected').fetchone()!=(1,expected_count,expected_count) or {r[0] for r in connection.execute('SELECT DISTINCT operation FROM expected')}!={'create','update','delete'}:raise ValueError('approved deterministic create/update/delete stream requires a complete ordered sequence')
+        connection.execute('INSERT INTO current SELECT objectId,versionId FROM baseline')
+        for object_id,operation,before_version,after_version in connection.execute('SELECT objectId,operation,beforeVersion,afterVersion FROM expected ORDER BY sequence'):
+            existing=connection.execute('SELECT versionId FROM current WHERE objectId=?',(object_id,)).fetchone();version=existing[0] if existing else 'absent'
+            if version!=before_version or not (before_version=='absent' and after_version!='absent' if operation=='create' else before_version!='absent' and after_version=='absent' if operation=='delete' else before_version!='absent' and after_version!='absent' and before_version!=after_version):raise ValueError('controlled changes must bind valid actual object-version transitions')
+            connection.execute('DELETE FROM current WHERE objectId=?',(object_id,))
+            if after_version!='absent':connection.execute('INSERT INTO current VALUES (?,?)',(object_id,after_version))
+        if connection.execute("SELECT objectId FROM traversed WHERE objectId NOT IN (SELECT objectId FROM baseline UNION SELECT objectId FROM expected WHERE operation='create') LIMIT 1").fetchone():raise ValueError('incremental traversal may only visit governed baseline/created object identities')
+        counts=connection.execute("SELECT sum(kind='file'),sum(kind='directory'),max(depth),sum(CASE WHEN kind='file' THEN fileSizeBytes ELSE 0 END) FROM baseline").fetchone();actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+        if not counts[0]:raise ValueError('average file size requires a nonempty approved file population')
+        derived=dict(enumeration_rate=enumerated_count/intervals[0][2],source_change_frequency=event_count*3600/intervals[1][2],incremental_scan_cost=intervals[2][2],file_count=counts[0],directory_count=counts[1],directory_depth_max=counts[2],average_file_size=counts[3]/counts[0])
+        for metric,value in derived.items():
+            if not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive actual complete streamed object/event counts and measured traversal timestamps')
+        validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,errors,cache,resource,policy,connection)
+    except (OSError,ValueError,UnicodeError,OverflowError,sqlite3.Error,jsonschema.ValidationError) as failure:errors.append(f'{label}: invalid retained metadata observations ({type(failure).__name__})')
+    finally:
+        if connection is not None:connection.close()
+        database.unlink(missing_ok=True)
+
+
+def validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,errors,cache,resource,scan_policy,connection):
+    label=f"qualified metadata profiling {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('metadataProfilingRef'),defs,'metadataProfilingObservation',label,errors,cache)
+    path=existing_ref(root,resource['configurationRef'],prefix)
+    try:config=load(path).get('configuration',{}) if path else {};policy=config.get('metadataProfilingPolicy');resources=config.get('metadataResourcePolicy')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=resources=None
+    validate_schema(policy,defs.get('metadataProfilingPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],manifestId=scan_policy['manifestId'],scannerBuild=scan_policy['scannerBuild'],sourceIdentity=policy['sourceIdentity'])
+    if any(report[k]!=v for k,v in expected.items()) or any(policy[k]!=scan_policy[k] for k in ('manifestId','scannerBuild')) or not isinstance(resources,dict) or policy['sourceIdentity']!=resources.get('sourceIdentity') or report['rangeDisposition']!=policy['rangeDisposition'] or report['validatorKind']!=policy['validatorKind']:errors.append(f'{label}: exact approved source/adapter/build/immutable population/profile required');return
+    columns=('objectId','kind','versionId','depth','fileSizeBytes','name','path','modifiedAt');basic=columns[:5]
+    connection.executescript('CREATE TABLE profile_approved(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER,name TEXT,path TEXT,modifiedAt TEXT);CREATE TABLE profile_observed AS SELECT * FROM profile_approved;CREATE UNIQUE INDEX profile_observed_id ON profile_observed(objectId);CREATE TABLE profile_page AS SELECT * FROM profile_approved;CREATE UNIQUE INDEX profile_page_id ON profile_page(objectId);')
+    def records(descriptor,schema_name):
+        path=existing_ref(root,descriptor['ref'],prefix);matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==descriptor['ref']]
+        if path is None or len(matches)!=1 or matches[0].get('artifactType')!='command_output' or descriptor['ref'] not in (execution.get('rawOutputRefs') or []):raise ValueError('exact selected-slot typed record stream required')
+        iterator=streamed_metadata_records(path,defs[schema_name]);count=0
+        while True:
+            try:row=next(iterator)
+            except StopIteration as terminal:
+                total,digest=terminal.value;break
+            count+=1;yield row
+        if total!=descriptor['count'] or total!=count or digest!=descriptor['sha256']:raise ValueError('complete retained record stream must bind count/hash')
+    def ingest(table,descriptor):
+        for row in records(descriptor,'metadataProfiledObjectRecord'):
+            parts=row['path'].split('/')
+            if any(not p or p in ('.','..') for p in parts) or parts[-1]!=row['name'] or '/' in row['name'] or '\x00' in row['name'] or len(parts)!=row['depth'] or utc(row['modifiedAt']) is None:raise ValueError('actual filename/path/depth/UTC semantics required')
+            connection.execute('INSERT INTO '+table+' VALUES (?,?,?,?,?,?,?,?)',tuple(row[k] for k in columns))
+    def differs(a,b,cols=columns):
+        selection=','.join(cols)
+        return connection.execute('SELECT '+selection+' FROM '+a+' EXCEPT SELECT '+selection+' FROM '+b+' LIMIT 1').fetchone() is not None or connection.execute('SELECT '+selection+' FROM '+b+' EXCEPT SELECT '+selection+' FROM '+a+' LIMIT 1').fetchone() is not None
+    ingest('profile_approved',policy['filenameInput']);ingest('profile_observed',report['filenameObjects'])
+    if differs('profile_approved','baseline',basic) or differs('profile_observed','profile_approved') or connection.execute('SELECT count(*) FROM profile_approved').fetchone()[0]==0:raise ValueError('filename observation must cover the complete exact immutable baseline population')
+    approved_path=existing_ref(root,policy['filenameInput']['ref'],prefix);observed_path=existing_ref(root,report['filenameObjects']['ref'],prefix)
+    if approved_path.samefile(observed_path):raise ValueError('filename output must retain independently observed bytes')
+    categories=policy['extensionCategories']
+    if len(categories)!=len(set(categories)) or any(c!=c.lower() or not recorded_text(c) or c in ('none','other') for c in categories):raise ValueError('distinct approved extension categories required')
+    distributions={k:{} for k in ('nameLength','characterSet','extension','pathDepth')}
+    for kind,name,depth in connection.execute('SELECT kind,name,depth FROM profile_observed'):
+        suffix=name.rsplit('.',1)[1].lower() if '.' in name and not name.startswith('.') else '';extension=suffix if suffix in categories else 'other' if suffix else 'none'
+        values=dict(nameLength=str(len(name)),characterSet='ascii' if name.isascii() else 'non_ascii',pathDepth=str(depth))
+        if kind=='file':values['extension']=extension
+        for k,v in values.items():distributions[k][v]=distributions[k].get(v,0)+1
+    if report['filenameDistributions']!=distributions:raise ValueError('name-length/character-set/approved-extension/path-depth distributions must derive the complete filename stream')
+    run_id=None;run_ids=set();request_ids=set();cursor=None;cursors=set();last=None
+    def finish_run():
+        if cursor is not None or differs('profile_page','profile_approved'):raise ValueError('every repeated provider listing must terminate and cover exact identities/versions/names/timestamps')
+        connection.execute('DELETE FROM profile_page')
+    for row in records(report['providerPages'],'metadataProviderPageRecord'):
+        if row['runId']!=run_id:
+            if run_id is not None:finish_run()
+            if row['runId'] in run_ids:raise ValueError('listing runs must be distinct contiguous observations')
+            run_id=row['runId'];run_ids.add(run_id);cursor=None;cursors=set()
+        first,end,provider_at=(utc(row[k]) for k in ('requestedAt','finishedAt','providerTimestamp'))
+        if any(t is None for t in (first,end,provider_at)) or window is None or not window[0]<=first<=end<=window[1] or last is not None and first<last or row['sourceIdentity']!=policy['sourceIdentity'] or row['endpointURL']!=policy['endpointURL'] or row['statusCode']!=200 or row['requestId'] in request_ids or row['requestCursor']!=cursor or row['nextCursor'] is not None and (not recorded_text(row['nextCursor']) or row['nextCursor'] in cursors):raise ValueError('provider pagination must bind unique actual requests/cursors, source endpoint and UTC behavior')
+        last=end;request_ids.add(row['requestId']);cursor=row['nextCursor'];cursors.add(cursor);ingest('profile_page',row['objects'])
+    if run_id is None or len(run_ids)<policy['minimumListingRuns']:raise ValueError('at least the approved number of complete repeated provider listings required')
+    finish_run();identity=connection.execute('SELECT kind,versionId,fileSizeBytes FROM baseline WHERE objectId=?',(policy['probeObjectId'],)).fetchone()
+    updates=list(connection.execute("SELECT beforeVersion,afterVersion FROM expected WHERE objectId=? AND operation='update'",(policy['probeObjectId'],)))
+    if identity is None or identity[:2]!=('file',policy['baselineVersion']) or (policy['baselineVersion'],policy['updatedVersion']) not in updates:raise ValueError('Range/validator probe must bind governed baseline and actual controlled object update')
+    payloads=[]
+    for key in ('baselinePayload','updatedPayload'):
+        descriptor=policy[key];path=existing_ref(root,descriptor['ref'],prefix);matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==descriptor['ref']]
+        if path is None or len(matches)!=1 or matches[0].get('artifactType')!='produced_media' or not 1<=path.stat().st_size<=65536 or inspect_artifact(path,cache)['sha256']!=descriptor['sha256']:raise ValueError('bounded approved object-version probe bytes required')
+        payloads.append(path.read_bytes())
+    if len(payloads[0])!=identity[2]:raise ValueError('baseline Range probe bytes must bind actual complete approved object metadata size')
+    if payloads[0]==payloads[1]:raise ValueError('controlled update must exercise changed probe content')
+    rows=report['probes'];names={'unchanged_first','unchanged_second','bounded','unsatisfiable','changed'}
+    if {r['case'] for r in rows}!=names or len({r['requestId'] for r in rows})!=5:raise ValueError('exact unique before/repeat/Range/unsupported/update probes required')
+    for row in rows:
+        changed=row['case']=='changed';content=payloads[int(changed)];version=policy['updatedVersion'] if changed else policy['baselineVersion'];at=utc(row['observedAt']);ref=row['responseRef'];path=existing_ref(root,ref,prefix);matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+        if row['objectId']!=policy['probeObjectId'] or row['objectVersion']!=version or at is None or window is None or not window[0]<=at<=window[1] or path is None or len(matches)!=1 or matches[0].get('artifactType')!='produced_media' or path.stat().st_size>65536:raise ValueError('actual source/version/time/response bytes required')
+        info=inspect_artifact(path,cache)
+        if info['sha256']!=row['responseSha256'] or info['size']!=row['responseByteCount']:raise ValueError('response body byte count/hash mismatch')
+        body=path.read_bytes();case=row['case'];expected_range='bytes=0-1' if case=='bounded' else 'bytes='+str(len(content))+'-' if case=='unsatisfiable' else ''
+        if row['requestRange']!=expected_range:raise ValueError('actual bounded/unsatisfiable/full Range request required')
+        if case in ('bounded','unsatisfiable'):
+            disposition=policy['rangeDisposition']
+            expected_status=206 if case=='bounded' else 416
+            expected_body=content[:2] if case=='bounded' else b'';expected_header=f'bytes 0-{min(1,len(content)-1)}/{len(content)}' if case=='bounded' else f'bytes */{len(content)}'
+            good=(row['statusCode']==expected_status and body==expected_body and row['contentRange']==expected_header) if disposition=='supported' else (row['statusCode']==200 and body==content and row['contentRange']=='') if disposition=='ignored' else (row['statusCode'] in (400,405,501) and body==b'' and row['contentRange']=='')
+        else:good=row['statusCode']==200 and body==content and row['contentRange']==''
+        if not good:raise ValueError('Range disposition must derive actual status/header/body behavior, including truthful unsupported support')
+        if policy['validatorKind']=='etag' and (not recorded_text(row['etag']) or row['versionValidator']) or policy['validatorKind']=='version_token' and (row['etag'] or row['versionValidator']!=version) or policy['validatorKind']=='none' and (row['etag'] or row['versionValidator']):raise ValueError('validator kind must match retained HTTP ETag/equivalent version/absence observations')
+    first,second,changed=(next(r for r in rows if r['case']==k) for k in ('unchanged_first','unchanged_second','changed'));key='etag' if policy['validatorKind']=='etag' else 'versionValidator';available=policy['validatorKind']!='none'
+    if not utc(first['observedAt'])<utc(second['observedAt'])<utc(changed['observedAt']) or report['validatorStableOnUnchanged'] is not (available and first[key]==second[key]) or report['validatorChangedOnUpdate'] is not (available and second[key]!=changed[key]):raise ValueError('validator stability/change results must derive before/repeat/update response observations')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if any(actual.get(k) is not True for k in ('filename_characteristics_profiled','provider_characteristics_profiled','range_support_profiled','etag_behavior_profiled')):raise ValueError('four profiling gates must agree with retained derived observations')
+
+
+def validate_qualified_passthrough_identity(root, plan, execution, defs, prefix, status, errors):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-01' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):
+        return
+    label=f"qualified production passthrough identity {plan['taskId']}"
+    capture=env.get('productionPassthroughIdentity')
+    validate_schema(capture,defs.get('productionPassthroughCapture',{}),label,errors)
+    if not isinstance(capture,dict):return
+    resources=[r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-A380-ESXI67']
+    ref=capture.get('configurationRef')
+    if len(resources)!=1 or ref!=resources[0].get('configurationRef'):
+        errors.append(f'{label}: exact selected RES-A380-ESXI67 configuration required');return
+    path=existing_ref(root,ref,prefix)
+    if path is None:
+        errors.append(f'{label}: approved selected-slot configuration must exist');return
+    try:record=load(path)
+    except (OSError,yaml.YAMLError,ValueError):
+        errors.append(f'{label}: approved configuration must be readable');return
+    config=record.get('configuration') if isinstance(record,dict) else None
+    approved=config.get('productionPassthroughIdentity') if isinstance(config,dict) else None
+    validate_schema(approved,defs.get('productionPassthroughIdentity',{}),label+'/approved identity',errors)
+    identity=capture.get('identity')
+    if not isinstance(identity,dict):return
+    if identity!=approved or any(not recorded_text(identity.get(key)) for key in ('nodeId','physicalHostId','guestId','hypervisorBuild','gpuDeviceId','driverBuild','runtimeBuild','encoderBuild')):
+        errors.append(f'{label}: concrete host/guest/GPU/build identity must exactly match approved resource configuration')
+    inventory=env.get('worker_node_inventory')
+    nodes=[node for node in inventory if isinstance(node,dict) and node.get('nodeId')==identity.get('nodeId')] if isinstance(inventory,list) else []
+    if len(nodes)!=1 or any(nodes[0].get(key)!=value for key,value in identity.items() if key not in ('schemaVersion','resourceId')):
+        errors.append(f'{label}: one exact captured A380 passthrough node must match approved hypervisor/GPU/build identity')
+
+
+def validate_qualified_passthrough_firmware(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-01' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):return
+    label=f"qualified production passthrough firmware {plan['taskId']}";capture=env.get('productionPassthroughIdentity')
+    if not isinstance(capture,dict) or not isinstance(capture.get('identity'),dict):return
+    before=len(errors);report=selected_observation(root,execution,prefix,env.get('productionFirmwareRef'),defs,'passthroughFirmwareObservation',label,errors,cache)
+    path=existing_ref(root,capture.get('configurationRef'),prefix)
+    try:config=load(path).get('configuration',{}) if path else {};policy=config.get('passthroughFirmwarePolicy')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('passthroughFirmwarePolicy',{}),label+'/approved firmware',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    identity=capture['identity'];device=identity.get('gpuDeviceId')
+    if report['configurationRef']!=capture.get('configurationRef') or report['identity']!=identity or any(report[key]!=policy[key] for key in ('firmwareBuild','biosConfigurationId','iommuGroupId')):
+        errors.append(f'{label}: exact approved host/device/build/firmware/configuration/group identities required')
+    times=[utc(report[key]) for key in ('settingsCapturedAt','guestEnumeratedAt','runtimeInitializedAt')]
+    if any(t is None for t in times) or window is None or not window[0]<=times[0]<=times[1]<=times[2]<=window[1]:
+        errors.append(f'{label}: captured firmware must precede guest enumeration and runtime initialization within execution')
+    members=report['iommuMembers'];ids=[member['deviceId'] for member in members]
+    isolated=len(ids)==len(set(ids)) and set(ids)==set(policy['approvedGroupDeviceIds']) and device in ids and all(member['requiredHostDevice'] is False and member['assignedToGuest'] is True for member in members)
+    allocated=report['allocatedDeviceId']==device and report['addressSpaceAllocatedBytes']>0 and report['allocationSucceeded'] is True
+    initialized=device in report['enumeratedDeviceIds'] and report['runtimeReady'] is True
+    derived=dict(bios_iommu_configuration_verified=report['iommuEnabled'] is True,iommu_group_isolation_verified=isolated,above_4g_enabled=report['above4gEnabled'] is True and allocated,resizable_bar_enabled=report['resizableBarEnabled'] is True and initialized)
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    for gate,observed in derived.items():
+        if observed is not True or actual.get(gate) is not observed:errors.append(f'{label}: {gate} must derive selected firmware/group/allocation/enumeration observations')
+
+
+def validate_qualified_passthrough_transitions(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-01' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):return
+    label=f"qualified passthrough transitions {plan['taskId']}";capture=env.get('productionPassthroughIdentity')
+    if not isinstance(capture,dict) or not isinstance(capture.get('identity'),dict):return
+    before=len(errors);validate_schema(capture,defs.get('productionPassthroughCapture',{}),label+'/selected identity',errors)
+    if len(errors)!=before:return
+    report=selected_observation(root,execution,prefix,env.get('passthroughTransitionRef'),defs,'passthroughTransitions',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    identity=capture['identity'];device=identity['gpuDeviceId'];config=capture['configurationRef'];inputs={s.get('checksum') for s in execution.get('samples') or []}
+    if report['identity']!=identity or report['configurationRef']!=config:errors.append(f'{label}: exact approved selected host/guest/GPU/driver/runtime/encoder configuration required')
+    if {c['case'] for c in report['cases']}!={'guest_reboot','host_reboot','device_reset'}:errors.append(f'{label}: exact unique guest reboot, host reboot and device reset outcomes required');return
+    seen_probes={};intervals=[]
+    for row in report['cases']:
+        start,end=utc(row['startedAt']),utc(row['finishedAt']);old,new=row['before'],row['after'];old_at,new_at=utc(old['observedAt']),utc(new['observedAt'])
+        if any(t is None for t in (start,end,old_at,new_at)) or window is None or not window[0]<=old_at<=start<end<=new_at<=window[1] or row['manualRebuildCount']!=0:errors.append(f'{label}: retained before/transition/after UTC observations without manual rebuild required')
+        else:intervals.append((start,end,row))
+        kind=row['case']
+        changed=(old['guestBootId']!=new['guestBootId'] and old['hostBootId']==new['hostBootId']) if kind=='guest_reboot' else old['hostBootId']!=new['hostBootId'] if kind=='host_reboot' else old['deviceGenerationId']!=new['deviceGenerationId'] and old['hostBootId']==new['hostBootId'] and old['guestBootId']==new['guestBootId']
+        if not changed:errors.append(f'{label}: each exercised reboot/reset must change its corresponding boot or device generation identity')
+        for state in (old,new):
+            if device not in state['enumeratedDeviceIds'] or device not in state['assignedDeviceIds'] or state['runtimeReady'] is not True:errors.append(f'{label}: actual device enumeration, guest reassignment and initialized runtime required before and after transition')
+            ref=state['probeRef'];count=len(errors);observed=selected_observation(root,execution,prefix,ref,defs,'passthroughRuntimeProbe',label,errors,cache)
+            if observed is None or len(errors)!=count:continue
+            times=[utc(observed[k]) for k in ('startedAt','finishedAt')];at=utc(state['observedAt'])
+            if observed['configurationRef']!=config or observed['identity']!=identity or any(observed[k]!=state[k] for k in ('hostBootId','guestBootId','deviceGenerationId')) or any(t is None for t in times) or at is None or window is None or not window[0]<=times[0]<times[1]<=at<=window[1] or observed['inputSha256'] not in inputs or observed['runtimeReady'] is not True or observed['decodeErrorCount']!=0:errors.append(f'{label}: successful recovered AV1 probe must bind exact approved input/device/build and observed boot/reset generation')
+            payload=existing_ref(root,observed['outputRef'],prefix);matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==observed['outputRef']]
+            if payload is None or len(matches)!=1 or matches[0].get('artifactType')!='produced_media' or matches[0].get('nodeId')!=identity['nodeId'] or observed['outputRef'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: runtime probe requires retained node-bound actual produced output');continue
+            try:actual=inspect_artifact(payload,cache)
+            except OSError:errors.append(f'{label}: produced runtime probe output must be readable');continue
+            if actual['size']==0 or actual['sha256']!=observed['outputSha256']:errors.append(f'{label}: recovered runtime probe must bind nonempty exact output bytes')
+            seen_probes[ref]=observed
+        if old['probeRef']==new['probeRef'] or old['probeRef'] in seen_probes and new['probeRef'] in seen_probes and seen_probes[old['probeRef']]['outputRef']==seen_probes[new['probeRef']]['outputRef']:errors.append(f'{label}: recovery must execute a distinct probe and retain its own produced output')
+        after_probe=seen_probes.get(new['probeRef']);after_started=utc(after_probe['startedAt']) if after_probe else None
+        if after_started is None or end is None or after_started<end:errors.append(f'{label}: recovered runtime probe must start after the exercised transition finishes')
+    ordered=sorted(intervals,key=lambda item:item[0])
+    for previous,current in zip(ordered,ordered[1:]):
+        prior=previous[2]['after'];following=current[2]['before']
+        if previous[1]>current[0] or utc(prior['observedAt'])>current[0] or any(prior[k]!=following[k] for k in ('hostBootId','guestBootId','deviceGenerationId')):errors.append(f'{label}: repeated transitions must retain consistent chronological device/boot state')
+    before=len(errors)
+    firmware=selected_observation(root,execution,prefix,env.get('productionFirmwareRef'),defs,'passthroughFirmwareObservation',label,errors,cache)
+    if firmware is None or len(errors)!=before:return
+    if firmware and ordered and (ordered[0][2]['before']['hostBootId']!=firmware['hostBootId'] or utc(firmware['runtimeInitializedAt']) is None or utc(ordered[0][2]['before']['observedAt'])<utc(firmware['runtimeInitializedAt'])):errors.append(f'{label}: first transition must bind captured initialized host boot')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if any(actual.get(g) is not True for g in ('vm_reboot_recovery','esxi_host_reboot_reenumeration','device_reset_recovery')):errors.append(f'{label}: true recovery gates require corresponding observed transitions and runtime probes')
+
+
+def validate_qualified_production_soak(root, plan, execution, defs, prefix, status, window, errors):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-01' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):
+        return
+    label=f"qualified production soak {plan['taskId']}"
+    capture=env.get('productionPassthroughSoak')
+    validate_schema(capture,defs.get('productionPassthroughSoakCapture',{}),label,errors)
+    if not isinstance(capture,dict):return
+    ref=capture.get('configurationRef')
+    if not isinstance(ref,str) or ref not in {r.get('configurationRef') for r in execution.get('resources') or [] if isinstance(r,dict) and isinstance(r.get('configurationRef'),str)}:
+        errors.append(f'{label}: soak floor must bind a selected independently approved resource configuration')
+        return
+    path=existing_ref(root,ref,prefix)
+    if path is None:return
+    try:record=load(path)
+    except (OSError,yaml.YAMLError,ValueError) as exc:
+        errors.append(f'{label}: cannot read approved soak floor: {exc}')
+        return
+    settings=record.get('configuration') if isinstance(record,dict) else None
+    floor=settings.get('productionPassthroughSoak') if isinstance(settings,dict) else None
+    validate_schema(floor,defs.get('productionPassthroughSoakConfiguration',{}),label+'/approved floor',errors)
+    if not isinstance(floor,dict):return
+    days=floor.get('minimumContinuousDays')
+    if type(days) is not int or days<2 or capture.get('minimumContinuousDays')!=days:
+        errors.append(f'{label}: exact approved minimumContinuousDays must represent at least two complete days')
+        return
+    start,end=utc(capture.get('observedStartedAt')),utc(capture.get('observedFinishedAt'))
+    if start is None or end is None or window is None or not window[0]<=start<end<=window[1]:
+        errors.append(f'{label}: continuous observed interval must be within executionWindow')
+        return
+    raw=capture.get('rawOutputRef')
+    records=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==raw]
+    raw_path=existing_ref(root,raw,prefix)
+    passthrough=env.get('productionPassthroughIdentity')
+    identity=passthrough.get('identity') if isinstance(passthrough,dict) else None
+    if len(records)!=1 or records[0].get('artifactType')!='scope_observation' or raw not in (execution.get('rawOutputRefs') or []) or raw_path is None:
+        errors.append(f'{label}: observed soak must bind selected-slot typed scope_observation bytes')
+    elif not isinstance(identity,dict) or records[0].get('nodeId')!=identity.get('nodeId') or ref!=passthrough.get('configurationRef'):
+        errors.append(f'{label}: dedicated observation must bind the selected approved A380 node/configuration')
+    else:
+        phone=env.get('android_thermal_background_observation')
+        scope=env.get('android_validation_scope')
+        other_refs=[value.get('rawOutputRef') for value in (phone,scope) if isinstance(value,dict)]+[env.get('androidMediaProbeRef')]
+        aliases=any(raw==other or ((other_path:=existing_ref(root,other,prefix)) is not None and raw_path.samefile(other_path)) for other in other_refs)
+        if aliases:
+            errors.append(f'{label}: dedicated A380 soak observation must be physically distinct from phone/media/probe artifacts')
+        else:
+            report=qualified_observation_report(raw_path,defs,'productionPassthroughSoakObservation',label,errors,{})
+            expected=dict(configurationRef=ref,identity=identity,observedStartedAt=capture.get('observedStartedAt'),observedFinishedAt=capture.get('observedFinishedAt'),continuous=True)
+            if report is not None and any(report.get(key)!=value for key,value in expected.items()):
+                errors.append(f'{label}: dedicated observation contents must bind exact approved A380 identity and continuous captured interval')
+    observed_hours=(end-start).total_seconds()/3600
+    actual=next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='multi_day_stability_duration'),None)
+    if observed_hours<days*24 or not good_actual('hours',actual) or not math.isclose(actual,observed_hours,rel_tol=1e-9,abs_tol=1e-9):
+        errors.append(f'{label}: multi_day_stability_duration must match observed hours and reach the approved continuous multi-day floor')
+
+
+def validate_qualified_domains(root, plan, execution, route, configuration, defs, prefix, reviewer, window, errors):
+    known = NONNEGATIVE_UNITS | {'boolean','percent','ratio','celsius'}
+    required = {m['id']:m for m in route['protocol']['measurements'] if m['unit'] not in known}
+    refs = configuration.get('numericDomainReviewRefs', {}) if isinstance(configuration, dict) else {}
+    if not isinstance(refs, dict) or set(refs) != set(required):
+        errors.append(f"qualified domains {plan['taskId']}: exact model/rubric-specific domain review references required")
+        return
+    env = execution.get('environmentCaptured') or {}
+    captured = {key:env.get(key) for key in route['captureBeforeExecution']}
+    actual = {m.get('id'):m.get('actual') for m in execution.get('measurements') or []}
+    for mid, measurement in required.items():
+        label = f"qualified domain {plan['taskId']}/{mid}"
+        expected = dict(schemaVersion=2, kind='measurement_domain_review', pocId=plan['pocId'], taskId=plan['taskId'],
+                        acceptanceProfile=env.get('acceptanceProfile'), measurementId=mid, unit=measurement['unit'], environmentCaptured=captured)
+        record = qualified_record(root, refs[mid], prefix, defs.get('measurementDomainReview', {}), expected, label, errors)
+        if record is None:
+            continue
+        if record.get('decision') != 'approved' or record.get('reviewer') != reviewer or not recorded_text(reviewer):
+            errors.append(f'{label}: independent Task reviewer approval required')
+        approved = utc(record.get('approvedAt'))
+        if approved is None or (window and approved > window[0]):
+            errors.append(f'{label}: domain approval must precede the captured executionWindow')
+        if existing_ref(root, record.get('definitionRef'), prefix) is None:
+            errors.append(f'{label}: reviewed scale definition must exist inside selected slot')
+        domain = record.get('domain') or {}
+        if not isinstance(domain, dict):
+            errors.append(f'{label}: numeric domain must be a structured record')
+            continue
+        lower, upper = domain.get('minimum'), domain.get('maximum')
+        bounded = domain.get('mode') == 'bounded'
+        if bounded:
+            if any(isinstance(v, bool) or not isinstance(v, (int,float)) or not math.isfinite(float(v)) for v in (lower,upper)) or lower > upper:
+                errors.append(f'{label}: bounded scale requires finite ordered numeric limits')
+                continue
+        elif domain.get('mode') != 'finite' or lower is not None or upper is not None:
+            errors.append(f'{label}: unbounded model scale must explicitly declare finite mode and null limits')
+            continue
+        value = actual.get(mid)
+        if not good_actual(measurement['unit'], value, mid) or (bounded and not lower <= value <= upper) or (domain.get('integral') is True and value != int(value)):
+            errors.append(f'{label}: actual value violates approved numeric domain')
+
+
+ARTIFACT_CHUNK_BYTES = 1024 * 1024
+RAW_ASSIGNMENT = re.compile(r'''(?:["'](?P<quoted>[^\r\n"']{1,128})["']|(?P<plain>[A-Za-z][A-Za-z0-9_.:/-]{0,127}))\s*[:=](?=(?P<value>[^\r\n]{0,128}))''')
+RAW_AUTHORIZATION = re.compile(r'''(?i)\b(?:authorization|proxy-authorization)["']?\s*[:=]\s*["']?(?:Bearer|Basic)\s+\S+''')
+
+
+def inspect_artifact(path, cache, textual=False, byte_range=None):
+    """One bounded read per artifact type within this validation invocation."""
+    cached = cache.get(path)
+    if cached is not None and (not textual or cached['textScanned']) and (byte_range is None or byte_range in cached.get('rangeHashes',{})):
+        return cached
+    digest = hashlib.sha256()
+    size = path.stat().st_size
+    valid_range=byte_range is not None and len(byte_range)==2 and all(type(value) is int for value in byte_range) and 0<=byte_range[0]<=byte_range[1]<size
+    complete_range=valid_range and byte_range==(0,size-1)
+    range_digest=hashlib.sha256() if valid_range and not complete_range else None
+    offset=0
+    decoder = codecs.getincrementaldecoder('utf8')('strict') if textual else None
+    scan_decoder = codecs.getincrementaldecoder('utf8')('replace') if textual else None
+    tail, credential, invalid_utf8 = '', False, False
+    def scan(text):
+        nonlocal tail, credential
+        window = tail+text
+        findings = []
+        secret_scan(window,'raw textual artifact',findings)
+        for match in RAW_ASSIGNMENT.finditer(window):
+            key = match['quoted'] or match['plain']
+            value = False if re.match(r'(?i)^false(?:\s*$|\s*[,}])',match['value'].strip()) else match['value']
+            if secret_key(key,value): findings.append('credential-bearing assignment')
+        credential = credential or bool(findings) or RAW_AUTHORIZATION.search(window) is not None
+        tail = window[-4096:]
+    with path.open('rb') as handle:
+        for chunk in iter(lambda: handle.read(ARTIFACT_CHUNK_BYTES),b''):
+            digest.update(chunk)
+            if range_digest is not None:
+                first,last=byte_range
+                low,high=max(0,first-offset),min(len(chunk),last+1-offset)
+                if low<high:range_digest.update(chunk[low:high])
+            offset+=len(chunk)
+            if scan_decoder is not None:scan(scan_decoder.decode(chunk))
+            if decoder is not None:
+                try: decoder.decode(chunk)
+                except UnicodeDecodeError:
+                    invalid_utf8 = True
+                    decoder = None
+        if scan_decoder is not None:scan(scan_decoder.decode(b'',final=True))
+        if decoder is not None:
+            try: decoder.decode(b'',final=True)
+            except UnicodeDecodeError: invalid_utf8 = True
+    cached = dict(size=size,sha256='sha256:'+digest.hexdigest(),textScanned=textual,credential=credential,invalidUtf8=invalid_utf8)
+    if valid_range:
+        cached['rangeHashes']={byte_range:cached['sha256'] if complete_range else 'sha256:'+range_digest.hexdigest() if offset>byte_range[1] else None}
+    cache[path] = cached
+    return cached
+
+
+def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, status, record_refs, errors, artifact_cache=None):
+    artifact_cache = {} if artifact_cache is None else artifact_cache
+    label = f"qualified raw artifacts {plan['taskId']}"
+    if isinstance(configuration,dict) and 'approvedAt' in configuration:
+        approved = utc(configuration['approvedAt'])
+        if approved is None or approved > datetime.now(timezone.utc):
+            errors.append(f'{label}: profile configuration approval must have occurred by validation time')
+    refs = execution.get('rawOutputRefs') or []
+    records = (execution.get('environmentCaptured') or {}).get('rawExecutionArtifacts')
+    if not isinstance(records,list) or not records:
+        errors.append(f'{label}: typed rawExecutionArtifacts are required')
+        return
+    structured = {ref for ref in record_refs if isinstance(ref,str)}
+    def reserve(ref):
+        if isinstance(ref,str): structured.add(ref)
+    for resource in execution.get('resources') or []:
+        if isinstance(resource,dict):
+            for key in ('configurationRef','bookingRef'): reserve(resource.get(key))
+    for sample in execution.get('samples') or []:
+        if isinstance(sample,dict): reserve(sample.get('approvalRef'))
+    for review in execution.get('complianceReviews') or []:
+        if isinstance(review,dict): reserve(review.get('reviewRef'))
+    reserve((execution.get('environmentCaptured') or {}).get('acceptanceProfileConfigurationRef'))
+    poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
+    profile = ((execution.get('environmentCaptured') or {}).get('acceptanceProfile') or {}).get('id')
+    if profile in PROFILE_SCOPES: structured.add(profile_index_ref(poc_task,profile))
+    domains = configuration.get('numericDomainReviewRefs',{}) if isinstance(configuration,dict) else {}
+    if isinstance(domains,dict):
+        for ref in domains.values():
+            reserve(ref)
+            path = existing_ref(root,ref,prefix)
+            if path:
+                try: reserve(load(path).get('definitionRef'))
+                except (OSError,ValueError,AttributeError,yaml.YAMLError): pass
+    structured_paths = [path for ref in structured if (path := existing_ref(root,ref,prefix)) is not None]
+    seen, kinds, total_bytes = [], {}, 0
+    for record in records:
+        validate_schema(record,defs.get('recoveryRawExecutionArtifact' if plan['pocId']=='POC-10' else 'rawExecutionArtifact',{}),label,errors)
+        if not isinstance(record,dict): continue
+        ref = record.get('ref')
+        seen.append(ref)
+        if isinstance(ref,str): kinds[ref] = record.get('artifactType')
+        path = existing_ref(root,ref,prefix)
+        if path is None:
+            errors.append(f'{label}: artifact must exist in selected slot')
+            continue
+        if ref in structured or any(path.samefile(peer) for peer in structured_paths):
+            errors.append(f'{label}: raw outputs must be disjoint from structured records and approvals')
+        try:
+            actual = inspect_artifact(path,artifact_cache,textual=record.get('artifactType') != 'produced_media')
+        except OSError as exc:
+            artifact_cache[path] = dict(size=0,sha256=None,textScanned=True,credential=False,invalidUtf8=False,readError=True)
+            errors.append(f'{label}: cannot read raw artifact: {exc}')
+            continue
+        total_bytes += actual['size']
+        if actual['credential']:
+            errors.append(f'{label}: credentials forbidden in raw textual artifacts')
+        if actual['invalidUtf8'] and not (plan['pocId']=='POC-10' and record.get('artifactType')=='recovery_output'):
+            errors.append(f'{label}: raw textual artifacts must decode as UTF-8')
+        if type(record.get('byteCount')) is not int or record['byteCount'] != actual['size']:
+            errors.append(f'{label}: byteCount must bind actual raw bytes')
+        if record.get('sha256') != actual['sha256']:
+            errors.append(f'{label}: checksum must bind actual raw bytes')
+    if any(not isinstance(ref,str) for ref in seen+refs) or len(seen) != len(set(ref for ref in seen if isinstance(ref,str))) or set(ref for ref in seen if isinstance(ref,str)) != set(ref for ref in refs if isinstance(ref,str)):
+        errors.append(f'{label}: exact unique rawOutputRefs mapping is required')
+    for command in execution.get('commands') or []:
+        if isinstance(command,dict) and kinds.get(command.get('outputRef')) != 'command_output':
+            errors.append(f'{label}: command output must identify a command_output artifact')
+    if status == 'pass' and total_bytes == 0:
+        errors.append(f'{label}: PASS requires nonempty dedicated raw output')
+    if plan['pocId'] == 'POC-02' and status == 'pass':
+        ref = (execution.get('environmentCaptured') or {}).get('producedMediaArtifactRef')
+        media = existing_ref(root,ref,prefix)
+        if not isinstance(ref,str) or kinds.get(ref) != 'produced_media' or media is None or media.stat().st_size == 0:
+            errors.append(f'{label}: POC-002 PASS requires a designated nonempty produced_media artifact')
+        elif (execution.get('provenance') or {}).get('output_sha256') != inspect_artifact(media,artifact_cache)['sha256']:
+            errors.append(f'{label}: POC-002 output_sha256 must match produced media bytes')
+
+
+
+
+def validate_qualified_media_scheduling(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified playback scheduling {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('mediaSchedulingRef'),defs,'mediaSchedulingObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:configuration=load(path).get('configuration',{}) if path else {};policy=configuration.get('mediaSchedulingPolicy');security=configuration.get('mediaNegativePolicy')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=security=None
+    validate_schema(policy,defs.get('mediaSchedulingPolicy',{}),label+'/approved policy',errors)
+    validate_schema(security,defs.get('mediaNegativePolicy',{}),label+'/existing approved permissions',errors)
+    if report is None or len(errors)!=before:return
+    context_keys=('assetId','assetVersion','authorizedUserId','deniedUserId','currentGrantId','expiredGrantId','revokedGrantId','aclVersion','grantValidFrom','grantValidUntil','revokedAt')
+    context={k:security[k] for k in context_keys}
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],context=context,schedulerBuild=policy['schedulerBuild'],demandEpoch=policy['demandEpoch'])
+    if policy['context']!=context or any(report[k]!=v for k,v in expected.items()) or not all(ai_finite(policy[k]) for k in ('agingStepSeconds','maximumAdmissionSeconds','maximumFirstReadySeconds')):
+        errors.append(f'{label}: exact approved resource/profile/input and existing asset/user/ACL/grant context required');return
+    inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
+    assembly=env.get('parallelMediaAssembly');assembly=assembly if isinstance(assembly,dict) else {}
+    sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==policy['inputSampleId']),None)
+    total,per_node,reserved=policy['totalCapacity'],policy['perNodeCapacity'],policy['reservedPlaybackSlots']
+    if not nodes or sample is None or sample['checksum']!=policy['inputSha256'] or sample['immutableId']!=context['assetVersion'] or policy['sourceFrameCount']!=assembly.get('sourceFrameCount') or not 0<reserved<total<=len(nodes)*per_node:
+        errors.append(f'{label}: controlled inventory, source and positive bounded reserved capacity required');return
+    if env.get('acceptanceProfile')==profile_identity('local-v1'):
+        caps=env.get('scheduler_configuration');caps=caps if isinstance(caps,dict) else {}
+        if caps.get('maxConcurrentSegments')!=total or caps.get('perNodeConcurrency')!=per_node or type(caps.get('maxConcurrentSegments')) is not int or type(caps.get('perNodeConcurrency')) is not int:errors.append(f'{label}: scheduling caps must equal the approved local capture');return
+    grant_from,grant_until=utc(context['grantValidFrom']),utc(context['grantValidUntil'])
+    if grant_from is None or grant_until is None or grant_from>=grant_until or window is None:errors.append(f'{label}: approved grant and execution UTC window required');return
+    approved={j['jobId']:j for j in policy['jobs']};jobs={j['jobId']:j for j in report['jobs']}
+    if len(approved)!=len(policy['jobs']) or len(jobs)!=len(report['jobs']) or set(jobs)!=set(approved):errors.append(f'{label}: unique complete approved job matrix required');return
+    if any(policy[k] not in jobs for k in ('playbackJobId','prewarmJobId','agingJobId')) or not policy['saturationJobIds'] or len(set(policy['saturationJobIds']))!=len(policy['saturationJobIds']) or any(j not in jobs for j in policy['saturationJobIds']):errors.append(f'{label}: exact playback/prewarm/aging and background saturation subjects required');return
+    clocks={};allowed={};outputs=[];priorities={'playback':0,'prewarm':3,'background':6}
+    for job_id,row in jobs.items():
+        spec=approved[job_id];node=nodes.get(spec['nodeId'])
+        if any(row[k]!=v for k,v in spec.items()) or node is None or spec['encoderBuild']!=node.get('encoderBuild') or not 0<=spec['sourceStartFrame']<spec['sourceEndFrame']<=policy['sourceFrameCount']:
+            errors.append(f'{label}: each job must bind approved node/build/purpose/input span');continue
+        stamps={k:utc(row[k]) if row[k] is not None else None for k in ('queuedAt','admittedAt','startedAt','finishedAt','readyAt')};queued=stamps['queuedAt']
+        if queued is None or not window[0]<=queued<=window[1]:errors.append(f'{label}: actual queue timestamp required');continue
+        valid=spec['userId']==context['authorizedUserId'] and spec['grantId']==context['currentGrantId'] and spec['aclVersion']==context['aclVersion'] and spec['demandEpoch']==policy['demandEpoch'] and grant_from<=queued<=grant_until
+        allowed[job_id]=valid;clocks[job_id]=stamps
+        if not valid:
+            file=existing_ref(root,row['denialBodyRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['denialBodyRef']]
+            if any(stamps[k] is not None for k in ('admittedAt','startedAt','finishedAt','readyAt')) or any(row[k] is not None for k in ('outputArtifactRef','outputSha256','decodeRef')) or file is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or row['denialBodyRef'] not in (execution.get('rawOutputRefs') or []) or inspect_artifact(file,cache)['size']!=0 or inspect_artifact(file,cache)['sha256']!=row['denialBodySha256']:
+                errors.append(f'{label}: unauthorized/expired/revoked/stale demand cannot consume slots or return media bytes')
+            continue
+        admitted,start,end,ready=(stamps[k] for k in ('admittedAt','startedAt','finishedAt','readyAt'))
+        if any(t is None for t in (admitted,start,end,ready)) or not queued<=admitted<=start<end<=ready<=window[1] or admitted>grant_until or row['denialBodyRef'] is not None:
+            errors.append(f'{label}: authorized job queue/admission/run/completion/READY clocks required');continue
+        file=existing_ref(root,row['outputArtifactRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['outputArtifactRef']]
+        if file is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=spec['nodeId'] or row['outputArtifactRef'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: exact node-produced output bytes required');continue
+        info=inspect_artifact(file,cache);other_refs=[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')!=row['outputArtifactRef']]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]
+        other_refs += [j.get('outputArtifactRef') for j in report['jobs'] if j['jobId']!=job_id]+[r.get('outputArtifactRef') for r in env.get('workerEncodeExecutions') or [] if isinstance(r,dict)]
+        if info['size']<=0 or info['sha256']!=row['outputSha256'] or any(file.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):errors.append(f'{label}: scheduling outputs must have actual distinct nonempty bytes/hash');continue
+        decode_before=len(errors);probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'mediaSchedulingDecode',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=decode_before:continue
+        decoded=utc(probe['observedAt']);identity=dict(jobId=job_id,demandEpoch=policy['demandEpoch'],nodeId=spec['nodeId'],encoderBuild=spec['encoderBuild'],decoderBuild=policy['decoderBuild'],inputSampleId=policy['inputSampleId'],inputSha256=policy['inputSha256'],sourceStartFrame=spec['sourceStartFrame'],sourceEndFrame=spec['sourceEndFrame'],outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256'])
+        if any(probe[k]!=v for k,v in identity.items()) or decoded is None or not end<=decoded<=ready or probe['decodedFrameCount']!=spec['sourceEndFrame']-spec['sourceStartFrame'] or probe['decodeErrorCount']!=0 or probe['decodable'] is not True:errors.append(f'{label}: first READY and completion must bind exact AV1 decoder/input/build/span/output')
+        outputs.append(file)
+    if len(clocks)!=len(jobs) or len(errors)!=before:return
+    if any(not ai_finite(max(0,(window[1]-times['queuedAt']).total_seconds())/policy['agingStepSeconds']) for times in clocks.values()):
+        errors.append(f'{label}: finite representable approved aging interval required');return
+    def priority(job_id,at):
+        waited=max(0,(at-clocks[job_id]['queuedAt']).total_seconds())
+        return max(policy['agingFloorPriority'],priorities[jobs[job_id]['purpose']]-math.floor(waited/policy['agingStepSeconds'])) if jobs[job_id]['purpose']!='playback' else 0
+    def active(at,strict=False):return [j for j in jobs if allowed[j] and clocks[j]['admittedAt'] is not None and (clocks[j]['admittedAt']<at if strict else clocks[j]['admittedAt']<=at) and at<clocks[j]['finishedAt']]
+    # State snapshots and admission intervals describe cooperative capacity;
+    # no running encoder is stopped to grant the playback reservation.
+    snapshots=report['snapshots'];observed=[]
+    for snapshot in snapshots:
+        at=utc(snapshot['observedAt']);observed.append(at)
+        if at is None or not window[0]<=at<=window[1] or len(snapshot['jobs'])!=len(jobs) or {r['jobId'] for r in snapshot['jobs']}!=set(jobs):errors.append(f'{label}: bounded complete UTC queue-state snapshots required');continue
+        for state in snapshot['jobs']:
+            j=state['jobId'];t=clocks[j]
+            wanted='not_queued' if at<t['queuedAt'] else 'denied' if not allowed[j] else 'queued' if at<t['admittedAt'] else 'admitted' if at<t['startedAt'] else 'running' if at<t['finishedAt'] else 'completed' if at<t['readyAt'] else 'ready'
+            aging_at=min(at,t['admittedAt']) if allowed[j] and t['admittedAt'] is not None else at
+            if state['state']!=wanted or state['basePriority']!=priorities[jobs[j]['purpose']] or state['effectivePriority']!=priority(j,aging_at):errors.append(f'{label}: P0/P3/P6 queue state and aging priority must derive actual timestamps')
+        running=active(at)
+        if len(running)>total or sum(jobs[j]['purpose']!='playback' for j in running)>total-reserved or any(sum(jobs[j]['nodeId']==n for j in running)>per_node for n in nodes):errors.append(f'{label}: reserved playback/total/per-node capacity cannot be oversubscribed')
+    if any(t is None for t in observed) or observed!=sorted(observed) or len(set(observed))!=len(observed):errors.append(f'{label}: ordered distinct state snapshots required')
+    admissions=[(j,clocks[j]['admittedAt'],clocks[j]['finishedAt']) for j in jobs if allowed[j]]
+    if encode_interval_capacity(admissions)[0]>total or encode_interval_capacity([interval for interval in admissions if jobs[interval[0]]['purpose']!='playback'])[0]>total-reserved or any(encode_interval_capacity([interval for interval in admissions if jobs[interval[0]]['nodeId']==node])[0]>per_node for node in nodes):
+        errors.append(f'{label}: admission intervals exceed total/per-node/non-playback reserved capacity')
+    for j in jobs:
+        if not allowed[j]:continue
+        at=clocks[j]['admittedAt'];running=active(at,True);n=jobs[j]['nodeId'];eligible=[]
+        for q in jobs:
+            t=clocks[q]
+            if not allowed[q] or t['queuedAt']>at or q!=j and t['admittedAt']<=at:continue
+            if len(running)>=total or sum(jobs[a]['nodeId']==jobs[q]['nodeId'] for a in running)>=per_node or jobs[q]['purpose']!='playback' and sum(jobs[a]['purpose']!='playback' for a in running)>=total-reserved:continue
+            eligible.append(q)
+        if j not in eligible or any(priority(q,at)<priority(j,at) for q in eligible):errors.append(f'{label}: admission must honor effective queue priority and reserved capacity')
+    playback=policy['playbackJobId'];prewarm=policy['prewarmJobId'];aged=policy['agingJobId'];p=clocks[playback]
+    if not all(allowed[j] for j in (playback,prewarm,aged)) or jobs[playback]['purpose']!='playback' or jobs[prewarm]['purpose']!='prewarm' or jobs[aged]['purpose']!='background' or priority(aged,clocks[aged]['admittedAt'])>=6:errors.append(f'{label}: exercised P0 playback, P3 prewarm and aged P6 background required')
+    saturated=policy['saturationJobIds'];queued=p['queuedAt'];admitted=p['admittedAt']
+    if len(saturated)!=total-reserved or any(not allowed[j] or jobs[j]['purpose']!='background' or not clocks[j]['startedAt']<=queued<admitted<clocks[j]['finishedAt'] for j in saturated) or queued not in observed or admitted not in observed or report['preemptedRunningProcessIds']:
+        errors.append(f'{label}: actual background saturation must persist across reserved playback admission without FFmpeg preemption')
+    admission=(admitted-queued).total_seconds();ready_latency=(p['readyAt']-queued).total_seconds()
+    if not ai_finite(report['admissionLatencySeconds']) or not ai_finite(report['firstReadyLatencySeconds']) or not math.isclose(report['admissionLatencySeconds'],admission,rel_tol=1e-9,abs_tol=1e-9) or not math.isclose(report['firstReadyLatencySeconds'],ready_latency,rel_tol=1e-9,abs_tol=1e-9) or admission>policy['maximumAdmissionSeconds'] or ready_latency>policy['maximumFirstReadySeconds'] or p['readyAt'] not in observed:errors.append(f'{label}: admission and decoded first READY latency must derive complete observed playback clocks')
+    fallback=report['fallback'];at=utc(fallback['observedAt']);fallback_before=len(errors);h264=selected_observation(root,execution,prefix,env.get('h264FallbackRef'),defs,'mediaFallbackObservation',label+'/fallback',errors,cache)
+    if h264 is not None and len(errors)==fallback_before:
+        expected_fallback=dict(jobId=playback,userId=context['authorizedUserId'],grantId=context['currentGrantId'],aclVersion=context['aclVersion'],assetId=context['assetId'],assetVersion=context['assetVersion'],demandEpoch=policy['demandEpoch'],outputArtifactRef=h264['outputArtifactRef'],outputSha256=h264['outputSha256'],decodeRef=h264['decodeRef'])
+        file=existing_ref(root,fallback['outputArtifactRef'],prefix);decode=selected_observation(root,execution,prefix,fallback['decodeRef'],defs,'mediaFallbackDecodeObservation',label+'/fallback decode',errors,cache)
+        decoded=utc(decode.get('observedAt')) if isinstance(decode,dict) else None
+        decode_identity={k:h264[k] for k in ('runId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame')}
+        if any(fallback[k]!=v for k,v in expected_fallback.items()) or at is None or not max(queued,grant_from)<=at<=min(p['readyAt'],grant_until) or file is None or inspect_artifact(file,cache)['size']<=0 or inspect_artifact(file,cache)['sha256']!=fallback['outputSha256'] or decode is None or decoded is None or at is None or decoded>at or any(decode.get(k)!=v for k,v in decode_identity.items()) or decode.get('decodedFrameCount')!=h264['encodedFrameCount'] or decode.get('codec')!='h264' or decode.get('outputArtifactRef')!=fallback['outputArtifactRef'] or decode.get('outputSha256')!=fallback['outputSha256'] or decode.get('decodable') is not True or decode.get('decodeErrorCount')!=0:errors.append(f'{label}: authorized source/H264 fallback must retain exact independent decoder and actual bytes before first AV1 READY')
+    if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='playback_priority_reserved_capacity'),None) is not True:errors.append(f'{label}: scheduling gate must agree with observed priority/reserved capacity outcomes')
+
+
+def validate_qualified_worker_capabilities(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-01' or status!='pass':return
+    label=f"qualified worker capabilities {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('workerCapabilitiesRef'),defs,'workerCapabilityObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('workerCapabilityPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('workerCapabilityPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
+    if any(report[k]!=v for k,v in expected.items()) or not nodes or len(nodes)!=len(inventory) or env.get('encoder_capability_matrix')!=policy['claims'] or not ai_finite(policy['framesPerSecond']):errors.append(f'{label}: exact approved inventory/codec matrix, input/profile and build required');return
+    scope=env.get('physical_host_scope');host_values=[n.get('physicalHostId') for n in nodes.values()];scope_hosts=scope.get('physicalHostIds') if isinstance(scope,dict) else None
+    if any(not recorded_text(h) for h in host_values):errors.append(f'{label}: every inventory node needs a concrete physical host identity');return
+    hosts=set(host_values)
+    if not all(recorded_text(h) for h in hosts) or not isinstance(scope_hosts,list) or not scope_hosts or any(not recorded_text(h) for h in scope_hosts) or len(scope_hosts)!=len(set(scope_hosts)) or set(scope_hosts)!=hosts or scope.get('physicalMultiHostValidated') is not (len(hosts)>1):
+        errors.append(f'{label}: physical host scope must cover every exact inventory node and disclose same-host limits');return
+    if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='worker_physical_scope_recorded'),None) is not True:
+        errors.append(f'{label}: physical scope gate must derive the complete node-to-host comparison');return
+    try:duration=policy['sourceFrameCount']/policy['framesPerSecond']
+    except (OverflowError,ZeroDivisionError):duration=None
+    if not ai_finite(duration) or duration<=0:errors.append(f'{label}: finite positive approved source duration required');return
+    claims=policy['claims'];ids=[c['caseId'] for c in claims];pairs=[(c['nodeId'],c['codec']) for c in claims]
+    scope=env.get('vm_validation_scope') if env.get('acceptanceProfile')==profile_identity('local-v1') else env.get('android_validation_scope');android=scope.get('nodeId') if isinstance(scope,dict) else None
+    if len(ids)!=len(set(ids)) or len({c['runId'] for c in claims})!=len(claims) or len(pairs)!=len(set(pairs)) or {n for n,c in pairs}!=set(nodes) or any(not {'av1','h264'}.issubset({codec for node,codec in pairs if node==n}) for n in nodes) or any(c['status']=='untested' and c['codec'] in ('av1','h264') for c in claims) or not any(c['nodeId']==android and c['codec']=='av1' and c['status']=='supported' for c in claims) or len(report['claims'])!=len(claims) or {r['caseId'] for r in report['claims']}!=set(ids):
+        errors.append(f'{label}: every exact node needs AV1/H264 probe disposition and every advertised codec claim needs a unique retained observation');return
+    media_paths=[]
+    for row in report['claims']:
+        claim=next(c for c in claims if c['caseId']==row['caseId']);node=nodes[claim['nodeId']];sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==claim['inputSampleId']),None)
+        if any(row[k]!=v for k,v in claim.items()) or any(claim[k]!=node.get(k) for k in ('nodeId','physicalHostId','platform','osBuild','architecture','encoderBuild','compatibilityGroupId','nodeConfiguration')) or sample is None or claim['inputSha256']!=sample['checksum'] or claim['sourceStartFrame']!=0 or claim['sourceEndFrame']!=policy['sourceFrameCount'] or any(not recorded_text(claim[k]) for k in ('osBuild','architecture','encoderBuild','decoderBuild')) or claim['encoderParameters'].get('codec')!=claim['codec']:
+            errors.append(f'{label}: codec probe must bind exact approved node OS/architecture/build/config/command/input');continue
+        before=len(errors)
+        if claim['status']!='supported':
+            diagnostic=selected_observation(root,execution,prefix,row['diagnosticRef'],defs,'workerCapabilityDiagnostic',label+'/diagnostic',errors,cache)
+            if diagnostic is None or len(errors)!=before:continue
+            observed=utc(diagnostic['observedAt']);raw=existing_ref(root,diagnostic['rawProbeRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==diagnostic['rawProbeRef']]
+            if any(diagnostic[k]!=v for k,v in claim.items()) or not recorded_text(diagnostic['reason']) or not recorded_text(diagnostic['probeToolBuild']) or observed is None or window is None or not window[0]<=observed<=window[1] or raw is None or len(records)!=1 or records[0].get('artifactType')!='command_output' or records[0].get('nodeId')!=claim['nodeId'] or not 0<raw.stat().st_size<=65536 or inspect_artifact(raw,cache)['sha256']!=diagnostic['rawProbeSha256']:
+                errors.append(f'{label}: unsupported/untested claims require exact node-bound bounded diagnostic probe bytes')
+            continue
+        start,end=utc(row['startedAt']),utc(row['finishedAt'])
+        if start is None or end is None or window is None or not window[0]<=start<end<=window[1] or row['exitCode']!=0 or row['encodedFrameCount']!=policy['sourceFrameCount']:errors.append(f'{label}: supported claim needs successful full input encode inside UTC execution');continue
+        probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'workerCapabilityDecode',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=before:continue
+        identity={k:claim[k] for k in ('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')};identity.update(outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256']);decoded=utc(probe['observedAt'])
+        if any(probe[k]!=v for k,v in identity.items()) or decoded is None or not end<=decoded<=window[1] or probe['decodable'] is not True or probe['decodedFrameCount']!=policy['sourceFrameCount'] or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or not math.isclose(probe['durationSeconds'],duration,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: every supported codec needs exact complete zero-error node/output decoder result');continue
+        media=existing_ref(root,row['outputArtifactRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['outputArtifactRef']]
+        if media is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=claim['nodeId']:errors.append(f'{label}: exact per-node codec produced output required');continue
+        info=inspect_artifact(media,cache);other_refs=[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[row['decodeRef'],env.get('workerCapabilitiesRef')]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media' and a.get('ref')!=row['outputArtifactRef']]
+        if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):errors.append(f'{label}: each supported codec must retain physically distinct nonempty output bytes/hash')
+        media_paths.append(media)
+    if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='worker_capabilities_reproducible'),None) is not True:errors.append(f'{label}: capability gate must agree with complete per-node codec observations')
+
+
+def validate_qualified_hls_ready(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified HLS READY {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('hlsReadyRef'),defs,'hlsReadyObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('hlsReadyPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('hlsReadyPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],**{k:policy[k] for k in ('jobId','attemptEpoch','inputSampleId','inputSha256','initNodeId','initUri')})
+    sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==policy['inputSampleId']),None)
+    inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
+    assembly=env.get('parallelMediaAssembly');assembly=assembly if isinstance(assembly,dict) else {}
+    if any(report[k]!=v for k,v in expected.items()) or sample is None or sample['checksum']!=policy['inputSha256'] or not ai_finite(policy['framesPerSecond']) or policy['sourceFrameCount']!=assembly.get('sourceFrameCount') or policy['initNodeId'] not in nodes:
+        errors.append(f'{label}: exact approved job/attempt/input/profile/build and finite frame rate required');return
+    segments=policy['segments'];ids=[s['segmentId'] for s in segments];count=len(segments)
+    if len(ids)!=len(set(ids)) or len({s['uri'] for s in segments})!=count or [s['index'] for s in segments]!=list(range(count)) or segments[0]['sourceStartFrame']!=0 or segments[-1]['sourceEndFrame']!=policy['sourceFrameCount'] or any(s['sourceStartFrame']>=s['sourceEndFrame'] for s in segments) or any(a['sourceEndFrame']!=b['sourceStartFrame'] for a,b in zip(segments,segments[1:])) or len(report['segments'])!=count or {s['segmentId'] for s in report['segments']}!=set(ids):
+        errors.append(f'{label}: exact unique ordered segment identities must cover the entire approved source');return
+    try:durations=[(s['sourceEndFrame']-s['sourceStartFrame'])/policy['framesPerSecond'] for s in segments]
+    except (OverflowError,ZeroDivisionError):durations=[]
+    if len(durations)!=count or not all(ai_finite(d) and d>0 for d in durations):errors.append(f'{label}: finite positive derived segment durations required');return
+    init=existing_ref(root,report['initArtifactRef'],prefix);init_at=utc(report['initReadyAt']);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==report['initArtifactRef']]
+    if init is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=policy['initNodeId'] or init_at is None or window is None or not window[0]<=init_at<=window[1]:
+        errors.append(f'{label}: identified nonempty initialization artifact and UTC readiness required');return
+    init_info=inspect_artifact(init,cache);other_refs=[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[env.get('hlsReadyRef')]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')!=report['initArtifactRef']]
+    if init_info['size']<=0 or init_info['sha256']!=report['initSha256'] or any(init.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):
+        errors.append(f'{label}: initialization bytes/hash must be distinct from sources, segments and observations');return
+    times={};starts={};media_paths=[init];intervals=[]
+    for row in report['segments']:
+        segment=next(s for s in segments if s['segmentId']==row['segmentId']);node=nodes.get(segment['nodeId']);start,end,ready=(utc(row[k]) for k in ('startedAt','finishedAt','readyAt'));frames=segment['sourceEndFrame']-segment['sourceStartFrame']
+        if any(row[k]!=v for k,v in segment.items()) or node is None or any(segment[k]!=node.get(k) for k in ('physicalHostId','encoderBuild','compatibilityGroupId')) or any(v is None for v in (start,end,ready)) or window is None or not window[0]<=start<end<=ready<=window[1] or row['exitCode']!=0 or row['encodedFrameCount']!=frames:
+            errors.append(f'{label}: READY segment must bind successful identified encode and ordered UTC times');continue
+        before=len(errors);probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'hlsSegmentDecode',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=before:continue
+        identity=dict(jobId=policy['jobId'],attemptEpoch=policy['attemptEpoch'],segmentId=segment['segmentId'],nodeId=segment['nodeId'],encoderBuild=segment['encoderBuild'],decoderBuild=policy['decoderBuild'],inputSha256=policy['inputSha256'],outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256'],initArtifactRef=report['initArtifactRef'],initSha256=report['initSha256'])
+        decoded=utc(probe['observedAt'])
+        if any(probe[k]!=v for k,v in identity.items()) or decoded is None or not end<=decoded<=ready or not init_at<=decoded or probe['decodable'] is not True or probe['decodedFrameCount']!=frames or probe['decodeErrorCount']!=0:
+            errors.append(f'{label}: READY requires matching complete zero-error decoder probe');continue
+        media=existing_ref(root,row['outputArtifactRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['outputArtifactRef']]
+        if media is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=segment['nodeId']:
+            errors.append(f'{label}: exact node-produced segment artifact required');continue
+        info=inspect_artifact(media,cache)
+        other_refs=[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[row['decodeRef'],env.get('hlsReadyRef')]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media' and a.get('ref')!=row['outputArtifactRef']]
+        if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):
+            errors.append(f'{label}: segment bytes/hash must be nonempty and physically distinct');continue
+        times[segment['segmentId']]=ready;starts[segment['segmentId']]=start;media_paths.append(media);intervals.append((segment['segmentId'],start,end,segment['nodeId']))
+    if len(times)!=count:return
+    if not any(times[a['segmentId']]>times[b['segmentId']] for a,b in zip(segments,segments[1:])):
+        errors.append(f'{label}: retained scenario must exercise out-of-order READY completion')
+    if env.get('acceptanceProfile')==profile_identity('local-v1'):
+        caps=env.get('scheduler_configuration');caps=caps if isinstance(caps,dict) else {};total,per_node=caps.get('maxConcurrentSegments'),caps.get('perNodeConcurrency')
+        if type(total) is not int or type(per_node) is not int or total<1 or per_node<1 or encode_interval_capacity([(sid,a,b) for sid,a,b,n in intervals])[0]>total or any(encode_interval_capacity([(sid,a,b) for sid,a,b,n in intervals if n==node])[0]>per_node for node in nodes):errors.append(f'{label}: observed segment encodes must respect total and per-node caps')
+    clocks=[];prefixes=[];playlist_paths=[];hole_observed=False
+    for snapshot in report['snapshots']:
+        clock=utc(snapshot['observedAt']);clocks.append(clock)
+        if clock is None or window is None or not window[0]<=init_at<=clock<=window[1]:errors.append(f'{label}: manifest snapshot UTC must lie in execution window after initialization');continue
+        ready_ids={sid for sid,at in times.items() if at<=clock};states=snapshot['segmentStates']
+        if len(states)!=count or {s['segmentId'] for s in states}!=set(ids) or any(s['state']!=('ready' if s['segmentId'] in ready_ids else 'queued' if clock<starts[s['segmentId']] else 'encoding') for s in states):errors.append(f'{label}: intermediate state must derive from each completed encode/decode time')
+        contiguous=[]
+        for s in segments:
+            if s['segmentId'] not in ready_ids:break
+            contiguous.append(s)
+        prefixes.append(len(contiguous));hole_observed=hole_observed or len(ready_ids)>len(contiguous)
+        playlist=existing_ref(root,snapshot['playlistRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==snapshot['playlistRef']]
+        if playlist is None or len(records)!=1 or records[0].get('artifactType')!='command_output' or playlist.stat().st_size>65536 or any(playlist.samefile(p) for p in playlist_paths+media_paths):errors.append(f'{label}: bounded distinct retained manifest bytes required');continue
+        playlist_paths.append(playlist)
+        try:body=playlist.read_text(encoding='utf8');info=inspect_artifact(playlist,cache)
+        except (OSError,UnicodeError):errors.append(f'{label}: UTF8 manifest bytes required');continue
+        if info['sha256']!=snapshot['playlistSha256']:errors.append(f'{label}: retained playlist hash mismatch')
+        lines=body.splitlines();expected_lines=['#EXTM3U','#EXT-X-VERSION:7','#EXT-X-TARGETDURATION:'+str(math.ceil(max(durations))),'#EXT-X-MEDIA-SEQUENCE:0','#EXT-X-MAP:URI="'+policy['initUri']+'"']
+        for s in contiguous:expected_lines.extend(['#EXTINF:'+format(durations[s['index']],'.6f')+',',s['uri']])
+        if len(contiguous)==count:expected_lines.append('#EXT-X-ENDLIST')
+        if lines!=expected_lines:errors.append(f'{label}: manifest must advertise exactly the contiguous READY prefix and ENDLIST only at full completion')
+    if any(t is None for t in clocks) or any(a>=b for a,b in zip(clocks,clocks[1:])) or not hole_observed or not any(0<p<count for p in prefixes) or not prefixes or prefixes[-1]!=count:
+        errors.append(f'{label}: retain ordered hole, intermediate prefix and complete manifest snapshots')
+    if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='hls_ready_only_contiguous'),None) is not True:errors.append(f'{label}: boolean gate must agree with observed contiguous READY manifests')
+
+
+def validate_qualified_media_soak(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified media soak {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('mediaSoakRef'),defs,'mediaSoakObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('mediaSoakPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('mediaSoakPolicy',{}),label+'/approved soak',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    limits=('minimumDurationMinutes','maximumProgressGapSeconds','maximumRecoverySeconds','maximumResidentBytes','maximumResidentGrowthBytes','maximumTemporaryBytes','maximumCpuSeconds')
+    if any(report[k]!=v for k,v in expected.items()) or not all(ai_finite(policy[k]) for k in limits):
+        errors.append(f'{label}: approved finite soak budgets and exact selected input/profile/build context required');return
+    inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
+    cases=policy['cases'];ids=[c['caseId'] for c in cases];runs=[c['runId'] for c in cases];pairs=[(c['nodeId'],c['codec']) for c in cases]
+    if not nodes or len(ids)!=len(set(ids)) or len(runs)!=len(set(runs)) or len(pairs)!=len(set(pairs)) or {n for n,codec in pairs if codec=='av1'}!=set(nodes) or not any(codec=='h264' for _,codec in pairs) or any(n not in nodes for n,_ in pairs) or len(report['cases'])!=len(cases) or {r['caseId'] for r in report['cases']}!=set(ids):
+        errors.append(f'{label}: approved complete AV1 inventory coverage and distinct H264 soak workload required');return
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if not ai_finite(actual.get('sustained_encode_duration')) or actual['sustained_encode_duration']+1e-9<policy['minimumDurationMinutes']:
+        errors.append(f'{label}: continuous measured duration must cover the independently approved minimum');return
+    event_ids=set();media_paths=[];trace_intervals=[]
+    for row in report['cases']:
+        approved=next(c for c in cases if c['caseId']==row['caseId']);node=nodes[approved['nodeId']];sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==approved['inputSampleId']),None)
+        total=(env.get('parallelMediaAssembly') or {}).get('sourceFrameCount') if isinstance(env.get('parallelMediaAssembly'),dict) else None
+        if any(row[k]!=v for k,v in approved.items()) or any(approved[k]!=node.get(k) for k in ('encoderBuild','physicalHostId','compatibilityGroupId')) or sample is None or approved['inputSha256']!=sample['checksum'] or type(total) is not int or not 0<=approved['sourceStartFrame']<approved['sourceEndFrame']<=total:
+            errors.append(f'{label}: each exercised codec must bind approved node/build/config/command and input span');continue
+        first,last=utc(row['startedAt']),utc(row['finishedAt'])
+        if first is None or last is None or window is None or not window[0]<=first<last<=window[1] or (last-first).total_seconds()/60+1e-9<policy['minimumDurationMinutes']:
+            errors.append(f'{label}: each continuous codec workload must cover the approved minimum within UTC execution');continue
+        trace_intervals.append((approved['runId'],first,last,approved['nodeId']))
+        if row['processExitCode']!=0 or row['terminalStatus']!='completed' or row['processTerminationReason']!='approved_window_completed':
+            errors.append(f'{label}: the complete controlled workload must finish normally with a successful final process exit')
+        samples=row['progress'];times=[utc(r['observedAt']) for r in samples]
+        if any(t is None for t in times) or times[0]!=first or times[-1]!=last or times!=sorted(times) or any((b-a).total_seconds()>policy['maximumProgressGapSeconds'] for a,b in zip(times,times[1:])):
+            errors.append(f'{label}: bounded ordered progress must cover the complete continuous soak without an unobserved gap');continue
+        frames=approved['sourceEndFrame']-approved['sourceStartFrame']
+        iterations=[s['completedIterations'] for s in samples];cpu=[s['cpuSeconds'] for s in samples];resident=[s['residentBytes'] for s in samples]
+        progress_times=[first]+[times[i] for i in range(1,len(samples)) if iterations[i]>iterations[i-1]]+[last]
+        if iterations[0]!=0 or iterations[-1]<=0 or iterations!=sorted(iterations) or any((b-a).total_seconds()>policy['maximumProgressGapSeconds'] for a,b in zip(progress_times,progress_times[1:])) or any(s['completedFrames']!=s['completedIterations']*frames for s in samples) or not all(ai_finite(s[k]) for s in samples for k in ('completedIterations','completedFrames','residentBytes','temporaryBytes','cpuSeconds')) or cpu!=sorted(cpu) or cpu[-1]>policy['maximumCpuSeconds'] or max(resident)>policy['maximumResidentBytes'] or max(resident)-resident[0]>policy['maximumResidentGrowthBytes'] or any(s['temporaryBytes']>policy['maximumTemporaryBytes'] for s in samples) or samples[-1]['temporaryBytes']!=0:
+            errors.append(f'{label}: actual completed iterations/frames and CPU/memory/temp observations must remain within approved stability budgets')
+        for event in row['failureEvents']:
+            occurred,recovered=utc(event['occurredAt']),utc(event['recoveredAt']) if event['recoveredAt'] is not None else None
+            if event['eventId'] in event_ids or event['kind'] in ('gpu_hang','corrupt_segment') or occurred is None or recovered is None or not first<=occurred<=recovered<=last or (recovered-occurred).total_seconds()>policy['maximumRecoverySeconds']:
+                errors.append(f'{label}: no GPU hang, corrupt segment or unrecovered/out-of-bound encoder/runtime failure may qualify')
+            event_ids.add(event['eventId'])
+        ref=row['outputArtifactRef'];media=existing_ref(root,ref,prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+        if media is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=approved['nodeId']:
+            errors.append(f'{label}: codec soak must retain its exact node-bound produced output');continue
+        try:
+            info=inspect_artifact(media,cache)
+            separate=[env.get('mediaSoakRef'),row['decodeRef']]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media' and a.get('ref')!=ref]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]
+            if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for other in separate if (p:=existing_ref(root,other,prefix)) is not None):raise ValueError()
+            media_paths.append(media)
+        except (OSError,ValueError):errors.append(f'{label}: distinct retained codec outputs must bind actual nonempty bytes/hash');continue
+        decode_before=len(errors);probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'mediaSoakDecodeObservation',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=decode_before:continue
+        keys=('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')
+        decoded=utc(probe['observedAt'])
+        if any(probe[k]!=approved[k] for k in keys) or probe['outputArtifactRef']!=ref or probe['outputSha256']!=row['outputSha256'] or probe['decodable'] is not True or probe['decodedFrameCount']!=frames or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or decoded is None or not last<=decoded<=window[1]:
+            errors.append(f'{label}: each sustained codec output must decode its approved span without errors after the measured workload')
+    if env.get('acceptanceProfile')==profile_identity('local-v1'):
+        caps=env.get('scheduler_configuration');caps=caps if isinstance(caps,dict) else {}
+        if type(caps.get('maxConcurrentSegments')) is not int or type(caps.get('perNodeConcurrency')) is not int or encode_interval_capacity([(r,a,b) for r,a,b,_ in trace_intervals])[0]>caps.get('maxConcurrentSegments',0) or any(encode_interval_capacity([(r,a,b) for r,a,b,n in trace_intervals if n==node])[0]>caps.get('perNodeConcurrency',0) for node in nodes):errors.append(f'{label}: controlled soak must respect approved total and per-node concurrency')
+    if actual.get('sustained_encode_stability') is not (len(errors)==before):errors.append(f'{label}: stability gate must derive complete continuous workload and failure/resource/decode observations')
+
+
+def validate_qualified_h264_fallback(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified H264 fallback {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report_ref=env.get('h264FallbackRef')
+    report=selected_observation(root,execution,prefix,report_ref,defs,'mediaFallbackObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('mediaFallbackPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('mediaFallbackPolicy',{}),label+'/approved fallback',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==policy['inputSampleId']),None)
+    inventory=env.get('worker_node_inventory');nodes=[n for n in inventory if isinstance(n,dict) and n.get('nodeId')==policy['nodeId']] if isinstance(inventory,list) else []
+    assembly=env.get('parallelMediaAssembly');total=assembly.get('sourceFrameCount') if isinstance(assembly,dict) else None
+    if any(report[k]!=v for k,v in expected.items()) or any(report[k]!=v for k,v in policy.items()) or sample is None or policy['inputSha256']!=sample['checksum'] or len(nodes)!=1 or any(policy[k]!=nodes[0].get(k) for k in ('physicalHostId','encoderBuild','compatibilityGroupId')) or type(total) is not int or not 0<=policy['sourceStartFrame']<policy['sourceEndFrame']<=total:
+        errors.append(f'{label}: exact approved input, participating node/build/profile and fallback parameters/span required');return
+    start,end=utc(report['startedAt']),utc(report['finishedAt'])
+    if start is None or end is None or window is None or not window[0]<=start<end<=window[1] or report['exitCode']!=0 or report['encodedFrameCount']!=policy['sourceEndFrame']-policy['sourceStartFrame']:
+        errors.append(f'{label}: successful ordered H264 encode must cover its approved frame span inside execution');return
+    probe=selected_observation(root,execution,prefix,report['decodeRef'],defs,'mediaFallbackDecodeObservation',label+'/decode',errors,cache)
+    if probe is None or len(errors)!=before:return
+    identity={k:policy[k] for k in ('runId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')}
+    decoded=utc(probe['observedAt'])
+    if any(probe[k]!=v for k,v in identity.items()) or probe['outputArtifactRef']!=report['outputArtifactRef'] or probe['outputSha256']!=report['outputSha256'] or probe['decodable'] is not True or probe['decodedFrameCount']!=report['encodedFrameCount'] or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or decoded is None or not end<=decoded<=window[1]:
+        errors.append(f'{label}: exact retained H264 output must decode its complete span with approved decoder and zero errors');return
+    ref=report['outputArtifactRef'];records=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==ref];media=existing_ref(root,ref,prefix)
+    if media is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=policy['nodeId']:
+        errors.append(f'{label}: exact node-bound nonempty produced H264 bytes required');return
+    distinct=[report_ref,report['decodeRef']]+[r.get('ref') for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('artifactType')=='produced_media' and r.get('ref')!=ref]+[r.get('inputArtifactRef') for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict)]
+    try:
+        actual=inspect_artifact(media,cache)
+        if actual['size']<=0 or actual['size']!=report['outputByteCount'] or actual['sha256']!=report['outputSha256'] or any(media.samefile(other) for other_ref in distinct if (other:=existing_ref(root,other_ref,prefix)) is not None):raise ValueError('invalid fallback output binding')
+    except (OSError,ValueError):errors.append(f'{label}: H264 output bytes/hash must be distinct from AV1 outputs, source input and observation artifacts')
+
+
+def validate_qualified_encode_workers(root, plan, execution, prefix, status, window, errors, artifact_cache=None, defs=None):
+    artifact_cache = {} if artifact_cache is None else artifact_cache
+    if plan['pocId'] != 'POC-02' or status != 'pass':
+        return
+    label = f"qualified encode workers {plan['taskId']}"
+    env = execution.get('environmentCaptured') or {}
+    inventory = env.get('worker_node_inventory')
+    required = {'nodeId','platform','physicalHostId','encoderBuild','compatibilityGroupId'}
+    if not isinstance(inventory,list) or len(inventory) < 2 or any(not isinstance(node,dict) or not required.issubset(node) or any(not recorded_text(node[key]) for key in required) for node in inventory):
+        errors.append(f'{label}: typed worker inventory requires at least two identified tested nodes')
+        return
+    nodes = {node['nodeId']:node for node in inventory}
+    if len(nodes) != len(inventory) or not {'windows','linux'}.issubset({node['platform'] for node in inventory}):
+        errors.append(f'{label}: distinct Windows and Linux workers are required')
+    if len({node['compatibilityGroupId'] for node in inventory}) != 1:
+        errors.append(f'{label}: parallel encode workers must bind the same admitted compatibility group')
+    scope = env.get('physical_host_scope')
+    hosts = {node['physicalHostId'] for node in inventory}
+    if not isinstance(scope,dict) or not isinstance(scope.get('physicalHostIds'),list) or any(not recorded_text(host) for host in scope['physicalHostIds']) or set(scope['physicalHostIds']) != hosts or scope.get('physicalMultiHostValidated') is not (len(hosts) > 1):
+        errors.append(f'{label}: physical host scope must bind inventory and disclose same-host limits')
+    capabilities = env.get('encoder_capability_matrix')
+    if not isinstance(capabilities,list) or len(capabilities) != len(nodes):
+        errors.append(f'{label}: typed AV1 capability matrix must cover exact inventory')
+        return
+    seen = set()
+    for capability in capabilities:
+        if not isinstance(capability,dict) or not isinstance(capability.get('nodeId'),str) or capability['nodeId'] not in nodes:
+            errors.append(f'{label}: capability must bind an inventory node')
+            continue
+        node = nodes[capability['nodeId']]
+        if capability['nodeId'] in seen or capability.get('encoderBuild') != node['encoderBuild'] or capability.get('compatibilityGroupId') != node['compatibilityGroupId'] or capability.get('codec') != 'av1' or capability.get('supported') is not True:
+            errors.append(f'{label}: tested AV1 capability must bind exact node/build')
+        seen.add(capability['nodeId'])
+    runs = env.get('workerEncodeExecutions')
+    if not isinstance(runs,list) or len(runs) < 2:
+        errors.append(f'{label}: identified parallel worker encode executions are required')
+        return
+    artifacts = {record.get('ref'):record for record in env.get('rawExecutionArtifacts') or [] if isinstance(record,dict) and isinstance(record.get('ref'),str)}
+    inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
+    intervals = []
+    stream_intervals = []
+    run_paths = []
+    run_refs = set()
+    completed = set()
+    for run in runs:
+        if not isinstance(run,dict) or not isinstance(run.get('nodeId'),str) or run['nodeId'] not in nodes:
+            errors.append(f'{label}: encode execution must bind an inventory node')
+            continue
+        node = nodes[run['nodeId']]
+        start,end = utc(run.get('startedAt')),utc(run.get('finishedAt'))
+        if start is None or end is None or not start < end or window is None or not window[0] <= start < end <= window[1]:
+            errors.append(f'{label}: worker encode interval must be positive and within executionWindow')
+        else:
+            intervals.append((run['nodeId'],start,end))
+        if run.get('encoderBuild') != node['encoderBuild'] or run.get('compatibilityGroupId') != node['compatibilityGroupId'] or not isinstance(run.get('inputSha256'),str) or run['inputSha256'] not in inputs:
+            errors.append(f'{label}: worker encode must bind tested build and approved input')
+        for key,kind in (('rawOutputRef','command_output'),('outputArtifactRef','produced_media')):
+            artifact = artifacts.get(run[key]) if isinstance(run.get(key),str) else None
+            if artifact is None or artifact.get('artifactType') != kind or artifact.get('nodeId') != node['nodeId']:
+                errors.append(f'{label}: worker artifacts must bind exact node and artifact type')
+        output = existing_ref(root,run.get('outputArtifactRef'),prefix)
+        if output is None or output.stat().st_size == 0 or run.get('outputSha256') != inspect_artifact(output,artifact_cache)['sha256']:
+            errors.append(f'{label}: worker output hash must bind nonempty produced bytes')
+        trace=existing_ref(root,run.get('rawOutputRef'),prefix)
+        pair=(run.get('rawOutputRef'),run.get('outputArtifactRef'))
+        if any(not isinstance(ref,str) for ref in pair) or any(ref in run_refs for ref in pair) or (trace and output and trace.samefile(output)) or any(path.samefile(prior) for path in (trace,output) if path for prior in run_paths):
+            errors.append(f'{label}: each stream requires unique physically distinct trace and output identities')
+        else:
+            run_refs.update(pair)
+            run_paths.extend(path for path in (trace,output) if path)
+            if start is not None and end is not None and start<end:
+                stream_intervals.append((pair,start,end,node['nodeId']))
+        completed.add(node['nodeId'])
+    if completed != set(nodes) or not any(a[0] != b[0] and max(a[1],b[1]) < min(a[2],b[2]) for i,a in enumerate(intervals) for b in intervals[i+1:]):
+        errors.append(f'{label}: all inventory nodes must execute, with overlapping work on distinct nodes')
+    _,minutes=encode_interval_capacity(intervals)
+    peak,_=encode_interval_capacity([(identity,start,end) for identity,start,end,_ in stream_intervals])
+    if (env.get('acceptanceProfile') or {}).get('id')=='local-v1':
+        caps=env.get('scheduler_configuration')
+        caps=caps if isinstance(caps,dict) else {}
+        total_cap,per_node=caps.get('maxConcurrentSegments'),caps.get('perNodeConcurrency')
+        if type(total_cap) is not int or total_cap<1 or type(per_node) is not int or per_node<1:
+            errors.append(f'{label}: positive integer local concurrency caps required')
+        elif peak>total_cap or any(encode_interval_capacity([(identity,start,end) for identity,start,end,owner in stream_intervals if owner==node])[0]>per_node for node in nodes):
+            errors.append(f'{label}: captured stream concurrency exceeds approved total/per-node caps')
+    measurements={item.get('id'):item.get('actual') for item in execution.get('measurements') or [] if isinstance(item,dict)}
+    for metric,observed in (('encode_throughput',peak),('sustained_encode_duration',minutes)):
+        actual=measurements.get(metric)
+        if metric=='sustained_encode_duration' and (not ai_finite(actual) or not math.isclose(actual,observed,rel_tol=1e-9,abs_tol=1e-9)):
+            errors.append(f'{label}: sustained_encode_duration must equal captured continuous worker interval capacity in minutes')
+        elif metric=='encode_throughput' and ai_finite(actual) and actual>observed+1e-9:
+            errors.append(f'{label}: {metric} exceeds captured continuous worker interval capacity')
+    validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
+
+
+def validate_qualified_a380_encode(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-02' or status!='pass' or (env.get('acceptanceProfile') or {}).get('id')!='production':return
+    label=f"qualified A380 encode {plan['taskId']}";capture=env.get('productionA380Encode');before=len(errors)
+    validate_schema(capture,defs.get('productionA380Encode',{}),label,errors)
+    if not isinstance(capture,dict) or len(errors)!=before:return
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-A380-ENCODE'),None)
+    if resource is None or capture['configurationRef']!=resource.get('configurationRef'):
+        errors.append(f'{label}: exact approved RES-A380-ENCODE configuration required');return
+    config_path=existing_ref(root,capture['configurationRef'],prefix)
+    try:approved=load(config_path).get('configuration',{}).get('productionA380Encode') if config_path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):approved=None
+    if not isinstance(approved,dict) or approved.get('identity')!=capture['identity']:
+        errors.append(f'{label}: exact previously approved A380 device/host/driver/runtime/encoder identity required');return
+    identity=capture['identity'];nodes=env.get('worker_node_inventory') or [];runs=env.get('workerEncodeExecutions') or []
+    if not isinstance(nodes,list) or not isinstance(runs,list):
+        errors.append(f'{label}: typed inventory and encode-run lists required');return
+    if any(not recorded_text(value) for key,value in identity.items() if key!='schemaVersion'):
+        errors.append(f'{label}: concrete A380 identity values required');return
+    selected_nodes=[n for n in nodes if isinstance(n,dict) and n.get('nodeId')==identity['nodeId']]
+    selected_runs=[r for r in runs if isinstance(r,dict) and r.get('nodeId')==identity['nodeId'] and r.get('outputArtifactRef')==capture['outputArtifactRef']]
+    keys=('nodeId','physicalHostId','platform','gpuVendor','gpuModel','gpuDeviceId','driverBuild','runtimeBuild','encoderBuild','encoderBackend')
+    if len(selected_nodes)!=1 or any(selected_nodes[0].get(k)!=identity[k] for k in keys) or len(selected_runs)!=1:
+        errors.append(f'{label}: approved physical A380 must bind one inventory node and designated encode run/output');return
+    run=selected_runs[0]
+    if any(run.get(k)!=identity[k] for k in ('encoderBuild','gpuDeviceId','driverBuild','runtimeBuild','encoderBackend')):
+        errors.append(f'{label}: designated encode must use the approved hardware device and builds');return
+    start,end=utc(run.get('startedAt')),utc(run.get('finishedAt'))
+    if start is None or end is None or window is None or not window[0]<=start<end<=window[1]:
+        errors.append(f'{label}: valid designated A380 encode interval required');return
+    before=len(errors)
+    telemetry=selected_observation(root,execution,prefix,capture['telemetryRef'],defs,'a380TelemetryObservation',label,errors,cache)
+    request=selected_observation(root,execution,prefix,capture['rangeRef'],defs,'a380RangeObservation',label,errors,cache)
+    if len(errors)!=before or telemetry is None or request is None:return
+    expected=dict(identity=identity,configurationRef=capture['configurationRef'],inputSampleId=run.get('inputSampleId'),inputSha256=run.get('inputSha256'),outputArtifactRef=run.get('outputArtifactRef'),outputSha256=run.get('outputSha256'))
+    if any(report.get(k)!=v for report in (telemetry,request) for k,v in expected.items()):
+        errors.append(f'{label}: observations must bind the exact approved device, input and produced output')
+    sampling=approved.get('telemetrySampling')
+    before=len(errors);validate_schema(sampling,defs.get('a380TelemetrySampling',{}),label,errors)
+    if len(errors)!=before:return
+    if telemetry['sampling']!=sampling:errors.append(f'{label}: telemetry must bind approved sampling tool/build/interval/scope/phases')
+    step=sampling['intervalSeconds'];phases=sampling['phases'];phase_windows=[]
+    if isinstance(step,bool) or not math.isfinite(step) or step<=0 or not recorded_text(sampling['toolBuild']):
+        errors.append(f'{label}: concrete sampling tool and finite positive interval required');return
+    for phase in phases:
+        first,last=utc(phase['startedAt']),utc(phase['finishedAt'])
+        if first is None or last is None or not start<=first<last<=end:
+            errors.append(f'{label}: each approved workload phase needs valid UTC encode endpoints');return
+        phase_windows.append((phase['phase'],first,last))
+    if [p[0] for p in phase_windows]!=['warmup','concurrency','soak'] or phase_windows[0][1]!=start or phase_windows[-1][2]!=end or any(a[2]!=b[1] for a,b in zip(phase_windows,phase_windows[1:])):
+        errors.append(f'{label}: approved warmup/concurrency/soak phases must cover the designated workload');return
+    stamps=[];observed_phases=set();power=[];temperature=[]
+    for row in telemetry['samples']:
+        at=utc(row['observedAt']);watts=row['powerWatts'];celsius=row['temperatureCelsius']
+        if at is None or not any(row['phase']==name and first<=at<=last for name,first,last in phase_windows) or isinstance(watts,bool) or not isinstance(watts,(int,float)) or not math.isfinite(watts) or watts<0 or isinstance(celsius,bool) or not isinstance(celsius,(int,float)) or not math.isfinite(celsius):
+            errors.append(f'{label}: retained telemetry samples require finite readings and exact UTC workload phase');return
+        stamps.append(at);observed_phases.add(row['phase']);power.append(watts);temperature.append(celsius)
+    if observed_phases!={'warmup','concurrency','soak'} or stamps[0]!=start or stamps[-1]!=end or any(not math.isclose((b-a).total_seconds(),step,rel_tol=1e-9,abs_tol=1e-9) for a,b in zip(stamps,stamps[1:])):
+        errors.append(f'{label}: actual sampling timestamps must cover all phases at the approved interval')
+    if not recorded_text(approved.get('outputServingPath')) or request['mediaPath']!=approved['outputServingPath']:
+        errors.append(f'{label}: first-byte request must use the approved produced-media serving path')
+    output=existing_ref(root,capture['outputArtifactRef'],prefix);body=existing_ref(root,request['responseBodyRef'],prefix)
+    artifacts=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==request['responseBodyRef']]
+    if output is None or body is None or len(artifacts)!=1 or artifacts[0].get('artifactType')!='produced_media' or artifacts[0].get('nodeId')!=identity['nodeId'] or request['responseBodyRef'] not in (execution.get('rawOutputRefs') or []):
+        errors.append(f'{label}: retained response bytes must bind the A380 node in this selected slot');return
+    paths=[existing_ref(root,capture[key],prefix) for key in ('telemetryRef','rangeRef','outputArtifactRef')]+[body]
+    if any(a.samefile(b) for i,a in enumerate(paths) if a for b in paths[i+1:] if b):errors.append(f'{label}: telemetry, request, media and returned bytes must be physically distinct')
+    first,last=request['rangeStart'],request['rangeEnd'];began,received=utc(request['requestStartedAt']),utc(request['firstByteAt'])
+    try:
+        source=inspect_artifact(output,cache,byte_range=(first,last));response=inspect_artifact(body,cache)
+    except OSError as exc:
+        errors.append(f'{label}: cannot read actual produced/returned Range bytes: {exc}');return
+    if request['statusCode']!=206 or request['contentRange']!=f'bytes {first}-{last}/{source["size"]}' or request['requestRange']!=f'bytes={first}-{last}' or not 0<=first<=last<source['size'] or response['size']!=last-first+1 or response['sha256']!=request['responseSha256']:
+        errors.append(f'{label}: retained Range status/headers/body hash must match the produced byte interval');return
+    range_hash=source.get('rangeHashes',{}).get((first,last))
+    if response['sha256']!=range_hash:errors.append(f'{label}: actual Range response must equal exact A380-produced media bytes')
+    if began is None or received is None or not end<=began<=received<=window[1]:
+        errors.append(f'{label}: first-byte request must follow the designated encode inside executionWindow');return
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    for metric,value in (('encoder_power_peak_watts',max(power)),('encoder_temperature_peak_celsius',max(temperature)),('a380_range_first_byte_latency',(received-began).total_seconds()*1000)):
+        claimed=actual.get(metric)
+        if isinstance(claimed,bool) or not isinstance(claimed,(int,float)) or not math.isfinite(claimed) or not math.isclose(claimed,value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must equal actual retained telemetry/request observation')
+
+
+
+MEDIA_NEGATIVE_GATES={'disallowed_input_targets_denied','resource_limits_enforced','worker_interruption_idempotent_recovery','cancellation_cleanup_complete','attempt_fencing_single_publish','seek_epoch_rejects_stale_demand','hls_acl_and_revocation'}
+
+
+LOCAL_STORAGE_OBSERVED_GATES={'local_authenticated_reads','local_range_correctness','local_read_hash_verified','openlist_disconnect_recovery','local_backup_restore_verified','incomplete_replica_rejected','hash_mismatch_replica_rejected','cache_eviction_preserves_authoritative_state','replica_migration_preserves_old_valid_copy','local_capacity_reservations_preserved','watermark_behavior','concurrent_workload_stability','failure_recovery'}
+
+
+def validate_qualified_local_storage(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-04' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
+    label=f"qualified local storage {plan['taskId']}";before=len(errors);report=selected_observation(root,execution,prefix,env.get('localStorageRef'),defs,'localStorageOutcomes',label,errors,cache);resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-OPENLIST-LOCAL'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('localStoragePolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('localStoragePolicy',{}),label+'/approved sandbox controls',errors)
+    if report is None or len(errors)!=before:return
+    samples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []];expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=compliance_subject_version(plan,execution),inputSamples=samples)
+    if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or policy['sandboxRoot']!=env.get('sandbox_root_boundary') or policy['openlistBuild']!=env.get('openlist_version') or policy['authorizedAuthRef']==policy['invalidAuthRef']:
+        errors.append(f'{label}: exact approved OpenList build/root/profile/input and distinct credential references required');return
+    objects=policy['objects'];sample_map={s['id']:s for s in samples};inputs={r['sampleId']:r for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict)};artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)}
+    if len(objects)!=len(samples) or {r['sampleId'] for r in objects}!=set(sample_map) or len({r['assetId'] for r in objects})!=len(objects):errors.append(f'{label}: every approved immutable input needs one distinct governed sandbox object');return
+    request_ids=set();state_times={}
+    def interval(first,last):
+        start,end=utc(first),utc(last)
+        if start is None or end is None or window is None or not window[0]<=start<=end<=window[1]:errors.append(f'{label}: ordered actual sandbox operation timestamps inside execution required');return None
+        return start,end
+    def bytes_info(ref,digest):
+        file=existing_ref(root,ref,prefix)
+        if file is None or artifacts.get(ref,{}).get('artifactType')!='produced_media' or ref not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: actual selected-slot storage/returned bytes required');return None
+        info=inspect_artifact(file,cache)
+        if info['sha256']!=digest:errors.append(f'{label}: actual retained storage byte digest mismatch')
+        return info
+    def state(ref):
+        count=len(errors);result=selected_observation(root,execution,prefix,ref,defs,'localStorageState',label,errors,cache)
+        if result is None or len(errors)!=count:return None
+        captured=utc(result['observedAt'])
+        if captured is None or window is None or not window[0]<=captured<=window[1]:errors.append(f'{label}: actual state snapshot timestamp inside execution required');return None
+        state_times[ref]=captured
+        if any(result[k]!=expected[k] for k in expected):errors.append(f'{label}: every before/after snapshot must bind the same approved sandbox subjects')
+        for field,key in (('assets','assetId'),('sourceMappings','objectId'),('retention','assetId'),('replicas','replicaId'),('caches','cacheId')):
+            if len({r[key] for r in result[field]})!=len(result[field]):errors.append(f'{label}: state identities must be unique')
+        return result['states'] if 'states' in result else {k:result[k] for k in ('assets','sourceMappings','retention','replicas','caches')}
+    def semantic(value):
+        if isinstance(value,dict):return {k:semantic(v) for k,v in value.items() if k!='payloadRef'}
+        if isinstance(value,list):return [semantic(v) for v in value]
+        return value
+    baseline=state(report['baselineStateRef'])
+    if baseline is None:return
+    if semantic(baseline)!=semantic(policy['baselineState']):errors.append(f'{label}: baseline must match independently approved governed state')
+    known={r['assetId']:r for r in objects}
+    if {r['assetId'] for r in baseline['assets']}!=set(known) or {r['assetId'] for r in baseline['retention']}!=set(known):errors.append(f'{label}: baseline must represent all approved assets and retention')
+    for obj in objects:
+        if not any(r['assetId']==obj['assetId'] and r['versionId']==obj['versionId'] for r in baseline['assets']) or not any(r['sourceId']==obj['sourceId'] and r['objectId']==obj['objectId'] and r['assetId']==obj['assetId'] and r['versionId']==obj['versionId'] for r in baseline['sourceMappings']):errors.append(f'{label}: approved object/asset/version/source mapping relationships must be represented in baseline')
+    for field in ('replicas','caches'):
+        for entry in baseline[field]:
+            obj=known.get(entry['assetId']);info=bytes_info(entry['payloadRef'],entry['sha256'])
+            if obj is None or entry['versionId']!=obj['versionId'] or info is None or info['sha256']!=sample_map[obj['sampleId']]['checksum'] or entry['state']!=('VERIFIED' if field=='replicas' else 'COMPLETE'):errors.append(f'{label}: baseline copies must bind verified approved asset-version bytes')
+    rows=report['objects']
+    if len(rows)!=len(objects) or {r['sampleId'] for r in rows}!={r['sampleId'] for r in objects}:errors.append(f'{label}: complete per-input storage outcome matrix required');return
+    measured_full=[];concurrent=[]
+    for row in rows:
+        obj=next(r for r in objects if r['sampleId']==row['sampleId']);sample=sample_map[row['sampleId']];source_record=inputs.get(sample['id']);source=existing_ref(root,source_record.get('inputArtifactRef'),prefix) if source_record else None
+        if source is None or obj['versionId']!=sample['immutableId']:errors.append(f'{label}: exact approved immutable source object required');continue
+        source_info=inspect_artifact(source,cache)
+        if source_info['size']<8 or source_info['sha256']!=sample['checksum']:errors.append(f'{label}: independently approved nonempty source bytes required');continue
+        total=source_info['size'];requests=row['requests'];required={'full','bounded','suffix','unsatisfiable','missing_auth','invalid_auth','concurrent_a','concurrent_b'}
+        if len(requests)!=8 or {r['case'] for r in requests}!=required:errors.append(f'{label}: full/auth/Range/concurrent read controls required')
+        object_concurrent=[]
+        for request in requests:
+            kind=request['case'];info=bytes_info(request['responseRef'],request['responseSha256']);timing=interval(request['startedAt'],request['finishedAt']);authorized=kind not in ('missing_auth','invalid_auth');credential=policy['authorizedAuthRef'] if authorized else policy['invalidAuthRef'] if kind=='invalid_auth' else None
+            if request['requestId'] in request_ids or request['objectURL']!=obj['objectURL'] or request['assetId']!=obj['assetId'] or request['versionId']!=obj['versionId'] or request['authRef']!=credential or info is None or source.samefile(existing_ref(root,request['responseRef'],prefix)) or timing and state_times[report['baselineStateRef']]>timing[0]:errors.append(f'{label}: actual authenticated response must bind approved object/version/path, prior baseline and distinct returned bytes');continue
+            request_ids.add(request['requestId'])
+            if not authorized:
+                if request['statusCode'] not in (401,403) or request['originByteCount']!=0 or info['size']!=0:errors.append(f'{label}: missing or invalid credentials must expose no object bytes')
+                continue
+            if kind=='unsatisfiable':
+                if request['requestRange']!=f'bytes={total}-' or request['statusCode']!=416 or request['contentRange']!=f'bytes */{total}' or info['size']!=0:errors.append(f'{label}: unsatisfiable Range status/header/body mismatch')
+                continue
+            first,last=(0,7) if kind=='bounded' else (total-4,total-1) if kind=='suffix' else (0,total-1);request_range='bytes=0-7' if kind=='bounded' else 'bytes=-4' if kind=='suffix' else None;partial=kind in ('bounded','suffix');expected_range=f'bytes {first}-{last}/{total}' if partial else None
+            observed=inspect_artifact(source,cache,byte_range=(first,last));digest=observed['rangeHashes'].get((first,last))
+            if request['requestRange']!=request_range or request['statusCode']!=(206 if partial else 200) or request['contentRange']!=expected_range or info['size']!=last-first+1 or info['sha256']!=digest or request['originByteCount']!=info['size']:errors.append(f'{label}: actual full/bounded/suffix bytes and HTTP headers must match approved source')
+            if kind=='full' and timing and timing[1]>timing[0]:measured_full.append((info['size'],(timing[1]-timing[0]).total_seconds()))
+            if kind.startswith('concurrent_') and timing:object_concurrent.append(timing)
+        if len(object_concurrent)!=2 or max(r[0] for r in object_concurrent)>=min(r[1] for r in object_concurrent):errors.append(f'{label}: actual concurrent successful reads must overlap')
+        concurrent.extend(object_concurrent)
+        copies=row['copyRejections']
+        if len(copies)!=2 or {c['case'] for c in copies}!={'incomplete','hash_mismatch'}:errors.append(f'{label}: incomplete and hash-mismatch promotion attempts required')
+        for copy in copies:
+            info=bytes_info(copy['payloadRef'],copy['sha256']);after=state(copy['afterStateRef']);timing=interval(copy['startedAt'],copy['finishedAt'])
+            invalid=info is not None and (0<info['size']<total if copy['case']=='incomplete' else info['size']==total and info['sha256']!=sample['checksum'])
+            if not invalid or copy['assetId']!=obj['assetId'] or copy['versionId']!=obj['versionId'] or copy['expectedSha256']!=sample['checksum'] or copy['promotionDecision']!='rejected' or after is None or semantic(after)!=semantic(baseline) or timing and state_times.get(copy['afterStateRef'],timing[0])<timing[1]:errors.append(f'{label}: actual invalid copy must be rejected without authoritative-state promotion or mutation')
+        disconnect=row['disconnect'];attempts=disconnect['attempts'];after=state(disconnect['afterStateRef'])
+        if not 2<=len(attempts)<=policy['maximumRetries']+1 or after is None or semantic(after)!=semantic(baseline):errors.append(f'{label}: bounded disconnect/restart recovery must preserve governed state')
+        last=None
+        for index,attempt in enumerate(attempts):
+            timing=interval(attempt['startedAt'],attempt['finishedAt']);info=bytes_info(attempt['responseRef'],attempt['responseSha256']);complete=index==len(attempts)-1
+            if timing is None or info is None or attempt['attemptNo']!=index+1 or timing and last is not None and timing[0]<last or attempt['transport']!=('success' if complete else 'disconnected') or complete and (info['sha256']!=sample['checksum'] or info['size']!=total) or not complete and not info['size']<total or attempt['partialPromotedCount']!=0:errors.append(f'{label}: disconnect recovery must retain ordered failed partial reads and final verified full bytes without promotion')
+            if timing:last=timing[1]
+        restart=utc(disconnect['serviceRestartedAt'])
+        interrupted=utc(attempts[0]['finishedAt']) if attempts else None;recovered=utc(attempts[-1]['startedAt']) if attempts else None
+        if restart is None or interrupted is None or recovered is None or len(attempts)<2 or not interrupted<=restart<=recovered:errors.append(f'{label}: observed OpenList restart must precede successful recovery')
+        recovery_finished=utc(attempts[-1]['finishedAt']) if attempts else None
+        if after is not None and (recovery_finished is None or state_times[disconnect['afterStateRef']]<recovery_finished):errors.append(f'{label}: recovered state snapshot must follow the final verified retry')
+        backup=row['backupRestore'];backup_info=bytes_info(backup['backupDataRef'],backup['backupSha256']);restore_info=bytes_info(backup['restoredDataRef'],backup['restoredSha256']);backup_state=state(backup['backupStateRef']);restored_state=state(backup['restoredStateRef']);interval(backup['startedAt'],backup['finishedAt'])
+        if backup_info is None or restore_info is None or backup_info['sha256']!=sample['checksum'] or restore_info['sha256']!=sample['checksum'] or backup_state is None or restored_state is None or semantic(backup_state)!=semantic(baseline) or semantic(restored_state)!=semantic(baseline):errors.append(f'{label}: actual backup and restored data hashes plus governed metadata state must match baseline')
+        if backup_state is not None and restored_state is not None:
+            for captured,ref,digest in ((backup_state,backup['backupDataRef'],backup['backupSha256']),(restored_state,backup['restoredDataRef'],backup['restoredSha256'])):
+                if not any(r['replicaId']==obj['oldReplicaId'] and r['payloadRef']==ref and r['sha256']==digest for r in captured['replicas']):errors.append(f'{label}: captured backup/restored replica state must point to its actually compared data bytes')
+        if backup_state is not None and restored_state is not None and (utc(backup['startedAt']) is None or utc(backup['finishedAt']) is None or not utc(backup['startedAt'])<=state_times[backup['backupStateRef']]<=utc(backup['finishedAt'])<=state_times[backup['restoredStateRef']]):errors.append(f'{label}: captured backup/restore state clocks must bind the actual backup operation')
+        eviction=state(row['evictionAfterStateRef']);expected_evicted={**baseline,'caches':[r for r in baseline['caches'] if r['assetId']!=obj['assetId']]}
+        evicted_at=utc(row['evictedAt'])
+        if eviction is None or semantic(eviction)!=semantic(expected_evicted) or evicted_at is None or not state_times[report['baselineStateRef']]<=evicted_at<=state_times[row['evictionAfterStateRef']]:errors.append(f'{label}: cache eviction must remove only this cache while preserving authoritative assets/links/retention/formal replicas')
+        migration=row['migration'];during=state(migration['copyingStateRef']);after=state(migration['verifiedStateRef']);candidate=migration['newReplicaId'];old=[r for r in baseline['replicas'] if r['replicaId']==obj['oldReplicaId']];new=[r for r in after['replicas'] if r['replicaId']==candidate] if after else [];interval(migration['startedAt'],migration['verifiedAt'])
+        if len(old)!=1 or candidate!=obj['newReplicaId'] or candidate==obj['oldReplicaId'] or during is None or not any(r==old[0] for r in during['replicas']) or after is None or len(new)!=1 or new[0]['state']!='VERIFIED' or new[0]['assetId']!=obj['assetId'] or new[0]['versionId']!=obj['versionId'] or new[0]['sha256']!=sample['checksum']:errors.append(f'{label}: old verified replica must remain available throughout new-copy verification');continue
+        new_info=bytes_info(new[0]['payloadRef'],new[0]['sha256']);pending=[r for r in during['replicas'] if r['replicaId']==candidate];pending_info=bytes_info(pending[0]['payloadRef'],pending[0]['sha256']) if len(pending)==1 else None
+        stripped={**after,'replicas':[r for r in after['replicas'] if r['replicaId']!=candidate]};during_stripped={**during,'replicas':[r for r in during['replicas'] if r['replicaId']!=candidate]}
+        if new_info is None or new_info['size']!=total or pending_info is None or not 0<pending_info['size']<total or pending[0]['state']!='COPYING' or pending[0]['assetId']!=obj['assetId'] or pending[0]['versionId']!=obj['versionId'] or semantic(stripped)!=semantic(baseline) or semantic(during_stripped)!=semantic(baseline):errors.append(f'{label}: migration must observe incomplete COPYING then exact-byte VERIFIED transition without losing old valid copy')
+        migration_start,migration_finish=utc(migration['startedAt']),utc(migration['verifiedAt'])
+        if migration_start is None or migration_finish is None or not migration_start<=state_times[migration['copyingStateRef']]<=migration_finish<=state_times[migration['verifiedStateRef']]:errors.append(f'{label}: actual copying and verified state snapshots must follow the recorded migration phases')
+    capacity=env.get('capacity_watermark_configuration') or {};observations=report['capacityObservations'];minimum=min(r['freeBytes'] for r in observations);reserved=max(r['reservedBytes'] for r in observations);phases={r['phase'] for r in observations};previous=None;cycle=('fill','pause','evict','resume');cycle_position=0
+    if not {'fill','pause','evict','resume'}<=phases:errors.append(f'{label}: actual fill/pause/eviction/resume capacity observations required')
+    for row in observations:
+        at=utc(row['observedAt']);free=row['freeBytes'];reservation=row['reservedBytes']
+        if at is None or window is None or not window[0]<=at<=window[1] or previous is not None and at<previous or free>capacity.get('capacityBytes',-1) or reservation>capacity.get('maxReservedBytes',-1) or free-reservation<capacity.get('safetyFloorBytes',float('inf')) or row['phase']=='pause' and (free>capacity.get('pauseFreeBytes',-1) or row['admission']!='paused') or row['phase']=='resume' and (free<capacity.get('resumeFreeBytes',float('inf')) or row['admission']!='admitted'):errors.append(f'{label}: actual capacity decisions must preserve floor/reservations and approved watermarks')
+        if cycle_position<len(cycle) and row['phase']==cycle[cycle_position]:cycle_position+=1
+        previous=at
+    if cycle_position!=len(cycle):errors.append(f'{label}: actual capacity recovery must include an ordered fill/pause/evict/resume cycle')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)};derived=dict(local_minimum_free_bytes=minimum,local_maximum_reserved_bytes=reserved)
+    if len(measured_full)==len(objects):derived.update(sequential_throughput=sum(size for size,elapsed in measured_full)/sum(elapsed for size,elapsed in measured_full)/1000000,io_latency=sum(elapsed for size,elapsed in measured_full)*1000/len(measured_full))
+    else:errors.append(f'{label}: positive observed complete-read intervals required for actual throughput and latency')
+    for metric,value in derived.items():
+        if not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive observed byte counts and operation intervals')
+    accepted=len(errors)==before
+    for gate in LOCAL_STORAGE_OBSERVED_GATES:
+        if actual.get(gate) is not accepted or not accepted:errors.append(f'{label}: {gate} must derive actual returned bytes and governed state transitions')
+
+
+def validate_qualified_media_negative(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified media negative matrix {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('mediaNegativeRef'),defs,'mediaNegativeOutcomes',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('mediaNegativePolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('mediaNegativePolicy',{}),label+'/approved controls',errors)
+    if report is None or len(errors)!=before:return
+    samples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []];nodes=[{k:n.get(k) for k in ('nodeId','physicalHostId','encoderBuild')} for n in env.get('worker_node_inventory') or [] if isinstance(n,dict)];assembly=env.get('parallelMediaAssembly') or {};quality=selected_observation(root,execution,prefix,env.get('mediaQualityTimingRef'),defs,'mediaQualityTimingReport',label,errors,cache)
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=samples,jobId=policy['jobId'],assetId=policy['assetId'],assetVersion=policy['assetVersion'],inputSampleId=assembly.get('inputSampleId'),inputSha256=assembly.get('inputSha256'))
+    if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or policy['nodes']!=nodes or quality is None or policy['jobId']!=quality['jobId'] or policy['assetVersion']!=next((r['immutableId'] for r in samples if r['id']==assembly.get('inputSampleId')),None):
+        errors.append(f'{label}: exact admitted job/asset/version/input/build/profile and approved node controls required');return
+    limits=policy['limits'];limit_ids={'cpuSeconds','memoryBytes','elapsedSeconds','temporaryBytes','outputBytes'};targets={r['case']:r['target'] for r in policy['deniedTargets']};required_targets={'protocol','path','proxy'}
+    if set(limits)!=limit_ids or any(not ai_finite(v) or v<=0 for v in limits.values()) or len(policy['deniedTargets'])!=3 or set(targets)!=required_targets or policy['authorizedUserId']==policy['deniedUserId'] or len(set(policy[k] for k in ('currentGrantId','revokedGrantId','expiredGrantId')))!=3 or policy['cancelJobId']==policy['jobId']:
+        errors.append(f'{label}: finite independent limits, three denied target classes and distinct authorization controls required');return
+    first,last,expired=utc(policy['grantValidFrom']),utc(policy['grantValidUntil']),utc(policy['expiredAt']);revoked=utc(policy['revokedAt'])
+    if any(t is None for t in (first,last,expired,revoked)) or not first<last:
+        errors.append(f'{label}: valid approved grant validity and revocation clocks required');return
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)};request_ids=set()
+    def instant(value):
+        at=utc(value)
+        if at is None or window is None or not window[0]<=at<=window[1]:errors.append(f'{label}: actual negative observations must be inside the execution window')
+        return at
+    def payload(ref,digest,node=None):
+        file=existing_ref(root,ref,prefix);record=artifacts.get(ref,{})
+        if file is None or record.get('artifactType')!='produced_media' or ref not in (execution.get('rawOutputRefs') or []) or node is not None and record.get('nodeId')!=node:errors.append(f'{label}: actual selected-slot node-bound bytes required');return None
+        info=inspect_artifact(file,cache)
+        if info['sha256']!=digest:errors.append(f'{label}: actual observed byte hash mismatch')
+        return info
+    rows=report['nodes']
+    if len(rows)!=len(nodes) or [r['identity'] for r in rows]!=nodes:errors.append(f'{label}: all admitted node identities must be exercised exactly once');return
+    for row in rows:
+        node=row['identity']['nodeId'];denials=row['deniedTargets'];checks=row['limitCases']
+        if len(denials)!=3 or {r['case'] for r in denials}!=required_targets or len(checks)!=5 or {r['case'] for r in checks}!=limit_ids:errors.append(f'{label}: complete per-node denied target and independently exceeded limit matrix required')
+        for case in denials:
+            at=instant(case['observedAt']);info=payload(case['outboundRef'],case['outboundSha256'],node)
+            if case['requestId'] in request_ids or case['target']!=targets.get(case['case']) or case['status']!='denied' or case['inputBytesRead']!=0 or case['outputBytesWritten']!=0 or case['publicationCount']!=0 or info is None or info['size']!=0:errors.append(f'{label}: denied target must be rejected before input/output/network access')
+            request_ids.add(case['requestId'])
+        for case in checks:
+            start,end=instant(case['startedAt']),instant(case['finishedAt']);kind=case['case'];observed=case['observed']
+            if case['requestId'] in request_ids or start is None or end is None or start>end or any(not ai_finite(v) or v<0 for v in observed.values()) or observed[kind]<=limits[kind] or any(observed[k]>limits[k] for k in limit_ids-{kind}) or kind=='elapsedSeconds' and not math.isclose(observed[kind],(end-start).total_seconds(),rel_tol=1e-9,abs_tol=1e-9) or case['terminationReason']!=kind or case['processStatus']!='terminated' or case['remainingTemporaryBytes']!=0 or case['remainingOutputBytes']!=0 or case['publicationCount']!=0:errors.append(f'{label}: each actual exceeded limit requires matching termination and bounded cleanup without publication')
+            request_ids.add(case['requestId'])
+        lifecycle=row['lifecycle'];parts=[r for r in env.get('workerEncodeExecutions') or [] if isinstance(r,dict) and r.get('nodeId')==node and r.get('sourceStartFrame')==lifecycle['retrySourceStartFrame'] and r.get('sourceEndFrame')==lifecycle['retrySourceEndFrame']];partial=payload(lifecycle['partialRef'],lifecycle['partialSha256'],node);times=[instant(lifecycle[k]) for k in ('partialCreatedAt','interruptedAt','oldAttemptExpiresAt','retriedAt','retryFinishedAt','cancelledAt','cleanupFinishedAt')]
+        if any(t is None for t in times) or times!=sorted(times) or partial is None or partial['size']<=0 or lifecycle['oldAttemptEpoch']>=lifecycle['currentAttemptEpoch'] or lifecycle['retryJobId']!=policy['jobId'] or lifecycle['terminalResultCount']!=1 or lifecycle['remainingTemporaryBytes']!=0 or lifecycle['remainingOutputBytes']!=0 or lifecycle['activeProcessCount']!=0 or lifecycle['cancelledAttemptPublicationCount']!=0 or lifecycle['cancelledPartialDisposition'] not in ('removed','quarantined') or lifecycle['cancelledPartialPublishable'] is not False or len(parts)!=1:
+            errors.append(f'{label}: interrupted partial retry must preserve job identity, terminate cancellation and clean or quarantine without duplicate results');continue
+        result=payload(lifecycle['publishedRef'],lifecycle['publishedSha256'],node)
+        if result is None or result['size']==0 or lifecycle['publishedRef']==lifecycle['partialRef'] or lifecycle['publishedRef']==parts[0]['outputArtifactRef'] or lifecycle['retryEncoderBuild']!=row['identity']['encoderBuild'] or lifecycle['retryInputSha256']!=report['inputSha256'] or lifecycle['retrySourceStartFrame']!=parts[0]['sourceStartFrame'] or lifecycle['retrySourceEndFrame']!=parts[0]['sourceEndFrame'] or lifecycle['retryDecodedFrameCount']!=lifecycle['retrySourceEndFrame']-lifecycle['retrySourceStartFrame'] or lifecycle['retryDecodeErrorCount']!=0:errors.append(f'{label}: fresh retry output must decode the admitted input span with the same actual encoder/input and no errors')
+        retry_before=len(errors);probe=selected_observation(root,execution,prefix,lifecycle['retryProbeRef'],defs,'mediaRetryDecodeObservation',label,errors,cache)
+        paths=[existing_ref(root,ref,prefix) for ref in (lifecycle['partialRef'],lifecycle['publishedRef'],parts[0]['outputArtifactRef'],lifecycle['retryProbeRef'],lifecycle['cancelledPartialRef'])]
+        if any(a.samefile(b) for i,a in enumerate(paths) if a for b in paths[i+1:] if b):errors.append(f'{label}: interrupted partial, fresh retry output, original output and retry probe must be physically distinct')
+        if probe is not None and len(errors)==retry_before:
+            expected_probe=dict(jobId=policy['jobId'],attemptEpoch=lifecycle['currentAttemptEpoch'],nodeId=node,encoderBuild=lifecycle['retryEncoderBuild'],inputSha256=report['inputSha256'],outputArtifactRef=lifecycle['publishedRef'],outputSha256=lifecycle['publishedSha256'],decoderBuild=policy['retryDecoderBuild'],sourceStartFrame=lifecycle['retrySourceStartFrame'],sourceEndFrame=lifecycle['retrySourceEndFrame'],decodedFrameCount=lifecycle['retryDecodedFrameCount'],decodeErrorCount=lifecycle['retryDecodeErrorCount'],codec='av1',decodable=True)
+            probe_start,probe_finish=instant(probe['startedAt']),instant(probe['finishedAt'])
+            if any(probe[k]!=v for k,v in expected_probe.items()) or not recorded_text(policy['retryDecoderBuild']) or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or probe_start is None or probe_finish is None or not times[3]<=probe_start<=probe_finish<=times[4]:errors.append(f'{label}: actual retry AV1 probe must bind current job/attempt/node/input/output/span/build and ordered decode before completion')
+        cancel_partial=payload(lifecycle['cancelledPartialRef'],lifecycle['cancelledPartialSha256'],node);cancel_start=instant(lifecycle['cancelledStartedAt']);cancel_created=instant(lifecycle['cancelledPartialCreatedAt'])
+        if lifecycle['cancelJobId']!=policy['cancelJobId'] or lifecycle['cancelledAttemptEpoch']<=lifecycle['currentAttemptEpoch'] or lifecycle['cancelledProcessStatusBefore']!='running' or lifecycle['cancelledProcessStatusAfter']!='terminated' or cancel_partial is None or cancel_partial['size']==0 or lifecycle['cancelledPartialRef'] in (lifecycle['partialRef'],lifecycle['publishedRef']) or cancel_start is None or cancel_created is None or not cancel_start<=cancel_created<=times[5]<=times[6]:errors.append(f'{label}: cancellation must exercise a distinct active job and real partial output before termination/cleanup')
+        submissions=lifecycle['submissions'];required={'current','duplicate','late','cancelled'}
+        if len(submissions)!=4 or {r['case'] for r in submissions}!=required:errors.append(f'{label}: complete current/duplicate/late/cancelled completion fencing matrix required')
+        for submission in submissions:
+            at=instant(submission['observedAt']);kind=submission['case'];epoch=lifecycle['oldAttemptEpoch'] if kind=='late' else lifecycle['cancelledAttemptEpoch'] if kind=='cancelled' else lifecycle['currentAttemptEpoch']
+            if submission['attemptEpoch']!=epoch or submission['jobId']!=(policy['cancelJobId'] if kind=='cancelled' else policy['jobId']) or submission['decision']!=('published' if kind=='current' else 'rejected') or submission['publicationDelta']!=(1 if kind=='current' else 0) or submission['terminalResultDelta']!=(1 if kind=='current' else 0) or at is None or at<times[4] or kind=='cancelled' and at<times[5]:errors.append(f'{label}: only the current live completion may publish READY and a terminal result once')
+        seek=row['seekCases']
+        if len(seek)!=3 or {r['case'] for r in seek}!={'current','stale_seek','revoked'}:errors.append(f'{label}: current, stale-seek and revoked demand controls required')
+        for case in seek:
+            at=instant(case['observedAt']);info=payload(case['responseRef'],case['responseSha256'],node);allowed=case['case']=='current'
+            if case['currentSeekEpoch']<=case['previousSeekEpoch'] or case['requestedSeekEpoch']!=(case['currentSeekEpoch'] if case['case']!='stale_seek' else case['previousSeekEpoch']) or case['grantId']!=(policy['revokedGrantId'] if case['case']=='revoked' else policy['currentGrantId']) or case['decision']!=('admitted' if allowed else 'denied') or case['newReservedSlots']!=(1 if allowed else 0) or info is None or (info['size']==0 if allowed else info['size']!=0) or case['case']=='revoked' and (at is None or at<revoked):errors.append(f'{label}: stale/revoked demand must consume no reserved capacity or protected bytes')
+    surfaces={r['surface']:r for r in policy['protectedOutputs']};surface_ids={'manifest','init','segment','cache_hit'}
+    if len(policy['protectedOutputs'])!=4 or set(surfaces)!=surface_ids:errors.append(f'{label}: approved manifest/init/segment/cache-hit outputs required');return
+    if surfaces['segment']['ref']!=quality['firstSegment']['segmentRef'] or surfaces['segment']['sha256']!=quality['firstSegment']['segmentSha256'] or surfaces['cache_hit']['ref']!=surfaces['segment']['ref'] or surfaces['cache_hit']['sha256']!=surfaces['segment']['sha256']:errors.append(f'{label}: segment and cache-hit baselines must bind the actual first playable output')
+    access=report['accessCases'];cases={'authorized','cross_user','expired','revoked','direct_origin'}
+    if len(access)!=20 or {(r['surface'],r['case']) for r in access}!={(s,c) for s in surface_ids for c in cases}:errors.append(f'{label}: complete HLS authorization matrix required')
+    for row in access:
+        at=instant(row['observedAt']);kind=row['case'];surface=surfaces.get(row['surface']);info=payload(row['responseRef'],row['responseSha256']);baseline=payload(surface['ref'],surface['sha256']) if surface else None;allowed=kind=='authorized';grant=policy['expiredGrantId'] if kind=='expired' else policy['revokedGrantId'] if kind=='revoked' else policy['currentGrantId'];user=policy['deniedUserId'] if kind=='cross_user' else policy['authorizedUserId']
+        if row['requestId'] in request_ids or row['assetId']!=policy['assetId'] or row['assetVersion']!=policy['assetVersion'] or row['aclVersion']!=policy['aclVersion'] or row['userId']!=user or row['grantId']!=grant or row['route']!=('origin' if kind=='direct_origin' else 'entry') or info is None or baseline is None or baseline['size']==0 or row['decision']!=('allowed' if allowed else 'denied') or row['originContactCount']!=(1 if allowed and row['surface']!='cache_hit' else 0) or allowed and (row['statusCode']!=200 or info['sha256']!=baseline['sha256'] or at is None or not first<=at<last) or not allowed and (row['statusCode'] not in (401,403) or info['size']!=0) or kind=='expired' and (at is None or at<expired) or kind=='revoked' and (at is None or at<revoked):errors.append(f'{label}: HLS access must bind protected bytes/user/version/ACL/grant and deny unauthorized or origin bypass reads')
+        request_ids.add(row['requestId'])
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    derived=len(errors)==before
+    for gate in MEDIA_NEGATIVE_GATES:
+        if actual.get(gate) is not derived or not derived:errors.append(f'{label}: {gate} must derive complete actual negative outcomes rather than asserted booleans')
+
+
+def validate_qualified_media_quality_timing(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-02' or status!='pass':return
+    label=f"qualified media quality/timing {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('mediaQualityTimingRef'),defs,'mediaQualityTimingReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    if resource is None or report['configurationRef']!=resource.get('configurationRef'):
+        errors.append(f'{label}: exact approved worker/encoder configuration required');return
+    path=existing_ref(root,report['configurationRef'],prefix)
+    try:policy=load(path).get('configuration',{}).get('mediaEvaluationPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,defs.get('mediaEvaluationPolicy',{}),label+'/approved evaluator',errors)
+    if len(errors)!=before or not isinstance(policy,dict):return
+    assembly=env.get('parallelMediaAssembly');runs=env.get('workerEncodeExecutions');provenance=execution.get('provenance') or {}
+    if not isinstance(assembly,dict) or not isinstance(runs,list):return
+    samples=[{k:sample.get(k) for k in ('id','immutableId','checksum')} for sample in execution.get('samples') or []]
+    expected=dict(configurationRef=resource['configurationRef'],subjectVersion=compliance_subject_version(plan,execution),acceptanceProfile=env.get('acceptanceProfile'),jobId=policy['jobId'],inputSampleId=assembly.get('inputSampleId'),inputSha256=assembly.get('inputSha256'),outputArtifactRef=assembly.get('outputArtifactRef'),outputSha256=assembly.get('outputSha256'),encoderBuild=policy['encoderBuild'],encoderParameters=provenance.get('encoder_parameters'))
+    if policy['inputSamples']!=samples or policy['encoderParameters']!=expected['encoderParameters'] or any(report.get(k)!=v for k,v in expected.items()) or any(not recorded_text(policy[k]) for k in ('jobId','evaluatorBuild','modelId','encoderBuild')):
+        errors.append(f'{label}: exact approved inputs/assembly/encoder parameters and evaluator model/build required')
+    if any(not isinstance(run,dict) or run.get('encoderBuild')!=policy['encoderBuild'] for run in runs):errors.append(f'{label}: evaluated output must bind the admitted encode builds')
+    output=existing_ref(root,report['outputArtifactRef'],prefix)
+    if output is None or inspect_artifact(output,cache)['sha256']!=report['outputSha256']:errors.append(f'{label}: evaluated assembly must bind actual produced media bytes')
+    before=len(errors);quality=selected_observation(root,execution,prefix,report['qualityRef'],defs,'vmafEvaluatorOutput',label,errors,cache)
+    segment=report['firstSegment'];probe=selected_observation(root,execution,prefix,segment['decodeRef'],defs,'firstPlayableSegmentProbe',label,errors,cache)
+    job=selected_observation(root,execution,prefix,report['jobEventRef'],defs,'mediaJobStartObservation',label,errors,cache)
+    if len(errors)!=before or quality is None or probe is None or job is None:return
+    if any(quality.get(k)!=v for k,v in expected.items()) or any(quality[k]!=policy[k] for k in ('evaluatorBuild','modelId','modelSha256')) or quality['evaluatedFrameCount']!=assembly.get('sourceFrameCount'):
+        errors.append(f'{label}: VMAF output must bind exact input/output frames and approved evaluator/model')
+    at=utc(quality['evaluatedAt']);finished=[utc(run.get('finishedAt')) for run in runs if isinstance(run,dict)]
+    if at is None or window is None or not window[0]<=at<=window[1] or len(finished)!=len(runs) or not finished or any(t is None or t>at for t in finished):errors.append(f'{label}: full-output quality evaluation must follow completed encoding within execution')
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)}
+    command=quality['evaluatorCommandRef']
+    if command not in (execution.get('rawOutputRefs') or []) or artifacts.get(command,{}).get('artifactType')!='command_output' or existing_ref(root,command,prefix) is None:errors.append(f'{label}: evaluated model invocation must retain selected command output')
+    controls=[run for run in runs if isinstance(run,dict) and run.get('rawOutputRef')==segment['encodeRunRef'] and run.get('nodeId')==segment['nodeId'] and run.get('sourceStartFrame')==0]
+    first,produced,ready,decoded=(utc(value) for value in (segment['jobStartedAt'],segment['segmentProducedAt'],segment['firstPlayableAt'],probe['observedAt']))
+    if len(controls)!=1 or type(controls[0].get('sourceEndFrame')) is not int or segment['sourceStartFrame']!=0 or not 0<segment['sourceEndFrame']<=controls[0].get('sourceEndFrame',0):
+        errors.append(f'{label}: first segment must bind the identified initial input span and real job start')
+    expected_job={k:expected[k] for k in ('configurationRef','subjectVersion','acceptanceProfile','jobId','inputSampleId','inputSha256','encoderBuild','encoderParameters')}
+    expected_job.update(encodeRunRef=segment['encodeRunRef'],nodeId=segment['nodeId'],jobStartedAt=segment['jobStartedAt'])
+    worker=utc(controls[0].get('startedAt')) if len(controls)==1 else None
+    if any(job.get(k)!=v for k,v in expected_job.items()) or len(controls)!=1 or job['workerStartedAt']!=controls[0].get('startedAt'):
+        errors.append(f'{label}: retained job-start event must bind exact approved job/input/encoder and selected worker execution')
+    if any(t is None for t in (first,worker,produced,decoded,ready)) or window is None or not window[0]<=first<=worker<=produced<=decoded<=ready<=window[1]:errors.append(f'{label}: ordered job/worker/produced/decode/first-playable UTC timestamps must retain queue delay')
+    media=existing_ref(root,segment['segmentRef'],prefix)
+    if media is None or segment['segmentRef'] not in (execution.get('rawOutputRefs') or []) or artifacts.get(segment['segmentRef'],{}).get('artifactType')!='produced_media' or artifacts.get(segment['segmentRef'],{}).get('nodeId')!=segment['nodeId']:
+        errors.append(f'{label}: first playable segment requires exact node-bound produced bytes')
+    elif inspect_artifact(media,cache)['size']==0 or inspect_artifact(media,cache)['sha256']!=segment['segmentSha256']:errors.append(f'{label}: first playable segment digest must match actual nonempty bytes')
+    if media is not None and output is not None and media.samefile(output):errors.append(f'{label}: first partial segment must be distinct from the whole multi-worker assembly')
+    expected_probe=dict(jobId=policy['jobId'],nodeId=segment['nodeId'],segmentRef=segment['segmentRef'],segmentSha256=segment['segmentSha256'],inputSha256=report['inputSha256'],sourceStartFrame=segment['sourceStartFrame'],sourceEndFrame=segment['sourceEndFrame'],decoderBuild=assembly.get('decoderBuild'))
+    if any(probe.get(k)!=v for k,v in expected_probe.items()) or probe['decodedFrameCount']!=segment['sourceEndFrame']-segment['sourceStartFrame'] or probe['decodeErrorCount']!=0 or probe['decodable'] is not True:
+        errors.append(f'{label}: first-playable probe must decode the exact retained AV1 input span without errors')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    derived={'av1_quality':quality['vmafMean']}
+    if first is not None and ready is not None:derived['first_segment_latency']=(ready-first).total_seconds()*1000
+    for metric,value in derived.items():
+        if not ai_finite(value) or not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive retained evaluator results and first-playable timestamps')
+
+
+def encode_interval_capacity(intervals):
+    """Bound distinct-node streams and the longest continuous active component."""
+    instants=sorted({instant for _,start,end in intervals for instant in (start,end)})
+    peak=max((len({node for node,start,end in intervals if start<=instant<end}) for instant in instants),default=0)
+    longest=0.0
+    component_start=component_end=None
+    for _,start,end in sorted(intervals,key=lambda item:(item[1],item[2])):
+        if component_end is None or start>component_end:
+            component_start,component_end=start,end
+        else:
+            component_end=max(component_end,end)
+        longest=max(longest,(component_end-component_start).total_seconds()/60)
+    return peak,longest
+
+
+def validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs,errors,cache):
+    label=f"qualified media assembly {execution['taskId']}"
+    env=execution.get('environmentCaptured') or {}
+    assembly=env.get('parallelMediaAssembly')
+    validate_schema(assembly,defs.get('parallelMediaAssembly',{}),label,errors)
+    if not isinstance(assembly,dict):
+        errors.append(f'{label}: typed parallelMediaAssembly is required');return
+    samples={s['id']:s for s in execution.get('samples') or []}
+    sample=samples.get(assembly.get('inputSampleId'))
+    total=assembly.get('sourceFrameCount')
+    if sample is None or assembly.get('inputSha256')!=sample['checksum'] or type(total) is not int or total<=0:
+        errors.append(f'{label}: exact approved input and positive source frame count are required');return
+    if not recorded_text(assembly.get('decoderBuild')):
+        errors.append(f'{label}: decoder build must identify the exercised validation tool')
+    parts=[]
+    for run in runs:
+        if not isinstance(run,dict):continue
+        start,end=run.get('sourceStartFrame'),run.get('sourceEndFrame')
+        if run.get('inputSampleId')!=sample['id'] or run.get('inputSha256')!=sample['checksum'] or type(start) is not int or type(end) is not int or not 0<=start<end<=total:
+            errors.append(f'{label}: each worker must bind an exact positive source-frame span');continue
+        parts.append({key:run.get(key) for key in ('nodeId','outputArtifactRef','outputSha256','sourceStartFrame','sourceEndFrame')})
+    parts.sort(key=lambda part:part['sourceStartFrame'])
+    cursor=0
+    for part in parts:
+        if part['sourceStartFrame']!=cursor:
+            errors.append(f'{label}: source spans must be contiguous and non-overlapping')
+        cursor=part['sourceEndFrame']
+    if len(parts)!=len(runs) or cursor!=total or assembly.get('parts')!=parts:
+        errors.append(f'{label}: ordered parts must cover the entire approved input exactly once')
+    output_ref=assembly.get('outputArtifactRef')
+    output=artifacts.get(output_ref) if isinstance(output_ref,str) else None
+    if output_ref!=env.get('producedMediaArtifactRef') or output is None or output.get('artifactType')!='produced_media' or assembly.get('outputSha256')!=(execution.get('provenance') or {}).get('output_sha256'):
+        errors.append(f'{label}: assembly must bind the designated produced output and actual digest')
+    output_path=existing_ref(root,output_ref,prefix)
+    part_paths=[path for part in parts if (path:=existing_ref(root,part.get('outputArtifactRef'),prefix)) is not None]
+    if any(part.get('outputArtifactRef')==output_ref for part in parts) or (output_path and any(output_path.samefile(path) for path in part_paths)):
+        errors.append(f'{label}: assembled output must be distinct from worker parts')
+    validation_ref=assembly.get('validationRef')
+    artifact=artifacts.get(validation_ref) if isinstance(validation_ref,str) else None
+    path=existing_ref(root,validation_ref,prefix)
+    if artifact is None or artifact.get('artifactType')!='measurement_output' or validation_ref not in (execution.get('rawOutputRefs') or []) or path is None:
+        errors.append(f'{label}: assembled decode/timeline validation must retain typed selected-slot raw output');return
+    if (output_path and path.samefile(output_path)) or any(path.samefile(part_path) for part_path in part_paths):
+        errors.append(f'{label}: decode/timeline report must be distinct from encoded media');return
+    if inspect_artifact(path,cache)['size']>262144:
+        errors.append(f'{label}: decode/timeline report exceeds bounded structured-report size');return
+    try:
+        with path.open(encoding='utf8') as stream:
+            report=yaml.load(stream.read(262145),Loader=UniqueKeyLoader)
+    except (OSError,UnicodeError,yaml.YAMLError):
+        errors.append(f'{label}: decode/timeline report must be readable structured output');return
+    validate_schema(report,defs.get('assembledDecodeReport',{}),label,errors)
+    if not isinstance(report,dict):return
+    expected={key:assembly.get(key) for key in ('inputSampleId','inputSha256','sourceFrameCount','outputSha256','parts','decoderBuild')}
+    if any(report.get(key)!=value for key,value in expected.items()) or type(report.get('decodedFrameCount')) is not int or report['decodedFrameCount']!=total or type(report.get('decodeErrorCount')) is not int or report['decodeErrorCount']!=0 or type(report.get('timelineDiscontinuityCount')) is not int or report['timelineDiscontinuityCount']!=0:
+        errors.append(f'{label}: decoded output and continuous timeline must bind the complete ordered assembly')
+
+
+def qualified_observation_report(path, defs, schema, label, errors, cache):
+    try:
+        size=inspect_artifact(path,cache)['size']
+        if not 0<size<=262144:
+            errors.append(f'{label}: structured observation must be nonempty and at most 262144 bytes')
+            return None
+        with path.open(encoding='utf8') as stream:
+            report=yaml.load(stream.read(262145),Loader=UniqueKeyLoader)
+    except (OSError,UnicodeError,yaml.YAMLError):
+        errors.append(f'{label}: readable structured observation required')
+        return None
+    validate_schema(report,defs.get(schema,{}),label,errors)
+    return report if isinstance(report,dict) else None
+
+
+
+def selected_observation(root, execution, prefix, ref, defs, schema, label, errors, cache):
+    env = execution.get('environmentCaptured') or {}
+    matches = [item for item in env.get('rawExecutionArtifacts') or [] if isinstance(item,dict) and item.get('ref') == ref]
+    path = existing_ref(root,ref,prefix)
+    if len(matches) != 1 or matches[0].get('artifactType') != 'measurement_output' or ref not in (execution.get('rawOutputRefs') or []) or path is None:
+        errors.append(f'{label}: selected-slot typed measurement output required')
+        return None
+    return qualified_observation_report(path,defs,schema,label,errors,cache)
+
+
+def observation_interval(report, execution, label, errors):
+    start,end = utc(report.get('observedStartedAt')),utc(report.get('observedFinishedAt'))
+    window = (execution.get('environmentCaptured') or {}).get('executionWindow') or {}
+    first,last = utc(window.get('startedAt')),utc(window.get('finishedAt'))
+    if start is None or end is None or first is None or last is None or not first <= start < end <= last:
+        errors.append(f'{label}: positive observed interval must be inside executionWindow')
+        return None
+    return (end-start).total_seconds()
+
+
+def validate_qualified_phone_observation(root, execution, prefix, scope, observation, path, defs, errors, cache):
+    label = f"qualified physical phone observation {execution['taskId']}"
+    report = qualified_observation_report(path,defs,'physicalPhoneObservation',label,errors,cache)
+    if report is None:
+        return
+    expected = {key:scope.get(key) for key in ('nodeId','deviceId','physicalHostId','encoderBuild')}
+    expected.update({key:observation.get(key) for key in ('temperaturePeakCelsius','powerPeakWatts','testDurationSeconds','backgroundSurvivedSeconds')})
+    if any(report.get(key) != value for key,value in expected.items()):
+        errors.append(f'{label}: retained report must match exact device/node/host/build and measured temperature/power/background values')
+    duration = observation_interval(report,execution,label,errors)
+    if duration is not None and report.get('testDurationSeconds') != duration:
+        errors.append(f'{label}: completed test duration must equal observed interval')
+
+
+def validate_qualified_inference_observation(root, plan, execution, prefix, status, window, defs, errors, cache):
+    if plan['pocId'] != 'POC-09' or status != 'pass':
+        return
+    label = f"qualified inference observation {plan['taskId']}"
+    env = execution.get('environmentCaptured') or {}
+    report = selected_observation(root,execution,prefix,env.get('inferenceObservationRef'),defs,'inferenceObservation',label,errors,cache)
+    if report is None:
+        return
+    expected_inputs = [{key:sample.get(key) for key in ('id','immutableId','checksum')} for sample in execution.get('samples') or []]
+    if report.get('subjectVersion') != compliance_subject_version(plan,execution) or report.get('inputSamples') != expected_inputs:
+        errors.append(f'{label}: report must bind exact model/prompt/parameters/runtime/tools and approved input identities')
+    count = report.get('completedItemCount')
+    elapsed = observation_interval(report,execution,label,errors)
+    actual = next((item.get('actual') for item in execution.get('measurements') or [] if item.get('id') == 'throughput'),None)
+    if type(count) is not int or count <= 0:
+        errors.append(f'{label}: positive integer completed item count required')
+    elif elapsed is not None and (isinstance(actual,bool) or not isinstance(actual,(int,float)) or not math.isfinite(actual) or not math.isclose(actual,count/elapsed,rel_tol=1e-9,abs_tol=1e-9)):
+        errors.append(f'{label}: throughput must equal retained completed count divided by elapsed seconds')
+
+
+RECOVERY_GATE_DOMAINS = {
+    'db_restore':('database',), 'users_permissions_restore':('permissions',),
+    'assets_restore':('assets',), 'source_mappings_restore':('sourceMappings',),
+    'formal_replicas_restore':('replicas',), 'retention_restore':('retention',),
+    'audit_restore':('audit',), 'outbox_restore':('delivery',), 'tasks_restore':('tasks',),
+    'authoritative_relationships_restore':('permissions','assets','sourceMappings','replicas','retention','audit','delivery','tasks'),
+    'secret_store_restore':('openbao',), 'secret_value_roundtrip':('valueComparisons',),
+    'secret_unreadable_failure_detected':('unreadableFixture',), 'file_restore':('files',),
+    'playback_restore':('playback',), 'ai_manual_revisions_restore':('revisions',),
+    'search_index_consistency_restore':('indexEntries',), 'image_signature_restore':('deployment',),
+}
+
+
+def recovery_domain_digest(value):
+    """Hash parsed state; transport references may differ after a legitimate restore."""
+    def semantic(item):
+        if isinstance(item,dict):
+            return {key:semantic(value) for key,value in item.items() if key not in ('artifactRef','imageArtifactRef','signatureArtifactRef','verificationRef','configurationRef','controlBackupRef')}
+        if isinstance(item,list):return [semantic(value) for value in item]
+        return item
+    return 'sha256:'+hashlib.sha256(json.dumps(semantic(value),sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8')).hexdigest()
+
+
+def decode_recovery_control_backup(data):
+    """Fixed bounded non-secret lab codec, never an OpenBao secret decryptor."""
+    if not 0 < len(data) <= 262144:raise ValueError('backup fixture size')
+    decoder=zlib.decompressobj(31)
+    decoded=decoder.decompress(data,262145)
+    if len(decoded)>262144 or decoder.unconsumed_tail or not decoder.eof or decoder.unused_data:raise ValueError('backup fixture decoding')
+    def nonfinite(value):raise ValueError('nonfinite configuration')
+    value=json.loads(decoded.decode('utf8'),parse_constant=nonfinite)
+    if not isinstance(value,dict):raise ValueError('backup configuration object')
+    return value
+
+
+def verify_recovery_signature(image, signature, public_key, build, label, errors, cache):
+    """Verify retained bytes with a fixed existing tool and approved public key."""
+    try:
+        if 'recovery-openssl-build' not in cache:
+            result=subprocess.run(['openssl','version'],capture_output=True,timeout=10)
+            if result.returncode:raise ValueError('signature verifier version unavailable')
+            cache['recovery-openssl-build']=result.stdout.decode('utf8').strip()
+        if cache['recovery-openssl-build']!=build:raise ValueError('signature verifier build differs from approved build')
+        key=subprocess.run(['openssl','pkey','-pubin','-in',str(public_key),'-text','-noout'],capture_output=True,timeout=10)
+        if key.returncode or not key.stdout.startswith(b'ED25519 Public-Key:'):raise ValueError('approved key must be Ed25519 public key')
+        result=subprocess.run(['openssl','pkeyutl','-verify','-pubin','-inkey',str(public_key),'-sigfile',str(signature),'-rawin','-in',str(image)],capture_output=True,timeout=10)
+        if result.returncode:raise ValueError('actual Ed25519 signature verification failed')
+    except (OSError,ValueError,UnicodeError,subprocess.TimeoutExpired) as exc:
+        errors.append(f'{label}: signature verification failed: {exc}')
+
+
+def validate_recovery_state(root, execution, prefix, report, defs, label, errors, cache, all_paths, approved):
+    state=report['states']
+    env=execution['environmentCaptured']
+    artifacts={item['ref']:item for item in env['rawExecutionArtifacts'] if isinstance(item,dict) and isinstance(item.get('ref'),str)}
+    def retained(ref,digest,kind='recovery_output',size=None):
+        path=existing_ref(root,ref,prefix)
+        artifact=artifacts.get(ref)
+        if path is None or artifact is None or artifact.get('artifactType')!=kind or ref not in execution['rawOutputRefs']:
+            errors.append(f'{label}: state must bind selected-slot typed retained bytes');return
+        actual=inspect_artifact(path,cache)
+        if actual['sha256']!=digest or actual['size']<=0 or (size is not None and actual['size']!=size):
+            errors.append(f'{label}: state digest/size must match actual retained bytes')
+        if any(path.samefile(prior) for prior in all_paths):
+            errors.append(f'{label}: recovery states, comparisons and retained outputs must be physically distinct')
+        all_paths.append(path)
+    assets={item['assetId']:item for item in state['assets']}
+    users={item['userId'] for item in state['permissions']}
+    for domain,key in (('assets','assetId'),('permissions','userId'),('sourceMappings','sourceId'),('replicas','replicaId'),('retention','assetId'),('tasks','taskId'),('revisions','revisionId'),('indexEntries','entryId'),('deployment','imageId'),('delivery','eventId')):
+        if len({item[key] for item in state[domain]})!=len(state[domain]):
+            errors.append(f'{label}: {domain} identities must be unique')
+    for domain in ('sourceMappings','replicas','retention','tasks','playback','revisions','indexEntries'):
+        if any(item['assetId'] not in assets for item in state[domain]):errors.append(f'{label}: {domain} must reference restored authoritative assets')
+    if any(item['ownerId'] not in users for item in state['tasks']) or any(item['authorUserId'] not in users for item in state['revisions']):
+        errors.append(f'{label}: tasks/revisions must reference restored users')
+    if any(item['authorizedUserId'] not in users for item in state['playback']):errors.append(f'{label}: playback must bind restored permission subjects')
+    grants=[grant for user in state['permissions'] for grant in user['scopedGrants']]
+    if len({g['grantId'] for g in grants})!=len(grants) or {g['assetId'] for g in grants}!=set(assets) or any(g['assetId'] not in assets or g['aclVersion']!=assets[g['assetId']]['aclVersion'] for g in grants):
+        errors.append(f'{label}: scoped ACL grants must uniquely bind every restored asset and its ACL version')
+    if any(item['anonymousAccess'] and item['visibility']!='PUBLIC' for item in state['assets']):
+        errors.append(f'{label}: anonymous publication must retain the authoritative public visibility')
+    if any(item['metadataSha256']!=assets.get(item['assetId'],{}).get('metadataSha256') for item in state['indexEntries']) or {item['assetId'] for item in state['indexEntries']}!=set(assets):
+        errors.append(f'{label}: index entries must exactly reconcile restored authoritative metadata')
+    if any(sum(item['primary'] is True for item in state['replicas'] if item['assetId']==asset)!=1 for asset in assets):
+        errors.append(f'{label}: each asset requires exactly one verified authoritative primary replica')
+    for item in state['replicas']:
+        retained(item['artifactRef'],item['sha256'],size=item['byteCount'])
+    if any(utc(item['scheduledAt']) is None for item in state['retention']):
+        errors.append(f'{label}: retained retention scheduledAt must be a valid UTC date-time')
+    previous='sha256:'+'0'*64
+    for sequence,item in enumerate(state['audit']):
+        payload={key:item[key] for key in ('entryId','sequence','entityId','previousSha256','event')}
+        actual='sha256:'+hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest()
+        if item['sequence']!=sequence or item['previousSha256']!=previous or item['sha256']!=actual or item['entityId'] not in assets:
+            errors.append(f'{label}: audit ordering and computed integrity chain must bind authoritative entities')
+        previous=item['sha256']
+        event=item['event']
+        if event['actorId'] not in users or utc(event['occurredAt']) is None or event['taskId'] is not None and event['taskId'] not in {task['taskId'] for task in state['tasks']}:
+            errors.append(f'{label}: canonical audit event must bind valid actor/time/task relationships')
+    if len({item['dedupId'] for item in state['delivery']})!=len(state['delivery']) or any(item['aggregateId'] not in assets or item['publicationCount']!=(1 if item['status']=='processed' else 0) or item['inboxProcessedCount']!=(1 if item['status']=='processed' else 0) for item in state['delivery']):
+        errors.append(f'{label}: delivery state must bind unique dedup/event identities and publication/inbox counts')
+    if {item['referenceId'] for item in state['valueComparisons']}!=set(state['openbao']['referenceIds']):
+        errors.append(f'{label}: actual value comparisons must cover exact restored OpenBao references')
+    store=state['openbao'];retained(store['configurationRef'],store['configurationSha256'],'measurement_output')
+    before=len(errors);configuration=selected_observation(root,execution,prefix,store['configurationRef'],defs,'recoveryOpenBaoConfiguration',label,errors,cache)
+    if configuration is not None and len(errors)==before:
+        if configuration['subjectVersion']!=report['subjectVersion'] or configuration['acceptanceProfile']!=report['acceptanceProfile'] or {m['mountId'] for m in configuration['mounts']}!=set(store['mountIds']) or {p['policyId'] for p in configuration['policies']}!=set(store['policyIds']) or len({m['mountId'] for m in configuration['mounts']})!=len(configuration['mounts']) or len({p['policyId'] for p in configuration['policies']})!=len(configuration['policies']) or len({a['authId'] for a in configuration['authMethods']})!=len(configuration['authMethods']):
+            errors.append(f'{label}: non-secret OpenBao configuration must bind unique exact mounts/policies/auth settings and captured runtime/profile')
+    for item in state['valueComparisons']:
+        retained(item['artifactRef'],item['sha256'],'measurement_output')
+        value=selected_observation(root,execution,prefix,item['artifactRef'],defs,'recoveryValueComparisonArtifact',label,errors,cache)
+        if value is None or any(value.get(key)!=item[key] for key in ('referenceId','method','comparisonContextId')):
+            errors.append(f'{label}: retained one-way comparison artifact must bind exact approved method/reference/context')
+    if len({item['logicalPath'] for item in state['files']})!=len(state['files']):errors.append(f'{label}: restored logical file paths must be unique')
+    for item in state['files']:
+        if not safe_generator_relative_path(item['logicalPath']):errors.append(f'{label}: logical file path must be safe and relative')
+        retained(item['artifactRef'],item['sha256'],size=item['byteCount'])
+    for item in state['playback']:
+        if item['rangeEnd']<item['rangeStart']:errors.append(f'{label}: playback range must be ordered')
+        retained(item['artifactRef'],item['sha256'],size=item['rangeEnd']-item['rangeStart']+1)
+    for item in state['deployment']:
+        retained(item['imageArtifactRef'],item['imageSha256'])
+        retained(item['signatureArtifactRef'],item['signatureSha256'])
+        before=len(errors);verification=selected_observation(root,execution,prefix,item['verificationRef'],defs,'recoveryDeploymentVerification',label,errors,cache)
+        path=existing_ref(root,item['verificationRef'],prefix)
+        if path:
+            if any(path.samefile(prior) for prior in all_paths):errors.append(f'{label}: signature verification must be distinct from retained payloads')
+            all_paths.append(path)
+        if verification is None or any(verification.get(key)!=item[key] for key in ('imageSha256','signatureSha256','signerIdentity')):
+            errors.append(f'{label}: signature verification must bind actual image/signature digests and approved signer')
+        approvals=approved.get('approvedSigners')
+        selected=[a for a in approvals if isinstance(a,dict) and a.get('signerIdentity')==item['signerIdentity']] if isinstance(approvals,list) else []
+        if len(selected)!=1:
+            errors.append(f'{label}: signature requires one independently approved public trust identity');continue
+        trust=selected[0];validate_schema(trust,defs.get('recoverySignerApproval',{}),label+'/approved signer',errors)
+        if verification is None or len(errors)!=before:continue
+        key=existing_ref(root,trust['publicKeyRef'],prefix);image=existing_ref(root,item['imageArtifactRef'],prefix);signature=existing_ref(root,item['signatureArtifactRef'],prefix)
+        if key is None or image is None or signature is None or trust['publicKeyRef'] not in execution['rawOutputRefs'] or artifacts.get(trust['publicKeyRef'],{}).get('artifactType')!='recovery_output' or not 0<inspect_artifact(key,cache)['size']<=16384 or inspect_artifact(key,cache)['sha256']!=trust['publicKeySha256'] or inspect_artifact(signature,cache)['size']!=64 or any(verification[k]!=trust[k] for k in ('algorithm','publicKeySha256','verifierBuild')):
+            errors.append(f'{label}: signature verification must bind retained public key bytes and approved algorithm/build');continue
+        verify_recovery_signature(image,signature,key,trust['verifierBuild'],label,errors,cache)
+
+
+def validate_qualified_recovery_observation(root, plan, execution, prefix, status, window, defs, errors, cache):
+    if plan['pocId']!='POC-10' or status!='pass':return
+    label=f"qualified recovery observation {plan['taskId']}"
+    env=execution.get('environmentCaptured') or {}
+    capture=env.get('recoveryEvidence')
+    resources=[item for item in execution.get('resources') or [] if isinstance(item,dict) and item.get('id')=='RES-RECOVERY-SANDBOX']
+    if not isinstance(capture,dict) or len(resources)!=1 or capture.get('configurationRef')!=resources[0].get('configurationRef'):
+        errors.append(f'{label}: recovery evidence must bind approved recovery resource configuration');return
+    config_path=existing_ref(root,capture['configurationRef'],prefix)
+    try:approved=load(config_path).get('configuration',{}).get('recoveryBaseline') if config_path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):approved=None
+    if not isinstance(approved,dict) or approved.get('baselineRef')!=capture.get('baselineRef'):
+        errors.append(f'{label}: approved baseline reference required');return
+    reports={};paths=[];before=len(errors)
+    for key,schema in (('baselineRef','recoveryStateManifest'),('restoredRef','recoveryStateManifest'),('comparisonRef','recoveryComparisonReport')):
+        report=selected_observation(root,execution,prefix,capture.get(key),defs,schema,label,errors,cache)
+        path=existing_ref(root,capture.get(key),prefix)
+        if path:
+            if any(path.samefile(prior) for prior in paths):errors.append(f'{label}: baseline/restored/comparison reports must be physically distinct')
+            paths.append(path)
+        reports[key]=report
+    if len(errors)!=before or any(report is None for report in reports.values()):return
+    baseline,restored,comparison=(reports[key] for key in ('baselineRef','restoredRef','comparisonRef'))
+    baseline_sha=inspect_artifact(paths[0],cache)['sha256'];restored_sha=inspect_artifact(paths[1],cache)['sha256']
+    if approved.get('baselineSha256')!=baseline_sha or comparison.get('baselineRef')!=capture['baselineRef'] or comparison.get('baselineSha256')!=baseline_sha or comparison.get('restoredRef')!=capture['restoredRef'] or comparison.get('restoredSha256')!=restored_sha:
+        errors.append(f'{label}: approved baseline and comparison must bind actual manifest bytes')
+    inputs=[{key:sample.get(key) for key in ('id','immutableId','checksum')} for sample in execution.get('samples') or []]
+    subject=compliance_subject_version(plan,execution)
+    for report in (baseline,restored,comparison):
+        if report.get('inputSamples')!=inputs or report.get('subjectVersion')!=subject or report.get('acceptanceProfile')!=env.get('acceptanceProfile'):
+            errors.append(f'{label}: manifests/comparison must bind exact approved inputs, tool build and profile')
+    begin,end=utc(baseline['observedStartedAt']),utc(baseline['observedFinishedAt'])
+    config=load(config_path);approval=utc(config.get('approvedAt'))
+    if begin is None or end is None or approval is None or window is None or not begin<end<=approval<=window[0]:
+        errors.append(f'{label}: baseline capture and independent approval must precede restore execution')
+    if baseline['kind']!='recovery_baseline' or restored['kind']!='recovery_restored':errors.append(f'{label}: exact baseline/restored report roles required')
+    observation_interval(restored,execution,label,errors);observation_interval(comparison,execution,label,errors)
+    if utc(restored['observedFinishedAt']) and utc(comparison['observedStartedAt']) and utc(restored['observedFinishedAt'])>utc(comparison['observedStartedAt']):errors.append(f'{label}: comparison must follow restored-state capture')
+    for report in (baseline,restored):validate_recovery_state(root,execution,prefix,report,defs,label,errors,cache,paths,approved)
+    expected_gates={item['id'] for item in plan['protocol']['measurements'] if item['unit']=='boolean'}
+    rows=comparison['rows']
+    if set(RECOVERY_GATE_DOMAINS)!=expected_gates or len(rows)!=len(expected_gates) or {row['gate'] for row in rows}!=expected_gates:
+        errors.append(f'{label}: comparison must cover exact frozen boolean recovery gates')
+    for row in rows:
+        domains=RECOVERY_GATE_DOMAINS.get(row['gate'])
+        if domains is None:continue
+        left={domain:recovery_domain_digest(baseline['states'][domain]) for domain in domains}
+        right={domain:recovery_domain_digest(restored['states'][domain]) for domain in domains}
+        if row['before']!=left or row['after']!=right or left!=right:
+            errors.append(f'{label}: {row["gate"]} must be supported by computed parsed-state comparisons')
+    contexts=[{key:item[key] for key in ('referenceId','method','comparisonContextId')} for item in baseline['states']['valueComparisons']]
+    if approved.get('approvedComparisonContexts')!=contexts:errors.append(f'{label}: one-way/HMAC comparison context requires explicit prior resource approval')
+    negative=baseline['states']['unreadableFixture'];witness=comparison['unreadableWitness']
+    if any(witness.get(key)!=negative[key] for key in ('fixtureId','backupSha256')) or witness.get('errorCode')!=negative['expectedErrorCode']:
+        errors.append(f'{label}: unreadable backup witness must identify exact approved negative fixture and expected failure')
+    before=len(errors);observation=selected_observation(root,execution,prefix,witness.get('observationRef'),defs,'recoveryBackupDecodeObservation',label,errors,cache)
+    approved_negative=approved.get('approvedUnreadableFixture')
+    identity_keys=('fixtureId','backupSha256','controlBackupSha256','codec','corruptionOffset','corruptionXor')
+    if not isinstance(approved_negative,dict) or any(approved_negative.get(k)!=negative[k] for k in identity_keys):
+        errors.append(f'{label}: corrupted backup must bind exact independently approved readable control and mutation')
+    for report in (baseline,restored):
+        fixture=report['states']['unreadableFixture'];store=report['states']['openbao']
+        control=existing_ref(root,fixture['controlBackupRef'],prefix);corrupt=existing_ref(root,fixture['artifactRef'],prefix)
+        if control is None or corrupt is None or any(a.get('ref') not in execution['rawOutputRefs'] for a in ({'ref':fixture['controlBackupRef']},{'ref':fixture['artifactRef']})) or any(next((a.get('artifactType') for a in env['rawExecutionArtifacts'] if a.get('ref')==ref),None)!='recovery_output' for ref in (fixture['controlBackupRef'],fixture['artifactRef'])):
+            errors.append(f'{label}: unreadable backup requires retained selected-slot control and corrupted bytes');continue
+        control_info,corrupt_info=inspect_artifact(control,cache),inspect_artifact(corrupt,cache)
+        if not 0<control_info['size']<=262144 or corrupt_info['size']!=fixture['byteCount'] or corrupt_info['sha256']!=fixture['backupSha256'] or control_info['sha256']!=fixture['controlBackupSha256'] or control.samefile(corrupt):
+            errors.append(f'{label}: backup fixture must bind bounded distinct actual control/corrupt bytes');continue
+        try:
+            original=control.read_bytes();damaged=corrupt.read_bytes();offset=fixture['corruptionOffset']
+            if offset>=len(original) or damaged!=original[:offset]+bytes([original[offset]^fixture['corruptionXor']])+original[offset+1:]:raise ValueError('corruption is not the approved control mutation')
+            decoded=decode_recovery_control_backup(original)
+            config_path=existing_ref(root,store['configurationRef'],prefix)
+            config=qualified_observation_report(config_path,defs,'recoveryOpenBaoConfiguration',label,errors,cache) if config_path else None
+            if config is None or decoded!=config:raise ValueError('readable control must restore the captured non-secret configuration')
+            digest='sha256:'+hashlib.sha256(json.dumps(decoded,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8')).hexdigest()
+            try:decode_recovery_control_backup(damaged)
+            except (ValueError,zlib.error,UnicodeError):pass
+            else:raise ValueError('corrupted backup decoded successfully')
+            if observation is None or any(observation.get(k)!=fixture[k] for k in ('fixtureId','backupSha256','controlBackupSha256','codec')) or observation.get('controlDecodedSha256')!=digest:
+                raise ValueError('decoder observation must reconcile actual readable-control output and corrupted-input failure')
+        except (OSError,ValueError,zlib.error,UnicodeError) as exc:
+            errors.append(f'{label}: actual controlled backup decoding failed admission: {exc}')
+    before_delivery={item['eventId']:item for item in restored['states']['delivery']};after_delivery={item['eventId']:item for item in comparison['postReplayDelivery']}
+    if len(after_delivery)!=len(comparison['postReplayDelivery']) or set(before_delivery)!=set(after_delivery):
+        errors.append(f'{label}: replay must preserve exact event identities without duplicates')
+    selected=comparison['replayedEventIds']
+    approved_events=approved.get('approvedReplayEventIds')
+    if selected!=approved_events or not set(selected).issubset(before_delivery):
+        errors.append(f'{label}: replay must bind exact previously approved event identities')
+    transitioned=False
+    for event,item in before_delivery.items():
+        target=after_delivery.get(event) or {}
+        expected={**item,'status':'processed','publicationCount':1,'inboxProcessedCount':1} if event in selected else item
+        if target!=expected:
+            errors.append(f'{label}: replay must process each exact dedup identity only once')
+        transitioned=transitioned or event in selected and item['status']=='pending' and target.get('status')=='processed'
+    if not transitioned:errors.append(f'{label}: an approved pending fixture must actually undergo replay')
+
+
+RECOVERY_TIME_ENDPOINTS = {
+    'rpo_observed':('backup_checkpoint','recoverable_data_boundary'),
+    'rto_observed':('recovery_started','recovery_completed'),
+    'service_recovery_time':('recovery_started','services_ready'),
+    'vm_recovery_time':('recovery_started','vm_set_ready'),
+    'core_browsing_recovery_time':('recovery_started','authenticated_browsing_succeeded'),
+    'playback_recovery_time':('recovery_started','authorized_playback_succeeded'),
+}
+
+
+def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-10' or status!='pass':return
+    label=f"qualified recovery timing {plan['taskId']}"
+    env=execution.get('environmentCaptured') or {};capture=env.get('recoveryEvidence')
+    if not isinstance(capture,dict):return  # The recovery-state validator reports the missing capture.
+    before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('recoveryTimingRef'),defs,'recoveryTimingReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    config_path=existing_ref(root,capture.get('configurationRef'),prefix)
+    try:config=load(config_path) if config_path else {};approved=config.get('configuration',{}).get('recoveryTimingSubjects')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):approved=None
+    if not isinstance(approved,dict) or report['subjects']!=approved or any(not recorded_text(approved.get(key)) for key in ('recoveryRunId','physicalHostId','serviceSetId','vmSetId','authorizedUserId','assetId')):
+        errors.append(f'{label}: exact previously approved recovery run/host/service/VM/access subjects required');return
+    expected=dict(configurationRef=capture.get('configurationRef'),baselineRef=capture.get('baselineRef'),restoredRef=capture.get('restoredRef'),comparisonRef=capture.get('comparisonRef'),resourceId='RES-RECOVERY-SANDBOX',subjectVersion=compliance_subject_version(plan,execution),acceptanceProfile=env.get('acceptanceProfile'),inputSamples=[{key:s.get(key) for key in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    if any(report.get(key)!=value for key,value in expected.items()):errors.append(f'{label}: timing must bind exact baseline/restored/comparison/resource/tool/input/profile identities')
+    names={event for pair in RECOVERY_TIME_ENDPOINTS.values() for event in pair};rows=report['events']
+    if len(rows)!=len(names) or {row['event'] for row in rows}!=names:
+        errors.append(f'{label}: exact unique recovery business events required');return
+    times={};paths=[]
+    for key in ('baselineRef','restoredRef','comparisonRef'):
+        path=existing_ref(root,capture.get(key),prefix)
+        if path:paths.append(path)
+    timing_path=existing_ref(root,env.get('recoveryTimingRef'),prefix)
+    if timing_path:paths.append(timing_path)
+    for row in rows:
+        name=row['event'];at=utc(row['observedAt']);path=existing_ref(root,row['witnessRef'],prefix)
+        before=len(errors)
+        witness=selected_observation(root,execution,prefix,row['witnessRef'],defs,'recoveryBusinessEvent',label,errors,cache)
+        if witness is None or len(errors)!=before:continue
+        if path and any(path.samefile(peer) for peer in paths):errors.append(f'{label}: business event witnesses must be physically distinct from reports and other events')
+        if path:paths.append(path)
+        identity=dict(event=name,observedAt=row['observedAt'],subjects=approved,resourceId='RES-RECOVERY-SANDBOX',subjectVersion=expected['subjectVersion'],acceptanceProfile=expected['acceptanceProfile'],inputSamples=expected['inputSamples'],outcome='succeeded')
+        if any(witness.get(key)!=value for key,value in identity.items()):errors.append(f'{label}: retained event must bind its exact timestamp and approved execution subjects')
+        if at is None:errors.append(f'{label}: each business event requires a valid UTC timestamp')
+        else:times[name]=at
+    if set(times)!=names or window is None:return
+    checkpoint=utc(approved.get('backupCheckpointAt'))
+    before=len(errors)
+    baseline=selected_observation(root,execution,prefix,capture.get('baselineRef'),defs,'recoveryStateManifest',label,errors,cache)
+    restored=selected_observation(root,execution,prefix,capture.get('restoredRef'),defs,'recoveryStateManifest',label,errors,cache)
+    comparison=selected_observation(root,execution,prefix,capture.get('comparisonRef'),defs,'recoveryComparisonReport',label,errors,cache)
+    if len(errors)!=before or any(report is None for report in (baseline,restored,comparison)):return
+    baseline_end=utc(baseline.get('observedFinishedAt')) if isinstance(baseline,dict) else None
+    comparison_end=utc(comparison.get('observedFinishedAt')) if isinstance(comparison,dict) else None
+    if checkpoint is None or checkpoint!=times['backup_checkpoint'] or baseline_end is None or checkpoint>baseline_end:
+        errors.append(f'{label}: backup checkpoint must bind approved baseline recoverable data boundary')
+    for name,at in times.items():
+        if name!='backup_checkpoint' and not window[0]<=at<=window[1]:errors.append(f'{label}: recovery business event must occur inside executionWindow')
+    start=times['recovery_started'];complete=times['recovery_completed'];boundary=times['recoverable_data_boundary']
+    ready=('services_ready','vm_set_ready','authenticated_browsing_succeeded','authorized_playback_succeeded')
+    if not times['backup_checkpoint']<=boundary<=start<=complete or any(not start<=times[key]<=complete for key in ready) or comparison_end is None or complete>comparison_end:
+        errors.append(f'{label}: checkpoint/disruption/recovery/readiness/completion events must be ordered')
+    try:states=restored['states'];users={item['userId'] for item in states['permissions']};assets={item['assetId'] for item in states['assets']};playback=states['playback']
+    except (TypeError,KeyError,AttributeError):return
+    if approved['authorizedUserId'] not in users or approved['assetId'] not in assets or not any(item['assetId']==approved['assetId'] and item['authorizedUserId']==approved['authorizedUserId'] and item['statusCode']==206 for item in playback):
+        errors.append(f'{label}: browsing/playback ready events must bind restored authorized subjects')
+    actual={item.get('id'):item.get('actual') for item in execution.get('measurements') or []}
+    for metric,(first,last) in RECOVERY_TIME_ENDPOINTS.items():
+        measured=(times[last]-times[first]).total_seconds();claimed=actual.get(metric)
+        if isinstance(claimed,bool) or not isinstance(claimed,(int,float)) or not math.isfinite(claimed) or measured<0 or not math.isclose(claimed,measured,rel_tol=1e-9,abs_tol=1e-9):
+            errors.append(f'{label}: {metric} must equal retained business-event elapsed seconds')
+
+
+ACCESS_DENIAL_GATES={'unauthorized':'unauthorized_identity_denied','expired':'expired_authorization_denied','cross_user':'cross_user_cache_isolation','rate_limit':'rate_limit_enforced','direct_source':'local_direct_origin_denied','direct_admin':'local_direct_origin_denied','direct_worker':'local_direct_origin_denied'}
+
+
+def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-07' or status!='pass':return
+    label=f"qualified access outcomes {plan['taskId']}";env=execution.get('environmentCaptured') or {};profile=(env.get('acceptanceProfile') or {}).get('id');local=profile=='local-v1';before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('accessOutcomeRef'),defs,'accessOutcomeReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    resource_id='RES-LOCAL-ACCESS-PATH' if local else 'RES-PUBLIC-NETWORK'
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')==resource_id),None)
+    if resource is None or report['configurationRef']!=resource.get('configurationRef') or report['pathConfigurationRef']!=env.get('acceptanceProfileConfigurationRef'):
+        errors.append(f'{label}: exact selected profile/resource/path configuration required');return
+    config_path=existing_ref(root,report['configurationRef'],prefix)
+    try:policy=load(config_path).get('configuration',{}).get('accessPolicy') if config_path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,defs.get('accessOutcomePolicy',{}),label,errors)
+    if len(errors)!=before or policy is None:return
+    if not math.isfinite(policy['rateLimit']['windowSeconds']):
+        errors.append(f'{label}: finite approved rate window required');return
+    inputs=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []]
+    expected=dict(resourceId=resource_id,acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=inputs,assetId=policy['assetId'],sourceVersion=policy['sourceVersion'],aclVersion=policy['aclVersion'])
+    if any(report.get(k)!=v for k,v in expected.items()):errors.append(f'{label}: report must bind approved subjects, ACL/source versions, input/tool/profile')
+    if policy['authorizedUserId']==policy['deniedUserId'] or policy['authorizedGrantId']==policy['expiredGrantId'] or any(not recorded_text(policy[k]) for k in ('assetId','sourceVersion','aclVersion','authorizedUserId','deniedUserId','authorizedGrantId','expiredGrantId')):
+        errors.append(f'{label}: concrete distinct authorized/denied subjects and grants required')
+    valid_from,valid_until,expired=map(utc,(policy['grantValidFrom'],policy['grantValidUntil'],policy['expiredAt']))
+    if valid_from is None or valid_until is None or expired is None or valid_from>=valid_until or window is None:
+        errors.append(f'{label}: valid UTC approved grant lifetime required');return
+    source_rows=env.get('inputSampleArtifacts') or []
+    if not isinstance(source_rows,list):
+        errors.append(f'{label}: typed actual input sample artifacts required');return
+    selected=[r for r in source_rows if isinstance(r,dict) and r.get('sampleId')==report['inputSampleId']]
+    sample=next((s for s in execution.get('samples') or [] if s.get('id')==report['inputSampleId']),None)
+    source=existing_ref(root,selected[0].get('inputArtifactRef'),prefix) if len(selected)==1 else None
+    if sample is None or source is None or selected[0].get('immutableId')!=sample.get('immutableId') or inspect_artifact(source,cache)['sha256']!=sample.get('checksum'):
+        errors.append(f'{label}: actual approved source bytes required');return
+    source_info=inspect_artifact(source,cache);etag='"'+sample['checksum'].removeprefix('sha256:')+'"'
+    required={'authorized_range','authorized_if_range','authorized_stream','unauthorized','expired','cross_user','rate_limit'}
+    if local:required|={'direct_source','direct_admin','direct_worker'}
+    rows=report['cases']
+    if len(rows)!=len(required) or {r['case'] for r in rows}!=required:
+        errors.append(f'{label}: exact unique authorized, denial, cache, rate and route cases required');return
+    if local:
+        tls=env.get('local_tls_path_configuration')
+        try:
+            parsed={key:urllib.parse.urlsplit(policy['paths'][key]) for key in ('range','stream','source')}
+        except ValueError:
+            errors.append(f'{label}: valid approved local access URLs required');return
+        if not isinstance(tls,dict) or any(parsed[key].scheme+'://'+parsed[key].netloc!=tls.get('entryOrigin') for key in ('range','stream')) or parsed['source'].scheme+'://'+parsed['source'].netloc!=tls.get('openlistOrigin'):
+            errors.append(f'{label}: access policy must bind the captured local TLS/OpenList origins')
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)};paths=[source];passed={};primed_at=None;primed_range=None;denied_ranges=[];rate_case=None
+    def public_denial(body,actual,case):
+        if actual['size']==0:return True
+        if actual['size']>1024:return False
+        def public_fields(pairs):
+            if len({key for key,_ in pairs})!=len(pairs):raise ValueError('duplicate public error fields')
+            return dict(pairs)
+        try:
+            with body.open(encoding='utf8') as stream:document=json.load(stream,object_pairs_hook=public_fields)
+        except (OSError,ValueError,UnicodeError):return False
+        return document=={'error':'rate_limited' if case=='rate_limit' else 'access_denied'}
+    for row in rows:
+        case=row['case'];before=len(errors);witness=selected_observation(root,execution,prefix,row['witnessRef'],defs,'accessRequestOutcome',label,errors,cache)
+        if witness is None or len(errors)!=before:continue
+        common={k:report[k] for k in ('configurationRef','pathConfigurationRef','resourceId','acceptanceProfile','subjectVersion','inputSamples','assetId','sourceVersion','aclVersion','inputSampleId')}
+        if any(witness.get(k)!=v for k,v in common.items()) or witness['case']!=case:errors.append(f'{label}: retained request must bind exact case/subject/ACL/source/configuration')
+        at=utc(witness['observedAt']);body=existing_ref(root,witness['responseBodyRef'],prefix);trace=existing_ref(root,row['witnessRef'],prefix)
+        if at is None or not window[0]<=at<=window[1] or body is None or artifacts.get(witness['responseBodyRef'],{}).get('artifactType')!='produced_media' or witness['responseBodyRef'] not in (execution.get('rawOutputRefs') or []):
+            errors.append(f'{label}: selected-slot actual returned bytes and valid UTC request time required');continue
+        for path in (trace,body):
+            if path and any(path.samefile(peer) for peer in paths):errors.append(f'{label}: each request and response artifact must be physically distinct')
+            if path:paths.append(path)
+        actual=inspect_artifact(body,cache)
+        if actual['sha256']!=witness['responseSha256'] or actual['size']!=witness['responseByteCount']:errors.append(f'{label}: response hash/count must bind actual returned bytes')
+        role='stream' if case=='authorized_stream' else case.removeprefix('direct_') if case.startswith('direct_') else 'range'
+        if witness['requestURL']!=policy['paths'][role]:errors.append(f'{label}: exact approved entry/origin/admin/worker path required')
+        if case.startswith('authorized_'):
+            if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['authorizedGrantId'] or not valid_from<=at<valid_until:errors.append(f'{label}: authorized request must use the approved currently valid subject/grant')
+            first,last=witness['rangeStart'],witness['rangeEnd'];is_stream=case=='authorized_stream'
+            if witness['statusCode']!=(200 if is_stream else 206) or witness['etag']!=etag or witness['requestRange']!=('' if is_stream else f'bytes={first}-{last}') or witness['ifRange']!=(etag if case=='authorized_if_range' else '') or not 0<=first<=last<source_info['size'] or (is_stream and (first!=0 or last!=source_info['size']-1)) or witness['contentRange']!=('' if is_stream else f'bytes {first}-{last}/{source_info["size"]}') or actual['size']!=last-first+1:
+                errors.append(f'{label}: authorized Range/If-Range/stream status and headers must match exact approved source')
+            else:
+                digest=hashlib.sha256();remaining=last-first+1
+                with source.open('rb') as stream:
+                    stream.seek(first)
+                    while remaining:
+                        block=stream.read(min(remaining,ARTIFACT_CHUNK_BYTES))
+                        if not block:break
+                        digest.update(block);remaining-=len(block)
+                if remaining or actual['sha256']!='sha256:'+digest.hexdigest():errors.append(f'{label}: authorized response bytes must equal the actual approved source interval')
+            if case=='authorized_stream':
+                if witness['maximumBufferedBytes']>policy['maximumBufferedBytes']:errors.append(f'{label}: streaming buffer exceeds approved bound')
+            if case=='authorized_range':primed_at=at;primed_range=(witness['rangeStart'],witness['rangeEnd'],witness['requestRange'])
+        else:
+            denied_ranges.append((witness['rangeStart'],witness['rangeEnd'],witness['requestRange']))
+            if case!='rate_limit' and witness['originRequestCount']!=0:
+                errors.append(f'{label}: denied requests must not contact the origin')
+            if case=='expired':
+                if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['expiredGrantId'] or at<expired:errors.append(f'{label}: expired denial must exercise the approved expired grant')
+            elif case=='cross_user':
+                if witness['userId']!=policy['deniedUserId'] or witness['grantId']!=policy['deniedGrantId'] or not valid_from<=at<valid_until or witness['cacheKey']!=policy['protectedCacheKey']:errors.append(f'{label}: cross-user request must exercise the same protected cached object with the denied subject/grant')
+            elif case=='rate_limit':
+                rate_case=witness
+                if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['authorizedGrantId'] or not valid_from<=at<valid_until or witness['statusCode']!=429 or witness['requestCount']<=policy['rateLimit']['maximumRequests'] or witness['originRequestCount']>policy['rateLimit']['maximumRequests'] or witness['rateWindowSeconds']!=policy['rateLimit']['windowSeconds']:errors.append(f'{label}: rate outcome must exceed approved limit with bounded origin requests and 429')
+                attempts=witness['rateAttempts'];limit=policy['rateLimit']['maximumRequests'];times=[utc(a['observedAt']) for a in attempts]
+                if len(attempts)!=witness['requestCount'] or [a['sequence'] for a in attempts]!=list(range(1,len(attempts)+1)) or any(t is None for t in times) or not times or times[-1]!=at or any(not window[0]<=t<=at for t in times) or any(a>b for a,b in zip(times,times[1:])) or (times[-1]-times[0]).total_seconds()>policy['rateLimit']['windowSeconds'] or sum(a['originContacted'] for a in attempts)!=witness['originRequestCount'] or any(a['statusCode']!=206 if a['sequence']<=limit else a['statusCode']!=429 or a['originContacted'] for a in attempts):
+                    errors.append(f'{label}: rate counts/statuses/timestamps must derive from retained consecutive request attempts')
+                elif any(not valid_from<=t<valid_until for t in times):errors.append(f'{label}: each rate attempt must use a currently valid grant')
+                for attempt in attempts:
+                    returned=existing_ref(root,attempt['responseBodyRef'],prefix)
+                    if returned is None or artifacts.get(attempt['responseBodyRef'],{}).get('artifactType')!='produced_media' or attempt['responseBodyRef'] not in (execution.get('rawOutputRefs') or []):
+                        errors.append(f'{label}: each rate attempt requires actual selected-slot returned bytes');continue
+                    observed=inspect_artifact(returned,cache)
+                    if observed['sha256']!=attempt['responseSha256'] or observed['size']!=attempt['responseByteCount']:errors.append(f'{label}: rate attempt response count/hash must bind actual bytes')
+                    if attempt['sequence']>limit:
+                        if not public_denial(returned,observed,'rate_limit'):errors.append(f'{label}: excess rate attempt leaked protected payload')
+                    else:
+                        first,last=witness['rangeStart'],witness['rangeEnd'];digest=hashlib.sha256();remaining=last-first+1
+                        if not 0<=first<=last<source_info['size']:errors.append(f'{label}: rate warmup request needs valid approved source interval');continue
+                        with source.open('rb') as stream:
+                            stream.seek(first)
+                            while remaining:
+                                block=stream.read(min(remaining,ARTIFACT_CHUNK_BYTES))
+                                if not block:break
+                                digest.update(block);remaining-=len(block)
+                        if remaining or observed['size']!=last-first+1 or observed['sha256']!='sha256:'+digest.hexdigest():errors.append(f'{label}: allowed rate warmup bytes must equal the approved protected interval')
+                if attempts and attempts[-1]['responseBodyRef']!=witness['responseBodyRef']:errors.append(f'{label}: final throttled response must bind the actual last request attempt')
+            elif witness['userId']!='anonymous' or witness['grantId'] is not None:errors.append(f'{label}: unauthorized/direct-origin denial must lack valid subject/grant')
+            if witness['statusCode'] not in ([429] if case=='rate_limit' else [401,403]):errors.append(f'{label}: denied requests require fail-closed HTTP status')
+            if not public_denial(body,actual,case):errors.append(f'{label}: denial body must be empty or an exact public error document without protected bytes')
+        passed[case]=len(errors)==before
+        if case in ('authorized_range','cross_user') and witness['cacheKey']!=policy['protectedCacheKey']:errors.append(f'{label}: authorized/cache-isolation cases must use exact shared cache identity')
+    if primed_range is None or any(value!=primed_range for value in denied_ranges):errors.append(f'{label}: denied cases must exercise the same protected Range as authorized cache priming')
+    cross=next((r for r in rows if r['case']=='cross_user'),None)
+    if cross:
+        before=len(errors);witness=selected_observation(root,execution,prefix,cross['witnessRef'],defs,'accessRequestOutcome',label,errors,cache)
+        if witness is not None and len(errors)==before and (primed_at is None or utc(witness['observedAt']) is None or utc(witness['observedAt'])<=primed_at):errors.append(f'{label}: cross-user denial must follow authorized cache priming')
+    if rate_case is None:errors.append(f'{label}: approved rate-limit exercise required')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    for case,gate in ACCESS_DENIAL_GATES.items():
+        if case in required and (not passed.get(case) or actual.get(gate) is not True):errors.append(f'{label}: {gate} must be supported by the corresponding observed denial')
+    for gate,case in (('local_range_through_path' if local else 'range_through_path','authorized_range'),('local_large_file_streaming' if local else 'public_large_file_streaming','authorized_stream')):
+        if actual.get(gate) is not True or not passed.get(case) or not passed.get('authorized_if_range'):errors.append(f'{label}: authorized Range/If-Range and streaming gate must bind observed bytes')
+
+
+
+RANGE_MATRIX_CASES={'range_start','range_middle','range_end','suffix','unsatisfiable','if_match','if_stale','miss','fill','hit','updated','interrupted','partial_read','recovered','stream','other_user','denied_user','latency_hot','latency_cold','latency_slow','latency_multi'}
+
+
+def range_slice_hash(path,first,count):
+    digest=hashlib.sha256();remaining=count
+    with path.open('rb') as stream:
+        stream.seek(first)
+        while remaining:
+            block=stream.read(min(ARTIFACT_CHUNK_BYTES,remaining))
+            if not block:break
+            digest.update(block);remaining-=len(block)
+    return None if remaining else 'sha256:'+digest.hexdigest()
+
+
+def validate_qualified_public_network(root,plan,execution,prefix,status,window,defs,errors,cache):
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-07' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):return
+    label=f"qualified public network {plan['taskId']}";before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('publicNetworkRef'),defs,'publicNetworkObservations',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-PUBLIC-NETWORK'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:config=load(path).get('configuration',{}) if path else {};policy=config.get('publicNetworkPolicy');access_policy=config.get('accessPolicy')
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None;access_policy=None
+    validate_schema(policy,defs.get('publicNetworkPolicy',{}),label+'/approved network',errors);validate_schema(access_policy,defs.get('accessOutcomePolicy',{}),label+'/approved access',errors)
+    access=selected_observation(root,execution,prefix,env.get('accessOutcomeRef'),defs,'accessOutcomeReport',label,errors,cache)
+    if len(errors)!=before or report is None or access is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],accessOutcomeRef=env.get('accessOutcomeRef'),acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    if any(report[k]!=v for k,v in expected.items()) or access['configurationRef']!=report['configurationRef'] or any(access[k]!=expected[k] for k in ('acceptanceProfile','subjectVersion','inputSamples')):errors.append(f'{label}: exact approved endpoint/access/resource/profile/tool/input observations required')
+    try:
+        endpoint=urllib.parse.urlsplit(policy['endpointURL']);unintended=urllib.parse.urlsplit(policy['unintendedURL']);bypass=urllib.parse.urlsplit(policy['bypassURL']);source=urllib.parse.urlsplit(access_policy['paths']['source']);high_port=endpoint.port or 443
+        new_address=ipaddress.IPv6Address(policy['newAddress']);old_address=ipaddress.IPv6Address(policy['oldAddress']);ipaddress.ip_address(policy['originAddress'])
+        if endpoint.scheme!='https' or not endpoint.hostname or endpoint.username is not None or not 1024<high_port<=65535 or policy['endpointURL']!=access_policy['paths']['range'] or policy['ddnsName']!=endpoint.hostname or new_address==old_address or unintended.hostname!=endpoint.hostname or unintended.port is None or unintended.port==high_port or unintended.username is not None or bypass.hostname!=policy['originHost'] or (bypass.port or (443 if bypass.scheme=='https' else 80))!=policy['originPort'] or bypass.username is not None or source.hostname!=policy['originHost'] or (source.port or (443 if source.scheme=='https' else 80))!=policy['originPort']:raise ValueError()
+    except (ValueError,TypeError):errors.append(f'{label}: distinct approved IPv6 DDNS addresses and exact HTTPS high-port/proxy origin and denial targets required');return
+    changed=utc(policy['ddnsUpdatedAt']);old_dns,new_dns=report['dnsBefore'],report['dnsAfter'];old_at,new_at=utc(old_dns['observedAt']),utc(new_dns['observedAt']);maximum=policy['maximumPropagationSeconds']
+    if any(t is None for t in (changed,old_at,new_at)) or window is None or not window[0]<=changed<=new_at<=window[1] or old_at>changed or not ai_finite(maximum) or (new_at-changed).total_seconds()>maximum or old_dns['addresses']!=[policy['oldAddress']] or new_dns['addresses']!=[policy['newAddress']] or any(d['name']!=policy['ddnsName'] or d['resolverBuild']!=policy['resolverBuild'] for d in (old_dns,new_dns)):
+        errors.append(f'{label}: measured DDNS update must replace the prior mapping within the approved propagation window');return
+    controls=report['controls'];points=policy['testPointIds'];request_ids=set()
+    if len(controls)!=len(points) or {r['testPointId'] for r in controls}!=set(points):errors.append(f'{label}: every approved external test point requires a distinct actual TLS/IPv6/routed access probe')
+    permitted={r['witnessRef'] for r in access['cases'] if r['case']=='authorized_range'}
+    if len(permitted)!=1:errors.append(f'{label}: one validated baseline protected Range request required');return
+    baseline_ref=next(iter(permitted));count=len(errors);baseline=selected_observation(root,execution,prefix,baseline_ref,defs,'accessRequestOutcome',label,errors,cache)
+    if baseline is None or len(errors)!=count:return
+    grant_start,grant_end=utc(access_policy['grantValidFrom']),utc(access_policy['grantValidUntil'])
+    if grant_start is None or grant_end is None or grant_start>=grant_end:errors.append(f'{label}: approved live access grant UTC interval required');return
+    witness_paths=[];response_paths=[]
+    def actual_body(row):
+        matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['responseBodyRef']];payload=existing_ref(root,row['responseBodyRef'],prefix)
+        if payload is None or len(matches)!=1 or matches[0].get('artifactType')!='produced_media' or row['responseBodyRef'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: selected actual response bytes required');return None
+        try:info=inspect_artifact(payload,cache)
+        except OSError:errors.append(f'{label}: response body must be readable');return None
+        if info['sha256']!=row['responseSha256'] or info['size']!=row['responseByteCount']:errors.append(f'{label}: response observation must bind retained actual byte count/hash')
+        return payload,info
+    for row in controls:
+        if row['requestId'] in request_ids:errors.append(f'{label}: distinct actual public requests required')
+        request_ids.add(row['requestId']);tls=row['tls'];times=[utc(row['connectedAt']),utc(tls['startedAt']),utc(tls['finishedAt']),utc(row['requestStartedAt']),utc(row['requestFinishedAt'])]
+        if any(t is None for t in times) or not new_at<=times[0]<=times[1]<=times[2]<=times[3]<=times[4]<=window[1] or row['requestURL']!=policy['endpointURL'] or row['connectedAddress']!=policy['newAddress'] or row['remotePort']!=high_port or any(row[k]!=policy[k] for k in ('routeId','proxyBuild','originHost','originPort')):errors.append(f'{label}: actual IPv6 transport and high-port route must bind the updated intended endpoint/proxy/origin')
+        if tls['sni']!=endpoint.hostname or tls['protocol'] not in policy['approvedProtocols'] or tls['cipher'] not in policy['approvedCiphers'] or tls['trustStoreBuild']!=policy['trustStoreBuild'] or tls['certificateSha256']!=policy['certificateSha256'] or tls['chainFingerprints'][0]!=policy['certificateSha256'] or tls['chainFingerprints'][-1]!=policy['trustAnchorSha256'] or tls['chainValidated'] is not True or tls['hostnameValidated'] is not True:errors.append(f'{label}: captured validated TLS chain/SNI/trust store/protocol/cipher must bind the approved certificate and endpoint')
+        count=len(errors);witness=selected_observation(root,execution,prefix,row['accessWitnessRef'],defs,'publicNetworkRequest',label,errors,cache)
+        if witness is not None and len(errors)==count:
+            if witness['baselineAccessWitnessRef']!=baseline_ref or witness['requestId']!=row['requestId'] or witness['testPointId']!=row['testPointId'] or witness['case']!='authorized_range' or any(witness[k]!=access[k] for k in ('configurationRef','pathConfigurationRef','resourceId','acceptanceProfile','subjectVersion','inputSamples','assetId','sourceVersion','aclVersion','inputSampleId')) or witness['requestURL']!=row['requestURL'] or utc(witness['observedAt'])!=times[-1] or witness['statusCode']!=206 or any(witness[k]!=row[k] for k in ('responseBodyRef','responseSha256','responseByteCount')):errors.append(f'{label}: transport and TLS observations must bind the same actual authorized protected Range request/response')
+            if witness['userId']!=access_policy['authorizedUserId'] or witness['grantId']!=access_policy['authorizedGrantId'] or times[-1] is None or not grant_start<=times[-1]<grant_end or any(witness[k]!=baseline[k] for k in ('rangeStart','rangeEnd','requestRange','ifRange','etag','contentRange','cacheKey','responseSha256','responseByteCount')) or witness['maximumBufferedBytes']>access_policy['maximumBufferedBytes'] or witness['originRequestCount']>1:
+                errors.append(f'{label}: each actual point request must use the approved live subject/grant and exact baseline protected Range bytes/headers')
+            witness_path=existing_ref(root,row['accessWitnessRef'],prefix)
+            if witness_path is not None:
+                if any(witness_path.samefile(peer) for peer in witness_paths):errors.append(f'{label}: each external point must retain a physically distinct actual request witness')
+                witness_paths.append(witness_path)
+        body=actual_body(row)
+        if body is not None:
+            body_path,_=body
+            if any(body_path.samefile(peer) for peer in response_paths):errors.append(f'{label}: each external point must retain its own actual response bytes')
+            response_paths.append(body_path)
+    denials=report['denials'];required={(point,case) for point in points for case in ('unintended_listener','direct_bypass','stale_address')}
+    if len(denials)!=len(required) or {(r['testPointId'],r['case']) for r in denials}!=required:errors.append(f'{label}: every test point must exercise unintended listener, direct bypass and stale-address denial')
+    for row in denials:
+        at=utc(row['observedAt']);case=row['case'];target=policy['unintendedURL'] if case=='unintended_listener' else policy['bypassURL'] if case=='direct_bypass' else policy['endpointURL'];address=policy['originAddress'] if case=='direct_bypass' else policy['oldAddress'] if case=='stale_address' else policy['newAddress'];target_port=unintended.port if case=='unintended_listener' else policy['originPort'] if case=='direct_bypass' else high_port
+        if row['requestId'] in request_ids or at is None or not window[0]<=at<=window[1] or case=='stale_address' and (at-changed).total_seconds()<=maximum or row['requestURL']!=target or row['connectedAddress']!=address or row['remotePort']!=target_port or row['originRequestCount']!=0 or row['outcome']!=('connection_refused' if row['statusCode']==0 else 'denied'):errors.append(f'{label}: actual disallowed/bypass/stale probes must not route to the protected origin beyond the approved DDNS window')
+        request_ids.add(row['requestId']);body=actual_body(row)
+        if body is not None:
+            path,info=body;safe=info['size']==0
+            if not safe and row['statusCode']==403 and info['size']<=1024:
+                def fields(pairs):
+                    if len({k for k,_ in pairs})!=len(pairs):raise ValueError('duplicate public error fields')
+                    return dict(pairs)
+                try:
+                    with path.open(encoding='utf8') as stream:safe=json.load(stream,object_pairs_hook=fields)=={'error':'access_denied'}
+                except (OSError,ValueError,UnicodeError):safe=False
+            if not safe:errors.append(f'{label}: denied routing must not disclose protected response bytes')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if any(actual.get(g) is not True for g in ('tls_valid','ipv6_reachability','high_port_route','ddns_propagation')):errors.append(f'{label}: true public network gates require these corresponding observed outcomes')
+
+
+def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-03' or status!='pass':return
+    label=f"qualified Range matrix {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('rangeMatrixRef'),defs,'rangeMatrixReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-ATS-SANDBOX'),None)
+    if resource is None or report['configurationRef']!=resource.get('configurationRef'):
+        errors.append(f'{label}: exact approved ATS sandbox configuration required');return
+    path=existing_ref(root,report['configurationRef'],prefix)
+    try:policy=load(path).get('configuration',{}).get('rangeMatrixPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,defs.get('rangeMatrixPolicy',{}),label,errors)
+    if policy is None or len(errors)!=before:return
+    if policy['baseVersion']==policy['updatedVersion'] or policy['baseETag']==policy['updatedETag'] or len(set(policy['authorizedUsers']))!=len(policy['authorizedUsers']) or policy['deniedUser'] in policy['authorizedUsers'] or any(not math.isfinite(policy[k]) for k in ('slowOriginDelayMs','slowOriginBandwidthBytesPerSecond')):
+        errors.append(f'{label}: distinct governed versions/users and finite controlled origin profile required');return
+    inputs=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []]
+    common=dict(configurationRef=report['configurationRef'],inputSamples=inputs,inputSampleId=report['inputSampleId'],subjectVersion=compliance_subject_version(plan,execution),acceptanceProfile=env.get('acceptanceProfile'),assetId=policy['assetId'],aclVersion=policy['aclVersion'])
+    if any(report.get(k)!=v for k,v in common.items()):errors.append(f'{label}: exact approved input/tool/profile/asset/ACL binding required')
+    rows=env.get('inputSampleArtifacts') or [];rows=rows if isinstance(rows,list) else []
+    selected=[r for r in rows if isinstance(r,dict) and r.get('sampleId')==report['inputSampleId']]
+    sample=next((s for s in execution.get('samples') or [] if s.get('id')==report['inputSampleId']),None)
+    source=existing_ref(root,selected[0].get('inputArtifactRef'),prefix) if len(selected)==1 else None
+    updated=existing_ref(root,policy['updatedInputRef'],prefix)
+    if sample is None or source is None or updated is None or selected[0].get('immutableId')!=sample.get('immutableId') or inspect_artifact(source,cache)['sha256']!=sample.get('checksum') or inspect_artifact(updated,cache)['sha256']!=policy['updatedInputSha256'] or policy['updatedInputSha256']==sample.get('checksum'):
+        errors.append(f'{label}: actual immutable base and independently approved changed source bytes required');return
+    sources={policy['baseVersion']:source,policy['updatedVersion']:updated};sizes={version:inspect_artifact(file,cache)['size'] for version,file in sources.items()};hashes={version:inspect_artifact(file,cache)['sha256'] for version,file in sources.items()}
+    if any(size<16 for size in sizes.values()):errors.append(f'{label}: approved matrix needs nonempty start/middle/end source intervals');return
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)};retained_paths=[source,updated]
+    def retained(ref):
+        file=existing_ref(root,ref,prefix)
+        if file is None or ref not in (execution.get('rawOutputRefs') or []) or artifacts.get(ref,{}).get('artifactType')!='produced_media':
+            errors.append(f'{label}: actual selected-slot response/cache bytes required');return None
+        return file
+    before=len(errors);update=selected_observation(root,execution,prefix,report['sourceUpdateRef'],defs,'rangeSourceUpdate',label,errors,cache)
+    lifecycle=selected_observation(root,execution,prefix,report['cacheLifecycleRef'],defs,'rangeCacheLifecycle',label,errors,cache)
+    if len(errors)!=before or update is None or lifecycle is None:return
+    for observation in (update,lifecycle):
+        if any(observation.get(k)!=v for k,v in common.items()):errors.append(f'{label}: source/cache journal must bind exact configured subjects')
+    changed=utc(update['observedAt'])
+    if changed is None or window is None or not window[0]<=changed<=window[1] or update['baseVersion']!=policy['baseVersion'] or update['updatedVersion']!=policy['updatedVersion'] or update['baseSha256']!=hashes[policy['baseVersion']] or update['updatedSha256']!=hashes[policy['updatedVersion']]:
+        errors.append(f'{label}: source update needs exact versions, actual byte hashes and UTC event');return
+    cases=report['cases']
+    if len(cases)!=len(RANGE_MATRIX_CASES) or {r['case'] for r in cases}!=RANGE_MATRIX_CASES:
+        errors.append(f'{label}: complete unique approved Range/cache/recovery/latency case matrix required');return
+    valid={};latencies={};version_cache_users={};recovery_times={};range_results=[]
+    for row in cases:
+        name=row['case'];before=len(errors);observation=selected_observation(root,execution,prefix,row['witnessRef'],defs,'rangeRequestObservation',label,errors,cache)
+        if observation is None or len(errors)!=before:continue
+        if observation['case']!=name or any(observation.get(k)!=v for k,v in common.items()):errors.append(f'{label}: typed request must bind exact case/input/tool/configuration/ACL')
+        requests=observation['requests'];expected_count=policy['latencySampleCount'] if name.startswith('latency_') else 1
+        if len(requests)!=expected_count:errors.append(f'{label}: exact approved latency/request sample count required')
+        version=policy['updatedVersion'] if name=='updated' else policy['baseVersion'];file=sources[version];size=sizes[version];etag=policy['updatedETag'] if name=='updated' else policy['baseETag'];times=[];users=set();load_intervals=[]
+        for request in requests:
+            began,first_byte,finished=(utc(request[k]) for k in ('startedAt','firstByteAt','finishedAt'));body=retained(request['responseBodyRef'])
+            if began is None or first_byte is None or finished is None or not window[0]<=began<=first_byte<=finished<=window[1] or body is None:
+                errors.append(f'{label}: valid UTC request/first-byte/completion and actual returned bytes required');continue
+            if (began<changed if name=='updated' else finished>changed):errors.append(f'{label}: requests must bind the observed source version before/after update')
+            if request['sourceVersion']!=version or request['sourceSha256']!=hashes[version] or request['requestURL']!=policy['entryURL'] or request['aclVersion']!=policy['aclVersion']:
+                errors.append(f'{label}: current source/version/ACL and approved path required')
+            users.add(request['userId']);actual=inspect_artifact(body,cache)
+            load_intervals.append((request['userId'],began,finished))
+            if actual['sha256']!=request['responseSha256'] or actual['size']!=request['responseByteCount']:errors.append(f'{label}: returned-byte count/hash must match actual artifact')
+            if any(body.samefile(peer) for peer in retained_paths):errors.append(f'{label}: response bodies must be physically distinct from sources and other requests')
+            retained_paths.append(body)
+            expected_range='bytes=0-7'
+            if name=='range_middle':expected_range='bytes=8-15'
+            elif name=='range_end':expected_range=f'bytes={size-8}-{size-1}'
+            elif name=='suffix':expected_range='bytes=-8'
+            elif name=='unsatisfiable':expected_range=f'bytes={size}-{size+7}'
+            elif name=='stream':expected_range=''
+            if request['requestRange']!=expected_range or request['ifRange']!=(etag if name=='if_match' else '"stale-version"' if name=='if_stale' else ''):errors.append(f'{label}: exact deterministic Range/If-Range request required')
+            if name=='denied_user':
+                if request['userId']!=policy['deniedUser'] or request['statusCode'] not in (401,403) or actual['size']!=0 or request['cacheComplete'] or request['cacheVisible']:errors.append(f'{label}: denied cache context must expose no protected payload')
+            elif name=='partial_read':
+                if request['statusCode']!=503 or actual['size']!=0 or request['cacheComplete'] or request['cacheVisible'] or request['transferCompleted']:errors.append(f'{label}: interrupted partial cache must not be published/read as complete')
+            else:
+                if request['userId'] not in policy['authorizedUsers']:errors.append(f'{label}: valid approved authorization context required')
+                if name=='other_user' and request['userId']==policy['authorizedUsers'][0]:errors.append(f'{label}: other-user cache case must exercise a distinct approved authorization context')
+                first,last=(0,size-1) if name in ('stream','if_stale') else (8,15) if name=='range_middle' else (size-8,size-1) if name in ('range_end','suffix') else (0,7)
+                status_code=416 if name=='unsatisfiable' else 200 if name in ('stream','if_stale') else 206
+                content_range=f'bytes */{size}' if name=='unsatisfiable' else '' if status_code==200 else f'bytes {first}-{last}/{size}'
+                if request['statusCode']!=status_code or request['etag']!=etag or request['contentRange']!=content_range:errors.append(f'{label}: actual status/ETag/Content-Range must implement partial/full/unsatisfiable semantics')
+                if name=='unsatisfiable':
+                    if actual['size']:errors.append(f'{label}: unsatisfiable request must not return protected bytes')
+                elif name=='interrupted':
+                    if not 0<actual['size']<last-first+1 or request['transferCompleted'] or request['cacheComplete'] or request['cacheVisible'] or actual['sha256']!=range_slice_hash(file,first,actual['size']):errors.append(f'{label}: interrupted bytes must remain a correct unpublished partial prefix')
+                elif actual['size']!=last-first+1 or actual['sha256']!=range_slice_hash(file,first,last-first+1) or not request['transferCompleted'] or not request['cacheComplete'] or not request['cacheVisible']:
+                    errors.append(f'{label}: response must equal the exact current source interval with complete transfer')
+                if request['maximumBufferedBytes']>policy['maximumBufferedBytes'] or request['retryCount']>policy['maximumRetries']:errors.append(f'{label}: approved memory/retry bounds exceeded')
+            expected_cache={'miss':'MISS','fill':'FILL','hit':'HIT','updated':'INVALIDATED','interrupted':'PARTIAL','partial_read':'PARTIAL','recovered':'FILL','latency_hot':'HIT','latency_cold':'MISS','latency_slow':'MISS','latency_multi':'HIT'}.get(name)
+            if expected_cache and request['cacheStatus']!=expected_cache:errors.append(f'{label}: retained cache status must distinguish miss/fill/hit/invalidation/partial recovery')
+            if name=='latency_cold' and not request['cachePurged']:errors.append(f'{label}: cold measurement requires observed sandbox purge')
+            if name=='latency_slow' and (request['originDelayMs']!=policy['slowOriginDelayMs'] or request['originBandwidthBytesPerSecond']!=policy['slowOriginBandwidthBytesPerSecond']):errors.append(f'{label}: slow-origin request must bind the approved controlled delay/bandwidth')
+            if name=='latency_multi' and request['concurrentUsers']!=policy['concurrentUsers']:errors.append(f'{label}: multi-user measurement must bind approved concurrency')
+            key=(version,request['userId']);previous=version_cache_users.get(key)
+            if previous is not None and previous!=request['cacheKey'] or any(peer_version==version and peer_user!=request['userId'] and peer_key==request['cacheKey'] for (peer_version,peer_user),peer_key in version_cache_users.items()):errors.append(f'{label}: each version needs stable distinct cache keys for every authorization context')
+            version_cache_users[key]=request['cacheKey']
+            times.append((first_byte-began).total_seconds()*1000)
+            if name in ('interrupted','partial_read','recovered'):recovery_times[name]=began
+        if name=='latency_multi':
+            instants={instant for _,start,end in load_intervals for instant in (start,end)}
+            peak=max((len({user for user,start,end in load_intervals if start<=instant<end}) for instant in instants),default=0)
+            if len(users)<2 or not users.issubset(set(policy['authorizedUsers'])) or peak<policy['concurrentUsers']:errors.append(f'{label}: multi-user latency requires overlapping requests at approved distinct-user concurrency')
+        if name.startswith('latency_') and times:
+            latencies[name]=sum(times)/len(times) if policy['percentileMethod']=='mean' else sorted(times)[max(0,math.ceil(.95*len(times))-1)]
+        valid[name]=len(errors)==before
+        if name in ('range_start','range_middle','range_end','suffix','unsatisfiable','if_match','if_stale'):range_results.append(valid[name])
+    for version in sources:
+        contexts={user:key for (observed_version,user),key in version_cache_users.items() if observed_version==version}
+        if version==policy['baseVersion'] and not set(policy['authorizedUsers']+[policy['deniedUser']]).issubset(contexts) or len(set(contexts.values()))!=len(contexts):errors.append(f'{label}: each version needs covered distinct ACL cache identities')
+    if set(recovery_times)!={'interrupted','partial_read','recovered'} or not recovery_times.get('interrupted',changed)<recovery_times.get('partial_read',changed)<recovery_times.get('recovered',changed):errors.append(f'{label}: interruption, unpublished read and bounded recovery must be ordered')
+    # Slice files are actual returned fragments; their union must cover the immutable source exactly.
+    cursor=0
+    for segment in report['slices']:
+        body=retained(segment['artifactRef']);count=segment['end']-segment['start']+1
+        if body is None or segment['start']!=cursor or not 0<count<=policy['sliceBytes'] or count!=min(policy['sliceBytes'],sizes[policy['baseVersion']]-cursor) or inspect_artifact(body,cache)['size']!=count or inspect_artifact(body,cache)['sha256']!=segment['sha256'] or segment['sha256']!=range_slice_hash(source,cursor,count):errors.append(f'{label}: actual ATS Slice fragments must be contiguous and byte-correct at approved boundaries')
+        cursor=segment['end']+1
+    if cursor!=sizes[policy['baseVersion']]:errors.append(f'{label}: Slice reassembly must cover the whole immutable source')
+    stages=lifecycle['stages'];expected_stages=['before','filled','interrupted','recovered','updated','cleanup'];stage_times=[]
+    if [s['stage'] for s in stages]!=expected_stages:errors.append(f'{label}: exact cache allocation/partial/recovery/update/cleanup lifecycle required')
+    for stage in stages:
+        at=utc(stage['observedAt']);stage_times.append(at);total=0;objects=stage['objects'];stage_name=stage['stage'];stage_paths=[]
+        if at is None or not window[0]<=at<=window[1]:errors.append(f'{label}: valid UTC cache lifecycle observation required')
+        elif stage_name=='updated' and at<changed or stage_name in ('before','filled','interrupted','recovered') and at>changed:errors.append(f'{label}: cache lifecycle must bind version transition at the observed update')
+        if stage_name in ('before','cleanup') and objects:errors.append(f'{label}: cache baseline/cleanup must have no retained test objects')
+        if stage_name in ('filled','recovered','updated') and not objects:errors.append(f'{label}: actual completed cache objects required')
+        for item in objects:
+            body=retained(item['artifactRef']);version=policy['updatedVersion'] if stage_name=='updated' else policy['baseVersion']
+            if body is None:continue
+            if any(body.samefile(peer) for peer in stage_paths):
+                errors.append(f'{label}: a cache stage must not count duplicate references or physical aliases');continue
+            stage_paths.append(body)
+            if any(body.samefile(file) for file in sources.values()):errors.append(f'{label}: cache snapshots must be physically distinct from immutable source files')
+            info=inspect_artifact(body,cache);total+=info['size']
+            if item['sourceVersion']!=version or item['sha256']!=info['sha256'] or item['byteCount']!=info['size']:errors.append(f'{label}: cache object identity/count/hash must bind actual retained bytes')
+            if stage_name=='interrupted':
+                if item['complete'] or item['visible'] or not 0<info['size']<sizes[version] or info['sha256']!=range_slice_hash(sources[version],0,info['size']):errors.append(f'{label}: interrupted cache content must remain quarantined partial bytes')
+            elif not item['complete'] or not item['visible'] or info['sha256']!=hashes[version]:errors.append(f'{label}: complete cache object must equal the actual current source version')
+        if total!=stage['allocatedBytes']:errors.append(f'{label}: observed cache allocation must derive actual retained object byte counts')
+    if any(t is None for t in stage_times) or any(a>b for a,b in zip(stage_times,stage_times[1:])):errors.append(f'{label}: cache lifecycle must be ordered')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    correctness=100*sum(range_results)/len(range_results) if range_results else 0
+    if actual.get('range_correctness')!=correctness:errors.append(f'{label}: Range correctness must derive actual compared request cases')
+    for metric,scenario in (('range_hot_cache_latency','latency_hot'),('range_cold_cache_latency','latency_cold'),('range_slow_origin_latency','latency_slow'),('range_multi_user_latency','latency_multi')):
+        claimed=actual.get(metric);observed=latencies.get(scenario)
+        if observed is None or isinstance(claimed,bool) or not isinstance(claimed,(int,float)) or not math.isfinite(claimed) or not math.isclose(claimed,observed,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive approved percentile/method and retained request timestamps')
+    gates={m['id'] for m in plan['protocol']['measurements'] if m['unit']=='boolean'}
+    if any(actual.get(gate) is not True for gate in gates) or not all(valid.values()):errors.append(f'{label}: true cache/Range gates require complete observed successful cases')
+
+
+
+AI_EVALUATED_METRICS={'quality_score','asr_wer','asr_cer','speaker_der','translation_comet','translation_bleu','ocr_accuracy','factual_consistency','tag_f1','thumbnail_human_selection_rate','multimodal_correction_accuracy'}
+AI_POLICY_GATES={'permission_denied':'caller_permission_gate','acl_revoked':'asset_acl_gate','budget_exhausted':'hard_budget_gate','request_rate_exceeded':'request_quota_gate','concurrency_exceeded':'concurrency_quota_gate'}
+
+
+def ai_finite(value):
+    try:return not isinstance(value,bool) and isinstance(value,(int,float)) and math.isfinite(value)
+    except OverflowError:return False
+
+
+FRONTEND_SCENARIO_ACTIONS={
+    'million_row_virtual_list_equivalent':('scroll_begin','scroll_middle','scroll_end','select_row'),
+    'dynamic_form_equivalent':('conditional_fields','validation','schema_update'),
+    'flowchart_equivalent':('nodes','edges','edit','state_sync'),
+    'decision_table_equivalent':('edit_rules','validate_rules'),
+    'monitoring_view_equivalent':('metrics','filter','refresh','failure_state'),
+    'sse_websocket_equivalent':('sse_update','websocket_update','reconnect','error_state'),
+    'player_integration_equivalent':('embed_player','web_component_contract','player_events'),
+    'mobile_experience_equivalent':('responsive_breakpoints','touch_interaction'),
+    'permission_model_equivalent':('route_visibility','field_visibility','action_visibility','server_authorization'),
+    'design_token_equivalent':('apply_tokens','switch_theme')}
+
+
+def validate_qualified_frontend_comparison(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-08' or status!='pass':return
+    label=f"qualified frontend comparison {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('frontendComparisonRef'),defs,'frontendComparisonReport',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-FRONTEND-COMPARE'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('frontendComparisonPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('frontendComparisonPolicy',{}),label+'/approved matrix',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []]);sample=next((s for s in execution.get('samples') or [] if s.get('id')==policy['inputSampleId']),None);inputs=env.get('inputSampleArtifacts') or [];input_record=next((r for r in inputs if isinstance(r,dict) and r.get('sampleId')==policy['inputSampleId']),None)
+    if any(report[k]!=v for k,v in expected.items()) or sample is None or input_record is None or report['inputFixtureRef']!=input_record.get('inputArtifactRef') or report['inputFixtureSha256']!=sample['checksum']:
+        errors.append(f'{label}: exact independently approved input/resource/profile/tool and immutable fixed matrix required');return
+    input_path=existing_ref(root,report['inputFixtureRef'],prefix);before=len(errors);fixture=qualified_observation_report(input_path,defs,'frontendScenarioFixture',label,errors,cache) if input_path else None
+    if fixture is None or len(errors)!=before:return
+    scenarios=fixture['scenarios'];required=set(FRONTEND_SCENARIO_ACTIONS)
+    if len(scenarios)!=10 or {r['scenarioId'] for r in scenarios}!=required or any(set(r['expectedResults'])!=set(FRONTEND_SCENARIO_ACTIONS[r['scenarioId']]) for r in scenarios):errors.append(f'{label}: exact frozen ten-scenario identity and interaction matrix required');return
+    matrix={r['scenarioId']:r for r in scenarios};million=matrix['million_row_virtual_list_equivalent']
+    arguments=million['arguments'];row_count=arguments.get('rowCount');viewport=arguments.get('viewportRows');overscan=arguments.get('overscanRows')
+    if type(row_count) is not int or row_count!=1000000 or type(viewport) is not int or viewport<=0 or type(overscan) is not int or overscan<0 or viewport+2*overscan>=row_count:
+        errors.append(f'{label}: virtualization requires approved million-row input and a bounded integer viewport/overscan window');return
+    dom_bound=viewport+2*overscan
+    identities=policy['candidates'];rows=report['candidates'];criteria=policy['criteria'];criterion_ids={'ecosystem_team_fit','component_reuse','long_term_maintenance'}
+    if len(identities)!=2 or {r['candidateId'] for r in identities}!={'vue','react'} or len(rows)!=2 or {r['candidateId'] for r in rows}!={'vue','react'} or len(criteria)!=3 or {r['criterionId'] for r in criteria}!=criterion_ids or any(not ai_finite(r['weight']) or r['weight']<=0 for r in criteria) or any(not ai_finite(v) for v in policy['gradeValues']):errors.append(f'{label}: both locked candidates and exact fixed weighted maintainability rubric required');return
+    total_weight=sum(r['weight'] for r in criteria)
+    if not ai_finite(total_weight) or total_weight<=0:errors.append(f'{label}: finite approved rubric weight sum required');return
+    weights={r['criterionId']:r['weight'] for r in criteria};identities={r['candidateId']:r for r in identities};coverage=0;bundle_sizes={};scores={};observed={};artifact_paths=[];build_ids=set()
+    def interval(first,last):
+        start,end=utc(first),utc(last)
+        if start is None or end is None or window is None or not window[0]<=start<=end<=window[1]:errors.append(f'{label}: observed build/action/assessment times must be ordered inside execution');return None
+        return start,end
+    def distinct(path):
+        if path is not None:
+            if any(path.samefile(peer) for peer in artifact_paths):errors.append(f'{label}: each build, output, scenario and score needs physically distinct retained artifacts')
+            artifact_paths.append(path)
+    for row in rows:
+        candidate=row['candidateId'];identity=identities[candidate];before=len(errors);build=selected_observation(root,execution,prefix,row['buildRef'],defs,'frontendBuildObservation',label,errors,cache)
+        if build is None or len(errors)!=before:continue
+        distinct(existing_ref(root,row['buildRef'],prefix));build_window=interval(build['startedAt'],build['finishedAt']);build_id=build['buildId']
+        if build['identity']!=identity or build_id in build_ids or build['exitCode']!=0:errors.append(f'{label}: successful builds must bind distinct runs and exact approved framework/source/compiler/command/lock identities')
+        build_ids.add(build_id);lock=existing_ref(root,identity['lockRef'],prefix)
+        if lock is None or inspect_artifact(lock,cache,textual=True)['sha256']!=identity['lockSha256']:errors.append(f'{label}: actual retained dependency lock bytes must match the approved locked candidate')
+        size=0
+        for blob in build['bundles']:
+            payload=existing_ref(root,blob['ref'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==blob['ref']]
+            if payload is None or len(records)!=1 or records[0].get('artifactType')!='command_output' or blob['ref'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: actual retained build bundle output required');continue
+            distinct(payload);info=inspect_artifact(payload,cache,textual=True);size+=info['size']
+            if info['size']==0 or info['size']!=blob['byteCount'] or info['sha256']!=blob['sha256']:errors.append(f'{label}: bundle byte count/hash must bind nonempty actual controlled build output')
+        bundle_sizes[candidate]=size/1024;case_rows=row['scenarios']
+        if len(case_rows)!=10 or {c['scenarioId'] for c in case_rows}!=required:errors.append(f'{label}: every candidate must actually exercise each frozen scenario once');continue
+        trace_refs=[];observed[candidate]={};trace_finished=[]
+        for case in case_rows:
+            scenario_id=case['scenarioId'];expected_case=matrix[scenario_id];before=len(errors);trace=selected_observation(root,execution,prefix,case['observationRef'],defs,'frontendScenarioObservation',label,errors,cache)
+            if trace is None or len(errors)!=before:continue
+            distinct(existing_ref(root,case['observationRef'],prefix));trace_refs.append(case['observationRef']);trace_window=interval(trace['startedAt'],trace['finishedAt']);actions=trace['actions'];action_ids=FRONTEND_SCENARIO_ACTIONS[scenario_id]
+            valid=trace['candidateId']==candidate and trace['buildId']==build_id and trace['scenarioId']==scenario_id and trace['fixtureId']==expected_case['fixtureId'] and trace['inputSha256']==sample['checksum'] and trace['scenarioDriverBuild']==policy['scenarioDriverBuild'] and trace['status']=='completed' and len(actions)==len(action_ids) and {a['actionId'] for a in actions}==set(action_ids)
+            if trace_window is None or build_window is None or trace_window[0]<build_window[1]:valid=False
+            last=None;results={}
+            for action in actions:
+                action_window=interval(action['startedAt'],action['finishedAt'])
+                if action_window is None or trace_window is None or not trace_window[0]<=action_window[0]<=action_window[1]<=trace_window[1] or last is not None and action_window[0]<last:valid=False
+                if action_window is not None:last=action_window[1]
+                results[action['actionId']]=action['result']
+            if results!=expected_case['expectedResults']:valid=False
+            measurements=trace['measurements'];duration=(trace_window[1]-trace_window[0]).total_seconds()*1000 if trace_window else None
+            measurement_map={m['measurementId']:m for m in measurements};required_measurements={'interaction_duration'}
+            if scenario_id=='million_row_virtual_list_equivalent':required_measurements|={'measured_input_rows','rendered_dom_rows_peak'}
+            if len(measurements)!=len(required_measurements) or set(measurement_map)!=required_measurements:valid=False
+            duration_measurement=measurement_map.get('interaction_duration',{})
+            if duration_measurement.get('unit')!='ms' or not ai_finite(duration_measurement.get('value')) or duration is None or not math.isclose(duration_measurement['value'],duration,rel_tol=1e-9,abs_tol=1e-9):valid=False
+            if scenario_id=='million_row_virtual_list_equivalent':
+                input_count=measurement_map.get('measured_input_rows',{});dom_count=measurement_map.get('rendered_dom_rows_peak',{})
+                if input_count.get('unit')!='rows' or type(input_count.get('value')) is not int or input_count['value']!=row_count or dom_count.get('unit')!='rows' or type(dom_count.get('value')) is not int or not 0<dom_count['value']<=dom_bound:valid=False
+            if not valid:errors.append(f'{label}: scenario outcome must bind its actual locked build/approved fixture/actions/result values and reproducible measurements')
+            else:coverage+=1;observed[candidate][scenario_id]=results
+            if trace_window:trace_finished.append(trace_window[1])
+        score_rows=row['scores']
+        if len(score_rows)!=3 or {r['criterionId'] for r in score_rows}!=criterion_ids:errors.append(f'{label}: exact rubric criterion rows for both actual builds required');continue
+        weighted=0;scored=0
+        for score_row in score_rows:
+            before=len(errors);score=selected_observation(root,execution,prefix,score_row['observationRef'],defs,'frontendRubricObservation',label,errors,cache)
+            if score is None or len(errors)!=before:continue
+            distinct(existing_ref(root,score_row['observationRef'],prefix));at=utc(score['observedAt'])
+            if score['candidateId']!=candidate or score['buildId']!=build_id or score['criterionId']!=score_row['criterionId'] or any(score[k]!=policy[k] for k in ('rubricId','rubricVersion','assessorId')) or not recorded_text(score['basis']) or not ai_finite(score['grade']) or score['grade'] not in policy['gradeValues'] or len(score['scenarioRefs'])!=10 or set(score['scenarioRefs'])!=set(trace_refs) or at is None or window is None or not window[0]<=at<=window[1] or len(trace_finished)!=10 or any(at<end for end in trace_finished):errors.append(f'{label}: actual rubric grade/basis must bind approved assessor/version/criterion and completed build scenario evidence');continue
+            weighted+=weights[score['criterionId']]*score['grade'];scored+=1
+        if scored==3:scores[candidate]=weighted/total_weight
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)};derived=dict(prototype_coverage=coverage*100/20,bundle_baseline=bundle_sizes.get(policy['bundleCandidate']),maintainability_score=scores.get(policy['scoreCandidate']))
+    for metric,value in derived.items():
+        if not ai_finite(value) or not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive actual both-candidate scenario coverage, selected locked bundle bytes or fixed rubric rows')
+    for gate in required:
+        equivalent=gate in observed.get('vue',{}) and gate in observed.get('react',{}) and observed['vue'][gate]==observed['react'][gate]
+        if equivalent is not True or actual.get(gate) is not equivalent:errors.append(f'{label}: {gate} must derive matching successful outcomes from both frozen candidate scenarios')
+
+
+def validate_qualified_ai_results(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-09' or status!='pass':return
+    label=f"qualified AI results {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('aiResultsRef'),defs,'aiResultsReport',label,errors,cache)
+    if report is None or len(errors)!=before:return
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-AI-BENCH'),None)
+    if resource is None or report['configurationRef']!=resource.get('configurationRef'):
+        errors.append(f'{label}: exact approved AI benchmark configuration required');return
+    path=existing_ref(root,report['configurationRef'],prefix)
+    try:policy=load(path).get('configuration',{}).get('aiEvaluationPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,defs.get('aiEvaluationPolicy',{}),label,errors)
+    if policy is None or len(errors)!=before:return
+    expected=dict(configurationRef=report['configurationRef'],subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],acceptanceProfile=env.get('acceptanceProfile'),benchmarkId=policy['benchmarkId'],querySetId=policy['querySetId'],corpusId=policy['corpusId'])
+    if policy['subjectVersion']!=expected['subjectVersion']:errors.append(f'{label}: approved configuration must pin the complete evaluated model/prompt/parameter/runtime/tool subject')
+    if any(report.get(k)!=v for k,v in expected.items()):errors.append(f'{label}: exact approved benchmark/query/corpus/input/model/prompt/parameters/runtime/tool identities required')
+    before=len(errors);evaluation=selected_observation(root,execution,prefix,report['evaluationRef'],defs,'aiEvaluationResults',label,errors,cache);usage=selected_observation(root,execution,prefix,report['usageRef'],defs,'aiUsageObservation',label,errors,cache);dispatch=selected_observation(root,execution,prefix,report['dispatchRef'],defs,'aiDispatchOutcomes',label,errors,cache)
+    if len(errors)!=before or any(r is None for r in (evaluation,usage,dispatch)):return
+    for observation in (evaluation,usage,dispatch):
+        if any(observation.get(k)!=v for k,v in expected.items()):errors.append(f'{label}: every result/usage/dispatch observation must bind exact approved subjects')
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)}
+    def payload(ref,sha,allow_empty=False):
+        file=existing_ref(root,ref,prefix)
+        if file is None or ref not in (execution.get('rawOutputRefs') or []) or artifacts.get(ref,{}).get('artifactType')!='produced_media':
+            errors.append(f'{label}: actual selected-slot retained output/dispatch bytes required');return None
+        info=inspect_artifact(file,cache)
+        if info['sha256']!=sha or not allow_empty and info['size']==0:errors.append(f'{label}: retained output hash must bind actual nonempty bytes')
+        return info
+    items={i['itemId']:i for i in policy['items']};strata={s['stratumId']:s for s in policy['strata']};methods={m['metricId']:m for m in policy['evaluationMethods']};samples={s['id']:s for s in execution.get('samples') or []}
+    if len(items)!=len(policy['items']) or len(strata)!=len(policy['strata']) or set(methods)!=AI_EVALUATED_METRICS or len(methods)!=len(policy['evaluationMethods']) or any(i['sampleId'] not in samples or i['stratumId'] not in strata for i in items.values()):
+        errors.append(f'{label}: unique approved benchmark items/strata and exact evaluation metric methods required');return
+    modes={metric:('f1' if metric=='tag_f1' else 'tool_score' if metric in ('translation_comet','translation_bleu') else 'human_score' if metric=='quality_score' else 'count_ratio') for metric in AI_EVALUATED_METRICS}
+    if any(methods[metric]['mode']!=mode for metric,mode in modes.items()):errors.append(f'{label}: retained evaluation methods must implement the frozen metric semantics');return
+    pricing=policy['pricing'];gates=policy['gatePolicy'];numeric=(pricing['inputUnitPrice'],pricing['outputUnitPrice'],gates['budgetLimit'])
+    if any(not ai_finite(v) or v<0 for v in numeric) or gates['authorizedCallerId']==gates['unauthorizedCallerId'] or gates['currentAclVersion']==gates['revokedAclVersion']:
+        errors.append(f'{label}: finite approved pricing/budget and distinct permission/ACL subjects required');return
+    records=usage['items'];outputs={};paths=[];cost=0;usage_times=[]
+    for item in records:
+        identity=items.get(item['itemId']);start,end=utc(item['startedAt']),utc(item['finishedAt'])
+        if not all(ai_finite(item[k]) for k in ('inputTokens','outputTokens')):errors.append(f'{label}: finite measured token usage required');continue
+        if identity is None or item['itemId'] in outputs or item['sampleId']!=identity['sampleId'] or item['stratumId']!=identity['stratumId'] or item['inputSha256']!=samples[item['sampleId']]['checksum']:
+            errors.append(f'{label}: measured usage must cover each exact approved immutable benchmark item once');continue
+        if start is None or end is None or window is None or not window[0]<=start<end<=window[1]:errors.append(f'{label}: valid UTC completed-item usage interval required')
+        else:usage_times.append((start,end))
+        payload(item['outputRef'],item['outputSha256']);file=existing_ref(root,item['outputRef'],prefix)
+        if file and any(file.samefile(peer) for peer in paths):errors.append(f'{label}: completed items require distinct retained result artifacts')
+        if file:paths.append(file)
+        outputs[item['itemId']]=item;cost+=item['inputTokens']*pricing['inputUnitPrice']+item['outputTokens']*pricing['outputUnitPrice']
+    if set(outputs)!=set(items):errors.append(f'{label}: exact completed benchmark-item output/usage coverage required')
+    before=len(errors);inference=selected_observation(root,execution,prefix,env.get('inferenceObservationRef'),defs,'inferenceObservation',label,errors,cache)
+    if inference is None or len(errors)!=before:return
+    if inference['completedItemCount']!=len(outputs) or usage['pricingVersion']!=pricing['version'] or usage['currency']!=pricing['currency'] or not usage_times or min(t[0] for t in usage_times)!=utc(inference['observedStartedAt']) or max(t[1] for t in usage_times)!=utc(inference['observedFinishedAt']):errors.append(f'{label}: throughput count/window and pricing must bind measured completed items')
+    scores={metric:[] for metric in AI_EVALUATED_METRICS};coverage={};seen=set()
+    for row in evaluation['evaluations']:
+        metric=row['metricId'];item=outputs.get(row['itemId']);method=methods[metric];at=utc(row['observedAt']);key=(row['itemId'],metric)
+        if key in seen or item is None or row['sampleId']!=item['sampleId'] or row['stratumId']!=item['stratumId'] or row['outputRef']!=item['outputRef'] or row['outputSha256']!=item['outputSha256'] or row['methodId']!=method['methodId'] or row['evaluatorBuild']!=method['evaluatorBuild'] or row['rubricVersion']!=method['rubricVersion']:
+            errors.append(f'{label}: each evaluation must bind its actual retained output and approved method/build/rubric');continue
+        seen.add(key)
+        if at is None or window is None or not window[0]<=at<=window[1] or utc(item['finishedAt']) is None or at<utc(item['finishedAt']):errors.append(f'{label}: evaluation must follow the completed output in valid UTC execution scope')
+        mode=method['mode']
+        if any(not ai_finite(row[k]) for k in ('numerator','denominator','truePositive','falsePositive','falseNegative')):errors.append(f'{label}: finite retained comparison counts required');continue
+        if mode=='count_ratio':
+            if row['denominator']<=0:errors.append(f'{label}: observed count ratio requires positive reference denominator');continue
+            value=row['numerator']/row['denominator']
+        elif mode=='f1':
+            denominator=2*row['truePositive']+row['falsePositive']+row['falseNegative']
+            if denominator<=0:errors.append(f'{label}: F1 requires an observed nonempty label comparison');continue
+            value=2*row['truePositive']/denominator
+        else:
+            value=row['score']
+            if not ai_finite(value):errors.append(f'{label}: retained human/tool score must be finite');continue
+        scores[metric].append(value);coverage.setdefault((row['stratumId'],metric),set()).add(row['itemId'])
+    if any(len(coverage.get((s['stratumId'],metric),set()))<s['minimumSamples'] for s in strata.values() for metric in AI_EVALUATED_METRICS):errors.append(f'{label}: every approved language/quality/duration/scenario stratum needs its required samples and quality metrics')
+    queries={q['queryId']:q for q in policy['queries']};query_ids=[];retrieval={key:[] for key in ('retrieval_recall','retrieval_mrr','retrieval_ndcg','query_latency')}
+    if len(queries)!=len(policy['queries']) or len(set(policy['corpusItemIds']))!=len(policy['corpusItemIds']):errors.append(f'{label}: approved query and corpus item identities must be unique')
+    for row in evaluation['queries']:
+        query=queries.get(row['queryId']);query_ids.append(row['queryId']);start,end=utc(row['startedAt']),utc(row['finishedAt'])
+        if query is None or row['querySetId']!=policy['querySetId'] or row['corpusId']!=policy['corpusId'] or len(row['retrievedIds'])!=len(set(row['retrievedIds'])) or not set(row['retrievedIds']).issubset(policy['corpusItemIds']) or len(row['retrievedIds'])>policy['retrievalCutoff']:
+            errors.append(f'{label}: retrieval results must bind exact fixed query/corpus and unique approved ranked items');continue
+        if start is None or end is None or window is None or not window[0]<=start<=end<=window[1]:errors.append(f'{label}: valid end-to-end query timestamps required');continue
+        payload(row['outputRef'],row['outputSha256']);output_path=existing_ref(root,row['outputRef'],prefix);before=len(errors)
+        captured=qualified_observation_report(output_path,defs,'aiRetrievalOutput',label,errors,cache) if output_path else None
+        if captured is None or len(errors)!=before:continue
+        if any(captured.get(k)!=v for k,v in expected.items()) or captured['queryId']!=row['queryId'] or captured['retrievedIds']!=row['retrievedIds']:errors.append(f'{label}: ranked retrieval items must bind the actual retained model/query output')
+        labels={r['itemId']:r['grade'] for r in query['relevance']}
+        if len(labels)!=len(query['relevance']) or not set(labels).issubset(policy['corpusItemIds']) or not any(g>0 for g in labels.values()) or any(not ai_finite(g) for g in labels.values()):errors.append(f'{label}: independent relevance labels for approved corpus required');continue
+        ranked=[labels.get(item,0) for item in row['retrievedIds']];relevant=sum(g>0 for g in labels.values());ideal=sorted(labels.values(),reverse=True)[:policy['retrievalCutoff']]
+        highest=float(max(ideal));weight=lambda grade:math.exp2(float(grade)-highest)-math.exp2(-highest)
+        dcg=sum(weight(g)/math.log2(index+2) for index,g in enumerate(ranked));idcg=sum(weight(g)/math.log2(index+2) for index,g in enumerate(ideal))
+        retrieval['retrieval_recall'].append(sum(g>0 for g in ranked)/relevant);retrieval['retrieval_mrr'].append(next((1/(index+1) for index,g in enumerate(ranked) if g>0),0));retrieval['retrieval_ndcg'].append(dcg/idcg);retrieval['query_latency'].append((end-start).total_seconds()*1000)
+    if len(query_ids)!=len(queries) or set(query_ids)!=set(queries):errors.append(f'{label}: every approved fixed query must have exactly one observed result')
+    if len(evaluation['warmupQueries'])!=policy['warmupCount'] or evaluation['percentileMethod']!=policy['percentileMethod']:errors.append(f'{label}: query warmup/sample-count/percentile method must bind approved evaluation configuration')
+    query_starts=[utc(q['startedAt']) for q in evaluation['queries']]
+    for row in evaluation['warmupQueries']:
+        first,last=utc(row['startedAt']),utc(row['finishedAt'])
+        if row['queryId'] not in queries or row['querySetId']!=policy['querySetId'] or row['corpusId']!=policy['corpusId'] or first is None or last is None or window is None or not window[0]<=first<last<=window[1] or not query_starts or any(t is None for t in query_starts) or last>min(query_starts):errors.append(f'{label}: retained warmup queries must precede the measured fixed-query observations')
+        payload(row['outputRef'],row['outputSha256']);output_path=existing_ref(root,row['outputRef'],prefix);before=len(errors);captured=qualified_observation_report(output_path,defs,'aiRetrievalOutput',label,errors,cache) if output_path else None
+        if captured is not None and len(errors)==before and (any(captured.get(k)!=v for k,v in expected.items()) or captured['queryId']!=row['queryId'] or captured['retrievedIds']!=row['retrievedIds']):errors.append(f'{label}: warmup must bind actual retained ranked output')
+    outcomes=dispatch['outcomes'];required=set(AI_POLICY_GATES)|{'authorized'}
+    if len(outcomes)!=len(required) or {o['case'] for o in outcomes}!=required:errors.append(f'{label}: exact authorized and permission/ACL/budget/request/concurrency denial cases required');return
+    estimated=gates['plannedInputTokens']*pricing['inputUnitPrice']+gates['plannedOutputTokens']*pricing['outputUnitPrice']
+    for row in outcomes:
+        case=row['case'];at=utc(row['observedAt']);outbound=payload(row['outboundRef'],row['outboundSha256'],allow_empty=True)
+        if at is None or window is None or not window[0]<=at<=window[1] or outbound is None:errors.append(f'{label}: actual dispatch bytes and valid policy evaluation timestamp required');continue
+        if not all(ai_finite(row[k]) for k in ('budgetRemaining','estimatedCost')) or not ai_finite(estimated):errors.append(f'{label}: finite priced policy evaluation required');continue
+        if row['assetId']!=gates['assetId'] or row['callerId']!=(gates['unauthorizedCallerId'] if case=='permission_denied' else gates['authorizedCallerId']) or row['aclVersion']!=(gates['revokedAclVersion'] if case=='acl_revoked' else gates['currentAclVersion']) or not 0<=row['budgetRemaining']<=gates['budgetLimit'] or row['budgetPeriodId']!=gates['budgetPeriodId'] or not math.isclose(row['estimatedCost'],estimated,rel_tol=1e-9,abs_tol=1e-12):errors.append(f'{label}: policy outcome must bind exact caller/current asset ACL and priced invocation')
+        if row['callerAllowed'] is not (case!='permission_denied') or row['assetAllowed'] is not (case!='acl_revoked'):errors.append(f'{label}: permission and current/revoked ACL decisions must be exercised independently')
+        exceeded=(row['estimatedCost']>row['budgetRemaining'],row['requestCount']>gates['requestRateLimit'],row['concurrentCalls']>gates['concurrencyLimit'])
+        if exceeded!=(case=='budget_exhausted',case=='request_rate_exceeded',case=='concurrency_exceeded') or row['requestWindowSeconds']!=60:errors.append(f'{label}: each denial must independently exceed its exact approved budget/rate/concurrency ceiling')
+        if case=='authorized':
+            if row['decision']!='dispatched' or len(row['providerRequestIds'])!=1 or outbound['size']==0:errors.append(f'{label}: authorized control request requires one actual nonempty dispatch observation')
+            path=existing_ref(root,row['outboundRef'],prefix);before=len(errors);captured=qualified_observation_report(path,defs,'aiProviderDispatch',label,errors,cache) if path else None
+            if captured is not None and len(errors)==before and (any(captured.get(k)!=v for k,v in expected.items()) or captured['requestIds']!=row['providerRequestIds'] or captured['callerId']!=row['callerId'] or captured['assetId']!=row['assetId'] or captured['aclVersion']!=row['aclVersion'] or captured['observedAt']!=row['observedAt']):errors.append(f'{label}: provider dispatch must bind actual authorized request and current evaluated subjects')
+        elif row['decision']!=case or row['providerRequestIds'] or outbound['size']!=0:errors.append(f'{label}: denied permission/ACL/budget/quota invocation must produce zero provider requests and outbound bytes')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)};derived={m:sum(values)/len(values) for m,values in scores.items() if values}
+    for metric,values in retrieval.items():
+        if values:derived[metric]=sorted(values)[max(0,math.ceil(.95*len(values))-1)] if metric=='query_latency' and policy['percentileMethod']=='nearest-rank-p95' else sum(values)/len(values)
+    derived.update(cost_estimate=cost*1000/len(outputs) if outputs else 0,provider_budget_limit=gates['budgetLimit'],provider_request_rate_limit=gates['requestRateLimit'],provider_concurrency_limit=gates['concurrencyLimit'])
+    for metric,value in derived.items():
+        claimed=actual.get(metric)
+        if not ai_finite(claimed) or not ai_finite(value) or not math.isclose(claimed,value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive retained evaluation/relevance/pricing/usage/quota observations')
+    expected_metrics={m['id'] for m in plan['protocol']['measurements']};provided=set(derived)|{'throughput','fixed_query_set_bound','quality_strata_coverage','license_privacy_pass'}|set(AI_POLICY_GATES.values())
+    if provided!=expected_metrics:errors.append(f'{label}: exact plan metric and policy gate coverage required')
+    if any(actual.get(gate) is not True for gate in {'fixed_query_set_bound','quality_strata_coverage','license_privacy_pass'}|set(AI_POLICY_GATES.values())):errors.append(f'{label}: true quality/policy gates require the corresponding observed results')
+    reviews={r['type']:r.get('reviewRef') for r in execution.get('complianceReviews') or [] if isinstance(r,dict)}
+    if report['privacyReviewRef']!=reviews.get('privacy') or report['licenseReviewRef']!=reviews.get('license'):errors.append(f'{label}: policy compatibility must bind the existing independently validated license/privacy reviews')
+    validate_qualified_ai_data_policy(root,plan,execution,prefix,window,defs,errors,cache,report,dispatch,policy,expected,payload)
+
+
+
+def validate_qualified_ai_data_policy(root,plan,execution,prefix,window,defs,errors,cache,results,dispatch,evaluation_policy,expected,payload):
+    label=f"qualified AI data policy {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('aiDataPolicyRef'),defs,'aiDataPolicyOutcomes',label,errors,cache)
+    path=existing_ref(root,results['configurationRef'],prefix)
+    try:policy=load(path).get('configuration',{}).get('aiDataPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('aiDataPolicy',{}),label+'/approved policy',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    gates=evaluation_policy['gatePolicy']
+    if any(report.get(k)!=v for k,v in expected.items()) or report['dispatchRef']!=results['dispatchRef'] or report['privacyReviewRef']!=results['privacyReviewRef']:
+        errors.append(f'{label}: exact approved input/model/provider/configuration and privacy/dispatch identities required')
+    if policy['subjectVersion']!=expected['subjectVersion'] or policy['assetId']!=gates['assetId'] or policy['privacyReviewRef']!=results['privacyReviewRef'] or policy['allowedPurpose']==policy['deniedPurpose']:
+        errors.append(f'{label}: approved data policy must bind tested provider subject/current asset/privacy review and distinct allowed/denied purposes')
+    if policy['inputSamples']!=expected['inputSamples'] or policy['assetVersion']!=env.get('input_sample_version') or set(policy['allowedPayloadScope'])!={sample['immutableId'] for sample in expected['inputSamples']} or any(report[k]!=policy[k] for k in ('providerMode','assetVersion')):
+        errors.append(f'{label}: approved provider mode/input asset version and payload scope must bind exact immutable inputs')
+    rows=report['outcomes']
+    if len(rows)!=2 or {row['case'] for row in rows}!={'authorized','data_policy_denied'}:
+        errors.append(f'{label}: exact independent allow and data-policy denial observations required');return
+    controls=[row for row in dispatch['outcomes'] if row['case']=='authorized']
+    if len(controls)!=1:return
+    control=controls[0]
+    for row in rows:
+        allowed=row['case']=='authorized';at=utc(row['evaluatedAt']);sent=utc(row['dispatchedAt'])
+        expected_purpose=policy['allowedPurpose'] if allowed else policy['deniedPurpose']
+        if any(row[k]!=policy[k] for k in ('policyId','policyVersion','classificationId')) or row['purpose']!=expected_purpose or row['callerId']!=gates['authorizedCallerId'] or row['assetId']!=gates['assetId'] or row['aclVersion']!=gates['currentAclVersion']:
+            errors.append(f'{label}: each data decision must bind exact policy version/classification/purpose and otherwise authorized current subjects')
+        if at is None or window is None or not window[0]<=at<=window[1] or row['decision']!=('allowed' if allowed else 'denied'):
+            errors.append(f'{label}: exercised data-policy decision and valid UTC evaluation required')
+        info=payload(row['outboundRef'],row['outboundSha256'],allow_empty=True)
+        if allowed:
+            if sent is None or at is None or window is None or not window[0]<=at<=sent<=window[1] or row['dispatchedAt']!=control['observedAt'] or any(row[k]!=control[k] for k in ('outboundRef','outboundSha256','providerRequestIds','callerId','assetId','aclVersion')) or info is None or info['size']==0:
+                errors.append(f'{label}: data-policy allow must precede and bind the actual authorized provider dispatch')
+        elif row['dispatchedAt'] is not None or row['providerRequestIds'] or info is None or info['size']!=0 or row['outboundRef']==control['outboundRef']:
+            errors.append(f'{label}: disallowed data must retain zero outbound bytes and no provider request')
+
+
+def validate_qualified_android_media(root, plan, execution, prefix, status, errors, artifact_cache, defs):
+    if plan['pocId'] != 'POC-01' or status != 'pass':
+        return
+    env = execution.get('environmentCaptured') or {}
+    key = 'vm_validation_scope' if env.get('acceptanceProfile') == profile_identity('local-v1') else 'android_validation_scope'
+    scope = env.get(key)
+    label = f"qualified Android output {plan['taskId']}"
+    if not isinstance(scope,dict):
+        return  # The existing VM/device validator reports invalid scopes.
+    ref = scope.get('rawOutputRef')
+    records = env.get('rawExecutionArtifacts') or []
+    artifact = next((item for item in records if isinstance(item,dict) and item.get('ref') == ref),None) if isinstance(records,list) else None
+    path = existing_ref(root,ref,prefix)
+    if artifact is None or artifact.get('artifactType') != 'produced_media' or artifact.get('nodeId') != scope.get('nodeId') or path is None:
+        errors.append(f'{label}: encode scope must reference a node-bound typed produced_media artifact')
+        return
+    try:
+        actual = inspect_artifact(path,artifact_cache)
+        if actual['size'] == 0 or scope.get('outputSha256') != actual['sha256']:
+            errors.append(f'{label}: outputSha256 must bind actual nonempty produced media bytes')
+    except OSError:
+        errors.append(f'{label}: produced media must be readable')
+    probe_label=f"qualified Android media probe {plan['taskId']}"
+    probe_ref=env.get('androidMediaProbeRef')
+    probes=[item for item in records if isinstance(item,dict) and item.get('ref')==probe_ref]
+    probe_path=existing_ref(root,probe_ref,prefix)
+    if len(probes)!=1 or probes[0].get('artifactType')!='measurement_output' or probes[0].get('nodeId')!=scope.get('nodeId') or probe_ref not in (execution.get('rawOutputRefs') or []) or probe_path is None:
+        errors.append(f'{probe_label}: selected-slot node-bound typed decoder report required')
+    elif probe_ref==ref or probe_path.samefile(path):
+        errors.append(f'{probe_label}: decoder report must be distinct from produced media')
+    else:
+        report=qualified_observation_report(probe_path,defs,'androidMediaProbeReport',probe_label,errors,artifact_cache)
+        if report is not None:
+            expected=dict(nodeId=scope.get('nodeId'),encoderBuild=scope.get('encoderBuild'),inputSha256=scope.get('inputSha256'),outputArtifactRef=ref,outputSha256=scope.get('outputSha256'))
+            frames=report.get('decodedFrameCount');duration=report.get('durationSeconds')
+            if any(report.get(key)!=value for key,value in expected.items()) or not recorded_text(report.get('decoderBuild')) or report.get('codec')!='av1' or report.get('decodable') is not True or type(frames) is not int or frames<=0 or not good_actual('seconds',duration) or duration<=0 or type(report.get('decodeErrorCount')) is not int or report['decodeErrorCount']!=0:
+                errors.append(f'{probe_label}: decodable AV1 frames/duration and zero errors must bind the exact input/output/node/build')
+    if env.get('acceptanceProfile') == profile_identity('production'):
+        observation = env.get('android_thermal_background_observation')
+        observation_ref = observation.get('rawOutputRef') if isinstance(observation,dict) else None
+        observation_artifact = next((item for item in records if isinstance(item,dict) and item.get('ref') == observation_ref),None)
+        observation_path = existing_ref(root,observation_ref,prefix)
+        if observation_artifact is None or observation_artifact.get('artifactType') != 'scope_observation' or observation_artifact.get('nodeId') != scope.get('nodeId') or observation_path is None:
+            errors.append(f'{label}: physical device observation requires a node-bound typed scope_observation artifact')
+        elif observation_ref == ref or observation_path.samefile(path):
+            errors.append(f'{label}: physical device observation must be distinct from encoded media')
+        else:
+            validate_qualified_phone_observation(root,execution,prefix,scope,observation,observation_path,defs,errors,artifact_cache)
+
+
+def validate_qualified_worker_safety(root,plan,execution,prefix,status,window,defs,errors,cache):
+    if plan['pocId']!='POC-01' or status!='pass':return
+    env=execution.get('environmentCaptured') or {};label=f"qualified worker safety {plan['taskId']}";before=len(errors)
+    report=selected_observation(root,execution,prefix,env.get('workerSafetyRef'),defs,'workerSafetyOutcomes',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('workerSafetyPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('workerSafetyPolicy',{}),label+'/approved safety policy',errors)
+    if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
+    inventory=env.get('worker_node_inventory');identities=[{k:n.get(k) for k in ('nodeId','physicalHostId','encoderBuild')} for n in inventory if isinstance(n,dict)] if isinstance(inventory,list) else []
+    if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or not identities or len(identities)!=len(inventory) or policy['nodes']!=identities or len({n['nodeId'] for n in identities})!=len(identities) or len(report['nodes'])!=len(identities) or {r['identity']['nodeId'] for r in report['nodes']}!={n['nodeId'] for n in identities}:
+        errors.append(f'{label}: exact selected profile/input/build and approved complete worker inventory required');return
+    limits=policy['limits'];request_ids=set();lease_ids=set();registrations=set()
+    if not all(ai_finite(v) and v>0 for v in limits.values()) or not ai_finite(policy['maximumRecoverySeconds']) or policy['maximumRecoverySeconds']<=0:errors.append(f'{label}: finite positive approved resource/recovery budgets required');return
+    grant_start,grant_end,expired=map(utc,(policy['grantValidFrom'],policy['grantValidUntil'],policy['expiredAt']))
+    if grant_start is None or grant_end is None or expired is None or grant_start>=grant_end or policy['grantId']==policy['expiredGrantId']:errors.append(f'{label}: distinct live/expired task grants with valid UTC intervals required')
+    try:
+        private=urllib.parse.urlsplit(policy['privateTarget']);unsupported=urllib.parse.urlsplit(policy['unsupportedTarget']);admin=urllib.parse.urlsplit(policy['administrativeTarget']);allowed=urllib.parse.urlsplit(policy['allowedTarget'])
+        if private.scheme not in ('http','https') or not ipaddress.ip_address(private.hostname).is_private or unsupported.scheme in ('http','https') or admin.scheme not in ('http','https') or not admin.path.startswith('/api/admin') or allowed.scheme not in ('http','https') or allowed.username is not None or not allowed.hostname:raise ValueError()
+    except (ValueError,TypeError):errors.append(f'{label}: approved cases must exercise private/unsupported/administrative and authorized task targets')
+    def timestamp(value):
+        at=utc(value)
+        if at is None or window is None or not window[0]<=at<=window[1]:errors.append(f'{label}: observed outcome timestamp must be inside selected UTC execution');return None
+        return at
+    def request(value):
+        if value in request_ids:errors.append(f'{label}: distinct exercised requests required')
+        request_ids.add(value)
+    for row in report['nodes']:
+        identity=next(n for n in identities if n['nodeId']==row['identity']['nodeId'])
+        if row['identity']!=identity:errors.append(f'{label}: each outcome must bind exact node/physical host/encoder build')
+        cases=row['limitCases']
+        if len(cases)!=len(limits) or {c['case'] for c in cases}!=set(limits):errors.append(f'{label}: every node must independently exhaust each approved CPU/memory/time/temp/output limit')
+        for case in cases:
+            request(case['requestId']);start,end=timestamp(case['startedAt']),timestamp(case['finishedAt']);observed=case['observed'];kind=case['case']
+            if start is None or end is None or start>=end or not math.isclose((end-start).total_seconds(),observed['elapsedSeconds'],rel_tol=1e-9,abs_tol=1e-9) or any(not ai_finite(v) for v in observed.values()) or {k for k,v in observed.items() if v>limits[k]}!={kind} or case['terminationReason']!=kind or case['processExited'] is not True or case['remainingTemporaryBytes']!=0 or case['remainingOutputBytes']!=0 or case['publishedArtifactIds']:
+                errors.append(f'{label}: independent observed limit exhaustion must terminate and clean unpublished task outputs')
+        recovery=row['restart'];keys=('disconnectedAt','oldLeaseExpiresAt','expiredLeaseObservedAt','reRegisteredAt','newLeaseIssuedAt','recoveredAt');times=[utc(recovery['oldLeaseIssuedAt'])]+[timestamp(recovery[k]) for k in keys]+[utc(recovery['newLeaseExpiresAt'])]
+        old,new=recovery['oldLeaseId'],recovery['newLeaseId'];old_registration,new_registration=recovery['oldRegistrationId'],recovery['newRegistrationId']
+        if any(t is None for t in times) or times!=sorted(t for t in times if t is not None) or times[0]>=times[2] or times[5]>=times[7] or (times[6]-times[1]).total_seconds()>policy['maximumRecoverySeconds'] or old==new or old_registration==new_registration or old in lease_ids or new in lease_ids or old_registration in registrations or new_registration in registrations or recovery['taskId']!=policy['taskId'] or recovery['completedTaskId']!=policy['taskId'] or recovery['completionLeaseId']!=new or recovery['completionRegistrationId']!=new_registration or recovery['taskCompletionCount']!=1 or recovery['staleLeasePublicationCount']!=0:
+            errors.append(f'{label}: observed disconnect/lease expiry/re-registration must recover the exact task once under a fresh lease within its approved bound')
+        lease_ids.update((old,new));registrations.update((old_registration,new_registration))
+        network=row['networkCases'];required={'authorized','private_target','unsupported_target','administrative_target','expired_grant'}
+        if len(network)!=5 or {c['case'] for c in network}!=required:errors.append(f'{label}: each node must exercise allowed access and every denied target/grant case')
+        for case in network:
+            request(case['requestId']);kind=case['case'];at=timestamp(case['observedAt']);authorized=kind=='authorized';target=policy[dict(authorized='allowedTarget',private_target='privateTarget',unsupported_target='unsupportedTarget',administrative_target='administrativeTarget',expired_grant='allowedTarget')[kind]]
+            if case['taskId']!=policy['taskId'] or case['requestURL']!=target or case['grantId']!=policy['expiredGrantId' if kind=='expired_grant' else 'grantId'] or case['decision']!=('allowed' if authorized else 'denied') or at is None or grant_start is None or grant_end is None or expired is None or not grant_start<=at<grant_end or kind=='expired_grant' and at<=expired:errors.append(f'{label}: actual access decision must bind exact task/target and otherwise live or explicitly expired grant')
+            matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==case['outboundRef']];payload=existing_ref(root,case['outboundRef'],prefix)
+            if payload is None or len(matches)!=1 or matches[0].get('artifactType')!='produced_media' or matches[0].get('nodeId')!=identity['nodeId'] or case['outboundRef'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: node-bound retained outbound bytes required');continue
+            try:actual=inspect_artifact(payload,cache)
+            except OSError:errors.append(f'{label}: outbound bytes must be readable');continue
+            if actual['sha256']!=case['outboundSha256'] or actual['size']!=case['outboundByteCount'] or (actual['size']==0 if authorized else actual['size']!=0):errors.append(f'{label}: authorized control needs real outbound bytes; denied targets/grants must send zero bytes')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if any(actual.get(g) is not True for g in ('worker_resource_limits_enforced','worker_restart_recovery','worker_network_boundary_enforced')):errors.append(f'{label}: true worker safety gates require corresponding per-node exercised outcomes')
+
+
+def validate_android_execution(root, plan, execution, status, prefix, errors):
+    if plan['pocId'] != 'POC-01' or status != 'pass':
+        return
+    env = execution.get('environmentCaptured') or {}
+    if env.get('acceptanceProfile') == profile_identity('local-v1'):
+        scope = env.get('vm_validation_scope')
+        label = f"execution record {plan['taskId']}: actual VM"
+        if not isinstance(scope, dict) or scope.get('status') != 'VALIDATED_ON_VM':
+            errors.append(f'{label}: PASS requires captured VM encoding, never an untested marker')
+            return
+        for key in ('nodeId','guestId','physicalHostId','encoderBuild','hypervisor','guestOs'):
+            if not recorded_text(scope.get(key)):
+                errors.append(f'{label}: concrete {key} required')
+        if scope.get('guestOs') != 'android':
+            errors.append(f'{label}: Android guest encoding required for virtual phone validation')
+        inventory = env.get('worker_node_inventory')
+        match = any(isinstance(node,dict) and node.get('platform') == 'android' and node.get('isEmulator') is True and node.get('isVirtualMachine') is True and all(node.get(k) == scope.get(k) for k in ('nodeId','guestId','physicalHostId','encoderBuild','hypervisor','guestOs')) for node in inventory) if isinstance(inventory,list) else False
+        if scope.get('isVirtualMachine') is not True or scope.get('physicalMultiHostValidated') is not False or not match:
+            errors.append(f'{label}: tested VM must match inventory and disclose same-host limits')
+        approved_inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
+        ref = scope.get('rawOutputRef')
+        if scope.get('inputSha256') not in approved_inputs or not good_checksum(scope.get('outputSha256')) or ref not in (execution.get('rawOutputRefs') or []) or existing_ref(root,ref,prefix) is None:
+            errors.append(f'{label}: actual encode must bind approved input, output hashes and raw evidence')
+        if env.get('android_validation_scope') != 'ANDROID_DEVICE_NOT_TESTED':
+            errors.append(f'{label}: VM-only local profile must declare physical Android untested')
+        return
+    scope, observation = env.get('android_validation_scope'), env.get('android_thermal_background_observation')
+    label = f"execution record {plan['taskId']}: actual Android"
+    if not isinstance(scope, dict) or scope.get('status') != 'VALIDATED_ON_DEVICE' or not isinstance(observation, dict):
+        errors.append(f'{label}: PASS requires structured actual device validation, never an untested marker')
+        return
+    for key in ('nodeId','deviceId','physicalHostId','encoderBuild'):
+        if not recorded_text(scope.get(key)):
+            errors.append(f'{label}: concrete {key} required')
+    inventory = env.get('worker_node_inventory')
+    match = any(isinstance(node,dict) and node.get('platform') == 'android' and node.get('isEmulator') is False and node.get('isVirtualMachine') is False and all(node.get(k) == scope.get(k) for k in ('nodeId','deviceId','physicalHostId','encoderBuild')) for node in inventory) if isinstance(inventory,list) else False
+    if scope.get('isEmulator') is not False or scope.get('isVirtualMachine') is not False or not match:
+        errors.append(f'{label}: tested physical Android node must match captured worker inventory')
+    approved_inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
+    if scope.get('inputSha256') not in approved_inputs or not good_checksum(scope.get('outputSha256')):
+        errors.append(f'{label}: actual encode must bind approved input and output hashes')
+    if observation.get('deviceId') != scope.get('deviceId'):
+        errors.append(f'{label}: thermal/background observation must bind exact tested device')
+    for record in (scope, observation):
+        ref = record.get('rawOutputRef')
+        if ref not in (execution.get('rawOutputRefs') or []) or existing_ref(root,ref,prefix) is None:
+            errors.append(f'{label}: device and observation raw evidence must bind execution outputs')
+    temp, power = observation.get('temperaturePeakCelsius'), observation.get('powerPeakWatts')
+    duration, survived = observation.get('testDurationSeconds'), observation.get('backgroundSurvivedSeconds')
+    if not good_actual('celsius', temp) or not good_actual('W', power) or not good_actual('s', duration) or not good_actual('s', survived) or duration <= 0 or survived < duration:
+        errors.append(f'{label}: valid thermal/power observations and positive completed background interval required')
+
 
 class UniqueKeyLoader(yaml.SafeLoader):
     """SafeLoader that rejects duplicate mapping keys instead of overwriting them."""
@@ -199,9 +3806,9 @@ def validate_schema(value: Any, schema: Any, label: str, errors: list[str]) -> N
 
 
 def normalize_key(key: Any) -> str:
-    text = str(key).replace("-", "_")
+    text = str(key)
     text = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", text)
-    return text.lower()
+    return re.sub(r'[^a-z0-9]+','_',text.lower()).strip('_')
 
 
 def secret_key(key: Any, value: Any) -> bool:
@@ -217,7 +3824,10 @@ def secret_key(key: Any, value: Any) -> bool:
 def secret_scan(value: Any, path: str, errors: list[str]) -> None:
     if isinstance(value, dict):
         for key, item in value.items():
-            if secret_key(key, item):
+            if key=='credentialReference':
+                if not isinstance(item,str) or len(item)>74 or re.fullmatch(r'secretref_[A-Za-z0-9_-]{1,64}',item) is None:
+                    errors.append(f"invalid canonical Secret reference at {path}/{key}")
+            elif secret_key(key, item):
                 errors.append(f"secret-like key forbidden at {path}/{key}")
             secret_scan(item, f"{path}/{key}", errors)
     elif isinstance(value, list):
@@ -274,14 +3884,33 @@ def good_id(value: Any) -> bool:
     )
 
 
-def good_actual(unit: Any, value: Any) -> bool:
+COUNT_UNITS = {'files', 'directories', 'levels', 'requests', 'streams'}
+NONNEGATIVE_UNITS = COUNT_UNITS | {'hours', 'minutes', 's', 'ms', 'W', 'MB/s', 'GiB', 'bytes', 'MiB', 'KiB', 'requests_per_minute', 'changes_per_hour', 'objects/s', 'items/s', 'currency', 'currency_per_1000_items'}
+BOUNDED_RATIO_METRICS = {'retrieval_recall', 'retrieval_mrr', 'retrieval_ndcg', 'ocr_accuracy', 'factual_consistency', 'tag_f1', 'thumbnail_human_selection_rate', 'multimodal_correction_accuracy'}
+
+
+def good_actual(unit: Any, value: Any, metric_id: str | None = None) -> bool:
     if str(unit).lower() == "boolean":
         return isinstance(value, bool)
-    return (
+    finite = (
         isinstance(value, (int, float))
         and not isinstance(value, bool)
         and math.isfinite(float(value))
     )
+    if not finite:
+        return False
+    if unit in COUNT_UNITS:
+        return value >= 0 and value == int(value)
+    if unit in NONNEGATIVE_UNITS:
+        return value >= 0
+    if unit == 'percent':
+        return 0 <= value <= 100
+    if unit == 'ratio':
+        return value >= 0 and (metric_id not in BOUNDED_RATIO_METRICS or value <= 1)
+    if unit == 'celsius':
+        return value >= -273.15
+    # Model/rubric-specific scores are bounded by approved qualified scale records.
+    return True
 
 
 def valid_utc_timestamp(value: Any) -> bool:
@@ -448,8 +4077,10 @@ def validate_approval_record(
     sample: dict[str, Any],
     approval_schema: dict[str, Any],
     errors: list[str],
+    reference_prefix: str | None = None,
+    execution_window=None,
 ) -> None:
-    evidence = plan["evidencePath"]
+    evidence = reference_prefix or plan["evidencePath"]
     sample_id = sample.get("id")
     path = existing_ref(root, sample.get("approvalRef"), evidence)
     label = f"sample approval {plan['taskId']}/{sample_id}"
@@ -483,6 +4114,8 @@ def validate_approval_record(
         errors.append(f"{label}: approver must differ from execution implementer")
     if not valid_utc_timestamp(approval.get("approvedAt")):
         errors.append(f"{label}: approvedAt must be a valid UTC instant")
+    elif execution_window and utc(approval['approvedAt']) > execution_window[0]:
+        errors.append(f'{label}: sample approval must precede execution')
 
 
 def validate_execution(
@@ -495,13 +4128,63 @@ def validate_execution(
     approval_schema: dict[str, Any],
     status: str,
     errors: list[str],
+    compliance_schema: dict[str, Any] | None = None,
+    reference_prefix: str | None = None,
+    record_definitions: dict[str, Any] | None = None,
+    task_reviewer: str | None = None,
+    record_refs: set[str] | None = None,
 ) -> None:
     task_id = plan["taskId"]
     poc_id = plan["pocId"]
     evidence = plan["evidencePath"]
+    reference_boundary = reference_prefix or evidence
     label = f"execution record {task_id}"
     validate_schema(execution, schema, label, errors)
     secret_scan(execution, label, errors)
+    route, profile_configuration = validate_execution_profile(root, plan, execution, errors, reference_boundary)
+    window = qualified_window(execution,record_definitions.get('executionWindow',{}),label,errors) if record_definitions is not None else None
+    validate_local_capacity(plan, execution, profile_configuration, status, errors)
+    validate_source_compliance(root, plan, execution, implementer, status, errors, compliance_schema, reference_boundary, window)
+    validate_android_execution(root, plan, execution, status, reference_boundary, errors)
+    if record_definitions is not None:
+        artifact_cache = {}
+        validate_qualified_configuration(root,plan,execution,profile_configuration,record_definitions,reference_boundary,task_reviewer,implementer,window,errors,status)
+        validate_qualified_inputs(root,plan,execution,record_definitions,reference_boundary,status,errors,artifact_cache,record_refs,profile_configuration)
+        validate_deferred_production_qualification(plan,execution,status,errors)
+        validate_qualified_production_capacity(plan,execution,status,errors)
+        validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
+        validate_qualified_local_source_faults(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_local_source_listing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_local_source_authentication(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_h264_fallback(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_media_soak(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_hls_ready(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_media_scheduling(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
+        validate_qualified_hierarchy_sandbox(root,plan,execution,record_definitions,reference_boundary,status,errors)
+        validate_qualified_metadata_scan(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_passthrough_identity(root,plan,execution,record_definitions,reference_boundary,status,errors)
+        validate_qualified_passthrough_firmware(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_passthrough_transitions(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_production_soak(root,plan,execution,record_definitions,reference_boundary,status,window,errors)
+        validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
+        validate_qualified_a380_encode(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
+        validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)
+        validate_qualified_media_quality_timing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_media_negative(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache,record_definitions)
+        validate_qualified_worker_safety(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_worker_capabilities(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_inference_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_recovery_observation(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_recovery_timing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_access_outcomes(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_public_network(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_range_matrix(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_ai_results(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_frontend_comparison(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_local_storage(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
     for key, expected in (
         ("pocId", poc_id),
         ("taskId", task_id),
@@ -524,7 +4207,7 @@ def validate_execution(
         resource_ids.append(resource_id)
     if len(resource_ids) != len(resources) or len(resource_ids) != len(set(resource_ids)):
         errors.append(f"{label}: resources must contain unique structured records")
-    planned_resource_ids = set(plan.get("resourceIds") or [])
+    planned_resource_ids = set(route.get("resourceIds") or [])
     if set(resource_ids) != planned_resource_ids:
         errors.append(f"{label}: resource IDs must exactly match plan")
     for resource in resources:
@@ -538,23 +4221,23 @@ def validate_execution(
             errors.append(f"{label}: unknown execution resource {resource_id!r}")
             continue
         configuration_ref = resource.get("configurationRef")
-        if existing_ref(root, configuration_ref, evidence) is None:
+        if existing_ref(root, configuration_ref, reference_boundary) is None:
             errors.append(
-                f"{label}: resource {resource_id} configurationRef must point to an existing file under {evidence}"
+                f"{label}: resource {resource_id} configurationRef must point to an existing file under {reference_boundary}"
             )
         booking_ref = resource.get("bookingRef")
         if definition.get("bookingRequired") is True:
-            if existing_ref(root, booking_ref, evidence) is None:
+            if existing_ref(root, booking_ref, reference_boundary) is None:
                 errors.append(
-                    f"{label}: resource {resource_id} bookingRef must point to an existing file under {evidence}"
+                    f"{label}: resource {resource_id} bookingRef must point to an existing file under {reference_boundary}"
                 )
-        elif booking_ref is not None and existing_ref(root, booking_ref, evidence) is None:
+        elif booking_ref is not None and existing_ref(root, booking_ref, reference_boundary) is None:
             errors.append(
-                f"{label}: resource {resource_id} bookingRef must be null or an existing file under {evidence}"
+                f"{label}: resource {resource_id} bookingRef must be null or an existing file under {reference_boundary}"
             )
 
     environment = execution.get("environmentCaptured") or {}
-    required_environment = set(plan["environment"]["captureBeforeExecution"])
+    required_environment = set(route.get("captureBeforeExecution") or [])
     missing = required_environment - set(environment)
     if missing:
         errors.append(f"{label}: missing environment fields {sorted(missing)}")
@@ -575,8 +4258,8 @@ def validate_execution(
     if not raw_refs:
         errors.append(f"{label}: at least one raw output reference is required")
     for ref in raw_refs:
-        if existing_ref(root, ref, evidence) is None:
-            errors.append(f"{label}: raw evidence file must exist under {evidence}: {ref!r}")
+        if existing_ref(root, ref, reference_boundary) is None:
+            errors.append(f"{label}: raw evidence file must exist under {reference_boundary}: {ref!r}")
 
     commands = execution.get("commands") or []
     if not commands:
@@ -606,9 +4289,9 @@ def validate_execution(
         output_ref = command.get("outputRef")
         if output_ref not in raw_refs:
             errors.append(f"{command_label} outputRef must be listed in rawOutputRefs")
-        if existing_ref(root, output_ref, evidence) is None:
+        if existing_ref(root, output_ref, reference_boundary) is None:
             errors.append(
-                f"{command_label} outputRef must point to an existing file under {evidence}"
+                f"{command_label} outputRef must point to an existing file under {reference_boundary}"
             )
 
     samples = execution.get("samples") or []
@@ -625,10 +4308,10 @@ def validate_execution(
             errors.append(f"{label}: sample {sample_id} immutableId is invalid/placeholder")
         if not good_checksum(sample.get("checksum")):
             errors.append(f"{label}: sample {sample_id} checksum must be sha256:<64 hex>")
-        validate_approval_record(root, plan, implementer, sample, approval_schema, errors)
+        validate_approval_record(root, plan, implementer, sample, approval_schema, errors, reference_boundary, window)
 
     planned_measurements = {
-        item["id"]: item for item in plan["protocol"]["measurements"]
+        item["id"]: item for item in (route.get("protocol") or {}).get("measurements", [])
     }
     actual_measurements = execution.get("measurements") or []
     actual_map = {
@@ -642,7 +4325,7 @@ def validate_execution(
         measurement_id
         for measurement_id, definition in planned_measurements.items()
         if measurement_id in actual_map
-        and not good_actual(definition.get("unit"), actual_map[measurement_id])
+        and not good_actual(definition.get("unit"), actual_map[measurement_id], measurement_id)
     ]
     if bad:
         errors.append(f"{label}: invalid/placeholder measurement values {sorted(bad)}")
@@ -655,6 +4338,32 @@ def validate_execution(
     ]
     if false_gates:
         errors.append(f"{label}: PASS has false/non-true boolean gates {sorted(false_gates)}")
+    if poc_id == 'POC-05' and status == 'pass':
+        for mid in ('file_count','directory_count','enumeration_rate','source_change_frequency','incremental_scan_cost'):
+            value = actual_map.get(mid)
+            if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value <= 0:
+                errors.append(f'{label}: POC-005 PASS requires positive exercised workload: {mid}')
+    if poc_id == 'POC-02' and status == 'pass' and record_definitions is not None:
+        for mid in ('encode_throughput','sustained_encode_duration'):
+            value = actual_map.get(mid)
+            if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value <= 0:
+                errors.append(f'{label}: POC-002 PASS requires positive exercised workload: {mid}')
+    if poc_id == 'POC-01' and status == 'pass' and record_definitions is not None and execution.get('environmentCaptured',{}).get('acceptanceProfile') == profile_identity('production'):
+        duration=actual_map.get('multi_day_stability_duration')
+        if not good_actual('hours',duration) or duration<=0:
+            errors.append(f'{label}: production POC-001 PASS requires positive multi_day_stability_duration')
+    if poc_id == 'POC-09' and status == 'pass' and record_definitions is not None:
+        throughput=actual_map.get('throughput')
+        if isinstance(throughput,bool) or not isinstance(throughput,(int,float)) or not math.isfinite(throughput) or throughput<=0:
+            errors.append(f'{label}: POC-009 PASS requires positive measured inference throughput')
+    if poc_id == 'POC-03':
+        correctness = actual_map.get('range_correctness')
+        if planned_measurements.get('range_correctness', {}).get('unit') != 'percent':
+            errors.append(f"{label}: Range correctness unit must remain percent")
+        if isinstance(correctness, bool) or not isinstance(correctness, (int,float)) or not math.isfinite(correctness) or not 0 <= correctness <= 100:
+            errors.append(f"{label}: Range correctness must be a finite percentage in [0,100]")
+        elif status == 'pass' and correctness != 100:
+            errors.append(f"{label}: PASS requires 100 percent Range byte correctness")
 
     provenance = execution.get("provenance") or {}
     required_provenance = REQUIRED_PROVENANCE.get(poc_id, set())
@@ -685,9 +4394,13 @@ def validate_terminal(
     execution_schema: dict[str, Any],
     approval_schema: dict[str, Any],
     errors: list[str],
+    compliance_schema: dict[str, Any] | None = None,
+    reference_prefix: str | None = None,
+    record_definitions: dict[str, Any] | None = None,
 ) -> None:
     task_id = plan["taskId"]
     evidence = plan["evidencePath"]
+    reference_boundary = reference_prefix or evidence
     status = entry.get("status")
     label = f"results-index {task_id}"
     roles = concrete_roles(root, task_id, task, errors)
@@ -695,10 +4408,10 @@ def validate_terminal(
         return
     implementer, reviewer = roles
 
-    result_path = existing_ref(root, entry.get("resultRef"), evidence)
+    result_path = existing_ref(root, entry.get("resultRef"), reference_boundary)
     if result_path is None:
         errors.append(
-            f"{label}: terminal resultRef must point to an existing file under {evidence}"
+            f"{label}: terminal resultRef must point to an existing file under {reference_boundary}"
         )
         return
     try:
@@ -738,10 +4451,10 @@ def validate_terminal(
     if not valid_utc_timestamp(result.get("approvedAt")):
         errors.append(f"result record {task_id}: approvedAt must be a valid UTC instant")
 
-    execution_path = existing_ref(root, result.get("executionRef"), evidence)
+    execution_path = existing_ref(root, result.get("executionRef"), reference_boundary)
     if execution_path is None:
         errors.append(
-            f"result record {task_id}: executionRef must point to an existing file under {evidence}"
+            f"result record {task_id}: executionRef must point to an existing file under {reference_boundary}"
         )
         return
     try:
@@ -757,7 +4470,97 @@ def validate_terminal(
     validate_execution(
         root, plan, implementer, execution, resource_catalog,
         execution_schema, approval_schema, status, errors,
+        compliance_schema, reference_boundary, record_definitions, reviewer,
+        {entry.get('resultRef'),result.get('executionRef')},
     )
+    if record_definitions is not None:
+        captured_window = (execution.get('environmentCaptured') or {}).get('executionWindow')
+        end = utc(captured_window.get('finishedAt')) if isinstance(captured_window,dict) else None
+        approval = utc(result.get('approvedAt'))
+        if approval is not None and approval > datetime.now(timezone.utc):
+            errors.append(f'result record {task_id}: approval must have occurred by validation time')
+        if end is not None and (approval is None or approval < end):
+            errors.append(f'result record {task_id}: result review must follow completed executionWindow')
+
+
+def profile_index_ref(poc_task_id: str, profile: str) -> str:
+    key = 'localIndexPattern' if profile == 'local-v1' else 'productionIndexPattern'
+    return PROFILE_EVIDENCE_BINDING[key].format(pocTaskId=poc_task_id)
+
+
+def validate_profile_evidence(root, plans, tasks, program_schema, result_schema,
+                              execution_schema, approval_schema, resources,
+                              selected_profile, require_results, selected_pocs, errors):
+    """Qualified slots coexist; production is newly owned by GZ020, never rewritten POC history."""
+    defs = program_schema.get('$defs') or {}
+    for poc_task_id, plan in plans.items():
+        if selected_pocs and plan['pocId'] not in selected_pocs:
+            continue
+        for profile in PROFILE_SCOPES:
+            ref = profile_index_ref(poc_task_id,profile)
+            owner = poc_task_id if profile == 'local-v1' else 'GZ-020'
+            evidence = 'evidence/'+owner
+            index_path = existing_ref(root,ref,evidence)
+            label = f"profile evidence {poc_task_id}/{profile}"
+            required = require_results and profile == selected_profile
+            if index_path is None:
+                if required: errors.append(f"{label}: selected profile index is required")
+                continue
+            try:
+                index = load(index_path)
+            except Exception as exc:
+                errors.append(f"{label}: cannot parse profile index: {exc}")
+                continue
+            validate_schema(index,defs.get('profileEvidenceIndex',{}),label,errors)
+            secret_scan(index,label,errors)
+            identity = profile_identity(profile)
+            expected = dict(schemaVersion=2,pocId=plan['pocId'],pocTaskId=poc_task_id,
+                            ownerTask=owner,acceptanceProfile=identity)
+            if not isinstance(index,dict) or any(index.get(k) != v for k,v in expected.items()):
+                errors.append(f"{label}: index must bind exact experiment, owner and profile")
+                continue
+            configured = index.get('acceptanceProfile') or {}
+            if any(type(configured.get(k)) is not int for k in ('version','bindingRevision')):
+                errors.append(f"{label}: profile versions must be integers")
+            prefix = str(Path(ref).parent).replace('\\','/')
+            result_path = existing_ref(root,index.get('resultRef'),prefix)
+            if result_path is None:
+                errors.append(f"{label}: resultRef must exist under the selected profile slot")
+                continue
+            try:
+                result = load(result_path)
+            except Exception as exc:
+                errors.append(f"{label}: cannot parse profile result: {exc}")
+                continue
+            if not isinstance(result,dict):
+                errors.append(f"{label}: profile result must be a mapping")
+                continue
+            execution_path = existing_ref(root,result.get('executionRef'),prefix)
+            if execution_path is None:
+                errors.append(f"{label}: executionRef must exist under the selected profile slot")
+                continue
+            try:
+                execution = load(execution_path)
+            except Exception as exc:
+                errors.append(f"{label}: cannot parse execution: {exc}")
+                continue
+            if not isinstance(execution,dict) or (execution.get('environmentCaptured') or {}).get('acceptanceProfile') != identity:
+                errors.append(f"{label}: execution must bind selected profile identity")
+                continue
+            if required and result.get('status') != 'pass':
+                errors.append(f"{label}: selected profile requires independently approved PASS")
+            projected_plan = copy.deepcopy(plan)
+            projected_plan.update(taskId=owner,evidencePath=evidence)
+            entry = dict(pocId=plan['pocId'],taskId=owner,evidencePath=evidence,
+                         status=result.get('status'),decision=result.get('decision'),
+                         resultRef=index.get('resultRef'),reviewer=result.get('reviewer'),
+                         approvedAt=result.get('approvedAt'))
+            production = profile == 'production'
+            validate_terminal(root,projected_plan,tasks[owner],entry,resources,
+                defs.get('productionResult',{}) if production else result_schema,
+                defs.get('productionExecution',{}) if production else execution_schema,
+                defs.get('productionSampleApproval',{}) if production else approval_schema,
+                errors,defs.get('productionComplianceReview',{}) if production else None,prefix,defs)
 
 
 def validate_templates(
@@ -885,8 +4688,22 @@ def load_index_from_git(root: Path, base_ref: str, errors: list[str]) -> dict[st
     return value if isinstance(value, dict) else None
 
 
-def validate_repository(root: Path) -> list[str]:
+def validate_repository(root: Path, selected_profile=None, require_results=False,
+                        milestone=None, selected_pocs=None) -> list[str]:
     errors: list[str] = []
+    if selected_profile is not None and selected_profile not in PROFILE_SCOPES:
+        errors.append('unknown selected acceptance profile')
+    if milestone is not None:
+        expected_profile = {'GZ-018':'local-v1','GZ-020':'production'}.get(milestone)
+        if expected_profile is None or selected_profile != expected_profile:
+            errors.append('milestone must bind its exact local/production profile')
+        if selected_pocs:
+            errors.append('full milestone cannot select a POC subset')
+        require_results = True
+    if require_results and selected_profile not in PROFILE_SCOPES:
+        errors.append('qualified results require an explicit known profile')
+    if selected_pocs and not set(selected_pocs).issubset(POCS):
+        errors.append('unknown selected POC')
     base = root / "specs" / "poc"
     try:
         program = load(base / "program.yaml")
@@ -902,6 +4719,8 @@ def validate_repository(root: Path) -> list[str]:
         results = load(base / "results-index.yaml")
         policy = load(base / "policy.yaml")
         program_plan = load(root / "specs" / "coordination" / "program-plan.yaml")
+        nfr_document = load(root / "specs/requirements/v1/nfr.yaml")
+        nfr_binding = nfr_document["acceptanceProfileBinding"]
     except Exception as exc:
         return [f"cannot load POC Program: {exc}"]
 
@@ -916,7 +4735,17 @@ def validate_repository(root: Path) -> list[str]:
     ):
         schema_check(schema, name, errors)
     validate_schema(program, program_schema, "program.yaml", errors)
+    if program.get('profileEvidenceBinding') != PROFILE_EVIDENCE_BINDING:
+        errors.append('profile-qualified evidence binding must retain exact owners, paths and schemas')
     validate_schema(results, result_index_schema, "results-index.yaml", errors)
+    if program.get("acceptanceProfileBinding") != nfr_binding:
+        errors.append("program.yaml acceptanceProfileBinding must equal authoritative NFR binding")
+    compatibility = next((n for n in nfr_document.get('items',[]) if n.get('id') == 'NFR-V1-COMP-003'), {})
+    if not {'POC-01','POC-02','GZ-011','GZ-020'}.issubset(set(compatibility.get('measurement',{}).get('verificationOwners') or [])):
+        errors.append('NFR-V1-COMP-003 must bind actual production compatibility verifiers and GZ-020')
+    for profile in (program.get("acceptanceProfileBinding") or {}).get("profiles", []):
+        if set(profile.get("requirementIds") or []) != {f"REQ-V1-{i:04d}" for i in range(1, 11)} or set(profile.get("acceptanceIds") or []) != {f"验收V1-{i:04d}" for i in range(1, 13)}:
+            errors.append("program.yaml profile must preserve original full 10 requirements and 12 acceptances")
 
     expected_manifest = {
         "executionRecordSchema": "execution-record.schema.yaml",
@@ -982,6 +4811,7 @@ def validate_repository(root: Path) -> list[str]:
         validate_schema(plan.get("protocol"), protocol_schema, relative + "/protocol", errors)
         secret_scan(plan, relative, errors)
         baseline_plan(plan, relative, errors)
+        validate_local_route(plan, resource_map, protocol_schema, errors)
 
         poc_id = plan.get("pocId")
         task_id = plan.get("taskId")
@@ -1060,6 +4890,12 @@ def validate_repository(root: Path) -> list[str]:
             errors.append(
                 f"{relative}: missing frozen required measurements {sorted(missing_measurements)}"
             )
+        missing_compatibility = PRODUCTION_COMPAT_MEASUREMENTS.get(poc_id,set()) - set(measurement_ids)
+        if missing_compatibility:
+            errors.append(f"{relative}: missing production compatibility measurements {sorted(missing_compatibility)}")
+        for measurement in (plan.get('protocol') or {}).get('measurements',[]):
+            if measurement.get('id') in PRODUCTION_COMPAT_MEASUREMENTS.get(poc_id,set()) and measurement.get('unit') != 'boolean':
+                errors.append(f"{relative}: production compatibility gate unit must remain boolean")
         capture_fields = set(
             (plan.get("environment") or {}).get("captureBeforeExecution", [])
         )
@@ -1068,6 +4904,11 @@ def validate_repository(root: Path) -> list[str]:
             errors.append(
                 f"{relative}: missing required environment provenance fields {sorted(missing_environment)}"
             )
+        missing_production_environment = PRODUCTION_COMPAT_ENV.get(poc_id,set()) - capture_fields
+        if missing_production_environment:
+            errors.append(f"{relative}: missing production compatibility environment fields {sorted(missing_production_environment)}")
+        if poc_id in PRODUCTION_COMPAT_MEASUREMENTS and 'RES-HETEROGENEOUS-WORKERS' not in (plan.get('resourceIds') or []):
+            errors.append(f"{relative}: production compatibility requires captured heterogeneous worker pool")
 
         for resource_id in plan.get("resourceIds") or []:
             if resource_id not in resource_map:
@@ -1152,6 +4993,10 @@ def validate_repository(root: Path) -> list[str]:
         ("policy.yaml", policy),
     ):
         secret_scan(value, name, errors)
+    all_tasks = {t['taskId']:t for t in program_plan.get('tasks',[])}
+    validate_profile_evidence(root,by_task,all_tasks,program_schema,result_record_schema,
+        execution_schema,approval_schema,resource_map,selected_profile,require_results,
+        set(selected_pocs or []),errors)
     return errors
 
 
@@ -1160,13 +5005,17 @@ def main() -> int:
     parser.add_argument("--repo-root")
     parser.add_argument("--task", help="Executing POC task for results-index row ownership validation")
     parser.add_argument("--base-ref", help="Git base ref used to prove only --task row changed")
+    parser.add_argument('--profile',choices=sorted(PROFILE_SCOPES),help='Select qualified acceptance profile')
+    parser.add_argument('--require-results',action='store_true',help='Require independently reviewed PASS in every selected profile slot')
+    parser.add_argument('--poc',action='append',choices=sorted(POCS),help='Select a scoped POC contract; forbidden for full milestones')
+    parser.add_argument('--milestone',choices=['GZ-018','GZ-020'],help='Require all ten qualified POC results for the exact milestone profile')
     args = parser.parse_args()
     root = (
         Path(args.repo_root).resolve()
         if args.repo_root
         else Path(__file__).resolve().parents[2]
     )
-    errors = validate_repository(root)
+    errors = validate_repository(root,args.profile,args.require_results,args.milestone,args.poc)
 
     if bool(args.task) != bool(args.base_ref):
         errors.append("--task and --base-ref must be supplied together")
@@ -1184,6 +5033,10 @@ def main() -> int:
         "PASS: POC-PROTOCOL-V1 immutable planning baseline and "
         "task-owned Evidence contracts are consistent with Program Plan"
     )
+    if args.require_results or args.milestone:
+        print(f"PASS: qualified POC prerequisites for {args.profile}; milestone={args.milestone or 'scoped contract'}; no platform/runtime/production release granted")
+    elif args.profile:
+        print(f"Profile declarations checked: {args.profile}; qualified result acceptance not requested")
     if args.task:
         print(
             f"PASS: results-index row ownership verified for {args.task} "

@@ -1,0 +1,45 @@
+{
+  "capturedAt": "2026-10-13T22:01:52.261559+00:00",
+  "sourceParent": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "finiteScope": "Only actual140 bounded-reader/cache failure repair and actual146 fixture-shape failure repair",
+  "contentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "8ce2ef55f8e98bbfee925eef4afc2cdbf3c07ccd100c12e7768d241690bdfb01",
+    "specs/poc/test_program.py": "e96bbc96c7b78a8c4e4054042c8162c610aaed91108d2259adc04c135d994be1"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "8ce2ef55f8e98bbfee925eef4afc2cdbf3c07ccd100c12e7768d241690bdfb01",
+    "specs/poc/test_program.py": "e96bbc96c7b78a8c4e4054042c8162c610aaed91108d2259adc04c135d994be1"
+  },
+  "hashesStable": true,
+  "all171OtherA84TestMethodsAstUnchanged": true,
+  "original140AstAndAssertionsUnchanged": true,
+  "original169StatementsAssertionsAndCasesPreserved": true,
+  "test169OnlyAddsTwoPartialByteBoundariesPositiveAndSelfConsistentCorruptionNegatives": true,
+  "defaultFirstEightBytesFixtureUnchanged": true,
+  "allOtherTrackedPathsUnchanged": true,
+  "schemaMetadataPlansManifestValidatorsExceptNecessaryIoDeltaUnchanged": true,
+  "boundedIoReview": [
+    "Optional typed inclusive byte_range digest accumulates only per-chunk overlap in the same bounded whole-file read; complete range reuses whole hash. No seek is needed.",
+    "Qualified production A380 validator runs before raw/worker scanners, bounded typed request supplies its range before designated output is first inspected, and later scans share the same cache.",
+    "Actual response size/status/Range headers/node/config/output identity/hash checks remain; partial response compares exact rangeHash and cannot substitute complete SHA.",
+    "Only one selected range is requested by this A380 path; original inspect callers remain default byte_range=None.",
+    "POC007 fixture URL refresh type guard remains, preserving deliberately malformed settings for validator rejection."
+  ],
+  "incrementSession": 32343,
+  "incrementPending": true,
+  "previousDirtyFourTests107_295BelongToEarlierCandidateStage": true,
+  "whole172Passed": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "publicationContentSupported": false,
+  "actualSourceExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false
+}

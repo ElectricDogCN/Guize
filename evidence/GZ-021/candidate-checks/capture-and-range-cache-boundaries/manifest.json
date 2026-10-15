@@ -1,0 +1,66 @@
+{
+  "sourceParent": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "candidateTestMethods": 172,
+  "original171A84MethodsAstUnchanged": true,
+  "expandedCurrent169": "Original cases/assertions preserved; partial boundary valid and self-consistent corrupted returned-byte cases added",
+  "original140Unchanged": true,
+  "defaultPartialFirstEightBytesFixtureUnchanged": true,
+  "runs": [
+    {
+      "path": "gz021-capture-fixture146-151-165-170-increment.txt",
+      "tests": 4,
+      "seconds": 107.295,
+      "exitCode": 0,
+      "stage": "Typed TLS helper guard only"
+    },
+    {
+      "path": "gz021-a380-range-cache140-169-first-increment.txt",
+      "tests": 2,
+      "seconds": 20.342,
+      "exitCode": 0,
+      "stage": "Single bounded whole/partial hashing and A380 cache order plus expanded169"
+    }
+  ],
+  "runsNotCombinedIntoSixTestCommand": true,
+  "fullCandidate172RunClaimed": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "representation": "Canonical UTF-8 LF; original external physical bytes retained separately",
+  "files": [
+    {
+      "path": "gz021-capture-fixture146-151-165-170-increment.txt",
+      "originalPhysicalSha256": "03b9e559ddf964ca6a6dca81b5de0cb370bc6d6b70a59bb1c2d424ad788db48b",
+      "originalPhysicalBytes": 1408,
+      "canonicalLfSha256": "03b9e559ddf964ca6a6dca81b5de0cb370bc6d6b70a59bb1c2d424ad788db48b",
+      "canonicalLfBytes": 1408
+    },
+    {
+      "path": "gz021-a380-range-cache140-169-first-increment.txt",
+      "originalPhysicalSha256": "36682df68ea5068dd6b274ee5821a0d6a0b1d6ef5a21cfa64f0ef61c21cc708f",
+      "originalPhysicalBytes": 1052,
+      "canonicalLfSha256": "36682df68ea5068dd6b274ee5821a0d6a0b1d6ef5a21cfa64f0ef61c21cc708f",
+      "canonicalLfBytes": 1052
+    },
+    {
+      "path": "gz021-independent-capture-fixture-guard-dirty-content-review.json",
+      "originalPhysicalSha256": "039e0f161e4e777ce9afc681dba7835619bc3fd62193eec21715b99962a542b8",
+      "originalPhysicalBytes": 1327,
+      "canonicalLfSha256": "16fefa48d474c8214116ce582d04e567a9827503daab1b7fda8c13328e81bf81",
+      "canonicalLfBytes": 1297
+    },
+    {
+      "path": "gz021-independent-capture-fixture-four-increment-execution-receipt.json",
+      "originalPhysicalSha256": "81269ef8f32b6f67764e34cf2e2e34683f15cf7be70c70c5b92b8720b5a48832",
+      "originalPhysicalBytes": 957,
+      "canonicalLfSha256": "b3c35c717dd73e8ca1c32ceb645432d7d822209e7e238a6ce7d15603adc15870",
+      "canonicalLfBytes": 932
+    },
+    {
+      "path": "gz021-independent-capture-bounded-io-two-path-dirty-review.json",
+      "originalPhysicalSha256": "9800221829459917f57805ac01a8d8a89440ff15745b58b4f2178dc58a6533f0",
+      "originalPhysicalBytes": 2540,
+      "canonicalLfSha256": "0ea7e7afe66e126dba51043c74c2577bb4e027f2dcbf19118c72f759b44cb21b",
+      "canonicalLfBytes": 2495
+    }
+  ]
+}

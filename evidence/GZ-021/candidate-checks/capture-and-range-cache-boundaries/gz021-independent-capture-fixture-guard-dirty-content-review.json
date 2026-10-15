@@ -1,0 +1,30 @@
+{
+  "capturedAt": "2026-10-13T21:46:25.301184+00:00",
+  "sourceParent": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "finiteScope": "Only one owned test fixture helper shape guard; no validator or test methods modified",
+  "contentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/test_program.py": "87d2253ee61fa80e8e7afa59ba2116eb1bd17518bddedc854aad369d94572f3e"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/test_program.py": "e5581fe1c377868a1d709a65bbf13ed69853bdd140a0092acf11be7a873f3b78"
+  },
+  "all172TestMethodsAstUnchanged": true,
+  "allOtherFunctionsAstUnchanged": true,
+  "allOtherTrackedPathsUnchanged": true,
+  "schemaMetadataPlansValidatorUnchanged": true,
+  "meaning": "POC007 fixture refresh requires dict and both origin strings; boolean/empty/missing-origin captures stay for original validator rejection. Valid strings keep existing URL/raw checksum refresh and execution persistence.",
+  "incrementPending": true,
+  "incrementSession": 32837,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "fullActualSourceExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "publicationContentSupported": false
+}

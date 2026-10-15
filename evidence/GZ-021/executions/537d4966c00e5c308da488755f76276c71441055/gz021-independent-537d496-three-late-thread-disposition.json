@@ -1,0 +1,78 @@
+{
+  "reviewKind": "FINITE_ONLY_THREE_LATE_OFFICIAL_THREADS",
+  "actualSource": "537d4966c00e5c308da488755f76276c71441055",
+  "tree": "d4b46934427a3de4b68029e722307e987849cc8b",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "counterexampleProof": {
+    "path": "gz021-independent-537d496-hierarchy-tls-counterexamples.json",
+    "sha256": "c6b8305090f9f7b200d37f484ddb7848075436ef45e2011610908aa927e66898",
+    "cases": 4,
+    "onlyTwoCodeOpinions": true
+  },
+  "threadDispositions": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r5Pgi",
+      "materialCodeDefect": false,
+      "executionPrerequisiteSatisfied": true,
+      "fact": "Exact actual537 local20/146676.686/35/6371063.90 and sameheadCI70028/6371598.73 are independently accepted. Retained a701 status poc-tests1 is correctly historical failure, not the current537 execution result.",
+      "necessaryDisposition": "Retain a701 failure bytes unchanged. Cite/persist exact537 raw commands/exits/JUnit/worktree and CI receipts/hashes in durable current PR handoff, then archive them as historical input in the already required next source/Review evidence. No self-SHA evidence head loop or rewriting failedstatus needed.",
+      "resolveEligibility": "Execution condition already met for537; may resolve after durable exact537 handoff references are verified, without source mutation. Future repaired source still requires its own execution and CI.",
+      "local20ProofSha256": "a15709eb4e15f43a751af4c30c05d5258d80dcda32fb61ec9a1a5c19448743cb",
+      "ciProofSha256": "d15298ae751e927bc1a5e2d235cd4ab8dd99854b10cdc8ce6d4abc33244b2fd9",
+      "doesNotOverrideOtherMaterialFindings": true
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r5Pgs",
+      "materialCodeDefect": true,
+      "path": "specs/poc/check_program.py",
+      "line": 496,
+      "fact": "Qualified local POC005 accepts file_count/directory_count/directory_depth_max =11 while independently approved generator records1/1/1; positive values alone do not bind exercised hierarchy.",
+      "minimalFix": "For local qualified POC005 PASS compare the three actual numeric metrics to exact approved hierarchy manifest/generated workload values. Preserve positive/integer domain checks and exact capturedSettings approval. Define maximumDepth as the achieved hierarchy maximum for this binding; if it is only a generator cap, store an exact expected/observed hierarchy maximum rather than equating a cap to unrelated measurements. No production threshold or manifest/DAG change.",
+      "directRegression": "Valid exact hierarchy baseline; change only each positive measurement and keep approval unchanged ->reject; FAIL may retain factual mismatched results."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r5Pgx",
+      "materialCodeDefect": true,
+      "path": "specs/poc/program.schema.yaml",
+      "line": 989,
+      "fact": "Qualified local TLS capture accepts https://guize.local:99999, :00000 and https://bad..local:443 even with exact reviewed capturedSettings.",
+      "minimalFix": "Parse both entryOrigin/openlistOrigin in owned validator using URL origin rules. Require existing scheme policy, valid DNS labels or actual IPv4/IPv6 literal, and any explicit numeric port in1..65535. Reject userinfo/path/query/fragment/invalid authority; do not perform DNS reachability or impose public-network validation. Existing regex/schema and secret guards remain, with targeted checker failures for semantically invalid origins.",
+      "directRegression": "99999/0/empty-label host reject; normal internal hostname and valid IPv4/IPv6 origins, ports1/443/65535 accepted. Keep local sandbox/production boundaries unchanged."
+    }
+  ],
+  "mustFix": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r5Pgs",
+      "materialCodeDefect": true,
+      "path": "specs/poc/check_program.py",
+      "line": 496,
+      "fact": "Qualified local POC005 accepts file_count/directory_count/directory_depth_max =11 while independently approved generator records1/1/1; positive values alone do not bind exercised hierarchy.",
+      "minimalFix": "For local qualified POC005 PASS compare the three actual numeric metrics to exact approved hierarchy manifest/generated workload values. Preserve positive/integer domain checks and exact capturedSettings approval. Define maximumDepth as the achieved hierarchy maximum for this binding; if it is only a generator cap, store an exact expected/observed hierarchy maximum rather than equating a cap to unrelated measurements. No production threshold or manifest/DAG change.",
+      "directRegression": "Valid exact hierarchy baseline; change only each positive measurement and keep approval unchanged ->reject; FAIL may retain factual mismatched results."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r5Pgx",
+      "materialCodeDefect": true,
+      "path": "specs/poc/program.schema.yaml",
+      "line": 989,
+      "fact": "Qualified local TLS capture accepts https://guize.local:99999, :00000 and https://bad..local:443 even with exact reviewed capturedSettings.",
+      "minimalFix": "Parse both entryOrigin/openlistOrigin in owned validator using URL origin rules. Require existing scheme policy, valid DNS labels or actual IPv4/IPv6 literal, and any explicit numeric port in1..65535. Reject userinfo/path/query/fragment/invalid authority; do not perform DNS reachability or impose public-network validation. Existing regex/schema and secret guards remain, with targeted checker failures for semantically invalid origins.",
+      "directRegression": "99999/0/empty-label host reject; normal internal hostname and valid IPv4/IPv6 origins, ports1/443/65535 accepted. Keep local sandbox/production boundaries unchanged."
+    }
+  ],
+  "lateMaterialCodeDefects": 2,
+  "currentSourceExecutionAccepted": true,
+  "lateExecutionPrerequisiteSatisfied": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "knownEarlierThreeMaterialFindingsStillRemain": true,
+  "noFullSuiteRerun": true,
+  "noCanonicalMutation": true,
+  "selfShaArchiveCycleRequired": false,
+  "oldFailureOverwriteAllowed": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false
+}

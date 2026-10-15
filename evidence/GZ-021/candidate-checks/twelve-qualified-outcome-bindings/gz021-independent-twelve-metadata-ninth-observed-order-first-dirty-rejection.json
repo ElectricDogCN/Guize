@@ -1,0 +1,103 @@
+{
+  "capturedAt": "2026-10-14T00:57:19.379102+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYen",
+  "finiteScope": "Only concrete ninth observed-event ordering residual and new parser error-output path",
+  "contentAccepted": false,
+  "ninthFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "id": "NINTH-OBSERVED-SEQUENCE",
+      "path": "specs/poc/check_program.py",
+      "line": 1042,
+      "problem": "Actual observed rows need only monotonic file timestamps; set comparison removes their order and valid state transitions are replayed from expected sequence, permitting an impossible observed delete-before-update order.",
+      "minimalRepair": "Require observed row sequence to match its streamed chronological ordinal 1..N while preserving equal coarse timestamps. Keep exact approved row equality, version transitions, counts, interval/UTC and applied-once checks. Add reordered 3/1/2 negative and equal-time ordered positive.",
+      "counterexample": {
+        "baselineFileVersion": "version-1",
+        "observedRowsInActualTimeOrder": [
+          {
+            "sequence": 3,
+            "observedAt": "2026-09-03T00:00:06Z",
+            "operation": "delete",
+            "beforeVersion": "version-2",
+            "afterVersion": "absent"
+          },
+          {
+            "sequence": 1,
+            "observedAt": "2026-09-03T00:00:07Z",
+            "operation": "update",
+            "beforeVersion": "version-1",
+            "afterVersion": "version-2"
+          },
+          {
+            "sequence": 2,
+            "observedAt": "2026-09-03T00:00:08Z",
+            "operation": "create",
+            "beforeVersion": "absent",
+            "afterVersion": "version-1"
+          }
+        ],
+        "currentReasonAccepted": "Observed timestamps 6/7/8 are monotonic; eventId/sequence/object/operation/before/after set equals expected; later state replay uses expected ORDER BY sequence instead of observed chronology.",
+        "invalidReason": "First observed deletion requires version-2 before the update from version-1 occurred."
+      },
+      "evidenceType": "parent concrete counter independently confirmed from exact source predicates, no reviewer test run"
+    },
+    {
+      "id": "NINTH-ERROR-INSTANCE-DISCLOSURE",
+      "path": "specs/poc/check_program.py",
+      "line": 1063,
+      "problem": "Rendering jsonschema.ValidationError as text can include raw rejected instance values; the new streamed-input parser must not echo arbitrary input data.",
+      "minimalRepair": "Use controlled error class/category and safe schema/instance path information without interpolating input values. Preserve all validation and raw credential guards.",
+      "evidenceType": "direct error-construction source inspection"
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "869187bbb00f7e06c0ceb1d251a9f5c0e343b9877eb5b18cdc2177c9a0593f56",
+    "specs/poc/program.schema.yaml": "cb44c69e0577d6fd10d8117d29ac800234dc64d0ea22f0b5437685fafafacf5e",
+    "specs/poc/test_program.py": "43d348fa4b869e9c3bbd5daf3791b9c80ae8a508adef0cf6c86e48264211e242"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "869187bbb00f7e06c0ceb1d251a9f5c0e343b9877eb5b18cdc2177c9a0593f56",
+    "specs/poc/program.schema.yaml": "cb44c69e0577d6fd10d8117d29ac800234dc64d0ea22f0b5437685fafafacf5e",
+    "specs/poc/test_program.py": "43d348fa4b869e9c3bbd5daf3791b9c80ae8a508adef0cf6c86e48264211e242"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "90f198080de88c9a84a734f41fed4ea864556454e26a63324dd0f37a8c0cfb4a",
+    "specs/poc/program.schema.yaml": "68340fc230c58891bdc16407354bed52b6d6dc8d44976135d8a55601b0139f42",
+    "specs/poc/test_program.py": "cb2a945ee8ba0a4a489bd91c471101b76126fb7f3416915d320b7dec65c07c85"
+  },
+  "hashesStable": true,
+  "priorNinthProofPreserved": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-metadata-ninth-dirty-review.json",
+    "sha256": "de18ebc9dc385ff2c4ff4d987b0985467540bc8379d8bd64c0fc09f75bca1cb2",
+    "supersededContentAcceptanceOnlyForTheseConcreteResiduals": true
+  },
+  "otherNinthBoundedReviewFactsRetainedWithoutReaudit": true,
+  "priorEightContentAndFrozenBoundariesUnchanged": true,
+  "incrementObservation": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-metadata182-183-first-increment.txt",
+    "observedPhysicalSha256": "d85b24380bc056f74daf94b92640e7b937f59ce81fd4d46e38da72ae48013f89",
+    "terminalObserved": true,
+    "exitCode": 1,
+    "seconds": 132.548,
+    "executionAccepted": false,
+    "pendingAtObservation": false
+  },
+  "publicationContentSupported": false,
+  "whole183SuitePassed": false,
+  "remainingThreeFindingsPending": true,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

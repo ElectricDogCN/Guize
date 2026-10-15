@@ -1,0 +1,139 @@
+{
+  "reviewKind": "FINITE_ONLY_FOUR_NEW_OFFICIAL_OPINIONS",
+  "actualSource": "f63332dd8b2a87d4e3eda975557eb6b5e4275054",
+  "tree": "8307667ca786fe958ede5b53c411773b40adab58",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "officialThreadSnapshotSha256": "5497b37164b97448a99a7ad5eb7c537f1b5806f26afb3bbe706004bd1349ccd9",
+  "counterexampleProof": {
+    "path": "gz021-independent-f63332d-four-comment-counterexamples.json",
+    "sha256": "ae78a7daa0a34b843ad5749243064509532414f486ba762808ca68f4b13413bd",
+    "mutations": 9,
+    "comments": 4,
+    "consistentlyMatchingDomainApprovalsPreservedWhereNeeded": true
+  },
+  "findings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r2vvM",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1429,
+      "finding": "Qualified local POC001 and POC002 accept matching fabricated sample checksum/approval/encode input digest without any actual sample byte reference.",
+      "minimalOwnedFix": "Add a qualified inputSampleArtifact mapping in owned program.schema.yaml $defs/environmentCaptured (sampleId, selected-slot ref, actual byteCount and SHA), exactly bind each approved sample immutableId/checksum and encode input to its actual nonempty binary artifact using existing bounded inspect_artifact. No external object store/API/schema file required; legacy schemas/templates remain unchanged.",
+      "reuseExistingFields": [
+        "samples.id",
+        "samples.immutableId",
+        "samples.checksum",
+        "samples.approvalRef",
+        "environmentCaptured",
+        "testedSource",
+        "raw artifact byteCount/sha256 pattern",
+        "bounded inspect_artifact cache"
+      ],
+      "referenceBoundary": "Exact selected profile slot; actual source/ignored-reference checks already collect environment refs. Preserve approval identity/time and structured-vs-binary artifact disjointness.",
+      "directRegressions": "Actual small input bytes baseline; same fabricated checksum in both records rejected; actual input-byte mutation rejected even when original claimed approval/hash remain equal."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r2vvW",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 664,
+      "finding": "Qualified local POC004 baseline profile config has no independent approvedAt/reviewer; adding approvedAt after finishedAt and before validation remains accepted. Existing resourceConfiguration approval does not cover the profile-level floor/config choices.",
+      "minimalOwnedFix": "Use a qualified profileConfiguration $def in existing owned program.schema.yaml with schemaVersion2, exact task/poc/profile/testedSource/resources/measurements, approved decision, current independent Task reviewer and UTC approvedAt. Enforce approvedAt <= captured executionWindow.startedAt and <= validation now; preserve current capacity/source-scope/domain fields and existing resource approvals, no new approval roles or global workflow.",
+      "directRegressions": "Missing approval timestamp/identity, implementer-as-reviewer, wrong exact profile/task, and post-start approval rejected; pre-start independent valid configuration accepted; legacy canonical plan unchanged."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r2vve",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1464,
+      "finding": "Production qualified POC001 PASS accepts multi_day_stability_duration0 with multi_day_stabilitytrue.",
+      "minimalOwnedFix": "PASS-specific production qualified POC001 duration must be positive in existing hours unit alongside existing boolean gate. Retain frozen plan/threshold-source and all production obligations; do not invent a universal new48/72hour requirement. Failure/inconclusive zero remains factual, localVM route unaffected.",
+      "directRegressions": "Production PASS0 rejected/positive baseline accepted; production FAIL0 representable; existing localVM regression retained."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r2vvk",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1358,
+      "finding": "Local POC005 hierarchy, POC006 fault matrix, POC007 TLS path and POC002 segment/scheduler configurations accept scalarTrue with consistently matching numeric-domain environment approval. recorded(True) is only presence, not structured capture.",
+      "minimalOwnedFix": "Add field-specific qualified schemas in existing owned program.schema.yaml $defs, selected by exact POC/profile; validate captured objects or exact selected-slot versioned refs that are dereferenced and validated, with profileConfiguration approval covering the same capture. Keep original source/protocol/POC identities, frozen plans and legacy record schemas.",
+      "minimumShapesWithoutNewFramework": {
+        "synthetic_hierarchy_manifest": "Versioned identified hierarchy record/ref with concrete file/directory layout or reproducible generator parameters and positive populations; scalar/placeholder/empty capture rejected.",
+        "injected_failure_matrix": "Nonempty typed case array with named injected fault/status or disconnect, exercised case identity and corresponding raw observation refs, preserving existing429/5xx/network/auth obligations.",
+        "local_tls_path_configuration": "Concrete isolated TLS/proxy/OpenList route and configuration/certificate identity or ref, matching selected local sandbox boundary; secrets remain forbidden.",
+        "segment_profile": "Concrete codec/container and positive finite segment duration plus captured relevant settings; scalar rejected.",
+        "scheduler_configuration": "Concrete captured policy/settings used by run, preserving declared playback/prewarm/background priorities and scoped limits; scalar rejected."
+      },
+      "directRegressions": "Each exact listed field scalarTrue/empty/wrong-profile ref rejected; minimally concrete valid capture accepted; existing local routes and all production original fields remain retained."
+    }
+  ],
+  "mustFix": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r2vvM",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1429,
+      "finding": "Qualified local POC001 and POC002 accept matching fabricated sample checksum/approval/encode input digest without any actual sample byte reference.",
+      "minimalOwnedFix": "Add a qualified inputSampleArtifact mapping in owned program.schema.yaml $defs/environmentCaptured (sampleId, selected-slot ref, actual byteCount and SHA), exactly bind each approved sample immutableId/checksum and encode input to its actual nonempty binary artifact using existing bounded inspect_artifact. No external object store/API/schema file required; legacy schemas/templates remain unchanged.",
+      "reuseExistingFields": [
+        "samples.id",
+        "samples.immutableId",
+        "samples.checksum",
+        "samples.approvalRef",
+        "environmentCaptured",
+        "testedSource",
+        "raw artifact byteCount/sha256 pattern",
+        "bounded inspect_artifact cache"
+      ],
+      "referenceBoundary": "Exact selected profile slot; actual source/ignored-reference checks already collect environment refs. Preserve approval identity/time and structured-vs-binary artifact disjointness.",
+      "directRegressions": "Actual small input bytes baseline; same fabricated checksum in both records rejected; actual input-byte mutation rejected even when original claimed approval/hash remain equal."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r2vvW",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 664,
+      "finding": "Qualified local POC004 baseline profile config has no independent approvedAt/reviewer; adding approvedAt after finishedAt and before validation remains accepted. Existing resourceConfiguration approval does not cover the profile-level floor/config choices.",
+      "minimalOwnedFix": "Use a qualified profileConfiguration $def in existing owned program.schema.yaml with schemaVersion2, exact task/poc/profile/testedSource/resources/measurements, approved decision, current independent Task reviewer and UTC approvedAt. Enforce approvedAt <= captured executionWindow.startedAt and <= validation now; preserve current capacity/source-scope/domain fields and existing resource approvals, no new approval roles or global workflow.",
+      "directRegressions": "Missing approval timestamp/identity, implementer-as-reviewer, wrong exact profile/task, and post-start approval rejected; pre-start independent valid configuration accepted; legacy canonical plan unchanged."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r2vve",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1464,
+      "finding": "Production qualified POC001 PASS accepts multi_day_stability_duration0 with multi_day_stabilitytrue.",
+      "minimalOwnedFix": "PASS-specific production qualified POC001 duration must be positive in existing hours unit alongside existing boolean gate. Retain frozen plan/threshold-source and all production obligations; do not invent a universal new48/72hour requirement. Failure/inconclusive zero remains factual, localVM route unaffected.",
+      "directRegressions": "Production PASS0 rejected/positive baseline accepted; production FAIL0 representable; existing localVM regression retained."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r2vvk",
+      "material": true,
+      "path": "specs/poc/check_program.py",
+      "line": 1358,
+      "finding": "Local POC005 hierarchy, POC006 fault matrix, POC007 TLS path and POC002 segment/scheduler configurations accept scalarTrue with consistently matching numeric-domain environment approval. recorded(True) is only presence, not structured capture.",
+      "minimalOwnedFix": "Add field-specific qualified schemas in existing owned program.schema.yaml $defs, selected by exact POC/profile; validate captured objects or exact selected-slot versioned refs that are dereferenced and validated, with profileConfiguration approval covering the same capture. Keep original source/protocol/POC identities, frozen plans and legacy record schemas.",
+      "minimumShapesWithoutNewFramework": {
+        "synthetic_hierarchy_manifest": "Versioned identified hierarchy record/ref with concrete file/directory layout or reproducible generator parameters and positive populations; scalar/placeholder/empty capture rejected.",
+        "injected_failure_matrix": "Nonempty typed case array with named injected fault/status or disconnect, exercised case identity and corresponding raw observation refs, preserving existing429/5xx/network/auth obligations.",
+        "local_tls_path_configuration": "Concrete isolated TLS/proxy/OpenList route and configuration/certificate identity or ref, matching selected local sandbox boundary; secrets remain forbidden.",
+        "segment_profile": "Concrete codec/container and positive finite segment duration plus captured relevant settings; scalar rejected.",
+        "scheduler_configuration": "Concrete captured policy/settings used by run, preserving declared playback/prewarm/background priorities and scoped limits; scalar rejected."
+      },
+      "directRegressions": "Each exact listed field scalarTrue/empty/wrong-profile ref rejected; minimally concrete valid capture accepted; existing local routes and all production original fields remain retained."
+    }
+  ],
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "executionAcceptanceMustRemainSeparate": true,
+  "actualSourceExecutionAccepted": false,
+  "ciAccepted": false,
+  "noFullSuiteRerun": true,
+  "noCanonicalMutation": true,
+  "syntheticContractOnly": true,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false
+}

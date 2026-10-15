@@ -1,0 +1,13 @@
+Source: DIRTY_CANDIDATE_NOT_ACTUAL_SOURCE_ACCEPTANCE
+Source Parent: 4139a987780339c7b22c78b5c35402bb4c30ee87
+Revision: Same repaired checker/schema/test bytes; three existing directly related regressions
+test_139_qualified_text_credentials_and_decode_failures_are_rejected (__main__.TestPocProgram.test_139_qualified_text_credentials_and_decode_failures_are_rejected) ... ok
+test_141_production_android_observations_require_distinct_node_bound_artifact (__main__.TestPocProgram.test_141_production_android_observations_require_distinct_node_bound_artifact) ... ok
+test_153_encode_metrics_bound_measured_continuous_intervals (__main__.TestPocProgram.test_153_encode_metrics_bound_measured_continuous_intervals) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 83.234s
+
+OK
+
+Exit Code: 0

@@ -1,0 +1,224 @@
+{
+  "sourceParent": "8ddb9717005133ffdbc987883a79720ab32f84ff",
+  "candidateTestMethods": 172,
+  "originalMethodsUnchanged": 163,
+  "adaptedOriginalMethod": "test121 isolates the unchanged numeric-domain cases; new172 validates whole-result binding",
+  "fullCandidateRunClaimed": false,
+  "publishedSourceAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "syntheticFixturesOnly": true,
+  "runs": [
+    {
+      "path": "gz021-shape165-retention166-first-increment.txt",
+      "exitCode": 0,
+      "tests": 3,
+      "seconds": 87.391
+    },
+    {
+      "path": "gz021-recovery-timing167-first-increment.txt",
+      "exitCode": 0,
+      "tests": 3,
+      "seconds": 326.013
+    },
+    {
+      "path": "gz021-recovery-bounded168-first-increment.txt",
+      "exitCode": 0,
+      "tests": 1,
+      "seconds": 3.982
+    },
+    {
+      "path": "gz021-a380169-first-increment.txt",
+      "exitCode": 0,
+      "tests": 2,
+      "seconds": 42.943
+    },
+    {
+      "path": "gz021-a380169-shape-final-increment.txt",
+      "exitCode": 0,
+      "tests": 1,
+      "seconds": 19.079
+    },
+    {
+      "path": "gz021-access170-first-increment.txt",
+      "exitCode": 0,
+      "tests": 1,
+      "seconds": 38.52
+    },
+    {
+      "path": "gz021-access170-rate-bytes-route151-increment.txt",
+      "exitCode": 1,
+      "tests": 2,
+      "seconds": 48.059
+    },
+    {
+      "path": "gz021-access-route151-fixture-save-repair.txt",
+      "exitCode": 1,
+      "tests": 1,
+      "seconds": 27.771
+    },
+    {
+      "path": "gz021-access170-route151-url-final-increment.txt",
+      "exitCode": 0,
+      "tests": 2,
+      "seconds": 91.836
+    },
+    {
+      "path": "gz021-range171-first-increment.txt",
+      "exitCode": 1,
+      "tests": 1,
+      "seconds": 20.379
+    },
+    {
+      "path": "gz021-range171-metric-selector-etag-increment.txt",
+      "exitCode": 0,
+      "tests": 1,
+      "seconds": 66.214
+    },
+    {
+      "path": "gz021-range171-cache-alias-final-increment.txt",
+      "exitCode": 0,
+      "tests": 2,
+      "seconds": 101.127
+    },
+    {
+      "path": "gz021-range171-version-scoped-final-increment.txt",
+      "exitCode": 0,
+      "tests": 1,
+      "seconds": 71.266
+    },
+    {
+      "path": "gz021-ai-results172-domain121-first-increment.txt",
+      "exitCode": 1,
+      "tests": 2,
+      "seconds": 12.269
+    },
+    {
+      "path": "gz021-ai-results172-domain121-pricing-names-increment.txt",
+      "exitCode": 1,
+      "tests": 2,
+      "seconds": 112.951
+    },
+    {
+      "path": "gz021-ai-domain121-unit-source-final-increment.txt",
+      "exitCode": 0,
+      "tests": 1,
+      "seconds": 8.095
+    }
+  ],
+  "representation": "Canonical UTF-8 LF copies; original external physical bytes and digests retained",
+  "files": [
+    {
+      "path": "gz021-shape165-retention166-first-increment.txt",
+      "originalPhysicalSha256": "7c6fd75841a8e57579b82dbb2f0628fa1d83140460f4dadc7c947f8bdd911b15",
+      "originalPhysicalBytes": 618,
+      "canonicalLfSha256": "559e382ca465aec58e8570a25aa02f9839678b0392b4d640d19fdc5aa1d8bc95",
+      "canonicalLfBytes": 610
+    },
+    {
+      "path": "gz021-recovery-timing167-first-increment.txt",
+      "originalPhysicalSha256": "883de82d825a2c874074a19cc781295b71a7657c109281ea47653c6afefdd6fc",
+      "originalPhysicalBytes": 635,
+      "canonicalLfSha256": "6edd950195604e42e6d9e003b656ae67e78300a7f0b66275b96c2da3c91124be",
+      "canonicalLfBytes": 627
+    },
+    {
+      "path": "gz021-recovery-bounded168-first-increment.txt",
+      "originalPhysicalSha256": "ce39529eaaa7e649ce870c7b5b5c4927499ed09715f5948b26e92b2709be6239",
+      "originalPhysicalBytes": 276,
+      "canonicalLfSha256": "7d9262d3e19b6a253e0d5d7ccb4dc0cebcda64ec9ac84e1534497350ff738e09",
+      "canonicalLfBytes": 270
+    },
+    {
+      "path": "gz021-a380169-first-increment.txt",
+      "originalPhysicalSha256": "4d0a98887055fe7407f023a4f64ce6b88a81e18122bb3fbb2f59c7d7b4350d43",
+      "originalPhysicalBytes": 462,
+      "canonicalLfSha256": "1ea83489936285f70f121f54ab2caa2d29b256268b71928c4314ec2426e56cd7",
+      "canonicalLfBytes": 455
+    },
+    {
+      "path": "gz021-a380169-shape-final-increment.txt",
+      "originalPhysicalSha256": "2e7ff086f66398f5494c993a8e72abaa1695ce89bb51668f2c63fc04682433dc",
+      "originalPhysicalBytes": 293,
+      "canonicalLfSha256": "f7b3ab335768ea56726b5677155a69820d055222a1d35f733cbb7ceb1c6a107b",
+      "canonicalLfBytes": 287
+    },
+    {
+      "path": "gz021-access170-first-increment.txt",
+      "originalPhysicalSha256": "4d4effd3db1ab4090306089069bc0443b28e847719be96a39643763cf59ce2f7",
+      "originalPhysicalBytes": 295,
+      "canonicalLfSha256": "8f3cb358bbfdd0d40d28fbd77ddf749704caa0e4b57e679340fa06d20b74dc1b",
+      "canonicalLfBytes": 289
+    },
+    {
+      "path": "gz021-access170-rate-bytes-route151-increment.txt",
+      "originalPhysicalSha256": "97c3e6b55201303ade2eac4ef0106818a387bc366da774220660f87569af3d5d",
+      "originalPhysicalBytes": 1506,
+      "canonicalLfSha256": "d285b238b26b160b98f9ea1c4873f216f22732d6f7591a44877939400d5e19b3",
+      "canonicalLfBytes": 1484
+    },
+    {
+      "path": "gz021-access-route151-fixture-save-repair.txt",
+      "originalPhysicalSha256": "4e7820a7f4b53fc7d946ba64650b0aa4bb5673e2066648720249f474eefae75e",
+      "originalPhysicalBytes": 4419,
+      "canonicalLfSha256": "07744e00a5a159a51be7e64fe823cb4d970324da1b4c8ada74965d7292241d9f",
+      "canonicalLfBytes": 4380
+    },
+    {
+      "path": "gz021-access170-route151-url-final-increment.txt",
+      "originalPhysicalSha256": "eeac0d60a2663e610805187a44437b715f4d1dd9879e8513b548a7f9896d08ba",
+      "originalPhysicalBytes": 462,
+      "canonicalLfSha256": "952a8d96d0d1361c64e48a6873f60bc5f5c106ae8e29faf178cbc52fe58adfba",
+      "canonicalLfBytes": 455
+    },
+    {
+      "path": "gz021-range171-first-increment.txt",
+      "originalPhysicalSha256": "992da3f5c4b3530711005dd56fa0d0a18184a0488b3730b371087ddfe2669a90",
+      "originalPhysicalBytes": 1298,
+      "canonicalLfSha256": "8aa5e1795cea8c93a420fecb983942a6c6fb542eda39643ee394dc0a99b4d6bf",
+      "canonicalLfBytes": 1283
+    },
+    {
+      "path": "gz021-range171-metric-selector-etag-increment.txt",
+      "originalPhysicalSha256": "fc6b84f2b060f844eeda44f2d5ccc816823da02bdfbc7d651682c14b5bcff5cc",
+      "originalPhysicalBytes": 311,
+      "canonicalLfSha256": "5c0a20954726cf313f4f03b07a5cf508c381609827db9d925e1f45e6bf6a4175",
+      "canonicalLfBytes": 305
+    },
+    {
+      "path": "gz021-range171-cache-alias-final-increment.txt",
+      "originalPhysicalSha256": "60caa83a7138ca98f8f1ad2730829ea830d459543c687ce165680b38ae1229c9",
+      "originalPhysicalBytes": 495,
+      "canonicalLfSha256": "01f1f82345d88e1919d3bb0ded14dd3b404d757756994a013eaaf126672c2b91",
+      "canonicalLfBytes": 488
+    },
+    {
+      "path": "gz021-range171-version-scoped-final-increment.txt",
+      "originalPhysicalSha256": "9d83b8a18e593537ee85d91b864c8efcea1a20f2d7de05a56d9e35198877fc1a",
+      "originalPhysicalBytes": 311,
+      "canonicalLfSha256": "ad123f7ec7e53605f509d992282504996353b09b659ad6bc5ba7aa1f8eb25244",
+      "canonicalLfBytes": 305
+    },
+    {
+      "path": "gz021-ai-results172-domain121-first-increment.txt",
+      "originalPhysicalSha256": "2ab3d8cd8e0dd5d6ad667ad6c63ac6ff949ba1389c6e67d6b0374f65889fe17c",
+      "originalPhysicalBytes": 3417,
+      "canonicalLfSha256": "1f7c28ef28fb3397817fd25f2641c6aaac8060afd083025c4351e8129098f02c",
+      "canonicalLfBytes": 3373
+    },
+    {
+      "path": "gz021-ai-results172-domain121-pricing-names-increment.txt",
+      "originalPhysicalSha256": "01da85d90ec8048dc99661f0125d7340102c0662868859fff618581468ef53d0",
+      "originalPhysicalBytes": 10308,
+      "canonicalLfSha256": "93dea0506938c0b6efef98b0aefac50d61a6be460b3df6a025303042d5359091",
+      "canonicalLfBytes": 10210
+    },
+    {
+      "path": "gz021-ai-domain121-unit-source-final-increment.txt",
+      "originalPhysicalSha256": "14cc88e55dde70e294545aa4a2bcef046d49194719c47ddfff44679c0a37ee03",
+      "originalPhysicalBytes": 306,
+      "canonicalLfSha256": "2ee567e968cd29fae1f30f67bad5a4dee0089cda764438ce8d7f29c4d68027cc",
+      "canonicalLfBytes": 300
+    }
+  ]
+}

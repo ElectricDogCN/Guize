@@ -1,0 +1,8 @@
+{
+  "stage": "Independent capture logging only",
+  "error": "UnicodeDecodeError: utf-8 cannot decode byte0xc0 at position10 from stderr",
+  "actualTestExitCode": null,
+  "sourceChanged": false,
+  "full24551Restarted": false,
+  "nextAction": "Retain binary stdout/stderr and recapture same single test; no fullsuite rerun"
+}

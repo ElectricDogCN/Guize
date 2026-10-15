@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "sourceParent": "35d53f020274eff14ccd74a3f132af4e989f12c8",
+  "representation": "zlib-base64 exact original physical bytes; ASCII LF wrapper; no UTF8 relabeling",
+  "testMethodCount": 198,
+  "codeHashes": {
+    "check_program.py": "a8417ceb69de2d90dd324ce37f76eb6b1ad0b857790106c427a758580d27a519",
+    "program.schema.yaml": "37719e634f02cf87b92d1aca0f3d93b4e3977aaa22dbf134b7285a7278c18133",
+    "test_program.py": "e68e33b1706859c1efddf90e8938c82323d2098a8dfec168672dbdfe9617a5c2"
+  },
+  "parent162186NecessaryPurposeCompatibilityAccepted": true,
+  "actualSeparateTargetedMethods": [
+    162,
+    186,
+    194
+  ],
+  "targetedSeconds": 215.648,
+  "targetedExitCode": 0,
+  "acceptedContentAndExecutionProofSha256": "87374296d848e3d13ac2dc3002780fa0d441bd1363dcee59154575b5a95ca75e",
+  "earlierThreeRepairTargetedResultsRemainSeparate": true,
+  "parentComplete195FailureNotOverridden": true,
+  "whole198Passed": false,
+  "publishedSuccessorOwnFull20Accepted": false,
+  "publishedSuccessorOwnCiAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "files": [
+    {
+      "originalName": "gz021-three-parent162186194-first-increment.json",
+      "path": "gz021-three-parent162186194-first-increment.json.zlib.b64",
+      "originalPhysicalSha256": "9baf878adf5672e85e642b58ee0d25672c5fe782b15e5fbd8fe7858d200de94d",
+      "originalPhysicalBytes": 1487,
+      "packedSha256": "0fc44ed2d813520eec72bb73f42ae5ccc90845a77d1ad72165852d1765fa8e03",
+      "packedBytes": 969
+    },
+    {
+      "originalName": "gz021-three-parent162186194-first-increment.txt",
+      "path": "gz021-three-parent162186194-first-increment.txt.zlib.b64",
+      "originalPhysicalSha256": "7a4898691096b8b23049f9b7a6a0c8f82ded744425af47dc4f75d5a0aceb7805",
+      "originalPhysicalBytes": 1455,
+      "packedSha256": "94e730eafbfdc6b8c6a1b20062e509b8412c0632b1cdbd264fb8a586e1f933aa",
+      "packedBytes": 835
+    },
+    {
+      "originalName": "gz021-independent-three-parent162186194-content-and-targeted-review.json",
+      "path": "gz021-independent-three-parent162186194-content-and-targeted-review.json.zlib.b64",
+      "originalPhysicalSha256": "87374296d848e3d13ac2dc3002780fa0d441bd1363dcee59154575b5a95ca75e",
+      "originalPhysicalBytes": 3632,
+      "packedSha256": "ba61644861f9734fee8a973247b2026ebbe56fd67395337a1f147e23b4baff72",
+      "packedBytes": 2298
+    },
+    {
+      "originalName": "gz021-independent-three-parent35d-history-archive-helper-preparation.json",
+      "path": "gz021-independent-three-parent35d-history-archive-helper-preparation.json.zlib.b64",
+      "originalPhysicalSha256": "7ed66ad505aa1acc50f35b83491ca783c81ac6ec946be1779a1ab46a2fdc0ffa",
+      "originalPhysicalBytes": 6005,
+      "packedSha256": "40e36b6a2f3902d6a0da635c76628f9b0f3d91cff3b76a7c8f0f3a9dcbcd8c3c",
+      "packedBytes": 3603
+    },
+    {
+      "originalName": "gz021-independent-35d53f0-terminal-failure-receiver-first-preparation-rejection.json",
+      "path": "gz021-independent-35d53f0-terminal-failure-receiver-first-preparation-rejection.json.zlib.b64",
+      "originalPhysicalSha256": "9cb1a2f66c8fb400a329f5c0a259a9b1261ff06baaee836aef6f2f4bf14ade99",
+      "originalPhysicalBytes": 2699,
+      "packedSha256": "84b0d1738bbf95287b55fc8bb48b7d8bae96bf557aa644bf1a474bf535f816bf",
+      "packedBytes": 1873
+    },
+    {
+      "originalName": "gz021-independent-35d53f0-terminal-failure-receiver-preparation.json",
+      "path": "gz021-independent-35d53f0-terminal-failure-receiver-preparation.json.zlib.b64",
+      "originalPhysicalSha256": "dad4345ed414450d719bf76cded0bf6f92fbe4c711f09e079fe6bcb64e45e471",
+      "originalPhysicalBytes": 1883,
+      "packedSha256": "44d7a514895535ef0dcd8aab2667ae7ccda62069371cf92653b52017a8ea2ff0",
+      "packedBytes": 1399
+    }
+  ]
+}

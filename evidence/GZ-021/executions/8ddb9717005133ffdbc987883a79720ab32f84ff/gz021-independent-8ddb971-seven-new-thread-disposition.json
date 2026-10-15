@@ -1,0 +1,165 @@
+{
+  "actualSource": "8ddb9717005133ffdbc987883a79720ab32f84ff",
+  "actualTree": "ebeecc5d098f5c379694bdeb9cd315b2e90fd16f",
+  "soleParent": "4139a987780339c7b22c78b5c35402bb4c30ee87",
+  "baseMain": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "capturedAt": "2026-10-13T19:43:02.216444+00:00",
+  "finiteScope": "Only seven new comments plus parent-requested actual146 regression; no broader POC/runtime audit",
+  "officialThreads": {
+    "path": "gz021-independent-8ddb971-seven-new-thread-snapshot.json",
+    "sha256": "26308731446eaac1f8405c1d83315f80b4592168da26cae1ca8e5c2b0a5cb577"
+  },
+  "officialPR": {
+    "path": "gz021-independent-8ddb971-seven-opinion-pr-snapshot.json",
+    "sha256": "87eac276f46cb1b79c62a19ab07bec8c8d6ca7dabc5548ab5acc0ad2684f5834"
+  },
+  "actualIdentity": {
+    "path": "gz021-independent-8ddb971-seven-opinion-identity.json",
+    "sha256": "05bf745595751259a3a7fed7d60da58a37ab9798c503fd543094a42cdf9ca75c"
+  },
+  "counterexamples": {
+    "path": "gz021-independent-8ddb971-seven-new-thread-counterexamples.json",
+    "sha256": "9847c00cef8565ce4abc6782520b8a5c1a91f3f15d03294ac7d0b06b81c3c8ba"
+  },
+  "counterProbeRaw": {
+    "path": "gz021-independent-8ddb-seven-probe-raw.txt",
+    "sha256": "4ab0584fd7a44c231002b9b8b44b0b2f9bb9877d6dae03c8c81d369793f76c5e"
+  },
+  "classifications": [
+    {
+      "suffix": "R7",
+      "classification": "EXECUTION_PREREQUISITE_WITH_INCORRECT_SOURCE_REFERENCE",
+      "materialCodeDefect": false,
+      "codeEvidence": [
+        "Official PR head is actual8ddb, baseD7, actual commit treeEBee/soleparent4139.",
+        "Comment object 1cbaa532f1614543e6857dae99e645cf4a1c8d69 is absent in local object database (exit128) and official Git commit endpoint returns404.",
+        "summary.md preparation PENDING does not claim actual-source full PASS."
+      ],
+      "minimumRepair": "Do not validate/restart an unrelated SHA. Independently accept only actual8ddb terminal native20 and same-headCI704, persist executed commands/raw/JUnit/clean identity in durable PR handoff. If actual native fails, preserve failure and verify a published successor with its own results. No self-SHA evidence rewrite required.",
+      "resolveEligible": false,
+      "threadId": "PRRT_kwDOTgCQ3c6sBrR7"
+    },
+    {
+      "suffix": "SC",
+      "classification": "MATERIAL",
+      "materialCodeDefect": true,
+      "codeEvidence": [
+        "specs/poc/check_program.py:1379-1396 binds only inference subject/input/count/elapsed and throughput. Numeric domains bound values but do not constitute observed quality/cost results.",
+        "Frozen POC009 measurements require benchmark/relevance judgements/token usage and permission/ACL/budget/quota denial observations."
+      ],
+      "counter": "sBrSC",
+      "minimumRepair": "Append an owned qualified-only result report definition/ref. Bind exact approved sample/query/corpus IDs, complete model/prompt/parameter/runtime/tools subject, configuration and selected-slot retained outputs. Cover exact plan metric/gate IDs. Reconcile quality/retrieval/ASR/OCR/translation values with retained rubric/outcome rows and pricing/usage with cost; retain explicit permission/ACL/budget/quota request-outcome rows supporting booleans. Do not replace approved metric domains with invented thresholds or require real provider execution now.",
+      "resolveEligible": false,
+      "threadId": "PRRT_kwDOTgCQ3c6sBrSC"
+    },
+    {
+      "suffix": "SG",
+      "classification": "MATERIAL",
+      "materialCodeDefect": true,
+      "codeEvidence": [
+        "specs/poc/check_program.py:1486-1555 verifies recovery reports and exact18boolean comparisons; none derives six numeric seconds from controlled business timestamps.",
+        "Frozen POC010 requires controlled backup/recovery timestamps, end-to-end RTO and separate service/VM/authenticated-core-browsing/playback times."
+      ],
+      "counter": "sBrSG",
+      "minimumRepair": "Add a selected-slot typed timing witness linked to the same approved baseline/restored/comparison/resource/tool/input identities. Retain controlled backup checkpoint and recoverable-data boundary for RPO; recovery start and defined end-to-end-ready event for RTO; explicit service-ready, VM-set-ready, authenticated-browsing-success and authorized-playback-success events for separate times. Bind seconds to those business endpoints and retained raw event refs, ordered valid UTC and execution scope where applicable. Do not use generic report capture duration as RPO/RTO, require all six times identical, or invent SLA thresholds. Preserve legitimate zero RPO and diagnostic FAIL/inconclusive observations.",
+      "resolveEligible": false,
+      "threadId": "PRRT_kwDOTgCQ3c6sBrSG"
+    },
+    {
+      "suffix": "SM",
+      "classification": "MATERIAL",
+      "materialCodeDefect": true,
+      "codeEvidence": [
+        "Qualified POC003 currently checks numeric100/boolean values, raw reference ownership/hash and declarations, without parsed request/response byte cases.",
+        "Frozen plan retains Range/ETag/If-Range/Slice/invalidation/interruption/partial-cache and ACL cache-isolation methods."
+      ],
+      "counter": "sBrSM",
+      "minimumRepair": "Append a qualified-only selected-slot Range case matrix keyed to approved input bytes/source/version and captured path. Retain request Range/If-Range/ETag identities, observed status/headers, actual response byte artifacts/hash, cache/source-update and interrupted/recovered cases. Compute each existing metric/gate from exact required cases and actual input/response slice equality; no frozen-plan edits or new performance threshold.",
+      "resolveEligible": false,
+      "threadId": "PRRT_kwDOTgCQ3c6sBrSM"
+    },
+    {
+      "suffix": "SR",
+      "classification": "MATERIAL",
+      "materialCodeDefect": true,
+      "codeEvidence": [
+        "Qualified POC007 typed local TLS route validates configuration grammar/identity but does not retain parsed access request outcomes for its true gates.",
+        "Local and production frozen methods explicitly demand authorization/expiry/cross-user cache/rate-limit denial without protected payload."
+      ],
+      "counter": "sBrSR",
+      "minimumRepair": "Append qualified-only selected-slot access outcome matrix. Bind subject/grant/asset/current ACL/path/config/sample, request/status and actual returned-byte artifact; cover authorized, unauthorized, expired, cross-user, rate-limit cases plus local direct-origin case exactly where the existing route requires. Derive true gates from expected denial/status and zero protected bytes, approved throttling configuration, authorized byte comparison. Keep local VM/isolated path independent of production IPv6/CDN obligations.",
+      "resolveEligible": false,
+      "threadId": "PRRT_kwDOTgCQ3c6sBrSR"
+    },
+    {
+      "suffix": "SV",
+      "classification": "MATERIAL_PRODUCTION_ONLY",
+      "materialCodeDefect": true,
+      "codeEvidence": [
+        "Frozen production POC002 title is A380 AV1/H264 quality/concurrency/first-segment and includes RES-A380-ENCODE plus RES-HETEROGENEOUS-WORKERS.",
+        "a380_range_first_byte_latency method expressly uses recorded A380 encoder path; power/temperature methods require device/host telemetry sampling tool/version/workload phase.",
+        "specs/poc/check_program.py:1177+ validates platform/build/group/media runs, but tested production CPU_ONLY/nonIntel resource config still accepts A380 measurement claims."
+      ],
+      "counter": "sBrSV",
+      "minimumRepair": "For qualified production PASS only, bind concrete Intel Arc A380 device/physical host/driver/runtime/encoder build to exact approved RES-A380-ENCODE configuration and designated inventory/run/output. Bind first-byte request to produced media path and retained typed telemetry to the same device/host, sampling tool/version, workload phase and interval. Retain other heterogeneous workers and existing bounds. This does not add ESXi6.7 to POC002 if its frozen plan does not require it, affect local VM route, or require production POC execution at GZ021 design acceptance.",
+      "resolveEligible": false,
+      "threadId": "PRRT_kwDOTgCQ3c6sBrSV"
+    },
+    {
+      "suffix": "SZ",
+      "classification": "MATERIAL",
+      "materialCodeDefect": true,
+      "codeEvidence": [
+        "program.schema.yaml retention.scheduledAt has date-time annotation but validate_schema does not enable format checker.",
+        "validate_recovery_state:1422+ compares computed parsed-state domains but does not call UTC parser for retention scheduledAt."
+      ],
+      "counter": "sBrSZ",
+      "minimumRepair": "Call existing utc() for every retained retention.scheduledAt in each baseline/restored typed state manifest and reject malformed/non-UTC values. Preserve parsed equality/domain checks and legitimate future scheduled policy dates; do not add global schema format enforcement or invented time ordering.",
+      "resolveEligible": false,
+      "threadId": "PRRT_kwDOTgCQ3c6sBrSZ"
+    }
+  ],
+  "localValidationRegression": {
+    "classification": "MATERIAL_LOCAL_VALIDATION_REGRESSION",
+    "path": "specs/poc/check_program.py",
+    "lines": [
+      1242,
+      1243
+    ],
+    "counterexample": {
+      "path": "gz021-independent-8ddb971-local146-regression-counterexample.json",
+      "sha256": "97c05b7b5b668495a488e822e674800f3b032db5e2e3a28d81aed3292c5433d0"
+    },
+    "actual": "Valid local POC002 fixture beforeErrors=[]; original146 scheduler_configuration=True then uncaught AttributeError bool has no attribute get.",
+    "minimumRepair": "Require isinstance(caps,dict) before caps.get; append validation error for invalid shape and skip cap extraction. Preserve original146 AST/negative inputs and typed capture rejection. No test fixture weakening.",
+    "terminalSourceExecutionAccepted": false
+  },
+  "materialThreadCount": 6,
+  "executionPrerequisiteThreadCount": 1,
+  "mustFix": [
+    "PRRT_kwDOTgCQ3c6sBrSC",
+    "PRRT_kwDOTgCQ3c6sBrSG",
+    "PRRT_kwDOTgCQ3c6sBrSM",
+    "PRRT_kwDOTgCQ3c6sBrSR",
+    "PRRT_kwDOTgCQ3c6sBrSV",
+    "PRRT_kwDOTgCQ3c6sBrSZ",
+    "localValidationRegression146"
+  ],
+  "initialProbeAttempts": {
+    "qualityScore100": "Existing domain correctly rejected; not counted as accepted counterexample. Corrected to domain-valid1; six final mutations accepted.",
+    "firstProbeInterrupted": "External probe printing bool measurements used nonexistent measurement.unit and raised KeyError after SC/SG; corrected reporter only, tested source untouched."
+  },
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "threadsResolvedByReviewer": false,
+  "fullSuiteRerun": false,
+  "testedTreesEdited": false,
+  "nativeTerminalAccepted": false,
+  "ciExecutionAcceptedByThisProof": false,
+  "sourceExecutionReceiptSeparate": true
+}

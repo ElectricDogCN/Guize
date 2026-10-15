@@ -1,5 +1,5 @@
 $schema: traceability.schema.yaml
-schemaVersion: 1
+schemaVersion: 2
 contractId: ACCEPTANCE-TRACE-V1
 status: frozen
 authority:
@@ -7,119 +7,404 @@ authority:
   acceptance: specs/acceptance/requirements/acceptance.yaml
   programPlan: specs/coordination/program-plan.yaml
   moduleOwnership: specs/designs/module-ownership.yaml
-supplementPolicy: acceptanceIds/pocIds/downstreamTasks preserve requirements-index.yaml exactly; programAcceptanceIds/programPocIds expose Program Plan supplements, and programTaskMappingConflicts records exact Index-to-Program task asymmetries without rewriting either authority.
+supplementPolicy: acceptanceIds/pocIds/downstreamTasks preserve requirements-index.yaml exactly; programAcceptanceIds/programPocIds
+  expose Program Plan supplements, and programTaskMappingConflicts records exact Index-to-Program task asymmetries without
+  rewriting either authority.
 producedContracts:
 - REQ-V1
 - NFR-V1
 - ACCEPTANCE-TRACE-V1
 requirements:
 - requirementId: REQ-V1-0001
-  moduleIds: [MOD-CONNECTOR, MOD-PLATFORM, MOD-SOURCE, MOD-TASK]
-  workPackages: [WP-M1-03, WP-M1-04, WP-M2-07, WP-M5-08]
-  acceptanceIds: [ACCEPT-SOURCE-SYNC, ACCEPT-CONNECTOR-CONTRACT]
+  moduleIds:
+  - MOD-CONNECTOR
+  - MOD-PLATFORM
+  - MOD-SOURCE
+  - MOD-TASK
+  workPackages:
+  - WP-M1-03
+  - WP-M1-04
+  - WP-M2-07
+  - WP-M5-08
+  acceptanceIds:
+  - ACCEPT-SOURCE-SYNC
+  - ACCEPT-CONNECTOR-CONTRACT
   programAcceptanceIds: []
-  pocIds: [POC-05, POC-06]
-  programPocIds: [POC-05, POC-06]
+  pocIds:
+  - POC-05
+  - POC-06
+  programPocIds:
+  - POC-05
+  - POC-06
   otherBlockers: []
-  downstreamTasks: [GZ-004, GZ-005, GZ-006, POC-005, POC-006]
+  downstreamTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - POC-005
+  - POC-006
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0002
-  moduleIds: [MOD-ASSET, MOD-PLATFORM, MOD-SOURCE]
-  workPackages: [WP-M1-02]
-  acceptanceIds: [验收V1-0001]
+  moduleIds:
+  - MOD-ASSET
+  - MOD-PLATFORM
+  - MOD-SOURCE
+  workPackages:
+  - WP-M1-02
+  acceptanceIds:
+  - 验收V1-0001
   programAcceptanceIds: []
   pocIds: []
-  programPocIds: [POC-05]
-  otherBlockers: [GZ-004, GZ-005, GZ-006, GZ-007]
-  downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-012]
+  programPocIds:
+  - POC-05
+  otherBlockers:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  downstreamTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-012
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0003
-  moduleIds: [MOD-ASSET, MOD-EDGE, MOD-IAM, MOD-MEDIA, MOD-PLAYER, MOD-STORAGE]
-  workPackages: [WP-M1-05, WP-M1-06, WP-M1-07, WP-M3-03]
-  acceptanceIds: [验收V1-0002, 验收V1-0003, 验收V1-0006]
-  programAcceptanceIds: [验收V1-0005]
-  pocIds: [POC-01, POC-02, POC-03, POC-07]
-  programPocIds: [POC-01, POC-02, POC-03, POC-07]
+  moduleIds:
+  - MOD-ASSET
+  - MOD-EDGE
+  - MOD-IAM
+  - MOD-MEDIA
+  - MOD-PLAYER
+  - MOD-STORAGE
+  workPackages:
+  - WP-M1-05
+  - WP-M1-06
+  - WP-M1-07
+  - WP-M3-03
+  acceptanceIds:
+  - 验收V1-0002
+  - 验收V1-0003
+  - 验收V1-0006
+  programAcceptanceIds:
+  - 验收V1-0005
+  pocIds:
+  - POC-01
+  - POC-02
+  - POC-03
+  - POC-07
+  programPocIds:
+  - POC-01
+  - POC-02
+  - POC-03
+  - POC-07
   otherBlockers: []
-  downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-001, POC-002, POC-003, POC-007]
-  programTaskMappingConflicts: [GZ-006]
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  downstreamTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-009
+  - POC-001
+  - POC-002
+  - POC-003
+  - POC-007
+  programTaskMappingConflicts:
+  - GZ-006
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0004
-  moduleIds: [MOD-AI, MOD-STORAGE, MOD-TASK]
-  workPackages: [WP-M3-04, WP-M3-05, WP-M3-06, WP-M3-07]
-  acceptanceIds: [验收V1-0007]
+  moduleIds:
+  - MOD-AI
+  - MOD-STORAGE
+  - MOD-TASK
+  workPackages:
+  - WP-M3-04
+  - WP-M3-05
+  - WP-M3-06
+  - WP-M3-07
+  acceptanceIds:
+  - 验收V1-0007
   programAcceptanceIds: []
-  pocIds: [POC-09]
-  programPocIds: [POC-09]
-  otherBlockers: [GZ-011]
-  downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008, GZ-009, POC-009]
+  pocIds:
+  - POC-09
+  programPocIds:
+  - POC-09
+  otherBlockers:
+  - GZ-011
+  downstreamTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-009
+  - POC-009
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0005
-  moduleIds: [MOD-ASSET, MOD-IAM, MOD-SEARCH]
-  workPackages: [WP-M4-01, WP-M4-02, WP-M4-03, WP-M4-04, WP-M4-05, WP-M4-06]
-  acceptanceIds: [验收V1-0008]
+  moduleIds:
+  - MOD-ASSET
+  - MOD-IAM
+  - MOD-SEARCH
+  workPackages:
+  - WP-M4-01
+  - WP-M4-02
+  - WP-M4-03
+  - WP-M4-04
+  - WP-M4-05
+  - WP-M4-06
+  acceptanceIds:
+  - 验收V1-0008
   programAcceptanceIds: []
-  pocIds: [POC-09]
-  programPocIds: [POC-09]
-  otherBlockers: [GZ-011]
-  downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-009]
+  pocIds:
+  - POC-09
+  programPocIds:
+  - POC-09
+  otherBlockers:
+  - GZ-011
+  downstreamTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-009
+  - POC-009
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0006
-  moduleIds: [MOD-DATA, MOD-STORAGE, MOD-TASK]
-  workPackages: [WP-M2-01, WP-M2-03, WP-M2-04, WP-M2-05, WP-M2-06]
-  acceptanceIds: [验收V1-0004, 验收V1-0011]
+  moduleIds:
+  - MOD-DATA
+  - MOD-STORAGE
+  - MOD-TASK
+  workPackages:
+  - WP-M2-01
+  - WP-M2-03
+  - WP-M2-04
+  - WP-M2-05
+  - WP-M2-06
+  acceptanceIds:
+  - 验收V1-0004
+  - 验收V1-0011
   programAcceptanceIds: []
-  pocIds: [POC-04, POC-10]
-  programPocIds: [POC-04, POC-10]
+  pocIds:
+  - POC-04
+  - POC-10
+  programPocIds:
+  - POC-04
+  - POC-10
   otherBlockers: []
-  downstreamTasks: [GZ-004, GZ-006, GZ-007, GZ-008, POC-004, POC-010]
+  downstreamTasks:
+  - GZ-004
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - POC-004
+  - POC-010
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0007
-  moduleIds: [MOD-PLATFORM, MOD-POLICY, MOD-TASK, MOD-WORKER]
-  workPackages: [WP-M1-08, WP-M5-02, WP-M5-03]
-  acceptanceIds: [验收V1-0009, 验收V1-0010]
+  moduleIds:
+  - MOD-PLATFORM
+  - MOD-POLICY
+  - MOD-TASK
+  - MOD-WORKER
+  workPackages:
+  - WP-M1-08
+  - WP-M5-02
+  - WP-M5-03
+  acceptanceIds:
+  - 验收V1-0009
+  - 验收V1-0010
   programAcceptanceIds: []
   pocIds: []
   programPocIds: []
-  otherBlockers: [GZ-005, GZ-006, GZ-007, GZ-008]
-  downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008]
+  otherBlockers:
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  downstreamTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0008
-  moduleIds: [MOD-AUDIT, MOD-EDGE, MOD-IAM]
-  workPackages: [WP-M1-01, WP-M5-07]
-  acceptanceIds: [验收V1-0002]
+  moduleIds:
+  - MOD-AUDIT
+  - MOD-EDGE
+  - MOD-IAM
+  workPackages:
+  - WP-M1-01
+  - WP-M5-07
+  acceptanceIds:
+  - 验收V1-0002
   programAcceptanceIds: []
-  pocIds: [POC-03, POC-07, POC-09]
-  programPocIds: [POC-03, POC-07, POC-09]
-  otherBlockers: [GZ-004, GZ-005, GZ-006, GZ-007]
-  downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-009, POC-003, POC-007, POC-009]
+  pocIds:
+  - POC-03
+  - POC-07
+  - POC-09
+  programPocIds:
+  - POC-03
+  - POC-07
+  - POC-09
+  otherBlockers:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  downstreamTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-009
+  - POC-003
+  - POC-007
+  - POC-009
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0009
-  moduleIds: [MOD-CLI, MOD-CONFIG, MOD-DEPLOY, MOD-POLICY]
-  workPackages: [WP-M5-01, WP-M5-04, WP-M5-06]
-  acceptanceIds: [验收V1-0012]
+  moduleIds:
+  - MOD-CLI
+  - MOD-CONFIG
+  - MOD-DEPLOY
+  - MOD-POLICY
+  workPackages:
+  - WP-M5-01
+  - WP-M5-04
+  - WP-M5-06
+  acceptanceIds:
+  - 验收V1-0012
   programAcceptanceIds: []
   pocIds: []
-  programPocIds: [POC-08]
-  otherBlockers: [GZ-005, GZ-006, GZ-007, GZ-008, GZ-009]
-  downstreamTasks: [GZ-004, GZ-005, GZ-006, GZ-007, GZ-008, GZ-009, POC-008]
+  programPocIds:
+  - POC-08
+  otherBlockers:
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-009
+  downstreamTasks:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-009
+  - POC-008
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
 - requirementId: REQ-V1-0010
-  moduleIds: [MOD-AUDIT, MOD-DATA, MOD-DEPLOY, MOD-GOV, MOD-OBS]
-  workPackages: [WP-M5-05, WP-M5-06, WP-M5-07, WP-M6-RC]
-  acceptanceIds: [验收V1-0011, 验收V1-0012]
+  moduleIds:
+  - MOD-AUDIT
+  - MOD-DATA
+  - MOD-DEPLOY
+  - MOD-GOV
+  - MOD-OBS
+  workPackages:
+  - WP-M5-05
+  - WP-M5-06
+  - WP-M5-07
+  - WP-M6-RC
+  acceptanceIds:
+  - 验收V1-0011
+  - 验收V1-0012
   programAcceptanceIds: []
-  pocIds: [POC-04, POC-10]
-  programPocIds: [POC-04, POC-10]
-  otherBlockers: [BRANCH-PROTECTION]
-  downstreamTasks: [GZ-004, GZ-006, GZ-007, GZ-008, GZ-010, GZ-011, GZ-012, POC-004, POC-010, GZ-020]
+  pocIds:
+  - POC-04
+  - POC-10
+  programPocIds:
+  - POC-04
+  - POC-10
+  otherBlockers:
+  - BRANCH-PROTECTION
+  downstreamTasks:
+  - GZ-004
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-010
+  - GZ-011
+  - GZ-012
+  - POC-004
+  - POC-010
+  - GZ-020
   programTaskMappingConflicts: []
-  producedContracts: [REQ-V1, NFR-V1, ACCEPTANCE-TRACE-V1]
+  producedContracts:
+  - REQ-V1
+  - NFR-V1
+  - ACCEPTANCE-TRACE-V1
+acceptanceProfileBinding:
+  revision: 1
+  authorityTask: GZ-021
+  decisionRef: adr/0015-heterogeneous-av1-workers-and-local-storage-validation.md
+  profiles:
+  - id: local-v1
+    version: 1
+    scope: LOCAL_FULL_V1
+    milestoneTask: GZ-018
+    canSatisfyProductionGate: false
+    requirementIds: &id001
+    - REQ-V1-0001
+    - REQ-V1-0002
+    - REQ-V1-0003
+    - REQ-V1-0004
+    - REQ-V1-0005
+    - REQ-V1-0006
+    - REQ-V1-0007
+    - REQ-V1-0008
+    - REQ-V1-0009
+    - REQ-V1-0010
+    acceptanceIds: &id002
+    - 验收V1-0001
+    - 验收V1-0002
+    - 验收V1-0003
+    - 验收V1-0004
+    - 验收V1-0005
+    - 验收V1-0006
+    - 验收V1-0007
+    - 验收V1-0008
+    - 验收V1-0009
+    - 验收V1-0010
+    - 验收V1-0011
+    - 验收V1-0012
+  - id: production
+    version: 1
+    scope: PRODUCTION_RELEASE
+    milestoneTask: GZ-020
+    canSatisfyProductionGate: true
+    requirementIds: *id001
+    acceptanceIds: *id002

@@ -177,7 +177,7 @@ tasks:
     producesContracts: [WORKFLOW-CONTRACT-V1, POLICY-CONTRACT-V1, WORKER-CONTRACT-V1, PLUGIN-CONTRACT-V1]
     consumesContracts: [REQ-V1, OPENAPI-V1, EVENT-CATALOG-V1, DATA-SCHEMA-V1]
     branchPattern: "chore/GZ-008-*"
-    exitGate: "Workflow/Activity、Retry/Timeout/Heartbeat/Cancellation、LiteFlow Node/Chain/EL 和 Worker 权限边界可校验"
+    exitGate: Workflow/Activity、Retry/Timeout/Heartbeat/Cancellation、LiteFlow Node/Chain/EL 和 Worker 权限边界可校验；异构执行协议还须版本化能力与执行组、资源上限、受限输入输出引用、分片任务领取/续租/尝试编号/fencing、取消和结果验证；机器身份心跳租约不等于分片执行租约；保留归泽P0-P8语义及API/事件/数据权威边界。
   - <<: *normal
     taskId: GZ-009
     status: planned
@@ -234,7 +234,8 @@ tasks:
     pocIds: [POC-01]
     issue: null
     branchPattern: "chore/POC-001-*"
-    exitGate: "POC-01 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+    exitGate: POC-01 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 异构 worker 能力准入 profile：实际工具/编码探测、资源边界、离线与重启恢复；一主机两进程不冒称跨物理机，手机实际温升/电源/后台生存性及旧
+      A380/ESXi 直通保留未测生产义务。
   - <<: *poc
     taskId: POC-002
     status: planned
@@ -247,7 +248,8 @@ tasks:
     producesContracts: [POC-02-EVIDENCE]
     pocIds: [POC-02]
     branchPattern: "chore/POC-002-*"
-    exitGate: "POC-02 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+    exitGate: POC-02 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 Windows/Linux worker 并行 AV1、连续 HLS 时间轴/init/av1C、质量/首片/吞吐、输入版本和过期尝试拒绝
+      profile；旧 A380 专用质量/功耗/温度测量单列，不以编码器枚举或本地结果冒称硬件验证。
   - <<: *poc
     taskId: POC-003
     status: planned
@@ -277,7 +279,8 @@ tasks:
     producesContracts: [POC-04-EVIDENCE]
     pocIds: [POC-04]
     branchPattern: "chore/POC-004-*"
-    exitGate: "POC-04 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+    exitGate: POC-04 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 本地 OpenList 来源与独立本地产物存储 profile：真实认证读取/Range/哈希、空间水位、正式副本验证、断连/恢复；原
+      TrueNAS/iSCSI 与生产 500GB 水位约束保留，测试容量参数不能降低生产水位。
   - <<: *poc
     taskId: POC-005
     status: planned
@@ -293,7 +296,8 @@ tasks:
     producesContracts: [POC-05-EVIDENCE]
     pocIds: [POC-05]
     branchPattern: "chore/POC-005-*"
-    exitGate: "POC-05 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+    exitGate: POC-05 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 OpenList 与固定合成目录规模 profile，实际记录文件数/目录深度/增量扫描/版本/限流和故障；原约700TB生产规模及真实提供方
+      API 配额继续待测，合成样本不冒称真实规模。
   - <<: *poc
     taskId: POC-006
     status: planned
@@ -309,7 +313,7 @@ tasks:
     producesContracts: [POC-06-EVIDENCE]
     pocIds: [POC-06]
     branchPattern: "chore/POC-006-*"
-    exitGate: "POC-06 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+    exitGate: POC-06 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 通用 WebDAV/OpenList 接入与可复现协议故障 profile，验证鉴权/限流/断连/幂等同步/源删除保留资产；百度生产接入按用户决定后置，原合法性/隐私/许可证与真实云盘互通义务保留，不将模拟测试标为百度成功。
   - <<: *poc
     taskId: POC-007
     status: planned
@@ -325,7 +329,7 @@ tasks:
     producesContracts: [POC-07-EVIDENCE]
     pocIds: [POC-07]
     branchPattern: "chore/POC-007-*"
-    exitGate: "POC-07 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚"
+    exitGate: POC-07 具有可复现环境、命令、原始结果、失败限制、退出决策与回滚；新增 local-v1 受控播放入口与缓存鉴权/撤权/Range/TLS客户端验证 profile；公网 IPv6/DDNS/Tunnel/CDN/大文件实测保留未来生产义务，回环网络不冒称公网通过。
   - <<: *poc
     taskId: POC-008
     status: planned
@@ -453,7 +457,7 @@ tasks:
     consumesContracts: [WORKFLOW-CONTRACT-V1, ACCEPTANCE-SUITE-V1, QUALITY-THRESHOLDS-V1, POC-01-EVIDENCE, POC-02-EVIDENCE, POC-09-EVIDENCE]
     acceptanceIds: [验收V1-0005, 验收V1-0006, 验收V1-0007]
     branchPattern: "chore/GZ-016-*"
-    exitGate: "AV1/ABR/临时 H.264 与 ASR/OCR/VLM/翻译/摘要/标签可恢复执行并通过固定样本"
+    exitGate: AV1/ABR/临时 H.264 与 ASR/OCR/VLM/翻译/摘要/标签可恢复执行并通过固定样本；按已批准 local-v1 profile 实际接入独立 Windows/Linux worker、OpenList 源、HLS连续播放/跳转/兼容回退、P0播放/P3预热/P6后台、租约重派与迟到结果拒绝、热缓存鉴权和全部媒体/AI固定样本；物理多机/手机和生产硬件性能分别实测，不能以模拟成功代替。
   - <<: *vertical
     taskId: GZ-017
     status: planned
@@ -476,14 +480,71 @@ tasks:
     workPackage: WP-M5
     coordinationGroup: gz-018
     wave: W16
-    dependsOn: [GZ-015, GZ-016, GZ-017, POC-010]
-    requirementIds: [REQ-V1-0007, REQ-V1-0009, REQ-V1-0010]
-    moduleIds: [MOD-POLICY, MOD-CONFIG, MOD-OBS, MOD-DEPLOY, MOD-CLI, MOD-GOV, MOD-WORKER]
+    dependsOn:
+    - GZ-015
+    - GZ-016
+    - GZ-017
+    - POC-010
+    - GZ-019
+    requirementIds:
+    - REQ-V1-0001
+    - REQ-V1-0002
+    - REQ-V1-0003
+    - REQ-V1-0004
+    - REQ-V1-0005
+    - REQ-V1-0006
+    - REQ-V1-0007
+    - REQ-V1-0008
+    - REQ-V1-0009
+    - REQ-V1-0010
+    moduleIds:
+    - MOD-GOV
+    - MOD-PLATFORM
+    - MOD-IAM
+    - MOD-SOURCE
+    - MOD-ASSET
+    - MOD-TASK
+    - MOD-STORAGE
+    - MOD-MEDIA
+    - MOD-AI
+    - MOD-SEARCH
+    - MOD-POLICY
+    - MOD-CONFIG
+    - MOD-AUDIT
+    - MOD-OBS
+    - MOD-CONNECTOR
+    - MOD-WORKER
+    - MOD-PLAYER
+    - MOD-EDGE
+    - MOD-DATA
+    - MOD-DEPLOY
+    - MOD-CLI
     outputPaths: ["backend/guize-rule-policy/**", "backend/guize-configuration-center/**", "backend/guize-observability/**", "observability/**", "deployment/**", "infrastructure/**", "guizectl/**", "tests/e2e/m5/**", "evidence/GZ-018/**"]
-    consumesContracts: [POLICY-CONTRACT-V1, WORKER-CONTRACT-V1, ACCEPTANCE-SUITE-V1, POC-10-EVIDENCE]
-    acceptanceIds: [验收V1-0009, 验收V1-0010, 验收V1-0012]
+    consumesContracts:
+    - POLICY-CONTRACT-V1
+    - WORKER-CONTRACT-V1
+    - ACCEPTANCE-SUITE-V1
+    - POC-10-EVIDENCE
+    - REQ-V1
+    - NFR-V1
+    - OPENAPI-V1
+    - QUALITY-THRESHOLDS-V1
+    acceptanceIds:
+    - 验收V1-0001
+    - 验收V1-0002
+    - 验收V1-0003
+    - 验收V1-0004
+    - 验收V1-0005
+    - 验收V1-0006
+    - 验收V1-0007
+    - 验收V1-0008
+    - 验收V1-0009
+    - 验收V1-0010
+    - 验收V1-0011
+    - 验收V1-0012
     branchPattern: "chore/GZ-018-*"
-    exitGate: "配置/Policy 草稿→验证→模拟→审批→灰度→发布→回滚，部署/可观测/供应链可审计"
+    exitGate: 配置/Policy 草稿→验证→模拟→审批→灰度→发布→回滚，部署/可观测/供应链可审计；作为GZ-019之后的完整 local-v1 集成验收里程碑，全部十项功能与十二项验收、实际OpenList/数据库/独立worker/媒体与AI/搜索/权限/恢复/运维/签名与SBOM必须可运行并通过端到端测试；生产资源、真实手机/跨机、公网和百度生产义务明确未测时不得报告已通过或批准生产。
+    integrationOrder: 3
   - <<: *vertical
     taskId: GZ-019
     status: planned
@@ -500,7 +561,7 @@ tasks:
     consumesContracts: [PLUGIN-CONTRACT-V1, POC-06-EVIDENCE]
     acceptanceIds: [ACCEPT-CONNECTOR-CONTRACT, ACCEPT-SOURCE-SYNC]
     branchPattern: "chore/GZ-019-*"
-    exitGate: "Local/S3/HTTP/SMB/NFS/Drive/OneDrive/百度云按统一能力矩阵通过契约与失败路径测试"
+    exitGate: Local/S3/HTTP/SMB/NFS/Drive/OneDrive/百度云按统一能力矩阵通过契约与失败路径测试；本地开发以真实 OpenList WebDAV/Local 与可复现协议沙箱验收；其余连接器保留真实实现、能力矩阵、鉴权及失败路径契约测试，外部账号/生产互通证据单列；百度生产接入后置不冒称通过，GZ-020保留生产确认义务。
   - <<: *vertical
     taskId: GZ-020
     status: planned
@@ -519,11 +580,11 @@ tasks:
     consumesContracts: [ACCEPTANCE-SUITE-V1, QUALITY-THRESHOLDS-V1, POC-01-EVIDENCE, POC-02-EVIDENCE, POC-03-EVIDENCE, POC-04-EVIDENCE, POC-05-EVIDENCE, POC-06-EVIDENCE, POC-07-EVIDENCE, POC-08-EVIDENCE, POC-09-EVIDENCE, POC-10-EVIDENCE]
     acceptanceIds: [验收V1-0001, 验收V1-0002, 验收V1-0003, 验收V1-0004, 验收V1-0005, 验收V1-0006, 验收V1-0007, 验收V1-0008, 验收V1-0009, 验收V1-0010, 验收V1-0011, 验收V1-0012]
     branchPattern: "chore/GZ-020-*"
-    exitGate: "全量 E2E/性能/故障注入/安全/恢复/供应链通过，OPS-001 关闭，人工批准后方可发布"
+    exitGate: 全量 E2E/性能/故障注入/安全/恢复/供应链通过，OPS-001 关闭，人工批准后方可发布；本地 V1 集成里程碑不能授权生产发布；生产仍须原全部E2E/性能容量/故障注入/安全/恢复/供应链、实际外部来源/设备/公网测量、OPS-001和分支保护关闭及授权发布签署，百度后置义务须在生产接入时真实确认。
   - taskId: GZ-021
     title: 异构AV1 worker、HLS调度与本地V1验收路线修订
     kind: requirements
-    status: reserved
+    status: in_progress
     workPackage: WP-M0-03A
     riskLevel: high
     ownerRole: requirements-route-revision-agent

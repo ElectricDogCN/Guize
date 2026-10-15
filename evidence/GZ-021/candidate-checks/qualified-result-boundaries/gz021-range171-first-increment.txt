@@ -1,0 +1,15 @@
+test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency (specs.poc.test_program.TestPocProgram.test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency) ... ERROR
+
+======================================================================
+ERROR: test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency (specs.poc.test_program.TestPocProgram.test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 1230, in test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency
+    elif mode in ('hot_latency','cold_latency','slow_latency','multi_latency'):next(m for m in data['measurements'] if m['id']=='range_'+mode)['actual']=2
+                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+----------------------------------------------------------------------
+Ran 1 test in 20.379s
+
+FAILED (errors=1)

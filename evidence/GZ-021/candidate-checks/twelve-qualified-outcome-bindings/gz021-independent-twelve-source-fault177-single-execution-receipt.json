@@ -1,0 +1,57 @@
+{
+  "capturedAt": "2026-10-14T00:09:22.681650+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYeY",
+  "finiteScope": "Only latest dirty177 final execution, no suite or published-source acceptance",
+  "contentAccepted": true,
+  "fifthFindingContentAccepted": true,
+  "mustFix": [],
+  "latestSingleTestExecutionAccepted": true,
+  "acceptedContentProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-source-fault-fifth-explicit-failure-dirty-review.json",
+    "sha256": "f42075c3d87ee9f9c6cd1c3edc1d9f6831a5c1870c267bc12d16cedd275439d5"
+  },
+  "acceptedSnapshotManifest": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-five-finding-accepted-snapshot\\manifest.json",
+    "sha256": "1a4623993041e6f8fe71b07238999de86f4468f2fc18271223d2e6404cf0f52a"
+  },
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "1a6e01f36b08bf6701da2094a7c8aeea40a5c7beeb7d83684476a02dc80a742d",
+    "specs/poc/program.schema.yaml": "14bada6da8a6e2c2487b3da5d3f614d1489225069769bc4e4d94b4d5e337bb3a",
+    "specs/poc/test_program.py": "4b72887845fd658d2dc337d37116569ac45957672a0d91623eb668967c29ae84"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "1a6e01f36b08bf6701da2094a7c8aeea40a5c7beeb7d83684476a02dc80a742d",
+    "specs/poc/program.schema.yaml": "14bada6da8a6e2c2487b3da5d3f614d1489225069769bc4e4d94b4d5e337bb3a",
+    "specs/poc/test_program.py": "4b72887845fd658d2dc337d37116569ac45957672a0d91623eb668967c29ae84"
+  },
+  "hashesStable": true,
+  "latestIncrement": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-source-fault177-explicit-failure-increment.txt",
+    "physicalSha256": "d3437b0a0485aff5761cf024a727ce34abd364f74f1b42530782ec5514fbae6a",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_177_local_source_faults_bind_retry_checkpoint_and_logical_state",
+    "tests": 1,
+    "seconds": 136.167,
+    "exitCode": 0
+  },
+  "old146AndInitial177TwoTest158_814NotMergedIntoCurrentCommand": true,
+  "firstContentRejectionRetained": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-source-fault-fifth-first-dirty-rejection.json",
+    "sha256": "fbe05d62a06f674c0bf9cf59e9bba8479ec3c37020275ade82e008e756b4d822"
+  },
+  "complete177SuitePassed": false,
+  "remainingSevenFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "sourceEdited": false,
+  "prOrThreadsMutated": false
+}

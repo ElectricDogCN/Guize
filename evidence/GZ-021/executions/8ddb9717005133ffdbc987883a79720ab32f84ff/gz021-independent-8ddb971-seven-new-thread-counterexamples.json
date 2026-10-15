@@ -1,0 +1,152 @@
+{
+  "actualSource": "8ddb9717005133ffdbc987883a79720ab32f84ff",
+  "scope": "Only seven current comments; six isolated synthetic contract mutations; R7 identity separately verified",
+  "counterexamples": [
+    {
+      "threadSuffix": "sBrSC",
+      "task": "POC-009",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "claimedMetrics": {
+          "quality_score": 1,
+          "retrieval_recall": 1,
+          "retrieval_mrr": 1,
+          "retrieval_ndcg": 1,
+          "cost_estimate": 0,
+          "asr_wer": 0,
+          "asr_cer": 0,
+          "speaker_der": 0,
+          "translation_bleu": 100
+        },
+        "retainedInferenceObservationRef": "evidence/POC-009/profiles/local-v1/v1/raw/inference-observation.yaml",
+        "independentQualityResultsAdded": false
+      },
+      "syntheticContractOnly": true
+    },
+    {
+      "threadSuffix": "sBrSG",
+      "task": "POC-010",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "allSixReportedSeconds": 0,
+        "retainedRecoveryEvidence": {
+          "configurationRef": "evidence/POC-010/profiles/local-v1/v1/resources/RES-RECOVERY-SANDBOX-configuration.yaml",
+          "baselineRef": "evidence/POC-010/profiles/local-v1/v1/raw/recovery-baseline.yaml",
+          "restoredRef": "evidence/POC-010/profiles/local-v1/v1/raw/recovery-restored.yaml",
+          "comparisonRef": "evidence/POC-010/profiles/local-v1/v1/raw/recovery-comparison.yaml"
+        },
+        "businessTimingWitnessAdded": false,
+        "genericReportIntervalIsNotSemanticRPOOrRTO": true
+      },
+      "syntheticContractOnly": true
+    },
+    {
+      "threadSuffix": "sBrSM",
+      "task": "POC-003",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "rawRef": "evidence/POC-003/profiles/local-v1/v1/raw/execution.log",
+        "contradictoryText": "Synthetic contradictory response: Range request bytes=0-3 received HTTP 200, body WRONG, no ETag/If-Range/cache/invalidation/interruption matrix.\n",
+        "allBooleanMeasurements": {
+          "etag_semantics": true,
+          "if_range_semantics": true,
+          "ats_slice_behavior": true,
+          "source_update_invalidation": true,
+          "origin_interruption_recovery": true,
+          "partial_cache_integrity": true,
+          "cache_hit_observation": true,
+          "cache_disk_observation": true,
+          "cache_key_isolation": true,
+          "large_file_streaming": true
+        }
+      },
+      "syntheticContractOnly": true
+    },
+    {
+      "threadSuffix": "sBrSR",
+      "task": "POC-007",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "rawRef": "evidence/POC-007/profiles/local-v1/v1/raw/execution.log",
+        "contradictoryText": "Synthetic contradictory response: unauthorised subject and expired grant received HTTP 200 protected media bytes; direct origin returned protected bytes; no access outcome matrix.\n",
+        "allBooleanMeasurements": {
+          "tls_valid": true,
+          "unauthorized_identity_denied": true,
+          "expired_authorization_denied": true,
+          "cross_user_cache_isolation": true,
+          "rate_limit_enforced": true,
+          "local_range_through_path": true,
+          "local_large_file_streaming": true,
+          "local_direct_origin_denied": true
+        }
+      },
+      "syntheticContractOnly": true
+    },
+    {
+      "threadSuffix": "sBrSV",
+      "task": "POC-002",
+      "profile": "production",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "profile": "production",
+        "approvedResourceConfiguration": {
+          "build": "fixture-versioned-configuration",
+          "gpuVendor": "OTHER_VENDOR",
+          "gpuModel": "CPU_ONLY",
+          "driverBuild": "software-only",
+          "runtimeBuild": "software-only"
+        },
+        "workerNodeInventory": [
+          {
+            "nodeId": "fixture-windows",
+            "platform": "windows",
+            "physicalHostId": "fixture-same-host",
+            "encoderBuild": "fixture-av1-build",
+            "compatibilityGroupId": "fixture-av1-group"
+          },
+          {
+            "nodeId": "fixture-linux",
+            "platform": "linux",
+            "physicalHostId": "fixture-same-host",
+            "encoderBuild": "fixture-av1-build",
+            "compatibilityGroupId": "fixture-av1-group"
+          }
+        ],
+        "telemetryClaims": {
+          "a380_range_first_byte_latency": 1,
+          "encoder_power_peak_watts": 1,
+          "encoder_temperature_peak_celsius": 1
+        }
+      },
+      "syntheticContractOnly": true
+    },
+    {
+      "threadSuffix": "sBrSZ",
+      "task": "POC-010",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "retentionScheduledAt": "not-a-date",
+        "baselineRestoredComputedDomainDigestsUpdated": true,
+        "actualRawByteDigestsAndApprovedBaselineUpdated": true
+      },
+      "syntheticContractOnly": true
+    }
+  ],
+  "fullSuiteRerun": false,
+  "testedTreesEdited": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false
+}

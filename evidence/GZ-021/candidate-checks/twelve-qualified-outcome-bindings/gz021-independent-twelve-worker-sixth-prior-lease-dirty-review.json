@@ -1,0 +1,72 @@
+{
+  "capturedAt": "2026-10-14T00:16:13.715183+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only sixth worker-safety pre-window lease compatibility residual, reuse prior supported safety review",
+  "threadId": "PRRT_kwDOTgCQ3c6sFdMi",
+  "contentAccepted": true,
+  "sixthFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "aca48b6f12f7fa68b82c4261e6d7be6bbcb95bb1b15bdba9ff6fe91b87f31fcd",
+    "specs/poc/program.schema.yaml": "caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e",
+    "specs/poc/test_program.py": "660cae792337d4b9e6aec8c36c55db56a42414e027b2383161c861d61c033710"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "aca48b6f12f7fa68b82c4261e6d7be6bbcb95bb1b15bdba9ff6fe91b87f31fcd",
+    "specs/poc/program.schema.yaml": "caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e",
+    "specs/poc/test_program.py": "660cae792337d4b9e6aec8c36c55db56a42414e027b2383161c861d61c033710"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "aca48b6f12f7fa68b82c4261e6d7be6bbcb95bb1b15bdba9ff6fe91b87f31fcd",
+    "specs/poc/program.schema.yaml": "f4f893d403948c5aa6b723c1aec08674588074971d678790bfc24636f3c4568c",
+    "specs/poc/test_program.py": "660cae792337d4b9e6aec8c36c55db56a42414e027b2383161c861d61c033710"
+  },
+  "hashesStable": true,
+  "firstContentRejectionRetained": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-worker-sixth-first-dirty-rejection.json",
+    "sha256": "793e2711cd59d17d32df7387ac059334d68e766a34c0db1b149f4a180ee6748b",
+    "snapshotManifestSha256": "f2aded865ec1d9bdfc416948b6cf1ad752d34384d25bfd95c32deffccbef9e8a"
+  },
+  "checkerOnlyOneLineChangedByReverseCanonicalByteEquality": true,
+  "schemaWholeBytesUnchanged": true,
+  "testOnly178PositiveAndThreeNegativesAddedByReverseCanonicalByteEquality": true,
+  "allOldMethodsCasesAssertionsAndPriorFiveRepairsPreserved": true,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "residualClosure": [
+    "oldLeaseIssuedAt remains strict UTC, may predate execution window, and participates in unchanged monotonic ordering and oldIssue<oldExpiry check",
+    "Measured disconnect/expiry observation/re-registration/new issue/recovery remain window-bound; fresh IDs/current exact task once and recovery budget unchanged",
+    "No stricter disconnect-versus-expiry precision rule or relaxed limit/network outcome added",
+    "Both profiles gain valid prior issue positive and invalid UTC/future/after-expiry negatives"
+  ],
+  "priorFirst178Stage": {
+    "tests": 1,
+    "seconds": 200.398,
+    "exitCode": 0,
+    "contentThenRejected": true,
+    "passNotTransferredToCurrentHashes": true
+  },
+  "currentSingle178Increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-worker178-prior-lease-increment.txt",
+    "physicalSha256": "4a4782b9b257557faa69831fd893baadfc2d07973212197ed8bfc3434e9ff32e",
+    "observedTerminal": false,
+    "pendingAtReview": true,
+    "actualCommandTests": 1
+  },
+  "complete178SuitePassed": false,
+  "remainingSixFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "threadsResolved": false
+}

@@ -1,0 +1,14 @@
+Candidate Parent: 8bf74335038f87a9aeed074cd509ccb30edfe336
+Validation: DIRTY_CANDIDATE_TARGETED_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL158
+Command: 'C:\ProgramData\anaconda3\python.exe' -X utf8 specs/poc/test_program.py TestPocProgram.test_145_production_phone_pass_requires_positive_soak_duration TestPocProgram.test_154_production_soak_binds_approved_days_and_observed_hours TestPocProgram.test_157_production_passthrough_matches_frozen_approved_inventory TestPocProgram.test_158_production_soak_requires_dedicated_bound_observation
+test_145_production_phone_pass_requires_positive_soak_duration (__main__.TestPocProgram.test_145_production_phone_pass_requires_positive_soak_duration) ... ok
+test_154_production_soak_binds_approved_days_and_observed_hours (__main__.TestPocProgram.test_154_production_soak_binds_approved_days_and_observed_hours) ... ok
+test_157_production_passthrough_matches_frozen_approved_inventory (__main__.TestPocProgram.test_157_production_passthrough_matches_frozen_approved_inventory) ... ok
+test_158_production_soak_requires_dedicated_bound_observation (__main__.TestPocProgram.test_158_production_soak_requires_dedicated_bound_observation) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 117.682s
+
+OK
+
+Exit Code: 0

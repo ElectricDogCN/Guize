@@ -1,0 +1,88 @@
+{
+  "capturedAt": "2026-10-14T00:55:47.127529+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYen",
+  "finiteScope": "Only ninth metadata enumeration/change-frequency/incremental-cost retained streamed observations and its two targeted tests",
+  "contentAccepted": true,
+  "ninthFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "869187bbb00f7e06c0ceb1d251a9f5c0e343b9877eb5b18cdc2177c9a0593f56",
+    "specs/poc/program.schema.yaml": "cb44c69e0577d6fd10d8117d29ac800234dc64d0ea22f0b5437685fafafacf5e",
+    "specs/poc/test_program.py": "43d348fa4b869e9c3bbd5daf3791b9c80ae8a508adef0cf6c86e48264211e242"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "869187bbb00f7e06c0ceb1d251a9f5c0e343b9877eb5b18cdc2177c9a0593f56",
+    "specs/poc/program.schema.yaml": "cb44c69e0577d6fd10d8117d29ac800234dc64d0ea22f0b5437685fafafacf5e",
+    "specs/poc/test_program.py": "43d348fa4b869e9c3bbd5daf3791b9c80ae8a508adef0cf6c86e48264211e242"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "90f198080de88c9a84a734f41fed4ea864556454e26a63324dd0f37a8c0cfb4a",
+    "specs/poc/program.schema.yaml": "68340fc230c58891bdc16407354bed52b6d6dc8d44976135d8a55601b0139f42",
+    "specs/poc/test_program.py": "cb2a945ee8ba0a4a489bd91c471101b76126fb7f3416915d320b7dec65c07c85"
+  },
+  "hashesStable": true,
+  "priorEightContent": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-public-eighth-negative-clock-final-dirty-review.json",
+    "sha256": "81a3ace99029c539312ae159a13eb4dac86999c268fcbc751225e48e59b922ab",
+    "snapshotManifestSha256": "1ca38c9cc7f0c563575a8bccb519dac75b0b0540028f21f9a546df18a7d2e067"
+  },
+  "originalAndPriorEightSchemaWholeBytePrefixesAndDefinitionsRetained": true,
+  "onlyAppendedDefinitions": [
+    "metadataAppliedEventRecord",
+    "metadataChangeRecord",
+    "metadataObjectRecord",
+    "metadataObservedChangeRecord",
+    "metadataScanObservation",
+    "metadataScanPolicy",
+    "metadataTraversedObjectRecord"
+  ],
+  "allPrior181TestMethodAstsAndUnrelatedHelpersUnchanged": true,
+  "newMethods": [
+    182,
+    183
+  ],
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "reviewedCoverage": [
+    "Bounded per-record JSONL streaming with duplicate-field/type/shape rejection and exact whole-stream count/digest, avoiding full manifest materialization",
+    "Selected-slot immutable approved baseline sample/ref/SHA/manifest/scanner/config/profile identities and local generator binding",
+    "Disk-backed SQLite unique object/event/sequence/applied identities and 8MiB configured page cache; database cleaned in finally",
+    "Complete approved baseline equals enumerated object rows; expected observed and applied event sets match exactly once",
+    "Ordered observed UTC change records and controlled create/update/delete version transitions; traversal contains only governed baseline/created IDs",
+    "Enumeration objects per actual interval, change events per actual interval times3600, incremental elapsed seconds; counts/depth agree complete baseline",
+    "Qualified PASS only; production is separately profile-bound, FAIL/inconclusive unaffected",
+    "New183 covers one million synthetic records through bounded parser; it supplies no actual scanner performance or POC claim"
+  ],
+  "targetedIncrementExecutionAccepted": false,
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-metadata182-183-first-increment.txt",
+    "observedPhysicalSha256": "840e7915017fc0af251c2d0dcd2d5a6e0b3ed8e3af49c8b50f917605877bd140",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_182_metadata_rates_and_costs_derive_complete_streamed_observations TestPocProgram.test_183_streamed_metadata_representation_reads_one_million_records_bounded",
+    "testsRequested": 2,
+    "terminalObserved": false,
+    "exitCode": null,
+    "seconds": null,
+    "pendingAtObservation": true,
+    "executionAccepted": false
+  },
+  "noComplete183SuiteClaim": true,
+  "whole183SuitePassed": false,
+  "previousStagesNotTransferredToCurrentPublishedSource": true,
+  "remainingThreeFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

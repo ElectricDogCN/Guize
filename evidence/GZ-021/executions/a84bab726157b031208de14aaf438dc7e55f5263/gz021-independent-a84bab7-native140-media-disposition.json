@@ -1,0 +1,28 @@
+{
+  "actualSource": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "counterexampleReceipt": "gz021-independent-a84bab7-native140-media-counterexample.json",
+  "counterexampleSha256": "ad5d9593b4f7345e75f288f6c109d9649b02025e47f3ccf96cf999517c9a7f65",
+  "rawSha256": "ce9a8dc2246d9ace38e2aee89ce2744a819a9165f97544c79051f4428f971a0f",
+  "singleOriginal140Reproduced": true,
+  "beforeAfterThreeWorktreesSameClean": true,
+  "mustFix": [
+    {
+      "path": "specs/poc/check_program.py",
+      "line": 1330,
+      "cause": "New A380 Range validation reopens already inspected produced output then calls seek; original140 BoundedReader intentionally exposes read(size) only and requires one open per produced artifact. Actual native1/4.932s Exit1 reproduces this AttributeError.",
+      "minimumRepair": "When validated range is exactly0..source.size-1, compare the actual response hash with cached source.sha256 after size/headers/device/path checks; do not reopen/recompute full hash. Partial requests still require exact bounded slice hashing and cannot use the whole-file digest as the partial digest."
+    }
+  ],
+  "fullRangeReusePreservesByteBinding": true,
+  "partialRangeMayNotUseWholeSourceHash": true,
+  "optimizationAloneFixesCurrentBaselineFixture": false,
+  "fixtureCompatibilityDetail": "Current new prepare_qualified_a380_fixture retains only output[:8],request0..7, while designated synthetic output is longer. Thus original140 still traverses partial branch even after full-range fast path. Narrowly making this new A380 default fixture exercise full-media Range can preserve all original140/172 method AST/assertions; partial valid/corrupt Range must remain covered separately in new targeted regression. No global reader exception bypass or validator relaxation.",
+  "reviewerEditedSource": false,
+  "fullSuiteRerun": false,
+  "full24551Restarted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false
+}

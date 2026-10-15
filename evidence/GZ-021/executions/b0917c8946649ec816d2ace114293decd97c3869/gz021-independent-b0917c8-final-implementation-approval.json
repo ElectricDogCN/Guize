@@ -1,0 +1,115 @@
+{
+  "capturedAt": "2026-10-13T16:22:49.229607+00:00",
+  "actualSource": "b0917c8946649ec816d2ace114293decd97c3869",
+  "tree": "0e9d482f43367f6c7f12ee1c8e0dcb8f0f685b5d",
+  "soleParent": "537d4966c00e5c308da488755f76276c71441055",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "expectedHead": "b0917c8946649ec816d2ace114293decd97c3869",
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "ciAccepted": true,
+  "ciExecutionAccepted": true,
+  "local20ProofSha256": "eacc96f7ff6fcc92b0355e4d219cd093ede61e3ba0d2d41d788a72772b10731b",
+  "ciProofSha256": "87886f7dd27536fae0da0a969c9ee04a04cc025f3fcf5262386be3ef00cdf4d8",
+  "priorFiniteContentBindingSha256": "608e813a9973d21aeb4941b8808ce5e6baca2c631b8c2a88ed9e1ada73f52a9d",
+  "helperPreparationProofSha256": "265b12f0f07b67d7123fbf73603fe9aef7b8391aecff844ea78a4b533952b72a",
+  "officialSnapshotSha256": "f8f7b3fa01d1a46b9295df6bb26d11e478f759ed2be87732ebf1555ba9a159b6",
+  "pocRegressionTests": 151,
+  "pocRegressionDurationSeconds": 792.943,
+  "requirementsNegativeRejected": 35,
+  "governanceTests": 637,
+  "governanceDurationSeconds": 1096.06,
+  "failuresErrorsSkips": 0,
+  "ciRun": 38424288000,
+  "ciJob": 115389460355,
+  "ciSteps": 28,
+  "ciDurationSeconds": 1646.34,
+  "sourceCleanWorktrees": {
+    "authoring": {
+      "source": "b0917c8946649ec816d2ace114293decd97c3869",
+      "tree": "0e9d482f43367f6c7f12ee1c8e0dcb8f0f685b5d",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "status": ""
+    },
+    "verification": {
+      "source": "b0917c8946649ec816d2ace114293decd97c3869",
+      "tree": "0e9d482f43367f6c7f12ee1c8e0dcb8f0f685b5d",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    }
+  },
+  "ownOriginalLease": {
+    "acquiredAt": "2026-10-12T23:44:45Z",
+    "expiresAt": "2026-10-19T23:44:45Z"
+  },
+  "exclusiveClaimCount": 46,
+  "moduleCount": 17,
+  "originalManifestUnchanged": true,
+  "issueOpen": true,
+  "prOpenMergeable": true,
+  "threadCount": 48,
+  "unresolvedThreads": [
+    "PRRT_kwDOTgCQ3c6r8ZTb",
+    "PRRT_kwDOTgCQ3c6r8ZTf",
+    "PRRT_kwDOTgCQ3c6r8ZTl"
+  ],
+  "dispositionSha256": "f34f7d8bef06d07d108df9dfbc7543ef1b5d07a646bcc55c80ad07bd7598b9bd",
+  "remainingFindings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r8ZTb",
+      "classification": "MATERIAL",
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        1823,
+        1828,
+        1080,
+        1098
+      ],
+      "counter": "POC002 local qualified PASS still accepts encode_throughput=1000000 streams and sustained_encode_duration=1000000 minutes with two one-minute worker runs. Baseline and mutated validation errors both empty.",
+      "minimumRepair": "Bind the reported streams and sustained duration to validated worker intervals or a typed independently approved benchmark artifact with exact timestamps/input/settings and measured concurrency. Preserve positive-work and media provenance gates.",
+      "regression": "Keep valid measured metrics positive; reject positive claims exceeding demonstrated concurrency or measured continuous duration."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r8ZTf",
+      "classification": "MATERIAL",
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        1829,
+        1831
+      ],
+      "counter": "POC001 production qualified PASS accepts 0.001 soak hours with a 60-second executionWindow; baseline and mutated errors both empty. Original production method explicitly requires continuous approved multi-day workload.",
+      "minimumRepair": "Bind soak hours to captured continuous timestamps and an explicit approved multi-day floor in owned qualified capture/configuration data. Keep production obligations; do not impose production physical-soak gate on local Android VM profile.",
+      "regression": "Reject nominal positive duration, claimed duration beyond observed interval, and below approved multi-day floor; preserve FAIL short-run record and local VM route."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r8ZTl",
+      "classification": "MATERIAL_FALSE_REJECTION",
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        1322,
+        1340
+      ],
+      "counter": "Otherwise valid qualified POC006 resource configuration adding credentialReference=secretref_example01 is rejected as secret-like key. Baseline errors empty; new error names exact credentialReference.",
+      "minimumRepair": "Recognize explicitly canonical reference-valued credentialReference fields and validate their existing Secret reference grammar separately; retain plaintext/sensitive-key/raw-log credential rejection and avoid generic substring reference exemptions.",
+      "regression": "Exact valid Secret reference accepted; malformed/plaintext credentialReference and password/token raw material rejected."
+    }
+  ],
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "androidWorkerEncodingAccepted": false,
+  "fullV1Complete": false,
+  "canonicalMutation": false,
+  "historicalResultsOverwritten": false,
+  "oldResolvedFindingsReopened": false
+}

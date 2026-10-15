@@ -1,0 +1,13 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_SOURCE_FAULT146_177_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL177
+Candidate Files SHA256: {'specs/poc/check_program.py': '9c1b334d186b7e53ec1f396586f48ec8038ec4deb7840ec22a5d63e3fac4736b', 'specs/poc/program.schema.yaml': '14bada6da8a6e2c2487b3da5d3f614d1489225069769bc4e4d94b4d5e337bb3a', 'specs/poc/test_program.py': '019590a15048a1ca34d7e1b6c43baed8db27332ce7617e11c71764a671624d2e'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_177_local_source_faults_bind_retry_checkpoint_and_logical_state TestPocProgram.test_146_local_captures_require_reproducible_structured_settings
+test_177_local_source_faults_bind_retry_checkpoint_and_logical_state (__main__.TestPocProgram.test_177_local_source_faults_bind_retry_checkpoint_and_logical_state) ... ok
+test_146_local_captures_require_reproducible_structured_settings (__main__.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 158.814s
+
+OK
+
+Exit Code: 0

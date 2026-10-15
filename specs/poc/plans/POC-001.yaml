@@ -1,4 +1,4 @@
-schemaVersion: 1
+schemaVersion: 2
 pocId: POC-01
 taskId: POC-001
 title: Arc A380 + ESXi 6.7 PCI Passthrough
@@ -16,6 +16,7 @@ moduleIds:
 evidencePath: evidence/POC-001
 resourceIds:
 - RES-A380-ESXI67
+- RES-HETEROGENEOUS-WORKERS
 sampleIds:
 - SAMPLE-MEDIA-CLEAR
 environment:
@@ -30,6 +31,11 @@ environment:
   - tool_versions
   - network_profile
   - storage_profile
+  - worker_node_inventory
+  - physical_host_scope
+  - encoder_capability_matrix
+  - android_validation_scope
+  - android_thermal_background_observation
   capturedValues: {}
 protocol:
   commands: []
@@ -56,14 +62,15 @@ protocol:
   - id: esxi_host_reboot_reenumeration
     metric: GPU passthrough survives ESXi host reboot and device re-enumeration
     unit: boolean
-    method: Reboot the approved ESXi sandbox host, verify the A380 is re-enumerated and reassigned, then start the guest and initialize the media
-      runtime without rebuilding the host.
+    method: Reboot the approved ESXi sandbox host, verify the A380 is re-enumerated and reassigned, then start the guest and
+      initialize the media runtime without rebuilding the host.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: device_reset_recovery
     metric: GPU passthrough survives supported device reset/rebind cycle
     unit: boolean
-    method: Perform the approved reset or detach/reattach recovery cycle in the sandbox, then verify guest enumeration and runtime initialization.
+    method: Perform the approved reset or detach/reattach recovery cycle in the sandbox, then verify guest enumeration and
+      runtime initialization.
     thresholdSource: POC_EXIT_CRITERIA
     actual: null
   - id: bios_iommu_configuration_verified
@@ -81,13 +88,15 @@ protocol:
   - id: above_4g_enabled
     metric: Above 4G decoding is enabled and effective
     unit: boolean
-    method: Capture the firmware setting and host resource allocation showing the passthrough device receives the required address space.
+    method: Capture the firmware setting and host resource allocation showing the passthrough device receives the required
+      address space.
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
   - id: resizable_bar_enabled
     metric: Resizable BAR configuration is captured and compatible with the tested path
     unit: boolean
-    method: Capture the firmware/device setting and verify the selected configuration does not prevent guest enumeration or runtime initialization.
+    method: Capture the firmware/device setting and verify the selected configuration does not prevent guest enumeration or
+      runtime initialization.
     thresholdSource: APPROVED_POC_SCOPE
     actual: null
   - id: multi_day_stability_duration
@@ -99,9 +108,54 @@ protocol:
   - id: multi_day_stability
     metric: A380 passthrough remains stable through the approved multi-day soak
     unit: boolean
-    method: Require no unrecovered GPU loss, host/guest crash, driver reset loop, corrupt output, or manual passthrough rebuild during the recorded
-      soak duration.
+    method: Require no unrecovered GPU loss, host/guest crash, driver reset loop, corrupt output, or manual passthrough rebuild
+      during the recorded soak duration.
     thresholdSource: APPROVED_POC_SCOPE
+    actual: null
+  - id: worker_capabilities_reproducible
+    metric: worker capabilities reproducible
+    unit: boolean
+    method: Probe each actual node and retain OS/architecture, encoder build/config, AV1/H.264 support and output hashes;
+      never infer capabilities from OS name. Execute and retain evidence on the captured production worker pool; a local-profile
+      result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: worker_resource_limits_enforced
+    metric: worker resource limits enforced
+    unit: boolean
+    method: Exercise CPU/memory/time/temp-output limits on the actual worker pool. Execute and retain evidence on the captured
+      production worker pool; a local-profile result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: worker_restart_recovery
+    metric: worker restart recovery
+    unit: boolean
+    method: Restart/disconnect a worker and prove lease expiry, re-registration and bounded task recovery. Execute and retain
+      evidence on the captured production worker pool; a local-profile result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: worker_physical_scope_recorded
+    metric: worker physical scope recorded
+    unit: boolean
+    method: Bind node IDs to actual host IDs; identify WSL/same-host processes and any actually tested Android device explicitly.
+      Execute and retain evidence on the captured production worker pool; a local-profile result cannot satisfy this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: worker_network_boundary_enforced
+    metric: worker network boundary enforced
+    unit: boolean
+    method: Prove outbound task-scoped access; reject private/unsupported input targets, administrative storage access and
+      expired grants. Execute and retain evidence on the captured production worker pool; a local-profile result cannot satisfy
+      this measurement.
+    thresholdSource: NFR-V1-COMP-003
+    actual: null
+  - id: android_thermal_background_profiled
+    metric: Actual Android encoding, thermal and background survivability are measured
+    unit: boolean
+    method: Use an actual Android device with pinned encoder build and approved sample. Retain encoding output hashes, temperature/power/network
+      observations and background/restart outcomes; emulator, capability enumeration or untested-device labels cannot establish
+      production PASS.
+    thresholdSource: NFR-V1-COMP-003
     actual: null
   exitCriteria:
   - Guest can enumerate A380 through supported passthrough path.
@@ -109,12 +163,16 @@ protocol:
   - Guest reboot completes and the A380 is re-enumerated with the media runtime operational.
   - ESXi host reboot completes and the A380 is re-enumerated, reassigned and usable by the guest without host rebuild.
   - Approved device reset/rebind recovery completes and the A380 returns to an operational state without host rebuild.
-  - Inspur 5212 BIOS virtualization/IOMMU, Above 4G and Resizable BAR settings are captured and match the tested passthrough baseline.
+  - Inspur 5212 BIOS virtualization/IOMMU, Above 4G and Resizable BAR settings are captured and match the tested passthrough
+    baseline.
   - The A380 IOMMU group is isolated sufficiently for the approved passthrough design.
-  - The observed multi-day soak duration is recorded and completes without unrecovered passthrough, host, guest, driver or media-runtime failure.
+  - The observed multi-day soak duration is recorded and completes without unrecovered passthrough, host, guest, driver or
+    media-runtime failure.
+  - Preserve every original A380/ESXi measurement and exit criterion; additionally pass NFR-V1-COMP-003 heterogeneous production
+    measurements using actual version-bound pool evidence. Do not reuse local-profile results.
   failureFallbacks:
-  - If ESXi 6.7 passthrough or reboot/reset recovery is unsupported, document the blocker and evaluate a supported hypervisor/bare-metal worker
-    path.
+  - If ESXi 6.7 passthrough or reboot/reset recovery is unsupported, document the blocker and evaluate a supported hypervisor/bare-metal
+    worker path.
   rollbackCleanup:
   - Stop test workloads and remove temporary test artifacts.
   - Restore sandbox configuration to the pre-POC snapshot or document irrecoverable drift.
@@ -133,3 +191,77 @@ review:
   reviewer: null
   approvedAt: null
   approval: null
+localValidation:
+  profileVersion: 1
+  mode: required
+  resourceIds:
+  - RES-HETEROGENEOUS-WORKERS
+  captureBeforeExecution:
+  - host_os
+  - kernel
+  - cpu
+  - memory
+  - gpu
+  - driver
+  - runtime
+  - tool_versions
+  - network_profile
+  - storage_profile
+  - worker_node_inventory
+  - physical_host_scope
+  - encoder_capability_matrix
+  - android_validation_scope
+  - android_thermal_background_observation
+  - vm_validation_scope
+  protocol:
+    commands: []
+    rawOutputRefs: []
+    measurements:
+    - id: worker_capabilities_reproducible
+      metric: worker capabilities reproducible
+      unit: boolean
+      method: Probe each actual node and retain OS/architecture, encoder build/config, AV1/H.264 support and output hashes;
+        never infer capabilities from OS name. Execute AV1 encoding in the captured Android VM guest, retain approved input/output
+        hashes and raw outputs, and bind guest OS, hypervisor, guest ID, encoder build and physical host ID to the worker
+        inventory. Enumeration alone is insufficient.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
+    - id: worker_resource_limits_enforced
+      metric: worker resource limits enforced
+      unit: boolean
+      method: Exercise CPU/memory/time/temp-output limits on the actual worker pool.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
+    - id: worker_restart_recovery
+      metric: worker restart recovery
+      unit: boolean
+      method: Restart/disconnect a worker and prove lease expiry, re-registration and bounded task recovery.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
+    - id: worker_physical_scope_recorded
+      metric: worker physical scope recorded
+      unit: boolean
+      method: Bind node IDs to actual host IDs; identify WSL/same-host processes and any actually tested Android device explicitly.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
+    - id: worker_network_boundary_enforced
+      metric: worker network boundary enforced
+      unit: boolean
+      method: Prove outbound task-scoped access; reject private/unsupported input targets, administrative storage access and
+        expired grants.
+      thresholdSource: ADR-0015_LOCAL_VALIDATION
+      actual: null
+    exitCriteria:
+    - Actual worker capabilities and limitations are reproducible from task-owned raw evidence.
+    - Limits, restart recovery and outbound access boundaries pass on each tested capability group.
+    - Same-host/WSL results never assert physical multi-host or Android-phone validation.
+    - Local PASS requires actual Android VM guest encoding and recovery evidence. Record Android as ANDROID_DEVICE_NOT_TESTED; VM
+      results do not establish phone thermal/background behavior or physical multi-host independence. Real-phone obligations
+      remain in production.
+    failureFallbacks:
+    - Quarantine an unsupported capability group; retain H.264/source fallback and report untested devices explicitly.
+    rollbackCleanup:
+    - Stop workers and revoke test grants; remove only disposable worker outputs.
+    - Retain task-owned raw evidence and configuration records.
+  reason: Local execution measures only the captured sandbox; all shared security and integrity gates remain required. Production
+    resource obligations remain in the original protocol.

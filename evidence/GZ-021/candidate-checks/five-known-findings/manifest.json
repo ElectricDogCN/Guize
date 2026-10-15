@@ -1,0 +1,70 @@
+{
+  "kind": "DIRTY_CANDIDATE_INCREMENTAL_CHECKS_ONLY_NOT_ACTUAL_SOURCE_ACCEPTANCE",
+  "sourceParent": "537d4966c00e5c308da488755f76276c71441055",
+  "full151RunClaimed": false,
+  "files": [
+    {
+      "path": "gz021-three-input-increment.txt",
+      "originalPhysicalSha256": "4f87e67140b144182e813d814217949b12f91258349a49456e7a0dc677e169b5",
+      "originalPhysicalBytes": 1201,
+      "canonicalLfSha256": "d5d7bf5364d4f20dadba01289c0542a6eb2dfb980a870ff846f3493aff69fef3",
+      "canonicalBytes": 1188
+    },
+    {
+      "path": "gz021-three-media-increment.txt",
+      "originalPhysicalSha256": "678e0d2378fdfdb6c8a0b472955cdc27ef4cfb5fd829f6a8404e3c14aecc0fa1",
+      "originalPhysicalBytes": 1204,
+      "canonicalLfSha256": "48fac90e22679e5e8ae5a77284f083a026e4e595e9a44539edad6f5b06ca181e",
+      "canonicalBytes": 1191
+    },
+    {
+      "path": "gz021-three-lifecycle-increment.txt",
+      "originalPhysicalSha256": "f35eeb6b2ea75d123b1b0e33cf9db9af8488115eba59f7141b7e8f0d07871c5f",
+      "originalPhysicalBytes": 4320,
+      "canonicalLfSha256": "26eeb15d60487472553baa79114d231424536e03a0dee214554f683c0d2d691c",
+      "canonicalBytes": 4268
+    },
+    {
+      "path": "gz021-three-lifecycle-repaired-increment.txt",
+      "originalPhysicalSha256": "34f7af9038afd85671baeca0c94b8409ed2778c49e2dcafdbf618f72dedcb63a",
+      "originalPhysicalBytes": 2536,
+      "canonicalLfSha256": "d040d904a54a6fdfac6189d97a080f0c4ab6915851c4413be9fafc34b0467979",
+      "canonicalBytes": 2503
+    },
+    {
+      "path": "gz021-three-lifecycle-final149-increment.txt",
+      "originalPhysicalSha256": "b244765c74c8a3d54e59d08df7f01b1c85916d5cec0ed1353b1a3d44b9ece3a7",
+      "originalPhysicalBytes": 476,
+      "canonicalLfSha256": "8cff5b18d906ff1f62244f69db2db068011089a09a2aed67540b18f7de3ede21",
+      "canonicalBytes": 466
+    },
+    {
+      "path": "gz021-three-final-late-increment.txt",
+      "originalPhysicalSha256": "af72d07aac0dcac8cfe87ec7abea4eda1085c79993c3e42758f8c08f1dcddcd7",
+      "originalPhysicalBytes": 938,
+      "canonicalLfSha256": "e47b8d050145c1525fa855f9f014a2907d207dc9b0513ed1c4b22fd574f2f4f4",
+      "canonicalBytes": 926
+    },
+    {
+      "path": "gz021-three-final150-increment.txt",
+      "originalPhysicalSha256": "310fd933f04ae58991cf3eddd25dcc0a34538cd93fbaeef319ddac55cf1f5e10",
+      "originalPhysicalBytes": 467,
+      "canonicalLfSha256": "132cd28ccaab0d82b86d8c1c18cccbac0a81a03b04ceac7ad45b0918236281f3",
+      "canonicalBytes": 457
+    },
+    {
+      "path": "gz021-three-bounded149-increment.txt",
+      "originalPhysicalSha256": "bc461f57fc4bdd64f35583231489087d22a85f4c89445dab6b0f577df7dad14c",
+      "originalPhysicalBytes": 476,
+      "canonicalLfSha256": "d188791e07f6e6d37f5d4818ffbde38c87aebebd2a6e778dc55068a5394bf5fa",
+      "canonicalBytes": 466
+    },
+    {
+      "path": "gz021-three-phase149-increment.txt",
+      "originalPhysicalSha256": "362ba90df659272e13468fd6c4c5bcb39fd92fad96059d4cbda86985f8864f31",
+      "originalPhysicalBytes": 465,
+      "canonicalLfSha256": "362ba90df659272e13468fd6c4c5bcb39fd92fad96059d4cbda86985f8864f31",
+      "canonicalBytes": 465
+    }
+  ]
+}
