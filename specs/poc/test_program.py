@@ -4982,8 +4982,8 @@ class TestPocProgram(unittest.TestCase):
                     target=root/target_ref;target.write_text('Synthetic alias target.\n',encoding='utf8')
                     os.symlink(target.name,root/alias_ref)
                     subprocess.run(['git','-C',str(root),'add','--',alias_ref],check=True)
-                    # Retain exercised fault observations while replacing only command output.
-                    observations=[r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['artifactType']=='scope_observation']
+                    # Retain all typed observations while replacing only command output.
+                    observations=[r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['artifactType']!='command_output']
                     data['rawOutputRefs']=[alias_ref,*[r['ref'] for r in observations]]
                     for command in data['commands']: command['outputRef']=alias_ref
                     data['environmentCaptured']['rawExecutionArtifacts']=[dict(ref=alias_ref,artifactType='command_output',byteCount=target.stat().st_size,sha256='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest())]
