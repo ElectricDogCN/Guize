@@ -610,6 +610,74 @@ def validate_qualified_local_source_faults(root,plan,execution,prefix,status,win
     if any(actual.get(gate) is not True for gate in gates):errors.append(f'{label}: true sync safety gates require the parsed observed outcomes')
 
 
+def validate_qualified_local_source_authentication(root,plan,execution,prefix,status,window,defs,errors,cache):
+    """Derive local authentication from retained request outcomes, never execute credentials."""
+    from urllib.parse import urlsplit
+    env=execution.get('environmentCaptured') or {}
+    if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
+    label=f"qualified local source authentication {plan['taskId']}";before=len(errors)
+    ref=env.get('sourceAuthenticationRef')
+    report=selected_observation(root,execution,prefix,ref,defs,'localSourceAuthenticationObservation',label,errors,cache)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-OPENLIST-LOCAL'),None)
+    config_path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    config=qualified_observation_report(config_path,defs,'resourceConfiguration',label+'/configuration',errors,cache) if config_path else None
+    settings=config.get('configuration',{}) if isinstance(config,dict) else {}
+    policy=settings.get('localSourceAuthenticationPolicy') if isinstance(settings,dict) else None
+    validate_schema(policy,defs.get('localSourceAuthenticationPolicy',{}),label+'/approved policy',errors)
+    if report is None or len(errors)!=before:return
+    fault=settings.get('localSourceFaultPolicy');listing=settings.get('localSourceListingPolicy')
+    sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==policy['sampleId']),None)
+    expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []],scope='GENERIC_OPENLIST_SANDBOX',**{k:policy[k] for k in ('sourceId','sandboxId','endpointURL','objectId','objectVersion','authMethod','principalId')})
+    if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or env.get('source_validation_scope')!='GENERIC_OPENLIST_SANDBOX' or not isinstance(fault,dict) or not isinstance(listing,dict) or any(policy[k]!=fault.get(k) for k in ('sourceId','sandboxId','subjectVersion','objectId','objectVersion')) or any(policy[k]!=listing.get(k) for k in ('sourceId','sandboxId','subjectVersion')) or sample is None or (sample['immutableId'],sample['checksum'])!=(policy['immutableId'],policy['payloadSha256']) or policy['authorizedAuthRef']==policy['invalidAuthRef']:
+        errors.append(f'{label}: approved method, principal, service/API versions, source/object/sandbox and immutable input must match');return
+    try:
+        endpoint=urlsplit(policy['endpointURL']);listing_endpoint=urlsplit(listing['endpointURL'])
+        origin=endpoint.scheme+'://'+endpoint.netloc
+        valid=valid_local_origin(origin,{'http','https'}) and origin==listing_endpoint.scheme+'://'+listing_endpoint.netloc and endpoint.path not in ('','/') and not endpoint.username and not endpoint.password and not endpoint.query and not endpoint.fragment
+    except (ValueError,TypeError):valid=False
+    if not valid:errors.append(f'{label}: exact approved protected endpoint must share the local listing origin');return
+    rows=report['requests'];cases={'authenticated','anonymous_denied','invalid_auth_denied'}
+    if len(rows)!=3 or {r['case'] for r in rows}!=cases or len({r['requestId'] for r in rows})!=3:
+        errors.append(f'{label}: distinct actual authenticated, anonymous and invalid-auth requests required');return
+    artifacts=env.get('rawExecutionArtifacts') or [];paths=[existing_ref(root,ref,prefix),config_path]
+    input_records=env.get('inputSampleArtifacts') or []
+    for record in input_records:
+        if isinstance(record,dict):
+            path=existing_ref(root,record.get('inputArtifactRef'),prefix)
+            if path is not None:paths.append(path)
+    for row in rows:
+        success=row['case']=='authenticated';anonymous=row['case']=='anonymous_denied'
+        requested,finished=utc(row['requestedAt']),utc(row['finishedAt'])
+        expected_auth=None if anonymous else policy['authorizedAuthRef'] if success else policy['invalidAuthRef']
+        if row['httpMethod']!='GET' or row['endpointURL']!=policy['endpointURL'] or row['authMethod']!=('none' if anonymous else policy['authMethod']) or row['authRef']!=expected_auth or row['requestPrincipalId']!=(None if anonymous else policy['principalId']) or row['authenticatedPrincipalId']!=(policy['principalId'] if success else None) or requested is None or finished is None or window is None or not window[0]<=requested<=finished<=window[1] or row['statusCode'] not in ((200,206) if success else (401,403)):
+            errors.append(f'{label}: request identity/method/non-secret auth reference, actual HTTP outcome and UTC must match')
+        body=existing_ref(root,row['responseBodyRef'],prefix)
+        records=[a for a in artifacts if isinstance(a,dict) and a.get('ref')==row['responseBodyRef']]
+        if body is None or row['responseBodyRef'] not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or any(body.samefile(p) for p in paths if p is not None):
+            errors.append(f'{label}: selected-slot independently retained actual response bytes required');continue
+        paths.append(body)
+        try:actual=inspect_artifact(body,cache)
+        except OSError:errors.append(f'{label}: readable response bytes required');continue
+        if actual['size']!=row['responseByteCount'] or actual['sha256']!=row['responseSha256'] or records[0].get('byteCount')!=actual['size'] or records[0].get('sha256')!=actual['sha256']:
+            errors.append(f'{label}: observed response byte count/hash must match actual retained bytes')
+        if success:
+            if actual['size']<=0 or actual['sha256']!=policy['payloadSha256'] or row['returnedObjectId']!=policy['objectId'] or row['returnedObjectVersion']!=policy['objectVersion']:
+                errors.append(f'{label}: successful protected read must return the exact approved immutable object bytes')
+        else:
+            safe=actual['size']==0
+            if 0<actual['size']<=1024:
+                def fields(pairs):
+                    if len({k for k,_ in pairs})!=len(pairs):raise ValueError('duplicate public error fields')
+                    return dict(pairs)
+                try:
+                    with body.open(encoding='utf8') as stream:safe=json.load(stream,object_pairs_hook=fields)=={'error':'access_denied'}
+                except (OSError,ValueError,UnicodeError):safe=False
+            if not safe or row['returnedObjectId'] is not None or row['returnedObjectVersion'] is not None:
+                errors.append(f'{label}: anonymous/invalid authentication must expose no protected object bytes or identity')
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if actual.get('auth_flow_supported') is not True:errors.append(f'{label}: true auth_flow_supported requires all parsed authentication outcomes')
+
+
 def validate_qualified_local_source_listing(root,plan,execution,prefix,status,window,defs,errors,cache):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
@@ -925,6 +993,8 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
                 referenced.add(path.relative_to(root.resolve()).as_posix())
         if referenced & ignored:
             raise ValueError('referenced qualified evidence must not be ignored and untracked: '+', '.join(sorted(referenced & ignored)))
+        if referenced & set(untracked):
+            raise ValueError('referenced qualified evidence must be tracked: '+', '.join(sorted(referenced & set(untracked))))
         poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
         own_prefixes = tuple(str(Path(profile_index_ref(task,profile)).parent).replace('\\','/')+'/'
                              for task in sorted(TASKS) for profile in PROFILE_SCOPES)
@@ -1340,7 +1410,9 @@ def validate_qualified_passthrough_transitions(root,plan,execution,prefix,status
     for previous,current in zip(ordered,ordered[1:]):
         prior=previous[2]['after'];following=current[2]['before']
         if previous[1]>current[0] or utc(prior['observedAt'])>current[0] or any(prior[k]!=following[k] for k in ('hostBootId','guestBootId','deviceGenerationId')):errors.append(f'{label}: repeated transitions must retain consistent chronological device/boot state')
+    before=len(errors)
     firmware=selected_observation(root,execution,prefix,env.get('productionFirmwareRef'),defs,'passthroughFirmwareObservation',label,errors,cache)
+    if firmware is None or len(errors)!=before:return
     if firmware and ordered and (ordered[0][2]['before']['hostBootId']!=firmware['hostBootId'] or utc(firmware['runtimeInitializedAt']) is None or utc(ordered[0][2]['before']['observedAt'])<utc(firmware['runtimeInitializedAt'])):errors.append(f'{label}: first transition must bind captured initialized host boot')
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
     if any(actual.get(g) is not True for g in ('vm_reboot_recovery','esxi_host_reboot_reenumeration','device_reset_recovery')):errors.append(f'{label}: true recovery gates require corresponding observed transitions and runtime probes')
@@ -2537,13 +2609,41 @@ def recovery_domain_digest(value):
     """Hash parsed state; transport references may differ after a legitimate restore."""
     def semantic(item):
         if isinstance(item,dict):
-            return {key:semantic(value) for key,value in item.items() if key not in ('artifactRef','imageArtifactRef','signatureArtifactRef','verificationRef')}
+            return {key:semantic(value) for key,value in item.items() if key not in ('artifactRef','imageArtifactRef','signatureArtifactRef','verificationRef','configurationRef','controlBackupRef')}
         if isinstance(item,list):return [semantic(value) for value in item]
         return item
     return 'sha256:'+hashlib.sha256(json.dumps(semantic(value),sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8')).hexdigest()
 
 
-def validate_recovery_state(root, execution, prefix, report, defs, label, errors, cache, all_paths):
+def decode_recovery_control_backup(data):
+    """Fixed bounded non-secret lab codec, never an OpenBao secret decryptor."""
+    if not 0 < len(data) <= 262144:raise ValueError('backup fixture size')
+    decoder=zlib.decompressobj(31)
+    decoded=decoder.decompress(data,262145)
+    if len(decoded)>262144 or decoder.unconsumed_tail or not decoder.eof or decoder.unused_data:raise ValueError('backup fixture decoding')
+    def nonfinite(value):raise ValueError('nonfinite configuration')
+    value=json.loads(decoded.decode('utf8'),parse_constant=nonfinite)
+    if not isinstance(value,dict):raise ValueError('backup configuration object')
+    return value
+
+
+def verify_recovery_signature(image, signature, public_key, build, label, errors, cache):
+    """Verify retained bytes with a fixed existing tool and approved public key."""
+    try:
+        if 'recovery-openssl-build' not in cache:
+            result=subprocess.run(['openssl','version'],capture_output=True,timeout=10)
+            if result.returncode:raise ValueError('signature verifier version unavailable')
+            cache['recovery-openssl-build']=result.stdout.decode('utf8').strip()
+        if cache['recovery-openssl-build']!=build:raise ValueError('signature verifier build differs from approved build')
+        key=subprocess.run(['openssl','pkey','-pubin','-in',str(public_key),'-text','-noout'],capture_output=True,timeout=10)
+        if key.returncode or not key.stdout.startswith(b'ED25519 Public-Key:'):raise ValueError('approved key must be Ed25519 public key')
+        result=subprocess.run(['openssl','pkeyutl','-verify','-pubin','-inkey',str(public_key),'-sigfile',str(signature),'-rawin','-in',str(image)],capture_output=True,timeout=10)
+        if result.returncode:raise ValueError('actual Ed25519 signature verification failed')
+    except (OSError,ValueError,UnicodeError,subprocess.TimeoutExpired) as exc:
+        errors.append(f'{label}: signature verification failed: {exc}')
+
+
+def validate_recovery_state(root, execution, prefix, report, defs, label, errors, cache, all_paths, approved):
     state=report['states']
     env=execution['environmentCaptured']
     artifacts={item['ref']:item for item in env['rawExecutionArtifacts'] if isinstance(item,dict) and isinstance(item.get('ref'),str)}
@@ -2568,23 +2668,38 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
     if any(item['ownerId'] not in users for item in state['tasks']) or any(item['authorUserId'] not in users for item in state['revisions']):
         errors.append(f'{label}: tasks/revisions must reference restored users')
     if any(item['authorizedUserId'] not in users for item in state['playback']):errors.append(f'{label}: playback must bind restored permission subjects')
+    grants=[grant for user in state['permissions'] for grant in user['scopedGrants']]
+    if len({g['grantId'] for g in grants})!=len(grants) or {g['assetId'] for g in grants}!=set(assets) or any(g['assetId'] not in assets or g['aclVersion']!=assets[g['assetId']]['aclVersion'] for g in grants):
+        errors.append(f'{label}: scoped ACL grants must uniquely bind every restored asset and its ACL version')
+    if any(item['anonymousAccess'] and item['visibility']!='PUBLIC' for item in state['assets']):
+        errors.append(f'{label}: anonymous publication must retain the authoritative public visibility')
     if any(item['metadataSha256']!=assets.get(item['assetId'],{}).get('metadataSha256') for item in state['indexEntries']) or {item['assetId'] for item in state['indexEntries']}!=set(assets):
         errors.append(f'{label}: index entries must exactly reconcile restored authoritative metadata')
     if any(sum(item['primary'] is True for item in state['replicas'] if item['assetId']==asset)!=1 for asset in assets):
         errors.append(f'{label}: each asset requires exactly one verified authoritative primary replica')
+    for item in state['replicas']:
+        retained(item['artifactRef'],item['sha256'],size=item['byteCount'])
     if any(utc(item['scheduledAt']) is None for item in state['retention']):
         errors.append(f'{label}: retained retention scheduledAt must be a valid UTC date-time')
     previous='sha256:'+'0'*64
     for sequence,item in enumerate(state['audit']):
-        payload={key:item[key] for key in ('entryId','sequence','entityId','previousSha256')}
+        payload={key:item[key] for key in ('entryId','sequence','entityId','previousSha256','event')}
         actual='sha256:'+hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest()
         if item['sequence']!=sequence or item['previousSha256']!=previous or item['sha256']!=actual or item['entityId'] not in assets:
             errors.append(f'{label}: audit ordering and computed integrity chain must bind authoritative entities')
         previous=item['sha256']
+        event=item['event']
+        if event['actorId'] not in users or utc(event['occurredAt']) is None or event['taskId'] is not None and event['taskId'] not in {task['taskId'] for task in state['tasks']}:
+            errors.append(f'{label}: canonical audit event must bind valid actor/time/task relationships')
     if len({item['dedupId'] for item in state['delivery']})!=len(state['delivery']) or any(item['aggregateId'] not in assets or item['publicationCount']!=(1 if item['status']=='processed' else 0) or item['inboxProcessedCount']!=(1 if item['status']=='processed' else 0) for item in state['delivery']):
         errors.append(f'{label}: delivery state must bind unique dedup/event identities and publication/inbox counts')
     if {item['referenceId'] for item in state['valueComparisons']}!=set(state['openbao']['referenceIds']):
         errors.append(f'{label}: actual value comparisons must cover exact restored OpenBao references')
+    store=state['openbao'];retained(store['configurationRef'],store['configurationSha256'],'measurement_output')
+    before=len(errors);configuration=selected_observation(root,execution,prefix,store['configurationRef'],defs,'recoveryOpenBaoConfiguration',label,errors,cache)
+    if configuration is not None and len(errors)==before:
+        if configuration['subjectVersion']!=report['subjectVersion'] or configuration['acceptanceProfile']!=report['acceptanceProfile'] or {m['mountId'] for m in configuration['mounts']}!=set(store['mountIds']) or {p['policyId'] for p in configuration['policies']}!=set(store['policyIds']) or len({m['mountId'] for m in configuration['mounts']})!=len(configuration['mounts']) or len({p['policyId'] for p in configuration['policies']})!=len(configuration['policies']) or len({a['authId'] for a in configuration['authMethods']})!=len(configuration['authMethods']):
+            errors.append(f'{label}: non-secret OpenBao configuration must bind unique exact mounts/policies/auth settings and captured runtime/profile')
     for item in state['valueComparisons']:
         retained(item['artifactRef'],item['sha256'],'measurement_output')
         value=selected_observation(root,execution,prefix,item['artifactRef'],defs,'recoveryValueComparisonArtifact',label,errors,cache)
@@ -2600,13 +2715,23 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
     for item in state['deployment']:
         retained(item['imageArtifactRef'],item['imageSha256'])
         retained(item['signatureArtifactRef'],item['signatureSha256'])
-        verification=selected_observation(root,execution,prefix,item['verificationRef'],defs,'recoveryDeploymentVerification',label,errors,cache)
+        before=len(errors);verification=selected_observation(root,execution,prefix,item['verificationRef'],defs,'recoveryDeploymentVerification',label,errors,cache)
         path=existing_ref(root,item['verificationRef'],prefix)
         if path:
             if any(path.samefile(prior) for prior in all_paths):errors.append(f'{label}: signature verification must be distinct from retained payloads')
             all_paths.append(path)
         if verification is None or any(verification.get(key)!=item[key] for key in ('imageSha256','signatureSha256','signerIdentity')):
             errors.append(f'{label}: signature verification must bind actual image/signature digests and approved signer')
+        approvals=approved.get('approvedSigners')
+        selected=[a for a in approvals if isinstance(a,dict) and a.get('signerIdentity')==item['signerIdentity']] if isinstance(approvals,list) else []
+        if len(selected)!=1:
+            errors.append(f'{label}: signature requires one independently approved public trust identity');continue
+        trust=selected[0];validate_schema(trust,defs.get('recoverySignerApproval',{}),label+'/approved signer',errors)
+        if verification is None or len(errors)!=before:continue
+        key=existing_ref(root,trust['publicKeyRef'],prefix);image=existing_ref(root,item['imageArtifactRef'],prefix);signature=existing_ref(root,item['signatureArtifactRef'],prefix)
+        if key is None or image is None or signature is None or trust['publicKeyRef'] not in execution['rawOutputRefs'] or artifacts.get(trust['publicKeyRef'],{}).get('artifactType')!='recovery_output' or not 0<inspect_artifact(key,cache)['size']<=16384 or inspect_artifact(key,cache)['sha256']!=trust['publicKeySha256'] or inspect_artifact(signature,cache)['size']!=64 or any(verification[k]!=trust[k] for k in ('algorithm','publicKeySha256','verifierBuild')):
+            errors.append(f'{label}: signature verification must bind retained public key bytes and approved algorithm/build');continue
+        verify_recovery_signature(image,signature,key,trust['verifierBuild'],label,errors,cache)
 
 
 def validate_qualified_recovery_observation(root, plan, execution, prefix, status, window, defs, errors, cache):
@@ -2647,7 +2772,7 @@ def validate_qualified_recovery_observation(root, plan, execution, prefix, statu
     if baseline['kind']!='recovery_baseline' or restored['kind']!='recovery_restored':errors.append(f'{label}: exact baseline/restored report roles required')
     observation_interval(restored,execution,label,errors);observation_interval(comparison,execution,label,errors)
     if utc(restored['observedFinishedAt']) and utc(comparison['observedStartedAt']) and utc(restored['observedFinishedAt'])>utc(comparison['observedStartedAt']):errors.append(f'{label}: comparison must follow restored-state capture')
-    for report in (baseline,restored):validate_recovery_state(root,execution,prefix,report,defs,label,errors,cache,paths)
+    for report in (baseline,restored):validate_recovery_state(root,execution,prefix,report,defs,label,errors,cache,paths,approved)
     expected_gates={item['id'] for item in plan['protocol']['measurements'] if item['unit']=='boolean'}
     rows=comparison['rows']
     if set(RECOVERY_GATE_DOMAINS)!=expected_gates or len(rows)!=len(expected_gates) or {row['gate'] for row in rows}!=expected_gates:
@@ -2664,6 +2789,34 @@ def validate_qualified_recovery_observation(root, plan, execution, prefix, statu
     negative=baseline['states']['unreadableFixture'];witness=comparison['unreadableWitness']
     if any(witness.get(key)!=negative[key] for key in ('fixtureId','backupSha256')) or witness.get('errorCode')!=negative['expectedErrorCode']:
         errors.append(f'{label}: unreadable backup witness must identify exact approved negative fixture and expected failure')
+    before=len(errors);observation=selected_observation(root,execution,prefix,witness.get('observationRef'),defs,'recoveryBackupDecodeObservation',label,errors,cache)
+    approved_negative=approved.get('approvedUnreadableFixture')
+    identity_keys=('fixtureId','backupSha256','controlBackupSha256','codec','corruptionOffset','corruptionXor')
+    if not isinstance(approved_negative,dict) or any(approved_negative.get(k)!=negative[k] for k in identity_keys):
+        errors.append(f'{label}: corrupted backup must bind exact independently approved readable control and mutation')
+    for report in (baseline,restored):
+        fixture=report['states']['unreadableFixture'];store=report['states']['openbao']
+        control=existing_ref(root,fixture['controlBackupRef'],prefix);corrupt=existing_ref(root,fixture['artifactRef'],prefix)
+        if control is None or corrupt is None or any(a.get('ref') not in execution['rawOutputRefs'] for a in ({'ref':fixture['controlBackupRef']},{'ref':fixture['artifactRef']})) or any(next((a.get('artifactType') for a in env['rawExecutionArtifacts'] if a.get('ref')==ref),None)!='recovery_output' for ref in (fixture['controlBackupRef'],fixture['artifactRef'])):
+            errors.append(f'{label}: unreadable backup requires retained selected-slot control and corrupted bytes');continue
+        control_info,corrupt_info=inspect_artifact(control,cache),inspect_artifact(corrupt,cache)
+        if not 0<control_info['size']<=262144 or corrupt_info['size']!=fixture['byteCount'] or corrupt_info['sha256']!=fixture['backupSha256'] or control_info['sha256']!=fixture['controlBackupSha256'] or control.samefile(corrupt):
+            errors.append(f'{label}: backup fixture must bind bounded distinct actual control/corrupt bytes');continue
+        try:
+            original=control.read_bytes();damaged=corrupt.read_bytes();offset=fixture['corruptionOffset']
+            if offset>=len(original) or damaged!=original[:offset]+bytes([original[offset]^fixture['corruptionXor']])+original[offset+1:]:raise ValueError('corruption is not the approved control mutation')
+            decoded=decode_recovery_control_backup(original)
+            config_path=existing_ref(root,store['configurationRef'],prefix)
+            config=qualified_observation_report(config_path,defs,'recoveryOpenBaoConfiguration',label,errors,cache) if config_path else None
+            if config is None or decoded!=config:raise ValueError('readable control must restore the captured non-secret configuration')
+            digest='sha256:'+hashlib.sha256(json.dumps(decoded,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8')).hexdigest()
+            try:decode_recovery_control_backup(damaged)
+            except (ValueError,zlib.error,UnicodeError):pass
+            else:raise ValueError('corrupted backup decoded successfully')
+            if observation is None or any(observation.get(k)!=fixture[k] for k in ('fixtureId','backupSha256','controlBackupSha256','codec')) or observation.get('controlDecodedSha256')!=digest:
+                raise ValueError('decoder observation must reconcile actual readable-control output and corrupted-input failure')
+        except (OSError,ValueError,zlib.error,UnicodeError) as exc:
+            errors.append(f'{label}: actual controlled backup decoding failed admission: {exc}')
     before_delivery={item['eventId']:item for item in restored['states']['delivery']};after_delivery={item['eventId']:item for item in comparison['postReplayDelivery']}
     if len(after_delivery)!=len(comparison['postReplayDelivery']) or set(before_delivery)!=set(after_delivery):
         errors.append(f'{label}: replay must preserve exact event identities without duplicates')
@@ -2848,6 +3001,8 @@ def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,
             if case=='authorized_range':primed_at=at;primed_range=(witness['rangeStart'],witness['rangeEnd'],witness['requestRange'])
         else:
             denied_ranges.append((witness['rangeStart'],witness['rangeEnd'],witness['requestRange']))
+            if case!='rate_limit' and witness['originRequestCount']!=0:
+                errors.append(f'{label}: denied requests must not contact the origin')
             if case=='expired':
                 if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['expiredGrantId'] or at<expired:errors.append(f'{label}: expired denial must exercise the approved expired grant')
             elif case=='cross_user':
@@ -4000,6 +4155,7 @@ def validate_execution(
         validate_qualified_source(root,plan,execution,profile_configuration,record_definitions,reference_boundary,errors,record_refs)
         validate_qualified_local_source_faults(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_local_source_listing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_local_source_authentication(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_h264_fallback(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_media_soak(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_hls_ready(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)

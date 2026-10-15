@@ -564,10 +564,13 @@ class TestPocProgram(unittest.TestCase):
                 resultRef=new_prefix+'/result.yaml'))
         finally:
             fixture.cleanup()
+        # A qualified record may use staged Own Evidence, but never an untracked reference.
+        # Directory staging intentionally preserves ignored raw logs for test137's controls.
+        subprocess.run(['git','-C',str(root),'add','--',str(Path(ref).parent)],check=True,capture_output=True)
         return root/ref
 
     def prepare_qualified_recovery_fixture(self,root,execution,prefix):
-        """Synthetic typed recovery reports; no backup/restore was performed."""
+        """Synthetic recovery reports with real local signing/fixture decoding, not OpenBao restore."""
         env=execution['environmentCaptured'];artifact_records=env['rawExecutionArtifacts']
         def retain(name,data,kind='recovery_output'):
             ref=prefix+'/raw/'+name;path=root/ref
@@ -578,9 +581,22 @@ class TestPocProgram(unittest.TestCase):
             return ref,digest,len(raw)
         hash_value='sha256:'+'a'*64
         state=dict(database=dict(schemaSha256=hash_value,dataSha256=hash_value),permissions=[dict(userId='fixture-user',roleIds=['fixture-role'],permissionIds=['asset:read'])],assets=[dict(assetId='fixture-asset',version='fixture-v1',metadataSha256=hash_value)],sourceMappings=[dict(sourceId='fixture-source',assetId='fixture-asset',connectorId='fixture-connector',checkpoint='fixture-checkpoint')],replicas=[dict(replicaId='fixture-primary',assetId='fixture-asset',storageRef='fixture-storage',sha256=hash_value,state='verified',primary=True)],retention=[dict(assetId='fixture-asset',policyId='fixture-policy',lifecycleState='retained',scheduledAt='2026-09-06T00:00:00Z')],delivery=[dict(eventId='fixture-event',dedupId='fixture-dedup',aggregateId='fixture-asset',status='pending',publicationCount=0,inboxProcessedCount=0)],tasks=[dict(taskId='fixture-task',assetId='fixture-asset',status='running',attemptCount=1,ownerId='fixture-user')],openbao=dict(mountIds=['fixture-mount'],policyIds=['fixture-policy'],referenceIds=['secretref_fixture']),unreadableFixture=dict(fixtureId='fixture-corrupt-backup',backupSha256=hash_value,expectedErrorCode='DECRYPTION_MISMATCH'),revisions=[dict(revisionId='fixture-revision',assetId='fixture-asset',authorUserId='fixture-user',revisionNumber=1,provenanceSha256=hash_value)],indexEntries=[dict(entryId='fixture-index',assetId='fixture-asset',metadataSha256=hash_value)])
+        state['permissions'][0]['scopedGrants']=[dict(grantId='fixture-read-grant',assetId='fixture-asset',permissionId='asset:read',disposition='allow',grantVersion=1,aclVersion=1)]
+        state['assets'][0].update(visibility='PRIVATE',anonymousAccess=False,aclVersion=1)
         audit=dict(entryId='fixture-audit',sequence=0,entityId='fixture-asset',previousSha256='sha256:'+'0'*64)
+        audit['event']=dict(actorId='fixture-user',occurredAt='2026-09-02T23:59:57Z',source='fixture-local-control',action='asset.read',reason='Approved recovery fixture',beforeSha256=hash_value,afterSha256=hash_value,result='succeeded',traceId='fixture-trace',approvalId=None,taskId='fixture-task')
         audit['sha256']='sha256:'+hashlib.sha256(json.dumps(audit,sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest();state['audit']=[audit]
         common=dict(schemaVersion=1,resourceId='RES-RECOVERY-SANDBOX',acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version({'pocId':'POC-10'},execution),inputSamples=[{key:s[key] for key in ('id','immutableId','checksum')} for s in execution['samples']])
+        image_bytes=b'Synthetic deployment image; not an actual image.\n'
+        verifier_build=subprocess.run(['openssl','version'],check=True,capture_output=True,text=True).stdout.strip()
+        with tempfile.TemporaryDirectory(prefix='guize-signature-unit-fixture-') as signing:
+            private=Path(signing)/'ephemeral.pem';image=Path(signing)/'image.bin';image.write_bytes(image_bytes)
+            subprocess.run(['openssl','genpkey','-algorithm','ED25519','-out',str(private)],check=True,capture_output=True)
+            public_bytes=subprocess.run(['openssl','pkey','-in',str(private),'-pubout'],check=True,capture_output=True).stdout
+            signature_bytes=subprocess.run(['openssl','pkeyutl','-sign','-inkey',str(private),'-rawin','-in',str(image)],check=True,capture_output=True).stdout
+        public_ref,public_sha,_=retain('approved-ed25519-public.pem',public_bytes)
+        signer=dict(signerIdentity='fixture-approved-signer',algorithm='ed25519',publicKeyRef=public_ref,publicKeySha256=public_sha,verifierBuild=verifier_build)
+        unreadable_observations=[]
         manifests=[]
         for phase in ('baseline','restored'):
             states=json.loads(json.dumps(state))
@@ -591,18 +607,31 @@ class TestPocProgram(unittest.TestCase):
             states['files']=[dict(logicalPath='fixture/restored-file.bin',artifactRef=ref,byteCount=size,sha256=digest)]
             ref,digest,size=retain(phase+'-playback-range.bin',b'Synthetic Range fixture only.\n')
             states['playback']=[dict(assetId='fixture-asset',authorizedUserId='fixture-user',statusCode=206,rangeStart=0,rangeEnd=size-1,artifactRef=ref,sha256=digest)]
-            image_ref,image_sha,_=retain(phase+'-image.bin',b'Synthetic deployment image; not an actual image.\n')
-            sig_ref,sig_sha,_=retain(phase+'-image-signature.bin',b'Synthetic signature; not actual cryptographic verification.\n')
-            verification_ref,_,_=retain(phase+'-signature-verification.yaml',dict(schemaVersion=1,kind='signature_verification',imageSha256=image_sha,signatureSha256=sig_sha,signerIdentity='fixture-approved-signer',algorithm='ed25519',verified=True),'measurement_output')
+            ref,digest,size=retain(phase+'-replica-readback.bin',b'Synthetic actual replica readback bytes.\n')
+            states['replicas'][0].update(artifactRef=ref,sha256=digest,byteCount=size)
+            bao=dict(schemaVersion=1,kind='openbao_nonsecret_configuration',subjectVersion=common['subjectVersion'],acceptanceProfile=common['acceptanceProfile'],mounts=[dict(mountId='fixture-mount',engineType='kv',engineVersion='2',options=dict(version='2',casRequired=True))],policies=[dict(policyId='fixture-policy',rules='path "fixture/*" { capabilities = ["read"] }')],authMethods=[dict(authId='fixture-userpass',methodType='userpass',configuration=dict(defaultLeaseSeconds=60))])
+            ref,digest,_=retain(phase+'-openbao-config.yaml',bao,'measurement_output');states['openbao'].update(configurationRef=ref,configurationSha256=digest)
+            encoded=json.dumps(bao,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8');encoder=zlib.compressobj(wbits=31);control=encoder.compress(encoded)+encoder.flush()
+            offset=len(control)-8;corrupt=control[:offset]+bytes([control[offset]^1])+control[offset+1:]
+            self.assertEqual(json.loads(zlib.decompress(control,31)),bao)
+            with self.assertRaises(zlib.error):zlib.decompress(corrupt,31)
+            control_ref,control_sha,_=retain(phase+'-control-config-backup.gz',control)
+            bad_ref,bad_sha,bad_size=retain(phase+'-corrupted-config-backup.gz',corrupt)
+            states['unreadableFixture']=dict(fixtureId='fixture-corrupt-backup',backupSha256=bad_sha,expectedErrorCode='BACKUP_DECODE_FAILED',artifactRef=bad_ref,byteCount=bad_size,controlBackupRef=control_ref,controlBackupSha256=control_sha,codec='synthetic-openbao-config-gzip-json-v1',corruptionOffset=offset,corruptionXor=1)
+            observation=dict(schemaVersion=1,kind='backup_decode_observation',fixtureId='fixture-corrupt-backup',codec='synthetic-openbao-config-gzip-json-v1',decoderBuild='python-stdlib-zlib-gzip-json-v1',controlBackupSha256=control_sha,backupSha256=bad_sha,controlDecodedSha256='sha256:'+hashlib.sha256(encoded).hexdigest(),controlOutcome='succeeded',restoreOutcome='failed',readbackOutcome='failed',errorCode='BACKUP_DECODE_FAILED',successfulReadCount=0)
+            ref,_,_=retain(phase+'-backup-decode-observation.yaml',observation,'measurement_output');unreadable_observations.append(ref)
+            image_ref,image_sha,_=retain(phase+'-image.bin',image_bytes)
+            sig_ref,sig_sha,_=retain(phase+'-image-signature.bin',signature_bytes)
+            verification_ref,_,_=retain(phase+'-signature-verification.yaml',dict(schemaVersion=1,kind='signature_verification',imageSha256=image_sha,signatureSha256=sig_sha,signerIdentity=signer['signerIdentity'],algorithm='ed25519',verified=True,publicKeySha256=public_sha,verifierBuild=verifier_build),'measurement_output')
             states['deployment']=[dict(imageId='fixture-image',imageArtifactRef=image_ref,imageSha256=image_sha,signatureArtifactRef=sig_ref,signatureSha256=sig_sha,signerIdentity='fixture-approved-signer',verificationRef=verification_ref)]
             report=dict(**common,kind='recovery_'+phase,observedStartedAt='2026-09-02T23:59:57Z' if phase=='baseline' else '2026-09-03T00:00:01Z',observedFinishedAt='2026-09-02T23:59:59Z' if phase=='baseline' else '2026-09-03T00:01:00Z',states=states)
             ref,sha,_=retain('recovery-'+phase+'.yaml',report,'measurement_output');manifests.append((ref,sha,report))
         baseline_ref,baseline_sha,baseline=manifests[0];restored_ref,restored_sha,restored=manifests[1]
         rows=[dict(gate=gate,before={d:CHECK.recovery_domain_digest(baseline['states'][d]) for d in domains},after={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}) for gate,domains in CHECK.RECOVERY_GATE_DOMAINS.items()]
-        comparison=dict(**common,kind='recovery_comparison',baselineRef=baseline_ref,baselineSha256=baseline_sha,restoredRef=restored_ref,restoredSha256=restored_sha,observedStartedAt='2026-09-03T00:01:00Z',observedFinishedAt='2026-09-03T00:02:00Z',rows=rows,replayedEventIds=['fixture-event'],postReplayDelivery=[{**item,'status':'processed','publicationCount':1,'inboxProcessedCount':1} for item in state['delivery']],unreadableWitness=dict(fixtureId='fixture-corrupt-backup',backupSha256=hash_value,errorCode='DECRYPTION_MISMATCH',restoreOutcome='failed',readbackOutcome='failed',successfulReadCount=0))
+        comparison=dict(**common,kind='recovery_comparison',baselineRef=baseline_ref,baselineSha256=baseline_sha,restoredRef=restored_ref,restoredSha256=restored_sha,observedStartedAt='2026-09-03T00:01:00Z',observedFinishedAt='2026-09-03T00:02:00Z',rows=rows,replayedEventIds=['fixture-event'],postReplayDelivery=[{**item,'status':'processed','publicationCount':1,'inboxProcessedCount':1} for item in state['delivery']],unreadableWitness=dict(fixtureId='fixture-corrupt-backup',backupSha256=baseline['states']['unreadableFixture']['backupSha256'],errorCode='BACKUP_DECODE_FAILED',restoreOutcome='failed',readbackOutcome='failed',successfulReadCount=0,observationRef=unreadable_observations[-1]))
         comparison_ref,_,_=retain('recovery-comparison.yaml',comparison,'measurement_output')
         resource=next(r for r in execution['resources'] if r['id']=='RES-RECOVERY-SANDBOX');config_path=root/resource['configurationRef'];config=load_yaml(config_path)
-        config['configuration']['recoveryBaseline']=dict(baselineRef=baseline_ref,baselineSha256=baseline_sha,approvedReplayEventIds=['fixture-event'],approvedComparisonContexts=[{key:item[key] for key in ('referenceId','method','comparisonContextId')} for item in baseline['states']['valueComparisons']]);write_yaml(config_path,config)
+        config['configuration']['recoveryBaseline']=dict(baselineRef=baseline_ref,baselineSha256=baseline_sha,approvedReplayEventIds=['fixture-event'],approvedComparisonContexts=[{key:item[key] for key in ('referenceId','method','comparisonContextId')} for item in baseline['states']['valueComparisons']],approvedSigners=[signer],approvedUnreadableFixture={key:baseline['states']['unreadableFixture'][key] for key in ('fixtureId','backupSha256','controlBackupSha256','codec','corruptionOffset','corruptionXor')});write_yaml(config_path,config)
         env['recoveryEvidence']=dict(configurationRef=resource['configurationRef'],baselineRef=baseline_ref,restoredRef=restored_ref,comparisonRef=comparison_ref)
         subjects=dict(recoveryRunId='fixture-recovery-run',physicalHostId='fixture-recovery-host',serviceSetId='fixture-services',vmSetId='fixture-vm-set',authorizedUserId='fixture-user',assetId='fixture-asset',backupCheckpointAt='2026-09-02T23:59:59Z')
         config['approvedAt']='2026-09-03T00:00:00Z';config['configuration']['recoveryTimingSubjects']=subjects;write_yaml(config_path,config)
@@ -1023,6 +1052,22 @@ class TestPocProgram(unittest.TestCase):
         ref=prefix+'/raw/source-fault-outcomes.yaml';path=root/ref;write_yaml(path,report);raw=path.read_bytes();env['sourceFaultOutcomeRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='scope_observation',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
         for case in env['injected_failure_matrix']['cases']:case['rawOutputRef']=ref
         self.prepare_qualified_source_listing_fixture(root,execution,prefix)
+        self.prepare_qualified_local_source_authentication_fixture(root,execution,prefix)
+
+
+    def prepare_qualified_local_source_authentication_fixture(self,root,execution,prefix):
+        """Synthetic authentication contract, never actual OpenList credentials or requests."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-OPENLIST-LOCAL');config_path=root/resource['configurationRef'];config=load_yaml(config_path);fault=config['configuration']['localSourceFaultPolicy'];sample=execution['samples'][0]
+        policy={k:fault[k] for k in ('sourceId','sandboxId','subjectVersion','objectId','objectVersion')}
+        policy.update(authMethod='basic',principalId='synthetic-local-source-reader',authorizedAuthRef='secretref_synthetic_source_reader',invalidAuthRef='secretref_synthetic_source_invalid',endpointURL='http://127.0.0.1:15525/d/synthetic-source-object',sampleId=sample['id'],immutableId=sample['immutableId'],payloadSha256=sample['checksum'])
+        config['configuration']['localSourceAuthenticationPolicy']=policy;write_yaml(config_path,config)
+        source=next(r for r in env['inputSampleArtifacts'] if r['sampleId']==sample['id']);payload=(root/source['inputArtifactRef']).read_bytes();rows=[]
+        for index,case in enumerate(('authenticated','anonymous_denied','invalid_auth_denied')):
+            success=case=='authenticated';anonymous=case=='anonymous_denied';body=payload if success else b'';ref=prefix+'/raw/source-auth-'+case+'.bin';(root/ref).write_bytes(body);digest='sha256:'+hashlib.sha256(body).hexdigest()
+            env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='produced_media',byteCount=len(body),sha256=digest));execution['rawOutputRefs'].append(ref)
+            rows.append(dict(case=case,requestId='synthetic-auth-request-'+str(index),httpMethod='GET',endpointURL=policy['endpointURL'],authMethod='none' if anonymous else policy['authMethod'],authRef=None if anonymous else policy['authorizedAuthRef'] if success else policy['invalidAuthRef'],requestPrincipalId=None if anonymous else policy['principalId'],authenticatedPrincipalId=policy['principalId'] if success else None,requestedAt=f'2026-09-03T00:04:0{index}Z',finishedAt=f'2026-09-03T00:04:0{index}.100Z',statusCode=200 if success else 401,responseBodyRef=ref,responseByteCount=len(body),responseSha256=digest,returnedObjectId=policy['objectId'] if success else None,returnedObjectVersion=policy['objectVersion'] if success else None))
+        report=dict(schemaVersion=1,kind='local_source_authentication_observation',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=policy['subjectVersion'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],scope='GENERIC_OPENLIST_SANDBOX',**{k:policy[k] for k in ('sourceId','sandboxId','endpointURL','objectId','objectVersion','authMethod','principalId')},requests=rows)
+        ref=prefix+'/raw/source-authentication.yaml';write_yaml(root/ref,report);raw=(root/ref).read_bytes();env['sourceAuthenticationRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
 
 
     def prepare_qualified_source_listing_fixture(self,root,execution,prefix):
@@ -5732,6 +5777,246 @@ class TestPocProgram(unittest.TestCase):
                     record['environmentCaptured'].pop('syntheticHierarchySandbox');write_yaml(path,record)
                 self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-05'}),[])
             finally:temp.cleanup()
+
+
+    def test_199_referenced_unignored_profile_evidence_must_be_tracked(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-006',profile)
+                result=load_yaml(root/load_yaml(index)['resultRef'])
+                record=load_yaml(root/result['executionRef'])
+                refs=[index.relative_to(root).as_posix(),record['environmentCaptured']['acceptanceProfileConfigurationRef']]
+                expected=self.deferred_production_errors(profile,'POC-06')
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),expected)
+                for ref in refs:
+                    subprocess.run(['git','-C',str(root),'rm','--cached','--',ref],check=True,capture_output=True)
+                    ignored=subprocess.run(['git','-C',str(root),'check-ignore','--',ref],capture_output=True)
+                    self.assertEqual(ignored.returncode,1)
+                    errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})
+                    self.assertTrue(any('referenced qualified evidence must be tracked' in e and ref in e for e in errors),(profile,ref,errors))
+                    subprocess.run(['git','-C',str(root),'add','--',ref],check=True,capture_output=True)
+                    self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'}),expected)
+            finally:temp.cleanup()
+
+    def test_200_invalid_firmware_reports_return_validation_errors(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-001','production')
+            path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']
+            record=load_yaml(path);env=record['environmentCaptured']
+            report_path=root/env['productionFirmwareRef'];original=load_yaml(report_path)
+            defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs']
+            plan=load_yaml(self.plan_path(root,'POC-001'));prefix=Path(str(path.relative_to(root))).parent.as_posix()
+            window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+            for missing in ('hostBootId','runtimeInitializedAt'):
+                report=copy.deepcopy(original);report.pop(missing);write_yaml(report_path,report)
+                self.refresh_qualified_observation_fixture(root,record)
+                errors=[]
+                CHECK.validate_qualified_passthrough_transitions(root,plan,record,prefix,'pass',window,defs,errors,{})
+                self.assertTrue(any(missing in e and 'required' in e for e in errors),(missing,errors))
+        finally:temp.cleanup()
+
+    def test_201_denied_access_requires_zero_origin_requests(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-007',profile)
+                path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']
+                record=load_yaml(path);env=record['environmentCaptured'];report=load_yaml(root/env['accessOutcomeRef'])
+                defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs']
+                plan=load_yaml(self.plan_path(root,'POC-007'));prefix=path.parent.relative_to(root).as_posix()
+                window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+                def validate():
+                    self.refresh_qualified_observation_fixture(root,record)
+                    errors=[];CHECK.validate_qualified_access_outcomes(root,plan,record,prefix,'pass',window,defs,errors,{})
+                    return errors
+                self.assertEqual(validate(),[])
+                for row in report['cases']:
+                    if row['case'].startswith('authorized_') or row['case']=='rate_limit':continue
+                    witness_path=root/row['witnessRef'];witness=load_yaml(witness_path)
+                    self.assertEqual(witness['originRequestCount'],0)
+                    witness['originRequestCount']=1;write_yaml(witness_path,witness)
+                    self.assertTrue(any('denied requests must not contact the origin' in e for e in validate()),(profile,row['case']))
+                    witness['originRequestCount']=0;write_yaml(witness_path,witness)
+                    self.assertEqual(validate(),[])
+            finally:temp.cleanup()
+
+
+    def exercise_recovery_integrity_regressions(self,cases,mutate):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile)
+                path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];record=load_yaml(path);capture=record['environmentCaptured']['recoveryEvidence']
+                paths=[root/capture[k] for k in ('baselineRef','restoredRef','comparisonRef','configurationRef')]
+                saved={root/a['ref']:(root/a['ref']).read_bytes() for a in record['environmentCaptured']['rawExecutionArtifacts']};saved[path]=path.read_bytes();saved[paths[3]]=paths[3].read_bytes()
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-10'})
+                self.assertEqual(validate(),[])
+                for case in cases:
+                    for artifact,raw in saved.items():artifact.write_bytes(raw)
+                    record=load_yaml(path);base,restored,comparison,config=[load_yaml(p) for p in paths]
+                    mutate(case,root,base,restored,comparison,config)
+                    for row in comparison['rows']:
+                        domains=CHECK.RECOVERY_GATE_DOMAINS[row['gate']];row['before']={d:CHECK.recovery_domain_digest(base['states'][d]) for d in domains};row['after']={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}
+                    write_yaml(paths[0],base);write_yaml(paths[1],restored)
+                    comparison['baselineSha256']=config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+hashlib.sha256(paths[0].read_bytes()).hexdigest();comparison['restoredSha256']='sha256:'+hashlib.sha256(paths[1].read_bytes()).hexdigest()
+                    write_yaml(paths[2],comparison);write_yaml(paths[3],config)
+                    self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
+                    errors=validate();self.assertTrue(any('qualified recovery observation' in e for e in errors),(profile,case,errors))
+            finally:temp.cleanup()
+
+    def test_202_recovery_preserves_scoped_acl_and_publication(self):
+        def mutate(case,root,base,restored,comparison,config):
+            if case=='changed_disposition':restored['states']['permissions'][0]['scopedGrants'][0]['disposition']='deny'
+            elif case=='changed_publication':restored['states']['assets'][0].update(visibility='PUBLIC',anonymousAccess=True)
+            else:
+                for report in (base,restored):
+                    permission=report['states']['permissions'][0]
+                    if case=='missing':permission.pop('scopedGrants')
+                    elif case=='orphan':permission['scopedGrants'][0]['assetId']='missing-asset'
+                    else:permission['scopedGrants'][0]['aclVersion']=2
+        self.exercise_recovery_integrity_regressions(('missing','orphan','acl_version','changed_disposition','changed_publication'),mutate)
+
+    def test_203_recovery_verified_replicas_require_actual_readback(self):
+        def mutate(case,root,base,restored,comparison,config):
+            for report in (base,restored):
+                row=report['states']['replicas'][0]
+                if case=='missing':row.pop('artifactRef')
+                elif case=='invented_hash':row['sha256']='sha256:'+'a'*64
+                elif case=='size':row['byteCount']+=1
+                else:(root/row['artifactRef']).write_bytes(b'Corrupted actual replica bytes.\n')
+        self.exercise_recovery_integrity_regressions(('missing','invented_hash','size','corrupt'),mutate)
+
+    def test_204_recovery_openbao_compares_nonsecret_configuration(self):
+        def mutate(case,root,base,restored,comparison,config):
+            if case in ('missing','hash'):
+                for report in (base,restored):
+                    if case=='missing':report['states']['openbao'].pop('configurationRef')
+                    else:report['states']['openbao']['configurationSha256']='sha256:'+'a'*64
+            else:
+                store=restored['states']['openbao'];artifact=root/store['configurationRef'];snapshot=load_yaml(artifact)
+                if case=='policy':snapshot['policies'][0]['rules']='path "fixture/*" { capabilities = ["deny"] }'
+                elif case=='mount':snapshot['mounts'][0]['options']['version']='1'
+                else:snapshot['authMethods'][0]['configuration']['defaultLeaseSeconds']=600
+                write_yaml(artifact,snapshot);store['configurationSha256']='sha256:'+hashlib.sha256(artifact.read_bytes()).hexdigest()
+        self.exercise_recovery_integrity_regressions(('missing','hash','policy','mount','auth'),mutate)
+
+    def test_205_recovery_audit_hash_chain_covers_event_contents(self):
+        def mutate(case,root,base,restored,comparison,config):
+            if case in ('action','trace'):
+                row=restored['states']['audit'][0];row['event']['action' if case=='action' else 'traceId']='changed-audit-content'
+                row['sha256']='sha256:'+hashlib.sha256(json.dumps({k:v for k,v in row.items() if k!='sha256'},sort_keys=True,separators=(',',':')).encode('utf8')).hexdigest()
+            else:
+                for report in (base,restored):
+                    row=report['states']['audit'][0]
+                    if case=='missing':row.pop('event')
+                    elif case=='actor':row['event']['actorId']='missing-user'
+                    else:row['event']['reason']='Altered contents behind the original chain hash'
+        self.exercise_recovery_integrity_regressions(('missing','actor','action','trace','unchanged_hash'),mutate)
+
+    def test_206_recovery_signatures_require_actual_approved_key_verification(self):
+        def mutate(case,root,base,restored,comparison,config):
+            policy=config['configuration']['recoveryBaseline']
+            if case=='missing_trust':policy.pop('approvedSigners')
+            elif case=='key_hash':policy['approvedSigners'][0]['publicKeySha256']='sha256:'+'a'*64
+            else:
+                for report in (base,restored):
+                    row=report['states']['deployment'][0];artifact=root/row['verificationRef'];verification=load_yaml(artifact)
+                    if case=='signer':row['signerIdentity']=verification['signerIdentity']='unapproved-signer'
+                    else:
+                        field,hash_field=('signatureArtifactRef','signatureSha256') if case=='random_signature' else ('imageArtifactRef','imageSha256')
+                        payload=root/row[field];payload.write_bytes(b'x'*64 if case=='random_signature' else b'Changed image retaining the original signature.\n')
+                        row[hash_field]=verification[hash_field]='sha256:'+hashlib.sha256(payload.read_bytes()).hexdigest()
+                    write_yaml(artifact,verification)
+        self.exercise_recovery_integrity_regressions(('missing_trust','key_hash','random_signature','changed_image','signer'),mutate)
+
+    def test_207_recovery_unreadable_backup_uses_readable_control_and_actual_decoder(self):
+        def mutate(case,root,base,restored,comparison,config):
+            if case=='approved_control':config['configuration']['recoveryBaseline']['approvedUnreadableFixture']['controlBackupSha256']='sha256:'+'a'*64;return
+            if case=='observation':
+                artifact=root/comparison['unreadableWitness']['observationRef'];observation=load_yaml(artifact);observation['controlDecodedSha256']='sha256:'+'a'*64;write_yaml(artifact,observation);return
+            for report in (base,restored):
+                fixture=report['states']['unreadableFixture']
+                if case=='missing_control':fixture.pop('controlBackupRef');continue
+                control=root/fixture['controlBackupRef'];bad=root/fixture['artifactRef']
+                if case=='invalid_control':
+                    data=b'An arbitrary invalid gzip cannot qualify as a readable control.';control.write_bytes(data);fixture['corruptionOffset']=0;fixture['controlBackupSha256']='sha256:'+hashlib.sha256(data).hexdigest();bad.write_bytes(bytes([data[0]^1])+data[1:])
+                elif case=='unchanged_backup':bad.write_bytes(control.read_bytes())
+                else:bad.write_bytes(b'Unrelated corrupt bytes are not an approved control mutation.')
+                fixture['backupSha256']='sha256:'+hashlib.sha256(bad.read_bytes()).hexdigest();fixture['byteCount']=bad.stat().st_size
+            if case!='missing_control':
+                fixture=base['states']['unreadableFixture'];comparison['unreadableWitness']['backupSha256']=fixture['backupSha256'];config['configuration']['recoveryBaseline']['approvedUnreadableFixture']={k:fixture[k] for k in ('fixtureId','backupSha256','controlBackupSha256','codec','corruptionOffset','corruptionXor')}
+        self.exercise_recovery_integrity_regressions(('missing_control','invalid_control','unchanged_backup','unrelated_corrupt','observation','approved_control'),mutate)
+
+
+    def test_208_local_source_authentication_requires_bound_method_bytes_and_denials(self):
+        temp,root=self.temp_repo()
+        try:
+            index=self.make_profile_slot(root,'POC-006','local-v1');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);env=original['environmentCaptured'];report_path=root/env['sourceAuthenticationRef'];original_report=load_yaml(report_path);config_path=root/original_report['configurationRef'];original_config=load_yaml(config_path)
+            prefix=str(index.parent.relative_to(root)).replace('\\','/');plan=load_yaml(self.plan_path(root,'POC-006'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][k]) for k in ('startedAt','finishedAt'))
+            original_bodies={row['responseBodyRef']:(root/row['responseBodyRef']).read_bytes() for row in original_report['requests']}
+            def validate(data,status='pass'):
+                self.refresh_qualified_observation_fixture(root,data);errors=[];CHECK.validate_qualified_local_source_authentication(root,plan,data,prefix,status,window,defs,errors,{});return errors
+            self.assertEqual(validate(copy.deepcopy(original)),[])
+            self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'}),[])
+            for mode in ('missing','shape','policy_shape','method','principal','source','sandbox','version','endpoint','input','sample','payload','duplicate_auth_ref','invalid_ref','request_method','request_endpoint','observed_method','observed_ref','observed_principal','authenticated_principal','clock','future_clock','success_status','body_hash','body_count','body_bytes','empty_success','object','object_version','anonymous_success','anonymous_ref','anonymous_identity','anonymous_bytes','invalid_success','invalid_result','duplicate_case','duplicate_request','missing_case','alias','outside_slot','raw_type','gate'):
+                with self.subTest(mode=mode):
+                    data=copy.deepcopy(original);report=copy.deepcopy(original_report);config=copy.deepcopy(original_config);policy=config['configuration']['localSourceAuthenticationPolicy'];success,anonymous,invalid=report['requests']
+                    for ref,body in original_bodies.items():(root/ref).write_bytes(body)
+                    if mode=='missing':data['environmentCaptured'].pop('sourceAuthenticationRef')
+                    elif mode=='shape':report=True
+                    elif mode=='policy_shape':config['configuration']['localSourceAuthenticationPolicy']=True
+                    elif mode in ('method','principal','source','sandbox','version','endpoint'):report[dict(method='authMethod',principal='principalId',source='sourceId',sandbox='sandboxId',version='subjectVersion',endpoint='endpointURL')[mode]]='foreign'
+                    elif mode=='input':report['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif mode=='sample':policy['sampleId']='foreign'
+                    elif mode=='payload':policy['payloadSha256']='sha256:'+'0'*64
+                    elif mode=='duplicate_auth_ref':policy['invalidAuthRef']=policy['authorizedAuthRef']
+                    elif mode=='invalid_ref':policy['authorizedAuthRef']='plaintext-not-a-reference'
+                    elif mode=='request_method':success['httpMethod']='POST'
+                    elif mode=='request_endpoint':success['endpointURL']='http://127.0.0.1:15525/other'
+                    elif mode=='observed_method':success['authMethod']='bearer'
+                    elif mode=='observed_ref':success['authRef']=policy['invalidAuthRef']
+                    elif mode=='observed_principal':success['requestPrincipalId']='foreign'
+                    elif mode=='authenticated_principal':success['authenticatedPrincipalId']=None
+                    elif mode=='clock':success['finishedAt']='2026-09-03T00:03:00Z'
+                    elif mode=='future_clock':success['finishedAt']='2099-09-03T00:04:01Z'
+                    elif mode=='success_status':success['statusCode']=401
+                    elif mode=='body_hash':success['responseSha256']='sha256:'+'0'*64
+                    elif mode=='body_count':success['responseByteCount']+=1
+                    elif mode in ('body_bytes','empty_success'):
+                        body=b'Forged protected response' if mode=='body_bytes' else b'';(root/success['responseBodyRef']).write_bytes(body);success['responseSha256']='sha256:'+hashlib.sha256(body).hexdigest();success['responseByteCount']=len(body)
+                    elif mode=='object':success['returnedObjectId']='foreign'
+                    elif mode=='object_version':success['returnedObjectVersion']='foreign'
+                    elif mode=='anonymous_success':anonymous['statusCode']=200
+                    elif mode=='anonymous_ref':anonymous['authRef']=policy['authorizedAuthRef']
+                    elif mode=='anonymous_identity':anonymous['authenticatedPrincipalId']=policy['principalId']
+                    elif mode=='anonymous_bytes':
+                        body=original_bodies[success['responseBodyRef']];(root/anonymous['responseBodyRef']).write_bytes(body);anonymous['responseSha256']='sha256:'+hashlib.sha256(body).hexdigest();anonymous['responseByteCount']=len(body)
+                    elif mode=='invalid_success':invalid['statusCode']=200
+                    elif mode=='invalid_result':invalid['returnedObjectId']=policy['objectId']
+                    elif mode=='duplicate_case':invalid['case']='anonymous_denied'
+                    elif mode=='duplicate_request':invalid['requestId']=success['requestId']
+                    elif mode=='missing_case':report['requests'].pop()
+                    elif mode=='alias':anonymous['responseBodyRef']=invalid['responseBodyRef']
+                    elif mode=='outside_slot':success['responseBodyRef']='evidence/POC-006/foreign.bin'
+                    elif mode=='raw_type':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==success['responseBodyRef'])['artifactType']='command_output'
+                    else:next(m for m in data['measurements'] if m['id']=='auth_flow_supported')['actual']=False
+                    write_yaml(report_path,report);write_yaml(config_path,config);self.assertTrue(validate(data),mode)
+            for ref,body in original_bodies.items():(root/ref).write_bytes(body)
+            write_yaml(config_path,original_config);write_yaml(report_path,original_report)
+            # Basic and Bearer both retain real protected payload and anonymous/invalid controls.
+            for method in ('basic','bearer'):
+                config=copy.deepcopy(original_config);report=copy.deepcopy(original_report);config['configuration']['localSourceAuthenticationPolicy']['authMethod']=method;report['authMethod']=method
+                for row in report['requests']:
+                    if row['case']!='anonymous_denied':row['authMethod']=method
+                write_yaml(config_path,config);write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+            for status in ('fail','inconclusive'):
+                data=copy.deepcopy(original);data['environmentCaptured'].pop('sourceAuthenticationRef');self.assertEqual(validate(data,status),[])
+            data=copy.deepcopy(original);data['environmentCaptured']['acceptanceProfile']=CHECK.profile_identity('production');data['environmentCaptured'].pop('sourceAuthenticationRef');self.assertEqual(validate(data),[])
+            write_yaml(config_path,original_config);write_yaml(report_path,original_report);data=copy.deepcopy(original);data['environmentCaptured'].pop('sourceAuthenticationRef');write_yaml(path,data)
+            self.assertTrue(any('qualified local source authentication' in e for e in CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'})))
+        finally:temp.cleanup()
 
 
 if __name__ == "__main__":

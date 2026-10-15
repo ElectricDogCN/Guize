@@ -1,3 +1,11 @@
+Preparation checkpoint on parent4444846: the exact10 captured review findings now have scoped checker/Schema/fixture repairs and tests199-208. Original198 method ASTs remain unchanged. The stable combined10 passed in281.453s; twelve recovery/direct regressions separately passed in701.072s. These candidate checks do not replace the successor's full208/local20/native637/JUnit/docs or its own CI. Exact candidate records are retained in evidence/GZ-021/candidate-checks/finite10-evidence-integrity/manifest.json.
+
+The parent444 run was deliberately cancelled after17 successful gates once material content gaps were confirmed. Its POC child ended at-2 after SIGINT, root runner at1, with no complete198 result. CI710 separately passed28 steps and637 governance tests in1585.18s. Parent cancellation and CI remain historical, never transferred as successor acceptance; original physical records are retained in evidence/GZ-021/executions/44448468766ea98fc63a017a57937a355c542826/manifest.json.
+
+Recovery signature qualification requires available OpenSSL and an approved exact verifier build, Ed25519 algorithm, signer and public-key hash; the checker really verifies retained bytes. The bounded synthetic configuration-backup decoder negative case proves only its approved readable-control/corruption fixture, and does not establish actual OpenBao restore, secret decryption or POC010 runtime. Authenticated OpenList request contracts now bind methods, non-secret references, exact protected response bytes and anonymous/invalid denial controls. Actual Workers/AV1/HLS/OpenList and full local V1 remain unaccepted.
+
+The following earlier entries are historical preparation/source records.
+
 Current successor preparation: fixture137 typed observation retention; publication and own-source validation pending.
 
 The actual published fbc7598 parent completed18 local gates:17 passed and poc-tests failed. Its complete198 run took6560.848s:197 passed, only137 failed,0 errors/skips. The native governance637/JUnit/docs gates did not execute. Its separately accepted CI709 passed28 steps and637 governance tests in934.99s; CI does not run POC198 and cannot override the local failure. Exact original execution, source/adoption identities and independent failure/CI receipts are retained in executions/fbc7598125c1601892174ed2be8284fef10bb56a/manifest.json.

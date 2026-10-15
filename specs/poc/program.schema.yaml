@@ -1794,6 +1794,7 @@ $defs:
               - userId
               - roleIds
               - permissionIds
+              - scopedGrants
               properties:
                 userId:
                   type: string
@@ -1812,6 +1813,20 @@ $defs:
                   items:
                     type: string
                     minLength: 1
+                scopedGrants:
+                  type: array
+                  maxItems: 10000
+                  items:
+                    type: object
+                    additionalProperties: false
+                    required: [grantId, assetId, permissionId, disposition, grantVersion, aclVersion]
+                    properties:
+                      grantId: {type: string, minLength: 1}
+                      assetId: {type: string, minLength: 1}
+                      permissionId: {type: string, minLength: 1}
+                      disposition: {enum: [allow, deny]}
+                      grantVersion: {type: integer, minimum: 1}
+                      aclVersion: {type: integer, minimum: 1}
           assets:
             type: array
             minItems: 1
@@ -1823,6 +1838,9 @@ $defs:
               - assetId
               - version
               - metadataSha256
+              - visibility
+              - anonymousAccess
+              - aclVersion
               properties:
                 assetId:
                   type: string
@@ -1833,6 +1851,9 @@ $defs:
                 metadataSha256:
                   type: string
                   pattern: ^sha256:[a-f0-9]{64}$
+                visibility: {enum: [PRIVATE, SHARED, PUBLIC]}
+                anonymousAccess: {type: boolean}
+                aclVersion: {type: integer, minimum: 1}
           sourceMappings:
             type: array
             minItems: 1
@@ -1872,6 +1893,8 @@ $defs:
               - sha256
               - state
               - primary
+              - artifactRef
+              - byteCount
               properties:
                 replicaId:
                   type: string
@@ -1889,6 +1912,8 @@ $defs:
                   const: verified
                 primary:
                   type: boolean
+                artifactRef: {type: string, minLength: 1}
+                byteCount: {type: integer, minimum: 1}
           retention:
             type: array
             minItems: 1
@@ -1927,6 +1952,7 @@ $defs:
               - entityId
               - previousSha256
               - sha256
+              - event
               properties:
                 entryId:
                   type: string
@@ -1943,6 +1969,22 @@ $defs:
                 sha256:
                   type: string
                   pattern: ^sha256:[a-f0-9]{64}$
+                event:
+                  type: object
+                  additionalProperties: false
+                  required: [actorId, occurredAt, source, action, reason, beforeSha256, afterSha256, result, traceId, approvalId, taskId]
+                  properties:
+                    actorId: {type: string, minLength: 1}
+                    occurredAt: {type: string, format: date-time}
+                    source: {type: string, minLength: 1}
+                    action: {type: string, minLength: 1}
+                    reason: {type: string, minLength: 1}
+                    beforeSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+                    afterSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+                    result: {enum: [succeeded, denied, failed]}
+                    traceId: {type: string, minLength: 1}
+                    approvalId: {type: [string, 'null'], minLength: 1}
+                    taskId: {type: [string, 'null'], minLength: 1}
           delivery:
             type: array
             minItems: 1
@@ -2013,6 +2055,8 @@ $defs:
             - mountIds
             - policyIds
             - referenceIds
+            - configurationRef
+            - configurationSha256
             properties:
               mountIds:
                 type: array
@@ -2035,6 +2079,8 @@ $defs:
                 items:
                   type: string
                   pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+              configurationRef: {type: string, minLength: 1}
+              configurationSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
           valueComparisons:
             type: array
             minItems: 1
@@ -2072,6 +2118,13 @@ $defs:
             - fixtureId
             - backupSha256
             - expectedErrorCode
+            - artifactRef
+            - byteCount
+            - controlBackupRef
+            - controlBackupSha256
+            - codec
+            - corruptionOffset
+            - corruptionXor
             properties:
               fixtureId:
                 type: string
@@ -2080,8 +2133,16 @@ $defs:
                 type: string
                 pattern: ^sha256:[a-f0-9]{64}$
               expectedErrorCode:
-                type: string
-                minLength: 1
+                const: BACKUP_DECODE_FAILED
+              artifactRef: {type: string, minLength: 1}
+              byteCount: {type: integer, minimum: 1, maximum: 262144}
+              controlBackupRef: {type: string, minLength: 1}
+              controlBackupSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+              codec:
+                const: synthetic-openbao-config-gzip-json-v1
+                description: Bounded non-secret configuration backup fixture only; not proof of an actual OpenBao snapshot restore or secret decryption.
+              corruptionOffset: {type: integer, minimum: 0}
+              corruptionXor: {type: integer, minimum: 1, maximum: 255}
           files:
             type: array
             minItems: 1
@@ -2372,6 +2433,7 @@ $defs:
         - restoreOutcome
         - readbackOutcome
         - successfulReadCount
+        - observationRef
         properties:
           fixtureId:
             type: string
@@ -2389,6 +2451,7 @@ $defs:
           successfulReadCount:
             type: integer
             const: 0
+          observationRef: {type: string, minLength: 1}
       replayedEventIds:
         type: array
         minItems: 1
@@ -2407,6 +2470,8 @@ $defs:
     - signerIdentity
     - algorithm
     - verified
+    - publicKeySha256
+    - verifierBuild
     properties:
       schemaVersion:
         type: integer
@@ -2423,13 +2488,93 @@ $defs:
         type: string
         minLength: 1
       algorithm:
-        enum:
-        - ed25519
-        - rsa-pss-sha256
-        - ecdsa-sha256
+        const: ed25519
       verified:
         type: boolean
         const: true
+      publicKeySha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      verifierBuild: {type: string, minLength: 1}
+  recoverySignerApproval:
+    type: object
+    additionalProperties: false
+    required: [signerIdentity, algorithm, publicKeyRef, publicKeySha256, verifierBuild]
+    properties:
+      signerIdentity: {type: string, minLength: 1}
+      algorithm: {const: ed25519}
+      publicKeyRef: {type: string, minLength: 1}
+      publicKeySha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      verifierBuild: {type: string, minLength: 1}
+  recoveryOpenBaoConfiguration:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, subjectVersion, acceptanceProfile, mounts, policies, authMethods]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: openbao_nonsecret_configuration}
+      subjectVersion: {type: string, minLength: 1}
+      acceptanceProfile: {type: object}
+      mounts:
+        type: array
+        minItems: 1
+        maxItems: 10000
+        items:
+          type: object
+          additionalProperties: false
+          required: [mountId, engineType, engineVersion, options]
+          properties:
+            mountId: {type: string, minLength: 1}
+            engineType: {type: string, minLength: 1}
+            engineVersion: {type: string, minLength: 1}
+            options:
+              type: object
+              maxProperties: 64
+              additionalProperties: {type: [string, integer, boolean]}
+      policies:
+        type: array
+        minItems: 1
+        maxItems: 10000
+        items:
+          type: object
+          additionalProperties: false
+          required: [policyId, rules]
+          properties:
+            policyId: {type: string, minLength: 1}
+            rules: {type: string, minLength: 1, maxLength: 8192}
+      authMethods:
+        type: array
+        minItems: 1
+        maxItems: 10000
+        items:
+          type: object
+          additionalProperties: false
+          required: [authId, methodType, configuration]
+          properties:
+            authId: {type: string, minLength: 1}
+            methodType: {type: string, minLength: 1}
+            configuration:
+              type: object
+              maxProperties: 64
+              additionalProperties: {type: [string, integer, boolean]}
+  recoveryBackupDecodeObservation:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, fixtureId, codec, decoderBuild, controlBackupSha256, backupSha256, controlDecodedSha256, controlOutcome, restoreOutcome, readbackOutcome, errorCode, successfulReadCount]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: backup_decode_observation}
+      fixtureId: {type: string, minLength: 1}
+      codec:
+        const: synthetic-openbao-config-gzip-json-v1
+        description: Actual bounded decoder execution on a readable control and its corrupted copy; not an OpenBao decryption witness.
+      decoderBuild: {const: python-stdlib-zlib-gzip-json-v1}
+      controlBackupSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      backupSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      controlDecodedSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      controlOutcome: {const: succeeded}
+      restoreOutcome: {const: failed}
+      readbackOutcome: {const: failed}
+      errorCode: {const: BACKUP_DECODE_FAILED}
+      successfulReadCount: {type: integer, const: 0}
   recoveryValueComparisonArtifact:
     type: object
     additionalProperties: false
@@ -13020,3 +13165,230 @@ $defs:
             responseByteCount:
               type: integer
               minimum: 0
+
+  localSourceAuthenticationPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - sourceId
+    - sandboxId
+    - subjectVersion
+    - objectId
+    - objectVersion
+    - principalId
+    - endpointURL
+    - sampleId
+    - immutableId
+    - authMethod
+    - authorizedAuthRef
+    - invalidAuthRef
+    - payloadSha256
+    properties:
+      sourceId:
+        type: string
+        minLength: 1
+      sandboxId:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      objectId:
+        type: string
+        minLength: 1
+      objectVersion:
+        type: string
+        minLength: 1
+      principalId:
+        type: string
+        minLength: 1
+      endpointURL:
+        type: string
+        minLength: 1
+      sampleId:
+        type: string
+        minLength: 1
+      immutableId:
+        type: string
+        minLength: 1
+      authMethod:
+        enum:
+        - basic
+        - bearer
+      authorizedAuthRef:
+        type: string
+        pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+        maxLength: 74
+      invalidAuthRef:
+        type: string
+        pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+        maxLength: 74
+      payloadSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+  localSourceAuthenticationObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - scope
+    - sourceId
+    - sandboxId
+    - endpointURL
+    - objectId
+    - objectVersion
+    - authMethod
+    - principalId
+    - requests
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: local_source_authentication_observation
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+      scope:
+        const: GENERIC_OPENLIST_SANDBOX
+      sourceId:
+        type: string
+        minLength: 1
+      sandboxId:
+        type: string
+        minLength: 1
+      endpointURL:
+        type: string
+        minLength: 1
+      objectId:
+        type: string
+        minLength: 1
+      objectVersion:
+        type: string
+        minLength: 1
+      authMethod:
+        enum:
+        - basic
+        - bearer
+      principalId:
+        type: string
+        minLength: 1
+      requests:
+        type: array
+        minItems: 3
+        maxItems: 3
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - case
+          - requestId
+          - httpMethod
+          - endpointURL
+          - authMethod
+          - authRef
+          - requestPrincipalId
+          - authenticatedPrincipalId
+          - requestedAt
+          - finishedAt
+          - statusCode
+          - responseBodyRef
+          - responseByteCount
+          - responseSha256
+          - returnedObjectId
+          - returnedObjectVersion
+          properties:
+            case:
+              enum:
+              - authenticated
+              - anonymous_denied
+              - invalid_auth_denied
+            requestId:
+              type: string
+              minLength: 1
+            httpMethod:
+              const: GET
+            endpointURL:
+              type: string
+              minLength: 1
+            authMethod:
+              enum:
+              - basic
+              - bearer
+              - none
+            authRef:
+              anyOf:
+              - type: string
+                pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+                maxLength: 74
+              - type: 'null'
+            requestPrincipalId:
+              anyOf:
+              - type: string
+                minLength: 1
+              - type: 'null'
+            authenticatedPrincipalId:
+              anyOf:
+              - type: string
+                minLength: 1
+              - type: 'null'
+            requestedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+            statusCode:
+              type: integer
+              minimum: 100
+              maximum: 599
+            responseBodyRef:
+              type: string
+              minLength: 1
+            responseByteCount:
+              type: integer
+              minimum: 0
+            responseSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            returnedObjectId:
+              anyOf:
+              - type: string
+                minLength: 1
+              - type: 'null'
+            returnedObjectVersion:
+              anyOf:
+              - type: string
+                minLength: 1
+              - type: 'null'
