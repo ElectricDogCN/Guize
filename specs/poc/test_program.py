@@ -402,7 +402,7 @@ class TestPocProgram(unittest.TestCase):
                     execution['rawOutputRefs'].append(observation_ref)
                     env['injected_failure_matrix']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',cases=[dict(caseId='fixture-'+fault,fault=fault,parameters=dict(injection='synthetic-only'),observation='exercised',rawOutputRef=observation_ref) for fault in ('http_429','http_5xx','network_disconnect','auth_expired')])
                 elif task_id=='POC-007':
-                    env['local_tls_path_configuration']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',entryOrigin='https://guize.local',openlistOrigin='http://127.0.0.1:15525',reverseProxy='fixture-proxy-build',certificateIdentity='sha256:'+'c'*64,sandboxId='fixture-local-sandbox')
+                    env['local_tls_path_configuration']=dict(schemaVersion=1,scope='LOCAL_FULL_V1',entryOrigin='https://localhost',openlistOrigin='http://127.0.0.1:15525',reverseProxy='fixture-proxy-build',certificateIdentity='sha256:'+'c'*64,sandboxId='fixture-local-sandbox')
             if task_id == 'POC-001':
                 # A typed synthetic media fixture, never evidence of an actual VM/device encode.
                 env=execution['environmentCaptured']
@@ -1020,9 +1020,17 @@ class TestPocProgram(unittest.TestCase):
         quota_ref=prefix+'/raw/approved-source-quota.yaml'
         write_yaml(root/quota_ref,dict(schemaVersion=1,kind='documented_source_quota',sourceIdentity=source,requestLimit=1,periodSeconds=60,resetSemantics='Synthetic fixed window reset; never provider documentation.',backoffStrategy='Synthetic capped exponential backoff.',maximumBackoffSeconds=1,documentationRevision='synthetic-quota-revision'))
         quota_sha='sha256:'+hashlib.sha256((root/quota_ref).read_bytes()).hexdigest()
-        policy=dict(scannerBuild=scan_policy['scannerBuild'],scanId=scan_policy['scanId'],manifestId=scan_policy['manifestId'],processId='synthetic-scan-process',collectorBuild='synthetic-os-peak-counter',sourceIdentity=source,quotaDocumentRef=quota_ref,quotaDocumentSha256=quota_sha)
+        policy=dict(scannerBuild=scan_policy['scannerBuild'],scanId=scan_policy['scanId'],manifestId=scan_policy['manifestId'],processId='synthetic-scan-process',collectorBuild='synthetic-os-peak-counter',nativeProcessId=27001,counterFormat='linux_proc_status',collectorCommandArgs=['synthetic-os-peak-counter','--format','linux_proc_status'],sourceIdentity=source,quotaDocumentRef=quota_ref,quotaDocumentSha256=quota_sha)
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['metadataResourcePolicy']=policy;write_yaml(config_path,config)
         report=dict(schemaVersion=1,kind='metadata_resource_observation',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-005')),execution),inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],method='os_process_peak_resident_counter',**policy,memorySamples=[dict(observedAt=at,processId=policy['processId'],scanId=policy['scanId'],scannerBuild=policy['scannerBuild'],peakResidentBytes=value) for at,value in (('2026-09-03T00:00:00Z',524288),('2026-09-03T00:00:20Z',1048576))])
+        for number,row in enumerate(report['memorySamples']):
+            counter_ref=prefix+f'/raw/metadata-os-counter-{number}.txt';capture_ref=prefix+f'/raw/metadata-counter-capture-{number}.yaml'
+            (root/counter_ref).write_text(f"Name:\tsynthetic-scanner\nPid:\t{policy['nativeProcessId']}\nVmHWM:\t{row['peakResidentBytes']//1024} kB\nVmRSS:\t256 kB\n",encoding='utf8')
+            identity={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','manifestId','scannerBuild','scanId','processId','collectorBuild','nativeProcessId','counterFormat')}
+            write_yaml(root/capture_ref,dict(**identity,schemaVersion=1,kind='metadata_memory_counter_capture',observedAt=row['observedAt'],toolBuild=policy['collectorBuild'],collectorProcessId=27002,commandArgs=policy['collectorCommandArgs']+['--pid',str(policy['nativeProcessId']),'--output',counter_ref],counterRef=counter_ref,exitCode=0))
+            row['counterCaptureRef']=capture_ref
+            for ref,kind in ((counter_ref,'command_output'),(capture_ref,'measurement_output')):
+                raw=(root/ref).read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
         ref=prefix+'/raw/metadata-resources.yaml';write_yaml(root/ref,report);raw=(root/ref).read_bytes();env['metadataResourceRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
 
 
@@ -1149,25 +1157,36 @@ class TestPocProgram(unittest.TestCase):
 
 
     def prepare_qualified_worker_capabilities_fixture(self,root,execution,prefix):
-        """Synthetic node codec records; never actual device or VM capabilities."""
+        """Synthetic MP4 structure/trace regression only; never actual media/device/VM evidence."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');sample=execution['samples'][0];claims=[];rows=[]
         def retain(name,value,kind,node):
             ref=prefix+'/raw/'+name
             if isinstance(value,bytes):(root/ref).write_bytes(value)
             else:write_yaml(root/ref,value)
             raw=(root/ref).read_bytes();sha='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,nodeId=node,byteCount=len(raw),sha256=sha));execution['rawOutputRefs'].append(ref);return ref,sha,len(raw)
-        for node in env['worker_node_inventory']:
+        for node_number,node in enumerate(env['worker_node_inventory'],1):
             node.update(osBuild='synthetic-'+node['platform']+'-os-build',architecture='synthetic-x86_64' if node.get('isEmulator') or node['platform']!='android' else 'synthetic-arm64',nodeConfiguration=dict(schemaVersion=1,mode='synthetic-only'))
             node.setdefault('compatibilityGroupId','synthetic-capability-group')
-            for codec in ('av1','h264','hevc'):
+            for codec_number,codec in enumerate(('av1','h264','hevc'),1):
                 case_id='synthetic-capability-'+node['nodeId']+'-'+codec
                 claim=dict(caseId=case_id,runId=case_id+'-run',**{k:node[k] for k in ('nodeId','physicalHostId','encoderBuild','compatibilityGroupId','platform','osBuild','architecture','nodeConfiguration')},decoderBuild='synthetic-capability-decoder',inputSampleId=sample['id'],inputSha256=sample['checksum'],sourceStartFrame=0,sourceEndFrame=120,codec=codec,encoderParameters=dict(codec=codec,preset='synthetic-pinned-config'),commandArgs=['synthetic-capability-probe',node['nodeId'],codec],status='unsupported' if codec=='hevc' else 'supported');claims.append(claim)
                 if codec=='hevc':
                     raw,sha,_=retain(case_id+'-diagnostic.txt',b'Synthetic absent codec diagnostic; never actual hardware proof.','command_output',node['nodeId'])
                     diagnostic,_,_=retain(case_id+'-diagnostic.yaml',dict(schemaVersion=1,kind='worker_capability_diagnostic',**claim,observedAt='2026-09-03T00:00:02Z',probeToolBuild='synthetic-capability-tool',reason='Synthetic unsupported extra codec.',rawProbeRef=raw,rawProbeSha256=sha),'measurement_output',node['nodeId']);rows.append(dict(**claim,diagnosticRef=diagnostic));continue
-                media,sha,size=retain(case_id+'.bin',('Synthetic '+node['nodeId']+' '+codec+'; never encoded media.').encode(),'produced_media',node['nodeId'])
+                # Deliberately synthetic box/packet bytes exercise only static checker binding.
+                box=lambda tag,payload:(len(payload)+8).to_bytes(4,'big')+tag+payload
+                packet_bytes=[hashlib.sha256((case_id+'-'+str(i)).encode()).digest()[:4] for i in range(120)]
+                entry=box(b'av01' if codec=='av1' else b'avc1',b'\0'*78+box(b'av1C' if codec=='av1' else b'avcC',b'\0'*4))
+                metadata=box(b'moov',box(b'trak',box(b'mdia',box(b'minf',box(b'stbl',box(b'stsd',b'\0'*4+(1).to_bytes(4,'big')+entry))))))
+                header=box(b'ftyp',b'isom\0\0\0\0isom')+metadata;payload=header+box(b'mdat',b''.join(packet_bytes));packet_offset=len(header)+8
+                media,sha,size=retain(case_id+'.mp4',payload,'produced_media',node['nodeId'])
                 identity={k:claim[k] for k in ('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')}
-                probe,_,_=retain(case_id+'-decode.yaml',dict(schemaVersion=1,kind='worker_capability_decode',**identity,outputArtifactRef=media,outputSha256=sha,observedAt='2026-09-03T00:00:02Z',decodable=True,decodedFrameCount=120,durationSeconds=4,decodeErrorCount=0),'measurement_output',node['nodeId'])
+                raw=dict(program_version=dict(version=claim['decoderBuild']),streams=[dict(codec_name=codec,codec_tag_string='av01' if codec=='av1' else 'avc1',profile='Synthetic checker fixture',level=0,width=320,height=180,pix_fmt='yuv420p',time_base='1/30',r_frame_rate='30/1')],format=dict(format_name='mov,mp4,m4a,3gp,3g2,mj2',size=str(size)),packets_and_frames=[item for i in range(120) for item in (dict(type='packet',pts=i,dts=i,duration=1,pos=str(packet_offset+4*i),size='4',data_hash='SHA256:'+hashlib.sha256(packet_bytes[i]).hexdigest()),dict(type='frame',pts=i,duration=1,width=320,height=180,pix_fmt='yuv420p'))])
+                raw_ref,raw_sha,_=retain(case_id+'-ffprobe.json',json.dumps(raw).encode(),'command_output',node['nodeId']);stderr_ref,stderr_sha,_=retain(case_id+'-ffprobe.stderr',b'','command_output',node['nodeId'])
+                command=['ffprobe','-v','error','-protocol_whitelist','file,pipe','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_program_version','-show_data_hash','sha256','-of','json','-i',media];decode_start='2026-09-03T00:00:01Z';decode_finish='2026-09-03T00:00:02Z'
+                process_exit=dict(schemaVersion=1,kind='worker_capability_decoder_exit',runId=claim['runId'],caseId=case_id,nodeId=node['nodeId'],decoderBuild=claim['decoderBuild'],processId=str(10000+node_number*10+codec_number),command=command,startedAt=decode_start,finishedAt=decode_finish,exitCode=0,outputArtifactRef=media,outputSha256=sha,stdoutRef=raw_ref,stdoutSha256=raw_sha,stderrRef=stderr_ref,stderrSha256=stderr_sha)
+                exit_ref,exit_sha,_=retain(case_id+'-ffprobe-exit.json',json.dumps(process_exit).encode(),'command_output',node['nodeId'])
+                probe,_,_=retain(case_id+'-decode.yaml',dict(schemaVersion=1,kind='worker_capability_decode',**identity,outputArtifactRef=media,outputSha256=sha,observedAt=decode_finish,startedAt=decode_start,finishedAt=decode_finish,command=command,exitCode=0,rawProbeRef=raw_ref,rawProbeSha256=raw_sha,stderrRef=stderr_ref,stderrSha256=stderr_sha,processExitRef=exit_ref,processExitSha256=exit_sha,decodable=True,decodedFrameCount=120,durationSeconds=4,decodeErrorCount=0),'measurement_output',node['nodeId'])
                 rows.append(dict(**claim,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:01Z',exitCode=0,encodedFrameCount=120,outputArtifactRef=media,outputSha256=sha,outputByteCount=size,decodeRef=probe))
         hosts=sorted({n['physicalHostId'] for n in env['worker_node_inventory']});env['physical_host_scope']=dict(physicalHostIds=hosts,physicalMultiHostValidated=len(hosts)>1)
         policy=dict(sourceFrameCount=120,framesPerSecond=30,claims=claims);env['encoder_capability_matrix']=copy.deepcopy(claims);config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['workerCapabilityPolicy']=policy;write_yaml(config_path,config)
@@ -1180,14 +1199,21 @@ class TestPocProgram(unittest.TestCase):
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');subject=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-001')),execution)
         nodes=[{k:n[k] for k in ('nodeId','physicalHostId','encoderBuild')} for n in env['worker_node_inventory']]
         limits=dict(cpuSeconds=5,memoryBytes=100,elapsedSeconds=5,temporaryBytes=100,outputBytes=100)
-        policy=dict(subjectVersion=subject,nodes=nodes,limits=limits,maximumRecoverySeconds=10,taskId='synthetic-worker-safety-task',allowedTarget='https://synthetic-task.invalid/approved-input',privateTarget='http://127.0.0.1/private',unsupportedTarget='file:///synthetic-input',administrativeTarget='https://synthetic-storage.invalid/api/admin',grantId='synthetic-task-grant',expiredGrantId='synthetic-expired-task-grant',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-03T01:00:00Z',expiredAt='2026-09-02T00:00:00Z')
+        policy=dict(subjectVersion=subject,nodes=nodes,limits=limits,limitObserverBuild='synthetic-checker-only-observer',limitCommandArgs=['synthetic-checker-only-limit-probe'],maximumRecoverySeconds=10,taskId='synthetic-worker-safety-task',allowedTarget='https://synthetic-task.invalid/approved-input',privateTarget='http://127.0.0.1/private',unsupportedTarget='file:///synthetic-input',administrativeTarget='https://synthetic-storage.invalid/api/admin',grantId='synthetic-task-grant',expiredGrantId='synthetic-expired-task-grant',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-03T01:00:00Z',expiredAt='2026-09-02T00:00:00Z')
         path=root/resource['configurationRef'];config=load_yaml(path);config['configuration']['workerSafetyPolicy']=policy;write_yaml(path,config)
         rows=[]
-        for node in nodes:
+        context=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=subject,inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']])
+        for node_number,node in enumerate(nodes,1):
             identity=node['nodeId'];cases=[]
-            for kind,ceiling in limits.items():
+            for case_number,(kind,ceiling) in enumerate(limits.items(),1):
                 observed={k:1 for k in limits};observed[kind]=ceiling+1
-                cases.append(dict(case=kind,requestId=identity+'-limit-'+kind,startedAt='2026-09-03T00:01:00Z',finishedAt='2026-09-03T00:01:06Z' if kind=='elapsedSeconds' else '2026-09-03T00:01:01Z',observed=observed,terminationReason=kind,processExited=True,remainingTemporaryBytes=0,remainingOutputBytes=0,publishedArtifactIds=[]))
+                start='2026-09-03T00:01:00Z';finish='2026-09-03T00:01:06Z' if kind=='elapsedSeconds' else '2026-09-03T00:01:01Z';cleanup=finish[:-1]+'.001Z';request=identity+'-limit-'+kind
+                case=dict(case=kind,requestId=request,startedAt=start,finishedAt=finish,observed=observed,terminationReason=kind,processExited=True,remainingTemporaryBytes=0,remainingOutputBytes=0,publishedArtifactIds=[])
+                common=dict(schemaVersion=1,context=context,identity=node,taskId=policy['taskId'],requestId=request,case=kind,processId=str(20000+node_number*10+case_number),observerBuild=policy['limitObserverBuild'])
+                materials=dict(process=dict(**common,kind='worker_safety_limit_process',startedAt=start,commandArgs=policy['limitCommandArgs']+[kind],limits=limits),runtime=dict(**common,kind='worker_safety_limit_runtime',samples=[dict(observedAt=start,userCpuSeconds=0,systemCpuSeconds=0,residentBytes=1),dict(observedAt=finish,userCpuSeconds=observed['cpuSeconds'],systemCpuSeconds=0,residentBytes=observed['memoryBytes'])]),filesystem=dict(**common,kind='worker_safety_limit_filesystem',snapshots=[dict(observedAt=start,files=[],publishedArtifactIds=[]),dict(observedAt=finish,files=[dict(path='temporary.bin',area='temporary',byteCount=observed['temporaryBytes']),dict(path='output.bin',area='output',byteCount=observed['outputBytes'])],publishedArtifactIds=[]),dict(observedAt=cleanup,files=[],publishedArtifactIds=[])]),exit=dict(**common,kind='worker_safety_limit_exit',observedAt=finish,exitCode=137,terminationReason=kind,remainingProcessIds=[]))
+                for name,capture in materials.items():
+                    ref=prefix+'/raw/worker-'+request+'-'+name+'.json';raw=json.dumps(capture).encode();(root/ref).write_bytes(raw);sha='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='command_output',nodeId=identity,byteCount=len(raw),sha256=sha));execution['rawOutputRefs'].append(ref);case[name+'Ref']=ref;case[name+'Sha256']=sha
+                cases.append(case)
             restart=dict(taskId=policy['taskId'],oldLeaseId=identity+'-old-lease',newLeaseId=identity+'-new-lease',oldRegistrationId=identity+'-old-registration',newRegistrationId=identity+'-new-registration',oldLeaseIssuedAt='2026-09-03T00:02:00Z',disconnectedAt='2026-09-03T00:02:01Z',oldLeaseExpiresAt='2026-09-03T00:02:02Z',expiredLeaseObservedAt='2026-09-03T00:02:03Z',reRegisteredAt='2026-09-03T00:02:04Z',newLeaseIssuedAt='2026-09-03T00:02:04Z',recoveredAt='2026-09-03T00:02:05Z',newLeaseExpiresAt='2026-09-03T00:02:10Z',completedTaskId=policy['taskId'],completionLeaseId=identity+'-new-lease',completionRegistrationId=identity+'-new-registration',taskCompletionCount=1,staleLeasePublicationCount=0)
             network=[]
             for kind,key in dict(authorized='allowedTarget',private_target='privateTarget',unsupported_target='unsupportedTarget',administrative_target='administrativeTarget',expired_grant='allowedTarget').items():
@@ -1273,23 +1299,40 @@ class TestPocProgram(unittest.TestCase):
 
 
     def prepare_qualified_source_listing_fixture(self,root,execution,prefix):
-        """Synthetic listing/assessment records; never actual OpenList execution."""
+        """Synthetic native listing/request bytes; never actual OpenList execution."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-OPENLIST-LOCAL');config_path=root/resource['configurationRef'];config=load_yaml(config_path);fault=config['configuration']['localSourceFaultPolicy']
+        def retain_bytes(name,kind,raw):
+            ref=prefix+'/raw/'+name;(root/ref).write_bytes(raw);digest='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256=digest));execution['rawOutputRefs'].append(ref);return ref,digest
         def retain(name,value):
-            ref=prefix+'/raw/'+name;write_yaml(root/ref,value);raw=(root/ref).read_bytes();digest='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256=digest));execution['rawOutputRefs'].append(ref);return ref,digest
+            return retain_bytes(name,'measurement_output',yaml.safe_dump(value,sort_keys=False,allow_unicode=True).encode('utf8'))
         objects=[dict(objectId=fault['objectId'],versionId=fault['objectVersion'],name='Synthetic source file',kind='file'),dict(objectId='synthetic-listing-directory',versionId='synthetic-directory-version',name='目录',kind='directory')]
-        criteria=[dict(criterionId=c,weight=1) for c in ('api','sdk','versioning','support')];policy=dict(sourceId=fault['sourceId'],sandboxId=fault['sandboxId'],subjectVersion=fault['subjectVersion'],endpointURL='http://127.0.0.1:15525/api/fs/list',objects=objects,minimumListingRuns=2,criteria=criteria,gradeValues=dict(available=1,limited=0.5,unavailable=0));config['configuration']['localSourceListingPolicy']=policy;write_yaml(config_path,config)
+        sample=execution['samples'][0];input_record=next(a for a in env['inputSampleArtifacts'] if a['sampleId']==sample['id'])
+        for index,obj in enumerate(objects):obj['listingMetadata']=dict(modified=f'2026-09-03T00:00:0{index}Z',size=input_record['byteCount'] if obj['kind']=='file' else 0,hashinfo=json.dumps(dict(sha256=sample['checksum'])) if obj['kind']=='file' else 'null')
+        criteria=[dict(criterionId=c,weight=1) for c in ('api','sdk','versioning','support')]
+        policy=dict(sourceId=fault['sourceId'],sandboxId=fault['sandboxId'],subjectVersion=fault['subjectVersion'],endpointURL='http://127.0.0.1:15525/api/fs/list',listingPath='/synthetic-approved-sandbox',pageSize=1,transportCommandArgs=['fixture-source-listing-client','--once'],transportToolBuild='fixture-source-listing-client/native-curl-observation-v1',transportInputSpan=copy.deepcopy(fault['transportInputSpan']),objects=objects,minimumListingRuns=2,criteria=criteria,gradeValues=dict(available=1,limited=0.5,unavailable=0))
+        config['configuration']['localSourceListingPolicy']=policy;write_yaml(config_path,config)
+        common=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=fault['subjectVersion'],inputSamples=[{k:v[k] for k in ('id','immutableId','checksum')} for v in execution['samples']],sourceId=policy['sourceId'],sandboxId=policy['sandboxId'],endpointURL=policy['endpointURL'])
         runs=[]
         for run in range(2):
-            pages=[]
+            pages=[];run_id='synthetic-listing-'+str(run)
             for index,obj in enumerate(objects):
-                second=run*10+index+1;pages.append(dict(requestId=f'synthetic-list-{run}-{index}',requestedAt=f'2026-09-03T00:03:{second:02d}Z',finishedAt=f'2026-09-03T00:03:{second:02d}.500Z',requestCursor=None if index==0 else 'synthetic-next',nextCursor='synthetic-next' if index==0 else None,statusCode=200,objects=[obj]))
-            runs.append(dict(runId='synthetic-listing-'+str(run),pages=pages))
+                second=run*10+index+1;request_id=f'synthetic-list-{run}-{index}';trace_id='synthetic-listing-trace-'+request_id;stem='source-listing-transport-'+str(run)+'-'+str(index)
+                page=dict(requestId=request_id,traceId=trace_id,requestedAt=f'2026-09-03T00:03:{second:02d}Z',finishedAt=f'2026-09-03T00:03:{second:02d}.500Z',requestCursor=None if index==0 else '2',nextCursor='2' if index==0 else None,statusCode=200,objects=[{key:obj[key] for key in ('objectId','versionId','name','kind')}])
+                identity=dict(common,scope='GENERIC_OPENLIST_SANDBOX',runId=run_id,pageNo=index+1,requestId=request_id,traceId=trace_id)
+                request=dict(schemaVersion=1,kind='local_source_listing_request',**identity,requestedAt=page['requestedAt'],inputSpan={**policy['transportInputSpan'],'immutableId':sample['immutableId'],'sha256':sample['checksum']},httpMethod='POST',body=dict(path=policy['listingPath'],page=index+1,per_page=policy['pageSize'],refresh=False))
+                response=dict(code=200,message='success',data=dict(content=[dict(name=obj['name'],is_dir=obj['kind']=='directory',**obj['listingMetadata'])],total=len(objects)))
+                body=json.dumps(response,ensure_ascii=False).encode('utf8');raw=f'HTTP/1.1 200 Fixture\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: {len(body)}\r\n\r\n'.encode('ascii')+body
+                request_ref=retain_bytes(stem+'-request.json','command_output',(json.dumps(request,ensure_ascii=False)+'\n').encode('utf8'))[0]
+                response_ref=retain_bytes(stem+'-response.bin','produced_media',raw)[0];stderr_ref=retain_bytes(stem+'-stderr.raw','command_output',b'')[0]
+                argv=policy['transportCommandArgs']+['--request',request_ref,'--response',response_ref,'--stderr',stderr_ref]
+                transport=dict(schemaVersion=1,kind='local_source_listing_transport_execution',**identity,commandArgs=argv,toolBuild=policy['transportToolBuild'],pid=2000+run*10+index,startedAt=page['requestedAt'],finishedAt=page['finishedAt'],exitCode=0,requestRef=request_ref,responseRef=response_ref,stderrRef=stderr_ref)
+                page['transportExecutionRef']=retain(stem+'-execution.yaml',transport)[0];pages.append(page)
+            runs.append(dict(runId=run_id,pages=pages))
         assessment=[]
         for criterion in criteria:
             c=criterion['criterionId'];basis=dict(schemaVersion=1,kind='source_maintainability_basis',criterionId=c,subjectVersion=fault['subjectVersion'],observedAt='2026-09-03T00:03:20Z',toolBuild='synthetic-assessment-build',reference='synthetic-'+c+'-documentation-reference',details='Synthetic assessed '+c+' evidence; never actual provider assessment.');ref,sha=retain('source-assessment-'+c+'.yaml',basis)
             assessment.append(dict(criterionId=c,status='available',basisRef=ref,basisSha256=sha,observedAt='2026-09-03T00:03:21Z',rationale='Synthetic reviewed '+c+' availability.'))
-        report=dict(schemaVersion=1,kind='local_source_listing_observations',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=fault['subjectVersion'],inputSamples=[{k:v[k] for k in ('id','immutableId','checksum')} for v in execution['samples']],sourceId=policy['sourceId'],sandboxId=policy['sandboxId'],endpointURL=policy['endpointURL'],runs=runs,assessment=assessment);env['sourceListingRef']=retain('source-listing.yaml',report)[0]
+        report=dict(schemaVersion=1,kind='local_source_listing_observations',**common,runs=runs,assessment=assessment);env['sourceListingRef']=retain('source-listing.yaml',report)[0]
         next(m for m in execution['measurements'] if m['id']=='maintainability')['actual']=1
 
 
@@ -2806,6 +2849,70 @@ class TestPocProgram(unittest.TestCase):
                     else:write_yaml(report_path,report)
                     write_yaml(config_path,config)
                     self.assertTrue(any('qualified worker safety' in e for e in validate(data)),(profile,mode))
+                first=report_original['nodes'][0]['limitCases'][0];material_original={name:json.loads((root/first[name+'Ref']).read_bytes()) for name in ('process','runtime','filesystem','exit')}
+                for mode in ('runtime_missing','runtime_nonjson','runtime_duplicate','runtime_nonfinite','runtime_node','runtime_kind','runtime_hash','runtime_alias','runtime_identity','runtime_subject','runtime_request','runtime_process','runtime_tool','runtime_cpu','runtime_memory','runtime_clock','runtime_order','runtime_reset','native_pid','native_pid_zero','native_pid_leading_zero','native_pid_range','process_args','process_limits','process_task','process_clock','filesystem_remaining','filesystem_temporary','filesystem_output','filesystem_duplicate','filesystem_path','filesystem_alias_dot','filesystem_alias_backslash','filesystem_alias_multislash','filesystem_publication','filesystem_clock','filesystem_cleanup_clock','exit_success','exit_bool','exit_remaining','exit_reason','exit_clock','replayed_case','replayed_node'):
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);captures=copy.deepcopy(material_original);case=report['nodes'][0]['limitCases'][0];runtime=captures['runtime'];filesystem=captures['filesystem'];process=captures['process'];exit=captures['exit']
+                    if mode=='runtime_missing':case.pop('runtimeRef')
+                    elif mode=='runtime_node':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==case['runtimeRef'])['nodeId']='foreign-node'
+                    elif mode=='runtime_kind':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==case['runtimeRef'])['artifactType']='measurement_output'
+                    elif mode=='runtime_alias':case['runtimeRef']=case['processRef']
+                    elif mode=='runtime_identity':runtime['identity']['physicalHostId']='foreign-host'
+                    elif mode=='runtime_subject':runtime['context']['subjectVersion']='foreign-subject'
+                    elif mode=='runtime_request':runtime['requestId']='foreign-request'
+                    elif mode=='runtime_process':runtime['processId']='foreign-process'
+                    elif mode=='runtime_tool':runtime['observerBuild']='foreign-observer'
+                    elif mode=='runtime_cpu':runtime['samples'][-1]['userCpuSeconds']=5
+                    elif mode=='runtime_memory':runtime['samples'][-1]['residentBytes']=101
+                    elif mode=='runtime_clock':runtime['samples'][-1]['observedAt']='2026-09-03T00:01:00.500Z'
+                    elif mode=='runtime_order':runtime['samples'].reverse()
+                    elif mode=='runtime_reset':runtime['samples'][0]['userCpuSeconds']=7
+                    elif mode.startswith('native_pid'):
+                        for capture in captures.values():capture['processId']={'native_pid':'logical-request-process','native_pid_zero':'0','native_pid_leading_zero':'020011','native_pid_range':'4294967296'}[mode]
+                    elif mode=='process_args':process['commandArgs'][0]='unapproved-limit-workload'
+                    elif mode=='process_limits':process['limits']['cpuSeconds']=99
+                    elif mode=='process_task':process['taskId']='foreign-task'
+                    elif mode=='process_clock':process['startedAt']='2026-09-03T00:00:59Z'
+                    elif mode=='filesystem_remaining':filesystem['snapshots'][-1]['files']=[dict(path='remaining.tmp',area='temporary',byteCount=1)]
+                    elif mode=='filesystem_temporary':filesystem['snapshots'][1]['files'][0]['byteCount']=101
+                    elif mode=='filesystem_output':filesystem['snapshots'][1]['files'][1]['byteCount']=101
+                    elif mode=='filesystem_duplicate':filesystem['snapshots'][1]['files'].append(copy.deepcopy(filesystem['snapshots'][1]['files'][0]))
+                    elif mode=='filesystem_path':filesystem['snapshots'][1]['files'][0]['path']='../foreign.tmp'
+                    elif mode.startswith('filesystem_alias_'):
+                        files=filesystem['snapshots'][1]['files'];files[0]['path']='dir/temporary.bin';alias=copy.deepcopy(files[0]);alias['path']={'filesystem_alias_dot':'dir/./temporary.bin','filesystem_alias_backslash':r'dir\temporary.bin','filesystem_alias_multislash':'dir//temporary.bin'}[mode];files.append(alias);case['observed']['temporaryBytes']=2
+                    elif mode=='filesystem_publication':filesystem['snapshots'][1]['publishedArtifactIds']=['unsafe-publication']
+                    elif mode=='filesystem_clock':filesystem['snapshots'][1]['observedAt']='2026-09-03T00:01:02Z'
+                    elif mode=='filesystem_cleanup_clock':filesystem['snapshots'][-1]['observedAt']='2026-09-03T00:01:00.500Z'
+                    elif mode=='exit_success':exit['exitCode']=0
+                    elif mode=='exit_bool':exit['exitCode']=False
+                    elif mode=='exit_remaining':exit['remainingProcessIds']=[exit['processId']]
+                    elif mode=='exit_reason':exit['terminationReason']='memoryBytes'
+                    elif mode=='exit_clock':exit['observedAt']='2026-09-03T00:01:02Z'
+                    elif mode=='replayed_case':case['runtimeRef']=report['nodes'][0]['limitCases'][1]['runtimeRef']
+                    elif mode=='replayed_node':
+                        if len(report['nodes'])>1:case['runtimeRef']=report['nodes'][1]['limitCases'][0]['runtimeRef']
+                        else:runtime['identity']['nodeId']='foreign-node'
+                    for name,capture in captures.items():
+                        raw=json.dumps(capture).encode()
+                        if name=='runtime' and mode=='runtime_nonjson':raw=b'not original runtime JSON'
+                        elif name=='runtime' and mode=='runtime_duplicate':raw=b'{"schemaVersion":1,"schemaVersion":1}'
+                        elif name=='runtime' and mode=='runtime_nonfinite':raw=raw.replace(b'"userCpuSeconds": 6',b'"userCpuSeconds": NaN')
+                        (root/first[name+'Ref']).write_bytes(raw)
+                    for name in captures:
+                        if name+'Ref' in case:case[name+'Sha256']='sha256:'+hashlib.sha256((root/case[name+'Ref']).read_bytes()).hexdigest()
+                    if mode=='runtime_hash':case['runtimeSha256']='sha256:'+'0'*64
+                    write_yaml(config_path,config_original);write_yaml(report_path,report)
+                    self.assertTrue(any('qualified worker safety' in e for e in validate(data)),(profile,mode))
+                for name,capture in material_original.items():(root/first[name+'Ref']).write_bytes(json.dumps(capture).encode())
+                # Native PID namespaces are per node: equal numeric PIDs on separate
+                # synthetic nodes remain valid while each node's cases stay distinct.
+                report=copy.deepcopy(report_original);saved_materials={}
+                for node_row in report['nodes']:
+                    for case_number,case in enumerate(node_row['limitCases'],1):
+                        for name in ('process','runtime','filesystem','exit'):
+                            material_path=root/case[name+'Ref'];saved_materials[material_path]=material_path.read_bytes();capture=json.loads(saved_materials[material_path]);capture['processId']=str(30000+case_number);raw=json.dumps(capture).encode();material_path.write_bytes(raw);case[name+'Sha256']='sha256:'+hashlib.sha256(raw).hexdigest()
+                write_yaml(config_path,config_original);write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),self.deferred_production_errors(profile,'POC-01'))
+                for material_path,raw in saved_materials.items():material_path.write_bytes(raw)
+                write_yaml(report_path,report_original)
             finally:temp.cleanup()
         for profile in ('local-v1','production'):
             for status in ('fail','inconclusive'):
@@ -3126,6 +3233,7 @@ class TestPocProgram(unittest.TestCase):
                 report_path=root/original['environmentCaptured']['metadataResourceRef'];report_original=load_yaml(report_path)
                 config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
                 quota_path=root/report_original['quotaDocumentRef'];quota_original=load_yaml(quota_path)
+                captures=[root/r['counterCaptureRef'] for r in report_original['memorySamples']];counter_paths=[root/load_yaml(p)['counterRef'] for p in captures];counter_original={p:p.read_bytes() for p in captures+counter_paths}
                 def validate(data):
                     self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                     return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-05'})
@@ -3169,7 +3277,34 @@ class TestPocProgram(unittest.TestCase):
                 quota.update(requestLimit=75,periodSeconds=120);write_yaml(quota_path,quota)
                 digest='sha256:'+hashlib.sha256(quota_path.read_bytes()).hexdigest();config['configuration']['metadataResourcePolicy']['quotaDocumentSha256']=report['quotaDocumentSha256']=digest
                 report['memorySamples'][1]['peakResidentBytes']=1572864
+                counter_paths[1].write_text(counter_original[counter_paths[1]].decode('utf8').replace('1024 kB','1536 kB'),encoding='utf8')
                 for metric,value in (('source_api_quota',37.5),('memory_peak',1.5)):next(m for m in data['measurements'] if m['id']==metric)['actual']=value
+                write_yaml(config_path,config);write_yaml(report_path,report);self.assertEqual(validate(data),[])
+                for mode in ('missing_capture','raw_counter','native_pid','collector_argv','collector_native_exit','collector_time','duplicate_os_field','malformed_duplicate_os_field','forged_aggregate','counter_alias'):
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original)
+                    for p,raw in counter_original.items():p.write_bytes(raw)
+                    write_yaml(quota_path,quota_original);capture=load_yaml(captures[1])
+                    if mode=='missing_capture':report['memorySamples'][1].pop('counterCaptureRef')
+                    elif mode=='raw_counter':counter_paths[1].write_text(counter_original[counter_paths[1]].decode('utf8').replace('1024 kB','2048 kB'),encoding='utf8')
+                    elif mode=='native_pid':capture['nativeProcessId']=27003
+                    elif mode=='collector_argv':capture['commandArgs'][-1]=report['quotaDocumentRef']
+                    elif mode=='collector_native_exit':capture['exitCode']=1
+                    elif mode=='collector_time':capture['observedAt']='2026-09-03T00:00:19Z'
+                    elif mode=='duplicate_os_field':counter_paths[1].write_bytes(counter_original[counter_paths[1]]+b'VmHWM: 1024 kB\n')
+                    elif mode=='malformed_duplicate_os_field':counter_paths[1].write_bytes(counter_original[counter_paths[1]]+b'VmHWM: 2097152 MB\n')
+                    elif mode=='forged_aggregate':
+                        report['memorySamples'][1]['peakResidentBytes']=2097152;next(m for m in data['measurements'] if m['id']=='memory_peak')['actual']=2
+                    elif mode=='counter_alias':capture['counterRef']=load_yaml(captures[0])['counterRef'];capture['commandArgs'][-1]=capture['counterRef']
+                    write_yaml(captures[1],capture);write_yaml(config_path,config);write_yaml(report_path,report)
+                    self.assertTrue(any('qualified metadata scan resources' in e for e in validate(data)),(profile,mode))
+                # Windows native API counters use byte units; the same aggregate must derive them.
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original)
+                write_yaml(quota_path,quota_original)
+                policy=config['configuration']['metadataResourcePolicy'];policy['counterFormat']=report['counterFormat']='windows_process_memory_counters';policy['collectorCommandArgs']=report['collectorCommandArgs']=['synthetic-os-peak-counter','--format','windows_process_memory_counters']+['fixture-option']*29
+                for number,row in enumerate(report['memorySamples']):
+                    for p in (captures[number],counter_paths[number]):p.write_bytes(counter_original[p])
+                    capture=load_yaml(captures[number]);capture['counterFormat']=policy['counterFormat'];capture['commandArgs']=policy['collectorCommandArgs']+['--pid',str(policy['nativeProcessId']),'--output',capture['counterRef']]
+                    counter_paths[number].write_text(json.dumps(dict(ProcessId=policy['nativeProcessId'],PeakWorkingSetSize=row['peakResidentBytes'],WorkingSetSize=262144)),encoding='utf8');write_yaml(captures[number],capture)
                 write_yaml(config_path,config);write_yaml(report_path,report);self.assertEqual(validate(data),[])
             finally:temp.cleanup()
 
@@ -3529,6 +3664,7 @@ class TestPocProgram(unittest.TestCase):
             temp,root=self.temp_repo()
             try:
                 index=self.make_profile_slot(root,'POC-001',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);env=original['environmentCaptured'];report_path=root/env['workerCapabilitiesRef'];original_report=load_yaml(report_path);config_path=root/original_report['configurationRef'];original_config=load_yaml(config_path);probe_path=root/original_report['claims'][0]['decodeRef'];original_probe=load_yaml(probe_path);diagnostic_path=root/original_report['claims'][2]['diagnosticRef'];original_diagnostic=load_yaml(diagnostic_path)
+                native_path=root/original_probe['rawProbeRef'];native_original=json.loads(native_path.read_bytes());exit_path=root/original_probe['processExitRef'];exit_original=json.loads(exit_path.read_bytes());stderr_path=root/original_probe['stderrRef'];media_path=root/original_report['claims'][0]['outputArtifactRef'];media_original=media_path.read_bytes()
                 prefix=str(index.parent.relative_to(root)).replace('\\','/');plan=load_yaml(self.plan_path(root,'POC-001'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][k]) for k in ('startedAt','finishedAt'))
                 def validate(data,status='pass'):
                     self.refresh_qualified_observation_fixture(root,data);errors=[];CHECK.validate_qualified_worker_capabilities(root,plan,data,prefix,status,window,defs,errors,{});return errors
@@ -3574,6 +3710,53 @@ class TestPocProgram(unittest.TestCase):
                     else:next(m for m in data['measurements'] if m['id']=='worker_capabilities_reproducible')['actual']=False
                     write_yaml(config_path,config);write_yaml(report_path,report);write_yaml(probe_path,probe);write_yaml(diagnostic_path,diagnostic)
                     self.assertTrue(any('qualified worker capabilities' in e for e in validate(data)),(profile,mode))
+                # These mutations preserve original 208 method names and exercise only
+                # synthetic checker evidence; no decoder or runtime is invoked.
+                for mode in ('raw_missing','raw_nonjson','raw_node','raw_kind','raw_hash','raw_alias','raw_tool','raw_codec','raw_frames','raw_pts','raw_dts','raw_duration','raw_format','packet_pos','packet_size','packet_hash','decoder_args','decoder_tool','decoder_clock','exit_missing','exit_success','exit_bool','exit_binding','native_pid','native_pid_zero','native_pid_leading_zero','native_pid_range','exit_hash','exit_node','stderr_bytes','stderr_alias','media_text','media_box','media_codec','media_payload'):
+                    data=copy.deepcopy(original);report=copy.deepcopy(original_report);probe=copy.deepcopy(original_probe);native=copy.deepcopy(native_original);exit=copy.deepcopy(exit_original);row=report['claims'][0];payload=media_original;stderr=b''
+                    if mode=='raw_missing':probe.pop('rawProbeRef')
+                    elif mode=='raw_node':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==probe['rawProbeRef'])['nodeId']='foreign-node'
+                    elif mode=='raw_kind':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==probe['rawProbeRef'])['artifactType']='measurement_output'
+                    elif mode=='raw_alias':probe['rawProbeRef']=row['outputArtifactRef']
+                    elif mode=='raw_tool':native['program_version']['version']='foreign-decoder-build'
+                    elif mode=='raw_codec':native['streams'][0]['codec_name']='h264'
+                    elif mode=='raw_frames':native['packets_and_frames'].pop()
+                    elif mode=='raw_pts':native['packets_and_frames'][1]['pts']=3
+                    elif mode=='raw_dts':native['packets_and_frames'][2]['dts']=5
+                    elif mode=='raw_duration':native['packets_and_frames'][1]['duration']=2
+                    elif mode=='raw_format':native['format']['format_name']='unrelated-format'
+                    elif mode=='packet_pos':native['packets_and_frames'][0]['pos']='0'
+                    elif mode=='packet_size':native['packets_and_frames'][0]['size']='999999'
+                    elif mode=='packet_hash':native['packets_and_frames'][0]['data_hash']='SHA256:'+'0'*64
+                    elif mode=='decoder_args':probe['command'][-1]=original_report['claims'][1]['outputArtifactRef']
+                    elif mode=='decoder_tool':probe['command'][0]='unapproved-decoder'
+                    elif mode=='decoder_clock':probe['startedAt']='2026-09-03T00:00:00Z'
+                    elif mode=='exit_missing':probe.pop('processExitRef')
+                    elif mode=='exit_success':exit['exitCode']=1
+                    elif mode=='exit_bool':exit['exitCode']=False
+                    elif mode=='exit_binding':exit['runId']='foreign-run'
+                    elif mode.startswith('native_pid'):exit['processId']={'native_pid':'logical-request-decoder-process','native_pid_zero':'0','native_pid_leading_zero':'010011','native_pid_range':'4294967296'}[mode]
+                    elif mode=='exit_node':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==probe['processExitRef'])['nodeId']='foreign-node'
+                    elif mode=='stderr_bytes':stderr=b'Synthetic decoder failure\n'
+                    elif mode=='stderr_alias':probe['stderrRef']=probe['rawProbeRef']
+                    elif mode=='media_text':payload=b'Synthetic arbitrary text is not encoded media.'
+                    elif mode=='media_box':payload=(1).to_bytes(4,'big')+payload[4:]
+                    elif mode=='media_codec':payload=payload.replace(b'av01',b'avc1',1)
+                    elif mode=='media_payload':payload=payload[:-1]+bytes([payload[-1]^1])
+                    media_path.write_bytes(payload);row['outputByteCount']=len(payload);row['outputSha256']='sha256:'+hashlib.sha256(payload).hexdigest();probe['outputSha256']=exit['outputSha256']=row['outputSha256'];native['format']['size']=str(len(payload))
+                    native_path.write_bytes(b'not original decoder JSON' if mode=='raw_nonjson' else json.dumps(native).encode());stderr_path.write_bytes(stderr)
+                    for key in ('rawProbe','stderr'):
+                        if key+'Ref' in probe:probe[key+'Sha256']='sha256:'+hashlib.sha256((root/probe[key+'Ref']).read_bytes()).hexdigest()
+                    if mode=='raw_hash':probe['rawProbeSha256']='sha256:'+'0'*64
+                    exit.update(stdoutRef=probe.get('rawProbeRef',original_probe['rawProbeRef']),stdoutSha256=probe['rawProbeSha256'],stderrRef=probe['stderrRef'],stderrSha256=probe['stderrSha256']);exit_path.write_bytes(json.dumps(exit).encode());probe['processExitSha256']='sha256:'+hashlib.sha256(exit_path.read_bytes()).hexdigest()
+                    if mode=='exit_hash':probe['processExitSha256']='sha256:'+'0'*64
+                    write_yaml(config_path,original_config);write_yaml(report_path,report);write_yaml(probe_path,probe);write_yaml(diagnostic_path,original_diagnostic)
+                    self.assertTrue(any('qualified worker capabilities' in e for e in validate(data)),(profile,mode))
+                native_path.write_bytes(json.dumps(native_original).encode());exit_path.write_bytes(json.dumps(exit_original).encode());stderr_path.write_bytes(b'');media_path.write_bytes(media_original)
+                # Capture the native Windows executable path without executing it.
+                data=copy.deepcopy(original);probe=copy.deepcopy(original_probe);exit=copy.deepcopy(exit_original);probe['command'][0]=r'C:\tools\ffprobe.exe';exit['command']=copy.deepcopy(probe['command']);exit_path.write_bytes(json.dumps(exit).encode());probe['processExitSha256']='sha256:'+hashlib.sha256(exit_path.read_bytes()).hexdigest()
+                write_yaml(config_path,original_config);write_yaml(report_path,original_report);write_yaml(probe_path,probe);write_yaml(diagnostic_path,original_diagnostic);self.assertEqual(validate(data),[])
+                exit_path.write_bytes(json.dumps(exit_original).encode());write_yaml(probe_path,original_probe)
                 # An unclaimed optional codec may remain explicitly untested; never assert support.
                 data=copy.deepcopy(original);report=copy.deepcopy(original_report);config=copy.deepcopy(original_config);diagnostic=copy.deepcopy(original_diagnostic);config['configuration']['workerCapabilityPolicy']['claims'][2]['status']='untested';data['environmentCaptured']['encoder_capability_matrix']=copy.deepcopy(config['configuration']['workerCapabilityPolicy']['claims']);report['claims'][2]['status']=diagnostic['status']='untested'
                 write_yaml(config_path,config);write_yaml(report_path,report);write_yaml(probe_path,original_probe);write_yaml(diagnostic_path,diagnostic);self.assertEqual(validate(data),[])
@@ -3622,6 +3805,16 @@ class TestPocProgram(unittest.TestCase):
             def validate(data,status='pass'):
                 self.refresh_qualified_observation_fixture(root,data);errors=[];CHECK.validate_qualified_local_source_listing(root,plan,data,prefix,status,window,defs,errors,{});return errors
             self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'}),[]);self.assertEqual(validate(copy.deepcopy(original)),[])
+            transport_bytes={}
+            for listing_run in original_report['runs']:
+                for listing_page in listing_run['pages']:
+                    transport_ref=listing_page['transportExecutionRef'];transport=load_yaml(root/transport_ref)
+                    for ref in (transport_ref,transport['requestRef'],transport['responseRef'],transport['stderrRef']):transport_bytes[ref]=(root/ref).read_bytes()
+            def restore_transport():
+                for ref,raw in transport_bytes.items():(root/ref).write_bytes(raw)
+            def response_bytes(payload,status=200,headers=None):
+                body=payload if isinstance(payload,bytes) else json.dumps(payload,ensure_ascii=False).encode('utf8')
+                return (f'HTTP/1.1 {status} Fixture\r\nContent-Type: application/json\r\nContent-Length: {len(body)}\r\n'+(headers or '')+'\r\n').encode('ascii')+body
             for mode in ('missing','shape','policy','source','sandbox','version','endpoint','input','single_run','duplicate_run','cursor','last_cursor','status','clock','duplicate_request','missing_object','version_changed','name_changed','duplicate_object','duplicate_policy','criterion','basis_missing','basis_version','basis_hash','basis_clock','basis_reason','rubric','score','gate'):
                 data=copy.deepcopy(original);report=copy.deepcopy(original_report);config=copy.deepcopy(original_config);basis=copy.deepcopy(original_basis);policy=config['configuration']['localSourceListingPolicy'];page=report['runs'][1]['pages'][0]
                 if mode=='missing':data['environmentCaptured'].pop('sourceListingRef')
@@ -3651,6 +3844,49 @@ class TestPocProgram(unittest.TestCase):
                 elif mode=='score':next(m for m in data['measurements'] if m['id']=='maintainability')['actual']=0.9
                 else:next(m for m in data['measurements'] if m['id']=='listing_stability')['actual']=False
                 write_yaml(report_path,report);write_yaml(config_path,config);write_yaml(basis_path,basis);self.assertTrue(any('qualified local source listing' in e for e in validate(data)),mode)
+            for mode in ('transport_missing','request_missing','response_missing','stderr_missing','request_type','response_type','response_unselected','response_alias','execution_version','execution_input','execution_source','execution_run','execution_page','execution_trace','execution_command','execution_build','execution_exit','execution_clock','execution_zero_interval','request_method','request_endpoint','request_path','request_page','request_page_size','request_refresh','request_version','request_trace','request_clock','request_span_identity','request_span_hash','request_span_offset','request_span_count','policy_span_overflow','policy_public_origin','policy_metadata','raw_http_status','raw_api_status','raw_total','raw_missing_object','raw_name','raw_kind','raw_modified','raw_size','raw_hash','raw_json_duplicate','raw_json_nonfinite','raw_json_invalid','raw_http_duplicate_length','raw_http_wrong_length','raw_http_chunked','raw_stderr','aggregate_trace','aggregate_time'):
+                restore_transport();data=copy.deepcopy(original);report=copy.deepcopy(original_report);config=copy.deepcopy(original_config);page=report['runs'][1]['pages'][0];transport_path=root/page['transportExecutionRef'];transport=load_yaml(transport_path);request_path=root/transport['requestRef'];request=json.loads(request_path.read_text(encoding='utf8'));response_path=root/transport['responseRef'];response=json.loads(response_path.read_bytes().partition(b'\r\n\r\n')[2]);policy=config['configuration']['localSourceListingPolicy']
+                if mode=='transport_missing':page.pop('transportExecutionRef')
+                elif mode in ('request_missing','response_missing','stderr_missing'):transport[mode.split('_')[0]+'Ref']=prefix+'/raw/absent-native-capture'
+                elif mode in ('request_type','response_type'):next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==transport[mode.split('_')[0]+'Ref'])['artifactType']='scope_observation'
+                elif mode=='response_unselected':data['rawOutputRefs'].remove(transport['responseRef'])
+                elif mode=='response_alias':transport['responseRef']=load_yaml(root/report['runs'][0]['pages'][0]['transportExecutionRef'])['responseRef']
+                elif mode.startswith('execution_'):
+                    field=mode.removeprefix('execution_')
+                    if field=='input':transport['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                    elif field=='command':transport['commandArgs'][0]='foreign-client'
+                    elif field=='exit':transport['exitCode']=56
+                    elif field=='page':transport['pageNo']=2
+                    elif field=='clock':transport['startedAt']='2026-09-02T00:00:00Z'
+                    elif field=='zero_interval':transport['finishedAt']=transport['startedAt']
+                    else:transport[dict(version='subjectVersion',source='sourceId',run='runId',trace='traceId',build='toolBuild')[field]]='foreign'
+                elif mode.startswith('request_'):
+                    field=mode.removeprefix('request_')
+                    if field in ('path','page','page_size','refresh'):request['body'][dict(path='path',page='page',page_size='per_page',refresh='refresh')[field]]={'path':'/foreign','page':2,'page_size':2,'refresh':True}[field]
+                    elif field.startswith('span_'):request['inputSpan'][dict(span_identity='immutableId',span_hash='sha256',span_offset='byteOffset',span_count='byteCount')[field]]={'span_identity':'foreign','span_hash':'sha256:'+'0'*64,'span_offset':1,'span_count':33554432}[field]
+                    else:request[dict(method='httpMethod',endpoint='endpointURL',version='subjectVersion',trace='traceId',clock='requestedAt')[field]]={'method':'GET','endpoint':'http://127.0.0.1:15525/other','version':'foreign','trace':'foreign','clock':'2026-09-03T00:03:11.100Z'}[field]
+                elif mode=='policy_span_overflow':policy['transportInputSpan']['byteCount']=33554432
+                elif mode=='policy_public_origin':policy['endpointURL']=report['endpointURL']='http://example.com/api/fs/list'
+                elif mode=='policy_metadata':policy['objects'][0]['listingMetadata']['modified']='2026-09-02T00:00:00Z'
+                elif mode=='raw_http_status':response_path.write_bytes(response_bytes(response,503))
+                elif mode=='raw_api_status':response['code']=503
+                elif mode=='raw_total':response['data']['total']=3
+                elif mode=='raw_missing_object':response['data']['content']=[]
+                elif mode in ('raw_name','raw_kind','raw_modified','raw_size','raw_hash'):
+                    response['data']['content'][0][dict(raw_name='name',raw_kind='is_dir',raw_modified='modified',raw_size='size',raw_hash='hashinfo')[mode]]={'raw_name':'foreign','raw_kind':True,'raw_modified':'2026-09-02T00:00:00Z','raw_size':0,'raw_hash':'foreign'}[mode]
+                elif mode=='raw_json_duplicate':response_path.write_bytes(response_bytes(b'{"code":200,"code":200,"message":"success","data":{"content":[],"total":2}}'))
+                elif mode=='raw_json_nonfinite':response_path.write_bytes(response_bytes(b'{"code":200,"message":"success","data":{"content":[],"total":NaN}}'))
+                elif mode=='raw_json_invalid':response_path.write_bytes(response_bytes(b'not-json'))
+                elif mode=='raw_http_duplicate_length':response_path.write_bytes(response_bytes(response,headers='Content-Length: 0\r\n'))
+                elif mode=='raw_http_wrong_length':response_path.write_bytes(response_path.read_bytes().replace(b'Content-Length: ',b'Content-Length: 1',1))
+                elif mode=='raw_http_chunked':response_path.write_bytes(response_bytes(response,headers='Transfer-Encoding: chunked\r\n'))
+                elif mode=='raw_stderr':(root/transport['stderrRef']).write_bytes(b'curl: (56) synthetic receive failure')
+                elif mode=='aggregate_trace':page['traceId']='foreign'
+                else:page['finishedAt']='2026-09-03T00:03:11.400Z'
+                if mode in ('raw_api_status','raw_total','raw_missing_object','raw_name','raw_kind','raw_modified','raw_size','raw_hash'):response_path.write_bytes(response_bytes(response))
+                write_yaml(transport_path,transport);request_path.write_text(json.dumps(request,ensure_ascii=False),encoding='utf8');write_yaml(report_path,report);write_yaml(config_path,config);write_yaml(basis_path,original_basis)
+                self.assertTrue(any('qualified local source listing' in error for error in validate(data)),mode)
+            restore_transport()
             write_yaml(config_path,original_config);write_yaml(basis_path,original_basis);report=copy.deepcopy(original_report);report['assessment'][0]['status']='limited';write_yaml(report_path,report);data=copy.deepcopy(original);next(m for m in data['measurements'] if m['id']=='maintainability')['actual']=0.875;self.assertEqual(validate(data),[])
             write_yaml(report_path,original_report)
             for status in ('fail','inconclusive'):
@@ -6311,6 +6547,14 @@ class TestPocProgram(unittest.TestCase):
             finally:temp.cleanup()
 
     def test_151_local_tls_origins_validate_semantic_host_and_port(self):
+        local_hosts=('localhost','localhost:443','127.0.0.1','127.2.3.4:443','10.1.2.3','172.16.0.1','172.31.255.255','192.168.1.1','[::1]','[fd12:3456::1]','[::ffff:7f00:1]','[::ffff:c0a8:101]')
+        rejected_hosts=('guize.local','example.com','localhost.example.com','localhost.','8.8.8.8','169.254.169.254','169.254.1.1','0.0.0.0','100.64.0.1','172.15.255.255','172.32.0.1','192.0.2.1','224.0.0.1','2130706433','127.1','0177.0.0.1','127.000.0.1','0x7f000001','[::]','[2001:4860:4860::8888]','[fe80::1]','[ff02::1]','[::ffff:a9fe:a9fe]','[::ffff:808:808]','[::ffff:127.0.0.1]','[0:0:0:0:0:0:0:1]','[::1]evil','[::1]:','localhost:','reader@localhost','reader:fixture@127.0.0.1')
+        with mock.patch('socket.getaddrinfo',side_effect=AssertionError('origin validation must not resolve DNS')):
+            for host in local_hosts:self.assertTrue(CHECK.valid_local_origin('https://'+host,{'https'}),host)
+            for host in rejected_hosts:self.assertFalse(CHECK.valid_local_origin('https://'+host,{'https'}),host)
+            for suffix in ('/','/path','?','#','?x=1','#fragment','\\outside','%2foutside','\n'):
+                self.assertFalse(CHECK.valid_local_origin('https://localhost'+suffix,{'https'}),suffix)
+            self.assertFalse(CHECK.valid_local_origin('http://localhost',{'https'}))
         temp,root=self.temp_repo()
         try:
             index=self.make_profile_slot(root,'POC-007','local-v1')
@@ -6319,7 +6563,7 @@ class TestPocProgram(unittest.TestCase):
             validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-07'})
             self.assertEqual(validate(),[])
             for field in ('entryOrigin','openlistOrigin'):
-                for host,accepted in (('guize.local:1',True),('guize.local:443',True),('127.0.0.1:65535',True),('[::1]:443',True),('guize.local:99999',False),('guize.local:00000',False),('bad..local:443',False),('-bad.local:443',False),('999.1.1.1:443',False),('[:::1]:443',False)):
+                for host,accepted in (('guize.local:1',False),('guize.local:443',False),('localhost:1',True),('localhost:443',True),('127.0.0.1:65535',True),('[::1]:443',True),('guize.local:99999',False),('guize.local:00000',False),('bad..local:443',False),('-bad.local:443',False),('999.1.1.1:443',False),('[:::1]:443',False)):
                     path.write_bytes(original);configuration_path.write_bytes(configuration_bytes)
                     data=load_yaml(path);configuration=load_yaml(configuration_path)
                     value='https://'+host

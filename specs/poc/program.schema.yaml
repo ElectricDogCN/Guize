@@ -6707,10 +6707,18 @@ $defs:
     - grantValidFrom
     - grantValidUntil
     - expiredAt
+    - limitObserverBuild
+    - limitCommandArgs
     properties:
       subjectVersion:
         type: string
         minLength: 1
+      limitObserverBuild: {type: string, minLength: 1}
+      limitCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items: {type: string, minLength: 1}
       nodes:
         type: array
         minItems: 1
@@ -6879,7 +6887,23 @@ $defs:
                 - remainingTemporaryBytes
                 - remainingOutputBytes
                 - publishedArtifactIds
+                - processRef
+                - processSha256
+                - runtimeRef
+                - runtimeSha256
+                - filesystemRef
+                - filesystemSha256
+                - exitRef
+                - exitSha256
                 properties:
+                  processRef: {type: string, minLength: 1}
+                  processSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+                  runtimeRef: {type: string, minLength: 1}
+                  runtimeSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+                  filesystemRef: {type: string, minLength: 1}
+                  filesystemSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+                  exitRef: {type: string, minLength: 1}
+                  exitSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
                   case:
                     enum:
                     - cpuSeconds
@@ -10433,6 +10457,9 @@ $defs:
     - sourceIdentity
     - quotaDocumentRef
     - quotaDocumentSha256
+    - nativeProcessId
+    - counterFormat
+    - collectorCommandArgs
     properties:
       scannerBuild:
         type: string
@@ -10476,6 +10503,21 @@ $defs:
       quotaDocumentSha256:
         type: string
         pattern: ^sha256:[0-9a-f]{64}$
+      nativeProcessId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      counterFormat:
+        enum:
+        - linux_proc_status
+        - windows_process_memory_counters
+      collectorCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 32
+        items:
+          type: string
+          minLength: 1
   metadataQuotaDocument:
     type: object
     additionalProperties: false
@@ -10553,6 +10595,9 @@ $defs:
     - quotaDocumentRef
     - quotaDocumentSha256
     - memorySamples
+    - nativeProcessId
+    - counterFormat
+    - collectorCommandArgs
     properties:
       schemaVersion:
         const: 1
@@ -10643,6 +10688,7 @@ $defs:
           - scanId
           - scannerBuild
           - peakResidentBytes
+          - counterCaptureRef
           properties:
             observedAt:
               type: string
@@ -10659,6 +10705,24 @@ $defs:
             peakResidentBytes:
               type: integer
               minimum: 0
+            counterCaptureRef:
+              type: string
+              minLength: 1
+      nativeProcessId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      counterFormat:
+        enum:
+        - linux_proc_status
+        - windows_process_memory_counters
+      collectorCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 32
+        items:
+          type: string
+          minLength: 1
   mediaFallbackPolicy:
     type: object
     additionalProperties: false
@@ -12713,6 +12777,16 @@ $defs:
     - durationSeconds
     - decodeErrorCount
     - caseId
+    - startedAt
+    - finishedAt
+    - command
+    - exitCode
+    - rawProbeRef
+    - rawProbeSha256
+    - stderrRef
+    - stderrSha256
+    - processExitRef
+    - processExitSha256
     properties:
       schemaVersion:
         const: 1
@@ -12774,6 +12848,16 @@ $defs:
       caseId:
         type: string
         minLength: 1
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      command: {type: array, minItems: 1, maxItems: 32, items: {type: string, minLength: 1}}
+      exitCode: {type: integer, const: 0}
+      rawProbeRef: {type: string, minLength: 1}
+      rawProbeSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+      stderrRef: {type: string, minLength: 1}
+      stderrSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+      processExitRef: {type: string, minLength: 1}
+      processExitSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
   workerCapabilityDiagnostic:
     type: object
     additionalProperties: false
@@ -12893,6 +12977,11 @@ $defs:
     - sandboxId
     - subjectVersion
     - endpointURL
+    - listingPath
+    - pageSize
+    - transportCommandArgs
+    - transportToolBuild
+    - transportInputSpan
     - objects
     - minimumListingRuns
     - criteria
@@ -12910,6 +12999,18 @@ $defs:
       endpointURL:
         type: string
         minLength: 1
+      listingPath: {type: string, minLength: 1}
+      pageSize: {type: integer, minimum: 1, maximum: 256}
+      transportCommandArgs: {type: array, minItems: 1, maxItems: 128, items: {type: string, minLength: 1}}
+      transportToolBuild: {type: string, minLength: 1}
+      transportInputSpan:
+        type: object
+        additionalProperties: false
+        required: [sampleId, byteOffset, byteCount]
+        properties:
+          sampleId: {type: string, minLength: 1}
+          byteOffset: {type: integer, minimum: 0}
+          byteCount: {type: integer, minimum: 1, maximum: 33554432}
       objects:
         type: array
         minItems: 1
@@ -12922,7 +13023,16 @@ $defs:
           - versionId
           - name
           - kind
+          - listingMetadata
           properties:
+            listingMetadata:
+              type: object
+              additionalProperties: false
+              required: [modified, size, hashinfo]
+              properties:
+                modified: {type: string, format: date-time}
+                size: {type: integer, minimum: 0}
+                hashinfo: {type: string}
             objectId:
               type: string
               minLength: 1
@@ -13054,6 +13164,8 @@ $defs:
                 type: object
                 additionalProperties: false
                 required:
+                - transportExecutionRef
+                - traceId
                 - requestId
                 - requestedAt
                 - finishedAt
@@ -13062,6 +13174,8 @@ $defs:
                 - statusCode
                 - objects
                 properties:
+                  transportExecutionRef: {type: string, minLength: 1}
+                  traceId: {type: string, minLength: 1}
                   requestId:
                     type: string
                     minLength: 1
@@ -15545,3 +15659,411 @@ $defs:
     - startedAt
     - finishedAt
     - comparisons
+  metadataMemoryCounterCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - manifestId
+    - scannerBuild
+    - scanId
+    - processId
+    - collectorBuild
+    - nativeProcessId
+    - counterFormat
+    - kind
+    - observedAt
+    - toolBuild
+    - collectorProcessId
+    - commandArgs
+    - counterRef
+    - exitCode
+    properties:
+      schemaVersion:
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      manifestId:
+        type: string
+        minLength: 1
+      scannerBuild:
+        type: string
+        minLength: 1
+      scanId:
+        type: string
+        minLength: 1
+      processId:
+        type: string
+        minLength: 1
+      collectorBuild:
+        type: string
+        minLength: 1
+      nativeProcessId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      counterFormat:
+        enum:
+        - linux_proc_status
+        - windows_process_memory_counters
+      kind:
+        const: metadata_memory_counter_capture
+      observedAt:
+        type: string
+        format: date-time
+      toolBuild:
+        type: string
+        minLength: 1
+      collectorProcessId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      commandArgs:
+        type: array
+        minItems: 1
+        maxItems: 36
+        items:
+          type: string
+          minLength: 1
+      counterRef:
+        type: string
+        minLength: 1
+      exitCode:
+        type: integer
+        minimum: -255
+        maximum: 255
+  metadataWindowsMemoryCounter:
+    type: object
+    additionalProperties: false
+    required:
+    - ProcessId
+    - PeakWorkingSetSize
+    - WorkingSetSize
+    properties:
+      ProcessId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      PeakWorkingSetSize:
+        type: integer
+        minimum: 0
+        maximum: 1152921504606846976
+      WorkingSetSize:
+        type: integer
+        minimum: 0
+        maximum: 1152921504606846976
+  localSourceListingTransportExecution:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, configurationRef, acceptanceProfile, subjectVersion, inputSamples, scope, sandboxId, sourceId, endpointURL, runId, pageNo, requestId, traceId, commandArgs, toolBuild, pid, startedAt, finishedAt, exitCode, requestRef, responseRef, stderrRef]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: local_source_listing_transport_execution}
+      configurationRef: {type: string, minLength: 1}
+      acceptanceProfile: {type: object}
+      subjectVersion: {type: string, minLength: 1}
+      inputSamples: {type: array, minItems: 1, items: {type: object}}
+      scope: {const: GENERIC_OPENLIST_SANDBOX}
+      sandboxId: {type: string, minLength: 1}
+      sourceId: {type: string, minLength: 1}
+      endpointURL: {type: string, minLength: 1}
+      runId: {type: string, minLength: 1}
+      pageNo: {type: integer, minimum: 1, maximum: 256}
+      requestId: {type: string, minLength: 1}
+      traceId: {type: string, minLength: 1}
+      commandArgs: {type: array, minItems: 1, maxItems: 140, items: {type: string, minLength: 1}}
+      toolBuild: {type: string, minLength: 1}
+      pid: {type: integer, minimum: 1}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      exitCode: {type: integer}
+      requestRef: {type: string, minLength: 1}
+      responseRef: {type: string, minLength: 1}
+      stderrRef: {type: string, minLength: 1}
+  localSourceListingRequest:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, configurationRef, acceptanceProfile, subjectVersion, inputSamples, scope, sandboxId, sourceId, endpointURL, runId, pageNo, requestId, traceId, requestedAt, inputSpan, httpMethod, body]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: local_source_listing_request}
+      configurationRef: {type: string, minLength: 1}
+      acceptanceProfile: {type: object}
+      subjectVersion: {type: string, minLength: 1}
+      inputSamples: {type: array, minItems: 1, items: {type: object}}
+      scope: {const: GENERIC_OPENLIST_SANDBOX}
+      sandboxId: {type: string, minLength: 1}
+      sourceId: {type: string, minLength: 1}
+      endpointURL: {type: string, minLength: 1}
+      runId: {type: string, minLength: 1}
+      pageNo: {type: integer, minimum: 1, maximum: 256}
+      requestId: {type: string, minLength: 1}
+      traceId: {type: string, minLength: 1}
+      requestedAt: {type: string, format: date-time}
+      inputSpan:
+        type: object
+        additionalProperties: false
+        required: [sampleId, immutableId, sha256, byteOffset, byteCount]
+        properties:
+          sampleId: {type: string, minLength: 1}
+          immutableId: {type: string, minLength: 1}
+          sha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+          byteOffset: {type: integer, minimum: 0}
+          byteCount: {type: integer, minimum: 1, maximum: 33554432}
+      httpMethod: {const: POST}
+      body:
+        type: object
+        additionalProperties: false
+        required: [path, page, per_page, refresh]
+        properties:
+          path: {type: string, minLength: 1}
+          page: {type: integer, minimum: 1, maximum: 256}
+          per_page: {type: integer, minimum: 1, maximum: 256}
+          refresh: {const: false, type: boolean}
+  localSourceListingResponse:
+    type: object
+    required: [code, message, data]
+    properties:
+      code: {type: integer}
+      message: {type: string}
+      data:
+        type: object
+        required: [content, total]
+        properties:
+          total: {type: integer, minimum: 0, maximum: 256}
+          content:
+            type: array
+            maxItems: 256
+            items:
+              type: object
+              required: [name, is_dir, modified, size, hashinfo]
+              properties:
+                name: {type: string, minLength: 1}
+                is_dir: {type: boolean}
+                modified: {type: string, format: date-time}
+                size: {type: integer, minimum: 0}
+                hashinfo: {type: string}
+  workerSafetyLimitProcess:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, identity, taskId, requestId, case, processId, observerBuild, startedAt, commandArgs, limits]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: worker_safety_limit_process}
+      context: {type: object}
+      identity: {type: object}
+      taskId: {type: string, minLength: 1}
+      requestId: {type: string, minLength: 1}
+      case: {enum: [cpuSeconds, memoryBytes, elapsedSeconds, temporaryBytes, outputBytes]}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$', not: {pattern: '[^0-9]'}}
+      observerBuild: {type: string, minLength: 1}
+      startedAt: {type: string, format: date-time}
+      commandArgs: {type: array, minItems: 2, maxItems: 129, items: {type: string, minLength: 1}}
+      limits:
+        type: object
+        additionalProperties: false
+        required: [cpuSeconds, memoryBytes, elapsedSeconds, temporaryBytes, outputBytes]
+        properties:
+          cpuSeconds: {type: number, exclusiveMinimum: 0}
+          memoryBytes: {type: number, exclusiveMinimum: 0}
+          elapsedSeconds: {type: number, exclusiveMinimum: 0}
+          temporaryBytes: {type: number, exclusiveMinimum: 0}
+          outputBytes: {type: number, exclusiveMinimum: 0}
+  workerSafetyLimitRuntime:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, identity, taskId, requestId, case, processId, observerBuild, samples]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: worker_safety_limit_runtime}
+      context: {type: object}
+      identity: {type: object}
+      taskId: {type: string, minLength: 1}
+      requestId: {type: string, minLength: 1}
+      case: {enum: [cpuSeconds, memoryBytes, elapsedSeconds, temporaryBytes, outputBytes]}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$', not: {pattern: '[^0-9]'}}
+      observerBuild: {type: string, minLength: 1}
+      samples:
+        type: array
+        minItems: 2
+        maxItems: 10000
+        items:
+          type: object
+          additionalProperties: false
+          required: [observedAt, userCpuSeconds, systemCpuSeconds, residentBytes]
+          properties:
+            observedAt: {type: string, format: date-time}
+            userCpuSeconds: {type: number, minimum: 0}
+            systemCpuSeconds: {type: number, minimum: 0}
+            residentBytes: {type: integer, minimum: 0}
+  workerSafetyLimitFilesystem:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, identity, taskId, requestId, case, processId, observerBuild, snapshots]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: worker_safety_limit_filesystem}
+      context: {type: object}
+      identity: {type: object}
+      taskId: {type: string, minLength: 1}
+      requestId: {type: string, minLength: 1}
+      case: {enum: [cpuSeconds, memoryBytes, elapsedSeconds, temporaryBytes, outputBytes]}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$', not: {pattern: '[^0-9]'}}
+      observerBuild: {type: string, minLength: 1}
+      snapshots:
+        type: array
+        minItems: 3
+        maxItems: 10000
+        items:
+          type: object
+          additionalProperties: false
+          required: [observedAt, files, publishedArtifactIds]
+          properties:
+            observedAt: {type: string, format: date-time}
+            publishedArtifactIds: {type: array, uniqueItems: true, items: {type: string, minLength: 1}}
+            files:
+              type: array
+              maxItems: 10000
+              items:
+                type: object
+                additionalProperties: false
+                required: [path, area, byteCount]
+                properties:
+                  path: {type: string, minLength: 1, description: 'Canonical forward-slash relative path; no empty or dot segments, backslashes or drive prefix.'}
+                  area: {enum: [temporary, output]}
+                  byteCount: {type: integer, minimum: 0}
+  workerSafetyLimitExit:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, identity, taskId, requestId, case, processId, observerBuild, observedAt, exitCode, terminationReason, remainingProcessIds]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: worker_safety_limit_exit}
+      context: {type: object}
+      identity: {type: object}
+      taskId: {type: string, minLength: 1}
+      requestId: {type: string, minLength: 1}
+      case: {enum: [cpuSeconds, memoryBytes, elapsedSeconds, temporaryBytes, outputBytes]}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$', not: {pattern: '[^0-9]'}}
+      observerBuild: {type: string, minLength: 1}
+      observedAt: {type: string, format: date-time}
+      exitCode: {type: integer}
+      terminationReason: {enum: [cpuSeconds, memoryBytes, elapsedSeconds, temporaryBytes, outputBytes]}
+      remainingProcessIds: {type: array, uniqueItems: true, items: {type: string, minLength: 1}}
+  workerCapabilityDecoderExit:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, runId, caseId, nodeId, decoderBuild, processId, command, startedAt, finishedAt, exitCode, outputArtifactRef, outputSha256, stdoutRef, stdoutSha256, stderrRef, stderrSha256]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: worker_capability_decoder_exit}
+      runId: {type: string, minLength: 1}
+      caseId: {type: string, minLength: 1}
+      nodeId: {type: string, minLength: 1}
+      decoderBuild: {type: string, minLength: 1}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$', not: {pattern: '[^0-9]'}}
+      command: {type: array, minItems: 1, maxItems: 32, items: {type: string, minLength: 1}}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      exitCode: {type: integer}
+      outputArtifactRef: {type: string, minLength: 1}
+      outputSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+      stdoutRef: {type: string, minLength: 1}
+      stdoutSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+      stderrRef: {type: string, minLength: 1}
+      stderrSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+  workerCapabilityProbeOutput:
+    type: object
+    additionalProperties: true
+    required: [program_version, streams, packets_and_frames, format]
+    properties:
+      format:
+        type: object
+        additionalProperties: true
+        required: [format_name, size]
+        properties:
+          format_name: {const: 'mov,mp4,m4a,3gp,3g2,mj2'}
+          size: {type: string, pattern: '^[1-9][0-9]*$'}
+      program_version:
+        type: object
+        additionalProperties: true
+        required: [version]
+        properties:
+          version: {type: string, minLength: 1}
+      streams:
+        type: array
+        minItems: 1
+        maxItems: 1
+        items:
+          type: object
+          additionalProperties: true
+          required: [codec_name, codec_tag_string, profile, level, width, height, pix_fmt, time_base, r_frame_rate]
+          properties:
+            codec_name: {type: string, pattern: '^[a-z0-9_]{1,32}$'}
+            codec_tag_string: {type: string, minLength: 4, maxLength: 4}
+            profile: {type: string, minLength: 1}
+            level: {type: integer}
+            width: {type: integer, minimum: 1}
+            height: {type: integer, minimum: 1}
+            pix_fmt: {type: string, minLength: 1}
+            time_base: {type: string, pattern: '^[1-9][0-9]*/[1-9][0-9]*$'}
+            r_frame_rate: {type: string, pattern: '^[1-9][0-9]*/[1-9][0-9]*$'}
+      packets_and_frames:
+        type: array
+        minItems: 2
+        maxItems: 200000
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: true
+            required: [type, pts, dts, duration, pos, size, data_hash]
+            properties:
+              type: {const: packet}
+              pts: {type: integer}
+              dts: {type: integer}
+              duration: {type: integer, minimum: 1}
+              pos: {type: string, pattern: '^[0-9]+$'}
+              size: {type: string, pattern: '^[1-9][0-9]*$'}
+              data_hash: {type: string, pattern: '^SHA256:[0-9a-f]{64}$'}
+          - type: object
+            additionalProperties: true
+            required: [type, pts, width, height, pix_fmt]
+            anyOf: [{required: [duration]}, {required: [pkt_duration]}]
+            properties:
+              type: {const: frame}
+              pts: {type: integer}
+              width: {type: integer, minimum: 1}
+              height: {type: integer, minimum: 1}
+              pix_fmt: {type: string, minLength: 1}
+              duration: {type: integer, minimum: 1}
+              pkt_duration: {type: integer, minimum: 1}

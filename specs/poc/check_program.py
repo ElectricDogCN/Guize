@@ -518,7 +518,7 @@ def validate_qualified_configuration(root, plan, execution, configuration, defs,
         if field=='local_tls_path_configuration' and isinstance(value,dict):
             for key,schemes in (('entryOrigin',{'https'}),('openlistOrigin',{'http','https'})):
                 if not valid_local_origin(value.get(key),schemes):
-                    errors.append(f'{capture_label}: {key} requires a valid host and explicit port in 1..65535')
+                    errors.append(f'{capture_label}: {key} requires a canonical loopback/private origin and any port in 1..65535')
         if field=='injected_failure_matrix' and isinstance(value,dict):
             cases=value.get('cases')
             if isinstance(cases,list):
@@ -535,6 +535,35 @@ def validate_qualified_configuration(root, plan, execution, configuration, defs,
                         errors.append(f'{capture_label}: exercised fault must retain a selected-slot typed observation artifact')
 
 
+def retained_local_source_transport_artifact(root,execution,prefix,ref,kind,maximum,label,errors,cache,paths):
+    """Bind one bounded retained native-client file to its selected typed artifact."""
+    env=execution.get('environmentCaptured') or {};path=existing_ref(root,ref,prefix)
+    records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+    if path is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!=kind:
+        errors.append(f'{label}: selected typed independent request/transport bytes required');return
+    try:
+        actual=inspect_artifact(path,cache)
+        if actual['size']>maximum or records[0].get('byteCount')!=actual['size'] or records[0].get('sha256')!=actual['sha256']:raise ValueError('retained byte binding')
+        if any(path.samefile(peer) for peer in paths if peer is not None):raise ValueError('physical alias')
+    except (OSError,ValueError):
+        errors.append(f'{label}: retained transport files must have exact physical hash/size, bounds and independent paths');return
+    paths.append(path);return path
+
+
+def parse_local_source_http_response(raw):
+    """Parse a bounded retained final HTTP response without following any URL."""
+    head,separator,body=raw.partition(b'\r\n\r\n');lines=head.decode('ascii').split('\r\n')
+    match=re.fullmatch(r'HTTP/(?:1\.[01]|2(?:\.0)?|3(?:\.0)?) ([1-5][0-9]{2})(?: [^\r\n]*)?',lines[0])
+    if not separator or match is None or len(head)>65536:raise ValueError('HTTP response')
+    headers={}
+    for line in lines[1:]:
+        key,colon,value=line.partition(':');key=key.lower()
+        if not colon or re.fullmatch(r'[a-z0-9-]+',key) is None or key in headers:raise ValueError('ambiguous/malformed HTTP header')
+        headers[key]=value.strip()
+    if 'transfer-encoding' in headers or 'content-length' in headers and (re.fullmatch(r'[0-9]+',headers['content-length']) is None or int(headers['content-length'])!=len(body)):raise ValueError('response framing')
+    return int(match.group(1)),headers,body
+
+
 def derive_local_source_fault_attempt(root,execution,prefix,report,policy,row,claim,following,window,defs,label,errors,cache,paths,traces):
     """Read one approved client's retained request/HTTP/progress/exit bytes; never execute it."""
     before=len(errors);env=execution.get('environmentCaptured') or {}
@@ -547,15 +576,7 @@ def derive_local_source_fault_attempt(root,execution,prefix,report,policy,row,cl
         errors.append(f'{label}: independent executed attempt must bind exact request/trace/source/input scope and positive UTC interval');return
     traces.add(run['traceId'])
     def retained(ref,kind,maximum):
-        path=existing_ref(root,ref,prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
-        if path is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!=kind:
-            errors.append(f'{label}: each attempt needs selected typed independent request/transport/progress bytes');return
-        actual=inspect_artifact(path,cache)
-        if actual['size']>maximum or records[0].get('byteCount')!=actual['size'] or records[0].get('sha256')!=actual['sha256']:
-            errors.append(f'{label}: retained attempt bytes must match physical hash/size and bound');return
-        if any(path.samefile(peer) for peer in paths):
-            errors.append(f'{label}: attempts and their request/response/progress/diagnostic files must be physically independent');return
-        paths.append(path);return path
+        return retained_local_source_transport_artifact(root,execution,prefix,ref,kind,maximum,label,errors,cache,paths)
     run_path=retained(claim['transportExecutionRef'],'measurement_output',262144)
     request_path=retained(run['requestRef'],'command_output',262144)
     response_path=retained(run['responseRef'],'produced_media',(32<<20)+65536)
@@ -584,16 +605,9 @@ def derive_local_source_fault_attempt(root,execution,prefix,report,policy,row,cl
     try:
         endpoint=urllib.parse.urlsplit(policy['transportEndpointURL']);origin=endpoint.scheme+'://'+endpoint.netloc
         if not valid_local_origin(origin,{'http','https'}) or endpoint.path in ('','/') or endpoint.query or endpoint.fragment or endpoint.username or endpoint.password:raise ValueError('endpoint')
-        raw=response_path.read_bytes();head,separator,body=raw.partition(b'\r\n\r\n');status_code=None;retry_after=0;code=run['exitCode']
+        raw=response_path.read_bytes();status_code=None;retry_after=0;code=run['exitCode']
         if raw and code==0:
-            lines=head.decode('ascii').split('\r\n');match=re.fullmatch(r'HTTP/(?:1\.[01]|2(?:\.0)?|3(?:\.0)?) ([1-5][0-9]{2})(?: [^\r\n]*)?',lines[0])
-            if not separator or match is None or len(head)>65536:raise ValueError('HTTP response')
-            status_code=int(match.group(1));headers={}
-            for line in lines[1:]:
-                key,colon,value=line.partition(':')
-                if not colon or re.fullmatch(r'[A-Za-z0-9-]+',key) is None or key.lower() in ('content-length','retry-after') and key.lower() in headers:raise ValueError('ambiguous/malformed HTTP header')
-                headers[key.lower()]=value.strip()
-            if 'content-length' in headers and int(headers['content-length'])!=len(body):raise ValueError('response byte count')
+            status_code,headers,body=parse_local_source_http_response(raw)
             if 'retry-after' in headers:
                 value=headers['retry-after']
                 if re.fullmatch(r'[0-9]+',value):retry_after=int(value)
@@ -777,6 +791,72 @@ def validate_qualified_local_source_authentication(root,plan,execution,prefix,st
     if actual.get('auth_flow_supported') is not True:errors.append(f'{label}: true auth_flow_supported requires all parsed authentication outcomes')
 
 
+def derive_local_source_listing_page(root,execution,prefix,report,policy,listing_run,number,claim,window,defs,label,errors,cache,paths,traces):
+    """Derive an OpenList page from retained POST request and native HTTP bytes."""
+    before=len(errors)
+    run=selected_observation(root,execution,prefix,claim.get('transportExecutionRef'),defs,'localSourceListingTransportExecution',label,errors,cache)
+    if run is None or len(errors)!=before:return
+    common={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','sourceId','sandboxId','endpointURL')}
+    common.update(scope='GENERIC_OPENLIST_SANDBOX',runId=listing_run['runId'],pageNo=number+1,requestId=claim['requestId'],traceId=claim['traceId'])
+    start,end=utc(run['startedAt']),utc(run['finishedAt'])
+    if any(run.get(k)!=v for k,v in common.items()) or not recorded_text(run['traceId']) or run['traceId'] in traces or start is None or end is None or window is None or not window[0]<=start<end<=window[1]:
+        errors.append(f'{label}: each executed page must bind distinct trace/request/run/page, approved versions/source and positive UTC interval');return
+    traces.add(run['traceId'])
+    def retained(ref,kind,maximum):
+        return retained_local_source_transport_artifact(root,execution,prefix,ref,kind,maximum,label,errors,cache,paths)
+    run_path=retained(claim['transportExecutionRef'],'measurement_output',262144)
+    request_path=retained(run['requestRef'],'command_output',262144)
+    response_path=retained(run['responseRef'],'produced_media',262144+65536)
+    stderr_path=retained(run['stderrRef'],'command_output',65536)
+    if any(path is None for path in (run_path,request_path,response_path,stderr_path)):return
+    argv=policy['transportCommandArgs']+['--request',run['requestRef'],'--response',run['responseRef'],'--stderr',run['stderrRef']]
+    if run['commandArgs']!=argv or run['toolBuild']!=policy['transportToolBuild'] or any(not recorded_text(v) for v in policy['transportCommandArgs']) or not recorded_text(policy['transportToolBuild']):
+        errors.append(f'{label}: executed listing command/build must match the approved client and exact retained paths');return
+    before=len(errors)
+    request=bounded_evaluator_json(root,execution,prefix,run['requestRef'],'command_output',defs,'localSourceListingRequest',label,errors,cache)
+    if request is None or len(errors)!=before:return
+    span=policy['transportInputSpan'];sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==span['sampleId']),None)
+    inputs=[i for i in (execution.get('environmentCaptured') or {}).get('inputSampleArtifacts') or [] if isinstance(i,dict) and i.get('sampleId')==span['sampleId']]
+    source=existing_ref(root,inputs[0].get('inputArtifactRef'),prefix) if len(inputs)==1 else None
+    try:
+        if sample is None or source is None:raise ValueError('input binding')
+        actual=inspect_artifact(source,cache);last=span['byteOffset']+span['byteCount']
+        if last>actual['size'] or actual['sha256']!=sample['checksum'] or inputs[0].get('sha256')!=actual['sha256'] or inputs[0].get('byteCount')!=actual['size']:raise ValueError('input span')
+    except (OSError,ValueError):
+        errors.append(f'{label}: listing input span must bind separate actual approved immutable input bytes');return
+    expected_request=dict(common,requestedAt=run['startedAt'],inputSpan={**span,'immutableId':sample['immutableId'],'sha256':sample['checksum']},httpMethod='POST',body=dict(path=policy['listingPath'],page=number+1,per_page=policy['pageSize'],refresh=False))
+    if any(request.get(k)!=v for k,v in expected_request.items()):
+        errors.append(f'{label}: native listing POST, path/page/size, input span and request timestamp must bind the exact executed page');return
+    try:
+        status,headers,body=parse_local_source_http_response(response_path.read_bytes())
+        if run['exitCode']!=0 or stderr_path.read_bytes().strip() or status!=200 or headers.get('content-type','').split(';',1)[0].strip().lower()!='application/json':raise ValueError('listing HTTP outcome')
+        if not 0<len(body)<=262144:raise ValueError('listing response bound')
+        def pairs(items):
+            if len({key for key,_ in items})!=len(items):raise ValueError('duplicate listing JSON keys')
+            return dict(items)
+        def constant(value):raise ValueError('nonfinite listing JSON')
+        response=json.loads(body.decode('utf8'),object_pairs_hook=pairs,parse_constant=constant)
+    except (OSError,UnicodeError,ValueError,TypeError,OverflowError):
+        errors.append(f'{label}: successful listing must derive bounded retained native HTTP/JSON response and actual exit/diagnostic');return
+    before=len(errors);validate_schema(response,defs.get('localSourceListingResponse',{}),label+'/native OpenList response',errors)
+    if len(errors)!=before:return
+    total=response['data']['total'];content=response['data']['content'];offset=number*policy['pageSize']
+    if response['code']!=200 or total!=len(policy['objects']) or offset>=total or len(content)!=min(policy['pageSize'],total-offset):
+        errors.append(f'{label}: OpenList success code, actual total and bounded page population must agree');return
+    objects=[]
+    for item in content:
+        kind='directory' if item['is_dir'] else 'file'
+        matches=[obj for obj in policy['objects'] if obj['name']==item['name'] and obj['kind']==kind]
+        metadata={key:item[key] for key in ('modified','size','hashinfo')}
+        if len(matches)!=1 or matches[0]['listingMetadata']!=metadata:
+            errors.append(f'{label}: native listing identity and version metadata must match exactly one approved logical object/version');return
+        objects.append({key:matches[0][key] for key in ('objectId','versionId','name','kind')})
+    observed=dict(requestId=run['requestId'],traceId=run['traceId'],requestedAt=request['requestedAt'],finishedAt=run['finishedAt'],requestCursor=None if number==0 else str(number+1),nextCursor=str(number+2) if offset+len(content)<total else None,statusCode=status,objects=objects)
+    if any(claim.get(key)!=value for key,value in observed.items()):
+        errors.append(f'{label}: aggregate page claims must equal independently derived request/HTTP pagination, time and object/version outcomes');return
+    return observed
+
+
 def validate_qualified_local_source_listing(root,plan,execution,prefix,status,window,defs,errors,cache):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
@@ -791,17 +871,32 @@ def validate_qualified_local_source_listing(root,plan,execution,prefix,status,wi
     if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or not isinstance(fault,dict) or any(policy[k]!=fault.get(k) for k in ('sourceId','sandboxId','subjectVersion')) or not recorded_text(policy['endpointURL']):errors.append(f'{label}: exact approved OpenList/API versions, source/sandbox/input and listing endpoint required');return
     objects=policy['objects'];ids=[o['objectId'] for o in objects];criteria=policy['criteria'];criteria_ids={'api','sdk','versioning','support'}
     if len(ids)!=len(set(ids)) or len(report['runs'])<policy['minimumListingRuns'] or {c['criterionId'] for c in criteria}!=criteria_ids or {c['criterionId'] for c in report['assessment']}!=criteria_ids or not all(ai_finite(c['weight']) for c in criteria) or not all(ai_finite(v) for v in policy['gradeValues'].values()):errors.append(f'{label}: exact distinct approved population, repeated listing and finite rubric required');return
-    request_ids=set();run_ids=set();previous=None
+    try:
+        endpoint=urllib.parse.urlsplit(policy['endpointURL']);origin=endpoint.scheme+'://'+endpoint.netloc
+        if not valid_local_origin(origin,{'http','https'}) or endpoint.path!='/api/fs/list' or endpoint.query or endpoint.fragment or endpoint.username is not None or endpoint.password is not None:raise ValueError('listing endpoint')
+    except (ValueError,TypeError):
+        errors.append(f'{label}: approved listing endpoint must be the exact local OpenList list API');return
+    listing_path=policy['listingPath']
+    if not listing_path.startswith('/') or '\\' in listing_path or any(part in ('.','..') for part in listing_path.split('/')) or any(ord(char)<32 for char in listing_path):
+        errors.append(f'{label}: approved listing root must be a canonical absolute sandbox path');return
+    request_ids=set();run_ids=set();previous=None;traces=set()
+    paths=[existing_ref(root,env.get('sourceListingRef'),prefix),path]
+    for record in env.get('inputSampleArtifacts') or []:
+        if isinstance(record,dict):
+            input_path=existing_ref(root,record.get('inputArtifactRef'),prefix)
+            if input_path is not None:paths.append(input_path)
     for run in report['runs']:
         if run['runId'] in run_ids:errors.append(f'{label}: unique repeated listing run identities required')
         run_ids.add(run['runId']);cursor=None;seen_cursors=set();listed=[]
-        for number,page in enumerate(run['pages']):
+        for number,claim in enumerate(run['pages']):
+            page=derive_local_source_listing_page(root,execution,prefix,report,policy,run,number,claim,window,defs,label,errors,cache,paths,traces)
+            if page is None:continue
             start,end=utc(page['requestedAt']),utc(page['finishedAt'])
             if start is None or end is None or window is None or not window[0]<=start<=end<=window[1] or previous is not None and start<previous:errors.append(f'{label}: listing request timestamps must be ordered inside execution')
             previous=end
             if page['requestId'] in request_ids or page['statusCode']!=200 or page['requestCursor']!=cursor or number+1<len(run['pages']) and (not recorded_text(page['nextCursor']) or page['nextCursor'] in seen_cursors) or number+1==len(run['pages']) and page['nextCursor'] is not None:errors.append(f'{label}: actual successful pagination must follow unique cursors and end completely')
             request_ids.add(page['requestId']);cursor=page['nextCursor'];seen_cursors.add(cursor);listed.extend(page['objects'])
-        if len(listed)!=len(objects) or {o['objectId'] for o in listed}!=set(ids) or len({o['objectId'] for o in listed})!=len(listed) or any(o!=next(p for p in objects if p['objectId']==o['objectId']) for o in listed if o['objectId'] in ids):errors.append(f'{label}: every repeated listing must retain the exact complete approved object identities/versions/names')
+        if len(listed)!=len(objects) or {o['objectId'] for o in listed}!=set(ids) or len({o['objectId'] for o in listed})!=len(listed) or any(o!={key:next(p for p in objects if p['objectId']==o['objectId'])[key] for key in ('objectId','versionId','name','kind')} for o in listed if o['objectId'] in ids):errors.append(f'{label}: every repeated listing must retain the exact complete approved object identities/versions/names')
     grades=[];basis_paths=[]
     for row in report['assessment']:
         before=len(errors);basis=selected_observation(root,execution,prefix,row['basisRef'],defs,'localSourceAssessmentBasis',label+'/assessment',errors,cache);basis_path=existing_ref(root,row['basisRef'],prefix)
@@ -818,17 +913,25 @@ def validate_qualified_local_source_listing(root,plan,execution,prefix,status,wi
 
 def valid_local_origin(value,schemes):
     try:
-        if not isinstance(value,str):return False
+        if not isinstance(value,str) or not value or any(ord(char)<=32 or ord(char)>=127 for char in value) or any(char in value for char in ('\\','%','?','#')):return False
         origin=urllib.parse.urlsplit(value)
         host=origin.hostname;port=origin.port
         if origin.scheme not in schemes or not host or origin.username is not None or origin.password is not None or origin.path or origin.query or origin.fragment:return False
-        if port is not None and not 1<=port<=65535:return False
-        if ':' in host:ipaddress.IPv6Address(host)
-        elif re.fullmatch(r'[0-9]+(?:\.[0-9]+){3}',host):ipaddress.IPv4Address(host)
+        if port is not None and not 1<=port<=65535 or re.fullmatch(r'(?:[A-Za-z0-9.-]+|\[[0-9a-fA-F:]+\])(?::[0-9]+)?',origin.netloc) is None:return False
+        if ':' in host:
+            address=ipaddress.IPv6Address(host)
+            if host!=address.compressed:return False
+            # Mapped literals inherit the IPv4 boundary; link-local and transition addresses never qualify.
+            if address.ipv4_mapped is not None:address=address.ipv4_mapped
+            else:return address==ipaddress.IPv6Address('::1') or address in ipaddress.IPv6Network('fc00::/7')
+        elif re.fullmatch(r'[0-9]+(?:\.[0-9]+){3}',host):
+            address=ipaddress.IPv4Address(host)
+            if host!=str(address):return False
         else:
             name=host[:-1] if host.endswith('.') else host
             if len(name)>253 or any(not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?',label) for label in name.split('.')):return False
-        return True
+            return host=='localhost'
+        return any(address in ipaddress.IPv4Network(network) for network in ('127.0.0.0/8','10.0.0.0/8','172.16.0.0/12','192.168.0.0/16'))
     except (ValueError,TypeError):return False
 
 
@@ -1251,6 +1354,46 @@ def streamed_metadata_records(path,schema):
     return count,'sha256:'+digest.hexdigest()
 
 
+def derive_metadata_memory_counter(root,execution,prefix,report,policy,row,defs,label,errors,cache,paths):
+    """Derive a counter from retained native OS bytes, never from the aggregate claim."""
+    before=len(errors)
+    capture=selected_observation(root,execution,prefix,row.get('counterCaptureRef'),defs,'metadataMemoryCounterCapture',label,errors,cache)
+    if capture is None or len(errors)!=before:return
+    expected={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','manifestId','scannerBuild','scanId','processId','collectorBuild','nativeProcessId','counterFormat')}
+    expected.update(observedAt=row['observedAt'],toolBuild=policy['collectorBuild'])
+    if any(capture.get(k)!=v for k,v in expected.items()) or capture['exitCode']!=0 or capture['collectorProcessId']==policy['nativeProcessId'] or not recorded_text(policy['collectorBuild']) or any(not recorded_text(a) for a in policy['collectorCommandArgs']):
+        errors.append(f'{label}: native counter capture must bind exact scanner PID, collector build/process, scope, sample time and successful native exit');return
+    if capture['commandArgs']!=policy['collectorCommandArgs']+['--pid',str(policy['nativeProcessId']),'--output',capture['counterRef']]:
+        errors.append(f'{label}: executed collector argv must equal approved collector and exact native PID/output');return
+    env=execution.get('environmentCaptured') or {};retained=[]
+    for ref,kind in ((row['counterCaptureRef'],'measurement_output'),(capture['counterRef'],'command_output')):
+        path=existing_ref(root,ref,prefix);records=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==ref]
+        if path is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!=kind:
+            errors.append(f'{label}: selected typed native counter capture and OS output required');return
+        facts=inspect_artifact(path,cache)
+        if not 0<facts['size']<=65536 or records[0].get('byteCount')!=facts['size'] or records[0].get('sha256')!=facts['sha256'] or any(path.samefile(peer) for peer in paths):
+            errors.append(f'{label}: independent bounded counter bytes must match their retained physical hash/size');return
+        paths.append(path);retained.append(path)
+    try:
+        if policy['counterFormat']=='linux_proc_status':
+            text=retained[1].read_text(encoding='utf8');values={}
+            for key in ('Pid','VmHWM','VmRSS'):
+                lines=re.findall(r'^'+key+r':[^\r\n]*$',text,re.MULTILINE)
+                if len(lines)!=1:raise ValueError('missing/duplicate OS counter')
+                match=re.fullmatch(key+r':[ \t]*([0-9]{1,16})'+(r'[ \t]+kB' if key!='Pid' else '')+r'[ \t]*',lines[0])
+                if match is None:raise ValueError('malformed OS counter')
+                values[key]=int(match.group(1))
+            pid,peak,resident=values['Pid'],values['VmHWM']*1024,values['VmRSS']*1024
+        else:
+            value=bounded_evaluator_json(root,execution,prefix,capture['counterRef'],'command_output',defs,'metadataWindowsMemoryCounter',label,errors,cache,65536)
+            if value is None:return
+            pid,peak,resident=value['ProcessId'],value['PeakWorkingSetSize'],value['WorkingSetSize']
+        if pid!=policy['nativeProcessId'] or not 0<=resident<=peak<=2**60 or row['peakResidentBytes']!=peak:raise ValueError('OS/aggregate counter mismatch')
+    except (OSError,UnicodeError,ValueError,OverflowError,KeyError):
+        errors.append(f'{label}: process peak bytes must derive unique retained native Pid/VmHWM/VmRSS or Windows process counters');return
+    return peak
+
+
 def validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs,errors,cache,resource,scan_policy,intervals):
     label=f"qualified metadata scan resources {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
     report=selected_observation(root,execution,prefix,env.get('metadataResourceRef'),defs,'metadataResourceObservation',label,errors,cache)
@@ -1260,7 +1403,7 @@ def validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs
     validate_schema(policy,defs.get('metadataResourcePolicy',{}),label+'/approved resource policy',errors)
     if len(errors)!=before or report is None or not isinstance(policy,dict):return
     expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
-    bound=('scannerBuild','scanId','manifestId','processId','collectorBuild','sourceIdentity','quotaDocumentRef','quotaDocumentSha256')
+    bound=('scannerBuild','scanId','manifestId','processId','collectorBuild','nativeProcessId','counterFormat','collectorCommandArgs','sourceIdentity','quotaDocumentRef','quotaDocumentSha256')
     if any(report[k]!=v for k,v in expected.items()) or any(report[k]!=policy[k] for k in bound) or any(policy[k]!=scan_policy[k] for k in ('scannerBuild','scanId','manifestId')):
         errors.append(f'{label}: exact approved source adapter/version, scan, process, collector, input and profile identities required');return
     quota_path=existing_ref(root,policy['quotaDocumentRef'],prefix)
@@ -1277,7 +1420,11 @@ def validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs
     rows=report['memorySamples'];times=[utc(r['observedAt']) for r in rows]
     if any(t is None for t in times) or window is None or times!=sorted(times) or not window[0]<=times[0]<=intervals[0][0] or not intervals[-1][1]<=times[-1]<=window[1] or times[0]>=times[-1] or any(any(row[k]!=policy[k] for k in ('processId','scanId','scannerBuild')) for row in rows):
         errors.append(f'{label}: the same scanner process peak-resident counter must bracket the complete scan workload within its UTC execution');return
-    counters=[r['peakResidentBytes'] for r in rows]
+    counter_paths=[existing_ref(root,env['metadataResourceRef'],prefix)];counters=[]
+    for row in rows:
+        value=derive_metadata_memory_counter(root,execution,prefix,report,policy,row,defs,label,errors,cache,counter_paths)
+        if value is None:return
+        counters.append(value)
     if counters!=sorted(counters) or counters[-1]<=0 or not all(ai_finite(c) for c in counters):
         errors.append(f'{label}: cumulative OS process peak memory must be positive and never reset inside the measured scan');return
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
@@ -1902,6 +2049,72 @@ def validate_qualified_media_scheduling(root,plan,execution,prefix,status,window
     if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='playback_priority_reserved_capacity'),None) is not True:errors.append(f'{label}: scheduling gate must agree with observed priority/reserved capacity outcomes')
 
 
+def complete_decoder_timeline(raw,params,frame_count,frames_per_second):
+    """The existing whole-sequence frame/packet check, shared with codec probes."""
+    try:
+        stream=raw['streams'][0];items=raw['packets_and_frames'];frames=[row for row in items if row['type']=='frame'];packets=[row for row in items if row['type']=='packet']
+        numerator,denominator=(int(v) for v in params['time_base'].split('/'));step=denominator/(numerator*frames_per_second)
+        fps_n,fps_d=(int(v) for v in params['r_frame_rate'].split('/'));fps=fps_n/fps_d
+        valid=ai_finite(step) and step>=1 and math.isclose(step,round(step),rel_tol=1e-9,abs_tol=1e-9) and ai_finite(fps) and math.isclose(fps,frames_per_second,rel_tol=1e-9,abs_tol=1e-9)
+        ticks=round(step) if valid else 0;pts=[row['pts'] for row in frames];duration=lambda row:row.get('duration',row.get('pkt_duration'))
+        return valid and all(stream.get(k)==v for k,v in params.items()) and len(frames)==frame_count and pts==[pts[0]+i*ticks for i in range(len(frames))] and all(duration(row)==ticks and all(row[k]==params[k] for k in ('width','height','pix_fmt')) for row in frames) and bool(packets) and {row['pts'] for row in packets}==set(pts) and all(a['dts']+a['duration']==b['dts'] for a,b in zip(packets,packets[1:])) and sum(row['duration'] for row in packets)==len(frames)*ticks
+    except (KeyError,TypeError,ValueError,ZeroDivisionError,OverflowError,IndexError):return False
+
+
+def worker_media_packet_bytes(media,raw,codec):
+    """Bind original MP4 probe packets to bounded native container and payload bytes."""
+    entries={'av1':(b'av01',),'h264':(b'avc1',b'avc3'),'hevc':(b'hvc1',b'hev1'),'vp9':(b'vp09',),'mpeg4':(b'mp4v',)}
+    try:
+        declared=raw['streams'][0]['codec_tag_string'].encode('ascii');accepted=entries.get(codec,(declared,))
+        if len(declared)!=4 or declared not in accepted:return False
+        size=media.stat().st_size;boxes=[];offset=0
+        with media.open('rb') as stream:
+            while offset<size:
+                if len(boxes)>=10000 or size-offset<8:return False
+                stream.seek(offset);header=stream.read(16);length=int.from_bytes(header[:4],'big');kind=header[4:8];head=8
+                if length==1:length=int.from_bytes(header[8:16],'big');head=16
+                elif length==0:length=size-offset
+                if length<head or offset+length>size:return False
+                boxes.append((kind,offset+head,offset+length));offset+=length
+            ftyp=[(a,b) for k,a,b in boxes if k==b'ftyp'];moov=[(a,b) for k,a,b in boxes if k==b'moov'];mdat=[(a,b) for k,a,b in boxes if k==b'mdat']
+            if len(ftyp)!=1 or len(moov)!=1 or not mdat or ftyp[0][1]-ftyp[0][0]<8 or (ftyp[0][1]-ftyp[0][0])%4 or ftyp[0][1]-ftyp[0][0]>4096 or moov[0][1]-moov[0][0]>1048576:return False
+            stream.seek(ftyp[0][0]);brands=stream.read(ftyp[0][1]-ftyp[0][0]);brands=brands[:4]+brands[8:]
+            if not any(brands[i:i+4] in (b'isom',b'iso2',b'iso5',b'iso6',b'mp41',b'mp42',b'av01',b'avc1',b'dash') for i in range(0,len(brands),4)):return False
+            stream.seek(moov[0][0]);metadata=stream.read(moov[0][1]-moov[0][0]);pending=[(0,len(metadata),0)];sample_entries=[]
+            while pending:
+                first,last,depth=pending.pop();cursor=first
+                while cursor<last:
+                    if last-cursor<8:return False
+                    length=int.from_bytes(metadata[cursor:cursor+4],'big');kind=metadata[cursor+4:cursor+8]
+                    if length<8 or cursor+length>last:return False
+                    if kind in (b'trak',b'mdia',b'minf',b'stbl'):
+                        if depth>=4 or kind!=(b'trak',b'mdia',b'minf',b'stbl')[depth]:return False
+                        pending.append((cursor+8,cursor+length,depth+1))
+                    elif kind==b'stsd':
+                        if depth!=4 or length<24 or int.from_bytes(metadata[cursor+12:cursor+16],'big')!=1:return False
+                        entry_size=int.from_bytes(metadata[cursor+16:cursor+20],'big')
+                        if entry_size<8 or entry_size!=length-16:return False
+                        if metadata[cursor+20:cursor+24]==declared:
+                            if entry_size<86:return False
+                            sample_entries.append(metadata[cursor+20:cursor+24])
+                    cursor+=length
+            if len(sample_entries)!=1:return False
+            ranges=[]
+            for packet in (row for row in raw['packets_and_frames'] if row['type']=='packet'):
+                start,count=int(packet['pos']),int(packet['size']);end=start+count
+                if not any(a<=start<end<=b for a,b in mdat):return False
+                stream.seek(start);digest=hashlib.sha256();remaining=count
+                while remaining:
+                    block=stream.read(min(1048576,remaining))
+                    if not block:return False
+                    digest.update(block);remaining-=len(block)
+                if 'SHA256:'+digest.hexdigest()!=packet['data_hash']:return False
+                ranges.append((start,end))
+            ranges.sort()
+            return bool(ranges) and all(a[1]<=b[0] for a,b in zip(ranges,ranges[1:])) and raw['format']['format_name']=='mov,mp4,m4a,3gp,3g2,mj2' and int(raw['format']['size'])==size
+    except (OSError,UnicodeError,ValueError,KeyError,OverflowError):return False
+
+
 def validate_qualified_worker_capabilities(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-01' or status!='pass':return
     label=f"qualified worker capabilities {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -1928,7 +2141,7 @@ def validate_qualified_worker_capabilities(root,plan,execution,prefix,status,win
     scope=env.get('vm_validation_scope') if env.get('acceptanceProfile')==profile_identity('local-v1') else env.get('android_validation_scope');android=scope.get('nodeId') if isinstance(scope,dict) else None
     if len(ids)!=len(set(ids)) or len({c['runId'] for c in claims})!=len(claims) or len(pairs)!=len(set(pairs)) or {n for n,c in pairs}!=set(nodes) or any(not {'av1','h264'}.issubset({codec for node,codec in pairs if node==n}) for n in nodes) or any(c['status']=='untested' and c['codec'] in ('av1','h264') for c in claims) or not any(c['nodeId']==android and c['codec']=='av1' and c['status']=='supported' for c in claims) or len(report['claims'])!=len(claims) or {r['caseId'] for r in report['claims']}!=set(ids):
         errors.append(f'{label}: every exact node needs AV1/H264 probe disposition and every advertised codec claim needs a unique retained observation');return
-    media_paths=[]
+    media_paths=[];decoder_paths=[]
     for row in report['claims']:
         claim=next(c for c in claims if c['caseId']==row['caseId']);node=nodes[claim['nodeId']];sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==claim['inputSampleId']),None)
         if any(row[k]!=v for k,v in claim.items()) or any(claim[k]!=node.get(k) for k in ('nodeId','physicalHostId','platform','osBuild','architecture','encoderBuild','compatibilityGroupId','nodeConfiguration')) or sample is None or claim['inputSha256']!=sample['checksum'] or claim['sourceStartFrame']!=0 or claim['sourceEndFrame']!=policy['sourceFrameCount'] or any(not recorded_text(claim[k]) for k in ('osBuild','architecture','encoderBuild','decoderBuild')) or claim['encoderParameters'].get('codec')!=claim['codec']:
@@ -1948,10 +2161,29 @@ def validate_qualified_worker_capabilities(root,plan,execution,prefix,status,win
         identity={k:claim[k] for k in ('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')};identity.update(outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256']);decoded=utc(probe['observedAt'])
         if any(probe[k]!=v for k,v in identity.items()) or decoded is None or not end<=decoded<=window[1] or probe['decodable'] is not True or probe['decodedFrameCount']!=policy['sourceFrameCount'] or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or not math.isclose(probe['durationSeconds'],duration,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: every supported codec needs exact complete zero-error node/output decoder result');continue
         media=existing_ref(root,row['outputArtifactRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['outputArtifactRef']]
-        if media is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=claim['nodeId']:errors.append(f'{label}: exact per-node codec produced output required');continue
+        if media is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=claim['nodeId'] or row['outputArtifactRef'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: exact per-node codec produced output required');continue
         info=inspect_artifact(media,cache);other_refs=[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[row['decodeRef'],env.get('workerCapabilitiesRef')]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media' and a.get('ref')!=row['outputArtifactRef']]
-        if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):errors.append(f'{label}: each supported codec must retain physically distinct nonempty output bytes/hash')
+        if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for ref in other_refs if (p:=existing_ref(root,ref,prefix)) is not None):errors.append(f'{label}: each supported codec must retain physically distinct nonempty output bytes/hash');continue
         media_paths.append(media)
+        decode_start,decode_end=utc(probe['startedAt']),utc(probe['finishedAt'])
+        args=['-v','error','-protocol_whitelist','file,pipe','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_program_version','-show_data_hash','sha256','-of','json','-i',row['outputArtifactRef']]
+        if decode_start is None or decode_end is None or not end<=decode_start<=decode_end<=decoded or probe['exitCode']!=0 or re.split(r'[\\/]',probe['command'][0])[-1] not in ('ffprobe','ffprobe.exe') or probe['command'][1:]!=args:
+            errors.append(f'{label}: exact file-only decoder tool/parameters and ordered current encode/decode clocks required');continue
+        raw=bounded_evaluator_json(root,execution,prefix,probe['rawProbeRef'],'command_output',defs,'workerCapabilityProbeOutput',label+'/raw decoder',errors,cache,8388608)
+        protected=[media,existing_ref(root,row['decodeRef'],prefix),existing_ref(root,env.get('workerCapabilitiesRef'),prefix),path]+decoder_paths+[existing_ref(root,a.get('inputArtifactRef'),prefix) for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[existing_ref(root,a.get('ref'),prefix) for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media']
+        for key in ('rawProbe','stderr','processExit'):
+            file=existing_ref(root,probe[key+'Ref'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==probe[key+'Ref']]
+            if file is None or len(records)!=1 or records[0].get('artifactType')!='command_output' or records[0].get('nodeId')!=claim['nodeId'] or probe[key+'Ref'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: distinct node-bound retained decoder stdout/stderr required');continue
+            artifact=inspect_artifact(file,cache)
+            if artifact['sha256']!=probe[key+'Sha256'] or records[0].get('sha256')!=artifact['sha256'] or records[0].get('byteCount')!=artifact['size'] or key=='stderr' and artifact['size']!=0 or any(file.samefile(p) for p in protected if p is not None):errors.append(f'{label}: actual decoder stdout/stderr bytes/hash must be distinct and zero-error')
+            protected.append(file);decoder_paths.append(file)
+        if raw is None or len(errors)!=before:continue
+        exit=bounded_evaluator_json(root,execution,prefix,probe['processExitRef'],'command_output',defs,'workerCapabilityDecoderExit',label+'/decoder exit',errors,cache)
+        exit_binding=dict(runId=claim['runId'],caseId=claim['caseId'],nodeId=claim['nodeId'],decoderBuild=claim['decoderBuild'],outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256'],command=probe['command'],startedAt=probe['startedAt'],finishedAt=probe['finishedAt'],exitCode=probe['exitCode'],stdoutRef=probe['rawProbeRef'],stdoutSha256=probe['rawProbeSha256'],stderrRef=probe['stderrRef'],stderrSha256=probe['stderrSha256'])
+        if exit is None or not 1<=int(exit['processId'])<=4294967295 or any(exit[k]!=v for k,v in exit_binding.items()):errors.append(f'{label}: independent native decoder process exit must bind native PID, this tool/argv/time/output and original stdout/stderr');continue
+        params=raw['streams'][0]
+        if raw['program_version']['version']!=claim['decoderBuild'] or params['codec_name']!=claim['codec'] or not complete_decoder_timeline(raw,params,policy['sourceFrameCount'],policy['framesPerSecond']):errors.append(f'{label}: retained decoder frames/packets must derive the exact codec, complete span, duration and approved tool build');continue
+        if not worker_media_packet_bytes(media,raw,claim['codec']):errors.append(f'{label}: original decoder packets must match native MP4 codec/container structure and exact retained media payload bytes')
     if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='worker_capabilities_reproducible'),None) is not True:errors.append(f'{label}: capability gate must agree with complete per-node codec observations')
 
 
@@ -2035,15 +2267,7 @@ def validate_qualified_hls_ready(root,plan,execution,prefix,status,window,defs,e
         if raw_path is None or inspect_artifact(raw_path,cache)['sha256']!=sequence['rawProbeSha256'] or any(raw_path.samefile(p) for p in protected+[output] if p is not None) or stderr is None or len(stderr_rows)!=1 or stderr_rows[0].get('artifactType')!='command_output' or sequence['stderrRef'] not in (execution.get('rawOutputRefs') or []) or inspect_artifact(stderr,cache)['size']!=0 or inspect_artifact(stderr,cache)['sha256']!=sequence['stderrSha256'] or any(stderr.samefile(p) for p in other_paths if p is not None) or sequence['command'][1:]!=['-v','error','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-of','json',sequence['outputArtifactRef']]:
             errors.append(f'{label}: retained whole-sequence ffprobe stdout, zero-error stderr and exact input command must be distinct and bound')
         if raw is not None:
-            stream=raw['streams'][0];items=raw['packets_and_frames'];frames=[row for row in items if row['type']=='frame'];packets=[row for row in items if row['type']=='packet'];params=policy['streamParameters']
-            try:
-                numerator,denominator=(int(v) for v in params['time_base'].split('/'));step=denominator/(numerator*policy['framesPerSecond'])
-                fps_n,fps_d=(int(v) for v in params['r_frame_rate'].split('/'));fps=fps_n/fps_d
-                valid=ai_finite(step) and step>=1 and math.isclose(step,round(step),rel_tol=1e-9,abs_tol=1e-9) and ai_finite(fps) and math.isclose(fps,policy['framesPerSecond'],rel_tol=1e-9,abs_tol=1e-9)
-                ticks=round(step) if valid else 0;pts=[row['pts'] for row in frames];duration=lambda row:row.get('duration',row.get('pkt_duration'))
-                valid=valid and len(frames)==policy['sourceFrameCount'] and pts==[pts[0]+i*ticks for i in range(len(frames))] and all(duration(row)==ticks and all(row[k]==params[k] for k in ('width','height','pix_fmt')) for row in frames) and bool(packets) and {row['pts'] for row in packets}==set(pts) and all(a['dts']+a['duration']==b['dts'] for a,b in zip(packets,packets[1:])) and sum(row['duration'] for row in packets)==len(frames)*ticks
-            except (KeyError,ValueError,ZeroDivisionError,OverflowError,IndexError):valid=False
-            if any(stream.get(k)!=v for k,v in params.items()) or not valid:errors.append(f'{label}: actual complete decoder frames and packet PTS/DTS must have approved compatible stream parameters and one continuous full timeline')
+            if not complete_decoder_timeline(raw,policy['streamParameters'],policy['sourceFrameCount'],policy['framesPerSecond']):errors.append(f'{label}: actual complete decoder frames and packet PTS/DTS must have approved compatible stream parameters and one continuous full timeline')
     if not any(times[a['segmentId']]>times[b['segmentId']] for a,b in zip(segments,segments[1:])):
         errors.append(f'{label}: retained scenario must exercise out-of-order READY completion')
     if env.get('acceptanceProfile')==profile_identity('local-v1'):
@@ -4307,6 +4531,39 @@ def validate_qualified_android_media(root, plan, execution, prefix, status, erro
             validate_qualified_phone_observation(root,execution,prefix,scope,observation,observation_path,defs,errors,artifact_cache)
 
 
+def derive_worker_limit_evidence(root,execution,prefix,case,identity,policy,expected,window,defs,label,errors,cache,paths,process_ids):
+    """Derive one worker limit outcome from retained process/counter/listing/exit bytes."""
+    before=len(errors);evidence={};env=execution.get('environmentCaptured') or {}
+    for name,schema in (('process','workerSafetyLimitProcess'),('runtime','workerSafetyLimitRuntime'),('filesystem','workerSafetyLimitFilesystem'),('exit','workerSafetyLimitExit')):
+        ref=case[name+'Ref'];path=existing_ref(root,ref,prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+        capture=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,schema,label+'/'+name,errors,cache,1048576)
+        if path is None or len(records)!=1 or records[0].get('nodeId')!=identity['nodeId']:errors.append(f'{label}: per-node original runtime/process/filesystem/exit artifacts required');continue
+        artifact=inspect_artifact(path,cache)
+        if artifact['sha256']!=case[name+'Sha256'] or records[0].get('sha256')!=artifact['sha256'] or records[0].get('byteCount')!=artifact['size'] or any(path.samefile(p) for p in paths):errors.append(f'{label}: original limit materials need exact bytes/hash and physically distinct per-case files')
+        paths.append(path);evidence[name]=capture
+    if len(errors)!=before or len(evidence)!=4 or any(value is None for value in evidence.values()):return
+    process,runtime,filesystem,exit=(evidence[k] for k in ('process','runtime','filesystem','exit'));pid=process['processId']
+    binding=dict(context=expected,identity=identity,taskId=policy['taskId'],requestId=case['requestId'],case=case['case'],processId=pid,observerBuild=policy['limitObserverBuild'])
+    process_key=(identity['nodeId'],pid)
+    if not 1<=int(pid)<=4294967295 or process_key in process_ids or any(any(capture[k]!=v for k,v in binding.items()) for capture in evidence.values()) or process['limits']!=policy['limits'] or process['commandArgs']!=policy['limitCommandArgs']+[case['case']]:errors.append(f'{label}: original limit materials must bind unique per-node native PID, approved command/budgets/observer and exact case/node/input/profile')
+    process_ids.add(process_key);start,end=utc(process['startedAt']),utc(exit['observedAt']);samples=runtime['samples'];snapshots=filesystem['snapshots'];runtime_times=[utc(s['observedAt']) for s in samples];fs_times=[utc(s['observedAt']) for s in snapshots]
+    all_times=[start,end]+runtime_times+fs_times
+    if window is None or any(at is None or not window[0]<=at<=window[1] for at in all_times) or start>=end or runtime_times[0]!=start or runtime_times[-1]!=end or any(a>=b for a,b in zip(runtime_times,runtime_times[1:])) or fs_times[0]!=start or fs_times[-1]<end or any(a>=b for a,b in zip(fs_times,fs_times[1:])) or any(at>end for at in fs_times[:-1]) or case['startedAt']!=process['startedAt'] or case['finishedAt']!=exit['observedAt']:
+        errors.append(f'{label}: original process/counter/filesystem/exit clocks must cover one complete selected execution followed by cleanup');return
+    counters=[(s['userCpuSeconds'],s['systemCpuSeconds'],s['residentBytes']) for s in samples]
+    if any(not ai_finite(v) for values in counters for v in values) or any(any(a[k]>b[k] for k in (0,1)) for a,b in zip(counters,counters[1:])):errors.append(f'{label}: finite monotonic original OS CPU counters and resident samples required');return
+    totals=[]
+    for snapshot in snapshots:
+        names=[f['path'] for f in snapshot['files']]
+        if len(names)!=len(set(names)) or any('\\' in name or ':' in name or any(part in ('','.','..') for part in name.split('/')) for name in names) or snapshot['publishedArtifactIds']:
+            errors.append(f'{label}: unique canonical forward-slash relative file listings without empty/dot segments must remain unpublished');return
+        totals.append({area:sum(f['byteCount'] for f in snapshot['files'] if f['area']==area) for area in ('temporary','output')})
+    derived=dict(cpuSeconds=sum(counters[-1][:2])-sum(counters[0][:2]),memoryBytes=max(s['residentBytes'] for s in samples),elapsedSeconds=(end-start).total_seconds(),temporaryBytes=max(t['temporary'] for t,at in zip(totals,fs_times) if at<=end),outputBytes=max(t['output'] for t,at in zip(totals,fs_times) if at<=end))
+    remaining=totals[-1];limits=policy['limits'];kind=case['case']
+    if any(not ai_finite(v) for v in derived.values()) or {k for k,v in derived.items() if v>limits[k]}!={kind} or any(not ai_finite(case['observed'][k]) or not math.isclose(case['observed'][k],v,rel_tol=1e-9,abs_tol=1e-9) for k,v in derived.items()) or exit['exitCode']==0 or exit['terminationReason']!=kind or exit['remainingProcessIds'] or snapshots[0]['files'] or remaining!={'temporary':0,'output':0} or case['remainingTemporaryBytes']!=remaining['temporary'] or case['remainingOutputBytes']!=remaining['output'] or case['processExited'] is not (not exit['remainingProcessIds']):
+        errors.append(f'{label}: limit crossing, failed process exit and complete unpublished cleanup must derive original counters/file entries/exit rather than outcome totals')
+
+
 def validate_qualified_worker_safety(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-01' or status!='pass':return
     env=execution.get('environmentCaptured') or {};label=f"qualified worker safety {plan['taskId']}";before=len(errors)
@@ -4321,8 +4578,9 @@ def validate_qualified_worker_safety(root,plan,execution,prefix,status,window,de
     inventory=env.get('worker_node_inventory');identities=[{k:n.get(k) for k in ('nodeId','physicalHostId','encoderBuild')} for n in inventory if isinstance(n,dict)] if isinstance(inventory,list) else []
     if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or not identities or len(identities)!=len(inventory) or policy['nodes']!=identities or len({n['nodeId'] for n in identities})!=len(identities) or len(report['nodes'])!=len(identities) or {r['identity']['nodeId'] for r in report['nodes']}!={n['nodeId'] for n in identities}:
         errors.append(f'{label}: exact selected profile/input/build and approved complete worker inventory required');return
-    limits=policy['limits'];request_ids=set();lease_ids=set();registrations=set()
-    if not all(ai_finite(v) and v>0 for v in limits.values()) or not ai_finite(policy['maximumRecoverySeconds']) or policy['maximumRecoverySeconds']<=0:errors.append(f'{label}: finite positive approved resource/recovery budgets required');return
+    limits=policy['limits'];request_ids=set();lease_ids=set();registrations=set();process_ids=set()
+    paths=[p for ref in [env.get('workerSafetyRef'),resource['configurationRef']]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media'] if (p:=existing_ref(root,ref,prefix)) is not None]
+    if not all(ai_finite(v) and v>0 for v in limits.values()) or not ai_finite(policy['maximumRecoverySeconds']) or policy['maximumRecoverySeconds']<=0 or not recorded_text(policy['limitObserverBuild']):errors.append(f'{label}: finite positive approved resource/recovery budgets and concrete limit observer build required');return
     grant_start,grant_end,expired=map(utc,(policy['grantValidFrom'],policy['grantValidUntil'],policy['expiredAt']))
     if grant_start is None or grant_end is None or expired is None or grant_start>=grant_end or policy['grantId']==policy['expiredGrantId']:errors.append(f'{label}: distinct live/expired task grants with valid UTC intervals required')
     try:
@@ -4343,6 +4601,7 @@ def validate_qualified_worker_safety(root,plan,execution,prefix,status,window,de
         if len(cases)!=len(limits) or {c['case'] for c in cases}!=set(limits):errors.append(f'{label}: every node must independently exhaust each approved CPU/memory/time/temp/output limit')
         for case in cases:
             request(case['requestId']);start,end=timestamp(case['startedAt']),timestamp(case['finishedAt']);observed=case['observed'];kind=case['case']
+            derive_worker_limit_evidence(root,execution,prefix,case,identity,policy,expected,window,defs,label,errors,cache,paths,process_ids)
             if start is None or end is None or start>=end or not math.isclose((end-start).total_seconds(),observed['elapsedSeconds'],rel_tol=1e-9,abs_tol=1e-9) or any(not ai_finite(v) for v in observed.values()) or {k for k,v in observed.items() if v>limits[k]}!={kind} or case['terminationReason']!=kind or case['processExited'] is not True or case['remainingTemporaryBytes']!=0 or case['remainingOutputBytes']!=0 or case['publishedArtifactIds']:
                 errors.append(f'{label}: independent observed limit exhaustion must terminate and clean unpublished task outputs')
         recovery=row['restart'];keys=('disconnectedAt','oldLeaseExpiresAt','expiredLeaseObservedAt','reRegisteredAt','newLeaseIssuedAt','recoveredAt');times=[utc(recovery['oldLeaseIssuedAt'])]+[timestamp(recovery[k]) for k in keys]+[utc(recovery['newLeaseExpiresAt'])]
