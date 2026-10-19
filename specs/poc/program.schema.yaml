@@ -4891,6 +4891,7 @@ $defs:
     - percentileMethod
     - pricing
     - gatePolicy
+    - quotaObserver
     properties:
       subjectVersion:
         type: string
@@ -5165,6 +5166,26 @@ $defs:
           plannedOutputTokens:
             type: integer
             minimum: 0
+      quotaObserver:
+        type: object
+        additionalProperties: false
+        required:
+        - collectorBuild
+        - commandArgs
+        - budgetPeriodStartedAt
+        properties:
+          collectorBuild:
+            type: string
+            minLength: 1
+          commandArgs:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+          budgetPeriodStartedAt:
+            type: string
+            format: date-time
   aiResultsReport:
     type: object
     additionalProperties: false
@@ -5607,6 +5628,226 @@ $defs:
         enum:
         - mean
         - nearest-rank-p95
+  aiProviderQuotaCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - collectorBuild
+    - commandArgs
+    - processId
+    - exitCode
+    - completeFromPeriodStart
+    - periodStartedAt
+    - sequenceEnd
+    - decision
+    - attempts
+    - budgetLedger
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: native_ai_provider_quota_capture
+      context:
+        type: object
+        additionalProperties: false
+        required:
+        - configurationRef
+        - subjectVersion
+        - inputSamples
+        - acceptanceProfile
+        - benchmarkId
+        - querySetId
+        - corpusId
+        properties:
+          configurationRef:
+            type: string
+            minLength: 1
+          subjectVersion:
+            type: string
+            minLength: 1
+          inputSamples:
+            type: array
+            minItems: 1
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - id
+              - immutableId
+              - checksum
+              properties:
+                id:
+                  type: string
+                  minLength: 1
+                immutableId:
+                  type: string
+                  minLength: 1
+                checksum:
+                  type: string
+                  pattern: ^sha256:[a-f0-9]{64}$
+          acceptanceProfile:
+            type: object
+          benchmarkId:
+            type: string
+            minLength: 1
+          querySetId:
+            type: string
+            minLength: 1
+          corpusId:
+            type: string
+            minLength: 1
+      collectorBuild:
+        type: string
+        minLength: 1
+      commandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        maximum: 9223372036854775807
+        minimum: 1
+      exitCode:
+        const: 0
+      completeFromPeriodStart:
+        const: true
+      periodStartedAt:
+        type: string
+        format: date-time
+      sequenceEnd:
+        type: integer
+        maximum: 9223372036854775807
+        minimum: 0
+      decision:
+        type: object
+        additionalProperties: false
+        required:
+        - case
+        - callerId
+        - assetId
+        - aclVersion
+        - budgetPeriodId
+        - observedAt
+        - decision
+        - providerRequestIds
+        - outboundRef
+        - outboundSha256
+        properties:
+          case:
+            enum:
+            - authorized
+            - permission_denied
+            - acl_revoked
+            - budget_exhausted
+            - request_rate_exceeded
+            - concurrency_exceeded
+          callerId:
+            type: string
+            minLength: 1
+          assetId:
+            type: string
+            minLength: 1
+          aclVersion:
+            type: string
+            minLength: 1
+          budgetPeriodId:
+            type: string
+            minLength: 1
+          observedAt:
+            type: string
+            format: date-time
+          decision:
+            enum:
+            - dispatched
+            - permission_denied
+            - acl_revoked
+            - budget_exhausted
+            - request_rate_exceeded
+            - concurrency_exceeded
+          providerRequestIds:
+            type: array
+            items:
+              type: string
+              minLength: 1
+          outboundRef:
+            type: string
+            minLength: 1
+          outboundSha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+      attempts:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - sequence
+          - requestId
+          - callerId
+          - assetId
+          - budgetPeriodId
+          - startedAt
+          - finishedAt
+          - inputTokens
+          - outputTokens
+          properties:
+            sequence:
+              type: integer
+              maximum: 9223372036854775807
+              minimum: 1
+            requestId:
+              type: string
+              minLength: 1
+            callerId:
+              type: string
+              minLength: 1
+            assetId:
+              type: string
+              minLength: 1
+            budgetPeriodId:
+              type: string
+              minLength: 1
+            startedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type:
+              - string
+              - 'null'
+              format: date-time
+            inputTokens:
+              type: integer
+              maximum: 9223372036854775807
+              minimum: 0
+            outputTokens:
+              type: integer
+              maximum: 9223372036854775807
+              minimum: 0
+      budgetLedger:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - sequence
+          - requestId
+          - amount
+          properties:
+            sequence:
+              type: integer
+              maximum: 9223372036854775807
+              minimum: 1
+            requestId:
+              type: string
+              minLength: 1
+            amount:
+              type: number
+              minimum: 0
   aiDispatchOutcomes:
     type: object
     additionalProperties: false
@@ -5689,6 +5930,7 @@ $defs:
           - providerRequestIds
           - outboundRef
           - outboundSha256
+          - quotaCaptureRef
           properties:
             case:
               enum:
@@ -5751,6 +5993,9 @@ $defs:
             outboundSha256:
               type: string
               pattern: ^sha256:[a-f0-9]{64}$
+            quotaCaptureRef:
+              type: string
+              minLength: 1
   aiRetrievalOutput:
     type: object
     additionalProperties: false
@@ -7051,10 +7296,309 @@ $defs:
                       type: string
                       minLength: 1
 
+  workerRestartRuntimeCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - context
+    - identity
+    - observerBuild
+    - argv
+    - processId
+    - exitCode
+    - startedAt
+    - finishedAt
+    - kind
+    - initialState
+    - events
+    - finalState
+    properties:
+      schemaVersion:
+        const: 1
+      context:
+        type: object
+        minProperties: 1
+      identity:
+        type: object
+        minProperties: 1
+      observerBuild:
+        type: string
+        minLength: 1
+      argv:
+        type: array
+        minItems: 1
+        maxItems: 144
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      exitCode:
+        type: integer
+        const: 0
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      kind:
+        const: worker_restart_runtime_capture
+      initialState:
+        type: object
+        additionalProperties: false
+        required:
+        - online
+        - processAlive
+        - registrationId
+        - workerProcessId
+        - taskId
+        - taskState
+        - leaseId
+        - leaseStatus
+        - leaseIssuedAt
+        - leaseExpiresAt
+        - taskCompletionCount
+        - staleLeasePublicationCount
+        - completedOutputRef
+        - completedOutputSha256
+        properties:
+          online:
+            type: boolean
+          processAlive:
+            type: boolean
+          registrationId:
+            type: string
+            minLength: 1
+          workerProcessId:
+            type: string
+            pattern: ^[1-9][0-9]{0,9}$
+          taskId:
+            type: string
+            minLength: 1
+          taskState:
+            enum:
+            - running
+            - queued
+            - completed
+          leaseId:
+            type: string
+            minLength: 1
+          leaseStatus:
+            enum:
+            - active
+            - expired
+          leaseIssuedAt:
+            type: string
+            format: date-time
+          leaseExpiresAt:
+            type: string
+            format: date-time
+          taskCompletionCount:
+            type: integer
+            minimum: 0
+          staleLeasePublicationCount:
+            type: integer
+            minimum: 0
+          completedOutputRef:
+            anyOf:
+            - type: string
+              minLength: 1
+            - type: 'null'
+          completedOutputSha256:
+            anyOf:
+            - type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            - type: 'null'
+      events:
+        type: array
+        minItems: 7
+        maxItems: 32
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - sequence
+          - type
+          - observedAt
+          - taskId
+          - submittedLeaseId
+          - stateAfter
+          - outputArtifactRef
+          - outputSha256
+          properties:
+            sequence:
+              type: integer
+              minimum: 1
+            type:
+              enum:
+              - disconnected
+              - lease_expired
+              - registered
+              - lease_issued
+              - task_started
+              - task_completed
+              - stale_completion_denied
+            observedAt:
+              type: string
+              format: date-time
+            taskId:
+              type: string
+              minLength: 1
+            submittedLeaseId:
+              type: string
+              minLength: 1
+            stateAfter:
+              type: object
+              additionalProperties: false
+              required:
+              - online
+              - processAlive
+              - registrationId
+              - workerProcessId
+              - taskId
+              - taskState
+              - leaseId
+              - leaseStatus
+              - leaseIssuedAt
+              - leaseExpiresAt
+              - taskCompletionCount
+              - staleLeasePublicationCount
+              - completedOutputRef
+              - completedOutputSha256
+              properties:
+                online:
+                  type: boolean
+                processAlive:
+                  type: boolean
+                registrationId:
+                  type: string
+                  minLength: 1
+                workerProcessId:
+                  type: string
+                  pattern: ^[1-9][0-9]{0,9}$
+                taskId:
+                  type: string
+                  minLength: 1
+                taskState:
+                  enum:
+                  - running
+                  - queued
+                  - completed
+                leaseId:
+                  type: string
+                  minLength: 1
+                leaseStatus:
+                  enum:
+                  - active
+                  - expired
+                leaseIssuedAt:
+                  type: string
+                  format: date-time
+                leaseExpiresAt:
+                  type: string
+                  format: date-time
+                taskCompletionCount:
+                  type: integer
+                  minimum: 0
+                staleLeasePublicationCount:
+                  type: integer
+                  minimum: 0
+                completedOutputRef:
+                  anyOf:
+                  - type: string
+                    minLength: 1
+                  - type: 'null'
+                completedOutputSha256:
+                  anyOf:
+                  - type: string
+                    pattern: ^sha256:[a-f0-9]{64}$
+                  - type: 'null'
+            outputArtifactRef:
+              anyOf:
+              - type: string
+                minLength: 1
+              - type: 'null'
+            outputSha256:
+              anyOf:
+              - type: string
+                pattern: ^sha256:[a-f0-9]{64}$
+              - type: 'null'
+      finalState:
+        type: object
+        additionalProperties: false
+        required:
+        - online
+        - processAlive
+        - registrationId
+        - workerProcessId
+        - taskId
+        - taskState
+        - leaseId
+        - leaseStatus
+        - leaseIssuedAt
+        - leaseExpiresAt
+        - taskCompletionCount
+        - staleLeasePublicationCount
+        - completedOutputRef
+        - completedOutputSha256
+        properties:
+          online:
+            type: boolean
+          processAlive:
+            type: boolean
+          registrationId:
+            type: string
+            minLength: 1
+          workerProcessId:
+            type: string
+            pattern: ^[1-9][0-9]{0,9}$
+          taskId:
+            type: string
+            minLength: 1
+          taskState:
+            enum:
+            - running
+            - queued
+            - completed
+          leaseId:
+            type: string
+            minLength: 1
+          leaseStatus:
+            enum:
+            - active
+            - expired
+          leaseIssuedAt:
+            type: string
+            format: date-time
+          leaseExpiresAt:
+            type: string
+            format: date-time
+          taskCompletionCount:
+            type: integer
+            minimum: 0
+          staleLeasePublicationCount:
+            type: integer
+            minimum: 0
+          completedOutputRef:
+            anyOf:
+            - type: string
+              minLength: 1
+            - type: 'null'
+          completedOutputSha256:
+            anyOf:
+            - type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            - type: 'null'
   workerSafetyPolicy:
     type: object
     additionalProperties: false
     required:
+    - restartObserverBuild
+    - restartCommandArgs
     - subjectVersion
     - nodes
     - limits
@@ -7074,6 +7618,16 @@ $defs:
     - networkObserverBuild
     - networkCommandArgs
     properties:
+      restartObserverBuild:
+        type: string
+        minLength: 1
+      restartCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
       networkObserverBuild: {type: string, minLength: 1}
       networkCommandArgs:
         type: array
@@ -7335,6 +7889,7 @@ $defs:
               type: object
               additionalProperties: false
               required:
+              - captureRef
               - taskId
               - disconnectedAt
               - oldLeaseId
@@ -7354,6 +7909,7 @@ $defs:
               - taskCompletionCount
               - staleLeasePublicationCount
               properties:
+                captureRef: {type: string, minLength: 1}
                 taskId:
                   type: string
                   minLength: 1
@@ -8418,6 +8974,10 @@ $defs:
     - changeSetId
     - baseline
     - expectedChanges
+    - scannerCommandArgs
+    - timingCollectorBuild
+    - timingCollectorCommandArgs
+    - nativeProcessId
     properties:
       manifestId:
         type: string
@@ -8496,6 +9056,153 @@ $defs:
           count:
             type: integer
             minimum: 0
+      scannerCommandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      timingCollectorBuild:
+        type: string
+        minLength: 1
+      timingCollectorCommandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      nativeProcessId:
+        type: integer
+        minimum: 1
+  metadataPhaseExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - phase
+    - scanId
+    - changeSetId
+    - collectorBuild
+    - collectorCommandArgs
+    - argv
+    - processId
+    - events
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: native_metadata_phase_execution
+      context:
+        type: object
+        additionalProperties: false
+        required:
+        - configurationRef
+        - acceptanceProfile
+        - subjectVersion
+        - inputSamples
+        - manifestId
+        - scannerBuild
+        properties:
+          configurationRef:
+            type: string
+            minLength: 1
+          acceptanceProfile:
+            type: object
+          subjectVersion:
+            type: string
+            minLength: 1
+          inputSamples:
+            type: array
+            minItems: 1
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - id
+              - immutableId
+              - checksum
+              properties:
+                id:
+                  type: string
+                  minLength: 1
+                immutableId:
+                  type: string
+                  minLength: 1
+                checksum:
+                  type: string
+                  pattern: ^sha256:[a-f0-9]{64}$
+          manifestId:
+            type: string
+            minLength: 1
+          scannerBuild:
+            type: string
+            minLength: 1
+      phase:
+        enum:
+        - enumeration
+        - changeStream
+        - incremental
+      scanId:
+        type: string
+        minLength: 1
+      changeSetId:
+        type: string
+        minLength: 1
+      collectorBuild:
+        type: string
+        minLength: 1
+      collectorCommandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      argv:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        maximum: 9223372036854775807
+        minimum: 1
+      events:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - type
+          - processId
+          - observedAt
+          - monotonicNs
+          - exitCode
+          properties:
+            type:
+              enum:
+              - process_start
+              - phase_start
+              - phase_exit
+              - process_exit
+            processId:
+              type: integer
+              maximum: 9223372036854775807
+              minimum: 1
+            observedAt:
+              type: string
+              format: date-time
+            monotonicNs:
+              type: integer
+              maximum: 9223372036854775807
+              minimum: 0
+            exitCode:
+              type: integer
+              maximum: 9223372036854775807
   metadataScanObservation:
     type: object
     additionalProperties: false
@@ -8558,6 +9265,7 @@ $defs:
         - startedAt
         - finishedAt
         - objects
+        - executionRef
         properties:
           scanId:
             type: string
@@ -8585,6 +9293,9 @@ $defs:
               count:
                 type: integer
                 minimum: 0
+          executionRef:
+            type: string
+            minLength: 1
       changeStream:
         type: object
         additionalProperties: false
@@ -8593,6 +9304,7 @@ $defs:
         - startedAt
         - finishedAt
         - events
+        - executionRef
         properties:
           changeSetId:
             type: string
@@ -8620,6 +9332,9 @@ $defs:
               count:
                 type: integer
                 minimum: 0
+          executionRef:
+            type: string
+            minLength: 1
       incremental:
         type: object
         additionalProperties: false
@@ -8630,6 +9345,7 @@ $defs:
         - appliedEvents
         - traversedObjects
         - postScanObjects
+        - executionRef
         properties:
           changeSetId:
             type: string
@@ -8683,6 +9399,9 @@ $defs:
               sha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
               count: {type: integer, minimum: 0}
               observedAt: {type: string, format: date-time}
+          executionRef:
+            type: string
+            minLength: 1
   metadataObjectVersionRecord:
     type: object
     additionalProperties: false
@@ -9288,6 +10007,181 @@ $defs:
                     type: string
                     minLength: 1
 
+  mediaTargetAttempt:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, identity, observerBuild, processId, argv, startedAt, finishedAt, exitCode,
+      requestId, case, target, stderrRef, stderrSha256, events]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: media_target_attempt}
+      context: {type: object, minProperties: 1}
+      identity: {type: object, minProperties: 1}
+      observerBuild: {type: string, minLength: 1}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}
+      argv:
+        type: array
+        minItems: 1
+        maxItems: 133
+        items: {type: string, minLength: 1}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      exitCode: {type: integer}
+      requestId: {type: string, minLength: 1}
+      case: {enum: [protocol, path, proxy]}
+      target: {type: string, minLength: 1}
+      stderrRef: {type: string, minLength: 1}
+      stderrSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      events:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required: [type, processId, observedAt, argv]
+            properties: {type: {const: launch}, processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}, observedAt: {
+                type: string, format: date-time}, argv: {type: array, minItems: 1, maxItems: 133, items: {type: string,
+                  minLength: 1}}}
+          - type: object
+            additionalProperties: false
+            required: [type, processId, observedAt, target, operation]
+            properties: {type: {const: input_attempt}, processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}, observedAt: {
+                type: string, format: date-time}, target: {type: string, minLength: 1}, operation: {enum: [open, connect]}}
+          - type: object
+            additionalProperties: false
+            required: [type, processId, observedAt, target, operation, nativeCode]
+            properties: {type: {const: sandbox_denial}, processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}, observedAt: {
+                type: string, format: date-time}, target: {type: string, minLength: 1}, operation: {enum: [open, connect]},
+              nativeCode: {enum: [EACCES, EPERM, EPROTONOSUPPORT]}}
+          - type: object
+            additionalProperties: false
+            required: [type, processId, observedAt, exitCode]
+            properties: {type: {const: exit}, processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}, observedAt: {
+                type: string, format: date-time}, exitCode: {type: integer}}
+  mediaCompletionExecution:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, identity, observerBuild, processId, argv, startedAt, finishedAt, exitCode,
+      submissions]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: media_completion_execution}
+      context: {type: object, minProperties: 1}
+      identity: {type: object, minProperties: 1}
+      observerBuild: {type: string, minLength: 1}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}
+      argv:
+        type: array
+        minItems: 1
+        maxItems: 134
+        items: {type: string, minLength: 1}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      exitCode: {type: integer}
+      submissions:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          type: object
+          additionalProperties: false
+          required: [requestId, submittedAt, observedAt, request, response]
+          properties:
+            requestId: {type: string, minLength: 1}
+            submittedAt: {type: string, format: date-time}
+            observedAt: {type: string, format: date-time}
+            request:
+              type: object
+              additionalProperties: false
+              required: [nodeId, jobId, attemptEpoch, outputArtifactRef, outputSha256]
+              properties:
+                nodeId: {type: string, minLength: 1}
+                jobId: {type: string, minLength: 1}
+                attemptEpoch: {type: integer, minimum: 0}
+                outputArtifactRef: {type: string, minLength: 1}
+                outputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+            response:
+              type: object
+              additionalProperties: false
+              required: [statusCode, publicationId, terminalResultId]
+              properties:
+                statusCode: {type: integer}
+                publicationId: {type: [string, 'null']}
+                terminalResultId: {type: [string, 'null']}
+  mediaPublicationReadback:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, identity, observerBuild, processId, argv, startedAt, finishedAt, exitCode,
+      snapshots]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: media_publication_readback}
+      context: {type: object, minProperties: 1}
+      identity: {type: object, minProperties: 1}
+      observerBuild: {type: string, minLength: 1}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}
+      argv:
+        type: array
+        minItems: 1
+        maxItems: 134
+        items: {type: string, minLength: 1}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      exitCode: {type: integer}
+      snapshots:
+        type: array
+        minItems: 5
+        maxItems: 5
+        items:
+          type: object
+          additionalProperties: false
+          required: [observedAt, jobs, publications, terminalResults]
+          properties:
+            observedAt: {type: string, format: date-time}
+            jobs:
+              type: array
+              minItems: 2
+              maxItems: 2
+              items:
+                type: object
+                additionalProperties: false
+                required: [jobId, currentAttemptEpoch, state]
+                properties:
+                  jobId: {type: string, minLength: 1}
+                  currentAttemptEpoch: {type: integer, minimum: 0}
+                  state: {enum: [active, cancelled]}
+            publications:
+              type: array
+              minItems: 0
+              maxItems: 128
+              items:
+                type: object
+                additionalProperties: false
+                required: [publicationId, nodeId, jobId, attemptEpoch, outputArtifactRef, outputSha256]
+                properties:
+                  publicationId: {type: string, minLength: 1}
+                  nodeId: {type: string, minLength: 1}
+                  jobId: {type: string, minLength: 1}
+                  attemptEpoch: {type: integer, minimum: 0}
+                  outputArtifactRef: {type: string, minLength: 1}
+                  outputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+            terminalResults:
+              type: array
+              minItems: 0
+              maxItems: 128
+              items:
+                type: object
+                additionalProperties: false
+                required: [terminalResultId, nodeId, jobId, attemptEpoch, outputArtifactRef, outputSha256]
+                properties:
+                  terminalResultId: {type: string, minLength: 1}
+                  nodeId: {type: string, minLength: 1}
+                  jobId: {type: string, minLength: 1}
+                  attemptEpoch: {type: integer, minimum: 0}
+                  outputArtifactRef: {type: string, minLength: 1}
+                  outputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
   mediaNegativePolicy:
     type: object
     additionalProperties: false
@@ -9314,7 +10208,27 @@ $defs:
     - retryDecoderBuild
     - limitObserverBuild
     - limitCommandArgs
+    - controlObserverBuild
+    - targetCommandArgs
+    - completionCommandArgs
+    - publicationReadbackArgs
     properties:
+      controlObserverBuild: {type: string, minLength: 1}
+      targetCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items: {type: string, minLength: 1}
+      completionCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items: {type: string, minLength: 1}
+      publicationReadbackArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items: {type: string, minLength: 1}
       limitObserverBuild: {type: string, minLength: 1}
       limitCommandArgs: {type: array, minItems: 1, maxItems: 128, items: {type: string, minLength: 1}}
       subjectVersion:
@@ -9563,7 +10477,11 @@ $defs:
                 - publicationCount
                 - outboundRef
                 - outboundSha256
+                - attemptRef
+                - attemptSha256
                 properties:
+                  attemptRef: {type: string, minLength: 1}
+                  attemptSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
                   case:
                     enum:
                     - protocol
@@ -9729,7 +10647,15 @@ $defs:
               - retryDecodeErrorCount
               - submissions
               - retryProbeRef
+              - completionExecutionRef
+              - completionExecutionSha256
+              - publicationReadbackRef
+              - publicationReadbackSha256
               properties:
+                completionExecutionRef: {type: string, minLength: 1}
+                completionExecutionSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+                publicationReadbackRef: {type: string, minLength: 1}
+                publicationReadbackSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
                 partialRef:
                   type: string
                   minLength: 1
@@ -9852,7 +10778,9 @@ $defs:
                     - decision
                     - publicationDelta
                     - terminalResultDelta
+                    - requestId
                     properties:
+                      requestId: {type: string, minLength: 1}
                       case:
                         enum:
                         - current
@@ -10102,6 +11030,7 @@ $defs:
     - maximumRetries
     - objects
     - baselineState
+    - capacityObserver
     properties:
       subjectVersion:
         type: string
@@ -10305,6 +11234,26 @@ $defs:
                 sha256:
                   type: string
                   pattern: ^sha256:[0-9a-f]{64}$
+      capacityObserver:
+        type: object
+        additionalProperties: false
+        required:
+        - collectorBuild
+        - commandArgs
+        - volumeId
+        properties:
+          collectorBuild:
+            type: string
+            minLength: 1
+          commandArgs:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+          volumeId:
+            type: string
+            minLength: 1
   localStorageState:
     type: object
     additionalProperties: false
@@ -10490,6 +11439,157 @@ $defs:
             sha256:
               type: string
               pattern: ^sha256:[0-9a-f]{64}$
+  localStorageCapacityCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - collectorBuild
+    - commandArgs
+    - processId
+    - exitCode
+    - sandboxRoot
+    - volumeId
+    - openlistBuild
+    - sequence
+    - observedAt
+    - disk
+    - reservations
+    - admissionEvent
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: native_storage_capacity_capture
+      context:
+        type: object
+        additionalProperties: false
+        required:
+        - configurationRef
+        - acceptanceProfile
+        - subjectVersion
+        - inputSamples
+        properties:
+          configurationRef:
+            type: string
+            minLength: 1
+          acceptanceProfile:
+            type: object
+          subjectVersion:
+            type: string
+            minLength: 1
+          inputSamples:
+            type: array
+            minItems: 1
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - id
+              - immutableId
+              - checksum
+              properties:
+                id:
+                  type: string
+                  minLength: 1
+                immutableId:
+                  type: string
+                  minLength: 1
+                checksum:
+                  type: string
+                  pattern: ^sha256:[a-f0-9]{64}$
+      collectorBuild:
+        type: string
+        minLength: 1
+      commandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        maximum: 9223372036854775807
+        minimum: 1
+      exitCode:
+        const: 0
+      sandboxRoot:
+        type: string
+        minLength: 1
+      volumeId:
+        type: string
+        minLength: 1
+      openlistBuild:
+        type: string
+        minLength: 1
+      sequence:
+        type: integer
+        maximum: 9223372036854775807
+        minimum: 1
+      observedAt:
+        type: string
+        format: date-time
+      disk:
+        type: object
+        additionalProperties: false
+        required:
+        - fragmentSize
+        - totalBlocks
+        - availableBlocks
+        properties:
+          fragmentSize:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: 1
+          totalBlocks:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: 1
+          availableBlocks:
+            type: integer
+            maximum: 9223372036854775807
+            minimum: 0
+      reservations:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - reservationId
+          - bytes
+          - state
+          properties:
+            reservationId:
+              type: string
+              minLength: 1
+            bytes:
+              type: integer
+              maximum: 9223372036854775807
+              minimum: 0
+            state:
+              enum:
+              - active
+              - released
+      admissionEvent:
+        type: object
+        additionalProperties: false
+        required:
+        - phase
+        - admission
+        properties:
+          phase:
+            enum:
+            - baseline
+            - fill
+            - pause
+            - evict
+            - resume
+          admission:
+            enum:
+            - paused
+            - admitted
   localStorageOutcomes:
     type: object
     additionalProperties: false
@@ -10818,6 +11918,7 @@ $defs:
           - freeBytes
           - reservedBytes
           - admission
+          - telemetryRef
           properties:
             phase:
               enum:
@@ -10839,6 +11940,9 @@ $defs:
               enum:
               - paused
               - admitted
+            telemetryRef:
+              type: string
+              minLength: 1
   metadataResourcePolicy:
     type: object
     additionalProperties: false
@@ -11385,6 +12489,79 @@ $defs:
       decodeErrorCount:
         type: integer
         minimum: 0
+  mediaSoakRuntimeCapture:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, identity, observerBuild, processId, argv, startedAt, finishedAt, exitCode,
+      outputArtifactRef, outputSha256, stdoutRef, stdoutSha256, remainingProcessIds, windowCompletedAt, samples, events]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: media_soak_runtime_capture}
+      context: {type: object, minProperties: 1}
+      identity: {type: object, minProperties: 1}
+      observerBuild: {type: string, minLength: 1}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}
+      argv:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items: {type: string, minLength: 1}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      exitCode: {type: integer}
+      outputArtifactRef: {type: string, minLength: 1}
+      outputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      stdoutRef: {type: string, minLength: 1}
+      stdoutSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      remainingProcessIds:
+        type: array
+        minItems: 0
+        maxItems: 128
+        items: {type: string, pattern: '^[1-9][0-9]{0,9}$'}
+      windowCompletedAt: {type: string, format: date-time}
+      samples:
+        type: array
+        minItems: 2
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required: [observedAt, userCpuSeconds, systemCpuSeconds, residentBytes, processState, files, progressEnd]
+          properties:
+            observedAt: {type: string, format: date-time}
+            userCpuSeconds: {type: number, minimum: 0}
+            systemCpuSeconds: {type: number, minimum: 0}
+            residentBytes: {type: integer, minimum: 0}
+            processState: {enum: [running, exited]}
+            files:
+              type: array
+              minItems: 0
+              maxItems: 10000
+              items:
+                type: object
+                additionalProperties: false
+                required: [path, area, byteCount]
+                properties:
+                  path: {type: string, minLength: 1}
+                  area: {enum: [temporary, output]}
+                  byteCount: {type: integer, minimum: 0}
+            progressEnd: {type: integer, minimum: 1}
+      events:
+        type: array
+        minItems: 0
+        maxItems: 1024
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required: [type, eventId, kind, observedAt]
+            properties: {type: {const: fault}, eventId: {type: string, minLength: 1}, kind: {enum: [gpu_hang, corrupt_segment,
+                  encoder, runtime]}, observedAt: {type: string, format: date-time}}
+          - type: object
+            additionalProperties: false
+            required: [type, eventId, observedAt]
+            properties: {type: {const: recovered}, eventId: {type: string, minLength: 1}, observedAt: {type: string,
+                format: date-time}}
   mediaSoakPolicy:
     type: object
     additionalProperties: false
@@ -11397,7 +12574,9 @@ $defs:
     - maximumTemporaryBytes
     - maximumCpuSeconds
     - cases
+    - runtimeObserverBuild
     properties:
+      runtimeObserverBuild: {type: string, minLength: 1}
       minimumDurationMinutes:
         type: number
         exclusiveMinimum: 0
@@ -11565,7 +12744,11 @@ $defs:
           - decodeRef
           - progress
           - failureEvents
+          - runtimeRef
+          - runtimeSha256
           properties:
+            runtimeRef: {type: string, minLength: 1}
+            runtimeSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
             runId:
               type: string
               minLength: 1
@@ -12212,10 +13395,276 @@ $defs:
       initSha256:
         type: string
         pattern: ^sha256:[0-9a-f]{64}$
+  mediaSchedulerRuntimeCapture:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - context
+    - identity
+    - observerBuild
+    - argv
+    - processId
+    - exitCode
+    - startedAt
+    - finishedAt
+    - kind
+    - events
+    - snapshots
+    - finalJobs
+    - finalSlots
+    properties:
+      schemaVersion:
+        const: 1
+      context:
+        type: object
+        minProperties: 1
+      identity:
+        type: object
+        minProperties: 1
+      observerBuild:
+        type: string
+        minLength: 1
+      argv:
+        type: array
+        minItems: 1
+        maxItems: 144
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      exitCode:
+        type: integer
+        const: 0
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      kind:
+        const: media_scheduler_runtime_capture
+      events:
+        type: array
+        minItems: 1
+        maxItems: 2048
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - sequence
+          - type
+          - observedAt
+          - jobId
+          - jobIdentity
+          - stateAfter
+          - slotsAfter
+          properties:
+            sequence:
+              type: integer
+              minimum: 1
+            type:
+              enum:
+              - queued
+              - denied
+              - admitted
+              - started
+              - finished
+              - ready
+            observedAt:
+              type: string
+              format: date-time
+            jobId:
+              type: string
+              minLength: 1
+            jobIdentity:
+              type: object
+              minProperties: 1
+            stateAfter:
+              type: object
+              additionalProperties: false
+              required:
+              - jobId
+              - state
+              - nodeId
+              - leaseId
+              - processId
+              - processAlive
+              - slotHeld
+              - outputArtifactRef
+              - outputSha256
+              properties:
+                jobId:
+                  type: string
+                  minLength: 1
+                state:
+                  enum:
+                  - queued
+                  - denied
+                  - admitted
+                  - running
+                  - completed
+                  - ready
+                nodeId:
+                  type: string
+                  minLength: 1
+                leaseId:
+                  anyOf:
+                  - type: string
+                    minLength: 1
+                  - type: 'null'
+                processId:
+                  anyOf:
+                  - type: string
+                    pattern: ^[1-9][0-9]{0,9}$
+                  - type: 'null'
+                processAlive:
+                  type: boolean
+                slotHeld:
+                  type: boolean
+                outputArtifactRef:
+                  anyOf:
+                  - type: string
+                    minLength: 1
+                  - type: 'null'
+                outputSha256:
+                  anyOf:
+                  - type: string
+                    pattern: ^sha256:[a-f0-9]{64}$
+                  - type: 'null'
+            slotsAfter:
+              type: array
+              minItems: 0
+              maxItems: 256
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - jobId
+                - nodeId
+                - leaseId
+                properties:
+                  jobId:
+                    type: string
+                    minLength: 1
+                  nodeId:
+                    type: string
+                    minLength: 1
+                  leaseId:
+                    type: string
+                    minLength: 1
+      snapshots:
+        type: array
+        minItems: 1
+        maxItems: 512
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - observedAt
+          - jobs
+          - slots
+          properties:
+            observedAt:
+              type: string
+              format: date-time
+            jobs:
+              type: array
+              minItems: 1
+              maxItems: 256
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - jobId
+                - state
+                properties:
+                  jobId:
+                    type: string
+                    minLength: 1
+                  state:
+                    enum:
+                    - not_queued
+                    - queued
+                    - denied
+                    - admitted
+                    - running
+                    - completed
+                    - ready
+            slots:
+              type: array
+              minItems: 0
+              maxItems: 256
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - jobId
+                - nodeId
+                - leaseId
+                properties:
+                  jobId:
+                    type: string
+                    minLength: 1
+                  nodeId:
+                    type: string
+                    minLength: 1
+                  leaseId:
+                    type: string
+                    minLength: 1
+      finalJobs:
+        type: array
+        minItems: 1
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - jobId
+          - state
+          properties:
+            jobId:
+              type: string
+              minLength: 1
+            state:
+              enum:
+              - not_queued
+              - queued
+              - denied
+              - admitted
+              - running
+              - completed
+              - ready
+      finalSlots:
+        type: array
+        minItems: 0
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - jobId
+          - nodeId
+          - leaseId
+          properties:
+            jobId:
+              type: string
+              minLength: 1
+            nodeId:
+              type: string
+              minLength: 1
+            leaseId:
+              type: string
+              minLength: 1
   mediaSchedulingPolicy:
     type: object
     additionalProperties: false
     required:
+    - schedulerObserverBuild
+    - schedulerCommandArgs
     - schedulerBuild
     - decoderBuild
     - demandEpoch
@@ -12236,6 +13685,16 @@ $defs:
     - saturationJobIds
     - jobs
     properties:
+      schedulerObserverBuild:
+        type: string
+        minLength: 1
+      schedulerCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
       schedulerBuild:
         type: string
         minLength: 1
@@ -12396,6 +13855,7 @@ $defs:
     type: object
     additionalProperties: false
     required:
+    - schedulerCaptureRef
     - schemaVersion
     - configurationRef
     - acceptanceProfile
@@ -12412,6 +13872,9 @@ $defs:
     - preemptedRunningProcessIds
     - fallback
     properties:
+      schedulerCaptureRef:
+        type: string
+        minLength: 1
       schemaVersion:
         const: 1
       configurationRef:

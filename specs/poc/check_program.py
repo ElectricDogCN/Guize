@@ -1405,7 +1405,7 @@ def validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs
     if len(errors)!=before or report is None or not isinstance(policy,dict):return
     expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
     bound=('scannerBuild','scanId','manifestId','processId','collectorBuild','nativeProcessId','counterFormat','collectorCommandArgs','sourceIdentity','quotaDocumentRef','quotaDocumentSha256')
-    if any(report[k]!=v for k,v in expected.items()) or any(report[k]!=policy[k] for k in bound) or any(policy[k]!=scan_policy[k] for k in ('scannerBuild','scanId','manifestId')):
+    if any(report[k]!=v for k,v in expected.items()) or any(report[k]!=policy[k] for k in bound) or any(policy[k]!=scan_policy[k] for k in ('scannerBuild','scanId','manifestId','nativeProcessId')):
         errors.append(f'{label}: exact approved source adapter/version, scan, process, collector, input and profile identities required');return
     quota_path=existing_ref(root,policy['quotaDocumentRef'],prefix)
     if quota_path is None:
@@ -1438,6 +1438,28 @@ def validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs
         if not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive the retained approved quota or observed process peak counter in its declared unit')
 
 
+def derive_metadata_phase_interval(root,execution,prefix,report,policy,name,phase,window,defs,label,errors,cache,paths,lifetime):
+    """Read scanner process start/exit and elapsed monotonic time from native capture."""
+    capture=bounded_evaluator_json(root,execution,prefix,phase.get('executionRef'),'command_output',defs,'metadataPhaseExecution',label,errors,cache)
+    if capture is None:return
+    if retained_local_source_transport_artifact(root,execution,prefix,phase['executionRef'],'command_output',262144,label,errors,cache,paths) is None:return
+    expected={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','manifestId','scannerBuild')}
+    argv=policy['scannerCommandArgs']+['--scan-id',policy['scanId'],'--change-set-id',policy['changeSetId'],'--input',policy['baseline']['ref']]
+    for phase_name,key in (('enumeration','objects'),('changeStream','events'),('incremental','appliedEvents'),('incremental','traversedObjects')):argv+=['--'+key,report[phase_name][key]['ref']]
+    if capture['processId']!=policy['nativeProcessId'] or capture['context']!=expected or capture['phase']!=name or capture['scanId']!=policy['scanId'] or capture['changeSetId']!=policy['changeSetId'] or capture['collectorBuild']!=policy['timingCollectorBuild'] or capture['collectorCommandArgs']!=policy['timingCollectorCommandArgs']+['--phase',name] or capture['argv']!=argv:
+        errors.append(f'{label}: native scan execution must bind approved collector/scanner argv, phase, immutable input and exact selected run');return
+    events=capture['events'];first,last=(utc(event['observedAt']) for event in events[1:3]);process_start,process_end=(utc(event['observedAt']) for event in (events[0],events[3]));work_start=utc(report['enumeration']['startedAt']);work_end=utc(report['incremental']['finishedAt']);elapsed=(events[2]['monotonicNs']-events[1]['monotonicNs'])/1000000000
+    if [event['type'] for event in events]!=['process_start','phase_start','phase_exit','process_exit'] or any(event['processId']!=capture['processId'] for event in events) or events[2]['exitCode']!=0 or events[3]['exitCode']!=0 or process_start is None or process_end is None or work_start is None or work_end is None or not events[0]['monotonicNs']<=events[1]['monotonicNs']<events[2]['monotonicNs']<=events[3]['monotonicNs'] or first is None or last is None or window is None or not window[0]<=process_start<=work_start<=first<last<=work_end<=process_end<=window[1] or elapsed<=0 or not math.isclose((last-first).total_seconds(),elapsed,rel_tol=0,abs_tol=.000001) or phase['startedAt']!=events[1]['observedAt'] or phase['finishedAt']!=events[2]['observedAt']:
+        errors.append(f'{label}: aggregate phase UTC and positive elapsed time must derive the same successful native scanner process start/exit and monotonic interval');return
+    if any(utc(event['observedAt']) is None or not math.isclose((utc(event['observedAt'])-process_start).total_seconds(),(event['monotonicNs']-events[0]['monotonicNs'])/1000000000,rel_tol=0,abs_tol=.000001) for event in events):
+        errors.append(f'{label}: native scanner phase markers must share one ordered process UTC/monotonic clock');return
+    process_events=(events[0],events[3])
+    if lifetime and lifetime[0]!=process_events:
+        errors.append(f'{label}: all native phase captures must retain one consistent scanner process lifetime');return
+    if not lifetime:lifetime.append(process_events)
+    return first,last,elapsed
+
+
 def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-05' or status!='pass':return
     label=f"qualified metadata scan {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -1454,11 +1476,11 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
     if env.get('acceptanceProfile')==profile_identity('local-v1'):
         captured=env.get('synthetic_hierarchy_manifest');generator=captured.get('generator') if isinstance(captured,dict) else None
         if policy.get('hierarchyGenerator')!=generator:errors.append(f'{label}: approved complete hierarchy generator must bind the retained baseline manifest')
-    phases=(report['enumeration'],report['changeStream'],report['incremental']);intervals=[]
-    for phase in phases:
-        first,last=utc(phase['startedAt']),utc(phase['finishedAt'])
-        if first is None or last is None or window is None or not window[0]<=first<last<=window[1]:errors.append(f'{label}: positive measured UTC enumeration/change/traversal intervals within execution required');return
-        intervals.append((first,last,(last-first).total_seconds()))
+    phases=(report['enumeration'],report['changeStream'],report['incremental']);intervals=[];phase_paths=[existing_ref(root,env['metadataScanRef'],prefix)];lifetime=[]
+    for name,phase in zip(('enumeration','changeStream','incremental'),phases):
+        interval=derive_metadata_phase_interval(root,execution,prefix,report,policy,name,phase,window,defs,label,errors,cache,phase_paths,lifetime)
+        if interval is None:return
+        intervals.append(interval)
     if intervals[0][1]>intervals[1][0] or intervals[1][1]>intervals[2][0] or phases[0]['scanId']!=policy['scanId'] or any(p['changeSetId']!=policy['changeSetId'] for p in phases[1:]):errors.append(f'{label}: baseline enumeration, controlled change set and incremental traversal must bind ordered approved runs')
     validate_qualified_metadata_resources(root,plan,execution,prefix,window,defs,errors,cache,resource,policy,intervals)
     handle=tempfile.NamedTemporaryFile(prefix='guize-metadata-',suffix='.sqlite',delete=False);database=Path(handle.name);handle.close();connection=None
@@ -1992,6 +2014,121 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
 
 
 
+
+def selected_scheduler_capture(root,execution,prefix,ref,schema,context,identity,build,argv,node,window,defs,label,errors,cache):
+    """Trust only the independently approved collector; replay its retained observations.
+
+    These offline inputs attest that collector's runtime view, not cryptographic log
+    provenance.  Synthetic fixtures exercise admission rules, never real scheduling.
+    """
+    before=len(errors)
+    capture=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,schema,label,errors,cache,1048576)
+    if capture is None or len(errors)!=before:return None
+    env=execution.get('environmentCaptured') or {};path=existing_ref(root,ref,prefix)
+    rows=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+    peers=[existing_ref(root,r,prefix) for r in [context['configurationRef'],env.get('workerSafetyRef'),env.get('mediaSchedulingRef')]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]]
+    start,end=utc(capture['startedAt']),utc(capture['finishedAt']);canonical=lambda v:json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False)
+    info=inspect_artifact(path,cache) if path is not None else None
+    if path is None or len(rows)!=1 or rows[0].get('nodeId')!=node or rows[0].get('sha256')!=info['sha256'] or rows[0].get('byteCount')!=info['size'] or any(path.samefile(q) for q in peers if q is not None) or canonical(capture['context'])!=canonical(context) or canonical(capture['identity'])!=canonical(identity) or not recorded_text(build) or any(not recorded_text(a) for a in argv) or capture['observerBuild']!=build or capture['argv']!=argv or not 1<=capture['processId']<=4294967295 or capture['exitCode']!=0 or window is None or start is None or end is None or not window[0]<=start<=end<=window[1]:
+        errors.append(f'{label}: retained scheduler capture must bind approved collector/argv/native PID, exact node/context/bytes and successful UTC interval');return None
+    events=capture['events'];times=[utc(e['observedAt']) for e in events]
+    if not events or [e['sequence'] for e in events]!=list(range(1,len(events)+1)) or any(t is None or not start<=t<=end for t in times) or times!=sorted(times):
+        errors.append(f'{label}: complete consecutive runtime events inside the successful capture interval required');return None
+    return capture
+
+
+def derive_worker_restart_capture(root,execution,prefix,recovery,identity,policy,context,window,defs,label,errors,cache):
+    label+='/restart runtime';ref=recovery['captureRef']
+    captured=selected_scheduler_capture(root,execution,prefix,ref,'workerRestartRuntimeCapture',context,identity,policy['restartObserverBuild'],policy['restartCommandArgs']+['--task',policy['taskId'],'--node',identity['nodeId']],identity['nodeId'],window,defs,label,errors,cache)
+    if captured is None:return
+    initial=captured['initialState'];state=dict(initial);events=captured['events'];old=initial['leaseId'];old_registration=initial['registrationId'];old_pid=initial['workerProcessId']
+    issued,expiry=utc(initial['leaseIssuedAt']),utc(initial['leaseExpiresAt'])
+    if initial['online'] is not True or initial['processAlive'] is not True or initial['taskId']!=policy['taskId'] or initial['taskState']!='running' or initial['leaseStatus']!='active' or issued is None or expiry is None or not issued<expiry or not 1<=int(old_pid)<=4294967295 or initial['taskCompletionCount']!=0 or initial['staleLeasePublicationCount']!=0 or initial['completedOutputRef'] is not None or initial['completedOutputSha256'] is not None:
+        errors.append(f'{label}: actual initial lease-store/task/process readback required');return
+    kinds=['disconnected','lease_expired','registered','lease_issued','task_started','task_completed','stale_completion_denied']
+    if [e['type'] for e in events]!=kinds:
+        errors.append(f'{label}: complete disconnect/expiry/register/lease/process/completion/fencing event sequence required');return
+    derived=dict(taskId=policy['taskId'],oldLeaseId=old,oldRegistrationId=old_registration,oldLeaseIssuedAt=initial['leaseIssuedAt'],oldLeaseExpiresAt=initial['leaseExpiresAt'])
+    new_pid=None
+    for event in events:
+        kind=event['type'];at=utc(event['observedAt']);after=event['stateAfter']
+        if kind=='disconnected':
+            state.update(online=False,processAlive=False);derived['disconnectedAt']=event['observedAt']
+        elif kind=='lease_expired':
+            if at<expiry:errors.append(f'{label}: lease-store expiry cannot precede original expiration');return
+            state.update(leaseStatus='expired',taskState='queued');derived['expiredLeaseObservedAt']=event['observedAt']
+        elif kind=='registered':
+            new_pid=after['workerProcessId']
+            if after['registrationId']==old_registration or not 1<=int(new_pid)<=4294967295:
+                errors.append(f'{label}: re-registration must bind a fresh actual worker process and registration');return
+            state.update(online=True,processAlive=True,registrationId=after['registrationId'],workerProcessId=new_pid);derived.update(newRegistrationId=after['registrationId'],reRegisteredAt=event['observedAt'])
+        elif kind=='lease_issued':
+            if after['leaseId']==old or utc(after['leaseIssuedAt'])!=at or utc(after['leaseExpiresAt']) is None or not at<utc(after['leaseExpiresAt']):
+                errors.append(f'{label}: actual fresh task lease and lifetime required');return
+            state.update(leaseId=after['leaseId'],leaseIssuedAt=after['leaseIssuedAt'],leaseExpiresAt=after['leaseExpiresAt'],leaseStatus='active');derived.update(newLeaseId=after['leaseId'],newLeaseIssuedAt=after['leaseIssuedAt'],newLeaseExpiresAt=after['leaseExpiresAt'])
+        elif kind=='task_started':state['taskState']='running'
+        elif kind=='task_completed':
+            output=existing_ref(root,event['outputArtifactRef'],prefix);env=execution.get('environmentCaptured') or {};rows=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==event['outputArtifactRef']]
+            if at>=utc(state['leaseExpiresAt']) or output is None or event['outputArtifactRef'] not in (execution.get('rawOutputRefs') or []) or len(rows)!=1 or rows[0].get('artifactType')!='produced_media' or rows[0].get('nodeId')!=identity['nodeId'] or inspect_artifact(output,cache)['size']<=0 or inspect_artifact(output,cache)['sha256']!=event['outputSha256'] or any(output.samefile(q) for r in [ref,context['configurationRef'],(execution.get('environmentCaptured') or {}).get('workerSafetyRef')]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)] if (q:=existing_ref(root,r,prefix)) is not None):
+                errors.append(f'{label}: live fresh-lease task completion must bind actual node-produced nonempty result bytes');return
+            state.update(taskState='completed',taskCompletionCount=state['taskCompletionCount']+1,completedOutputRef=event['outputArtifactRef'],completedOutputSha256=event['outputSha256'])
+            derived.update(recoveredAt=event['observedAt'],completedTaskId=policy['taskId'],completionLeaseId=state['leaseId'],completionRegistrationId=state['registrationId'])
+        elif event['submittedLeaseId']!=old:
+            errors.append(f'{label}: stale-completion rejection must exercise the original expired lease');return
+        if event['taskId']!=policy['taskId'] or (event['submittedLeaseId']!=state['leaseId'] if kind!='stale_completion_denied' else False) or event['stateAfter']!=state or kind!='task_completed' and (event['outputArtifactRef'] is not None or event['outputSha256'] is not None):
+            errors.append(f'{label}: actual scheduler/lease/process state readbacks must equal each replayed transition');return
+    if captured['finalState']!=state or state['taskCompletionCount']!=1 or state['staleLeasePublicationCount']!=0:
+        errors.append(f'{label}: independent final task/lease readback must retain one completion and zero stale publication');return
+    derived.update(taskCompletionCount=state['taskCompletionCount'],staleLeasePublicationCount=state['staleLeasePublicationCount'])
+    if any(recovery[key]!=value for key,value in derived.items()):errors.append(f'{label}: aggregate restart claims must derive retained runtime transitions and final readback')
+
+
+def derive_media_scheduler_capture(root,execution,prefix,report,policy,context,approved,allowed,window,defs,label,errors,cache):
+    label+='/slot runtime';node=next(iter(approved.values()))['nodeId']
+    identity=dict(schedulerBuild=policy['schedulerBuild'],demandEpoch=policy['demandEpoch'],totalCapacity=policy['totalCapacity'],perNodeCapacity=policy['perNodeCapacity'],reservedPlaybackSlots=policy['reservedPlaybackSlots'])
+    capture=selected_scheduler_capture(root,execution,prefix,report['schedulerCaptureRef'],'mediaSchedulerRuntimeCapture',context,identity,policy['schedulerObserverBuild'],policy['schedulerCommandArgs']+['--epoch',str(policy['demandEpoch'])],node,window,defs,label,errors,cache)
+    if capture is None:return
+    jobs={j['jobId']:j for j in report['jobs']};states={j:'not_queued' for j in jobs};slots={};leases=set();bindings={};clocks={j:{} for j in jobs};history=[]
+    def slot_rows():return sorted([dict(jobId=j,nodeId=approved[j]['nodeId'],leaseId=bindings[j]['leaseId']) for j in slots],key=lambda r:r['jobId'])
+    for event in capture['events']:
+        job=event['jobId'];kind=event['type'];at=event['observedAt'];readback=event['stateAfter']
+        if job not in jobs or json.dumps(event['jobIdentity'],sort_keys=True,separators=(',',':'),allow_nan=False)!=json.dumps(approved[job],sort_keys=True,separators=(',',':'),allow_nan=False):errors.append(f'{label}: runtime event must bind the exact approved job/permission/node/input span');return
+        row=jobs[job];prior=states[job];state={'queued':'queued','denied':'denied','admitted':'admitted','started':'running','finished':'completed','ready':'ready'}[kind]
+        required={'queued':'not_queued','denied':'queued','admitted':'queued','started':'admitted','finished':'running','ready':'completed'}[kind]
+        if prior!=required or kind=='denied' and allowed[job] or kind not in ('queued','denied') and not allowed[job]:errors.append(f'{label}: each actual job must follow a complete authorized queue/slot/process/READY lifecycle');return
+        if kind=='queued':bindings[job]=dict(leaseId=None,processId=None)
+        elif kind=='admitted':
+            lease=readback['leaseId']
+            if not recorded_text(lease) or lease in leases:errors.append(f'{label}: distinct actual slot leases required');return
+            bindings[job]['leaseId']=lease;leases.add(lease);slots[job]=True
+            if len(slots)>policy['totalCapacity'] or sum(approved[j]['purpose']!='playback' for j in slots)>policy['totalCapacity']-policy['reservedPlaybackSlots'] or sum(approved[j]['nodeId']==approved[job]['nodeId'] for j in slots)>policy['perNodeCapacity']:
+                errors.append(f'{label}: actual slot acquisition exceeds total/per-node/reserved capacity');return
+        elif kind=='started':
+            pid=readback['processId'];key=(approved[job]['nodeId'],pid)
+            if pid is None or not 1<=int(pid)<=4294967295 or any(states[other]=='running' and approved[other]['nodeId']==key[0] and bindings[other]['processId']==pid for other in bindings if other!=job):errors.append(f'{label}: each actual started job needs a distinct per-node native process');return
+            bindings[job]['processId']=pid
+        elif kind=='finished':slots.pop(job,None)
+        states[job]=state;binding=bindings[job];terminal=kind in ('finished','ready')
+        expected_state=dict(jobId=job,state=state,nodeId=approved[job]['nodeId'],leaseId=binding['leaseId'],processId=binding['processId'],processAlive=state=='running',slotHeld=job in slots,outputArtifactRef=row['outputArtifactRef'] if terminal else None,outputSha256=row['outputSha256'] if terminal else None)
+        if readback!=expected_state or event['slotsAfter']!=slot_rows():errors.append(f'{label}: original process/task and global slot-store readbacks must equal replayed acquisition/release');return
+        clocks[job][{'queued':'queuedAt','admitted':'admittedAt','started':'startedAt','finished':'finishedAt','ready':'readyAt','denied':'deniedAt'}[kind]]=at
+        history.append((utc(at),dict(states),slot_rows()))
+    for job,row in jobs.items():
+        if states[job]!=('ready' if allowed[job] else 'denied') or any(clocks[job].get(k)!=row[k] for k in ('queuedAt','admittedAt','startedAt','finishedAt','readyAt')):
+            errors.append(f'{label}: report queue/run/completion/READY clocks must derive all actual lifecycle events');return
+    if slots or capture['finalSlots'] or capture['finalJobs']!=[dict(jobId=j,state=states[j]) for j in sorted(jobs)]:errors.append(f'{label}: independent final scheduler readback must retain all outcomes and zero occupied slots');return
+    if len(capture['snapshots'])!=len(report['snapshots']):errors.append(f'{label}: every reported snapshot needs its own actual slot-store readback');return
+    for observed,claimed in zip(capture['snapshots'],report['snapshots']):
+        at=utc(observed['observedAt'])
+        if at is None or not utc(capture['startedAt'])<=at<=utc(capture['finishedAt']):
+            errors.append(f'{label}: each runtime slot snapshot must be observed inside its successful collector execution interval');return
+        past=[entry for entry in history if entry[0]<=at]
+        current=past[-1][1] if past else {j:'not_queued' for j in jobs};occupied=past[-1][2] if past else []
+        expected_jobs=[dict(jobId=j,state=current[j]) for j in sorted(jobs)]
+        if observed['observedAt']!=claimed['observedAt'] or observed['jobs']!=expected_jobs or observed['slots']!=occupied or {j['jobId']:j['state'] for j in claimed['jobs']}!=current:
+            errors.append(f'{label}: observed job/slot snapshots must replay exact events, including playback while background slots remain occupied');return
+
+
 def validate_qualified_media_scheduling(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-02' or status!='pass':return
     label=f"qualified playback scheduling {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -2097,6 +2234,8 @@ def validate_qualified_media_scheduling(root,plan,execution,prefix,status,window
         decode_identity={k:h264[k] for k in ('runId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame')}
         if any(fallback[k]!=v for k,v in expected_fallback.items()) or at is None or not max(queued,grant_from)<=at<=min(p['readyAt'],grant_until) or file is None or inspect_artifact(file,cache)['size']<=0 or inspect_artifact(file,cache)['sha256']!=fallback['outputSha256'] or decode is None or decoded is None or at is None or decoded>at or any(decode.get(k)!=v for k,v in decode_identity.items()) or decode.get('decodedFrameCount')!=h264['encodedFrameCount'] or decode.get('codec')!='h264' or decode.get('outputArtifactRef')!=fallback['outputArtifactRef'] or decode.get('outputSha256')!=fallback['outputSha256'] or decode.get('decodable') is not True or decode.get('decodeErrorCount')!=0:errors.append(f'{label}: authorized source/H264 fallback must retain exact independent decoder and actual bytes before first AV1 READY')
     if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='playback_priority_reserved_capacity'),None) is not True:errors.append(f'{label}: scheduling gate must agree with observed priority/reserved capacity outcomes')
+
+    if len(errors)==before:derive_media_scheduler_capture(root,execution,prefix,report,policy,expected,approved,allowed,window,defs,label,errors,cache)
 
 
 def complete_decoder_timeline(raw,params,frame_count,frames_per_second):
@@ -2360,6 +2499,98 @@ def validate_qualified_hls_ready(root,plan,execution,prefix,status,window,defs,e
     if next((m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict) and m.get('id')=='hls_ready_only_contiguous'),None) is not True:errors.append(f'{label}: boolean gate must agree with observed contiguous READY manifests')
 
 
+def retained_media_collector(root,execution,prefix,ref,digest,schema,context,identity,build,defs,label,errors,cache,paths):
+    """Approved collector output is the capture boundary; verify bytes and derive claims."""
+    before=len(errors);path=retained_local_source_transport_artifact(root,execution,prefix,ref,'command_output',1048576,label,errors,cache,paths)
+    value=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,schema,label,errors,cache,1048576) if path is not None else None
+    if value is None or len(errors)!=before:return None
+    records=[r for r in (execution.get('environmentCaptured') or {}).get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==ref]
+    if inspect_artifact(path,cache)['sha256']!=digest or records[0].get('nodeId')!=identity['nodeId'] or value['context']!=context or value['identity']!=identity or value['observerBuild']!=build or not 1<=int(value['processId'])<=4294967295:
+        errors.append(f'{label}: original collector bytes must bind approved collector, native PID and exact node/input/profile');return None
+    return value
+
+
+def derive_media_target_attempt(root,execution,prefix,case,identity,policy,context,window,defs,label,errors,cache,paths):
+    before=len(errors);trace=retained_media_collector(root,execution,prefix,case['attemptRef'],case['attemptSha256'],'mediaTargetAttempt',context,identity,policy['controlObserverBuild'],defs,label,errors,cache,paths)
+    if trace is None:return
+    stderr=retained_local_source_transport_artifact(root,execution,prefix,trace['stderrRef'],'command_output',262144,label,errors,cache,paths)
+    if stderr is None:return
+    events=trace['events'];times=[utc(e['observedAt']) for e in events];start,end=utc(trace['startedAt']),utc(trace['finishedAt']);node=identity['nodeId']
+    records=[r for r in execution['environmentCaptured']['rawExecutionArtifacts'] if isinstance(r,dict) and r.get('ref')==trace['stderrRef']]
+    if records[0].get('nodeId')!=node or inspect_artifact(stderr,cache)['sha256']!=trace['stderrSha256'] or inspect_artifact(stderr,cache)['size']==0 or trace['requestId']!=case['requestId'] or trace['target']!=case['target'] or trace['case']!=case['case'] or trace['argv']!=policy['targetCommandArgs']+['-i',case['target'],'-f','null','-'] or trace['exitCode']==0 or window is None or any(t is None or not window[0]<=t<=window[1] for t in [start,end]+times) or not start<end or times!=sorted(times) or times[0]!=start or times[-1]!=end or case['observedAt']!=trace['finishedAt']:
+        errors.append(f'{label}: denied input must retain actual approved argv/stderr/failed exit and one exact request interval');return
+    expected_operation='connect' if case['case']=='proxy' else 'open'
+    if [e['type'] for e in events]!=['launch','input_attempt','sandbox_denial','exit'] or events[0]['argv']!=trace['argv'] or any(e['processId']!=trace['processId'] for e in events) or events[1]['target']!=case['target'] or events[1]['operation']!=expected_operation or events[2]['target']!=case['target'] or events[2]['operation']!=expected_operation or events[2]['nativeCode'] not in ('EACCES','EPERM','EPROTONOSUPPORT') or events[-1]['exitCode']!=trace['exitCode']:
+        errors.append(f'{label}: original native attempt must be sandbox-denied before any successful open/connect/read/write/publication')
+    if len(errors)!=before:return
+
+
+def derive_media_completion_fencing(root,execution,prefix,lifecycle,identity,policy,context,window,defs,label,errors,cache,paths):
+    trace=retained_media_collector(root,execution,prefix,lifecycle['completionExecutionRef'],lifecycle['completionExecutionSha256'],'mediaCompletionExecution',context,identity,policy['controlObserverBuild'],defs,label,errors,cache,paths)
+    state=retained_media_collector(root,execution,prefix,lifecycle['publicationReadbackRef'],lifecycle['publicationReadbackSha256'],'mediaPublicationReadback',context,identity,policy['controlObserverBuild'],defs,label,errors,cache,paths)
+    if trace is None or state is None:return
+    tail=['--node',identity['nodeId'],'--job',policy['jobId'],'--cancel-job',policy['cancelJobId']]
+    start,end=utc(trace['startedAt']),utc(trace['finishedAt']);read_start,read_end=utc(state['startedAt']),utc(state['finishedAt']);entries=trace['submissions'];snapshots=state['snapshots'];rows={r['requestId']:r for r in lifecycle['submissions']}
+    if trace['argv']!=policy['completionCommandArgs']+tail or state['argv']!=policy['publicationReadbackArgs']+tail or trace['exitCode']!=0 or state['exitCode']!=0 or len(rows)!=4 or len(entries)!=4 or len(snapshots)!=5 or len({r['requestId'] for r in entries})!=4 or {r['requestId'] for r in entries}!=set(rows) or window is None or any(t is None or not window[0]<=t<=window[1] for t in (start,end,read_start,read_end)) or not start<end or not read_start<read_end:
+        errors.append(f'{label}: exact complete executed completion session and independent publication readback required');return
+    clocks=[utc(snap['observedAt']) for snap in snapshots]
+    if any(t is None or not read_start<=t<=read_end for t in clocks) or clocks!=sorted(clocks):
+        errors.append(f'{label}: ordered before/after publication snapshots must cover every actual completion submission');return
+    def index(records,key):return {r[key]:r for r in records}
+    if snapshots[0]['publications'] or snapshots[0]['terminalResults']:
+        errors.append(f'{label}: publication baseline must precede the tested first completion');return
+    for i,entry in enumerate(entries):
+        row=rows[entry['requestId']];kind=row['case'];request=entry['request'];response=entry['response'];before,after=snapshots[i:i+2];queued,completed=utc(entry['submittedAt']),utc(entry['observedAt']);jobs=index(before['jobs'],'jobId')
+        if set(jobs)!={policy['jobId'],policy['cancelJobId']} or len(jobs)!=len(before['jobs']) or request['jobId'] not in jobs or request['nodeId']!=identity['nodeId'] or request['jobId']!=row['jobId'] or request['attemptEpoch']!=row['attemptEpoch'] or row['observedAt']!=entry['observedAt'] or queued is None or completed is None or not start<=queued<=completed<=end or not clocks[i]<=queued<=completed<=clocks[i+1]:
+            errors.append(f'{label}: actual submitted request, response and ordered state readback must bind exact node/job/attempt/clock');return
+        selected=jobs.get(request['jobId']);published=kind=='current';ref=lifecycle['partialRef'] if kind=='late' else lifecycle['cancelledPartialRef'] if kind=='cancelled' else lifecycle['publishedRef'];sha=lifecycle['partialSha256'] if kind=='late' else lifecycle['cancelledPartialSha256'] if kind=='cancelled' else lifecycle['publishedSha256']
+        p0,p1=index(before['publications'],'publicationId'),index(after['publications'],'publicationId');t0,t1=index(before['terminalResults'],'terminalResultId'),index(after['terminalResults'],'terminalResultId')
+        if any(len(index(snap[field],key))!=len(snap[field]) for snap in (before,after) for field,key in (('publications','publicationId'),('terminalResults','terminalResultId'))) or any(key not in p1 or p1[key]!=value for key,value in p0.items()) or any(key not in t1 or t1[key]!=value for key,value in t0.items()):
+            errors.append(f'{label}: publication/result readbacks must preserve unique actual records');return
+        added_p=[v for k,v in p1.items() if k not in p0];added_t=[v for k,v in t1.items() if k not in t0];binding=dict(nodeId=identity['nodeId'],jobId=request['jobId'],attemptEpoch=request['attemptEpoch'],outputArtifactRef=ref,outputSha256=sha)
+        current_records=[p for p in before['publications'] if p['jobId']==request['jobId']]
+        accepted=selected['state']=='active' and request['attemptEpoch']==selected['currentAttemptEpoch'] and not current_records
+        if request['outputArtifactRef']!=ref or request['outputSha256']!=sha or accepted is not published or kind=='late' and request['attemptEpoch']>=selected['currentAttemptEpoch'] or kind=='cancelled' and selected['state']!='cancelled' or kind=='duplicate' and len(current_records)!=1 or len(added_p)!=(1 if accepted else 0) or len(added_t)!=(1 if accepted else 0) or row['publicationDelta']!=len(added_p) or row['terminalResultDelta']!=len(added_t) or row['decision']!=('published' if accepted else 'rejected') or response['statusCode'] not in ((200,201) if accepted else (409,410)) or response['publicationId']!=(added_p[0]['publicationId'] if accepted else None) or response['terminalResultId']!=(added_t[0]['terminalResultId'] if accepted else None) or any(any(record[k]!=v for k,v in binding.items()) for record in added_p+added_t):
+            errors.append(f'{label}: completion fencing decisions/deltas must derive actual submitted payloads, publisher responses and independent stored records');return
+    final=snapshots[-1]
+    if len(final['publications'])!=1 or len(final['terminalResults'])!=lifecycle['terminalResultCount'] or any(r['jobId']==policy['cancelJobId'] for r in final['publications']+final['terminalResults']):errors.append(f'{label}: exactly one current result and no cancelled publication must remain in actual publisher state')
+
+
+def derive_media_soak_runtime(root,execution,prefix,row,approved,policy,context,window,defs,label,errors,cache,paths):
+    capture=retained_media_collector(root,execution,prefix,row['runtimeRef'],row['runtimeSha256'],'mediaSoakRuntimeCapture',context,approved,policy['runtimeObserverBuild'],defs,label,errors,cache,paths)
+    if capture is None:return
+    native=retained_local_source_transport_artifact(root,execution,prefix,capture['stdoutRef'],'command_output',1048576,label,errors,cache,paths)
+    if native is None:return
+    records=[r for r in execution['environmentCaptured']['rawExecutionArtifacts'] if isinstance(r,dict) and r.get('ref')==capture['stdoutRef']]
+    start,end=utc(capture['startedAt']),utc(capture['finishedAt']);samples=capture['samples'];clocks=[utc(s['observedAt']) for s in samples];span=approved['sourceEndFrame']-approved['sourceStartFrame']
+    if records[0].get('nodeId')!=approved['nodeId'] or inspect_artifact(native,cache)['sha256']!=capture['stdoutSha256'] or capture['argv']!=approved['commandArgs'] or capture['outputArtifactRef']!=row['outputArtifactRef'] or capture['outputSha256']!=row['outputSha256'] or capture['startedAt']!=row['startedAt'] or capture['finishedAt']!=row['finishedAt'] or window is None or any(t is None or not window[0]<=t<=window[1] for t in [start,end]+clocks) or not start<end or clocks[0]!=start or clocks[-1]!=end or any(a>=b or (b-a).total_seconds()>policy['maximumProgressGapSeconds'] for a,b in zip(clocks,clocks[1:])) or capture['exitCode']!=0 or capture['remainingProcessIds'] or capture['windowCompletedAt']!=row['finishedAt'] or row['processExitCode']!=capture['exitCode'] or row['terminalStatus']!='completed' or row['processTerminationReason']!='approved_window_completed':
+        errors.append(f'{label}: original native process/progress/filesystem/exit capture must span the whole approved controlled workload');return
+    try:
+        with native.open('rb') as stream:raw=stream.read(1048577)
+        derived=[];offset=0;frames=[];cpus=[]
+        for i,sample in enumerate(samples):
+            stop=sample['progressEnd'];block=raw[offset:stop].decode('utf8');offset=stop;values={}
+            for line in block.splitlines():
+                key,sep,value=line.partition('=')
+                if not sep or key in values:raise ValueError('native progress framing')
+                values[key]=value
+            frame=int(values['frame']);cpu=sample['userCpuSeconds']+sample['systemCpuSeconds'];files=sample['files'];names=[f['path'] for f in files]
+            if not 0<stop<=len(raw) or len(names)!=len(set(names)) or any('\\' in n or ':' in n or any(p in ('','.','..') for p in n.split('/')) for n in names) or values.get('progress')!=('end' if i==len(samples)-1 else 'continue') or sample['processState']!=('exited' if i==len(samples)-1 else 'running') or not ai_finite(cpu) or any(not ai_finite(sample[k]) for k in ('userCpuSeconds','systemCpuSeconds')):raise ValueError('native process/fs/progress values')
+            frames.append(frame);cpus.append((sample['userCpuSeconds'],sample['systemCpuSeconds']));derived.append(dict(observedAt=sample['observedAt'],completedIterations=frame//span,completedFrames=frame//span*span,residentBytes=sample['residentBytes'],temporaryBytes=sum(f['byteCount'] for f in files if f['area']=='temporary'),cpuSeconds=cpu-sum(cpus[0])))
+        if offset!=len(raw) or frames[0]!=0 or frames!=sorted(frames) or frames[-1]%span or any(any(a[k]>b[k] for k in (0,1)) for a,b in zip(cpus,cpus[1:])) or derived!=row['progress'] or sum(f['byteCount'] for f in samples[-1]['files'] if f['area']=='output')!=row['outputByteCount']:raise ValueError('native counters disagree')
+    except (OSError,UnicodeError,ValueError,KeyError,ZeroDivisionError):errors.append(f'{label}: soak iteration/frame/CPU/resident/temp counters must derive complete native progress and canonical filesystem entries');return
+    faults={};events=[];event_times=[]
+    for event in capture['events']:
+        at=utc(event['observedAt']);event_times.append(at);key=event['eventId']
+        if at is None or not start<=at<=end or event['type']=='fault' and key in faults or event['type']=='recovered' and key not in faults:
+            errors.append(f'{label}: original process fault/recovery events must be ordered and paired inside the workload');return
+        if event['type']=='fault':faults[key]=dict(eventId=key,kind=event['kind'],occurredAt=event['observedAt'],recoveredAt=None);events.append(faults[key])
+        else:
+            if faults[key]['recoveredAt'] is not None:errors.append(f'{label}: one original recovery per fault required');return
+            faults[key]['recoveredAt']=event['observedAt']
+    if event_times!=sorted(event_times) or events!=row['failureEvents']:errors.append(f'{label}: aggregate soak failure history must derive the retained original process event stream')
+
+
 def validate_qualified_media_soak(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-02' or status!='pass':return
     label=f"qualified media soak {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -2372,7 +2603,7 @@ def validate_qualified_media_soak(root,plan,execution,prefix,status,window,defs,
     if len(errors)!=before or report is None or not isinstance(policy,dict):return
     expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
     limits=('minimumDurationMinutes','maximumProgressGapSeconds','maximumRecoverySeconds','maximumResidentBytes','maximumResidentGrowthBytes','maximumTemporaryBytes','maximumCpuSeconds')
-    if any(report[k]!=v for k,v in expected.items()) or not all(ai_finite(policy[k]) for k in limits):
+    if any(report[k]!=v for k,v in expected.items()) or not recorded_text(policy['runtimeObserverBuild']) or not all(ai_finite(policy[k]) for k in limits):
         errors.append(f'{label}: approved finite soak budgets and exact selected input/profile/build context required');return
     inventory=env.get('worker_node_inventory');nodes={n['nodeId']:n for n in inventory if isinstance(n,dict) and isinstance(n.get('nodeId'),str)} if isinstance(inventory,list) else {}
     cases=policy['cases'];ids=[c['caseId'] for c in cases];runs=[c['runId'] for c in cases];pairs=[(c['nodeId'],c['codec']) for c in cases]
@@ -2381,12 +2612,13 @@ def validate_qualified_media_soak(root,plan,execution,prefix,status,window,defs,
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
     if not ai_finite(actual.get('sustained_encode_duration')) or actual['sustained_encode_duration']+1e-9<policy['minimumDurationMinutes']:
         errors.append(f'{label}: continuous measured duration must cover the independently approved minimum');return
-    event_ids=set();media_paths=[];trace_intervals=[]
+    event_ids=set();media_paths=[];trace_intervals=[];runtime_paths=[existing_ref(root,ref,prefix) for ref in [env.get('mediaSoakRef'),resource['configurationRef']]+[r.get('ref') for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('artifactType')=='produced_media']];runtime_paths=[p for p in runtime_paths if p is not None]
     for row in report['cases']:
         approved=next(c for c in cases if c['caseId']==row['caseId']);node=nodes[approved['nodeId']];sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==approved['inputSampleId']),None)
         total=(env.get('parallelMediaAssembly') or {}).get('sourceFrameCount') if isinstance(env.get('parallelMediaAssembly'),dict) else None
         if any(row[k]!=v for k,v in approved.items()) or any(approved[k]!=node.get(k) for k in ('encoderBuild','physicalHostId','compatibilityGroupId')) or sample is None or approved['inputSha256']!=sample['checksum'] or type(total) is not int or not 0<=approved['sourceStartFrame']<approved['sourceEndFrame']<=total:
             errors.append(f'{label}: each exercised codec must bind approved node/build/config/command and input span');continue
+        derive_media_soak_runtime(root,execution,prefix,row,approved,policy,expected,window,defs,label,errors,cache,runtime_paths)
         first,last=utc(row['startedAt']),utc(row['finishedAt'])
         if first is None or last is None or window is None or not window[0]<=first<last<=window[1] or (last-first).total_seconds()/60+1e-9<policy['minimumDurationMinutes']:
             errors.append(f'{label}: each continuous codec workload must cover the approved minimum within UTC execution');continue
@@ -2649,6 +2881,24 @@ MEDIA_NEGATIVE_GATES={'disallowed_input_targets_denied','resource_limits_enforce
 LOCAL_STORAGE_OBSERVED_GATES={'local_authenticated_reads','local_range_correctness','local_read_hash_verified','openlist_disconnect_recovery','local_backup_restore_verified','incomplete_replica_rejected','hash_mismatch_replica_rejected','cache_eviction_preserves_authoritative_state','replica_migration_preserves_old_valid_copy','local_capacity_reservations_preserved','watermark_behavior','concurrent_workload_stability','failure_recovery'}
 
 
+def derive_local_capacity_sample(root,execution,prefix,report,policy,row,sequence,defs,label,errors,cache,paths):
+    """Derive free blocks and active reservations from selected native disk/ledger state."""
+    capture=bounded_evaluator_json(root,execution,prefix,row.get('telemetryRef'),'command_output',defs,'localStorageCapacityCapture',label,errors,cache)
+    if capture is None:return
+    if retained_local_source_transport_artifact(root,execution,prefix,row['telemetryRef'],'command_output',262144,label,errors,cache,paths) is None:return
+    observer=policy['capacityObserver'];expected={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples')}
+    event=capture['admissionEvent'];disk=capture['disk'];reservations=capture['reservations'];ids=[r['reservationId'] for r in reservations]
+    if capture['context']!=expected or capture['collectorBuild']!=observer['collectorBuild'] or capture['commandArgs']!=observer['commandArgs']+['--root',policy['sandboxRoot'],'--volume',observer['volumeId'],'--sequence',str(sequence)] or capture['sandboxRoot']!=policy['sandboxRoot'] or capture['volumeId']!=observer['volumeId'] or capture['openlistBuild']!=policy['openlistBuild'] or capture['exitCode']!=0 or capture['sequence']!=sequence or capture['observedAt']!=row['observedAt'] or event!={k:row[k] for k in ('phase','admission')}:
+        errors.append(f'{label}: native disk/reservation/admission capture must bind exact approved root, volume, build, collector, phase sequence and UTC sample');return
+    if disk['availableBlocks']>disk['totalBlocks'] or len(set(ids))!=len(ids):
+        errors.append(f'{label}: native disk blocks and complete unique reservation ledger required');return
+    free=disk['fragmentSize']*disk['availableBlocks'];reserved=sum(r['bytes'] for r in reservations if r['state']=='active')
+    capacity=(execution.get('environmentCaptured') or {}).get('capacity_watermark_configuration') or {}
+    if disk['fragmentSize']*disk['totalBlocks']!=capacity.get('capacityBytes') or row['freeBytes']!=free or row['reservedBytes']!=reserved:
+        errors.append(f'{label}: capacity claims must derive selected-volume available blocks and active reservation ledger bytes');return
+    return free,reserved
+
+
 def validate_qualified_local_storage(root,plan,execution,prefix,status,window,defs,errors,cache):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-04' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
@@ -2784,15 +3034,17 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
             write_window=interval(workload['writeStartedAt'],workload['writeFinishedAt']);lifecycle_window=interval(workload['lifecycleStartedAt'],workload['lifecycleFinishedAt'])
             windows=object_concurrent+[r for r in (write_window,lifecycle_window) if r is not None]
             if len(windows)!=4 or max(r[0] for r in windows)>=min(r[1] for r in windows):errors.append(f'{label}: both reads, byte-verified migration write and observed lifecycle must have one positive-duration common overlap')
-    capacity=env.get('capacity_watermark_configuration') or {};observations=report['capacityObservations'];minimum=min(r['freeBytes'] for r in observations);reserved=max(r['reservedBytes'] for r in observations);phases={r['phase'] for r in observations};previous=None;cycle=('fill','pause','evict','resume');cycle_position=0
+    capacity=env.get('capacity_watermark_configuration') or {};observations=report['capacityObservations'];native_capacity=[];capacity_paths=[existing_ref(root,env['localStorageRef'],prefix)];phases={r['phase'] for r in observations};previous=None;cycle=('fill','pause','evict','resume');cycle_position=0
     if not {'fill','pause','evict','resume'}<=phases:errors.append(f'{label}: actual fill/pause/eviction/resume capacity observations required')
-    for row in observations:
-        at=utc(row['observedAt']);free=row['freeBytes'];reservation=row['reservedBytes']
+    for sequence,row in enumerate(observations,1):
+        native=derive_local_capacity_sample(root,execution,prefix,report,policy,row,sequence,defs,label,errors,cache,capacity_paths)
+        if native is None:return
+        native_capacity.append(native);free,reservation=native;at=utc(row['observedAt'])
         if at is None or window is None or not window[0]<=at<=window[1] or previous is not None and at<previous or free>capacity.get('capacityBytes',-1) or reservation>capacity.get('maxReservedBytes',-1) or free-reservation<capacity.get('safetyFloorBytes',float('inf')) or row['phase']=='pause' and (free>capacity.get('pauseFreeBytes',-1) or row['admission']!='paused') or row['phase']=='resume' and (free<capacity.get('resumeFreeBytes',float('inf')) or row['admission']!='admitted'):errors.append(f'{label}: actual capacity decisions must preserve floor/reservations and approved watermarks')
         if cycle_position<len(cycle) and row['phase']==cycle[cycle_position]:cycle_position+=1
         previous=at
     if cycle_position!=len(cycle):errors.append(f'{label}: actual capacity recovery must include an ordered fill/pause/evict/resume cycle')
-    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)};derived=dict(local_minimum_free_bytes=minimum,local_maximum_reserved_bytes=reserved)
+    actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)};derived=dict(local_minimum_free_bytes=min(free for free,_ in native_capacity),local_maximum_reserved_bytes=max(reserved for _,reserved in native_capacity))
     if len(measured_full)==len(objects):derived.update(sequential_throughput=sum(size for size,elapsed in measured_full)/sum(elapsed for size,elapsed in measured_full)/1000000,io_latency=sum(elapsed for size,elapsed in measured_full)*1000/len(measured_full))
     else:errors.append(f'{label}: positive observed complete-read intervals required for actual throughput and latency')
     for metric,value in derived.items():
@@ -2816,6 +3068,8 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
     if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or policy['nodes']!=nodes or quality is None or policy['jobId']!=quality['jobId'] or policy['assetVersion']!=next((r['immutableId'] for r in samples if r['id']==assembly.get('inputSampleId')),None):
         errors.append(f'{label}: exact admitted job/asset/version/input/build/profile and approved node controls required');return
     limits=policy['limits'];limit_ids={'cpuSeconds','memoryBytes','elapsedSeconds','temporaryBytes','outputBytes'};targets={r['case']:r['target'] for r in policy['deniedTargets']};required_targets={'protocol','path','proxy'}
+    if not recorded_text(policy['controlObserverBuild']) or any(not recorded_text(arg) for key in ('targetCommandArgs','completionCommandArgs','publicationReadbackArgs') for arg in policy[key]):
+        errors.append(f'{label}: concrete approved native control collector and executed command arguments required');return
     if set(limits)!=limit_ids or any(not ai_finite(v) or v<=0 for v in limits.values()) or not recorded_text(policy['limitObserverBuild']) or len(policy['deniedTargets'])!=3 or set(targets)!=required_targets or policy['authorizedUserId']==policy['deniedUserId'] or len(set(policy[k] for k in ('currentGrantId','revokedGrantId','expiredGrantId')))!=3 or policy['cancelJobId']==policy['jobId']:
         errors.append(f'{label}: finite independent limits, three denied target classes and distinct authorization controls required');return
     first,last,expired=utc(policy['grantValidFrom']),utc(policy['grantValidUntil']),utc(policy['expiredAt']);revoked=utc(policy['revokedAt'])
@@ -2841,6 +3095,7 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
         if len(denials)!=3 or {r['case'] for r in denials}!=required_targets or len(checks)!=5 or {r['case'] for r in checks}!=limit_ids:errors.append(f'{label}: complete per-node denied target and independently exceeded limit matrix required')
         for case in denials:
             at=instant(case['observedAt']);info=payload(case['outboundRef'],case['outboundSha256'],node)
+            derive_media_target_attempt(root,execution,prefix,case,row['identity'],policy,expected,window,defs,label,errors,cache,limit_paths)
             if case['requestId'] in request_ids or case['target']!=targets.get(case['case']) or case['status']!='denied' or case['inputBytesRead']!=0 or case['outputBytesWritten']!=0 or case['publicationCount']!=0 or info is None or info['size']!=0:errors.append(f'{label}: denied target must be rejected before input/output/network access')
             request_ids.add(case['requestId'])
         for case in checks:
@@ -2862,6 +3117,7 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
             if any(probe[k]!=v for k,v in expected_probe.items()) or not recorded_text(policy['retryDecoderBuild']) or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or probe_start is None or probe_finish is None or not times[3]<=probe_start<=probe_finish<=times[4]:errors.append(f'{label}: actual retry AV1 probe must bind current job/attempt/node/input/output/span/build and ordered decode before completion')
         cancel_partial=payload(lifecycle['cancelledPartialRef'],lifecycle['cancelledPartialSha256'],node);cancel_start=instant(lifecycle['cancelledStartedAt']);cancel_created=instant(lifecycle['cancelledPartialCreatedAt'])
         if lifecycle['cancelJobId']!=policy['cancelJobId'] or lifecycle['cancelledAttemptEpoch']<=lifecycle['currentAttemptEpoch'] or lifecycle['cancelledProcessStatusBefore']!='running' or lifecycle['cancelledProcessStatusAfter']!='terminated' or cancel_partial is None or cancel_partial['size']==0 or lifecycle['cancelledPartialRef'] in (lifecycle['partialRef'],lifecycle['publishedRef']) or cancel_start is None or cancel_created is None or not cancel_start<=cancel_created<=times[5]<=times[6]:errors.append(f'{label}: cancellation must exercise a distinct active job and real partial output before termination/cleanup')
+        derive_media_completion_fencing(root,execution,prefix,lifecycle,row['identity'],policy,expected,window,defs,label,errors,cache,limit_paths)
         submissions=lifecycle['submissions'];required={'current','duplicate','late','cancelled'}
         if len(submissions)!=4 or {r['case'] for r in submissions}!=required:errors.append(f'{label}: complete current/duplicate/late/cancelled completion fencing matrix required')
         for submission in submissions:
@@ -4646,6 +4902,40 @@ def validate_qualified_frontend_comparison(root,plan,execution,prefix,status,win
         if equivalent is not True or actual.get(gate) is not equivalent:errors.append(f'{label}: {gate} must derive matching successful outcomes from both frozen candidate scenarios')
 
 
+def derive_ai_quota_state(root,execution,prefix,row,policy,expected,window,defs,label,errors,cache,paths):
+    """Replay complete native provider attempts and budget debits before one gate decision."""
+    capture=bounded_evaluator_json(root,execution,prefix,row.get('quotaCaptureRef'),'command_output',defs,'aiProviderQuotaCapture',label,errors,cache)
+    if capture is None:return
+    if retained_local_source_transport_artifact(root,execution,prefix,row['quotaCaptureRef'],'command_output',262144,label,errors,cache,paths) is None:return
+    observer=policy['quotaObserver'];gates=policy['gatePolicy'];pricing=policy['pricing'];at=utc(row['observedAt']);start=utc(observer['budgetPeriodStartedAt']);decision=capture['decision'];attempts=capture['attempts'];ledger=capture['budgetLedger']
+    bound={k:row[k] for k in ('case','callerId','assetId','aclVersion','budgetPeriodId','observedAt','decision','providerRequestIds','outboundRef','outboundSha256')}
+    if capture['context']!=expected or capture['collectorBuild']!=observer['collectorBuild'] or capture['commandArgs']!=observer['commandArgs']+['--period',gates['budgetPeriodId'],'--scenario',row['case']] or capture['exitCode']!=0 or capture['completeFromPeriodStart'] is not True or capture['periodStartedAt']!=observer['budgetPeriodStartedAt'] or decision!=bound or capture['sequenceEnd']!=len(attempts) or start is None or at is None or window is None or not start<=at or not window[0]<=at<=window[1]:
+        errors.append(f'{label}: complete native provider history/ledger must bind approved observer, period, scenario, invocation decision and exact subjects');return
+    ids=set();prior={};current=[];rate=concurrent=0;previous=None
+    for sequence,attempt in enumerate(attempts,1):
+        request=attempt['requestId'];first=utc(attempt['startedAt']);last=utc(attempt['finishedAt']) if attempt['finishedAt'] is not None else None
+        if attempt['sequence']!=sequence or request in ids or first is None or previous is not None and first<previous or not start<=first<=at or attempt['finishedAt'] is not None and (last is None or first>last or last>window[1]) or attempt['budgetPeriodId']!=gates['budgetPeriodId'] or attempt['callerId']!=gates['authorizedCallerId'] or attempt['assetId']!=gates['assetId'] or any(not ai_finite(attempt[k]) or attempt[k]<0 for k in ('inputTokens','outputTokens')):
+            errors.append(f'{label}: complete ordered unique provider attempts must retain exact caller/asset/period and actual native start/finish/token usage');return
+        ids.add(request);previous=first
+        if request in row['providerRequestIds']:
+            if first!=at:errors.append(f'{label}: actual current dispatch must start at its native gate decision');return
+            current.append(request);continue
+        if current:errors.append(f'{label}: prior quota attempts must precede the current invocation in the native request sequence');return
+        prior[request]=attempt;rate+=0<=(at-first).total_seconds()<60;concurrent+=last is None or last>at
+    if sorted(current)!=sorted(row['providerRequestIds']) or len(ledger)!=len(prior) or {entry['requestId'] for entry in ledger}!=set(prior):
+        errors.append(f'{label}: full provider history must cover current dispatch and exactly one budget debit/reservation for every prior request');return
+    spent=0
+    for sequence,entry in enumerate(ledger,1):
+        attempt=prior[entry['requestId']];cost=attempt['inputTokens']*pricing['inputUnitPrice']+attempt['outputTokens']*pricing['outputUnitPrice']
+        if entry['sequence']!=sequence or not ai_finite(entry['amount']) or not ai_finite(cost) or not math.isclose(entry['amount'],cost,rel_tol=1e-9,abs_tol=1e-12):
+            errors.append(f'{label}: native budget ledger must replay each provider request token charge/reservation under exact approved pricing');return
+        spent+=entry['amount']
+    remaining=gates['budgetLimit']-spent
+    if not ai_finite(remaining) or remaining<0 or not math.isclose(row['budgetRemaining'],remaining,rel_tol=1e-9,abs_tol=1e-12) or row['requestCount']!=rate or row['concurrentCalls']!=concurrent:
+        errors.append(f'{label}: budget remaining, rolling request count and active concurrency must derive native provider attempts and full budget ledger');return
+    return remaining,rate,concurrent
+
+
 def validate_qualified_ai_results(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-09' or status!='pass':return
     label=f"qualified AI results {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -4748,14 +5038,17 @@ def validate_qualified_ai_results(root,plan,execution,prefix,status,window,defs,
         if captured is not None and len(errors)==before and (any(captured.get(k)!=v for k,v in expected.items()) or captured['queryId']!=row['queryId'] or captured['retrievedIds']!=row['retrievedIds']):errors.append(f'{label}: warmup must bind actual retained ranked output')
     outcomes=dispatch['outcomes'];required=set(AI_POLICY_GATES)|{'authorized'}
     if len(outcomes)!=len(required) or {o['case'] for o in outcomes}!=required:errors.append(f'{label}: exact authorized and permission/ACL/budget/request/concurrency denial cases required');return
-    estimated=gates['plannedInputTokens']*pricing['inputUnitPrice']+gates['plannedOutputTokens']*pricing['outputUnitPrice']
+    estimated=gates['plannedInputTokens']*pricing['inputUnitPrice']+gates['plannedOutputTokens']*pricing['outputUnitPrice'];quota_paths=[existing_ref(root,report['dispatchRef'],prefix)]
     for row in outcomes:
         case=row['case'];at=utc(row['observedAt']);outbound=payload(row['outboundRef'],row['outboundSha256'],allow_empty=True)
         if at is None or window is None or not window[0]<=at<=window[1] or outbound is None:errors.append(f'{label}: actual dispatch bytes and valid policy evaluation timestamp required');continue
         if not all(ai_finite(row[k]) for k in ('budgetRemaining','estimatedCost')) or not ai_finite(estimated):errors.append(f'{label}: finite priced policy evaluation required');continue
         if row['assetId']!=gates['assetId'] or row['callerId']!=(gates['unauthorizedCallerId'] if case=='permission_denied' else gates['authorizedCallerId']) or row['aclVersion']!=(gates['revokedAclVersion'] if case=='acl_revoked' else gates['currentAclVersion']) or not 0<=row['budgetRemaining']<=gates['budgetLimit'] or row['budgetPeriodId']!=gates['budgetPeriodId'] or not math.isclose(row['estimatedCost'],estimated,rel_tol=1e-9,abs_tol=1e-12):errors.append(f'{label}: policy outcome must bind exact caller/current asset ACL and priced invocation')
         if row['callerAllowed'] is not (case!='permission_denied') or row['assetAllowed'] is not (case!='acl_revoked'):errors.append(f'{label}: permission and current/revoked ACL decisions must be exercised independently')
-        exceeded=(row['estimatedCost']>row['budgetRemaining'],row['requestCount']>gates['requestRateLimit'],row['concurrentCalls']>gates['concurrencyLimit'])
+        quota=derive_ai_quota_state(root,execution,prefix,row,policy,expected,window,defs,label,errors,cache,quota_paths)
+        if quota is None:continue
+        remaining,request_count,concurrent=quota
+        exceeded=(row['estimatedCost']>remaining,request_count>gates['requestRateLimit'],concurrent>gates['concurrencyLimit'])
         if exceeded!=(case=='budget_exhausted',case=='request_rate_exceeded',case=='concurrency_exceeded') or row['requestWindowSeconds']!=60:errors.append(f'{label}: each denial must independently exceed its exact approved budget/rate/concurrency ceiling')
         if case=='authorized':
             if row['decision']!='dispatched' or len(row['providerRequestIds'])!=1 or outbound['size']==0:errors.append(f'{label}: authorized control request requires one actual nonempty dispatch observation')
@@ -4978,6 +5271,7 @@ def validate_qualified_worker_safety(root,plan,execution,prefix,status,window,de
         old,new=recovery['oldLeaseId'],recovery['newLeaseId'];old_registration,new_registration=recovery['oldRegistrationId'],recovery['newRegistrationId']
         if any(t is None for t in times) or times!=sorted(t for t in times if t is not None) or times[0]>=times[2] or times[5]>=times[7] or (times[6]-times[1]).total_seconds()>policy['maximumRecoverySeconds'] or old==new or old_registration==new_registration or old in lease_ids or new in lease_ids or old_registration in registrations or new_registration in registrations or recovery['taskId']!=policy['taskId'] or recovery['completedTaskId']!=policy['taskId'] or recovery['completionLeaseId']!=new or recovery['completionRegistrationId']!=new_registration or recovery['taskCompletionCount']!=1 or recovery['staleLeasePublicationCount']!=0:
             errors.append(f'{label}: observed disconnect/lease expiry/re-registration must recover the exact task once under a fresh lease within its approved bound')
+        derive_worker_restart_capture(root,execution,prefix,recovery,identity,policy,expected,window,defs,label,errors,cache)
         lease_ids.update((old,new));registrations.update((old_registration,new_registration))
         network=row['networkCases'];required={'authorized','private_target','unsupported_target','administrative_target','expired_grant'}
         if len(network)!=5 or {c['case'] for c in network}!=required:errors.append(f'{label}: each node must exercise allowed access and every denied target/grant case')

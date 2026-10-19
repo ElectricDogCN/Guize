@@ -419,3 +419,13 @@ Translation scores derive from the approved evaluator execution over exact outpu
 All 208 original test identities and 497 assertion calls remain; 194 original method ASTs are unchanged. Positive fixtures retain their required typed artifacts and input identities. YAML loading uses the optional C SafeLoader with the same strict duplicate-key handling and a pure-Python fallback.
 
 Individual candidate executions and historical failures remain separate. This published successor requires its own complete 208-method execution, the other 19 required commands and same-source CI before integration. Formal POC, platform runtime and complete local V1 remain pending.
+
+## Runtime event and state capture binding
+
+Worker restart qualification replays disconnect, lease expiry, registration, execution, current completion and stale-completion denial against retained runtime state. Playback scheduling derives job transitions and occupied slots from native events and independent readbacks, including snapshots inside the collector lifetime.
+
+Media denial cases retain the actual sandboxed input attempt and failed native exit. Completion fencing derives publication and terminal-result deltas from submitted requests, publisher responses and independent stored state. Soak counters and failure history derive the complete retained process, filesystem and native-progress interval. Independent publication readers may cover time before and after the completion client; approved command arguments retain room for their fixed operands.
+
+Local storage capacity derives available blocks and active reservation entries on the selected volume. AI quota decisions replay complete provider history and the priced budget ledger, allowing earlier sequence entries with equal UTC timestamps. Scanner phase durations derive one consistent native process lifetime and UTC/monotonic clock, including initialization and final flush.
+
+The approved collector output is the capture trust boundary. All 208 original test identities, every original assertion and negative case remain; 200 original method ASTs are unchanged. Separate candidate invocations do not replace the successor's own complete 208-method execution, 19 other required commands or same-source CI. Formal POC, platform runtime and complete local V1 remain pending.
