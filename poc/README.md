@@ -308,3 +308,18 @@ See the [eight-observation candidate manifest](../evidence/GZ-021/candidate-chec
 At this archival checkpoint, successor-source25 complete original methods,19 other required checks and its own CI are still pending.
 This checkpoint adds no new full208, formal/actual-POC/runtime/HLS or full-V1 completion; task claims, plan and DAG remain unchanged.
 Phone/Go experiments are separate external work and do not establish platform integration within this specification delivery.
+
+## Six follow-up observations (baseline 8f7d88)
+
+Baseline 8f7d88dde8dc170170be9865655c7d0aafcbe19e/tree5fec427b60d5965e2283d9cc0556a4efee3b1bcd completed its own affected25 and19 other required commands,35 rejected fixtures,native637/1330.85s and CI715/637/28 steps/1598.61s.
+Its [53 original execution records](https://github.com/ElectricDogCN/Guize/blob/b4d526f2f7d64e7f678eb2af8449e323f70efef6/8f7d88dde8dc170170be9865655c7d0aafcbe19e) are retained outside its tested tree in an immutable notes commit (archive SHA256 d737857611ef17059c1005b573599db754a41705297d767094bdb271421aed23).
+
+Six follow-up fixes bind denied HLS requests to independent zero-origin/object-read observations,retain the full ordered init/media decode and continuous timeline,check current-seek grant lifetime,verify executed recovery readiness and complete index exports,and measure the complete frontend emitted-file set.
+The composition preserves208 original method identities,202 original method ASTs,and every original assertion/negative loop;only163/164/167/184/185/193 extend their complete methods. Positive fixture synchronization is limited to explicitly modified legal setup; negative validation never refreshes readiness assertions.
+
+Candidate invocations remain separate:HLS v1 Ran2/13.112s/2FAIL;HLS v2 Ran2/702.286s/PASS;frontend original184 Ran1/434.915s/PASS;recovery v1 Ran6/40.857s/2PASS4FAIL;recovery v2 Ran4/940.749s/3PASS1FAIL;recovery v3 original163 Ran1/499.393s/PASS.
+The original schema-reference and fixture-registration/middle-playback failures remain retained,alongside the reviewed corrections. No stages are added into a synthetic successful Ran6 or full208.
+The [362 candidate and disposition records](https://github.com/ElectricDogCN/Guize/blob/d4d9e04989b0c230741c1a639af8121a8693dce4/8f7d88dde8dc170170be9865655c7d0aafcbe19e) round-trip all original bytes (archive SHA256 5f89d198fdab7f4cf3331abd9770f51a2a89d0a17725ceac1bb89dacba9d85cd). These notes describe candidate stages against the baseline,not published-successor execution.
+
+The successor requires its own27 complete original methods in real7/7/7/6 processes,the unchanged19 other commands,637 governance tests,35 rejected fixtures,nonempty zero-FES JUnit and same-head CI before integration. Its actual source identity and results must be retained separately after publication.
+This checkpoint grants no full208,legacy-local20,formal/actual-POC/runtime or full-V1 acceptance. Actual-main checks,normal review/completion and platform integration remain required;task claims,plan and DAG are unchanged.

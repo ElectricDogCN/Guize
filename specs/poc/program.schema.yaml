@@ -1707,6 +1707,7 @@ $defs:
     - observedStartedAt
     - observedFinishedAt
     - states
+    - indexReadback
     properties:
       schemaVersion:
         type: integer
@@ -2308,6 +2309,7 @@ $defs:
               - entryId
               - assetId
               - metadataSha256
+              - indexedFields
               properties:
                 entryId:
                   type: string
@@ -2318,6 +2320,9 @@ $defs:
                 metadataSha256:
                   type: string
                   pattern: ^sha256:[a-f0-9]{64}$
+                indexedFields:
+                  type: object
+                  minProperties: 1
           deployment:
             type: array
             minItems: 1
@@ -2355,6 +2360,23 @@ $defs:
                 verificationRef:
                   type: string
                   minLength: 1
+      indexReadback:
+        type: object
+        additionalProperties: false
+        required:
+        - artifactRef
+        - byteCount
+        - sha256
+        properties:
+          artifactRef:
+            type: string
+            minLength: 1
+          byteCount:
+            type: integer
+            minimum: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
   recoveryComparisonReport:
     type: object
     additionalProperties: false
@@ -2973,6 +2995,81 @@ $defs:
           responseByteCount:
             type: integer
             minimum: 1
+      executionRef:
+        type: string
+        minLength: 1
+      playbackRequest:
+        type: object
+        additionalProperties: false
+        required:
+        - requestId
+        - httpMethod
+        - requestURL
+        - authRef
+        - userId
+        - authorizationDecision
+        - requestedAt
+        - finishedAt
+        - statusCode
+        - responseArtifactRef
+        - responseSha256
+        - responseByteCount
+        - assetId
+        - assetVersion
+        - aclVersion
+        - rangeStart
+        - rangeEnd
+        properties:
+          requestId:
+            type: string
+            minLength: 1
+          httpMethod:
+            const: GET
+          requestURL:
+            type: string
+            minLength: 1
+          authRef:
+            type: string
+            pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+            maxLength: 74
+          userId:
+            type: string
+            minLength: 1
+          authorizationDecision:
+            const: allow
+          requestedAt:
+            type: string
+            format: date-time
+          finishedAt:
+            type: string
+            format: date-time
+          statusCode:
+            type: integer
+            const: 206
+          responseArtifactRef:
+            type: string
+            minLength: 1
+          responseSha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+          responseByteCount:
+            type: integer
+            minimum: 1
+          assetId:
+            type: string
+            minLength: 1
+          assetVersion:
+            type: string
+            minLength: 1
+          aclVersion:
+            type: integer
+            minimum: 1
+          rangeStart:
+            type: integer
+            minimum: 0
+          rangeEnd:
+            type: integer
+            minimum: 0
   productionA380Encode:
     type: object
     additionalProperties: false
@@ -8302,6 +8399,7 @@ $defs:
           - lockRef
           - lockSha256
           - commandArgs
+          - outputDirectory
           properties:
             candidateId:
               enum:
@@ -8322,6 +8420,9 @@ $defs:
             lockSha256:
               type: string
               pattern: ^sha256:[0-9a-f]{64}$
+            outputDirectory:
+              type: string
+              minLength: 1
             commandArgs:
               type: array
               minItems: 1
@@ -8414,6 +8515,8 @@ $defs:
     - startedAt
     - finishedAt
     - exitCode
+    - compilerManifestRef
+    - compilerManifestSha256
     - bundles
     properties:
       schemaVersion:
@@ -8431,6 +8534,7 @@ $defs:
         - lockRef
         - lockSha256
         - commandArgs
+        - outputDirectory
         properties:
           candidateId:
             enum:
@@ -8451,6 +8555,9 @@ $defs:
           lockSha256:
             type: string
             pattern: ^sha256:[0-9a-f]{64}$
+          outputDirectory:
+            type: string
+            minLength: 1
           commandArgs:
             type: array
             minItems: 1
@@ -8468,6 +8575,12 @@ $defs:
         format: date-time
       exitCode:
         type: integer
+      compilerManifestRef:
+        type: string
+        minLength: 1
+      compilerManifestSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
       bundles:
         type: array
         minItems: 1
@@ -9381,6 +9494,7 @@ $defs:
           - route
           - decision
           - originContactCount
+          - originAccessRef
           - statusCode
           - responseRef
           - responseSha256
@@ -9430,6 +9544,7 @@ $defs:
             originContactCount:
               type: integer
               minimum: 0
+            originAccessRef: {type: [string, 'null'], minLength: 1}
             statusCode:
               type: integer
             responseRef:
@@ -11194,7 +11309,23 @@ $defs:
     - segments
     - initNodeId
     - initUri
+    - encoderParameters
+    - streamParameters
     properties:
+      encoderParameters: {type: object, minProperties: 1}
+      streamParameters:
+        type: object
+        additionalProperties: false
+        required: [codec_name, profile, level, width, height, pix_fmt, time_base, r_frame_rate]
+        properties:
+          codec_name: {const: av1}
+          profile: {type: string, minLength: 1}
+          level: {type: integer}
+          width: {type: integer, minimum: 1}
+          height: {type: integer, minimum: 1}
+          pix_fmt: {type: string, minLength: 1}
+          time_base: {type: string, pattern: '^[1-9][0-9]*/[1-9][0-9]*$'}
+          r_frame_rate: {type: string, pattern: '^[1-9][0-9]*/[1-9][0-9]*$'}
       jobId:
         type: string
         minLength: 1
@@ -11288,7 +11419,9 @@ $defs:
     - initArtifactRef
     - initSha256
     - initReadyAt
+    - sequenceDecodeRef
     properties:
+      sequenceDecodeRef: {type: string, minLength: 1}
       schemaVersion:
         const: 1
       configurationRef:
@@ -11359,6 +11492,7 @@ $defs:
           - outputSha256
           - outputByteCount
           - decodeRef
+          - encoderParameters
           properties:
             segmentId:
               type: string
@@ -11410,6 +11544,7 @@ $defs:
             outputByteCount:
               type: integer
               minimum: 1
+            encoderParameters: {type: object, minProperties: 1}
             decodeRef:
               type: string
               minLength: 1
@@ -11491,7 +11626,45 @@ $defs:
     - decodeErrorCount
     - initArtifactRef
     - initSha256
+    - encoderParameters
+    - streamParameters
     properties:
+      encoderParameters: {type: object, minProperties: 1}
+      streamParameters:
+        type: object
+        additionalProperties: false
+        required:
+        - codec_name
+        - profile
+        - level
+        - width
+        - height
+        - pix_fmt
+        - time_base
+        - r_frame_rate
+        properties:
+          codec_name:
+            const: av1
+          profile:
+            type: string
+            minLength: 1
+          level:
+            type: integer
+          width:
+            type: integer
+            minimum: 1
+          height:
+            type: integer
+            minimum: 1
+          pix_fmt:
+            type: string
+            minLength: 1
+          time_base:
+            type: string
+            pattern: ^[1-9][0-9]*/[1-9][0-9]*$
+          r_frame_rate:
+            type: string
+            pattern: ^[1-9][0-9]*/[1-9][0-9]*$
       schemaVersion:
         const: 1
       kind:
@@ -14458,3 +14631,508 @@ $defs:
         const: 1
       outcome:
         const: processed
+  hlsOriginAccessObservation:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, configurationRef, acceptanceProfile, subjectVersion, inputSamples, jobId, inputSampleId, inputSha256, surface, case, requestId, observedAt, assetId, assetVersion, aclVersion, userId, grantId, route, decision, statusCode, responseRef, responseSha256, originRequestCount, objectReadCount]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: hls_origin_access_observation}
+      configurationRef: {type: string, minLength: 1}
+      acceptanceProfile: {type: object}
+      subjectVersion: {type: string, minLength: 1}
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      jobId: {type: string, minLength: 1}
+      inputSampleId: {type: string, minLength: 1}
+      inputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      surface: {enum: [manifest, init, segment, cache_hit]}
+      case: {enum: [cross_user, expired, revoked, direct_origin]}
+      requestId: {type: string, minLength: 1}
+      observedAt: {type: string, format: date-time}
+      assetId: {type: string, minLength: 1}
+      assetVersion: {type: string, minLength: 1}
+      aclVersion: {type: string, minLength: 1}
+      userId: {type: string, minLength: 1}
+      grantId: {type: string, minLength: 1}
+      route: {enum: [entry, origin]}
+      decision: {const: denied}
+      statusCode: {enum: [401, 403]}
+      responseRef: {type: string, minLength: 1}
+      responseSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      originRequestCount: {type: integer, minimum: 0}
+      objectReadCount: {type: integer, minimum: 0}
+  hlsSequenceDecodeObservation:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, configurationRef, acceptanceProfile, subjectVersion, inputSamples, jobId, attemptEpoch, inputSampleId, inputSha256, initArtifactRef, initSha256, parts, encoderParameters, streamParameters, decoderBuild, outputArtifactRef, outputSha256, outputByteCount, rawProbeRef, rawProbeSha256, stderrRef, stderrSha256, command, startedAt, finishedAt, exitCode, decodedFrameCount, decodeErrorCount]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: hls_sequence_decode_observation}
+      configurationRef: {type: string, minLength: 1}
+      acceptanceProfile: {type: object}
+      subjectVersion: {type: string, minLength: 1}
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      jobId: {type: string, minLength: 1}
+      attemptEpoch: {type: integer, minimum: 1}
+      inputSampleId: {type: string, minLength: 1}
+      inputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      initArtifactRef: {type: string, minLength: 1}
+      initSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      parts:
+        type: array
+        minItems: 3
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required: [segmentId, nodeId, encoderBuild, sourceStartFrame, sourceEndFrame, outputArtifactRef, outputSha256, encoderParameters]
+          properties:
+            segmentId: {type: string, minLength: 1}
+            nodeId: {type: string, minLength: 1}
+            encoderBuild: {type: string, minLength: 1}
+            sourceStartFrame: {type: integer, minimum: 0}
+            sourceEndFrame: {type: integer, minimum: 1}
+            outputArtifactRef: {type: string, minLength: 1}
+            outputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+            encoderParameters: {type: object, minProperties: 1}
+      encoderParameters: {type: object, minProperties: 1}
+      streamParameters:
+        type: object
+        additionalProperties: false
+        required:
+        - codec_name
+        - profile
+        - level
+        - width
+        - height
+        - pix_fmt
+        - time_base
+        - r_frame_rate
+        properties:
+          codec_name:
+            const: av1
+          profile:
+            type: string
+            minLength: 1
+          level:
+            type: integer
+          width:
+            type: integer
+            minimum: 1
+          height:
+            type: integer
+            minimum: 1
+          pix_fmt:
+            type: string
+            minLength: 1
+          time_base:
+            type: string
+            pattern: ^[1-9][0-9]*/[1-9][0-9]*$
+          r_frame_rate:
+            type: string
+            pattern: ^[1-9][0-9]*/[1-9][0-9]*$
+      decoderBuild: {type: string, minLength: 1}
+      outputArtifactRef: {type: string, minLength: 1}
+      outputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      outputByteCount: {type: integer, minimum: 1}
+      rawProbeRef: {type: string, minLength: 1}
+      rawProbeSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      stderrRef: {type: string, minLength: 1}
+      stderrSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      command: {type: array, minItems: 11, maxItems: 11, items: {type: string, minLength: 1}}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      exitCode: {type: integer}
+      decodedFrameCount: {type: integer, minimum: 1}
+      decodeErrorCount: {type: integer, minimum: 0}
+  hlsWholeProbeOutput:
+    type: object
+    required: [streams, packets_and_frames]
+    additionalProperties: true
+    properties:
+      streams:
+        type: array
+        minItems: 1
+        maxItems: 1
+        items:
+          type: object
+          additionalProperties: true
+          required: [codec_name, profile, level, width, height, pix_fmt, time_base, r_frame_rate]
+          properties:
+            codec_name: {const: av1}
+            profile: {type: string, minLength: 1}
+            level: {type: integer}
+            width: {type: integer, minimum: 1}
+            height: {type: integer, minimum: 1}
+            pix_fmt: {type: string, minLength: 1}
+            time_base: {type: string, pattern: '^[1-9][0-9]*/[1-9][0-9]*$'}
+            r_frame_rate: {type: string, pattern: '^[1-9][0-9]*/[1-9][0-9]*$'}
+      packets_and_frames:
+        type: array
+        minItems: 2
+        maxItems: 200000
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: true
+            required: [type, pts, dts, duration]
+            properties:
+              type: {const: packet}
+              pts: {type: integer}
+              dts: {type: integer}
+              duration: {type: integer, minimum: 1}
+          - type: object
+            additionalProperties: true
+            required: [type, pts, width, height, pix_fmt]
+            anyOf: [{required: [duration]}, {required: [pkt_duration]}]
+            properties:
+              type: {const: frame}
+              pts: {type: integer}
+              width: {type: integer, minimum: 1}
+              height: {type: integer, minimum: 1}
+              pix_fmt: {type: string, minLength: 1}
+              duration: {type: integer, minimum: 1}
+              pkt_duration: {type: integer, minimum: 1}
+
+  recoveryIndexExportEntry:
+    type: object
+    additionalProperties: false
+    required:
+    - entryId
+    - assetId
+    - metadataSha256
+    - version
+    - indexedFields
+    properties:
+      entryId:
+        type: string
+        minLength: 1
+      assetId:
+        type: string
+        minLength: 1
+      metadataSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      version:
+        type: string
+        minLength: 1
+      indexedFields:
+        type: object
+        minProperties: 1
+  recoveryReadinessExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - resourceId
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - configurationRef
+    - recoveryRunId
+    - kind
+    - restoredRef
+    - startedAt
+    - finishedAt
+    - commandArgs
+    - toolBuild
+    - exitCode
+    - outputArtifact
+    - event
+    - subjects
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      resourceId:
+        const: RES-RECOVERY-SANDBOX
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      configurationRef:
+        type: string
+        minLength: 1
+      recoveryRunId:
+        type: string
+        minLength: 1
+      kind:
+        const: recovery_readiness_execution
+      restoredRef:
+        type: string
+        minLength: 1
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      commandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+      toolBuild:
+        type: string
+        minLength: 1
+      exitCode:
+        type: integer
+        const: 0
+      outputArtifact:
+        type: object
+        additionalProperties: false
+        required:
+        - artifactRef
+        - byteCount
+        - sha256
+        properties:
+          artifactRef:
+            type: string
+            minLength: 1
+          byteCount:
+            type: integer
+            minimum: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+      event:
+        enum:
+        - services_ready
+        - vm_set_ready
+        - recovery_completed
+      subjects:
+        type: object
+        additionalProperties: false
+        required:
+        - recoveryRunId
+        - physicalHostId
+        - serviceSetId
+        - vmSetId
+        - authorizedUserId
+        - assetId
+        - backupCheckpointAt
+        properties:
+          recoveryRunId:
+            type: string
+            minLength: 1
+          physicalHostId:
+            type: string
+            minLength: 1
+          serviceSetId:
+            type: string
+            minLength: 1
+          vmSetId:
+            type: string
+            minLength: 1
+          authorizedUserId:
+            type: string
+            minLength: 1
+          assetId:
+            type: string
+            minLength: 1
+          backupCheckpointAt:
+            type: string
+            format: date-time
+  recoveryReadinessResult:
+    type: object
+    additionalProperties: false
+    required:
+    - event
+    - recoveryRunId
+    - physicalHostId
+    - setId
+    - restoredRef
+    - restoredSha256
+    - checks
+    properties:
+      event:
+        enum:
+        - services_ready
+        - vm_set_ready
+        - recovery_completed
+      recoveryRunId:
+        type: string
+        minLength: 1
+      physicalHostId:
+        type: string
+        minLength: 1
+      setId:
+        type: string
+        minLength: 1
+      restoredRef:
+        type: string
+        minLength: 1
+      restoredSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      checks:
+        type: array
+        minItems: 1
+        maxItems: 10000
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - checkId
+          - status
+          properties:
+            checkId:
+              type: string
+              minLength: 1
+            status:
+              enum:
+              - healthy
+              - succeeded
+            state:
+              const: running
+            evidenceRef:
+              type: string
+              minLength: 1
+  frontendCompilerManifest:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - identity
+    - buildId
+    - observedAt
+    - emittedFiles
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: frontend_compiler_manifest
+      identity:
+        type: object
+        additionalProperties: false
+        required:
+        - candidateId
+        - frameworkVersion
+        - sourceRevision
+        - compilerBuild
+        - lockRef
+        - lockSha256
+        - commandArgs
+        - outputDirectory
+        properties:
+          candidateId:
+            enum:
+            - vue
+            - react
+          frameworkVersion:
+            type: string
+            minLength: 1
+          sourceRevision:
+            type: string
+            minLength: 1
+          compilerBuild:
+            type: string
+            minLength: 1
+          lockRef:
+            type: string
+            minLength: 1
+          lockSha256:
+            type: string
+            pattern: ^sha256:[0-9a-f]{64}$
+          outputDirectory:
+            type: string
+            minLength: 1
+          commandArgs:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+      buildId:
+        type: string
+        minLength: 1
+      observedAt:
+        type: string
+        format: date-time
+      emittedFiles:
+        type: array
+        minItems: 1
+        maxItems: 1024
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - path
+          - ref
+          - sha256
+          - byteCount
+          properties:
+            path:
+              type: string
+              minLength: 1
+            ref:
+              type: string
+              minLength: 1
+            sha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+            byteCount:
+              type: integer
+              minimum: 1
