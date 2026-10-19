@@ -3428,6 +3428,7 @@ class TestPocProgram(unittest.TestCase):
                 self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[]);self.assertEqual(validate(record),[])
                 self.exercise_ai_tool_execution_and_der_regressions(root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile)
                 self.exercise_ai_query_token_regressions(root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile)
+                self.exercise_ai_quota_boundary_regressions(root,original,validate,originals,dispatch_path,config_path,profile)
                 for mode in ('missing','borrowed','collector','period','incomplete','history_missing','history_duplicate','history_time','history_future','history_after_current','ledger_missing','ledger_charge','budget_claim','rate_claim','concurrency_claim','denied_native_dispatch'):
                     for p,raw in originals.items():p.write_bytes(raw)
                     data=copy.deepcopy(original);dispatch=load_yaml(dispatch_path)
@@ -3454,7 +3455,11 @@ class TestPocProgram(unittest.TestCase):
                     self.assertTrue(any('qualified AI results' in error for error in validate(data)),(profile,'native quota',mode))
                 for p,raw in originals.items():p.write_bytes(raw)
                 # Native sequence preserves a prior request even when both UTC starts are equal.
-                data=copy.deepcopy(original);dispatch=load_yaml(dispatch_path);outcome=next(row for row in dispatch['outcomes'] if row['case']=='authorized');capture_path=root/outcome['quotaCaptureRef'];capture=json.loads(capture_path.read_bytes());prior=copy.deepcopy(capture['attempts'][0]);prior.update(sequence=1,requestId='synthetic-allowed-prior',startedAt=outcome['observedAt'],finishedAt='2026-09-03T00:03:00.001Z');capture['attempts'][0]['sequence']=2;capture['attempts'].insert(0,prior);capture['sequenceEnd']=2;capture['budgetLedger']=[dict(sequence=1,requestId=prior['requestId'],amount=.001)];outcome.update(budgetRemaining=.999,requestCount=1,concurrentCalls=1);capture_path.write_bytes(json.dumps(capture).encode());write_yaml(dispatch_path,dispatch);self.refresh_qualified_observation_fixture(root,data);self.assertEqual(validate(data),[])
+                # This positive's approved limit2 leaves one slot for the pending invocation after that prior request.
+                quota_config=load_yaml(config_path);quota_config['configuration']['aiEvaluationPolicy']['gatePolicy'].update(requestRateLimit=2,concurrencyLimit=2);write_yaml(config_path,quota_config)
+                data=copy.deepcopy(original)
+                for metric in ('provider_request_rate_limit','provider_concurrency_limit'):next(m for m in data['measurements'] if m['id']==metric)['actual']=2
+                dispatch=load_yaml(dispatch_path);outcome=next(row for row in dispatch['outcomes'] if row['case']=='authorized');capture_path=root/outcome['quotaCaptureRef'];capture=json.loads(capture_path.read_bytes());prior=copy.deepcopy(capture['attempts'][0]);prior.update(sequence=1,requestId='synthetic-allowed-prior',startedAt=outcome['observedAt'],finishedAt='2026-09-03T00:03:00.001Z');capture['attempts'][0]['sequence']=2;capture['attempts'].insert(0,prior);capture['sequenceEnd']=2;capture['budgetLedger']=[dict(sequence=1,requestId=prior['requestId'],amount=.001)];outcome.update(budgetRemaining=.999,requestCount=1,concurrentCalls=1);capture_path.write_bytes(json.dumps(capture).encode());write_yaml(dispatch_path,dispatch);self.refresh_qualified_observation_fixture(root,data);self.assertEqual(validate(data),[])
                 for p,raw in originals.items():p.write_bytes(raw)
                 numeric=CHECK.AI_EVALUATED_METRICS|{'retrieval_recall','retrieval_mrr','retrieval_ndcg','query_latency','cost_estimate','provider_budget_limit','provider_request_rate_limit','provider_concurrency_limit'}
                 for metric in sorted(numeric):
@@ -3632,6 +3637,29 @@ class TestPocProgram(unittest.TestCase):
                 try:
                     self.make_profile_slot(root,'POC-009',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-09'}),[])
                 finally:temp.cleanup()
+
+    def exercise_ai_quota_boundary_regressions(self,root,original,validate,originals,dispatch_path,config_path,profile):
+        """Prior counts exclude the pending call; no native histories are auto-refreshed."""
+        for quota in ('request_rate','concurrency'):
+            for mode,count,authorized,accepted in (('limit_minus_one_allow',1,True,True),('limit_deny',2,False,True),('over_limit_deny',3,False,True),('premature_deny',1,False,False),('limit_admit',2,True,False),('over_limit_admit',3,True,False)):
+                for path,raw in originals.items():path.write_bytes(raw)
+                data=copy.deepcopy(original);config=load_yaml(config_path);gates=config['configuration']['aiEvaluationPolicy']['gatePolicy'];gates.update(requestRateLimit=2,concurrencyLimit=2);write_yaml(config_path,config)
+                for metric in ('provider_request_rate_limit','provider_concurrency_limit'):next(m for m in data['measurements'] if m['id']==metric)['actual']=2
+                dispatch=load_yaml(dispatch_path);case='authorized' if authorized else 'request_rate_exceeded' if quota=='request_rate' else 'concurrency_exceeded';row=next(r for r in dispatch['outcomes'] if r['case']==case);capture_path=root/row['quotaCaptureRef'];capture=json.loads(capture_path.read_bytes());current=[r for r in capture['attempts'] if r['requestId'] in row['providerRequestIds']]
+                priors=[dict(sequence=i+1,requestId='boundary-'+quota+'-prior-'+str(i),callerId=gates['authorizedCallerId'],assetId=gates['assetId'],budgetPeriodId=gates['budgetPeriodId'],startedAt='2026-09-03T00:02:30Z' if quota=='request_rate' else '2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:02:40Z' if quota=='request_rate' else None,inputTokens=0,outputTokens=0) for i in range(count)]
+                capture['attempts']=priors+current
+                for sequence,attempt in enumerate(capture['attempts'],1):attempt['sequence']=sequence
+                capture['sequenceEnd']=len(capture['attempts']);capture['budgetLedger']=[dict(sequence=i+1,requestId=r['requestId'],amount=0) for i,r in enumerate(priors)]
+                row.update(requestCount=count if quota=='request_rate' else 0,concurrentCalls=count if quota=='concurrency' else 0)
+                self.assertEqual(len(capture['attempts']),count+int(authorized),(profile,quota,mode))
+                capture_path.write_bytes(json.dumps(capture).encode());write_yaml(dispatch_path,dispatch)
+                # Seal only the two explicitly modified files; keep every other native capture unchanged.
+                for path in (capture_path,dispatch_path):
+                    ref=path.relative_to(root).as_posix();raw=path.read_bytes();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+                errors=validate(data)
+                if accepted:self.assertEqual(errors,[],(profile,quota,mode))
+                else:self.assertTrue(any('exact approved budget/rate/concurrency ceiling' in e for e in errors),(profile,quota,mode,errors))
+        for path,raw in originals.items():path.write_bytes(raw)
 
     def test_173_recovery_resource_non_objects_return_contract_errors(self):
         for profile in ('local-v1','production'):
@@ -5488,6 +5516,34 @@ class TestPocProgram(unittest.TestCase):
                 finally:
                     self.assertTrue(case.doCleanups())
 
+    def exercise_frontend_binary_asset_regressions(self,root,original,validate,report_path,config_path):
+        """Binary format does not imply invalid UTF8; keep native build bindings and secret scans."""
+        env=original['environmentCaptured'];report=load_yaml(report_path);row=report['candidates'][0];build_path=root/row['buildRef'];build=load_yaml(build_path);manifest_path=root/build['compilerManifestRef'];manifest=load_yaml(manifest_path);record=next(a for a in env['rawExecutionArtifacts'] if a['artifactType']=='produced_media' and any(blob['ref']==a['ref'] for blob in manifest['emittedFiles']));asset=root/record['ref'];prefix=report_path.relative_to(root).as_posix().rsplit('/raw/',1)[0]
+        saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};saved[config_path]=config_path.read_bytes()
+        def restore():
+            for path,raw in saved.items():path.write_bytes(raw)
+        def register(data,path):
+            raw=path.read_bytes();ref=path.relative_to(root).as_posix();artifact=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref);artifact.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        # Empty WASM module: binary bytes are valid UTF8. Update only this positive build/capture.
+        data=copy.deepcopy(original);asset.write_bytes(b'\0asm\1\0\0\0');value='sha256:'+hashlib.sha256(asset.read_bytes()).hexdigest();size=asset.stat().st_size
+        for blob in manifest['emittedFiles']+build['bundles']:
+            if blob['ref']==record['ref']:blob.update(sha256=value,byteCount=size)
+        write_yaml(manifest_path,manifest);build['compilerManifestSha256']='sha256:'+hashlib.sha256(manifest_path.read_bytes()).hexdigest();write_yaml(build_path,build)
+        for path in (asset,manifest_path,build_path):register(data,path)
+        policy=load_yaml(config_path)['configuration']['frontendComparisonPolicy']
+        if row['candidateId']==policy['bundleCandidate']:next(m for m in data['measurements'] if m['id']=='bundle_baseline')['actual']=sum(blob['byteCount'] for blob in build['bundles'])/1024
+        self.prepare_frontend_browser_capture_fixture(root,data,prefix)
+        self.assertEqual(validate(data),[],'valid UTF8 binary asset must retain its native build/browser bindings')
+        # The prior invalid-UTF8 binary baseline remains valid, but text must still decode.
+        restore();data=copy.deepcopy(original);self.assertEqual(validate(data),[])
+        next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==record['ref'])['artifactType']='command_output'
+        errors=validate(data);self.assertTrue(any('emitted text must retain strict UTF8' in e for e in errors),errors)
+        # Binary classification must not suppress the existing replacement-decoder secret scan.
+        for raw in (b'password=synthetic-sensitive-frontend-value\n',b'\xffpassword=synthetic-sensitive-frontend-value\n'):
+            restore();data=copy.deepcopy(original);asset.write_bytes(raw);register(data,asset)
+            errors=validate(data);self.assertTrue(any('every emitted asset must retain secret checks' in e for e in errors),errors)
+        restore()
+
     def test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -5498,6 +5554,7 @@ class TestPocProgram(unittest.TestCase):
                     return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-08'})
                 self.assertEqual(validate(copy.deepcopy(original)),[])
                 self.exercise_frontend_browser_capture_regressions(root,original,report_path.relative_to(root).as_posix().rsplit('/raw/',1)[0],profile)
+                self.exercise_frontend_binary_asset_regressions(root,original,validate,report_path,config_path)
                 # The compiler manifest, legacy bundle list and actual output directory must agree.
                 for manifest_mode in ('tiny_subset','bundle_subset','duplicate_emitted_path','foreign_manifest','escaping_path'):
                     for file,raw in files.items():file.write_bytes(raw)
@@ -7911,6 +7968,15 @@ class TestPocProgram(unittest.TestCase):
 
 
     def test_148_parallel_media_spans_and_assembled_decode_bind_actual_outputs(self):
+        prefix='evidence/POC-002/profiles/local-v1'
+        safe=prefix+"/raw/目录 with spaces/O'Brien.mp4";manifest=prefix+"/raw/list with spaces '索引'.ffconcat"
+        self.assertTrue(CHECK.lexical_ref(safe,prefix))
+        self.assertEqual(CHECK.media_concat_manifest(manifest,[dict(outputArtifactRef=safe)]),"ffconcat version 1.0\n"+r"file '目录 with spaces/O'\''Brien.mp4'"+"\n")
+        for newline in ('\r','\n','\r\n'):
+            for unsafe in (newline+safe,safe+newline,prefix+'/raw/part.mp4'+newline+'file /outside.mp4'):
+                self.assertFalse(CHECK.lexical_ref(unsafe,prefix))
+                with self.assertRaises(ValueError):CHECK.media_concat_manifest(manifest,[dict(outputArtifactRef=unsafe)])
+                with self.assertRaises(ValueError):CHECK.media_concat_manifest(unsafe,[dict(outputArtifactRef=safe)])
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
             try:
@@ -7952,6 +8018,8 @@ class TestPocProgram(unittest.TestCase):
                 # The output wrapper and time base differ, while ordered packet payloads match.
                 self.assertNotEqual((root/assembly['outputArtifactRef']).read_bytes(),b''.join((root/p['outputArtifactRef']).read_bytes() for p in assembly['parts']))
                 self.assertEqual(native_errors(copy.deepcopy(baseline)),[],profile)
+                with mock.patch.object(CHECK,'media_concat_manifest',side_effect=ValueError('concat references must not contain CR/LF')):
+                    self.assertTrue(any('native concat manifest' in error for error in native_errors(copy.deepcopy(baseline))),profile)
                 for mode in ('mux_argv','mux_exit','mux_node','mux_time','mux_partial','manifest_order','missing_decoder_exit','logical_pid','partial_decode','packet_hash','packet_timing','unrelated_blob','unrelated_mp4'):
                     for file,raw in saved.items():file.write_bytes(raw)
                     data=copy.deepcopy(baseline);assembly=data['environmentCaptured']['parallelMediaAssembly'];report=load_yaml(report_path)

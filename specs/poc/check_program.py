@@ -3537,6 +3537,8 @@ def media_decode_execution(root,execution,prefix,ref,identity,build,node,not_bef
 
 def media_concat_manifest(ref,parts):
     # The concat demuxer resolves each file relative to the manifest, not process cwd.
+    if any('\r' in value or '\n' in value for value in [ref]+[p['outputArtifactRef'] for p in parts]):
+        raise ValueError('concat references must not contain CR/LF')
     return "ffconcat version 1.0\n"+''.join("file '"+posixpath.relpath(p['outputArtifactRef'],posixpath.dirname(ref)).replace("'", "'\\''")+"'\n" for p in parts)
 
 
@@ -3732,9 +3734,9 @@ def validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs,
         if raw is None:return
         decoded.append(raw);refs.append(row['executionRef'])
     manifest=existing_ref(root,report['muxManifestRef'],prefix)
-    expected_manifest=media_concat_manifest(report['muxManifestRef'],parts)
     manifest_rows=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==report['muxManifestRef']]
     try:
+        expected_manifest=media_concat_manifest(report['muxManifestRef'],parts)
         if manifest is None or report['muxManifestRef'] not in (execution.get('rawOutputRefs') or []) or len(manifest_rows)!=1 or manifest_rows[0].get('artifactType')!='command_output' or manifest_rows[0].get('nodeId')!=node or inspect_artifact(manifest,cache)['size']>262144:raise ValueError('missing native manifest')
         with manifest.open(encoding='utf8') as stream:manifest_text=stream.read(262145)
         if manifest_text!=expected_manifest:raise ValueError('wrong ordered concat inputs')
@@ -5251,7 +5253,7 @@ def validate_qualified_frontend_comparison(root,plan,execution,prefix,status,win
             if payload is None or len(records)!=1 or records[0].get('artifactType') not in ('command_output','produced_media') or blob['ref'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: actual retained build bundle output required');continue
             binary=records[0]['artifactType']=='produced_media'
             distinct(payload);info=inspect_artifact(payload,binary_scan_cache if binary else cache,textual=True);size+=info['size']
-            if info['credential'] or info['invalidUtf8']!=binary:errors.append(f'{label}: emitted text must retain strict UTF8/secret checks and only actual binary assets may use produced_media')
+            if info['credential'] or not binary and info['invalidUtf8']:errors.append(f'{label}: emitted text must retain strict UTF8 and every emitted asset must retain secret checks')
             if info['size']==0 or info['size']!=blob['byteCount'] or info['sha256']!=blob['sha256']:errors.append(f'{label}: bundle byte count/hash must bind nonempty actual controlled build output')
         bundle_sizes[candidate]=size/1024;case_rows=row['scenarios']
         if len(case_rows)!=10 or {c['scenarioId'] for c in case_rows}!=required:errors.append(f'{label}: every candidate must actually exercise each frozen scenario once');continue
@@ -5524,7 +5526,7 @@ def validate_qualified_ai_results(root,plan,execution,prefix,status,window,defs,
         quota=derive_ai_quota_state(root,execution,prefix,row,policy,expected,window,defs,label,errors,cache,quota_paths)
         if quota is None:continue
         remaining,request_count,concurrent=quota
-        exceeded=(row['estimatedCost']>remaining,request_count>gates['requestRateLimit'],concurrent>gates['concurrencyLimit'])
+        exceeded=(row['estimatedCost']>remaining,request_count>=gates['requestRateLimit'],concurrent>=gates['concurrencyLimit'])
         if exceeded!=(case=='budget_exhausted',case=='request_rate_exceeded',case=='concurrency_exceeded') or row['requestWindowSeconds']!=60:errors.append(f'{label}: each denial must independently exceed its exact approved budget/rate/concurrency ceiling')
         if case=='authorized':
             if row['decision']!='dispatched' or len(row['providerRequestIds'])!=1 or outbound['size']==0:errors.append(f'{label}: authorized control request requires one actual nonempty dispatch observation')
@@ -6008,7 +6010,7 @@ def valid_utc_timestamp(value: Any) -> bool:
 
 
 def lexical_ref(ref: Any, evidence: str) -> bool:
-    if not isinstance(ref, str):
+    if not isinstance(ref, str) or '\r' in ref or '\n' in ref:
         return False
     value = ref.strip()
     if not value or value.startswith("/") or "\\" in value:
