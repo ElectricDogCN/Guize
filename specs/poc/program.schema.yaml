@@ -1892,7 +1892,9 @@ $defs:
             - dataSha256
             - schemaReadback
             - dataReadback
+            - exportExecutionRef
             properties:
+              exportExecutionRef: {type: string, minLength: 1}
               schemaSha256:
                 type: string
                 pattern: ^sha256:[a-f0-9]{64}$
@@ -2782,6 +2784,337 @@ $defs:
       readbackOutcome: {const: failed}
       errorCode: {const: BACKUP_DECODE_FAILED}
       successfulReadCount: {type: integer, const: 0}
+  recoveryNativeReadbackExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - operation
+    - resourceId
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - configurationRef
+    - phase
+    - recoveryRunId
+    - identity
+    - toolName
+    - toolBuild
+    - commandArgs
+    - processId
+    - startedAt
+    - finishedAt
+    - exitCode
+    - stdoutRef
+    - stdoutSha256
+    - stderrRef
+    - stderrSha256
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: recovery_native_readback_execution
+      operation:
+        enum:
+        - database_export
+        - secret_compare
+      resourceId:
+        const: RES-RECOVERY-SANDBOX
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        maxItems: 10000
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      configurationRef:
+        type: string
+        minLength: 1
+      phase:
+        enum:
+        - before_backup
+        - after_restore
+      recoveryRunId:
+        type: string
+        minLength: 1
+      identity:
+        type: object
+      toolName:
+        enum:
+        - psql
+        - openbao-value-compare
+      toolBuild:
+        type: string
+        minLength: 1
+      commandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+        const: 0
+      stdoutRef:
+        type: string
+        minLength: 1
+      stdoutSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      stderrRef:
+        type: string
+        minLength: 1
+      stderrSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+  recoveryDatabaseCatalog:
+    type: object
+    additionalProperties: false
+    required:
+    - format
+    - tables
+    properties:
+      format:
+        const: postgresql-catalog-v1
+      tables:
+        type: array
+        minItems: 1
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - schema
+          - name
+          - columns
+          - primaryKey
+          - uniqueKeys
+          - foreignKeys
+          properties:
+            schema:
+              type: string
+              minLength: 1
+            name:
+              type: string
+              minLength: 1
+            columns:
+              type: array
+              minItems: 1
+              maxItems: 256
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - name
+                - dataType
+                - nullable
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  dataType:
+                    type: string
+                    minLength: 1
+                  nullable:
+                    type: boolean
+            primaryKey:
+              type: array
+              minItems: 0
+              maxItems: 256
+              items:
+                type: string
+                minLength: 1
+            uniqueKeys:
+              type: array
+              minItems: 0
+              maxItems: 256
+              items:
+                type: array
+                minItems: 1
+                maxItems: 256
+                items:
+                  type: string
+                  minLength: 1
+            foreignKeys:
+              type: array
+              minItems: 0
+              maxItems: 256
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - columns
+                - references
+                properties:
+                  columns:
+                    type: array
+                    minItems: 1
+                    maxItems: 256
+                    items:
+                      type: string
+                      minLength: 1
+                  references:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - schema
+                    - table
+                    - columns
+                    properties:
+                      schema:
+                        type: string
+                        minLength: 1
+                      table:
+                        type: string
+                        minLength: 1
+                      columns:
+                        type: array
+                        minItems: 1
+                        maxItems: 256
+                        items:
+                          type: string
+                          minLength: 1
+  recoveryDatabaseRows:
+    type: object
+    additionalProperties: false
+    required:
+    - format
+    - tables
+    properties:
+      format:
+        const: postgresql-data-v1
+      tables:
+        type: array
+        minItems: 1
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - schema
+          - name
+          - rows
+          properties:
+            schema:
+              type: string
+              minLength: 1
+            name:
+              type: string
+              minLength: 1
+            rows:
+              type: array
+              minItems: 0
+              maxItems: 10000
+              items:
+                type: object
+                minProperties: 1
+                maxProperties: 256
+  recoveryDatabaseExportOutput:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - databaseIdentity
+    - catalog
+    - data
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: postgresql_catalog_data_export
+      databaseIdentity:
+        type: object
+        additionalProperties: false
+        required:
+        - systemIdentifier
+        - databaseOid
+        - databaseName
+        properties:
+          systemIdentifier:
+            type: string
+            minLength: 1
+          databaseOid:
+            type: string
+            minLength: 1
+          databaseName:
+            type: string
+            minLength: 1
+      catalog:
+        type: object
+      data:
+        type: object
+  recoverySecretDigestOutput:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - referenceId
+    - method
+    - comparisonContextId
+    - phase
+    - recoveryRunId
+    - comparisonDigest
+    - plaintextStored
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: credential_safe_comparison_digest
+      referenceId:
+        type: string
+        pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+      method:
+        enum:
+        - hmac-sha256
+        - sha256
+      comparisonContextId:
+        type: string
+        minLength: 1
+      phase:
+        enum:
+        - before_backup
+        - after_restore
+      recoveryRunId:
+        type: string
+        minLength: 1
+      comparisonDigest:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      plaintextStored:
+        type: boolean
+        const: false
   recoveryValueComparisonArtifact:
     type: object
     additionalProperties: false
@@ -3576,6 +3909,338 @@ $defs:
       responseSha256:
         type: string
         pattern: ^sha256:[a-f0-9]{64}$
+  localAccessRequestTransportPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - observerBuild
+    - commandArgs
+    - peers
+    - maximumResponseCaptureBytes
+    properties:
+      observerBuild:
+        type: string
+        minLength: 1
+      commandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+      maximumResponseCaptureBytes:
+        type: integer
+        minimum: 1
+      peers:
+        type: array
+        minItems: 1
+        maxItems: 16
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - origin
+          - addresses
+          properties:
+            origin:
+              type: string
+              minLength: 1
+            addresses:
+              type: array
+              minItems: 1
+              maxItems: 32
+              items:
+                type: string
+                minLength: 1
+  localAccessRequestTransport:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - case
+    - requestId
+    - traceId
+    - observerBuild
+    - commandArgs
+    - pid
+    - startedAt
+    - finishedAt
+    - exitCode
+    - peerAddress
+    - peerPort
+    - connectionOutcome
+    - responseRef
+    - responseSha256
+    - responseBodyRef
+    - maximumBufferedBytes
+    - events
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: local_access_request_transport
+      context:
+        type: object
+        minProperties: 1
+      case:
+        enum:
+        - authorized_range
+        - authorized_if_range
+        - authorized_stream
+        - unauthorized
+        - expired
+        - cross_user
+        - direct_source
+        - direct_admin
+        - direct_worker
+      requestId:
+        type: string
+        minLength: 1
+      traceId:
+        type: string
+        minLength: 1
+      observerBuild:
+        type: string
+        minLength: 1
+      commandArgs:
+        type: array
+        minItems: 9
+        maxItems: 136
+        items:
+          type: string
+          minLength: 1
+      pid:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+      peerAddress:
+        type: string
+        minLength: 1
+      peerPort:
+        type: integer
+        minimum: 1
+        maximum: 65535
+      connectionOutcome:
+        const: connected
+      responseRef:
+        type: string
+        minLength: 1
+      responseSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      responseBodyRef:
+        type: string
+        minLength: 1
+      maximumBufferedBytes:
+        type: integer
+        minimum: 0
+      events:
+        type: array
+        minItems: 3
+        maxItems: 256
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - userId
+            - grantId
+            - requestURL
+            - requestRange
+            - ifRange
+            - cacheKey
+            - httpMethod
+            properties:
+              type:
+                const: request
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              userId:
+                type: string
+                minLength: 1
+              grantId:
+                anyOf:
+                - type: string
+                  minLength: 1
+                - type: 'null'
+              requestURL:
+                type: string
+                minLength: 1
+              requestRange:
+                type: string
+              ifRange:
+                type: string
+              cacheKey:
+                type: string
+                minLength: 1
+              httpMethod:
+                const: GET
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - userId
+            - grantId
+            - assetId
+            - sourceVersion
+            - aclVersion
+            - decision
+            properties:
+              type:
+                const: authorization
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              userId:
+                type: string
+                minLength: 1
+              grantId:
+                anyOf:
+                - type: string
+                  minLength: 1
+                - type: 'null'
+              assetId:
+                type: string
+                minLength: 1
+              sourceVersion:
+                type: string
+                minLength: 1
+              aclVersion:
+                type: string
+                minLength: 1
+              decision:
+                enum:
+                - allowed
+                - denied
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - originRequestId
+            - requestURL
+            - requestRange
+            properties:
+              type:
+                const: origin_request
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              originRequestId:
+                type: string
+                minLength: 1
+              requestURL:
+                type: string
+                minLength: 1
+              requestRange:
+                type: string
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - originRequestId
+            - readId
+            - assetId
+            - sourceVersion
+            - offset
+            - byteCount
+            - sha256
+            properties:
+              type:
+                const: object_read
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              originRequestId:
+                type: string
+                minLength: 1
+              readId:
+                type: string
+                minLength: 1
+              assetId:
+                type: string
+                minLength: 1
+              sourceVersion:
+                type: string
+                minLength: 1
+              offset:
+                type: integer
+                minimum: 0
+              byteCount:
+                type: integer
+                minimum: 1
+              sha256:
+                type: string
+                pattern: ^sha256:[a-f0-9]{64}$
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - exitCode
+            properties:
+              type:
+                const: exit
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              exitCode:
+                type: integer
   accessOutcomePolicy:
     type: object
     additionalProperties: false
@@ -3596,6 +4261,49 @@ $defs:
     - rateLimit
     - paths
     properties:
+      requestTransport:
+        type: object
+        additionalProperties: false
+        required:
+        - observerBuild
+        - commandArgs
+        - peers
+        - maximumResponseCaptureBytes
+        properties:
+          observerBuild:
+            type: string
+            minLength: 1
+          commandArgs:
+            type: array
+            minItems: 1
+            maxItems: 128
+            items:
+              type: string
+              minLength: 1
+          maximumResponseCaptureBytes:
+            type: integer
+            minimum: 1
+          peers:
+            type: array
+            minItems: 1
+            maxItems: 16
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - origin
+              - addresses
+              properties:
+                origin:
+                  type: string
+                  minLength: 1
+                addresses:
+                  type: array
+                  minItems: 1
+                  maxItems: 32
+                  items:
+                    type: string
+                    minLength: 1
       rateTransport:
         type: object
         additionalProperties: false
@@ -3718,6 +4426,15 @@ $defs:
     - rateWindowSeconds
     - rateAttempts
     properties:
+      requestId:
+        type: string
+        minLength: 1
+      traceId:
+        type: string
+        minLength: 1
+      transportRef:
+        type: string
+        minLength: 1
       schemaVersion:
         type: integer
         const: 1
@@ -3872,6 +4589,20 @@ $defs:
               type: integer
               minimum: 0
     allOf:
+    - if:
+        properties:
+          acceptanceProfile:
+            properties:
+              id:
+                const: local-v1
+          case:
+            not:
+              const: rate_limit
+      then:
+        required:
+        - requestId
+        - traceId
+        - transportRef
     - if:
         required: [acceptanceProfile, case]
         properties:
@@ -4892,6 +5623,9 @@ $defs:
     - pricing
     - gatePolicy
     - quotaObserver
+    - queryExecution
+    - usageAccounting
+    - modelExecution
     properties:
       subjectVersion:
         type: string
@@ -5060,6 +5794,7 @@ $defs:
           required:
           - queryId
           - relevance
+          - queryText
           properties:
             queryId:
               type: string
@@ -5080,6 +5815,9 @@ $defs:
                   grade:
                     type: integer
                     minimum: 0
+            queryText:
+              type: string
+              minLength: 1
       corpusItemIds:
         type: array
         minItems: 1
@@ -5186,6 +5924,87 @@ $defs:
           budgetPeriodStartedAt:
             type: string
             format: date-time
+      queryExecution:
+        type: object
+        additionalProperties: false
+        required:
+        - clientBuild
+        - clientCommandArgs
+        - collectorBuild
+        - collectorCommandArgs
+        properties:
+          clientBuild:
+            type: string
+            minLength: 1
+          clientCommandArgs:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+          collectorBuild:
+            type: string
+            minLength: 1
+          collectorCommandArgs:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+      usageAccounting:
+        type: object
+        additionalProperties: false
+        required:
+        - billingMode
+        - modelIdentity
+        - modelVersion
+        - tokenizerBuild
+        - commandArgs
+        properties:
+          billingMode:
+            const: tokenizer_estimate
+          modelIdentity:
+            type: string
+            minLength: 1
+          modelVersion:
+            type: string
+            minLength: 1
+          tokenizerBuild:
+            type: string
+            minLength: 1
+          commandArgs:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+      modelExecution:
+        type: object
+        additionalProperties: false
+        required:
+        - clientBuild
+        - clientCommandArgs
+        - collectorBuild
+        - collectorCommandArgs
+        properties:
+          clientBuild:
+            type: string
+            minLength: 1
+          clientCommandArgs:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+          collectorBuild:
+            type: string
+            minLength: 1
+          collectorCommandArgs:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
   aiResultsReport:
     type: object
     additionalProperties: false
@@ -5262,6 +6081,236 @@ $defs:
       licenseReviewRef:
         type: string
         minLength: 1
+  aiModelRequest:
+    type: object
+    additionalProperties: false
+    required:
+    - requestId
+    - itemId
+    - sampleId
+    - inputRef
+    - inputSha256
+    - modelIdentity
+    - modelVersion
+    - subjectVersion
+    properties:
+      requestId:
+        type: string
+        minLength: 1
+      itemId:
+        type: string
+        minLength: 1
+      sampleId:
+        type: string
+        minLength: 1
+      inputRef:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      modelIdentity:
+        type: string
+        minLength: 1
+      modelVersion:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+  aiTokenAccountingOutput:
+    type: object
+    additionalProperties: false
+    required:
+    - requestId
+    - requestSha256
+    - outputSha256
+    - modelIdentity
+    - modelVersion
+    - tokenizerBuild
+    - billingMode
+    - input_ids
+    - output_ids
+    properties:
+      requestId:
+        type: string
+        minLength: 1
+      requestSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      modelIdentity:
+        type: string
+        minLength: 1
+      modelVersion:
+        type: string
+        minLength: 1
+      tokenizerBuild:
+        type: string
+        minLength: 1
+      billingMode:
+        const: tokenizer_estimate
+      input_ids:
+        type: array
+        items:
+          type: integer
+          minimum: 0
+          maximum: 9223372036854775807
+      output_ids:
+        type: array
+        items:
+          type: integer
+          minimum: 0
+          maximum: 9223372036854775807
+  aiTokenAccountingExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - requestRef
+    - requestSha256
+    - stdoutRef
+    - stdoutSha256
+    - tokenizerBuild
+    - argv
+    - processId
+    - exitCode
+    - startedAt
+    - finishedAt
+    - responseReadAt
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: native_ai_token_accounting_execution
+      context:
+        type: object
+        additionalProperties: false
+        required:
+        - configurationRef
+        - subjectVersion
+        - inputSamples
+        - acceptanceProfile
+        - benchmarkId
+        - querySetId
+        - corpusId
+        - itemId
+        - sampleId
+        - inputSha256
+        - requestId
+        - outputRef
+        - outputSha256
+        - modelIdentity
+        - modelVersion
+        - pricingVersion
+        - billingMode
+        properties:
+          configurationRef:
+            type: string
+            minLength: 1
+          subjectVersion:
+            type: string
+            minLength: 1
+          inputSamples:
+            type: array
+            minItems: 1
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - id
+              - immutableId
+              - checksum
+              properties:
+                id:
+                  type: string
+                  minLength: 1
+                immutableId:
+                  type: string
+                  minLength: 1
+                checksum:
+                  type: string
+                  pattern: ^sha256:[a-f0-9]{64}$
+          acceptanceProfile:
+            type: object
+          benchmarkId:
+            type: string
+            minLength: 1
+          querySetId:
+            type: string
+            minLength: 1
+          corpusId:
+            type: string
+            minLength: 1
+          itemId:
+            type: string
+            minLength: 1
+          sampleId:
+            type: string
+            minLength: 1
+          inputSha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+          requestId:
+            type: string
+            minLength: 1
+          outputRef:
+            type: string
+            minLength: 1
+          outputSha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+          modelIdentity:
+            type: string
+            minLength: 1
+          modelVersion:
+            type: string
+            minLength: 1
+          pricingVersion:
+            type: string
+            minLength: 1
+          billingMode:
+            const: tokenizer_estimate
+      requestRef:
+        type: string
+        minLength: 1
+      requestSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      stdoutRef:
+        type: string
+        minLength: 1
+      stdoutSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      tokenizerBuild:
+        type: string
+        minLength: 1
+      argv:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        minimum: 1
+        maximum: 9223372036854775807
+      exitCode:
+        const: 0
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      responseReadAt:
+        type: string
+        format: date-time
   aiUsageObservation:
     type: object
     additionalProperties: false
@@ -5344,6 +6393,9 @@ $defs:
           - outputSha256
           - startedAt
           - finishedAt
+          - requestId
+          - accountingRef
+          - modelExecutionRef
           properties:
             itemId:
               type: string
@@ -5375,6 +6427,366 @@ $defs:
             finishedAt:
               type: string
               format: date-time
+            requestId:
+              type: string
+              minLength: 1
+            accountingRef:
+              type: string
+              minLength: 1
+            modelExecutionRef:
+              type: string
+              minLength: 1
+  aiSearchRequest:
+    type: object
+    additionalProperties: false
+    required:
+    - queryId
+    - querySetId
+    - corpusId
+    - query
+    - limit
+    properties:
+      queryId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      query:
+        type: string
+        minLength: 1
+      limit:
+        type: integer
+        minimum: 1
+        maximum: 9223372036854775807
+  aiModelClientExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - requestRef
+    - requestSha256
+    - outputRef
+    - outputSha256
+    - clientBuild
+    - collectorBuild
+    - collectorCommandArgs
+    - argv
+    - processId
+    - events
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: native_ai_model_client_execution
+      context:
+        type: object
+        additionalProperties: false
+        required:
+        - configurationRef
+        - subjectVersion
+        - inputSamples
+        - acceptanceProfile
+        - benchmarkId
+        - querySetId
+        - corpusId
+        - requestId
+        - itemId
+        - sampleId
+        - inputSha256
+        - modelIdentity
+        - modelVersion
+        properties:
+          configurationRef:
+            type: string
+            minLength: 1
+          subjectVersion:
+            type: string
+            minLength: 1
+          inputSamples:
+            type: array
+            minItems: 1
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - id
+              - immutableId
+              - checksum
+              properties:
+                id:
+                  type: string
+                  minLength: 1
+                immutableId:
+                  type: string
+                  minLength: 1
+                checksum:
+                  type: string
+                  pattern: ^sha256:[a-f0-9]{64}$
+          acceptanceProfile:
+            type: object
+          benchmarkId:
+            type: string
+            minLength: 1
+          querySetId:
+            type: string
+            minLength: 1
+          corpusId:
+            type: string
+            minLength: 1
+          requestId:
+            type: string
+            minLength: 1
+          itemId:
+            type: string
+            minLength: 1
+          sampleId:
+            type: string
+            minLength: 1
+          inputSha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+          modelIdentity:
+            type: string
+            minLength: 1
+          modelVersion:
+            type: string
+            minLength: 1
+      requestRef:
+        type: string
+        minLength: 1
+      requestSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      outputRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      clientBuild:
+        type: string
+        minLength: 1
+      collectorBuild:
+        type: string
+        minLength: 1
+      collectorCommandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      argv:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        minimum: 1
+        maximum: 9223372036854775807
+      events:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - type
+          - processId
+          - requestId
+          - observedAt
+          - monotonicNs
+          - exitCode
+          properties:
+            type:
+              enum:
+              - process_start
+              - request_start
+              - response_complete
+              - process_exit
+            processId:
+              type: integer
+              minimum: 1
+              maximum: 9223372036854775807
+            requestId:
+              type: string
+              minLength: 1
+            observedAt:
+              type: string
+              format: date-time
+            monotonicNs:
+              type: integer
+              minimum: 0
+              maximum: 9223372036854775807
+            exitCode:
+              type: integer
+              minimum: -2147483648
+              maximum: 2147483647
+  aiQueryClientExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - requestRef
+    - requestSha256
+    - outputRef
+    - outputSha256
+    - clientBuild
+    - collectorBuild
+    - collectorCommandArgs
+    - argv
+    - processId
+    - events
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: native_ai_query_client_execution
+      context:
+        type: object
+        additionalProperties: false
+        required:
+        - configurationRef
+        - subjectVersion
+        - inputSamples
+        - acceptanceProfile
+        - benchmarkId
+        - querySetId
+        - corpusId
+        - phase
+        - queryId
+        - requestId
+        properties:
+          configurationRef:
+            type: string
+            minLength: 1
+          subjectVersion:
+            type: string
+            minLength: 1
+          inputSamples:
+            type: array
+            minItems: 1
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - id
+              - immutableId
+              - checksum
+              properties:
+                id:
+                  type: string
+                  minLength: 1
+                immutableId:
+                  type: string
+                  minLength: 1
+                checksum:
+                  type: string
+                  pattern: ^sha256:[a-f0-9]{64}$
+          acceptanceProfile:
+            type: object
+          benchmarkId:
+            type: string
+            minLength: 1
+          querySetId:
+            type: string
+            minLength: 1
+          corpusId:
+            type: string
+            minLength: 1
+          phase:
+            enum:
+            - measured
+            - warmup
+          queryId:
+            type: string
+            minLength: 1
+          requestId:
+            type: string
+            minLength: 1
+      requestRef:
+        type: string
+        minLength: 1
+      requestSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      outputRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      clientBuild:
+        type: string
+        minLength: 1
+      collectorBuild:
+        type: string
+        minLength: 1
+      collectorCommandArgs:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      argv:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        minimum: 1
+        maximum: 9223372036854775807
+      events:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - type
+          - processId
+          - requestId
+          - observedAt
+          - monotonicNs
+          - exitCode
+          properties:
+            type:
+              enum:
+              - process_start
+              - request_start
+              - response_complete
+              - process_exit
+            processId:
+              type: integer
+              minimum: 1
+              maximum: 9223372036854775807
+            requestId:
+              type: string
+              minLength: 1
+            observedAt:
+              type: string
+              format: date-time
+            monotonicNs:
+              type: integer
+              minimum: 0
+              maximum: 9223372036854775807
+            exitCode:
+              type: integer
+              minimum: -2147483648
+              maximum: 2147483647
   aiEvaluationResults:
     type: object
     additionalProperties: false
@@ -5556,6 +6968,8 @@ $defs:
           - finishedAt
           - outputRef
           - outputSha256
+          - requestId
+          - executionRef
           properties:
             queryId:
               type: string
@@ -5583,6 +6997,12 @@ $defs:
             outputSha256:
               type: string
               pattern: ^sha256:[a-f0-9]{64}$
+            requestId:
+              type: string
+              minLength: 1
+            executionRef:
+              type: string
+              minLength: 1
       warmupQueries:
         type: array
         items:
@@ -5597,6 +7017,8 @@ $defs:
           - finishedAt
           - outputRef
           - outputSha256
+          - requestId
+          - executionRef
           properties:
             queryId:
               type: string
@@ -5624,6 +7046,12 @@ $defs:
             outputSha256:
               type: string
               pattern: ^sha256:[a-f0-9]{64}$
+            requestId:
+              type: string
+              minLength: 1
+            executionRef:
+              type: string
+              minLength: 1
       percentileMethod:
         enum:
         - mean
@@ -9520,10 +10948,283 @@ $defs:
         type: string
         minLength: 1
 
+  frontendBrowserExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - identity
+    - buildId
+    - compilerManifestRef
+    - compilerManifestSha256
+    - scenarioId
+    - fixtureId
+    - inputSha256
+    - scenarioDriverBuild
+    - browserBuild
+    - argv
+    - processId
+    - startedAt
+    - finishedAt
+    - exitCode
+    - stdoutRef
+    - stdoutSha256
+    - stderrRef
+    - stderrSha256
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: frontend_browser_execution
+      context:
+        type: object
+        minProperties: 1
+      identity:
+        type: object
+        minProperties: 1
+      buildId:
+        type: string
+        minLength: 1
+      compilerManifestRef:
+        type: string
+        minLength: 1
+      compilerManifestSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      scenarioId:
+        type: string
+        minLength: 1
+      fixtureId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      scenarioDriverBuild:
+        type: string
+        minLength: 1
+      browserBuild:
+        type: string
+        minLength: 1
+      argv:
+        type: array
+        minItems: 9
+        maxItems: 138
+        items:
+          type: string
+          minLength: 1
+      processId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+        const: 0
+      stdoutRef:
+        type: string
+        minLength: 1
+      stdoutSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      stderrRef:
+        type: string
+        minLength: 1
+      stderrSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+  frontendBrowserResult:
+    type: object
+    additionalProperties: false
+    required:
+    - startedAt
+    - schemaVersion
+    - kind
+    - context
+    - identity
+    - buildId
+    - compilerManifestRef
+    - compilerManifestSha256
+    - scenarioId
+    - fixtureId
+    - inputSha256
+    - scenarioDriverBuild
+    - browserBuild
+    - browserProcessId
+    - browserExitCode
+    - status
+    - finishedAt
+    - navigation
+    - actions
+    properties:
+      startedAt: {type: string, format: date-time}
+      schemaVersion:
+        const: 1
+      kind:
+        const: frontend_browser_result
+      context:
+        type: object
+        minProperties: 1
+      identity:
+        type: object
+        minProperties: 1
+      buildId:
+        type: string
+        minLength: 1
+      compilerManifestRef:
+        type: string
+        minLength: 1
+      compilerManifestSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      scenarioId:
+        type: string
+        minLength: 1
+      fixtureId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      scenarioDriverBuild:
+        type: string
+        minLength: 1
+      browserBuild:
+        type: string
+        minLength: 1
+      browserProcessId:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      browserExitCode:
+        type: integer
+      status:
+        enum:
+        - completed
+        - failed
+      finishedAt:
+        type: string
+        format: date-time
+      navigation:
+        type: object
+        additionalProperties: false
+        required:
+        - startedAt
+        - finishedAt
+        - documentURL
+        - documentRef
+        - documentSha256
+        - loadedAssets
+        properties:
+          startedAt:
+            type: string
+            format: date-time
+          finishedAt:
+            type: string
+            format: date-time
+          documentURL:
+            type: string
+            minLength: 1
+          documentRef:
+            type: string
+            minLength: 1
+          documentSha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+          loadedAssets:
+            type: array
+            minItems: 1
+            maxItems: 4096
+            items:
+              type: object
+              additionalProperties: false
+              required:
+              - ref
+              - sha256
+              - byteCount
+              properties:
+                ref:
+                  type: string
+                  minLength: 1
+                sha256:
+                  type: string
+                  pattern: ^sha256:[a-f0-9]{64}$
+                byteCount:
+                  type: integer
+                  minimum: 0
+      actions:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - actionId
+          - startedAt
+          - finishedAt
+          - status
+          - domSamples
+          properties:
+            actionId:
+              type: string
+              minLength: 1
+            startedAt:
+              type: string
+              format: date-time
+            finishedAt:
+              type: string
+              format: date-time
+            status:
+              enum:
+              - completed
+              - failed
+            domSamples:
+              type: array
+              minItems: 1
+              maxItems: 1024
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - observedAt
+                - selector
+                - observedValue
+                - inputRowCount
+                - renderedDomRows
+                properties:
+                  observedAt:
+                    type: string
+                    format: date-time
+                  selector:
+                    type: string
+                    minLength: 1
+                  observedValue: {}
+                  inputRowCount:
+                    anyOf:
+                    - type: integer
+                      minimum: 0
+                    - type: 'null'
+                  renderedDomRows:
+                    anyOf:
+                    - type: integer
+                      minimum: 0
+                    - type: 'null'
   frontendComparisonPolicy:
     type: object
     additionalProperties: false
     required:
+    - browserOrigin
+    - browserBuild
+    - browserCommandArgs
+    - browserEntryPath
     - inputSampleId
     - scenarioDriverBuild
     - candidates
@@ -9535,6 +11236,20 @@ $defs:
     - criteria
     - gradeValues
     properties:
+      browserOrigin: {type: string, minLength: 1}
+      browserBuild:
+        type: string
+        minLength: 1
+      browserCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+      browserEntryPath:
+        type: string
+        minLength: 1
       inputSampleId:
         type: string
         minLength: 1
@@ -9761,6 +11476,7 @@ $defs:
     type: object
     additionalProperties: false
     required:
+    - browserExecutionRef
     - schemaVersion
     - kind
     - candidateId
@@ -9775,6 +11491,9 @@ $defs:
     - actions
     - measurements
     properties:
+      browserExecutionRef:
+        type: string
+        minLength: 1
       schemaVersion:
         const: 1
       kind:
@@ -16192,11 +17911,13 @@ $defs:
     - recoveryRunId
     - observedAt
     - readbackOutcome
+    - executionRef
     - resourceId
     - acceptanceProfile
     - subjectVersion
     - inputSamples
     properties:
+      executionRef: {type: string, minLength: 1}
       schemaVersion:
         type: integer
         const: 2
