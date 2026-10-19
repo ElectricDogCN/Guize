@@ -651,6 +651,15 @@ def validate_qualified_local_source_authentication(root,plan,execution,prefix,st
         expected_auth=None if anonymous else policy['authorizedAuthRef'] if success else policy['invalidAuthRef']
         if row['httpMethod']!='GET' or row['endpointURL']!=policy['endpointURL'] or row['authMethod']!=('none' if anonymous else policy['authMethod']) or row['authRef']!=expected_auth or row['requestPrincipalId']!=(None if anonymous else policy['principalId']) or row['authenticatedPrincipalId']!=(policy['principalId'] if success else None) or requested is None or finished is None or window is None or not window[0]<=requested<=finished<=window[1] or row['statusCode'] not in ((200,206) if success else (401,403)):
             errors.append(f'{label}: request identity/method/non-secret auth reference, actual HTTP outcome and UTC must match')
+        origin_before=len(errors);origin=selected_observation(root,execution,prefix,row['originAccessRef'],defs,'localSourceOriginAccessObservation',label+'/origin access',errors,cache)
+        origin_path=existing_ref(root,row['originAccessRef'],prefix)
+        if origin is None or len(errors)!=origin_before:continue
+        binding={key:value for key,value in expected.items() if key!='authMethod'}
+        binding.update({key:row[key] for key in ('case','requestId','httpMethod','authRef','requestPrincipalId','authenticatedPrincipalId','requestedAt','finishedAt','statusCode')})
+        if any(origin.get(key)!=value for key,value in binding.items()):errors.append(f'{label}: origin access must bind this exact request, source/object/version, authorization and UTC interval')
+        if any(origin_path.samefile(path) for path in paths if path is not None):errors.append(f'{label}: origin access observations must be physically distinct from structured records, inputs and other requests')
+        paths.append(origin_path)
+        if not success and (origin['originRequestCount']!=0 or origin['objectReadCount']!=0):errors.append(f'{label}: denied authentication must precede all origin access and protected object reads')
         body=existing_ref(root,row['responseBodyRef'],prefix)
         records=[a for a in artifacts if isinstance(a,dict) and a.get('ref')==row['responseBodyRef']]
         if body is None or row['responseBodyRef'] not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or any(body.samefile(p) for p in paths if p is not None):
@@ -1100,12 +1109,48 @@ def validate_qualified_hierarchy_sandbox(root, plan, execution, defs, prefix, st
         errors.append(f'{label}: exact generator root and concrete controlled disposable mount identity must match approved resource boundary')
 
 
+def retained_metadata_chunks(path, consume_physical, decode_gzip=False):
+    """Bound decoded output while hashing the exact retained bytes in the same read."""
+    decoder=zlib.decompressobj(31) if decode_gzip else None
+    try:
+        with path.open('rb') as stream:
+            for physical in iter(lambda: stream.read(ARTIFACT_CHUNK_BYTES),b''):
+                consume_physical(physical)
+                if decoder is None:
+                    yield physical;continue
+                pending=physical
+                while pending:
+                    decoded=decoder.decompress(pending,ARTIFACT_CHUNK_BYTES)
+                    pending=decoder.unconsumed_tail
+                    if decoder.unused_data:raise OSError('metadata gzip must contain exactly one member without trailing bytes')
+                    if decoded:yield decoded
+        if decoder is not None and not decoder.eof:raise OSError('metadata gzip is incomplete')
+    except zlib.error as exc:
+        raise OSError('metadata gzip is malformed or has an invalid checksum') from exc
+
+
 def streamed_metadata_records(path,schema):
     """Read projected JSONL metadata with bounded line memory; never materialize the manifest."""
     validator=jsonschema.Draft202012Validator(schema);digest=hashlib.sha256();count=0
     def fields(pairs):
         if len({key for key,_ in pairs})!=len(pairs):raise ValueError('duplicate metadata fields')
         return dict(pairs)
+    if path.name.endswith('.jsonl.gz'):
+        line=bytearray()
+        for chunk in retained_metadata_chunks(path,digest.update,path.name.endswith('.jsonl.gz')):
+            offset=0
+            while offset<len(chunk):
+                end=chunk.find(b'\n',offset);end=len(chunk) if end<0 else end+1
+                if len(line)+end-offset>ARTIFACT_CHUNK_BYTES:raise ValueError('metadata record exceeds bounded line representation')
+                line.extend(chunk[offset:end]);offset=end
+                if line[-1:]==b'\n':
+                    record=json.loads(line,object_pairs_hook=fields);validator.validate(record);count+=1;line.clear()
+                    yield record
+        if line:
+            record=json.loads(line,object_pairs_hook=fields);validator.validate(record);count+=1
+            yield record
+        return count,'sha256:'+digest.hexdigest()
+
     with path.open('rb') as stream:
         while True:
             line=stream.readline(ARTIFACT_CHUNK_BYTES+1)
@@ -1181,7 +1226,7 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
     handle=tempfile.NamedTemporaryFile(prefix='guize-metadata-',suffix='.sqlite',delete=False);database=Path(handle.name);handle.close();connection=None
     try:
         connection=sqlite3.connect(str(database));connection.execute('PRAGMA journal_mode=OFF');connection.execute('PRAGMA temp_store=FILE');connection.execute('PRAGMA cache_size=-8192')
-        connection.executescript('CREATE TABLE baseline(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);CREATE TABLE enumerated(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);CREATE TABLE expected(eventId TEXT PRIMARY KEY,sequence INTEGER UNIQUE,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);CREATE TABLE observed(eventId TEXT PRIMARY KEY,sequence INTEGER UNIQUE,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);CREATE TABLE applied(eventId TEXT PRIMARY KEY);CREATE TABLE traversed(objectId TEXT PRIMARY KEY);CREATE TABLE current(objectId TEXT PRIMARY KEY,versionId TEXT);')
+        connection.executescript('CREATE TABLE baseline(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);CREATE TABLE enumerated(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);CREATE TABLE expected(eventId TEXT PRIMARY KEY,sequence INTEGER UNIQUE,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);CREATE TABLE observed(eventId TEXT PRIMARY KEY,sequence INTEGER UNIQUE,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);CREATE TABLE applied(eventId TEXT PRIMARY KEY);CREATE TABLE traversed(objectId TEXT PRIMARY KEY);CREATE TABLE current(objectId TEXT PRIMARY KEY,versionId TEXT);CREATE TABLE post_scan(objectId TEXT PRIMARY KEY,versionId TEXT);')
         def ingest(table,descriptor,schema_name,columns,input_manifest=False):
             path=existing_ref(root,descriptor['ref'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==descriptor['ref']]
             if path is None or not input_manifest and (len(records)!=1 or records[0].get('artifactType')!='command_output' or descriptor['ref'] not in (execution.get('rawOutputRefs') or [])):raise ValueError('selected-slot typed retained metadata record stream required')
@@ -1201,6 +1246,11 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
             return count
         object_columns=('objectId','kind','versionId','depth','fileSizeBytes');event_columns=('eventId','sequence','objectId','operation','beforeVersion','afterVersion')
         baseline_count=ingest('baseline',policy['baseline'],'metadataObjectRecord',object_columns,True);enumerated_count=ingest('enumerated',phases[0]['objects'],'metadataObjectRecord',object_columns);expected_count=ingest('expected',policy['expectedChanges'],'metadataChangeRecord',event_columns);event_count=ingest('observed',phases[1]['events'],'metadataObservedChangeRecord',event_columns);ingest('applied',phases[2]['appliedEvents'],'metadataAppliedEventRecord',('eventId',));ingest('traversed',phases[2]['traversedObjects'],'metadataTraversedObjectRecord',('objectId',))
+        post_scan=phases[2]['postScanObjects'];post_path=existing_ref(root,post_scan['ref'],prefix);post_at=utc(post_scan['observedAt'])
+        if post_path is None or post_at is None or not intervals[2][1]<=post_at<=window[1]:raise ValueError('complete post-scan catalogue must be independently observed after incremental traversal within execution')
+        other_streams=(policy['baseline'],policy['expectedChanges'],phases[0]['objects'],phases[1]['events'],phases[2]['appliedEvents'],phases[2]['traversedObjects'])
+        if any(post_path.samefile(existing_ref(root,descriptor['ref'],prefix)) for descriptor in other_streams):raise ValueError('post-scan object/version catalogue must retain a separate independently observed physical file')
+        ingest('post_scan',post_scan,'metadataObjectVersionRecord',('objectId','versionId'))
         def mismatch(first,second,columns='*'):
             return connection.execute('SELECT '+columns+' FROM '+first+' EXCEPT SELECT '+columns+' FROM '+second+' LIMIT 1').fetchone() is not None or connection.execute('SELECT '+columns+' FROM '+second+' EXCEPT SELECT '+columns+' FROM '+first+' LIMIT 1').fetchone() is not None
         if baseline_count==0 or mismatch('baseline','enumerated') or mismatch('expected','observed') or mismatch('expected','applied','eventId'):raise ValueError('enumeration and replay must cover the complete approved object/change manifests exactly once')
@@ -1211,6 +1261,7 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
             if version!=before_version or not (before_version=='absent' and after_version!='absent' if operation=='create' else before_version!='absent' and after_version=='absent' if operation=='delete' else before_version!='absent' and after_version!='absent' and before_version!=after_version):raise ValueError('controlled changes must bind valid actual object-version transitions')
             connection.execute('DELETE FROM current WHERE objectId=?',(object_id,))
             if after_version!='absent':connection.execute('INSERT INTO current VALUES (?,?)',(object_id,after_version))
+        if mismatch('current','post_scan'):raise ValueError('complete independently observed post-scan object/version state must exactly equal the baseline plus controlled create/update/delete transitions')
         if connection.execute("SELECT objectId FROM traversed WHERE objectId NOT IN (SELECT objectId FROM baseline UNION SELECT objectId FROM expected WHERE operation='create') LIMIT 1").fetchone():raise ValueError('incremental traversal may only visit governed baseline/created object identities')
         counts=connection.execute("SELECT sum(kind='file'),sum(kind='directory'),max(depth),sum(CASE WHEN kind='file' THEN fileSizeBytes ELSE 0 END) FROM baseline").fetchone();actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
         if not counts[0]:raise ValueError('average file size requires a nonempty approved file population')
@@ -1547,24 +1598,25 @@ def inspect_artifact(path, cache, textual=False, byte_range=None):
             if secret_key(key,value): findings.append('credential-bearing assignment')
         credential = credential or bool(findings) or RAW_AUTHORIZATION.search(window) is not None
         tail = window[-4096:]
-    with path.open('rb') as handle:
-        for chunk in iter(lambda: handle.read(ARTIFACT_CHUNK_BYTES),b''):
-            digest.update(chunk)
-            if range_digest is not None:
-                first,last=byte_range
-                low,high=max(0,first-offset),min(len(chunk),last+1-offset)
-                if low<high:range_digest.update(chunk[low:high])
-            offset+=len(chunk)
-            if scan_decoder is not None:scan(scan_decoder.decode(chunk))
-            if decoder is not None:
-                try: decoder.decode(chunk)
-                except UnicodeDecodeError:
-                    invalid_utf8 = True
-                    decoder = None
-        if scan_decoder is not None:scan(scan_decoder.decode(b'',final=True))
+    def consume_physical(chunk):
+        nonlocal offset
+        digest.update(chunk)
+        if range_digest is not None:
+            first,last=byte_range
+            low,high=max(0,first-offset),min(len(chunk),last+1-offset)
+            if low<high:range_digest.update(chunk[low:high])
+        offset+=len(chunk)
+    for chunk in retained_metadata_chunks(path,consume_physical,textual and path.name.endswith('.jsonl.gz')):
+        if scan_decoder is not None:scan(scan_decoder.decode(chunk))
         if decoder is not None:
-            try: decoder.decode(b'',final=True)
-            except UnicodeDecodeError: invalid_utf8 = True
+            try: decoder.decode(chunk)
+            except UnicodeDecodeError:
+                invalid_utf8 = True
+                decoder = None
+    if scan_decoder is not None:scan(scan_decoder.decode(b'',final=True))
+    if decoder is not None:
+        try: decoder.decode(b'',final=True)
+        except UnicodeDecodeError: invalid_utf8 = True
     cached = dict(size=size,sha256='sha256:'+digest.hexdigest(),textScanned=textual,credential=credential,invalidUtf8=invalid_utf8)
     if valid_range:
         cached['rangeHashes']={byte_range:cached['sha256'] if complete_range else 'sha256:'+range_digest.hexdigest() if offset>byte_range[1] else None}

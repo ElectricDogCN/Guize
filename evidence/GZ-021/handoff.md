@@ -1,3 +1,21 @@
+## Local source observation repair archival checkpoint (parent0e99e70)
+
+At this checkpoint, published parent source0e99e70/tree71dcb410 completed its actual four-process208 run and was not accepted.
+The four original Ran52 footers aggregate to208 tests:204 passed,4 FAIL(143/175/178/180),0 errors/skips, with exact coverage once.
+Raw driver UTC is03:59:22.386710Z→04:49:13.920558Z; its original reported aggregate elapsedSeconds is2714.963448047999, not a UTC-derived duration.
+The controller ended2026-10-19T04:49:14.826766Z/exit1;17 prior gate exits were0, poc-tests was1, and native verify/docs did not run.
+Own CI713 separately completed637 governance tests; it does not turn the failed local208 run into a pass or test this unpublished candidate.
+The private-only combined candidate binds the four reviewed patches and changes8 original methods; the other200 remain AST-identical, with208 names and86 unchanged.
+Pm binds each authentication request to an independent origin-access observation and requires denied requests to perform zero source reads.
+Pn requires an independently retained, complete post-scan object/version catalogue to equal the state derived from the controlled baseline and changes.
+Gzip metadata retention keeps physical byte/hash identity, decoded UTF-8/secret checks, the original plain bounded-readline algorithm and183's complete original statement prefix.
+Five positive expected arguments in143/175/178/180 now preserve exact deferred-production errors; original negative assertions remain retained.
+Historical Pm1/15.238s, Pn2/350.247s and prior standalone gzip8/0.305s are separate runs and are not summed into candidate coverage.
+The60-method entry and its other19 gates are prepared but unexecuted here; the new candidate has no own CI or complete208 result at this checkpoint.
+The46 claims and plan/DAG remain unchanged; no formal-source, runtime, actual-POC or fullV1 acceptance follows from this archive.
+
+Records: [parent execution](executions/0e99e70a6e6a794e44c4a68e5babc980a2dedeb3/manifest.json) and [candidate preparation](candidate-checks/local-source-observations/manifest.json).
+
 ## Ten-finding repair preparation checkpoint (parent 911cf73)
 
 This candidate repairs the ten bounded findings captured on parent 911cf73d3a7d49447502eceeb37e7ede3677067f. POC-003 binds each request to its retained origin-access observation, requires zero origin/object reads for denied requests, and checks both source versions against an independently approved minimum input size exceeding Slice and buffer sizes. POC-009 derives tool and human scores from retained results and approved references. Media quality derives VMAF from complete ordered frame results bound to the approved evaluator invocation. Commercial-external qualified PASS remains unavailable pending complete qualification; local and self-hosted modes retain their separate behavior.

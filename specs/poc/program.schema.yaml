@@ -7971,6 +7971,7 @@ $defs:
         - finishedAt
         - appliedEvents
         - traversedObjects
+        - postScanObjects
         properties:
           changeSetId:
             type: string
@@ -8015,6 +8016,22 @@ $defs:
               count:
                 type: integer
                 minimum: 0
+          postScanObjects:
+            type: object
+            additionalProperties: false
+            required: [ref, sha256, count, observedAt]
+            properties:
+              ref: {type: string, minLength: 1}
+              sha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+              count: {type: integer, minimum: 0}
+              observedAt: {type: string, format: date-time}
+  metadataObjectVersionRecord:
+    type: object
+    additionalProperties: false
+    required: [objectId, versionId]
+    properties:
+      objectId: {type: string, minLength: 1}
+      versionId: {type: string, minLength: 1}
   metadataObjectRecord:
     type: object
     additionalProperties: false
@@ -13446,6 +13463,7 @@ $defs:
           required:
           - case
           - requestId
+          - originAccessRef
           - httpMethod
           - endpointURL
           - authMethod
@@ -13466,6 +13484,9 @@ $defs:
               - authenticated
               - anonymous_denied
               - invalid_auth_denied
+            originAccessRef:
+              type: string
+              minLength: 1
             requestId:
               type: string
               minLength: 1
@@ -13871,3 +13892,129 @@ $defs:
             checksum:
               type: string
               pattern: ^sha256:[a-f0-9]{64}$
+
+  localSourceOriginAccessObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - scope
+    - sourceId
+    - sandboxId
+    - endpointURL
+    - objectId
+    - objectVersion
+    - principalId
+    - case
+    - requestId
+    - httpMethod
+    - authRef
+    - requestPrincipalId
+    - authenticatedPrincipalId
+    - requestedAt
+    - finishedAt
+    - statusCode
+    - originRequestCount
+    - objectReadCount
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: local_source_origin_access_observation
+      configurationRef:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        maxItems: 256
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[0-9a-f]{64}$
+      scope:
+        const: GENERIC_OPENLIST_SANDBOX
+      sourceId:
+        type: string
+        minLength: 1
+      sandboxId:
+        type: string
+        minLength: 1
+      endpointURL:
+        type: string
+        minLength: 1
+      objectId:
+        type: string
+        minLength: 1
+      objectVersion:
+        type: string
+        minLength: 1
+      principalId:
+        type: string
+        minLength: 1
+      case:
+        enum:
+        - authenticated
+        - anonymous_denied
+        - invalid_auth_denied
+      requestId:
+        type: string
+        minLength: 1
+      httpMethod:
+        const: GET
+      authRef:
+        anyOf:
+        - type: string
+          pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+          maxLength: 74
+        - type: 'null'
+      requestPrincipalId:
+        anyOf:
+        - type: string
+          minLength: 1
+        - type: 'null'
+      authenticatedPrincipalId:
+        anyOf:
+        - type: string
+          minLength: 1
+        - type: 'null'
+      requestedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      statusCode:
+        type: integer
+        minimum: 100
+        maximum: 599
+      originRequestCount:
+        type: integer
+        minimum: 0
+      objectReadCount:
+        type: integer
+        minimum: 0

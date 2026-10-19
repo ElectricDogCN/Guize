@@ -732,11 +732,11 @@ class TestPocProgram(unittest.TestCase):
         baseline_bytes=b''.join((json.dumps(record,separators=(',',':'))+'\n').encode() for record in objects);(root/input_record['inputArtifactRef']).write_bytes(baseline_bytes);digest='sha256:'+hashlib.sha256(baseline_bytes).hexdigest();sample['checksum']=digest;input_record.update(byteCount=len(baseline_bytes),sha256=digest);approval=load_yaml(root/sample['approvalRef']);approval['checksum']=digest;write_yaml(root/sample['approvalRef'],approval)
         def retain(name,records):
             raw=b''.join((json.dumps(record,separators=(',',':'))+'\n').encode() for record in records);ref=prefix+'/raw/'+name;(root/ref).write_bytes(raw);digest='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='command_output',byteCount=len(raw),sha256=digest));execution['rawOutputRefs'].append(ref);return dict(ref=ref,sha256=digest,count=len(records))
-        changes=[dict(eventId='synthetic-change-'+str(i),sequence=i,objectId=object_id,operation=operation,beforeVersion=before,afterVersion=after) for i,object_id,operation,before,after in ((1,'synthetic-file-1','update','version-1','version-2'),(2,'synthetic-file-2','create','absent','version-1'),(3,'synthetic-file-1','delete','version-2','absent'))]
+        changes=[dict(eventId='synthetic-change-'+str(i),sequence=i,objectId=object_id,operation=operation,beforeVersion=before,afterVersion=after) for i,object_id,operation,before,after in ((1,'synthetic-file-1','update','version-1','version-2'),(2,'synthetic-file-2','create','absent','version-1'),(3,'synthetic-directory-1','delete','version-1','absent'))]
         policy=dict(manifestId=sample['immutableId'],baselineInputSampleId=sample['id'],scannerBuild=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-005')),execution),scanId='synthetic-baseline-scan',changeSetId='synthetic-controlled-changes',hierarchyGenerator=copy.deepcopy(env.get('synthetic_hierarchy_manifest',{}).get('generator')) if isinstance(env.get('synthetic_hierarchy_manifest'),dict) else None,baseline=dict(ref=input_record['inputArtifactRef'],sha256=digest,count=len(objects)),expectedChanges=retain('approved-metadata-changes.jsonl',changes))
         if policy['hierarchyGenerator'] is None:policy.pop('hierarchyGenerator')
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['metadataScanPolicy']=policy;write_yaml(config_path,config)
-        report=dict(schemaVersion=1,kind='metadata_scan_observation',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=policy['scannerBuild'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],manifestId=policy['manifestId'],scannerBuild=policy['scannerBuild'],enumeration=dict(scanId=policy['scanId'],startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:02Z',objects=retain('enumerated-metadata.jsonl',objects)),changeStream=dict(changeSetId=policy['changeSetId'],startedAt='2026-09-03T00:00:05Z',finishedAt='2026-09-03T00:00:15Z',events=retain('observed-metadata-changes.jsonl',[dict(**event,observedAt=f'2026-09-03T00:00:0{event["sequence"]+5}Z') for event in changes])),incremental=dict(changeSetId=policy['changeSetId'],startedAt='2026-09-03T00:00:16Z',finishedAt='2026-09-03T00:00:20Z',appliedEvents=retain('applied-metadata-changes.jsonl',[dict(eventId=event['eventId']) for event in changes]),traversedObjects=retain('incremental-metadata-visits.jsonl',[dict(objectId=record['objectId']) for record in objects]+[dict(objectId='synthetic-file-2')])))
+        report=dict(schemaVersion=1,kind='metadata_scan_observation',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=policy['scannerBuild'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],manifestId=policy['manifestId'],scannerBuild=policy['scannerBuild'],enumeration=dict(scanId=policy['scanId'],startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:02Z',objects=retain('enumerated-metadata.jsonl',objects)),changeStream=dict(changeSetId=policy['changeSetId'],startedAt='2026-09-03T00:00:05Z',finishedAt='2026-09-03T00:00:15Z',events=retain('observed-metadata-changes.jsonl',[dict(**event,observedAt=f'2026-09-03T00:00:0{event["sequence"]+5}Z') for event in changes])),incremental=dict(changeSetId=policy['changeSetId'],startedAt='2026-09-03T00:00:16Z',finishedAt='2026-09-03T00:00:20Z',appliedEvents=retain('applied-metadata-changes.jsonl',[dict(eventId=event['eventId']) for event in changes]),traversedObjects=retain('incremental-metadata-visits.jsonl',[dict(objectId=record['objectId']) for record in objects]+[dict(objectId='synthetic-file-2')]),postScanObjects=dict(**retain('post-scan-object-versions.jsonl',[dict(objectId='synthetic-file-1',versionId='version-2'),dict(objectId='synthetic-file-2',versionId='version-1')]),observedAt='2026-09-03T00:00:20Z')))
         ref=prefix+'/raw/metadata-scan.yaml';path=root/ref;write_yaml(path,report);raw=path.read_bytes();env['metadataScanRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
         for measurement in execution['measurements']:
             if measurement['id']=='source_change_frequency':measurement['actual']=1080
@@ -1075,6 +1075,11 @@ class TestPocProgram(unittest.TestCase):
             env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='produced_media',byteCount=len(body),sha256=digest));execution['rawOutputRefs'].append(ref)
             rows.append(dict(case=case,requestId='synthetic-auth-request-'+str(index),httpMethod='GET',endpointURL=policy['endpointURL'],authMethod='none' if anonymous else policy['authMethod'],authRef=None if anonymous else policy['authorizedAuthRef'] if success else policy['invalidAuthRef'],requestPrincipalId=None if anonymous else policy['principalId'],authenticatedPrincipalId=policy['principalId'] if success else None,requestedAt=f'2026-09-03T00:04:0{index}Z',finishedAt=f'2026-09-03T00:04:0{index}.100Z',statusCode=200 if success else 401,responseBodyRef=ref,responseByteCount=len(body),responseSha256=digest,returnedObjectId=policy['objectId'] if success else None,returnedObjectVersion=policy['objectVersion'] if success else None))
         report=dict(schemaVersion=1,kind='local_source_authentication_observation',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=policy['subjectVersion'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],scope='GENERIC_OPENLIST_SANDBOX',**{k:policy[k] for k in ('sourceId','sandboxId','endpointURL','objectId','objectVersion','authMethod','principalId')},requests=rows)
+        for row in rows:
+            origin={key:value for key,value in report.items() if key not in ('schemaVersion','kind','requests','authMethod')}
+            origin.update(schemaVersion=1,kind='local_source_origin_access_observation',**{key:row[key] for key in ('case','requestId','httpMethod','authRef','requestPrincipalId','authenticatedPrincipalId','requestedAt','finishedAt','statusCode')},originRequestCount=1 if row['case']=='authenticated' else 0,objectReadCount=1 if row['case']=='authenticated' else 0)
+            origin_ref=prefix+'/raw/source-auth-origin-'+row['case']+'.yaml';write_yaml(root/origin_ref,origin);raw=(root/origin_ref).read_bytes();row['originAccessRef']=origin_ref
+            env['rawExecutionArtifacts'].append(dict(ref=origin_ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(origin_ref)
         ref=prefix+'/raw/source-authentication.yaml';write_yaml(root/ref,report);raw=(root/ref).read_bytes();env['sourceAuthenticationRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
 
 
@@ -2076,7 +2081,7 @@ class TestPocProgram(unittest.TestCase):
                 return CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
             # The approved GPU and audio functions may legitimately share a group.
             self.assertEqual(len(report_original['iommuMembers']),2)
-            self.assertEqual(validate(copy.deepcopy(original)),[])
+            self.assertEqual(validate(copy.deepcopy(original)),self.deferred_production_errors('production','POC-01'))
             modes=('missing','arbitrary','bad_policy','wrong_config','wrong_identity','wrong_firmware','wrong_bios','wrong_group','iommu_off','above4g_off','bar_off','required_host_device','unassigned_member','foreign_member','duplicate_member','missing_gpu','wrong_allocation','no_allocation','zero_address_space','guest_missing_gpu','runtime_failed','invalid_time','settings_after_guest','outside_window','claimed_gate')
             for mode in modes:
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original)
@@ -2320,11 +2325,11 @@ class TestPocProgram(unittest.TestCase):
                 def validate(data):
                     self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                     return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
-                self.assertEqual(validate(copy.deepcopy(original)),[])
+                self.assertEqual(validate(copy.deepcopy(original)),self.deferred_production_errors(profile,'POC-01'))
                 # Active leases may have been issued before the experiment begins.
                 report=copy.deepcopy(report_original)
                 for row in report['nodes']:row['restart']['oldLeaseIssuedAt']='2026-09-02T23:59:59Z'
-                write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+                write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),self.deferred_production_errors(profile,'POC-01'))
                 for mode,value in (('invalid_issue','invalid-utc'),('future_issue','2026-09-03T00:02:02Z'),('after_expiry_issue','2026-09-03T00:02:03Z')):
                     report=copy.deepcopy(report_original);report['nodes'][0]['restart']['oldLeaseIssuedAt']=value
                     write_yaml(report_path,report);self.assertTrue(any('qualified worker safety' in e for e in validate(copy.deepcopy(original))),(profile,mode))
@@ -2396,7 +2401,7 @@ class TestPocProgram(unittest.TestCase):
             def validate(data):
                 self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                 return CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
-            self.assertEqual(validate(copy.deepcopy(original)),[])
+            self.assertEqual(validate(copy.deepcopy(original)),self.deferred_production_errors('production','POC-01'))
             for mode in ('missing','arbitrary','identity','config','duplicate_case','unchanged_guest','unchanged_host','unchanged_reset','lost_enumeration','lost_assignment','runtime','manual_rebuild','clock','probe_reused','probe_input','probe_identity','probe_boot','probe_clock','probe_errors','probe_output','probe_hash','probe_frames','chain','initial_host','gate'):
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);probe=copy.deepcopy(probe_original);row=report['cases'][0]
                 if mode=='missing':data['environmentCaptured'].pop('passthroughTransitionRef')
@@ -2546,7 +2551,11 @@ class TestPocProgram(unittest.TestCase):
                 report=copy.deepcopy(report_original);file=root/report['changeStream']['events']['ref'];records=[json.loads(line) for line in file.read_bytes().splitlines()]
                 for record in records:record['observedAt']='2026-09-03T00:00:06Z'
                 raw=b''.join((json.dumps(record,separators=(',',':'))+'\n').encode() for record in records);file.write_bytes(raw);report['changeStream']['events']['sha256']='sha256:'+hashlib.sha256(raw).hexdigest();write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
-                for mode in ('missing','arbitrary','policy','config','profile','input','build','baseline_sample','scan_id','changes_id','enumeration_count','event_count','enumeration_clock','event_clock','traversal_clock','phase_order','rate','frequency','cost','objects_incomplete','object_duplicate','object_version','event_duplicate','event_sequence','event_version','event_timestamp','event_reordered','event_missing','applied_missing','applied_duplicate','traversed_foreign','generator','row_type','error_echo','duplicate_field','stream_hash'):
+                # The final observed catalogue is a set: independent record order may differ.
+                for file,raw in files.items():file.write_bytes(raw)
+                report=copy.deepcopy(report_original);post=report['incremental']['postScanObjects'];file=root/post['ref'];records=[json.loads(line) for line in file.read_bytes().splitlines()];records.reverse()
+                raw=b''.join((json.dumps(record,separators=(',',':'))+'\n').encode() for record in records);file.write_bytes(raw);post['sha256']='sha256:'+hashlib.sha256(raw).hexdigest();write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+                for mode in ('missing','arbitrary','policy','config','profile','input','build','baseline_sample','scan_id','changes_id','enumeration_count','event_count','enumeration_clock','event_clock','traversal_clock','phase_order','rate','frequency','cost','objects_incomplete','object_duplicate','object_version','event_duplicate','event_sequence','event_version','event_timestamp','event_reordered','event_missing','applied_missing','applied_duplicate','traversed_foreign','generator','row_type','error_echo','duplicate_field','stream_hash','post_missing','post_early','post_outside','post_hash','post_count','post_missing_object','post_extra_object','post_duplicate','post_unapplied_empty_traversal','post_create_ignored','post_update_ignored','post_delete_ignored','post_empty','post_alias','post_untyped','post_unlisted'):
                     for file,raw in files.items():file.write_bytes(raw)
                     data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['metadataScanPolicy'];enum=report['enumeration'];events=report['changeStream'];incremental=report['incremental']
                     def rewrite(descriptor,mutate):
@@ -2585,6 +2594,23 @@ class TestPocProgram(unittest.TestCase):
                     elif mode=='applied_missing':rewrite(incremental['appliedEvents'],lambda records:records.pop())
                     elif mode=='applied_duplicate':rewrite(incremental['appliedEvents'],lambda records:records.append(copy.deepcopy(records[0])))
                     elif mode=='traversed_foreign':rewrite(incremental['traversedObjects'],lambda records:records[0].update(objectId='foreign-object'))
+                    elif mode=='post_missing':incremental.pop('postScanObjects')
+                    elif mode=='post_early':incremental['postScanObjects']['observedAt']='2026-09-03T00:00:19Z'
+                    elif mode=='post_outside':incremental['postScanObjects']['observedAt']='2026-09-04T00:00:20Z'
+                    elif mode=='post_hash':incremental['postScanObjects']['sha256']='sha256:'+'0'*64
+                    elif mode=='post_count':incremental['postScanObjects']['count']+=1
+                    elif mode in ('post_missing_object','post_create_ignored'):rewrite(incremental['postScanObjects'],lambda records:records.pop())
+                    elif mode=='post_extra_object':rewrite(incremental['postScanObjects'],lambda records:records.append(dict(objectId='foreign-object',versionId='version-1')))
+                    elif mode=='post_duplicate':rewrite(incremental['postScanObjects'],lambda records:records.append(copy.deepcopy(records[0])))
+                    elif mode=='post_unapplied_empty_traversal':
+                        rewrite(incremental['postScanObjects'],lambda records:records.__setitem__(slice(None),[dict(objectId='synthetic-directory-1',versionId='version-1'),dict(objectId='synthetic-file-1',versionId='version-1')]))
+                        rewrite(incremental['traversedObjects'],lambda records:records.clear())
+                    elif mode=='post_update_ignored':rewrite(incremental['postScanObjects'],lambda records:records[0].update(versionId='version-1'))
+                    elif mode=='post_delete_ignored':rewrite(incremental['postScanObjects'],lambda records:records.append(dict(objectId='synthetic-directory-1',versionId='version-1')))
+                    elif mode=='post_empty':rewrite(incremental['postScanObjects'],lambda records:records.clear())
+                    elif mode=='post_alias':incremental['postScanObjects']=dict(**enum['objects'],observedAt='2026-09-03T00:00:20Z')
+                    elif mode=='post_untyped':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==incremental['postScanObjects']['ref'])['artifactType']='measurement_output'
+                    elif mode=='post_unlisted':data['rawOutputRefs'].remove(incremental['postScanObjects']['ref'])
                     elif mode=='generator':policy['hierarchyGenerator']={'invalid':'generator'}
                     elif mode=='row_type':rewrite(enum['objects'],lambda records:records.__setitem__(0,True))
                     elif mode=='error_echo':rewrite(enum['objects'],lambda records:records[0].update(objectId={'marker':'INPUT_VALUE_MUST_NOT_APPEAR_IN_ERRORS'}))
@@ -2633,6 +2659,8 @@ class TestPocProgram(unittest.TestCase):
                 digest='sha256:'+hashlib.sha256(raw).hexdigest()
                 for descriptor in (policy['baseline'],report['enumeration']['objects']):
                     (root/descriptor['ref']).write_bytes(raw);descriptor.update(sha256=digest,count=3)
+                post=report['incremental']['postScanObjects'];post_path=root/post['ref'];post_rows=[json.loads(line) for line in post_path.read_bytes().splitlines()]+[dict(objectId='synthetic-file-3',versionId='version-1')]
+                post_raw=b''.join((json.dumps(row,separators=(',',':'))+'\n').encode() for row in post_rows);post_path.write_bytes(post_raw);post.update(sha256='sha256:'+hashlib.sha256(post_raw).hexdigest(),count=len(post_rows))
                 sample=data['samples'][0];sample['checksum']=digest
                 input_record=next(r for r in data['environmentCaptured']['inputSampleArtifacts'] if r['sampleId']==sample['id'])
                 input_record.update(byteCount=len(raw),sha256=digest)
@@ -3251,6 +3279,134 @@ class TestPocProgram(unittest.TestCase):
                     try:next(iterator);count+=1
                     except StopIteration as terminal:observed_count,sha=terminal.value;break
             self.assertEqual((count,observed_count,sha),(total,total,'sha256:'+digest.hexdigest()))
+        self._assert_metadata_gzip_retention()
+
+    def _assert_metadata_gzip_retention(self):
+        import gzip
+        import sqlite3
+        definitions=load_yaml(self.repo/'specs/poc/program.schema.yaml')['$defs']
+        fixture_row=dict(objectId='object-1',kind='file',versionId='version-1',depth=1,
+                         fileSizeBytes=4,name='a.mp4',path='a.mp4',modifiedAt='2026-01-01T00:00:00Z')
+        class GzipCases(unittest.TestCase):
+            def setUp(self):
+                self.temp = tempfile.TemporaryDirectory()
+                self.addCleanup(self.temp.cleanup)
+                self.root = Path(self.temp.name)
+
+            def retained(self, name, body, compressed):
+                path=self.root/(name+'.jsonl.gz' if compressed else name+'.jsonl')
+                path.write_bytes(gzip.compress(body,mtime=0) if compressed else body)
+                return path
+
+            def collect(self, path):
+                iterator=CHECK.streamed_metadata_records(path,definitions['metadataProfiledObjectRecord']);rows=[]
+                while True:
+                    try:rows.append(next(iterator))
+                    except StopIteration as end:return rows,end.value
+
+            def case_plain_gzip_equivalence_and_physical_identity(self):
+                for ending in ('\n','\r\n',''):
+                    body=(json.dumps(fixture_row,ensure_ascii=False)+ending).encode()
+                    for compressed in (False,True):
+                        path=self.retained('equivalent',body,compressed)
+                        rows,(count,digest)=self.collect(path)
+                        self.assertEqual(rows,[fixture_row]);self.assertEqual(count,1)
+                        self.assertEqual(digest,'sha256:'+hashlib.sha256(path.read_bytes()).hexdigest())
+                        info=CHECK.inspect_artifact(path,{},textual=True)
+                        self.assertEqual(info['sha256'],digest);self.assertEqual(info['size'],path.stat().st_size)
+                        self.assertFalse(info['invalidUtf8']);self.assertFalse(info['credential'])
+
+            def case_malformed_truncated_crc_trailing_and_extra_members_rejected(self):
+                valid=gzip.compress((json.dumps(fixture_row)+'\n').encode(),mtime=0)
+                corrupt=bytearray(valid);corrupt[-8]^=1
+                for body in (b'not gzip',valid[:4],valid[:-1],bytes(corrupt),valid+b'junk',valid+valid):
+                    path=self.root/'bad.jsonl.gz';path.write_bytes(body)
+                    with self.assertRaises(OSError):self.collect(path)
+                    with self.assertRaises(OSError):CHECK.inspect_artifact(path,{},textual=True)
+
+            def case_decoded_row_schema_duplicates_utf8_and_line_limit(self):
+                invalids=[b'{"objectId":"x","objectId":"y"}\n',
+                          (json.dumps({**fixture_row,'fileSizeBytes':'4'})+'\n').encode(),
+                          b'{"name":"\xff"}\n',b' '*CHECK.ARTIFACT_CHUNK_BYTES+b'\n']
+                for index,body in enumerate(invalids):
+                    for compressed in (False,True):
+                        path=self.retained('invalid-'+str(index),body,compressed)
+                        with self.assertRaises((ValueError,CHECK.jsonschema.ValidationError)):
+                            self.collect(path)
+                for compressed in (False,True):
+                    info=CHECK.inspect_artifact(self.retained('utf8',b'\xff',compressed),{},textual=True)
+                    self.assertTrue(info['invalidUtf8'])
+
+            def case_original_secret_scanner_applies_to_decoded_text(self):
+                for body in (b'{"password":"example-not-a-real-secret"}\n',
+                             b'Authorization: Bearer example-not-a-real-credential\n',
+                             b' '*(CHECK.ARTIFACT_CHUNK_BYTES-5)+b'password=example-not-a-real-secret\n'):
+                    for compressed in (False,True):
+                        info=CHECK.inspect_artifact(self.retained('secret',body,compressed),{},textual=True)
+                        self.assertTrue(info['credential']);self.assertFalse(info['invalidUtf8'])
+                safe=b'{"credentialsStoredInRepository":false,"scope":"fixture"}\n'
+                for compressed in (False,True):
+                    self.assertFalse(CHECK.inspect_artifact(self.retained('safe',safe,compressed),{},textual=True)['credential'])
+
+            def case_gzip_decoded_chunks_are_bounded(self):
+                body=b'a'*(CHECK.ARTIFACT_CHUNK_BYTES*3+19)
+                path=self.retained('expanding',body,True);digest=hashlib.sha256();sizes=[]
+                for chunk in CHECK.retained_metadata_chunks(path,digest.update,True):sizes.append(len(chunk))
+                self.assertEqual(sum(sizes),len(body));self.assertLessEqual(max(sizes),CHECK.ARTIFACT_CHUNK_BYTES)
+                self.assertEqual(digest.hexdigest(),hashlib.sha256(path.read_bytes()).hexdigest())
+
+            def profile_capture(self, compressed, change=None, alias=False):
+                prefix='evidence/POC-005/local-v1';directory=self.root/prefix;directory.mkdir(parents=True,exist_ok=True)
+                body=(json.dumps(fixture_row)+'\n').encode();paths=[]
+                for name in ('approved','observed'):
+                    path=directory/(name+('.jsonl.gz' if compressed else '.jsonl'))
+                    path.write_bytes(gzip.compress(body,mtime=0) if compressed else body);paths.append(path)
+                if alias:paths[1]=paths[0]
+                def descriptor(path):return dict(ref=path.relative_to(self.root).as_posix(),count=1,sha256='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest())
+                approved,observed=map(descriptor,paths)
+                if change is not None:
+                    which,key,value=change;(approved if which=='approved' else observed)[key]=value
+                identity=dict(adapterId='adapter',adapterBuild='build',sourceId='source',sourceVersion='v1')
+                policy=dict(manifestId='manifest',scannerBuild='scanner',sourceIdentity=identity,endpointURL='http://127.0.0.1:1234/list',filenameInput=approved,extensionCategories=['mp4'],minimumListingRuns=2,probeObjectId='object-1',baselineVersion='version-1',updatedVersion='version-2',baselinePayload=dict(ref='unused',sha256='sha256:'+'0'*64),updatedPayload=dict(ref='unused2',sha256='sha256:'+'1'*64),rangeDisposition='supported',validatorKind='etag')
+                config=directory/'configuration.json';config.write_text(json.dumps(dict(configuration=dict(metadataProfilingPolicy=policy,metadataResourcePolicy=dict(sourceIdentity=identity)))),encoding='utf8')
+                resource=dict(configurationRef=config.relative_to(self.root).as_posix())
+                profile=CHECK.profile_identity('local-v1');env=dict(acceptanceProfile=profile,rawExecutionArtifacts=[dict(ref=p.relative_to(self.root).as_posix(),artifactType='command_output') for p in set(paths)])
+                execution=dict(environmentCaptured=env,samples=[],rawOutputRefs=[p.relative_to(self.root).as_posix() for p in set(paths)])
+                report=dict(configurationRef=resource['configurationRef'],acceptanceProfile=profile,subjectVersion='scanner',inputSamples=[],manifestId='manifest',scannerBuild='scanner',sourceIdentity=identity,rangeDisposition='supported',validatorKind='etag',filenameObjects=observed)
+                connection=sqlite3.connect(':memory:');self.addCleanup(connection.close)
+                connection.execute('CREATE TABLE baseline(objectId TEXT,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER)')
+                connection.execute('INSERT INTO baseline VALUES (?,?,?,?,?)',tuple(fixture_row[k] for k in ('objectId','kind','versionId','depth','fileSizeBytes')))
+                with mock.patch.object(CHECK,'selected_observation',return_value=report),mock.patch.object(CHECK,'compliance_subject_version',return_value='scanner'):
+                    errors=[]
+                    try:CHECK.validate_qualified_metadata_profiles(self.root,dict(taskId='POC-005'),execution,prefix,None,definitions,errors,{},resource,dict(manifestId='manifest',scannerBuild='scanner'),connection)
+                    finally:self.assertEqual(errors,[])
+
+            def case_count_and_physical_hash_mismatches_rejected_by_existing_ingest(self):
+                for compressed in (False,True):
+                    for which in ('approved','observed'):
+                        for key,value in (('count',2),('sha256','sha256:'+'f'*64)):
+                            with self.assertRaisesRegex(ValueError,'complete retained record stream must bind count/hash'):
+                                self.profile_capture(compressed,(which,key,value))
+
+            def case_independent_observed_file_requirement_preserved(self):
+                for compressed in (False,True):
+                    with self.assertRaisesRegex(ValueError,'filename output must retain independently observed bytes'):
+                        self.profile_capture(compressed,alias=True)
+
+            def case_textual_gzip_keeps_physical_byte_range_hash(self):
+                path=self.retained('range',(json.dumps(fixture_row)+'\n').encode(),True)
+                info=CHECK.inspect_artifact(path,{},textual=True,byte_range=(0,7))
+                self.assertEqual(info['rangeHashes'][(0,7)],'sha256:'+hashlib.sha256(path.read_bytes()[:8]).hexdigest())
+                self.assertEqual(info['sha256'],'sha256:'+hashlib.sha256(path.read_bytes()).hexdigest())
+
+        for case_name in ('case_plain_gzip_equivalence_and_physical_identity', 'case_malformed_truncated_crc_trailing_and_extra_members_rejected', 'case_decoded_row_schema_duplicates_utf8_and_line_limit', 'case_original_secret_scanner_applies_to_decoded_text', 'case_gzip_decoded_chunks_are_bounded', 'case_count_and_physical_hash_mismatches_rejected_by_existing_ingest', 'case_independent_observed_file_requirement_preserved', 'case_textual_gzip_keeps_physical_byte_range_hash'):
+            with self.subTest(metadataGzipCase=case_name):
+                case=GzipCases(methodName=case_name)
+                try:
+                    case.setUp()
+                    getattr(case,case_name)()
+                finally:
+                    self.assertTrue(case.doCleanups())
 
     def test_184_frontend_comparison_binds_both_builds_fixed_scenarios_and_rubric(self):
         for profile in ('local-v1','production'):
@@ -5318,7 +5474,7 @@ class TestPocProgram(unittest.TestCase):
                     index=self.make_profile_slot(root,task,profile)
                     result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
                     validate=lambda: CHECK.validate_repository(root,profile,True,selected_pocs={result['pocId']})
-                    self.assertEqual(validate(),[])
+                    self.assertEqual(validate(),self.deferred_production_errors(profile,result['pocId']))
                     execution=load_yaml(path);sample=execution['samples'][0];approval_path=root/sample['approvalRef'];approval_bytes=approval_path.read_bytes()
                     input_path=root/execution['environmentCaptured']['inputSampleArtifacts'][0]['inputArtifactRef'];input_bytes=input_path.read_bytes()
                     for mode in ('fabricated','bytes','alias','result','index'):
@@ -6132,6 +6288,51 @@ class TestPocProgram(unittest.TestCase):
                 for row in report['requests']:
                     if row['case']!='anonymous_denied':row['authMethod']=method
                 write_yaml(config_path,config);write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+            # Both denied requests must prove rejection before any origin request or protected read.
+            origin_bytes={row['originAccessRef']:(root/row['originAccessRef']).read_bytes() for row in original_report['requests']}
+            def restore_origins():
+                for ref,raw in origin_bytes.items():
+                    target=root/ref
+                    if target.exists():target.unlink()
+                    target.write_bytes(raw)
+            for case in ('anonymous_denied','invalid_auth_denied'):
+                for mode in ('missing_ref','missing_file','arbitrary','malformed','oversize','wrong_type','unlisted','foreign_slot','config','profile','subject','input','source','sandbox','object','version','request','case','endpoint','auth_ref','principal','start','finish','status','origin_read','object_read','bool_count','negative_count','reused','hardlink'):
+                    with self.subTest(origin_case=case,origin_mode=mode):
+                        restore_origins();write_yaml(config_path,original_config);report=copy.deepcopy(original_report);data=copy.deepcopy(original);row=next(r for r in report['requests'] if r['case']==case);origin_path=root/row['originAccessRef'];origin=load_yaml(origin_path)
+                        if mode=='missing_ref':row.pop('originAccessRef')
+                        elif mode=='missing_file':origin_path.unlink()
+                        elif mode in ('arbitrary','malformed','oversize'):origin_path.write_text({'arbitrary':'Unrelated origin success text','malformed':'[unterminated','oversize':'x'*262145}[mode],encoding='utf8')
+                        elif mode=='wrong_type':next(r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['ref']==row['originAccessRef'])['artifactType']='command_output'
+                        elif mode=='unlisted':data['rawOutputRefs'].remove(row['originAccessRef'])
+                        elif mode=='foreign_slot':row['originAccessRef']='evidence/POC-006/foreign-origin.yaml'
+                        elif mode in ('reused','hardlink'):
+                            peer=report['requests'][0]['originAccessRef']
+                            if mode=='reused':row['originAccessRef']=peer
+                            else:origin_path.unlink();origin_path.hardlink_to(root/peer)
+                        else:
+                            key={'config':'configurationRef','profile':'acceptanceProfile','subject':'subjectVersion','input':'inputSamples','source':'sourceId','sandbox':'sandboxId','object':'objectId','version':'objectVersion','request':'requestId','case':'case','endpoint':'endpointURL','auth_ref':'authRef','principal':'requestPrincipalId','start':'requestedAt','finish':'finishedAt','status':'statusCode','origin_read':'originRequestCount','object_read':'objectReadCount','bool_count':'objectReadCount','negative_count':'originRequestCount'}[mode]
+                            if mode=='profile':origin[key]=CHECK.profile_identity('production')
+                            elif mode=='input':origin[key][0]['checksum']='sha256:'+'0'*64
+                            elif mode=='auth_ref':origin[key]='secretref_foreign'
+                            elif mode in ('start','finish'):origin[key]='2026-09-03T00:04:00Z'
+                            elif mode=='case':origin[key]='authenticated'
+                            elif mode=='status':origin[key]=200
+                            elif mode in ('origin_read','object_read'):origin[key]=1
+                            elif mode=='bool_count':origin[key]=True
+                            elif mode=='negative_count':origin[key]=-1
+                            else:origin[key]='foreign'
+                            write_yaml(origin_path,origin)
+                        write_yaml(report_path,report);errors=validate(data)
+                        self.assertTrue(any('origin' in e.lower() for e in errors),(case,mode,errors))
+                        if mode in ('reused','hardlink'):self.assertTrue(any('physically distinct' in e for e in errors),errors)
+            restore_origins();write_yaml(config_path,original_config)
+            # 401 and 403 remain valid safe denials when their exact origin witnesses record zero reads.
+            report=copy.deepcopy(original_report)
+            for row in report['requests']:
+                if row['case']!='authenticated':
+                    row['statusCode']=403;origin_path=root/row['originAccessRef'];origin=load_yaml(origin_path);origin['statusCode']=403;write_yaml(origin_path,origin)
+            write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+            restore_origins();write_yaml(report_path,original_report)
             for status in ('fail','inconclusive'):
                 data=copy.deepcopy(original);data['environmentCaptured'].pop('sourceAuthenticationRef');self.assertEqual(validate(data,status),[])
             data=copy.deepcopy(original);data['environmentCaptured']['acceptanceProfile']=CHECK.profile_identity('production');data['environmentCaptured'].pop('sourceAuthenticationRef');self.assertEqual(validate(data),[])

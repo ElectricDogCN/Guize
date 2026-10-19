@@ -1,5 +1,24 @@
 # Guize V1 POC Program
 
+## Local source observation candidate preparation checkpoint (parent0e99e70)
+
+The retained parent0e99e70 four-process run is terminal failure: four separate Ran52 records aggregate208/204pass/4FAIL(143/175/178/180),0E/0S.
+Its driver retained03:59:22.386710Z→04:49:13.920558Z and original elapsedSeconds2714.963448047999; UTC timestamps never replace that reported duration.
+The controller closed2026-10-19T04:49:14.826766Z with exit1;17 earlier gates passed, poc-tests failed, and native verify/docs were not executed.
+CI713's637 governance passes are a separate parent-source execution, not evidence that the combined candidate passed.
+The unpublished private candidate adds observed final-directory-state equality(Pn), authorization-before-source-read evidence(Pm) and bounded gzip JSONL retention.
+Gzip descriptors continue to hash physical retained compressed bytes; decoded record counts/schema/secret checks remain strict, with plain readline unchanged.
+Original183's million-row and BoundedReader assertions remain an exact prefix; its added private cases emit no nested unittest footer.
+Only143/175/178/180/182/183/187/208 change among208 original methods; the remaining200 methods and86 AST are unchanged.
+The five reviewed positive expected-argument adjustments retain exact deferred-production behavior and preserve the original negative assertion sequence.
+Pm's one-method15.238s, Pn's two-method350.247s and the older standalone gzip eight-method0.305s results retain their own receipts/raw and never add up to one suite.
+The prepared gzip roundtrip receipt covers actual1,000,000 rows/379,588,762 decoded bytes; neither the original379MB nor20MB gzip sample bytes are included in this archive.
+The new60-method tool preparation, its19 remaining gates and new own CI have no execution result at this archival checkpoint; current candidate complete208 remains unproved.
+All46 claims, plan and DAG stay unchanged; these records do not approve samples, a formal POC, runtime integration or fullV1 completion.
+
+Records: [parent execution](../evidence/GZ-021/executions/0e99e70a6e6a794e44c4a68e5babc980a2dedeb3/manifest.json) and [candidate preparation](../evidence/GZ-021/candidate-checks/local-source-observations/manifest.json).
+
+
 ## Ten-finding repair preparation checkpoint (parent 911cf73)
 
 This candidate repairs the ten bounded findings captured on parent 911cf73d3a7d49447502eceeb37e7ede3677067f. POC-003 binds each request to its retained origin-access observation, requires zero origin/object reads for denied requests, and checks both source versions against an independently approved minimum input size exceeding Slice and buffer sizes. POC-009 derives tool and human scores from retained results and approved references. Media quality derives VMAF from complete ordered frame results bound to the approved evaluator invocation. Commercial-external qualified PASS remains unavailable pending complete qualification; local and self-hosted modes retain their separate behavior.

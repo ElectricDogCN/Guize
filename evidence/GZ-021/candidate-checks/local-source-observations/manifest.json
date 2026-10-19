@@ -1,0 +1,821 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUTC": "2026-10-19T04:57:26.988871+00:00",
+  "representation": "zlib-base64 exact original physical bytes, ASCII LF76; raw BOM/encoding retained",
+  "fileSelectionSha256": "4206821d65b6521c2be683f01c410555ab4eda4c5383f9e24c15a869795d3f4a",
+  "full208OnSuccessor": false,
+  "local20Accepted": false,
+  "legacyLocal20Accepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "sourceParent": "0e99e70a6e6a794e44c4a68e5babc980a2dedeb3",
+  "parentTree": "71dcb410e56220741b567ae16454f329a1b49f1c",
+  "candidateHashes": {
+    "specs/poc/check_program.py": "782be08f1841cd05368db14bb764930e6ba9bc3be283ba9b98402a1a5d4ea7d6",
+    "specs/poc/program.schema.yaml": "04a3d818ea541e4f5699671433722d3131e5d4ecc2e19f98f406b19470590265",
+    "specs/poc/test_program.py": "7fdd60f60295e42660807051e8eb90b3f99028917029aa8e95d1aa9b4e58283d"
+  },
+  "rootReadAndMechanicallyVerifiedComposition": true,
+  "originalTestMethodCount": 208,
+  "unchangedOriginalMethodAstCount": 200,
+  "reviewedPositiveExpectedArgumentChanges": 5,
+  "test86AstUnchanged": true,
+  "originalAssertionCount": 465,
+  "historicalExecutionsNeverSummed": true,
+  "historicalChecks": [
+    {
+      "label": "Pm only",
+      "originalMethods": [
+        208
+      ],
+      "reportedSeconds": 15.238,
+      "exitCode": 0
+    },
+    {
+      "label": "Pn only",
+      "originalMethods": [
+        182,
+        187
+      ],
+      "reportedSeconds": 350.247,
+      "exitCode": 0
+    },
+    {
+      "label": "earlier standalone gzip candidate",
+      "tests": 8,
+      "reportedSeconds": 0.305,
+      "nativeExitCode": 0,
+      "outerWindowsDisplayExitCode": 1
+    }
+  ],
+  "preparedCurrentSelection": {
+    "groups": {
+      "metadata": [
+        118,
+        130,
+        146,
+        150,
+        159,
+        182,
+        183,
+        187,
+        188,
+        198
+      ],
+      "localSource": [
+        87,
+        92,
+        93,
+        102,
+        103,
+        106,
+        107,
+        108,
+        110,
+        114,
+        115,
+        116,
+        126,
+        127,
+        128,
+        131,
+        137,
+        139,
+        149,
+        152,
+        177,
+        189,
+        197,
+        199,
+        208
+      ],
+      "genericProfilesAndRaw": [
+        86,
+        88,
+        90,
+        91,
+        95,
+        101,
+        120,
+        122,
+        123,
+        132,
+        138,
+        140,
+        144,
+        147
+      ],
+      "sharedBinarySecretAndByteRange": [
+        104,
+        164,
+        169,
+        171
+      ],
+      "reviewedPositiveExpectations": [
+        143,
+        175,
+        178,
+        180
+      ],
+      "cheapPlanOnlyExplicitReferences": [
+        5,
+        6,
+        14
+      ]
+    },
+    "union": [
+      5,
+      6,
+      14,
+      86,
+      87,
+      88,
+      90,
+      91,
+      92,
+      93,
+      95,
+      101,
+      102,
+      103,
+      104,
+      106,
+      107,
+      108,
+      110,
+      114,
+      115,
+      116,
+      118,
+      120,
+      122,
+      123,
+      126,
+      127,
+      128,
+      130,
+      131,
+      132,
+      137,
+      138,
+      139,
+      140,
+      143,
+      144,
+      146,
+      147,
+      149,
+      150,
+      152,
+      159,
+      164,
+      169,
+      171,
+      175,
+      177,
+      178,
+      180,
+      182,
+      183,
+      187,
+      188,
+      189,
+      197,
+      198,
+      199,
+      208
+    ],
+    "count": 60,
+    "note": "Selection suggestion only, not executed; includes every literal POC005/006 reference plus generic profile/raw, physical byte range and all five reviewed positive expectations; excludes unrelated expensive frontend184."
+  },
+  "combinedCandidateTestsExecuted": false,
+  "sourcePublished": false,
+  "futureOwnCiStarted": false,
+  "existingArchiveReferences": [
+    {
+      "role": "existing exact referenced execution-tool bytes; do not repack",
+      "originalExternalPath": ".takeover-tools/run_gz021_poc_shards_native_tmp.py",
+      "existingManifest": "evidence/GZ-021/executions/911cf73d3a7d49447502eceeb37e7ede3677067f/manifest.json",
+      "existingArchivePath": "evidence/GZ-021/executions/911cf73d3a7d49447502eceeb37e7ede3677067f/run_gz021_poc_shards_native_tmp.py.zlib.b64",
+      "originalPhysicalSha256": "9b6bd59eba81bc72555e81606ff1c795efe5d46a3470d55f28bff4c03a151819",
+      "packedSha256": "28ba2447847ccc2edbcd7632e543ccec1580b0fbeb64634aad25405eb4c5e917"
+    },
+    {
+      "role": "existing exact referenced execution-tool bytes; do not repack",
+      "originalExternalPath": ".takeover-tools/verify_gz021_poc208_four_shards_native_tmp_implementation.py",
+      "existingManifest": "evidence/GZ-021/executions/911cf73d3a7d49447502eceeb37e7ede3677067f/manifest.json",
+      "existingArchivePath": "evidence/GZ-021/executions/911cf73d3a7d49447502eceeb37e7ede3677067f/verify_gz021_poc208_four_shards_native_tmp_implementation.py.zlib.b64",
+      "originalPhysicalSha256": "2b9906441bd4925791198a360db1b671511bdebbbd15827d77297febd8ad9b40",
+      "packedSha256": "a727ebaf810f342760b4d30fd11cacc37ee82d0cba775daa40faebe539172fe4"
+    }
+  ],
+  "excludedSampleBytePaths": [
+    {
+      "path": "local-lab/metadata-fixtures/v1/profiled-objects-1000000.jsonl",
+      "reason": "379588762B actual input sample bytes; retain receipt only in this evidence archive"
+    },
+    {
+      "path": "local-lab/metadata-retention-preparation-v1/1m-profiled.jsonl.gz",
+      "reason": "20152906B actual gzip sample bytes; retain actual roundtrip receipt only"
+    }
+  ],
+  "files": [
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-connector-denied-origin-repair/connector-denied-origin.patch",
+      "role": "Pm reviewed patch",
+      "path": "files/042-connector-denied-origin.patch.zlib.b64",
+      "originalPhysicalSha256": "847e59f003c0bf2ad279f2f322db3469b772f3b0d13827a6d7bd6e38ebc10768",
+      "originalPhysicalBytes": 14158,
+      "packedSha256": "599f5bbd85edcacdfbe90b935b887941dee5875d6eeeb82303d77b50387571df",
+      "packedBytes": 4916
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-connector-denied-origin-repair/manifest.json",
+      "role": "Pm finite manifest/proof",
+      "path": "files/043-manifest.json.zlib.b64",
+      "originalPhysicalSha256": "d2831e6f4315db7ecefaf0c86e2e5af6419dcae78bbd848f8489b238a764607f",
+      "originalPhysicalBytes": 1944,
+      "packedSha256": "e4c225b63304addb8457ccc237782d0379d5f4632bf12499c674a96c644983af",
+      "packedBytes": 1289
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/repair.patch",
+      "role": "Pn reviewed patch; finite source/AST checks retained in targeted receipt",
+      "path": "files/044-repair.patch.zlib.b64",
+      "originalPhysicalSha256": "83557acd74f2d24d6fe13c202964ace73ef2772953a06a19fa9e261ef4b4248f",
+      "originalPhysicalBytes": 19916,
+      "packedSha256": "ac3cfff62130b83ae7b6307ca923686dc5c5c91713c4a2ce50ab246ea58b261f",
+      "packedBytes": 6246
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/metadata-gzip-retention-preparation-v1/merge-candidate/candidate.patch",
+      "role": "gzip reviewed two-existing-path patch",
+      "path": "files/045-candidate.patch.zlib.b64",
+      "originalPhysicalSha256": "aa1b9b7fc9111de9c6e620733607411c9826a9391eeea1f81db42f584afc66c7",
+      "originalPhysicalBytes": 15859,
+      "packedSha256": "3fc4ece50c83d657468d01370c3f367eec3e7e17859d5df9ea40050648bcc81f",
+      "packedBytes": 6144
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/metadata-gzip-retention-preparation-v1/merge-candidate/finite-proof.json",
+      "role": "gzip plain-readline/183-prefix finite proof",
+      "path": "files/046-finite-proof.json.zlib.b64",
+      "originalPhysicalSha256": "e6291b3e990178fb1ec4206764d25057c44d4caca267532dac158aabcf04078a",
+      "originalPhysicalBytes": 2439,
+      "packedSha256": "87d64da9ceb0f5c84ebe166f7de3f79b78d1288c3d254739981a4b9573a90a73",
+      "packedBytes": 1622
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-0e99e70-test143175178180-positive-deferred-expectations.patch",
+      "role": "four-method/five-positive-expected patch",
+      "path": "files/047-gz021-0e99e70-test143175178180-positive-deferred-expectations.patch.zlib.b64",
+      "originalPhysicalSha256": "cad89e34cc4d8577692c566333d1776191cf8cbab42b3a136d20cad498c893a6",
+      "originalPhysicalBytes": 4423,
+      "packedSha256": "cfaedef589b4162e641884750cc8e3b3eb91d6bdaba7bc53eff8d669c3800563",
+      "packedBytes": 1808
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-0e99e70-test143175178180-positive-deferred-expectations-mechanical-proof.json",
+      "role": "five-positive-expected finite proof",
+      "path": "files/048-gz021-0e99e70-test143175178180-positive-deferred-expectations-mechanical-proof.json.zlib.b64",
+      "originalPhysicalSha256": "b7f25b61177a940841bd51afa66bca3d091fc5fc6ff3a09098e576f06dea8faa",
+      "originalPhysicalBytes": 4915,
+      "packedSha256": "00b670a4dd9a865e0d864bf0f259fa8b44c2e9655b275304bcd3952e7135eeb7",
+      "packedBytes": 1885
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-source-local-observations-final-staging/combined.patch",
+      "role": "final four-patch composition",
+      "path": "files/049-combined.patch.zlib.b64",
+      "originalPhysicalSha256": "2ee253e7d89ea3a71714053b565a0de4d355aca57a19f995f593382af3f226bd",
+      "originalPhysicalBytes": 53960,
+      "packedSha256": "9b902051b7091ca753047a0e46305609147af773ccb94f1197eaab09928d7413",
+      "packedBytes": 16912
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-source-local-observations-final-staging/mechanical-proof.json",
+      "role": "single finite merged checker/schema/208-name/assertion proof",
+      "path": "files/050-mechanical-proof.json.zlib.b64",
+      "originalPhysicalSha256": "65d4bd6074fbbb07522a0c1ecbc3b3e78b6702b0c02f738bebc2faa8f6f3fb69",
+      "originalPhysicalBytes": 14413,
+      "packedSha256": "ddfa54ebcf686587189864f75bf25c8f5f3a93ca821edb58a31a86f9aa54385d",
+      "packedBytes": 4791
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-source-local-observations-private-application.json",
+      "role": "root actual PRIVATE-only three-code application receipt",
+      "path": "files/051-gz021-source-local-observations-private-application.json.zlib.b64",
+      "originalPhysicalSha256": "f9edc057e1c03b6cc885e7ba2eab3ff4ab1ae391c56a0f4ad883741423cb9fbe",
+      "originalPhysicalBytes": 1266,
+      "packedSha256": "18afbde55e33cd2599ae46545b56f6637943eb57cd26b32480150a5344717fdb",
+      "packedBytes": 957
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-source-local-observations-final-staging/check_program.py",
+      "role": "exact final staged candidate source, compressed retention",
+      "path": "files/052-check_program.py.zlib.b64",
+      "originalPhysicalSha256": "782be08f1841cd05368db14bb764930e6ba9bc3be283ba9b98402a1a5d4ea7d6",
+      "originalPhysicalBytes": 468653,
+      "packedSha256": "e64ba25960694d61e54805c927ca7a161e6137d8b2049ca0fd2b3cf31c4453e8",
+      "packedBytes": 138333
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-source-local-observations-final-staging/program.schema.yaml",
+      "role": "exact final staged candidate source, compressed retention",
+      "path": "files/053-program.schema.yaml.zlib.b64",
+      "originalPhysicalSha256": "04a3d818ea541e4f5699671433722d3131e5d4ecc2e19f98f406b19470590265",
+      "originalPhysicalBytes": 342842,
+      "packedSha256": "7a4e3508ed9e1dc5f9c9ef1bb98bbe622d4fc520e487133b576e5614f745b1f2",
+      "packedBytes": 40584
+    },
+    {
+      "group": "candidate-reviewed-material",
+      "originalName": ".takeover-tools/gz021-source-local-observations-final-staging/test_program.py",
+      "role": "exact final staged candidate source, compressed retention",
+      "path": "files/054-test_program.py.zlib.b64",
+      "originalPhysicalSha256": "7fdd60f60295e42660807051e8eb90b3f99028917029aa8e95d1aa9b4e58283d",
+      "originalPhysicalBytes": 609544,
+      "packedSha256": "0c156697d609f4754ee8c121c26d4bd9e08d92fd37b574a237b2be061bbdedf2",
+      "packedBytes": 143747
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-connector-denied-origin-repair/run_target208_once.py",
+      "role": "existing actual Pm one-shot execution source",
+      "path": "files/055-run_target208_once.py.zlib.b64",
+      "originalPhysicalSha256": "339506f92a81f74cd9ca0b773ba6a9aaefe625a417555c089d6a88fb8f8a80d9",
+      "originalPhysicalBytes": 4409,
+      "packedSha256": "abb759333b2d14f48148ef0b6effe466ebc2ac402b88639d90b63606156db9c3",
+      "packedBytes": 2562
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-connector-denied-origin-repair/target208-receipt.json",
+      "role": "Pm only original208 method, 1/15.238s unittest/exit0",
+      "path": "files/056-target208-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "01affed9aef0be94c6e6c65b64183831d4b2cc550708a8087235d470ee47e17d",
+      "originalPhysicalBytes": 2776,
+      "packedSha256": "eea6464528a6bee583591b190b95d95743f99d44faf04f5f5adad9aeba59c995",
+      "packedBytes": 1536
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-connector-denied-origin-repair/target208.raw",
+      "role": "Pm actual test raw; distinct from combined candidate",
+      "path": "files/057-target208.raw.zlib.b64",
+      "originalPhysicalSha256": "ba945154c1784aeccde678c93f5aaeab1e00ec79d57f55cc9d893697e9985de5",
+      "originalPhysicalBytes": 725,
+      "packedSha256": "cb95327a2560f4a19a4e9e2c75fc2632d9fc12d1e9a662d352b139969169b7a0",
+      "packedBytes": 487
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/run_targeted_once.py",
+      "role": "existing actual Pn one-shot execution source",
+      "path": "files/058-run_targeted_once.py.zlib.b64",
+      "originalPhysicalSha256": "f2c45c8e31e266204300cc2d34a141ef40b346dd7110ce067917bce8a1ff25d7",
+      "originalPhysicalBytes": 7105,
+      "packedSha256": "c1c093902af2cbaf8d1946f7311ef2ce707afb2161085df653e4d586a82248e5",
+      "packedBytes": 4057
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/apply-patch.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/059-apply-patch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/apply-patch.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/060-apply-patch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/changed-paths-before.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/061-changed-paths-before.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/changed-paths-before.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/062-changed-paths-before.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "38434b7b3291cc128fb82767aebcb2317f8ff46cec965500ccb1aae19bec2775",
+      "originalPhysicalBytes": 83,
+      "packedSha256": "05e87588e1602a2fb4daf724c244344436dba66873fbcb373de7b756fa9732ff",
+      "packedBytes": 82
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/check-patch.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/063-check-patch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/check-patch.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/064-check-patch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/checkout.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/065-checkout.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "5f0fc81675f12f86b86617cdc8212774f48119c71cfff4512f920c9d3ba9b55b",
+      "originalPhysicalBytes": 78,
+      "packedSha256": "c1b5b1bf76a7de15979c6af6f8622df165b0f57a933381c5b7eedaab58d9968d",
+      "packedBytes": 114
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/checkout.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/066-checkout.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/clone-status-after.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/067-clone-status-after.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/clone-status-after.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/068-clone-status-after.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "dc38cc62e4cbfe9a68d32c3df008d8fa3fa4ed0239209500b7c0bb312c20f726",
+      "originalPhysicalBytes": 92,
+      "packedSha256": "878eb224093c228d07e0031dc2712ed4e5240f4d0c48e752cc3357a9f7c2b3d2",
+      "packedBytes": 86
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/clone-status-before.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/069-clone-status-before.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/clone-status-before.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/070-clone-status-before.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "dc38cc62e4cbfe9a68d32c3df008d8fa3fa4ed0239209500b7c0bb312c20f726",
+      "originalPhysicalBytes": 92,
+      "packedSha256": "878eb224093c228d07e0031dc2712ed4e5240f4d0c48e752cc3357a9f7c2b3d2",
+      "packedBytes": 86
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/clone.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/071-clone.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "ebb7197175aaad16319af89b1581ce5cedd81f356f6baef92cb1ec0a5b85ef22",
+      "originalPhysicalBytes": 73,
+      "packedSha256": "db86536170a74890fc40cdadbd0c9c7da3e24fd955d5d9b1d4d1db7ada9f17ca",
+      "packedBytes": 110
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/clone.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/072-clone.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/receipt.json",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/073-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "1759801e26399b59730b5ec2d324f17dbbb8eae9cadb1c623af7f673901881c2",
+      "originalPhysicalBytes": 14429,
+      "packedSha256": "65b61b2f4b4b5beb9205ddd5865609c70259705eec49e08bac8d105297f6dd92",
+      "packedBytes": 3474
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-clean-after.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/074-source-clean-after.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-clean-after.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/075-source-clean-after.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-clean.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/076-source-clean.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-clean.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/077-source-clean.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-head-after.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/078-source-head-after.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-head-after.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/079-source-head-after.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "331fb12fe2be7446b6bebfc93dde61aa44cb7bb56d75740904370936a08ed819",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "4c5524bd14ad3e484080688a3453516fe04f087c16f1140c369f864ebd2a758b",
+      "packedBytes": 65
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-head.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/080-source-head.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-head.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/081-source-head.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "331fb12fe2be7446b6bebfc93dde61aa44cb7bb56d75740904370936a08ed819",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "4c5524bd14ad3e484080688a3453516fe04f087c16f1140c369f864ebd2a758b",
+      "packedBytes": 65
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-tree-after.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/082-source-tree-after.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-tree-after.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/083-source-tree-after.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "9c3f81af70fe8e120ff21cd52ed29e49efe87aaafc4fb44ea8f7495121eca491",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "9a41f5df929fbce19d3f17e54be52df792a3a9e30d4f6e91885942645cbbb97e",
+      "packedBytes": 65
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-tree.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/084-source-tree.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/source-tree.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/085-source-tree.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "9c3f81af70fe8e120ff21cd52ed29e49efe87aaafc4fb44ea8f7495121eca491",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "9a41f5df929fbce19d3f17e54be52df792a3a9e30d4f6e91885942645cbbb97e",
+      "packedBytes": 65
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/tests.stderr.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/086-tests.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "081addf89e651d28d5ff6725978b4a1967bcb8ab5d0119746351b5c0a23b6e05",
+      "originalPhysicalBytes": 438,
+      "packedSha256": "9b93ee0f07606e758ee0a6f14ad2267194e11c4d310783720ffb7f0d4f9e12cd",
+      "packedBytes": 231
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/gz021-incremental-observed-state-repair/targeted2-results-v1/tests.stdout.raw",
+      "role": "Pn original182/187: actual setup/test raw or receipt, 2/350.247s unittest/exit0",
+      "path": "files/087-tests.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/metadata-gzip-retention-preparation-v1/native-focused/receipt.json",
+      "role": "prior standalone8 history receipt, not current183/integrated candidate",
+      "path": "files/088-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "0536a862a506b122fc0bada90bb04b6d93a1657861eb27b08544f6624352f464",
+      "originalPhysicalBytes": 1116,
+      "packedSha256": "9f9275d8dbda580152091a93c4530fa098dc072a7a4a4a55dab10a3e2650c139",
+      "packedBytes": 722
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/metadata-gzip-retention-preparation-v1/native-focused/stdout.raw",
+      "role": "prior standalone8 actual stdout",
+      "path": "files/089-stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/metadata-gzip-retention-preparation-v1/native-focused/stderr.raw",
+      "role": "prior standalone8 actual Ran8/0.305s/OK stderr",
+      "path": "files/090-stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e736a4a77e3ef82992bca8a4ea8ba1696fed36ad2c1a665ebab1300fa848ca56",
+      "originalPhysicalBytes": 1310,
+      "packedSha256": "ec838f2813524564b98fe754be729df490a1ea276337c183e9e45f80875f16da",
+      "packedBytes": 487
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/metadata-gzip-retention-preparation-v1/native-launch.stdout.raw",
+      "role": "prior outer Windows launch actual stdout",
+      "path": "files/091-native-launch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "9bc883c1e5728f7ddb5d25a5a0e1ecf08cee5f6f63bc81bea2b32da142a6b348",
+      "originalPhysicalBytes": 2356,
+      "packedSha256": "9be292756fbda68d034fa9c6ac6a9545ef4e6f9f78a3559e47a5a8bca286f7dc",
+      "packedBytes": 1147
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/metadata-gzip-retention-preparation-v1/native-launch.stderr.raw",
+      "role": "prior outer Windows launch actual stderr",
+      "path": "files/092-native-launch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca",
+      "originalPhysicalBytes": 132,
+      "packedSha256": "714710ea9e1db02549967cc4534ae6f876fc25360b7a4b53ebd71a56a92cdf78",
+      "packedBytes": 142
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": ".takeover-tools/metadata-gzip-retention-preparation-v1/preparation.json",
+      "role": "prior standalone8/native0 versus outer GBK-display-exit1 disclosure",
+      "path": "files/093-preparation.json.zlib.b64",
+      "originalPhysicalSha256": "d613cd843042af1d06c675f5a61e5b4467b01e83ebe88b70301df4acf9ec8870",
+      "originalPhysicalBytes": 1427,
+      "packedSha256": "664de5cdb7f60a3d7a2d6cd11f52fd7da929b742ae2e9a04b85d00e5f3dfbc48",
+      "packedBytes": 1046
+    },
+    {
+      "group": "candidate-distinct-historical-executions",
+      "originalName": "local-lab/metadata-retention-preparation-v1/receipt.json",
+      "role": "actual one-million-row full decoded-byte/row gzip roundtrip receipt only",
+      "path": "files/094-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "eb7b79dc1108b06ea169783df7fceaa4b909b21d774926658a23bbc525186212",
+      "originalPhysicalBytes": 1663,
+      "packedSha256": "b9205966cf849d0646587451fe6923772075e42d20d092a7a290129e0f8be97d",
+      "packedBytes": 1058
+    },
+    {
+      "group": "candidate-execution-tool-preparation",
+      "originalName": ".takeover-tools/run_gz021_poc_targeted60_native_tmp.py",
+      "role": "new targeted60 driver preparation, not executed at checkpoint",
+      "path": "files/095-run_gz021_poc_targeted60_native_tmp.py.zlib.b64",
+      "originalPhysicalSha256": "c12b605ecc492c72ce55fd0ee0a4e6d3f3db7c3b48982d849fe346f317a0a78a",
+      "originalPhysicalBytes": 22852,
+      "packedSha256": "a9b6b6c9467a6ba917165fbd4d05dce369fe9e9183bc89a6a29b8b5fb904913f",
+      "packedBytes": 9674
+    },
+    {
+      "group": "candidate-execution-tool-preparation",
+      "originalName": ".takeover-tools/verify_gz021_source_local_observations_targeted60_successor.py",
+      "role": "new targeted60 plus19-gates wrapper preparation; parentPassingMethods corrected",
+      "path": "files/096-verify_gz021_source_local_observations_targeted60_successor.py.zlib.b64",
+      "originalPhysicalSha256": "da1e688215eca46915be3b5dc8f80e637a2eda4b2e9a1e32232bd321a5420c3e",
+      "originalPhysicalBytes": 26174,
+      "packedSha256": "698cfb2a907d660983883ee605f57985d1206a21802decdd0fd71590c6153839",
+      "packedBytes": 10874
+    },
+    {
+      "group": "candidate-execution-tool-preparation",
+      "originalName": ".takeover-tools/gz021-targeted60-successor-preparation.diff",
+      "role": "single driver/wrapper preparation diff, current label-corrected bytes",
+      "path": "files/097-gz021-targeted60-successor-preparation.diff.zlib.b64",
+      "originalPhysicalSha256": "b43a679d7c1b6010a0e513699a5b049ae1f273801eceaecfbc3675791ad3e7e5",
+      "originalPhysicalBytes": 34049,
+      "packedSha256": "fc485c9636ac0668ee10942480cf450b499913d1ec8078cab9a62875abbb528e",
+      "packedBytes": 14116
+    },
+    {
+      "group": "candidate-execution-tool-preparation",
+      "originalName": ".takeover-tools/verify_gz021_source_local_observations_targeted60_successor-first-prepared-62385d.txt",
+      "role": "retained old wrapper62385d bytes; superseded field label only",
+      "path": "files/098-verify_gz021_source_local_observations_targeted60_successor-first-prepared-62385d.txt.zlib.b64",
+      "originalPhysicalSha256": "62385d3ede7840d6c570570d10a944ec895df7247cb762be8afa7db0d6e3c72d",
+      "originalPhysicalBytes": 26185,
+      "packedSha256": "60fce55ebc3f7d5c27414e5f1ea84eef5363168c170ad07de52559a45f0d6bb1",
+      "packedBytes": 10890
+    },
+    {
+      "group": "candidate-execution-tool-preparation",
+      "originalName": ".takeover-tools/live_github_transport.py",
+      "role": "existing referenced real transport implementation",
+      "path": "files/099-live_github_transport.py.zlib.b64",
+      "originalPhysicalSha256": "392c4a7291c919da650db69a1d666d9dcb30d4f4e165d70b120b07e5372290ab",
+      "originalPhysicalBytes": 2521,
+      "packedSha256": "c368b349f13e90cc2976669750d0feb652e8cc389ac103e8b02bb78f54e9dd94",
+      "packedBytes": 1516
+    },
+    {
+      "group": "candidate-execution-tool-preparation",
+      "originalName": ".takeover-tools/check_gz021_implementation_scope.py",
+      "role": "existing referenced implementation scope entry",
+      "path": "files/100-check_gz021_implementation_scope.py.zlib.b64",
+      "originalPhysicalSha256": "fe46fee70faf5f8888785613196c42586e753479e49178358fc4466cb2952892",
+      "originalPhysicalBytes": 4389,
+      "packedSha256": "f68152af8adc7109585664405e3f65860d9012dfa63789d37cd590d7feeb37b2",
+      "packedBytes": 2383
+    }
+  ],
+  "fileCount": 59,
+  "originalPhysicalBytes": 1708970,
+  "packedBytes": 436621
+}

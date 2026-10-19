@@ -1,0 +1,485 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUTC": "2026-10-19T04:57:26.988871+00:00",
+  "representation": "zlib-base64 exact original physical bytes, ASCII LF76; raw BOM/encoding retained",
+  "fileSelectionSha256": "4206821d65b6521c2be683f01c410555ab4eda4c5383f9e24c15a869795d3f4a",
+  "full208OnSuccessor": false,
+  "local20Accepted": false,
+  "legacyLocal20Accepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "actualSource": "0e99e70a6e6a794e44c4a68e5babc980a2dedeb3",
+  "tree": "71dcb410e56220741b567ae16454f329a1b49f1c",
+  "full208Completed": true,
+  "full208Accepted": false,
+  "originalAggregate": {
+    "status": "failure",
+    "tests": 208,
+    "passed": 204,
+    "failures": 4,
+    "errors": 0,
+    "skipped": 0,
+    "expectedFailures": 0,
+    "unexpectedSuccesses": 0,
+    "elapsedSeconds": 2714.963448047999
+  },
+  "exactOriginalMethodCoverage": {
+    "exact": true,
+    "expectedCount": 208,
+    "observedParentCount": 208,
+    "uniqueObservedParentCount": 208,
+    "missingMethods": [],
+    "unexpectedMethods": [],
+    "duplicateMethods": {}
+  },
+  "successfulPriorGates": 17,
+  "executedGates": 18,
+  "pocTestsExitCode": 1,
+  "nativeVerifyDocsExecuted": false,
+  "ownCiSeparate": {
+    "number": 713,
+    "tests": 637,
+    "steps": 28,
+    "seconds": 1658.98,
+    "accepted": true,
+    "doesNotExecutePoc208": true,
+    "syntheticCheckoutIsNotActualMain": true
+  },
+  "existingArchiveReferences": [
+    {
+      "role": "existing exact referenced execution-tool bytes; do not repack",
+      "originalExternalPath": ".takeover-tools/run_gz021_poc_shards_native_tmp.py",
+      "existingManifest": "evidence/GZ-021/executions/911cf73d3a7d49447502eceeb37e7ede3677067f/manifest.json",
+      "existingArchivePath": "evidence/GZ-021/executions/911cf73d3a7d49447502eceeb37e7ede3677067f/run_gz021_poc_shards_native_tmp.py.zlib.b64",
+      "originalPhysicalSha256": "9b6bd59eba81bc72555e81606ff1c795efe5d46a3470d55f28bff4c03a151819",
+      "packedSha256": "28ba2447847ccc2edbcd7632e543ccec1580b0fbeb64634aad25405eb4c5e917"
+    },
+    {
+      "role": "existing exact referenced execution-tool bytes; do not repack",
+      "originalExternalPath": ".takeover-tools/verify_gz021_poc208_four_shards_native_tmp_implementation.py",
+      "existingManifest": "evidence/GZ-021/executions/911cf73d3a7d49447502eceeb37e7ede3677067f/manifest.json",
+      "existingArchivePath": "evidence/GZ-021/executions/911cf73d3a7d49447502eceeb37e7ede3677067f/verify_gz021_poc208_four_shards_native_tmp_implementation.py.zlib.b64",
+      "originalPhysicalSha256": "2b9906441bd4925791198a360db1b671511bdebbbd15827d77297febd8ad9b40",
+      "packedSha256": "a727ebaf810f342760b4d30fd11cacc37ee82d0cba775daa40faebe539172fe4"
+    }
+  ],
+  "files": [
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-controller.json",
+      "role": "actual terminal controller receipt",
+      "path": "files/001-gz021-poc208-four-shards-native-tmp-0e99e70-controller.json.zlib.b64",
+      "originalPhysicalSha256": "452068ff21bb9cd5d0ac429d0a23ae7238a4c97123b344539a578186102b9a74",
+      "originalPhysicalBytes": 1180,
+      "packedSha256": "f9a9b31ff19e4337fe28f9adbc3ea7c59dea85e01cfd3bbeb07e5b9f73b87aae",
+      "packedBytes": 949
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-controller.raw",
+      "role": "actual controller stdout/stderr raw",
+      "path": "files/002-gz021-poc208-four-shards-native-tmp-0e99e70-controller.raw.zlib.b64",
+      "originalPhysicalSha256": "7f4f2497a80b4967df10ad6ec45cf0f0f1b62f6fe069f3efc67f1e061b4898ac",
+      "originalPhysicalBytes": 1589,
+      "packedSha256": "b1907a67a28d0665116fecc00696d32282b29de028df4a76b73c1ca7e68b7594",
+      "packedBytes": 1014
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-independent-0e99e70-full208-terminal-failure-observation.json",
+      "role": "root terminal recomputation; current parentPassingMethods label disclosure",
+      "path": "files/003-gz021-independent-0e99e70-full208-terminal-failure-observation.json.zlib.b64",
+      "originalPhysicalSha256": "f99467ec848da1a6d36b2fc910f1e69b1640611ed79876252c64e82fb04b8b28",
+      "originalPhysicalBytes": 4733,
+      "packedSha256": "4c752d89b017c8898cf9602d202e13633bd0de780519e033a0c8c6189343fc37",
+      "packedBytes": 2444
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/status.json",
+      "role": "18 actual gate statuses; 17 zero then poc-tests one",
+      "path": "files/004-status.json.zlib.b64",
+      "originalPhysicalSha256": "17868cd118668eb81eef72ffd86af418cc28e34138b02951cf102a2994a16589",
+      "originalPhysicalBytes": 364,
+      "packedSha256": "2c90c106cd870b3aa819aeb26beb720eab2fd3a01e129955a01b6cddbecf5937",
+      "packedBytes": 227
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/task.txt",
+      "role": "actual prior gate raw: task",
+      "path": "files/005-task.txt.zlib.b64",
+      "originalPhysicalSha256": "68de6b61ebd6bafb3668d24a10c3ef0bf328ad0329ea9c030a71f2fdd07c00c7",
+      "originalPhysicalBytes": 260,
+      "packedSha256": "a9da76d9f48b9ce6e1a090c6937973401ea45e3d5f54bcba6253dd6a8a92b21a",
+      "packedBytes": 292
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/readiness.txt",
+      "role": "actual prior gate raw: readiness",
+      "path": "files/006-readiness.txt.zlib.b64",
+      "originalPhysicalSha256": "3f6945a75486241de08a3d52fd91557cc8c420eb136461bfeb16b0fe895c00bb",
+      "originalPhysicalBytes": 660,
+      "packedSha256": "1642376ae6227d6b76b9e8e7f8d841996eab9ec269fe78b65bbf945a8f48b73e",
+      "packedBytes": 495
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/schemas.txt",
+      "role": "actual prior gate raw: schemas",
+      "path": "files/007-schemas.txt.zlib.b64",
+      "originalPhysicalSha256": "756e804be8eec18d6c82e196ee0c797c05f2379a3848d79f54589d2570317de3",
+      "originalPhysicalBytes": 1812,
+      "packedSha256": "d50630f99004b0b76a91907f984149dc146514d71f087ae8fce45664c79fc9c0",
+      "packedBytes": 710
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/integrity.txt",
+      "role": "actual prior gate raw: integrity",
+      "path": "files/008-integrity.txt.zlib.b64",
+      "originalPhysicalSha256": "58759b604655e3e8e87589bc3f28912ee303ab0e0577c3b6c77e70e968556a66",
+      "originalPhysicalBytes": 418,
+      "packedSha256": "2e0a9b25e46fcb17558d8112bd59f6cd0e2a91cf7e25fbb2604e0dbc962b0f90",
+      "packedBytes": 369
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/history.txt",
+      "role": "actual prior gate raw: history",
+      "path": "files/009-history.txt.zlib.b64",
+      "originalPhysicalSha256": "98fb52fa17ef8aad69c62703d30cc8cc3a5f8803e140122c836ed323f5c45a4b",
+      "originalPhysicalBytes": 471,
+      "packedSha256": "e3c9747f8367abb02a056242e808d9aea40f969ddb638d42bf634a06c75b6072",
+      "packedBytes": 434
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/transitions.txt",
+      "role": "actual prior gate raw: transitions",
+      "path": "files/010-transitions.txt.zlib.b64",
+      "originalPhysicalSha256": "d99931acdba8d312e4b864877be40f545de13d1b08bfad9c0452c9dd1f4f3f59",
+      "originalPhysicalBytes": 423,
+      "packedSha256": "a1e81505c65e2022d2d46cec0685f5357227112e4511b5862984c005051c8004",
+      "packedBytes": 414
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/finalization.txt",
+      "role": "actual prior gate raw: finalization",
+      "path": "files/011-finalization.txt.zlib.b64",
+      "originalPhysicalSha256": "7e95fe71611ee07d55cab34776502917780e0774b0bf1f49c1c1248922a02bb9",
+      "originalPhysicalBytes": 343,
+      "packedSha256": "c4bb861a69720f3553e7f6db824e975ca6d7a7ed3ff739eabe9862de3f156305",
+      "packedBytes": 353
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/raw-lifecycle.txt",
+      "role": "actual prior gate raw: raw-lifecycle",
+      "path": "files/012-raw-lifecycle.txt.zlib.b64",
+      "originalPhysicalSha256": "b18fa3a5c896ad3a7f96c12f5047c9c0a9181f0d3081b7b3f38f23a4cbfc2fff",
+      "originalPhysicalBytes": 491,
+      "packedSha256": "07a938a8fb32e1b5e7f63bfdf74279820fdabec64f3a7cc5775fa39e6eebfb29",
+      "packedBytes": 450
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/lifecycle.txt",
+      "role": "actual prior gate raw: lifecycle",
+      "path": "files/013-lifecycle.txt.zlib.b64",
+      "originalPhysicalSha256": "70496ef34ac77e6c9f03636b0975d6086a34d43577a57e3089df95e2a0854a32",
+      "originalPhysicalBytes": 582,
+      "packedSha256": "7065ed21212f50433703e583a48fc555d4f3474f7098e9bdc1debc18168bab69",
+      "packedBytes": 503
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/coordination.txt",
+      "role": "actual prior gate raw: coordination",
+      "path": "files/014-coordination.txt.zlib.b64",
+      "originalPhysicalSha256": "59b99451f58ff62f7647e4e4f1879c7355e0741d07470b98dcffcdc7a690a792",
+      "originalPhysicalBytes": 382,
+      "packedSha256": "0323aa037f77a24d771d41d3982dcab3c6b45df23877cab642e8c884fdf0fc81",
+      "packedBytes": 385
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/scope.txt",
+      "role": "actual prior gate raw: scope",
+      "path": "files/015-scope.txt.zlib.b64",
+      "originalPhysicalSha256": "2fe43cb4099a0a00a349247f1ae0741efeba48b93f5d62ff8039488b6536322b",
+      "originalPhysicalBytes": 126470,
+      "packedSha256": "2e05d6041c0326db0e9e43998aedb9fc30c56bcafe6cb2ba267849d3d8cfc034",
+      "packedBytes": 12989
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/evidence.txt",
+      "role": "actual prior gate raw: evidence",
+      "path": "files/016-evidence.txt.zlib.b64",
+      "originalPhysicalSha256": "ec2c3845d120e4e29d992591c2b2d172620086d8c099e19b47e7d244973dabac",
+      "originalPhysicalBytes": 196,
+      "packedSha256": "cc3728ad51622ca952c1c334b3c26228f4a9e03a92fc065c75e66fe852851fdb",
+      "packedBytes": 227
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/unaffected.txt",
+      "role": "actual prior gate raw: unaffected",
+      "path": "files/017-unaffected.txt.zlib.b64",
+      "originalPhysicalSha256": "b8256b3b91b5feed217015b40c63260b59aa9ff6e6ca3a5513b47ea020938f87",
+      "originalPhysicalBytes": 677,
+      "packedSha256": "426c98ab0d2c8bc36240dcc130290bf5f75d49fa25f076d25cd662ebfe8fe1dc",
+      "packedBytes": 539
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/requirements-local.txt",
+      "role": "actual prior gate raw: requirements-local",
+      "path": "files/018-requirements-local.txt.zlib.b64",
+      "originalPhysicalSha256": "ad4f81764620628da2d3b75fa82df891eeb7e194d4b043fca58d834e3fa551e6",
+      "originalPhysicalBytes": 327,
+      "packedSha256": "c463c07de8c5926d902b3b82bc786a834dff0218a1dd5d1a8734227facaea00a",
+      "packedBytes": 317
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/requirements-production.txt",
+      "role": "actual prior gate raw: requirements-production",
+      "path": "files/019-requirements-production.txt.zlib.b64",
+      "originalPhysicalSha256": "78a60822abdfa12401d7c84db74b1fbb130bd8faf8df4e8d5987db517af1334e",
+      "originalPhysicalBytes": 331,
+      "packedSha256": "cacbbbabad860e136292c07153fff8cf900d9e42149d863a57bf635e666638ea",
+      "packedBytes": 321
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/requirements-negative.txt",
+      "role": "actual prior gate raw: requirements-negative",
+      "path": "files/020-requirements-negative.txt.zlib.b64",
+      "originalPhysicalSha256": "fd43820655da156f85e5dd73abafb6248f77d70fa1b1ac95d69ced9b8edb6ad9",
+      "originalPhysicalBytes": 1881,
+      "packedSha256": "0d3b012c8734d97368e50e1f57cecfa275467458a0556f82d571be0f715f5bb6",
+      "packedBytes": 770
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-baseline.txt",
+      "role": "actual prior gate raw: poc-baseline",
+      "path": "files/021-poc-baseline.txt.zlib.b64",
+      "originalPhysicalSha256": "aa6503bb8ce9fa94cce7761f7d1d59cc236b9da47076bf9fa6e0afa3e9c6a1af",
+      "originalPhysicalBytes": 230,
+      "packedSha256": "af9230c90a317f8e018c539858b5c99a5b9e3a24867e490124ed2891622c91fe",
+      "packedBytes": 264
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-tests.txt",
+      "role": "four-process aggregate dispatch/output raw",
+      "path": "files/022-poc-tests.txt.zlib.b64",
+      "originalPhysicalSha256": "4a14ca05ec9fd9f34770ca9a3237caeb94d1deb55f2e87962ceb90811d5b6c04",
+      "originalPhysicalBytes": 1095,
+      "packedSha256": "60ec7b0696e9f50bfe93779ca422ea2e1c4464d1827b2ec0698093712c90a4ba",
+      "packedBytes": 681
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/receipt.json",
+      "role": "actual four-process receipt; four Ran52, exact208 once, 204pass/4FAIL",
+      "path": "files/023-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "7bd4239317b73b1ca2d842364ac417f314eb0550f62b1dd5c3a7a5f905ed788c",
+      "originalPhysicalBytes": 153603,
+      "packedSha256": "256eb42806dda9001297b5b9d3f7d3b106d3bba917ad06e5e827bc831bf744be",
+      "packedBytes": 23789
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/shard-1.stdout.raw",
+      "role": "actual shard1 stdout; original separate Ran52 footer",
+      "path": "files/024-shard-1.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/shard-1.stderr.raw",
+      "role": "actual shard1 stderr; original separate Ran52 footer",
+      "path": "files/025-shard-1.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "8a5c68eb7dc8604ef429d0863271b50de3035e980863d117ea42f38891b21207",
+      "originalPhysicalBytes": 7590,
+      "packedSha256": "3549829076642e425141b180c2565d56d1e53e4ef0220c6f2b0af2f7d29e7c79",
+      "packedBytes": 2217
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/shard-2.stdout.raw",
+      "role": "actual shard2 stdout; original separate Ran52 footer",
+      "path": "files/026-shard-2.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/shard-2.stderr.raw",
+      "role": "actual shard2 stderr; original separate Ran52 footer",
+      "path": "files/027-shard-2.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "903eab0817f54a3c9e3a0256e4b3a8154bb37f8f6b28ed78da143b51f54da0a9",
+      "originalPhysicalBytes": 8721,
+      "packedSha256": "aa03bb84bb117a23671f2f2e1a6a747f376be4141a7b78c714b610f6ada2647c",
+      "packedBytes": 2651
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/shard-3.stdout.raw",
+      "role": "actual shard3 stdout; original separate Ran52 footer",
+      "path": "files/028-shard-3.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/shard-3.stderr.raw",
+      "role": "actual shard3 stderr; original separate Ran52 footer",
+      "path": "files/029-shard-3.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e6adf562132e744bcfd89e3a2af20ead7bf996b2f2a7b021fef2dc2afe8abac6",
+      "originalPhysicalBytes": 9552,
+      "packedSha256": "9c8ca7d83dc547f917eabaa9732339873a3020c023d65decaa8c0e03adff8bb9",
+      "packedBytes": 2756
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/shard-4.stdout.raw",
+      "role": "actual shard4 stdout; original separate Ran52 footer",
+      "path": "files/030-shard-4.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "source0e99-terminal",
+      "originalName": ".takeover-tools/gz021-poc208-four-shards-native-tmp-0e99e70-results/poc-shards/shard-4.stderr.raw",
+      "role": "actual shard4 stderr; original separate Ran52 footer",
+      "path": "files/031-shard-4.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "ba663548374e74e521b433c77f38037f1511c6097e47c9d32003cb02014beb97",
+      "originalPhysicalBytes": 8687,
+      "packedSha256": "d78c0ded6896c5e0523d555b6173917eb5f1aa4ee387e95f9e3b6f2695b9d940",
+      "packedBytes": 2647
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-implementation-0e99e70-ci713-receipt.json",
+      "role": "own CI713 strict receipt",
+      "path": "files/032-gz021-implementation-0e99e70-ci713-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "d32878000d1212f691a801e6b90804ea92d6cbd8a5ab5e8b547fc3c7cf3da711",
+      "originalPhysicalBytes": 4631,
+      "packedSha256": "99e650b7a8647cfc7d3bb1173f1aeec3b2839bd25f1ad8c59d6b28c5d892ef78",
+      "packedBytes": 2627
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-independent-0e99e70-ci713-execution-receipt.json",
+      "role": "own CI713 independent accepted execution receipt",
+      "path": "files/033-gz021-independent-0e99e70-ci713-execution-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "7e97449a649d9ec3acc637ecd6d6ffb6a8bd4eb215004229ec7d8ba17f917cb6",
+      "originalPhysicalBytes": 4724,
+      "packedSha256": "10a7850daee2ba329e99b934c27e11c3ff97ec71980c08596d1778d8f3f4091d",
+      "packedBytes": 2700
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-independent-0e99e70-ci713-official-final-snapshot.json",
+      "role": "own CI713 official final snapshot",
+      "path": "files/034-gz021-independent-0e99e70-ci713-official-final-snapshot.json.zlib.b64",
+      "originalPhysicalSha256": "38062c93cd9978f98eeb3c2c0ba41fc190b13a8441d231e7aa5cf9c8a3ca2d43",
+      "originalPhysicalBytes": 444133,
+      "packedSha256": "df63b9e7727493f90cbdd0d3a3f20c51ce6170d907beca8869a1b213fd12261f",
+      "packedBytes": 76928
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-implementation-0e99e70-ci713.txt",
+      "role": "own CI713 actual raw637, independent of local208",
+      "path": "files/035-gz021-implementation-0e99e70-ci713.txt.zlib.b64",
+      "originalPhysicalSha256": "e5c6162974efaf71ff0edc6aa39c5ef70d42e4b0d61b094410971dfb192ca5f9",
+      "originalPhysicalBytes": 386342,
+      "packedSha256": "f0e56a05e05d1dbb6cbea6b74bb622a53e754e70cc0d731c241b8094c0d7a3e3",
+      "packedBytes": 66804
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-independent-0e99e70-actual-source-content-binding.json",
+      "role": "actual published source/tree/base content binding",
+      "path": "files/036-gz021-independent-0e99e70-actual-source-content-binding.json.zlib.b64",
+      "originalPhysicalSha256": "5fc0bbf033964b3343376daf4ebd6fe9013634c4c851b660962dd04ac4d56566",
+      "originalPhysicalBytes": 22846,
+      "packedSha256": "4f90fe2dfacbd702da896eaeb584764ea5c042f485ae925130b45827fa38ba4a",
+      "packedBytes": 3076
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-current-ten-private-commit-receipt.json",
+      "role": "source0e99 commit/publication receipt",
+      "path": "files/037-gz021-current-ten-private-commit-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "62ead7c86685f49e8de8af34202af4d2f844b65d3efb39c482603a0d8ef6725a",
+      "originalPhysicalBytes": 73189,
+      "packedSha256": "dac3e562b5401415408b070ca97daf6cd2b70c4ab9c3768e90742c8d4d0a13f4",
+      "packedBytes": 12377
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-current-ten-publication-push-receipt.json",
+      "role": "actual source0e99 push receipt",
+      "path": "files/038-gz021-current-ten-publication-push-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "fa7274696393828ace5033e28d7f03360f663968eed551a4944c9ee6a52a4104",
+      "originalPhysicalBytes": 1747,
+      "packedSha256": "e513cee9ecfedd08351d3ce13bbec6dd04bb68dbb5798a3fa1747a63e6dd8d21",
+      "packedBytes": 1058
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-current-ten-publication-push.log",
+      "role": "actual source0e99 push raw",
+      "path": "files/039-gz021-current-ten-publication-push.log.zlib.b64",
+      "originalPhysicalSha256": "77037186abfb184463dee4b71740a55e4e6c45b5cd05bbe57d95180a4a94c72b",
+      "originalPhysicalBytes": 150,
+      "packedSha256": "fa03250e3e201a20520e481eefda987037d1840ba2808f3bfcd9ce1313e0ace4",
+      "packedBytes": 191
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-current-ten-0e99e70-windows-adoption.json",
+      "role": "authoring source adoption receipt",
+      "path": "files/040-gz021-current-ten-0e99e70-windows-adoption.json.zlib.b64",
+      "originalPhysicalSha256": "b6785291eeeff0dbc0b9030832ee7ec76475d41b9b761192659c2d4a9415ffb5",
+      "originalPhysicalBytes": 1424,
+      "packedSha256": "03c134e8388563f01ecd10142c034a5cb7ae1e342920389ea651dedbd97982bc",
+      "packedBytes": 892
+    },
+    {
+      "group": "source0e99-ci-publication",
+      "originalName": ".takeover-tools/gz021-current-ten-0e99e70-native-adoption.json",
+      "role": "native source adoption receipt",
+      "path": "files/041-gz021-current-ten-0e99e70-native-adoption.json.zlib.b64",
+      "originalPhysicalSha256": "aef76de5068371f51ba8b8069a0cea061df7d42354523df35454f37ec53dbbd2",
+      "originalPhysicalBytes": 1449,
+      "packedSha256": "7e086cd67b79457172c05371228141c0823f4c592927416097579e06eaa4835c",
+      "packedBytes": 933
+    }
+  ],
+  "fileCount": 41,
+  "originalPhysicalBytes": 1273703,
+  "packedBytes": 226845
+}
