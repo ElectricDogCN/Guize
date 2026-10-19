@@ -1638,7 +1638,7 @@ def validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,
         if kind=='file':values['extension']=extension
         for k,v in values.items():distributions[k][v]=distributions[k].get(v,0)+1
     if report['filenameDistributions']!=distributions:raise ValueError('name-length/character-set/approved-extension/path-depth distributions must derive the complete filename stream')
-    run_id=None;run_ids=set();request_ids=set();cursor=None;cursors=set();last=None
+    run_id=None;run_ids=set();request_ids=set();cursor=None;cursors=set();last=None;terminal=False
     def finish_run():
         if cursor is not None or differs('profile_page','profile_approved'):raise ValueError('every repeated provider listing must terminate and cover exact identities/versions/names/timestamps')
         connection.execute('DELETE FROM profile_page')
@@ -1646,10 +1646,11 @@ def validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,
         if row['runId']!=run_id:
             if run_id is not None:finish_run()
             if row['runId'] in run_ids:raise ValueError('listing runs must be distinct contiguous observations')
-            run_id=row['runId'];run_ids.add(run_id);cursor=None;cursors=set()
+            run_id=row['runId'];run_ids.add(run_id);cursor=None;cursors=set();terminal=False
+        elif terminal:raise ValueError('provider pagination cannot continue after a terminal cursor within the same run')
         first,end,provider_at=(utc(row[k]) for k in ('requestedAt','finishedAt','providerTimestamp'))
         if any(t is None for t in (first,end,provider_at)) or window is None or not window[0]<=first<=end<=window[1] or last is not None and first<last or row['sourceIdentity']!=policy['sourceIdentity'] or row['endpointURL']!=policy['endpointURL'] or row['statusCode']!=200 or row['requestId'] in request_ids or row['requestCursor']!=cursor or row['nextCursor'] is not None and (not recorded_text(row['nextCursor']) or row['nextCursor'] in cursors):raise ValueError('provider pagination must bind unique actual requests/cursors, source endpoint and UTC behavior')
-        last=end;request_ids.add(row['requestId']);cursor=row['nextCursor'];cursors.add(cursor);ingest('profile_page',row['objects'])
+        last=end;request_ids.add(row['requestId']);cursor=row['nextCursor'];terminal=cursor is None;cursors.add(cursor);ingest('profile_page',row['objects'])
     if run_id is None or len(run_ids)<policy['minimumListingRuns']:raise ValueError('at least the approved number of complete repeated provider listings required')
     finish_run();identity=connection.execute('SELECT kind,versionId,fileSizeBytes FROM baseline WHERE objectId=?',(policy['probeObjectId'],)).fetchone()
     updates=list(connection.execute("SELECT beforeVersion,afterVersion FROM expected WHERE objectId=? AND operation='update'",(policy['probeObjectId'],)))
@@ -2231,7 +2232,7 @@ def validate_qualified_media_scheduling(root,plan,execution,prefix,status,window
             errors.append(f'{label}: each job must bind approved node/build/purpose/input span');continue
         stamps={k:utc(row[k]) if row[k] is not None else None for k in ('queuedAt','admittedAt','startedAt','finishedAt','readyAt')};queued=stamps['queuedAt']
         if queued is None or not window[0]<=queued<=window[1]:errors.append(f'{label}: actual queue timestamp required');continue
-        valid=spec['userId']==context['authorizedUserId'] and spec['grantId']==context['currentGrantId'] and spec['aclVersion']==context['aclVersion'] and spec['demandEpoch']==policy['demandEpoch'] and grant_from<=queued<=grant_until
+        valid=spec['userId']==context['authorizedUserId'] and spec['grantId']==context['currentGrantId'] and spec['aclVersion']==context['aclVersion'] and spec['demandEpoch']==policy['demandEpoch'] and grant_from<=queued<grant_until
         allowed[job_id]=valid;clocks[job_id]=stamps
         if not valid:
             file=existing_ref(root,row['denialBodyRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['denialBodyRef']]
@@ -2239,7 +2240,7 @@ def validate_qualified_media_scheduling(root,plan,execution,prefix,status,window
                 errors.append(f'{label}: unauthorized/expired/revoked/stale demand cannot consume slots or return media bytes')
             continue
         admitted,start,end,ready=(stamps[k] for k in ('admittedAt','startedAt','finishedAt','readyAt'))
-        if any(t is None for t in (admitted,start,end,ready)) or not queued<=admitted<=start<end<=ready<=window[1] or admitted>grant_until or row['denialBodyRef'] is not None:
+        if any(t is None for t in (admitted,start,end,ready)) or not queued<=admitted<=start<end<=ready<=window[1] or admitted>=grant_until or row['denialBodyRef'] is not None:
             errors.append(f'{label}: authorized job queue/admission/run/completion/READY clocks required');continue
         file=existing_ref(root,row['outputArtifactRef'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==row['outputArtifactRef']]
         if file is None or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=spec['nodeId'] or row['outputArtifactRef'] not in (execution.get('rawOutputRefs') or []):errors.append(f'{label}: exact node-produced output bytes required');continue
@@ -3065,6 +3066,10 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
                 binding={key:request[key] for key in ('case','requestId','objectURL','assetId','versionId','authRef','requestRange','statusCode','startedAt','finishedAt')};binding.update(sourceId=obj['sourceId'],objectId=obj['objectId'])
                 if any(origin.get(key)!=value for key,value in binding.items()):errors.append(f'{label}: origin observation must bind the exact request, credential, source/object/version and UTC interval')
                 if not authorized and (origin['originRequestCount']!=0 or origin['objectReadCount']!=0):errors.append(f'{label}: denied authentication must precede all origin requests and protected object reads')
+                elif authorized and kind=='unsatisfiable':
+                    if origin['objectReadCount']!=0:errors.append(f'{label}: unsatisfiable Range must not read protected object bytes')
+                elif authorized and (origin['originRequestCount']<=0 or origin['objectReadCount']<=0):
+                    errors.append(f'{label}: successful authenticated OpenList reads require observed origin requests and protected object reads')
             if not authorized:
                 if request['statusCode'] not in (401,403) or request['originByteCount']!=0 or info['size']!=0:errors.append(f'{label}: missing or invalid credentials must expose no object bytes')
                 continue
@@ -3303,6 +3308,18 @@ def maximum_anonymous_speaker_overlap(weights):
     return math.fsum(weights[matched[column]-1][column-1] for column in range(1,n+1) if matched[column]<=rows and column<=columns)
 
 
+def minimum_edit_cost(left,right):
+    """Unit-cost Levenshtein distance with one row over the shorter sequence."""
+    if len(left)<len(right):left,right=right,left
+    previous=list(range(len(right)+1))
+    for i,reference in enumerate(left,1):
+        current=[i]
+        for j,output in enumerate(right,1):
+            current.append(min(previous[j]+1,current[-1]+1,previous[j-1]+(reference!=output)))
+        previous=current
+    return previous[-1]
+
+
 def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expected,window,defs,label,errors,cache,payload):
     """Verify retained evaluator comparisons against complete actual inputs, not claimed totals."""
     before=len(errors)
@@ -3354,6 +3371,11 @@ def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expe
                 if op in ('equal','substitution') and (left[ri]==right[oi])!=(op=='equal'):valid=False;break
                 numerator+=op!='equal';ri+=op!='insertion';oi+=op!='deletion'
             valid=valid and ri==len(left) and oi==len(right)
+            if valid:
+                minimum=minimum_edit_cost(left,right)
+                if numerator!=minimum:
+                    errors.append(f'{label}: WER/CER comparisons require a minimum-cost edit alignment');return None
+                numerator=minimum
     elif rule=='label_set_f1':
         if 'labels' not in ref or 'labels' not in out:valid=False
         else:
@@ -4408,7 +4430,7 @@ def validate_qualified_recovery_observation(root, plan, execution, prefix, statu
 
 
 RECOVERY_TIME_ENDPOINTS = {
-    'rpo_observed':('backup_checkpoint','recoverable_data_boundary'),
+    'rpo_observed':('recoverable_data_boundary','disruption_occurred'),
     'rto_observed':('recovery_started','recovery_completed'),
     'service_recovery_time':('recovery_started','services_ready'),
     'vm_recovery_time':('recovery_started','vm_set_ready'),
@@ -4471,7 +4493,7 @@ def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,
         errors.append(f'{label}: exact previously approved recovery run/host/service/VM/access subjects required');return
     expected=dict(configurationRef=capture.get('configurationRef'),baselineRef=capture.get('baselineRef'),restoredRef=capture.get('restoredRef'),comparisonRef=capture.get('comparisonRef'),resourceId='RES-RECOVERY-SANDBOX',subjectVersion=compliance_subject_version(plan,execution),acceptanceProfile=env.get('acceptanceProfile'),inputSamples=[{key:s.get(key) for key in ('id','immutableId','checksum')} for s in execution.get('samples') or []])
     if any(report.get(key)!=value for key,value in expected.items()):errors.append(f'{label}: timing must bind exact baseline/restored/comparison/resource/tool/input/profile identities')
-    names={event for pair in RECOVERY_TIME_ENDPOINTS.values() for event in pair};rows=report['events']
+    names={event for pair in RECOVERY_TIME_ENDPOINTS.values() for event in pair}|{'backup_checkpoint'};rows=report['events']
     if len(rows)!=len(names) or {row['event'] for row in rows}!=names:
         errors.append(f'{label}: exact unique recovery business events required');return
     times={};paths=[]
@@ -4503,10 +4525,10 @@ def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,
     if checkpoint is None or checkpoint!=times['backup_checkpoint'] or baseline_end is None or checkpoint>baseline_end:
         errors.append(f'{label}: backup checkpoint must bind approved baseline recoverable data boundary')
     for name,at in times.items():
-        if name!='backup_checkpoint' and not window[0]<=at<=window[1]:errors.append(f'{label}: recovery business event must occur inside executionWindow')
-    start=times['recovery_started'];complete=times['recovery_completed'];boundary=times['recoverable_data_boundary']
+        if name not in ('backup_checkpoint','recoverable_data_boundary') and not window[0]<=at<=window[1]:errors.append(f'{label}: recovery business event must occur inside executionWindow')
+    start=times['recovery_started'];complete=times['recovery_completed'];boundary=times['recoverable_data_boundary'];disruption=times['disruption_occurred']
     ready=('services_ready','vm_set_ready','authenticated_browsing_succeeded','authorized_playback_succeeded')
-    if not times['backup_checkpoint']<=boundary<=start<=complete or any(not start<=times[key]<=complete for key in ready) or comparison_end is None or complete>comparison_end:
+    if not times['backup_checkpoint']<=boundary<=disruption<=start<=complete or any(not start<=times[key]<=complete for key in ready) or comparison_end is None or complete>comparison_end:
         errors.append(f'{label}: checkpoint/disruption/recovery/readiness/completion events must be ordered')
     try:states=restored['states'];users={item['userId'] for item in states['permissions']};assets={item['assetId'] for item in states['assets']};playback=states['playback']
     except (TypeError,KeyError,AttributeError):return
@@ -5564,6 +5586,26 @@ def validate_qualified_ai_results(root,plan,execution,prefix,status,window,defs,
 
 
 
+def validate_ai_private_dispatch_payload(root,execution,prefix,control,policy,evaluation_policy,expected,defs,label,errors,cache):
+    """Parse the retained private-local request body using the existing reference-request protocol."""
+    outer=existing_ref(root,control['outboundRef'],prefix);before=len(errors)
+    captured=qualified_observation_report(outer,defs,'aiProviderDispatch',label,errors,cache) if outer else None
+    if captured is None or len(errors)!=before:return
+    ref=captured['requestPayloadRef'];path=retained_local_source_transport_artifact(root,execution,prefix,ref,'command_output',262144,label,errors,cache,[outer])
+    body=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,'aiModelRequest',label,errors,cache) if path else None
+    if body is None:return
+    samples=[row for row in expected['inputSamples'] if row['id']==body['sampleId']]
+    sources=[row for row in execution['environmentCaptured'].get('inputSampleArtifacts',[]) if row.get('sampleId')==body['sampleId']]
+    items=[row for row in evaluation_policy['items'] if row['itemId']==body['itemId'] and row['sampleId']==body['sampleId']]
+    if len(samples)!=1 or len(sources)!=1 or len(items)!=1:
+        errors.append(f'{label}: private-local dispatched body must name an exact approved immutable sample and benchmark item');return
+    sample,source=samples[0],sources[0];input_path=existing_ref(root,source.get('inputArtifactRef'),prefix)
+    model,version=ai_accounting_model_identity(execution['environmentCaptured'])
+    wanted=dict(requestId=control['providerRequestIds'][0],itemId=items[0]['itemId'],sampleId=sample['id'],inputRef=source.get('inputArtifactRef'),inputSha256=sample['checksum'],modelIdentity=model,modelVersion=version,subjectVersion=expected['subjectVersion'])
+    if sample['immutableId'] not in policy['allowedPayloadScope'] or body!=wanted or inspect_artifact(path,cache)['sha256']!=captured['requestPayloadSha256'] or input_path is None or inspect_artifact(input_path,cache)['sha256']!=sample['checksum']:
+        errors.append(f'{label}: actual private-local dispatched request bytes and referenced input bytes must bind approved immutable IDs/checksums, payload scope, request and model/version')
+
+
 def validate_qualified_ai_data_policy(root,plan,execution,prefix,window,defs,errors,cache,results,dispatch,evaluation_policy,expected,payload):
     label=f"qualified AI data policy {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
     report=selected_observation(root,execution,prefix,env.get('aiDataPolicyRef'),defs,'aiDataPolicyOutcomes',label,errors,cache)
@@ -5598,6 +5640,7 @@ def validate_qualified_ai_data_policy(root,plan,execution,prefix,window,defs,err
         if allowed:
             if sent is None or at is None or window is None or not window[0]<=at<=sent<=window[1] or row['dispatchedAt']!=control['observedAt'] or any(row[k]!=control[k] for k in ('outboundRef','outboundSha256','providerRequestIds','callerId','assetId','aclVersion')) or info is None or info['size']==0:
                 errors.append(f'{label}: data-policy allow must precede and bind the actual authorized provider dispatch')
+            if len(control['providerRequestIds'])==1:validate_ai_private_dispatch_payload(root,execution,prefix,control,policy,evaluation_policy,expected,defs,label,errors,cache)
         elif row['dispatchedAt'] is not None or row['providerRequestIds'] or info is None or info['size']!=0 or row['outboundRef']==control['outboundRef']:
             errors.append(f'{label}: disallowed data must retain zero outbound bytes and no provider request')
 

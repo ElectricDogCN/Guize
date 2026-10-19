@@ -683,8 +683,8 @@ class TestPocProgram(unittest.TestCase):
         browse_ref,browse_sha,browse_size=retain('browse-response.json',browse_bytes)
         browse_request=dict(requestId='fixture-browse-request',httpMethod='GET',requestURL='https://synthetic.invalid/browse',authRef='secretref_fixture_browse',userId='fixture-user',authorizationDecision='allow',requestedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:01Z',statusCode=200,responseArtifactRef=browse_ref,responseSha256=browse_sha,responseByteCount=browse_size)
         events=[]
-        for event in ('backup_checkpoint','recoverable_data_boundary','recovery_started','services_ready','vm_set_ready','authenticated_browsing_succeeded','authorized_playback_succeeded','recovery_completed'):
-            at=subjects['backupCheckpointAt'] if event=='backup_checkpoint' else '2026-09-03T00:00:00Z' if event in ('recoverable_data_boundary','recovery_started') else '2026-09-03T00:00:01Z'
+        for event in ('backup_checkpoint','recoverable_data_boundary','recovery_started','services_ready','vm_set_ready','authenticated_browsing_succeeded','authorized_playback_succeeded','recovery_completed','disruption_occurred'):
+            at=subjects['backupCheckpointAt'] if event=='backup_checkpoint' else '2026-09-03T00:00:00Z' if event in ('recoverable_data_boundary','recovery_started','disruption_occurred') else '2026-09-03T00:00:01Z'
             witness=dict(**common,kind='recovery_business_event',subjects=subjects,event=event,observedAt=at,outcome='succeeded')
             if event=='authenticated_browsing_succeeded':witness['request']=copy.deepcopy(browse_request)
             ref,_,_=retain('recovery-event-'+event+'.yaml',witness,'measurement_output')
@@ -693,6 +693,7 @@ class TestPocProgram(unittest.TestCase):
         env['recoveryTimingRef']=timing_ref
         self.prepare_recovery_readiness_fixture(root,execution,prefix,common,retain)
         self.prepare_recovery_timing_native_fixture(root,execution,prefix)
+        next(m for m in execution['measurements'] if m['id']=='rpo_observed')['actual']=0
 
 
     def sync_recovery_readiness_positive_fixture(self,root,execution):
@@ -2447,7 +2448,11 @@ class TestPocProgram(unittest.TestCase):
         outcomes=[];gates=policy['gatePolicy']
         for case in ['authorized']+sorted(CHECK.AI_POLICY_GATES):
             caller=gates['unauthorizedCallerId'] if case=='permission_denied' else gates['authorizedCallerId'];acl=gates['revokedAclVersion'] if case=='acl_revoked' else gates['currentAclVersion'];at='2026-09-03T00:03:00Z';request_ids=['synthetic-authorized-provider-request'] if case=='authorized' else []
-            value=dict(schemaVersion=1,kind='ai_provider_dispatch',**common,requestIds=request_ids,callerId=caller,assetId=gates['assetId'],aclVersion=acl,observedAt=at) if case=='authorized' else b''
+            if case=='authorized':
+                source=next(a for a in env['inputSampleArtifacts'] if a['sampleId']==sample['id']);model,version=CHECK.ai_accounting_model_identity(env)
+                request=dict(requestId=request_ids[0],itemId=policy['items'][0]['itemId'],sampleId=sample['id'],inputRef=source['inputArtifactRef'],inputSha256=sample['checksum'],modelIdentity=model,modelVersion=version,subjectVersion=subject)
+                payload_ref,payload_sha=retain('ai-authorized-dispatch-request.json',json.dumps(request).encode('utf8'),'command_output')
+            value=dict(schemaVersion=1,kind='ai_provider_dispatch',**common,requestIds=request_ids,callerId=caller,assetId=gates['assetId'],aclVersion=acl,observedAt=at,requestPayloadRef=payload_ref,requestPayloadSha256=payload_sha) if case=='authorized' else b''
             ref,sha=retain('ai-dispatch-'+case+'.yaml' if case=='authorized' else 'ai-dispatch-'+case+'.bin',value,'produced_media')
             outcomes.append(dict(case=case,observedAt=at,callerId=caller,assetId=gates['assetId'],aclVersion=acl,callerAllowed=case!='permission_denied',assetAllowed=case!='acl_revoked',budgetPeriodId=gates['budgetPeriodId'],budgetRemaining=0 if case=='budget_exhausted' else 1,estimatedCost=.001,requestCount=2 if case=='request_rate_exceeded' else 0,concurrentCalls=2 if case=='concurrency_exceeded' else 0,requestWindowSeconds=60,decision='dispatched' if case=='authorized' else case,providerRequestIds=request_ids,outboundRef=ref,outboundSha256=sha))
         dispatch_ref,_=retain('ai-policy-outcomes.yaml',dict(schemaVersion=1,kind='ai_dispatch_outcomes',**common,outcomes=outcomes));reviews={r['type']:r['reviewRef'] for r in execution['complianceReviews']}
@@ -2908,7 +2913,7 @@ class TestPocProgram(unittest.TestCase):
                     path.write_bytes(original)
                     for artifact,raw in saved.items():artifact.write_bytes(raw)
                     record=load_yaml(path);env=record['environmentCaptured'];report=load_yaml(timing_path)
-                    if mode in CHECK.RECOVERY_TIME_ENDPOINTS:next(m for m in record['measurements'] if m['id']==mode)['actual']=0
+                    if mode in CHECK.RECOVERY_TIME_ENDPOINTS:next(m for m in record['measurements'] if m['id']==mode)['actual']=1 if mode=='rpo_observed' else 0
                     elif mode=='missing_report':env.pop('recoveryTimingRef')
                     elif mode=='wrong_config':report['configurationRef']=env['acceptanceProfileConfigurationRef']
                     elif mode=='wrong_subject':report['subjects']['physicalHostId']='unapproved-host'
@@ -2946,7 +2951,7 @@ class TestPocProgram(unittest.TestCase):
                 for metric,(_,last) in CHECK.RECOVERY_TIME_ENDPOINTS.items():
                     if metric!='rpo_observed':next(m for m in record['measurements'] if m['id']==metric)['actual']=offsets[last]
                 write_yaml(timing_path,report);self.sync_recovery_readiness_positive_fixture(root,record);self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record);self.assertEqual(validate(),[])
-                # Zero RPO is valid when the approved recoverable checkpoint equals the boundary.
+                # Zero RPO is valid when the latest recoverable boundary equals the disruption point.
                 base_path=root/record['environmentCaptured']['recoveryEvidence']['baselineRef'];comparison_path=root/record['environmentCaptured']['recoveryEvidence']['comparisonRef'];base=load_yaml(base_path);comparison=load_yaml(comparison_path);config=load_yaml(config_path)
                 base['observedFinishedAt']='2026-09-03T00:00:00Z';report['subjects']['backupCheckpointAt']=config['configuration']['recoveryTimingSubjects']['backupCheckpointAt']='2026-09-03T00:00:00Z'
                 for event in report['events']:
@@ -2955,6 +2960,7 @@ class TestPocProgram(unittest.TestCase):
                 write_yaml(base_path,base);comparison['baselineSha256']=config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+hashlib.sha256(base_path.read_bytes()).hexdigest()
                 write_yaml(comparison_path,comparison);write_yaml(config_path,config);write_yaml(timing_path,report);next(m for m in record['measurements'] if m['id']=='rpo_observed')['actual']=0
                 self.sync_recovery_readiness_positive_fixture(root,record);self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record);self.assertEqual(validate(),[])
+                self.exercise_recovery_rpo_disruption_regressions(root,record)
             finally:temp.cleanup()
             for status in ('fail','inconclusive'):
                 temp,root=self.temp_repo()
@@ -2964,6 +2970,63 @@ class TestPocProgram(unittest.TestCase):
 
         self.exercise_recovery_readiness_regressions()
         self.exercise_recovery_native_timing_regressions()
+
+    def exercise_recovery_rpo_disruption_regressions(self,root,original):
+        """Explicit native one-hour age fixture; no global refresh of rejected evidence."""
+        env=original['environmentCaptured'];timing_path=root/env['recoveryTimingRef'];prefix=timing_path.parent.parent.relative_to(root).as_posix()
+        saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']}
+        plan=load_yaml(self.plan_path(root,'POC-010'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs']
+        def validate(data):
+            errors=[];window=tuple(CHECK.utc(data['environmentCaptured']['executionWindow'][k]) for k in ('startedAt','finishedAt'))
+            CHECK.validate_qualified_recovery_timing(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+        try:
+            data=copy.deepcopy(original);report=load_yaml(timing_path);data['environmentCaptured']['executionWindow']['finishedAt']='2026-09-03T01:02:00Z'
+            changed={env['recoveryTimingRef'],report['comparisonRef']};comparison=load_yaml(root/report['comparisonRef']);comparison['observedFinishedAt']='2026-09-03T01:01:00Z';write_yaml(root/report['comparisonRef'],comparison)
+            for event in report['events']:
+                name=event['event']
+                if name in ('backup_checkpoint','recoverable_data_boundary'):continue
+                event['observedAt']='2026-09-03T01:00:00Z' if name in ('disruption_occurred','recovery_started') else '2026-09-03T01:00:01Z'
+                witness=load_yaml(root/event['witnessRef']);witness['observedAt']=event['observedAt'];changed.add(event['witnessRef'])
+                if 'request' in witness:witness['request']['finishedAt']=event['observedAt']
+                if 'playbackRequest' in witness:witness['playbackRequest']['finishedAt']=event['observedAt']
+                if 'executionRef' in witness:
+                    changed.add(witness['executionRef']);run=load_yaml(root/witness['executionRef']);changed.add(run['outputArtifact']['artifactRef'])
+                write_yaml(root/event['witnessRef'],witness)
+            write_yaml(timing_path,report);self.sync_recovery_readiness_positive_fixture(root,data)
+            times={row['event']:CHECK.utc(row['observedAt']) for row in report['events']}
+            for metric,(first,last) in CHECK.RECOVERY_TIME_ENDPOINTS.items():next(m for m in data['measurements'] if m['id']==metric)['actual']=(times[last]-times[first]).total_seconds()
+            for ref in changed:
+                raw=(root/ref).read_bytes();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+            self.assertEqual(times['backup_checkpoint'],times['recoverable_data_boundary'])
+            self.assertEqual(next(m for m in data['measurements'] if m['id']=='rpo_observed')['actual'],3600)
+            self.assertEqual(validate(data),[])
+            for claimed in (0,1):
+                rejected=copy.deepcopy(data);next(m for m in rejected['measurements'] if m['id']=='rpo_observed')['actual']=claimed
+                self.assertTrue(any('rpo_observed' in e for e in validate(rejected)),claimed)
+            # A disruption is independent of the later recovery start; the RPO age remains exactly one hour.
+            start=next(row for row in report['events'] if row['event']=='recovery_started');start['observedAt']='2026-09-03T01:00:00.500000Z';witness=load_yaml(root/start['witnessRef']);witness['observedAt']=start['observedAt'];write_yaml(root/start['witnessRef'],witness);write_yaml(timing_path,report)
+            for metric in CHECK.RECOVERY_TIME_ENDPOINTS:
+                if metric!='rpo_observed':next(m for m in data['measurements'] if m['id']==metric)['actual']=.5
+            self.sync_recovery_timing_native_positive_fixture(root,data)
+            for ref in (env['recoveryTimingRef'],start['witnessRef']):
+                raw=(root/ref).read_bytes();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+            self.assertEqual(validate(data),[])
+            # Both the approved checkpoint and recovered data boundary may be older than this restore window.
+            window_start='2026-09-03T00:00:00.001000Z';data['environmentCaptured']['executionWindow']['startedAt']=window_start
+            selected=set()
+            for event in report['events']:
+                path=root/event['witnessRef'];witness=load_yaml(path);changed=False
+                for key in ('request','playbackRequest'):
+                    if key in witness:witness[key]['requestedAt']=window_start;changed=True
+                if 'executionRef' in witness:
+                    run_path=root/witness['executionRef'];run=load_yaml(run_path);run['startedAt']=window_start;write_yaml(run_path,run);selected.add(witness['executionRef'])
+                if changed:write_yaml(path,witness);selected.add(event['witnessRef'])
+            for ref in selected:
+                raw=(root/ref).read_bytes();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+            self.assertLess(times['backup_checkpoint'],CHECK.utc(window_start));self.assertLess(times['recoverable_data_boundary'],CHECK.utc(window_start))
+            self.assertEqual(validate(data),[])
+        finally:
+            for path,raw in saved.items():path.write_bytes(raw)
 
     def exercise_recovery_native_timing_regressions(self):
         for profile in ('local-v1','production'):
@@ -3468,6 +3531,24 @@ class TestPocProgram(unittest.TestCase):
                     self.make_profile_slot(root,'POC-003',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-03'}),[])
                 finally:temp.cleanup()
 
+    def exercise_ai_minimum_edit_alignment_regressions(self,root,original,validate,originals,evaluation_path,profile):
+        # Exact distance keeps the existing word split/codepoint units, including rates above one.
+        for left,right,cost in (([],[],0),(['a'],['a'],0),(['a'],['b'],1),(['a'],['b','c'],2),(['a','b'],['a'],1),(['a'],['a','b'],1),(['a','b'],['b','a'],2),(list('a b'),list('ab'),1),(list('é'),list('e\u0301'),2)):
+            self.assertEqual(CHECK.minimum_edit_cost(left,right),cost,(profile,left,right))
+        for metric in ('asr_wer','asr_cer'):
+            for path,raw in originals.items():path.write_bytes(raw)
+            data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path)
+            row=next(r for r in evaluation['evaluations'] if r['metricId']==metric);capture_path=root/row['countComparisonRef'];capture=json.loads(capture_path.read_bytes())
+            # Actual reference a/output b: this complete, self-consistent script costs 2, though substitution costs 1.
+            capture['comparisons']=[dict(operation='deletion',referenceIndex=0,outputIndex=None),dict(operation='insertion',referenceIndex=None,outputIndex=0)]
+            row.update(numerator=2,denominator=1,score=2);next(m for m in data['measurements'] if m['id']==metric)['actual']=2
+            capture_path.write_bytes(json.dumps(capture).encode());write_yaml(evaluation_path,evaluation)
+            for path in (capture_path,evaluation_path):
+                raw=path.read_bytes();ref=path.relative_to(root).as_posix();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+            errors=validate(data);self.assertTrue(any('minimum-cost edit alignment' in error for error in errors),(profile,metric,errors))
+        for path,raw in originals.items():path.write_bytes(raw)
+        self.assertEqual(validate(copy.deepcopy(original)),[],profile)
+
     def test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -3477,6 +3558,7 @@ class TestPocProgram(unittest.TestCase):
                 def validate(data):
                     errors=[];CHECK.validate_qualified_ai_results(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
                 self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[]);self.assertEqual(validate(record),[])
+                self.exercise_ai_minimum_edit_alignment_regressions(root,original,validate,originals,evaluation_path,profile)
                 self.exercise_ai_tool_execution_and_der_regressions(root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile)
                 self.exercise_ai_query_token_regressions(root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile)
                 self.exercise_ai_quota_boundary_regressions(root,original,validate,originals,dispatch_path,config_path,profile)
@@ -3769,7 +3851,45 @@ class TestPocProgram(unittest.TestCase):
                     else:write_yaml(report_path,report)
                     write_yaml(config_path,config)
                     self.assertTrue(any('qualified AI data policy' in error for error in validate(data)),(profile,mode))
+                write_yaml(report_path,report_original);write_yaml(config_path,config_original);denied_path.write_bytes(saved_denial)
+                self.exercise_ai_dispatch_payload_regressions(root,original,path)
             finally:temp.cleanup()
+
+    def exercise_ai_dispatch_payload_regressions(self,root,original,execution_path):
+        """Reseal only the deliberately altered capture/body/dispatch links; never heal negative payload contents."""
+        env=original['environmentCaptured'];results=load_yaml(root/env['aiResultsRef']);dispatch_path=root/results['dispatchRef'];dispatch=load_yaml(dispatch_path);control=next(row for row in dispatch['outcomes'] if row['case']=='authorized')
+        outbound_path=root/control['outboundRef'];capture=load_yaml(outbound_path);body_path=root/capture['requestPayloadRef'];body=json.loads(body_path.read_bytes());data_path=root/env['aiDataPolicyRef'];data_report=load_yaml(data_path)
+        saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']}
+        def seal(data,path):
+            raw=path.read_bytes();ref=path.relative_to(root).as_posix();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        def bind(data,captured):
+            raw=body_path.read_bytes();captured['requestPayloadSha256']='sha256:'+hashlib.sha256(raw).hexdigest();seal(data,body_path);write_yaml(outbound_path,captured);out_hash='sha256:'+hashlib.sha256(outbound_path.read_bytes()).hexdigest();seal(data,outbound_path)
+            report=copy.deepcopy(dispatch);next(row for row in report['outcomes'] if row['case']=='authorized')['outboundSha256']=out_hash;write_yaml(dispatch_path,report);seal(data,dispatch_path)
+            quota_path=root/control['quotaCaptureRef'];quota=load_yaml(quota_path);quota['decision']['outboundSha256']=out_hash;quota_path.write_bytes(json.dumps(quota).encode('utf8'));seal(data,quota_path)
+            report=copy.deepcopy(data_report);next(row for row in report['outcomes'] if row['case']=='authorized')['outboundSha256']=out_hash;write_yaml(data_path,report);seal(data,data_path)
+            write_yaml(execution_path,data)
+        try:
+            # Whitespace and property order in the actual existing JSON request are not new wire restrictions.
+            data=copy.deepcopy(original);body_path.write_bytes(json.dumps(body,sort_keys=True,indent=2).encode('utf8'));bind(data,copy.deepcopy(capture))
+            self.assertEqual(CHECK.validate_repository(root,('production' if env['acceptanceProfile']==CHECK.profile_identity('production') else 'local-v1'),True,selected_pocs={'POC-09'}),[])
+            for mode in ('unapproved_sample','wrong_checksum','foreign_input_ref','extra_payload','unrelated_bytes','wrong_request','wrong_model','wrong_subject','wrong_item'):
+                for path,raw in saved.items():path.write_bytes(raw)
+                data=copy.deepcopy(original);changed=copy.deepcopy(body)
+                if mode=='unapproved_sample':changed['sampleId']='unapproved-immutable-input'
+                elif mode=='wrong_checksum':changed['inputSha256']='sha256:'+'0'*64
+                elif mode=='foreign_input_ref':changed['inputRef']=capture['requestPayloadRef']
+                elif mode=='extra_payload':changed['unapprovedSensitiveData']='unrelated payload content'
+                elif mode=='wrong_request':changed['requestId']='another-provider-request'
+                elif mode=='wrong_model':changed['modelVersion']='another-model-version'
+                elif mode=='wrong_subject':changed['subjectVersion']='another-input-model-version'
+                elif mode=='wrong_item':changed['itemId']='unapproved-benchmark-item'
+                body_path.write_bytes(b'Unrelated sensitive outbound bytes' if mode=='unrelated_bytes' else json.dumps(changed).encode('utf8'));bind(data,copy.deepcopy(capture))
+                profile='production' if env['acceptanceProfile']==CHECK.profile_identity('production') else 'local-v1'
+                errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
+                self.assertTrue(any('qualified AI data policy' in error for error in errors),(mode,errors))
+        finally:
+            for path,raw in saved.items():path.write_bytes(raw)
+            write_yaml(execution_path,original)
 
     def test_175_production_firmware_binds_approved_group_settings_and_runtime(self):
         temp,root=self.temp_repo()
@@ -5054,6 +5174,21 @@ class TestPocProgram(unittest.TestCase):
                     self.assertTrue(any('admission intervals exceed' in e for e in validate(data)),(profile,simultaneous_case))
                 write_yaml(config_path,config);write_yaml(ref,baseline)
 
+                # Expiry is exclusive at queue/admission; admitted work may finish later.
+                capture_path=root/baseline['schedulerCaptureRef'];capture_raw=capture_path.read_bytes()
+                for boundary in ('admission_at_expiry','admission_before_expiry','queue_at_expiry_denied'):
+                    data=copy.deepcopy(original);report=copy.deepcopy(baseline);cfg=copy.deepcopy(config);policy=cfg['configuration']['mediaSchedulingPolicy']
+                    expires='2026-09-03T00:00:22Z' if boundary=='admission_at_expiry' else '2026-09-03T00:00:22.001Z'
+                    cfg['configuration']['mediaNegativePolicy']['grantValidUntil']=expires;policy['context']['grantValidUntil']=expires;report['context']['grantValidUntil']=expires
+                    if boundary=='queue_at_expiry_denied':
+                        denied=next(j for j in report['jobs'] if j['grantId']==policy['context']['expiredGrantId']);denied.update(grantId=policy['context']['currentGrantId'],queuedAt=expires)
+                        next(j for j in policy['jobs'] if j['jobId']==denied['jobId'])['grantId']=denied['grantId']
+                    rebuild_states(report,policy);write_yaml(config_path,cfg);write_yaml(ref,report)
+                    self.prepare_media_scheduler_capture_fixture(root,data,prefix,report)
+                    if boundary=='admission_at_expiry':self.assertIn('qualified playback scheduling POC-002: authorized job queue/admission/run/completion/READY clocks required',validate(data),(profile,boundary))
+                    else:self.assertEqual(validate(data),[],(profile,boundary))
+                capture_path.write_bytes(capture_raw);write_yaml(config_path,config);write_yaml(ref,baseline)
+
                 for mode in ('missing','shape','policy','profile','context','build','node','grant','epoch','clock','priority','state','reserve','caps','aging','preemption','saturation','admission_latency','ready_latency','decode','output_hash','empty','fallback_grant','fallback_hash','fallback_clock','fallback_before_decode','aging_tiny','denial_bytes','local_caps_shape','inventory_shape','assembly_shape','gate'):
                     if mode=='local_caps_shape' and profile=='production':continue
                     data=copy.deepcopy(original);report=copy.deepcopy(baseline);cfg=copy.deepcopy(config);policy=cfg['configuration']['mediaSchedulingPolicy'];playback=next(j for j in report['jobs'] if j['jobId']==policy['playbackJobId'])
@@ -5399,6 +5534,29 @@ class TestPocProgram(unittest.TestCase):
                     elif mode=='validator_changed':report['validatorChangedOnUpdate']=False
                     else:next(m for m in data['measurements'] if m['id']=='provider_characteristics_profiled')['actual']=False
                     write_yaml(config_path,config);write_yaml(report_path,report);self.assertTrue(validate(data),(profile,mode))
+                # A terminal cursor closes this run, even when a subsequent request returns a valid empty stream.
+                for file,raw in files.items():file.write_bytes(raw)
+                data=copy.deepcopy(original);report=copy.deepcopy(original_report);descriptor=report['providerPages'];page_path=root/descriptor['ref'];pages=[json.loads(line) for line in page_path.read_bytes().splitlines()]
+                empty_ref=report_path.parent.relative_to(root).as_posix()+'/terminal-empty-page.jsonl';empty_path=root/empty_ref;self.assertFalse(empty_path.exists());empty_path.write_bytes(b'')
+                try:
+                    empty=dict(ref=empty_ref,sha256='sha256:'+hashlib.sha256(b'').hexdigest(),count=0)
+                    extra=copy.deepcopy(next(row for row in pages if row['nextCursor'] is None));extra.update(requestId='synthetic-after-terminal-request',requestCursor=None,nextCursor=None,objects=empty)
+                    offset=next(i for i,row in enumerate(pages) if row['nextCursor'] is None)+1
+                    rewrite(descriptor,lambda rows:rows.insert(offset,extra));write_yaml(report_path,report)
+                    data['environmentCaptured']['rawExecutionArtifacts'].append(dict(ref=empty_ref,artifactType='command_output',byteCount=0,sha256=empty['sha256']));data['rawOutputRefs'].append(empty_ref)
+                    for file in (page_path,report_path):
+                        raw=file.read_bytes();ref=file.relative_to(root).as_posix();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+                    self.assertTrue(validate(data),(profile,'request after terminal cursor'))
+                finally:empty_path.unlink()
+                # A distinct run may start at the same coarse UTC and list the complete population again.
+                for file,raw in files.items():file.write_bytes(raw)
+                data=copy.deepcopy(original);report=copy.deepcopy(original_report);descriptor=report['providerPages'];first_run=pages[0]['runId'];at=pages[-1]['finishedAt'];additional=[]
+                for number,row in enumerate(r for r in pages if r['runId']==first_run):
+                    row=copy.deepcopy(row);row.update(runId='synthetic-provider-list-extra',requestId='synthetic-provider-extra-'+str(number),requestedAt=at,finishedAt=at,providerTimestamp=at);additional.append(row)
+                rewrite(descriptor,lambda rows:rows.extend(additional));write_yaml(report_path,report)
+                for file in (page_path,report_path):
+                    raw=file.read_bytes();ref=file.relative_to(root).as_posix();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+                self.assertEqual(validate(data),[],(profile,'distinct run after terminal cursor'))
                 # Unsupported Range and equivalent version tokens remain truthful valid profiles.
                 for file,raw in files.items():file.write_bytes(raw)
                 report=copy.deepcopy(original_report);config=copy.deepcopy(original_config);policy=config['configuration']['metadataProfilingPolicy'];policy['rangeDisposition']=report['rangeDisposition']='unsupported';policy['validatorKind']=report['validatorKind']='version_token'
@@ -5948,6 +6106,21 @@ class TestPocProgram(unittest.TestCase):
             def validate(data):
                 self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);return CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-04'})
             self.assertEqual(validate(copy.deepcopy(original)),[])
+            # Direct authenticated OpenList successes must observe both request and object reads.
+            for case in ('full','bounded','suffix','concurrent_a','concurrent_b'):
+                for counts in ((0,0),(0,1),(1,0)):
+                    for file,raw in files.items():file.write_bytes(raw)
+                    data=copy.deepcopy(original);request=next(r for r in report_original['objects'][0]['requests'] if r['case']==case);location=root/request['originAccessRef'];origin=load_yaml(location)
+                    origin.update(originRequestCount=counts[0],objectReadCount=counts[1]);write_yaml(location,origin)
+                    self.assertIn('qualified local storage POC-004: successful authenticated OpenList reads require observed origin requests and protected object reads',validate(data),(case,counts))
+            for file,raw in files.items():file.write_bytes(raw)
+            data=copy.deepcopy(original);request=next(r for r in report_original['objects'][0]['requests'] if r['case']=='unsatisfiable');location=root/request['originAccessRef'];origin=load_yaml(location);origin['objectReadCount']=1;write_yaml(location,origin)
+            self.assertIn('qualified local storage POC-004: unsatisfiable Range must not read protected object bytes',validate(data))
+            # Counts need not equal one; an unsatisfiable request may fail before any origin call.
+            for case,counts in (('full',(2,3)),('unsatisfiable',(0,0))):
+                for file,raw in files.items():file.write_bytes(raw)
+                data=copy.deepcopy(original);request=next(r for r in report_original['objects'][0]['requests'] if r['case']==case);location=root/request['originAccessRef'];origin=load_yaml(location)
+                origin.update(originRequestCount=counts[0],objectReadCount=counts[1]);write_yaml(location,origin);self.assertEqual(validate(data),[],(case,counts))
             for mode in ('native_missing','native_disk','native_reservation','native_volume','native_root','native_collector','native_admission','native_sequence','native_alias','missing','arbitrary','policy','root','build','profile','input','missing_object','version','missing_request','path','credential','unauthorized_bytes','origin_missing','origin_arbitrary','origin_request','origin_object','origin_auth','origin_interval','denied_origin_request','denied_object_read','origin_borrowed','workload_missing','workload_arbitrary','workload_binding','workload_state_ref','write_disjoint','lifecycle_disjoint','lifecycle_zero','workloads_only_touch','full_hash','bounded_bytes','suffix_header','unsatisfiable','concurrency','duplicate_request','baseline_metadata','baseline_invalid','copy_payload_ref','hash_copy_payload_ref','disconnect_payload_ref','eviction_payload_ref','migration_copy_payload_ref','migration_verified_payload_ref','backup_cache_payload_ref','restore_cache_payload_ref','copy_missing','incomplete_promoted','hash_copy_valid','copy_state','copy_old_snapshot','disconnect_attempts','disconnect_full_hash','disconnect_promoted','disconnect_restart','recovery_old_snapshot','backup_hash','restore_hash','restore_metadata','restore_state_bytes','backup_time','eviction_asset','eviction_replica','eviction_retention','eviction_cache','eviction_time','migration_old_missing','migration_unverified','migration_pending_verified','migration_pending_asset','migration_pending_version','migration_hash','migration_version','migration_state_time','capacity_phase','capacity_order','capacity_admission','capacity_floor','capacity_count','throughput','latency','gate'):
                 for file,raw in files.items():file.write_bytes(raw)
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['localStoragePolicy'];row=report['objects'][0];request=row['requests'][0];copy_case=row['copyRejections'][0];backup=row['backupRestore'];migration=row['migration']

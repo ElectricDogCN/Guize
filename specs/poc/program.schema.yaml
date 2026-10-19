@@ -3272,8 +3272,8 @@ $defs:
         minLength: 1
       events:
         type: array
-        minItems: 8
-        maxItems: 8
+        minItems: 9
+        maxItems: 9
         items:
           type: object
           additionalProperties: false
@@ -3287,6 +3287,7 @@ $defs:
               - backup_checkpoint
               - recoverable_data_boundary
               - recovery_started
+              - disruption_occurred
               - services_ready
               - vm_set_ready
               - authenticated_browsing_succeeded
@@ -3383,6 +3384,7 @@ $defs:
         - backup_checkpoint
         - recoverable_data_boundary
         - recovery_started
+        - disruption_occurred
         - services_ready
         - vm_set_ready
         - authenticated_browsing_succeeded
@@ -7520,6 +7522,8 @@ $defs:
     - assetId
     - aclVersion
     - observedAt
+    - requestPayloadRef
+    - requestPayloadSha256
     properties:
       schemaVersion:
         type: integer
@@ -7581,6 +7585,13 @@ $defs:
       observedAt:
         type: string
         format: date-time
+      requestPayloadRef:
+        type: string
+        minLength: 1
+        description: Retained actual private-local reference-request body, parsed using aiModelRequest.
+      requestPayloadSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
 
   aiDataPolicy:
     type: object
@@ -20731,8 +20742,8 @@ $defs:
         minLength: 1
       events:
         type: array
-        minItems: 8
-        maxItems: 8
+        minItems: 9
+        maxItems: 9
         items:
           type: object
           additionalProperties: false
@@ -20747,6 +20758,7 @@ $defs:
               - backup_checkpoint
               - recoverable_data_boundary
               - recovery_started
+              - disruption_occurred
               - services_ready
               - vm_set_ready
               - authenticated_browsing_succeeded
