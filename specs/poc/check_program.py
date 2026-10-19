@@ -2246,6 +2246,15 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
     objects=policy['objects'];sample_map={s['id']:s for s in samples};inputs={r['sampleId']:r for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict)};artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)}
     if len(objects)!=len(samples) or {r['sampleId'] for r in objects}!=set(sample_map) or len({r['assetId'] for r in objects})!=len(objects):errors.append(f'{label}: every approved immutable input needs one distinct governed sandbox object');return
     request_ids=set();state_times={}
+    observation_refs={r.get('originAccessRef') for row in report['objects'] for r in row['requests']}|{row.get('concurrentWorkloadRef') for row in report['objects']}
+    observation_paths=[path,existing_ref(root,env.get('localStorageRef'),prefix)]+[existing_ref(root,r.get('inputArtifactRef'),prefix) for r in inputs.values()]+[existing_ref(root,ref,prefix) for ref in artifacts if ref not in observation_refs]
+    def independent_observation(ref,schema):
+        count=len(errors);result=selected_observation(root,execution,prefix,ref,defs,schema,label,errors,cache);location=existing_ref(root,ref,prefix)
+        if result is None or len(errors)!=count:return None
+        if any(location.samefile(other) for other in observation_paths if other is not None):errors.append(f'{label}: request/workload observations must be physically distinct from inputs, structured state, returned bytes and other observations')
+        observation_paths.append(location)
+        if any(result.get(key)!=value for key,value in expected.items()):errors.append(f'{label}: independent observation must bind the same approved configuration/profile/subject/input')
+        return result
     def interval(first,last):
         start,end=utc(first),utc(last)
         if start is None or end is None or window is None or not window[0]<=start<=end<=window[1]:errors.append(f'{label}: ordered actual sandbox operation timestamps inside execution required');return None
@@ -2296,6 +2305,11 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
             kind=request['case'];info=bytes_info(request['responseRef'],request['responseSha256']);timing=interval(request['startedAt'],request['finishedAt']);authorized=kind not in ('missing_auth','invalid_auth');credential=policy['authorizedAuthRef'] if authorized else policy['invalidAuthRef'] if kind=='invalid_auth' else None
             if request['requestId'] in request_ids or request['objectURL']!=obj['objectURL'] or request['assetId']!=obj['assetId'] or request['versionId']!=obj['versionId'] or request['authRef']!=credential or info is None or source.samefile(existing_ref(root,request['responseRef'],prefix)) or timing and state_times[report['baselineStateRef']]>timing[0]:errors.append(f'{label}: actual authenticated response must bind approved object/version/path, prior baseline and distinct returned bytes');continue
             request_ids.add(request['requestId'])
+            origin=independent_observation(request['originAccessRef'],'localStorageOriginAccessObservation')
+            if origin is not None:
+                binding={key:request[key] for key in ('case','requestId','objectURL','assetId','versionId','authRef','requestRange','statusCode','startedAt','finishedAt')};binding.update(sourceId=obj['sourceId'],objectId=obj['objectId'])
+                if any(origin.get(key)!=value for key,value in binding.items()):errors.append(f'{label}: origin observation must bind the exact request, credential, source/object/version and UTC interval')
+                if not authorized and (origin['originRequestCount']!=0 or origin['objectReadCount']!=0):errors.append(f'{label}: denied authentication must precede all origin requests and protected object reads')
             if not authorized:
                 if request['statusCode'] not in (401,403) or request['originByteCount']!=0 or info['size']!=0:errors.append(f'{label}: missing or invalid credentials must expose no object bytes')
                 continue
@@ -2343,6 +2357,16 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
         if new_info is None or new_info['size']!=total or pending_info is None or not 0<pending_info['size']<total or pending[0]['state']!='COPYING' or pending[0]['assetId']!=obj['assetId'] or pending[0]['versionId']!=obj['versionId'] or semantic(stripped)!=semantic(baseline) or semantic(during_stripped)!=semantic(baseline):errors.append(f'{label}: migration must observe incomplete COPYING then exact-byte VERIFIED transition without losing old valid copy')
         migration_start,migration_finish=utc(migration['startedAt']),utc(migration['verifiedAt'])
         if migration_start is None or migration_finish is None or not migration_start<=state_times[migration['copyingStateRef']]<=migration_finish<=state_times[migration['verifiedStateRef']]:errors.append(f'{label}: actual copying and verified state snapshots must follow the recorded migration phases')
+        # Reuse the retained, byte-verified migration write and backup/restore lifecycle;
+        # a declared concurrency status alone cannot grant the workload gate.
+        workload=independent_observation(row['concurrentWorkloadRef'],'localStorageConcurrentWorkloadObservation')
+        if workload is not None:
+            binding={key:obj[key] for key in ('sampleId','sourceId','objectId','assetId','versionId','newReplicaId')}
+            binding.update(writeStartedAt=migration['startedAt'],writeFinishedAt=migration['verifiedAt'],copyingStateRef=migration['copyingStateRef'],verifiedStateRef=migration['verifiedStateRef'],lifecycleStartedAt=backup['startedAt'],lifecycleFinishedAt=backup['finishedAt'],backupDataRef=backup['backupDataRef'],restoredDataRef=backup['restoredDataRef'],backupStateRef=backup['backupStateRef'],restoredStateRef=backup['restoredStateRef'])
+            if any(workload.get(key)!=value for key,value in binding.items()):errors.append(f'{label}: independent concurrent workload must bind the actual migration write and backup/restore bytes/state/intervals')
+            write_window=interval(workload['writeStartedAt'],workload['writeFinishedAt']);lifecycle_window=interval(workload['lifecycleStartedAt'],workload['lifecycleFinishedAt'])
+            windows=object_concurrent+[r for r in (write_window,lifecycle_window) if r is not None]
+            if len(windows)!=4 or max(r[0] for r in windows)>=min(r[1] for r in windows):errors.append(f'{label}: both reads, byte-verified migration write and observed lifecycle must have one positive-duration common overlap')
     capacity=env.get('capacity_watermark_configuration') or {};observations=report['capacityObservations'];minimum=min(r['freeBytes'] for r in observations);reserved=max(r['reservedBytes'] for r in observations);phases={r['phase'] for r in observations};previous=None;cycle=('fill','pause','evict','resume');cycle_position=0
     if not {'fill','pause','evict','resume'}<=phases:errors.append(f'{label}: actual fill/pause/eviction/resume capacity observations required')
     for row in observations:
@@ -2798,6 +2822,13 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
         if any(path.samefile(prior) for prior in all_paths):
             errors.append(f'{label}: recovery states, comparisons and retained outputs must be physically distinct')
         all_paths.append(path)
+        return actual
+    database=state['database']
+    for name in ('schema','data'):
+        readback=database[name+'Readback'];retained(readback['artifactRef'],database[name+'Sha256'],size=readback['byteCount'])
+    for revision in state['revisions']:
+        for name in ('aiResult','manualEdit'):
+            payload=revision[name];retained(payload['artifactRef'],payload['sha256'],size=payload['byteCount'])
     assets={item['assetId']:item for item in state['assets']}
     users={item['userId'] for item in state['permissions']}
     for domain,key in (('assets','assetId'),('permissions','userId'),('sourceMappings','sourceId'),('replicas','replicaId'),('retention','assetId'),('tasks','taskId'),('revisions','revisionId'),('indexEntries','entryId'),('deployment','imageId'),('delivery','eventId')):
@@ -2858,8 +2889,17 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
         if not safe_generator_relative_path(item['logicalPath']):errors.append(f'{label}: logical file path must be safe and relative')
         retained(item['artifactRef'],item['sha256'],size=item['byteCount'])
     for item in state['playback']:
-        if item['rangeEnd']<item['rangeStart']:errors.append(f'{label}: playback range must be ordered')
-        retained(item['artifactRef'],item['sha256'],size=item['rangeEnd']-item['rangeStart']+1)
+        first,last=item['rangeStart'],item['rangeEnd']
+        if last<first:errors.append(f'{label}: playback range must be ordered');continue
+        actual=retained(item['artifactRef'],item['sha256'],size=last-first+1)
+        primary=[row for row in state['replicas'] if row['assetId']==item['assetId'] and row['primary'] is True and row['state']=='verified']
+        if len(primary)!=1:continue  # The replica relationship check above reports this.
+        replica=primary[0];source=existing_ref(root,replica['artifactRef'],prefix)
+        if actual is None or source is None:continue
+        if last>=replica['byteCount']:errors.append(f'{label}: playback range must be inside its verified primary replica');continue
+        try:expected=replica['sha256'] if first==0 and last+1==replica['byteCount'] else range_slice_hash(source,first,last-first+1)
+        except OSError:expected=None
+        if actual['sha256']!=expected:errors.append(f'{label}: playback response bytes must equal the requested verified primary replica slice')
     for item in state['deployment']:
         retained(item['imageArtifactRef'],item['imageSha256'])
         retained(item['signatureArtifactRef'],item['signatureSha256'])
@@ -2881,6 +2921,70 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
             errors.append(f'{label}: signature verification must bind retained public key bytes and approved algorithm/build');continue
         verify_recovery_signature(image,signature,key,trust['verifierBuild'],label,errors,cache)
     return sorted(value_observations,key=lambda value:(value['referenceId'],value['method'],value['comparisonContextId']))
+
+
+def validate_recovery_browse_request(root,execution,prefix,witness,states,approved,subjects,at,window,defs,label,errors,cache,paths):
+    request=witness.get('request');before=len(errors)
+    validate_schema(request,defs['recoveryBusinessEvent']['properties']['request'],label+'/browse request',errors)
+    policy=approved.get('browseRequest') if isinstance(approved,dict) else None
+    if len(errors)!=before:return
+    if not isinstance(policy,dict) or not all(recorded_text(policy.get(k)) for k in ('requestURL','authRef')) or not isinstance(policy.get('requestedAssetIds'),list) or not policy['requestedAssetIds'] or not all(isinstance(k,str) and k for k in policy['requestedAssetIds']) or len(set(policy['requestedAssetIds']))!=len(policy['requestedAssetIds']):
+        errors.append(f'{label}: browse request must bind the existing approved resource URL/auth reference and asset scope');return
+    began,finished=utc(request['requestedAt']),utc(request['finishedAt'])
+    if request['httpMethod']!='GET' or request['requestURL']!=policy['requestURL'] or request['authRef']!=policy['authRef'] or request['userId']!=subjects['authorizedUserId'] or request['authorizationDecision']!='allow' or request['statusCode']!=200 or began is None or finished is None or at!=finished or not window[0]<=began<=finished<=window[1]:
+        errors.append(f'{label}: actual authenticated browse request identity, authorization and response completion must bind the readiness event')
+    ref=request['responseArtifactRef'];path=existing_ref(root,ref,prefix);records=[r for r in execution['environmentCaptured']['rawExecutionArtifacts'] if r.get('ref')==ref]
+    if path is None or ref not in execution['rawOutputRefs'] or len(records)!=1 or records[0].get('artifactType')!='recovery_output':errors.append(f'{label}: browse must retain selected-slot actual response bytes');return
+    if any(path.samefile(peer) for peer in paths):errors.append(f'{label}: browse response must be physically distinct from state and event reports')
+    paths.append(path);actual=inspect_artifact(path,cache)
+    if not 0<actual['size']<=262144 or actual['size']!=request['responseByteCount'] or actual['sha256']!=request['responseSha256']:errors.append(f'{label}: browse response byte count/hash must match bounded actual response');return
+    try:
+        def fields(items):
+            if len({k for k,_ in items})!=len(items):raise ValueError('duplicate browse fields')
+            return dict(items)
+        with path.open(encoding='utf8') as stream:body=json.load(stream,object_pairs_hook=fields)
+        route=policy.get('responseItemsPath')
+        if not isinstance(route,list) or len(route)>8 or any(not isinstance(k,str) or not k for k in route):raise ValueError('approved response projection required')
+        for key in route:body=body[key]
+        if not isinstance(body,list) or not body or len(body)>10000 or any(not isinstance(row,dict) or not isinstance(row.get('assetId'),str) or not row['assetId'] or not isinstance(row.get('version'),str) or not row['version'] or type(row.get('aclVersion')) is not int or row['aclVersion']<1 for row in body):raise ValueError('typed browse asset/version and positive integer ACL identities required')
+        ids=[row['assetId'] for row in body]
+        if any(not isinstance(k,str) for k in ids) or len(ids)!=len(set(ids)) or set(ids)!=set(policy['requestedAssetIds']) or subjects['assetId'] not in ids:raise ValueError('exact requested asset identities required')
+        assets={row['assetId']:row for row in states['assets']}
+        if any(row['assetId'] not in assets or any(row[k]!=assets[row['assetId']][k] for k in ('version','aclVersion')) or not recovery_playback_allowed(states,dict(assetId=row['assetId'],authorizedUserId=request['userId'])) for row in body):raise ValueError('returned identities must match restored versions and subject allow grants without matching deny')
+    except (OSError,ValueError,TypeError,KeyError,UnicodeError):errors.append(f'{label}: retained browse response must reconcile actual returned identities with the restored ACL state')
+
+
+def validate_recovery_replay_readback(root,execution,prefix,capture,restored,comparison,approved,run_id,window,defs,label,errors,cache,paths):
+    before=len(errors);report=selected_observation(root,execution,prefix,comparison['replayExecutionRef'],defs,'recoveryReplayExecution',label+'/replay execution',errors,cache);post=selected_observation(root,execution,prefix,comparison['postReplayStateRef'],defs,'recoveryDeliveryReadback',label+'/post replay',errors,cache)
+    if report is None or post is None or len(errors)!=before:return
+    for ref in (comparison['replayExecutionRef'],comparison['postReplayStateRef']):
+        path=existing_ref(root,ref,prefix)
+        if any(path.samefile(peer) for peer in paths):errors.append(f'{label}: replay execution and independently captured post-state must be physically distinct')
+        paths.append(path)
+    common={key:comparison[key] for key in ('resourceId','subjectVersion','acceptanceProfile','inputSamples')};common.update(configurationRef=capture['configurationRef'],recoveryRunId=run_id)
+    policy=approved.get('replayCommand')
+    if not isinstance(policy,dict) or not isinstance(policy.get('commandArgs'),list) or not policy['commandArgs'] or any(not recorded_text(v) for v in policy['commandArgs']) or not all(recorded_text(policy.get(k)) for k in ('toolBuild','consumerId')):
+        errors.append(f'{label}: replay must bind existing resource-approved command/tool/consumer');return
+    if any(row.get(k)!=v for row in (report,post) for k,v in common.items()) or report['restoredRef']!=capture['restoredRef'] or post['replayExecutionRef']!=comparison['replayExecutionRef'] or report['commandArgs']!=policy['commandArgs'] or report['toolBuild']!=policy['toolBuild'] or report['exitCode']!=0:
+        errors.append(f'{label}: replay execution must bind actual command/tool/run/input/profile and restored state')
+    start,end,post_at,compare_end=(utc(x) for x in (report['startedAt'],report['finishedAt'],post['observedAt'],comparison['observedFinishedAt']))
+    compare_start=utc(comparison['observedStartedAt'])
+    if None in (start,end,post_at,compare_end,compare_start) or window is None or not window[0]<=compare_start<=start<=end<=post_at<=compare_end<=window[1]:errors.append(f'{label}: replay command and independent post-state must be ordered within the comparison execution interval')
+    output=report['outputArtifact'];path=existing_ref(root,output['artifactRef'],prefix);records=[r for r in execution['environmentCaptured']['rawExecutionArtifacts'] if r.get('ref')==output['artifactRef']]
+    if path is None or output['artifactRef'] not in execution['rawOutputRefs'] or len(records)!=1 or records[0].get('artifactType')!='recovery_output':errors.append(f'{label}: replay must retain actual selected-slot command output');return
+    if any(path.samefile(peer) for peer in paths):errors.append(f'{label}: command output must be physically distinct from independently captured delivery state')
+    paths.append(path);actual=inspect_artifact(path,cache)
+    if actual['size']<=0 or actual['size']!=output['byteCount'] or actual['sha256']!=output['sha256']:errors.append(f'{label}: actual replay command output must match its byte count/hash');return
+    before_rows={row['eventId']:row for row in restored['states']['delivery']};observed={};publications=set()
+    try:
+        for row in streamed_metadata_records(path,defs['recoveryReplayEvent']):
+            event=row['eventId'];prior=before_rows.get(event)
+            if event in observed or event not in comparison['replayedEventIds'] or prior is None or any(row[k]!=prior[k] for k in ('dedupId','aggregateId')) or row['publicationId'] in publications or row['consumerId']!=policy['consumerId'] or row['publicationCount']!=1 or row['inboxProcessedCount']!=1 or row['outcome']!='processed':raise ValueError('replay command output must bind each selected event/dedup/aggregate to one actual publication and consumer result')
+            observed[event]=row;publications.add(row['publicationId'])
+            if len(observed)>10000:raise ValueError('replay output exceeds selected manifest bound')
+        if set(observed)!=set(comparison['replayedEventIds']):raise ValueError('actual command output must cover exact selected replay events')
+    except (OSError,ValueError,UnicodeError,jsonschema.ValidationError):errors.append(f'{label}: parsed actual replay command output must prove the selected once-only publication/consumer outcomes')
+    if post['delivery']!=comparison['postReplayDelivery']:errors.append(f'{label}: comparison delivery claims must equal independently captured actual post-replay state')
 
 
 def validate_qualified_recovery_observation(root, plan, execution, prefix, status, window, defs, errors, cache):
@@ -2984,6 +3088,7 @@ def validate_qualified_recovery_observation(root, plan, execution, prefix, statu
             errors.append(f'{label}: replay must process each exact dedup identity only once')
         transitioned=transitioned or event in selected and item['status']=='pending' and target.get('status')=='processed'
     if not transitioned:errors.append(f'{label}: an approved pending fixture must actually undergo replay')
+    validate_recovery_replay_readback(root,execution,prefix,capture,restored,comparison,approved,comparison_run_id,window,defs,label,errors,cache,paths)
 
 
 RECOVERY_TIME_ENDPOINTS = {
@@ -3052,6 +3157,11 @@ def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,
     except (TypeError,KeyError,AttributeError):return
     if approved['authorizedUserId'] not in users or approved['assetId'] not in assets or not any(item['assetId']==approved['assetId'] and item['authorizedUserId']==approved['authorizedUserId'] and item['statusCode']==206 and recovery_playback_allowed(states,item) for item in playback):
         errors.append(f'{label}: browsing/playback ready events must bind restored authorized subjects')
+    browse_event=next(row for row in rows if row['event']=='authenticated_browsing_succeeded')
+    before=len(errors);browse_witness=selected_observation(root,execution,prefix,browse_event['witnessRef'],defs,'recoveryBusinessEvent',label,errors,cache)
+    if browse_witness is not None and len(errors)==before:
+        baseline_policy=config.get('configuration',{}).get('recoveryBaseline')
+        validate_recovery_browse_request(root,execution,prefix,browse_witness,states,baseline_policy,approved,times['authenticated_browsing_succeeded'],window,defs,label,errors,cache,paths)
     actual={item.get('id'):item.get('actual') for item in execution.get('measurements') or []}
     for metric,(first,last) in RECOVERY_TIME_ENDPOINTS.items():
         measured=(times[last]-times[first]).total_seconds();claimed=actual.get(metric)
@@ -3530,7 +3640,7 @@ def validate_qualified_frontend_comparison(root,plan,execution,prefix,status,win
             scenario_id=case['scenarioId'];expected_case=matrix[scenario_id];before=len(errors);trace=selected_observation(root,execution,prefix,case['observationRef'],defs,'frontendScenarioObservation',label,errors,cache)
             if trace is None or len(errors)!=before:continue
             distinct(existing_ref(root,case['observationRef'],prefix));trace_refs.append(case['observationRef']);trace_window=interval(trace['startedAt'],trace['finishedAt']);actions=trace['actions'];action_ids=FRONTEND_SCENARIO_ACTIONS[scenario_id]
-            valid=trace['candidateId']==candidate and trace['buildId']==build_id and trace['scenarioId']==scenario_id and trace['fixtureId']==expected_case['fixtureId'] and trace['inputSha256']==sample['checksum'] and trace['scenarioDriverBuild']==policy['scenarioDriverBuild'] and trace['status']=='completed' and len(actions)==len(action_ids) and {a['actionId'] for a in actions}==set(action_ids)
+            valid=trace['candidateId']==candidate and trace['buildId']==build_id and trace['scenarioId']==scenario_id and trace['fixtureId']==expected_case['fixtureId'] and trace['inputSha256']==sample['checksum'] and trace['scenarioDriverBuild']==policy['scenarioDriverBuild'] and trace['status']=='completed' and len(actions)==len(action_ids) and tuple(a['actionId'] for a in actions)==action_ids
             if trace_window is None or build_window is None or trace_window[0]<build_window[1]:valid=False
             last=None;results={}
             for action in actions:

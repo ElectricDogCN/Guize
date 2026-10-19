@@ -601,12 +601,18 @@ class TestPocProgram(unittest.TestCase):
         manifests=[]
         for phase in ('baseline','restored'):
             states=json.loads(json.dumps(state))
+            for domain,payload in (('schema',b'{"tables":[{"name":"assets","columns":["asset_id","version"]}]}\n'),('data',b'{"assets":[{"asset_id":"fixture-asset","version":"fixture-v1"}]}\n')):
+                ref,digest,size=retain(phase+'-database-'+domain+'-readback.json',payload)
+                states['database'][domain+'Sha256']=digest;states['database'][domain+'Readback']=dict(artifactRef=ref,byteCount=size)
+            for domain,payload in (('aiResult',b'{"text":"Synthetic AI output fixture"}\n'),('manualEdit',b'{"text":"Synthetic human revision fixture"}\n')):
+                ref,digest,size=retain(phase+'-revision-'+domain+'.json',payload)
+                states['revisions'][0][domain]=dict(artifactRef=ref,sha256=digest,byteCount=size)
             context=dict(referenceId='secretref_fixture',method='hmac-sha256',comparisonContextId='fixture-approved-comparison-context')
             ref,digest,_=retain(phase+'-one-way-comparison.yaml',{**common,**context,'schemaVersion':2,'kind':'one_way_value_phase_observation','comparisonDigest':hash_value,'phase':'before_backup' if phase=='baseline' else 'after_restore','recoveryRunId':'fixture-recovery-run','observedAt':'2026-09-02T23:59:58Z' if phase=='baseline' else '2026-09-03T00:00:30Z','readbackOutcome':'succeeded'},'measurement_output')
             states['valueComparisons']=[dict(**context,artifactRef=ref,sha256=digest)]
             ref,digest,size=retain(phase+'-restored-file.bin',b'Synthetic file restore fixture; never an actual backup.\n')
             states['files']=[dict(logicalPath='fixture/restored-file.bin',artifactRef=ref,byteCount=size,sha256=digest)]
-            ref,digest,size=retain(phase+'-playback-range.bin',b'Synthetic Range fixture only.\n')
+            ref,digest,size=retain(phase+'-playback-range.bin',b'Synthetic actual replica readback bytes.\n'[:8])
             states['playback']=[dict(assetId='fixture-asset',authorizedUserId='fixture-user',statusCode=206,rangeStart=0,rangeEnd=size-1,artifactRef=ref,sha256=digest)]
             ref,digest,size=retain(phase+'-replica-readback.bin',b'Synthetic actual replica readback bytes.\n')
             states['replicas'][0].update(artifactRef=ref,sha256=digest,byteCount=size)
@@ -630,16 +636,28 @@ class TestPocProgram(unittest.TestCase):
         baseline_ref,baseline_sha,baseline=manifests[0];restored_ref,restored_sha,restored=manifests[1]
         rows=[dict(gate=gate,before={d:CHECK.recovery_domain_digest(baseline['states'][d]) for d in domains},after={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}) for gate,domains in CHECK.RECOVERY_GATE_DOMAINS.items()]
         comparison=dict(**common,kind='recovery_comparison',baselineRef=baseline_ref,baselineSha256=baseline_sha,restoredRef=restored_ref,restoredSha256=restored_sha,observedStartedAt='2026-09-03T00:01:00Z',observedFinishedAt='2026-09-03T00:02:00Z',rows=rows,replayedEventIds=['fixture-event'],postReplayDelivery=[{**item,'status':'processed','publicationCount':1,'inboxProcessedCount':1} for item in state['delivery']],unreadableWitness=dict(fixtureId='fixture-corrupt-backup',backupSha256=baseline['states']['unreadableFixture']['backupSha256'],errorCode='BACKUP_DECODE_FAILED',restoreOutcome='failed',readbackOutcome='failed',successfulReadCount=0,observationRef=unreadable_observations[-1]))
+        # Synthetic captured stdout and independent post-replay query; no replay process is executed here.
+        event=dict(eventId='fixture-event',dedupId='fixture-dedup',aggregateId='fixture-asset',publicationId='fixture-publication',consumerId='fixture-consumer',publicationCount=1,inboxProcessedCount=1,outcome='processed')
+        ref,digest,size=retain('replay-command.stdout.jsonl',(json.dumps(event,sort_keys=True)+'\n').encode('utf8'))
+        replay_ref,_,_=retain('replay-execution.yaml',dict(**common,kind='recovery_replay_execution',configurationRef=next(r['configurationRef'] for r in execution['resources'] if r['id']=='RES-RECOVERY-SANDBOX'),recoveryRunId='fixture-recovery-run',restoredRef=restored_ref,startedAt='2026-09-03T00:01:05Z',finishedAt='2026-09-03T00:01:06Z',commandArgs=['synthetic-replay-fixture','fixture-event'],toolBuild='synthetic-replay-tool-v1',exitCode=0,outputArtifact=dict(artifactRef=ref,sha256=digest,byteCount=size)),'measurement_output')
+        post_ref,_,_=retain('post-replay-delivery.yaml',dict(**common,kind='recovery_delivery_readback',configurationRef=next(r['configurationRef'] for r in execution['resources'] if r['id']=='RES-RECOVERY-SANDBOX'),recoveryRunId='fixture-recovery-run',replayExecutionRef=replay_ref,observedAt='2026-09-03T00:01:07Z',delivery=copy.deepcopy(comparison['postReplayDelivery'])),'measurement_output')
+        comparison.update(replayExecutionRef=replay_ref,postReplayStateRef=post_ref)
         comparison_ref,_,_=retain('recovery-comparison.yaml',comparison,'measurement_output')
         resource=next(r for r in execution['resources'] if r['id']=='RES-RECOVERY-SANDBOX');config_path=root/resource['configurationRef'];config=load_yaml(config_path)
         config['configuration']['recoveryBaseline']=dict(baselineRef=baseline_ref,baselineSha256=baseline_sha,approvedReplayEventIds=['fixture-event'],approvedComparisonContexts=[{key:item[key] for key in ('referenceId','method','comparisonContextId')} for item in baseline['states']['valueComparisons']],approvedSigners=[signer],approvedUnreadableFixture={key:baseline['states']['unreadableFixture'][key] for key in ('fixtureId','backupSha256','controlBackupSha256','codec','corruptionOffset','corruptionXor')});write_yaml(config_path,config)
+        config['configuration']['recoveryBaseline'].update(browseRequest=dict(requestURL='https://synthetic.invalid/browse',authRef='secretref_fixture_browse',requestedAssetIds=['fixture-asset'],responseItemsPath=['assets']),replayCommand=dict(commandArgs=['synthetic-replay-fixture','fixture-event'],toolBuild='synthetic-replay-tool-v1',consumerId='fixture-consumer'));write_yaml(config_path,config)
         env['recoveryEvidence']=dict(configurationRef=resource['configurationRef'],baselineRef=baseline_ref,restoredRef=restored_ref,comparisonRef=comparison_ref)
         subjects=dict(recoveryRunId='fixture-recovery-run',physicalHostId='fixture-recovery-host',serviceSetId='fixture-services',vmSetId='fixture-vm-set',authorizedUserId='fixture-user',assetId='fixture-asset',backupCheckpointAt='2026-09-02T23:59:59Z')
         config['approvedAt']='2026-09-03T00:00:00Z';config['configuration']['recoveryTimingSubjects']=subjects;write_yaml(config_path,config)
+        browse_bytes=json.dumps({'assets':[{key:restored['states']['assets'][0][key] for key in ('assetId','version','aclVersion')}]},sort_keys=True).encode('utf8')
+        browse_ref,browse_sha,browse_size=retain('browse-response.json',browse_bytes)
+        browse_request=dict(requestId='fixture-browse-request',httpMethod='GET',requestURL='https://synthetic.invalid/browse',authRef='secretref_fixture_browse',userId='fixture-user',authorizationDecision='allow',requestedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:01Z',statusCode=200,responseArtifactRef=browse_ref,responseSha256=browse_sha,responseByteCount=browse_size)
         events=[]
         for event in ('backup_checkpoint','recoverable_data_boundary','recovery_started','services_ready','vm_set_ready','authenticated_browsing_succeeded','authorized_playback_succeeded','recovery_completed'):
             at=subjects['backupCheckpointAt'] if event=='backup_checkpoint' else '2026-09-03T00:00:00Z' if event in ('recoverable_data_boundary','recovery_started') else '2026-09-03T00:00:01Z'
-            ref,_,_=retain('recovery-event-'+event+'.yaml',dict(**common,kind='recovery_business_event',subjects=subjects,event=event,observedAt=at,outcome='succeeded'),'measurement_output')
+            witness=dict(**common,kind='recovery_business_event',subjects=subjects,event=event,observedAt=at,outcome='succeeded')
+            if event=='authenticated_browsing_succeeded':witness['request']=copy.deepcopy(browse_request)
+            ref,_,_=retain('recovery-event-'+event+'.yaml',witness,'measurement_output')
             events.append(dict(event=event,observedAt=at,witnessRef=ref))
         timing_ref,_,_=retain('recovery-timing.yaml',dict(**common,kind='recovery_timing_report',subjects=subjects,**{key:env['recoveryEvidence'][key] for key in ('configurationRef','baselineRef','restoredRef','comparisonRef')},events=events),'measurement_output')
         env['recoveryTimingRef']=timing_ref
@@ -1122,15 +1140,18 @@ class TestPocProgram(unittest.TestCase):
         for index,obj in enumerate(objects):
             payload=payloads[obj['sampleId']];total=len(payload);requests=[];complete_bytes+=total
             for kind in ('full','bounded','suffix','unsatisfiable','missing_auth','invalid_auth','concurrent_a','concurrent_b'):
-                authorized=kind not in ('missing_auth','invalid_auth');partial=kind in ('bounded','suffix');data=payload[:8] if kind=='bounded' else payload[-4:] if kind=='suffix' else payload if authorized and kind!='unsatisfiable' else b'';ref,sha=retain('storage-'+str(index)+'-'+kind+'.bin',data);start='2026-09-03T00:01:00Z' if not kind.startswith('concurrent_') else '2026-09-03T00:02:00Z';finish='2026-09-03T00:01:01Z' if not kind.startswith('concurrent_') else '2026-09-03T00:02:01Z';requests.append(dict(case=kind,requestId='storage-'+str(index)+'-'+kind,objectURL=obj['objectURL'],assetId=obj['assetId'],versionId=obj['versionId'],authRef=policy['authorizedAuthRef'] if authorized else policy['invalidAuthRef'] if kind=='invalid_auth' else None,requestRange='bytes=0-7' if kind=='bounded' else 'bytes=-4' if kind=='suffix' else f'bytes={total}-' if kind=='unsatisfiable' else None,statusCode=206 if partial else 416 if kind=='unsatisfiable' else 200 if authorized else 403,contentRange=f'bytes 0-7/{total}' if kind=='bounded' else f'bytes {total-4}-{total-1}/{total}' if kind=='suffix' else f'bytes */{total}' if kind=='unsatisfiable' else None,responseRef=ref,responseSha256=sha,originByteCount=len(data),startedAt=start,finishedAt=finish))
+                authorized=kind not in ('missing_auth','invalid_auth');partial=kind in ('bounded','suffix');data=payload[:8] if kind=='bounded' else payload[-4:] if kind=='suffix' else payload if authorized and kind!='unsatisfiable' else b'';ref,sha=retain('storage-'+str(index)+'-'+kind+'.bin',data);start='2026-09-03T00:01:00Z' if not kind.startswith('concurrent_') else '2026-09-03T00:05:59Z';finish='2026-09-03T00:01:01Z' if not kind.startswith('concurrent_') else '2026-09-03T00:06:02Z';requests.append(dict(case=kind,requestId='storage-'+str(index)+'-'+kind,objectURL=obj['objectURL'],assetId=obj['assetId'],versionId=obj['versionId'],authRef=policy['authorizedAuthRef'] if authorized else policy['invalidAuthRef'] if kind=='invalid_auth' else None,requestRange='bytes=0-7' if kind=='bounded' else 'bytes=-4' if kind=='suffix' else f'bytes={total}-' if kind=='unsatisfiable' else None,statusCode=206 if partial else 416 if kind=='unsatisfiable' else 200 if authorized else 403,contentRange=f'bytes 0-7/{total}' if kind=='bounded' else f'bytes {total-4}-{total-1}/{total}' if kind=='suffix' else f'bytes */{total}' if kind=='unsatisfiable' else None,responseRef=ref,responseSha256=sha,originByteCount=len(data),startedAt=start,finishedAt=finish))
+                origin={key:requests[-1][key] for key in ('case','requestId','objectURL','assetId','versionId','authRef','requestRange','statusCode','startedAt','finishedAt')};origin.update(schemaVersion=1,kind='local_storage_origin_access_observation',**common,sourceId=obj['sourceId'],objectId=obj['objectId'],originRequestCount=1 if authorized else 0,objectReadCount=1 if data else 0);requests[-1]['originAccessRef']=retain('storage-'+str(index)+'-'+kind+'-origin.yaml',origin,'measurement_output')[0]
             copies=[]
             for case in ('incomplete','hash_mismatch'):
                 bad=payload[:len(payload)//2] if case=='incomplete' else bytes([payload[0]^1])+payload[1:];ref,sha=retain('storage-'+str(index)+'-'+case+'.bin',bad);copies.append(dict(case=case,assetId=obj['assetId'],versionId=obj['versionId'],payloadRef=ref,sha256=sha,expectedSha256='sha256:'+hashlib.sha256(payload).hexdigest(),promotionDecision='rejected',afterStateRef=snapshot('storage-'+str(index)+'-'+case+'-state.yaml',baseline,'2026-09-03T00:03:01Z'),startedAt='2026-09-03T00:03:00Z',finishedAt='2026-09-03T00:03:01Z'))
             attempts=[]
             for attempt,data in ((1,payload[:min(8,total-1)]),(2,payload)):
                 ref,sha=retain('storage-'+str(index)+'-recovery-'+str(attempt)+'.bin',data);attempts.append(dict(attemptNo=attempt,startedAt=f'2026-09-03T00:04:0{attempt*2}Z',finishedAt=f'2026-09-03T00:04:0{attempt*2+1}Z',transport='disconnected' if attempt==1 else 'success',responseRef=ref,responseSha256=sha,partialPromotedCount=0))
-            disconnect=dict(attempts=attempts,serviceRestartedAt='2026-09-03T00:04:03Z',afterStateRef=snapshot('storage-'+str(index)+'-recovered-state.yaml',baseline,'2026-09-03T00:04:05Z'));backup_ref,backup_sha=retain('storage-'+str(index)+'-backup.bin',payload);restored_ref,restored_sha=retain('storage-'+str(index)+'-restored.bin',payload);backup_state=copy.deepcopy(baseline);restored_state=copy.deepcopy(baseline);next(r for r in backup_state['replicas'] if r['replicaId']==obj['oldReplicaId'])['payloadRef']=backup_ref;next(r for r in restored_state['replicas'] if r['replicaId']==obj['oldReplicaId'])['payloadRef']=restored_ref;backup=dict(backupDataRef=backup_ref,backupSha256=backup_sha,restoredDataRef=restored_ref,restoredSha256=restored_sha,backupStateRef=snapshot('storage-'+str(index)+'-backup-state.yaml',backup_state,'2026-09-03T00:05:00Z'),restoredStateRef=snapshot('storage-'+str(index)+'-restored-state.yaml',restored_state,'2026-09-03T00:05:01Z'),startedAt='2026-09-03T00:05:00Z',finishedAt='2026-09-03T00:05:01Z');evicted=copy.deepcopy(baseline);evicted['caches']=[r for r in evicted['caches'] if r['assetId']!=obj['assetId']]
-            pending_ref,pending_sha=retain('storage-'+str(index)+'-migration-pending.bin',payload[:min(8,total-1)]);new_ref,new_sha=retain('storage-'+str(index)+'-migration-verified.bin',payload);copying=copy.deepcopy(baseline);copying['replicas'].append(dict(replicaId=obj['newReplicaId'],assetId=obj['assetId'],versionId=obj['versionId'],state='COPYING',payloadRef=pending_ref,sha256=pending_sha));verified=copy.deepcopy(baseline);verified['replicas'].append(dict(replicaId=obj['newReplicaId'],assetId=obj['assetId'],versionId=obj['versionId'],state='VERIFIED',payloadRef=new_ref,sha256=new_sha));migration=dict(newReplicaId=obj['newReplicaId'],copyingStateRef=snapshot('storage-'+str(index)+'-migration-copying-state.yaml',copying,'2026-09-03T00:06:00Z'),verifiedStateRef=snapshot('storage-'+str(index)+'-migration-verified-state.yaml',verified,'2026-09-03T00:06:01Z'),startedAt='2026-09-03T00:06:00Z',verifiedAt='2026-09-03T00:06:01Z');rows.append(dict(sampleId=obj['sampleId'],requests=requests,copyRejections=copies,disconnect=disconnect,backupRestore=backup,evictionAfterStateRef=snapshot('storage-'+str(index)+'-evicted-state.yaml',evicted,'2026-09-03T00:05:30Z'),evictedAt='2026-09-03T00:05:30Z',migration=migration))
+            disconnect=dict(attempts=attempts,serviceRestartedAt='2026-09-03T00:04:03Z',afterStateRef=snapshot('storage-'+str(index)+'-recovered-state.yaml',baseline,'2026-09-03T00:04:05Z'));backup_ref,backup_sha=retain('storage-'+str(index)+'-backup.bin',payload);restored_ref,restored_sha=retain('storage-'+str(index)+'-restored.bin',payload);backup_state=copy.deepcopy(baseline);restored_state=copy.deepcopy(baseline);next(r for r in backup_state['replicas'] if r['replicaId']==obj['oldReplicaId'])['payloadRef']=backup_ref;next(r for r in restored_state['replicas'] if r['replicaId']==obj['oldReplicaId'])['payloadRef']=restored_ref;backup=dict(backupDataRef=backup_ref,backupSha256=backup_sha,restoredDataRef=restored_ref,restoredSha256=restored_sha,backupStateRef=snapshot('storage-'+str(index)+'-backup-state.yaml',backup_state,'2026-09-03T00:06:00.500Z'),restoredStateRef=snapshot('storage-'+str(index)+'-restored-state.yaml',restored_state,'2026-09-03T00:06:01Z'),startedAt='2026-09-03T00:06:00.250Z',finishedAt='2026-09-03T00:06:01Z');evicted=copy.deepcopy(baseline);evicted['caches']=[r for r in evicted['caches'] if r['assetId']!=obj['assetId']]
+            pending_ref,pending_sha=retain('storage-'+str(index)+'-migration-pending.bin',payload[:min(8,total-1)]);new_ref,new_sha=retain('storage-'+str(index)+'-migration-verified.bin',payload);copying=copy.deepcopy(baseline);copying['replicas'].append(dict(replicaId=obj['newReplicaId'],assetId=obj['assetId'],versionId=obj['versionId'],state='COPYING',payloadRef=pending_ref,sha256=pending_sha));verified=copy.deepcopy(baseline);verified['replicas'].append(dict(replicaId=obj['newReplicaId'],assetId=obj['assetId'],versionId=obj['versionId'],state='VERIFIED',payloadRef=new_ref,sha256=new_sha));migration=dict(newReplicaId=obj['newReplicaId'],copyingStateRef=snapshot('storage-'+str(index)+'-migration-copying-state.yaml',copying,'2026-09-03T00:06:00Z'),verifiedStateRef=snapshot('storage-'+str(index)+'-migration-verified-state.yaml',verified,'2026-09-03T00:06:01Z'),startedAt='2026-09-03T00:06:00Z',verifiedAt='2026-09-03T00:06:01Z')
+            workload=dict(schemaVersion=1,kind='local_storage_concurrent_workload_observation',**common,**{key:obj[key] for key in ('sampleId','sourceId','objectId','assetId','versionId','newReplicaId')},writeOperation='replica_migration',lifecycleOperation='backup_restore',writeStartedAt=migration['startedAt'],writeFinishedAt=migration['verifiedAt'],copyingStateRef=migration['copyingStateRef'],verifiedStateRef=migration['verifiedStateRef'],lifecycleStartedAt=backup['startedAt'],lifecycleFinishedAt=backup['finishedAt'],backupDataRef=backup['backupDataRef'],restoredDataRef=backup['restoredDataRef'],backupStateRef=backup['backupStateRef'],restoredStateRef=backup['restoredStateRef'])
+            workload_ref=retain('storage-'+str(index)+'-concurrent-workload.yaml',workload,'measurement_output')[0];rows.append(dict(sampleId=obj['sampleId'],requests=requests,copyRejections=copies,disconnect=disconnect,backupRestore=backup,evictionAfterStateRef=snapshot('storage-'+str(index)+'-evicted-state.yaml',evicted,'2026-09-03T00:05:30Z'),evictedAt='2026-09-03T00:05:30Z',migration=migration,concurrentWorkloadRef=workload_ref))
         observations=[dict(phase=phase,observedAt=f'2026-09-03T00:07:0{index}Z',freeBytes=free,reservedBytes=reserved,admission=admission) for index,(phase,free,reserved,admission) in enumerate((('baseline',400,50,'admitted'),('fill',200,50,'paused'),('pause',180,50,'paused'),('evict',400,0,'paused'),('resume',400,0,'admitted')))];report=dict(schemaVersion=1,kind='local_storage_outcomes',**common,baselineStateRef=baseline_ref,objects=rows,capacityObservations=observations);env['localStorageRef'],_=retain('local-storage-outcomes.yaml',report,'measurement_output')
         values=dict(local_minimum_free_bytes=180,local_maximum_reserved_bytes=50,sequential_throughput=complete_bytes/len(objects)/1000000,io_latency=1000)
         for measurement in execution['measurements']:
@@ -1471,6 +1492,75 @@ class TestPocProgram(unittest.TestCase):
                     self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-10'}),[])
                 finally:temp.cleanup()
         self.exercise_recovery_value_phase_regressions()
+        self.exercise_recovery_observation_readback_regressions()
+
+    def exercise_recovery_observation_readback_regressions(self):
+        """Synthetic admission checks only: never a DB/browse/consumer implementation."""
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);env=original['environmentCaptured'];capture=env['recoveryEvidence'];prefix=path.parent.relative_to(root).as_posix()
+                plan=load_yaml(self.plan_path(root,'POC-010'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][k]) for k in ('startedAt','finishedAt'))
+                saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};config_path=root/capture['configurationRef'];saved[config_path]=config_path.read_bytes()
+                def validate(data):
+                    self.refresh_qualified_observation_fixture(root,data);errors=[];CHECK.validate_qualified_recovery_observation(root,plan,data,prefix,'pass',window,defs,errors,{});CHECK.validate_qualified_recovery_timing(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+                modes=('playback_blob','playback_past_end','db_schema_missing','db_data_invented','db_data_bytes','ai_result_missing','manual_digest','manual_bytes','browse_missing','browse_user','browse_auth','browse_decision','browse_status','browse_response_version','browse_response_acl','browse_response_acl_bool','browse_clock','browse_body_hash','replay_missing','replay_command','replay_exit','replay_output','replay_event','post_stale','post_clock','post_alias')
+                for mode in modes:
+                    with self.subTest(profile=profile,readback=mode):
+                        for artifact,raw in saved.items():artifact.write_bytes(raw)
+                        data=copy.deepcopy(original);base=load_yaml(root/capture['baselineRef']);restored=load_yaml(root/capture['restoredRef']);comparison=load_yaml(root/capture['comparisonRef']);config=load_yaml(config_path)
+                        timing=load_yaml(root/env['recoveryTimingRef']);browse_path=root/next(e for e in timing['events'] if e['event']=='authenticated_browsing_succeeded')['witnessRef'];browse=load_yaml(browse_path)
+                        replay_path=root/comparison['replayExecutionRef'];replay=load_yaml(replay_path);post_path=root/comparison['postReplayStateRef'];post=load_yaml(post_path)
+                        if mode.startswith('playback'):
+                            for report in (base,restored):
+                                row=report['states']['playback'][0]
+                                if mode=='playback_blob':
+                                    payload=b'forged!!';(root/row['artifactRef']).write_bytes(payload);row['sha256']='sha256:'+hashlib.sha256(payload).hexdigest()
+                                else:row['rangeStart']=report['states']['replicas'][0]['byteCount'];row['rangeEnd']=row['rangeStart']+7
+                        elif mode.startswith('db_'):
+                            for report in (base,restored):
+                                db=report['states']['database']
+                                if mode=='db_schema_missing':db.pop('schemaReadback')
+                                elif mode=='db_data_invented':db['dataSha256']='sha256:'+'f'*64
+                                else:(root/db['dataReadback']['artifactRef']).write_bytes(b'Changed readback without matching actual digest')
+                        elif mode in ('ai_result_missing','manual_digest','manual_bytes'):
+                            for report in (base,restored):
+                                row=report['states']['revisions'][0]
+                                if mode=='ai_result_missing':row.pop('aiResult')
+                                elif mode=='manual_digest':row['manualEdit']['sha256']='sha256:'+'f'*64
+                                else:(root/row['manualEdit']['artifactRef']).write_bytes(b'Manual revision contents were lost')
+                        elif mode.startswith('browse_'):
+                            if mode=='browse_missing':browse.pop('request')
+                            elif mode in ('browse_response_version','browse_response_acl','browse_response_acl_bool'):
+                                request=browse['request'];body={'assets':[{'assetId':'fixture-asset','version':'foreign-version' if mode.endswith('version') else 'fixture-v1','aclVersion':True if mode=='browse_response_acl_bool' else 2 if mode.endswith('acl') else 1}]};payload=json.dumps(body).encode();(root/request['responseArtifactRef']).write_bytes(payload);request['responseSha256']='sha256:'+hashlib.sha256(payload).hexdigest();request['responseByteCount']=len(payload)
+                            else:
+                                key,value={'browse_user':('userId','foreign-user'),'browse_auth':('authRef','secretref_foreign'),'browse_decision':('authorizationDecision','deny'),'browse_status':('statusCode',403),'browse_clock':('finishedAt','2026-09-03T00:00:02Z'),'browse_body_hash':('responseSha256','sha256:'+'f'*64)}[mode];browse['request'][key]=value
+                        elif mode=='replay_missing':comparison.pop('replayExecutionRef')
+                        elif mode=='replay_command':replay['commandArgs']=['unapproved-no-op']
+                        elif mode=='replay_exit':replay['exitCode']=1
+                        elif mode in ('replay_output','replay_event'):
+                            output=replay['outputArtifact'];payload=b'{}\n' if mode=='replay_output' else (json.dumps(dict(eventId='fixture-event',dedupId='wrong-dedup',aggregateId='fixture-asset',publicationId='fixture-publication',consumerId='fixture-consumer',publicationCount=1,inboxProcessedCount=1,outcome='processed'))+'\n').encode();(root/output['artifactRef']).write_bytes(payload);output['byteCount']=len(payload);output['sha256']='sha256:'+hashlib.sha256(payload).hexdigest()
+                        elif mode=='post_stale':post['delivery']=copy.deepcopy(restored['states']['delivery'])
+                        elif mode=='post_clock':post['observedAt']='2026-09-03T00:01:04Z'
+                        else:comparison['postReplayStateRef']=comparison['replayExecutionRef']
+                        write_yaml(browse_path,browse);write_yaml(replay_path,replay);write_yaml(post_path,post)
+                        for report,key in ((base,'baselineRef'),(restored,'restoredRef')):write_yaml(root/capture[key],report)
+                        for row in comparison['rows']:
+                            domains=CHECK.RECOVERY_GATE_DOMAINS[row['gate']];row['before']={d:CHECK.recovery_domain_digest(base['states'][d]) for d in domains};row['after']={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}
+                        comparison['baselineSha256']=config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+hashlib.sha256((root/capture['baselineRef']).read_bytes()).hexdigest();comparison['restoredSha256']='sha256:'+hashlib.sha256((root/capture['restoredRef']).read_bytes()).hexdigest()
+                        write_yaml(root/capture['comparisonRef'],comparison);write_yaml(config_path,config);errors=validate(data)
+                        self.assertTrue(any('qualified recovery observation' in e or 'qualified recovery timing' in e for e in errors),(profile,mode,errors))
+                # Independently retained true middle bytes are legal, not just equal whole-file hashes.
+                for artifact,raw in saved.items():artifact.write_bytes(raw)
+                data=copy.deepcopy(original);base=load_yaml(root/capture['baselineRef']);restored=load_yaml(root/capture['restoredRef']);comparison=load_yaml(root/capture['comparisonRef']);config=load_yaml(config_path)
+                for report in (base,restored):
+                    row=report['states']['playback'][0];payload=(root/report['states']['replicas'][0]['artifactRef']).read_bytes()[2:6];(root/row['artifactRef']).write_bytes(payload);row.update(rangeStart=2,rangeEnd=5,sha256='sha256:'+hashlib.sha256(payload).hexdigest())
+                for row in comparison['rows']:
+                    domains=CHECK.RECOVERY_GATE_DOMAINS[row['gate']];row['before']={d:CHECK.recovery_domain_digest(base['states'][d]) for d in domains};row['after']={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}
+                write_yaml(root/capture['baselineRef'],base);write_yaml(root/capture['restoredRef'],restored);comparison['baselineSha256']=config['configuration']['recoveryBaseline']['baselineSha256']='sha256:'+hashlib.sha256((root/capture['baselineRef']).read_bytes()).hexdigest();comparison['restoredSha256']='sha256:'+hashlib.sha256((root/capture['restoredRef']).read_bytes()).hexdigest();write_yaml(root/capture['comparisonRef'],comparison);write_yaml(config_path,config);self.assertEqual(validate(data),[])
+            finally:temp.cleanup()
+
 
     def test_164_binary_recovery_credentials_and_approved_single_event_replay(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -1489,6 +1579,7 @@ class TestPocProgram(unittest.TestCase):
             unselected=dict(eventId='fixture-unselected-event',dedupId='fixture-unselected-dedup',aggregateId='fixture-asset',status='pending',publicationCount=0,inboxProcessedCount=0)
             for report in (base,restored):report['states']['delivery'].append(dict(unselected))
             comparison['postReplayDelivery'].append(dict(unselected))
+            post_path=root/comparison['postReplayStateRef'];post=load_yaml(post_path);post['delivery'].append(dict(unselected));write_yaml(post_path,post)
             for row in comparison['rows']:
                 domains=CHECK.RECOVERY_GATE_DOMAINS[row['gate']];row['before']={d:CHECK.recovery_domain_digest(base['states'][d]) for d in domains};row['after']={d:CHECK.recovery_domain_digest(restored['states'][d]) for d in domains}
             write_yaml(base_path,base);write_yaml(restored_path,restored)
@@ -1588,6 +1679,7 @@ class TestPocProgram(unittest.TestCase):
                 for event in report['events']:
                     if event['event'] in offsets:
                         event['observedAt']='2026-09-03T00:00:0'+str(offsets[event['event']])+'Z';witness_path=root/event['witnessRef'];witness=load_yaml(witness_path);witness['observedAt']=event['observedAt'];write_yaml(witness_path,witness)
+                        if event['event']=='authenticated_browsing_succeeded':witness['request']['finishedAt']=event['observedAt'];write_yaml(witness_path,witness)
                 for metric,(_,last) in CHECK.RECOVERY_TIME_ENDPOINTS.items():
                     if metric!='rpo_observed':next(m for m in record['measurements'] if m['id']==metric)['actual']=offsets[last]
                 write_yaml(timing_path,report);self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record);self.assertEqual(validate(),[])
@@ -3417,7 +3509,14 @@ class TestPocProgram(unittest.TestCase):
                     self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                     return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-08'})
                 self.assertEqual(validate(copy.deepcopy(original)),[])
-                for mode in ('missing','arbitrary','policy','config','profile','input','fixture_ref','missing_candidate','duplicate_candidate','version','lock_hash','build_status','build_time','bundle_count','bundle_hash','missing_scenario','duplicate_scenario','scenario_build','scenario_fixture','scenario_input','scenario_driver','scenario_status','missing_action','action_result','action_time','scenario_measurement','missing_score','duplicate_score','rubric','assessor','score_build','grade','grade_nan','basis','score_time','score_refs','weight','criterion','coverage','bundle','maintainability','gate'):
+                # Frozen action order is valid with strictly advancing actual action clocks.
+                for candidate in report_original['candidates']:
+                    for scenario in candidate['scenarios']:
+                        location=root/scenario['observationRef'];ordered=load_yaml(location)
+                        for number,action in enumerate(ordered['actions']):action.update(startedAt=f'2026-09-03T00:00:02.{number*100:03d}Z',finishedAt=f'2026-09-03T00:00:02.{number*100+50:03d}Z')
+                        write_yaml(location,ordered)
+                self.assertEqual(validate(copy.deepcopy(original)),[])
+                for mode in ('missing','arbitrary','policy','config','profile','input','fixture_ref','missing_candidate','duplicate_candidate','version','lock_hash','build_status','build_time','bundle_count','bundle_hash','missing_scenario','duplicate_scenario','scenario_build','scenario_fixture','scenario_input','scenario_driver','scenario_status','missing_action','actions_reversed','sse_actions_reversed','action_result','action_time','scenario_measurement','missing_score','duplicate_score','rubric','assessor','score_build','grade','grade_nan','basis','score_time','score_refs','weight','criterion','coverage','bundle','maintainability','gate'):
                     for file,raw in files.items():file.write_bytes(raw)
                     data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['frontendComparisonPolicy'];row=report['candidates'][0];build_path=root/row['buildRef'];build=load_yaml(build_path);trace_path=root/row['scenarios'][0]['observationRef'];trace=load_yaml(trace_path);score_path=root/row['scores'][0]['observationRef'];score=load_yaml(score_path)
                     if mode=='missing':data['environmentCaptured'].pop('frontendComparisonRef')
@@ -3443,6 +3542,9 @@ class TestPocProgram(unittest.TestCase):
                     elif mode=='scenario_driver':trace['scenarioDriverBuild']='foreign-driver'
                     elif mode=='scenario_status':trace['status']='failed'
                     elif mode=='missing_action':trace['actions'].pop()
+                    elif mode=='actions_reversed':trace['actions'].reverse()
+                    elif mode=='sse_actions_reversed':
+                        trace_path=root/next(s for s in row['scenarios'] if s['scenarioId']=='sse_websocket_equivalent')['observationRef'];trace=load_yaml(trace_path);trace['actions'].reverse()
                     elif mode=='action_result':trace['actions'][0]['result']={'unrelated':'success'}
                     elif mode=='action_time':trace['actions'][0]['finishedAt']='2026-09-03T00:00:01Z'
                     elif mode=='scenario_measurement':trace['measurements'][0]['value']+=1
@@ -3601,7 +3703,7 @@ class TestPocProgram(unittest.TestCase):
             def validate(data):
                 self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);return CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-04'})
             self.assertEqual(validate(copy.deepcopy(original)),[])
-            for mode in ('missing','arbitrary','policy','root','build','profile','input','missing_object','version','missing_request','path','credential','unauthorized_bytes','full_hash','bounded_bytes','suffix_header','unsatisfiable','concurrency','duplicate_request','baseline_metadata','baseline_invalid','copy_missing','incomplete_promoted','hash_copy_valid','copy_state','copy_old_snapshot','disconnect_attempts','disconnect_full_hash','disconnect_promoted','disconnect_restart','recovery_old_snapshot','backup_hash','restore_hash','restore_metadata','restore_state_bytes','backup_time','eviction_asset','eviction_replica','eviction_retention','eviction_cache','eviction_time','migration_old_missing','migration_unverified','migration_pending_verified','migration_pending_asset','migration_pending_version','migration_hash','migration_version','migration_state_time','capacity_phase','capacity_order','capacity_admission','capacity_floor','capacity_count','throughput','latency','gate'):
+            for mode in ('missing','arbitrary','policy','root','build','profile','input','missing_object','version','missing_request','path','credential','unauthorized_bytes','origin_missing','origin_arbitrary','origin_request','origin_object','origin_auth','origin_interval','denied_origin_request','denied_object_read','origin_borrowed','workload_missing','workload_arbitrary','workload_binding','workload_state_ref','write_disjoint','lifecycle_disjoint','lifecycle_zero','workloads_only_touch','full_hash','bounded_bytes','suffix_header','unsatisfiable','concurrency','duplicate_request','baseline_metadata','baseline_invalid','copy_missing','incomplete_promoted','hash_copy_valid','copy_state','copy_old_snapshot','disconnect_attempts','disconnect_full_hash','disconnect_promoted','disconnect_restart','recovery_old_snapshot','backup_hash','restore_hash','restore_metadata','restore_state_bytes','backup_time','eviction_asset','eviction_replica','eviction_retention','eviction_cache','eviction_time','migration_old_missing','migration_unverified','migration_pending_verified','migration_pending_asset','migration_pending_version','migration_hash','migration_version','migration_state_time','capacity_phase','capacity_order','capacity_admission','capacity_floor','capacity_count','throughput','latency','gate'):
                 for file,raw in files.items():file.write_bytes(raw)
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['localStoragePolicy'];row=report['objects'][0];request=row['requests'][0];copy_case=row['copyRejections'][0];backup=row['backupRestore'];migration=row['migration']
                 def change_state(ref,change):
@@ -3621,6 +3723,30 @@ class TestPocProgram(unittest.TestCase):
                 elif mode=='path':request['objectURL']='http://127.0.0.1/foreign-object'
                 elif mode=='credential':request['authRef']=policy['invalidAuthRef']
                 elif mode=='unauthorized_bytes':change_body(row['requests'][4],b'Protected source bytes')
+                elif mode.startswith('origin_') or mode in ('denied_origin_request','denied_object_read'):
+                    denied=row['requests'][4];location=root/denied['originAccessRef'];origin=load_yaml(location)
+                    if mode=='origin_missing':denied.pop('originAccessRef')
+                    elif mode=='origin_arbitrary':origin=True
+                    elif mode=='origin_request':origin['requestId']='foreign-request'
+                    elif mode=='origin_object':origin['objectId']='foreign-object'
+                    elif mode=='origin_auth':origin['authRef']=policy['authorizedAuthRef']
+                    elif mode=='origin_interval':origin['finishedAt']='2026-09-03T00:01:02Z'
+                    elif mode=='denied_origin_request':origin['originRequestCount']=1
+                    elif mode=='denied_object_read':origin['objectReadCount']=1
+                    elif mode=='origin_borrowed':denied['originAccessRef']=row['requests'][5]['originAccessRef']
+                    write_yaml(location,origin)
+                elif mode.startswith('workload_') or mode in ('write_disjoint','lifecycle_disjoint','lifecycle_zero','workloads_only_touch'):
+                    location=root/row['concurrentWorkloadRef'];workload=load_yaml(location)
+                    if mode=='workload_missing':row.pop('concurrentWorkloadRef')
+                    elif mode=='workload_arbitrary':workload=True
+                    elif mode=='workload_binding':workload['sourceId']='foreign-source'
+                    elif mode=='workload_state_ref':workload['copyingStateRef']=report['baselineStateRef']
+                    elif mode=='write_disjoint':
+                        migration.update(startedAt='2026-09-03T00:06:03Z',verifiedAt='2026-09-03T00:06:04Z');change_state(migration['copyingStateRef'],lambda s:s.update(observedAt=migration['startedAt']));change_state(migration['verifiedStateRef'],lambda s:s.update(observedAt=migration['verifiedAt']));workload.update(writeStartedAt=migration['startedAt'],writeFinishedAt=migration['verifiedAt'])
+                    else:
+                        start,finish=('2026-09-03T00:06:03Z','2026-09-03T00:06:04Z') if mode=='lifecycle_disjoint' else ('2026-09-03T00:06:01Z','2026-09-03T00:06:01Z') if mode=='lifecycle_zero' else ('2026-09-03T00:06:01Z','2026-09-03T00:06:01.500Z')
+                        backup.update(startedAt=start,finishedAt=finish);change_state(backup['backupStateRef'],lambda s:s.update(observedAt=start));change_state(backup['restoredStateRef'],lambda s:s.update(observedAt=finish));workload.update(lifecycleStartedAt=start,lifecycleFinishedAt=finish)
+                    write_yaml(location,workload)
                 elif mode=='full_hash':change_body(request,b'Unrelated full source response')
                 elif mode=='bounded_bytes':change_body(row['requests'][1],b'BADBYTES')
                 elif mode=='suffix_header':row['requests'][2]['contentRange']='bytes 0-3/99'

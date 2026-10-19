@@ -284,3 +284,27 @@ Recovery signature qualification requires available OpenSSL and an approved exac
 
 The following earlier entries are historical preparation/source records.
 
+
+## Eight observed-input repair archival checkpoint (parent bd1155f)
+
+The parent source is bd1155f9dea9e3a65ae7b7f16eef2a41a30ae05d/tree270c855551ff3ee92d1386fa528c25e58d6f4f9b.
+Its required20 controller reached CLOSED0, all20 command exits0, including targeted60, native make verify and docs.
+Parent targeted60 retains four separate Ran15 PASS records, zero failures/errors/skips and aggregate elapsed1927.078865898s; no single Ran60 or full208 execution is implied.
+Parent native make verify independently passed637 tests with zero failures/errors/skips; CI714 separately passed637 tests/1383.52s/28 successful steps.
+Parent validation and CI retain that source identity and do not accept the unpublished combined repair candidate.
+
+See the [parent execution manifest](../evidence/GZ-021/executions/bd1155f9dea9e3a65ae7b7f16eef2a41a30ae05d/manifest.json) for the complete terminal command/raw/CI records.
+
+The eight bounded repairs require actual storage denial/concurrency/lifecycle observations, frozen frontend action order, and recovery replica/browse/revision/database/replay readbacks.
+The composition changes5 existing checker functions/adds2 and changes4 existing schema definitions/adds5;208 names remain,5 methods change,203 retain exact AST, and469 original method assertion nodes remain in order.
+Combined patch3032097d/proof9020bece includes the single helper path-key correction; this is a content-composition record, not a combined-source execution result.
+
+Storage/frontend original184/186 passed one Ran2/612.291s/exit0 invocation (87de83c8).
+The first recovery invocation was Ran6/597.939s/exit1:5 passed and163 ERROR (f47b7791); its failed raw history is retained.
+After only root[a['ref']] became root/a['ref'], separate original163 passed Ran1/305.861s/exit0 (65e0c5c8).
+The2-method, failed6-method and corrected1-method invocations remain separate; they cannot be summed into one successful Ran6 or combined regression.
+See the [eight-observation candidate manifest](../evidence/GZ-021/candidate-checks/eight-observations/manifest.json) for all variants, proofs and selected actual execution records.
+
+At this archival checkpoint, successor-source25 complete original methods,19 other required checks and its own CI are still pending.
+This checkpoint adds no new full208, formal/actual-POC/runtime/HLS or full-V1 completion; task claims, plan and DAG remain unchanged.
+Phone/Go experiments are separate external work and do not establish platform integration within this specification delivery.

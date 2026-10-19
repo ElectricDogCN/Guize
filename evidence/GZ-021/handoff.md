@@ -343,3 +343,28 @@ The separate candidate records are retained losslessly in candidate-checks/three
 The actual parent full195 failures also require two necessary fixture adaptations. Original162 keeps its legal three streams/two nodes and all six encode-negative assertions, while explicitly approving a3-total/2-per-node scheduling scenario with two saturated background jobs, distinct generated outputs/probes and complete state snapshots. Default2/1 scheduling fixtures and all validators remain. Original186 production PASS now expects the existing deferred POC004 error; local FAIL/INCONCLUSIVE and all storage boundaries remain. Its separate162/186/194 check passed3 tests215.648s; this is not a complete198 run. Original177 production-PASS adaptation and187 legal sidecar synchronization remain separate accepted purposes. Records are in candidate-checks/three-profile-parent-regression-compatibility/manifest.json.
 
 The published fbc7598 complete198 run has observed a137 failure and is still running at this candidate archive. Its separate clean exact-source137 diagnostic reproduced the failure (1 test,12.493s): the historical alias-positive fixture retained only scope_observation and discarded the newly required listing/assessment measurement_output. The private137 fixture now retains every typed non-command observation when replacing command output. The checker/schema, other197 test methods and all six original137 assertions remain unchanged. The corrected separate137 check passed (1 test,32.625s) and its finite content/execution binding is independently accepted. The lossless baseline failure, targeted pass and review records are in candidate-checks/fbc137-typed-observation-retention/manifest.json. This candidate is unpublished; complete198, own published-source local20/CI, formal/final approval, main integration and actual runtime remain unaccepted. The earlier fbc/35d execution histories and all production/local obligations remain separate.
+
+## Eight observed-input repair archival checkpoint (parent bd1155f)
+
+Parent bd1155f9dea9e3a65ae7b7f16eef2a41a30ae05d/tree270c855551ff3ee92d1386fa528c25e58d6f4f9b retains its own execution identity.
+Its required20 controller reached CLOSED0, with all20 command exits0, including targeted60, native make verify and docs.
+Targeted60 consists of four separate original Ran15 records, zero failures/errors/skips, aggregate elapsed1927.078865898s; it is not a full208 run.
+The separate native make verify passed637 tests with zero failures/errors/skips; parent CI714 also succeeded independently:637 tests/1383.52s/28 successful steps.
+These parent results do not execute or accept the combined repair candidate.
+
+Parent command receipts, raw records and CI bindings are retained in the [parent execution manifest](executions/bd1155f9dea9e3a65ae7b7f16eef2a41a30ae05d/manifest.json).
+
+Storage binds denied requests to independent zero-origin/object-read observations and requires observed concurrent reads, migration write and backup/restore lifecycle; frontend traces follow the frozen action order.
+Recovery binds playback to actual replica slices, browse to retained response bytes, AI/manual revisions and database state to readbacks, and replay to retained execution/output/post-state.
+The combination changes5 existing checker functions/adds2 and changes4 existing schema definitions/adds5;208 method names remain,5 methods change,203 retain exact AST, and469 original method assertion nodes remain in order.
+Reviewed combined patch3032097d/proof9020bece records content composition, including the single helper path-key correction; it does not establish combined-source test acceptance.
+
+Storage/frontend: one invocation of original184/186 passed Ran2/612.291s/exit0 (87de83c8).
+Recovery first invocation: Ran6/597.939s/exit1, with5 passed and163 ERROR (f47b7791); this original failure remains retained.
+Recovery v2: only root[a['ref']] to root/a['ref'] changed; separate original163 passed Ran1/305.861s/exit0 (65e0c5c8).
+These three historical invocations remain distinct; they are not one successful Ran6 or a combined-source regression.
+Patches, mechanical proofs and all three execution histories are retained in the [eight-observation candidate manifest](candidate-checks/eight-observations/manifest.json).
+
+At this archival checkpoint, the repaired successor source's25 complete original methods,19 other required checks and its own CI remain pending.
+No new full208, formal acceptance, actual-POC/runtime/HLS or full-V1 completion follows from this checkpoint; task claims, plan and DAG are unchanged.
+Phone/Go experiments remain separate external work, without platform integration acceptance in GZ021.

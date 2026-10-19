@@ -1776,6 +1776,8 @@ $defs:
             required:
             - schemaSha256
             - dataSha256
+            - schemaReadback
+            - dataReadback
             properties:
               schemaSha256:
                 type: string
@@ -1783,6 +1785,32 @@ $defs:
               dataSha256:
                 type: string
                 pattern: ^sha256:[a-f0-9]{64}$
+              schemaReadback:
+                type: object
+                additionalProperties: false
+                required:
+                - artifactRef
+                - byteCount
+                properties:
+                  artifactRef:
+                    type: string
+                    minLength: 1
+                  byteCount:
+                    type: integer
+                    minimum: 1
+              dataReadback:
+                type: object
+                additionalProperties: false
+                required:
+                - artifactRef
+                - byteCount
+                properties:
+                  artifactRef:
+                    type: string
+                    minLength: 1
+                  byteCount:
+                    type: integer
+                    minimum: 1
           permissions:
             type: array
             minItems: 1
@@ -2217,6 +2245,8 @@ $defs:
               - authorUserId
               - revisionNumber
               - provenanceSha256
+              - aiResult
+              - manualEdit
               properties:
                 revisionId:
                   type: string
@@ -2233,6 +2263,40 @@ $defs:
                 provenanceSha256:
                   type: string
                   pattern: ^sha256:[a-f0-9]{64}$
+                aiResult:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - artifactRef
+                  - byteCount
+                  - sha256
+                  properties:
+                    artifactRef:
+                      type: string
+                      minLength: 1
+                    byteCount:
+                      type: integer
+                      minimum: 1
+                    sha256:
+                      type: string
+                      pattern: ^sha256:[a-f0-9]{64}$
+                manualEdit:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - artifactRef
+                  - byteCount
+                  - sha256
+                  properties:
+                    artifactRef:
+                      type: string
+                      minLength: 1
+                    byteCount:
+                      type: integer
+                      minimum: 1
+                    sha256:
+                      type: string
+                      pattern: ^sha256:[a-f0-9]{64}$
           indexEntries:
             type: array
             minItems: 1
@@ -2311,6 +2375,8 @@ $defs:
     - postReplayDelivery
     - unreadableWitness
     - replayedEventIds
+    - replayExecutionRef
+    - postReplayStateRef
     properties:
       schemaVersion:
         type: integer
@@ -2459,6 +2525,12 @@ $defs:
         items:
           type: string
           minLength: 1
+      replayExecutionRef:
+        type: string
+        minLength: 1
+      postReplayStateRef:
+        type: string
+        minLength: 1
   recoveryDeploymentVerification:
     type: object
     additionalProperties: false
@@ -2849,6 +2921,58 @@ $defs:
         format: date-time
       outcome:
         const: succeeded
+      request:
+        type: object
+        additionalProperties: false
+        required:
+        - requestId
+        - httpMethod
+        - requestURL
+        - authRef
+        - userId
+        - authorizationDecision
+        - requestedAt
+        - finishedAt
+        - statusCode
+        - responseArtifactRef
+        - responseSha256
+        - responseByteCount
+        properties:
+          requestId:
+            type: string
+            minLength: 1
+          httpMethod:
+            const: GET
+          requestURL:
+            type: string
+            minLength: 1
+          authRef:
+            type: string
+            pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+            maxLength: 74
+          userId:
+            type: string
+            minLength: 1
+          authorizationDecision:
+            const: allow
+          requestedAt:
+            type: string
+            format: date-time
+          finishedAt:
+            type: string
+            format: date-time
+          statusCode:
+            type: integer
+            const: 200
+          responseArtifactRef:
+            type: string
+            minLength: 1
+          responseSha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+          responseByteCount:
+            type: integer
+            minimum: 1
   productionA380Encode:
     type: object
     additionalProperties: false
@@ -9858,10 +9982,12 @@ $defs:
           - evictionAfterStateRef
           - evictedAt
           - migration
+          - concurrentWorkloadRef
           properties:
             sampleId:
               type: string
               minLength: 1
+            concurrentWorkloadRef: {type: string, minLength: 1}
             requests:
               type: array
               minItems: 1
@@ -9881,6 +10007,7 @@ $defs:
                 - responseRef
                 - responseSha256
                 - originByteCount
+                - originAccessRef
                 - startedAt
                 - finishedAt
                 properties:
@@ -9928,6 +10055,7 @@ $defs:
                   responseSha256:
                     type: string
                     pattern: ^sha256:[0-9a-f]{64}$
+                  originAccessRef: {type: string, minLength: 1}
                   originByteCount:
                     type: integer
                     minimum: 0
@@ -14018,3 +14146,315 @@ $defs:
       objectReadCount:
         type: integer
         minimum: 0
+  localStorageOriginAccessObservation:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, configurationRef, acceptanceProfile, subjectVersion, inputSamples, case, requestId, objectURL,
+      assetId, versionId, authRef, requestRange, statusCode, startedAt, finishedAt, sourceId, objectId, originRequestCount,
+      objectReadCount]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: local_storage_origin_access_observation}
+      configurationRef: {type: string, minLength: 1}
+      acceptanceProfile: {type: object}
+      subjectVersion: {type: string, minLength: 1}
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required: [id, immutableId, checksum]
+          properties:
+            id: {type: string, minLength: 1}
+            immutableId: {type: string, minLength: 1}
+            checksum: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      case:
+        enum: [full, bounded, suffix, unsatisfiable, missing_auth, invalid_auth, concurrent_a, concurrent_b]
+      requestId: {type: string, minLength: 1}
+      objectURL: {type: string, minLength: 1}
+      assetId: {type: string, minLength: 1}
+      versionId: {type: string, minLength: 1}
+      authRef:
+        type: [string, 'null']
+        pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+        maxLength: 74
+      requestRange:
+        type: [string, 'null']
+      statusCode: {type: integer}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      sourceId: {type: string, minLength: 1}
+      objectId: {type: string, minLength: 1}
+      originRequestCount: {type: integer, minimum: 0}
+      objectReadCount: {type: integer, minimum: 0}
+  localStorageConcurrentWorkloadObservation:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, configurationRef, acceptanceProfile, subjectVersion, inputSamples, sampleId, sourceId, objectId,
+      assetId, versionId, newReplicaId, writeOperation, lifecycleOperation, writeStartedAt, writeFinishedAt, lifecycleStartedAt,
+      lifecycleFinishedAt, copyingStateRef, verifiedStateRef, backupDataRef, restoredDataRef, backupStateRef, restoredStateRef]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: local_storage_concurrent_workload_observation}
+      configurationRef: {type: string, minLength: 1}
+      acceptanceProfile: {type: object}
+      subjectVersion: {type: string, minLength: 1}
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required: [id, immutableId, checksum]
+          properties:
+            id: {type: string, minLength: 1}
+            immutableId: {type: string, minLength: 1}
+            checksum: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+      sampleId: {type: string, minLength: 1}
+      sourceId: {type: string, minLength: 1}
+      objectId: {type: string, minLength: 1}
+      assetId: {type: string, minLength: 1}
+      versionId: {type: string, minLength: 1}
+      newReplicaId: {type: string, minLength: 1}
+      writeOperation: {const: replica_migration}
+      lifecycleOperation: {const: backup_restore}
+      writeStartedAt: {type: string, format: date-time}
+      writeFinishedAt: {type: string, format: date-time}
+      lifecycleStartedAt: {type: string, format: date-time}
+      lifecycleFinishedAt: {type: string, format: date-time}
+      copyingStateRef: {type: string, minLength: 1}
+      verifiedStateRef: {type: string, minLength: 1}
+      backupDataRef: {type: string, minLength: 1}
+      restoredDataRef: {type: string, minLength: 1}
+      backupStateRef: {type: string, minLength: 1}
+      restoredStateRef: {type: string, minLength: 1}
+  recoveryReplayExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - resourceId
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - configurationRef
+    - recoveryRunId
+    - kind
+    - restoredRef
+    - startedAt
+    - finishedAt
+    - commandArgs
+    - toolBuild
+    - exitCode
+    - outputArtifact
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      resourceId:
+        const: RES-RECOVERY-SANDBOX
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      configurationRef:
+        type: string
+        minLength: 1
+      recoveryRunId:
+        type: string
+        minLength: 1
+      kind:
+        const: recovery_replay_execution
+      restoredRef:
+        type: string
+        minLength: 1
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      commandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+      toolBuild:
+        type: string
+        minLength: 1
+      exitCode:
+        type: integer
+        const: 0
+      outputArtifact:
+        type: object
+        additionalProperties: false
+        required:
+        - artifactRef
+        - byteCount
+        - sha256
+        properties:
+          artifactRef:
+            type: string
+            minLength: 1
+          byteCount:
+            type: integer
+            minimum: 1
+          sha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+
+  recoveryDeliveryReadback:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - resourceId
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    - configurationRef
+    - recoveryRunId
+    - kind
+    - replayExecutionRef
+    - observedAt
+    - delivery
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      resourceId:
+        const: RES-RECOVERY-SANDBOX
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      configurationRef:
+        type: string
+        minLength: 1
+      recoveryRunId:
+        type: string
+        minLength: 1
+      kind:
+        const: recovery_delivery_readback
+      replayExecutionRef:
+        type: string
+        minLength: 1
+      observedAt:
+        type: string
+        format: date-time
+      delivery:
+        type: array
+        minItems: 1
+        maxItems: 10000
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - eventId
+          - dedupId
+          - aggregateId
+          - status
+          - publicationCount
+          - inboxProcessedCount
+          properties:
+            eventId:
+              type: string
+              minLength: 1
+            dedupId:
+              type: string
+              minLength: 1
+            aggregateId:
+              type: string
+              minLength: 1
+            status:
+              enum:
+              - pending
+              - processed
+            publicationCount:
+              type: integer
+              minimum: 0
+            inboxProcessedCount:
+              type: integer
+              minimum: 0
+
+  recoveryReplayEvent:
+    type: object
+    additionalProperties: false
+    required:
+    - eventId
+    - dedupId
+    - aggregateId
+    - publicationId
+    - consumerId
+    - publicationCount
+    - inboxProcessedCount
+    - outcome
+    properties:
+      eventId:
+        type: string
+        minLength: 1
+      dedupId:
+        type: string
+        minLength: 1
+      aggregateId:
+        type: string
+        minLength: 1
+      publicationId:
+        type: string
+        minLength: 1
+      consumerId:
+        type: string
+        minLength: 1
+      publicationCount:
+        type: integer
+        const: 1
+      inboxProcessedCount:
+        type: integer
+        const: 1
+      outcome:
+        const: processed
