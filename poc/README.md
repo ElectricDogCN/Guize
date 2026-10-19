@@ -323,3 +323,9 @@ The [362 candidate and disposition records](https://github.com/ElectricDogCN/Gui
 
 The successor requires its own27 complete original methods in real7/7/7/6 processes,the unchanged19 other commands,637 governance tests,35 rejected fixtures,nonempty zero-FES JUnit and same-head CI before integration. Its actual source identity and results must be retained separately after publication.
 This checkpoint grants no full208,legacy-local20,formal/actual-POC/runtime or full-V1 acceptance. Actual-main checks,normal review/completion and platform integration remain required;task claims,plan and DAG are unchanged.
+
+## Four follow-up repairs (baseline 5bf0260)
+
+Local POC-006 now derives each source-fault outcome and retry interval from independently retained request, transport response, progress and stderr bytes, bound to the actual attempt's span, checkpoint, trace and execution times. Local POC-004 requires physically independent backup and post-restore readback artifacts. POC-009 computes error counts, accuracy, speaker time and label-set F1 from actual retained outputs and approved references rather than accepting reported counts. Production POC-007 qualified PASS is explicitly unavailable until actual TLS outcomes are qualified; factual FAIL/INCONCLUSIVE records remain separate.
+
+Eight historical candidate invocations retain their individual failures, corrections and terminal results; they are not combined-source validation. At this preparation checkpoint, the composed candidate has not run its own 30 complete original methods, 19 other required commands or CI. Parent 5bf0260's accepted results do not transfer to it. Publication, own-source checks, normal review/completion and actual-main integration remain pending; no full208, formal POC, runtime or full-V1 acceptance is claimed.

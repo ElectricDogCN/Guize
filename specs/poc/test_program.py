@@ -1203,6 +1203,8 @@ class TestPocProgram(unittest.TestCase):
         """Synthetic request/state observations; never actual OpenList execution."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-OPENLIST-LOCAL');plan=load_yaml(self.plan_path(root,'POC-006'))
         policy=dict(scope='GENERIC_OPENLIST_SANDBOX',sandboxId='fixture-local-source-sandbox',sourceId='fixture-source-id',objectId='fixture-stable-object-id',objectVersion='fixture-source-object-v1',assetId='fixture-stable-asset-id',assetVersion='fixture-asset-version-v1',subjectVersion=CHECK.compliance_subject_version(plan,execution),idempotencyKey='fixture-stable-source-sync-key',maxAttempts=3,maxBackoffSeconds=2)
+        sample=execution['samples'][0];input_record=next(a for a in env['inputSampleArtifacts'] if a['sampleId']==sample['id'])
+        policy.update(transportCommandArgs=['fixture-source-client','--once'],transportToolBuild='fixture-source-client/native-curl-observation-v1',transportEndpointURL='http://127.0.0.1:15525/d/synthetic-source-object',transportInputSpan=dict(sampleId=sample['id'],byteOffset=0,byteCount=input_record['byteCount']))
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['localSourceFaultPolicy']=policy;write_yaml(config_path,config)
         full=dict(assets=[dict(assetId=policy['assetId'],versionId=policy['assetVersion'])],sourceObjects=[dict(sourceId=policy['sourceId'],objectId=policy['objectId'],versionId=policy['objectVersion'],availability='available')],links=[dict(sourceId=policy['sourceId'],objectId=policy['objectId'],assetId=policy['assetId'])])
         rows=[];configured={case['fault']:case['caseId'] for case in env['injected_failure_matrix']['cases']}
@@ -1217,10 +1219,37 @@ class TestPocProgram(unittest.TestCase):
             if case=='source_delete':after['sourceObjects'][0]['availability']='source_unavailable'
             rows.append(dict(case=case,caseId=configured.get(case,'fixture-'+case),recoveryMode='none' if count==1 else 'resume',outcome='explicit_failure' if case=='auth_expired' else 'source_unavailable' if case=='source_delete' else 'recovered',before=copy.deepcopy(full),after=after,attempts=attempts))
         report=dict(schemaVersion=1,kind='local_source_fault_outcomes',configurationRef=resource['configurationRef'],subjectVersion=policy['subjectVersion'],inputSamples=[{k:sample[k] for k in ('id','immutableId','checksum')} for sample in execution['samples']],acceptanceProfile=env['acceptanceProfile'],scope=policy['scope'],sandboxId=policy['sandboxId'],cases=rows)
+        self.prepare_qualified_source_fault_transport_fixture(root,execution,prefix,report,policy)
         ref=prefix+'/raw/source-fault-outcomes.yaml';path=root/ref;write_yaml(path,report);raw=path.read_bytes();env['sourceFaultOutcomeRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='scope_observation',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
         for case in env['injected_failure_matrix']['cases']:case['rawOutputRef']=ref
         self.prepare_qualified_source_listing_fixture(root,execution,prefix)
         self.prepare_qualified_local_source_authentication_fixture(root,execution,prefix)
+
+
+    def prepare_qualified_source_fault_transport_fixture(self,root,execution,prefix,report,policy):
+        """Explicit synthetic per-attempt bytes for positive fixtures, never actual client execution."""
+        env=execution['environmentCaptured'];sample=next(s for s in execution['samples'] if s['id']==policy['transportInputSpan']['sampleId']);input_record=next(a for a in env['inputSampleArtifacts'] if a['sampleId']==sample['id']);span=policy['transportInputSpan']
+        source=(root/input_record['inputArtifactRef']).read_bytes();payload=source[span['byteOffset']:span['byteOffset']+span['byteCount']]
+        def retain(ref,kind,raw):
+            (root/ref).write_bytes(raw);record=dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+            prior=next((a for a in env['rawExecutionArtifacts'] if a['ref']==ref),None)
+            if prior is None:env['rawExecutionArtifacts'].append(record);execution['rawOutputRefs'].append(ref)
+            else:prior.update(record)
+        for row in report['cases']:
+            for attempt in row['attempts']:
+                stem=prefix+'/raw/source-transport-'+row['case']+'-'+str(attempt['attemptNo']);attempt.update(traceId='synthetic-trace-'+attempt['requestId'],transportExecutionRef=stem+'-execution.yaml')
+                common={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','scope','sandboxId')}
+                common.update(sourceId=policy['sourceId'],objectId=policy['objectId'],objectVersion=policy['objectVersion'],caseId=row['caseId'],attemptNo=attempt['attemptNo'],requestId=attempt['requestId'],traceId=attempt['traceId'])
+                request=dict(schemaVersion=1,kind='local_source_fault_request',**common,idempotencyKey=attempt['idempotencyKey'],requestedAt=attempt['requestedAt'],inputSpan={**span,'immutableId':sample['immutableId'],'sha256':sample['checksum']},endpointURL=policy['transportEndpointURL'],httpMethod='DELETE' if row['case']=='source_delete' else 'GET',checkpointBefore=attempt['checkpointBefore'],authorization=attempt['authorization'])
+                progress=dict(schemaVersion=1,kind='local_source_fault_progress',requestId=attempt['requestId'],traceId=attempt['traceId'],observedAt=attempt['finishedAt'],**{k:attempt[k] for k in ('checkpointAfter','completedObjectIds','returnedAssetIds','createdAssetIds')})
+                refs={k:stem+suffix for k,suffix in (('requestRef','-request.json'),('responseRef','-response.bin'),('progressRef','-progress.json'),('stderrRef','-stderr.raw'))}
+                code=56 if attempt['transport']=='network_disconnect' else 130 if attempt['transport']=='interrupted' else 0
+                stderr=b'curl: (56) Recv failure: Connection reset by peer\n' if code==56 else b'';body=payload if attempt['classification']=='success' else b''
+                response=(f"HTTP/1.1 {attempt['httpStatus']} Fixture\r\nContent-Length: {len(body)}\r\n"+(f"Retry-After: {attempt['retryAfterSeconds']}\r\n" if attempt['retryAfterSeconds'] else '')+'\r\n').encode('ascii')+body if code==0 else b''
+                retain(refs['requestRef'],'command_output',(json.dumps(request,sort_keys=True)+'\n').encode());retain(refs['progressRef'],'command_output',(json.dumps(progress,sort_keys=True)+'\n').encode());retain(refs['responseRef'],'produced_media',response);retain(refs['stderrRef'],'command_output',stderr)
+                argv=policy['transportCommandArgs']+['--request',refs['requestRef'],'--response',refs['responseRef'],'--progress',refs['progressRef'],'--stderr',refs['stderrRef']]
+                run=dict(schemaVersion=1,kind='local_source_fault_transport_execution',**common,commandArgs=argv,toolBuild=policy['transportToolBuild'],pid=1000+len(env['rawExecutionArtifacts']),startedAt=attempt['requestedAt'],finishedAt=attempt['finishedAt'],exitCode=code,**refs)
+                write_yaml(root/attempt['transportExecutionRef'],run);retain(attempt['transportExecutionRef'],'measurement_output',(root/attempt['transportExecutionRef']).read_bytes())
 
 
     def prepare_qualified_local_source_authentication_fixture(self,root,execution,prefix):
@@ -1383,14 +1412,27 @@ class TestPocProgram(unittest.TestCase):
             raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref,'sha256:'+hashlib.sha256(raw).hexdigest()
         methods=[dict(metricId=metric,mode='f1' if metric=='tag_f1' else 'tool_score' if metric in ('translation_comet','translation_bleu') else 'human_score' if metric=='quality_score' else 'count_ratio',methodId='synthetic-'+metric,evaluatorBuild='synthetic-independent-evaluator',rubricVersion='synthetic-approved-rubric') for metric in sorted(CHECK.AI_EVALUATED_METRICS)]
         policy=dict(subjectVersion=subject,benchmarkId='synthetic-immutable-benchmark',querySetId='synthetic-fixed-query-set',corpusId='synthetic-immutable-corpus',items=[dict(itemId='synthetic-item-'+str(i),sampleId=sample['id'],stratumId='synthetic-stratum') for i in range(60)],strata=[dict(stratumId='synthetic-stratum',language='synthetic-language',mediaQuality='synthetic-quality',durationBand='synthetic-duration',scenario='synthetic-scenario',minimumSamples=1)],evaluationMethods=methods,queries=[dict(queryId='synthetic-query',relevance=[dict(itemId='synthetic-document',grade=1)])],corpusItemIds=['synthetic-document'],retrievalCutoff=1,warmupCount=1,percentileMethod='mean',pricing=dict(version='synthetic-approved-pricing',currency='synthetic-currency',inputUnitPrice=.001,outputUnitPrice=0),gatePolicy=dict(authorizedCallerId='synthetic-authorized-caller',unauthorizedCallerId='synthetic-unauthorized-caller',assetId='synthetic-current-asset',currentAclVersion='synthetic-current-acl',revokedAclVersion='synthetic-revoked-acl',budgetPeriodId='synthetic-budget-period',budgetLimit=1,requestRateLimit=1,concurrencyLimit=1,plannedInputTokens=1,plannedOutputTokens=0))
-        reference_ref,reference_sha=retain('ai-approved-reference.txt',b'Synthetic independently approved reference, never model output.','produced_media')
+        count_rules={'asr_wer':'whitespace_word_edit','asr_cer':'unicode_codepoint_edit','speaker_der':'speaker_seconds','factual_consistency':'unit_exact_accuracy','multimodal_correction_accuracy':'unit_exact_accuracy','ocr_accuracy':'unit_exact_accuracy','thumbnail_human_selection_rate':'unit_exact_accuracy','tag_f1':'label_set_f1'}
+        for method in methods:
+            if method['mode'] in ('count_ratio','f1'):method.update(comparisonRule=count_rules[method['metricId']],evaluatorArgv=['synthetic-independent-evaluator','--metric',method['metricId'],'--rule',count_rules[method['metricId']]])
+        def count_document(kind,item_id):
+            metrics=[]
+            for metric,rule in count_rules.items():
+                value=dict(metricId=metric)
+                if rule in ('whitespace_word_edit','unicode_codepoint_edit'):value['text']='a' if kind=='ai_count_reference' else 'b'
+                elif rule=='speaker_seconds':value['segments']=[dict(startedSeconds=0,finishedSeconds=10,speakerId='reference-speaker' if kind=='ai_count_reference' else 'observed-other-speaker')]
+                elif rule=='label_set_f1':value['labels']=['approved-label-1']
+                else:value['units']=[dict(unitId='approved-unit-1',value=1)]
+                metrics.append(value)
+            return dict(schemaVersion=1,kind=kind,itemId=item_id,metrics=metrics)
+        reference_ref,reference_sha=retain('ai-approved-reference.json',json.dumps(count_document('ai_count_reference','synthetic-reference')).encode(),'produced_media')
         for item in policy['items']:item.update(referenceRef=reference_ref,referenceSha256=reference_sha)
         next(method for method in methods if method['mode']=='human_score').update(reviewerId='synthetic-approved-reviewer',criterionIds=['overall'],gradeValues=[0,1])
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['aiEvaluationPolicy']=policy;write_yaml(config_path,config)
         common=dict(configurationRef=resource['configurationRef'],subjectVersion=subject,inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],acceptanceProfile=env['acceptanceProfile'],benchmarkId=policy['benchmarkId'],querySetId=policy['querySetId'],corpusId=policy['corpusId'])
         usage=[]
         for item in policy['items']:
-            ref,sha=retain(item['itemId']+'-output.txt',b'Synthetic retained result; never provider/model output. '+item['itemId'].encode(),'produced_media')
+            ref,sha=retain(item['itemId']+'-output.json',json.dumps(count_document('ai_count_output',item['itemId'])).encode(),'produced_media')
             usage.append(dict(**{key:item[key] for key in ('itemId','sampleId','stratumId')},inputSha256=sample['checksum'],inputTokens=1,outputTokens=0,outputRef=ref,outputSha256=sha,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:01:00Z'))
         usage_ref,_=retain('ai-usage.yaml',dict(schemaVersion=1,kind='ai_usage_observation',**common,pricingVersion=policy['pricing']['version'],currency=policy['pricing']['currency'],items=usage))
         first=usage[0];evaluations=[]
@@ -1398,6 +1440,16 @@ class TestPocProgram(unittest.TestCase):
             evaluations.append(dict(metricId=method['metricId'],itemId=first['itemId'],sampleId=first['sampleId'],stratumId=first['stratumId'],outputRef=first['outputRef'],outputSha256=first['outputSha256'],methodId=method['methodId'],evaluatorBuild=method['evaluatorBuild'],rubricVersion=method['rubricVersion'],observedAt='2026-09-03T00:01:01Z',numerator=1,denominator=1,truePositive=1,falsePositive=0,falseNegative=0,score=1))
         for row in evaluations:
             method=next(method for method in methods if method['metricId']==row['metricId'])
+            if method['mode'] in ('count_ratio','f1'):
+                rule=method['comparisonRule']
+                if rule in ('whitespace_word_edit','unicode_codepoint_edit'):comparisons=[dict(operation='substitution',referenceIndex=0,outputIndex=0)]
+                elif rule=='speaker_seconds':
+                    comparisons=[dict(startedSeconds=0,finishedSeconds=10,referenceSpeakers=['reference-speaker'],outputSpeakers=['observed-other-speaker'])];row.update(numerator=10,denominator=10)
+                elif rule=='label_set_f1':comparisons=[dict(labelId='approved-label-1',inReference=True,inOutput=True)]
+                else:comparisons=[dict(unitId='approved-unit-1',matched=True)]
+                evidence=dict(schemaVersion=1,kind='ai_count_comparison',**common,metricId=row['metricId'],itemId=row['itemId'],sampleId=row['sampleId'],inputSha256=sample['checksum'],outputRef=row['outputRef'],outputSha256=row['outputSha256'],referenceRef=reference_ref,referenceSha256=reference_sha,methodId=row['methodId'],evaluatorBuild=row['evaluatorBuild'],rubricVersion=row['rubricVersion'],observedAt=row['observedAt'],comparisonRule=rule,argv=method['evaluatorArgv']+['--output',row['outputRef'],'--reference',reference_ref],exitCode=0,startedAt='2026-09-03T00:01:00Z',finishedAt=row['observedAt'],comparisons=comparisons)
+                row['countComparisonRef'],_=retain('ai-count-'+row['metricId']+'.json',json.dumps(evidence).encode(),'command_output')
+                continue
             if method['mode'] not in ('tool_score','human_score'):continue
             evidence=dict(schemaVersion=1,kind='ai_score_evidence',**common,metricId=row['metricId'],itemId=row['itemId'],sampleId=row['sampleId'],inputSha256=sample['checksum'],outputRef=row['outputRef'],outputSha256=row['outputSha256'],referenceRef=reference_ref,referenceSha256=reference_sha,methodId=row['methodId'],evaluatorBuild=row['evaluatorBuild'],rubricVersion=row['rubricVersion'],observedAt=row['observedAt'],mode=method['mode'])
             if method['mode']=='tool_score':evidence['toolScores']=[1]
@@ -1960,7 +2012,7 @@ class TestPocProgram(unittest.TestCase):
                 originals={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};originals[config_path]=config_path.read_bytes();original=copy.deepcopy(record)
                 def validate(data):
                     errors=[];CHECK.validate_qualified_access_outcomes(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
-                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-07'}),[]);self.assertEqual(validate(record),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-07'}),self.deferred_production_errors(profile,'POC-07'));self.assertEqual(validate(record),[])
                 modes=['missing_report','arbitrary_report','oversize_report','bad_policy','wrong_config','wrong_profile','wrong_acl','wrong_input','missing_case','duplicate_case','wrong_witness_type','bad_source','authorized_corrupt','if_range','stream_buffer','deny_payload','deny_duplicate_error','deny_status','deny_other_range','expired_current_grant','unexpired_grant','cross_user_subject','cross_user_grant','cache_key','cache_order','rate_below_limit','rate_no_attempts','rate_bad_sequence','rate_wrong_status','rate_origin_bypass','rate_window','rate_warmup_corrupt','rate_attempt_hash','rate_attempt_payload','wrong_path','bad_time','body_hash','body_count','aliased_body','claimed_gate']+(['missing_direct_source','missing_direct_admin','missing_direct_worker'] if profile=='local-v1' else [])
                 for mode in modes:
                     for p,raw in originals.items():p.write_bytes(raw)
@@ -2238,6 +2290,84 @@ class TestPocProgram(unittest.TestCase):
                     else:next(m for m in data['measurements'] if m['id']=='hard_budget_gate')['actual']=False
                     if mode not in ('arbitrary','oversize'):write_yaml(report_path,report)
                     write_yaml(config_path,config);write_yaml(evaluation_path,evaluation);write_yaml(usage_path,usage);write_yaml(dispatch_path,dispatch);self.assertTrue(validate(data),(profile,mode))
+                # Favorable count declarations cannot replace actual complete retained comparisons.
+                for mode in ('missing_comparison','duplicate_json','oversize_comparison','wrong_reference','wrong_output','wrong_build','wrong_argv','nonzero_exit','bad_clock','missing_alignment','duplicate_alignment','false_equal','favorable_declared_counts','invented_denominator','missing_reference_unit','changed_reference_bytes','bool_accuracy','speaker_omitted_interval','speaker_wrong_identity','f1_missing_label','f1_duplicate_label','f1_false_membership','f1_favorable_counts','f1_fake_truepositive','alias_reference'):
+                    for p,raw in originals.items():p.write_bytes(raw)
+                    data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path);usage=load_yaml(usage_path)
+                    metric='tag_f1' if mode.startswith('f1_') else 'factual_consistency' if mode=='bool_accuracy' else 'speaker_der' if mode.startswith('speaker_') else 'asr_wer'
+                    row=next(v for v in evaluation['evaluations'] if v['metricId']==metric);ep=root/row['countComparisonRef'];evidence=json.loads(ep.read_text())
+                    if mode=='missing_comparison':row.pop('countComparisonRef')
+                    elif mode=='duplicate_json':ep.write_text('{"schemaVersion":1,"schemaVersion":1}')
+                    elif mode=='oversize_comparison':ep.write_text('x'*262145)
+                    else:
+                        if mode=='wrong_reference':evidence['referenceSha256']='sha256:'+'0'*64
+                        elif mode=='wrong_output':evidence['outputSha256']='sha256:'+'0'*64
+                        elif mode=='wrong_build':evidence['evaluatorBuild']='unapproved-build'
+                        elif mode=='wrong_argv':evidence['argv'][-1]=row['outputRef']
+                        elif mode=='nonzero_exit':evidence['exitCode']=1
+                        elif mode=='bad_clock':evidence['startedAt']='2026-09-03T00:01:02Z'
+                        elif mode=='missing_alignment':evidence['comparisons']=[]
+                        elif mode=='duplicate_alignment':evidence['comparisons']*=2
+                        elif mode=='false_equal':evidence['comparisons'][0]['operation']='equal'
+                        elif mode=='favorable_declared_counts':
+                            row.update(numerator=0,score=0);next(m for m in data['measurements'] if m['id']==metric)['actual']=0
+                        elif mode=='invented_denominator':row['denominator']=100
+                        elif mode=='missing_reference_unit':
+                            rp=root/evidence['referenceRef'];doc=json.loads(rp.read_text());next(v for v in doc['metrics'] if v['metricId']==metric)['text']='a a';rp.write_text(json.dumps(doc));sha='sha256:'+hashlib.sha256(rp.read_bytes()).hexdigest()
+                            config=load_yaml(config_path)
+                            for identity in config['configuration']['aiEvaluationPolicy']['items']:identity['referenceSha256']=sha
+                            write_yaml(config_path,config);evidence['referenceSha256']=sha
+                            for peer in evaluation['evaluations']:
+                                other=root/peer.get('countComparisonRef',peer.get('scoreEvidenceRef','unused'))
+                                if other.is_file():
+                                    value=json.loads(other.read_text());value['referenceSha256']=sha;other.write_text(json.dumps(value))
+                        elif mode=='changed_reference_bytes':(root/evidence['referenceRef']).write_text('unrelated approved-reference replacement')
+                        elif mode=='f1_missing_label':evidence['comparisons']=[]
+                        elif mode=='f1_duplicate_label':evidence['comparisons']*=2
+                        elif mode=='f1_false_membership':evidence['comparisons'][0]['inOutput']=False
+                        elif mode=='f1_fake_truepositive':row['truePositive']=2
+                        elif mode in ('bool_accuracy','f1_favorable_counts'):
+                            op=root/row['outputRef'];doc=json.loads(op.read_text());value=next(v for v in doc['metrics'] if v['metricId']==metric)
+                            if mode=='bool_accuracy':value['units'][0]['value']=True
+                            else:
+                                value['labels']=['observed-other-label'];evidence['comparisons']=[dict(labelId='approved-label-1',inReference=True,inOutput=False),dict(labelId='observed-other-label',inReference=False,inOutput=True)]
+                            op.write_text(json.dumps(doc));sha='sha256:'+hashlib.sha256(op.read_bytes()).hexdigest();usage['items'][0]['outputSha256']=sha;evidence['outputSha256']=sha
+                            for peer in evaluation['evaluations']:
+                                peer['outputSha256']=sha;other=root/peer.get('countComparisonRef',peer.get('scoreEvidenceRef','unused'))
+                                if other.is_file():
+                                    value=json.loads(other.read_text());value['outputSha256']=sha;other.write_text(json.dumps(value))
+                        elif mode=='speaker_omitted_interval':evidence['comparisons'][0]['finishedSeconds']=9
+                        elif mode=='speaker_wrong_identity':evidence['comparisons'][0]['outputSpeakers']=['reference-speaker']
+                        else:
+                            rp=root/evidence['referenceRef'];rp.unlink();rp.hardlink_to(root/row['outputRef'])
+                            sha='sha256:'+hashlib.sha256(rp.read_bytes()).hexdigest();config=load_yaml(config_path)
+                            for identity in config['configuration']['aiEvaluationPolicy']['items']:identity['referenceSha256']=sha
+                            write_yaml(config_path,config);evidence['referenceSha256']=sha
+                            for peer in evaluation['evaluations']:
+                                other=root/peer.get('countComparisonRef',peer.get('scoreEvidenceRef','unused'))
+                                if other.is_file():
+                                    value=json.loads(other.read_text());value['referenceSha256']=sha;other.write_text(json.dumps(value))
+                        ep.write_text(json.dumps(evidence))
+                    write_yaml(evaluation_path,evaluation);write_yaml(usage_path,usage)
+                    errors=validate(data);self.assertTrue(errors,(profile,mode))
+                    fragment='physically distinct' if mode=='alias_reference' else 'schema violation at exitCode' if mode=='nonzero_exit' else 'schema violation at comparisons' if mode in ('missing_alignment','f1_missing_label') else None
+                    if fragment:self.assertTrue(any(fragment in error for error in errors),(profile,mode,errors))
+                    else:self.assertTrue(any('evaluator' in error or 'count' in error or 'reference' in error for error in errors),(profile,mode,errors))
+                # The alias negative changed an inode relationship; restore a separate approved reference.
+                rp=root/load_yaml(config_path)['configuration']['aiEvaluationPolicy']['items'][0]['referenceRef']
+                if rp.exists():rp.unlink()
+                for p,raw in originals.items():p.write_bytes(raw)
+                data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path);usage=load_yaml(usage_path);op=root/usage['items'][0]['outputRef'];doc=json.loads(op.read_text())
+                next(v for v in doc['metrics'] if v['metricId']=='tag_f1')['labels']=['approved-label-1','observed-extra-label'];op.write_text(json.dumps(doc));sha='sha256:'+hashlib.sha256(op.read_bytes()).hexdigest();usage['items'][0]['outputSha256']=sha
+                for row in evaluation['evaluations']:
+                    row['outputSha256']=sha;ep=root/row.get('countComparisonRef',row.get('scoreEvidenceRef','unused'))
+                    if ep.is_file():
+                        evidence=json.loads(ep.read_text());evidence['outputSha256']=sha
+                        if row['metricId']=='tag_f1':
+                            row.update(truePositive=1,falsePositive=1,falseNegative=0,score=2/3);evidence['comparisons'].append(dict(labelId='observed-extra-label',inReference=False,inOutput=True))
+                        ep.write_text(json.dumps(evidence))
+                next(m for m in data['measurements'] if m['id']=='tag_f1')['actual']=2/3
+                write_yaml(evaluation_path,evaluation);write_yaml(usage_path,usage);self.assertEqual(validate(data),[])
                 # Error rates may exceed one and COMET may be negative when the retained evaluator actually observed them.
                 for p,raw in originals.items():p.write_bytes(raw)
                 data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path)
@@ -2245,6 +2375,20 @@ class TestPocProgram(unittest.TestCase):
                     row=next(r for r in evaluation['evaluations'] if r['metricId']==metric);row.update(numerator=numerator,denominator=denominator,score=value);next(m for m in data['measurements'] if m['id']==metric)['actual']=value
                     if metric=='translation_comet':
                         evidence_path=root/row['scoreEvidenceRef'];evidence=json.loads(evidence_path.read_text());evidence['toolScores']=[value];evidence_path.write_text(json.dumps(evidence))
+                usage=load_yaml(usage_path);output_path=root/usage['items'][0]['outputRef'];captured=json.loads(output_path.read_text())
+                for metric in captured['metrics']:
+                    if metric['metricId']=='asr_wer':metric['text']='b c'
+                    elif metric['metricId']=='asr_cer':metric['text']='bc'
+                    elif metric['metricId']=='speaker_der':metric['segments'][0]['finishedSeconds']=12
+                output_path.write_text(json.dumps(captured));sha='sha256:'+hashlib.sha256(output_path.read_bytes()).hexdigest();usage['items'][0]['outputSha256']=sha
+                for row in evaluation['evaluations']:
+                    row['outputSha256']=sha;evidence_path=root/row.get('countComparisonRef',row.get('scoreEvidenceRef','unused'))
+                    if evidence_path.is_file():
+                        evidence=json.loads(evidence_path.read_text());evidence['outputSha256']=sha
+                        if row['metricId'] in ('asr_wer','asr_cer'):evidence['comparisons'].append(dict(operation='insertion',referenceIndex=None,outputIndex=1))
+                        elif row['metricId']=='speaker_der':evidence['comparisons'].append(dict(startedSeconds=10,finishedSeconds=12,referenceSpeakers=[],outputSpeakers=['observed-other-speaker']))
+                        evidence_path.write_text(json.dumps(evidence))
+                write_yaml(usage_path,usage)
                 write_yaml(evaluation_path,evaluation);self.refresh_qualified_observation_fixture(root,data);path=root/result['executionRef'];write_yaml(path,data);self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[])
             finally:temp.cleanup()
             for status in ('fail','inconclusive'):
@@ -2472,10 +2616,21 @@ class TestPocProgram(unittest.TestCase):
             index=self.make_profile_slot(root,'POC-006','local-v1');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path)
             report_path=root/original['environmentCaptured']['sourceFaultOutcomeRef'];report_original=load_yaml(report_path)
             config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
+            prefix=original['environmentCaptured']['sourceFaultOutcomeRef'].rsplit('/raw/',1)[0]
             def validate(data):
                 self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                 return CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'})
             self.assertEqual(validate(copy.deepcopy(original)),[])
+            # A native client failure may retain a partial HTTP response and a real checkpoint.
+            for kind,code in (('network_disconnect',56),('interrupted_sync',42)):
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);policy=config_original['configuration']['localSourceFaultPolicy']
+                self.prepare_qualified_source_fault_transport_fixture(root,data,prefix,report,policy)
+                row=next(r for r in report['cases'] if r['case']==kind);run_path=root/row['attempts'][0]['transportExecutionRef'];run=load_yaml(run_path);run['exitCode']=code;write_yaml(run_path,run)
+                sample_ref=next(a['inputArtifactRef'] for a in data['environmentCaptured']['inputSampleArtifacts'] if a['sampleId']==policy['transportInputSpan']['sampleId']);sample_bytes=(root/sample_ref).read_bytes()
+                (root/run['responseRef']).write_bytes(('HTTP/1.1 200 OK\r\nContent-Length: '+str(len(sample_bytes))+'\r\n\r\n').encode()+sample_bytes[:4])
+                (root/run['stderrRef']).write_bytes(b'curl: (56) Recv failure: Connection reset by peer\n' if code==56 else b'curl: (42) Callback aborted\n')
+                write_yaml(report_path,report);self.assertEqual(validate(data),[],kind)
+            self.prepare_qualified_source_fault_transport_fixture(root,original,prefix,report_original,config_original['configuration']['localSourceFaultPolicy']);write_yaml(report_path,report_original)
             modes=('missing','arbitrary','bad_policy','wrong_config','wrong_versions','wrong_input','wrong_sandbox','foreign_scope','missing_case','duplicate_case','wrong_case_id','wrong_matrix_ref','response_class','auth_isolation','retry_guidance','backoff_timing','backoff_limit','attempt_budget','duplicate_request','wrong_key','checkpoint_mismatch','no_checkpoint','foreign_object','duplicate_asset','duplicate_create','expired_result','expired_mutation','deleted_asset','deletion_not_observed','asset_version','claimed_gate')
             for mode in modes:
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original)
@@ -2516,6 +2671,38 @@ class TestPocProgram(unittest.TestCase):
                 else:write_yaml(report_path,report)
                 write_yaml(config_path,config)
                 self.assertTrue(any('qualified local source faults' in error for error in validate(data)),mode)
+            # Independent actual byte witnesses may not be replaced by aggregate assertions.
+            for mode in ('no_attempt_evidence','aggregate_as_attempt','unapproved_command','trace','input_span','request_checkpoint','raw_http_status','raw_retry_after','fake_network_exit','recovered_payload','progress_claim','run_timing','samefile_alias'):
+                data=copy.deepcopy(original);report=copy.deepcopy(report_original);policy=config_original['configuration']['localSourceFaultPolicy']
+                self.prepare_qualified_source_fault_transport_fixture(root,data,prefix,report,policy)
+                rate=next(r for r in report['cases'] if r['case']=='http_429');network=next(r for r in report['cases'] if r['case']=='network_disconnect')
+                attempt=rate['attempts'][0];run_path=root/attempt['transportExecutionRef'];run=load_yaml(run_path);restored_alias=None
+                if mode=='no_attempt_evidence':attempt.pop('transportExecutionRef')
+                elif mode=='aggregate_as_attempt':attempt['transportExecutionRef']=data['environmentCaptured']['sourceFaultOutcomeRef']
+                elif mode=='unapproved_command':run['commandArgs'][0]='unapproved-source-client';write_yaml(run_path,run)
+                elif mode in ('trace','input_span','request_checkpoint'):
+                    request_path=root/run['requestRef'];request=json.loads(request_path.read_text())
+                    if mode=='trace':request['traceId']='unrelated-execution-trace'
+                    elif mode=='input_span':request['inputSpan']['byteOffset']=1
+                    else:request['checkpointBefore']='invented-request-checkpoint'
+                    request_path.write_text(json.dumps(request)+'\n',encoding='utf8')
+                elif mode in ('raw_http_status','raw_retry_after'):
+                    response=root/run['responseRef'];response.write_bytes(response.read_bytes().replace(b'HTTP/1.1 429',b'HTTP/1.1 200') if mode=='raw_http_status' else response.read_bytes().replace(b'Retry-After: 1',b'Retry-After: 2'))
+                elif mode=='fake_network_exit':
+                    target=root/network['attempts'][0]['transportExecutionRef'];value=load_yaml(target);value['exitCode']=0;write_yaml(target,value)
+                elif mode in ('recovered_payload','progress_claim'):
+                    recovered=load_yaml(root/rate['attempts'][1]['transportExecutionRef'])
+                    if mode=='recovered_payload':
+                        target=root/recovered['responseRef'];head,body=target.read_bytes().split(b'\r\n\r\n',1);target.write_bytes(head+b'\r\n\r\n'+bytes([body[0]^1])+body[1:])
+                    else:
+                        target=root/recovered['progressRef'];progress=json.loads(target.read_text());progress['returnedAssetIds']=['invented-asset'];target.write_text(json.dumps(progress)+'\n',encoding='utf8')
+                elif mode=='run_timing':run['finishedAt']='2026-09-03T00:00:02.500Z';write_yaml(run_path,run)
+                else:
+                    peer=load_yaml(root/rate['attempts'][1]['transportExecutionRef']);target=root/peer['requestRef'];restored_alias=(target,target.read_bytes());target.unlink();os.link(root/run['requestRef'],target)
+                write_yaml(report_path,report);write_yaml(config_path,config_original)
+                try:self.assertTrue(any('qualified local source faults' in error for error in validate(data)),mode)
+                finally:
+                    if restored_alias is not None:restored_alias[0].unlink();restored_alias[0].write_bytes(restored_alias[1])
             # Network loss may terminate safely, immediately or after bounded retries.
             def explicit_network_failure(count,empty=False):
                 report=copy.deepcopy(report_original);row=next(r for r in report['cases'] if r['case']=='network_disconnect')
@@ -2523,6 +2710,7 @@ class TestPocProgram(unittest.TestCase):
                 if empty:row['before']=dict(assets=[],sourceObjects=[],links=[]);row['after']=copy.deepcopy(row['before'])
                 for i,attempt in enumerate(row['attempts']):
                     attempt.update(classification='network_disconnect',transport='network_disconnect',httpStatus=None,returnedAssetIds=[],createdAssetIds=[],completedObjectIds=[],checkpointBefore='retained-network-cursor',checkpointAfter='retained-network-cursor',backoffAfterSeconds=1 if i+1<count else 0)
+                self.prepare_qualified_source_fault_transport_fixture(root,original,prefix,report,config_original['configuration']['localSourceFaultPolicy'])
                 return report
             for count,empty in ((1,False),(2,False),(1,True)):
                 write_yaml(report_path,explicit_network_failure(count,empty));write_yaml(config_path,config_original)
@@ -2545,9 +2733,11 @@ class TestPocProgram(unittest.TestCase):
                 self.assertTrue(any('qualified local source faults' in error for error in validate(copy.deepcopy(original))),mode)
             # Both checkpoint resume and an explicitly reset idempotent rerun are legal.
             report=copy.deepcopy(report_original);row=next(row for row in report['cases'] if row['case']=='interrupted_sync');row['recoveryMode']='idempotent_rerun';row['attempts'][1]['checkpointBefore']=None
+            self.prepare_qualified_source_fault_transport_fixture(root,original,prefix,report,config_original['configuration']['localSourceFaultPolicy'])
             write_yaml(report_path,report);write_yaml(config_path,config_original);self.assertEqual(validate(copy.deepcopy(original)),[])
             # First synchronization may create one asset; repeated recovery may not create two.
             report=copy.deepcopy(report_original);row=next(row for row in report['cases'] if row['case']=='http_429');row['before']=dict(assets=[],sourceObjects=[],links=[]);row['attempts'][1]['createdAssetIds']=[config_original['configuration']['localSourceFaultPolicy']['assetId']]
+            self.prepare_qualified_source_fault_transport_fixture(root,original,prefix,report,config_original['configuration']['localSourceFaultPolicy'])
             write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
         finally:temp.cleanup()
         for profile,status in (('local-v1','fail'),('local-v1','inconclusive'),('production','pass')):
@@ -2688,7 +2878,9 @@ class TestPocProgram(unittest.TestCase):
             index=self.make_profile_slot(root,'POC-007','production');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['publicNetworkRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
             def validate(data):
                 self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
-                return CHECK.validate_repository(root,'production',True,selected_pocs={'POC-07'})
+                errors=CHECK.validate_repository(root,'production',True,selected_pocs={'POC-07'});deferred=self.deferred_production_errors('production','POC-07')[0]
+                self.assertIn(deferred,errors);errors.remove(deferred)
+                return errors
             self.assertEqual(validate(copy.deepcopy(original)),[])
             # Coarse observation clocks and unavailable/stable serial metadata are legitimate.
             for mode in ('same_clock','same_serial','no_serial'):
@@ -2982,6 +3174,7 @@ class TestPocProgram(unittest.TestCase):
             finally:temp.cleanup()
 
     def deferred_production_errors(self,profile,poc):
+        if profile=='production' and poc=='POC-07':return [f'deferred production qualification {poc}: production TLS outcome validation is not implemented; PASS unavailable']
         return [f'deferred production qualification {poc}: production outcome validation is not implemented; PASS unavailable'] if profile=='production' and poc in ('POC-01','POC-04','POC-06') else []
 
     def test_189_deferred_production_storage_and_baidu_fail_closed_without_losing_diagnostics(self):
@@ -4040,6 +4233,18 @@ class TestPocProgram(unittest.TestCase):
                 else:write_yaml(report_path,report)
                 write_yaml(config_path,config);self.assertTrue(any('qualified local storage' in e for e in validate(data)),mode)
         finally:temp.cleanup()
+        # Equal hashes and phase-bound state must not admit one physical file twice.
+        for alias in ('same_reference','hard_link'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-004','local-v1');path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];data=load_yaml(path);report_path=root/data['environmentCaptured']['localStorageRef'];report=load_yaml(report_path);row=report['objects'][0];backup=row['backupRestore']
+                if alias=='same_reference':backup['restoredDataRef']=backup['backupDataRef']
+                else:
+                    restored_path=root/backup['restoredDataRef'];restored_path.unlink();restored_path.hardlink_to(root/backup['backupDataRef'])
+                policy=load_yaml(root/report['configurationRef'])['configuration']['localStoragePolicy'];obj=next(r for r in policy['objects'] if r['sampleId']==row['sampleId']);restored_state_path=root/backup['restoredStateRef'];restored_state=load_yaml(restored_state_path);next(r for r in restored_state['replicas'] if r['replicaId']==obj['oldReplicaId'])['payloadRef']=backup['restoredDataRef'];write_yaml(restored_state_path,restored_state)
+                workload_path=root/row['concurrentWorkloadRef'];workload=load_yaml(workload_path);workload['restoredDataRef']=backup['restoredDataRef'];write_yaml(workload_path,workload);write_yaml(report_path,report);self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
+                self.assertIn('qualified local storage POC-004: backup and post-restore readback must be physically distinct phase artifacts',CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-04'}),alias)
+            finally:temp.cleanup()
         # Exact eight-byte data can exercise bounded, suffix and unsatisfiable Range controls.
         from unittest.mock import patch
         native_fixture=self.prepare_qualified_local_storage_fixture
@@ -5463,9 +5668,9 @@ class TestPocProgram(unittest.TestCase):
         temp,root = self.temp_repo()
         try:
             for profile in ('local-v1','production'):
-                for task in sorted(CHECK.TASKS): self.make_profile_slot(root,task,profile,status='inconclusive' if profile=='production' and task in ('POC-001','POC-004','POC-006') else 'pass')
+                for task in sorted(CHECK.TASKS): self.make_profile_slot(root,task,profile,status='inconclusive' if profile=='production' and task in ('POC-001','POC-004','POC-006','POC-007') else 'pass')
             self.assertEqual(CHECK.validate_repository(root,'local-v1',True,'GZ-018'),[])
-            self.assertEqual(CHECK.validate_repository(root,'production',True,'GZ-020'),[f'profile evidence {task}/production: selected profile requires independently approved PASS' for task in ('POC-001','POC-004','POC-006')])
+            self.assertEqual(CHECK.validate_repository(root,'production',True,'GZ-020'),[f'profile evidence {task}/production: selected profile requires independently approved PASS' for task in ('POC-001','POC-004','POC-006','POC-007')])
         finally: temp.cleanup()
 
     def test_128_qualified_execution_and_approval_times_cannot_be_future(self):
@@ -5665,7 +5870,14 @@ class TestPocProgram(unittest.TestCase):
                     os.symlink(target.name,root/alias_ref)
                     subprocess.run(['git','-C',str(root),'add','--',alias_ref],check=True)
                     # Retain all typed observations while replacing only command output.
-                    observations=[r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['artifactType']!='command_output']
+                    source_transport_refs=set()
+                    if profile=='local-v1':
+                        fault=load_yaml(root/data['environmentCaptured']['sourceFaultOutcomeRef'])
+                        for row in fault['cases']:
+                            for attempt in row['attempts']:
+                                run=load_yaml(root/attempt['transportExecutionRef'])
+                                source_transport_refs.update(run[k] for k in ('requestRef','progressRef','stderrRef'))
+                    observations=[r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['artifactType']!='command_output' or r['ref'] in source_transport_refs]
                     data['rawOutputRefs']=[alias_ref,*[r['ref'] for r in observations]]
                     for command in data['commands']: command['outputRef']=alias_ref
                     data['environmentCaptured']['rawExecutionArtifacts']=[dict(ref=alias_ref,artifactType='command_output',byteCount=target.stat().st_size,sha256='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest())]

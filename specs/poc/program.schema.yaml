@@ -4653,6 +4653,12 @@ $defs:
             rubricVersion:
               type: string
               minLength: 1
+            comparisonRule:
+              enum: [whitespace_word_edit, unicode_codepoint_edit, speaker_seconds, unit_exact_accuracy, label_set_f1]
+            evaluatorArgv:
+              type: array
+              minItems: 1
+              items: {type: string, minLength: 1}
             reviewerId:
               type: string
               minLength: 1
@@ -4672,6 +4678,11 @@ $defs:
               items:
                 type: number
           allOf:
+          - if:
+              properties:
+                mode: {enum: [count_ratio, f1]}
+            then:
+              required: [comparisonRule, evaluatorArgv]
           - if:
               properties:
                 mode:
@@ -5131,6 +5142,9 @@ $defs:
             scoreEvidenceRef:
               type: string
               minLength: 1
+            countComparisonRef:
+              type: string
+              minLength: 1
           allOf:
           - if:
               properties:
@@ -5142,6 +5156,12 @@ $defs:
             then:
               required:
               - scoreEvidenceRef
+          - if:
+              properties:
+                metricId:
+                  enum: [asr_wer, asr_cer, speaker_der, factual_consistency, multimodal_correction_accuracy, ocr_accuracy, thumbnail_human_selection_rate, tag_f1]
+            then:
+              required: [countComparisonRef]
       queries:
         type: array
         minItems: 1
@@ -6294,6 +6314,10 @@ $defs:
     - idempotencyKey
     - maxAttempts
     - maxBackoffSeconds
+    - transportCommandArgs
+    - transportToolBuild
+    - transportEndpointURL
+    - transportInputSpan
     properties:
       scope:
         const: GENERIC_OPENLIST_SANDBOX
@@ -6327,6 +6351,17 @@ $defs:
       maxBackoffSeconds:
         type: number
         minimum: 0
+      transportCommandArgs: {type: array, minItems: 1, maxItems: 128, items: {type: string, minLength: 1}}
+      transportToolBuild: {type: string, minLength: 1}
+      transportEndpointURL: {type: string, minLength: 1}
+      transportInputSpan:
+        type: object
+        additionalProperties: false
+        required: [sampleId, byteOffset, byteCount]
+        properties:
+          sampleId: {type: string, minLength: 1}
+          byteOffset: {type: integer, minimum: 0}
+          byteCount: {type: integer, minimum: 1, maximum: 33554432}
   localSourceFaultOutcomes:
     type: object
     additionalProperties: false
@@ -6563,6 +6598,8 @@ $defs:
                 additionalProperties: false
                 required:
                 - attemptNo
+                - traceId
+                - transportExecutionRef
                 - requestId
                 - idempotencyKey
                 - requestedAt
@@ -6579,6 +6616,8 @@ $defs:
                 - returnedAssetIds
                 - createdAssetIds
                 properties:
+                  traceId: {type: string, minLength: 1}
+                  transportExecutionRef: {type: string, minLength: 1}
                   attemptNo:
                     type: integer
                     minimum: 1
@@ -15136,3 +15175,373 @@ $defs:
             byteCount:
               type: integer
               minimum: 1
+
+  localSourceFaultTransportExecution:
+    type: object
+    additionalProperties: false
+    required: ["schemaVersion", "kind", "configurationRef", "acceptanceProfile", "subjectVersion", "inputSamples", "scope", "sandboxId", "sourceId", "objectId", "objectVersion", "caseId", "attemptNo", "requestId", "traceId", "commandArgs", "toolBuild", "pid", "startedAt", "finishedAt", "exitCode", "requestRef", "responseRef", "progressRef", "stderrRef"]
+    properties:
+      schemaVersion: {"const":1}
+      kind: {"const":"local_source_fault_transport_execution"}
+      configurationRef: {"type":"string","minLength":1}
+      acceptanceProfile: {"type":"object"}
+      subjectVersion: {"type":"string","minLength":1}
+      inputSamples: {"type":"array","minItems":1,"items":{"type":"object"}}
+      scope: {"const":"GENERIC_OPENLIST_SANDBOX"}
+      sandboxId: {"type":"string","minLength":1}
+      sourceId: {"type":"string","minLength":1}
+      objectId: {"type":"string","minLength":1}
+      objectVersion: {"type":"string","minLength":1}
+      caseId: {"type":"string","minLength":1}
+      attemptNo: {"type":"integer","minimum":1}
+      requestId: {"type":"string","minLength":1}
+      traceId: {"type":"string","minLength":1}
+      commandArgs: {"type":"array","minItems":1,"maxItems":140,"items":{"type":"string","minLength":1}}
+      toolBuild: {"type":"string","minLength":1}
+      pid: {"type":"integer","minimum":1}
+      startedAt: {"type":"string","format":"date-time"}
+      finishedAt: {"type":"string","format":"date-time"}
+      exitCode: {"type":"integer"}
+      requestRef: {"type":"string","minLength":1}
+      responseRef: {"type":"string","minLength":1}
+      progressRef: {"type":"string","minLength":1}
+      stderrRef: {"type":"string","minLength":1}
+
+  localSourceFaultRequest:
+    type: object
+    additionalProperties: false
+    required: ["schemaVersion", "kind", "configurationRef", "acceptanceProfile", "subjectVersion", "inputSamples", "scope", "sandboxId", "sourceId", "objectId", "objectVersion", "caseId", "attemptNo", "requestId", "traceId", "idempotencyKey", "requestedAt", "inputSpan", "endpointURL", "httpMethod", "checkpointBefore", "authorization"]
+    properties:
+      schemaVersion: {"const":1}
+      kind: {"const":"local_source_fault_request"}
+      configurationRef: {"type":"string","minLength":1}
+      acceptanceProfile: {"type":"object"}
+      subjectVersion: {"type":"string","minLength":1}
+      inputSamples: {"type":"array","minItems":1,"items":{"type":"object"}}
+      scope: {"const":"GENERIC_OPENLIST_SANDBOX"}
+      sandboxId: {"type":"string","minLength":1}
+      sourceId: {"type":"string","minLength":1}
+      objectId: {"type":"string","minLength":1}
+      objectVersion: {"type":"string","minLength":1}
+      caseId: {"type":"string","minLength":1}
+      attemptNo: {"type":"integer","minimum":1}
+      requestId: {"type":"string","minLength":1}
+      traceId: {"type":"string","minLength":1}
+      idempotencyKey: {"type":"string","minLength":1}
+      requestedAt: {"type":"string","format":"date-time"}
+      inputSpan: {"type":"object","additionalProperties":false,"required":["sampleId","immutableId","sha256","byteOffset","byteCount"],"properties":{"sampleId":{"type":"string","minLength":1},"immutableId":{"type":"string","minLength":1},"sha256":{"type":"string","pattern":"^sha256:[a-f0-9]{64}$"},"byteOffset":{"type":"integer","minimum":0},"byteCount":{"type":"integer","minimum":1,"maximum":33554432}}}
+      endpointURL: {"type":"string","minLength":1}
+      httpMethod: {"enum":["GET","DELETE"]}
+      checkpointBefore: {"type":["string","null"]}
+      authorization: {"enum":["valid","expired"]}
+
+  localSourceFaultProgress:
+    type: object
+    additionalProperties: false
+    required: ["schemaVersion", "kind", "requestId", "traceId", "observedAt", "checkpointAfter", "completedObjectIds", "returnedAssetIds", "createdAssetIds"]
+    properties:
+      schemaVersion: {"const":1}
+      kind: {"const":"local_source_fault_progress"}
+      requestId: {"type":"string","minLength":1}
+      traceId: {"type":"string","minLength":1}
+      observedAt: {"type":"string","format":"date-time"}
+      checkpointAfter: {"type":["string","null"]}
+      completedObjectIds: {"type":"array","items":{"type":"string","minLength":1}}
+      returnedAssetIds: {"type":"array","items":{"type":"string","minLength":1}}
+      createdAssetIds: {"type":"array","items":{"type":"string","minLength":1}}
+  aiCountPayload:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - itemId
+    - metrics
+    properties:
+      schemaVersion:
+        const: 1
+        type: integer
+      kind:
+        enum:
+        - ai_count_reference
+        - ai_count_output
+      itemId:
+        type: string
+        minLength: 1
+      metrics:
+        type: array
+        minItems: 8
+        maxItems: 8
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - metricId
+          properties:
+            metricId:
+              enum:
+              - asr_wer
+              - asr_cer
+              - speaker_der
+              - factual_consistency
+              - multimodal_correction_accuracy
+              - ocr_accuracy
+              - thumbnail_human_selection_rate
+              - tag_f1
+            text:
+              type: string
+            units:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - unitId
+                - value
+                properties:
+                  unitId:
+                    type: string
+                    minLength: 1
+                  value:
+                    type:
+                    - string
+                    - number
+                    - boolean
+                    - 'null'
+            segments:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - startedSeconds
+                - finishedSeconds
+                - speakerId
+                properties:
+                  startedSeconds:
+                    type: number
+                    minimum: 0
+                  finishedSeconds:
+                    type: number
+                    minimum: 0
+                  speakerId:
+                    type: string
+                    minLength: 1
+            labels:
+              type: array
+              uniqueItems: true
+              items:
+                type: string
+                minLength: 1
+  aiCountComparison:
+    type: object
+    additionalProperties: false
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      acceptanceProfile:
+        type: object
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      metricId:
+        type: string
+        minLength: 1
+      itemId:
+        type: string
+        minLength: 1
+      sampleId:
+        type: string
+        minLength: 1
+      outputRef:
+        type: string
+        minLength: 1
+      referenceRef:
+        type: string
+        minLength: 1
+      methodId:
+        type: string
+        minLength: 1
+      evaluatorBuild:
+        type: string
+        minLength: 1
+      rubricVersion:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      referenceSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: ai_count_comparison
+      observedAt:
+        type: string
+        format: date-time
+      comparisonRule:
+        enum:
+        - whitespace_word_edit
+        - unicode_codepoint_edit
+        - speaker_seconds
+        - unit_exact_accuracy
+        - label_set_f1
+      argv:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      exitCode:
+        type: integer
+        const: 0
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      comparisons:
+        type: array
+        minItems: 1
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - operation
+            - referenceIndex
+            - outputIndex
+            properties:
+              operation:
+                enum:
+                - equal
+                - substitution
+                - deletion
+                - insertion
+              referenceIndex:
+                type:
+                - integer
+                - 'null'
+                minimum: 0
+              outputIndex:
+                type:
+                - integer
+                - 'null'
+                minimum: 0
+          - type: object
+            additionalProperties: false
+            required:
+            - unitId
+            - matched
+            properties:
+              unitId:
+                type: string
+                minLength: 1
+              matched:
+                type: boolean
+          - type: object
+            additionalProperties: false
+            required:
+            - startedSeconds
+            - finishedSeconds
+            - referenceSpeakers
+            - outputSpeakers
+            properties:
+              startedSeconds:
+                type: number
+                minimum: 0
+              finishedSeconds:
+                type: number
+                minimum: 0
+              referenceSpeakers:
+                type: array
+                uniqueItems: true
+                items:
+                  type: string
+                  minLength: 1
+              outputSpeakers:
+                type: array
+                uniqueItems: true
+                items:
+                  type: string
+                  minLength: 1
+          - type: object
+            additionalProperties: false
+            required:
+            - labelId
+            - inReference
+            - inOutput
+            properties:
+              labelId:
+                type: string
+                minLength: 1
+              inReference:
+                type: boolean
+              inOutput:
+                type: boolean
+    required:
+    - schemaVersion
+    - configurationRef
+    - subjectVersion
+    - inputSamples
+    - acceptanceProfile
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - metricId
+    - itemId
+    - sampleId
+    - outputRef
+    - referenceRef
+    - methodId
+    - evaluatorBuild
+    - rubricVersion
+    - inputSha256
+    - outputSha256
+    - referenceSha256
+    - kind
+    - observedAt
+    - comparisonRule
+    - argv
+    - exitCode
+    - startedAt
+    - finishedAt
+    - comparisons

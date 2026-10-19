@@ -535,6 +535,92 @@ def validate_qualified_configuration(root, plan, execution, configuration, defs,
                         errors.append(f'{capture_label}: exercised fault must retain a selected-slot typed observation artifact')
 
 
+def derive_local_source_fault_attempt(root,execution,prefix,report,policy,row,claim,following,window,defs,label,errors,cache,paths,traces):
+    """Read one approved client's retained request/HTTP/progress/exit bytes; never execute it."""
+    before=len(errors);env=execution.get('environmentCaptured') or {}
+    run=selected_observation(root,execution,prefix,claim.get('transportExecutionRef'),defs,'localSourceFaultTransportExecution',label,errors,cache)
+    if run is None or len(errors)!=before:return
+    common={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','scope','sandboxId')}
+    common.update(sourceId=policy['sourceId'],objectId=policy['objectId'],objectVersion=policy['objectVersion'],caseId=row['caseId'],attemptNo=claim['attemptNo'],requestId=claim['requestId'],traceId=claim['traceId'])
+    start,end=utc(run['startedAt']),utc(run['finishedAt'])
+    if any(run.get(k)!=v for k,v in common.items()) or not recorded_text(run['traceId']) or run['traceId'] in traces or start is None or end is None or window is None or not window[0]<=start<end<=window[1]:
+        errors.append(f'{label}: independent executed attempt must bind exact request/trace/source/input scope and positive UTC interval');return
+    traces.add(run['traceId'])
+    def retained(ref,kind,maximum):
+        path=existing_ref(root,ref,prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+        if path is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!=kind:
+            errors.append(f'{label}: each attempt needs selected typed independent request/transport/progress bytes');return
+        actual=inspect_artifact(path,cache)
+        if actual['size']>maximum or records[0].get('byteCount')!=actual['size'] or records[0].get('sha256')!=actual['sha256']:
+            errors.append(f'{label}: retained attempt bytes must match physical hash/size and bound');return
+        if any(path.samefile(peer) for peer in paths):
+            errors.append(f'{label}: attempts and their request/response/progress/diagnostic files must be physically independent');return
+        paths.append(path);return path
+    run_path=retained(claim['transportExecutionRef'],'measurement_output',262144)
+    request_path=retained(run['requestRef'],'command_output',262144)
+    response_path=retained(run['responseRef'],'produced_media',(32<<20)+65536)
+    progress_path=retained(run['progressRef'],'command_output',262144)
+    stderr_path=retained(run['stderrRef'],'command_output',65536)
+    if any(p is None for p in (run_path,request_path,response_path,progress_path,stderr_path)):return
+    argv=policy['transportCommandArgs']+['--request',run['requestRef'],'--response',run['responseRef'],'--progress',run['progressRef'],'--stderr',run['stderrRef']]
+    if run['commandArgs']!=argv or run['toolBuild']!=policy['transportToolBuild'] or any(not recorded_text(v) for v in policy['transportCommandArgs']) or not recorded_text(policy['transportToolBuild']):
+        errors.append(f'{label}: actual attempt command/build must equal the independently approved client and exact retained paths');return
+    before=len(errors)
+    request=bounded_evaluator_json(root,execution,prefix,run['requestRef'],'command_output',defs,'localSourceFaultRequest',label,errors,cache)
+    progress=bounded_evaluator_json(root,execution,prefix,run['progressRef'],'command_output',defs,'localSourceFaultProgress',label,errors,cache)
+    if request is None or progress is None or len(errors)!=before:return
+    span=policy['transportInputSpan'];sample=next((s for s in execution.get('samples') or [] if s.get('id')==span['sampleId']),None)
+    inputs=[i for i in env.get('inputSampleArtifacts') or [] if isinstance(i,dict) and i.get('sampleId')==span['sampleId']]
+    source=existing_ref(root,inputs[0].get('inputArtifactRef'),prefix) if len(inputs)==1 else None
+    if sample is None or source is None or any(source.samefile(peer) for peer in paths):
+        errors.append(f'{label}: approved input span must bind separate selected immutable sample bytes');return
+    first,last=span['byteOffset'],span['byteOffset']+span['byteCount']-1;actual=inspect_artifact(source,cache,byte_range=(first,last))
+    if span['byteCount']>32<<20 or last>=actual['size'] or actual['sha256']!=sample['checksum'] or inputs[0].get('sha256')!=actual['sha256'] or inputs[0].get('byteCount')!=actual['size']:
+        errors.append(f'{label}: approved input byte span must exist within the actual immutable input');return
+    input_span={**span,'immutableId':sample['immutableId'],'sha256':sample['checksum']}
+    expected_request=dict(common,idempotencyKey=policy['idempotencyKey'],requestedAt=run['startedAt'],inputSpan=input_span,endpointURL=policy['transportEndpointURL'],httpMethod='DELETE' if row['case']=='source_delete' else 'GET')
+    if any(request.get(k)!=v for k,v in expected_request.items()) or any(progress.get(k)!=v for k,v in dict(requestId=run['requestId'],traceId=run['traceId'],observedAt=run['finishedAt']).items()):
+        errors.append(f'{label}: raw request/progress must bind the exact request ID, trace, input span, checkpoint and observed timing');return
+    try:
+        endpoint=urllib.parse.urlsplit(policy['transportEndpointURL']);origin=endpoint.scheme+'://'+endpoint.netloc
+        if not valid_local_origin(origin,{'http','https'}) or endpoint.path in ('','/') or endpoint.query or endpoint.fragment or endpoint.username or endpoint.password:raise ValueError('endpoint')
+        raw=response_path.read_bytes();head,separator,body=raw.partition(b'\r\n\r\n');status_code=None;retry_after=0;code=run['exitCode']
+        if raw and code==0:
+            lines=head.decode('ascii').split('\r\n');match=re.fullmatch(r'HTTP/(?:1\.[01]|2(?:\.0)?|3(?:\.0)?) ([1-5][0-9]{2})(?: [^\r\n]*)?',lines[0])
+            if not separator or match is None or len(head)>65536:raise ValueError('HTTP response')
+            status_code=int(match.group(1));headers={}
+            for line in lines[1:]:
+                key,colon,value=line.partition(':')
+                if not colon or re.fullmatch(r'[A-Za-z0-9-]+',key) is None or key.lower() in ('content-length','retry-after') and key.lower() in headers:raise ValueError('ambiguous/malformed HTTP header')
+                headers[key.lower()]=value.strip()
+            if 'content-length' in headers and int(headers['content-length'])!=len(body):raise ValueError('response byte count')
+            if 'retry-after' in headers:
+                value=headers['retry-after']
+                if re.fullmatch(r'[0-9]+',value):retry_after=int(value)
+                else:
+                    from email.utils import parsedate_to_datetime
+                    retry_after=max(0,(parsedate_to_datetime(value).astimezone(timezone.utc)-end).total_seconds())
+        diagnostic=stderr_path.read_text(encoding='utf8')
+        if code==0:
+            if status_code is None or diagnostic.strip():raise ValueError('HTTP exit/diagnostic')
+            transport='http_response';classification='http_429' if status_code==429 else 'http_5xx' if 500<=status_code<600 else 'auth_expired' if status_code in (401,403) else 'source_delete' if row['case']=='source_delete' and status_code in (200,204) else 'success' if 200<=status_code<300 else None
+            if classification=='success' and (len(body)!=span['byteCount'] or 'sha256:'+hashlib.sha256(body).hexdigest()!=actual['rangeHashes'][(first,last)] or status_code==200 and span['byteCount']!=actual['size']):raise ValueError('recovery returned bytes')
+        elif code in (7,18,28,52,55,56) and re.search(r'curl: \('+str(code)+r'\)',diagnostic):transport='network_disconnect';classification='network_disconnect';status_code=None;retry_after=0
+        elif code in (-2,130) or code==42 and re.search(r'curl: \(42\)',diagnostic):transport='interrupted';classification='interrupted_sync';status_code=None;retry_after=0
+        else:raise ValueError('unsupported actual client exit/transport error')
+        if classification is None:raise ValueError('unclassified actual response')
+    except (OSError,UnicodeError,ValueError,TypeError,KeyError,OverflowError,AttributeError):
+        errors.append(f'{label}: classification/recovery must derive retained HTTP response bytes and actual native client exit/diagnostic');return
+    delay=0
+    if following is not None:
+        before=len(errors);next_run=selected_observation(root,execution,prefix,following.get('transportExecutionRef'),defs,'localSourceFaultTransportExecution',label,errors,cache)
+        if next_run is None or len(errors)!=before:return
+        next_at=utc(next_run['startedAt']);delay=(next_at-end).total_seconds() if next_at is not None else -1
+    observed=dict(attemptNo=run['attemptNo'],requestId=run['requestId'],traceId=run['traceId'],idempotencyKey=request['idempotencyKey'],requestedAt=run['startedAt'],finishedAt=run['finishedAt'],transport=transport,httpStatus=status_code,classification=classification,authorization=request['authorization'],retryAfterSeconds=retry_after,backoffAfterSeconds=delay,checkpointBefore=request['checkpointBefore'],**{k:progress[k] for k in ('checkpointAfter','completedObjectIds','returnedAssetIds','createdAssetIds')})
+    if any(claim.get(k)!=v for k,v in observed.items()):errors.append(f'{label}: aggregate attempt claims must equal independently derived request/transport/progress outcomes')
+    return {**claim,**observed}
+
+
 def validate_qualified_local_source_faults(root,plan,execution,prefix,status,window,defs,errors,cache):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
@@ -562,9 +648,13 @@ def validate_qualified_local_source_faults(root,plan,execution,prefix,status,win
     if not isinstance(configured,list):return  # Original capture validator retains its schema error.
     by_fault={r['case']:r for r in rows}
     if any(not isinstance(c,dict) or c.get('fault') not in by_fault or c.get('caseId')!=by_fault[c.get('fault')]['caseId'] or c.get('rawOutputRef')!=ref for c in configured):errors.append(f'{label}: every approved injected fault must bind its exact parsed outcome')
-    asset=dict(assetId=policy['assetId'],versionId=policy['assetVersion']);source=dict(sourceId=policy['sourceId'],objectId=policy['objectId'],versionId=policy['objectVersion'],availability='available');link=dict(sourceId=policy['sourceId'],objectId=policy['objectId'],assetId=policy['assetId']);full=dict(assets=[asset],sourceObjects=[source],links=[link]);request_ids=set()
+    asset=dict(assetId=policy['assetId'],versionId=policy['assetVersion']);source=dict(sourceId=policy['sourceId'],objectId=policy['objectId'],versionId=policy['objectVersion'],availability='available');link=dict(sourceId=policy['sourceId'],objectId=policy['objectId'],assetId=policy['assetId']);full=dict(assets=[asset],sourceObjects=[source],links=[link]);request_ids=set();transport_paths=[path,config_path];traces=set()
     for row in rows:
-        case=row['case'];old,new=row['before'],row['after'];attempts=row['attempts']
+        case=row['case'];old,new=row['before'],row['after'];claims=row['attempts'];attempts=[]
+        for index,claim in enumerate(claims):
+            observed=derive_local_source_fault_attempt(root,execution,prefix,report,policy,row,claim,claims[index+1] if index+1<len(claims) else None,window,defs,label,errors,cache,transport_paths,traces)
+            if observed is not None:attempts.append(observed)
+        if len(attempts)!=len(claims):continue
         for state in (old,new):
             expected_state=full if state['assets'] else dict(assets=[],sourceObjects=[],links=[])
             normalized={**state,'sourceObjects':[{**s,'availability':'available'} for s in state['sourceObjects']]}
@@ -2384,6 +2474,8 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
         recovery_finished=utc(attempts[-1]['finishedAt']) if attempts else None
         if after is not None and (recovery_finished is None or state_times[disconnect['afterStateRef']]<recovery_finished):errors.append(f'{label}: recovered state snapshot must follow the final verified retry')
         backup=row['backupRestore'];backup_info=bytes_info(backup['backupDataRef'],backup['backupSha256']);restore_info=bytes_info(backup['restoredDataRef'],backup['restoredSha256']);backup_state=state(backup['backupStateRef']);restored_state=state(backup['restoredStateRef']);interval(backup['startedAt'],backup['finishedAt'])
+        backup_path=existing_ref(root,backup['backupDataRef'],prefix);restored_path=existing_ref(root,backup['restoredDataRef'],prefix)
+        if backup_path is not None and restored_path is not None and backup_path.samefile(restored_path):errors.append(f'{label}: backup and post-restore readback must be physically distinct phase artifacts')
         if backup_info is None or restore_info is None or backup_info['sha256']!=sample['checksum'] or restore_info['sha256']!=sample['checksum'] or backup_state is None or restored_state is None or semantic(backup_state)!=semantic(baseline) or semantic(restored_state)!=semantic(baseline):errors.append(f'{label}: actual backup and restored data hashes plus governed metadata state must match baseline')
         if backup_state is not None and restored_state is not None:
             for captured,ref,digest in ((backup_state,backup['backupDataRef'],backup['backupSha256']),(restored_state,backup['restoredDataRef'],backup['restoredSha256'])):
@@ -2539,6 +2631,111 @@ def bounded_evaluator_json(root,execution,prefix,ref,kind,defs,schema,label,erro
         errors.append(f'{label}: bounded unique-key finite evaluator JSON required');return None
     before=len(errors);validate_schema(result,defs.get(schema,{}),label,errors)
     return result if isinstance(result,dict) and len(errors)==before else None
+
+
+AI_COUNT_RULES={'asr_wer':'whitespace_word_edit','asr_cer':'unicode_codepoint_edit','speaker_der':'speaker_seconds',
+                'factual_consistency':'unit_exact_accuracy','multimodal_correction_accuracy':'unit_exact_accuracy',
+                'ocr_accuracy':'unit_exact_accuracy','thumbnail_human_selection_rate':'unit_exact_accuracy','tag_f1':'label_set_f1'}
+
+
+def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expected,window,defs,label,errors,cache,payload):
+    """Verify retained evaluator comparisons against complete actual inputs, not claimed totals."""
+    before=len(errors)
+    evidence=bounded_evaluator_json(root,execution,prefix,row.get('countComparisonRef'),'command_output',defs,'aiCountComparison',label,errors,cache)
+    reference=bounded_evaluator_json(root,execution,prefix,identity['referenceRef'],'produced_media',defs,'aiCountPayload',label,errors,cache)
+    output=bounded_evaluator_json(root,execution,prefix,item['outputRef'],'produced_media',defs,'aiCountPayload',label,errors,cache)
+    payload(identity['referenceRef'],identity['referenceSha256'])
+    if any(value is None for value in (evidence,reference,output)) or len(errors)!=before:return None
+    paths=[existing_ref(root,ref,prefix) for ref in (row['countComparisonRef'],identity['referenceRef'],item['outputRef'])]
+    if any(a.samefile(b) for i,a in enumerate(paths) for b in paths[i+1:]):
+        errors.append(f'{label}: evaluator, approved reference and actual output must be physically distinct');return None
+    rule=AI_COUNT_RULES[row['metricId']]
+    binding=dict(expected,metricId=row['metricId'],itemId=row['itemId'],sampleId=row['sampleId'],
+                 inputSha256=item['inputSha256'],outputRef=item['outputRef'],outputSha256=item['outputSha256'],
+                 referenceRef=identity['referenceRef'],referenceSha256=identity['referenceSha256'],
+                 methodId=method['methodId'],evaluatorBuild=method['evaluatorBuild'],rubricVersion=method['rubricVersion'],
+                 observedAt=row['observedAt'],comparisonRule=rule)
+    started,finished,completed=utc(evidence['startedAt']),utc(evidence['finishedAt']),utc(item['finishedAt'])
+    if method.get('comparisonRule')!=rule or any(evidence.get(k)!=v for k,v in binding.items()) or evidence['argv']!=method['evaluatorArgv']+['--output',item['outputRef'],'--reference',identity['referenceRef']] or evidence['exitCode']!=0 or any(t is None for t in (started,finished,completed)) or window is None or not window[0]<=completed<=started<=finished<=window[1] or finished!=utc(row['observedAt']):
+        errors.append(f'{label}: comparison must bind approved rule/build/argv, actual input/output/reference and completed evaluator UTC');return None
+    if reference['kind']!='ai_count_reference' or output['kind']!='ai_count_output' or output['itemId']!=item['itemId']:
+        errors.append(f'{label}: actual reference/output count payload identities required');return None
+    def metric_value(document):
+        rows=document['metrics'];mapping={value['metricId']:value for value in rows}
+        if len(mapping)!=len(rows) or set(mapping)!=set(AI_COUNT_RULES):return None
+        for metric,value in mapping.items():
+            content='text' if AI_COUNT_RULES[metric] in ('whitespace_word_edit','unicode_codepoint_edit') else 'segments' if AI_COUNT_RULES[metric]=='speaker_seconds' else 'labels' if AI_COUNT_RULES[metric]=='label_set_f1' else 'units'
+            if set(value)!={'metricId',content}:return None
+        return mapping[row['metricId']]
+    ref,out=metric_value(reference),metric_value(output)
+    if ref is None or out is None:
+        errors.append(f'{label}: complete unique count-metric payload required');return None
+    events=evidence['comparisons'];numerator=0;denominator=0;valid=True
+    if rule in ('whitespace_word_edit','unicode_codepoint_edit'):
+        if 'text' not in ref or 'text' not in out:valid=False
+        else:
+            left=ref['text'].split() if rule=='whitespace_word_edit' else list(ref['text'])
+            right=out['text'].split() if rule=='whitespace_word_edit' else list(out['text'])
+            ri=oi=0;denominator=len(left)
+            for event in events:
+                op=event.get('operation');rindex=event.get('referenceIndex');oindex=event.get('outputIndex')
+                if set(event)!={'operation','referenceIndex','outputIndex'} or op not in ('equal','substitution','deletion','insertion'):valid=False;break
+                if op!='insertion':
+                    if type(rindex) is not int or rindex!=ri or ri>=len(left):valid=False;break
+                elif rindex is not None:valid=False;break
+                if op!='deletion':
+                    if type(oindex) is not int or oindex!=oi or oi>=len(right):valid=False;break
+                elif oindex is not None:valid=False;break
+                if op in ('equal','substitution') and (left[ri]==right[oi])!=(op=='equal'):valid=False;break
+                numerator+=op!='equal';ri+=op!='insertion';oi+=op!='deletion'
+            valid=valid and ri==len(left) and oi==len(right)
+    elif rule=='label_set_f1':
+        if 'labels' not in ref or 'labels' not in out:valid=False
+        else:
+            left=set(ref['labels']);right=set(out['labels']);seen=set()
+            valid=len(events)==len(left|right)
+            for event in events:
+                key=event.get('labelId')
+                if set(event)!={'labelId','inReference','inOutput'} or key not in left|right or key in seen or event['inReference'] is not (key in left) or event['inOutput'] is not (key in right):valid=False;break
+                seen.add(key)
+            tp=len(left&right);fp=len(right-left);fn=len(left-right)
+            valid=valid and seen==left|right and row['truePositive']==tp and row['falsePositive']==fp and row['falseNegative']==fn
+            numerator=2*tp;denominator=2*tp+fp+fn
+    elif rule=='unit_exact_accuracy':
+        if 'units' not in ref or 'units' not in out:valid=False
+        else:
+            left={v['unitId']:v['value'] for v in ref['units']};right={v['unitId']:v['value'] for v in out['units']}
+            valid=len(left)==len(ref['units']) and len(right)==len(out['units']) and set(left)==set(right) and len(events)==len(left)
+            seen=set();denominator=len(left)
+            for event in events:
+                key=event.get('unitId')
+                if set(event)!={'unitId','matched'} or key not in left or key in seen or key not in right:valid=False;break
+                seen.add(key)
+                try:matched=json.dumps(left[key],sort_keys=True,allow_nan=False)==json.dumps(right[key],sort_keys=True,allow_nan=False)
+                except (ValueError,OverflowError):valid=False;break
+                if event['matched'] is not matched:valid=False;break
+                numerator+=matched
+            valid=valid and seen==set(left)
+    else:
+        if 'segments' not in ref or 'segments' not in out:valid=False
+        else:
+            segments=ref['segments']+out['segments']
+            if any(not ai_finite(s[k]) or s[k]<0 for s in segments for k in ('startedSeconds','finishedSeconds')) or any(s['startedSeconds']>=s['finishedSeconds'] for s in segments):valid=False
+            if valid:
+                boundaries=sorted({s[k] for s in segments for k in ('startedSeconds','finishedSeconds')});spans=list(zip(boundaries,boundaries[1:]))
+                valid=len(events)==len(spans)
+                for event,(start,end) in zip(events,spans):
+                    left=[s['speakerId'] for s in ref['segments'] if s['startedSeconds']<=start and s['finishedSeconds']>=end]
+                    right=[s['speakerId'] for s in out['segments'] if s['startedSeconds']<=start and s['finishedSeconds']>=end]
+                    if len(left)!=len(set(left)) or len(right)!=len(set(right)) or set(event)!={'startedSeconds','finishedSeconds','referenceSpeakers','outputSpeakers'} or type(event.get('startedSeconds')) is bool or type(event.get('finishedSeconds')) is bool or event.get('startedSeconds')!=start or event.get('finishedSeconds')!=end or event.get('referenceSpeakers')!=sorted(left) or event.get('outputSpeakers')!=sorted(right):valid=False;break
+                    denominator+=(end-start)*len(left);numerator+=(end-start)*(max(len(left),len(right))-len(set(left)&set(right)))
+    if not valid or not ai_finite(numerator) or not ai_finite(denominator) or denominator<=0:
+        errors.append(f'{label}: complete evaluator unit/alignment/time comparisons must match actual reference/output contents');return None
+    value=numerator/denominator
+    claimed_counts_match=rule=='label_set_f1' or math.isclose(row['numerator'],numerator,rel_tol=1e-9,abs_tol=1e-9) and math.isclose(row['denominator'],denominator,rel_tol=1e-9,abs_tol=1e-9)
+    if not ai_finite(value) or not claimed_counts_match or not ai_finite(row['score']) or not math.isclose(row['score'],value,rel_tol=1e-9,abs_tol=1e-9):
+        errors.append(f'{label}: count ratio claims must derive complete actual evaluator comparisons');return None
+    return value
 
 
 def derive_ai_score_evidence(root,execution,prefix,row,item,identity,method,expected,window,defs,label,errors,cache,payload):
@@ -3506,6 +3703,7 @@ def range_slice_hash(path,first,count):
 def validate_qualified_public_network(root,plan,execution,prefix,status,window,defs,errors,cache):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-07' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('production'):return
+    errors.append(f"deferred production qualification {plan['pocId']}: production TLS outcome validation is not implemented; PASS unavailable")
     label=f"qualified public network {plan['taskId']}";before=len(errors)
     report=selected_observation(root,execution,prefix,env.get('publicNetworkRef'),defs,'publicNetworkObservations',label,errors,cache)
     resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-PUBLIC-NETWORK'),None);path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
@@ -3952,11 +4150,13 @@ def validate_qualified_ai_results(root,plan,execution,prefix,status,window,defs,
         if any(not ai_finite(row[k]) for k in ('numerator','denominator','truePositive','falsePositive','falseNegative')):errors.append(f'{label}: finite retained comparison counts required');continue
         if mode=='count_ratio':
             if row['denominator']<=0:errors.append(f'{label}: observed count ratio requires positive reference denominator');continue
-            value=row['numerator']/row['denominator']
+            value=derive_ai_count_evidence(root,execution,prefix,row,item,items[row['itemId']],method,expected,window,defs,label,errors,cache,payload)
+            if value is None:continue
         elif mode=='f1':
             denominator=2*row['truePositive']+row['falsePositive']+row['falseNegative']
             if denominator<=0:errors.append(f'{label}: F1 requires an observed nonempty label comparison');continue
-            value=2*row['truePositive']/denominator
+            value=derive_ai_count_evidence(root,execution,prefix,row,item,items[row['itemId']],method,expected,window,defs,label,errors,cache,payload)
+            if value is None:continue
         else:
             value=derive_ai_score_evidence(root,execution,prefix,row,item,items[row['itemId']],method,expected,window,defs,label,errors,cache,payload)
             if value is None:continue

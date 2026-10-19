@@ -383,3 +383,11 @@ The [362 candidate and disposition records](https://github.com/ElectricDogCN/Gui
 
 The successor requires its own27 complete original methods in real7/7/7/6 processes,the unchanged19 other commands,637 governance tests,35 rejected fixtures,nonempty zero-FES JUnit and same-head CI before integration. Its actual source identity and results must be retained separately after publication.
 This checkpoint grants no full208,legacy-local20,formal/actual-POC/runtime or full-V1 acceptance. Actual-main checks,normal review/completion and platform integration remain required;task claims,plan and DAG are unchanged.
+
+## Four follow-up repairs (baseline 5bf0260)
+
+The candidate binds local source-fault classification, retry timing and recovery completion to independent per-attempt request/transport/progress/stderr artifacts instead of an aggregate report alone. Storage restore rejects physically aliased backup/readback outputs. AI comparison derives its metrics from actual retained outputs and approved references, including edit counts, speaker durations, exact matches and label-set F1. Production POC-007 TLS qualification fails closed: an asserted PASS cannot replace implemented outcome validation.
+
+The eight separate candidate invocations preserve the original failed storage, AI and public-network stages alongside their corrected runs; no passing methods are summed into a replacement suite. The composed code's own 30 complete original methods, 19 other required commands (including native637, 35 rejected fixtures, nonempty zero-FES JUnit and documentation checks) and same-source CI are unexecuted at this checkpoint. Previously accepted 5bf0260 execution remains parent evidence only. Publication and normal review/completion, actual-main checks, formal/runtime and full local-V1 acceptance remain pending.
+
+The [293 retained candidate records](https://github.com/ElectricDogCN/Guize/blob/ef4867cac35d5e427d975b61808963beb213d697/5bf02604d233293398748dbbc053b0102fe1d0c2) preserve all eight independent invocations; this archive is not current-source verification.
