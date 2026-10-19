@@ -715,6 +715,40 @@ def validate_qualified_local_source_faults(root,plan,execution,prefix,status,win
     if any(actual.get(gate) is not True for gate in gates):errors.append(f'{label}: true sync safety gates require the parsed observed outcomes')
 
 
+def derive_local_source_authentication_request(root,execution,prefix,report,policy,row,origin,window,defs,label,errors,cache,paths,traces):
+    """Derive authentication from an approved native client/server trace and exact HTTP bytes."""
+    run=bounded_evaluator_json(root,execution,prefix,row.get('transportExecutionRef'),'command_output',defs,'localSourceAuthenticationExecution',label,errors,cache)
+    if run is None:return
+    native=retained_local_source_transport_artifact(root,execution,prefix,row['transportExecutionRef'],'command_output',262144,label,errors,cache,paths)
+    request_path=retained_local_source_transport_artifact(root,execution,prefix,run['requestRef'],'command_output',262144,label,errors,cache,paths)
+    response_path=retained_local_source_transport_artifact(root,execution,prefix,run['responseRef'],'produced_media',(32<<20)+65536,label,errors,cache,paths)
+    if native is None or request_path is None or response_path is None:return
+    request=bounded_evaluator_json(root,execution,prefix,run['requestRef'],'command_output',defs,'localSourceAuthenticationRequest',label,errors,cache)
+    if request is None:return
+    context={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','scope','sourceId','sandboxId','endpointURL','objectId','objectVersion','principalId')};context.update(case=row['case'],requestId=row['requestId'],traceId=row['traceId']);approved=policy['nativeExecution']
+    expected_request=dict(schemaVersion=1,kind='local_source_authentication_request',context=context,httpMethod='GET',authMethod=row['authMethod'],authRef=row['authRef'],requestPrincipalId=row['requestPrincipalId'],requestedAt=row['requestedAt'])
+    if run['context']!=context or request!=expected_request or row['traceId'] in traces or run['clientProcessId']==run['serverProcessId'] or any(run[k]!=approved[k] for k in ('clientBuild','serverBuild','collectorBuild','collectorCommandArgs')) or run['commandArgs']!=approved['clientCommandArgs']+['--request',run['requestRef'],'--response',run['responseRef']]:
+        errors.append(f'{label}: native authentication must bind unique request/trace, non-secret credential reference/principal and exact approved client/server/collector/argv');return
+    events=run['events'];kinds=[event['type'] for event in events];success=row['case']=='authenticated';miss=kinds==['process_start','request','authorization','origin_request','object_read','response','process_exit'];short=kinds==['process_start','request','authorization','response','process_exit']
+    if not (short or success and miss):errors.append(f'{label}: native authorization must precede a complete origin/read chain, or a HIT/denial with zero protected reads');return
+    times=[utc(event['observedAt']) for event in events];ticks=[event['monotonicNs'] for event in events];components=['client','client','server']+(['server','server'] if miss else [])+['client','client']
+    if window is None or any(at is None for at in times) or not window[0]<=times[0]<=times[1]<=times[-2]<=times[-1]<=window[1] or times[0]>=times[-1] or times!=sorted(times) or ticks!=sorted(ticks) or any(event['requestId']!=row['requestId'] or event['traceId']!=row['traceId'] or event['component']!=component or event['processId']!=run['clientProcessId' if component=='client' else 'serverProcessId'] for event,component in zip(events,components)) or any(not math.isclose((at-times[0]).total_seconds(),(tick-ticks[0])/1000000000,rel_tol=0,abs_tol=.000001) for at,tick in zip(times,ticks)) or events[-1].get('exitCode')!=0:
+        errors.append(f'{label}: native authentication events must cover one successful ordered client/server lifetime inside execution, allowing init/flush');return
+    decision=events[2];principal=policy['principalId'] if success else None
+    if decision.get('decision')!=('allowed' if success else 'denied') or decision.get('authenticatedPrincipalId')!=principal:
+        errors.append(f'{label}: native server authorization decision and authenticated principal must precede the protected response');return
+    try:
+        raw=response_path.read_bytes();status,headers,body=parse_local_source_http_response(raw);body_path=existing_ref(root,row['responseBodyRef'],prefix)
+        if body_path is None or body!=body_path.read_bytes() or events[-2].get('responseRef')!=run['responseRef'] or events[-2].get('responseSha256')!='sha256:'+hashlib.sha256(raw).hexdigest():raise ValueError('exact received response')
+        if status==206 and headers.get('content-range')!=f'bytes 0-{len(body)-1}/{len(body)}':raise ValueError('complete protected range')
+    except (OSError,ValueError,UnicodeError,TypeError):errors.append(f'{label}: native authentication status/headers/body must derive the exact retained HTTP response');return
+    counts=dict(originRequestCount=int(miss),objectReadCount=int(miss))
+    if miss and (any(event.get('objectId')!=policy['objectId'] or event.get('objectVersion')!=policy['objectVersion'] for event in events[3:5]) or events[4].get('byteCount')!=len(body) or events[4].get('sha256')!='sha256:'+hashlib.sha256(body).hexdigest()):
+        errors.append(f'{label}: native origin/read events must bind the approved object/version and exact returned bytes');return
+    derived=dict(requestedAt=events[1]['observedAt'],finishedAt=events[-2]['observedAt'],statusCode=status,authenticatedPrincipalId=principal,responseByteCount=len(body),responseSha256='sha256:'+hashlib.sha256(body).hexdigest())
+    if any(utc(row[k])!=utc(v) if k in ('requestedAt','finishedAt') else row[k]!=v for k,v in derived.items()) or any(origin[k]!=v for k,v in counts.items()):errors.append(f'{label}: aggregate authentication outcomes/origin counts must equal the executed request, authorization and HTTP response')
+    traces.add(row['traceId'])
+
 def validate_qualified_local_source_authentication(root,plan,execution,prefix,status,window,defs,errors,cache):
     """Derive local authentication from retained request outcomes, never execute credentials."""
     from urllib.parse import urlsplit
@@ -744,7 +778,7 @@ def validate_qualified_local_source_authentication(root,plan,execution,prefix,st
     rows=report['requests'];cases={'authenticated','anonymous_denied','invalid_auth_denied'}
     if len(rows)!=3 or {r['case'] for r in rows}!=cases or len({r['requestId'] for r in rows})!=3:
         errors.append(f'{label}: distinct actual authenticated, anonymous and invalid-auth requests required');return
-    artifacts=env.get('rawExecutionArtifacts') or [];paths=[existing_ref(root,ref,prefix),config_path]
+    artifacts=env.get('rawExecutionArtifacts') or [];paths=[existing_ref(root,ref,prefix),config_path];traces=set()
     input_records=env.get('inputSampleArtifacts') or []
     for record in input_records:
         if isinstance(record,dict):
@@ -788,6 +822,7 @@ def validate_qualified_local_source_authentication(root,plan,execution,prefix,st
                 except (OSError,ValueError,UnicodeError):safe=False
             if not safe or row['returnedObjectId'] is not None or row['returnedObjectVersion'] is not None:
                 errors.append(f'{label}: anonymous/invalid authentication must expose no protected object bytes or identity')
+        derive_local_source_authentication_request(root,execution,prefix,report,policy,row,origin,window,defs,label,errors,cache,paths,traces)
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
     if actual.get('auth_flow_supported') is not True:errors.append(f'{label}: true auth_flow_supported requires all parsed authentication outcomes')
 
@@ -858,6 +893,30 @@ def derive_local_source_listing_page(root,execution,prefix,report,policy,listing
     return observed
 
 
+def derive_local_source_assessment_grade(root,execution,prefix,expected,policy,criterion,row,basis,basis_path,window,defs,label,errors,cache):
+    """Read the approved evaluator output over the exact retained immutable documentation."""
+    run=bounded_evaluator_json(root,execution,prefix,basis.get('evaluationRef'),'command_output',defs,'localSourceAssessmentExecution',label,errors,cache)
+    if run is None:return
+    paths=[basis_path];native=retained_local_source_transport_artifact(root,execution,prefix,basis['evaluationRef'],'command_output',262144,label,errors,cache,paths)
+    stdout_path=retained_local_source_transport_artifact(root,execution,prefix,run['stdoutRef'],'command_output',262144,label,errors,cache,paths)
+    if native is None or stdout_path is None:return
+    output=bounded_evaluator_json(root,execution,prefix,run['stdoutRef'],'command_output',defs,'localSourceAssessmentOutput',label,errors,cache)
+    if output is None:return
+    documents=criterion['documentation'];approved=policy['assessmentExecution'];context=dict(expected,criterionId=row['criterionId'])
+    if len({d['documentId'] for d in documents})!=len(documents) or any(not recorded_text(d[k]) for d in documents for k in ('documentId','immutableId','sourceURI')):errors.append(f'{label}: exact immutable cited documentation identities required');return
+    for document in documents:
+        local=list(paths);path=retained_local_source_transport_artifact(root,execution,prefix,document['ref'],'command_output',1048576,label,errors,cache,local)
+        if path is None:return
+        actual=inspect_artifact(path,cache)
+        if actual['size']<=0 or actual['sha256']!=document['sha256']:errors.append(f'{label}: assessed documentation must retain the exact approved nonempty immutable source bytes');return
+    argv=approved['commandArgs']+['--criterion',row['criterionId'],'--rubric',approved['rubricVersion'],'--reviewer',approved['reviewerId'],'--stdout',run['stdoutRef']]+[arg for document in documents for arg in ('--document',document['ref'])]
+    if run['context']!=context or run['documents']!=documents or output['context']!=context or output['documents']!=documents or any(run[k]!=approved[k] or output[k]!=approved[k] for k in ('evaluatorBuild','reviewerId','rubricVersion')) or run['commandArgs']!=argv or run['exitCode']!=0 or run['stdoutSha256']!=inspect_artifact(stdout_path,cache)['sha256'] or basis['toolBuild']!=approved['evaluatorBuild'] or basis['reference'] not in {d['sourceURI'] for d in documents}:
+        errors.append(f'{label}: assessment must bind exact documentation/profile/source, preapproved reviewer/evaluator/rubric, native argv and successful stdout');return
+    first,last,observed,basis_at,row_at=map(utc,(run['startedAt'],run['finishedAt'],output['observedAt'],basis['observedAt'],row['observedAt']))
+    if window is None or any(at is None for at in (first,last,observed,basis_at,row_at)) or not window[0]<=first<=observed<=last<=basis_at<=row_at<=window[1] or first>=last or not recorded_text(output['rationale']) or row['rationale']!=output['rationale'] or row['status']!=output['disposition']:
+        errors.append(f'{label}: rubric disposition/rationale and ordered assessment clocks must derive the approved retained evaluator output');return
+    return policy['gradeValues'][output['disposition']]
+
 def validate_qualified_local_source_listing(root,plan,execution,prefix,status,window,defs,errors,cache):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-06' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
@@ -904,7 +963,8 @@ def validate_qualified_local_source_listing(root,plan,execution,prefix,status,wi
         if basis is None or len(errors)!=before:continue
         at=utc(row['observedAt']);basis_at=utc(basis['observedAt'])
         if at is None or basis_at is None or window is None or not window[0]<=basis_at<=at<=window[1] or basis['criterionId']!=row['criterionId'] or basis['subjectVersion']!=expected['subjectVersion'] or inspect_artifact(basis_path,cache)['sha256']!=row['basisSha256'] or any(not recorded_text(basis[k]) for k in ('toolBuild','reference','details')) or not recorded_text(row['rationale']) or any(basis_path.samefile(p) for p in basis_paths):errors.append(f'{label}: distinct assessed API/SDK/versioning/support basis must bind captured versions and rubric')
-        basis_paths.append(basis_path);criterion=next(c for c in criteria if c['criterionId']==row['criterionId']);grades.append((criterion['weight'],policy['gradeValues'][row['status']]))
+        basis_paths.append(basis_path);criterion=next(c for c in criteria if c['criterionId']==row['criterionId']);grade=derive_local_source_assessment_grade(root,execution,prefix,expected,policy,criterion,row,basis,basis_path,window,defs,label+'/assessment',errors,cache)
+        if grade is not None:grades.append((criterion['weight'],grade))
     try:score=sum(w*g for w,g in grades)/sum(w for w,g in grades) if len(grades)==4 else None
     except (OverflowError,ZeroDivisionError):score=None
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
@@ -2659,6 +2719,31 @@ def validate_qualified_media_soak(root,plan,execution,prefix,status,window,defs,
     if actual.get('sustained_encode_stability') is not (len(errors)==before):errors.append(f'{label}: stability gate must derive complete continuous workload and failure/resource/decode observations')
 
 
+def derive_h264_fallback_native_decode(root,execution,prefix,report,probe,policy,expected,window,defs,label,errors,cache):
+    """Read the approved native decoder capture and derive its complete H264 media facts."""
+    env=execution.get('environmentCaptured') or {};before=len(errors)
+    source_rows=[r for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict) and r.get('sampleId')==policy['inputSampleId']]
+    source=existing_ref(root,source_rows[0].get('inputArtifactRef'),prefix) if len(source_rows)==1 else None
+    fps=policy['encoderParameters'].get('framesPerSecond')
+    if source is None or inspect_artifact(source,cache)['sha256']!=policy['inputSha256'] or not ai_finite(fps) or fps<=0:
+        errors.append(f'{label}: native fallback decode requires actual approved input bytes and finite positive frame rate');return
+    identity=dict(expected,**{k:policy[k] for k in ('runId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec','encoderParameters')},outputArtifactRef=report['outputArtifactRef'],outputSha256=report['outputSha256'])
+    tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',report['outputArtifactRef']]
+    captured=media_native_execution(root,execution,prefix,probe.get('executionRef'),'decode',identity,'ffprobe',policy['decoderBuild'],tail,policy['nodeId'],utc(report['finishedAt']),defs,label+'/native decode',errors,cache)
+    if captured is None:return
+    raw=bounded_evaluator_json(root,execution,prefix,captured[0]['stdoutRef'],'command_output',defs,'workerCapabilityProbeOutput',label+'/native frames',errors,cache,8388608)
+    if raw is None or len(errors)!=before:return
+    media=existing_ref(root,report['outputArtifactRef'],prefix);params=raw['streams'][0];count=report['encodedFrameCount']
+    try:duration=count/fps
+    except (OverflowError,ZeroDivisionError):
+        errors.append(f'{label}: finite native fallback frame duration required');return
+    if raw['program_version']['version']!=policy['decoderBuild'] or params['codec_name']!='h264' or not complete_decoder_timeline(raw,{k:params[k] for k in ('profile','level','width','height','pix_fmt','time_base','r_frame_rate')},count,fps) or media is None or not worker_media_packet_bytes(media,raw,'h264',cache) or inspect_artifact(media,cache)['sha256']!=report['outputSha256'] or not ai_finite(duration) or not math.isclose(probe['durationSeconds'],duration,rel_tol=1e-9,abs_tol=1e-9) or not captured[3]<=utc(probe['observedAt'])<=window[1]:
+        errors.append(f'{label}: complete native H264 frames/packets/timeline, duration and exact MP4 payload must derive the fallback decoder result');return
+    protected=[existing_ref(root,ref,prefix) for ref in (env['h264FallbackRef'],report['decodeRef'],probe['executionRef'],captured[0]['stdoutRef'],captured[0]['stderrRef'])]+[media,source]
+    if any(a is not None and b is not None and a.samefile(b) for i,a in enumerate(protected) for b in protected[i+1:]):
+        errors.append(f'{label}: fallback decoder observations, native streams, input and output must be physically distinct')
+
+
 def validate_qualified_h264_fallback(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-02' or status!='pass':return
     label=f"qualified H264 fallback {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -2689,6 +2774,8 @@ def validate_qualified_h264_fallback(root,plan,execution,prefix,status,window,de
     if media is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=policy['nodeId']:
         errors.append(f'{label}: exact node-bound nonempty produced H264 bytes required');return
     distinct=[report_ref,report['decodeRef']]+[r.get('ref') for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('artifactType')=='produced_media' and r.get('ref')!=ref]+[r.get('inputArtifactRef') for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict)]
+    derive_h264_fallback_native_decode(root,execution,prefix,report,probe,policy,expected,window,defs,label,errors,cache)
+    if len(errors)!=before:return
     try:
         actual=inspect_artifact(media,cache)
         if actual['size']<=0 or actual['size']!=report['outputByteCount'] or actual['sha256']!=report['outputSha256'] or any(media.samefile(other) for other_ref in distinct if (other:=existing_ref(root,other_ref,prefix)) is not None):raise ValueError('invalid fallback output binding')
@@ -4323,6 +4410,45 @@ RECOVERY_TIME_ENDPOINTS = {
 }
 
 
+def derive_recovery_native_timing(root,execution,prefix,report,config,expected,times,paths,defs,label,errors,cache):
+    """Read preapproved backup/orchestrator collector events, not aggregate clocks."""
+    policy=config.get('configuration',{}).get('recoveryTimingNative')
+    if not isinstance(policy,dict) or any(not recorded_text(policy.get(k)) for k in ('collectorBuild','toolBuild','clockDomainId')) or not isinstance(policy.get('commandArgs'),list) or not 1<=len(policy['commandArgs'])<=128 or any(not recorded_text(a) for a in policy['commandArgs']):
+        errors.append(f'{label}: preapproved backup/orchestrator native collector, tool, argv and clock domain required');return
+    before=len(errors);ref=report.get('nativeExecutionRef')
+    path=retained_local_source_transport_artifact(root,execution,prefix,ref,'command_output',262144,label,errors,cache,paths)
+    run=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,'recoveryTimingNativeExecution',label,errors,cache) if path else None
+    if run is None or len(errors)!=before:return
+    context={**expected,'subjects':report['subjects']}
+    argv=policy['commandArgs']+['--run-id',report['subjects']['recoveryRunId'],'--baseline',report['baselineRef'],'--restored',report['restoredRef'],'--comparison',report['comparisonRef'],'--events-output',run['stdoutRef']]
+    if recovery_exact_json(run['context'])!=recovery_exact_json(context) or any(run[k]!=policy[k] for k in ('collectorBuild','toolBuild','clockDomainId')) or run['commandArgs']!=argv:
+        errors.append(f'{label}: native process must bind exact approved run/subjects/refs/tool/argv/clock domain');return
+    first,last=utc(run['startedAt']),utc(run['finishedAt']);left,right=run['startedMonotonicSeconds'],run['finishedMonotonicSeconds']
+    if first is None or last is None or not all(isinstance(v,(int,float)) and not isinstance(v,bool) and math.isfinite(v) for v in (left,right)) or not first<=last or not 0<=left<=right or not math.isclose((last-first).total_seconds(),right-left,rel_tol=1e-9,abs_tol=1e-6):
+        errors.append(f'{label}: native process lifetime requires agreeing finite UTC and same-domain monotonic clocks');return
+    # Backup may precede executionWindow; collector initialization and flush may surround all endpoints.
+    stdout=retained_local_source_transport_artifact(root,execution,prefix,run['stdoutRef'],'command_output',262144,label,errors,cache,paths)
+    stderr=retained_local_source_transport_artifact(root,execution,prefix,run['stderrRef'],'command_output',262144,label,errors,cache,paths)
+    if stdout is None or stderr is None:return
+    out_info=inspect_artifact(stdout,cache,textual=True);err_info=inspect_artifact(stderr,cache,textual=True)
+    if out_info['sha256']!=run['stdoutSha256'] or err_info['sha256']!=run['stderrSha256'] or any(info['invalidUtf8'] or info['credential'] for info in (out_info,err_info)):
+        errors.append(f'{label}: native stdout/stderr must retain exact credential-safe UTF8 bytes/hash');return
+    native=bounded_evaluator_json(root,execution,prefix,run['stdoutRef'],'command_output',defs,'recoveryTimingNativeOutput',label,errors,cache)
+    if native is None:return
+    if recovery_exact_json(native['context'])!=recovery_exact_json(context) or native['processId']!=run['processId'] or native['clockDomainId']!=run['clockDomainId']:
+        errors.append(f'{label}: parsed native endpoint output must bind the exact process/run/subjects/refs/clock domain');return
+    refs={row['event']:row['witnessRef'] for row in report['events']};events=native['events']
+    if len(events)!=len(refs) or {row['event'] for row in events}!=set(refs):
+        errors.append(f'{label}: complete unique native backup/disruption/recovery/readiness endpoints required');return
+    clocks={};previous=left
+    for event in events:
+        name=event['event'];at=utc(event['observedAt']);tick=event['monotonicSeconds']
+        if event['witnessRef']!=refs[name] or at is None or at!=times[name] or not isinstance(tick,(int,float)) or isinstance(tick,bool) or not math.isfinite(tick) or not first<=at<=last or not previous<=tick<=right or not math.isclose((at-first).total_seconds(),tick-left,rel_tol=1e-9,abs_tol=1e-6):
+            errors.append(f'{label}: each native endpoint must bind its exact event/witness, UTC instant and ordered in-lifetime monotonic offset');return
+        clocks[name]=tick;previous=tick
+    return clocks
+
+
 def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-10' or status!='pass':return
     label=f"qualified recovery timing {plan['taskId']}"
@@ -4385,11 +4511,16 @@ def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,
         baseline_policy=config.get('configuration',{}).get('recoveryBaseline')
         validate_recovery_browse_request(root,execution,prefix,browse_witness,states,baseline_policy,approved,times['authenticated_browsing_succeeded'],window,defs,label,errors,cache,paths)
     validate_recovery_readiness(root,execution,prefix,capture,config,baseline,restored,approved,rows,times,window,defs,label,errors,cache,paths)
+    native=derive_recovery_native_timing(root,execution,prefix,report,config,expected,times,paths,defs,label,errors,cache)
+    if native is None:return
     actual={item.get('id'):item.get('actual') for item in execution.get('measurements') or []}
     for metric,(first,last) in RECOVERY_TIME_ENDPOINTS.items():
         measured=(times[last]-times[first]).total_seconds();claimed=actual.get(metric)
         if isinstance(claimed,bool) or not isinstance(claimed,(int,float)) or not math.isfinite(claimed) or measured<0 or not math.isclose(claimed,measured,rel_tol=1e-9,abs_tol=1e-9):
             errors.append(f'{label}: {metric} must equal retained business-event elapsed seconds')
+        native_measured=native[last]-native[first]
+        if isinstance(claimed,bool) or not isinstance(claimed,(int,float)) or not math.isfinite(claimed) or native_measured<0 or not math.isclose(claimed,native_measured,rel_tol=1e-9,abs_tol=1e-6):
+            errors.append(f'{label}: {metric} must derive from retained native monotonic endpoints and reconcile the original aggregate')
 
 
 ACCESS_DENIAL_GATES={'unauthorized':'unauthorized_identity_denied','expired':'expired_authorization_denied','cross_user':'cross_user_cache_isolation','rate_limit':'rate_limit_enforced','direct_source':'local_direct_origin_denied','direct_admin':'local_direct_origin_denied','direct_worker':'local_direct_origin_denied'}

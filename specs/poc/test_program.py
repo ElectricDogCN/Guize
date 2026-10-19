@@ -692,6 +692,7 @@ class TestPocProgram(unittest.TestCase):
         timing_ref,_,_=retain('recovery-timing.yaml',dict(**common,kind='recovery_timing_report',subjects=subjects,**{key:env['recoveryEvidence'][key] for key in ('configurationRef','baselineRef','restoredRef','comparisonRef')},events=events),'measurement_output')
         env['recoveryTimingRef']=timing_ref
         self.prepare_recovery_readiness_fixture(root,execution,prefix,common,retain)
+        self.prepare_recovery_timing_native_fixture(root,execution,prefix)
 
 
     def sync_recovery_readiness_positive_fixture(self,root,execution):
@@ -706,6 +707,36 @@ class TestPocProgram(unittest.TestCase):
                 output_path.write_text(json.dumps(output,sort_keys=True)+'\n',encoding='utf8');raw=output_path.read_bytes();run['outputArtifact'].update(sha256='sha256:'+hashlib.sha256(raw).hexdigest(),byteCount=len(raw));write_yaml(run_path,run)
             if 'playbackRequest' in witness:
                 witness['playbackRequest']['finishedAt']=event['observedAt'];write_yaml(path,witness)
+        self.sync_recovery_timing_native_positive_fixture(root,execution)
+
+    def prepare_recovery_timing_native_fixture(self,root,execution,prefix):
+        """Synthetic native collector contract only; no backup/orchestrator is executed."""
+        env=execution['environmentCaptured'];capture=env['recoveryEvidence'];timing_path=root/env['recoveryTimingRef'];report=load_yaml(timing_path)
+        config_path=root/capture['configurationRef'];config=load_yaml(config_path)
+        config['configuration']['recoveryTimingNative']=dict(collectorBuild='synthetic-recovery-native-collector-v1',toolBuild='synthetic-backup-orchestrator-v1',clockDomainId='fixture-recovery-host-boot-monotonic',commandArgs=['synthetic-backup-orchestrator','--capture-events'])
+        write_yaml(config_path,config)
+        for name,raw in (('recovery-native-execution.json',b'{}\n'),('recovery-native.stdout.json',b'{}\n'),('recovery-native.stderr.txt',b'')):
+            ref=prefix+'/raw/'+name;(root/ref).write_bytes(raw);execution['rawOutputRefs'].append(ref)
+            env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='command_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()))
+        report['nativeExecutionRef']=prefix+'/raw/recovery-native-execution.json';write_yaml(timing_path,report)
+        raw=timing_path.read_bytes();next(a for a in env['rawExecutionArtifacts'] if a['ref']==env['recoveryTimingRef']).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        self.sync_recovery_timing_native_positive_fixture(root,execution)
+
+    def sync_recovery_timing_native_positive_fixture(self,root,execution,process_started_at=None,process_finished_at=None):
+        """Explicit positive setup only; never called by validation or metadata refresh."""
+        env=execution['environmentCaptured'];report=load_yaml(root/env['recoveryTimingRef']);policy=load_yaml(root/report['configurationRef'])['configuration']['recoveryTimingNative']
+        ref=report['nativeExecutionRef'];directory=str(Path(ref).parent).replace('\\','/');stdout_ref=directory+'/recovery-native.stdout.json';stderr_ref=directory+'/recovery-native.stderr.txt'
+        ordered=sorted(enumerate(report['events']),key=lambda item:(CHECK.utc(item[1]['observedAt']),item[0]))
+        first=CHECK.utc(process_started_at) if process_started_at else CHECK.utc(ordered[0][1]['observedAt'])-timedelta(seconds=2)
+        last=CHECK.utc(process_finished_at) if process_finished_at else CHECK.utc(ordered[-1][1]['observedAt'])+timedelta(seconds=2)
+        context={k:copy.deepcopy(report[k]) for k in ('configurationRef','baselineRef','restoredRef','comparisonRef','resourceId','subjectVersion','acceptanceProfile','inputSamples','subjects')}
+        events=[dict(event=row['event'],witnessRef=row['witnessRef'],observedAt=row['observedAt'],monotonicSeconds=1000+(CHECK.utc(row['observedAt'])-first).total_seconds()) for _,row in ordered]
+        output=dict(schemaVersion=1,kind='recovery_timing_native_events',context=context,processId=98111,clockDomainId=policy['clockDomainId'],events=events)
+        raw=(json.dumps(output,sort_keys=True)+'\n').encode('utf8');(root/stdout_ref).write_bytes(raw)
+        run=dict(schemaVersion=1,kind='recovery_timing_native_execution',context=context,collectorBuild=policy['collectorBuild'],toolBuild=policy['toolBuild'],clockDomainId=policy['clockDomainId'],commandArgs=policy['commandArgs']+['--run-id',report['subjects']['recoveryRunId'],'--baseline',report['baselineRef'],'--restored',report['restoredRef'],'--comparison',report['comparisonRef'],'--events-output',stdout_ref],processId=98111,exitCode=0,startedAt=first.isoformat().replace('+00:00','Z'),finishedAt=last.isoformat().replace('+00:00','Z'),startedMonotonicSeconds=1000,finishedMonotonicSeconds=1000+(last-first).total_seconds(),stdoutRef=stdout_ref,stdoutSha256='sha256:'+hashlib.sha256(raw).hexdigest(),stderrRef=stderr_ref,stderrSha256='sha256:'+hashlib.sha256((root/stderr_ref).read_bytes()).hexdigest())
+        (root/ref).write_text(json.dumps(run,sort_keys=True)+'\n',encoding='utf8')
+        for selected in (ref,stdout_ref):
+            raw=(root/selected).read_bytes();next(a for a in env['rawExecutionArtifacts'] if a['ref']==selected).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
 
     def prepare_recovery_readiness_fixture(self,root,execution,prefix,common,retain):
         """Retained synthetic command/readback inputs, not an executed recovery collector."""
@@ -1522,7 +1553,7 @@ class TestPocProgram(unittest.TestCase):
         """Synthetic H264 run/probe fixtures; never actual encoded or decoded media."""
         env=execution['environmentCaptured'];node=env['worker_node_inventory'][0];sample=execution['samples'][0]
         resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS')
-        policy=dict(runId='synthetic-h264-fallback-run',nodeId=node['nodeId'],physicalHostId=node['physicalHostId'],encoderBuild=node['encoderBuild'],compatibilityGroupId=node['compatibilityGroupId'],decoderBuild='synthetic-h264-decoder',inputSampleId=sample['id'],inputSha256=sample['checksum'],sourceStartFrame=0,sourceEndFrame=120,codec='h264',encoderParameters=dict(codec='h264',preset='synthetic-pinned-preset'),commandArgs=['synthetic-encode','h264',sample['immutableId']])
+        policy=dict(runId='synthetic-h264-fallback-run',nodeId=node['nodeId'],physicalHostId=node['physicalHostId'],encoderBuild=node['encoderBuild'],compatibilityGroupId=node['compatibilityGroupId'],decoderBuild='synthetic-h264-decoder',inputSampleId=sample['id'],inputSha256=sample['checksum'],sourceStartFrame=0,sourceEndFrame=120,codec='h264',encoderParameters=dict(codec='h264',preset='synthetic-pinned-preset',framesPerSecond=30),commandArgs=['synthetic-encode','h264',sample['immutableId']])
         path=root/resource['configurationRef'];config=load_yaml(path);config['configuration']['mediaFallbackPolicy']=policy;write_yaml(path,config)
         def retain(name,value,kind):
             ref=prefix+'/raw/'+name
@@ -1530,9 +1561,17 @@ class TestPocProgram(unittest.TestCase):
             else:write_yaml(root/ref,value)
             raw=(root/ref).read_bytes();digest='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256=digest,nodeId=node['nodeId']));execution['rawOutputRefs'].append(ref)
             return ref,digest,len(raw)
-        media,sha,size=retain('h264-fallback.bin',b'Synthetic H264-only fallback fixture; never actual encoded media.\n','produced_media')
+        # Minimal synthetic container/packet shapes for admission tests, not a codec execution.
+        box=lambda kind,payload:(len(payload)+8).to_bytes(4,'big')+kind+payload
+        entry=box(b'avc1',b'\0'*78+box(b'avcC',b'\1'*4));moov=box(b'moov',box(b'trak',box(b'mdia',box(b'minf',box(b'stbl',box(b'stsd',b'\0'*4+(1).to_bytes(4,'big')+entry))))));header=box(b'ftyp',b'isom\0\0\0\0isom')+moov;packets=[i.to_bytes(4,'big') for i in range(120)]
+        media,sha,size=retain('h264-fallback.bin',header+box(b'mdat',b''.join(packets)),'produced_media')
         identity={k:policy[k] for k in ('runId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')}
-        probe,_,_=retain('h264-fallback-decode.yaml',dict(schemaVersion=1,kind='h264_fallback_decode',**identity,outputArtifactRef=media,outputSha256=sha,observedAt='2026-09-03T00:00:02Z',decodable=True,decodedFrameCount=120,durationSeconds=4,decodeErrorCount=0),'measurement_output')
+        expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-002')),execution),inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']])
+        native_identity=dict(expected,**identity,encoderParameters=policy['encoderParameters'],outputArtifactRef=media,outputSha256=sha)
+        native=dict(program_version=dict(version=policy['decoderBuild']),streams=[dict(codec_name='h264',codec_tag_string='avc1',profile='Synthetic checker fixture',level=0,width=320,height=180,pix_fmt='yuv420p',time_base='1/30',r_frame_rate='30/1')],format=dict(format_name='mov,mp4,m4a,3gp,3g2,mj2',size=str(size)),packets_and_frames=[item for i,packet in enumerate(packets) for item in (dict(type='packet',pts=i,dts=i,duration=1,pos=str(len(header)+8+4*i),size='4',data_hash='SHA256:'+hashlib.sha256(packet).hexdigest()),dict(type='frame',pts=i,duration=1,width=320,height=180,pix_fmt='yuv420p'))])
+        tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',media]
+        native_ref,_=self.retain_media_process_fixture(root,execution,prefix,'h264-fallback-native','decode',native_identity,node['nodeId'],'ffprobe',policy['decoderBuild'],tail,json.dumps(native).encode(),'2026-09-03T00:00:01Z','2026-09-03T00:00:02Z',64001)
+        probe,_,_=retain('h264-fallback-decode.yaml',dict(schemaVersion=1,kind='h264_fallback_decode',**identity,outputArtifactRef=media,outputSha256=sha,observedAt='2026-09-03T00:00:02Z',decodable=True,decodedFrameCount=120,durationSeconds=4,decodeErrorCount=0,executionRef=native_ref),'measurement_output')
         report=dict(schemaVersion=1,kind='h264_fallback_encode',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-002')),execution),inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],**policy,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:01Z',exitCode=0,encodedFrameCount=120,outputArtifactRef=media,outputSha256=sha,outputByteCount=size,decodeRef=probe)
         ref,_,_=retain('h264-fallback-encode.yaml',report,'measurement_output');env['h264FallbackRef']=ref
 
@@ -1875,6 +1914,109 @@ class TestPocProgram(unittest.TestCase):
                 write_yaml(root/attempt['transportExecutionRef'],run);retain(attempt['transportExecutionRef'],'measurement_output',(root/attempt['transportExecutionRef']).read_bytes())
 
 
+    def exercise_local_source_authentication_native_regressions(self,root,original,validate,prefix,report_path,config_path):
+        originals={path:path.read_bytes() for path in [report_path,config_path]+[root/ref for ref in original['rawOutputRefs']] if path.is_file()}
+        def restore():
+            for path,raw in originals.items():path.write_bytes(raw)
+        def register(data,path):
+            raw=path.read_bytes();record=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==path.relative_to(root).as_posix());record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        for mode in ('missing_native','borrowed_native','credential','server_principal','server_denial','read_before_auth','half_read_chain','deny_read','origin_count','http_status','http_body','http_duplicate_header','pid','monotonic','exit','argv','init_after_request','flush_before_response'):
+            restore();data=copy.deepcopy(original);report=load_yaml(report_path);row=report['requests'][1 if mode=='deny_read' else 0];path=root/row['transportExecutionRef'];run=json.loads(path.read_bytes());request_path=root/run['requestRef'];request=json.loads(request_path.read_bytes());response_path=root/run['responseRef'];origin_path=root/row['originAccessRef'];origin=load_yaml(origin_path)
+            if mode=='missing_native':row.pop('transportExecutionRef')
+            elif mode=='borrowed_native':row['transportExecutionRef']=report['requests'][1]['transportExecutionRef']
+            elif mode=='credential':request['authRef']='secretref_synthetic_source_invalid'
+            elif mode=='server_principal':run['events'][2]['authenticatedPrincipalId']='foreign-principal'
+            elif mode=='server_denial':run['events'][2].update(decision='denied',authenticatedPrincipalId=None)
+            elif mode=='read_before_auth':run['events'][2],run['events'][3]=run['events'][3],run['events'][2]
+            elif mode=='half_read_chain':run['events'].pop(3)
+            elif mode=='deny_read':
+                for kind in ('origin_request','object_read'):
+                    event=copy.deepcopy(run['events'][2]);event.update(type=kind,objectId=report['objectId'],objectVersion=report['objectVersion'],byteCount=0,sha256='sha256:'+hashlib.sha256(b'').hexdigest());run['events'].insert(-2,event)
+            elif mode=='origin_count':origin.update(originRequestCount=0,objectReadCount=0)
+            elif mode=='http_status':response_path.write_bytes(response_path.read_bytes().replace(b'HTTP/1.1 200 ',b'HTTP/1.1 401 ',1))
+            elif mode=='http_body':response_path.write_bytes(b'HTTP/1.1 200 Synthetic\r\nContent-Length: 0\r\n\r\n')
+            elif mode=='http_duplicate_header':response_path.write_bytes(response_path.read_bytes().replace(b'Content-Length:',b'Content-Length: 0\r\nContent-Length:',1))
+            elif mode=='pid':run['events'][2]['processId']=run['clientProcessId']
+            elif mode=='monotonic':run['events'][2]['monotonicNs']+=10000000
+            elif mode=='exit':run['events'][-1]['exitCode']=1
+            elif mode=='argv':run['commandArgs'][0]='foreign-auth-client'
+            elif mode=='init_after_request':run['events'][0]['observedAt']=row['finishedAt']
+            elif mode=='flush_before_response':run['events'][-1]['observedAt']=row['requestedAt']
+            if mode.startswith('http_'):run['events'][-2]['responseSha256']='sha256:'+hashlib.sha256(response_path.read_bytes()).hexdigest()
+            request_path.write_bytes(json.dumps(request).encode());path.write_bytes(json.dumps(run).encode());write_yaml(origin_path,origin);write_yaml(report_path,report);self.assertTrue(validate(data),('native source authentication',mode))
+        # Authenticated HITs legitimately read no origin, including complete-range 206 responses.
+        for status in (200,206):
+            restore();data=copy.deepcopy(original);report=load_yaml(report_path);row=report['requests'][0];row['statusCode']=status;origin_path=root/row['originAccessRef'];origin=load_yaml(origin_path);origin.update(statusCode=status,originRequestCount=0,objectReadCount=0);write_yaml(origin_path,origin);register(data,origin_path);write_yaml(report_path,report);self.prepare_local_source_authentication_execution_fixture(root,data,prefix);self.assertEqual(validate(data),[],('native authenticated HIT',status))
+        # A public safe denial body remains valid with a real 401 response and zero reads.
+        restore();data=copy.deepcopy(original);report=load_yaml(report_path)
+        for row in report['requests'][1:]:
+            path=root/row['responseBodyRef'];body=json.dumps(dict(error='access_denied')).encode();path.write_bytes(body);row.update(responseByteCount=len(body),responseSha256='sha256:'+hashlib.sha256(body).hexdigest());register(data,path)
+        write_yaml(report_path,report);self.prepare_local_source_authentication_execution_fixture(root,data,prefix);self.assertEqual(validate(data),[]);restore()
+
+    def exercise_local_source_assessment_native_regressions(self,root,original,validate,prefix,report_path,config_path):
+        originals={path:path.read_bytes() for path in [report_path,config_path]+[root/ref for ref in original['rawOutputRefs']] if path.is_file()}
+        def restore():
+            for path,raw in originals.items():path.write_bytes(raw)
+        for mode in ('missing_evaluation','borrowed_evaluation','document_bytes','document_missing','document_identity','source_reference','reviewer','evaluator','rubric','exit','argv','context','stdout_missing','stdout_hash','stdout_document','favorable_claim','rationale','clock'):
+            restore();data=copy.deepcopy(original);report=load_yaml(report_path);row=report['assessment'][0];basis_path=root/row['basisRef'];basis=load_yaml(basis_path);path=root/basis['evaluationRef'];run=json.loads(path.read_bytes());stdout_path=root/run['stdoutRef'];output=json.loads(stdout_path.read_bytes());config=load_yaml(config_path);criterion=config['configuration']['localSourceListingPolicy']['criteria'][0]
+            if mode=='missing_evaluation':basis.pop('evaluationRef')
+            elif mode=='borrowed_evaluation':basis['evaluationRef']=load_yaml(root/report['assessment'][1]['basisRef'])['evaluationRef']
+            elif mode=='document_bytes':(root/criterion['documentation'][0]['ref']).write_bytes(b'Unrelated fabricated documentation')
+            elif mode=='document_missing':criterion['documentation'][0]['ref']=prefix+'/raw/absent-document.txt'
+            elif mode=='document_identity':output['documents'][0]['immutableId']='foreign-doc-version'
+            elif mode=='source_reference':basis['reference']='unrelated-nonempty-documentation-reference'
+            elif mode=='reviewer':run['reviewerId']='foreign-reviewer'
+            elif mode=='evaluator':run['evaluatorBuild']='foreign-evaluator'
+            elif mode=='rubric':output['rubricVersion']='foreign-rubric'
+            elif mode=='exit':run['exitCode']=1
+            elif mode=='argv':run['commandArgs'][0]='foreign-evaluator'
+            elif mode=='context':output['context']['sourceId']='foreign-source'
+            elif mode=='stdout_missing':run['stdoutRef']=prefix+'/raw/absent-assessment-stdout.json'
+            elif mode=='stdout_hash':run['stdoutSha256']='sha256:'+'0'*64
+            elif mode=='stdout_document':output['documents'][0]['sha256']='sha256:'+'0'*64
+            elif mode=='favorable_claim':output['disposition']='limited'
+            elif mode=='rationale':output['rationale']='Different actual review rationale'
+            elif mode=='clock':run['finishedAt']='2026-09-03T00:03:22Z'
+            stdout_path.write_bytes(json.dumps(output).encode())
+            if mode!='stdout_hash':run['stdoutSha256']='sha256:'+hashlib.sha256(stdout_path.read_bytes()).hexdigest()
+            path.write_bytes(json.dumps(run).encode());write_yaml(basis_path,basis);row['basisSha256']='sha256:'+hashlib.sha256(basis_path.read_bytes()).hexdigest();write_yaml(config_path,config);write_yaml(report_path,report);self.assertTrue(validate(data),('native source assessment',mode))
+        restore()
+
+    def prepare_local_source_authentication_execution_fixture(self,root,execution,prefix):
+        """Explicit synthetic client/server events and HTTP captures, never actual credentials."""
+        from datetime import timedelta
+        env=execution['environmentCaptured'];report_path=root/env['sourceAuthenticationRef'];report=load_yaml(report_path);config_path=root/report['configurationRef'];config=load_yaml(config_path);policy=config['configuration']['localSourceAuthenticationPolicy'];approved=policy.setdefault('nativeExecution',dict(clientBuild='synthetic-auth-client-v1',clientCommandArgs=['synthetic-auth-client'],serverBuild='synthetic-openlist-server-v1',collectorBuild='synthetic-client-server-observer-v1',collectorCommandArgs=['synthetic-client-server-observer','--events']));write_yaml(config_path,config)
+        def retain(ref,kind,raw):
+            (root/ref).write_bytes(raw);artifact=dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());rows=[a for a in env['rawExecutionArtifacts'] if a['ref']==ref]
+            if rows:rows[0].update(artifact)
+            else:env['rawExecutionArtifacts'].append(artifact);execution['rawOutputRefs'].append(ref)
+        for number,row in enumerate(report['requests']):
+            row.setdefault('traceId','synthetic-auth-trace-'+str(number));stem=prefix+'/raw/auth-native-'+str(number);context={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','scope','sourceId','sandboxId','endpointURL','objectId','objectVersion','principalId')};context.update(case=row['case'],requestId=row['requestId'],traceId=row['traceId']);first,last=CHECK.utc(row['requestedAt']),CHECK.utc(row['finishedAt']);duration=last-first;process_start=first-timedelta(milliseconds=1);process_end=last+timedelta(milliseconds=1);client,server=85001+number,86001+number;origin=load_yaml(root/row['originAccessRef']);miss=(origin['originRequestCount'],origin['objectReadCount'])==(1,1);success=row['case']=='authenticated';body=(root/row['responseBodyRef']).read_bytes();request_ref=stem+'-request.json';response_ref=stem+'-http.bin'
+            request=dict(schemaVersion=1,kind='local_source_authentication_request',context=context,**{k:row[k] for k in ('httpMethod','authMethod','authRef','requestPrincipalId','requestedAt')});retain(request_ref,'command_output',json.dumps(request).encode())
+            headers=f'Content-Length: {len(body)}\r\n'+(f'Content-Range: bytes 0-{len(body)-1}/{len(body)}\r\n' if row['statusCode']==206 else '');raw=(f"HTTP/1.1 {row['statusCode']} Synthetic\r\n"+headers+'\r\n').encode()+body;retain(response_ref,'produced_media',raw)
+            values=[('process_start','client',process_start,{}),('request','client',first,{}),('authorization','server',first+duration/4,dict(decision='allowed' if success else 'denied',authenticatedPrincipalId=policy['principalId'] if success else None))]
+            if miss:values.extend([('origin_request','server',first+duration/2,dict(objectId=policy['objectId'],objectVersion=policy['objectVersion'])),('object_read','server',first+duration*3/4,dict(objectId=policy['objectId'],objectVersion=policy['objectVersion'],byteCount=len(body),sha256='sha256:'+hashlib.sha256(body).hexdigest()))])
+            values.extend([('response','client',last,dict(responseRef=response_ref,responseSha256='sha256:'+hashlib.sha256(raw).hexdigest())),('process_exit','client',process_end,dict(exitCode=0))]);events=[dict(type=kind,component=component,processId=client if component=='client' else server,requestId=row['requestId'],traceId=row['traceId'],observedAt=at.isoformat().replace('+00:00','Z'),monotonicNs=int(round((at-process_start).total_seconds()*1000000000)),**extra) for kind,component,at,extra in values]
+            run=dict(schemaVersion=1,kind='native_local_source_authentication_execution',context=context,requestRef=request_ref,responseRef=response_ref,**{k:approved[k] for k in ('clientBuild','serverBuild','collectorBuild','collectorCommandArgs')},commandArgs=approved['clientCommandArgs']+['--request',request_ref,'--response',response_ref],clientProcessId=client,serverProcessId=server,events=events);row['transportExecutionRef']=stem+'-execution.json';retain(row['transportExecutionRef'],'command_output',json.dumps(run).encode())
+        write_yaml(report_path,report);raw=report_path.read_bytes();artifact=next(a for a in env['rawExecutionArtifacts'] if a['ref']==env['sourceAuthenticationRef']);artifact.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+
+    def prepare_local_source_assessment_execution_fixture(self,root,execution,prefix):
+        """Explicit synthetic immutable documentation and approved evaluator/reviewer stdout."""
+        from datetime import timedelta
+        env=execution['environmentCaptured'];report_path=root/env['sourceListingRef'];report=load_yaml(report_path);config_path=root/report['configurationRef'];config=load_yaml(config_path);policy=config['configuration']['localSourceListingPolicy'];approved=policy.setdefault('assessmentExecution',dict(evaluatorBuild='synthetic-assessment-build',commandArgs=['synthetic-source-document-evaluator'],reviewerId='synthetic-source-reviewer',rubricVersion='synthetic-source-rubric-v1'));common={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','sourceId','sandboxId','endpointURL')}
+        def retain(ref,kind,raw):
+            (root/ref).write_bytes(raw);artifact=dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());rows=[a for a in env['rawExecutionArtifacts'] if a['ref']==ref]
+            if rows:rows[0].update(artifact)
+            else:env['rawExecutionArtifacts'].append(artifact);execution['rawOutputRefs'].append(ref)
+            return artifact['sha256']
+        for number,row in enumerate(report['assessment']):
+            criterion=next(c for c in policy['criteria'] if c['criterionId']==row['criterionId']);basis_path=root/row['basisRef'];basis=load_yaml(basis_path);stem=prefix+'/raw/source-assessed-'+row['criterionId'];context=dict(common,criterionId=row['criterionId'])
+            if 'documentation' not in criterion:
+                document_ref=stem+'-documentation.txt';digest=retain(document_ref,'command_output',('Synthetic retained '+row['criterionId']+' documentation for '+report['subjectVersion']+'; never actual provider documentation.').encode());criterion['documentation']=[dict(documentId='synthetic-doc-'+row['criterionId'],immutableId='synthetic-doc-version-1-'+row['criterionId'],sourceURI=basis['reference'],ref=document_ref,sha256=digest)]
+            documents=criterion['documentation'];at=CHECK.utc(basis['observedAt']);stdout_ref=stem+'-stdout.json';shared=dict(context=context,documents=documents,**{k:approved[k] for k in ('evaluatorBuild','reviewerId','rubricVersion')});output=dict(schemaVersion=1,kind='native_local_source_assessment_output',**shared,disposition=row['status'],rationale=row['rationale'],observedAt=basis['observedAt']);stdout_sha=retain(stdout_ref,'command_output',json.dumps(output).encode())
+            run=dict(schemaVersion=1,kind='native_local_source_assessment_execution',**shared,pid=87001+number,commandArgs=approved['commandArgs']+['--criterion',row['criterionId'],'--rubric',approved['rubricVersion'],'--reviewer',approved['reviewerId'],'--stdout',stdout_ref]+[arg for document in documents for arg in ('--document',document['ref'])],exitCode=0,startedAt=(at-timedelta(seconds=1)).isoformat().replace('+00:00','Z'),finishedAt=basis['observedAt'],stdoutRef=stdout_ref,stdoutSha256=stdout_sha);basis['evaluationRef']=stem+'-execution.json';retain(basis['evaluationRef'],'command_output',json.dumps(run).encode());write_yaml(basis_path,basis);row['basisSha256']=retain(row['basisRef'],'measurement_output',basis_path.read_bytes())
+        write_yaml(config_path,config);write_yaml(report_path,report);raw=report_path.read_bytes();artifact=next(a for a in env['rawExecutionArtifacts'] if a['ref']==env['sourceListingRef']);artifact.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+
     def prepare_qualified_local_source_authentication_fixture(self,root,execution,prefix):
         """Synthetic authentication contract, never actual OpenList credentials or requests."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-OPENLIST-LOCAL');config_path=root/resource['configurationRef'];config=load_yaml(config_path);fault=config['configuration']['localSourceFaultPolicy'];sample=execution['samples'][0]
@@ -1893,6 +2035,7 @@ class TestPocProgram(unittest.TestCase):
             origin_ref=prefix+'/raw/source-auth-origin-'+row['case']+'.yaml';write_yaml(root/origin_ref,origin);raw=(root/origin_ref).read_bytes();row['originAccessRef']=origin_ref
             env['rawExecutionArtifacts'].append(dict(ref=origin_ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(origin_ref)
         ref=prefix+'/raw/source-authentication.yaml';write_yaml(root/ref,report);raw=(root/ref).read_bytes();env['sourceAuthenticationRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
+        self.prepare_local_source_authentication_execution_fixture(root,execution,prefix)
 
 
     def prepare_qualified_source_listing_fixture(self,root,execution,prefix):
@@ -1931,6 +2074,7 @@ class TestPocProgram(unittest.TestCase):
             assessment.append(dict(criterionId=c,status='available',basisRef=ref,basisSha256=sha,observedAt='2026-09-03T00:03:21Z',rationale='Synthetic reviewed '+c+' availability.'))
         report=dict(schemaVersion=1,kind='local_source_listing_observations',**common,runs=runs,assessment=assessment);env['sourceListingRef']=retain('source-listing.yaml',report)[0]
         next(m for m in execution['measurements'] if m['id']=='maintainability')['actual']=1
+        self.prepare_local_source_assessment_execution_fixture(root,execution,prefix)
 
 
     def prepare_qualified_local_storage_fixture(self,root,execution,prefix):
@@ -2818,6 +2962,64 @@ class TestPocProgram(unittest.TestCase):
                 finally:temp.cleanup()
 
         self.exercise_recovery_readiness_regressions()
+        self.exercise_recovery_native_timing_regressions()
+
+    def exercise_recovery_native_timing_regressions(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=path.read_bytes();record=load_yaml(path);env=record['environmentCaptured'];timing_path=root/env['recoveryTimingRef'];timing=load_yaml(timing_path)
+                native_path=root/timing['nativeExecutionRef'];native=json.loads(native_path.read_bytes());stdout_path=root/native['stdoutRef'];saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']}
+                validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-10'})
+                # The approved checkpoint is genuinely pre-window; process init and flush may also be outside it.
+                self.assertLess(CHECK.utc(timing['subjects']['backupCheckpointAt']),CHECK.utc(env['executionWindow']['startedAt']))
+                flush=(CHECK.utc(env['executionWindow']['finishedAt'])+timedelta(seconds=2)).isoformat().replace('+00:00','Z')
+                self.sync_recovery_timing_native_positive_fixture(root,record,process_started_at='2026-09-02T23:58:00Z',process_finished_at=flush)
+                write_yaml(path,record);self.assertEqual(validate(),[])
+                for mode in ('missing_native','tool','argv','run','subject','clock_domain','pid','exit','stdout_hash','endpoint_ref','endpoint_clock','compressed_monotonic','compressed_legacy_clocks','lifetime','missing_endpoint','stderr_hash'):
+                    path.write_bytes(original)
+                    for artifact,raw in saved.items():artifact.write_bytes(raw)
+                    record=load_yaml(path);report=load_yaml(timing_path);run=json.loads(native_path.read_bytes());output=json.loads(stdout_path.read_bytes())
+                    def seal(ref):
+                        raw=(root/ref).read_bytes();next(a for a in record['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+                    if mode=='missing_native':report.pop('nativeExecutionRef');write_yaml(timing_path,report);seal(record['environmentCaptured']['recoveryTimingRef'])
+                    elif mode=='tool':run['toolBuild']='unapproved-orchestrator'
+                    elif mode=='argv':run['commandArgs']=['unapproved-command']
+                    elif mode=='run':run['context']['subjects']['recoveryRunId']='another-run'
+                    elif mode=='subject':run['context']['subjects']['physicalHostId']='another-host'
+                    elif mode=='clock_domain':run['clockDomainId']=output['clockDomainId']='unapproved-domain'
+                    elif mode=='pid':run['processId']=0
+                    elif mode=='exit':run['exitCode']=1
+                    elif mode=='stdout_hash':run['stdoutSha256']='sha256:'+'0'*64
+                    elif mode=='endpoint_ref':output['events'][-1]['witnessRef']=output['events'][0]['witnessRef']
+                    elif mode=='endpoint_clock':output['events'][-1]['monotonicSeconds']+=0.5
+                    elif mode=='compressed_monotonic':
+                        for event in output['events']:event['monotonicSeconds']=1000+(event['monotonicSeconds']-1000)/10
+                    elif mode=='compressed_legacy_clocks':
+                        # All old readiness clocks/claims agree at 0.1s; native bytes deliberately remain unchanged.
+                        for event in report['events']:
+                            if event['event'] not in ('backup_checkpoint','recoverable_data_boundary','recovery_started'):
+                                event['observedAt']='2026-09-03T00:00:00.100000Z';witness_path=root/event['witnessRef'];witness=load_yaml(witness_path);witness['observedAt']=event['observedAt']
+                                if 'request' in witness:witness['request']['finishedAt']=event['observedAt']
+                                if 'playbackRequest' in witness:witness['playbackRequest']['finishedAt']=event['observedAt']
+                                if 'executionRef' in witness:
+                                    readiness=load_yaml(root/witness['executionRef']);readiness['finishedAt']=event['observedAt'];write_yaml(root/witness['executionRef'],readiness);seal(witness['executionRef'])
+                                write_yaml(witness_path,witness);seal(event['witnessRef'])
+                        for metric in CHECK.RECOVERY_TIME_ENDPOINTS:
+                            if metric!='rpo_observed':next(m for m in record['measurements'] if m['id']==metric)['actual']=0.1
+                        write_yaml(timing_path,report);seal(record['environmentCaptured']['recoveryTimingRef'])
+                        self.assertEqual(native_path.read_bytes(),saved[native_path]);self.assertEqual(stdout_path.read_bytes(),saved[stdout_path])
+                    elif mode=='lifetime':run['startedAt']='2026-09-03T00:00:01Z'
+                    elif mode=='missing_endpoint':output['events'].pop()
+                    elif mode=='stderr_hash':run['stderrSha256']='sha256:'+'0'*64
+                    if mode not in ('missing_native','compressed_legacy_clocks'):
+                        if mode!='stdout_hash':
+                            stdout_path.write_text(json.dumps(output,sort_keys=True)+'\n',encoding='utf8');run['stdoutSha256']='sha256:'+hashlib.sha256(stdout_path.read_bytes()).hexdigest();seal(run['stdoutRef'])
+                        native_path.write_text(json.dumps(run,sort_keys=True)+'\n',encoding='utf8');seal(report['nativeExecutionRef'])
+                    write_yaml(path,record);errors=validate()
+                    self.assertTrue(any('qualified recovery timing' in error for error in errors),(profile,mode,errors))
+                    if mode=='compressed_legacy_clocks':self.assertTrue(any('native endpoint' in error for error in errors),errors)
+            finally:temp.cleanup()
 
     def test_168_recovery_timing_never_reloads_unbounded_state_reports(self):
         temp,root=self.temp_repo()
@@ -4387,6 +4589,60 @@ class TestPocProgram(unittest.TestCase):
                         self.assertEqual(errors,self.deferred_production_errors(profile,poc) if status=='pass' else [])
                     finally:temp.cleanup()
 
+    def exercise_h264_fallback_native_regressions(self,root,original,prefix,profile,plan,window,defs):
+        env=original['environmentCaptured'];report_path=root/env['h264FallbackRef'];report=load_yaml(report_path);probe_path=root/report['decodeRef'];probe=load_yaml(probe_path);process_path=root/probe['executionRef'];process=json.loads(process_path.read_bytes());stdout_path=root/process['stdoutRef'];native=json.loads(stdout_path.read_bytes());stderr_path=root/process['stderrRef'];media_path=root/report['outputArtifactRef'];source_path=root/next(r['inputArtifactRef'] for r in env['inputSampleArtifacts'] if r['sampleId']==report['inputSampleId'])
+        saved={root/r['ref']:(root/r['ref']).read_bytes() for r in env['rawExecutionArtifacts']};saved[source_path]=source_path.read_bytes()
+        def restore():
+            for path,raw in saved.items():path.write_bytes(raw)
+        def register(data,path):
+            ref=path.relative_to(root).as_posix();row=next((r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['ref']==ref),None)
+            if row is not None:row.update(byteCount=path.stat().st_size,sha256='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest())
+        def validate(data):
+            errors=[];CHECK.validate_qualified_h264_fallback(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+        for mode in ('native_missing','native_unselected','identity_input','native_build','native_node','native_argv','native_exit','native_clock','stdout_hash','raw_shape','raw_build','raw_codec','raw_frames','raw_packet_bytes','raw_timeline','claimed_duration','arbitrary_media','source_bytes'):
+            restore();data=copy.deepcopy(original);row=copy.deepcopy(report);summary=copy.deepcopy(probe);run=copy.deepcopy(process);raw=copy.deepcopy(native)
+            if mode=='native_missing':summary.pop('executionRef')
+            elif mode=='native_unselected':data['rawOutputRefs'].remove(probe['executionRef'])
+            elif mode=='identity_input':run['identity']['inputSha256']='sha256:'+'0'*64
+            elif mode=='native_build':run['toolBuild']='foreign-decoder'
+            elif mode=='native_node':run['nodeId']='foreign-node'
+            elif mode=='native_argv':run['argv'][-1]=env['parallelMediaAssembly']['outputArtifactRef']
+            elif mode=='native_exit':run['exitCode']=1
+            elif mode=='native_clock':run['finishedAt']='2026-09-03T00:00:02.001Z'
+            elif mode=='raw_shape':raw=True
+            elif mode=='raw_build':raw['program_version']['version']='foreign-decoder'
+            elif mode=='raw_codec':raw['streams'][0]['codec_name']='av1'
+            elif mode=='raw_frames':raw['packets_and_frames']=[r for r in raw['packets_and_frames'] if not (r['type']=='frame' and r['pts']==119)]
+            elif mode=='raw_packet_bytes':next(r for r in raw['packets_and_frames'] if r['type']=='packet')['data_hash']='SHA256:'+'0'*64
+            elif mode=='raw_timeline':next(r for r in raw['packets_and_frames'] if r['type']=='frame')['pts']=1
+            elif mode=='claimed_duration':summary['durationSeconds']=2
+            elif mode=='arbitrary_media':
+                media_path.write_bytes(b'Unrelated bytes cannot become H264 via a favorable YAML summary.');value='sha256:'+hashlib.sha256(media_path.read_bytes()).hexdigest();row.update(outputSha256=value,outputByteCount=media_path.stat().st_size);summary['outputSha256']=value;run['identity']['outputSha256']=value;raw['format']['size']=str(media_path.stat().st_size)
+            elif mode=='source_bytes':source_path.write_bytes(b'Unapproved source input bytes')
+            stdout_path.write_bytes(json.dumps(raw).encode());run['stdoutSha256']='sha256:'+hashlib.sha256(stdout_path.read_bytes()).hexdigest()
+            if mode=='stdout_hash':run['stdoutSha256']='sha256:'+'0'*64
+            process_path.write_bytes(json.dumps(run).encode());write_yaml(report_path,row);write_yaml(probe_path,summary)
+            for path in (stdout_path,process_path,report_path,probe_path,media_path,source_path):register(data,path)
+            errors=validate(data);self.assertTrue(any('qualified H264 fallback' in e for e in errors),(profile,mode,errors))
+        for mode in ('absolute_tool','normal_diagnostic','packet_duration','remux_timebase','observation_after_exit'):
+            restore();data=copy.deepcopy(original);run=copy.deepcopy(process);raw=copy.deepcopy(native)
+            if mode=='absolute_tool':run['argv'][0]='C:/approved-tools/ffprobe.exe'
+            elif mode=='normal_diagnostic':stderr_path.write_bytes(stderr_path.read_bytes()+b'Native decoder informational diagnostic.\n');run['stderrSha256']='sha256:'+hashlib.sha256(stderr_path.read_bytes()).hexdigest()
+            elif mode=='observation_after_exit':
+                summary=copy.deepcopy(probe);summary['observedAt']='2026-09-03T00:00:02.001Z';write_yaml(probe_path,summary)
+            elif mode=='packet_duration':
+                for item in raw['packets_and_frames']:
+                    if item['type']=='frame':item['pkt_duration']=item.pop('duration')
+            else:
+                raw['streams'][0].update(time_base='1/90000',r_frame_rate='60/2')
+                for item in raw['packets_and_frames']:
+                    item['pts']*=3000;item['duration']*=3000
+                    if item['type']=='packet':item['dts']*=3000
+            stdout_path.write_bytes(json.dumps(raw).encode());run['stdoutSha256']='sha256:'+hashlib.sha256(stdout_path.read_bytes()).hexdigest();process_path.write_bytes(json.dumps(run).encode())
+            for path in (stdout_path,stderr_path,process_path,probe_path):register(data,path)
+            self.assertEqual(validate(data),[],(profile,mode))
+        restore()
+
     def test_190_h264_fallback_requires_a_distinct_approved_run_and_decoder_result(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -4441,6 +4697,8 @@ class TestPocProgram(unittest.TestCase):
                     try:self.assertTrue(any('qualified H264 fallback' in e for e in validate(data)),(profile,mode))
                     finally:
                         if linked:media_path.unlink();media_path.write_bytes(media_bytes)
+                write_yaml(config_path,config_original);write_yaml(report_path,report_original);write_yaml(probe_path,probe_original);media_path.write_bytes(media_bytes)
+                self.exercise_h264_fallback_native_regressions(root,original,prefix,profile,plan,window,defs)
                 # Removing fallback must also fail the ordinary repository entry point.
                 data=copy.deepcopy(original);data['environmentCaptured'].pop('h264FallbackRef');write_yaml(path,data)
                 self.assertTrue(any('qualified H264 fallback' in e for e in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})))
@@ -4907,6 +5165,7 @@ class TestPocProgram(unittest.TestCase):
             def validate(data,status='pass'):
                 self.refresh_qualified_observation_fixture(root,data);errors=[];CHECK.validate_qualified_local_source_listing(root,plan,data,prefix,status,window,defs,errors,{});return errors
             self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'}),[]);self.assertEqual(validate(copy.deepcopy(original)),[])
+            self.exercise_local_source_assessment_native_regressions(root,original,validate,prefix,report_path,config_path)
             transport_bytes={}
             for listing_run in original_report['runs']:
                 for listing_page in listing_run['pages']:
@@ -4989,7 +5248,7 @@ class TestPocProgram(unittest.TestCase):
                 write_yaml(transport_path,transport);request_path.write_text(json.dumps(request,ensure_ascii=False),encoding='utf8');write_yaml(report_path,report);write_yaml(config_path,config);write_yaml(basis_path,original_basis)
                 self.assertTrue(any('qualified local source listing' in error for error in validate(data)),mode)
             restore_transport()
-            write_yaml(config_path,original_config);write_yaml(basis_path,original_basis);report=copy.deepcopy(original_report);report['assessment'][0]['status']='limited';write_yaml(report_path,report);data=copy.deepcopy(original);next(m for m in data['measurements'] if m['id']=='maintainability')['actual']=0.875;self.assertEqual(validate(data),[])
+            write_yaml(config_path,original_config);write_yaml(basis_path,original_basis);report=copy.deepcopy(original_report);report['assessment'][0]['status']='limited';write_yaml(report_path,report);data=copy.deepcopy(original);next(m for m in data['measurements'] if m['id']=='maintainability')['actual']=0.875;self.prepare_local_source_assessment_execution_fixture(root,data,prefix);self.assertEqual(validate(data),[])
             write_yaml(report_path,original_report)
             for status in ('fail','inconclusive'):
                 data=copy.deepcopy(original);data['environmentCaptured'].pop('sourceListingRef');self.assertEqual(validate(data,status),[])
@@ -8348,6 +8607,7 @@ class TestPocProgram(unittest.TestCase):
                 self.refresh_qualified_observation_fixture(root,data);errors=[];CHECK.validate_qualified_local_source_authentication(root,plan,data,prefix,status,window,defs,errors,{});return errors
             self.assertEqual(validate(copy.deepcopy(original)),[])
             self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'}),[])
+            self.exercise_local_source_authentication_native_regressions(root,original,validate,prefix,report_path,config_path)
             for mode in ('missing','shape','policy_shape','method','principal','source','sandbox','version','endpoint','input','sample','payload','duplicate_auth_ref','invalid_ref','request_method','request_endpoint','observed_method','observed_ref','observed_principal','authenticated_principal','clock','future_clock','success_status','body_hash','body_count','body_bytes','empty_success','object','object_version','anonymous_success','anonymous_ref','anonymous_identity','anonymous_bytes','invalid_success','invalid_result','duplicate_case','duplicate_request','missing_case','alias','outside_slot','raw_type','gate'):
                 with self.subTest(mode=mode):
                     data=copy.deepcopy(original);report=copy.deepcopy(original_report);config=copy.deepcopy(original_config);policy=config['configuration']['localSourceAuthenticationPolicy'];success,anonymous,invalid=report['requests']
@@ -8398,7 +8658,7 @@ class TestPocProgram(unittest.TestCase):
                 config=copy.deepcopy(original_config);report=copy.deepcopy(original_report);config['configuration']['localSourceAuthenticationPolicy']['authMethod']=method;report['authMethod']=method
                 for row in report['requests']:
                     if row['case']!='anonymous_denied':row['authMethod']=method
-                write_yaml(config_path,config);write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+                write_yaml(config_path,config);write_yaml(report_path,report);self.prepare_local_source_authentication_execution_fixture(root,original,prefix);self.assertEqual(validate(copy.deepcopy(original)),[])
             # Both denied requests must prove rejection before any origin request or protected read.
             origin_bytes={row['originAccessRef']:(root/row['originAccessRef']).read_bytes() for row in original_report['requests']}
             def restore_origins():
@@ -8442,7 +8702,7 @@ class TestPocProgram(unittest.TestCase):
             for row in report['requests']:
                 if row['case']!='authenticated':
                     row['statusCode']=403;origin_path=root/row['originAccessRef'];origin=load_yaml(origin_path);origin['statusCode']=403;write_yaml(origin_path,origin)
-            write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
+            write_yaml(report_path,report);self.prepare_local_source_authentication_execution_fixture(root,original,prefix);self.assertEqual(validate(copy.deepcopy(original)),[])
             restore_origins();write_yaml(report_path,original_report)
             for status in ('fail','inconclusive'):
                 data=copy.deepcopy(original);data['environmentCaptured'].pop('sourceAuthenticationRef');self.assertEqual(validate(data,status),[])
