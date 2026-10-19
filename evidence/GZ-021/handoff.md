@@ -401,3 +401,9 @@ Worker codec qualification now requires independently retained native ffprobe st
 OpenList listing outcomes derive each approved POST request and retained HTTP/JSON page; raw names, directory flags, version metadata, totals and page boundaries must reproduce the complete approved population. Local origins are limited to localhost, loopback, RFC1918 or IPv6 unique-local literals, without DNS lookup. Scanner memory derives each selected native Linux process-status or Windows working-set counter, bound to the approved process, collector, command and sampling time.
 
 The composition preserves all 208 original method identities, 203 unchanged method ASTs and all 486 original assertion nodes. Individual candidate invocations, including any failed fixture stage and its corrected run, remain separate. The published successor requires its own affected-method execution, 19 other required commands and same-source CI before integration. Formal POC, platform runtime and complete local-V1 delivery remain pending; task claims, plan and DAG are unchanged.
+
+## HLS bounded single-pass repair
+
+The whole-sequence HLS check now hashes the complete output and the init/ordered-segment byte ranges during the same bounded scan. Range hashes must match each retained part and their cumulative size must equal the complete output; HLS validation runs before soak validation so later checks reuse the artifact cache.
+
+The original one-read and out-of-order HLS regression methods (140 and 193) passed together: 2 tests, 56.432 seconds, exit 0. Schema and all 208 test methods are unchanged. The previous a4c4 source has an observed original140 failure in its still-running affected64 check; that history remains separate. The successor requires its own affected64, other required commands and same-head CI before integration.

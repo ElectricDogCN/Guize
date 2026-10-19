@@ -1810,8 +1810,32 @@ RAW_ASSIGNMENT = re.compile(r'''(?:["'](?P<quoted>[^\r\n"']{1,128})["']|(?P<plai
 RAW_AUTHORIZATION = re.compile(r'''(?i)\b(?:authorization|proxy-authorization)["']?\s*[:=]\s*["']?(?:Bearer|Basic)\s+\S+''')
 
 
-def inspect_artifact(path, cache, textual=False, byte_range=None):
+def inspect_binary_artifact_ranges(path,cache,byte_ranges):
+    """Hash the requested binary ranges during the artifact's one bounded scan."""
+    requested=tuple(dict.fromkeys(byte_ranges));cached=cache.get(path)
+    if cached is not None and all(bounds in cached.get('rangeHashes',{}) for bounds in requested):return cached
+    size=path.stat().st_size;digest=hashlib.sha256();offset=0
+    valid=[bounds for bounds in requested if len(bounds)==2 and all(type(v) is int for v in bounds) and 0<=bounds[0]<=bounds[1]<size]
+    ranges={bounds:hashlib.sha256() for bounds in valid if bounds!=(0,size-1)}
+    def consume_physical(chunk):
+        nonlocal offset
+        digest.update(chunk)
+        for (first,last),range_digest in ranges.items():
+            low,high=max(0,first-offset),min(len(chunk),last+1-offset)
+            if low<high:range_digest.update(chunk[low:high])
+        offset+=len(chunk)
+    for _ in retained_metadata_chunks(path,consume_physical):pass
+    result=dict(size=size,sha256='sha256:'+digest.hexdigest(),textScanned=False,credential=False,invalidUtf8=False)
+    if valid:result['rangeHashes']={bounds:result['sha256'] if bounds==(0,size-1) else 'sha256:'+ranges[bounds].hexdigest() if offset>bounds[1] else None for bounds in valid}
+    cache[path]=result
+    return result
+
+
+def inspect_artifact(path, cache, textual=False, byte_range=None, byte_ranges=None):
     """One bounded read per artifact type within this validation invocation."""
+    if byte_ranges is not None:
+        if textual:raise ValueError('batch byte ranges require a binary artifact')
+        return inspect_binary_artifact_ranges(path,cache,tuple(byte_ranges)+((byte_range,) if byte_range is not None else ()))
     cached = cache.get(path)
     if cached is not None and (not textual or cached['textScanned']) and (byte_range is None or byte_range in cached.get('rangeHashes',{})):
         return cached
@@ -2249,15 +2273,13 @@ def validate_qualified_hls_ready(root,plan,execution,prefix,status,window,defs,e
         protected=[existing_ref(root,ref,prefix) for ref in [resource['configurationRef'],env.get('hlsReadyRef'),report['sequenceDecodeRef']]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]]+media_paths
         sequence_ok=output is not None and len(record)==1 and record[0].get('artifactType')=='produced_media' and sequence['outputArtifactRef'] in (execution.get('rawOutputRefs') or []) and not any(output.samefile(p) for p in protected if p is not None)
         if sequence_ok:
-            info=inspect_artifact(output,cache)
-            sequence_ok=info['size']==sequence['outputByteCount'] and info['sha256']==sequence['outputSha256'] and record[0].get('byteCount')==info['size'] and record[0].get('sha256')==info['sha256']
             try:
-                with output.open('rb') as joined:
-                    for part in [init]+[existing_ref(root,row['outputArtifactRef'],prefix) for row in ordered]:
-                        with part.open('rb') as stream:
-                            while block:=stream.read(1048576):
-                                if joined.read(len(block))!=block:sequence_ok=False;break
-                    if joined.read(1):sequence_ok=False
+                part_infos=[inspect_artifact(part,cache) for part in [init]+[existing_ref(root,row['outputArtifactRef'],prefix) for row in ordered]]
+                ranges=[];cursor=0
+                for part in part_infos:
+                    ranges.append((cursor,cursor+part['size']-1));cursor+=part['size']
+                info=inspect_artifact(output,cache,byte_ranges=ranges)
+                sequence_ok=cursor==info['size']==sequence['outputByteCount'] and info['sha256']==sequence['outputSha256'] and record[0].get('byteCount')==info['size'] and record[0].get('sha256')==info['sha256'] and all(info.get('rangeHashes',{}).get(bounds)==part['sha256'] for bounds,part in zip(ranges,part_infos))
             except OSError:sequence_ok=False
         if not sequence_ok:errors.append(f'{label}: distinct retained whole-sequence bytes must equal init plus every media artifact in approved order')
         raw_path=existing_ref(root,sequence['rawProbeRef'],prefix);stderr=existing_ref(root,sequence['stderrRef'],prefix)
@@ -5099,8 +5121,8 @@ def validate_execution(
         validate_qualified_local_source_listing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_local_source_authentication(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_h264_fallback(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
-        validate_qualified_media_soak(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_hls_ready(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_media_soak(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_media_scheduling(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_resources(root,plan,execution,resource_catalog,record_definitions,reference_boundary,task_reviewer,status,window,errors)
         validate_qualified_hierarchy_sandbox(root,plan,execution,record_definitions,reference_boundary,status,errors)
