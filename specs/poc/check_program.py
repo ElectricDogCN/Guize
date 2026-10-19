@@ -366,9 +366,9 @@ def validate_local_capacity(plan, execution, configuration, status, errors):
 
 
 def validate_deferred_production_qualification(plan,execution,status,errors):
-    # The user's production storage and Baidu exercises are deferred. Until their
-    # outcome validators exist, new qualified PASS cannot certify those routes.
-    if status=='pass' and plan['pocId'] in ('POC-04','POC-06') and (execution.get('environmentCaptured') or {}).get('acceptanceProfile')==profile_identity('production'):
+    # Production physical-phone/passthrough soak, storage and Baidu outcomes
+    # remain deferred; never certify these routes with partial observations.
+    if status=='pass' and plan['pocId'] in ('POC-01','POC-04','POC-06') and (execution.get('environmentCaptured') or {}).get('acceptanceProfile')==profile_identity('production'):
         errors.append(f"deferred production qualification {plan['pocId']}: production outcome validation is not implemented; PASS unavailable")
 
 
@@ -2084,8 +2084,8 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         actual=measurements.get(metric)
         if metric=='sustained_encode_duration' and (not ai_finite(actual) or not math.isclose(actual,observed,rel_tol=1e-9,abs_tol=1e-9)):
             errors.append(f'{label}: sustained_encode_duration must equal captured continuous worker interval capacity in minutes')
-        elif metric=='encode_throughput' and ai_finite(actual) and actual>observed+1e-9:
-            errors.append(f'{label}: {metric} exceeds captured continuous worker interval capacity')
+        elif metric=='encode_throughput' and (not ai_finite(actual) or actual!=observed):
+            errors.append(f'{label}: {metric} must equal captured continuous worker interval capacity')
     validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
 
 
@@ -2391,6 +2391,80 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
         if actual.get(gate) is not derived or not derived:errors.append(f'{label}: {gate} must derive complete actual negative outcomes rather than asserted booleans')
 
 
+
+def bounded_evaluator_json(root,execution,prefix,ref,kind,defs,schema,label,errors,cache,maximum=262144):
+    """Parse only selected retained evaluator bytes; never invokes the evaluator."""
+    env=execution.get('environmentCaptured') or {};rows=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
+    path=existing_ref(root,ref,prefix)
+    if path is None or ref not in (execution.get('rawOutputRefs') or []) or len(rows)!=1 or rows[0].get('artifactType')!=kind:
+        errors.append(f'{label}: selected typed evaluator evidence required');return None
+    def pairs(items):
+        if len({k for k,_ in items})!=len(items):raise ValueError('duplicate evaluator JSON keys')
+        return dict(items)
+    def constant(value):raise ValueError('nonfinite evaluator JSON')
+    try:
+        if not 0<inspect_artifact(path,cache)['size']<=maximum:raise ValueError('evaluator byte bound')
+        with path.open('rb') as stream:raw=stream.read(maximum+1)
+        if len(raw)>maximum:raise ValueError('evaluator byte bound')
+        result=json.loads(raw.decode('utf8'),object_pairs_hook=pairs,parse_constant=constant)
+    except (OSError,UnicodeError,ValueError):
+        errors.append(f'{label}: bounded unique-key finite evaluator JSON required');return None
+    before=len(errors);validate_schema(result,defs.get(schema,{}),label,errors)
+    return result if isinstance(result,dict) and len(errors)==before else None
+
+
+def derive_ai_score_evidence(root,execution,prefix,row,item,identity,method,expected,window,defs,label,errors,cache,payload):
+    mode=method['mode'];kind='command_output' if mode=='tool_score' else 'measurement_output'
+    evidence=bounded_evaluator_json(root,execution,prefix,row.get('scoreEvidenceRef'),kind,defs,'aiScoreEvidence',label,errors,cache)
+    if evidence is None:return None
+    binding=dict(expected,metricId=row['metricId'],itemId=row['itemId'],sampleId=row['sampleId'],
+                 inputSha256=item['inputSha256'],outputRef=row['outputRef'],outputSha256=row['outputSha256'],
+                 referenceRef=identity['referenceRef'],referenceSha256=identity['referenceSha256'],
+                 methodId=method['methodId'],evaluatorBuild=method['evaluatorBuild'],rubricVersion=method['rubricVersion'],
+                 observedAt=row['observedAt'],mode=mode)
+    if any(evidence.get(k)!=v for k,v in binding.items()):
+        errors.append(f'{label}: evaluator bytes must bind actual model output, approved reference and method/build/rubric');return None
+    reference=payload(identity['referenceRef'],identity['referenceSha256'])
+    if reference is None or identity['referenceRef']==item['outputRef']:
+        errors.append(f'{label}: independently approved actual reference bytes required');return None
+    if mode=='tool_score':
+        values=evidence['toolScores']
+        if any(not ai_finite(value) for value in values):
+            errors.append(f'{label}: finite actual tool score observations required');return None
+    else:
+        judgments=evidence['judgments'];criteria=method['criterionIds']
+        if evidence['reviewerId']!=method['reviewerId'] or len(criteria)!=len(set(criteria)) or len(judgments)!=len(criteria) or {j['criterionId'] for j in judgments}!=set(criteria):
+            errors.append(f'{label}: approved reviewer and exact rubric criteria required');return None
+        values=[j['grade'] for j in judgments]
+        if any(not ai_finite(value) or value not in method['gradeValues'] for value in values) or any(not recorded_text(j['basis']) for j in judgments):
+            errors.append(f'{label}: actual rubric judgments require approved finite grades and concrete basis');return None
+    value=math.fsum(v/len(values) for v in values)
+    if not ai_finite(row['score']) or not math.isclose(row['score'],value,rel_tol=1e-9,abs_tol=1e-9):
+        errors.append(f'{label}: claimed score must derive actual retained evaluator observations');return None
+    return value
+
+
+def derive_vmaf_frame_result(root,execution,prefix,quality,defs,label,errors,cache):
+    invocation=bounded_evaluator_json(root,execution,prefix,quality['evaluatorCommandRef'],'command_output',defs,'vmafEvaluatorInvocation',label,errors,cache)
+    if invocation is None:return None
+    keys=('configurationRef','subjectVersion','acceptanceProfile','jobId','inputSampleId','inputSha256',
+          'outputArtifactRef','outputSha256','encoderBuild','encoderParameters','evaluatorBuild','modelId','modelSha256','evaluatedAt')
+    if any(invocation.get(key)!=quality[key] for key in keys):
+        errors.append(f'{label}: actual evaluator invocation must bind approved model/build and exact evaluated input/output');return None
+    path=existing_ref(root,invocation['resultRef'],prefix)
+    if path is None or inspect_artifact(path,cache)['sha256']!=invocation['resultSha256']:
+        errors.append(f'{label}: evaluator invocation must bind actual frame-result bytes');return None
+    result=bounded_evaluator_json(root,execution,prefix,invocation['resultRef'],'command_output',defs,'vmafFrameResults',label,errors,cache,8388608)
+    if result is None:return None
+    frames=result['frames']
+    if len(frames)!=quality['evaluatedFrameCount'] or [f['frameNum'] for f in frames]!=list(range(len(frames))) or any(not ai_finite(f['metrics']['vmaf']) for f in frames):
+        errors.append(f'{label}: complete ordered unique finite VMAF frame observations required');return None
+    value=math.fsum(f['metrics']['vmaf']/len(frames) for f in frames)
+    if not ai_finite(quality['vmafMean']) or not math.isclose(quality['vmafMean'],value,rel_tol=1e-9,abs_tol=1e-9):
+        errors.append(f'{label}: vmafMean must derive actual complete frame observations');return None
+    return value
+
+
 def validate_qualified_media_quality_timing(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-02' or status!='pass':return
     label=f"qualified media quality/timing {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -2443,7 +2517,8 @@ def validate_qualified_media_quality_timing(root,plan,execution,prefix,status,wi
     if any(probe.get(k)!=v for k,v in expected_probe.items()) or probe['decodedFrameCount']!=segment['sourceEndFrame']-segment['sourceStartFrame'] or probe['decodeErrorCount']!=0 or probe['decodable'] is not True:
         errors.append(f'{label}: first-playable probe must decode the exact retained AV1 input span without errors')
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
-    derived={'av1_quality':quality['vmafMean']}
+    vmaf=derive_vmaf_frame_result(root,execution,prefix,quality,defs,label,errors,cache)
+    derived={} if vmaf is None else {'av1_quality':vmaf}
     if first is not None and ready is not None:derived['first_segment_latency']=(ready-first).total_seconds()*1000
     for metric,value in derived.items():
         if not ai_finite(value) or not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive retained evaluator results and first-playable timestamps')
@@ -2609,7 +2684,10 @@ def recovery_domain_digest(value):
     """Hash parsed state; transport references may differ after a legitimate restore."""
     def semantic(item):
         if isinstance(item,dict):
-            return {key:semantic(value) for key,value in item.items() if key not in ('artifactRef','imageArtifactRef','signatureArtifactRef','verificationRef','configurationRef','controlBackupRef')}
+            # Phase-bound value artifacts have different transport hashes; actual parsed
+            # comparison digests are reconciled separately before granting PASS.
+            value_comparison={'referenceId','method','comparisonContextId','artifactRef'}.issubset(item)
+            return {key:semantic(value) for key,value in item.items() if key not in ('artifactRef','imageArtifactRef','signatureArtifactRef','verificationRef','configurationRef','controlBackupRef') and not (value_comparison and key=='sha256')}
         if isinstance(item,list):return [semantic(value) for value in item]
         return item
     return 'sha256:'+hashlib.sha256(json.dumps(semantic(value),sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf8')).hexdigest()
@@ -2643,7 +2721,17 @@ def verify_recovery_signature(image, signature, public_key, build, label, errors
         errors.append(f'{label}: signature verification failed: {exc}')
 
 
-def validate_recovery_state(root, execution, prefix, report, defs, label, errors, cache, all_paths, approved):
+def recovery_playback_allowed(state, playback):
+    """Join the retained playback subject to its restored allow grant."""
+    asset=next((a for a in state['assets'] if a['assetId']==playback['assetId']),None)
+    user=next((u for u in state['permissions'] if u['userId']==playback['authorizedUserId']),None)
+    if asset is None or user is None or 'asset:read' not in user['permissionIds']:return False
+    matching=[grant for grant in user['scopedGrants'] if grant['assetId']==asset['assetId']
+        and grant['aclVersion']==asset['aclVersion'] and grant['permissionId']=='asset:read']
+    return any(grant['disposition']=='allow' for grant in matching) and not any(grant['disposition']=='deny' for grant in matching)
+
+
+def validate_recovery_state(root, execution, prefix, report, defs, label, errors, cache, all_paths, approved, comparison_run_id):
     state=report['states']
     env=execution['environmentCaptured']
     artifacts={item['ref']:item for item in env['rawExecutionArtifacts'] if isinstance(item,dict) and isinstance(item.get('ref'),str)}
@@ -2667,7 +2755,7 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
         if any(item['assetId'] not in assets for item in state[domain]):errors.append(f'{label}: {domain} must reference restored authoritative assets')
     if any(item['ownerId'] not in users for item in state['tasks']) or any(item['authorUserId'] not in users for item in state['revisions']):
         errors.append(f'{label}: tasks/revisions must reference restored users')
-    if any(item['authorizedUserId'] not in users for item in state['playback']):errors.append(f'{label}: playback must bind restored permission subjects')
+    if any(item['authorizedUserId'] not in users or not recovery_playback_allowed(state,item) for item in state['playback']):errors.append(f'{label}: playback must bind its restored subject allow grant and current asset ACL')
     grants=[grant for user in state['permissions'] for grant in user['scopedGrants']]
     if len({g['grantId'] for g in grants})!=len(grants) or {g['assetId'] for g in grants}!=set(assets) or any(g['assetId'] not in assets or g['aclVersion']!=assets[g['assetId']]['aclVersion'] for g in grants):
         errors.append(f'{label}: scoped ACL grants must uniquely bind every restored asset and its ACL version')
@@ -2700,11 +2788,19 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
     if configuration is not None and len(errors)==before:
         if configuration['subjectVersion']!=report['subjectVersion'] or configuration['acceptanceProfile']!=report['acceptanceProfile'] or {m['mountId'] for m in configuration['mounts']}!=set(store['mountIds']) or {p['policyId'] for p in configuration['policies']}!=set(store['policyIds']) or len({m['mountId'] for m in configuration['mounts']})!=len(configuration['mounts']) or len({p['policyId'] for p in configuration['policies']})!=len(configuration['policies']) or len({a['authId'] for a in configuration['authMethods']})!=len(configuration['authMethods']):
             errors.append(f'{label}: non-secret OpenBao configuration must bind unique exact mounts/policies/auth settings and captured runtime/profile')
+    value_observations=[]
     for item in state['valueComparisons']:
         retained(item['artifactRef'],item['sha256'],'measurement_output')
-        value=selected_observation(root,execution,prefix,item['artifactRef'],defs,'recoveryValueComparisonArtifact',label,errors,cache)
-        if value is None or any(value.get(key)!=item[key] for key in ('referenceId','method','comparisonContextId')):
-            errors.append(f'{label}: retained one-way comparison artifact must bind exact approved method/reference/context')
+        before=len(errors)
+        value=selected_observation(root,execution,prefix,item['artifactRef'],defs,'recoveryValuePhaseObservation',label,errors,cache)
+        if value is None or len(errors)!=before:continue
+        expected={key:report[key] for key in ('resourceId','acceptanceProfile','subjectVersion','inputSamples')}
+        expected.update({key:item[key] for key in ('referenceId','method','comparisonContextId')})
+        expected.update(recoveryRunId=comparison_run_id,phase='before_backup' if report['kind']=='recovery_baseline' else 'after_restore',readbackOutcome='succeeded')
+        at,start,end=(utc(value.get('observedAt')),utc(report.get('observedStartedAt')),utc(report.get('observedFinishedAt')))
+        if not recorded_text(comparison_run_id) or any(value.get(key)!=v for key,v in expected.items()) or at is None or start is None or end is None or not start<=at<=end:
+            errors.append(f'{label}: value readback must bind exact pre/post phase, approved recovery run, subject and captured time')
+        value_observations.append({key:value[key] for key in ('referenceId','method','comparisonContextId','comparisonDigest')})
     if len({item['logicalPath'] for item in state['files']})!=len(state['files']):errors.append(f'{label}: restored logical file paths must be unique')
     for item in state['files']:
         if not safe_generator_relative_path(item['logicalPath']):errors.append(f'{label}: logical file path must be safe and relative')
@@ -2732,6 +2828,7 @@ def validate_recovery_state(root, execution, prefix, report, defs, label, errors
         if key is None or image is None or signature is None or trust['publicKeyRef'] not in execution['rawOutputRefs'] or artifacts.get(trust['publicKeyRef'],{}).get('artifactType')!='recovery_output' or not 0<inspect_artifact(key,cache)['size']<=16384 or inspect_artifact(key,cache)['sha256']!=trust['publicKeySha256'] or inspect_artifact(signature,cache)['size']!=64 or any(verification[k]!=trust[k] for k in ('algorithm','publicKeySha256','verifierBuild')):
             errors.append(f'{label}: signature verification must bind retained public key bytes and approved algorithm/build');continue
         verify_recovery_signature(image,signature,key,trust['verifierBuild'],label,errors,cache)
+    return sorted(value_observations,key=lambda value:(value['referenceId'],value['method'],value['comparisonContextId']))
 
 
 def validate_qualified_recovery_observation(root, plan, execution, prefix, status, window, defs, errors, cache):
@@ -2772,7 +2869,10 @@ def validate_qualified_recovery_observation(root, plan, execution, prefix, statu
     if baseline['kind']!='recovery_baseline' or restored['kind']!='recovery_restored':errors.append(f'{label}: exact baseline/restored report roles required')
     observation_interval(restored,execution,label,errors);observation_interval(comparison,execution,label,errors)
     if utc(restored['observedFinishedAt']) and utc(comparison['observedStartedAt']) and utc(restored['observedFinishedAt'])>utc(comparison['observedStartedAt']):errors.append(f'{label}: comparison must follow restored-state capture')
-    for report in (baseline,restored):validate_recovery_state(root,execution,prefix,report,defs,label,errors,cache,paths,approved)
+    timing_subjects=config.get('configuration',{}).get('recoveryTimingSubjects')
+    comparison_run_id=timing_subjects.get('recoveryRunId') if isinstance(timing_subjects,dict) else None
+    value_observations=[validate_recovery_state(root,execution,prefix,report,defs,label,errors,cache,paths,approved,comparison_run_id) for report in (baseline,restored)]
+    if value_observations[0]!=value_observations[1]:errors.append(f'{label}: actual pre/post secret comparison digests must match')
     expected_gates={item['id'] for item in plan['protocol']['measurements'] if item['unit']=='boolean'}
     rows=comparison['rows']
     if set(RECOVERY_GATE_DOMAINS)!=expected_gates or len(rows)!=len(expected_gates) or {row['gate'] for row in rows}!=expected_gates:
@@ -2898,7 +2998,7 @@ def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,
         errors.append(f'{label}: checkpoint/disruption/recovery/readiness/completion events must be ordered')
     try:states=restored['states'];users={item['userId'] for item in states['permissions']};assets={item['assetId'] for item in states['assets']};playback=states['playback']
     except (TypeError,KeyError,AttributeError):return
-    if approved['authorizedUserId'] not in users or approved['assetId'] not in assets or not any(item['assetId']==approved['assetId'] and item['authorizedUserId']==approved['authorizedUserId'] and item['statusCode']==206 for item in playback):
+    if approved['authorizedUserId'] not in users or approved['assetId'] not in assets or not any(item['assetId']==approved['assetId'] and item['authorizedUserId']==approved['authorizedUserId'] and item['statusCode']==206 and recovery_playback_allowed(states,item) for item in playback):
         errors.append(f'{label}: browsing/playback ready events must bind restored authorized subjects')
     actual={item.get('id'):item.get('actual') for item in execution.get('measurements') or []}
     for metric,(first,last) in RECOVERY_TIME_ENDPOINTS.items():
@@ -3168,7 +3268,8 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
     if sample is None or source is None or updated is None or selected[0].get('immutableId')!=sample.get('immutableId') or inspect_artifact(source,cache)['sha256']!=sample.get('checksum') or inspect_artifact(updated,cache)['sha256']!=policy['updatedInputSha256'] or policy['updatedInputSha256']==sample.get('checksum'):
         errors.append(f'{label}: actual immutable base and independently approved changed source bytes required');return
     sources={policy['baseVersion']:source,policy['updatedVersion']:updated};sizes={version:inspect_artifact(file,cache)['size'] for version,file in sources.items()};hashes={version:inspect_artifact(file,cache)['sha256'] for version,file in sources.items()}
-    if any(size<16 for size in sizes.values()):errors.append(f'{label}: approved matrix needs nonempty start/middle/end source intervals');return
+    if policy['minimumInputBytes']<=max(policy['sliceBytes'],policy['maximumBufferedBytes']) or any(size<max(16,policy['minimumInputBytes']) for size in sizes.values()):
+        errors.append(f'{label}: actual base/changed inputs must meet the independently approved representative minimum beyond one Slice and the buffering bound');return
     artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)};retained_paths=[source,updated]
     def retained(ref):
         file=existing_ref(root,ref,prefix)
@@ -3186,7 +3287,7 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
     cases=report['cases']
     if len(cases)!=len(RANGE_MATRIX_CASES) or {r['case'] for r in cases}!=RANGE_MATRIX_CASES:
         errors.append(f'{label}: complete unique approved Range/cache/recovery/latency case matrix required');return
-    valid={};latencies={};version_cache_users={};recovery_times={};range_results=[]
+    valid={};latencies={};version_cache_users={};recovery_times={};range_results=[];request_ids=set()
     for row in cases:
         name=row['case'];before=len(errors);observation=selected_observation(root,execution,prefix,row['witnessRef'],defs,'rangeRequestObservation',label,errors,cache)
         if observation is None or len(errors)!=before:continue
@@ -3201,6 +3302,12 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
             if (began<changed if name=='updated' else finished>changed):errors.append(f'{label}: requests must bind the observed source version before/after update')
             if request['sourceVersion']!=version or request['sourceSha256']!=hashes[version] or request['requestURL']!=policy['entryURL'] or request['aclVersion']!=policy['aclVersion']:
                 errors.append(f'{label}: current source/version/ACL and approved path required')
+            if request['requestId'] in request_ids:errors.append(f'{label}: each retained request needs a unique request identity')
+            request_ids.add(request['requestId'])
+            origin_before=len(errors);origin=selected_observation(root,execution,prefix,request['originAccessRef'],defs,'rangeOriginAccessObservation',label,errors,cache)
+            if origin is None or len(errors)!=origin_before:continue
+            binding=dict(configurationRef=report['configurationRef'],case=name,assetId=policy['assetId'],aclVersion=policy['aclVersion'],**{key:request[key] for key in ('requestId','userId','requestURL','requestRange','ifRange','sourceVersion','sourceSha256','startedAt','finishedAt')})
+            if any(origin.get(key)!=value for key,value in binding.items()):errors.append(f'{label}: origin/object-read counts must bind this exact request, source, authorization and observation interval')
             users.add(request['userId']);actual=inspect_artifact(body,cache)
             load_intervals.append((request['userId'],began,finished))
             if actual['sha256']!=request['responseSha256'] or actual['size']!=request['responseByteCount']:errors.append(f'{label}: returned-byte count/hash must match actual artifact')
@@ -3215,6 +3322,7 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
             if request['requestRange']!=expected_range or request['ifRange']!=(etag if name=='if_match' else '"stale-version"' if name=='if_stale' else ''):errors.append(f'{label}: exact deterministic Range/If-Range request required')
             if name=='denied_user':
                 if request['userId']!=policy['deniedUser'] or request['statusCode'] not in (401,403) or actual['size']!=0 or request['cacheComplete'] or request['cacheVisible']:errors.append(f'{label}: denied cache context must expose no protected payload')
+                if origin['originRequestCount']!=0 or origin['objectReadCount']!=0:errors.append(f'{label}: denied requests must precede all origin access and protected object reads')
             elif name=='partial_read':
                 if request['statusCode']!=503 or actual['size']!=0 or request['cacheComplete'] or request['cacheVisible'] or request['transferCompleted']:errors.append(f'{label}: interrupted partial cache must not be published/read as complete')
             else:
@@ -3231,6 +3339,7 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
                 elif actual['size']!=last-first+1 or actual['sha256']!=range_slice_hash(file,first,last-first+1) or not request['transferCompleted'] or not request['cacheComplete'] or not request['cacheVisible']:
                     errors.append(f'{label}: response must equal the exact current source interval with complete transfer')
                 if request['maximumBufferedBytes']>policy['maximumBufferedBytes'] or request['retryCount']>policy['maximumRetries']:errors.append(f'{label}: approved memory/retry bounds exceeded')
+                if name in ('stream','if_stale') and not 0<request['maximumBufferedBytes']<size:errors.append(f'{label}: full streaming must observe positive bounded buffering below the source size')
             expected_cache={'miss':'MISS','fill':'FILL','hit':'HIT','updated':'INVALIDATED','interrupted':'PARTIAL','partial_read':'PARTIAL','recovered':'FILL','latency_hot':'HIT','latency_cold':'MISS','latency_slow':'MISS','latency_multi':'HIT'}.get(name)
             if expected_cache and request['cacheStatus']!=expected_cache:errors.append(f'{label}: retained cache status must distinguish miss/fill/hit/invalidation/partial recovery')
             if name=='latency_cold' and not request['cachePurged']:errors.append(f'{label}: cold measurement requires observed sandbox purge')
@@ -3477,8 +3586,8 @@ def validate_qualified_ai_results(root,plan,execution,prefix,status,window,defs,
             if denominator<=0:errors.append(f'{label}: F1 requires an observed nonempty label comparison');continue
             value=2*row['truePositive']/denominator
         else:
-            value=row['score']
-            if not ai_finite(value):errors.append(f'{label}: retained human/tool score must be finite');continue
+            value=derive_ai_score_evidence(root,execution,prefix,row,item,items[row['itemId']],method,expected,window,defs,label,errors,cache,payload)
+            if value is None:continue
         scores[metric].append(value);coverage.setdefault((row['stratumId'],metric),set()).add(row['itemId'])
     if any(len(coverage.get((s['stratumId'],metric),set()))<s['minimumSamples'] for s in strata.values() for metric in AI_EVALUATED_METRICS):errors.append(f'{label}: every approved language/quality/duration/scenario stratum needs its required samples and quality metrics')
     queries={q['queryId']:q for q in policy['queries']};query_ids=[];retrieval={key:[] for key in ('retrieval_recall','retrieval_mrr','retrieval_ndcg','query_latency')}
@@ -3546,6 +3655,8 @@ def validate_qualified_ai_data_policy(root,plan,execution,prefix,window,defs,err
     except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
     validate_schema(policy,defs.get('aiDataPolicy',{}),label+'/approved policy',errors)
     if len(errors)!=before or report is None or not isinstance(policy,dict):return
+    if policy['providerMode']=='commercial_external' or report['providerMode']=='commercial_external':
+        errors.append(f'{label}: commercial_external qualified PASS deferred until actual provider payload validation is implemented');return
     gates=evaluation_policy['gatePolicy']
     if any(report.get(k)!=v for k,v in expected.items()) or report['dispatchRef']!=results['dispatchRef'] or report['privacyReviewRef']!=results['privacyReviewRef']:
         errors.append(f'{label}: exact approved input/model/provider/configuration and privacy/dispatch identities required')

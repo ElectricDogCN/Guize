@@ -459,6 +459,7 @@ class TestPocProgram(unittest.TestCase):
                     artifact_nodes[log_ref] = artifact_nodes[output_ref] = node['nodeId']
                     runs.append(dict(nodeId=node['nodeId'],encoderBuild=node['encoderBuild'],compatibilityGroupId=node['compatibilityGroupId'],inputSampleId=execution['samples'][0]['id'],inputSha256=execution['samples'][0]['checksum'],sourceStartFrame=part_index*60,sourceEndFrame=(part_index+1)*60,outputSha256='sha256:'+hashlib.sha256((root/output_ref).read_bytes()).hexdigest(),rawOutputRef=log_ref,outputArtifactRef=output_ref,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:01:00Z'))
                 env['workerEncodeExecutions'] = runs
+                next(m for m in execution['measurements'] if m['id']=='encode_throughput')['actual']=2  # Two fixed full-overlap synthetic streams.
                 validation_ref=new_prefix+'/raw/assembled-decode-report.yaml'
                 parts=[{key:run[key] for key in ('nodeId','outputArtifactRef','outputSha256','sourceStartFrame','sourceEndFrame')} for run in runs]
                 assembly=dict(schemaVersion=1,inputSampleId=execution['samples'][0]['id'],inputSha256=execution['samples'][0]['checksum'],sourceFrameCount=120,outputArtifactRef=media_ref,outputSha256=execution['provenance']['output_sha256'],parts=parts,validationRef=validation_ref,decoderBuild='synthetic-fixture-decoder; never actual media validation')
@@ -601,7 +602,7 @@ class TestPocProgram(unittest.TestCase):
         for phase in ('baseline','restored'):
             states=json.loads(json.dumps(state))
             context=dict(referenceId='secretref_fixture',method='hmac-sha256',comparisonContextId='fixture-approved-comparison-context')
-            ref,digest,_=retain(phase+'-one-way-comparison.yaml',dict(schemaVersion=1,kind='one_way_value_comparison',**context,comparisonDigest=hash_value),'measurement_output')
+            ref,digest,_=retain(phase+'-one-way-comparison.yaml',{**common,**context,'schemaVersion':2,'kind':'one_way_value_phase_observation','comparisonDigest':hash_value,'phase':'before_backup' if phase=='baseline' else 'after_restore','recoveryRunId':'fixture-recovery-run','observedAt':'2026-09-02T23:59:58Z' if phase=='baseline' else '2026-09-03T00:00:30Z','readbackOutcome':'succeeded'},'measurement_output')
             states['valueComparisons']=[dict(**context,artifactRef=ref,sha256=digest)]
             ref,digest,size=retain(phase+'-restored-file.bin',b'Synthetic file restore fixture; never an actual backup.\n')
             states['files']=[dict(logicalPath='fixture/restored-file.bin',artifactRef=ref,byteCount=size,sha256=digest)]
@@ -934,7 +935,7 @@ class TestPocProgram(unittest.TestCase):
             else:write_yaml(path,value)
             raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref
         changed_ref=retain('range-updated-source.bin',changed);changed_sha='sha256:'+hashlib.sha256(changed).hexdigest()
-        policy=dict(assetId='synthetic-range-asset',aclVersion='synthetic-current-acl',baseVersion='synthetic-v1',updatedVersion='synthetic-v2',updatedInputRef=changed_ref,updatedInputSha256=changed_sha,entryURL='https://synthetic-range.invalid/asset',authorizedUsers=['synthetic-user-a','synthetic-user-b'],deniedUser='synthetic-user-denied',sliceBytes=16,maximumBufferedBytes=4096,maximumRetries=2,slowOriginDelayMs=1,slowOriginBandwidthBytesPerSecond=1024,concurrentUsers=2,latencySampleCount=2,percentileMethod='mean')
+        policy=dict(assetId='synthetic-range-asset',aclVersion='synthetic-current-acl',baseVersion='synthetic-v1',updatedVersion='synthetic-v2',updatedInputRef=changed_ref,updatedInputSha256=changed_sha,entryURL='https://synthetic-range.invalid/asset',authorizedUsers=['synthetic-user-a','synthetic-user-b'],deniedUser='synthetic-user-denied',sliceBytes=16,minimumInputBytes=len(data),maximumBufferedBytes=16,maximumRetries=2,slowOriginDelayMs=1,slowOriginBandwidthBytesPerSecond=1024,concurrentUsers=2,latencySampleCount=2,percentileMethod='mean')
         policy.update(baseETag='"'+sample['checksum'].removeprefix('sha256:')+'"',updatedETag='"'+changed_sha.removeprefix('sha256:')+'"')
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['rangeMatrixPolicy']=policy;write_yaml(config_path,config)
         common=dict(configurationRef=resource['configurationRef'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],inputSampleId=sample['id'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-003')),execution),acceptanceProfile=env['acceptanceProfile'],assetId=policy['assetId'],aclVersion=policy['aclVersion'])
@@ -950,7 +951,10 @@ class TestPocProgram(unittest.TestCase):
                 user=policy['deniedUser'] if name=='denied_user' else policy['authorizedUsers'][1] if name=='other_user' or name=='latency_multi' and number else policy['authorizedUsers'][0]
                 status_code=403 if name=='denied_user' else 503 if name=='partial_read' else 416 if name=='unsatisfiable' else 200 if full else 206
                 cache_status={'miss':'MISS','fill':'FILL','hit':'HIT','updated':'INVALIDATED','interrupted':'PARTIAL','partial_read':'PARTIAL','recovered':'FILL','latency_hot':'HIT','latency_cold':'MISS','latency_slow':'MISS','latency_multi':'HIT'}.get(name,'BYPASS')
-                requests.append(dict(startedAt=f'2026-09-03T00:00:{second:02d}Z',firstByteAt=f'2026-09-03T00:00:{second:02d}.001Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',sourceVersion=version,sourceSha256=sha,requestURL=policy['entryURL'],aclVersion=policy['aclVersion'],userId=user,cacheKey='synthetic-cache-'+user,requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',statusCode=status_code,etag=etag if name not in ('denied_user','partial_read') else '',contentRange=f'bytes */{size}' if name=='unsatisfiable' else '' if full or name in ('denied_user','partial_read') else f'bytes {start}-{end}/{size}',responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest(),responseByteCount=len(body),cacheComplete=name not in ('interrupted','partial_read','denied_user'),cacheVisible=name not in ('interrupted','partial_read','denied_user'),transferCompleted=name not in ('interrupted','partial_read'),maximumBufferedBytes=len(body),retryCount=1 if name=='recovered' else 0,cacheStatus=cache_status,cachePurged=name=='latency_cold',originDelayMs=policy['slowOriginDelayMs'] if name=='latency_slow' else 0,originBandwidthBytesPerSecond=policy['slowOriginBandwidthBytesPerSecond'],concurrentUsers=2 if name=='latency_multi' else 1))
+                # Small synthetic approval exercises the same minimum/Slice/buffer rule; actual POC approval chooses representative bytes.
+                request_id='synthetic-range-'+name+'-'+str(number)
+                origin_ref=retain('range-origin-'+name+'-'+str(number)+'.yaml',dict(schemaVersion=1,kind='range_origin_access_observation',configurationRef=resource['configurationRef'],case=name,assetId=policy['assetId'],aclVersion=policy['aclVersion'],requestId=request_id,userId=user,requestURL=policy['entryURL'],requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',sourceVersion=version,sourceSha256=sha,startedAt=f'2026-09-03T00:00:{second:02d}Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',originRequestCount=0 if name in ('denied_user','partial_read') or cache_status=='HIT' else 1,objectReadCount=0 if name in ('denied_user','partial_read') else 1),'measurement_output')
+                requests.append(dict(requestId=request_id,originAccessRef=origin_ref,startedAt=f'2026-09-03T00:00:{second:02d}Z',firstByteAt=f'2026-09-03T00:00:{second:02d}.001Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',sourceVersion=version,sourceSha256=sha,requestURL=policy['entryURL'],aclVersion=policy['aclVersion'],userId=user,cacheKey='synthetic-cache-'+user,requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',statusCode=status_code,etag=etag if name not in ('denied_user','partial_read') else '',contentRange=f'bytes */{size}' if name=='unsatisfiable' else '' if full or name in ('denied_user','partial_read') else f'bytes {start}-{end}/{size}',responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest(),responseByteCount=len(body),cacheComplete=name not in ('interrupted','partial_read','denied_user'),cacheVisible=name not in ('interrupted','partial_read','denied_user'),transferCompleted=name not in ('interrupted','partial_read'),maximumBufferedBytes=min(len(body),policy['maximumBufferedBytes']),retryCount=1 if name=='recovered' else 0,cacheStatus=cache_status,cachePurged=name=='latency_cold',originDelayMs=policy['slowOriginDelayMs'] if name=='latency_slow' else 0,originBandwidthBytesPerSecond=policy['slowOriginBandwidthBytesPerSecond'],concurrentUsers=2 if name=='latency_multi' else 1))
             ref=retain('range-'+name+'.yaml',dict(schemaVersion=1,kind='range_request_observation',**common,case=name,requests=requests),'measurement_output');cases.append(dict(case=name,witnessRef=ref))
         slices=[]
         for start in range(0,len(data),policy['sliceBytes']):
@@ -1178,7 +1182,8 @@ class TestPocProgram(unittest.TestCase):
         common=dict(configurationRef=resource['configurationRef'],subjectVersion=CHECK.compliance_subject_version(plan,execution),acceptanceProfile=env['acceptanceProfile'],jobId=policy['jobId'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'],outputArtifactRef=assembly['outputArtifactRef'],outputSha256=assembly['outputSha256'],encoderBuild=run['encoderBuild'],encoderParameters=policy['encoderParameters'])
         job_event={k:common[k] for k in ('configurationRef','subjectVersion','acceptanceProfile','jobId','inputSampleId','inputSha256','encoderBuild','encoderParameters')}
         job_event_ref,_=retain('media-job-start.yaml',dict(schemaVersion=1,kind='media_job_start_observation',**job_event,encodeRunRef=run['rawOutputRef'],nodeId=run['nodeId'],jobStartedAt=run['startedAt'],workerStartedAt=run['startedAt']))
-        command,_=retain('vmaf-command.txt',b'Synthetic evaluator invocation fixture, never actual VMAF.\n','command_output')
+        frame_ref,frame_sha=retain('vmaf-frames.json',json.dumps(dict(frames=[dict(frameNum=i,metrics=dict(vmaf=1)) for i in range(assembly['sourceFrameCount'])])).encode(),'command_output')
+        command,_=retain('vmaf-command.json',json.dumps(dict(schemaVersion=1,kind='vmaf_evaluator_invocation',**common,evaluatorBuild=policy['evaluatorBuild'],modelId=policy['modelId'],modelSha256=policy['modelSha256'],evaluatedAt='2026-09-03T00:01:01Z',exitCode=0,command=['synthetic-vmaf-fixture-not-executed'],resultRef=frame_ref,resultSha256=frame_sha)).encode(),'command_output')
         quality_ref,_=retain('vmaf-evaluator-output.yaml',dict(schemaVersion=1,kind='vmaf_evaluator_output',**common,evaluatorBuild=policy['evaluatorBuild'],modelId=policy['modelId'],modelSha256=policy['modelSha256'],evaluatedAt='2026-09-03T00:01:01Z',evaluatedFrameCount=assembly['sourceFrameCount'],vmafMean=1,evaluatorCommandRef=command))
         segment_ref,segment_sha=retain('first-playable-segment.bin',b'Synthetic first segment, never actual encoded AV1.','produced_media')
         probe_ref,_=retain('first-playable-segment-probe.yaml',dict(schemaVersion=1,kind='first_playable_segment_probe',jobId=policy['jobId'],nodeId=run['nodeId'],segmentRef=segment_ref,segmentSha256=segment_sha,inputSha256=assembly['inputSha256'],sourceStartFrame=0,sourceEndFrame=1,decodedFrameCount=1,decodeErrorCount=0,decoderBuild=assembly['decoderBuild'],codec='av1',decodable=True,observedAt='2026-09-03T00:00:00.001Z'))
@@ -1205,16 +1210,26 @@ class TestPocProgram(unittest.TestCase):
             raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref,'sha256:'+hashlib.sha256(raw).hexdigest()
         methods=[dict(metricId=metric,mode='f1' if metric=='tag_f1' else 'tool_score' if metric in ('translation_comet','translation_bleu') else 'human_score' if metric=='quality_score' else 'count_ratio',methodId='synthetic-'+metric,evaluatorBuild='synthetic-independent-evaluator',rubricVersion='synthetic-approved-rubric') for metric in sorted(CHECK.AI_EVALUATED_METRICS)]
         policy=dict(subjectVersion=subject,benchmarkId='synthetic-immutable-benchmark',querySetId='synthetic-fixed-query-set',corpusId='synthetic-immutable-corpus',items=[dict(itemId='synthetic-item-'+str(i),sampleId=sample['id'],stratumId='synthetic-stratum') for i in range(60)],strata=[dict(stratumId='synthetic-stratum',language='synthetic-language',mediaQuality='synthetic-quality',durationBand='synthetic-duration',scenario='synthetic-scenario',minimumSamples=1)],evaluationMethods=methods,queries=[dict(queryId='synthetic-query',relevance=[dict(itemId='synthetic-document',grade=1)])],corpusItemIds=['synthetic-document'],retrievalCutoff=1,warmupCount=1,percentileMethod='mean',pricing=dict(version='synthetic-approved-pricing',currency='synthetic-currency',inputUnitPrice=.001,outputUnitPrice=0),gatePolicy=dict(authorizedCallerId='synthetic-authorized-caller',unauthorizedCallerId='synthetic-unauthorized-caller',assetId='synthetic-current-asset',currentAclVersion='synthetic-current-acl',revokedAclVersion='synthetic-revoked-acl',budgetPeriodId='synthetic-budget-period',budgetLimit=1,requestRateLimit=1,concurrencyLimit=1,plannedInputTokens=1,plannedOutputTokens=0))
+        reference_ref,reference_sha=retain('ai-approved-reference.txt',b'Synthetic independently approved reference, never model output.','produced_media')
+        for item in policy['items']:item.update(referenceRef=reference_ref,referenceSha256=reference_sha)
+        next(method for method in methods if method['mode']=='human_score').update(reviewerId='synthetic-approved-reviewer',criterionIds=['overall'],gradeValues=[0,1])
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['aiEvaluationPolicy']=policy;write_yaml(config_path,config)
         common=dict(configurationRef=resource['configurationRef'],subjectVersion=subject,inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],acceptanceProfile=env['acceptanceProfile'],benchmarkId=policy['benchmarkId'],querySetId=policy['querySetId'],corpusId=policy['corpusId'])
         usage=[]
         for item in policy['items']:
             ref,sha=retain(item['itemId']+'-output.txt',b'Synthetic retained result; never provider/model output. '+item['itemId'].encode(),'produced_media')
-            usage.append(dict(**item,inputSha256=sample['checksum'],inputTokens=1,outputTokens=0,outputRef=ref,outputSha256=sha,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:01:00Z'))
+            usage.append(dict(**{key:item[key] for key in ('itemId','sampleId','stratumId')},inputSha256=sample['checksum'],inputTokens=1,outputTokens=0,outputRef=ref,outputSha256=sha,startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:01:00Z'))
         usage_ref,_=retain('ai-usage.yaml',dict(schemaVersion=1,kind='ai_usage_observation',**common,pricingVersion=policy['pricing']['version'],currency=policy['pricing']['currency'],items=usage))
         first=usage[0];evaluations=[]
         for method in methods:
             evaluations.append(dict(metricId=method['metricId'],itemId=first['itemId'],sampleId=first['sampleId'],stratumId=first['stratumId'],outputRef=first['outputRef'],outputSha256=first['outputSha256'],methodId=method['methodId'],evaluatorBuild=method['evaluatorBuild'],rubricVersion=method['rubricVersion'],observedAt='2026-09-03T00:01:01Z',numerator=1,denominator=1,truePositive=1,falsePositive=0,falseNegative=0,score=1))
+        for row in evaluations:
+            method=next(method for method in methods if method['metricId']==row['metricId'])
+            if method['mode'] not in ('tool_score','human_score'):continue
+            evidence=dict(schemaVersion=1,kind='ai_score_evidence',**common,metricId=row['metricId'],itemId=row['itemId'],sampleId=row['sampleId'],inputSha256=sample['checksum'],outputRef=row['outputRef'],outputSha256=row['outputSha256'],referenceRef=reference_ref,referenceSha256=reference_sha,methodId=row['methodId'],evaluatorBuild=row['evaluatorBuild'],rubricVersion=row['rubricVersion'],observedAt=row['observedAt'],mode=method['mode'])
+            if method['mode']=='tool_score':evidence['toolScores']=[1]
+            else:evidence.update(reviewerId=method['reviewerId'],judgments=[dict(criterionId='overall',grade=1,basis='Synthetic independent rubric judgment fixture; no human experiment claimed.')])
+            row['scoreEvidenceRef'],_=retain('ai-score-'+row['metricId']+'.json',json.dumps(evidence).encode(),'command_output' if method['mode']=='tool_score' else 'measurement_output')
         queries=[];warmup=[]
         for phase,started,finished in (('warmup','2026-09-03T00:01:30Z','2026-09-03T00:01:30.001Z'),('measured','2026-09-03T00:02:00Z','2026-09-03T00:02:00.001Z')):
             ref,sha=retain('ai-query-'+phase+'.yaml',dict(schemaVersion=1,kind='ai_retrieval_output',**common,queryId='synthetic-query',retrievedIds=['synthetic-document']),'produced_media')
@@ -1229,7 +1244,7 @@ class TestPocProgram(unittest.TestCase):
         dispatch_ref,_=retain('ai-policy-outcomes.yaml',dict(schemaVersion=1,kind='ai_dispatch_outcomes',**common,outcomes=outcomes));reviews={r['type']:r['reviewRef'] for r in execution['complianceReviews']}
         env['aiResultsRef'],_=retain('ai-results.yaml',dict(schemaVersion=1,kind='ai_results_report',**common,evaluationRef=evaluation_ref,usageRef=usage_ref,dispatchRef=dispatch_ref,privacyReviewRef=reviews['privacy'],licenseReviewRef=reviews['license']))
         data_policy=dict(policyId='synthetic-reviewed-data-policy',policyVersion='synthetic-data-policy-v1',subjectVersion=subject,assetId=gates['assetId'],classificationId='synthetic-approved-input-classification',allowedPurpose='synthetic-approved-purpose',deniedPurpose='synthetic-disallowed-purpose',privacyReviewRef=reviews['privacy'])
-        data_policy.update(providerMode='commercial_external',assetVersion=env['input_sample_version'],inputSamples=copy.deepcopy(common['inputSamples']),allowedPayloadScope=[sample['immutableId'] for sample in execution['samples']])
+        data_policy.update(providerMode='private_local',assetVersion=env['input_sample_version'],inputSamples=copy.deepcopy(common['inputSamples']),allowedPayloadScope=[sample['immutableId'] for sample in execution['samples']])
         config['configuration']['aiDataPolicy']=data_policy;write_yaml(config_path,config)
         authorized=next(row for row in outcomes if row['case']=='authorized')
         denial_ref,denial_sha=retain('ai-data-policy-denied.bin',b'','produced_media')
@@ -1262,7 +1277,7 @@ class TestPocProgram(unittest.TestCase):
             path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=path.read_bytes();baseline=load_yaml(path)
             ref=baseline['environmentCaptured']['android_thermal_background_observation']['rawOutputRef'];raw_path=root/ref;raw=raw_path.read_bytes()
             validate=lambda:CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
-            self.assertEqual(validate(),[])
+            self.assertEqual(validate(),self.deferred_production_errors('production','POC-01'))
             for mode in ('arbitrary','empty','malformed','oversize','node','device','host','build','temperature','power','duration','background','start','end','zero_interval','vm_scope','vm_inventory','missing_scope_marker','missing_inventory_marker','numeric_scope_marker','numeric_inventory_marker'):
                 path.write_bytes(original);raw_path.write_bytes(raw);record=load_yaml(path);env=record['environmentCaptured'];report=load_yaml(raw_path)
                 if mode in ('arbitrary','empty','malformed','oversize'):
@@ -1282,7 +1297,7 @@ class TestPocProgram(unittest.TestCase):
             temp,root=self.temp_repo()
             try:
                 self.make_profile_slot(root,'POC-001',profile,status)
-                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),(self.deferred_production_errors(profile,'POC-01') if status == 'pass' else []))
             finally:temp.cleanup()
 
     def test_161_inference_rate_is_derived_from_retained_count_time_and_subject(self):
@@ -1358,6 +1373,30 @@ class TestPocProgram(unittest.TestCase):
                 self.assertTrue(any('qualified encode workers' in e for e in validate()),mode)
         finally:temp.cleanup()
 
+    def exercise_recovery_value_phase_regressions(self):
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile);execution_path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(execution_path);capture=original['environmentCaptured']['recoveryEvidence']
+                saved={root/a['ref']:(root/a['ref']).read_bytes() for a in original['environmentCaptured']['rawExecutionArtifacts']}
+                config_path=root/capture['configurationRef'];saved[config_path]=config_path.read_bytes()
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-10'}),[])
+                for mode in ('digest','phase','run','timestamp','subject','copied_baseline'):
+                    for path,raw in saved.items():path.write_bytes(raw)
+                    record=copy.deepcopy(original);base_path=root/capture['baselineRef'];restored_path=root/capture['restoredRef'];comparison_path=root/capture['comparisonRef'];base,restored,comparison=(load_yaml(path) for path in (base_path,restored_path,comparison_path));config=load_yaml(config_path)
+                    value_path=root/restored['states']['valueComparisons'][0]['artifactRef'];value=load_yaml(value_path)
+                    if mode=='digest':value['comparisonDigest']='sha256:'+'b'*64
+                    elif mode=='phase':value['phase']='before_backup'
+                    elif mode=='run':value['recoveryRunId']='wrong-recovery-run'
+                    elif mode=='timestamp':value['observedAt']='2026-09-02T23:59:58Z'
+                    elif mode=='subject':value['subjectVersion']='wrong-runtime-build'
+                    else:value=load_yaml(root/base['states']['valueComparisons'][0]['artifactRef'])
+                    write_yaml(value_path,value);restored['states']['valueComparisons'][0]['sha256']='sha256:'+hashlib.sha256(value_path.read_bytes()).hexdigest()
+                    write_yaml(restored_path,restored);comparison['restoredSha256']='sha256:'+hashlib.sha256(restored_path.read_bytes()).hexdigest();write_yaml(comparison_path,comparison)
+                    self.refresh_qualified_observation_fixture(root,record);write_yaml(execution_path,record)
+                    self.assertTrue(any('qualified recovery observation' in error for error in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-10'})),(profile,mode))
+            finally:temp.cleanup()
+
     def test_163_recovery_pass_requires_approved_parsed_states_and_real_comparisons(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -1426,6 +1465,7 @@ class TestPocProgram(unittest.TestCase):
                     self.make_profile_slot(root,'POC-010',profile,status)
                     self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-10'}),[])
                 finally:temp.cleanup()
+        self.exercise_recovery_value_phase_regressions()
 
     def test_164_binary_recovery_credentials_and_approved_single_event_replay(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -1817,6 +1857,38 @@ class TestPocProgram(unittest.TestCase):
                     if mode not in ('arbitrary_report','oversize_report'):write_yaml(report_path,report)
                     write_yaml(config_path,config);write_yaml(witness_path,witness);write_yaml(update_path,update);write_yaml(lifecycle_path,lifecycle);self.assertTrue(validate(data),(profile,mode))
                 for p,raw in originals.items():p.write_bytes(raw)
+                # Minimum size is approved configuration, never an invented production GiB threshold.
+                config=load_yaml(config_path);policy=config['configuration']['rangeMatrixPolicy'];input_size=(root/original['environmentCaptured']['inputSampleArtifacts'][0]['inputArtifactRef']).stat().st_size
+                self.assertEqual(policy['minimumInputBytes'],input_size)
+                self.assertGreater(policy['minimumInputBytes'],max(policy['sliceBytes'],policy['maximumBufferedBytes']))
+                for mode in ('minimum_missing','minimum_nonpositive','minimum_above_base','minimum_above_changed','minimum_within_slice','minimum_within_buffer','denied_origin_read','denied_object_read','origin_wrong_request','origin_wrong_user','origin_wrong_source','origin_wrong_interval','origin_count_type','missing_origin_witness','reused_request_identity','full_object_buffer'):
+                    for p,raw in originals.items():p.write_bytes(raw)
+                    data=copy.deepcopy(original);report=load_yaml(report_path);config=load_yaml(config_path);policy=config['configuration']['rangeMatrixPolicy']
+                    case='stream' if mode=='full_object_buffer' else 'denied_user';row=next(r for r in report['cases'] if r['case']==case);witness_path=root/row['witnessRef'];witness=load_yaml(witness_path);request=witness['requests'][0];origin_path=root/request['originAccessRef'];origin=load_yaml(origin_path)
+                    if mode=='minimum_missing':policy.pop('minimumInputBytes')
+                    elif mode=='minimum_nonpositive':policy['minimumInputBytes']=0
+                    elif mode=='minimum_above_base':policy['minimumInputBytes']=input_size+1
+                    elif mode=='minimum_above_changed':
+                        updated=root/policy['updatedInputRef'];updated.write_bytes(updated.read_bytes()[:-1]);policy['updatedInputSha256']='sha256:'+hashlib.sha256(updated.read_bytes()).hexdigest()
+                    elif mode=='minimum_within_slice':policy['minimumInputBytes']=policy['sliceBytes']
+                    elif mode=='minimum_within_buffer':policy['maximumBufferedBytes']=policy['minimumInputBytes']
+                    elif mode=='denied_origin_read':origin['originRequestCount']=1
+                    elif mode=='denied_object_read':origin['objectReadCount']=1
+                    elif mode=='origin_wrong_request':origin['requestId']='other-request'
+                    elif mode=='origin_wrong_user':origin['userId']=policy['authorizedUsers'][0]
+                    elif mode=='origin_wrong_source':origin['sourceVersion']=policy['updatedVersion']
+                    elif mode=='origin_wrong_interval':origin['finishedAt']='2026-09-03T00:00:19Z'
+                    elif mode=='origin_count_type':origin['objectReadCount']=True
+                    elif mode=='missing_origin_witness':request.pop('originAccessRef')
+                    elif mode=='reused_request_identity':request['requestId']='synthetic-range-fill-0';origin['requestId']=request['requestId']
+                    elif mode=='full_object_buffer':request['maximumBufferedBytes']=input_size
+                    write_yaml(config_path,config);write_yaml(witness_path,witness);write_yaml(origin_path,origin)
+                    observed=validate(data);self.assertTrue(observed,(profile,mode))
+                    if mode=='minimum_above_changed':self.assertTrue(any('representative minimum' in error for error in observed),observed)
+                for p,raw in originals.items():p.write_bytes(raw)
+                data=copy.deepcopy(original);config=load_yaml(config_path);config['configuration']['rangeMatrixPolicy']['minimumInputBytes']=input_size-1;write_yaml(config_path,config)
+                self.assertEqual(validate(data),[]) # Distinct approved synthetic minima are valid while actual bytes and Slice/buffer coverage remain sufficient.
+                for p,raw in originals.items():p.write_bytes(raw)
                 data=copy.deepcopy(original);config=load_yaml(config_path);config['configuration']['rangeMatrixPolicy']['percentileMethod']='nearest-rank-p95';write_yaml(config_path,config);self.assertEqual(validate(data),[])
                 # Stable opaque ETags are permitted; they need not encode the content hash.
                 config['configuration']['rangeMatrixPolicy'].update(baseETag='"opaque-old"',updatedETag='"opaque-new"');write_yaml(config_path,config)
@@ -1824,7 +1896,9 @@ class TestPocProgram(unittest.TestCase):
                     path=root/row['witnessRef'];witness=load_yaml(path)
                     for request in witness['requests']:
                         if request['etag']:request['etag']='"opaque-new"' if row['case']=='updated' else '"opaque-old"'
-                        if row['case']=='if_match':request['ifRange']='"opaque-old"'
+                        if row['case']=='if_match':
+                            request['ifRange']='"opaque-old"'
+                            origin_path=root/request['originAccessRef'];origin=load_yaml(origin_path);origin['ifRange']=request['ifRange'];write_yaml(origin_path,origin)
                     write_yaml(path,witness)
                 self.assertEqual(validate(data),[])
                 # Different source versions may reuse a key; immutable cache objects may be observed at later stages.
@@ -1850,7 +1924,7 @@ class TestPocProgram(unittest.TestCase):
                 numeric=CHECK.AI_EVALUATED_METRICS|{'retrieval_recall','retrieval_mrr','retrieval_ndcg','query_latency','cost_estimate','provider_budget_limit','provider_request_rate_limit','provider_concurrency_limit'}
                 for metric in sorted(numeric):
                     data=copy.deepcopy(original);next(m for m in data['measurements'] if m['id']==metric)['actual']+=.125;self.assertTrue(validate(data),(profile,metric))
-                for mode in ('missing','arbitrary','oversize','bad_policy','wrong_config','wrong_subject','wrong_input','wrong_benchmark','missing_metric','duplicate_evaluation','wrong_output','wrong_rubric','wrong_method','wrong_method_mode','missing_stratum','coverage_count','score_nan','denominator_zero','duplicate_usage','missing_usage','output_alias','output_hash','token_usage','pricing_version','currency','wrong_query','unknown_rank','duplicate_rank','ranked_output','query_latency_time','query_set','corpus','no_warmup','late_warmup','missing_policy_case','duplicate_policy_case','permission_caller','acl_version','budget_not_exceeded','rate_not_exceeded','concurrency_not_exceeded','denied_dispatch_ids','denied_outbound_bytes','authorized_arbitrary_outbound','budget_period','review_binding','claimed_gate'):
+                for mode in ('missing','arbitrary','oversize','bad_policy','wrong_config','wrong_subject','wrong_input','wrong_benchmark','missing_metric','duplicate_evaluation','wrong_output','wrong_rubric','wrong_method','wrong_method_mode','missing_stratum','coverage_count','score_nan','denominator_zero','duplicate_usage','missing_usage','output_alias','output_hash','token_usage','pricing_version','currency','wrong_query','unknown_rank','duplicate_rank','ranked_output','query_latency_time','query_set','corpus','no_warmup','late_warmup','missing_policy_case','duplicate_policy_case','permission_caller','acl_version','budget_not_exceeded','rate_not_exceeded','concurrency_not_exceeded','denied_dispatch_ids','denied_outbound_bytes','authorized_arbitrary_outbound','budget_period','review_binding','claimed_gate','score_evidence_missing','score_evidence_json','score_evidence_mismatch','score_evidence_reference','score_evidence_reviewer','score_evidence_basis','score_evidence_grade'):
                     for p,raw in originals.items():p.write_bytes(raw)
                     data=copy.deepcopy(original);env=data['environmentCaptured'];report=load_yaml(report_path);config=load_yaml(config_path);policy=config['configuration']['aiEvaluationPolicy'];evaluation=load_yaml(evaluation_path);usage=load_yaml(usage_path);dispatch=load_yaml(dispatch_path)
                     selected_case='acl_revoked' if mode=='acl_version' else 'budget_exhausted' if mode=='budget_not_exceeded' else 'request_rate_exceeded' if mode=='rate_not_exceeded' else 'concurrency_exceeded' if mode=='concurrency_not_exceeded' else 'authorized' if mode=='authorized_arbitrary_outbound' else 'permission_denied';outcome=next(o for o in dispatch['outcomes'] if o['case']==selected_case)
@@ -1901,6 +1975,18 @@ class TestPocProgram(unittest.TestCase):
                         path=root/outcome['outboundRef'];path.write_text('Unexpected provider request bytes\n',encoding='utf8');outcome['outboundSha256']='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
                     elif mode=='budget_period':outcome['budgetPeriodId']='other-budget-period'
                     elif mode=='review_binding':report['privacyReviewRef']=report['licenseReviewRef']
+                    elif mode.startswith('score_evidence_'):
+                        target=next(r for r in evaluation['evaluations'] if r['metricId']==('quality_score' if mode in ('score_evidence_reviewer','score_evidence_basis','score_evidence_grade') else 'translation_comet'))
+                        evidence_path=root/target['scoreEvidenceRef'];evidence=json.loads(evidence_path.read_text())
+                        if mode=='score_evidence_missing':target.pop('scoreEvidenceRef')
+                        elif mode=='score_evidence_json':evidence_path.write_text('{"toolScores":[1],"toolScores":[1]}')
+                        else:
+                            if mode=='score_evidence_mismatch':evidence['toolScores']=[2]
+                            elif mode=='score_evidence_reference':evidence['referenceSha256']='sha256:'+'0'*64
+                            elif mode=='score_evidence_reviewer':evidence['reviewerId']='unapproved-reviewer'
+                            elif mode=='score_evidence_basis':evidence['judgments'][0]['basis']=''
+                            elif mode=='score_evidence_grade':evidence['judgments'][0]['grade']=2
+                            evidence_path.write_text(json.dumps(evidence))
                     else:next(m for m in data['measurements'] if m['id']=='hard_budget_gate')['actual']=False
                     if mode not in ('arbitrary','oversize'):write_yaml(report_path,report)
                     write_yaml(config_path,config);write_yaml(evaluation_path,evaluation);write_yaml(usage_path,usage);write_yaml(dispatch_path,dispatch);self.assertTrue(validate(data),(profile,mode))
@@ -1909,6 +1995,8 @@ class TestPocProgram(unittest.TestCase):
                 data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path)
                 for metric,value,numerator,denominator in (('asr_wer',2,2,1),('asr_cer',2,2,1),('speaker_der',1.2,12,10),('translation_comet',-.3,1,1)):
                     row=next(r for r in evaluation['evaluations'] if r['metricId']==metric);row.update(numerator=numerator,denominator=denominator,score=value);next(m for m in data['measurements'] if m['id']==metric)['actual']=value
+                    if metric=='translation_comet':
+                        evidence_path=root/row['scoreEvidenceRef'];evidence=json.loads(evidence_path.read_text());evidence['toolScores']=[value];evidence_path.write_text(json.dumps(evidence))
                 write_yaml(evaluation_path,evaluation);self.refresh_qualified_observation_fixture(root,data);path=root/result['executionRef'];write_yaml(path,data);self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[])
             finally:temp.cleanup()
             for status in ('fail','inconclusive'):
@@ -1946,7 +2034,7 @@ class TestPocProgram(unittest.TestCase):
                     self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                     return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'})
                 self.assertEqual(validate(copy.deepcopy(original)),[])
-                for mode in ('missing','arbitrary','bad_policy','policy_version','wrong_subject','wrong_privacy','wrong_input','missing_case','duplicate_case','allowed_purpose_for_denial','unapproved_payload','wrong_asset_version','wrong_provider_mode','policy_input_mismatch','late_allow','invalid_time','denied_dispatch','denied_bytes','allow_wrong_dispatch'):
+                for mode in ('missing','arbitrary','bad_policy','policy_version','wrong_subject','wrong_privacy','wrong_input','missing_case','duplicate_case','allowed_purpose_for_denial','unapproved_payload','wrong_asset_version','wrong_provider_mode','policy_input_mismatch','late_allow','invalid_time','denied_dispatch','denied_bytes','allow_wrong_dispatch','commercial_external'):
                     data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);denied_path.write_bytes(saved_denial)
                     allow,deny=report['outcomes']
                     if mode=='missing':data['environmentCaptured'].pop('aiDataPolicyRef')
@@ -1961,13 +2049,14 @@ class TestPocProgram(unittest.TestCase):
                     elif mode=='allowed_purpose_for_denial':deny['purpose']=config['configuration']['aiDataPolicy']['allowedPurpose']
                     elif mode=='unapproved_payload':config['configuration']['aiDataPolicy']['allowedPayloadScope']=['another-input-version']
                     elif mode=='wrong_asset_version':report['assetVersion']='other-asset-version'
-                    elif mode=='wrong_provider_mode':report['providerMode']='private_local'
+                    elif mode=='wrong_provider_mode':report['providerMode']='commercial_external'
                     elif mode=='policy_input_mismatch':config['configuration']['aiDataPolicy']['inputSamples'][0]['checksum']='sha256:'+'0'*64
                     elif mode=='late_allow':allow['evaluatedAt']='2026-09-03T00:03:01Z'
                     elif mode=='invalid_time':deny['evaluatedAt']='not-a-date'
                     elif mode=='denied_dispatch':deny.update(dispatchedAt=allow['dispatchedAt'],providerRequestIds=['unexpected-provider-request'])
                     elif mode=='denied_bytes':
                         denied_path.write_bytes(b'Protected bytes dispatched despite data denial');deny['outboundSha256']='sha256:'+hashlib.sha256(denied_path.read_bytes()).hexdigest()
+                    elif mode=='commercial_external':report['providerMode']=config['configuration']['aiDataPolicy']['providerMode']='commercial_external'
                     else:allow.update(outboundRef=deny['outboundRef'],outboundSha256=deny['outboundSha256'])
                     if report is None:report_path.write_text('Unrelated data-policy assertions\n',encoding='utf8')
                     else:write_yaml(report_path,report)
@@ -2027,7 +2116,7 @@ class TestPocProgram(unittest.TestCase):
                 index=self.make_profile_slot(root,'POC-001',profile,status=status)
                 record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'])
                 self.assertNotIn('productionFirmwareRef',record['environmentCaptured'])
-                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),(self.deferred_production_errors(profile,'POC-01') if status == 'pass' else []))
             finally:temp.cleanup()
 
     def test_176_media_quality_and_first_playable_latency_bind_retained_observations(self):
@@ -2037,6 +2126,8 @@ class TestPocProgram(unittest.TestCase):
                 index=self.make_profile_slot(root,'POC-002',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path)
                 report_path=root/original['environmentCaptured']['mediaQualityTimingRef'];report_original=load_yaml(report_path)
                 quality_path=root/report_original['qualityRef'];quality_original=load_yaml(quality_path)
+                command_path=root/quality_original['evaluatorCommandRef'];command_raw=command_path.read_bytes();command_original=json.loads(command_raw)
+                frame_path=root/command_original['resultRef'];frame_raw=frame_path.read_bytes()
                 job_path=root/report_original['jobEventRef'];job_original=load_yaml(job_path)
                 probe_path=root/report_original['firstSegment']['decodeRef'];probe_original=load_yaml(probe_path)
                 config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path)
@@ -2044,8 +2135,9 @@ class TestPocProgram(unittest.TestCase):
                     self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                     return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
                 self.assertEqual(validate(copy.deepcopy(original)),[])
-                modes=('missing','arbitrary','bad_policy','wrong_config','input_sha','output_sha','parameters','build','model','model_sha','evaluator_build','frames','score_claim','score_nan','latency_claim','quality_before_encode','quality_outside','missing_command','command_type','job_id','run_ref','node_id','job_start','produced_after_ready','invalid_time','segment_hash','probe_hash','probe_frames','probe_errors','not_decodable','probe_input','decoder_build','nonzero_start','unbounded_span','bad_run_end','missing_job_event','job_event_identity','job_event_input','job_event_time','late_job_event')
+                modes=('missing','arbitrary','bad_policy','wrong_config','input_sha','output_sha','parameters','build','model','model_sha','evaluator_build','frames','score_claim','score_nan','latency_claim','quality_before_encode','quality_outside','missing_command','command_type','job_id','run_ref','node_id','job_start','produced_after_ready','invalid_time','segment_hash','probe_hash','probe_frames','probe_errors','not_decodable','probe_input','decoder_build','nonzero_start','unbounded_span','bad_run_end','missing_job_event','job_event_identity','job_event_input','job_event_time','late_job_event','vmaf_raw_json','vmaf_raw_duplicate','vmaf_raw_missing','vmaf_raw_nonfinite','vmaf_raw_score','vmaf_invocation_model')
                 for mode in modes:
+                    command_path.write_bytes(command_raw);frame_path.write_bytes(frame_raw)
                     data=copy.deepcopy(original);report=copy.deepcopy(report_original);quality=copy.deepcopy(quality_original);probe=copy.deepcopy(probe_original);config=copy.deepcopy(config_original);job=copy.deepcopy(job_original);segment=report['firstSegment']
                     if mode=='missing':data['environmentCaptured'].pop('mediaQualityTimingRef')
                     elif mode=='arbitrary':quality=None
@@ -2086,11 +2178,23 @@ class TestPocProgram(unittest.TestCase):
                     elif mode=='job_event_identity':job['jobId']='another-job'
                     elif mode=='job_event_input':job['inputSha256']='sha256:'+'0'*64
                     elif mode=='job_event_time':job['jobStartedAt']='2026-09-03T00:00:00.0001Z'
+                    elif mode.startswith('vmaf_'):
+                        invocation=copy.deepcopy(command_original);raw_result=json.loads(frame_raw)
+                        if mode=='vmaf_invocation_model':invocation['modelSha256']='sha256:'+'0'*64
+                        else:
+                            if mode=='vmaf_raw_duplicate':raw_result['frames'][-1]['frameNum']=0
+                            elif mode=='vmaf_raw_missing':raw_result['frames'].pop()
+                            elif mode=='vmaf_raw_nonfinite':raw_result['frames'][0]['metrics']['vmaf']=float('nan')
+                            elif mode=='vmaf_raw_score':raw_result['frames'][0]['metrics']['vmaf']=2
+                            frame_path.write_text('{"frames":[],"frames":[]}' if mode=='vmaf_raw_json' else json.dumps(raw_result))
+                            invocation['resultSha256']='sha256:'+hashlib.sha256(frame_path.read_bytes()).hexdigest()
+                        command_path.write_text(json.dumps(invocation))
                     else:job['jobStartedAt']=segment['jobStartedAt']='2026-09-03T00:00:00.002Z'
                     if quality is None:quality_path.write_text('Unrelated quality assertions\n',encoding='utf8')
                     else:write_yaml(quality_path,quality)
                     write_yaml(report_path,report);write_yaml(probe_path,probe);write_yaml(config_path,config);write_yaml(job_path,job)
                     self.assertTrue(any('qualified media quality/timing' in error for error in validate(data)),(profile,mode))
+                command_path.write_bytes(command_raw);frame_path.write_bytes(frame_raw)
                 # The platform job starts 50 ms before its selected worker: all 51 ms count.
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);probe=copy.deepcopy(probe_original);job=copy.deepcopy(job_original)
                 job_start='2026-09-02T23:59:59.950Z';worker_start='2026-09-03T00:00:00Z';ready='2026-09-03T00:00:00.001Z'
@@ -2278,7 +2382,7 @@ class TestPocProgram(unittest.TestCase):
             try:
                 index=self.make_profile_slot(root,'POC-001',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path)
                 # Preserve a successful valid-node control alongside malformed cases.
-                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),self.deferred_production_errors(profile,'POC-01'))
                 for value in (['invalid-node-id'],{'invalid':'node-id'}):
                     data=copy.deepcopy(original);data['environmentCaptured']['worker_node_inventory'][0]['nodeId']=value;write_yaml(path,data)
                     errors=CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
@@ -2327,7 +2431,7 @@ class TestPocProgram(unittest.TestCase):
         for profile,status in (('local-v1','pass'),('production','fail'),('production','inconclusive')):
             temp,root=self.temp_repo()
             try:
-                index=self.make_profile_slot(root,'POC-001',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('passthroughTransitionRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),[])
+                index=self.make_profile_slot(root,'POC-001',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('passthroughTransitionRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),(self.deferred_production_errors(profile,'POC-01') if status == 'pass' else []))
             finally:temp.cleanup()
 
     def test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes(self):
@@ -2607,10 +2711,10 @@ class TestPocProgram(unittest.TestCase):
             finally:temp.cleanup()
 
     def deferred_production_errors(self,profile,poc):
-        return [f'deferred production qualification {poc}: production outcome validation is not implemented; PASS unavailable'] if profile=='production' and poc in ('POC-04','POC-06') else []
+        return [f'deferred production qualification {poc}: production outcome validation is not implemented; PASS unavailable'] if profile=='production' and poc in ('POC-01','POC-04','POC-06') else []
 
     def test_189_deferred_production_storage_and_baidu_fail_closed_without_losing_diagnostics(self):
-        for task in ('POC-004','POC-006'):
+        for task in ('POC-001','POC-004','POC-006'):
             poc='POC-'+task[-2:]
             for profile in ('local-v1','production'):
                 for status in ('pass','fail','inconclusive'):
@@ -2917,7 +3021,7 @@ class TestPocProgram(unittest.TestCase):
                 prefix=str(index.parent.relative_to(root)).replace('\\','/');plan=load_yaml(self.plan_path(root,'POC-001'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][k]) for k in ('startedAt','finishedAt'))
                 def validate(data,status='pass'):
                     self.refresh_qualified_observation_fixture(root,data);errors=[];CHECK.validate_qualified_worker_capabilities(root,plan,data,prefix,status,window,defs,errors,{});return errors
-                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),[]);self.assertEqual(validate(copy.deepcopy(original)),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),self.deferred_production_errors(profile,'POC-01'));self.assertEqual(validate(copy.deepcopy(original)),[])
                 for mode in ('missing','shape','policy','matrix_shape','matrix_missing','node_missing','claim_missing','duplicate','profile','input','os','architecture','configuration','parameters','codec','clock','exit','exit_bool','frames','owner','bytes','decode_codec','decode_node','decode_build','decode_hash','decode_clock','decode_frames','decode_error','decode_duration','diagnostic_status','diagnostic_node','diagnostic_hash','diagnostic_reason','untested_required','fps_huge','fps_tiny','gate'):
                     data=copy.deepcopy(original);report=copy.deepcopy(original_report);config=copy.deepcopy(original_config);probe=copy.deepcopy(original_probe);diagnostic=copy.deepcopy(original_diagnostic);policy=config['configuration']['workerCapabilityPolicy'];row=report['claims'][0]
                     if mode=='missing':data['environmentCaptured'].pop('workerCapabilitiesRef')
@@ -2978,7 +3082,7 @@ class TestPocProgram(unittest.TestCase):
                 def validate(data,status='pass'):
                     errors=[];CHECK.validate_qualified_worker_capabilities(root,plan,data,prefix,status,window,defs,errors,{});return errors
                 self.assertEqual(validate(original),[])
-                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),self.deferred_production_errors(profile,'POC-01'))
                 for mode in ('missing','string','boolean','empty','host_type','duplicate','foreign','missing_host','multihost','gate'):
                     data=copy.deepcopy(original);env=data['environmentCaptured'];scope=env['physical_host_scope']
                     if mode=='missing':env.pop('physical_host_scope')
@@ -4599,7 +4703,7 @@ class TestPocProgram(unittest.TestCase):
             temp,root = self.temp_repo()
             try:
                 index = self.make_profile_slot(root,'POC-001',profile)
-                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),self.deferred_production_errors(profile,'POC-01'))
                 result = load_yaml(root/load_yaml(index)['resultRef'])
                 path = root/result['executionRef']
                 original = path.read_text(encoding='utf-8')
@@ -4626,7 +4730,7 @@ class TestPocProgram(unittest.TestCase):
         temp,root = self.temp_repo()
         try:
             index = self.make_profile_slot(root,'POC-001','production')
-            self.assertEqual(CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'}),[])
+            self.assertEqual(CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'}),self.deferred_production_errors('production','POC-01'))
             result = load_yaml(root/load_yaml(index)['resultRef']);execution=load_yaml(root/result['executionRef'])
             resource = execution['resources'][0]
             for field in ('configurationRef','bookingRef'):
@@ -4709,6 +4813,9 @@ class TestPocProgram(unittest.TestCase):
             (root/domain['definitionRef']).write_text('Explicit approved synthetic model range0..110; not a frozen performance target.\n',encoding='utf-8')
             # Keep this domain-focused positive consistent with its retained evaluator output.
             report=load_yaml(root/execution['environmentCaptured']['mediaQualityTimingRef']);quality_path=root/report['qualityRef'];quality=load_yaml(quality_path);quality['vmafMean']=110;write_yaml(quality_path,quality)
+            invocation_path=root/quality['evaluatorCommandRef'];invocation=json.loads(invocation_path.read_text());frames_path=root/invocation['resultRef'];frames=json.loads(frames_path.read_text())
+            for frame in frames['frames']:frame['metrics']['vmaf']=110
+            frames_path.write_text(json.dumps(frames));invocation['resultSha256']='sha256:'+hashlib.sha256(frames_path.read_bytes()).hexdigest();invocation_path.write_text(json.dumps(invocation))
             self.refresh_qualified_observation_fixture(root,execution);write_yaml(path,execution)
             self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'}),[])
         finally:temp.cleanup()
@@ -4832,9 +4939,9 @@ class TestPocProgram(unittest.TestCase):
         temp,root = self.temp_repo()
         try:
             for profile in ('local-v1','production'):
-                for task in sorted(CHECK.TASKS): self.make_profile_slot(root,task,profile,status='inconclusive' if profile=='production' and task in ('POC-004','POC-006') else 'pass')
+                for task in sorted(CHECK.TASKS): self.make_profile_slot(root,task,profile,status='inconclusive' if profile=='production' and task in ('POC-001','POC-004','POC-006') else 'pass')
             self.assertEqual(CHECK.validate_repository(root,'local-v1',True,'GZ-018'),[])
-            self.assertEqual(CHECK.validate_repository(root,'production',True,'GZ-020'),[f'profile evidence {task}/production: selected profile requires independently approved PASS' for task in ('POC-004','POC-006')])
+            self.assertEqual(CHECK.validate_repository(root,'production',True,'GZ-020'),[f'profile evidence {task}/production: selected profile requires independently approved PASS' for task in ('POC-001','POC-004','POC-006')])
         finally: temp.cleanup()
 
     def test_128_qualified_execution_and_approval_times_cannot_be_future(self):
@@ -5061,7 +5168,7 @@ class TestPocProgram(unittest.TestCase):
             try:
                 index=self.make_profile_slot(root,'POC-001',profile)
                 result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
-                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'}),self.deferred_production_errors(profile,'POC-01'))
                 key='vm_validation_scope' if profile=='local-v1' else 'android_validation_scope'
                 for mode in ('hash','type','node'):
                     data=load_yaml(path);scope=data['environmentCaptured'][key]
@@ -5142,7 +5249,7 @@ class TestPocProgram(unittest.TestCase):
             index=self.make_profile_slot(root,'POC-001','production')
             result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
             validate=lambda: CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
-            self.assertEqual(validate(),[])
+            self.assertEqual(validate(),self.deferred_production_errors('production','POC-01'))
             for mode in ('media','generic','type','node','alias'):
                 path.write_bytes(original);data=load_yaml(path);env=data['environmentCaptured']
                 scope=env['android_validation_scope'];observation=env['android_thermal_background_observation']
@@ -5268,7 +5375,7 @@ class TestPocProgram(unittest.TestCase):
                 index=self.make_profile_slot(root,'POC-001',profile,status=status)
                 result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef']
                 validate=lambda: CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'})
-                self.assertEqual(validate(),[])
+                self.assertEqual(validate(),(self.deferred_production_errors(profile,'POC-01') if status == 'pass' else []))
                 if profile=='local-v1':continue
                 data=load_yaml(path);next(m for m in data['measurements'] if m['id']=='multi_day_stability_duration')['actual']=0;write_yaml(path,data)
                 errors=validate()
@@ -5519,7 +5626,7 @@ class TestPocProgram(unittest.TestCase):
                 result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
                 validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
                 self.assertEqual(validate(),[])
-                for metric,actual in (('encode_throughput',3),('encode_throughput',1000000),('sustained_encode_duration',2),('sustained_encode_duration',1000000)):
+                for metric,actual in (('encode_throughput',1),('encode_throughput',3),('encode_throughput',1000000),('sustained_encode_duration',2),('sustained_encode_duration',1000000)):
                     path.write_bytes(original);record=load_yaml(path)
                     next(m for m in record['measurements'] if m['id']==metric)['actual']=actual
                     write_yaml(path,record)
@@ -5544,13 +5651,13 @@ class TestPocProgram(unittest.TestCase):
                 index=self.make_profile_slot(root,'POC-001',profile,status=status)
                 result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
                 validate=lambda:CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'})
-                self.assertEqual(validate(),[])
+                self.assertEqual(validate(),(self.deferred_production_errors(profile,'POC-01') if status == 'pass' else []))
                 if profile!='production':
                     self.assertNotIn('productionPassthroughSoak',load_yaml(path)['environmentCaptured'])
                     continue
                 if status!='pass':
                     record=load_yaml(path);next(m for m in record['measurements'] if m['id']=='multi_day_stability_duration')['actual']=0.001
-                    write_yaml(path,record);self.assertEqual(validate(),[])
+                    write_yaml(path,record);self.assertEqual(validate(),(self.deferred_production_errors(profile,'POC-01') if status == 'pass' else []))
                     continue
                 baseline=load_yaml(path);floor_path=root/baseline['environmentCaptured']['productionPassthroughSoak']['configurationRef'];floor_bytes=floor_path.read_bytes()
                 for mode in ('nominal','overclaim','short_observed','below_approved','wrong_ref','wrong_raw','wrong_floor','invalid_days','late_approval'):
@@ -5604,7 +5711,7 @@ class TestPocProgram(unittest.TestCase):
                 probe_ref=env['androidMediaProbeRef'];probe_path=root/probe_ref;probe_bytes=probe_path.read_bytes()
                 media_path=root/scope['rawOutputRef'];media_bytes=media_path.read_bytes()
                 validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
-                self.assertEqual(validate(),[])
+                self.assertEqual(validate(),self.deferred_production_errors(profile,'POC-01'))
                 for mode in ('missing','hash','output','input','node','encoder','decoder','codec','frames','duration','errors','decodable','boolean_frames','empty','malformed','oversize','alias_ref','hardlink','artifact_node','arbitrary_media','metadata_alias'):
                     path.write_bytes(original);probe_path.unlink();probe_path.write_bytes(probe_bytes);media_path.write_bytes(media_bytes)
                     record=load_yaml(path);env=record['environmentCaptured'];scope=env['vm_validation_scope'] if profile=='local-v1' else env['android_validation_scope'];report=load_yaml(probe_path)
@@ -5658,7 +5765,7 @@ class TestPocProgram(unittest.TestCase):
             result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
             baseline=load_yaml(path);config_path=root/baseline['environmentCaptured']['productionPassthroughIdentity']['configurationRef'];config_bytes=config_path.read_bytes()
             validate=lambda:CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
-            self.assertEqual(validate(),[])
+            self.assertEqual(validate(),self.deferred_production_errors('production','POC-01'))
             mutations=(('hypervisorVendor','OTHER_VENDOR'),('hypervisorProduct','OTHER_PRODUCT'),('hypervisorVersion','8.0'),('gpuVendor','OTHER_VENDOR'),('gpuModel','OTHER_GPU'),('platform','android'),('gpuDeviceId',''),('physicalHostId',''),('guestId',''),('runtimeBuild',''),('driverBuild',''),('encoderBuild',''))
             for mode in [key for key,value in mutations]+['missing','generic_configuration','wrong_ref','approved_mismatch','missing_inventory','inventory_mismatch','duplicate_inventory']:
                 path.write_bytes(original);config_path.write_bytes(config_bytes);record=load_yaml(path);env=record['environmentCaptured'];capture=env['productionPassthroughIdentity'];config=load_yaml(config_path)
@@ -5684,7 +5791,7 @@ class TestPocProgram(unittest.TestCase):
                 if status!='pass':
                     record['environmentCaptured']['productionPassthroughIdentity']=dict(identity=dict(hypervisorVendor='OTHER_VENDOR',hypervisorVersion='8.0',gpuModel='OTHER_GPU'))
                     write_yaml(path,record)
-                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),[])
+                self.assertEqual(CHECK.validate_repository(root,profile,status=='pass',selected_pocs={'POC-01'}),(self.deferred_production_errors(profile,'POC-01') if status == 'pass' else []))
             finally:temp.cleanup()
 
     def test_158_production_soak_requires_dedicated_bound_observation(self):
@@ -5694,7 +5801,7 @@ class TestPocProgram(unittest.TestCase):
             result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
             env=load_yaml(path)['environmentCaptured'];raw_ref=env['productionPassthroughSoak']['rawOutputRef'];raw_path=root/raw_ref;raw_bytes=raw_path.read_bytes()
             validate=lambda:CHECK.validate_repository(root,'production',True,selected_pocs={'POC-01'})
-            self.assertEqual(validate(),[])
+            self.assertEqual(validate(),self.deferred_production_errors('production','POC-01'))
             for mode in ('phone_alias','media_alias','probe_alias','phone_hardlink','wrong_node','wrong_host','wrong_resource','wrong_configuration','wrong_start','short_finish','not_continuous','empty','malformed','oversize','artifact_node','metadata_alias'):
                 path.write_bytes(original);raw_path.unlink();raw_path.write_bytes(raw_bytes)
                 record=load_yaml(path);env=record['environmentCaptured'];capture=env['productionPassthroughSoak'];report=load_yaml(raw_path)
@@ -5876,13 +5983,21 @@ class TestPocProgram(unittest.TestCase):
         def mutate(case,root,base,restored,comparison,config):
             if case=='changed_disposition':restored['states']['permissions'][0]['scopedGrants'][0]['disposition']='deny'
             elif case=='changed_publication':restored['states']['assets'][0].update(visibility='PUBLIC',anonymousAccess=True)
+            elif case in ('other_user_only','deny_for_subject','allow_and_deny'):
+                for report in (base,restored):
+                    user=report['states']['permissions'][0]
+                    if case=='deny_for_subject':user['scopedGrants'][0]['disposition']='deny'
+                    elif case=='allow_and_deny':
+                        denied=copy.deepcopy(user['scopedGrants'][0]);denied.update(grantId='fixture-explicit-deny-grant',disposition='deny');user['scopedGrants'].append(denied)
+                    else:
+                        other=copy.deepcopy(user);other['userId']='different-restored-user';user['scopedGrants']=[];report['states']['permissions'].append(other)
             else:
                 for report in (base,restored):
                     permission=report['states']['permissions'][0]
                     if case=='missing':permission.pop('scopedGrants')
                     elif case=='orphan':permission['scopedGrants'][0]['assetId']='missing-asset'
                     else:permission['scopedGrants'][0]['aclVersion']=2
-        self.exercise_recovery_integrity_regressions(('missing','orphan','acl_version','changed_disposition','changed_publication'),mutate)
+        self.exercise_recovery_integrity_regressions(('missing','orphan','acl_version','changed_disposition','changed_publication','other_user_only','deny_for_subject','allow_and_deny'),mutate)
 
     def test_203_recovery_verified_replicas_require_actual_readback(self):
         def mutate(case,root,base,restored,comparison,config):

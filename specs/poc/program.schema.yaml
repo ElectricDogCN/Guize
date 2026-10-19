@@ -3637,6 +3637,7 @@ $defs:
     - updatedInputSha256
     - authorizedUsers
     - sliceBytes
+    - minimumInputBytes
     - maximumBufferedBytes
     - maximumRetries
     - slowOriginDelayMs
@@ -3677,6 +3678,9 @@ $defs:
         items:
           type: string
           minLength: 1
+      minimumInputBytes:
+        type: integer
+        minimum: 1
       sliceBytes:
         type: integer
         minimum: 1
@@ -3796,6 +3800,8 @@ $defs:
           type: object
           additionalProperties: false
           required:
+          - requestId
+          - originAccessRef
           - startedAt
           - firstByteAt
           - finishedAt
@@ -3824,6 +3830,12 @@ $defs:
           - originBandwidthBytesPerSecond
           - concurrentUsers
           properties:
+            requestId:
+              type: string
+              minLength: 1
+            originAccessRef:
+              type: string
+              minLength: 1
             startedAt:
               type: string
               format: date-time
@@ -3901,6 +3913,76 @@ $defs:
             concurrentUsers:
               type: integer
               minimum: 1
+  rangeOriginAccessObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - case
+    - assetId
+    - aclVersion
+    - requestId
+    - userId
+    - requestURL
+    - requestRange
+    - ifRange
+    - sourceVersion
+    - sourceSha256
+    - startedAt
+    - finishedAt
+    - originRequestCount
+    - objectReadCount
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: range_origin_access_observation
+      configurationRef:
+        type: string
+        minLength: 1
+      case:
+        type: string
+        minLength: 1
+      assetId:
+        type: string
+        minLength: 1
+      aclVersion:
+        type: string
+        minLength: 1
+      requestId:
+        type: string
+        minLength: 1
+      userId:
+        type: string
+        minLength: 1
+      requestURL:
+        type: string
+        minLength: 1
+      requestRange:
+        type: string
+      ifRange:
+        type: string
+      sourceVersion:
+        type: string
+        minLength: 1
+      sourceSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      originRequestCount:
+        type: integer
+        minimum: 0
+      objectReadCount:
+        type: integer
+        minimum: 0
   rangeSourceUpdate:
     type: object
     additionalProperties: false
@@ -4258,6 +4340,8 @@ $defs:
           - itemId
           - sampleId
           - stratumId
+          - referenceRef
+          - referenceSha256
           properties:
             itemId:
               type: string
@@ -4268,6 +4352,12 @@ $defs:
             stratumId:
               type: string
               minLength: 1
+            referenceRef:
+              type: string
+              minLength: 1
+            referenceSha256:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
       strata:
         type: array
         minItems: 1
@@ -4342,6 +4432,34 @@ $defs:
             rubricVersion:
               type: string
               minLength: 1
+            reviewerId:
+              type: string
+              minLength: 1
+            criterionIds:
+              type: array
+              minItems: 1
+              maxItems: 32
+              uniqueItems: true
+              items:
+                type: string
+                minLength: 1
+            gradeValues:
+              type: array
+              minItems: 1
+              maxItems: 32
+              uniqueItems: true
+              items:
+                type: number
+          allOf:
+          - if:
+              properties:
+                mode:
+                  const: human_score
+            then:
+              required:
+              - reviewerId
+              - criterionIds
+              - gradeValues
       queries:
         type: array
         minItems: 1
@@ -4789,6 +4907,20 @@ $defs:
               type:
               - number
               - 'null'
+            scoreEvidenceRef:
+              type: string
+              minLength: 1
+          allOf:
+          - if:
+              properties:
+                metricId:
+                  enum:
+                  - translation_comet
+                  - translation_bleu
+                  - quality_score
+            then:
+              required:
+              - scoreEvidenceRef
       queries:
         type: array
         minItems: 1
@@ -13392,3 +13524,350 @@ $defs:
               - type: string
                 minLength: 1
               - type: 'null'
+
+  aiScoreEvidence:
+    type: object
+    additionalProperties: false
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
+      acceptanceProfile:
+        type: object
+      benchmarkId:
+        type: string
+        minLength: 1
+      querySetId:
+        type: string
+        minLength: 1
+      corpusId:
+        type: string
+        minLength: 1
+      metricId:
+        type: string
+        minLength: 1
+      itemId:
+        type: string
+        minLength: 1
+      sampleId:
+        type: string
+        minLength: 1
+      outputRef:
+        type: string
+        minLength: 1
+      referenceRef:
+        type: string
+        minLength: 1
+      methodId:
+        type: string
+        minLength: 1
+      evaluatorBuild:
+        type: string
+        minLength: 1
+      rubricVersion:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      referenceSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      kind:
+        const: ai_score_evidence
+      mode:
+        enum:
+        - tool_score
+        - human_score
+      observedAt:
+        type: string
+        format: date-time
+      reviewerId:
+        type: string
+        minLength: 1
+      toolScores:
+        type: array
+        minItems: 1
+        maxItems: 10000
+        items:
+          type: number
+      judgments:
+        type: array
+        minItems: 1
+        maxItems: 32
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - criterionId
+          - grade
+          - basis
+          properties:
+            criterionId:
+              type: string
+              minLength: 1
+            grade:
+              type: number
+            basis:
+              type: string
+              minLength: 1
+    required:
+    - schemaVersion
+    - configurationRef
+    - subjectVersion
+    - inputSamples
+    - acceptanceProfile
+    - benchmarkId
+    - querySetId
+    - corpusId
+    - metricId
+    - itemId
+    - sampleId
+    - outputRef
+    - referenceRef
+    - methodId
+    - evaluatorBuild
+    - rubricVersion
+    - inputSha256
+    - outputSha256
+    - referenceSha256
+    - kind
+    - mode
+    - observedAt
+    allOf:
+    - if:
+        properties:
+          mode:
+            const: tool_score
+      then:
+        required:
+        - toolScores
+    - if:
+        properties:
+          mode:
+            const: human_score
+      then:
+        required:
+        - reviewerId
+        - judgments
+  vmafEvaluatorInvocation:
+    type: object
+    additionalProperties: false
+    properties:
+      schemaVersion:
+        type: integer
+        const: 1
+      kind:
+        const: vmaf_evaluator_invocation
+      configurationRef:
+        type: string
+        minLength: 1
+      subjectVersion:
+        type: string
+        minLength: 1
+      acceptanceProfile:
+        type: object
+      jobId:
+        type: string
+        minLength: 1
+      inputSampleId:
+        type: string
+        minLength: 1
+      inputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      outputArtifactRef:
+        type: string
+        minLength: 1
+      outputSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      encoderBuild:
+        type: string
+        minLength: 1
+      encoderParameters:
+        type: object
+        minProperties: 1
+      evaluatorBuild:
+        type: string
+        minLength: 1
+      modelId:
+        type: string
+        minLength: 1
+      modelSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      evaluatedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+        const: 0
+      command:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+      resultRef:
+        type: string
+        minLength: 1
+      resultSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+    required:
+    - schemaVersion
+    - kind
+    - configurationRef
+    - subjectVersion
+    - acceptanceProfile
+    - jobId
+    - inputSampleId
+    - inputSha256
+    - outputArtifactRef
+    - outputSha256
+    - encoderBuild
+    - encoderParameters
+    - evaluatorBuild
+    - modelId
+    - modelSha256
+    - evaluatedAt
+    - exitCode
+    - command
+    - resultRef
+    - resultSha256
+  vmafFrameResults:
+    type: object
+    required:
+    - frames
+    additionalProperties: true
+    properties:
+      frames:
+        type: array
+        minItems: 1
+        maxItems: 100000
+        items:
+          type: object
+          required:
+          - frameNum
+          - metrics
+          additionalProperties: true
+          properties:
+            frameNum:
+              type: integer
+              minimum: 0
+            metrics:
+              type: object
+              required:
+              - vmaf
+              additionalProperties: true
+              properties:
+                vmaf:
+                  type: number
+
+  recoveryValuePhaseObservation:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - referenceId
+    - method
+    - comparisonContextId
+    - comparisonDigest
+    - phase
+    - recoveryRunId
+    - observedAt
+    - readbackOutcome
+    - resourceId
+    - acceptanceProfile
+    - subjectVersion
+    - inputSamples
+    properties:
+      schemaVersion:
+        type: integer
+        const: 2
+      kind:
+        const: one_way_value_phase_observation
+      referenceId:
+        type: string
+        pattern: ^secretref_[A-Za-z0-9_-]{1,64}$
+      method:
+        enum:
+        - hmac-sha256
+        - sha256
+      comparisonContextId:
+        type: string
+        minLength: 1
+      comparisonDigest:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      phase:
+        enum:
+        - before_backup
+        - after_restore
+      recoveryRunId:
+        type: string
+        minLength: 1
+      observedAt:
+        type: string
+        format: date-time
+      readbackOutcome:
+        const: succeeded
+      resourceId:
+        const: RES-RECOVERY-SANDBOX
+      acceptanceProfile:
+        type: object
+      subjectVersion:
+        type: string
+        minLength: 1
+      inputSamples:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - immutableId
+          - checksum
+          properties:
+            id:
+              type: string
+              minLength: 1
+            immutableId:
+              type: string
+              minLength: 1
+            checksum:
+              type: string
+              pattern: ^sha256:[a-f0-9]{64}$
