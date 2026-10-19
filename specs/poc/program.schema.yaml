@@ -5213,6 +5213,10 @@ $defs:
               - BYPASS
             cachePurged:
               type: boolean
+            cachePurgedAt:
+              type: string
+              format: date-time
+              description: Native clear-cache completion UTC for this cold request; binds the independent origin observation.
             originDelayMs:
               type: number
               minimum: 0
@@ -5286,6 +5290,10 @@ $defs:
       finishedAt:
         type: string
         format: date-time
+      cachePurgedAt:
+        type: string
+        format: date-time
+        description: Actual native clear-cache completion UTC retained by the request-bound origin observer.
       originRequestCount:
         type: integer
         minimum: 0

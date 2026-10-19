@@ -1900,13 +1900,18 @@ def inspect_binary_artifact_ranges(path,cache,byte_ranges,mp4=False):
     size=path.stat().st_size;digest=hashlib.sha256();offset=0
     valid=[bounds for bounds in requested if len(bounds)==2 and all(type(v) is int for v in bounds) and 0<=bounds[0]<=bounds[1]<size]
     ranges={bounds:hashlib.sha256() for bounds in valid if bounds!=(0,size-1)}
+    pending=iter(sorted(ranges));following=next(pending,None);active={}
     boxes=[];box_header=bytearray();next_box=0;metadata={};mp4_valid=True
     def consume_physical(chunk):
-        nonlocal offset,next_box,mp4_valid
-        digest.update(chunk)
-        for (first,last),range_digest in ranges.items():
-            low,high=max(0,first-offset),min(len(chunk),last+1-offset)
+        nonlocal offset,next_box,mp4_valid,following
+        digest.update(chunk);chunk_end=offset+len(chunk)
+        # Visit a range only while its bytes overlap the streaming cursor.
+        while following is not None and following[0]<chunk_end:
+            active[following]=ranges[following];following=next(pending,None)
+        for bounds,range_digest in tuple(active.items()):
+            first,last=bounds;low,high=max(0,first-offset),min(len(chunk),last+1-offset)
             if low<high:range_digest.update(chunk[low:high])
+            if last<chunk_end:del active[bounds]
         if mp4 and mp4_valid:
             while next_box<offset+len(chunk):
                 header_size=16 if len(box_header)>=8 and int.from_bytes(box_header[:4],'big')==1 else 8
@@ -4976,7 +4981,7 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
     cases=report['cases']
     if len(cases)!=len(RANGE_MATRIX_CASES) or {r['case'] for r in cases}!=RANGE_MATRIX_CASES:
         errors.append(f'{label}: complete unique approved Range/cache/recovery/latency case matrix required');return
-    valid={};latencies={};version_cache_users={};recovery_times={};range_results=[];request_ids=set()
+    valid={};latencies={};version_cache_users={};recovery_times={};range_results=[];request_ids=set();request_intervals={}
     for row in cases:
         name=row['case'];before=len(errors);observation=selected_observation(root,execution,prefix,row['witnessRef'],defs,'rangeRequestObservation',label,errors,cache)
         if observation is None or len(errors)!=before:continue
@@ -5036,6 +5041,9 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
             if expected_cache in ('MISS','FILL') and (origin['originRequestCount']<=0 or origin['objectReadCount']<=0):
                 errors.append(f'{label}: cache miss/fill scenarios require observed origin requests and protected source object reads')
             if name=='latency_cold' and not request['cachePurged']:errors.append(f'{label}: cold measurement requires observed sandbox purge')
+            if name=='latency_cold':
+                purged=utc(request.get('cachePurgedAt'));origin_purged=utc(origin.get('cachePurgedAt'))
+                if purged is None or origin_purged is None or purged!=origin_purged or not window[0]<=purged<=began:errors.append(f'{label}: cold purge completion must bind the independent request origin witness inside execution and precede the cold request')
             if name=='latency_slow' and (request['originDelayMs']!=policy['slowOriginDelayMs'] or request['originBandwidthBytesPerSecond']!=policy['slowOriginBandwidthBytesPerSecond']):errors.append(f'{label}: slow-origin request must bind the approved controlled delay/bandwidth')
             if name=='latency_multi' and request['concurrentUsers']!=policy['concurrentUsers']:errors.append(f'{label}: multi-user measurement must bind approved concurrency')
             key=(version,request['userId']);previous=version_cache_users.get(key)
@@ -5050,7 +5058,13 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
         if name.startswith('latency_') and times:
             latencies[name]=sum(times)/len(times) if policy['percentileMethod']=='mean' else sorted(times)[max(0,math.ceil(.95*len(times))-1)]
         valid[name]=len(errors)==before
+        if valid[name]:request_intervals[name]=list(load_intervals)
         if name in ('range_start','range_middle','range_end','suffix','unsatisfiable','if_match','if_stale'):range_results.append(valid[name])
+    # Order the already validated intervals, never the supplied case-list positions.
+    fill=request_intervals.get('fill',[])
+    for case in ('hit','latency_hot'):
+        observed=request_intervals.get(case,[])
+        if not fill or not observed or max(end for _,_,end in fill)>min(start for _,start,_ in observed):errors.append(f'{label}: validated fill must complete before cache hit/hot request intervals (equal clocks allowed)')
     for version in sources:
         contexts={user:key for (observed_version,user),key in version_cache_users.items() if observed_version==version}
         if version==policy['baseVersion'] and not set(policy['authorizedUsers']+[policy['deniedUser']]).issubset(contexts) or len(set(contexts.values()))!=len(contexts):errors.append(f'{label}: each version needs covered distinct ACL cache identities')

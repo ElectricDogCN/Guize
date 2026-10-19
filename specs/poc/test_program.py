@@ -1678,13 +1678,14 @@ class TestPocProgram(unittest.TestCase):
                 header='' if name=='stream' else 'bytes=8-15' if name=='range_middle' else f'bytes={size-8}-{size-1}' if name=='range_end' else 'bytes=-8' if name=='suffix' else f'bytes={size}-{size+7}' if name=='unsatisfiable' else 'bytes=0-7'
                 body=b'' if name in ('unsatisfiable','denied_user','partial_read') else content[start:start+3] if name=='interrupted' else content[start:end+1];body_ref=retain('range-'+name+'-'+str(number)+'-body.bin',body)
                 second=21 if name=='updated' else 3 if name=='interrupted' else 4 if name=='partial_read' else 5 if name=='recovered' else 1 if name=='latency_multi' else 1+number
+                second={'fill':2,'hit':3,'latency_hot':4+number}.get(name,second)
                 user=policy['deniedUser'] if name=='denied_user' else policy['authorizedUsers'][1] if name=='other_user' or name=='latency_multi' and number else policy['authorizedUsers'][0]
                 status_code=403 if name=='denied_user' else 503 if name=='partial_read' else 416 if name=='unsatisfiable' else 200 if full else 206
                 cache_status={'miss':'MISS','fill':'FILL','hit':'HIT','updated':'INVALIDATED','interrupted':'PARTIAL','partial_read':'PARTIAL','recovered':'FILL','latency_hot':'HIT','latency_cold':'MISS','latency_slow':'MISS','latency_multi':'HIT'}.get(name,'BYPASS')
                 # Small synthetic approval exercises the same minimum/Slice/buffer rule; actual POC approval chooses representative bytes.
                 request_id='synthetic-range-'+name+'-'+str(number)
-                origin_ref=retain('range-origin-'+name+'-'+str(number)+'.yaml',dict(schemaVersion=1,kind='range_origin_access_observation',configurationRef=resource['configurationRef'],case=name,assetId=policy['assetId'],aclVersion=policy['aclVersion'],requestId=request_id,userId=user,requestURL=policy['entryURL'],requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',sourceVersion=version,sourceSha256=sha,startedAt=f'2026-09-03T00:00:{second:02d}Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',originRequestCount=0 if name in ('denied_user','partial_read') or cache_status=='HIT' else 1,objectReadCount=0 if name in ('denied_user','partial_read') or cache_status=='HIT' else 1),'measurement_output')
-                requests.append(dict(requestId=request_id,originAccessRef=origin_ref,startedAt=f'2026-09-03T00:00:{second:02d}Z',firstByteAt=f'2026-09-03T00:00:{second:02d}.001Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',sourceVersion=version,sourceSha256=sha,requestURL=policy['entryURL'],aclVersion=policy['aclVersion'],userId=user,cacheKey='synthetic-cache-'+user,requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',statusCode=status_code,etag=etag if name not in ('denied_user','partial_read') else '',contentRange=f'bytes */{size}' if name=='unsatisfiable' else '' if full or name in ('denied_user','partial_read') else f'bytes {start}-{end}/{size}',responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest(),responseByteCount=len(body),cacheComplete=name not in ('interrupted','partial_read','denied_user'),cacheVisible=name not in ('interrupted','partial_read','denied_user'),transferCompleted=name not in ('interrupted','partial_read'),maximumBufferedBytes=min(len(body),policy['maximumBufferedBytes']),retryCount=1 if name=='recovered' else 0,cacheStatus=cache_status,cachePurged=name=='latency_cold',originDelayMs=policy['slowOriginDelayMs'] if name=='latency_slow' else 0,originBandwidthBytesPerSecond=policy['slowOriginBandwidthBytesPerSecond'],concurrentUsers=2 if name=='latency_multi' else 1))
+                origin_ref=retain('range-origin-'+name+'-'+str(number)+'.yaml',dict(schemaVersion=1,kind='range_origin_access_observation',configurationRef=resource['configurationRef'],case=name,assetId=policy['assetId'],aclVersion=policy['aclVersion'],requestId=request_id,userId=user,requestURL=policy['entryURL'],requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',sourceVersion=version,sourceSha256=sha,startedAt=f'2026-09-03T00:00:{second:02d}Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',originRequestCount=0 if name in ('denied_user','partial_read') or cache_status=='HIT' else 1,objectReadCount=0 if name in ('denied_user','partial_read') or cache_status=='HIT' else 1,**({'cachePurgedAt':f'2026-09-03T00:00:{second:02d}Z'} if name=='latency_cold' else {})),'measurement_output')
+                requests.append(dict(requestId=request_id,originAccessRef=origin_ref,startedAt=f'2026-09-03T00:00:{second:02d}Z',firstByteAt=f'2026-09-03T00:00:{second:02d}.001Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',sourceVersion=version,sourceSha256=sha,requestURL=policy['entryURL'],aclVersion=policy['aclVersion'],userId=user,cacheKey='synthetic-cache-'+user,requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',statusCode=status_code,etag=etag if name not in ('denied_user','partial_read') else '',contentRange=f'bytes */{size}' if name=='unsatisfiable' else '' if full or name in ('denied_user','partial_read') else f'bytes {start}-{end}/{size}',responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest(),responseByteCount=len(body),cacheComplete=name not in ('interrupted','partial_read','denied_user'),cacheVisible=name not in ('interrupted','partial_read','denied_user'),transferCompleted=name not in ('interrupted','partial_read'),maximumBufferedBytes=min(len(body),policy['maximumBufferedBytes']),retryCount=1 if name=='recovered' else 0,cacheStatus=cache_status,cachePurged=name=='latency_cold',originDelayMs=policy['slowOriginDelayMs'] if name=='latency_slow' else 0,originBandwidthBytesPerSecond=policy['slowOriginBandwidthBytesPerSecond'],concurrentUsers=2 if name=='latency_multi' else 1,**({'cachePurgedAt':f'2026-09-03T00:00:{second:02d}Z'} if name=='latency_cold' else {})))
             ref=retain('range-'+name+'.yaml',dict(schemaVersion=1,kind='range_request_observation',**common,case=name,requests=requests),'measurement_output');cases.append(dict(case=name,witnessRef=ref))
         slices=[]
         for start in range(0,len(data),policy['sliceBytes']):
@@ -1694,7 +1695,7 @@ class TestPocProgram(unittest.TestCase):
             objects=[]
             if content:
                 ref=retain('range-cache-'+stage+'.bin',content);objects=[dict(sourceVersion=version,artifactRef=ref,sha256='sha256:'+hashlib.sha256(content).hexdigest(),byteCount=len(content),complete=stage!='interrupted',visible=stage!='interrupted')]
-            stages.append(dict(stage=stage,observedAt=f'2026-09-03T00:00:{second:02d}Z',allocatedBytes=len(content),objects=objects))
+            stages.append(dict(stage=stage,observedAt=f'2026-09-03T00:00:{second:02d}.002Z' if stage=='filled' else f'2026-09-03T00:00:{second:02d}Z',allocatedBytes=len(content),objects=objects))
         lifecycle_ref=retain('range-cache-lifecycle.yaml',dict(schemaVersion=1,kind='range_cache_lifecycle',**common,stages=stages),'measurement_output')
         env['rangeMatrixRef']=retain('range-matrix.yaml',dict(schemaVersion=1,kind='range_matrix_report',**common,sourceUpdateRef=update_ref,cacheLifecycleRef=lifecycle_ref,cases=cases,slices=slices),'measurement_output')
 
@@ -3271,6 +3272,55 @@ class TestPocProgram(unittest.TestCase):
                     self.make_profile_slot(root,'POC-007',profile,status);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-07'}),[])
                 finally:temp.cleanup()
 
+    def exercise_range_cache_chronology_regressions(self,root,original,validate,report_path):
+        """Explicit chronological fixtures; do not rebuild or refresh a rejected observation."""
+        env=original['environmentCaptured'];saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};baseline=load_yaml(report_path)
+        def restore():
+            for path,raw in saved.items():path.write_bytes(raw)
+        def register(data,path):
+            raw=path.read_bytes();row=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==path.relative_to(root).as_posix());row.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        def witness(case):return root/next(row['witnessRef'] for row in baseline['cases'] if row['case']==case)
+        def reclock(data,case,start,indices=None):
+            from datetime import timedelta
+            path=witness(case);row=load_yaml(path)
+            for number,request in enumerate(row['requests']):
+                if indices is not None and number not in indices:continue
+                at=CHECK.utc(start);request.update(startedAt=start,firstByteAt=(at+timedelta(milliseconds=1)).isoformat().replace('+00:00','Z'),finishedAt=(at+timedelta(milliseconds=2)).isoformat().replace('+00:00','Z'))
+                origin_path=root/request['originAccessRef'];origin=load_yaml(origin_path);origin.update(startedAt=request['startedAt'],finishedAt=request['finishedAt']);write_yaml(origin_path,origin);register(data,origin_path)
+            write_yaml(path,row);register(data,path)
+        for mode in ('hit_before_fill','hot_before_fill','hit_overlaps_fill','fill_after_hit','cold_after_start','cold_origin_mismatch','cold_missing','cold_invalid','cold_before_window'):
+            restore();data=copy.deepcopy(original)
+            if mode=='hit_before_fill':reclock(data,'hit','2026-09-03T00:00:01.500Z')
+            elif mode=='hot_before_fill':reclock(data,'latency_hot','2026-09-03T00:00:01.500Z',indices={1})
+            elif mode=='hit_overlaps_fill':reclock(data,'hit','2026-09-03T00:00:02.001Z')
+            elif mode=='fill_after_hit':reclock(data,'fill','2026-09-03T00:00:03.500Z')
+            else:
+                path=witness('latency_cold');row=load_yaml(path);request=row['requests'][0];origin_path=root/request['originAccessRef'];origin=load_yaml(origin_path)
+                value='2026-09-03T00:00:01.001Z' if mode=='cold_after_start' else '2026-09-02T23:59:59.999Z' if mode=='cold_before_window' else 'not-a-time' if mode=='cold_invalid' else '2026-09-03T00:00:00.500Z'
+                request['cachePurgedAt']=value
+                if mode!='cold_origin_mismatch':origin['cachePurgedAt']=value
+                if mode=='cold_missing':request.pop('cachePurgedAt');origin.pop('cachePurgedAt')
+                write_yaml(path,row);write_yaml(origin_path,origin);register(data,path);register(data,origin_path)
+            errors=validate(data)
+            if mode.startswith('cold_'):self.assertTrue(any('cold purge completion' in e or 'cachePurgedAt' in e for e in errors),(mode,errors))
+            else:self.assertTrue(any('validated fill must complete before cache hit/hot' in e for e in errors),(mode,errors))
+        for mode in ('equal_warmup_boundary','purge_before_request','case_order_reversed','request_samples_reversed'):
+            restore();data=copy.deepcopy(original)
+            if mode=='equal_warmup_boundary':
+                reclock(data,'hit','2026-09-03T00:00:02.002Z');reclock(data,'latency_hot','2026-09-03T00:00:02.002Z')
+            elif mode=='purge_before_request':
+                path=witness('latency_cold');row=load_yaml(path)
+                for request in row['requests']:
+                    request['cachePurgedAt']='2026-09-03T00:00:00.500Z';origin_path=root/request['originAccessRef'];origin=load_yaml(origin_path);origin['cachePurgedAt']=request['cachePurgedAt'];write_yaml(origin_path,origin);register(data,origin_path)
+                write_yaml(path,row);register(data,path)
+            elif mode=='case_order_reversed':
+                report=load_yaml(report_path);report['cases'].reverse();write_yaml(report_path,report);register(data,report_path)
+            else:
+                for case in ('latency_hot','latency_cold'):
+                    path=witness(case);row=load_yaml(path);row['requests'].reverse();write_yaml(path,row);register(data,path)
+            self.assertEqual(validate(data),[],mode)
+        restore()
+
     def test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -3280,6 +3330,7 @@ class TestPocProgram(unittest.TestCase):
                 def validate(data):
                     errors=[];CHECK.validate_qualified_range_matrix(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
                 self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-03'}),[]);self.assertEqual(validate(record),[])
+                self.exercise_range_cache_chronology_regressions(root,original,validate,report_path)
                 for mode in ('missing_report','arbitrary_report','oversize_report','bad_policy','wrong_config','wrong_input','missing_case','duplicate_case','wrong_witness_type','wrong_status','corrupt_bytes','wrong_range','wrong_etag','if_match_validator','if_stale_partial','updated_stale_bytes','update_hash','updated_before_change','partial_complete','partial_read_payload','recovery_order','retry_excess','buffer_excess','cache_hit_miss','cold_without_purge','slow_profile','multi_serial','multi_same_user','cache_shared_key','transient_shared_key','other_user_identity','denied_payload','slice_gap','slice_corrupt','slice_size','cache_object_corrupt','cache_allocation','cache_duplicate','cache_alias','cache_partial_visible','cache_updated_stale','cache_cleanup_objects','hot_latency','cold_latency','slow_latency','multi_latency','correctness','bad_time','wrong_path'):
                     for p,raw in originals.items():p.write_bytes(raw)
                     data=copy.deepcopy(original);env=data['environmentCaptured'];report=load_yaml(report_path);config=load_yaml(config_path);policy=config['configuration']['rangeMatrixPolicy']
@@ -7737,6 +7788,45 @@ class TestPocProgram(unittest.TestCase):
                     self.assertTrue(any('cannot read raw artifact' in e for e in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-06'})))
             finally: temp.cleanup()
 
+    def exercise_binary_packet_range_streaming_regressions(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'ranges.bin';block=CHECK.ARTIFACT_CHUNK_BYTES;chunk=bytes(range(256))*(block//256);size=2*block+37
+            with path.open('wb') as stream:
+                stream.write(chunk);stream.write(chunk);stream.write(chunk[:37])
+            def expected_hash(first,last):
+                digest=hashlib.sha256();remaining=last-first+1
+                with path.open('rb') as stream:
+                    stream.seek(first)
+                    while remaining:
+                        data=stream.read(min(block,remaining));digest.update(data);remaining-=len(data)
+                return 'sha256:'+digest.hexdigest()
+            requested=[(block,block),(block-3,block+5),(1,block+11),(block-1,block-1),(2*block,size-1),(0,7),(2,4),(0,size-1),(0,7)]
+            invalid=[(-1,1),(1,0),(size,size),(0,size),(False,1),(0.0,1),(0,1,2)]
+            expected={bounds:expected_hash(*bounds) for bounds in requested};cache={};seed=CHECK.inspect_artifact(path,cache,byte_range=(2,5))['rangeHashes'][(2,5)]
+            with mock.patch.object(Path,'read_bytes',side_effect=AssertionError('whole media reads forbidden')):
+                info=CHECK.inspect_artifact(path,cache,byte_ranges=requested+invalid)
+            self.assertEqual(info['size'],size);self.assertEqual(info['sha256'],expected[(0,size-1)])
+            self.assertEqual({bounds:info['rangeHashes'][bounds] for bounds in expected},expected)
+            self.assertEqual(info['rangeHashes'][(2,5)],seed)
+            self.assertTrue(all(bounds not in info['rangeHashes'] for bounds in invalid))
+            with mock.patch.object(CHECK,'retained_metadata_chunks',side_effect=AssertionError('cached ranges must not rescan')):
+                self.assertIs(CHECK.inspect_artifact(path,cache,byte_ranges=requested),info)
+            # Count range visits rather than elapsed time: disjoint packets need no unrelated chunk scans.
+            visits=[0]
+            class CountedRange(tuple):
+                def __iter__(self):
+                    visits[0]+=1;return super().__iter__()
+            packets=[CountedRange((index*block+slot*64,index*block+slot*64)) for index in range(16) for slot in range(16)]
+            sparse=Path(directory)/'sparse.bin'
+            with sparse.open('wb') as stream:stream.truncate(16*block)
+            with mock.patch.object(Path,'read_bytes',side_effect=AssertionError('whole media reads forbidden')):
+                measured=CHECK.inspect_artifact(sparse,{},byte_ranges=list(reversed(packets)))
+            range_visits=visits[0];self.assertLessEqual(range_visits,4*len(packets))
+            one='sha256:'+hashlib.sha256(b'\0').hexdigest();whole=hashlib.sha256();zero=bytes(block)
+            for _ in range(16):whole.update(zero)
+            self.assertEqual(measured['sha256'],'sha256:'+whole.hexdigest());self.assertEqual(measured['size'],16*block)
+            self.assertEqual(len(measured['rangeHashes']),len(packets));self.assertTrue(all(value==one for value in measured['rangeHashes'].values()))
+
     def test_140_media_hashing_is_bounded_and_reused_per_validation(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -7768,6 +7858,7 @@ class TestPocProgram(unittest.TestCase):
                 self.assertEqual(info['sha256'],'sha256:'+hashlib.sha256(data).hexdigest())
                 self.assertFalse(info['invalidUtf8']);self.assertFalse(info['credential'])
             finally: temp.cleanup()
+        self.exercise_binary_packet_range_streaming_regressions()
 
 
     def test_141_production_android_observations_require_distinct_node_bound_artifact(self):
