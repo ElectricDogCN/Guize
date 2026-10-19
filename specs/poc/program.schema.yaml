@@ -1348,10 +1348,85 @@ $defs:
         type: object
         minProperties: 5
 
+  mediaNativeExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - operation
+    - identity
+    - nodeId
+    - toolBuild
+    - processId
+    - workingDirectory
+    - argv
+    - startedAt
+    - finishedAt
+    - exitCode
+    - stdoutRef
+    - stdoutSha256
+    - stderrRef
+    - stderrSha256
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: media_native_execution
+      operation:
+        enum:
+        - decode
+        - mux
+        - vmaf
+      identity:
+        type: object
+        minProperties: 1
+      nodeId:
+        type: string
+        minLength: 1
+      toolBuild:
+        type: string
+        minLength: 1
+      processId:
+        type: string
+        pattern: ^[1-9][0-9]{0,9}$
+      workingDirectory:
+        const: .
+      argv:
+        type: array
+        minItems: 2
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+        const: 0
+      stdoutRef:
+        type: string
+        minLength: 1
+      stdoutSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      stderrRef:
+        type: string
+        minLength: 1
+      stderrSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
   parallelMediaAssembly:
     type: object
     additionalProperties: false
     required:
+    - nodeId
+    - muxerBuild
+    - framesPerSecond
     - schemaVersion
     - inputSampleId
     - inputSha256
@@ -1362,6 +1437,15 @@ $defs:
     - outputArtifactRef
     - validationRef
     properties:
+      nodeId:
+        type: string
+        minLength: 1
+      muxerBuild:
+        type: string
+        minLength: 1
+      framesPerSecond:
+        type: number
+        exclusiveMinimum: 0
       schemaVersion:
         const: 1
       inputSampleId:
@@ -1417,6 +1501,10 @@ $defs:
     type: object
     additionalProperties: false
     required:
+    - muxManifestRef
+    - muxExecutionRef
+    - outputDecodeRef
+    - partDecodeRefs
     - schemaVersion
     - inputSampleId
     - inputSha256
@@ -1428,6 +1516,31 @@ $defs:
     - decodeErrorCount
     - timelineDiscontinuityCount
     properties:
+      muxManifestRef:
+        type: string
+        minLength: 1
+      muxExecutionRef:
+        type: string
+        minLength: 1
+      outputDecodeRef:
+        type: string
+        minLength: 1
+      partDecodeRefs:
+        type: array
+        minItems: 2
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - outputArtifactRef
+          - executionRef
+          properties:
+            outputArtifactRef:
+              type: string
+              minLength: 1
+            executionRef:
+              type: string
+              minLength: 1
       schemaVersion:
         const: 1
       inputSampleId:
@@ -3483,6 +3596,13 @@ $defs:
     - rateLimit
     - paths
     properties:
+      rateTransport:
+        type: object
+        additionalProperties: false
+        required: [observerBuild, commandArgs]
+        properties:
+          observerBuild: {type: string, minLength: 1}
+          commandArgs: {type: array, minItems: 1, maxItems: 128, items: {type: string, minLength: 1}}
       assetId:
         type: string
         minLength: 1
@@ -3729,6 +3849,9 @@ $defs:
           - responseSha256
           - responseByteCount
           properties:
+            requestId: {type: string, minLength: 1}
+            traceId: {type: string, minLength: 1}
+            transportRef: {type: string, minLength: 1}
             sequence:
               type: integer
               minimum: 1
@@ -3748,6 +3871,236 @@ $defs:
             responseByteCount:
               type: integer
               minimum: 0
+    allOf:
+    - if:
+        required: [acceptanceProfile, case]
+        properties:
+          acceptanceProfile:
+            required: [id]
+            properties: {id: {const: local-v1}}
+          case: {const: rate_limit}
+      then:
+        properties:
+          rateAttempts:
+            items:
+              required: [requestId, traceId, transportRef]
+  localAccessRateTransportPolicy:
+    type: object
+    additionalProperties: false
+    required:
+    - observerBuild
+    - commandArgs
+    properties:
+      observerBuild:
+        type: string
+        minLength: 1
+      commandArgs:
+        type: array
+        minItems: 1
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
+  localAccessRateTransportTrace:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - sequence
+    - requestId
+    - traceId
+    - observerBuild
+    - commandArgs
+    - pid
+    - startedAt
+    - finishedAt
+    - exitCode
+    - responseRef
+    - responseSha256
+    - responseBodyRef
+    - events
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: local_access_rate_transport_trace
+      context:
+        type: object
+      sequence:
+        type: integer
+        minimum: 1
+      requestId:
+        type: string
+        minLength: 1
+      traceId:
+        type: string
+        minLength: 1
+      observerBuild:
+        type: string
+        minLength: 1
+      commandArgs:
+        type: array
+        minItems: 9
+        maxItems: 136
+        items:
+          type: string
+          minLength: 1
+      pid:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+      responseRef:
+        type: string
+        minLength: 1
+      responseSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      responseBodyRef:
+        type: string
+        minLength: 1
+      events:
+        type: array
+        minItems: 2
+        maxItems: 32
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - userId
+            - grantId
+            - requestURL
+            - requestRange
+            - ifRange
+            - cacheKey
+            - httpMethod
+            properties:
+              type:
+                const: request
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              userId:
+                type: string
+                minLength: 1
+              grantId:
+                type: string
+                minLength: 1
+              requestURL:
+                type: string
+                minLength: 1
+              requestRange:
+                type: string
+              ifRange:
+                type: string
+              cacheKey:
+                type: string
+                minLength: 1
+              httpMethod:
+                const: GET
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - requestURL
+            - requestRange
+            properties:
+              type:
+                const: origin_request
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              requestURL:
+                type: string
+                minLength: 1
+              requestRange:
+                type: string
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - assetId
+            - sourceVersion
+            - byteCount
+            - sha256
+            properties:
+              type:
+                const: object_read
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              assetId:
+                type: string
+                minLength: 1
+              sourceVersion:
+                type: string
+                minLength: 1
+              byteCount:
+                type: integer
+                minimum: 0
+              sha256:
+                type: string
+                pattern: ^sha256:[a-f0-9]{64}$
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - traceId
+            - exitCode
+            properties:
+              type:
+                const: exit
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              traceId:
+                type: string
+                minLength: 1
+              exitCode:
+                type: integer
   accessOutcomeReport:
     type: object
     additionalProperties: false
@@ -4683,6 +5036,11 @@ $defs:
                 mode: {enum: [count_ratio, f1]}
             then:
               required: [comparisonRule, evaluatorArgv]
+          - if:
+              properties:
+                mode: {const: tool_score}
+            then:
+              required: [evaluatorArgv]
           - if:
               properties:
                 mode:
@@ -5948,6 +6306,7 @@ $defs:
     type: object
     additionalProperties: false
     required:
+    - modelRef
     - jobId
     - evaluatorBuild
     - modelId
@@ -5956,6 +6315,9 @@ $defs:
     - encoderParameters
     - inputSamples
     properties:
+      modelRef:
+        type: string
+        minLength: 1
       jobId:
         type: string
         minLength: 1
@@ -6709,7 +7071,15 @@ $defs:
     - expiredAt
     - limitObserverBuild
     - limitCommandArgs
+    - networkObserverBuild
+    - networkCommandArgs
     properties:
+      networkObserverBuild: {type: string, minLength: 1}
+      networkCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 32
+        items: {type: string, minLength: 1}
       subjectVersion:
         type: string
         minLength: 1
@@ -7055,7 +7425,11 @@ $defs:
                 - outboundRef
                 - outboundSha256
                 - outboundByteCount
+                - transportRef
+                - transportSha256
                 properties:
+                  transportRef: {type: string, minLength: 1}
+                  transportSha256: {type: string, pattern: "^sha256:[0-9a-f]{64}$"}
                   case:
                     enum:
                     - authorized
@@ -8938,7 +9312,11 @@ $defs:
     - revokedAt
     - protectedOutputs
     - retryDecoderBuild
+    - limitObserverBuild
+    - limitCommandArgs
     properties:
+      limitObserverBuild: {type: string, minLength: 1}
+      limitCommandArgs: {type: array, minItems: 1, maxItems: 128, items: {type: string, minLength: 1}}
       subjectVersion:
         type: string
         minLength: 1
@@ -9236,7 +9614,23 @@ $defs:
                 - remainingTemporaryBytes
                 - remainingOutputBytes
                 - publicationCount
+                - processRef
+                - processSha256
+                - runtimeRef
+                - runtimeSha256
+                - filesystemRef
+                - filesystemSha256
+                - exitRef
+                - exitSha256
                 properties:
+                  processRef: {type: string, minLength: 1}
+                  processSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+                  runtimeRef: {type: string, minLength: 1}
+                  runtimeSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+                  filesystemRef: {type: string, minLength: 1}
+                  filesystemSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+                  exitRef: {type: string, minLength: 1}
+                  exitSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
                   case:
                     enum:
                     - cpuSeconds
@@ -14004,6 +14398,7 @@ $defs:
     type: object
     additionalProperties: false
     properties:
+      executionRef: {type: string, minLength: 1}
       schemaVersion:
         type: integer
         const: 1
@@ -14146,6 +14541,7 @@ $defs:
       then:
         required:
         - toolScores
+        - executionRef
     - if:
         properties:
           mode:
@@ -14154,10 +14550,56 @@ $defs:
         required:
         - reviewerId
         - judgments
+  aiToolScoreExecution:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, evaluatorBuild, argv, pid, exitCode, startedAt, finishedAt, stdoutRef, stdoutSha256, stderrRef, stderrSha256]
+    properties:
+      schemaVersion: {type: integer, const: 1}
+      kind: {const: ai_tool_score_execution}
+      context: {type: object}
+      evaluatorBuild: {type: string, minLength: 1}
+      argv:
+        type: array
+        minItems: 5
+        items: {type: string, minLength: 1}
+      pid: {type: integer, minimum: 1, maximum: 4294967295}
+      exitCode: {type: integer, const: 0}
+      startedAt: {type: string, format: date-time}
+      finishedAt: {type: string, format: date-time}
+      stdoutRef: {type: string, minLength: 1}
+      stdoutSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+      stderrRef: {type: string, minLength: 1}
+      stderrSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+  aiToolScoreOutput:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, metricId, itemId, outputSha256, referenceSha256, scores]
+    properties:
+      schemaVersion: {type: integer, const: 1}
+      kind: {const: ai_tool_score_output}
+      metricId: {enum: [translation_comet, translation_bleu]}
+      itemId: {type: string, minLength: 1}
+      outputSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+      referenceSha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
+      scores:
+        type: array
+        minItems: 1
+        maxItems: 10000
+        items: {type: number}
   vmafEvaluatorInvocation:
     type: object
     additionalProperties: false
     properties:
+      sourceRef:
+        type: string
+        minLength: 1
+      modelRef:
+        type: string
+        minLength: 1
+      nativeExecutionRef:
+        type: string
+        minLength: 1
       schemaVersion:
         type: integer
         const: 1
@@ -14221,6 +14663,9 @@ $defs:
         type: string
         pattern: ^sha256:[a-f0-9]{64}$
     required:
+    - sourceRef
+    - modelRef
+    - nativeExecutionRef
     - schemaVersion
     - kind
     - configurationRef
@@ -16067,3 +16512,188 @@ $defs:
               pix_fmt: {type: string, minLength: 1}
               duration: {type: integer, minimum: 1}
               pkt_duration: {type: integer, minimum: 1}
+
+  workerSafetyNetworkTrace:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - identity
+    - observerBuild
+    - commandArgs
+    - pid
+    - startedAt
+    - finishedAt
+    - exitCode
+    - responseRef
+    - responseSha256
+    - events
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: worker_safety_network_trace
+      context: {type: object}
+      identity: {type: object}
+      observerBuild:
+        type: string
+        minLength: 1
+      commandArgs:
+        type: array
+        minItems: 9
+        maxItems: 40
+        items:
+          type: string
+          minLength: 1
+      pid:
+        type: integer
+        minimum: 1
+        maximum: 4294967295
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+      responseRef:
+        type: string
+        minLength: 1
+      responseSha256:
+        type: string
+        pattern: ^sha256:[0-9a-f]{64}$
+      events:
+        type: array
+        minItems: 3
+        maxItems: 32
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - requestId
+            - taskId
+            - grantId
+            - requestURL
+            - method
+            properties:
+              type:
+                const: request
+              observedAt:
+                type: string
+                format: date-time
+              requestId:
+                type: string
+                minLength: 1
+              taskId:
+                type: string
+                minLength: 1
+              grantId:
+                type: string
+                minLength: 1
+              requestURL:
+                type: string
+                minLength: 1
+              method:
+                const: GET
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - peerHost
+            - peerPort
+            - outcome
+            properties:
+              type:
+                const: connect
+              observedAt:
+                type: string
+                format: date-time
+              peerHost:
+                type: string
+                minLength: 1
+              peerPort:
+                type: integer
+                minimum: 1
+                maximum: 65535
+              outcome:
+                enum:
+                - connected
+                - refused
+                - timeout
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - byteCount
+            - sha256
+            properties:
+              type:
+                const: send
+              observedAt:
+                type: string
+                format: date-time
+              byteCount:
+                type: integer
+                minimum: 0
+              sha256:
+                type: string
+                pattern: ^sha256:[0-9a-f]{64}$
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - byteCount
+            - sha256
+            properties:
+              type:
+                const: receive
+              observedAt:
+                type: string
+                format: date-time
+              byteCount:
+                type: integer
+                minimum: 0
+              sha256:
+                type: string
+                pattern: ^sha256:[0-9a-f]{64}$
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - reason
+            properties:
+              type:
+                const: deny
+              observedAt:
+                type: string
+                format: date-time
+              reason:
+                enum:
+                - private_target
+                - unsupported_target
+                - administrative_target
+                - expired_grant
+          - type: object
+            additionalProperties: false
+            required:
+            - type
+            - observedAt
+            - exitCode
+            properties:
+              type:
+                const: exit
+              observedAt:
+                type: string
+                format: date-time
+              exitCode:
+                type: integer

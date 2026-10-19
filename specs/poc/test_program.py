@@ -28,7 +28,7 @@ SPEC.loader.exec_module(CHECK)
 
 def load_yaml(path: Path):
     with path.open("r", encoding="utf-8") as handle:
-        return yaml.safe_load(handle)
+        return yaml.load(handle, Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
 
 
 def write_yaml(path: Path, data):
@@ -519,6 +519,7 @@ class TestPocProgram(unittest.TestCase):
             if task_id=='POC-001' and status=='pass':self.prepare_qualified_worker_capabilities_fixture(root,execution,new_prefix)
             if task_id=='POC-006' and not production and status=='pass':self.prepare_qualified_source_fault_fixture(root,execution,new_prefix)
             if task_id=='POC-010' and status=='pass':self.prepare_qualified_recovery_fixture(root,execution,new_prefix)
+            if task_id=='POC-002' and status=='pass':self.prepare_qualified_media_assembly_fixture(root,execution,new_prefix)
             if task_id=='POC-002' and production and status=='pass':self.prepare_qualified_a380_fixture(root,execution,new_prefix)
             if task_id=='POC-002' and status=='pass':self.prepare_qualified_quality_timing_fixture(root,execution,new_prefix)
             if task_id=='POC-002' and status=='pass':self.prepare_qualified_media_negative_fixture(root,execution,new_prefix)
@@ -818,6 +819,7 @@ class TestPocProgram(unittest.TestCase):
         env=execution['environmentCaptured'];local=env['acceptanceProfile']['id']=='local-v1';resource_id='RES-LOCAL-ACCESS-PATH' if local else 'RES-PUBLIC-NETWORK';resource=next(r for r in execution['resources'] if r['id']==resource_id)
         tls=env.get('local_tls_path_configuration') or {};entry=tls.get('entryOrigin','https://synthetic-public.invalid');origin=tls.get('openlistOrigin','https://synthetic-source.invalid')
         policy=dict(assetId='synthetic-protected-asset',sourceVersion='synthetic-source-version',aclVersion='synthetic-current-acl',authorizedUserId='synthetic-allowed-user',deniedUserId='synthetic-denied-user',authorizedGrantId='synthetic-current-grant',deniedGrantId='synthetic-denied-subject-grant',expiredGrantId='synthetic-expired-grant',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-04T00:00:00Z',expiredAt='2026-09-02T00:00:00Z',protectedCacheKey='synthetic-cache-asset-version',maximumBufferedBytes=4096,rateLimit=dict(maximumRequests=2,windowSeconds=10),paths=dict(range=entry+'/protected/range',stream=entry+'/protected/stream',source=origin+'/protected/source',admin=origin+'/api/admin',worker='http://127.0.0.1:17000/protected/worker'))
+        if local:policy['rateTransport']=dict(observerBuild='synthetic-local-rate-client/checker-only-v1',commandArgs=['synthetic-local-rate-probe'])
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['accessPolicy']=policy;write_yaml(config_path,config)
         sample=execution['samples'][0];source=root/env['inputSampleArtifacts'][0]['inputArtifactRef'];data=source.read_bytes();etag='"'+sample['checksum'].removeprefix('sha256:')+'"'
         def retain(name,data,kind):
@@ -839,9 +841,97 @@ class TestPocProgram(unittest.TestCase):
                 returned=data[:8] if attempt['sequence']<=2 else body
                 returned_ref=retain('access-rate-attempt-'+str(attempt['sequence'])+'-body.bin',returned,'produced_media') if attempt['sequence']<=2 else body_ref
                 attempt.update(responseBodyRef=returned_ref,responseSha256='sha256:'+hashlib.sha256(returned).hexdigest(),responseByteCount=len(returned))
+                if local:
+                    number=attempt['sequence'];request_id='synthetic-rate-request-'+str(number);trace_id='synthetic-rate-trace-'+str(number);started=f'2026-09-03T00:00:0{number-1}.100Z';finished=attempt['observedAt']
+                    raw=f"HTTP/1.1 {attempt['statusCode']} Fixture\r\nContent-Length: {len(returned)}\r\n\r\n".encode('ascii')+returned
+                    response_ref=retain('access-rate-attempt-'+str(number)+'-http.bin',raw,'produced_media')
+                    def event(kind,at,**fields):return dict(type=kind,observedAt=at,requestId=request_id,traceId=trace_id,**fields)
+                    events=[event('request',started,userId=user,grantId=grant,requestURL=policy['paths']['range'],requestRange=witness['requestRange'],ifRange=witness['ifRange'],cacheKey=witness['cacheKey'],httpMethod='GET')]
+                    if number<=policy['rateLimit']['maximumRequests']:
+                        events.extend([event('origin_request',finished,requestURL=policy['paths']['source'],requestRange=witness['requestRange']),event('object_read',finished,assetId=policy['assetId'],sourceVersion=policy['sourceVersion'],byteCount=len(returned),sha256=attempt['responseSha256'])])
+                    events.append(event('exit',finished,exitCode=0))
+                    trace=dict(schemaVersion=1,kind='local_access_rate_transport_trace',context=common,sequence=number,requestId=request_id,traceId=trace_id,observerBuild=policy['rateTransport']['observerBuild'],commandArgs=policy['rateTransport']['commandArgs']+['--request-id',request_id,'--trace-id',trace_id,'--target',policy['paths']['range'],'--response',response_ref],pid=50000+number,startedAt=started,finishedAt=finished,exitCode=0,responseRef=response_ref,responseSha256='sha256:'+hashlib.sha256(raw).hexdigest(),responseBodyRef=returned_ref,events=events)
+                    attempt.update(requestId=request_id,traceId=trace_id,transportRef=retain('access-rate-attempt-'+str(number)+'-transport.json',json.dumps(trace).encode(),'command_output'))
             ref=retain('access-'+case+'.yaml',witness,'measurement_output');cases.append(dict(case=case,witnessRef=ref))
         env['accessOutcomeRef']=retain('access-outcomes.yaml',dict(schemaVersion=1,kind='access_outcome_report',**common,cases=cases),'measurement_output')
 
+
+    def sync_qualified_ai_tool_execution_fixture(self,root,execution,prefix):
+        """Explicit synthetic positive factory/readback sync, never an actual evaluator execution."""
+        env=execution['environmentCaptured'];report=load_yaml(root/env['aiResultsRef']);evaluation_path=root/report['evaluationRef'];evaluation=load_yaml(evaluation_path);config_path=root/report['configurationRef'];config=load_yaml(config_path);policy=config['configuration']['aiEvaluationPolicy']
+        def retain(ref,kind,raw):
+            (root/ref).write_bytes(raw);value=dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());rows=[a for a in env['rawExecutionArtifacts'] if a['ref']==ref]
+            if rows:rows[0].update(value)
+            else:env['rawExecutionArtifacts'].append(value);execution['rawOutputRefs'].append(ref)
+            return value['sha256']
+        for number,row in enumerate((r for r in evaluation['evaluations'] if r['metricId'] in ('translation_comet','translation_bleu')),1):
+            method=next(m for m in policy['evaluationMethods'] if m['metricId']==row['metricId']);method.setdefault('evaluatorArgv',['synthetic-independent-evaluator','--metric',row['metricId']])
+            evidence_path=root/row['scoreEvidenceRef'];evidence=json.loads(evidence_path.read_bytes());stem=prefix+'/raw/ai-tool-'+row['metricId'];evidence['executionRef']=stem+'-execution.json'
+            stdout_ref=stem+'-stdout.json';stderr_ref=stem+'-stderr.raw'
+            result=dict(schemaVersion=1,kind='ai_tool_score_output',**{key:evidence[key] for key in ('metricId','itemId','outputSha256','referenceSha256')},scores=evidence['toolScores'])
+            stdout_sha=retain(stdout_ref,'command_output',json.dumps(result).encode());stderr_sha=retain(stderr_ref,'command_output',b'')
+            context={key:value for key,value in evidence.items() if key not in ('schemaVersion','kind','toolScores','executionRef')}
+            capture=dict(schemaVersion=1,kind='ai_tool_score_execution',context=context,evaluatorBuild=method['evaluatorBuild'],argv=method['evaluatorArgv']+['--output',row['outputRef'],'--reference',evidence['referenceRef']],pid=51000+number,exitCode=0,startedAt='2026-09-03T00:01:00Z',finishedAt=row['observedAt'],stdoutRef=stdout_ref,stdoutSha256=stdout_sha,stderrRef=stderr_ref,stderrSha256=stderr_sha)
+            retain(evidence['executionRef'],'measurement_output',json.dumps(capture).encode());retain(row['scoreEvidenceRef'],'command_output',json.dumps(evidence).encode())
+        write_yaml(config_path,config)
+
+    def exercise_ai_tool_execution_and_der_regressions(self,root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile):
+        def restore():
+            for path,raw in originals.items():path.write_bytes(raw)
+        def register(data,path):
+            raw=path.read_bytes();ref=path.relative_to(root).as_posix();record=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref);record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());return record['sha256']
+        modes=('missing_execution','execution_json','execution_duplicate','execution_pid','execution_exit','execution_build','execution_argv','execution_context','execution_before_output','execution_after_observation','stdout_missing','stdout_type','stdout_alias','stderr_alias','stdout_json','stdout_nonfinite','stdout_hash','stdout_metric','stdout_output','stdout_reference','favorable_declaration')
+        for metric in ('translation_comet','translation_bleu'):
+            for mode in modes if metric=='translation_comet' else ('favorable_declaration',):
+                restore();data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path);row=next(r for r in evaluation['evaluations'] if r['metricId']==metric);ep=root/row['scoreEvidenceRef'];evidence=json.loads(ep.read_bytes());rp=root/evidence['executionRef'];run=json.loads(rp.read_bytes());sp=root/run['stdoutRef'];result=json.loads(sp.read_bytes())
+                if mode=='missing_execution':evidence.pop('executionRef')
+                elif mode=='execution_pid':run['pid']=True
+                elif mode=='execution_exit':run['exitCode']=1
+                elif mode=='execution_build':run['evaluatorBuild']='foreign-evaluator'
+                elif mode=='execution_argv':run['argv'][-1]=row['outputRef']
+                elif mode=='execution_context':run['context']['referenceSha256']='sha256:'+'0'*64
+                elif mode=='execution_before_output':run['startedAt']='2026-09-03T00:00:59Z'
+                elif mode=='execution_after_observation':run['finishedAt']='2026-09-03T00:01:01.001Z'
+                elif mode=='stdout_missing':run['stdoutRef']=prefix+'/raw/absent-evaluator-stdout.json'
+                elif mode=='stdout_type':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==run['stdoutRef'])['artifactType']='measurement_output'
+                elif mode=='stdout_alias':run['stdoutRef']=row['scoreEvidenceRef']
+                elif mode=='stderr_alias':run['stderrRef']=run['stdoutRef'];run['stderrSha256']=run['stdoutSha256']
+                elif mode in ('stdout_metric','stdout_output','stdout_reference'):result[dict(stdout_metric='metricId',stdout_output='outputSha256',stdout_reference='referenceSha256')[mode]]='foreign' if mode=='stdout_metric' else 'sha256:'+'0'*64
+                elif mode=='favorable_declaration':evidence['toolScores']=[2];row['score']=2;next(m for m in data['measurements'] if m['id']==metric)['actual']=2
+                ep.write_text(json.dumps(evidence));register(data,ep)
+                raw=json.dumps(result).encode()
+                if mode=='stdout_json':raw=b'{"scores":[1],"scores":[2]}'
+                elif mode=='stdout_nonfinite':raw=raw.replace(b'"scores": [1]',b'"scores": [NaN]')
+                sp.write_bytes(raw);register(data,sp)
+                if mode not in ('stdout_missing','stdout_alias'):run['stdoutSha256']='sha256:'+hashlib.sha256(raw).hexdigest()
+                elif mode=='stdout_alias':run['stdoutSha256']='sha256:'+hashlib.sha256(ep.read_bytes()).hexdigest()
+                if mode=='stderr_alias':run['stderrSha256']=run['stdoutSha256']
+                if mode=='stdout_hash':run['stdoutSha256']='sha256:'+'0'*64
+                raw=json.dumps(run).encode()
+                if mode=='execution_json':raw=b'not native execution JSON'
+                elif mode=='execution_duplicate':raw=b'{"schemaVersion":1,"schemaVersion":1}'
+                rp.write_bytes(raw);register(data,rp);write_yaml(evaluation_path,evaluation)
+                errors=validate(data);self.assertTrue(errors,(profile,metric,mode));self.assertTrue(any('evaluator' in error or 'executionRef' in error or 'physically distinct' in error for error in errors),(profile,metric,mode,errors))
+        # Complete actual span comparisons are retained; only anonymous IDs are optimized.
+        scenarios=[('renamed',[(0,5,'ref-A'),(5,10,'ref-B')],[(0,5,'hyp-Z'),(5,10,'hyp-Q')],0,10,True),('permuted_names',[(0,5,'label-8'),(5,10,'label-2')],[(0,5,'label-2'),(5,10,'label-8')],0,10,True),('global_not_per_span',[(0,5,'ref-A'),(5,10,'ref-B')],[(0,10,'hyp-X')],0,10,False),('nongreedy',[(0,17,'ref-A'),(17,25,'ref-B')],[(0,9,'hyp-X'),(9,17,'hyp-Y'),(17,25,'hyp-X')],9,25,True),('eight_speakers',[(i,i+1,'ref-'+str(i)) for i in range(8)],[(i,i+1,'hyp-'+str(7-i)) for i in range(8)],0,8,True)]
+        for name,left,right,numerator,denominator,valid in scenarios:
+            restore();data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path);usage=load_yaml(usage_path);config=load_yaml(config_path);policy=config['configuration']['aiEvaluationPolicy'];reference_path=root/policy['items'][0]['referenceRef'];output_path=root/usage['items'][0]['outputRef'];reference=json.loads(reference_path.read_bytes());output=json.loads(output_path.read_bytes())
+            def segments(values):return [dict(startedSeconds=start,finishedSeconds=end,speakerId=speaker) for start,end,speaker in values]
+            next(v for v in reference['metrics'] if v['metricId']=='speaker_der')['segments']=segments(left);next(v for v in output['metrics'] if v['metricId']=='speaker_der')['segments']=segments(right)
+            reference_path.write_text(json.dumps(reference));output_path.write_text(json.dumps(output));reference_sha=register(data,reference_path);output_sha=register(data,output_path);usage['items'][0]['outputSha256']=output_sha
+            for item in policy['items']:item['referenceSha256']=reference_sha
+            boundaries=sorted({value for start,end,speaker in left+right for value in (start,end)})
+            for row in evaluation['evaluations']:
+                row['outputSha256']=output_sha;ep=root/row.get('countComparisonRef',row.get('scoreEvidenceRef'));evidence=json.loads(ep.read_bytes());evidence.update(outputSha256=output_sha,referenceSha256=reference_sha)
+                if row['metricId']=='speaker_der':
+                    evidence['comparisons']=[dict(startedSeconds=start,finishedSeconds=end,referenceSpeakers=sorted(speaker for a,b,speaker in left if a<=start and b>=end),outputSpeakers=sorted(speaker for a,b,speaker in right if a<=start and b>=end)) for start,end in zip(boundaries,boundaries[1:])];row.update(numerator=numerator,denominator=denominator,score=numerator/denominator)
+                ep.write_text(json.dumps(evidence));register(data,ep)
+            next(m for m in data['measurements'] if m['id']=='speaker_der')['actual']=numerator/denominator
+            write_yaml(config_path,config);write_yaml(usage_path,usage);write_yaml(evaluation_path,evaluation);self.sync_qualified_ai_tool_execution_fixture(root,data,prefix)
+            errors=validate(data)
+            if valid:self.assertEqual(errors,[],(profile,name,errors))
+            else:self.assertTrue(any('count ratio claims' in error for error in errors),(profile,name,errors))
+        restore();self.assertEqual(validate(copy.deepcopy(original)),[])
 
     def prepare_qualified_frontend_fixture(self,root,execution,prefix):
         """Synthetic frontend observations; never actual prototypes or build/UI execution."""
@@ -1121,7 +1211,7 @@ class TestPocProgram(unittest.TestCase):
                 cache_status={'miss':'MISS','fill':'FILL','hit':'HIT','updated':'INVALIDATED','interrupted':'PARTIAL','partial_read':'PARTIAL','recovered':'FILL','latency_hot':'HIT','latency_cold':'MISS','latency_slow':'MISS','latency_multi':'HIT'}.get(name,'BYPASS')
                 # Small synthetic approval exercises the same minimum/Slice/buffer rule; actual POC approval chooses representative bytes.
                 request_id='synthetic-range-'+name+'-'+str(number)
-                origin_ref=retain('range-origin-'+name+'-'+str(number)+'.yaml',dict(schemaVersion=1,kind='range_origin_access_observation',configurationRef=resource['configurationRef'],case=name,assetId=policy['assetId'],aclVersion=policy['aclVersion'],requestId=request_id,userId=user,requestURL=policy['entryURL'],requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',sourceVersion=version,sourceSha256=sha,startedAt=f'2026-09-03T00:00:{second:02d}Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',originRequestCount=0 if name in ('denied_user','partial_read') or cache_status=='HIT' else 1,objectReadCount=0 if name in ('denied_user','partial_read') else 1),'measurement_output')
+                origin_ref=retain('range-origin-'+name+'-'+str(number)+'.yaml',dict(schemaVersion=1,kind='range_origin_access_observation',configurationRef=resource['configurationRef'],case=name,assetId=policy['assetId'],aclVersion=policy['aclVersion'],requestId=request_id,userId=user,requestURL=policy['entryURL'],requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',sourceVersion=version,sourceSha256=sha,startedAt=f'2026-09-03T00:00:{second:02d}Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',originRequestCount=0 if name in ('denied_user','partial_read') or cache_status=='HIT' else 1,objectReadCount=0 if name in ('denied_user','partial_read') or cache_status=='HIT' else 1),'measurement_output')
                 requests.append(dict(requestId=request_id,originAccessRef=origin_ref,startedAt=f'2026-09-03T00:00:{second:02d}Z',firstByteAt=f'2026-09-03T00:00:{second:02d}.001Z',finishedAt=f'2026-09-03T00:00:{second:02d}.002Z',sourceVersion=version,sourceSha256=sha,requestURL=policy['entryURL'],aclVersion=policy['aclVersion'],userId=user,cacheKey='synthetic-cache-'+user,requestRange=header,ifRange=etag if name=='if_match' else '"stale-version"' if name=='if_stale' else '',statusCode=status_code,etag=etag if name not in ('denied_user','partial_read') else '',contentRange=f'bytes */{size}' if name=='unsatisfiable' else '' if full or name in ('denied_user','partial_read') else f'bytes {start}-{end}/{size}',responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest(),responseByteCount=len(body),cacheComplete=name not in ('interrupted','partial_read','denied_user'),cacheVisible=name not in ('interrupted','partial_read','denied_user'),transferCompleted=name not in ('interrupted','partial_read'),maximumBufferedBytes=min(len(body),policy['maximumBufferedBytes']),retryCount=1 if name=='recovered' else 0,cacheStatus=cache_status,cachePurged=name=='latency_cold',originDelayMs=policy['slowOriginDelayMs'] if name=='latency_slow' else 0,originBandwidthBytesPerSecond=policy['slowOriginBandwidthBytesPerSecond'],concurrentUsers=2 if name=='latency_multi' else 1))
             ref=retain('range-'+name+'.yaml',dict(schemaVersion=1,kind='range_request_observation',**common,case=name,requests=requests),'measurement_output');cases.append(dict(case=name,witnessRef=ref))
         slices=[]
@@ -1136,6 +1226,78 @@ class TestPocProgram(unittest.TestCase):
         lifecycle_ref=retain('range-cache-lifecycle.yaml',dict(schemaVersion=1,kind='range_cache_lifecycle',**common,stages=stages),'measurement_output')
         env['rangeMatrixRef']=retain('range-matrix.yaml',dict(schemaVersion=1,kind='range_matrix_report',**common,sourceUpdateRef=update_ref,cacheLifecycleRef=lifecycle_ref,cases=cases,slices=slices),'measurement_output')
 
+
+    def prepare_qualified_worker_network_fixture(self,root,execution,prefix):
+        """Synthetic client/firewall captures for validation only; never actual network execution."""
+        env=execution['environmentCaptured'];report_path=root/env['workerSafetyRef'];report=load_yaml(report_path);config_path=root/report['configurationRef'];config=load_yaml(config_path);policy=config['configuration']['workerSafetyPolicy']
+        policy.update(networkObserverBuild='synthetic-worker-network-client/checker-only-v1',networkCommandArgs=['synthetic-worker-network-probe']);write_yaml(config_path,config)
+        context={k:copy.deepcopy(report[k]) for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples')}
+        def retain(ref,kind,node,raw):
+            (root/ref).write_bytes(raw);sha='sha256:'+hashlib.sha256(raw).hexdigest();rows=[a for a in env['rawExecutionArtifacts'] if a['ref']==ref]
+            record=dict(ref=ref,artifactType=kind,nodeId=node,byteCount=len(raw),sha256=sha)
+            if rows:rows[0].update(record)
+            else:env['rawExecutionArtifacts'].append(record);execution['rawOutputRefs'].append(ref)
+            return sha
+        for node_number,row in enumerate(report['nodes'],1):
+            for case_number,case in enumerate(row['networkCases'],1):
+                node=row['identity']['nodeId'];authorized=case['case']=='authorized';start='2026-09-03T00:02:59.900Z';finish=case['observedAt'];request={k:case[k] for k in ('requestId','taskId','grantId','requestURL')}
+                outbound=b'GET /approved-input HTTP/1.1\r\nHost: synthetic-task.invalid\r\n\r\n' if authorized else b''
+                case['outboundSha256']=retain(case['outboundRef'],'produced_media',node,outbound);case['outboundByteCount']=len(outbound)
+                response_ref=prefix+'/raw/worker-network-'+case['requestId']+'-response.bin';response=b'HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nOK' if authorized else b'';response_sha=retain(response_ref,'produced_media',node,response)
+                events=[dict(type='request',observedAt=start,method='GET',**request)]
+                if authorized:
+                    target=CHECK.urllib.parse.urlsplit(case['requestURL']);events.extend([dict(type='connect',observedAt=start,peerHost=target.hostname,peerPort=target.port or (443 if target.scheme=='https' else 80),outcome='connected'),dict(type='send',observedAt=start,byteCount=len(outbound),sha256=case['outboundSha256']),dict(type='receive',observedAt=finish,byteCount=len(response),sha256=response_sha)])
+                else:events.append(dict(type='deny',observedAt=start,reason=case['case']))
+                exit_code=0 if authorized else 77;events.append(dict(type='exit',observedAt=finish,exitCode=exit_code))
+                capture=dict(schemaVersion=1,kind='worker_safety_network_trace',context=context,identity=row['identity'],observerBuild=policy['networkObserverBuild'],commandArgs=policy['networkCommandArgs']+['--request-id',case['requestId'],'--target',case['requestURL'],'--outbound',case['outboundRef'],'--response',response_ref],pid=40000+node_number*10+case_number,startedAt=start,finishedAt=finish,exitCode=exit_code,responseRef=response_ref,responseSha256=response_sha,events=events)
+                trace_ref=prefix+'/raw/worker-network-'+case['requestId']+'-trace.json';case['transportRef']=trace_ref;case['transportSha256']=retain(trace_ref,'command_output',node,json.dumps(capture).encode())
+        write_yaml(report_path,report);raw=report_path.read_bytes();next(a for a in env['rawExecutionArtifacts'] if a['ref']==env['workerSafetyRef']).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+
+    def exercise_worker_network_transport_regressions(self,root,original,validate,profile):
+        env=original['environmentCaptured'];report_path=root/env['workerSafetyRef'];saved_report=report_path.read_bytes();report_original=load_yaml(report_path)
+        captures={}
+        for case in report_original['nodes'][0]['networkCases'][:2]:
+            trace_path=root/case['transportRef'];trace=json.loads(trace_path.read_bytes());response_path=root/trace['responseRef'];captures[case['case']]=(trace_path,trace_path.read_bytes(),response_path,response_path.read_bytes())
+        for mode in ('missing_trace','trace_hash','trace_type','trace_node','trace_nonjson','trace_duplicate','trace_nonfinite','trace_oversize','identity','context','request','task','grant','url','method','command','observer','pid','clock','observed_clock','empty_get_connected','empty_get_refused','denied_send','denied_response','response_alias','reason','denied_exit_success','authorized_no_connect','authorized_no_receive','authorized_peer','authorized_invalid_url','authorized_send_hash','authorized_response_hash','authorized_response_empty'):
+            for trace_path,raw,response_path,response in captures.values():trace_path.write_bytes(raw);response_path.write_bytes(response)
+            data=copy.deepcopy(original);report=copy.deepcopy(report_original);case=report['nodes'][0]['networkCases'][0 if mode.startswith('authorized_') else 1];trace_path,raw,response_path,response=captures[case['case']];trace=json.loads(raw)
+            if mode=='missing_trace':case.pop('transportRef')
+            elif mode=='trace_type':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==case['transportRef'])['artifactType']='measurement_output'
+            elif mode=='trace_node':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==case['transportRef'])['nodeId']='foreign-node'
+            elif mode=='identity':trace['identity']['physicalHostId']='foreign-host'
+            elif mode=='context':trace['context']['inputSamples'][0]['checksum']='sha256:'+'0'*64
+            elif mode in ('request','task','grant','url'):trace['events'][0][dict(request='requestId',task='taskId',grant='grantId',url='requestURL')[mode]]='foreign'
+            elif mode=='method':trace['events'][0]['method']='POST'
+            elif mode=='command':trace['commandArgs'][0]='foreign-client'
+            elif mode=='observer':trace['observerBuild']='foreign-observer'
+            elif mode=='pid':trace['pid']=True
+            elif mode=='clock':trace['finishedAt']='2026-09-03T00:02:59Z'
+            elif mode=='observed_clock':case['observedAt']='2026-09-03T00:03:00.001Z'
+            elif mode in ('empty_get_connected','empty_get_refused'):trace['events'].insert(1,dict(type='connect',observedAt=trace['startedAt'],peerHost='127.0.0.1',peerPort=80,outcome='connected' if mode=='empty_get_connected' else 'refused'))
+            elif mode=='denied_send':trace['events'].insert(1,dict(type='send',observedAt=trace['startedAt'],byteCount=0,sha256=case['outboundSha256']))
+            elif mode=='denied_response':response_path.write_bytes(b'HTTP/1.1 403 Forbidden\r\nContent-Length: 0\r\n\r\n')
+            elif mode=='response_alias':trace['responseRef']=case['outboundRef'];trace['commandArgs'][-1]=case['outboundRef']
+            elif mode=='reason':trace['events'][1]['reason']='expired_grant'
+            elif mode=='denied_exit_success':trace['exitCode']=trace['events'][-1]['exitCode']=0
+            elif mode=='authorized_no_connect':trace['events'].pop(1)
+            elif mode=='authorized_no_receive':trace['events'].pop(3)
+            elif mode=='authorized_peer':trace['events'][1]['peerHost']='foreign-host'
+            elif mode=='authorized_invalid_url':case['requestURL']=trace['events'][0]['requestURL']=trace['commandArgs'][4]='https://[:::1]/invalid'
+            elif mode=='authorized_send_hash':trace['events'][2]['sha256']='sha256:'+'0'*64
+            elif mode=='authorized_response_hash':trace['events'][3]['sha256']='sha256:'+'0'*64
+            elif mode=='authorized_response_empty':response_path.write_bytes(b'')
+            trace['responseSha256']='sha256:'+hashlib.sha256((root/trace['responseRef']).read_bytes()).hexdigest();raw=json.dumps(trace).encode()
+            if mode=='trace_nonjson':raw=b'not a native client trace'
+            elif mode=='trace_duplicate':raw=b'{"schemaVersion":1,"schemaVersion":1}'
+            elif mode=='trace_nonfinite':raw=raw.replace(b'"pid": 40012',b'"pid": NaN')
+            elif mode=='trace_oversize':raw=b' '*262145
+            trace_path.write_bytes(raw)
+            if 'transportRef' in case:case['transportSha256']='sha256:'+hashlib.sha256(raw).hexdigest()
+            if mode=='trace_hash':case['transportSha256']='sha256:'+'0'*64
+            write_yaml(report_path,report);self.assertTrue(any('qualified worker safety' in error for error in validate(data)),(profile,mode))
+        for trace_path,raw,response_path,response in captures.values():trace_path.write_bytes(raw);response_path.write_bytes(response)
+        report_path.write_bytes(saved_report)
+        self.assertEqual(validate(copy.deepcopy(original)),self.deferred_production_errors(profile,'POC-01'))
 
     def prepare_qualified_passthrough_transitions_fixture(self,root,execution,prefix):
         """Synthetic reboot/reset witnesses; never actual hardware validation."""
@@ -1223,6 +1385,7 @@ class TestPocProgram(unittest.TestCase):
             rows.append(dict(identity=node,limitCases=cases,restart=restart,networkCases=network))
         report=dict(schemaVersion=1,kind='worker_safety_outcomes',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=subject,inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],nodes=rows)
         ref=prefix+'/raw/worker-safety.yaml';path=root/ref;write_yaml(path,report);raw=path.read_bytes();env['workerSafetyRef']=ref;env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType='measurement_output',byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref)
+        self.prepare_qualified_worker_network_fixture(root,execution,prefix)
 
 
     def prepare_qualified_source_fault_fixture(self,root,execution,prefix):
@@ -1387,13 +1550,20 @@ class TestPocProgram(unittest.TestCase):
             ref,sha=retain('synthetic-protected-'+surface+'.bin',b'Synthetic protected '+surface.encode()+b'; never actual HLS bytes.');outputs.append(dict(surface=surface,ref=ref,sha256=sha))
         outputs.extend(dict(surface=surface,ref=quality['firstSegment']['segmentRef'],sha256=quality['firstSegment']['segmentSha256']) for surface in ('segment','cache_hit'))
         policy=dict(subjectVersion=quality['subjectVersion'],jobId=quality['jobId'],retryDecoderBuild=assembly['decoderBuild'],cancelJobId='synthetic-independent-cancel-job',assetId='synthetic-media-asset',assetVersion=next(r['immutableId'] for r in execution['samples'] if r['id']==assembly['inputSampleId']),nodes=nodes,limits=dict(cpuSeconds=5,memoryBytes=100,elapsedSeconds=5,temporaryBytes=100,outputBytes=100),deniedTargets=[dict(case=case,target=target) for case,target in (('protocol','file:///synthetic-denied-input'),('path','/synthetic/../denied-input'),('proxy','http://127.0.0.1/synthetic-private'))],authorizedUserId='synthetic-owner',deniedUserId='synthetic-other-user',currentGrantId='synthetic-current-grant',expiredGrantId='synthetic-expired-grant',revokedGrantId='synthetic-revoked-grant',aclVersion='synthetic-acl-v1',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-04T00:00:00Z',expiredAt='2026-09-02T00:00:00Z',revokedAt='2026-09-03T00:01:00Z',protectedOutputs=outputs)
+        policy.update(limitObserverBuild='synthetic-media-limit-observer; checker regression only',limitCommandArgs=['synthetic-media-limit-probe'])
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['mediaNegativePolicy']=policy;write_yaml(config_path,config);rows=[]
-        for identity in nodes:
+        context=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=quality['subjectVersion'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],jobId=policy['jobId'],assetId=policy['assetId'],assetVersion=policy['assetVersion'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'])
+        for node_number,identity in enumerate(nodes,1):
             node=identity['nodeId'];denials=[];checks=[]
             for target in policy['deniedTargets']:
                 ref,sha=retain(node+'-denied-'+target['case']+'.bin',b'',node);denials.append(dict(**target,requestId=node+'-denied-'+target['case'],observedAt='2026-09-03T00:02:00Z',status='denied',inputBytesRead=0,outputBytesWritten=0,publicationCount=0,outboundRef=ref,outboundSha256=sha))
-            for kind,ceiling in policy['limits'].items():
-                observed={k:1 for k in policy['limits']};observed[kind]=ceiling+1;checks.append(dict(case=kind,requestId=node+'-limit-'+kind,startedAt='2026-09-03T00:03:00Z',finishedAt='2026-09-03T00:03:06Z' if kind=='elapsedSeconds' else '2026-09-03T00:03:01Z',observed=observed,terminationReason=kind,processStatus='terminated',remainingTemporaryBytes=0,remainingOutputBytes=0,publicationCount=0))
+            for case_number,(kind,ceiling) in enumerate(policy['limits'].items(),1):
+                observed={k:1 for k in policy['limits']};observed[kind]=ceiling+1;start='2026-09-03T00:03:00Z';finish='2026-09-03T00:03:06Z' if kind=='elapsedSeconds' else '2026-09-03T00:03:01Z';request=node+'-limit-'+kind
+                case=dict(case=kind,requestId=request,startedAt=start,finishedAt=finish,observed=observed,terminationReason=kind,processStatus='terminated',remainingTemporaryBytes=0,remainingOutputBytes=0,publicationCount=0)
+                common=dict(schemaVersion=1,context=context,identity=identity,taskId=policy['jobId'],requestId=request,case=kind,processId=str(40000+node_number*10+case_number),observerBuild=policy['limitObserverBuild'])
+                materials=dict(process=dict(**common,kind='worker_safety_limit_process',startedAt=start,commandArgs=policy['limitCommandArgs']+[kind],limits=policy['limits']),runtime=dict(**common,kind='worker_safety_limit_runtime',samples=[dict(observedAt=start,userCpuSeconds=0,systemCpuSeconds=0,residentBytes=1),dict(observedAt=finish,userCpuSeconds=observed['cpuSeconds'],systemCpuSeconds=0,residentBytes=observed['memoryBytes'])]),filesystem=dict(**common,kind='worker_safety_limit_filesystem',snapshots=[dict(observedAt=start,files=[],publishedArtifactIds=[]),dict(observedAt=finish,files=[dict(path='temporary.bin',area='temporary',byteCount=observed['temporaryBytes']),dict(path='output.bin',area='output',byteCount=observed['outputBytes'])],publishedArtifactIds=[]),dict(observedAt=finish[:-1]+'.001Z',files=[],publishedArtifactIds=[])]),exit=dict(**common,kind='worker_safety_limit_exit',observedAt=finish,exitCode=137,terminationReason=kind,remainingProcessIds=[]))
+                for name,capture in materials.items():case[name+'Ref'],case[name+'Sha256']=retain(request+'-'+name+'.json',json.dumps(capture).encode(),node,kind='command_output')
+                checks.append(case)
             partial_ref,partial_sha=retain(node+'-interrupted-partial.bin',b'Synthetic interrupted partial; never actual AV1.',node);run=next(r for r in env['workerEncodeExecutions'] if r['nodeId']==node)
             retry_ref,retry_sha=retain(node+'-fresh-retry-output.bin',b'Synthetic retry output; never actual AV1.',node)
             retry_probe_ref,_=retain(node+'-retry-av1-probe.yaml',dict(schemaVersion=1,kind='media_retry_decode_observation',jobId=policy['jobId'],attemptEpoch=2,nodeId=node,encoderBuild=identity['encoderBuild'],inputSha256=assembly['inputSha256'],outputArtifactRef=retry_ref,outputSha256=retry_sha,decoderBuild=policy['retryDecoderBuild'],codec='av1',decodable=True,sourceStartFrame=run['sourceStartFrame'],sourceEndFrame=run['sourceEndFrame'],decodedFrameCount=run['sourceEndFrame']-run['sourceStartFrame'],durationSeconds=2,decodeErrorCount=0,startedAt='2026-09-03T00:04:04Z',finishedAt='2026-09-03T00:04:04.001Z'),node,kind='measurement_output')
@@ -1414,6 +1584,60 @@ class TestPocProgram(unittest.TestCase):
         report=dict(schemaVersion=1,kind='media_negative_outcomes',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=quality['subjectVersion'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],jobId=policy['jobId'],assetId=policy['assetId'],assetVersion=policy['assetVersion'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'],nodes=rows,accessCases=access);env['mediaNegativeRef'],_=retain('media-negative-outcomes.yaml',report,kind='measurement_output')
 
 
+    def retain_media_native_fixture(self,root,execution,prefix,name,value,node,kind='command_output'):
+        """Upsert synthetic checker-regression bytes, never a native media run."""
+        ref=prefix+'/raw/'+name;path=root/ref;path.parent.mkdir(parents=True,exist_ok=True)
+        raw=value if isinstance(value,bytes) else json.dumps(value).encode();path.write_bytes(raw);sha='sha256:'+hashlib.sha256(raw).hexdigest()
+        records=execution['environmentCaptured']['rawExecutionArtifacts'];record=next((r for r in records if r['ref']==ref),None)
+        if record is None:record=dict(ref=ref);records.append(record)
+        record.update(artifactType=kind,nodeId=node,byteCount=len(raw),sha256=sha)
+        if ref not in execution['rawOutputRefs']:execution['rawOutputRefs'].append(ref)
+        return ref,sha
+
+    def retain_media_process_fixture(self,root,execution,prefix,name,operation,identity,node,tool,build,tail,stdout,start,end,pid,stderr_tail=''):
+        """Synthetic retained process chain only; no subprocess or tool mocking."""
+        retain=lambda suffix,value:self.retain_media_native_fixture(root,execution,prefix,name+suffix,value,node)
+        out,out_sha=retain('.stdout',stdout);err,err_sha=retain('.stderr',(tool+' version '+build+'\n'+stderr_tail).encode())
+        process=dict(schemaVersion=1,kind='media_native_execution',operation=operation,identity=copy.deepcopy(identity),nodeId=node,toolBuild=build,processId=str(pid),workingDirectory='.',argv=[tool]+tail,startedAt=start,finishedAt=end,exitCode=0,stdoutRef=out,stdoutSha256=out_sha,stderrRef=err,stderrSha256=err_sha)
+        ref,_=retain('.process.json',process)
+        return ref,process
+
+    def prepare_qualified_media_assembly_fixture(self,root,execution,prefix):
+        """Synthetic MP4 payload/native trace regression; never actual mux/decode evidence."""
+        env=execution['environmentCaptured'];runs=env['workerEncodeExecutions'];assembly=env['parallelMediaAssembly'];node=runs[0]['nodeId']
+        assembly.update(nodeId=node,muxerBuild='synthetic-mux-build',decoderBuild='synthetic-native-decoder-build',framesPerSecond=30)
+        box=lambda tag,payload:(len(payload)+8).to_bytes(4,'big')+tag+payload
+        entry=box(b'av01',b'\0'*78+box(b'av1C',b'\0'*4));moov=box(b'moov',box(b'trak',box(b'mdia',box(b'minf',box(b'stbl',box(b'stsd',b'\0'*4+(1).to_bytes(4,'big')+entry))))))
+        def media(ref,start,end,whole=False):
+            # A distinct wrapper and output time base exercise legal stream-copy remux.
+            header=box(b'ftyp',b'isom\0\0\0\0isom')+(box(b'free',b'Synthetic remux fixture') if whole else b'')+moov
+            packets=[i.to_bytes(4,'big') for i in range(start,end)];raw=header+box(b'mdat',b''.join(packets));(root/ref).write_bytes(raw)
+            ticks=3000 if whole else 1;count=end-start
+            probe=dict(program_version=dict(version=assembly['decoderBuild']),streams=[dict(codec_name='av1',codec_tag_string='av01',profile='Synthetic checker fixture',level=0,width=320,height=180,pix_fmt='yuv420p',time_base='1/90000' if whole else '1/30',r_frame_rate='30/1')],format=dict(format_name='mov,mp4,m4a,3gp,3g2,mj2',size=str(len(raw))),packets_and_frames=[item for i,packet in enumerate(packets) for item in (dict(type='packet',pts=i*ticks,dts=i*ticks,duration=ticks,pos=str(len(header)+8+4*i),size='4',data_hash='SHA256:'+hashlib.sha256(packet).hexdigest()),dict(type='frame',pts=i*ticks,duration=ticks,width=320,height=180,pix_fmt='yuv420p'))])
+            return 'sha256:'+hashlib.sha256(raw).hexdigest(),probe
+        probes=[]
+        for run in runs:
+            run['outputSha256'],probe=media(run['outputArtifactRef'],run['sourceStartFrame'],run['sourceEndFrame']);probes.append(probe)
+        assembly['outputSha256'],whole=media(assembly['outputArtifactRef'],0,assembly['sourceFrameCount'],True);execution['provenance']['output_sha256']=assembly['outputSha256']
+        parts=[{k:run[k] for k in ('nodeId','outputArtifactRef','outputSha256','sourceStartFrame','sourceEndFrame')} for run in runs];parts.sort(key=lambda p:p['sourceStartFrame']);assembly['parts']=parts
+        identity=dict(taskId=execution['taskId'],acceptanceProfile=env['acceptanceProfile'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'],sourceFrameCount=assembly['sourceFrameCount'],outputArtifactRef=assembly['outputArtifactRef'],outputSha256=assembly['outputSha256'],parts=parts)
+        decoder_tail=lambda ref:['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',ref]
+        part_refs=[]
+        for i,(run,probe) in enumerate(zip(runs,probes)):
+            part=next(p for p in parts if p['outputArtifactRef']==run['outputArtifactRef']);binding=dict(identity,part=part);binding.update(outputArtifactRef=part['outputArtifactRef'],outputSha256=part['outputSha256'])
+            ref,_=self.retain_media_process_fixture(root,execution,prefix,'media-part-'+str(i),'decode',binding,run['nodeId'],'ffprobe',assembly['decoderBuild'],decoder_tail(run['outputArtifactRef']),json.dumps(probe).encode(),'2026-09-03T00:01:00Z','2026-09-03T00:01:00.001Z',61001+i)
+            part_refs.append(dict(outputArtifactRef=run['outputArtifactRef'],executionRef=ref))
+        manifest=prefix+'/raw/media-mux-inputs.ffconcat';manifest_text=CHECK.media_concat_manifest(manifest,parts)
+        manifest,manifest_sha=self.retain_media_native_fixture(root,execution,prefix,'media-mux-inputs.ffconcat',manifest_text.encode(),node)
+        mux_identity=dict(identity,muxManifestRef=manifest,muxManifestSha256=manifest_sha)
+        tail=['-nostdin','-f','concat','-safe','0','-i',manifest,'-map','0:v:0','-c','copy','-an','-y',assembly['outputArtifactRef'],'-progress','pipe:1','-nostats']
+        mux,_=self.retain_media_process_fixture(root,execution,prefix,'media-mux','mux',mux_identity,node,'ffmpeg',assembly['muxerBuild'],tail,('frame='+str(assembly['sourceFrameCount'])+'\nprogress=end\n').encode(),'2026-09-03T00:01:00.001Z','2026-09-03T00:01:00.002Z',62001)
+        output,_=self.retain_media_process_fixture(root,execution,prefix,'media-output','decode',identity,node,'ffprobe',assembly['decoderBuild'],decoder_tail(assembly['outputArtifactRef']),json.dumps(whole).encode(),'2026-09-03T00:01:00.002Z','2026-09-03T00:01:00.003Z',63001)
+        report=dict(schemaVersion=1,**{k:assembly[k] for k in ('inputSampleId','inputSha256','sourceFrameCount','outputSha256','parts','decoderBuild')},decodedFrameCount=assembly['sourceFrameCount'],decodeErrorCount=0,timelineDiscontinuityCount=0,muxManifestRef=manifest,muxExecutionRef=mux,outputDecodeRef=output,partDecodeRefs=part_refs)
+        write_yaml(root/assembly['validationRef'],report)
+        self.refresh_qualified_observation_fixture(root,execution)
+
+
     def prepare_qualified_quality_timing_fixture(self,root,execution,prefix):
         """Synthetic retained quality/timing observations, not AV1 or VMAF execution."""
         env=execution['environmentCaptured'];assembly=env['parallelMediaAssembly'];run=env['workerEncodeExecutions'][0];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS')
@@ -1423,12 +1647,19 @@ class TestPocProgram(unittest.TestCase):
             else:write_yaml(path,value)
             raw=path.read_bytes();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,nodeId=run['nodeId'],byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));execution['rawOutputRefs'].append(ref);return ref,'sha256:'+hashlib.sha256(raw).hexdigest()
         plan=load_yaml(self.plan_path(root,'POC-002'));policy=dict(jobId='synthetic-approved-media-job',evaluatorBuild='synthetic-vmaf-evaluator-build',modelId='synthetic-approved-vmaf-model',modelSha256='sha256:'+'a'*64,encoderBuild=run['encoderBuild'],encoderParameters=copy.deepcopy(execution['provenance']['encoder_parameters']),inputSamples=[{k:sample[k] for k in ('id','immutableId','checksum')} for sample in execution['samples']])
+        model_ref,model_sha=retain('vmaf-model.json',b'{"syntheticCheckerFixture":true}','command_output');policy.update(modelRef=model_ref,modelSha256=model_sha)
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['mediaEvaluationPolicy']=policy;write_yaml(config_path,config)
         common=dict(configurationRef=resource['configurationRef'],subjectVersion=CHECK.compliance_subject_version(plan,execution),acceptanceProfile=env['acceptanceProfile'],jobId=policy['jobId'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'],outputArtifactRef=assembly['outputArtifactRef'],outputSha256=assembly['outputSha256'],encoderBuild=run['encoderBuild'],encoderParameters=policy['encoderParameters'])
         job_event={k:common[k] for k in ('configurationRef','subjectVersion','acceptanceProfile','jobId','inputSampleId','inputSha256','encoderBuild','encoderParameters')}
         job_event_ref,_=retain('media-job-start.yaml',dict(schemaVersion=1,kind='media_job_start_observation',**job_event,encodeRunRef=run['rawOutputRef'],nodeId=run['nodeId'],jobStartedAt=run['startedAt'],workerStartedAt=run['startedAt']))
         frame_ref,frame_sha=retain('vmaf-frames.json',json.dumps(dict(frames=[dict(frameNum=i,metrics=dict(vmaf=1)) for i in range(assembly['sourceFrameCount'])])).encode(),'command_output')
-        command,_=retain('vmaf-command.json',json.dumps(dict(schemaVersion=1,kind='vmaf_evaluator_invocation',**common,evaluatorBuild=policy['evaluatorBuild'],modelId=policy['modelId'],modelSha256=policy['modelSha256'],evaluatedAt='2026-09-03T00:01:01Z',exitCode=0,command=['synthetic-vmaf-fixture-not-executed'],resultRef=frame_ref,resultSha256=frame_sha)).encode(),'command_output')
+        source_ref=next(r['inputArtifactRef'] for r in env['inputSampleArtifacts'] if r['sampleId']==assembly['inputSampleId'])
+        invocation=dict(schemaVersion=1,kind='vmaf_evaluator_invocation',**common,evaluatorBuild=policy['evaluatorBuild'],modelId=policy['modelId'],modelSha256=policy['modelSha256'],evaluatedAt='2026-09-03T00:01:01Z',exitCode=0,sourceRef=source_ref,modelRef=model_ref,resultRef=frame_ref,resultSha256=frame_sha)
+        identity={k:v for k,v in invocation.items() if k not in ('schemaVersion','kind','exitCode')}
+        tail=['-nostdin','-i',assembly['outputArtifactRef'],'-i',source_ref,'-lavfi',CHECK.media_vmaf_filter(model_ref,frame_ref),'-an','-f','null','-','-progress','pipe:1','-nostats']
+        native,process=self.retain_media_process_fixture(root,execution,prefix,'vmaf-native','vmaf',identity,assembly['nodeId'],'ffmpeg',policy['evaluatorBuild'],tail,('frame='+str(assembly['sourceFrameCount'])+'\nprogress=end\n').encode(),'2026-09-03T00:01:00.004Z','2026-09-03T00:01:01Z',64001,'[libvmaf] VMAF score: 1.000000\n')
+        invocation.update(nativeExecutionRef=native,command=process['argv'])
+        command,_=retain('vmaf-command.json',json.dumps(invocation).encode(),'command_output')
         quality_ref,_=retain('vmaf-evaluator-output.yaml',dict(schemaVersion=1,kind='vmaf_evaluator_output',**common,evaluatorBuild=policy['evaluatorBuild'],modelId=policy['modelId'],modelSha256=policy['modelSha256'],evaluatedAt='2026-09-03T00:01:01Z',evaluatedFrameCount=assembly['sourceFrameCount'],vmafMean=1,evaluatorCommandRef=command))
         segment_ref,segment_sha=retain('first-playable-segment.bin',b'Synthetic first segment, never actual encoded AV1.','produced_media')
         probe_ref,_=retain('first-playable-segment-probe.yaml',dict(schemaVersion=1,kind='first_playable_segment_probe',jobId=policy['jobId'],nodeId=run['nodeId'],segmentRef=segment_ref,segmentSha256=segment_sha,inputSha256=assembly['inputSha256'],sourceStartFrame=0,sourceEndFrame=1,decodedFrameCount=1,decodeErrorCount=0,decoderBuild=assembly['decoderBuild'],codec='av1',decodable=True,observedAt='2026-09-03T00:00:00.001Z'))
@@ -1463,7 +1694,7 @@ class TestPocProgram(unittest.TestCase):
             for metric,rule in count_rules.items():
                 value=dict(metricId=metric)
                 if rule in ('whitespace_word_edit','unicode_codepoint_edit'):value['text']='a' if kind=='ai_count_reference' else 'b'
-                elif rule=='speaker_seconds':value['segments']=[dict(startedSeconds=0,finishedSeconds=10,speakerId='reference-speaker' if kind=='ai_count_reference' else 'observed-other-speaker')]
+                elif rule=='speaker_seconds':value['segments']=[dict(startedSeconds=0,finishedSeconds=10,speakerId='reference-speaker' if kind=='ai_count_reference' else 'observed-other-speaker')]+([dict(startedSeconds=0,finishedSeconds=10,speakerId='observed-extra-speaker')] if kind=='ai_count_output' else [])
                 elif rule=='label_set_f1':value['labels']=['approved-label-1']
                 else:value['units']=[dict(unitId='approved-unit-1',value=1)]
                 metrics.append(value)
@@ -1487,7 +1718,7 @@ class TestPocProgram(unittest.TestCase):
                 rule=method['comparisonRule']
                 if rule in ('whitespace_word_edit','unicode_codepoint_edit'):comparisons=[dict(operation='substitution',referenceIndex=0,outputIndex=0)]
                 elif rule=='speaker_seconds':
-                    comparisons=[dict(startedSeconds=0,finishedSeconds=10,referenceSpeakers=['reference-speaker'],outputSpeakers=['observed-other-speaker'])];row.update(numerator=10,denominator=10)
+                    comparisons=[dict(startedSeconds=0,finishedSeconds=10,referenceSpeakers=['reference-speaker'],outputSpeakers=['observed-extra-speaker','observed-other-speaker'])];row.update(numerator=10,denominator=10)
                 elif rule=='label_set_f1':comparisons=[dict(labelId='approved-label-1',inReference=True,inOutput=True)]
                 else:comparisons=[dict(unitId='approved-unit-1',matched=True)]
                 evidence=dict(schemaVersion=1,kind='ai_count_comparison',**common,metricId=row['metricId'],itemId=row['itemId'],sampleId=row['sampleId'],inputSha256=sample['checksum'],outputRef=row['outputRef'],outputSha256=row['outputSha256'],referenceRef=reference_ref,referenceSha256=reference_sha,methodId=row['methodId'],evaluatorBuild=row['evaluatorBuild'],rubricVersion=row['rubricVersion'],observedAt=row['observedAt'],comparisonRule=rule,argv=method['evaluatorArgv']+['--output',row['outputRef'],'--reference',reference_ref],exitCode=0,startedAt='2026-09-03T00:01:00Z',finishedAt=row['observedAt'],comparisons=comparisons)
@@ -1520,6 +1751,7 @@ class TestPocProgram(unittest.TestCase):
         for allowed in (True,False):
             data_rows.append(dict(case='authorized' if allowed else 'data_policy_denied',policyId=data_policy['policyId'],policyVersion=data_policy['policyVersion'],classificationId=data_policy['classificationId'],purpose=data_policy['allowedPurpose'] if allowed else data_policy['deniedPurpose'],callerId=gates['authorizedCallerId'],assetId=gates['assetId'],aclVersion=gates['currentAclVersion'],evaluatedAt='2026-09-03T00:02:59Z',dispatchedAt=authorized['observedAt'] if allowed else None,decision='allowed' if allowed else 'denied',providerRequestIds=authorized['providerRequestIds'] if allowed else [],outboundRef=authorized['outboundRef'] if allowed else denial_ref,outboundSha256=authorized['outboundSha256'] if allowed else denial_sha))
         env['aiDataPolicyRef'],_=retain('ai-data-policy-outcomes.yaml',dict(schemaVersion=1,kind='ai_data_policy_outcomes',**common,providerMode=data_policy['providerMode'],assetVersion=data_policy['assetVersion'],dispatchRef=dispatch_ref,privacyReviewRef=reviews['privacy'],outcomes=data_rows))
+        self.sync_qualified_ai_tool_execution_fixture(root,execution,prefix)
 
 
     def refresh_qualified_observation_fixture(self,root,record,approve_captures=False):
@@ -1625,6 +1857,7 @@ class TestPocProgram(unittest.TestCase):
                 probe_path=root/life['retryProbeRef'];probe=load_yaml(probe_path)
                 probe.update(sourceStartFrame=life['retrySourceStartFrame'],sourceEndFrame=life['retrySourceEndFrame'],decodedFrameCount=life['retryDecodedFrameCount']);write_yaml(probe_path,probe)
             write_yaml(negative_path,negative)
+            self.prepare_qualified_media_assembly_fixture(root,record,prefix)
             self.prepare_qualified_media_scheduling_fixture(root,record,prefix,total_capacity=3,per_node_capacity=2)
             self.refresh_qualified_observation_fixture(root,record,approve_captures=True);write_yaml(path,record);baseline=path.read_bytes()
             validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'})
@@ -2018,6 +2251,12 @@ class TestPocProgram(unittest.TestCase):
                 else:request['firstByteAt']='invalid-utc'
                 if mode not in ('arbitrary_telemetry','oversize_telemetry'):write_yaml(telemetry_path,telemetry)
                 write_yaml(request_path,request);write_yaml(config_path,config);self.assertTrue(validate(data),mode)
+            for missing in ('rangeStart','rangeEnd'):
+                for p,raw in originals.items():p.write_bytes(raw)
+                data=copy.deepcopy(original);request=load_yaml(request_path);request.pop(missing);write_yaml(request_path,request)
+                self.refresh_qualified_observation_fixture(root,data);errors=[]
+                CHECK.validate_qualified_encode_workers(root,plan,data,prefix,'pass',window,errors,{},defs)
+                self.assertTrue(any('qualified media assembly' in error for error in errors),(missing,errors))
             # Values come from measured rows, including legitimate subzero temperatures.
             for p,raw in originals.items():p.write_bytes(raw)
             record=copy.deepcopy(original);telemetry=load_yaml(telemetry_path);request=load_yaml(request_path)
@@ -2107,6 +2346,66 @@ class TestPocProgram(unittest.TestCase):
                     else:report['cases']=[r for r in report['cases'] if r['case']!=mode.removeprefix('missing_')]
                     if mode not in ('arbitrary_report','oversize_report'):write_yaml(report_path,report)
                     write_yaml(config_path,config);write_yaml(witness_path,witness);self.assertTrue(validate(data),(profile,mode))
+                if profile=='local-v1':
+                    for mode in ('missing_request_id','missing_transport','trace_type','trace_unlisted','trace_same_ref','trace_same_file','trace_same_bytes','duplicate_request','duplicate_trace','fabricated_attempt','context','input','sequence','observer','command','pid','request_path','request_grant','origin_path','read_hash','missing_origin','missing_read','hit_false_claim','throttled_origin','observed_clock','overlap','out_of_window','http_status','http_framing','http_hash','exit','trace_json'):
+                        for p,raw in originals.items():p.write_bytes(raw)
+                        data=copy.deepcopy(original);report=load_yaml(report_path);row=next(r for r in report['cases'] if r['case']=='rate_limit');witness_path=root/row['witnessRef'];witness=load_yaml(witness_path)
+                        attempt_index=1 if mode in ('trace_same_ref','trace_same_file','trace_same_bytes','duplicate_request','duplicate_trace','overlap') else 2 if mode=='throttled_origin' else 0
+                        attempt=witness['rateAttempts'][attempt_index];trace_path=root/attempt['transportRef'];trace=json.loads(trace_path.read_bytes());response_path=root/trace['responseRef'];alias=None;replacement=None
+                        if mode=='missing_request_id':attempt.pop('requestId')
+                        elif mode=='missing_transport':attempt.pop('transportRef')
+                        elif mode=='trace_type':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==attempt['transportRef'])['artifactType']='measurement_output'
+                        elif mode=='trace_unlisted':data['rawOutputRefs'].remove(attempt['transportRef'])
+                        elif mode=='trace_same_ref':attempt['transportRef']=witness['rateAttempts'][0]['transportRef']
+                        elif mode=='trace_same_file':
+                            alias=(trace_path,trace_path.read_bytes());trace_path.unlink();os.link(root/witness['rateAttempts'][0]['transportRef'],trace_path)
+                        elif mode=='trace_same_bytes':replacement=(root/witness['rateAttempts'][0]['transportRef']).read_bytes()
+                        elif mode in ('duplicate_request','duplicate_trace'):
+                            key='requestId' if mode=='duplicate_request' else 'traceId';value=witness['rateAttempts'][0][key];attempt[key]=trace[key]=value;trace['commandArgs'][-7 if key=='requestId' else -5]=value
+                            for event in trace['events']:event[key]=value
+                        elif mode=='fabricated_attempt':
+                            duplicate=copy.deepcopy(witness['rateAttempts'][-1]);duplicate['sequence']=4;witness['rateAttempts'].append(duplicate);witness['requestCount']=4
+                        elif mode=='context':trace['context']['sourceVersion']='foreign'
+                        elif mode=='input':trace['context']['inputSamples'][0]['checksum']='sha256:'+'0'*64
+                        elif mode=='sequence':trace['sequence']=2
+                        elif mode=='observer':trace['observerBuild']='foreign-observer'
+                        elif mode=='command':trace['commandArgs'][0]='foreign-client'
+                        elif mode=='pid':trace['pid']=True
+                        elif mode=='request_path':trace['events'][0]['requestURL']='https://localhost/foreign'
+                        elif mode=='request_grant':trace['events'][0]['grantId']='foreign-grant'
+                        elif mode=='origin_path':trace['events'][1]['requestURL']='http://127.0.0.1/foreign-source'
+                        elif mode=='read_hash':trace['events'][2]['sha256']='sha256:'+'0'*64
+                        elif mode=='missing_origin':trace['events'].pop(1)
+                        elif mode=='missing_read':trace['events'].pop(2)
+                        elif mode=='hit_false_claim':trace['events']=[event for event in trace['events'] if event['type'] in ('request','exit')]
+                        elif mode=='throttled_origin':
+                            event=dict(type='origin_request',observedAt=trace['finishedAt'],requestId=trace['requestId'],traceId=trace['traceId'],requestURL=load_yaml(config_path)['configuration']['accessPolicy']['paths']['source'],requestRange=witness['requestRange']);trace['events'].insert(1,event)
+                        elif mode=='observed_clock':attempt['observedAt']='2026-09-03T00:00:01.001Z'
+                        elif mode=='overlap':trace['startedAt']=trace['events'][0]['observedAt']='2026-09-03T00:00:00.500Z'
+                        elif mode=='out_of_window':trace['startedAt']=trace['events'][0]['observedAt']='2026-09-02T00:00:00Z'
+                        elif mode=='http_status':response_path.write_bytes(response_path.read_bytes().replace(b'HTTP/1.1 206',b'HTTP/1.1 429'))
+                        elif mode=='http_framing':response_path.write_bytes(response_path.read_bytes().replace(b'Content-Length: 8',b'Content-Length: 9'))
+                        elif mode=='exit':trace['exitCode']=trace['events'][-1]['exitCode']=1
+                        elif mode=='trace_json':replacement=b'not a native client trace'
+                        trace['responseSha256']='sha256:'+hashlib.sha256(response_path.read_bytes()).hexdigest()
+                        if mode=='http_hash':trace['responseSha256']='sha256:'+'0'*64
+                        if alias is None:trace_path.write_bytes(replacement if replacement is not None else json.dumps(trace).encode())
+                        write_yaml(witness_path,witness);self.refresh_qualified_observation_fixture(root,data)
+                        try:self.assertTrue(any('rate transport' in error or 'actual consecutive rate request' in error or 'transportRef' in error or 'requestId' in error for error in validate(data)),mode)
+                        finally:
+                            if alias is not None:alias[0].unlink();alias[0].write_bytes(alias[1])
+                    # Distinct actual requests may share the same immutable body artifact.
+                    for p,raw in originals.items():p.write_bytes(raw)
+                    data=copy.deepcopy(original);report=load_yaml(report_path);row=next(r for r in report['cases'] if r['case']=='rate_limit');witness_path=root/row['witnessRef'];witness=load_yaml(witness_path);first,second=witness['rateAttempts'][:2]
+                    self.assertNotEqual(first['requestId'],second['requestId']);self.assertNotEqual(first['transportRef'],second['transportRef'])
+                    second['responseBodyRef']=first['responseBodyRef'];trace_path=root/second['transportRef'];trace=json.loads(trace_path.read_bytes());trace['responseBodyRef']=first['responseBodyRef'];trace_path.write_bytes(json.dumps(trace).encode());write_yaml(witness_path,witness)
+                    self.refresh_qualified_observation_fixture(root,data);self.assertEqual(validate(data),[])
+                    # An allowed 206 cache HIT reads retained protected bytes without origin/object access.
+                    for p,raw in originals.items():p.write_bytes(raw)
+                    data=copy.deepcopy(original);report=load_yaml(report_path);row=next(r for r in report['cases'] if r['case']=='rate_limit');witness_path=root/row['witnessRef'];witness=load_yaml(witness_path);attempt=witness['rateAttempts'][0]
+                    attempt['originContacted']=False;witness['originRequestCount']=sum(attempt['originContacted'] for attempt in witness['rateAttempts'])
+                    trace_path=root/attempt['transportRef'];trace=json.loads(trace_path.read_bytes());trace['events']=[event for event in trace['events'] if event['type'] in ('request','exit')];trace_path.write_bytes(json.dumps(trace).encode());write_yaml(witness_path,witness)
+                    self.refresh_qualified_observation_fixture(root,data);self.assertEqual(validate(data),[])
                 # Denial may retain an exact public error document with no arbitrary protected payload.
                 for p,raw in originals.items():p.write_bytes(raw)
                 record=copy.deepcopy(original);report=load_yaml(report_path)
@@ -2114,7 +2413,11 @@ class TestPocProgram(unittest.TestCase):
                     if row['case'].startswith('authorized_'):continue
                     path=root/row['witnessRef'];witness=load_yaml(path);body=root/witness['responseBodyRef'];body.write_text(json.dumps({'error':'rate_limited' if row['case']=='rate_limit' else 'access_denied'}),encoding='utf8');witness['responseByteCount']=body.stat().st_size;witness['responseSha256']='sha256:'+hashlib.sha256(body.read_bytes()).hexdigest()
                     if row['case']=='rate_limit':witness['rateAttempts'][-1].update(responseSha256=witness['responseSha256'],responseByteCount=witness['responseByteCount'])
+                    if row['case']=='rate_limit' and profile=='local-v1':
+                        trace_path=root/witness['rateAttempts'][-1]['transportRef'];trace=json.loads(trace_path.read_bytes());raw=f"HTTP/1.1 429 Fixture\r\nContent-Length: {body.stat().st_size}\r\n\r\n".encode('ascii')+body.read_bytes()
+                        (root/trace['responseRef']).write_bytes(raw);trace['responseSha256']='sha256:'+hashlib.sha256(raw).hexdigest();trace_path.write_bytes(json.dumps(trace).encode())
                     write_yaml(path,witness)
+                self.refresh_qualified_observation_fixture(root,record)
                 self.assertEqual(validate(record),[])
             finally:temp.cleanup()
             for status in ('fail','inconclusive'):
@@ -2200,6 +2503,20 @@ class TestPocProgram(unittest.TestCase):
                     if mode not in ('arbitrary_report','oversize_report'):write_yaml(report_path,report)
                     write_yaml(config_path,config);write_yaml(witness_path,witness);write_yaml(update_path,update);write_yaml(lifecycle_path,lifecycle);self.assertTrue(validate(data),(profile,mode))
                 for p,raw in originals.items():p.write_bytes(raw)
+                # Cache labels must agree with the independently retained origin/object-read counts for every request.
+                for case in ('hit','latency_hot','latency_multi','miss','fill','recovered','latency_cold','latency_slow'):
+                    hit=case in ('hit','latency_hot','latency_multi')
+                    request_count=2 if case.startswith('latency_') else 1
+                    for request_index in range(request_count):
+                        for origin_count,object_count in ((1,0),(0,1),(1,1)) if hit else ((0,1),(1,0),(0,0)):
+                            for p,raw in originals.items():p.write_bytes(raw)
+                            data=copy.deepcopy(original);report=load_yaml(report_path);row=next(row for row in report['cases'] if row['case']==case);witness=load_yaml(root/row['witnessRef']);request=witness['requests'][request_index];origin_path=root/request['originAccessRef'];origin=load_yaml(origin_path)
+                            self.assertEqual((origin['originRequestCount'],origin['objectReadCount']),(0,0) if hit else (1,1))
+                            origin.update(originRequestCount=origin_count,objectReadCount=object_count);write_yaml(origin_path,origin)
+                            self.refresh_qualified_observation_fixture(root,data)
+                            observed=validate(data);reason='cache-hit scenarios require zero origin requests' if hit else 'cache miss/fill scenarios require observed origin requests'
+                            self.assertTrue(any(reason in error for error in observed),(profile,case,request_index,origin_count,object_count,observed))
+                for p,raw in originals.items():p.write_bytes(raw)
                 # Minimum size is approved configuration, never an invented production GiB threshold.
                 config=load_yaml(config_path);policy=config['configuration']['rangeMatrixPolicy'];input_size=(root/original['environmentCaptured']['inputSampleArtifacts'][0]['inputArtifactRef']).stat().st_size
                 self.assertEqual(policy['minimumInputBytes'],input_size)
@@ -2264,6 +2581,7 @@ class TestPocProgram(unittest.TestCase):
                 def validate(data):
                     errors=[];CHECK.validate_qualified_ai_results(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
                 self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[]);self.assertEqual(validate(record),[])
+                self.exercise_ai_tool_execution_and_der_regressions(root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile)
                 numeric=CHECK.AI_EVALUATED_METRICS|{'retrieval_recall','retrieval_mrr','retrieval_ndcg','query_latency','cost_estimate','provider_budget_limit','provider_request_rate_limit','provider_concurrency_limit'}
                 for metric in sorted(numeric):
                     data=copy.deepcopy(original);next(m for m in data['measurements'] if m['id']==metric)['actual']+=.125;self.assertTrue(validate(data),(profile,metric))
@@ -2392,6 +2710,7 @@ class TestPocProgram(unittest.TestCase):
                                     value=json.loads(other.read_text());value['referenceSha256']=sha;other.write_text(json.dumps(value))
                         ep.write_text(json.dumps(evidence))
                     write_yaml(evaluation_path,evaluation);write_yaml(usage_path,usage)
+                    if mode in ('missing_reference_unit','bool_accuracy','f1_favorable_counts','alias_reference'):self.sync_qualified_ai_tool_execution_fixture(root,data,prefix)
                     errors=validate(data);self.assertTrue(errors,(profile,mode))
                     fragment='physically distinct' if mode=='alias_reference' else 'schema violation at exitCode' if mode=='nonzero_exit' else 'schema violation at comparisons' if mode in ('missing_alignment','f1_missing_label') else None
                     if fragment:self.assertTrue(any(fragment in error for error in errors),(profile,mode,errors))
@@ -2410,7 +2729,7 @@ class TestPocProgram(unittest.TestCase):
                             row.update(truePositive=1,falsePositive=1,falseNegative=0,score=2/3);evidence['comparisons'].append(dict(labelId='observed-extra-label',inReference=False,inOutput=True))
                         ep.write_text(json.dumps(evidence))
                 next(m for m in data['measurements'] if m['id']=='tag_f1')['actual']=2/3
-                write_yaml(evaluation_path,evaluation);write_yaml(usage_path,usage);self.assertEqual(validate(data),[])
+                write_yaml(evaluation_path,evaluation);write_yaml(usage_path,usage);self.sync_qualified_ai_tool_execution_fixture(root,data,prefix);self.assertEqual(validate(data),[])
                 # Error rates may exceed one and COMET may be negative when the retained evaluator actually observed them.
                 for p,raw in originals.items():p.write_bytes(raw)
                 data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path)
@@ -2432,7 +2751,7 @@ class TestPocProgram(unittest.TestCase):
                         elif row['metricId']=='speaker_der':evidence['comparisons'].append(dict(startedSeconds=10,finishedSeconds=12,referenceSpeakers=[],outputSpeakers=['observed-other-speaker']))
                         evidence_path.write_text(json.dumps(evidence))
                 write_yaml(usage_path,usage)
-                write_yaml(evaluation_path,evaluation);self.refresh_qualified_observation_fixture(root,data);path=root/result['executionRef'];write_yaml(path,data);self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[])
+                write_yaml(evaluation_path,evaluation);self.sync_qualified_ai_tool_execution_fixture(root,data,prefix);self.refresh_qualified_observation_fixture(root,data);path=root/result['executionRef'];write_yaml(path,data);self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[])
             finally:temp.cleanup()
             for status in ('fail','inconclusive'):
                 temp,root=self.temp_repo()
@@ -2630,6 +2949,43 @@ class TestPocProgram(unittest.TestCase):
                     write_yaml(report_path,report);write_yaml(probe_path,probe);write_yaml(config_path,config);write_yaml(job_path,job)
                     self.assertTrue(any('qualified media quality/timing' in error for error in validate(data)),(profile,mode))
                 command_path.write_bytes(command_raw);frame_path.write_bytes(frame_raw)
+                write_yaml(config_path,config_original);write_yaml(quality_path,quality_original)
+                native_path=root/command_original['nativeExecutionRef'];native_original=json.loads(native_path.read_text())
+                native_saved={p:p.read_bytes() for p in (native_path,root/native_original['stdoutRef'],root/native_original['stderrRef'],root/command_original['modelRef'],command_path,frame_path)}
+                policy=config_original['configuration']['mediaEvaluationPolicy'];defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];prefix=command_original['resultRef'].rsplit('/raw/',1)[0]
+                def native_value(invocation,quality,native):
+                    command_path.write_text(json.dumps(invocation));native_path.write_text(json.dumps(native));errors=[]
+                    data=copy.deepcopy(original);self.refresh_qualified_observation_fixture(root,data);cache={}
+                    CHECK.inspect_artifact(root/quality['outputArtifactRef'],cache)['assemblyDecodedAt']=CHECK.utc('2026-09-03T00:01:00.003Z')
+                    value=CHECK.derive_vmaf_frame_result(root,data,prefix,quality,policy,defs,'qualified media quality/timing native regression',errors,cache)
+                    return value,errors
+                for mode in ('argv','exit','missing_exit','wrong_node','logical_pid','before_assembly','finish_time','partial_progress','stderr_score','model_bytes','wrong_source','wrong_output','fabricated_frames'):
+                    for saved,raw in native_saved.items():saved.write_bytes(raw)
+                    invocation=copy.deepcopy(command_original);quality=copy.deepcopy(quality_original);native=copy.deepcopy(native_original)
+                    if mode=='argv':native['argv'][native['argv'].index('-i')+1]=invocation['sourceRef'];invocation['command']=native['argv']
+                    elif mode=='exit':native['exitCode']=1
+                    elif mode=='missing_exit':native.pop('exitCode')
+                    elif mode=='wrong_node':native['nodeId']='foreign-node'
+                    elif mode=='logical_pid':native['processId']='synthetic-request-process'
+                    elif mode=='before_assembly':native['startedAt']='2026-09-03T00:00:59Z'
+                    elif mode=='finish_time':native['finishedAt']='2026-09-03T00:01:02Z'
+                    elif mode in ('partial_progress','stderr_score'):
+                        target=root/native['stdoutRef' if mode=='partial_progress' else 'stderrRef'];target.write_text('frame=119\nprogress=end\n' if mode=='partial_progress' else 'ffmpeg version '+native['toolBuild']+'\n[libvmaf] VMAF score: 99.000000\n')
+                        native['stdoutSha256' if mode=='partial_progress' else 'stderrSha256']='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest()
+                    elif mode=='model_bytes':(root/invocation['modelRef']).write_bytes(b'Unapproved model bytes')
+                    elif mode=='wrong_source':invocation['sourceRef']=invocation['modelRef']
+                    elif mode=='wrong_output':native['identity']['outputSha256']='sha256:'+'0'*64
+                    else:
+                        result=json.loads(frame_raw)
+                        for frame in result['frames']:frame['metrics']['vmaf']=99
+                        frame_path.write_text(json.dumps(result));quality['vmafMean']=99;invocation['resultSha256']='sha256:'+hashlib.sha256(frame_path.read_bytes()).hexdigest();native['identity']['resultSha256']=invocation['resultSha256']
+                    value,errors=native_value(invocation,quality,native)
+                    self.assertIsNone(value,(profile,mode));self.assertTrue(any('qualified media quality/timing' in error for error in errors),(profile,mode,errors))
+                for saved,raw in native_saved.items():saved.write_bytes(raw)
+                native=copy.deepcopy(native_original);invocation=copy.deepcopy(command_original);native['argv'][0]=r'C:\tools\ffmpeg.exe';invocation['command']=native['argv']
+                value,errors=native_value(invocation,copy.deepcopy(quality_original),native)
+                self.assertEqual((value,errors),(1,[]),profile)
+                for saved,raw in native_saved.items():saved.write_bytes(raw)
                 # The platform job starts 50 ms before its selected worker: all 51 ms count.
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);probe=copy.deepcopy(probe_original);job=copy.deepcopy(job_original)
                 job_start='2026-09-02T23:59:59.950Z';worker_start='2026-09-03T00:00:00Z';ready='2026-09-03T00:00:00.001Z'
@@ -2913,6 +3269,7 @@ class TestPocProgram(unittest.TestCase):
                 write_yaml(config_path,config_original);write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),self.deferred_production_errors(profile,'POC-01'))
                 for material_path,raw in saved_materials.items():material_path.write_bytes(raw)
                 write_yaml(report_path,report_original)
+                self.exercise_worker_network_transport_regressions(root,original,validate,profile)
             finally:temp.cleanup()
         for profile in ('local-v1','production'):
             for status in ('fail','inconclusive'):
@@ -3210,6 +3567,9 @@ class TestPocProgram(unittest.TestCase):
                 report['inputSamples'][0]['checksum']=digest
                 resource_report_path=root/data['environmentCaptured']['metadataResourceRef']
                 resource_report=load_yaml(resource_report_path);resource_report['inputSamples'][0]['checksum']=digest;write_yaml(resource_report_path,resource_report)
+                for memory_sample in resource_report['memorySamples']:
+                    capture_path=root/memory_sample['counterCaptureRef'];capture=load_yaml(capture_path)
+                    capture['inputSamples']=copy.deepcopy(resource_report['inputSamples']);write_yaml(capture_path,capture)
                 if profile=='local-v1':
                     data['environmentCaptured']['synthetic_hierarchy_manifest']['generator']['fileCount']=2
                     policy['hierarchyGenerator']['fileCount']=2
@@ -3562,6 +3922,15 @@ class TestPocProgram(unittest.TestCase):
                     if isinstance(sequence,dict) and mode!='raw_hash':sequence['rawProbeSha256']='sha256:'+hashlib.sha256(body).hexdigest()
                     write_yaml(config_path,config);write_yaml(report_path,report);write_yaml(probe_path,probe);write_yaml(sequence_path,sequence)
                     self.assertTrue(any('qualified HLS READY' in e for e in validate(data)),(profile,mode))
+                for missing in ('sequenceDecodeRef','parts'):
+                    for file,body in files.items():file.write_bytes(body)
+                    data=copy.deepcopy(original);report=copy.deepcopy(original_report);sequence=copy.deepcopy(original_sequence)
+                    if missing=='sequenceDecodeRef':report.pop(missing)
+                    else:sequence.pop(missing)
+                    write_yaml(config_path,original_config);write_yaml(report_path,report);write_yaml(sequence_path,sequence)
+                    self.refresh_qualified_observation_fixture(root,data);errors=[]
+                    CHECK.validate_qualified_encode_workers(root,plan,data,prefix,'pass',window,errors,{},defs)
+                    self.assertTrue(any('qualified media assembly' in error for error in errors),(profile,missing,errors))
                 for file,body in files.items():file.write_bytes(body)
                 write_yaml(config_path,original_config);write_yaml(report_path,original_report);write_yaml(probe_path,original_probe);playlist_path.write_bytes(original_playlist)
                 # A nonzero timestamp origin and old ffprobe's pkt_duration spelling
@@ -4317,6 +4686,50 @@ class TestPocProgram(unittest.TestCase):
                 plan=load_yaml(self.plan_path(root,'POC-002'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];prefix=str(index.parent.relative_to(root)).replace('\\','/')
                 def negative_errors(data):
                     self.refresh_qualified_observation_fixture(root,data);errors=[];window=tuple(CHECK.utc(data['environmentCaptured']['executionWindow'][k]) for k in ('startedAt','finishedAt'));CHECK.validate_qualified_media_negative(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+                # Synthetic checker regression: aggregate claims cannot replace the
+                # independent process/runtime/filesystem/exit materials on either profile.
+                invented={'invented_cpu':'cpuSeconds','invented_memory':'memoryBytes','invented_elapsed':'elapsedSeconds','invented_temporary':'temporaryBytes','invented_output':'outputBytes'}
+                for mode in (*invented,'missing_process','missing_runtime','missing_filesystem','missing_exit','raw_node','artifact_node','raw_kind','raw_unlisted','raw_hash','raw_job','raw_input','raw_profile','raw_request','raw_tool','raw_argv','raw_limits','raw_pid','raw_counter','exit_success','exit_running','exit_reason','cleanup_missing','cleanup_remaining','native_publication','filesystem_alias','borrowed_case','borrowed_node'):
+                    for file,raw in files.items():file.write_bytes(raw)
+                    data=copy.deepcopy(original);report=copy.deepcopy(report_original);kind=invented.get(mode,'cpuSeconds');case=next(c for c in report['nodes'][0]['limitCases'] if c['case']==kind);original_case=next(c for c in report_original['nodes'][0]['limitCases'] if c['case']==kind);captures={name:json.loads((root/case[name+'Ref']).read_bytes()) for name in ('process','runtime','filesystem','exit')};runtime=captures['runtime'];process=captures['process'];filesystem=captures['filesystem'];exit=captures['exit']
+                    if mode in invented:
+                        case['observed'][kind]+=1
+                        if kind=='elapsedSeconds':case['finishedAt']='2026-09-03T00:03:07Z'
+                    elif mode.startswith('missing_'):case.pop(mode.removeprefix('missing_')+'Ref')
+                    elif mode=='raw_node':runtime['identity']['nodeId']='foreign-node'
+                    elif mode=='artifact_node':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==case['runtimeRef'])['nodeId']='foreign-node'
+                    elif mode=='raw_kind':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==case['runtimeRef'])['artifactType']='measurement_output'
+                    elif mode=='raw_unlisted':data['rawOutputRefs'].remove(case['runtimeRef'])
+                    elif mode=='raw_job':runtime['taskId']='foreign-job'
+                    elif mode=='raw_input':runtime['context']['inputSha256']='sha256:'+'0'*64
+                    elif mode=='raw_profile':runtime['context']['acceptanceProfile']=CHECK.profile_identity('production' if profile=='local-v1' else 'local-v1')
+                    elif mode=='raw_request':runtime['requestId']='foreign-request'
+                    elif mode=='raw_tool':runtime['observerBuild']='foreign-observer'
+                    elif mode=='raw_argv':process['commandArgs'][0]='unapproved-limit-probe'
+                    elif mode=='raw_limits':process['limits']['cpuSeconds']=99
+                    elif mode=='raw_pid':
+                        for capture in captures.values():capture['processId']='logical-process-name'
+                    elif mode=='raw_counter':runtime['samples'][-1]['userCpuSeconds']=5
+                    elif mode=='exit_success':exit['exitCode']=0
+                    elif mode=='exit_running':exit['remainingProcessIds']=[exit['processId']]
+                    elif mode=='exit_reason':exit['terminationReason']='memoryBytes'
+                    elif mode=='cleanup_missing':filesystem['snapshots'].pop()
+                    elif mode=='cleanup_remaining':filesystem['snapshots'][-1]['files']=[dict(path='remaining.tmp',area='temporary',byteCount=1)]
+                    elif mode=='native_publication':filesystem['snapshots'][1]['publishedArtifactIds']=['unsafe-publication']
+                    elif mode=='filesystem_alias':
+                        alias=copy.deepcopy(filesystem['snapshots'][1]['files'][0]);alias['path']='./temporary.bin';filesystem['snapshots'][1]['files'].append(alias);case['observed']['temporaryBytes']=2
+                    elif mode=='borrowed_case':case['runtimeRef']=report['nodes'][0]['limitCases'][1]['runtimeRef']
+                    elif mode=='borrowed_node':
+                        if len(report['nodes'])>1:case['runtimeRef']=report['nodes'][1]['limitCases'][0]['runtimeRef']
+                        else:runtime['identity']['nodeId']='foreign-node'
+                    for name,capture in captures.items():(root/original_case[name+'Ref']).write_bytes(json.dumps(capture).encode())
+                    for name in captures:
+                        if name+'Ref' in case:case[name+'Sha256']='sha256:'+hashlib.sha256((root/case[name+'Ref']).read_bytes()).hexdigest()
+                    if mode=='raw_hash':case['runtimeSha256']='sha256:'+'0'*64
+                    write_yaml(config_path,config_original);write_yaml(report_path,report)
+                    self.assertTrue(any('qualified media negative matrix' in e for e in negative_errors(data)),(profile,mode))
+                for file,raw in files.items():file.write_bytes(raw)
+                write_yaml(config_path,config_original);write_yaml(report_path,report_original);self.assertEqual(negative_errors(copy.deepcopy(original)),[])
                 for surface,case in (('manifest','cross_user'),('init','expired'),('segment','revoked'),('cache_hit','direct_origin')):
                     for mode in ('missing_origin','origin_read','object_read','wrong_request','wrong_context','borrowed','wrong_type','unlisted'):
                         for file,raw in files.items():file.write_bytes(raw)
@@ -4374,7 +4787,7 @@ class TestPocProgram(unittest.TestCase):
             def validate(data):
                 self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);return CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-04'})
             self.assertEqual(validate(copy.deepcopy(original)),[])
-            for mode in ('missing','arbitrary','policy','root','build','profile','input','missing_object','version','missing_request','path','credential','unauthorized_bytes','origin_missing','origin_arbitrary','origin_request','origin_object','origin_auth','origin_interval','denied_origin_request','denied_object_read','origin_borrowed','workload_missing','workload_arbitrary','workload_binding','workload_state_ref','write_disjoint','lifecycle_disjoint','lifecycle_zero','workloads_only_touch','full_hash','bounded_bytes','suffix_header','unsatisfiable','concurrency','duplicate_request','baseline_metadata','baseline_invalid','copy_missing','incomplete_promoted','hash_copy_valid','copy_state','copy_old_snapshot','disconnect_attempts','disconnect_full_hash','disconnect_promoted','disconnect_restart','recovery_old_snapshot','backup_hash','restore_hash','restore_metadata','restore_state_bytes','backup_time','eviction_asset','eviction_replica','eviction_retention','eviction_cache','eviction_time','migration_old_missing','migration_unverified','migration_pending_verified','migration_pending_asset','migration_pending_version','migration_hash','migration_version','migration_state_time','capacity_phase','capacity_order','capacity_admission','capacity_floor','capacity_count','throughput','latency','gate'):
+            for mode in ('missing','arbitrary','policy','root','build','profile','input','missing_object','version','missing_request','path','credential','unauthorized_bytes','origin_missing','origin_arbitrary','origin_request','origin_object','origin_auth','origin_interval','denied_origin_request','denied_object_read','origin_borrowed','workload_missing','workload_arbitrary','workload_binding','workload_state_ref','write_disjoint','lifecycle_disjoint','lifecycle_zero','workloads_only_touch','full_hash','bounded_bytes','suffix_header','unsatisfiable','concurrency','duplicate_request','baseline_metadata','baseline_invalid','copy_payload_ref','hash_copy_payload_ref','disconnect_payload_ref','eviction_payload_ref','migration_copy_payload_ref','migration_verified_payload_ref','backup_cache_payload_ref','restore_cache_payload_ref','copy_missing','incomplete_promoted','hash_copy_valid','copy_state','copy_old_snapshot','disconnect_attempts','disconnect_full_hash','disconnect_promoted','disconnect_restart','recovery_old_snapshot','backup_hash','restore_hash','restore_metadata','restore_state_bytes','backup_time','eviction_asset','eviction_replica','eviction_retention','eviction_cache','eviction_time','migration_old_missing','migration_unverified','migration_pending_verified','migration_pending_asset','migration_pending_version','migration_hash','migration_version','migration_state_time','capacity_phase','capacity_order','capacity_admission','capacity_floor','capacity_count','throughput','latency','gate'):
                 for file,raw in files.items():file.write_bytes(raw)
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['localStoragePolicy'];row=report['objects'][0];request=row['requests'][0];copy_case=row['copyRejections'][0];backup=row['backupRestore'];migration=row['migration']
                 def change_state(ref,change):
@@ -4426,6 +4839,10 @@ class TestPocProgram(unittest.TestCase):
                 elif mode=='duplicate_request':row['requests'][1]['requestId']=request['requestId']
                 elif mode=='baseline_metadata':change_state(report['baselineStateRef'],lambda s:s['assets'][0]['metadata'].update(title='Changed metadata'))
                 elif mode=='baseline_invalid':write_yaml(root/report['baselineStateRef'],True)
+                elif mode in ('copy_payload_ref','hash_copy_payload_ref','disconnect_payload_ref','eviction_payload_ref','migration_copy_payload_ref','migration_verified_payload_ref','backup_cache_payload_ref','restore_cache_payload_ref'):
+                    references={'copy_payload_ref':copy_case['afterStateRef'],'hash_copy_payload_ref':row['copyRejections'][1]['afterStateRef'],'disconnect_payload_ref':row['disconnect']['afterStateRef'],'eviction_payload_ref':row['evictionAfterStateRef'],'migration_copy_payload_ref':migration['copyingStateRef'],'migration_verified_payload_ref':migration['verifiedStateRef'],'backup_cache_payload_ref':backup['backupStateRef'],'restore_cache_payload_ref':backup['restoredStateRef']}
+                    field='caches' if mode in ('backup_cache_payload_ref','restore_cache_payload_ref') else 'replicas'
+                    change_state(references[mode],lambda s:s[field][0].update(payloadRef=copy_case['payloadRef']))
                 elif mode=='copy_missing':row['copyRejections'].pop()
                 elif mode=='incomplete_promoted':copy_case['promotionDecision']='verified'
                 elif mode=='hash_copy_valid':
@@ -5781,6 +6198,8 @@ class TestPocProgram(unittest.TestCase):
             invocation_path=root/quality['evaluatorCommandRef'];invocation=json.loads(invocation_path.read_text());frames_path=root/invocation['resultRef'];frames=json.loads(frames_path.read_text())
             for frame in frames['frames']:frame['metrics']['vmaf']=110
             frames_path.write_text(json.dumps(frames));invocation['resultSha256']='sha256:'+hashlib.sha256(frames_path.read_bytes()).hexdigest();invocation_path.write_text(json.dumps(invocation))
+            native_path=root/invocation['nativeExecutionRef'];native=json.loads(native_path.read_text());native['identity']['resultSha256']=invocation['resultSha256']
+            stderr_path=root/native['stderrRef'];stderr_path.write_text('ffmpeg version '+native['toolBuild']+'\n[libvmaf] VMAF score: 110.000000\n');native['stderrSha256']='sha256:'+hashlib.sha256(stderr_path.read_bytes()).hexdigest();native_path.write_text(json.dumps(native))
             self.refresh_qualified_observation_fixture(root,execution);write_yaml(path,execution)
             self.assertEqual(CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'}),[])
         finally:temp.cleanup()
@@ -6106,14 +6525,8 @@ class TestPocProgram(unittest.TestCase):
                     os.symlink(target.name,root/alias_ref)
                     subprocess.run(['git','-C',str(root),'add','--',alias_ref],check=True)
                     # Retain all typed observations while replacing only command output.
-                    source_transport_refs=set()
-                    if profile=='local-v1':
-                        fault=load_yaml(root/data['environmentCaptured']['sourceFaultOutcomeRef'])
-                        for row in fault['cases']:
-                            for attempt in row['attempts']:
-                                run=load_yaml(root/attempt['transportExecutionRef'])
-                                source_transport_refs.update(run[k] for k in ('requestRef','progressRef','stderrRef'))
-                    observations=[r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['artifactType']!='command_output' or r['ref'] in source_transport_refs]
+                    command_output_refs={command['outputRef'] for command in data['commands']}
+                    observations=[r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['ref'] not in command_output_refs]
                     data['rawOutputRefs']=[alias_ref,*[r['ref'] for r in observations]]
                     for command in data['commands']: command['outputRef']=alias_ref
                     data['environmentCaptured']['rawExecutionArtifacts']=[dict(ref=alias_ref,artifactType='command_output',byteCount=target.stat().st_size,sha256='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest())]
@@ -6276,7 +6689,13 @@ class TestPocProgram(unittest.TestCase):
             for key,origin,path in (('range',tls['entryOrigin'],'/protected/range'),('stream',tls['entryOrigin'],'/protected/stream'),('source',tls['openlistOrigin'],'/protected/source'),('admin',tls['openlistOrigin'],'/api/admin')):policy['paths'][key]=origin+path
             write_yaml(resource_path,resource)
             for case in report['cases']:
-                path=root/case['witnessRef'];witness=load_yaml(path);role='stream' if case['case']=='authorized_stream' else case['case'].removeprefix('direct_') if case['case'].startswith('direct_') else 'range';witness['requestURL']=policy['paths'][role];write_yaml(path,witness)
+                path=root/case['witnessRef'];witness=load_yaml(path);role='stream' if case['case']=='authorized_stream' else case['case'].removeprefix('direct_') if case['case'].startswith('direct_') else 'range';witness['requestURL']=policy['paths'][role]
+                for attempt in witness['rateAttempts']:
+                    trace_path=root/attempt['transportRef'];trace=json.loads(trace_path.read_bytes());trace['commandArgs'][-3]=policy['paths']['range']
+                    for event in trace['events']:
+                        if event['type'] in ('request','origin_request'):event['requestURL']=policy['paths']['source' if event['type']=='origin_request' else 'range']
+                    trace_path.write_bytes(json.dumps(trace).encode())
+                write_yaml(path,witness)
             self.refresh_qualified_observation_fixture(root,execution)
             index=CHECK.profile_index_ref('POC-'+str(int(poc.split('-')[1])).zfill(3),profile);result=load_yaml(root/load_yaml(root/index)['resultRef']);write_yaml(root/result['executionRef'],execution)
         for ref in configuration['numericDomainReviewRefs'].values():
@@ -6437,6 +6856,47 @@ class TestPocProgram(unittest.TestCase):
                     write_yaml(path,data)
                     errors=validate()
                     self.assertTrue(any('qualified media assembly' in error for error in errors),errors)
+                path.write_bytes(original);report_path.write_bytes(report_bytes)
+                baseline=load_yaml(path);env=baseline['environmentCaptured'];assembly=env['parallelMediaAssembly'];report=load_yaml(report_path)
+                saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];prefix=assembly['validationRef'].rsplit('/raw/',1)[0]
+                def native_errors(data):
+                    self.refresh_qualified_observation_fixture(root,data);errors=[];artifacts={a['ref']:a for a in data['environmentCaptured']['rawExecutionArtifacts']}
+                    CHECK.validate_qualified_media_assembly(root,data,prefix,data['environmentCaptured']['workerEncodeExecutions'],artifacts,defs,errors,{})
+                    return errors
+                # The output wrapper and time base differ, while ordered packet payloads match.
+                self.assertNotEqual((root/assembly['outputArtifactRef']).read_bytes(),b''.join((root/p['outputArtifactRef']).read_bytes() for p in assembly['parts']))
+                self.assertEqual(native_errors(copy.deepcopy(baseline)),[],profile)
+                for mode in ('mux_argv','mux_exit','mux_node','mux_time','mux_partial','manifest_order','missing_decoder_exit','logical_pid','partial_decode','packet_hash','packet_timing','unrelated_blob','unrelated_mp4'):
+                    for file,raw in saved.items():file.write_bytes(raw)
+                    data=copy.deepcopy(baseline);assembly=data['environmentCaptured']['parallelMediaAssembly'];report=load_yaml(report_path)
+                    mux_path=root/report['muxExecutionRef'];mux=json.loads(mux_path.read_text());decode_path=root/report['outputDecodeRef'];decode=json.loads(decode_path.read_text());probe_path=root/decode['stdoutRef'];probe=json.loads(probe_path.read_text())
+                    if mode=='mux_argv':mux['argv'][mux['argv'].index('copy')]='libaom-av1'
+                    elif mode=='mux_exit':mux['exitCode']=1
+                    elif mode=='mux_node':mux['nodeId']='foreign-node'
+                    elif mode=='mux_time':mux['startedAt']='2026-09-03T00:00:59Z'
+                    elif mode=='mux_partial':
+                        target=root/mux['stdoutRef'];target.write_text('frame=119\nprogress=end\n');mux['stdoutSha256']='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest()
+                    elif mode=='manifest_order':
+                        target=root/report['muxManifestRef'];lines=target.read_text().splitlines();target.write_text('\n'.join([lines[0]]+list(reversed(lines[1:])))+'\n');mux['identity']['muxManifestSha256']='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest()
+                    elif mode=='missing_decoder_exit':decode.pop('exitCode')
+                    elif mode=='logical_pid':decode['processId']='request-process'
+                    elif mode=='partial_decode':probe['packets_and_frames']=[r for r in probe['packets_and_frames'] if not (r['type']=='frame' and r['pts']==0)]
+                    elif mode=='packet_hash':next(r for r in probe['packets_and_frames'] if r['type']=='packet')['data_hash']='SHA256:'+'0'*64
+                    elif mode=='packet_timing':
+                        packets=[r for r in probe['packets_and_frames'] if r['type']=='packet'];packets[0]['pts'],packets[1]['pts']=packets[1]['pts'],packets[0]['pts']
+                    else:
+                        target=root/assembly['outputArtifactRef'];raw=bytearray(target.read_bytes());packet=next(r for r in probe['packets_and_frames'] if r['type']=='packet');offset=int(packet['pos'])
+                        if mode=='unrelated_blob':target.write_bytes(b'Unrelated nonempty blob, with a self-consistent claimed hash')
+                        else:
+                            raw[offset:offset+4]=b'FAKE';target.write_bytes(raw);packet['data_hash']='SHA256:'+hashlib.sha256(b'FAKE').hexdigest()
+                        sha='sha256:'+hashlib.sha256(target.read_bytes()).hexdigest();assembly['outputSha256']=data['provenance']['output_sha256']=report['outputSha256']=sha;mux['identity']['outputSha256']=decode['identity']['outputSha256']=sha
+                    probe_path.write_text(json.dumps(probe));decode['stdoutSha256']='sha256:'+hashlib.sha256(probe_path.read_bytes()).hexdigest();decode_path.write_text(json.dumps(decode));mux_path.write_text(json.dumps(mux));write_yaml(report_path,report)
+                    self.assertTrue(any('qualified media assembly' in error for error in native_errors(data)),(profile,mode))
+                for file,raw in saved.items():file.write_bytes(raw)
+                report=load_yaml(report_path)
+                for ref in [report['muxExecutionRef'],report['outputDecodeRef']]+[row['executionRef'] for row in report['partDecodeRefs']]:
+                    native_path=root/ref;native=json.loads(native_path.read_text());native['argv'][0]=(r'C:\tools\ffmpeg.exe' if native['operation']=='mux' else r'C:\tools\ffprobe.exe');native_path.write_text(json.dumps(native))
+                self.assertEqual(native_errors(copy.deepcopy(baseline)),[],profile)
             finally:temp.cleanup()
 
 

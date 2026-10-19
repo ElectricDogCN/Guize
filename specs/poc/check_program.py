@@ -12,6 +12,7 @@ import importlib.util
 import ipaddress
 import json
 import math
+import posixpath
 import re
 import sqlite3
 import subprocess
@@ -1810,32 +1811,57 @@ RAW_ASSIGNMENT = re.compile(r'''(?:["'](?P<quoted>[^\r\n"']{1,128})["']|(?P<plai
 RAW_AUTHORIZATION = re.compile(r'''(?i)\b(?:authorization|proxy-authorization)["']?\s*[:=]\s*["']?(?:Bearer|Basic)\s+\S+''')
 
 
-def inspect_binary_artifact_ranges(path,cache,byte_ranges):
+def inspect_binary_artifact_ranges(path,cache,byte_ranges,mp4=False):
     """Hash the requested binary ranges during the artifact's one bounded scan."""
     requested=tuple(dict.fromkeys(byte_ranges));cached=cache.get(path)
-    if cached is not None and all(bounds in cached.get('rangeHashes',{}) for bounds in requested):return cached
+    if cached is not None and all(bounds in cached.get('rangeHashes',{}) for bounds in requested) and (not mp4 or 'mp4' in cached):return cached
     size=path.stat().st_size;digest=hashlib.sha256();offset=0
     valid=[bounds for bounds in requested if len(bounds)==2 and all(type(v) is int for v in bounds) and 0<=bounds[0]<=bounds[1]<size]
     ranges={bounds:hashlib.sha256() for bounds in valid if bounds!=(0,size-1)}
+    boxes=[];box_header=bytearray();next_box=0;metadata={};mp4_valid=True
     def consume_physical(chunk):
-        nonlocal offset
+        nonlocal offset,next_box,mp4_valid
         digest.update(chunk)
         for (first,last),range_digest in ranges.items():
             low,high=max(0,first-offset),min(len(chunk),last+1-offset)
             if low<high:range_digest.update(chunk[low:high])
+        if mp4 and mp4_valid:
+            while next_box<offset+len(chunk):
+                header_size=16 if len(box_header)>=8 and int.from_bytes(box_header[:4],'big')==1 else 8
+                low=max(0,next_box+len(box_header)-offset);take=min(header_size-len(box_header),len(chunk)-low)
+                if take>0:box_header.extend(chunk[low:low+take])
+                if len(box_header)<header_size:break
+                if header_size==8 and int.from_bytes(box_header[:4],'big')==1:continue
+                length=int.from_bytes(box_header[8:16] if header_size==16 else box_header[:4],'big')
+                if header_size==8 and length==0:length=size-next_box
+                kind=bytes(box_header[4:8]);end=next_box+length
+                if length<header_size or end>size or len(boxes)>=10000:mp4_valid=False;break
+                boxes.append((kind,next_box+header_size,end))
+                if kind in (b'ftyp',b'moov'):
+                    if kind in metadata or length-header_size>(4096 if kind==b'ftyp' else 1048576):mp4_valid=False;break
+                    metadata[kind]=bytearray()
+                next_box=end;box_header.clear()
+            for kind,first,last in boxes:
+                if kind in metadata:
+                    low,high=max(0,first-offset),min(len(chunk),last-offset)
+                    if low<high:metadata[kind].extend(chunk[low:high])
         offset+=len(chunk)
     for _ in retained_metadata_chunks(path,consume_physical):pass
-    result=dict(size=size,sha256='sha256:'+digest.hexdigest(),textScanned=False,credential=False,invalidUtf8=False)
-    if valid:result['rangeHashes']={bounds:result['sha256'] if bounds==(0,size-1) else 'sha256:'+ranges[bounds].hexdigest() if offset>bounds[1] else None for bounds in valid}
+    result=dict(cached or {},size=size,sha256='sha256:'+digest.hexdigest())
+    for key in ('textScanned','credential','invalidUtf8'):result.setdefault(key,False)
+    if valid:
+        result['rangeHashes']=dict(result.get('rangeHashes',{}))
+        result['rangeHashes'].update({bounds:result['sha256'] if bounds==(0,size-1) else 'sha256:'+ranges[bounds].hexdigest() if offset>bounds[1] else None for bounds in valid})
+    if mp4:result['mp4']=dict(valid=mp4_valid and next_box==size and not box_header,boxes=boxes,metadata={key:bytes(value) for key,value in metadata.items()})
     cache[path]=result
     return result
 
 
-def inspect_artifact(path, cache, textual=False, byte_range=None, byte_ranges=None):
+def inspect_artifact(path, cache, textual=False, byte_range=None, byte_ranges=None, mp4=False):
     """One bounded read per artifact type within this validation invocation."""
-    if byte_ranges is not None:
+    if byte_ranges is not None or mp4:
         if textual:raise ValueError('batch byte ranges require a binary artifact')
-        return inspect_binary_artifact_ranges(path,cache,tuple(byte_ranges)+((byte_range,) if byte_range is not None else ()))
+        return inspect_binary_artifact_ranges(path,cache,tuple(byte_ranges or ())+((byte_range,) if byte_range is not None else ()),mp4)
     cached = cache.get(path)
     if cached is not None and (not textual or cached['textScanned']) and (byte_range is None or byte_range in cached.get('rangeHashes',{})):
         return cached
@@ -2085,12 +2111,42 @@ def complete_decoder_timeline(raw,params,frame_count,frames_per_second):
     except (KeyError,TypeError,ValueError,ZeroDivisionError,OverflowError,IndexError):return False
 
 
-def worker_media_packet_bytes(media,raw,codec):
+def mp4_codec_metadata(metadata,declared):
+    pending=[(0,len(metadata),0)];sample_entries=[]
+    while pending:
+        first,last,depth=pending.pop();cursor=first
+        while cursor<last:
+            if last-cursor<8:return False
+            length=int.from_bytes(metadata[cursor:cursor+4],'big');kind=metadata[cursor+4:cursor+8]
+            if length<8 or cursor+length>last:return False
+            if kind in (b'trak',b'mdia',b'minf',b'stbl'):
+                if depth>=4 or kind!=(b'trak',b'mdia',b'minf',b'stbl')[depth]:return False
+                pending.append((cursor+8,cursor+length,depth+1))
+            elif kind==b'stsd':
+                if depth!=4 or length<24 or int.from_bytes(metadata[cursor+12:cursor+16],'big')!=1:return False
+                entry_size=int.from_bytes(metadata[cursor+16:cursor+20],'big')
+                if entry_size<8 or entry_size!=length-16:return False
+                if metadata[cursor+20:cursor+24]==declared:
+                    if entry_size<86:return False
+                    sample_entries.append(declared)
+            cursor+=length
+    return len(sample_entries)==1
+
+
+def worker_media_packet_bytes(media,raw,codec,cache=None,extra_ranges=()):
     """Bind original MP4 probe packets to bounded native container and payload bytes."""
     entries={'av1':(b'av01',),'h264':(b'avc1',b'avc3'),'hevc':(b'hvc1',b'hev1'),'vp9':(b'vp09',),'mpeg4':(b'mp4v',)}
     try:
         declared=raw['streams'][0]['codec_tag_string'].encode('ascii');accepted=entries.get(codec,(declared,))
         if len(declared)!=4 or declared not in accepted:return False
+        if cache is not None:
+            packets=[row for row in raw['packets_and_frames'] if row['type']=='packet'];ranges=[(int(row['pos']),int(row['pos'])+int(row['size'])-1) for row in packets]
+            info=inspect_artifact(media,cache,byte_ranges=ranges+list(extra_ranges),mp4=True);facts=info['mp4'];boxes=facts['boxes'];metadata=facts['metadata'];brands=metadata.get(b'ftyp',b'')
+            if not facts['valid'] or len(brands)<8 or len(brands)%4 or not mp4_codec_metadata(metadata.get(b'moov',b''),declared):return False
+            brands=brands[:4]+brands[8:]
+            if not any(brands[i:i+4] in (b'isom',b'iso2',b'iso5',b'iso6',b'mp41',b'mp42',b'av01',b'avc1',b'dash') for i in range(0,len(brands),4)):return False
+            mdat=[(a,b) for k,a,b in boxes if k==b'mdat'];ordered=sorted(ranges)
+            return bool(ranges) and all(any(a<=first<=last<b for a,b in mdat) and info.get('rangeHashes',{}).get(bounds)==row['data_hash'].replace('SHA256:','sha256:',1) for row,bounds in zip(packets,ranges) for first,last in [bounds]) and all(a[1]<b[0] for a,b in zip(ordered,ordered[1:])) and raw['format']['format_name']=='mov,mp4,m4a,3gp,3g2,mj2' and int(raw['format']['size'])==info['size']
         size=media.stat().st_size;boxes=[];offset=0
         with media.open('rb') as stream:
             while offset<size:
@@ -2104,25 +2160,8 @@ def worker_media_packet_bytes(media,raw,codec):
             if len(ftyp)!=1 or len(moov)!=1 or not mdat or ftyp[0][1]-ftyp[0][0]<8 or (ftyp[0][1]-ftyp[0][0])%4 or ftyp[0][1]-ftyp[0][0]>4096 or moov[0][1]-moov[0][0]>1048576:return False
             stream.seek(ftyp[0][0]);brands=stream.read(ftyp[0][1]-ftyp[0][0]);brands=brands[:4]+brands[8:]
             if not any(brands[i:i+4] in (b'isom',b'iso2',b'iso5',b'iso6',b'mp41',b'mp42',b'av01',b'avc1',b'dash') for i in range(0,len(brands),4)):return False
-            stream.seek(moov[0][0]);metadata=stream.read(moov[0][1]-moov[0][0]);pending=[(0,len(metadata),0)];sample_entries=[]
-            while pending:
-                first,last,depth=pending.pop();cursor=first
-                while cursor<last:
-                    if last-cursor<8:return False
-                    length=int.from_bytes(metadata[cursor:cursor+4],'big');kind=metadata[cursor+4:cursor+8]
-                    if length<8 or cursor+length>last:return False
-                    if kind in (b'trak',b'mdia',b'minf',b'stbl'):
-                        if depth>=4 or kind!=(b'trak',b'mdia',b'minf',b'stbl')[depth]:return False
-                        pending.append((cursor+8,cursor+length,depth+1))
-                    elif kind==b'stsd':
-                        if depth!=4 or length<24 or int.from_bytes(metadata[cursor+12:cursor+16],'big')!=1:return False
-                        entry_size=int.from_bytes(metadata[cursor+16:cursor+20],'big')
-                        if entry_size<8 or entry_size!=length-16:return False
-                        if metadata[cursor+20:cursor+24]==declared:
-                            if entry_size<86:return False
-                            sample_entries.append(metadata[cursor+20:cursor+24])
-                    cursor+=length
-            if len(sample_entries)!=1:return False
+            stream.seek(moov[0][0]);metadata=stream.read(moov[0][1]-moov[0][0])
+            if not mp4_codec_metadata(metadata,declared):return False
             ranges=[]
             for packet in (row for row in raw['packets_and_frames'] if row['type']=='packet'):
                 start,count=int(packet['pos']),int(packet['size']);end=start+count
@@ -2463,6 +2502,7 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         return
     artifacts = {record.get('ref'):record for record in env.get('rawExecutionArtifacts') or [] if isinstance(record,dict) and isinstance(record.get('ref'),str)}
     inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
+    validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
     intervals = []
     stream_intervals = []
     run_paths = []
@@ -2516,7 +2556,6 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
             errors.append(f'{label}: sustained_encode_duration must equal captured continuous worker interval capacity in minutes')
         elif metric=='encode_throughput' and (not ai_finite(actual) or actual!=observed):
             errors.append(f'{label}: {metric} must equal captured continuous worker interval capacity')
-    validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
 
 
 def validate_qualified_a380_encode(root,plan,execution,prefix,status,window,defs,errors,cache):
@@ -2653,13 +2692,9 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
         for field,key in (('assets','assetId'),('sourceMappings','objectId'),('retention','assetId'),('replicas','replicaId'),('caches','cacheId')):
             if len({r[key] for r in result[field]})!=len(result[field]):errors.append(f'{label}: state identities must be unique')
         return result['states'] if 'states' in result else {k:result[k] for k in ('assets','sourceMappings','retention','replicas','caches')}
-    def semantic(value):
-        if isinstance(value,dict):return {k:semantic(v) for k,v in value.items() if k!='payloadRef'}
-        if isinstance(value,list):return [semantic(v) for v in value]
-        return value
     baseline=state(report['baselineStateRef'])
     if baseline is None:return
-    if semantic(baseline)!=semantic(policy['baselineState']):errors.append(f'{label}: baseline must match independently approved governed state')
+    if baseline!=policy['baselineState']:errors.append(f'{label}: baseline must match independently approved governed state')
     known={r['assetId']:r for r in objects}
     if {r['assetId'] for r in baseline['assets']}!=set(known) or {r['assetId'] for r in baseline['retention']}!=set(known):errors.append(f'{label}: baseline must represent all approved assets and retention')
     for obj in objects:
@@ -2706,9 +2741,9 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
         for copy in copies:
             info=bytes_info(copy['payloadRef'],copy['sha256']);after=state(copy['afterStateRef']);timing=interval(copy['startedAt'],copy['finishedAt'])
             invalid=info is not None and (0<info['size']<total if copy['case']=='incomplete' else info['size']==total and info['sha256']!=sample['checksum'])
-            if not invalid or copy['assetId']!=obj['assetId'] or copy['versionId']!=obj['versionId'] or copy['expectedSha256']!=sample['checksum'] or copy['promotionDecision']!='rejected' or after is None or semantic(after)!=semantic(baseline) or timing and state_times.get(copy['afterStateRef'],timing[0])<timing[1]:errors.append(f'{label}: actual invalid copy must be rejected without authoritative-state promotion or mutation')
+            if not invalid or copy['assetId']!=obj['assetId'] or copy['versionId']!=obj['versionId'] or copy['expectedSha256']!=sample['checksum'] or copy['promotionDecision']!='rejected' or after is None or after!=baseline or timing and state_times.get(copy['afterStateRef'],timing[0])<timing[1]:errors.append(f'{label}: actual invalid copy must be rejected without authoritative-state promotion or mutation')
         disconnect=row['disconnect'];attempts=disconnect['attempts'];after=state(disconnect['afterStateRef'])
-        if not 2<=len(attempts)<=policy['maximumRetries']+1 or after is None or semantic(after)!=semantic(baseline):errors.append(f'{label}: bounded disconnect/restart recovery must preserve governed state')
+        if not 2<=len(attempts)<=policy['maximumRetries']+1 or after is None or after!=baseline:errors.append(f'{label}: bounded disconnect/restart recovery must preserve governed state')
         last=None
         for index,attempt in enumerate(attempts):
             timing=interval(attempt['startedAt'],attempt['finishedAt']);info=bytes_info(attempt['responseRef'],attempt['responseSha256']);complete=index==len(attempts)-1
@@ -2722,19 +2757,21 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
         backup=row['backupRestore'];backup_info=bytes_info(backup['backupDataRef'],backup['backupSha256']);restore_info=bytes_info(backup['restoredDataRef'],backup['restoredSha256']);backup_state=state(backup['backupStateRef']);restored_state=state(backup['restoredStateRef']);interval(backup['startedAt'],backup['finishedAt'])
         backup_path=existing_ref(root,backup['backupDataRef'],prefix);restored_path=existing_ref(root,backup['restoredDataRef'],prefix)
         if backup_path is not None and restored_path is not None and backup_path.samefile(restored_path):errors.append(f'{label}: backup and post-restore readback must be physically distinct phase artifacts')
-        if backup_info is None or restore_info is None or backup_info['sha256']!=sample['checksum'] or restore_info['sha256']!=sample['checksum'] or backup_state is None or restored_state is None or semantic(backup_state)!=semantic(baseline) or semantic(restored_state)!=semantic(baseline):errors.append(f'{label}: actual backup and restored data hashes plus governed metadata state must match baseline')
+        expected_backup={**baseline,'replicas':[{**r,'payloadRef':backup['backupDataRef']} if r['replicaId']==obj['oldReplicaId'] else r for r in baseline['replicas']]}
+        expected_restored={**baseline,'replicas':[{**r,'payloadRef':backup['restoredDataRef']} if r['replicaId']==obj['oldReplicaId'] else r for r in baseline['replicas']]}
+        if backup_info is None or restore_info is None or backup_info['sha256']!=sample['checksum'] or restore_info['sha256']!=sample['checksum'] or backup_state is None or restored_state is None or backup_state!=expected_backup or restored_state!=expected_restored:errors.append(f'{label}: actual backup and restored data hashes plus governed metadata state must match baseline')
         if backup_state is not None and restored_state is not None:
             for captured,ref,digest in ((backup_state,backup['backupDataRef'],backup['backupSha256']),(restored_state,backup['restoredDataRef'],backup['restoredSha256'])):
                 if not any(r['replicaId']==obj['oldReplicaId'] and r['payloadRef']==ref and r['sha256']==digest for r in captured['replicas']):errors.append(f'{label}: captured backup/restored replica state must point to its actually compared data bytes')
         if backup_state is not None and restored_state is not None and (utc(backup['startedAt']) is None or utc(backup['finishedAt']) is None or not utc(backup['startedAt'])<=state_times[backup['backupStateRef']]<=utc(backup['finishedAt'])<=state_times[backup['restoredStateRef']]):errors.append(f'{label}: captured backup/restore state clocks must bind the actual backup operation')
         eviction=state(row['evictionAfterStateRef']);expected_evicted={**baseline,'caches':[r for r in baseline['caches'] if r['assetId']!=obj['assetId']]}
         evicted_at=utc(row['evictedAt'])
-        if eviction is None or semantic(eviction)!=semantic(expected_evicted) or evicted_at is None or not state_times[report['baselineStateRef']]<=evicted_at<=state_times[row['evictionAfterStateRef']]:errors.append(f'{label}: cache eviction must remove only this cache while preserving authoritative assets/links/retention/formal replicas')
+        if eviction is None or eviction!=expected_evicted or evicted_at is None or not state_times[report['baselineStateRef']]<=evicted_at<=state_times[row['evictionAfterStateRef']]:errors.append(f'{label}: cache eviction must remove only this cache while preserving authoritative assets/links/retention/formal replicas')
         migration=row['migration'];during=state(migration['copyingStateRef']);after=state(migration['verifiedStateRef']);candidate=migration['newReplicaId'];old=[r for r in baseline['replicas'] if r['replicaId']==obj['oldReplicaId']];new=[r for r in after['replicas'] if r['replicaId']==candidate] if after else [];interval(migration['startedAt'],migration['verifiedAt'])
         if len(old)!=1 or candidate!=obj['newReplicaId'] or candidate==obj['oldReplicaId'] or during is None or not any(r==old[0] for r in during['replicas']) or after is None or len(new)!=1 or new[0]['state']!='VERIFIED' or new[0]['assetId']!=obj['assetId'] or new[0]['versionId']!=obj['versionId'] or new[0]['sha256']!=sample['checksum']:errors.append(f'{label}: old verified replica must remain available throughout new-copy verification');continue
         new_info=bytes_info(new[0]['payloadRef'],new[0]['sha256']);pending=[r for r in during['replicas'] if r['replicaId']==candidate];pending_info=bytes_info(pending[0]['payloadRef'],pending[0]['sha256']) if len(pending)==1 else None
         stripped={**after,'replicas':[r for r in after['replicas'] if r['replicaId']!=candidate]};during_stripped={**during,'replicas':[r for r in during['replicas'] if r['replicaId']!=candidate]}
-        if new_info is None or new_info['size']!=total or pending_info is None or not 0<pending_info['size']<total or pending[0]['state']!='COPYING' or pending[0]['assetId']!=obj['assetId'] or pending[0]['versionId']!=obj['versionId'] or semantic(stripped)!=semantic(baseline) or semantic(during_stripped)!=semantic(baseline):errors.append(f'{label}: migration must observe incomplete COPYING then exact-byte VERIFIED transition without losing old valid copy')
+        if new_info is None or new_info['size']!=total or pending_info is None or not 0<pending_info['size']<total or pending[0]['state']!='COPYING' or pending[0]['assetId']!=obj['assetId'] or pending[0]['versionId']!=obj['versionId'] or stripped!=baseline or during_stripped!=baseline:errors.append(f'{label}: migration must observe incomplete COPYING then exact-byte VERIFIED transition without losing old valid copy')
         migration_start,migration_finish=utc(migration['startedAt']),utc(migration['verifiedAt'])
         if migration_start is None or migration_finish is None or not migration_start<=state_times[migration['copyingStateRef']]<=migration_finish<=state_times[migration['verifiedStateRef']]:errors.append(f'{label}: actual copying and verified state snapshots must follow the recorded migration phases')
         # Reuse the retained, byte-verified migration write and backup/restore lifecycle;
@@ -2779,7 +2816,7 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
     if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or policy['nodes']!=nodes or quality is None or policy['jobId']!=quality['jobId'] or policy['assetVersion']!=next((r['immutableId'] for r in samples if r['id']==assembly.get('inputSampleId')),None):
         errors.append(f'{label}: exact admitted job/asset/version/input/build/profile and approved node controls required');return
     limits=policy['limits'];limit_ids={'cpuSeconds','memoryBytes','elapsedSeconds','temporaryBytes','outputBytes'};targets={r['case']:r['target'] for r in policy['deniedTargets']};required_targets={'protocol','path','proxy'}
-    if set(limits)!=limit_ids or any(not ai_finite(v) or v<=0 for v in limits.values()) or len(policy['deniedTargets'])!=3 or set(targets)!=required_targets or policy['authorizedUserId']==policy['deniedUserId'] or len(set(policy[k] for k in ('currentGrantId','revokedGrantId','expiredGrantId')))!=3 or policy['cancelJobId']==policy['jobId']:
+    if set(limits)!=limit_ids or any(not ai_finite(v) or v<=0 for v in limits.values()) or not recorded_text(policy['limitObserverBuild']) or len(policy['deniedTargets'])!=3 or set(targets)!=required_targets or policy['authorizedUserId']==policy['deniedUserId'] or len(set(policy[k] for k in ('currentGrantId','revokedGrantId','expiredGrantId')))!=3 or policy['cancelJobId']==policy['jobId']:
         errors.append(f'{label}: finite independent limits, three denied target classes and distinct authorization controls required');return
     first,last,expired=utc(policy['grantValidFrom']),utc(policy['grantValidUntil']),utc(policy['expiredAt']);revoked=utc(policy['revokedAt'])
     if any(t is None for t in (first,last,expired,revoked)) or not first<last:
@@ -2797,6 +2834,8 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
         return info
     rows=report['nodes']
     if len(rows)!=len(nodes) or [r['identity'] for r in rows]!=nodes:errors.append(f'{label}: all admitted node identities must be exercised exactly once');return
+    limit_policy=dict(policy,taskId=policy['jobId']);limit_process_ids=set()
+    limit_paths=[p for ref in [env.get('mediaNegativeRef'),resource['configurationRef']]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media'] if (p:=existing_ref(root,ref,prefix)) is not None]
     for row in rows:
         node=row['identity']['nodeId'];denials=row['deniedTargets'];checks=row['limitCases']
         if len(denials)!=3 or {r['case'] for r in denials}!=required_targets or len(checks)!=5 or {r['case'] for r in checks}!=limit_ids:errors.append(f'{label}: complete per-node denied target and independently exceeded limit matrix required')
@@ -2806,6 +2845,7 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
             request_ids.add(case['requestId'])
         for case in checks:
             start,end=instant(case['startedAt']),instant(case['finishedAt']);kind=case['case'];observed=case['observed']
+            derive_worker_limit_evidence(root,execution,prefix,dict(case,processExited=case['processStatus']=='terminated'),row['identity'],limit_policy,expected,window,defs,label,errors,cache,limit_paths,limit_process_ids)
             if case['requestId'] in request_ids or start is None or end is None or start>end or any(not ai_finite(v) or v<0 for v in observed.values()) or observed[kind]<=limits[kind] or any(observed[k]>limits[k] for k in limit_ids-{kind}) or kind=='elapsedSeconds' and not math.isclose(observed[kind],(end-start).total_seconds(),rel_tol=1e-9,abs_tol=1e-9) or case['terminationReason']!=kind or case['processStatus']!='terminated' or case['remainingTemporaryBytes']!=0 or case['remainingOutputBytes']!=0 or case['publicationCount']!=0:errors.append(f'{label}: each actual exceeded limit requires matching termination and bounded cleanup without publication')
             request_ids.add(case['requestId'])
         lifecycle=row['lifecycle'];parts=[r for r in env.get('workerEncodeExecutions') or [] if isinstance(r,dict) and r.get('nodeId')==node and r.get('sourceStartFrame')==lifecycle['retrySourceStartFrame'] and r.get('sourceEndFrame')==lifecycle['retrySourceEndFrame']];partial=payload(lifecycle['partialRef'],lifecycle['partialSha256'],node);times=[instant(lifecycle[k]) for k in ('partialCreatedAt','interruptedAt','oldAttemptExpiresAt','retriedAt','retryFinishedAt','cancelledAt','cleanupFinishedAt')]
@@ -2882,6 +2922,35 @@ def bounded_evaluator_json(root,execution,prefix,ref,kind,defs,schema,label,erro
 AI_COUNT_RULES={'asr_wer':'whitespace_word_edit','asr_cer':'unicode_codepoint_edit','speaker_der':'speaker_seconds',
                 'factual_consistency':'unit_exact_accuracy','multimodal_correction_accuracy':'unit_exact_accuracy',
                 'ocr_accuracy':'unit_exact_accuracy','thumbnail_human_selection_rate':'unit_exact_accuracy','tag_f1':'label_set_f1'}
+
+
+def maximum_anonymous_speaker_overlap(weights):
+    """Maximum weighted one-to-one anonymous speaker match (Hungarian, O(n^3))."""
+    rows=len(weights);columns=len(weights[0]) if rows else 0;n=max(rows,columns)
+    if not n:return 0
+    scale=max((value for row in weights for value in row),default=0)
+    if not ai_finite(scale) or scale<0:raise ValueError('nonfinite speaker overlap')
+    if scale==0:return 0
+    # Normalize costs before dual arithmetic, without imposing a speaker-count threshold.
+    costs=[[1-(weights[i][j]/scale if i<rows and j<columns else 0) for j in range(n)] for i in range(n)]
+    u=[0.0]*(n+1);v=[0.0]*(n+1);matched=[0]*(n+1);way=[0]*(n+1)
+    for row in range(1,n+1):
+        matched[0]=row;column=0;minimum=[float('inf')]*(n+1);used=[False]*(n+1)
+        while True:
+            used[column]=True;current=matched[column];delta=float('inf');following=0
+            for candidate in range(1,n+1):
+                if used[candidate]:continue
+                cost=costs[current-1][candidate-1]-u[current]-v[candidate]
+                if cost<minimum[candidate]:minimum[candidate]=cost;way[candidate]=column
+                if minimum[candidate]<delta:delta=minimum[candidate];following=candidate
+            for candidate in range(n+1):
+                if used[candidate]:u[matched[candidate]]+=delta;v[candidate]-=delta
+                else:minimum[candidate]-=delta
+            column=following
+            if matched[column]==0:break
+        while column:
+            previous=way[column];matched[column]=matched[previous];column=previous
+    return math.fsum(weights[matched[column]-1][column-1] for column in range(1,n+1) if matched[column]<=rows and column<=columns)
 
 
 def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expected,window,defs,label,errors,cache,payload):
@@ -2970,11 +3039,19 @@ def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expe
             if valid:
                 boundaries=sorted({s[k] for s in segments for k in ('startedSeconds','finishedSeconds')});spans=list(zip(boundaries,boundaries[1:]))
                 valid=len(events)==len(spans)
+                reference_ids=sorted({s['speakerId'] for s in ref['segments']});output_ids=sorted({s['speakerId'] for s in out['segments']})
+                reference_index={speaker:index for index,speaker in enumerate(reference_ids)};output_index={speaker:index for index,speaker in enumerate(output_ids)}
+                overlaps=[[0.0 for _ in output_ids] for _ in reference_ids]
                 for event,(start,end) in zip(events,spans):
                     left=[s['speakerId'] for s in ref['segments'] if s['startedSeconds']<=start and s['finishedSeconds']>=end]
                     right=[s['speakerId'] for s in out['segments'] if s['startedSeconds']<=start and s['finishedSeconds']>=end]
                     if len(left)!=len(set(left)) or len(right)!=len(set(right)) or set(event)!={'startedSeconds','finishedSeconds','referenceSpeakers','outputSpeakers'} or type(event.get('startedSeconds')) is bool or type(event.get('finishedSeconds')) is bool or event.get('startedSeconds')!=start or event.get('finishedSeconds')!=end or event.get('referenceSpeakers')!=sorted(left) or event.get('outputSpeakers')!=sorted(right):valid=False;break
-                    denominator+=(end-start)*len(left);numerator+=(end-start)*(max(len(left),len(right))-len(set(left)&set(right)))
+                    duration=end-start;denominator+=duration*len(left);numerator+=duration*max(len(left),len(right))
+                    for reference_speaker in left:
+                        for output_speaker in right:overlaps[reference_index[reference_speaker]][output_index[output_speaker]]+=duration
+                if valid:
+                    try:numerator=max(0.0,numerator-maximum_anonymous_speaker_overlap(overlaps))
+                    except (ValueError,OverflowError):valid=False
     if not valid or not ai_finite(numerator) or not ai_finite(denominator) or denominator<=0:
         errors.append(f'{label}: complete evaluator unit/alignment/time comparisons must match actual reference/output contents');return None
     value=numerator/denominator
@@ -2982,6 +3059,30 @@ def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expe
     if not ai_finite(value) or not claimed_counts_match or not ai_finite(row['score']) or not math.isclose(row['score'],value,rel_tol=1e-9,abs_tol=1e-9):
         errors.append(f'{label}: count ratio claims must derive complete actual evaluator comparisons');return None
     return value
+
+
+def derive_ai_tool_score_execution(root,execution,prefix,row,item,identity,method,binding,evidence,window,defs,label,errors,cache):
+    """Read native evaluator execution and its distinct actual stdout; never invoke it."""
+    label=label+'/native evaluator';before=len(errors);ref=evidence.get('executionRef')
+    run=bounded_evaluator_json(root,execution,prefix,ref,'measurement_output',defs,'aiToolScoreExecution',label,errors,cache)
+    if run is None or len(errors)!=before:return None
+    start,end,completed=utc(run['startedAt']),utc(run['finishedAt']),utc(item['finishedAt'])
+    if json.dumps(run['context'],sort_keys=True,allow_nan=False)!=json.dumps(binding,sort_keys=True,allow_nan=False) or run['evaluatorBuild']!=method['evaluatorBuild'] or run['argv']!=method['evaluatorArgv']+['--output',item['outputRef'],'--reference',identity['referenceRef']] or run['exitCode']!=0 or any(at is None for at in (start,end,completed)) or window is None or not window[0]<=completed<=start<=end<=window[1] or end!=utc(row['observedAt']):
+        errors.append(f'{label}: native evaluator must bind approved build/argv, actual output/reference and completed UTC execution');return None
+    protected=[existing_ref(root,value,prefix) for value in (item['outputRef'],identity['referenceRef'],row['scoreEvidenceRef'])];paths=[p for p in protected if p is not None]
+    if len(paths)!=3 or any(a.samefile(b) for i,a in enumerate(paths) for b in paths[i+1:]):
+        errors.append(f'{label}: evaluator aggregate, actual output and approved reference must be physically distinct');return None
+    retained=[]
+    for value,kind,maximum in ((ref,'measurement_output',262144),(run['stdoutRef'],'command_output',262144),(run['stderrRef'],'command_output',65536)):
+        retained.append(retained_local_source_transport_artifact(root,execution,prefix,value,kind,maximum,label,errors,cache,paths))
+    if any(path is None for path in retained) or len(errors)!=before:return None
+    if inspect_artifact(retained[1],cache)['sha256']!=run['stdoutSha256'] or inspect_artifact(retained[2],cache)['sha256']!=run['stderrSha256']:
+        errors.append(f'{label}: actual native evaluator stdout/stderr hashes required');return None
+    result=bounded_evaluator_json(root,execution,prefix,run['stdoutRef'],'command_output',defs,'aiToolScoreOutput',label,errors,cache)
+    if result is None:return None
+    if any(result[key]!=binding[key] for key in ('metricId','itemId','outputSha256','referenceSha256')) or any(not ai_finite(value) for value in result['scores']) or result['scores']!=evidence['toolScores']:
+        errors.append(f'{label}: claimed tool scores must equal actual evaluator stdout bound to the exact output/reference');return None
+    return result['scores']
 
 
 def derive_ai_score_evidence(root,execution,prefix,row,item,identity,method,expected,window,defs,label,errors,cache,payload):
@@ -2999,7 +3100,8 @@ def derive_ai_score_evidence(root,execution,prefix,row,item,identity,method,expe
     if reference is None or identity['referenceRef']==item['outputRef']:
         errors.append(f'{label}: independently approved actual reference bytes required');return None
     if mode=='tool_score':
-        values=evidence['toolScores']
+        values=derive_ai_tool_score_execution(root,execution,prefix,row,item,identity,method,binding,evidence,window,defs,label,errors,cache)
+        if values is None:return None
         if any(not ai_finite(value) for value in values):
             errors.append(f'{label}: finite actual tool score observations required');return None
     else:
@@ -3015,7 +3117,90 @@ def derive_ai_score_evidence(root,execution,prefix,row,item,identity,method,expe
     return value
 
 
-def derive_vmaf_frame_result(root,execution,prefix,quality,defs,label,errors,cache):
+def media_native_execution(root,execution,prefix,ref,operation,identity,tool,build,tail,node,not_before,defs,label,errors,cache):
+    """Check retained native process, stdout and stderr; never select or execute a tool."""
+    before=len(errors)
+    process=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,'mediaNativeExecution',label,errors,cache)
+    if process is None:return None
+    records=[r for r in (execution.get('environmentCaptured') or {}).get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==ref]
+    if len(records)!=1 or records[0].get('nodeId')!=node:
+        errors.append(f'{label}: native process record must bind the exact capture node');return None
+    start,end=utc(process['startedAt']),utc(process['finishedAt']);window=(execution.get('environmentCaptured') or {}).get('executionWindow') or {};first,last=utc(window.get('startedAt')),utc(window.get('finishedAt'))
+    executable=process['argv'][0];basename=re.split(r'[/\\]',executable)[-1].lower()
+    if process['operation']!=operation or process['identity']!=identity or process['nodeId']!=node or process['toolBuild']!=build or basename not in (tool,tool+'.exe') or process['argv']!=[executable]+tail or not 1<=int(process['processId'])<=4294967295 or start is None or end is None or first is None or last is None or not first<=start<end<=last or not_before is None or start<not_before:
+        errors.append(f'{label}: native process must bind exact tool/argv/build/PID, node, operation, bytes and ordered execution clocks');return None
+    env=execution.get('environmentCaptured') or {};paths=[existing_ref(root,ref,prefix)];values=[]
+    for key in ('stdout','stderr'):
+        selected=process[key+'Ref'];path=existing_ref(root,selected,prefix);rows=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==selected]
+        if path is None or selected not in (execution.get('rawOutputRefs') or []) or len(rows)!=1 or rows[0].get('artifactType')!='command_output' or rows[0].get('nodeId')!=node or inspect_artifact(path,cache)['sha256']!=process[key+'Sha256'] or any(path.samefile(other) for other in paths if other is not None):
+            errors.append(f'{label}: native stdout/stderr must retain distinct exact node-bound selected bytes/hash');return None
+        paths.append(path);values.append(path)
+    if inspect_artifact(values[1],cache)['size']>1048576:
+        errors.append(f'{label}: native stderr exceeds retained diagnostic budget');return None
+    try:
+        with values[1].open(encoding='utf8') as stream:stderr=stream.read(1048577)
+    except (OSError,UnicodeError):stderr=''
+    if re.match(re.escape(tool+' version '+build)+r'(?:[ \t]|\r?\n)',stderr) is None or re.search(r'(?im)(?:error|invalid data|corrupt|failed|non.monoton)',stderr):
+        errors.append(f'{label}: original native stderr must identify exact build without decoder/mux/evaluator errors');return None
+    if len(errors)!=before:return None
+    return process,values[0],stderr,end
+
+
+def media_native_progress(capture,frames,cache):
+    try:
+        path=capture[1]
+        if inspect_artifact(path,cache)['size']>262144:return False
+        with path.open(encoding='utf8') as stream:lines=stream.read(262145).splitlines()
+        return bool(lines) and lines[-1]=='progress=end' and [int(line[6:]) for line in lines if line.startswith('frame=')][-1]==frames
+    except (OSError,UnicodeError,ValueError,IndexError):return False
+
+
+def media_decode_execution(root,execution,prefix,ref,identity,build,node,not_before,count,fps,defs,label,errors,cache):
+    tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',identity['outputArtifactRef']]
+    captured=media_native_execution(root,execution,prefix,ref,'decode',identity,'ffprobe',build,tail,node,not_before,defs,label,errors,cache)
+    if captured is None:return None
+    raw=bounded_evaluator_json(root,execution,prefix,captured[0]['stdoutRef'],'command_output',defs,'workerCapabilityProbeOutput',label,errors,cache,8388608)
+    media=existing_ref(root,identity['outputArtifactRef'],prefix)
+    if raw is None:return None
+    params=raw['streams'][0];extra_ranges=[]
+    capture=(execution.get('environmentCaptured') or {}).get('productionA380Encode')
+    if isinstance(capture,dict) and capture.get('outputArtifactRef')==identity['outputArtifactRef']:
+        request_before=len(errors)
+        request=selected_observation(root,execution,prefix,capture.get('rangeRef'),defs,'a380RangeObservation',label,errors,cache)
+        if request is None or len(errors)!=request_before:return None
+        extra_ranges.append((request['rangeStart'],request['rangeEnd']))
+    env=execution.get('environmentCaptured') or {}
+    if 'part' not in identity and env.get('hlsReadyRef'):
+        hls_before=len(errors)
+        hls=selected_observation(root,execution,prefix,env['hlsReadyRef'],defs,'hlsReadyObservation',label,errors,cache)
+        if hls is None or len(errors)!=hls_before:return None
+        sequence_before=len(errors)
+        sequence=selected_observation(root,execution,prefix,hls['sequenceDecodeRef'],defs,'hlsSequenceDecodeObservation',label,errors,cache)
+        if sequence is None or len(errors)!=sequence_before:return None
+        joined=existing_ref(root,sequence['outputArtifactRef'],prefix)
+        if media is not None and joined is not None and media.samefile(joined):
+            cursor=0
+            try:
+                for part_ref in [hls['initArtifactRef']]+[p['outputArtifactRef'] for p in sequence['parts']]:
+                    part=existing_ref(root,part_ref,prefix);size=part.stat().st_size if part is not None else 0
+                    extra_ranges.append((cursor,cursor+size-1));cursor+=size
+            except OSError:errors.append(f'{label}: readable HLS part sizes required for the shared output scan');return None
+    if raw['program_version']['version']!=build or params['codec_name']!='av1' or not complete_decoder_timeline(raw,{k:params[k] for k in ('profile','level','width','height','pix_fmt','time_base','r_frame_rate')},count,fps) or media is None or not worker_media_packet_bytes(media,raw,'av1',cache,extra_ranges) or inspect_artifact(media,cache)['sha256']!=identity['outputSha256']:
+        errors.append(f'{label}: complete native AV1 frames/packets/timeline and MP4 payload bytes must match exact output');return None
+    return raw,captured[3]
+
+
+def media_concat_manifest(ref,parts):
+    # The concat demuxer resolves each file relative to the manifest, not process cwd.
+    return "ffconcat version 1.0\n"+''.join("file '"+posixpath.relpath(p['outputArtifactRef'],posixpath.dirname(ref)).replace("'", "'\\''")+"'\n" for p in parts)
+
+
+def media_vmaf_filter(model,result):
+    def escape(path):return "'"+path.replace('\\','\\\\').replace("'", "'\\\\''").replace(':','\\:')+"'"
+    return '[0:v]settb=AVTB,setpts=PTS-STARTPTS[main];[1:v]settb=AVTB,setpts=PTS-STARTPTS[ref];[main][ref]libvmaf=model=path='+escape(model)+':log_fmt=json:log_path='+escape(result)
+
+
+def derive_vmaf_frame_result(root,execution,prefix,quality,policy,defs,label,errors,cache):
     invocation=bounded_evaluator_json(root,execution,prefix,quality['evaluatorCommandRef'],'command_output',defs,'vmafEvaluatorInvocation',label,errors,cache)
     if invocation is None:return None
     keys=('configurationRef','subjectVersion','acceptanceProfile','jobId','inputSampleId','inputSha256',
@@ -3033,6 +3218,23 @@ def derive_vmaf_frame_result(root,execution,prefix,quality,defs,label,errors,cac
     value=math.fsum(f['metrics']['vmaf']/len(frames) for f in frames)
     if not ai_finite(quality['vmafMean']) or not math.isclose(quality['vmafMean'],value,rel_tol=1e-9,abs_tol=1e-9):
         errors.append(f'{label}: vmafMean must derive actual complete frame observations');return None
+    env=execution.get('environmentCaptured') or {};assembly=env.get('parallelMediaAssembly') or {}
+    sources=[r for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict) and r.get('sampleId')==quality['inputSampleId']]
+    source=existing_ref(root,invocation['sourceRef'],prefix);output=existing_ref(root,quality['outputArtifactRef'],prefix);model=existing_ref(root,invocation['modelRef'],prefix)
+    refs=[invocation['sourceRef'],quality['outputArtifactRef'],invocation['modelRef'],invocation['resultRef'],quality['evaluatorCommandRef'],invocation['nativeExecutionRef']]
+    paths=[existing_ref(root,ref,prefix) for ref in refs]
+    if len(sources)!=1 or invocation['sourceRef']!=sources[0].get('inputArtifactRef') or invocation['modelRef']!=policy['modelRef'] or any(path is None for path in paths) or any(path.samefile(other) for i,path in enumerate(paths) for other in paths[i+1:]) or inspect_artifact(source,cache)['sha256']!=quality['inputSha256'] or inspect_artifact(output,cache)['sha256']!=quality['outputSha256'] or inspect_artifact(model,cache)['size']<=0 or inspect_artifact(model,cache)['sha256']!=quality['modelSha256']:
+        errors.append(f'{label}: VMAF must bind distinct actual approved source, complete assembly, model and result bytes');return None
+    identity={key:invocation[key] for key in keys};identity.update(sourceRef=invocation['sourceRef'],modelRef=invocation['modelRef'],resultRef=invocation['resultRef'],resultSha256=invocation['resultSha256'])
+    tail=['-nostdin','-i',quality['outputArtifactRef'],'-i',invocation['sourceRef'],'-lavfi',media_vmaf_filter(invocation['modelRef'],invocation['resultRef']),'-an','-f','null','-','-progress','pipe:1','-nostats']
+    output_info=cache.get(output,{})
+    captured=media_native_execution(root,execution,prefix,invocation['nativeExecutionRef'],'vmaf',identity,'ffmpeg',quality['evaluatorBuild'],tail,assembly.get('nodeId'),output_info.get('assemblyDecodedAt'),defs,label,errors,cache)
+    if captured is None:return None
+    scores=re.findall(r'(?m)\bVMAF score: ([0-9.eE+\-]+)\s*$',captured[2])
+    try:score=float(scores[0]) if len(scores)==1 else None
+    except ValueError:score=None
+    if invocation['command']!=captured[0]['argv'] or utc(quality['evaluatedAt'])!=captured[3] or not media_native_progress(captured,len(frames),cache) or not ai_finite(score) or not math.isclose(score,value,rel_tol=1e-6,abs_tol=1e-6):
+        errors.append(f'{label}: VMAF result must derive successful native full-frame evaluation with exact argv/model and completion time');return None
     return value
 
 
@@ -3088,7 +3290,7 @@ def validate_qualified_media_quality_timing(root,plan,execution,prefix,status,wi
     if any(probe.get(k)!=v for k,v in expected_probe.items()) or probe['decodedFrameCount']!=segment['sourceEndFrame']-segment['sourceStartFrame'] or probe['decodeErrorCount']!=0 or probe['decodable'] is not True:
         errors.append(f'{label}: first-playable probe must decode the exact retained AV1 input span without errors')
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
-    vmaf=derive_vmaf_frame_result(root,execution,prefix,quality,defs,label,errors,cache)
+    vmaf=derive_vmaf_frame_result(root,execution,prefix,quality,policy,defs,label,errors,cache)
     derived={} if vmaf is None else {'av1_quality':vmaf}
     if first is not None and ready is not None:derived['first_segment_latency']=(ready-first).total_seconds()*1000
     for metric,value in derived.items():
@@ -3114,9 +3316,11 @@ def validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs,
     label=f"qualified media assembly {execution['taskId']}"
     env=execution.get('environmentCaptured') or {}
     assembly=env.get('parallelMediaAssembly')
+    before=len(errors)
     validate_schema(assembly,defs.get('parallelMediaAssembly',{}),label,errors)
     if not isinstance(assembly,dict):
         errors.append(f'{label}: typed parallelMediaAssembly is required');return
+    if len(errors)!=before:return
     samples={s['id']:s for s in execution.get('samples') or []}
     sample=samples.get(assembly.get('inputSampleId'))
     total=assembly.get('sourceFrameCount')
@@ -3161,11 +3365,59 @@ def validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs,
             report=yaml.load(stream.read(262145),Loader=UniqueKeyLoader)
     except (OSError,UnicodeError,yaml.YAMLError):
         errors.append(f'{label}: decode/timeline report must be readable structured output');return
+    before_report=len(errors)
     validate_schema(report,defs.get('assembledDecodeReport',{}),label,errors)
-    if not isinstance(report,dict):return
+    if not isinstance(report,dict) or len(errors)!=before_report:return
     expected={key:assembly.get(key) for key in ('inputSampleId','inputSha256','sourceFrameCount','outputSha256','parts','decoderBuild')}
     if any(report.get(key)!=value for key,value in expected.items()) or type(report.get('decodedFrameCount')) is not int or report['decodedFrameCount']!=total or type(report.get('decodeErrorCount')) is not int or report['decodeErrorCount']!=0 or type(report.get('timelineDiscontinuityCount')) is not int or report['timelineDiscontinuityCount']!=0:
         errors.append(f'{label}: decoded output and continuous timeline must bind the complete ordered assembly')
+    if len(errors)!=before:return
+    fps=assembly['framesPerSecond'];node=assembly['nodeId'];runs_by_ref={r['outputArtifactRef']:r for r in runs}
+    if not ai_finite(fps) or fps<=0 or node not in {r['nodeId'] for r in runs}:
+        errors.append(f'{label}: finite positive capture frame rate and exercised mux node required');return
+    identity=dict(taskId=execution['taskId'],acceptanceProfile=env.get('acceptanceProfile'),inputSampleId=sample['id'],inputSha256=sample['checksum'],sourceFrameCount=total,outputArtifactRef=output_ref,outputSha256=assembly['outputSha256'],parts=parts)
+    decoded=[];refs=[]
+    rows=report['partDecodeRefs']
+    if len(rows)!=len(parts) or [r['outputArtifactRef'] for r in rows]!=[p['outputArtifactRef'] for p in parts]:
+        errors.append(f'{label}: exact ordered native decoder executions required for every worker part');return
+    for part,row in zip(parts,rows):
+        run=runs_by_ref[part['outputArtifactRef']];binding=dict(identity,part=part)
+        binding.update(outputArtifactRef=part['outputArtifactRef'],outputSha256=part['outputSha256'])
+        raw=media_decode_execution(root,execution,prefix,row['executionRef'],binding,assembly['decoderBuild'],part['nodeId'],utc(run['finishedAt']),part['sourceEndFrame']-part['sourceStartFrame'],fps,defs,label,errors,cache)
+        if raw is None:return
+        decoded.append(raw);refs.append(row['executionRef'])
+    manifest=existing_ref(root,report['muxManifestRef'],prefix)
+    expected_manifest=media_concat_manifest(report['muxManifestRef'],parts)
+    manifest_rows=[r for r in env.get('rawExecutionArtifacts') or [] if isinstance(r,dict) and r.get('ref')==report['muxManifestRef']]
+    try:
+        if manifest is None or report['muxManifestRef'] not in (execution.get('rawOutputRefs') or []) or len(manifest_rows)!=1 or manifest_rows[0].get('artifactType')!='command_output' or manifest_rows[0].get('nodeId')!=node or inspect_artifact(manifest,cache)['size']>262144:raise ValueError('missing native manifest')
+        with manifest.open(encoding='utf8') as stream:manifest_text=stream.read(262145)
+        if manifest_text!=expected_manifest:raise ValueError('wrong ordered concat inputs')
+    except (OSError,UnicodeError,ValueError):errors.append(f'{label}: native concat manifest must name the exact ordered worker inputs');return
+    mux_identity=dict(identity,muxManifestRef=report['muxManifestRef'],muxManifestSha256=inspect_artifact(manifest,cache)['sha256'])
+    tail=['-nostdin','-f','concat','-safe','0','-i',report['muxManifestRef'],'-map','0:v:0','-c','copy','-an','-y',output_ref,'-progress','pipe:1','-nostats']
+    mux=media_native_execution(root,execution,prefix,report['muxExecutionRef'],'mux',mux_identity,'ffmpeg',assembly['muxerBuild'],tail,node,max(item[1] for item in decoded),defs,label,errors,cache)
+    if mux is None:return
+    if not media_native_progress(mux,total,cache):errors.append(f'{label}: native stream-copy mux must finish the complete frame sequence');return
+    whole=media_decode_execution(root,execution,prefix,report['outputDecodeRef'],identity,assembly['decoderBuild'],node,mux[3],total,fps,defs,label,errors,cache)
+    if whole is None:return
+    traces=refs+[report['muxManifestRef'],report['muxExecutionRef'],report['outputDecodeRef']]
+    trace_paths=[existing_ref(root,ref,prefix) for ref in traces]
+    if any(p is None for p in trace_paths) or any(p.samefile(q) for i,p in enumerate(trace_paths) for q in trace_paths[i+1:]) or any(p.samefile(q) for p in trace_paths for q in part_paths+[output_path,path] if q is not None):
+        errors.append(f'{label}: native part/mux/output evidence must retain distinct physical identities');return
+    packets=lambda raw:[(row['size'],row['data_hash']) for row in raw['packets_and_frames'] if row['type']=='packet']
+    stream_keys=('codec_name','codec_tag_string','profile','level','width','height','pix_fmt','r_frame_rate')
+    if packets(whole[0])!=[packet for raw,_ in decoded for packet in packets(raw)] or any(any(raw['streams'][0][key]!=whole[0]['streams'][0][key] for key in stream_keys) for raw,_ in decoded):
+        errors.append(f'{label}: assembled packet payloads and compatible stream parameters must equal every ordered worker part');return
+    def packet_times(raw,offset):
+        numerator,denominator=(int(v) for v in raw['streams'][0]['time_base'].split('/'));scale=numerator/denominator;base=next(row['pts'] for row in raw['packets_and_frames'] if row['type']=='frame')
+        return [((row['pts']-base)*scale+offset,(row['dts']-base)*scale+offset,row['duration']*scale) for row in raw['packets_and_frames'] if row['type']=='packet']
+    try:
+        expected_times=[times for part,(raw,_) in zip(parts,decoded) for times in packet_times(raw,part['sourceStartFrame']/fps)];actual_times=packet_times(whole[0],0)
+        times_match=len(expected_times)==len(actual_times) and all(ai_finite(a) and ai_finite(b) and math.isclose(a,b,rel_tol=1e-9,abs_tol=1e-9) for left,right in zip(expected_times,actual_times) for a,b in zip(left,right))
+    except (OverflowError,ValueError,ZeroDivisionError,StopIteration):times_match=False
+    if not times_match:errors.append(f'{label}: remuxed packet PTS/DTS/durations must preserve the complete ordered source timeline');return
+    cache[output_path]['assemblyDecodedAt']=whole[1]
 
 
 def qualified_observation_report(path, defs, schema, label, errors, cache):
@@ -3790,6 +4042,47 @@ def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,
 ACCESS_DENIAL_GATES={'unauthorized':'unauthorized_identity_denied','expired':'expired_authorization_denied','cross_user':'cross_user_cache_isolation','rate_limit':'rate_limit_enforced','direct_source':'local_direct_origin_denied','direct_admin':'local_direct_origin_denied','direct_worker':'local_direct_origin_denied'}
 
 
+def derive_local_access_rate_attempt(root,execution,prefix,claim,number,witness,common,policy,window,defs,label,errors,cache,paths,request_ids,trace_ids):
+    """Derive one distinct local rate request from retained client events and HTTP bytes."""
+    label=label+'/rate transport';before=len(errors)
+    trace_path=retained_local_source_transport_artifact(root,execution,prefix,claim.get('transportRef'),'command_output',262144,label,errors,cache,paths)
+    trace=bounded_evaluator_json(root,execution,prefix,claim.get('transportRef'),'command_output',defs,'localAccessRateTransportTrace',label,errors,cache) if trace_path is not None else None
+    if trace is None or len(errors)!=before:return
+    controls=policy['rateTransport'];request_id=trace['requestId'];trace_id=trace['traceId']
+    if trace['context']!=common or trace['sequence']!=number or claim.get('requestId')!=request_id or claim.get('traceId')!=trace_id or request_id in request_ids or trace_id in trace_ids or not recorded_text(request_id) or not recorded_text(trace_id) or trace['observerBuild']!=controls['observerBuild'] or trace['commandArgs']!=controls['commandArgs']+['--request-id',request_id,'--trace-id',trace_id,'--target',witness['requestURL'],'--response',trace['responseRef']]:
+        errors.append(f'{label}: unique actual request/trace/sequence must bind approved client, command, input/version/ACL/profile and exact retained response');return
+    request_ids.add(request_id);trace_ids.add(trace_id)
+    raw_path=retained_local_source_transport_artifact(root,execution,prefix,trace['responseRef'],'produced_media',(32<<20)+65536,label,errors,cache,paths)
+    if raw_path is None:return
+    env=execution.get('environmentCaptured') or {};body_path=existing_ref(root,trace['responseBodyRef'],prefix)
+    records=[row for row in env.get('rawExecutionArtifacts') or [] if isinstance(row,dict) and row.get('ref')==trace['responseBodyRef']]
+    try:
+        if body_path is None or trace['responseBodyRef'] not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or any(body_path.samefile(peer) for peer in paths):raise ValueError('body binding')
+        actual=inspect_artifact(body_path,cache);raw=inspect_artifact(raw_path,cache)
+        status,headers,body=parse_local_source_http_response(raw_path.read_bytes());digest='sha256:'+hashlib.sha256(body).hexdigest()
+        if raw['sha256']!=trace['responseSha256'] or trace['exitCode']!=0 or actual['size']!=len(body) or actual['sha256']!=digest or records[0].get('byteCount')!=actual['size'] or records[0].get('sha256')!=actual['sha256']:raise ValueError('actual HTTP bytes')
+    except (OSError,UnicodeError,ValueError,TypeError,OverflowError):
+        errors.append(f'{label}: actual successful client HTTP status and response bytes must match independent retained capture and immutable body');return
+    events=trace['events'];start,end=utc(trace['startedAt']),utc(trace['finishedAt']);times=[utc(event['observedAt']) for event in events]
+    if window is None or any(at is None or not window[0]<=at<=window[1] for at in [start,end]+times) or start>=end or times!=sorted(times) or times[0]!=start or times[-1]!=end or any(event['requestId']!=request_id or event['traceId']!=trace_id for event in events):
+        errors.append(f'{label}: actual ordered request/origin/read/exit clocks must bind one distinct positive request interval');return
+    request=events[0];exit=events[-1];origin_count=sum(event['type']=='origin_request' for event in events);read_count=sum(event['type']=='object_read' for event in events)
+    expected_request=dict(userId=witness['userId'],grantId=witness['grantId'],requestURL=witness['requestURL'],requestRange=witness['requestRange'],ifRange=witness['ifRange'],cacheKey=witness['cacheKey'],httpMethod='GET')
+    allowed=number<=policy['rateLimit']['maximumRequests']
+    event_types=[event['type'] for event in events]
+    complete_chain=event_types in (['request','exit'],['request','origin_request','object_read','exit']) if allowed else event_types==['request','exit']
+    if not complete_chain or any(request.get(key)!=value for key,value in expected_request.items()) or exit.get('exitCode')!=trace['exitCode'] or status!=(206 if allowed else 429):
+        errors.append(f'{label}: allowed requests need a complete HIT or MISS chain; excess requests must be throttled before origin/object access');return
+    if allowed and origin_count:
+        origin,read=events[1:3]
+        if origin['requestURL']!=policy['paths']['source'] or origin['requestRange']!=witness['requestRange'] or read['assetId']!=witness['assetId'] or read['sourceVersion']!=witness['sourceVersion'] or read['byteCount']!=len(body) or read['sha256']!=digest:
+            errors.append(f'{label}: actual allowed origin request/object read must bind the approved source version and returned bytes');return
+    observed=dict(sequence=trace['sequence'],requestId=request_id,traceId=trace_id,observedAt=trace['finishedAt'],statusCode=status,originContacted=origin_count>0,responseBodyRef=trace['responseBodyRef'],responseSha256=digest,responseByteCount=len(body))
+    if any(claim.get(key)!=value for key,value in observed.items()):
+        errors.append(f'{label}: aggregate attempt claims must equal actual request/HTTP/origin/read/response events');return
+    return {**claim,**observed,'_startedAt':start,'_finishedAt':end,'_originRequestCount':origin_count,'_objectReadCount':read_count}
+
+
 def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-07' or status!='pass':return
     label=f"qualified access outcomes {plan['taskId']}";env=execution.get('environmentCaptured') or {};profile=(env.get('acceptanceProfile') or {}).get('id');local=profile=='local-v1';before=len(errors)
@@ -3804,6 +4097,11 @@ def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,
     except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
     before=len(errors);validate_schema(policy,defs.get('accessOutcomePolicy',{}),label,errors)
     if len(errors)!=before or policy is None:return
+    if local:
+        validate_schema(policy.get('rateTransport'),defs.get('localAccessRateTransportPolicy',{}),label+'/approved local rate transport',errors)
+        if len(errors)!=before:return
+        if not recorded_text(policy['rateTransport']['observerBuild']) or any(not recorded_text(arg) for arg in policy['rateTransport']['commandArgs']):
+            errors.append(f'{label}: concrete approved local rate observer and command required');return
     if not math.isfinite(policy['rateLimit']['windowSeconds']):
         errors.append(f'{label}: finite approved rate window required');return
     inputs=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []]
@@ -3890,7 +4188,18 @@ def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,
             elif case=='rate_limit':
                 rate_case=witness
                 if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['authorizedGrantId'] or not valid_from<=at<valid_until or witness['statusCode']!=429 or witness['requestCount']<=policy['rateLimit']['maximumRequests'] or witness['originRequestCount']>policy['rateLimit']['maximumRequests'] or witness['rateWindowSeconds']!=policy['rateLimit']['windowSeconds']:errors.append(f'{label}: rate outcome must exceed approved limit with bounded origin requests and 429')
-                attempts=witness['rateAttempts'];limit=policy['rateLimit']['maximumRequests'];times=[utc(a['observedAt']) for a in attempts]
+                attempts=witness['rateAttempts'];limit=policy['rateLimit']['maximumRequests']
+                if local:
+                    rate_paths=[p for ref in (env.get('accessOutcomeRef'),row['witnessRef'],resource['configurationRef'],report['pathConfigurationRef']) if (p:=existing_ref(root,ref,prefix)) is not None]+[source]
+                    rate_requests=set();rate_traces=set();derived=[]
+                    for number,claim in enumerate(attempts,1):
+                        observed=derive_local_access_rate_attempt(root,execution,prefix,claim,number,witness,common,policy,window,defs,label,errors,cache,rate_paths,rate_requests,rate_traces)
+                        if observed is not None:derived.append(observed)
+                    if len(derived)==len(attempts) and derived:
+                        attempts=derived
+                        if any(first['_finishedAt']>second['_startedAt'] for first,second in zip(attempts,attempts[1:])) or (attempts[-1]['_finishedAt']-attempts[0]['_startedAt']).total_seconds()>policy['rateLimit']['windowSeconds'] or sum(attempt['_originRequestCount'] for attempt in attempts)!=witness['originRequestCount']:
+                            errors.append(f'{label}: actual consecutive rate request intervals and origin/read counts must agree with the approved window and aggregate')
+                times=[utc(a['observedAt']) for a in attempts]
                 if len(attempts)!=witness['requestCount'] or [a['sequence'] for a in attempts]!=list(range(1,len(attempts)+1)) or any(t is None for t in times) or not times or times[-1]!=at or any(not window[0]<=t<=at for t in times) or any(a>b for a,b in zip(times,times[1:])) or (times[-1]-times[0]).total_seconds()>policy['rateLimit']['windowSeconds'] or sum(a['originContacted'] for a in attempts)!=witness['originRequestCount'] or any(a['statusCode']!=206 if a['sequence']<=limit else a['statusCode']!=429 or a['originContacted'] for a in attempts):
                     errors.append(f'{label}: rate counts/statuses/timestamps must derive from retained consecutive request attempts')
                 elif any(not valid_from<=t<valid_until for t in times):errors.append(f'{label}: each rate attempt must use a currently valid grant')
@@ -4123,6 +4432,10 @@ def validate_qualified_range_matrix(root,plan,execution,prefix,status,window,def
                 if name in ('stream','if_stale') and not 0<request['maximumBufferedBytes']<size:errors.append(f'{label}: full streaming must observe positive bounded buffering below the source size')
             expected_cache={'miss':'MISS','fill':'FILL','hit':'HIT','updated':'INVALIDATED','interrupted':'PARTIAL','partial_read':'PARTIAL','recovered':'FILL','latency_hot':'HIT','latency_cold':'MISS','latency_slow':'MISS','latency_multi':'HIT'}.get(name)
             if expected_cache and request['cacheStatus']!=expected_cache:errors.append(f'{label}: retained cache status must distinguish miss/fill/hit/invalidation/partial recovery')
+            if expected_cache=='HIT' and (origin['originRequestCount']!=0 or origin['objectReadCount']!=0):
+                errors.append(f'{label}: cache-hit scenarios require zero origin requests and protected source object reads')
+            if expected_cache in ('MISS','FILL') and (origin['originRequestCount']<=0 or origin['objectReadCount']<=0):
+                errors.append(f'{label}: cache miss/fill scenarios require observed origin requests and protected source object reads')
             if name=='latency_cold' and not request['cachePurged']:errors.append(f'{label}: cold measurement requires observed sandbox purge')
             if name=='latency_slow' and (request['originDelayMs']!=policy['slowOriginDelayMs'] or request['originBandwidthBytesPerSecond']!=policy['slowOriginBandwidthBytesPerSecond']):errors.append(f'{label}: slow-origin request must bind the approved controlled delay/bandwidth')
             if name=='latency_multi' and request['concurrentUsers']!=policy['concurrentUsers']:errors.append(f'{label}: multi-user measurement must bind approved concurrency')
@@ -4586,6 +4899,40 @@ def derive_worker_limit_evidence(root,execution,prefix,case,identity,policy,expe
         errors.append(f'{label}: limit crossing, failed process exit and complete unpublished cleanup must derive original counters/file entries/exit rather than outcome totals')
 
 
+def derive_worker_network_transport(root,execution,prefix,case,identity,policy,expected,window,defs,label,errors,cache,paths):
+    """Derive connection denial from retained client/firewall events, not empty payload totals."""
+    label=label+'/network transport';before=len(errors);env=execution.get('environmentCaptured') or {}
+    trace_path=retained_local_source_transport_artifact(root,execution,prefix,case['transportRef'],'command_output',262144,label,errors,cache,paths)
+    trace=bounded_evaluator_json(root,execution,prefix,case['transportRef'],'command_output',defs,'workerSafetyNetworkTrace',label,errors,cache) if trace_path is not None else None
+    if trace is None or len(errors)!=before:return
+    if inspect_artifact(trace_path,cache)['sha256']!=case['transportSha256']:errors.append(f'{label}: exact retained transport trace hash required')
+    refs=(case['transportRef'],case['outboundRef'],trace['responseRef'])
+    if any(len(rows:=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref])!=1 or rows[0].get('nodeId')!=identity['nodeId'] for ref in refs):errors.append(f'{label}: every original transport artifact must bind this worker node')
+    outbound=retained_local_source_transport_artifact(root,execution,prefix,case['outboundRef'],'produced_media',1048576,label,errors,cache,paths)
+    response=retained_local_source_transport_artifact(root,execution,prefix,trace['responseRef'],'produced_media',1048576,label,errors,cache,paths)
+    if outbound is None or response is None:return
+    sent=inspect_artifact(outbound,cache);received=inspect_artifact(response,cache)
+    if trace['context']!=expected or trace['identity']!=identity or trace['observerBuild']!=policy['networkObserverBuild'] or trace['commandArgs']!=policy['networkCommandArgs']+['--request-id',case['requestId'],'--target',case['requestURL'],'--outbound',case['outboundRef'],'--response',trace['responseRef']] or received['sha256']!=trace['responseSha256']:
+        errors.append(f'{label}: exact approved observer/command/node/input/profile and original response bytes required')
+    events=trace['events'];times=[utc(event['observedAt']) for event in events];start,end=utc(trace['startedAt']),utc(trace['finishedAt'])
+    if window is None or any(at is None or not window[0]<=at<=window[1] for at in [start,end]+times) or times!=sorted(times) or times[0]!=start or times[-1]!=end or case['observedAt']!=trace['finishedAt']:
+        errors.append(f'{label}: one ordered complete request/transport/exit interval must bind the outcome clock');return
+    request=events[0];exit=events[-1];authorized=case['case']=='authorized'
+    if request['type']!='request' or exit['type']!='exit' or any(request.get(k)!=case[k] for k in ('requestId','taskId','grantId','requestURL')) or request.get('method')!='GET' or exit.get('exitCode')!=trace['exitCode']:
+        errors.append(f'{label}: actual request identity/method and final client exit must match the selected outcome');return
+    if authorized:
+        try:
+            target=urllib.parse.urlsplit(case['requestURL']);peer_port=target.port or (443 if target.scheme=='https' else 80)
+        except (ValueError,TypeError):errors.append(f'{label}: valid retained HTTP peer required');return
+        if [event['type'] for event in events]!=['request','connect','send','receive','exit']:
+            errors.append(f'{label}: authorized control requires actual connect, sent request and received response events');return
+        connect,send,receive=events[1:4]
+        if connect['peerHost']!=target.hostname or connect['peerPort']!=peer_port or connect['outcome']!='connected' or trace['exitCode']!=0 or sent['size']<=0 or received['size']<=0 or send['byteCount']!=sent['size'] or send['sha256']!=sent['sha256'] or receive['byteCount']!=received['size'] or receive['sha256']!=received['sha256']:
+            errors.append(f'{label}: authorized peer, successful client and send/receive events must agree with independent retained bytes')
+    elif [event['type'] for event in events]!=['request','deny','exit'] or events[1].get('reason')!=case['case'] or trace['exitCode']==0 or sent['size']!=0 or received['size']!=0:
+        errors.append(f'{label}: denied request must be blocked before any connection attempt/send/receive with no retained response bytes')
+
+
 def validate_qualified_worker_safety(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-01' or status!='pass':return
     env=execution.get('environmentCaptured') or {};label=f"qualified worker safety {plan['taskId']}";before=len(errors)
@@ -4603,6 +4950,7 @@ def validate_qualified_worker_safety(root,plan,execution,prefix,status,window,de
     limits=policy['limits'];request_ids=set();lease_ids=set();registrations=set();process_ids=set()
     paths=[p for ref in [env.get('workerSafetyRef'),resource['configurationRef']]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media'] if (p:=existing_ref(root,ref,prefix)) is not None]
     if not all(ai_finite(v) and v>0 for v in limits.values()) or not ai_finite(policy['maximumRecoverySeconds']) or policy['maximumRecoverySeconds']<=0 or not recorded_text(policy['limitObserverBuild']):errors.append(f'{label}: finite positive approved resource/recovery budgets and concrete limit observer build required');return
+    network_paths=[p for ref in [env.get('workerSafetyRef'),resource['configurationRef']]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)] if (p:=existing_ref(root,ref,prefix)) is not None]
     grant_start,grant_end,expired=map(utc,(policy['grantValidFrom'],policy['grantValidUntil'],policy['expiredAt']))
     if grant_start is None or grant_end is None or expired is None or grant_start>=grant_end or policy['grantId']==policy['expiredGrantId']:errors.append(f'{label}: distinct live/expired task grants with valid UTC intervals required')
     try:
@@ -4641,6 +4989,7 @@ def validate_qualified_worker_safety(root,plan,execution,prefix,status,window,de
             try:actual=inspect_artifact(payload,cache)
             except OSError:errors.append(f'{label}: outbound bytes must be readable');continue
             if actual['sha256']!=case['outboundSha256'] or actual['size']!=case['outboundByteCount'] or (actual['size']==0 if authorized else actual['size']!=0):errors.append(f'{label}: authorized control needs real outbound bytes; denied targets/grants must send zero bytes')
+            derive_worker_network_transport(root,execution,prefix,case,identity,policy,expected,window,defs,label,errors,cache,network_paths)
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
     if any(actual.get(g) is not True for g in ('worker_resource_limits_enforced','worker_restart_recovery','worker_network_boundary_enforced')):errors.append(f'{label}: true worker safety gates require corresponding per-node exercised outcomes')
 
@@ -4698,12 +5047,12 @@ def validate_android_execution(root, plan, execution, status, prefix, errors):
         errors.append(f'{label}: valid thermal/power observations and positive completed background interval required')
 
 
-class UniqueKeyLoader(yaml.SafeLoader):
+class UniqueKeyLoader(getattr(yaml, "CSafeLoader", yaml.SafeLoader)):
     """SafeLoader that rejects duplicate mapping keys instead of overwriting them."""
 
 
 def _construct_unique_mapping(
-    loader: yaml.SafeLoader,
+    loader: UniqueKeyLoader,
     node: yaml.MappingNode,
     deep: bool = False,
 ):
@@ -5120,6 +5469,7 @@ def validate_execution(
         validate_qualified_local_source_faults(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_local_source_listing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_local_source_authentication(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)
         validate_qualified_h264_fallback(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_hls_ready(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_media_soak(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
@@ -5134,7 +5484,6 @@ def validate_execution(
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
         validate_qualified_a380_encode(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
-        validate_qualified_encode_workers(root,plan,execution,reference_boundary,status,window,errors,artifact_cache,record_definitions)
         validate_qualified_media_quality_timing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_media_negative(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache,record_definitions)

@@ -344,4 +344,16 @@ The composition preserves all 208 original method identities, 203 unchanged meth
 
 The whole-sequence HLS check now hashes the complete output and the init/ordered-segment byte ranges during the same bounded scan. Range hashes must match each retained part and their cumulative size must equal the complete output; HLS validation runs before soak validation so later checks reuse the artifact cache.
 
-The original one-read and out-of-order HLS regression methods (140 and 193) passed together: 2 tests, 56.432 seconds, exit 0. Schema and all 208 test methods are unchanged. The previous a4c4 source has an observed original140 failure in its still-running affected64 check; that history remains separate. The successor requires its own affected64, other required commands and same-head CI before integration.
+The original one-read and out-of-order HLS candidate regression methods (140 and 193) passed together: 2 tests, 56.432 seconds, exit 0. That execution and the later failed-source runs remain separate; every successor requires its own current-source gates before integration.
+
+## Runtime evidence and retained-state follow-up
+
+Storage comparisons preserve payload links; only the current backup/restore replica may use its separately verified phase bytes. Range-cache hits require zero origin requests and object reads, while miss/fill controls require observed source access. Media limits derive from per-process counters, file lists and native exits. Worker network denials require request/deny/exit events without connection, send or protected response bytes.
+
+Each local rate attempt binds a distinct request and client trace to its raw HTTP response. Allowed cache hits may return 206 with zero origin access; excess requests must return 429 before origin/object access. Shared immutable response bodies do not substitute for distinct requests.
+
+Translation scores derive from the approved evaluator execution over exact output/reference bytes. Speaker DER uses one globally optimal mapping of anonymous speaker identities. AV1 assembly validates native part decodes, the ordered stream-copy manifest and complete output decode against packet payloads and timelines, allowing legal container and time-base changes. VMAF binds the exact source, output, approved model, command, native progress and complete frame result.
+
+All 208 original test identities and 497 assertion calls remain; 194 original method ASTs are unchanged. Positive fixtures retain their required typed artifacts and input identities. YAML loading uses the optional C SafeLoader with the same strict duplicate-key handling and a pure-Python fallback.
+
+Individual candidate executions and historical failures remain separate. This published successor requires its own complete 208-method execution, the other 19 required commands and same-source CI before integration. Formal POC, platform runtime and complete local V1 remain pending.
