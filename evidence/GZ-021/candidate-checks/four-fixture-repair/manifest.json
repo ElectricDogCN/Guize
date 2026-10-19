@@ -1,0 +1,799 @@
+{
+  "schemaVersion": 1,
+  "representation": "zlib-base64 exact original physical bytes; ASCII LF wrapper; no log encoding relabeling",
+  "recordedAtUtc": "2026-10-19T02:10:24.109545+00:00",
+  "sourceParent": "217967a5f45414db6fe5898073ee0c01bb51f238",
+  "sourceParentTree": "4d02da40dd80647b8b80e3720a5979f729d48e94",
+  "parentArchive": {
+    "path": "evidence/GZ-021/executions/217967a5f45414db6fe5898073ee0c01bb51f238/manifest.json",
+    "sha256": "e8aeb3a0fd69116173e032539c3ae4705755a241d502032af87f25a97dd4dcc3",
+    "rewritten": false
+  },
+  "parentComplete208": {
+    "tests": 208,
+    "passed": 204,
+    "failures": 3,
+    "errors": 1,
+    "seconds": 6727.303,
+    "successfulGates": 17,
+    "executedGates": 18,
+    "verifyDocsExecuted": false
+  },
+  "separateParentCi": {
+    "number": 711,
+    "tests": 637,
+    "steps": 28,
+    "seconds": 940.38,
+    "doesNotExecutePoc208": true
+  },
+  "candidateTestFileSha256": "7e6261600aed02790b82af375bf3eced2f9108cd03a421e0a64358bb6c7d91a6",
+  "testMethodCount": 208,
+  "fixtureScope": "Only positive synthetic fixture construction/index scoping; checker and schema unchanged",
+  "all208MethodNamesUnchanged": true,
+  "all208AssertionsUnchanged": true,
+  "all208LoopTargetsAndIterablesUnchanged": true,
+  "changedTestMethodAsts": [
+    "test_126_qualified_source_requires_real_current_objects_and_own_evidence_only_drift",
+    "test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes"
+  ],
+  "stableSix": {
+    "methods": [
+      126,
+      137,
+      162,
+      181,
+      187,
+      199
+    ],
+    "tests": 6,
+    "seconds": 358.45,
+    "wallSeconds": 358.9915,
+    "exitCode": 0,
+    "sourcePublished": false
+  },
+  "externalShardPreparation": {
+    "driverAccepted": true,
+    "wrapperAccepted": true,
+    "receiverRootReview": "accepted-preparation-only",
+    "syntheticSelfChecksOnly": true,
+    "guizeShardedExecutionPerformed": false,
+    "processes": 4,
+    "methodsPerProcess": 52,
+    "semantics": "Future explicit four-process aggregate: preserve each original Ran52 transcript; union208 exactly once; never fabricate single-process Ran208",
+    "receiverIndependentReviewAccepted": true,
+    "receiverIndependentReviewSha256": "7f857a4b01b194adce18381c616077ac917ba690557e0c1a5f4f1e86a160712a",
+    "receiverExecuted": false,
+    "receiverSourceExecutionAcceptanceProduced": false
+  },
+  "externalPhoneExperimentArchived": false,
+  "complete208Accepted": false,
+  "local20Accepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "files": [
+    {
+      "group": "final-combined-candidate",
+      "originalName": "gz021-four-fixture-combined.patch",
+      "path": "gz021-four-fixture-combined.patch.zlib.b64",
+      "originalPhysicalSha256": "6dfcaf3aa12cf93e395afd65d98974bf68795c1bda268fa130f365d8c8865671",
+      "originalPhysicalBytes": 7330,
+      "packedSha256": "2b1842e7ea16dfe013501b92e3002f3356c2db73172327d94b3face187883082",
+      "packedBytes": 3234
+    },
+    {
+      "group": "final-combined-candidate",
+      "originalName": "gz021-four-fixture-combined-private-application.json",
+      "path": "gz021-four-fixture-combined-private-application.json.zlib.b64",
+      "originalPhysicalSha256": "0cde8c9e2b231444ae4448dc5c88680f57e6abb3826f5c8869c733f6ac9c116f",
+      "originalPhysicalBytes": 996,
+      "packedSha256": "18e375f0f5567a5afc9f694e79e5a6f1364b2227158fba1844915d39428641d0",
+      "packedBytes": 633
+    },
+    {
+      "group": "final-combined-candidate",
+      "originalName": "gz021-four-fixture-stable6-20261019/receipt.json",
+      "path": "gz021-four-fixture-stable6-20261019__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "0a638c823952e22cf4afc6a37783e810beac303e8add20c69aed45d44aa17cc1",
+      "originalPhysicalBytes": 9738,
+      "packedSha256": "e986e7451ddce0417782964382982208665d0ae65a5fa9769d6240a46ec78e5f",
+      "packedBytes": 2606
+    },
+    {
+      "group": "final-combined-candidate",
+      "originalName": "gz021-four-fixture-stable6-20261019/tests.raw",
+      "path": "gz021-four-fixture-stable6-20261019__tests.raw.zlib.b64",
+      "originalPhysicalSha256": "11269967a80af8153ca6c23178daa5f649aae3712c67592568356df32290741f",
+      "originalPhysicalBytes": 1146,
+      "packedSha256": "3d9553bb49e1b184f6edf27ba1a12b91001eb45808ac744b451fc79df0854f92",
+      "packedBytes": 462
+    },
+    {
+      "group": "historical-parent-failure-selected-raw",
+      "originalName": "gz021-implementation-217967a-results/poc-tests.txt",
+      "path": "gz021-implementation-217967a-results__poc-tests.txt.zlib.b64",
+      "originalPhysicalSha256": "43dc7ab6821616c7c5415ab8c0c6514818579613ba3585f0bf9ba476f48f058e",
+      "originalPhysicalBytes": 37267,
+      "packedSha256": "5bc67d60528a96515195be53686506b45576292842e0fb02e59ea15d940db7b7",
+      "packedBytes": 8661
+    },
+    {
+      "group": "historical-parent-failure-selected-raw",
+      "originalName": "gz021-implementation-217967a-results/status.json",
+      "path": "gz021-implementation-217967a-results__status.json.zlib.b64",
+      "originalPhysicalSha256": "17868cd118668eb81eef72ffd86af418cc28e34138b02951cf102a2994a16589",
+      "originalPhysicalBytes": 364,
+      "packedSha256": "2c90c106cd870b3aa819aeb26beb720eab2fd3a01e129955a01b6cddbecf5937",
+      "packedBytes": 227
+    },
+    {
+      "group": "historical162-diagnosis-and-local-checks",
+      "originalName": "gz021-217967a-test162-diagnostic/receipt.json",
+      "path": "gz021-217967a-test162-diagnostic__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "4f8228fa01e9f83c6e34ab548d1d11b1f4bffa33064adaacc27bab3537a697e9",
+      "originalPhysicalBytes": 4882,
+      "packedSha256": "c5c871e43632ad0375c34cad9eeb2a01818fb6bbd77c248c52f23af75f0693d0",
+      "packedBytes": 1447
+    },
+    {
+      "group": "historical162-diagnosis-and-local-checks",
+      "originalName": "gz021-217967a-test162-diagnostic/test162.stderr",
+      "path": "gz021-217967a-test162-diagnostic__test162.stderr.zlib.b64",
+      "originalPhysicalSha256": "d248893a9278a68686821bff8807b76ceed3ae9a5994b8dab24ca9bcb47c7ae7",
+      "originalPhysicalBytes": 2002,
+      "packedSha256": "42c4c8e7dd39f7aa9a93b64556a57c07d0fc0ec583ebae3b06fae3422f4aa2c2",
+      "packedBytes": 811
+    },
+    {
+      "group": "historical162-diagnosis-and-local-checks",
+      "originalName": "gz021-217967a-test162-diagnostic/test162.stdout",
+      "path": "gz021-217967a-test162-diagnostic__test162.stdout.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "historical162-diagnosis-and-local-checks",
+      "originalName": "gz021-217967a-test162-diagnostic/candidate-test162-track-new-fixtures.patch",
+      "path": "gz021-217967a-test162-diagnostic__candidate-test162-track-new-fixtures.patch.zlib.b64",
+      "originalPhysicalSha256": "ee5da31937208ed41cd09195d7818b864ae071d46b28d98f79d37a855e90d07f",
+      "originalPhysicalBytes": 1191,
+      "packedSha256": "6c8f74bd271fe12b24167cc9540ec53f808b8d2d9bbea2a8b1cf620544f1fa7a",
+      "packedBytes": 754
+    },
+    {
+      "group": "historical162-diagnosis-and-local-checks",
+      "originalName": "gz021-217967a-test162-diagnostic/candidate-helper-seal-profile.patch",
+      "path": "gz021-217967a-test162-diagnostic__candidate-helper-seal-profile.patch.zlib.b64",
+      "originalPhysicalSha256": "e42696940e9ee23284d5e9aef8edc5eafc16256d2e79b90de5211917f5bfd23d",
+      "originalPhysicalBytes": 1627,
+      "packedSha256": "6f202e1e0584a1d52c41a142c68931e1de786b1774fda712996a813d484f26ed",
+      "packedBytes": 1123
+    },
+    {
+      "group": "historical162-diagnosis-and-local-checks",
+      "originalName": "gz021-217967a-test162-diagnostic/candidate-helper-review.json",
+      "path": "gz021-217967a-test162-diagnostic__candidate-helper-review.json.zlib.b64",
+      "originalPhysicalSha256": "6d044771b4242800aa62a6794c4a1369898f5da805281ac12972ccc2db889097",
+      "originalPhysicalBytes": 871,
+      "packedSha256": "10b51593cefc5eb61fb4e54e2346afe0c143f835957dd7b95a38cd28dc8bcc7e",
+      "packedBytes": 702
+    },
+    {
+      "group": "historical162-diagnosis-and-local-checks",
+      "originalName": "gz021-217967a-test162-diagnostic/candidate-helper-fixed-three/receipt.json",
+      "path": "gz021-217967a-test162-diagnostic__candidate-helper-fixed-three__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "4ad8a98e6165b96606106bf6f8360ebe29a8a2b27beb9927f414dde69a07ea74",
+      "originalPhysicalBytes": 2087,
+      "packedSha256": "30dfdb1910009dce0a7895e6a826787f248b1d5d6954a125930b2abc7245b9f0",
+      "packedBytes": 1196
+    },
+    {
+      "group": "historical162-diagnosis-and-local-checks",
+      "originalName": "gz021-217967a-test162-diagnostic/candidate-helper-fixed-three/tests.raw",
+      "path": "gz021-217967a-test162-diagnostic__candidate-helper-fixed-three__tests.raw.zlib.b64",
+      "originalPhysicalSha256": "bd1963ec0104b5fe51217f010a22d4e289450e6be2325553fce86b2cc89cc866",
+      "originalPhysicalBytes": 586,
+      "packedSha256": "1549a7ddac5bf82178b7efa801d76ac48c1f1f602f7971a71b4128b84eb300cf",
+      "packedBytes": 268
+    },
+    {
+      "group": "historical181-diagnosis-and-combined-four",
+      "originalName": "gz021-217967a-test181-diagnostic/receipt.json",
+      "path": "gz021-217967a-test181-diagnostic__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "d51c602b681085a7afc8db9d2cc7385d9c9ba921c1694a7fbe9734376cf8649d",
+      "originalPhysicalBytes": 4893,
+      "packedSha256": "b986f7d38ee41293bde6c565efdf366a95227815993524bfc5962ddcf7959345",
+      "packedBytes": 1451
+    },
+    {
+      "group": "historical181-diagnosis-and-combined-four",
+      "originalName": "gz021-217967a-test181-diagnostic/test181.stderr",
+      "path": "gz021-217967a-test181-diagnostic__test181.stderr.zlib.b64",
+      "originalPhysicalSha256": "045d91b6b703a4878da4943b98e83e7d6e3db7072ae50622dab89bbdae9fb5ef",
+      "originalPhysicalBytes": 2827,
+      "packedSha256": "973aa91e49ed961bdb344b84395342165a1c98166b9da9921beda2a230822d31",
+      "packedBytes": 1014
+    },
+    {
+      "group": "historical181-diagnosis-and-combined-four",
+      "originalName": "gz021-217967a-test181-diagnostic/test181.stdout",
+      "path": "gz021-217967a-test181-diagnostic__test181.stdout.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "historical181-diagnosis-and-combined-four",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/181-retained-refs-only.patch",
+      "path": "gz021-217967a-test162-diagnostic__combined__181-retained-refs-only.patch.zlib.b64",
+      "originalPhysicalSha256": "bcd06ea1da0a7c0a4f10908c80404014dff6b806dc090da9ac9d0b49814e2524",
+      "originalPhysicalBytes": 2676,
+      "packedSha256": "1c024b6500da36e334f7241783cdf34d0c7ab7d68e2e2a6e4bc992a55e6ed7ae",
+      "packedBytes": 1273
+    },
+    {
+      "group": "historical181-diagnosis-and-combined-four",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/candidate.diff",
+      "path": "gz021-217967a-test162-diagnostic__combined__candidate.diff.zlib.b64",
+      "originalPhysicalSha256": "ec14effd36ddd363279f90270ce4469ef94d7836d316720ecd67b318e2012e55",
+      "originalPhysicalBytes": 4271,
+      "packedSha256": "ffa201470734c86cc544e14292fd9aefcf81f63133021315390cc6332e63c825",
+      "packedBytes": 2156
+    },
+    {
+      "group": "historical181-diagnosis-and-combined-four",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/mechanical-checks.json",
+      "path": "gz021-217967a-test162-diagnostic__combined__mechanical-checks.json.zlib.b64",
+      "originalPhysicalSha256": "23528c80c87c9ebe5c65407760920d08d08bdbe6d7bd57993ee9b0561cfab3fb",
+      "originalPhysicalBytes": 2219,
+      "packedSha256": "7237cee20fcb380e568af78fd5f6df88cb6159a9667468db7ff32d05bfd76af6",
+      "packedBytes": 1366
+    },
+    {
+      "group": "historical181-diagnosis-and-combined-four",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/fixed-four/receipt.json",
+      "path": "gz021-217967a-test162-diagnostic__combined__fixed-four__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "caf4bb7444feec4c84d1fdf06b054680a940ee4f97180dd8c698bd3884359d58",
+      "originalPhysicalBytes": 2319,
+      "packedSha256": "abcd2b0f19c6a7bbe6ccd300e4b21d84d9972b288d06540befb29af95fb8ccbd",
+      "packedBytes": 1273
+    },
+    {
+      "group": "historical181-diagnosis-and-combined-four",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/fixed-four/tests.raw",
+      "path": "gz021-217967a-test162-diagnostic__combined__fixed-four__tests.raw.zlib.b64",
+      "originalPhysicalSha256": "73ce5dae1835b774f5643d4125f891d5ff6b9ce1fc3a4364374e04ba72b69883",
+      "originalPhysicalBytes": 776,
+      "packedSha256": "bc43e6d2eb242e9a8edf72581bed1221a1ecf57abaf04af0779e5138063afe38",
+      "packedBytes": 341
+    },
+    {
+      "group": "historical187-explicit-profile-seal-check",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/metadata187/187-profiling-seal.patch",
+      "path": "gz021-217967a-test162-diagnostic__combined__metadata187__187-profiling-seal.patch.zlib.b64",
+      "originalPhysicalSha256": "0a5a03ce087be5bea16680a94cb74092e02da9869cdb0ccbd2022ffc25f4468a",
+      "originalPhysicalBytes": 2179,
+      "packedSha256": "3d9efc9e05ebd3d15d77bd1446267d75152c14d59111a6ab303f4d0601cbdfa3",
+      "packedBytes": 1350
+    },
+    {
+      "group": "historical187-explicit-profile-seal-check",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/metadata187/mechanical-checks.json",
+      "path": "gz021-217967a-test162-diagnostic__combined__metadata187__mechanical-checks.json.zlib.b64",
+      "originalPhysicalSha256": "4be5f46a8ec698da792842fc75c4be425dff05be599d4c7c92252ca5dbfd49cd",
+      "originalPhysicalBytes": 1686,
+      "packedSha256": "d51804c2ee1b39c464c454ccaa74db05b514efe4e22c76bf3f525cbb84b355a9",
+      "packedBytes": 1168
+    },
+    {
+      "group": "historical187-explicit-profile-seal-check",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/metadata187/candidate-total.diff",
+      "path": "gz021-217967a-test162-diagnostic__combined__metadata187__candidate-total.diff.zlib.b64",
+      "originalPhysicalSha256": "c624a2fe034fc4c7faa3ca615901dc4373467e55d24028f6b1a9af4c87bcfac8",
+      "originalPhysicalBytes": 6400,
+      "packedSha256": "4c017cca0bdc62d5e052745f07c61cd5bb5ca8aaa4ab9fae7abfe61c8ad09056",
+      "packedBytes": 2983
+    },
+    {
+      "group": "historical187-explicit-profile-seal-check",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/metadata187/single187/receipt.json",
+      "path": "gz021-217967a-test162-diagnostic__combined__metadata187__single187__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "e51387bf704628ebfd68200cdbd06727a6a389f0fb8564a7ee8895d89e6bc43b",
+      "originalPhysicalBytes": 1696,
+      "packedSha256": "c21fe58b817f231e3bc26d137a508edf1a486e700a9fcbeaecd7626c277a141a",
+      "packedBytes": 1095
+    },
+    {
+      "group": "historical187-explicit-profile-seal-check",
+      "originalName": "gz021-217967a-test162-diagnostic/combined/metadata187/single187/tests.raw",
+      "path": "gz021-217967a-test162-diagnostic__combined__metadata187__single187__tests.raw.zlib.b64",
+      "originalPhysicalSha256": "8e13487328f1b8417e756b83e5d31eebba6c7784fcd10c94da85629f532ce59c",
+      "originalPhysicalBytes": 263,
+      "packedSha256": "c9cee0631efe010c21f5f7ad54b499fbbd2f0bdae9607917f5e4c92d4e70ce0d",
+      "packedBytes": 175
+    },
+    {
+      "group": "historical126-error-and-local-path-only-check",
+      "originalName": "gz021-independent-217126-baseline/receipt.json",
+      "path": "gz021-independent-217126-baseline__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "517c41b03b66cfe4a1572f39ea126fd6f15105c6dce06b01aef34867198b9060",
+      "originalPhysicalBytes": 1809,
+      "packedSha256": "4e25395b73eac06ffb6f70a7d89e137dcb1ebd846c9c074076e1f92cd13de590",
+      "packedBytes": 965
+    },
+    {
+      "group": "historical126-error-and-local-path-only-check",
+      "originalName": "gz021-independent-217126-baseline/test126.raw",
+      "path": "gz021-independent-217126-baseline__test126.raw.zlib.b64",
+      "originalPhysicalSha256": "038064e9b3c12ff7fdc42160c7eafc69df042def9ff7023a3516e49235af89f3",
+      "originalPhysicalBytes": 1888,
+      "packedSha256": "ffbf7a133bf6a1a3bdd7aadc313d510e960bd74477fec1e9ceb35fbbff491505",
+      "packedBytes": 888
+    },
+    {
+      "group": "historical126-error-and-local-path-only-check",
+      "originalName": "gz021-independent-217126-candidate/receipt.json",
+      "path": "gz021-independent-217126-candidate__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "a63769577f74d7bc68ced3d8b4592aa1d96cc7b1c8a751e261a00d57d697899a",
+      "originalPhysicalBytes": 2314,
+      "packedSha256": "3217c8ac437d1172d616bf69e7d3276cee16c73139703eb04e35916f4b7ca735",
+      "packedBytes": 1224
+    },
+    {
+      "group": "historical126-error-and-local-path-only-check",
+      "originalName": "gz021-independent-217126-candidate/test126.raw",
+      "path": "gz021-independent-217126-candidate__test126.raw.zlib.b64",
+      "originalPhysicalSha256": "8c9b9c007671b024eae475fba35437ead645adf87ec68e974ea1b9cdabfa4948",
+      "originalPhysicalBytes": 625,
+      "packedSha256": "3064dc758b8470b6c340ff2b13b1ba6657c433b5fb722ed92fff0ed10660779b",
+      "packedBytes": 406
+    },
+    {
+      "group": "historical126-error-and-local-path-only-check",
+      "originalName": "gz021-independent-217126-candidate/test126-commit-only.patch",
+      "path": "gz021-independent-217126-candidate__test126-commit-only.patch.zlib.b64",
+      "originalPhysicalSha256": "f1882ec2001187ddc9ba55b2f3d19d5487e12fbe660c29977aafa14d6f597cae",
+      "originalPhysicalBytes": 953,
+      "packedSha256": "c5988931141cbe98203444935a7ffd589ea9b8f095c75a67f35d1b3d776b40a4",
+      "packedBytes": 458
+    },
+    {
+      "group": "historical126-error-and-local-path-only-check",
+      "originalName": "gz021-217126-fixture-repair-handoff.json",
+      "path": "gz021-217126-fixture-repair-handoff.json.zlib.b64",
+      "originalPhysicalSha256": "9556b271ef4f1b1918fed01dcc877c62b2e9b3714dea3d1b5ec99392ea6fd5c1",
+      "originalPhysicalBytes": 3764,
+      "packedSha256": "0830ad7790a8d86d58bf1808fd47a8a364103ef527e41991b55d792f44130909",
+      "packedBytes": 2096
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "run_gz021_poc_shards.py",
+      "path": "run_gz021_poc_shards.py.zlib.b64",
+      "originalPhysicalSha256": "d24c045056ff5362c1479059e1625dc20dd3d212e6b15aec8ce98b53e973f803",
+      "originalPhysicalBytes": 20641,
+      "packedSha256": "6767898ef579c1bb07d343099bfca3002dc47fcf9bcecf2e7528fa58eacd890b",
+      "packedBytes": 8661
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "check_gz021_poc_shard_driver.py",
+      "path": "check_gz021_poc_shard_driver.py.zlib.b64",
+      "originalPhysicalSha256": "4fe9a9f68b6f740827ae4b66afcf3fe4023b7f15d3ed833f13dc5c8e4c1acf14",
+      "originalPhysicalBytes": 7831,
+      "packedSha256": "3c5c9528aabab865035de3435c60aa5d0a381e37ca04f153f2cb2db5e5b06bdf",
+      "packedBytes": 3664
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "prepare_gz021_poc208_four_shards_wrapper.py",
+      "path": "prepare_gz021_poc208_four_shards_wrapper.py.zlib.b64",
+      "originalPhysicalSha256": "3cf74a6822ffa2d16e1a859d03a062d581873cbf93698d5a72c16aa9fcfb1f0b",
+      "originalPhysicalBytes": 12024,
+      "packedSha256": "99d28fddea1361d392e00d8a4a982f7f47c0ddbbcda203a5a54b45880e7ed454",
+      "packedBytes": 5848
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "verify_gz021_poc208_four_shards_implementation.py",
+      "path": "verify_gz021_poc208_four_shards_implementation.py.zlib.b64",
+      "originalPhysicalSha256": "6ef86730aa2036e7b90bbb5ec90425194129adbfa89f1462275121355d39eb0b",
+      "originalPhysicalBytes": 12615,
+      "packedSha256": "43b0b59d3902db1c112f6854cf0a212da42a30fd5652de73c7cf16d17d901b7c",
+      "packedBytes": 6177
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-poc208-four-shards-expanded198-template.py.txt",
+      "path": "gz021-poc208-four-shards-expanded198-template.py.txt.zlib.b64",
+      "originalPhysicalSha256": "97c8a0b2ddb35fbb479d97cf60a24fea731a33824e7e30c3a21055d4881cae98",
+      "originalPhysicalBytes": 5692,
+      "packedSha256": "6b669dd4ce75722e17614871d0413995111250c6c07946212389c15f0872da26",
+      "packedBytes": 3028
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-poc208-four-shards-wrapper-mechanical.diff",
+      "path": "gz021-poc208-four-shards-wrapper-mechanical.diff.zlib.b64",
+      "originalPhysicalSha256": "e3495a8ae31d136005458e8f83400ba8cb6552f62e2cd67df84b106e19d38ee7",
+      "originalPhysicalBytes": 10320,
+      "packedSha256": "4d92ce710730e641008b846559989c104d58c12a6c60b3d7bfd5d70aaf13f18f",
+      "packedBytes": 5078
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-poc208-four-shards-wrapper-preparation.json",
+      "path": "gz021-poc208-four-shards-wrapper-preparation.json.zlib.b64",
+      "originalPhysicalSha256": "d4bb0eee9a95da9e1eab737ced7181e329c326f93f691317d91a639e8121acbc",
+      "originalPhysicalBytes": 1596,
+      "packedSha256": "08554ea580526c07728ba1fb5cf86ad42d3a0e213c4a77af4a0586f9ca8a40d5",
+      "packedBytes": 1160
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-poc208-four-shards-wrapper-native-compile-only.json",
+      "path": "gz021-poc208-four-shards-wrapper-native-compile-only.json.zlib.b64",
+      "originalPhysicalSha256": "8cad8243e4067dad4d6083a096e0a0d1ec8669a2b084a43026a86a985533a419",
+      "originalPhysicalBytes": 452,
+      "packedSha256": "71e60e2b94f5d28065f82d58b991082c9c3b44703912472cf42723f0739dd82b",
+      "packedBytes": 430
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-independent-poc-shard-driver-finite-preparation-review.json",
+      "path": "gz021-independent-poc-shard-driver-finite-preparation-review.json.zlib.b64",
+      "originalPhysicalSha256": "58a82331ca9b6710c478bd825fb26ba6174e0ea24aaf4cb4bcc8ae9b2ba6d8b7",
+      "originalPhysicalBytes": 7951,
+      "packedSha256": "55ad8db23bd0c323863fb8f151ad308f3350a03c0592785e513185bb2d06d007",
+      "packedBytes": 2898
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-independent-poc208-four-shards-wrapper-preexecution-review.json",
+      "path": "gz021-independent-poc208-four-shards-wrapper-preexecution-review.json.zlib.b64",
+      "originalPhysicalSha256": "9634e4a433092bb5ef6b71ac17ba15a72b6c90c9a0445391862518b4931a0106",
+      "originalPhysicalBytes": 4066,
+      "packedSha256": "362af97fbf0780e7418925c1b9fe49e40992d736252242b3c766709d8cbfb237",
+      "packedBytes": 2752
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/driver-check.json",
+      "path": "gz021-shard-driver-check-linux-v1__driver-check.json.zlib.b64",
+      "originalPhysicalSha256": "b48f5e523542d74a008ca897f57135e5139aea00ff4751c611b564280321922c",
+      "originalPhysicalBytes": 8265,
+      "packedSha256": "87c81fc8061b9435ec23761deaf6d30d8e54123455139ed778df319764714d78",
+      "packedBytes": 2132
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "3cb2c90b1e90181d01fe02800e450f36bf351b2a8078ba800cd5c327f17d8082",
+      "originalPhysicalBytes": 399,
+      "packedSha256": "4e7e80c041fde3d7b2d1a204c9c9d24a89c478da917fab701b6fc21459e830e0",
+      "packedBytes": 385
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/receipt.json",
+      "path": "gz021-shard-driver-check-linux-v1__success__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "8665b9a249243f31c34e81602a8da4bf42693455fb4ab0d1e29010d8771067b3",
+      "originalPhysicalBytes": 103561,
+      "packedSha256": "70cbd043ea2663dffac2d02a6263b98808197d68e6930632c49295f454caac3f",
+      "packedBytes": 9403
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/shard-1.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success__shard-1.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/shard-1.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success__shard-1.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e488422e73141099e3b99711c36b52417c6810d329e1c4527ee93674ae20a1ea",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "e16287812f2735fe782f826cbebb534b42594c47f5a628654b0be5feb6c7e505",
+      "packedBytes": 495
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/shard-2.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success__shard-2.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/shard-2.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success__shard-2.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "c75eb741a2dc9417f6e13924d7b314975095c2fee5d62247b67a8376759f3a64",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "c5efaa5bad4f89690823bf19d541035a77e757cc816fbe1dd8c0ae7a645427fc",
+      "packedBytes": 495
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/shard-3.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success__shard-3.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/shard-3.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success__shard-3.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "c116fe2d7b8d7a4cde4b0a6ae693a88dab175840c2496eff746812b4b427d9d6",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "9b3fe1a7224e1e41b8bd8acff6dbd4815b23fd532d51aa5ee94a2419c6b02a69",
+      "packedBytes": 495
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/shard-4.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success__shard-4.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/success/shard-4.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__success__shard-4.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "b42eea9c08df1fc81bfae5f19f74fa6e61fc81c23166aac2bc87c47b304fbfe7",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "3b59db2934f11ff435e66254ab94e9916ccb2fe99a6dd34aab39c2d9c71d28f9",
+      "packedBytes": 503
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "2dfd4583255ef58225c2d0ace4f370e6948ac209ccb17e51be93640f9a9f83e0",
+      "originalPhysicalBytes": 398,
+      "packedSha256": "824a5ddae6f463de6228b63b1388f4f28c075b100483df8d2043738802840f78",
+      "packedBytes": 390
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/receipt.json",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "aef530338bab70fe70017985a1d75accea6b745ca1235aa751c8b30c637572bf",
+      "originalPhysicalBytes": 103667,
+      "packedSha256": "bfe7f47d1d3c3a07d6ead2576a87917db6b1f3d8cc78a5593497789d14ae1d55",
+      "packedBytes": 9678
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/shard-1.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__shard-1.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/shard-1.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__shard-1.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "d2e1bb1ad1981819b42940cee87baab24221ee83cfa013da6c12b651157e88d6",
+      "originalPhysicalBytes": 4554,
+      "packedSha256": "fd43e65d169403ad8b14ba6fa7b3adb73347acf503c876e6dccdff132d83776f",
+      "packedBytes": 799
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/shard-2.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__shard-2.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/shard-2.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__shard-2.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "d609106b65987cf33ce22629cbf34323c7ff6976aa28ec6903fa60c613cfa40d",
+      "originalPhysicalBytes": 4564,
+      "packedSha256": "2e378e33b800d1945da4f850540225dd53d5c0c757ba4af53bc9e40568fc33f5",
+      "packedBytes": 795
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/shard-3.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__shard-3.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/shard-3.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__shard-3.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "fae5783d8db77f09e85c653be8ad4b1ab91c681235332de3c076805c046198a0",
+      "originalPhysicalBytes": 4040,
+      "packedSha256": "56691387f333bd6a1c2d5ada7dbf4920e738b6a44bc24507771c9183f73507b1",
+      "packedBytes": 548
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/shard-4.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__shard-4.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/mixed/shard-4.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__mixed__shard-4.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "a6c018cd9ccf48285356558b555667d5a17d796ae4c859cde6fcb4dd7e60b17a",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "1ef651c03720c31d3b78fa12f383b26b400bf7baf6cc15c6a61797ce50aeafcd",
+      "packedBytes": 503
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "eb0c8241d55b037e15272d8f91875d7fab162ce32b73d8507bc520dac3cd0527",
+      "originalPhysicalBytes": 401,
+      "packedSha256": "5dac66cbf5df06c4cb4677f1fea7040ceaaca80757d0cb29e52e45c4edf04c42",
+      "packedBytes": 385
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/receipt.json",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "7cee25801a9dc32311a50dad62d019d758c46cc57068ea412139a01773555986",
+      "originalPhysicalBytes": 104528,
+      "packedSha256": "98789b453b4089a662e251e2d4b52fc052b3f7505a8fa63b9cc9018852751838",
+      "packedBytes": 9597
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/shard-1.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__shard-1.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/shard-1.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__shard-1.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "05c0a926037a0bcab6686341613df183f9c7746bfe0b95d9dce9041e4502c090",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "7b217500fb5b25988ca47e3254be801795716004193eb6241f25c7bcfaa86a31",
+      "packedBytes": 495
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/shard-2.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__shard-2.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/shard-2.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__shard-2.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "d3f6f303538ed2fdc02be3298cf7942c3ace518dc8cea607c07c92110407fae4",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "58cd59939d0ba8f556c512e73cee84211d2a1da53279e896e7f6a581d53920f5",
+      "packedBytes": 499
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/shard-3.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__shard-3.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/shard-3.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__shard-3.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "5a89bc5a415ee285517d4be3a5f6a0a478cdd95a5ff490c661f5ec3e7f95b3d1",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "e1b18fcf527bda8a6d8197287f9212f7a97909a00b4576abbe0b98ba17cec52c",
+      "packedBytes": 499
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/shard-4.stdout.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__shard-4.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "external-shard-tool-preparation-not-guize-execution",
+      "originalName": "gz021-shard-driver-check-linux-v1/coverage/shard-4.stderr.raw",
+      "path": "gz021-shard-driver-check-linux-v1__coverage__shard-4.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "19be6920070093f7942ca4ebcef695db3b1104efe100680d12a7c25d5968d90b",
+      "originalPhysicalBytes": 3999,
+      "packedSha256": "fa64d56386fda68a2557801821b947c53cf0dfc5a1d28dc92d898a3e409d4cf3",
+      "packedBytes": 507
+    },
+    {
+      "group": "external-receiver-preparation-accepted-not-executed",
+      "originalName": "accept_gz021_sharded_local20_after_terminal.py",
+      "path": "accept_gz021_sharded_local20_after_terminal.py.zlib.b64",
+      "originalPhysicalSha256": "4207711f741663b3b010911e0231e2ca1e33d5775264cfef93df38f8034de74c",
+      "originalPhysicalBytes": 11837,
+      "packedSha256": "7ee95ad44eeeb3e2ff894e664f2cc66a6446caa9c59123563a9829250aa51a7c",
+      "packedBytes": 5917
+    },
+    {
+      "group": "external-receiver-preparation-accepted-not-executed",
+      "originalName": "gz021-sharded-local20-receiver-preparation.json",
+      "path": "gz021-sharded-local20-receiver-preparation.json.zlib.b64",
+      "originalPhysicalSha256": "84c14da5a467880c570e4053369cbfecaad115e512cc32220151b1a8146df49f",
+      "originalPhysicalBytes": 1650,
+      "packedSha256": "269825b17952e2920621a4cd2e70b0389e3574f15156f29a96c74df269d6bc73",
+      "packedBytes": 1318
+    },
+    {
+      "group": "external-receiver-preparation-accepted-not-executed",
+      "originalName": "gz021-independent-sharded-local20-receiver-preexecution-review.json",
+      "path": "gz021-independent-sharded-local20-receiver-preexecution-review.json.zlib.b64",
+      "originalPhysicalSha256": "7f857a4b01b194adce18381c616077ac917ba690557e0c1a5f4f1e86a160712a",
+      "originalPhysicalBytes": 3960,
+      "packedSha256": "95002fe0d5eb29f7dfb0d6d57cf09b7c4bbbbe0094b928f3b08e6e851e2b107d",
+      "packedBytes": 2679
+    }
+  ],
+  "updatedAtUtc": "2026-10-19T02:11:15.757773+00:00"
+}

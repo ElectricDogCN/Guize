@@ -780,6 +780,8 @@ class TestPocProgram(unittest.TestCase):
         h264=load_yaml(root/env['h264FallbackRef']);fallback=dict(jobId=policy['playbackJobId'],observedAt=clock(3),userId=context['authorizedUserId'],grantId=context['currentGrantId'],aclVersion=context['aclVersion'],assetId=context['assetId'],assetVersion=context['assetVersion'],demandEpoch=1,outputArtifactRef=h264['outputArtifactRef'],outputSha256=h264['outputSha256'],decodeRef=h264['decodeRef'])
         report=dict(schemaVersion=1,kind='media_scheduling_observation',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-002')),execution),inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],context=context,schedulerBuild=policy['schedulerBuild'],demandEpoch=1,jobs=rows,snapshots=snapshots,admissionLatencySeconds=1,firstReadyLatencySeconds=3.5,preemptedRunningProcessIds=[],fallback=fallback)
         env['mediaSchedulingRef'],_=retain('media-scheduling.yaml',report,'measurement_output',nodes[0]['nodeId'])
+        # Seal this synthetic scheduling fixture after its retained artifacts are complete.
+        subprocess.run(['git','-C',str(root),'add','--',prefix],check=True,capture_output=True)
 
     def prepare_qualified_hls_ready_fixture(self,root,execution,prefix):
         """Synthetic HLS sequence only, never runtime encode or playback evidence."""
@@ -893,6 +895,8 @@ class TestPocProgram(unittest.TestCase):
             changed=case=='changed';descriptor=after if changed else before;content=(root/descriptor['ref']).read_bytes();version='version-2' if changed else 'version-1';body=content[:2] if case=='bounded' else b'' if case=='unsatisfiable' else content;response=retain('response-'+case+'.bin',body,'produced_media')
             probes.append(dict(case=case,requestId='synthetic-metadata-probe-'+case,objectId=policy['probeObjectId'],objectVersion=version,observedAt=f'2026-09-03T00:00:0{7 if changed else 3}.{index:03d}Z',requestRange='bytes=0-1' if case=='bounded' else f'bytes={len(content)}-' if case=='unsatisfiable' else '',statusCode=206 if case=='bounded' else 416 if case=='unsatisfiable' else 200,contentRange=f'bytes 0-{min(1,len(content)-1)}/{len(content)}' if case=='bounded' else f'bytes */{len(content)}' if case=='unsatisfiable' else '',etag='"synthetic-'+version+'"',versionValidator='',responseRef=response['ref'],responseSha256=response['sha256'],responseByteCount=len(body)))
         report=dict(schemaVersion=1,kind='metadata_profiling_observations',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=scan_policy['scannerBuild'],inputSamples=[{k:v[k] for k in ('id','immutableId','checksum')} for v in execution['samples']],manifestId=scan_policy['manifestId'],scannerBuild=scan_policy['scannerBuild'],sourceIdentity=source,filenameObjects=observed,filenameDistributions=distributions,providerPages=stream('provider-pages.jsonl',pages),rangeDisposition=policy['rangeDisposition'],validatorKind='etag',validatorStableOnUnchanged=True,validatorChangedOnUpdate=True,probes=probes);env['metadataProfilingRef']=retain('report.yaml',report,'measurement_output')['ref']
+        # Seal only artifacts retained by this synthetic profiling fixture.
+        subprocess.run(['git','-C',str(root),'add','--',*[a['ref'] for a in env['rawExecutionArtifacts'] if a['ref'].startswith(stem)]],check=True,capture_output=True)
 
 
     def prepare_qualified_public_network_fixture(self,root,execution,prefix):
@@ -2349,14 +2353,16 @@ class TestPocProgram(unittest.TestCase):
                 write_yaml(report_path,report);self.assertTrue(any('qualified public network' in e for e in validate(copy.deepcopy(original))),mode)
             def add_point(report,data):
                 point='synthetic-second-external-point';control=copy.deepcopy(report['controls'][0]);control.update(testPointId=point,requestId='synthetic-second-public-request');source=load_yaml(root/control['accessWitnessRef']);body_path=root/control['responseBodyRef']
+                created_refs=[]
                 def retain(name,payload,kind):
                     ref=report_path.parent.as_posix().removeprefix(root.as_posix()+'/')+'/'+name;path=root/ref
                     if isinstance(payload,bytes):path.write_bytes(payload)
                     else:write_yaml(path,payload)
-                    raw=path.read_bytes();data['environmentCaptured']['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));data['rawOutputRefs'].append(ref);return ref
+                    raw=path.read_bytes();data['environmentCaptured']['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest()));data['rawOutputRefs'].append(ref);created_refs.append(ref);return ref
                 control['responseBodyRef']=retain('second-point-response.bin',body_path.read_bytes(),'produced_media');source.update(testPointId=point,requestId=control['requestId'],responseBodyRef=control['responseBodyRef']);control['accessWitnessRef']=retain('second-point-request.yaml',source,'measurement_output');report['controls'].append(control)
                 for old in list(report['denials']):
                     row=copy.deepcopy(old);row.update(testPointId=point,requestId='second-point-'+row['case'],responseBodyRef=retain('second-point-'+row['case']+'.bin',(root/row['responseBodyRef']).read_bytes(),'produced_media'));report['denials'].append(row)
+                subprocess.run(['git','-C',str(root),'add','--',*created_refs],check=True,capture_output=True)
                 return point
             report=copy.deepcopy(report_original);data=copy.deepcopy(original);config=copy.deepcopy(config_original);point=add_point(report,data);config['configuration']['publicNetworkPolicy']['testPointIds'].append(point);write_yaml(config_path,config);write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(data)),[])
             second_request_original=load_yaml(root/report['controls'][1]['accessWitnessRef'])
@@ -4811,7 +4817,7 @@ class TestPocProgram(unittest.TestCase):
                 self.assertTrue(any('current validation context' in e for e in validate()))
                 def commit(*paths):
                     subprocess.run(['git','-C',str(root),'add','--',*paths],check=True)
-                    subprocess.run(['git','-C',str(root),'-c','user.name=POC Fixture','-c','user.email=poc-fixture@guize.invalid','commit','-q','-m','synthetic fixture change'],check=True)
+                    subprocess.run(['git','-C',str(root),'-c','user.name=POC Fixture','-c','user.email=poc-fixture@guize.invalid','commit','--only','-q','-m','synthetic fixture change','--',*paths],check=True)
                 commit('fixture-tested-source.txt')
                 self.assertTrue(any('current validation context' in e for e in validate()))
                 code.write_text(original_code,encoding='utf-8');commit('fixture-tested-source.txt')

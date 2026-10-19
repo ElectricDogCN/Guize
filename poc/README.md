@@ -1,5 +1,20 @@
 # Guize V1 POC Program
 
+## Four-fixture repair preparation checkpoint (parent217967a)
+
+Published parent217967a completed its original single-process208 run in6727.303s:204 passed,3 failed (162,181,187),1 errored (126). Seventeen preceding gates passed; poc-tests exited1 and native governance637/JUnit/docs did not run. CI711 separately passed28 steps and637 governance tests in940.38s. It does not execute POC208. The parent archive at evidence/GZ-021/executions/217967a5f45414db6fe5898073ee0c01bb51f238/manifest.json remains unchanged.
+
+At this archival preparation checkpoint, the unpublished candidate changes only positive synthetic fixture setup: the scheduling helper seals its precise profile without force; public-network second-point setup seals only its five newly retained refs; metadata profiling seals only artifacts retained under its current profiling stem;126 commits only its explicitly supplied paths so unrelated staged Own Evidence is preserved. Checker/schema bytes, all208 method names, every original assertion and every loop target/iterable remain unchanged. The126 and181 positive construction helper AST changes are explicitly retained; no unchanged-whole-method claim is made for those two methods.
+
+The final four-fixture candidate passed one stable native invocation of original126→137→162→181→187→199:6 tests in358.450s, exit0, with test-file SHA256 7e6261600aed02790b82af375bf3eced2f9108cd03a421e0a64358bb6c7d91a6 unchanged before/after. Earlier failures and separate162-only, combined4,187 and126 checks remain distinct historical records. This six-method result is not the candidate's full208/local20 or published-source acceptance. Exact selected physical records are losslessly retained in evidence/GZ-021/candidate-checks/four-fixture-repair/manifest.json.
+
+The new driver/wrapper are external execution preparation; repository validation entry points are unchanged. Their limited preparation reviews and three synthetic driver self-checks are archived. A future own-source execution must retain four real processes with52 original methods each, every original Ran52 footer and exact once-only208 coverage, then describe the result as a four-process aggregate. It must not fabricate a single-process Ran208 transcript. The other19 gate commands,35 negatives,637/JUnit/docs and clean-source binding remain required. The new aggregate receiver has finite independent/root preparation acceptance and compile-only evidence; it has not executed or produced a source-execution acceptance.
+
+A separate external OnePlus8T software-AV1 smoke experiment retained320x180/15fps/2s/30 frames and host FFmpeg decode exit0 (local-lab/android/oneplus8t-av1-smoke-20261019/receipt.json, SHA256 64a38a57bd0a6b9e5e274da2a1ef619b9cb94976034c14482fa9cdf99995006f). That short experiment is not this task's formal POC, Worker or platform-runtime acceptance. Publication, own complete208/local20, formal/final approval, actualmain integration and full localV1 remain pending.
+
+The following entries describe earlier historical stages.
+
+
 Qualified production POC-001 phone observations retain a bounded typed report matching exact device/node/host/build, temperature/power/background values and actual observed duration inside the execution window. Both physical scope and inventory explicitly exclude emulators and virtual machines. Local Android VM validation and factual failed runs remain separate.
 
 Qualified POC-009 PASS derives items/s from a retained positive completed-item count and actual ordered interval, with exact approved sample and model/Prompt/parameter/runtime/tool bindings. Qualified POC-002 counts distinct validated stream output/trace identities independently of participating node count; cross-node overlap, source-frame coverage, admitted build/group and total/per-node local concurrency limits remain required.
