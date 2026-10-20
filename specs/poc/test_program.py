@@ -2075,7 +2075,28 @@ class TestPocProgram(unittest.TestCase):
         for case in env['injected_failure_matrix']['cases']:case['rawOutputRef']=ref
         self.prepare_qualified_source_listing_fixture(root,execution,prefix)
         self.prepare_qualified_local_source_authentication_fixture(root,execution,prefix)
+        self.prepare_source_fault_expired_origin_fixture(root,execution,prefix,report,policy)
 
+
+    def prepare_source_fault_expired_origin_fixture(self,root,execution,prefix,report,policy):
+        """Explicit synthetic server/collector readback for the one expired request; never OpenList execution."""
+        from datetime import timedelta
+        env=execution['environmentCaptured'];config=load_yaml(root/report['configurationRef']);approved=config['configuration']['localSourceAuthenticationPolicy']['nativeExecution']
+        def retain(ref,kind,raw):
+            (root/ref).write_bytes(raw);record=dict(ref=ref,artifactType=kind,byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());prior=next((a for a in env['rawExecutionArtifacts'] if a['ref']==ref),None)
+            if prior is None:env['rawExecutionArtifacts'].append(record);execution['rawOutputRefs'].append(ref)
+            else:prior.update(record)
+        for row in report['cases']:
+            if row['case']!='auth_expired':continue
+            for attempt in row['attempts']:
+                run_path=root/attempt['transportExecutionRef'];run=load_yaml(run_path);first,last=CHECK.utc(run['startedAt']),CHECK.utc(run['finishedAt']);start=first-timedelta(milliseconds=1);end=last+timedelta(milliseconds=1);client=run['pid'];server=90000+attempt['attemptNo']
+                context={key:run[key] for key in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','scope','sandboxId','sourceId','objectId','objectVersion','caseId','attemptNo','requestId','traceId')}
+                raw=(root/run['responseRef']).read_bytes();status,_,_=CHECK.parse_local_source_http_response(raw)
+                context.update(endpointURL=policy['transportEndpointURL'],requestRef=run['requestRef'],requestSha256='sha256:'+hashlib.sha256((root/run['requestRef']).read_bytes()).hexdigest(),responseRef=run['responseRef'],responseSha256='sha256:'+hashlib.sha256(raw).hexdigest())
+                values=[('process_start','client',start,{}),('request','client',first,{}),('authorization','server',first+(last-first)/2,dict(decision='denied',authenticatedPrincipalId=None)),('response','client',last,dict(statusCode=status,responseRef=run['responseRef'],responseSha256=context['responseSha256'])),('process_exit','client',end,dict(exitCode=0))]
+                events=[dict(type=kind,component=component,processId=client if component=='client' else server,requestId=run['requestId'],traceId=run['traceId'],observedAt=at.isoformat().replace('+00:00','Z'),monotonicNs=int(round((at-start).total_seconds()*1000000000)),**extra) for kind,component,at,extra in values]
+                capture=dict(schemaVersion=1,kind='local_source_fault_denial_execution',context=context,**{k:approved[k] for k in ('serverBuild','collectorBuild','collectorCommandArgs')},commandArgs=approved['collectorCommandArgs']+['--request',run['requestRef'],'--response',run['responseRef'],'--trace',run['traceId']],clientProcessId=client,serverProcessId=server,events=events)
+                ref=prefix+'/raw/source-expired-origin-'+attempt['requestId']+'.json';retain(ref,'command_output',json.dumps(capture).encode());run['originExecutionRef']=ref;write_yaml(run_path,run);retain(attempt['transportExecutionRef'],'measurement_output',run_path.read_bytes())
 
     def prepare_qualified_source_fault_transport_fixture(self,root,execution,prefix,report,policy):
         """Explicit synthetic per-attempt bytes for positive fixtures, never actual client execution."""
@@ -2101,6 +2122,8 @@ class TestPocProgram(unittest.TestCase):
                 argv=policy['transportCommandArgs']+['--request',refs['requestRef'],'--response',refs['responseRef'],'--progress',refs['progressRef'],'--stderr',refs['stderrRef']]
                 run=dict(schemaVersion=1,kind='local_source_fault_transport_execution',**common,commandArgs=argv,toolBuild=policy['transportToolBuild'],pid=1000+len(env['rawExecutionArtifacts']),startedAt=attempt['requestedAt'],finishedAt=attempt['finishedAt'],exitCode=code,**refs)
                 write_yaml(root/attempt['transportExecutionRef'],run);retain(attempt['transportExecutionRef'],'measurement_output',(root/attempt['transportExecutionRef']).read_bytes())
+        if load_yaml(root/report['configurationRef'])['configuration'].get('localSourceAuthenticationPolicy'):
+            self.prepare_source_fault_expired_origin_fixture(root,execution,prefix,report,policy)
 
 
     def exercise_local_source_authentication_native_regressions(self,root,original,validate,prefix,report_path,config_path):
@@ -2426,6 +2449,97 @@ class TestPocProgram(unittest.TestCase):
         ref,_=retain('.process.json',process)
         return ref,process
 
+    def exercise_worker_encode_native_regressions(self,root,original,group):
+        """Reseal only changed capture bytes; never repair the invalid native facts."""
+        env=original['environmentCaptured'];prefix=original['environmentCaptured']['workerEncodeExecutions'][0]['rawOutputRef'].split('/raw/',1)[0]
+        saved={root/row['ref']:(root/row['ref']).read_bytes() for row in env['rawExecutionArtifacts']}
+        for resource in original['resources']:
+            path=root/resource['configurationRef'];saved[path]=path.read_bytes()
+        plan=load_yaml(self.plan_path(root,'POC-002'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs']
+        def validate(data):
+            errors=[];window=data['environmentCaptured']['executionWindow'];CHECK.validate_qualified_encode_workers(root,plan,data,prefix,'pass',(CHECK.utc(window['startedAt']),CHECK.utc(window['finishedAt'])),errors,{},defs);return errors
+        def reset():
+            for path,raw in saved.items():path.write_bytes(raw)
+            return copy.deepcopy(original)
+        def seal(data,ref,value):
+            raw=value if isinstance(value,bytes) else json.dumps(value).encode();(root/ref).write_bytes(raw)
+            row=next(r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['ref']==ref);row.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        try:
+            self.assertEqual(validate(reset()),[])
+            # Approval precedes execution: only the native capture/run binds the actual output digest.
+            resource=next(r for r in original['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');policy=load_yaml(root/resource['configurationRef'])['configuration']['workerEncodePolicy']
+            self.assertTrue(all('outputSha256' not in stream for stream in policy['streams']))
+            self.assertTrue(all(json.loads((root/run['rawOutputRef']).read_text('utf8'))['identity']['outputSha256']==run['outputSha256'] for run in original['environmentCaptured']['workerEncodeExecutions']))
+            modes={'timing':('report_duration','report_peak','native_duration_metric'),
+                   'binding':('arbitrary_trace','pid','exit','operation','build','argv','executable','source_ref','input_hash','span','output_hash','node','incomplete_progress'),
+                   'concurrency':('same_node_pid',)}[group]
+            for mode in modes:
+                data=reset();runs=data['environmentCaptured']['workerEncodeExecutions'];run=runs[0];ref=run['rawOutputRef'];native=json.loads((root/ref).read_text('utf8'));expected='native encoder'
+                if mode=='report_duration':
+                    for row in runs:row['finishedAt']='2026-09-03T00:00:30Z'
+                    next(m for m in data['measurements'] if m['id']=='sustained_encode_duration')['actual']=0.5
+                    expected='actual native encoder execution interval'
+                elif mode=='report_peak':
+                    runs[1].update(startedAt='2026-09-03T00:01:00Z',finishedAt='2026-09-03T00:02:00Z')
+                    next(m for m in data['measurements'] if m['id']=='encode_throughput')['actual']=1
+                    next(m for m in data['measurements'] if m['id']=='sustained_encode_duration')['actual']=2
+                    expected='actual native encoder execution interval'
+                elif mode=='native_duration_metric':
+                    for row in runs:
+                        row['finishedAt']='2026-09-03T00:00:30Z';capture=json.loads((root/row['rawOutputRef']).read_text('utf8'));capture['finishedAt']=row['finishedAt'];seal(data,row['rawOutputRef'],capture)
+                    expected='captured continuous worker interval capacity'
+                elif mode=='same_node_pid':
+                    peer=next(r for r in runs[1:] if r['nodeId']==run['nodeId']);other=json.loads((root/peer['rawOutputRef']).read_text('utf8'));other['processId']=native['processId'];seal(data,peer['rawOutputRef'],other);expected='distinct native encoder processes'
+                elif mode=='arbitrary_trace':seal(data,ref,b'Synthetic trace text; never an encoder process.');expected='bounded unique-key finite evaluator JSON required'
+                elif mode=='incomplete_progress':
+                    raw=b'frame=0\nprogress=continue\n';seal(data,native['stdoutRef'],raw);native['stdoutSha256']='sha256:'+hashlib.sha256(raw).hexdigest();seal(data,ref,native)
+                else:
+                    if mode=='pid':native['processId']='0'
+                    elif mode=='exit':native['exitCode']=1
+                    elif mode=='operation':native['operation']='decode'
+                    elif mode=='build':native['toolBuild']='unapproved-build'
+                    elif mode=='argv':native['argv'].append('--unapproved')
+                    elif mode=='executable':native['argv'][0]='/other/path/ffmpeg'
+                    elif mode=='source_ref':native['identity']['sourceRef']=run['outputArtifactRef']
+                    elif mode=='input_hash':native['identity']['inputSha256']='sha256:'+'0'*64
+                    elif mode=='span':native['identity']['sourceEndFrame']+=1
+                    elif mode=='output_hash':native['identity']['outputSha256']='sha256:'+'0'*64
+                    elif mode=='node':native['nodeId']=runs[1]['nodeId']
+                    seal(data,ref,native)
+                    if mode in ('pid','exit'):expected='qualified encode workers'
+                    elif mode!='executable':expected='native process'
+                errors=validate(data);self.assertTrue(any(expected in e for e in errors),(group,mode,errors))
+            if group=='concurrency':
+                # Reused numeric PIDs across the two nodes remain legal, including a third stream.
+                data=reset();self.assertEqual(validate(data),[])
+            if group=='binding':
+                # An explicitly approved non-FFmpeg collector retains the same native contract.
+                data=reset();run=data['environmentCaptured']['workerEncodeExecutions'][0];resource=next(r for r in data['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');config_path=root/resource['configurationRef'];config=load_yaml(config_path);approval=config['configuration']['workerEncodePolicy']['streams'][0];ref=run['rawOutputRef'];native=json.loads((root/ref).read_text('utf8'))
+                approval['toolName']='approved-mediacodec-collector';approval['commandArgs'][0]='approved-mediacodec-collector';native['argv']=copy.deepcopy(approval['commandArgs']);write_yaml(config_path,config)
+                raw=('approved-mediacodec-collector version '+run['encoderBuild']+'\n').encode();seal(data,native['stderrRef'],raw);native['stderrSha256']='sha256:'+hashlib.sha256(raw).hexdigest();seal(data,ref,native);self.assertEqual(validate(data),[])
+        finally:
+            for path,raw in saved.items():path.write_bytes(raw)
+
+    def prepare_qualified_worker_encode_native_fixture(self,root,execution,prefix):
+        """Explicit approved per-stream command/progress fixtures; never real device encodes."""
+        env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');config_path=root/resource['configurationRef'];config=load_yaml(config_path);plan=load_yaml(self.plan_path(root,'POC-002'));streams=[];owners={}
+        for i,run in enumerate(env['workerEncodeExecutions']):
+            sample=next(s for s in execution['samples'] if s['id']==run['inputSampleId']);source=next(r for r in env['inputSampleArtifacts'] if r['sampleId']==sample['id']);count=run['sourceEndFrame']-run['sourceStartFrame']
+            expected={k:run[k] for k in ('nodeId','encoderBuild','compatibilityGroupId','rawOutputRef','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','outputArtifactRef','outputSha256')}
+            expected.update(inputImmutableId=sample['immutableId'],sourceRef=source['inputArtifactRef'],encoderParameters=copy.deepcopy(execution['provenance']['encoder_parameters']))
+            # This synthetic FFmpeg command is explicitly approved for this stream only.
+            argv=['ffmpeg','-nostdin','-protocol_whitelist','file,pipe','-i',source['inputArtifactRef'],'-vf','trim=start_frame='+str(run['sourceStartFrame'])+':end_frame='+str(run['sourceEndFrame'])+',setpts=PTS-STARTPTS','-c:v','libsvtav1','-crf','30','-preset','6','-frames:v',str(count),'-an','-y',run['outputArtifactRef'],'-progress','pipe:1','-nostats']
+            streams.append(dict({k:v for k,v in expected.items() if k!='outputSha256'},toolName='ffmpeg',commandArgs=argv))
+            identity=dict(expected,configurationRef=resource['configurationRef'],subjectVersion=CHECK.compliance_subject_version(plan,execution),acceptanceProfile=env['acceptanceProfile'])
+            out,out_sha=self.retain_media_native_fixture(root,execution,prefix,'worker-encode-'+str(i)+'.stdout',('frame='+str(count)+'\nprogress=end\n').encode(),run['nodeId'])
+            err,err_sha=self.retain_media_native_fixture(root,execution,prefix,'worker-encode-'+str(i)+'.stderr',('ffmpeg version '+run['encoderBuild']+'\n').encode(),run['nodeId'])
+            # Equal numeric PIDs on different nodes are legitimate; same-node streams differ.
+            pid=67001+owners.get(run['nodeId'],0);owners[run['nodeId']]=owners.get(run['nodeId'],0)+1
+            process=dict(schemaVersion=1,kind='media_native_execution',operation='encode',identity=identity,nodeId=run['nodeId'],toolBuild=run['encoderBuild'],processId=str(pid),workingDirectory='.',argv=argv,startedAt=run['startedAt'],finishedAt=run['finishedAt'],exitCode=0,stdoutRef=out,stdoutSha256=out_sha,stderrRef=err,stderrSha256=err_sha)
+            self.retain_media_native_fixture(root,execution,prefix,run['rawOutputRef'].split('/raw/',1)[1],process,run['nodeId'])
+        # Approved heterogeneous tools use the existing bounded frame/progress collector contract.
+        config['configuration']['workerEncodePolicy']=dict(progressFormat='frame-progress-v1',streams=streams);write_yaml(config_path,config)
+
     def prepare_qualified_media_assembly_fixture(self,root,execution,prefix):
         """Synthetic MP4 payload/native trace regression; never actual mux/decode evidence."""
         env=execution['environmentCaptured'];runs=env['workerEncodeExecutions'];assembly=env['parallelMediaAssembly'];node=runs[0]['nodeId']
@@ -2443,6 +2557,7 @@ class TestPocProgram(unittest.TestCase):
         for run in runs:
             run['outputSha256'],probe=media(run['outputArtifactRef'],run['sourceStartFrame'],run['sourceEndFrame']);probes.append(probe)
         assembly['outputSha256'],whole=media(assembly['outputArtifactRef'],0,assembly['sourceFrameCount'],True);execution['provenance']['output_sha256']=assembly['outputSha256']
+        self.prepare_qualified_worker_encode_native_fixture(root,execution,prefix)
         parts=[{k:run[k] for k in ('nodeId','outputArtifactRef','outputSha256','sourceStartFrame','sourceEndFrame')} for run in runs];parts.sort(key=lambda p:p['sourceStartFrame']);assembly['parts']=parts
         identity=dict(taskId=execution['taskId'],acceptanceProfile=env['acceptanceProfile'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'],sourceFrameCount=assembly['sourceFrameCount'],outputArtifactRef=assembly['outputArtifactRef'],outputSha256=assembly['outputSha256'],parts=parts)
         decoder_tail=lambda ref:['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',ref]
@@ -2888,10 +3003,21 @@ class TestPocProgram(unittest.TestCase):
                 probe.update(sourceStartFrame=life['retrySourceStartFrame'],sourceEndFrame=life['retrySourceEndFrame'],decodedFrameCount=life['retryDecodedFrameCount']);write_yaml(probe_path,probe)
             write_yaml(negative_path,negative)
             self.prepare_qualified_media_assembly_fixture(root,record,prefix)
+            # Repartitioning the lawful three-stream fixture also changes each fresh retry's bytes.
+            resource=next(r for r in record['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');policy=load_yaml(root/resource['configurationRef'])['configuration']['mediaNegativePolicy']
+            for row in negative['nodes']:
+                life=row['lifecycle'];selected=next(r for r in runs if r['nodeId']==row['identity']['nodeId'] and r['sourceStartFrame']==life['retrySourceStartFrame'] and r['sourceEndFrame']==life['retrySourceEndFrame'])
+                payload=(root/selected['outputArtifactRef']).read_bytes()
+                _,life['publishedSha256']=self.retain_media_native_fixture(root,record,prefix,life['publishedRef'].split('/raw/',1)[1],payload,row['identity']['nodeId'],'produced_media')
+                probe_path=root/life['retryProbeRef'];probe=load_yaml(probe_path);probe['outputSha256']=life['publishedSha256'];write_yaml(probe_path,probe)
+            self.prepare_media_retry_cancel_native_fixture(root,record,prefix,negative,policy)
+            self.prepare_qualified_media_control_captures(root,record,prefix,negative,policy)
+            write_yaml(negative_path,negative)
             self.prepare_qualified_media_scheduling_fixture(root,record,prefix,total_capacity=3,per_node_capacity=2)
             self.refresh_qualified_observation_fixture(root,record,approve_captures=True);write_yaml(path,record);baseline=path.read_bytes()
             validate=lambda:CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-02'})
             self.assertEqual(validate(),[])
+            self.exercise_worker_encode_native_regressions(root,record,'concurrency')
             for mode in ('duplicate_trace','duplicate_output','per_node_cap','total_cap','overclaim','no_distinct_overlap'):
                 path.write_bytes(baseline);record=load_yaml(path);env=record['environmentCaptured'];runs=env['workerEncodeExecutions']
                 if mode=='duplicate_trace':runs[2]['rawOutputRef']=runs[0]['rawOutputRef']
@@ -4411,6 +4537,61 @@ class TestPocProgram(unittest.TestCase):
                 self.assertEqual(CHECK.validate_repository(root,'local-v1',False,selected_pocs={'POC-02'}),[])
             finally:temp.cleanup()
 
+    def exercise_source_fault_expired_origin_regressions(self,root,original,prefix,report_original,policy):
+        """Mutate one actual expired response/capture without auto-healing its semantic error."""
+        env=original['environmentCaptured'];saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};plan=load_yaml(self.plan_path(root,'POC-006'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][k]) for k in ('startedAt','finishedAt'))
+        def restore():
+            for path,raw in saved.items():path.write_bytes(raw)
+        def put(data,ref,raw):
+            if isinstance(raw,dict):raw=json.dumps(raw).encode()
+            path=root/ref;path.write_bytes(raw);record=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref);record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        def selected(report):
+            row=next(r for r in report['cases'] if r['case']=='auth_expired');return row,row['attempts'][0]
+        def validate(data,report):
+            row,claim=selected(report);errors=[];CHECK.derive_local_source_fault_attempt(root,data,prefix,report,policy,row,claim,None,window,defs,'qualified local source faults POC-006',errors,{},[],set());return errors
+        def response(data,claim,run,capture,status,body,framing='plain'):
+            raw=f'HTTP/1.1 {status} Synthetic\r\nContent-Length: {len(body)}\r\n\r\n'.encode()+body
+            if framing=='chunked':raw=chunked_http_fixture(raw)
+            elif framing=='eof':raw=raw.replace(f'Content-Length: {len(body)}\r\n'.encode(),b'')
+            put(data,run['responseRef'],raw);claim['httpStatus']=status;digest='sha256:'+hashlib.sha256(raw).hexdigest();capture['context']['responseSha256']=digest;capture['events'][-2].update(statusCode=status,responseSha256=digest)
+        try:
+            self.assertEqual(validate(copy.deepcopy(original),copy.deepcopy(report_original)),[])
+            modes=('protected_401','protected_403','protected_prefix','arbitrary_body','duplicate_json','nonfinite_json','oversize_public_body','missing_origin','unselected_origin','origin_request','object_read','request_id','trace_id','attempt','attempt_bool','context_overflow','source','object','version','endpoint','request_hash','response_hash','collector','collector_argv','client_pid','server_pid','authorization','clock','exit')
+            for mode in modes:
+                restore();data=copy.deepcopy(original);report=copy.deepcopy(report_original);row,claim=selected(report);run=load_yaml(root/claim['transportExecutionRef']);ref=run['originExecutionRef'];capture=json.loads((root/ref).read_bytes());context=capture['context']
+                if mode in ('protected_401','protected_403','protected_prefix','arbitrary_body','duplicate_json','nonfinite_json','oversize_public_body'):
+                    source_ref=next(a['inputArtifactRef'] for a in env['inputSampleArtifacts'] if a['sampleId']==policy['transportInputSpan']['sampleId']);body=(root/source_ref).read_bytes()
+                    if mode=='protected_prefix':body=body[:4]
+                    elif mode=='arbitrary_body':body=b'{"error":"other-public-or-protected-content"}'
+                    elif mode=='duplicate_json':body=b'{"error":"access_denied","error":"access_denied"}'
+                    elif mode=='nonfinite_json':body=b'{"error":NaN}'
+                    elif mode=='oversize_public_body':body=b'{"error":"access_denied"}'+b' '*1024
+                    response(data,claim,run,capture,403 if mode=='protected_403' else 401,body)
+                elif mode=='missing_origin':run.pop('originExecutionRef')
+                elif mode=='unselected_origin':data['rawOutputRefs'].remove(ref)
+                elif mode in ('origin_request','object_read'):
+                    event=copy.deepcopy(capture['events'][2]);event.update(type=mode);event.pop('decision');event.pop('authenticatedPrincipalId');capture['events'].insert(3,event)
+                elif mode in ('request_id','trace_id','attempt','attempt_bool','source','object','version','endpoint','request_hash','response_hash'):
+                    key={'request_id':'requestId','trace_id':'traceId','attempt':'attemptNo','attempt_bool':'attemptNo','source':'sourceId','object':'objectId','version':'objectVersion','endpoint':'endpointURL','request_hash':'requestSha256','response_hash':'responseSha256'}[mode];context[key]=True if mode=='attempt_bool' else context[key]+1 if mode=='attempt' else 'sha256:'+'0'*64 if mode.endswith('_hash') else 'foreign-'+str(context[key])
+                elif mode=='context_overflow':context['attemptNo']='auth-expired-overflow-sentinel'
+                elif mode=='collector':capture['collectorBuild']='unapproved-observer'
+                elif mode=='collector_argv':capture['commandArgs'][0]='unapproved-command'
+                elif mode=='client_pid':capture['clientProcessId']+=1
+                elif mode=='server_pid':capture['serverProcessId']=capture['clientProcessId']
+                elif mode=='authorization':capture['events'][2]['decision']='allowed'
+                elif mode=='clock':capture['events'][-2]['observedAt']=run['startedAt']
+                else:capture['events'][-1]['exitCode']=1
+                raw_capture=json.dumps(capture).encode().replace(b'"auth-expired-overflow-sentinel"',b'1e999') if mode=='context_overflow' else capture
+                put(data,ref,raw_capture);write_yaml(root/claim['transportExecutionRef'],run);put(data,claim['transportExecutionRef'],(root/claim['transportExecutionRef']).read_bytes());errors=validate(data,report)
+                self.assertTrue(any('qualified local source faults' in error for error in errors),(mode,errors))
+                if mode=='context_overflow':self.assertTrue(any('finite JSON-serializable typed data' in error for error in errors),errors)
+            # Empty and exact public denial bodies remain lawful under all existing HTTP framing.
+            for status in (401,403):
+                for body in (b'',b'{"error":"access_denied"}'):
+                    for framing in ('plain','chunked','eof'):
+                        restore();data=copy.deepcopy(original);report=copy.deepcopy(report_original);_,claim=selected(report);run=load_yaml(root/claim['transportExecutionRef']);ref=run['originExecutionRef'];capture=json.loads((root/ref).read_bytes());response(data,claim,run,capture,status,body,framing);put(data,ref,capture);self.assertEqual(validate(data,report),[],(status,body,framing))
+        finally:restore()
+
     def test_177_local_source_faults_bind_retry_checkpoint_and_logical_state(self):
         temp,root=self.temp_repo()
         try:
@@ -4422,6 +4603,7 @@ class TestPocProgram(unittest.TestCase):
                 self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                 return CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-06'})
             self.assertEqual(validate(copy.deepcopy(original)),[])
+            self.exercise_source_fault_expired_origin_regressions(root,original,prefix,report_original,config_original['configuration']['localSourceFaultPolicy'])
             # A native client failure may retain a partial HTTP response and a real checkpoint.
             for kind,code in (('network_disconnect',56),('interrupted_sync',42)):
                 data=copy.deepcopy(original);report=copy.deepcopy(report_original);policy=config_original['configuration']['localSourceFaultPolicy']
@@ -4538,6 +4720,7 @@ class TestPocProgram(unittest.TestCase):
                 for attempt in row['attempts']:
                     run=load_yaml(root/attempt['transportExecutionRef']);response_path=root/run['responseRef']
                     if run['exitCode']==0:response_path.write_bytes(chunked_http_fixture(response_path.read_bytes()))
+            self.prepare_source_fault_expired_origin_fixture(root,original,prefix,report,config_original['configuration']['localSourceFaultPolicy'])
             write_yaml(report_path,report);write_yaml(config_path,config_original);self.assertEqual(validate(copy.deepcopy(original)),[],'native chunked fault/recovery responses')
             # Both checkpoint resume and an explicitly reset idempotent rerun are legal.
             report=copy.deepcopy(report_original);row=next(row for row in report['cases'] if row['case']=='interrupted_sync');row['recoveryMode']='idempotent_rerun';row['attempts'][1]['checkpointBefore']=None
@@ -8828,6 +9011,7 @@ class TestPocProgram(unittest.TestCase):
                 execution=load_yaml(path);report_path=root/execution['environmentCaptured']['parallelMediaAssembly']['validationRef'];report_bytes=report_path.read_bytes()
                 validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
                 self.assertEqual(validate(),[])
+                self.exercise_worker_encode_native_regressions(root,execution,'binding')
                 for mode in ('duplicate','gap','incomplete','boolean_frame','reordered','missing_report','decoded_count','decode_error','timeline_error','report_hash','part_as_assembly'):
                     path.write_bytes(original);report_path.write_bytes(report_bytes)
                     data=load_yaml(path);env=data['environmentCaptured'];assembly=env['parallelMediaAssembly'];runs=env['workerEncodeExecutions'];report=load_yaml(report_path)
@@ -9063,6 +9247,7 @@ class TestPocProgram(unittest.TestCase):
                 result=load_yaml(root/load_yaml(index)['resultRef']);path=root/result['executionRef'];original=path.read_bytes()
                 validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
                 self.assertEqual(validate(),[])
+                self.exercise_worker_encode_native_regressions(root,load_yaml(path),'timing')
                 for metric,actual in (('encode_throughput',1),('encode_throughput',3),('encode_throughput',1000000),('sustained_encode_duration',2),('sustained_encode_duration',1000000)):
                     path.write_bytes(original);record=load_yaml(path)
                     next(m for m in record['measurements'] if m['id']==metric)['actual']=actual

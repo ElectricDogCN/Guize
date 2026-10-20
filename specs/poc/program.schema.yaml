@@ -1348,6 +1348,35 @@ $defs:
         type: object
         minProperties: 5
 
+  workerEncodePolicy:
+    type: object
+    additionalProperties: false
+    required: [progressFormat, streams]
+    properties:
+      progressFormat: {const: frame-progress-v1}
+      streams:
+        type: array
+        minItems: 2
+        items:
+          type: object
+          additionalProperties: false
+          required: [nodeId, encoderBuild, compatibilityGroupId, rawOutputRef, inputSampleId, inputImmutableId, inputSha256, sourceRef, sourceStartFrame, sourceEndFrame, outputArtifactRef, encoderParameters, toolName, commandArgs]
+          properties:
+            nodeId: {type: string, minLength: 1}
+            encoderBuild: {type: string, minLength: 1}
+            compatibilityGroupId: {type: string, minLength: 1}
+            rawOutputRef: {type: string, minLength: 1}
+            inputSampleId: {type: string, minLength: 1}
+            inputImmutableId: {type: string, minLength: 1}
+            inputSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+            sourceRef: {type: string, minLength: 1}
+            sourceStartFrame: {type: integer, minimum: 0}
+            sourceEndFrame: {type: integer, minimum: 1}
+            outputArtifactRef: {type: string, minLength: 1}
+            encoderParameters: {type: object, minProperties: 1}
+            toolName: {type: string, pattern: '^[a-z0-9][a-z0-9_.-]*$'}
+            commandArgs: {type: array, minItems: 1, maxItems: 128, items: {type: string, minLength: 1}}
+
   mediaNativeExecution:
     type: object
     additionalProperties: false
@@ -20000,6 +20029,7 @@ $defs:
     additionalProperties: false
     required: ["schemaVersion", "kind", "configurationRef", "acceptanceProfile", "subjectVersion", "inputSamples", "scope", "sandboxId", "sourceId", "objectId", "objectVersion", "caseId", "attemptNo", "requestId", "traceId", "commandArgs", "toolBuild", "pid", "startedAt", "finishedAt", "exitCode", "requestRef", "responseRef", "progressRef", "stderrRef"]
     properties:
+      originExecutionRef: {type: string, minLength: 1}
       schemaVersion: {"const":1}
       kind: {"const":"local_source_fault_transport_execution"}
       configurationRef: {"type":"string","minLength":1}
@@ -20025,6 +20055,43 @@ $defs:
       responseRef: {"type":"string","minLength":1}
       progressRef: {"type":"string","minLength":1}
       stderrRef: {"type":"string","minLength":1}
+
+  localSourceFaultDenialExecution:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, context, serverBuild, collectorBuild, collectorCommandArgs, commandArgs, clientProcessId, serverProcessId, events]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: local_source_fault_denial_execution}
+      context: {type: object, minProperties: 1}
+      serverBuild: {type: string, minLength: 1}
+      collectorBuild: {type: string, minLength: 1}
+      collectorCommandArgs: {type: array, minItems: 1, items: {type: string, minLength: 1}}
+      commandArgs: {type: array, minItems: 7, items: {type: string, minLength: 1}}
+      clientProcessId: {type: integer, minimum: 1, maximum: 9223372036854775807}
+      serverProcessId: {type: integer, minimum: 1, maximum: 9223372036854775807}
+      events:
+        type: array
+        minItems: 5
+        maxItems: 7
+        items:
+          type: object
+          additionalProperties: false
+          required: [type, component, processId, requestId, traceId, observedAt, monotonicNs]
+          properties:
+            type: {enum: [process_start, request, authorization, origin_request, object_read, response, process_exit]}
+            component: {enum: [client, server]}
+            processId: {type: integer, minimum: 1, maximum: 9223372036854775807}
+            requestId: {type: string, minLength: 1}
+            traceId: {type: string, minLength: 1}
+            observedAt: {type: string, format: date-time}
+            monotonicNs: {type: integer, minimum: 0, maximum: 9223372036854775807}
+            decision: {enum: [allowed, denied]}
+            authenticatedPrincipalId: {type: [string, 'null'], minLength: 1}
+            statusCode: {type: integer, minimum: 100, maximum: 599}
+            responseRef: {type: string, minLength: 1}
+            responseSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+            exitCode: {type: integer, minimum: -2147483648, maximum: 2147483647}
 
   localSourceFaultRequest:
     type: object

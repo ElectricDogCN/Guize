@@ -599,6 +599,40 @@ def parse_local_source_http_response(raw):
     return int(match.group(1)),headers,body
 
 
+def derive_source_fault_expired_origin(root,execution,prefix,report,policy,run,request_path,response_path,status_code,window,defs,label,errors,cache,paths):
+    """Reuse the approved authentication collector for this exact expired attempt."""
+    before=len(errors);config_path=existing_ref(root,report['configurationRef'],prefix)
+    try:auth=load(config_path).get('configuration',{}).get('localSourceAuthenticationPolicy') if config_path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):auth=None
+    validate_schema(auth,defs.get('localSourceAuthenticationPolicy',{}),label+'/approved authentication collector',errors)
+    if len(errors)!=before or not isinstance(auth,dict):return
+    if any(auth[key]!=policy[key] for key in ('sourceId','objectId','objectVersion','sandboxId','subjectVersion')) or auth['endpointURL']!=policy['transportEndpointURL']:
+        errors.append(f'{label}: expired attempt must share the approved authentication source/object/version/endpoint');return
+    approved=auth['nativeExecution'];ref=run.get('originExecutionRef')
+    capture=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,'localSourceFaultDenialExecution',label+'/expired origin',errors,cache)
+    path=retained_local_source_transport_artifact(root,execution,prefix,ref,'command_output',262144,label,errors,cache,paths)
+    if capture is None or path is None or len(errors)!=before:return
+    context={key:run[key] for key in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','scope','sandboxId','sourceId','objectId','objectVersion','caseId','attemptNo','requestId','traceId')}
+    context.update(endpointURL=policy['transportEndpointURL'],requestRef=run['requestRef'],requestSha256=inspect_artifact(request_path,cache)['sha256'],responseRef=run['responseRef'],responseSha256=inspect_artifact(response_path,cache)['sha256'])
+    argv=approved['collectorCommandArgs']+['--request',run['requestRef'],'--response',run['responseRef'],'--trace',run['traceId']]
+    canonical=lambda value:json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False)
+    try:context_matches=canonical(capture['context'])==canonical(context)
+    except (ValueError,TypeError,OverflowError):
+        errors.append(f'{label}: expired origin context must be finite JSON-serializable typed data');return
+    if not context_matches or any(capture[key]!=approved[key] for key in ('serverBuild','collectorBuild','collectorCommandArgs')) or capture['commandArgs']!=argv or capture['clientProcessId']!=run['pid'] or capture['clientProcessId']==capture['serverProcessId']:
+        errors.append(f'{label}: expired origin capture must bind exact request/response bytes, attempt/trace/source and approved server/collector/argv/PIDs');return
+    events=capture['events'];kinds=[event['type'] for event in events]
+    counts={kind:sum(event['type']==kind for event in events) for kind in ('origin_request','object_read')}
+    if kinds!=['process_start','request','authorization','response','process_exit'] or any(counts.values()):
+        errors.append(f'{label}: expired authorization must be denied before all origin requests and object reads');return
+    times=[utc(event['observedAt']) for event in events];ticks=[event['monotonicNs'] for event in events];components=['client','client','server','client','client'];first,last=utc(run['startedAt']),utc(run['finishedAt'])
+    if window is None or any(at is None or not window[0]<=at<=window[1] for at in times) or times!=sorted(times) or ticks!=sorted(ticks) or times[0]>=times[-1] or times[1]!=first or times[-2]!=last or any(event['requestId']!=run['requestId'] or event['traceId']!=run['traceId'] or event['component']!=component or event['processId']!=capture['clientProcessId' if component=='client' else 'serverProcessId'] for event,component in zip(events,components)) or any(not math.isclose((at-times[0]).total_seconds(),(tick-ticks[0])/1000000000,rel_tol=0,abs_tol=.000001) for at,tick in zip(times,ticks)):
+        errors.append(f'{label}: expired origin events must cover the same request UTC interval in one ordered native client/server lifetime');return
+    decision=events[2];response=events[-2]
+    if decision.get('decision')!='denied' or decision.get('authenticatedPrincipalId') is not None or response.get('statusCode')!=status_code or response.get('responseRef')!=run['responseRef'] or response.get('responseSha256')!=context['responseSha256'] or events[-1].get('exitCode')!=0:
+        errors.append(f'{label}: expired authorization denial and actual HTTP response must precede successful native client completion with zero protected reads')
+
+
 def derive_local_source_fault_attempt(root,execution,prefix,report,policy,row,claim,following,window,defs,label,errors,cache,paths,traces):
     """Read one approved client's retained request/HTTP/progress/exit bytes; never execute it."""
     before=len(errors);env=execution.get('environmentCaptured') or {}
@@ -654,12 +688,21 @@ def derive_local_source_fault_attempt(root,execution,prefix,report,policy,row,cl
             if status_code is None or diagnostic.strip():raise ValueError('HTTP exit/diagnostic')
             transport='http_response';classification='http_429' if status_code==429 else 'http_5xx' if 500<=status_code<600 else 'auth_expired' if status_code in (401,403) else 'source_delete' if row['case']=='source_delete' and status_code in (200,204) else 'success' if 200<=status_code<300 else None
             if classification=='success' and (len(body)!=span['byteCount'] or 'sha256:'+hashlib.sha256(body).hexdigest()!=actual['rangeHashes'][(first,last)] or status_code==200 and span['byteCount']!=actual['size']):raise ValueError('recovery returned bytes')
+            if classification=='auth_expired' and body:
+                def pairs(items):
+                    if len({key for key,_ in items})!=len(items):raise ValueError('duplicate public denial fields')
+                    return dict(items)
+                def constant(value):raise ValueError('nonfinite public denial JSON')
+                if len(body)>1024 or json.loads(body.decode('utf8'),object_pairs_hook=pairs,parse_constant=constant)!={'error':'access_denied'}:raise ValueError('protected expired response bytes')
         elif code in (7,18,28,52,55,56) and re.search(r'curl: \('+str(code)+r'\)',diagnostic):transport='network_disconnect';classification='network_disconnect';status_code=None;retry_after=0
         elif code in (-2,130) or code==42 and re.search(r'curl: \(42\)',diagnostic):transport='interrupted';classification='interrupted_sync';status_code=None;retry_after=0
         else:raise ValueError('unsupported actual client exit/transport error')
         if classification is None:raise ValueError('unclassified actual response')
     except (OSError,UnicodeError,ValueError,TypeError,KeyError,OverflowError,AttributeError):
         errors.append(f'{label}: classification/recovery must derive retained HTTP response bytes and actual native client exit/diagnostic');return
+    if classification=='auth_expired':
+        denial_before=len(errors);derive_source_fault_expired_origin(root,execution,prefix,report,policy,run,request_path,response_path,status_code,window,defs,label,errors,cache,paths)
+        if len(errors)!=denial_before:return
     delay=0
     if following is not None:
         before=len(errors);next_run=selected_observation(root,execution,prefix,following.get('transportExecutionRef'),defs,'localSourceFaultTransportExecution',label,errors,cache)
@@ -2891,6 +2934,30 @@ def validate_qualified_h264_fallback(root,plan,execution,prefix,status,window,de
     except (OSError,ValueError):errors.append(f'{label}: H264 output bytes/hash must be distinct from AV1 outputs, source input and observation artifacts')
 
 
+def qualified_worker_encode_native(root,plan,execution,prefix,run,approved,window,defs,label,errors,cache):
+    """Bind one admitted stream to the approved collector's native encoder capture."""
+    env=execution.get('environmentCaptured') or {};sample=next((s for s in execution.get('samples') or [] if isinstance(s,dict) and s.get('id')==run.get('inputSampleId')),None)
+    inputs=[r for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict) and r.get('sampleId')==run.get('inputSampleId')]
+    start,end=run.get('sourceStartFrame'),run.get('sourceEndFrame')
+    if sample is None or len(inputs)!=1 or type(start) is not int or type(end) is not int or not 0<=start<end or window is None:
+        errors.append(f'{label}: native encoder requires exact approved input identity and positive source span');return None
+    source=inputs[0];path=existing_ref(root,source.get('inputArtifactRef'),prefix);output=existing_ref(root,run.get('outputArtifactRef'),prefix)
+    expected={k:run.get(k) for k in ('nodeId','encoderBuild','compatibilityGroupId','rawOutputRef','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','outputArtifactRef','outputSha256')}
+    expected.update(inputImmutableId=sample['immutableId'],sourceRef=source.get('inputArtifactRef'),encoderParameters=(execution.get('provenance') or {}).get('encoder_parameters'))
+    if approved is None or any(approved.get(k)!=v for k,v in expected.items() if k!='outputSha256') or source.get('immutableId')!=sample['immutableId'] or source.get('sha256')!=sample['checksum'] or sample['checksum']!=run.get('inputSha256') or path is None or inspect_artifact(path,cache)['sha256']!=sample['checksum'] or output is None or path.samefile(output):
+        errors.append(f'{label}: native encoder approval must bind exact source bytes/ref/immutable identity, span, node/build, parameters and output');return None
+    resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS')
+    identity=dict(expected,configurationRef=resource['configurationRef'],subjectVersion=compliance_subject_version(plan,execution),acceptanceProfile=env.get('acceptanceProfile'))
+    capture=media_native_execution(root,execution,prefix,run.get('rawOutputRef'),'encode',identity,approved['toolName'],run['encoderBuild'],approved['commandArgs'][1:],run['nodeId'],window[0],defs,label,errors,cache)
+    if capture is None:return None
+    process=capture[0];native_start,native_end=utc(process['startedAt']),utc(process['finishedAt'])
+    if process['argv']!=approved['commandArgs'] or not media_native_progress(capture,end-start,cache):
+        errors.append(f'{label}: native encoder must retain exact approved full argv and completed frame/progress output');return None
+    if utc(run.get('startedAt'))!=native_start or utc(run.get('finishedAt'))!=native_end:
+        errors.append(f'{label}: reported worker clocks must equal the actual native encoder execution interval')
+    return native_start,native_end,process['processId']
+
+
 def validate_qualified_encode_workers(root, plan, execution, prefix, status, window, errors, artifact_cache=None, defs=None):
     artifact_cache = {} if artifact_cache is None else artifact_cache
     if plan['pocId'] != 'POC-02' or status != 'pass':
@@ -2930,12 +2997,22 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         return
     artifacts = {record.get('ref'):record for record in env.get('rawExecutionArtifacts') or [] if isinstance(record,dict) and isinstance(record.get('ref'),str)}
     inputs = {sample.get('checksum') for sample in execution.get('samples') or []}
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('workerEncodePolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    before=len(errors);validate_schema(policy,(defs or {}).get('workerEncodePolicy',{}),label+'/approved native encoder policy',errors)
+    if not isinstance(policy,dict) or len(errors)!=before:return
+    approvals=policy['streams']
+    if len(approvals)!=len(runs) or len({a['rawOutputRef'] for a in approvals})!=len(approvals):
+        errors.append(f'{label}: approved native encoder policy must cover every distinct stream exactly once');return
     validate_qualified_media_assembly(root,execution,prefix,runs,artifacts,defs or {},errors,artifact_cache)
     intervals = []
     stream_intervals = []
     run_paths = []
     run_refs = set()
     completed = set()
+    native_processes = []
     for run in runs:
         if not isinstance(run,dict) or not isinstance(run.get('nodeId'),str) or run['nodeId'] not in nodes:
             errors.append(f'{label}: encode execution must bind an inventory node')
@@ -2944,8 +3021,6 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         start,end = utc(run.get('startedAt')),utc(run.get('finishedAt'))
         if start is None or end is None or not start < end or window is None or not window[0] <= start < end <= window[1]:
             errors.append(f'{label}: worker encode interval must be positive and within executionWindow')
-        else:
-            intervals.append((run['nodeId'],start,end))
         if run.get('encoderBuild') != node['encoderBuild'] or run.get('compatibilityGroupId') != node['compatibilityGroupId'] or not isinstance(run.get('inputSha256'),str) or run['inputSha256'] not in inputs:
             errors.append(f'{label}: worker encode must bind tested build and approved input')
         for key,kind in (('rawOutputRef','command_output'),('outputArtifactRef','produced_media')):
@@ -2955,6 +3030,14 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
         output = existing_ref(root,run.get('outputArtifactRef'),prefix)
         if output is None or output.stat().st_size == 0 or run.get('outputSha256') != inspect_artifact(output,artifact_cache)['sha256']:
             errors.append(f'{label}: worker output hash must bind nonempty produced bytes')
+        matches=[a for a in approvals if a['rawOutputRef']==run.get('rawOutputRef')]
+        native=qualified_worker_encode_native(root,plan,execution,prefix,run,matches[0] if len(matches)==1 else None,window,defs or {},label,errors,artifact_cache)
+        start=end=None
+        if native is not None:
+            start,end,pid=native
+            if any(owner==node['nodeId'] and prior_pid==pid and max(start,prior_start)<min(end,prior_end) for owner,prior_pid,prior_start,prior_end in native_processes):
+                errors.append(f'{label}: concurrent streams on the same node require distinct native encoder processes')
+            native_processes.append((node['nodeId'],pid,start,end));intervals.append((node['nodeId'],start,end))
         trace=existing_ref(root,run.get('rawOutputRef'),prefix)
         pair=(run.get('rawOutputRef'),run.get('outputArtifactRef'))
         if any(not isinstance(ref,str) for ref in pair) or any(ref in run_refs for ref in pair) or (trace and output and trace.samefile(output)) or any(path.samefile(prior) for path in (trace,output) if path for prior in run_paths):
