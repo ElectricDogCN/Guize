@@ -1,3 +1,15 @@
+GZ-021 normal Review
+Status: REVIEW / reviewer
+Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
+Issue: #95
+Current branch: chore/GZ-021-local-v1-route
+Current base: 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+Accepted implementation: PR-103 / 6efd1fa2dfdb269935c862eff8c2e5ffd3289476
+Actual implementation merge: 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+Accepted source20/208 (16 original Ran13)/35-negative/637 and actual-main19/pushCI are historical results, archived once at test-results/accepted-implementation-6efd1fa/raw-results.bundle.json. Storage-v2 failed Ran6 is preserved as failure. Review execution, normal Completion, runtime, formal POC and fullV1 remain pending.
+
+## Historical implementation and reservation records
+
 Current native capture requirements are recorded under [Runtime event and state capture binding](#runtime-event-and-state-capture-binding). Earlier checkpoints retain their own historical source identities.
 
 ## Current successor preparation (parent ac84828)
