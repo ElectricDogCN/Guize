@@ -1,3 +1,61 @@
+GZ-021 ordinary normal Completion preparation
+Status: COMPLETED / integrator metadata candidate
+Verification: PENDING_ACTUAL_PUBLISHED_COMPLETION_SOURCE
+Issue: #95 (official closed/completed snapshot required before preparation)
+Implementation: PR-103 / source 6efd1fa2dfdb269935c862eff8c2e5ffd3289476 / actual merge 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+Accepted Review: PR-105 / source 2db1a687a1de96c743a0feadd036836bfd751652 / actual merge 959b5e0df04bba21de8a818917c60023b2945609
+Reservation: PR-102 / d7f1ab8f727ce3879408653736b972e21bb45b7a
+Completion branch: chore/GZ-021-normal-completion
+Completion base: 959b5e0df04bba21de8a818917c60023b2945609
+
+Completion source19, make verify/637 JUnit, same-head CI, finite content review, final source admission and actual Completion main acceptance: PENDING. No new source/tree/PR/merge or execution result is claimed here. Accepted implementation/Review results below retain their original identities; they do not become new Completion execution. Runtime, formal POC and fullV1 remain incomplete.
+
+Only Own PLAN status, Own Lease removal, Task completion fields, one appended immutable 8-field implementation record, four Own Evidence files and explicit Own Evidence scope/archive files change. The existing Ledger byte prefix, other tasks/policies, planning manifest, claims and canonical code stay unchanged.
+
+Portable source-branch Scope (from repository root): python evidence/GZ-021/completion-tools/check_gz021_normal_completion_scope.py --repo "$(pwd)" --base 959b5e0df04bba21de8a818917c60023b2945609 --parent 959b5e0df04bba21de8a818917c60023b2945609 --branch chore/GZ-021-normal-completion --reservation-ref PR-102 --reservation-commit d7f1ab8f727ce3879408653736b972e21bb45b7a --implementation-ref PR-103 --implementation-merge 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --source "$(git rev-parse HEAD)" --tree "$(git rev-parse HEAD^{tree})"
+Scope original SHA256 6976be46a66fb9976310f72a5daadb12ff2389cfbc08232c00796cbeb9b44add; canonical LF SHA256 6976be46a66fb9976310f72a5daadb12ff2389cfbc08232c00796cbeb9b44add.
+Exact current Review admissions, original executable siblings and terminal logs: test-results/accepted-review-2db1a68/raw-results.bundle.json; the index retains original name/path/SHA256/byteCount and lossless zlib/base64 parts, plus precise references to existing unchanged implementation archive entries. Recover each selected entry by concatenating its ordered parts, base64-decoding then zlib-decompressing; verify original byteCount/SHA256 before use. Review adoption and original source/main raw remain historical Review facts, never Completion PASS.
+
+## Existing accepted prerequisites (exact retained records; no new aggregate acceptance)
+
+- source-publication: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-97ce1a2-three-repro-fixes-publication.json / SHA-256 0add579a259ac0651760a3368e5af9e722ecadda9d34cda84ed21f18ca67804d
+- source-local: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-2db1a68-results/verification-worktrees.json / SHA-256 f0d71da54b3874cbf07f744413bc2d3c30ec3641e2c3057043f7dfe45a36ec08
+- source-ci: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-ci738-2db1a68-accepted.json / SHA-256 77df66d985d77a005b05dc3d2fc55deecd4e18f8ecadb99fedaaaff1249a007f
+- source-final-admission: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-2db1a68-final-source-admission.json / SHA-256 8ade5b0c7ee6b42d868969bbb4c41b0b36fff442276c76aa88cd11826c178152
+- main-local: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-actual-main-959b5e0-results/context.json / SHA-256 cf8eb1fa95dfd5164573cfd26c748617ef8bc2d5db7bced1dbca96c6bb9ffd22
+- main-ci: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-ci739-959b5e0-accepted.json / SHA-256 0f67a3df80006dc2be23da661e09bc93ca1be9d9395623a6bb46b37b70534c9a
+- actual-main-independent-acceptance: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-959b5e0-independent-acceptance.json / SHA-256 25b67927707b651cab71ece1f5224c7c644df5959c70a81839f4a088bb999a11
+- implementation-actual-main-acceptance: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-actual-main-63cfcb8-independent-acceptance.json / SHA-256 9fed22337bb0c05d793577a507cc45dca706fcefb4c5025bff784dca34e9090c
+- issue-snapshot: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-issue95-closed-completed-for-normal-completion.json / SHA-256 17760aa0f3acefa6a31fe2159efd99bc7f024d4a2ef13976be91b49efd116d60
+- review-main-adoption: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-959b5e0-actual-main-adoption.json / SHA-256 0d7089a803c7fba20b5f3bad53054b54b6c11069113c08a130977bc648f8dc62
+
+## Preserved earlier records
+
+本普通 Completion 的19条当前命令尚未执行。正式执行须使用已审的 verify_gz021_normal_completion_nineteen.py，绑定实际发布的 S/T/P、当前 Review/integration base、独立 Completion 分支与实施/预留身份，保存原始 PID/argv/退出码、35反例及637零失败/错误/跳过的治理 JUnit。同头 CI、独立审查及真实 Completion main 接受仍待执行；本元数据阶段不增加实施专项208。
+仓库内 Scope 为 evidence/GZ-021/completion-tools/check_gz021_normal_completion_scope.py，canonical LF SHA256 6976be46a66fb9976310f72a5daadb12ff2389cfbc08232c00796cbeb9b44add；已审原工具 SHA256 6976be46a66fb9976310f72a5daadb12ff2389cfbc08232c00796cbeb9b44add，仅允许 CRLF→LF 规范化（本次 CRLF 数 0）。source19已审原驱动 SHA256 308851298af5228861949ee93a415665da8bebb17110531806b8a7a4e21d1245、全部必要同目录依赖及已接受Review执行字节在 test-results/accepted-review-2db1a68/raw-results.bundle.json 与其中精确引用的旧归档可恢复；按原名还原到同一私有目录后保持原pin，不能把LF Scope副本冒充不同SHA的已执行原件。
+
+```bash
+python scripts/check-task-file.py --task GZ-021
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 959b5e0df04bba21de8a818917c60023b2945609
+python scripts/check-program-plan-history.py --base-ref 959b5e0df04bba21de8a818917c60023b2945609 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-normal-completion
+python scripts/check-program-plan-transitions.py --base-ref 959b5e0df04bba21de8a818917c60023b2945609 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-normal-completion
+python scripts/check-program-plan-finalization.py --base-ref 959b5e0df04bba21de8a818917c60023b2945609 --task GZ-021
+python scripts/check-program-lifecycle-guards.py --base-ref 959b5e0df04bba21de8a818917c60023b2945609 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-normal-completion
+python scripts/run-program-lifecycle-gate.py --base-ref 959b5e0df04bba21de8a818917c60023b2945609 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-normal-completion
+python scripts/run-agent-coordination-gate.py --base-ref 959b5e0df04bba21de8a818917c60023b2945609 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-normal-completion
+python scripts/run-task-scope-gate.py --task GZ-021 --base 959b5e0df04bba21de8a818917c60023b2945609
+python scripts/check-evidence.py --task GZ-021
+python evidence/GZ-021/completion-tools/check_gz021_normal_completion_scope.py --repo "$(pwd)" --base 959b5e0df04bba21de8a818917c60023b2945609 --parent 959b5e0df04bba21de8a818917c60023b2945609 --branch chore/GZ-021-normal-completion --reservation-ref PR-102 --reservation-commit d7f1ab8f727ce3879408653736b972e21bb45b7a --implementation-ref PR-103 --implementation-merge 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --source "$(git rev-parse HEAD)" --tree "$(git rev-parse HEAD^{tree})"
+python specs/requirements/v1/validate.py --profile local-v1
+python specs/requirements/v1/validate.py --profile production
+python specs/requirements/v1/validate.py --negative-fixtures
+python specs/poc/check_program.py
+make verify TASK=GZ-021 BASE=959b5e0df04bba21de8a818917c60023b2945609 HEAD_REF=HEAD BRANCH=chore/GZ-021-normal-completion
+python scripts/check-markdown.py
+```
+
 GZ-021 normal Review
 Status: REVIEW / reviewer
 Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE

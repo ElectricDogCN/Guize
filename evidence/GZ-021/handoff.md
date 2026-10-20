@@ -1,3 +1,59 @@
+GZ-021 ordinary normal Completion preparation
+Status: COMPLETED / integrator metadata candidate
+Verification: PENDING_ACTUAL_PUBLISHED_COMPLETION_SOURCE
+Issue: #95 (official closed/completed snapshot required before preparation)
+Implementation: PR-103 / source 6efd1fa2dfdb269935c862eff8c2e5ffd3289476 / actual merge 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+Accepted Review: PR-105 / source 2db1a687a1de96c743a0feadd036836bfd751652 / actual merge 959b5e0df04bba21de8a818917c60023b2945609
+Reservation: PR-102 / d7f1ab8f727ce3879408653736b972e21bb45b7a
+Completion branch: chore/GZ-021-normal-completion
+Completion base: 959b5e0df04bba21de8a818917c60023b2945609
+
+Completion source19, make verify/637 JUnit, same-head CI, finite content review, final source admission and actual Completion main acceptance: PENDING. No new source/tree/PR/merge or execution result is claimed here. Accepted implementation/Review results below retain their original identities; they do not become new Completion execution. Runtime, formal POC and fullV1 remain incomplete.
+
+Only Own PLAN status, Own Lease removal, Task completion fields, one appended immutable 8-field implementation record, four Own Evidence files and explicit Own Evidence scope/archive files change. The existing Ledger byte prefix, other tasks/policies, planning manifest, claims and canonical code stay unchanged.
+
+Portable source-branch Scope (from repository root): python evidence/GZ-021/completion-tools/check_gz021_normal_completion_scope.py --repo "$(pwd)" --base 959b5e0df04bba21de8a818917c60023b2945609 --parent 959b5e0df04bba21de8a818917c60023b2945609 --branch chore/GZ-021-normal-completion --reservation-ref PR-102 --reservation-commit d7f1ab8f727ce3879408653736b972e21bb45b7a --implementation-ref PR-103 --implementation-merge 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --source "$(git rev-parse HEAD)" --tree "$(git rev-parse HEAD^{tree})"
+Scope original SHA256 6976be46a66fb9976310f72a5daadb12ff2389cfbc08232c00796cbeb9b44add; canonical LF SHA256 6976be46a66fb9976310f72a5daadb12ff2389cfbc08232c00796cbeb9b44add.
+Exact current Review admissions, original executable siblings and terminal logs: test-results/accepted-review-2db1a68/raw-results.bundle.json; the index retains original name/path/SHA256/byteCount and lossless zlib/base64 parts, plus precise references to existing unchanged implementation archive entries. Recover each selected entry by concatenating its ordered parts, base64-decoding then zlib-decompressing; verify original byteCount/SHA256 before use. Review adoption and original source/main raw remain historical Review facts, never Completion PASS.
+
+## Existing accepted prerequisites (exact retained records; no new aggregate acceptance)
+
+- source-publication: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-97ce1a2-three-repro-fixes-publication.json / SHA-256 0add579a259ac0651760a3368e5af9e722ecadda9d34cda84ed21f18ca67804d
+- source-local: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-2db1a68-results/verification-worktrees.json / SHA-256 f0d71da54b3874cbf07f744413bc2d3c30ec3641e2c3057043f7dfe45a36ec08
+- source-ci: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-ci738-2db1a68-accepted.json / SHA-256 77df66d985d77a005b05dc3d2fc55deecd4e18f8ecadb99fedaaaff1249a007f
+- source-final-admission: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-2db1a68-final-source-admission.json / SHA-256 8ade5b0c7ee6b42d868969bbb4c41b0b36fff442276c76aa88cd11826c178152
+- main-local: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-actual-main-959b5e0-results/context.json / SHA-256 cf8eb1fa95dfd5164573cfd26c748617ef8bc2d5db7bced1dbca96c6bb9ffd22
+- main-ci: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-ci739-959b5e0-accepted.json / SHA-256 0f67a3df80006dc2be23da661e09bc93ca1be9d9395623a6bb46b37b70534c9a
+- actual-main-independent-acceptance: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-959b5e0-independent-acceptance.json / SHA-256 25b67927707b651cab71ece1f5224c7c644df5959c70a81839f4a088bb999a11
+- implementation-actual-main-acceptance: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-actual-main-63cfcb8-independent-acceptance.json / SHA-256 9fed22337bb0c05d793577a507cc45dca706fcefb4c5025bff784dca34e9090c
+- issue-snapshot: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-issue95-closed-completed-for-normal-completion.json / SHA-256 17760aa0f3acefa6a31fe2159efd99bc7f024d4a2ef13976be91b49efd116d60
+- review-main-adoption: C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-normal-review-959b5e0-actual-main-adoption.json / SHA-256 0d7089a803c7fba20b5f3bad53054b54b6c11069113c08a130977bc648f8dc62
+
+## Next roles and exact actions (current Completion)
+
+当前未发布源的 S/T、实际 Completion PR 及未来 Completion main 均未知。此分支首个普通提交的 P/base 必须为 959b5e0df04bba21de8a818917c60023b2945609；下面的 S/T 只能从真正发布后的 Git HEAD/tree 解析。当前实际文件见[102条变更清单](changed-files.md)。四份必需 Evidence、Scope 和明确的本次归档均在自身 Evidence 内；历史46条范围和17模块保留为历史保护边界，本候选已移除 Own Lease，正式主线释放尚待 Completion 接受。
+
+1. Implementer/Integrator：先对这102条路径完成独立内容核对，再在 chore/GZ-021-normal-completion 普通 commit/push，保留真实命令、退出码、远端 expected HEAD 和 source publication 收据；不得 force/rebase 改写已发布历史。解析实际 S/T，核唯一父 P=上述 Review main；不以本候选状态或已接受 Review 执行结果声称 Completion PASS。
+
+2. Verifier：从 `evidence/GZ-021/test-results/accepted-review-2db1a68/raw-results.bundle.json` 及其精确引用的旧归档恢复同目录原工具，逐项核原名、字节数与 SHA256。source19 原驱动为 verify_gz021_normal_completion_nineteen.py，SHA256 308851298af5228861949ee93a415665da8bebb17110531806b8a7a4e21d1245，不能修改其 guard/pins。GZ021_TOOLS、GZ021_SOURCE_REPO、GZ021_OUTPUT 分别是实际恢复工具目录、实际 native Completion 源克隆和一个尚不存在的独立输出目录的绝对路径；这些路径在执行时明确选定并记录，不是已经执行的路径或结果。实际源必须 clean、处于本 Completion 分支。以批准 native Python 运行：
+
+```bash
+cd "$GZ021_SOURCE_REPO"
+/home/sur/.cache/guize-takeover/governance-venv/bin/python -B "$GZ021_TOOLS/verify_gz021_normal_completion_nineteen.py" --repo "$(pwd)" --source "$(git rev-parse HEAD)" --tree "$(git rev-parse HEAD^{tree})" --parent 959b5e0df04bba21de8a818917c60023b2945609 --base 959b5e0df04bba21de8a818917c60023b2945609 --branch chore/GZ-021-normal-completion --reservation-ref PR-102 --reservation-commit d7f1ab8f727ce3879408653736b972e21bb45b7a --implementation-ref PR-103 --implementation-merge 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --output "$GZ021_OUTPUT"
+```
+
+同时使用上方 Portable source-branch Scope 的完整仓库内 CLI；该副本仅用于实际 Completion 源分支，真实合并提交由下面的 actual-main adapter 检查。保存19条命令各自真实 PID/argv/退出码、原始 stdout/stderr、前后 clean 身份、35反例与 make verify 的637项零失败/错误/跳过 JUnit。本元数据阶段不新增实施208义务。
+
+3. Reviewer/Integrator：在实际 S 上完成同头 PR CI 原始官方日志对账、独立内容审查和最终 source admission；处理所有真实 Review threads 并确认全解决。fresh main 仍须为上述 base，PR HEAD 必须精确为已接受 S；依现有门禁 expected-head merge，真实 merge message 必须同时标识 GZ-021 和实际 Completion PR 编号。PR 编号与 merge SHA 在真实结果产生前均保持未知。
+
+4. Verifier/Independent reviewer：采用官方实际 Completion main CM，核 ordered parents=[959b5e0df04bba21de8a818917c60023b2945609, S]、CM tree=T、真实 Task/PR identity 与两实际 main 工作树 clean。运行原 verify_gz021_normal_completion_actual_main_nineteen.py（SHA256 999c3fa195be99ca83893febefbd42f23cc05550945e7aac3d078ab10605f804），其独立 identity preflight 和自身19条命令/637零FES JUnit必须实际完成，不能直接在合并提交上冒用 source-branch Scope。再以 receive_gz021_normal_completion_actual_main_push_ci.py（SHA256 34750dbd8e5e814d74a6799817244f4e613cf7846e04fb5c3110ba7d981bbcd4）核 CM 的真实 push/main CI、28步中既有五项条件跳过及637测试无跳过，保存官方 snapshot/raw 对账；最后独立接受 actual Completion main。所有 CLI 绑定真实 CM/S/T/P/base、实际 Completion PR 与原实施/预留身份，保留原 driver/receiver 的必需收据及日志约束。
+
+5. Integrator/Coordinator：只有上述实际 Completion main 独立接受后，才接受正常 Completion、按已核 expected tip/归档保留决定收尾分支，并将该真实 accepted main 交给下一角色。随后按现有治理流程正式登记 [Issue #104 建设计划](https://github.com/ElectricDogCN/Guize/issues/104)；无需等完整V1才登记，但不得提前新建消费者活动占用。该登记仍须自身正常范围、角色、Lease和门禁。平台 runtime、正式POC及完整本地V1继续按其真实任务推进，不因治理收口改写为完成。
+
+任一实际门禁失败时保留失败原始记录与当前身份，停止该源的合并接受；未合入时通过正常后继修复或关闭并保留记录处理，不用旧 Review/实施结果填补失败，也不改旧 Ledger 身份。
+
+## Preserved earlier records
+
 GZ-021 normal Review
 Status: REVIEW / reviewer
 Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
