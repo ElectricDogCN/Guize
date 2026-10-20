@@ -1,0 +1,43 @@
+{
+  "actualSource": "8557d6e5b0d511e619acca7c0678fcac12c1baa3",
+  "tree": "79811406cf76654db2a02dcf8f338791944379c7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "ciAccepted": true,
+  "actualSourceCiExecutionAccepted": true,
+  "runId": 38383720504,
+  "jobId": 115250205684,
+  "attempt": 1,
+  "event": "pull_request",
+  "steps": 28,
+  "allStepsCompletedSuccess": true,
+  "governanceTests": 637,
+  "individualPassed": 637,
+  "durationSeconds": 1579.29,
+  "failuresErrorsSkips": 0,
+  "officialRawComparisonAccepted": true,
+  "normalizationOnly": [
+    "UTF8 BOM",
+    "CRLF to LF",
+    "terminal newlines"
+  ],
+  "rawPhysicalSha256": "5e0cd5be96f28fb27de368543caa8d8a107724376a642260850b375ce8a2ebe5",
+  "strictReceiptSha256": "394ef8051eff46fd65b1b068f52f66be916e1f929729ad80830de327095ed7bf",
+  "officialSnapshotSha256": "ae50568b6b5a547ff49f11d61bd1a09616beec42744aa63c88a1422e23814def",
+  "executionCheckout": "7b8bae0b2a5cce017c633e121b69e8788ab4c253",
+  "orderedParents": [
+    "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+    "8557d6e5b0d511e619acca7c0678fcac12c1baa3"
+  ],
+  "syntheticCheckoutIsNotActualMain": true,
+  "acceptedContentBindingSha256": "dea8031e661f1d7a3fbc9f7e9830dc5de0260ce99a7d27aede3f0766ad35c1bc",
+  "local20StillPendingAtThisReceipt": false,
+  "local20ReviewedSeparately": true,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "androidWorkerEncodingAccepted": false,
+  "fullV1Complete": false
+}

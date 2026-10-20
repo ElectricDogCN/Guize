@@ -1,0 +1,13 @@
+DIRTY_CANDIDATE_ONLY; parent537d4966c00e5c308da488755f76276c71441055
+Command: python specs/poc/test_program.py TestPocProgram.test_134_encode_output_provenance_binds_actual_media_bytes TestPocProgram.test_135_encode_worker_identity_and_parallel_intervals_are_required TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation TestPocProgram.test_148_parallel_media_spans_and_assembled_decode_bind_actual_outputs
+test_134_encode_output_provenance_binds_actual_media_bytes (__main__.TestPocProgram.test_134_encode_output_provenance_binds_actual_media_bytes) ... ok
+test_135_encode_worker_identity_and_parallel_intervals_are_required (__main__.TestPocProgram.test_135_encode_worker_identity_and_parallel_intervals_are_required) ... ok
+test_140_media_hashing_is_bounded_and_reused_per_validation (__main__.TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation) ... ok
+test_148_parallel_media_spans_and_assembled_decode_bind_actual_outputs (__main__.TestPocProgram.test_148_parallel_media_spans_and_assembled_decode_bind_actual_outputs) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 122.183s
+
+OK
+
+Exit Code: 0

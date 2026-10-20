@@ -1,0 +1,32 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_STORAGE186_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL186
+Candidate Files SHA256: {'specs/poc/check_program.py': '6746c54536bbe6a0fba374181ae9a2d4c248cc27bf52c4e215ec21cab64ac58e', 'specs/poc/program.schema.yaml': 'c03c39b34901ebb6974e46b8b709e0a30114ce87e3029028f0bf2bec582389da', 'specs/poc/test_program.py': 'cbc82d66c5ed932e38e7642b66dfb46c1ac76450d2f4d42a87592622f3b79cfb'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle
+test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle (__main__.TestPocProgram.test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle) ... FAIL
+
+======================================================================
+FAIL: test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle (__main__.TestPocProgram.test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 2452, in test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle
+    self.assertEqual(validate(copy.deepcopy(original)),[])
+AssertionError: Lists differ: ['secret-like key forbidden at qualified r[349 chars]cts'] != []
+
+First list contains 3 additional elements.
+First extra element 0:
+'secret-like key forbidden at qualified resource POC-004/RES-OPENLIST-LOCAL/resource_configuration/configuration/localStoragePolicy/authorizedCredentialRef'
+
++ []
+- ['secret-like key forbidden at qualified resource '
+-  'POC-004/RES-OPENLIST-LOCAL/resource_configuration/configuration/localStoragePolicy/authorizedCredentialRef',
+-  'secret-like key forbidden at qualified resource '
+-  'POC-004/RES-OPENLIST-LOCAL/resource_configuration/configuration/localStoragePolicy/invalidCredentialRef',
+-  'qualified raw artifacts POC-004: credentials forbidden in raw textual '
+-  'artifacts']
+
+----------------------------------------------------------------------
+Ran 1 test in 6.568s
+
+FAILED (failures=1)
+
+Exit Code: 1

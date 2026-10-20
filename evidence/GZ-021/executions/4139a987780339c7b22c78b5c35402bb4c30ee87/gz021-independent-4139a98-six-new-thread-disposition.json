@@ -1,0 +1,137 @@
+{
+  "capturedAt": "2026-10-13T18:40:01.823181+00:00",
+  "actualSource": "4139a987780339c7b22c78b5c35402bb4c30ee87",
+  "tree": "9187dc5fb659c15860873394832e750e963b6511",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "finiteOnlySixNewThreads": true,
+  "threadCount": 59,
+  "resolvedCount": 53,
+  "threadSnapshotSha256": "7267bbecbb7238d865cddf4e0c3ba15ca023cf4237294cb78765368cdf124e1a",
+  "counterexamplesPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-4139a98-six-new-thread-counterexamples.json",
+  "counterexamplesSha256": "ebef075a2d56b03cb3b50daa4bb2d790a40cd7d16829c1d57e24be4477a3f9ec",
+  "counterexampleCount": 7,
+  "findings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sALdh",
+      "classification": "EXECUTION_PREREQUISITE_PENDING",
+      "materialCodeBug": false,
+      "reason": "Source4139 was truthfully published with preparation PENDING snapshots. Exactsource native20/159/35/637 terminal result plus same-source official CI and independent acceptance are still required; current running validation is not a failure or authorization.",
+      "minimumDisposition": "Preserve exact-source results and immutable raw/JUnit/worktree digests, persist actual execution handoff in current PR durable body (save-or-reference); normal Review can archive it subsequently. Do not mutate source solely to inject its own SHA and do not treat historical8bf PASS as4139 execution.",
+      "resolveEligible": false
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sALdq",
+      "classification": "MATERIAL",
+      "materialCodeBug": true,
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          1356,
+          1366,
+          1400,
+          1423
+        ]
+      },
+      "counter": "Production POC001 phone scope_observation replaced with explicitly unrelated UTF8 text, matching actual artifact hash/size; declared thermal/power/duration/background/device values unchanged and validation passes.",
+      "minimumOwnedRepair": "Append a bounded typed phone observation report tied to exact Android node/device/host, observed UTC interval inside executionWindow, and all declared temperature/power/test-duration/background values. Bind selected-slot typed scope_observation bytes and exact reported duration to interval; preserve physically distinct media/soak/probe and production-only gate.",
+      "directRegressions": [
+        "Valid matching physical-device observation positive",
+        "Unrelated/missing/empty/malformed/oversize/report-field or interval mismatch negative",
+        "Local VM and factual FAIL unaffected"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sALdy",
+      "classification": "MATERIAL",
+      "materialCodeBug": true,
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          2013,
+          2018
+        ]
+      },
+      "counter": "Both POC009 profiles accept arbitrary throughput1000000000 items/s without retained completed-item count/interval report.",
+      "minimumOwnedRepair": "Append a selected-slot typed inference observation (completedItemCount int>0, ordered actual start/finish within executionWindow, exact current model/prompt/parameters/tool/input subject binding). Derive items/s=count/elapsedSeconds and compare to actual; retain factual FAIL/inconclusive zero. This is a report-contract extension, not a new benchmark execution subsystem.",
+      "directRegressions": [
+        "Consistent count/time/rate and subject positive",
+        "Positive overclaim/zero elapsed/boolean count/wrong subject/input/report negative",
+        "FAIL/inconclusive zero preserved"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sALd5",
+      "classification": "MATERIAL",
+      "materialCodeBug": true,
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          1990,
+          2000
+        ],
+        "plan": "specs/poc/plans/POC-010.yaml:44-163"
+      },
+      "counter": "Both POC010 profiles accept asserted true restore gates with explicitly unrelated raw log and no typed retained baseline/restored-state/comparison data.",
+      "minimumOwnedRepair": "Append qualified-only recovery-evidence definitions: approved baseline manifest, restored-state manifest and comparison/report refs bound to real selected-slot bytes/hashes and current resource/tool/input identities. Cover exactly the existing planned boolean recovery gates with parsed comparison rows; state relationships/hash/identity comparisons must substantiate those rows, not just another all-true map. Reuse original audit/outbox/reference/state/file/deployment constraints. Secret-value roundtrip uses only approved one-way/HMAC comparison artifacts as frozen plan already requires; no plaintext, and unreadable negative fixture needs explicit expected failure witness. No changes to frozen plans/legacy schemas or real restoration execution are requested.",
+      "directRegressions": [
+        "Matching retained approved baseline/restored/comparison evidence positive",
+        "Missing/alias/hash/state mismatch/omitted gate/unrelated report false-PASS negative",
+        "Secret mismatch/unreadable falsely recovered negative, factual FAIL retained"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sALd9",
+      "classification": "MATERIAL",
+      "materialCodeBug": true,
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          1400,
+          1406
+        ]
+      },
+      "counter": "Production scope and matching Android inventory explicitly set isVirtualMachine=true with isEmulator=false; validation still passes.",
+      "minimumOwnedRepair": "Require isVirtualMachine is False (actual boolean, not missing/0) in both production physical-device scope and matching node; preserve existing independent isEmulator false and device/host/build matches. Local Android VM continues explicit VM/emulator true.",
+      "directRegressions": [
+        "Production explicitly physical node positive",
+        "Missing/true/bool-type drift and scope/inventory mismatch negative",
+        "Local Android VM remains valid"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sALeC",
+      "classification": "MATERIAL_FALSE_REJECTION",
+      "materialCodeBug": true,
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          1229,
+          1236
+        ]
+      },
+      "counter": "Valid local3 simultaneous runs on2 nodes, perNodeConcurrency2/maxConcurrentSegments3, three nonoverlapping frame partitions cover input with exact assembly report/raw/node/provenance. All other validations pass at claimed streams2; changing streams to actual3 causes only distinct-node capacity rejection.",
+      "minimumOwnedRepair": "Retain distinct-node overlap independently. For throughput count active uniquely validated run/stream identities (e.g. distinct existing output artifact/trace identity), not node set; reject duplicate same run identity and honor declared local per-node/total concurrency caps. Keep longest continuous interval-union duration. Preserve old153 direct helper semantics/AST by adding a run-aware capacity helper or supplying explicit attempt identities rather than changing its node-only contract. No new benchmark subsystem or frozen unit changes.",
+      "directRegressions": [
+        "Three legal streams on two nodes accepted",
+        "Duplicate trace/run inflation and exceeded declared caps rejected",
+        "Distinct-node overlap still required; half-open ties/gaps/duration and old153 assertions preserved"
+      ]
+    }
+  ],
+  "materialCodeFindingCount": 5,
+  "executionPrerequisiteCount": 1,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "resolveEligible": false,
+  "local20StillPendingAtThisDisposition": true,
+  "syntheticContractOnly": true,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "testedTreesEdited": false,
+  "fullSuiteRerun": false,
+  "commentsOrThreadsMutated": false,
+  "oldResolvedFindingsReopened": false
+}

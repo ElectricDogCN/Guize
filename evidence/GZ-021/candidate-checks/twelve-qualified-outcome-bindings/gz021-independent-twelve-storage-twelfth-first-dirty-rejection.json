@@ -1,0 +1,146 @@
+{
+  "capturedAt": "2026-10-14T02:00:42.936394+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYei",
+  "finiteScope": "Only twelfth local storage outcome matrix and three direct migration/capacity/sample-boundary residuals",
+  "contentAccepted": false,
+  "twelfthFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "id": "TWELFTH-COPYING-IDENTITY",
+      "path": "specs/poc/check_program.py",
+      "line": 1697,
+      "problem": "The incomplete COPYING candidate is identified by replicaId/state but its assetId/versionId are not bound to the approved object or final verified copy. Removing candidate from state comparison hides a foreign-asset/version intermediate.",
+      "counterexample": "Change only the new replica in copyingStateRef to assetId=foreign-asset or versionId=foreign-version; retain same replicaId, COPYING state, partial bytes/hash and a correct final VERIFIED record. Current during_stripped comparison and partial checks still pass.",
+      "minimalRepair": "Require COPYING candidate assetId/versionId to match approved object and the verified candidate; retain actual partial bytes, same candidate identity, clocks and old-copy availability. Add foreign pending asset/version negatives.",
+      "evidenceType": "direct static source/shape inspection; reviewer did not run fixture"
+    },
+    {
+      "id": "TWELFTH-CAPACITY-CYCLE",
+      "path": "specs/poc/check_program.py",
+      "line": 1701,
+      "problem": "Presence of phases and monotonic timestamps does not prove fill/pause/evict/resume lifecycle order; successful resume can precede the pressure and eviction.",
+      "counterexample": [
+        {
+          "phase": "baseline",
+          "freeBytes": 400,
+          "reservedBytes": 50,
+          "admission": "admitted",
+          "timeOrdinal": 0
+        },
+        {
+          "phase": "resume",
+          "freeBytes": 400,
+          "reservedBytes": 0,
+          "admission": "admitted",
+          "timeOrdinal": 1
+        },
+        {
+          "phase": "fill",
+          "freeBytes": 200,
+          "reservedBytes": 50,
+          "admission": "paused",
+          "timeOrdinal": 2
+        },
+        {
+          "phase": "pause",
+          "freeBytes": 180,
+          "reservedBytes": 50,
+          "admission": "paused",
+          "timeOrdinal": 3
+        },
+        {
+          "phase": "evict",
+          "freeBytes": 400,
+          "reservedBytes": 0,
+          "admission": "paused",
+          "timeOrdinal": 4
+        }
+      ],
+      "minimalRepair": "Require an actual complete ordered fill->pause->evict->resume recovery cycle within the existing observation stream; permit equal coarse timestamps and legitimate repeated observations/cycles. Keep current approved watermark/floor/reservation tests and derive min/max as before, no new numeric threshold.",
+      "evidenceType": "direct static source predicate counter; no reviewer test run"
+    },
+    {
+      "id": "TWELFTH-EIGHT-BYTE-COMPATIBILITY",
+      "path": "specs/poc/check_program.py",
+      "line": 1645,
+      "problem": "Hardcoded >8-byte requirement rejects an approved exact8-byte sample even though bounded bytes0-7, suffix4, full reads and unsatisfiable bytes8- are all well-defined. Frozen protocol adds no ninth-byte minimum.",
+      "counterexample": "Approved source b\"12345678\" with matching immutable hash/metadata can execute all frozen Range controls; current size<=8 check rejects it before evaluating them.",
+      "minimalRepair": "Reject size<8 for the existing fixed eight-byte bounded test rather than <=8, or choose valid bounded intervals from actual sample size without weakening the required cases. Add exact8-byte positive and too-small fixture negative.",
+      "evidenceType": "direct source predicate and Range interval semantics, no reviewer test run"
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "4aded3ed09760035301fc499a6c5388a3473310d08e1f354cda76d2095a79069",
+    "specs/poc/program.schema.yaml": "49b5e93c6d54487f56a10aa7da433ceb1f61e0cf61f5af543339ed5736faa8a5",
+    "specs/poc/test_program.py": "e18a97b7dde6137a0f07295e64f46a368618554568684c522c03ac2b0b8b447a"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "4aded3ed09760035301fc499a6c5388a3473310d08e1f354cda76d2095a79069",
+    "specs/poc/program.schema.yaml": "49b5e93c6d54487f56a10aa7da433ceb1f61e0cf61f5af543339ed5736faa8a5",
+    "specs/poc/test_program.py": "e18a97b7dde6137a0f07295e64f46a368618554568684c522c03ac2b0b8b447a"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "43a9a2ddaf3ee466d49108f3c6db3ccbda7d697aef7ab40f5f61595b8022284e",
+    "specs/poc/program.schema.yaml": "5220fc99fc7a660adfea4d642c3795c5a2bd9b725d67715eea96ff371f03a9c7",
+    "specs/poc/test_program.py": "b959ca13ed1311e8659e73c420ea36260ebf6456dabf8a816e5dc6574aaec85b"
+  },
+  "hashesStable": true,
+  "priorElevenContent": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-media-eleventh-retry-final-dirty-review.json",
+    "sha256": "7b6c986c2f50084a35fe8036f67c3ba4100e5b892df554ea5bd6224fe9fa5ab3",
+    "snapshotManifestSha256": "678352e359383fe3cec666bbfd6a3ad661bb420f9c576f3f86e4d4fa1d51ad21"
+  },
+  "priorElevenSchemaWholePrefixAndAllDefinitionsRetained": true,
+  "allPrior185MethodAstsAndUnrelatedHelpersUnchanged": true,
+  "onlyAppendedDefinitions": [
+    "localStoragePolicy",
+    "localStorageState",
+    "localStorageOutcomes"
+  ],
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "qualifiedLocalPoc004PassOnlyProductionFailInconclusiveUnaffected": true,
+  "otherFiniteCoverageReviewed": [
+    "Exact approved sandbox/OpenList/profile/input/authRef binding and full/bounded/suffix/416/missing-invalid auth actual response bytes/status/headers",
+    "Concurrent overlap, incomplete/hash-mismatch promotion rejection and operation-bound state snapshots",
+    "Bounded disconnect/restart with final verified full bytes and no partial promotion",
+    "Backup/restored actual bytes and metadata refs, cache-only eviction preserving authoritative asset/source/retention/replica state"
+  ],
+  "firstAuthFieldFailure": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-storage186-first-increment.txt",
+    "physicalSha256": "1a753b73e8104678d2ca2890915932f70aa75ee0c1b1960afed3abdbf519d4cb",
+    "tests": 1,
+    "seconds": 6.568,
+    "exitCode": 1,
+    "cause": "new credential field names triggered unchanged secret scanner",
+    "acceptedAsPass": false
+  },
+  "currentIncrement": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-storage186-auth-refs-increment.txt",
+    "observedPhysicalSha256": "c55748928220a78618d54b364a8c7f76e70600ce4188c8d33622ae8cde35379e",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle",
+    "testsRequested": 1,
+    "terminalObserved": true,
+    "exitCode": 0,
+    "seconds": 198.557,
+    "pendingAtObservation": false,
+    "executionAccepted": false
+  },
+  "whole186SuitePassed": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "fixtureOnly": true,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

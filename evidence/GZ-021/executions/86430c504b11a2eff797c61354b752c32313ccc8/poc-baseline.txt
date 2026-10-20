@@ -1,0 +1,5 @@
+Source Commit: 86430c504b11a2eff797c61354b752c32313ccc8
+Command: python specs/poc/check_program.py
+PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
+
+Exit Code: 0

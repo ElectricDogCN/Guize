@@ -3,42 +3,232 @@ $id: nfr.schema.yaml
 title: Guize V1 NFR Baseline
 type: object
 additionalProperties: false
-required: [$schema, schemaVersion, contractId, status, authority, requiredCategories, items]
+required:
+- $schema
+- schemaVersion
+- contractId
+- status
+- authority
+- requiredCategories
+- items
+- acceptanceProfileBinding
 properties:
-  $schema: {const: nfr.schema.yaml}
-  schemaVersion: {const: 1}
-  contractId: {const: NFR-V1}
-  status: {const: frozen}
+  $schema:
+    const: nfr.schema.yaml
+  schemaVersion:
+    const: 2
+  contractId:
+    const: NFR-V1
+  status:
+    const: frozen
   authority:
     type: object
     additionalProperties: false
-    required: [product, conflictPolicy]
+    required:
+    - product
+    - conflictPolicy
     properties:
-      product: {const: specs/requirements/product-requirements.md}
-      conflictPolicy: {type: string, minLength: 20}
+      product:
+        const: specs/requirements/product-requirements.md
+      conflictPolicy:
+        type: string
+        minLength: 20
   requiredCategories:
     type: array
     minItems: 10
     uniqueItems: true
-    items: {enum: [security, privacy, performance, capacity, availability, recovery, observability, compatibility, maintainability, supply-chain]}
-  items: {type: array, minItems: 10, items: {$ref: '#/$defs/item'}}
+    items:
+      enum:
+      - security
+      - privacy
+      - performance
+      - capacity
+      - availability
+      - recovery
+      - observability
+      - compatibility
+      - maintainability
+      - supply-chain
+  items:
+    type: array
+    minItems: 10
+    items:
+      $ref: '#/$defs/item'
+  acceptanceProfileBinding:
+    type: object
+    additionalProperties: false
+    required:
+    - revision
+    - authorityTask
+    - decisionRef
+    - profiles
+    properties:
+      revision:
+        const: 1
+      authorityTask:
+        const: GZ-021
+      decisionRef:
+        const: adr/0015-heterogeneous-av1-workers-and-local-storage-validation.md
+      profiles:
+        type: array
+        minItems: 2
+        maxItems: 2
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - version
+          - scope
+          - milestoneTask
+          - canSatisfyProductionGate
+          - requirementIds
+          - acceptanceIds
+          properties:
+            id:
+              enum:
+              - local-v1
+              - production
+            version:
+              const: 1
+            scope:
+              enum:
+              - LOCAL_FULL_V1
+              - PRODUCTION_RELEASE
+            milestoneTask:
+              enum:
+              - GZ-018
+              - GZ-020
+            canSatisfyProductionGate:
+              type: boolean
+            requirementIds:
+              type: array
+              minItems: 10
+              maxItems: 10
+              uniqueItems: true
+              items:
+                enum:
+                - REQ-V1-0001
+                - REQ-V1-0002
+                - REQ-V1-0003
+                - REQ-V1-0004
+                - REQ-V1-0005
+                - REQ-V1-0006
+                - REQ-V1-0007
+                - REQ-V1-0008
+                - REQ-V1-0009
+                - REQ-V1-0010
+            acceptanceIds:
+              type: array
+              minItems: 12
+              maxItems: 12
+              uniqueItems: true
+              items:
+                type: string
+                minLength: 1
+          allOf:
+          - if:
+              properties:
+                id:
+                  const: local-v1
+            then:
+              properties:
+                scope:
+                  const: LOCAL_FULL_V1
+                milestoneTask:
+                  const: GZ-018
+                canSatisfyProductionGate:
+                  const: false
+          - if:
+              properties:
+                id:
+                  const: production
+            then:
+              properties:
+                scope:
+                  const: PRODUCTION_RELEASE
+                milestoneTask:
+                  const: GZ-020
+                canSatisfyProductionGate:
+                  const: true
 $defs:
   item:
     type: object
     additionalProperties: false
-    required: [id, category, title, statement, sourceRefs, measurement]
+    required:
+    - id
+    - category
+    - title
+    - statement
+    - sourceRefs
+    - measurement
+    - applicableProfiles
     properties:
-      id: {type: string, pattern: '^NFR-V1-[A-Z]+-[0-9]{3}$'}
-      category: {enum: [security, privacy, performance, capacity, availability, recovery, observability, compatibility, maintainability, supply-chain]}
-      title: {type: string, minLength: 1}
-      statement: {type: string, minLength: 10}
-      sourceRefs: {type: array, minItems: 1, uniqueItems: true, items: {type: string, minLength: 1}}
+      id:
+        type: string
+        pattern: ^NFR-V1-[A-Z]+-[0-9]{3}$
+      category:
+        enum:
+        - security
+        - privacy
+        - performance
+        - capacity
+        - availability
+        - recovery
+        - observability
+        - compatibility
+        - maintainability
+        - supply-chain
+      title:
+        type: string
+        minLength: 1
+      statement:
+        type: string
+        minLength: 10
+      sourceRefs:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
       measurement:
         type: object
         additionalProperties: false
-        required: [state, value, unit, verificationOwners]
+        required:
+        - state
+        - value
+        - unit
+        - verificationOwners
         properties:
-          state: {enum: [FROZEN_CONSTRAINT, DESIGN_TARGET, MEASUREMENT_REQUIRED]}
-          value: {type: [number, string, 'null']}
-          unit: {type: [string, 'null']}
-          verificationOwners: {type: array, minItems: 1, uniqueItems: true, items: {type: string, pattern: '^(GZ|POC)-[0-9]{2,3}$'}}
+          state:
+            enum:
+            - FROZEN_CONSTRAINT
+            - DESIGN_TARGET
+            - MEASUREMENT_REQUIRED
+          value:
+            type:
+            - number
+            - string
+            - 'null'
+          unit:
+            type:
+            - string
+            - 'null'
+          verificationOwners:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: string
+              pattern: ^(GZ|POC)-[0-9]{2,3}$
+      applicableProfiles:
+        type: array
+        minItems: 1
+        maxItems: 2
+        uniqueItems: true
+        items:
+          enum:
+          - local-v1
+          - production

@@ -1,0 +1,79 @@
+{
+  "actualSource": "b0917c8946649ec816d2ace114293decd97c3869",
+  "counterexamples": [
+    {
+      "threadSuffix": "r8ZTb",
+      "task": "POC-002",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "claimedStreams": 1000000,
+        "claimedSustainedMinutes": 1000000,
+        "workerRuns": [
+          {
+            "nodeId": "fixture-windows",
+            "encoderBuild": "fixture-av1-build",
+            "compatibilityGroupId": "fixture-av1-group",
+            "inputSampleId": "SAMPLE-MEDIA-CLEAR",
+            "inputSha256": "sha256:643c21334fd0e7c0129c512d0925a0f4a0fe826f744ee2cb609004925c2ea970",
+            "sourceStartFrame": 0,
+            "sourceEndFrame": 60,
+            "outputSha256": "sha256:549c728a1843f0922acff2dd7126fcf6d430f63b3647a118d37119df9313fa84",
+            "rawOutputRef": "evidence/POC-002/profiles/local-v1/v1/raw/fixture-windows.txt",
+            "outputArtifactRef": "evidence/POC-002/profiles/local-v1/v1/raw/fixture-windows.bin",
+            "startedAt": "2026-09-03T00:00:00Z",
+            "finishedAt": "2026-09-03T00:01:00Z"
+          },
+          {
+            "nodeId": "fixture-linux",
+            "encoderBuild": "fixture-av1-build",
+            "compatibilityGroupId": "fixture-av1-group",
+            "inputSampleId": "SAMPLE-MEDIA-CLEAR",
+            "inputSha256": "sha256:643c21334fd0e7c0129c512d0925a0f4a0fe826f744ee2cb609004925c2ea970",
+            "sourceStartFrame": 60,
+            "sourceEndFrame": 120,
+            "outputSha256": "sha256:990c5a2f65bc0a82618b9793197ed52d0ab3f20687cf8bebe12f911e76544dab",
+            "rawOutputRef": "evidence/POC-002/profiles/local-v1/v1/raw/fixture-linux.txt",
+            "outputArtifactRef": "evidence/POC-002/profiles/local-v1/v1/raw/fixture-linux.bin",
+            "startedAt": "2026-09-03T00:00:00Z",
+            "finishedAt": "2026-09-03T00:01:00Z"
+          }
+        ]
+      },
+      "material": true
+    },
+    {
+      "threadSuffix": "r8ZTf",
+      "task": "POC-001",
+      "profile": "production",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutation": {
+        "claimedSoakHours": 0.001,
+        "executionWindow": {
+          "startedAt": "2026-09-03T00:00:00Z",
+          "finishedAt": "2026-09-03T00:01:00Z"
+        }
+      },
+      "material": true
+    },
+    {
+      "threadSuffix": "r8ZTl",
+      "task": "POC-006",
+      "profile": "local-v1",
+      "beforeErrors": [],
+      "afterErrors": [
+        "secret-like key forbidden at qualified resource POC-006/RES-OPENLIST-LOCAL/resource_configuration/configuration/credentialReference"
+      ],
+      "mutation": {
+        "configurationRef": "evidence\\POC-006\\profiles\\local-v1\\v1\\resources\\RES-OPENLIST-LOCAL-configuration.yaml",
+        "credentialReference": "secretref_example01"
+      },
+      "material": true
+    }
+  ],
+  "syntheticContractOnly": true,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false
+}

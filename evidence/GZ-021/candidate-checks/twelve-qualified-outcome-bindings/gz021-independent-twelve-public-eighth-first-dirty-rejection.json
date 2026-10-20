@@ -1,0 +1,97 @@
+{
+  "capturedAt": "2026-10-14T00:36:03.880627+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sFdMr",
+  "finiteScope": "Only eighth qualified production POC007 public-network repair and the three concrete compatibility/point-provenance residuals",
+  "contentAccepted": false,
+  "eighthFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "id": "EIGHTH-TIME-PRECISION",
+      "path": "specs/poc/check_program.py",
+      "line": 2126,
+      "problem": "Strictly positive TLS/request duration rejects legal equal coarse-resolution timestamps; frozen public gates do not require positive latency.",
+      "minimalRepair": "Use nondecreasing <= throughout the existing ordered chain. Keep reversed-time rejection, exact witness time/identity and window checks. Add same-time positive and reversed-time negative cases.",
+      "counterexample": "A valid probe with tls.startedAt == tls.finishedAt and requestStartedAt == requestFinishedAt is currently rejected solely by strict inequalities.",
+      "evidenceType": "direct static predicate evaluation, not a new test run"
+    },
+    {
+      "id": "EIGHTH-DNS-SERIAL",
+      "path": "specs/poc/check_program.py",
+      "line": 2111,
+      "problem": "Requires changing serial despite actual changed AAAA mapping, approved update and bounded propagation; opaque/unexposed serial need not change.",
+      "minimalRepair": "Remove serial-difference gate. Preserve available real serial metadata and explicit absence/unexposed representation without fabricated serial. Retain distinct approved addresses, matching resolver/name and propagation time. Adapt new181 serial case and add unchanged/unexposed serial positives.",
+      "counterexample": "Before AAAA oldAddress and after AAAA newAddress with unchanged opaque serial satisfy frozen DDNS objective but are rejected.",
+      "evidenceType": "direct static predicate evaluation, not a new test run"
+    },
+    {
+      "id": "EIGHTH-MULTIPOINT-WITNESS",
+      "path": "specs/poc/check_program.py",
+      "line": 2130,
+      "problem": "Distinct control requestId/testPointId are not bound to the parsed access witness; two approved points can reuse the same authorized_range witness/body/time, proving only one request.",
+      "minimalRepair": "Append a typed publicNetworkRequest with exact requestId/testPointId/baselineAccessWitnessRef and selected-slot actual response bytes/time/subject/grant binding. Keep baseline authorized access witness separately validated, allow multiple points, reject physical witness/body alias reuse per point. Preserve existing protected Range/status/headers/hash/ACL and denial checks.",
+      "counterexample": "Extend approved testPointIds by point2, clone point1 control changing only testPointId/requestId and clone its three denials with fresh IDs. Controls can still reference identical accessWitnessRef/body/observedAt; current validator only de-duplicates declared request IDs and verifies point set.",
+      "evidenceType": "parent reported concrete counter and independently confirmed missing typed identity/uniqueness checks; reviewer did not run a fixture"
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "76b43efcf0e345f78b704449547c56aae590841c339a29f88f6e54a55f4730bc",
+    "specs/poc/program.schema.yaml": "0d0d26ec4a59c2b2b2825a07c7deeff35a52d1a5fdc1fbefae2f4f1949df49c8",
+    "specs/poc/test_program.py": "0b17014b18a76f91d29693bce20ab6116711bd61b7915ccc479a596763da4fc5"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "76b43efcf0e345f78b704449547c56aae590841c339a29f88f6e54a55f4730bc",
+    "specs/poc/program.schema.yaml": "0d0d26ec4a59c2b2b2825a07c7deeff35a52d1a5fdc1fbefae2f4f1949df49c8",
+    "specs/poc/test_program.py": "0b17014b18a76f91d29693bce20ab6116711bd61b7915ccc479a596763da4fc5"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "8592b455212251fb7a6e1bfcc6b361347894fd8e64536c351b60ae4928c090f2",
+    "specs/poc/program.schema.yaml": "1da6eb424853a2a2d3aed20c4cddc28d804bb19ec48865f92f54787555813963",
+    "specs/poc/test_program.py": "e12e4bb8d04f3c3749d79b63da0ff4323ec432f1b24d4d38a155b58673de47d0"
+  },
+  "hashesStable": true,
+  "priorSevenContent": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-passthrough-seventh-dirty-review.json",
+    "sha256": "9a821b7e551b3219db8f847fd4c059e57863845d1dc33b018e83bdfa9af9b7e9",
+    "snapshotManifestSha256": "eb16b74e73b9529960db28754b12a961dd883ac070d1fd8129e60afff64cee41"
+  },
+  "priorSevenFunctionsAnd180MethodsUnchangedExceptRequiredCallHook": true,
+  "originalC5WholeSchemaPrefixAndAllPriorDefinitionsRetained": true,
+  "onlyAppendedDefinitions": [
+    "publicNetworkPolicy",
+    "publicNetworkObservations"
+  ],
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "qualifiedProductionPassOnlyLocalVmFailInconclusiveUnaffected": true,
+  "limitedSingle181ExecutionAccepted": true,
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-public181-first-increment.txt",
+    "physicalSha256": "0a3d8b62a4133878fb18a6d8ecb4e535a7839b8ce8e84f0c2beb760d8940a579",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes",
+    "tests": 1,
+    "seconds": 143.04,
+    "exitCode": 0,
+    "candidateHashesMatchHeader": true
+  },
+  "executionSuccessDoesNotOverrideContentRejection": true,
+  "fixtureOnlyNotActualPublicNetwork": true,
+  "remainingFourFindingsPending": true,
+  "whole181SuitePassed": false,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "publicationContentApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

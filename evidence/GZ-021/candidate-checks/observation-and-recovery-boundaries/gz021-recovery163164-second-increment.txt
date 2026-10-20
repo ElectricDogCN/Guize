@@ -1,0 +1,18 @@
+Source: DIRTY_CANDIDATE_NOT_ACTUAL_SOURCE_ACCEPTANCE
+Source Parent: 4139a987780339c7b22c78b5c35402bb4c30ee87
+Revision: Repaired dirty candidate; two tests passed and one nonexistent old selector failed to load
+test_163_recovery_pass_requires_approved_parsed_states_and_real_comparisons (__main__.TestPocProgram.test_163_recovery_pass_requires_approved_parsed_states_and_real_comparisons) ... ok
+test_164_binary_recovery_credentials_and_approved_single_event_replay (__main__.TestPocProgram.test_164_binary_recovery_credentials_and_approved_single_event_replay) ... ok
+test_149_qualified_metadata_gitdiff_uses_utf8_and_own_exact_archive_paths (unittest.loader._FailedTest.test_149_qualified_metadata_gitdiff_uses_utf8_and_own_exact_archive_paths) ... ERROR
+
+======================================================================
+ERROR: test_149_qualified_metadata_gitdiff_uses_utf8_and_own_exact_archive_paths (unittest.loader._FailedTest.test_149_qualified_metadata_gitdiff_uses_utf8_and_own_exact_archive_paths)
+----------------------------------------------------------------------
+AttributeError: type object 'TestPocProgram' has no attribute 'test_149_qualified_metadata_gitdiff_uses_utf8_and_own_exact_archive_paths'
+
+----------------------------------------------------------------------
+Ran 3 tests in 170.755s
+
+FAILED (errors=1)
+
+Exit Code: 1

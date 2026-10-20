@@ -1,0 +1,30 @@
+{
+  "actualSource": "4dded087d5f60dc6d78902e125b0104654e14c92",
+  "tree": "b593566e178663c15ccfaa66b10d02d41121959b",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "ciAccepted": true,
+  "runId": 38364712348,
+  "jobId": 115186950946,
+  "attempt": 1,
+  "steps": 28,
+  "allStepsSuccess": true,
+  "governanceTests": 637,
+  "durationSeconds": 1600.02,
+  "failuresErrorsSkips": 0,
+  "officialRawComparisonAccepted": true,
+  "normalizationOnly": [
+    "UTF8 BOM",
+    "CRLF to LF",
+    "terminal newlines"
+  ],
+  "rawPhysicalSha256": "49bb4687de79dcd3f1d60a70cdca143fbb1974d58ff0fab187b2f19bb42b5554",
+  "officialSnapshotSha256": "484b0572690b8a54e5cc60c77a7d0d4b32def6617757b4ccaa08aeb025d7bdf0",
+  "executionCheckout": "78c4576aee6a79aa6434aa8b6242f86d67723fa6",
+  "orderedParents": [
+    "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+    "4dded087d5f60dc6d78902e125b0104654e14c92"
+  ],
+  "syntheticCheckoutIsNotActualMain": true,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false
+}

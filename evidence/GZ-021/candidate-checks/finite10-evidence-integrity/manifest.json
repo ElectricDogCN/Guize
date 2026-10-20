@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "representation": "zlib-base64 exact original physical bytes; ASCII LF wrapper; no log encoding relabeling",
+  "complete208Accepted": false,
+  "local20Accepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "files": [
+    {
+      "originalName": "gz021-4444846-ten-new-review-threads.json",
+      "path": "gz021-4444846-ten-new-review-threads.json.zlib.b64",
+      "originalPhysicalSha256": "0ad9ac208dba5fa1798898552230e9c492415dd1e0f92ce56fa1dfa3d81ef19d",
+      "originalPhysicalBytes": 17807,
+      "packedSha256": "17da8195886ce2e0f639aecbcdfbc93aa96dcc65331418d2e015c7b3a705dd6c",
+      "packedBytes": 5224
+    },
+    {
+      "originalName": "gz021-4444846-ten-thread-finite-disposition.json",
+      "path": "gz021-4444846-ten-thread-finite-disposition.json.zlib.b64",
+      "originalPhysicalSha256": "a25fbe7c2f45e9cf7f416722c1d01905c3095d2daa4698f87fc83b757a52ff08",
+      "originalPhysicalBytes": 10186,
+      "packedSha256": "a5f54d0e739caf777aeaa17688eb83c1b61559f74da696935e9cc6e242c4b3c0",
+      "packedBytes": 4900
+    },
+    {
+      "originalName": "gz021-independent-root199201-finite-content-review.json",
+      "path": "gz021-independent-root199201-finite-content-review.json.zlib.b64",
+      "originalPhysicalSha256": "a49acca906f916f5a1b5f934a8617892764c92fed42d244fae87c244b0afbd45",
+      "originalPhysicalBytes": 5892,
+      "packedSha256": "f30a4fa468b57512bd3bf5c3d0aab15a87f6ca59b23bee211a03130b31875262",
+      "packedBytes": 3571
+    },
+    {
+      "originalName": "gz021-finite10-root199201-development-observation.json",
+      "path": "gz021-finite10-root199201-development-observation.json.zlib.b64",
+      "originalPhysicalSha256": "af80f797730865b59cf108d7dd106738435852b6e67ffb884b8dbfb9a2c10a09",
+      "originalPhysicalBytes": 1599,
+      "packedSha256": "3e052a391368738dd408e75670935621e999dfa1f21fc0aa9418a45fe808ab3d",
+      "packedBytes": 1135
+    },
+    {
+      "originalName": "gz021-recovery202207-root-finite-content-review.json",
+      "path": "gz021-recovery202207-root-finite-content-review.json.zlib.b64",
+      "originalPhysicalSha256": "fad3e893a987b2b572a8a023dd9701c93e85c6b238431dce686ec23a54f21047",
+      "originalPhysicalBytes": 2386,
+      "packedSha256": "926935bc64bc6a26412cb8f3c8c9de10473e9d4e94f8b04de4ee63a5c820d355",
+      "packedBytes": 1634
+    },
+    {
+      "originalName": "gz021-finite-recovery202207-first-targeted/receipt.json",
+      "path": "gz021-finite-recovery202207-first-targeted__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "15814ab5586aff6c24e983043577dfe461b154dec403e8230d338e83f12d8412",
+      "originalPhysicalBytes": 3565,
+      "packedSha256": "147dd9b352adc94d9f34438d68f22c7f65ff06fdb8c1aff1aac4f032cc6bd118",
+      "packedBytes": 1626
+    },
+    {
+      "originalName": "gz021-finite-recovery202207-first-targeted/tests.raw",
+      "path": "gz021-finite-recovery202207-first-targeted__tests.raw.zlib.b64",
+      "originalPhysicalSha256": "e1d0a46034bc77a58c4c2b3be2b679b819b7e68a8cf016579206c6c9bad37b50",
+      "originalPhysicalBytes": 2081,
+      "packedSha256": "de34ab87e55f73363c669bd36811db306f07fe798d137a87f34d9932b8df618d",
+      "packedBytes": 685
+    },
+    {
+      "originalName": "gz021-usfn-auth208-implementation-handoff.json",
+      "path": "gz021-usfn-auth208-implementation-handoff.json.zlib.b64",
+      "originalPhysicalSha256": "355ef4f0ed4db0637bef25ec015df53e9e82d53213e574006e20fa71f1fa6960",
+      "originalPhysicalBytes": 4410,
+      "packedSha256": "22b18136bfe4c41891688e74bb8bbc03bbdb45e192a45790a3e5f34769cedb53",
+      "packedBytes": 2647
+    },
+    {
+      "originalName": "gz021-usfn-auth208-root-content-review.json",
+      "path": "gz021-usfn-auth208-root-content-review.json.zlib.b64",
+      "originalPhysicalSha256": "e1a2d661325eacbcd5abc5067d612e3808cc29b26187f021146d4a519babea2e",
+      "originalPhysicalBytes": 2312,
+      "packedSha256": "303f605f1420b32715e223ab05d94454fa49525c42a1a7ac44e18ea5c170d9e1",
+      "packedBytes": 1670
+    },
+    {
+      "originalName": "gz021-usfn-auth208-first-targeted.json",
+      "path": "gz021-usfn-auth208-first-targeted.json.zlib.b64",
+      "originalPhysicalSha256": "582d69ec19601de4d8cb5da65fb5f2811c2b7cf4d70667809aef807035b09c13",
+      "originalPhysicalBytes": 1423,
+      "packedSha256": "8207ded7812649770be78c423918e15e9b7ea486f7d022c3c98879c708b4a735",
+      "packedBytes": 868
+    },
+    {
+      "originalName": "gz021-usfn-auth208-first-targeted.txt",
+      "path": "gz021-usfn-auth208-first-targeted.txt.zlib.b64",
+      "originalPhysicalSha256": "f8e0310c70a7f41826dbd20698260d86626e1ae45b739b0dcb3af2edbc9b7565",
+      "originalPhysicalBytes": 2286,
+      "packedSha256": "101c7f7d465879ae1a0e481125fcf4e1559c0671b5c80356c08f7f975ca20553",
+      "packedBytes": 997
+    },
+    {
+      "originalName": "gz021-usfn-auth208-second-targeted.json",
+      "path": "gz021-usfn-auth208-second-targeted.json.zlib.b64",
+      "originalPhysicalSha256": "47d82bd964508d0c33a2c4d30b8ac2c82c5862d6cbb5240a6297be9ed4b61edf",
+      "originalPhysicalBytes": 1423,
+      "packedSha256": "7eff163c76ac137233d9d976b9a13cf2fc5a26e11a640c528dd6913f97a34243",
+      "packedBytes": 872
+    },
+    {
+      "originalName": "gz021-usfn-auth208-second-targeted.txt",
+      "path": "gz021-usfn-auth208-second-targeted.txt.zlib.b64",
+      "originalPhysicalSha256": "693babe5ebe893ab610ac0e087b3f05c5e06d4d381a098facaf4626b079fc19c",
+      "originalPhysicalBytes": 622,
+      "packedSha256": "ac6656305ba4f5cc6b6ea42bae8107ba9b49bdb97db25649c8c45f128820cf7b",
+      "packedBytes": 414
+    },
+    {
+      "originalName": "gz021-usfn-auth208-local-application-receipt.json",
+      "path": "gz021-usfn-auth208-local-application-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "ba378cce53b9a31d8b7467dc6b8e0530f94e554dbc0cf822454f1028c986749f",
+      "originalPhysicalBytes": 796,
+      "packedSha256": "d374433d7f70d83f88b2d1b1bdd2a0e59e89cbfc20fbbd909da57f3da290a99d",
+      "packedBytes": 637
+    },
+    {
+      "originalName": "gz021-finite10-stable-targeted-results/receipt.json",
+      "path": "gz021-finite10-stable-targeted-results__receipt.json.zlib.b64",
+      "originalPhysicalSha256": "35df15c23a18b43dacf734838ca13f6b138b684b21c6b82e0419f112e1453948",
+      "originalPhysicalBytes": 2895,
+      "packedSha256": "487eda484d7a24531b11b40814f80c6a9628ba64d4780dd1f932d0113f39c42a",
+      "packedBytes": 1273
+    },
+    {
+      "originalName": "gz021-finite10-stable-targeted-results/targeted.txt",
+      "path": "gz021-finite10-stable-targeted-results__targeted.txt.zlib.b64",
+      "originalPhysicalSha256": "e1d7dac79afa55cec1da4a04d5e387bbb067b55a3dbfe0e22b814e148dbf8223",
+      "originalPhysicalBytes": 2681,
+      "packedSha256": "de995a46cdc445e67b8ccb26b12af9e0ae2fbecbbc30544fc90ea6ed57eda3ce",
+      "packedBytes": 839
+    },
+    {
+      "originalName": "gz021-pr103-known40-disposition-index-draft.json",
+      "path": "gz021-pr103-known40-disposition-index-draft.json.zlib.b64",
+      "originalPhysicalSha256": "3e16085a0452030677ef43745aefed54592b51042c6011f08effbc83e3323e90",
+      "originalPhysicalBytes": 149852,
+      "packedSha256": "3c6a9c451736f8ec28155935625061783b586451a5b608dfe0cda1d22a5d4228",
+      "packedBytes": 19409
+    },
+    {
+      "originalName": "verify_gz021_finite10_208_implementation.py",
+      "path": "verify_gz021_finite10_208_implementation.py.zlib.b64",
+      "originalPhysicalSha256": "642985b8ca68bd15e1189fcd8ab9e914b1833bc2db14c1d49f3d87dc1114dc3d",
+      "originalPhysicalBytes": 512,
+      "packedSha256": "19cdea2262ff36c823455344d8d375a9b6c6e6c43d10c4d0f96b5d6cfb1faf0f",
+      "packedBytes": 450
+    }
+  ],
+  "sourceParent": "44448468766ea98fc63a017a57937a355c542826",
+  "codeHashes": {
+    "specs/poc/check_program.py": "b16052bed1150fc32fd910853551f7df69c68bb7b38a6e75459cb02553f0d53e",
+    "specs/poc/program.schema.yaml": "f54808e990e30b3324e4d85df1c0005bfa404e4f8bf117984e68c54759731aaf",
+    "specs/poc/test_program.py": "ffe8888a07d3df4ab50b8d8dd6b1e421c0fc5ff9f4eaf39c89845ea9be5063b6"
+  },
+  "testMethodCount": 208,
+  "original198MethodsAstUnchanged": true,
+  "newMethods": [
+    199,
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208
+  ],
+  "stableTargetedTests": 10,
+  "stableTargetedSeconds": 281.453,
+  "recoveryDirectTests": 12,
+  "recoveryDirectSeconds": 701.072,
+  "preparationOnly": true,
+  "knownThreadIndexIsHistoricalDraft": true
+}

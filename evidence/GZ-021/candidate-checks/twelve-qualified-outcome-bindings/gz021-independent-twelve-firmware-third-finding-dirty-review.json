@@ -1,0 +1,96 @@
+{
+  "capturedAt": "2026-10-13T23:18:46.462519+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only sFdMl production firmware/IOMMU delta relative to previously accepted two-finding snapshot",
+  "threadId": "PRRT_kwDOTgCQ3c6sFdMl",
+  "contentAccepted": true,
+  "thirdFindingContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "b6dc3179c48334d0e80e8b72d16771d39dd9b4ce1a476a68bc6fbfe9616373ca",
+    "specs/poc/program.schema.yaml": "8a085d55eebbcfe0767225a873b2a486e82a2c850af75500b92a71ec47555dbb",
+    "specs/poc/test_program.py": "f148dd1a9a77d72dcc7afd273832bce0917fea43d0f14e387ed9d8da53db66b7"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "b6dc3179c48334d0e80e8b72d16771d39dd9b4ce1a476a68bc6fbfe9616373ca",
+    "specs/poc/program.schema.yaml": "8a085d55eebbcfe0767225a873b2a486e82a2c850af75500b92a71ec47555dbb",
+    "specs/poc/test_program.py": "f148dd1a9a77d72dcc7afd273832bce0917fea43d0f14e387ed9d8da53db66b7"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "bd1d489bc363e47b1e70f6cd563b7b0b44d1aa6e63b6f9b71bce8af96ebe6d59",
+    "specs/poc/program.schema.yaml": "7ea5a2cc0c45d18a27d1c7b9b438ee9660690cdef2917177757ec6c215c573d1",
+    "specs/poc/test_program.py": "6c73a5bbc6ea8d2c8a35d3e0739419a00c6d2dc288243d35980af6a3b748761c"
+  },
+  "hashesStable": true,
+  "priorAcceptedTwoFindingProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-resource-ai-policy-two-finding-dirty-review.json",
+    "sha256": "e6291f708a981373e11811f2227e32aef9ebe69991cbd771359aef7e4a8927c1"
+  },
+  "priorSnapshot": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-resource-ai-policy-accepted-snapshot",
+    "manifestSha256": "afa41acc98f779998db560c0a1cc039e9c89b29f3e3f87c5e23c9a45a478fdf3",
+    "physicalHashes": {
+      "specs/poc/check_program.py": "3b5cb3f3d5781a7766a5479eb8403299a0d07159c466afee6a6cb0bba1e31277",
+      "specs/poc/program.schema.yaml": "a116372cd0928d79878381dd601b7b0ee29cfbdf3bce42697b4dfb075afa35a5",
+      "specs/poc/test_program.py": "17cb06582ab10fc5d9a927b969c94fce2ee0b4822d9aab09d66fd6b6771d5073"
+    }
+  },
+  "originalC5SchemaWholeBytePrefixRetained": true,
+  "priorTwoFindingSchemaWholeBytePrefixRetained": true,
+  "allOldSchemaDefinitionsRetained": true,
+  "onlyTwoAppendedDefinitions": [
+    "passthroughFirmwarePolicy",
+    "passthroughFirmwareObservation"
+  ],
+  "all172OriginalTestMethodAstsUnchanged": true,
+  "prior173And174MethodAstsUnchanged": true,
+  "newTest": 175,
+  "currentTestMethods": 175,
+  "priorTwoFindingCheckerFunctionsUnchanged": true,
+  "onlyExistingCheckerChangeNewQualifiedFirmwareCall": true,
+  "onlyFixtureChangesNewProductionPassFirmwareSetupAnd175": true,
+  "allOtherPathsFrozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "reviewedGateDerivations": [
+    "bios_iommu_configuration_verified derives typed iommuEnabled after exact approved BIOS/firmware/group and A380/ESXi6.7 identity matching",
+    "iommu_group_isolation_verified requires exact approved group membership, no duplicates, selected GPU present, no host-required device and every member assigned to guest; GPU+audio group remains legal",
+    "above_4g_enabled requires observed setting plus successful positive address allocation for the selected GPU",
+    "resizable_bar_enabled requires observed setting plus selected GPU enumeration and runtime readiness"
+  ],
+  "boundaryReview": [
+    "Report is selected-slot typed bounded observation with actual raw hash validation inherited; policy is inside the independently approved selected resource config",
+    "Report identity equals previously approved productionPassthroughIdentity and exact configurationRef; firmwareBuild/biosConfigurationId/iommuGroupId equal approved policy",
+    "Settings capture precedes guest enumeration and runtime initialization in captured execution UTC window",
+    "Qualified POC001 production PASS only; local Android VM, production FAIL/inconclusive and old identity/soak/reboot responsibilities are not replaced",
+    "No firmware outcome is treated as an actual hardware experiment; all fixture descriptors are explicitly synthetic"
+  ],
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-firmware157-175-first-increment.txt",
+    "physicalSha256": "20e2fc49f57e746f176a5600ea75f08bc6bc036001ba470a85183581ed732a9a",
+    "observedTerminal": false,
+    "pendingAtReview": true,
+    "testsIfTerminal": null,
+    "secondsIfTerminal": null,
+    "exitCodeIfTerminal": null
+  },
+  "earlier173174ResultsNotTransferredToCurrent175": true,
+  "complete175RunClaimed": false,
+  "remainingNineFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "actualSourceExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "testsRun": false,
+  "sourceEdited": false,
+  "threadsResolved": false
+}

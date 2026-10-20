@@ -1,0 +1,53 @@
+{
+  "actualSource": "537d4966c00e5c308da488755f76276c71441055",
+  "counterexamples": [
+    {
+      "threadSuffix": "r5Pgs",
+      "task": "POC-005",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "mutations": {
+        "file_count": {
+          "approvedGenerator": 1,
+          "reportedActual": 11
+        },
+        "directory_count": {
+          "approvedGenerator": 1,
+          "reportedActual": 11
+        },
+        "directory_depth_max": {
+          "approvedGenerator": 1,
+          "reportedActual": 11
+        }
+      },
+      "mutation": "all three actual hierarchy metrics differ from approved captured generator"
+    },
+    {
+      "threadSuffix": "r5Pgx",
+      "task": "POC-007",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "invalidEntryOrigin": "https://guize.local:99999",
+      "mutation": "invalid port/empty DNS label in exact independently approved captured TLS config"
+    },
+    {
+      "threadSuffix": "r5Pgx",
+      "task": "POC-007",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "invalidEntryOrigin": "https://guize.local:00000",
+      "mutation": "invalid port/empty DNS label in exact independently approved captured TLS config"
+    },
+    {
+      "threadSuffix": "r5Pgx",
+      "task": "POC-007",
+      "beforeErrors": [],
+      "afterErrors": [],
+      "invalidEntryOrigin": "https://bad..local:443",
+      "mutation": "invalid port/empty DNS label in exact independently approved captured TLS config"
+    }
+  ],
+  "syntheticContractOnly": true,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false
+}

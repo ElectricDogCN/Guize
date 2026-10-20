@@ -1,5 +1,29 @@
 # 18. 测试与验收 / Testing and Acceptance
 
+## GZ-021：本地完整 V1 与异构媒体执行
+
+机器声明固定 `local-v1` version 1 / revision 1 → GZ-018，以及 `production` version 1 / revision 1 → GZ-020；两者均覆盖原 10 项需求和 12 项验收。GZ-018 依赖 GZ-019 及完整功能集成，仍须真实依赖、AI/搜索、权限、规则、恢复、供应链及故障测试。路线定义通过不等于这些运行验收已经通过。
+
+| POC | 本地执行 | 保留的生产义务 |
+|---|---|---|
+| 001/002 | 实际异构节点能力、并行 AV1、HLS、租约/取消/优先级/权限 | A380/ESXi、质量/并发/长期稳定性、功耗温度 |
+| 003 | 隔离 ATS Range/Slice、版本、缓存完整性与 ACL | 原协议全部测量 |
+| 004 | OpenList、本地容量预留/水位、完整性与恢复 | TrueNAS/iSCSI/ZFS、500GB |
+| 005 | 有界元数据与 OpenList 扫描/来源特征 | 原规模测量与生产容量目标 |
+| 006 | 通用 OpenList 接入、明确注入的故障、幂等同步与删除保护 | 百度真实 API、许可/隐私与恢复 |
+| 007 | 隔离 TLS/Range/ACL/限流/直接回源拒绝 | 公网 IPv6/DDNS/高端口/tunnel/CDN |
+| 008/009/010 | 原前端、AI 与恢复协议继续适用 | 同一共享安全/质量义务 |
+
+本地/历史 POC 执行记录保持原 Schema 1，在 `environmentCaptured.acceptanceProfile` 中绑定 `{id, version, bindingRevision, scope}`，并用 `acceptanceProfileConfigurationRef` 指向同任务 Evidence 的配置。配置必须匹配 POC/Task、所选资源与全部测量 ID。结果记录经 executionRef 绑定该范围；未知范围、版本错配、本地记录冒充生产、缺安全测量及通用来源结果冒充百度生产均拒绝。安全门单位必须保持 boolean。本地存储配置以整数 bytes 绑定实际正水位、高低水位及预留预算；实际最小空闲量减去最大在途预留量必须保持安全水位，不能用零配置或文字说明获得 PASS。
+
+配置要求的隐私/许可审查必须有实际独立批准文件，并绑定任务、类型、被测版本及范围；不能只填通过布尔值。Range 字节正确率须在 0～100% 范围内，PASS 必须为 100%。本地专属环境字段不可删除。生产 POC-001/002 在保留原 A380/ESXi 测量的基础上增加异构执行组及真实 Android 温升/后台生存性测量，NFR-V1-COMP-003 同时由 GZ-020 验证。
+
+原共享 POC 索引只表示任务进度；完整 GZ-018/GZ-020 分别执行 `check_program.py --profile local-v1 --milestone GZ-018` / `--profile production --milestone GZ-020`，要求各自全部十项合格证据，不能选择子集。local-v1 证据保留在原 POC 自身目录；生产重测由 GZ-020 在自身 Evidence 下保存独立版本 2 的记录和范围索引，不重开或覆盖已完成 POC。结果/执行引用必须留在其所选目录，并由实际所有者的 Implementer/Reviewer 绑定。POC 前置验证不替代完整平台验收或生产发布。
+
+跨 OS 小样本、WSL、多进程或模拟故障必须报告实际范围，不冒充物理多机、Android、长时负载、完整浏览器播放或生产测量。
+
+本地 POC-001 按用户决定先用Android虚拟机，须有实际 guest 编码、输入/输出哈希及原始输出，身份与 worker 清单一致并记录 hypervisor 和物理宿主机；真实 Android 明确标记未测试。本地 PASS 不授予真机或物理多宿主机支持。生产仍须真实 Android 编码及温升/功耗、后台生存性记录，未测或模拟器不能授予生产 PASS。限定 profile 的资源配置/预约使用自身版本化 Schema，绑定任务、POC、资源与 profile，由独立审查者在执行前批准且有效期覆盖真实执行区间；不能只检查文件存在。AI 审查绑定模型身份/版本与实际运行工具栈。数值域按单位和指标含义校验，模型/评审量程需独立批准的定义记录，不虚构统一分数上限或性能通过阈值。
+
 ## 1. 原则
 
 - 测试覆盖行为，不仅覆盖代码行；

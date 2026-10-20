@@ -1,0 +1,15 @@
+Candidate Parent: a84bab726157b031208de14aaf438dc7e55f5263
+Validation: DIRTY_FIXTURE_HELPER_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL172
+Candidate File SHA256: e5581fe1c377868a1d709a65bbf13ed69853bdd140a0092acf11be7a873f3b78
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B specs/poc/test_program.py TestPocProgram.test_146_local_captures_require_reproducible_structured_settings TestPocProgram.test_151_local_tls_origins_validate_semantic_host_and_port TestPocProgram.test_165_invalid_scheduler_shapes_are_rejected_without_exceptions TestPocProgram.test_170_access_gates_bind_requests_acl_cache_and_actual_returned_bytes
+test_146_local_captures_require_reproducible_structured_settings (__main__.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings) ... ok
+test_151_local_tls_origins_validate_semantic_host_and_port (__main__.TestPocProgram.test_151_local_tls_origins_validate_semantic_host_and_port) ... ok
+test_165_invalid_scheduler_shapes_are_rejected_without_exceptions (__main__.TestPocProgram.test_165_invalid_scheduler_shapes_are_rejected_without_exceptions) ... ok
+test_170_access_gates_bind_requests_acl_cache_and_actual_returned_bytes (__main__.TestPocProgram.test_170_access_gates_bind_requests_acl_cache_and_actual_returned_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 107.295s
+
+OK
+
+Exit Code: 0

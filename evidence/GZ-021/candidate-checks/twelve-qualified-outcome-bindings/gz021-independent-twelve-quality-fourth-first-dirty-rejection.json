@@ -1,0 +1,107 @@
+{
+  "capturedAt": "2026-10-13T23:29:06.257394+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only fourth sEYeO quality/first-segment timing increment, no remaining-eight audit",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYeO",
+  "contentAccepted": false,
+  "fourthFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6sEYeO",
+      "path": "specs/poc/check_program.py",
+      "line": 1414,
+      "function": "validate_qualified_media_quality_timing",
+      "reason": "Job-start timestamp is equated to selected worker encode-run start. Frozen method measures job start to first playable, and does not forbid an earlier authoritative platform job-start/queue interval. Equality falsely rejects that valid timing and permits dropping the earlier interval by using worker start as job start.",
+      "logicalCounterexample": {
+        "kind": "Static exact-condition counterexample, not a runtime or full-validator test",
+        "authoritativeJobStartedAt": "2026-09-03T00:00:00Z",
+        "selectedWorkerStartedAt": "2026-09-03T00:00:02Z",
+        "segmentProducedAt": "2026-09-03T00:00:03Z",
+        "decodedAt": "2026-09-03T00:00:03Z",
+        "firstPlayableAt": "2026-09-03T00:00:03Z",
+        "correctFirstSegmentLatencyMs": 3000,
+        "workerOnlyLatencyMs": 1000,
+        "currentEqualityRejectsLegitimateEarlierJobStart": true
+      },
+      "minimumRepair": "Bind the approved jobId to an authoritative retained typed job-start event/time (parsed existing event output or a small appended job-start observation). Permit ordered jobStart <= selected worker start <= segment production <= successful probe <= playable within the capture window, and derive latency from jobStart. Do not merely remove equality and accept an arbitrary report timestamp. Preserve exact input/output/run/encoder/evaluator/model/config bindings.",
+      "requiredRegression": [
+        "Positive earlier job-start/queued-worker case with full latency including that interval",
+        "Wrong job/event identity or event/report timestamp mismatch rejected",
+        "Job start later than selected worker rejected",
+        "A claimed worker-only latency omitting the earlier interval rejected",
+        "Zero-queue direct-start case, quality model110 domain, bounded-reader140 and existing partial Range cases retained"
+      ]
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "983bca4b4f0d8fb372353bd777af688880c80aed0427d48f97cf4adaa6c9b73e",
+    "specs/poc/program.schema.yaml": "aba8ec824953145e9a1613d59f38c5ff9b1dff8e5c6c864ae2d0e40d31b6f2ed",
+    "specs/poc/test_program.py": "64ac1c8f4c4cd42881bdaf1cdd752ff6e764393c5c1710108c9f9da36c7ff80a"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "983bca4b4f0d8fb372353bd777af688880c80aed0427d48f97cf4adaa6c9b73e",
+    "specs/poc/program.schema.yaml": "aba8ec824953145e9a1613d59f38c5ff9b1dff8e5c6c864ae2d0e40d31b6f2ed",
+    "specs/poc/test_program.py": "64ac1c8f4c4cd42881bdaf1cdd752ff6e764393c5c1710108c9f9da36c7ff80a"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "2ae91a5bc22f041a86bdf539d92a58ec55db6e1c4d7ed6ae79f88920d3d5abaf",
+    "specs/poc/program.schema.yaml": "a19c40418d0fd2da30700e62b9e1311ac190f11b8a30b6a70ace5dc04a2dd094",
+    "specs/poc/test_program.py": "739da751742762ea166b45626e9aa0988e07a6ea9314c18590c2d9c08c927a9f"
+  },
+  "hashesStable": true,
+  "priorThreeFindingProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-firmware-third-finding-dirty-review.json",
+    "sha256": "7639feae0b52465c2020f247c106e48e00f198eae2dce7d160dad1d5d0933e4d"
+  },
+  "priorSnapshotManifestSha256": "b62c240342c8e31c304cf382caa87c47be17a5d68f3e99eacb724628a48bc805",
+  "originalSchemaWholeBytePrefixAndOldDefinitionsRetained": true,
+  "onlyAppendedDefinitions": [
+    "firstPlayableSegmentProbe",
+    "mediaEvaluationPolicy",
+    "mediaQualityTimingReport",
+    "vmafEvaluatorOutput"
+  ],
+  "all171OtherC5MethodsAstsUnchanged": true,
+  "test123OriginalAssertionCallsPreserved": true,
+  "test123Purpose": "Existing domain/type/value expectations retained; synthetic evaluator vmafMean/raw hashes synchronized for lawful110 domain under new semantic binding",
+  "prior173174175MethodAstsUnchanged": true,
+  "currentTestMethods": 176,
+  "frozenPlansManifestMetadata35NegativesClaimsLeaseUnchanged": true,
+  "qualityBindingSupported": [
+    "Exact approved immutable inputs, actual assembled output SHA, encoder builds/parameters and model/evaluator build/hash",
+    "Full evaluated frame count and evaluation UTC after completed encode runs",
+    "Selected-slot typed evaluator report and retained model invocation output, actual metric equals finite evaluator result",
+    "First segment exact initial span/node/run, actual nonempty partial bytes and error-free AV1 decode probe, latency equals retained timestamps"
+  ],
+  "boundedIoSupported": "New validator uses existing inspect_artifact cache after original raw/worker scan; no seek/read_bytes/reopen path added. Actual output/segment calls share cache; old140 remains unchanged. Pending original140 increment is not assumed passed.",
+  "increment": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-quality123-140-176-first-increment.txt",
+    "physicalSha256": "641e119516a20b43b840a187acc9cbf7d6a3bba5c53c712cbd2a404b1168a677",
+    "observedTerminal": true,
+    "pendingAtReview": false,
+    "acceptedAsWhole176": false,
+    "executedTests": 3,
+    "durationSeconds": 212.461,
+    "exitCode": 0
+  },
+  "reviewerRanTests": false,
+  "staticCounterNotClaimedExecuted": true,
+  "candidateEdited": false,
+  "priorThreeFindingsNotReopened": true,
+  "remainingEightFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "publicationContentSupported": false,
+  "actualSourceExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "threadsResolved": false
+}

@@ -1,5 +1,13 @@
 # 07. 数据源连接器设计 / Source Connectors
 
+## GZ-021：本地完整 V1 与异构媒体执行
+
+本地来源使用 AList/OpenList 的 WebDAV 兼容插件路径，固定 OpenList 版本、测试根目录、访问策略和对象版本。平台不导入其内部数据库，也不让播放器或 Worker 获得服务管理账号。
+
+必须重放列表/分页、增量扫描、Range/If-Range、ETag/版本变化、网络中断、重复扫描及来源删除。下载按不可变源版本与校验值绑定；版本改变时不得拼接旧输入或复用旧缓存。通过本地故障注入验证通用重试和幂等机制，但不把模拟响应称为百度实际 API 行为。
+
+POC-006 按原始 manifest 授权，在 local-v1 实际执行通用 WebDAV/OpenList 接入和有界故障协议；配置及环境固定 GENERIC_OPENLIST_SANDBOX，production 固定 BAIDU_PRODUCTION_SANDBOX。该本地结果向 GZ-019 提供有明确范围的 POC-06-EVIDENCE，保留原依赖关系。真实百度云 API、版本与许可/隐私审查继续延后，本地通过不能报告百度生产通过。
+
 ## 1. 目标
 
 连接器将不同来源归一为统一的只读或受控写入能力，不把提供方差异泄露到资产核心。

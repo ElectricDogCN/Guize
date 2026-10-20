@@ -1,0 +1,13 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_FIRMWARE157_175_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL175
+Candidate Files SHA256: {'specs/poc/check_program.py': 'b6dc3179c48334d0e80e8b72d16771d39dd9b4ce1a476a68bc6fbfe9616373ca', 'specs/poc/program.schema.yaml': '8a085d55eebbcfe0767225a873b2a486e82a2c850af75500b92a71ec47555dbb', 'specs/poc/test_program.py': 'f148dd1a9a77d72dcc7afd273832bce0917fea43d0f14e387ed9d8da53db66b7'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_175_production_firmware_binds_approved_group_settings_and_runtime TestPocProgram.test_157_production_passthrough_matches_frozen_approved_inventory
+test_175_production_firmware_binds_approved_group_settings_and_runtime (__main__.TestPocProgram.test_175_production_firmware_binds_approved_group_settings_and_runtime) ... ok
+test_157_production_passthrough_matches_frozen_approved_inventory (__main__.TestPocProgram.test_157_production_passthrough_matches_frozen_approved_inventory) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 147.456s
+
+OK
+
+Exit Code: 0

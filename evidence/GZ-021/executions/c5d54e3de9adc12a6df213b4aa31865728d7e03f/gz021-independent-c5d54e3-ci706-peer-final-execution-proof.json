@@ -1,0 +1,227 @@
+{
+  "capturedAt": "2026-10-13T22:48:33.147037+00:00",
+  "actualSource": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "tree": "14791de3ae8c1dcbade7c70a8405dadd7d4b2387",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "ciAccepted": true,
+  "ciExecutionAccepted": true,
+  "actualSourceCiExecutionAccepted": true,
+  "peerIndependentFinalExecutionAccepted": true,
+  "runId": 38476594325,
+  "jobId": 115568677709,
+  "attempt": 1,
+  "event": "pull_request",
+  "steps": 28,
+  "allStepsCompletedSuccess": true,
+  "stepObservations": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 2,
+      "name": "Checkout repository",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 3,
+      "name": "Setup Python 3.11",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 4,
+      "name": "Install governance dependencies",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 5,
+      "name": "Verify core dependencies importable",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 6,
+      "name": "Compile scripts and tests",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 7,
+      "name": "Pytest collect-only",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 8,
+      "name": "Resolve task context",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 9,
+      "name": "Task file validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 10,
+      "name": "Project readiness check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 11,
+      "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 12,
+      "name": "Agent coordination check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 13,
+      "name": "Governance tests",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 14,
+      "name": "Skip audit",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 15,
+      "name": "Markdown basic check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 16,
+      "name": "YAML/JSON schema check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 17,
+      "name": "Secret scan",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 18,
+      "name": "Evidence check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 19,
+      "name": "Evidence integrity check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 20,
+      "name": "Task-branch linkage check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 21,
+      "name": "Scope check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 22,
+      "name": "Spec sync check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 23,
+      "name": "Parent directory reference check",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 24,
+      "name": "CI workflow static validation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 25,
+      "name": "Generate governance report",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 49,
+      "name": "Post Setup Python 3.11",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 50,
+      "name": "Post Checkout repository",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "number": 51,
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "governanceTests": 637,
+  "individualPassed": 637,
+  "durationSeconds": 1197.41,
+  "failuresErrorsSkips": 0,
+  "officialRawComparisonAccepted": true,
+  "normalizationOnly": [
+    "UTF8 BOM",
+    "CRLF to LF",
+    "terminal newlines"
+  ],
+  "rawPhysicalSha256": "4c70ffe67dec6df565d984dc8010e9008fd1055673601b94ec45d52a18d93f33",
+  "strictReceiptSha256": "222ec6d6af08a3c81b4f6fc674b1456d9daa5bf960adbd0010efa9defc5acc1f",
+  "rootExecutedIndependentCheckerReceiptSha256": "cc6b737a5f628e363a2c33a05dc51c5e78499ff23e5986b9d9d887d8e7e79ede",
+  "peerOfficialSnapshot": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-c5d54e3-ci706-peer-official-snapshot.json",
+    "sha256": "213088969f06ff4dd44448d88576288289b6c46d7e29f6993c95d207dff9441a"
+  },
+  "firstIncompleteSnapshotRetained": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-c5d54e3-ci706-first-official-observation-snapshot.json",
+    "sha256": "aebc26bb33011300e5baefc33dacd1997f2fa4f5a83f2ce5fcba91409697fe84"
+  },
+  "executionCheckout": "662c73d0791ba80a51f446ef55e60f746b0d6cd8",
+  "orderedParents": [
+    "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+    "c5d54e3de9adc12a6df213b4aa31865728d7e03f"
+  ],
+  "syntheticCheckoutIsNotActualMain": true,
+  "acceptedContentBindingSha256": "6c2a57b31b268a21e3c934390ebff3e771388573f713d56c3be9a4eeda40f6c2",
+  "local20StillPendingAtThisReceipt": true,
+  "local20SuccessAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "testsRun": false,
+  "sourceEdited": false,
+  "initialObservationOverwritten": false,
+  "officialChecksPerformed": "One fresh run/jobs/PR/synthetic/log acquisition; no polling loop or CI restart"
+}

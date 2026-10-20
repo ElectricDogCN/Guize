@@ -1,0 +1,5 @@
+Source Commit: f63332dd8b2a87d4e3eda975557eb6b5e4275054
+Command: python scripts/check-program-plan-transitions.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route
+{"status": "PASS", "message": "Program reservation scope, wave and lifecycle transitions passed", "details": {"task": "GZ-021", "activeTasks": 1, "completionRecords": 3}}
+
+Exit Code: 0

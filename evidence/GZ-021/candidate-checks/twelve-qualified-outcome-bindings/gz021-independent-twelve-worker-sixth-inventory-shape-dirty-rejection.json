@@ -1,0 +1,70 @@
+{
+  "capturedAt": "2026-10-14T00:16:59.616620+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only sixth worker inventory unhashable nodeId short-circuit defect reported during compatibility review",
+  "threadId": "PRRT_kwDOTgCQ3c6sFdMi",
+  "contentAccepted": false,
+  "sixthFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "path": "specs/poc/check_program.py",
+      "line": 2435,
+      "function": "validate_qualified_worker_safety",
+      "reason": "Open captured inventory may contain list/dict nodeId. The uniqueness set is evaluated before comparing identities to already schema-validated policy.nodes, so malformed evidence raises TypeError instead of returning contract errors.",
+      "minimumRepair": "Move policy.nodes != identities before the hash-based nodeId uniqueness set in the existing short-circuit condition. Invalid captured identities then return the existing contract error; matching validated string identities retain the same behavior. Add list/dict inventory nodeId negatives in new178 without weakening its current assertions.",
+      "boundedCounters": [
+        {
+          "nodeId": [
+            "malformed-node"
+          ],
+          "exceptionType": "TypeError",
+          "exceptionMessage": "unhashable type: 'list'",
+          "isolatedExactSetExpressionOnly": true
+        },
+        {
+          "nodeId": {
+            "malformed": "node"
+          },
+          "exceptionType": "TypeError",
+          "exceptionMessage": "unhashable type: 'dict'",
+          "isolatedExactSetExpressionOnly": true
+        }
+      ]
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "aca48b6f12f7fa68b82c4261e6d7be6bbcb95bb1b15bdba9ff6fe91b87f31fcd",
+    "specs/poc/program.schema.yaml": "caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e",
+    "specs/poc/test_program.py": "660cae792337d4b9e6aec8c36c55db56a42414e027b2383161c861d61c033710"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "aca48b6f12f7fa68b82c4261e6d7be6bbcb95bb1b15bdba9ff6fe91b87f31fcd",
+    "specs/poc/program.schema.yaml": "caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e",
+    "specs/poc/test_program.py": "660cae792337d4b9e6aec8c36c55db56a42414e027b2383161c861d61c033710"
+  },
+  "hashesStable": true,
+  "priorLeaseCompatibilityDeltaAcceptedOnly": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-worker-sixth-prior-lease-dirty-review.json",
+    "sha256": "c0a4fa5c22a4f7b2837897567fedce24860a6616f28bfd3d92094d5e0bf3883e",
+    "doesNotAuthorizeCurrentWholeSixthContent": true
+  },
+  "noValidatorOrFixtureTestRunByReviewer": true,
+  "onlyPureSetExpressionEvaluated": true,
+  "sourceEdited": false,
+  "candidateEdited": false,
+  "currentSingle178IncrementPendingAtParentNotification": true,
+  "previousFirst1781_200_398PassDoesNotCancelContentDefect": true,
+  "remainingSixFindingsPending": true,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "prOrThreadsMutated": false
+}

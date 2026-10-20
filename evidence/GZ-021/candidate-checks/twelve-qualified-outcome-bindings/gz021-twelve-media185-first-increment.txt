@@ -1,0 +1,27 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_MEDIA185_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL185
+Candidate Files SHA256: {'specs/poc/check_program.py': '7f678882598b9c76c99061787e4daa1d2857ac98ca11f8056dc516f53bdefd35', 'specs/poc/program.schema.yaml': '6ac293c71121ce2ee08965b23af469a18a9cda7f730158e09d95077b6058fb73', 'specs/poc/test_program.py': 'b76ef7fbb5afa3bf8c36fd6c7b8d51e99c65bed6e89c077df8c61b6e857d002d'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl
+test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl (__main__.TestPocProgram.test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl) ... ERROR
+
+======================================================================
+ERROR: test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl (__main__.TestPocProgram.test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 2321, in test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl
+    index=self.make_profile_slot(root,'POC-002',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);report_path=root/original['environmentCaptured']['mediaNegativeRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_original=load_yaml(config_path);files={root/a['ref']:(root/a['ref']).read_bytes() for a in original['environmentCaptured']['rawExecutionArtifacts']}
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 522, in make_profile_slot
+    if task_id=='POC-002' and status=='pass':self.prepare_qualified_media_negative_fixture(root,execution,new_prefix)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-twelve-outcomes-worktree\specs\poc\test_program.py", line 854, in prepare_qualified_media_negative_fixture
+    policy=dict(subjectVersion=quality['subjectVersion'],jobId=quality['jobId'],cancelJobId='synthetic-independent-cancel-job',assetId='synthetic-media-asset',assetVersion=env['input_sample_version'],nodes=nodes,limits=dict(cpuSeconds=5,memoryBytes=100,elapsedSeconds=5,temporaryBytes=100,outputBytes=100),deniedTargets=[dict(case=case,target=target) for case,target in (('protocol','file:///synthetic-denied-input'),('path','/synthetic/../denied-input'),('proxy','http://127.0.0.1/synthetic-private'))],authorizedUserId='synthetic-owner',deniedUserId='synthetic-other-user',currentGrantId='synthetic-current-grant',expiredGrantId='synthetic-expired-grant',revokedGrantId='synthetic-revoked-grant',aclVersion='synthetic-acl-v1',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-04T00:00:00Z',expiredAt='2026-09-02T00:00:00Z',revokedAt='2026-09-03T00:01:00Z',protectedOutputs=outputs)
+                                                                                                                                                                            ~~~^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'input_sample_version'
+
+----------------------------------------------------------------------
+Ran 1 test in 3.262s
+
+FAILED (errors=1)
+
+Exit Code: 1

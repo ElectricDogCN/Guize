@@ -1,0 +1,11 @@
+DIRTY_CANDIDATE_ONLY; parent a701511d8445f47aa5c9971d603d5cfb87bc7efd
+Command: python specs/poc/test_program.py TestPocProgram.test_137_ignored_untracked_referenced_evidence_cannot_pass TestPocProgram.test_146_local_captures_require_reproducible_structured_settings
+test_137_ignored_untracked_referenced_evidence_cannot_pass (__main__.TestPocProgram.test_137_ignored_untracked_referenced_evidence_cannot_pass) ... ok
+test_146_local_captures_require_reproducible_structured_settings (__main__.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 28.465s
+
+OK
+
+Exit Code: 0

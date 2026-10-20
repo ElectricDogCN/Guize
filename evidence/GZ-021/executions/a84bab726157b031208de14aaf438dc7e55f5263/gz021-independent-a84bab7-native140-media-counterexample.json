@@ -1,0 +1,83 @@
+{
+  "actualSource": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "startedAt": "2026-10-13T21:56:16.965093+00:00",
+  "finishedAt": "2026-10-13T21:56:23.974005+00:00",
+  "command": [
+    "wsl",
+    "-u",
+    "sur",
+    "--cd",
+    "/home/sur/.cache/guize-takeover/native-verification-20261010",
+    "--",
+    "env",
+    "PYTHONUTF8=1",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "specs.poc.test_program.TestPocProgram.test_140_media_hashing_is_bounded_and_reused_per_validation"
+  ],
+  "exitCode": 1,
+  "durationSeconds": 5.641000000061467,
+  "rawPath": "gz021-independent-a84bab7-native140-media-counterexample.txt",
+  "rawSha256": "ce9a8dc2246d9ace38e2aee89ce2744a819a9165f97544c79051f4428f971a0f",
+  "before": {
+    "authoring": {
+      "source": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "status": ""
+    },
+    "native": {
+      "source": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    }
+  },
+  "after": {
+    "authoring": {
+      "source": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "status": ""
+    },
+    "native": {
+      "source": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    }
+  },
+  "beforeAfterSameClean": true,
+  "separateSingleTestOnly": true,
+  "fullSession24551Restarted": false,
+  "fullSuiteRerun": false,
+  "sourceEdited": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "rawStderrPhysicalSha256": "343712fcd3037ad208f1d2cb5041cfaaea4995038900cd26f3c492b64e971d00",
+  "rawStdoutPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "decodedRepresentation": "WSL host warning UTF16LE prefix plus UTF8 unittest text; exact original stdout/stderr bytes retained.",
+  "testCasesRun": 1,
+  "testDurationSeconds": 4.932,
+  "error": "AttributeError: BoundedReader has no attribute seek",
+  "sourceLine": 1330
+}

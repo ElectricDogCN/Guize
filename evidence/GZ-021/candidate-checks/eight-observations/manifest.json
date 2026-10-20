@@ -1,0 +1,1103 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUTC": "2026-10-19T05:58:16.954572+00:00",
+  "representation": "zlib-base64 exact original physical bytes, ASCII LF76; raw BOM/encoding retained",
+  "fileSelectionSha256": "62fbd65e142b0c6358efa6e702b56d0d8c78d7619eeeea0981b4fc305bfb506d",
+  "sourceParent": "bd1155f9dea9e3a65ae7b7f16eef2a41a30ae05d",
+  "parentTree": "270c855551ff3ee92d1386fa528c25e58d6f4f9b",
+  "rootContentReviewSha256": "d86dbb3a834da53180bfc26fc46063045d8e5eb6e30756b1c783f94e452ba990",
+  "candidateHashes": {
+    "specs/poc/check_program.py": "91756f06ab7d2bc3b93f5f15ddd43a70a8e9c993214bcf1ec022c2930dc8db31",
+    "specs/poc/program.schema.yaml": "dc69af51eb1c134823d73d96f8ef881359b79aabd605edcfdc6211c502813c91",
+    "specs/poc/test_program.py": "7f38f067ebb545aa890f865c03dc2109964ac0595a791bfff4f41325122ca00b"
+  },
+  "rootReadAndMechanicallyVerifiedComposition": true,
+  "originalTestMethodCount": 208,
+  "changedOriginalMethods": [
+    163,
+    164,
+    167,
+    184,
+    186
+  ],
+  "unchangedOriginalMethodAstCount": 203,
+  "originalUnittestSelfAssertCallCount": 469,
+  "allOriginalSelfAssertCallsRetainedInOrder": true,
+  "historicalExecutionsNeverSummed": true,
+  "historicalChecks": [
+    {
+      "stage": "storage frontend candidate",
+      "originalMethods": [
+        184,
+        186
+      ],
+      "originalRan": 2,
+      "reportedSeconds": 612.291,
+      "passed": 2,
+      "errors": 0,
+      "exitCode": 0
+    },
+    {
+      "stage": "first typed recovery candidate",
+      "originalMethods": [
+        163,
+        164,
+        167,
+        168,
+        202,
+        203
+      ],
+      "originalRan": 6,
+      "reportedSeconds": 597.939,
+      "passed": 5,
+      "errors": 1,
+      "errorMethods": [
+        163
+      ],
+      "exitCode": 1
+    },
+    {
+      "stage": "path-key v2 recovery candidate",
+      "originalMethods": [
+        163
+      ],
+      "originalRan": 1,
+      "reportedSeconds": 305.861,
+      "passed": 1,
+      "errors": 0,
+      "exitCode": 0
+    }
+  ],
+  "parentExecutionManifest": "evidence/GZ-021/executions/bd1155f9dea9e3a65ae7b7f16eef2a41a30ae05d/manifest.json",
+  "parentFinalRecordsPendingAtThisCandidateArchive": true,
+  "preparedCurrentSelection": {
+    "count": 25,
+    "numbers": [
+      98,
+      99,
+      100,
+      111,
+      112,
+      113,
+      127,
+      142,
+      144,
+      147,
+      163,
+      164,
+      166,
+      167,
+      168,
+      173,
+      184,
+      186,
+      189,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207
+    ],
+    "otherRequiredCurrentSourceCommands": 19,
+    "notExecutedOnUnpublishedCombinedSource": true
+  },
+  "combinedCandidateTestsExecuted": false,
+  "sourcePublished": false,
+  "futureOwnCiStarted": false,
+  "full208OnSuccessor": false,
+  "legacyLocal20Accepted": false,
+  "local20Accepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "files": [
+    {
+      "group": "eight-finding-snapshot",
+      "originalName": ".takeover-tools/gz021-bd1155f-new-eight-threads-20261019-0513.json",
+      "path": "files/001-gz021-bd1155f-new-eight-threads-20261019-0513.json.zlib.b64",
+      "originalPhysicalSha256": "4cd2dd82bb935804fdb985cc28d8d3d6b858d2e065fab3b4234fde2b71c894bd",
+      "originalPhysicalBytes": 14452,
+      "packedSha256": "56e33a2ce604d3d6ac659991193805fd562f41cafe37fb2b0060f651fe0836c3",
+      "packedBytes": 4102
+    },
+    {
+      "group": "storage-frontend-reviewed-preparation",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/repair.patch",
+      "path": "files/002-repair.patch.zlib.b64",
+      "originalPhysicalSha256": "577c5af5b7791c5053aa60992e40acbbcfc313761dbf93ca2a4224060425e4ab",
+      "originalPhysicalBytes": 34492,
+      "packedSha256": "8350ca4f15ad8390f5618e38008cfb8c93a91d1fba5c7d062a921b03273add08",
+      "packedBytes": 9824
+    },
+    {
+      "group": "storage-frontend-reviewed-preparation",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/preparation.json",
+      "path": "files/003-preparation.json.zlib.b64",
+      "originalPhysicalSha256": "8751375fa356131a475f681bd1af492ef3ccf845cb60ce152b2aea63b0645766",
+      "originalPhysicalBytes": 3076,
+      "packedSha256": "b2b16f71e20ccb85be04ddc43c9c792b6676ab7000e103802828e98c9f1b7500",
+      "packedBytes": 1857
+    },
+    {
+      "group": "storage-frontend-reviewed-preparation",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/run_targeted_once.py",
+      "path": "files/004-run_targeted_once.py.zlib.b64",
+      "originalPhysicalSha256": "8d7f46e9491d1f17f34bcb2eb3015518d6dd6dfb7b47438ff041a704875f9eb2",
+      "originalPhysicalBytes": 8615,
+      "packedSha256": "04066b0001bb8b41dcdf3f42ceccd19241f107386f92d2af5abd394226b4f937",
+      "packedBytes": 4803
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-authoring-branch.stderr.raw",
+      "path": "files/005-after-authoring-branch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-authoring-branch.stdout.raw",
+      "path": "files/006-after-authoring-branch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "602ceb48b1e481deb15a0fccbb1347b0b8e6af45e096fa9098a85a5c2cb31800",
+      "originalPhysicalBytes": 28,
+      "packedSha256": "6ba71876476bb5ba8c181ec49335c128debea9c8add40addf9a6b09e7aa4dcf5",
+      "packedBytes": 49
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-authoring-head.stderr.raw",
+      "path": "files/007-after-authoring-head.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-authoring-head.stdout.raw",
+      "path": "files/008-after-authoring-head.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "546ed7d790efecac459485c813ccf4aff8891624ce92975815d4fb867338958e",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "cf2d2dfd2737f61cdb3f2ec92f92e676c6d372abc023514865dd589bc722cb0b",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-authoring-status.stderr.raw",
+      "path": "files/009-after-authoring-status.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-authoring-status.stdout.raw",
+      "path": "files/010-after-authoring-status.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-authoring-tree.stderr.raw",
+      "path": "files/011-after-authoring-tree.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-authoring-tree.stdout.raw",
+      "path": "files/012-after-authoring-tree.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "ee32c8a8477f6394fc6b9a588eecca80d29d4dc8b706d148e45c92cbacb06359",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "f360508234ab93991a6e4ee2654e830a8eb2974ca72f113283428382f60d1ff5",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-coordinator-branch.stderr.raw",
+      "path": "files/013-after-coordinator-branch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-coordinator-branch.stdout.raw",
+      "path": "files/014-after-coordinator-branch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "6403203dd5a0867eb14d104ee8a73730bd72dd9ad92e78d996a6dba0a5dcfc01",
+      "originalPhysicalBytes": 5,
+      "packedSha256": "dbae8ae4483a629849160fa163987d721092b102c190eff51223a5bcaa059bff",
+      "packedBytes": 21
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-coordinator-head.stderr.raw",
+      "path": "files/015-after-coordinator-head.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-coordinator-head.stdout.raw",
+      "path": "files/016-after-coordinator-head.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3ba1039a2babd20d3b26c3c529a8dc8d833dea47a62e49e3cfbe214f5536dae",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "d36b97e2ef6866d7710bac034cdea7001979ae25aec19f9918900b5e4db93abe",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-coordinator-status.stderr.raw",
+      "path": "files/017-after-coordinator-status.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-coordinator-status.stdout.raw",
+      "path": "files/018-after-coordinator-status.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-coordinator-tree.stderr.raw",
+      "path": "files/019-after-coordinator-tree.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-coordinator-tree.stdout.raw",
+      "path": "files/020-after-coordinator-tree.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "43386378fe21a6941c3e3fc5f69496a0260332e47bdc97bf3e131445b6eae7f5",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "f1a852b74172bb334890097cd23da1095e59ab7658653d25d8d6d0958f93a413",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-native-branch.stderr.raw",
+      "path": "files/021-after-native-branch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-native-branch.stdout.raw",
+      "path": "files/022-after-native-branch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "602ceb48b1e481deb15a0fccbb1347b0b8e6af45e096fa9098a85a5c2cb31800",
+      "originalPhysicalBytes": 28,
+      "packedSha256": "6ba71876476bb5ba8c181ec49335c128debea9c8add40addf9a6b09e7aa4dcf5",
+      "packedBytes": 49
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-native-head.stderr.raw",
+      "path": "files/023-after-native-head.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-native-head.stdout.raw",
+      "path": "files/024-after-native-head.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "546ed7d790efecac459485c813ccf4aff8891624ce92975815d4fb867338958e",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "cf2d2dfd2737f61cdb3f2ec92f92e676c6d372abc023514865dd589bc722cb0b",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-native-status.stderr.raw",
+      "path": "files/025-after-native-status.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-native-status.stdout.raw",
+      "path": "files/026-after-native-status.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-native-tree.stderr.raw",
+      "path": "files/027-after-native-tree.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/after-native-tree.stdout.raw",
+      "path": "files/028-after-native-tree.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "ee32c8a8477f6394fc6b9a588eecca80d29d4dc8b706d148e45c92cbacb06359",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "f360508234ab93991a6e4ee2654e830a8eb2974ca72f113283428382f60d1ff5",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/apply-patch.stderr.raw",
+      "path": "files/029-apply-patch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/apply-patch.stdout.raw",
+      "path": "files/030-apply-patch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-authoring-branch.stderr.raw",
+      "path": "files/031-before-authoring-branch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-authoring-branch.stdout.raw",
+      "path": "files/032-before-authoring-branch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "602ceb48b1e481deb15a0fccbb1347b0b8e6af45e096fa9098a85a5c2cb31800",
+      "originalPhysicalBytes": 28,
+      "packedSha256": "6ba71876476bb5ba8c181ec49335c128debea9c8add40addf9a6b09e7aa4dcf5",
+      "packedBytes": 49
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-authoring-head.stderr.raw",
+      "path": "files/033-before-authoring-head.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-authoring-head.stdout.raw",
+      "path": "files/034-before-authoring-head.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "546ed7d790efecac459485c813ccf4aff8891624ce92975815d4fb867338958e",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "cf2d2dfd2737f61cdb3f2ec92f92e676c6d372abc023514865dd589bc722cb0b",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-authoring-status.stderr.raw",
+      "path": "files/035-before-authoring-status.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-authoring-status.stdout.raw",
+      "path": "files/036-before-authoring-status.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-authoring-tree.stderr.raw",
+      "path": "files/037-before-authoring-tree.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-authoring-tree.stdout.raw",
+      "path": "files/038-before-authoring-tree.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "ee32c8a8477f6394fc6b9a588eecca80d29d4dc8b706d148e45c92cbacb06359",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "f360508234ab93991a6e4ee2654e830a8eb2974ca72f113283428382f60d1ff5",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-coordinator-branch.stderr.raw",
+      "path": "files/039-before-coordinator-branch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-coordinator-branch.stdout.raw",
+      "path": "files/040-before-coordinator-branch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "6403203dd5a0867eb14d104ee8a73730bd72dd9ad92e78d996a6dba0a5dcfc01",
+      "originalPhysicalBytes": 5,
+      "packedSha256": "dbae8ae4483a629849160fa163987d721092b102c190eff51223a5bcaa059bff",
+      "packedBytes": 21
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-coordinator-head.stderr.raw",
+      "path": "files/041-before-coordinator-head.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-coordinator-head.stdout.raw",
+      "path": "files/042-before-coordinator-head.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3ba1039a2babd20d3b26c3c529a8dc8d833dea47a62e49e3cfbe214f5536dae",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "d36b97e2ef6866d7710bac034cdea7001979ae25aec19f9918900b5e4db93abe",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-coordinator-status.stderr.raw",
+      "path": "files/043-before-coordinator-status.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-coordinator-status.stdout.raw",
+      "path": "files/044-before-coordinator-status.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-coordinator-tree.stderr.raw",
+      "path": "files/045-before-coordinator-tree.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-coordinator-tree.stdout.raw",
+      "path": "files/046-before-coordinator-tree.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "43386378fe21a6941c3e3fc5f69496a0260332e47bdc97bf3e131445b6eae7f5",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "f1a852b74172bb334890097cd23da1095e59ab7658653d25d8d6d0958f93a413",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-native-branch.stderr.raw",
+      "path": "files/047-before-native-branch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-native-branch.stdout.raw",
+      "path": "files/048-before-native-branch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "602ceb48b1e481deb15a0fccbb1347b0b8e6af45e096fa9098a85a5c2cb31800",
+      "originalPhysicalBytes": 28,
+      "packedSha256": "6ba71876476bb5ba8c181ec49335c128debea9c8add40addf9a6b09e7aa4dcf5",
+      "packedBytes": 49
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-native-head.stderr.raw",
+      "path": "files/049-before-native-head.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-native-head.stdout.raw",
+      "path": "files/050-before-native-head.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "546ed7d790efecac459485c813ccf4aff8891624ce92975815d4fb867338958e",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "cf2d2dfd2737f61cdb3f2ec92f92e676c6d372abc023514865dd589bc722cb0b",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-native-status.stderr.raw",
+      "path": "files/051-before-native-status.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-native-status.stdout.raw",
+      "path": "files/052-before-native-status.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-native-tree.stderr.raw",
+      "path": "files/053-before-native-tree.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/before-native-tree.stdout.raw",
+      "path": "files/054-before-native-tree.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "ee32c8a8477f6394fc6b9a588eecca80d29d4dc8b706d148e45c92cbacb06359",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "f360508234ab93991a6e4ee2654e830a8eb2974ca72f113283428382f60d1ff5",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/changed-paths-before.stderr.raw",
+      "path": "files/055-changed-paths-before.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/changed-paths-before.stdout.raw",
+      "path": "files/056-changed-paths-before.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "38434b7b3291cc128fb82767aebcb2317f8ff46cec965500ccb1aae19bec2775",
+      "originalPhysicalBytes": 83,
+      "packedSha256": "05e87588e1602a2fb4daf724c244344436dba66873fbcb373de7b756fa9732ff",
+      "packedBytes": 82
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/check-patch.stderr.raw",
+      "path": "files/057-check-patch.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/check-patch.stdout.raw",
+      "path": "files/058-check-patch.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/checkout.stderr.raw",
+      "path": "files/059-checkout.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "391d4f481e56526e0d7e58337dec9a133b3093f163a81cb451209763c6f42407",
+      "originalPhysicalBytes": 97,
+      "packedSha256": "534c4ab6c7f54d76016708b300c9ef80d732071d6ff5fbb847729042f9cc7aec",
+      "packedBytes": 130
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/checkout.stdout.raw",
+      "path": "files/060-checkout.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/clone-status-after.stderr.raw",
+      "path": "files/061-clone-status-after.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/clone-status-after.stdout.raw",
+      "path": "files/062-clone-status-after.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "dc38cc62e4cbfe9a68d32c3df008d8fa3fa4ed0239209500b7c0bb312c20f726",
+      "originalPhysicalBytes": 92,
+      "packedSha256": "878eb224093c228d07e0031dc2712ed4e5240f4d0c48e752cc3357a9f7c2b3d2",
+      "packedBytes": 86
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/clone-status-before.stderr.raw",
+      "path": "files/063-clone-status-before.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/clone-status-before.stdout.raw",
+      "path": "files/064-clone-status-before.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "dc38cc62e4cbfe9a68d32c3df008d8fa3fa4ed0239209500b7c0bb312c20f726",
+      "originalPhysicalBytes": 92,
+      "packedSha256": "878eb224093c228d07e0031dc2712ed4e5240f4d0c48e752cc3357a9f7c2b3d2",
+      "packedBytes": 86
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/clone.stderr.raw",
+      "path": "files/065-clone.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "4698ead6eedf311986781f063caa4883ea8f87fa3fd4447c60aea905acb60c2d",
+      "originalPhysicalBytes": 69,
+      "packedSha256": "85f204f56fd1c9d7f84a22439c02c47e841129a10c30d53e5ad0b080c85bbc78",
+      "packedBytes": 106
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/clone.stdout.raw",
+      "path": "files/066-clone.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/receipt.json",
+      "path": "files/067-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "87de83c80db7befaa8c26b8dd346d77d011b268b83311721cef3d94c4e91cabb",
+      "originalPhysicalBytes": 39230,
+      "packedSha256": "853563a0ed969d9d777585323e977c358f51b017ff31952ed581dab3f511640c",
+      "packedBytes": 5905
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-clean-after.stderr.raw",
+      "path": "files/068-source-clean-after.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-clean-after.stdout.raw",
+      "path": "files/069-source-clean-after.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-clean.stderr.raw",
+      "path": "files/070-source-clean.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-clean.stdout.raw",
+      "path": "files/071-source-clean.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-head-after.stderr.raw",
+      "path": "files/072-source-head-after.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-head-after.stdout.raw",
+      "path": "files/073-source-head-after.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "546ed7d790efecac459485c813ccf4aff8891624ce92975815d4fb867338958e",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "cf2d2dfd2737f61cdb3f2ec92f92e676c6d372abc023514865dd589bc722cb0b",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-head.stderr.raw",
+      "path": "files/074-source-head.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-head.stdout.raw",
+      "path": "files/075-source-head.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "546ed7d790efecac459485c813ccf4aff8891624ce92975815d4fb867338958e",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "cf2d2dfd2737f61cdb3f2ec92f92e676c6d372abc023514865dd589bc722cb0b",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-tree-after.stderr.raw",
+      "path": "files/076-source-tree-after.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-tree-after.stdout.raw",
+      "path": "files/077-source-tree-after.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "ee32c8a8477f6394fc6b9a588eecca80d29d4dc8b706d148e45c92cbacb06359",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "f360508234ab93991a6e4ee2654e830a8eb2974ca72f113283428382f60d1ff5",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-tree.stderr.raw",
+      "path": "files/078-source-tree.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/source-tree.stdout.raw",
+      "path": "files/079-source-tree.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "ee32c8a8477f6394fc6b9a588eecca80d29d4dc8b706d148e45c92cbacb06359",
+      "originalPhysicalBytes": 41,
+      "packedSha256": "f360508234ab93991a6e4ee2654e830a8eb2974ca72f113283428382f60d1ff5",
+      "packedBytes": 65
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/tests.stderr.raw",
+      "path": "files/080-tests.stderr.raw.zlib.b64",
+      "originalPhysicalSha256": "a3c3e0c5e9105c70bf8acbbb031340869fcdeaa7d887d1016724c3273aa79e15",
+      "originalPhysicalBytes": 454,
+      "packedSha256": "d57b1efaf924218ad6956f83dd1b3dda95e721705b398881442d2e0200db0083",
+      "packedBytes": 248
+    },
+    {
+      "group": "storage-frontend-single-run2-all-command-raw-and-receipt",
+      "originalName": ".takeover-tools/gz021-bd1155f-storage-frontend-repair/targeted2-results-v1/tests.stdout.raw",
+      "path": "files/081-tests.stdout.raw.zlib.b64",
+      "originalPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPhysicalBytes": 0,
+      "packedSha256": "ac1490a153593c4e8cd6e7be02556f341ec1742efd3fca668b53deb2727c7783",
+      "packedBytes": 13
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/final-small-schema-proof.json",
+      "path": "files/082-final-small-schema-proof.json.zlib.b64",
+      "originalPhysicalSha256": "9cc938380318e3b46cead4affbe280d26e9627078fcd12170f7699e0a4d5461c",
+      "originalPhysicalBytes": 9106,
+      "packedSha256": "667d64f2be71930bf9b93507ec37c2c92316dd0fc698f8903e5e99bc4a5ea1e8",
+      "packedBytes": 4552
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/final-small-schema.patch",
+      "path": "files/083-final-small-schema.patch.zlib.b64",
+      "originalPhysicalSha256": "cba05233b67a40eb9ef4f97aea30c56ccc6e16043be3c091298aebeaf0c30117",
+      "originalPhysicalBytes": 44220,
+      "packedSha256": "71c3a6083765ada129d2f0ef02f3d7bd99beb4a86c01360364cb0add2aee5f56",
+      "packedBytes": 13350
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/final-typed-browse-proof.json",
+      "path": "files/084-final-typed-browse-proof.json.zlib.b64",
+      "originalPhysicalSha256": "f08e44a7d9afdabe80b4bc3e748206607d88553901253c0d2004fdb7bb63f920",
+      "originalPhysicalBytes": 10448,
+      "packedSha256": "520848617da2a20ae4731fc3ed82e58d27fc4d89ffed6f9cadcbf20c4b36d738",
+      "packedBytes": 5212
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/final-typed-browse.patch",
+      "path": "files/085-final-typed-browse.patch.zlib.b64",
+      "originalPhysicalSha256": "bad656283a5aca262066d8e9b2a03bf0c80235ea1c544fb5d7f8cdc2cba8749b",
+      "originalPhysicalBytes": 44493,
+      "packedSha256": "e1a63bfd4ec24b29bc6629d2672b29453f531e951a5ba9d465a4994285ebd0ae",
+      "packedBytes": 13439
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/mechanical-proof-first-expanded-schema.json",
+      "path": "files/086-mechanical-proof-first-expanded-schema.json.zlib.b64",
+      "originalPhysicalSha256": "460d033e312348f871466e11cd237a134fa0e2b3f45cb955d9f3b36d279ba63d",
+      "originalPhysicalBytes": 7609,
+      "packedSha256": "ed4191b8411d380dbcaf1d476660e27572cbfbee96fd3f515d761f9412cecd52",
+      "packedBytes": 3948
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/mechanical-proof.json",
+      "path": "files/087-mechanical-proof.json.zlib.b64",
+      "originalPhysicalSha256": "460d033e312348f871466e11cd237a134fa0e2b3f45cb955d9f3b36d279ba63d",
+      "originalPhysicalBytes": 7609,
+      "packedSha256": "ed4191b8411d380dbcaf1d476660e27572cbfbee96fd3f515d761f9412cecd52",
+      "packedBytes": 3948
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/recovery-five-observations-first-expanded-schema.patch",
+      "path": "files/088-recovery-five-observations-first-expanded-schema.patch.zlib.b64",
+      "originalPhysicalSha256": "bb419d62198403a303b357cb277eecd2e27b79de2d772b78a185817f2c6950d0",
+      "originalPhysicalBytes": 52360,
+      "packedSha256": "4552dc51e8e5cb744c87ef8b99b0813ed282385cc53b4e9219e6fa2024d4334e",
+      "packedBytes": 14963
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/recovery-five-observations.patch",
+      "path": "files/089-recovery-five-observations.patch.zlib.b64",
+      "originalPhysicalSha256": "bb419d62198403a303b357cb277eecd2e27b79de2d772b78a185817f2c6950d0",
+      "originalPhysicalBytes": 52360,
+      "packedSha256": "4552dc51e8e5cb744c87ef8b99b0813ed282385cc53b4e9219e6fa2024d4334e",
+      "packedBytes": 14963
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/run_six_once.py",
+      "path": "files/090-run_six_once.py.zlib.b64",
+      "originalPhysicalSha256": "3e70dc2871fcb33e5177238c1f6d32b550a209a8416487f85a96b0c61fe05962",
+      "originalPhysicalBytes": 6461,
+      "packedSha256": "4333d2dfbeca51233ae264aa183fe28960dca35662ebb501d8a512e471a20585",
+      "packedBytes": 3745
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/targeted-six-receipt.json",
+      "path": "files/091-targeted-six-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "f47b7791b5f54e5752ddfd4f1ead3f5ca3b17d85d27836deb62eb5febb5c559b",
+      "originalPhysicalBytes": 5412,
+      "packedSha256": "63b4bc43e54516ea3605c6a0270653f2556c227206660f41932fdb10224c47d9",
+      "packedBytes": 2310
+    },
+    {
+      "group": "recovery-all-variants-and-failed-run6",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair/targeted-six.raw",
+      "path": "files/092-targeted-six.raw.zlib.b64",
+      "originalPhysicalSha256": "2a4cfd660bee35305dd427b98e7722764dfeaf1cde46a2dd848467d79710dce5",
+      "originalPhysicalBytes": 3095,
+      "packedSha256": "34f314655c1051e68ed0baaf06ebddfd87ce6dbbc35746ab9f910d61080fe0ef",
+      "packedBytes": 1220
+    },
+    {
+      "group": "recovery-path-key-fix-and-separate-run1",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair-v2/helper-path-key-v2-proof.json",
+      "path": "files/093-helper-path-key-v2-proof.json.zlib.b64",
+      "originalPhysicalSha256": "4d568ff551c95ec1a280267344606380e7945b52d5fbd37e4bb7a664b46eac5a",
+      "originalPhysicalBytes": 3004,
+      "packedSha256": "81b8dbbc81af25ed4b863771b4ddd910e515f9d16ed1705671ddf95b45c87882",
+      "packedBytes": 1974
+    },
+    {
+      "group": "recovery-path-key-fix-and-separate-run1",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair-v2/helper-path-key-v2.patch",
+      "path": "files/094-helper-path-key-v2.patch.zlib.b64",
+      "originalPhysicalSha256": "fd24c37e11e26f7708fe01b1edf7f870d4fea7ae56e662196f0d6093d2ea9ea6",
+      "originalPhysicalBytes": 44492,
+      "packedSha256": "921bd4c5eab79e7ab2552770241c84c0df0454f8ded17816532fd092eda18afe",
+      "packedBytes": 13435
+    },
+    {
+      "group": "recovery-path-key-fix-and-separate-run1",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair-v2/run_163_once.py",
+      "path": "files/095-run_163_once.py.zlib.b64",
+      "originalPhysicalSha256": "3041b833194d119af62e537880f00fd73ad7684637e0cb4b14b1f41533010b36",
+      "originalPhysicalBytes": 6383,
+      "packedSha256": "f0b560c676dc193457337683ab53965df6fef6b898420f7c5f0d890c71408bd8",
+      "packedBytes": 3709
+    },
+    {
+      "group": "recovery-path-key-fix-and-separate-run1",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair-v2/targeted-163-receipt.json",
+      "path": "files/096-targeted-163-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "65e0c5c823af126c1f32e93b996ce8e1548cb8cc07b400c1048a29365e860452",
+      "originalPhysicalBytes": 4892,
+      "packedSha256": "e09894cbb375e3b55973ec561b18038f00fdc40af56a07bfd2e49e4f91ada911",
+      "packedBytes": 2071
+    },
+    {
+      "group": "recovery-path-key-fix-and-separate-run1",
+      "originalName": ".takeover-tools/gz021-bd1155f-recovery-observations-repair-v2/targeted-163.raw",
+      "path": "files/097-targeted-163.raw.zlib.b64",
+      "originalPhysicalSha256": "b1fd137d850024c4474b716792cac87493d32a98a5adbdc5e840a65c7df34696",
+      "originalPhysicalBytes": 814,
+      "packedSha256": "11f78494ca7a5953d9d0ad3b03798c22936fba6075d7d6183e28e2a4a97abb17",
+      "packedBytes": 568
+    },
+    {
+      "group": "preliminary-combination",
+      "originalName": ".takeover-tools/gz021-eight-observations-final-staging/combined.patch",
+      "path": "files/098-combined.patch.zlib.b64",
+      "originalPhysicalSha256": "84333795e8b2d0c5aa85960bd6d1dd985fc453bc4d7e763afff6a9fbeb2e3d41",
+      "originalPhysicalBytes": 78902,
+      "packedSha256": "5642f3b58085a482d3dfae1e502ad47604cd1f4943e8bcb5aca4bd873e9e6a5e",
+      "packedBytes": 22403
+    },
+    {
+      "group": "preliminary-combination",
+      "originalName": ".takeover-tools/gz021-eight-observations-final-staging/mechanical-proof.json",
+      "path": "files/099-mechanical-proof.json.zlib.b64",
+      "originalPhysicalSha256": "d4cc3ee2b441abe72365cb8e7c0fddf919313659f0e73c10cf3a587dafa8a15b",
+      "originalPhysicalBytes": 8877,
+      "packedSha256": "7f89186bbd4703502cf84c2e1b2e8d5e3747bf6e25b6163d27cda07f147b8282",
+      "packedBytes": 3842
+    },
+    {
+      "group": "final-combination",
+      "originalName": ".takeover-tools/gz021-eight-observations-v2-final-staging/combined.patch",
+      "path": "files/100-combined.patch.zlib.b64",
+      "originalPhysicalSha256": "3032097ddde2e9e9eefb17ee1be093ea96c66a78647939a113117723c29d8c22",
+      "originalPhysicalBytes": 78901,
+      "packedSha256": "f0c72f552bc124c7a9924316a04fa252afc12b52024d009a47097fc59f1ccb69",
+      "packedBytes": 22399
+    },
+    {
+      "group": "final-combination",
+      "originalName": ".takeover-tools/gz021-eight-observations-v2-final-staging/mechanical-proof.json",
+      "path": "files/101-mechanical-proof.json.zlib.b64",
+      "originalPhysicalSha256": "9020bece43353f027a7385d02d37c9d131da595d5f59081b91bac057ba58bace",
+      "originalPhysicalBytes": 6669,
+      "packedSha256": "24041f145d44e24e2f7e83e8b84ccc12f0fe0e06527829710c771780f4c832df",
+      "packedBytes": 3478
+    },
+    {
+      "group": "root-content-review-original-zero-count-and-corrected469",
+      "originalName": ".takeover-tools/gz021-root-eight-observations-v2-composition-review.json",
+      "path": "files/102-gz021-root-eight-observations-v2-composition-review.json.zlib.b64",
+      "originalPhysicalSha256": "e1a14c758d961fabf87158a01b863d35671daca0e8893f6a927d7d40e558c68c",
+      "originalPhysicalBytes": 2851,
+      "packedSha256": "a7eeca7dbf58b93452e5bca55baca63484df331e09997c1e460a061226324524",
+      "packedBytes": 1634
+    },
+    {
+      "group": "root-content-review-original-zero-count-and-corrected469",
+      "originalName": ".takeover-tools/gz021-root-eight-observations-v2-composition-accepted.json",
+      "path": "files/103-gz021-root-eight-observations-v2-composition-accepted.json.zlib.b64",
+      "originalPhysicalSha256": "d86dbb3a834da53180bfc26fc46063045d8e5eb6e30756b1c783f94e452ba990",
+      "originalPhysicalBytes": 3565,
+      "packedSha256": "1a974a0a17f5c1c35ac1a1dc93d1df39ebdb929636b4719de90082cb56782a55",
+      "packedBytes": 2116
+    },
+    {
+      "group": "root-additional-stable-preparation",
+      "originalName": ".takeover-tools/gz021-eight-observations-checkpoint-preparation/archive-file-list.json",
+      "path": "files/104-archive-file-list.json.zlib.b64",
+      "originalPhysicalSha256": "62fbd65e142b0c6358efa6e702b56d0d8c78d7619eeeea0981b4fc305bfb506d",
+      "originalPhysicalBytes": 43142,
+      "packedSha256": "380fee4fbf4b83bbafc47b46f14221c62510d70a30713b26e6f467990533213e",
+      "packedBytes": 8175
+    },
+    {
+      "group": "root-additional-stable-preparation",
+      "originalName": ".takeover-tools/verify_gz021_affected25_successor.py",
+      "path": "files/105-verify_gz021_affected25_successor.py.zlib.b64",
+      "originalPhysicalSha256": "a00edc7343c87d9a28b814a58a27d58033e3f936d7ad23577734d3ff2ef2f77d",
+      "originalPhysicalBytes": 16576,
+      "packedSha256": "92f7079ccf12b0d0d478278362c6a2be0ffb9e51a34c62da34481c809a428b45",
+      "packedBytes": 8466
+    },
+    {
+      "group": "root-additional-stable-preparation",
+      "originalName": ".takeover-tools/gz021-affected25-successor-preparation.diff",
+      "path": "files/106-gz021-affected25-successor-preparation.diff.zlib.b64",
+      "originalPhysicalSha256": "31f0c4cc6f535faa80b75ff6a694e51db9b0b2cdd6d30c6837f37cf3d73ecfb0",
+      "originalPhysicalBytes": 43377,
+      "packedSha256": "06f996a9930e124ba042011cb0d58a4d2d41223dde26504a866a4168dee00243",
+      "packedBytes": 17289
+    },
+    {
+      "group": "root-additional-stable-preparation",
+      "originalName": ".takeover-tools/gz021-eight-observations-v2-private-application.json",
+      "path": "files/107-gz021-eight-observations-v2-private-application.json.zlib.b64",
+      "originalPhysicalSha256": "8a974a2ff3f0ab6006ab401df7dbe1134de5b7ca700d7418ae213774080195ed",
+      "originalPhysicalBytes": 1677,
+      "packedSha256": "f5138fba430c1840ebe75d03e2ff4192a0622eee54c2b8912877c3038e69e7b6",
+      "packedBytes": 1281
+    },
+    {
+      "group": "root-additional-stable-preparation",
+      "originalName": ".takeover-tools/gz021-eight-observations-checkpoint-preparation/handoff-checkpoint.md.in",
+      "path": "files/108-handoff-checkpoint.md.in.zlib.b64",
+      "originalPhysicalSha256": "2cfcafadb17c7d3c63ab9290f02ec3693f52d02ff791e0e78fbd36966dc510bf",
+      "originalPhysicalBytes": 2498,
+      "packedSha256": "248c9e4862a6afd18326d5754be2ea7b9288727affcd3dbe3b2e43dcaad66376",
+      "packedBytes": 1836
+    },
+    {
+      "group": "root-additional-stable-preparation",
+      "originalName": ".takeover-tools/gz021-eight-observations-checkpoint-preparation/poc-readme-checkpoint.md.in",
+      "path": "files/109-poc-readme-checkpoint.md.in.zlib.b64",
+      "originalPhysicalSha256": "c925c0ce7b69791b619e03a1b6fe8fa51c9eb8a93b0b70c475e6af5564b98336",
+      "originalPhysicalBytes": 2466,
+      "packedSha256": "a4283c17ad77a9e518e3f3ea2f56dabd0b2f50cd83ca034b61f7e77984d7542f",
+      "packedBytes": 1840
+    }
+  ],
+  "fileCount": 109,
+  "originalPhysicalBytes": 693789,
+  "packedBytes": 227297
+}

@@ -1,0 +1,197 @@
+{
+  "actualSource": "a701511d8445f47aa5c9971d603d5cfb87bc7efd",
+  "tree": "f39189058c32a88ed0e057ae74f4a85a58313abb",
+  "nativeExecutionAccepted": false,
+  "formalSourceAccepted": false,
+  "fullV1Complete": false,
+  "artifacts": [
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/task.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\task.txt",
+      "originalSha256": "de24b30d2753351603f6cb88d519b6d177dc60942017e9b800a5b946ed516ee2",
+      "originalByteCount": 260,
+      "canonicalSha256": "de24b30d2753351603f6cb88d519b6d177dc60942017e9b800a5b946ed516ee2",
+      "canonicalByteCount": 260
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/readiness.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\readiness.txt",
+      "originalSha256": "ced95a8537417f8b16defa7424633a06f1e6583ca07cdf191c3e85962f65d0d3",
+      "originalByteCount": 660,
+      "canonicalSha256": "ced95a8537417f8b16defa7424633a06f1e6583ca07cdf191c3e85962f65d0d3",
+      "canonicalByteCount": 660
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/schemas.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\schemas.txt",
+      "originalSha256": "dfc9bf7b2d83ee92da996a36c25d82019aaf4d5188ca7c4221ed39cb8063c746",
+      "originalByteCount": 1812,
+      "canonicalSha256": "dfc9bf7b2d83ee92da996a36c25d82019aaf4d5188ca7c4221ed39cb8063c746",
+      "canonicalByteCount": 1812
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/integrity.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\integrity.txt",
+      "originalSha256": "d2a052c689b4bd6369e7f30cc0d10a5cfbad939905bf6d6cf73d6de428df27b5",
+      "originalByteCount": 418,
+      "canonicalSha256": "d2a052c689b4bd6369e7f30cc0d10a5cfbad939905bf6d6cf73d6de428df27b5",
+      "canonicalByteCount": 418
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/history.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\history.txt",
+      "originalSha256": "3bf06283f17b450094e932164de85ecc62112b914f6cf7e037e4c44d97ca04d0",
+      "originalByteCount": 471,
+      "canonicalSha256": "3bf06283f17b450094e932164de85ecc62112b914f6cf7e037e4c44d97ca04d0",
+      "canonicalByteCount": 471
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/transitions.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\transitions.txt",
+      "originalSha256": "1272804fb08b1f70a3c2518946b631cc45d25c64958d555d0bcc4f7c7daa39fb",
+      "originalByteCount": 423,
+      "canonicalSha256": "1272804fb08b1f70a3c2518946b631cc45d25c64958d555d0bcc4f7c7daa39fb",
+      "canonicalByteCount": 423
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/finalization.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\finalization.txt",
+      "originalSha256": "6dcf3d1b4623abd9f91b7df763c469691b5097b6fdef95af2365bcf06ef59a13",
+      "originalByteCount": 343,
+      "canonicalSha256": "6dcf3d1b4623abd9f91b7df763c469691b5097b6fdef95af2365bcf06ef59a13",
+      "canonicalByteCount": 343
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/raw-lifecycle.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\raw-lifecycle.txt",
+      "originalSha256": "a1e66a71959ba86011d1872fb44431ef16ce3e5057c4289c37bb8f072e621601",
+      "originalByteCount": 490,
+      "canonicalSha256": "a1e66a71959ba86011d1872fb44431ef16ce3e5057c4289c37bb8f072e621601",
+      "canonicalByteCount": 490
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/lifecycle.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\lifecycle.txt",
+      "originalSha256": "dfae933bb340c21046368f8e2992eb1b63b874685f0ecbe0c21cd128b3a0f0a2",
+      "originalByteCount": 581,
+      "canonicalSha256": "dfae933bb340c21046368f8e2992eb1b63b874685f0ecbe0c21cd128b3a0f0a2",
+      "canonicalByteCount": 581
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/coordination.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\coordination.txt",
+      "originalSha256": "ab78cd652e442a82b52a81e436336352e1186e5a203e4107858eb1b5c29f5f25",
+      "originalByteCount": 382,
+      "canonicalSha256": "ab78cd652e442a82b52a81e436336352e1186e5a203e4107858eb1b5c29f5f25",
+      "canonicalByteCount": 382
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/scope.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\scope.txt",
+      "originalSha256": "3b559f931cd0f9536fce94806255b46c7beb4cadbead7e4bcce3cce8bc36b4a1",
+      "originalByteCount": 19426,
+      "canonicalSha256": "3b559f931cd0f9536fce94806255b46c7beb4cadbead7e4bcce3cce8bc36b4a1",
+      "canonicalByteCount": 19426
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/evidence.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\evidence.txt",
+      "originalSha256": "6d6f83a84ff2bd0844893fc5ca1035c8f6bf3651197a381b5c386d94f735eaf8",
+      "originalByteCount": 196,
+      "canonicalSha256": "6d6f83a84ff2bd0844893fc5ca1035c8f6bf3651197a381b5c386d94f735eaf8",
+      "canonicalByteCount": 196
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/unaffected.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\unaffected.txt",
+      "originalSha256": "5e4f266276fd94892df9840656ab0eb3291ba69333b1aeae4af48f5f15311d61",
+      "originalByteCount": 676,
+      "canonicalSha256": "5e4f266276fd94892df9840656ab0eb3291ba69333b1aeae4af48f5f15311d61",
+      "canonicalByteCount": 676
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/requirements-local.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\requirements-local.txt",
+      "originalSha256": "ea0b6fa8b3b0b32041ce6e94093ce93742fbb9940cb1f94c00daffdd41456ac0",
+      "originalByteCount": 327,
+      "canonicalSha256": "ea0b6fa8b3b0b32041ce6e94093ce93742fbb9940cb1f94c00daffdd41456ac0",
+      "canonicalByteCount": 327
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/requirements-production.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\requirements-production.txt",
+      "originalSha256": "fa74b4bea830e7e8c8cca6b4c0c45df3b2b151f08403e3cc3e444822bda8a594",
+      "originalByteCount": 331,
+      "canonicalSha256": "fa74b4bea830e7e8c8cca6b4c0c45df3b2b151f08403e3cc3e444822bda8a594",
+      "canonicalByteCount": 331
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/requirements-negative.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\requirements-negative.txt",
+      "originalSha256": "36cbcd36ac555228a37f352ebf7c7b8ebd32be570076845857db6dc949c95e1d",
+      "originalByteCount": 1881,
+      "canonicalSha256": "36cbcd36ac555228a37f352ebf7c7b8ebd32be570076845857db6dc949c95e1d",
+      "canonicalByteCount": 1881
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/poc-baseline.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\poc-baseline.txt",
+      "originalSha256": "3dd524e2af26e3bee66861a33de1948576e1f2db7428b9c7f09ca98bac8dbe72",
+      "originalByteCount": 230,
+      "canonicalSha256": "3dd524e2af26e3bee66861a33de1948576e1f2db7428b9c7f09ca98bac8dbe72",
+      "canonicalByteCount": 230
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/poc-tests.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\poc-tests.txt",
+      "originalSha256": "9c6ff2a52aab3ff3347f5541398b6c16af065b0ee49df9f6b9abd8c91e3a0959",
+      "originalByteCount": 21184,
+      "canonicalSha256": "9c6ff2a52aab3ff3347f5541398b6c16af065b0ee49df9f6b9abd8c91e3a0959",
+      "canonicalByteCount": 21184
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/status.json",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-results\\status.json",
+      "originalSha256": "17868cd118668eb81eef72ffd86af418cc28e34138b02951cf102a2994a16589",
+      "originalByteCount": 364,
+      "canonicalSha256": "17868cd118668eb81eef72ffd86af418cc28e34138b02951cf102a2994a16589",
+      "canonicalByteCount": 364
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/gz021-a701511-native146-failure-receipt.json",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-a701511-native146-failure-receipt.json",
+      "originalSha256": "6f545053ee2105bdab80b98894cefcf928df84aff2f59f28cfa2c95cc679a371",
+      "originalByteCount": 1873,
+      "canonicalSha256": "ac3389d17fe5d38c34c42d302ae7b03d4057449c039325be6196ba9b9220d5c2",
+      "canonicalByteCount": 1805
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/gz021-implementation-a701511-ci699.txt",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-ci699.txt",
+      "originalSha256": "98ede9756efa1a64d29b638e77934b5a1349289acd9016784d0c033b1928c4da",
+      "originalByteCount": 285798,
+      "canonicalSha256": "98ede9756efa1a64d29b638e77934b5a1349289acd9016784d0c033b1928c4da",
+      "canonicalByteCount": 285798
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/gz021-implementation-a701511-ci699-receipt.json",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-implementation-a701511-ci699-receipt.json",
+      "originalSha256": "6164077db5f2a4778a033e64ae24caa0329888154520db97c568a974e3f85cd1",
+      "originalByteCount": 48309,
+      "canonicalSha256": "60af477e1ed593e1b3acfcc2004ca1387754bc93519063d34469814da1fe45e0",
+      "canonicalByteCount": 47405
+    },
+    {
+      "path": "evidence/GZ-021/executions/a701511d8445f47aa5c9971d603d5cfb87bc7efd/gz021-independent-a701511-ci699-execution-receipt.json",
+      "originalLocation": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-a701511-ci699-execution-receipt.json",
+      "originalSha256": "a5eff1d205551ab611bf34f9afdbce6427df512e04598437bd7d9595c8f89980",
+      "originalByteCount": 1673,
+      "canonicalSha256": "d69b1618650db138aca2634fce19dcd64a4505d1d7e302b63ceaab1d5bd106e3",
+      "canonicalByteCount": 1628
+    }
+  ],
+  "canonicalization": "UTF-8 LF; preserve original physical digest and size",
+  "failedFull146Preserved": true,
+  "ci699ReceiptIncluded": true,
+  "ciExecutionAccepted": true
+}

@@ -1,0 +1,6 @@
+test_170_access_gates_bind_requests_acl_cache_and_actual_returned_bytes (specs.poc.test_program.TestPocProgram.test_170_access_gates_bind_requests_acl_cache_and_actual_returned_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 38.520s
+
+OK

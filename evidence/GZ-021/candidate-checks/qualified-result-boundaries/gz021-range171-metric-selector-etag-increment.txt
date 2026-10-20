@@ -1,0 +1,6 @@
+test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency (specs.poc.test_program.TestPocProgram.test_171_range_matrix_binds_response_slices_versions_cache_recovery_and_latency) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 66.214s
+
+OK

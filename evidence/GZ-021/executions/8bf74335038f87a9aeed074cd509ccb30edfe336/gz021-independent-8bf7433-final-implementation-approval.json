@@ -1,0 +1,181 @@
+{
+  "capturedAt": "2026-10-13T17:40:10.910504+00:00",
+  "actualSource": "8bf74335038f87a9aeed074cd509ccb30edfe336",
+  "tree": "3f1624b5b5287a258fe23eab2af9cb550f28a3f3",
+  "soleParent": "b0917c8946649ec816d2ace114293decd97c3869",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "expectedHead": "8bf74335038f87a9aeed074cd509ccb30edfe336",
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "ciAccepted": true,
+  "ciExecutionAccepted": true,
+  "local20ProofSha256": "54a9aaa25d0b31ef530b7e5b5461546e6ae7c79bb87102ef7a0aaf12a8a37e9c",
+  "ciProofSha256": "1225f1802ef6726bab07b0d47d31e22e1cd0a4b6c26a37ec40bc9f9e723d8526",
+  "priorFiniteContentBindingSha256": "b461befd9a6911b12ce7ceb7b3fd26efdb49d636305c7c5ac56cd4cfc22301d7",
+  "helperPreparationProofSha256": "5f5415ec858f6f6c489564c2964a225721ddd8eb0b58a3f858bede4cf94a0e1b",
+  "officialSnapshotSha256": "438ea75b86636b48c3c66c87a5530ee45e2f4e70ca4a7348b95913ca1c6080e1",
+  "pocRegressionTests": 154,
+  "pocRegressionDurationSeconds": 865.452,
+  "requirementsNegativeRejected": 35,
+  "governanceTests": 637,
+  "governanceDurationSeconds": 1109.03,
+  "failuresErrorsSkips": 0,
+  "ciRun": 38434938292,
+  "ciJob": 115426363935,
+  "ciSteps": 28,
+  "ciDurationSeconds": 1589.46,
+  "sourceCleanWorktrees": {
+    "authoring": {
+      "source": "8bf74335038f87a9aeed074cd509ccb30edfe336",
+      "tree": "3f1624b5b5287a258fe23eab2af9cb550f28a3f3",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "status": ""
+    },
+    "verification": {
+      "source": "8bf74335038f87a9aeed074cd509ccb30edfe336",
+      "tree": "3f1624b5b5287a258fe23eab2af9cb550f28a3f3",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    }
+  },
+  "beforeAfterSameClean": true,
+  "ownOriginalLease": {
+    "acquiredAt": "2026-10-12T23:44:45Z",
+    "expiresAt": "2026-10-19T23:44:45Z"
+  },
+  "exclusiveClaimCount": 46,
+  "moduleCount": 17,
+  "originalManifestUnchanged": true,
+  "issueOpen": true,
+  "prOpenMergeable": true,
+  "threadCount": 53,
+  "resolvedThreads": 48,
+  "unresolvedThreads": [
+    "PRRT_kwDOTgCQ3c6r-ZkI",
+    "PRRT_kwDOTgCQ3c6r-ZkQ",
+    "PRRT_kwDOTgCQ3c6r-ZkW",
+    "PRRT_kwDOTgCQ3c6r-Zkj",
+    "PRRT_kwDOTgCQ3c6r-Zkt"
+  ],
+  "dispositionSha256": "be85766c4118fa911f1c31c719fd184b40331b249f07cb9e1d8a6e0ab1965232",
+  "remainingFindings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r-ZkI",
+      "classification": "MATERIAL",
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          902,
+          906
+        ]
+      },
+      "confirmedCounter": "Production soak rawOutputRef aliases the phone thermal/background observation, which documents60 seconds, while approved soak claims48 hours; qualified validation still passes.",
+      "existingRequirement": "Frozen POC001 continuous A380 passthrough multi-day observation; existing new soak interval/floor remains enforced but raw observation identity/purpose is unbound.",
+      "minimumOwnedRepair": "Bind a dedicated nonempty typed observation to selected RES-A380-ESXI67 configuration, captured host/node identity and exact observed UTC interval. Reject physical-file alias with phone observation/media. Append an owned observation-report definition and bounded-parse the selected raw artifact; existing source/raw hash/slot rules stay.",
+      "directRegressions": [
+        "Dedicated correct observation positive",
+        "Phone observation/media ref or symlink alias negative",
+        "Wrong resource/node/configuration/interval or empty/malformed report negative"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r-ZkQ",
+      "classification": "MATERIAL_CONTRACT_GAP",
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          1222,
+          1239
+        ]
+      },
+      "confirmedCounter": "Both local and production POC001 accept explicit arbitrary NOT A VIDEO text after exact outputSHA/raw-artifact byte/hash and existing reviews synchronize; no decoder/probe result is required.",
+      "existingRequirement": "Local frozen plan worker_capabilities_reproducible explicitly says Execute AV1 encoding in captured Android VM; production device encode/usable media obligations remain. Mere synthetic fixture PASS is not an actual media/run claim.",
+      "minimumOwnedRepair": "Require a retained distinct selected-slot typed decoder/probe report tied to exact output artifact and SHA, validated node/encoder and concrete decoder build. Validate decodable AV1 codec and meaningful decoded frames/duration plus zero decode errors through appended owned definition. No need to make validator run a new media subsystem; real execution remains separately reviewed.",
+      "directRegressions": [
+        "Bound valid typed probe positive",
+        "Missing/wrong output SHA/node/build/codec or non-decodable/error report negative",
+        "Report physically aliases media/metadata negative"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r-ZkW",
+      "classification": "MATERIAL",
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          1888,
+          1893
+        ],
+        "plan": "specs/poc/plans/POC-009.yaml:82"
+      },
+      "confirmedCounter": "Both qualified POC009 profiles accept throughput0 items/s with original other measurements/gates intact.",
+      "existingRequirement": "Frozen POC009 inference throughput measures performed inference.",
+      "minimumOwnedRepair": "Qualified POC009 PASS must have finite numeric throughput>0, excluding boolean values. Retain zero in factual FAIL/inconclusive records; keep units/other measurements and original plan unchanged.",
+      "directRegressions": [
+        "Both profile positive throughput PASS",
+        "Zero/negative/boolean PASS rejected",
+        "FAIL/inconclusive zero preserved"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r-Zkj",
+      "classification": "MATERIAL_BOUNDARY_GAP",
+      "sourceEvidence": {
+        "path": "specs/poc/program.schema.yaml",
+        "lines": [
+          913,
+          915
+        ],
+        "checker": "specs/poc/check_program.py:503"
+      },
+      "confirmedCounter": "Local POC005 accepts /etc and ../../outside generator.rootPath with exact approved capturedSettings and matching hierarchy counts.",
+      "existingRequirement": "AGENTS no path traversal/arbitrary reads; approved controlled synthetic/scanner sandbox boundary. A mandatory normalized-relative representation is a smallest implementation choice, not a previously frozen field format.",
+      "minimumOwnedRepair": "Enforce normalized safe relative generator path (reject absolute/drive/UNC/dotdot/NUL/ambiguous separator forms) and bind it to a selected independently approved resource configuration declaring the controlled sandbox/mount identity. An appended owned sandbox capture/config definition can carry that binding without modifying old schema prefix or frozen plan. Do not infer sandbox simply from arbitrary root text; do not read/scan external filesystem in validator.",
+      "directRegressions": [
+        "Exact approved sandbox-relative root positive",
+        "POSIX/Windows absolute/traversal/UNC/drive forms negative",
+        "Missing/mismatched sandbox/resource binding negative"
+      ]
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r-Zkt",
+      "classification": "MATERIAL_FROZEN_ENVIRONMENT_GAP",
+      "sourceEvidence": {
+        "path": "specs/poc/check_program.py",
+        "lines": [
+          869,
+          870
+        ],
+        "resource": "specs/poc/resources.yaml:3",
+        "nfr": "specs/requirements/v1/nfr.yaml:281"
+      },
+      "confirmedCounter": "Production POC001 RES-A380-ESXI67 independently reviewed config with OTHER_VENDOR /8.0/OTHER_GPU and no matching A380 inventory still passes; baseline generic build config also passes.",
+      "existingRequirement": "NFR-V1-COMP-001 freezes ESXi6.7; POC001 title/resources/exit criteria freeze Intel Arc A380 passthrough. This is inherited production identity, not a newly imposed local-VM environment.",
+      "minimumOwnedRepair": "Production qualified PASS should require appended typed approved passthrough config + captured identity (VMware ESXi/version6.7, Intel Arc A380 GPU/device identity, concrete host/guest/node/driver/runtime) and exact matching captured inventory/resource/configuration. Reuse the same identity for dedicated soak report; local Android VM does not acquire ESXi/A380 requirements. Keep failed incompatible captures factual rather than fabricating production PASS.",
+      "directRegressions": [
+        "Correct approved ESXi6.7/A380 identity positive",
+        "Missing/generic/wrong vendor/version/GPU or inventory mismatch negative",
+        "Local VM unaffected and factual FAIL retains actual incompatible context"
+      ]
+    }
+  ],
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "androidWorkerEncodingAccepted": false,
+  "fullV1Complete": false,
+  "canonicalMutation": false,
+  "historicalResultsOverwritten": false,
+  "oldResolvedFindingsReopened": false,
+  "independentReviewToolRepair": "External copied-review script initially had a short-prefix-corrupted parent constant; read-only assertion failed before writing local proof. Corrected to full actual b091 parent and reran evidence inspection only. No source/test failure or suite rerun."
+}

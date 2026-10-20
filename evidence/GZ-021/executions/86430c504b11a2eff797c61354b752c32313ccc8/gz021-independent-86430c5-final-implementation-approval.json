@@ -1,0 +1,43 @@
+{
+  "actualSource": "86430c504b11a2eff797c61354b752c32313ccc8",
+  "tree": "da096dd8df47eead349572e11fc503886981c28d",
+  "expectedBase": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "ciAccepted": true,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "remainingFindings": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6ru1by",
+      "path": "specs/poc/check_program.py",
+      "line": 362,
+      "state": "UNADJUDICATED"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6ru1b6",
+      "path": "specs/requirements/v1/nfr.yaml",
+      "line": 126,
+      "state": "UNADJUDICATED"
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6ru1b_",
+      "path": "specs/poc/check_program.py",
+      "line": 317,
+      "state": "UNADJUDICATED"
+    }
+  ],
+  "durableHandoffPending": true,
+  "officialBodyCapturedLength": 1083,
+  "priorContentBindingSha256": "e528e398a46e9922292d3d643a77b9f44874b617e92157fcfd8f03b96d27d3e9",
+  "localAcceptanceSha256": "80e39d087612d9f2c9943836367ac5f1a286c09a7ec89d68cc48da75500b61a7",
+  "ciReceiptSha256": "7c1e21f3608b8bc0f3e1bb4b7cc40a5764ab344a58cdede12f5ffc236b657366",
+  "officialSnapshotSha256": "333aedd7f064564b580cfc0385d5ede078f84fc8a86d50d9d019f1d8addc613d",
+  "actualMainAccepted": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "emulatorActuallyExecuted": false,
+  "fullV1Complete": false
+}

@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_SOURCE_FAULT177_EXPLICIT_FAILURE_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL177
+Candidate Files SHA256: {'specs/poc/check_program.py': '1a6e01f36b08bf6701da2094a7c8aeea40a5c7beeb7d83684476a02dc80a742d', 'specs/poc/program.schema.yaml': '14bada6da8a6e2c2487b3da5d3f614d1489225069769bc4e4d94b4d5e337bb3a', 'specs/poc/test_program.py': '4b72887845fd658d2dc337d37116569ac45957672a0d91623eb668967c29ae84'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_177_local_source_faults_bind_retry_checkpoint_and_logical_state
+test_177_local_source_faults_bind_retry_checkpoint_and_logical_state (__main__.TestPocProgram.test_177_local_source_faults_bind_retry_checkpoint_and_logical_state) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 136.167s
+
+OK
+
+Exit Code: 0

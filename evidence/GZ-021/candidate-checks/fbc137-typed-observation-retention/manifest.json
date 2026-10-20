@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "sourceParent": "fbc7598125c1601892174ed2be8284fef10bb56a",
+  "representation": "zlib-base64 exact original physical bytes; ASCII LF wrapper; no UTF8 relabeling",
+  "testMethodCount": 198,
+  "codeHashes": {
+    "check_program.py": "a8417ceb69de2d90dd324ce37f76eb6b1ad0b857790106c427a758580d27a519",
+    "program.schema.yaml": "37719e634f02cf87b92d1aca0f3d93b4e3977aaa22dbf134b7285a7278c18133",
+    "test_program.py": "b8e6d36288b60bba5fe83cb65c32458f4ecf0d0a818899372fa3709a0605011d"
+  },
+  "checkerAndSchemaUnchanged": true,
+  "other197MethodsAstUnchanged": true,
+  "allSix137AssertionsAstUnchanged": true,
+  "actualIsolatedParent137ExitCode": 1,
+  "actualIsolatedParent137Seconds": 12.493,
+  "actualTargetedMethods": [
+    137
+  ],
+  "targetedExitCode": 0,
+  "targetedSeconds": 32.625,
+  "acceptedContentAndExecutionProofSha256": "b7a812a7c00fd88ea9a19070fb571632a6d85a76ee05a714ace68e74be07ad63",
+  "publishedParentFull198TerminalAtThisArchive": false,
+  "publishedParent137FailureNotOverridden": true,
+  "whole198Passed": false,
+  "publishedSuccessorOwnFull20Accepted": false,
+  "publishedSuccessorOwnCiAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "files": [
+    {
+      "originalName": "gz021-fbc137-baseline-increment.json",
+      "path": "gz021-fbc137-baseline-increment.json.zlib.b64",
+      "originalPhysicalSha256": "0505fc24c9f93f6f03c6111ab88dbbdfceba0488dc9fedaa3b7fe5cc7b54d4f6",
+      "originalPhysicalBytes": 1364,
+      "packedSha256": "4713e80b409ad459402c24cf2cebddb3a2f845eaa54f83f6fdfe2e5ff001aaa8",
+      "packedBytes": 884
+    },
+    {
+      "originalName": "gz021-fbc137-baseline-increment.txt",
+      "path": "gz021-fbc137-baseline-increment.txt.zlib.b64",
+      "originalPhysicalSha256": "cacf47b7b775c6ac7e241ccf7202f8d8950277bf0d5f1829a94d5c2c1b0bcf66",
+      "originalPhysicalBytes": 1943,
+      "packedSha256": "a21a95959599e6bd608bcbb199ef6a591092d628c88487a8650e3d6ab4a7ab4e",
+      "packedBytes": 1119
+    },
+    {
+      "originalName": "gz021-fbc137-fixture-repaired-increment.json",
+      "path": "gz021-fbc137-fixture-repaired-increment.json.zlib.b64",
+      "originalPhysicalSha256": "c1f5aadbd0110dee30857b4f9b7f031f1f88bdec335f868526f638e012b01749",
+      "originalPhysicalBytes": 1392,
+      "packedSha256": "0f5890393e1fec89d744bb40076c42cbc3f0c1647a55a1b784d96657eb8e0cee",
+      "packedBytes": 896
+    },
+    {
+      "originalName": "gz021-fbc137-fixture-repaired-increment.txt",
+      "path": "gz021-fbc137-fixture-repaired-increment.txt.zlib.b64",
+      "originalPhysicalSha256": "431f5fe8a2305a63477af65b2681aa743e7b4e6e90f29a6c9fa7abdd1733dcf7",
+      "originalPhysicalBytes": 878,
+      "packedSha256": "3b0c0f68ef933edb5109debccb0d59becee96bdf4e2f53b4f281dc1f7999a04c",
+      "packedBytes": 706
+    },
+    {
+      "originalName": "gz021-independent-fbc137-current-fixture-content-and-targeted-review.json",
+      "path": "gz021-independent-fbc137-current-fixture-content-and-targeted-review.json.zlib.b64",
+      "originalPhysicalSha256": "b7a812a7c00fd88ea9a19070fb571632a6d85a76ee05a714ace68e74be07ad63",
+      "originalPhysicalBytes": 3409,
+      "packedSha256": "1cac8851505032ef392c1ceb41468c7165c423b8f891a593ef04b9d6676fa23a",
+      "packedBytes": 2096
+    }
+  ]
+}

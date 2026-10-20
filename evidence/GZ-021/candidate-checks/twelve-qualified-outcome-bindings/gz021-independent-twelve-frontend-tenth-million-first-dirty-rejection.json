@@ -1,0 +1,75 @@
+{
+  "capturedAt": "2026-10-14T01:20:19.881460+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYev",
+  "finiteScope": "Only tenth million-row virtualization observed-count residual, no other matrix or remaining two finding review",
+  "contentAccepted": false,
+  "tenthFindingContentAccepted": false,
+  "mustFix": [
+    {
+      "id": "TENTH-MILLION-VIRTUALIZATION-OBSERVATIONS",
+      "path": "specs/poc/check_program.py",
+      "line": 2485,
+      "problem": "Only approved fixture rowCount asserts one million; retained trace requires duration but neither actual delivered-input count nor rendered DOM peak, so generic approved outcome labels alone satisfy million-row virtualization equivalence.",
+      "counterexample": {
+        "approvedFixtureArguments": {
+          "rowCount": 1000000
+        },
+        "bothCandidateTraces": "Each trace copies approved normalized result labels and reports derived interaction_duration only, with no actual row-count or DOM-window observations.",
+        "currentAcceptanceReason": "Exact input hash/actions/result equality/build/time/duration pass; no measured row or DOM counts are tested.",
+        "missingProof": "Neither actual one-million input delivery nor bounded virtual DOM rendering is established."
+      },
+      "minimalRepair": "For this one scenario, approve integer viewportRows/overscanRows and a positive window bound smaller than dataset; require typed integer positive measured_input_rows == 1000000 and rendered_dom_rows_peak <= viewportRows+2*overscanRows. Bind units and existing trace/build/input/time; preserve duration derivation and all other nine scenarios. Add insufficient input/full DOM/wrong units/invalid approved-window negatives and legal-window positive. This is virtualization semantics, not a new performance threshold.",
+      "evidenceType": "direct independent predicate inspection plus concrete parent-reported counter; reviewer did not run test fixture"
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "280cbb7f0f3c8d670db73f18f4ac2731956256272916ff58915188a686072820",
+    "specs/poc/program.schema.yaml": "64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762",
+    "specs/poc/test_program.py": "989e2532c6c2bb7557809c1643c1d15adc0a0fbf3503a85caf78b90c3f12c915"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "280cbb7f0f3c8d670db73f18f4ac2731956256272916ff58915188a686072820",
+    "specs/poc/program.schema.yaml": "64e98dfcdfa97cdafffe7a52e3379bc9b5e6315fb7d6e62b28b7eeb9f306e762",
+    "specs/poc/test_program.py": "989e2532c6c2bb7557809c1643c1d15adc0a0fbf3503a85caf78b90c3f12c915"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "cf5df60ef1d78f26b060518cbef43acde1c6fb3b8271d9c3b69554000a430388",
+    "specs/poc/program.schema.yaml": "f42ddfd8008f111436fefbe1863024032151c73cf6e7e409cab4936fc0d7f670",
+    "specs/poc/test_program.py": "1b9343be4ad16a6b0a6f78a48fc04cf37c57cf91529900f25f420e1ef814b229"
+  },
+  "hashesStable": true,
+  "priorTenthProofPreserved": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-frontend-tenth-dirty-review.json",
+    "sha256": "655a6b74d69399e67be8c575924ef47fb5f6b770134be333f420d8819e9b8708",
+    "supersededContentAcceptanceOnlyForThisConcreteResidual": true
+  },
+  "otherTenthBoundedReviewFactsRetainedWithoutReaudit": true,
+  "priorNineAndFrozenBoundariesUnchanged": true,
+  "incrementObservation": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-frontend184-first-increment.txt",
+    "observedPhysicalSha256": "d1fdc66cfaf3e9c1926cf255ffa13e3922bdf30d2e3a88a6e6ca667212b84b6b",
+    "terminalObserved": false,
+    "exitCode": null,
+    "seconds": null,
+    "executionAccepted": false,
+    "pendingAtObservation": true
+  },
+  "remainingTwoFindingsPending": true,
+  "whole184SuitePassed": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

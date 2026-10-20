@@ -1,0 +1,87 @@
+{
+  "capturedAt": "2026-10-14T00:44:17.830499+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sFdMr",
+  "finiteScope": "Only final current single181 execution receipt, no source or other finding audit",
+  "contentProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-public-eighth-negative-clock-final-dirty-review.json",
+    "sha256": "81a3ace99029c539312ae159a13eb4dac86999c268fcbc751225e48e59b922ab"
+  },
+  "contentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "41ee2983cdffb45affeac3abeaa8bf137b5e44725421d392049d98972b810529",
+    "specs/poc/program.schema.yaml": "e6f22bc31cc182ad4f64ea3c3ed38804082030048ff74da099a69c384cff162f",
+    "specs/poc/test_program.py": "a48e5c10459a3370a8665dbf946b3da383f35c23f21d80c21576ceec72cdc916"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "41ee2983cdffb45affeac3abeaa8bf137b5e44725421d392049d98972b810529",
+    "specs/poc/program.schema.yaml": "e6f22bc31cc182ad4f64ea3c3ed38804082030048ff74da099a69c384cff162f",
+    "specs/poc/test_program.py": "a48e5c10459a3370a8665dbf946b3da383f35c23f21d80c21576ceec72cdc916"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "33680578c8c33d36a64b1b67f2ba2f24a51a7851adb2e485e5a891d5568f973c",
+    "specs/poc/program.schema.yaml": "80d794e4a862aacad9ff0f5f20b9db744242067714d001034c63135cc93e5c01",
+    "specs/poc/test_program.py": "87a8e548d0140db47d3b2ca2c24f4e308a2a752eb712fd84290e2bbe310d3377"
+  },
+  "hashesStable": true,
+  "currentSingle181ExecutionAccepted": true,
+  "execution": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-public181-negative-clock-increment.txt",
+    "physicalSha256": "5e3b4c2bad424a954559f828b30ff4312e7f8cc43719b257c2681c0d7a8d36d7",
+    "canonicalLfSha256": "0f1c70a2ed6d5a34e464ab5ea6b6629e93a067b64028f259347ca4415eda46c4",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes",
+    "tests": 1,
+    "seconds": 166.774,
+    "exitCode": 0,
+    "currentCandidateHashesMatchHeader": true
+  },
+  "separateStages": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-public181-first-increment.txt",
+      "physicalSha256": "0a3d8b62a4133878fb18a6d8ecb4e535a7839b8ce8e84f0c2beb760d8940a579",
+      "tests": 1,
+      "seconds": 143.04,
+      "exitCode": 0,
+      "stageMeaning": "initial execution passed; initial content rejected for three concrete residuals"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-public181-compatible-points-increment.txt",
+      "physicalSha256": "07f2e7d2aefb0a10a071807b70dd4adedb232c62006ec4faa05e501bfc6a3057",
+      "tests": 1,
+      "seconds": 117.188,
+      "exitCode": 1,
+      "stageMeaning": "compatibility correction failed only new181 tls_clock stale negative"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-public181-negative-clock-increment.txt",
+      "physicalSha256": "5e3b4c2bad424a954559f828b30ff4312e7f8cc43719b257c2681c0d7a8d36d7",
+      "tests": 1,
+      "seconds": 166.774,
+      "exitCode": 0,
+      "stageMeaning": "final reversed-clock fixture correction; current single181 passed"
+    }
+  ],
+  "separateStagesNotSummedIntoOneSuite": true,
+  "earlierFailureNotReclassified": true,
+  "whole181SuitePassed": false,
+  "publishedSuccessorAccepted": false,
+  "remainingFourFindingsPending": true,
+  "wholeCandidatePublicationApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualPublicNetworkAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "fixtureOnly": true,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

@@ -1,0 +1,55 @@
+{
+  "actualSource": "b0917c8946649ec816d2ace114293decd97c3869",
+  "tree": "0e9d482f43367f6c7f12ee1c8e0dcb8f0f685b5d",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "finiteOnlyThreeNewThreads": true,
+  "counterexamplesPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-b0917c8-three-new-thread-counterexamples.json",
+  "counterexamplesSha256": "37397bc49e1f0e14394a150e4eb25083e1fd7a9e8ca8d2559a66fd76b30426cf",
+  "findings": [
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r8ZTb",
+      "classification": "MATERIAL",
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        1823,
+        1828,
+        1080,
+        1098
+      ],
+      "counter": "POC002 local qualified PASS still accepts encode_throughput=1000000 streams and sustained_encode_duration=1000000 minutes with two one-minute worker runs. Baseline and mutated validation errors both empty.",
+      "minimumRepair": "Bind the reported streams and sustained duration to validated worker intervals or a typed independently approved benchmark artifact with exact timestamps/input/settings and measured concurrency. Preserve positive-work and media provenance gates.",
+      "regression": "Keep valid measured metrics positive; reject positive claims exceeding demonstrated concurrency or measured continuous duration."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r8ZTf",
+      "classification": "MATERIAL",
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        1829,
+        1831
+      ],
+      "counter": "POC001 production qualified PASS accepts 0.001 soak hours with a 60-second executionWindow; baseline and mutated errors both empty. Original production method explicitly requires continuous approved multi-day workload.",
+      "minimumRepair": "Bind soak hours to captured continuous timestamps and an explicit approved multi-day floor in owned qualified capture/configuration data. Keep production obligations; do not impose production physical-soak gate on local Android VM profile.",
+      "regression": "Reject nominal positive duration, claimed duration beyond observed interval, and below approved multi-day floor; preserve FAIL short-run record and local VM route."
+    },
+    {
+      "threadId": "PRRT_kwDOTgCQ3c6r8ZTl",
+      "classification": "MATERIAL_FALSE_REJECTION",
+      "path": "specs/poc/check_program.py",
+      "lines": [
+        1322,
+        1340
+      ],
+      "counter": "Otherwise valid qualified POC006 resource configuration adding credentialReference=secretref_example01 is rejected as secret-like key. Baseline errors empty; new error names exact credentialReference.",
+      "minimumRepair": "Recognize explicitly canonical reference-valued credentialReference fields and validate their existing Secret reference grammar separately; retain plaintext/sensitive-key/raw-log credential rejection and avoid generic substring reference exemptions.",
+      "regression": "Exact valid Secret reference accepted; malformed/plaintext credentialReference and password/token raw material rejected."
+    }
+  ],
+  "resolveEligible": false,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "canonicalMutation": false,
+  "fullSuiteRerun": false
+}

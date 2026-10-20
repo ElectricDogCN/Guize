@@ -1,0 +1,10 @@
+Source Commit: b0917c8946649ec816d2ace114293decd97c3869
+Command: python specs/requirements/v1/validate.py --profile production
+GZ-004 V1 requirements baseline: PASS
+- requirements: 10
+- nfr items: 22
+- acceptances: 14
+- trace records: 10
+- acceptance binding: revision 1; production; no POC or release result granted
+
+Exit Code: 0

@@ -1,0 +1,10 @@
+{
+  "url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/jobs/115545001014",
+  "capturedAt": "2026-10-13T21:48:00.405287+00:00",
+  "httpStatus": 200,
+  "head_sha": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "status": "completed",
+  "conclusion": "success",
+  "stepCount": 0,
+  "allStepsSuccess": false
+}

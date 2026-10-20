@@ -1,0 +1,85 @@
+{
+  "actualSource": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "startedAt": "2026-10-13T21:41:48.215246+00:00",
+  "finishedAt": "2026-10-13T21:42:17.450491+00:00",
+  "command": [
+    "wsl",
+    "-u",
+    "sur",
+    "--cd",
+    "/home/sur/.cache/guize-takeover/native-verification-20261010",
+    "--",
+    "env",
+    "PYTHONUTF8=1",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "specs.poc.test_program.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings"
+  ],
+  "exitCode": 1,
+  "durationSeconds": 27.79700000002049,
+  "rawPath": "gz021-independent-a84bab7-native146-helper-counterexample.txt",
+  "rawSha256": "f019b1f9365535945339e3c3dfeb1cdf6ad0225b5621f7f8e50c18ebdae57f59",
+  "before": {
+    "authoring": {
+      "source": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "status": ""
+    },
+    "native": {
+      "source": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    }
+  },
+  "after": {
+    "authoring": {
+      "source": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    },
+    "coordinator": {
+      "source": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+      "tree": "2bebb9213931ffa35666af413e538cbd39a19a61",
+      "branch": "main",
+      "status": ""
+    },
+    "native": {
+      "source": "a84bab726157b031208de14aaf438dc7e55f5263",
+      "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+      "branch": "chore/GZ-021-local-v1-route",
+      "status": ""
+    }
+  },
+  "beforeAfterSameClean": true,
+  "separateSingleTestOnly": true,
+  "fullSession24551Restarted": false,
+  "fullSuiteRerun": false,
+  "sourceEdited": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "rawStdoutPhysicalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "rawStderrPhysicalSha256": "7c6d3a63c9cda8fd981b4841851d41aa409ba60a94339dd4e0c3aace8303cb01",
+  "rawStderrPhysicalBytes": 1636,
+  "decodedRepresentation": "WSL host warning prefix decoded UTF16LE; actual unittest suffix decoded UTF8; exact raw stdout/stderr binary retained. No test-output text altered.",
+  "captureAttempt1LoggingFailure": {
+    "path": "gz021-independent-a84bab7-native146-first-capture-failure.json",
+    "firstTestExitUnavailable": true,
+    "sameSingleMethodRecapturedNotFullSuite": true
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "capturedAt": "2026-10-14T02:07:05.206145+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "threadId": "PRRT_kwDOTgCQ3c6sEYei",
+  "finiteScope": "Only current single186 terminal execution and content-hash binding, no content reaudit",
+  "contentProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-storage-twelfth-three-boundaries-final-dirty-review.json",
+    "sha256": "5966bc6edf6b6886229034ff674aaa6af02f6b7fd3095af25482402550249f84"
+  },
+  "contentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "5099dbd296fa06d75cdf5f50a58b7225335dcf25b42cfd7cbcd1545ae25b0e53",
+    "specs/poc/program.schema.yaml": "49b5e93c6d54487f56a10aa7da433ceb1f61e0cf61f5af543339ed5736faa8a5",
+    "specs/poc/test_program.py": "6f1df4dce9ee78843772f6210ca8613f9219d245746a09553d45730af4ba2042"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "5099dbd296fa06d75cdf5f50a58b7225335dcf25b42cfd7cbcd1545ae25b0e53",
+    "specs/poc/program.schema.yaml": "49b5e93c6d54487f56a10aa7da433ceb1f61e0cf61f5af543339ed5736faa8a5",
+    "specs/poc/test_program.py": "6f1df4dce9ee78843772f6210ca8613f9219d245746a09553d45730af4ba2042"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "1d643fd41d8f54fabff7f2a96f6d666b9141de97e8d9c048fafb4324900872ea",
+    "specs/poc/program.schema.yaml": "5220fc99fc7a660adfea4d642c3795c5a2bd9b725d67715eea96ff371f03a9c7",
+    "specs/poc/test_program.py": "43a1f31bf83d917ec5a3d576cfe652791e1d634f73a660164cc815d987b85037"
+  },
+  "hashesStable": true,
+  "currentSingle186ExecutionAccepted": true,
+  "execution": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-storage186-three-boundaries-increment.txt",
+    "physicalSha256": "c035f258758bcc13b8990207894010f83dd7260007a257a1f0ba5c935ac6f0c1",
+    "canonicalLfSha256": "ed9f39a1d0c6a12d0f9eda1e976a360b68f5176155a4721addb5ac9d0c2ff28a",
+    "command": "'C:\\ProgramData\\anaconda3\\python.exe' -B specs/poc/test_program.py TestPocProgram.test_186_local_storage_binds_reads_integrity_state_and_safe_lifecycle",
+    "tests": 1,
+    "seconds": 219.744,
+    "exitCode": 0,
+    "candidateHashesMatchHeader": true
+  },
+  "separateStages": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-storage186-first-increment.txt",
+      "physicalSha256": "1a753b73e8104678d2ca2890915932f70aa75ee0c1b1960afed3abdbf519d4cb",
+      "tests": 1,
+      "seconds": 6.568,
+      "exitCode": 1,
+      "stageMeaning": "new credential field names triggered unchanged secret guard; not pass"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-storage186-auth-refs-increment.txt",
+      "physicalSha256": "c55748928220a78618d54b364a8c7f76e70600ce4188c8d33622ae8cde35379e",
+      "tests": 1,
+      "seconds": 198.557,
+      "exitCode": 0,
+      "stageMeaning": "single186 passed but pending-copy/capacity-cycle/exact8-byte content rejected bya48a"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-storage186-three-boundaries-increment.txt",
+      "physicalSha256": "c035f258758bcc13b8990207894010f83dd7260007a257a1f0ba5c935ac6f0c1",
+      "tests": 1,
+      "seconds": 219.744,
+      "exitCode": 0,
+      "stageMeaning": "current three-boundary repair single186 passed"
+    }
+  ],
+  "separateStagesNotSummedIntoOneSuite": true,
+  "earlierFailureAndContentRejectionNotReclassified": true,
+  "whole186SuitePassed": false,
+  "publishedSuccessorAccepted": false,
+  "wholeCandidatePublicationApproved": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "fullV1Complete": false,
+  "fixtureOnlyNotActualOpenlistStorageRun": true,
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "prOrThreadsMutated": false
+}

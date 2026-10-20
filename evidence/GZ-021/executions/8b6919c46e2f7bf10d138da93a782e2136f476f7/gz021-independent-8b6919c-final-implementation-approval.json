@@ -1,0 +1,55 @@
+{
+  "actualSource": "8b6919c46e2f7bf10d138da93a782e2136f476f7",
+  "tree": "5ca6217b0e3f840a29016112158ce8d589f6945f",
+  "expectedBase": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "prNumber": 103,
+  "actualSourceExecutionAccepted": true,
+  "local20Accepted": true,
+  "ciAccepted": true,
+  "localPocRegressionTests": 132,
+  "localPocDurationSeconds": 523.24,
+  "requirementsNegativeRejected": 33,
+  "localGovernanceTests": 637,
+  "localGovernanceDurationSeconds": 1179.27,
+  "ciGovernanceTests": 637,
+  "ciDurationSeconds": 1609.77,
+  "ciSteps": 28,
+  "failuresErrorsSkips": 0,
+  "currentContentAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "remainingFindings": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6ryge7",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rygfB",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rygfH",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rygfM",
+      "material": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6rygfU",
+      "material": true
+    }
+  ],
+  "fiveFindingsDispositionSha256": "713b00c16e7a2858fb78ea6646b05e03297b2c117b36867c8e4a79532db16381",
+  "local20AcceptanceSha256": "ef307b0109430919b4cb84a4a9aa4f37041083591c8ec1b00d98b860c42864df",
+  "ciExecutionReceiptSha256": "16ea7f42547583d4930770ccf91b4e50aeb3aca9db13a9fb7d9e60666d53ce79",
+  "officialFinalSnapshotSha256": "280aa72f25cfbc1d32becc19a03c173261d8fd4936501cd90c874e87cb86cee6",
+  "updatedBodyCapturedSourceExecutionFacts": true,
+  "updatedBodySnapshotSha256": "ffa97fe70c63ca19f26a95786a7d2d0c4f86fce13c2054f82630882a8fa37e16",
+  "bodyUpdatedAt": "2026-10-13T09:51:20Z",
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "actualPocAccepted": false,
+  "androidWorkerEncodingAccepted": false,
+  "fullV1Complete": false
+}

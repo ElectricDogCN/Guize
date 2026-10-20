@@ -1,0 +1,10 @@
+DIRTY_CANDIDATE_ONLY; parent537d4966c00e5c308da488755f76276c71441055
+Command: python specs/poc/test_program.py TestPocProgram.test_149_authenticated_lifecycle_closure_preserves_tested_source
+test_149_authenticated_lifecycle_closure_preserves_tested_source (__main__.TestPocProgram.test_149_authenticated_lifecycle_closure_preserves_tested_source) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 24.673s
+
+OK
+
+Exit Code: 0

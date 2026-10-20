@@ -1,0 +1,5 @@
+Source Commit: 8ddb9717005133ffdbc987883a79720ab32f84ff
+Command: python scripts/check-program-lifecycle-guards.py --base-ref d7f1ab8f727ce3879408653736b972e21bb45b7a --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["GZ-021"], "changedPathCount": 414, "baseRef": "d7f1ab8f727ce3879408653736b972e21bb45b7a"}}
+
+Exit Code: 0

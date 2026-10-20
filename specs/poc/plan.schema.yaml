@@ -23,7 +23,9 @@ required:
 - review
 properties:
   schemaVersion:
-    const: 1
+    enum:
+    - 1
+    - 2
   pocId:
     type: string
     pattern: ^POC-[0-9]{2}$
@@ -38,14 +40,19 @@ properties:
   resultStatus:
     const: not_started
   riskLevel:
-    enum: [low, medium, high, critical]
+    enum:
+    - low
+    - medium
+    - high
+    - critical
   wave:
     type: string
     pattern: ^W[0-9]+$
   dependsOn:
     type: array
     uniqueItems: true
-    items: {type: string}
+    items:
+      type: string
   requirementIds:
     type: array
     minItems: 1
@@ -80,13 +87,17 @@ properties:
   environment:
     type: object
     additionalProperties: false
-    required: [captureBeforeExecution, capturedValues]
+    required:
+    - captureBeforeExecution
+    - capturedValues
     properties:
       captureBeforeExecution:
         type: array
         minItems: 1
         uniqueItems: true
-        items: {type: string, minLength: 1}
+        items:
+          type: string
+          minLength: 1
       capturedValues:
         type: object
         maxProperties: 0
@@ -95,10 +106,17 @@ properties:
   security:
     type: object
     additionalProperties: false
-    required: [dataClassification, sampleApprovalRequired, credentialsStoredInRepository, privacyReviewRequired, licenseReviewRequired]
+    required:
+    - dataClassification
+    - sampleApprovalRequired
+    - credentialsStoredInRepository
+    - privacyReviewRequired
+    - licenseReviewRequired
     properties:
       dataClassification:
-        enum: [non-sensitive, de-identified]
+        enum:
+        - non-sensitive
+        - de-identified
       sampleApprovalRequired:
         const: true
       credentialsStoredInRepository:
@@ -110,16 +128,78 @@ properties:
   decision:
     type: object
     additionalProperties: false
-    required: [status, rationale, resultRef]
+    required:
+    - status
+    - rationale
+    - resultRef
     properties:
-      status: {const: not_evaluated}
-      rationale: {type: 'null'}
-      resultRef: {type: 'null'}
+      status:
+        const: not_evaluated
+      rationale:
+        type: 'null'
+      resultRef:
+        type: 'null'
   review:
     type: object
     additionalProperties: false
-    required: [reviewer, approvedAt, approval]
+    required:
+    - reviewer
+    - approvedAt
+    - approval
     properties:
-      reviewer: {type: 'null'}
-      approvedAt: {type: 'null'}
-      approval: {type: 'null'}
+      reviewer:
+        type: 'null'
+      approvedAt:
+        type: 'null'
+      approval:
+        type: 'null'
+  localValidation:
+    type: object
+    additionalProperties: false
+    required:
+    - profileVersion
+    - mode
+    - resourceIds
+    - captureBeforeExecution
+    - protocol
+    - reason
+    properties:
+      profileVersion:
+        const: 1
+      mode:
+        const: required
+      resourceIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          pattern: ^RES-[A-Z0-9-]+$
+      captureBeforeExecution:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      protocol:
+        type: object
+      reason:
+        type: string
+        minLength: 1
+allOf:
+- if:
+    properties:
+      schemaVersion:
+        const: 2
+  then:
+    required:
+    - localValidation
+- if:
+    properties:
+      schemaVersion:
+        const: 1
+  then:
+    not:
+      required:
+      - localValidation

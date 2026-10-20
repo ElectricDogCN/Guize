@@ -1,0 +1,13 @@
+DIRTY_CANDIDATE_ONLY; parent537d4966c00e5c308da488755f76276c71441055
+Command: python specs/poc/test_program.py TestPocProgram.test_106_local_slot_cannot_satisfy_production_contract TestPocProgram.test_107_production_slot_coexists_without_replacing_closed_local_evidence TestPocProgram.test_125_ai_reviews_cannot_survive_captured_input_sample_version_drift TestPocProgram.test_147_every_qualified_sample_binds_actual_input_bytes
+test_106_local_slot_cannot_satisfy_production_contract (__main__.TestPocProgram.test_106_local_slot_cannot_satisfy_production_contract) ... ok
+test_107_production_slot_coexists_without_replacing_closed_local_evidence (__main__.TestPocProgram.test_107_production_slot_coexists_without_replacing_closed_local_evidence) ... ok
+test_125_ai_reviews_cannot_survive_captured_input_sample_version_drift (__main__.TestPocProgram.test_125_ai_reviews_cannot_survive_captured_input_sample_version_drift) ... ok
+test_147_every_qualified_sample_binds_actual_input_bytes (__main__.TestPocProgram.test_147_every_qualified_sample_binds_actual_input_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 190.596s
+
+OK
+
+Exit Code: 0

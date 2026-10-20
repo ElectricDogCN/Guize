@@ -1,0 +1,370 @@
+{
+  "capturedAt": "2026-10-13 22:57:57 UTC",
+  "actualSource": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "tree": "14791de3ae8c1dcbade7c70a8405dadd7d4b2387",
+  "officialThreadCount": 78,
+  "resolved": 59,
+  "unresolved": 19,
+  "newUnresolved": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYeL",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 2153,
+      "diff_side": "RIGHT",
+      "start_line": 2153,
+      "start_diff_side": null,
+      "original_line": 2145,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsYp",
+          "database_id": 4264216105,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Exercise the provider data-policy gate before dispatch**\n\nWhen POC-009 uses a commercial provider, an `authorized` outcome can dispatch after checking only caller permission and the current asset ACL; neither the approved policy nor any outcome records a data-policy decision, even though `POC-009.yaml` requires privacy/data-policy approval before external invocation. Fresh evidence after the earlier POC-009 policy finding is that the new outcome validator models permission, ACL, budget, rate, and concurrency decisions but still has no corresponding data-policy subject or denial case, so a disallowed payload can qualify for PASS. Require an approved data-policy identity and exercised allow/deny outcomes before accepting dispatch.\n\nAGENTS.md reference: [AGENTS.md:L195-L200](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L195-L200)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYeO",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 1261,
+      "diff_side": "RIGHT",
+      "start_line": 1260,
+      "start_diff_side": "RIGHT",
+      "original_line": 1250,
+      "original_start_line": 1249,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsYw",
+          "database_id": 4264216112,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Derive AV1 quality and first-segment latency from evidence**\n\nFor either POC-002 profile, `av1_quality` may be any value inside its approved numeric domain and `first_segment_latency` may be any nonnegative number because this validator derives only throughput and sustained duration from runs. The assembly report proves decodability but contains neither a VMAF comparison nor a first-playable-segment timestamp, so fabricated quality and latency values can still grant PASS; retain structured evaluator and segment-timing observations tied to the exact input, output, and run and reconcile both measurements.\n\nAGENTS.md reference: [AGENTS.md:L229-L245](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L229-L245)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYeY",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 527,
+      "diff_side": "RIGHT",
+      "start_line": 525,
+      "start_diff_side": "RIGHT",
+      "original_line": 527,
+      "original_start_line": 525,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsY5",
+          "database_id": 4264216121,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Parse POC-006 fault outcomes instead of accepting arbitrary files**\n\nFor a local POC-006 PASS, all required fault cases can point to arbitrary UTF-8 `scope_observation` files and then self-declare the retry, idempotency, duplicate-prevention, and source-deletion gates as true. Fresh evidence after the earlier structured-capture report is that this new loop validates only each artifact's type, selection, and existence; it never parses response classification, backoff, checkpoint, or before/after logical-asset state. Require typed outcome reports and derive the corresponding gates from their contents.\n\nAGENTS.md reference: [AGENTS.md:L183-L188](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L183-L188)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYee",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 1590,
+      "diff_side": "RIGHT",
+      "start_line": 1590,
+      "start_diff_side": null,
+      "original_line": 1582,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsZH",
+          "database_id": 4264216135,
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Handle non-object recovery resource entries**\n\nWhen a malformed POC-010 execution contains a non-object resource entry, schema validation records the violation but continues into this comprehension, where `item.get(...)` raises `AttributeError`. The validation CLI therefore terminates with a traceback instead of returning the accumulated contract errors; guard entries with `isinstance(item, dict)` as the surrounding validators do.\n\nAGENTS.md reference: [AGENTS.md:L177-L179](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L177-L179)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYei",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/plans/POC-004.yaml",
+      "line": 245,
+      "diff_side": "RIGHT",
+      "start_line": 245,
+      "start_diff_side": null,
+      "original_line": 245,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsZS",
+          "database_id": 4264216146,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind local storage safety gates to observed state and bytes**\n\nFor a local POC-004 PASS, `local_authenticated_reads`, `local_range_correctness`, `local_read_hash_verified`, backup/restore, disconnect recovery, replica rejection, cache eviction, and migration can all be asserted `true` while retaining only an unrelated hashed raw log. The qualified validator reconciles the two capacity byte measurements but has no request matrix, before/after state manifest, or byte comparison for these newly added gates, so the full local milestone can approve a storage path without proving its access and integrity guarantees. Require typed observations and derive each gate from actual returned bytes and state transitions.\n\nAGENTS.md reference: [AGENTS.md:L183-L188](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L183-L188)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYen",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 2869,
+      "diff_side": "RIGHT",
+      "start_line": 2866,
+      "start_diff_side": "RIGHT",
+      "original_line": 2861,
+      "original_start_line": 2858,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsZZ",
+          "database_id": 4264216153,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Derive POC-005 rates and costs from retained observations**\n\nWhen POC-005 reports arbitrary positive values for `enumeration_rate`, `source_change_frequency`, or `incremental_scan_cost`, this PASS-specific check accepts them without any enumerated-object count, change-event count, or observation timestamps from which those values can be reproduced. Fresh evidence beyond the earlier hierarchy-count finding is that the repaired validator now matches file/directory/depth counts to the manifest but applies only a positivity test to the rate and cost metrics; retain structured scan/change observations and reconcile each claimed value.\n\nAGENTS.md reference: [AGENTS.md:L229-L245](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L229-L245)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYev",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 3086,
+      "diff_side": "RIGHT",
+      "start_line": 3083,
+      "start_diff_side": "RIGHT",
+      "original_line": 3078,
+      "original_start_line": 3075,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsZm",
+          "database_id": 4264216166,
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Validate the POC-008 comparison matrix before accepting PASS**\n\nWhen the selected profile reaches POC-008, this generic terminal validation can accept ten asserted equivalence booleans, arbitrary in-domain scores, and a hashed unrelated raw artifact; the checker contains no POC-008-specific validation of the Vue/React builds, fixed scenario identities, per-scenario outcomes, bundle bytes, or rubric rows. Consequently the full milestone can pass without comparing the two candidates on the frozen matrix. Add a typed comparison report bound to both build artifacts and derive every coverage, size, score, and equivalence measurement from it.\n\nAGENTS.md reference: [AGENTS.md:L229-L245](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L229-L245)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYe0",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 939,
+      "diff_side": "RIGHT",
+      "start_line": 936,
+      "start_diff_side": "RIGHT",
+      "original_line": 939,
+      "original_start_line": 936,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsZz",
+          "database_id": 4264216179,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind passthrough reboot and reset gates to transition evidence**\n\nFor a production POC-001 PASS, `vm_reboot_recovery`, `esxi_host_reboot_reenumeration`, and `device_reset_recovery` can all be asserted `true` without any retained before/after enumeration or runtime-initialization observation. Fresh evidence after the identity and soak repairs is that this validator matches only the static approved inventory identity, while the soak report records only a continuous interval; neither proves that the guest, host, or device was actually restarted and recovered. Require typed transition reports tied to the selected host, guest, GPU, builds, and execution window.\n\nAGENTS.md reference: [AGENTS.md:L229-L245](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L229-L245)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sEYe3",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 1265,
+      "diff_side": "RIGHT",
+      "start_line": 1265,
+      "start_diff_side": null,
+      "original_line": 1254,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-KsZ3",
+          "database_id": 4264216183,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Exercise media failure and authorization gates**\n\nFor either POC-002 profile, a PASS can assert `disallowed_input_targets_denied`, `resource_limits_enforced`, interruption recovery, cancellation cleanup, attempt fencing, seek/revocation, and HLS ACL gates as true without retaining any corresponding negative execution. The new worker and assembly validation ends after successful encode/decode coverage, so an unrelated command artifact satisfies the remaining raw-output requirement and unsafe FFmpeg or stale/unauthorized publication behavior can still qualify. Require a typed negative-case matrix with attempted targets, limits, identities, attempt epochs, status, publication state, and cleanup outcomes.\n\nAGENTS.md reference: [AGENTS.md:L188-L191](https://github.com/ElectricDogCN/Guize/blob/a84bab726157b031208de14aaf438dc7e55f5263/AGENTS.md#L188-L191)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T21:28:02Z",
+          "updated_at": "2026-10-13T21:28:02Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sFdMi",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 2244,
+      "diff_side": "RIGHT",
+      "start_line": 2242,
+      "start_diff_side": "RIGHT",
+      "original_line": 2244,
+      "original_start_line": 2242,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-Mbr8",
+          "database_id": 4264671996,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind worker safety gates to exercised outcomes**\n\nFor a local or production POC-001 PASS, `worker_resource_limits_enforced`, `worker_restart_recovery`, and `worker_network_boundary_enforced` can all be set to `true` after supplying only the inventory and Android encode artifacts checked here. No retained limit-exhaustion, lease/re-registration, or denied-egress outcome is parsed anywhere in the POC-001 path, so the full milestone can approve a worker pool without exercising these safety requirements; require per-node structured outcomes for each gate.\n\nAGENTS.md reference: [AGENTS.md:L188-L191](https://github.com/ElectricDogCN/Guize/blob/c5d54e3de9adc12a6df213b4aa31865728d7e03f/AGENTS.md#L188-L191)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T22:21:34Z",
+          "updated_at": "2026-10-13T22:21:34Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sFdMl",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 939,
+      "diff_side": "RIGHT",
+      "start_line": 934,
+      "start_diff_side": "RIGHT",
+      "original_line": 939,
+      "original_start_line": 934,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-MbsC",
+          "database_id": 4264672002,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Bind passthrough firmware gates to captured settings**\n\nFor a production POC-001 PASS, this identity comparison validates the host, guest, GPU, and builds but contains no BIOS/IOMMU group, Above-4G, or Resizable-BAR state. Consequently `bios_iommu_configuration_verified`, `iommu_group_isolation_verified`, `above_4g_enabled`, and `resizable_bar_enabled` remain self-declared booleans and can grant the production milestone without the firmware/isolation evidence required by `POC-001.yaml`; parse a typed configuration report and reconcile each gate with the selected host and device.\n\nAGENTS.md reference: [AGENTS.md:L245-L245](https://github.com/ElectricDogCN/Guize/blob/c5d54e3de9adc12a6df213b4aa31865728d7e03f/AGENTS.md#L245-L245)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T22:21:34Z",
+          "updated_at": "2026-10-13T22:21:34Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6sFdMr",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/poc/check_program.py",
+      "line": 1869,
+      "diff_side": "RIGHT",
+      "start_line": 1868,
+      "start_diff_side": "RIGHT",
+      "original_line": 1869,
+      "original_start_line": 1868,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c7-MbsJ",
+          "database_id": 4264672009,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Exercise the public-network gates before accepting POC-007**\n\nFor production POC-007, this validator derives only the Range/stream and access-denial gates; `tls_valid`, `ipv6_reachability`, `high_port_route`, and `ddns_propagation` are accepted solely because the generic PASS check sees `true`. An HTTPS URL and returned bytes do not prove certificate validation, IPv6 transport, the configured high-port route, or DDNS propagation, so production release can pass without exercising its public ingress path; require timestamped DNS, TLS, address-family, and routed-port observations bound to the approved endpoint.\n\nAGENTS.md reference: [AGENTS.md:L176-L179](https://github.com/ElectricDogCN/Guize/blob/c5d54e3de9adc12a6df213b4aa31865728d7e03f/AGENTS.md#L176-L179)\n\nUseful? React with 👍 / 👎.",
+          "created_at": "2026-10-13T22:21:34Z",
+          "updated_at": "2026-10-13T22:21:34Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    }
+  ]
+}

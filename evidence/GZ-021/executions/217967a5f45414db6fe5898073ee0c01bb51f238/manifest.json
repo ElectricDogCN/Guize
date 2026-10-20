@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "representation": "zlib-base64 exact original physical bytes; ASCII LF wrapper",
+  "actualSource": "217967a5f45414db6fe5898073ee0c01bb51f238",
+  "tree": "4d02da40dd80647b8b80e3720a5979f729d48e94",
+  "nativeComplete208": true,
+  "nativePocPass": false,
+  "tests": 208,
+  "passed": 204,
+  "failures": 3,
+  "errors": 1,
+  "seconds": 6727.303,
+  "successfulGates": 17,
+  "executedGates": 18,
+  "native637AndDocsExecuted": false,
+  "ciNumber": 711,
+  "ciRun": 38724365403,
+  "ciJob": 116386443940,
+  "ciAcceptedSeparately": true,
+  "ciTests": 637,
+  "ciSteps": 28,
+  "ciSeconds": 940.38,
+  "ciDoesNotRunPoc208": true,
+  "local20Accepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualPocAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "files": [
+    {
+      "originalName": "gz021-217967a-complete-failed208-terminal-observation.json",
+      "path": "gz021-217967a-complete-failed208-terminal-observation.json.zlib.b64",
+      "originalPhysicalSha256": "77a6fd65854e89c04a913672a0fba111c848422c6afa4cea3aacc58ebfd6282c",
+      "originalPhysicalBytes": 1606,
+      "packedSha256": "7d0e89918de638d3de174f3d4900c1485e1e9532c683bb1c8399b76f6cc1df76",
+      "packedBytes": 1038
+    },
+    {
+      "originalName": "gz021-independent-217967a-actual-source-content-binding.json",
+      "path": "gz021-independent-217967a-actual-source-content-binding.json.zlib.b64",
+      "originalPhysicalSha256": "7638cbe3e51a516a5a8be5ddd7df8a064960b6bf5e23fa2bb86a25bd702c744f",
+      "originalPhysicalBytes": 36241,
+      "packedSha256": "44c517fa136cd9b0ec731bc40a9e36978c2e224739ee2b9bd0987dbb9fdea479",
+      "packedBytes": 10375
+    },
+    {
+      "originalName": "gz021-independent-217967a-ci711-execution-receipt.json",
+      "path": "gz021-independent-217967a-ci711-execution-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "bb859ffed49bab88e25ef02cc6323ac6431cf809b35463bd478717298a544044",
+      "originalPhysicalBytes": 4679,
+      "packedSha256": "d302725dd5eb8bc95709fb8618e377918899d53a60d1067d8a19cd57fa8f1c89",
+      "packedBytes": 2631
+    },
+    {
+      "originalName": "gz021-implementation-217967a-ci711-receipt.json",
+      "path": "gz021-implementation-217967a-ci711-receipt.json.zlib.b64",
+      "originalPhysicalSha256": "e028062a314e92acfa0455dc6d8feadc80093534dc3c050ad3874a14c5c5fa54",
+      "originalPhysicalBytes": 4585,
+      "packedSha256": "6ed3a8e1449bc3aff716f65089d2cf2fab5547c779d09d02c21b1c5ddefc7293",
+      "packedBytes": 2566
+    },
+    {
+      "originalName": "gz021-independent-217967a-ci711-official-final-snapshot.json",
+      "path": "gz021-independent-217967a-ci711-official-final-snapshot.json.zlib.b64",
+      "originalPhysicalSha256": "b31e2ebb9d17b4212cda5a3acbc405ce3519a3ac5e2a8712584b559da2366628",
+      "originalPhysicalBytes": 408323,
+      "packedSha256": "0be3cca5b77d7f899e57efc87e618060fdba400d8678ef72596e8002afb15762",
+      "packedBytes": 72409
+    },
+    {
+      "originalName": "gz021-implementation-217967a-ci711.txt",
+      "path": "gz021-implementation-217967a-ci711.txt.zlib.b64",
+      "originalPhysicalSha256": "766c47821f161c7d913d0f8ee45d36e16fbd8cf73e4aed429427f8d14d5aaa4d",
+      "originalPhysicalBytes": 353284,
+      "packedSha256": "760c406bdb2a5e32249b0e116053f988b25e391afd48c5d996f3e1164acf78f4",
+      "packedBytes": 63688
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/coordination.txt",
+      "path": "gz021-implementation-217967a-results__coordination.txt.zlib.b64",
+      "originalPhysicalSha256": "a97a8062c1da4586bf5c9191c48ea84ed9ea9369435bab772f958a4f750086e5",
+      "originalPhysicalBytes": 382,
+      "packedSha256": "c982e5c0691c9648e3305e6e81c320334152de28adb0c41d68011854504fe9dc",
+      "packedBytes": 390
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/evidence.txt",
+      "path": "gz021-implementation-217967a-results__evidence.txt.zlib.b64",
+      "originalPhysicalSha256": "3a2856c74bc5ec8d53642e8c145d4a72f3b6ecbdee209cd681eccb2f10a1b8cc",
+      "originalPhysicalBytes": 196,
+      "packedSha256": "99573471d9cc65e57788b4af8c277ebe54a4a1313c5946ffacc69fd08a899f7f",
+      "packedBytes": 231
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/finalization.txt",
+      "path": "gz021-implementation-217967a-results__finalization.txt.zlib.b64",
+      "originalPhysicalSha256": "4cf347fab9b92593fc7b46d687b16e2f4a3d714120f60b467a7f880aab6898bc",
+      "originalPhysicalBytes": 343,
+      "packedSha256": "94a75e723c81387c17d4b460b074a0d232f9980926ba09b766fb07ebb8bfc33e",
+      "packedBytes": 353
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/history.txt",
+      "path": "gz021-implementation-217967a-results__history.txt.zlib.b64",
+      "originalPhysicalSha256": "f7a24c31fc8fecfa9cec0a5253ddfda76ed4d1bb5814fd41d95eae95880e4b35",
+      "originalPhysicalBytes": 471,
+      "packedSha256": "8c288fcdf66c2c7314df029bde5b7205eb784a60099d659ee0f03502b7b4a7ac",
+      "packedBytes": 438
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/integrity.txt",
+      "path": "gz021-implementation-217967a-results__integrity.txt.zlib.b64",
+      "originalPhysicalSha256": "ac5c43521f57ac3241b7e1d9b5362456f02c5cb967cd7ec2b537a6f9c9a245d7",
+      "originalPhysicalBytes": 418,
+      "packedSha256": "d18bc5112cf93754293caacea08e2ad5f9c141b3e01aa3a8fd2db135f2ceefdb",
+      "packedBytes": 369
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/lifecycle.txt",
+      "path": "gz021-implementation-217967a-results__lifecycle.txt.zlib.b64",
+      "originalPhysicalSha256": "f30a11df0975ae8ceaf0db6b8956449d4a3a26487893cb729115e3854f760958",
+      "originalPhysicalBytes": 581,
+      "packedSha256": "2d661d2d429bcd2bc700cc70ce9f6b9bd16ab8835167994b9fa9f86bd6117f91",
+      "packedBytes": 503
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/poc-baseline.txt",
+      "path": "gz021-implementation-217967a-results__poc-baseline.txt.zlib.b64",
+      "originalPhysicalSha256": "e9c71c379ffa571d04f52cba88a37f9a66a1e3b61f8fa697b3739902476f6e12",
+      "originalPhysicalBytes": 230,
+      "packedSha256": "2b57b1f89ea3e46f705d61df2d47b7d3f98f306cc89061d5375ccbcfc0ffe54c",
+      "packedBytes": 272
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/poc-tests.txt",
+      "path": "gz021-implementation-217967a-results__poc-tests.txt.zlib.b64",
+      "originalPhysicalSha256": "43dc7ab6821616c7c5415ab8c0c6514818579613ba3585f0bf9ba476f48f058e",
+      "originalPhysicalBytes": 37267,
+      "packedSha256": "5bc67d60528a96515195be53686506b45576292842e0fb02e59ea15d940db7b7",
+      "packedBytes": 8661
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/raw-lifecycle.txt",
+      "path": "gz021-implementation-217967a-results__raw-lifecycle.txt.zlib.b64",
+      "originalPhysicalSha256": "be0b59be1234f21a9a9f6054dfe8243014d1db7f76a885c51ee76e8bfb991899",
+      "originalPhysicalBytes": 490,
+      "packedSha256": "05f0a0ee2e31e20628c3a085a4287e3b0a541a93c5df5b816e2b09681ef0d135",
+      "packedBytes": 454
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/readiness.txt",
+      "path": "gz021-implementation-217967a-results__readiness.txt.zlib.b64",
+      "originalPhysicalSha256": "9a4b068a1cf8fbca4df7102d431c4f1ac8724422486ed349e0f57c0b9a825e47",
+      "originalPhysicalBytes": 660,
+      "packedSha256": "19577c9bac55dca1517ec13e787a4bba70c420796ea3f8f329f0ef06585a8aec",
+      "packedBytes": 499
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/requirements-local.txt",
+      "path": "gz021-implementation-217967a-results__requirements-local.txt.zlib.b64",
+      "originalPhysicalSha256": "8669501dc487f781e90fcaced5d75f7ef187b638e05f47aac3d1a10c407ea3c9",
+      "originalPhysicalBytes": 327,
+      "packedSha256": "584a5f29ddd5973e91e739cd249146cf9062ff80985c670cd56e446f751eec42",
+      "packedBytes": 321
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/requirements-negative.txt",
+      "path": "gz021-implementation-217967a-results__requirements-negative.txt.zlib.b64",
+      "originalPhysicalSha256": "7c5ea8977824fa47e08a9970138a7447c932887f4ea0f57ca26b7060693e66b3",
+      "originalPhysicalBytes": 1881,
+      "packedSha256": "73c9755fb895adbbc8f8bbef1a651582395918d472a4bf65cd0cafcfa6a9cadf",
+      "packedBytes": 775
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/requirements-production.txt",
+      "path": "gz021-implementation-217967a-results__requirements-production.txt.zlib.b64",
+      "originalPhysicalSha256": "fd12ea1a13feba8efc2a2b0cac9b3444e0b85f121788bc2553fe59b1f15419e9",
+      "originalPhysicalBytes": 331,
+      "packedSha256": "287ed714b7ae57bc637ada92de98e41edc64412429d30626a2b87691a0cb427e",
+      "packedBytes": 325
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/schemas.txt",
+      "path": "gz021-implementation-217967a-results__schemas.txt.zlib.b64",
+      "originalPhysicalSha256": "e826f527c14c4a9a6b4b223215b1d2fab6ede8f0808152033c84d53b639ac94f",
+      "originalPhysicalBytes": 1812,
+      "packedSha256": "e6870415447526663980e6c554f14602080905c7376c8d0963b6ab8c10ae61b1",
+      "packedBytes": 714
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/scope.txt",
+      "path": "gz021-implementation-217967a-results__scope.txt.zlib.b64",
+      "originalPhysicalSha256": "da604bdaa61c6b393bb244c17bcde083324f46413ea89f914c7c2e5f4a398992",
+      "originalPhysicalBytes": 93413,
+      "packedSha256": "1f7cd4be29e2fa20bbaf5f0ce7d4532e3304bd6d8153971482a26bf271e3f0de",
+      "packedBytes": 10282
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/status.json",
+      "path": "gz021-implementation-217967a-results__status.json.zlib.b64",
+      "originalPhysicalSha256": "17868cd118668eb81eef72ffd86af418cc28e34138b02951cf102a2994a16589",
+      "originalPhysicalBytes": 364,
+      "packedSha256": "2c90c106cd870b3aa819aeb26beb720eab2fd3a01e129955a01b6cddbecf5937",
+      "packedBytes": 227
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/task.txt",
+      "path": "gz021-implementation-217967a-results__task.txt.zlib.b64",
+      "originalPhysicalSha256": "a22866ecc2a7d765c9efdddfcece8963cff5582379695aaf1665e24757808c4a",
+      "originalPhysicalBytes": 260,
+      "packedSha256": "73d053a3a9a1d419b54edfa67fd2aa60422f68e90807f8581cd1edbd4fb517d8",
+      "packedBytes": 292
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/transitions.txt",
+      "path": "gz021-implementation-217967a-results__transitions.txt.zlib.b64",
+      "originalPhysicalSha256": "d8837950a6f489b8219361765d3a1d82ab1199a8bac6bacb8405f17a4c0bf3dd",
+      "originalPhysicalBytes": 423,
+      "packedSha256": "2798d8dbf35d195e243321b5069ffca84a20c4a3d6197ac29152979ef30431ed",
+      "packedBytes": 418
+    },
+    {
+      "originalName": "gz021-implementation-217967a-results/unaffected.txt",
+      "path": "gz021-implementation-217967a-results__unaffected.txt.zlib.b64",
+      "originalPhysicalSha256": "fe57ead6e89116b86958cc19a3415f730beb8d7aa6bf55a0006e1a69f31dd8fb",
+      "originalPhysicalBytes": 676,
+      "packedSha256": "088586282e162abf584d9c047803466f4fc1a67c9bc10e013dcee1b99c101b30",
+      "packedBytes": 539
+    }
+  ]
+}

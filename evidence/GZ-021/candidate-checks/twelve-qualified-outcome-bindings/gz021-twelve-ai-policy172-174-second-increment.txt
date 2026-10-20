@@ -1,0 +1,13 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_AI_POLICY172_174_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL174
+Candidate Files SHA256: {'specs/poc/check_program.py': '4dd210e988a588392ff1199ed5985ff4768788e51f2e2dec8d26350164e68bd3', 'specs/poc/program.schema.yaml': 'fedd36f4eaac0407e6716d901c82efd9cee982913eb6b8c888bf01e9c3d82329', 'specs/poc/test_program.py': 'f73f87072ecd184854748fadcd0ebf31be9d8630c87ffe978d7fadcda522c3c2'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial TestPocProgram.test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch
+test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial (__main__.TestPocProgram.test_174_ai_data_policy_requires_prior_allow_and_zero_dispatch_denial) ... ok
+test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch (__main__.TestPocProgram.test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 234.952s
+
+OK
+
+Exit Code: 0

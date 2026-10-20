@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_WORKER178_PRIOR_LEASE_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL178
+Candidate Files SHA256: {'specs/poc/check_program.py': 'aca48b6f12f7fa68b82c4261e6d7be6bbcb95bb1b15bdba9ff6fe91b87f31fcd', 'specs/poc/program.schema.yaml': 'caee75aeafdc4755320ce2061c2ece4c0c114dbea80a515fcf1c17f0ce9a874e', 'specs/poc/test_program.py': '660cae792337d4b9e6aec8c36c55db56a42414e027b2383161c861d61c033710'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_178_worker_safety_requires_per_node_limits_restart_and_network_outcomes
+test_178_worker_safety_requires_per_node_limits_restart_and_network_outcomes (__main__.TestPocProgram.test_178_worker_safety_requires_per_node_limits_restart_and_network_outcomes) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 221.180s
+
+OK
+
+Exit Code: 0

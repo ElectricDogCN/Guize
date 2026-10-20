@@ -1,0 +1,89 @@
+{
+  "capturedAt": "2026-10-13T23:38:22.204655+00:00",
+  "sourceParent": "c5d54e3de9adc12a6df213b4aa31865728d7e03f",
+  "candidatePath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-outcomes-worktree",
+  "finiteScope": "Only new176 three-line queued-window fixture correction and its temporal contracts, no code/schema re-audit",
+  "contentAccepted": false,
+  "queuedFixtureContentAccepted": false,
+  "qualityValidatorPreviouslyAcceptedUnchanged": true,
+  "mustFix": [
+    {
+      "path": "specs/poc/test_program.py",
+      "test": "test_176_media_quality_and_first_playable_latency_bind_retained_observations",
+      "reason": "Advancing executionWindow/jobStart50ms before the original worker/A380 phase start leaves the existing approved sample time later than execution start. Current single176 run legitimately rejects the local-v1 positive queued fixture before it can prove51ms latency.",
+      "minimumRepair": "In this new explicit synthetic queued positive only, move its sample approval approvedAt to before the new jobStart, retaining independent reviewer, exact immutable sample/checksum and all other approval fields. Preserve old A380 phase/run timestamps, current temporal validator and51ms/1ms assertions; restore that fixture approval as needed before subsequent factual FAIL fixtures. Record current1-test failure and run only a new176 increment.",
+      "doNotChange": [
+        "validate_approval_record or other checker rules",
+        "old172 test cases/assertions, approved input identities or original firmware/AI guards",
+        "production A380 phase times simply to conceal the original sequencing problem"
+      ]
+    }
+  ],
+  "exactDeltaPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/test_program.py"
+  ],
+  "physicalHashesBefore": {
+    "specs/poc/check_program.py": "39e83d8a44c96984d8a27963034e893f169062f4baa9d6ded86eb8f6b5527bc2",
+    "specs/poc/program.schema.yaml": "9d607f962e6fcaa69b381302f511635bfe489a9295645bcb174bcdde17c47adf",
+    "specs/poc/test_program.py": "3a5ab28ee38ffcd90f681720a91b5815d0c8ddec3ec51016767d4c2eba0e7a1e"
+  },
+  "physicalHashesAfter": {
+    "specs/poc/check_program.py": "39e83d8a44c96984d8a27963034e893f169062f4baa9d6ded86eb8f6b5527bc2",
+    "specs/poc/program.schema.yaml": "9d607f962e6fcaa69b381302f511635bfe489a9295645bcb174bcdde17c47adf",
+    "specs/poc/test_program.py": "3a5ab28ee38ffcd90f681720a91b5815d0c8ddec3ec51016767d4c2eba0e7a1e"
+  },
+  "canonicalLfHashesAfter": {
+    "specs/poc/check_program.py": "031e55cab515b9545211528935e22baf1b94c413c6bf9a8760748e4c99194832",
+    "specs/poc/program.schema.yaml": "714336ffa2e6053194acc5099d0be46c6a4d2bf4be2c56d403020bbe417b7eaf",
+    "specs/poc/test_program.py": "906b85a75bf5605a79b0c54fef618b3363dbd052fe5d57f2ea6dad5c2ab1e9d6"
+  },
+  "hashesStable": true,
+  "onlyTest176ThreeLineDeltaByExactReverseCanonicalHash": true,
+  "checkerSchemaSameAsAccepted9fb": true,
+  "priorAcceptedJobEventProof": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-independent-twelve-quality-fourth-job-event-dirty-review.json",
+    "sha256": "9fb278d397efad32a33ff8e24b7407d9c5cab49263353d5200d853007f1b2eac"
+  },
+  "original171AstsAnd123PurposeAdapt173175PreservedByExactDelta": true,
+  "plansMetadataManifest35NegativesClaimsLeaseUnchanged": true,
+  "stageHistory": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-quality123-140-176-first-increment.txt",
+      "tests": 3,
+      "seconds": 212.461,
+      "exitCode": 0,
+      "contentWasRejectedForWorkerStartEquality": true
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-quality123-140-176-job-event-increment.txt",
+      "physicalSha256": "0b86a915565d1ffc6881bb8f9746169316b5b5843a7ff31abcd10268d0463cd4",
+      "tests": 3,
+      "seconds": 239.962,
+      "exitCode": 1,
+      "176ProductionQueuedPositiveFailedA380PhaseConstraint": true,
+      "123And140Passed": true
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-twelve-quality176-queued-window-increment.txt",
+      "physicalSha256": "db0eadf887a2133af1511218fbbe77011421040e04c25950301668f2d63897c2",
+      "actualCommandTests": 1,
+      "tests": 1,
+      "seconds": 104.473,
+      "exitCode": 1,
+      "failure": "local-v1 sample approval after advanced execution start",
+      "oldHeaderLabelNotInterpretedAsThreeTestCommand": true
+    }
+  ],
+  "reviewerRanTests": false,
+  "candidateEdited": false,
+  "remainingEightFindingsPending": true,
+  "whole176Passed": false,
+  "publicationContentSupported": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "threadsResolved": false
+}

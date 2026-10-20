@@ -1,0 +1,8 @@
+test_146_local_captures_require_reproducible_structured_settings (__main__.TestPocProgram.test_146_local_captures_require_reproducible_structured_settings) ... ok
+test_165_invalid_scheduler_shapes_are_rejected_without_exceptions (__main__.TestPocProgram.test_165_invalid_scheduler_shapes_are_rejected_without_exceptions) ... ok
+test_166_retention_schedule_requires_parseable_utc_before_state_comparison (__main__.TestPocProgram.test_166_retention_schedule_requires_parseable_utc_before_state_comparison) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 87.391s
+
+OK

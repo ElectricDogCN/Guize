@@ -1,0 +1,12 @@
+Candidate Parent: c5d54e3de9adc12a6df213b4aa31865728d7e03f
+Validation: DIRTY_PUBLIC181_INCREMENT_NOT_ACTUAL_SOURCE_OR_FULL181
+Candidate Files SHA256: {'specs/poc/check_program.py': '76b43efcf0e345f78b704449547c56aae590841c339a29f88f6e54a55f4730bc', 'specs/poc/program.schema.yaml': '0d0d26ec4a59c2b2b2825a07c7deeff35a52d1a5fdc1fbefae2f4f1949df49c8', 'specs/poc/test_program.py': '0b17014b18a76f91d29693bce20ab6116711bd61b7915ccc479a596763da4fc5'}
+Command: 'C:\ProgramData\anaconda3\python.exe' -B specs/poc/test_program.py TestPocProgram.test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes
+test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes (__main__.TestPocProgram.test_181_public_network_gates_require_bound_dns_tls_ipv6_and_route_outcomes) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 143.040s
+
+OK
+
+Exit Code: 0

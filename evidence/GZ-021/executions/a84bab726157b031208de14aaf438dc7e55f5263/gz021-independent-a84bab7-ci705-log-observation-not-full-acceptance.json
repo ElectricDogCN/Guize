@@ -1,0 +1,183 @@
+{
+  "capturedAt": "2026-10-13T21:52:45.119366+00:00",
+  "actualSource": "a84bab726157b031208de14aaf438dc7e55f5263",
+  "tree": "af8310494b96a6e4261a8a1e2b5109c6cbf8aab7",
+  "base": "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+  "runId": 38469620584,
+  "jobId": 115545001014,
+  "attempt": 1,
+  "jobReportedSuccess": true,
+  "freshOfficialStepCount": 26,
+  "returned26StepsAllSuccess": false,
+  "originalRequiredStepCount": 28,
+  "all28StepsSuccessProven": false,
+  "raw637FactsAccepted": true,
+  "individualPassedObserved": 637,
+  "durationSeconds": 1572.4,
+  "noFailedErrorSkippedObserved": true,
+  "noSkippedAuditObserved": true,
+  "rawComparisonAccepted": true,
+  "normalizationOnly": [
+    "UTF8 BOM",
+    "CRLF to LF",
+    "terminal newlines"
+  ],
+  "rawPhysicalSha256": "0987e9d8e512e01c980ac4127f1a2494179b9727d4a9b176e2a9d5259c8bff87",
+  "officialFreshJobAndRawSnapshot": {
+    "path": "gz021-independent-a84bab7-ci705-single-job-log-observation.json",
+    "sha256": "8132f2298f91bcd4da7b4aaa2726583b82b001b144b79966ba517c2dd0a86416"
+  },
+  "priorRootObservationSnapshotSha256": "cfc5dba8a29bc7540fcbbe8188dc9b9f79046f19490634153d06008850ef9bb9",
+  "priorRootObservationReceiptSha256": "3ef183e0087eff098159f89b37fa1c861c516fb730614841e6d1e8248c572d1d",
+  "syntheticCheckout": "740247f21e3d9e4e3d8072811b31b3b687b4ce47",
+  "orderedParents": [
+    "d7f1ab8f727ce3879408653736b972e21bb45b7a",
+    "a84bab726157b031208de14aaf438dc7e55f5263"
+  ],
+  "syntheticIsNotActualMain": true,
+  "singleSuccessfulFreshJobMetadataRead": true,
+  "transportDetail": "First direct-job URL read was rejected by connector allowed endpoint policy and returned no job metadata. One supported run/jobs read returned matching job with26steps; no further polling performed.",
+  "ciAccepted": false,
+  "actualSourceCiExecutionAccepted": false,
+  "reason": "Official matching job reports completed/success and raw637 passes1572.40s, but captured steps are26 with5success/21pending/null. Count and terminal-step evidence both fail original28allSuccess condition. CI/full source admission remains false.",
+  "successfulReceiverExecuted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "sourceEdited": false,
+  "testRerunByReviewer": false,
+  "returnedStepsSuccessful": 5,
+  "returnedStepsPendingOrUnproven": 21,
+  "pendingSteps": [
+    {
+      "number": 4,
+      "name": "Install governance dependencies",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 7,
+      "name": "Pytest collect-only",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 8,
+      "name": "Resolve task context",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 9,
+      "name": "Task file validation",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 10,
+      "name": "Project readiness check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 11,
+      "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 12,
+      "name": "Agent coordination check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 13,
+      "name": "Governance tests",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 14,
+      "name": "Skip audit",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 15,
+      "name": "Markdown basic check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 16,
+      "name": "YAML/JSON schema check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 17,
+      "name": "Secret scan",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 18,
+      "name": "Evidence check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 19,
+      "name": "Evidence integrity check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 20,
+      "name": "Task-branch linkage check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 21,
+      "name": "Scope check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 22,
+      "name": "Spec sync check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 23,
+      "name": "Parent directory reference check",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 24,
+      "name": "CI workflow static validation",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 25,
+      "name": "Generate governance report",
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "number": 49,
+      "name": "Post Setup Python 3.11",
+      "status": "pending",
+      "conclusion": null
+    }
+  ],
+  "overallJobSuccessContradictsPendingStepMetadata": true,
+  "earlierStepsZeroSnapshotPreserved": true,
+  "stepObservationDetail": "Stored independent snapshot has26 returned entries,5completedSuccess+21pending/null. Parent noted28, but this precise captured file has26. No further polling. Original28allSuccess contract is not met by this observation."
+}

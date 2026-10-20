@@ -1,0 +1,13 @@
+本地 V1 采用异构 AV1 Worker、HLS 切片缓存与播放优先调度；先使用 Android 虚拟机和本地 OpenList，百度生产接入后置。
+
+实际源 `8ddb9717005133ffdbc987883a79720ab32f84ff`，tree `ebeecc5d098f5c379694bdeb9cd315b2e90fd16f`，soleparent `4139a987780339c7b22c78b5c35402bb4c30ee87`，base/main `d7f1ab8f727ce3879408653736b972e21bb45b7a`。原五处手机/推理吞吐/恢复布尔证据/真机标识/多路编码修复经43路径内容审查与实际源GitLF绑定接受，证明76cc619054ec4633078bd468da4db700d177778f39fbe7826c603ab71e725e2b与cdcdae82386193f1e20c0d279431cfb974296114dd2f786497c72660bd6b37d8，五条旧意见已解决。原159方法AST、旧schema完整前缀/定义、35反例和冻结plans/manifest/metadata保留；新增160–164为合成回归，不能证明真实POC。
+
+本地 session36430 已CLOSED Exit1：18项已执行，17先行门禁通过；164项POC回归1360.450s中163项ok、原146一项ERROR（scheduler_configuration=True触发bool caps.get）。native verify/docs/637工程测试/JUnit未执行。独立失败证明 `gz021-independent-8ddb971-local20-terminal-failure-receipt.json` SHA256 b128d45cd17bd7343adf4657d9e150896ffa717a71aae503928d02684e6055ba，beforeBinding与fresh3树same clean。禁止称本地20通过。
+
+[同源CI704](https://github.com/ElectricDogCN/Guize/actions/runs/38453989531) run38453989531/job115491847123完成28成功步骤、637项1261.97s、零失败错误跳过，原日志302971chars。strict及独立CI接受证明 `gz021-independent-8ddb971-ci704-execution-receipt.json` SHA256 0296736d9abeca7451012b9f9d06f69ccd808082a780d580092e9689fa1bb579。checkout e98b126ab75a5c3462cfde87ccf4f2abe316541b/treeEBee/ordered[D7,8ddb]为synthetic，实际main仍D7。CI接受与本地失败分别保留，不能据CI通过合并。
+
+随后七条新意见，当前66线程/59已解决/7待处置。独立反例确认六材料缺口：POC009质量/策略结果、POC010六业务恢复时间、POC003 Range实际返回字节、POC007访问/拒绝结果、生产POC002 A380节点与遥测、retention.scheduledAt UTC解析；加原146回归共七项代码阻断。执行意见误引1cbaa（官方404/localbadobject），只验证实际8ddb，不另跑错误提交。处置证明 `gz021-independent-8ddb971-seven-new-thread-disposition.json` SHA256 0bed3eb53861e9f36bd439844d097ba8725b748666aefe5a95a166082f1ce8aa；最终拒绝证明 `gz021-independent-8ddb971-final-implementation-approval.json` SHA256 713fd4e1582db06c33607ec6d37ac7c8f9181b375572959b5c28ad3ba3172f57。正式源/最终合并批准false。
+
+后续detached8ddb候选仅修复配置坏类型与嵌套UTC，原164方法AST保持，新增165/166；原146+新165/166三项87.391s/Exit0。候选未提交/发布，剩余五类证据校验继续开发，没有转移源CI PASS。三组早期dirty增量含旧149选择器loadError的真实退出码，保留在candidate-checks/observation-and-recovery-boundaries/manifest.json；33份父源4139原始执行/接受/拒绝/反例材料保留在executions/4139a987780339c7b22c78b5c35402bb4c30ee87/manifest.json，原physical与canonicalLF摘要均核对。
+
+Docker与Android15/API35/x86_64虚拟机启动已验证。实际AV1、Worker、平台运行时、真实POC、真机温升/后台和完整本地V1尚未完成；GZ021正常Review/Completion及actualmain接受仍需完成，再推进运行时任务。

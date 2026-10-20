@@ -1,0 +1,35 @@
+{
+  "kind": "DIRTY_CANDIDATE_INCREMENTAL_CHECKS_ONLY_NOT_ACTUAL_SOURCE_ACCEPTANCE",
+  "sourceParent": "8bf74335038f87a9aeed074cd509ccb30edfe336",
+  "full159RunClaimed": false,
+  "files": [
+    {
+      "path": "gz021-inference155-first-increment.txt",
+      "originalPhysicalSha256": "85bc79f27140ea04386e7dbf7e3dbdd555f426eaa083c6bf2b683eda9cba5b3b",
+      "originalPhysicalBytes": 573,
+      "canonicalLfSha256": "022b9282ba8c3ddb199a1f83abf4f7dd25d6a281a566dcc90766b403c4763760",
+      "canonicalBytes": 562
+    },
+    {
+      "path": "gz021-android156-first-increment.txt",
+      "originalPhysicalSha256": "2d021adf0653841b07b5cd22de7738510d6d21f1da3281652a91ab32a33b18cc",
+      "originalPhysicalBytes": 1310,
+      "canonicalLfSha256": "7566296fa6d45b34a173e6e3cbc8fb3f1eb8db9820dbb070b72352dd53fede4e",
+      "canonicalBytes": 1296
+    },
+    {
+      "path": "gz021-passthrough157158-first-increment.txt",
+      "originalPhysicalSha256": "aa948cb33377aedbd311d3b5a6f548f6a8f7d90f4702b111bbcc2776f382908e",
+      "originalPhysicalBytes": 1301,
+      "canonicalLfSha256": "86d84d95f52be3a048de5d08cebd02fea522d7b93c141e030dee022dbea7f261",
+      "canonicalBytes": 1287
+    },
+    {
+      "path": "gz021-sandbox159-first-increment.txt",
+      "originalPhysicalSha256": "97504594fc1edbe8257cbda0e5fd1249237dd2703e20015e94d9e894ddab1fbd",
+      "originalPhysicalBytes": 1048,
+      "canonicalLfSha256": "271c8762a01c02ae46c3f6a5822ff69ce184ef235e9c3b66aa269d9f29d0dd2c",
+      "canonicalBytes": 1035
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+test_170_access_gates_bind_requests_acl_cache_and_actual_returned_bytes (specs.poc.test_program.TestPocProgram.test_170_access_gates_bind_requests_acl_cache_and_actual_returned_bytes) ... ok
+test_151_local_tls_origins_validate_semantic_host_and_port (specs.poc.test_program.TestPocProgram.test_151_local_tls_origins_validate_semantic_host_and_port) ... FAIL
+
+======================================================================
+FAIL: test_151_local_tls_origins_validate_semantic_host_and_port (specs.poc.test_program.TestPocProgram.test_151_local_tls_origins_validate_semantic_host_and_port)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-qualified-results-review-worktree\specs\poc\test_program.py", line 3167, in test_151_local_tls_origins_validate_semantic_host_and_port
+    if accepted:self.assertEqual(errors,[],value)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['qualified raw artifacts POC-007: byteCou[968 chars]tes'] != []
+
+First list contains 14 additional elements.
+First extra element 0:
+'qualified raw artifacts POC-007: byteCount must bind actual raw bytes'
+
+Diff is 1062 characters long. Set self.maxDiff to None to see it. : https://guize.local:1
+
+----------------------------------------------------------------------
+Ran 2 tests in 48.059s
+
+FAILED (failures=1)
