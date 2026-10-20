@@ -1845,7 +1845,8 @@ class TestPocProgram(unittest.TestCase):
         for node_number,row in enumerate(report['nodes'],1):
             for case_number,case in enumerate(row['networkCases'],1):
                 node=row['identity']['nodeId'];authorized=case['case']=='authorized';start='2026-09-03T00:02:59.900Z';finish=case['observedAt'];request={k:case[k] for k in ('requestId','taskId','grantId','requestURL')}
-                outbound=b'GET /approved-input HTTP/1.1\r\nHost: synthetic-task.invalid\r\n\r\n' if authorized else b''
+                target=CHECK.urllib.parse.urlsplit(case['requestURL']);request_target=(target.path or '/')+('?' + target.query if '?' in case['requestURL'].split('#',1)[0] else '')
+                outbound=(f'GET {request_target} HTTP/1.1\r\nHost: {target.netloc}\r\n\r\n').encode('ascii') if authorized else b''
                 case['outboundSha256']=retain(case['outboundRef'],'produced_media',node,outbound);case['outboundByteCount']=len(outbound)
                 response_ref=prefix+'/raw/worker-network-'+case['requestId']+'-response.bin';response=b'HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nOK' if authorized else b'';response_sha=retain(response_ref,'produced_media',node,response)
                 events=[dict(type='request',observedAt=start,method='GET',**request)]
@@ -1902,6 +1903,40 @@ class TestPocProgram(unittest.TestCase):
         for trace_path,raw,response_path,response in captures.values():trace_path.write_bytes(raw);response_path.write_bytes(response)
         report_path.write_bytes(saved_report)
         self.assertEqual(validate(copy.deepcopy(original)),self.deferred_production_errors(profile,'POC-01'))
+
+        # A matching send digest cannot authorize a different raw HTTP target or authority.
+        config_path=root/report_original['configurationRef'];saved_config=config_path.read_bytes();config_original=load_yaml(config_path)
+        saved_raw={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']}
+        def restore_network():
+            for path,raw in saved_raw.items():path.write_bytes(raw)
+            config_path.write_bytes(saved_config);report_path.write_bytes(saved_report)
+        def register(data,path):
+            raw=path.read_bytes();record=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==path.relative_to(root).as_posix());record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        for mode in ('administrative_path','absolute_form','query','foreign_host','wrong_port','zero_port','duplicate_host','missing_host','multiple_requests','body','method'):
+            restore_network();data=copy.deepcopy(original);report=copy.deepcopy(report_original);case=report['nodes'][0]['networkCases'][0];outbound_path=root/case['outboundRef'];raw=outbound_path.read_bytes();trace_path=root/case['transportRef'];trace=json.loads(trace_path.read_bytes())
+            if mode=='administrative_path':raw=raw.replace(b'GET /approved-input ',b'GET /api/admin ')
+            elif mode=='absolute_form':raw=raw.replace(b'GET /approved-input ',b'GET https://synthetic-task.invalid/approved-input ')
+            elif mode=='query':raw=raw.replace(b'GET /approved-input ',b'GET /approved-input?unapproved=1 ')
+            elif mode=='foreign_host':raw=raw.replace(b'Host: synthetic-task.invalid',b'Host: foreign.invalid')
+            elif mode=='wrong_port':raw=raw.replace(b'Host: synthetic-task.invalid',b'Host: synthetic-task.invalid:8443')
+            elif mode=='zero_port':raw=raw.replace(b'Host: synthetic-task.invalid',b'Host: synthetic-task.invalid:0')
+            elif mode=='duplicate_host':raw=raw.replace(b'Host: synthetic-task.invalid',b'Host: synthetic-task.invalid\r\nHost: synthetic-task.invalid')
+            elif mode=='missing_host':raw=raw.replace(b'Host: synthetic-task.invalid\r\n',b'')
+            elif mode=='multiple_requests':raw+=b'GET /api/admin HTTP/1.1\r\nHost: synthetic-task.invalid\r\n\r\n'
+            elif mode=='body':raw+=b'x'
+            else:raw=raw.replace(b'GET ',b'POST ',1)
+            self.assertNotEqual(raw,outbound_path.read_bytes(),mode);outbound_path.write_bytes(raw);case.update(outboundByteCount=len(raw),outboundSha256='sha256:'+hashlib.sha256(raw).hexdigest());trace['events'][2].update(byteCount=len(raw),sha256=case['outboundSha256']);trace_path.write_bytes(json.dumps(trace).encode());case['transportSha256']='sha256:'+hashlib.sha256(trace_path.read_bytes()).hexdigest();write_yaml(report_path,report)
+            for path in (outbound_path,trace_path,report_path):register(data,path)
+            errors=validate(data);self.assertTrue(any('bodyless HTTP GET origin-form target and unique Host' in error for error in errors),(profile,mode,errors))
+        # Explicit approved root/query/port/IPv6 targets retain their actual request scope.
+        for url in ('https://synthetic-task.invalid','https://synthetic-task.invalid:8443/approved-input?part=1&name=a%20b','https://[2001:db8::1]:8443/approved-input?part=1'):
+            restore_network();data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);config['configuration']['workerSafetyPolicy']['allowedTarget']=url
+            for row in report['nodes']:
+                for case in row['networkCases']:
+                    if case['case'] in ('authorized','expired_grant'):case['requestURL']=url
+            write_yaml(config_path,config);write_yaml(report_path,report);prefix=env['workerSafetyRef'].rsplit('/raw/',1)[0];self.prepare_qualified_worker_network_fixture(root,data,prefix)
+            self.assertEqual(validate(data),self.deferred_production_errors(profile,'POC-01'),(profile,url))
+        restore_network()
 
     def prepare_qualified_passthrough_transitions_fixture(self,root,execution,prefix):
         """Synthetic reboot/reset witnesses; never actual hardware validation."""

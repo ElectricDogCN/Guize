@@ -5896,8 +5896,20 @@ def derive_worker_network_transport(root,execution,prefix,case,identity,policy,e
         errors.append(f'{label}: actual request identity/method and final client exit must match the selected outcome');return
     if authorized:
         try:
-            target=urllib.parse.urlsplit(case['requestURL']);peer_port=target.port or (443 if target.scheme=='https' else 80)
-        except (ValueError,TypeError):errors.append(f'{label}: valid retained HTTP peer required');return
+            target=urllib.parse.urlsplit(case['requestURL']);peer_port=target.port if target.port is not None else (443 if target.scheme=='https' else 80)
+            head,separator,body=outbound.read_bytes().partition(b'\r\n\r\n')
+            if not separator or len(head)>65536 or body:raise ValueError('one complete bodyless HTTP request required')
+            lines=head.decode('ascii').split('\r\n');match=re.fullmatch(r'GET (/[!-~]*) HTTP/1\.[01]',lines[0]);headers={}
+            for line in lines[1:]:
+                key,colon,value=line.partition(':');key=key.lower()
+                if not colon or re.fullmatch(r"[!#$%&'*+.^_`|~0-9a-z-]+",key) is None or any(ord(c)<32 and c!='\t' or ord(c)==127 for c in value):raise ValueError('HTTP request header')
+                headers.setdefault(key,[]).append(value.strip(' \t'))
+            hosts=headers.get('host',[]);lengths=headers.get('content-length',[])
+            if len(hosts)!=1 or 'transfer-encoding' in headers or len(lengths)>1 or lengths and (re.fullmatch(r'[0-9]+',lengths[0]) is None or int(lengths[0])!=0):raise ValueError('ambiguous HTTP request framing')
+            host=urllib.parse.urlsplit(target.scheme+'://'+hosts[0]);host_port=host.port if host.port is not None else (443 if target.scheme=='https' else 80)
+            request_target=(target.path or '/')+('?' + target.query if '?' in case['requestURL'].split('#',1)[0] else '')
+            if target.scheme not in ('http','https') or not target.hostname or match is None or match.group(1)!=request_target or host.hostname!=target.hostname or host_port!=peer_port or host.username is not None or host.password is not None or host.path or host.query or host.fragment:raise ValueError('HTTP target/Host binding')
+        except (OSError,UnicodeError,ValueError,TypeError,OverflowError):errors.append(f'{label}: retained bodyless HTTP GET origin-form target and unique Host must match the approved request URL');return
         if [event['type'] for event in events]!=['request','connect','send','receive','exit']:
             errors.append(f'{label}: authorized control requires actual connect, sent request and received response events');return
         connect,send,receive=events[1:4]
