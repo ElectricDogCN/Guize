@@ -12,7 +12,7 @@ First-use declaration SHA256: 2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39
 
 Only Own Foundation/Registry/Task/Evidence is prepared. Current source checks, command exits, governance JUnit, same-head CI, independent review and actual-main acceptance are PENDING. Prior Completion acceptance is a dependency, not execution of this candidate.
 
-Exact dirty candidate metadata paths (including this inventory):
+Cumulative reservation metadata paths relative to declared base 3981190af9265a7db1654962c1d9870e51f36e64 (including this inventory and the two retained preparation attachments):
 
 - `evidence/OPS-011/agent-edge-104-first-use.json`
 - `evidence/OPS-011/api-samples/README.md`
@@ -23,6 +23,8 @@ Exact dirty candidate metadata paths (including this inventory):
 - `evidence/OPS-011/handoff.md`
 - `evidence/OPS-011/migration-report/README.md`
 - `evidence/OPS-011/performance/README.md`
+- `evidence/OPS-011/reservation-inputs-independent-review.json`
+- `evidence/OPS-011/reservation-inputs.json`
 - `evidence/OPS-011/risks.md`
 - `evidence/OPS-011/rollback-verification/README.md`
 - `evidence/OPS-011/scope.md`

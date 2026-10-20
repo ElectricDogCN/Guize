@@ -1,0 +1,169 @@
+{
+  "kind": "OPS011_INITIAL_RESERVATION_INPUTS_V2_FINITE_INDEPENDENT_REVIEW",
+  "observedAtUTC": "2026-10-20T15:08:25.242476+00:00",
+  "input": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-initial-reservation-inputs-v2.json",
+    "sha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+    "byteCount": 34327
+  },
+  "inputSha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+  "actualBase": "3981190af9265a7db1654962c1d9870e51f36e64",
+  "taskId": "OPS-011",
+  "scopeId": "AGENT-EDGE-104",
+  "planningTaskId": "GZ-022",
+  "schemaDefinitionAccepted": true,
+  "scopePreparationAccepted": true,
+  "mustFix": [],
+  "scope": "External inputs for a future metadata-only reservation; no actual registration or source validation",
+  "schemaCheck": {
+    "library": "jsonschema",
+    "completedInThisReadOnlyReview": true,
+    "prospectiveClosedTask": "GZ-022",
+    "taskErrors": [],
+    "baselineErrors": [],
+    "foundationRowErrors": [],
+    "allExistingRequiredTaskFieldsPresent": true,
+    "noNewTaskScopeField": true,
+    "legacyPlannedTaskRefRetained": "program-plan.schema.yaml#/$defs/task",
+    "legacyAdditionalPropertiesFalse": true,
+    "newFixedScopeAndFirstUseDefinitionsRequireLaterAuthorizedImplementation": true
+  },
+  "permissions": {
+    "foundationOnlyModGov": true,
+    "exactClaims": [
+      "specs/coordination/program-plan.yaml",
+      "specs/coordination/program-plan.schema.yaml",
+      "specs/coordination/planning-revision.schema.yaml",
+      "specs/coordination/active-work.schema.yaml",
+      "specs/coordination/README.md",
+      "scripts/program-planning-revision.py",
+      "scripts/check-program-plan-integrity.py",
+      "scripts/check-program-plan-transitions.py",
+      "scripts/check-project-readiness.py",
+      "scripts/check-task-file.py",
+      "tests/governance/test_program_planning_revision.py",
+      "tests/governance/test_program_plan_execution_integrity.py",
+      "tests/governance/test_program_plan_transitions.py",
+      "tests/governance/test_check_project_readiness.py",
+      "tests/governance/test_check_task_file.py"
+    ],
+    "allFifteenWithinActualModGovOwnership": true,
+    "independentRoles": true,
+    "completedReachableDependencies": [
+      "OPS-009",
+      "OPS-010",
+      "GZ-021"
+    ],
+    "separateReservationAndImplementationBranches": true,
+    "ordinaryGz022Modules": [
+      "MOD-GOV",
+      "MOD-PLATFORM",
+      "MOD-SOURCE",
+      "MOD-CONNECTOR",
+      "MOD-ASSET",
+      "MOD-TASK",
+      "MOD-STORAGE",
+      "MOD-MEDIA",
+      "MOD-WORKER",
+      "MOD-AI",
+      "MOD-PLAYER",
+      "MOD-EDGE",
+      "MOD-IAM",
+      "MOD-POLICY",
+      "MOD-CONFIG",
+      "MOD-AUDIT",
+      "MOD-DATA",
+      "MOD-DEPLOY",
+      "MOD-OBS"
+    ],
+    "ordinaryGz022DocumentOutputs": [
+      "specs/coordination/program-plan.yaml",
+      "specs/requirements/product-requirements.md",
+      "specs/requirements/agent-edge-104.md",
+      "specs/requirements/agent-edge-104.yaml",
+      "specs/acceptance/agent-edge-104.yaml",
+      "docs/03-system-architecture.md",
+      "docs/20-roadmap-and-wbs.md",
+      "docs/22-repository-and-directory-plan.md",
+      "specs/designs/module-ownership.yaml",
+      "adr/0016-agent-edge-runtime-and-product-agent-planning.md"
+    ]
+  },
+  "preservation": {
+    "originalV1Members": 27,
+    "originalPocs": 10,
+    "gz020DefinitionFinalAndProductionObligationsUnchanged": true,
+    "oldV1ManifestAndReqAndCrossFileRefSemanticsNotExpanded": true,
+    "globalThreeActiveOneHighCapacityUnchanged": true,
+    "ownEvidenceIntentAloneGrantsNoMutationPermission": true
+  },
+  "firstUse": {
+    "exactTargets": 3,
+    "scopeBoundaryAndGz022AndBaselineAbsentAtBase": true,
+    "reservationEvidenceInertUntilAcceptedOriginalCanonicalGitRegistration": true,
+    "canonicalFirstParentOriginalDeclarationAndInterveningByteHistoryMustAuthenticate": true,
+    "completeExpectedProgramComparisonRequired": true,
+    "planningOnlyGz022AndNullFinalNotBusinessReady": true,
+    "futureDefinedScopeRequiresCompleteBusinessDagExactMembersNonNullFinalClosureAndActualConsumerBarriers": true
+  },
+  "admission": {
+    "effectiveGraphAcyclic": true,
+    "consumerRoots": [
+      "POC-003",
+      "POC-005"
+    ],
+    "derivedConsumerClosure": [
+      "GZ-011",
+      "GZ-013",
+      "GZ-015",
+      "GZ-016",
+      "GZ-017",
+      "GZ-018",
+      "GZ-019",
+      "GZ-020",
+      "POC-003",
+      "POC-005"
+    ],
+    "allTenConsumersPlannedWithoutTaskSpecsRegistryLeaseOrCompletion": true,
+    "adrOverlapPresentAndHandledByExistingBaselineSeriality": true,
+    "sameW2ProducerAllowed": true,
+    "gz011InDerivedClosureAndActualLeaseSerialityStillRequired": true,
+    "normalGz022CompletionMustPreexistConsumerReservationOrExecution": true,
+    "noPlanningCompletionAdmissionCycleIdentified": true,
+    "actualReservationImplementationMustRecheckBaseOriginalTargetsConsumerStatesCapacityRolesAndUtcLease": true
+  },
+  "claimsSufficiency": "Fixed first-use schema plus planning/integrity/transitions/readiness/Task entrypoints and direct regressions fit the fifteen declared MOD-GOV paths. No claim is granted for other files, policy, workflows, legacy V1 validators or business implementation.",
+  "references": [
+    {
+      "path": "specs/coordination/program-plan.schema.yaml",
+      "sha256": "af337e11ba55c113f943288ec00f29fe046ca0bbc17f1d4fe76a73500d12ac29",
+      "definition": "$defs/task; $defs/planningBaseline; $defs/foundationTask"
+    },
+    {
+      "path": "specs/coordination/planning-revision.schema.yaml",
+      "sha256": "4a1b5c1274d4dd27144c9748023335ec61d5f0fbe4b83575b1bbaeeac876de54",
+      "definition": "$defs/plannedTask unchanged"
+    },
+    {
+      "path": "scripts/program-planning-revision.py",
+      "sha256": "ecb4bb6af17fd676d9949ace468a77d565e2a792ac3a545306e9ad379bcbd4f2",
+      "lines": "154-177,202-235,307-334,536-570,676-688"
+    },
+    {
+      "path": "specs/coordination/README.md",
+      "sha256": "d5f77c6ba47efc76913e64d97684895bafdc6e9e3af63871df41317adc2781ee",
+      "lines": "100-120"
+    }
+  ],
+  "registered": false,
+  "sourcePassed": false,
+  "sourceExecuted": false,
+  "ciAccepted": false,
+  "implementationAccepted": false,
+  "runtimeAccepted": false,
+  "formalPocAccepted": false,
+  "fullV1Complete": false,
+  "repositoryModified": false,
+  "repositoryValidatorsRun": false,
+  "fullTestsRun": false
+}

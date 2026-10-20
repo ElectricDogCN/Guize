@@ -12,3 +12,5 @@ First-use declaration SHA256: 2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39
 
 Only Own Foundation/Registry/Task/Evidence is prepared. Current source checks, command exits, governance JUnit, same-head CI, independent review and actual-main acceptance are PENDING. Prior Completion acceptance is a dependency, not execution of this candidate.
 Only initial reservation metadata; all three future targets remain inert in the original declaration. Source publication and validation pending.
+
+Repository-retained preparation materials: [reservation inputs](reservation-inputs.json) and [independent scope review](reservation-inputs-independent-review.json). Their original bytes match the input/review SHA256 above; these attachments do not establish execution or acceptance of this successor source.

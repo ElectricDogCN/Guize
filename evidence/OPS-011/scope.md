@@ -31,3 +31,5 @@ Metadata-only: Program Own Foundation, Registry Own Lease, Own Task and Evidence
 - `tests/governance/test_check_task_file.py`
 
 No shared paths. First-use file is not a business implementation claim or a v1 manifest.
+
+Repository-retained preparation materials: [reservation inputs](reservation-inputs.json) and [independent scope review](reservation-inputs-independent-review.json). Their original bytes match the input/review SHA256 above; these attachments do not establish execution or acceptance of this successor source.
