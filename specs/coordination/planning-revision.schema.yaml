@@ -234,6 +234,7 @@ $defs:
     - targets
     - requirementIndex
     - acceptanceIndex
+    - requirementDocument
     properties:
       schemaVersion:
         const: 2
@@ -272,6 +273,16 @@ $defs:
         $ref: '#/$defs/edgeRequirementCatalog'
       acceptanceIndex:
         $ref: '#/$defs/edgeAcceptanceCatalog'
+      requirementDocument:
+        type: object
+        additionalProperties: false
+        required: [path, content]
+        properties:
+          path:
+            const: specs/requirements/agent-edge-104.md
+          content:
+            type: string
+            minLength: 1
   edgeRequirementCatalog:
     type: object
     additionalProperties: false

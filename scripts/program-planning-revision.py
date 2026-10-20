@@ -330,6 +330,8 @@ def validate_frozen_edge_catalogs(root: str, authority: str, head_ref: str, plan
         # Canonical JSON equality also distinguishes bool/int and typed values.
         require(json.dumps(actual, sort_keys=True, ensure_ascii=False) == json.dumps(manifest[key], sort_keys=True, ensure_ascii=False),
                 f"EDGE {key} differs from complete original registered records")
+    require(blob(root, head_ref, EDGE_PATHS["requirements"]) == manifest["requirementDocument"]["content"].encode("utf-8"),
+            "EDGE requirementDocument differs from complete original registered content")
     validate_edge_indexes(root, plan, ref=head_ref)
 
 
@@ -667,7 +669,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             require(before == real_before and after == real_after, "Planning/baseline views must bind the actual Git snapshots")
         audit_changed_manifests(root, base_ref, head_ref, admitted_base_ref=admitted_base_ref)
         if after.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined" and (
-            scope_changed or changed_paths(root, base_ref, head_ref) & {EDGE_PATHS["requirementIndex"], EDGE_PATHS["acceptanceIndex"]}
+            scope_changed or changed_paths(root, base_ref, head_ref) & {EDGE_PATHS["requirements"], EDGE_PATHS["requirementIndex"], EDGE_PATHS["acceptanceIndex"]}
         ):
             validate_frozen_edge_catalogs(root, admitted_base_ref or base_ref, head_ref, after)
         if definitions(real_before) == definitions(real_after) and baseline_view(real_before) == baseline_view(real_after) and not scope_changed:

@@ -904,10 +904,12 @@ def test_fixed_first_use_cannot_borrow_or_rewrite_authority(tmp_path, case):
                              "requirementIds": ["REQ-EDGE-104-0001"], "taskIds": ["GZ-023"],
                              "verification": "Run the declared acceptance.", "evidencePath": "evidence/GZ-023/acceptance.json"}],
         }
+        requirement_document = "# Agent Edge\n\n## REQ-EDGE-104-0001\n\nOne complete delivery.\n"
         declaration = {
             "schemaVersion": 2, "kind": "agent-edge-104-definition", "taskId": "GZ-022", "scopeId": "AGENT-EDGE-104",
             "issue": 222, "reservationParent": history.registration, "programPlan": PLANNING.PLAN,
             "requirementIndex": requirements, "acceptanceIndex": acceptances,
+            "requirementDocument": {"path": "specs/requirements/agent-edge-104.md", "content": requirement_document},
             "targets": [{"kind": "define-fixed-scope", "id": "AGENT-EDGE-104", "before": before_scope, "after": copy.deepcopy(scope)},
                         {"kind": "add-edge-planned-task", "id": "GZ-023", "before": None, "after": final}],
         }
@@ -918,7 +920,7 @@ def test_fixed_first_use_cannot_borrow_or_rewrite_authority(tmp_path, case):
         history.dump("evidence/GZ-022/agent-edge-104-definition.json", declaration)
         history.dump("specs/requirements/agent-edge-104.yaml", requirements)
         history.dump("specs/acceptance/agent-edge-104.yaml", acceptances)
-        history.write("specs/requirements/agent-edge-104.md", "# Agent Edge\n\n## REQ-EDGE-104-0001\n\nOne complete delivery.\n")
+        history.write("specs/requirements/agent-edge-104.md", declaration["requirementDocument"]["content"])
     else:
         history.plan["tasks"][0]["title"] += " undeclared"
     history.finish()
@@ -1269,6 +1271,7 @@ class SimulatedCatalogHistory(FirstUseHistory):
             "## Shared modification scope\n\n- None.\n\n"
             "## Collaboration and handoff\n\n- Independent simulated implementer and reviewer; handoff is local fixture data.\n"
         )
+        self.requirement_document = "# Private protocol simulation\n\n## REQ-EDGE-104-0001\n\nSimulated delivery only.\n\nOriginal UTF-8 requirement: 原始正文约束。\n"
         self.requirements = {"schemaVersion": 1, "scopeId": "AGENT-EDGE-104", "sourceIssue": 104, "requirements": [
             {"id": "REQ-EDGE-104-0001", "title": "Simulated worker delivery", "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0001",
              "moduleIds": ["MOD-WORKER"], "taskIds": ["GZ-023"], "acceptanceIds": ["AC-EDGE-104-0001"]}]}
@@ -1287,6 +1290,7 @@ class SimulatedCatalogHistory(FirstUseHistory):
         self.manifest = {"schemaVersion": 2, "kind": "agent-edge-104-definition", "taskId": self.owner, "scopeId": "AGENT-EDGE-104",
                          "issue": 900022, "reservationParent": parent, "programPlan": PLANNING.PLAN,
                          "requirementIndex": self.requirements, "acceptanceIndex": self.acceptances,
+                         "requirementDocument": {"path": "specs/requirements/agent-edge-104.md", "content": self.requirement_document},
                          "targets": [{"kind": "define-fixed-scope", "id": "AGENT-EDGE-104", "before": before_scope, "after": after_scope},
                                      {"kind": "add-edge-planned-task", "id": "GZ-023", "before": None, "after": final}]}
         self.git("checkout", "-b", "chore/GZ-022-simulated-reservation", "main")
@@ -1307,7 +1311,7 @@ class SimulatedCatalogHistory(FirstUseHistory):
         self.plan["tasks"].append(copy.deepcopy(self.manifest["targets"][1]["after"]))
         self.dump("specs/requirements/agent-edge-104.yaml", self.requirements)
         self.dump("specs/acceptance/agent-edge-104.yaml", self.acceptances)
-        self.write("specs/requirements/agent-edge-104.md", "# Private protocol simulation\n\n## REQ-EDGE-104-0001\n\nSimulated delivery only.\n")
+        self.write("specs/requirements/agent-edge-104.md", self.manifest["requirementDocument"]["content"])
         self.save()
         return self.commit("SIMULATION GZ-022 exact catalog definition")
 
@@ -1344,9 +1348,65 @@ def test_simulated_original_catalog_admission_tampering_and_released_intro(tmp_p
     decision, errors = history.decision(base=code)
     assert decision is None and any("differs from complete original registered records" in error for error in errors)
     history.git("checkout", "main")
+    document_path = "specs/requirements/agent-edge-104.md"
+    weakened = history.manifest["requirementDocument"]["content"].replace("Simulated delivery only.", "Unreviewed weaker delivery.")
+    assert weakened != history.manifest["requirementDocument"]["content"]
+    history.git("checkout", "-b", "chore/GZ-022-simulated-document-tamper-active", "main")
+    history.write(document_path, weakened)
+    weakened_active = history.commit("SIMULATION normative document-only weakening while active")
+    assert PLANNING.changed_paths(str(history.root), code, weakened_active) == {document_path}
+    # Index joins, YAML catalogs and Markdown headings remain valid; only the
+    # registered normative body has changed.
+    PLANNING.validate_edge_indexes(str(history.root), history.plan, ref=weakened_active)
+    decision, errors = history.decision(base=code)
+    assert decision is None and any("requirementDocument differs from complete original registered content" in error for error in errors)
+    history.git("checkout", "main")
     completed = history.complete_planner(code)
     actual = PLANNING.document(str(history.root), completed, PLANNING.PLAN)
     assert "GZ-022" not in PLANNING.records(PLANNING.document(str(history.root), completed, PLANNING.ACTIVE)["tasks"])
     assert PLANNING.completed_producer(str(history.root), completed, "GZ-022")
     PLANNING.validate_frozen_edge_catalogs(str(history.root), completed, completed, actual)
+    history.git("checkout", "-b", "chore/GZ-022-simulated-document-tamper-completed", "main")
+    history.write(document_path, weakened)
+    weakened_completed = history.commit("SIMULATION normative document-only weakening after Active release")
+    assert PLANNING.changed_paths(str(history.root), completed, weakened_completed) == {document_path}
+    after = PLANNING.document(str(history.root), weakened_completed, PLANNING.PLAN)
+    PLANNING.validate_edge_indexes(str(history.root), after, ref=weakened_completed)
+    with pytest.raises(PLANNING.PlanningError, match="requirementDocument differs from complete original registered content"):
+        PLANNING.validate_frozen_edge_catalogs(str(history.root), completed, weakened_completed, after)
+    decision, errors = history.decision(base=completed)
+    assert decision is None and any("requirementDocument differs from complete original registered content" in error for error in errors)
     assert history.git("rev-parse", "origin/main") == EDGE_ADMISSION
+
+
+@pytest.mark.parametrize("case", ["missing", "wrong_path", "empty", "nonstring"])
+def test_definition_schema_requires_complete_fixed_requirement_document(case):
+    plan, requirements, acceptances = edge_index_documents()
+    before = edge_planning_plan()["scopeBoundary"]["agentEdge104"]
+    definition = {
+        "schemaVersion": 2, "kind": "agent-edge-104-definition", "taskId": "GZ-022", "scopeId": "AGENT-EDGE-104",
+        "issue": 900022, "reservationParent": EDGE_ADMISSION, "programPlan": PLANNING.PLAN,
+        "requirementIndex": requirements, "acceptanceIndex": acceptances,
+        "requirementDocument": {"path": "specs/requirements/agent-edge-104.md",
+                                "content": "# Schema fixture\n\n## REQ-EDGE-104-0001\n\nFirst full requirement.\n\n## REQ-EDGE-104-0002\n\nSecond full requirement.\n"},
+        "targets": [{"kind": "define-fixed-scope", "id": "AGENT-EDGE-104", "before": before,
+                     "after": plan["scopeBoundary"]["agentEdge104"]}]
+                   + [{"kind": "add-edge-planned-task", "id": row["taskId"], "before": None, "after": row}
+                      for row in plan["tasks"] if row["taskId"] in {"GZ-023", "GZ-024"}],
+    }
+    program_schema = yaml.safe_load((ROOT / PLANNING.PROGRAM_SCHEMA).read_text(encoding="utf-8"))
+    manifest_schema = yaml.safe_load((ROOT / PLANNING.MANIFEST_SCHEMA).read_text(encoding="utf-8"))
+    registry = Registry().with_resources([(program_schema["$id"], Resource.from_contents(program_schema)), (manifest_schema["$id"], Resource.from_contents(manifest_schema))])
+    validator = jsonschema.Draft202012Validator({"$ref": manifest_schema["$id"]+"#/$defs/agentEdge104Definition"}, registry=registry)
+    validator.validate(definition)
+    changed = copy.deepcopy(definition)
+    if case == "missing":
+        changed.pop("requirementDocument")
+    elif case == "wrong_path":
+        changed["requirementDocument"]["path"] = "specs/requirements/other.md"
+    elif case == "empty":
+        changed["requirementDocument"]["content"] = ""
+    else:
+        changed["requirementDocument"]["content"] = 7
+    with pytest.raises(jsonschema.ValidationError):
+        validator.validate(changed)
