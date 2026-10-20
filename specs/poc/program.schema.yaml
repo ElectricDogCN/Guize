@@ -1630,8 +1630,10 @@ $defs:
   androidMediaProbeReport:
     type: object
     additionalProperties: false
-    required: [schemaVersion, kind, nodeId, encoderBuild, inputSha256, outputArtifactRef, outputSha256, decoderBuild, codec, decodable, decodedFrameCount, durationSeconds, decodeErrorCount]
+    required: [schemaVersion, kind, nodeId, encoderBuild, inputSha256, outputArtifactRef, outputSha256, decoderBuild, codec, decodable, decodedFrameCount, durationSeconds, decodeErrorCount, executionRef, observedAt]
     properties:
+      executionRef: {type: string, minLength: 1}
+      observedAt: {type: string, format: date-time}
       schemaVersion: {type: integer, const: 1}
       kind: {const: android_media_probe}
       nodeId: {type: string, minLength: 1}

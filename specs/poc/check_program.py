@@ -10,6 +10,7 @@ import codecs
 import hashlib
 import importlib.util
 import ipaddress
+import io
 import json
 import math
 import posixpath
@@ -551,6 +552,39 @@ def retained_local_source_transport_artifact(root,execution,prefix,ref,kind,maxi
     paths.append(path);return path
 
 
+def retained_http_body_chunks(stream,headers,retained_size):
+    """Decode retained native HTTP framing with bounded reads and unambiguous trailers."""
+    count=0
+    if 'transfer-encoding' in headers:
+        if headers['transfer-encoding'].lower()!='chunked' or 'content-length' in headers:raise ValueError('ambiguous HTTP framing')
+        while True:
+            line=stream.readline(65537)
+            if len(line)>65536 or not line.endswith(b'\r\n'):raise ValueError('chunk header')
+            token=line[:-2].split(b';',1)[0]
+            if re.fullmatch(rb'[0-9a-fA-F]+',token) is None:raise ValueError('chunk length')
+            remaining=int(token,16)
+            if remaining>retained_size:raise ValueError('chunk exceeds retained response')
+            if remaining==0:
+                trailer_size=0
+                while True:
+                    line=stream.readline(65537);trailer_size+=len(line)
+                    if not line or trailer_size>65536 or not line.endswith(b'\r\n'):raise ValueError('HTTP trailer')
+                    if line==b'\r\n':break
+                    key,colon,value=line[:-2].decode('ascii').partition(':');key=key.lower()
+                    if not colon or re.fullmatch(r'[a-z0-9-]+',key) is None or key in headers or key in ('content-length','transfer-encoding'):raise ValueError('ambiguous HTTP trailer')
+                    headers[key]=value.strip()
+                if stream.read(1):raise ValueError('extra HTTP bytes')
+                break
+            while remaining:
+                chunk=stream.read(min(remaining,ARTIFACT_CHUNK_BYTES))
+                if not chunk:raise ValueError('truncated HTTP chunk')
+                remaining-=len(chunk);yield chunk
+            if stream.read(2)!=b'\r\n':raise ValueError('chunk delimiter')
+    else:
+        while chunk:=stream.read(ARTIFACT_CHUNK_BYTES):count+=len(chunk);yield chunk
+        if 'content-length' in headers and (re.fullmatch(r'[0-9]+',headers['content-length']) is None or int(headers['content-length'])!=count):raise ValueError('HTTP framing')
+
+
 def parse_local_source_http_response(raw):
     """Parse a bounded retained final HTTP response without following any URL."""
     head,separator,body=raw.partition(b'\r\n\r\n');lines=head.decode('ascii').split('\r\n')
@@ -561,7 +595,7 @@ def parse_local_source_http_response(raw):
         key,colon,value=line.partition(':');key=key.lower()
         if not colon or re.fullmatch(r'[a-z0-9-]+',key) is None or key in headers:raise ValueError('ambiguous/malformed HTTP header')
         headers[key]=value.strip()
-    if 'transfer-encoding' in headers or 'content-length' in headers and (re.fullmatch(r'[0-9]+',headers['content-length']) is None or int(headers['content-length'])!=len(body)):raise ValueError('response framing')
+    body=b''.join(retained_http_body_chunks(io.BytesIO(body),headers,len(raw)))
     return int(match.group(1)),headers,body
 
 
@@ -1915,18 +1949,37 @@ RAW_ASSIGNMENT = re.compile(r'''(?:["'](?P<quoted>[^\r\n"']{1,128})["']|(?P<plai
 RAW_AUTHORIZATION = re.compile(r'''(?i)\b(?:authorization|proxy-authorization)["']?\s*[:=]\s*["']?(?:Bearer|Basic)\s+\S+''')
 
 
+def artifact_credential_scanner():
+    """Scan replacement-decoded bytes with the existing bounded credential window."""
+    decoder = codecs.getincrementaldecoder('utf8')('replace')
+    tail, credential = '', False
+    def scan(chunk, final=False):
+        nonlocal tail, credential
+        window = tail+decoder.decode(chunk,final=final)
+        findings = []
+        secret_scan(window,'raw artifact',findings)
+        for match in RAW_ASSIGNMENT.finditer(window):
+            key = match['quoted'] or match['plain']
+            value = False if re.match(r'(?i)^false(?:\s*$|\s*[,}])',match['value'].strip()) else match['value']
+            if secret_key(key,value): findings.append('credential-bearing assignment')
+        credential = credential or bool(findings) or RAW_AUTHORIZATION.search(window) is not None
+        tail = window[-4096:]
+        return credential
+    return scan
+
+
 def inspect_binary_artifact_ranges(path,cache,byte_ranges,mp4=False):
     """Hash the requested binary ranges during the artifact's one bounded scan."""
     requested=tuple(dict.fromkeys(byte_ranges));cached=cache.get(path)
     if cached is not None and all(bounds in cached.get('rangeHashes',{}) for bounds in requested) and (not mp4 or 'mp4' in cached):return cached
-    size=path.stat().st_size;digest=hashlib.sha256();offset=0
+    size=path.stat().st_size;digest=hashlib.sha256();offset=0;scan=artifact_credential_scanner()
     valid=[bounds for bounds in requested if len(bounds)==2 and all(type(v) is int for v in bounds) and 0<=bounds[0]<=bounds[1]<size]
     ranges={bounds:hashlib.sha256() for bounds in valid if bounds!=(0,size-1)}
     pending=iter(sorted(ranges));following=next(pending,None);active={}
     boxes=[];box_header=bytearray();next_box=0;metadata={};metadata_ranges=[];metadata_cursor=0;mp4_valid=True
     def consume_physical(chunk):
         nonlocal offset,next_box,mp4_valid,following,metadata_cursor
-        digest.update(chunk);chunk_end=offset+len(chunk)
+        digest.update(chunk);scan(chunk);chunk_end=offset+len(chunk)
         # Visit a range only while its bytes overlap the streaming cursor.
         while following is not None and following[0]<chunk_end:
             active[following]=ranges[following];following=next(pending,None)
@@ -1959,8 +2012,8 @@ def inspect_binary_artifact_ranges(path,cache,byte_ranges,mp4=False):
                 metadata_cursor+=1
         offset+=len(chunk)
     for _ in retained_metadata_chunks(path,consume_physical):pass
-    result=dict(cached or {},size=size,sha256='sha256:'+digest.hexdigest())
-    for key in ('textScanned','credential','invalidUtf8'):result.setdefault(key,False)
+    result=dict(cached or {},size=size,sha256='sha256:'+digest.hexdigest(),credential=scan(b'',final=True) or bool((cached or {}).get('credential')))
+    for key in ('textScanned','invalidUtf8'):result.setdefault(key,False)
     if valid:
         result['rangeHashes']=dict(result.get('rangeHashes',{}))
         result['rangeHashes'].update({bounds:result['sha256'] if bounds==(0,size-1) else 'sha256:'+ranges[bounds].hexdigest() if offset>bounds[1] else None for bounds in valid})
@@ -1984,19 +2037,8 @@ def inspect_artifact(path, cache, textual=False, byte_range=None, byte_ranges=No
     range_digest=hashlib.sha256() if valid_range and not complete_range else None
     offset=0
     decoder = codecs.getincrementaldecoder('utf8')('strict') if textual else None
-    scan_decoder = codecs.getincrementaldecoder('utf8')('replace') if textual else None
-    tail, credential, invalid_utf8 = '', False, False
-    def scan(text):
-        nonlocal tail, credential
-        window = tail+text
-        findings = []
-        secret_scan(window,'raw textual artifact',findings)
-        for match in RAW_ASSIGNMENT.finditer(window):
-            key = match['quoted'] or match['plain']
-            value = False if re.match(r'(?i)^false(?:\s*$|\s*[,}])',match['value'].strip()) else match['value']
-            if secret_key(key,value): findings.append('credential-bearing assignment')
-        credential = credential or bool(findings) or RAW_AUTHORIZATION.search(window) is not None
-        tail = window[-4096:]
+    scan = artifact_credential_scanner()
+    invalid_utf8 = False
     def consume_physical(chunk):
         nonlocal offset
         digest.update(chunk)
@@ -2006,13 +2048,13 @@ def inspect_artifact(path, cache, textual=False, byte_range=None, byte_ranges=No
             if low<high:range_digest.update(chunk[low:high])
         offset+=len(chunk)
     for chunk in retained_metadata_chunks(path,consume_physical,textual and path.name.endswith('.jsonl.gz'),METADATA_MAX_DECODED_BYTES if textual else None):
-        if scan_decoder is not None:scan(scan_decoder.decode(chunk))
+        scan(chunk)
         if decoder is not None:
             try: decoder.decode(chunk)
             except UnicodeDecodeError:
                 invalid_utf8 = True
                 decoder = None
-    if scan_decoder is not None:scan(scan_decoder.decode(b'',final=True))
+    credential = scan(b'',final=True)
     if decoder is not None:
         try: decoder.decode(b'',final=True)
         except UnicodeDecodeError: invalid_utf8 = True
@@ -2079,7 +2121,8 @@ def validate_qualified_raw(root, plan, execution, configuration, defs, prefix, s
             continue
         total_bytes += actual['size']
         if actual['credential']:
-            errors.append(f'{label}: credentials forbidden in raw textual artifacts')
+            artifact_kind = 'binary' if record.get('artifactType')=='produced_media' else 'textual'
+            errors.append(f'{label}: credentials forbidden in raw {artifact_kind} artifacts')
         if actual['invalidUtf8'] and not (plan['pocId']=='POC-10' and record.get('artifactType')=='recovery_output'):
             errors.append(f'{label}: raw textual artifacts must decode as UTF-8')
         if type(record.get('byteCount')) is not int or record['byteCount'] != actual['size']:
@@ -4706,34 +4749,7 @@ def retained_access_http_response(path):
             if not colon or re.fullmatch(r'[a-z0-9-]+',key) is None or key in headers:raise ValueError('HTTP header')
             headers[key]=value.strip()
         count=0;digest=hashlib.sha256()
-        if 'transfer-encoding' in headers:
-            if headers['transfer-encoding'].lower()!='chunked' or 'content-length' in headers:raise ValueError('ambiguous HTTP framing')
-            while True:
-                line=stream.readline(65537)
-                if len(line)>65536 or not line.endswith(b'\r\n'):raise ValueError('chunk header')
-                token=line[:-2].split(b';',1)[0]
-                if re.fullmatch(rb'[0-9a-fA-F]+',token) is None:raise ValueError('chunk length')
-                remaining=int(token,16)
-                if remaining>path.stat().st_size:raise ValueError('chunk exceeds retained response')
-                if remaining==0:
-                    trailer_size=0
-                    while True:
-                        line=stream.readline(65537);trailer_size+=len(line)
-                        if not line or trailer_size>65536 or not line.endswith(b'\r\n'):raise ValueError('HTTP trailer')
-                        if line==b'\r\n':break
-                        key,colon,value=line[:-2].decode('ascii').partition(':');key=key.lower()
-                        if not colon or re.fullmatch(r'[a-z0-9-]+',key) is None or key in headers or key in ('content-length','transfer-encoding'):raise ValueError('ambiguous HTTP trailer')
-                        headers[key]=value.strip()
-                    if stream.read(1):raise ValueError('extra HTTP bytes')
-                    break
-                while remaining:
-                    chunk=stream.read(min(remaining,ARTIFACT_CHUNK_BYTES))
-                    if not chunk:raise ValueError('truncated HTTP chunk')
-                    count+=len(chunk);remaining-=len(chunk);digest.update(chunk)
-                if stream.read(2)!=b'\r\n':raise ValueError('chunk delimiter')
-        else:
-            while chunk:=stream.read(ARTIFACT_CHUNK_BYTES):count+=len(chunk);digest.update(chunk)
-            if 'content-length' in headers and (re.fullmatch(r'[0-9]+',headers['content-length']) is None or int(headers['content-length'])!=count):raise ValueError('HTTP framing')
+        for chunk in retained_http_body_chunks(stream,headers,path.stat().st_size):count+=len(chunk);digest.update(chunk)
         return int(match.group(1)),headers,count,'sha256:'+digest.hexdigest()
 
 
@@ -5737,6 +5753,42 @@ def validate_qualified_ai_data_policy(root,plan,execution,prefix,window,defs,err
             errors.append(f'{label}: disallowed data must retain zero outbound bytes and no provider request')
 
 
+def derive_android_native_decode(root,plan,execution,prefix,scope,report,defs,label,errors,cache):
+    """Bind the Android/VM scope output to the existing approved AV1 decoder claim."""
+    env=execution.get('environmentCaptured') or {};before=len(errors)
+    resource=next((r for r in execution.get('resources') or [] if isinstance(r,dict) and r.get('id')=='RES-HETEROGENEOUS-WORKERS'),None)
+    path=existing_ref(root,resource.get('configurationRef'),prefix) if resource else None
+    try:policy=load(path).get('configuration',{}).get('workerCapabilityPolicy') if path else None
+    except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
+    validate_schema(policy,defs.get('workerCapabilityPolicy',{}),label+'/approved decoder',errors)
+    if len(errors)!=before or not isinstance(policy,dict):return
+    claims=[c for c in policy['claims'] if c['nodeId']==scope.get('nodeId') and c['codec']=='av1' and c['status']=='supported']
+    if len(claims)!=1:
+        errors.append(f'{label}: one approved supported AV1 decoder claim for the exact scope node required');return
+    claim=claims[0];fps=policy['framesPerSecond'];count=policy['sourceFrameCount']
+    if any(claim[k]!=scope.get(k) for k in ('nodeId','encoderBuild','inputSha256')) or report['decoderBuild']!=claim['decoderBuild'] or claim['sourceStartFrame']!=0 or claim['sourceEndFrame']!=count or not ai_finite(fps) or fps<=0:
+        errors.append(f'{label}: native decode must use approved node/input/encoder/decoder and complete frame span');return
+    inputs=[a for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict) and a.get('sampleId')==claim['inputSampleId']]
+    source=existing_ref(root,inputs[0].get('inputArtifactRef'),prefix) if len(inputs)==1 else None
+    if source is None or inspect_artifact(source,cache)['sha256']!=claim['inputSha256']:
+        errors.append(f'{label}: actual approved input bytes required by native decode');return
+    context=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env.get('acceptanceProfile'),subjectVersion=compliance_subject_version(plan,execution),inputSamples=[{k:a.get(k) for k in ('id','immutableId','checksum')} for a in execution.get('samples') or []])
+    identity=dict(context,**claim,outputArtifactRef=scope['rawOutputRef'],outputSha256=scope['outputSha256'])
+    clocks=env.get('executionWindow') or {};first,last=utc(clocks.get('startedAt')),utc(clocks.get('finishedAt'))
+    decoded=media_decode_execution(root,execution,prefix,report.get('executionRef'),identity,claim['decoderBuild'],claim['nodeId'],first,count,fps,defs,label+'/native decoder',errors,cache)
+    if decoded is None:return
+    observed=utc(report.get('observedAt'))
+    try:duration=count/fps
+    except (OverflowError,ZeroDivisionError):duration=None
+    if report['decodedFrameCount']!=count or not ai_finite(duration) or not math.isclose(report['durationSeconds'],duration,rel_tol=1e-9,abs_tol=1e-9) or observed is None or last is None or not decoded[1]<=observed<=last:
+        errors.append(f'{label}: native complete frames/duration and post-process observation must match Android output');return
+    native=bounded_evaluator_json(root,execution,prefix,report.get('executionRef'),'command_output',defs,'mediaNativeExecution',label+'/native identity',errors,cache)
+    if native is None:return
+    protected=[source]+[existing_ref(root,ref,prefix) for ref in (scope['rawOutputRef'],env['androidMediaProbeRef'],report.get('executionRef'),native['stdoutRef'],native['stderrRef'])]
+    if any(a is not None and b is not None and a.samefile(b) for i,a in enumerate(protected) for b in protected[i+1:]):
+        errors.append(f'{label}: input/output/probe/native process/streams must be physically distinct')
+
+
 def validate_qualified_android_media(root, plan, execution, prefix, status, errors, artifact_cache, defs):
     if plan['pocId'] != 'POC-01' or status != 'pass':
         return
@@ -5753,12 +5805,6 @@ def validate_qualified_android_media(root, plan, execution, prefix, status, erro
     if artifact is None or artifact.get('artifactType') != 'produced_media' or artifact.get('nodeId') != scope.get('nodeId') or path is None:
         errors.append(f'{label}: encode scope must reference a node-bound typed produced_media artifact')
         return
-    try:
-        actual = inspect_artifact(path,artifact_cache)
-        if actual['size'] == 0 or scope.get('outputSha256') != actual['sha256']:
-            errors.append(f'{label}: outputSha256 must bind actual nonempty produced media bytes')
-    except OSError:
-        errors.append(f'{label}: produced media must be readable')
     probe_label=f"qualified Android media probe {plan['taskId']}"
     probe_ref=env.get('androidMediaProbeRef')
     probes=[item for item in records if isinstance(item,dict) and item.get('ref')==probe_ref]
@@ -5774,6 +5820,13 @@ def validate_qualified_android_media(root, plan, execution, prefix, status, erro
             frames=report.get('decodedFrameCount');duration=report.get('durationSeconds')
             if any(report.get(key)!=value for key,value in expected.items()) or not recorded_text(report.get('decoderBuild')) or report.get('codec')!='av1' or report.get('decodable') is not True or type(frames) is not int or frames<=0 or not good_actual('seconds',duration) or duration<=0 or type(report.get('decodeErrorCount')) is not int or report['decodeErrorCount']!=0:
                 errors.append(f'{probe_label}: decodable AV1 frames/duration and zero errors must bind the exact input/output/node/build')
+            else:derive_android_native_decode(root,plan,execution,prefix,scope,report,defs,probe_label,errors,artifact_cache)
+    try:
+        actual = inspect_artifact(path,artifact_cache)
+        if actual['size'] == 0 or scope.get('outputSha256') != actual['sha256']:
+            errors.append(f'{label}: outputSha256 must bind actual nonempty produced media bytes')
+    except OSError:
+        errors.append(f'{label}: produced media must be readable')
     if env.get('acceptanceProfile') == profile_identity('production'):
         observation = env.get('android_thermal_background_observation')
         observation_ref = observation.get('rawOutputRef') if isinstance(observation,dict) else None

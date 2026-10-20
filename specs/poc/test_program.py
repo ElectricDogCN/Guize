@@ -38,6 +38,13 @@ def write_yaml(path: Path, data):
         yaml.safe_dump(data, handle, sort_keys=False, allow_unicode=True, width=120)
 
 
+def chunked_http_fixture(raw):
+    """Retain the same synthetic final status, headers and decoded body with chunk framing."""
+    head,body=raw.split(b'\r\n\r\n',1);lines=[line for line in head.split(b'\r\n') if not line.lower().startswith(b'content-length:')]
+    chunks=b''.join(format(len(body[i:i+3]),'x').encode()+b';fixture=bounded\r\n'+body[i:i+3]+b'\r\n' for i in range(0,len(body),3))
+    return b'\r\n'.join(lines+[b'Transfer-Encoding: chunked'])+b'\r\n\r\n'+chunks+b'0\r\nX-Fixture-Trailer: complete\r\n\r\n'
+
+
 class TestPocProgram(unittest.TestCase):
     def setUp(self):
         self.repo = HERE.parents[1]
@@ -518,6 +525,7 @@ class TestPocProgram(unittest.TestCase):
             if task_id=='POC-001' and production and status=='pass':self.prepare_qualified_passthrough_transitions_fixture(root,execution,new_prefix)
             if task_id=='POC-001' and status=='pass':self.prepare_qualified_worker_safety_fixture(root,execution,new_prefix)
             if task_id=='POC-001' and status=='pass':self.prepare_qualified_worker_capabilities_fixture(root,execution,new_prefix)
+            if task_id=='POC-001' and status=='pass':self.prepare_android_native_decode_fixture(root,execution,new_prefix)
             if task_id=='POC-006' and not production and status=='pass':self.prepare_qualified_source_fault_fixture(root,execution,new_prefix)
             if task_id=='POC-010' and status=='pass':self.prepare_qualified_recovery_fixture(root,execution,new_prefix)
             if task_id=='POC-002' and status=='pass':self.prepare_qualified_media_assembly_fixture(root,execution,new_prefix)
@@ -1075,6 +1083,15 @@ class TestPocProgram(unittest.TestCase):
             trace_path.write_bytes(json.dumps(trace).encode());write_yaml(witness_path,witness)
             for path in (trace_path,witness_path):register(data,path)
             self.assertEqual(validate(data),[],positive)
+        for path,raw in saved.items():path.write_bytes(raw)
+
+        # Consecutive rate-limit requests retain decoded 206/429 bodies under the same bindings.
+        for path,raw in saved.items():path.write_bytes(raw)
+        data=copy.deepcopy(original);witness_path=root/next(row['witnessRef'] for row in baseline['cases'] if row['case']=='rate_limit');witness=load_yaml(witness_path)
+        for attempt in witness['rateAttempts']:
+            trace_path=root/attempt['transportRef'];trace=json.loads(trace_path.read_bytes());response_path=root/trace['responseRef'];response_path.write_bytes(chunked_http_fixture(response_path.read_bytes()));trace['responseSha256']='sha256:'+hashlib.sha256(response_path.read_bytes()).hexdigest();trace_path.write_bytes(json.dumps(trace).encode())
+            for path in (response_path,trace_path):register(data,path)
+        self.assertEqual(validate(data),[],'chunked consecutive native rate responses')
         for path,raw in saved.items():path.write_bytes(raw)
 
     def exercise_frontend_browser_capture_regressions(self,root,original,prefix,profile):
@@ -1943,6 +1960,19 @@ class TestPocProgram(unittest.TestCase):
         ref,_,_=retain('worker-capabilities.yaml',report,'measurement_output',env['worker_node_inventory'][0]['nodeId']);env['workerCapabilitiesRef']=ref
 
 
+    def prepare_android_native_decode_fixture(self,root,execution,prefix):
+        """Explicit synthetic native decoder setup only; never actual device/media evidence."""
+        env=execution['environmentCaptured'];scope=env['vm_validation_scope'] if env['acceptanceProfile']==CHECK.profile_identity('local-v1') else env['android_validation_scope']
+        resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');policy=load_yaml(root/resource['configurationRef'])['configuration']['workerCapabilityPolicy'];claim=next(c for c in policy['claims'] if c['nodeId']==scope['nodeId'] and c['codec']=='av1')
+        capabilities=load_yaml(root/env['workerCapabilitiesRef']);row=next(r for r in capabilities['claims'] if r['caseId']==claim['caseId']);probe=load_yaml(root/row['decodeRef']);media_ref=scope['rawOutputRef']
+        _,digest=self.retain_media_native_fixture(root,execution,prefix,media_ref.rsplit('/',1)[-1],(root/row['outputArtifactRef']).read_bytes(),scope['nodeId'],'produced_media');scope['outputSha256']=digest
+        context=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-001')),execution),inputSamples=[{k:a[k] for k in ('id','immutableId','checksum')} for a in execution['samples']])
+        identity=dict(context,**claim,outputArtifactRef=media_ref,outputSha256=digest)
+        tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',media_ref]
+        native_ref,_=self.retain_media_process_fixture(root,execution,prefix,'android-native-decode','decode',identity,scope['nodeId'],'ffprobe',claim['decoderBuild'],tail,(root/probe['rawProbeRef']).read_bytes(),'2026-09-03T00:00:01Z','2026-09-03T00:00:02Z',65501)
+        report=load_yaml(root/env['androidMediaProbeRef']);report.update(outputSha256=digest,decoderBuild=claim['decoderBuild'],executionRef=native_ref,observedAt='2026-09-03T00:00:02Z');write_yaml(root/env['androidMediaProbeRef'],report)
+        self.retain_media_native_fixture(root,execution,prefix,env['androidMediaProbeRef'].rsplit('/',1)[-1],(root/env['androidMediaProbeRef']).read_bytes(),scope['nodeId'],'measurement_output')
+
     def prepare_qualified_worker_safety_fixture(self,root,execution,prefix):
         """Synthetic per-node safety observations; never actual worker execution evidence."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');subject=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-001')),execution)
@@ -2059,6 +2089,36 @@ class TestPocProgram(unittest.TestCase):
             elif mode=='flush_before_response':run['events'][-1]['observedAt']=row['requestedAt']
             if mode.startswith('http_'):run['events'][-2]['responseSha256']='sha256:'+hashlib.sha256(response_path.read_bytes()).hexdigest()
             request_path.write_bytes(json.dumps(request).encode());path.write_bytes(json.dumps(run).encode());write_yaml(origin_path,origin);write_yaml(report_path,report);self.assertTrue(validate(data),('native source authentication',mode))
+        # Both native parsers share exact decoded bytes, with plain framing unchanged.
+        with tempfile.TemporaryDirectory() as directory:
+            response=Path(directory)/'response.bin'
+            for status,body in ((200,b'protected'),(206,b'range'),(401,b''),(403,b'{"error":"denied"}'),(429,b'{"error":"rate"}')):
+                plain=f'HTTP/1.1 {status} Fixture\r\nContent-Length: {len(body)}\r\n\r\n'.encode()+body
+                for raw in (plain,chunked_http_fixture(plain),plain.replace(f'Content-Length: {len(body)}\r\n'.encode(),b'')):
+                    code,headers,decoded=CHECK.parse_local_source_http_response(raw);self.assertEqual((code,decoded),(status,body))
+                    response.write_bytes(raw);stream_code,stream_headers,count,digest=CHECK.retained_access_http_response(response);self.assertEqual((stream_code,stream_headers,count,digest),(code,headers,len(body),'sha256:'+hashlib.sha256(body).hexdigest()))
+            prefix_bytes=b'HTTP/1.1 200 Fixture\r\nTransfer-Encoding: chunked\r\n'
+            invalid=(
+                prefix_bytes+b'Content-Length: 1\r\n\r\n1\r\nx\r\n0\r\n\r\n',
+                prefix_bytes+b'Transfer-Encoding: chunked\r\n\r\n0\r\n\r\n',
+                prefix_bytes.replace(b': chunked',b': gzip, chunked')+b'\r\n0\r\n\r\n',
+                prefix_bytes+b'\r\n1\r\nx',prefix_bytes+b'\r\n2\r\nx',prefix_bytes+b'\r\nz\r\nx\r\n0\r\n\r\n',
+                prefix_bytes+b'\r\n1\r\nxXX0\r\n\r\n',prefix_bytes+b'\r\n0\r\n\r\nextra',
+                prefix_bytes+b'\r\n0\r\nContent-Length: 0\r\n\r\n',
+                prefix_bytes+b'\r\n0\r\nX-Extra: a\r\nX-Extra: b\r\n\r\n',
+                prefix_bytes+b'\r\n1;'+b'x'*65536+b'\r\nx\r\n0\r\n\r\n',
+                prefix_bytes+b'\r\n0\r\nX-Extra: '+b'x'*65536+b'\r\n\r\n',
+                b'HTTP/1.1 200 Fixture\r\nContent-Length: 2\r\n\r\nx')
+            for raw in invalid:
+                with self.assertRaises(ValueError):CHECK.parse_local_source_http_response(raw)
+                response.write_bytes(raw)
+                with self.assertRaises(ValueError):CHECK.retained_access_http_response(response)
+        # Authentication successes and both real denials retain exact native chunked captures.
+        restore();data=copy.deepcopy(original);report=load_yaml(report_path)
+        for row in report['requests']:
+            path=root/row['transportExecutionRef'];run=json.loads(path.read_bytes());response_path=root/run['responseRef'];response_path.write_bytes(chunked_http_fixture(response_path.read_bytes()));run['events'][-2]['responseSha256']='sha256:'+hashlib.sha256(response_path.read_bytes()).hexdigest();path.write_bytes(json.dumps(run).encode())
+            for changed in (response_path,path):register(data,changed)
+        self.assertEqual(validate(data),[],'native chunked authentication and denial responses');restore()
         # Authenticated HITs legitimately read no origin, including complete-range 206 responses.
         for status in (200,206):
             restore();data=copy.deepcopy(original);report=load_yaml(report_path);row=report['requests'][0];row['statusCode']=status;origin_path=root/row['originAccessRef'];origin=load_yaml(origin_path);origin.update(statusCode=status,originRequestCount=0,objectReadCount=0);write_yaml(origin_path,origin);register(data,origin_path);write_yaml(report_path,report);self.prepare_local_source_authentication_execution_fixture(root,data,prefix);self.assertEqual(validate(data),[],('native authenticated HIT',status))
@@ -4332,6 +4392,13 @@ class TestPocProgram(unittest.TestCase):
                 else:attempt['idempotencyKey']='unapproved-key'
                 write_yaml(report_path,report);write_yaml(config_path,config)
                 self.assertTrue(any('qualified local source faults' in error for error in validate(copy.deepcopy(original))),mode)
+            # Successful native HTTP attempts may use chunking; failed partial transports stay intact.
+            report=copy.deepcopy(report_original);self.prepare_qualified_source_fault_transport_fixture(root,original,prefix,report,config_original['configuration']['localSourceFaultPolicy'])
+            for row in report['cases']:
+                for attempt in row['attempts']:
+                    run=load_yaml(root/attempt['transportExecutionRef']);response_path=root/run['responseRef']
+                    if run['exitCode']==0:response_path.write_bytes(chunked_http_fixture(response_path.read_bytes()))
+            write_yaml(report_path,report);write_yaml(config_path,config_original);self.assertEqual(validate(copy.deepcopy(original)),[],'native chunked fault/recovery responses')
             # Both checkpoint resume and an explicitly reset idempotent rerun are legal.
             report=copy.deepcopy(report_original);row=next(row for row in report['cases'] if row['case']=='interrupted_sync');row['recoveryMode']='idempotent_rerun';row['attempts'][1]['checkpointBefore']=None
             self.prepare_qualified_source_fault_transport_fixture(root,original,prefix,report,config_original['configuration']['localSourceFaultPolicy'])
@@ -5554,6 +5621,11 @@ class TestPocProgram(unittest.TestCase):
             def response_bytes(payload,status=200,headers=None):
                 body=payload if isinstance(payload,bytes) else json.dumps(payload,ensure_ascii=False).encode('utf8')
                 return (f'HTTP/1.1 {status} Fixture\r\nContent-Type: application/json\r\nContent-Length: {len(body)}\r\n'+(headers or '')+'\r\n').encode('ascii')+body
+            # All repeated native OpenList JSON pages keep exact decoded content under chunking.
+            for listing_run in original_report['runs']:
+                for listing_page in listing_run['pages']:
+                    transport=load_yaml(root/listing_page['transportExecutionRef']);response_path=root/transport['responseRef'];response_path.write_bytes(chunked_http_fixture(response_path.read_bytes()))
+            self.assertEqual(validate(copy.deepcopy(original)),[],'native chunked OpenList listing pages');restore_transport()
             for mode in ('missing','shape','policy','source','sandbox','version','endpoint','input','single_run','duplicate_run','cursor','last_cursor','status','clock','duplicate_request','missing_object','version_changed','name_changed','duplicate_object','duplicate_policy','criterion','basis_missing','basis_version','basis_hash','basis_clock','basis_reason','rubric','score','gate'):
                 data=copy.deepcopy(original);report=copy.deepcopy(original_report);config=copy.deepcopy(original_config);basis=copy.deepcopy(original_basis);policy=config['configuration']['localSourceListingPolicy'];page=report['runs'][1]['pages'][0]
                 if mode=='missing':data['environmentCaptured'].pop('sourceListingRef')
@@ -8258,6 +8330,50 @@ class TestPocProgram(unittest.TestCase):
                 self.assertTrue(facts['mp4']['valid']);self.assertEqual(facts['mp4']['metadata'],{b'ftyp':ftyp_payload,b'moov':moov[8:]})
                 self.assertEqual(facts['sha256'],'sha256:'+hashlib.sha256(raw).hexdigest())
 
+            # Binary first-pass caches must carry credential findings into the raw-artifact gate.
+            slot=Path(directory)/'slot';slot.mkdir();defs=load_yaml(self.repo/'specs/poc/program.schema.yaml')['$defs']
+            def check_binary(payload,mode):
+                raw=header+box(b'mdat',payload) if mode=='mp4' else payload
+                selected=slot/('outbound-'+mode+'.bin');selected.write_bytes(raw);cache={};reads=[0];original_open=Path.open;test=self
+                class Reader:
+                    def __init__(self,handle):self.handle=handle
+                    def __enter__(self):self.handle.__enter__();return self
+                    def __exit__(self,*args):return self.handle.__exit__(*args)
+                    def read(self,size):
+                        test.assertGreater(size,0);test.assertLessEqual(size,CHECK.ARTIFACT_CHUNK_BYTES)
+                        return self.handle.read(size)
+                def opened(path,*args,**kwargs):
+                    handle=original_open(path,*args,**kwargs)
+                    if path==selected and (args[0] if args else kwargs.get('mode','r'))=='rb':
+                        reads[0]+=1;return Reader(handle)
+                    return handle
+                ref='slot/'+selected.name;sha='sha256:'+hashlib.sha256(raw).hexdigest()
+                execution=dict(rawOutputRefs=[ref],environmentCaptured=dict(producedMediaArtifactRef=ref,rawExecutionArtifacts=[dict(ref=ref,artifactType='produced_media',byteCount=len(raw),sha256=sha)]),provenance=dict(output_sha256=sha))
+                options={} if mode=='ordinary' else dict(byte_range=(0,3)) if mode=='range' else dict(byte_ranges=[(0,len(raw)-1),(0,3)]) if mode=='batch' else dict(mp4=True)
+                with mock.patch.object(Path,'read_bytes',side_effect=AssertionError('whole binary reads forbidden')),mock.patch.object(Path,'open',opened),mock.patch.object(CHECK,'METADATA_MAX_DECODED_BYTES',32):
+                    info=CHECK.inspect_artifact(selected,cache,**options);errors=[]
+                    with mock.patch.object(CHECK,'retained_metadata_chunks',side_effect=AssertionError('raw validation must reuse the credential-scanned binary cache')):
+                        self.assertIs(CHECK.inspect_artifact(selected,cache),info)
+                        CHECK.validate_qualified_raw(Path(directory),dict(pocId='POC-02',taskId='POC-002'),execution,{},defs,'slot','pass',set(),errors,cache)
+                self.assertEqual(reads[0],1);self.assertEqual(info['size'],len(raw));self.assertEqual(info['sha256'],sha);self.assertFalse(info['invalidUtf8'])
+                if mode=='mp4':self.assertTrue(info['mp4']['valid'])
+                return info,errors
+            for mode in ('ordinary','range','batch','mp4'):
+                clean=b'\xff\x00Synthetic binary media metadata'*8
+                info,errors=check_binary(clean,mode)
+                self.assertFalse(info['credential']);self.assertEqual(errors,[])
+                prefix_size=len(header)+8 if mode=='mp4' else 0
+                attacks=(b'\xff\x00password=synthetic-binary-metadata',
+                    b'\xff'+b'\0'*(block-prefix_size-8)+b'Authorization: Bearer synthetic-binary-value',
+                    b'\xff'+b'\0'*(block-prefix_size-4)+b'token=synthetic-binary-value')
+                for attack in attacks:
+                    info,errors=check_binary(attack,mode)
+                    self.assertTrue(info['credential']);self.assertEqual(len(errors),1)
+                    self.assertIn('credentials forbidden in raw binary artifacts',errors[0])
+            strict=slot/'strict.bin';strict.write_bytes(clean)
+            info=CHECK.inspect_artifact(strict,{},textual=True)
+            self.assertTrue(info['invalidUtf8']);self.assertFalse(info['credential'])
+
     def test_140_media_hashing_is_bounded_and_reused_per_validation(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -8282,8 +8398,8 @@ class TestPocProgram(unittest.TestCase):
                 with mock.patch.object(Path,'read_bytes',side_effect=AssertionError('whole artifact reads forbidden')),mock.patch.object(Path,'open',spy):
                     self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'}),[])
                 self.assertTrue(all(count==1 for count in counts.values()),counts)
-                # Binary media is hashed without attempting textual credential decoding.
-                path=next(iter(media));data=b'\xff\x00password=synthetic-binary-metadata'
+                # Non-UTF-8 media remains valid when replacement decoding finds no credentials.
+                path=next(iter(media));data=b'\xff\x00Synthetic binary media metadata'
                 path.write_bytes(data)
                 info=CHECK.inspect_artifact(path,{},textual=False)
                 self.assertEqual(info['sha256'],'sha256:'+hashlib.sha256(data).hexdigest())
@@ -8816,6 +8932,41 @@ class TestPocProgram(unittest.TestCase):
                 finally:temp.cleanup()
 
 
+    def exercise_android_native_decode_regressions(self,root,baseline,profile):
+        """Exercise only the retained native Android/VM decoder contract, not a codec run."""
+        env=baseline['environmentCaptured'];key='vm_validation_scope' if profile=='local-v1' else 'android_validation_scope';scope=env[key];prefix=Path(env['androidMediaProbeRef']).parent.parent.as_posix();probe_ref=env['androidMediaProbeRef'];probe=load_yaml(root/probe_ref);native_ref=probe['executionRef'];native=json.loads((root/native_ref).read_bytes());refs=(probe_ref,native_ref,native['stdoutRef'],native['stderrRef'],scope['rawOutputRef']);saved={ref:(root/ref).read_bytes() for ref in refs};plan=load_yaml(self.plan_path(root,'POC-001'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs']
+        def restore():
+            for ref,raw in saved.items():(root/ref).write_bytes(raw)
+        def put(data,ref,raw):
+            (root/ref).write_bytes(raw);next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        def validate(data):
+            errors=[];CHECK.validate_qualified_android_media(root,plan,data,prefix,'pass',errors,{},defs);return errors
+        try:
+            self.assertEqual(validate(copy.deepcopy(baseline)),[],profile)
+            for mode in ('missing_execution','missing_observed_at','identity','build','exit','argv','missing_stdout','missing_frame','codec','packet_hash','invented_count','invented_duration','before_finish','self_consistent_arbitrary_bytes','stderr_error'):
+                restore();data=copy.deepcopy(baseline);report=load_yaml(root/probe_ref);run=json.loads((root/native_ref).read_bytes());raw=json.loads((root/run['stdoutRef']).read_bytes())
+                if mode=='missing_execution':report.pop('executionRef')
+                elif mode=='missing_observed_at':report.pop('observedAt')
+                elif mode=='identity':run['identity']['nodeId']='other-node'
+                elif mode=='build':run['toolBuild']='unapproved-decoder'
+                elif mode=='exit':run['exitCode']=1
+                elif mode=='argv':run['argv'][-1]='other.mp4'
+                elif mode=='missing_stdout':data['rawOutputRefs'].remove(run['stdoutRef'])
+                elif mode=='missing_frame':raw['packets_and_frames'].pop()
+                elif mode=='codec':raw['streams'][0]['codec_name']='h264'
+                elif mode=='packet_hash':raw['packets_and_frames'][0]['data_hash']='SHA256:'+'0'*64
+                elif mode=='invented_count':report['decodedFrameCount']=119
+                elif mode=='invented_duration':report['durationSeconds']=3
+                elif mode=='before_finish':report['observedAt']='2026-09-03T00:00:01.999Z'
+                elif mode=='self_consistent_arbitrary_bytes':
+                    body=b'not AV1 media';put(data,scope['rawOutputRef'],body);digest='sha256:'+hashlib.sha256(body).hexdigest();data['environmentCaptured'][key]['outputSha256']=digest;report['outputSha256']=digest;run['identity']['outputSha256']=digest;raw['format']['size']=str(len(body))
+                elif mode=='stderr_error':
+                    body=('ffprobe version '+report['decoderBuild']+'\nerror: invalid data\n').encode();put(data,run['stderrRef'],body);run['stderrSha256']='sha256:'+hashlib.sha256(body).hexdigest()
+                body=json.dumps(raw).encode();put(data,run['stdoutRef'],body);run['stdoutSha256']='sha256:'+hashlib.sha256(body).hexdigest();put(data,native_ref,json.dumps(run).encode());write_yaml(root/probe_ref,report);put(data,probe_ref,(root/probe_ref).read_bytes())
+                errors=validate(data);self.assertTrue(any('qualified Android media probe' in e for e in errors),(profile,mode,errors))
+            restore();data=copy.deepcopy(baseline);report=load_yaml(root/probe_ref);report['observedAt']='2026-09-03T00:00:02.001Z';write_yaml(root/probe_ref,report);put(data,probe_ref,(root/probe_ref).read_bytes());self.assertEqual(validate(data),[],(profile,'after-exit observation'))
+        finally:restore()
+
     def test_156_android_media_requires_bound_av1_decoder_report(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -8828,6 +8979,7 @@ class TestPocProgram(unittest.TestCase):
                 media_path=root/scope['rawOutputRef'];media_bytes=media_path.read_bytes()
                 validate=lambda:CHECK.validate_repository(root,profile,True,selected_pocs={'POC-01'})
                 self.assertEqual(validate(),self.deferred_production_errors(profile,'POC-01'))
+                self.exercise_android_native_decode_regressions(root,baseline,profile)
                 for mode in ('missing','hash','output','input','node','encoder','decoder','codec','frames','duration','errors','decodable','boolean_frames','empty','malformed','oversize','alias_ref','hardlink','artifact_node','arbitrary_media','metadata_alias'):
                     path.write_bytes(original);probe_path.unlink();probe_path.write_bytes(probe_bytes);media_path.write_bytes(media_bytes)
                     record=load_yaml(path);env=record['environmentCaptured'];scope=env['vm_validation_scope'] if profile=='local-v1' else env['android_validation_scope'];report=load_yaml(probe_path)
