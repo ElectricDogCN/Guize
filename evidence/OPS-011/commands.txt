@@ -1,30 +1,28 @@
-OPS-011 metadata-only reservation
+OPS-011 normal reserved/coordinator scope amendment
 Status: RESERVED
-Verification: PENDING_ACTUAL_PUBLISHED_SOURCE
-Issue: #108 open at the pinned creation proof
-Base: 3981190af9265a7db1654962c1d9870e51f36e64
-Reservation branch: chore/OPS-011-agent-edge-104-reservation
+Base: 1d2cb080d56176e26375a7b373a3cf3ef548b3dd
+Registration branch: chore/OPS-011-agent-edge-104-scope-registration
 Task/Registry implementation branch: chore/OPS-011-agent-edge-104-scope
-Lease: 2026-10-20T15:16:57Z to 2026-10-27T15:16:57Z
-Input SHA256: 1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677
-Independent scope review SHA256: fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2
-First-use declaration SHA256: 2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9
+Original accepted reservation: PR #109 / 1d2cb080d56176e26375a7b373a3cf3ef548b3dd
+Original accepted reservation receipt: [relative copy](reservation-history/actual-main-independent-acceptance.json) / SHA256 c3d293bee5d126ee73c64293423ff5527c349de8bbd7693761e8535c8df59b0f
+Current amendment source/tree/PR: PENDING_ACTUAL_PUBLICATION
+Current gates/JUnit/CI/independent review/actual-main: PENDING
 
-Only Own Foundation/Registry/Task/Evidence is prepared. Current source checks, command exits, governance JUnit, same-head CI, independent review and actual-main acceptance are PENDING. Prior Completion acceptance is a dependency, not execution of this candidate.
-
-Required commands: NOT EXECUTED. Exit Code/Result: PENDING for each command.
-git diff --check 3981190af9265a7db1654962c1d9870e51f36e64...HEAD
+Required current amendment commands: NOT EXECUTED; Exit Code/Result/raw/JUnit PENDING.
+git diff --check 1d2cb080d56176e26375a7b373a3cf3ef548b3dd...HEAD
 python scripts/check-task-file.py --task OPS-011
 python scripts/check-project-readiness.py
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64
-python scripts/check-program-plan-history.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-reservation
-python scripts/check-program-plan-transitions.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-reservation
-python scripts/check-program-plan-finalization.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64 --head-ref HEAD --task OPS-011
-python scripts/check-program-lifecycle-guards.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-reservation
-python scripts/run-agent-coordination-gate.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-reservation
-python scripts/run-task-scope-gate.py --task OPS-011 --base 3981190af9265a7db1654962c1d9870e51f36e64
+python scripts/check-program-plan-integrity.py --base-ref 1d2cb080d56176e26375a7b373a3cf3ef548b3dd
+python scripts/check-program-plan-history.py --base-ref 1d2cb080d56176e26375a7b373a3cf3ef548b3dd --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-scope-registration
+python scripts/check-program-plan-transitions.py --base-ref 1d2cb080d56176e26375a7b373a3cf3ef548b3dd --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-scope-registration
+python scripts/check-program-plan-finalization.py --base-ref 1d2cb080d56176e26375a7b373a3cf3ef548b3dd --head-ref HEAD --task OPS-011
+python scripts/check-program-lifecycle-guards.py --base-ref 1d2cb080d56176e26375a7b373a3cf3ef548b3dd --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-scope-registration
+python scripts/run-program-lifecycle-gate.py --base-ref 1d2cb080d56176e26375a7b373a3cf3ef548b3dd --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-scope-registration
+python scripts/run-agent-coordination-gate.py --base-ref 1d2cb080d56176e26375a7b373a3cf3ef548b3dd --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-scope-registration
+python scripts/run-task-scope-gate.py --task OPS-011 --base 1d2cb080d56176e26375a7b373a3cf3ef548b3dd
 python scripts/check-evidence.py --task OPS-011
-make verify TASK=OPS-011 BASE=3981190af9265a7db1654962c1d9870e51f36e64 HEAD_REF=HEAD BRANCH=chore/OPS-011-agent-edge-104-reservation
+make verify TASK=OPS-011 BASE=1d2cb080d56176e26375a7b373a3cf3ef548b3dd HEAD_REF=HEAD BRANCH=chore/OPS-011-agent-edge-104-scope-registration
 python scripts/check-markdown.py
+
+Original immutable [inputs](reservation-inputs.json), [scope review](reservation-inputs-independent-review.json) and [first-use intent](agent-edge-104-first-use.json) are retained. Prior prepared commands are preserved byte-exact in [reservation history](reservation-history/commands.txt).

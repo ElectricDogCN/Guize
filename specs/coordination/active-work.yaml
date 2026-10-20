@@ -19,7 +19,7 @@ tasks:
   agentRole: coordinator
   branch: chore/OPS-011-agent-edge-104-scope
   baseBranch: main
-  baseSha: 3981190af9265a7db1654962c1d9870e51f36e64
+  baseSha: 1d2cb080d56176e26375a7b373a3cf3ef548b3dd
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-011
@@ -54,6 +54,7 @@ tasks:
   - tests/governance/test_program_plan_transitions.py
   - tests/governance/test_check_project_readiness.py
   - tests/governance/test_check_task_file.py
+  - scripts/check-program-plan-history.py
   sharedPaths: []
   handoffPath: evidence/OPS-011/handoff.md
   integrationStrategy: merge

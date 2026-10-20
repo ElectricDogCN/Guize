@@ -1,37 +1,25 @@
-OPS-011 metadata-only reservation
+OPS-011 normal reserved/coordinator scope amendment
 Status: RESERVED
-Verification: PENDING_ACTUAL_PUBLISHED_SOURCE
-Issue: #108 open at the pinned creation proof
-Base: 3981190af9265a7db1654962c1d9870e51f36e64
-Reservation branch: chore/OPS-011-agent-edge-104-reservation
+Base: 1d2cb080d56176e26375a7b373a3cf3ef548b3dd
+Registration branch: chore/OPS-011-agent-edge-104-scope-registration
 Task/Registry implementation branch: chore/OPS-011-agent-edge-104-scope
-Lease: 2026-10-20T15:16:57Z to 2026-10-27T15:16:57Z
-Input SHA256: 1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677
-Independent scope review SHA256: fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2
-First-use declaration SHA256: 2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9
+Original accepted reservation: PR #109 / 1d2cb080d56176e26375a7b373a3cf3ef548b3dd
+Original accepted reservation receipt: [relative copy](reservation-history/actual-main-independent-acceptance.json) / SHA256 c3d293bee5d126ee73c64293423ff5527c349de8bbd7693761e8535c8df59b0f
+Current amendment source/tree/PR: PENDING_ACTUAL_PUBLICATION
+Current gates/JUnit/CI/independent review/actual-main: PENDING
 
-Only Own Foundation/Registry/Task/Evidence is prepared. Current source checks, command exits, governance JUnit, same-head CI, independent review and actual-main acceptance are PENDING. Prior Completion acceptance is a dependency, not execution of this candidate.
+Only add `scripts/check-program-plan-history.py` as claim 16 and set Own baseSha to the actual accepted main. Roles, reserved/coordinator, implementation branch, lease and all prior fifteen claims remain unchanged. Program/Ledger/foreign, firstUse and original inputs/review bytes remain unchanged. No mechanism or business implementation occurs here.
 
-Cumulative reservation metadata paths relative to declared base 3981190af9265a7db1654962c1d9870e51f36e64 (including this inventory and the two retained preparation attachments):
+Exact nine-path amendment inventory relative to 1d2cb080d56176e26375a7b373a3cf3ef548b3dd:
 
-- `evidence/OPS-011/agent-edge-104-first-use.json`
-- `evidence/OPS-011/api-samples/README.md`
-- `evidence/OPS-011/assumptions.md`
 - `evidence/OPS-011/changed-files.md`
 - `evidence/OPS-011/commands.txt`
-- `evidence/OPS-011/follow-ups.md`
 - `evidence/OPS-011/handoff.md`
-- `evidence/OPS-011/migration-report/README.md`
-- `evidence/OPS-011/performance/README.md`
-- `evidence/OPS-011/reservation-inputs-independent-review.json`
-- `evidence/OPS-011/reservation-inputs.json`
-- `evidence/OPS-011/risks.md`
-- `evidence/OPS-011/rollback-verification/README.md`
+- `evidence/OPS-011/reservation-history/actual-main-independent-acceptance.json`
+- `evidence/OPS-011/reservation-history/commands.txt`
 - `evidence/OPS-011/scope.md`
-- `evidence/OPS-011/screenshots/README.md`
-- `evidence/OPS-011/security/README.md`
 - `evidence/OPS-011/summary.md`
-- `evidence/OPS-011/test-results/README.md`
 - `specs/coordination/active-work.yaml`
-- `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-011.md`
+
+Original immutable [inputs](reservation-inputs.json), [scope review](reservation-inputs-independent-review.json) and [first-use intent](agent-edge-104-first-use.json) are retained. Prior prepared commands are preserved byte-exact in [reservation history](reservation-history/commands.txt).
