@@ -1,0 +1,5 @@
+Source Commit: 5d614f1db402a1c55c0b3bc9b25e185a18218cbc
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-reservation
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-011"], "changedPathCount": 21, "baseRef": "3981190af9265a7db1654962c1d9870e51f36e64"}}
+
+Exit Code: 0

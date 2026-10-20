@@ -1,0 +1,288 @@
+[
+  {
+    "label": "diff",
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd...HEAD"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:11.385454+00:00",
+    "rawLog": "diff.txt",
+    "pid": 917128,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:11.396604+00:00",
+    "rawSha256": "8433031635f4aaadfd28e1fc3e21cf15fd073ae9a1362a5a87fc03bfc8091397",
+    "rawByteCount": 144
+  },
+  {
+    "label": "task",
+    "argv": [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "OPS-011"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:11.415218+00:00",
+    "rawLog": "task.txt",
+    "pid": 917129,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:11.448881+00:00",
+    "rawSha256": "d8fbc169d957679f12c1069c595e59e38451d24a225d7f054a68837c7b026310",
+    "rawByteCount": 257
+  },
+  {
+    "label": "readiness",
+    "argv": [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:11.466685+00:00",
+    "rawLog": "readiness.txt",
+    "pid": 917130,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:14.628339+00:00",
+    "rawSha256": "e06a54d7de5c09645843f239f0516819c64367a0c4c4b5e761c905d7c416922e",
+    "rawByteCount": 660
+  },
+  {
+    "label": "schemas",
+    "argv": [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:14.644501+00:00",
+    "rawLog": "schemas.txt",
+    "pid": 917411,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:18.295973+00:00",
+    "rawSha256": "2beb75a84c53babc754f1ae18ac00ee4c60b6e6563a39df965d05c80015a076d",
+    "rawByteCount": 1811
+  },
+  {
+    "label": "integrity",
+    "argv": [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:18.311669+00:00",
+    "rawLog": "integrity.txt",
+    "pid": 917417,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:18.803774+00:00",
+    "rawSha256": "e8ebb0401352986d82700e5851f533c194109460afa62ab728933d1d390385d2",
+    "rawByteCount": 418
+  },
+  {
+    "label": "history",
+    "argv": [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope-registration"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:18.819218+00:00",
+    "rawLog": "history.txt",
+    "pid": 917478,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:20.492791+00:00",
+    "rawSha256": "9aefc2c501bd2973b3fb87124b365cb2c97b825675c308326d0bb0b974ded6e5",
+    "rawByteCount": 492
+  },
+  {
+    "label": "transitions",
+    "argv": [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope-registration"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:20.512157+00:00",
+    "rawLog": "transitions.txt",
+    "pid": 917574,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:22.536449+00:00",
+    "rawSha256": "6582e3fba3cbd9d9b0784403195d93aefadc350a5f6346f013204efebc5da6ed",
+    "rawByteCount": 445
+  },
+  {
+    "label": "finalization",
+    "argv": [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:22.555575+00:00",
+    "rawLog": "finalization.txt",
+    "pid": 917667,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:22.764813+00:00",
+    "rawSha256": "0e21605408af8aebfe6c1d6671a45b7d68fc3334a4d38cd59b0d6199b74dcec6",
+    "rawByteCount": 361
+  },
+  {
+    "label": "raw-lifecycle",
+    "argv": [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope-registration"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:22.784051+00:00",
+    "rawLog": "raw-lifecycle.txt",
+    "pid": 917672,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:24.420494+00:00",
+    "rawSha256": "e262d79da03175fb9e94f531fa76945d448147c32a2b99a7e783dd0ff110634f",
+    "rawByteCount": 510
+  },
+  {
+    "label": "lifecycle",
+    "argv": [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope-registration"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:24.439454+00:00",
+    "rawLog": "lifecycle.txt",
+    "pid": 917735,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:27.707661+00:00",
+    "rawSha256": "8a817b158633994d58684ca38699aa81b4c9c8eb32de9da328857a242885df1e",
+    "rawByteCount": 601
+  },
+  {
+    "label": "coordination",
+    "argv": [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope-registration"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:27.727061+00:00",
+    "rawLog": "coordination.txt",
+    "pid": 917800,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:28.041432+00:00",
+    "rawSha256": "8a979847253b834cfcc3c6a19856081254f35097f1afed401eb3d220078f81c7",
+    "rawByteCount": 561
+  },
+  {
+    "label": "scope",
+    "argv": [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "OPS-011",
+      "--base",
+      "1d2cb080d56176e26375a7b373a3cf3ef548b3dd"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:28.058626+00:00",
+    "rawLog": "scope.txt",
+    "pid": 917802,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:28.108128+00:00",
+    "rawSha256": "70d588a10bf49aeb8f3783614996f87b731e98671ab3ab2b4d6c1f1b363e8696",
+    "rawByteCount": 319
+  },
+  {
+    "label": "evidence",
+    "argv": [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "OPS-011"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:28.125721+00:00",
+    "rawLog": "evidence.txt",
+    "pid": 917803,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:41:28.159391+00:00",
+    "rawSha256": "585becd0fa102ffea94b0b0c3fbd17370f569bd2277dbed566adc75988487772",
+    "rawByteCount": 198
+  },
+  {
+    "label": "verify",
+    "argv": [
+      "make",
+      "verify",
+      "TASK=OPS-011",
+      "BASE=1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "HEAD_REF=HEAD",
+      "BRANCH=chore/OPS-011-agent-edge-104-scope-registration"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T16:41:28.177863+00:00",
+    "rawLog": "verify.txt",
+    "pid": 917804,
+    "exitCode": -2,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T16:49:05.817576+00:00",
+    "rawSha256": "5ed4e569133a4f49a8f1b2a17a22827a899211599ba9fe26a7cbabe7a8fb64d7",
+    "rawByteCount": 50879
+  }
+]

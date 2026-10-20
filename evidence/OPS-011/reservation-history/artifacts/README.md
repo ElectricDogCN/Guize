@@ -1,0 +1,7 @@
+# Accepted reservation evidence recovery
+
+These are lossless historical artifacts for PR109 source/main acceptance, not execution of PR110 or its successor. The [original receipt](../actual-main-independent-acceptance.json) retains its original bytes and workstation paths. Resolve an artifact path using the [single portable map](artifact-map.json): match originalAbsolutePath, read repositoryRelativePath from the repository root, verify storedByteCount/storedSha256, then read the raw bytes or decode dataBase64 according to storageEncoding and compare original byteCount/sha256. This lets another checkout recover the exact logs/JUnit/snapshots without the original workstation.
+
+Read source 15f4, its 15 raw logs/nonempty JUnit, then main six logs and both official CI snapshots. The earlier CI744 intermediate hold is superseded by the retained final source admission; it does not itself authorize merge. The immutable source/main commits are linked in the map. Local filesystem paths, PIDs and cwd inside raw records remain historical execution facts. Preparation receipts, transfer bundles and earlier task chains are outside this fixed 35-artifact set. Current PR110 source gates, CI and actual-main acceptance remain pending.
+
+Raw CI logs use a base64 JSON container so original whitespace remains byte-exact without weakening the Git whitespace gate. The container is data, not a new execution. The superseded source verify log uses the same format and its [storage map](../../history/8c9f1ca/execution/artifact-map.json).

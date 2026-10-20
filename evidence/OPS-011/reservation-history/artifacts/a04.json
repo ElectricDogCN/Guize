@@ -1,0 +1,45 @@
+{
+  "kind": "OPS011-actual-main-CI745",
+  "accepted": true,
+  "actualMain": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+  "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+  "orderedParents": [
+    "3981190af9265a7db1654962c1d9870e51f36e64",
+    "5d614f1db402a1c55c0b3bc9b25e185a18218cbc"
+  ],
+  "runId": 39455328510,
+  "jobId": 118740576607,
+  "event": "push",
+  "attempt": 1,
+  "parsed": {
+    "tests": 637,
+    "unique": 637,
+    "summaries": [
+      {
+        "count": 637,
+        "seconds": 1155.31
+      }
+    ],
+    "failed": 0,
+    "checkout": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd"
+  },
+  "raw": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci745-official.raw",
+    "sha256": "19c65ef254587e0dd81f8cebd4a156091c65c5af1bdfeaf25dc43889312204c0",
+    "bytes": 251842
+  },
+  "snapshot": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci745-official-snapshot.json",
+    "sha256": "bf44839645735879729b14725de72f7ea59955ce944fa93bd47205accbe60e58",
+    "bytes": 305103
+  },
+  "conditionalSkippedStepNumbers": [
+    9,
+    18,
+    19,
+    20,
+    21
+  ],
+  "runtimeAccepted": false,
+  "fullV1Accepted": false
+}

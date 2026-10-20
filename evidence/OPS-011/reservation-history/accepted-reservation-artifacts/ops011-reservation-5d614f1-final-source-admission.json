@@ -1,0 +1,200 @@
+{
+  "kind": "OPS011_PR109_RESERVATION_FINAL_SOURCE_ADMISSION",
+  "observedAtUTC": "2026-10-20T16:11:17.687971+00:00",
+  "source": "5d614f1db402a1c55c0b3bc9b25e185a18218cbc",
+  "actualSource": "5d614f1db402a1c55c0b3bc9b25e185a18218cbc",
+  "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+  "parent": "8a628f05d8eb82481728c80c7aa6f20ba2fd520f",
+  "base": "3981190af9265a7db1654962c1d9870e51f36e64",
+  "branch": "chore/OPS-011-agent-edge-104-reservation",
+  "taskId": "OPS-011",
+  "issue": 108,
+  "pr": 109,
+  "formalSourceAccepted": true,
+  "finalIntegrationApproved": true,
+  "localAccepted": true,
+  "ciAccepted": true,
+  "P1resolveEligible": true,
+  "mustFix": [],
+  "local": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/verification-worktrees.json",
+    "sha256": "2066dfed8d93330769b05a7ae183f493599420bc7c792bee8c817425489cb9dc",
+    "byteCount": 14148
+  },
+  "ciIndependentAcceptance": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci744-5d614f1-independent-ci-and-hold.json",
+    "sha256": "ced7788e7ba4deb8a0d6c1ccb25bfb65757f59d9fd5ca43095d7b3f587aa0ddb",
+    "byteCount": 2883
+  },
+  "contentReviews": [
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-dirty-content-review.json",
+      "sha256": "e7225b76490daee3b8eb105d8109c4d0e5e1affba07cfb8f3d9ed8a84e596981",
+      "byteCount": 12823
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-p2-recoverability-dirty-review.json",
+      "sha256": "9d4b37e41b5204024ef5ccb3bf15c4079eea54498ae83090594f7514cf8239f4",
+      "byteCount": 4038
+    }
+  ],
+  "junit": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/make-governance.xml",
+    "sha256": "fb1d6f4d1a974dccb66adbdcfdbe5fed116cb403f181ec476b4df45ae11bac99",
+    "byteCount": 100151
+  },
+  "localExecution": {
+    "nativePID": 820755,
+    "startedAt": "2026-10-20T15:47:03.840019+00:00",
+    "completedAt": "2026-10-20T16:07:54.190712+00:00",
+    "commandCount": 15,
+    "allWaitCompletedAndExitZero": true,
+    "uniquePassedTests": 637,
+    "durationSeconds": 1149.39,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "logs": [
+      {
+        "label": "diff",
+        "pid": 820790,
+        "sha256": "89ac6299eca0a6e44ba448d646ad4933813adcc8a281480a0bbf4be2a32350f7",
+        "byteCount": 144,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/diff.txt"
+      },
+      {
+        "label": "task",
+        "pid": 820791,
+        "sha256": "d34265628d6865468d048b85aee0b8bedd5b21d419e39f09d842ad2cfe95dfea",
+        "byteCount": 257,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/task.txt"
+      },
+      {
+        "label": "readiness",
+        "pid": 820792,
+        "sha256": "a477ea69f7a58712f3d041b26d3b9d4b26dfe0f25098a011c051cc4081278f5d",
+        "byteCount": 660,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/readiness.txt"
+      },
+      {
+        "label": "schemas",
+        "pid": 821073,
+        "sha256": "5f6efc312a04bcb0118b8d1f2048d261a715689df134a77295c118a0f3584fe2",
+        "byteCount": 1811,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/schemas.txt"
+      },
+      {
+        "label": "integrity",
+        "pid": 821074,
+        "sha256": "8809d8180b987a5375a9bf51c412705d42dcd5fc7d7d2a8ffa32860e701066fd",
+        "byteCount": 418,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/integrity.txt"
+      },
+      {
+        "label": "history",
+        "pid": 821135,
+        "sha256": "deccbdcda10f0851a22d101cde7ce195b79d726ded23166b7b4232d435681285",
+        "byteCount": 485,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/history.txt"
+      },
+      {
+        "label": "transitions",
+        "pid": 821260,
+        "sha256": "1d02a618e8093bfb1a5dd5e4050e19d7af93b9af047abcc1348f17d98dcc8c0d",
+        "byteCount": 438,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/transitions.txt"
+      },
+      {
+        "label": "finalization",
+        "pid": 821359,
+        "sha256": "ba01fa6afcc4c74c6df2f80fca2c6c3adc179c6326aeece77945f9c10f712d4c",
+        "byteCount": 361,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/finalization.txt"
+      },
+      {
+        "label": "raw-lifecycle",
+        "pid": 821364,
+        "sha256": "2283681394da3d997c172ee597d1026f9143ded3d43a3da62c99f0425433c2dd",
+        "byteCount": 504,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/raw-lifecycle.txt"
+      },
+      {
+        "label": "lifecycle",
+        "pid": 821427,
+        "sha256": "0cd3edda4d5a79096a7b9976a695014048fe9f25718767e1d7ca0ef3b72d897f",
+        "byteCount": 595,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/lifecycle.txt"
+      },
+      {
+        "label": "coordination",
+        "pid": 821492,
+        "sha256": "faf0ff98dec99ebde3586fbe4653abb28ebb8def5af67b9f244ad94a6781fba9",
+        "byteCount": 554,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/coordination.txt"
+      },
+      {
+        "label": "scope",
+        "pid": 821494,
+        "sha256": "8a81d2669d00e9d1cb66f94d77e11830b91f37321626dc4f1f33a32d6e79b6f7",
+        "byteCount": 319,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/scope.txt"
+      },
+      {
+        "label": "evidence",
+        "pid": 821495,
+        "sha256": "5d3ea6fe48a37dafbcc130ea7dbf5e68e05f8a0a4a87e7a442704f8f376f5976",
+        "byteCount": 198,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/evidence.txt"
+      },
+      {
+        "label": "verify",
+        "pid": 821496,
+        "sha256": "3877fb8c349160d927c29d40eef018a8bf10e80c6af46120cf3efb72729e7467",
+        "byteCount": 92560,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/verify.txt"
+      },
+      {
+        "label": "docs",
+        "pid": 916132,
+        "sha256": "23a407439a87b114d27f3d62f0318da1627df5394ca56cef648e60a1141429fb",
+        "byteCount": 164,
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-5d614f1-results/docs.txt"
+      }
+    ]
+  },
+  "freshIdentity": {
+    "windows": {
+      "source": "5d614f1db402a1c55c0b3bc9b25e185a18218cbc",
+      "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+      "parent": "8a628f05d8eb82481728c80c7aa6f20ba2fd520f",
+      "branch": "chore/OPS-011-agent-edge-104-reservation",
+      "status": "",
+      "originMain": "d7f1ab8f727ce3879408653736b972e21bb45b7a"
+    },
+    "native": {
+      "source": "5d614f1db402a1c55c0b3bc9b25e185a18218cbc",
+      "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+      "parent": "8a628f05d8eb82481728c80c7aa6f20ba2fd520f",
+      "branch": "chore/OPS-011-agent-edge-104-reservation",
+      "main": "3981190af9265a7db1654962c1d9870e51f36e64",
+      "status": ""
+    }
+  },
+  "current21PhysicalAndGitBlobsMatchReusedContentPins": true,
+  "p1": {
+    "thread": "PRRT_kwDOTgCQ3c6uZ5c6",
+    "classification": "CURRENT_SOURCE_EXECUTION_HOLD_SATISFIED",
+    "resolveEligible": true,
+    "resolvedByReviewer": false
+  },
+  "readOnlyObservationLimitations": [
+    "Publication worktree has no local main; initial read returned128 without mutation. Its origin/main is a stale local mirror D7; not treated as official base. Native main and captured official CI744 PR base are actual CM398. Root still performs fresh official head/base/Issue/lease checks immediately before merge."
+  ],
+  "actualMainAccepted": false,
+  "formalRegistered": false,
+  "registeredInAcceptedMain": false,
+  "runtimeAccepted": false,
+  "implementationStarted": false,
+  "testsRunByReviewer": false,
+  "scope": "Finite current reservation-source admission only; does not transfer interrupted parent execution or authorize implementation before actual main registration acceptance."
+}

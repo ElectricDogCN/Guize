@@ -1,0 +1,96 @@
+{
+  "kind": "OPS011_PR109_P2_RECOVERABLE_INPUTS_FINITE_DIRTY_REVIEW",
+  "observedAtUTC": "2026-10-20T15:42:57.160692+00:00",
+  "thread": "PRRT_kwDOTgCQ3c6uZiXa",
+  "baseCommit": "8a628f05d8eb82481728c80c7aa6f20ba2fd520f",
+  "baseTree": "48a22bd3700bd128fb4eaa240dfe5645a280e66d",
+  "declaredBase": "3981190af9265a7db1654962c1d9870e51f36e64",
+  "branch": "chore/OPS-011-agent-edge-104-reservation",
+  "actualDirtyContentAccepted": true,
+  "publicationContentApproved": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "evidence/OPS-011/changed-files.md",
+    "evidence/OPS-011/handoff.md",
+    "evidence/OPS-011/reservation-inputs-independent-review.json",
+    "evidence/OPS-011/reservation-inputs.json",
+    "evidence/OPS-011/scope.md",
+    "evidence/OPS-011/summary.md",
+    "specs/tasks/OPS-011.md"
+  ],
+  "cumulativePathsFromDeclaredBase": [
+    "evidence/OPS-011/agent-edge-104-first-use.json",
+    "evidence/OPS-011/api-samples/README.md",
+    "evidence/OPS-011/assumptions.md",
+    "evidence/OPS-011/changed-files.md",
+    "evidence/OPS-011/commands.txt",
+    "evidence/OPS-011/follow-ups.md",
+    "evidence/OPS-011/handoff.md",
+    "evidence/OPS-011/migration-report/README.md",
+    "evidence/OPS-011/performance/README.md",
+    "evidence/OPS-011/reservation-inputs-independent-review.json",
+    "evidence/OPS-011/reservation-inputs.json",
+    "evidence/OPS-011/risks.md",
+    "evidence/OPS-011/rollback-verification/README.md",
+    "evidence/OPS-011/scope.md",
+    "evidence/OPS-011/screenshots/README.md",
+    "evidence/OPS-011/security/README.md",
+    "evidence/OPS-011/summary.md",
+    "evidence/OPS-011/test-results/README.md",
+    "specs/coordination/active-work.yaml",
+    "specs/coordination/program-plan.yaml",
+    "specs/tasks/OPS-011.md"
+  ],
+  "physicalPins": {
+    "specs/tasks/OPS-011.md": {
+      "sha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+      "byteCount": 13059,
+      "canonicalLfSha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0"
+    },
+    "evidence/OPS-011/changed-files.md": {
+      "sha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+      "byteCount": 1940,
+      "canonicalLfSha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990"
+    },
+    "evidence/OPS-011/handoff.md": {
+      "sha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+      "byteCount": 2136,
+      "canonicalLfSha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264"
+    },
+    "evidence/OPS-011/scope.md": {
+      "sha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+      "byteCount": 2132,
+      "canonicalLfSha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05"
+    },
+    "evidence/OPS-011/summary.md": {
+      "sha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+      "byteCount": 1365,
+      "canonicalLfSha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab"
+    },
+    "evidence/OPS-011/reservation-inputs.json": {
+      "sha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+      "byteCount": 34327,
+      "canonicalLfSha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677"
+    },
+    "evidence/OPS-011/reservation-inputs-independent-review.json": {
+      "sha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+      "byteCount": 6439,
+      "canonicalLfSha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2"
+    }
+  },
+  "checks": {
+    "twoAttachmentsExactOriginalPhysicalBytes": true,
+    "relativeMarkdownLinksResolve": true,
+    "taskFrontmatterUnchanged": true,
+    "programRegistryFirstUseClaimsRolesLeaseUnchanged": true,
+    "metadataOnly": true,
+    "executionAndSuccessNotTransferred": true,
+    "legacyAcceptedReviewReused": true
+  },
+  "sourcePassed": false,
+  "ciAccepted": false,
+  "mainAccepted": false,
+  "formalRegistered": false,
+  "testsRun": false,
+  "validatorsRun": false
+}

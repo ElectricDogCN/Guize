@@ -1,0 +1,644 @@
+{
+  "kind": "OPS011_ACTUAL_MAIN_SIX_IDENTITY_LIFECYCLE",
+  "actualMain": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+  "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+  "orderedParents": [
+    "3981190af9265a7db1654962c1d9870e51f36e64",
+    "5d614f1db402a1c55c0b3bc9b25e185a18218cbc"
+  ],
+  "base": "3981190af9265a7db1654962c1d9870e51f36e64",
+  "source": "5d614f1db402a1c55c0b3bc9b25e185a18218cbc",
+  "prNumber": 109,
+  "before": {
+    "primary": {
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize",
+      "source": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+      "parents": [
+        "3981190af9265a7db1654962c1d9870e51f36e64",
+        "5d614f1db402a1c55c0b3bc9b25e185a18218cbc"
+      ],
+      "branch": "main",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "files": {
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "byteCount": 5013
+        },
+        "evidence/OPS-011/api-samples/README.md": {
+          "sha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+          "canonicalLfSha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+          "byteCount": 1034
+        },
+        "evidence/OPS-011/assumptions.md": {
+          "sha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+          "canonicalLfSha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+          "byteCount": 1441
+        },
+        "evidence/OPS-011/changed-files.md": {
+          "sha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+          "canonicalLfSha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+          "byteCount": 1940
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+          "canonicalLfSha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+          "byteCount": 2648
+        },
+        "evidence/OPS-011/follow-ups.md": {
+          "sha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+          "canonicalLfSha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+          "byteCount": 1275
+        },
+        "evidence/OPS-011/handoff.md": {
+          "sha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+          "canonicalLfSha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+          "byteCount": 2136
+        },
+        "evidence/OPS-011/migration-report/README.md": {
+          "sha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+          "canonicalLfSha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+          "byteCount": 965
+        },
+        "evidence/OPS-011/performance/README.md": {
+          "sha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+          "canonicalLfSha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+          "byteCount": 981
+        },
+        "evidence/OPS-011/reservation-inputs-independent-review.json": {
+          "sha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+          "canonicalLfSha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+          "byteCount": 6439
+        },
+        "evidence/OPS-011/reservation-inputs.json": {
+          "sha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+          "canonicalLfSha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+          "byteCount": 34327
+        },
+        "evidence/OPS-011/risks.md": {
+          "sha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+          "canonicalLfSha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+          "byteCount": 1163
+        },
+        "evidence/OPS-011/rollback-verification/README.md": {
+          "sha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+          "canonicalLfSha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+          "byteCount": 1118
+        },
+        "evidence/OPS-011/scope.md": {
+          "sha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+          "canonicalLfSha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+          "byteCount": 2132
+        },
+        "evidence/OPS-011/screenshots/README.md": {
+          "sha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+          "canonicalLfSha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+          "byteCount": 992
+        },
+        "evidence/OPS-011/security/README.md": {
+          "sha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+          "canonicalLfSha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+          "byteCount": 1046
+        },
+        "evidence/OPS-011/summary.md": {
+          "sha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+          "canonicalLfSha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+          "byteCount": 1365
+        },
+        "evidence/OPS-011/test-results/README.md": {
+          "sha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+          "canonicalLfSha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+          "byteCount": 1160
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+          "canonicalLfSha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+          "byteCount": 1875
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "byteCount": 36045
+        },
+        "specs/tasks/OPS-011.md": {
+          "sha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+          "canonicalLfSha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+          "byteCount": 13059
+        }
+      }
+    },
+    "native": {
+      "path": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "source": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+      "parents": [
+        "3981190af9265a7db1654962c1d9870e51f36e64",
+        "5d614f1db402a1c55c0b3bc9b25e185a18218cbc"
+      ],
+      "branch": "main",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "files": {
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "byteCount": 5013
+        },
+        "evidence/OPS-011/api-samples/README.md": {
+          "sha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+          "canonicalLfSha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+          "byteCount": 1034
+        },
+        "evidence/OPS-011/assumptions.md": {
+          "sha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+          "canonicalLfSha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+          "byteCount": 1441
+        },
+        "evidence/OPS-011/changed-files.md": {
+          "sha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+          "canonicalLfSha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+          "byteCount": 1940
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+          "canonicalLfSha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+          "byteCount": 2648
+        },
+        "evidence/OPS-011/follow-ups.md": {
+          "sha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+          "canonicalLfSha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+          "byteCount": 1275
+        },
+        "evidence/OPS-011/handoff.md": {
+          "sha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+          "canonicalLfSha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+          "byteCount": 2136
+        },
+        "evidence/OPS-011/migration-report/README.md": {
+          "sha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+          "canonicalLfSha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+          "byteCount": 965
+        },
+        "evidence/OPS-011/performance/README.md": {
+          "sha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+          "canonicalLfSha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+          "byteCount": 981
+        },
+        "evidence/OPS-011/reservation-inputs-independent-review.json": {
+          "sha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+          "canonicalLfSha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+          "byteCount": 6439
+        },
+        "evidence/OPS-011/reservation-inputs.json": {
+          "sha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+          "canonicalLfSha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+          "byteCount": 34327
+        },
+        "evidence/OPS-011/risks.md": {
+          "sha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+          "canonicalLfSha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+          "byteCount": 1163
+        },
+        "evidence/OPS-011/rollback-verification/README.md": {
+          "sha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+          "canonicalLfSha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+          "byteCount": 1118
+        },
+        "evidence/OPS-011/scope.md": {
+          "sha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+          "canonicalLfSha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+          "byteCount": 2132
+        },
+        "evidence/OPS-011/screenshots/README.md": {
+          "sha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+          "canonicalLfSha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+          "byteCount": 992
+        },
+        "evidence/OPS-011/security/README.md": {
+          "sha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+          "canonicalLfSha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+          "byteCount": 1046
+        },
+        "evidence/OPS-011/summary.md": {
+          "sha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+          "canonicalLfSha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+          "byteCount": 1365
+        },
+        "evidence/OPS-011/test-results/README.md": {
+          "sha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+          "canonicalLfSha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+          "byteCount": 1160
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+          "canonicalLfSha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+          "byteCount": 1875
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "byteCount": 36045
+        },
+        "specs/tasks/OPS-011.md": {
+          "sha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+          "canonicalLfSha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+          "byteCount": 13059
+        }
+      }
+    }
+  },
+  "after": {
+    "primary": {
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize",
+      "source": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+      "parents": [
+        "3981190af9265a7db1654962c1d9870e51f36e64",
+        "5d614f1db402a1c55c0b3bc9b25e185a18218cbc"
+      ],
+      "branch": "main",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "files": {
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "byteCount": 5013
+        },
+        "evidence/OPS-011/api-samples/README.md": {
+          "sha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+          "canonicalLfSha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+          "byteCount": 1034
+        },
+        "evidence/OPS-011/assumptions.md": {
+          "sha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+          "canonicalLfSha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+          "byteCount": 1441
+        },
+        "evidence/OPS-011/changed-files.md": {
+          "sha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+          "canonicalLfSha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+          "byteCount": 1940
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+          "canonicalLfSha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+          "byteCount": 2648
+        },
+        "evidence/OPS-011/follow-ups.md": {
+          "sha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+          "canonicalLfSha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+          "byteCount": 1275
+        },
+        "evidence/OPS-011/handoff.md": {
+          "sha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+          "canonicalLfSha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+          "byteCount": 2136
+        },
+        "evidence/OPS-011/migration-report/README.md": {
+          "sha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+          "canonicalLfSha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+          "byteCount": 965
+        },
+        "evidence/OPS-011/performance/README.md": {
+          "sha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+          "canonicalLfSha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+          "byteCount": 981
+        },
+        "evidence/OPS-011/reservation-inputs-independent-review.json": {
+          "sha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+          "canonicalLfSha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+          "byteCount": 6439
+        },
+        "evidence/OPS-011/reservation-inputs.json": {
+          "sha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+          "canonicalLfSha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+          "byteCount": 34327
+        },
+        "evidence/OPS-011/risks.md": {
+          "sha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+          "canonicalLfSha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+          "byteCount": 1163
+        },
+        "evidence/OPS-011/rollback-verification/README.md": {
+          "sha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+          "canonicalLfSha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+          "byteCount": 1118
+        },
+        "evidence/OPS-011/scope.md": {
+          "sha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+          "canonicalLfSha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+          "byteCount": 2132
+        },
+        "evidence/OPS-011/screenshots/README.md": {
+          "sha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+          "canonicalLfSha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+          "byteCount": 992
+        },
+        "evidence/OPS-011/security/README.md": {
+          "sha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+          "canonicalLfSha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+          "byteCount": 1046
+        },
+        "evidence/OPS-011/summary.md": {
+          "sha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+          "canonicalLfSha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+          "byteCount": 1365
+        },
+        "evidence/OPS-011/test-results/README.md": {
+          "sha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+          "canonicalLfSha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+          "byteCount": 1160
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+          "canonicalLfSha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+          "byteCount": 1875
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "byteCount": 36045
+        },
+        "specs/tasks/OPS-011.md": {
+          "sha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+          "canonicalLfSha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+          "byteCount": 13059
+        }
+      }
+    },
+    "native": {
+      "path": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "source": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+      "parents": [
+        "3981190af9265a7db1654962c1d9870e51f36e64",
+        "5d614f1db402a1c55c0b3bc9b25e185a18218cbc"
+      ],
+      "branch": "main",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "files": {
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "byteCount": 5013
+        },
+        "evidence/OPS-011/api-samples/README.md": {
+          "sha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+          "canonicalLfSha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+          "byteCount": 1034
+        },
+        "evidence/OPS-011/assumptions.md": {
+          "sha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+          "canonicalLfSha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+          "byteCount": 1441
+        },
+        "evidence/OPS-011/changed-files.md": {
+          "sha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+          "canonicalLfSha256": "67547224eb2816da2662a32985ea72022c346ac5aa0a67c16ba238492a0b5990",
+          "byteCount": 1940
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+          "canonicalLfSha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+          "byteCount": 2648
+        },
+        "evidence/OPS-011/follow-ups.md": {
+          "sha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+          "canonicalLfSha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+          "byteCount": 1275
+        },
+        "evidence/OPS-011/handoff.md": {
+          "sha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+          "canonicalLfSha256": "e5f7a24c1d0de693f22bfcd8b92b65886ea585a4c1ee66f48a91d3b52b671264",
+          "byteCount": 2136
+        },
+        "evidence/OPS-011/migration-report/README.md": {
+          "sha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+          "canonicalLfSha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+          "byteCount": 965
+        },
+        "evidence/OPS-011/performance/README.md": {
+          "sha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+          "canonicalLfSha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+          "byteCount": 981
+        },
+        "evidence/OPS-011/reservation-inputs-independent-review.json": {
+          "sha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+          "canonicalLfSha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+          "byteCount": 6439
+        },
+        "evidence/OPS-011/reservation-inputs.json": {
+          "sha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+          "canonicalLfSha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+          "byteCount": 34327
+        },
+        "evidence/OPS-011/risks.md": {
+          "sha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+          "canonicalLfSha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+          "byteCount": 1163
+        },
+        "evidence/OPS-011/rollback-verification/README.md": {
+          "sha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+          "canonicalLfSha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+          "byteCount": 1118
+        },
+        "evidence/OPS-011/scope.md": {
+          "sha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+          "canonicalLfSha256": "8deff6507a55239bdde1eae10f0c0461d456649b1992b800d349a3d5d385fd05",
+          "byteCount": 2132
+        },
+        "evidence/OPS-011/screenshots/README.md": {
+          "sha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+          "canonicalLfSha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+          "byteCount": 992
+        },
+        "evidence/OPS-011/security/README.md": {
+          "sha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+          "canonicalLfSha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+          "byteCount": 1046
+        },
+        "evidence/OPS-011/summary.md": {
+          "sha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+          "canonicalLfSha256": "d716f37a1879ab2ede3fe42f8ad4fb55b348e10bb482210fe7f98034c18134ab",
+          "byteCount": 1365
+        },
+        "evidence/OPS-011/test-results/README.md": {
+          "sha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+          "canonicalLfSha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+          "byteCount": 1160
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+          "canonicalLfSha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+          "byteCount": 1875
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "byteCount": 36045
+        },
+        "specs/tasks/OPS-011.md": {
+          "sha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+          "canonicalLfSha256": "b3bca603ef267249ea06b656a9eea7673fc54c6137b107160b364105fcbde5e0",
+          "byteCount": 13059
+        }
+      }
+    }
+  },
+  "allCleanBeforeAndAfter": true,
+  "checks": {
+    "identity": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "raw-lifecycle": 0,
+    "coordination": 0
+  },
+  "commandExecutions": [
+    {
+      "label": "identity",
+      "argv": [
+        "python",
+        "-c",
+        "import importlib.util,sys\ndef load(name,path):\n    spec=importlib.util.spec_from_file_location(name,path); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module); return module\ntask,reference,merge=sys.argv[1:]\ni=load('actual_integrity','scripts/check-program-plan-integrity.py'); h=load('actual_history','scripts/check-program-plan-history.py')\nerrors=i.commit_identity_errors('.',merge,task,reference,'Actual reservation')\nh.validate_commit('.',merge,task,reference,'Actual reservation',errors)\nassert not errors,errors\nprint('PASS: actual reservation Task/PR/merge identity accepted by both existing entries')\n",
+        "OPS-011",
+        "PR-109",
+        "1d2cb080d56176e26375a7b373a3cf3ef548b3dd"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "startedAt": "2026-10-20T16:17:41.456986+00:00",
+      "rawLog": "identity.txt",
+      "pid": 916418,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-20T16:17:41.651569+00:00",
+      "rawSha256": "769e4a60f8738c178c8f8c1c700e164f3beb99f9a1d01f40b339689abb302bef",
+      "rawByteCount": 938
+    },
+    {
+      "label": "integrity",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "3981190af9265a7db1654962c1d9870e51f36e64"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "startedAt": "2026-10-20T16:17:41.667264+00:00",
+      "rawLog": "integrity.txt",
+      "pid": 916425,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-20T16:17:42.122889+00:00",
+      "rawSha256": "641483a7a67329d6b013c6d08c1a7961187a68514a884a13026fb5f7d0eae427",
+      "rawByteCount": 418
+    },
+    {
+      "label": "history",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "3981190af9265a7db1654962c1d9870e51f36e64",
+        "--head-ref",
+        "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "main"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "startedAt": "2026-10-20T16:17:42.142556+00:00",
+      "rawLog": "history.txt",
+      "pid": 916486,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-20T16:17:44.239001+00:00",
+      "rawSha256": "09b58b231ed19690dcf9aea7f7fb231c2063285bf7e29620a162727f049ecea9",
+      "rawByteCount": 521
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "3981190af9265a7db1654962c1d9870e51f36e64",
+        "--head-ref",
+        "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "main"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "startedAt": "2026-10-20T16:17:44.256871+00:00",
+      "rawLog": "transitions.txt",
+      "pid": 916636,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-20T16:17:46.385885+00:00",
+      "rawSha256": "1b69bfc90602e45e05aca3ae64a8d7d4e8de1f361a88e05b2aa2f6decdf9e41b",
+      "rawByteCount": 438
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "3981190af9265a7db1654962c1d9870e51f36e64",
+        "--head-ref",
+        "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "main"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "startedAt": "2026-10-20T16:17:46.403449+00:00",
+      "rawLog": "raw-lifecycle.txt",
+      "pid": 916731,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-20T16:17:48.045382+00:00",
+      "rawSha256": "fc6b04fb53551faa4e2c9c2f782e151d4a999f84cfd58c60be5edb6837fa51b1",
+      "rawByteCount": 504
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "3981190af9265a7db1654962c1d9870e51f36e64",
+        "--head-ref",
+        "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "main"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "startedAt": "2026-10-20T16:17:48.064980+00:00",
+      "rawLog": "coordination.txt",
+      "pid": 916796,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-20T16:17:48.381358+00:00",
+      "rawSha256": "46e58db9a30b08127b0276236bffd563df4d937e689013f5e0486aada1e305b0",
+      "rawByteCount": 554
+    }
+  ],
+  "requiredMainSixPassed": true,
+  "localFullSuiteRepeated": false,
+  "currentMainCiAccepted": false,
+  "actualMainAccepted": false,
+  "formalSourceAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false
+}

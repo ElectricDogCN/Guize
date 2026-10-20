@@ -1,0 +1,38 @@
+{
+  "kind": "OPS011_PR109_CURRENT_SOURCE_CI744_ACCEPTANCE",
+  "observedAtUTC": "2026-10-20T16:03:05.305Z",
+  "source": "5d614f1db402a1c55c0b3bc9b25e185a18218cbc",
+  "tree": "412dd18e6ee93a4b0c3a9eba7de6ce3ae45fb683",
+  "base": "3981190af9265a7db1654962c1d9870e51f36e64",
+  "pr": 109,
+  "runId": 39451112664,
+  "runNumber": 744,
+  "runAttempt": 1,
+  "jobId": 118725838719,
+  "checkout": "db21dc39e4b37596e16b4fa4895480b43f9cfe35",
+  "orderedCheckoutParents": [
+    "3981190af9265a7db1654962c1d9870e51f36e64",
+    "5d614f1db402a1c55c0b3bc9b25e185a18218cbc"
+  ],
+  "all28StepsSucceeded": true,
+  "governanceTests": 637,
+  "uniquePassedCases": 637,
+  "durationSeconds": 860.43,
+  "failuresErrorsSkips": 0,
+  "ciAccepted": true,
+  "currentLocalSourceValidationComplete": false,
+  "formalSourceAccepted": false,
+  "actualMainAccepted": false,
+  "inputs": [
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci744-official.raw",
+      "sha256": "0c82ef5bf8b3b6f6a7ea75002e50b874bffed94cbcbabc51b2dce16afb51c569",
+      "byteCount": 260378
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci744-official-snapshot.json",
+      "sha256": "aaa5f46fde982a0ef884ca86efc4d1211456c32e4a2863d5fd5e2cb88e8d7b69",
+      "byteCount": 313367
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+Source Commit: 5d614f1db402a1c55c0b3bc9b25e185a18218cbc
+Command: python scripts/run-agent-coordination-gate.py --base-ref 3981190af9265a7db1654962c1d9870e51f36e64 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-reservation
+{"status": "PASS", "message": "Agent coordination valid: 1 active tasks, 1 high/critical", "details": {"activeTaskIds": ["OPS-011"]}}
+INFO: OPS-011 is a Reservation PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 0
