@@ -1,3 +1,46 @@
+GZ-021 normal Review
+Status: REVIEW / reviewer
+Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE
+Issue: #95
+Current branch: chore/GZ-021-local-v1-route
+Current base: 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+Accepted implementation: PR-103 / 6efd1fa2dfdb269935c862eff8c2e5ffd3289476
+Actual implementation merge: 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+Accepted source20/208 (16 original Ran13)/35-negative/637 and actual-main19/pushCI are historical results, archived once at test-results/accepted-implementation-6efd1fa/raw-results.bundle.json. Storage-v2 failed Ran6 is preserved as failure. Review execution, normal Completion, runtime, formal POC and fullV1 remain pending.
+
+## Historical implementation and reservation records
+
+## 必须执行的测试
+
+本段针对当前 Normal Review 的实际发布 HEAD；base 为已接受的实施 main 63cfcb85d3bba12217c79e16d9eb348d929b8c01，分支为 chore/GZ-021-local-v1-route。
+
+```bash
+python scripts/check-task-file.py --task GZ-021
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+python scripts/check-program-plan-history.py --base-ref 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route
+python scripts/check-program-plan-transitions.py --base-ref 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route
+python scripts/check-program-plan-finalization.py --base-ref 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --head-ref HEAD --task GZ-021
+python scripts/check-program-lifecycle-guards.py --base-ref 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route
+python scripts/run-program-lifecycle-gate.py --base-ref 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route
+python scripts/run-agent-coordination-gate.py --base-ref 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route
+python scripts/run-task-scope-gate.py --task GZ-021 --base 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+python scripts/check-evidence.py --task GZ-021
+python evidence/GZ-021/review-tools/check_gz021_normal_review_scope.py . 63cfcb85d3bba12217c79e16d9eb348d929b8c01 HEAD
+make verify TASK=GZ-021 BASE=63cfcb85d3bba12217c79e16d9eb348d929b8c01 HEAD_REF=HEAD BRANCH=chore/GZ-021-local-v1-route
+python scripts/check-markdown.py
+```
+
+仓库内副本 evidence/GZ-021/review-tools/check_gz021_normal_review_scope.py 遵循仓库 LF 策略，canonical LF SHA256为 3413a869f7201cf8d05d301f876ddec4a1e793c8594399a8fc6e4234c7cfdbc8；实际外部已执行原件 SHA256为 1ae747599a46f75223e1a852e6a9c8d66bdced128ad91195b3e6496c4f6ed8a8。两者仅 CRLF→LF 换行差异，代码其余字节不变；原执行工具的 CRLF 字节已无损归档为 raw-results.bundle.json 第424项，可按原 SHA256 恢复。上述命令从仓库根目录使用 repo=.、base=实施 main 63cfcb85d3bba12217c79e16d9eb348d929b8c01、head=HEAD；实际执行入口的真实路径和完整 argv见执行记录。该检查保留原46claims、17模块、Lease、manifest、Ledger与业务规格/代码。
+
+以上治理检查及 make verify 必须绑定当前实际发布源，保存真实命令、退出码、日志和完整治理 JUnit；当前637项治理测试须零失败、错误和跳过。最新同头 PR CI、独立审查与实际 Review main 接受仍必须完成；正常 Completion 是之后的独立转换。
+
+依据 prompts/templates/task-integration.md 的必须执行命令、Makefile 完整验证链及 specs/coordination/README.md 的完整门禁要求。已接受实施源的208项POC、35需求反例及实施 main/CI结果仅作为 accepted-implementation 历史证据归档，不转移为 Review 自身 PASS；本纯元数据阶段不另加实施专项208重跑义务。平台runtime、正式POC和完整本地V1仍未完成。
+
+
+## Historical commands
+
 GZ-021 implementation candidate: heterogeneous AV1 and full local V1 route
 Status: IN_PROGRESS / implementer
 Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE
