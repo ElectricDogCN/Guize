@@ -3566,6 +3566,19 @@ class TestPocProgram(unittest.TestCase):
         # Exact distance keeps the existing word split/codepoint units, including rates above one.
         for left,right,cost in (([],[],0),(['a'],['a'],0),(['a'],['b'],1),(['a'],['b','c'],2),(['a','b'],['a'],1),(['a'],['a','b'],1),(['a','b'],['b','a'],2),(list('a b'),list('ab'),1),(list('é'),list('e\u0301'),2)):
             self.assertEqual(CHECK.minimum_edit_cost(left,right),cost,(profile,left,right))
+        # Long equal edges and an empty residual remain linear even beyond the DP budget.
+        shared=['共同']*40000;tail=['尾']*40000
+        for left,right,cost in ((shared,shared,0),(shared+tail,shared+['插入']+tail,1),(shared+['删除']+tail,shared+tail,1),(shared+['甲']+tail,shared+['乙']+tail,1),([],shared,len(shared))):
+            self.assertEqual(CHECK.minimum_edit_cost(left,right),cost,(profile,'trimmed edit boundary'))
+        # Execute the exact inclusive cell boundary only once, not once per profile.
+        if profile=='local-v1':self.assertEqual(CHECK.minimum_edit_cost(['a']*1024,['b']*1024),1024)
+        with self.assertRaisesRegex(ValueError,'edit alignment resource budget'):
+            CHECK.minimum_edit_cost(['a']*1024,['b']*1025)
+        with self.assertRaisesRegex(ValueError,'edit alignment resource budget'):
+            CHECK.minimum_edit_cost(shared+['a']*1024+tail,shared+['b']*1025+tail)
+        # The complete real fixture follows the readable contract-error path, without a huge payload.
+        with mock.patch.object(CHECK,'minimum_edit_cost',side_effect=ValueError('edit alignment resource budget exceeded')):errors=validate(copy.deepcopy(original))
+        self.assertTrue(any('WER/CER edit alignment resource budget' in error for error in errors),(profile,errors))
         for metric in ('asr_wer','asr_cer'):
             for path,raw in originals.items():path.write_bytes(raw)
             data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path)

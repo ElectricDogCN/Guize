@@ -1,3 +1,22 @@
+GZ-021 implementation preparation record: current Evidence headers
+Status: IN_PROGRESS / implementer
+Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE
+Record stage: Preparation only; verify after publication
+Current source: resolve the actual PR103 head and Git HEAD for publication and execution; no future source SHA is assigned here.
+Preparation input only: 4400ffeeeff94aecf99f18a07f7ddac5b149da63 / tree ffbf88c9100d6dd8699b06ed9b6ee284e1059414
+Base: d7f1ab8f727ce3879408653736b972e21bb45b7a
+Branch: chore/GZ-021-local-v1-route
+Issue: #95
+Lease: 2026-10-20T02:26:05Z to 2026-10-27T02:26:05Z
+
+This record synchronizes the Evidence header with the existing Own lease. ACTIVE, Task, roles, claims, modules and implementation content are unchanged by this header-only preparation. It is not an execution result or acceptance. Already started source20/CI executions retain their actual source identities and eventual outcomes; exact-source verification remains pending. The published successor requires its own complete 208-method execution, the other 19 required commands, same-source CI and independent acceptance; writing this header supplies none of those results.
+
+After actual accepted 208+19/CI/independent evidence, retain those exact execution records through the normal Review archive. Resolve and verify source identity from the actual PR head/Git HEAD and retained receipts; do not rewrite a source to embed its own future commit/hash or transfer a historical result to the current head. Normal Review/Completion, actual-main acceptance, formal POC, platform runtime and complete local V1 remain pending.
+
+## Historical headers and records (verbatim; not the current source or lease)
+
+Everything below is retained historical text. Its old lease interval, stage statuses and any earlier source identities do not identify the current publication or execution head.
+
 GZ-021 implementation candidate: heterogeneous AV1 and full local V1 route
 Status: IN_PROGRESS / implementer
 Verification: PENDING_ACTUAL_PUBLISHED_IMPLEMENTATION_SOURCE

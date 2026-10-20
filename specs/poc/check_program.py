@@ -3318,8 +3318,19 @@ def maximum_anonymous_speaker_overlap(weights):
     return math.fsum(weights[matched[column]-1][column-1] for column in range(1,n+1) if matched[column]<=rows and column<=columns)
 
 
+# Acceptor work budget after removing equal prefix/suffix, not a text-length limit.
+AI_EDIT_MAX_CELLS=1048576
+
+
 def minimum_edit_cost(left,right):
-    """Unit-cost Levenshtein distance with one row over the shorter sequence."""
+    """Exact unit-cost Levenshtein, with linear trimming and a bounded residual DP."""
+    prefix=0;left_end=len(left);right_end=len(right)
+    while prefix<min(left_end,right_end) and left[prefix]==right[prefix]:prefix+=1
+    while left_end>prefix and right_end>prefix and left[left_end-1]==right[right_end-1]:left_end-=1;right_end-=1
+    left_length=left_end-prefix;right_length=right_end-prefix
+    if not left_length or not right_length:return max(left_length,right_length)
+    if left_length*right_length>AI_EDIT_MAX_CELLS:raise ValueError('edit alignment resource budget exceeded')
+    left=left[prefix:left_end];right=right[prefix:right_end]
     if len(left)<len(right):left,right=right,left
     previous=list(range(len(right)+1))
     for i,reference in enumerate(left,1):
@@ -3382,7 +3393,9 @@ def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expe
                 numerator+=op!='equal';ri+=op!='insertion';oi+=op!='deletion'
             valid=valid and ri==len(left) and oi==len(right)
             if valid:
-                minimum=minimum_edit_cost(left,right)
+                try:minimum=minimum_edit_cost(left,right)
+                except ValueError:
+                    errors.append(f'{label}: WER/CER edit alignment resource budget exceeded after common prefix/suffix trimming');return None
                 if numerator!=minimum:
                     errors.append(f'{label}: WER/CER comparisons require a minimum-cost edit alignment');return None
                 numerator=minimum
