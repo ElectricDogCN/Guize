@@ -3196,6 +3196,143 @@ def derive_local_capacity_sample(root,execution,prefix,report,policy,row,sequenc
     return free,reserved
 
 
+def derive_local_storage_runtime(root,execution,prefix,report,policy,row,obj,window,defs,label,errors,cache):
+    """Read this sandbox's approved native lifecycle output; never run a tool."""
+    before=len(errors);observer=policy['runtimeObserver'];paths=[]
+    def equal(a,b):
+        try:return json.dumps(a,sort_keys=True,separators=(',',':'),allow_nan=False)==json.dumps(b,sort_keys=True,separators=(',',':'),allow_nan=False)
+        except (ValueError,TypeError,OverflowError):
+            errors.append(f'{label}: native runtime values must be finite canonical JSON');return False
+    def clock_agrees(seconds,nanos):
+        try:return math.isclose(seconds,nanos/1e9,rel_tol=0,abs_tol=1e-6)
+        except (ValueError,TypeError,OverflowError):return False
+    def retained(ref,maximum=262144):
+        return retained_local_source_transport_artifact(root,execution,prefix,ref,'command_output',maximum,label,errors,cache,paths)
+    ref=row.get('runtimeExecutionRef');location=retained(ref)
+    run=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,'localStorageRuntimeExecution',label,errors,cache) if location else None
+    if run is None:return
+    context={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples')};context.update(sandboxRoot=policy['sandboxRoot'],openlistBuild=policy['openlistBuild'],object=obj)
+    live=observer['livePaths'].get(obj['assetId'])
+    if not isinstance(live,str) or live.startswith('/') or ':' in live or '\\' in live or any(p in ('','.','..') for p in live.split('/')):
+        errors.append(f'{label}: approved temporary live object path must stay relative to the disposable sandbox');return
+    argv=observer['commandArgs']+['--object-url',obj['objectURL'],'--live-path',live,'--events-output',run['stdoutRef']]
+    if not equal(run['context'],context) or run['collectorBuild']!=observer['collectorBuild'] or run['clockDomainId']!=observer['clockDomainId'] or run['commandArgs']!=argv or not 1<=int(run['processId'])<=4294967295:
+        errors.append(f'{label}: runtime must bind exact approved collector/argv/PID, sandbox/object/build and clock domain');return
+    first,last=utc(run['startedAt']),utc(run['finishedAt']);left,right=run['startedMonotonicNs'],run['finishedMonotonicNs']
+    if window is None or first is None or last is None or not window[0]<=first<last<=window[1] or not left<right or not clock_agrees((last-first).total_seconds(),right-left):
+        errors.append(f'{label}: native collector lifetime must agree in execution-window UTC and monotonic clocks');return
+    for key in ('stdout','stderr'):
+        path=retained(run[key+'Ref'])
+        if path is None:return
+        info=inspect_artifact(path,cache,textual=True)
+        if info['sha256']!=run[key+'Sha256'] or info['invalidUtf8'] or info['credential']:
+            errors.append(f'{label}: original runtime stdout/stderr must bind credential-safe UTF8 bytes/hash');return
+    native=bounded_evaluator_json(root,execution,prefix,run['stdoutRef'],'command_output',defs,'localStorageRuntimeOutput',label,errors,cache)
+    if native is None:return
+    if not equal(native['context'],context) or native['processId']!=run['processId'] or native['clockDomainId']!=run['clockDomainId']:
+        errors.append(f'{label}: parsed native operations must belong to the exact collector process/context/clock');return
+    count=len(errors)
+    for op in native['operations']:validate_schema(op,defs.get('localStorageNativeOperation',{}),label+'/native child operation',errors)
+    if len(errors)!=count:return
+    operations={op['operationId']:op for op in native['operations']};attempts=row['disconnect']['attempts']
+    required={f'recovery:{i+1}' for i in range(len(attempts))}|{'service_stop','service_start','backup','mutate_live','restore','readback','migration','full','concurrent_a','concurrent_b'}
+    if len(operations)!=len(native['operations']) or set(operations)!=required:
+        errors.append(f'{label}: complete unique native disconnect/restart/restore/concurrent operation set required');return
+    clocks={};results={};pids=[]
+    for name,op in operations.items():
+        start,end=utc(op['startedAt']),utc(op['finishedAt']);a,b=op['startedMonotonicNs'],op['finishedMonotonicNs'];pid=op['processId']
+        if start is None or end is None or not first<=start<=end<=last or not left<=a<=b<=right or any(not clock_agrees((at-first).total_seconds(),tick-left) for at,tick in ((start,a),(end,b))) or not 1<=int(pid)<=4294967295 or op['parentProcessId']!=run['processId'] or pid==run['processId'] or any(old_pid==pid and max(a,old_a)<min(b,old_b) for old_pid,old_a,old_b in pids):
+            errors.append(f'{label}: native child operation requires real distinct concurrent PID and same-domain in-lifetime UTC/monotonic interval');return
+        pids.append((pid,a,b));clocks[name]=(a,b)
+        for key in ('stdout','stderr'):
+            path=retained(op[key+'Ref'],65536 if key=='stderr' else 262144)
+            if path is None:return
+            info=inspect_artifact(path,cache,textual=True)
+            if info['sha256']!=op[key+'Sha256'] or info['invalidUtf8'] or info['credential']:
+                errors.append(f'{label}: actual child output/diagnostic must retain bounded credential-safe bytes/hash');return
+        result=bounded_evaluator_json(root,execution,prefix,op['stdoutRef'],'command_output',defs,'localStorageRuntimeResult',label,errors,cache)
+        if result is None:return
+        if result['operationId']!=name or result['processId']!=pid or result['exitCode']!=op['exitCode']:
+            errors.append(f'{label}: actual command result must bind its operation, PID and exit');return
+        results[name]=result['details']
+    def command(name,kind,tail,exit_code=0):
+        op=operations[name];build=observer[kind+'Build'];args=observer[kind+'CommandArgs']+tail
+        if op['toolBuild']!=build or op['commandArgs']!=args or op['exitCode']!=exit_code:
+            errors.append(f'{label}: {name} must bind the exact approved executed command/build and native exit');return False
+        return True
+    def same(name,expected):
+        if not equal(results[name],expected):errors.append(f'{label}: {name} native result must bind exact executed bytes/state/subjects')
+    stopped=results['service_stop'];started=results['service_start'];old=stopped.get('serviceProcessId');new=started.get('serviceProcessId')
+    if not isinstance(old,str) or not re.fullmatch(r'[1-9][0-9]{0,9}',old) or not isinstance(new,str) or not re.fullmatch(r'[1-9][0-9]{0,9}',new) or old==new or not 1<=int(old)<=4294967295 or not 1<=int(new)<=4294967295:
+        errors.append(f'{label}: recovery must retain distinct old and new actual service process identities');return
+    if old in {pid for pid,a,b in pids}|{run['processId']} or new in {pid for pid,a,b in pids}|{run['processId']} or type(stopped.get('serviceExitCode')) is not int:
+        errors.append(f'{label}: service OS exit/PID must be distinct from the actual collector/client/control processes');return
+    command('service_stop','control',['stop','--pid',old]);same('service_stop',dict(serviceProcessId=old,aliveBefore=True,aliveAfter=False,remainingProcessIds=[],serviceExitCode=stopped['serviceExitCode'],serviceExitObservedAt=operations['service_stop']['finishedAt']))
+    command('service_start','control',['start','--service-build',policy['openlistBuild']]);same('service_start',dict(serviceProcessId=new,serviceCommandArgs=observer['serviceCommandArgs'],serviceBuild=policy['openlistBuild'],serviceStartedAt=operations['service_start']['startedAt'],alive=True,listeningOrigin=urllib.parse.urlsplit(obj['objectURL']).scheme+'://'+urllib.parse.urlsplit(obj['objectURL']).netloc))
+    if not clocks['recovery:1'][1]<=clocks['service_stop'][0]<=clocks['service_stop'][1]<=clocks['service_start'][0]<=clocks['service_start'][1]<=clocks[f'recovery:{len(attempts)}'][0] or row['disconnect']['serviceRestartedAt']!=operations['service_start']['finishedAt']:
+        errors.append(f'{label}: actual failed read must precede old service exit, new service start/readiness and final recovery')
+    def http(name,claim,server,failed=False):
+        op=operations[name];result=results[name];request_ref=result.get('requestRef');headers_ref=result.get('headersRef')
+        request_path=retained(request_ref);headers_path=retained(headers_ref,65536)
+        if request_path is None or headers_path is None:return
+        request=bounded_evaluator_json(root,execution,prefix,request_ref,'command_output',defs,'localStorageNativeRequest',label,errors,cache)
+        expected_request=dict(schemaVersion=1,kind='local_storage_native_request',objectURL=obj['objectURL'],sourceId=obj['sourceId'],objectId=obj['objectId'],assetId=obj['assetId'],versionId=obj['versionId'],authRef=policy['authorizedAuthRef'],requestId=name)
+        if not equal(request,expected_request):errors.append(f'{label}: native HTTP request must bind exact approved authenticated object/version and operation')
+        code=op['exitCode'];command(name,'client',['--url',obj['objectURL'],'--credential-ref',policy['authorizedAuthRef'],'--request',request_ref,'--headers',headers_ref,'--body',claim['responseRef']],code if failed else 0)
+        body=existing_ref(root,claim['responseRef'],prefix)
+        if body is None:errors.append(f'{label}: actual native HTTP body must remain readable');return
+        info=inspect_artifact(body,cache)
+        try:
+            raw=headers_path.read_bytes();no_response=failed and not raw and info['size']==0
+            if not no_response:
+                head,separator,remainder=raw.partition(b'\r\n\r\n');lines=head.decode('ascii').split('\r\n');match=re.fullmatch(r'HTTP/(?:1\.[01]|2(?:\.0)?|3(?:\.0)?) (200)(?: [^\r\n]*)?',lines[0]);headers={}
+                if not separator or remainder or match is None:raise ValueError('response header')
+                for line in lines[1:]:
+                    key,colon,value=line.partition(':');key=key.lower()
+                    if not colon or re.fullmatch(r'[a-z0-9-]+',key) is None or key in headers:raise ValueError('ambiguous response header')
+                    headers[key]=value.strip()
+                if 'transfer-encoding' in headers:
+                    if headers['transfer-encoding'].lower()!='chunked' or 'content-length' in headers:raise ValueError('ambiguous response framing')
+                elif 'content-length' in headers and (not headers['content-length'].isdigit() or int(headers['content-length'])!=inspect_artifact(existing_ref(root,next(r['inputArtifactRef'] for r in execution['environmentCaptured']['inputSampleArtifacts'] if r['sampleId']==obj['sampleId']),prefix),cache)['size']):raise ValueError('response length')
+            diagnostic=existing_ref(root,op['stderrRef'],prefix).read_text('utf8')
+            if failed and (code not in (7,18,28,52,55,56) or re.search(r'\('+str(code)+r'\)',diagnostic) is None or re.search(r'(?i)(disconnect|reset|partial|timed? ?out|closed|refused)',diagnostic) is None):raise ValueError('actual native disconnect exit/diagnostic')
+            if not failed and code!=0:raise ValueError('successful native client exit')
+        except (OSError,UnicodeError,ValueError,TypeError,StopIteration):
+            errors.append(f'{label}: HTTP outcome must derive retained actual headers/body and native client exit/diagnostic');return
+        same(name,dict(requestRef=request_ref,headersRef=headers_ref,responseRef=claim['responseRef'],responseSha256=info['sha256'],responseBytes=info['size'],serverProcessId=None if no_response else server,statusCode=0 if no_response else 200))
+        if claim['startedAt']!=op['startedAt'] or claim['finishedAt']!=op['finishedAt'] or claim['responseSha256']!=info['sha256']:
+            errors.append(f'{label}: aggregate HTTP timing/hash must agree with the exact native operation')
+    for i,attempt in enumerate(attempts):http(f'recovery:{i+1}',attempt,old if i==0 else new,i<len(attempts)-1)
+    requests={r['case']:r for r in row['requests']}
+    for name in ('full','concurrent_a','concurrent_b'):
+        if name not in requests:errors.append(f'{label}: both native concurrent HTTP reads required');return
+        http(name,requests[name],old if name=='full' else new)
+    backup=row['backupRestore'];migration=row['migration'];asset=next(r for r in policy['baselineState']['replicas'] if r['replicaId']==obj['oldReplicaId'])
+    def digest(ref):
+        path=existing_ref(root,ref,prefix);return inspect_artifact(path,cache)['sha256'] if path else None
+    command('backup','file',['backup','--live',live,'--data',backup['backupDataRef'],'--state',backup['backupStateRef']]);same('backup',dict(livePath=live,sourceSha256=asset['sha256'],outputRef=backup['backupDataRef'],outputSha256=backup['backupSha256'],stateRef=backup['backupStateRef'],stateSha256=digest(backup['backupStateRef'])))
+    mutated=results['mutate_live'];changed_ref=mutated.get('outputRef');changed=existing_ref(root,changed_ref,prefix);artifact=next((a for a in execution['environmentCaptured']['rawExecutionArtifacts'] if a.get('ref')==changed_ref),None)
+    protected=[existing_ref(root,r,prefix) for r in (asset['payloadRef'],backup['backupDataRef'],backup['restoredDataRef'])]
+    if changed is None or artifact is None or artifact.get('artifactType')!='produced_media' or changed_ref not in execution['rawOutputRefs'] or any(changed.samefile(p) for p in protected if p) or digest(changed_ref)==asset['sha256']:
+        errors.append(f'{label}: restore control needs a physically separate actual changed live readback before restoration');return
+    command('mutate_live','file',['mutate','--live',live,'--readback',changed_ref]);same('mutate_live',dict(livePath=live,beforeSha256=asset['sha256'],outputRef=changed_ref,outputSha256=digest(changed_ref)))
+    command('restore','file',['restore','--backup-data',backup['backupDataRef'],'--backup-state',backup['backupStateRef'],'--live',live,'--state',backup['restoredStateRef']]);same('restore',dict(livePath=live,sourceRef=backup['backupDataRef'],sourceSha256=backup['backupSha256'],stateRef=backup['restoredStateRef'],stateSha256=digest(backup['restoredStateRef'])))
+    command('readback','file',['readback','--live',live,'--data',backup['restoredDataRef']]);same('readback',dict(livePath=live,outputRef=backup['restoredDataRef'],outputSha256=backup['restoredSha256'],stateRef=backup['restoredStateRef'],stateSha256=digest(backup['restoredStateRef'])))
+    sequence=[clocks[name] for name in ('backup','mutate_live','restore','readback')]
+    if any(a[1]>b[0] for a,b in zip(sequence,sequence[1:])) or backup['startedAt']!=operations['backup']['startedAt'] or backup['finishedAt']!=operations['readback']['finishedAt']:
+        errors.append(f'{label}: actual backup, changed-live control, restore-from-backup and live readback must execute in order')
+    verified=load(existing_ref(root,migration['verifiedStateRef'],prefix));copying=load(existing_ref(root,migration['copyingStateRef'],prefix));new_copy=next((r for r in verified['replicas'] if r['replicaId']==obj['newReplicaId']),None);pending=next((r for r in copying['replicas'] if r['replicaId']==obj['newReplicaId']),None)
+    if new_copy is None or pending is None:errors.append(f'{label}: native migration requires actual COPYING/VERIFIED payload refs');return
+    command('migration','file',['migrate','--from-replica',obj['oldReplicaId'],'--to-replica',obj['newReplicaId'],'--pending',pending['payloadRef'],'--data',new_copy['payloadRef'],'--copying-state',migration['copyingStateRef'],'--verified-state',migration['verifiedStateRef']]);same('migration',dict(sourceRef=asset['payloadRef'],sourceSha256=asset['sha256'],pendingRef=pending['payloadRef'],pendingSha256=digest(pending['payloadRef']),outputRef=new_copy['payloadRef'],outputSha256=digest(new_copy['payloadRef']),copyingStateRef=migration['copyingStateRef'],copyingStateSha256=digest(migration['copyingStateRef']),verifiedStateRef=migration['verifiedStateRef'],verifiedStateSha256=digest(migration['verifiedStateRef'])))
+    if migration['startedAt']!=operations['migration']['startedAt'] or migration['verifiedAt']!=operations['migration']['finishedAt']:
+        errors.append(f'{label}: reported migration clocks must equal actual native copy interval')
+    intervals=[clocks[name] for name in ('concurrent_a','concurrent_b','migration')]+[(sequence[0][0],sequence[-1][1])]
+    if max(a for a,b in intervals)>=min(b for a,b in intervals):errors.append(f'{label}: four actual native read/write/lifecycle intervals must have positive common monotonic overlap')
+    elapsed=(clocks['full'][1]-clocks['full'][0])/1e9
+    if elapsed<=0:errors.append(f'{label}: native full-read interval must be positive for measured throughput/latency')
+    return elapsed if elapsed>0 and len(errors)==before else None
+
+
 def validate_qualified_local_storage(root,plan,execution,prefix,status,window,defs,errors,cache):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-04' or status!='pass' or env.get('acceptanceProfile')!=profile_identity('local-v1'):return
@@ -3203,10 +3340,13 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
     try:policy=load(path).get('configuration',{}).get('localStoragePolicy') if path else None
     except (OSError,ValueError,AttributeError,yaml.YAMLError):policy=None
     validate_schema(policy,defs.get('localStoragePolicy',{}),label+'/approved sandbox controls',errors)
+    if isinstance(policy,dict):validate_schema(policy.get('runtimeObserver'),defs.get('localStorageRuntimeObserver',{}),label+'/approved native runtime',errors)
     if report is None or len(errors)!=before:return
     samples=[{k:s.get(k) for k in ('id','immutableId','checksum')} for s in execution.get('samples') or []];expected=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=compliance_subject_version(plan,execution),inputSamples=samples)
     if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or policy['sandboxRoot']!=env.get('sandbox_root_boundary') or policy['openlistBuild']!=env.get('openlist_version') or policy['authorizedAuthRef']==policy['invalidAuthRef']:
         errors.append(f'{label}: exact approved OpenList build/root/profile/input and distinct credential references required');return
+    if set(policy['runtimeObserver']['livePaths'])!={o['assetId'] for o in policy['objects']} or len(set(policy['runtimeObserver']['livePaths'].values()))!=len(policy['objects']):
+        errors.append(f'{label}: exact distinct approved controlled live paths required for all objects');return
     objects=policy['objects'];sample_map={s['id']:s for s in samples};inputs={r['sampleId']:r for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict)};artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)}
     if len(objects)!=len(samples) or {r['sampleId'] for r in objects}!=set(sample_map) or len({r['assetId'] for r in objects})!=len(objects):errors.append(f'{label}: every approved immutable input needs one distinct governed sandbox object');return
     request_ids=set();state_times={}
@@ -3283,7 +3423,6 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
             first,last=(0,7) if kind=='bounded' else (total-4,total-1) if kind=='suffix' else (0,total-1);request_range='bytes=0-7' if kind=='bounded' else 'bytes=-4' if kind=='suffix' else None;partial=kind in ('bounded','suffix');expected_range=f'bytes {first}-{last}/{total}' if partial else None
             observed=inspect_artifact(source,cache,byte_range=(first,last));digest=observed['rangeHashes'].get((first,last))
             if request['requestRange']!=request_range or request['statusCode']!=(206 if partial else 200) or request['contentRange']!=expected_range or info['size']!=last-first+1 or info['sha256']!=digest or request['originByteCount']!=info['size']:errors.append(f'{label}: actual full/bounded/suffix bytes and HTTP headers must match approved source')
-            if kind=='full' and timing and timing[1]>timing[0]:measured_full.append((info['size'],(timing[1]-timing[0]).total_seconds()))
             if kind.startswith('concurrent_') and timing:object_concurrent.append(timing)
         if len(object_concurrent)!=2 or max(r[0] for r in object_concurrent)>=min(r[1] for r in object_concurrent):errors.append(f'{label}: actual concurrent successful reads must overlap')
         concurrent.extend(object_concurrent)
@@ -3327,6 +3466,8 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
         if new_info is None or new_info['size']!=total or pending_info is None or not 0<pending_info['size']<total or pending[0]['state']!='COPYING' or pending[0]['assetId']!=obj['assetId'] or pending[0]['versionId']!=obj['versionId'] or stripped!=baseline or during_stripped!=baseline:errors.append(f'{label}: migration must observe incomplete COPYING then exact-byte VERIFIED transition without losing old valid copy')
         migration_start,migration_finish=utc(migration['startedAt']),utc(migration['verifiedAt'])
         if migration_start is None or migration_finish is None or not migration_start<=state_times[migration['copyingStateRef']]<=migration_finish<=state_times[migration['verifiedStateRef']]:errors.append(f'{label}: actual copying and verified state snapshots must follow the recorded migration phases')
+        native_elapsed=derive_local_storage_runtime(root,execution,prefix,report,policy,row,obj,window,defs,label,errors,cache)
+        if native_elapsed is not None:measured_full.append((total,native_elapsed))
         # Reuse the retained, byte-verified migration write and backup/restore lifecycle;
         # a declared concurrency status alone cannot grant the workload gate.
         workload=independent_observation(row['concurrentWorkloadRef'],'localStorageConcurrentWorkloadObservation')
@@ -4258,7 +4399,7 @@ def validate_recovery_readiness(root,execution,prefix,capture,config,baseline,re
     """Validate retained command readbacks and the actual authorized playback request."""
     policy=config.get('configuration',{}).get('recoveryReadiness')
     refs={row['event']:row['witnessRef'] for row in events}
-    witnesses={}
+    witnesses={};readiness={}
     for event in ('services_ready','vm_set_ready','authorized_playback_succeeded','recovery_completed'):
         before=len(errors)
         witness=selected_observation(root,execution,prefix,refs[event],defs,'recoveryBusinessEvent',label,errors,cache)
@@ -4330,6 +4471,7 @@ def validate_recovery_readiness(root,execution,prefix,capture,config,baseline,re
             expected_checks=[dict(checkId=name,status='healthy',**({'state':'running'} if event=='vm_set_ready' else {})) for name in members]
         if sorted(map(recovery_exact_json,result['checks']))!=sorted(map(recovery_exact_json,expected_checks)):
             errors.append(f'{label}: readiness output must contain all exact healthy members or verified completion checks')
+        readiness[event]=dict(context=dict(expected,readinessExecutionRef=witness['executionRef'],restoredSha256=manifest_sha),run=run)
     witness=witnesses['authorized_playback_succeeded'];request=witness.get('playbackRequest');before=len(errors)
     validate_schema(request,defs['recoveryBusinessEvent']['properties']['playbackRequest'],label,errors)
     baseline=config.get('configuration',{}).get('recoveryBaseline',{}).get('playbackRequest')
@@ -4349,6 +4491,7 @@ def validate_recovery_readiness(root,execution,prefix,capture,config,baseline,re
     try:digest=primary[0]['sha256'] if first==0 and last+1==primary[0]['byteCount'] else range_slice_hash(source,first,last-first+1)
     except OSError:digest=None
     if retained[1]['sha256']!=digest:errors.append(f'{label}: readiness playback returned bytes must equal actual verified primary slice')
+    return readiness
 
 
 def recovery_native_readback(root,execution,prefix,report,ref,policy,operation,identity,run_id,defs,label,errors,cache,retained):
@@ -4741,7 +4884,42 @@ RECOVERY_TIME_ENDPOINTS = {
 }
 
 
-def derive_recovery_native_timing(root,execution,prefix,report,config,expected,times,paths,defs,label,errors,cache):
+def derive_recovery_readiness_invocations(root,execution,prefix,native,collector,readiness,defs,label,errors,cache,paths):
+    """Bind executed healthchecks in the already-approved orchestrator's native events."""
+    required={'services_ready','vm_set_ready','recovery_completed'}
+    if not isinstance(readiness,dict) or set(readiness)!=required:
+        errors.append(f'{label}: complete parsed readiness outputs required for native invocation binding');return False
+    schema=defs['recoveryTimingNativeOutput']['properties']['events']['items']['properties']['readinessInvocation']
+    first,last=utc(collector['startedAt']),utc(collector['finishedAt']);origin=collector['startedMonotonicSeconds'];seen=[]
+    for event in native['events']:
+        name=event['event']
+        if name not in required:continue
+        before=len(errors);value=event.get('readinessInvocation');validate_schema(value,schema,label+'/readiness native invocation',errors)
+        if len(errors)!=before or not isinstance(value,dict):return False
+        selected=readiness[name];run=selected['run'];descriptor=run['outputArtifact']
+        try:context_matches=recovery_exact_json(value['context'])==recovery_exact_json(selected['context'])
+        except (ValueError,TypeError,OverflowError):
+            errors.append(f'{label}: readiness native invocation context must be finite typed JSON');return False
+        if not context_matches or value['clockDomainId']!=collector['clockDomainId'] or value['commandArgs']!=run['commandArgs'] or value['toolBuild']!=run['toolBuild'] or value['exitCode']!=0 or value['stdoutRef']!=descriptor['artifactRef'] or value['stdoutSha256']!=descriptor['sha256']:
+            errors.append(f'{label}: readiness native invocation must bind exact approved argv/build, run/host/set/restored manifest and actual parsed stdout');return False
+        start,end=utc(value['startedAt']),utc(value['finishedAt']);a,b=utc(run['startedAt']),utc(run['finishedAt']);left,right=value['startedMonotonicSeconds'],value['finishedMonotonicSeconds']
+        if None in (first,last,start,end,a,b) or not all(ai_finite(v) for v in (left,right)) or not first<=start<=a<=b<=end<=last or not origin<=left<=event['monotonicSeconds']<=right<=collector['finishedMonotonicSeconds'] or not math.isclose((start-first).total_seconds(),left-origin,rel_tol=0,abs_tol=.000001) or not math.isclose((end-first).total_seconds(),right-origin,rel_tol=0,abs_tol=.000001):
+            errors.append(f'{label}: readiness native invocation must cover the actual result instant within the collector UTC/monotonic lifetime');return False
+        if any(value['invocationId']==identity or value['processId']==pid and max(start,began)<min(end,finished) for identity,pid,began,finished in seen):
+            errors.append(f'{label}: distinct readiness invocations cannot reuse an identity or an overlapping native PID');return False
+        seen.append((value['invocationId'],value['processId'],start,end))
+        stderr=retained_local_source_transport_artifact(root,execution,prefix,value['stderrRef'],'command_output',262144,label+'/readiness native stderr',errors,cache,paths)
+        if stderr is None:return False
+        info=inspect_artifact(stderr,cache,textual=True)
+        if info['sha256']!=value['stderrSha256'] or info['invalidUtf8'] or info['credential']:
+            errors.append(f'{label}: readiness native stderr must bind actual bounded credential-safe UTF8 bytes/hash');return False
+        try:diagnostic=stderr.read_text(encoding='utf8')
+        except (OSError,UnicodeError):
+            errors.append(f'{label}: readiness native stderr must be readable UTF8');return False
+    return len(seen)==len(required)
+
+
+def derive_recovery_native_timing(root,execution,prefix,report,config,expected,times,paths,defs,label,errors,cache,readiness):
     """Read preapproved backup/orchestrator collector events, not aggregate clocks."""
     policy=config.get('configuration',{}).get('recoveryTimingNative')
     if not isinstance(policy,dict) or any(not recorded_text(policy.get(k)) for k in ('collectorBuild','toolBuild','clockDomainId')) or not isinstance(policy.get('commandArgs'),list) or not 1<=len(policy['commandArgs'])<=128 or any(not recorded_text(a) for a in policy['commandArgs']):
@@ -4777,6 +4955,7 @@ def derive_recovery_native_timing(root,execution,prefix,report,config,expected,t
         if event['witnessRef']!=refs[name] or at is None or at!=times[name] or not isinstance(tick,(int,float)) or isinstance(tick,bool) or not math.isfinite(tick) or not first<=at<=last or not previous<=tick<=right or not math.isclose((at-first).total_seconds(),tick-left,rel_tol=1e-9,abs_tol=1e-6):
             errors.append(f'{label}: each native endpoint must bind its exact event/witness, UTC instant and ordered in-lifetime monotonic offset');return
         clocks[name]=tick;previous=tick
+    if not derive_recovery_readiness_invocations(root,execution,prefix,native,run,readiness,defs,label,errors,cache,paths):return
     return clocks
 
 
@@ -4841,8 +5020,8 @@ def validate_qualified_recovery_timing(root,plan,execution,prefix,status,window,
     if browse_witness is not None and len(errors)==before:
         baseline_policy=config.get('configuration',{}).get('recoveryBaseline')
         validate_recovery_browse_request(root,execution,prefix,browse_witness,states,baseline_policy,approved,times['authenticated_browsing_succeeded'],window,defs,label,errors,cache,paths)
-    validate_recovery_readiness(root,execution,prefix,capture,config,baseline,restored,approved,rows,times,window,defs,label,errors,cache,paths)
-    native=derive_recovery_native_timing(root,execution,prefix,report,config,expected,times,paths,defs,label,errors,cache)
+    readiness=validate_recovery_readiness(root,execution,prefix,capture,config,baseline,restored,approved,rows,times,window,defs,label,errors,cache,paths)
+    native=derive_recovery_native_timing(root,execution,prefix,report,config,expected,times,paths,defs,label,errors,cache,readiness)
     if native is None:return
     actual={item.get('id'):item.get('actual') for item in execution.get('measurements') or []}
     for metric,(first,last) in RECOVERY_TIME_ENDPOINTS.items():
@@ -4920,7 +5099,52 @@ def retained_access_http_response(path):
         return int(match.group(1)),headers,count,'sha256:'+digest.hexdigest()
 
 
-def derive_local_access_request(root,execution,prefix,witness,common,policy,source,window,defs,label,errors,cache,paths,request_ids,trace_ids):
+def derive_local_access_tls(root,execution,prefix,transport,common,controls,tls,window,defs,label,errors,cache,paths,connections):
+    """Parse the approved request collector's retained native TLS client output, never connect."""
+    label+='/native TLS';before=len(errors);policy=controls.get('tlsPolicy')
+    validate_schema(policy,defs.get('localAccessTlsPolicy',{}),label+'/approved policy',errors)
+    if len(errors)!=before:return
+    # The collector's explicit strict flags cannot be combined with a skip-verification option.
+    forbidden={'-k','--insecure','--no-verify','--no-check-certificate','--skip-verification'}
+    if any(arg.lower().split('=',1)[0] in forbidden for arg in controls['commandArgs']) or not recorded_text(policy['trustStoreBuild']):
+        errors.append(f'{label}: approved collector must never disable peer/hostname verification');return
+    ref=transport.get('tlsExecutionRef');connection=transport.get('tlsConnectionId');pid=transport.get('tlsClientProcessId')
+    if not recorded_text(connection) or type(pid) is not int or pid<=0:
+        errors.append(f'{label}: request must name its actual native TLS connection and client PID');return
+    entry=urllib.parse.urlsplit(tls['entryOrigin']);hostname=entry.hostname
+    try:ipaddress.ip_address(hostname);sni=None
+    except ValueError:sni=hostname
+    if ref not in connections:
+        ca=retained_local_source_transport_artifact(root,execution,prefix,policy['trustStoreRef'],'command_output',262144,label,errors,cache,[])
+        if ca is None or inspect_artifact(ca,cache)['size']==0 or inspect_artifact(ca,cache)['sha256']!=policy['trustStoreSha256']:
+            errors.append(f'{label}: exact independently approved retained CA trust-store bytes required');return
+        native_path=retained_local_source_transport_artifact(root,execution,prefix,ref,'command_output',262144,label,errors,cache,paths)
+        native=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,'localAccessTlsExecution',label,errors,cache) if native_path else None
+        if native is None or len(errors)!=before:return
+        stdout=retained_local_source_transport_artifact(root,execution,prefix,native.get('stdoutRef'),'command_output',262144,label,errors,cache,paths)
+        stderr=retained_local_source_transport_artifact(root,execution,prefix,native.get('stderrRef'),'command_output',65536,label,errors,cache,paths)
+        result=bounded_evaluator_json(root,execution,prefix,native.get('stdoutRef'),'command_output',defs,'localAccessTlsResult',label,errors,cache) if stdout else None
+        if result is None or stderr is None or len(errors)!=before:return
+        argv=controls['commandArgs']+['--target-origin',tls['entryOrigin'],'--connection-id',native['connectionId'],'--tls-ca-file',policy['trustStoreRef'],'--tls-verify-peer',hostname,'--tls-verify-mode','strict','--tls-output',native['stdoutRef']]
+        try:context_matches=json.dumps(native['context'],sort_keys=True,allow_nan=False)==json.dumps(common,sort_keys=True,allow_nan=False)
+        except (ValueError,TypeError,OverflowError):context_matches=False
+        if not context_matches or native['observerBuild']!=controls['observerBuild'] or native['commandArgs']!=argv or native['exitCode']!=0 or any(inspect_artifact(path,cache)['sha256']!=native[key] for path,key in ((stdout,'stdoutSha256'),(stderr,'stderrSha256'))) or any(path.samefile(ca) for path in (native_path,stdout,stderr)):
+            errors.append(f'{label}: native client execution must bind approved collector/strict argv/context/exit and distinct actual stdout/stderr bytes');return
+        if any(previous[0]['connectionId']==native['connectionId'] for previous in connections.values()):
+            errors.append(f'{label}: one TLS connection must retain one unambiguous native execution');return
+        begin,end,opened,negotiated=map(utc,(native['startedAt'],native['finishedAt'],result['handshakeStartedAt'],result['handshakeFinishedAt']))
+        if window is None or any(at is None for at in (begin,end,opened,negotiated)) or not window[0]<=begin<=opened<=negotiated<=end<=window[1]:
+            errors.append(f'{label}: native TLS process and handshake clocks must be ordered inside executionWindow');return
+        expected=dict(connectionId=native['connectionId'],processId=native['processId'],entryOrigin=tls['entryOrigin'],serverName=hostname,sni=sni,verifiedPeerName=hostname,trustStoreBuild=policy['trustStoreBuild'],trustStoreSha256=policy['trustStoreSha256'])
+        if any(result[key]!=value for key,value in expected.items()) or result['verificationCode']!=0 or result['hostnameVerificationCode']!=0 or result['protocol'] not in policy['approvedProtocols'] or result['cipher'] not in policy['approvedCiphers'] or result['certificateSha256']!=tls['certificateIdentity'] or result['chainFingerprints'][0]!=tls['certificateIdentity'] or result['trustAnchorSha256']!=policy['trustAnchorSha256']:
+            errors.append(f'{label}: native negotiated protocol/cipher and successful chain/SNI/hostname verification must match approved endpoint, leaf and trust anchor');return
+        connections[ref]=(native,result)
+    native,result=connections[ref];request_start=utc(transport['events'][0]['observedAt']);request_end=utc(transport['events'][-1]['observedAt'])
+    if connection!=native['connectionId'] or pid!=native['processId'] or result['peerAddress']!=transport['peerAddress'] or result['peerPort']!=transport['peerPort'] or request_start is None or request_end is None or not utc(result['handshakeFinishedAt'])<=request_start<=request_end<=utc(native['finishedAt']):
+        errors.append(f'{label}: this actual request must use the same verified live native TLS client/connection/peer after its handshake')
+
+
+def derive_local_access_request(root,execution,prefix,witness,common,policy,source,window,defs,label,errors,cache,paths,request_ids,trace_ids,tls_connections):
     """Use approved native collector output as the trust boundary, never execute it."""
     label+='/request transport';before=len(errors);controls=policy['requestTransport']
     path=retained_local_source_transport_artifact(root,execution,prefix,witness.get('transportRef'),'command_output',262144,label,errors,cache,paths)
@@ -4979,6 +5203,9 @@ def derive_local_access_request(root,execution,prefix,witness,common,policy,sour
     if reads and cursor!=witness['rangeEnd']+1:errors.append(f'{label}: observed source reads must cover the returned protected interval');return
     observed=dict(observedAt=events[-1]['observedAt'],statusCode=status,etag=headers.get('etag',''),contentRange=headers.get('content-range',''),responseSha256=digest,responseByteCount=count,requestCount=1,originRequestCount=len(origins),maximumBufferedBytes=capture['maximumBufferedBytes'])
     if any((utc(witness[k])!=utc(v)) if k=='observedAt' else witness[k]!=v for k,v in observed.items()):errors.append(f'{label}: request/status/headers/grant/origin/read/byte aggregates must derive actual native capture')
+    tls=(execution.get('environmentCaptured') or {}).get('local_tls_path_configuration')
+    if isinstance(tls,dict) and origin==tls.get('entryOrigin'):
+        derive_local_access_tls(root,execution,prefix,capture,common,controls,tls,window,defs,label,errors,cache,paths,tls_connections)
 
 
 def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,defs,errors,cache):
@@ -5034,7 +5261,7 @@ def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,
             errors.append(f'{label}: valid approved local access URLs required');return
         if not isinstance(tls,dict) or any(parsed[key].scheme+'://'+parsed[key].netloc!=tls.get('entryOrigin') for key in ('range','stream')) or parsed['source'].scheme+'://'+parsed['source'].netloc!=tls.get('openlistOrigin'):
             errors.append(f'{label}: access policy must bind the captured local TLS/OpenList origins')
-    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)};paths=[source];passed={};primed_at=None;primed_range=None;denied_ranges=[];rate_case=None;request_ids=set();trace_ids=set()
+    artifacts={a.get('ref'):a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and isinstance(a.get('ref'),str)};paths=[source];passed={};primed_at=None;primed_range=None;denied_ranges=[];rate_case=None;request_ids=set();trace_ids=set();tls_connections={}
     def public_denial(body,actual,case):
         if actual['size']==0:return True
         if actual['size']>1024:return False
@@ -5060,7 +5287,7 @@ def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,
         if actual['sha256']!=witness['responseSha256'] or actual['size']!=witness['responseByteCount']:errors.append(f'{label}: response hash/count must bind actual returned bytes')
         role='stream' if case=='authorized_stream' else case.removeprefix('direct_') if case.startswith('direct_') else 'range'
         if witness['requestURL']!=policy['paths'][role]:errors.append(f'{label}: exact approved entry/origin/admin/worker path required')
-        if local and case!='rate_limit':derive_local_access_request(root,execution,prefix,witness,common,policy,source,window,defs,label,errors,cache,paths,request_ids,trace_ids)
+        if local and case!='rate_limit':derive_local_access_request(root,execution,prefix,witness,common,policy,source,window,defs,label,errors,cache,paths,request_ids,trace_ids,tls_connections)
         if case.startswith('authorized_'):
             if witness['userId']!=policy['authorizedUserId'] or witness['grantId']!=policy['authorizedGrantId'] or not valid_from<=at<valid_until:errors.append(f'{label}: authorized request must use the approved currently valid subject/grant')
             first,last=witness['rangeStart'],witness['rangeEnd'];is_stream=case=='authorized_stream'
@@ -5135,6 +5362,7 @@ def validate_qualified_access_outcomes(root,plan,execution,prefix,status,window,
         if witness is not None and len(errors)==before and (primed_at is None or utc(witness['observedAt']) is None or utc(witness['observedAt'])<=primed_at):errors.append(f'{label}: cross-user denial must follow authorized cache priming')
     if rate_case is None:errors.append(f'{label}: approved rate-limit exercise required')
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
+    if local and (actual.get('tls_valid') is not True or not passed.get('authorized_range')):errors.append(f'{label}: tls_valid requires the actual authorized request through its approved verified native TLS connection')
     for case,gate in ACCESS_DENIAL_GATES.items():
         if case in required and (not passed.get(case) or actual.get(gate) is not True):errors.append(f'{label}: {gate} must be supported by the corresponding observed denial')
     for gate,case in (('local_range_through_path' if local else 'range_through_path','authorized_range'),('local_large_file_streaming' if local else 'public_large_file_streaming','authorized_stream')):

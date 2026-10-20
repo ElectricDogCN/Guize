@@ -740,6 +740,19 @@ class TestPocProgram(unittest.TestCase):
         last=CHECK.utc(process_finished_at) if process_finished_at else CHECK.utc(ordered[-1][1]['observedAt'])+timedelta(seconds=2)
         context={k:copy.deepcopy(report[k]) for k in ('configurationRef','baselineRef','restoredRef','comparisonRef','resourceId','subjectVersion','acceptanceProfile','inputSamples','subjects')}
         events=[dict(event=row['event'],witnessRef=row['witnessRef'],observedAt=row['observedAt'],monotonicSeconds=1000+(CHECK.utc(row['observedAt'])-first).total_seconds()) for _,row in ordered]
+        for index,event in enumerate(events):
+            if event['event'] not in ('services_ready','vm_set_ready','recovery_completed'):continue
+            witness=load_yaml(root/event['witnessRef']);run=load_yaml(root/witness['executionRef'])
+            start=CHECK.utc(run['startedAt'])-timedelta(milliseconds=1);end=CHECK.utc(run['finishedAt'])+timedelta(milliseconds=1)
+            stderr=directory+'/readiness-'+event['event']+'.stderr.txt'
+            if not (root/stderr).exists():(root/stderr).write_bytes(b'')
+            raw=(root/stderr).read_bytes();artifact=next((a for a in env['rawExecutionArtifacts'] if a['ref']==stderr),None)
+            if artifact is None:
+                artifact=dict(ref=stderr,artifactType='command_output');env['rawExecutionArtifacts'].append(artifact);execution['rawOutputRefs'].append(stderr)
+            artifact.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+            identity={k:copy.deepcopy(run[k]) for k in ('resourceId','acceptanceProfile','subjectVersion','inputSamples','subjects','event','configurationRef','recoveryRunId','restoredRef','commandArgs','toolBuild')}
+            identity.update(readinessExecutionRef=witness['executionRef'],restoredSha256='sha256:'+hashlib.sha256((root/run['restoredRef']).read_bytes()).hexdigest())
+            event['readinessInvocation']=dict(invocationId='fixture-readiness-'+event['event'],context=identity,processId=98200+index,clockDomainId=policy['clockDomainId'],commandArgs=copy.deepcopy(run['commandArgs']),toolBuild=run['toolBuild'],exitCode=0,startedAt=start.isoformat().replace('+00:00','Z'),finishedAt=end.isoformat().replace('+00:00','Z'),startedMonotonicSeconds=1000+(start-first).total_seconds(),finishedMonotonicSeconds=1000+(end-first).total_seconds(),stdoutRef=run['outputArtifact']['artifactRef'],stdoutSha256=run['outputArtifact']['sha256'],stderrRef=stderr,stderrSha256=artifact['sha256'])
         output=dict(schemaVersion=1,kind='recovery_timing_native_events',context=context,processId=98111,clockDomainId=policy['clockDomainId'],events=events)
         raw=(json.dumps(output,sort_keys=True)+'\n').encode('utf8');(root/stdout_ref).write_bytes(raw)
         run=dict(schemaVersion=1,kind='recovery_timing_native_execution',context=context,collectorBuild=policy['collectorBuild'],toolBuild=policy['toolBuild'],clockDomainId=policy['clockDomainId'],commandArgs=policy['commandArgs']+['--run-id',report['subjects']['recoveryRunId'],'--baseline',report['baselineRef'],'--restored',report['restoredRef'],'--comparison',report['comparisonRef'],'--events-output',stdout_ref],processId=98111,exitCode=0,startedAt=first.isoformat().replace('+00:00','Z'),finishedAt=last.isoformat().replace('+00:00','Z'),startedMonotonicSeconds=1000,finishedMonotonicSeconds=1000+(last-first).total_seconds(),stdoutRef=stdout_ref,stdoutSha256='sha256:'+hashlib.sha256(raw).hexdigest(),stderrRef=stderr_ref,stderrSha256='sha256:'+hashlib.sha256((root/stderr_ref).read_bytes()).hexdigest())
@@ -806,6 +819,68 @@ class TestPocProgram(unittest.TestCase):
                     write_yaml(restored_path,restored);comparison_path=root/capture['comparisonRef'];comparison=load_yaml(comparison_path);comparison['restoredSha256']='sha256:'+hashlib.sha256(restored_path.read_bytes()).hexdigest();write_yaml(comparison_path,comparison)
                     self.refresh_qualified_observation_fixture(root,record);write_yaml(path,record)
                     self.assertTrue(any('qualified recovery observation' in error for error in validate()),(profile,mode))
+            finally:temp.cleanup()
+
+    def exercise_recovery_readiness_native_regressions(self):
+        """Narrow native invocation checks; no full repository validation or healthcheck execution."""
+        for profile in ('local-v1','production'):
+            temp,root=self.temp_repo()
+            try:
+                index=self.make_profile_slot(root,'POC-010',profile);path=root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef'];original=load_yaml(path);env=original['environmentCaptured'];prefix=str(path.parent.relative_to(root)).replace('\\','/')
+                timing_ref=env['recoveryTimingRef'];report=load_yaml(root/timing_ref);native_ref=report['nativeExecutionRef'];saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};config_ref=report['configurationRef'];saved[root/config_ref]=(root/config_ref).read_bytes();defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs']
+                def restore():
+                    for selected,raw in saved.items():selected.write_bytes(raw)
+                    return copy.deepcopy(original)
+                def put(data,ref,value):
+                    raw=value if isinstance(value,bytes) else (json.dumps(value,sort_keys=True)+'\n').encode('utf8');(root/ref).write_bytes(raw);artifact=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref);artifact.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());return artifact['sha256']
+                def validate(data):
+                    capture=data['environmentCaptured']['recoveryEvidence'];report=load_yaml(root/timing_ref);config=load_yaml(root/config_ref);baseline=load_yaml(root/capture['baselineRef']);restored=load_yaml(root/capture['restoredRef']);times={e['event']:CHECK.utc(e['observedAt']) for e in report['events']};window=tuple(CHECK.utc(data['environmentCaptured']['executionWindow'][k]) for k in ('startedAt','finishedAt'));errors=[];cache={};paths=[]
+                    parsed=CHECK.validate_recovery_readiness(root,data,prefix,capture,config,baseline,restored,report['subjects'],report['events'],times,window,defs,'qualified recovery timing',errors,cache,paths)
+                    expected={k:copy.deepcopy(report[k]) for k in ('configurationRef','baselineRef','restoredRef','comparisonRef','resourceId','subjectVersion','acceptanceProfile','inputSamples')}
+                    CHECK.derive_recovery_native_timing(root,data,prefix,report,config,expected,times,paths,defs,'qualified recovery timing',errors,cache,parsed);return errors
+                self.assertEqual(validate(restore()),[])
+                modes=('missing_invocation','pid','exit','argv','tool','invocation_id','overlapping_pid','context_run','context_host','context_manifest','context_overflow','stdout_ref','stdout_hash','stderr_hash','stderr_unselected','stderr_alias','lifetime','monotonic','clock_domain')
+                for mode in modes:
+                    data=restore();native=load_yaml(root/native_ref);output=json.loads((root/native['stdoutRef']).read_bytes());rows=[e for e in output['events'] if e['event'] in ('services_ready','vm_set_ready','recovery_completed')];event=rows[0];inv=event['readinessInvocation']
+                    if mode=='missing_invocation':event.pop('readinessInvocation')
+                    elif mode=='pid':inv['processId']=0
+                    elif mode=='exit':inv['exitCode']=1
+                    elif mode=='argv':inv['commandArgs'].append('--unapproved')
+                    elif mode=='tool':inv['toolBuild']='unapproved-readiness-build'
+                    elif mode=='invocation_id':rows[1]['readinessInvocation']['invocationId']=inv['invocationId']
+                    elif mode=='overlapping_pid':rows[1]['readinessInvocation']['processId']=inv['processId']
+                    elif mode=='context_run':inv['context']['recoveryRunId']='foreign-run'
+                    elif mode=='context_host':inv['context']['subjects']['physicalHostId']='foreign-host'
+                    elif mode=='context_manifest':inv['context']['restoredSha256']='sha256:'+'0'*64
+                    elif mode=='context_overflow':inv['context']['overflow']='readiness-overflow-sentinel'
+                    elif mode=='stdout_ref':inv['stdoutRef']=rows[1]['readinessInvocation']['stdoutRef']
+                    elif mode=='stdout_hash':inv['stdoutSha256']='sha256:'+'0'*64
+                    elif mode=='stderr_hash':inv['stderrSha256']='sha256:'+'0'*64
+                    elif mode=='stderr_unselected':data['rawOutputRefs'].remove(inv['stderrRef'])
+                    elif mode=='stderr_alias':inv.update(stderrRef=inv['stdoutRef'],stderrSha256=inv['stdoutSha256'])
+                    elif mode=='lifetime':inv['finishedAt']=inv['startedAt']
+                    elif mode=='monotonic':inv['startedMonotonicSeconds']+=.25
+                    else:inv['clockDomainId']='foreign-clock-domain'
+                    raw=(json.dumps(output,sort_keys=True)+'\n').encode('utf8')
+                    if mode=='context_overflow':raw=raw.replace(b'"readiness-overflow-sentinel"',b'1e999')
+                    native['stdoutSha256']=put(data,native['stdoutRef'],raw);put(data,native_ref,native);errors=validate(data)
+                    self.assertTrue(any('qualified recovery timing' in error for error in errors),(profile,mode,errors))
+                    if mode=='context_overflow':self.assertTrue(any('finite typed JSON' in error for error in errors),errors)
+                # Native initialization/flush may surround results; empty or successful NOTICE stderr is lawful.
+                data=restore();native=load_yaml(root/native_ref);output=json.loads((root/native['stdoutRef']).read_bytes());first,last=CHECK.utc(native['startedAt']),CHECK.utc(native['finishedAt'])
+                for event in output['events']:
+                    if 'readinessInvocation' not in event:continue
+                    inv=event['readinessInvocation'];start=first+timedelta(milliseconds=1);end=last-timedelta(milliseconds=1)
+                    inv.update(startedAt=start.isoformat().replace('+00:00','Z'),finishedAt=end.isoformat().replace('+00:00','Z'),startedMonotonicSeconds=native['startedMonotonicSeconds']+.001,finishedMonotonicSeconds=native['finishedMonotonicSeconds']-.001)
+                    inv['stderrSha256']=put(data,inv['stderrRef'],b'NOTICE: readiness check completed\n')
+                native['stdoutSha256']=put(data,native['stdoutRef'],output);put(data,native_ref,native);self.assertEqual(validate(data),[])
+                # A polling command may retain an initial failed probe and then return healthy stdout/exit0.
+                data=restore();native=load_yaml(root/native_ref);output=json.loads((root/native['stdoutRef']).read_bytes());inv=next(e['readinessInvocation'] for e in output['events'] if e['event']=='services_ready')
+                inv['stderrSha256']=put(data,inv['stderrRef'],b'ERROR: initial probe unavailable\nNOTICE: later probe healthy\n')
+                native['stdoutSha256']=put(data,native['stdoutRef'],output);put(data,native_ref,native);self.assertEqual(validate(data),[],'initial probe diagnostic before successful final readiness')
+                # Preserve the existing maximum approved full argv of128 elements, without adding tail parameters.
+                data=restore();native=load_yaml(root/native_ref);output=json.loads((root/native['stdoutRef']).read_bytes());event=next(e for e in output['events'] if e['event']=='services_ready');inv=event['readinessInvocation'];argv=inv['commandArgs']+['--approved-member']*(128-len(inv['commandArgs']));config=load_yaml(root/config_ref);config['configuration']['recoveryReadiness']['services_ready']['commandArgs']=argv;write_yaml(root/config_ref,config);run=load_yaml(root/inv['context']['readinessExecutionRef']);run['commandArgs']=argv;write_yaml(root/inv['context']['readinessExecutionRef'],run);put(data,inv['context']['readinessExecutionRef'],(root/inv['context']['readinessExecutionRef']).read_bytes());inv['commandArgs']=argv;inv['context']['commandArgs']=argv
+                native['stdoutSha256']=put(data,native['stdoutRef'],output);put(data,native_ref,native);self.assertEqual(validate(data),[])
             finally:temp.cleanup()
 
     def exercise_recovery_readiness_regressions(self):
@@ -995,6 +1070,110 @@ class TestPocProgram(unittest.TestCase):
             capture=dict(schemaVersion=1,kind='local_access_request_transport',context=context,case=case,requestId=rid,traceId=tid,observerBuild=controls['observerBuild'],commandArgs=controls['commandArgs']+['--request-id',rid,'--trace-id',tid,'--target',witness['requestURL'],'--response',response_ref],pid=55000+ordinal,startedAt=started,finishedAt=at,exitCode=0,peerAddress=peers[origin]['addresses'][0],peerPort=parsed.port or (443 if parsed.scheme=='https' else 80),connectionOutcome='connected',responseRef=response_ref,responseSha256='sha256:'+hashlib.sha256(raw).hexdigest(),responseBodyRef=witness['responseBodyRef'],maximumBufferedBytes=witness['maximumBufferedBytes'],events=events)
             witness.update(requestId=rid,traceId=tid,transportRef=prefix+'/raw/access-'+case+'-native-transport.json');self.retain_access_frontend_positive_fixture(root,execution,witness['transportRef'],json.dumps(capture).encode());write_yaml(witness_path,witness)
             self.retain_access_frontend_positive_fixture(root,execution,row['witnessRef'],witness_path.read_bytes(),'measurement_output')
+        self.prepare_local_tls_capture_fixture(root,execution,prefix,cases)
+
+    def prepare_local_tls_capture_fixture(self,root,execution,prefix,cases=None):
+        """Synthetic approved-collector TLS shapes; no real handshake or certificate validation."""
+        env=execution['environmentCaptured']
+        if env['acceptanceProfile']['id']!='local-v1':return
+        report=load_yaml(root/env['accessOutcomeRef']);config_path=root/report['configurationRef'];config=load_yaml(config_path);controls=config['configuration']['accessPolicy']['requestTransport'];tls=env['local_tls_path_configuration']
+        ca_ref=prefix+'/raw/access-native-ca.pem';ca=b'Synthetic public CA trust bundle; checker fixture only, never a real TLS execution.\n'
+        self.retain_access_frontend_positive_fixture(root,execution,ca_ref,ca)
+        policy=dict(trustStoreBuild='synthetic-approved-private-ca-bundle-v1',trustStoreRef=ca_ref,trustStoreSha256='sha256:'+hashlib.sha256(ca).hexdigest(),trustAnchorSha256='sha256:'+'d'*64,approvedProtocols=['TLSv1.2','TLSv1.3'],approvedCiphers=['TLS_AES_128_GCM_SHA256','TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256']);controls['tlsPolicy']=policy;write_yaml(config_path,config)
+        hostname=CHECK.urllib.parse.urlsplit(tls['entryOrigin']).hostname
+        try:CHECK.ipaddress.ip_address(hostname);sni=None
+        except ValueError:sni=hostname
+        for number,row in enumerate(report['cases'],1):
+            if row['case']=='rate_limit' or cases is not None and row['case'] not in cases:continue
+            witness=load_yaml(root/row['witnessRef']);parsed=CHECK.urllib.parse.urlsplit(witness['requestURL'])
+            if parsed.scheme+'://'+parsed.netloc!=tls['entryOrigin']:continue
+            trace_path=root/witness['transportRef'];trace=json.loads(trace_path.read_bytes());stem=prefix+'/raw/access-'+row['case']+'-tls';stdout_ref=stem+'-stdout.json';stderr_ref=stem+'-stderr.txt';native_ref=stem+'-execution.json';connection='synthetic-tls-connection-'+row['case'];pid=65000+number
+            result=dict(schemaVersion=1,kind='local_access_tls_result',connectionId=connection,processId=pid,entryOrigin=tls['entryOrigin'],peerAddress=trace['peerAddress'],peerPort=trace['peerPort'],serverName=hostname,sni=sni,verifiedPeerName=hostname,protocol='TLSv1.3',cipher=policy['approvedCiphers'][0],trustStoreBuild=policy['trustStoreBuild'],trustStoreSha256=policy['trustStoreSha256'],trustAnchorSha256=policy['trustAnchorSha256'],certificateSha256=tls['certificateIdentity'],chainFingerprints=[tls['certificateIdentity'],policy['trustAnchorSha256']],verificationCode=0,hostnameVerificationCode=0,handshakeStartedAt=trace['events'][0]['observedAt'],handshakeFinishedAt=trace['events'][0]['observedAt'])
+            stdout=json.dumps(result).encode();stderr=b'Synthetic TLS client diagnostic; not an actual handshake.\n'
+            for ref,raw in ((stdout_ref,stdout),(stderr_ref,stderr)):self.retain_access_frontend_positive_fixture(root,execution,ref,raw)
+            argv=controls['commandArgs']+['--target-origin',tls['entryOrigin'],'--connection-id',connection,'--tls-ca-file',ca_ref,'--tls-verify-peer',hostname,'--tls-verify-mode','strict','--tls-output',stdout_ref]
+            native=dict(schemaVersion=1,kind='local_access_tls_execution',context=copy.deepcopy(trace['context']),connectionId=connection,observerBuild=controls['observerBuild'],commandArgs=argv,processId=pid,startedAt=trace['startedAt'],finishedAt=trace['finishedAt'],exitCode=0,stdoutRef=stdout_ref,stdoutSha256='sha256:'+hashlib.sha256(stdout).hexdigest(),stderrRef=stderr_ref,stderrSha256='sha256:'+hashlib.sha256(stderr).hexdigest())
+            self.retain_access_frontend_positive_fixture(root,execution,native_ref,json.dumps(native).encode());trace.update(tlsExecutionRef=native_ref,tlsConnectionId=connection,tlsClientProcessId=pid);self.retain_access_frontend_positive_fixture(root,execution,witness['transportRef'],json.dumps(trace).encode())
+
+    def exercise_local_tls_capture_regressions(self,root,original,validate,prefix):
+        env=original['environmentCaptured'];report=load_yaml(root/env['accessOutcomeRef']);config_path=root/report['configurationRef'];saved={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};saved[config_path]=config_path.read_bytes()
+        def restore():
+            for path,raw in saved.items():path.write_bytes(raw)
+        def register(data,ref,raw):
+            if isinstance(raw,dict):raw=json.dumps(raw).encode()
+            (root/ref).write_bytes(raw);record=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref);record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        def selected(data):
+            config=load_yaml(config_path);controls=config['configuration']['accessPolicy']['requestTransport'];row=next(r for r in report['cases'] if r['case']=='authorized_range');witness=load_yaml(root/row['witnessRef']);transport=json.loads((root/witness['transportRef']).read_bytes());native=json.loads((root/transport['tlsExecutionRef']).read_bytes());result=json.loads((root/native['stdoutRef']).read_bytes());return config,controls,witness,transport,native,result
+        try:
+            for mode in ('missing_policy','missing_execution','missing_connection','missing_pid','unselected','wrong_type','observer','argv','insecure_policy','context_overflow','pid','connection','peer','port','server_name','sni','hostname','verification','hostname_verification','protocol','cipher','leaf','anchor','trust_store','trust_build','stdout_hash','stderr_hash','stdout_alias','stdout_json','exit','handshake_late','client_exited','process_window'):
+                restore();data=copy.deepcopy(original);config,controls,witness,transport,native,result=selected(data);policy=controls['tlsPolicy'];native_ref=transport['tlsExecutionRef'];stdout_ref=native['stdoutRef'];stdout_raw=None;native_raw=None
+                if mode=='missing_policy':controls.pop('tlsPolicy')
+                elif mode=='missing_execution':transport.pop('tlsExecutionRef')
+                elif mode=='missing_connection':transport.pop('tlsConnectionId')
+                elif mode=='missing_pid':transport.pop('tlsClientProcessId')
+                elif mode=='unselected':data['rawOutputRefs'].remove(native_ref)
+                elif mode=='wrong_type':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==native_ref)['artifactType']='measurement_output'
+                elif mode=='observer':native['observerBuild']='unapproved-native-client'
+                elif mode=='argv':native['commandArgs'][-3]='none'
+                elif mode=='insecure_policy':
+                    at=len(controls['commandArgs']);controls['commandArgs'].append('--insecure');transport['commandArgs'].insert(at,'--insecure');native['commandArgs'].insert(at,'--insecure')
+                elif mode=='context_overflow':native['context']['aclVersion']='tls-overflow-sentinel';native_raw=json.dumps(native).encode().replace(b'"tls-overflow-sentinel"',b'1e999')
+                elif mode=='pid':transport['tlsClientProcessId']+=1
+                elif mode=='connection':transport['tlsConnectionId']='foreign-connection'
+                elif mode=='peer':result['peerAddress']='192.0.2.1'
+                elif mode=='port':result['peerPort']=1
+                elif mode=='server_name':result['serverName']='foreign.invalid'
+                elif mode=='sni':result['sni']=None
+                elif mode=='hostname':result['verifiedPeerName']='foreign.invalid'
+                elif mode=='verification':result['verificationCode']=20
+                elif mode=='hostname_verification':result['hostnameVerificationCode']=62
+                elif mode=='protocol':controls['tlsPolicy']['approvedProtocols']=['TLSv1.2']
+                elif mode=='cipher':result['cipher']='unapproved-cipher'
+                elif mode=='leaf':result['certificateSha256']='sha256:'+'0'*64
+                elif mode=='anchor':result['trustAnchorSha256']='sha256:'+'0'*64
+                elif mode=='trust_store':(root/policy['trustStoreRef']).write_bytes(b'Foreign trust bundle');register(data,policy['trustStoreRef'],(root/policy['trustStoreRef']).read_bytes())
+                elif mode=='trust_build':result['trustStoreBuild']='foreign-ca-build'
+                elif mode=='stdout_hash':native['stdoutSha256']='sha256:'+'0'*64
+                elif mode=='stderr_hash':native['stderrSha256']='sha256:'+'0'*64
+                elif mode=='stdout_alias':native['stdoutRef']=policy['trustStoreRef'];native['stdoutSha256']=policy['trustStoreSha256'];native['commandArgs'][-1]=native['stdoutRef']
+                elif mode=='stdout_json':stdout_raw=b'not native TLS client output'
+                elif mode=='exit':native['exitCode']=1
+                elif mode=='handshake_late':result['handshakeFinishedAt']=transport['finishedAt']
+                elif mode=='client_exited':native['finishedAt']='2026-09-03T00:00:00.999500Z'
+                else:native['startedAt']='2026-09-02T23:59:59Z'
+                if mode not in ('stdout_hash','stdout_alias'):native['stdoutSha256']='sha256:'+hashlib.sha256(stdout_raw if stdout_raw is not None else json.dumps(result).encode()).hexdigest()
+                register(data,stdout_ref,stdout_raw if stdout_raw is not None else result);register(data,native_ref,native_raw if native_raw is not None else native);register(data,witness['transportRef'],transport);write_yaml(config_path,config)
+                errors=validate(data);self.assertTrue(any('native TLS' in error for error in errors),(mode,errors))
+            # Private CA, self-signed approved roots, coarse clocks and enclosing init/flush remain legal.
+            for positive in ('tls12','self_signed_anchor','presented_leaf_only','presented_leaf_and_intermediate','init_flush','coarse_clock','connection_reuse','maximum_approved_argv'):
+                restore();data=copy.deepcopy(original);config,controls,witness,transport,native,result=selected(data);native_ref=transport['tlsExecutionRef']
+                if positive=='tls12':result.update(protocol='TLSv1.2',cipher=controls['tlsPolicy']['approvedCiphers'][1])
+                elif positive=='self_signed_anchor':controls['tlsPolicy']['trustAnchorSha256']=result['certificateSha256'];result['chainFingerprints']=[result['certificateSha256']];result['trustAnchorSha256']=result['certificateSha256']
+                elif positive=='presented_leaf_only':result['chainFingerprints']=[result['certificateSha256']]
+                elif positive=='presented_leaf_and_intermediate':result['chainFingerprints']=[result['certificateSha256'],'sha256:'+'e'*64]
+                elif positive=='init_flush':native.update(startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:01.001Z');transport.update(startedAt='2026-09-03T00:00:00Z',finishedAt='2026-09-03T00:00:01.001Z')
+                elif positive=='coarse_clock':
+                    for event in transport['events']:event['observedAt']=transport['finishedAt']
+                    native['startedAt']=native['finishedAt'];result['handshakeStartedAt']=result['handshakeFinishedAt']=native['finishedAt']
+                elif positive=='connection_reuse':
+                    second=load_yaml(root/next(row['witnessRef'] for row in report['cases'] if row['case']=='authorized_if_range'));trace=json.loads((root/second['transportRef']).read_bytes());trace.update(tlsExecutionRef=native_ref,tlsConnectionId=native['connectionId'],tlsClientProcessId=native['processId']);register(data,second['transportRef'],trace);native['finishedAt']='2026-09-03T00:00:02Z'
+                else:
+                    old_args=list(controls['commandArgs']);controls['commandArgs']=old_args+['--verbose']*(128-len(old_args));self.assertEqual(len(controls['commandArgs']),128)
+                    for row in report['cases']:
+                        if row['case']=='rate_limit':continue
+                        w=load_yaml(root/row['witnessRef']);t=json.loads((root/w['transportRef']).read_bytes());t['commandArgs']=controls['commandArgs']+t['commandArgs'][len(old_args):];register(data,w['transportRef'],t)
+                        if t.get('tlsExecutionRef'):
+                            n=json.loads((root/t['tlsExecutionRef']).read_bytes());n['commandArgs']=controls['commandArgs']+n['commandArgs'][len(old_args):];register(data,t['tlsExecutionRef'],n)
+                    write_yaml(config_path,config);self.assertEqual(validate(data),[],positive);continue
+                # A shared approved root is also used by the other independent connections.
+                if positive=='self_signed_anchor':
+                    for row in report['cases']:
+                        if row['case']=='rate_limit':continue
+                        w=load_yaml(root/row['witnessRef']);t=json.loads((root/w['transportRef']).read_bytes())
+                        if not t.get('tlsExecutionRef') or t['tlsExecutionRef']==native_ref:continue
+                        n=json.loads((root/t['tlsExecutionRef']).read_bytes());value=json.loads((root/n['stdoutRef']).read_bytes());value['chainFingerprints']=[value['certificateSha256']];value['trustAnchorSha256']=value['certificateSha256'];register(data,n['stdoutRef'],value);n['stdoutSha256']='sha256:'+hashlib.sha256((root/n['stdoutRef']).read_bytes()).hexdigest();register(data,t['tlsExecutionRef'],n)
+                register(data,native['stdoutRef'],result);native['stdoutSha256']='sha256:'+hashlib.sha256((root/native['stdoutRef']).read_bytes()).hexdigest();register(data,native_ref,native);register(data,witness['transportRef'],transport);write_yaml(config_path,config);self.assertEqual(validate(data),[],positive)
+        finally:restore()
 
     def prepare_frontend_browser_capture_fixture(self,root,execution,prefix,case_refs=None):
         """Synthetic driver stdout/DOM readbacks, never real frontend execution."""
@@ -2351,10 +2530,137 @@ class TestPocProgram(unittest.TestCase):
             workload_ref=retain('storage-'+str(index)+'-concurrent-workload.yaml',workload,'measurement_output')[0];rows.append(dict(sampleId=obj['sampleId'],requests=requests,copyRejections=copies,disconnect=disconnect,backupRestore=backup,evictionAfterStateRef=snapshot('storage-'+str(index)+'-evicted-state.yaml',evicted,'2026-09-03T00:05:30Z'),evictedAt='2026-09-03T00:05:30Z',migration=migration,concurrentWorkloadRef=workload_ref))
         observations=[dict(phase=phase,observedAt=f'2026-09-03T00:07:0{index}Z',freeBytes=free,reservedBytes=reserved,admission=admission) for index,(phase,free,reserved,admission) in enumerate((('baseline',400,50,'admitted'),('fill',200,50,'paused'),('pause',180,50,'paused'),('evict',400,0,'paused'),('resume',400,0,'admitted')))];report=dict(schemaVersion=1,kind='local_storage_outcomes',**common,baselineStateRef=baseline_ref,objects=rows,capacityObservations=observations);env['localStorageRef'],_=retain('local-storage-outcomes.yaml',report,'measurement_output')
         self.prepare_storage_capacity_fixture(root,execution,prefix)
+        self.prepare_storage_runtime_native_fixture(root,execution,prefix)
         values=dict(local_minimum_free_bytes=180,local_maximum_reserved_bytes=50,sequential_throughput=complete_bytes/len(objects)/1000000,io_latency=1000)
         for measurement in execution['measurements']:
             if measurement['id'] in values:measurement['actual']=values[measurement['id']]
 
+
+    def exercise_storage_runtime_native_regressions(self,root,original):
+        """Explicit raw runtime counterexamples; no regeneration of invalid capture facts."""
+        env=original['environmentCaptured'];report_path=root/env['localStorageRef'];report_original=load_yaml(report_path);config_path=root/report_original['configurationRef'];config_raw=config_path.read_bytes();prefix=env['localStorageRef'].rsplit('/raw/',1)[0];defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];plan=load_yaml(self.plan_path(root,'POC-004'));saved={root/r['ref']:(root/r['ref']).read_bytes() for r in env['rawExecutionArtifacts']}
+        def reset():
+            for path,raw in saved.items():path.write_bytes(raw)
+            config_path.write_bytes(config_raw);return copy.deepcopy(original),copy.deepcopy(report_original)
+        def seal(data,ref,value):
+            raw=value if isinstance(value,bytes) else json.dumps(value).encode();(root/ref).write_bytes(raw);record=next(r for r in data['environmentCaptured']['rawExecutionArtifacts'] if r['ref']==ref);record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());return record['sha256']
+        def validate(data,report):
+            seal(data,env['localStorageRef'],yaml.safe_dump(report,sort_keys=False).encode());errors=[];window=data['environmentCaptured']['executionWindow'];CHECK.validate_qualified_local_storage(root,plan,data,prefix,'pass',(CHECK.utc(window['startedAt']),CHECK.utc(window['finishedAt'])),defs,errors,{});return errors
+        try:
+            data,report=reset();self.assertEqual(validate(data,report),[])
+            for mode in ('missing','arbitrary','collector_argv','collector_context','nonfinite','clock_domain','native_tick','native_pid','failed_exit_success','failed_no_diagnostic','old_service_alive','same_service_pid','missing_mutation','unchanged_live','restore_source','readback_source','full_time','concurrency_time','native_disjoint','child_argv','child_parent','child_exit','response_headers','response_body'):
+                data,report=reset();row=report['objects'][0];ref=row['runtimeExecutionRef'];run=json.loads((root/ref).read_bytes());native_ref=run['stdoutRef'];native=json.loads((root/native_ref).read_bytes());ops={o['operationId']:o for o in native['operations']};op=ops['recovery:1'];result=json.loads((root/op['stdoutRef']).read_bytes());expected='qualified local storage'
+                if mode=='missing':row.pop('runtimeExecutionRef')
+                elif mode=='arbitrary':seal(data,ref,b'Unrelated storage success text; never actual execution.');expected='bounded unique-key finite evaluator JSON'
+                elif mode=='collector_argv':run['commandArgs'][0]='unapproved-observer'
+                elif mode=='collector_context':run['context']['object']['objectId']='foreign-object'
+                elif mode=='nonfinite':
+                    raw=json.dumps(run).encode().replace(b'"context": {',b'"context": {"nonfinite": 1e999,',1);seal(data,ref,raw);expected='finite canonical JSON'
+                elif mode=='clock_domain':native['clockDomainId']='foreign-clock'
+                elif mode=='native_tick':ops['concurrent_b']['startedMonotonicNs']+=1000000000
+                elif mode=='native_pid':op['processId']='0'
+                elif mode=='failed_exit_success':
+                    op['exitCode']=result['exitCode']=0;seal(data,op['stderrRef'],b'');op['stderrSha256']='sha256:'+hashlib.sha256(b'').hexdigest();seal(data,op['stdoutRef'],result);op['stdoutSha256']=data['environmentCaptured']['rawExecutionArtifacts'][next(i for i,r in enumerate(data['environmentCaptured']['rawExecutionArtifacts']) if r['ref']==op['stdoutRef'])]['sha256']
+                elif mode=='failed_no_diagnostic':op['stderrSha256']=seal(data,op['stderrRef'],b'ordinary informational output')
+                elif mode in ('old_service_alive','same_service_pid'):
+                    selected=ops['service_stop' if mode=='old_service_alive' else 'service_start'];value=json.loads((root/selected['stdoutRef']).read_bytes())
+                    if mode=='old_service_alive':value['details']['aliveAfter']=True
+                    else:value['details']['serviceProcessId']=json.loads((root/ops['service_stop']['stdoutRef']).read_bytes())['details']['serviceProcessId']
+                    selected['stdoutSha256']=seal(data,selected['stdoutRef'],value)
+                elif mode=='missing_mutation':native['operations'].remove(ops['mutate_live'])
+                elif mode=='unchanged_live':
+                    selected=ops['mutate_live'];value=json.loads((root/selected['stdoutRef']).read_bytes());raw=(root/row['backupRestore']['backupDataRef']).read_bytes();value['details']['outputSha256']=seal(data,value['details']['outputRef'],raw);selected['stdoutSha256']=seal(data,selected['stdoutRef'],value);expected='actual changed live readback'
+                elif mode in ('restore_source','readback_source'):
+                    selected=ops['restore' if mode=='restore_source' else 'readback'];value=json.loads((root/selected['stdoutRef']).read_bytes());key='sourceRef' if mode=='restore_source' else 'outputRef';value['details'][key]=data['environmentCaptured']['inputSampleArtifacts'][0]['inputArtifactRef'];selected['stdoutSha256']=seal(data,selected['stdoutRef'],value)
+                elif mode=='full_time':
+                    claim=next(r for r in row['requests'] if r['case']=='full');claim['finishedAt']='2026-09-03T00:01:02Z';location=root/claim['originAccessRef'];origin=load_yaml(location);origin['finishedAt']=claim['finishedAt'];seal(data,claim['originAccessRef'],yaml.safe_dump(origin,sort_keys=False).encode());next(m for m in data['measurements'] if m['id']=='sequential_throughput')['actual']/=2;next(m for m in data['measurements'] if m['id']=='io_latency')['actual']*=2;expected='aggregate HTTP timing/hash'
+                elif mode=='concurrency_time':
+                    for claim in row['requests']:
+                        if claim['case'].startswith('concurrent_'):
+                            claim.update(startedAt='2026-09-03T00:06:00Z',finishedAt='2026-09-03T00:06:01Z');origin=load_yaml(root/claim['originAccessRef']);origin.update(startedAt=claim['startedAt'],finishedAt=claim['finishedAt']);seal(data,claim['originAccessRef'],yaml.safe_dump(origin,sort_keys=False).encode())
+                    expected='aggregate HTTP timing/hash'
+                elif mode=='native_disjoint':
+                    selected=ops['concurrent_b'];selected.update(startedAt='2026-09-03T00:06:01Z',finishedAt='2026-09-03T00:06:02Z',startedMonotonicNs=361000000000,finishedMonotonicNs=362000000000);claim=next(r for r in row['requests'] if r['case']=='concurrent_b');claim.update(startedAt=selected['startedAt'],finishedAt=selected['finishedAt']);origin=load_yaml(root/claim['originAccessRef']);origin.update(startedAt=selected['startedAt'],finishedAt=selected['finishedAt']);seal(data,claim['originAccessRef'],yaml.safe_dump(origin,sort_keys=False).encode());expected='positive common monotonic overlap'
+                elif mode=='child_argv':op['commandArgs'][0]='unapproved-http-client'
+                elif mode=='child_parent':op['parentProcessId']='999999'
+                elif mode=='child_exit':op['exitCode']=1
+                elif mode=='response_headers':seal(data,result['details']['headersRef'],b'HTTP/1.1 200 OK\r\nContent-Length: 1\r\nTransfer-Encoding: chunked\r\n\r\n')
+                elif mode=='response_body':result['details']['responseSha256']='sha256:'+'0'*64;op['stdoutSha256']=seal(data,op['stdoutRef'],result)
+                if mode not in ('missing','arbitrary','nonfinite'):
+                    run['stdoutSha256']=seal(data,native_ref,native);seal(data,ref,run)
+                errors=validate(data,report);self.assertTrue(any(expected in e for e in errors),(mode,errors))
+            # A client may return decoded bytes from legal chunked HTTP without Content-Length.
+            data,report=reset();run=json.loads((root/report['objects'][0]['runtimeExecutionRef']).read_bytes());native=json.loads((root/run['stdoutRef']).read_bytes())
+            for op in native['operations']:
+                if op['operationId'] in ('full','concurrent_a','concurrent_b','recovery:2'):
+                    result=json.loads((root/op['stdoutRef']).read_bytes());seal(data,result['details']['headersRef'],b'HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n')
+            self.assertEqual(validate(data,report),[])
+            # Successful approved clients may retain progress or an initial failed poll before success.
+            data,report=reset();ref=report['objects'][0]['runtimeExecutionRef'];run=json.loads((root/ref).read_bytes());native=json.loads((root/run['stdoutRef']).read_bytes())
+            for op in native['operations']:
+                if op['operationId'] in ('full','concurrent_a','concurrent_b','recovery:2'):
+                    op['stderrSha256']=seal(data,op['stderrRef'],b'NOTICE: download progress 100%\nERROR: initial probe failed; retry succeeded\n')
+            run['stdoutSha256']=seal(data,run['stdoutRef'],native);seal(data,ref,run);self.assertEqual(validate(data,report),[])
+            # A refused connection may fail before any response headers or body arrive.
+            for mode in ('pre_response_refused','empty_headers_nonempty_body','no_response_claims_200','no_response_claims_success','malformed_headers'):
+                data,report=reset();row=report['objects'][0];claim=row['disconnect']['attempts'][0];ref=row['runtimeExecutionRef'];run=json.loads((root/ref).read_bytes());native=json.loads((root/run['stdoutRef']).read_bytes());op=next(o for o in native['operations'] if o['operationId']=='recovery:1');result=json.loads((root/op['stdoutRef']).read_bytes());details=result['details']
+                claim['responseSha256']=seal(data,claim['responseRef'],b'');seal(data,details['headersRef'],b'');details.update(responseSha256=claim['responseSha256'],responseBytes=0,statusCode=0,serverProcessId=None)
+                op['exitCode']=result['exitCode']=7;op['stderrSha256']=seal(data,op['stderrRef'],b'client: (7) connection refused before any HTTP response\n')
+                if mode=='empty_headers_nonempty_body':
+                    claim['responseSha256']=seal(data,claim['responseRef'],b'x');details.update(responseSha256=claim['responseSha256'],responseBytes=1)
+                elif mode=='no_response_claims_200':details['statusCode']=200
+                elif mode=='no_response_claims_success':
+                    op['exitCode']=result['exitCode']=0;op['stderrSha256']=seal(data,op['stderrRef'],b'')
+                elif mode=='malformed_headers':seal(data,details['headersRef'],b'not-an-HTTP-response\r\n\r\n')
+                op['stdoutSha256']=seal(data,op['stdoutRef'],result);run['stdoutSha256']=seal(data,run['stdoutRef'],native);seal(data,ref,run)
+                errors=validate(data,report)
+                if mode=='pre_response_refused':self.assertEqual(errors,[],mode)
+                else:self.assertTrue(any('qualified local storage' in error for error in errors),(mode,errors))
+        finally:
+            for path,raw in saved.items():path.write_bytes(raw)
+            config_path.write_bytes(config_raw)
+
+    def prepare_storage_runtime_native_fixture(self,root,execution,prefix):
+        """Explicit synthetic native storage workflow; never actual backup/restart evidence."""
+        from datetime import timedelta
+        env=execution['environmentCaptured'];report_path=root/env['localStorageRef'];report=load_yaml(report_path);config_path=root/report['configurationRef'];config=load_yaml(config_path);policy=config['configuration']['localStoragePolicy'];node='fixture-local-storage-host'
+        observer=dict(collectorBuild='synthetic-storage-runtime-observer-v1',commandArgs=['guize-storage-runtime-observer'],clockDomainId='synthetic-local-storage-monotonic',clientBuild='synthetic-storage-http-client-v1',clientCommandArgs=['guize-storage-http-client'],serviceCommandArgs=['openlist','server'],controlBuild='synthetic-storage-service-control-v1',controlCommandArgs=['guize-storage-service-control'],fileBuild='synthetic-storage-file-control-v1',fileCommandArgs=['guize-storage-file-control'],livePaths={obj['assetId']:'controlled-live/object-'+str(i)+'.bin' for i,obj in enumerate(policy['objects'])});policy['runtimeObserver']=observer;write_yaml(config_path,config)
+        origin=CHECK.utc(env['executionWindow']['startedAt']);tick=lambda at:int(round((CHECK.utc(at)-origin).total_seconds()*1e9));clock=lambda at:at.isoformat().replace('+00:00','Z')
+        for index,row in enumerate(report['objects']):
+            obj=next(o for o in policy['objects'] if o['sampleId']==row['sampleId']);stem='storage-runtime-'+str(index)+'-';collector=str(81000+index*100);old=str(82000+index*100);new=str(82001+index*100);live=observer['livePaths'][obj['assetId']];operations=[]
+            retain=lambda name,value:self.retain_media_native_fixture(root,execution,prefix,stem+name,value,node)
+            digest=lambda ref:'sha256:'+hashlib.sha256((root/ref).read_bytes()).hexdigest()
+            context={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples')};context.update(sandboxRoot=policy['sandboxRoot'],openlistBuild=policy['openlistBuild'],object=copy.deepcopy(obj))
+            def operation(name,kind,tail,details,start,end,code=0,diagnostic=b''):
+                pid=str(83000+index*100+len(operations));out,out_sha=retain(name.replace(':','-')+'.stdout.json',dict(schemaVersion=1,kind='local_storage_runtime_result',operationId=name,processId=pid,exitCode=code,details=details));err,err_sha=retain(name.replace(':','-')+'.stderr',diagnostic)
+                operations.append(dict(operationId=name,processId=pid,parentProcessId=collector,commandArgs=observer[kind+'CommandArgs']+tail,toolBuild=observer[kind+'Build'],startedAt=start,finishedAt=end,startedMonotonicNs=tick(start),finishedMonotonicNs=tick(end),exitCode=code,stdoutRef=out,stdoutSha256=out_sha,stderrRef=err,stderrSha256=err_sha))
+            source=next(r for r in env['inputSampleArtifacts'] if r['sampleId']==obj['sampleId']);total=source['byteCount']
+            def http(name,claim,server,failed=False):
+                request_ref,_=retain(name.replace(':','-')+'.request.json',dict(schemaVersion=1,kind='local_storage_native_request',objectURL=obj['objectURL'],sourceId=obj['sourceId'],objectId=obj['objectId'],assetId=obj['assetId'],versionId=obj['versionId'],authRef=policy['authorizedAuthRef'],requestId=name))
+                header,_=retain(name.replace(':','-')+'.headers',('HTTP/1.1 200 OK\r\nContent-Length: '+str(total)+'\r\n\r\n').encode())
+                details=dict(requestRef=request_ref,headersRef=header,responseRef=claim['responseRef'],responseSha256=digest(claim['responseRef']),responseBytes=(root/claim['responseRef']).stat().st_size,serverProcessId=server,statusCode=200)
+                tail=['--url',obj['objectURL'],'--credential-ref',policy['authorizedAuthRef'],'--request',request_ref,'--headers',header,'--body',claim['responseRef']]
+                operation(name,'client',tail,details,claim['startedAt'],claim['finishedAt'],18 if failed else 0,b'client: (18) partial response; connection closed\n' if failed else b'')
+            for i,attempt in enumerate(row['disconnect']['attempts']):http('recovery:'+str(i+1),attempt,old if i==0 else new,i<len(row['disconnect']['attempts'])-1)
+            restarted=row['disconnect']['serviceRestartedAt']
+            operation('service_stop','control',['stop','--pid',old],dict(serviceProcessId=old,aliveBefore=True,aliveAfter=False,remainingProcessIds=[],serviceExitCode=0,serviceExitObservedAt=restarted),restarted,restarted)
+            operation('service_start','control',['start','--service-build',policy['openlistBuild']],dict(serviceProcessId=new,serviceCommandArgs=observer['serviceCommandArgs'],serviceBuild=policy['openlistBuild'],serviceStartedAt=restarted,alive=True,listeningOrigin='http://127.0.0.1:15525'),restarted,restarted)
+            requests={r['case']:r for r in row['requests']}
+            for name in ('full','concurrent_a','concurrent_b'):http(name,requests[name],old if name=='full' else new)
+            backup=row['backupRestore'];begin=CHECK.utc(backup['startedAt']);end=CHECK.utc(backup['finishedAt']);duration=end-begin;backup_end=clock(begin+duration/3);mutate_end=clock(begin+duration/2);restore_end=clock(begin+duration*2/3);asset=next(r for r in policy['baselineState']['replicas'] if r['replicaId']==obj['oldReplicaId'])
+            operation('backup','file',['backup','--live',live,'--data',backup['backupDataRef'],'--state',backup['backupStateRef']],dict(livePath=live,sourceSha256=asset['sha256'],outputRef=backup['backupDataRef'],outputSha256=backup['backupSha256'],stateRef=backup['backupStateRef'],stateSha256=digest(backup['backupStateRef'])),backup['startedAt'],backup_end)
+            payload=(root/backup['backupDataRef']).read_bytes();mutated=bytes([payload[0]^1])+payload[1:];changed_ref=prefix+'/raw/'+stem+'changed-live.bin';self.retain_media_native_fixture(root,execution,prefix,stem+'changed-live.bin',mutated,node,'produced_media')
+            operation('mutate_live','file',['mutate','--live',live,'--readback',changed_ref],dict(livePath=live,beforeSha256=asset['sha256'],outputRef=changed_ref,outputSha256=digest(changed_ref)),backup_end,mutate_end)
+            operation('restore','file',['restore','--backup-data',backup['backupDataRef'],'--backup-state',backup['backupStateRef'],'--live',live,'--state',backup['restoredStateRef']],dict(livePath=live,sourceRef=backup['backupDataRef'],sourceSha256=backup['backupSha256'],stateRef=backup['restoredStateRef'],stateSha256=digest(backup['restoredStateRef'])),mutate_end,restore_end)
+            operation('readback','file',['readback','--live',live,'--data',backup['restoredDataRef']],dict(livePath=live,outputRef=backup['restoredDataRef'],outputSha256=backup['restoredSha256'],stateRef=backup['restoredStateRef'],stateSha256=digest(backup['restoredStateRef'])),restore_end,backup['finishedAt'])
+            migration=row['migration'];verified=load_yaml(root/migration['verifiedStateRef']);copying=load_yaml(root/migration['copyingStateRef']);fresh=next(r for r in verified['replicas'] if r['replicaId']==obj['newReplicaId']);pending=next(r for r in copying['replicas'] if r['replicaId']==obj['newReplicaId'])
+            operation('migration','file',['migrate','--from-replica',obj['oldReplicaId'],'--to-replica',obj['newReplicaId'],'--pending',pending['payloadRef'],'--data',fresh['payloadRef'],'--copying-state',migration['copyingStateRef'],'--verified-state',migration['verifiedStateRef']],dict(sourceRef=asset['payloadRef'],sourceSha256=asset['sha256'],pendingRef=pending['payloadRef'],pendingSha256=digest(pending['payloadRef']),outputRef=fresh['payloadRef'],outputSha256=digest(fresh['payloadRef']),copyingStateRef=migration['copyingStateRef'],copyingStateSha256=digest(migration['copyingStateRef']),verifiedStateRef=migration['verifiedStateRef'],verifiedStateSha256=digest(migration['verifiedStateRef'])),migration['startedAt'],migration['verifiedAt'])
+            out,out_sha=retain('events.stdout.json',dict(schemaVersion=1,kind='local_storage_runtime_output',context=context,processId=collector,clockDomainId=observer['clockDomainId'],operations=operations));err,err_sha=retain('observer.stderr',b'')
+            first=clock(min(CHECK.utc(op['startedAt']) for op in operations)-timedelta(milliseconds=1));last=clock(max(CHECK.utc(op['finishedAt']) for op in operations)+timedelta(milliseconds=1))
+            argv=observer['commandArgs']+['--object-url',obj['objectURL'],'--live-path',live,'--events-output',out]
+            row['runtimeExecutionRef']=retain('execution.json',dict(schemaVersion=1,kind='local_storage_runtime_execution',context=context,collectorBuild=observer['collectorBuild'],clockDomainId=observer['clockDomainId'],processId=collector,commandArgs=argv,startedAt=first,finishedAt=last,startedMonotonicNs=tick(first),finishedMonotonicNs=tick(last),exitCode=0,stdoutRef=out,stdoutSha256=out_sha,stderrRef=err,stderrSha256=err_sha))[0]
+        write_yaml(report_path,report)
+        raw=report_path.read_bytes();record=next(r for r in env['rawExecutionArtifacts'] if r['ref']==env['localStorageRef']);record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
 
     def prepare_media_retry_cancel_native_fixture(self,root,execution,prefix,report,policy):
         """Explicit synthetic MP4/native retry and cancellation records; never a media/device run."""
@@ -3406,6 +3712,7 @@ class TestPocProgram(unittest.TestCase):
                 finally:temp.cleanup()
 
         self.exercise_recovery_readiness_regressions()
+        self.exercise_recovery_readiness_native_regressions()
         self.exercise_recovery_native_timing_regressions()
 
     def exercise_recovery_rpo_disruption_regressions(self,root,original):
@@ -3642,6 +3949,7 @@ class TestPocProgram(unittest.TestCase):
                     errors=[];CHECK.validate_qualified_access_outcomes(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
                 self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-07'}),self.deferred_production_errors(profile,'POC-07'));self.assertEqual(validate(record),[])
                 if profile=='local-v1':self.exercise_access_request_capture_regressions(root,original,validate,prefix)
+                if profile=='local-v1':self.exercise_local_tls_capture_regressions(root,original,validate,prefix)
                 modes=['missing_report','arbitrary_report','oversize_report','bad_policy','wrong_config','wrong_profile','wrong_acl','wrong_input','missing_case','duplicate_case','wrong_witness_type','bad_source','authorized_corrupt','if_range','stream_buffer','deny_payload','deny_duplicate_error','deny_status','deny_other_range','expired_current_grant','unexpired_grant','cross_user_subject','cross_user_grant','cache_key','cache_order','rate_below_limit','rate_no_attempts','rate_bad_sequence','rate_wrong_status','rate_origin_bypass','rate_window','rate_warmup_corrupt','rate_attempt_hash','rate_attempt_payload','wrong_path','bad_time','body_hash','body_count','aliased_body','claimed_gate']+(['missing_direct_source','missing_direct_admin','missing_direct_worker'] if profile=='local-v1' else [])
                 for mode in modes:
                     for p,raw in originals.items():p.write_bytes(raw)
@@ -6789,6 +7097,7 @@ class TestPocProgram(unittest.TestCase):
             def validate(data):
                 self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);return CHECK.validate_repository(root,'local-v1',True,selected_pocs={'POC-04'})
             self.assertEqual(validate(copy.deepcopy(original)),[])
+            self.exercise_storage_runtime_native_regressions(root,original)
             # Direct authenticated OpenList successes must observe both request and object reads.
             for case in ('full','bounded','suffix','concurrent_a','concurrent_b'):
                 for counts in ((0,0),(0,1),(1,0)):
