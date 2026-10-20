@@ -587,7 +587,7 @@ class TestPocProgram(unittest.TestCase):
         def native(operation,policy,identity,output,start,finish):
             stdout,stdout_sha,_=retain(phase+'-'+operation+'.stdout.json',(json.dumps(output,sort_keys=True)+'\n').encode(),'command_output')
             stderr,stderr_sha,_=retain(phase+'-'+operation+'.stderr',b'','command_output')
-            run=dict(**common,kind='recovery_native_readback_execution',operation=operation,configurationRef=config_ref,phase=stage,recoveryRunId='fixture-recovery-run',identity=identity,toolName=policy['toolName'],toolBuild=policy['toolBuild'],commandArgs=policy['commandArgs'][stage],processId=7711 if phase=='baseline' else 7712,startedAt=start,finishedAt=finish,exitCode=0,stdoutRef=stdout,stdoutSha256=stdout_sha,stderrRef=stderr,stderrSha256=stderr_sha)
+            run=dict(**common,kind='recovery_native_readback_execution',operation=operation,configurationRef=config_ref,phase=stage,recoveryRunId='fixture-recovery-run',identity=identity,toolName=policy['toolName'],toolBuild=policy['toolBuild'],commandArgs=policy['commandArgs'][stage],processId=7711 if operation=='database_export' else 7712,startedAt=start,finishedAt=finish,exitCode=0,stdoutRef=stdout,stdoutSha256=stdout_sha,stderrRef=stderr,stderrSha256=stderr_sha)
             return retain(phase+'-'+operation+'-execution.json',(json.dumps(run,sort_keys=True)+'\n').encode(),'command_output')[0]
         column=lambda name:dict(name=name,dataType='text',nullable=False)
         catalog=dict(format='postgresql-catalog-v1',tables=[dict(schema='public',name='assets',columns=[column('asset_id'),column('version')],primaryKey=['asset_id'],uniqueKeys=[],foreignKeys=[]),dict(schema='public',name='source_mappings',columns=[column('source_id'),column('asset_id')],primaryKey=['source_id'],uniqueKeys=[],foreignKeys=[dict(columns=['asset_id'],references=dict(schema='public',table='assets',columns=['asset_id']))])])
@@ -736,8 +736,17 @@ class TestPocProgram(unittest.TestCase):
         env=execution['environmentCaptured'];report=load_yaml(root/env['recoveryTimingRef']);policy=load_yaml(root/report['configurationRef'])['configuration']['recoveryTimingNative']
         ref=report['nativeExecutionRef'];directory=str(Path(ref).parent).replace('\\','/');stdout_ref=directory+'/recovery-native.stdout.json';stderr_ref=directory+'/recovery-native.stderr.txt'
         ordered=sorted(enumerate(report['events']),key=lambda item:(CHECK.utc(item[1]['observedAt']),item[0]))
-        first=CHECK.utc(process_started_at) if process_started_at else CHECK.utc(ordered[0][1]['observedAt'])-timedelta(seconds=2)
-        last=CHECK.utc(process_finished_at) if process_finished_at else CHECK.utc(ordered[-1][1]['observedAt'])+timedelta(seconds=2)
+        children=[]
+        for key in ('baselineRef','restoredRef'):
+            state=load_yaml(root/report[key]);refs=[state['states']['database']['exportExecutionRef']]+[load_yaml(root/item['artifactRef'])['executionRef'] for item in state['states']['valueComparisons']]
+            for child_ref in refs:
+                child=load_yaml(root/child_ref);identity={k:copy.deepcopy(child[k]) for k in ('resourceId','acceptanceProfile','subjectVersion','inputSamples','configurationRef','phase','recoveryRunId','operation','identity','toolName')};identity.update(executionRef=child_ref,stateRef=report[key])
+                children.append((child_ref,identity,child,dict(artifactRef=child['stdoutRef'],sha256=child['stdoutSha256'])))
+        comparison=load_yaml(root/report['comparisonRef']);replay_ref=comparison['replayExecutionRef'];replay=load_yaml(root/replay_ref)
+        identity={k:copy.deepcopy(replay[k]) for k in ('resourceId','acceptanceProfile','subjectVersion','inputSamples','configurationRef','recoveryRunId','restoredRef')};identity.update(executionRef=replay_ref,operation='replay',comparisonRef=report['comparisonRef'],replayedEventIds=comparison['replayedEventIds'])
+        children.append((replay_ref,identity,replay,replay['outputArtifact']))
+        first=CHECK.utc(process_started_at) if process_started_at else min([CHECK.utc(ordered[0][1]['observedAt'])]+[CHECK.utc(row[2]['startedAt']) for row in children])-timedelta(seconds=2)
+        last=CHECK.utc(process_finished_at) if process_finished_at else max([CHECK.utc(ordered[-1][1]['observedAt'])]+[CHECK.utc(row[2]['finishedAt']) for row in children])+timedelta(seconds=2)
         context={k:copy.deepcopy(report[k]) for k in ('configurationRef','baselineRef','restoredRef','comparisonRef','resourceId','subjectVersion','acceptanceProfile','inputSamples','subjects')}
         events=[dict(event=row['event'],witnessRef=row['witnessRef'],observedAt=row['observedAt'],monotonicSeconds=1000+(CHECK.utc(row['observedAt'])-first).total_seconds()) for _,row in ordered]
         for index,event in enumerate(events):
@@ -753,7 +762,17 @@ class TestPocProgram(unittest.TestCase):
             identity={k:copy.deepcopy(run[k]) for k in ('resourceId','acceptanceProfile','subjectVersion','inputSamples','subjects','event','configurationRef','recoveryRunId','restoredRef','commandArgs','toolBuild')}
             identity.update(readinessExecutionRef=witness['executionRef'],restoredSha256='sha256:'+hashlib.sha256((root/run['restoredRef']).read_bytes()).hexdigest())
             event['readinessInvocation']=dict(invocationId='fixture-readiness-'+event['event'],context=identity,processId=98200+index,clockDomainId=policy['clockDomainId'],commandArgs=copy.deepcopy(run['commandArgs']),toolBuild=run['toolBuild'],exitCode=0,startedAt=start.isoformat().replace('+00:00','Z'),finishedAt=end.isoformat().replace('+00:00','Z'),startedMonotonicSeconds=1000+(start-first).total_seconds(),finishedMonotonicSeconds=1000+(end-first).total_seconds(),stdoutRef=run['outputArtifact']['artifactRef'],stdoutSha256=run['outputArtifact']['sha256'],stderrRef=stderr,stderrSha256=artifact['sha256'])
-        output=dict(schemaVersion=1,kind='recovery_timing_native_events',context=context,processId=98111,clockDomainId=policy['clockDomainId'],events=events)
+        invocations=[]
+        for index,(child_ref,identity,child,descriptor) in enumerate(children):
+            stderr=child.get('stderrRef',directory+'/replay-child.stderr.txt')
+            if not (root/stderr).exists():(root/stderr).write_bytes(b'')
+            raw=(root/stderr).read_bytes();artifact=next((a for a in env['rawExecutionArtifacts'] if a['ref']==stderr),None)
+            if artifact is None:
+                artifact=dict(ref=stderr,artifactType='command_output');env['rawExecutionArtifacts'].append(artifact);execution['rawOutputRefs'].append(stderr)
+            artifact.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+            start,end=CHECK.utc(child['startedAt']),CHECK.utc(child['finishedAt']);stdout=next(a for a in env['rawExecutionArtifacts'] if a['ref']==descriptor['artifactRef'])
+            invocations.append(dict(invocationId='fixture-recovery-child-'+str(index),context=identity,parentProcessId=98111,processId=child.get('processId',99300),clockDomainId=policy['clockDomainId'],commandArgs=copy.deepcopy(child['commandArgs']),toolBuild=child['toolBuild'],exitCode=child['exitCode'],startedAt=child['startedAt'],finishedAt=child['finishedAt'],startedMonotonicSeconds=1000+(start-first).total_seconds(),finishedMonotonicSeconds=1000+(end-first).total_seconds(),stdoutRef=descriptor['artifactRef'],stdoutSha256=descriptor['sha256'],stdoutByteCount=stdout['byteCount'],stderrRef=stderr,stderrSha256=artifact['sha256']))
+        output=dict(schemaVersion=1,kind='recovery_timing_native_events',context=context,processId=98111,clockDomainId=policy['clockDomainId'],events=events,childInvocations=invocations)
         raw=(json.dumps(output,sort_keys=True)+'\n').encode('utf8');(root/stdout_ref).write_bytes(raw)
         run=dict(schemaVersion=1,kind='recovery_timing_native_execution',context=context,collectorBuild=policy['collectorBuild'],toolBuild=policy['toolBuild'],clockDomainId=policy['clockDomainId'],commandArgs=policy['commandArgs']+['--run-id',report['subjects']['recoveryRunId'],'--baseline',report['baselineRef'],'--restored',report['restoredRef'],'--comparison',report['comparisonRef'],'--events-output',stdout_ref],processId=98111,exitCode=0,startedAt=first.isoformat().replace('+00:00','Z'),finishedAt=last.isoformat().replace('+00:00','Z'),startedMonotonicSeconds=1000,finishedMonotonicSeconds=1000+(last-first).total_seconds(),stdoutRef=stdout_ref,stdoutSha256='sha256:'+hashlib.sha256(raw).hexdigest(),stderrRef=stderr_ref,stderrSha256='sha256:'+hashlib.sha256((root/stderr_ref).read_bytes()).hexdigest())
         (root/ref).write_text(json.dumps(run,sort_keys=True)+'\n',encoding='utf8')
@@ -1421,6 +1440,14 @@ class TestPocProgram(unittest.TestCase):
                 errors=validate(data);self.assertTrue(errors,(profile,metric,mode));self.assertTrue(any('evaluator' in error or 'executionRef' in error or 'physically distinct' in error for error in errors),(profile,metric,mode,errors))
         # Complete actual span comparisons are retained; only anonymous IDs are optimized.
         scenarios=[('renamed',[(0,5,'ref-A'),(5,10,'ref-B')],[(0,5,'hyp-Z'),(5,10,'hyp-Q')],0,10,True),('permuted_names',[(0,5,'label-8'),(5,10,'label-2')],[(0,5,'label-2'),(5,10,'label-8')],0,10,True),('global_not_per_span',[(0,5,'ref-A'),(5,10,'ref-B')],[(0,10,'hyp-X')],0,10,False),('nongreedy',[(0,17,'ref-A'),(17,25,'ref-B')],[(0,9,'hyp-X'),(9,17,'hyp-Y'),(17,25,'hyp-X')],9,25,True),('eight_speakers',[(i,i+1,'ref-'+str(i)) for i in range(8)],[(i,i+1,'hyp-'+str(7-i)) for i in range(8)],0,8,True)]
+        scenarios.extend([
+            ('adjacent_same_speaker',[(0,1,'ref-A'),(1,2,'ref-A')],[(0,2,'hyp-X')],0,2,True),
+            ('empty_gap',[(0,1,'ref-A'),(2,3,'ref-A')],[(0,1,'hyp-X'),(2,3,'hyp-X')],0,2,True),
+            ('different_speaker_overlap',[(0,2,'ref-A'),(1,3,'ref-B')],[(0,2,'hyp-X'),(1,3,'hyp-Y')],0,4,True),
+            ('duplicate_reference_overlap',[(0,2,'ref-A'),(1,3,'ref-A')],[(0,3,'hyp-X')],0,4,False),
+            ('duplicate_output_overlap',[(0,3,'ref-A')],[(0,2,'hyp-X'),(1,3,'hyp-X')],0,3,False),
+            ('many_short_segments',[(i,i+1,'ref-A') for i in range(1024)],[(i,i+1,'hyp-X') for i in range(1024)],0,1024,True),
+        ])
         for name,left,right,numerator,denominator,valid in scenarios:
             restore();data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path);usage=load_yaml(usage_path);config=load_yaml(config_path);policy=config['configuration']['aiEvaluationPolicy'];reference_path=root/policy['items'][0]['referenceRef'];output_path=root/usage['items'][0]['outputRef'];reference=json.loads(reference_path.read_bytes());output=json.loads(output_path.read_bytes())
             def segments(values):return [dict(startedSeconds=start,finishedSeconds=end,speakerId=speaker) for start,end,speaker in values]
@@ -1432,16 +1459,35 @@ class TestPocProgram(unittest.TestCase):
                 row['outputSha256']=output_sha;ep=root/row.get('countComparisonRef',row.get('scoreEvidenceRef'));evidence=json.loads(ep.read_bytes());evidence.update(outputSha256=output_sha,referenceSha256=reference_sha)
                 if row['metricId']=='speaker_der':
                     evidence['comparisons']=[dict(startedSeconds=start,finishedSeconds=end,referenceSpeakers=sorted(speaker for a,b,speaker in left if a<=start and b>=end),outputSpeakers=sorted(speaker for a,b,speaker in right if a<=start and b>=end)) for start,end in zip(boundaries,boundaries[1:])];row.update(numerator=numerator,denominator=denominator,score=numerator/denominator)
+                    if name in ('duplicate_reference_overlap','duplicate_output_overlap'):
+                        # Keep the event schema valid; repeated actual segments must fail derivation.
+                        for event in evidence['comparisons']:
+                            event['referenceSpeakers']=sorted(set(event['referenceSpeakers']))
+                            event['outputSpeakers']=sorted(set(event['outputSpeakers']))
                 ep.write_text(json.dumps(evidence));register(data,ep)
             next(m for m in data['measurements'] if m['id']=='speaker_der')['actual']=numerator/denominator
             write_yaml(config_path,config);write_yaml(usage_path,usage);write_yaml(evaluation_path,evaluation);self.sync_qualified_ai_tool_execution_fixture(root,data,prefix)
             if valid:self.prepare_ai_token_accounting_fixture(root,data,prefix);self.prepare_ai_model_execution_fixture(root,data,prefix)
             errors=validate(data)
             if valid:self.assertEqual(errors,[],(profile,name,errors))
+            elif name in ('duplicate_reference_overlap','duplicate_output_overlap'):self.assertTrue(any('complete evaluator unit/alignment/time comparisons must match actual reference/output contents' in error for error in errors),(profile,name,errors))
             else:self.assertTrue(any('count ratio claims' in error for error in errors),(profile,name,errors))
         restore();self.assertEqual(validate(copy.deepcopy(original)),[])
 
     def exercise_ai_der_matching_budget_regressions(self,root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile):
+        # Count actual input visits rather than relying on a wall-clock budget.
+        class SegmentVisits(list):
+            def __iter__(self):
+                for segment in super().__iter__():
+                    self.visits+=1
+                    yield segment
+        reference=SegmentVisits(dict(startedSeconds=i,finishedSeconds=i+1,speakerId='ref-A') for i in range(1024));reference.visits=0
+        output=SegmentVisits(dict(startedSeconds=i,finishedSeconds=i+1,speakerId='hyp-X') for i in range(1024));output.visits=0
+        span_count,spans=CHECK.ai_der_speaker_spans(reference,output);actual=list(spans)
+        self.assertEqual(span_count,1024)
+        self.assertEqual([(start,end) for start,end,left,right,distinct in actual],[(i,i+1) for i in range(1024)])
+        self.assertTrue(all(left==['ref-A'] and right==['hyp-X'] and distinct for start,end,left,right,distinct in actual))
+        self.assertEqual((reference.visits,output.visits),(1024,1024))
         # Zero overlap reaches the cardinality boundary without worst-case cubic matching.
         self.assertEqual(CHECK.maximum_anonymous_speaker_overlap([[0.0] for _ in range(256)]),0)
         self.assertEqual(CHECK.maximum_anonymous_speaker_overlap([[0.0]*256]),0)
@@ -3502,6 +3548,78 @@ class TestPocProgram(unittest.TestCase):
                     for file,raw in saved.items():file.write_bytes(raw)
                     data=copy.deepcopy(original);database_stderr(data,('psql:fixture-query.sql:1: '+severity+': synthetic failed export diagnostic\n').encode('utf8'));errors=validate(data)
                     self.assertTrue(any('native readback stderr must contain no ERROR/FATAL/PANIC diagnostics' in error for error in errors),(profile,severity,errors))
+                # Existing approved orchestrator stdout must independently contain every child invocation.
+                native_ref=load_yaml(root/env['recoveryTimingRef'])['nativeExecutionRef']
+                def restore_children():
+                    for file,raw in saved.items():file.write_bytes(raw)
+                    return copy.deepcopy(original)
+                def validate_children(data):
+                    errors=[];CHECK.validate_qualified_recovery_timing(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
+                def native_children():
+                    run=json.loads((root/native_ref).read_bytes());return run,json.loads((root/run['stdoutRef']).read_bytes())
+                def retain_children(data,run,output):
+                    run['stdoutSha256']=put_json(data,run['stdoutRef'],output)['sha256'];put_json(data,native_ref,run)
+                data=restore_children();run,output=native_children();children=output['childInvocations']
+                baseline_db=next(row for row in children if row['context']['operation']=='database_export' and row['context']['phase']=='before_backup')
+                restored_db=next(row for row in children if row['context']['operation']=='database_export' and row['context']['phase']=='after_restore')
+                self.assertLess(CHECK.utc(baseline_db['startedAt']),window[0])
+                self.assertEqual(baseline_db['processId'],restored_db['processId'])
+                self.assertLessEqual(CHECK.utc(baseline_db['finishedAt']),CHECK.utc(restored_db['startedAt']))
+                self.assertEqual(validate_children(data),[],'pre-window baseline and sequential native PID reuse')
+                # Intentional exact DB execution rereads retain all peers that are different physical paths.
+                registered=[CHECK.existing_ref(root,row['context']['executionRef'],prefix) for row in children if row['context']['operation']=='database_export'];errors=[]
+                CHECK.derive_recovery_child_invocations(root,data,prefix,output,run,defs,'qualified recovery timing',errors,{},list(registered))
+                self.assertEqual(errors,[],'exact already registered DB execution refs may be reread')
+                alias=root/(prefix+'/raw/database-child-execution-hardlink.json');alias.hardlink_to(registered[0])
+                try:
+                    errors=[];CHECK.derive_recovery_child_invocations(root,data,prefix,output,run,defs,'qualified recovery timing',errors,{},[registered[0],alias])
+                    self.assertTrue(any('retained transport files' in error for error in errors),errors)
+                finally:alias.unlink()
+                cases=(('database_export','missing'),('secret_compare','missing'),('replay','missing'),('database_export','parent'),('database_export','pid'),('database_export','argv'),('secret_compare','tool'),('secret_compare','identity'),('secret_compare','phase'),('secret_compare','run'),('replay','events'),('replay','exit'),('database_export','report_clock'),('secret_compare','stdout_hash'),('replay','stdout_ref'),('replay','stdout_count'),('replay','detached_stdout'),('secret_compare','stderr_hash'),('replay','stderr_unselected'),('replay','stderr_alias'),('replay','stderr_utf8'),('replay','stderr_credential'),('secret_compare','clock_domain'),('database_export','monotonic'),('replay','lifetime'),('replay','invocation_id'),('secret_compare','overlapping_pid'),('replay','readiness_invocation_id'),('database_export','readiness_pid'),('database_export','context_overflow'))
+                for operation,mode in cases:
+                    data=restore_children();run,output=native_children();children=output['childInvocations'];child=next(row for row in children if row['context']['operation']==operation)
+                    if mode=='missing':children.remove(child)
+                    elif mode=='parent':child['parentProcessId']+=1
+                    elif mode=='pid':child['processId']+=1000
+                    elif mode=='argv':child['commandArgs'].append('--unapproved-child')
+                    elif mode=='tool':child['toolBuild']='unapproved-readback-build'
+                    elif mode=='identity':child['context']['identity']['comparisonContextId']='foreign-context'
+                    elif mode=='phase':child['context']['phase']='after_restore'
+                    elif mode=='run':child['context']['recoveryRunId']='foreign-run'
+                    elif mode=='events':child['context']['replayedEventIds']=['foreign-event']
+                    elif mode=='exit':child['exitCode']=1
+                    elif mode=='report_clock':
+                        ref=child['context']['executionRef'];record=json.loads((root/ref).read_bytes());record['startedAt']=(CHECK.utc(record['startedAt'])+timedelta(milliseconds=100)).isoformat().replace('+00:00','Z');put_json(data,ref,record)
+                    elif mode=='stdout_hash':child['stdoutSha256']='sha256:'+'0'*64
+                    elif mode=='stdout_ref':child['stdoutRef']=children[0]['stdoutRef']
+                    elif mode=='stdout_count':child['stdoutByteCount']+=1
+                    elif mode=='detached_stdout':
+                        ref=child['context']['executionRef'];record=load_yaml(root/ref);event=json.loads((root/record['outputArtifact']['artifactRef']).read_bytes());event['publicationId']='fixture-other-publication';actual=put_json(data,record['outputArtifact']['artifactRef'],event);record['outputArtifact'].update(sha256=actual['sha256'],byteCount=actual['byteCount']);put_json(data,ref,record)
+                    elif mode=='stderr_hash':child['stderrSha256']='sha256:'+'0'*64
+                    elif mode=='stderr_unselected':data['rawOutputRefs'].remove(child['stderrRef'])
+                    elif mode=='stderr_alias':child.update(stderrRef=child['stdoutRef'],stderrSha256=child['stdoutSha256'])
+                    elif mode in ('stderr_utf8','stderr_credential'):
+                        raw=b'\xffinvalid diagnostic' if mode=='stderr_utf8' else b'Authorization: Bearer forbidden-child-fixture\n';(root/child['stderrRef']).write_bytes(raw);child['stderrSha256']=seal(data,child['stderrRef'])['sha256']
+                    elif mode=='clock_domain':child['clockDomainId']='foreign-clock-domain'
+                    elif mode=='monotonic':child['startedMonotonicSeconds']+=.25
+                    elif mode=='lifetime':child['finishedAt']=run['finishedAt'];child['finishedMonotonicSeconds']=run['finishedMonotonicSeconds']
+                    elif mode=='invocation_id':child['invocationId']=children[0]['invocationId']
+                    elif mode=='overlapping_pid':
+                        child['processId']=children[0]['processId'];ref=child['context']['executionRef'];record=json.loads((root/ref).read_bytes());record['processId']=child['processId'];put_json(data,ref,record)
+                    elif mode=='readiness_invocation_id':child['invocationId']=next(e['readinessInvocation']['invocationId'] for e in output['events'] if e['event']=='services_ready')
+                    elif mode=='readiness_pid':
+                        child=next(row for row in children if row['context']['operation']=='database_export' and row['context']['phase']=='after_restore');child['processId']=next(e['readinessInvocation']['processId'] for e in output['events'] if e['event']=='services_ready');ref=child['context']['executionRef'];record=json.loads((root/ref).read_bytes());record['processId']=child['processId'];put_json(data,ref,record)
+                    else:child['context']['overflow']='recovery-child-overflow-sentinel'
+                    retain_children(data,run,output)
+                    if mode=='context_overflow':
+                        raw=(root/run['stdoutRef']).read_bytes().replace(b'"recovery-child-overflow-sentinel"',b'1e999');(root/run['stdoutRef']).write_bytes(raw);run['stdoutSha256']=seal(data,run['stdoutRef'])['sha256'];put_json(data,native_ref,run)
+                    errors=validate_children(data);self.assertTrue(any('qualified recovery timing' in error for error in errors),(profile,operation,mode,errors))
+                    if mode=='context_overflow':self.assertTrue(any('finite typed JSON' in error for error in errors),errors)
+                # Collector init/flush can surround all children; final successful replay may retain polling diagnostics.
+                data=restore_children();flush=(window[1]+timedelta(seconds=2)).isoformat().replace('+00:00','Z')
+                self.sync_recovery_timing_native_positive_fixture(root,data,process_started_at='2026-09-02T23:58:00Z',process_finished_at=flush)
+                run,output=native_children();child=next(row for row in output['childInvocations'] if row['context']['operation']=='replay');(root/child['stderrRef']).write_bytes(b'ERROR: initial poll unavailable\nNOTICE: final replay completed\n');child['stderrSha256']=seal(data,child['stderrRef'])['sha256'];retain_children(data,run,output)
+                self.assertEqual(validate_children(data),[],'successful replay diagnostics and collector init/flush')
             finally:temp.cleanup()
 
     def exercise_recovery_observation_readback_regressions(self):

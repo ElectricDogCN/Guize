@@ -3676,6 +3676,28 @@ AI_COUNT_RULES={'asr_wer':'whitespace_word_edit','asr_cer':'unicode_codepoint_ed
 DER_MAX_MATCH_SPEAKERS=256
 
 
+def ai_der_speaker_spans(reference_segments,output_segments):
+    """Sweep segment endpoints once; counts retain duplicate-speaker rejection."""
+    changes={}
+    for side,segments in enumerate((reference_segments,output_segments)):
+        for segment in segments:
+            speaker=segment['speakerId']
+            for boundary,delta in ((segment['startedSeconds'],1),(segment['finishedSeconds'],-1)):
+                changes.setdefault(boundary,[]).append((side,speaker,delta))
+    boundaries=sorted(changes)
+    def spans():
+        active=[{},{}]
+        for start,end in zip(boundaries,boundaries[1:]):
+            # Apply all changes at the boundary before the next half-open span.
+            for side,speaker,delta in changes[start]:
+                count=active[side].get(speaker,0)+delta
+                if count:active[side][speaker]=count
+                else:active[side].pop(speaker,None)
+            distinct=all(count==1 for speakers in active for count in speakers.values())
+            yield start,end,sorted(active[0]),sorted(active[1]),distinct
+    return max(0,len(boundaries)-1),spans()
+
+
 def maximum_anonymous_speaker_overlap(weights):
     """Maximum weighted one-to-one anonymous speaker match (Hungarian, O(n^3))."""
     rows=len(weights);columns=len(weights[0]) if rows else 0;n=max(rows,columns)
@@ -3820,17 +3842,15 @@ def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expe
             segments=ref['segments']+out['segments']
             if any(not ai_finite(s[k]) or s[k]<0 for s in segments for k in ('startedSeconds','finishedSeconds')) or any(s['startedSeconds']>=s['finishedSeconds'] for s in segments):valid=False
             if valid:
-                boundaries=sorted({s[k] for s in segments for k in ('startedSeconds','finishedSeconds')});spans=list(zip(boundaries,boundaries[1:]))
-                valid=len(events)==len(spans)
+                span_count,spans=ai_der_speaker_spans(ref['segments'],out['segments'])
+                valid=len(events)==span_count
                 reference_ids=sorted({s['speakerId'] for s in ref['segments']});output_ids=sorted({s['speakerId'] for s in out['segments']})
                 if max(len(reference_ids),len(output_ids))>DER_MAX_MATCH_SPEAKERS:
                     errors.append(f'{label}: speaker matching resource budget permits at most {DER_MAX_MATCH_SPEAKERS} unique speakers per side');return None
                 reference_index={speaker:index for index,speaker in enumerate(reference_ids)};output_index={speaker:index for index,speaker in enumerate(output_ids)}
                 overlaps=[[0.0 for _ in output_ids] for _ in reference_ids]
-                for event,(start,end) in zip(events,spans):
-                    left=[s['speakerId'] for s in ref['segments'] if s['startedSeconds']<=start and s['finishedSeconds']>=end]
-                    right=[s['speakerId'] for s in out['segments'] if s['startedSeconds']<=start and s['finishedSeconds']>=end]
-                    if len(left)!=len(set(left)) or len(right)!=len(set(right)) or set(event)!={'startedSeconds','finishedSeconds','referenceSpeakers','outputSpeakers'} or type(event.get('startedSeconds')) is bool or type(event.get('finishedSeconds')) is bool or event.get('startedSeconds')!=start or event.get('finishedSeconds')!=end or event.get('referenceSpeakers')!=sorted(left) or event.get('outputSpeakers')!=sorted(right):valid=False;break
+                for event,(start,end,left,right,distinct) in zip(events,spans):
+                    if not distinct or set(event)!={'startedSeconds','finishedSeconds','referenceSpeakers','outputSpeakers'} or type(event.get('startedSeconds')) is bool or type(event.get('finishedSeconds')) is bool or event.get('startedSeconds')!=start or event.get('finishedSeconds')!=end or event.get('referenceSpeakers')!=sorted(left) or event.get('outputSpeakers')!=sorted(right):valid=False;break
                     duration=end-start;denominator+=duration*len(left);numerator+=duration*max(len(left),len(right))
                     for reference_speaker in left:
                         for output_speaker in right:overlaps[reference_index[reference_speaker]][output_index[output_speaker]]+=duration
@@ -4919,6 +4939,77 @@ def derive_recovery_readiness_invocations(root,execution,prefix,native,collector
     return len(seen)==len(required)
 
 
+def derive_recovery_child_invocations(root,execution,prefix,native,collector,defs,label,errors,cache,paths):
+    """Bind DB/Secret/replay children in the same approved orchestrator stdout."""
+    before=len(errors);capture=execution['environmentCaptured']['recoveryEvidence'];selected=[]
+    common={key:collector['context'][key] for key in ('resourceId','acceptanceProfile','subjectVersion','inputSamples','configurationRef')}
+    common['recoveryRunId']=collector['context']['subjects']['recoveryRunId']
+    for key in ('baselineRef','restoredRef'):
+        state=selected_observation(root,execution,prefix,capture[key],defs,'recoveryStateManifest',label,errors,cache)
+        if state is None:return False
+        refs=[(state['states']['database']['exportExecutionRef'],'database_export')]
+        for item in state['states']['valueComparisons']:
+            value=selected_observation(root,execution,prefix,item['artifactRef'],defs,'recoveryValuePhaseObservation',label,errors,cache)
+            if value is None:return False
+            refs.append((value['executionRef'],'secret_compare'))
+        for ref,operation in refs:
+            # Readiness already registers direct state refs, including this exact DB execution path.
+            selected_path=existing_ref(root,ref,prefix);peers=[peer for peer in paths if peer!=selected_path]
+            path=retained_local_source_transport_artifact(root,execution,prefix,ref,'command_output',262144,label+'/readback child',errors,cache,peers)
+            if path is not None and path not in paths:paths.append(path)
+            run=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,'recoveryNativeReadbackExecution',label,errors,cache) if path else None
+            if run is None:return False
+            try:matches=all(recovery_exact_json(run.get(k))==recovery_exact_json(v) for k,v in common.items())
+            except (ValueError,TypeError,OverflowError):matches=False
+            if not matches or run['operation']!=operation or run['phase']!=('before_backup' if key=='baselineRef' else 'after_restore'):
+                errors.append(f'{label}: selected readback child must bind the approved collector run/input/profile and exact operation/phase');return False
+            context={k:run[k] for k in ('resourceId','acceptanceProfile','subjectVersion','inputSamples','configurationRef','phase','recoveryRunId','operation','identity','toolName')}
+            context.update(executionRef=ref,stateRef=capture[key])
+            selected.append((ref,context,run,dict(artifactRef=run['stdoutRef'],sha256=run['stdoutSha256']),'command_output'))
+    comparison=selected_observation(root,execution,prefix,capture['comparisonRef'],defs,'recoveryComparisonReport',label,errors,cache)
+    if comparison is None:return False
+    ref=comparison['replayExecutionRef'];path=retained_local_source_transport_artifact(root,execution,prefix,ref,'measurement_output',262144,label+'/replay child',errors,cache,paths)
+    replay=selected_observation(root,execution,prefix,ref,defs,'recoveryReplayExecution',label,errors,cache) if path else None
+    if replay is None:return False
+    try:matches=all(recovery_exact_json(replay.get(k))==recovery_exact_json(v) for k,v in common.items())
+    except (ValueError,TypeError,OverflowError):matches=False
+    if not matches or replay['restoredRef']!=capture['restoredRef']:
+        errors.append(f'{label}: selected replay child must bind the approved collector run/input/profile and restored state');return False
+    context={k:replay[k] for k in ('resourceId','acceptanceProfile','subjectVersion','inputSamples','configurationRef','recoveryRunId','restoredRef')}
+    context.update(executionRef=ref,operation='replay',comparisonRef=capture['comparisonRef'],replayedEventIds=comparison['replayedEventIds'])
+    selected.append((ref,context,replay,replay['outputArtifact'],'recovery_output'))
+    children=native['childInvocations'];expected={ref:(context,run,output,kind) for ref,context,run,output,kind in selected}
+    if len(errors)!=before:return False
+    if len(expected)!=len(selected) or len(children)!=len(expected) or {row['context'].get('executionRef') for row in children if isinstance(row['context'].get('executionRef'),str)}!=set(expected):
+        errors.append(f'{label}: native children must cover each exact selected pre/post readback and replay execution once');return False
+    first,last=utc(collector['startedAt']),utc(collector['finishedAt']);origin=collector['startedMonotonicSeconds']
+    seen=[(event['readinessInvocation']['invocationId'],event['readinessInvocation']['processId'],utc(event['readinessInvocation']['startedAt']),utc(event['readinessInvocation']['finishedAt'])) for event in native['events'] if event['event'] in ('services_ready','vm_set_ready','recovery_completed')]
+    records={row['ref']:row for row in execution['environmentCaptured']['rawExecutionArtifacts']}
+    for child in children:
+        context,run,output,kind=expected[child['context']['executionRef']]
+        try:matches=recovery_exact_json(child['context'])==recovery_exact_json(context)
+        except (ValueError,TypeError,OverflowError):
+            errors.append(f'{label}: recovery child context must be finite typed JSON');return False
+        if not matches or child['parentProcessId']!=collector['processId'] or child['processId']==collector['processId'] or child['clockDomainId']!=collector['clockDomainId'] or child['commandArgs']!=run['commandArgs'] or child['toolBuild']!=run['toolBuild'] or child['exitCode']!=run['exitCode'] or child['exitCode']!=0 or child['stdoutRef']!=output['artifactRef'] or child['stdoutSha256']!=output['sha256'] or 'processId' in run and child['processId']!=run['processId']:
+            errors.append(f'{label}: native recovery child must bind exact parent/PID, approved tool/argv, selected run/identity and actual stdout');return False
+        start,end=utc(child['startedAt']),utc(child['finishedAt']);a,b=utc(run['startedAt']),utc(run['finishedAt']);left,right=child['startedMonotonicSeconds'],child['finishedMonotonicSeconds']
+        if None in (first,last,start,end,a,b) or not all(ai_finite(v) for v in (left,right)) or not first<=start==a<=b==end<=last or not origin<=left<=right<=collector['finishedMonotonicSeconds'] or not math.isclose((start-first).total_seconds(),left-origin,rel_tol=0,abs_tol=.000001) or not math.isclose((end-first).total_seconds(),right-origin,rel_tol=0,abs_tol=.000001):
+            errors.append(f'{label}: recovery child start/exit must reconcile actual execution UTC and same-domain monotonic collector lifetime');return False
+        if any(child['invocationId']==identity or child['processId']==pid and max(start,began)<min(end,finished) for identity,pid,began,finished in seen):
+            errors.append(f'{label}: recovery children need unique invocation identities and no overlapping reuse of one native PID');return False
+        seen.append((child['invocationId'],child['processId'],start,end))
+        descriptor=records.get(child['stdoutRef'])
+        if descriptor is None or child['stdoutByteCount']!=descriptor['byteCount'] or 'byteCount' in output and child['stdoutByteCount']!=output['byteCount']:
+            errors.append(f'{label}: recovery child stdout byte count must match the exact selected output');return False
+        stdout=retained_local_source_transport_artifact(root,execution,prefix,child['stdoutRef'],kind,child['stdoutByteCount'],label+'/child stdout',errors,cache,paths)
+        stderr=retained_local_source_transport_artifact(root,execution,prefix,child['stderrRef'],'command_output',262144,label+'/child stderr',errors,cache,paths)
+        if stdout is None or stderr is None:return False
+        info=inspect_artifact(stdout,cache);diagnostic=inspect_artifact(stderr,cache,textual=True)
+        if info['sha256']!=child['stdoutSha256'] or diagnostic['sha256']!=child['stderrSha256'] or diagnostic['invalidUtf8'] or diagnostic['credential'] or 'stderrRef' in run and (child['stderrRef']!=run['stderrRef'] or child['stderrSha256']!=run['stderrSha256']):
+            errors.append(f'{label}: recovery child stdout/stderr must bind actual selected bounded credential-safe bytes/hash');return False
+    return True
+
+
 def derive_recovery_native_timing(root,execution,prefix,report,config,expected,times,paths,defs,label,errors,cache,readiness):
     """Read preapproved backup/orchestrator collector events, not aggregate clocks."""
     policy=config.get('configuration',{}).get('recoveryTimingNative')
@@ -4956,6 +5047,7 @@ def derive_recovery_native_timing(root,execution,prefix,report,config,expected,t
             errors.append(f'{label}: each native endpoint must bind its exact event/witness, UTC instant and ordered in-lifetime monotonic offset');return
         clocks[name]=tick;previous=tick
     if not derive_recovery_readiness_invocations(root,execution,prefix,native,run,readiness,defs,label,errors,cache,paths):return
+    if not derive_recovery_child_invocations(root,execution,prefix,native,run,defs,label,errors,cache,paths):return
     return clocks
 
 
