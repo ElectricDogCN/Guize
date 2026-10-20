@@ -1,3 +1,137 @@
+GZ-021 ordinary Normal Completion current inventory
+Status: COMPLETED / integrator metadata candidate
+Verification: PENDING_ACTUAL_PUBLISHED_COMPLETION_SOURCE
+metadataOnly: true
+Published Completion source/tree/PR: NOT_CREATED
+Current branch: chore/GZ-021-normal-completion-v2
+Current base and first source parent: 959b5e0df04bba21de8a818917c60023b2945609
+Implementation Ledger identity: PR-103 / 63cfcb85d3bba12217c79e16d9eb348d929b8c01
+Current exact changed paths: 117 (four non-Evidence metadata, four required Evidence, one portable Scope, 92 accepted-Review archive files, 15 rejected-Completion archive files, and this inventory).
+The accepted Review archive72 entries plus7 precise old implementation references and base implementation archive424 entries remain unchanged. The new failure archive retains exactly14 old-source terminal inputs; none is new Completion execution.
+S5aa local19 failed at raw-lifecycle exit1 after seven earlier0; no local verify637/JUnit. PR106 closed unmerged. CI740 was in_progress as of2026-10-20T12:49:11Z with no acceptance. Fresh source19/CI/independent/main remain PENDING; runtime/formal POC/fullV1 remain incomplete.
+
+## Current ordinary Completion delta (exact paths)
+
+- evidence/GZ-021/changed-files.md
+- evidence/GZ-021/commands.txt
+- evidence/GZ-021/completion-tools/check_gz021_normal_completion_scope.py
+- evidence/GZ-021/handoff.md
+- evidence/GZ-021/summary.md
+- evidence/GZ-021/test-results/README.md
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-001-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-002-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-003-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-004-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-004-0002.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-004-0003.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-004-0004.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-004-0005.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-005-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-005-0002.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-005-0003.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-005-0004.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-006-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-007-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-007-0002.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-007-0003.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-007-0004.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-008-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-008-0002.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-008-0003.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-008-0004.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-009-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-010-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-011-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-012-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-013-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-014-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-015-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-016-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-017-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-018-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-019-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-020-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-021-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-022-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-023-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-024-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-025-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-026-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-027-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-028-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-029-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-030-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-031-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-032-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-033-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-034-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-034-0002.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-035-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-036-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-036-0002.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-036-0003.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-036-0004.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-036-0005.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-037-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-038-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-039-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-040-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-041-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-042-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-043-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-044-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-045-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-046-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-047-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-048-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-049-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-050-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-051-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-052-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-053-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-054-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-055-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-056-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-057-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-058-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-059-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-060-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-061-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-062-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-063-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-063-0002.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-064-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-065-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-066-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-067-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-068-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-069-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-070-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-071-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-072-0001.part.txt
+- evidence/GZ-021/test-results/accepted-review-2db1a68/raw-results.bundle.json
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-001-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-002-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-003-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-004-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-005-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-006-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-007-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-008-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-009-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-010-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-011-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-012-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-013-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-014-0001.part.txt
+- evidence/GZ-021/test-results/rejected-completion-5aaea70/raw-results.bundle.json
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/coordination/task-completions.yaml
+- specs/tasks/GZ-021.md
+
+## Historical inventory (entire prior Review inventory retained verbatim)
+
 GZ-021 normal Review
 Status: REVIEW / reviewer
 Verification: PENDING_ACTUAL_PUBLISHED_REVIEW_SOURCE

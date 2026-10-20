@@ -1,0 +1,239 @@
+{
+  "kind": "REJECTED_COMPLETION_LOCAL19_HISTORY_NOT_CURRENT_COMPLETION_EXECUTION",
+  "source": "5aaea70e6fce09320d1a71f57c152c634abb734c",
+  "tree": "d1299f24aad2e09b372333c433c0e0059c3efa5e",
+  "base": "959b5e0df04bba21de8a818917c60023b2945609",
+  "branch": "chore/GZ-021-normal-completion",
+  "prNumber": 106,
+  "prClosedUnmerged": true,
+  "checks": {
+    "task": 0,
+    "readiness": 0,
+    "schemas": 0,
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "raw-lifecycle": 1
+  },
+  "terminalSession": 70645,
+  "terminalExitCode": 1,
+  "failedGate": "raw-lifecycle",
+  "rawLifecycleErrorCount": 4,
+  "localMakeVerifyExecuted": false,
+  "local637JUnitProduced": false,
+  "entries": [
+    {
+      "name": "gz021-normal-completion-5aaea70-local19-failure.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-local19-failure.json",
+      "role": "actual-terminal-local19-failure-witness",
+      "size": 6516,
+      "sha256": "1a8c5a918f2a3d7f0cffbf11af8a52803b83877b406d5a4600ee7b3b497f0f79",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-001-0001.part.txt",
+          "sha256": "d73eaf97abcbad6480cfa5d65b26e9b89f86b93fea4caf7ef8eae9be8e0e41e8"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-portable-scope-execution.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-portable-scope-execution.json",
+      "role": "old-source-portable-scope-only-success-not-full19",
+      "size": 26428,
+      "sha256": "44c3feff7f5a18a2bc9a0adf288906d1b860a0e2d5c1b605e9d856ca83b50353",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-002-0001.part.txt",
+          "sha256": "1c26cf5047e975ca8182691506309201f0db6c4bef9e312a8593626a6463ed09"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/command-executions.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\command-executions.json",
+      "role": "terminal-failed-source-metadata",
+      "size": 4721,
+      "sha256": "ae837c3358e72cb1b8a4884fe9cef2dc52a0a780c142e0a4ecb6b28bd7e8d1a6",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-003-0001.part.txt",
+          "sha256": "8937f6704d90a37bb8505767686ff0e15eb0c572562d452693651023dc5e5d19"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/execution-entry.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\execution-entry.json",
+      "role": "terminal-failed-source-metadata",
+      "size": 3104,
+      "sha256": "aab652e73cd6df708aaead63634fedcfed4205d01ec27938ad2b1dfe446dd6f7",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-004-0001.part.txt",
+          "sha256": "0adeb9bbf0ff3262fe3e714ff0799105665f5a4cdbd0cc7d6c71b7522b96697b"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/failed-gate-worktrees.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\failed-gate-worktrees.json",
+      "role": "terminal-failed-source-metadata",
+      "size": 1685,
+      "sha256": "a9cc6ac0a0b524a50ff6650211c7ffa3911fb6351ab1d331da9a56c57e29d7d2",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-005-0001.part.txt",
+          "sha256": "a31f40d330c5aeef910220779b8729367ae5780f82ac52f840ac77e0aa5180cd"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/finalization.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\finalization.txt",
+      "role": "failed-command-output",
+      "size": 343,
+      "sha256": "d022b8edd018a1ce25a035f4c057b1db1f74d829f845a63671a31ba974f08dbc",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-006-0001.part.txt",
+          "sha256": "c5c019afd45e2e21b0705791dd2319ad9c125fe596df363dec635411a813b386"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/history.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\history.txt",
+      "role": "failed-command-output",
+      "size": 474,
+      "sha256": "def4abd1f1af04341adba1ef8736228fff685bba22c3552c10f73164521eb450",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-007-0001.part.txt",
+          "sha256": "c6a7e386910e3d37f425faff454c345bc24546c5ce8367eb03d56e3d143511d6"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/integrity.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\integrity.txt",
+      "role": "failed-command-output",
+      "size": 418,
+      "sha256": "3db0b6090b3fedd6d1091a9f1237d8df16360f0f3ebf95c3c0f417d46e34c603",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-008-0001.part.txt",
+          "sha256": "df9624eb31ec71acfc2b3b055094b4587c4a5b6db91678bcca486124d3bb068a"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/raw-lifecycle.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\raw-lifecycle.txt",
+      "role": "failed-command-output",
+      "size": 640,
+      "sha256": "0b912c0a04e99330be93e9ba4ba2f6b64443895a9b6d32fc9d5accf60bd1d773",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-009-0001.part.txt",
+          "sha256": "9d2a826a5f549dde8748620275fad323d8206257c9a130849c84fe0e7a3f3afb"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/readiness.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\readiness.txt",
+      "role": "failed-command-output",
+      "size": 660,
+      "sha256": "187f87f5cbf06859f2ceedefe78ed48e4f56a069a381df4c7b18c83cd90a0db5",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-010-0001.part.txt",
+          "sha256": "ecc225ba161943e97b36bd3c91da13da476cc6e2cbc5cc990dda7d74402e42e9"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/schemas.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\schemas.txt",
+      "role": "failed-command-output",
+      "size": 1746,
+      "sha256": "ae5ab0e2f383a714ee9a3260a7d0b0453a9927845aca13a3bfbd3dd843c829ea",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-011-0001.part.txt",
+          "sha256": "26db454d03a12aca454b95b140a86f34e195329e21ad7f4e919c8a7df0af7c8b"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/status.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\status.json",
+      "role": "terminal-failed-source-metadata",
+      "size": 147,
+      "sha256": "fca315c4037d9ac8e2590dbfff5daef0c6efcecdb9fce59e686ae31d4f4ebcd9",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-012-0001.part.txt",
+          "sha256": "81f49dc528d1ccde1d92de05763b3f5f7cfcdd992c0065d5607c29c3cb275544"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/task.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\task.txt",
+      "role": "failed-command-output",
+      "size": 255,
+      "sha256": "5caab0076b1ea1611faabdf7e220054110cfb8366f370c6bc59985d00b72c519",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-013-0001.part.txt",
+          "sha256": "834e844712cecafde807d142adb28dfc30fd6757f6b5273b286fe791395d06c3"
+        }
+      ]
+    },
+    {
+      "name": "gz021-normal-completion-5aaea70-results/transitions.txt",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-normal-completion-5aaea70-results\\transitions.txt",
+      "role": "failed-command-output",
+      "size": 426,
+      "sha256": "2e7bd06a8dd535d0e5b23e6dab4edc54b76088264c5aabedb4e75f6f3b0e37ef",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-014-0001.part.txt",
+          "sha256": "7e72469e6fa4f5324c79c44200e66b5bd1072d2a26c357f63809db6bc15fdbfb"
+        }
+      ]
+    }
+  ],
+  "ciObservation": {
+    "runId": 39424681233,
+    "number": 740,
+    "jobId": 118634136438,
+    "attempt": 1,
+    "observedAt": "2026-10-20T12:49:11Z",
+    "status": "in_progress",
+    "conclusion": null,
+    "terminalCaptured": false,
+    "accepted": false,
+    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/39424681233"
+  },
+  "currentCompletionSource": "NOT_CREATED",
+  "currentCompletionGatesAccepted": false,
+  "completionAccepted": false,
+  "fullV1Complete": false
+}
