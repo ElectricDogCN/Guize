@@ -2584,6 +2584,12 @@ def validate_qualified_hls_ready(root,plan,execution,prefix,status,window,defs,e
             errors.append(f'{label}: whole-sequence decode must bind approved ordered segments, parameters, builds and actual successful interval')
         output=existing_ref(root,sequence['outputArtifactRef'],prefix);record=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==sequence['outputArtifactRef']]
         protected=[existing_ref(root,ref,prefix) for ref in [resource['configurationRef'],env.get('hlsReadyRef'),report['sequenceDecodeRef']]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]]+media_paths
+        binding=dict(identity,outputArtifactRef=sequence['outputArtifactRef'],outputSha256=sequence['outputSha256'],sourceFrameCount=policy['sourceFrameCount'])
+        native=media_decode_execution(root,execution,prefix,sequence['executionRef'],binding,policy['decoderBuild'],policy['initNodeId'],max(times.values()),policy['sourceFrameCount'],policy['framesPerSecond'],defs,label+'/whole-sequence native decode',errors,cache)
+        process=bounded_evaluator_json(root,execution,prefix,sequence['executionRef'],'command_output',defs,'mediaNativeExecution',label,errors,cache)
+        if native is not None and process is not None and (sequence['command']!=process['argv'] or sequence['startedAt']!=process['startedAt'] or sequence['finishedAt']!=process['finishedAt'] or any(sequence[key]!=process[other] for key,other in (('rawProbeRef','stdoutRef'),('rawProbeSha256','stdoutSha256'),('stderrRef','stderrRef'),('stderrSha256','stderrSha256')))):
+            errors.append(f'{label}: whole-sequence report must bind its exact native process interval, command and original stdout/stderr')
+
         sequence_ok=output is not None and len(record)==1 and record[0].get('artifactType')=='produced_media' and sequence['outputArtifactRef'] in (execution.get('rawOutputRefs') or []) and not any(output.samefile(p) for p in protected if p is not None)
         if sequence_ok:
             try:
@@ -2599,7 +2605,7 @@ def validate_qualified_hls_ready(root,plan,execution,prefix,status,window,defs,e
         raw=bounded_evaluator_json(root,execution,prefix,sequence['rawProbeRef'],'command_output',defs,'hlsWholeProbeOutput',label+'/whole-sequence probe',errors,cache,8388608)
         stderr_rows=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==sequence['stderrRef']]
         other_paths=protected+[output,existing_ref(root,sequence['rawProbeRef'],prefix)]
-        if raw_path is None or inspect_artifact(raw_path,cache)['sha256']!=sequence['rawProbeSha256'] or any(raw_path.samefile(p) for p in protected+[output] if p is not None) or stderr is None or len(stderr_rows)!=1 or stderr_rows[0].get('artifactType')!='command_output' or sequence['stderrRef'] not in (execution.get('rawOutputRefs') or []) or inspect_artifact(stderr,cache)['size']!=0 or inspect_artifact(stderr,cache)['sha256']!=sequence['stderrSha256'] or any(stderr.samefile(p) for p in other_paths if p is not None) or sequence['command'][1:]!=['-v','error','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-of','json',sequence['outputArtifactRef']]:
+        if raw_path is None or inspect_artifact(raw_path,cache)['sha256']!=sequence['rawProbeSha256'] or any(raw_path.samefile(p) for p in protected+[output] if p is not None) or stderr is None or len(stderr_rows)!=1 or stderr_rows[0].get('artifactType')!='command_output' or sequence['stderrRef'] not in (execution.get('rawOutputRefs') or []) or inspect_artifact(stderr,cache)['sha256']!=sequence['stderrSha256'] or any(stderr.samefile(p) for p in other_paths if p is not None):
             errors.append(f'{label}: retained whole-sequence ffprobe stdout, zero-error stderr and exact input command must be distinct and bound')
         if raw is not None:
             if not complete_decoder_timeline(raw,policy['streamParameters'],policy['sourceFrameCount'],policy['framesPerSecond']):errors.append(f'{label}: actual complete decoder frames and packet PTS/DTS must have approved compatible stream parameters and one continuous full timeline')
@@ -3268,6 +3274,52 @@ def validate_qualified_local_storage(root,plan,execution,prefix,status,window,de
         if actual.get(gate) is not accepted or not accepted:errors.append(f'{label}: {gate} must derive actual returned bytes and governed state transitions')
 
 
+def derive_media_retry_native(root,execution,prefix,lifecycle,probe,identity,policy,context,assembly,defs,label,errors,cache):
+    """Reuse the approved native decoder for this fresh retry artifact."""
+    ref=probe.get('executionRef');start=utc(lifecycle['retriedAt']);finish=utc(lifecycle['retryFinishedAt'])
+    binding=dict(context,jobId=policy['jobId'],attemptEpoch=lifecycle['currentAttemptEpoch'],nodeId=identity['nodeId'],encoderBuild=identity['encoderBuild'],decoderBuild=policy['retryDecoderBuild'],sourceStartFrame=lifecycle['retrySourceStartFrame'],sourceEndFrame=lifecycle['retrySourceEndFrame'],outputArtifactRef=lifecycle['publishedRef'],outputSha256=lifecycle['publishedSha256'])
+    count=lifecycle['retrySourceEndFrame']-lifecycle['retrySourceStartFrame'];fps=assembly.get('framesPerSecond')
+    if not ai_finite(fps) or fps<=0:
+        errors.append(f'{label}: approved finite retry frame rate required');return
+    decoded=media_decode_execution(root,execution,prefix,ref,binding,policy['retryDecoderBuild'],identity['nodeId'],start,count,fps,defs,label+'/retry native decode',errors,cache)
+    if decoded is None:return
+    native=bounded_evaluator_json(root,execution,prefix,ref,'command_output',defs,'mediaNativeExecution',label+'/retry process',errors,cache)
+    if native is None:return
+    first,last=utc(probe['startedAt']),utc(probe['finishedAt']);native_start=utc(native['startedAt'])
+    if finish is None or first is None or last is None or not native_start<=first<=last<=decoded[1]<=finish or not ai_finite(probe['durationSeconds']) or not math.isclose(probe['durationSeconds'],count/fps,rel_tol=1e-9,abs_tol=1e-9):
+        errors.append(f'{label}: complete retry duration and probe interval must agree with native frames/FPS inside retry lifetime')
+
+
+def derive_media_cancel_native(root,execution,prefix,lifecycle,identity,policy,context,window,defs,label,errors,cache,paths):
+    """Derive cancellation from an approved process/exit and attempt filesystem capture."""
+    capture=retained_media_collector(root,execution,prefix,lifecycle.get('cancellationExecutionRef'),lifecycle.get('cancellationExecutionSha256'),'mediaCancellationExecution',context,identity,policy['controlObserverBuild'],defs,label+'/cancel native',errors,cache,paths)
+    if capture is None:return
+    worker=capture['worker'];pid=worker['processId'];snapshots=capture['snapshots'];before,after=snapshots
+    partial=existing_ref(root,lifecycle['cancelledPartialRef'],prefix)
+    if partial is None:
+        errors.append(f'{label}: retained cancelled partial bytes required');return
+    info=inspect_artifact(partial,cache);epoch=lifecycle['cancelledAttemptEpoch'];job=policy['cancelJobId']
+    tail=['--node',identity['nodeId'],'--job',job,'--attempt',str(epoch),'--worker-pid',pid]
+    worker_tail=['--node',identity['nodeId'],'--job',job,'--attempt',str(epoch),'--input-sha256',context['inputSha256'],'--output',capture['partialPath']]
+    clocks=[utc(capture['startedAt']),utc(worker['startedAt']),utc(capture['partialCreatedAt']),utc(before['observedAt']),utc(capture['cancelRequestedAt']),utc(worker['exit']['observedAt']),utc(after['observedAt']),utc(capture['finishedAt'])]
+    if not 1<=int(pid)<=4294967295 or capture['jobId']!=job or capture['attemptEpoch']!=epoch or capture['partialArtifactRef']!=lifecycle['cancelledPartialRef'] or capture['partialSha256']!=info['sha256'] or capture['argv']!=policy['cancellationCommandArgs']+tail or worker['argv']!=policy['cancelWorkerCommandArgs']+worker_tail or worker['encoderBuild']!=identity['encoderBuild'] or worker['inputSha256']!=context['inputSha256'] or worker['exit']['processId']!=pid or worker['exit']['reason']!='cancelled' or capture['exitCode']!=0 or window is None or any(at is None or not window[0]<=at<=window[1] for at in clocks) or clocks!=sorted(clocks) or clocks[0]>=clocks[-1] or clocks[1]>=clocks[5]:
+        errors.append(f'{label}: cancel capture must bind approved collector/worker argv, actual PID/job/epoch/input/partial and ordered native start/cancel/exit/cleanup');return
+    if before['phase']!='before_cancel' or after['phase']!='cleanup' or pid not in before['processIds'] or worker['exit']['remainingProcessIds'] or after['processIds']:
+        errors.append(f'{label}: actual cancel worker must be alive before cancellation and absent with all descendants after exit/cleanup');return
+    for snapshot in snapshots:
+        names=[f['path'] for f in snapshot['files']]
+        if len(names)!=len(set(names)) or len(snapshot['processIds'])!=len(set(snapshot['processIds'])) or snapshot['publishedArtifactIds'] or any('\\' in name or ':' in name or name.startswith('/') or any(p in ('','.','..') for p in name.split('/')) for name in names):
+            errors.append(f'{label}: native cancel filesystem needs unique relative attempt paths/processes and no published artifacts');return
+    retained=[f for f in before['files'] if f['path']==capture['partialPath']]
+    if len(retained)!=1 or retained[0]['area'] not in ('temporary','output') or retained[0]['byteCount']!=info['size'] or retained[0]['sha256']!=info['sha256'] or info['size']<=0:
+        errors.append(f'{label}: actual pre-cancel filesystem must contain the exact retained nonempty partial bytes');return
+    remaining={area:sum(f['byteCount'] for f in after['files'] if f['area']==area) for area in ('temporary','output')}
+    quarantined=[f for f in after['files'] if f['area']=='quarantine' and f['byteCount']==info['size'] and f['sha256']==info['sha256']]
+    disposition='quarantined' if quarantined else 'removed'
+    if any(f['path']==capture['partialPath'] for f in after['files']) or any(f['area']!='quarantine' and f['byteCount']>0 for f in after['files']) or lifecycle['cancelledStartedAt']!=worker['startedAt'] or lifecycle['cancelledPartialCreatedAt']!=capture['partialCreatedAt'] or lifecycle['cancelledAt']!=capture['cancelRequestedAt'] or lifecycle['cleanupFinishedAt']!=after['observedAt'] or lifecycle['cancelledProcessStatusBefore']!='running' or lifecycle['cancelledProcessStatusAfter']!='terminated' or lifecycle['activeProcessCount']!=len(after['processIds']) or lifecycle['remainingTemporaryBytes']!=remaining['temporary'] or lifecycle['remainingOutputBytes']!=remaining['output'] or lifecycle['cancelledPartialDisposition']!=disposition or lifecycle['cancelledPartialPublishable'] is not False:
+        errors.append(f'{label}: reported cancel status/cleanup bytes/disposition must derive native exit and actual removal or nonpublishable quarantine snapshots')
+
+
 def validate_qualified_media_negative(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-02' or status!='pass':return
     label=f"qualified media negative matrix {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -3282,7 +3334,7 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
     if any(report[k]!=v for k,v in expected.items()) or policy['subjectVersion']!=expected['subjectVersion'] or policy['nodes']!=nodes or quality is None or policy['jobId']!=quality['jobId'] or policy['assetVersion']!=next((r['immutableId'] for r in samples if r['id']==assembly.get('inputSampleId')),None):
         errors.append(f'{label}: exact admitted job/asset/version/input/build/profile and approved node controls required');return
     limits=policy['limits'];limit_ids={'cpuSeconds','memoryBytes','elapsedSeconds','temporaryBytes','outputBytes'};targets={r['case']:r['target'] for r in policy['deniedTargets']};required_targets={'protocol','path','proxy'}
-    if not recorded_text(policy['controlObserverBuild']) or any(not recorded_text(arg) for key in ('targetCommandArgs','completionCommandArgs','publicationReadbackArgs') for arg in policy[key]):
+    if not recorded_text(policy['controlObserverBuild']) or any(not recorded_text(arg) for key in ('targetCommandArgs','completionCommandArgs','publicationReadbackArgs','cancellationCommandArgs','cancelWorkerCommandArgs') for arg in policy[key]):
         errors.append(f'{label}: concrete approved native control collector and executed command arguments required');return
     if set(limits)!=limit_ids or any(not ai_finite(v) or v<=0 for v in limits.values()) or not recorded_text(policy['limitObserverBuild']) or len(policy['deniedTargets'])!=3 or set(targets)!=required_targets or policy['authorizedUserId']==policy['deniedUserId'] or len(set(policy[k] for k in ('currentGrantId','revokedGrantId','expiredGrantId')))!=3 or policy['cancelJobId']==policy['jobId']:
         errors.append(f'{label}: finite independent limits, three denied target classes and distinct authorization controls required');return
@@ -3320,8 +3372,6 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
         lifecycle=row['lifecycle'];parts=[r for r in env.get('workerEncodeExecutions') or [] if isinstance(r,dict) and r.get('nodeId')==node and r.get('sourceStartFrame')==lifecycle['retrySourceStartFrame'] and r.get('sourceEndFrame')==lifecycle['retrySourceEndFrame']];partial=payload(lifecycle['partialRef'],lifecycle['partialSha256'],node);times=[instant(lifecycle[k]) for k in ('partialCreatedAt','interruptedAt','oldAttemptExpiresAt','retriedAt','retryFinishedAt','cancelledAt','cleanupFinishedAt')]
         if any(t is None for t in times) or times!=sorted(times) or partial is None or partial['size']<=0 or lifecycle['oldAttemptEpoch']>=lifecycle['currentAttemptEpoch'] or lifecycle['retryJobId']!=policy['jobId'] or lifecycle['terminalResultCount']!=1 or lifecycle['remainingTemporaryBytes']!=0 or lifecycle['remainingOutputBytes']!=0 or lifecycle['activeProcessCount']!=0 or lifecycle['cancelledAttemptPublicationCount']!=0 or lifecycle['cancelledPartialDisposition'] not in ('removed','quarantined') or lifecycle['cancelledPartialPublishable'] is not False or len(parts)!=1:
             errors.append(f'{label}: interrupted partial retry must preserve job identity, terminate cancellation and clean or quarantine without duplicate results');continue
-        result=payload(lifecycle['publishedRef'],lifecycle['publishedSha256'],node)
-        if result is None or result['size']==0 or lifecycle['publishedRef']==lifecycle['partialRef'] or lifecycle['publishedRef']==parts[0]['outputArtifactRef'] or lifecycle['retryEncoderBuild']!=row['identity']['encoderBuild'] or lifecycle['retryInputSha256']!=report['inputSha256'] or lifecycle['retrySourceStartFrame']!=parts[0]['sourceStartFrame'] or lifecycle['retrySourceEndFrame']!=parts[0]['sourceEndFrame'] or lifecycle['retryDecodedFrameCount']!=lifecycle['retrySourceEndFrame']-lifecycle['retrySourceStartFrame'] or lifecycle['retryDecodeErrorCount']!=0:errors.append(f'{label}: fresh retry output must decode the admitted input span with the same actual encoder/input and no errors')
         retry_before=len(errors);probe=selected_observation(root,execution,prefix,lifecycle['retryProbeRef'],defs,'mediaRetryDecodeObservation',label,errors,cache)
         paths=[existing_ref(root,ref,prefix) for ref in (lifecycle['partialRef'],lifecycle['publishedRef'],parts[0]['outputArtifactRef'],lifecycle['retryProbeRef'],lifecycle['cancelledPartialRef'])]
         if any(a.samefile(b) for i,a in enumerate(paths) if a for b in paths[i+1:] if b):errors.append(f'{label}: interrupted partial, fresh retry output, original output and retry probe must be physically distinct')
@@ -3329,8 +3379,12 @@ def validate_qualified_media_negative(root,plan,execution,prefix,status,window,d
             expected_probe=dict(jobId=policy['jobId'],attemptEpoch=lifecycle['currentAttemptEpoch'],nodeId=node,encoderBuild=lifecycle['retryEncoderBuild'],inputSha256=report['inputSha256'],outputArtifactRef=lifecycle['publishedRef'],outputSha256=lifecycle['publishedSha256'],decoderBuild=policy['retryDecoderBuild'],sourceStartFrame=lifecycle['retrySourceStartFrame'],sourceEndFrame=lifecycle['retrySourceEndFrame'],decodedFrameCount=lifecycle['retryDecodedFrameCount'],decodeErrorCount=lifecycle['retryDecodeErrorCount'],codec='av1',decodable=True)
             probe_start,probe_finish=instant(probe['startedAt']),instant(probe['finishedAt'])
             if any(probe[k]!=v for k,v in expected_probe.items()) or not recorded_text(policy['retryDecoderBuild']) or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or probe_start is None or probe_finish is None or not times[3]<=probe_start<=probe_finish<=times[4]:errors.append(f'{label}: actual retry AV1 probe must bind current job/attempt/node/input/output/span/build and ordered decode before completion')
+            derive_media_retry_native(root,execution,prefix,lifecycle,probe,row['identity'],policy,expected,assembly,defs,label,errors,cache)
+        result=payload(lifecycle['publishedRef'],lifecycle['publishedSha256'],node)
+        if result is None or result['size']==0 or lifecycle['publishedRef']==lifecycle['partialRef'] or lifecycle['publishedRef']==parts[0]['outputArtifactRef'] or lifecycle['retryEncoderBuild']!=row['identity']['encoderBuild'] or lifecycle['retryInputSha256']!=report['inputSha256'] or lifecycle['retrySourceStartFrame']!=parts[0]['sourceStartFrame'] or lifecycle['retrySourceEndFrame']!=parts[0]['sourceEndFrame'] or lifecycle['retryDecodedFrameCount']!=lifecycle['retrySourceEndFrame']-lifecycle['retrySourceStartFrame'] or lifecycle['retryDecodeErrorCount']!=0:errors.append(f'{label}: fresh retry output must decode the admitted input span with the same actual encoder/input and no errors')
         cancel_partial=payload(lifecycle['cancelledPartialRef'],lifecycle['cancelledPartialSha256'],node);cancel_start=instant(lifecycle['cancelledStartedAt']);cancel_created=instant(lifecycle['cancelledPartialCreatedAt'])
         if lifecycle['cancelJobId']!=policy['cancelJobId'] or lifecycle['cancelledAttemptEpoch']<=lifecycle['currentAttemptEpoch'] or lifecycle['cancelledProcessStatusBefore']!='running' or lifecycle['cancelledProcessStatusAfter']!='terminated' or cancel_partial is None or cancel_partial['size']==0 or lifecycle['cancelledPartialRef'] in (lifecycle['partialRef'],lifecycle['publishedRef']) or cancel_start is None or cancel_created is None or not cancel_start<=cancel_created<=times[5]<=times[6]:errors.append(f'{label}: cancellation must exercise a distinct active job and real partial output before termination/cleanup')
+        derive_media_cancel_native(root,execution,prefix,lifecycle,row['identity'],policy,expected,window,defs,label,errors,cache,limit_paths)
         derive_media_completion_fencing(root,execution,prefix,lifecycle,row['identity'],policy,expected,window,defs,label,errors,cache,limit_paths)
         submissions=lifecycle['submissions'];required={'current','duplicate','late','cancelled'}
         if len(submissions)!=4 or {r['case'] for r in submissions}!=required:errors.append(f'{label}: complete current/duplicate/late/cancelled completion fencing matrix required')
@@ -3747,6 +3801,34 @@ def derive_vmaf_frame_result(root,execution,prefix,quality,policy,defs,label,err
     return value
 
 
+def derive_first_playable_native(root,execution,prefix,report,segment,probe,job,policy,assembly,window,defs,label,errors,cache):
+    """Bind the first playable interval to approved encoder/decoder and job-observer outputs."""
+    env=execution.get('environmentCaptured') or {};sources=[row for row in env.get('inputSampleArtifacts') or [] if isinstance(row,dict) and row.get('sampleId')==report['inputSampleId']]
+    source=existing_ref(root,sources[0]['inputArtifactRef'],prefix) if len(sources)==1 else None;media=existing_ref(root,segment['segmentRef'],prefix)
+    if source is None or media is None or source.samefile(media) or inspect_artifact(source,cache)['sha256']!=report['inputSha256']:
+        errors.append(f'{label}: first-segment native encode requires separate exact approved input bytes');return None
+    identity={key:job[key] for key in ('configurationRef','subjectVersion','acceptanceProfile','jobId','inputSampleId','inputSha256','encoderBuild','encoderParameters','encodeRunRef','nodeId','jobStartedAt')}
+    identity.update(sourceRef=sources[0]['inputArtifactRef'],sourceStartFrame=segment['sourceStartFrame'],sourceEndFrame=segment['sourceEndFrame'],outputArtifactRef=segment['segmentRef'],outputSha256=segment['segmentSha256'])
+    count=segment['sourceEndFrame']-segment['sourceStartFrame'];node=segment['nodeId'];first=utc(job['jobStartedAt']);worker=utc(job['workerStartedAt']);produced=utc(segment['segmentProducedAt']);observed=utc(probe['observedAt']);ready=utc(segment['firstPlayableAt'])
+    tail=['-nostdin','-protocol_whitelist','file,pipe','-i',identity['sourceRef'],'-vf','trim=start_frame='+str(segment['sourceStartFrame'])+':end_frame='+str(segment['sourceEndFrame'])+',setpts=PTS-STARTPTS']+policy['firstSegmentEncoderArgs']+['-frames:v',str(count),'-an','-y',segment['segmentRef'],'-progress','pipe:1','-nostats']
+    encoded=media_native_execution(root,execution,prefix,segment['encodeExecutionRef'],'encode',identity,'ffmpeg',policy['encoderBuild'],tail,node,window[0] if window else None,defs,label+'/first-segment native encode',errors,cache)
+    decoded=media_decode_execution(root,execution,prefix,probe['executionRef'],identity,assembly['decoderBuild'],node,window[0] if window else None,count,assembly['framesPerSecond'],defs,label+'/first-segment native decode',errors,cache)
+    if encoded is None or decoded is None:return None
+    if any(value is None for value in (first,worker,produced,observed,ready)) or not utc(encoded[0]['startedAt'])<=worker<=encoded[3]<=produced<=observed<=ready or not encoded[3]<=decoded[1]<=observed or not media_native_progress(encoded,count,cache):
+        errors.append(f'{label}: first-segment produced/decode clocks must enclose the exact successful native encode and complete decode, allowing process init/flush');return None
+    binding=dict(identity,encodeExecutionRef=segment['encodeExecutionRef'],encodeExecutionSha256=inspect_artifact(existing_ref(root,segment['encodeExecutionRef'],prefix),cache)['sha256'],decodeExecutionRef=probe['executionRef'],decodeExecutionSha256=inspect_artifact(existing_ref(root,probe['executionRef'],prefix),cache)['sha256'])
+    argv=policy['jobObserverCommandArgs'];tool=re.split(r'[/\\]',argv[0])[-1].lower();tool=tool[:-4] if tool.endswith('.exe') else tool
+    tail=argv[1:]+['--job',policy['jobId'],'--node',node,'--encode',segment['encodeExecutionRef'],'--decode',probe['executionRef']]
+    captured=media_native_execution(root,execution,prefix,job['nativeExecutionRef'],'telemetry',binding,tool,policy['jobObserverBuild'],tail,node,window[0] if window else None,defs,label+'/first-playable native timeline',errors,cache)
+    if captured is None:return None
+    timeline=bounded_evaluator_json(root,execution,prefix,captured[0]['stdoutRef'],'command_output',defs,'mediaFirstPlayableTimeline',label,errors,cache)
+    if timeline is None:return None
+    events=timeline['events'];times=[utc(event['observedAt']) for event in events];ticks=[event['monotonicNs'] for event in events];expected=[first,worker,produced,ready]
+    if timeline['identity']!=binding or timeline['processId']!=captured[0]['processId'] or timeline['clockDomainId']!=policy['jobObserverClockDomainId'] or [event['type'] for event in events]!=['job_started','worker_started','segment_produced','first_playable'] or times!=expected or times!=sorted(times) or ticks!=sorted(ticks) or not utc(captured[0]['startedAt'])<=first<=ready<=captured[3] or any(not math.isclose((at-first).total_seconds(),(tick-ticks[0])/1000000000,rel_tol=0,abs_tol=.000001) for at,tick in zip(times,ticks)):
+        errors.append(f'{label}: first-playable clocks must derive the same approved native observer/process/job/input/span/segment/encode/decode and monotonic clock domain');return None
+    return times[0],times[-1]
+
+
 def validate_qualified_media_quality_timing(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-02' or status!='pass':return
     label=f"qualified media quality/timing {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -3791,17 +3873,19 @@ def validate_qualified_media_quality_timing(root,plan,execution,prefix,status,wi
         errors.append(f'{label}: retained job-start event must bind exact approved job/input/encoder and selected worker execution')
     if any(t is None for t in (first,worker,produced,decoded,ready)) or window is None or not window[0]<=first<=worker<=produced<=decoded<=ready<=window[1]:errors.append(f'{label}: ordered job/worker/produced/decode/first-playable UTC timestamps must retain queue delay')
     media=existing_ref(root,segment['segmentRef'],prefix)
-    if media is None or segment['segmentRef'] not in (execution.get('rawOutputRefs') or []) or artifacts.get(segment['segmentRef'],{}).get('artifactType')!='produced_media' or artifacts.get(segment['segmentRef'],{}).get('nodeId')!=segment['nodeId']:
+    media_selected=media is not None and segment['segmentRef'] in (execution.get('rawOutputRefs') or []) and artifacts.get(segment['segmentRef'],{}).get('artifactType')=='produced_media' and artifacts.get(segment['segmentRef'],{}).get('nodeId')==segment['nodeId']
+    if not media_selected:
         errors.append(f'{label}: first playable segment requires exact node-bound produced bytes')
-    elif inspect_artifact(media,cache)['size']==0 or inspect_artifact(media,cache)['sha256']!=segment['segmentSha256']:errors.append(f'{label}: first playable segment digest must match actual nonempty bytes')
     if media is not None and output is not None and media.samefile(output):errors.append(f'{label}: first partial segment must be distinct from the whole multi-worker assembly')
     expected_probe=dict(jobId=policy['jobId'],nodeId=segment['nodeId'],segmentRef=segment['segmentRef'],segmentSha256=segment['segmentSha256'],inputSha256=report['inputSha256'],sourceStartFrame=segment['sourceStartFrame'],sourceEndFrame=segment['sourceEndFrame'],decoderBuild=assembly.get('decoderBuild'))
     if any(probe.get(k)!=v for k,v in expected_probe.items()) or probe['decodedFrameCount']!=segment['sourceEndFrame']-segment['sourceStartFrame'] or probe['decodeErrorCount']!=0 or probe['decodable'] is not True:
         errors.append(f'{label}: first-playable probe must decode the exact retained AV1 input span without errors')
+    native_timing=derive_first_playable_native(root,execution,prefix,report,segment,probe,job,policy,assembly,window,defs,label,errors,cache) if len(controls)==1 and media_selected else None
+    if media_selected and (inspect_artifact(media,cache)['size']==0 or inspect_artifact(media,cache)['sha256']!=segment['segmentSha256']):errors.append(f'{label}: first playable segment digest must match actual nonempty bytes')
     actual={m.get('id'):m.get('actual') for m in execution.get('measurements') or [] if isinstance(m,dict)}
     vmaf=derive_vmaf_frame_result(root,execution,prefix,quality,policy,defs,label,errors,cache)
     derived={} if vmaf is None else {'av1_quality':vmaf}
-    if first is not None and ready is not None:derived['first_segment_latency']=(ready-first).total_seconds()*1000
+    if native_timing is not None:derived['first_segment_latency']=(native_timing[1]-native_timing[0]).total_seconds()*1000
     for metric,value in derived.items():
         if not ai_finite(value) or not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive retained evaluator results and first-playable timestamps')
 
@@ -6470,9 +6554,9 @@ def validate_execution(
         validate_qualified_production_soak(root,plan,execution,record_definitions,reference_boundary,status,window,errors)
         validate_qualified_domains(root,plan,execution,route,profile_configuration,record_definitions,reference_boundary,task_reviewer,window,errors)
         validate_qualified_a380_encode(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
-        validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
         validate_qualified_media_quality_timing(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_media_negative(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
+        validate_qualified_raw(root,plan,execution,profile_configuration,record_definitions,reference_boundary,status,record_refs or set(),errors,artifact_cache)
         validate_qualified_android_media(root,plan,execution,reference_boundary,status,errors,artifact_cache,record_definitions)
         validate_qualified_worker_safety(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)
         validate_qualified_worker_capabilities(root,plan,execution,reference_boundary,status,window,record_definitions,errors,artifact_cache)

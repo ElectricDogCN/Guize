@@ -1576,11 +1576,13 @@ class TestPocProgram(unittest.TestCase):
             raw=(root/ref).read_bytes();sha='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,nodeId=node,byteCount=len(raw),sha256=sha));execution['rawOutputRefs'].append(ref);return ref,sha,len(raw)
         job='synthetic-hls-job';decoder='synthetic-hls-decoder'
         parameters=copy.deepcopy(execution['provenance']['encoder_parameters']);stream_parameters=dict(codec_name='av1',profile='Main',level=0,width=320,height=180,pix_fmt='yuv420p',time_base='1/30',r_frame_rate='30/1')
-        init,init_sha,_=retain('hls-init.mp4',b'Synthetic fMP4 initialization; never actual media.','produced_media',env['worker_node_inventory'][0]['nodeId'])
+        box=lambda tag,payload:(len(payload)+8).to_bytes(4,'big')+tag+payload;entry=box(b'av01',b'\0'*78+box(b'av1C',b'\0'*4))
+        header=box(b'ftyp',b'isom\0\0\0\0isom')+box(b'moov',box(b'trak',box(b'mdia',box(b'minf',box(b'stbl',box(b'stsd',b'\0'*4+(1).to_bytes(4,'big')+entry))))))
+        init,init_sha,_=retain('hls-init.mp4',header,'produced_media',env['worker_node_inventory'][0]['nodeId'])
         for n in range(3):
             node=env['worker_node_inventory'][n%2];segment=dict(segmentId='synthetic-hls-'+str(n),index=n,**{k:node[k] for k in ('nodeId','physicalHostId','encoderBuild','compatibilityGroupId')},sourceStartFrame=n*40,sourceEndFrame=(n+1)*40,uri='segment-'+str(n)+'.m4s');segments.append(segment)
             start=0 if n<2 else 20;finish=(20,10,30)[n];at=lambda seconds:f'2026-09-03T00:00:{seconds:02d}Z'
-            media,sha,size=retain('hls-segment-'+str(n)+'.bin',('Synthetic HLS segment '+str(n)+'; never actual AV1.').encode(),'produced_media',node['nodeId'])
+            media,sha,size=retain('hls-segment-'+str(n)+'.bin',box(b'mdat',b''.join(i.to_bytes(4,'big') for i in range(n*40,(n+1)*40))),'produced_media',node['nodeId'])
             probe,_,_=retain('hls-segment-'+str(n)+'-decode.yaml',dict(schemaVersion=1,kind='hls_segment_decode',jobId=job,attemptEpoch=1,segmentId=segment['segmentId'],nodeId=node['nodeId'],encoderBuild=node['encoderBuild'],decoderBuild=decoder,inputSha256=sample['checksum'],outputArtifactRef=media,outputSha256=sha,initArtifactRef=init,initSha256=init_sha,observedAt=at(finish),codec='av1',decodable=True,decodedFrameCount=40,decodeErrorCount=0,encoderParameters=copy.deepcopy(parameters),streamParameters=copy.deepcopy(stream_parameters)),'measurement_output',node['nodeId'])
             rows.append(dict(**segment,startedAt=at(start),finishedAt=at(finish),readyAt=at(finish),exitCode=0,encodedFrameCount=40,outputArtifactRef=media,outputSha256=sha,outputByteCount=size,decodeRef=probe,encoderParameters=copy.deepcopy(parameters)))
         policy=dict(jobId=job,attemptEpoch=1,inputSampleId=sample['id'],inputSha256=sample['checksum'],sourceFrameCount=120,framesPerSecond=30,decoderBuild=decoder,segments=segments,initNodeId=env['worker_node_inventory'][0]['nodeId'],initUri='init.mp4',encoderParameters=copy.deepcopy(parameters),streamParameters=copy.deepcopy(stream_parameters))
@@ -1594,10 +1596,17 @@ class TestPocProgram(unittest.TestCase):
             snapshots.append(dict(observedAt=f'2026-09-03T00:00:{seconds:02d}Z',segmentStates=[dict(segmentId=s['segmentId'],state='ready' if s['index'] in ready_ids else 'queued' if seconds<int(rows[s['index']]['startedAt'][17:19]) else 'encoding') for s in segments],playlistRef=ref,playlistSha256=sha))
         report=dict(schemaVersion=1,kind='hls_ready_observation',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-002')),execution),inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],initArtifactRef=init,initSha256=init_sha,initReadyAt='2026-09-03T00:00:00Z',**{k:policy[k] for k in ('jobId','attemptEpoch','inputSampleId','inputSha256','initNodeId','initUri')},segments=rows,snapshots=snapshots)
         node=policy['initNodeId'];joined,joined_sha,joined_size=retain('hls-whole-sequence.mp4',b''.join((root/ref).read_bytes() for ref in [init]+[row['outputArtifactRef'] for row in rows]),'produced_media',node)
-        raw=dict(streams=[copy.deepcopy(stream_parameters)],packets_and_frames=[item for i in range(120) for item in (dict(type='packet',pts=i,dts=i,duration=1),dict(type='frame',pts=i,duration=1,width=320,height=180,pix_fmt='yuv420p'))])
-        raw_ref,raw_sha,_=retain('hls-whole-ffprobe.json',json.dumps(raw).encode(),'command_output',node);stderr,stderr_sha,_=retain('hls-whole-ffprobe.stderr',b'','command_output',node)
-        identity={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','jobId','attemptEpoch','inputSampleId','inputSha256','initArtifactRef','initSha256')}
-        sequence=dict(schemaVersion=1,kind='hls_sequence_decode_observation',**identity,parts=[{k:row[k] for k in ('segmentId','nodeId','encoderBuild','sourceStartFrame','sourceEndFrame','outputArtifactRef','outputSha256','encoderParameters')} for row in rows],encoderParameters=copy.deepcopy(parameters),streamParameters=copy.deepcopy(stream_parameters),decoderBuild=decoder,outputArtifactRef=joined,outputSha256=joined_sha,outputByteCount=joined_size,rawProbeRef=raw_ref,rawProbeSha256=raw_sha,stderrRef=stderr,stderrSha256=stderr_sha,command=['synthetic-ffprobe','-v','error','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-of','json',joined],startedAt='2026-09-03T00:00:30Z',finishedAt='2026-09-03T00:00:30.001Z',exitCode=0,decodedFrameCount=120,decodeErrorCount=0)
+        packets=[];cursor=len(header)
+        for row in rows:
+            for i in range(40):
+                number=row['sourceStartFrame']+i;payload=number.to_bytes(4,'big');packets.extend([dict(type='packet',pts=number,dts=number,duration=1,pos=str(cursor+8+4*i),size='4',data_hash='SHA256:'+hashlib.sha256(payload).hexdigest()),dict(type='frame',pts=number,duration=1,width=320,height=180,pix_fmt='yuv420p')])
+            cursor+=(root/row['outputArtifactRef']).stat().st_size
+        raw=dict(program_version=dict(version=decoder),streams=[dict(stream_parameters,codec_tag_string='av01')],format=dict(format_name='mov,mp4,m4a,3gp,3g2,mj2',size=str(joined_size)),packets_and_frames=packets)
+        identity={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','jobId','attemptEpoch','inputSampleId','inputSha256','initArtifactRef','initSha256')};parts=[{k:row[k] for k in ('segmentId','nodeId','encoderBuild','sourceStartFrame','sourceEndFrame','outputArtifactRef','outputSha256','encoderParameters')} for row in rows]
+        binding=dict(identity,parts=parts,decoderBuild=decoder,encoderParameters=copy.deepcopy(parameters),streamParameters=copy.deepcopy(stream_parameters),outputArtifactRef=joined,outputSha256=joined_sha,sourceFrameCount=120)
+        tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',joined]
+        native,process=self.retain_media_process_fixture(root,execution,prefix,'hls-whole-native','decode',binding,node,'ffprobe',decoder,tail,json.dumps(raw).encode(),'2026-09-03T00:00:30Z','2026-09-03T00:00:30.001Z',65001)
+        sequence=dict(schemaVersion=1,kind='hls_sequence_decode_observation',**identity,parts=parts,encoderParameters=copy.deepcopy(parameters),streamParameters=copy.deepcopy(stream_parameters),decoderBuild=decoder,outputArtifactRef=joined,outputSha256=joined_sha,outputByteCount=joined_size,executionRef=native,rawProbeRef=process['stdoutRef'],rawProbeSha256=process['stdoutSha256'],stderrRef=process['stderrRef'],stderrSha256=process['stderrSha256'],command=process['argv'],startedAt=process['startedAt'],finishedAt=process['finishedAt'],exitCode=0,decodedFrameCount=120,decodeErrorCount=0)
         report['sequenceDecodeRef'],_,_=retain('hls-whole-sequence-decode.yaml',sequence,'measurement_output',node)
         ref,_,_=retain('hls-ready.yaml',report,'measurement_output',env['worker_node_inventory'][0]['nodeId']);env['hlsReadyRef']=ref
 
@@ -2324,6 +2333,28 @@ class TestPocProgram(unittest.TestCase):
             if measurement['id'] in values:measurement['actual']=values[measurement['id']]
 
 
+    def prepare_media_retry_cancel_native_fixture(self,root,execution,prefix,report,policy):
+        """Explicit synthetic MP4/native retry and cancellation records; never a media/device run."""
+        env=execution['environmentCaptured'];assembly=env['parallelMediaAssembly'];assembly_report=load_yaml(root/assembly['validationRef'])
+        context={k:report[k] for k in ('configurationRef','acceptanceProfile','subjectVersion','inputSamples','jobId','assetId','assetVersion','inputSampleId','inputSha256')}
+        for number,row in enumerate(report['nodes'],1):
+            life=row['lifecycle'];node=row['identity']['nodeId'];probe=load_yaml(root/life['retryProbeRef'])
+            run=next(r for r in env['workerEncodeExecutions'] if r['nodeId']==node and r['sourceStartFrame']==life['retrySourceStartFrame'] and r['sourceEndFrame']==life['retrySourceEndFrame'])
+            part=next(r for r in assembly_report['partDecodeRefs'] if r['outputArtifactRef']==run['outputArtifactRef']);source=json.loads((root/part['executionRef']).read_bytes())
+            binding=dict(context,jobId=policy['jobId'],attemptEpoch=life['currentAttemptEpoch'],nodeId=node,encoderBuild=row['identity']['encoderBuild'],decoderBuild=policy['retryDecoderBuild'],sourceStartFrame=life['retrySourceStartFrame'],sourceEndFrame=life['retrySourceEndFrame'],outputArtifactRef=life['publishedRef'],outputSha256=life['publishedSha256'])
+            tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',life['publishedRef']]
+            ref,_=self.retain_media_process_fixture(root,execution,prefix,node+'-retry-native','decode',binding,node,'ffprobe',policy['retryDecoderBuild'],tail,(root/source['stdoutRef']).read_bytes(),probe['startedAt'],probe['finishedAt'],74000+number)
+            probe.update(executionRef=ref,durationSeconds=(life['retrySourceEndFrame']-life['retrySourceStartFrame'])/assembly['framesPerSecond'])
+            self.retain_media_native_fixture(root,execution,prefix,life['retryProbeRef'].rsplit('/',1)[-1],yaml.safe_dump(probe,sort_keys=False).encode(),node,'measurement_output')
+            pid=str(75000+number);partial_path='work/cancel-partial.bin';raw=(root/life['cancelledPartialRef']).read_bytes()
+            worker_tail=['--node',node,'--job',policy['cancelJobId'],'--attempt',str(life['cancelledAttemptEpoch']),'--input-sha256',context['inputSha256'],'--output',partial_path]
+            worker=dict(processId=pid,argv=policy['cancelWorkerCommandArgs']+worker_tail,encoderBuild=row['identity']['encoderBuild'],inputSha256=context['inputSha256'],startedAt=life['cancelledStartedAt'],exit=dict(processId=pid,observedAt='2026-09-03T00:04:05.001Z',exitCode=255,reason='cancelled',remainingProcessIds=[]))
+            snapshots=[dict(phase='before_cancel',observedAt=life['cancelledPartialCreatedAt'],processIds=[pid],files=[dict(path=partial_path,area='output',byteCount=len(raw),sha256=life['cancelledPartialSha256'])],publishedArtifactIds=[]),dict(phase='cleanup',observedAt=life['cleanupFinishedAt'],processIds=[],files=[],publishedArtifactIds=[])]
+            tail=['--node',node,'--job',policy['cancelJobId'],'--attempt',str(life['cancelledAttemptEpoch']),'--worker-pid',pid]
+            capture=dict(schemaVersion=1,kind='media_cancellation_execution',context=context,identity=row['identity'],observerBuild=policy['controlObserverBuild'],processId=str(76000+number),argv=policy['cancellationCommandArgs']+tail,startedAt='2026-09-03T00:04:03.999Z',finishedAt='2026-09-03T00:04:06.001Z',exitCode=0,jobId=policy['cancelJobId'],attemptEpoch=life['cancelledAttemptEpoch'],partialArtifactRef=life['cancelledPartialRef'],partialSha256=life['cancelledPartialSha256'],partialPath=partial_path,partialCreatedAt=life['cancelledPartialCreatedAt'],cancelRequestedAt=life['cancelledAt'],worker=worker,snapshots=snapshots)
+            life['cancellationExecutionRef'],life['cancellationExecutionSha256']=self.retain_media_native_fixture(root,execution,prefix,node+'-cancellation-execution.json',capture,node)
+
+
     def prepare_qualified_media_negative_fixture(self,root,execution,prefix):
         """Synthetic failure observations; never actual worker, FFmpeg or HLS execution."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-HETEROGENEOUS-WORKERS');quality=load_yaml(root/env['mediaQualityTimingRef']);assembly=env['parallelMediaAssembly'];nodes=[{k:n[k] for k in ('nodeId','physicalHostId','encoderBuild')} for n in env['worker_node_inventory']]
@@ -2340,7 +2371,7 @@ class TestPocProgram(unittest.TestCase):
         outputs.extend(dict(surface=surface,ref=quality['firstSegment']['segmentRef'],sha256=quality['firstSegment']['segmentSha256']) for surface in ('segment','cache_hit'))
         policy=dict(subjectVersion=quality['subjectVersion'],jobId=quality['jobId'],retryDecoderBuild=assembly['decoderBuild'],cancelJobId='synthetic-independent-cancel-job',assetId='synthetic-media-asset',assetVersion=next(r['immutableId'] for r in execution['samples'] if r['id']==assembly['inputSampleId']),nodes=nodes,limits=dict(cpuSeconds=5,memoryBytes=100,elapsedSeconds=5,temporaryBytes=100,outputBytes=100),deniedTargets=[dict(case=case,target=target) for case,target in (('protocol','file:///synthetic-denied-input'),('path','/synthetic/../denied-input'),('proxy','http://127.0.0.1/synthetic-private'))],authorizedUserId='synthetic-owner',deniedUserId='synthetic-other-user',currentGrantId='synthetic-current-grant',expiredGrantId='synthetic-expired-grant',revokedGrantId='synthetic-revoked-grant',aclVersion='synthetic-acl-v1',grantValidFrom='2026-09-03T00:00:00Z',grantValidUntil='2026-09-04T00:00:00Z',expiredAt='2026-09-02T00:00:00Z',revokedAt='2026-09-03T00:01:00Z',protectedOutputs=outputs)
         policy.update(limitObserverBuild='synthetic-media-limit-observer; checker regression only',limitCommandArgs=['synthetic-media-limit-probe'])
-        policy.update(controlObserverBuild='synthetic-media-control-collector/checker-only-v1',targetCommandArgs=['synthetic-sandboxed-ffmpeg'],completionCommandArgs=['synthetic-publisher-client'],publicationReadbackArgs=['synthetic-publisher-readback'])
+        policy.update(controlObserverBuild='synthetic-media-control-collector/checker-only-v1',targetCommandArgs=['synthetic-sandboxed-ffmpeg'],completionCommandArgs=['synthetic-publisher-client'],publicationReadbackArgs=['synthetic-publisher-readback'],cancellationCommandArgs=['synthetic-cancel-observer'],cancelWorkerCommandArgs=['synthetic-cancel-worker'])
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['mediaNegativePolicy']=policy;write_yaml(config_path,config);rows=[]
         context=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=quality['subjectVersion'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],jobId=policy['jobId'],assetId=policy['assetId'],assetVersion=policy['assetVersion'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'])
         for node_number,identity in enumerate(nodes,1):
@@ -2355,7 +2386,7 @@ class TestPocProgram(unittest.TestCase):
                 for name,capture in materials.items():case[name+'Ref'],case[name+'Sha256']=retain(request+'-'+name+'.json',json.dumps(capture).encode(),node,kind='command_output')
                 checks.append(case)
             partial_ref,partial_sha=retain(node+'-interrupted-partial.bin',b'Synthetic interrupted partial; never actual AV1.',node);run=next(r for r in env['workerEncodeExecutions'] if r['nodeId']==node)
-            retry_ref,retry_sha=retain(node+'-fresh-retry-output.bin',b'Synthetic retry output; never actual AV1.',node)
+            retry_ref,retry_sha=retain(node+'-fresh-retry-output.bin',(root/run['outputArtifactRef']).read_bytes(),node)
             retry_probe_ref,_=retain(node+'-retry-av1-probe.yaml',dict(schemaVersion=1,kind='media_retry_decode_observation',jobId=policy['jobId'],attemptEpoch=2,nodeId=node,encoderBuild=identity['encoderBuild'],inputSha256=assembly['inputSha256'],outputArtifactRef=retry_ref,outputSha256=retry_sha,decoderBuild=policy['retryDecoderBuild'],codec='av1',decodable=True,sourceStartFrame=run['sourceStartFrame'],sourceEndFrame=run['sourceEndFrame'],decodedFrameCount=run['sourceEndFrame']-run['sourceStartFrame'],durationSeconds=2,decodeErrorCount=0,startedAt='2026-09-03T00:04:04Z',finishedAt='2026-09-03T00:04:04.001Z'),node,kind='measurement_output')
             cancel_ref,cancel_sha=retain(node+'-cancel-partial.bin',b'Synthetic active cancelled partial; never actual AV1.',node)
             life=dict(retryProbeRef=retry_probe_ref,cancelJobId=policy['cancelJobId'],cancelledAttemptEpoch=3,cancelledStartedAt='2026-09-03T00:04:04Z',cancelledPartialCreatedAt='2026-09-03T00:04:04Z',cancelledPartialRef=cancel_ref,cancelledPartialSha256=cancel_sha,cancelledProcessStatusBefore='running',cancelledProcessStatusAfter='terminated',partialRef=partial_ref,partialSha256=partial_sha,partialCreatedAt='2026-09-03T00:04:00Z',interruptedAt='2026-09-03T00:04:01Z',oldAttemptExpiresAt='2026-09-03T00:04:02Z',retriedAt='2026-09-03T00:04:03Z',retryFinishedAt='2026-09-03T00:04:04.002Z',cancelledAt='2026-09-03T00:04:05Z',cleanupFinishedAt='2026-09-03T00:04:06Z',oldAttemptEpoch=1,currentAttemptEpoch=2,retryJobId=policy['jobId'],terminalResultCount=1,remainingTemporaryBytes=0,remainingOutputBytes=0,activeProcessCount=0,cancelledAttemptPublicationCount=0,cancelledPartialDisposition='removed',cancelledPartialPublishable=False,publishedRef=retry_ref,publishedSha256=retry_sha,retryEncoderBuild=identity['encoderBuild'],retryInputSha256=assembly['inputSha256'],retrySourceStartFrame=run['sourceStartFrame'],retrySourceEndFrame=run['sourceEndFrame'],retryDecodedFrameCount=run['sourceEndFrame']-run['sourceStartFrame'],retryDecodeErrorCount=0,submissions=[dict(case=case,observedAt='2026-09-03T00:04:04.002Z' if case=='current' else '2026-09-03T00:04:07Z',attemptEpoch=1 if case=='late' else 3 if case=='cancelled' else 2,jobId=policy['cancelJobId'] if case=='cancelled' else policy['jobId'],decision='published' if case=='current' else 'rejected',publicationDelta=1 if case=='current' else 0,terminalResultDelta=1 if case=='current' else 0) for case in ('current','duplicate','late','cancelled')]);seek=[]
@@ -2372,6 +2403,7 @@ class TestPocProgram(unittest.TestCase):
                     origin=dict(schemaVersion=1,kind='hls_origin_access_observation',**identity,**{k:access[-1][k] for k in ('surface','case','requestId','observedAt','assetId','assetVersion','aclVersion','userId','grantId','route','decision','statusCode','responseRef','responseSha256')},originRequestCount=0,objectReadCount=0)
                     access[-1]['originAccessRef'],_=retain('hls-'+surface['surface']+'-'+case+'-origin.yaml',origin,kind='measurement_output')
         report=dict(schemaVersion=1,kind='media_negative_outcomes',configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=quality['subjectVersion'],inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']],jobId=policy['jobId'],assetId=policy['assetId'],assetVersion=policy['assetVersion'],inputSampleId=assembly['inputSampleId'],inputSha256=assembly['inputSha256'],nodes=rows,accessCases=access)
+        self.prepare_media_retry_cancel_native_fixture(root,execution,prefix,report,policy)
         self.prepare_qualified_media_control_captures(root,execution,prefix,report,policy)
         env['mediaNegativeRef'],_=retain('media-negative-outcomes.yaml',report,kind='measurement_output')
 
@@ -2453,11 +2485,82 @@ class TestPocProgram(unittest.TestCase):
         invocation.update(nativeExecutionRef=native,command=process['argv'])
         command,_=retain('vmaf-command.json',json.dumps(invocation).encode(),'command_output')
         quality_ref,_=retain('vmaf-evaluator-output.yaml',dict(schemaVersion=1,kind='vmaf_evaluator_output',**common,evaluatorBuild=policy['evaluatorBuild'],modelId=policy['modelId'],modelSha256=policy['modelSha256'],evaluatedAt='2026-09-03T00:01:01Z',evaluatedFrameCount=assembly['sourceFrameCount'],vmafMean=1,evaluatorCommandRef=command))
-        segment_ref,segment_sha=retain('first-playable-segment.bin',b'Synthetic first segment, never actual encoded AV1.','produced_media')
+        box=lambda tag,payload:(len(payload)+8).to_bytes(4,'big')+tag+payload;entry=box(b'av01',b'\0'*78+box(b'av1C',b'\0'*4))
+        header=box(b'ftyp',b'isom\0\0\0\0isom')+box(b'moov',box(b'trak',box(b'mdia',box(b'minf',box(b'stbl',box(b'stsd',b'\0'*4+(1).to_bytes(4,'big')+entry))))))
+        segment_ref,segment_sha=retain('first-playable-segment.bin',header+box(b'mdat',b'\0'*4),'produced_media')
         probe_ref,_=retain('first-playable-segment-probe.yaml',dict(schemaVersion=1,kind='first_playable_segment_probe',jobId=policy['jobId'],nodeId=run['nodeId'],segmentRef=segment_ref,segmentSha256=segment_sha,inputSha256=assembly['inputSha256'],sourceStartFrame=0,sourceEndFrame=1,decodedFrameCount=1,decodeErrorCount=0,decoderBuild=assembly['decoderBuild'],codec='av1',decodable=True,observedAt='2026-09-03T00:00:00.001Z'))
         segment=dict(encodeRunRef=run['rawOutputRef'],nodeId=run['nodeId'],jobStartedAt=run['startedAt'],segmentProducedAt='2026-09-03T00:00:00.001Z',firstPlayableAt='2026-09-03T00:00:00.001Z',segmentRef=segment_ref,segmentSha256=segment_sha,sourceStartFrame=0,sourceEndFrame=1,decodeRef=probe_ref)
         env['mediaQualityTimingRef'],_=retain('media-quality-timing.yaml',dict(schemaVersion=1,kind='media_quality_timing_report',**common,jobEventRef=job_event_ref,qualityRef=quality_ref,firstSegment=segment))
+        self.prepare_first_playable_native_fixture(root,execution,prefix)
 
+
+    def prepare_first_playable_native_fixture(self,root,execution,prefix):
+        """Explicit lawful synthetic MP4/process/timeline fixture; never called by generic refresh."""
+        from datetime import timedelta
+        env=execution['environmentCaptured'];report_path=root/env['mediaQualityTimingRef'];report=load_yaml(report_path);segment=report['firstSegment'];probe_path=root/segment['decodeRef'];probe=load_yaml(probe_path);job_path=root/report['jobEventRef'];job=load_yaml(job_path);config_path=root/report['configurationRef'];config=load_yaml(config_path);policy=config['configuration']['mediaEvaluationPolicy'];assembly=env['parallelMediaAssembly'];node=segment['nodeId']
+        policy.update(firstSegmentEncoderArgs=['-c:v','libsvtav1','-crf','30','-preset','6'],jobObserverBuild='synthetic-media-job-observer-v1',jobObserverClockDomainId='synthetic-media-job-monotonic',jobObserverCommandArgs=['guize-media-job-observer']);write_yaml(config_path,config)
+        source_ref=next(row['inputArtifactRef'] for row in env['inputSampleArtifacts'] if row['sampleId']==report['inputSampleId']);identity={key:job[key] for key in ('configurationRef','subjectVersion','acceptanceProfile','jobId','inputSampleId','inputSha256','encoderBuild','encoderParameters','encodeRunRef','nodeId','jobStartedAt')};identity.update(sourceRef=source_ref,sourceStartFrame=segment['sourceStartFrame'],sourceEndFrame=segment['sourceEndFrame'],outputArtifactRef=segment['segmentRef'],outputSha256=segment['segmentSha256'])
+        clock=lambda at:at.isoformat().replace('+00:00','Z');worker=CHECK.utc(job['workerStartedAt']);observed=CHECK.utc(probe['observedAt']);encode_end=worker+(observed-worker)/3;decode_end=worker+(observed-worker)*2/3;count=segment['sourceEndFrame']-segment['sourceStartFrame']
+        tail=['-nostdin','-protocol_whitelist','file,pipe','-i',source_ref,'-vf','trim=start_frame='+str(segment['sourceStartFrame'])+':end_frame='+str(segment['sourceEndFrame'])+',setpts=PTS-STARTPTS']+policy['firstSegmentEncoderArgs']+['-frames:v',str(count),'-an','-y',segment['segmentRef'],'-progress','pipe:1','-nostats']
+        segment['encodeExecutionRef'],encoded=self.retain_media_process_fixture(root,execution,prefix,'first-playable-encode','encode',identity,node,'ffmpeg',policy['encoderBuild'],tail,('frame='+str(count)+'\nprogress=end\n').encode(),clock(worker),clock(encode_end),66001)
+        media=(root/segment['segmentRef']).read_bytes();payload=media[-4:];raw=dict(program_version=dict(version=assembly['decoderBuild']),streams=[dict(codec_name='av1',codec_tag_string='av01',profile='Main',level=0,width=320,height=180,pix_fmt='yuv420p',time_base='1/30',r_frame_rate='30/1')],format=dict(format_name='mov,mp4,m4a,3gp,3g2,mj2',size=str(len(media))),packets_and_frames=[dict(type='packet',pts=0,dts=0,duration=1,pos=str(len(media)-4),size='4',data_hash='SHA256:'+hashlib.sha256(payload).hexdigest()),dict(type='frame',pts=0,duration=1,width=320,height=180,pix_fmt='yuv420p')])
+        tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',segment['segmentRef']]
+        probe['executionRef'],decoded=self.retain_media_process_fixture(root,execution,prefix,'first-playable-decode','decode',identity,node,'ffprobe',assembly['decoderBuild'],tail,json.dumps(raw).encode(),clock(encode_end),clock(decode_end),66002)
+        binding=dict(identity,encodeExecutionRef=segment['encodeExecutionRef'],encodeExecutionSha256='sha256:'+hashlib.sha256((root/segment['encodeExecutionRef']).read_bytes()).hexdigest(),decodeExecutionRef=probe['executionRef'],decodeExecutionSha256='sha256:'+hashlib.sha256((root/probe['executionRef']).read_bytes()).hexdigest())
+        first=CHECK.utc(job['jobStartedAt']);times=[job['jobStartedAt'],job['workerStartedAt'],segment['segmentProducedAt'],segment['firstPlayableAt']];timeline=dict(schemaVersion=1,kind='media_first_playable_timeline',identity=binding,processId='66003',clockDomainId=policy['jobObserverClockDomainId'],events=[dict(type=kind,observedAt=at,monotonicNs=int(round((CHECK.utc(at)-first).total_seconds()*1000000000))) for kind,at in zip(('job_started','worker_started','segment_produced','first_playable'),times)])
+        tail=policy['jobObserverCommandArgs'][1:]+['--job',policy['jobId'],'--node',node,'--encode',segment['encodeExecutionRef'],'--decode',probe['executionRef']]
+        job['nativeExecutionRef'],_=self.retain_media_process_fixture(root,execution,prefix,'first-playable-timeline','telemetry',binding,node,policy['jobObserverCommandArgs'][0],policy['jobObserverBuild'],tail,json.dumps(timeline).encode(),job['jobStartedAt'],clock(CHECK.utc(segment['firstPlayableAt'])+timedelta(microseconds=1)),66003)
+        write_yaml(probe_path,probe);write_yaml(job_path,job);write_yaml(report_path,report)
+        for path in (probe_path,job_path,report_path):
+            raw=path.read_bytes();record=next(row for row in env['rawExecutionArtifacts'] if row['ref']==path.relative_to(root).as_posix());record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+
+    def exercise_hls_sequence_native_regressions(self,root,original,validate,report_path):
+        env=original['environmentCaptured'];saved={root/row['ref']:(root/row['ref']).read_bytes() for row in env['rawExecutionArtifacts']};baseline=load_yaml(report_path)
+        for mode in ('missing_execution','borrowed_execution','pid','build','argv','exit','clock','packet_hash','packet_offset'):
+            for path,raw in saved.items():path.write_bytes(raw)
+            data=copy.deepcopy(original);sequence_path=root/baseline['sequenceDecodeRef'];sequence=load_yaml(sequence_path);process_path=root/sequence['executionRef'];process=json.loads(process_path.read_bytes())
+            if mode=='missing_execution':sequence.pop('executionRef')
+            elif mode=='borrowed_execution':sequence['executionRef']=load_yaml(root/env['parallelMediaAssembly']['validationRef'])['outputDecodeRef']
+            elif mode=='pid':process['processId']='0'
+            elif mode=='build':process['toolBuild']='foreign-build'
+            elif mode=='argv':process['argv'][-1]=baseline['segments'][0]['outputArtifactRef']
+            elif mode=='exit':process['exitCode']=1
+            elif mode=='clock':sequence['finishedAt']='2026-09-03T00:00:30.0001Z'
+            else:
+                raw_path=root/process['stdoutRef'];raw=json.loads(raw_path.read_bytes());packet=next(item for item in raw['packets_and_frames'] if item['type']=='packet')
+                if mode=='packet_hash':packet['data_hash']='SHA256:'+'0'*64
+                else:packet['pos']='0'
+                raw_path.write_bytes(json.dumps(raw).encode());process['stdoutSha256']=sequence['rawProbeSha256']='sha256:'+hashlib.sha256(raw_path.read_bytes()).hexdigest()
+            process_path.write_bytes(json.dumps(process).encode());write_yaml(sequence_path,sequence)
+            self.assertTrue(any('qualified HLS READY' in error for error in validate(data)),mode)
+        for path,raw in saved.items():path.write_bytes(raw)
+
+    def exercise_first_playable_native_regressions(self,root,original,validate,report_path):
+        env=original['environmentCaptured'];saved={root/row['ref']:(root/row['ref']).read_bytes() for row in env['rawExecutionArtifacts']};baseline=load_yaml(report_path)
+        for mode in ('missing_encode','missing_decode','missing_timeline','encode_argv','encode_exit','encode_progress','decode_argv','decode_packet','timeline_build','timeline_domain','timeline_clock','collapsed_clock'):
+            for path,raw in saved.items():path.write_bytes(raw)
+            data=copy.deepcopy(original);report=copy.deepcopy(baseline);segment=report['firstSegment'];probe_path=root/segment['decodeRef'];probe=load_yaml(probe_path);job_path=root/report['jobEventRef'];job=load_yaml(job_path);encode_path=root/segment['encodeExecutionRef'];encode=json.loads(encode_path.read_bytes());decode_path=root/probe['executionRef'];decode=json.loads(decode_path.read_bytes());observer_path=root/job['nativeExecutionRef'];observer=json.loads(observer_path.read_bytes());stdout_path=root/observer['stdoutRef'];timeline=json.loads(stdout_path.read_bytes())
+            if mode=='missing_encode':segment.pop('encodeExecutionRef')
+            elif mode=='missing_decode':probe.pop('executionRef')
+            elif mode=='missing_timeline':job.pop('nativeExecutionRef')
+            elif mode=='encode_argv':encode['argv'][encode['argv'].index('-i')+1]=segment['segmentRef']
+            elif mode=='encode_exit':encode['exitCode']=1
+            elif mode=='encode_progress':
+                path=root/encode['stdoutRef'];path.write_bytes(b'frame=0\nprogress=end\n');encode['stdoutSha256']='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+            elif mode=='decode_argv':decode['argv'][-1]=report['outputArtifactRef']
+            elif mode=='decode_packet':
+                path=root/decode['stdoutRef'];raw=json.loads(path.read_bytes());raw['packets_and_frames'][0]['data_hash']='SHA256:'+'0'*64;path.write_bytes(json.dumps(raw).encode());decode['stdoutSha256']='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+            elif mode=='timeline_build':observer['toolBuild']='foreign-observer'
+            elif mode=='timeline_domain':timeline['clockDomainId']='foreign-clock'
+            elif mode=='timeline_clock':timeline['events'][-1]['monotonicNs']+=1000000
+            else:
+                ready='2026-09-03T00:00:00.0001Z';segment.update(segmentProducedAt=ready,firstPlayableAt=ready);probe['observedAt']=ready
+                for event in timeline['events'][2:]:event.update(observedAt=ready,monotonicNs=100000)
+                next(row for row in data['measurements'] if row['id']=='first_segment_latency')['actual']=.1
+            # Reseal native byte identities only, leaving every deliberately wrong fact intact.
+            encode_path.write_bytes(json.dumps(encode).encode());decode_path.write_bytes(json.dumps(decode).encode());timeline['identity'].update(encodeExecutionSha256='sha256:'+hashlib.sha256(encode_path.read_bytes()).hexdigest(),decodeExecutionSha256='sha256:'+hashlib.sha256(decode_path.read_bytes()).hexdigest());observer['identity']=copy.deepcopy(timeline['identity']);stdout_path.write_bytes(json.dumps(timeline).encode());observer['stdoutSha256']='sha256:'+hashlib.sha256(stdout_path.read_bytes()).hexdigest();observer_path.write_bytes(json.dumps(observer).encode());write_yaml(probe_path,probe);write_yaml(job_path,job);write_yaml(report_path,report)
+            self.assertTrue(any('qualified media quality/timing' in error for error in validate(data)),mode)
+        for path,raw in saved.items():path.write_bytes(raw)
 
     def prepare_qualified_firmware_fixture(self,root,execution,prefix):
         """Explicitly synthetic firmware/group witness, never a hardware experiment."""
@@ -4186,6 +4289,7 @@ class TestPocProgram(unittest.TestCase):
                     self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data)
                     return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
                 self.assertEqual(validate(copy.deepcopy(original)),[])
+                self.exercise_first_playable_native_regressions(root,original,validate,report_path)
                 modes=('missing','arbitrary','bad_policy','wrong_config','input_sha','output_sha','parameters','build','model','model_sha','evaluator_build','frames','score_claim','score_nan','latency_claim','quality_before_encode','quality_outside','missing_command','command_type','job_id','run_ref','node_id','job_start','produced_after_ready','invalid_time','segment_hash','probe_hash','probe_frames','probe_errors','not_decodable','probe_input','decoder_build','nonzero_start','unbounded_span','bad_run_end','missing_job_event','job_event_identity','job_event_input','job_event_time','late_job_event','vmaf_raw_json','vmaf_raw_duplicate','vmaf_raw_missing','vmaf_raw_nonfinite','vmaf_raw_score','vmaf_invocation_model')
                 for mode in modes:
                     command_path.write_bytes(command_raw);frame_path.write_bytes(frame_raw)
@@ -4294,6 +4398,7 @@ class TestPocProgram(unittest.TestCase):
                 job['workerStartedAt']=worker_start;report['firstSegment'].update(segmentProducedAt=ready,firstPlayableAt=ready);probe['observedAt']=ready
                 next(m for m in data['measurements'] if m['id']=='first_segment_latency')['actual']=51
                 write_yaml(config_path,config_original);write_yaml(quality_path,quality_original);write_yaml(report_path,report);write_yaml(probe_path,probe);write_yaml(job_path,job)
+                self.prepare_first_playable_native_fixture(root,data,report['firstSegment']['segmentRef'].rsplit('/raw/',1)[0])
                 self.assertEqual(validate(data),[],profile)
                 next(m for m in data['measurements'] if m['id']=='first_segment_latency')['actual']=1
                 self.assertTrue(any('first_segment_latency must derive' in error for error in validate(data)),profile)
@@ -5294,6 +5399,7 @@ class TestPocProgram(unittest.TestCase):
                     self.refresh_qualified_observation_fixture(root,data);errors=[];CHECK.validate_qualified_hls_ready(root,plan,data,prefix,status,window,defs,errors,{});return errors
                 self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'}),[])
                 self.assertEqual(validate(copy.deepcopy(original)),[])
+                self.exercise_hls_sequence_native_regressions(root,original,validate,report_path)
                 files={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']};sequence_path=root/original_report['sequenceDecodeRef'];original_sequence=load_yaml(sequence_path);raw_probe_path=root/original_sequence['rawProbeRef'];original_raw=json.loads(raw_probe_path.read_text(encoding='utf8'))
                 for mode in ('missing','shape','policy','profile','job','epoch','input','coverage','duplicate','node','clock','exit','exit_bool','frames','owner','size','decode_hash','decode_error','decode_frames','decode_clock','state','snapshot_clock','hole','early_endlist','final_only','missing_intermediate','init_hash','init_owner','init_clock','init_decode','init_map','init_alias','before_start_state','caps_shape','assembly_shape','inventory_shape','fps_huge','fps_tiny','gate'):
                     if mode=='caps_shape' and profile=='production':continue
@@ -5395,6 +5501,7 @@ class TestPocProgram(unittest.TestCase):
                     if item['type']=='packet':item['dts']+=100
                     else:item['pkt_duration']=item.pop('duration')
                 raw['streams'][0]['codec_type']='video';body=json.dumps(raw).encode();raw_probe_path.write_bytes(body);sequence=copy.deepcopy(original_sequence);sequence['rawProbeSha256']='sha256:'+hashlib.sha256(body).hexdigest();write_yaml(sequence_path,sequence)
+                native_path=root/sequence['executionRef'];native=json.loads(native_path.read_bytes());native['stdoutSha256']=sequence['rawProbeSha256'];native_path.write_bytes(json.dumps(native).encode())
                 self.assertEqual(validate(copy.deepcopy(original)),[])
                 for file,body in files.items():file.write_bytes(body)
                 report=copy.deepcopy(original_report);report['initReadyAt']='2026-09-03T00:00:01Z';write_yaml(report_path,report);self.assertEqual(validate(copy.deepcopy(original)),[])
@@ -6205,6 +6312,68 @@ class TestPocProgram(unittest.TestCase):
                     index=self.make_profile_slot(root,'POC-008',profile,status=status);record=load_yaml(root/load_yaml(root/load_yaml(index)['resultRef'])['executionRef']);self.assertNotIn('frontendComparisonRef',record['environmentCaptured']);self.assertEqual(CHECK.validate_repository(root,profile,False,selected_pocs={'POC-08'}),[])
                 finally:temp.cleanup()
 
+    def exercise_media_retry_cancel_native_regressions(self,root,baseline,profile):
+        """Exact native retry/cancel inputs only; no validator refresh or actual execution."""
+        report_ref=baseline['environmentCaptured']['mediaNegativeRef'];report0=load_yaml(root/report_ref);prefix=Path(report_ref).parent.parent.as_posix()
+        plan=load_yaml(self.plan_path(root,'POC-002'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];saved={a['ref']:(root/a['ref']).read_bytes() for a in baseline['environmentCaptured']['rawExecutionArtifacts']}
+        def restore():
+            for ref,raw in saved.items():(root/ref).write_bytes(raw)
+        def put(data,ref,value,structured=False):
+            raw=yaml.safe_dump(value,sort_keys=False).encode() if structured else json.dumps(value).encode() if isinstance(value,dict) else value
+            (root/ref).write_bytes(raw);next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+            return 'sha256:'+hashlib.sha256(raw).hexdigest()
+        def validate(data,report):
+            put(data,report_ref,report,True);errors=[];window=tuple(CHECK.utc(data['environmentCaptured']['executionWindow'][k]) for k in ('startedAt','finishedAt'))
+            CHECK.validate_qualified_media_negative(root,plan,data,prefix,'pass',window,defs,errors,{})
+            return errors
+        try:
+            self.assertEqual(validate(copy.deepcopy(baseline),copy.deepcopy(report0)),[],profile)
+            for mode in ('retry_missing_native','retry_epoch','retry_build','retry_pid','retry_argv','retry_missing_frame','retry_packet','retry_duration','retry_clock','retry_arbitrary_bytes','cancel_missing_native','cancel_pid','cancel_command','cancel_input','cancel_epoch','cancel_not_alive','cancel_exit_pid','cancel_children','cancel_clock','cancel_leftover','cancel_partial_bytes','cancel_fake_removed'):
+                restore();data=copy.deepcopy(baseline);report=copy.deepcopy(report0);life=report['nodes'][0]['lifecycle'];probe=load_yaml(root/life['retryProbeRef']);native_ref=probe['executionRef'];run=json.loads((root/native_ref).read_bytes());raw=json.loads((root/run['stdoutRef']).read_bytes());cancel=json.loads((root/life['cancellationExecutionRef']).read_bytes())
+                if mode=='retry_missing_native':probe.pop('executionRef')
+                elif mode=='retry_epoch':run['identity']['attemptEpoch']+=1
+                elif mode=='retry_build':run['toolBuild']='unapproved-retry-decoder'
+                elif mode=='retry_pid':run['processId']='logical-process'
+                elif mode=='retry_argv':run['argv'][-1]='unrelated.mp4'
+                elif mode=='retry_missing_frame':raw['packets_and_frames'].pop()
+                elif mode=='retry_packet':raw['packets_and_frames'][0]['data_hash']='SHA256:'+'0'*64
+                elif mode=='retry_duration':probe['durationSeconds']+=1
+                elif mode=='retry_clock':run['finishedAt']='2026-09-03T00:04:04.003Z'
+                elif mode=='retry_arbitrary_bytes':
+                    body=b'Self-consistent arbitrary retry bytes';sha=put(data,life['publishedRef'],body);life['publishedSha256']=sha;probe['outputSha256']=sha;run['identity']['outputSha256']=sha;raw['format']['size']=str(len(body))
+                    trace=json.loads((root/life['completionExecutionRef']).read_bytes());state=json.loads((root/life['publicationReadbackRef']).read_bytes())
+                    for entry in trace['submissions']:
+                        if entry['request']['outputArtifactRef']==life['publishedRef']:entry['request']['outputSha256']=sha
+                    for snapshot in state['snapshots']:
+                        for record in snapshot['publications']+snapshot['terminalResults']:
+                            if record['outputArtifactRef']==life['publishedRef']:record['outputSha256']=sha
+                    life['completionExecutionSha256']=put(data,life['completionExecutionRef'],trace);life['publicationReadbackSha256']=put(data,life['publicationReadbackRef'],state)
+                elif mode=='cancel_missing_native':life.pop('cancellationExecutionRef')
+                elif mode=='cancel_pid':cancel['worker']['processId']='99999'
+                elif mode=='cancel_command':cancel['worker']['argv'][0]='unapproved-worker'
+                elif mode=='cancel_input':cancel['worker']['inputSha256']='sha256:'+'0'*64
+                elif mode=='cancel_epoch':cancel['attemptEpoch']+=1
+                elif mode=='cancel_not_alive':cancel['snapshots'][0]['processIds']=[]
+                elif mode=='cancel_exit_pid':cancel['worker']['exit']['processId']='99999'
+                elif mode=='cancel_children':cancel['worker']['exit']['remainingProcessIds']=['99999'];cancel['snapshots'][1]['processIds']=['99999']
+                elif mode=='cancel_clock':cancel['worker']['exit']['observedAt']='2026-09-03T00:04:06.001Z'
+                elif mode=='cancel_leftover':cancel['snapshots'][1]['files']=copy.deepcopy(cancel['snapshots'][0]['files'])
+                elif mode=='cancel_partial_bytes':cancel['snapshots'][0]['files'][0]['sha256']='sha256:'+'0'*64
+                elif mode=='cancel_fake_removed':
+                    item=copy.deepcopy(cancel['snapshots'][0]['files'][0]);item.update(area='quarantine',path='quarantine/partial.bin');cancel['snapshots'][1]['files']=[item]
+                run['stdoutSha256']=put(data,run['stdoutRef'],raw);put(data,native_ref,run);put(data,life['retryProbeRef'],probe,True)
+                cancel_ref=report0['nodes'][0]['lifecycle']['cancellationExecutionRef'];sha=put(data,cancel_ref,cancel);life['cancellationExecutionSha256']=sha
+                errors=validate(data,report);self.assertTrue(any('qualified media negative matrix' in e for e in errors),(profile,mode,errors))
+                if mode=='retry_arbitrary_bytes':self.assertTrue(any('retry native decode' in e for e in errors),errors)
+            # A native process may initialize/flush around the reported decode interval.
+            restore();data=copy.deepcopy(baseline);report=copy.deepcopy(report0);life=report['nodes'][0]['lifecycle'];probe=load_yaml(root/life['retryProbeRef']);run=json.loads((root/probe['executionRef']).read_bytes());run.update(startedAt='2026-09-03T00:04:03.999Z',finishedAt='2026-09-03T00:04:04.001500Z');put(data,probe['executionRef'],run)
+            self.assertEqual(validate(data,report),[],(profile,'retry initialization/flush'))
+            # Retained evidence remains immutable while the real attempt partial is quarantined.
+            restore();data=copy.deepcopy(baseline);report=copy.deepcopy(report0);life=report['nodes'][0]['lifecycle'];cancel=json.loads((root/life['cancellationExecutionRef']).read_bytes());item=copy.deepcopy(cancel['snapshots'][0]['files'][0]);item.update(area='quarantine',path='quarantine/partial.bin');cancel['snapshots'][1]['files']=[item];life['cancelledPartialDisposition']='quarantined';life['cancellationExecutionSha256']=put(data,life['cancellationExecutionRef'],cancel)
+            self.assertEqual(validate(data,report),[],(profile,'native quarantine'))
+        finally:restore()
+
+
     def test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -6213,6 +6382,7 @@ class TestPocProgram(unittest.TestCase):
                 def validate(data):
                     self.refresh_qualified_observation_fixture(root,data);write_yaml(path,data);return CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})
                 self.assertEqual(validate(copy.deepcopy(original)),[])
+                self.exercise_media_retry_cancel_native_regressions(root,original,profile)
                 for mode in ('missing','arbitrary','policy','profile','input','job','version','node','missing_target','target','input_read','denied_outbound','missing_limit','not_exceeded','multiple_exceeded','termination','limit_cleanup','limit_publish','elapsed_clock','partial_empty','retry_job','old_epoch','lifecycle_clock','duplicate_terminal','cancel_process','cancel_before','cancel_partial_empty','cancel_job','cancel_cleanup','cancel_publish','cancel_partial','published_hash','missing_probe','probe_output','probe_input','probe_node','probe_build','probe_decoder','probe_codec','probe_frames','probe_errors','probe_epoch','probe_clock','missing_fencing','late_publish','duplicate_result','completion_epoch','missing_seek','stale_slots','revoked_bytes','seek_epoch','seek_grant','missing_hls','cross_user','expired_grant','revoked_decision','origin_read','cache_hash','hls_version','hls_acl','hls_time','gate'):
                     for file,raw in files.items():file.write_bytes(raw)
                     data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);policy=config['configuration']['mediaNegativePolicy'];row=report['nodes'][0];target=row['deniedTargets'][0];limit=row['limitCases'][0];life=row['lifecycle'];seek=row['seekCases'][1];access=report['accessCases'][1]

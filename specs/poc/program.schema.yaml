@@ -1376,6 +1376,7 @@ $defs:
       operation:
         enum:
         - decode
+        - encode
         - mux
         - vmaf
         - telemetry
@@ -8083,7 +8084,23 @@ $defs:
     - encoderBuild
     - encoderParameters
     - inputSamples
+    - firstSegmentEncoderArgs
+    - jobObserverBuild
+    - jobObserverClockDomainId
+    - jobObserverCommandArgs
     properties:
+      firstSegmentEncoderArgs:
+        type: array
+        minItems: 1
+        maxItems: 112
+        items: {type: string, minLength: 1}
+      jobObserverBuild: {type: string, minLength: 1}
+      jobObserverClockDomainId: {type: string, minLength: 1}
+      jobObserverCommandArgs:
+        type: array
+        minItems: 1
+        maxItems: 120
+        items: {type: string, minLength: 1}
       modelRef:
         type: string
         minLength: 1
@@ -8196,7 +8213,9 @@ $defs:
         - sourceStartFrame
         - sourceEndFrame
         - decodeRef
+        - encodeExecutionRef
         properties:
+          encodeExecutionRef: {type: string, minLength: 1}
           encodeRunRef:
             type: string
             minLength: 1
@@ -8327,7 +8346,9 @@ $defs:
     - codec
     - decodable
     - observedAt
+    - executionRef
     properties:
+      executionRef: {type: string, minLength: 1}
       schemaVersion:
         type: integer
         const: 1
@@ -8388,7 +8409,9 @@ $defs:
     - nodeId
     - jobStartedAt
     - workerStartedAt
+    - nativeExecutionRef
     properties:
+      nativeExecutionRef: {type: string, minLength: 1}
       configurationRef:
         type: string
         minLength: 1
@@ -12033,6 +12056,8 @@ $defs:
     - targetCommandArgs
     - completionCommandArgs
     - publicationReadbackArgs
+    - cancellationCommandArgs
+    - cancelWorkerCommandArgs
     properties:
       controlObserverBuild: {type: string, minLength: 1}
       targetCommandArgs:
@@ -12045,6 +12070,8 @@ $defs:
         minItems: 1
         maxItems: 128
         items: {type: string, minLength: 1}
+      cancellationCommandArgs: {type: array, minItems: 1, maxItems: 128, items: {type: string, minLength: 1}}
+      cancelWorkerCommandArgs: {type: array, minItems: 1, maxItems: 128, items: {type: string, minLength: 1}}
       publicationReadbackArgs:
         type: array
         minItems: 1
@@ -12472,7 +12499,11 @@ $defs:
               - completionExecutionSha256
               - publicationReadbackRef
               - publicationReadbackSha256
+              - cancellationExecutionRef
+              - cancellationExecutionSha256
               properties:
+                cancellationExecutionRef: {type: string, minLength: 1}
+                cancellationExecutionSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
                 completionExecutionRef: {type: string, minLength: 1}
                 completionExecutionSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
                 publicationReadbackRef: {type: string, minLength: 1}
@@ -12759,10 +12790,207 @@ $defs:
             responseSha256:
               type: string
               pattern: ^sha256:[0-9a-f]{64}$
+  mediaCancellationExecution:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - context
+    - identity
+    - observerBuild
+    - processId
+    - argv
+    - startedAt
+    - finishedAt
+    - exitCode
+    - jobId
+    - attemptEpoch
+    - partialArtifactRef
+    - partialSha256
+    - partialPath
+    - partialCreatedAt
+    - cancelRequestedAt
+    - worker
+    - snapshots
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: media_cancellation_execution
+      context:
+        type: object
+        minProperties: 1
+      identity:
+        type: object
+        minProperties: 1
+      observerBuild:
+        type: string
+        minLength: 1
+      processId:
+        type: string
+        pattern: ^[1-9][0-9]{0,9}$
+      argv:
+        type: array
+        minItems: 1
+        maxItems: 136
+        items:
+          type: string
+          minLength: 1
+      startedAt:
+        type: string
+        format: date-time
+      finishedAt:
+        type: string
+        format: date-time
+      exitCode:
+        type: integer
+      jobId:
+        type: string
+        minLength: 1
+      attemptEpoch:
+        type: integer
+        minimum: 1
+      partialArtifactRef:
+        type: string
+        minLength: 1
+      partialSha256:
+        type: string
+        pattern: ^sha256:[a-f0-9]{64}$
+      partialPath:
+        type: string
+        minLength: 1
+        maxLength: 1024
+      partialCreatedAt:
+        type: string
+        format: date-time
+      cancelRequestedAt:
+        type: string
+        format: date-time
+      worker:
+        type: object
+        additionalProperties: false
+        required:
+        - processId
+        - argv
+        - encoderBuild
+        - inputSha256
+        - startedAt
+        - exit
+        properties:
+          processId:
+            type: string
+            pattern: ^[1-9][0-9]{0,9}$
+          argv:
+            type: array
+            minItems: 1
+            maxItems: 138
+            items:
+              type: string
+              minLength: 1
+          encoderBuild:
+            type: string
+            minLength: 1
+          inputSha256:
+            type: string
+            pattern: ^sha256:[a-f0-9]{64}$
+          startedAt:
+            type: string
+            format: date-time
+          exit:
+            type: object
+            additionalProperties: false
+            required:
+            - processId
+            - observedAt
+            - exitCode
+            - reason
+            - remainingProcessIds
+            properties:
+              processId:
+                type: string
+                pattern: ^[1-9][0-9]{0,9}$
+              observedAt:
+                type: string
+                format: date-time
+              exitCode:
+                type: integer
+              reason:
+                const: cancelled
+              remainingProcessIds:
+                type: array
+                maxItems: 1024
+                uniqueItems: true
+                items:
+                  type: string
+                  pattern: ^[1-9][0-9]{0,9}$
+      snapshots:
+        type: array
+        minItems: 2
+        maxItems: 2
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - phase
+          - observedAt
+          - processIds
+          - files
+          - publishedArtifactIds
+          properties:
+            phase:
+              enum:
+              - before_cancel
+              - cleanup
+            observedAt:
+              type: string
+              format: date-time
+            processIds:
+              type: array
+              maxItems: 1024
+              uniqueItems: true
+              items:
+                type: string
+                pattern: ^[1-9][0-9]{0,9}$
+            files:
+              type: array
+              maxItems: 4096
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - path
+                - area
+                - byteCount
+                - sha256
+                properties:
+                  path:
+                    type: string
+                    minLength: 1
+                    maxLength: 1024
+                  area:
+                    enum:
+                    - temporary
+                    - output
+                    - quarantine
+                  byteCount:
+                    type: integer
+                    minimum: 0
+                  sha256:
+                    type: string
+                    pattern: ^sha256:[a-f0-9]{64}$
+            publishedArtifactIds:
+              type: array
+              maxItems: 1024
+              uniqueItems: true
+              items:
+                type: string
+                minLength: 1
   mediaRetryDecodeObservation:
     type: object
     additionalProperties: false
     required:
+    - executionRef
     - schemaVersion
     - kind
     - nodeId
@@ -12783,6 +13011,7 @@ $defs:
     - startedAt
     - finishedAt
     properties:
+      executionRef: {type: string, minLength: 1}
       schemaVersion:
         type: integer
         const: 1
@@ -19311,8 +19540,9 @@ $defs:
   hlsSequenceDecodeObservation:
     type: object
     additionalProperties: false
-    required: [schemaVersion, kind, configurationRef, acceptanceProfile, subjectVersion, inputSamples, jobId, attemptEpoch, inputSampleId, inputSha256, initArtifactRef, initSha256, parts, encoderParameters, streamParameters, decoderBuild, outputArtifactRef, outputSha256, outputByteCount, rawProbeRef, rawProbeSha256, stderrRef, stderrSha256, command, startedAt, finishedAt, exitCode, decodedFrameCount, decodeErrorCount]
+    required: [schemaVersion, kind, configurationRef, acceptanceProfile, subjectVersion, inputSamples, jobId, attemptEpoch, inputSampleId, inputSha256, initArtifactRef, initSha256, parts, encoderParameters, streamParameters, decoderBuild, outputArtifactRef, outputSha256, outputByteCount, rawProbeRef, rawProbeSha256, stderrRef, stderrSha256, command, executionRef, startedAt, finishedAt, exitCode, decodedFrameCount, decodeErrorCount]
     properties:
+      executionRef: {type: string, minLength: 1}
       schemaVersion: {const: 1}
       kind: {const: hls_sequence_decode_observation}
       configurationRef: {type: string, minLength: 1}
@@ -19405,7 +19635,7 @@ $defs:
       rawProbeSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
       stderrRef: {type: string, minLength: 1}
       stderrSha256: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
-      command: {type: array, minItems: 11, maxItems: 11, items: {type: string, minLength: 1}}
+      command: {type: array, minItems: 15, maxItems: 15, items: {type: string, minLength: 1}}
       startedAt: {type: string, format: date-time}
       finishedAt: {type: string, format: date-time}
       exitCode: {type: integer}
@@ -20860,3 +21090,25 @@ $defs:
             monotonicSeconds:
               type: number
               minimum: 0
+  mediaFirstPlayableTimeline:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, identity, processId, clockDomainId, events]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: media_first_playable_timeline}
+      identity: {type: object, minProperties: 1}
+      processId: {type: string, pattern: '^[1-9][0-9]{0,9}$'}
+      clockDomainId: {type: string, minLength: 1}
+      events:
+        type: array
+        minItems: 4
+        maxItems: 4
+        items:
+          type: object
+          additionalProperties: false
+          required: [type, observedAt, monotonicNs]
+          properties:
+            type: {enum: [job_started, worker_started, segment_produced, first_playable]}
+            observedAt: {type: string, format: date-time}
+            monotonicNs: {type: integer, minimum: 0, maximum: 18446744073709551615}
