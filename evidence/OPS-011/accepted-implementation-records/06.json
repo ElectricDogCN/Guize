@@ -1,0 +1,136 @@
+[
+  {
+    "label": "identity",
+    "argv": [
+      "python",
+      "-c",
+      "import importlib.util,sys\ndef load(name,path):\n    spec=importlib.util.spec_from_file_location(name,path); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module); return module\ntask,reference,merge=sys.argv[1:]\ni=load('actual_integrity','scripts/check-program-plan-integrity.py'); h=load('actual_history','scripts/check-program-plan-history.py')\nerrors=i.commit_identity_errors('.',merge,task,reference,'Actual implementation')\nh.validate_commit('.',merge,task,reference,'Actual implementation',errors)\nassert not errors,errors\nprint('PASS: actual implementation Task/PR/merge identity accepted by both existing entries')\n",
+      "OPS-011",
+      "PR-111",
+      "9de3656325bc9b8053f99489c64db1ccbb4c5d79"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T21:27:23.811807+00:00",
+    "rawLog": "identity.txt",
+    "pid": 1574546,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T21:27:24.058116+00:00",
+    "rawSha256": "95b97274493e7942547bcef87d24db60288efae9ba7483c771e24fd1285816a3",
+    "rawByteCount": 950
+  },
+  {
+    "label": "integrity",
+    "argv": [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T21:27:24.076555+00:00",
+    "rawLog": "integrity.txt",
+    "pid": 1574553,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T21:27:24.702492+00:00",
+    "rawSha256": "6f41ce29bc4167ead70b87a455145db49b05c5189344b99d0af8df41c57f76b3",
+    "rawByteCount": 418
+  },
+  {
+    "label": "history",
+    "argv": [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "main"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T21:27:24.718460+00:00",
+    "rawLog": "history.txt",
+    "pid": 1574614,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T21:27:31.985822+00:00",
+    "rawSha256": "dca61abe58c73680408f0b6e3d56f6b6eb64b7d1fcf5927abbffe83d6fdedd12",
+    "rawByteCount": 521
+  },
+  {
+    "label": "transitions",
+    "argv": [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "main"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T21:27:32.002903+00:00",
+    "rawLog": "transitions.txt",
+    "pid": 1575104,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T21:27:35.462355+00:00",
+    "rawSha256": "63db96ebfaa204ba0ef1f921738e0c568d2efdd745ffd2ed787e1052c697bd4c",
+    "rawByteCount": 438
+  },
+  {
+    "label": "raw-lifecycle",
+    "argv": [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "main"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T21:27:35.478448+00:00",
+    "rawLog": "raw-lifecycle.txt",
+    "pid": 1575344,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T21:27:39.285997+00:00",
+    "rawSha256": "9eb99190fea7e5ef27976984eb92c80cc517195af0e19bf5f3bedf6df79d66d2",
+    "rawByteCount": 505
+  },
+  {
+    "label": "coordination",
+    "argv": [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "main"
+    ],
+    "cwd": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "startedAt": "2026-10-20T21:27:39.307261+00:00",
+    "rawLog": "coordination.txt",
+    "pid": 1575554,
+    "exitCode": 1,
+    "waitCompleted": true,
+    "completedAt": "2026-10-20T21:27:39.692248+00:00",
+    "rawSha256": "2b242d0af758c704b4b0797ab158e1b913013a7eb7de2a2c5d31af768ce48303",
+    "rawByteCount": 347
+  }
+]

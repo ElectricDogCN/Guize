@@ -1,0 +1,401 @@
+{
+  "kind": "OPS011_IMPLEMENTATION_FINAL_SOURCE_ADMISSION",
+  "observedAt": "2026-10-20T21:25:01.915801+00:00",
+  "source": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+  "actualSource": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+  "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+  "parent": "b42e5c8900ae3f39ec9f63762111185594455fb2",
+  "base": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+  "main": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+  "branch": "chore/OPS-011-agent-edge-104-scope",
+  "pr": 111,
+  "content": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-independent-same-head-content.json",
+    "sha256": "bfb2f5a57f956e6db6f71cc6a7282141dd35f015c0b385fc656edb3a6e6ddac7",
+    "byteCount": 35369
+  },
+  "ci": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-ci753-independent-review.json",
+    "sha256": "157a69c8278119e56e7da3d98cc6aa5eeab8157756923caf3e01bb5d1b674a66",
+    "byteCount": 9941
+  },
+  "local15": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/verification-worktrees.json",
+    "sha256": "3e919616d9c5a21e0b52198554a1e2a1db4bd3c720b637ff52fd4ec7e78ddd4d",
+    "byteCount": 18744
+  },
+  "executionEntry": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/execution-entry.json",
+    "sha256": "9768e24c25ea2646c1155812ea871a184a7d0768757f89f7e330dfb316f1bedc",
+    "byteCount": 8612
+  },
+  "executedScript": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/verify_ops011_implementation_lazy_successor.py",
+    "sha256": "010644fde9b949330095158212a7e81bb44b59ba4db348b13125615dad29f89f",
+    "byteCount": 14736
+  },
+  "commandExecutions": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/command-executions.json",
+    "sha256": "8cf57426b2ec7f6d0da47beacbce5112ef1f7defa811a9faded65ec9b1cf1f33",
+    "byteCount": 9164
+  },
+  "status": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/status.json",
+    "sha256": "4dd7afe8c35eeebeff34337c8871f4319f15423a0db4ab66879fbe2b02f62f32",
+    "byteCount": 258
+  },
+  "junit": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/make-governance.xml",
+    "sha256": "30f900c94eb70e8a693c2aafedbf09b1325d172552e17ca80f281b67d06f3224",
+    "byteCount": 107782
+  },
+  "commands": [
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/diff.txt",
+      "sha256": "192cae456f5b0f02053295a5064194cd47919d3760fd7c29a1a3cbdd8c30cd25",
+      "byteCount": 144,
+      "label": "diff",
+      "pid": 1470161,
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87...HEAD"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/task.txt",
+      "sha256": "daccea18dcb600768e33487ad6819923f4669d1362d76ffe7420679b1205abc4",
+      "byteCount": 267,
+      "label": "task",
+      "pid": 1470162,
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-011"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/readiness.txt",
+      "sha256": "a91cba3ffc5a50ae052023aa96598ace5da445d65fc0b8162489f34fa0ef50f6",
+      "byteCount": 660,
+      "label": "readiness",
+      "pid": 1470163,
+      "argv": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/schemas.txt",
+      "sha256": "dcf6cb2102de3a15bb97716903f7d297359891d7b2cbc65b571be6390090cc67",
+      "byteCount": 1811,
+      "label": "schemas",
+      "pid": 1470544,
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/integrity.txt",
+      "sha256": "20e41f27548902633b7f949aebb9361b21ef8a6f3dce85e89cd21c566c9c0636",
+      "byteCount": 418,
+      "label": "integrity",
+      "pid": 1470551,
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/history.txt",
+      "sha256": "1d3d7179e60914db6801e82232033f408697a6f02431825343562392116d3b8f",
+      "byteCount": 479,
+      "label": "history",
+      "pid": 1470612,
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "chore/OPS-011-agent-edge-104-scope"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/transitions.txt",
+      "sha256": "8a0c3b6499bbb141fdf8044635b9a907aa950941bc11fe303faed985fc264b8a",
+      "byteCount": 432,
+      "label": "transitions",
+      "pid": 1471045,
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "chore/OPS-011-agent-edge-104-scope"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/finalization.txt",
+      "sha256": "4135a2eaef931810b257e8ff09edb04d9eb389df655ec8599580d5e21cf76a51",
+      "byteCount": 361,
+      "label": "finalization",
+      "pid": 1471291,
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-011"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/raw-lifecycle.txt",
+      "sha256": "7900da6871c4d13673471468c6db243881c3751cce978e08f17237079c4bdd10",
+      "byteCount": 499,
+      "label": "raw-lifecycle",
+      "pid": 1471296,
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "chore/OPS-011-agent-edge-104-scope"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/lifecycle.txt",
+      "sha256": "1460b1059dd11417e5bd80a69735a75ca1e192108824dcc93ed0e4f328344c1b",
+      "byteCount": 590,
+      "label": "lifecycle",
+      "pid": 1471512,
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "chore/OPS-011-agent-edge-104-scope"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/coordination.txt",
+      "sha256": "d3aa067500ba67a3df0073cb319a5304d7357bb4fc8264c7269e3027be6d24f1",
+      "byteCount": 391,
+      "label": "coordination",
+      "pid": 1471730,
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-011",
+        "--branch-name",
+        "chore/OPS-011-agent-edge-104-scope"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/scope.txt",
+      "sha256": "cd82e013dde231122ffe59bc12c6184c167203bdc19f40d95448949f3bf77cdb",
+      "byteCount": 9987,
+      "label": "scope",
+      "pid": 1471739,
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "OPS-011",
+        "--base",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/evidence.txt",
+      "sha256": "89875f5e5a72209e5502f0e789bab35a4a811b52fced9d2ae4077dd34d3ca7ae",
+      "byteCount": 198,
+      "label": "evidence",
+      "pid": 1472667,
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "OPS-011"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/verify.txt",
+      "sha256": "d9bcee9e12f41d666aa1a85e67414cde3228d6596d9c018db087d11b6813cfc9",
+      "byteCount": 108559,
+      "label": "verify",
+      "pid": 1472668,
+      "argv": [
+        "make",
+        "verify",
+        "TASK=OPS-011",
+        "BASE=39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "HEAD_REF=HEAD",
+        "BRANCH=chore/OPS-011-agent-edge-104-scope"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-results/docs.txt",
+      "sha256": "4cc9db435271978a5bc44de3b922cc2c7d0b16a2fb2d1232e150ab1a8e1c5c24",
+      "byteCount": 164,
+      "label": "docs",
+      "pid": 1572851,
+      "argv": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "waitCompleted": true,
+      "exitCode": 0
+    }
+  ],
+  "controllerTerminal": {
+    "session": 5784,
+    "toolChunk": "e88776",
+    "windowsControllerPid": 117364,
+    "nativeEntryPid": 1470082,
+    "makePid": 1472668,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "confirmation": "Sourceworker explicitly reported natural CLOSED0 and root relayed it after final proof creation; no intervention/retry."
+  },
+  "localTests": {
+    "tests": 681,
+    "uniquePassedRows": 681,
+    "uniqueJunitCases": 681,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "summaryCount": 1,
+    "reportedSeconds": 1176.36
+  },
+  "requiredCommands": 15,
+  "allCommandWaitsCompleted": true,
+  "allExitZero": true,
+  "nativeFilesystem": "ext2/ext3",
+  "temporaryFilesystem": "ext2/ext3",
+  "beforeAfterCleanUnchanged": true,
+  "freshWindowsIdentity": {
+    "source": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+    "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+    "parent": "b42e5c8900ae3f39ec9f63762111185594455fb2",
+    "branch": "chore/OPS-011-agent-edge-104-scope",
+    "main": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+    "status": ""
+  },
+  "freshNativeIdentity": {
+    "source": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+    "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+    "parent": "b42e5c8900ae3f39ec9f63762111185594455fb2",
+    "branch": "chore/OPS-011-agent-edge-104-scope",
+    "main": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+    "status": ""
+  },
+  "officialFresh": {
+    "pr": {
+      "number": 111,
+      "state": "open",
+      "merged": false,
+      "head": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+      "base": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "headRef": "chore/OPS-011-agent-edge-104-scope",
+      "mergeable": true,
+      "mergeableState": "clean",
+      "url": "https://github.com/ElectricDogCN/Guize/pull/111"
+    },
+    "threads": [
+      {
+        "id": "PRRT_kwDOTgCQ3c6ufixa",
+        "isResolved": false,
+        "path": "scripts/program-planning-revision.py",
+        "line": 332,
+        "commentIds": [
+          4329437574
+        ]
+      }
+    ]
+  },
+  "P1resolveEligible": true,
+  "knownThreadDisposition": {
+    "threadId": "PRRT_kwDOTgCQ3c6ufixa",
+    "fixedInThisSource": true,
+    "resolvedAtObservation": false,
+    "resolutionPerformedByReviewer": false,
+    "reason": "Pinned content fix plus complete local681 and CI681 pass; no new unresolved thread observed."
+  },
+  "sourceGateAccepted": true,
+  "localAccepted": true,
+  "ciAccepted": true,
+  "sourceAccepted": true,
+  "formalSourceAccepted": true,
+  "finalIntegrationApproved": true,
+  "mergeApproved": true,
+  "mustFix": [],
+  "mergeExecutionGuard": "Root may resolve the fixed P1 and perform normal merge only with EXPECTED_HEAD equal to this source and fresh unchanged base/integration conditions. Reviewer did not resolve or merge.",
+  "actualMainAccepted": false,
+  "mechanismMainAccepted": false,
+  "runtimeAccepted": false,
+  "formalPOCAccepted": false,
+  "fullV1Complete": false,
+  "boundary": "Current source implementation content/local15/CI admission only. Prior failed/cancelled source runs remain historical. No actual-main/Review/Completion/business/POC/device execution or fullV1 acceptance transferred.",
+  "actions": "Read-only current receipts,15 complete raw files,entry/argv/PIDs/waits/footers/JUnit and fresh Git/PR/thread identities. No tests,validators,code/archive semantic re-audit,source/index/ref or external thread mutation."
+}
