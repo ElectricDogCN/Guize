@@ -1410,3 +1410,15 @@ def test_definition_schema_requires_complete_fixed_requirement_document(case):
         changed["requirementDocument"]["content"] = 7
     with pytest.raises(jsonschema.ValidationError):
         validator.validate(changed)
+
+
+def test_program_schema_validation_error_remains_a_classified_rejection(history):
+    history.apply()
+    history.plan["unexpectedTopLevelField"] = True
+    head = history.finish()
+    assert PLANNING.document(str(history.root), head, PLANNING.PLAN)["unexpectedTopLevelField"] is True
+    decision, errors = history.decision()
+    assert decision is None
+    assert any(error.startswith("Planning revision rejected:") and
+               "Additional properties are not allowed" in error and
+               "unexpectedTopLevelField" in error for error in errors)

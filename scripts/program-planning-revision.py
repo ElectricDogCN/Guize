@@ -651,8 +651,13 @@ def validate_new_consumers(root: str, base_ref: str, head_ref: str, before: dict
 
 def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any], errors: list[str], *, owner_hint: str = "", observed_at: datetime | None = None, admitted_base_ref: str | None = None) -> dict[str, Any] | None:
     """Return only a fully authenticated exact transaction projection."""
-    import jsonschema
-    from referencing import Registry, Resource
+    schema_errors = ()
+    def schema_machinery():
+        nonlocal schema_errors
+        import jsonschema
+        from referencing import Registry, Resource
+        schema_errors = (jsonschema.ValidationError, jsonschema.SchemaError)
+        return jsonschema, Registry, Resource
 
     try:
         old_tasks, new_tasks = records(before.get("tasks", [])), records(after.get("tasks", []))
@@ -671,6 +676,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         if after.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined" and (
             scope_changed or changed_paths(root, base_ref, head_ref) & {EDGE_PATHS["requirements"], EDGE_PATHS["requirementIndex"], EDGE_PATHS["acceptanceIndex"]}
         ):
+            jsonschema, Registry, Resource = schema_machinery()
             validate_frozen_edge_catalogs(root, admitted_base_ref or base_ref, head_ref, after)
         if definitions(real_before) == definitions(real_after) and baseline_view(real_before) == baseline_view(real_after) and not scope_changed:
             # No projection or planning permission is supplied. Ordinary
@@ -722,6 +728,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         require(manifest.get("taskId") == owner and manifest.get("reservationParent") == parent, "Manifest owner/registration parent mismatch")
         program_schema = document(root, head, PROGRAM_SCHEMA)
         manifest_schema = document(root, head, MANIFEST_SCHEMA)
+        jsonschema, Registry, Resource = schema_machinery()
         registry = Registry().with_resources([(program_schema["$id"], Resource.from_contents(program_schema)), (manifest_schema["$id"], Resource.from_contents(manifest_schema))])
         schema_ref = manifest_schema["$id"]
         if path == FIRST_USE:
@@ -809,7 +816,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             if row["taskId"] == owner:
                 row["status"] = entry["status"]
         return {"owner": owner, "registration": registration, "targetTaskIds": target_ids, "projectedPlan": projected}
-    except (PlanningError, OSError, ValueError, KeyError, TypeError, jsonschema.ValidationError, jsonschema.SchemaError) as exc:
+    except (PlanningError, OSError, ValueError, KeyError, TypeError) + schema_errors as exc:
         errors.append(f"Planning revision rejected: {exc}")
         return None
 

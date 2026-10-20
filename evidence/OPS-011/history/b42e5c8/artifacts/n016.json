@@ -1,0 +1,241 @@
+{
+  "kind": "OPS011_IMPLEMENTATION_FIFTEEN_GATES_ENTRY",
+  "source": "b42e5c8900ae3f39ec9f63762111185594455fb2",
+  "tree": "1365e512ec22387bd6e53e19899286c0e78ac1d9",
+  "soleParent": "d1abcb7c6a529d7cbdf94ee429ef42fab64f0e2a",
+  "base": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+  "branch": "chore/OPS-011-agent-edge-104-scope",
+  "taskImplementationBranch": "chore/OPS-011-agent-edge-104-scope",
+  "scopeStage": "implementation",
+  "exclusivePaths": [
+    "specs/coordination/program-plan.yaml",
+    "specs/coordination/program-plan.schema.yaml",
+    "specs/coordination/planning-revision.schema.yaml",
+    "specs/coordination/active-work.schema.yaml",
+    "specs/coordination/README.md",
+    "scripts/program-planning-revision.py",
+    "scripts/check-program-plan-integrity.py",
+    "scripts/check-program-plan-transitions.py",
+    "scripts/check-project-readiness.py",
+    "scripts/check-task-file.py",
+    "tests/governance/test_program_planning_revision.py",
+    "tests/governance/test_program_plan_execution_integrity.py",
+    "tests/governance/test_program_plan_transitions.py",
+    "tests/governance/test_check_project_readiness.py",
+    "tests/governance/test_check_task_file.py",
+    "scripts/check-program-plan-history.py"
+  ],
+  "pid": 1359977,
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/verify_ops011_implementation_loader_successor.py",
+    "--repo",
+    "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+    "--source",
+    "b42e5c8900ae3f39ec9f63762111185594455fb2",
+    "--tree",
+    "1365e512ec22387bd6e53e19899286c0e78ac1d9",
+    "--parent",
+    "d1abcb7c6a529d7cbdf94ee429ef42fab64f0e2a",
+    "--base",
+    "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+    "--branch",
+    "chore/OPS-011-agent-edge-104-scope",
+    "--output",
+    "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-b42e5c8-results"
+  ],
+  "startedAt": "2026-10-20T20:14:44.951979+00:00",
+  "scriptSha256": "7413917af95dbd73053e216e9b06b425331ed16c2d9903fc9c01a4f968d66f49",
+  "nativeFilesystemType": "ext2/ext3",
+  "temporaryFilesystemType": "ext2/ext3",
+  "executionRepoBefore": {
+    "authoring": {
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree",
+      "source": "b42e5c8900ae3f39ec9f63762111185594455fb2",
+      "tree": "1365e512ec22387bd6e53e19899286c0e78ac1d9",
+      "parent": "d1abcb7c6a529d7cbdf94ee429ef42fab64f0e2a",
+      "branch": "chore/OPS-011-agent-edge-104-scope",
+      "main": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "status": "",
+      "physicalFiles": {
+        "specs/tasks/OPS-011.md": {
+          "sha256": "9f556fc780c6fa1c5e286ce23d5db733108bf0da65687c3b0e49c104a4fe9433",
+          "canonicalLfSha256": "9f556fc780c6fa1c5e286ce23d5db733108bf0da65687c3b0e49c104a4fe9433"
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "28428ca71fadd9f839394b4a3257f59793cbcfcd49365043b219d4216e892db7",
+          "canonicalLfSha256": "28428ca71fadd9f839394b4a3257f59793cbcfcd49365043b219d4216e892db7"
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "d5e1c37d5f81ff21758ab9e945c8e5b6dde50b3875a8152d32951c0dbf0dd42c",
+          "canonicalLfSha256": "d5e1c37d5f81ff21758ab9e945c8e5b6dde50b3875a8152d32951c0dbf0dd42c"
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "cdfd46015458ede209c5e42db994abe2405b60fa0dd0bb96d27fe878b9fc0e6f",
+          "canonicalLfSha256": "cdfd46015458ede209c5e42db994abe2405b60fa0dd0bb96d27fe878b9fc0e6f"
+        }
+      }
+    },
+    "verification": {
+      "path": "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+      "source": "b42e5c8900ae3f39ec9f63762111185594455fb2",
+      "tree": "1365e512ec22387bd6e53e19899286c0e78ac1d9",
+      "parent": "d1abcb7c6a529d7cbdf94ee429ef42fab64f0e2a",
+      "branch": "chore/OPS-011-agent-edge-104-scope",
+      "main": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "status": "",
+      "physicalFiles": {
+        "specs/tasks/OPS-011.md": {
+          "sha256": "9f556fc780c6fa1c5e286ce23d5db733108bf0da65687c3b0e49c104a4fe9433",
+          "canonicalLfSha256": "9f556fc780c6fa1c5e286ce23d5db733108bf0da65687c3b0e49c104a4fe9433"
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "28428ca71fadd9f839394b4a3257f59793cbcfcd49365043b219d4216e892db7",
+          "canonicalLfSha256": "28428ca71fadd9f839394b4a3257f59793cbcfcd49365043b219d4216e892db7"
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "d5e1c37d5f81ff21758ab9e945c8e5b6dde50b3875a8152d32951c0dbf0dd42c",
+          "canonicalLfSha256": "d5e1c37d5f81ff21758ab9e945c8e5b6dde50b3875a8152d32951c0dbf0dd42c"
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "cdfd46015458ede209c5e42db994abe2405b60fa0dd0bb96d27fe878b9fc0e6f",
+          "canonicalLfSha256": "cdfd46015458ede209c5e42db994abe2405b60fa0dd0bb96d27fe878b9fc0e6f"
+        }
+      }
+    }
+  },
+  "commands": {
+    "diff": [
+      "git",
+      "diff",
+      "--check",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87...HEAD"
+    ],
+    "task": [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "OPS-011"
+    ],
+    "readiness": [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    "schemas": [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    "integrity": [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87"
+    ],
+    "history": [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope"
+    ],
+    "transitions": [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope"
+    ],
+    "finalization": [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011"
+    ],
+    "raw-lifecycle": [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope"
+    ],
+    "lifecycle": [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope"
+    ],
+    "coordination": [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-011",
+      "--branch-name",
+      "chore/OPS-011-agent-edge-104-scope"
+    ],
+    "scope": [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "OPS-011",
+      "--base",
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87"
+    ],
+    "evidence": [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "OPS-011"
+    ],
+    "verify": [
+      "make",
+      "verify",
+      "TASK=OPS-011",
+      "BASE=39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "HEAD_REF=HEAD",
+      "BRANCH=chore/OPS-011-agent-edge-104-scope"
+    ],
+    "docs": [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  },
+  "parentExecutionNotTransferred": true,
+  "executionAccepted": false
+}
