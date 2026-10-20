@@ -246,7 +246,7 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
         if os.path.exists(program_path):
             try:
                 with open(program_path, encoding="utf-8") as handle:
-                    plan = yaml.safe_load(handle)
+                    plan = yaml.load(handle, Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
                 specification = importlib.util.spec_from_file_location("task_file_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py"))
                 planning = importlib.util.module_from_spec(specification)
                 specification.loader.exec_module(planning)
