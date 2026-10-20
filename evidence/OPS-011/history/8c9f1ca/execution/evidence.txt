@@ -1,0 +1,5 @@
+Source Commit: 8c9f1ca91ab34409023d5998a0ba214a81bf9d26
+Command: python scripts/check-evidence.py --task OPS-011
+{"status": "PASS", "message": "Evidence contract passed for OPS-011."}
+
+Exit Code: 0

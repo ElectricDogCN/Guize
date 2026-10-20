@@ -1,0 +1,138 @@
+{
+  "source": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+  "tree": "793848250ce9313a30923b95765b52b1d3023f3a",
+  "base": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+  "failedGate": "verify",
+  "exitCode": -2,
+  "observedAt": "2026-10-20T16:49:06.858965+00:00",
+  "executionRepoBefore": {
+    "authoring": {
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree",
+      "source": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+      "tree": "793848250ce9313a30923b95765b52b1d3023f3a",
+      "parent": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "branch": "chore/OPS-011-agent-edge-104-scope-registration",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "physicalFiles": {
+        "specs/tasks/OPS-011.md": {
+          "sha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+          "canonicalLfSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339"
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051"
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+          "canonicalLfSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d"
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "1cf45b0a2cedb34a71c4372a207afd7f11f1364d1e53aaa8f94dc28d510421e4",
+          "canonicalLfSha256": "1cf45b0a2cedb34a71c4372a207afd7f11f1364d1e53aaa8f94dc28d510421e4"
+        }
+      }
+    },
+    "verification": {
+      "path": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "source": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+      "tree": "793848250ce9313a30923b95765b52b1d3023f3a",
+      "parent": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "branch": "chore/OPS-011-agent-edge-104-scope-registration",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "physicalFiles": {
+        "specs/tasks/OPS-011.md": {
+          "sha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+          "canonicalLfSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339"
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051"
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+          "canonicalLfSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d"
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "1cf45b0a2cedb34a71c4372a207afd7f11f1364d1e53aaa8f94dc28d510421e4",
+          "canonicalLfSha256": "1cf45b0a2cedb34a71c4372a207afd7f11f1364d1e53aaa8f94dc28d510421e4"
+        }
+      }
+    }
+  },
+  "executionRepoAfter": {
+    "authoring": {
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree",
+      "source": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+      "tree": "793848250ce9313a30923b95765b52b1d3023f3a",
+      "parent": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "branch": "chore/OPS-011-agent-edge-104-scope-registration",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "physicalFiles": {
+        "specs/tasks/OPS-011.md": {
+          "sha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+          "canonicalLfSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339"
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051"
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+          "canonicalLfSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d"
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "1cf45b0a2cedb34a71c4372a207afd7f11f1364d1e53aaa8f94dc28d510421e4",
+          "canonicalLfSha256": "1cf45b0a2cedb34a71c4372a207afd7f11f1364d1e53aaa8f94dc28d510421e4"
+        }
+      }
+    },
+    "verification": {
+      "path": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+      "source": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+      "tree": "793848250ce9313a30923b95765b52b1d3023f3a",
+      "parent": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "branch": "chore/OPS-011-agent-edge-104-scope-registration",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "physicalFiles": {
+        "specs/tasks/OPS-011.md": {
+          "sha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+          "canonicalLfSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339"
+        },
+        "specs/coordination/program-plan.yaml": {
+          "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051"
+        },
+        "specs/coordination/active-work.yaml": {
+          "sha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+          "canonicalLfSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d"
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
+        },
+        "evidence/OPS-011/commands.txt": {
+          "sha256": "1cf45b0a2cedb34a71c4372a207afd7f11f1364d1e53aaa8f94dc28d510421e4",
+          "canonicalLfSha256": "1cf45b0a2cedb34a71c4372a207afd7f11f1364d1e53aaa8f94dc28d510421e4"
+        }
+      }
+    }
+  },
+  "unchanged": true,
+  "requiredCurrentGatesPassed": false
+}

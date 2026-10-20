@@ -1,0 +1,12 @@
+{
+  "kind": "SUPERSEDED_SOURCE_LOSSLESS_LOG_STORAGE",
+  "source": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+  "accepted": false,
+  "artifact": "evidence/OPS-011/history/8c9f1ca/execution/verify.txt",
+  "storageEncoding": "base64-json",
+  "sha256": "5ed4e569133a4f49a8f1b2a17a22827a899211599ba9fe26a7cbabe7a8fb64d7",
+  "byteCount": 50879,
+  "storedSha256": "3c5e4364d471613d15d46e2700e75540005cc5469cc756feb2617202caed89e7",
+  "storedByteCount": 68042,
+  "instructions": "sha256/byteCount describe original bytes. Verify storedSha256/storedByteCount, decode dataBase64 when storageEncoding is base64-json, then verify original sha256/byteCount. Encoding preserves exact bytes including BOM and whitespace; no execution result changes."
+}

@@ -1,0 +1,228 @@
+{
+  "kind": "OPS011_METADATA_ONLY_RESERVATION_DIRTY_CONTENT_REVIEW",
+  "observedAtUTC": "2026-10-20T15:21:50.283908Z",
+  "taskId": "OPS-011",
+  "issue": 108,
+  "actualBase": "3981190af9265a7db1654962c1d9870e51f36e64",
+  "base": "3981190af9265a7db1654962c1d9870e51f36e64",
+  "currentHead": "3981190af9265a7db1654962c1d9870e51f36e64",
+  "currentTree": "7f3c1bb8b9d11d73502925d1970b87ca5353974e",
+  "branch": "chore/OPS-011-agent-edge-104-reservation",
+  "implementationBranch": "chore/OPS-011-agent-edge-104-scope",
+  "inputSha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+  "input": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-initial-reservation-inputs-v2.json",
+    "sha256": "1f9f8589d296cd72e012ce580b318aa1837344bba42535a604a7b9d045a33677",
+    "byteCount": 34327
+  },
+  "scopePreparationReview": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-initial-reservation-inputs-v2-independent-review.json",
+    "sha256": "fc93f3a7b17f37c24ead5ba0d41c27a7b3d0ecca3e6b70936a9329c8d83216d2",
+    "byteCount": 6439
+  },
+  "preparation": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-reservation-preparation-result.json",
+    "sha256": "dfa970035bfb3b1f3db4180af449726d19902409f44b7e51a1b2b0a34aabd2ad",
+    "byteCount": 13165
+  },
+  "publicationContentApproved": true,
+  "actualDirtyContentAccepted": true,
+  "mustFix": [],
+  "exactDeltaPaths": [
+    "evidence/OPS-011/agent-edge-104-first-use.json",
+    "evidence/OPS-011/api-samples/README.md",
+    "evidence/OPS-011/assumptions.md",
+    "evidence/OPS-011/changed-files.md",
+    "evidence/OPS-011/commands.txt",
+    "evidence/OPS-011/follow-ups.md",
+    "evidence/OPS-011/handoff.md",
+    "evidence/OPS-011/migration-report/README.md",
+    "evidence/OPS-011/performance/README.md",
+    "evidence/OPS-011/risks.md",
+    "evidence/OPS-011/rollback-verification/README.md",
+    "evidence/OPS-011/scope.md",
+    "evidence/OPS-011/screenshots/README.md",
+    "evidence/OPS-011/security/README.md",
+    "evidence/OPS-011/summary.md",
+    "evidence/OPS-011/test-results/README.md",
+    "specs/coordination/active-work.yaml",
+    "specs/coordination/program-plan.yaml",
+    "specs/tasks/OPS-011.md"
+  ],
+  "physicalPins": {
+    "evidence/OPS-011/agent-edge-104-first-use.json": {
+      "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+      "byteCount": 5013,
+      "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
+    },
+    "evidence/OPS-011/api-samples/README.md": {
+      "sha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+      "byteCount": 1034,
+      "canonicalLfSha256": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe"
+    },
+    "evidence/OPS-011/assumptions.md": {
+      "sha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+      "byteCount": 1441,
+      "canonicalLfSha256": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25"
+    },
+    "evidence/OPS-011/changed-files.md": {
+      "sha256": "de806082044cac0966c5390d200728c76406211be77a81dd87ac02c856102a13",
+      "byteCount": 1718,
+      "canonicalLfSha256": "de806082044cac0966c5390d200728c76406211be77a81dd87ac02c856102a13"
+    },
+    "evidence/OPS-011/commands.txt": {
+      "sha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+      "byteCount": 2648,
+      "canonicalLfSha256": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf"
+    },
+    "evidence/OPS-011/follow-ups.md": {
+      "sha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+      "byteCount": 1275,
+      "canonicalLfSha256": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208"
+    },
+    "evidence/OPS-011/handoff.md": {
+      "sha256": "36087e711bd0c1e9ef93db3fee4bf6f6b85c8b7a44856804833d9b0d79d4d687",
+      "byteCount": 1827,
+      "canonicalLfSha256": "36087e711bd0c1e9ef93db3fee4bf6f6b85c8b7a44856804833d9b0d79d4d687"
+    },
+    "evidence/OPS-011/migration-report/README.md": {
+      "sha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+      "byteCount": 965,
+      "canonicalLfSha256": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91"
+    },
+    "evidence/OPS-011/performance/README.md": {
+      "sha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+      "byteCount": 981,
+      "canonicalLfSha256": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc"
+    },
+    "evidence/OPS-011/risks.md": {
+      "sha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+      "byteCount": 1163,
+      "canonicalLfSha256": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110"
+    },
+    "evidence/OPS-011/rollback-verification/README.md": {
+      "sha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+      "byteCount": 1118,
+      "canonicalLfSha256": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d"
+    },
+    "evidence/OPS-011/scope.md": {
+      "sha256": "c17a2f98421d6e708aea92c6059735d234d303fc375a5254607bde6176e677c8",
+      "byteCount": 1823,
+      "canonicalLfSha256": "c17a2f98421d6e708aea92c6059735d234d303fc375a5254607bde6176e677c8"
+    },
+    "evidence/OPS-011/screenshots/README.md": {
+      "sha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+      "byteCount": 992,
+      "canonicalLfSha256": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5"
+    },
+    "evidence/OPS-011/security/README.md": {
+      "sha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+      "byteCount": 1046,
+      "canonicalLfSha256": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e"
+    },
+    "evidence/OPS-011/summary.md": {
+      "sha256": "2bb3851b38d692944d9299aa57930faebcf1848007e68d280d1be359977fef3d",
+      "byteCount": 1056,
+      "canonicalLfSha256": "2bb3851b38d692944d9299aa57930faebcf1848007e68d280d1be359977fef3d"
+    },
+    "evidence/OPS-011/test-results/README.md": {
+      "sha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+      "byteCount": 1160,
+      "canonicalLfSha256": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31"
+    },
+    "specs/coordination/active-work.yaml": {
+      "sha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+      "byteCount": 1875,
+      "canonicalLfSha256": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc"
+    },
+    "specs/coordination/program-plan.yaml": {
+      "sha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+      "byteCount": 36045,
+      "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051"
+    },
+    "specs/tasks/OPS-011.md": {
+      "sha256": "5779de18c191250252157e7d3d2a8ef0431d155d43a417505c55615fd85a120d",
+      "byteCount": 12909,
+      "canonicalLfSha256": "5779de18c191250252157e7d3d2a8ef0431d155d43a417505c55615fd85a120d"
+    }
+  },
+  "physicalHashesAfter": {
+    "evidence/OPS-011/agent-edge-104-first-use.json": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+    "evidence/OPS-011/api-samples/README.md": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+    "evidence/OPS-011/assumptions.md": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+    "evidence/OPS-011/changed-files.md": "de806082044cac0966c5390d200728c76406211be77a81dd87ac02c856102a13",
+    "evidence/OPS-011/commands.txt": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+    "evidence/OPS-011/follow-ups.md": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+    "evidence/OPS-011/handoff.md": "36087e711bd0c1e9ef93db3fee4bf6f6b85c8b7a44856804833d9b0d79d4d687",
+    "evidence/OPS-011/migration-report/README.md": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+    "evidence/OPS-011/performance/README.md": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+    "evidence/OPS-011/risks.md": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+    "evidence/OPS-011/rollback-verification/README.md": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+    "evidence/OPS-011/scope.md": "c17a2f98421d6e708aea92c6059735d234d303fc375a5254607bde6176e677c8",
+    "evidence/OPS-011/screenshots/README.md": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+    "evidence/OPS-011/security/README.md": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+    "evidence/OPS-011/summary.md": "2bb3851b38d692944d9299aa57930faebcf1848007e68d280d1be359977fef3d",
+    "evidence/OPS-011/test-results/README.md": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+    "specs/coordination/active-work.yaml": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+    "specs/coordination/program-plan.yaml": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+    "specs/tasks/OPS-011.md": "5779de18c191250252157e7d3d2a8ef0431d155d43a417505c55615fd85a120d"
+  },
+  "canonicalLFHashes": {
+    "evidence/OPS-011/agent-edge-104-first-use.json": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+    "evidence/OPS-011/api-samples/README.md": "71c7956c11fa408a91f2d044cee54e8c1be59968b5eee6d5a9f2cf439a9066fe",
+    "evidence/OPS-011/assumptions.md": "05d6a14469869b15ea48b97e68873db06484327a36eee203ba37352e3b8bbb25",
+    "evidence/OPS-011/changed-files.md": "de806082044cac0966c5390d200728c76406211be77a81dd87ac02c856102a13",
+    "evidence/OPS-011/commands.txt": "3b310434a045aae33fdefc8cabed88cc09124fce58a55233bb6d6234f81355cf",
+    "evidence/OPS-011/follow-ups.md": "b0d484f24cffbf198629a7724dd8536efdcde9f59cef110a8ecf14756041f208",
+    "evidence/OPS-011/handoff.md": "36087e711bd0c1e9ef93db3fee4bf6f6b85c8b7a44856804833d9b0d79d4d687",
+    "evidence/OPS-011/migration-report/README.md": "b35c88e50da0e422cb24153d082aadfcaad4ee813e2a1939dff2a848ce1d2b91",
+    "evidence/OPS-011/performance/README.md": "dae0c9ed560f23d8b864beec10239a25cc917933c090679ced6c27c5aba372fc",
+    "evidence/OPS-011/risks.md": "e04198b4b5fcd02c899a3fb9e535853e5f0aacc3f33d3ac2359f33511cf83110",
+    "evidence/OPS-011/rollback-verification/README.md": "06b7dc63772412b9fc7790ca14472934c14f463291452b7234dd3da70fed9b0d",
+    "evidence/OPS-011/scope.md": "c17a2f98421d6e708aea92c6059735d234d303fc375a5254607bde6176e677c8",
+    "evidence/OPS-011/screenshots/README.md": "bcac78820b14abc3b67d0a7fdd086c26efeb6b10b25750ca1f401d5ea55f96e5",
+    "evidence/OPS-011/security/README.md": "5b7a92d64511d1da668b191736662b3877990fff5e58634e513d6cf4f32d3a7e",
+    "evidence/OPS-011/summary.md": "2bb3851b38d692944d9299aa57930faebcf1848007e68d280d1be359977fef3d",
+    "evidence/OPS-011/test-results/README.md": "5a00465ee0eef0b9d95876ed83a038a1fba1e7f210ef7bea0fec19c070177b31",
+    "specs/coordination/active-work.yaml": "16b47f9a22b1534a9c52d6181d2e57c1ce6c3c5939111d518f77f79e00d0d7cc",
+    "specs/coordination/program-plan.yaml": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+    "specs/tasks/OPS-011.md": "5779de18c191250252157e7d3d2a8ef0431d155d43a417505c55615fd85a120d"
+  },
+  "firstUse": {
+    "path": "evidence/OPS-011/agent-edge-104-first-use.json",
+    "sha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+    "byteCount": 5013,
+    "exactAcceptedInputContent": true,
+    "fixedTargets": 3
+  },
+  "lease": {
+    "acquiredAt": "2026-10-20T15:16:57Z",
+    "expiresAt": "2026-10-27T15:16:57Z"
+  },
+  "checks": {
+    "exact19Paths": true,
+    "indexEmpty": true,
+    "programOnlyAppendsOwnFoundation": true,
+    "registryOnlyAppendsOwnReservedRow": true,
+    "taskRolesBaseBranchIssueAnd15ClaimsMatchAcceptedInputs": true,
+    "allForeignTrackedContentAndLedgerUnchanged": true,
+    "futureScopeBoundaryGz022AndBaselineNotApplied": true,
+    "legacyV1ManifestAndSchemaUnchanged": true,
+    "requiredCommandsExactTaskAndEvidence": true,
+    "requiredCommandCount": 15,
+    "currentRawJUnitCIAndMainExplicitlyPending": true,
+    "existingInputScopeReviewReusedWithoutReaudit": true
+  },
+  "source": null,
+  "sourcePassed": false,
+  "sourcePublished": false,
+  "ciAccepted": false,
+  "mainAccepted": false,
+  "formalRegistered": false,
+  "registeredInAcceptedMain": false,
+  "implementationStarted": false,
+  "runtimeAccepted": false,
+  "testsRun": false,
+  "validatorsRun": false,
+  "scope": "Only actual metadata-only dirty delta; no source execution, publication, CI or accepted-main registration approval."
+}
