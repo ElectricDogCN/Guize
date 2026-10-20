@@ -250,10 +250,10 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
                 specification = importlib.util.spec_from_file_location("task_file_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py"))
                 planning = importlib.util.module_from_spec(specification)
                 specification.loader.exec_module(planning)
-                planning.validate_scope_boundary(plan)
-                edge_requirements = planning.validate_edge_indexes(repo_root, plan)["requirements"]
                 scope = planning.task_scope(plan, front.get("id"))
                 if scope != "FOUNDATION":
+                    planning.validate_scope_boundary(plan)
+                    edge_requirements = planning.validate_edge_indexes(repo_root, plan)["requirements"]
                     planned = next(item for item in plan["tasks"] if item["taskId"] == front.get("id"))
             except Exception as exc:
                 scope = "INVALID"

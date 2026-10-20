@@ -170,5 +170,58 @@ class TestCheckTaskFile(unittest.TestCase):
                 self.assertTrue(any(reason in error for error in errors), errors)
 
 
+    def test_registry_foundation_checks_follow_real_membership(self):
+        for case in ("foundation_v1", "foundation_edge", "ordinary_claims_foundation"):
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as tmpdir:
+                transform = None
+                if case == "foundation_edge":
+                    transform = lambda text: text.replace(
+                        "requirementIds: REQ-V1-0010",
+                        "requirementIds: REQ-EDGE-104-0001",
+                        1,
+                    )
+                self._copy_registry_task(tmpdir, transform=transform)
+                plan = {
+                    "foundationTasks": [{"taskId": "GZ-014", "status": "completed"}],
+                    "tasks": [{"taskId": "OPS-100", "requirementIds": ["REQ-V1-0010"]}],
+                    "scopeBoundary": {
+                        "v1TaskIds": ["OPS-100"],
+                        "v1FinalTask": "GZ-020",
+                        "agentEdge104": {
+                            "state": "defined",
+                            "requirementIndex": "specs/requirements/agent-edge-104.yaml",
+                            "acceptanceIndex": "specs/acceptance/agent-edge-104.yaml",
+                        },
+                    },
+                }
+                if case == "ordinary_claims_foundation":
+                    plan["foundationTasks"] = []
+                    plan["tasks"].append({"taskId": "GZ-014", "requirementIds": ["REQ-V1-0010"]})
+                    plan["scopeBoundary"]["v1TaskIds"].append("GZ-014")
+                for relative, value in (
+                    ("specs/coordination/program-plan.yaml", plan),
+                    ("specs/requirements/agent-edge-104.yaml", {"unrelatedBadCatalog": True}),
+                    ("specs/acceptance/agent-edge-104.yaml", {"unrelatedBadCatalog": True}),
+                ):
+                    target = os.path.join(tmpdir, relative)
+                    os.makedirs(os.path.dirname(target), exist_ok=True)
+                    with open(target, "w", encoding="utf-8") as handle:
+                        json.dump(value, handle)
+                with open(os.path.join(tmpdir, "specs/tasks/GZ-014.md"), encoding="utf-8") as handle:
+                    self.assertIn("\nwave: FOUNDATION\n", handle.read())
+                result = self._run(tmpdir, "GZ-014")
+                if case == "foundation_v1":
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                else:
+                    self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                    expected = (
+                        "Invalid requirementIds entry: REQ-EDGE-104-0001"
+                        if case == "foundation_edge"
+                        else "Program scope or independent EDGE indexes are invalid"
+                    )
+                    self.assertIn(expected, result.stdout)
+
+
+
 if __name__ == "__main__":
     unittest.main()

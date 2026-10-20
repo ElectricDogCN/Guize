@@ -18,9 +18,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-import jsonschema
 import yaml
-from referencing import Registry, Resource
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -290,10 +288,11 @@ def immutable_manifest(root: str, registration: str, head: str, owner: str) -> t
         candidates.append(FIRST_USE)
     if owner == EDGE_PLANNER:
         candidates.append(EDGE_DEFINITION)
-    for node in (git(root, "log", "--format=%H", head, "--", *candidates) or "").splitlines():
-        if ancestor(root, registration, node):
-            require(registered_manifest_path(root, node, owner) == path and blob(root, node, path) == raw,
-                    "Original registered planning manifest changed in intermediate history")
+    if path in {FIRST_USE, EDGE_DEFINITION}:
+        for node in (git(root, "log", "--format=%H", head, "--", *candidates) or "").splitlines():
+            if ancestor(root, registration, node):
+                require(registered_manifest_path(root, node, owner) == path and blob(root, node, path) == raw,
+                        "Original registered planning manifest changed in intermediate history")
     return path, raw
 
 
@@ -306,6 +305,9 @@ def validate_edge_v1_edit(target: dict[str, Any]) -> None:
 
 def validate_frozen_edge_catalogs(root: str, authority: str, head_ref: str, plan: dict[str, Any]) -> None:
     """Bind complete catalogs to GZ022's own original canonical declaration."""
+    import jsonschema
+    from referencing import Registry, Resource
+
     require(plan == document(root, head_ref, PLAN), "EDGE catalog view must bind its actual Git snapshot")
     introductions, present = [], False
     for node in (git(root, "rev-list", "--first-parent", "--reverse", authority) or "").splitlines():
@@ -647,6 +649,9 @@ def validate_new_consumers(root: str, base_ref: str, head_ref: str, before: dict
 
 def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any], errors: list[str], *, owner_hint: str = "", observed_at: datetime | None = None, admitted_base_ref: str | None = None) -> dict[str, Any] | None:
     """Return only a fully authenticated exact transaction projection."""
+    import jsonschema
+    from referencing import Registry, Resource
+
     try:
         old_tasks, new_tasks = records(before.get("tasks", [])), records(after.get("tasks", []))
         changed = {tid for tid in old_tasks.keys() | new_tasks.keys() if {k: v for k, v in old_tasks.get(tid, {}).items() if k not in {"status", "issue"}} != {k: v for k, v in new_tasks.get(tid, {}).items() if k not in {"status", "issue"}}}
@@ -661,7 +666,6 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         if changed or definitions(real_before) != definitions(real_after) or scope_changed or "planningBaselines" in real_before or "planningBaselines" in real_after:
             require(before == real_before and after == real_after, "Planning/baseline views must bind the actual Git snapshots")
         audit_changed_manifests(root, base_ref, head_ref, admitted_base_ref=admitted_base_ref)
-        validate_scope_boundary(after)
         if after.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined" and (
             scope_changed or changed_paths(root, base_ref, head_ref) & {EDGE_PATHS["requirementIndex"], EDGE_PATHS["acceptanceIndex"]}
         ):
@@ -670,6 +674,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             # No projection or planning permission is supplied. Ordinary
             # lifecycle/history and relevant consumer gates still run.
             return None
+        validate_scope_boundary(after)
         old_baselines, new_baselines = validate_baselines(before), validate_baselines(after)
         preserve_consumer_closures(root, base_ref, after, old_baselines, admitted_base_ref=admitted_base_ref)
         validate_new_consumers(root, base_ref, head_ref, before, after, old_baselines)
@@ -950,9 +955,11 @@ def enforce_consumers(root: str, base_ref: str, head_ref: str, before: dict[str,
             consumers.update(owners)
             affected.update(owners)
         if has_edge:
-            validate_scope_boundary(after)
             edge = after["scopeBoundary"]["agentEdge104"]
             business = consumers & (set(edge["taskIds"]) - {EDGE_PLANNER})
+            scope_changed = ("scopeBoundary" in before, before.get("scopeBoundary")) != ("scopeBoundary" in after, after.get("scopeBoundary"))
+            if scope_changed or business:
+                validate_scope_boundary(after)
             if business:
                 base = git(root, "rev-parse", f"{admitted_base_ref or base_ref}^{{commit}}") or ""
                 require(edge["state"] == "defined" and completed_producer(root, base, EDGE_PLANNER),
