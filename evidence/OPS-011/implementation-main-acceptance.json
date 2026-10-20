@@ -1,0 +1,557 @@
+{
+  "kind": "OPS011_IMPLEMENTATION_INDEPENDENT_ACTUAL_MAIN_ACCEPTANCE",
+  "observedAt": "2026-10-20T21:57:01.329021+00:00",
+  "taskId": "OPS-011",
+  "issue": 108,
+  "pr": 111,
+  "actualMain": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+  "source": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+  "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+  "base": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+  "orderedParents": [
+    "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+    "1c077f7eefe76c1452f9362229730ee2ccf19404"
+  ],
+  "actualMainAccepted": true,
+  "ciAccepted": true,
+  "mustFix": [],
+  "sourceAdmission": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-final-source-admission.json",
+    "sha256": "c5dc660916632d99987766d303a335ed82bbb1b211fd710301e4f7eaf4e5d9ca",
+    "byteCount": 15004
+  },
+  "sourceCI": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-ci753-independent-review.json",
+    "sha256": "157a69c8278119e56e7da3d98cc6aa5eeab8157756923caf3e01bb5d1b674a66",
+    "byteCount": 9941
+  },
+  "officialMerge": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-official-merge.json",
+    "sha256": "adb12e370aa347db70bbfd9652f2982b5039d38c2c3c9cac2f4769565007e0c2",
+    "byteCount": 25573
+  },
+  "adoption": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-actual-main-adoption.json",
+    "sha256": "3110a6322ca53a043cb1cccd90eb6889da6888e19229262e64c62b5f3bf1bb77",
+    "byteCount": 192930
+  },
+  "mainChecks": {
+    "originalSixFailure": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-results/failed-gate-worktrees.json",
+      "sha256": "560a8d33f03a91c6cfdba1a3a084722b27387fe05f026f473354fccc284370fe",
+      "byteCount": 208813
+    },
+    "originalCommandExecutions": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-results/command-executions.json",
+      "sha256": "f91d931bad2f760a07b5ef1d0050c710bfd67d153a0894973aceeb2fc5a91f46",
+      "byteCount": 4660
+    },
+    "originalRawLogs": [
+      {
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-results/identity.txt",
+        "sha256": "95b97274493e7942547bcef87d24db60288efae9ba7483c771e24fd1285816a3",
+        "byteCount": 950,
+        "label": "identity",
+        "pid": 1574546,
+        "argv": [
+          "python",
+          "-c",
+          "import importlib.util,sys\ndef load(name,path):\n    spec=importlib.util.spec_from_file_location(name,path); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module); return module\ntask,reference,merge=sys.argv[1:]\ni=load('actual_integrity','scripts/check-program-plan-integrity.py'); h=load('actual_history','scripts/check-program-plan-history.py')\nerrors=i.commit_identity_errors('.',merge,task,reference,'Actual implementation')\nh.validate_commit('.',merge,task,reference,'Actual implementation',errors)\nassert not errors,errors\nprint('PASS: actual implementation Task/PR/merge identity accepted by both existing entries')\n",
+          "OPS-011",
+          "PR-111",
+          "9de3656325bc9b8053f99489c64db1ccbb4c5d79"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-results/integrity.txt",
+        "sha256": "6f41ce29bc4167ead70b87a455145db49b05c5189344b99d0af8df41c57f76b3",
+        "byteCount": 418,
+        "label": "integrity",
+        "pid": 1574553,
+        "argv": [
+          "python",
+          "scripts/check-program-plan-integrity.py",
+          "--base-ref",
+          "39afaf007d800bab43d7703ac082df2bbc7e8e87"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-results/history.txt",
+        "sha256": "dca61abe58c73680408f0b6e3d56f6b6eb64b7d1fcf5927abbffe83d6fdedd12",
+        "byteCount": 521,
+        "label": "history",
+        "pid": 1574614,
+        "argv": [
+          "python",
+          "scripts/check-program-plan-history.py",
+          "--base-ref",
+          "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+          "--head-ref",
+          "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+          "--task",
+          "OPS-011",
+          "--branch-name",
+          "main"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-results/transitions.txt",
+        "sha256": "63db96ebfaa204ba0ef1f921738e0c568d2efdd745ffd2ed787e1052c697bd4c",
+        "byteCount": 438,
+        "label": "transitions",
+        "pid": 1575104,
+        "argv": [
+          "python",
+          "scripts/check-program-plan-transitions.py",
+          "--base-ref",
+          "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+          "--head-ref",
+          "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+          "--task",
+          "OPS-011",
+          "--branch-name",
+          "main"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-results/raw-lifecycle.txt",
+        "sha256": "9eb99190fea7e5ef27976984eb92c80cc517195af0e19bf5f3bedf6df79d66d2",
+        "byteCount": 505,
+        "label": "raw-lifecycle",
+        "pid": 1575344,
+        "argv": [
+          "python",
+          "scripts/check-program-lifecycle-guards.py",
+          "--base-ref",
+          "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+          "--head-ref",
+          "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+          "--task",
+          "OPS-011",
+          "--branch-name",
+          "main"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-results/coordination.txt",
+        "sha256": "2b242d0af758c704b4b0797ab158e1b913013a7eb7de2a2c5d31af768ce48303",
+        "byteCount": 347,
+        "label": "coordination",
+        "pid": 1575554,
+        "argv": [
+          "python",
+          "scripts/run-agent-coordination-gate.py",
+          "--base-ref",
+          "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+          "--head-ref",
+          "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+          "--task",
+          "OPS-011",
+          "--branch-name",
+          "main"
+        ],
+        "exitCode": 1,
+        "waitCompleted": true
+      }
+    ],
+    "originalSingleRun": {
+      "successes": 5,
+      "failures": 1,
+      "failedGate": "coordination",
+      "reason": "External main wrapper supplied checkout main as actual PR branch; originalfailure preserved."
+    },
+    "correctedCoordinationProof": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-coordination-correction/verification-worktrees.json",
+      "sha256": "7582d564dcbabc562f04ec2ca44119b5e9313696b5fe5cf7cb0a417cc490afe5",
+      "byteCount": 210706
+    },
+    "correctedEntry": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-coordination-correction/execution-entry.json",
+      "sha256": "1f06305c9a92545a7358cfb0d8fd2f3a6229e48aece53903bc4e0f63d7f8570a",
+      "byteCount": 105922
+    },
+    "correctedExecution": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-coordination-correction/command-execution.json",
+      "sha256": "403f224eefe95eb35e62618c2ac62f9aa99d3c4fc69eea4e0d9862a18868261f",
+      "byteCount": 752
+    },
+    "correctedRaw": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-main-coordination-correction/coordination.txt",
+      "sha256": "2262074d32ef650c419988036d4d719c752071c8377cfc2fec73287232a1f624",
+      "byteCount": 479
+    },
+    "originalFivePlusIndependentCorrectedSixthAllPassed": true,
+    "sameActualMainBeforeAfterSnapshots": true,
+    "localFullSuiteRepeated": false,
+    "argumentDifference": "branch-name main -> actual PR111 scope branch; existing governance venv python is explicit instead of python. Other arguments unchanged.",
+    "correctedControllerTerminal": {
+      "tool": "80416d",
+      "elapsedSeconds": 8.415,
+      "entryPid": 1576314,
+      "childPid": 1576348,
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  },
+  "pushCI": {
+    "snapshot": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-ci754.snapshot.json",
+      "sha256": "2d990f152bd8656fddaf94c24cb9fe7bfc636b49b38e5ac6e713ec1245b5c5d6",
+      "byteCount": 23616
+    },
+    "raw": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-9de3656-ci754.raw.txt",
+      "sha256": "6703855ee50bff896134bb9f2a91fe57b99a2688ee1515b31fa92f7172f80ce8",
+      "byteCount": 267550
+    },
+    "runId": 39500243576,
+    "jobId": 118895594458,
+    "attempt": 1,
+    "event": "push",
+    "checkout": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+    "tests": 681,
+    "uniquePassed": 681,
+    "failures": 0,
+    "errors": 0,
+    "testSkips": 0,
+    "summaryCount": 1,
+    "reportedSeconds": 1566.95,
+    "noSkippedTestsAudit": true,
+    "steps": {
+      "total": 28,
+      "success": 23,
+      "conditionalSkipped": 5,
+      "skippedNumbers": [
+        9,
+        18,
+        19,
+        20,
+        21
+      ],
+      "reason": "Actual push/main has no task-specific PR context; checked-inworkflow guards conditionally skip these5 steps. They are not skipped pytest cases."
+    },
+    "rawBomRetained": true,
+    "rawFinalLfRetained": true
+  },
+  "freshOfficial": {
+    "run": {
+      "id": 39500243576,
+      "run_number": 754,
+      "event": "push",
+      "head_sha": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+      "head_branch": "main",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1
+    },
+    "jobs": [
+      {
+        "id": 118895594458,
+        "name": "Governance Checks",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39500243576,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Governance tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Skip audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Secret scan",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Evidence check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 20
+          },
+          {
+            "name": "Scope check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 21
+          },
+          {
+            "name": "Spec sync check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Generate governance report",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          }
+        ]
+      }
+    ],
+    "commit": {
+      "sha": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+      "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+      "parents": [
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "1c077f7eefe76c1452f9362229730ee2ccf19404"
+      ]
+    },
+    "pr": {
+      "number": 111,
+      "state": "closed",
+      "merged": true,
+      "head": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+      "headRef": "chore/OPS-011-agent-edge-104-scope",
+      "merge_commit_sha": "9de3656325bc9b8053f99489c64db1ccbb4c5d79"
+    },
+    "main": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+    "threads": [
+      {
+        "id": "PRRT_kwDOTgCQ3c6ufixa",
+        "isResolved": true
+      }
+    ]
+  },
+  "freshPrimary": {
+    "source": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+    "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+    "parents": [
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "1c077f7eefe76c1452f9362229730ee2ccf19404"
+    ],
+    "branch": "main",
+    "main": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+    "status": ""
+  },
+  "freshLegacyNative": {
+    "source": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+    "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+    "parents": [
+      "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "1c077f7eefe76c1452f9362229730ee2ccf19404"
+    ],
+    "branch": "main",
+    "main": "9de3656325bc9b8053f99489c64db1ccbb4c5d79",
+    "status": ""
+  },
+  "sameTreeSourceContentInherited": true,
+  "boundedPhysicalAndGitBlobPins": {
+    "evidence/OPS-011/agent-edge-104-first-use.json": {
+      "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+      "byteCount": 5013
+    },
+    "scripts/check-program-plan-history.py": {
+      "canonicalLfSha256": "7b2b1132462da2ecc819b9567a01b7b31d2abd88c6d8ef6f9d1d1caa14f1ca4a",
+      "byteCount": 96172
+    },
+    "scripts/check-program-plan-integrity.py": {
+      "canonicalLfSha256": "f5300ecdb1ff0ed6edc819e6ceb3893a19102af607b03d9703ce04056f4cbfa5",
+      "byteCount": 31393
+    },
+    "scripts/check-program-plan-transitions.py": {
+      "canonicalLfSha256": "3f01188c326b00e57c010bd37ed5daf8c5be22318ea99a8d5a803d080ec06e5d",
+      "byteCount": 36996
+    },
+    "scripts/check-project-readiness.py": {
+      "canonicalLfSha256": "985388d11b36340c52c350fd47aa13099fc3800edb75a6ea02de3c13615a514d",
+      "byteCount": 33121
+    },
+    "scripts/check-task-file.py": {
+      "canonicalLfSha256": "2515f2d2208e5c33636ef1990f6fc6ebcc63c46e4c618cd395ed2064703f137c",
+      "byteCount": 15293
+    },
+    "scripts/program-planning-revision.py": {
+      "canonicalLfSha256": "a87392a014e4931613faeaa6ece2ef86991f70dc838126f704dc75346076d0c4",
+      "byteCount": 67014
+    },
+    "specs/coordination/README.md": {
+      "canonicalLfSha256": "7af048f4d9c43693dab89cbf092b9af4769843d8636b260ffc7a00da589964f7",
+      "byteCount": 19203
+    },
+    "specs/coordination/active-work.schema.yaml": {
+      "canonicalLfSha256": "531c303773de2110baf0c9db9e4584b89df16a7e9b5ba047222d0ac17ccd2f9c",
+      "byteCount": 4570
+    },
+    "specs/coordination/active-work.yaml": {
+      "canonicalLfSha256": "d5e1c37d5f81ff21758ab9e945c8e5b6dde50b3875a8152d32951c0dbf0dd42c",
+      "byteCount": 1920
+    },
+    "specs/coordination/planning-revision.schema.yaml": {
+      "canonicalLfSha256": "2107ad99d03a5aa66c245ccda9dc146ea0e5f3b66dc06198f2637ac1abaa7d0f",
+      "byteCount": 10030
+    },
+    "specs/coordination/program-plan.schema.yaml": {
+      "canonicalLfSha256": "06778d02cf0be4abb4edd2aa382df3056c863e7be31b0589573ddc9792116c6f",
+      "byteCount": 13936
+    },
+    "specs/coordination/program-plan.yaml": {
+      "canonicalLfSha256": "28428ca71fadd9f839394b4a3257f59793cbcfcd49365043b219d4216e892db7",
+      "byteCount": 38907
+    },
+    "specs/coordination/task-completions.yaml": {
+      "canonicalLfSha256": "bf1c4c470c537b268d60da75b57d0efd07aee4554a803c10f68ba94ed53d8736",
+      "byteCount": 1346
+    },
+    "specs/tasks/OPS-011.md": {
+      "canonicalLfSha256": "d92cf502559cb24a69e62cab062c0aaf72f99632291bcfa5b848470a0c0ec453",
+      "byteCount": 14852
+    }
+  },
+  "scope": "Actual implementation main identity, same-tree accepted source content, originalfive main checks plus one explicit coordination correction, full pushCI and fresh clean workcopies. No repeated code/archive semantic review.",
+  "reviewStarted": false,
+  "completionAccepted": false,
+  "businessScopeDefined": false,
+  "businessRegistered": false,
+  "gz022Registered": false,
+  "runtimeAccepted": false,
+  "formalPOCAccepted": false,
+  "fullV1Complete": false,
+  "emergencyHistoryParserOptimizationApplied": false,
+  "actions": "Read-only actual receipts/logs/fresh official GitHub and local Git/file observations; one external acceptance written. No tests,validators,Git/source/thread mutations or oldarchive decoding."
+}

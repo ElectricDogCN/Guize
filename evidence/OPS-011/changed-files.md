@@ -1,41 +1,32 @@
-OPS-011 bounded Agent Edge scope implementation
+OPS-011 bounded Agent Edge scope Review plan
 
 Issue: [#108](https://github.com/ElectricDogCN/Guize/issues/108).
-State: in_progress / implementer. Base: `39afaf007d800bab43d7703ac082df2bbc7e8e87`.
-Branch: `chore/OPS-011-agent-edge-104-scope`. PR: [#111](https://github.com/ElectricDogCN/Guize/pull/111). Current source/tree is bound by its actual execution entry; this revision is not yet accepted.
-Source gates/JUnit/same-head CI/independent source acceptance/actual-main implementation acceptance: PENDING.
+Current Review candidate state: review / reviewer. Base: `9de3656325bc9b8053f99489c64db1ccbb4c5d79`.
+Review branch: `chore/OPS-011-agent-edge-104-review`. Review PR/source/tree: PENDING; the current Review candidate is not merged.
+Current Review source15/JUnit/same-head CI/independent source acceptance/Review-main acceptance: PENDING.
 
-Prerequisites are accepted metadata only: original reservation PR109 and scope amendment [PR110](https://github.com/ElectricDogCN/Guize/pull/110). PR110 actual main `39afaf007d800bab43d7703ac082df2bbc7e8e87` passed six main checks and CI748's 637 governance tests; independent acceptance is retained in [portable amendment history](history/amendment-39af/README.md). Neither prior result transfers to this new implementation. Two merged remote metadata branches were removed after acceptance; local history and original declarations remain.
+Implementation [PR111](https://github.com/ElectricDogCN/Guize/pull/111) actually merged as `9de3656325bc9b8053f99489c64db1ccbb4c5d79` with source `1c077f7eefe76c1452f9362229730ee2ccf19404` and tree `16c5ccbde7e4af8972afc45dc53203d45546cf65`. Its unique source15 completed all fifteen commands with 681 passing governance cases and zero failures/errors/skips; same-head CI753 succeeded. The original five main checks and the corrected coordination check completed exit0. The original wrong coordination context remains historical; the corrected call uses the real implementation PR branch.
 
-Implementation scope inventory (the actual execution entry records its complete pinned-source diff):
+Implementation-main push CI754 succeeded on this exact M9de: 681 passed in1566.95s, zero failures/errors/test skips, with23 successful steps and5 workflow-conditional skipped steps that are not skipped tests. Independent actual-main acceptance is complete. Its exact original record is `evidence/OPS-011/implementation-main-acceptance.json` (SHA256 `ae7e461e1707f82e298a055f3f5a3317b08df413c47b6df78af2cdcfd267da09`,20804bytes); actualMainAccepted and ciAccepted are true and mustFix is empty. The current Review candidate is not merged; its PR/source/tree/source15/JUnit/same-head CI/independent source and Review-main acceptance remain PENDING. No current Review command has run. Earlier implementation results do not count as current Review execution.
 
-- `evidence/OPS-011/assumptions.md`
-- `evidence/OPS-011/commands.txt`
-- `evidence/OPS-011/follow-ups.md`
-- `evidence/OPS-011/handoff.md`
-- `evidence/OPS-011/risks.md`
-- `evidence/OPS-011/scope.md`
-- `evidence/OPS-011/summary.md`
-- `scripts/check-program-plan-history.py`
-- `scripts/check-program-plan-integrity.py`
-- `scripts/check-program-plan-transitions.py`
-- `scripts/check-project-readiness.py`
-- `scripts/check-task-file.py`
-- `scripts/program-planning-revision.py`
-- `specs/coordination/README.md`
-- `specs/coordination/active-work.schema.yaml`
-- `specs/coordination/active-work.yaml`
-- `specs/coordination/planning-revision.schema.yaml`
-- `specs/coordination/program-plan.schema.yaml`
+Review may change only its own Foundation row in Program, own Active entry, Task and OwnEvidence. The original sixteen literal claims, assigned roles, original lease, first-use declaration, original inputs and ordinary Ledger remain unchanged. All implementation, schema and test edits are forbidden in this phase.
+
+Planned Review metadata inventory; no source, schema or test file changes:
+
 - `specs/coordination/program-plan.yaml`
+- `specs/coordination/active-work.yaml`
 - `specs/tasks/OPS-011.md`
-- `tests/governance/test_check_project_readiness.py`
-- `tests/governance/test_check_task_file.py`
-- `tests/governance/test_program_plan_execution_integrity.py`
-- `tests/governance/test_program_plan_transitions.py`
-- `tests/governance/test_program_planning_revision.py`
+- `evidence/OPS-011/summary.md`
+- `evidence/OPS-011/commands.txt`
+- `evidence/OPS-011/handoff.md`
+- `evidence/OPS-011/test-results/README.md`
+- `evidence/OPS-011/changed-files.md`
+- `evidence/OPS-011/scope.md`
+- `evidence/OPS-011/assumptions.md`
+- `evidence/OPS-011/risks.md`
+- `evidence/OPS-011/follow-ups.md`
 
-Own Evidence refresh and additive portable accepted-phase archive are task metadata; actual source execution will record its Git diff inventory.
+Existing history and original attachments are retained unchanged. The actual immutable Review execution will record its Git diff.
 
 ## Prior implementation source executions
 
@@ -45,6 +36,6 @@ Source `4bdfe42532aa5bfa62f879af5f3dedd69c673fc5` then naturally completed all f
 
 Published source `b42e5c8900ae3f39ec9f63762111185594455fb2` includes the fixed full requirementDocument binding and safe Task Program parser. Its actual fifteen commands completed exit0 with680passed/0failures/errors/skips in1207.25s, both worktrees unchanged. CI752 officially ended cancelled after558passed/0failed at82%, without a final summary and without a newer push. Its duration matches the declared thirty-minute limit only as an inference. The [bounded original records](history/b42e5c8/README.md) preserve20direct results, exact executed entry, official CI terminal and decoded raw log; no formal acceptance or successor verdict transfers. Preparation d1 had no separate source execution or CI.
 
-The current normal child after b42 loads classifier schema machinery only when actual frozen-catalog/Markdown authentication or a real planning transaction needs it. All actual-Git binding, original-manifest audits, frozen checks before early return, exact schemas and permission/projection order remain. Actual schema exception classes are bound before both needed paths; early semantic rejection uses the original base exception classes. One added real-Git Program extra-field case verifies the original classified ValidationError result; old test methods are unchanged. Nineteen targeted development cases passed in79.29s with nonempty zero-F/E/S JUnit (development record SHA256 `6b31d32cc7f9b1a1461e2a31cb9279a894be5eeeb9142547d66361d30130d588`), without asserting that SchemaError itself was thrown. A single cold empty-transaction profile measures dependency-loading overhead, not guaranteed CI duration.
+The accepted implementation source `1c077f7eefe76c1452f9362229730ee2ccf19404` loads classifier schema machinery only when actual frozen-catalog/Markdown authentication or a real planning transaction needs it. All actual-Git binding, original-manifest audits, frozen checks before early return, exact schemas and permission/projection order remain. Actual schema exception classes are bound before both needed paths; early semantic rejection uses the original base exception classes. One added real-Git Program extra-field case verifies the original classified ValidationError result; old test methods are unchanged. Nineteen targeted development cases passed in79.29s with nonempty zero-F/E/S JUnit (development record SHA256 `6b31d32cc7f9b1a1461e2a31cb9279a894be5eeeb9142547d66361d30130d588`), without asserting that SchemaError itself was thrown. A single cold empty-transaction profile measures dependency-loading overhead, not guaranteed CI duration.
 
-All sixteen Registry claims, original roles/lease/first-use bytes, V1 obligations and ordinary Ledger stay unchanged. Current successor source gates, JUnit, same-head CI, independent source and actual-main acceptance remain PENDING. No GZ-022 business registration, runtime, formal POC or fullV1 acceptance is produced.
+All sixteen Registry claims, original roles/lease/first-use bytes, V1 obligations and ordinary Ledger stay unchanged. Current Review source gates, JUnit, same-head CI, independent source and Review-main acceptance remain PENDING. The accepted implementation-main CI754 and independent acceptance are bound by `evidence/OPS-011/implementation-main-acceptance.json` / SHA256 `ae7e461e1707f82e298a055f3f5a3317b08df413c47b6df78af2cdcfd267da09`. No GZ-022 business registration, runtime, formal POC or fullV1 acceptance is produced.
