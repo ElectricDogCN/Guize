@@ -1,105 +1,50 @@
-# OPS-011 scope amendment — current candidate
+OPS-011 bounded Agent Edge scope implementation
 
-Issue: [#108](https://github.com/ElectricDogCN/Guize/issues/108); PR: [#110](https://github.com/ElectricDogCN/Guize/pull/110).
+Issue: [#108](https://github.com/ElectricDogCN/Guize/issues/108).
+State: in_progress / implementer. Base: `39afaf007d800bab43d7703ac082df2bbc7e8e87`.
+Branch: `chore/OPS-011-agent-edge-104-scope`. PR: [#111](https://github.com/ElectricDogCN/Guize/pull/111). Current source/tree is bound by its actual execution entry; this revision is not yet accepted.
+Source gates/JUnit/same-head CI/independent source acceptance/actual-main implementation acceptance: PENDING.
 
-Base: `1d2cb080d56176e26375a7b373a3cf3ef548b3dd`; registration branch: `chore/OPS-011-agent-edge-104-scope-registration`; implementation branch: `chore/OPS-011-agent-edge-104-scope`. State: reserved/coordinator. Successor Source Commit/tree: PENDING_ACTUAL_PUBLICATION. The new immutable Git HEAD will be recorded by its actual execution entry; no future SHA is supplied.
+Prerequisites are accepted metadata only: original reservation PR109 and scope amendment [PR110](https://github.com/ElectricDogCN/Guize/pull/110). PR110 actual main `39afaf007d800bab43d7703ac082df2bbc7e8e87` passed six main checks and CI748's 637 governance tests; independent acceptance is retained in [portable amendment history](history/amendment-39af/README.md). Neither prior result transfers to this new implementation. Two merged remote metadata branches were removed after acceptance; local history and original declarations remain.
 
-The previous 8c9f1ca source is superseded: its first13 commands exited0, make verify was deliberately interrupted for the three real review findings and did not pass. These results do not transfer. Current successor commands, raw outputs, JUnit, CI, independent source acceptance and actual-main acceptance are all PENDING.
+Implementation scope inventory (the actual execution entry records its complete pinned-source diff):
 
-Exact full amendment delta relative to base 1d2cb080d56176e26375a7b373a3cf3ef548b3dd:
+- `evidence/OPS-011/assumptions.md`
+- `evidence/OPS-011/commands.txt`
+- `evidence/OPS-011/follow-ups.md`
+- `evidence/OPS-011/handoff.md`
+- `evidence/OPS-011/risks.md`
+- `evidence/OPS-011/scope.md`
+- `evidence/OPS-011/summary.md`
+- `scripts/check-program-plan-history.py`
+- `scripts/check-program-plan-integrity.py`
+- `scripts/check-program-plan-transitions.py`
+- `scripts/check-project-readiness.py`
+- `scripts/check-task-file.py`
+- `scripts/program-planning-revision.py`
+- `specs/coordination/README.md`
+- `specs/coordination/active-work.schema.yaml`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/planning-revision.schema.yaml`
+- `specs/coordination/program-plan.schema.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-011.md`
+- `tests/governance/test_check_project_readiness.py`
+- `tests/governance/test_check_task_file.py`
+- `tests/governance/test_program_plan_execution_integrity.py`
+- `tests/governance/test_program_plan_transitions.py`
+- `tests/governance/test_program_planning_revision.py`
 
-- evidence/OPS-011/api-samples/README.md
-- evidence/OPS-011/assumptions.md
-- evidence/OPS-011/changed-files.md
-- evidence/OPS-011/commands.txt
-- evidence/OPS-011/follow-ups.md
-- evidence/OPS-011/handoff.md
-- evidence/OPS-011/history/8c9f1ca/canonical/changed-files.md
-- evidence/OPS-011/history/8c9f1ca/canonical/commands.txt
-- evidence/OPS-011/history/8c9f1ca/canonical/handoff.md
-- evidence/OPS-011/history/8c9f1ca/canonical/scope.md
-- evidence/OPS-011/history/8c9f1ca/canonical/summary.md
-- evidence/OPS-011/history/8c9f1ca/execution/artifact-map.json
-- evidence/OPS-011/history/8c9f1ca/execution/command-executions.json
-- evidence/OPS-011/history/8c9f1ca/execution/controller-interruption-result.json
-- evidence/OPS-011/history/8c9f1ca/execution/controller-interruption.json
-- evidence/OPS-011/history/8c9f1ca/execution/coordination.txt
-- evidence/OPS-011/history/8c9f1ca/execution/diff.txt
-- evidence/OPS-011/history/8c9f1ca/execution/evidence.txt
-- evidence/OPS-011/history/8c9f1ca/execution/execution-entry.json
-- evidence/OPS-011/history/8c9f1ca/execution/failed-gate-worktrees.json
-- evidence/OPS-011/history/8c9f1ca/execution/finalization.txt
-- evidence/OPS-011/history/8c9f1ca/execution/history.txt
-- evidence/OPS-011/history/8c9f1ca/execution/integrity.txt
-- evidence/OPS-011/history/8c9f1ca/execution/lifecycle.txt
-- evidence/OPS-011/history/8c9f1ca/execution/make-governance.xml
-- evidence/OPS-011/history/8c9f1ca/execution/raw-lifecycle.txt
-- evidence/OPS-011/history/8c9f1ca/execution/readiness.txt
-- evidence/OPS-011/history/8c9f1ca/execution/schemas.txt
-- evidence/OPS-011/history/8c9f1ca/execution/scope.txt
-- evidence/OPS-011/history/8c9f1ca/execution/status.json
-- evidence/OPS-011/history/8c9f1ca/execution/task.txt
-- evidence/OPS-011/history/8c9f1ca/execution/transitions.txt
-- evidence/OPS-011/history/8c9f1ca/execution/verify.txt
-- evidence/OPS-011/migration-report/README.md
-- evidence/OPS-011/performance/README.md
-- evidence/OPS-011/reservation-history/accepted-reservation-artifacts/ops011-reservation-1d2cb08-actual-main-adoption.json
-- evidence/OPS-011/reservation-history/accepted-reservation-artifacts/ops011-reservation-5d614f1-final-source-admission.json
-- evidence/OPS-011/reservation-history/actual-main-independent-acceptance.json
-- evidence/OPS-011/reservation-history/artifacts/README.md
-- evidence/OPS-011/reservation-history/artifacts/a03.json
-- evidence/OPS-011/reservation-history/artifacts/a04.json
-- evidence/OPS-011/reservation-history/artifacts/a05.json
-- evidence/OPS-011/reservation-history/artifacts/a06.raw
-- evidence/OPS-011/reservation-history/artifacts/a07.txt
-- evidence/OPS-011/reservation-history/artifacts/a08.txt
-- evidence/OPS-011/reservation-history/artifacts/a09.txt
-- evidence/OPS-011/reservation-history/artifacts/a10.txt
-- evidence/OPS-011/reservation-history/artifacts/a11.txt
-- evidence/OPS-011/reservation-history/artifacts/a12.txt
-- evidence/OPS-011/reservation-history/artifacts/a13.json
-- evidence/OPS-011/reservation-history/artifacts/a14.json
-- evidence/OPS-011/reservation-history/artifacts/a15.json
-- evidence/OPS-011/reservation-history/artifacts/a16.json
-- evidence/OPS-011/reservation-history/artifacts/a17.xml
-- evidence/OPS-011/reservation-history/artifacts/a18.txt
-- evidence/OPS-011/reservation-history/artifacts/a19.txt
-- evidence/OPS-011/reservation-history/artifacts/a20.txt
-- evidence/OPS-011/reservation-history/artifacts/a21.txt
-- evidence/OPS-011/reservation-history/artifacts/a22.txt
-- evidence/OPS-011/reservation-history/artifacts/a23.txt
-- evidence/OPS-011/reservation-history/artifacts/a24.txt
-- evidence/OPS-011/reservation-history/artifacts/a25.txt
-- evidence/OPS-011/reservation-history/artifacts/a26.txt
-- evidence/OPS-011/reservation-history/artifacts/a27.txt
-- evidence/OPS-011/reservation-history/artifacts/a28.txt
-- evidence/OPS-011/reservation-history/artifacts/a29.txt
-- evidence/OPS-011/reservation-history/artifacts/a30.txt
-- evidence/OPS-011/reservation-history/artifacts/a31.txt
-- evidence/OPS-011/reservation-history/artifacts/a32.txt
-- evidence/OPS-011/reservation-history/artifacts/a33.raw
-- evidence/OPS-011/reservation-history/artifacts/a34.json
-- evidence/OPS-011/reservation-history/artifacts/a35.json
-- evidence/OPS-011/reservation-history/artifacts/artifact-map.json
-- evidence/OPS-011/reservation-history/commands.txt
-- evidence/OPS-011/reservation-history/original-reservation/api-samples/README.md
-- evidence/OPS-011/reservation-history/original-reservation/assumptions.md
-- evidence/OPS-011/reservation-history/original-reservation/follow-ups.md
-- evidence/OPS-011/reservation-history/original-reservation/migration-report/README.md
-- evidence/OPS-011/reservation-history/original-reservation/performance/README.md
-- evidence/OPS-011/reservation-history/original-reservation/risks.md
-- evidence/OPS-011/reservation-history/original-reservation/rollback-verification/README.md
-- evidence/OPS-011/reservation-history/original-reservation/screenshots/README.md
-- evidence/OPS-011/reservation-history/original-reservation/security/README.md
-- evidence/OPS-011/reservation-history/original-reservation/test-results/README.md
-- evidence/OPS-011/risks.md
-- evidence/OPS-011/rollback-verification/README.md
-- evidence/OPS-011/scope.md
-- evidence/OPS-011/screenshots/README.md
-- evidence/OPS-011/security/README.md
-- evidence/OPS-011/summary.md
-- evidence/OPS-011/test-results/README.md
-- specs/coordination/active-work.yaml
-- specs/tasks/OPS-011.md
+Own Evidence refresh and additive portable accepted-phase archive are task metadata; actual source execution will record its Git diff inventory.
 
-Accepted original reservation, prerequisite only: [original receipt](reservation-history/actual-main-independent-acceptance.json), [portable artifact map](reservation-history/artifacts/artifact-map.json) and [recovery instructions](reservation-history/artifacts/README.md). Original reservation acceptance does not establish current amendment success.
+## Prior implementation source executions
+
+Source `af290fd5b69ff09aff31ca086cbac2ca5c998d71` stopped at scope after eleven successful commands; its final three commands and JUnit did not run. Source `20366b0546c09a2ec776ab801f8efa2aea45713f` corrected OwnEvidence scope, passed thirteen commands, then make verify exited 2 with 667 passed, 7 failed, 0 errors and 0 skipped across 674 cases; docs did not start. Their original failures remain in [af290 history](history/af290fd/README.md) and [20366 history](history/20366b0/README.md). CI749 and CI750 ended cancelled; neither supplied complete CI acceptance.
+
+Source `4bdfe42532aa5bfa62f879af5f3dedd69c673fc5` then naturally completed all fifteen commands with exit0, including 676 passed in1239.05s and nonempty JUnit with zero failures/errors/skips. Authoring and native snapshots stayed clean and unchanged. Its [actual execution and review hold](history/4bdfe42/README.md) remain historical: a P1 review found that normative Markdown prose could change while its headings and the two YAML catalogs stayed fixed. This source is not formally accepted or merged; Its same-head CI751 later ended cancelled at approximately thirty minutes with539 passed/0 failed rows at79%, no final summary; the duration is consistent with the declared job limit, not an explicit timeout log. It cannot validate the current successor.
+
+Published source `b42e5c8900ae3f39ec9f63762111185594455fb2` includes the fixed full requirementDocument binding and safe Task Program parser. Its actual fifteen commands completed exit0 with680passed/0failures/errors/skips in1207.25s, both worktrees unchanged. CI752 officially ended cancelled after558passed/0failed at82%, without a final summary and without a newer push. Its duration matches the declared thirty-minute limit only as an inference. The [bounded original records](history/b42e5c8/README.md) preserve20direct results, exact executed entry, official CI terminal and decoded raw log; no formal acceptance or successor verdict transfers. Preparation d1 had no separate source execution or CI.
+
+The current normal child after b42 loads classifier schema machinery only when actual frozen-catalog/Markdown authentication or a real planning transaction needs it. All actual-Git binding, original-manifest audits, frozen checks before early return, exact schemas and permission/projection order remain. Actual schema exception classes are bound before both needed paths; early semantic rejection uses the original base exception classes. One added real-Git Program extra-field case verifies the original classified ValidationError result; old test methods are unchanged. Nineteen targeted development cases passed in79.29s with nonempty zero-F/E/S JUnit (development record SHA256 `6b31d32cc7f9b1a1461e2a31cb9279a894be5eeeb9142547d66361d30130d588`), without asserting that SchemaError itself was thrown. A single cold empty-transaction profile measures dependency-loading overhead, not guaranteed CI duration.
+
+All sixteen Registry claims, original roles/lease/first-use bytes, V1 obligations and ordinary Ledger stay unchanged. Current successor source gates, JUnit, same-head CI, independent source and actual-main acceptance remain PENDING. No GZ-022 business registration, runtime, formal POC or fullV1 acceptance is produced.

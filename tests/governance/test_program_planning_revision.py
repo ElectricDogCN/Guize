@@ -10,7 +10,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
+import jsonschema
 import yaml
+from referencing import Registry, Resource
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULE_SPEC = importlib.util.spec_from_file_location("planning_revision_tests", ROOT / "scripts/program-planning-revision.py")
@@ -21,6 +23,9 @@ MODULE_SPEC.loader.exec_module(PLANNING)
 PREDECESSOR = "bf0e5cbf51c1f8991986f503e22d1312ac9b5836"
 ORIGINAL_RESERVATION = "82ceeaf0b6f6d31e7614de9dbdd89a5853d9386b"
 OWNER = "OPS-777"
+EDGE_ADMISSION = "39afaf007d800bab43d7703ac082df2bbc7e8e87"
+EDGE_FIRST_USE = "evidence/OPS-011/agent-edge-104-first-use.json"
+EDGE_FIRST_USE_SHA256 = "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
 
 
 class History:
@@ -795,3 +800,625 @@ def test_manifest_base_alias_still_rejects_registered_manifest_rewrite(tmp_path)
     head = registered.commit("Mutate original registered manifest")
     with pytest.raises(PLANNING.PlanningError, match="Original registered planning manifest changed in history"):
         PLANNING.audit_changed_manifests(str(registered.root), registered.registration, head, admitted_base_ref="main")
+
+
+def edge_planning_plan():
+    """Apply the real reserved intent to its accepted, unmodified baseline."""
+    plan = PLANNING.document(str(ROOT), EDGE_ADMISSION, PLANNING.PLAN)
+    manifest = json.loads(PLANNING.blob(str(ROOT), EDGE_ADMISSION, EDGE_FIRST_USE))
+    for target in manifest["targets"]:
+        if target["kind"] == "add-fixed-scope-boundary":
+            plan["scopeBoundary"] = copy.deepcopy(target["after"])
+        elif target["kind"] == "add-planned-task":
+            plan["tasks"].append(copy.deepcopy(target["after"]))
+        else:
+            plan.setdefault("planningBaselines", []).append(copy.deepcopy(target["after"]))
+    return plan
+
+
+class FirstUseHistory(History):
+    """Reuse the real canonical reservation and its accepted scope amendment.
+
+    Current code is introduced only in the subsequent implementation commit.
+    The original reservation, historical lease and declaration stay untouched.
+    """
+    def __init__(self, root):
+        self.root = root / "repo"
+        subprocess.run(["git", "clone", "--shared", "--no-checkout", "--quiet", str(ROOT), str(self.root)], check=True, capture_output=True)
+        for key, value in (("user.name", "First use fixture"), ("user.email", "fixture@example.com"), ("core.autocrlf", "false"), ("core.longpaths", "true")):
+            self.git("config", key, value)
+        self.git("checkout", "-B", "main", EDGE_ADMISSION)
+        self.owner = "OPS-011"
+        self.branch = "chore/OPS-011-agent-edge-104-scope"
+        self.base = self.registration = EDGE_ADMISSION
+        self.plan = self.read(PLANNING.PLAN)
+        self.active = self.read(PLANNING.ACTIVE)
+        self.entry = next(row for row in self.active["tasks"] if row["taskId"] == self.owner)
+        self.task_path = "specs/tasks/OPS-011.md"
+        raw_task = (self.root / self.task_path).read_text(encoding="utf-8").split("---", 2)
+        self.front, self.body = yaml.safe_load(raw_task[1]), raw_task[2]
+        raw = PLANNING.blob(str(self.root), EDGE_ADMISSION, EDGE_FIRST_USE)
+        assert hashlib.sha256(raw).hexdigest() == EDGE_FIRST_USE_SHA256
+        self.manifest = json.loads(raw)
+        self.git("checkout", "-B", self.branch, self.registration)
+        for path in (PLANNING.PROGRAM_SCHEMA, PLANNING.MANIFEST_SCHEMA, "scripts/program-planning-revision.py"):
+            self.write(path, (ROOT / path).read_text(encoding="utf-8"))
+
+    def apply(self):
+        self.plan = edge_planning_plan()
+        next(row for row in self.plan["foundationTasks"] if row["taskId"] == self.owner)["status"] = "in_progress"
+        now = datetime.now(timezone.utc)
+        self.entry.update(status="in_progress", agentRole="implementer", baseSha=self.registration)
+        self.entry["lease"] = {"acquiredAt": (now-timedelta(minutes=2)).strftime("%Y-%m-%dT%H:%M:%SZ"), "expiresAt": (now+timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ")}
+        self.front.update(status="in_progress", agentRole="implementer", baseSha=self.registration, leaseExpiresAt=self.entry["lease"]["expiresAt"])
+
+
+def test_fixed_first_use_authenticates_real_canonical_reservation(tmp_path):
+    history = FirstUseHistory(tmp_path)
+    before = copy.deepcopy(history.plan)
+    history.apply()
+    history.finish()
+    result, errors = history.decision()
+    assert not errors and result is not None
+    assert result["owner"] == "OPS-011"
+    assert result["registration"] == "1d2cb080d56176e26375a7b373a3cf3ef548b3dd"
+    expected_projection = copy.deepcopy(before)
+    next(row for row in expected_projection["foundationTasks"] if row["taskId"] == "OPS-011")["status"] = "in_progress"
+    assert result["projectedPlan"] == expected_projection
+    assert history.plan["scopeBoundary"]["v1TaskIds"] == history.manifest["originalV1TaskIds"]
+    assert history.plan["pocs"] == before["pocs"] and len(before["pocs"]) == 10
+    assert history.plan["releasePolicy"] == before["releasePolicy"]
+    baseline = next(row for row in history.plan["planningBaselines"] if row["id"] == "BASELINE-GZ-022")
+    assert baseline["requiredBy"] == ["POC-003", "POC-005"]
+    assert PLANNING.frontier(history.plan, baseline["requiredBy"]) == {"POC-003", "POC-005", "GZ-011", "GZ-013", "GZ-015", "GZ-016", "GZ-017", "GZ-018", "GZ-019", "GZ-020"}
+
+
+@pytest.mark.parametrize("case", ["rewritten_original", "absent_original", "late_definition", "extra_program_edit"])
+def test_fixed_first_use_cannot_borrow_or_rewrite_authority(tmp_path, case):
+    history = FirstUseHistory(tmp_path)
+    history.apply()
+    if case == "rewritten_original":
+        changed = copy.deepcopy(history.manifest)
+        changed["targets"][1]["after"]["title"] += " rewritten"
+        history.dump(EDGE_FIRST_USE, changed)
+    elif case == "absent_original":
+        (history.root / EDGE_FIRST_USE).unlink()
+    elif case == "late_definition":
+        # A newly written GZ022 v2 document cannot enlarge OPS011's original
+        # three-target transaction or stand in for GZ022's own reservation.
+        scope = history.plan["scopeBoundary"]["agentEdge104"]
+        before_scope = copy.deepcopy(scope)
+        scope.update(state="defined", taskIds=["GZ-022", "GZ-023"], requiredFinalTask="GZ-023")
+        final = copy.deepcopy(next(row for row in history.plan["tasks"] if row["taskId"] == "GZ-022"))
+        final.update(taskId="GZ-023", kind="release", riskLevel="critical", wave="W3", dependsOn=["GZ-022"], requirementIds=["REQ-EDGE-104-0001"], acceptanceIds=["AC-EDGE-104-0001"])
+        history.plan["tasks"].append(final)
+        requirements = {
+            "schemaVersion": 1, "scopeId": "AGENT-EDGE-104", "sourceIssue": 104,
+            "requirements": [{"id": "REQ-EDGE-104-0001", "title": "One complete late delivery",
+                              "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0001",
+                              "moduleIds": ["MOD-WORKER"], "taskIds": ["GZ-023"], "acceptanceIds": ["AC-EDGE-104-0001"]}],
+        }
+        acceptances = {
+            "schemaVersion": 1, "scopeId": "AGENT-EDGE-104", "sourceIssue": 104,
+            "acceptances": [{"id": "AC-EDGE-104-0001", "title": "One complete late acceptance",
+                             "requirementIds": ["REQ-EDGE-104-0001"], "taskIds": ["GZ-023"],
+                             "verification": "Run the declared acceptance.", "evidencePath": "evidence/GZ-023/acceptance.json"}],
+        }
+        requirement_document = "# Agent Edge\n\n## REQ-EDGE-104-0001\n\nOne complete delivery.\n"
+        declaration = {
+            "schemaVersion": 2, "kind": "agent-edge-104-definition", "taskId": "GZ-022", "scopeId": "AGENT-EDGE-104",
+            "issue": 222, "reservationParent": history.registration, "programPlan": PLANNING.PLAN,
+            "requirementIndex": requirements, "acceptanceIndex": acceptances,
+            "requirementDocument": {"path": "specs/requirements/agent-edge-104.md", "content": requirement_document},
+            "targets": [{"kind": "define-fixed-scope", "id": "AGENT-EDGE-104", "before": before_scope, "after": copy.deepcopy(scope)},
+                        {"kind": "add-edge-planned-task", "id": "GZ-023", "before": None, "after": final}],
+        }
+        program_schema = history.read(PLANNING.PROGRAM_SCHEMA)
+        manifest_schema = history.read(PLANNING.MANIFEST_SCHEMA)
+        registry = Registry().with_resources([(program_schema["$id"], Resource.from_contents(program_schema)), (manifest_schema["$id"], Resource.from_contents(manifest_schema))])
+        jsonschema.Draft202012Validator({"$ref": manifest_schema["$id"]+"#/$defs/agentEdge104Definition"}, registry=registry).validate(declaration)
+        history.dump("evidence/GZ-022/agent-edge-104-definition.json", declaration)
+        history.dump("specs/requirements/agent-edge-104.yaml", requirements)
+        history.dump("specs/acceptance/agent-edge-104.yaml", acceptances)
+        history.write("specs/requirements/agent-edge-104.md", declaration["requirementDocument"]["content"])
+    else:
+        history.plan["tasks"][0]["title"] += " undeclared"
+    history.finish()
+    result, errors = history.decision()
+    assert result is None and errors
+
+
+def test_planning_scope_has_no_runtime_completion_or_index_permission(tmp_path):
+    plan = edge_planning_plan()
+    PLANNING.validate_scope_boundary(plan)
+    assert {PLANNING.task_scope(plan, tid) for tid in plan["scopeBoundary"]["v1TaskIds"]} == {"V1"}
+    assert PLANNING.task_scope(plan, "GZ-022") == "AGENT-EDGE-104"
+    assert PLANNING.task_scope(plan, "OPS-011") == "FOUNDATION"
+    assert PLANNING.validate_edge_indexes(tmp_path, plan) == {"requirements": {}, "acceptances": {}}
+    with pytest.raises(PLANNING.PlanningError):
+        PLANNING.task_scope(plan, "GZ-999")
+    next(row for row in plan["tasks"] if row["taskId"] == "GZ-022")["status"] = "completed"
+    with pytest.raises(PLANNING.PlanningError):
+        PLANNING.validate_scope_boundary(plan)
+
+
+@pytest.mark.parametrize("case", ["v1_member_escape", "planning_final", "defined_empty_final", "program_completed"])
+def test_fixed_scope_membership_and_completion_are_not_state_flags(case):
+    plan = edge_planning_plan()
+    scope = plan["scopeBoundary"]["agentEdge104"]
+    if case == "v1_member_escape":
+        plan["scopeBoundary"]["v1TaskIds"].remove("GZ-004")
+        scope["taskIds"].append("GZ-004")
+    elif case == "planning_final":
+        scope["requiredFinalTask"] = "GZ-022"
+    elif case == "defined_empty_final":
+        scope["state"] = "defined"
+    else:
+        plan["status"] = "completed"
+    with pytest.raises(PLANNING.PlanningError):
+        PLANNING.validate_scope_boundary(plan)
+
+
+def test_legacy_manifest_refs_keep_legacy_requirement_and_target_permissions():
+    program_schema = yaml.safe_load((ROOT / PLANNING.PROGRAM_SCHEMA).read_text(encoding="utf-8"))
+    schema = yaml.safe_load((ROOT / PLANNING.MANIFEST_SCHEMA).read_text(encoding="utf-8"))
+    registry = Registry().with_resource(program_schema["$id"], Resource.from_contents(program_schema))
+    validator = jsonschema.Draft202012Validator(schema, registry=registry)
+    manifest = json.loads((ROOT / "evidence/OPS-009/planning-revision.json").read_text(encoding="utf-8"))
+    validator.validate(manifest)
+    changed = copy.deepcopy(manifest)
+    changed["targets"][0]["after"]["requirementIds"] = ["REQ-EDGE-104-0001"]
+    with pytest.raises(jsonschema.ValidationError):
+        validator.validate(changed)
+    typed_first_use = json.loads(PLANNING.blob(str(ROOT), EDGE_ADMISSION, EDGE_FIRST_USE))
+    with pytest.raises(jsonschema.ValidationError):
+        validator.validate(typed_first_use)
+
+
+@pytest.mark.parametrize("case", ["orphan_business_member", "planner_only_completed"])
+def test_defined_scope_requires_its_complete_nonempty_release_closure(case):
+    plan = edge_planning_plan()
+    planner = next(row for row in plan["tasks"] if row["taskId"] == "GZ-022")
+    worker = copy.deepcopy(planner)
+    worker.update(taskId="GZ-023", kind="scaffold", riskLevel="medium", wave="W3", dependsOn=["GZ-022"], requirementIds=["REQ-EDGE-104-0001"])
+    final = copy.deepcopy(worker)
+    final.update(taskId="GZ-024", kind="release", riskLevel="critical", wave="W4", dependsOn=["GZ-023"])
+    plan["tasks"].extend([worker, final])
+    plan["scopeBoundary"]["agentEdge104"].update(state="defined", taskIds=["GZ-022", "GZ-023", "GZ-024"], requiredFinalTask="GZ-024")
+    PLANNING.validate_scope_boundary(plan)
+    if case == "orphan_business_member":
+        final["dependsOn"] = ["GZ-022"]
+    else:
+        for task in plan["tasks"]:
+            if task["taskId"] in plan["scopeBoundary"]["v1TaskIds"] or task["taskId"] == "GZ-022":
+                task["status"] = "completed"
+        plan["status"] = "completed"
+    with pytest.raises(PLANNING.PlanningError):
+        PLANNING.validate_scope_boundary(plan)
+
+
+@pytest.mark.parametrize("risks", [["low"]*4, ["high", "high"], ["critical", "low"]])
+def test_fixed_scopes_keep_one_global_capacity_pool(risks):
+    plan = edge_planning_plan()
+    registry = {"policy": {"maxActiveTasks": 3, "maxHighRiskTasks": 1}, "tasks": [{"taskId": tid, "riskLevel": risk} for tid, risk in zip(["GZ-006", "GZ-022", "GZ-007", "POC-003"], risks)]}
+    with pytest.raises(PLANNING.PlanningError):
+        PLANNING.capacity(registry, plan)
+
+
+def edge_index_documents():
+    """Index inputs for a plain temporary directory, without admission authority."""
+    plan = edge_planning_plan()
+    planner = next(row for row in plan["tasks"] if row["taskId"] == "GZ-022")
+    requirement_ids = ["REQ-EDGE-104-0001", "REQ-EDGE-104-0002"]
+    acceptance_ids = ["AC-EDGE-104-0001", "AC-EDGE-104-0002"]
+    worker = copy.deepcopy(planner)
+    worker.update(taskId="GZ-023", kind="scaffold", riskLevel="medium", wave="W3", dependsOn=["GZ-022"],
+                  requirementIds=requirement_ids[:], acceptanceIds=acceptance_ids[:], moduleIds=["MOD-WORKER", "MOD-AI"])
+    final = copy.deepcopy(worker)
+    final.update(taskId="GZ-024", kind="release", riskLevel="critical", wave="W4", dependsOn=["GZ-023"], moduleIds=["MOD-WORKER"])
+    plan["tasks"].extend([worker, final])
+    plan["scopeBoundary"]["agentEdge104"].update(state="defined", taskIds=["GZ-022", "GZ-023", "GZ-024"], requiredFinalTask="GZ-024")
+    requirements = {
+        "schemaVersion": 1, "scopeId": "AGENT-EDGE-104", "sourceIssue": 104,
+        "requirements": [{"id": rid, "title": f"Requirement {index+1}",
+                          "requirementPath": "specs/requirements/agent-edge-104.md#"+rid.lower(),
+                          "moduleIds": ["MOD-WORKER"] if index == 0 else ["MOD-WORKER", "MOD-AI"],
+                          "taskIds": ["GZ-023", "GZ-024"], "acceptanceIds": [acceptance_ids[index]]}
+                         for index, rid in enumerate(requirement_ids)],
+    }
+    acceptances = {
+        "schemaVersion": 1, "scopeId": "AGENT-EDGE-104", "sourceIssue": 104,
+        "acceptances": [{"id": aid, "title": f"Acceptance {index+1}", "requirementIds": [requirement_ids[index]],
+                         "taskIds": ["GZ-023", "GZ-024"], "verification": "Run the fixed delivery acceptance.",
+                         "evidencePath": f"evidence/GZ-023/acceptance-{index+1}.json"}
+                        for index, aid in enumerate(acceptance_ids)],
+    }
+    return plan, requirements, acceptances
+
+
+def write_edge_index_documents(root, requirements, acceptances, *, active=None):
+    documents = {
+        "specs/requirements/agent-edge-104.yaml": requirements,
+        "specs/acceptance/agent-edge-104.yaml": acceptances,
+        PLANNING.ACTIVE: active if active is not None else {"tasks": []},
+        "specs/designs/module-ownership.yaml": {"modules": [
+            {"id": "MOD-WORKER", "ownedPaths": ["services/guize-worker-agent/**"]},
+            {"id": "MOD-AI", "ownedPaths": ["services/guize-ai-agent-service/**"]},
+        ]},
+    }
+    for relative, document in documents.items():
+        target = root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(yaml.safe_dump(document, sort_keys=False), encoding="utf-8")
+    (root / "specs/requirements/agent-edge-104.md").write_text("# Agent Edge\n\n## REQ-EDGE-104-0001\n\nWorker delivery.\n\n## REQ-EDGE-104-0002\n\nAI delivery.\n", encoding="utf-8")
+
+
+def test_defined_scope_reads_independent_indexes_and_exact_delivery_joins(tmp_path):
+    plan, requirements, acceptances = edge_index_documents()
+    write_edge_index_documents(tmp_path, requirements, acceptances)
+    result = PLANNING.validate_edge_indexes(tmp_path, plan)
+    assert set(result["requirements"]) == {"REQ-EDGE-104-0001", "REQ-EDGE-104-0002"}
+    assert set(result["acceptances"]) == {"AC-EDGE-104-0001", "AC-EDGE-104-0002"}
+    # The final acceptance orchestrates both deliveries. Actual module coverage
+    # is supplied by their union; the final task need not own every AI module.
+    assert next(row for row in plan["tasks"] if row["taskId"] == "GZ-024")["moduleIds"] == ["MOD-WORKER"]
+
+
+def test_defined_indexes_bind_all_reads_to_the_selected_git_snapshot(tmp_path):
+    # These are data snapshots on an unrelated local branch. They provide no
+    # canonical reservation, declaration authority or Completion evidence.
+    plan, requirements, acceptances = edge_index_documents()
+    write_edge_index_documents(tmp_path, requirements, acceptances)
+    (tmp_path / PLANNING.PLAN).write_text(yaml.safe_dump(plan, sort_keys=False), encoding="utf-8")
+    def git(*args):
+        return subprocess.check_output(["git", "-C", str(tmp_path), *args], stderr=subprocess.PIPE, encoding="utf-8").strip()
+    git("init", "-b", "index-snapshots")
+    git("config", "user.name", "Index snapshot fixture")
+    git("config", "user.email", "fixture@example.com")
+    git("config", "core.autocrlf", "false")
+    git("add", ".")
+    git("commit", "-m", "Valid index data snapshot")
+    valid = git("rev-parse", "HEAD")
+    requirements["requirements"][1]["moduleIds"].append("MOD-UNKNOWN")
+    write_edge_index_documents(tmp_path, requirements, acceptances)
+    git("add", ".")
+    git("commit", "-m", "Invalid module index data snapshot")
+    invalid = git("rev-parse", "HEAD")
+    (tmp_path / "specs/requirements/agent-edge-104.md").write_text("# Missing requirement anchors\n", encoding="utf-8")
+    (tmp_path / PLANNING.ACTIVE).write_text(yaml.safe_dump({"tasks": [{"taskId": "GZ-004", "requirementIds": ["REQ-EDGE-104-0001"]}]}), encoding="utf-8")
+    (tmp_path / "specs/designs/module-ownership.yaml").write_text("modules: []\n", encoding="utf-8")
+    snapshot_plan = PLANNING.document(str(tmp_path), valid, PLANNING.PLAN)
+    result = PLANNING.validate_edge_indexes(str(tmp_path), snapshot_plan, ref=valid)
+    assert set(result["requirements"]) == {"REQ-EDGE-104-0001", "REQ-EDGE-104-0002"}
+    with pytest.raises(PLANNING.PlanningError, match="Unknown EDGE requirement binding"):
+        PLANNING.validate_edge_indexes(str(tmp_path), snapshot_plan, ref=invalid)
+    with pytest.raises(PLANNING.PlanningError, match="Non-EDGE registry task"):
+        PLANNING.validate_edge_indexes(str(tmp_path), snapshot_plan)
+
+
+@pytest.mark.parametrize("case,message", [
+    ("asymmetric_join", "join differs"),
+    ("unknown_module", "Unknown EDGE requirement binding"),
+    ("v1_registry_edge", "Non-EDGE registry task cannot consume EDGE requirements"),
+    ("final_missing_coverage", "final task must directly cover"),
+])
+def test_defined_scope_rejects_unbound_indexes_and_incomplete_final(tmp_path, case, message):
+    plan, requirements, acceptances = edge_index_documents()
+    active = {"tasks": []}
+    if case == "asymmetric_join":
+        acceptances["acceptances"][1]["requirementIds"] = ["REQ-EDGE-104-0001"]
+    elif case == "unknown_module":
+        requirements["requirements"][1]["moduleIds"].append("MOD-UNKNOWN")
+    elif case == "v1_registry_edge":
+        active["tasks"].append({"taskId": "GZ-004", "requirementIds": ["REQ-EDGE-104-0001"]})
+    else:
+        # Keep every bidirectional per-task join valid, while leaving the
+        # second delivery outside the final task's direct acceptance coverage.
+        requirements["requirements"][1]["taskIds"] = ["GZ-023"]
+        acceptances["acceptances"][1]["taskIds"] = ["GZ-023"]
+        final = next(row for row in plan["tasks"] if row["taskId"] == "GZ-024")
+        final["requirementIds"] = ["REQ-EDGE-104-0001"]
+        final["acceptanceIds"] = ["AC-EDGE-104-0001"]
+    write_edge_index_documents(tmp_path, requirements, acceptances, active=active)
+    with pytest.raises(PLANNING.PlanningError, match=message):
+        PLANNING.validate_edge_indexes(tmp_path, plan)
+
+
+@pytest.mark.parametrize("task_id,field,message", [
+    ("GZ-006", "title", None),
+    ("GZ-009", "title", "only its eight registered V1 tasks"),
+    ("GZ-006", "requirementIds", "rewrote existing V1 obligations"),
+])
+def test_edge_definition_v1_edits_require_registered_touchpoint_and_obligations(task_id, field, message):
+    plan = PLANNING.document(str(ROOT), EDGE_ADMISSION, PLANNING.PLAN)
+    before = copy.deepcopy(next(row for row in plan["tasks"] if row["taskId"] == task_id))
+    assert before["status"] == "planned" and before["issue"] is None
+    after = copy.deepcopy(before)
+    if field == "title":
+        after["title"] += " with explicit follow-up handoff"
+    else:
+        assert "REQ-V1-9999" not in before["requirementIds"]
+        after["requirementIds"].append("REQ-V1-9999")
+    target = {
+        "kind": "edit-planned-task", "id": task_id,
+        "originalDefinitionSha256": hashlib.sha256(json.dumps(before, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
+        "allowedFields": [field], "before": before, "after": after,
+    }
+    program_schema = yaml.safe_load((ROOT / PLANNING.PROGRAM_SCHEMA).read_text(encoding="utf-8"))
+    manifest_schema = yaml.safe_load((ROOT / PLANNING.MANIFEST_SCHEMA).read_text(encoding="utf-8"))
+    registry = Registry().with_resources([(program_schema["$id"], Resource.from_contents(program_schema)), (manifest_schema["$id"], Resource.from_contents(manifest_schema))])
+    # All three edits satisfy the same closed legacy edit fragment. Permission
+    # to amend a task still comes from the bounded follow-up semantic guard.
+    jsonschema.Draft202012Validator({"$ref": manifest_schema["$id"]+"#/$defs/editTask"}, registry=registry).validate(target)
+    if message is None:
+        PLANNING.validate_edge_v1_edit(target)
+    else:
+        with pytest.raises(PLANNING.PlanningError, match=message):
+            PLANNING.validate_edge_v1_edit(target)
+
+
+class SimulatedCatalogHistory(FirstUseHistory):
+    """Private protocol simulation: real Git, no external registration or CI.
+
+    Local Issue/PR identities below are fixture values. Role transitions model
+    the normal protocol; this does not execute or claim full Completion gates.
+    """
+    def __init__(self, root):
+        seed = root / "accepted-seed"
+        subprocess.run(["git", "clone", "--shared", "--no-checkout", "--quiet", str(ROOT), str(seed)], check=True, capture_output=True)
+        for key, value in (("core.autocrlf", "false"), ("core.longpaths", "true")):
+            subprocess.run(["git", "-C", str(seed), "config", key, value], check=True, capture_output=True)
+        subprocess.run(["git", "-C", str(seed), "checkout", "-B", "main", EDGE_ADMISSION], check=True, capture_output=True)
+        self.root = root / "repo"
+        subprocess.run(["git", "clone", "--shared", "--no-checkout", "--quiet", str(seed), str(self.root)], check=True, capture_output=True)
+        for key, value in (("user.name", "Private protocol simulation"), ("user.email", "simulation@example.com"), ("core.autocrlf", "false"), ("core.longpaths", "true")):
+            self.git("config", key, value)
+        self.git("checkout", "-B", "main", EDGE_ADMISSION)
+        assert Path(self.git("remote", "get-url", "origin")).resolve() == seed.resolve()
+        assert self.git("rev-parse", "origin/main") == EDGE_ADMISSION
+        self.owner, self.branch = "OPS-011", "chore/OPS-011-agent-edge-104-scope"
+        self.base = self.registration = EDGE_ADMISSION
+        self.plan, self.active = self.read(PLANNING.PLAN), self.read(PLANNING.ACTIVE)
+        inherited_ledger = PLANNING.blob(str(self.root), EDGE_ADMISSION, PLANNING.LEDGER)
+        self.entry = next(row for row in self.active["tasks"] if row["taskId"] == self.owner)
+        self.task_path = "specs/tasks/OPS-011.md"
+        raw_task = (self.root/self.task_path).read_text(encoding="utf-8").split("---", 2)
+        self.front, self.body = yaml.safe_load(raw_task[1]), raw_task[2]
+        raw = PLANNING.blob(str(self.root), EDGE_ADMISSION, EDGE_FIRST_USE)
+        assert hashlib.sha256(raw).hexdigest() == EDGE_FIRST_USE_SHA256
+        self.manifest = json.loads(raw)
+        self.git("checkout", "-B", self.branch, EDGE_ADMISSION)
+        for path in (PLANNING.PROGRAM_SCHEMA, PLANNING.MANIFEST_SCHEMA, "scripts/program-planning-revision.py"):
+            self.write(path, (ROOT/path).read_text(encoding="utf-8"))
+        FirstUseHistory.apply(self)
+        self.save()
+        self.commit("SIMULATION OPS-011 exact first-use implementation")
+        foundation_code = self.merge_current("SIMULATION OPS-011 implementation (#900011)")
+        self.phase("review", "reviewer", "chore/OPS-011-simulated-review")
+        self.git("checkout", "-b", "chore/OPS-011-simulated-completion", "main")
+        row = next(row for row in self.plan["foundationTasks"] if row["taskId"] == self.owner)
+        row.update(status="completed", completionRef="PR-900011", mergeCommit=foundation_code)
+        self.active["tasks"] = [row for row in self.active["tasks"] if row["taskId"] != self.owner]
+        self.front.update(status="completed", agentRole="integrator", baseSha=self.git("rev-parse", "main"))
+        self.save()
+        self.commit("SIMULATION OPS-011 completion metadata")
+        foundation_completed = self.merge_current("SIMULATION OPS-011 completion phase")
+        # Foundation completion remains in foundationTasks, never the ordinary
+        # Completion Ledger. These are private simulated Git identities only.
+        assert PLANNING.blob(str(self.root), foundation_completed, PLANNING.LEDGER) == inherited_ledger
+        foundation = PLANNING.records(PLANNING.document(str(self.root), foundation_completed, PLANNING.PLAN)["foundationTasks"])["OPS-011"]
+        assert foundation["status"] == "completed" and foundation["completionRef"] == "PR-900011"
+        assert foundation["mergeCommit"] == foundation_code
+        assert foundation_code in self.git("rev-list", "--first-parent", "main").splitlines()
+        assert "OPS-011" in self.git("show", "-s", "--format=%B", foundation_code)
+        assert "#900011" in self.git("show", "-s", "--format=%B", foundation_code)
+        assert "OPS-011" not in PLANNING.records(PLANNING.document(str(self.root), foundation_completed, PLANNING.ACTIVE)["tasks"])
+        completed_spec = PLANNING.spec(str(self.root), foundation_completed, "OPS-011")
+        assert completed_spec is not None and completed_spec[1]["status"] == "completed"
+        self.reserve_definition()
+
+    def merge_current(self, message):
+        branch = self.git("branch", "--show-current")
+        self.git("checkout", "main")
+        self.git("merge", "--no-ff", "-m", message, branch)
+        return self.git("rev-parse", "HEAD")
+
+    def phase(self, status, role, branch):
+        self.git("checkout", "-b", branch, "main")
+        base = self.git("rev-parse", "main")
+        section = "foundationTasks" if self.owner == "OPS-011" else "tasks"
+        next(row for row in self.plan[section] if row["taskId"] == self.owner)["status"] = status
+        self.entry.update(status=status, agentRole=role, baseSha=base)
+        self.front.update(status=status, agentRole=role, baseSha=base)
+        self.save()
+        self.commit(f"SIMULATION {self.owner} {status} metadata")
+        return self.merge_current(f"SIMULATION {self.owner} {status} phase")
+
+    def reserve_definition(self):
+        parent = self.git("rev-parse", "main")
+        planner = next(row for row in self.plan["tasks"] if row["taskId"] == "GZ-022")
+        self.owner, self.branch = "GZ-022", "chore/GZ-022-simulated-definition"
+        self.task_path = "specs/tasks/GZ-022.md"
+        self.entry = copy.deepcopy(self.entry)
+        self.entry.update(taskId=self.owner, programTaskId=self.owner, issue=900022, title=planner["title"],
+                          status="reserved", agentRole="coordinator", branch=self.branch, baseSha=parent,
+                          owner="private-protocol-simulation", coordinator="simulated-coordinator",
+                          implementer=planner["ownerRole"], reviewer=planner["reviewerRole"], integrator="simulated-integrator",
+                          programWave=planner["wave"], exclusivePaths=copy.deepcopy(planner["outputPaths"]),
+                          handoffPath="evidence/GZ-022/handoff.md")
+        for key in ("workPackage", "riskLevel", "requirementIds", "moduleIds", "producesContracts", "consumesContracts", "coordinationGroup", "dependsOn", "sharedPaths", "integrationOrder"):
+            self.entry[key] = copy.deepcopy(planner[key])
+        now = datetime.now(timezone.utc)
+        self.entry["lease"] = {"acquiredAt": (now-timedelta(minutes=2)).strftime("%Y-%m-%dT%H:%M:%SZ"), "expiresAt": (now+timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ")}
+        self.front = copy.deepcopy(self.front)
+        self.front.update(id=self.owner, programTaskId=self.owner, issue=900022, title=planner["title"],
+                          status="reserved", agentRole="coordinator", workBranch=self.branch, baseSha=parent,
+                          evidencePath="evidence/GZ-022", wave=planner["wave"], exitGate=planner["exitGate"],
+                          taskOwner=self.entry["owner"], handoffPath=self.entry["handoffPath"], leaseExpiresAt=self.entry["lease"]["expiresAt"])
+        for key in ("workPackage", "riskLevel", "coordinator", "implementer", "reviewer", "integrator", "coordinationGroup", "integrationOrder"):
+            self.front[key] = self.entry[key]
+        for key in ("requirementIds", "moduleIds", "producesContracts", "consumesContracts", "dependsOn"):
+            self.front[key] = ", ".join(self.entry[key]) if self.entry[key] else []
+        claims = "\n".join("- "+path for path in self.entry["exclusivePaths"])
+        self.body = (
+            "\n# Private GZ-022 protocol simulation\n\nNo external registration, CI or runtime acceptance.\n\n"
+            "## Allowed scope\n\n"+claims+"\n- evidence/GZ-022/**\n\n"
+            "## Forbidden scope\n\n- Runtime implementation and external publication.\n\n"
+            "## Acceptance criteria\n\n- [ ] Exercise private protocol data without claiming external acceptance.\n\n"
+            "## Validation commands\n\n- Python test target: `python -m pytest tests/governance/test_program_planning_revision.py`\n\n"
+            "## Dependencies and integration order\n\n- GZ-021 and OPS-011 precede this simulated reservation.\n\n"
+            "## Exclusive write scope\n\n"+claims+"\n\n"
+            "## Shared modification scope\n\n- None.\n\n"
+            "## Collaboration and handoff\n\n- Independent simulated implementer and reviewer; handoff is local fixture data.\n"
+        )
+        self.requirement_document = "# Private protocol simulation\n\n## REQ-EDGE-104-0001\n\nSimulated delivery only.\n\nOriginal UTF-8 requirement: 原始正文约束。\n"
+        self.requirements = {"schemaVersion": 1, "scopeId": "AGENT-EDGE-104", "sourceIssue": 104, "requirements": [
+            {"id": "REQ-EDGE-104-0001", "title": "Simulated worker delivery", "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0001",
+             "moduleIds": ["MOD-WORKER"], "taskIds": ["GZ-023"], "acceptanceIds": ["AC-EDGE-104-0001"]}]}
+        self.acceptances = {"schemaVersion": 1, "scopeId": "AGENT-EDGE-104", "sourceIssue": 104, "acceptances": [
+            {"id": "AC-EDGE-104-0001", "title": "Simulated delivery acceptance", "requirementIds": ["REQ-EDGE-104-0001"], "taskIds": ["GZ-023"],
+             "verification": "Protocol simulation data only; no runtime result.", "evidencePath": "evidence/GZ-023/simulated-acceptance.json"}]}
+        final = copy.deepcopy(planner)
+        final.update(taskId="GZ-023", title="Simulated final delivery", kind="release", riskLevel="critical", wave="W3", integrationOrder=1,
+                     ownerRole="simulated-worker", reviewerRole="simulated-worker-reviewer", coordinationGroup="simulated-edge-release",
+                     dependsOn=["GZ-022"], requirementIds=["REQ-EDGE-104-0001"], acceptanceIds=["AC-EDGE-104-0001"], moduleIds=["MOD-WORKER"],
+                     outputPaths=["evidence/GZ-023/**"], sharedPaths=[], producesContracts=[], consumesContracts=[], pocIds=[], issue=None,
+                     branchPattern="chore/GZ-023-*", exitGate="Private protocol simulation; no runtime acceptance.")
+        before_scope = copy.deepcopy(self.plan["scopeBoundary"]["agentEdge104"])
+        after_scope = copy.deepcopy(before_scope)
+        after_scope.update(state="defined", taskIds=["GZ-022", "GZ-023"], requiredFinalTask="GZ-023")
+        self.manifest = {"schemaVersion": 2, "kind": "agent-edge-104-definition", "taskId": self.owner, "scopeId": "AGENT-EDGE-104",
+                         "issue": 900022, "reservationParent": parent, "programPlan": PLANNING.PLAN,
+                         "requirementIndex": self.requirements, "acceptanceIndex": self.acceptances,
+                         "requirementDocument": {"path": "specs/requirements/agent-edge-104.md", "content": self.requirement_document},
+                         "targets": [{"kind": "define-fixed-scope", "id": "AGENT-EDGE-104", "before": before_scope, "after": after_scope},
+                                     {"kind": "add-edge-planned-task", "id": "GZ-023", "before": None, "after": final}]}
+        self.git("checkout", "-b", "chore/GZ-022-simulated-reservation", "main")
+        planner.update(status="reserved", issue=900022)
+        self.active["tasks"].append(self.entry)
+        self.save()
+        self.dump("evidence/GZ-022/agent-edge-104-definition.json", self.manifest)
+        self.write("evidence/GZ-022/handoff.md", "# Private protocol simulation\n\nNo external reservation or CI acceptance.\n")
+        self.commit("SIMULATION GZ-022 original metadata-only reservation")
+        self.registration = self.merge_current("SIMULATION GZ-022 reservation (#900022)")
+        self.git("checkout", "-b", self.branch, self.registration)
+
+    def implement_definition(self):
+        next(row for row in self.plan["tasks"] if row["taskId"] == self.owner)["status"] = "in_progress"
+        self.entry.update(status="in_progress", agentRole="implementer", baseSha=self.registration)
+        self.front.update(status="in_progress", agentRole="implementer", baseSha=self.registration)
+        self.plan["scopeBoundary"]["agentEdge104"] = copy.deepcopy(self.manifest["targets"][0]["after"])
+        self.plan["tasks"].append(copy.deepcopy(self.manifest["targets"][1]["after"]))
+        self.dump("specs/requirements/agent-edge-104.yaml", self.requirements)
+        self.dump("specs/acceptance/agent-edge-104.yaml", self.acceptances)
+        self.write("specs/requirements/agent-edge-104.md", self.manifest["requirementDocument"]["content"])
+        self.save()
+        return self.commit("SIMULATION GZ-022 exact catalog definition")
+
+    def complete_planner(self, code):
+        self.phase("review", "reviewer", "chore/GZ-022-simulated-review")
+        self.git("checkout", "-b", "chore/GZ-022-simulated-completion", "main")
+        next(row for row in self.plan["tasks"] if row["taskId"] == self.owner)["status"] = "completed"
+        self.active["tasks"] = [row for row in self.active["tasks"] if row["taskId"] != self.owner]
+        self.front.update(status="completed", agentRole="integrator", baseSha=self.git("rev-parse", "main"))
+        ledger = self.read(PLANNING.LEDGER)
+        inherited = copy.deepcopy(ledger["records"])
+        ledger["records"].append({"taskId": self.owner, "reservationRef": "PR-900022", "reservationCommit": self.registration,
+                                  "completionRef": "PR-900023", "mergeCommit": code, "taskSpec": self.task_path,
+                                  "evidencePath": "evidence/GZ-022", "handoffPath": "evidence/GZ-022/handoff.md"})
+        assert ledger["records"][:-1] == inherited
+        self.dump(PLANNING.LEDGER, ledger)
+        self.save()
+        self.commit("SIMULATION GZ-022 completion metadata")
+        return self.merge_current("SIMULATION GZ-022 completion phase")
+
+
+def test_simulated_original_catalog_admission_tampering_and_released_intro(tmp_path):
+    history = SimulatedCatalogHistory(tmp_path)
+    history.implement_definition()
+    decision, errors = history.decision()
+    assert not errors and decision is not None and decision["owner"] == "GZ-022"
+    code = history.merge_current("SIMULATION GZ-022 implementation (#900023)")
+    history.git("checkout", "-b", "chore/GZ-022-simulated-catalog-tamper", "main")
+    changed = copy.deepcopy(history.requirements)
+    changed["requirements"][0]["title"] += " undeclared"
+    history.dump("specs/requirements/agent-edge-104.yaml", changed)
+    tampered = history.commit("SIMULATION catalog-only drift attempt")
+    assert PLANNING.changed_paths(str(history.root), code, tampered) == {"specs/requirements/agent-edge-104.yaml"}
+    decision, errors = history.decision(base=code)
+    assert decision is None and any("differs from complete original registered records" in error for error in errors)
+    history.git("checkout", "main")
+    document_path = "specs/requirements/agent-edge-104.md"
+    weakened = history.manifest["requirementDocument"]["content"].replace("Simulated delivery only.", "Unreviewed weaker delivery.")
+    assert weakened != history.manifest["requirementDocument"]["content"]
+    history.git("checkout", "-b", "chore/GZ-022-simulated-document-tamper-active", "main")
+    history.write(document_path, weakened)
+    weakened_active = history.commit("SIMULATION normative document-only weakening while active")
+    assert PLANNING.changed_paths(str(history.root), code, weakened_active) == {document_path}
+    # Index joins, YAML catalogs and Markdown headings remain valid; only the
+    # registered normative body has changed.
+    PLANNING.validate_edge_indexes(str(history.root), history.plan, ref=weakened_active)
+    decision, errors = history.decision(base=code)
+    assert decision is None and any("requirementDocument differs from complete original registered content" in error for error in errors)
+    history.git("checkout", "main")
+    completed = history.complete_planner(code)
+    actual = PLANNING.document(str(history.root), completed, PLANNING.PLAN)
+    assert "GZ-022" not in PLANNING.records(PLANNING.document(str(history.root), completed, PLANNING.ACTIVE)["tasks"])
+    assert PLANNING.completed_producer(str(history.root), completed, "GZ-022")
+    PLANNING.validate_frozen_edge_catalogs(str(history.root), completed, completed, actual)
+    history.git("checkout", "-b", "chore/GZ-022-simulated-document-tamper-completed", "main")
+    history.write(document_path, weakened)
+    weakened_completed = history.commit("SIMULATION normative document-only weakening after Active release")
+    assert PLANNING.changed_paths(str(history.root), completed, weakened_completed) == {document_path}
+    after = PLANNING.document(str(history.root), weakened_completed, PLANNING.PLAN)
+    PLANNING.validate_edge_indexes(str(history.root), after, ref=weakened_completed)
+    with pytest.raises(PLANNING.PlanningError, match="requirementDocument differs from complete original registered content"):
+        PLANNING.validate_frozen_edge_catalogs(str(history.root), completed, weakened_completed, after)
+    decision, errors = history.decision(base=completed)
+    assert decision is None and any("requirementDocument differs from complete original registered content" in error for error in errors)
+    assert history.git("rev-parse", "origin/main") == EDGE_ADMISSION
+
+
+@pytest.mark.parametrize("case", ["missing", "wrong_path", "empty", "nonstring"])
+def test_definition_schema_requires_complete_fixed_requirement_document(case):
+    plan, requirements, acceptances = edge_index_documents()
+    before = edge_planning_plan()["scopeBoundary"]["agentEdge104"]
+    definition = {
+        "schemaVersion": 2, "kind": "agent-edge-104-definition", "taskId": "GZ-022", "scopeId": "AGENT-EDGE-104",
+        "issue": 900022, "reservationParent": EDGE_ADMISSION, "programPlan": PLANNING.PLAN,
+        "requirementIndex": requirements, "acceptanceIndex": acceptances,
+        "requirementDocument": {"path": "specs/requirements/agent-edge-104.md",
+                                "content": "# Schema fixture\n\n## REQ-EDGE-104-0001\n\nFirst full requirement.\n\n## REQ-EDGE-104-0002\n\nSecond full requirement.\n"},
+        "targets": [{"kind": "define-fixed-scope", "id": "AGENT-EDGE-104", "before": before,
+                     "after": plan["scopeBoundary"]["agentEdge104"]}]
+                   + [{"kind": "add-edge-planned-task", "id": row["taskId"], "before": None, "after": row}
+                      for row in plan["tasks"] if row["taskId"] in {"GZ-023", "GZ-024"}],
+    }
+    program_schema = yaml.safe_load((ROOT / PLANNING.PROGRAM_SCHEMA).read_text(encoding="utf-8"))
+    manifest_schema = yaml.safe_load((ROOT / PLANNING.MANIFEST_SCHEMA).read_text(encoding="utf-8"))
+    registry = Registry().with_resources([(program_schema["$id"], Resource.from_contents(program_schema)), (manifest_schema["$id"], Resource.from_contents(manifest_schema))])
+    validator = jsonschema.Draft202012Validator({"$ref": manifest_schema["$id"]+"#/$defs/agentEdge104Definition"}, registry=registry)
+    validator.validate(definition)
+    changed = copy.deepcopy(definition)
+    if case == "missing":
+        changed.pop("requirementDocument")
+    elif case == "wrong_path":
+        changed["requirementDocument"]["path"] = "specs/requirements/other.md"
+    elif case == "empty":
+        changed["requirementDocument"]["content"] = ""
+    else:
+        changed["requirementDocument"]["content"] = 7
+    with pytest.raises(jsonschema.ValidationError):
+        validator.validate(changed)
+
+
+def test_program_schema_validation_error_remains_a_classified_rejection(history):
+    history.apply()
+    history.plan["unexpectedTopLevelField"] = True
+    head = history.finish()
+    assert PLANNING.document(str(history.root), head, PLANNING.PLAN)["unexpectedTopLevelField"] is True
+    decision, errors = history.decision()
+    assert decision is None
+    assert any(error.startswith("Planning revision rejected:") and
+               "Additional properties are not allowed" in error and
+               "unexpectedTopLevelField" in error for error in errors)

@@ -1,0 +1,46 @@
+{
+  "kind": "OPS011_PR110_CURRENT_SOURCE_CI747_ACCEPTANCE",
+  "observedAtUTC": "2026-10-20T17:30:29.890203+00:00",
+  "source": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+  "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+  "base": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+  "pr": 110,
+  "runId": 39461860775,
+  "runNumber": 747,
+  "runAttempt": 1,
+  "jobId": 118763226412,
+  "event": "pull_request",
+  "checkout": "4cb52fcf80293adfcad915b4c39549206957098a",
+  "orderedCheckoutParents": [
+    "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+    "4d3806835a474137bac9bd0e841dd283d7d4bf0c"
+  ],
+  "all28StepsSucceeded": true,
+  "governanceTests": 637,
+  "uniquePassedCases": 637,
+  "summaryCount": 1,
+  "durationSeconds": 1411.34,
+  "failures": 0,
+  "errors": 0,
+  "testSkipped": 0,
+  "decodedRawBytesPreserved": true,
+  "ciAccepted": true,
+  "currentLocalSourceValidationComplete": false,
+  "localAccepted": false,
+  "formalSourceAccepted": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "inputs": [
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci747-official.raw",
+      "sha256": "69f83620588d553048322362f758cf8be519354c3dd19049c15a2905a6d9481a",
+      "byteCount": 261130
+    },
+    {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci747-official-snapshot.json",
+      "sha256": "8adc218ca8470458170b298d45c892bffc1b9961cee47a38eb796302c59f9aa4",
+      "byteCount": 313180
+    }
+  ],
+  "scope": "Official terminal CI only. The new independent-clone local fifteen-gate execution is still separately pending; no source or main acceptance transferred."
+}

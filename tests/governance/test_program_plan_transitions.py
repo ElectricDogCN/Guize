@@ -1,4 +1,6 @@
 import importlib.util
+import copy
+import json
 import os
 import subprocess
 import sys
@@ -214,6 +216,49 @@ class TestProgramPlanTransitions(unittest.TestCase):
         errors = []
         TRANSITIONS.validate_wave_activation(plan, errors)
         self.assertEqual(errors, [])
+
+    def fixed_scope_plan(self):
+        original = subprocess.check_output(["git", "-C", REPO_ROOT, "show", "39afaf007d800bab43d7703ac082df2bbc7e8e87:specs/coordination/program-plan.yaml"], encoding="utf-8")
+        plan = yaml.safe_load(original)
+        with open(os.path.join(REPO_ROOT, "evidence/OPS-011/agent-edge-104-first-use.json"), encoding="utf-8") as handle:
+            first_use = json.load(handle)
+        for target in first_use["targets"]:
+            if target["kind"] == "add-fixed-scope-boundary":
+                plan["scopeBoundary"] = target["after"]
+            elif target["kind"] == "add-planned-task":
+                plan["tasks"].append(target["after"])
+            else:
+                plan.setdefault("planningBaselines", []).append(target["after"])
+        return plan
+
+    def test_follow_up_planner_wave_does_not_wait_for_unrelated_v1_wave(self):
+        plan = self.fixed_scope_plan()
+        next(task for task in plan["tasks"] if task["taskId"] == "GZ-004")["status"] = "planned"
+        next(task for task in plan["tasks"] if task["taskId"] == "GZ-022")["status"] = "reserved"
+        errors = []
+        TRANSITIONS.validate_wave_activation(plan, errors)
+        self.assertEqual(errors, [])
+
+    def test_v1_wave_does_not_wait_for_unrelated_follow_up_wave(self):
+        plan = self.fixed_scope_plan()
+        next(task for task in plan["tasks"] if task["taskId"] == "POC-003")["status"] = "reserved"
+        next(task for task in plan["tasks"] if task["taskId"] == "GZ-022")["wave"] = "W1"
+        errors = []
+        TRANSITIONS.validate_wave_activation(plan, errors)
+        self.assertEqual(errors, [])
+
+    def test_follow_up_scope_still_blocks_its_own_unfinished_earlier_wave(self):
+        plan = self.fixed_scope_plan()
+        planner = next(task for task in plan["tasks"] if task["taskId"] == "GZ-022")
+        worker = copy.deepcopy(planner)
+        worker.update(taskId="GZ-023", kind="scaffold", riskLevel="medium", wave="W3", dependsOn=["GZ-022"], requirementIds=["REQ-EDGE-104-0001"])
+        final = copy.deepcopy(worker)
+        final.update(taskId="GZ-024", kind="release", riskLevel="critical", wave="W4", status="reserved", dependsOn=["GZ-023"])
+        plan["tasks"].extend([worker, final])
+        plan["scopeBoundary"]["agentEdge104"].update(state="defined", taskIds=["GZ-022", "GZ-023", "GZ-024"], requiredFinalTask="GZ-024")
+        errors = []
+        TRANSITIONS.validate_wave_activation(plan, errors)
+        self.assertTrue(any("GZ-024" in error and "GZ-023" in error and "earlier-wave" in error for error in errors))
 
     def test_valid_reservation_transition_passes(self):
         with tempfile.TemporaryDirectory() as root:

@@ -1,11 +1,9 @@
-# OPS-011 scope amendment — current candidate
+OPS-011 governance loading performance
 
-Issue: [#108](https://github.com/ElectricDogCN/Guize/issues/108); PR: [#110](https://github.com/ElectricDogCN/Guize/pull/110).
+Sourceb42 naturally passed all15local commands and680tests in1207.25s, but CI752 officially ended cancelled with558passed/0failed at82percent and no final summary. The historical archive retains both results; no source/CI/main acceptance transfers to this successor. Runtime/media/device performance is outside this governance change.
 
-Base: `1d2cb080d56176e26375a7b373a3cf3ef548b3dd`; registration branch: `chore/OPS-011-agent-edge-104-scope-registration`; implementation branch: `chore/OPS-011-agent-edge-104-scope`. State: reserved/coordinator. Successor Source Commit/tree: PENDING_ACTUAL_PUBLICATION. The new immutable Git HEAD will be recorded by its actual execution entry; no future SHA is supplied.
+The prior finite actual-Program profile measured SafeLoader median37.363ms and CSafeLoader5.162ms with recursive type/value equality, malformed/unsafe-tag rejection and SafeLoader fallback. That safe Task Program change remains; it did not guarantee that CI752 would finish.
 
-The previous 8c9f1ca source is superseded: its first13 commands exited0, make verify was deliberately interrupted for the three real review findings and did not pass. These results do not transfer. Current successor commands, raw outputs, JUnit, CI, independent source acceptance and actual-main acceptance are all PENDING.
+The current helper patch avoids loading heavy schema libraries for the authenticated no-definition-change None result. A single pair of fresh cold processes bound the same actualb42 Git Program and endpoints: both returnedNone witherrors[], classifier time undercProfile132.215ms before/10.420ms after; total measured helper/Program/classifier219.319ms/88.078ms. Only the original process loadedjsonschema/referencing on that path. Profile recordSHA256 f21c8c2d71261badea0c729538f82948ac78d9211dd6b37d57fdd44cc39e2429. This is one controlled loading observation, not full-suite or guaranteedCI runtime evidence. Actual planning and frozen document/catalog validation still load existing schema machinery and execute all original guards.
 
-N/A: no runtime or performance claim is made; do not transfer phone/AV1 prototype results.
-
-Accepted original reservation, prerequisite only: [original receipt](../reservation-history/actual-main-independent-acceptance.json), [portable artifact map](../reservation-history/artifacts/artifact-map.json) and [recovery instructions](../reservation-history/artifacts/README.md). Original reservation acceptance does not establish current amendment success.
+Nineteen targeted DEV regressions passed79.29s, JUnit19/F0/E0/S0, with protected source and complete post-applyDEV snapshots unchanged. The new real-Git Program extra-field case actually asserts the classifiedValidationError message; no test here asserts an actualSchemaError throw. DEV recordSHA256 6b31d32cc7f9b1a1461e2a31cb9279a894be5eeeb9142547d66361d30130d588. Current successor fullsource gates/JUnit/CI/independent acceptance remainPENDING.

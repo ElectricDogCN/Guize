@@ -1,0 +1,9 @@
+# Accepted scope-amendment metadata archive
+
+This archive preserves PR #110's accepted metadata stage: source `4d3806835a474137bac9bd0e841dd283d7d4bf0c`, base `1d2cb080d56176e26375a7b373a3cf3ef548b3dd`, and actual main `39afaf007d800bab43d7703ac082df2bbc7e8e87`. The four original acceptance receipts and the union of their directly pinned attachments are retained unchanged. Attachment JSON is not recursively expanded. Earlier failed-environment evidence remains failed; archival does not change its result.
+
+[artifact-map.json](artifact-map.json) maps each original absolute attachment path to its repository-local stored artifact, with original/stored hashes, byte counts and encoding. For `lossless-base64-json-v1`, decode the artifact's `base64` field, then verify `originalSha256` and `originalByteCount`; `raw-bytes` artifacts are already the original bytes. Containers preserve trailing whitespace or non-text data without modifying raw logs.
+
+The canonical Evidence snapshots come from Git blobs in accepted base39, not the current implementation worktree. Nine of the ten requested logical canonical files exist in that commit; a separate rollback file does not exist and is recorded as absent. Historical pending statements remain part of their exact original bytes. Historical Markdown snapshots use a `.txt` storage suffix with unchanged bytes. Their relative links retain the meaning of the original Git location; they are historical text, not links or instructions to resolve or execute from this artifact directory.
+
+Acceptance here applies only to the scope-amendment metadata and its own source/main execution. The current OPS-011 mechanism implementation has not been accepted by this archive. It does not establish GZ-022/business registration, runtime, formal POC or complete V1 acceptance. Existing reservation-history files and current canonical Evidence are not rewritten.

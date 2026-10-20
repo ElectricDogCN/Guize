@@ -1,0 +1,5 @@
+Source Commit: 4bdfe42532aa5bfa62f879af5f3dedd69c673fc5
+Command: python scripts/check-program-plan-history.py --base-ref 39afaf007d800bab43d7703ac082df2bbc7e8e87 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-scope
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "39afaf007d800bab43d7703ac082df2bbc7e8e87", "headRef": "HEAD", "completionRecords": 4, "auditedOwnerCapacityFailures": []}}
+
+Exit Code: 0

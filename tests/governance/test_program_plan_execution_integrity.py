@@ -441,6 +441,62 @@ class TestIntegrity(unittest.TestCase):
             result = self.run_script(root)
             self.assertIn("does not transitively depend", result.stdout)
 
+    def fixed_planning_documents(self):
+        """An isolated integrity fixture with all frozen V1 member identities."""
+        plan, active, modules, ledger = self.documents()
+        with open(os.path.join(REPO_ROOT, "evidence/OPS-011/agent-edge-104-first-use.json"), encoding="utf-8") as handle:
+            first_use = json.load(handle)
+        definitions = {item["taskId"]: item for item in plan["tasks"]}
+        for task_id in first_use["originalV1TaskIds"]:
+            definitions.setdefault(task_id, {
+                "taskId": task_id, "title": task_id, "kind": "contract", "status": "planned",
+                "riskLevel": "medium", "wave": "W2", "dependsOn": ["GZ-004"],
+                "moduleIds": ["MOD-GOV"], "outputPaths": [f"docs/governance/{task_id}/**"],
+                "sharedPaths": [], "exitGate": f"{task_id} independently verified.",
+            })
+        plan["tasks"] = [definitions[task_id] for task_id in first_use["originalV1TaskIds"]]
+        definitions["GZ-020"]["dependsOn"] = [task_id for task_id in first_use["originalV1TaskIds"] if task_id != "GZ-020"]
+        plan["pocs"] = [{"taskId": task_id, "status": "planned"} for task_id in first_use["originalPocTaskIds"]]
+        for target in first_use["targets"]:
+            if target["kind"] == "add-fixed-scope-boundary":
+                plan["scopeBoundary"] = target["after"]
+            elif target["kind"] == "add-planned-task":
+                planner = target["after"]
+                planner["dependsOn"] = ["GZ-021"]
+                plan["tasks"].append(planner)
+            else:
+                plan["planningBaselines"] = [target["after"]]
+        return plan, active, modules, ledger
+
+    def test_v1_release_closure_excludes_unstarted_follow_up_planner(self):
+        with tempfile.TemporaryDirectory() as root:
+            self.prepare(root, *self.fixed_planning_documents())
+            result = self.run_script(root)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_v1_release_closure_still_requires_every_frozen_member(self):
+        with tempfile.TemporaryDirectory() as root:
+            plan, active, modules, ledger = self.fixed_planning_documents()
+            final = next(task for task in plan["tasks"] if task["taskId"] == "GZ-020")
+            final["dependsOn"].remove("GZ-019")
+            self.prepare(root, plan, active, modules, ledger)
+            result = self.run_script(root)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("GZ-019", result.stdout)
+            self.assertIn("does not transitively depend", result.stdout)
+
+    def test_follow_up_scope_does_not_waive_real_cross_scope_dependency(self):
+        with tempfile.TemporaryDirectory() as root:
+            plan, active, modules, ledger = self.fixed_planning_documents()
+            planner = next(task for task in plan["tasks"] if task["taskId"] == "GZ-022")
+            planner["status"] = "reserved"
+            active["tasks"].append({"taskId": "GZ-022", "status": "reserved", "dependsOn": ["GZ-021"], "baseSha": "a"*40})
+            self.prepare(root, plan, active, modules, ledger)
+            self.write_task(root, "GZ-022", "reserved", planner["exitGate"])
+            result = self.run_script(root)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("dependency GZ-021 is planned", result.stdout)
+
     def test_completed_exit_gate(self):
         with tempfile.TemporaryDirectory() as root:
             plan, active, modules, ledger = self.documents()

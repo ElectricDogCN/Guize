@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "kind": "OPS011_IMPLEMENTATION_FAILED_EXECUTION_ARCHIVE",
+  "source": "20366b0546c09a2ec776ab801f8efa2aea45713f",
+  "tree": "8bd15dcbdece22744be62e20996f1f53daf41a54",
+  "soleParent": "af290fd5b69ff09aff31ca086cbac2ca5c998d71",
+  "base": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+  "branch": "chore/OPS-011-agent-edge-104-scope",
+  "executionStartedAt": "2026-10-20T18:54:07.467719+00:00",
+  "failureObservedAt": "2026-10-20T19:18:40.404022+00:00",
+  "failedGate": "verify",
+  "failedGateExitCode": 2,
+  "precedingCommandsPassed": [
+    "diff",
+    "task",
+    "readiness",
+    "schemas",
+    "integrity",
+    "history",
+    "transitions",
+    "finalization",
+    "raw-lifecycle",
+    "lifecycle",
+    "coordination",
+    "scope",
+    "evidence"
+  ],
+  "notStarted": [
+    "docs"
+  ],
+  "worktreesUnchangedDuringExecution": true,
+  "sourceAccepted": false,
+  "completeFifteenGatesPassed": false,
+  "junit": {
+    "originalFilename": "make-governance.xml",
+    "testcases": 674,
+    "passed": 667,
+    "failures": 7,
+    "errors": 0,
+    "skipped": 0,
+    "failureCases": [
+      {
+        "classname": "tests.governance.test_program_plan_history.TestProgramPlanHistory",
+        "name": "test_foundation_accepts_working_nonconflicting_claim",
+        "message": "AssertionError: 1 != 0 : {\"status\": \"FAIL\", \"message\": \"Planning revision rejected: Program tasks must belong to exactly their fixed scope\"}"
+      },
+      {
+        "classname": "tests.governance.test_program_plan_history.TestProgramPlanHistory",
+        "name": "test_foundation_own_renewal_with_main_foreign_registry_conflict",
+        "message": "AssertionError: 1 != 0 : {\"status\": \"FAIL\", \"message\": \"Planning revision rejected: Program tasks must belong to exactly their fixed scope\"}"
+      },
+      {
+        "classname": "tests.governance.test_program_plan_history.TestProgramPlanHistory",
+        "name": "test_foundation_post_disjoint_peer_old_own_lease",
+        "message": "AssertionError: 1 != 0 : {\"status\": \"FAIL\", \"message\": \"Planning revision rejected: Program tasks must belong to exactly their fixed scope\"}"
+      },
+      {
+        "classname": "tests.governance.test_program_plan_history.TestProgramPlanHistory",
+        "name": "test_foundation_postclaim_foreign_disjoint",
+        "message": "AssertionError: 1 != 0 : {\"status\": \"FAIL\", \"message\": \"Planning revision rejected: Program tasks must belong to exactly their fixed scope\"}"
+      },
+      {
+        "classname": "tests.governance.test_program_plan_history.TestProgramPlanHistory",
+        "name": "test_foundation_postclaim_foreign_disjoint_side",
+        "message": "AssertionError: 1 != 0 : {\"status\": \"FAIL\", \"message\": \"Planning revision rejected: Program tasks must belong to exactly their fixed scope\"}"
+      },
+      {
+        "classname": "tests.governance.test_program_planning_revision",
+        "name": "test_manifest_mutation_restoration_cannot_disappear[check-program-plan-transitions.py]",
+        "message": "AssertionError: {\"status\": \"FAIL\", \"message\": \"Planning revision rejected: Original registered planning manifest changed in intermediate history\"}"
+      },
+      {
+        "classname": "tests.governance.test_program_planning_revision",
+        "name": "test_manifest_mutation_restoration_cannot_disappear[check-program-lifecycle-guards.py]",
+        "message": "AssertionError: {\"status\": \"FAIL\", \"message\": \"Planning revision rejected: Original registered planning manifest changed in intermediate history\"}"
+      }
+    ]
+  },
+  "retentionBoundary": "Exactly nineteen direct files in this execution result directory plus the exact executed entry script. No recursive JSON-reference or old-archive expansion.",
+  "artifacts": [
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/diff.txt",
+      "originalFilename": "diff.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n001.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "dad8ebaf9544eb2a77a2f341f465f2369b27e729771ec0d6dd6bb1366b9daf30",
+      "originalByteCount": 144,
+      "storedSha256": "dad8ebaf9544eb2a77a2f341f465f2369b27e729771ec0d6dd6bb1366b9daf30",
+      "storedByteCount": 144
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/task.txt",
+      "originalFilename": "task.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n002.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "68098266e47f2ca47c5fd50c273d04c45ce3b8260a21949225fafd0c2eef2821",
+      "originalByteCount": 267,
+      "storedSha256": "68098266e47f2ca47c5fd50c273d04c45ce3b8260a21949225fafd0c2eef2821",
+      "storedByteCount": 267
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/readiness.txt",
+      "originalFilename": "readiness.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n003.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "b59e63c35490cf5a8d88604a1b0ff662d6d8b05a16f28c6178dd1e10076b7760",
+      "originalByteCount": 660,
+      "storedSha256": "b59e63c35490cf5a8d88604a1b0ff662d6d8b05a16f28c6178dd1e10076b7760",
+      "storedByteCount": 660
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/schemas.txt",
+      "originalFilename": "schemas.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n004.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "c07ee04c338f72484bc8a646546733fc97cdafb6570bf852a722499f124c4bbc",
+      "originalByteCount": 1811,
+      "storedSha256": "c07ee04c338f72484bc8a646546733fc97cdafb6570bf852a722499f124c4bbc",
+      "storedByteCount": 1811
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/integrity.txt",
+      "originalFilename": "integrity.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n005.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "39a41c3df2e7c1f959306444a2cd5cf06987df84cf3f325abbc3d99437505a24",
+      "originalByteCount": 418,
+      "storedSha256": "39a41c3df2e7c1f959306444a2cd5cf06987df84cf3f325abbc3d99437505a24",
+      "storedByteCount": 418
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/history.txt",
+      "originalFilename": "history.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n006.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "1f333bf54f086a9a96ef0cc76df76e63243f9507feaee52e8dfc8263504d12d6",
+      "originalByteCount": 479,
+      "storedSha256": "1f333bf54f086a9a96ef0cc76df76e63243f9507feaee52e8dfc8263504d12d6",
+      "storedByteCount": 479
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/transitions.txt",
+      "originalFilename": "transitions.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n007.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "0fb04bf0d3a979b641f853b69e12462b9ab6c18dddc130543b9fa3b633bd6d9b",
+      "originalByteCount": 432,
+      "storedSha256": "0fb04bf0d3a979b641f853b69e12462b9ab6c18dddc130543b9fa3b633bd6d9b",
+      "storedByteCount": 432
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/finalization.txt",
+      "originalFilename": "finalization.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n008.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "3f415b6f5faa780601099b3f27a1e1dfe2549908a9b20fb47eb9f27ca84a5fdd",
+      "originalByteCount": 361,
+      "storedSha256": "3f415b6f5faa780601099b3f27a1e1dfe2549908a9b20fb47eb9f27ca84a5fdd",
+      "storedByteCount": 361
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/raw-lifecycle.txt",
+      "originalFilename": "raw-lifecycle.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n009.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "eabb0311c3b2d3f1d92e02eee630a80162678e3b58ea2a4eeafb539320e3eb52",
+      "originalByteCount": 499,
+      "storedSha256": "eabb0311c3b2d3f1d92e02eee630a80162678e3b58ea2a4eeafb539320e3eb52",
+      "storedByteCount": 499
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/lifecycle.txt",
+      "originalFilename": "lifecycle.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n010.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "2b75906598c5c8d59b4f46eac6747c3460fe1c30c008835e5d8928612f1fc3fa",
+      "originalByteCount": 590,
+      "storedSha256": "2b75906598c5c8d59b4f46eac6747c3460fe1c30c008835e5d8928612f1fc3fa",
+      "storedByteCount": 590
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/coordination.txt",
+      "originalFilename": "coordination.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n011.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "489fa0fa4cbefd21c9432fb61fde44a91004d5e4377702a895e188dacbfbdab1",
+      "originalByteCount": 391,
+      "storedSha256": "489fa0fa4cbefd21c9432fb61fde44a91004d5e4377702a895e188dacbfbdab1",
+      "storedByteCount": 391
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/scope.txt",
+      "originalFilename": "scope.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n012.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "ad90d5464399bd5f5efc58edbb0e22bfe4d535a0ce61cc5e3bcc7a0576049fc0",
+      "originalByteCount": 6084,
+      "storedSha256": "ad90d5464399bd5f5efc58edbb0e22bfe4d535a0ce61cc5e3bcc7a0576049fc0",
+      "storedByteCount": 6084
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/evidence.txt",
+      "originalFilename": "evidence.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n013.txt",
+      "storageEncoding": "raw",
+      "originalSha256": "b5678d4d658bb54fdc40fee486e2d0ad04d0c41c0a1dbfffdc9f1a8e37d77015",
+      "originalByteCount": 198,
+      "storedSha256": "b5678d4d658bb54fdc40fee486e2d0ad04d0c41c0a1dbfffdc9f1a8e37d77015",
+      "storedByteCount": 198
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/verify.txt",
+      "originalFilename": "verify.txt",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n014.base64.json",
+      "storageEncoding": "base64-json",
+      "originalSha256": "8881b437943cf83d56c4062f4c422331b4f2a49f437fb3c42f6a4f7406626a7e",
+      "originalByteCount": 131226,
+      "storedSha256": "69493f3c6b3270ad08297524b9ea7edc59dbf5f235f2cb56cf9b70abc6444a4a",
+      "storedByteCount": 175182
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/execution-entry.json",
+      "originalFilename": "execution-entry.json",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n015.json",
+      "storageEncoding": "raw",
+      "originalSha256": "60ca34d314b7ee436fa31fe289d6443f05011efd3728663f04a746b69fbd8795",
+      "originalByteCount": 8607,
+      "storedSha256": "60ca34d314b7ee436fa31fe289d6443f05011efd3728663f04a746b69fbd8795",
+      "storedByteCount": 8607
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/command-executions.json",
+      "originalFilename": "command-executions.json",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n016.json",
+      "storageEncoding": "raw",
+      "originalSha256": "c250788f734a9a6031dd338eeea5dedd1ae6af0d80440966a0c0ac7d28646efa",
+      "originalByteCount": 8674,
+      "storedSha256": "c250788f734a9a6031dd338eeea5dedd1ae6af0d80440966a0c0ac7d28646efa",
+      "storedByteCount": 8674
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/status.json",
+      "originalFilename": "status.json",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n017.json",
+      "storageEncoding": "raw",
+      "originalSha256": "b271028516c9951590d64705b06024f4b5d7d42f1508e4c174bf7e9931e0c90c",
+      "originalByteCount": 245,
+      "storedSha256": "b271028516c9951590d64705b06024f4b5d7d42f1508e4c174bf7e9931e0c90c",
+      "storedByteCount": 245
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/failed-gate-worktrees.json",
+      "originalFilename": "failed-gate-worktrees.json",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n018.json",
+      "storageEncoding": "raw",
+      "originalSha256": "dbe8cd5e1d8eec20f238173b63ba933d0009cae95d69cdd41488f70a9bbf9498",
+      "originalByteCount": 7209,
+      "storedSha256": "dbe8cd5e1d8eec20f238173b63ba933d0009cae95d69cdd41488f70a9bbf9498",
+      "storedByteCount": 7209
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-20366b0-results/make-governance.xml",
+      "originalFilename": "make-governance.xml",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n019.base64.json",
+      "storageEncoding": "base64-json",
+      "originalSha256": "6e5f085a19ae5e17f84f72f705de0ec55bd4086f4359c2ee6abe745f04b7ff86",
+      "originalByteCount": 157350,
+      "storedSha256": "dc8ab02dd7b1a7ba9e9c258bbdef9ef90417fabf6a2d84978f19293275bd1bf9",
+      "storedByteCount": 210023
+    },
+    {
+      "sourceAbsolutePath": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/verify_ops011_implementation_successor.py",
+      "originalFilename": "verify_ops011_implementation_successor.py",
+      "repositoryRelativePath": "evidence/OPS-011/history/20366b0/artifacts/n020.py",
+      "storageEncoding": "raw",
+      "originalSha256": "deb197fc3484fea97495c83989ca5c7fa96fe3bc8eb9b52c12388e8a473439ee",
+      "originalByteCount": 14729,
+      "storedSha256": "deb197fc3484fea97495c83989ca5c7fa96fe3bc8eb9b52c12388e8a473439ee",
+      "storedByteCount": 14729
+    }
+  ]
+}

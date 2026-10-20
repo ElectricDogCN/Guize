@@ -129,7 +129,7 @@ properties:
           uniqueItems: true
           items:
             type: string
-            pattern: '^REQ-V1-[0-9]{4}$'
+            pattern: '^(?:REQ-V1|REQ-EDGE-104)-[0-9]{4}$'
         moduleIds:
           type: array
           uniqueItems: true

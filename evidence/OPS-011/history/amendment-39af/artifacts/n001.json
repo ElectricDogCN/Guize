@@ -1,0 +1,181 @@
+{
+  "kind": "OPS011_SCOPE_AMENDMENT_ACTUAL_MAIN_INDEPENDENT_ACCEPTANCE",
+  "observedAtUTC": "2026-10-20T18:18:06.118382+00:00",
+  "actualMain": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+  "source": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+  "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+  "base": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+  "orderedParents": [
+    "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+    "4d3806835a474137bac9bd0e841dd283d7d4bf0c"
+  ],
+  "taskId": "OPS-011",
+  "issue": 108,
+  "pr": 110,
+  "actualMainAccepted": true,
+  "ciAccepted": true,
+  "registered": true,
+  "scopeAmendmentRegistered": true,
+  "16ClaimRegistered": true,
+  "sixteenClaimsRegistered": true,
+  "mustFix": [],
+  "sourceAdmission": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-4d38068-final-source-admission.json",
+    "sha256": "f08ed43aed3177d7fa9e257220579a6864858a13a925af2884d86aedc7b5e015",
+    "byteCount": 13012
+  },
+  "officialMerge": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-official-merge.json",
+    "sha256": "a5311915d720845c9d296c1640d7ee1162262a752a1a2b79ebc06b77ea8ef75a",
+    "byteCount": 26966
+  },
+  "adoption": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-actual-main-adoption.json",
+    "sha256": "e0e45cefac53fbb8acdc43c08642ceb291ce7b6022f10c50a79a24eacdfc0883",
+    "byteCount": 173615
+  },
+  "mainSix": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-main-six-results/verification-worktrees.json",
+    "sha256": "6a3693892fa5d23a54f5749eaa67dbd7d03ac1b254bbda83fc7fe80226a39415",
+    "byteCount": 117726
+  },
+  "pushCI": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci748-39afaf0-accepted.json",
+    "sha256": "abb4b69b011a96671c43977e302cfe9546b6535944d7de36902f72a7576d57ff",
+    "byteCount": 1768
+  },
+  "officialSnapshot": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci748-official-snapshot.json",
+    "sha256": "a98a43b3c26f686e4e5abb98061dcc7a1767f082664c464c006f276024d181fa",
+    "byteCount": 306760
+  },
+  "officialRaw": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci748-official.raw",
+    "sha256": "e5cf4557b7d8caaa447ac92bf08cd456b015abc4dda0c98dd3b37bc1134245d4",
+    "byteCount": 252779
+  },
+  "mainSixRawLogs": [
+    {
+      "label": "identity",
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-main-six-results/identity.txt",
+      "sha256": "9f676504928d3f8ac208d5bb96bf616c0779dc93809da7493ce8a2c23bf58ca2",
+      "byteCount": 954,
+      "pid": 1141523
+    },
+    {
+      "label": "integrity",
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-main-six-results/integrity.txt",
+      "sha256": "628858cdbfca6567b22d2fab7c4cfc5d8f020c76152f9143b66d24d32ddf231a",
+      "byteCount": 418,
+      "pid": 1141530
+    },
+    {
+      "label": "history",
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-main-six-results/history.txt",
+      "sha256": "003883f6c5d6ed1499631ffa9e07b42ba6e22acc8582dd9af599c13ad3ce4842",
+      "byteCount": 521,
+      "pid": 1141591
+    },
+    {
+      "label": "transitions",
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-main-six-results/transitions.txt",
+      "sha256": "bb1fca95a54af13f012c84b1b76fd715f5d29a14d131e8c87477439b6b81fb57",
+      "byteCount": 438,
+      "pid": 1141726
+    },
+    {
+      "label": "raw-lifecycle",
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-main-six-results/raw-lifecycle.txt",
+      "sha256": "ba9d82f58dc0f9a6910bd806a5d471faeb8ce271ee6ecf58277e20937a3174c1",
+      "byteCount": 504,
+      "pid": 1141815
+    },
+    {
+      "label": "coordination",
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-scope-amendment-39afaf0-main-six-results/coordination.txt",
+      "sha256": "2f9e2481ddb5cd985eabef5726453dedd2a72346fc50c89caa3e77c1f03330c8",
+      "byteCount": 554,
+      "pid": 1141874
+    }
+  ],
+  "checks": {
+    "actualMergeSameTreeAsAcceptedSource": true,
+    "mainSixWaitedExitZero": 6,
+    "adoptionCommandsWaitedExitZero": 54,
+    "bothMainBeforeAfterCleanUnchanged": true,
+    "actualMainPushCiUniquePassed": 637,
+    "actualMainPushCiDurationSeconds": 1366.06,
+    "actualMainPushCiFailures": 0,
+    "actualMainPushCiErrors": 0,
+    "actualMainPushCiTestSkipped": 0,
+    "ciTotalSteps": 28,
+    "ciSuccessfulSteps": 23,
+    "ciConditionalSkippedSteps": [
+      9,
+      18,
+      19,
+      20,
+      21
+    ],
+    "localFullSuiteRepeated": false,
+    "originalInterruptedAndEnvironmentFailureHistoriesNotTransferred": true
+  },
+  "freshIdentity": {
+    "windowsPrimary": {
+      "source": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+      "parents": [
+        "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+        "4d3806835a474137bac9bd0e841dd283d7d4bf0c"
+      ],
+      "branch": "main",
+      "status": ""
+    },
+    "nativeMain": {
+      "source": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+      "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+      "parents": [
+        "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+        "4d3806835a474137bac9bd0e841dd283d7d4bf0c"
+      ],
+      "branch": "main",
+      "status": ""
+    }
+  },
+  "fiveCanonicalMetadataBindings": {
+    "specs/coordination/active-work.yaml": {
+      "physicalSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+      "canonicalLfSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+      "byteCount": 1917
+    },
+    "specs/tasks/OPS-011.md": {
+      "physicalSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+      "canonicalLfSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+      "byteCount": 14396
+    },
+    "specs/coordination/program-plan.yaml": {
+      "physicalSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+      "canonicalLfSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+      "byteCount": 36045
+    },
+    "specs/coordination/task-completions.yaml": {
+      "physicalSha256": "bf1c4c470c537b268d60da75b57d0efd07aee4554a803c10f68ba94ed53d8736",
+      "canonicalLfSha256": "bf1c4c470c537b268d60da75b57d0efd07aee4554a803c10f68ba94ed53d8736",
+      "byteCount": 1346
+    },
+    "evidence/OPS-011/agent-edge-104-first-use.json": {
+      "physicalSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+      "canonicalLfSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+      "byteCount": 5013
+    }
+  },
+  "implementationStarted": false,
+  "mechanismInstalled": false,
+  "businessScopeInstalled": false,
+  "gz022Installed": false,
+  "runtimeAccepted": false,
+  "formalPOCAccepted": false,
+  "fullV1Complete": false,
+  "testsRunByReviewer": false,
+  "scope": "Accepts only actual reserved/coordinator scope amendment on main with sixteen exact claims. Mechanism implementation remains a separate lifecycle phase; no business scope or execution accepted."
+}

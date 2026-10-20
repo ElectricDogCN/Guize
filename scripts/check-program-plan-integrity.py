@@ -31,6 +31,13 @@ RECOVERY = importlib.util.module_from_spec(RECOVERY_SPEC)
 assert RECOVERY_SPEC and RECOVERY_SPEC.loader
 RECOVERY_SPEC.loader.exec_module(RECOVERY)
 
+PLANNING_SPEC = importlib.util.spec_from_file_location(
+    "guize_integrity_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py")
+)
+PLANNING = importlib.util.module_from_spec(PLANNING_SPEC)
+assert PLANNING_SPEC and PLANNING_SPEC.loader
+PLANNING_SPEC.loader.exec_module(PLANNING)
+
 CANONICAL_PLAN = "specs/coordination/program-plan.yaml"
 CANONICAL_ACTIVE_WORK = "specs/coordination/active-work.yaml"
 CANONICAL_MODULE_OWNERSHIP = "specs/designs/module-ownership.yaml"
@@ -521,6 +528,16 @@ def main() -> int:
     plan_tasks = {item.get("taskId"): item for item in (plan.get("tasks") or [])}
     active_tasks = {item.get("taskId"): item for item in (active_work.get("tasks") or [])}
     all_tasks = {**foundation_tasks, **plan_tasks}
+    final_scope_members = set(plan_tasks)
+    try:
+        PLANNING.validate_scope_boundary(plan)
+        if "scopeBoundary" in plan:
+            final_scope_members = set(plan["scopeBoundary"]["v1TaskIds"])
+        PLANNING.validate_edge_indexes(root, plan)
+        if plan.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined":
+            PLANNING.validate_frozen_edge_catalogs(root, "HEAD", "HEAD", plan)
+    except Exception as exc:
+        errors.append(f"Program scope or independent EDGE indexes are invalid: {exc}")
 
     base_foundations = {
         item.get("taskId"): item for item in (base_plan or {}).get("foundationTasks") or []
@@ -683,7 +700,7 @@ def main() -> int:
                 + ", ".join(sorted(dependents))
             )
         closure = dependency_closure(final_task_id, plan_tasks)
-        missing_predecessors = sorted(set(plan_tasks) - {final_task_id} - closure)
+        missing_predecessors = sorted(final_scope_members - {final_task_id} - closure)
         if missing_predecessors:
             errors.append(
                 "Final release task GZ-020 does not transitively depend on all Program tasks: "

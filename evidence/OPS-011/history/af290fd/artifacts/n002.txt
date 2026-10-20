@@ -1,0 +1,5 @@
+Source Commit: af290fd5b69ff09aff31ca086cbac2ca5c998d71
+Command: python scripts/check-task-file.py --task OPS-011
+{"status": "PASS", "message": "Task file valid: /home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068/specs/tasks/OPS-011.md"}
+
+Exit Code: 0

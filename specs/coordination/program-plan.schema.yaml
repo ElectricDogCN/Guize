@@ -91,7 +91,11 @@ properties:
   tasks:
     type: array
     minItems: 1
-    items: {$ref: '#/$defs/task'}
+    items:
+      oneOf:
+        - {$ref: '#/$defs/task'}
+        - {$ref: '#/$defs/edgeTask'}
+  scopeBoundary: {$ref: '#/$defs/fixedScopeBoundary'}
   planningBaselines:
     type: array
     minItems: 1
@@ -273,3 +277,269 @@ $defs:
         minItems: 1
         uniqueItems: true
         items: {type: string, minLength: 1}
+
+  edgeReqId:
+    type: string
+    pattern: ^REQ-EDGE-104-[0-9]{4}$
+  edgeTask:
+    type: object
+    additionalProperties: false
+    required:
+    - taskId
+    - title
+    - kind
+    - status
+    - workPackage
+    - riskLevel
+    - ownerRole
+    - reviewerRole
+    - coordinationGroup
+    - wave
+    - integrationOrder
+    - dependsOn
+    - requirementIds
+    - moduleIds
+    - outputPaths
+    - sharedPaths
+    - producesContracts
+    - consumesContracts
+    - acceptanceIds
+    - pocIds
+    - issue
+    - branchPattern
+    - exitGate
+    properties:
+      taskId:
+        $ref: '#/$defs/taskId'
+      title:
+        type: string
+        minLength: 1
+      kind:
+        enum:
+        - requirements
+        - contract
+        - design-contract
+        - poc-coordination
+        - poc
+        - acceptance
+        - scaffold
+        - vertical-slice
+        - release
+        - governance
+      status:
+        enum:
+        - planned
+        - reserved
+        - in_progress
+        - review
+        - integration
+        - completed
+        - blocked
+        - cancelled
+      workPackage:
+        type: string
+        minLength: 1
+      riskLevel:
+        enum:
+        - low
+        - medium
+        - high
+        - critical
+      ownerRole:
+        type: string
+        minLength: 1
+      reviewerRole:
+        type: string
+        minLength: 1
+      coordinationGroup:
+        type: string
+        minLength: 1
+      wave:
+        type: string
+        pattern: ^W[0-9]+$
+      integrationOrder:
+        type: integer
+        minimum: 1
+      dependsOn:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/$defs/taskId'
+      requirementIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          $ref: '#/$defs/edgeReqId'
+      moduleIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          $ref: '#/$defs/moduleId'
+      outputPaths:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          $ref: '#/$defs/path'
+      sharedPaths:
+        type: array
+        uniqueItems: true
+        items:
+          $ref: '#/$defs/path'
+      producesContracts:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      consumesContracts:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      acceptanceIds:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          minLength: 1
+      pocIds:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          pattern: ^POC-[0-9]{2}$
+      issue:
+        type:
+        - integer
+        - 'null'
+        minimum: 1
+      branchPattern:
+        type: string
+        pattern: ^(feat|fix|docs|refactor|chore)/[A-Z]+-[0-9]{3}-\*$
+      exitGate:
+        type: string
+        minLength: 10
+  agentEdge104Scope:
+    type: object
+    additionalProperties: false
+    required:
+    - id
+    - sourceIssue
+    - state
+    - planningTaskId
+    - taskIds
+    - requiredFinalTask
+    - requirements
+    - requirementIndex
+    - acceptanceIndex
+    properties:
+      id:
+        const: AGENT-EDGE-104
+      sourceIssue:
+        const: 104
+      state:
+        enum:
+        - planning
+        - defined
+      planningTaskId:
+        const: GZ-022
+      taskIds:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          $ref: '#/$defs/taskId'
+      requiredFinalTask:
+        anyOf:
+        - $ref: '#/$defs/taskId'
+        - type: 'null'
+      requirements:
+        const: specs/requirements/agent-edge-104.md
+      requirementIndex:
+        const: specs/requirements/agent-edge-104.yaml
+      acceptanceIndex:
+        const: specs/acceptance/agent-edge-104.yaml
+    allOf:
+    - if:
+        properties:
+          state:
+            const: planning
+      then:
+        properties:
+          taskIds:
+            const:
+            - GZ-022
+          requiredFinalTask:
+            type: 'null'
+    - if:
+        properties:
+          state:
+            const: defined
+      then:
+        properties:
+          taskIds:
+            minItems: 2
+            contains:
+              const: GZ-022
+          requiredFinalTask:
+            allOf:
+            - $ref: '#/$defs/taskId'
+            - not:
+                const: GZ-022
+  agentEdge104Planning:
+    allOf:
+    - $ref: '#/$defs/agentEdge104Scope'
+    - properties:
+        state:
+          const: planning
+  agentEdge104Defined:
+    allOf:
+    - $ref: '#/$defs/agentEdge104Scope'
+    - properties:
+        state:
+          const: defined
+  fixedScopeBoundary:
+    type: object
+    additionalProperties: false
+    required:
+    - v1TaskIds
+    - v1FinalTask
+    - agentEdge104
+    properties:
+      v1TaskIds:
+        const:
+        - GZ-004
+        - GZ-005
+        - GZ-006
+        - GZ-007
+        - GZ-008
+        - GZ-009
+        - GZ-010
+        - POC-001
+        - POC-002
+        - POC-003
+        - POC-004
+        - POC-005
+        - POC-006
+        - POC-007
+        - POC-008
+        - POC-009
+        - POC-010
+        - GZ-011
+        - GZ-012
+        - GZ-013
+        - GZ-015
+        - GZ-016
+        - GZ-017
+        - GZ-018
+        - GZ-019
+        - GZ-020
+        - GZ-021
+      v1FinalTask:
+        const: GZ-020
+      agentEdge104:
+        $ref: '#/$defs/agentEdge104Scope'

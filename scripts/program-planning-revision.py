@@ -18,9 +18,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-import jsonschema
 import yaml
-from referencing import Registry, Resource
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -29,6 +27,23 @@ PROGRAM_SCHEMA = "specs/coordination/program-plan.schema.yaml"
 MANIFEST_SCHEMA = "specs/coordination/planning-revision.schema.yaml"
 EXECUTION = {"in_progress", "integration"}
 METADATA = {PLAN, ACTIVE, LEDGER}
+EDGE_SCOPE = "AGENT-EDGE-104"
+EDGE_PLANNER = "GZ-022"
+EDGE_V1_EDIT_IDS = frozenset({"GZ-006", "GZ-007", "GZ-008", "GZ-011", "GZ-012", "GZ-013", "GZ-016", "GZ-018"})
+FIRST_USE = "evidence/OPS-011/agent-edge-104-first-use.json"
+EDGE_DEFINITION = "evidence/GZ-022/agent-edge-104-definition.json"
+FIRST_USE_SHA256 = "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9"
+V1_TASK_IDS = [
+    "GZ-004", "GZ-005", "GZ-006", "GZ-007", "GZ-008", "GZ-009", "GZ-010",
+    *[f"POC-{number:03d}" for number in range(1, 11)],
+    "GZ-011", "GZ-012", "GZ-013", "GZ-015", "GZ-016", "GZ-017", "GZ-018",
+    "GZ-019", "GZ-020", "GZ-021",
+]
+EDGE_PATHS = {
+    "requirements": "specs/requirements/agent-edge-104.md",
+    "requirementIndex": "specs/requirements/agent-edge-104.yaml",
+    "acceptanceIndex": "specs/acceptance/agent-edge-104.yaml",
+}
 
 
 class PlanningError(ValueError):
@@ -93,6 +108,231 @@ def tasks(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
     foundations = records(plan.get("foundationTasks", []))
     require(not (ordinary.keys() & foundations.keys()), "Duplicate ordinary/Foundation task ID")
     return {**ordinary, **foundations}
+
+
+def task_scope(plan: dict[str, Any], task_id: str) -> str:
+    """Classify an existing member; this never grants a new Task or scope."""
+    by_id = tasks(plan)
+    require(task_id in by_id, f"Unknown Program member {task_id}")
+    if task_id in records(plan.get("foundationTasks", [])):
+        return "FOUNDATION"
+    if "scopeBoundary" not in plan:
+        return "V1"
+    boundary = plan["scopeBoundary"]
+    require(isinstance(boundary, dict) and isinstance(boundary.get("agentEdge104"), dict), "Invalid fixed scope boundary")
+    if task_id in boundary.get("v1TaskIds", []):
+        return "V1"
+    require(task_id in boundary["agentEdge104"].get("taskIds", []), f"Unclassified Program member {task_id}")
+    return EDGE_SCOPE
+
+
+def _dependency_closure(plan: dict[str, Any], task_id: str) -> set[str]:
+    by_id, visiting, done = tasks(plan), set(), set()
+    def visit(tid: str) -> None:
+        require(tid in by_id, f"Unknown dependency {tid}")
+        require(tid not in visiting, "Program dependency cycle")
+        if tid in done:
+            return
+        visiting.add(tid)
+        for dependency in by_id[tid].get("dependsOn", []):
+            visit(dependency)
+        visiting.remove(tid)
+        done.add(tid)
+    visit(task_id)
+    return done - {task_id}
+
+
+def validate_scope_boundary(plan: dict[str, Any]) -> None:
+    """Preserve the frozen V1 boundary and the one registered follow-up."""
+    ordinary = records(plan.get("tasks", []))
+    if "scopeBoundary" not in plan:
+        require(all(isinstance(rid, str) and re.fullmatch(r"REQ-V1-\d{4}", rid)
+                    for row in ordinary.values() for rid in row.get("requirementIds", [])),
+                "EDGE requirements require the fixed registered scope boundary")
+        return
+    boundary = plan["scopeBoundary"]
+    require(isinstance(boundary, dict) and set(boundary) == {"v1TaskIds", "v1FinalTask", "agentEdge104"}, "Unknown fixed scope boundary fields")
+    require(boundary["v1TaskIds"] == V1_TASK_IDS and boundary["v1FinalTask"] == "GZ-020", "Original twenty-seven V1 members/final task changed")
+    edge = boundary["agentEdge104"]
+    expected_keys = {"id", "sourceIssue", "state", "planningTaskId", "taskIds", "requiredFinalTask", *EDGE_PATHS}
+    require(isinstance(edge, dict) and set(edge) == expected_keys, "Unknown Agent Edge 104 scope fields")
+    require(edge["id"] == EDGE_SCOPE and edge["sourceIssue"] == 104 and edge["planningTaskId"] == EDGE_PLANNER,
+            "Fixed Agent Edge 104 identity changed")
+    require(all(edge[key] == value for key, value in EDGE_PATHS.items()), "Fixed independent index paths changed")
+    members = edge["taskIds"]
+    require(isinstance(members, list) and all(isinstance(tid, str) for tid in members) and
+            len(members) == len(set(members)) and EDGE_PLANNER in members, "Invalid Agent Edge 104 membership")
+    require(not (set(members) & set(V1_TASK_IDS)) and set(ordinary) == set(V1_TASK_IDS) | set(members),
+            "Program tasks must belong to exactly their fixed scope")
+    require({row.get("taskId") for row in plan.get("pocs", [])} == {f"POC-{n:03d}" for n in range(1, 11)}, "Original ten POC members changed")
+    planner = ordinary[EDGE_PLANNER]
+    require(planner.get("kind") == "requirements" and planner.get("requirementIds") == ["REQ-V1-0010"], "GZ-022 retains its V1 governance requirement")
+    baseline = records(plan.get("planningBaselines", []), "id").get("BASELINE-GZ-022")
+    require(baseline == {"id": "BASELINE-GZ-022", "taskId": EDGE_PLANNER, "requiredBy": ["POC-003", "POC-005"]},
+            "Fixed GZ-022 planning baseline changed or missing")
+    for tid, row in ordinary.items():
+        pattern = r"REQ-EDGE-104-\d{4}" if tid in members and tid != EDGE_PLANNER else r"REQ-V1-\d{4}"
+        require(all(isinstance(rid, str) and re.fullmatch(pattern, rid) for rid in row.get("requirementIds", [])),
+                f"Requirement namespace does not match real scope: {tid}")
+    if edge["state"] == "planning":
+        require(members == [EDGE_PLANNER] and edge["requiredFinalTask"] is None, "Planning scope cannot contain business execution members or a fake final")
+        require(planner.get("status") != "completed", "GZ-022 cannot complete without its full registered definition")
+    else:
+        require(edge["state"] == "defined", "Scope state cannot claim runtime completion")
+        final = edge["requiredFinalTask"]
+        require(isinstance(final, str) and final in members and final != EDGE_PLANNER and len(members) > 1, "Defined scope requires a nonempty business final closure")
+        require(ordinary[final].get("kind") == "release" and ordinary[final].get("riskLevel") == "critical", "EDGE final task must be critical release acceptance")
+        require(set(members) - {final} <= _dependency_closure(plan, final), "EDGE final task omits scope members from its dependency closure")
+    if plan.get("status") == "completed":
+        require(edge["state"] == "defined" and all(row.get("status") == "completed" for row in ordinary.values()),
+                "Program completion requires real completed V1 and EDGE tasks, not planning alone")
+
+
+def _safe_path(value: Any) -> bool:
+    return isinstance(value, str) and bool(value) and not value.startswith("/") and not re.match(r"^[A-Za-z]:", value) and "\\" not in value and not any(part in {"", ".", ".."} for part in value.split("/"))
+
+
+def validate_edge_indexes(root: str, plan: dict[str, Any], *, ref: str | None = None) -> dict[str, dict[str, Any]]:
+    """Join only the fixed independent indexes; legacy indexes remain closed."""
+    validate_scope_boundary(plan)
+    ordinary, by_id = records(plan.get("tasks", [])), tasks(plan)
+    def read(path: str) -> dict[str, Any]:
+        value = document(root, ref, path) if ref is not None else yaml.safe_load((Path(root) / path).read_text(encoding="utf-8"))
+        require(isinstance(value, dict), f"Invalid independent index {path}")
+        return value
+    active_exists = blob(root, ref, ACTIVE) is not None if ref is not None else (Path(root) / ACTIVE).exists()
+    if active_exists:
+        active = read(ACTIVE)
+        require(isinstance(active, dict), "Invalid Active registry")
+        for tid, entry in records(active.get("tasks", [])).items():
+            reqs = entry.get("requirementIds", [])
+            business = tid in ordinary and task_scope(plan, tid) == EDGE_SCOPE
+            if business:
+                require(set(reqs) == set(ordinary[tid].get("requirementIds", [])), f"Registry requirement binding differs from real Program member {tid}")
+            else:
+                require(all(isinstance(rid, str) and re.fullmatch(r"REQ-V1-\d{4}", rid) for rid in reqs),
+                        f"Non-EDGE registry task cannot consume EDGE requirements: {tid}")
+    empty = {"requirements": {}, "acceptances": {}}
+    edge = plan.get("scopeBoundary", {}).get("agentEdge104")
+    if edge is None or edge["state"] == "planning":
+        return empty
+    req_doc, ac_doc = read(edge["requirementIndex"]), read(edge["acceptanceIndex"])
+    for document_, key in ((req_doc, "requirements"), (ac_doc, "acceptances")):
+        require(set(document_) == {"schemaVersion", "scopeId", "sourceIssue", key} and
+                document_["schemaVersion"] == 1 and document_["scopeId"] == EDGE_SCOPE and document_["sourceIssue"] == 104,
+                f"Invalid fixed {key} index root")
+    requirements, acceptances = records(req_doc["requirements"], "id"), records(ac_doc["acceptances"], "id")
+    require(requirements and acceptances, "Defined EDGE indexes must be nonempty")
+    members = set(edge["taskIds"]) - {EDGE_PLANNER}
+    ownership_doc = read("specs/designs/module-ownership.yaml")
+    module_ids = {row["id"] for row in ownership_doc.get("modules", [])}
+    text_raw = blob(root, ref, edge["requirements"]) if ref is not None else (Path(root) / edge["requirements"]).read_bytes()
+    require(text_raw is not None, "Fixed EDGE requirements document is absent")
+    text = text_raw.decode("utf-8")
+    def strings(value: Any, label: str) -> set[str]:
+        require(isinstance(value, list) and value and all(isinstance(item, str) and item for item in value) and len(value) == len(set(value)), f"Invalid {label}")
+        return set(value)
+    for rid, row in requirements.items():
+        require(re.fullmatch(r"REQ-EDGE-104-\d{4}", rid) and set(row) == {"id", "title", "requirementPath", "moduleIds", "taskIds", "acceptanceIds"}, f"Invalid EDGE requirement {rid}")
+        require(isinstance(row["title"], str) and row["title"].strip(), f"Missing EDGE requirement title {rid}")
+        anchor = rid.lower()
+        require(row["requirementPath"] == edge["requirements"] + "#" + anchor and
+                (re.search(r"(?m)^#{1,6}\s+" + re.escape(rid) + r"\s*$", text) or
+                 re.search(r"<a\s+id=[\"']" + re.escape(anchor) + r"[\"']\s*>\s*</a>", text)),
+                f"Requirement anchor does not exist: {rid}")
+        ids, modules, acs = strings(row["taskIds"], rid + " tasks"), strings(row["moduleIds"], rid + " modules"), strings(row["acceptanceIds"], rid + " acceptances")
+        require(ids <= members and modules <= module_ids and acs <= acceptances.keys(), f"Unknown EDGE requirement binding {rid}")
+        covered_modules = set().union(*(set(by_id[tid].get("moduleIds", [])) for tid in ids))
+        require(modules <= covered_modules and all(modules & set(by_id[tid].get("moduleIds", [])) for tid in ids), f"EDGE requirement modules lack actual delivery coverage {rid}")
+    for aid, row in acceptances.items():
+        require(re.fullmatch(r"AC-EDGE-104-\d{4}", aid) and set(row) == {"id", "title", "requirementIds", "taskIds", "verification", "evidencePath"}, f"Invalid EDGE acceptance {aid}")
+        require(all(isinstance(row[key], str) and row[key].strip() for key in ("title", "verification")), f"Missing EDGE acceptance description {aid}")
+        ids, reqs = strings(row["taskIds"], aid + " tasks"), strings(row["requirementIds"], aid + " requirements")
+        require(ids <= members and reqs <= requirements.keys(), f"Unknown EDGE acceptance binding {aid}")
+        require(_safe_path(row["evidencePath"]) and any(row["evidencePath"].startswith(f"evidence/{tid}/") for tid in ids), f"Unsafe or unbound EDGE acceptance evidence {aid}")
+        require(all(aid in requirements[rid]["acceptanceIds"] and ids <= set(requirements[rid]["taskIds"]) for rid in reqs), f"EDGE acceptance/requirement join differs {aid}")
+    for rid, row in requirements.items():
+        require(all(rid in acceptances[aid]["requirementIds"] for aid in row["acceptanceIds"]), f"EDGE requirement/acceptance join differs {rid}")
+        require(set(row["taskIds"]) <= set().union(*(set(acceptances[aid]["taskIds"]) for aid in row["acceptanceIds"])), f"EDGE requirement has no acceptance for a delivery task {rid}")
+    for tid in members:
+        reqs = {rid for rid, row in requirements.items() if tid in row["taskIds"]}
+        acs = {aid for aid, row in acceptances.items() if tid in row["taskIds"]}
+        require(reqs and reqs == set(ordinary[tid].get("requirementIds", [])) and acs and acs == set(ordinary[tid].get("acceptanceIds", [])), f"EDGE Task/index exact requirement/acceptance join differs: {tid}")
+    final = ordinary[edge["requiredFinalTask"]]
+    require(set(final.get("requirementIds", [])) == set(requirements) and set(final.get("acceptanceIds", [])) == set(acceptances),
+            "EDGE final task must directly cover every independent requirement and acceptance")
+    return {"requirements": requirements, "acceptances": acceptances}
+
+
+def registered_manifest_path(root: str, ref: str, owner: str) -> str | None:
+    """Discover actual typed paths without aliasing them to the legacy file."""
+    candidates = [f"evidence/{owner}/planning-revision.json"]
+    if owner == "OPS-011":
+        candidates.append(FIRST_USE)
+    if owner == EDGE_PLANNER:
+        candidates.append(EDGE_DEFINITION)
+    found = [path for path in candidates if blob(root, ref, path) is not None]
+    require(len(found) <= 1, f"Ambiguous registered planning declaration {owner}")
+    return found[0] if found else None
+
+
+def immutable_manifest(root: str, registration: str, head: str, owner: str) -> tuple[str, bytes]:
+    """Bind the actual typed file to its original canonical reservation."""
+    path = registered_manifest_path(root, registration, owner)
+    require(path is not None, "Original registered planning manifest absent")
+    raw = blob(root, registration, path)
+    require(raw is not None and registered_manifest_path(root, head, owner) == path and blob(root, head, path) == raw,
+            "Original registered planning manifest changed in history")
+    candidates = [f"evidence/{owner}/planning-revision.json"]
+    if owner == "OPS-011":
+        candidates.append(FIRST_USE)
+    if owner == EDGE_PLANNER:
+        candidates.append(EDGE_DEFINITION)
+    if path in {FIRST_USE, EDGE_DEFINITION}:
+        for node in (git(root, "log", "--format=%H", head, "--", *candidates) or "").splitlines():
+            if ancestor(root, registration, node):
+                require(registered_manifest_path(root, node, owner) == path and blob(root, node, path) == raw,
+                        "Original registered planning manifest changed in intermediate history")
+    return path, raw
+
+
+def validate_edge_v1_edit(target: dict[str, Any]) -> None:
+    """Keep the follow-up planner within its eight registered V1 touchpoints."""
+    require(target["id"] in EDGE_V1_EDIT_IDS, "Scope definition may amend only its eight registered V1 tasks")
+    require(all(target["before"].get(key) == target["after"].get(key) for key in ("requirementIds", "acceptanceIds", "pocIds")),
+            "Scope definition rewrote existing V1 obligations")
+
+
+def validate_frozen_edge_catalogs(root: str, authority: str, head_ref: str, plan: dict[str, Any]) -> None:
+    """Bind complete catalogs to GZ022's own original canonical declaration."""
+    import jsonschema
+    from referencing import Registry, Resource
+
+    require(plan == document(root, head_ref, PLAN), "EDGE catalog view must bind its actual Git snapshot")
+    introductions, present = [], False
+    for node in (git(root, "rev-list", "--first-parent", "--reverse", authority) or "").splitlines():
+        current = EDGE_PLANNER in records(document(root, node, ACTIVE).get("tasks", []))
+        if current and not present:
+            introductions.append(node)
+        present = current
+    require(len(introductions) == 1, "EDGE catalogs require GZ-022's unique canonical original reservation")
+    registration, parent, original = original_registration(root, introductions[0], EDGE_PLANNER)
+    path, raw = immutable_manifest(root, registration, head_ref, EDGE_PLANNER)
+    require(path == EDGE_DEFINITION, "EDGE catalogs require the original typed GZ-022 definition")
+    manifest = json.loads(raw.decode("utf-8"))
+    require(manifest.get("issue") == original.get("issue") and manifest.get("reservationParent") == parent,
+            "EDGE catalog declaration has wrong original Issue or parent")
+    program_schema, manifest_schema = document(root, head_ref, PROGRAM_SCHEMA), document(root, head_ref, MANIFEST_SCHEMA)
+    registry = Registry().with_resources([(program_schema["$id"], Resource.from_contents(program_schema)), (manifest_schema["$id"], Resource.from_contents(manifest_schema))])
+    jsonschema.Draft202012Validator({"$ref": manifest_schema["$id"] + "#/$defs/agentEdge104Definition"}, registry=registry).validate(manifest)
+    for key in ("requirementIndex", "acceptanceIndex"):
+        actual = document(root, head_ref, EDGE_PATHS[key])
+        # Canonical JSON equality also distinguishes bool/int and typed values.
+        require(json.dumps(actual, sort_keys=True, ensure_ascii=False) == json.dumps(manifest[key], sort_keys=True, ensure_ascii=False),
+                f"EDGE {key} differs from complete original registered records")
+    require(blob(root, head_ref, EDGE_PATHS["requirements"]) == manifest["requirementDocument"]["content"].encode("utf-8"),
+            "EDGE requirementDocument differs from complete original registered content")
+    validate_edge_indexes(root, plan, ref=head_ref)
 
 
 @lru_cache(maxsize=32)
@@ -264,6 +504,7 @@ def registered_scope(root: str, base: str, owner: str, registration: str, origin
     canonical = (git(root, "rev-list", "--first-parent", "--reverse", base) or "").splitlines()
     require(registration in canonical, "Planner scope has no canonical original reservation")
     authorized = copy.deepcopy(original)
+    manifest_path, _ = immutable_manifest(root, registration, base, owner)
     for node in canonical[canonical.index(registration) + 1:]:
         current_registry = document(root, node, ACTIVE)
         entry = records(current_registry.get("tasks", [])).get(owner)
@@ -278,7 +519,7 @@ def registered_scope(root: str, base: str, owner: str, registration: str, origin
             require(entry.get("baseSha") == parent and entry.get("lease") == prior.get("lease"), "Planner scope amendment must bind its parent and preserve lease")
             task_path = bind_spec(root, node, owner, entry)
             require(all(p in {ACTIVE, task_path} or p.startswith(f"evidence/{owner}/") for p in changed_paths(root, parent, node)), "Planner scope amendment includes code or foreign files")
-            for path in (PLAN, LEDGER, f"evidence/{owner}/planning-revision.json"):
+            for path in (PLAN, LEDGER, manifest_path):
                 require(blob(root, parent, path) == blob(root, node, path), "Planner scope amendment changed Program, Ledger or immutable manifest")
             foreign_before, foreign_after = copy.deepcopy(prior_registry), copy.deepcopy(current_registry)
             for snapshot in (foreign_before, foreign_after):
@@ -321,7 +562,7 @@ def validate_baselines(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
             require(consumer in foundations or consumer_wave in waves, "Baseline consumer references unknown wave")
             producer_order = 0 if producer in foundations else waves[producer_wave]["order"]
             consumer_order = 0 if consumer in foundations else waves[consumer_wave]["order"]
-            require(producer_order <= consumer_order, "Baseline consumer depends on later-wave producer")
+            require(task_scope(plan, producer) != task_scope(plan, consumer) or producer_order <= consumer_order, "Baseline consumer depends on later-wave producer")
             graph[consumer].add(producer)
     visiting, done = set(), set()
     def visit(tid: str) -> None:
@@ -366,10 +607,11 @@ def preserve_consumer_closures(root: str, base_ref: str, after: dict[str, Any], 
 def audit_changed_manifests(root: str, base_ref: str, head_ref: str, *, admitted_base_ref: str | None = None) -> None:
     """Audit original manifest bytes even when no Program definition changes."""
     for path in changed_paths(root, base_ref, head_ref):
-        match = re.fullmatch(r"evidence/([A-Z]+-\d{3})/planning-revision\.json", path)
+        match = re.fullmatch(r"evidence/([A-Z]+-\d{3})/(planning-revision|agent-edge-104-first-use|agent-edge-104-definition)\.json", path)
         if not match:
             continue
         owner = match.group(1)
+        require(match.group(2) == "planning-revision" or (owner, path) in {("OPS-011", FIRST_USE), (EDGE_PLANNER, EDGE_DEFINITION)}, "Typed planning manifest has wrong owner/path")
         before_active = records(document(root, base_ref, ACTIVE).get("tasks", []))
         authority = admitted_base_ref or before_active.get(owner, {}).get("baseSha") or base_ref
         authority = snapshot(root, authority)[1]
@@ -388,7 +630,7 @@ def audit_changed_manifests(root: str, base_ref: str, head_ref: str, *, admitted
             continue
         registration, _, _ = original_registration(root, introduction, owner)
         original = blob(root, registration, path)
-        require(original is not None and original == blob(root, base_ref, path) == blob(root, head_ref, path), "Original registered planning manifest changed in history")
+        require(registered_manifest_path(root, registration, owner) == path and original is not None and original == blob(root, base_ref, path) == blob(root, head_ref, path), "Original registered planning manifest changed in history")
 
 
 def unstarted(root: str, ref: str, plan: dict[str, Any], ids: set[str], allow_missing: bool = False) -> None:
@@ -409,6 +651,14 @@ def validate_new_consumers(root: str, base_ref: str, head_ref: str, before: dict
 
 def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any], errors: list[str], *, owner_hint: str = "", observed_at: datetime | None = None, admitted_base_ref: str | None = None) -> dict[str, Any] | None:
     """Return only a fully authenticated exact transaction projection."""
+    schema_errors = ()
+    def schema_machinery():
+        nonlocal schema_errors
+        import jsonschema
+        from referencing import Registry, Resource
+        schema_errors = (jsonschema.ValidationError, jsonschema.SchemaError)
+        return jsonschema, Registry, Resource
+
     try:
         old_tasks, new_tasks = records(before.get("tasks", [])), records(after.get("tasks", []))
         changed = {tid for tid in old_tasks.keys() | new_tasks.keys() if {k: v for k, v in old_tasks.get(tid, {}).items() if k not in {"status", "issue"}} != {k: v for k, v in new_tasks.get(tid, {}).items() if k not in {"status", "issue"}}}
@@ -417,19 +667,28 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             return {tid: {k: v for k, v in row.items() if k not in {"status", "issue"}} for tid, row in records(plan.get("tasks", [])).items()}
         def baseline_view(plan):
             return "planningBaselines" in plan, plan.get("planningBaselines")
-        if changed or definitions(real_before) != definitions(real_after) or "planningBaselines" in real_before or "planningBaselines" in real_after:
+        def scope_view(plan):
+            return "scopeBoundary" in plan, plan.get("scopeBoundary")
+        scope_changed = scope_view(real_before) != scope_view(real_after)
+        if changed or definitions(real_before) != definitions(real_after) or scope_changed or "planningBaselines" in real_before or "planningBaselines" in real_after:
             require(before == real_before and after == real_after, "Planning/baseline views must bind the actual Git snapshots")
         audit_changed_manifests(root, base_ref, head_ref, admitted_base_ref=admitted_base_ref)
-        if definitions(real_before) == definitions(real_after) and baseline_view(real_before) == baseline_view(real_after):
+        if after.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined" and (
+            scope_changed or changed_paths(root, base_ref, head_ref) & {EDGE_PATHS["requirements"], EDGE_PATHS["requirementIndex"], EDGE_PATHS["acceptanceIndex"]}
+        ):
+            jsonschema, Registry, Resource = schema_machinery()
+            validate_frozen_edge_catalogs(root, admitted_base_ref or base_ref, head_ref, after)
+        if definitions(real_before) == definitions(real_after) and baseline_view(real_before) == baseline_view(real_after) and not scope_changed:
             # No projection or planning permission is supplied. Ordinary
             # lifecycle/history and relevant consumer gates still run.
             return None
+        validate_scope_boundary(after)
         old_baselines, new_baselines = validate_baselines(before), validate_baselines(after)
         preserve_consumer_closures(root, base_ref, after, old_baselines, admitted_base_ref=admitted_base_ref)
         validate_new_consumers(root, base_ref, head_ref, before, after, old_baselines)
         require(all(new_baselines.get(bid) == row for bid, row in old_baselines.items()), "Existing planning baseline removed, narrowed or substituted")
         added_baselines = new_baselines.keys() - old_baselines.keys()
-        if not changed and not added_baselines:
+        if not changed and not added_baselines and not scope_changed:
             return None
         require(before.get("status") == after.get("status") == "active", "Future planning cannot bypass frozen/recovery admission")
         base = git(root, "rev-parse", f"{base_ref}^{{commit}}") or ""
@@ -439,7 +698,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         require(ancestor(root, admitted_base, base), "Historical planning node predates its admitted main base")
         prior_active = document(root, base, ACTIVE)
         current_active = document(root, head, ACTIVE)
-        eligible = [r for r in prior_active.get("tasks", []) if PLAN in r.get("exclusivePaths", []) and blob(root, base, f"evidence/{r.get('taskId')}/planning-revision.json") is not None]
+        eligible = [r for r in prior_active.get("tasks", []) if PLAN in r.get("exclusivePaths", []) and registered_manifest_path(root, base, r.get("taskId", "")) is not None]
         if owner_hint:
             prior_hint, current_hint = tasks(before).get(owner_hint, {}), tasks(after).get(owner_hint, {})
             prior_spec, current_spec = spec(root, base, owner_hint), spec(root, head, owner_hint)
@@ -463,16 +722,27 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         require(tasks(after).get(owner, {}).get("status") == entry["status"], "Planner Program/Registry phase mismatch")
         registration, parent, original = original_registration(root, admitted_base, owner)
         require(ancestor(root, registration, admitted_base), "Planner reservation must be integrated before execution")
-        path = f"evidence/{owner}/planning-revision.json"
-        raw = blob(root, registration, path)
-        require(raw is not None and raw == blob(root, base, path) == blob(root, head, path), "Original planning manifest was changed or absent")
+        path, raw = immutable_manifest(root, registration, head, owner)
+        require(registered_manifest_path(root, base, owner) == path and raw == blob(root, base, path), "Original planning manifest was changed or absent")
         manifest = json.loads(raw.decode("utf-8"))
         require(manifest.get("taskId") == owner and manifest.get("reservationParent") == parent, "Manifest owner/registration parent mismatch")
         program_schema = document(root, head, PROGRAM_SCHEMA)
         manifest_schema = document(root, head, MANIFEST_SCHEMA)
-        registry = Registry().with_resource(program_schema["$id"], Resource.from_contents(program_schema))
-        jsonschema.Draft202012Validator(manifest_schema, registry=registry).validate(manifest)
-        jsonschema.Draft202012Validator(program_schema).validate(after)
+        jsonschema, Registry, Resource = schema_machinery()
+        registry = Registry().with_resources([(program_schema["$id"], Resource.from_contents(program_schema)), (manifest_schema["$id"], Resource.from_contents(manifest_schema))])
+        schema_ref = manifest_schema["$id"]
+        if path == FIRST_USE:
+            require(owner == "OPS-011" and hashlib.sha256(raw).hexdigest() == FIRST_USE_SHA256, "First-use declaration differs from fixed original intent")
+            require(manifest.get("issue") == original.get("issue") and manifest.get("originalV1TaskIds") == [row["taskId"] for row in before["tasks"]], "First-use V1 inventory/Issue differs from original registration")
+            require(manifest.get("originalPocTaskIds") == [row["taskId"] for row in before.get("pocs", [])], "First-use POC inventory changed")
+            schema_ref += "#/$defs/agentEdge104FirstUse"
+        elif path == EDGE_DEFINITION:
+            require(owner == EDGE_PLANNER and manifest.get("issue") == original.get("issue"), "Scope definition Issue differs from its own reservation")
+            schema_ref += "#/$defs/agentEdge104Definition"
+        else:
+            require(not scope_changed, "Legacy manifest cannot define or amend a fixed scope")
+        jsonschema.Draft202012Validator({"$ref": schema_ref}, registry=registry).validate(manifest)
+        jsonschema.Draft202012Validator(program_schema, registry=registry).validate(after)
         authorized = registered_scope(root, admitted_base, owner, registration, original)
         mutable = {"status", "agentRole", "baseSha", "lease"}
         require({k: v for k, v in authorized.items() if k not in mutable} == {k: v for k, v in entry.items() if k not in mutable}, "Planner stable identity or prior registered claims changed")
@@ -484,9 +754,20 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         lease(entry, observed_at or datetime.now(timezone.utc))
         bind_spec(root, head, owner, entry)
         expected = copy.deepcopy(before)
-        target_ids, baseline_ids = set(), set()
+        target_ids, baseline_ids, scope_targets = set(), set(), set()
         for target in manifest["targets"]:
-            tid, kind = target["id"], target["kind"]
+            kind = target["kind"]
+            if kind == "add-fixed-scope-boundary":
+                require(path == FIRST_USE and not scope_targets and "scopeBoundary" not in before and target["before"] is None, "Fixed scope first use is not original")
+                expected["scopeBoundary"] = copy.deepcopy(target["after"])
+                scope_targets.add(EDGE_SCOPE)
+                continue
+            if kind == "define-fixed-scope":
+                require(path == EDGE_DEFINITION and not scope_targets and before.get("scopeBoundary", {}).get("agentEdge104") == target["before"], "Scope before definition mismatch")
+                expected["scopeBoundary"]["agentEdge104"] = copy.deepcopy(target["after"])
+                scope_targets.add(EDGE_SCOPE)
+                continue
+            tid = target["id"]
             bucket = baseline_ids if kind == "add-planning-baseline" else target_ids
             require(tid not in bucket, "Duplicate manifest target")
             bucket.add(tid)
@@ -500,10 +781,11 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
                 unstarted(root, head, after, consumer_ids | {producer})
                 continue
             require(target["after"]["taskId"] == tid and tid != owner, "Planner cannot rewrite its own definition")
-            unstarted(root, base, before, {tid}, allow_missing=kind == "add-planned-task")
+            unstarted(root, base, before, {tid}, allow_missing=kind in {"add-planned-task", "add-edge-planned-task"})
             unstarted(root, head, after, {tid})
-            if kind == "add-planned-task":
+            if kind in {"add-planned-task", "add-edge-planned-task"}:
                 require(tid not in old_tasks, "New planning task already exists")
+                require((kind == "add-edge-planned-task") == (path == EDGE_DEFINITION), "Task addition has wrong scope declaration")
                 expected["tasks"].append(target["after"])
             else:
                 original_definition = old_tasks.get(tid)
@@ -512,12 +794,18 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
                 require(digest == target["originalDefinitionSha256"], "Planning original definition hash mismatch")
                 fields = {key for key in set(target["before"]) | set(target["after"]) if target["before"].get(key) != target["after"].get(key)}
                 require(fields == set(target["allowedFields"]), "Planning changed undeclared or unused fields")
+                if path == EDGE_DEFINITION:
+                    validate_edge_v1_edit(target)
                 expected["tasks"] = [target["after"] if row["taskId"] == tid else row for row in expected["tasks"]]
         section = "foundationTasks" if owner in records(expected.get("foundationTasks", [])) else "tasks"
         for row in expected[section]:
             if row["taskId"] == owner:
                 row["status"] = entry["status"]
         require(target_ids == changed and baseline_ids == added_baselines and expected == after, "Planning transaction is incomplete or contains undeclared Program changes")
+        require(bool(scope_targets) == scope_changed, "Fixed scope change must be declared exactly once")
+        if path == EDGE_DEFINITION:
+            added_edge = {target["id"] for target in manifest["targets"] if target["kind"] == "add-edge-planned-task"}
+            require(set(after["scopeBoundary"]["agentEdge104"]["taskIds"]) == added_edge | {EDGE_PLANNER}, "Scope members differ from complete original task definitions")
         prior_foreign, current_foreign = copy.deepcopy(prior_active), copy.deepcopy(current_active)
         for active in (prior_foreign, current_foreign):
             active["tasks"] = [r for r in active["tasks"] if r["taskId"] != owner]
@@ -528,7 +816,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             if row["taskId"] == owner:
                 row["status"] = entry["status"]
         return {"owner": owner, "registration": registration, "targetTaskIds": target_ids, "projectedPlan": projected}
-    except (PlanningError, ValueError, KeyError, TypeError, jsonschema.ValidationError, jsonschema.SchemaError) as exc:
+    except (PlanningError, OSError, ValueError, KeyError, TypeError) + schema_errors as exc:
         errors.append(f"Planning revision rejected: {exc}")
         return None
 
@@ -616,23 +904,24 @@ def serial_baseline_pairs(root: str, head_ref: str, plan: dict[str, Any], errors
             if added:
                 parent = git(root, "rev-parse", f"{node}^1") or ""
                 prior_active = records(document(root, parent, ACTIVE).get("tasks", []))
-                owners = [tid for tid, row in prior_active.items() if PLAN in row.get("exclusivePaths", []) and blob(root, parent, f"evidence/{tid}/planning-revision.json") is not None]
+                owners = [tid for tid, row in prior_active.items() if PLAN in row.get("exclusivePaths", []) and registered_manifest_path(root, parent, tid) is not None]
                 require(len(owners) == 1, "Readiness baseline has no unique prior manifest owner")
                 owner = owners[0]
                 entry = records(document(root, node, ACTIVE).get("tasks", [])).get(owner, {})
                 admission_errors = []
                 decision = classifier(root, parent, node, document(root, parent, PLAN), node_plan, admission_errors, owner_hint=owner, observed_at=commit_time(root, node), admitted_base_ref=entry.get("baseSha", ""))
                 require(decision is not None and not admission_errors, "Readiness baseline introduction unauthenticated: " + "; ".join(admission_errors))
-                manifests[owner] = blob(root, parent, f"evidence/{owner}/planning-revision.json")
+                manifest_path = registered_manifest_path(root, parent, owner)
+                manifests[owner] = (manifest_path, blob(root, parent, manifest_path))
                 registrations[owner] = decision["registration"]
                 proven.update({key: baselines[key] for key in added})
         require(proven == current, "Readiness baseline lacks authenticated history")
-        require(all(blob(root, head, f"evidence/{owner}/planning-revision.json") == original for owner, original in manifests.items()), "Readiness baseline original manifest changed")
+        require(all(registered_manifest_path(root, head, owner) == path and blob(root, head, path) == original for owner, (path, original) in manifests.items()), "Readiness baseline original manifest changed")
         for owner, registration in registrations.items():
-            path = f"evidence/{owner}/planning-revision.json"
+            path, original = manifests[owner]
             for node in (git(root, "log", "--first-parent", "--format=%H", head, "--", path) or "").splitlines():
                 if ancestor(root, registration, node):
-                    require(blob(root, node, path) == manifests[owner], "Readiness original manifest changed in intermediate history")
+                    require(blob(root, node, path) == original, "Readiness original manifest changed in intermediate history")
         by_id = tasks(plan)
         active = records(document(root, head, ACTIVE).get("tasks", []))
         completed = records(document(root, head, LEDGER).get("records", []))
@@ -652,7 +941,8 @@ def enforce_consumers(root: str, base_ref: str, head_ref: str, before: dict[str,
     try:
         rows = after.get("planningBaselines", [])
         baseline_changed = ("planningBaselines" in before, before.get("planningBaselines")) != ("planningBaselines" in after, after.get("planningBaselines"))
-        if not rows and not baseline_changed:
+        has_edge = "scopeBoundary" in after
+        if not rows and not baseline_changed and not has_edge:
             return
         by_id = tasks(after)
         consumers = set(affected)
@@ -673,6 +963,16 @@ def enforce_consumers(root: str, base_ref: str, head_ref: str, before: dict[str,
                 owners = {tid for tid, row in by_id.items() if any(fnmatch.fnmatchcase(path, claim) for claim in row.get("outputPaths", []) + row.get("sharedPaths", []))}
             consumers.update(owners)
             affected.update(owners)
+        if has_edge:
+            edge = after["scopeBoundary"]["agentEdge104"]
+            business = consumers & (set(edge["taskIds"]) - {EDGE_PLANNER})
+            scope_changed = ("scopeBoundary" in before, before.get("scopeBoundary")) != ("scopeBoundary" in after, after.get("scopeBoundary"))
+            if scope_changed or business:
+                validate_scope_boundary(after)
+            if business:
+                base = git(root, "rev-parse", f"{admitted_base_ref or base_ref}^{{commit}}") or ""
+                require(edge["state"] == "defined" and completed_producer(root, base, EDGE_PLANNER),
+                        "Agent Edge business execution requires real completed producer GZ-022; consumers rejected: " + ", ".join(sorted(business)))
         pending_by_baseline = {row["id"]: consumers & (frontier(after, row["requiredBy"]) | original_consumers(root, head_ref, row)) for row in rows}
         if not baseline_changed and not any(pending_by_baseline.values()):
             return

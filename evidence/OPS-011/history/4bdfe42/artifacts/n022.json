@@ -1,0 +1,41 @@
+{
+  "kind": "OPS011_4BDFE42_REVIEW_HOLD",
+  "source": "4bdfe42532aa5bfa62f879af5f3dedd69c673fc5",
+  "observedAt": "2026-10-20T19:44:44.481Z",
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6ufixa",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "scripts/program-planning-revision.py",
+      "line": 332,
+      "diff_side": "RIGHT",
+      "start_line": 328,
+      "start_diff_side": "RIGHT",
+      "original_line": 332,
+      "original_start_line": 328,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAg35hg",
+          "database_id": 4329437574,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Freeze the normative EDGE requirements document**\n\nAfter the scope becomes `defined`, a later commit can rewrite the normative prose in `specs/requirements/agent-edge-104.md` while retaining the same headings and pass these gates: this loop compares only the two YAML catalogs with the original manifest, while `validate_edge_indexes` merely verifies that each referenced heading still exists. The approved requirement can therefore change without changing its registered definition, so bind the Markdown bytes or digest in the immutable GZ-022 declaration and verify it here as well.\n\nAGENTS.md reference: [AGENTS.md:L23-L25](https://github.com/ElectricDogCN/Guize/blob/4bdfe42532aa5bfa62f879af5f3dedd69c673fc5/AGENTS.md#L23-L25)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-20T19:37:50Z",
+          "updated_at": "2026-10-20T19:37:50Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    }
+  ],
+  "independentlyConfirmed": true,
+  "currentSourceMayMerge": false,
+  "sourceAccepted": false,
+  "fixPlanned": "Original immutable GZ022 v2 must include closed fixed requirementDocument path and full content; compare exact UTF8 Git blob and include Markdown-only classifier trigger. No legacy/firstUse rewrite."
+}
