@@ -300,6 +300,11 @@ def validate_wave_activation(plan: dict[str, Any], errors: list[str]) -> None:
         if isinstance(item, dict) and item.get("id") is not None
     }
     tasks = [item for item in plan.get("tasks") or [] if isinstance(item, dict)]
+    try:
+        task_scopes = {str(task.get("taskId") or ""): PLANNING.task_scope(plan, str(task.get("taskId") or "")) for task in tasks}
+    except Exception as exc:
+        errors.append(f"Program wave activation scope is invalid: {exc}")
+        return
     for task in tasks:
         if task.get("status") not in ACTIVE_STATES:
             continue
@@ -310,7 +315,8 @@ def validate_wave_activation(plan: dict[str, Any], errors: list[str]) -> None:
         blockers = sorted(
             str(other.get("taskId") or "")
             for other in tasks
-            if wave_order.get(str(other.get("wave") or ""), order) < order
+            if task_scopes[str(other.get("taskId") or "")] == task_scopes[task_id]
+            and wave_order.get(str(other.get("wave") or ""), order) < order
             and other.get("status") not in FINISHED_WAVE_STATES
         )
         if blockers:

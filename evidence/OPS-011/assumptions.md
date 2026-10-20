@@ -1,11 +1,10 @@
-# OPS-011 scope amendment — current candidate
+OPS-011 bounded Agent Edge scope implementation
 
-Issue: [#108](https://github.com/ElectricDogCN/Guize/issues/108); PR: [#110](https://github.com/ElectricDogCN/Guize/pull/110).
+Issue: [#108](https://github.com/ElectricDogCN/Guize/issues/108).
+State: in_progress / implementer. Base: `39afaf007d800bab43d7703ac082df2bbc7e8e87`.
+Branch: `chore/OPS-011-agent-edge-104-scope`. Implementation source/tree/PR: PENDING_ACTUAL_PUBLICATION.
+Source gates/JUnit/same-head CI/independent source acceptance/actual-main implementation acceptance: PENDING.
 
-Base: `1d2cb080d56176e26375a7b373a3cf3ef548b3dd`; registration branch: `chore/OPS-011-agent-edge-104-scope-registration`; implementation branch: `chore/OPS-011-agent-edge-104-scope`. State: reserved/coordinator. Successor Source Commit/tree: PENDING_ACTUAL_PUBLICATION. The new immutable Git HEAD will be recorded by its actual execution entry; no future SHA is supplied.
+Prerequisites are accepted metadata only: original reservation PR109 and scope amendment [PR110](https://github.com/ElectricDogCN/Guize/pull/110). PR110 actual main `39afaf007d800bab43d7703ac082df2bbc7e8e87` passed six main checks and CI748's 637 governance tests; independent acceptance is retained in [portable amendment history](history/amendment-39af/README.md). Neither prior result transfers to this new implementation. Two merged remote metadata branches were removed after acceptance; local history and original declarations remain.
 
-The previous 8c9f1ca source is superseded: its first13 commands exited0, make verify was deliberately interrupted for the three real review findings and did not pass. These results do not transfer. Current successor commands, raw outputs, JUnit, CI, independent source acceptance and actual-main acceptance are all PENDING.
-
-The accepted integration base is the actual PR109 main. Program/Ledger/firstUse/inputs/review, roles, lease, the original fifteen claims and the sixteenth exact history claim stay fixed. The amendment installs no scope or runtime.
-
-Accepted original reservation, prerequisite only: [original receipt](reservation-history/actual-main-independent-acceptance.json), [portable artifact map](reservation-history/artifacts/artifact-map.json) and [recovery instructions](reservation-history/artifacts/README.md). Original reservation acceptance does not establish current amendment success.
+Original first-use bytes, parent and accepted claims authorize only the fixed transaction. No current dirty tree or prior test count is an execution receipt. GZ022 will need its own original canonical declaration and normal lifecycle after OPS011 Completion. Runtime artifacts in other repositories need their own tasks and immutable artifact admission.

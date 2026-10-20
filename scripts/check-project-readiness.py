@@ -16,6 +16,7 @@ import jsonschema
 import yaml
 
 REQ_RE = re.compile(r"^REQ-V1-\d{4}$")
+EDGE_REQ_RE = re.compile(r"^REQ-EDGE-104-[0-9]{4}$")
 MOD_RE = re.compile(r"^MOD-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
 TASK_RE = re.compile(r"^[A-Z]+-\d{3}$")
 RISKS = {"low", "medium", "high", "critical"}
@@ -142,6 +143,56 @@ def wave_occupying_tasks(tasks):
     return [task for task in tasks if task.get("status") not in TERMINAL_TASK_STATES]
 
 
+def validate_task_requirements(task, scope, requirement_ids, edge_requirement_ids, errors):
+    task_id = task.get("taskId", "<unknown>")
+    if scope not in {"V1", "AGENT-EDGE-104"}:
+        errors.append(f"Planned task {task_id} has invalid scope {scope}")
+        return set()
+    planner = scope == "AGENT-EDGE-104" and task_id == "GZ-022"
+    edge_business = scope == "AGENT-EDGE-104" and not planner
+    allowed = edge_requirement_ids if edge_business else requirement_ids
+    pattern = EDGE_REQ_RE if edge_business else REQ_RE
+    selected = task.get("requirementIds", [])
+    if planner and set(selected) != {"REQ-V1-0010"}:
+        errors.append("Planned task GZ-022 must retain only REQ-V1-0010 as its planning basis")
+    for requirement_id in selected:
+        if not pattern.fullmatch(str(requirement_id)):
+            errors.append(f"Planned task {task_id} requirement namespace differs from scope {scope}: {requirement_id}")
+        elif requirement_id not in allowed:
+            errors.append(f"Planned task {task_id} references unknown requirement {requirement_id}")
+    return set(selected) & requirement_ids if not edge_business else set()
+
+
+def validate_task_waves(tasks, task_scopes, wave_by_id, policy, serial_pairs, errors):
+    groups = defaultdict(list)
+    for task in tasks:
+        groups[(task_scopes[task["taskId"]], task.get("wave"))].append(task)
+    for (_, wave_id), wave_tasks in groups.items():
+        wave = wave_by_id.get(wave_id, {})
+        occupying_tasks = wave_occupying_tasks(wave_tasks)
+        if len(occupying_tasks) > min(wave.get("maxConcurrent", 0), policy.get("maxActiveTasks", 0)):
+            errors.append(f"Wave {wave_id} exceeds concurrent task capacity")
+        high_tasks = [task for task in occupying_tasks if task.get("riskLevel") in {"high", "critical"}]
+        if len(high_tasks) > min(wave.get("maxHighRisk", 0), policy.get("maxHighRiskTasks", 0)):
+            errors.append(f"Wave {wave_id} exceeds high-risk task capacity")
+        if policy.get("criticalStandalone") and any(task.get("riskLevel") == "critical" for task in occupying_tasks) and len(occupying_tasks) != 1:
+            errors.append(f"Wave {wave_id} contains a critical task that is not standalone")
+        claims = []
+        for task in occupying_tasks:
+            for path in task.get("outputPaths", []):
+                claims.append((task, path, "exclusive"))
+            for path in task.get("sharedPaths", []):
+                claims.append((task, path, "shared"))
+        for index, (left_task, left_path, left_kind) in enumerate(claims):
+            for right_task, right_path, right_kind in claims[index + 1 :]:
+                if left_task["taskId"] == right_task["taskId"] or not overlaps(left_path, right_path):
+                    continue
+                coordinated = left_kind == right_kind == "shared" and left_task.get("coordinationGroup") == right_task.get("coordinationGroup") and left_task.get("integrationOrder") != right_task.get("integrationOrder")
+                serial = frozenset((left_task["taskId"], right_task["taskId"])) in serial_pairs
+                if not coordinated and not serial:
+                    errors.append(f"Wave {wave_id} output path conflict: {left_task['taskId']}:{left_path} and {right_task['taskId']}:{right_path}")
+
+
 def unique_ids(items, field, label, errors):
     identifiers = [item.get(field) for item in items]
     if None in identifiers or "" in identifiers:
@@ -233,6 +284,21 @@ def main():
     requirement_by_id = {item.get("id"): item for item in requirements}
     module_by_id = {item.get("id"): item for item in modules}
     task_by_id = {item.get("taskId"): item for item in tasks}
+    edge_requirement_ids = set()
+    task_scopes = {task_id: "INVALID" for task_id in task_ids}
+    planning = None
+    try:
+        planning_spec = importlib.util.spec_from_file_location("readiness_planning", Path(__file__).with_name("program-planning-revision.py"))
+        planning = importlib.util.module_from_spec(planning_spec)
+        planning_spec.loader.exec_module(planning)
+        planning.validate_scope_boundary(plan)
+        edge_indexes = planning.validate_edge_indexes(root, plan)
+        if plan.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined":
+            planning.validate_frozen_edge_catalogs(root, "HEAD", "HEAD", plan)
+        edge_requirement_ids = set(edge_indexes["requirements"])
+        task_scopes = {task_id: planning.task_scope(plan, task_id) for task_id in task_ids}
+    except Exception as exc:
+        errors.append(f"Program scope or independent EDGE indexes are invalid: {exc}")
 
     aliases = {}
     for requirement in requirements:
@@ -380,7 +446,7 @@ def main():
                 errors.append(f"POC {poc_id} references unknown module {module_id}")
 
     policy = plan.get("parallelPolicy", {})
-    graph, tasks_by_wave, contract_producers = {}, defaultdict(list), {}
+    graph, contract_producers = {}, {}
     covered_requirements = set()
     for task in tasks:
         task_id = task.get("taskId", "<unknown>")
@@ -399,16 +465,12 @@ def main():
         require_lists(task, ["requirementIds", "moduleIds", "outputPaths"], f"Planned task {task_id}", errors)
         require_lists(task, ["dependsOn", "sharedPaths", "producesContracts", "consumesContracts", "acceptanceIds", "pocIds"], f"Planned task {task_id}", errors, allow_empty=("dependsOn", "sharedPaths", "producesContracts", "consumesContracts", "acceptanceIds", "pocIds"))
         graph[task_id] = task.get("dependsOn", [])
-        tasks_by_wave[task.get("wave")].append(task)
         for dependency in task.get("dependsOn", []):
             if dependency not in all_task_ids:
                 errors.append(f"Planned task {task_id} depends on unknown task {dependency}")
-            elif dependency in task_ids and wave_by_id[next(item["wave"] for item in tasks if item["taskId"] == dependency)]["order"] > wave_by_id[task["wave"]]["order"]:
+            elif dependency in task_ids and task_scopes[dependency] == task_scopes[task_id] and wave_by_id[task_by_id[dependency]["wave"]]["order"] > wave_by_id[task["wave"]]["order"]:
                 errors.append(f"Planned task {task_id} depends on later-wave task {dependency}")
-        for requirement_id in task.get("requirementIds", []):
-            covered_requirements.add(requirement_id)
-            if requirement_id not in requirement_ids:
-                errors.append(f"Planned task {task_id} references unknown requirement {requirement_id}")
+        covered_requirements.update(validate_task_requirements(task, task_scopes[task_id], requirement_ids, edge_requirement_ids, errors))
         for module_id in task.get("moduleIds", []):
             if module_id not in module_ids:
                 errors.append(f"Planned task {task_id} references unknown module {module_id}")
@@ -453,39 +515,13 @@ def main():
                     errors.append(f"Planned task {task_id} consumes {contract} but producer {producer} is not a dependency ancestor")
 
     serial_pairs = set()
-    if plan.get("planningBaselines"):
-        planning_spec = importlib.util.spec_from_file_location("readiness_planning", Path(__file__).with_name("program-planning-revision.py"))
-        planning = importlib.util.module_from_spec(planning_spec)
-        planning_spec.loader.exec_module(planning)
+    if plan.get("planningBaselines") and planning is not None:
         if args.plan != planning.PLAN:
             errors.append("Planning baseline requires the canonical Program path")
         else:
             serial_pairs = planning.serial_baseline_pairs(root, "HEAD", plan, errors)
 
-    for wave_id, wave_tasks in tasks_by_wave.items():
-        wave = wave_by_id.get(wave_id, {})
-        occupying_tasks = wave_occupying_tasks(wave_tasks)
-        if len(occupying_tasks) > min(wave.get("maxConcurrent", 0), policy.get("maxActiveTasks", 0)):
-            errors.append(f"Wave {wave_id} exceeds concurrent task capacity")
-        high_tasks = [task for task in occupying_tasks if task.get("riskLevel") in {"high", "critical"}]
-        if len(high_tasks) > min(wave.get("maxHighRisk", 0), policy.get("maxHighRiskTasks", 0)):
-            errors.append(f"Wave {wave_id} exceeds high-risk task capacity")
-        if policy.get("criticalStandalone") and any(task.get("riskLevel") == "critical" for task in occupying_tasks) and len(occupying_tasks) != 1:
-            errors.append(f"Wave {wave_id} contains a critical task that is not standalone")
-        claims = []
-        for task in occupying_tasks:
-            for path in task.get("outputPaths", []):
-                claims.append((task, path, "exclusive"))
-            for path in task.get("sharedPaths", []):
-                claims.append((task, path, "shared"))
-        for index, (left_task, left_path, left_kind) in enumerate(claims):
-            for right_task, right_path, right_kind in claims[index + 1 :]:
-                if left_task["taskId"] == right_task["taskId"] or not overlaps(left_path, right_path):
-                    continue
-                coordinated = left_kind == right_kind == "shared" and left_task.get("coordinationGroup") == right_task.get("coordinationGroup") and left_task.get("integrationOrder") != right_task.get("integrationOrder")
-                serial = frozenset((left_task["taskId"], right_task["taskId"])) in serial_pairs
-                if not coordinated and not serial:
-                    errors.append(f"Wave {wave_id} output path conflict: {left_task['taskId']}:{left_path} and {right_task['taskId']}:{right_path}")
+    validate_task_waves(tasks, task_scopes, wave_by_id, policy, serial_pairs, errors)
 
     uncovered = sorted(requirement_ids - covered_requirements)
     if uncovered:

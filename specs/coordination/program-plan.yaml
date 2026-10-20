@@ -58,7 +58,7 @@ foundationTasks:
     mergeCommit: 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
   - taskId: OPS-011
     title: 有界承接智能边缘计算后续建设范围
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-108
     mergeCommit: null
 waves:
@@ -686,6 +686,65 @@ tasks:
     issue: null
     branchPattern: chore/GZ-021-*
     exitGate: 版本化需求/设计/ADR、计划与POC镜像和机器校验一致，异构worker/AV1/HLS/优先级/权限/恢复准入可验证，本地OpenList开发验收与待测生产约束分离，百度生产接入后置不冒称通过；后续本地V1验收里程碑与生产GZ-020最终义务明确，完成历史和政策保持不变
+  - taskId: GZ-022
+    title: 冻结智能边缘计算与产品 Agent 后续建设需求、契约承接和跨仓验收计划
+    kind: requirements
+    status: planned
+    workPackage: WP-AGENT-EDGE-104-PLAN
+    riskLevel: high
+    ownerRole: agent-edge-planning-agent
+    reviewerRole: independent-agent-edge-planning-review-agent
+    coordinationGroup: agent-edge-104-planning
+    wave: W2
+    integrationOrder: 3
+    dependsOn:
+    - GZ-021
+    - OPS-011
+    requirementIds:
+    - REQ-V1-0010
+    moduleIds:
+    - MOD-GOV
+    - MOD-PLATFORM
+    - MOD-SOURCE
+    - MOD-CONNECTOR
+    - MOD-ASSET
+    - MOD-TASK
+    - MOD-STORAGE
+    - MOD-MEDIA
+    - MOD-WORKER
+    - MOD-AI
+    - MOD-PLAYER
+    - MOD-EDGE
+    - MOD-IAM
+    - MOD-POLICY
+    - MOD-CONFIG
+    - MOD-AUDIT
+    - MOD-DATA
+    - MOD-DEPLOY
+    - MOD-OBS
+    outputPaths:
+    - specs/coordination/program-plan.yaml
+    - specs/requirements/product-requirements.md
+    - specs/requirements/agent-edge-104.md
+    - specs/requirements/agent-edge-104.yaml
+    - specs/acceptance/agent-edge-104.yaml
+    - docs/03-system-architecture.md
+    - docs/20-roadmap-and-wbs.md
+    - docs/22-repository-and-directory-plan.md
+    - specs/designs/module-ownership.yaml
+    - adr/0016-agent-edge-runtime-and-product-agent-planning.md
+    sharedPaths: []
+    producesContracts: []
+    consumesContracts:
+    - REQ-V1
+    - NFR-V1
+    - POC-PROTOCOL-V1
+    - OPENAPI-V1
+    acceptanceIds: []
+    pocIds: []
+    issue: null
+    branchPattern: chore/GZ-022-*
+    exitGate: 在独立AGENT-EDGE-104范围冻结逐需求正文、结构化需求及验收索引、ADR、实际模块和仓库边界、既有八项未启动任务的精确契约差异与新增完整planned业务任务DAG；其原始登记声明必须完整确定本范围成员、最终验收任务及严格依赖闭包和规划完成基线，保留原27项V1/十POC/GZ-020/旧manifest/全局容量；结构分析先验证元数据和真实六帧再OCR，Android与PC复用AV1/HLS和Task权威，产品Agent与研发Harness分离；无实现、运行时或完整V1通过声明
 planningBaselines:
   - id: BASELINE-GZ-021
     taskId: GZ-021
@@ -700,6 +759,11 @@ planningBaselines:
     - POC-007
     - POC-008
     - POC-009
+  - id: BASELINE-GZ-022
+    taskId: GZ-022
+    requiredBy:
+    - POC-003
+    - POC-005
 externalBlockers:
   - id: BRANCH-PROTECTION
     title: "GitHub main Ruleset / Required Checks / PR Approval"
@@ -716,3 +780,44 @@ releasePolicy:
   productionApprovalRequired: true
   allInScopeCapabilitiesMustPass: true
   requiredFinalTask: GZ-020
+scopeBoundary:
+  v1TaskIds:
+  - GZ-004
+  - GZ-005
+  - GZ-006
+  - GZ-007
+  - GZ-008
+  - GZ-009
+  - GZ-010
+  - POC-001
+  - POC-002
+  - POC-003
+  - POC-004
+  - POC-005
+  - POC-006
+  - POC-007
+  - POC-008
+  - POC-009
+  - POC-010
+  - GZ-011
+  - GZ-012
+  - GZ-013
+  - GZ-015
+  - GZ-016
+  - GZ-017
+  - GZ-018
+  - GZ-019
+  - GZ-020
+  - GZ-021
+  v1FinalTask: GZ-020
+  agentEdge104:
+    id: AGENT-EDGE-104
+    sourceIssue: 104
+    state: planning
+    planningTaskId: GZ-022
+    taskIds:
+    - GZ-022
+    requiredFinalTask: null
+    requirements: specs/requirements/agent-edge-104.md
+    requirementIndex: specs/requirements/agent-edge-104.yaml
+    acceptanceIndex: specs/acceptance/agent-edge-104.yaml

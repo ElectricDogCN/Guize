@@ -1,0 +1,14 @@
+Source Commit: 39afaf007d800bab43d7703ac082df2bbc7e8e87
+Command: python -c 'import importlib.util,sys
+def load(name,path):
+    spec=importlib.util.spec_from_file_location(name,path); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module); return module
+task,reference,merge=sys.argv[1:]
+i=load('"'"'actual_integrity'"'"','"'"'scripts/check-program-plan-integrity.py'"'"'); h=load('"'"'actual_history'"'"','"'"'scripts/check-program-plan-history.py'"'"')
+errors=i.commit_identity_errors('"'"'.'"'"',merge,task,reference,'"'"'Actual scope amendment'"'"')
+h.validate_commit('"'"'.'"'"',merge,task,reference,'"'"'Actual scope amendment'"'"',errors)
+assert not errors,errors
+print('"'"'PASS: actual scope-amendment Task/PR/merge identity accepted by both existing entries'"'"')
+' OPS-011 PR-110 39afaf007d800bab43d7703ac082df2bbc7e8e87
+PASS: actual scope-amendment Task/PR/merge identity accepted by both existing entries
+
+Exit Code: 0

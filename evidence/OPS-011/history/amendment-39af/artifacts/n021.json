@@ -1,0 +1,1155 @@
+{
+  "kind": "OPS011_SCOPE_AMENDMENT_SUCCESSOR_OFFICIAL_PUBLICATION",
+  "source": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+  "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+  "parent": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+  "base": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+  "commit": {
+    "sha": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+    "node_id": "C_kwDOTgCQ3doAKDRkMzgwNjgzNWE0NzQxMzdiYWM5YmQwZTg0MWRkMjgzZDdkNGJmMGM",
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits/4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+    "html_url": "https://github.com/ElectricDogCN/Guize/commit/4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+    "author": {
+      "name": "Ruifeng Su",
+      "email": "suruifeng@epro-vision.com",
+      "date": "2026-10-20T16:56:38Z"
+    },
+    "committer": {
+      "name": "Ruifeng Su",
+      "email": "suruifeng@epro-vision.com",
+      "date": "2026-10-20T16:56:38Z"
+    },
+    "tree": {
+      "sha": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees/8410ef33325e4f42f826a46d7f3a156ba8c29264"
+    },
+    "message": "fix(OPS-011): retain complete portable amendment evidence (#108)",
+    "parents": [
+      {
+        "sha": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+        "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits/8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+        "html_url": "https://github.com/ElectricDogCN/Guize/commit/8c9f1ca91ab34409023d5998a0ba214a81bf9d26"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  },
+  "pr": {
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/110",
+    "id": 4939085689,
+    "node_id": "PR_kwDOTgCQ3c8AAAABJmR3eQ",
+    "html_url": "https://github.com/ElectricDogCN/Guize/pull/110",
+    "diff_url": "https://github.com/ElectricDogCN/Guize/pull/110.diff",
+    "patch_url": "https://github.com/ElectricDogCN/Guize/pull/110.patch",
+    "issue_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/110",
+    "commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/110/commits",
+    "review_comments_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/110/comments",
+    "review_comment_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/comments{/number}",
+    "comments_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/110/comments",
+    "statuses_url": "https://api.github.com/repos/ElectricDogCN/Guize/statuses/4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+    "number": 110,
+    "state": "open",
+    "locked": false,
+    "title": "OPS-011: 精确登记历史检查器的后续范围承接权限",
+    "user": {
+      "login": "ElectricDogCN",
+      "id": 43232390,
+      "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ElectricDogCN",
+      "html_url": "https://github.com/ElectricDogCN",
+      "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+      "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+      "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+      "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+      "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "历史检查器的三处规划声明发现入口只识别旧 `planning-revision.json`。OPS-011 承接固定 first-use 与 GZ-022 的独立类型化声明时，也必须修改该检查器；这项必要路径尚未在原15条 claims 内。\n\n本 PR 先做正常 reserved/coordinator 元数据范围修订，只追加精确 `scripts/check-program-plan-history.py`（共16条），将 Own baseSha 绑定已接受 main。仅9条 Own Registry/Task/Evidence 路径变化；Program、普通完成账本、原始 first-use、原输入/预审、角色、实现分支及租约保持。原预留接受收据和原命令保存了可恢复的原字节副本。本 PR 不修改治理实现或安装业务范围。\n\nIssue: #108；来源 #104。\n\n源 `8c9f1ca91ab34409023d5998a0ba214a81bf9d26`，tree `793848250ce9313a30923b95765b52b1d3023f3a`，唯一父为已接受 main `1d2cb080d56176e26375a7b373a3cf3ef548b3dd`。独立暂存内容审查通过，收据 SHA256 `bd8853685c39ba791366ddc627796389c8e9f410a3fe3defc6f9c574d092b1d8`。\n\n当前仅实际提交、发布和内容审查完成。本源15项命令、动态非空且零失败/错误/跳过JUnit、同头CI、最终独审、正常合入及实际主线接受仍待真实结果。原预留 PR #109 的通过不转移为本次执行。",
+    "labels": [],
+    "milestone": null,
+    "active_lock_reason": null,
+    "created_at": "2026-10-20T16:38:21Z",
+    "updated_at": "2026-10-20T16:56:45Z",
+    "closed_at": null,
+    "merged_at": null,
+    "merge_commit_sha": "4cb52fcf80293adfcad915b4c39549206957098a",
+    "assignee": null,
+    "assignees": [],
+    "requested_reviewers": [],
+    "requested_teams": [],
+    "head": {
+      "label": "ElectricDogCN:chore/OPS-011-agent-edge-104-scope-registration",
+      "ref": "chore/OPS-011-agent-edge-104-scope-registration",
+      "repo": {
+        "id": 1308659933,
+        "node_id": "R_kgDOTgCQ3Q",
+        "name": "Guize",
+        "full_name": "ElectricDogCN/Guize",
+        "owner": {
+          "login": "ElectricDogCN",
+          "id": 43232390,
+          "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/ElectricDogCN",
+          "html_url": "https://github.com/ElectricDogCN",
+          "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+          "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+          "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+          "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+          "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+          "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "private": false,
+        "fork": false,
+        "archived": false,
+        "disabled": false,
+        "description": null,
+        "homepage": null,
+        "language": "Python",
+        "visibility": "public",
+        "is_template": false,
+        "topics": [],
+        "forks_count": 0,
+        "forks": 0,
+        "stargazers_count": 0,
+        "watchers_count": 0,
+        "watchers": 0,
+        "open_issues_count": 6,
+        "open_issues": 6,
+        "size": 12434,
+        "default_branch": "main",
+        "has_issues": true,
+        "has_projects": true,
+        "has_wiki": true,
+        "has_pages": false,
+        "has_downloads": false,
+        "has_discussions": false,
+        "has_pull_requests": true,
+        "pushed_at": "2026-10-20T16:56:43Z",
+        "created_at": "2026-07-22T09:59:22Z",
+        "updated_at": "2026-10-20T16:12:10Z",
+        "allow_forking": true,
+        "web_commit_signoff_required": false,
+        "pull_request_creation_policy": "all",
+        "license": null,
+        "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+        "html_url": "https://github.com/ElectricDogCN/Guize",
+        "archive_url": "https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}",
+        "assignees_url": "https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}",
+        "blobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}",
+        "branches_url": "https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}",
+        "collaborators_url": "https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}",
+        "comments_url": "https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}",
+        "commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}",
+        "compare_url": "https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}",
+        "contents_url": "https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}",
+        "contributors_url": "https://api.github.com/repos/ElectricDogCN/Guize/contributors",
+        "deployments_url": "https://api.github.com/repos/ElectricDogCN/Guize/deployments",
+        "downloads_url": "https://api.github.com/repos/ElectricDogCN/Guize/downloads",
+        "events_url": "https://api.github.com/repos/ElectricDogCN/Guize/events",
+        "forks_url": "https://api.github.com/repos/ElectricDogCN/Guize/forks",
+        "git_commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}",
+        "git_refs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}",
+        "git_url": "git://github.com/ElectricDogCN/Guize.git",
+        "issue_comment_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}",
+        "issue_events_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}",
+        "issues_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}",
+        "keys_url": "https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}",
+        "labels_url": "https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}",
+        "languages_url": "https://api.github.com/repos/ElectricDogCN/Guize/languages",
+        "merges_url": "https://api.github.com/repos/ElectricDogCN/Guize/merges",
+        "milestones_url": "https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}",
+        "pulls_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}",
+        "releases_url": "https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}",
+        "ssh_url": "git@github.com:ElectricDogCN/Guize.git",
+        "stargazers_url": "https://api.github.com/repos/ElectricDogCN/Guize/stargazers",
+        "statuses_url": "https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}",
+        "subscribers_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscribers",
+        "subscription_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscription",
+        "tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/tags",
+        "teams_url": "https://api.github.com/repos/ElectricDogCN/Guize/teams",
+        "trees_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}",
+        "clone_url": "https://github.com/ElectricDogCN/Guize.git",
+        "mirror_url": null,
+        "hooks_url": "https://api.github.com/repos/ElectricDogCN/Guize/hooks",
+        "svn_url": "https://github.com/ElectricDogCN/Guize"
+      },
+      "sha": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+      "user": {
+        "login": "ElectricDogCN",
+        "id": 43232390,
+        "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ElectricDogCN",
+        "html_url": "https://github.com/ElectricDogCN",
+        "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+        "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+        "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+        "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+        "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      }
+    },
+    "base": {
+      "label": "ElectricDogCN:main",
+      "ref": "main",
+      "repo": {
+        "id": 1308659933,
+        "node_id": "R_kgDOTgCQ3Q",
+        "name": "Guize",
+        "full_name": "ElectricDogCN/Guize",
+        "owner": {
+          "login": "ElectricDogCN",
+          "id": 43232390,
+          "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+          "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/ElectricDogCN",
+          "html_url": "https://github.com/ElectricDogCN",
+          "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+          "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+          "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+          "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+          "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+          "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "private": false,
+        "fork": false,
+        "archived": false,
+        "disabled": false,
+        "description": null,
+        "homepage": null,
+        "language": "Python",
+        "visibility": "public",
+        "is_template": false,
+        "topics": [],
+        "forks_count": 0,
+        "forks": 0,
+        "stargazers_count": 0,
+        "watchers_count": 0,
+        "watchers": 0,
+        "open_issues_count": 6,
+        "open_issues": 6,
+        "size": 12434,
+        "default_branch": "main",
+        "has_issues": true,
+        "has_projects": true,
+        "has_wiki": true,
+        "has_pages": false,
+        "has_downloads": false,
+        "has_discussions": false,
+        "has_pull_requests": true,
+        "pushed_at": "2026-10-20T16:56:43Z",
+        "created_at": "2026-07-22T09:59:22Z",
+        "updated_at": "2026-10-20T16:12:10Z",
+        "allow_forking": true,
+        "web_commit_signoff_required": false,
+        "pull_request_creation_policy": "all",
+        "license": null,
+        "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+        "html_url": "https://github.com/ElectricDogCN/Guize",
+        "archive_url": "https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}",
+        "assignees_url": "https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}",
+        "blobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}",
+        "branches_url": "https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}",
+        "collaborators_url": "https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}",
+        "comments_url": "https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}",
+        "commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}",
+        "compare_url": "https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}",
+        "contents_url": "https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}",
+        "contributors_url": "https://api.github.com/repos/ElectricDogCN/Guize/contributors",
+        "deployments_url": "https://api.github.com/repos/ElectricDogCN/Guize/deployments",
+        "downloads_url": "https://api.github.com/repos/ElectricDogCN/Guize/downloads",
+        "events_url": "https://api.github.com/repos/ElectricDogCN/Guize/events",
+        "forks_url": "https://api.github.com/repos/ElectricDogCN/Guize/forks",
+        "git_commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}",
+        "git_refs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}",
+        "git_url": "git://github.com/ElectricDogCN/Guize.git",
+        "issue_comment_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}",
+        "issue_events_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}",
+        "issues_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}",
+        "keys_url": "https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}",
+        "labels_url": "https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}",
+        "languages_url": "https://api.github.com/repos/ElectricDogCN/Guize/languages",
+        "merges_url": "https://api.github.com/repos/ElectricDogCN/Guize/merges",
+        "milestones_url": "https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}",
+        "pulls_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}",
+        "releases_url": "https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}",
+        "ssh_url": "git@github.com:ElectricDogCN/Guize.git",
+        "stargazers_url": "https://api.github.com/repos/ElectricDogCN/Guize/stargazers",
+        "statuses_url": "https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}",
+        "subscribers_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscribers",
+        "subscription_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscription",
+        "tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/tags",
+        "teams_url": "https://api.github.com/repos/ElectricDogCN/Guize/teams",
+        "trees_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}",
+        "clone_url": "https://github.com/ElectricDogCN/Guize.git",
+        "mirror_url": null,
+        "hooks_url": "https://api.github.com/repos/ElectricDogCN/Guize/hooks",
+        "svn_url": "https://github.com/ElectricDogCN/Guize"
+      },
+      "sha": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "user": {
+        "login": "ElectricDogCN",
+        "id": 43232390,
+        "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ElectricDogCN",
+        "html_url": "https://github.com/ElectricDogCN",
+        "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+        "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+        "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+        "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+        "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      }
+    },
+    "_links": {
+      "comments": {
+        "href": "https://api.github.com/repos/ElectricDogCN/Guize/issues/110/comments"
+      },
+      "commits": {
+        "href": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/110/commits"
+      },
+      "statuses": {
+        "href": "https://api.github.com/repos/ElectricDogCN/Guize/statuses/4d3806835a474137bac9bd0e841dd283d7d4bf0c"
+      },
+      "html": {
+        "href": "https://github.com/ElectricDogCN/Guize/pull/110"
+      },
+      "issue": {
+        "href": "https://api.github.com/repos/ElectricDogCN/Guize/issues/110"
+      },
+      "review_comments": {
+        "href": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/110/comments"
+      },
+      "review_comment": {
+        "href": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/comments{/number}"
+      },
+      "self": {
+        "href": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/110"
+      }
+    },
+    "author_association": "OWNER",
+    "auto_merge": null,
+    "draft": false,
+    "merged": false,
+    "mergeable": true,
+    "rebaseable": true,
+    "mergeable_state": "clean",
+    "merged_by": null,
+    "comments": 1,
+    "review_comments": 3,
+    "maintainer_can_modify": false,
+    "commits": 2,
+    "additions": 8522,
+    "deletions": 266,
+    "changed_files": 93
+  },
+  "main": {
+    "ref": "refs/heads/main",
+    "node_id": "REF_kwDOTgCQ3a9yZWZzL2hlYWRzL21haW4",
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/refs/heads/main",
+    "object": {
+      "sha": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "type": "commit",
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits/1d2cb080d56176e26375a7b373a3cf3ef548b3dd"
+    }
+  },
+  "officialDeltaBlobs": [
+    {
+      "path": "evidence/OPS-011/api-samples/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "393a83ed0abbd536c9b3b01f138ff408545e25d2",
+      "size": 1326,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/393a83ed0abbd536c9b3b01f138ff408545e25d2"
+    },
+    {
+      "path": "evidence/OPS-011/assumptions.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b51695c64bbc24240efb5f760e8c005c4ce01ffc",
+      "size": 1459,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/b51695c64bbc24240efb5f760e8c005c4ce01ffc"
+    },
+    {
+      "path": "evidence/OPS-011/changed-files.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b485d5d56d0af91c5faa01c8d46b87b4fef674c7",
+      "size": 6778,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/b485d5d56d0af91c5faa01c8d46b87b4fef674c7"
+    },
+    {
+      "path": "evidence/OPS-011/commands.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d639ff8cea462015156f859f441e6a8e9698ab4e",
+      "size": 3995,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/d639ff8cea462015156f859f441e6a8e9698ab4e"
+    },
+    {
+      "path": "evidence/OPS-011/follow-ups.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "573515f38065edffb1d365ea1f2760eba47668e8",
+      "size": 1608,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/573515f38065edffb1d365ea1f2760eba47668e8"
+    },
+    {
+      "path": "evidence/OPS-011/handoff.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "faee5c51aba960812412106fc90c2b6c6080ab98",
+      "size": 3792,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/faee5c51aba960812412106fc90c2b6c6080ab98"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/canonical/changed-files.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c138cc941e47cf3a1696393e569ed2b6fbf1596",
+      "size": 1757,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/7c138cc941e47cf3a1696393e569ed2b6fbf1596"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/canonical/commands.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fbbbcc27fe92685dd93584f3e0a52fbb87640406",
+      "size": 2733,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/fbbbcc27fe92685dd93584f3e0a52fbb87640406"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/canonical/handoff.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99c74a41923dabcc8447e308c7a583920741f1e9",
+      "size": 1854,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/99c74a41923dabcc8447e308c7a583920741f1e9"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/canonical/scope.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab0e61d3103be19815f6261da3d4705f03c64b22",
+      "size": 2118,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/ab0e61d3103be19815f6261da3d4705f03c64b22"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/canonical/summary.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "edd8d17e9231ba7ddf24122cbd4395451a1624f2",
+      "size": 1297,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/edd8d17e9231ba7ddf24122cbd4395451a1624f2"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/artifact-map.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c02a019a1d6606085f307992dd0706c56ca08b8",
+      "size": 739,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/1c02a019a1d6606085f307992dd0706c56ca08b8"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/command-executions.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77a4d3aed51e899b1d5919e1c310b32e28929823",
+      "size": 8597,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/77a4d3aed51e899b1d5919e1c310b32e28929823"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/controller-interruption-result.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52d981c1e0024594eb0096c0c1d81e2600f1e9e6",
+      "size": 8519,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/52d981c1e0024594eb0096c0c1d81e2600f1e9e6"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/controller-interruption.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b6d9f13f3be14374dc72afddaac4f457a3dadd0",
+      "size": 8764,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/8b6d9f13f3be14374dc72afddaac4f457a3dadd0"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/coordination.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7ff031e1a0e5e440216ebe1a75617b4dcaa3fe55",
+      "size": 561,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/7ff031e1a0e5e440216ebe1a75617b4dcaa3fe55"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/diff.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa7196099209b3a8cadee473e645efedb655978f",
+      "size": 144,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/aa7196099209b3a8cadee473e645efedb655978f"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/evidence.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39bc97526050033ac3c9f6ddeb954c2ff62a45d3",
+      "size": 198,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/39bc97526050033ac3c9f6ddeb954c2ff62a45d3"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/execution-entry.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3fd382c9ddb57442da1b9769f2f94be6ac22d84",
+      "size": 8728,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/a3fd382c9ddb57442da1b9769f2f94be6ac22d84"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/failed-gate-worktrees.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9cbf2019250f57a233b5dbe2ea0f1b3f0de6f3ef",
+      "size": 7242,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/9cbf2019250f57a233b5dbe2ea0f1b3f0de6f3ef"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/finalization.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c6ec2153652140904d49af77ca32cb245f89b0f",
+      "size": 361,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/7c6ec2153652140904d49af77ca32cb245f89b0f"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/history.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "063fefef054c21d19c85257f268003294826dd70",
+      "size": 492,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/063fefef054c21d19c85257f268003294826dd70"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/integrity.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03a60d298f6ea344eeafb6ea98e25bdfbc918c67",
+      "size": 418,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/03a60d298f6ea344eeafb6ea98e25bdfbc918c67"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/lifecycle.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77231acbb901c871c103923fc824fa1608c36432",
+      "size": 601,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/77231acbb901c871c103923fc824fa1608c36432"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/make-governance.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e941f58703e36a1bb433f80be610256a8d8647f",
+      "size": 49794,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/8e941f58703e36a1bb433f80be610256a8d8647f"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/raw-lifecycle.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50175e3ad510db85b6b14b8fa4b572965fa8e3c4",
+      "size": 510,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/50175e3ad510db85b6b14b8fa4b572965fa8e3c4"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/readiness.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "def257ce67d5c9791e7799c29c646ec52c93733a",
+      "size": 660,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/def257ce67d5c9791e7799c29c646ec52c93733a"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/schemas.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5eeb760a299d23c0818f9ea6ed2b29bc3291ac03",
+      "size": 1811,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/5eeb760a299d23c0818f9ea6ed2b29bc3291ac03"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/scope.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92353b22e137676a2daccc0348c5c1e0676d6f97",
+      "size": 319,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/92353b22e137676a2daccc0348c5c1e0676d6f97"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/status.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e014d99a830f294d1cfd46a920b1bf03f2f43c86",
+      "size": 246,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/e014d99a830f294d1cfd46a920b1bf03f2f43c86"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/task.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b95fe43717ba562af9651bb1e867f1e9b924bfec",
+      "size": 257,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/b95fe43717ba562af9651bb1e867f1e9b924bfec"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/transitions.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3dca0422ae743705c1ca0ec55dfbf2398cdfb892",
+      "size": 445,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/3dca0422ae743705c1ca0ec55dfbf2398cdfb892"
+    },
+    {
+      "path": "evidence/OPS-011/history/8c9f1ca/execution/verify.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2bcbc058a044baa8621c6a8fef9efc66991bcb5",
+      "size": 68042,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/b2bcbc058a044baa8621c6a8fef9efc66991bcb5"
+    },
+    {
+      "path": "evidence/OPS-011/migration-report/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3691c2fceb472484838574139da7493a352a76cb",
+      "size": 1293,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/3691c2fceb472484838574139da7493a352a76cb"
+    },
+    {
+      "path": "evidence/OPS-011/performance/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e41227e73b901e203feb95793e4139148afb5781",
+      "size": 1328,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/e41227e73b901e203feb95793e4139148afb5781"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/accepted-reservation-artifacts/ops011-reservation-1d2cb08-actual-main-adoption.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d61ce27e06559e8593e3e4be5a627060a262293a",
+      "size": 63447,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/d61ce27e06559e8593e3e4be5a627060a262293a"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/accepted-reservation-artifacts/ops011-reservation-5d614f1-final-source-admission.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "556e967baa13903ad8f0b28938eeeec55ac4f240",
+      "size": 9284,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/556e967baa13903ad8f0b28938eeeec55ac4f240"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/actual-main-independent-acceptance.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46ef6c79160427036b3459e9ec5547d048b36cbc",
+      "size": 6277,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/46ef6c79160427036b3459e9ec5547d048b36cbc"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3ac40323887fc7568613cbb74b984257a8de42e",
+      "size": 1534,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/d3ac40323887fc7568613cbb74b984257a8de42e"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a03.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45bca8841e396d73dc3dbc58d2b0910fc8dd8f3f",
+      "size": 30880,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/45bca8841e396d73dc3dbc58d2b0910fc8dd8f3f"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a04.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2cb60be81280489895c8b2b279e768c3ad20cbc3",
+      "size": 1258,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/2cb60be81280489895c8b2b279e768c3ad20cbc3"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a05.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4126950c7d6411e34963c546ced05ffc55450342",
+      "size": 305103,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/4126950c7d6411e34963c546ced05ffc55450342"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a06.raw",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce4224fb9fdc747cdc9ce539cbbe3b9cdc70ca8c",
+      "size": 335995,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/ce4224fb9fdc747cdc9ce539cbbe3b9cdc70ca8c"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a07.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "385b59678d4a284f7bac2c05b0a472a6d42b6559",
+      "size": 938,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/385b59678d4a284f7bac2c05b0a472a6d42b6559"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a08.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8ea3813eb0a38d78db57d39bbfee6bfeff77352",
+      "size": 418,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/e8ea3813eb0a38d78db57d39bbfee6bfeff77352"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a09.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c62401bede9ac4147395e011f41ede0108f5a25d",
+      "size": 521,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/c62401bede9ac4147395e011f41ede0108f5a25d"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a10.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f291dae832414593f8d8bfccb9d883ad4b22848",
+      "size": 438,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/9f291dae832414593f8d8bfccb9d883ad4b22848"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a11.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6da1409ba4ddeea81408d861e246ec8c61c5a9a",
+      "size": 504,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/f6da1409ba4ddeea81408d861e246ec8c61c5a9a"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a12.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f678e302165ee73a542f2299eb8f0b4d52618934",
+      "size": 554,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/f678e302165ee73a542f2299eb8f0b4d52618934"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a13.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0698c241a9e5e4389f7992415693eb5aee07cce9",
+      "size": 14148,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/0698c241a9e5e4389f7992415693eb5aee07cce9"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a14.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4029a29126a0cca90ecf4f2ad5d8cc9467955868",
+      "size": 2883,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/4029a29126a0cca90ecf4f2ad5d8cc9467955868"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a15.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c86756efd227af669b1d419996ec01d78a144973",
+      "size": 12823,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/c86756efd227af669b1d419996ec01d78a144973"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a16.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "05de3889a59a56375f7b9a4aa249861240f9e405",
+      "size": 4038,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/05de3889a59a56375f7b9a4aa249861240f9e405"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a17.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa3356ea2a7aae8a0d4f70aec1c649edfeaa51d5",
+      "size": 100151,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/aa3356ea2a7aae8a0d4f70aec1c649edfeaa51d5"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a18.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d1a890b53a34cec54d768d6a2844ee82abbb955b",
+      "size": 144,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/d1a890b53a34cec54d768d6a2844ee82abbb955b"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a19.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1abb4a0f1f76357b6c66a0ea605043d0150f56d7",
+      "size": 257,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/1abb4a0f1f76357b6c66a0ea605043d0150f56d7"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a20.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b77ecb37851e72f1b8d6a014270ab39c201665c1",
+      "size": 660,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/b77ecb37851e72f1b8d6a014270ab39c201665c1"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a21.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04c8f67475ada8a0fc089dc7d6db67de54169756",
+      "size": 1811,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/04c8f67475ada8a0fc089dc7d6db67de54169756"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a22.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93f9a98bc9cb159486bd94001d5e55500fee4150",
+      "size": 418,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/93f9a98bc9cb159486bd94001d5e55500fee4150"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a23.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed2a5b1eeaa30a99851161dab6667995905f074d",
+      "size": 485,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/ed2a5b1eeaa30a99851161dab6667995905f074d"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a24.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f3d419b896a72006ca8a614d4b26285b384747d",
+      "size": 438,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/9f3d419b896a72006ca8a614d4b26285b384747d"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a25.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9430a736ba7b0d3a79b156598ef4a3247e8adc9b",
+      "size": 361,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/9430a736ba7b0d3a79b156598ef4a3247e8adc9b"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a26.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2ebf0f99aea8afec828b86e9649d385b15351ce",
+      "size": 504,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/d2ebf0f99aea8afec828b86e9649d385b15351ce"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a27.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee21851465d1a16afe91bef36dc8dc3b9e283f3f",
+      "size": 595,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/ee21851465d1a16afe91bef36dc8dc3b9e283f3f"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a28.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c6838242431b4edf692d7484552f3fadcd8a3bda",
+      "size": 554,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/c6838242431b4edf692d7484552f3fadcd8a3bda"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a29.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8bfae4b325df5086e408632538afc55cb9cff861",
+      "size": 319,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/8bfae4b325df5086e408632538afc55cb9cff861"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a30.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf4ffeb681803772edf0d0999291ea779a1ae744",
+      "size": 198,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/bf4ffeb681803772edf0d0999291ea779a1ae744"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a31.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "06df026c4a3a9e2c4bc32557643704d94973d390",
+      "size": 92560,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/06df026c4a3a9e2c4bc32557643704d94973d390"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a32.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b7b62e1a377b9dda9d9a30af1520a2f2ae24a18",
+      "size": 164,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/2b7b62e1a377b9dda9d9a30af1520a2f2ae24a18"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a33.raw",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7eacffedb4122af8b3ef4f2ca19811c817e5185",
+      "size": 347375,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/b7eacffedb4122af8b3ef4f2ca19811c817e5185"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a34.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26f099e6bb00cc4895b41bce4b7d8b2fa0e72e0f",
+      "size": 313367,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/26f099e6bb00cc4895b41bce4b7d8b2fa0e72e0f"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/a35.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "778707078510bed0d11b3a743491a504881fb19f",
+      "size": 1384,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/778707078510bed0d11b3a743491a504881fb19f"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/artifacts/artifact-map.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f492741bffa09afaf1214c9829d9be38c033e656",
+      "size": 28204,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/f492741bffa09afaf1214c9829d9be38c033e656"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/commands.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7ced39da25efa96ce81ce68f4143840fd8ce424c",
+      "size": 2648,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/7ced39da25efa96ce81ce68f4143840fd8ce424c"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/api-samples/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3691c0c17dd26bf7b8f9a6f478197842d4508493",
+      "size": 1034,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/3691c0c17dd26bf7b8f9a6f478197842d4508493"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/assumptions.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3eabe0d1a0afba299db7e866ba1fabbea3a1b2f6",
+      "size": 1441,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/3eabe0d1a0afba299db7e866ba1fabbea3a1b2f6"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/follow-ups.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "038bc1aa7e3a840012820533124acbd4070a842b",
+      "size": 1275,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/038bc1aa7e3a840012820533124acbd4070a842b"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/migration-report/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08ffcd7753f9441603d238892da84cb67fe83333",
+      "size": 965,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/08ffcd7753f9441603d238892da84cb67fe83333"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/performance/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ce922da80198ade80205c85774ec8900403350d",
+      "size": 981,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/1ce922da80198ade80205c85774ec8900403350d"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/risks.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f25ce5787730458ceaa8f1ee5337fbedb84fb3aa",
+      "size": 1163,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/f25ce5787730458ceaa8f1ee5337fbedb84fb3aa"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/rollback-verification/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00ba8501a9ec695787dbf6df56d3fb637713c9d9",
+      "size": 1118,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/00ba8501a9ec695787dbf6df56d3fb637713c9d9"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/screenshots/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7329d7fb4f756061bcd75dd83d05e54cfb129f97",
+      "size": 992,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/7329d7fb4f756061bcd75dd83d05e54cfb129f97"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/security/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7232bd1bb3e55095aacbcdfcb8e5af3285a77eea",
+      "size": 1046,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/7232bd1bb3e55095aacbcdfcb8e5af3285a77eea"
+    },
+    {
+      "path": "evidence/OPS-011/reservation-history/original-reservation/test-results/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f619079d5585e5848754ea1a4df44d6e38d0e52",
+      "size": 1160,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/2f619079d5585e5848754ea1a4df44d6e38d0e52"
+    },
+    {
+      "path": "evidence/OPS-011/risks.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "643035f0fb2bcb7ccb58bd0991ed74dcbecac744",
+      "size": 1505,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/643035f0fb2bcb7ccb58bd0991ed74dcbecac744"
+    },
+    {
+      "path": "evidence/OPS-011/rollback-verification/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c50fea1dae1378d1cff0b8dd87a850330f71e22",
+      "size": 1700,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/5c50fea1dae1378d1cff0b8dd87a850330f71e22"
+    },
+    {
+      "path": "evidence/OPS-011/scope.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00bca4a2f549112d0d16cc134f7f1b26c4dc8453",
+      "size": 3380,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/00bca4a2f549112d0d16cc134f7f1b26c4dc8453"
+    },
+    {
+      "path": "evidence/OPS-011/screenshots/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e32a44ce6bd702630302a277b6671c71dbc4080f",
+      "size": 1317,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/e32a44ce6bd702630302a277b6671c71dbc4080f"
+    },
+    {
+      "path": "evidence/OPS-011/security/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90116aa8bad6d89d11e372d2a7858c51553eb139",
+      "size": 1434,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/90116aa8bad6d89d11e372d2a7858c51553eb139"
+    },
+    {
+      "path": "evidence/OPS-011/summary.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "226f9009fb6fbb39cda2cfacdc588afb6d6a4c41",
+      "size": 2559,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/226f9009fb6fbb39cda2cfacdc588afb6d6a4c41"
+    },
+    {
+      "path": "evidence/OPS-011/test-results/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18934807bd99b63e568b4520cf3ca913f5760123",
+      "size": 1578,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/18934807bd99b63e568b4520cf3ca913f5760123"
+    },
+    {
+      "path": "specs/coordination/active-work.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a138d813ad9f9141e51518dc517d0b5b80e9e6e",
+      "size": 1917,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/4a138d813ad9f9141e51518dc517d0b5b80e9e6e"
+    },
+    {
+      "path": "specs/tasks/OPS-011.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df00cc8dcd3af427e9929d315bc3539954063093",
+      "size": 14396,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs/df00cc8dcd3af427e9929d315bc3539954063093"
+    }
+  ],
+  "contentReviewSha256": "3d9853e2ba71fac2cd8c01e252452c73b830aa1dd4c86f46049cb9e37231f3e5",
+  "sourcePassed": false,
+  "ciAccepted": false,
+  "actualMainAccepted": false,
+  "implementationStarted": false,
+  "official93BlobsMatched": true
+}

@@ -1,3 +1,5 @@
+import importlib.util
+import json
 import os
 import subprocess
 import sys
@@ -117,6 +119,55 @@ class TestCheckTaskFile(unittest.TestCase):
             result = self._run(tmpdir, "GZ-014")
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("programTaskId must equal", result.stdout)
+
+    def test_registry_without_program_cannot_accept_edge_requirement(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            self._copy_registry_task(
+                tmpdir,
+                transform=lambda text: text.replace("requirementIds: REQ-V1-0010", "requirementIds: REQ-EDGE-104-0001", 1),
+            )
+            result = self._run(tmpdir, "GZ-014")
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("Invalid requirementIds entry: REQ-EDGE-104-0001", result.stdout)
+
+    def test_registry_requirement_ids_match_actual_program_row(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            self._copy_registry_task(tmpdir)
+            directory = os.path.join(tmpdir, "specs", "coordination")
+            os.makedirs(directory, exist_ok=True)
+            plan = {"tasks": [{"taskId": "GZ-014", "requirementIds": ["REQ-V1-0009"]}], "foundationTasks": []}
+            with open(os.path.join(directory, "program-plan.yaml"), "w", encoding="utf-8") as handle:
+                json.dump(plan, handle)
+            result = self._run(tmpdir, "GZ-014")
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("Task requirementIds must equal the actual Program task requirementIds", result.stdout)
+
+    def test_requirement_binding_preserves_planner_and_business_namespaces(self):
+        specification = importlib.util.spec_from_file_location("task_requirement_binding", os.path.join(SCRIPTS_DIR, "check-task-file.py"))
+        task_file = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(task_file)
+        for task_id, scope, selected in [
+            ("GZ-005", "V1", ["REQ-V1-0001"]),
+            ("OPS-011", "FOUNDATION", ["REQ-V1-0010"]),
+            ("GZ-022", "AGENT-EDGE-104", ["REQ-V1-0010"]),
+            ("GZ-023", "AGENT-EDGE-104", ["REQ-EDGE-104-0001"]),
+        ]:
+            with self.subTest(task=task_id, scope=scope):
+                errors = []
+                planned = None if scope == "FOUNDATION" else {"requirementIds": selected}
+                task_file.validate_requirement_binding(selected, task_id, scope, planned, {"REQ-EDGE-104-0001": {}}, errors)
+                self.assertEqual(errors, [])
+        for task_id, scope, selected, planned_ids, reason in [
+            ("GZ-005", "V1", ["REQ-EDGE-104-0001"], ["REQ-EDGE-104-0001"], "Invalid requirementIds entry"),
+            ("GZ-023", "AGENT-EDGE-104", ["REQ-V1-0010"], ["REQ-V1-0010"], "Invalid requirementIds entry"),
+            ("GZ-023", "AGENT-EDGE-104", ["REQ-EDGE-104-0002"], ["REQ-EDGE-104-0002"], "Unknown independent EDGE"),
+            ("GZ-023", "AGENT-EDGE-104", ["REQ-EDGE-104-0001"], ["REQ-EDGE-104-0002"], "must equal the actual Program"),
+            ("GZ-022", "AGENT-EDGE-104", ["REQ-V1-0001"], ["REQ-V1-0001"], "must retain only"),
+        ]:
+            with self.subTest(task=task_id, scope=scope, requirement=selected, planned=planned_ids):
+                errors = []
+                task_file.validate_requirement_binding(selected, task_id, scope, {"requirementIds": planned_ids}, {"REQ-EDGE-104-0001": {}}, errors)
+                self.assertTrue(any(reason in error for error in errors), errors)
 
 
 if __name__ == "__main__":

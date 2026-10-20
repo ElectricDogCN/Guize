@@ -1,0 +1,941 @@
+{
+  "kind": "ops011-scope-verification-clone-adoption",
+  "inputAdoption": {
+    "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops011-scope-amendment-4d38068-actual-source-adoption.json",
+    "sha256": "d631332d9d33b50641d9bf2837d476ab2a44cf42207419e865d137d5cfd5cadb"
+  },
+  "hostBridge": {
+    "argvPrefix": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--",
+      "python3",
+      "-B"
+    ],
+    "nativeProgramSha256": "f0372b2e695f5d3469990c96a34b1221fa1124bec5cdc3c63ce09f66f5461448",
+    "actualPid": 85544,
+    "waitCompleted": true,
+    "exitCode": 0,
+    "stdoutBytes": 30489,
+    "stdoutSha256": "c97bcfa2e16465058d81bbb5339d0e3ece539f2b56dee6ada09941494bdb229b",
+    "stderrBytes": 132,
+    "stderrSha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca",
+    "stderrBase64": "dwBzAGwAOgAgAMBoS20wUiAAbABvAGMAYQBsAGgAbwBzAHQAIADjTgZ0TZFufwz/Rk8qZ1yVz1AwUiAAVwBTAEwAAjBOAEEAVAAgACFqD18LToR2IABXAFMATAAgAA1OL2UBYyAAbABvAGMAYQBsAGgAbwBzAHQAIADjTgZ0AjANAAoA",
+    "stderrUtf8Replace": "w\u0000s\u0000l\u0000:\u0000 \u0000�hKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006tM�n\f�FO*g\\��P0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN�v \u0000W\u0000S\u0000L\u0000 \u0000\rN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006t\u00020\r\u0000\n\u0000"
+  },
+  "native": {
+    "kind": "ops011-scope-verification-clone-adoption",
+    "source": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+    "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+    "parent": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26",
+    "base": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+    "branch": "chore/OPS-011-agent-edge-104-scope-registration",
+    "originalRepository": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "verificationRepository": "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+    "startedAtUTC": "2026-10-20T17:24:27.445486+00:00",
+    "nativeControllerPid": 1045459,
+    "commands": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.445690+00:00",
+        "pid": 1045461,
+        "finishedAtUTC": "2026-10-20T17:24:27.447617+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "4d3806835a474137bac9bd0e841dd283d7d4bf0c\n",
+        "stderr": "",
+        "stdoutSha256": "68042bbcae8b5cdb14fe7663f6b8b3fb7a529d15b880482beb9e5973be9f7f06",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "rev-parse",
+          "HEAD^{tree}"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.447672+00:00",
+        "pid": 1045462,
+        "finishedAtUTC": "2026-10-20T17:24:27.449954+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "8410ef33325e4f42f826a46d7f3a156ba8c29264\n",
+        "stderr": "",
+        "stdoutSha256": "8373b96eecee89e509caae036a0c0976c00e104c396151197f89824714781666",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "show",
+          "-s",
+          "--format=%P",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.450009+00:00",
+        "pid": 1045463,
+        "finishedAtUTC": "2026-10-20T17:24:27.452644+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26\n",
+        "stderr": "",
+        "stdoutSha256": "b2b6b6181d77c79e3c14d73891bc4186d8820ed09d19b0d16596bb274e34957a",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "symbolic-ref",
+          "--short",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.452719+00:00",
+        "pid": 1045464,
+        "finishedAtUTC": "2026-10-20T17:24:27.455846+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "chore/OPS-011-agent-edge-104-scope-registration\n",
+        "stderr": "",
+        "stdoutSha256": "2968a967fc46e56257c8e7c9ff6d980834c9506c8dcc5cff8c09af20013cf802",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 48,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "rev-parse",
+          "refs/heads/main"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.455892+00:00",
+        "pid": 1045465,
+        "finishedAtUTC": "2026-10-20T17:24:27.457471+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd\n",
+        "stderr": "",
+        "stdoutSha256": "9a927561d562dab1c5f079460e35a5b0868768ec3d0dc02df7bc1462e06f399f",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "rev-parse",
+          "refs/remotes/origin/main"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.457512+00:00",
+        "pid": 1045466,
+        "finishedAtUTC": "2026-10-20T17:24:27.458995+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "3981190af9265a7db1654962c1d9870e51f36e64\n",
+        "stderr": "",
+        "stdoutSha256": "7c66a50834465032a5040d063d08e694e86ec93387886d893487ce091c6f31ac",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.459034+00:00",
+        "pid": 1045467,
+        "finishedAtUTC": "2026-10-20T17:24:27.469907+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "",
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "for-each-ref",
+          "--format=%(refname) %(objectname)"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.470512+00:00",
+        "pid": 1045475,
+        "finishedAtUTC": "2026-10-20T17:24:27.472807+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "refs/heads/chore/GZ-021-local-v1-route 2db1a687a1de96c743a0feadd036836bfd751652\nrefs/heads/chore/GZ-021-normal-completion 5aaea70e6fce09320d1a71f57c152c634abb734c\nrefs/heads/chore/GZ-021-normal-completion-v2 b5351f6c3dee90eac58ecfb9c7d9d149bbadbc0a\nrefs/heads/chore/OPS-011-agent-edge-104-reservation 5d614f1db402a1c55c0b3bc9b25e185a18218cbc\nrefs/heads/chore/OPS-011-agent-edge-104-scope-registration 4d3806835a474137bac9bd0e841dd283d7d4bf0c\nrefs/heads/main 1d2cb080d56176e26375a7b373a3cf3ef548b3dd\nrefs/remotes/origin/HEAD 62a246ddf2a99f80658dae92f23982c6b573ba21\nrefs/remotes/origin/chore/GZ-021-local-v1-route 62a246ddf2a99f80658dae92f23982c6b573ba21\nrefs/remotes/origin/main 3981190af9265a7db1654962c1d9870e51f36e64\nrefs/tags/archive/GZ-005-activation-attempt-20261009 346c9b6e7d25e4ea45f33be43c325ee5c0bb2d82\nrefs/tags/archive/GZ-005-openapi-draft-20261009 d0d93f43d6048fd33dbdeab97a06609bc7a2f717\nrefs/tags/archive/GZ-005-reservation-local-20261009 e1ce087de4ddc00a84f88c6ab3f6c69c74b75c92\nrefs/tags/archive/GZ-010-completion-local-20261009 91e98b89b0b7fb43e778cfb1ae49949f03e1a424\nrefs/tags/archive/GZ-010-reviewed-local-20261009 57953eda201f35b041a9e3c7da1b37c9893ddd9f\nrefs/tags/archive/OPS-003-completion-local-20261009 7a7d6c01f3720bcbdce70c42a0482bfbf1f7d8ff\nrefs/tags/archive/OPS-003-registration-local-20261009 aa5a17cf1b9191023462d0357d07910205f0d789\nrefs/tags/archive/OPS-003-reviewed-local-20261009 822962eaa87212fa659fa0283f92552a11c5bb83\nrefs/tags/archive/OPS-004-implementation-local-20261009 c085c2c9b69aaafad55561c672fc098dcae78db6\nrefs/tags/archive/OPS-004-registration-local-20261009 174f0addb1714cad4f07e999f24fec1c5a5849cd\nrefs/tags/takeover-OPS-004-review-b2cb-failed b2cb1839598ee445c3cbacf9761340f3800042c7\n",
+        "stderr": "",
+        "stdoutSha256": "3b1fc8b9d9a695804ddefc8c4a65bb9fdd9fbd4976c0d055dff6e024a87db98a",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 1736,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "worktree",
+          "list",
+          "--porcelain"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.472901+00:00",
+        "pid": 1045476,
+        "finishedAtUTC": "2026-10-20T17:24:27.475290+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "worktree /home/sur/.cache/guize-takeover/eight-follow-up-265001d\nHEAD 4d3806835a474137bac9bd0e841dd283d7d4bf0c\nbranch refs/heads/chore/OPS-011-agent-edge-104-scope-registration\n\n",
+        "stderr": "",
+        "stdoutSha256": "aef0f4b3c7b11881551ada32d8f158f1955c91829f39e453710634adaaee6e16",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 178,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "clone",
+          "--shared",
+          "--no-checkout",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.476252+00:00",
+        "pid": 1045477,
+        "finishedAtUTC": "2026-10-20T17:24:27.495606+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "Cloning into '/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068'...\ndone.\n",
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "00dce47f0694dd1146a00e765bf2464af6b084ec06fe914dc5bc8096afb9b94e",
+        "stdoutBytes": 0,
+        "stderrBytes": 90
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "config",
+          "core.autocrlf",
+          "false"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.495657+00:00",
+        "pid": 1045480,
+        "finishedAtUTC": "2026-10-20T17:24:27.497614+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "",
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "checkout",
+          "chore/OPS-011-agent-edge-104-scope-registration"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.497654+00:00",
+        "pid": 1045481,
+        "finishedAtUTC": "2026-10-20T17:24:27.967423+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "Your branch is up to date with 'origin/chore/OPS-011-agent-edge-104-scope-registration'.\n",
+        "stderr": "Already on 'chore/OPS-011-agent-edge-104-scope-registration'\n",
+        "stdoutSha256": "701666797d278cea3479e5c71c13af5e4f350b21d043427d97c2b135895664a0",
+        "stderrSha256": "2f6c68c6c762e1981c3e4e2757660380307ef6b25e45849fd20de5d37c8dfc53",
+        "stdoutBytes": 89,
+        "stderrBytes": 61
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "for-each-ref",
+          "--format=%(refname) %(objectname)",
+          "refs/heads"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.967478+00:00",
+        "pid": 1045482,
+        "finishedAtUTC": "2026-10-20T17:24:27.969198+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "refs/heads/chore/OPS-011-agent-edge-104-scope-registration 4d3806835a474137bac9bd0e841dd283d7d4bf0c\n",
+        "stderr": "",
+        "stdoutSha256": "a8441e491878778a1af4d9e5939048601d77cdb05dabb3d14f603e11b9a7320f",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 100,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "branch",
+          "main",
+          "1d2cb080d56176e26375a7b373a3cf3ef548b3dd"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.969231+00:00",
+        "pid": 1045483,
+        "finishedAtUTC": "2026-10-20T17:24:27.971916+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "",
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "remote",
+          "get-url",
+          "origin"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.971946+00:00",
+        "pid": 1045484,
+        "finishedAtUTC": "2026-10-20T17:24:27.973284+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d\n",
+        "stderr": "",
+        "stdoutSha256": "5be026cfb416633aaaf9ada1ad643daf44f85d443b9e93295e59f740665f2ff9",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 56,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "config",
+          "--get",
+          "core.autocrlf"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.973407+00:00",
+        "pid": 1045485,
+        "finishedAtUTC": "2026-10-20T17:24:27.974559+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "false\n",
+        "stderr": "",
+        "stdoutSha256": "2ed27c1421e6928dbe13dbfdb5c59e1045b30341fe7ebe05700006bc5ac572c0",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 6,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.974590+00:00",
+        "pid": 1045486,
+        "finishedAtUTC": "2026-10-20T17:24:27.975962+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "4d3806835a474137bac9bd0e841dd283d7d4bf0c\n",
+        "stderr": "",
+        "stdoutSha256": "68042bbcae8b5cdb14fe7663f6b8b3fb7a529d15b880482beb9e5973be9f7f06",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "rev-parse",
+          "HEAD^{tree}"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.975985+00:00",
+        "pid": 1045487,
+        "finishedAtUTC": "2026-10-20T17:24:27.977965+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "8410ef33325e4f42f826a46d7f3a156ba8c29264\n",
+        "stderr": "",
+        "stdoutSha256": "8373b96eecee89e509caae036a0c0976c00e104c396151197f89824714781666",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "show",
+          "-s",
+          "--format=%P",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.977988+00:00",
+        "pid": 1045488,
+        "finishedAtUTC": "2026-10-20T17:24:27.980096+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26\n",
+        "stderr": "",
+        "stdoutSha256": "b2b6b6181d77c79e3c14d73891bc4186d8820ed09d19b0d16596bb274e34957a",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "symbolic-ref",
+          "--short",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.980136+00:00",
+        "pid": 1045489,
+        "finishedAtUTC": "2026-10-20T17:24:27.981386+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "chore/OPS-011-agent-edge-104-scope-registration\n",
+        "stderr": "",
+        "stdoutSha256": "2968a967fc46e56257c8e7c9ff6d980834c9506c8dcc5cff8c09af20013cf802",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 48,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "rev-parse",
+          "refs/heads/main"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.981408+00:00",
+        "pid": 1045490,
+        "finishedAtUTC": "2026-10-20T17:24:27.982505+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd\n",
+        "stderr": "",
+        "stdoutSha256": "9a927561d562dab1c5f079460e35a5b0868768ec3d0dc02df7bc1462e06f399f",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "rev-parse",
+          "refs/remotes/origin/main"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.982525+00:00",
+        "pid": 1045491,
+        "finishedAtUTC": "2026-10-20T17:24:27.983801+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd\n",
+        "stderr": "",
+        "stdoutSha256": "9a927561d562dab1c5f079460e35a5b0868768ec3d0dc02df7bc1462e06f399f",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/ops011-scope-verification-4d38068",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:27.983825+00:00",
+        "pid": 1045492,
+        "finishedAtUTC": "2026-10-20T17:24:28.256753+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "",
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.257172+00:00",
+        "pid": 1045500,
+        "finishedAtUTC": "2026-10-20T17:24:28.258951+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "4d3806835a474137bac9bd0e841dd283d7d4bf0c\n",
+        "stderr": "",
+        "stdoutSha256": "68042bbcae8b5cdb14fe7663f6b8b3fb7a529d15b880482beb9e5973be9f7f06",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "rev-parse",
+          "HEAD^{tree}"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.258986+00:00",
+        "pid": 1045501,
+        "finishedAtUTC": "2026-10-20T17:24:28.261214+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "8410ef33325e4f42f826a46d7f3a156ba8c29264\n",
+        "stderr": "",
+        "stdoutSha256": "8373b96eecee89e509caae036a0c0976c00e104c396151197f89824714781666",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "show",
+          "-s",
+          "--format=%P",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.261263+00:00",
+        "pid": 1045502,
+        "finishedAtUTC": "2026-10-20T17:24:28.263318+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "8c9f1ca91ab34409023d5998a0ba214a81bf9d26\n",
+        "stderr": "",
+        "stdoutSha256": "b2b6b6181d77c79e3c14d73891bc4186d8820ed09d19b0d16596bb274e34957a",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "symbolic-ref",
+          "--short",
+          "HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.263353+00:00",
+        "pid": 1045503,
+        "finishedAtUTC": "2026-10-20T17:24:28.264915+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "chore/OPS-011-agent-edge-104-scope-registration\n",
+        "stderr": "",
+        "stdoutSha256": "2968a967fc46e56257c8e7c9ff6d980834c9506c8dcc5cff8c09af20013cf802",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 48,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "rev-parse",
+          "refs/heads/main"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.264952+00:00",
+        "pid": 1045504,
+        "finishedAtUTC": "2026-10-20T17:24:28.266310+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd\n",
+        "stderr": "",
+        "stdoutSha256": "9a927561d562dab1c5f079460e35a5b0868768ec3d0dc02df7bc1462e06f399f",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "rev-parse",
+          "refs/remotes/origin/main"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.266342+00:00",
+        "pid": 1045505,
+        "finishedAtUTC": "2026-10-20T17:24:28.267541+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "3981190af9265a7db1654962c1d9870e51f36e64\n",
+        "stderr": "",
+        "stdoutSha256": "7c66a50834465032a5040d063d08e694e86ec93387886d893487ce091c6f31ac",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 41,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "status",
+          "--porcelain=v1",
+          "--untracked-files=all"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.267577+00:00",
+        "pid": 1045506,
+        "finishedAtUTC": "2026-10-20T17:24:28.276074+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": "",
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 0,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "for-each-ref",
+          "--format=%(refname) %(objectname)"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.276325+00:00",
+        "pid": 1045514,
+        "finishedAtUTC": "2026-10-20T17:24:28.277863+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "refs/heads/chore/GZ-021-local-v1-route 2db1a687a1de96c743a0feadd036836bfd751652\nrefs/heads/chore/GZ-021-normal-completion 5aaea70e6fce09320d1a71f57c152c634abb734c\nrefs/heads/chore/GZ-021-normal-completion-v2 b5351f6c3dee90eac58ecfb9c7d9d149bbadbc0a\nrefs/heads/chore/OPS-011-agent-edge-104-reservation 5d614f1db402a1c55c0b3bc9b25e185a18218cbc\nrefs/heads/chore/OPS-011-agent-edge-104-scope-registration 4d3806835a474137bac9bd0e841dd283d7d4bf0c\nrefs/heads/main 1d2cb080d56176e26375a7b373a3cf3ef548b3dd\nrefs/remotes/origin/HEAD 62a246ddf2a99f80658dae92f23982c6b573ba21\nrefs/remotes/origin/chore/GZ-021-local-v1-route 62a246ddf2a99f80658dae92f23982c6b573ba21\nrefs/remotes/origin/main 3981190af9265a7db1654962c1d9870e51f36e64\nrefs/tags/archive/GZ-005-activation-attempt-20261009 346c9b6e7d25e4ea45f33be43c325ee5c0bb2d82\nrefs/tags/archive/GZ-005-openapi-draft-20261009 d0d93f43d6048fd33dbdeab97a06609bc7a2f717\nrefs/tags/archive/GZ-005-reservation-local-20261009 e1ce087de4ddc00a84f88c6ab3f6c69c74b75c92\nrefs/tags/archive/GZ-010-completion-local-20261009 91e98b89b0b7fb43e778cfb1ae49949f03e1a424\nrefs/tags/archive/GZ-010-reviewed-local-20261009 57953eda201f35b041a9e3c7da1b37c9893ddd9f\nrefs/tags/archive/OPS-003-completion-local-20261009 7a7d6c01f3720bcbdce70c42a0482bfbf1f7d8ff\nrefs/tags/archive/OPS-003-registration-local-20261009 aa5a17cf1b9191023462d0357d07910205f0d789\nrefs/tags/archive/OPS-003-reviewed-local-20261009 822962eaa87212fa659fa0283f92552a11c5bb83\nrefs/tags/archive/OPS-004-implementation-local-20261009 c085c2c9b69aaafad55561c672fc098dcae78db6\nrefs/tags/archive/OPS-004-registration-local-20261009 174f0addb1714cad4f07e999f24fec1c5a5849cd\nrefs/tags/takeover-OPS-004-review-b2cb-failed b2cb1839598ee445c3cbacf9761340f3800042c7\n",
+        "stderr": "",
+        "stdoutSha256": "3b1fc8b9d9a695804ddefc8c4a65bb9fdd9fbd4976c0d055dff6e024a87db98a",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 1736,
+        "stderrBytes": 0
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.fsmonitor=false",
+          "-C",
+          "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+          "worktree",
+          "list",
+          "--porcelain"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover",
+        "startedAtUTC": "2026-10-20T17:24:28.277909+00:00",
+        "pid": 1045515,
+        "finishedAtUTC": "2026-10-20T17:24:28.279958+00:00",
+        "waitCompleted": true,
+        "exitCode": 0,
+        "stdout": "worktree /home/sur/.cache/guize-takeover/eight-follow-up-265001d\nHEAD 4d3806835a474137bac9bd0e841dd283d7d4bf0c\nbranch refs/heads/chore/OPS-011-agent-edge-104-scope-registration\n\n",
+        "stderr": "",
+        "stdoutSha256": "aef0f4b3c7b11881551ada32d8f158f1955c91829f39e453710634adaaee6e16",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdoutBytes": 178,
+        "stderrBytes": 0
+      }
+    ],
+    "testsRun": false,
+    "validatorsRun": false,
+    "networkGitExecuted": false,
+    "oldResultsRewritten": false,
+    "sourceAccepted": false,
+    "ciAccepted": false,
+    "destinationAbsentBefore": true,
+    "originalBefore": {
+      "head": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+      "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+      "parents": [
+        "8c9f1ca91ab34409023d5998a0ba214a81bf9d26"
+      ],
+      "branch": "chore/OPS-011-agent-edge-104-scope-registration",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "originMain": "3981190af9265a7db1654962c1d9870e51f36e64",
+      "status": "",
+      "fiveFiles": {
+        "specs/coordination/active-work.yaml": {
+          "gitBlob": "4a138d813ad9f9141e51518dc517d0b5b80e9e6e",
+          "physicalSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+          "bytes": 1917
+        },
+        "specs/tasks/OPS-011.md": {
+          "gitBlob": "df00cc8dcd3af427e9929d315bc3539954063093",
+          "physicalSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+          "bytes": 14396
+        },
+        "specs/coordination/program-plan.yaml": {
+          "gitBlob": "89d0d8b7cd7f56c83bd0084dfc7b8bc3b25c0e14",
+          "physicalSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "bytes": 36045
+        },
+        "specs/coordination/task-completions.yaml": {
+          "gitBlob": "c4c6005fa6d7a3f826d728228fbc16c4d678c642",
+          "physicalSha256": "bf1c4c470c537b268d60da75b57d0efd07aee4554a803c10f68ba94ed53d8736",
+          "bytes": 1346
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "gitBlob": "1ae6d5d77ccf0e8e8a8bc444c3233297630c1ca1",
+          "physicalSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "bytes": 5013
+        }
+      },
+      "allRefsSha256": "89a0f346273afcdb137be13cd13ae0f9f0b45d5ae607db1d07199a1d95dc51d8",
+      "allRefsCount": 20,
+      "worktreeListSha256": "86800d832a54642c9970c8b31d049d5736192a58b56ecc89417e58c508d30089",
+      "gitFile:HEAD": "95ce44299b38667b45d3107fb7eac297fc24cbaa4db78490d7943803b451f14c",
+      "gitFile:config": "20c3f55670581db2902c393ec445363aa7f8dc321e18d08d2736ec6b8f719014",
+      "gitFile:index": "6a144bb6785bf83a34335a213cbcc4afc062bb5dd889fc2908b7f4a2ab49aa6d",
+      "gitFile:packed-refs": "13db3238d6c17225e9212b8463f433465e4e50d0f04a36ad87e7404b8d7dc752"
+    },
+    "verificationAfter": {
+      "head": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+      "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+      "parents": [
+        "8c9f1ca91ab34409023d5998a0ba214a81bf9d26"
+      ],
+      "branch": "chore/OPS-011-agent-edge-104-scope-registration",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "originMain": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "status": "",
+      "fiveFiles": {
+        "specs/coordination/active-work.yaml": {
+          "gitBlob": "4a138d813ad9f9141e51518dc517d0b5b80e9e6e",
+          "physicalSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+          "bytes": 1917
+        },
+        "specs/tasks/OPS-011.md": {
+          "gitBlob": "df00cc8dcd3af427e9929d315bc3539954063093",
+          "physicalSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+          "bytes": 14396
+        },
+        "specs/coordination/program-plan.yaml": {
+          "gitBlob": "89d0d8b7cd7f56c83bd0084dfc7b8bc3b25c0e14",
+          "physicalSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "bytes": 36045
+        },
+        "specs/coordination/task-completions.yaml": {
+          "gitBlob": "c4c6005fa6d7a3f826d728228fbc16c4d678c642",
+          "physicalSha256": "bf1c4c470c537b268d60da75b57d0efd07aee4554a803c10f68ba94ed53d8736",
+          "bytes": 1346
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "gitBlob": "1ae6d5d77ccf0e8e8a8bc444c3233297630c1ca1",
+          "physicalSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "bytes": 5013
+        }
+      }
+    },
+    "originUrl": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d",
+    "originalAfter": {
+      "head": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+      "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+      "parents": [
+        "8c9f1ca91ab34409023d5998a0ba214a81bf9d26"
+      ],
+      "branch": "chore/OPS-011-agent-edge-104-scope-registration",
+      "main": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+      "originMain": "3981190af9265a7db1654962c1d9870e51f36e64",
+      "status": "",
+      "fiveFiles": {
+        "specs/coordination/active-work.yaml": {
+          "gitBlob": "4a138d813ad9f9141e51518dc517d0b5b80e9e6e",
+          "physicalSha256": "c929617c916041a0483f8135bd825d507eddd61685efec79e357fee3bf2cc44d",
+          "bytes": 1917
+        },
+        "specs/tasks/OPS-011.md": {
+          "gitBlob": "df00cc8dcd3af427e9929d315bc3539954063093",
+          "physicalSha256": "6667823bf46dad65b74fe49aef31b78f5183b35a504ec79053c9ca0ef01b0339",
+          "bytes": 14396
+        },
+        "specs/coordination/program-plan.yaml": {
+          "gitBlob": "89d0d8b7cd7f56c83bd0084dfc7b8bc3b25c0e14",
+          "physicalSha256": "5d50559967dedd83f98eb7878c2f680aa03667d3daea1514453fab6416395051",
+          "bytes": 36045
+        },
+        "specs/coordination/task-completions.yaml": {
+          "gitBlob": "c4c6005fa6d7a3f826d728228fbc16c4d678c642",
+          "physicalSha256": "bf1c4c470c537b268d60da75b57d0efd07aee4554a803c10f68ba94ed53d8736",
+          "bytes": 1346
+        },
+        "evidence/OPS-011/agent-edge-104-first-use.json": {
+          "gitBlob": "1ae6d5d77ccf0e8e8a8bc444c3233297630c1ca1",
+          "physicalSha256": "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9daaa6017d9",
+          "bytes": 5013
+        }
+      },
+      "allRefsSha256": "89a0f346273afcdb137be13cd13ae0f9f0b45d5ae607db1d07199a1d95dc51d8",
+      "allRefsCount": 20,
+      "worktreeListSha256": "86800d832a54642c9970c8b31d049d5736192a58b56ecc89417e58c508d30089",
+      "gitFile:HEAD": "95ce44299b38667b45d3107fb7eac297fc24cbaa4db78490d7943803b451f14c",
+      "gitFile:config": "20c3f55670581db2902c393ec445363aa7f8dc321e18d08d2736ec6b8f719014",
+      "gitFile:index": "6a144bb6785bf83a34335a213cbcc4afc062bb5dd889fc2908b7f4a2ab49aa6d",
+      "gitFile:packed-refs": "13db3238d6c17225e9212b8463f433465e4e50d0f04a36ad87e7404b8d7dc752"
+    },
+    "state": "PREPARED_NOT_EXECUTED",
+    "originalRepositoryUnchanged": true,
+    "sourceFivePhysicalFilesMatched": true,
+    "verificationMainAndOriginMainAreActualM": true,
+    "allCommandsWaitedExitZero": true,
+    "commandCount": 32,
+    "sourceRunnerToReuse": "original 279747 pinned entry; only external REPOSITORY override; no argv changes or tests started",
+    "completedAtUTC": "2026-10-20T17:24:28.280877+00:00"
+  }
+}

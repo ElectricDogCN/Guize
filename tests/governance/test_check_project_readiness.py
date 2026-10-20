@@ -1,4 +1,5 @@
 import copy
+import importlib.util
 import os
 import subprocess
 import sys
@@ -265,6 +266,66 @@ class TestProjectReadiness(unittest.TestCase):
             requirements, modules, plan = self._documents()
             result = self._run(root, requirements, modules, plan)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_scope_requirement_selection_keeps_independent_indexes(self):
+        specification = importlib.util.spec_from_file_location("readiness_scope_requirements", SCRIPT)
+        readiness = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(readiness)
+        errors = []
+        coverage = readiness.validate_task_requirements(
+            {"taskId": "GZ-023", "requirementIds": ["REQ-EDGE-104-0001"]},
+            "AGENT-EDGE-104", {"REQ-V1-0010"}, {"REQ-EDGE-104-0001"}, errors,
+        )
+        self.assertEqual(errors, [])
+        self.assertEqual(coverage, set())
+        coverage = readiness.validate_task_requirements(
+            {"taskId": "GZ-022", "requirementIds": ["REQ-V1-0010"]},
+            "AGENT-EDGE-104", {"REQ-V1-0010"}, set(), errors,
+        )
+        self.assertEqual(errors, [])
+        self.assertEqual(coverage, {"REQ-V1-0010"})
+
+    def test_scope_requirement_namespace_or_missing_index_entry_fails(self):
+        specification = importlib.util.spec_from_file_location("readiness_scope_rejections", SCRIPT)
+        readiness = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(readiness)
+        scenarios = [
+            ("GZ-023", "AGENT-EDGE-104", "REQ-V1-0010", "namespace differs"),
+            ("GZ-005", "V1", "REQ-EDGE-104-0001", "namespace differs"),
+            ("GZ-023", "AGENT-EDGE-104", "REQ-EDGE-104-0002", "unknown requirement"),
+            ("GZ-022", "AGENT-EDGE-104", "REQ-EDGE-104-0001", "must retain only"),
+        ]
+        for task_id, scope, requirement_id, reason in scenarios:
+            with self.subTest(task=task_id, scope=scope, requirement=requirement_id):
+                errors = []
+                readiness.validate_task_requirements(
+                    {"taskId": task_id, "requirementIds": [requirement_id]}, scope,
+                    {"REQ-V1-0010"}, {"REQ-EDGE-104-0001"}, errors,
+                )
+                self.assertTrue(any(reason in error for error in errors), errors)
+
+    def test_structural_wave_conflicts_are_grouped_by_scope(self):
+        specification = importlib.util.spec_from_file_location("readiness_scope_waves", SCRIPT)
+        readiness = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(readiness)
+        _, _, plan = self._documents()
+        first = plan["tasks"][0]
+        second = copy.deepcopy(first)
+        second["taskId"] = "GZ-023"
+        scopes = {first["taskId"]: "V1", second["taskId"]: "AGENT-EDGE-104"}
+        errors = []
+        readiness.validate_task_waves(
+            [first, second], scopes, {wave["id"]: wave for wave in plan["waves"]},
+            plan["parallelPolicy"], set(), errors,
+        )
+        self.assertEqual(errors, [])
+        scopes[second["taskId"]] = "V1"
+        readiness.validate_task_waves(
+            [first, second], scopes, {wave["id"]: wave for wave in plan["waves"]},
+            plan["parallelPolicy"], set(), errors,
+        )
+        self.assertTrue(any("output path conflict" in error for error in errors), errors)
+        self.assertTrue(any("exceeds high-risk task capacity" in error for error in errors), errors)
 
     def test_missing_requirement_source_fails(self):
         with tempfile.TemporaryDirectory() as root:

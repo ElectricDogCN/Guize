@@ -2,7 +2,7 @@
 
 本目录包含两个不同层次的事实源，禁止混用：
 
-- `program-plan.yaml`：V1 长期交付计划的唯一机器可读入口，描述未来 Task、Wave、依赖、风险、Requirement、Module、输出路径、契约生产/消费、POC 和发布阻断项。
+- `program-plan.yaml`：唯一机器可读 Program 入口，保留冻结 V1 及显式固定的 `AGENT-EDGE-104` 后续范围，描述 Task、Wave、依赖、风险、Requirement、Module、输出路径、契约生产/消费、POC 和发布阻断项。
 - `active-work.yaml`：当前已预留或正在执行的少量任务登记，描述固定 base SHA、角色、租约、独占/共享路径、handoff 和集成顺序。
 
 二者都不是产品需求或业务契约。发生范围冲突时，仍按 `AGENTS.md` 的权威顺序处理。
@@ -11,7 +11,7 @@
 
 | 文件 | 作用 |
 |---|---|
-| `program-plan.yaml` | canonical V1 Program Plan |
+| `program-plan.yaml` | canonical Program 与固定范围边界 |
 | `program-plan.schema.yaml` | Program Plan 结构契约 |
 | `active-work.yaml` | 当前活动任务 Registry |
 | `active-work.schema.yaml` | Registry 结构契约 |
@@ -44,7 +44,7 @@ Program Plan 中任务可启动
 
 1. `program-plan.yaml` 中存在唯一 Task ID；
 2. `dependsOn` 已完成或输出已冻结为机器契约；
-3. 当前 Wave 的并行和 high-risk 容量未超限；
+3. 所属 scope 的 Wave 静态占用与路径冲突有效，且全局活动和 high-risk 容量未超限；
 4. external blocker 不禁止该任务；
 5. Requirement、Module、output/shared path 和 contract producer/consumer 与计划一致；
 6. high/critical 任务具有独立 Implementer 与 Reviewer；
@@ -93,11 +93,11 @@ python scripts/check-agent-coordination.py --task GZ-XXX
 
 `python scripts/check-project-readiness.py --strict-ready` 用于最终生产就绪检查；在机器契约、实现或外部 GitHub Ruleset 未完成时应失败。
 
-## 原始计划修订声明
+## 原始 v1 计划修订声明
 
 规划权限来自实际 `main` 第一父历史上最终 metadata-only reserved 登记快照的 `evidence/<TASK-ID>/planning-revision.json`。声明绑定 `schemaVersion: 1`、登记任务和登记主线第一父 SHA。审查期未合入的早期草稿不是原始权限；真正登记之后，声明的 Git 字节必须保持不变。
 
-声明的 `targets` 只支持三个闭合类型：新增完整 `planned` Task、修改声明字段内的完整未启动 `planned` Task，以及新增精确 planning baseline。修改目标同时保存完整 before/after、原定义规范 JSON 的 SHA-256 和精确 `allowedFields`。不得加入目标状态、Issue、Task Spec、租约、政策、恢复信息、完成账本或未声明的计划变更。所有目标必须一次完整应用；不能分批授权、拓宽路径或用字符串 SHA 代替可达历史。
+旧 `schemaVersion: 1` 声明的 `targets` 仍只支持三个闭合类型：新增完整 `planned` Task、修改声明字段内的完整未启动 `planned` Task，以及新增精确 planning baseline。修改目标同时保存完整 before/after、原定义规范 JSON 的 SHA-256 和精确 `allowedFields`。不得加入目标状态、Issue、Task Spec、租约、政策、恢复信息、完成账本或未声明的计划变更。所有目标必须一次完整应用；不能分批授权、拓宽路径或用字符串 SHA 代替可达历史。
 
 执行者须已独立登记为 high 风险、声明 `MOD-GOV`、持有精确独占 Program 路径与有效租约，处于 `in_progress`/`integration` 的 implementer/integrator 阶段。Foundation 的所有 claims 仍须是治理所有权范围的子集；普通需求规划任务可声明其实际业务模块及已经审查的精确业务文档路径，保持既有模块所有权规则。登记、Scope、容量、独立角色和最新实际 main 检查均不豁免。
 
@@ -106,6 +106,27 @@ Foundation 后续范围修订须先在实际集成基线的第一父历史中完
 共享校验器 `scripts/program-planning-revision.py` 完整认证后，三个既有检查器仅投影声明的未来定义；任何无效认证都不隐藏变更。原 schema、依赖 DAG、POC 镜像、Wave、契约覆盖、最终发布闭合、冻结与完成后限制继续执行。历史检查按实际引入节点认证，恢复过的最终文件不能掩盖中途的违规。
 
 普通定义和 baseline 的实际 Git 两端均未变时，分类回调不生成任何投影或规划权限；相关生命周期继续由原门禁处理。消费者按真实 Registry、Task Spec 身份和代码 diff 识别，实际消费者准入仍校验完整图和 producer 完成历史。仅已 completed、Registry 中不存在、Program/完整 Task/Own Evidence/账本均未变的历史 CLI 上下文不会替代唯一真正执行者；其他错误上下文继续拒绝。Git 数据缓存只绑定规范仓库路径、完整不可变 commit SHA 和路径，解析结果返回深拷贝；引用别名每次重新解析，租约、时间、权限和准入结论均不缓存。
+
+## 固定 AGENT-EDGE-104 范围与独立声明
+
+`scopeBoundary` 仅承载一个固定扩展：`v1TaskIds` 精确保留原27项成员，`v1FinalTask` 固定为 `GZ-020`；`agentEdge104` 的 ID、Issue104、planner GZ-022 与需求/索引路径均固定。旧计划没有此字段仍可读取；新增范围不能迁出 V1 成员、缩减原十项需求/十二验收或生产门禁，也不能改变旧 POC、历史账本、公共政策或原始声明。
+
+`agentEdge104.state` 只有 `planning` 和 `defined`。`planning` 的成员精确仅 GZ-022、最终任务为 null，只允许该普通规划任务按正常登记流程承接文档；不能启动业务或宣称范围完成。`defined` 必须包含 GZ-022、完整业务成员及非空业务最终任务；共享校验器验证最终任务属于本范围、严格传递覆盖全部成员，且实际依赖/契约/baseline图无环。声明没有 `completed` 状态；最终任务与全部实际交付完成后，才按真实执行和正常 Completion 判定范围接受。
+
+Program 的旧 `$defs/task`、`reqId` 和旧 v1 声明的根、`plannedTask`、target 与相对 `$ref` 语义保持。新增 `$defs/edgeTask` 复制相同23个闭合字段，仅接受 `REQ-EDGE-104-####`；Task 不增加 scope、repository 或任意权限字段。Program tasks 以旧 task/edgeTask 的 `oneOf` 区分，既有 V1、Foundation 和 GZ-022 的治理 REQ-V1 归属不变。Registry 只允许旧 REQ-V1 或这一固定 EDGE 格式；实际 scope 成员及 Task/Registry 的精确身份仍须由共享准入校验。
+
+两个新增声明只从 `planning-revision.schema.yaml` 的独立片段入口验证，不能送入或扩展旧 v1 根：
+
+- `https://guize.local/schemas/planning-revision.schema.yaml#/$defs/agentEdge104FirstUse`：认证 OPS-011 / Issue108 原始 `evidence/OPS-011/agent-edge-104-first-use.json`。三个 target 次序精确为 `add-fixed-scope-boundary`、新增完整 planned GZ-022、增加仅 POC-003/POC-005 根的 BASELINE-GZ-022。原 Git 字节、真实 reservationParent 和完整事务不变；声明本身不是安装或执行证明。
+- `https://guize.local/schemas/planning-revision.schema.yaml#/$defs/agentEdge104Definition`：GZ-022 的独立原始定义声明为 schemaVersion2，kind `agent-edge-104-definition`，固定 taskId/scopeId/Program 路径，绑定真实 Issue 与 reservationParent。targets 必须有一次 `define-fixed-scope`、新增完整 planned EDGE Task，以及明确列出的旧闭合 editTask / 可选 addBaseline；全量事务一次应用，仍认证 canonical reserved 第一父历史中的原始声明、角色、claims、有效租约和所有消费者未启动。
+
+`define-fixed-scope` 精确只有 `kind`、`id`、`before`、`after`：id 为 AGENT-EDGE-104，before 是完整 planning 对象、after 是完整 defined 对象；共享实现只写 `scopeBoundary.agentEdge104`，不接受 path，也不能改 v1TaskIds/v1FinalTask。原 first-use 的 `add-fixed-scope-boundary` 仍只有 kind/path/before/after，path 固定为 scopeBoundary。加载片段时须在 registry 注册完整 Program 和 Planning Schema 资源及原 `$id`，保留相对引用；不能裁下片段丢失资源解析上下文，也不能改旧 ref 来间接扩大 v1 权限。
+
+正式 EDGE 需求仅由固定的 `specs/requirements/agent-edge-104.md`、独立 `agent-edge-104.yaml` 与 `specs/acceptance/agent-edge-104.yaml` 承载。需求索引根为 schemaVersion1/scopeId/sourceIssue/requirements，逐项闭合字段为 id/title/requirementPath/moduleIds/taskIds/acceptanceIds；验收索引根为 schemaVersion1/scopeId/sourceIssue/acceptances，逐项为 id/title/requirementIds/taskIds/verification/evidencePath。原始 v2 定义声明必须同时包含完整 typed `requirementIndex` 与 `acceptanceIndex` catalog 对象，使用同资源的 `edgeRequirementCatalog` / `edgeAcceptanceCatalog` 闭合定义；不接受只列路径或事后补填摘要。首次定义引入时，认证 canonical GZ-022 原始登记声明，并将两个对象与同一实际 Git ref 中固定路径的目录文件精确比较。此后目录内容同样冻结：即使只有 catalog 文件变化而 Program 未变，也必须在分类器的 early return 前认证原始不可变 v2 和实际引入节点，不能绕过比较。新 Task 的直接 REQ/AC 与索引 taskIds 精确双向对应、真实 module 由承接 Task 覆盖；旧 V1 index 和 legacy module requirementIds 不混入 EDGE。最终任务覆盖本范围全部需求/验收，不能靠未映射的依赖结果充数。
+
+Wave 编号只在所属 scope 内表达顺序和静态容量/冲突；固定扩展复用现有 Wave，不另建并发池。跨 scope 的数字先后不能替代或阻断实际 DAG，真实 dependsOn、公共契约和 planning baseline 完成仍严格。全局最多3个活动任务、1个 high/critical、critical 独占及真实 lease 路径互斥保持。无论 scope 是否 defined，每个 EDGE 业务任务启动都额外要求 `completed_producer(GZ-022)` 的真实普通登记/实现/独立 Review/Completion 历史；不能仅凭状态、BASELINE 名字或 planner 已写好文档放行，也不对 OPS-011 Foundation套用该普通 producer 判据。
+
+跨仓运行时由其仓库自己的 Task、claims、构建与发布承接。主仓 Task 只写本仓已登记路径，不使用 `../` claim 或推导 Android CI 权限；GZ-008 版本化 Worker 制品/兼容契约和主仓 owned artifact-lock 绑定远端真实提交、Task/完成证据及不可变制品摘要。主仓联合验收消费固定组合；新仓 bootstrap、应用交付、各仓 CI 与系统联合接受分别记录，不能互相替代。GZ-022 只冻结需求/DAG/接口，不能据此宣称八项 runtime、正式 POC 或完整 V1 已通过。
 
 ## Planning baseline 与消费者
 

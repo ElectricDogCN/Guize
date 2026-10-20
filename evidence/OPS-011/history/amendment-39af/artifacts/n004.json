@@ -1,0 +1,56 @@
+{
+  "kind": "OPS011_SCOPE_AMENDMENT_ACTUAL_MAIN_CI748_ACCEPTANCE",
+  "observedAtUTC": "2026-10-20T18:17:02.698974+00:00",
+  "actualMain": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+  "source": "4d3806835a474137bac9bd0e841dd283d7d4bf0c",
+  "tree": "8410ef33325e4f42f826a46d7f3a156ba8c29264",
+  "base": "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+  "orderedParents": [
+    "1d2cb080d56176e26375a7b373a3cf3ef548b3dd",
+    "4d3806835a474137bac9bd0e841dd283d7d4bf0c"
+  ],
+  "pr": 110,
+  "runId": 39469700615,
+  "jobId": 118790225209,
+  "event": "push",
+  "attempt": 1,
+  "ciAccepted": true,
+  "accepted": true,
+  "parsed": {
+    "tests": 637,
+    "unique": 637,
+    "summaryCount": 1,
+    "durationSeconds": 1366.06,
+    "failures": 0,
+    "errors": 0,
+    "testSkipped": 0,
+    "checkout": "39afaf007d800bab43d7703ac082df2bbc7e8e87"
+  },
+  "steps": {
+    "total": 28,
+    "successful": 23,
+    "conditionalSkippedStepNumbers": [
+      9,
+      18,
+      19,
+      20,
+      21
+    ],
+    "pushMainTaskContextFalse": true
+  },
+  "raw": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci748-official.raw",
+    "sha256": "e5cf4557b7d8caaa447ac92bf08cd456b015abc4dda0c98dd3b37bc1134245d4",
+    "byteCount": 252779
+  },
+  "snapshot": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-ci748-official-snapshot.json",
+    "sha256": "a98a43b3c26f686e4e5abb98061dcc7a1767f082664c464c006f276024d181fa",
+    "byteCount": 306760
+  },
+  "actualMainAccepted": false,
+  "implementationStarted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "scope": "Actual main push CI only; workflow conditional skips are distinct from test skips."
+}

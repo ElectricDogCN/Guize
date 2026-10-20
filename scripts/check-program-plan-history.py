@@ -634,7 +634,7 @@ def clean_synchronization_paths(root: str, node: str, paths: set[str], incoming:
 
 def historical_foreign_metadata(root: str, previous: str, node: str, incoming: list[str], task_id: str, errors: list[str], clean_imports: set[str], *, admitted_base: str = "") -> None:
     planning = None
-    if PLANNING.blob(root, node, f"evidence/{task_id}/planning-revision.json") is not None:
+    if PLANNING.registered_manifest_path(root, node, task_id) is not None:
         planning = PLANNING.classifier(
             root, previous, node, load_ref(root, previous, PLAN), load_ref(root, node, PLAN), errors,
             owner_hint=task_id, observed_at=PLANNING.commit_time(root, node),
@@ -1229,7 +1229,7 @@ def historical_frozen_definitions(root: str, previous: str, node: str, paths: se
         before, after = load_ref(root, previous, PLAN), load_ref(root, node, PLAN)
         if isinstance(before, dict) and isinstance(after, dict):
             active = load_ref(root, previous, ACTIVE) or {}
-            if any(PLANNING.blob(root, previous, f"evidence/{entry.get('taskId')}/planning-revision.json") is not None for entry in active.get("tasks", [])):
+            if any(PLANNING.registered_manifest_path(root, previous, entry.get("taskId")) is not None for entry in active.get("tasks", [])):
                 planning = PLANNING.classifier(
                     root, previous, node, before, after, errors,
                     observed_at=PLANNING.commit_time(root, node),
@@ -1587,7 +1587,7 @@ def main() -> int:
         before_registry, after_registry = load_ref(root, previous, ACTIVE), load_ref(root, node, ACTIVE)
         if not all(isinstance(item, dict) for item in (before_node, after_node, before_registry, after_registry)):
             continue
-        declared = any(PLANNING.blob(root, node, f"evidence/{entry.get('taskId')}/planning-revision.json") is not None for entry in after_registry.get("tasks", []))
+        declared = any(PLANNING.registered_manifest_path(root, node, entry.get("taskId")) is not None for entry in after_registry.get("tasks", []))
         if not declared and "planningBaselines" not in before_node and "planningBaselines" not in after_node:
             continue
         node_planning = PLANNING.classifier(

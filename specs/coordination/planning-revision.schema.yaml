@@ -57,3 +57,327 @@ $defs:
       id: {type: string, pattern: '^[A-Z][A-Z0-9-]+$'}
       before: {type: 'null'}
       after: {$ref: 'program-plan.schema.yaml#/$defs/planningBaseline'}
+
+  plannedEdgeTask:
+    allOf:
+    - $ref: program-plan.schema.yaml#/$defs/edgeTask
+    - properties:
+        status:
+          const: planned
+        issue:
+          type: 'null'
+  addEdgePlannedTask:
+    type: object
+    additionalProperties: false
+    required:
+    - kind
+    - id
+    - before
+    - after
+    properties:
+      kind:
+        const: add-edge-planned-task
+      id:
+        $ref: program-plan.schema.yaml#/$defs/taskId
+      before:
+        type: 'null'
+      after:
+        $ref: '#/$defs/plannedEdgeTask'
+  addFixedScopeBoundary:
+    type: object
+    additionalProperties: false
+    required:
+    - kind
+    - path
+    - before
+    - after
+    properties:
+      kind:
+        const: add-fixed-scope-boundary
+      path:
+        const: scopeBoundary
+      before:
+        type: 'null'
+      after:
+        allOf:
+        - $ref: program-plan.schema.yaml#/$defs/fixedScopeBoundary
+        - properties:
+            agentEdge104:
+              $ref: program-plan.schema.yaml#/$defs/agentEdge104Planning
+  defineFixedScope:
+    type: object
+    additionalProperties: false
+    required:
+    - kind
+    - id
+    - before
+    - after
+    properties:
+      kind:
+        const: define-fixed-scope
+      id:
+        const: AGENT-EDGE-104
+      before:
+        $ref: program-plan.schema.yaml#/$defs/agentEdge104Planning
+      after:
+        $ref: program-plan.schema.yaml#/$defs/agentEdge104Defined
+  agentEdge104FirstUse:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - taskId
+    - issue
+    - reservationParent
+    - programPlan
+    - originalV1TaskIds
+    - originalPocTaskIds
+    - targets
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: agent-edge-104-first-use
+      taskId:
+        const: OPS-011
+      issue:
+        const: 108
+      reservationParent:
+        type: string
+        pattern: ^[0-9a-f]{40}$
+      programPlan:
+        const: specs/coordination/program-plan.yaml
+      originalV1TaskIds:
+        const:
+        - GZ-004
+        - GZ-005
+        - GZ-006
+        - GZ-007
+        - GZ-008
+        - GZ-009
+        - GZ-010
+        - POC-001
+        - POC-002
+        - POC-003
+        - POC-004
+        - POC-005
+        - POC-006
+        - POC-007
+        - POC-008
+        - POC-009
+        - POC-010
+        - GZ-011
+        - GZ-012
+        - GZ-013
+        - GZ-015
+        - GZ-016
+        - GZ-017
+        - GZ-018
+        - GZ-019
+        - GZ-020
+        - GZ-021
+      originalPocTaskIds:
+        const:
+        - POC-001
+        - POC-002
+        - POC-003
+        - POC-004
+        - POC-005
+        - POC-006
+        - POC-007
+        - POC-008
+        - POC-009
+        - POC-010
+      targets:
+        type: array
+        minItems: 3
+        maxItems: 3
+        prefixItems:
+        - $ref: '#/$defs/addFixedScopeBoundary'
+        - allOf:
+          - $ref: '#/$defs/addTask'
+          - properties:
+              id:
+                const: GZ-022
+              after:
+                properties:
+                  taskId:
+                    const: GZ-022
+        - allOf:
+          - $ref: '#/$defs/addBaseline'
+          - properties:
+              id:
+                const: BASELINE-GZ-022
+              after:
+                properties:
+                  id:
+                    const: BASELINE-GZ-022
+                  taskId:
+                    const: GZ-022
+                  requiredBy:
+                    const:
+                    - POC-003
+                    - POC-005
+        items: false
+  agentEdge104Definition:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - taskId
+    - scopeId
+    - issue
+    - reservationParent
+    - programPlan
+    - targets
+    - requirementIndex
+    - acceptanceIndex
+    properties:
+      schemaVersion:
+        const: 2
+      kind:
+        const: agent-edge-104-definition
+      taskId:
+        const: GZ-022
+      scopeId:
+        const: AGENT-EDGE-104
+      issue:
+        type: integer
+        minimum: 1
+      reservationParent:
+        type: string
+        pattern: ^[0-9a-f]{40}$
+      programPlan:
+        const: specs/coordination/program-plan.yaml
+      targets:
+        type: array
+        minItems: 2
+        items:
+          oneOf:
+          - $ref: '#/$defs/defineFixedScope'
+          - $ref: '#/$defs/addEdgePlannedTask'
+          - $ref: '#/$defs/editTask'
+          - $ref: '#/$defs/addBaseline'
+        allOf:
+        - contains:
+            $ref: '#/$defs/defineFixedScope'
+          minContains: 1
+          maxContains: 1
+        - contains:
+            $ref: '#/$defs/addEdgePlannedTask'
+          minContains: 1
+      requirementIndex:
+        $ref: '#/$defs/edgeRequirementCatalog'
+      acceptanceIndex:
+        $ref: '#/$defs/edgeAcceptanceCatalog'
+  edgeRequirementCatalog:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - scopeId
+    - sourceIssue
+    - requirements
+    properties:
+      schemaVersion:
+        const: 1
+      scopeId:
+        const: AGENT-EDGE-104
+      sourceIssue:
+        const: 104
+      requirements:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - title
+          - requirementPath
+          - moduleIds
+          - taskIds
+          - acceptanceIds
+          properties:
+            id:
+              $ref: program-plan.schema.yaml#/$defs/edgeReqId
+            title:
+              type: string
+              minLength: 1
+            requirementPath:
+              type: string
+            moduleIds:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items:
+                $ref: program-plan.schema.yaml#/$defs/moduleId
+            taskIds:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items:
+                $ref: program-plan.schema.yaml#/$defs/taskId
+            acceptanceIds:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items:
+                type: string
+                pattern: ^AC-EDGE-104-[0-9]{4}$
+  edgeAcceptanceCatalog:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - scopeId
+    - sourceIssue
+    - acceptances
+    properties:
+      schemaVersion:
+        const: 1
+      scopeId:
+        const: AGENT-EDGE-104
+      sourceIssue:
+        const: 104
+      acceptances:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - title
+          - requirementIds
+          - taskIds
+          - verification
+          - evidencePath
+          properties:
+            id:
+              type: string
+              pattern: ^AC-EDGE-104-[0-9]{4}$
+            title:
+              type: string
+              minLength: 1
+            requirementIds:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items:
+                $ref: program-plan.schema.yaml#/$defs/edgeReqId
+            taskIds:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items:
+                $ref: program-plan.schema.yaml#/$defs/taskId
+            verification:
+              type: string
+              minLength: 1
+            evidencePath:
+              type: string

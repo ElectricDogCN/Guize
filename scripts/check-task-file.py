@@ -2,11 +2,14 @@
 """Validate a Guize task specification file."""
 
 import argparse
+import importlib.util
 import json
 import os
 import re
 import sys
 from datetime import datetime
+
+import yaml
 
 
 CANONICAL_PROGRAM_PLAN = "specs/coordination/program-plan.yaml"
@@ -45,6 +48,7 @@ V2_INTEGRATION = {"merge", "squash", "rebase"}
 V2_REGISTRY_STATUSES = {"reserved", "in_progress", "blocked", "review", "integration", "completed", "cancelled"}
 PLACEHOLDERS = {"", "pending", "tbd", "unknown", "none", "n/a", "na", "unassigned"}
 REQ_RE = re.compile(r"^REQ-V1-\d{4}$")
+EDGE_REQ_RE = re.compile(r"^REQ-EDGE-104-[0-9]{4}$")
 MOD_RE = re.compile(r"^MOD-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
 WAVE_RE = re.compile(r"^(W\d+|FOUNDATION)$")
 
@@ -157,6 +161,24 @@ def role_placeholder(value):
     return str(value or "").strip().lower() in PLACEHOLDERS
 
 
+def validate_requirement_binding(requirement_ids, task_id, scope, planned, edge_requirements, errors):
+    if scope not in {"V1", "AGENT-EDGE-104", "FOUNDATION"}:
+        errors.append(f"Invalid Program scope for {task_id}: {scope}")
+        return
+    planner = scope == "AGENT-EDGE-104" and task_id == "GZ-022"
+    edge_business = scope == "AGENT-EDGE-104" and not planner
+    pattern = EDGE_REQ_RE if edge_business else REQ_RE
+    if planner and set(requirement_ids) != {"REQ-V1-0010"}:
+        errors.append("GZ-022 requirementIds must retain only REQ-V1-0010 as its planning basis.")
+    for requirement_id in requirement_ids:
+        if not pattern.fullmatch(requirement_id):
+            errors.append(f"Invalid requirementIds entry: {requirement_id}")
+        elif edge_business and requirement_id not in edge_requirements:
+            errors.append(f"Unknown independent EDGE requirementIds entry: {requirement_id}")
+    if planned is not None and set(requirement_ids) != set(planned.get("requirementIds", [])):
+        errors.append("Task requirementIds must equal the actual Program task requirementIds.")
+
+
 def validate_v2(front, body, repo_root, evidence_path, errors):
     if str(front.get("schemaVersion")) != "2":
         errors.append("schemaVersion must be 2 when the field is present.")
@@ -216,12 +238,27 @@ def validate_v2(front, body, repo_root, evidence_path, errors):
         requirement_ids = parse_list(front.get("requirementIds"))
         module_ids = parse_list(front.get("moduleIds"))
         if not requirement_ids:
-            errors.append("requirementIds must contain at least one REQ-V1 identifier.")
+            errors.append("requirementIds must contain at least one requirement identifier.")
         if not module_ids:
             errors.append("moduleIds must contain at least one MOD identifier.")
-        for requirement_id in requirement_ids:
-            if not REQ_RE.fullmatch(requirement_id):
-                errors.append(f"Invalid requirementIds entry: {requirement_id}")
+        scope, planned, edge_requirements = "V1", None, {}
+        program_path = os.path.join(repo_root, CANONICAL_PROGRAM_PLAN)
+        if os.path.exists(program_path):
+            try:
+                with open(program_path, encoding="utf-8") as handle:
+                    plan = yaml.safe_load(handle)
+                specification = importlib.util.spec_from_file_location("task_file_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py"))
+                planning = importlib.util.module_from_spec(specification)
+                specification.loader.exec_module(planning)
+                planning.validate_scope_boundary(plan)
+                edge_requirements = planning.validate_edge_indexes(repo_root, plan)["requirements"]
+                scope = planning.task_scope(plan, front.get("id"))
+                if scope != "FOUNDATION":
+                    planned = next(item for item in plan["tasks"] if item["taskId"] == front.get("id"))
+            except Exception as exc:
+                scope = "INVALID"
+                errors.append(f"Program scope or independent EDGE indexes are invalid: {exc}")
+        validate_requirement_binding(requirement_ids, front.get("id"), scope, planned, edge_requirements, errors)
         for module_id in module_ids:
             if not MOD_RE.fullmatch(module_id):
                 errors.append(f"Invalid moduleIds entry: {module_id}")
