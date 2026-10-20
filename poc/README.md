@@ -2,6 +2,12 @@
 
 Current native capture requirements are recorded under [Runtime event and state capture binding](#runtime-event-and-state-capture-binding). Earlier checkpoints retain their own historical source identities.
 
+## Current successor preparation (parent ac84828)
+
+The successor parent is published source ac848284eae4688b276e3cd49ed4d9587e22a503 (tree 0afa6334521a8eae28c9c970f1655459a6c47148, integration base d7f1ab8f727ce3879408653736b972e21bb45b7a). Its CI726 completed all 28 steps successfully with 637 governance tests in 881.14s and zero failures, errors or skips. Three confirmed performance findings made that source obsolete; its own full208/local20 attempt was deliberately cancelled and is not a PASS. The CI result and retained partial execution remain historical ac84828 evidence, not successor acceptance.
+
+The external successor candidate rejects overlapping or duplicate worker packet ranges before scanning media, advances a cursor over the needed ftyp/moov metadata ranges, and bounds dense anonymous-speaker DER matching to 256 unique speakers per reference or output before allocation. Repeated segments for the same speaker remain legal; the matching budget is an acceptor resource limit, not a DER quality threshold. These three repairs and the Own lease renewal have not been published as a successor. New-source identity/publication, targeted checks, the other 19 required commands, complete208 and same-source CI are all PENDING. Independent source/main admission, normal Review/Completion, formal POC, platform runtime and full local V1 remain pending; the 23 planned downstream consumers are not started.
+
 ## Local source observation candidate preparation checkpoint (parent0e99e70)
 
 The retained parent0e99e70 four-process run is terminal failure: four separate Ran52 records aggregate208/204pass/4FAIL(143/175/178/180),0E/0S.

@@ -1172,6 +1172,37 @@ class TestPocProgram(unittest.TestCase):
             else:self.assertTrue(any('count ratio claims' in error for error in errors),(profile,name,errors))
         restore();self.assertEqual(validate(copy.deepcopy(original)),[])
 
+    def exercise_ai_der_matching_budget_regressions(self,root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile):
+        # Zero overlap reaches the cardinality boundary without worst-case cubic matching.
+        self.assertEqual(CHECK.maximum_anonymous_speaker_overlap([[0.0] for _ in range(256)]),0)
+        self.assertEqual(CHECK.maximum_anonymous_speaker_overlap([[0.0]*256]),0)
+        for weights in ([[0.0] for _ in range(257)],[[0.0]*257]):
+            with self.assertRaisesRegex(ValueError,'speaker matching resource budget'):
+                CHECK.maximum_anonymous_speaker_overlap(weights)
+        def restore():
+            for path,raw in originals.items():path.write_bytes(raw)
+        def register(data,path):
+            raw=path.read_bytes();ref=path.relative_to(root).as_posix();record=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref);record.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());return record['sha256']
+        for reference_count,output_count,valid in ((256,256,True),(257,256,False),(256,257,False)):
+            restore();data=copy.deepcopy(original);evaluation=load_yaml(evaluation_path);usage=load_yaml(usage_path);config=load_yaml(config_path);policy=config['configuration']['aiEvaluationPolicy'];reference_path=root/policy['items'][0]['referenceRef'];output_path=root/usage['items'][0]['outputRef'];reference=json.loads(reference_path.read_bytes());output=json.loads(output_path.read_bytes())
+            next(v for v in reference['metrics'] if v['metricId']=='speaker_der')['segments']=[dict(startedSeconds=0,finishedSeconds=1,speakerId='r-'+str(i)) for i in range(reference_count)]
+            next(v for v in output['metrics'] if v['metricId']=='speaker_der')['segments']=[dict(startedSeconds=1,finishedSeconds=2,speakerId='o-'+str(i)) for i in range(output_count)]
+            reference_path.write_text(json.dumps(reference));output_path.write_text(json.dumps(output));reference_sha=register(data,reference_path);output_sha=register(data,output_path);usage['items'][0]['outputSha256']=output_sha
+            for item in policy['items']:item['referenceSha256']=reference_sha
+            denominator=reference_count;numerator=reference_count+output_count;value=numerator/denominator
+            for row in evaluation['evaluations']:
+                row['outputSha256']=output_sha;ep=root/row.get('countComparisonRef',row.get('scoreEvidenceRef'));evidence=json.loads(ep.read_bytes());evidence.update(outputSha256=output_sha,referenceSha256=reference_sha)
+                if row['metricId']=='speaker_der':
+                    evidence['comparisons']=[dict(startedSeconds=0,finishedSeconds=1,referenceSpeakers=sorted('r-'+str(i) for i in range(reference_count)),outputSpeakers=[]),dict(startedSeconds=1,finishedSeconds=2,referenceSpeakers=[],outputSpeakers=sorted('o-'+str(i) for i in range(output_count)))];row.update(numerator=numerator,denominator=denominator,score=value)
+                ep.write_text(json.dumps(evidence));register(data,ep)
+            next(m for m in data['measurements'] if m['id']=='speaker_der')['actual']=value
+            write_yaml(config_path,config);write_yaml(usage_path,usage);write_yaml(evaluation_path,evaluation);self.sync_qualified_ai_tool_execution_fixture(root,data,prefix)
+            if valid:self.prepare_ai_token_accounting_fixture(root,data,prefix);self.prepare_ai_model_execution_fixture(root,data,prefix)
+            errors=validate(data)
+            if valid:self.assertEqual(errors,[],(profile,reference_count,output_count,errors))
+            else:self.assertTrue(any('speaker matching resource budget' in error for error in errors),(profile,reference_count,output_count,errors))
+        restore();self.assertEqual(validate(copy.deepcopy(original)),[])
+
     def prepare_qualified_frontend_fixture(self,root,execution,prefix):
         """Synthetic frontend observations; never actual prototypes or build/UI execution."""
         env=execution['environmentCaptured'];resource=next(r for r in execution['resources'] if r['id']=='RES-FRONTEND-COMPARE');sample=execution['samples'][0];input_record=next(r for r in env['inputSampleArtifacts'] if r['sampleId']==sample['id'])
@@ -3560,6 +3591,7 @@ class TestPocProgram(unittest.TestCase):
                 self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-09'}),[]);self.assertEqual(validate(record),[])
                 self.exercise_ai_minimum_edit_alignment_regressions(root,original,validate,originals,evaluation_path,profile)
                 self.exercise_ai_tool_execution_and_der_regressions(root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile)
+                self.exercise_ai_der_matching_budget_regressions(root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile)
                 self.exercise_ai_query_token_regressions(root,original,validate,originals,evaluation_path,usage_path,config_path,prefix,profile)
                 self.exercise_ai_quota_boundary_regressions(root,original,validate,originals,dispatch_path,config_path,profile)
                 for mode in ('missing','borrowed','collector','period','incomplete','history_missing','history_duplicate','history_time','history_future','history_after_current','ledger_missing','ledger_charge','budget_claim','rate_claim','concurrency_claim','denied_native_dispatch'):
@@ -7999,6 +8031,41 @@ class TestPocProgram(unittest.TestCase):
             for _ in range(16):whole.update(zero)
             self.assertEqual(measured['sha256'],'sha256:'+whole.hexdigest());self.assertEqual(measured['size'],16*block)
             self.assertEqual(len(measured['rangeHashes']),len(packets));self.assertTrue(all(value==one for value in measured['rangeHashes'].values()))
+            # Reject probe packet overlap before any binary scan; ordinary unsorted packets and extra full ranges remain valid.
+            box=lambda kind,payload:(len(payload)+8).to_bytes(4,'big')+kind+payload
+            ftyp_payload=b'isom\0\0\0\0isom';entry=box(b'av01',b'\0'*78+box(b'av1C',b'\0'*4))
+            moov=box(b'moov',box(b'trak',box(b'mdia',box(b'minf',box(b'stbl',box(b'stsd',b'\0'*4+(1).to_bytes(4,'big')+entry))))))
+            header=box(b'ftyp',ftyp_payload)+moov;payload=b'abcdefgh';media=Path(directory)/'packets.mp4';media.write_bytes(header+box(b'mdat',payload));start=len(header)+8
+            packet=lambda pos,size:dict(type='packet',pos=str(pos),size=str(size),data_hash='SHA256:'+hashlib.sha256(payload[pos-start:pos-start+size]).hexdigest())
+            probe=dict(streams=[dict(codec_tag_string='av01')],packets_and_frames=[packet(start,4),packet(start+4,4)],format=dict(format_name='mov,mp4,m4a,3gp,3g2,mj2',size=str(media.stat().st_size)))
+            for rejected in ([packet(start,4),packet(start+3,4)],[packet(start,4),packet(start,4)]):
+                changed=copy.deepcopy(probe);changed['packets_and_frames']=rejected
+                with mock.patch.object(CHECK,'inspect_artifact',side_effect=AssertionError('overlapping packets must be rejected before scanning')):
+                    self.assertFalse(CHECK.worker_media_packet_bytes(media,changed,'av1',{}))
+            self.assertTrue(CHECK.worker_media_packet_bytes(media,probe,'av1',{},[(0,media.stat().st_size-1)]))
+            changed=copy.deepcopy(probe);changed['packets_and_frames'].reverse()
+            self.assertTrue(CHECK.worker_media_packet_bytes(media,changed,'av1',{}))
+            # A long mdat after many top-level fragments must not revisit every earlier box on every chunk.
+            fragments=1024;prefix=header+box(b'free',b'fragment')*fragments;mdat=(16*block+8).to_bytes(4,'big')+b'mdat';fragmented=Path(directory)/'fragmented.mp4'
+            with fragmented.open('wb') as stream:stream.write(prefix);stream.write(mdat);stream.truncate(len(prefix)+len(mdat)+16*block)
+            kind_visits=[0]
+            class CountedKind(bytes):
+                def __hash__(self):kind_visits[0]+=1;return super().__hash__()
+            with mock.patch.object(CHECK,'bytes',CountedKind,create=True),mock.patch.object(Path,'read_bytes',side_effect=AssertionError('whole media reads forbidden')):
+                facts=CHECK.inspect_artifact(fragmented,{},mp4=True)
+            metadata_visits=kind_visits[0];self.assertLessEqual(metadata_visits,2*(fragments+3)+16)
+            self.assertTrue(facts['mp4']['valid']);self.assertEqual(len(facts['mp4']['boxes']),fragments+3)
+            self.assertEqual(facts['mp4']['metadata'],{b'ftyp':ftyp_payload,b'moov':moov[8:]})
+            expected=hashlib.sha256(prefix+mdat)
+            for _ in range(16):expected.update(zero)
+            self.assertEqual(facts['sha256'],'sha256:'+expected.hexdigest());self.assertEqual(facts['size'],len(prefix)+len(mdat)+16*block)
+            # Preserve metadata payloads when an extended header or its payload straddles a chunk, and a final mdat extends to EOF.
+            extended=(1).to_bytes(4,'big')+b'ftyp'+(16+len(ftyp_payload)).to_bytes(8,'big')+ftyp_payload
+            for position in (block-4,block-20):
+                boundary=Path(directory)/('boundary-'+str(position)+'.mp4');raw=box(b'free',b'\0'*(position-8))+extended+moov+b'\0\0\0\0mdat'+payload;boundary.write_bytes(raw)
+                facts=CHECK.inspect_artifact(boundary,{},mp4=True)
+                self.assertTrue(facts['mp4']['valid']);self.assertEqual(facts['mp4']['metadata'],{b'ftyp':ftyp_payload,b'moov':moov[8:]})
+                self.assertEqual(facts['sha256'],'sha256:'+hashlib.sha256(raw).hexdigest())
 
     def test_140_media_hashing_is_bounded_and_reused_per_validation(self):
         for profile in ('local-v1','production'):

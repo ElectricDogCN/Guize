@@ -19815,6 +19815,7 @@ $defs:
                     - 'null'
             segments:
               type: array
+              description: Acceptor dense matching work budget permits at most 256 distinct speakerId values per reference or output; repeated segments for a speaker remain allowed.
               items:
                 type: object
                 additionalProperties: false

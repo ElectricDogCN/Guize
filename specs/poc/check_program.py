@@ -1902,9 +1902,9 @@ def inspect_binary_artifact_ranges(path,cache,byte_ranges,mp4=False):
     valid=[bounds for bounds in requested if len(bounds)==2 and all(type(v) is int for v in bounds) and 0<=bounds[0]<=bounds[1]<size]
     ranges={bounds:hashlib.sha256() for bounds in valid if bounds!=(0,size-1)}
     pending=iter(sorted(ranges));following=next(pending,None);active={}
-    boxes=[];box_header=bytearray();next_box=0;metadata={};mp4_valid=True
+    boxes=[];box_header=bytearray();next_box=0;metadata={};metadata_ranges=[];metadata_cursor=0;mp4_valid=True
     def consume_physical(chunk):
-        nonlocal offset,next_box,mp4_valid,following
+        nonlocal offset,next_box,mp4_valid,following,metadata_cursor
         digest.update(chunk);chunk_end=offset+len(chunk)
         # Visit a range only while its bytes overlap the streaming cursor.
         while following is not None and following[0]<chunk_end:
@@ -1927,12 +1927,15 @@ def inspect_binary_artifact_ranges(path,cache,byte_ranges,mp4=False):
                 boxes.append((kind,next_box+header_size,end))
                 if kind in (b'ftyp',b'moov'):
                     if kind in metadata or length-header_size>(4096 if kind==b'ftyp' else 1048576):mp4_valid=False;break
-                    metadata[kind]=bytearray()
+                    metadata[kind]=bytearray();metadata_ranges.append((kind,next_box+header_size,end))
                 next_box=end;box_header.clear()
-            for kind,first,last in boxes:
-                if kind in metadata:
-                    low,high=max(0,first-offset),min(len(chunk),last-offset)
-                    if low<high:metadata[kind].extend(chunk[low:high])
+            while metadata_cursor<len(metadata_ranges):
+                kind,first,last=metadata_ranges[metadata_cursor]
+                if first>=chunk_end:break
+                low,high=max(0,first-offset),min(len(chunk),last-offset)
+                if low<high:metadata[kind].extend(chunk[low:high])
+                if last>chunk_end:break
+                metadata_cursor+=1
         offset+=len(chunk)
     for _ in retained_metadata_chunks(path,consume_physical):pass
     result=dict(cached or {},size=size,sha256='sha256:'+digest.hexdigest())
@@ -2346,11 +2349,13 @@ def worker_media_packet_bytes(media,raw,codec,cache=None,extra_ranges=()):
         if len(declared)!=4 or declared not in accepted:return False
         if cache is not None:
             packets=[row for row in raw['packets_and_frames'] if row['type']=='packet'];ranges=[(int(row['pos']),int(row['pos'])+int(row['size'])-1) for row in packets]
+            ordered=sorted(ranges)
+            if not ranges or any(a[1]>=b[0] for a,b in zip(ordered,ordered[1:])):return False
             info=inspect_artifact(media,cache,byte_ranges=ranges+list(extra_ranges),mp4=True);facts=info['mp4'];boxes=facts['boxes'];metadata=facts['metadata'];brands=metadata.get(b'ftyp',b'')
             if not facts['valid'] or len(brands)<8 or len(brands)%4 or not mp4_codec_metadata(metadata.get(b'moov',b''),declared):return False
             brands=brands[:4]+brands[8:]
             if not any(brands[i:i+4] in (b'isom',b'iso2',b'iso5',b'iso6',b'mp41',b'mp42',b'av01',b'avc1',b'dash') for i in range(0,len(brands),4)):return False
-            mdat=[(a,b) for k,a,b in boxes if k==b'mdat'];ordered=sorted(ranges)
+            mdat=[(a,b) for k,a,b in boxes if k==b'mdat']
             return bool(ranges) and all(any(a<=first<=last<b for a,b in mdat) and info.get('rangeHashes',{}).get(bounds)==row['data_hash'].replace('SHA256:','sha256:',1) for row,bounds in zip(packets,ranges) for first,last in [bounds]) and all(a[1]<b[0] for a,b in zip(ordered,ordered[1:])) and raw['format']['format_name']=='mov,mp4,m4a,3gp,3g2,mj2' and int(raw['format']['size'])==info['size']
         size=media.stat().st_size;boxes=[];offset=0
         with media.open('rb') as stream:
@@ -3279,14 +3284,19 @@ AI_COUNT_RULES={'asr_wer':'whitespace_word_edit','asr_cer':'unicode_codepoint_ed
                 'ocr_accuracy':'unit_exact_accuracy','thumbnail_human_selection_rate':'unit_exact_accuracy','tag_f1':'label_set_f1'}
 
 
+# Acceptor work budget: at most 256 x 256 dense cells (Hungarian O(256**3)).
+DER_MAX_MATCH_SPEAKERS=256
+
+
 def maximum_anonymous_speaker_overlap(weights):
     """Maximum weighted one-to-one anonymous speaker match (Hungarian, O(n^3))."""
     rows=len(weights);columns=len(weights[0]) if rows else 0;n=max(rows,columns)
+    if n>DER_MAX_MATCH_SPEAKERS:raise ValueError('speaker matching resource budget exceeded')
     if not n:return 0
     scale=max((value for row in weights for value in row),default=0)
     if not ai_finite(scale) or scale<0:raise ValueError('nonfinite speaker overlap')
     if scale==0:return 0
-    # Normalize costs before dual arithmetic, without imposing a speaker-count threshold.
+    # Normalize costs before dual arithmetic within the dense matching work budget.
     costs=[[1-(weights[i][j]/scale if i<rows and j<columns else 0) for j in range(n)] for i in range(n)]
     u=[0.0]*(n+1);v=[0.0]*(n+1);matched=[0]*(n+1);way=[0]*(n+1)
     for row in range(1,n+1):
@@ -3412,6 +3422,8 @@ def derive_ai_count_evidence(root,execution,prefix,row,item,identity,method,expe
                 boundaries=sorted({s[k] for s in segments for k in ('startedSeconds','finishedSeconds')});spans=list(zip(boundaries,boundaries[1:]))
                 valid=len(events)==len(spans)
                 reference_ids=sorted({s['speakerId'] for s in ref['segments']});output_ids=sorted({s['speakerId'] for s in out['segments']})
+                if max(len(reference_ids),len(output_ids))>DER_MAX_MATCH_SPEAKERS:
+                    errors.append(f'{label}: speaker matching resource budget permits at most {DER_MAX_MATCH_SPEAKERS} unique speakers per side');return None
                 reference_index={speaker:index for index,speaker in enumerate(reference_ids)};output_index={speaker:index for index,speaker in enumerate(output_ids)}
                 overlaps=[[0.0 for _ in output_ids] for _ in reference_ids]
                 for event,(start,end) in zip(events,spans):
