@@ -1363,29 +1363,41 @@ def validate_qualified_hierarchy_sandbox(root, plan, execution, defs, prefix, st
         errors.append(f'{label}: exact generator root and concrete controlled disposable mount identity must match approved resource boundary')
 
 
-def retained_metadata_chunks(path, consume_physical, decode_gzip=False):
-    """Bound decoded output while hashing the exact retained bytes in the same read."""
-    decoder=zlib.decompressobj(31) if decode_gzip else None
+METADATA_MAX_DECODED_BYTES = 2 * 1024 * 1024 * 1024
+METADATA_MAX_RECORDS = 2_000_000
+
+
+def retained_metadata_chunks(path, consume_physical, decode_gzip=False, maximum_decoded_bytes=None):
+    """Bound cumulative metadata decoding; ordinary binary media reads retain no metadata cap."""
+    if decode_gzip and maximum_decoded_bytes is None:maximum_decoded_bytes=METADATA_MAX_DECODED_BYTES
+    if maximum_decoded_bytes is not None and (type(maximum_decoded_bytes) is not int or not 0<=maximum_decoded_bytes<=METADATA_MAX_DECODED_BYTES):raise ValueError('metadata budget: invalid cumulative decoded-byte ceiling')
+    decoder=zlib.decompressobj(31) if decode_gzip else None;decoded_bytes=0
     try:
         with path.open('rb') as stream:
             for physical in iter(lambda: stream.read(ARTIFACT_CHUNK_BYTES),b''):
                 consume_physical(physical)
                 if decoder is None:
+                    decoded_bytes+=len(physical)
+                    if maximum_decoded_bytes is not None and decoded_bytes>maximum_decoded_bytes:raise OSError('metadata budget: cumulative decoded bytes exceed '+str(maximum_decoded_bytes))
                     yield physical;continue
                 pending=physical
                 while pending:
                     decoded=decoder.decompress(pending,ARTIFACT_CHUNK_BYTES)
                     pending=decoder.unconsumed_tail
                     if decoder.unused_data:raise OSError('metadata gzip must contain exactly one member without trailing bytes')
+                    decoded_bytes+=len(decoded)
+                    if decoded_bytes>maximum_decoded_bytes:raise OSError('metadata budget: cumulative decoded bytes exceed '+str(maximum_decoded_bytes))
                     if decoded:yield decoded
         if decoder is not None and not decoder.eof:raise OSError('metadata gzip is incomplete')
     except zlib.error as exc:
         raise OSError('metadata gzip is malformed or has an invalid checksum') from exc
 
 
-def streamed_metadata_records(path,schema):
-    """Read projected JSONL metadata with bounded line memory; never materialize the manifest."""
-    validator=jsonschema.Draft202012Validator(schema);digest=hashlib.sha256();count=0
+def streamed_metadata_records(path,schema,declared_count=None):
+    """Read finite projected JSONL metadata; reject excess rows before yielding to consumers."""
+    limit=METADATA_MAX_RECORDS if declared_count is None else declared_count
+    if type(limit) is not int or not 0<=limit<=METADATA_MAX_RECORDS:raise ValueError('metadata budget: declared record count must be an integer between 0 and '+str(METADATA_MAX_RECORDS))
+    validator=jsonschema.Draft202012Validator(schema);digest=hashlib.sha256();count=0;decoded_bytes=0
     def fields(pairs):
         if len({key for key,_ in pairs})!=len(pairs):raise ValueError('duplicate metadata fields')
         return dict(pairs)
@@ -1398,10 +1410,12 @@ def streamed_metadata_records(path,schema):
                 if len(line)+end-offset>ARTIFACT_CHUNK_BYTES:raise ValueError('metadata record exceeds bounded line representation')
                 line.extend(chunk[offset:end]);offset=end
                 if line[-1:]==b'\n':
-                    record=json.loads(line,object_pairs_hook=fields);validator.validate(record);count+=1;line.clear()
-                    yield record
+                    record=json.loads(line,object_pairs_hook=fields);validator.validate(record);count+=1
+                    if count>limit:raise ValueError('metadata budget: actual record count exceeds declared count '+str(limit))
+                    line.clear();yield record
         if line:
             record=json.loads(line,object_pairs_hook=fields);validator.validate(record);count+=1
+            if count>limit:raise ValueError('metadata budget: actual record count exceeds declared count '+str(limit))
             yield record
         return count,'sha256:'+digest.hexdigest()
 
@@ -1410,7 +1424,10 @@ def streamed_metadata_records(path,schema):
             line=stream.readline(ARTIFACT_CHUNK_BYTES+1)
             if not line:break
             if len(line)>ARTIFACT_CHUNK_BYTES:raise ValueError('metadata record exceeds bounded line representation')
+            decoded_bytes+=len(line)
+            if decoded_bytes>METADATA_MAX_DECODED_BYTES:raise OSError('metadata budget: cumulative decoded bytes exceed '+str(METADATA_MAX_DECODED_BYTES))
             digest.update(line);record=json.loads(line,object_pairs_hook=fields);validator.validate(record);count+=1
+            if count>limit:raise ValueError('metadata budget: actual record count exceeds declared count '+str(limit))
             yield record
     return count,'sha256:'+digest.hexdigest()
 
@@ -1548,11 +1565,12 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
         connection=sqlite3.connect(str(database));connection.execute('PRAGMA journal_mode=OFF');connection.execute('PRAGMA temp_store=FILE');connection.execute('PRAGMA cache_size=-8192')
         connection.executescript('CREATE TABLE baseline(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);CREATE TABLE enumerated(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);CREATE TABLE expected(eventId TEXT PRIMARY KEY,sequence INTEGER UNIQUE,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);CREATE TABLE observed(eventId TEXT PRIMARY KEY,sequence INTEGER UNIQUE,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);CREATE TABLE applied(eventId TEXT PRIMARY KEY);CREATE TABLE traversed(objectId TEXT PRIMARY KEY);CREATE TABLE current(objectId TEXT PRIMARY KEY,versionId TEXT);CREATE TABLE post_scan(objectId TEXT PRIMARY KEY,versionId TEXT);')
         def ingest(table,descriptor,schema_name,columns,input_manifest=False):
+            if type(descriptor['count']) is not int or not 0<=descriptor['count']<=METADATA_MAX_RECORDS:raise ValueError('metadata budget: declared record count outside finite validation budget')
             path=existing_ref(root,descriptor['ref'],prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==descriptor['ref']]
             if path is None or not input_manifest and (len(records)!=1 or records[0].get('artifactType')!='command_output' or descriptor['ref'] not in (execution.get('rawOutputRefs') or [])):raise ValueError('selected-slot typed retained metadata record stream required')
             inspected=inspect_artifact(path,cache,textual=True)
             if inspected['sha256']!=descriptor['sha256']:raise ValueError('metadata stream must bind exact approved/observed immutable bytes')
-            iterator=streamed_metadata_records(path,defs[schema_name]);observed_count=0;previous=None
+            iterator=streamed_metadata_records(path,defs[schema_name],descriptor['count']);observed_count=0;previous=None
             while True:
                 try:record=next(iterator)
                 except StopIteration as terminal:
@@ -1589,7 +1607,9 @@ def validate_qualified_metadata_scan(root,plan,execution,prefix,status,window,de
         for metric,value in derived.items():
             if not ai_finite(actual.get(metric)) or not math.isclose(actual[metric],value,rel_tol=1e-9,abs_tol=1e-9):errors.append(f'{label}: {metric} must derive actual complete streamed object/event counts and measured traversal timestamps')
         validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,errors,cache,resource,policy,connection)
-    except (OSError,ValueError,UnicodeError,OverflowError,sqlite3.Error,jsonschema.ValidationError) as failure:errors.append(f'{label}: invalid retained metadata observations ({type(failure).__name__})')
+    except (OSError,ValueError,UnicodeError,OverflowError,sqlite3.Error,jsonschema.ValidationError) as failure:
+        detail=str(failure) if str(failure).startswith('metadata budget:') else type(failure).__name__
+        errors.append(f'{label}: invalid retained metadata observations ({detail})')
     finally:
         if connection is not None:connection.close()
         database.unlink(missing_ok=True)
@@ -1608,9 +1628,10 @@ def validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,
     columns=('objectId','kind','versionId','depth','fileSizeBytes','name','path','modifiedAt');basic=columns[:5]
     connection.executescript('CREATE TABLE profile_approved(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER,name TEXT,path TEXT,modifiedAt TEXT);CREATE TABLE profile_observed AS SELECT * FROM profile_approved;CREATE UNIQUE INDEX profile_observed_id ON profile_observed(objectId);CREATE TABLE profile_page AS SELECT * FROM profile_approved;CREATE UNIQUE INDEX profile_page_id ON profile_page(objectId);')
     def records(descriptor,schema_name):
+        if type(descriptor['count']) is not int or not 0<=descriptor['count']<=METADATA_MAX_RECORDS:raise ValueError('metadata budget: declared record count outside finite validation budget')
         path=existing_ref(root,descriptor['ref'],prefix);matches=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==descriptor['ref']]
         if path is None or len(matches)!=1 or matches[0].get('artifactType')!='command_output' or descriptor['ref'] not in (execution.get('rawOutputRefs') or []):raise ValueError('exact selected-slot typed record stream required')
-        iterator=streamed_metadata_records(path,defs[schema_name]);count=0
+        iterator=streamed_metadata_records(path,defs[schema_name],descriptor['count']);count=0
         while True:
             try:row=next(iterator)
             except StopIteration as terminal:
@@ -1984,7 +2005,7 @@ def inspect_artifact(path, cache, textual=False, byte_range=None, byte_ranges=No
             low,high=max(0,first-offset),min(len(chunk),last+1-offset)
             if low<high:range_digest.update(chunk[low:high])
         offset+=len(chunk)
-    for chunk in retained_metadata_chunks(path,consume_physical,textual and path.name.endswith('.jsonl.gz')):
+    for chunk in retained_metadata_chunks(path,consume_physical,textual and path.name.endswith('.jsonl.gz'),METADATA_MAX_DECODED_BYTES if textual else None):
         if scan_decoder is not None:scan(scan_decoder.decode(chunk))
         if decoder is not None:
             try: decoder.decode(chunk)
@@ -2662,6 +2683,31 @@ def derive_media_soak_runtime(root,execution,prefix,row,approved,policy,context,
     if event_times!=sorted(event_times) or events!=row['failureEvents']:errors.append(f'{label}: aggregate soak failure history must derive the retained original process event stream')
 
 
+def derive_media_soak_native_decode(root,execution,prefix,row,probe,approved,context,window,defs,label,errors,cache):
+    """Derive soak output facts from the existing approved native decoder contract."""
+    label=label+'/native soak decode';before=len(errors);env=execution['environmentCaptured']
+    inputs=[r for r in env.get('inputSampleArtifacts') or [] if isinstance(r,dict) and r.get('sampleId')==approved['inputSampleId']]
+    source=existing_ref(root,inputs[0].get('inputArtifactRef'),prefix) if len(inputs)==1 else None
+    if source is None or inspect_artifact(source,cache)['sha256']!=approved['inputSha256']:
+        errors.append(f'{label}: exact retained approved input bytes required');return
+    identity=dict(context,**approved,outputArtifactRef=row['outputArtifactRef'],outputSha256=row['outputSha256'])
+    tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',row['outputArtifactRef']]
+    capture=media_native_execution(root,execution,prefix,probe.get('executionRef'),'decode',identity,'ffprobe',approved['decoderBuild'],tail,approved['nodeId'],utc(row['finishedAt']),defs,label,errors,cache)
+    if capture is None:return
+    raw=bounded_evaluator_json(root,execution,prefix,capture[0]['stdoutRef'],'command_output',defs,'workerCapabilityProbeOutput',label,errors,cache,8388608)
+    if raw is None or len(errors)!=before:return
+    media=existing_ref(root,row['outputArtifactRef'],prefix);stream=raw['streams'][0];count=approved['sourceEndFrame']-approved['sourceStartFrame'];observed=utc(probe['observedAt'])
+    try:
+        numerator,denominator=(int(v) for v in stream['r_frame_rate'].split('/'));fps=numerator/denominator;duration=count/fps
+    except (ValueError,ZeroDivisionError,OverflowError):
+        errors.append(f'{label}: finite native decoder frame rate and duration required');return
+    if capture[0]['exitCode']!=0 or raw['program_version']['version']!=approved['decoderBuild'] or stream['codec_name']!=approved['codec'] or not ai_finite(fps) or fps<=0 or not ai_finite(duration) or not complete_decoder_timeline(raw,{k:stream[k] for k in ('profile','level','width','height','pix_fmt','time_base','r_frame_rate')},count,fps) or media is None or not worker_media_packet_bytes(media,raw,approved['codec'],cache) or inspect_artifact(media,cache)['sha256']!=row['outputSha256'] or not math.isclose(probe['durationSeconds'],duration,rel_tol=1e-9,abs_tol=1e-9) or observed is None or window is None or not capture[3]<=observed<=window[1]:
+        errors.append(f'{label}: successful native codec/frame/packet/timeline, duration, bytes and observation clocks required');return
+    protected=[source,media]+[existing_ref(root,ref,prefix) for ref in (env['mediaSoakRef'],row['decodeRef'],probe['executionRef'],capture[0]['stdoutRef'],capture[0]['stderrRef'])]
+    if any(a is not None and b is not None and a.samefile(b) for i,a in enumerate(protected) for b in protected[i+1:]):
+        errors.append(f'{label}: source, output, decode and native streams must be physically distinct')
+
+
 def validate_qualified_media_soak(root,plan,execution,prefix,status,window,defs,errors,cache):
     if plan['pocId']!='POC-02' or status!='pass':return
     label=f"qualified media soak {plan['taskId']}";env=execution.get('environmentCaptured') or {};before=len(errors)
@@ -2712,18 +2758,21 @@ def validate_qualified_media_soak(root,plan,execution,prefix,status,window,defs,
         ref=row['outputArtifactRef'];media=existing_ref(root,ref,prefix);records=[a for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('ref')==ref]
         if media is None or ref not in (execution.get('rawOutputRefs') or []) or len(records)!=1 or records[0].get('artifactType')!='produced_media' or records[0].get('nodeId')!=approved['nodeId']:
             errors.append(f'{label}: codec soak must retain its exact node-bound produced output');continue
+        decode_before=len(errors);probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'mediaSoakDecodeObservation',label+'/decode',errors,cache)
+        if probe is None or len(errors)!=decode_before:continue
+        keys=('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')
+        decoded=utc(probe['observedAt'])
+        if any(probe[k]!=approved[k] for k in keys) or probe['outputArtifactRef']!=ref or probe['outputSha256']!=row['outputSha256'] or probe['decodable'] is not True or probe['decodedFrameCount']!=frames or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or decoded is None or not last<=decoded<=window[1]:
+            errors.append(f'{label}: each sustained codec output must decode its approved span without errors after the measured workload');continue
+        # Select native packet ranges before the first media scan; preserve one bounded media read.
+        derive_media_soak_native_decode(root,execution,prefix,row,probe,approved,expected,window,defs,label,errors,cache)
+        if len(errors)!=decode_before:continue
         try:
             info=inspect_artifact(media,cache)
             separate=[env.get('mediaSoakRef'),row['decodeRef']]+[a.get('ref') for a in env.get('rawExecutionArtifacts') or [] if isinstance(a,dict) and a.get('artifactType')=='produced_media' and a.get('ref')!=ref]+[a.get('inputArtifactRef') for a in env.get('inputSampleArtifacts') or [] if isinstance(a,dict)]
             if info['size']<=0 or info['size']!=row['outputByteCount'] or info['sha256']!=row['outputSha256'] or any(media.samefile(p) for p in media_paths) or any(media.samefile(p) for other in separate if (p:=existing_ref(root,other,prefix)) is not None):raise ValueError()
             media_paths.append(media)
         except (OSError,ValueError):errors.append(f'{label}: distinct retained codec outputs must bind actual nonempty bytes/hash');continue
-        decode_before=len(errors);probe=selected_observation(root,execution,prefix,row['decodeRef'],defs,'mediaSoakDecodeObservation',label+'/decode',errors,cache)
-        if probe is None or len(errors)!=decode_before:continue
-        keys=('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')
-        decoded=utc(probe['observedAt'])
-        if any(probe[k]!=approved[k] for k in keys) or probe['outputArtifactRef']!=ref or probe['outputSha256']!=row['outputSha256'] or probe['decodable'] is not True or probe['decodedFrameCount']!=frames or probe['decodeErrorCount']!=0 or not ai_finite(probe['durationSeconds']) or probe['durationSeconds']<=0 or decoded is None or not last<=decoded<=window[1]:
-            errors.append(f'{label}: each sustained codec output must decode its approved span without errors after the measured workload')
     if env.get('acceptanceProfile')==profile_identity('local-v1'):
         caps=env.get('scheduler_configuration');caps=caps if isinstance(caps,dict) else {}
         if type(caps.get('maxConcurrentSegments')) is not int or type(caps.get('perNodeConcurrency')) is not int or encode_interval_capacity([(r,a,b) for r,a,b,_ in trace_intervals])[0]>caps.get('maxConcurrentSegments',0) or any(encode_interval_capacity([(r,a,b) for r,a,b,n in trace_intervals if n==node])[0]>caps.get('perNodeConcurrency',0) for node in nodes):errors.append(f'{label}: controlled soak must respect approved total and per-node concurrency')
@@ -2888,6 +2937,22 @@ def validate_qualified_encode_workers(root, plan, execution, prefix, status, win
             errors.append(f'{label}: {metric} must equal captured continuous worker interval capacity')
 
 
+def derive_a380_native_telemetry(root,execution,prefix,telemetry,sampling,expected,window,defs,label,errors,cache):
+    """Derive A380 readings from the approved tool's retained native stdout."""
+    argv=sampling['commandArgs'];tool=re.split(r'[/\\]',argv[0])[-1].lower().removesuffix('.exe')
+    if not recorded_text(tool) or any(not recorded_text(arg) for arg in argv):
+        errors.append(f'{label}: concrete approved telemetry tool and complete argv required');return
+    captured=media_native_execution(root,execution,prefix,telemetry['executionRef'],'telemetry',dict(expected,sampling=sampling),tool,sampling['toolBuild'],argv[1:],expected['identity']['nodeId'],window[0],defs,label+'/native telemetry',errors,cache)
+    if captured is None:return
+    raw=bounded_evaluator_json(root,execution,prefix,captured[0]['stdoutRef'],'command_output',defs,'a380NativeTelemetrySamples',label+'/native telemetry samples',errors,cache)
+    if raw is None:return
+    first,last=utc(captured[0]['startedAt']),captured[3]
+    stamps=[utc(row['observedAt']) for row in raw['samples']]
+    if captured[0]['argv']!=argv or raw['toolBuild']!=sampling['toolBuild'] or raw['gpuDeviceId']!=expected['identity']['gpuDeviceId'] or raw['scope']!=sampling['scope'] or raw['samples']!=telemetry['samples'] or any(at is None or not first<=at<=last for at in stamps):
+        errors.append(f'{label}: native telemetry samples must bind exact approved argv/build/device/scope, captured values and enclosing process interval');return
+    return raw['samples']
+
+
 def validate_qualified_a380_encode(root,plan,execution,prefix,status,window,defs,errors,cache):
     env=execution.get('environmentCaptured') or {}
     if plan['pocId']!='POC-02' or status!='pass' or (env.get('acceptanceProfile') or {}).get('id')!='production':return
@@ -2939,8 +3004,10 @@ def validate_qualified_a380_encode(root,plan,execution,prefix,status,window,defs
         phase_windows.append((phase['phase'],first,last))
     if [p[0] for p in phase_windows]!=['warmup','concurrency','soak'] or phase_windows[0][1]!=start or phase_windows[-1][2]!=end or any(a[2]!=b[1] for a,b in zip(phase_windows,phase_windows[1:])):
         errors.append(f'{label}: approved warmup/concurrency/soak phases must cover the designated workload');return
+    native_samples=derive_a380_native_telemetry(root,execution,prefix,telemetry,sampling,expected,window,defs,label,errors,cache)
+    if native_samples is None:return
     stamps=[];observed_phases=set();power=[];temperature=[]
-    for row in telemetry['samples']:
+    for row in native_samples:
         at=utc(row['observedAt']);watts=row['powerWatts'];celsius=row['temperatureCelsius']
         if at is None or not any(row['phase']==name and first<=at<=last for name,first,last in phase_windows) or isinstance(watts,bool) or not isinstance(watts,(int,float)) or not math.isfinite(watts) or watts<0 or isinstance(celsius,bool) or not isinstance(celsius,(int,float)) or not math.isfinite(celsius):
             errors.append(f'{label}: retained telemetry samples require finite readings and exact UTC workload phase');return

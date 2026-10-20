@@ -857,7 +857,7 @@ class TestPocProgram(unittest.TestCase):
         identity=dict(schemaVersion=1,resourceId='RES-A380-ENCODE',**{k:node[k] for k in ('nodeId','platform','physicalHostId','encoderBuild')},gpuVendor='Intel',gpuModel='Arc A380',gpuDeviceId='synthetic-a380-device',driverBuild='synthetic-driver',runtimeBuild='synthetic-runtime',encoderBackend='hardware')
         node.update({k:v for k,v in identity.items() if k not in ('schemaVersion','resourceId')});run.update({k:identity[k] for k in ('gpuDeviceId','driverBuild','runtimeBuild','encoderBackend')})
         phases=[dict(phase=name,startedAt=f'2026-09-03T00:00:{start:02d}Z',finishedAt=f'2026-09-03T00:00:{end:02d}Z' if end<60 else '2026-09-03T00:01:00Z') for name,start,end in (('warmup',0,20),('concurrency',20,40),('soak',40,60))]
-        sampling=dict(toolBuild='synthetic-telemetry-tool-v1',intervalSeconds=10,scope='device',phases=phases)
+        sampling=dict(toolBuild='synthetic-telemetry-tool-v1',commandArgs=['synthetic-telemetry','--json'],intervalSeconds=10,scope='device',phases=phases)
         config_path=root/resource['configurationRef'];config=load_yaml(config_path);config['configuration']['productionA380Encode']=dict(identity=identity,telemetrySampling=sampling,outputServingPath='/synthetic/a380-output');write_yaml(config_path,config)
         def retain(name,data,kind='measurement_output'):
             ref=prefix+'/raw/'+name;path=root/ref
@@ -870,7 +870,80 @@ class TestPocProgram(unittest.TestCase):
         body=(root/run['outputArtifactRef']).read_bytes()[:8];body_ref=retain('a380-range-body.bin',body,'produced_media')
         range_ref=retain('a380-range.yaml',dict(**common,kind='a380_range_observation',mediaPath='/synthetic/a380-output',requestRange='bytes=0-7',rangeStart=0,rangeEnd=7,statusCode=206,contentRange=f'bytes 0-7/{(root/run["outputArtifactRef"]).stat().st_size}',requestStartedAt='2026-09-03T00:01:00Z',firstByteAt='2026-09-03T00:01:00.001Z',responseBodyRef=body_ref,responseSha256='sha256:'+hashlib.sha256(body).hexdigest()))
         env['productionA380Encode']=dict(schemaVersion=1,identity=identity,configurationRef=resource['configurationRef'],outputArtifactRef=run['outputArtifactRef'],telemetryRef=telemetry_ref,rangeRef=range_ref)
+        self.sync_a380_native_telemetry_positive_fixture(root,execution,prefix)
 
+
+
+    def sync_a380_native_telemetry_positive_fixture(self,root,execution,prefix):
+        """Explicit synthetic positive setup; never invoked by validation/refresh."""
+        capture=execution['environmentCaptured']['productionA380Encode'];path=root/capture['telemetryRef'];report=load_yaml(path);sampling=report['sampling'];argv=sampling['commandArgs']
+        identity={k:report[k] for k in ('identity','configurationRef','inputSampleId','inputSha256','outputArtifactRef','outputSha256')};identity['sampling']=copy.deepcopy(sampling)
+        stdout=dict(schemaVersion=1,kind='a380_native_telemetry_samples',toolBuild=sampling['toolBuild'],gpuDeviceId=report['identity']['gpuDeviceId'],scope=sampling['scope'],samples=copy.deepcopy(report['samples']))
+        ref,_=self.retain_media_process_fixture(root,execution,prefix,'a380-native-telemetry','telemetry',identity,report['identity']['nodeId'],argv[0],sampling['toolBuild'],argv[1:],json.dumps(stdout).encode(),report['samples'][0]['observedAt'],report['samples'][-1]['observedAt'],73501)
+        report['executionRef']=ref;write_yaml(path,report)
+        self.retain_media_native_fixture(root,execution,prefix,'a380-telemetry.yaml',path.read_bytes(),report['identity']['nodeId'],'measurement_output')
+
+    def exercise_a380_native_telemetry_regressions(self,root,original,prefix,plan,defs):
+        """Keep native stdout fixed while testing forged aggregates and exact bindings."""
+        env=original['environmentCaptured'];capture=env['productionA380Encode'];report_ref=capture['telemetryRef'];config_ref=capture['configurationRef'];report_path=root/report_ref;config_path=root/config_ref
+        report=load_yaml(report_path);native_ref=report['executionRef'];native_path=root/native_ref;native=json.loads(native_path.read_bytes());stdout_ref=native['stdoutRef'];stdout_path=root/stdout_ref
+        saved={root/ref:(root/ref).read_bytes() for ref in (report_ref,config_ref,native_ref,stdout_ref,native['stderrRef'])}
+        def restore():
+            for path,raw in saved.items():path.write_bytes(raw)
+        def put(data,ref,value):
+            raw=value if isinstance(value,bytes) else (json.dumps(value)+'\n').encode()
+            (root/ref).write_bytes(raw);row=next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref)
+            row.update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest())
+        def validate(data):
+            errors=[];window=tuple(CHECK.utc(data['environmentCaptured']['executionWindow'][key]) for key in ('startedAt','finishedAt'))
+            CHECK.validate_qualified_a380_encode(root,plan,data,prefix,'pass',window,defs,errors,{})
+            return errors
+        try:
+            for mode in ('forged_power','forged_temperature','missing_execution','missing_stdout','wrong_node','wrong_device','wrong_input','wrong_output','wrong_build','wrong_argv','wrong_executable','bad_pid','failed_exit','stdout_device','stdout_scope','stdout_build','stdout_reading','stderr_alias','late_process','early_exit','outside_window'):
+                restore();data=copy.deepcopy(original);report=load_yaml(report_path);run=json.loads(native_path.read_bytes());output=json.loads(stdout_path.read_bytes())
+                if mode in ('forged_power','forged_temperature'):
+                    key,metric,value=('powerWatts','encoder_power_peak_watts',0) if mode=='forged_power' else ('temperatureCelsius','encoder_temperature_peak_celsius',-50)
+                    for row in report['samples']:row[key]=value
+                    next(m for m in data['measurements'] if m['id']==metric)['actual']=value
+                elif mode=='missing_execution':report.pop('executionRef')
+                elif mode=='missing_stdout':data['rawOutputRefs'].remove(stdout_ref)
+                elif mode=='wrong_node':next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==native_ref)['nodeId']='other-node'
+                elif mode=='wrong_device':run['identity']['identity']['gpuDeviceId']='other-device'
+                elif mode=='wrong_input':run['identity']['inputSha256']='sha256:'+'0'*64
+                elif mode=='wrong_output':run['identity']['outputArtifactRef']=env['producedMediaArtifactRef']
+                elif mode=='wrong_build':run['toolBuild']='other-telemetry-build'
+                elif mode=='wrong_argv':run['argv'][-1]='--text'
+                elif mode=='wrong_executable':run['argv'][0]='/other/synthetic-telemetry'
+                elif mode=='bad_pid':run['processId']='0'
+                elif mode=='failed_exit':run['exitCode']=1
+                elif mode=='stdout_device':output['gpuDeviceId']='other-device'
+                elif mode=='stdout_scope':output['scope']='host'
+                elif mode=='stdout_build':output['toolBuild']='other-build'
+                elif mode=='stdout_reading':output['samples'][0]['powerWatts']=2
+                elif mode=='stderr_alias':run['stderrRef']=stdout_ref;run['stderrSha256']=run['stdoutSha256']
+                elif mode=='late_process':run['startedAt']='2026-09-03T00:00:00.001Z'
+                elif mode=='early_exit':run['finishedAt']='2026-09-03T00:00:59.999Z'
+                else:run['startedAt']='2026-09-02T23:59:59.999Z'
+                if mode.startswith('stdout_'):
+                    put(data,stdout_ref,output);run['stdoutSha256']='sha256:'+hashlib.sha256(stdout_path.read_bytes()).hexdigest()
+                put(data,native_ref,run);write_yaml(report_path,report)
+                self.assertTrue(validate(data),mode)
+            # Collector initialization/flush may surround all samples inside the actual execution window.
+            restore();data=copy.deepcopy(original);data['environmentCaptured']['executionWindow']['startedAt']='2026-09-02T23:59:59.999Z'
+            run=json.loads(native_path.read_bytes());run.update(startedAt='2026-09-02T23:59:59.999Z',finishedAt='2026-09-03T00:01:00.001Z');put(data,native_ref,run)
+            self.assertEqual(validate(data),[])
+            # Native zero-power readings and subzero temperatures remain valid when all claims agree.
+            restore();data=copy.deepcopy(original);report=load_yaml(report_path)
+            for row in report['samples']:row.update(powerWatts=0,temperatureCelsius=-10)
+            for metric,value in (('encoder_power_peak_watts',0),('encoder_temperature_peak_celsius',-10)):next(m for m in data['measurements'] if m['id']==metric)['actual']=value
+            write_yaml(report_path,report);self.sync_a380_native_telemetry_positive_fixture(root,data,prefix)
+            self.assertEqual(validate(data),[])
+            # Approved complete argv retains its existing 128-item maximum without appended operands.
+            restore();data=copy.deepcopy(original);report=load_yaml(report_path);config=load_yaml(config_path)
+            argv=['synthetic-telemetry','--json']+['--verbose']*126;report['sampling']['commandArgs']=argv;config['configuration']['productionA380Encode']['telemetrySampling']['commandArgs']=argv
+            write_yaml(report_path,report);write_yaml(config_path,config);self.sync_a380_native_telemetry_positive_fixture(root,data,prefix)
+            self.assertEqual(validate(data),[])
+        finally:restore()
 
 
     def retain_access_frontend_positive_fixture(self,root,execution,ref,raw,kind='command_output'):
@@ -1566,13 +1639,22 @@ class TestPocProgram(unittest.TestCase):
             if isinstance(value,bytes):(root/ref).write_bytes(value)
             else:write_yaml(root/ref,value)
             raw=(root/ref).read_bytes();sha='sha256:'+hashlib.sha256(raw).hexdigest();env['rawExecutionArtifacts'].append(dict(ref=ref,artifactType=kind,nodeId=node,byteCount=len(raw),sha256=sha));execution['rawOutputRefs'].append(ref);return ref,sha,len(raw)
+        context=dict(configurationRef=resource['configurationRef'],acceptanceProfile=env['acceptanceProfile'],subjectVersion=CHECK.compliance_subject_version(load_yaml(self.plan_path(root,'POC-002')),execution),inputSamples=[{k:s[k] for k in ('id','immutableId','checksum')} for s in execution['samples']])
         for node,codec in [(n,'av1') for n in env['worker_node_inventory']]+[(env['worker_node_inventory'][0],'h264')]:
             case_id='synthetic-soak-'+node['nodeId']+'-'+codec
             case=dict(caseId=case_id,runId=case_id+'-run',nodeId=node['nodeId'],physicalHostId=node['physicalHostId'],encoderBuild=node['encoderBuild'],compatibilityGroupId=node['compatibilityGroupId'],decoderBuild='synthetic-soak-decoder',inputSampleId=sample['id'],inputSha256=sample['checksum'],sourceStartFrame=0,sourceEndFrame=120,codec=codec,encoderParameters=dict(codec=codec,preset='synthetic-soak'),commandArgs=['synthetic-soak',node['nodeId'],codec]);cases.append(case)
             start='2026-09-03T00:00:00Z' if codec=='av1' else '2026-09-03T00:01:00Z';end='2026-09-03T00:01:00Z' if codec=='av1' else '2026-09-03T00:02:00Z';decoded='2026-09-03T00:01:00.001Z' if codec=='av1' else '2026-09-03T00:02:00.001Z'
-            media,sha,size=retain(case_id+'.bin',('Synthetic '+codec+' soak output; never actual encoded media.').encode(),'produced_media',node['nodeId'])
+            # Synthetic MP4/native decoder transcript shapes only; never a codec execution.
+            box=lambda kind,payload:(len(payload)+8).to_bytes(4,'big')+kind+payload
+            tag,config_tag=(b'av01',b'av1C') if codec=='av1' else (b'avc1',b'avcC')
+            entry=box(tag,b'\0'*78+box(config_tag,b'\1'*4));moov=box(b'moov',box(b'trak',box(b'mdia',box(b'minf',box(b'stbl',box(b'stsd',b'\0'*4+(1).to_bytes(4,'big')+entry))))));header=box(b'ftyp',b'isom\0\0\0\0isom')+moov;packets=[i.to_bytes(4,'big') for i in range(120)]
+            media,sha,size=retain(case_id+'.bin',header+box(b'mdat',b''.join(packets)),'produced_media',node['nodeId'])
+            native=dict(program_version=dict(version=case['decoderBuild']),streams=[dict(codec_name=codec,codec_tag_string=tag.decode(),profile='Synthetic checker fixture',level=0,width=320,height=180,pix_fmt='yuv420p',time_base='1/30',r_frame_rate='30/1')],format=dict(format_name='mov,mp4,m4a,3gp,3g2,mj2',size=str(size)),packets_and_frames=[item for i,packet in enumerate(packets) for item in (dict(type='packet',pts=i,dts=i,duration=1,pos=str(len(header)+8+4*i),size='4',data_hash='SHA256:'+hashlib.sha256(packet).hexdigest()),dict(type='frame',pts=i,duration=1,width=320,height=180,pix_fmt='yuv420p'))])
+            native_identity=dict(context,**case,outputArtifactRef=media,outputSha256=sha)
+            tail=['-v','info','-show_program_version','-select_streams','v:0','-show_streams','-show_packets','-show_frames','-show_format','-show_data_hash','sha256','-of','json',media]
+            native_ref,_=self.retain_media_process_fixture(root,execution,prefix,case_id+'-decode-native','decode',native_identity,node['nodeId'],'ffprobe',case['decoderBuild'],tail,json.dumps(native).encode(),end,decoded,65001+len(cases))
             identity={k:case[k] for k in ('runId','caseId','nodeId','physicalHostId','encoderBuild','compatibilityGroupId','decoderBuild','inputSampleId','inputSha256','sourceStartFrame','sourceEndFrame','codec')}
-            probe,_,_=retain(case_id+'-decode.yaml',dict(schemaVersion=1,kind='media_soak_decode',**identity,outputArtifactRef=media,outputSha256=sha,observedAt=decoded,decodable=True,decodedFrameCount=120,durationSeconds=4,decodeErrorCount=0),'measurement_output',node['nodeId'])
+            probe,_,_=retain(case_id+'-decode.yaml',dict(schemaVersion=1,kind='media_soak_decode',**identity,outputArtifactRef=media,outputSha256=sha,observedAt=decoded,decodable=True,decodedFrameCount=120,durationSeconds=4,decodeErrorCount=0,executionRef=native_ref),'measurement_output',node['nodeId'])
             progress=[dict(observedAt=at,completedIterations=iterations,completedFrames=iterations*120,residentBytes=1048576,temporaryBytes=0,cpuSeconds=seconds) for at,iterations,seconds in ((start,0,0),(end,2,30))]
             rows.append(dict(**case,startedAt=start,finishedAt=end,processExitCode=0,terminalStatus='completed',processTerminationReason='approved_window_completed',outputArtifactRef=media,outputSha256=sha,outputByteCount=size,decodeRef=probe,progress=progress,failureEvents=[]))
         policy=dict(runtimeObserverBuild='synthetic-soak-collector/checker-only-v1',minimumDurationMinutes=1,maximumProgressGapSeconds=60,maximumRecoverySeconds=5,maximumResidentBytes=2097152,maximumResidentGrowthBytes=1048576,maximumTemporaryBytes=1048576,maximumCpuSeconds=60,cases=cases)
@@ -3143,9 +3225,11 @@ class TestPocProgram(unittest.TestCase):
             plan=load_yaml(self.plan_path(root,'POC-002'));defs=load_yaml(root/'specs/poc/program.schema.yaml')['$defs'];window=tuple(CHECK.utc(env['executionWindow'][key]) for key in ('startedAt','finishedAt'))
             telemetry_path=root/capture['telemetryRef'];request_path=root/capture['rangeRef'];config_path=root/capture['configurationRef'];request=load_yaml(request_path);body_path=root/request['responseBodyRef']
             originals={p:p.read_bytes() for p in (telemetry_path,request_path,config_path,body_path)};original=copy.deepcopy(record)
+            native=json.loads((root/load_yaml(telemetry_path)['executionRef']).read_bytes());originals.update({root/ref:(root/ref).read_bytes() for ref in (load_yaml(telemetry_path)['executionRef'],native['stdoutRef'],native['stderrRef'])})
             def validate(data):
                 errors=[];CHECK.validate_qualified_a380_encode(root,plan,data,prefix,'pass',window,defs,errors,{});return errors
             self.assertEqual(CHECK.validate_repository(root,'production',True,selected_pocs={'POC-02'}),[]);self.assertEqual(validate(record),[])
+            self.exercise_a380_native_telemetry_regressions(root,original,prefix,plan,defs)
             for mode in ('missing','bad_capture','cpu_only','non_intel','other_gpu','software','wrong_device','wrong_host','wrong_driver','wrong_runtime','unapproved_config','bad_inventory','bad_runs','wrong_node','wrong_run_device','wrong_run_backend','wrong_output','bad_run_time','wrong_report_identity','wrong_input','wrong_report_output','missing_telemetry','arbitrary_telemetry','oversize_telemetry','bad_sample_type','nan_sample','bad_sample_time','out_of_phase','missing_phase','wrong_interval','repeated_sample','sampling_tool','peak_power','peak_temperature','range_latency','wrong_path','wrong_status','wrong_range_header','wrong_body','wrong_body_hash','wrong_body_node','request_before_encode','invalid_first_byte'):
                 for p,raw in originals.items():p.write_bytes(raw)
                 data=copy.deepcopy(original);env=data['environmentCaptured'];capture=env['productionA380Encode'];telemetry=load_yaml(telemetry_path);request=load_yaml(request_path);config=load_yaml(config_path)
@@ -3201,7 +3285,7 @@ class TestPocProgram(unittest.TestCase):
             for row in telemetry['samples']:row['powerWatts']=2;row['temperatureCelsius']=-10
             request['firstByteAt']='2026-09-03T00:01:00.002Z'
             for mid,value in (('encoder_power_peak_watts',2),('encoder_temperature_peak_celsius',-10),('a380_range_first_byte_latency',2)):next(m for m in record['measurements'] if m['id']==mid)['actual']=value
-            write_yaml(telemetry_path,telemetry);write_yaml(request_path,request);self.assertEqual(validate(record),[])
+            write_yaml(telemetry_path,telemetry);write_yaml(request_path,request);self.sync_a380_native_telemetry_positive_fixture(root,record,prefix);self.assertEqual(validate(record),[])
             # Partial responses still bind exact bytes even with self-consistent returned-body hashes.
             source_bytes=(root/original['environmentCaptured']['productionA380Encode']['outputArtifactRef']).read_bytes()
             self.assertGreater(len(source_bytes),2)
@@ -4966,6 +5050,40 @@ class TestPocProgram(unittest.TestCase):
                 self.assertTrue(any('sustained_encode_duration must equal' in e for e in CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'})))
             finally:temp.cleanup()
 
+    def exercise_media_soak_native_decode_regressions(self,root,original,validate,raw_files,report_path,report_original,config_path,config_original,profile):
+        """Synthetic native decoder contract boundaries; never actual decoding."""
+        def restore():
+            for path,raw in raw_files.items():path.write_bytes(raw)
+            write_yaml(config_path,config_original)
+        def register(data,path):
+            raw=path.read_bytes();ref=path.relative_to(root).as_posix();next(a for a in data['environmentCaptured']['rawExecutionArtifacts'] if a['ref']==ref).update(byteCount=len(raw),sha256='sha256:'+hashlib.sha256(raw).hexdigest());return 'sha256:'+hashlib.sha256(raw).hexdigest()
+        for codec in ('av1','h264'):
+            for mode in ('missing_execution','identity','build','argv','exit','frame_missing','codec','packet_hash','duration','stderr','before_finish','arbitrary_bytes'):
+                restore();data=copy.deepcopy(original);report=copy.deepcopy(report_original);row=next(r for r in report['cases'] if r['codec']==codec);probe_path=root/row['decodeRef'];probe=load_yaml(probe_path);native_path=root/probe['executionRef'];native=json.loads(native_path.read_bytes());stdout=root/native['stdoutRef'];raw=json.loads(stdout.read_bytes())
+                if mode=='missing_execution':probe.pop('executionRef')
+                elif mode=='identity':native['identity']['caseId']='other-soak-case'
+                elif mode=='build':native['toolBuild']='unapproved-build'
+                elif mode=='argv':native['argv'][0]='false-decoder'
+                elif mode=='exit':native['exitCode']=1
+                elif mode=='frame_missing':raw['packets_and_frames'].pop()
+                elif mode=='codec':raw['streams'][0]['codec_name']='h264' if codec=='av1' else 'av1'
+                elif mode=='packet_hash':raw['packets_and_frames'][0]['data_hash']='SHA256:'+'0'*64
+                elif mode=='duration':probe['durationSeconds']=1
+                elif mode=='stderr':
+                    stderr=root/native['stderrRef'];stderr.write_bytes(('ffprobe version '+row['decoderBuild']+'\nerror: invalid data\n').encode());native['stderrSha256']=register(data,stderr)
+                elif mode=='before_finish':probe['observedAt']=row['finishedAt']
+                elif mode=='arbitrary_bytes':
+                    media=root/row['outputArtifactRef'];media.write_bytes(b'not encoded media');digest=register(data,media);row.update(outputSha256=digest,outputByteCount=media.stat().st_size);probe['outputSha256']=digest;native['identity']['outputSha256']=digest;raw['format']['size']=str(media.stat().st_size)
+                    runtime_path=root/row['runtimeRef'];runtime=json.loads(runtime_path.read_bytes());runtime['outputSha256']=digest
+                    for file in runtime['samples'][-1]['files']:
+                        if file['area']=='output':file['byteCount']=media.stat().st_size
+                    runtime_path.write_bytes(json.dumps(runtime).encode());row['runtimeSha256']=register(data,runtime_path)
+                stdout.write_bytes(json.dumps(raw).encode());native['stdoutSha256']=register(data,stdout);native_path.write_bytes(json.dumps(native).encode());register(data,native_path);write_yaml(probe_path,probe);register(data,probe_path);write_yaml(report_path,report);register(data,report_path)
+                errors=validate(data);self.assertTrue(any('qualified media soak' in error and ('native' in error or 'executionRef' in error) for error in errors),(profile,codec,mode,errors))
+            # Collection/flush may occur after native process exit, within the original execution window.
+            restore();data=copy.deepcopy(original);report=copy.deepcopy(report_original);row=next(r for r in report['cases'] if r['codec']==codec);probe_path=root/row['decodeRef'];probe=load_yaml(probe_path);probe['observedAt']='2026-09-03T00:01:00.002Z' if codec=='av1' else '2026-09-03T00:02:00.002Z';write_yaml(probe_path,probe);register(data,probe_path);write_yaml(report_path,report);register(data,report_path);self.assertEqual(validate(data),[],(profile,codec,'after-exit observation'))
+        restore();write_yaml(report_path,report_original)
+
     def test_192_media_soak_requires_approved_window_continuous_progress_and_stable_outputs(self):
         for profile in ('local-v1','production'):
             temp,root=self.temp_repo()
@@ -4980,6 +5098,7 @@ class TestPocProgram(unittest.TestCase):
                 self.assertEqual(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-02'}),[])
                 self.assertEqual(validate(copy.deepcopy(original)),[])
                 raw_files={root/a['ref']:(root/a['ref']).read_bytes() for a in env['rawExecutionArtifacts']}
+                self.exercise_media_soak_native_decode_regressions(root,original,validate,raw_files,report_path,report_original,config_path,config_original,profile)
                 modes=('missing','unrelated','policy_type','minimum','minimum_type','profile','input','missing_case','no_h264','duplicate_case','node','build','parameters','short_window','outside','final_exit','final_exit_type','final_exit_missing','final_status','final_reason','progress_gap','progress_missing_end','no_progress','frames','memory_peak','memory_growth','temporary','temporary_cleanup','cpu','nonfinite_cpu','gpu_hang','corrupt_segment','unrecovered','late_recovery','decode_error','decode_codec','decode_count','decode_clock','decode_hash','output_owner','output_size','gate')
                 for mode in modes:
                     data=copy.deepcopy(original);report=copy.deepcopy(report_original);config=copy.deepcopy(config_original);probe=copy.deepcopy(probe_original);policy=config['configuration']['mediaSoakPolicy'];row=report['cases'][0]
@@ -5660,8 +5779,8 @@ class TestPocProgram(unittest.TestCase):
                 path.write_bytes(gzip.compress(body,mtime=0) if compressed else body)
                 return path
 
-            def collect(self, path):
-                iterator=CHECK.streamed_metadata_records(path,definitions['metadataProfiledObjectRecord']);rows=[]
+            def collect(self, path, declared_count=None):
+                iterator=CHECK.streamed_metadata_records(path,definitions['metadataProfiledObjectRecord'],declared_count);rows=[]
                 while True:
                     try:rows.append(next(iterator))
                     except StopIteration as end:return rows,end.value
@@ -5717,7 +5836,7 @@ class TestPocProgram(unittest.TestCase):
                 self.assertEqual(sum(sizes),len(body));self.assertLessEqual(max(sizes),CHECK.ARTIFACT_CHUNK_BYTES)
                 self.assertEqual(digest.hexdigest(),hashlib.sha256(path.read_bytes()).hexdigest())
 
-            def profile_capture(self, compressed, change=None, alias=False):
+            def profile_capture(self, compressed, change=None, alias=False, sql_trace=None):
                 prefix='evidence/POC-005/local-v1';directory=self.root/prefix;directory.mkdir(parents=True,exist_ok=True)
                 body=(json.dumps(fixture_row)+'\n').encode();paths=[]
                 for name in ('approved','observed'):
@@ -5736,6 +5855,7 @@ class TestPocProgram(unittest.TestCase):
                 execution=dict(environmentCaptured=env,samples=[],rawOutputRefs=[p.relative_to(self.root).as_posix() for p in set(paths)])
                 report=dict(configurationRef=resource['configurationRef'],acceptanceProfile=profile,subjectVersion='scanner',inputSamples=[],manifestId='manifest',scannerBuild='scanner',sourceIdentity=identity,rangeDisposition='supported',validatorKind='etag',filenameObjects=observed)
                 connection=sqlite3.connect(':memory:');self.addCleanup(connection.close)
+                if sql_trace is not None:connection.set_trace_callback(sql_trace.append)
                 connection.execute('CREATE TABLE baseline(objectId TEXT,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER)')
                 connection.execute('INSERT INTO baseline VALUES (?,?,?,?,?)',tuple(fixture_row[k] for k in ('objectId','kind','versionId','depth','fileSizeBytes')))
                 with mock.patch.object(CHECK,'selected_observation',return_value=report),mock.patch.object(CHECK,'compliance_subject_version',return_value='scanner'):
@@ -5761,7 +5881,65 @@ class TestPocProgram(unittest.TestCase):
                 self.assertEqual(info['rangeHashes'][(0,7)],'sha256:'+hashlib.sha256(path.read_bytes()[:8]).hexdigest())
                 self.assertEqual(info['sha256'],'sha256:'+hashlib.sha256(path.read_bytes()).hexdigest())
 
-        for case_name in ('case_plain_gzip_equivalence_and_physical_identity', 'case_malformed_truncated_crc_trailing_and_extra_members_rejected', 'case_decoded_row_schema_duplicates_utf8_and_line_limit', 'case_original_secret_scanner_applies_to_decoded_text', 'case_gzip_decoded_chunks_are_bounded', 'case_count_and_physical_hash_mismatches_rejected_by_existing_ingest', 'case_independent_observed_file_requirement_preserved', 'case_textual_gzip_keeps_physical_byte_range_hash'):
+            def case_cumulative_metadata_decoded_budget(self):
+                line=(json.dumps(fixture_row)+'\n').encode();limit=2*len(line)
+                for compressed in (False,True):
+                    boundary=self.retained('byte-boundary',line*2,compressed);excess=self.retained('byte-excess',line*3,compressed)
+                    with mock.patch.object(CHECK,'METADATA_MAX_DECODED_BYTES',limit):
+                        rows,(count,digest)=self.collect(boundary)
+                        self.assertEqual((len(rows),count),(2,2));self.assertEqual(digest,'sha256:'+hashlib.sha256(boundary.read_bytes()).hexdigest())
+                        self.assertFalse(CHECK.inspect_artifact(boundary,{},textual=True)['invalidUtf8'])
+                        with self.assertRaisesRegex(OSError,'metadata budget: cumulative decoded bytes'):self.collect(excess)
+                        with self.assertRaisesRegex(OSError,'metadata budget: cumulative decoded bytes'):CHECK.inspect_artifact(excess,{},textual=True)
+                block=CHECK.ARTIFACT_CHUNK_BYTES;path=self.retained('many-chunks',b'a'*(3*block+19),True);sizes=[]
+                with mock.patch.object(CHECK,'METADATA_MAX_DECODED_BYTES',2*block):
+                    with self.assertRaisesRegex(OSError,'metadata budget: cumulative decoded bytes'):
+                        for chunk in CHECK.retained_metadata_chunks(path,lambda physical:None,True):sizes.append(len(chunk))
+                self.assertEqual(sum(sizes),2*block);self.assertLessEqual(max(sizes),block)
+
+            def case_declared_record_budget_before_read_and_yield(self):
+                line=(json.dumps(fixture_row)+'\n').encode()
+                for compressed in (False,True):
+                    path=self.retained('count',line*2,compressed)
+                    for invalid in (-1,True,CHECK.METADATA_MAX_RECORDS+1):
+                        with mock.patch.object(Path,'open',side_effect=AssertionError('invalid descriptor count must fail before reading')):
+                            with self.assertRaisesRegex(ValueError,'metadata budget: declared record count'):
+                                next(CHECK.streamed_metadata_records(path,definitions['metadataProfiledObjectRecord'],invalid))
+                    iterator=CHECK.streamed_metadata_records(path,definitions['metadataProfiledObjectRecord'],1)
+                    self.assertEqual(next(iterator),fixture_row)
+                    with self.assertRaisesRegex(ValueError,'metadata budget: actual record count exceeds declared count'):next(iterator)
+                    with mock.patch.object(CHECK,'METADATA_MAX_RECORDS',1):
+                        with self.assertRaisesRegex(ValueError,'metadata budget: actual record count exceeds declared count'):self.collect(path)
+                def counts(value):
+                    if isinstance(value,dict):
+                        for key,row in value.items():
+                            if key=='count' and isinstance(row,dict) and row.get('type')=='integer':yield row
+                            yield from counts(row)
+                    elif isinstance(value,list):
+                        for row in value:yield from counts(row)
+                limits=[row for name in ('metadataScanPolicy','metadataScanObservation','metadataProviderPageRecord','metadataProfilingPolicy','metadataProfilingObservation') for row in counts(definitions[name])]
+                self.assertEqual(len(limits),11)
+                for schema in limits:
+                    validator=CHECK.jsonschema.Draft202012Validator(schema);validator.validate(CHECK.METADATA_MAX_RECORDS)
+                    with self.assertRaises(CHECK.jsonschema.ValidationError):validator.validate(CHECK.METADATA_MAX_RECORDS+1)
+
+            def case_declared_count_stops_before_sql_insert(self):
+                for compressed in (False,True):
+                    statements=[]
+                    with self.assertRaisesRegex(ValueError,'metadata budget: actual record count exceeds declared count'):
+                        self.profile_capture(compressed,('approved','count',0),sql_trace=statements)
+                    self.assertFalse(any(statement.startswith('INSERT INTO profile_approved') for statement in statements),statements)
+
+            def case_metadata_budget_keeps_binary_media_unrestricted(self):
+                path=self.root/'large-binary.mp4';body=b'\0'*64;path.write_bytes(body)
+                with mock.patch.object(CHECK,'METADATA_MAX_DECODED_BYTES',8):
+                    plain=CHECK.inspect_artifact(path,{})
+                    ranged=CHECK.inspect_artifact(path,{},byte_ranges=[(0,31),(32,63)])
+                self.assertEqual(plain['size'],64);self.assertEqual(ranged['size'],64)
+                self.assertEqual(plain['sha256'],'sha256:'+hashlib.sha256(body).hexdigest())
+                self.assertEqual(ranged['rangeHashes'][(0,31)],'sha256:'+hashlib.sha256(body[:32]).hexdigest())
+
+        for case_name in ('case_plain_gzip_equivalence_and_physical_identity', 'case_malformed_truncated_crc_trailing_and_extra_members_rejected', 'case_decoded_row_schema_duplicates_utf8_and_line_limit', 'case_original_secret_scanner_applies_to_decoded_text', 'case_gzip_decoded_chunks_are_bounded', 'case_count_and_physical_hash_mismatches_rejected_by_existing_ingest', 'case_independent_observed_file_requirement_preserved', 'case_textual_gzip_keeps_physical_byte_range_hash', 'case_cumulative_metadata_decoded_budget', 'case_declared_record_budget_before_read_and_yield', 'case_declared_count_stops_before_sql_insert', 'case_metadata_budget_keeps_binary_media_unrestricted'):
             with self.subTest(metadataGzipCase=case_name):
                 case=GzipCases(methodName=case_name)
                 try:

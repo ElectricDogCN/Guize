@@ -1378,6 +1378,7 @@ $defs:
         - decode
         - mux
         - vmaf
+        - telemetry
       identity:
         type: object
         minProperties: 1
@@ -3603,6 +3604,7 @@ $defs:
     additionalProperties: false
     required:
     - toolBuild
+    - commandArgs
     - intervalSeconds
     - scope
     - phases
@@ -3610,6 +3612,13 @@ $defs:
       toolBuild:
         type: string
         minLength: 1
+      commandArgs:
+        type: array
+        minItems: 2
+        maxItems: 128
+        items:
+          type: string
+          minLength: 1
       intervalSeconds:
         type: number
         exclusiveMinimum: 0
@@ -3654,6 +3663,7 @@ $defs:
     - kind
     - sampling
     - samples
+    - executionRef
     properties:
       schemaVersion:
         type: integer
@@ -3730,6 +3740,7 @@ $defs:
         additionalProperties: false
         required:
         - toolBuild
+        - commandArgs
         - intervalSeconds
         - scope
         - phases
@@ -3737,6 +3748,13 @@ $defs:
           toolBuild:
             type: string
             minLength: 1
+          commandArgs:
+            type: array
+            minItems: 2
+            maxItems: 128
+            items:
+              type: string
+              minLength: 1
           intervalSeconds:
             type: number
             exclusiveMinimum: 0
@@ -3767,6 +3785,59 @@ $defs:
                 finishedAt:
                   type: string
                   format: date-time
+      executionRef:
+        type: string
+        minLength: 1
+      samples:
+        type: array
+        minItems: 3
+        items:
+          type: object
+          additionalProperties: false
+          required:
+          - observedAt
+          - phase
+          - powerWatts
+          - temperatureCelsius
+          properties:
+            observedAt:
+              type: string
+              format: date-time
+            phase:
+              enum:
+              - warmup
+              - concurrency
+              - soak
+            powerWatts:
+              type: number
+              minimum: 0
+            temperatureCelsius:
+              type: number
+  a380NativeTelemetrySamples:
+    type: object
+    additionalProperties: false
+    required:
+    - schemaVersion
+    - kind
+    - toolBuild
+    - gpuDeviceId
+    - scope
+    - samples
+    properties:
+      schemaVersion:
+        const: 1
+      kind:
+        const: a380_native_telemetry_samples
+      toolBuild:
+        type: string
+        minLength: 1
+      gpuDeviceId:
+        type: string
+        minLength: 1
+      scope:
+        enum:
+        - device
+        - host
       samples:
         type: array
         minItems: 3
@@ -10490,6 +10561,7 @@ $defs:
           count:
             type: integer
             minimum: 0
+            maximum: 2000000
       expectedChanges:
         type: object
         additionalProperties: false
@@ -10507,6 +10579,7 @@ $defs:
           count:
             type: integer
             minimum: 0
+            maximum: 2000000
       scannerCommandArgs:
         type: array
         minItems: 1
@@ -10744,6 +10817,7 @@ $defs:
               count:
                 type: integer
                 minimum: 0
+                maximum: 2000000
           executionRef:
             type: string
             minLength: 1
@@ -10783,6 +10857,7 @@ $defs:
               count:
                 type: integer
                 minimum: 0
+                maximum: 2000000
           executionRef:
             type: string
             minLength: 1
@@ -10824,6 +10899,7 @@ $defs:
               count:
                 type: integer
                 minimum: 0
+                maximum: 2000000
           traversedObjects:
             type: object
             additionalProperties: false
@@ -10841,6 +10917,7 @@ $defs:
               count:
                 type: integer
                 minimum: 0
+                maximum: 2000000
           postScanObjects:
             type: object
             additionalProperties: false
@@ -10848,7 +10925,7 @@ $defs:
             properties:
               ref: {type: string, minLength: 1}
               sha256: {type: string, pattern: '^sha256:[0-9a-f]{64}$'}
-              count: {type: integer, minimum: 0}
+              count: {type: integer, minimum: 0, maximum: 2000000}
               observedAt: {type: string, format: date-time}
           executionRef:
             type: string
@@ -14665,7 +14742,9 @@ $defs:
     - durationSeconds
     - decodeErrorCount
     - caseId
+    - executionRef
     properties:
+      executionRef: {type: string, minLength: 1}
       schemaVersion:
         const: 1
       kind:
@@ -17118,6 +17197,7 @@ $defs:
           count:
             type: integer
             minimum: 0
+            maximum: 2000000
   metadataProfilingPolicy:
     type: object
     additionalProperties: false
@@ -17184,6 +17264,7 @@ $defs:
           count:
             type: integer
             minimum: 0
+            maximum: 2000000
       extensionCategories:
         type: array
         minItems: 1
@@ -17339,6 +17420,7 @@ $defs:
           count:
             type: integer
             minimum: 0
+            maximum: 2000000
       filenameDistributions:
         type: object
         additionalProperties: false
@@ -17393,6 +17475,7 @@ $defs:
           count:
             type: integer
             minimum: 0
+            maximum: 2000000
       rangeDisposition:
         enum:
         - supported
