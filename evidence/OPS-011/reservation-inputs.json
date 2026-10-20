@@ -1,0 +1,794 @@
+{
+  "kind": "OPS011_INITIAL_RESERVATION_INPUTS_PREPARATION_ONLY",
+  "preparedAtUTC": "2026-10-20T14:53:34Z",
+  "preparationStatus": "NOT_REGISTERED",
+  "actualAcceptedBase": {
+    "commit": "3981190af9265a7db1654962c1d9870e51f36e64",
+    "tree": "7f3c1bb8b9d11d73502925d1970b87ca5353974e",
+    "branch": "main",
+    "acceptance": {
+      "path": ".takeover-tools/gz021-normal-completion-3981190-independent-acceptance.json",
+      "sha256": "1090601413eb0846a01e8d39ed69cbd185e85f10b0d95ea8ae5c05c808a781f8",
+      "byteCount": 54197
+    }
+  },
+  "actualIssue": {
+    "number": 108,
+    "url": "https://github.com/ElectricDogCN/Guize/issues/108",
+    "title": "OPS-011: 有界承接智能边缘计算后续建设范围",
+    "state": "open",
+    "createdAt": "2026-10-20T14:37:26Z",
+    "receipt": {
+      "path": ".takeover-tools/ops011-issue108-created.json",
+      "sha256": "676942632637c54e568a1f60f1ca08cfca2f9240da148016aacd69ae74da20bb",
+      "byteCount": 3340
+    }
+  },
+  "sourcePlanningIssue": {
+    "number": 104,
+    "url": "https://github.com/ElectricDogCN/Guize/issues/104"
+  },
+  "reservationInputs": {
+    "taskId": "OPS-011",
+    "title": "有界承接智能边缘计算后续建设范围",
+    "kind": "Foundation",
+    "schemaVersion": 2,
+    "type": "chore",
+    "status": "reserved",
+    "agentRole": "coordinator",
+    "riskLevel": "high",
+    "moduleIds": [
+      "MOD-GOV"
+    ],
+    "requirementIds": [
+      "REQ-V1-0010"
+    ],
+    "issue": 108,
+    "baseBranch": "main",
+    "baseSha": "3981190af9265a7db1654962c1d9870e51f36e64",
+    "proposedReservationBranch": "chore/OPS-011-agent-edge-104-reservation",
+    "proposedImplementationBranch": "chore/OPS-011-agent-edge-104-scope",
+    "workPackage": "WP-M0-01",
+    "programPlan": "specs/coordination/program-plan.yaml",
+    "programTaskId": "OPS-011",
+    "wave": "FOUNDATION",
+    "coordinationMode": "registry",
+    "coordinationGroup": "agent-edge-104-scope",
+    "integrationStrategy": "merge",
+    "integrationOrder": 7,
+    "dependsOn": [
+      "OPS-009",
+      "OPS-010",
+      "GZ-021"
+    ],
+    "roles": {
+      "taskOwner": "ElectricDogCN",
+      "coordinator": "program-coordinator-agent",
+      "implementer": "planning-revision-agent",
+      "reviewer": "independent-planning-revision-review-agent",
+      "integrator": "integration-agent"
+    },
+    "producesContracts": [
+      "CONTRACT-PROGRAM-PLAN"
+    ],
+    "consumesContracts": [
+      "CONTRACT-TASK-SPEC",
+      "CONTRACT-ACTIVE-WORK"
+    ],
+    "evidencePath": "evidence/OPS-011",
+    "handoffPath": "evidence/OPS-011/handoff.md",
+    "leaseToAcquireAtActualReservation": {
+      "durationHours": 168,
+      "acquiredAtSource": "actual UTC when preparing the real metadata-only reservation",
+      "expiresAtRule": "acquiredAt + 168 hours; Task leaseExpiresAt and Registry must be identical"
+    },
+    "exclusivePaths": [
+      "specs/coordination/program-plan.yaml",
+      "specs/coordination/program-plan.schema.yaml",
+      "specs/coordination/planning-revision.schema.yaml",
+      "specs/coordination/active-work.schema.yaml",
+      "specs/coordination/README.md",
+      "scripts/program-planning-revision.py",
+      "scripts/check-program-plan-integrity.py",
+      "scripts/check-program-plan-transitions.py",
+      "scripts/check-project-readiness.py",
+      "scripts/check-task-file.py",
+      "tests/governance/test_program_planning_revision.py",
+      "tests/governance/test_program_plan_execution_integrity.py",
+      "tests/governance/test_program_plan_transitions.py",
+      "tests/governance/test_check_project_readiness.py",
+      "tests/governance/test_check_task_file.py"
+    ],
+    "sharedPaths": [],
+    "exitGate": "仅为固定AGENT-EDGE-104提供单Program的显式后续范围准入与原始声明认证，首次精确事务只冻结原27项V1成员并新增完整planned GZ-022及只含POC-003/POC-005根的BASELINE-GZ-022；旧V1/十POC/GZ-020/旧v1manifest/完成历史和全局3活动1高风险保持，规划状态不允许业务执行或伪装范围完成，真实原始登记、角色/租约/路径/跨范围依赖与最终闭包正负回归及完整治理门禁、同头CI和独立主线验收通过",
+    "initialFoundationRow": {
+      "taskId": "OPS-011",
+      "title": "有界承接智能边缘计算后续建设范围",
+      "status": "reserved",
+      "completionRef": "ISSUE-108",
+      "mergeCommit": null
+    },
+    "metadataOnlyChangedPaths": [
+      "specs/coordination/program-plan.yaml",
+      "specs/coordination/active-work.yaml",
+      "specs/tasks/OPS-011.md",
+      "evidence/OPS-011/**"
+    ],
+    "ownEvidenceIsMetadataNotAnAdditionalImplementationClaim": true,
+    "requiredOwnEvidence": [
+      "evidence/OPS-011/summary.md",
+      "evidence/OPS-011/handoff.md",
+      "evidence/OPS-011/commands.txt",
+      "evidence/OPS-011/test-results/README.md",
+      "evidence/OPS-011/agent-edge-104-first-use.json"
+    ]
+  },
+  "firstUseEvidence": {
+    "path": "evidence/OPS-011/agent-edge-104-first-use.json",
+    "formatIsSeparateFromLegacyV1Manifest": true,
+    "content": {
+      "schemaVersion": 1,
+      "kind": "agent-edge-104-first-use",
+      "taskId": "OPS-011",
+      "issue": 108,
+      "reservationParent": "3981190af9265a7db1654962c1d9870e51f36e64",
+      "programPlan": "specs/coordination/program-plan.yaml",
+      "originalV1TaskIds": [
+        "GZ-004",
+        "GZ-005",
+        "GZ-006",
+        "GZ-007",
+        "GZ-008",
+        "GZ-009",
+        "GZ-010",
+        "POC-001",
+        "POC-002",
+        "POC-003",
+        "POC-004",
+        "POC-005",
+        "POC-006",
+        "POC-007",
+        "POC-008",
+        "POC-009",
+        "POC-010",
+        "GZ-011",
+        "GZ-012",
+        "GZ-013",
+        "GZ-015",
+        "GZ-016",
+        "GZ-017",
+        "GZ-018",
+        "GZ-019",
+        "GZ-020",
+        "GZ-021"
+      ],
+      "originalPocTaskIds": [
+        "POC-001",
+        "POC-002",
+        "POC-003",
+        "POC-004",
+        "POC-005",
+        "POC-006",
+        "POC-007",
+        "POC-008",
+        "POC-009",
+        "POC-010"
+      ],
+      "targets": [
+        {
+          "kind": "add-fixed-scope-boundary",
+          "path": "scopeBoundary",
+          "before": null,
+          "after": {
+            "v1TaskIds": [
+              "GZ-004",
+              "GZ-005",
+              "GZ-006",
+              "GZ-007",
+              "GZ-008",
+              "GZ-009",
+              "GZ-010",
+              "POC-001",
+              "POC-002",
+              "POC-003",
+              "POC-004",
+              "POC-005",
+              "POC-006",
+              "POC-007",
+              "POC-008",
+              "POC-009",
+              "POC-010",
+              "GZ-011",
+              "GZ-012",
+              "GZ-013",
+              "GZ-015",
+              "GZ-016",
+              "GZ-017",
+              "GZ-018",
+              "GZ-019",
+              "GZ-020",
+              "GZ-021"
+            ],
+            "v1FinalTask": "GZ-020",
+            "agentEdge104": {
+              "id": "AGENT-EDGE-104",
+              "sourceIssue": 104,
+              "state": "planning",
+              "planningTaskId": "GZ-022",
+              "taskIds": [
+                "GZ-022"
+              ],
+              "requiredFinalTask": null,
+              "requirements": "specs/requirements/agent-edge-104.md",
+              "requirementIndex": "specs/requirements/agent-edge-104.yaml",
+              "acceptanceIndex": "specs/acceptance/agent-edge-104.yaml"
+            }
+          }
+        },
+        {
+          "kind": "add-planned-task",
+          "id": "GZ-022",
+          "before": null,
+          "after": {
+            "taskId": "GZ-022",
+            "title": "冻结智能边缘计算与产品 Agent 后续建设需求、契约承接和跨仓验收计划",
+            "kind": "requirements",
+            "status": "planned",
+            "workPackage": "WP-AGENT-EDGE-104-PLAN",
+            "riskLevel": "high",
+            "ownerRole": "agent-edge-planning-agent",
+            "reviewerRole": "independent-agent-edge-planning-review-agent",
+            "coordinationGroup": "agent-edge-104-planning",
+            "wave": "W2",
+            "integrationOrder": 3,
+            "dependsOn": [
+              "GZ-021",
+              "OPS-011"
+            ],
+            "requirementIds": [
+              "REQ-V1-0010"
+            ],
+            "moduleIds": [
+              "MOD-GOV",
+              "MOD-PLATFORM",
+              "MOD-SOURCE",
+              "MOD-CONNECTOR",
+              "MOD-ASSET",
+              "MOD-TASK",
+              "MOD-STORAGE",
+              "MOD-MEDIA",
+              "MOD-WORKER",
+              "MOD-AI",
+              "MOD-PLAYER",
+              "MOD-EDGE",
+              "MOD-IAM",
+              "MOD-POLICY",
+              "MOD-CONFIG",
+              "MOD-AUDIT",
+              "MOD-DATA",
+              "MOD-DEPLOY",
+              "MOD-OBS"
+            ],
+            "outputPaths": [
+              "specs/coordination/program-plan.yaml",
+              "specs/requirements/product-requirements.md",
+              "specs/requirements/agent-edge-104.md",
+              "specs/requirements/agent-edge-104.yaml",
+              "specs/acceptance/agent-edge-104.yaml",
+              "docs/03-system-architecture.md",
+              "docs/20-roadmap-and-wbs.md",
+              "docs/22-repository-and-directory-plan.md",
+              "specs/designs/module-ownership.yaml",
+              "adr/0016-agent-edge-runtime-and-product-agent-planning.md"
+            ],
+            "sharedPaths": [],
+            "producesContracts": [],
+            "consumesContracts": [
+              "REQ-V1",
+              "NFR-V1",
+              "POC-PROTOCOL-V1",
+              "OPENAPI-V1"
+            ],
+            "acceptanceIds": [],
+            "pocIds": [],
+            "issue": null,
+            "branchPattern": "chore/GZ-022-*",
+            "exitGate": "在独立AGENT-EDGE-104范围冻结逐需求正文、结构化需求及验收索引、ADR、实际模块和仓库边界、既有八项未启动任务的精确契约差异与新增完整planned业务任务DAG；其原始登记声明必须完整确定本范围成员、最终验收任务及严格依赖闭包和规划完成基线，保留原27项V1/十POC/GZ-020/旧manifest/全局容量；结构分析先验证元数据和真实六帧再OCR，Android与PC复用AV1/HLS和Task权威，产品Agent与研发Harness分离；无实现、运行时或完整V1通过声明"
+          }
+        },
+        {
+          "kind": "add-planning-baseline",
+          "id": "BASELINE-GZ-022",
+          "before": null,
+          "after": {
+            "id": "BASELINE-GZ-022",
+            "taskId": "GZ-022",
+            "requiredBy": [
+              "POC-003",
+              "POC-005"
+            ]
+          }
+        }
+      ]
+    },
+    "reservationEffect": "Inert OwnEvidence intent only. The reservation must not add scopeBoundary, GZ-022 or BASELINE-GZ-022 to Program.",
+    "implementationEffect": "After the real original metadata-only reservation is integrated and accepted, the authorized OPS-011 implementation may apply exactly these three targets to the current otherwise-unchanged Program, retaining its own normally permitted lifecycle metadata.",
+    "authenticationRequiredInImplementation": [
+      "Find the one real original OPS-011 reserved introduction on canonical main first-parent history, require its first parent and Task/Registry baseSha to equal reservationParent.",
+      "Require the declaration to exist in that original registered Git blob and remain byte-identical in the actual base, head and audited intervening history; reject late addition, rewrite, deletion/re-add, sibling or arbitrary ancestor.",
+      "Require actual integrated dependencies, stable registered identities/15 claims, high MOD-GOV, independent roles, live UTC lease, capacity and exact Program ownership.",
+      "Validate the new declaration with a separate fixed typed definition in an already-claimed schema; do not route it through or weaken legacy schemaVersion1 planning-revision.json.",
+      "Build the complete expected Program from the actual before snapshot plus exactly the three targets, compare exact after; do not grant permission merely because an Evidence file exists."
+    ],
+    "completeExpectedProgram": "Deep-copy the actual before Program; add exactly scopeBoundary from target1; append exactly the complete planned/issue:null GZ-022 from target2 to tasks; append exactly BASELINE-GZ-022 from target3 to planningBaselines. All existing rows, original task definitions/order, BASELINE-GZ-021, waves, policy, authority, release obligations, completion ledger and other fields remain exact, except the separately authorized Own OPS-011 lifecycle metadata. Compare the complete expected object to actual after; reject any extra or omitted mutation.",
+    "baselineBoundary": {
+      "decision": "RESOLVED_BY_ROOT: keep GZ-022 W2/order3 and formal adr/0016; serialize the two same-wave ADR claim consumers through the existing planningBaseline mechanism.",
+      "producer": "GZ-022",
+      "consumerRoots": [
+        "POC-003",
+        "POC-005"
+      ],
+      "existingBaselineShape": [
+        "id",
+        "taskId",
+        "requiredBy"
+      ],
+      "actualPlanningCompletionRequired": "The baseline waits for GZ-022 normal reserved/implementation/independent Review/Completion and accepted canonical main, preserving the existing completed_producer admission boundary; a same-PR status claim is insufficient.",
+      "notBusinessRuntimeCompletion": "Only the actual business planning producer must complete first. No future product Agent/runtime Task is added to the V1 member set, GZ-020 dependsOn, or this baseline requiredBy list.",
+      "crossWaveAcceptanceOverlap": "GZ-011 W10 retains its original specs/acceptance/** claim and is not added as an additional requiredBy root. Its existing dependencies already place it in the derived POC-003/POC-005 consumer closure; actual lease/path ownership must also serialize with GZ-022 under existing global coordination rules.",
+      "mustRecheckAtActualReservationAndImplementation": "All original consumer-closure tasks must remain planned, without TaskSpec/Registry lease/Completion; validate the entire effective dependency graph and preserve the original closure. Abort if any actual fact changes."
+    },
+    "baselineStaticSnapshot": {
+      "source": "3981190af9265a7db1654962c1d9870e51f36e64",
+      "consumerRoots": [
+        "POC-003",
+        "POC-005"
+      ],
+      "consumerClosure": [
+        "POC-003",
+        "POC-005",
+        "GZ-011",
+        "GZ-013",
+        "GZ-015",
+        "GZ-016",
+        "GZ-017",
+        "GZ-018",
+        "GZ-019",
+        "GZ-020"
+      ],
+      "statuses": {
+        "POC-003": "planned",
+        "POC-005": "planned",
+        "GZ-011": "planned",
+        "GZ-013": "planned",
+        "GZ-015": "planned",
+        "GZ-016": "planned",
+        "GZ-017": "planned",
+        "GZ-018": "planned",
+        "GZ-019": "planned",
+        "GZ-020": "planned"
+      },
+      "taskSpecPathsInClosure": [],
+      "registryLeaseTaskIdsInClosure": [],
+      "completionLedgerRecordsInClosure": [],
+      "newGz022DependsOn": [
+        "GZ-021",
+        "OPS-011"
+      ],
+      "newBaselineOrderEdges": [
+        [
+          "GZ-022",
+          "POC-003"
+        ],
+        [
+          "GZ-022",
+          "POC-005"
+        ]
+      ],
+      "effectiveGraphIncludes": "All actual ordinary/Foundation dependencies, unchanged BASELINE-GZ-021, proposed OPS-011 dependencies, GZ-022 dependencies and the exact new baseline edges.",
+      "cycleFound": false,
+      "gz021ToGz022ToPocRootsAcyclic": true,
+      "noTestsOrRepositoryValidatorsExecuted": true
+    }
+  },
+  "preservedBase": {
+    "programPlanGitBlobSha256": "c9ce3b901359c9575a6e9485df235b9855e9abb77679eb228eae0993d2af4640",
+    "programPlanGitBlobByteCount": 35893,
+    "originalOrdinaryTaskCount": 27,
+    "originalOrdinaryTaskIds": [
+      "GZ-004",
+      "GZ-005",
+      "GZ-006",
+      "GZ-007",
+      "GZ-008",
+      "GZ-009",
+      "GZ-010",
+      "POC-001",
+      "POC-002",
+      "POC-003",
+      "POC-004",
+      "POC-005",
+      "POC-006",
+      "POC-007",
+      "POC-008",
+      "POC-009",
+      "POC-010",
+      "GZ-011",
+      "GZ-012",
+      "GZ-013",
+      "GZ-015",
+      "GZ-016",
+      "GZ-017",
+      "GZ-018",
+      "GZ-019",
+      "GZ-020",
+      "GZ-021"
+    ],
+    "originalPocCount": 10,
+    "originalPocTaskIds": [
+      "POC-001",
+      "POC-002",
+      "POC-003",
+      "POC-004",
+      "POC-005",
+      "POC-006",
+      "POC-007",
+      "POC-008",
+      "POC-009",
+      "POC-010"
+    ],
+    "legacyRequirementIndex": "specs/requirements/requirements-index.yaml",
+    "legacyRequirementSet": [
+      "REQ-V1-0001",
+      "REQ-V1-0002",
+      "REQ-V1-0003",
+      "REQ-V1-0004",
+      "REQ-V1-0005",
+      "REQ-V1-0006",
+      "REQ-V1-0007",
+      "REQ-V1-0008",
+      "REQ-V1-0009",
+      "REQ-V1-0010"
+    ],
+    "planningBaselines": [
+      {
+        "id": "BASELINE-GZ-021",
+        "taskId": "GZ-021",
+        "requiredBy": [
+          "GZ-006",
+          "GZ-009",
+          "POC-001",
+          "POC-003",
+          "POC-004",
+          "POC-005",
+          "POC-006",
+          "POC-007",
+          "POC-008",
+          "POC-009"
+        ]
+      }
+    ],
+    "parallelPolicy": {
+      "maxActiveTasks": 3,
+      "maxHighRiskTasks": 1,
+      "criticalStandalone": true,
+      "reservationRequired": true,
+      "independentReviewForHighRisk": true
+    },
+    "activeRegistryPolicy": {
+      "maxActiveTasks": 3,
+      "maxHighRiskTasks": 1,
+      "leaseMaxHours": 168,
+      "bootstrapTasks": [
+        "GZ-003"
+      ]
+    },
+    "activeRegistryTasks": [],
+    "releasePolicy": {
+      "noPublicBeta": true,
+      "productionApprovalRequired": true,
+      "allInScopeCapabilitiesMustPass": true,
+      "requiredFinalTask": "GZ-020"
+    },
+    "gz020Definition": {
+      "taskId": "GZ-020",
+      "title": "M6 RC、生产就绪与人工发布签署",
+      "kind": "release",
+      "status": "planned",
+      "workPackage": "WP-M6-RC",
+      "riskLevel": "critical",
+      "ownerRole": "release-coordinator-agent",
+      "reviewerRole": "independent-release-review-agent",
+      "coordinationGroup": "production-release",
+      "wave": "W17",
+      "integrationOrder": 1,
+      "dependsOn": [
+        "GZ-015",
+        "GZ-016",
+        "GZ-017",
+        "GZ-018",
+        "GZ-019",
+        "POC-001",
+        "POC-002",
+        "POC-003",
+        "POC-004",
+        "POC-005",
+        "POC-006",
+        "POC-007",
+        "POC-008",
+        "POC-009",
+        "POC-010",
+        "GZ-021"
+      ],
+      "requirementIds": [
+        "REQ-V1-0001",
+        "REQ-V1-0002",
+        "REQ-V1-0003",
+        "REQ-V1-0004",
+        "REQ-V1-0005",
+        "REQ-V1-0006",
+        "REQ-V1-0007",
+        "REQ-V1-0008",
+        "REQ-V1-0009",
+        "REQ-V1-0010"
+      ],
+      "moduleIds": [
+        "MOD-GOV",
+        "MOD-PLATFORM",
+        "MOD-IAM",
+        "MOD-SOURCE",
+        "MOD-ASSET",
+        "MOD-TASK",
+        "MOD-STORAGE",
+        "MOD-MEDIA",
+        "MOD-AI",
+        "MOD-SEARCH",
+        "MOD-POLICY",
+        "MOD-CONFIG",
+        "MOD-AUDIT",
+        "MOD-OBS",
+        "MOD-CONNECTOR",
+        "MOD-WORKER",
+        "MOD-PLAYER",
+        "MOD-EDGE",
+        "MOD-DATA",
+        "MOD-DEPLOY",
+        "MOD-CLI"
+      ],
+      "outputPaths": [
+        "release/**",
+        "docs/runbooks/**",
+        "evidence/GZ-020/**"
+      ],
+      "sharedPaths": [],
+      "producesContracts": [],
+      "consumesContracts": [
+        "ACCEPTANCE-SUITE-V1",
+        "QUALITY-THRESHOLDS-V1",
+        "POC-01-EVIDENCE",
+        "POC-02-EVIDENCE",
+        "POC-03-EVIDENCE",
+        "POC-04-EVIDENCE",
+        "POC-05-EVIDENCE",
+        "POC-06-EVIDENCE",
+        "POC-07-EVIDENCE",
+        "POC-08-EVIDENCE",
+        "POC-09-EVIDENCE",
+        "POC-10-EVIDENCE"
+      ],
+      "acceptanceIds": [
+        "验收V1-0001",
+        "验收V1-0002",
+        "验收V1-0003",
+        "验收V1-0004",
+        "验收V1-0005",
+        "验收V1-0006",
+        "验收V1-0007",
+        "验收V1-0008",
+        "验收V1-0009",
+        "验收V1-0010",
+        "验收V1-0011",
+        "验收V1-0012"
+      ],
+      "pocIds": [],
+      "issue": null,
+      "branchPattern": "chore/GZ-020-*",
+      "exitGate": "全量 E2E/性能/故障注入/安全/恢复/供应链通过，OPS-001 关闭，人工批准后方可发布；本地 V1 集成里程碑不能授权生产发布；生产仍须原全部E2E/性能容量/故障注入/安全/恢复/供应链、实际外部来源/设备/公网测量、OPS-001和分支保护关闭及授权发布签署，百度后置义务须在生产接入时真实确认。"
+    },
+    "completionLedgerGitBlobSha256": "bf1c4c470c537b268d60da75b57d0efd07aee4554a803c10f68ba94ed53d8736",
+    "immutableManifests": [
+      {
+        "path": "evidence/OPS-009/planning-revision.json",
+        "gitBlobSha256": "e40ae4c5480e2c98df70dc3f9db966c3aaec2c94b42f94bd1c24ba95d851f939"
+      },
+      {
+        "path": "evidence/GZ-021/planning-revision.json",
+        "gitBlobSha256": "864c0a910a06bb357e91b905543bcbee1f390d1b2396c5bf723cb21f882da1d8"
+      }
+    ],
+    "membershipRule": "Existing ordinary tasks default to V1; migration must prove the literal original27 set including ten POCs. Reject moving, omitting, duplicating or relabeling those members into the follow-up scope. Normal lifecycle and precisely authorized future planned-definition edits remain governed by existing rules.",
+    "scopeClosureRule": "GZ-020 retains its original V1 final role, definition and production obligations; only the frozen27 V1 membership belongs to that final closure. AGENT-EDGE-104 has its own future final task and cannot discharge, replace or silently extend GZ-020."
+  },
+  "fixedMechanismBoundary": {
+    "representation": "One optional Program.scopeBoundary object, fixed v1TaskIds/v1FinalTask plus exactly one agentEdge104 object; task membership is explicit there. GZ-022 retains the existing closed Task field set; no Task.scope property is needed.",
+    "scopeStates": [
+      "planning",
+      "defined"
+    ],
+    "initialPlanningAdmission": "Only normally reserved GZ-022 may execute planning in the new scope after OPS-011 is actually completed and accepted; no new business consumer may reserve/start/continue from planning state.",
+    "planningIsNotCompletion": "A scope with requiredFinalTask=null is not execution-ready or complete. Completing GZ-022 alone cannot complete AGENT-EDGE-104.",
+    "futureGz022OriginalDeclarationMustContain": [
+      "At GZ-022 original reservation, freeze exact full before/after for the planning-to-defined scope transaction, all new complete planned business Task definitions, real scoped requirements/acceptance records, exact taskIds and a non-null final release/acceptance Task ID.",
+      "Require the final task to transitively close every in-scope task; reject empty scope, missing members, duplicates, cycles, undeclared consumer, missing final task and later unregistered expansion.",
+      "Declare only actually unstarted amendments among GZ-006/007/008/011/012/013/016/018 with complete original-definition fingerprints and exact allowed fields/before/after. Re-read their actual original reservation base; do not freeze speculative edits now.",
+      "Declare a complete planning baseline produced by GZ-022 and all exact downstream consumer roots so business reservation/execution waits for its actual normal accepted Completion main, even if a same-PR Program row claims completion.",
+      "Declare actual cross-scope dependsOn, contract producers/consumers and baseline barriers; a scope label never bypasses a dependency, contract, authorization, global capacity or critical-standalone rule.",
+      "Use only the fixed follow-up declaration path/format authorized by OPS-011 for planning-to-defined changes; preserve all legacy v1 manifest structure, closed Task/REQ rules and original-byte meaning, including cross-file references."
+    ],
+    "scopedRequirementsPolicy": "New requirement identifiers belong only to AGENT-EDGE-104 and its exact requirementIndex; no individual new identifier is allocated here. Keep the legacy requirements-index.yaml exactly ten V1 requirements and old V1 machine artifacts unchanged. The new fixed scoped requirement/acceptance catalogs are authored by GZ-022, and existing claimed schema/readiness/Task/planning entry points must validate their identity, module symmetry, coverage and final closure.",
+    "waveRule": "Enforce wave activation within the explicit fixed scopes while preserving actual cross-scope dependency wave ordering, contract ancestry and baseline barriers. Reuse existing W IDs; this first use changes no waves.",
+    "capacityRule": "One global Registry and unchanged maxActiveTasks=3/maxHighRiskTasks=1/criticalStandalone across both scopes; no per-scope duplicate lease or independent capacity pool.",
+    "externalRepositoryRule": "No ../ or foreign-repository claim. Each external runtime repository needs its own normal governance; Guize tracks exact version composition and joint acceptance without creating a universal cross-repository Registry.",
+    "unnecessaryMechanismChangesMustBeDropped": true
+  },
+  "gz022BusinessPlanningAcceptance": {
+    "requirementBasis": "REQ-V1-0010 is the legitimate planning-governance basis only; it does not claim that new product Agent/runtime capabilities are already V1 requirements or accepted.",
+    "newProductPathsAbsentAtActualBase": [
+      "specs/requirements/agent-edge-104.md",
+      "specs/requirements/agent-edge-104.yaml",
+      "specs/acceptance/agent-edge-104.yaml",
+      "adr/0016-agent-edge-runtime-and-product-agent-planning.md"
+    ],
+    "newAdrAllocation": "0016 is unused in the actual base (existing ADR numbers 0001 through 0015); the named path is a proposed GZ-022 output, not an existing Accepted ADR.",
+    "products": [
+      "Append a clearly separate #104 follow-up scope pointer to product-requirements.md; preserve frozen V1 meaning and old ten-item index/machine mirrors.",
+      "Write agent-edge-104.md plus its exact structured requirement and acceptance catalogs with per-requirement results, real business modules, producer/consumer/version contracts, dependency and final-acceptance trace.",
+      "Update architecture, roadmap/WBS, repository plan, module ownership and the new ADR for existing platform Task authority, MOD-CONFIG identity API and MOD-WORKER execution; do not treat the development Agent Harness as product Agent.",
+      "At most the eight explicitly listed old planned tasks may receive precisely registered design/contract amendments; preserve their full original obligations. New product Agent/runtime/joint-delivery tasks require complete separate definitions in the new scope.",
+      "Separate Guize central contracts and system integration from guize-edge-runtime Android plus Windows/Linux AV1 adapters. New AI/Agent repositories remain conditional on a real reusable boundary, not precreated."
+    ],
+    "existingTaskMappingCandidates": [
+      "GZ-006",
+      "GZ-007",
+      "GZ-008",
+      "GZ-011",
+      "GZ-012",
+      "GZ-013",
+      "GZ-016",
+      "GZ-018"
+    ],
+    "orderedBusinessSlicesToDefineLater": [
+      "Common versioned Task/Worker/authorization/attempt/fencing protocol, persistence/events and conformance methods; consume the original contract producers through actual dependencies.",
+      "Installable Android runtime and Windows/Linux AV1 adapter on the same execution protocol; ADB/app_process phone receipts remain prototypes and do not prove APK lifecycle or platform integration.",
+      "First bounded authorized 10-30 second Android video-analysis slice: metadata plus exactly six actually decoded frames, platform persistence/acceptance/query, input/output provenance and permission, cancellation/disconnection/retry/late-result rejection.",
+      "Shared AV1/HLS/playback priorities and resource ledger/budgets; later OCR uses approved POC-009/GZ-011 samples and quality rules. Six frames do not claim OCR or all AI completion.",
+      "Constrained product Agent proposes versioned plans and bounded replanning; TASK retains durable execution/final status, POLICY/IAM retain authority. No arbitrary shell/URL/code delegation.",
+      "Pinned platform/protocol/Android/PC/capability/model/config combination and joint acceptance, recovery and release ownership; separate repository CI is not system acceptance."
+    ],
+    "moduleResponsibilities": [
+      {
+        "modules": [
+          "MOD-GOV"
+        ],
+        "planningResponsibility": "Program transaction, scope/closure and normal lifecycle admission"
+      },
+      {
+        "modules": [
+          "MOD-PLATFORM",
+          "MOD-DATA"
+        ],
+        "planningResponsibility": "Shared versioned contracts and persistent plan/attempt/fencing/acceptance state"
+      },
+      {
+        "modules": [
+          "MOD-TASK"
+        ],
+        "planningResponsibility": "Plan persistence, dispatch, retry/cancel and authoritative result acceptance"
+      },
+      {
+        "modules": [
+          "MOD-WORKER"
+        ],
+        "planningResponsibility": "Node/runtime/capability execution and actual resource facts"
+      },
+      {
+        "modules": [
+          "MOD-AI"
+        ],
+        "planningResponsibility": "OCR/model quality and constrained product Agent semantic planning"
+      },
+      {
+        "modules": [
+          "MOD-MEDIA",
+          "MOD-STORAGE"
+        ],
+        "planningResponsibility": "AV1/HLS, six-frame processing, output validation, temporary artifacts and resource watermarks"
+      },
+      {
+        "modules": [
+          "MOD-CONFIG"
+        ],
+        "planningResponsibility": "Node identity/control API and versioned configuration/capability publication"
+      },
+      {
+        "modules": [
+          "MOD-IAM",
+          "MOD-POLICY",
+          "MOD-AUDIT"
+        ],
+        "planningResponsibility": "Authorization, data/egress/budget constraints and traceable actual actions"
+      },
+      {
+        "modules": [
+          "MOD-SOURCE",
+          "MOD-CONNECTOR",
+          "MOD-ASSET"
+        ],
+        "planningResponsibility": "Real OpenList/WebDAV input, immutable asset version and derived-artifact lineage/ACL"
+      },
+      {
+        "modules": [
+          "MOD-PLAYER",
+          "MOD-EDGE"
+        ],
+        "planningResponsibility": "Authorized playback and gateway/ATS behavior; MOD-EDGE is not compute runtime ownership"
+      },
+      {
+        "modules": [
+          "MOD-OBS",
+          "MOD-DEPLOY"
+        ],
+        "planningResponsibility": "Fresh measurements, artifact/lockfile compatibility, supply chain, joint acceptance and recovery"
+      }
+    ],
+    "exitEvidenceRequiredLater": "Accepted actual planned definitions, requirement/acceptance mapping, precise registered targets, original Git-bound declaration, actual governance/schema/readiness regression and same-head source/CI/main independent evidence; no runtime implementation or POC PASS can be inferred from planning completion."
+  },
+  "actualRuleReferences": [
+    {
+      "path": "AGENTS.md",
+      "section": "17.3-17.8",
+      "purpose": "Register before implementation, exact scope, independent roles, lease/capacity, metadata-only Foundation original reservation"
+    },
+    {
+      "path": "specs/coordination/README.md",
+      "section": "Explicit planning revision and planning baseline admission",
+      "purpose": "Immutable original registered targets and normally completed baseline barrier"
+    },
+    {
+      "path": "specs/coordination/program-plan.schema.yaml",
+      "section": "$defs/task and root additionalProperties=false",
+      "purpose": "GZ-022 contains all current closed Task fields; new scope is a later authorized mechanism change"
+    },
+    {
+      "path": "specs/coordination/planning-revision.schema.yaml",
+      "section": "schemaVersion1 targets and $defs/plannedTask",
+      "purpose": "Do not inject new target or Task field into the installed old v1 format"
+    },
+    {
+      "path": "scripts/program-planning-revision.py",
+      "section": "ownership; original_registration; audit_changed_manifests; classify",
+      "purpose": "Reuse canonical original registration, scope ownership and exact transaction; add no permission merely from inert OwnEvidence"
+    },
+    {
+      "path": "scripts/check-schemas.py",
+      "section": "current document/schema discovery",
+      "purpose": "Installed reservation validation does not interpret arbitrary OwnEvidence JSON as a v1 planning manifest"
+    },
+    {
+      "path": "specs/requirements/v1/validate.py",
+      "section": "exact legacy requirement-index set",
+      "purpose": "Keep old ten-REQ index and v1 artifacts unchanged; fixed follow-up catalogs are distinct"
+    }
+  ],
+  "preparationLimits": [
+    "Only this outside-repository input is written. No Task Spec, Registry, Program, Evidence, Issue, branch/ref, lease, contract or runtime is created or modified by this preparation.",
+    "Do not run this input as a helper. Root must recheck official main/base, Registry capacity, unchanged target absence, actual completed dependencies, real roles and current UTC lease before making the normal metadata-only reservation.",
+    "GZ-022 remains only planned/issue:null with no TaskSpec, Registry entry, lease or execution. No future implementation/Review/Completion PR, merge, requirement number, capability acceptance or final-task number is invented.",
+    "Source/main checks, schema/validator/tests, CI and independent review for OPS-011 are not executed here and remain pending for the real registered source."
+  ],
+  "claimsAssessment": {
+    "fixedImplementationClaimCount": 15,
+    "additionalImplementationClaimsRequested": [],
+    "reason": "The fixed scope/declaration schema and actual Task/readiness/planning/integrity/transition entry points and their regressions are all within the fifteen approved MOD-GOV paths. GZ-022 business artifacts have separate future exact ordinary-task claims; no legacy V1 validator, core policy, workflow, history/finalization checker or business implementation permission is assumed."
+  }
+}
