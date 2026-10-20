@@ -27,11 +27,12 @@ python scripts/run-program-lifecycle-gate.py --base-ref 63cfcb85d3bba12217c79e16
 python scripts/run-agent-coordination-gate.py --base-ref 63cfcb85d3bba12217c79e16d9eb348d929b8c01 --head-ref HEAD --task GZ-021 --branch-name chore/GZ-021-local-v1-route
 python scripts/run-task-scope-gate.py --task GZ-021 --base 63cfcb85d3bba12217c79e16d9eb348d929b8c01
 python scripts/check-evidence.py --task GZ-021
+python evidence/GZ-021/review-tools/check_gz021_normal_review_scope.py . 63cfcb85d3bba12217c79e16d9eb348d929b8c01 HEAD
 make verify TASK=GZ-021 BASE=63cfcb85d3bba12217c79e16d9eb348d929b8c01 HEAD_REF=HEAD BRANCH=chore/GZ-021-local-v1-route
 python scripts/check-markdown.py
 ```
 
-同时以既有 check_gz021_normal_review_scope.py 对实际仓库、本次 base 和实际 Review source 核对仅3元数据及自身 Evidence；保留原46claims、17模块、Lease、manifest、Ledger与业务规格/代码。原始执行记录须保存该工具的真实路径及参数。
+仓库内副本 evidence/GZ-021/review-tools/check_gz021_normal_review_scope.py 遵循仓库 LF 策略，canonical LF SHA256为 3413a869f7201cf8d05d301f876ddec4a1e793c8594399a8fc6e4234c7cfdbc8；实际外部已执行原件 SHA256为 1ae747599a46f75223e1a852e6a9c8d66bdced128ad91195b3e6496c4f6ed8a8。两者仅 CRLF→LF 换行差异，代码其余字节不变；原执行工具的 CRLF 字节已无损归档为 raw-results.bundle.json 第424项，可按原 SHA256 恢复。上述命令从仓库根目录使用 repo=.、base=实施 main 63cfcb85d3bba12217c79e16d9eb348d929b8c01、head=HEAD；实际执行入口的真实路径和完整 argv见执行记录。该检查保留原46claims、17模块、Lease、manifest、Ledger与业务规格/代码。
 
 以上治理检查及 make verify 必须绑定当前实际发布源，保存真实命令、退出码、日志和完整治理 JUnit；当前637项治理测试须零失败、错误和跳过。最新同头 PR CI、独立审查与实际 Review main 接受仍必须完成；正常 Completion 是之后的独立转换。
 

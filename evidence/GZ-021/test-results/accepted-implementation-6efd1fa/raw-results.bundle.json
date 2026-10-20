@@ -5519,6 +5519,114 @@
           "sha256": "51a8d2ba010fe735b1b70df738aafdb832d35899e5ea407ab262b2148e034057"
         }
       ]
+    },
+    {
+      "name": "verify_gz021_actual_main_nineteen_generic.py",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\verify_gz021_actual_main_nineteen_generic.py",
+      "size": 16839,
+      "sha256": "152383c282bd27016c31ad669e917d1dbc231673f4f074b27aeac5704c4e6e08",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-417-0001.part.txt",
+          "sha256": "62b940a4b897a642f74904aadf6a61f388b9a173a9bb03b066b0bbf2f213b46d"
+        }
+      ]
+    },
+    {
+      "name": "receive_gz021_actual_main_push_ci.py",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\receive_gz021_actual_main_push_ci.py",
+      "size": 14865,
+      "sha256": "0e593de03efa6ad8e6e478804864d8cf932956d6a12b3eef19d7ce06df305a28",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-418-0001.part.txt",
+          "sha256": "6b8075c2b6b033c25e208803fc5ce747f2fcfc7c6557a2ea36e9577a34859ef4"
+        }
+      ]
+    },
+    {
+      "name": "gz021-actual-main-63cfcb8-adoption.json",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz021-actual-main-63cfcb8-adoption.json",
+      "size": 113813,
+      "sha256": "6f013ed7bb8616c2ae83d04e05049fd89011be8c713e56d8443b5a21785e6c58",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-419-0001.part.txt",
+          "sha256": "61e1e0e7a839705cd43455b1a1c96c38b78c26f852381c9ccfd19e04e6da205a"
+        },
+        {
+          "path": "raw-419-0002.part.txt",
+          "sha256": "73c72e439bf562708f845314bac1ef00aa6759ba345dc4784f5e44779ee488c2"
+        }
+      ]
+    },
+    {
+      "name": "verify_gz021_source_local_observations_targeted60_successor.py",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\verify_gz021_source_local_observations_targeted60_successor.py",
+      "size": 26174,
+      "sha256": "da1e688215eca46915be3b5dc8f80e637a2eda4b2e9a1e32232bd321a5420c3e",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-420-0001.part.txt",
+          "sha256": "68ca54b298d0c5f582ec9f641d41d28d9459cacb6c5749733ae2e20d2d921617"
+        }
+      ]
+    },
+    {
+      "name": "run_gz021_poc_targeted60_native_tmp.py",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\run_gz021_poc_targeted60_native_tmp.py",
+      "size": 22852,
+      "sha256": "c12b605ecc492c72ce55fd0ee0a4e6d3f3db7c3b48982d849fe346f317a0a78a",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-421-0001.part.txt",
+          "sha256": "c752b2183ce129d1d04b337d8f5450b68e4a5d48e898ce30928a78a70fe1f48c"
+        }
+      ]
+    },
+    {
+      "name": "check_gz021_implementation_scope.py",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\check_gz021_implementation_scope.py",
+      "size": 4389,
+      "sha256": "fe46fee70faf5f8888785613196c42586e753479e49178358fc4466cb2952892",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-422-0001.part.txt",
+          "sha256": "09fb2e43a65df3df5a6c909c083fcb25adeeb098989b2fa05dc4107a843c184b"
+        }
+      ]
+    },
+    {
+      "name": "live_github_transport.py",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\live_github_transport.py",
+      "size": 2521,
+      "sha256": "392c4a7291c919da650db69a1d666d9dcb30d4f4e165d70b120b07e5372290ab",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-423-0001.part.txt",
+          "sha256": "1d5d5ca3b274c6c661ece78fd4fe0987f37c69b5c94eaf61d166452423386f4d"
+        }
+      ]
+    },
+    {
+      "name": "check_gz021_normal_review_scope.py",
+      "originalPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\check_gz021_normal_review_scope.py",
+      "size": 1653,
+      "sha256": "1ae747599a46f75223e1a852e6a9c8d66bdced128ad91195b3e6496c4f6ed8a8",
+      "encoding": "concatenated-zlib-base64-parts",
+      "parts": [
+        {
+          "path": "raw-424-0001.part.txt",
+          "sha256": "1dcbfd13ecc0f78813d2298080037dc2e9763b32a497f3e77c58d5cc606eeeef"
+        }
+      ]
     }
   ],
   "sourcePocExecution": "Sixteen separate original Ran13 invocations; exact208 coverage once",

@@ -8,6 +8,14 @@ Accepted implementation: PR-103 / 6efd1fa2dfdb269935c862eff8c2e5ffd3289476
 Actual implementation merge: 63cfcb85d3bba12217c79e16d9eb348d929b8c01
 Accepted source20/208 (16 original Ran13)/35-negative/637 and actual-main19/pushCI are historical results, archived once at test-results/accepted-implementation-6efd1fa/raw-results.bundle.json. Storage-v2 failed Ran6 is preserved as failure. Review execution, normal Completion, runtime, formal POC and fullV1 remain pending.
 
+## Current Normal Review handoff actions
+
+1. Integrator: publish the current Review correction from accepted implementation base `63cfcb85d3bba12217c79e16d9eb348d929b8c01`, preserving `review` / `reviewer`, the original claims, lease, manifest and ledger. Keep the implementation PR #103 as accepted history.
+2. Independent reviewer: check the actual published Review HEAD, run its required nineteen commands and inspect its complete 637-test JUnit, same-head PR #105 CI and all review findings. The checked-in scope validator and its exact invocation are in the Task Spec. A previous Review HEAD execution is not the current HEAD result.
+3. Integrator: only after current-source acceptance, merge PR #105 with its exact head guard. Verify the actual Review merge with its nineteen commands, push/main CI and independent acceptance. Record that Review merge separately from the accepted implementation merge above.
+4. After actual Review main acceptance, close Issue #95 as completed, then perform the normal Completion conversion and its own checks, CI and actual-main acceptance. The completion ledger must reference implementation PR #103 and implementation merge `63cfcb85d3bba12217c79e16d9eb348d929b8c01`; release the Registry claims and capacity through that normal conversion.
+5. After accepted Completion releases the occupied paths, formally register construction backlog #104 and continue its public protocol and Android Worker delivery. Platform runtime, formal POCs and full local V1 remain pending until their own acceptance.
+
 ## Historical implementation and reservation records
 
 Current native capture requirements are recorded under [Runtime event and state capture binding](#runtime-event-and-state-capture-binding). Earlier checkpoints retain their own historical source identities.

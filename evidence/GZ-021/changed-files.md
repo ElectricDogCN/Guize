@@ -15,6 +15,7 @@ Current Review delta:
 - evidence/GZ-021/changed-files.md
 - evidence/GZ-021/commands.txt
 - evidence/GZ-021/handoff.md
+- evidence/GZ-021/review-tools/check_gz021_normal_review_scope.py
 - evidence/GZ-021/summary.md
 - evidence/GZ-021/test-results/README.md
 - evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-001-0001.part.txt
@@ -460,6 +461,15 @@ Current Review delta:
 - evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-414-0001.part.txt
 - evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-415-0001.part.txt
 - evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-416-0001.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-417-0001.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-418-0001.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-419-0001.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-419-0002.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-420-0001.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-421-0001.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-422-0001.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-423-0001.part.txt
+- evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-424-0001.part.txt
 - evidence/GZ-021/test-results/accepted-implementation-6efd1fa/raw-results.bundle.json
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
