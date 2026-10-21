@@ -12,3 +12,12 @@ migration-report: N/A no data migration.
 performance: local preliminary parsing observation is in Task, not CI acceptance; formal implementation evidence pending.
 security: no permission/secret change; parser rejection tests and existing secret checks pending.
 rollback-verification: NOT EXECUTED; see Task plan.
+
+| Canonical entry | Compatible target | Reason |
+| --- | --- | --- |
+| screenshots/ | N/A | Reservation has no UI or device operation. |
+| api-samples/ | N/A | Reservation changes no product API or request payload. |
+| migration-report/ | N/A | No database or data migration occurs. |
+| performance/ | N/A | Metadata-only reservation; preliminary parser measurement is stated in Task and is not formal CI performance evidence. |
+| security/ | N/A | No runtime permission or credential operation; existing security gates remain required. |
+| rollback-verification/ | N/A | No rollback executed; reservation withdrawal and forward repair plan is in Task. |
