@@ -58,9 +58,9 @@ foundationTasks:
     mergeCommit: 55d7ac47f022549dd249cd0cd5a7f03a0c04db2e
   - taskId: OPS-011
     title: 有界承接智能边缘计算后续建设范围
-    status: review
-    completionRef: ISSUE-108
-    mergeCommit: null
+    status: completed
+    completionRef: PR-111
+    mergeCommit: 9de3656325bc9b8053f99489c64db1ccbb4c5d79
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
