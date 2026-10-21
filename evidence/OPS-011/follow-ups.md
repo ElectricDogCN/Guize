@@ -5,7 +5,8 @@ Branch: chore/OPS-011-agent-edge-104-completion
 Last implementation: PR-111 / 9de3656325bc9b8053f99489c64db1ccbb4c5d79
 Current Completion PR: #113 / https://github.com/ElectricDogCN/Guize/pull/113
 Current Completion source/tree/source15/JUnit/same-head CI/independent source/main acceptance: PENDING.
-Capture parent: initial candidate bee6bc4f0100262314ea86cc41c97789cb7a1a88; successor source/tree are determined after this forward commit. No current execution is claimed.
+Capture parent: d223b5b2186d795f079e1e13015ac686cfdae2f7; successor source/tree are determined after the Task-format forward correction. No current execution is claimed.
+Previous candidate d223b5b passed diff but failed Task structure: three mandatory sections needed bullet entries; source15 stopped there before full governance tests or JUnit. Its actual failure is preserved externally; CI761 belongs to that previous candidate (https://github.com/ElectricDogCN/Guize/actions/runs/39537795999), not the pending successor.
 
 Accepted prior inputs only:
 Scope of PASS: accepted implementation PR111/M9de and accepted Review PR112/source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4 / actual main bc796b3746882f4cbe1f43cee012d17764ce240d; this is not current Completion execution.
