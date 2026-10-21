@@ -1,24 +1,11 @@
-Issue: #115 / https://github.com/ElectricDogCN/Guize/issues/115
-Base: a4f127ab041b44cdef44306dccae23c41a1e83f6
-Reservation branch: chore/OPS-012-history-yaml-reservation
-Implementation branch: chore/OPS-012-history-yaml-performance
-Lease: 2026-10-21T05:32:42Z to 2026-10-28T05:32:42Z
-Status: RESERVED / coordinator
-Verification: PENDING_ACTUAL_SOURCE; no inherited PASS, current source/PR/CI/main acceptance pending.
+OPS-012 implementation capture
+Base: 1ba64a9b4b62a918925b4a63658288a443d717e7
+Branch: chore/OPS-012-history-yaml-performance
+Phase: in_progress / implementer
+Canonical reservation: PR116 / 1ba64a9b4b62a918925b4a63658288a443d717e7
+Original claims and roles/lease retained. Registration hosted CI767 cancelled; audited delegated admission retained. Current-code results: UNEXECUTED AT CAPTURE.
 
-NOT EXECUTED; all exit codes PENDING.
-git diff --check a4f127ab041b44cdef44306dccae23c41a1e83f6...HEAD
-python scripts/check-task-file.py --task OPS-012
-python scripts/check-project-readiness.py
-python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref a4f127ab041b44cdef44306dccae23c41a1e83f6
-python scripts/check-program-plan-history.py --base-ref a4f127ab041b44cdef44306dccae23c41a1e83f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-reservation
-python scripts/check-program-plan-transitions.py --base-ref a4f127ab041b44cdef44306dccae23c41a1e83f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-reservation
-python scripts/check-program-plan-finalization.py --base-ref a4f127ab041b44cdef44306dccae23c41a1e83f6 --head-ref HEAD --task OPS-012
-python scripts/check-program-lifecycle-guards.py --base-ref a4f127ab041b44cdef44306dccae23c41a1e83f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref a4f127ab041b44cdef44306dccae23c41a1e83f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-reservation
-python scripts/run-agent-coordination-gate.py --base-ref a4f127ab041b44cdef44306dccae23c41a1e83f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-reservation
-python scripts/run-task-scope-gate.py --task OPS-012 --base a4f127ab041b44cdef44306dccae23c41a1e83f6
-python scripts/check-evidence.py --task OPS-012
-make verify TASK=OPS-012 BASE=a4f127ab041b44cdef44306dccae23c41a1e83f6 HEAD_REF=HEAD BRANCH=chore/OPS-012-history-yaml-reservation
-python scripts/check-markdown.py
+Planned command / exit code: UNEXECUTED AT CAPTURE.
+git diff --check 1ba64a9b4b62a918925b4a63658288a443d717e7...HEAD
+python -m pytest tests/governance/test_history_yaml_loader.py -q
+make verify TASK=OPS-012 BASE=1ba64a9b4b62a918925b4a63658288a443d717e7 HEAD_REF=HEAD BRANCH=chore/OPS-012-history-yaml-performance

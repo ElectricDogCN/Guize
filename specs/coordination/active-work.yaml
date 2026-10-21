@@ -9,17 +9,17 @@ tasks:
 - taskId: OPS-012
   issue: 115
   title: 降低历史治理校验的安全 YAML 解析开销
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: history-parser-performance-agent
   reviewer: independent-history-parser-review-agent
   integrator: integration-agent
-  agentRole: coordinator
+  agentRole: implementer
   branch: chore/OPS-012-history-yaml-performance
   baseBranch: main
-  baseSha: a4f127ab041b44cdef44306dccae23c41a1e83f6
+  baseSha: 1ba64a9b4b62a918925b4a63658288a443d717e7
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-012

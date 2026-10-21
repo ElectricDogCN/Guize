@@ -1,0 +1,331 @@
+{
+  "kind": "OPS012_READ_ONLY_EXISTING_HISTORY_BASELINE_PROFILE",
+  "source": "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+  "base": "bc796b3746882f4cbe1f43cee012d17764ce240d",
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "-m",
+    "cProfile",
+    "-o",
+    "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-history-baseline-profile/history.cprofile",
+    "scripts/check-program-plan-history.py",
+    "--base-ref",
+    "bc796b3746882f4cbe1f43cee012d17764ce240d",
+    "--head-ref",
+    "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+    "--task",
+    "OPS-011",
+    "--branch-name",
+    "chore/OPS-011-agent-edge-104-completion"
+  ],
+  "pid": 2019419,
+  "waitCompleted": true,
+  "exitCode": 0,
+  "before": {
+    "head": "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+    "tree": "fcb670b7d44e198f499d42b160a4399ce0c0e0d5",
+    "status": ""
+  },
+  "after": {
+    "head": "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+    "tree": "fcb670b7d44e198f499d42b160a4399ce0c0e0d5",
+    "status": ""
+  },
+  "totalSeconds": 41.761082256000115,
+  "top": [
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method builtins.exec>",
+      "primitiveCalls": 1,
+      "calls": 140,
+      "ownSeconds": 0.00043933700000000004,
+      "cumulativeSeconds": 41.787877324
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 1,
+      "function": "<module>",
+      "primitiveCalls": 1,
+      "calls": 1,
+      "ownSeconds": 0.000478895,
+      "cumulativeSeconds": 41.787867218
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 1518,
+      "function": "main",
+      "primitiveCalls": 1,
+      "calls": 1,
+      "ownSeconds": 0.001176635,
+      "cumulativeSeconds": 41.636096393
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 1422,
+      "function": "validate_foundations",
+      "primitiveCalls": 1,
+      "calls": 1,
+      "ownSeconds": 0.000693061,
+      "cumulativeSeconds": 34.349567966
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/__init__.py",
+      "line": 117,
+      "function": "safe_load",
+      "primitiveCalls": 914,
+      "calls": 914,
+      "ownSeconds": 0.002887419,
+      "cumulativeSeconds": 24.979939299
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/__init__.py",
+      "line": 74,
+      "function": "load",
+      "primitiveCalls": 914,
+      "calls": 914,
+      "ownSeconds": 0.192064684,
+      "cumulativeSeconds": 24.97705188
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/constructor.py",
+      "line": 47,
+      "function": "get_single_data",
+      "primitiveCalls": 914,
+      "calls": 914,
+      "ownSeconds": 0.0030636260000000003,
+      "cumulativeSeconds": 24.736611313
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/composer.py",
+      "line": 29,
+      "function": "get_single_node",
+      "primitiveCalls": 914,
+      "calls": 914,
+      "ownSeconds": 0.003716918,
+      "cumulativeSeconds": 23.399295435000003
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/composer.py",
+      "line": 50,
+      "function": "compose_document",
+      "primitiveCalls": 914,
+      "calls": 914,
+      "ownSeconds": 0.0018868490000000001,
+      "cumulativeSeconds": 23.325206408000003
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/composer.py",
+      "line": 63,
+      "function": "compose_node",
+      "primitiveCalls": 914,
+      "calls": 534919,
+      "ownSeconds": 0.6795952080000001,
+      "cumulativeSeconds": 23.318625258
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/composer.py",
+      "line": 117,
+      "function": "compose_mapping_node",
+      "primitiveCalls": 914,
+      "calls": 22271,
+      "ownSeconds": 0.21214568800000003,
+      "cumulativeSeconds": 23.293976991
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/parser.py",
+      "line": 94,
+      "function": "check_event",
+      "primitiveCalls": 1591175,
+      "calls": 1591175,
+      "ownSeconds": 0.5153673000000001,
+      "cumulativeSeconds": 21.088297541000003
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/composer.py",
+      "line": 99,
+      "function": "compose_sequence_node",
+      "primitiveCalls": 3372,
+      "calls": 47621,
+      "ownSeconds": 0.201188881,
+      "cumulativeSeconds": 20.754279311
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 508,
+      "function": "historical_registration_context",
+      "primitiveCalls": 22,
+      "calls": 22,
+      "ownSeconds": 0.0053879850000000005,
+      "cumulativeSeconds": 19.984534511
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 125,
+      "function": "load_ref",
+      "primitiveCalls": 587,
+      "calls": 587,
+      "ownSeconds": 0.00183415,
+      "cumulativeSeconds": 19.230379912
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 111,
+      "function": "load_yaml_text",
+      "primitiveCalls": 652,
+      "calls": 652,
+      "ownSeconds": 0.002282726,
+      "cumulativeSeconds": 18.138719123
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 1061,
+      "function": "foundation_implementation",
+      "primitiveCalls": 1,
+      "calls": 1,
+      "ownSeconds": 0.005655479000000001,
+      "cumulativeSeconds": 18.093429324000002
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/scanner.py",
+      "line": 113,
+      "function": "check_token",
+      "primitiveCalls": 3929599,
+      "calls": 3929599,
+      "ownSeconds": 1.509943201,
+      "cumulativeSeconds": 16.712228921
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/scanner.py",
+      "line": 156,
+      "function": "fetch_more_tokens",
+      "primitiveCalls": 902320,
+      "calls": 902320,
+      "ownSeconds": 1.0924577910000002,
+      "cumulativeSeconds": 11.965494818000002
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 1008,
+      "function": "historical_lifecycle_binding",
+      "primitiveCalls": 28,
+      "calls": 28,
+      "ownSeconds": 0.0006624570000000001,
+      "cumulativeSeconds": 11.356985243
+    },
+    {
+      "file": "/usr/lib/python3.12/subprocess.py",
+      "line": 506,
+      "function": "run",
+      "primitiveCalls": 1622,
+      "calls": 1622,
+      "ownSeconds": 0.014835823000000001,
+      "cumulativeSeconds": 11.032004305000001
+    },
+    {
+      "file": "/usr/lib/python3.12/subprocess.py",
+      "line": 1165,
+      "function": "communicate",
+      "primitiveCalls": 1622,
+      "calls": 1622,
+      "ownSeconds": 0.006199274,
+      "cumulativeSeconds": 10.115319209
+    },
+    {
+      "file": "/usr/lib/python3.12/subprocess.py",
+      "line": 2062,
+      "function": "_communicate",
+      "primitiveCalls": 1622,
+      "calls": 1622,
+      "ownSeconds": 0.045936184000000005,
+      "cumulativeSeconds": 10.10734131
+    },
+    {
+      "file": "/usr/lib/python3.12/selectors.py",
+      "line": 402,
+      "function": "select",
+      "primitiveCalls": 3289,
+      "calls": 3289,
+      "ownSeconds": 0.020318163,
+      "cumulativeSeconds": 9.906929755
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'poll' of 'select.poll' objects>",
+      "primitiveCalls": 3289,
+      "calls": 3289,
+      "ownSeconds": 9.882930881,
+      "cumulativeSeconds": 9.882930881
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 1348,
+      "function": "foundation_post_implementation",
+      "primitiveCalls": 1,
+      "calls": 1,
+      "ownSeconds": 0.003497529,
+      "cumulativeSeconds": 9.432644399
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 85,
+      "function": "git",
+      "primitiveCalls": 1216,
+      "calls": 1216,
+      "ownSeconds": 0.010548417000000001,
+      "cumulativeSeconds": 8.992437283000001
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 773,
+      "function": "historical_task_snapshot",
+      "primitiveCalls": 28,
+      "calls": 28,
+      "ownSeconds": 0.00106046,
+      "cumulativeSeconds": 7.915343192000001
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d/scripts/program-planning-revision.py",
+      "line": 91,
+      "function": "document",
+      "primitiveCalls": 530,
+      "calls": 530,
+      "ownSeconds": 0.003238817,
+      "cumulativeSeconds": 7.529934271
+    },
+    {
+      "file": "/home/sur/.cache/guize-takeover/eight-follow-up-265001d/scripts/program-planning-revision.py",
+      "line": 83,
+      "function": "committed_document",
+      "primitiveCalls": 136,
+      "calls": 136,
+      "ownSeconds": 0.001440634,
+      "cumulativeSeconds": 6.616779684000001
+    }
+  ],
+  "safeLoad": [
+    {
+      "file": "/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/__init__.py",
+      "line": 117,
+      "function": "safe_load",
+      "primitiveCalls": 914,
+      "calls": 914,
+      "ownSeconds": 0.002887419,
+      "cumulativeSeconds": 24.979939299
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "line": 111,
+      "function": "load_yaml_text",
+      "primitiveCalls": 652,
+      "calls": 652,
+      "ownSeconds": 0.002282726,
+      "cumulativeSeconds": 18.138719123
+    }
+  ],
+  "implementationChanged": false,
+  "sourceAcceptance": false,
+  "ciAcceptance": false
+}

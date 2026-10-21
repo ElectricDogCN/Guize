@@ -1,9 +1,8 @@
-Issue: #115 / https://github.com/ElectricDogCN/Guize/issues/115
-Base: a4f127ab041b44cdef44306dccae23c41a1e83f6
-Reservation branch: chore/OPS-012-history-yaml-reservation
-Implementation branch: chore/OPS-012-history-yaml-performance
-Lease: 2026-10-21T05:32:42Z to 2026-10-28T05:32:42Z
-Status: RESERVED / coordinator
-Verification: PENDING_ACTUAL_SOURCE; no inherited PASS, current source/PR/CI/main acceptance pending.
+OPS-012 implementation capture
+Base: 1ba64a9b4b62a918925b4a63658288a443d717e7
+Branch: chore/OPS-012-history-yaml-performance
+Phase: in_progress / implementer
+Canonical reservation: PR116 / 1ba64a9b4b62a918925b4a63658288a443d717e7
+Original claims and roles/lease retained. Registration hosted CI767 cancelled; audited delegated admission retained. Current-code results: UNEXECUTED AT CAPTURE.
 
-Safe parser semantic drift; fallback coverage; CI load variance. Keep every assertion and 30-minute cap.
+Preserve safe constructors and fail-closed parse behavior, verify fallback and true full hostedCI budget.
