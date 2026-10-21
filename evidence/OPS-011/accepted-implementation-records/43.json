@@ -1,0 +1,162 @@
+{
+  "kind": "OPS011_NORMATIVE_REQUIREMENT_DOCUMENT_FINITE_PATCH_CONTENT_REVIEW",
+  "observedAt": "2026-10-20T19:56:10.281255+00:00",
+  "baseSource": "4bdfe42532aa5bfa62f879af5f3dedd69c673fc5",
+  "baseTree": "726c8286408524050a307e39b92b5d459ecec078",
+  "finding": {
+    "threadId": "PRRT_kwDOTgCQ3c6ufixa",
+    "commentId": 4329437574,
+    "valid": true,
+    "scope": "Fixed Agent Edge normative Markdown body was mutable while headings and two frozen catalogs remained unchanged."
+  },
+  "contentAccepted": true,
+  "patchContentAccepted": true,
+  "mustFix": [],
+  "productionPatch": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-normative-document-production-proposal.patch",
+    "sha256": "6b51adac68a03a6af405a295950e3ff13610b5628d5d9cb79177af7571b5629e",
+    "byteCount": 6696
+  },
+  "testPatch": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-requirement-document-tests-proposal.patch",
+    "sha256": "2250553068681cca6668a3d2a0a5eec5da38bf2008523382aeaa7f66c6b38905",
+    "byteCount": 9064
+  },
+  "candidateFilePins": {
+    "specs/coordination/planning-revision.schema.yaml": {
+      "canonicalLfSha256": "2107ad99d03a5aa66c245ccda9dc146ea0e5f3b66dc06198f2637ac1abaa7d0f",
+      "byteCount": 10030,
+      "reconstructedFromActualSourceAndFrozenPatch": true
+    },
+    "scripts/program-planning-revision.py": {
+      "canonicalLfSha256": "07a7340cb2f8aea83ba1e2a2aa50089a9019231babca2a35b75c0a0f73296534",
+      "byteCount": 66713,
+      "reconstructedFromActualSourceAndFrozenPatch": true
+    },
+    "specs/coordination/README.md": {
+      "canonicalLfSha256": "7af048f4d9c43693dab89cbf092b9af4769843d8636b260ffc7a00da589964f7",
+      "byteCount": 19203,
+      "reconstructedFromActualSourceAndFrozenPatch": true
+    },
+    "tests/governance/test_program_planning_revision.py": {
+      "canonicalLfSha256": "6623c18ae22dc06e86b3985ca853cc2de79b9a1333e8ddeb612bad7ee8670147",
+      "byteCount": 82417,
+      "reconstructedFromActualSourceAndFrozenPatch": true
+    }
+  },
+  "mechanicalBinding": "All four candidate files strictly reconstructed in memory from actual frozen4bd Git blobs and these two patches; reconstructed bytes equal private DEV afterApply pins. No source file was written.",
+  "reviewConclusions": [
+    "Closed required v2 requirementDocument contains fixed path and full nonempty string; old v1 and OPS011 firstUse unchanged.",
+    "Existing canonical original GZ022 typed manifest authentication now binds exact UTF8 content bytes to the fixed Markdown Git blob at the same head_ref, with no newline or Unicode normalization.",
+    "Markdown-only changes join both YAML paths in classifier authentication before the no-definition-change return. Existing defined Readiness/Integrity and released-introduction authentication remain.",
+    "Original catalog-only regression and old assertions remain; active and Active-released body-only tampering preserve headings and valid index joins, assert exact changed path, and must fail the new content error.",
+    "Every missing/wrong_path/empty/nonstring schema negative first validates an otherwise complete v2 positive.",
+    "Only the one fixed requirements Markdown is added to the frozen records; no recursive documentation, crypto or new evidence framework."
+  ],
+  "privateDevelopmentExecution": {
+    "record": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-requirement-document-development-results/finite-six-native-execution/development-execution.json",
+      "sha256": "c5b381e73c8fb45f963460e20fee5112f52c88ccdf4352f573c760b2f705378e",
+      "byteCount": 145992
+    },
+    "raw": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-requirement-document-development-results/finite-six-native-execution/pytest.txt",
+      "sha256": "bd8542b348a3551787c44fe8583af929d7918a7e4051f2a8e31f10cdf5cda797",
+      "byteCount": 1584
+    },
+    "junit": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-requirement-document-development-results/finite-six-native-execution/junit.xml",
+      "sha256": "9830d1e915c6abf10fddbf864cf5668fd57cf4c5cc90eb126acedaaf0888bec5",
+      "byteCount": 1252
+    },
+    "pid": 135048,
+    "argv": [
+      "wsl.exe",
+      "--cd",
+      "/home/sur/.cache/guize-takeover/ops011-native-development-20366b0",
+      "--exec",
+      "/usr/bin/env",
+      "GIT_OPTIONAL_LOCKS=0",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PYTHONUTF8=1",
+      "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/governance/test_program_planning_revision.py::test_definition_schema_requires_complete_fixed_requirement_document",
+      "tests/governance/test_program_planning_revision.py::test_simulated_original_catalog_admission_tampering_and_released_intro",
+      "tests/governance/test_program_planning_revision.py::test_fixed_first_use_cannot_borrow_or_rewrite_authority[late_definition]",
+      "-vv",
+      "-p",
+      "no:cacheprovider",
+      "--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-requirement-document-development-results/finite-six-native-execution/junit.xml"
+    ],
+    "startedAt": "2026-10-20T19:53:59.063534+00:00",
+    "completedAt": "2026-10-20T19:54:09.020460+00:00",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "tests": 6,
+    "passed": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "summarySeconds": 8.7,
+    "uniqueTestIdentities": [
+      [
+        "tests.governance.test_program_planning_revision",
+        "test_definition_schema_requires_complete_fixed_requirement_document[missing]"
+      ],
+      [
+        "tests.governance.test_program_planning_revision",
+        "test_definition_schema_requires_complete_fixed_requirement_document[wrong_path]"
+      ],
+      [
+        "tests.governance.test_program_planning_revision",
+        "test_definition_schema_requires_complete_fixed_requirement_document[empty]"
+      ],
+      [
+        "tests.governance.test_program_planning_revision",
+        "test_definition_schema_requires_complete_fixed_requirement_document[nonstring]"
+      ],
+      [
+        "tests.governance.test_program_planning_revision",
+        "test_simulated_original_catalog_admission_tampering_and_released_intro"
+      ],
+      [
+        "tests.governance.test_program_planning_revision",
+        "test_fixed_first_use_cannot_borrow_or_rewrite_authority[late_definition]"
+      ]
+    ],
+    "sourceSnapshotsUnchanged": true,
+    "developmentRefsUnchanged": true,
+    "rawEncodingNote": "Original mixed WSL diagnostic bytes plus pytest ASCII output retained without normalization; raw SHA is over original bytes. This is a DEV log, not official CI material."
+  },
+  "previousPreflight": {
+    "record": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-requirement-document-development-results/development-execution.json",
+      "sha256": "cdebde216f82a91dddddd954284b9026bafbd303a651a97580f664ea9e785428",
+      "byteCount": 973812
+    },
+    "termination": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-requirement-document-development-results/partial-finalization.json",
+      "sha256": "f51245e196a2e8fefb9796aad72c47487a19176931d372b1b93ac845b6e792ab",
+      "byteCount": 1029
+    },
+    "testsStarted": false,
+    "patchesApplied": false,
+    "session": 12456,
+    "exitCode": 1,
+    "reason": "DEV had no local main and preflight assumed it; finally LinuxGit scan of Windows worktree stalled. Original partial record and precise termination retained; no test outcome is reclassified."
+  },
+  "currentPublishedSourceIncludesFix": false,
+  "newPublishedSource": null,
+  "currentSourceFormalAccepted": false,
+  "sourceGateAccepted": false,
+  "ciAccepted": false,
+  "sourceAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "fullV1Complete": false,
+  "boundary": "Finite patch content and genuine private6case execution observation only; current4bd remains blocked on this finding until a corrected successor is published and actually validated. Reviewer did not apply patches or run tests/validators."
+}

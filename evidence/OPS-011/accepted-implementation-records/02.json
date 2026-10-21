@@ -1,0 +1,306 @@
+{
+  "kind": "OPS011_CI753_INDEPENDENT_FINITE_CI_AND_P1_REVIEW",
+  "observedAt": "2026-10-20T21:23:04.793005+00:00",
+  "source": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+  "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+  "parent": "b42e5c8900ae3f39ec9f63762111185594455fb2",
+  "base": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+  "pr": 111,
+  "ciAccepted": true,
+  "mustFix": [],
+  "officialTerminal": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-ci753-terminal.json",
+    "sha256": "bd32ec8db793d0eada8cc09c4c61b9db18b72e56a80e11a482ba007f71cc6fda",
+    "byteCount": 23377
+  },
+  "sameHeadContent": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-independent-same-head-content.json",
+    "sha256": "bfb2f5a57f956e6db6f71cc6a7282141dd35f015c0b385fc656edb3a6e6ddac7",
+    "byteCount": 35369
+  },
+  "officialFreshFacts": {
+    "run": {
+      "id": 39496812696,
+      "run_number": 753,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "head_sha": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+      "pull_requests": [
+        {
+          "url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/111",
+          "id": 4940667901,
+          "number": 111,
+          "head": {
+            "ref": "chore/OPS-011-agent-edge-104-scope",
+            "sha": "1c077f7eefe76c1452f9362229730ee2ccf19404",
+            "repo": {
+              "id": 1308659933,
+              "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+              "name": "Guize"
+            }
+          },
+          "base": {
+            "ref": "main",
+            "sha": "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+            "repo": {
+              "id": 1308659933,
+              "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+              "name": "Guize"
+            }
+          }
+        }
+      ]
+    },
+    "job": {
+      "id": 118883881869,
+      "name": "Governance Checks",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39496812696,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout repository",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Setup Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Install governance dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify core dependencies importable",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Compile scripts and tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Pytest collect-only",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Resolve task context",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Task file validation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Project readiness check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Agent coordination check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Governance tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Skip audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Markdown basic check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "YAML/JSON schema check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Secret scan",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Evidence check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Evidence integrity check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Task-branch linkage check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Scope check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        },
+        {
+          "name": "Spec sync check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Parent directory reference check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23
+        },
+        {
+          "name": "CI workflow static validation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24
+        },
+        {
+          "name": "Generate governance report",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 25
+        },
+        {
+          "name": "Post Setup Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 49
+        },
+        {
+          "name": "Post Checkout repository",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 50
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 51
+        }
+      ]
+    },
+    "synthetic": {
+      "sha": "b6f4c4c39ff379a69037e47dc3bcee991f42de78",
+      "tree": "16c5ccbde7e4af8972afc45dc53203d45546cf65",
+      "parents": [
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87",
+        "1c077f7eefe76c1452f9362229730ee2ccf19404"
+      ]
+    },
+    "raw": {
+      "sha256": "127d22c5fd52dfef1c048dacb8a4afd3575cb2d6572e0f586c8ba9a0312ab3f1",
+      "byteCount": 285148
+    }
+  },
+  "rawLog": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-implementation-1c077f7-ci753.raw.txt",
+    "sha256": "127d22c5fd52dfef1c048dacb8a4afd3575cb2d6572e0f586c8ba9a0312ab3f1",
+    "byteCount": 285148
+  },
+  "rawOfficialDecodedBytesEqualPhysical": true,
+  "tests": {
+    "individual": 681,
+    "unique": 681,
+    "passed": 681,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "summaryCount": 1,
+    "reportedSeconds": 1050.9,
+    "noSkippedTestsAudit": true
+  },
+  "steps": {
+    "total": 28,
+    "success": 28,
+    "workflowSkipped": 0,
+    "allMandatoryStepsSuccessful": true
+  },
+  "p1": {
+    "threadId": "PRRT_kwDOTgCQ3c6ufixa",
+    "priorIndependentContent": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops011-requirement-document-independent-content-review.json",
+      "sha256": "e0a72f01df79144d302b1a7f8d48e375c340f3db04c581bb9a46a34c9c4064f9",
+      "byteCount": 8554
+    },
+    "fixedInActualSource": true,
+    "contentSatisfied": true,
+    "resolveEligible": true,
+    "resolutionActionPerformed": false,
+    "evidence": "Required closed v2 requirementDocument binds complete UTF8 content to the fixed requirements Git blob at the same ref. MD-only changes invoke original authentication; active/released body-only weakening tests and four schema negatives are present in the published source; complete current CI passed.",
+    "locations": [
+      "scripts/program-planning-revision.py:333",
+      "specs/coordination/planning-revision.schema.yaml:237",
+      "tests/governance/test_program_planning_revision.py:1356",
+      "tests/governance/test_program_planning_revision.py:1371"
+    ]
+  },
+  "localSource15State": "Still running at task dispatch; local terminal not accepted here.",
+  "sourceGateAccepted": false,
+  "localAccepted": false,
+  "sourceAccepted": false,
+  "formalSourceAccepted": false,
+  "finalIntegrationApproved": false,
+  "mergeApproved": false,
+  "actualMainAccepted": false,
+  "runtimeAccepted": false,
+  "formalPOCAccepted": false,
+  "fullV1Complete": false,
+  "mergeCondition": "P1 is fixed and may be resolved by root. Merge still requires independent acceptance of the unique local15 terminal and fresh integration conditions.",
+  "readerNotes": [
+    "Generic direct job GET provided no structured REST content; official run-jobs wrapper supplied exact job and28 successful steps.",
+    "Initial read-only test-ID regex excluded12 parameter names containing spaces; corrected full-line parser confirms681 unique IDs. No receipt was written on that rejected read; no product tests or CI were restarted."
+  ],
+  "actions": "Read-only official terminal run/jobs/logs/synthetic commit and pinned file comparisons. No source/index/ref/threads mutation, tests, validators or archive re-audit."
+}
