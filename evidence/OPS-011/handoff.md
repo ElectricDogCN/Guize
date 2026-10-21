@@ -1,36 +1,100 @@
-OPS-011 bounded Agent Edge scope Review plan
+OPS-011 normal Completion candidate
+Current state: completed / integrator; candidate not merged.
+Base: bc796b3746882f4cbe1f43cee012d17764ce240d
+Branch: chore/OPS-011-agent-edge-104-completion
+Last implementation: PR-111 / 9de3656325bc9b8053f99489c64db1ccbb4c5d79
+Current Completion PR/source/tree/source15/JUnit/same-head CI/independent source/main acceptance: PENDING.
 
-Issue: [#108](https://github.com/ElectricDogCN/Guize/issues/108).
-Current Review candidate state: review / reviewer. Base: `9de3656325bc9b8053f99489c64db1ccbb4c5d79`.
-Review branch: `chore/OPS-011-agent-edge-104-review`. Existing Review PR: [#112](https://github.com/ElectricDogCN/Guize/pull/112). Prepared successor source/tree: PENDING; the current Review candidate is not merged.
-Current Review source15/JUnit/same-head CI/independent source acceptance/Review-main acceptance: PENDING.
+Accepted prior inputs only:
+Scope of PASS: accepted implementation PR111/M9de and accepted Review PR112/source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4 / actual main bc796b3746882f4cbe1f43cee012d17764ce240d; this is not current Completion execution.
+Status: PASS
+Accepted implementation receipt: evidence/OPS-011/implementation-main-acceptance.json / SHA256 ae7e461e1707f82e298a055f3f5a3317b08df413c47b6df78af2cdcfd267da09
+Accepted Review-main receipt: evidence/OPS-011/review-main-acceptance.json / SHA256 4728a64d4ed5a710f249f2644c7e9d765684a10446f6e375a83aad255c619801
+Actual accepted Review source15 proof: SHA256 4faee60cb007d52bf4b68ffaf08d33ea40a805ac4a4634847770f54bdc82e64e; nonempty JUnit 681 cases, zero failures/errors/skips.
+Portable prior Review records: evidence/OPS-011/accepted-review-records/README.md maps all 43 declared originals with decoded/stored hashes and byte counts. The new review-main-acceptance.json is the verbatim Integrator receipt for actual Review main; its independent content review is explicitly identified. These are accepted prior records, not current Completion execution.
+Command: git diff --check 9de3656325bc9b8053f99489c64db1ccbb4c5d79...HEAD
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-task-file.py --task OPS-011
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-project-readiness.py
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-schemas.py
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-program-plan-integrity.py --base-ref 9de3656325bc9b8053f99489c64db1ccbb4c5d79
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-program-plan-history.py --base-ref 9de3656325bc9b8053f99489c64db1ccbb4c5d79 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-review
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-program-plan-transitions.py --base-ref 9de3656325bc9b8053f99489c64db1ccbb4c5d79 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-review
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-program-plan-finalization.py --base-ref 9de3656325bc9b8053f99489c64db1ccbb4c5d79 --head-ref HEAD --task OPS-011
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 9de3656325bc9b8053f99489c64db1ccbb4c5d79 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-review
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 9de3656325bc9b8053f99489c64db1ccbb4c5d79 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-review
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/run-agent-coordination-gate.py --base-ref 9de3656325bc9b8053f99489c64db1ccbb4c5d79 --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-review
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/run-task-scope-gate.py --task OPS-011 --base 9de3656325bc9b8053f99489c64db1ccbb4c5d79
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-evidence.py --task OPS-011
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: make verify TASK=OPS-011 BASE=9de3656325bc9b8053f99489c64db1ccbb4c5d79 HEAD_REF=HEAD BRANCH=chore/OPS-011-agent-edge-104-review
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
+Command: python scripts/check-markdown.py
+Exit Code: 0
+Result: PASS
+Scope: accepted Review source c3cac1f0bcc3d0bd53747bf2d9c90394795271d4
 
-Implementation [PR111](https://github.com/ElectricDogCN/Guize/pull/111) actually merged as `9de3656325bc9b8053f99489c64db1ccbb4c5d79` with source `1c077f7eefe76c1452f9362229730ee2ccf19404` and tree `16c5ccbde7e4af8972afc45dc53203d45546cf65`. Its unique source15 completed all fifteen commands with 681 passing governance cases and zero failures/errors/skips; same-head CI753 succeeded. The original five main checks and the corrected coordination check completed exit0. The original wrong coordination context remains historical; the corrected call uses the real implementation PR branch.
+Current Completion commands: NOT EXECUTED; Exit Code/Result/raw/JUnit: PENDING.
+git diff --check bc796b3746882f4cbe1f43cee012d17764ce240d...HEAD
+python scripts/check-task-file.py --task OPS-011
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref bc796b3746882f4cbe1f43cee012d17764ce240d
+python scripts/check-program-plan-history.py --base-ref bc796b3746882f4cbe1f43cee012d17764ce240d --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-completion
+python scripts/check-program-plan-transitions.py --base-ref bc796b3746882f4cbe1f43cee012d17764ce240d --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-completion
+python scripts/check-program-plan-finalization.py --base-ref bc796b3746882f4cbe1f43cee012d17764ce240d --head-ref HEAD --task OPS-011
+python scripts/check-program-lifecycle-guards.py --base-ref bc796b3746882f4cbe1f43cee012d17764ce240d --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-completion
+python scripts/run-program-lifecycle-gate.py --base-ref bc796b3746882f4cbe1f43cee012d17764ce240d --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-completion
+python scripts/run-agent-coordination-gate.py --base-ref bc796b3746882f4cbe1f43cee012d17764ce240d --head-ref HEAD --task OPS-011 --branch-name chore/OPS-011-agent-edge-104-completion
+python scripts/run-task-scope-gate.py --task OPS-011 --base bc796b3746882f4cbe1f43cee012d17764ce240d
+python scripts/check-evidence.py --task OPS-011
+make verify TASK=OPS-011 BASE=bc796b3746882f4cbe1f43cee012d17764ce240d HEAD_REF=HEAD BRANCH=chore/OPS-011-agent-edge-104-completion
+python scripts/check-markdown.py
 
-Implementation-main push CI754 succeeded on this exact M9de: 681 passed in1566.95s, zero failures/errors/test skips, with23 successful steps and5 workflow-conditional skipped steps that are not skipped tests. Independent actual-main acceptance is complete. Its exact original record is `evidence/OPS-011/implementation-main-acceptance.json` (SHA256 `ae7e461e1707f82e298a055f3f5a3317b08df413c47b6df78af2cdcfd267da09`,20804bytes); actualMainAccepted and ciAccepted are true and mustFix is empty. The current Review candidate is not merged; its prepared successor source/tree/source15/JUnit/same-head CI/independent source and Review-main acceptance remain PENDING. No command has run for this prepared known-PR consistency successor. Earlier implementation results do not count as current Review execution.
+Only own Program/Active/Task/Evidence metadata may change. Original sixteen literal claims, assigned roles, lease history, firstUse, original three JSON, accepted code receipt, ordinary Ledger and all old raw/history remain unchanged. Installed GZ022 stays planning/planned without Task/Issue/lease. Normal real Completion-main acceptance must finish before GZ022 reservation; runtime/formal POC/fullV1 remain incomplete.
 
-Review may change only its own Foundation row in Program, own Active entry, Task and OwnEvidence. The original sixteen literal claims, assigned roles, original lease, first-use declaration, original inputs and ordinary Ledger remain unchanged. All implementation, schema and test edits are forbidden in this phase.
 
-The sixteen exact Registry claims cover the Program's fixed first use, three coordination schemas, coordination README, six governance scripts and five governance test files. Own Task, Registry and Evidence are allowed task metadata. There are no shared claims.
-
-The original three-target declaration remains byte-exact: freeze the existing 27 V1 members/GZ020, add only planned GZ022, and add BASELINE-GZ022 with POC003/POC005 roots. The engine also authenticates the separate, original GZ022 definition when it is normally reserved later. It checks fixed scope membership, independent requirement/acceptance joins, final closure, scope-local wave order and real producer completion. Existing V1, ten POCs, legacy manifest permissions, lifecycle history, global 3-active/1-high/critical isolation and real cross-scope dependencies remain mandatory.
-
-No GZ022 Issue, Task Spec, lease or business definition is installed here. No runtime, Android background capability, formal POC, production access or full V1 completion is accepted.
-
-Roles: owner ElectricDogCN; coordinator program-coordinator-agent; implementer planning-revision-agent; reviewer independent-planning-revision-review-agent; integrator integration-agent. MOD-GOV/high; REQ-V1-0010; integrationOrder 7; merge strategy. Lease remains 2026-10-20T15:16:57Z through 2026-10-27T15:16:57Z.
-
-Produces CONTRACT-PROGRAM-PLAN; consumes CONTRACT-TASK-SPEC and CONTRACT-ACTIVE-WORK. Exact commands are in [commands](commands.txt), current results in [test results](test-results/README.md). The accepted implementation-main receipt is already bound; its original inputs are [recoverable here](accepted-implementation-records/README.md). Existing Review PR [#112](https://github.com/ElectricDogCN/Guize/pull/112) is the integration locator. The next role reviews this prepared successor's actual immutable source/tree, complete argv, terminal exits/raw/JUnit and same-head CI before integration. This successor source/tree/receipt is PENDING.
-
-Rollback has not run. Before this metadata phase merges, withdraw the Review candidate while retaining accepted implementation code, reservation and history. A stopped active task must use its normal lifecycle; after integration use a separately registered forward fix and the existing frozen/recovery procedure where applicable. Never reset canonical history or rewrite original declarations/completion records.
-
-## Prior implementation source executions
-
-Source `af290fd5b69ff09aff31ca086cbac2ca5c998d71` stopped at scope after eleven successful commands; its final three commands and JUnit did not run. Source `20366b0546c09a2ec776ab801f8efa2aea45713f` corrected OwnEvidence scope, passed thirteen commands, then make verify exited 2 with 667 passed, 7 failed, 0 errors and 0 skipped across 674 cases; docs did not start. Their original failures remain in [af290 history](history/af290fd/README.md) and [20366 history](history/20366b0/README.md). CI749 and CI750 ended cancelled; neither supplied complete CI acceptance.
-
-Source `4bdfe42532aa5bfa62f879af5f3dedd69c673fc5` then naturally completed all fifteen commands with exit0, including 676 passed in1239.05s and nonempty JUnit with zero failures/errors/skips. Authoring and native snapshots stayed clean and unchanged. Its [actual execution and review hold](history/4bdfe42/README.md) remain historical: a P1 review found that normative Markdown prose could change while its headings and the two YAML catalogs stayed fixed. This source is not formally accepted or merged; Its same-head CI751 later ended cancelled at approximately thirty minutes with539 passed/0 failed rows at79%, no final summary; the duration is consistent with the declared job limit, not an explicit timeout log. It cannot validate the current successor.
-
-Published source `b42e5c8900ae3f39ec9f63762111185594455fb2` includes the fixed full requirementDocument binding and safe Task Program parser. Its actual fifteen commands completed exit0 with680passed/0failures/errors/skips in1207.25s, both worktrees unchanged. CI752 officially ended cancelled after558passed/0failed at82%, without a final summary and without a newer push. Its duration matches the declared thirty-minute limit only as an inference. The [bounded original records](history/b42e5c8/README.md) preserve20direct results, exact executed entry, official CI terminal and decoded raw log; no formal acceptance or successor verdict transfers. Preparation d1 had no separate source execution or CI.
-
-The accepted implementation source `1c077f7eefe76c1452f9362229730ee2ccf19404` loads classifier schema machinery only when actual frozen-catalog/Markdown authentication or a real planning transaction needs it. All actual-Git binding, original-manifest audits, frozen checks before early return, exact schemas and permission/projection order remain. Actual schema exception classes are bound before both needed paths; early semantic rejection uses the original base exception classes. One added real-Git Program extra-field case verifies the original classified ValidationError result; old test methods are unchanged. Nineteen targeted development cases passed in79.29s with nonempty zero-F/E/S JUnit (development record SHA256 `6b31d32cc7f9b1a1461e2a31cb9279a894be5eeeb9142547d66361d30130d588`), without asserting that SchemaError itself was thrown. A single cold empty-transaction profile measures dependency-loading overhead, not guaranteed CI duration.
-
-All sixteen Registry claims, original roles/lease/first-use bytes, V1 obligations and ordinary Ledger stay unchanged. Current Review source gates, JUnit, same-head CI, independent source and Review-main acceptance remain PENDING. The accepted implementation-main CI754 and independent acceptance are bound by `evidence/OPS-011/implementation-main-acceptance.json` / SHA256 `ae7e461e1707f82e298a055f3f5a3317b08df413c47b6df78af2cdcfd267da09`. No GZ-022 business registration, runtime, formal POC or fullV1 acceptance is produced.
+Preserved original history (unchanged files):
+- evidence/OPS-011/history/20366b0/README.md
+- evidence/OPS-011/history/4bdfe42/README.md
+- evidence/OPS-011/history/af290fd/README.md
+- evidence/OPS-011/history/b42e5c8/README.md
