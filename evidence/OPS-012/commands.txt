@@ -1,11 +1,22 @@
-OPS-012 early-history audit implementation
-Base: c5f201adb2e11ffea912f862c19918157f9cf106
-Branch: chore/OPS-012-early-history-preflight
-Task/Issue: OPS-012/#115
-Current source execution, independent review, CI and code merge: pending.
+OPS-012 review candidate
+Base: b2f844ba22996416b54155290a4685188dc774c6
+Branch: chore/OPS-012-early-preflight-review
+OPS-012 last actual code: PR-122 / b2f844ba22996416b54155290a4685188dc774c6
+Predecessor actual-main accepted at capture: False; full predecessor main CI is required before integration.
+Current source gates/CI/main: pending actual execution.
 
-git diff --check c5f201adb2e11ffea912f862c19918157f9cf106...HEAD
-python -m pytest tests/governance/test_history_yaml_loader.py tests/governance/test_program_plan_history.py -k "history_yaml_loader or foundation_preflight" -q
-make verify TASK=OPS-012 BASE=c5f201adb2e11ffea912f862c19918157f9cf106 HEAD_REF=HEAD BRANCH=chore/OPS-012-early-history-preflight
-python scripts/run-program-lifecycle-gate.py --base-ref c5f201adb2e11ffea912f862c19918157f9cf106 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-history-preflight
-All current outcomes pending. Prior last actual code merge PR117/1ffd037de9c6514d9a325cce4c8e33faaec8a389 remains historical context, not the future repair completion identity.
+git diff --check b2f844ba22996416b54155290a4685188dc774c6...HEAD
+python scripts/check-task-file.py --task OPS-012
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref b2f844ba22996416b54155290a4685188dc774c6
+python scripts/check-program-plan-history.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
+python scripts/check-program-plan-transitions.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
+python scripts/check-program-lifecycle-guards.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
+python scripts/run-program-lifecycle-gate.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
+python scripts/run-agent-coordination-gate.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
+python scripts/check-program-plan-finalization.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012
+python scripts/run-task-scope-gate.py --task OPS-012 --base b2f844ba22996416b54155290a4685188dc774c6
+python scripts/check-evidence.py --task OPS-012
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+Current exit codes: pending.
