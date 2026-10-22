@@ -1,0 +1,18 @@
+Source Base: 5c3bcd11818c862b27876919925547808a062bc5; uncommitted component bytes
+Command: ["/home/sur/.cache/guize-takeover/governance-venv/bin/python", "-X", "utf8", "-B", "-m", "unittest", "discover", "-s", "poc/POC-05-metadata-scale", "-p", "test_controlled_source_run.py", "-v"]
+test_actual_forwarded_range_and_negative_bytes_and_missing_validator_are_unchanged (test_controlled_source_run.SourceTests.test_actual_forwarded_range_and_negative_bytes_and_missing_validator_are_unchanged) ... ok
+test_actual_native_chain_assembles_all_original13_from_observed_source_without_qualifying_it (test_controlled_source_run.SourceTests.test_actual_native_chain_assembles_all_original13_from_observed_source_without_qualifying_it) ... ok
+test_actual_quota_reset_and_injected_status_disconnect_are_distinct_from_upstream (test_controlled_source_run.SourceTests.test_actual_quota_reset_and_injected_status_disconnect_are_distinct_from_upstream) ... ok
+test_artifact_budget_alias_and_omitted_body_are_not_successful_substitutes (test_controlled_source_run.SourceTests.test_artifact_budget_alias_and_omitted_body_are_not_successful_substitutes) ... ok
+test_complete_repeated_observations_have_frozen_pages_and_no_credentials_in_artifacts (test_controlled_source_run.SourceTests.test_complete_repeated_observations_have_frozen_pages_and_no_credentials_in_artifacts) ... ok
+test_fault_matrix_binds_real_adapter_decisions_and_bounded_retries (test_controlled_source_run.SourceTests.test_fault_matrix_binds_real_adapter_decisions_and_bounded_retries) ... ok
+test_gateway_denies_admin_mutators_scope_escape_and_expired_auth_before_forwarding (test_controlled_source_run.SourceTests.test_gateway_denies_admin_mutators_scope_escape_and_expired_auth_before_forwarding) ... ok
+test_incomplete_duplicate_parent_pages_never_prove_absence (test_controlled_source_run.SourceTests.test_incomplete_duplicate_parent_pages_never_prove_absence) ... ok
+test_unapproved_payload_and_failed_confirmation_preserve_actual_fixture_state (test_controlled_source_run.SourceTests.test_unapproved_payload_and_failed_confirmation_preserve_actual_fixture_state) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 12.451s
+
+OK
+
+Exit Code: 0

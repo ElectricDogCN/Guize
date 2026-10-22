@@ -2,6 +2,26 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; original13 qualification and approved real source/scale run pending.
+
+## Current controlled source execution entry
+
+The reviewed source controller now joins the waiting native reservation, complete repeated source listings, actual controlled create/update/delete with before/after source confirmation, five raw Range/validator probes, actual bounded adapter faults/retries, fixed gateway quota and three typed original13 observation reports. The external gateway forwards only the dedicated reader scope and keeps all credentials in RAM. It explicitly distinguishes adapter-injected failures and quota from actual upstream provider behavior. Expected changes never substitute for source observations. Failed confirmation preserves the changed fixture and failed receipt without accepting an event; observed negative response bodies and missing validators remain unchanged. The CLI produces only a request for independent approval, binds actual waiting PID/configuration/build/argv and checks the future approved window before execution. All reports retain qualificationAccepted=false until the frozen qualifier decides.
+
+Independent content review accepted the exact six files at2026-10-22T20:38:35Z, mustFix=[], with actual Linux10 unit tests/12.947s/exit0/no skips. The final Windows all90 developmental suite passed50.054s/exit0/no skips; Linux-only cases assert explicit platform rejection on Windows. Exact raw16219B SHA7ac5b038995d6c45f4982bc31227ec1fdab3ab1bf808f71c8b4ee7e0a7c99437 and the actual invocation receipt are retained. Earlier first8 runs on both platforms each had two test-harness errors: missing direct-DAV maximum_bytes and an invalid-cardinality duplicate fixture. Corrections supplied the required bound and preserved valid page cardinality so the duplicate check is actually exercised; no assertion was weakened. All first/intermediate raw logs remain retained. New committed-source nativeTask15/code90 and source/scope review remain pending.
+
+Predecessor5c3 actual nativeTask15/code80/independent exact-source acceptance is retained byte-exact in native-lifecycle-5c3bcd1-source-validation/. Its CI824/run39846291163 SUCCESS713/1474.60s/no skipped tests is separately retained in native-lifecycle-5c3bcd1-ci824/. These accept only5c3 and do not transfer to the new source.
+
+Actual dedicated preparation now uses storage2 at /guize-poc005-canonical, root /home/sur/.cache/guize-takeover/poc005-native-openlist-root-v1 and reader-relative scope fixture. The physical fixture subdirectory contains10000files/500directories/17920000payload bytes; all payloads were copied and reread, mapSHA459f5dddf9291f913ce1b696194ec8c70da1dbf8d27f21edc3f69b66e0d1db3d. Latest scoped preparation verified other storage/user records unchanged; original candidate and interrupted Windows tree remain preserved. Private reader credentials stay outside Evidence. Preparation is not an approved experiment, source observation or qualification. No actual three mutations have run.
+
+Next: commit exact reviewed source and nativeTask15/code90/source review; publish normal FF and follow same-head CI. Fix the actual immutable canonical inputs, payload intents, resource configuration, adapter quota, owned source PID and future window; reserve the actual scanner PID and obtain independent concrete approval, then execute the complete original13 OpenList observations and frozen qualification. Full10k/100k/1m plus compressed-input support remain incomplete. Preserve frozen policy/schema/checkers, other leases, shared order3 after POC003/order2 and isolation from host ATS measurements. No taskCompletion, main integration or fullV1 acceptance is claimed.
+
+## Predecessor history (source-specific recorded status)
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; original13 and approved actual source/scale workload pending.
 
 ## Current native lifecycle implementation
