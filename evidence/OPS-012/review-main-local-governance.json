@@ -1,0 +1,39 @@
+{
+  "kind": "ACTUAL_MERGED_REVIEW_MAIN_LOCAL_GOVERNANCE",
+  "actualMain": "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+  "tests": 695,
+  "seconds": 988.01,
+  "junit": "review-main-governance.xml",
+  "junitSha256": "a191bec7590abe1725e7497415b632bce83391d2c440e2f09951a665acdfaedb",
+  "junitBytes": 110199,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "execution": {
+    "source": "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+    "argv": [
+      "python",
+      "-m",
+      "pytest",
+      "tests/governance/",
+      "-q",
+      "--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-review-f18dcca-local-governance/governance.xml"
+    ],
+    "pid": 109649,
+    "waitCompleted": true,
+    "exitCode": 0
+  },
+  "governanceLog": {
+    "encoding": "utf8",
+    "sha256": "c95abdc9c33a944d4e056c5f4221b55e622afff9b3513ddea55dbce7d3399304",
+    "byteCount": 1286,
+    "raw": "Source Commit: f18dcca18741f915db44594cd6f9af1d2cb4d1f6\nCommand: python -m pytest tests/governance/ -q --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-review-f18dcca-local-governance/governance.xml\n........................................................................ [ 10%]\n........................................................................ [ 20%]\n........................................................................ [ 31%]\n........................................................................ [ 41%]\n........................................................................ [ 51%]\n........................................................................ [ 62%]\n........................................................................ [ 72%]\n........................................................................ [ 82%]\n........................................................................ [ 93%]\n...............................................                          [100%]\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-review-f18dcca-local-governance/governance.xml -\n695 passed in 988.01s (0:16:28)\n\nExit Code: 0\n"
+  },
+  "skipAuditLog": {
+    "encoding": "utf8",
+    "sha256": "391a48b75a61265d4cd739c4d28a70eff902786e40139082dc07f2cf70180a75",
+    "byteCount": 323,
+    "raw": "Source Commit: f18dcca18741f915db44594cd6f9af1d2cb4d1f6\nCommand: python scripts/check-pytest-skips.py /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-review-f18dcca-local-governance/governance.xml tests/governance/allowed-skips.txt\nOK: No skipped tests\n\nExit Code: 0\n"
+  },
+  "attribution": "Actual local mainf18 execution; NOT downloaded hosted/source2ae XML."
+}
