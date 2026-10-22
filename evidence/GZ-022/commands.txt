@@ -1,20 +1,62 @@
-GZ-022 business definition preparation
-Base: 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc
-Branch: chore/GZ-022-agent-edge-104-definition
-Issue: #114
-Original declaration SHA256: 1293c18f80a74b43b4bdccc92c10435e281e4c51d50f2c4ff4613f8acc5d2303
+GZ-022 accepted implementation: PR-126 / b0d533a8d03842cb60730c4512b3c02d90494157
+Accepted predecessor implementation: b0d533a8d03842cb60730c4512b3c02d90494157
+Current phase: review; base: b0d533a8d03842cb60730c4512b3c02d90494157; branch: chore/GZ-022-agent-edge-104-definition
+Current metadata source tests/review/CI/main acceptance: PENDING; predecessor results do not qualify it.
+No runtime, POC or complete V1 PASS claim. Original declaration/supplement, lease, business definitions and previous failures remain.
+The following commands belong to accepted predecessor source 4e1f6189bef8517400e24274a867fe4e63ba9e34; current candidate commands remain in Task Spec and are pending.
 
-git diff --check 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc...HEAD
-python scripts/check-task-file.py --task GZ-022
-python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc
-python scripts/check-program-plan-history.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
-python scripts/check-program-plan-transitions.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
-python scripts/check-program-lifecycle-guards.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
-python scripts/run-program-lifecycle-gate.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
-python scripts/run-agent-coordination-gate.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
-python scripts/check-program-plan-finalization.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022
-python scripts/run-task-scope-gate.py --task GZ-022 --base 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc
-python scripts/check-evidence.py --task GZ-022
-python scripts/check-project-readiness.py
-python scripts/check-markdown.py
+Command: git diff --check 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc...HEAD
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-task-file.py --task GZ-022
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-schemas.py
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-program-plan-integrity.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-program-plan-history.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-program-plan-transitions.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/run-agent-coordination-gate.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-definition
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-program-plan-finalization.py --base-ref 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc --head-ref HEAD --task GZ-022
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/run-task-scope-gate.py --task GZ-022 --base 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-evidence.py --task GZ-022
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-project-readiness.py
+Exit Code: 0
+Result: PASS
+
+Command: python scripts/check-markdown.py
+Exit Code: 0
+Result: PASS
