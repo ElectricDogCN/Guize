@@ -6,9 +6,10 @@
 - `docs/22-repository-and-directory-plan.md`
 - `evidence/GZ-022/changed-files.md`
 - `evidence/GZ-022/commands.txt`
+- `evidence/GZ-022/definition-458c539-check-failure.json`
 - `evidence/GZ-022/handoff.md`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-adoption.json`
-- `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt`
+- `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.base64.json`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.snapshot.json`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-acceptance.json`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/00.txt`
@@ -18,7 +19,7 @@
 - `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/04.txt`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/results.json`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-original-auth.json`
-- `evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt`
+- `evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.base64.json`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.snapshot.json`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-independent-review.json`
 - `evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/00.txt`

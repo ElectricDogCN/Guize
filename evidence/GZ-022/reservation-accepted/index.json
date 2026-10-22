@@ -19,9 +19,11 @@
     },
     {
       "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-ci796.raw.txt",
-      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.base64.json",
       "bytes": 286345,
-      "sha256": "41ea6359a29dc8c74fe3362e98a2b24112ee25835ddbc769ab9f6018ceed26c6"
+      "sha256": "41ea6359a29dc8c74fe3362e98a2b24112ee25835ddbc769ab9f6018ceed26c6",
+      "archiveEncoding": "base64 JSON; decode content to recover exact original bytes",
+      "archiveSha256": "757fbc3f8f0c2bfed24a250d4e9c1e13a277318006c1361ab2ddfdd278056c78"
     },
     {
       "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-ci796.snapshot.json",
@@ -49,9 +51,11 @@
     },
     {
       "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-ci797.raw.txt",
-      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.base64.json",
       "bytes": 278128,
-      "sha256": "6b690b2697a24d90f58e862e37eb9297bfb5309d198934a6a3bb76796ef4f54a"
+      "sha256": "6b690b2697a24d90f58e862e37eb9297bfb5309d198934a6a3bb76796ef4f54a",
+      "archiveEncoding": "base64 JSON; decode content to recover exact original bytes",
+      "archiveSha256": "a6dce99ce3dcb978c7160801b4180f75742a4e594fa286a86b8dae4f3a84dfe5"
     },
     {
       "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-ci797.snapshot.json",
