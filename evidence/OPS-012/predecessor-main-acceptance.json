@@ -20,7 +20,10 @@
   "mainCiNumber": 790,
   "mainCiStatus": "in_progress",
   "mustFix": [],
-  "sourceAdmission": "ops012-preflight-669f721-source-admission.json",
-  "mainChecks": "ops012-preflight-b2f844b-main-checks/results.json",
-  "note": "Actual accepted source and actual merge/tree/main5 authorize only reversible Review metadata preparation. Pending mainCI790 is not a pass; downstream integration must await final actual main acceptance."
+  "sourceAdmission": "evidence/OPS-012/implementation-source-admission.json",
+  "mainChecks": "evidence/OPS-012/implementation-main-checks.json",
+  "note": "Actual accepted source and actual merge/tree/main5 authorize only reversible Review metadata preparation. Pending mainCI790 is not a pass; downstream integration must await final actual main acceptance.",
+  "mainCiEvidence": "evidence/OPS-012/implementation-main-ci790.json",
+  "capturePhase": "reversible-review-preparation",
+  "integrationPrerequisite": "Actual terminal success of code-main CI790, required independently before integrating this Review candidate."
 }
