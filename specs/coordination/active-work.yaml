@@ -9,17 +9,17 @@ tasks:
 - taskId: OPS-012
   issue: 115
   title: 降低历史治理校验的安全 YAML 解析开销
-  status: review
+  status: blocked
   riskLevel: high
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: history-parser-performance-agent
   reviewer: independent-history-parser-review-agent
   integrator: integration-agent
-  agentRole: reviewer
-  branch: chore/OPS-012-history-yaml-review
+  agentRole: coordinator
+  branch: chore/OPS-012-history-yaml-rework-blocked
   baseBranch: main
-  baseSha: 1ffd037de9c6514d9a325cce4c8e33faaec8a389
+  baseSha: f18dcca18741f915db44594cd6f9af1d2cb4d1f6
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-012
@@ -39,6 +39,7 @@ tasks:
   exclusivePaths:
   - scripts/check-program-plan-history.py
   - tests/governance/test_history_yaml_loader.py
+  - tests/governance/test_program_plan_history.py
   sharedPaths: []
   handoffPath: evidence/OPS-012/handoff.md
   integrationStrategy: merge

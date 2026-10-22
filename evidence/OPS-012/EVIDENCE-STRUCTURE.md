@@ -1,6 +1,6 @@
-# OPS-012 Review Evidence structure
+# OPS-012 blocked rework Evidence structure
 
-Current phase is review/reviewer after actual code main1ffd037. Code source results retain their implementation attribution; current Review checks and hosted CI are recorded separately after execution.
+Current phase is blocked/coordinator candidate after Review mainf18dcca and rejected Completion PR119. Prior accepted command/CI/JUnit records retain their own phase identities. Current metadata scope amendment and later rework acceptance remain pending; no code changes in this phase.
 
 | Canonical entry | Compatible target | Reason |
 | --- | --- | --- |

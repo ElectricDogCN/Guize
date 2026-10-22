@@ -1,8 +1,6 @@
-OPS-012 normal Review capture
-Phase: review/reviewer
-Base: 1ffd037de9c6514d9a325cce4c8e33faaec8a389
-Branch: chore/OPS-012-history-yaml-review
-Last code: PR117/1ffd037de9c6514d9a325cce4c8e33faaec8a389
-Current Review source/commands/CI/main: UNEXECUTED AT CAPTURE.
+OPS-012 normal rework blocked candidate
+Base: f18dcca18741f915db44594cd6f9af1d2cb4d1f6
+Branch: chore/OPS-012-history-yaml-rework-blocked
+Current source13/CI/review/main: pending actual execution.
 
-Reject stale base, last-code identity substitution, altered original claims/roles/lease and current-source result transfer.
+Rejected Completion PR119/source3f89cff remains FAIL at history step4; later checks did not execute. Accepted prior Review records remain in review-main-acceptance.json and its durable referenced archives. Next: validate and integrate this own metadata scope amendment, then implement Review-stage preflight using original Completion semantics. Claims3 (original2 plus exact existing history regression file), roles/lease retained. No new code or current acceptance at capture.

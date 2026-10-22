@@ -1,0 +1,70 @@
+{
+  "pr": 119,
+  "source": "3f89cff3f6dadf6fae8debd74cf606905c103e3f",
+  "merged": false,
+  "results": {
+    "task": "OPS-012",
+    "source": "3f89cff3f6dadf6fae8debd74cf606905c103e3f",
+    "commands": [
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6...HEAD"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-task-file.py",
+          "--task",
+          "OPS-012"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-schemas.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-integrity.py",
+          "--base-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-history.py",
+          "--base-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-completion"
+        ],
+        "exitCode": 1,
+        "waitCompleted": true
+      }
+    ]
+  },
+  "historyFailureRaw": "Source: 3f89cff3f6dadf6fae8debd74cf606905c103e3f\nCommand: python scripts/check-program-plan-history.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion\n{\"status\": \"FAIL\", \"message\": \"Foundation OPS-012 post-implementation history at d0d57ccc6fd014a6e41126dfbbf08b0637c1295d active Foundation must retain one ISSUE registration and no completion merge\"}\n\nExit Code: 1\n",
+  "laterCommandsNotExecuted": true,
+  "issue115Reopened": true,
+  "rootCause": "An invalid intermediate Review metadata commit was merged; strict Completion correctly rejects it.",
+  "remediation": "Normal blocked→in_progress rework to add Review-stage audit using existing strict history rules, with existing regressions unchanged."
+}
