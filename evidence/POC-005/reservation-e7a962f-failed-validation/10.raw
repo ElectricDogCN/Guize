@@ -1,0 +1,6 @@
+Source: e7a962f225bb0004fd49b513a633d9dbb82fcfc3
+Command: python scripts/run-agent-coordination-gate.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale-reservation
+{"status": "PASS", "message": "Agent coordination valid: 2 active tasks, 0 high/critical", "details": {"activeTaskIds": ["POC-003", "POC-005"]}}
+INFO: POC-005 is a Reservation PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 0
