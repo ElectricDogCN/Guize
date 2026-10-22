@@ -1,0 +1,130 @@
+{
+  "kind": "OPS012_ACTUAL_IMPLEMENTATION_MAIN_CHECKS",
+  "actualMain": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+  "source": "1152a04b313ee864f48bc29ca60bc3da00c9b9f7",
+  "base": "1ba64a9b4b62a918925b4a63658288a443d717e7",
+  "tree": "53cbae8efa25b69adb938401ca28a8dae0568a3a",
+  "identityVerified": true,
+  "before": {
+    "head": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+    "tree": "53cbae8efa25b69adb938401ca28a8dae0568a3a",
+    "parents": "1ba64a9b4b62a918925b4a63658288a443d717e7 1152a04b313ee864f48bc29ca60bc3da00c9b9f7",
+    "branch": "main",
+    "status": ""
+  },
+  "after": {
+    "head": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+    "tree": "53cbae8efa25b69adb938401ca28a8dae0568a3a",
+    "parents": "1ba64a9b4b62a918925b4a63658288a443d717e7 1152a04b313ee864f48bc29ca60bc3da00c9b9f7",
+    "branch": "main",
+    "status": ""
+  },
+  "checks": [
+    {
+      "label": "integrity",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7"
+      ],
+      "pid": 104633,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "integrity.txt",
+      "rawSha256": "b4a8de3c06865f8e5890bf0b805c0ae9c1516a643f56e11c069c27e604cbfa5c",
+      "rawBytes": 419
+    },
+    {
+      "label": "history",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7",
+        "--head-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-performance"
+      ],
+      "pid": 104695,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "history.txt",
+      "rawSha256": "818fc432716d66ee08812fbd7027e64971374729c25263d8921a802f5db80abb",
+      "rawBytes": 555
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7",
+        "--head-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-performance"
+      ],
+      "pid": 104879,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "transitions.txt",
+      "rawSha256": "4ee481aa29d133ddecc9f5b2a96c8fd84f4bbb37ff915e3e9f3301d315b11d58",
+      "rawBytes": 472
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7",
+        "--head-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-performance"
+      ],
+      "pid": 104983,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "raw-lifecycle.txt",
+      "rawSha256": "a6cbb5f91765a39c1d838b6f0f0bb6a92d02391fb7e42f7cdbe618b05dda22c4",
+      "rawBytes": 538
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7",
+        "--head-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-performance"
+      ],
+      "pid": 105057,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "coordination.txt",
+      "rawSha256": "260ee9e627276a55bdd048f0b1135d9354f40987b4c627bcf8265bd3bbd63a99",
+      "rawBytes": 431
+    }
+  ],
+  "allFiveRealWait0": true,
+  "implementationEffectiveForReviewMetadata": true,
+  "currentSourceCiAccepted": true,
+  "actualMainCiAccepted": false,
+  "actualMainAccepted": false,
+  "fullSuiteRepeated": false,
+  "taskCompleted": false
+}

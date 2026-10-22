@@ -1,10 +1,14 @@
-OPS-012 implementation capture
-Base: 1ba64a9b4b62a918925b4a63658288a443d717e7
-Branch: chore/OPS-012-history-yaml-performance
-Phase: in_progress / implementer
-Canonical reservation: PR116 / 1ba64a9b4b62a918925b4a63658288a443d717e7
-Original claims and roles/lease retained. Registration hosted CI767 cancelled; audited delegated admission retained. Current-code results: UNEXECUTED AT CAPTURE.
+OPS-012 normal Review capture
+Phase: review/reviewer
+Base: 1ffd037de9c6514d9a325cce4c8e33faaec8a389
+Branch: chore/OPS-012-history-yaml-review
+Last code: PR117/1ffd037de9c6514d9a325cce4c8e33faaec8a389
+Current Review source/commands/CI/main: UNEXECUTED AT CAPTURE.
 
-Complete code source validation/independent review/hostedCI, then normal Review/Completion and GZ022 registration.
+Complete current Review admission/main, then normal Completion with actualCode117/1ffd identity and Issue115closed/completed before Completion checks, release ownRegistry, then GZ022.
 
-Previous source74adf3f: local targeted14 passed; make verify stopped at Scope with exit2 before full local governance. Hosted CI771 ran695 tests/zeroFES in1251.19s and passed skip audit; overall failed only Scope because own Evidence was not explicitly listed in Task allowed scope. This forward correction declares only existing Own Evidence permission; original two exclusive code claims, roles, lease, validators and assertions remain. Current-source complete validation and hostedCI acceptance are pending.
+Predecessor d0d57cc failed transition validation at step6; later checks were not executed. Fixed only premature Foundation completionRef/mergeCommit; current-source checks remain pending.
+
+PR118 findings addressed: final identical-tree independent review completed on main1ffd (receipt6331614334), all five main logs and CI773 output archived, full handoff restored, premature completion provenance fixed. Current successor checks/CI/review still require execution.
+
+Predecessor e534ea6 diff check rejected six whitespace-bearing official log lines; current successor stores exact original log in JSON raw field without altering any original bytes, preserving its original hash. Other checks had not started.

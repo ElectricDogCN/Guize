@@ -1,8 +1,8 @@
-OPS-012 implementation capture
-Base: 1ba64a9b4b62a918925b4a63658288a443d717e7
-Branch: chore/OPS-012-history-yaml-performance
-Phase: in_progress / implementer
-Canonical reservation: PR116 / 1ba64a9b4b62a918925b4a63658288a443d717e7
-Original claims and roles/lease retained. Registration hosted CI767 cancelled; audited delegated admission retained. Current-code results: UNEXECUTED AT CAPTURE.
+OPS-012 normal Review capture
+Phase: review/reviewer
+Base: 1ffd037de9c6514d9a325cce4c8e33faaec8a389
+Branch: chore/OPS-012-history-yaml-review
+Last code: PR117/1ffd037de9c6514d9a325cce4c8e33faaec8a389
+Current Review source/commands/CI/main: UNEXECUTED AT CAPTURE.
 
-Current code source has no executed result at this capture. Retain actual immutable source, argv/PID/wait/exit, raw logs and nonempty zero-FES JUnit.
+Current Review13 checks and hosted fullgovernance results are pending. Current metadata does not generate a new local full-suite JUnit; code source695 proof and current hostedJUnit are separately attributed.

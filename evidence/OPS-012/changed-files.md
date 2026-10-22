@@ -1,22 +1,25 @@
-OPS-012 implementation candidate at base1ba64a9 / original branch chore/OPS-012-history-yaml-performance. Current source results unexecuted at capture.
+# OPS-012 Review exact current inventory
 
-- evidence/OPS-012/EVIDENCE-STRUCTURE.md
-- evidence/OPS-012/assumptions.md
-- evidence/OPS-012/changed-files.md
-- evidence/OPS-012/commands.txt
-- evidence/OPS-012/follow-ups.md
-- evidence/OPS-012/handoff.md
-- evidence/OPS-012/performance/README.md
-- evidence/OPS-012/performance/baseline-history-profile.json
-- evidence/OPS-012/registration-admission-audit.json
-- evidence/OPS-012/registration-validation/README.md
-- evidence/OPS-012/registration-validation/canonical-main-checks.json
-- evidence/OPS-012/risks.md
-- evidence/OPS-012/scope.md
-- evidence/OPS-012/summary.md
-- evidence/OPS-012/test-results/README.md
-- scripts/check-program-plan-history.py
-- specs/coordination/active-work.yaml
-- specs/coordination/program-plan.yaml
-- specs/tasks/OPS-012.md
-- tests/governance/test_history_yaml_loader.py
+- `evidence/OPS-012/EVIDENCE-STRUCTURE.md`
+- `evidence/OPS-012/assumptions.md`
+- `evidence/OPS-012/changed-files.md`
+- `evidence/OPS-012/commands.txt`
+- `evidence/OPS-012/coordination.txt`
+- `evidence/OPS-012/follow-ups.md`
+- `evidence/OPS-012/handoff.md`
+- `evidence/OPS-012/history.txt`
+- `evidence/OPS-012/implementation-final-tree-independent-review.json`
+- `evidence/OPS-012/implementation-main-ci-acceptance.json`
+- `evidence/OPS-012/implementation-main-ci773.json`
+- `evidence/OPS-012/implementation-main-verification.json`
+- `evidence/OPS-012/implementation-source-admission.json`
+- `evidence/OPS-012/integrity.txt`
+- `evidence/OPS-012/raw-lifecycle.txt`
+- `evidence/OPS-012/risks.md`
+- `evidence/OPS-012/scope.md`
+- `evidence/OPS-012/summary.md`
+- `evidence/OPS-012/test-results/README.md`
+- `evidence/OPS-012/transitions.txt`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-012.md`

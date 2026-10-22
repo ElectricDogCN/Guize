@@ -1,0 +1,5 @@
+Source Commit: 1ffd037de9c6514d9a325cce4c8e33faaec8a389
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 1ba64a9b4b62a918925b4a63658288a443d717e7 --head-ref 1ffd037de9c6514d9a325cce4c8e33faaec8a389 --task OPS-012 --branch-name chore/OPS-012-history-yaml-performance
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-012"], "changedPathCount": 20, "baseRef": "1ba64a9b4b62a918925b4a63658288a443d717e7"}}
+
+Exit Code: 0
