@@ -32,7 +32,7 @@ Consumes CONTRACT-PROGRAM-PLAN, CONTRACT-TASK-SPEC, CONTRACT-ACTIVE-WORK; Task s
 - `evidence/OPS-012/handoff.md`
 - `evidence/OPS-012/history.txt`
 - `evidence/OPS-012/implementation-main-ci-acceptance.json`
-- `evidence/OPS-012/implementation-main-ci773.txt`
+- `evidence/OPS-012/implementation-main-ci773.json (raw field preserves exact original UTF-8)`
 - `evidence/OPS-012/implementation-main-verification.json`
 - `evidence/OPS-012/implementation-source-admission.json`
 - `evidence/OPS-012/integrity.txt`
@@ -49,7 +49,7 @@ Consumes CONTRACT-PROGRAM-PLAN, CONTRACT-TASK-SPEC, CONTRACT-ACTIVE-WORK; Task s
 ## Executions and evidence
 
 Code source1152: targeted14 and make verify/full695, all exit0; exact source admission is implementation-source-admission.json. Independent final-tree review completed at actual main1ffd, byte-identical to source1152/tree53cbae8; official receipt6331614334 and implementation-final-tree-independent-review.json cover the complete final tree. Earlier source74ad review remains historical.
-Actual code main1ffd: identity plus integrity/history/transitions/raw-lifecycle/coordination exit0; implementation-main-verification.json lists actual argv, PID/wait and hashes. Referenced five raw logs are alongside this handoff. CI773 succeeded with695 passed/1305.52s and zero failures/errors/skips; implementation-main-ci-acceptance.json and implementation-main-ci773.txt preserve official provenance and complete output.
+Actual code main1ffd: identity plus integrity/history/transitions/raw-lifecycle/coordination exit0; implementation-main-verification.json lists actual argv, PID/wait and hashes. Referenced five raw logs are alongside this handoff. CI773 succeeded with695 passed/1305.52s and zero failures/errors/skips; implementation-main-ci-acceptance.json and implementation-main-ci773.json (raw field preserves exact original UTF-8) preserve official provenance and complete output.
 Review predecessor e80ebfb: 13 documented metadata commands all exit0 (external execution records ops012-review-e80ebfb-results); current successor results remain pending and will be recorded separately. Current Task contains the exact13 argv; no local full-suite rerun is planned for this metadata phase, while full same-head hosted CI remains required.
 
 ## Failures and limitations

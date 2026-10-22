@@ -417,9 +417,10 @@
   "errors": 0,
   "skipped": 0,
   "governanceSeconds": 1305.52,
-  "rawLog": "implementation-main-ci773.txt",
+  "rawLog": "implementation-main-ci773.json#/raw",
   "independentFinalSourceReview": "implementation-final-tree-independent-review.json",
   "mustFix": [],
   "actualMainCiAccepted": true,
-  "formalImplementationAcceptance": "Independent final-tree review completed without findings; same-tree code source CI and actual-main CI succeeded."
+  "formalImplementationAcceptance": "Independent final-tree review completed without findings; same-tree code source CI and actual-main CI succeeded.",
+  "originalRawSha256": "1bf88517a3819fcf16f0c3aabbb49a6ec97a4f099f26ea135c5a8b106f6a1734"
 }

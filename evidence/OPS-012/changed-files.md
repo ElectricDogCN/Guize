@@ -1,4 +1,4 @@
-# OPS-012 Review exact inventory
+# OPS-012 Review exact current inventory
 
 - `evidence/OPS-012/EVIDENCE-STRUCTURE.md`
 - `evidence/OPS-012/assumptions.md`
@@ -10,7 +10,7 @@
 - `evidence/OPS-012/history.txt`
 - `evidence/OPS-012/implementation-final-tree-independent-review.json`
 - `evidence/OPS-012/implementation-main-ci-acceptance.json`
-- `evidence/OPS-012/implementation-main-ci773.txt`
+- `evidence/OPS-012/implementation-main-ci773.json`
 - `evidence/OPS-012/implementation-main-verification.json`
 - `evidence/OPS-012/implementation-source-admission.json`
 - `evidence/OPS-012/integrity.txt`
