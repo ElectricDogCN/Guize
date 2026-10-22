@@ -34,6 +34,7 @@ contractNamespaces:
   - MOD-AI
   - MOD-SEARCH
   - MOD-AUDIT
+  - MOD-POLICY
   sharedWriterModules: []
 - id: CONTRACT-OPENAPI-GUIDELINES
   pattern: contracts/openapi/openapi-guidelines.md
@@ -343,6 +344,24 @@ contractNamespaces:
   - MOD-GOV
   - MOD-CLI
   sharedWriterModules: []
+- id: CONTRACT-EVENT-POLICY
+  pattern: contracts/events/policy/**
+  ownerModule: MOD-POLICY
+  consumerModules:
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-AUDIT
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-CATALOG
+  pattern: contracts/events/catalog.json
+  ownerModule: MOD-PLATFORM
+  consumerModules: []
+  sharedWriterModules: []
+- id: CONTRACT-EVENT-GUIDELINES
+  pattern: contracts/events/README.md
+  ownerModule: MOD-PLATFORM
+  consumerModules: []
+  sharedWriterModules: []
 modules:
 - id: MOD-GOV
   name: Repository Governance
@@ -380,11 +399,14 @@ modules:
   - backend/guize-common/**
   - backend/guize-bootstrap/**
   - backend/guize-platform-api/**
+  - specs/contracts/events/**
   ownedSchemas: []
   providedContracts:
   - CONTRACT-EVENT-ENVELOPE
   - CONTRACT-OPENAPI-COMMON
   - CONTRACT-OPENAPI-GUIDELINES
+  - CONTRACT-EVENT-CATALOG
+  - CONTRACT-EVENT-GUIDELINES
   consumedContracts:
   - CONTRACT-ACTIVE-WORK
   - CONTRACT-CONFIG-SCHEMA
@@ -511,6 +533,7 @@ modules:
   - CONTRACT-POLICY
   - CONTRACT-TELEMETRY
   - CONTRACT-WORKER
+  - CONTRACT-EVENT-POLICY
   dependsOn:
   - MOD-PLATFORM
   requirementIds:
@@ -543,6 +566,7 @@ modules:
   - CONTRACT-POLICY
   - CONTRACT-TELEMETRY
   - CONTRACT-WORKFLOW
+  - CONTRACT-EVENT-POLICY
   dependsOn:
   - MOD-PLATFORM
   - MOD-ASSET
@@ -690,11 +714,13 @@ modules:
   providedContracts:
   - CONTRACT-OPENAPI-POLICY
   - CONTRACT-POLICY
+  - CONTRACT-EVENT-POLICY
   consumedContracts:
   - CONTRACT-DATA
   - CONTRACT-OPENAPI-COMMON
   - CONTRACT-OPENAPI-GUIDELINES
   - CONTRACT-TELEMETRY
+  - CONTRACT-EVENT-ENVELOPE
   dependsOn:
   - MOD-PLATFORM
   requirementIds:
@@ -749,6 +775,7 @@ modules:
   - CONTRACT-EVENT-STORAGE
   - CONTRACT-EVENT-TASK
   - CONTRACT-TELEMETRY
+  - CONTRACT-EVENT-POLICY
   dependsOn:
   - MOD-PLATFORM
   requirementIds:

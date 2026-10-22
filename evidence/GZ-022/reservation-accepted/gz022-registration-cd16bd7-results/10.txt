@@ -1,0 +1,6 @@
+Source: cd16bd71621f3a3bb9c3346134ff2b5228e9731d
+Command: python scripts/run-agent-coordination-gate.py --base-ref b355a0cc2b8db110729d6269e7df2bf6055dcd79 --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-registration-v2
+{"status": "PASS", "message": "Agent coordination valid: 1 active tasks, 1 high/critical", "details": {"activeTaskIds": ["GZ-022"]}}
+INFO: GZ-022 is a Reservation PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 0

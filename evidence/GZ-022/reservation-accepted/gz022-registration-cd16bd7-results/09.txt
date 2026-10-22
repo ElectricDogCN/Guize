@@ -1,0 +1,6 @@
+Source: cd16bd71621f3a3bb9c3346134ff2b5228e9731d
+Command: python scripts/run-program-lifecycle-gate.py --base-ref b355a0cc2b8db110729d6269e7df2bf6055dcd79 --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-registration-v2
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["GZ-022"], "changedPathCount": 16, "baseRef": "b355a0cc2b8db110729d6269e7df2bf6055dcd79"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

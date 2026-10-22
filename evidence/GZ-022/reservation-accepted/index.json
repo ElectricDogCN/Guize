@@ -1,0 +1,189 @@
+{
+  "task": "GZ-022",
+  "phase": "accepted original reservation inputs",
+  "source": "cd16bd71621f3a3bb9c3346134ff2b5228e9731d",
+  "actualMain": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+  "note": "Raw captures preserved byte-for-byte; historical local paths in captured JSON resolve to the archivePath mapping here. Snapshot flags remain as captured, not rewritten retrospectively. No business implementation test acceptance is inferred.",
+  "files": [
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-source-admission.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-source-admission.json",
+      "bytes": 1065,
+      "sha256": "b099c1e4bb363e31c476a7e65ddae5a5aefa3bb529f802ab29316c13e984d219"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-independent-review.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-independent-review.json",
+      "bytes": 4046,
+      "sha256": "59ab95134cd4198e6cb0319f4559aa4c1edee32408455fdfad54a528d5b37ea7"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-ci796.raw.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt",
+      "bytes": 286345,
+      "sha256": "41ea6359a29dc8c74fe3362e98a2b24112ee25835ddbc769ab9f6018ceed26c6"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-ci796.snapshot.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.snapshot.json",
+      "bytes": 4760,
+      "sha256": "c6215b90dc3e83e62f4a549e2f5883acd5fb26eeff361ca4648e3f964e3be62b"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-main-acceptance.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-acceptance.json",
+      "bytes": 1463,
+      "sha256": "aee9d31b6a927fccbb1a77fa2705a7db76228e925b587788cc2176c88e780e98"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-original-auth.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-original-auth.json",
+      "bytes": 994,
+      "sha256": "08a2eeaffcb01aa7f763518d8d72382d134ffbc54303f5ca2af3294fc9af7090"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-adoption.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-adoption.json",
+      "bytes": 1830,
+      "sha256": "5faa9e31ecfdfc9436300317b3557ef12ddc21bb809461586e45499b44899c4d"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-ci797.raw.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt",
+      "bytes": 278128,
+      "sha256": "6b690b2697a24d90f58e862e37eb9297bfb5309d198934a6a3bb76796ef4f54a"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-ci797.snapshot.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.snapshot.json",
+      "bytes": 4752,
+      "sha256": "efffbc8553748415166e94edbd13a648eefe8f23b649824e48a37506ef39bdb4"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\00.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/00.txt",
+      "bytes": 137,
+      "sha256": "6c04319b0d9610ccf537bb5038a3628ff261e75dc6fb4db0baf15ef58a6c5ed8"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\01.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/01.txt",
+      "bytes": 246,
+      "sha256": "76cfd8ed750fd189612bcf36ba139546f47e255e79b94d8dc39519e9f1c86896"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\02.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/02.txt",
+      "bytes": 653,
+      "sha256": "d11ac596b58aeab91cf2ccafa0d5ff2cd9d2062fabb94a611505fb81eed1ff41"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\03.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/03.txt",
+      "bytes": 1805,
+      "sha256": "02de4ee09e7d07ccfe5cca1adc8ca546b710de6add5a215331a4a198275b839f"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\04.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/04.txt",
+      "bytes": 412,
+      "sha256": "87cd400e7be46ee45270d2defb7a80e14f13ff26a767b1ad98d99bcd8694fb19"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\05.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/05.txt",
+      "bytes": 480,
+      "sha256": "46d226c63ddf39572a2c03989224efd84f4bb9f8317a740d2f58b4e6a00969be"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\06.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/06.txt",
+      "bytes": 432,
+      "sha256": "38e4b38391aff863263861ab08288f96ab1fcdd2cd5e6ef6d63df0bb05804e80"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\07.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/07.txt",
+      "bytes": 353,
+      "sha256": "ab9573c21b4a815be0d1eed99098eef2f53fe7f66c03b77a67ddb19ac8ffcdc3"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\08.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/08.txt",
+      "bytes": 498,
+      "sha256": "92e04683f059d6781c014dd96afdfa865a1b6baa4db795c7d8b07f886e7ea88d"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\09.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/09.txt",
+      "bytes": 589,
+      "sha256": "aaeb566f88098885947cb02b103b288b29e77f2d842581f61921e66c1b97392b"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\10.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/10.txt",
+      "bytes": 547,
+      "sha256": "7220e2d1e2ac1c49633fdc55d52412e1f42add98a39c711d9ca65762164c1ccf"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\11.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/11.txt",
+      "bytes": 310,
+      "sha256": "251595102c01f9e29e646b317355bee20763d0bd85640bac25bb2e1593c17f03"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\12.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/12.txt",
+      "bytes": 189,
+      "sha256": "1a47881a44d25fe9805b491f3ea68d9a97fe9d0c22274e5d91b6059585a04dc6"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\13.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/13.txt",
+      "bytes": 157,
+      "sha256": "f0d27da2394b25f2dc87369503c0fc58abd4ba0112ad90e153499ff907879d7a"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-cd16bd7-results\\results.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-results/results.json",
+      "bytes": 3823,
+      "sha256": "c2bd43fe39327fdf28d26cea3123903d57eb7237cf39bb56ac007423386f6a0a"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-main-checks\\00.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/00.txt",
+      "bytes": 425,
+      "sha256": "de7365faf1063f02bc6eef269656196ccfa70489c31af80f7c222d2d4b65b525"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-main-checks\\01.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/01.txt",
+      "bytes": 583,
+      "sha256": "0090ba49aba3c3b2a998f4adc3ab96a000c6400c1abd708bbef60f964bd74d63"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-main-checks\\02.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/02.txt",
+      "bytes": 499,
+      "sha256": "24e7f059abb37b11640ca96ed66c356c326a02b342e60e7cd888a675499672ec"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-main-checks\\03.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/03.txt",
+      "bytes": 565,
+      "sha256": "bacf719ea8da44d11433a4dfdeb627a5a30dc8843500213ecfdd52f4f694532d"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-main-checks\\04.txt",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/04.txt",
+      "bytes": 614,
+      "sha256": "a892ffa1defcc615e0cb16e6a4104081bee81a34857ba71aa2e262f99a91b672"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-registration-8406f3b-main-checks\\results.json",
+      "archivePath": "evidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-main-checks/results.json",
+      "bytes": 2154,
+      "sha256": "058a81a25511e9b7bf6b7629d72f0e6f7a5db09b6a4df63733ab476b53943ff8"
+    }
+  ]
+}

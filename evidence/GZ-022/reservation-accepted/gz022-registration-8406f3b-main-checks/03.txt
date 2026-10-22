@@ -1,0 +1,5 @@
+Source: 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc
+Command: ['python', 'scripts/check-program-lifecycle-guards.py', '--base-ref', 'b355a0cc2b8db110729d6269e7df2bf6055dcd79', '--head-ref', '8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc', '--task', 'GZ-022', '--branch-name', 'chore/GZ-022-agent-edge-104-registration-v2']
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["GZ-022"], "changedPathCount": 16, "baseRef": "b355a0cc2b8db110729d6269e7df2bf6055dcd79"}}
+
+Exit Code: 0

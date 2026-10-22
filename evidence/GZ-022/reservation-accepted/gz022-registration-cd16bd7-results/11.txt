@@ -1,0 +1,5 @@
+Source: cd16bd71621f3a3bb9c3346134ff2b5228e9731d
+Command: python scripts/run-task-scope-gate.py --task GZ-022 --base b355a0cc2b8db110729d6269e7df2bf6055dcd79
+INFO: GZ-022 is a Reservation PR; exact changed-file scope is owned by Program History and Program Transitions against the target branch.
+
+Exit Code: 0

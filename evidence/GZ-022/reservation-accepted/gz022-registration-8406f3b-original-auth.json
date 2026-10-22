@@ -1,0 +1,28 @@
+{
+  "taskId": "GZ-022",
+  "actualCanonicalRegistration": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+  "reservationParent": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+  "issue": 114,
+  "branch": "chore/GZ-022-agent-edge-104-definition",
+  "status": "reserved",
+  "agentRole": "coordinator",
+  "exclusivePaths": [
+    "specs/coordination/program-plan.yaml",
+    "specs/requirements/product-requirements.md",
+    "specs/requirements/agent-edge-104.md",
+    "specs/requirements/agent-edge-104.yaml",
+    "specs/acceptance/agent-edge-104.yaml",
+    "docs/03-system-architecture.md",
+    "docs/20-roadmap-and-wbs.md",
+    "docs/22-repository-and-directory-plan.md",
+    "specs/designs/module-ownership.yaml",
+    "adr/0016-agent-edge-runtime-and-product-agent-planning.md"
+  ],
+  "lease": {
+    "acquiredAt": "2026-10-22T08:52:32Z",
+    "expiresAt": "2026-10-29T08:52:32Z"
+  },
+  "originalCanonicalAuthPassed": true,
+  "actualMainCiAccepted": false,
+  "implementationAuthorizedByThisRead": false
+}

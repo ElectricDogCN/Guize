@@ -1,0 +1,103 @@
+schemaVersion: 1
+scopeId: AGENT-EDGE-104
+sourceIssue: 104
+requirements:
+- id: REQ-EDGE-104-0001
+  title: 公共执行协议的主仓集成、固定SDK与跨端conformance
+  requirementPath: specs/requirements/agent-edge-104.md#req-edge-104-0001
+  moduleIds:
+  - MOD-TASK
+  - MOD-WORKER
+  taskIds:
+  - GZ-023
+  - GZ-030
+  acceptanceIds:
+  - AC-EDGE-104-0001
+- id: REQ-EDGE-104-0002
+  title: 独立Android运行时制品准入与PC同协议适配
+  requirementPath: specs/requirements/agent-edge-104.md#req-edge-104-0002
+  moduleIds:
+  - MOD-WORKER
+  taskIds:
+  - GZ-024
+  - GZ-030
+  acceptanceIds:
+  - AC-EDGE-104-0002
+- id: REQ-EDGE-104-0003
+  title: 共用节点池的AV1、HLS缓存与播放优先级集成
+  requirementPath: specs/requirements/agent-edge-104.md#req-edge-104-0003
+  moduleIds:
+  - MOD-MEDIA
+  - MOD-TASK
+  - MOD-WORKER
+  - MOD-STORAGE
+  - MOD-PLAYER
+  - MOD-EDGE
+  taskIds:
+  - GZ-025
+  - GZ-030
+  acceptanceIds:
+  - AC-EDGE-104-0003
+- id: REQ-EDGE-104-0004
+  title: 10–30秒真实视频六帧解码到平台接受与查询闭环
+  requirementPath: specs/requirements/agent-edge-104.md#req-edge-104-0004
+  moduleIds:
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-MEDIA
+  - MOD-WORKER
+  taskIds:
+  - GZ-026
+  - GZ-030
+  acceptanceIds:
+  - AC-EDGE-104-0004
+- id: REQ-EDGE-104-0005
+  title: 统一资源预算、观测时效与有界调度实现
+  requirementPath: specs/requirements/agent-edge-104.md#req-edge-104-0005
+  moduleIds:
+  - MOD-TASK
+  - MOD-POLICY
+  - MOD-WORKER
+  - MOD-OBS
+  taskIds:
+  - GZ-027
+  - GZ-030
+  acceptanceIds:
+  - AC-EDGE-104-0005
+- id: REQ-EDGE-104-0006
+  title: 同一六帧的固定离线OCR包与平台结果集成
+  requirementPath: specs/requirements/agent-edge-104.md#req-edge-104-0006
+  moduleIds:
+  - MOD-AI
+  - MOD-TASK
+  - MOD-ASSET
+  - MOD-WORKER
+  taskIds:
+  - GZ-028
+  - GZ-030
+  acceptanceIds:
+  - AC-EDGE-104-0006
+- id: REQ-EDGE-104-0007
+  title: 受约束产品Agent的计划提议与有限重规划集成
+  requirementPath: specs/requirements/agent-edge-104.md#req-edge-104-0007
+  moduleIds:
+  - MOD-AI
+  - MOD-TASK
+  - MOD-POLICY
+  taskIds:
+  - GZ-029
+  - GZ-030
+  acceptanceIds:
+  - AC-EDGE-104-0007
+- id: REQ-EDGE-104-0008
+  title: 固定跨仓版本组合、联合验收与扩展范围最终收口
+  requirementPath: specs/requirements/agent-edge-104.md#req-edge-104-0008
+  moduleIds:
+  - MOD-DEPLOY
+  - MOD-CLI
+  - MOD-WORKER
+  - MOD-TASK
+  taskIds:
+  - GZ-030
+  acceptanceIds:
+  - AC-EDGE-104-0008
