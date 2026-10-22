@@ -2435,5 +2435,91 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.followup_owner_capacity_fixture("other_task")
 
 
+    def foundation_preflight_fixture(self, mode):
+        with tempfile.TemporaryDirectory() as root:
+            history = self.create_foundation_completion(root)
+            plan_path = "specs/coordination/program-plan.yaml"
+            active_path = "specs/coordination/active-work.yaml"
+            task_path = "specs/tasks/GZ-014.md"
+            code_path = "scripts/fixture-repair.py"
+
+            def blob(ref, path):
+                return subprocess.check_output(["git", "show", f"{ref}:{path}"], cwd=root, text=True)
+
+            def checkout(ref):
+                subprocess.run(["git", "checkout", "--detach", ref], cwd=root, check=True, capture_output=True)
+
+            review = history["base"]
+            base = history["implementation"]
+            branch = "chore/GZ-014-review"
+            checkout(review)
+            invalid = None
+            if mode == "premature_completion_restored":
+                snapshots = {path: blob(review, path) for path in (plan_path, active_path, task_path)}
+                checkout(base)
+                for path, text in snapshots.items():
+                    self.write_text(root, path, text)
+                plan = yaml.safe_load(snapshots[plan_path])
+                own = next(row for row in plan["foundationTasks"] if row["taskId"] == "GZ-014")
+                own.update(completionRef="PR-22", mergeCommit=base)
+                self.write_yaml(root, plan_path, plan)
+                invalid = self.commit(root, "GZ-014 Review with premature completion identity")
+                self.write_text(root, plan_path, snapshots[plan_path])
+                self.commit(root, "GZ-014 restore valid Review identity")
+            elif mode == "reviewer_code_restored":
+                original = blob(review, code_path)
+                self.write_text(root, code_path, original + "# reviewer must not implement\n")
+                invalid = self.commit(root, "GZ-014 reviewer changed own implementation")
+                self.write_text(root, code_path, original)
+                self.commit(root, "GZ-014 restore reviewed code")
+            elif mode in {"integration_metadata", "integration_code"}:
+                base = review
+                branch = "chore/GZ-014-integration"
+                plan = yaml.safe_load(blob(review, plan_path))
+                next(row for row in plan["foundationTasks"] if row["taskId"] == "GZ-014")["status"] = "integration"
+                registry = yaml.safe_load(blob(review, active_path))
+                entry = registry["tasks"][0]
+                entry.update(status="integration", agentRole="integrator", baseSha=base, branch=branch)
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, task_path, self.task_spec(entry, "integration", branch, base))
+                if mode == "integration_code":
+                    self.write_text(root, code_path, blob(review, code_path) + "# registered integrator repair\n")
+                self.commit(root, "GZ-014 legitimate integration")
+            else:
+                self.assertEqual(mode, "review")
+            if invalid:
+                self.assertEqual(
+                    subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root),
+                    subprocess.check_output(["git", "rev-parse", f"{review}^{{tree}}"], cwd=root),
+                )
+            result = self._run_checker(root, task="GZ-014", branch=branch, base_ref=base)
+            return result, invalid
+
+    def test_foundation_preflight_accepts_valid_review(self):
+        result, _ = self.foundation_preflight_fixture("review")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_rejects_premature_completion_restored(self):
+        result, invalid = self.foundation_preflight_fixture("premature_completion_restored")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("active Foundation must retain one ISSUE registration and no completion merge", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_reviewer_code_restored(self):
+        result, invalid = self.foundation_preflight_fixture("reviewer_code_restored")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("preflight working code requires implementer or integrator", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_accepts_integration_metadata(self):
+        result, _ = self.foundation_preflight_fixture("integration_metadata")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_accepts_registered_integration_code(self):
+        result, _ = self.foundation_preflight_fixture("integration_code")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

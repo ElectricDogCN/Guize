@@ -5,3 +5,5 @@ Task/Issue: OPS-012/#115
 Current source execution, independent review, CI and code merge: pending.
 
 PR120 accepted scope3 before implementation. PR119 remains rejected and unmerged; original Review history is retained. This source implements an early introduced-history audit without weakening completed checks. Current results will be recorded after actual execution.
+
+Working-tree development: original checker2 failed/3 passed; intermediate repair1 failed/18 passed; corrected repair19 passed, zero errors/skips. Actual raw/XML in test-results/early-preflight-development.json. Immutable source full verification/CI/review remain pending.
