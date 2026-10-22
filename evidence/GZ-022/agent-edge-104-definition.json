@@ -1,0 +1,2054 @@
+{
+  "schemaVersion": 2,
+  "kind": "agent-edge-104-definition",
+  "taskId": "GZ-022",
+  "scopeId": "AGENT-EDGE-104",
+  "issue": 114,
+  "reservationParent": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+  "programPlan": "specs/coordination/program-plan.yaml",
+  "targets": [
+    {
+      "kind": "define-fixed-scope",
+      "id": "AGENT-EDGE-104",
+      "before": {
+        "id": "AGENT-EDGE-104",
+        "sourceIssue": 104,
+        "state": "planning",
+        "planningTaskId": "GZ-022",
+        "taskIds": [
+          "GZ-022"
+        ],
+        "requiredFinalTask": null,
+        "requirements": "specs/requirements/agent-edge-104.md",
+        "requirementIndex": "specs/requirements/agent-edge-104.yaml",
+        "acceptanceIndex": "specs/acceptance/agent-edge-104.yaml"
+      },
+      "after": {
+        "id": "AGENT-EDGE-104",
+        "sourceIssue": 104,
+        "state": "defined",
+        "planningTaskId": "GZ-022",
+        "taskIds": [
+          "GZ-022",
+          "GZ-023",
+          "GZ-024",
+          "GZ-025",
+          "GZ-026",
+          "GZ-027",
+          "GZ-028",
+          "GZ-029",
+          "GZ-030"
+        ],
+        "requiredFinalTask": "GZ-030",
+        "requirements": "specs/requirements/agent-edge-104.md",
+        "requirementIndex": "specs/requirements/agent-edge-104.yaml",
+        "acceptanceIndex": "specs/acceptance/agent-edge-104.yaml"
+      }
+    },
+    {
+      "kind": "add-edge-planned-task",
+      "id": "GZ-023",
+      "before": null,
+      "after": {
+        "taskId": "GZ-023",
+        "title": "公共执行协议的主仓集成、固定SDK与跨端conformance",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-EDGE-104-01",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "agent-edge-104-gz-023",
+        "wave": "W3",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-022",
+          "GZ-008",
+          "GZ-012",
+          "GZ-013"
+        ],
+        "requirementIds": [
+          "REQ-EDGE-104-0001"
+        ],
+        "moduleIds": [
+          "MOD-TASK",
+          "MOD-WORKER"
+        ],
+        "outputPaths": [
+          "backend/guize-task-workflow/edge-execution/**",
+          "services/guize-worker-agent/protocol/**",
+          "services/guize-worker-agent/tests/protocol/**",
+          "evidence/GZ-023/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EDGE104-EXECUTION-INTEGRATION-V1"
+        ],
+        "consumesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0001"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-023-*",
+        "exitGate": "启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。实际消费GZ-008唯一生产的版本化WORKER/WORKFLOW/POLICY契约，交付固定Schema/SDK摘要与Android/Windows/Linux共同conformance；实现领取/续租/取消/条件接受和版本协商。身份心跳不等于执行租约，exactly-once仅指平台接受。正常/越权/过期/乱序/重复/迟到/取消及不支持检查点分支均可复现，不产生第二套WORKER-CONTRACT-V1。"
+      }
+    },
+    {
+      "kind": "add-edge-planned-task",
+      "id": "GZ-024",
+      "before": null,
+      "after": {
+        "taskId": "GZ-024",
+        "title": "独立Android运行时制品准入与PC同协议适配",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-EDGE-104-02",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "agent-edge-104-gz-024",
+        "wave": "W4",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-023"
+        ],
+        "requirementIds": [
+          "REQ-EDGE-104-0002"
+        ],
+        "moduleIds": [
+          "MOD-WORKER"
+        ],
+        "outputPaths": [
+          "services/guize-worker-agent/adapters/windows/**",
+          "services/guize-worker-agent/adapters/linux/**",
+          "services/guize-worker-agent/artifacts/edge-runtime.lock.json",
+          "services/guize-worker-agent/tests/runtime-admission/**",
+          "evidence/GZ-024/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EDGE104-NODE-ARTIFACT-ADMISSION-V1"
+        ],
+        "consumesContracts": [
+          "EDGE104-EXECUTION-INTEGRATION-V1",
+          "WORKER-CONTRACT-V1"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0002"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-024-*",
+        "exitGate": "启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。远端bootstrap和实际Android应用实现分别具有本仓真实Task/claims、提交、CI/独审/完成与固定签名制品后，主仓核artifact-lock内repo/commit/tree/Task/证据/制品摘要/签名/SBOM/许可证/协议SDK和能力再准入。OnePlus8T实际安装、主动启停、自主注册接单、进度、取消、清理、禁用与回退；ADB只用于安装/诊断。Windows/Linux独立worker按同协议实际完成工作单元；VM协议/断网与真机生命周期/温升分开，不要求root、不假定AV1硬编或持续后台。"
+      }
+    },
+    {
+      "kind": "add-edge-planned-task",
+      "id": "GZ-025",
+      "before": null,
+      "after": {
+        "taskId": "GZ-025",
+        "title": "共用节点池的AV1、HLS缓存与播放优先级集成",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-EDGE-104-03",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "agent-edge-104-gz-025",
+        "wave": "W6",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-027",
+          "GZ-016"
+        ],
+        "requirementIds": [
+          "REQ-EDGE-104-0003"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA",
+          "MOD-TASK",
+          "MOD-WORKER",
+          "MOD-STORAGE",
+          "MOD-PLAYER",
+          "MOD-EDGE"
+        ],
+        "outputPaths": [
+          "backend/guize-media-control/edge-execution/**",
+          "backend/guize-task-workflow/edge-media/**",
+          "backend/guize-storage-lifecycle/temporary-media/**",
+          "services/guize-media-service/edge-execution/**",
+          "services/guize-media-service/tests/agent-edge-104/av1-hls/**",
+          "player/edge-media/**",
+          "edge/agent-edge-104/media/**",
+          "evidence/GZ-025/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EDGE104-AV1-HLS-INTEGRATION-V1"
+        ],
+        "consumesContracts": [
+          "EDGE104-NODE-ARTIFACT-ADMISSION-V1",
+          "EDGE104-RESOURCE-INTEGRATION-V1",
+          "WORKER-CONTRACT-V1",
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-01-EVIDENCE",
+          "POC-02-EVIDENCE",
+          "POC-03-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0003"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-025-*",
+        "exitGate": "启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。消费GZ-016实际媒体基线，独立Windows/Linux worker完成批准AV1工作单元，验证source/span/执行组/覆盖/帧包/PTS/产物；HLS只发布连续READY，seek窗口代数拒旧覆盖。P0播放/P3预热/P6后台与主体公平、失败重派/旧尝试/重复结果拒绝真实生效；不足时采用已验证源或H264路径。Android只对实际验证能力启用，不推算吞吐。manifest/init/media/热缓存均复核ACL；临时片淘汰不变Asset/Replica/Retention，保留GZ-016全部媒体AI义务及批准阈值。"
+      }
+    },
+    {
+      "kind": "add-edge-planned-task",
+      "id": "GZ-026",
+      "before": null,
+      "after": {
+        "taskId": "GZ-026",
+        "title": "10–30秒真实视频六帧解码到平台接受与查询闭环",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-EDGE-104-04",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "agent-edge-104-gz-026",
+        "wave": "W7",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-027",
+          "GZ-011",
+          "GZ-013"
+        ],
+        "requirementIds": [
+          "REQ-EDGE-104-0004"
+        ],
+        "moduleIds": [
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-MEDIA",
+          "MOD-WORKER"
+        ],
+        "outputPaths": [
+          "backend/guize-asset-catalog/edge-derived-artifacts/**",
+          "backend/guize-task-workflow/video-structure/**",
+          "backend/guize-media-control/video-structure/**",
+          "services/guize-media-service/tests/agent-edge-104/six-frames/**",
+          "services/guize-worker-agent/artifacts/capabilities/video-structure.lock.json",
+          "evidence/GZ-026/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EDGE104-SIX-FRAME-INTEGRATION-V1"
+        ],
+        "consumesContracts": [
+          "EDGE104-NODE-ARTIFACT-ADMISSION-V1",
+          "EDGE104-RESOURCE-INTEGRATION-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1",
+          "WORKFLOW-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-03-EVIDENCE",
+          "POC-05-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0004"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-026-*",
+        "exitGate": "启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。冻结许可AssetVersion/hash、六点、参考探测/解码和容差；Android主动领取/下载、实际解码六帧并回传真实元数据/缩略图/PTS/尺寸/像素格式/hash。平台重算验证并幂等接受DerivedArtifact，查询取得全部六点。覆盖取消完成竞态、断网、失联重派、迟到/重复/坏输入输出/越权；不得ADB主机代执行。远端视频能力Task/固定包及真实证据闭合，跨后端按批准容差而非默认字节相等。"
+      }
+    },
+    {
+      "kind": "add-edge-planned-task",
+      "id": "GZ-027",
+      "before": null,
+      "after": {
+        "taskId": "GZ-027",
+        "title": "统一资源预算、观测时效与有界调度实现",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-EDGE-104-05",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "agent-edge-104-gz-027",
+        "wave": "W5",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-024",
+          "GZ-007",
+          "GZ-008",
+          "GZ-011"
+        ],
+        "requirementIds": [
+          "REQ-EDGE-104-0005"
+        ],
+        "moduleIds": [
+          "MOD-TASK",
+          "MOD-POLICY",
+          "MOD-WORKER",
+          "MOD-OBS"
+        ],
+        "outputPaths": [
+          "backend/guize-task-workflow/edge-resource-budget/**",
+          "backend/guize-rule-policy/edge-resource-budget/**",
+          "services/guize-worker-agent/resource-control/**",
+          "services/guize-worker-agent/artifacts/capabilities/resource-control.lock.json",
+          "services/guize-worker-agent/tests/resource-budget/**",
+          "backend/guize-observability/edge-resource-observations/**",
+          "observability/agent-edge-104/**",
+          "evidence/GZ-027/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EDGE104-RESOURCE-INTEGRATION-V1"
+        ],
+        "consumesContracts": [
+          "EDGE104-NODE-ARTIFACT-ADMISSION-V1",
+          "WORKER-CONTRACT-V1",
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "DATA-SCHEMA-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0005"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-027-*",
+        "exitGate": "启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。真实预留/释放codec、内存、临时盘缓存及适用CPU/网络/成本，过期观测不代表容量；首个手机分析最多一个活动attempt，拒重复承诺/超额，保持P0容量与主体公平。超温/低电/低水位/过期/排队超时/失联按冻结阈值、冷却和有限重派处理；模拟只证明策略分支，温升实测另记。比较静态基线的完整排队/传输/准备/执行/回传及质量，远端资源适配独立Task/固定制品完成，节点不直接取得POLICY权威。"
+      }
+    },
+    {
+      "kind": "add-edge-planned-task",
+      "id": "GZ-028",
+      "before": null,
+      "after": {
+        "taskId": "GZ-028",
+        "title": "同一六帧的固定离线OCR包与平台结果集成",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-EDGE-104-06",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "agent-edge-104-gz-028",
+        "wave": "W8",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-026",
+          "GZ-027",
+          "GZ-011",
+          "POC-009"
+        ],
+        "requirementIds": [
+          "REQ-EDGE-104-0006"
+        ],
+        "moduleIds": [
+          "MOD-AI",
+          "MOD-TASK",
+          "MOD-ASSET",
+          "MOD-WORKER"
+        ],
+        "outputPaths": [
+          "backend/guize-ai-control/edge-ocr/**",
+          "backend/guize-task-workflow/edge-ocr/**",
+          "backend/guize-asset-catalog/ocr-derived-artifacts/**",
+          "services/guize-ocr-service/edge-package/**",
+          "services/guize-ocr-service/tests/agent-edge-104/**",
+          "services/guize-worker-agent/artifacts/capabilities/ocr.lock.json",
+          "evidence/GZ-028/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EDGE104-OCR-INTEGRATION-V1"
+        ],
+        "consumesContracts": [
+          "EDGE104-SIX-FRAME-INTEGRATION-V1",
+          "EDGE104-RESOURCE-INTEGRATION-V1",
+          "WORKER-CONTRACT-V1",
+          "WORKFLOW-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-09-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0006"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-028-*",
+        "exitGate": "启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。同六帧在目标设备真实执行固定OCR包，按POC-009/GZ-011批准样本/答案/误差和资源阈值测量；输出绑定AssetVersion/帧/plan/attempt/包版本。坏包/错版本/超预算/越权/未许可外发拒绝，低置信度可见。远端OCR能力Task和不可变发布真实完成；该增量不代替GZ-016原ASR/VLM/翻译/摘要/标签等全部义务。"
+      }
+    },
+    {
+      "kind": "add-edge-planned-task",
+      "id": "GZ-029",
+      "before": null,
+      "after": {
+        "taskId": "GZ-029",
+        "title": "受约束产品Agent的计划提议与有限重规划集成",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-EDGE-104-07",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "agent-edge-104-gz-029",
+        "wave": "W9",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-025",
+          "GZ-026",
+          "GZ-028"
+        ],
+        "requirementIds": [
+          "REQ-EDGE-104-0007"
+        ],
+        "moduleIds": [
+          "MOD-AI",
+          "MOD-TASK",
+          "MOD-POLICY"
+        ],
+        "outputPaths": [
+          "backend/guize-ai-control/product-agent/**",
+          "backend/guize-task-workflow/product-agent/**",
+          "backend/guize-rule-policy/product-agent/**",
+          "contracts/openapi/ai/product-agent/**",
+          "services/guize-ai-agent-service/**",
+          "services/guize-ai-agent-service/tests/agent-edge-104/**",
+          "evidence/GZ-029/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EDGE104-AGENT-INTEGRATION-V1"
+        ],
+        "consumesContracts": [
+          "EDGE104-AV1-HLS-INTEGRATION-V1",
+          "EDGE104-SIX-FRAME-INTEGRATION-V1",
+          "EDGE104-OCR-INTEGRATION-V1",
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "OPENAPI-V1",
+          "DATA-SCHEMA-V1",
+          "EVENT-CATALOG-V1"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0007"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-029-*",
+        "exitGate": "启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。从固定模板计划起步，仅选择已验证版本工具/包，TASK校验保存plan/step/attempt；派发前拒越权/超预算/未许可外发/质量底线以下。失败后仅重规划未完成部分并受配置次数限制，保留版本/原因/已接受结果/预算；模型及资源查询经Activity等记录，重放不重复非确定性调用或发布。取消/恢复/转交走公共协议。MOD-AI独占版本化语义候选API，GZ-008仍唯一生产执行信封；研发Harness/文本计划不算产品交付。"
+      }
+    },
+    {
+      "kind": "add-edge-planned-task",
+      "id": "GZ-030",
+      "before": null,
+      "after": {
+        "taskId": "GZ-030",
+        "title": "固定跨仓版本组合、联合验收与扩展范围最终收口",
+        "kind": "release",
+        "status": "planned",
+        "workPackage": "WP-EDGE-104-08",
+        "riskLevel": "critical",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "agent-edge-104-gz-030",
+        "wave": "W10",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-025",
+          "GZ-026",
+          "GZ-028",
+          "GZ-029",
+          "GZ-018"
+        ],
+        "requirementIds": [
+          "REQ-EDGE-104-0001",
+          "REQ-EDGE-104-0002",
+          "REQ-EDGE-104-0003",
+          "REQ-EDGE-104-0004",
+          "REQ-EDGE-104-0005",
+          "REQ-EDGE-104-0006",
+          "REQ-EDGE-104-0007",
+          "REQ-EDGE-104-0008"
+        ],
+        "moduleIds": [
+          "MOD-DEPLOY",
+          "MOD-CLI",
+          "MOD-WORKER",
+          "MOD-TASK"
+        ],
+        "outputPaths": [
+          "deployment/agent-edge-104/**",
+          "guizectl/agent-edge-104/**",
+          "services/guize-worker-agent/tests/composition/**",
+          "evidence/GZ-030/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EDGE104-COMPOSITION-ACCEPTANCE-V1"
+        ],
+        "consumesContracts": [
+          "EDGE104-EXECUTION-INTEGRATION-V1",
+          "EDGE104-NODE-ARTIFACT-ADMISSION-V1",
+          "EDGE104-AV1-HLS-INTEGRATION-V1",
+          "EDGE104-SIX-FRAME-INTEGRATION-V1",
+          "EDGE104-RESOURCE-INTEGRATION-V1",
+          "EDGE104-OCR-INTEGRATION-V1",
+          "EDGE104-AGENT-INTEGRATION-V1",
+          "WORKER-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0001",
+          "AC-EDGE-104-0002",
+          "AC-EDGE-104-0003",
+          "AC-EDGE-104-0004",
+          "AC-EDGE-104-0005",
+          "AC-EDGE-104-0006",
+          "AC-EDGE-104-0007",
+          "AC-EDGE-104-0008"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-030-*",
+        "exitGate": "启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。固定system.lock精确绑定平台commit/release、Schema/SDK摘要、各制品/签名/模型/配置、远端Task完成和证据，实际验证Android六帧/取消/断网、PC AV1、权限/输出/迟到重复/资源/OCR/受约束Agent，覆盖本范围八项AC。按服务端兼容关闭开关→协议→节点灰度→明确能力启用发布；故障先停派/排空或取消/禁用，再恢复旧已接受组合，代码回退不冒称数据恢复。验签/SBOM/许可证完整，critical独占；严格闭合GZ-022与全部七项前序，不改V1/GZ-020或生产门禁。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-006",
+      "originalDefinitionSha256": "5af9fb722c212314f066d6f98808d84452c5a666c6d1a9f191030eb6d719d619",
+      "allowedFields": [
+        "moduleIds",
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-006",
+        "title": "冻结 Domain Event Payload 与兼容策略",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03C",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-006",
+        "wave": "W3",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-AUDIT"
+        ],
+        "outputPaths": [
+          "contracts/events/**",
+          "specs/contracts/events/**",
+          "evidence/GZ-006/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EVENT-CATALOG-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-006-*",
+        "exitGate": "每个 eventType 具备版本、Payload Schema、生产者、消费者、幂等与兼容规则"
+      },
+      "after": {
+        "taskId": "GZ-006",
+        "title": "冻结 Domain Event Payload 与兼容策略",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03C",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-006",
+        "wave": "W3",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-AUDIT",
+          "MOD-POLICY"
+        ],
+        "outputPaths": [
+          "contracts/events/**",
+          "specs/contracts/events/**",
+          "evidence/GZ-006/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "EVENT-CATALOG-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-006-*",
+        "exitGate": "每个 eventType 具备版本、Payload Schema、生产者、消费者、幂等与兼容规则；同时在既有领域namespace冻结plan/step/attempt/fencing、取消/条件接受、能力与资源预留/释放事件的生产者/消费者、版本/幂等/兼容，供独立EDGE后继消费；不新增Agent运行时前置或改变本Task的REQ-V1映射。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-007",
+      "originalDefinitionSha256": "6007f6a0a7795529d0514f0871d01a7e92a76bf66103bcc304428914f50513a9",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-007",
+        "title": "冻结 PostgreSQL/Flyway DDL、索引与迁移策略",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03D",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-007",
+        "wave": "W4",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-DATA"
+        ],
+        "outputPaths": [
+          "contracts/data/**",
+          "data/migrations/**",
+          "specs/contracts/data/**",
+          "evidence/GZ-007/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "DATA-SCHEMA-V1",
+          "MIGRATION-PLAN-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-007-*",
+        "exitGate": "DDL/索引/唯一约束/迁移/恢复方案可执行校验，禁止无 Migration 的数据行为"
+      },
+      "after": {
+        "taskId": "GZ-007",
+        "title": "冻结 PostgreSQL/Flyway DDL、索引与迁移策略",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03D",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-007",
+        "wave": "W4",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-DATA"
+        ],
+        "outputPaths": [
+          "contracts/data/**",
+          "data/migrations/**",
+          "specs/contracts/data/**",
+          "evidence/GZ-007/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "DATA-SCHEMA-V1",
+          "MIGRATION-PLAN-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-007-*",
+        "exitGate": "DDL/索引/唯一约束/迁移/恢复方案可执行校验，禁止无 Migration 的数据行为；同时冻结版本化plan/step/attempt/fencing、容量预留/扣记/释放、幂等接受和DerivedArtifact关系的DDL/唯一约束/索引及迁移恢复；执行后保存真实输出hash，不预批准未来hash；节点不能直写核心库。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-008",
+      "originalDefinitionSha256": "4dcddd1980e837d0cbdc9ee6815c8b076a1a6ca0a81c5f22a0147f891242cef8",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-008",
+        "title": "冻结 Temporal/LiteFlow/Worker/Plugin 运行时契约",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03E",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-008",
+        "wave": "W5",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006",
+          "GZ-007"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-TASK",
+          "MOD-POLICY",
+          "MOD-WORKER",
+          "MOD-CONNECTOR",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "contracts/workflows/**",
+          "contracts/policies/**",
+          "contracts/workers/**",
+          "contracts/connectors/**",
+          "specs/contracts/runtime/**",
+          "evidence/GZ-008/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "PLUGIN-CONTRACT-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-008-*",
+        "exitGate": "Workflow/Activity、Retry/Timeout/Heartbeat/Cancellation、LiteFlow Node/Chain/EL 和 Worker 权限边界可校验；异构执行协议还须版本化能力与执行组、资源上限、受限输入输出引用、分片任务领取/续租/尝试编号/fencing、取消和结果验证；机器身份心跳租约不等于分片执行租约；保留归泽P0-P8语义及API/事件/数据权威边界。"
+      },
+      "after": {
+        "taskId": "GZ-008",
+        "title": "冻结 Temporal/LiteFlow/Worker/Plugin 运行时契约",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03E",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-008",
+        "wave": "W5",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006",
+          "GZ-007"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-TASK",
+          "MOD-POLICY",
+          "MOD-WORKER",
+          "MOD-CONNECTOR",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "contracts/workflows/**",
+          "contracts/policies/**",
+          "contracts/workers/**",
+          "contracts/connectors/**",
+          "specs/contracts/runtime/**",
+          "evidence/GZ-008/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "PLUGIN-CONTRACT-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-008-*",
+        "exitGate": "Workflow/Activity、Retry/Timeout/Heartbeat/Cancellation、LiteFlow Node/Chain/EL 和 Worker 权限边界可校验；异构执行协议还须版本化能力与执行组、资源上限、受限输入输出引用、分片任务领取/续租/尝试编号/fencing、取消和结果验证；机器身份心跳租约不等于分片执行租约；保留归泽P0-P8语义及API/事件/数据权威边界。；同一唯一producer内冻结分析/OCR能力包、协议SDK/制品摘要及兼容、资源观测时效/有限预算、plan-step-attempt及跨端conformance；远端repo/Task/固定发布证据用版本化制品锁交接，不授跨仓源码权限。产品Agent语义计划消费本执行信封，不控制平台权威。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-011",
+      "originalDefinitionSha256": "bdb638820c5b276fbb620e77a4dbf7690fbe09aaa9c9010626e6b7b764cddd6a",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-011",
+        "title": "冻结 Golden Dataset、质量阈值与测量方法",
+        "kind": "acceptance",
+        "status": "planned",
+        "workPackage": "WP-M0-07",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-011",
+        "wave": "W10",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006",
+          "POC-002",
+          "POC-003",
+          "POC-005",
+          "POC-008",
+          "POC-009"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-EDGE",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "specs/acceptance/**",
+          "testdata/**",
+          "docs/acceptance/**",
+          "evidence/GZ-011/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "NFR-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "POC-02-EVIDENCE",
+          "POC-03-EVIDENCE",
+          "POC-05-EVIDENCE",
+          "POC-08-EVIDENCE",
+          "POC-09-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0004",
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007",
+          "验收V1-0008",
+          "验收V1-0009",
+          "验收V1-0010",
+          "验收V1-0011",
+          "验收V1-0012"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-011-*",
+        "exitGate": "固定样本、指标、阈值、隐私规则、测量脚本和批准流程可版本化复现"
+      },
+      "after": {
+        "taskId": "GZ-011",
+        "title": "冻结 Golden Dataset、质量阈值与测量方法",
+        "kind": "acceptance",
+        "status": "planned",
+        "workPackage": "WP-M0-07",
+        "riskLevel": "medium",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-011",
+        "wave": "W10",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006",
+          "POC-002",
+          "POC-003",
+          "POC-005",
+          "POC-008",
+          "POC-009"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-EDGE",
+          "MOD-DEPLOY"
+        ],
+        "outputPaths": [
+          "specs/acceptance/**",
+          "testdata/**",
+          "docs/acceptance/**",
+          "evidence/GZ-011/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "NFR-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "POC-02-EVIDENCE",
+          "POC-03-EVIDENCE",
+          "POC-05-EVIDENCE",
+          "POC-08-EVIDENCE",
+          "POC-09-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0004",
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007",
+          "验收V1-0008",
+          "验收V1-0009",
+          "验收V1-0010",
+          "验收V1-0011",
+          "验收V1-0012"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-011-*",
+        "exitGate": "固定样本、指标、阈值、隐私规则、测量脚本和批准流程可版本化复现；为独立EDGE正文/索引交接冻结10–30秒许可样本/六点参考容差、同帧OCR答案误差、设备资源/温升边界和静态基线；保留原十项V1需求、十二验收和全部POC输入，此处只定义方法，不宣称设备/业务实现。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-012",
+      "originalDefinitionSha256": "4ebbe014bcdc9561a5d0702e35a28b520e27190185fe63debda8775a03799fd6",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-012",
+        "title": "建立 Java/Python/Frontend/Player/Go 工程骨架与语言 CI",
+        "kind": "scaffold",
+        "status": "planned",
+        "workPackage": "WP-M0-06",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-012",
+        "wave": "W10",
+        "integrationOrder": 2,
+        "dependsOn": [
+          "GZ-005",
+          "GZ-006",
+          "GZ-007",
+          "GZ-008",
+          "GZ-009",
+          "POC-008"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-GOV",
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-CONNECTOR",
+          "MOD-WORKER",
+          "MOD-PLAYER",
+          "MOD-EDGE",
+          "MOD-DATA",
+          "MOD-DEPLOY",
+          "MOD-CLI"
+        ],
+        "outputPaths": [
+          "backend/**",
+          "services/**",
+          "frontend/**",
+          "player/**",
+          "guizectl/**",
+          "build/**",
+          ".github/workflows/language-ci.yml",
+          "evidence/GZ-012/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1",
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "PLUGIN-CONTRACT-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-012-*",
+        "exitGate": "各语言骨架可独立构建测试，依赖锁定，模块边界和机器契约生成/校验进入 CI"
+      },
+      "after": {
+        "taskId": "GZ-012",
+        "title": "建立 Java/Python/Frontend/Player/Go 工程骨架与语言 CI",
+        "kind": "scaffold",
+        "status": "planned",
+        "workPackage": "WP-M0-06",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-012",
+        "wave": "W10",
+        "integrationOrder": 2,
+        "dependsOn": [
+          "GZ-005",
+          "GZ-006",
+          "GZ-007",
+          "GZ-008",
+          "GZ-009",
+          "POC-008"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-GOV",
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-CONNECTOR",
+          "MOD-WORKER",
+          "MOD-PLAYER",
+          "MOD-EDGE",
+          "MOD-DATA",
+          "MOD-DEPLOY",
+          "MOD-CLI"
+        ],
+        "outputPaths": [
+          "backend/**",
+          "services/**",
+          "frontend/**",
+          "player/**",
+          "guizectl/**",
+          "build/**",
+          ".github/workflows/language-ci.yml",
+          "evidence/GZ-012/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1",
+          "WORKFLOW-CONTRACT-V1",
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "PLUGIN-CONTRACT-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-012-*",
+        "exitGate": "各语言骨架可独立构建测试，依赖锁定，模块边界和机器契约生成/校验进入 CI；主仓骨架能消费固定协议SDK/Schema和conformance输入；Android独立仓bootstrap与应用实现分别有本仓Task、签名/设备CI和发布证据；不由本Task取得外仓/AndroidCI权限，原全部语言骨架/依赖锁仍须完成。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-013",
+      "originalDefinitionSha256": "901e8571339d64ef6c035e114a635c4d7f20752494f3bb37c3450f06c080dbb7",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-013",
+        "title": "实现 M1 WebDAV→Asset→授权→ATS Range 播放垂直切片",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M1",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-013",
+        "wave": "W12",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-011",
+          "GZ-012",
+          "POC-003",
+          "POC-005",
+          "POC-007"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-AUDIT",
+          "MOD-CONNECTOR",
+          "MOD-PLAYER",
+          "MOD-EDGE"
+        ],
+        "outputPaths": [
+          "backend/guize-identity-access/**",
+          "backend/guize-source-management/**",
+          "backend/guize-asset-catalog/**",
+          "backend/guize-task-workflow/**",
+          "backend/guize-audit/**",
+          "plugins/connectors/webdav/**",
+          "player/**",
+          "edge/**",
+          "tests/e2e/m1/**",
+          "evidence/GZ-013/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "POC-03-EVIDENCE",
+          "POC-05-EVIDENCE",
+          "POC-07-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0010"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-013-*",
+        "exitGate": "真实 WebDAV 对象可归一为 Asset，经 ACL 生成播放授权并通过 ATS Range 播放，测试/Evidence/回滚完整"
+      },
+      "after": {
+        "taskId": "GZ-013",
+        "title": "实现 M1 WebDAV→Asset→授权→ATS Range 播放垂直切片",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M1",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-013",
+        "wave": "W12",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-011",
+          "GZ-012",
+          "POC-003",
+          "POC-005",
+          "POC-007"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-AUDIT",
+          "MOD-CONNECTOR",
+          "MOD-PLAYER",
+          "MOD-EDGE"
+        ],
+        "outputPaths": [
+          "backend/guize-identity-access/**",
+          "backend/guize-source-management/**",
+          "backend/guize-asset-catalog/**",
+          "backend/guize-task-workflow/**",
+          "backend/guize-audit/**",
+          "plugins/connectors/webdav/**",
+          "player/**",
+          "edge/**",
+          "tests/e2e/m1/**",
+          "evidence/GZ-013/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1",
+          "DATA-SCHEMA-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "POC-03-EVIDENCE",
+          "POC-05-EVIDENCE",
+          "POC-07-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0010"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-013-*",
+        "exitGate": "真实 WebDAV 对象可归一为 Asset，经 ACL 生成播放授权并通过 ATS Range 播放，测试/Evidence/回滚完整；向后继六帧业务交接真实OpenList/WebDAV、AssetVersion/ACL、受限输入引用及Task基础；M1仍须授权ATS Range播放收口，手机本地抽帧不代替平台闭环，不新增产品Agent前置。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-016",
+      "originalDefinitionSha256": "02f9f25426f146119852c9cf117b175ae9fd4cf84e9ce75b5881b9df35a688b5",
+      "allowedFields": [
+        "consumesContracts",
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-016",
+        "title": "实现 M3 媒体与 AI 加工闭环",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M3",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-016",
+        "wave": "W14",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-011",
+          "POC-001",
+          "POC-002",
+          "POC-009"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0007"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-TASK",
+          "MOD-STORAGE"
+        ],
+        "outputPaths": [
+          "backend/guize-media-control/**",
+          "backend/guize-ai-control/**",
+          "services/guize-media-service/**",
+          "services/guize-ai-*/**",
+          "tests/e2e/m3/**",
+          "evidence/GZ-016/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-01-EVIDENCE",
+          "POC-02-EVIDENCE",
+          "POC-09-EVIDENCE"
+        ],
+        "acceptanceIds": [
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-016-*",
+        "exitGate": "AV1/ABR/临时 H.264 与 ASR/OCR/VLM/翻译/摘要/标签可恢复执行并通过固定样本；按已批准 local-v1 profile 实际接入独立 Windows/Linux worker、OpenList 源、HLS连续播放/跳转/兼容回退、P0播放/P3预热/P6后台、租约重派与迟到结果拒绝、热缓存鉴权和全部媒体/AI固定样本；物理多机/手机和生产硬件性能分别实测，不能以模拟成功代替。"
+      },
+      "after": {
+        "taskId": "GZ-016",
+        "title": "实现 M3 媒体与 AI 加工闭环",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M3",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-016",
+        "wave": "W14",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-011",
+          "POC-001",
+          "POC-002",
+          "POC-009"
+        ],
+        "requirementIds": [
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0007"
+        ],
+        "moduleIds": [
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-TASK",
+          "MOD-STORAGE"
+        ],
+        "outputPaths": [
+          "backend/guize-media-control/**",
+          "backend/guize-ai-control/**",
+          "services/guize-media-service/**",
+          "services/guize-ai-*/**",
+          "tests/e2e/m3/**",
+          "evidence/GZ-016/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "WORKFLOW-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "QUALITY-THRESHOLDS-V1",
+          "POC-01-EVIDENCE",
+          "POC-02-EVIDENCE",
+          "POC-09-EVIDENCE",
+          "WORKER-CONTRACT-V1",
+          "POLICY-CONTRACT-V1"
+        ],
+        "acceptanceIds": [
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-016-*",
+        "exitGate": "AV1/ABR/临时 H.264 与 ASR/OCR/VLM/翻译/摘要/标签可恢复执行并通过固定样本；按已批准 local-v1 profile 实际接入独立 Windows/Linux worker、OpenList 源、HLS连续播放/跳转/兼容回退、P0播放/P3预热/P6后台、租约重派与迟到结果拒绝、热缓存鉴权和全部媒体/AI固定样本；物理多机/手机和生产硬件性能分别实测，不能以模拟成功代替。；消费GZ-008的WORKER/POLICY契约，经TASK权威接入公共PC执行协议，向EDGE后继交接AV1/HLS和已验证AI工具；手机应用、统一资源、六帧及Agent由独立Task实际承接，不添加这些后继为V1前置。原全部媒体/AI固定样本及手机/跨机/生产分别实测义务原样保留。"
+      }
+    },
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-018",
+      "originalDefinitionSha256": "c88018d94452d9eb422d6c7c5d5e787a04e6ad896d959e105f2f84968ab64fb4",
+      "allowedFields": [
+        "exitGate"
+      ],
+      "before": {
+        "taskId": "GZ-018",
+        "title": "实现 M5 配置中心、规则发布、运维、部署与供应链",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M5",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-018",
+        "wave": "W16",
+        "integrationOrder": 3,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-016",
+          "GZ-017",
+          "POC-010",
+          "GZ-019"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-GOV",
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-CONNECTOR",
+          "MOD-WORKER",
+          "MOD-PLAYER",
+          "MOD-EDGE",
+          "MOD-DATA",
+          "MOD-DEPLOY",
+          "MOD-CLI"
+        ],
+        "outputPaths": [
+          "backend/guize-rule-policy/**",
+          "backend/guize-configuration-center/**",
+          "backend/guize-observability/**",
+          "observability/**",
+          "deployment/**",
+          "infrastructure/**",
+          "guizectl/**",
+          "tests/e2e/m5/**",
+          "evidence/GZ-018/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "POC-10-EVIDENCE",
+          "REQ-V1",
+          "NFR-V1",
+          "OPENAPI-V1",
+          "QUALITY-THRESHOLDS-V1"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0004",
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007",
+          "验收V1-0008",
+          "验收V1-0009",
+          "验收V1-0010",
+          "验收V1-0011",
+          "验收V1-0012"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-018-*",
+        "exitGate": "配置/Policy 草稿→验证→模拟→审批→灰度→发布→回滚，部署/可观测/供应链可审计；作为GZ-019之后的完整 local-v1 集成验收里程碑，全部十项功能与十二项验收、实际OpenList/数据库/独立worker/媒体与AI/搜索/权限/恢复/运维/签名与SBOM必须可运行并通过端到端测试；生产资源、真实手机/跨机、公网和百度生产义务明确未测时不得报告已通过或批准生产。"
+      },
+      "after": {
+        "taskId": "GZ-018",
+        "title": "实现 M5 配置中心、规则发布、运维、部署与供应链",
+        "kind": "vertical-slice",
+        "status": "planned",
+        "workPackage": "WP-M5",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-018",
+        "wave": "W16",
+        "integrationOrder": 3,
+        "dependsOn": [
+          "GZ-015",
+          "GZ-016",
+          "GZ-017",
+          "POC-010",
+          "GZ-019"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-GOV",
+          "MOD-PLATFORM",
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-OBS",
+          "MOD-CONNECTOR",
+          "MOD-WORKER",
+          "MOD-PLAYER",
+          "MOD-EDGE",
+          "MOD-DATA",
+          "MOD-DEPLOY",
+          "MOD-CLI"
+        ],
+        "outputPaths": [
+          "backend/guize-rule-policy/**",
+          "backend/guize-configuration-center/**",
+          "backend/guize-observability/**",
+          "observability/**",
+          "deployment/**",
+          "infrastructure/**",
+          "guizectl/**",
+          "tests/e2e/m5/**",
+          "evidence/GZ-018/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [],
+        "consumesContracts": [
+          "POLICY-CONTRACT-V1",
+          "WORKER-CONTRACT-V1",
+          "ACCEPTANCE-SUITE-V1",
+          "POC-10-EVIDENCE",
+          "REQ-V1",
+          "NFR-V1",
+          "OPENAPI-V1",
+          "QUALITY-THRESHOLDS-V1"
+        ],
+        "acceptanceIds": [
+          "验收V1-0001",
+          "验收V1-0002",
+          "验收V1-0003",
+          "验收V1-0004",
+          "验收V1-0005",
+          "验收V1-0006",
+          "验收V1-0007",
+          "验收V1-0008",
+          "验收V1-0009",
+          "验收V1-0010",
+          "验收V1-0011",
+          "验收V1-0012"
+        ],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-018-*",
+        "exitGate": "配置/Policy 草稿→验证→模拟→审批→灰度→发布→回滚，部署/可观测/供应链可审计；作为GZ-019之后的完整 local-v1 集成验收里程碑，全部十项功能与十二项验收、实际OpenList/数据库/独立worker/媒体与AI/搜索/权限/恢复/运维/签名与SBOM必须可运行并通过端到端测试；生产资源、真实手机/跨机、公网和百度生产义务明确未测时不得报告已通过或批准生产。；向独立EDGE组合验收交接配置/Policy发布、Worker制品/能力开关、运维/签名/SBOM与恢复接口的固定版本；EDGE组合由后继Task接受，本Task/GZ-020不等待未来Agent，不替代十项V1/十二验收及生产门禁。"
+      }
+    }
+  ],
+  "requirementIndex": {
+    "schemaVersion": 1,
+    "scopeId": "AGENT-EDGE-104",
+    "sourceIssue": 104,
+    "requirements": [
+      {
+        "id": "REQ-EDGE-104-0001",
+        "title": "公共执行协议的主仓集成、固定SDK与跨端conformance",
+        "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0001",
+        "moduleIds": [
+          "MOD-TASK",
+          "MOD-WORKER"
+        ],
+        "taskIds": [
+          "GZ-023",
+          "GZ-030"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0001"
+        ]
+      },
+      {
+        "id": "REQ-EDGE-104-0002",
+        "title": "独立Android运行时制品准入与PC同协议适配",
+        "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0002",
+        "moduleIds": [
+          "MOD-WORKER"
+        ],
+        "taskIds": [
+          "GZ-024",
+          "GZ-030"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0002"
+        ]
+      },
+      {
+        "id": "REQ-EDGE-104-0003",
+        "title": "共用节点池的AV1、HLS缓存与播放优先级集成",
+        "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0003",
+        "moduleIds": [
+          "MOD-MEDIA",
+          "MOD-TASK",
+          "MOD-WORKER",
+          "MOD-STORAGE",
+          "MOD-PLAYER",
+          "MOD-EDGE"
+        ],
+        "taskIds": [
+          "GZ-025",
+          "GZ-030"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0003"
+        ]
+      },
+      {
+        "id": "REQ-EDGE-104-0004",
+        "title": "10–30秒真实视频六帧解码到平台接受与查询闭环",
+        "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0004",
+        "moduleIds": [
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-MEDIA",
+          "MOD-WORKER"
+        ],
+        "taskIds": [
+          "GZ-026",
+          "GZ-030"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0004"
+        ]
+      },
+      {
+        "id": "REQ-EDGE-104-0005",
+        "title": "统一资源预算、观测时效与有界调度实现",
+        "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0005",
+        "moduleIds": [
+          "MOD-TASK",
+          "MOD-POLICY",
+          "MOD-WORKER",
+          "MOD-OBS"
+        ],
+        "taskIds": [
+          "GZ-027",
+          "GZ-030"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0005"
+        ]
+      },
+      {
+        "id": "REQ-EDGE-104-0006",
+        "title": "同一六帧的固定离线OCR包与平台结果集成",
+        "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0006",
+        "moduleIds": [
+          "MOD-AI",
+          "MOD-TASK",
+          "MOD-ASSET",
+          "MOD-WORKER"
+        ],
+        "taskIds": [
+          "GZ-028",
+          "GZ-030"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0006"
+        ]
+      },
+      {
+        "id": "REQ-EDGE-104-0007",
+        "title": "受约束产品Agent的计划提议与有限重规划集成",
+        "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0007",
+        "moduleIds": [
+          "MOD-AI",
+          "MOD-TASK",
+          "MOD-POLICY"
+        ],
+        "taskIds": [
+          "GZ-029",
+          "GZ-030"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0007"
+        ]
+      },
+      {
+        "id": "REQ-EDGE-104-0008",
+        "title": "固定跨仓版本组合、联合验收与扩展范围最终收口",
+        "requirementPath": "specs/requirements/agent-edge-104.md#req-edge-104-0008",
+        "moduleIds": [
+          "MOD-DEPLOY",
+          "MOD-CLI",
+          "MOD-WORKER",
+          "MOD-TASK"
+        ],
+        "taskIds": [
+          "GZ-030"
+        ],
+        "acceptanceIds": [
+          "AC-EDGE-104-0008"
+        ]
+      }
+    ]
+  },
+  "acceptanceIndex": {
+    "schemaVersion": 1,
+    "scopeId": "AGENT-EDGE-104",
+    "sourceIssue": 104,
+    "acceptances": [
+      {
+        "id": "AC-EDGE-104-0001",
+        "title": "公共执行协议的主仓集成、固定SDK与跨端conformance",
+        "requirementIds": [
+          "REQ-EDGE-104-0001"
+        ],
+        "taskIds": [
+          "GZ-023",
+          "GZ-030"
+        ],
+        "verification": "固定Schema/SDK及同一conformance向量在主仓Windows/Linux运行；Android实际消费/应用构建和设备conformance由GZ-024远端前置完成，不反向阻塞协议交付。；重复/迟到/乱序/取消按revision/fencing只接受一次；未知能力、错版本、不可迁移检查点明确拒绝或安全重跑。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。",
+        "evidencePath": "evidence/GZ-030/acceptance/AC-EDGE-104-0001.json"
+      },
+      {
+        "id": "AC-EDGE-104-0002",
+        "title": "独立Android运行时制品准入与PC同协议适配",
+        "requirementIds": [
+          "REQ-EDGE-104-0002"
+        ],
+        "taskIds": [
+          "GZ-024",
+          "GZ-030"
+        ],
+        "verification": "远端bootstrap不替代应用；真实OnePlus8T可安装并自主走平台网络链路，启停/进度/取消/清理/更新回退可观察。；Windows/Linux消费同版协议实际执行，能力来自探测和已验证执行；双方证据绑定真实提交及不可变制品。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。；增补Android生命周期验收：记录真实机Android版本、target SDK和服务/工作类型；对适用target Android15+后台mediaProcessing验证同类共享6h/24h预算及onTimeout后数秒内停止，对Android16 WorkManager长时Worker验证JobScheduler配额受限分支；实际暂停/取消、短批次安全检查点、租约重派和迟到fencing拒绝可追溯，不能以VM或持续后台假设代替真机结果。",
+        "evidencePath": "evidence/GZ-030/acceptance/AC-EDGE-104-0002.json"
+      },
+      {
+        "id": "AC-EDGE-104-0003",
+        "title": "共用节点池的AV1、HLS缓存与播放优先级集成",
+        "requirementIds": [
+          "REQ-EDGE-104-0003"
+        ],
+        "taskIds": [
+          "GZ-025",
+          "GZ-030"
+        ],
+        "verification": "实际PC AV1、连续HLS播放/seek、失败重派、覆盖与不兼容执行组拒绝均有平台记录。；编码负载下P0容量/公平有效，逐资源和热命中撤权拒绝，兼容回退真实可解码。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。",
+        "evidencePath": "evidence/GZ-030/acceptance/AC-EDGE-104-0003.json"
+      },
+      {
+        "id": "AC-EDGE-104-0004",
+        "title": "10–30秒真实视频六帧解码到平台接受与查询闭环",
+        "requirementIds": [
+          "REQ-EDGE-104-0004"
+        ],
+        "taskIds": [
+          "GZ-026",
+          "GZ-030"
+        ],
+        "verification": "平台查询得到恰好六个可追溯采样结果和真实缩略图，重算摘要并按冻结时间/尺寸/图像容差比较。；取消/故障恢复不接受旧fencing/坏输入，重复提交不新增派生物；撤权后元数据与图像均不可读。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。",
+        "evidencePath": "evidence/GZ-030/acceptance/AC-EDGE-104-0004.json"
+      },
+      {
+        "id": "AC-EDGE-104-0005",
+        "title": "统一资源预算、观测时效与有界调度实现",
+        "requirementIds": [
+          "REQ-EDGE-104-0005"
+        ],
+        "taskIds": [
+          "GZ-027",
+          "GZ-030"
+        ],
+        "verification": "AV1/分析并发不重复预留同一codec/内存/盘，失联/取消/重试正确释放或失效预算。；冻结负载覆盖资源拒绝、过期观测、冷却、有限重派；VM注入与真实热/功耗测量分别标识。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。；增补系统执行预算验收：资源可用不代表后台额度可用；对适用Android15+ mediaProcessing共享6h/24h预算、onTimeout停止和Android16 WorkManager/JobScheduler配额耗尽分支，验证停止新派发、暂停/取消、安全短批次检查点释放及有限租约重派，旧fencing迟到结果仍拒绝；真实机记录与VM注入分别注明，阈值/方法仍消费GZ-011批准版本。",
+        "evidencePath": "evidence/GZ-030/acceptance/AC-EDGE-104-0005.json"
+      },
+      {
+        "id": "AC-EDGE-104-0006",
+        "title": "同一六帧的固定离线OCR包与平台结果集成",
+        "requirementIds": [
+          "REQ-EDGE-104-0006"
+        ],
+        "taskIds": [
+          "GZ-028",
+          "GZ-030"
+        ],
+        "verification": "冻结OCR集在实际目标设备达到批准质量/资源阈值，文字/位置/帧时间/语言/置信度和源版本可追溯。；坏包/错版本/摘要/预算/ACL/外发拒绝有效，取消/重复不重复接受，源撤权影响派生结果读取。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。",
+        "evidencePath": "evidence/GZ-030/acceptance/AC-EDGE-104-0006.json"
+      },
+      {
+        "id": "AC-EDGE-104-0007",
+        "title": "受约束产品Agent的计划提议与有限重规划集成",
+        "requirementIds": [
+          "REQ-EDGE-104-0007"
+        ],
+        "taskIds": [
+          "GZ-029",
+          "GZ-030"
+        ],
+        "verification": "同一目标形成可解释可执行计划，失败后有限重规划未完成部分且可查询版本/原因，不覆盖已接受结果与预算。；越权工具/超预算/未许可外发/质量降级在派发前拒绝；重放/取消/恢复无重复副作用。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。",
+        "evidencePath": "evidence/GZ-030/acceptance/AC-EDGE-104-0007.json"
+      },
+      {
+        "id": "AC-EDGE-104-0008",
+        "title": "固定跨仓版本组合、联合验收与扩展范围最终收口",
+        "requirementIds": [
+          "REQ-EDGE-104-0008"
+        ],
+        "taskIds": [
+          "GZ-030"
+        ],
+        "verification": "锁中每项定位真实repo/commit/制品摘要/签名/远端Task/证据，实际联合测试对应同一组合和兼容矩阵。；八项AC及旧节点兼容/不支持能力拒绝、升级灰度和停派/取消/禁用/恢复旧组合均可复现。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。",
+        "evidencePath": "evidence/GZ-030/acceptance/AC-EDGE-104-0008.json"
+      }
+    ]
+  },
+  "requirementDocument": {
+    "path": "specs/requirements/agent-edge-104.md",
+    "content": "# 智能异构边缘计算需求\n\n本需求对应建设待办 [#104](https://github.com/ElectricDogCN/Guize/issues/104)，范围为 `AGENT-EDGE-104`。Guize 持久化计划、授权、调度与最终结果接受；Android 与 Windows/Linux 节点执行有界、版本化任务。\n\n## 共同约束\n\n- 保留原 V1 的27项任务、十项POC、既有需求/验收和GZ-020生产发布义务；本范围的最终组合验收不能替代这些义务。\n- MOD-TASK 负责计划和业务接受，MOD-WORKER 负责节点执行；MOD-AI 只提议计划，MOD-IAM/POLICY 控制权限与预算。MOD-EDGE 继续承担网关与ATS，不代替节点运行时。节点不能直接写核心资产数据库。\n- Task的consumesContracts、模块列表和producer/consumer映射不授予各模块对契约namespace的直连访问权；实际调用继续受既有owner/consumer许可与逐接口授权约束。CONFIG负责身份接入，身份心跳租约与执行attempt租约分离；WORKER仅按TASK的有限派发读取授权输入，不因此取得ASSET直连、CONFIG/POLICY管理API或核心数据库权限。\n- 首期使用本地OpenList经WebDAV承接存储，百度生产接入后置；手机能力以实测为准，首期无需root、AV1硬编或GPU/NPU。ADB用于安装、诊断和测试，不能替代自主平台链路。\n- 所有结果绑定真实输入版本、计划/步骤/尝试、fencing、节点、协议与能力包版本和不可变产物摘要。身份心跳不授予素材或任务权限；业务结果只能由平台按事务或条件写接受一次。\n- 实际采样集、时间/图像容差、OCR质量和资源阈值消费GZ-011批准版本；测试前固定，不能观测输出后追认阈值。VM注入、真机、短片原型、正式POC和完整产品结果分别记录。\n\n## REQ-EDGE-104-0001\n\n公共执行协议：Android 与 PC 使用同一套任务生命周期。\n\n关联模块：`MOD-TASK`、`MOD-WORKER`。交付任务：`GZ-023`、`GZ-030`；验收：`AC-EDGE-104-0001`。\n\n**条款。** 平台向 Android、Windows/Linux 派发同一语义的有限任务：任务/步骤/计划版本、attempt、节点、单调 fencing、具体输入版本和摘要、输出约束、能力包/执行组、授权、资源预算、优先级及取消方式。节点可使用不同执行后端，但领取、续租、进度、取消确认、结果提交和错误分类必须遵循同一版本协议。注册和身份心跳成功不授予素材读取或任务执行权。\n\n**验收结果。** 同一版本契约用例在 Android 与 PC 两种适配器执行；合法任务正常领取和提交，未知协议/能力、过期授权、错输入/包版本、乱序进度、重复结果、租约过期、重派旧 fencing、取消后结果均产生确定且可查询的拒绝或幂等结果。以平台事务/条件写保证业务结果只接受一次，不承诺节点只执行一次。暂不支持的暂停/检查点须明确声明，不能伪装可迁移任意进程。\n\n**producer → consumer。** MOD-TASK 产生计划、派发及最终接受视图；MOD-WORKER 产生能力/观测/执行事实，Android 与 PC 消费派发；MOD-IAM/POLICY 给出受限授权和预算判定，TASK/WORKER 均验证。GZ-008 承接 `contracts/workers/**`、`workflows/**`、`policies/**`；GZ-006 承接可消费事件，GZ-007 承接持久状态。正式契约留在 Guize 主仓，运行时消费固定版本的 Schema/SDK/制品。\n\n**固定组合验收。** 固定Schema/SDK及同一conformance向量在主仓Windows/Linux运行；Android实际消费/应用构建和设备conformance由GZ-024远端前置完成，不反向阻塞协议交付；重复/迟到/乱序/取消按revision/fencing只接受一次；未知能力、错版本、不可迁移检查点明确拒绝或安全重跑；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。\n\n## REQ-EDGE-104-0002\n\n可安装节点与 PC 适配。\n\n关联模块：`MOD-WORKER`。交付任务：`GZ-024`、`GZ-030`；验收：`AC-EDGE-104-0002`。\n\n**条款。** 交付独立的 `guize-edge-runtime` Android 应用及构建/签名制品，提供主动启用、暂停、充电/Wi-Fi 条件和资源限额；节点自主连接平台接单，ADB 只用于安装、诊断和测试。Windows/Linux AV1 Worker 同期接入公共协议。能力声明来自实际探测和已验证执行，不根据设备型号或注册成功推断 AV1 硬编、GPU/NPU 可用。 按实际 target SDK 和工作类型，适用 Android 15+ 的后台 mediaProcessing 遵守同类共享6小时/24小时预算，并在 onTimeout 后数秒内停止；Android 16 的 WorkManager 长时 Worker 仍可能耗尽 JobScheduler 配额，见[官方超时规则](https://developer.android.com/develop/background-work/services/fgs/timeout)与[长时 Worker 说明](https://developer.android.com/develop/background-work/background-tasks/persistent/how-to/long-running)。\n\n**验收结果。** OnePlus 8T 可安装、启停、注册、接收有权任务、报告进度、取消并清理；VM 验证协议和受控断网，真机验证系统生命周期及持续温升，分别记录适用范围。PC 独立进程可通过同一协议完成 AV1 工作单元。首期不要求 root、不以常驻后台接单为前提；被系统停止或能力不可用时平台状态可收敛。构建固定依赖，制品可验签、升级、禁用和回退。 真机记录系统版本、target SDK 和执行方式，覆盖超时停止、主动暂停/取消、短批次安全检查点、租约重派及迟到 fencing 拒绝；VM 不替代系统生命周期结果。\n\n**producer → consumer。** MOD-WORKER/运行时仓发布节点制品与能力事实；主仓 TASK/CONFIG 消费注册和控制状态，OBS 消费带时效的观测，DEPLOY 消费发布元数据。Android 应用、设备 UI 和新仓 CI 是新增交付，不能由 GZ-012 主仓骨架或现有 ADB 原型替代。\n\n**固定组合验收。** 远端bootstrap不替代应用；真实OnePlus8T可安装并自主走平台网络链路，启停/进度/取消/清理/更新回退可观察；Windows/Linux消费同版协议实际执行，能力来自探测和已验证执行；双方证据绑定真实提交及不可变制品；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用；增补Android生命周期验收：记录真实机Android版本、target SDK和服务/工作类型；对适用target Android15+后台mediaProcessing验证同类共享6h/24h预算及onTimeout后数秒内停止，对Android16 WorkManager长时Worker验证JobScheduler配额受限分支；实际暂停/取消、短批次安全检查点、租约重派和迟到fencing拒绝可追溯，不能以VM或持续后台假设代替真机结果。\n\n## REQ-EDGE-104-0003\n\nAV1、HLS 缓存与播放优先级共用执行池。\n\n关联模块：`MOD-MEDIA`、`MOD-TASK`、`MOD-WORKER`、`MOD-STORAGE`、`MOD-PLAYER`、`MOD-EDGE`。交付任务：`GZ-025`、`GZ-030`；验收：`AC-EDGE-104-0003`。\n\n**条款。** PC 与已验证手机能力消费同一编码配置和可独立解码单元；平台验证输入/span、执行组、完整覆盖、帧/包、时间戳及产物后封装 HLS，只发布连续 READY 区间。seek 使用独立窗口代数，旧窗口不得覆盖新需求。P0 播放先于 P3 预热和 P6 后台编码；及时性不足时使用已验证源格式或 H.264 兼容路径，不依赖未实测的手机吞吐。\n\n**验收结果。** 实际独立 Worker 编码与 HLS 连续播放/seek、失败单元重派、旧尝试结果拒绝、重复完成、资源保留均有端到端记录；不同执行组的不兼容产物拒绝混装。对 manifest/init/media 及热缓存分别验证 ACL，撤权后命中也拒绝。淘汰临时分片不改变 Asset、正式 Replica 或 Retention。沿用已批准 NFR/POC/固定样本阈值，不在本文另造吞吐或质量数值。\n\n**producer → consumer。** MEDIA 产生编码配置、工作单元和经验证的播放产物；TASK/WORKER 接收执行事实，STORAGE 管临时产物和水位，MEDIA 发布 HLS，PLAYER/EDGE 消费已授权播放引用。MOD-EDGE 仍为网关/ATS，计算运行时归 MOD-WORKER。这是 GZ-021 已合入路线的实施承接，不另建第二套编码调度器。\n\n**固定组合验收。** 实际PC AV1、连续HLS播放/seek、失败重派、覆盖与不兼容执行组拒绝均有平台记录；编码负载下P0容量/公平有效，逐资源和热命中撤权拒绝，兼容回退真实可解码；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。\n\n## REQ-EDGE-104-0004\n\n首个端到端结果：10–30秒视频实际解码六帧并入平台。\n\n关联模块：`MOD-ASSET`、`MOD-TASK`、`MOD-MEDIA`、`MOD-WORKER`。交付任务：`GZ-026`、`GZ-030`；验收：`AC-EDGE-104-0004`。\n\n**条款。** 冻结一个有权访问的 10–30秒真实视频版本、六个有效采样点、输出 Schema、参考探测/解码方法和容忍度。Android 主动领取任务，读取授权输入，实际解码六点，产生容器/流元数据、真实缩略图、实际采样时间、尺寸、像素格式及哈希；平台验证、持久化为该版本的派生物并允许授权查询。节点不得减少采样或只回传成功标志。\n\n**验收结果。** 平台查询可取得六个完整且可回溯的结果，重算产物摘要，并按冻结方法比较参考时间/尺寸/像素及图像容差；跨后端的编码/色彩差异按批准规则比较，不默认为字节相同。覆盖正常、途中取消、断网重连、节点失联重派、旧结果晚到、重复上传、错误输入/输出及越权读取。取消与完成竞态由平台 revision/条件接受确定先后，重复提交不新增衍生物。输入来自真实 OpenList/受控本地来源，经正式平台链路，不用主机 ADB 代执行闭环。\n\n**producer → consumer。** SOURCE/ASSET/IAM 提供受限输入版本；TASK 持久化计划和 attempt；Android 能力包产出元数据/六帧证据；MEDIA/ASSET 验证并建立派生物关系，查询 API/前端消费结果。GZ-013 提供已有 M1 基础，GZ-011 提供样本方法；需显式的跨模块集成交付承接结果接受/查询，不能将“手机本地抽帧”当作平台闭环或全部 GZ-016 完成。\n\n**固定组合验收。** 平台查询得到恰好六个可追溯采样结果和真实缩略图，重算摘要并按冻结时间/尺寸/图像容差比较；取消/故障恢复不接受旧fencing/坏输入，重复提交不新增派生物；撤权后元数据与图像均不可读；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。\n\n## REQ-EDGE-104-0005\n\n资源预算与有界调度。\n\n关联模块：`MOD-TASK`、`MOD-POLICY`、`MOD-WORKER`、`MOD-OBS`。交付任务：`GZ-027`、`GZ-030`；验收：`AC-EDGE-104-0005`。\n\n**条款。** 编码、解码与 OCR 共用节点容量账本。平台预留和释放 codec 槽、内存、磁盘/临时缓存及适用的 CPU/网络/成本预算，节点只能在本次授权内选择后端、批次和并行度。观测含采样/接收时间、有效期与不可观测原因，过期数据不得继续代表可用容量。质量或采样降级须在任务预先允许的集合内。 可派发预算还须考虑上文适用的 Android 后台时间与 JobScheduler 配额，codec 空闲不等于可继续执行。\n\n**验收结果。** 首个手机分析环境限定一个活动解码/分析 attempt；与 AV1 并发时不能重复承诺同一 codec/内存/空间。分别注入超温、低电、低水位、过期观测、排队超时和失联，确认停止新派发、降并行或有限重派符合预算，且 P0 保留容量和主体公平有效。调整有阈值、冷却和重派预算，不来回振荡；模拟温度只证明策略分支，真实温升另测。对相同素材的静态基线比较完整排队、传输、准备、执行、回传与质量，不用设备标称算力推导收益；具体阈值由样本/设备配置冻结。 同时验证系统额度耗尽或停止时停止新派发、及时停止服务或在短批次安全检查点收口，正确释放预算、有限租约重派并拒绝旧 fencing 结果；真机与 VM 注入分别记录。\n\n**producer → consumer。** WORKER 产生原始观测和资源使用，OBS 统一解释时效；POLICY 产生硬约束与可行性判定，TASK 执行容量预留及调度，节点消费有限执行预算。GZ-008 提供协议，GZ-007 保证预留/扣记/结果接受幂等，后续实际策略和设备控制是实现任务，不用协议文件替代。\n\n**固定组合验收。** AV1/分析并发不重复预留同一codec/内存/盘，失联/取消/重试正确释放或失效预算；冻结负载覆盖资源拒绝、过期观测、冷却、有限重派；VM注入与真实热/功耗测量分别标识；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用；增补系统执行预算验收：资源可用不代表后台额度可用；对适用Android15+ mediaProcessing共享6h/24h预算、onTimeout停止和Android16 WorkManager/JobScheduler配额耗尽分支，验证停止新派发、暂停/取消、安全短批次检查点释放及有限租约重派，旧fencing迟到结果仍拒绝；真实机记录与VM注入分别注明，阈值/方法仍消费GZ-011批准版本。\n\n## REQ-EDGE-104-0006\n\n同一六帧上的离线 OCR。\n\n关联模块：`MOD-AI`、`MOD-TASK`、`MOD-ASSET`、`MOD-WORKER`。交付任务：`GZ-028`、`GZ-030`；验收：`AC-EDGE-104-0006`。\n\n**条款。** 在六帧结构闭环之后增加固定版本的离线 OCR 能力包，锁定模型/运行时/配置、许可证、资源预算与质量测量。结果包含文本、位置、时间关联、语言、置信度及来源标记，绑定原 AssetVersion、采样帧、plan/attempt 与包版本，继承源权限。无权外发或任务未允许外发时不能调用外部服务。\n\n**验收结果。** 先按 POC-009/GZ-011 冻结 OCR 样本、参考答案、误差指标及资源阈值，再在目标设备实际执行；对比参考结果、拒绝错误包/版本/超预算与越权读取，低置信度可见且不冒充事实。结构抽帧完成不等于 OCR 完成；该增量通过也不替代 GZ-016 的 ASR/VLM/翻译/摘要/标签等完整原义务。\n\n**producer → consumer。** AI 负责 OCR 包与结果 Schema/质量证据，WORKER 执行，TASK 控制流程，ASSET 接受派生物，查询端按 IAM 授权消费；以 `contracts/openapi/ai/**`、`providers/**` 和 DerivedArtifact 为承接入口。是否独立 AI 服务仓依既有触发条件另决定，本次不要求新建第三仓。\n\n**固定组合验收。** 冻结OCR集在实际目标设备达到批准质量/资源阈值，文字/位置/帧时间/语言/置信度和源版本可追溯；坏包/错版本/摘要/预算/ACL/外发拒绝有效，取消/重复不重复接受，源撤权影响派生结果读取；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。\n\n## REQ-EDGE-104-0007\n\n受约束的产品 Agent。\n\n关联模块：`MOD-AI`、`MOD-TASK`、`MOD-POLICY`。交付任务：`GZ-029`、`GZ-030`；验收：`AC-EDGE-104-0007`。\n\n**条款。** 从固定模板计划起步，增加目标/约束归一化、已验证工具选择、候选计划比较和有限重新规划。Agent 只能提议版本化计划；TASK 负责持久化、执行及最终状态，POLICY/IAM 决定数据、外发、成本和质量权限。计划携带工具/包版本、依赖、输入输出、预算、时限、质量底线及允许降级；不下发任意 shell、任意 URL 或模型生成代码。\n\n**验收结果。** 同一目标可形成可解释且可执行的计划；模拟工具失败或节点不满足条件后，仅重规划未完成部分，保留原计划及原因、预算占用和已接受结果。重试/重规划次数受配置限制；越权工具、过预算、未许可外发和低于质量底线的候选在派发前拒绝。取消、恢复、节点转交仍走公共协议。模型调用和资源查询通过 Activity 等非确定性边界记录；工作流重放使用已记录结果，不能再次产生未经控制的调用或发布副作用。\n\n**producer → consumer。** AI 产生候选计划/工具选择及解释，TASK 校验并保存 plan/step/attempt、调用受控工具，POLICY/IAM 返回准入判定，WORKER/能力服务消费授权动作，平台接受结果。现有 REQ-V1-0004 是媒体智能加工，不完整覆盖产品 Agent；研发 Harness、Task Spec 或“Agent 修改审批”也不等于这项业务能力。应独立登记新增需求与业务任务，不能用旧 GZ-008/GZ-016 名称隐式取得完整范围。\n\n**固定组合验收。** 同一目标形成可解释可执行计划，失败后有限重规划未完成部分且可查询版本/原因，不覆盖已接受结果与预算；越权工具/超预算/未许可外发/质量降级在派发前拒绝；重放/取消/恢复无重复副作用；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。\n\n## REQ-EDGE-104-0008\n\n跨仓版本组合与联合交付。\n\n关联模块：`MOD-DEPLOY`、`MOD-CLI`、`MOD-WORKER`、`MOD-TASK`。交付任务：`GZ-030`；验收：`AC-EDGE-104-0008`。\n\n**条款。** 系统级锁定清单由 Guize 主仓维护，明确平台提交/发布版本、协议/SDK/Schema 版本及摘要、Android 和 PC 制品摘要、能力包/模型/配置版本、允许兼容范围与联合证据。`guize-edge-runtime` 发布独立不可变制品，不能使用 `latest` 代表已接受组合。\n\n**验收结果。** 除各仓构建/契约检查外，对锁定组合实际执行 Android 六帧与取消/断网、PC AV1、旧 attempt/重复提交拒绝、权限和输出验证。旧节点只接兼容任务；不支持协议/包/检查点时拒绝或等待。发布沿兼容服务端关闭开关→协议制品→节点灰度→对明确能力启用→固定组合联合验收；恢复先停派、排空/取消、禁用问题能力，再恢复旧已接受组合，不能把代码回退当作数据恢复。记录签名、验签、SBOM和许可证。\n\n**producer → consumer。** 各仓生产不可变制品与本仓 Evidence；MOD-DEPLOY 组织系统锁定组合，主仓 TASK/WORKER 校验可调度版本，联合验收消费实际组合及证据。需新增跨仓交付任务及所有权映射；是否把某扩展列入 V1 必需闭包必须正式说明，不在本文自动增减 GZ-018/GZ-020 的完成条件。\n\n**固定组合验收。** 锁中每项定位真实repo/commit/制品摘要/签名/远端Task/证据，实际联合测试对应同一组合和兼容矩阵；八项AC及旧节点兼容/不支持能力拒绝、升级灰度和停派/取消/禁用/恢复旧组合均可复现；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。\n\n## 交付依赖与最终接受\n\n公共协议先于Android/PC节点，共用资源约束随后提供AV1/HLS与六帧闭环的共同前置；六帧之后交付OCR，产品Agent只使用已验证工具。协议任务在主仓提供固定Schema/SDK和本机一致性用例，Android应用与真机一致性由节点任务承接，不将未交付的Android应用作为协议任务的反向前置。\n\n跨仓运行时必须有独立任务、构建、制品与真实接受证据；主仓用固定版本组合引用，不能用跨仓相对路径claim或两个仓各自CI成功替代联合验收。GZ-030在八项验收均满足并完成兼容、升级、停派与恢复验证后收口本范围。GZ-022负责正式需求/设计/任务定义与原始声明；本文及两个目录作为完整定义共同冻结。\n"
+  }
+}

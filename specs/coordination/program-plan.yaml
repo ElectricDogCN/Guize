@@ -694,7 +694,7 @@ tasks:
   - taskId: GZ-022
     title: 冻结智能边缘计算与产品 Agent 后续建设需求、契约承接和跨仓验收计划
     kind: requirements
-    status: planned
+    status: reserved
     workPackage: WP-AGENT-EDGE-104-PLAN
     riskLevel: high
     ownerRole: agent-edge-planning-agent

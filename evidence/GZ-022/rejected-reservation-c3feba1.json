@@ -1,0 +1,104 @@
+{
+  "source": "c3feba18989573fba61531734f835f0942401bb5",
+  "base": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+  "branch": "chore/GZ-022-agent-edge-104-registration",
+  "prCreated": false,
+  "sourceAccepted": false,
+  "session": 70368,
+  "exitCode": 1,
+  "waitCompleted": true,
+  "execution": {
+    "task": "GZ-022",
+    "source": "c3feba18989573fba61531734f835f0942401bb5",
+    "commands": [
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "b355a0cc2b8db110729d6269e7df2bf6055dcd79...HEAD"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-task-file.py",
+          "--task",
+          "GZ-022"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-project-readiness.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-schemas.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-integrity.py",
+          "--base-ref",
+          "b355a0cc2b8db110729d6269e7df2bf6055dcd79"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-history.py",
+          "--base-ref",
+          "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "GZ-022",
+          "--branch-name",
+          "chore/GZ-022-agent-edge-104-registration"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-transitions.py",
+          "--base-ref",
+          "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "GZ-022",
+          "--branch-name",
+          "chore/GZ-022-agent-edge-104-registration"
+        ],
+        "exitCode": 1,
+        "waitCompleted": true
+      }
+    ]
+  },
+  "rawLogs": {
+    "00.txt": "Source: c3feba18989573fba61531734f835f0942401bb5\nCommand: git diff --check b355a0cc2b8db110729d6269e7df2bf6055dcd79...HEAD\n\nExit Code: 0\n",
+    "01.txt": "Source: c3feba18989573fba61531734f835f0942401bb5\nCommand: python scripts/check-task-file.py --task GZ-022\n{\"status\": \"PASS\", \"message\": \"Task file valid: /home/sur/.cache/guize-takeover/ops012-history-parser/specs/tasks/GZ-022.md\"}\n\nExit Code: 0\n",
+    "02.txt": "Source: c3feba18989573fba61531734f835f0942401bb5\nCommand: python scripts/check-project-readiness.py\n{\"status\": \"WARN\", \"message\": \"GitHub main branch protection/Ruleset remains an external blocker\"}\n{\"status\": \"WARN\", \"message\": \"Machine contracts not frozen for 10 requirements\"}\n{\"status\": \"WARN\", \"message\": \"Implementation not verified for 10 requirements\"}\n{\"status\": \"PASS\", \"message\": \"Project readiness indexes and Program Plan are structurally consistent\", \"details\": {\"requirements\": 10, \"modules\": 21, \"contractNamespaces\": 37, \"plannedTasks\": 28, \"pocs\": 10, \"waves\": 17, \"contractGapCount\": 10, \"implementationGapCount\": 10}}\n\nExit Code: 0\n",
+    "03.txt": "Source: c3feba18989573fba61531734f835f0942401bb5\nCommand: python scripts/check-schemas.py\nOK YAML: .github/workflows/governance-gate.yml\nOK JSON-SCHEMA: contracts/events/event-envelope.schema.json\nOK CONTRACT DOCUMENT: contracts/openapi/ai/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/asset/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/errors.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/http-samples.json\nOK CONTRACT DOCUMENT: contracts/openapi/common/openapi.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/schemas.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/config/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/iam/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/media/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/playback/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/policy/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/search/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/source/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/storage/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/task/paths.yaml\nOK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml\nOK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml\nOK JSON-SCHEMA: specs/coordination/active-work.schema.yaml\nOK JSON-SCHEMA: specs/coordination/planning-revision.schema.yaml\nOK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml\nOK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml\nOK TASK REGISTRY LINK: GZ-022\nOK PROGRAM ACTIVATION: GZ-022 <- W2\nOK: Schema, Task Spec, Active Work and Program Plan validation completed\n\nExit Code: 0\n",
+    "04.txt": "Source: c3feba18989573fba61531734f835f0942401bb5\nCommand: python scripts/check-program-plan-integrity.py --base-ref b355a0cc2b8db110729d6269e7df2bf6055dcd79\n{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 10, \"programTasks\": 28, \"activeTasks\": 1, \"completionRecords\": 4, \"baseRef\": \"b355a0cc2b8db110729d6269e7df2bf6055dcd79\"}}\n\nExit Code: 0\n",
+    "05.txt": "Source: c3feba18989573fba61531734f835f0942401bb5\nCommand: python scripts/check-program-plan-history.py --base-ref b355a0cc2b8db110729d6269e7df2bf6055dcd79 --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-registration\n{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"b355a0cc2b8db110729d6269e7df2bf6055dcd79\", \"headRef\": \"HEAD\", \"completionRecords\": 4, \"auditedOwnerCapacityFailures\": []}}\n\nExit Code: 0\n",
+    "06.txt": "Source: c3feba18989573fba61531734f835f0942401bb5\nCommand: python scripts/check-program-plan-transitions.py --base-ref b355a0cc2b8db110729d6269e7df2bf6055dcd79 --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-registration\n{\"status\": \"FAIL\", \"message\": \"Active transition for GZ-022 may only change that Program task's status, its required POC mirror, or its owned live-verified blocker\"}\n\nExit Code: 1\n"
+  },
+  "interpretation": "Commands0..5 passed; transitions6 correctly rejected changing Program issue null to114 along with reserved status. Commands7..13 unexecuted. No hosted CI/merge. New clean branch excludes this ancestry, retains Program issue null, and links actual Issue114 through original Task/Registry/definition. No checker or policy change."
+}

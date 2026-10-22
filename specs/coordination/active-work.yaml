@@ -5,4 +5,72 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
   - GZ-003
-tasks: []
+tasks:
+- taskId: GZ-022
+  issue: 114
+  title: 冻结智能边缘计算与产品 Agent 后续建设需求、契约承接和跨仓验收计划
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: agent-edge-planning-agent
+  reviewer: independent-agent-edge-planning-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/GZ-022-agent-edge-104-definition
+  baseBranch: main
+  baseSha: b355a0cc2b8db110729d6269e7df2bf6055dcd79
+  workPackage: WP-AGENT-EDGE-104-PLAN
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: GZ-022
+  programWave: W2
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  - MOD-PLATFORM
+  - MOD-SOURCE
+  - MOD-CONNECTOR
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-WORKER
+  - MOD-AI
+  - MOD-PLAYER
+  - MOD-EDGE
+  - MOD-IAM
+  - MOD-POLICY
+  - MOD-CONFIG
+  - MOD-AUDIT
+  - MOD-DATA
+  - MOD-DEPLOY
+  - MOD-OBS
+  producesContracts: []
+  consumesContracts:
+  - REQ-V1
+  - NFR-V1
+  - POC-PROTOCOL-V1
+  - OPENAPI-V1
+  coordinationGroup: agent-edge-104-planning
+  dependsOn:
+  - GZ-021
+  - OPS-011
+  exclusivePaths:
+  - specs/coordination/program-plan.yaml
+  - specs/requirements/product-requirements.md
+  - specs/requirements/agent-edge-104.md
+  - specs/requirements/agent-edge-104.yaml
+  - specs/acceptance/agent-edge-104.yaml
+  - docs/03-system-architecture.md
+  - docs/20-roadmap-and-wbs.md
+  - docs/22-repository-and-directory-plan.md
+  - specs/designs/module-ownership.yaml
+  - adr/0016-agent-edge-runtime-and-product-agent-planning.md
+  sharedPaths: []
+  handoffPath: evidence/GZ-022/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 3
+  lease:
+    acquiredAt: '2026-10-22T08:52:32Z'
+    expiresAt: '2026-10-29T08:52:32Z'
