@@ -1,0 +1,235 @@
+{
+  "source": "e14b47af014e6e34313c9479fc05db88ad5a8e40",
+  "pr": 123,
+  "reviewId": 5610406829,
+  "reviewCompleted": true,
+  "hadFindings": true,
+  "allThreadsResolved": true,
+  "independentReviewAccepted": true,
+  "disposition": "One P2 handoff timing concern resolved after actual current14/fullCI791 and predecessor actual-mainCI790 passed before authoritative-main Review transition. Not represented as a zero-finding review.",
+  "dispositionComment": 4345591531,
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6vFHmW",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "specs/coordination/active-work.yaml",
+      "line": 12,
+      "diff_side": "RIGHT",
+      "start_line": 12,
+      "start_diff_side": null,
+      "original_line": 12,
+      "original_start_line": null,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAwJTCw",
+          "database_id": 4345451275,
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Keep the task in progress until revalidation finishes**\n\nThis moves the authoritative lifecycle state to `review`, but the same commit records in `evidence/OPS-012/commands.txt` that the current source gates, CI, and exit codes are all still pending. Consumers of the registry can therefore treat this high-risk task as handed to the reviewer before the exact new head has been revalidated; retain `in_progress`/`implementer` until the listed checks succeed, and only then perform the Review transition.\n\nAGENTS.md reference: [AGENTS.md:L353-L359](https://github.com/ElectricDogCN/Guize/blob/e14b47af014e6e34313c9479fc05db88ad5a8e40/AGENTS.md#L353-L359)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T07:04:44Z",
+          "updated_at": "2026-10-22T07:04:44Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAwKx3g",
+          "database_id": 4345475550,
+          "body": "Checked against AGENTS.md §17.5/§17.7: this is an unmerged metadata-only Review candidate, based on the actual latest main b2f844ba22996416b54155290a4685188dc774c6. The pending lines describe the preparation-time capture, not a claim that the new head passed. Exact head e14b47af014e6e34313c9479fc05db88ad5a8e40 has now completed all 14 declared local commands with actual exitCode=0/waitCompleted=true, including history, raw lifecycle, the lifecycle wrapper, coordination and scope; no code/test/policy change is included. Full CI for this exact head is still running at https://github.com/ElectricDogCN/Guize/actions/runs/39737595497. This PR will not be integrated until both that run and predecessor actual-main CI https://github.com/ElectricDogCN/Guize/actions/runs/39736157216 genuinely succeed, and independent review is accepted. The authoritative main remains in_progress/implementer until integration. Keeping this thread open while those gates run; no earlier pending snapshot will be relabeled as a pass.",
+          "created_at": "2026-10-22T07:08:17Z",
+          "updated_at": "2026-10-22T07:08:17Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAwR26w",
+          "database_id": 4345591531,
+          "body": "Revalidation is now complete before any authoritative-main Review transition: exact head e14b47af014e6e34313c9479fc05db88ad5a8e40 passed all 14 declared local commands and full same-head CI791, with 713 passed in 1141.70s and `OK: No skipped tests` (https://github.com/ElectricDogCN/Guize/actions/runs/39737595497). Predecessor actual-main CI790 also genuinely succeeded, 713/1342.45s (https://github.com/ElectricDogCN/Guize/actions/runs/39736157216). A fresh read confirms main still b2f844b/in_progress and this PR still unmerged at the unchanged e14 head. Thus §17.5 revalidation and §17.7 latest-head Gate are satisfied before the actual handoff. The earlier pending-at-capture snapshots remain historical; no success is transferred to an untested source. Resolving this timing concern on this concrete evidence; no code, lifecycle, scope, assertion, or CI exception is needed.",
+          "created_at": "2026-10-22T07:23:21Z",
+          "updated_at": "2026-10-22T07:23:21Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/123#issuecomment-6334818492",
+      "body": "<!-- codex-pull-request-review-summary -->\n<!-- codex-review-state:v1 {\"code_review\":{\"commit_sha\":\"e14b47af014e6e34313c9479fc05db88ad5a8e40\",\"has_any_findings\":true,\"has_unresolved_findings\":true,\"status\":\"completed\"},\"security_review\":{\"commit_sha\":null,\"has_any_findings\":null,\"has_unresolved_findings\":null,\"status\":null}} -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-22T07:04:46.544405Z\">2026-10-22T07:04:46.544405Z</relative-time> | `e14b47a` | PR opened |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "name": "chatgpt-codex-connector[bot]",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "id": 199175422
+      },
+      "id": 6334818492,
+      "pull_request_review_id": null,
+      "in_reply_to_id": null,
+      "created_at": "2026-10-22T07:00:58Z",
+      "updated_at": "2026-10-22T07:04:47Z",
+      "review": null,
+      "side": null,
+      "line": null,
+      "start_line": null,
+      "path": null,
+      "body_html": "\n\n<h2 dir=\"auto\">Codex Review Summary</h2>\n<p dir=\"auto\">This comment shows the latest Codex review activity on this pull request.</p>\n<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th>Review</th>\n<th>Status</th>\n<th>Commit</th>\n<th>Review trigger</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>📝 <strong>Code Review</strong></td>\n<td>✅ <strong>Completed</strong> <relative-time datetime=\"2026-10-22T07:04:46.544405Z\">2026-10-22T07:04:46.544405Z</relative-time></td>\n<td><code class=\"notranslate\">e14b47a</code></td>\n<td>PR opened</td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br>\n<p dir=\"auto\"><a href=\"https://chatgpt.com/codex/cloud/settings/general\" rel=\"nofollow\">Your team has set up Codex to review pull requests in this repo</a>. Reviews are triggered when you</p>\n<ul dir=\"auto\">\n<li>Open a pull request for review</li>\n<li>Mark a draft as ready</li>\n<li>Comment \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> review\" or \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> security review\".</li>\n</ul>\n<p dir=\"auto\">Codex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.</p>\n</details>"
+    },
+    {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/123#pullrequestreview-5610406829",
+      "body": "<!-- codex-review-receipt:v1 -->\n\n\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `e14b47af01`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "name": "chatgpt-codex-connector[bot]",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "id": 199175422
+      },
+      "id": 5610406829,
+      "pull_request_review_id": null,
+      "in_reply_to_id": null,
+      "created_at": "2026-10-22T07:04:43Z",
+      "updated_at": null,
+      "review": "COMMENTED",
+      "side": null,
+      "line": null,
+      "start_line": null,
+      "path": null,
+      "body_html": "\n<h3 dir=\"auto\">💡 Codex Review</h3>\n<p dir=\"auto\">Here are some automated review suggestions for this pull request.</p>\n<p dir=\"auto\"><strong>Reviewed commit:</strong> <code class=\"notranslate\">e14b47af01</code></p>\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br>\n<p dir=\"auto\"><a href=\"https://chatgpt.com/codex/cloud/settings/general\" rel=\"nofollow\">Your team has set up Codex to review pull requests in this repo</a>. Reviews are triggered when you</p>\n<ul dir=\"auto\">\n<li>Open a pull request for review</li>\n<li>Mark a draft as ready</li>\n<li>Comment \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> review\".</li>\n</ul>\n<p dir=\"auto\">If Codex has suggestions, it will comment; otherwise it will react with 👍.</p>\n<p dir=\"auto\">Codex can also answer questions or update the PR. Try commenting \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> address that feedback\".</p>\n</details>"
+    },
+    {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/123#discussion_r4345451275",
+      "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Keep the task in progress until revalidation finishes**\n\nThis moves the authoritative lifecycle state to `review`, but the same commit records in `evidence/OPS-012/commands.txt` that the current source gates, CI, and exit codes are all still pending. Consumers of the registry can therefore treat this high-risk task as handed to the reviewer before the exact new head has been revalidated; retain `in_progress`/`implementer` until the listed checks succeed, and only then perform the Review transition.\n\nAGENTS.md reference: [AGENTS.md:L353-L359](https://github.com/ElectricDogCN/Guize/blob/e14b47af014e6e34313c9479fc05db88ad5a8e40/AGENTS.md#L353-L359)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "name": "chatgpt-codex-connector[bot]",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "id": 199175422
+      },
+      "id": 4345451275,
+      "pull_request_review_id": 5610406829,
+      "in_reply_to_id": null,
+      "created_at": "2026-10-22T07:04:44Z",
+      "updated_at": "2026-10-22T07:04:44Z",
+      "review": null,
+      "side": "RIGHT",
+      "line": 12,
+      "start_line": null,
+      "path": "specs/coordination/active-work.yaml",
+      "body_html": "<p dir=\"auto\"><strong><sub><sub><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\"><img src=\"https://camo.githubusercontent.com/f2c1aacb361ddd3a0e9f9cacdb84fab050de434017f6747bb916e31e29bdf03d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50322d79656c6c6f773f7374796c653d666c6174\" alt=\"P2 Badge\" data-canonical-src=\"https://img.shields.io/badge/P2-yellow?style=flat\" style=\"max-width: 100%;\"></a></sub></sub>  Keep the task in progress until revalidation finishes</strong></p>\n<p dir=\"auto\">This moves the authoritative lifecycle state to <code class=\"notranslate\">review</code>, but the same commit records in <code class=\"notranslate\">evidence/OPS-012/commands.txt</code> that the current source gates, CI, and exit codes are all still pending. Consumers of the registry can therefore treat this high-risk task as handed to the reviewer before the exact new head has been revalidated; retain <code class=\"notranslate\">in_progress</code>/<code class=\"notranslate\">implementer</code> until the listed checks succeed, and only then perform the Review transition.</p>\n<p dir=\"auto\">AGENTS.md reference: <a href=\"https://github.com/ElectricDogCN/Guize/blob/e14b47af014e6e34313c9479fc05db88ad5a8e40/AGENTS.md#L353-L359\">AGENTS.md:L353-L359</a></p>\n<p dir=\"auto\">Useful? React with 👍 / 👎.</p>\n"
+    },
+    {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/123#discussion_r4345475550",
+      "body": "Checked against AGENTS.md §17.5/§17.7: this is an unmerged metadata-only Review candidate, based on the actual latest main b2f844ba22996416b54155290a4685188dc774c6. The pending lines describe the preparation-time capture, not a claim that the new head passed. Exact head e14b47af014e6e34313c9479fc05db88ad5a8e40 has now completed all 14 declared local commands with actual exitCode=0/waitCompleted=true, including history, raw lifecycle, the lifecycle wrapper, coordination and scope; no code/test/policy change is included. Full CI for this exact head is still running at https://github.com/ElectricDogCN/Guize/actions/runs/39737595497. This PR will not be integrated until both that run and predecessor actual-main CI https://github.com/ElectricDogCN/Guize/actions/runs/39736157216 genuinely succeed, and independent review is accepted. The authoritative main remains in_progress/implementer until integration. Keeping this thread open while those gates run; no earlier pending snapshot will be relabeled as a pass.",
+      "user": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "id": 43232390
+      },
+      "id": 4345475550,
+      "pull_request_review_id": 5610439480,
+      "in_reply_to_id": 4345451275,
+      "created_at": "2026-10-22T07:08:17Z",
+      "updated_at": "2026-10-22T07:08:17Z",
+      "review": null,
+      "side": "RIGHT",
+      "line": 12,
+      "start_line": null,
+      "path": "specs/coordination/active-work.yaml",
+      "body_html": "<p dir=\"auto\">Checked against AGENTS.md §17.5/§17.7: this is an unmerged metadata-only Review candidate, based on the actual latest main <a class=\"commit-link\" data-hovercard-type=\"commit\" data-hovercard-url=\"https://github.com/ElectricDogCN/Guize/commit/b2f844ba22996416b54155290a4685188dc774c6/hovercard\" href=\"https://github.com/ElectricDogCN/Guize/commit/b2f844ba22996416b54155290a4685188dc774c6\"><tt>b2f844b</tt></a>. The pending lines describe the preparation-time capture, not a claim that the new head passed. Exact head <a class=\"commit-link\" data-hovercard-type=\"commit\" data-hovercard-url=\"https://github.com/ElectricDogCN/Guize/commit/e14b47af014e6e34313c9479fc05db88ad5a8e40/hovercard\" href=\"https://github.com/ElectricDogCN/Guize/commit/e14b47af014e6e34313c9479fc05db88ad5a8e40\"><tt>e14b47a</tt></a> has now completed all 14 declared local commands with actual exitCode=0/waitCompleted=true, including history, raw lifecycle, the lifecycle wrapper, coordination and scope; no code/test/policy change is included. Full CI for this exact head is still running at <a href=\"https://github.com/ElectricDogCN/Guize/actions/runs/39737595497\">https://github.com/ElectricDogCN/Guize/actions/runs/39737595497</a>. This PR will not be integrated until both that run and predecessor actual-main CI <a href=\"https://github.com/ElectricDogCN/Guize/actions/runs/39736157216\">https://github.com/ElectricDogCN/Guize/actions/runs/39736157216</a> genuinely succeed, and independent review is accepted. The authoritative main remains in_progress/implementer until integration. Keeping this thread open while those gates run; no earlier pending snapshot will be relabeled as a pass.</p>"
+    },
+    {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/123#pullrequestreview-5610439480",
+      "body": "",
+      "user": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": 43232390
+      },
+      "id": 5610439480,
+      "pull_request_review_id": null,
+      "in_reply_to_id": null,
+      "created_at": "2026-10-22T07:08:17Z",
+      "updated_at": null,
+      "review": "COMMENTED",
+      "side": null,
+      "line": null,
+      "start_line": null,
+      "path": null,
+      "body_html": ""
+    },
+    {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/123#discussion_r4345591531",
+      "body": "Revalidation is now complete before any authoritative-main Review transition: exact head e14b47af014e6e34313c9479fc05db88ad5a8e40 passed all 14 declared local commands and full same-head CI791, with 713 passed in 1141.70s and `OK: No skipped tests` (https://github.com/ElectricDogCN/Guize/actions/runs/39737595497). Predecessor actual-main CI790 also genuinely succeeded, 713/1342.45s (https://github.com/ElectricDogCN/Guize/actions/runs/39736157216). A fresh read confirms main still b2f844b/in_progress and this PR still unmerged at the unchanged e14 head. Thus §17.5 revalidation and §17.7 latest-head Gate are satisfied before the actual handoff. The earlier pending-at-capture snapshots remain historical; no success is transferred to an untested source. Resolving this timing concern on this concrete evidence; no code, lifecycle, scope, assertion, or CI exception is needed.",
+      "user": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "id": 43232390
+      },
+      "id": 4345591531,
+      "pull_request_review_id": 5610588271,
+      "in_reply_to_id": 4345451275,
+      "created_at": "2026-10-22T07:23:21Z",
+      "updated_at": "2026-10-22T07:23:21Z",
+      "review": null,
+      "side": "RIGHT",
+      "line": 12,
+      "start_line": null,
+      "path": "specs/coordination/active-work.yaml",
+      "body_html": "<p dir=\"auto\">Revalidation is now complete before any authoritative-main Review transition: exact head <a class=\"commit-link\" data-hovercard-type=\"commit\" data-hovercard-url=\"https://github.com/ElectricDogCN/Guize/commit/e14b47af014e6e34313c9479fc05db88ad5a8e40/hovercard\" href=\"https://github.com/ElectricDogCN/Guize/commit/e14b47af014e6e34313c9479fc05db88ad5a8e40\"><tt>e14b47a</tt></a> passed all 14 declared local commands and full same-head CI791, with 713 passed in 1141.70s and <code class=\"notranslate\">OK: No skipped tests</code> (<a href=\"https://github.com/ElectricDogCN/Guize/actions/runs/39737595497\">https://github.com/ElectricDogCN/Guize/actions/runs/39737595497</a>). Predecessor actual-main CI790 also genuinely succeeded, 713/1342.45s (<a href=\"https://github.com/ElectricDogCN/Guize/actions/runs/39736157216\">https://github.com/ElectricDogCN/Guize/actions/runs/39736157216</a>). A fresh read confirms main still <a class=\"commit-link\" data-hovercard-type=\"commit\" data-hovercard-url=\"https://github.com/ElectricDogCN/Guize/commit/b2f844ba22996416b54155290a4685188dc774c6/hovercard\" href=\"https://github.com/ElectricDogCN/Guize/commit/b2f844ba22996416b54155290a4685188dc774c6\"><tt>b2f844b</tt></a>/in_progress and this PR still unmerged at the unchanged e14 head. Thus §17.5 revalidation and §17.7 latest-head Gate are satisfied before the actual handoff. The earlier pending-at-capture snapshots remain historical; no success is transferred to an untested source. Resolving this timing concern on this concrete evidence; no code, lifecycle, scope, assertion, or CI exception is needed.</p>"
+    },
+    {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/123#pullrequestreview-5610588271",
+      "body": "",
+      "user": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": 43232390
+      },
+      "id": 5610588271,
+      "pull_request_review_id": null,
+      "in_reply_to_id": null,
+      "created_at": "2026-10-22T07:23:21Z",
+      "updated_at": null,
+      "review": "COMMENTED",
+      "side": null,
+      "line": null,
+      "start_line": null,
+      "path": null,
+      "body_html": ""
+    }
+  ]
+}

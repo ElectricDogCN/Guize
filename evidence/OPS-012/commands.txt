@@ -1,21 +1,21 @@
-OPS-012 review candidate
-Base: b2f844ba22996416b54155290a4685188dc774c6
-Branch: chore/OPS-012-early-preflight-review
+OPS-012 completion candidate
+Base: 8c5108623eba0fa8857d831ecddec72ba19e60bf
+Branch: chore/OPS-012-early-preflight-completion
 OPS-012 last actual code: PR-122 / b2f844ba22996416b54155290a4685188dc774c6
-Predecessor actual-main accepted at capture: False; full predecessor main CI is required before integration.
+Predecessor actual-main accepted at capture: True; full predecessor main CI is required before integration.
 Current source gates/CI/main: pending actual execution.
 
-git diff --check b2f844ba22996416b54155290a4685188dc774c6...HEAD
+git diff --check 8c5108623eba0fa8857d831ecddec72ba19e60bf...HEAD
 python scripts/check-task-file.py --task OPS-012
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref b2f844ba22996416b54155290a4685188dc774c6
-python scripts/check-program-plan-history.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
-python scripts/check-program-plan-transitions.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
-python scripts/check-program-lifecycle-guards.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
-python scripts/run-program-lifecycle-gate.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
-python scripts/run-agent-coordination-gate.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review
-python scripts/check-program-plan-finalization.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012
-python scripts/run-task-scope-gate.py --task OPS-012 --base b2f844ba22996416b54155290a4685188dc774c6
+python scripts/check-program-plan-integrity.py --base-ref 8c5108623eba0fa8857d831ecddec72ba19e60bf
+python scripts/check-program-plan-history.py --base-ref 8c5108623eba0fa8857d831ecddec72ba19e60bf --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-completion
+python scripts/check-program-plan-transitions.py --base-ref 8c5108623eba0fa8857d831ecddec72ba19e60bf --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-completion
+python scripts/check-program-lifecycle-guards.py --base-ref 8c5108623eba0fa8857d831ecddec72ba19e60bf --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-completion
+python scripts/run-program-lifecycle-gate.py --base-ref 8c5108623eba0fa8857d831ecddec72ba19e60bf --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-completion
+python scripts/run-agent-coordination-gate.py --base-ref 8c5108623eba0fa8857d831ecddec72ba19e60bf --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-completion
+python scripts/check-program-plan-finalization.py --base-ref 8c5108623eba0fa8857d831ecddec72ba19e60bf --head-ref HEAD --task OPS-012
+python scripts/run-task-scope-gate.py --task OPS-012 --base 8c5108623eba0fa8857d831ecddec72ba19e60bf
 python scripts/check-evidence.py --task OPS-012
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

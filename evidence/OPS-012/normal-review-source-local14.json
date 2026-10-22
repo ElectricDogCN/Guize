@@ -1,0 +1,194 @@
+{
+  "execution": {
+    "task": "OPS-012",
+    "source": "e14b47af014e6e34313c9479fc05db88ad5a8e40",
+    "commands": [
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "b2f844ba22996416b54155290a4685188dc774c6...HEAD"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-task-file.py",
+          "--task",
+          "OPS-012"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-schemas.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-integrity.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-history.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-transitions.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-lifecycle-guards.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/run-program-lifecycle-gate.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/run-agent-coordination-gate.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-finalization.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/run-task-scope-gate.py",
+          "--task",
+          "OPS-012",
+          "--base",
+          "b2f844ba22996416b54155290a4685188dc774c6"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-evidence.py",
+          "--task",
+          "OPS-012"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-project-readiness.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-markdown.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      }
+    ]
+  },
+  "rawLogs": {
+    "00.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: git diff --check b2f844ba22996416b54155290a4685188dc774c6...HEAD\n\nExit Code: 0\n",
+    "01.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-task-file.py --task OPS-012\n{\"status\": \"PASS\", \"message\": \"Task file valid: /home/sur/.cache/guize-takeover/ops012-history-parser/specs/tasks/OPS-012.md\"}\n\nExit Code: 0\n",
+    "02.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-schemas.py\nOK YAML: .github/workflows/governance-gate.yml\nOK JSON-SCHEMA: contracts/events/event-envelope.schema.json\nOK CONTRACT DOCUMENT: contracts/openapi/ai/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/asset/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/errors.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/http-samples.json\nOK CONTRACT DOCUMENT: contracts/openapi/common/openapi.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/schemas.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/config/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/iam/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/media/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/playback/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/policy/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/search/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/source/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/storage/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/task/paths.yaml\nOK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml\nOK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml\nOK JSON-SCHEMA: specs/coordination/active-work.schema.yaml\nOK JSON-SCHEMA: specs/coordination/planning-revision.schema.yaml\nOK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml\nOK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml\nOK TASK REGISTRY LINK: OPS-012\nOK FOUNDATION ACTIVATION: OPS-012\nOK: Schema, Task Spec, Active Work and Program Plan validation completed\n\nExit Code: 0\n",
+    "03.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-program-plan-integrity.py --base-ref b2f844ba22996416b54155290a4685188dc774c6\n{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 10, \"programTasks\": 28, \"activeTasks\": 1, \"completionRecords\": 4, \"baseRef\": \"b2f844ba22996416b54155290a4685188dc774c6\"}}\n\nExit Code: 0\n",
+    "04.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-program-plan-history.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review\n{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"b2f844ba22996416b54155290a4685188dc774c6\", \"headRef\": \"HEAD\", \"completionRecords\": 4, \"auditedOwnerCapacityFailures\": []}}\n\nExit Code: 0\n",
+    "05.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-program-plan-transitions.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review\n{\"status\": \"PASS\", \"message\": \"Program reservation scope, wave and lifecycle transitions passed\", \"details\": {\"task\": \"OPS-012\", \"activeTasks\": 1, \"completionRecords\": 4}}\n\nExit Code: 0\n",
+    "06.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-program-lifecycle-guards.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review\n{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"OPS-012\"], \"changedPathCount\": 18, \"baseRef\": \"b2f844ba22996416b54155290a4685188dc774c6\"}}\n\nExit Code: 0\n",
+    "07.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/run-program-lifecycle-gate.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review\n{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"OPS-012\"], \"changedPathCount\": 18, \"baseRef\": \"b2f844ba22996416b54155290a4685188dc774c6\"}}\n{\"status\": \"PASS\", \"message\": \"Exact lifecycle diff and Completion Issue verification passed\"}\n\nExit Code: 0\n",
+    "08.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/run-agent-coordination-gate.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-preflight-review\n{\"status\": \"PASS\", \"message\": \"Agent coordination valid: 1 active tasks, 1 high/critical\", \"details\": {\"activeTaskIds\": [\"OPS-012\"]}}\n\nExit Code: 0\n",
+    "09.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-program-plan-finalization.py --base-ref b2f844ba22996416b54155290a4685188dc774c6 --head-ref HEAD --task OPS-012\n{\"status\": \"PASS\", \"message\": \"Program finalization invariants passed\", \"details\": {\"activeTasks\": 1, \"completedFoundations\": 9, \"task\": \"OPS-012\"}}\n\nExit Code: 0\n",
+    "10.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/run-task-scope-gate.py --task OPS-012 --base b2f844ba22996416b54155290a4685188dc774c6\n{\"status\": \"INFO\", \"message\": \"Changed files: 18, Allowed: 18, Forbidden: 0, Out-of-scope: 0\"}\n{\"status\": \"PASS\", \"message\": \"Allowed files\", \"details\": {\"files\": [\"evidence/OPS-012/changed-files.md\", \"evidence/OPS-012/commands.txt\", \"evidence/OPS-012/handoff.md\", \"evidence/OPS-012/implementation-main-acceptance.json\", \"evidence/OPS-012/implementation-main-checks.json\", \"evidence/OPS-012/implementation-main-ci790.json\", \"evidence/OPS-012/implementation-source-admission-pr117-historical.json\", \"evidence/OPS-012/implementation-source-admission.json\", \"evidence/OPS-012/implementation-source-ci789.json\", \"evidence/OPS-012/implementation-source-independent-review.json\", \"evidence/OPS-012/implementation-source-local4.json\", \"evidence/OPS-012/predecessor-main-acceptance.json\", \"evidence/OPS-012/summary.md\", \"evidence/OPS-012/test-results/README.md\", \"evidence/OPS-012/test-results/implementation-source-governance.xml\", \"specs/coordination/active-work.yaml\", \"specs/coordination/program-plan.yaml\", \"specs/tasks/OPS-012.md\"]}}\n{\"status\": \"PASS\", \"message\": \"All changed files are within allowed scope and outside forbidden scope.\"}\n\nExit Code: 0\n",
+    "11.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-evidence.py --task OPS-012\n{\"status\": \"WARN\", \"message\": \"Command evidence may be missing command/exit-code indicators.\"}\n{\"status\": \"PASS\", \"message\": \"Evidence contract passed with warnings for OPS-012.\"}\n\nExit Code: 0\n",
+    "12.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-project-readiness.py\n{\"status\": \"WARN\", \"message\": \"GitHub main branch protection/Ruleset remains an external blocker\"}\n{\"status\": \"WARN\", \"message\": \"Machine contracts not frozen for 10 requirements\"}\n{\"status\": \"WARN\", \"message\": \"Implementation not verified for 10 requirements\"}\n{\"status\": \"PASS\", \"message\": \"Project readiness indexes and Program Plan are structurally consistent\", \"details\": {\"requirements\": 10, \"modules\": 21, \"contractNamespaces\": 37, \"plannedTasks\": 28, \"pocs\": 10, \"waves\": 17, \"contractGapCount\": 10, \"implementationGapCount\": 10}}\n\nExit Code: 0\n",
+    "13.txt": "Source: e14b47af014e6e34313c9479fc05db88ad5a8e40\nCommand: python scripts/check-markdown.py\nChecking 350 Markdown files...\n\nOK: No issues found\n\nExit Code: 0\n"
+  }
+}
