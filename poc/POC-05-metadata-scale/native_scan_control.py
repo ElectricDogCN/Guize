@@ -79,6 +79,13 @@ class NativeRun:
             raise ScanError("SCANNER_RESPONSE_DEADLINE") from None
         if isinstance(record, BaseException):
             raise record
+        if record.get("kind") == "runtime_failure":
+            code = record.get("error")
+            if not isinstance(code, str) or not code.isascii() or not code.isidentifier() or len(code) > 128:
+                raise ScanError("INVALID_SCANNER_RUNTIME_FAILURE")
+            failure = ScanError("SCANNER_RUNTIME_FAILURE:" + code)
+            failure.runtime_failure = record
+            raise failure
         if record.get("kind") != kind:
             raise ScanError("SCANNER_PROTOCOL_STATE_MISMATCH")
         return record

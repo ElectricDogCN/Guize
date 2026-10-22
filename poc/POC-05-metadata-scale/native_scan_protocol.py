@@ -101,6 +101,12 @@ def check_sources(manifest):
             raise ScanError("RUNTIME_SOURCE_CHANGED")
 
 
+class ClockFailure(ScanError):
+    def __init__(self, code, observation):
+        super().__init__(code)
+        self.observation = observation
+
+
 class Clock:
     def __init__(self, calibration=None):
         if calibration is None:
@@ -126,13 +132,34 @@ class Clock:
         seconds, remainder = divmod(nanos, 1_000_000_000)
         return (datetime.fromtimestamp(seconds, timezone.utc) + timedelta(microseconds=remainder // 1000)).isoformat()
 
-    def marker(self, kind, *, tick=None, wall=None, exit_code=0, process_id=None):
-        tick = time.monotonic_ns() if tick is None else tick
-        wall = time.time_ns() if wall is None else wall
-        if abs(wall - (self.wall + tick - self.mono)) > 1_000_000:
-            raise ScanError("WALL_CLOCK_CHANGED")
+    def marker(self, kind, *, tick=None, wall=None, after_tick=None, exit_code=0, process_id=None):
+        if tick is None and wall is None:
+            samples = []
+            for _ in range(32):
+                before = time.monotonic_ns()
+                direct_wall = time.time_ns()
+                after = time.monotonic_ns()
+                samples.append(dict(beforeNs=before, wallNs=direct_wall, afterNs=after))
+        elif tick is not None and wall is not None:
+            samples = [dict(beforeNs=tick, wallNs=wall, afterNs=tick if after_tick is None else after_tick)]
+        else:
+            raise ScanError("EXPLICIT_CLOCK_PAIR_REQUIRED")
+        chosen = min(range(len(samples)), key=lambda n: samples[n]["afterNs"] - samples[n]["beforeNs"])
+        sample = samples[chosen]
+        tick = (sample["beforeNs"] + sample["afterNs"]) // 2
+        wall = sample["wallNs"]
+        expected_wall = self.wall + tick - self.mono
+        observation = dict(eventType=kind, processId=os.getpid() if process_id is None else process_id,
+                           monotonicNs=tick, directWallNs=wall, expectedWallNs=expected_wall,
+                           residualNs=wall-expected_wall, samples=samples, chosen=chosen,
+                           calibration=self.calibration, accepted=False)
+        if not 0 <= sample["afterNs"] - sample["beforeNs"] <= 2000:
+            raise ClockFailure("CLOCK_SAMPLE_UNCERTAINTY", observation)
+        if abs(wall - expected_wall) > 1_000_000:
+            raise ClockFailure("WALL_CLOCK_CHANGED", observation)
         return dict(type=kind, processId=os.getpid() if process_id is None else process_id, observedAt=self.mapped_utc(tick),
-                    monotonicNs=tick, exitCode=exit_code, directWallNs=wall)
+                    monotonicNs=tick, exitCode=exit_code, directWallNs=wall,
+                    clockSamples=samples, chosenClockSample=chosen)
 
 
 def typed_event(event):

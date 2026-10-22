@@ -4,6 +4,8 @@ This isolated POC does not modify Guize assets or its production database. No sc
 
 Listing timestamps are canonical UTC/Z values derived only from the actual RFC3339 response. Offset conversion preserves all observed fractional digits, removes insignificant trailing zeros and rejects invalid offset components or UTC overflow. Raw HTTP bytes, original timestamp text, status and digest remain unchanged. The first two approved source attempts failed before mutations (signed capabilities, then equivalent offset text); their evidence is retained and does not qualify the complete POC.
 
+The third actual approved attempt completed two501-page/10500-object listings and four adapter fault cases, then rejected enumeration on clock inconsistency before any mutation. Its complete raw files and later bounded host diagnostics remain retained in evidence/POC-005/source-attempt003-clock-failure/. The diagnostics do not identify the exact missing failure-marker deviation or establish its cause. The current Own repair retains rejected raw clock pairs/calibration/deviation and propagates the child failure to the controller. Marker sampling now retains bounded brackets; the existing1ms drift rejection and frozen1us interval agreement are unchanged. Absolute UTC accuracy is not inferred from interval agreement. A new reliable environment and independent future-window approval are still necessary.
+
 ## Local interface (version 1)
 
 The immutable UTF-8 JSONL fixture contains one object per line, directories before children. Records have objectId, parentId, name, path, isDirectory, sizeBytes and versionId. Source identity is the pair sourceId/objectId; path is a locator. Root depth is zero. Declared file sizes have no corresponding media payload.

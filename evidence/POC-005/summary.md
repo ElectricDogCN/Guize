@@ -4,6 +4,24 @@ Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; original13 and full scales incomplete.
 
+## Current rejected clock evidence repair
+
+Actual independently approved A9 attempt003 completed two full501-page/10500-object listings and four explicit adapter fault cases, then failed before enumeration/mutations. Parent actual wait exit1 at21:35:53.166695Z; scanner runtime_failure WALL_CLOCK_CHANGED was incorrectly obscured by parent SCANNER_PROTOCOL_STATE_MISMATCH. All4059 retained original files are byte-indexed in source-attempt003-clock-failure/retained-source-bytes.tar.gz (960542B/SHA23d1f688506c635f5651036e82a7a604ba0ce4f1bd7051a69527807bc56df7e2); all original files and3SQLite databases remain native in place. The exact failed marker's raw tick/wall pair was absent; later actual clock diagnosis cannot reconstruct it.
+
+The Own repair retains rejected raw reads, complete calibration and signed residual before rejection, brackets actual reads and preserves all32 candidate samples. The original1ms drift rejection stays unchanged; sampling uncertainty uses the existing2us calibration bound. Image-entry bracket is actual. The child runtime_failure cause/clockObservation now reach the parent and failure artifact. Frozen typed phase fields and1us UTC/monotonic interval consistency stay unchanged; no absolute UTC accuracy is inferred. Windows96/52.707s and independent Linux new4+Protocol2/6tests/.006s passed with no skips. Exact five hashes accepted21:49:24Z; new committed-source Task15/all96/source review/CI are pending.
+
+Actual61-sample host diagnostic measured REAL/MONO/RAW spans61.999365938/60.000113832/61.996864972s. Separate bounded stop-timesyncd diagnostic measured61.336226560/60.000095032/61.879718197s and restored original active state. Another bounded existing-HyperV-clocksource diagnostic measured62.037092951/60.000108371/62.025883500s and restored original tsc. No time was set, boot configuration changed or WSL restarted. None removed separation or identifies its underlying cause. No further host-setting experiment or source retry is accepted from this evidence; use a verified-clock Linux measurement environment and a new independent approval. All diagnostic raw bytes and restoration records remain retained.
+
+Predecessor A9 exact Task15/code92/independent acceptance is separately archived in timestamp-a9bcc16-source-validation/. Its own CI826/run39857503309/job120099425908 remains source-specific; do not transfer old CI825 success or claim the new source accepted. Original13 qualification, full10k/100k/1m and compression remain incomplete. POC003/order2 must precede own shared order3; fullV1 remains active/incomplete.
+
+## Historical source-specific records
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; original13 and full scales incomplete.
+
 ## Current forward mapping regression repair
 
 Source38f2a7b actually passed Task15 but failed native91/32.215s with one obsolete negative fixture: +00:00 was treated as different from Z. It was never published or accepted. Complete raw/results and independent rejection21:20:21Z are byte-bound under timestamp-38f2a7b-failed-validation/. The forward test uses a real1ns timestamp difference and keeps all size/type/strict rejection/unfinished export assertions; a new complete3object+08:00 test verifies actual raw bytes/times/hash/status and canonical full8field export. Windows module8/6.455s passed; independent minimal2/.924s accepted21:21:56Z. Parser/timestamp regression hashes remain unchanged. New exact-source Task15/code92/source review/CI are pending, not inherited.

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import time
-ENTRY_MONO_NS, ENTRY_WALL_NS = time.monotonic_ns(), time.time_ns()
+ENTRY_MONO_NS, ENTRY_WALL_NS, ENTRY_AFTER_NS = time.monotonic_ns(), time.time_ns(), time.monotonic_ns()
 
 import argparse
 import base64
@@ -16,7 +16,7 @@ from pathlib import Path
 from canonical_metadata import ANCHOR, EVENT, CanonicalPair, CanonicalScanner, validate_profile
 from metadata_scan import MAX_PAGE_BYTES, MAX_PAGE_RECORDS, ScanError, canonical, file_sha256
 from native_memory import native_identity, parse_status
-from native_scan_protocol import (Clock, ControlReader, actual_argv, argv_sha, check_sources,
+from native_scan_protocol import (Clock, ClockFailure, ControlReader, actual_argv, argv_sha, check_sources,
                                   decode, descriptor, emit, read_json, scoped, utc)
 
 
@@ -92,7 +92,7 @@ class Worker:
             raise ScanError("ACTUAL_SCANNER_ARGV_MISMATCH")
         self.args, self.reader, self.clock = args, ControlReader(), Clock()
         self.root = self.cfg["artifactRoot"]
-        self.start = self.clock.marker("process_start", tick=ENTRY_MONO_NS, wall=ENTRY_WALL_NS)
+        self.start = self.clock.marker("process_start", tick=ENTRY_MONO_NS, wall=ENTRY_WALL_NS, after_tick=ENTRY_AFTER_NS)
         if utc(self.start["observedAt"]) < utc(self.approval["windowStart"]):
             raise ScanError("SCANNER_ENTRY_OUTSIDE_WINDOW")
         expected = ["--scan-id", self.cfg["scanId"], "--change-set-id", self.cfg["changeSetId"],
@@ -344,5 +344,8 @@ if __name__ == "__main__":
     try:
         main()
     except (ScanError, OSError, ValueError, KeyError, TypeError, sqlite3.Error) as failure:
-        emit(dict(kind="runtime_failure", error=str(failure) if isinstance(failure, ScanError) else type(failure).__name__))
+        record = dict(kind="runtime_failure", error=str(failure) if isinstance(failure, ScanError) else type(failure).__name__)
+        if isinstance(failure, ClockFailure):
+            record["clockObservation"] = failure.observation
+        emit(record)
         raise SystemExit(1)

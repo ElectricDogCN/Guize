@@ -20,7 +20,7 @@ from loopback_gateway import ControlledGateway
 from metadata_scan import ScanError, file_sha256
 from native_memory import native_identity
 from native_scan_control import NativeRun, manifest_for
-from native_scan_protocol import decode, emit, read_json, scoped, utc, write_json
+from native_scan_protocol import ClockFailure, decode, emit, read_json, scoped, utc, write_json
 from openlist_listing import OpenListListing
 from openlist_source import OpenListSource, _NoRedirect
 
@@ -181,6 +181,8 @@ def execute(run, cfg, approval):
     except BaseException as failure:
         artifacts.json(dict(kind='failed_source_experiment', error=str(failure) if isinstance(failure, ScanError) else type(failure).__name__,
                             observedAt=datetime.now(timezone.utc).isoformat(), qualificationAccepted=False,
+                            runtimeFailure=getattr(failure, 'runtime_failure', None),
+                            clockObservation=failure.observation if isinstance(failure, ClockFailure) else None,
                             rollback='retain all raw bytes and dirty fixture; no automatic source restoration'), 'scope_observation')
         raise
     finally:
