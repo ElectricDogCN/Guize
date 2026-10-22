@@ -1,7 +1,8 @@
-OPS-012 early-history audit implementation
-Base: c5f201adb2e11ffea912f862c19918157f9cf106
-Branch: chore/OPS-012-early-history-preflight
-Task/Issue: OPS-012/#115
-Current source execution, independent review, CI and code merge: pending.
+OPS-012 review candidate
+Base: b2f844ba22996416b54155290a4685188dc774c6
+Branch: chore/OPS-012-early-preflight-review
+OPS-012 last actual code: PR-122 / b2f844ba22996416b54155290a4685188dc774c6
+Predecessor actual-main accepted at capture: False; full predecessor main CI is required before integration.
+Current source gates/CI/main: pending actual execution.
 
-Current implementation checks not yet executed. Prior695/XML and CI777/778 belong to earlier Review source/main only; rejected119/CI779 remain failures.
+Only own four metadata surfaces. Exact current files: changed-files.md. Original roles, claims3, lease, contracts and integrationOrder remain. Current14/currentCI/current review and actual main must be accepted. Prior results do not transfer; rollback by withdrawal or ordinary forward repair.

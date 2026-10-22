@@ -1,53 +1,79 @@
 {
   "taskId": "OPS-012",
   "issue": 115,
-  "pr": 117,
-  "source": "1152a04b313ee864f48bc29ca60bc3da00c9b9f7",
-  "tree": "53cbae8efa25b69adb938401ca28a8dae0568a3a",
-  "actualMain": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
-  "formalSourceAccepted": true,
-  "contentAccepted": true,
-  "mergeApproved": true,
+  "pr": 122,
+  "phase": "implementation",
+  "source": "669f7211cc61a4f2db90e43b459e725a92758d54",
+  "base": "c5f201adb2e11ffea912f862c19918157f9cf106",
+  "tree": "ecba01915e1454432d9136ca5b86db1f420c95fc",
+  "branch": "chore/OPS-012-early-history-preflight",
+  "sourceVerification": "evidence/OPS-012/implementation-source-local4.json",
+  "sourceLocalFourPassed": true,
+  "junit": {
+    "targeted": {
+      "cases": 32,
+      "sha256": "b2d5c8a47ae69a5556a94cfd83cca23d83543fe682770d3938249c7f7f35115d",
+      "bytes": 5647
+    },
+    "governance": {
+      "cases": 713,
+      "sha256": "8820ffe32e787e993479284eabba5b7dab58de350e4e6b367bb015b30b4310eb",
+      "bytes": 113178
+    }
+  },
+  "sourceCiSnapshot": "evidence/OPS-012/implementation-source-ci789.json",
+  "sourceCiRun": 39733320893,
+  "sourceCiNumber": 789,
+  "sourceCiJob": 119673152678,
+  "sourceCiRaw": {
+    "path": "evidence/OPS-012/implementation-source-ci789.json",
+    "jsonField": "rawLog",
+    "bytes": 288870,
+    "sha256": "135b69ebed91093bea6234eab80d8b27676cf3fe32c4e950b9a6e9c64576fbc7"
+  },
   "ciAccepted": true,
-  "actualMainAccepted": true,
-  "localChecks": {
-    "targeted": 14,
-    "governance": 695,
-    "failures": 0,
-    "errors": 0,
-    "skipped": 0,
-    "allRequiredCommandsActualWait0": true,
-    "governanceSeconds": 1012.14
-  },
-  "sourceCi": {
-    "number": 772,
-    "runId": 39709189138,
-    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/39709189138",
-    "jobId": 119596186094,
-    "headSha": "1152a04b313ee864f48bc29ca60bc3da00c9b9f7",
-    "conclusion": "success",
-    "governanceTests": 695,
-    "governanceSeconds": 758.02
-  },
-  "actualMainCi": {
-    "number": 773,
-    "runId": 39711516104,
-    "conclusion": "success",
-    "governanceTests": 695,
-    "governanceSeconds": 1305.52,
-    "evidence": "implementation-main-ci-acceptance.json"
-  },
-  "independentReview": {
-    "reviewedCommit": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
-    "tree": "53cbae8efa25b69adb938401ca28a8dae0568a3a",
-    "byteIdenticalToFinalSource": true,
-    "summaryComment": 6311351404,
-    "receiptComment": 6331614334,
-    "url": "https://github.com/ElectricDogCN/Guize/pull/117#issuecomment-6331614334",
-    "evidence": "implementation-final-tree-independent-review.json",
-    "conclusion": "completed/no findings/no unresolved findings"
-  },
-  "priorQualifiedIntegratorForwardSuperseded": "Final same-tree independent review now covers all final Task allowed-scope changes as well as unchanged code/tests. Historical 74ad review remains only historical.",
-  "metadataAdmissionExceptionAppliedToCode": false,
-  "mustFix": []
+  "sourceCiTests": 713,
+  "sourceCiSeconds": 1341.6,
+  "sourceIndependentReview": "evidence/OPS-012/implementation-source-independent-review.json",
+  "independentReviewAccepted": true,
+  "reviewReceiptComment": 6334240964,
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6vDq3T",
+      "resolved": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vDq3U",
+      "resolved": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vDq3X",
+      "resolved": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vDq3Y",
+      "resolved": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vD3ZD",
+      "resolved": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vD3ZJ",
+      "resolved": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vEMoM",
+      "resolved": true
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vEMoP",
+      "resolved": true
+    }
+  ],
+  "sourceAccepted": true,
+  "mergeApproved": true,
+  "actualMainAccepted": false,
+  "mustFix": [],
+  "admissionExceptionApplied": false
 }

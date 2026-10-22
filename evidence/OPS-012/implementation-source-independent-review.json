@@ -1,0 +1,626 @@
+{
+  "taskId": "OPS-012",
+  "issue": 115,
+  "pr": 122,
+  "source": "669f7211cc61a4f2db90e43b459e725a92758d54",
+  "kind": "ACTUAL_CURRENT_SOURCE_INDEPENDENT_CONTENT_REVIEW",
+  "independentReviewAccepted": true,
+  "ciAccepted": false,
+  "actualMainAccepted": false,
+  "summary": {
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments/6333198239",
+    "html_url": "https://github.com/ElectricDogCN/Guize/pull/122#issuecomment-6333198239",
+    "issue_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/122",
+    "id": 6333198239,
+    "node_id": "IC_kwDOTgCQ3c8AAAABeXzvnw",
+    "user": {
+      "login": "chatgpt-codex-connector[bot]",
+      "id": 199175422,
+      "node_id": "BOT_kgDOC98s_g",
+      "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+      "html_url": "https://github.com/apps/chatgpt-codex-connector",
+      "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-10-22T05:06:34Z",
+    "updated_at": "2026-10-22T06:22:44Z",
+    "body": "<!-- codex-pull-request-review-summary -->\n<!-- codex-review-state:v1 {\"code_review\":{\"commit_sha\":\"669f7211cc61a4f2db90e43b459e725a92758d54\",\"has_any_findings\":false,\"has_unresolved_findings\":false,\"status\":\"completed\"},\"security_review\":{\"commit_sha\":null,\"has_any_findings\":null,\"has_unresolved_findings\":null,\"status\":null}} -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-22T06:22:43.492859Z\">2026-10-22T06:22:43.492859Z</relative-time> | `669f721` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>",
+    "author_association": "NONE",
+    "reactions": {
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments/6333198239/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": {
+      "id": 1144995,
+      "client_id": "Iv23liVemv8A9if9v0F2",
+      "slug": "chatgpt-codex-connector",
+      "node_id": "A_kwHOAOQ6Gs4AEXij",
+      "owner": {
+        "login": "openai",
+        "id": 14957082,
+        "node_id": "MDEyOk9yZ2FuaXphdGlvbjE0OTU3MDgy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14957082?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/openai",
+        "html_url": "https://github.com/openai",
+        "followers_url": "https://api.github.com/users/openai/followers",
+        "following_url": "https://api.github.com/users/openai/following{/other_user}",
+        "gists_url": "https://api.github.com/users/openai/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/openai/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/openai/subscriptions",
+        "organizations_url": "https://api.github.com/users/openai/orgs",
+        "repos_url": "https://api.github.com/users/openai/repos",
+        "events_url": "https://api.github.com/users/openai/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/openai/received_events",
+        "type": "Organization",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "name": "ChatGPT Codex Connector",
+      "description": "Bring ChatGPT and Codex to your GitHub repositories.",
+      "external_url": "https://www.chatgpt.com",
+      "html_url": "https://github.com/apps/chatgpt-codex-connector",
+      "created_at": "2025-02-14T01:37:05Z",
+      "updated_at": "2026-09-23T18:52:59Z",
+      "permissions": {
+        "actions": "write",
+        "checks": "read",
+        "contents": "write",
+        "emails": "read",
+        "issues": "write",
+        "metadata": "read",
+        "pull_requests": "write",
+        "statuses": "read",
+        "workflows": "write"
+      },
+      "events": [
+        "check_run",
+        "check_suite",
+        "commit_comment",
+        "issues",
+        "issue_comment",
+        "pull_request",
+        "pull_request_review",
+        "pull_request_review_comment",
+        "pull_request_review_thread",
+        "repository",
+        "status",
+        "sub_issues"
+      ]
+    },
+    "minimized": null
+  },
+  "receipt": {
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments/6334240964",
+    "html_url": "https://github.com/ElectricDogCN/Guize/pull/122#issuecomment-6334240964",
+    "issue_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/122",
+    "id": 6334240964,
+    "node_id": "IC_kwDOTgCQ3c8AAAABeYzYxA",
+    "user": {
+      "login": "chatgpt-codex-connector[bot]",
+      "id": 199175422,
+      "node_id": "BOT_kgDOC98s_g",
+      "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+      "html_url": "https://github.com/apps/chatgpt-codex-connector",
+      "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-10-22T06:22:42Z",
+    "updated_at": "2026-10-22T06:22:42Z",
+    "body": "<!-- codex-review-receipt:v1 -->\n\nCodex Review: Didn't find any major issues. Can't wait for the next one!\n\n**Reviewed commit:** `669f7211cc`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+    "author_association": "NONE",
+    "reactions": {
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments/6334240964/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": {
+      "id": 1144995,
+      "client_id": "Iv23liVemv8A9if9v0F2",
+      "slug": "chatgpt-codex-connector",
+      "node_id": "A_kwHOAOQ6Gs4AEXij",
+      "owner": {
+        "login": "openai",
+        "id": 14957082,
+        "node_id": "MDEyOk9yZ2FuaXphdGlvbjE0OTU3MDgy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14957082?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/openai",
+        "html_url": "https://github.com/openai",
+        "followers_url": "https://api.github.com/users/openai/followers",
+        "following_url": "https://api.github.com/users/openai/following{/other_user}",
+        "gists_url": "https://api.github.com/users/openai/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/openai/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/openai/subscriptions",
+        "organizations_url": "https://api.github.com/users/openai/orgs",
+        "repos_url": "https://api.github.com/users/openai/repos",
+        "events_url": "https://api.github.com/users/openai/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/openai/received_events",
+        "type": "Organization",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "name": "ChatGPT Codex Connector",
+      "description": "Bring ChatGPT and Codex to your GitHub repositories.",
+      "external_url": "https://www.chatgpt.com",
+      "html_url": "https://github.com/apps/chatgpt-codex-connector",
+      "created_at": "2025-02-14T01:37:05Z",
+      "updated_at": "2026-09-23T18:52:59Z",
+      "permissions": {
+        "actions": "write",
+        "checks": "read",
+        "contents": "write",
+        "emails": "read",
+        "issues": "write",
+        "metadata": "read",
+        "pull_requests": "write",
+        "statuses": "read",
+        "workflows": "write"
+      },
+      "events": [
+        "check_run",
+        "check_suite",
+        "commit_comment",
+        "issues",
+        "issue_comment",
+        "pull_request",
+        "pull_request_review",
+        "pull_request_review_comment",
+        "pull_request_review_thread",
+        "repository",
+        "status",
+        "sub_issues"
+      ]
+    },
+    "minimized": null
+  },
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6vDq3T",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1447,
+      "diff_side": "RIGHT",
+      "start_line": 1446,
+      "start_diff_side": "RIGHT",
+      "original_line": 1426,
+      "original_start_line": 1425,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvjx5w",
+          "database_id": 4344836583,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit metadata-only nodes outside reservation ancestry**\n\nWhen a proposed Review history ours-merges a side branch rooted before the admitted reservation, that branch can copy the task registration, mutate stable Registry identity fields, restore them, and still pass preflight. `registered_node` prevents the earlier registration-context audit from running, while this new ancestry check is reached only when `own_work` contains a claimed non-metadata path; a metadata-only side node therefore receives neither check despite the final tree hiding the mutation. Apply the reservation-ancestry and task-metadata validation to related metadata nodes as well.\n\nAGENTS.md reference: [AGENTS.md:L382-L382](https://github.com/ElectricDogCN/Guize/blob/d294cbbb99a8cfac6cb592fcb6c0e8e2cee255fc/AGENTS.md#L382-L382)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T05:23:47Z",
+          "updated_at": "2026-10-22T05:23:47Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvm0pg",
+          "database_id": 4344886438,
+          "body": "Fixed in b687d3e: active preflight audits related own metadata even when the node is outside original-reservation ancestry, reports that ancestry failure, and validates its registration context/stable identity. The new unregistered_metadata real Git graph copies registration, mutates/restores owner, then ours-merges an identical final Review tree. It failed on d294 and passes as a rejection on current immutable b687d3e; all24 targeted tests passed. Full705/currentCI/fresh independent review remain pending.",
+          "created_at": "2026-10-22T05:33:24Z",
+          "updated_at": "2026-10-22T05:33:24Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vDq3U",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1445,
+      "diff_side": "RIGHT",
+      "start_line": 1445,
+      "start_diff_side": null,
+      "original_line": 1424,
+      "original_start_line": null,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvjx6g",
+          "database_id": 4344836586,
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Initialize synchronization state before auditing own work**\n\nWhen an active Foundation claims `specs/coordination/task-completions.yaml` and an introduced Review/integration node edits only that ledger path, `own_work` is nonempty but `code_paths` is empty because the ledger is explicitly excluded. The preceding block therefore never assigns `imports` or `prior_registry`, and evaluating `own_work - imports` raises `UnboundLocalError` instead of returning a structured history rejection; if an earlier node assigned them, stale values are reused instead. Initialize these values for every loop iteration before this branch.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T05:23:47Z",
+          "updated_at": "2026-10-22T05:23:47Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvm12Q",
+          "database_id": 4344886745,
+          "body": "Fixed in b687d3e: imports is initialized to an empty set and prior_registry loaded for every node before code-path classification. The optional empty-default fixture extension admits a ledger claim at original reservation, then a ledger-only Review delta verifies structured rejection with no Traceback. This reproduced the old failure and current immutable targeted24 passed. Existing fixture default behavior/assertions and strict completed behavior are retained.",
+          "created_at": "2026-10-22T05:33:27Z",
+          "updated_at": "2026-10-22T05:33:27Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vDq3X",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1447,
+      "diff_side": "RIGHT",
+      "start_line": 1446,
+      "start_diff_side": "RIGHT",
+      "original_line": 1426,
+      "original_start_line": 1425,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvjx7w",
+          "database_id": 4344836591,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Authenticate peer claims before exempting side-branch code**\n\nWhen an unadmitted side branch temporarily adds a different Active Work entry claiming the Foundation's code path, changes that path in a following commit, removes the fabricated entry, and is ours-merged into the final Review tree, `historical_peer_path` classifies the code as peer-owned. That makes `unexpected` and `own_work` empty, so this ancestry check is never reached; peer additions/removals are not authenticated by `historical_post_metadata`, and the restored endpoint exposes nothing to the ordinary checks. Thus the same pre-reservation code regression can still pass by wrapping it in a temporary peer claim, so peer claims used for exemptions must themselves be proven from admitted history.\n\nAGENTS.md reference: [AGENTS.md:L338-L341](https://github.com/ElectricDogCN/Guize/blob/d294cbbb99a8cfac6cb592fcb6c0e8e2cee255fc/AGENTS.md#L338-L341)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T05:23:47Z",
+          "updated_at": "2026-10-22T05:23:47Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvm2xA",
+          "database_id": 4344886980,
+          "body": "Fixed in b687d3e: active peer exemptions use the trusted target snapshot, and foreign metadata changes must remain unchanged or prove a clean import from an admitted synchronization parent. Candidate history cannot create/remove its own peer admission to gain an exemption. fabricated_peer reproduces fake add/code/remove/ours-merge and is rejected; admitted_peer_sync positively proves legitimate already-admitted peer synchronization still passes. Both are in the current immutable24-pass targeted run; complete source gates remain pending.",
+          "created_at": "2026-10-22T05:33:30Z",
+          "updated_at": "2026-10-22T05:33:30Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vDq3Y",
+      "is_resolved": true,
+      "is_outdated": true,
+      "path": "evidence/OPS-012/rework-registration-main-acceptance.json",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 28,
+      "original_start_line": 24,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvjx8g",
+          "database_id": 4344836594,
+          "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Archive the acceptance artifacts referenced here**\n\nThe three repository-relative artifacts named here do not exist anywhere in the reviewed tree, and `mainRaw.path` points to a developer-specific Windows directory outside the repository. A repo-wide filename and reference search found no archived copies, so another reviewer cannot inspect or reproduce the claimed source admission, main checks, 695-test result, or CI acceptance on which `registrationEffectiveForImplementation` is based. Commit the referenced logs/snapshots under task Evidence or replace these fields with durable repository references.\n\nAGENTS.md reference: [AGENTS.md:L245-L245](https://github.com/ElectricDogCN/Guize/blob/d294cbbb99a8cfac6cb592fcb6c0e8e2cee255fc/AGENTS.md#L245-L245)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T05:23:47Z",
+          "updated_at": "2026-10-22T05:23:47Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvm3mg",
+          "database_id": 4344887194,
+          "body": "Fixed in b687d3e: registration-source-local13.json, registration-independent-review.json, registration-source-ci781.json, registration-source-admission.json, registration-main-checks.json and registration-main-ci782.json now retain the actual source/main outputs and snapshots under evidence/OPS-012/. The acceptance receipt points to these durable repo paths. Raw CI is losslessly retained as JSON rawLog fields with original UTF-8 identity; no downloaded XML artifact is claimed. These are historical PR120 registration facts, not current PR122 acceptance.",
+          "created_at": "2026-10-22T05:33:33Z",
+          "updated_at": "2026-10-22T05:33:33Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vD3ZD",
+      "is_resolved": true,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": "RIGHT",
+      "original_line": 1430,
+      "original_start_line": 1428,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvo5YA",
+          "database_id": 4344920416,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Authenticate peer work rather than only the target claim**\n\nWhen the admitted base has a legitimate peer claiming a path, an unmerged side commit can modify that path, revert it, and be ours-merged into the Foundation Review: `historical_peer_path(root, trusted_base, ...)` then exempts the modification even though it was neither imported from an admitted parent nor made in authenticated peer history. Fresh evidence beyond the earlier fabricated-peer finding is that an entirely valid target-side peer registration is sufficient for this bypass. Require the node's work to be proven synchronization or validate its contemporaneous peer lineage instead of treating the target claim as authorization for every introduced commit.\n\nAGENTS.md reference: [AGENTS.md:L350-L351](https://github.com/ElectricDogCN/Guize/blob/b687d3e19f9c41e457a84b7fb2e87633f61b675c/AGENTS.md#L350-L351)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T05:39:54Z",
+          "updated_at": "2026-10-22T05:39:54Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvsEgA",
+          "database_id": 4344972416,
+          "body": "Fixed in c11c10b. Active preflight no longer exempts foreign work on the strength of a peer claim. It requires actual clean synchronization from the admitted target, or own work authorized by both admitted scope and the node's prior registration. The new real-peer-claim/unregistered-side/restore/ours-merge graph failed on b687 and is rejected on c11; legitimate admitted-peer synchronization still passes. A related transient own-scope expansion case was also reproduced and fixed. Current immutable-source27 tests passed; complete gates/fresh independent review remain pending.",
+          "created_at": "2026-10-22T05:49:14Z",
+          "updated_at": "2026-10-22T05:49:14Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vD3ZJ",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "tests/governance/test_program_plan_history.py",
+      "line": 2441,
+      "diff_side": "RIGHT",
+      "start_line": 2440,
+      "start_diff_side": "RIGHT",
+      "original_line": 2441,
+      "original_start_line": 2440,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvo5ZQ",
+          "database_id": 4344920421,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Test ledger-only history without granting ledger ownership**\n\nThe regression only fails because the fixture adds the completion ledger to the Foundation's `exclusivePaths`. Real Foundation registrations normally do not claim this forbidden file, so a ledger-only node makes `own_work` empty while `code_paths` explicitly excludes `LEDGER`; the comment-only delta used here then passes `historical_frozen_definitions`, and an add-then-remove side history can likewise disappear from the endpoint. Run this case with the normal registration and reject every non-synchronized Foundation ledger change directly.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T05:39:54Z",
+          "updated_at": "2026-10-22T05:39:54Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvsFiQ",
+          "database_id": 4344972681,
+          "body": "Fixed in c11c10b with a direct rule: every introduced Ledger delta in active Foundation preflight must be proven admitted synchronization, regardless of ownership claims or final restoration. New unclaimed_ledger uses the normal unchanged reservation, modifies/restores a ledger comment and has a byte-identical valid final Review tree; it reproduced a PASS bypass on b687 and now rejects the invalid node without a traceback. The additional claimed-ledger test remains for per-node initialization coverage. Current immutable-source27 tests passed; full708/localCI gates remain pending.",
+          "created_at": "2026-10-22T05:49:17Z",
+          "updated_at": "2026-10-22T05:49:17Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vEMoM",
+      "is_resolved": true,
+      "is_outdated": true,
+      "path": "scripts/check-program-plan-history.py",
+      "line": null,
+      "diff_side": "RIGHT",
+      "start_line": null,
+      "start_diff_side": null,
+      "original_line": 1478,
+      "original_start_line": null,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvxfCQ",
+          "database_id": 4345061129,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Audit histories that finish in a blocked state**\n\nRun the introduced-history audit whenever the range contains Review/integration activity, rather than only when the final snapshot is `review` or `integration`. A Foundation starting `in_progress` can enter Review, write an invalid completion identity or reviewer code, and then finish the same PR as `blocked`; `in_progress -> blocked` is an allowed endpoint transition, but this condition skips `foundation_post_implementation` entirely, so the invalid intermediate history is admitted and remains hidden until a later Completion audit.\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T06:04:51Z",
+          "updated_at": "2026-10-22T06:04:51Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAv4GRQ",
+          "database_id": 4345169477,
+          "body": "Fixed in669f721. Preflight now discovers this task's Review/integration activity throughout the introduced range, including Program, Registry and Task snapshots, rather than gating only on final status. A byte-identical valid blocked endpoint hiding premature Review completion fields reproduced a PASS bypass onC11 and now rejects the invalid node. Normal blocked flow still passes; no-task mode separately verifies the blocked-hidden rejection. Current immutable-source32 targeted checks passed; fresh full713/CI789/review remain pending.",
+          "created_at": "2026-10-22T06:22:22Z",
+          "updated_at": "2026-10-22T06:22:22Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vEMoP",
+      "is_resolved": true,
+      "is_outdated": false,
+      "path": "scripts/check-program-plan-history.py",
+      "line": 1437,
+      "diff_side": "RIGHT",
+      "start_line": 1437,
+      "start_diff_side": null,
+      "original_line": 1437,
+      "original_start_line": null,
+      "resolved_by": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+        "id": null
+      },
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAvxfDQ",
+          "database_id": 4345061133,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Limit Foundation preflight to the submitted task**\n\nDo not classify every introduced commit as work of every Foundation that happens to remain in Review/integration. If the target base contains Foundation `F` in Review and a concurrently registered peer `P` submits a normal PR for its own path, `validate_foundations` still invokes this audit for `F`; `P`'s code is neither an import nor covered by `F`'s prior/admitted claims, so this comprehension reports it as outside `F`'s scope and blocks the peer PR. The registry explicitly permits multiple simultaneous active tasks, so the audit must identify the submitted actor (or authenticate the peer history) before rejecting its work.\n\nAGENTS.md reference: [AGENTS.md:L359-L361](https://github.com/ElectricDogCN/Guize/blob/c11c10b001b95913bf05bdb4d227c2b88f9eee30/AGENTS.md#L359-L361)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T06:04:51Z",
+          "updated_at": "2026-10-22T06:04:51Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        },
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAv4HbQ",
+          "database_id": 4345169773,
+          "body": "Fixed in669f721. Preflight is selected by actual own-related metadata/Evidence/admitted paths or the submitted task/branch actor; unrelated Foundations remaining in Review are not assigned the peer PR's work. The submitted hint cannot suppress actual own changes. A registered disjoint peer code PR while F remains in Review reproduced the old false rejection and now passes, both with its task hint and without --task. Current immutable-source32 targeted checks passed; completed auditing and existing assertions stay unchanged.",
+          "created_at": "2026-10-22T06:22:25Z",
+          "updated_at": "2026-10-22T06:22:25Z",
+          "author": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "viewer_did_author": true
+        }
+      ]
+    }
+  ]
+}

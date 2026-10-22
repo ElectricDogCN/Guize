@@ -1,36 +1,25 @@
-OPS-012 early-history preflight candidate
-Base: c5f201adb2e11ffea912f862c19918157f9cf106
-Branch: chore/OPS-012-early-history-preflight
-Current immutable-source checks pending.
+OPS-012 reversible Review metadata candidate
+Base: b2f844ba22996416b54155290a4685188dc774c6
+Branch: chore/OPS-012-early-preflight-review
+Last actual code: PR122 / b2f844ba22996416b54155290a4685188dc774c6
+Predecessor source/main5 accepted; predecessor mainCI790 pending at preparation. Its terminal success remains required before integration.
+Current source checks/CI/review/main: pending.
 
 - `evidence/OPS-012/changed-files.md`
 - `evidence/OPS-012/commands.txt`
 - `evidence/OPS-012/handoff.md`
-- `evidence/OPS-012/registration-independent-review.json`
-- `evidence/OPS-012/registration-main-checks.json`
-- `evidence/OPS-012/registration-main-ci782.json`
-- `evidence/OPS-012/registration-source-admission.json`
-- `evidence/OPS-012/registration-source-ci781.json`
-- `evidence/OPS-012/registration-source-local13.json`
-- `evidence/OPS-012/rejected-preflight-6937bb0.json`
-- `evidence/OPS-012/rework-registration-main-acceptance.json`
-- `evidence/OPS-012/scope.md`
+- `evidence/OPS-012/implementation-main-acceptance.json`
+- `evidence/OPS-012/implementation-main-checks.json`
+- `evidence/OPS-012/implementation-main-ci790.json`
+- `evidence/OPS-012/implementation-source-admission-pr117-historical.json`
+- `evidence/OPS-012/implementation-source-admission.json`
+- `evidence/OPS-012/implementation-source-ci789.json`
+- `evidence/OPS-012/implementation-source-independent-review.json`
+- `evidence/OPS-012/implementation-source-local4.json`
+- `evidence/OPS-012/predecessor-main-acceptance.json`
 - `evidence/OPS-012/summary.md`
 - `evidence/OPS-012/test-results/README.md`
-- `evidence/OPS-012/test-results/early-preflight-activity-regressions.json`
-- `evidence/OPS-012/test-results/early-preflight-authority-regressions.json`
-- `evidence/OPS-012/test-results/early-preflight-development.json`
-- `evidence/OPS-012/test-results/early-preflight-independent-review-b687d3e.json`
-- `evidence/OPS-012/test-results/early-preflight-independent-review-c11c10b.json`
-- `evidence/OPS-012/test-results/early-preflight-independent-review-d294cbb.json`
-- `evidence/OPS-012/test-results/early-preflight-review-regressions.json`
-- `evidence/OPS-012/test-results/early-preflight-side-registration.json`
-- `evidence/OPS-012/test-results/preflight-08a60eb-scope-failure.json`
-- `evidence/OPS-012/test-results/preflight-c11c10b-ci788.json`
-- `evidence/OPS-012/test-results/preflight-c11c10b-governance.xml`
-- `evidence/OPS-012/test-results/preflight-c11c10b-local-checks.json`
-- `scripts/check-program-plan-history.py`
+- `evidence/OPS-012/test-results/implementation-source-governance.xml`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-012.md`
-- `tests/governance/test_program_plan_history.py`

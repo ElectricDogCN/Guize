@@ -1,0 +1,53 @@
+{
+  "taskId": "OPS-012",
+  "issue": 115,
+  "pr": 117,
+  "source": "1152a04b313ee864f48bc29ca60bc3da00c9b9f7",
+  "tree": "53cbae8efa25b69adb938401ca28a8dae0568a3a",
+  "actualMain": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+  "formalSourceAccepted": true,
+  "contentAccepted": true,
+  "mergeApproved": true,
+  "ciAccepted": true,
+  "actualMainAccepted": true,
+  "localChecks": {
+    "targeted": 14,
+    "governance": 695,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "allRequiredCommandsActualWait0": true,
+    "governanceSeconds": 1012.14
+  },
+  "sourceCi": {
+    "number": 772,
+    "runId": 39709189138,
+    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/39709189138",
+    "jobId": 119596186094,
+    "headSha": "1152a04b313ee864f48bc29ca60bc3da00c9b9f7",
+    "conclusion": "success",
+    "governanceTests": 695,
+    "governanceSeconds": 758.02
+  },
+  "actualMainCi": {
+    "number": 773,
+    "runId": 39711516104,
+    "conclusion": "success",
+    "governanceTests": 695,
+    "governanceSeconds": 1305.52,
+    "evidence": "implementation-main-ci-acceptance.json"
+  },
+  "independentReview": {
+    "reviewedCommit": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+    "tree": "53cbae8efa25b69adb938401ca28a8dae0568a3a",
+    "byteIdenticalToFinalSource": true,
+    "summaryComment": 6311351404,
+    "receiptComment": 6331614334,
+    "url": "https://github.com/ElectricDogCN/Guize/pull/117#issuecomment-6331614334",
+    "evidence": "implementation-final-tree-independent-review.json",
+    "conclusion": "completed/no findings/no unresolved findings"
+  },
+  "priorQualifiedIntegratorForwardSuperseded": "Final same-tree independent review now covers all final Task allowed-scope changes as well as unchanged code/tests. Historical 74ad review remains only historical.",
+  "metadataAdmissionExceptionAppliedToCode": false,
+  "mustFix": []
+}
