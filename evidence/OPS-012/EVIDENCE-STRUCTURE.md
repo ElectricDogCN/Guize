@@ -1,6 +1,6 @@
-# OPS-012 Review Evidence structure
+# OPS-012 Completion Evidence structure
 
-Current phase is review/reviewer after actual code main1ffd037. Code source results retain their implementation attribution; current Review checks and hosted CI are recorded separately after execution.
+Current phase is completed/integrator candidate after accepted Review mainf18dcca. Durable Review source13/CI777, actual main5/CI778 and actual local main695 JUnit retain their own identities. Current Completion checks/CI are pending actual execution.
 
 | Canonical entry | Compatible target | Reason |
 | --- | --- | --- |

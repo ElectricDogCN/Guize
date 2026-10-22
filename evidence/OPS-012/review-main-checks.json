@@ -1,0 +1,182 @@
+{
+  "results": {
+    "actualMain": "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+    "source": "2ae2e88aa15a2e73239397a274a2c26ec1e390f5",
+    "base": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+    "taskId": "OPS-012",
+    "identityAndTreeVerified": true,
+    "checks": [
+      {
+        "argv": [
+          "python",
+          "scripts/check-program-plan-integrity.py",
+          "--base-ref",
+          "1ffd037de9c6514d9a325cce4c8e33faaec8a389"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "argv": [
+          "python",
+          "scripts/check-program-plan-history.py",
+          "--base-ref",
+          "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+          "--head-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "argv": [
+          "python",
+          "scripts/check-program-plan-transitions.py",
+          "--base-ref",
+          "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+          "--head-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "argv": [
+          "python",
+          "scripts/check-program-lifecycle-guards.py",
+          "--base-ref",
+          "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+          "--head-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "argv": [
+          "python",
+          "scripts/run-agent-coordination-gate.py",
+          "--base-ref",
+          "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+          "--head-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      }
+    ]
+  },
+  "logs": [
+    {
+      "index": 0,
+      "command": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389"
+      ],
+      "exitCode": 0,
+      "encoding": "utf8",
+      "sha256": "fe9fa245115eec39482a07c5cfb3ef8eb0eca9571911320633e21082c6e2c581",
+      "byteCount": 425,
+      "raw": "Source: f18dcca18741f915db44594cd6f9af1d2cb4d1f6\nCommand: ['python', 'scripts/check-program-plan-integrity.py', '--base-ref', '1ffd037de9c6514d9a325cce4c8e33faaec8a389']\n{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 10, \"programTasks\": 28, \"activeTasks\": 1, \"completionRecords\": 4, \"baseRef\": \"1ffd037de9c6514d9a325cce4c8e33faaec8a389\"}}\n\nExit Code: 0\n"
+    },
+    {
+      "index": 1,
+      "command": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+        "--head-ref",
+        "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-review"
+      ],
+      "exitCode": 0,
+      "encoding": "utf8",
+      "sha256": "74de31465d2f62ca6531a4715074a60f561a6b9eacf863b07989319c3c144ff1",
+      "byteCount": 574,
+      "raw": "Source: f18dcca18741f915db44594cd6f9af1d2cb4d1f6\nCommand: ['python', 'scripts/check-program-plan-history.py', '--base-ref', '1ffd037de9c6514d9a325cce4c8e33faaec8a389', '--head-ref', 'f18dcca18741f915db44594cd6f9af1d2cb4d1f6', '--task', 'OPS-012', '--branch-name', 'chore/OPS-012-history-yaml-review']\n{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"1ffd037de9c6514d9a325cce4c8e33faaec8a389\", \"headRef\": \"f18dcca18741f915db44594cd6f9af1d2cb4d1f6\", \"completionRecords\": 4, \"auditedOwnerCapacityFailures\": []}}\n\nExit Code: 0\n"
+    },
+    {
+      "index": 2,
+      "command": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+        "--head-ref",
+        "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-review"
+      ],
+      "exitCode": 0,
+      "encoding": "utf8",
+      "sha256": "7bbde9668cec232ee9a145423fa44d300060b5421e33e555de26b2f391bbb03d",
+      "byteCount": 491,
+      "raw": "Source: f18dcca18741f915db44594cd6f9af1d2cb4d1f6\nCommand: ['python', 'scripts/check-program-plan-transitions.py', '--base-ref', '1ffd037de9c6514d9a325cce4c8e33faaec8a389', '--head-ref', 'f18dcca18741f915db44594cd6f9af1d2cb4d1f6', '--task', 'OPS-012', '--branch-name', 'chore/OPS-012-history-yaml-review']\n{\"status\": \"PASS\", \"message\": \"Program reservation scope, wave and lifecycle transitions passed\", \"details\": {\"task\": \"OPS-012\", \"activeTasks\": 1, \"completionRecords\": 4}}\n\nExit Code: 0\n"
+    },
+    {
+      "index": 3,
+      "command": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+        "--head-ref",
+        "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-review"
+      ],
+      "exitCode": 0,
+      "encoding": "utf8",
+      "sha256": "66ab3382abf56c6a63feb8318de14370b0a08e45c7385c279752295121612d85",
+      "byteCount": 557,
+      "raw": "Source: f18dcca18741f915db44594cd6f9af1d2cb4d1f6\nCommand: ['python', 'scripts/check-program-lifecycle-guards.py', '--base-ref', '1ffd037de9c6514d9a325cce4c8e33faaec8a389', '--head-ref', 'f18dcca18741f915db44594cd6f9af1d2cb4d1f6', '--task', 'OPS-012', '--branch-name', 'chore/OPS-012-history-yaml-review']\n{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"OPS-012\"], \"changedPathCount\": 23, \"baseRef\": \"1ffd037de9c6514d9a325cce4c8e33faaec8a389\"}}\n\nExit Code: 0\n"
+    },
+    {
+      "index": 4,
+      "command": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+        "--head-ref",
+        "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-review"
+      ],
+      "exitCode": 0,
+      "encoding": "utf8",
+      "sha256": "9fac2c355be5390c4e14f8f4b36c5eacbbdf97931a872b78260c5a2507b8d437",
+      "byteCount": 450,
+      "raw": "Source: f18dcca18741f915db44594cd6f9af1d2cb4d1f6\nCommand: ['python', 'scripts/run-agent-coordination-gate.py', '--base-ref', '1ffd037de9c6514d9a325cce4c8e33faaec8a389', '--head-ref', 'f18dcca18741f915db44594cd6f9af1d2cb4d1f6', '--task', 'OPS-012', '--branch-name', 'chore/OPS-012-history-yaml-review']\n{\"status\": \"PASS\", \"message\": \"Agent coordination valid: 1 active tasks, 1 high/critical\", \"details\": {\"activeTaskIds\": [\"OPS-012\"]}}\n\nExit Code: 0\n"
+    }
+  ],
+  "allFiveWaitedExit0": true
+}

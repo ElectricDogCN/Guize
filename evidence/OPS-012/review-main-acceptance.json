@@ -1,0 +1,69 @@
+{
+  "taskId": "OPS-012",
+  "issue": 115,
+  "pr": 118,
+  "phase": "review",
+  "source": "2ae2e88aa15a2e73239397a274a2c26ec1e390f5",
+  "tree": "55fee114d75abb10aeac9f34315c051b5cbf36ec",
+  "base": "1ffd037de9c6514d9a325cce4c8e33faaec8a389",
+  "actualMain": "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+  "actualMainAccepted": true,
+  "ciAccepted": true,
+  "normalReviewGovernanceAccepted": true,
+  "actualMergeAndTreeIdentityVerified": true,
+  "sourceLocal13": "review-source-local13.json",
+  "sourceHostedCi": "review-source-ci777.json",
+  "actualMainFive": "review-main-checks.json",
+  "actualMainHostedCi": "review-main-ci778.json",
+  "actualMainLocalGov": "review-main-local-governance.json",
+  "actualMainLocalJunit": "review-main-governance.xml",
+  "independentReview": {
+    "source": "2ae2e88aa15a2e73239397a274a2c26ec1e390f5",
+    "receiptComment": 6331670324,
+    "url": "https://github.com/ElectricDogCN/Guize/pull/118#issuecomment-6331670324",
+    "noFindings": true,
+    "actualMergeTreeIdenticalToReviewedSource": true
+  },
+  "lastCode": {
+    "pr": 117,
+    "main": "1ffd037de9c6514d9a325cce4c8e33faaec8a389"
+  },
+  "artifacts": [
+    {
+      "path": "evidence/OPS-012/review-main-checks.json",
+      "sha256": "d4894e46592bab68e6ec18d952b8984263eaf1a11a0413621617b46703294e17",
+      "bytes": 7549
+    },
+    {
+      "path": "evidence/OPS-012/review-main-ci778.json",
+      "sha256": "181de8d4467698f8cf8bb0dfda5b74e279316fe3c491a0c38f6cb1896972c943",
+      "bytes": 296889
+    },
+    {
+      "path": "evidence/OPS-012/review-main-governance.xml",
+      "sha256": "a191bec7590abe1725e7497415b632bce83391d2c440e2f09951a665acdfaedb",
+      "bytes": 110199
+    },
+    {
+      "path": "evidence/OPS-012/review-main-local-governance.json",
+      "sha256": "fe7925fe4bdb6efe0eff57e2f38b9d3418a9d6ff8ea28dbf8bf7a1094f4f7778",
+      "bytes": 2827
+    },
+    {
+      "path": "evidence/OPS-012/review-source-admission.json",
+      "sha256": "525e6e85d33da52c98a5a3a0679259f53ba57639e59b1b900c614f2f87e5f395",
+      "bytes": 10459
+    },
+    {
+      "path": "evidence/OPS-012/review-source-ci777.json",
+      "sha256": "e93ce3c54f88f039458d1c8eb5f554cb6e742e8bc38005e07a142c6ac35b49a1",
+      "bytes": 286990
+    },
+    {
+      "path": "evidence/OPS-012/review-source-local13.json",
+      "sha256": "c29e2e2e9523c19ce8f6d7b3557d45a8195289b09d36d99fff2cf396ea67b28f",
+      "bytes": 16438
+    }
+  ],
+  "mustFix": []
+}

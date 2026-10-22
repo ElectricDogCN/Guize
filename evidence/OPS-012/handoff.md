@@ -1,3 +1,13 @@
+OPS-012 normal Completion candidate
+Base: f18dcca18741f915db44594cd6f9af1d2cb4d1f6
+Branch: chore/OPS-012-history-yaml-completion
+Last code: PR117 / 1ffd037de9c6514d9a325cce4c8e33faaec8a389
+Current source gates/CI/main acceptance: pending actual execution.
+
+Current change: Foundation completed with PR117/code1ffd; remove only OPS012 Active entry. Roles, original two claims and lease retained. Contract versions unchanged. Exact current files: changed-files.md. Actual current commands: commands.txt; current execution remains pending until exact source is published. Review acceptance and source/CI are in review-main-acceptance.json. Issue115 must be closed/completed before current checks. Rollback: withdraw before merge, ordinary forward repair afterwards. Next Integrator: require current13, independent review and full same-head CI, then normal merge and actual-main verification; only then GZ022.
+
+## Preserved predecessor Review handoff (historical only)
+
 # OPS-012 Review handoff
 
 Task/Issue: OPS-012 / #115; PR #118.
