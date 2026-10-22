@@ -1,0 +1,77 @@
+schemaVersion: 1
+scopeId: AGENT-EDGE-104
+sourceIssue: 104
+acceptances:
+- id: AC-EDGE-104-0001
+  title: 公共执行协议的主仓集成、固定SDK与跨端conformance
+  requirementIds:
+  - REQ-EDGE-104-0001
+  taskIds:
+  - GZ-023
+  - GZ-030
+  verification: 固定Schema/SDK及同一conformance向量在主仓Windows/Linux运行；Android实际消费/应用构建和设备conformance由GZ-024远端前置完成，不反向阻塞协议交付。；重复/迟到/乱序/取消按revision/fencing只接受一次；未知能力、错版本、不可迁移检查点明确拒绝或安全重跑。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。
+  evidencePath: evidence/GZ-030/acceptance/AC-EDGE-104-0001.json
+- id: AC-EDGE-104-0002
+  title: 独立Android运行时制品准入与PC同协议适配
+  requirementIds:
+  - REQ-EDGE-104-0002
+  taskIds:
+  - GZ-024
+  - GZ-030
+  verification: 远端bootstrap不替代应用；真实OnePlus8T可安装并自主走平台网络链路，启停/进度/取消/清理/更新回退可观察。；Windows/Linux消费同版协议实际执行，能力来自探测和已验证执行；双方证据绑定真实提交及不可变制品。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。；增补Android生命周期验收：记录真实机Android版本、target
+    SDK和服务/工作类型；对适用target Android15+后台mediaProcessing验证同类共享6h/24h预算及onTimeout后数秒内停止，对Android16 WorkManager长时Worker验证JobScheduler配额受限分支；实际暂停/取消、短批次安全检查点、租约重派和迟到fencing拒绝可追溯，不能以VM或持续后台假设代替真机结果。
+  evidencePath: evidence/GZ-030/acceptance/AC-EDGE-104-0002.json
+- id: AC-EDGE-104-0003
+  title: 共用节点池的AV1、HLS缓存与播放优先级集成
+  requirementIds:
+  - REQ-EDGE-104-0003
+  taskIds:
+  - GZ-025
+  - GZ-030
+  verification: 实际PC AV1、连续HLS播放/seek、失败重派、覆盖与不兼容执行组拒绝均有平台记录。；编码负载下P0容量/公平有效，逐资源和热命中撤权拒绝，兼容回退真实可解码。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。
+  evidencePath: evidence/GZ-030/acceptance/AC-EDGE-104-0003.json
+- id: AC-EDGE-104-0004
+  title: 10–30秒真实视频六帧解码到平台接受与查询闭环
+  requirementIds:
+  - REQ-EDGE-104-0004
+  taskIds:
+  - GZ-026
+  - GZ-030
+  verification: 平台查询得到恰好六个可追溯采样结果和真实缩略图，重算摘要并按冻结时间/尺寸/图像容差比较。；取消/故障恢复不接受旧fencing/坏输入，重复提交不新增派生物；撤权后元数据与图像均不可读。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。
+  evidencePath: evidence/GZ-030/acceptance/AC-EDGE-104-0004.json
+- id: AC-EDGE-104-0005
+  title: 统一资源预算、观测时效与有界调度实现
+  requirementIds:
+  - REQ-EDGE-104-0005
+  taskIds:
+  - GZ-027
+  - GZ-030
+  verification: AV1/分析并发不重复预留同一codec/内存/盘，失联/取消/重试正确释放或失效预算。；冻结负载覆盖资源拒绝、过期观测、冷却、有限重派；VM注入与真实热/功耗测量分别标识。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。；增补系统执行预算验收：资源可用不代表后台额度可用；对适用Android15+
+    mediaProcessing共享6h/24h预算、onTimeout停止和Android16 WorkManager/JobScheduler配额耗尽分支，验证停止新派发、暂停/取消、安全短批次检查点释放及有限租约重派，旧fencing迟到结果仍拒绝；真实机记录与VM注入分别注明，阈值/方法仍消费GZ-011批准版本。
+  evidencePath: evidence/GZ-030/acceptance/AC-EDGE-104-0005.json
+- id: AC-EDGE-104-0006
+  title: 同一六帧的固定离线OCR包与平台结果集成
+  requirementIds:
+  - REQ-EDGE-104-0006
+  taskIds:
+  - GZ-028
+  - GZ-030
+  verification: 冻结OCR集在实际目标设备达到批准质量/资源阈值，文字/位置/帧时间/语言/置信度和源版本可追溯。；坏包/错版本/摘要/预算/ACL/外发拒绝有效，取消/重复不重复接受，源撤权影响派生结果读取。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。
+  evidencePath: evidence/GZ-030/acceptance/AC-EDGE-104-0006.json
+- id: AC-EDGE-104-0007
+  title: 受约束产品Agent的计划提议与有限重规划集成
+  requirementIds:
+  - REQ-EDGE-104-0007
+  taskIds:
+  - GZ-029
+  - GZ-030
+  verification: 同一目标形成可解释可执行计划，失败后有限重规划未完成部分且可查询版本/原因，不覆盖已接受结果与预算。；越权工具/超预算/未许可外发/质量降级在派发前拒绝；重放/取消/恢复无重复副作用。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。
+  evidencePath: evidence/GZ-030/acceptance/AC-EDGE-104-0007.json
+- id: AC-EDGE-104-0008
+  title: 固定跨仓版本组合、联合验收与扩展范围最终收口
+  requirementIds:
+  - REQ-EDGE-104-0008
+  taskIds:
+  - GZ-030
+  verification: 锁中每项定位真实repo/commit/制品摘要/签名/远端Task/证据，实际联合测试对应同一组合和兼容矩阵。；八项AC及旧节点兼容/不支持能力拒绝、升级灰度和停派/取消/禁用/恢复旧组合均可复现。；主交付Task证据与GZ-030同一固定版本组合的实际执行相互引用。
+  evidencePath: evidence/GZ-030/acceptance/AC-EDGE-104-0008.json

@@ -1,0 +1,5 @@
+Source: cd16bd71621f3a3bb9c3346134ff2b5228e9731d
+Command: python scripts/check-program-plan-transitions.py --base-ref b355a0cc2b8db110729d6269e7df2bf6055dcd79 --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-registration-v2
+{"status": "PASS", "message": "Program reservation scope, wave and lifecycle transitions passed", "details": {"task": "GZ-022", "activeTasks": 1, "completionRecords": 4}}
+
+Exit Code: 0

@@ -187,3 +187,11 @@ Status
 | Plugin | Manifest、兼容矩阵 |
 | Deployment | Profile、Bundle、Runbook |
 | Security | 威胁模型、测试、审计 |
+
+## GZ-022：边缘运行时与跨仓交付
+
+本节明确前文规划名称与实际仓库的关系：平台权威主仓保留 ElectricDogCN/Guize，不因 `guize-platform` 职责名重命名或迁移现有仓库。在公共契约和独立任务登记就绪后，以 `guize-edge-runtime` 承载 Android 应用及 Windows/Linux 适配器、设备探测、受限执行、本地资源控制、能力包加载与节点更新；本规划本身不创建仓库。`guize-ai-services` 仅在能力确有独立依赖或发布需要时建立，通用 `guize-agent-runtime` 延后到明确复用条件出现，不复制现有中心调度或任务权威。
+
+正式协议初期仍由 Guize 的 `contracts/` 唯一维护；节点通过固定 SDK、Schema 或制品消费，不能各仓复制后自行漂移。每个仓必须有独立 Issue/Task、明确实现者与审查者、输入输出、路径租约、禁止范围、验证与 Evidence；主仓的 GZ-022 或业务计划不能授予其他仓写权限，运行时仓任务也不能回写主仓业务库或越权修改平台契约。合同生产者/消费者和跨仓依赖须在各自真实登记中闭合。
+
+系统交接固定平台提交/发布版本、协议版本及摘要、SDK/Android/PC 制品摘要与签名、能力包/模型/配置版本、兼容范围及联合验收证据，不以 `latest` 或可移动分支代表已接受组合。先发布向后兼容且默认关闭新能力的服务端，再交接协议制品、节点构建和受管灰度，最后按能力启用调度。各仓原始日志留在所属 Evidence，主仓系统结果引用实际版本、OnePlus 8T/VM 与宿主机身份、输入输出哈希及失败/恢复证据；大模型与媒体使用受控制品存储。单仓绿灯、规划接受或两个仓各自通过均不等于跨仓系统验收通过，详见 [ADR-0016](../adr/0016-agent-edge-runtime-and-product-agent-planning.md)。

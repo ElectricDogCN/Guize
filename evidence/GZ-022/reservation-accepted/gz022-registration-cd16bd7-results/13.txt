@@ -1,0 +1,7 @@
+Source: cd16bd71621f3a3bb9c3346134ff2b5228e9731d
+Command: python scripts/check-markdown.py
+Checking 360 Markdown files...
+
+OK: No issues found
+
+Exit Code: 0

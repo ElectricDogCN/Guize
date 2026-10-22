@@ -1,0 +1,59 @@
+{
+  "actualMain": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+  "source": "cd16bd71621f3a3bb9c3346134ff2b5228e9731d",
+  "base": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+  "tree": "a99d654c51332867892e1512b4060f0b0dd558e7",
+  "before": {
+    "primary": {
+      "head": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+      "main": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+      "branch": "main",
+      "status": ""
+    },
+    "author": {
+      "head": "cd16bd71621f3a3bb9c3346134ff2b5228e9731d",
+      "main": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+      "branch": "chore/GZ-022-agent-edge-104-registration-v2",
+      "status": ""
+    },
+    "legacy": {
+      "head": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+      "main": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+      "branch": "main",
+      "status": ""
+    },
+    "native": {
+      "head": "cd16bd71621f3a3bb9c3346134ff2b5228e9731d",
+      "main": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+      "branch": "chore/GZ-022-agent-edge-104-registration-v2",
+      "status": ""
+    }
+  },
+  "after": {
+    "primary": {
+      "head": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+      "main": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+      "branch": "main",
+      "status": ""
+    },
+    "author": {
+      "head": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+      "main": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+      "branch": "main",
+      "status": ""
+    },
+    "legacy": {
+      "head": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+      "main": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+      "branch": "main",
+      "status": ""
+    },
+    "native": {
+      "head": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+      "main": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+      "branch": "main",
+      "status": ""
+    }
+  },
+  "ordinaryFastForwards": true
+}

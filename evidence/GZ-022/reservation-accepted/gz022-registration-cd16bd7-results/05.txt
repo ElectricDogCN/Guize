@@ -1,0 +1,5 @@
+Source: cd16bd71621f3a3bb9c3346134ff2b5228e9731d
+Command: python scripts/check-program-plan-history.py --base-ref b355a0cc2b8db110729d6269e7df2bf6055dcd79 --head-ref HEAD --task GZ-022 --branch-name chore/GZ-022-agent-edge-104-registration-v2
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "b355a0cc2b8db110729d6269e7df2bf6055dcd79", "headRef": "HEAD", "completionRecords": 4, "auditedOwnerCapacityFailures": []}}
+
+Exit Code: 0

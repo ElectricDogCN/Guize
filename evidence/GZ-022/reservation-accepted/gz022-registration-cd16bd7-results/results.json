@@ -1,0 +1,176 @@
+{
+  "task": "GZ-022",
+  "source": "cd16bd71621f3a3bb9c3346134ff2b5228e9731d",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79...HEAD"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "GZ-022"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "GZ-022",
+        "--base",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "GZ-022"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  ]
+}

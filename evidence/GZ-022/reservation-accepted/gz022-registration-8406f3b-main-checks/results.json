@@ -1,0 +1,83 @@
+{
+  "actualMain": "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+  "source": "cd16bd71621f3a3bb9c3346134ff2b5228e9731d",
+  "base": "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+  "taskId": "GZ-022",
+  "identityAndTreeVerified": true,
+  "checks": [
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "b355a0cc2b8db110729d6269e7df2bf6055dcd79",
+        "--head-ref",
+        "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-registration-v2"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  ]
+}

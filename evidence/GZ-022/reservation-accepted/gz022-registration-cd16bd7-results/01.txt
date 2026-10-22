@@ -1,0 +1,5 @@
+Source: cd16bd71621f3a3bb9c3346134ff2b5228e9731d
+Command: python scripts/check-task-file.py --task GZ-022
+{"status": "PASS", "message": "Task file valid: /home/sur/.cache/guize-takeover/ops012-history-parser/specs/tasks/GZ-022.md"}
+
+Exit Code: 0

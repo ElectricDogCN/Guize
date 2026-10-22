@@ -1,0 +1,21 @@
+{
+  "source": "458c539696d65cac0cbbaf2c26b7c7e9ce8903d0",
+  "results": {
+    "task": "GZ-022",
+    "source": "458c539696d65cac0cbbaf2c26b7c7e9ce8903d0",
+    "commands": [
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc...HEAD"
+        ],
+        "exitCode": 2,
+        "waitCompleted": true
+      }
+    ]
+  },
+  "rawFirstCheck": "Source: 458c539696d65cac0cbbaf2c26b7c7e9ce8903d0\nCommand: git diff --check 8406f3b783c7f5c4cdf1195f7411e3d2cfe744dc...HEAD\nevidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt:233: trailing whitespace.\n+2026-10-22T09:24:15.0717184Z \nevidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt:993: trailing whitespace.\n+2026-10-22T09:24:16.7161971Z \nevidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt:1174: trailing whitespace.\n+2026-10-22T09:24:32.3102963Z \nevidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt:1888: trailing whitespace.\n+2026-10-22T09:40:45.0702834Z \nevidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt:1923: trailing whitespace.\n+2026-10-22T09:40:45.2706916Z \nevidence/GZ-022/reservation-accepted/gz022-registration-8406f3b-ci797.raw.txt:2025: trailing whitespace.\n+2026-10-22T09:40:50.6357218Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:134: trailing whitespace.\n+2026-10-22T08:57:13.1151925Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:138: trailing whitespace.\n+2026-10-22T08:57:13.1155822Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:141: trailing whitespace.\n+2026-10-22T08:57:13.1157597Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:143: trailing whitespace.\n+2026-10-22T08:57:13.1158143Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:145: trailing whitespace.\n+2026-10-22T08:57:13.1158684Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:147: trailing whitespace.\n+2026-10-22T08:57:13.1159127Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:149: trailing whitespace.\n+2026-10-22T08:57:13.1160156Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:246: trailing whitespace.\n+2026-10-22T08:57:17.4857070Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:1006: trailing whitespace.\n+2026-10-22T08:57:19.0963913Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:1137: trailing whitespace.\n+2026-10-22T08:57:26.6611622Z   PUSH_BEFORE: \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:1179: trailing whitespace.\n+2026-10-22T08:57:40.3737382Z   PUSH_BEFORE: \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:1202: trailing whitespace.\n+2026-10-22T08:57:41.5025572Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:1916: trailing whitespace.\n+2026-10-22T09:20:14.8317851Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:1951: trailing whitespace.\n+2026-10-22T09:20:15.1604950Z \nevidence/GZ-022/reservation-accepted/gz022-registration-cd16bd7-ci796.raw.txt:2125: trailing whitespace.\n+2026-10-22T09:20:23.4987982Z \n\nExit Code: 2\n",
+  "reason": "Unmodified CI raw text contained trailing whitespace. Preserve exact raw bytes in base64 JSON instead. Remaining 13 commands not executed; no CI or source acceptance."
+}
