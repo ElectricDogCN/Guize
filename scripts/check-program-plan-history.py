@@ -1454,6 +1454,46 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
                         errors.append(f"Foundation {task_id} preflight working code requires implementer or integrator at {node}")
 
 
+def foundation_preflight_needed(root: str, task_id: str, base_ref: str, head_ref: str, before: dict[str, Any] | None, after: dict[str, Any], base_active: dict[str, Any], task_hint: str, branch_name: str, errors: list[str]) -> bool:
+    """Find this actor's Review activity, including restored or blocked tips.
+
+    An unrelated peer PR does not become work of every active Foundation.
+    The submitted hint cannot conceal actual changes to another Foundation.
+    """
+    review_states = {"review", "integration"}
+    review_seen = (before or {}).get("status") in review_states or after.get("status") in review_states
+    related = task_hint == task_id or (not task_hint and bool(re.search(rf"(?:^|/){re.escape(task_id)}(?:-|/|$)", branch_name)))
+    prior = [item for item in base_active.get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+    claims = (prior[0].get("exclusivePaths") or []) if len(prior) == 1 else []
+    history = git(root, "rev-list", "--reverse", f"{base_ref}..{head_ref}")
+    if history.returncode:
+        errors.append(f"Foundation {task_id} cannot inspect introduced preflight activity")
+        return False
+    for node in history.stdout.split():
+        parent = resolve_ref(root, f"{node}^1")
+        paths = RECOVERY.changed_paths(root, parent, node) if parent else None
+        if paths is None:
+            errors.append(f"Foundation {task_id} cannot inspect preflight node at {node}")
+            continue
+        task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot} - {None}
+        if not related:
+            related = historical_own_metadata_changed(root, parent, node, task_id) or any(path.startswith(f"evidence/{task_id}/") for path in paths)
+            if not related:
+                related = any(path not in {PLAN, ACTIVE, LEDGER, *task_paths} and not historical_peer_metadata_path(root, base_ref, task_id, path) and any(RECOVERY.matches_path(path, str(claim)) for claim in claims) for path in paths)
+        if not review_seen:
+            for document, collection in ((PLAN, "foundationTasks"), (ACTIVE, "tasks")):
+                snapshot = load_ref(root, node, document)
+                if isinstance(snapshot, dict) and mapping(snapshot.get(collection)).get(task_id, {}).get("status") in review_states:
+                    review_seen = True
+            for path in task_paths:
+                front, _ = parse_front_matter(read_ref(root, node, path))
+                if front.get("status") in review_states:
+                    review_seen = True
+        if related and review_seen:
+            return True
+    return False
+
+
 def validate_foundations(
     root: str,
     base_plan: dict[str, Any],
@@ -1466,6 +1506,8 @@ def validate_foundations(
     head_ref: str,
     branch_name: str,
     errors: list[str],
+    *,
+    task_hint: str = "",
 ) -> None:
     before_map = mapping(base_plan.get("foundationTasks"))
     after_map = mapping(current_plan.get("foundationTasks"))
@@ -1475,7 +1517,7 @@ def validate_foundations(
             errors.append(f"Completed Foundation {task_id} provenance is immutable")
     for task_id, after in after_map.items():
         before = before_map.get(task_id)
-        if after.get("status") in {"review", "integration"} and resolve_ref(root, base_ref) != resolve_ref(root, head_ref):
+        if after.get("status") in ACTIVE_STATES and resolve_ref(root, base_ref) != resolve_ref(root, head_ref) and foundation_preflight_needed(root, task_id, base_ref, head_ref, before, after, base_active, task_hint, branch_name, errors):
             prior = [item for item in base_active.get("tasks") or [] if item.get("taskId") == task_id]
             if len(prior) != 1:
                 errors.append(f"Foundation {task_id} preflight requires one prior Active Work entry")
@@ -1663,6 +1705,7 @@ def main() -> int:
         args.head_ref,
         args.branch_name,
         errors,
+        task_hint=args.task,
     )
     for record in current_ledger.get("records") or []:
         validate_reservation_snapshot(root, record, errors)

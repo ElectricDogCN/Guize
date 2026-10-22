@@ -2435,7 +2435,7 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.followup_owner_capacity_fixture("other_task")
 
 
-    def foundation_preflight_fixture(self, mode):
+    def foundation_preflight_fixture(self, mode, *, without_task=False):
         with tempfile.TemporaryDirectory() as root:
             ledger_path = "specs/coordination/task-completions.yaml"
             history = self.create_foundation_completion(root, extra_claims=(ledger_path,) if mode == "ledger_only" else ())
@@ -2454,9 +2454,52 @@ class TestProgramPlanHistory(unittest.TestCase):
             tree_reference = review
             base = history["implementation"]
             branch = "chore/GZ-014-review"
+            submitted_task = "GZ-014"
             checkout(review)
             invalid = None
-            if mode == "premature_completion_restored":
+            if mode in {"valid_blocked", "blocked_after_invalid_review"}:
+                branch = "chore/GZ-014-blocked"
+                checkout(base)
+                blocked_plan = yaml.safe_load(blob(review, plan_path))
+                next(row for row in blocked_plan["foundationTasks"] if row["taskId"] == "GZ-014")["status"] = "blocked"
+                blocked_registry = yaml.safe_load(blob(review, active_path))
+                blocked_entry = blocked_registry["tasks"][0]
+                blocked_entry.update(status="blocked", agentRole="coordinator", branch=branch, baseSha=base)
+                self.write_yaml(root, plan_path, blocked_plan)
+                self.write_yaml(root, active_path, blocked_registry)
+                self.write_text(root, task_path, self.task_spec(blocked_entry, "blocked", branch, base))
+                control = self.commit(root, "GZ-014 legal blocked endpoint")
+                tree_reference = control
+                if mode == "blocked_after_invalid_review":
+                    checkout(base)
+                    for path in (plan_path, active_path, task_path):
+                        self.write_text(root, path, blob(review, path))
+                    bad = yaml.safe_load(blob(review, plan_path))
+                    next(row for row in bad["foundationTasks"] if row["taskId"] == "GZ-014").update(completionRef="PR-22", mergeCommit=base)
+                    self.write_yaml(root, plan_path, bad)
+                    invalid = self.commit(root, "GZ-014 invalid Review before blocked endpoint")
+                    self.write_text(root, plan_path, blob(review, plan_path))
+                    self.commit(root, "GZ-014 restore Review registration")
+                    for path in (plan_path, active_path, task_path):
+                        self.write_text(root, path, blob(control, path))
+                    self.commit(root, "GZ-014 legal blocked tip after invalid Review")
+            elif mode == "concurrent_peer":
+                submitted_task = "GZ-004"
+                branch = "chore/GZ-004-peer"
+                plan = yaml.safe_load(blob(review, plan_path))
+                next(row for row in plan["tasks"] if row["taskId"] == submitted_task)["status"] = "in_progress"
+                registry = yaml.safe_load(blob(review, active_path))
+                peer = self.entry(submitted_task, review, "in_progress", branch)
+                peer.update(riskLevel="medium", exclusivePaths=["scripts/concurrent-peer.py"])
+                registry["tasks"].append(peer)
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, "specs/tasks/GZ-004.md", self.task_spec(peer, "in_progress", branch, review))
+                self.write_text(root, "scripts/concurrent-peer.py", "# admitted peer baseline\n")
+                base = self.commit(root, "GZ-004 admitted peer while Foundation is in Review")
+                self.write_text(root, "scripts/concurrent-peer.py", "# ordinary peer implementation\n")
+                self.commit(root, "GZ-004 legitimate own code PR")
+            elif mode == "premature_completion_restored":
                 snapshots = {path: blob(review, path) for path in (plan_path, active_path, task_path)}
                 checkout(base)
                 for path, text in snapshots.items():
@@ -2593,7 +2636,7 @@ class TestProgramPlanHistory(unittest.TestCase):
                     subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root),
                     subprocess.check_output(["git", "rev-parse", f"{tree_reference}^{{tree}}"], cwd=root),
                 )
-            result = self._run_checker(root, task="GZ-014", branch=branch, base_ref=base)
+            result = self._run_checker(root, task="" if without_task else submitted_task, branch=branch, base_ref=base)
             return result, invalid
 
     def test_foundation_preflight_accepts_valid_review(self):
@@ -2667,6 +2710,30 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("outside its prior registered scope", result.stdout)
         self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_blocked_after_invalid_review(self):
+        result, invalid = self.foundation_preflight_fixture("blocked_after_invalid_review")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("active Foundation must retain one ISSUE registration and no completion merge", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_accepts_valid_blocked(self):
+        result, _ = self.foundation_preflight_fixture("valid_blocked")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_allows_concurrent_peer(self):
+        result, _ = self.foundation_preflight_fixture("concurrent_peer")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_no_task_detects_blocked_review(self):
+        result, invalid = self.foundation_preflight_fixture("blocked_after_invalid_review", without_task=True)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("active Foundation must retain one ISSUE registration and no completion merge", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_no_task_allows_concurrent_peer(self):
+        result, _ = self.foundation_preflight_fixture("concurrent_peer", without_task=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
 if __name__ == "__main__":
