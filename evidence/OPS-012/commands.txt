@@ -1,19 +1,44 @@
-OPS-012 normal Completion candidate
+OPS-012 normal Completion command plan
 Base: f18dcca18741f915db44594cd6f9af1d2cb4d1f6
-Branch: chore/OPS-012-history-yaml-completion
-Last code: PR117 / 1ffd037de9c6514d9a325cce4c8e33faaec8a389
-Current source gates/CI/main acceptance: pending actual execution.
+Published bootstrap: 8f4989862d25756b9c8de16efb1c3dcf492774b1
+Current successor exact source is bound by published Git and actual command logs.
+Current commands not executed at capture.
 
-git diff --check f18dcca18741f915db44594cd6f9af1d2cb4d1f6...HEAD
-python scripts/check-task-file.py --task OPS-012
-python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6
-python scripts/check-program-plan-history.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion
-python scripts/check-program-plan-transitions.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion
-python scripts/check-program-lifecycle-guards.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion
-python scripts/run-agent-coordination-gate.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion
-python scripts/check-program-plan-finalization.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012
-python scripts/run-task-scope-gate.py --task OPS-012 --base f18dcca18741f915db44594cd6f9af1d2cb4d1f6
-python scripts/check-evidence.py --task OPS-012
-python scripts/check-project-readiness.py
-python scripts/check-markdown.py
+Command: git diff --check f18dcca18741f915db44594cd6f9af1d2cb4d1f6...HEAD
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-task-file.py --task OPS-012
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-schemas.py
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-program-plan-integrity.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-program-plan-history.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-program-plan-transitions.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-program-lifecycle-guards.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/run-agent-coordination-gate.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-completion
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-program-plan-finalization.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/run-task-scope-gate.py --task OPS-012 --base f18dcca18741f915db44594cd6f9af1d2cb4d1f6
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-evidence.py --task OPS-012
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-project-readiness.py
+Exit Code: UNEXECUTED AT CAPTURE
+
+Command: python scripts/check-markdown.py
+Exit Code: UNEXECUTED AT CAPTURE
