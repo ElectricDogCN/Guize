@@ -1,10 +1,10 @@
-OPS-012 implementation capture
-Base: 1ba64a9b4b62a918925b4a63658288a443d717e7
-Branch: chore/OPS-012-history-yaml-performance
-Phase: in_progress / implementer
-Canonical reservation: PR116 / 1ba64a9b4b62a918925b4a63658288a443d717e7
-Original claims and roles/lease retained. Registration hosted CI767 cancelled; audited delegated admission retained. Current-code results: UNEXECUTED AT CAPTURE.
+OPS-012 normal Review capture
+Phase: review/reviewer
+Base: 1ffd037de9c6514d9a325cce4c8e33faaec8a389
+Branch: chore/OPS-012-history-yaml-review
+Last code: PR117/1ffd037de9c6514d9a325cce4c8e33faaec8a389
+Current Review source/commands/CI/main: UNEXECUTED AT CAPTURE.
 
+Only Own Program/Active/Task/Evidence in this phase; original two exclusive code claims retained unchanged:
 - `scripts/check-program-plan-history.py`
 - `tests/governance/test_history_yaml_loader.py`
-Only own lifecycle/Evidence in addition to the two implementation paths.

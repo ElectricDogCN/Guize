@@ -1,6 +1,6 @@
-# OPS-012 implementation Evidence structure
+# OPS-012 Review Evidence structure
 
-Current phase is in_progress/implementer after canonical reservation main1ba64a9. Current-code execution results are bound by actual source logs and CI after publication.
+Current phase is review/reviewer after actual code main1ffd037. Code source results retain their implementation attribution; current Review checks and hosted CI are recorded separately after execution.
 
 | Canonical entry | Compatible target | Reason |
 | --- | --- | --- |
