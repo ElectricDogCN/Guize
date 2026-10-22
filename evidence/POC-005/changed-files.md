@@ -7,6 +7,7 @@ Status: in_progress / PARTIAL; original13 qualification pending.
 Exact current inventory against accepted base:
 
 - evidence/POC-005/.gitattributes
+- evidence/POC-005/EVIDENCE-STRUCTURE.md
 - evidence/POC-005/assumptions.md
 - evidence/POC-005/canonical-bridge-independent-content-review.json
 - evidence/POC-005/canonical-export-review-first-rejection.json
@@ -63,10 +64,36 @@ Exact current inventory against accepted base:
 - evidence/POC-005/dav-edbf8da-source-validation/task-13.raw
 - evidence/POC-005/dav-edbf8da-source-validation/task-14.raw
 - evidence/POC-005/dav-href-review-first-rejection.json
-- evidence/POC-005/EVIDENCE-STRUCTURE.md
+- evidence/POC-005/fixture-memory-8bf5d1f-ci823/.gitattributes
+- evidence/POC-005/fixture-memory-8bf5d1f-ci823/index.json
+- evidence/POC-005/fixture-memory-8bf5d1f-ci823/poc005-fixture-memory-8bf5d1f-ci823.raw.txt
+- evidence/POC-005/fixture-memory-8bf5d1f-ci823/poc005-fixture-memory-8bf5d1f-ci823.snapshot.json
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/code-66.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/independent-source-review.json
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/index.json
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/results.json
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-00.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-01.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-02.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-03.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-04.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-05.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-06.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-07.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-08.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-09.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-10.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-11.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-12.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-13.raw
+- evidence/POC-005/fixture-memory-8bf5d1f-source-validation/task-14.raw
 - evidence/POC-005/fixture-memory-independent-content-review.json
 - evidence/POC-005/follow-ups.md
 - evidence/POC-005/handoff.md
+- evidence/POC-005/listing-e4c2d48-ci822/.gitattributes
+- evidence/POC-005/listing-e4c2d48-ci822/index.json
+- evidence/POC-005/listing-e4c2d48-ci822/poc005-listing-e4c2d48-ci822.raw.txt
+- evidence/POC-005/listing-e4c2d48-ci822/poc005-listing-e4c2d48-ci822.snapshot.json
 - evidence/POC-005/listing-e4c2d48-source-validation/code-55.raw
 - evidence/POC-005/listing-e4c2d48-source-validation/independent-source-review.json
 - evidence/POC-005/listing-e4c2d48-source-validation/index.json
@@ -89,7 +116,10 @@ Exact current inventory against accepted base:
 - evidence/POC-005/listing-first-development-failure.json
 - evidence/POC-005/listing-independent-content-review.json
 - evidence/POC-005/listing-independent-first-rejection.json
+- evidence/POC-005/native-lifecycle-development-first-failure.json
+- evidence/POC-005/native-lifecycle-independent-content-review.json
 - evidence/POC-005/native-lifecycle-independent-design-review.json
+- evidence/POC-005/native-lifecycle-independent-first-rejection.json
 - evidence/POC-005/native-lifecycle-next-implementation.md
 - evidence/POC-005/reservation-main-f2e0150-accepted/.gitattributes
 - evidence/POC-005/reservation-main-f2e0150-accepted/index.json
@@ -166,21 +196,23 @@ Exact current inventory against accepted base:
 - evidence/POC-005/scanner-e778ab7-scope-failed/task-11.raw
 - evidence/POC-005/scope.md
 - evidence/POC-005/summary.md
+- poc/POC-05-metadata-scale/README.md
 - poc/POC-05-metadata-scale/canonical_metadata.py
 - poc/POC-05-metadata-scale/controlled_fixture_map.py
 - poc/POC-05-metadata-scale/metadata_scan.py
 - poc/POC-05-metadata-scale/native_memory.py
+- poc/POC-05-metadata-scale/native_scan_control.py
+- poc/POC-05-metadata-scale/native_scan_protocol.py
+- poc/POC-05-metadata-scale/native_scan_runtime.py
 - poc/POC-05-metadata-scale/openlist_listing.py
 - poc/POC-05-metadata-scale/openlist_source.py
-- poc/POC-05-metadata-scale/README.md
 - poc/POC-05-metadata-scale/test_canonical_metadata.py
 - poc/POC-05-metadata-scale/test_controlled_fixture_map.py
 - poc/POC-05-metadata-scale/test_metadata_scan.py
 - poc/POC-05-metadata-scale/test_native_memory.py
+- poc/POC-05-metadata-scale/test_native_scan.py
 - poc/POC-05-metadata-scale/test_openlist_listing.py
 - poc/POC-05-metadata-scale/test_openlist_source.py
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/POC-005.md
-
-Own controlled mapping/native counter code and source-specific Evidence only; no frozen schema/checker, sibling, shared results/ADR or lease changed.

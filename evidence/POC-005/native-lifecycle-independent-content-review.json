@@ -1,0 +1,39 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T20:02:26Z",
+  "decision": "accepted native lifecycle content and P2 fix only",
+  "sourceBase": "8bf5d1fff8a5a07057bec68de8a7e7bb505c646f",
+  "files": {
+    "poc/POC-05-metadata-scale/native_scan_protocol.py": "7cf45ab1b404d2b5434e2e23f32fe9e91d4c95d36e9edc4f8fe9239d6107157e",
+    "poc/POC-05-metadata-scale/native_scan_runtime.py": "fa13210d8488cbd8f40e9713e34fb74649354a17367b15b99c550014468808ad",
+    "poc/POC-05-metadata-scale/native_scan_control.py": "4283ebe142d7797d408a8a70f1ea336a4c4485173f66e880bcaf7c89eb8d10e4",
+    "poc/POC-05-metadata-scale/test_native_scan.py": "16d3e2b1fb6de573ed0674c3260144eadbff4bb40fc54b1c1c3419ddb40439dd",
+    "poc/POC-05-metadata-scale/README.md": "0790e54601b59a390d2fe916c82ac50e7ad7e8d0d0c7c8ba9d5c26604e4b850f",
+    "specs/tasks/POC-005.md": "5c8e13ae71b7ee93a1c1063f5b1d70f59e0eb13bbf4f2e86fe3a0dd04b6be03e"
+  },
+  "mustFix": [],
+  "initialReview": {
+    "reviewedAt": "2026-10-22T19:57:20Z",
+    "nativeUnitTests": 13,
+    "seconds": 18.2,
+    "exitCode": 0,
+    "noSkipped": true,
+    "decision": "rejected P2 missing real-exit window check",
+    "record": "native-lifecycle-independent-first-rejection.json"
+  },
+  "independentFixTest": {
+    "test": "test_native_scan.NativeLifecycleTests.test_real_exit_observation_after_window_preserves_failure_without_success_captures",
+    "environment": "Linux WSL governance Python -B - unittest",
+    "tests": 1,
+    "seconds": 8.579,
+    "exitCode": 0,
+    "noSkipped": true,
+    "actualProcesses": true,
+    "observerDelayOnly": true,
+    "timestampsOrWindowNotAdjusted": true
+  },
+  "allSixHashesSameBeforeAfterIndependentTest": true,
+  "experimentApproved": false,
+  "qualifiedAccepted": false,
+  "integrationAccepted": false
+}

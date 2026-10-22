@@ -1,4 +1,6 @@
-# Unimplemented native lifecycle next steps
+# Native lifecycle implementation and remaining source experiment
+
+The protocol/runtime/control implementation and disposable Linux unit fixtures are now present. Current exact source/code/experiment acceptance is recorded in summary.md; do not infer acceptance from this outline. Waiting PID/exec/entry, gated counters, actual phases/post-read and external wait are implemented; real OpenList mutation/observation/controller and original13 execution remain pending. The following design obligations remain mandatory:
 
 Source-specific content acceptance covers mapping and native_memory only, not this outline. Frozen interface remains unchanged. Independent design conditions in native-lifecycle-independent-design-review.json are mandatory.
 

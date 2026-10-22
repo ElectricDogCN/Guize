@@ -62,6 +62,14 @@ The resource/PID design uses a waiting preflight launcher followed by approved e
 
 Kernel counter semantics and their asynchronous RSS precision limits follow the [Linux proc documentation](https://docs.kernel.org/filesystems/proc.html). These are process counters, not a proof of physical storage capacity or provider production throughput.
 
+## Native scan lifecycle interface (version 1)
+
+The Linux runtime reserves a waiting launcher PID from an immutable manifest containing exact code hashes and final scanner argv. It retains raw OS birth/identity separately. An independently reviewed approval binds that reservation, manifest, configuration bytes and a future window. Release rechecks those bytes and actual time, then execs the scanner with the same PID. The exec handoff and scanner program-entry event are distinct; no preflight scan or source access is allowed.
+
+The controller invokes the independent memory CLI before releasing enumeration. The scanner then runs actual canonical enumeration, receives bounded references to independently observed controlled source changes, and replays them incrementally. It never creates observed events by copying the expected-change manifest. Source-observation records must bind source ID, actual observation time, event/profile and retained evidence hashes. A separate read-only process rereads the complete post-index catalogue after incremental phase exit. The scanner stays alive for final OS sampling and exits only afterward. The controller waits for actual exit status before generating any successful typed phase captures. It verifies the actual program-entry and externally observed exit are both inside the approved window; an exit observed after expiry retains rejected facts and produces no successful capture. Each phase collector independently rechecks this window.
+
+All phase markers retain raw monotonic ticks and direct wall observations with one measured clock calibration. Their declared UTC values derive from that single mapping; they are not separately fitted per phase. All three captures reuse one actual program-entry event and one externally observed real-exit event. Exact approved argv, real raw OS counters, physical output files, ordered observations and failures are retained. Unit IPC/file fixtures do not constitute real OpenList or approved scale execution. The source controller and original13 qualification still require their complete actual run and independent approval.
+
 ## Remaining work
 
 Real local OpenList HTTP/WebDAV adapter and actual identity/version/Range/ETag observations; bounded fault and rate-limit experiments; independently approved immutable 10k/100k/1m file populations and execution windows; original thirteen typed measurements and qualification. Missing stable provider IDs must be reported, not replaced with path-derived asset IDs. Production 700TB and Baidu remain untested.

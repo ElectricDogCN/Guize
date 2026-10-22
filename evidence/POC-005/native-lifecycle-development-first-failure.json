@@ -1,0 +1,28 @@
+{
+  "scope": "uncommitted lifecycle development unit fixture only",
+  "command": "/home/sur/.cache/guize-takeover/governance-venv/bin/python -B -m unittest discover -s /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc005-metadata-scale-reservation-worktree/poc/POC-05-metadata-scale -p test_native_scan.py -v",
+  "testsRun": 10,
+  "seconds": 22.288,
+  "exitCode": 1,
+  "errors": 1,
+  "failedTest": "test_tampered_approved_config_prevents_exec_workload",
+  "exception": "subprocess.TimeoutExpired: waiting reservation process timed out after 10 seconds",
+  "cause": "Controller verified the altered config and rejected before sending release; the test incorrectly expected the untouched waiting launcher to have received a release and exited.",
+  "repair": "Preserve controller rejection assertion; explicitly deliver the same fixed approval to launcher, require independent launcher rejection and actual nonzero exit. No deadline/approval assertions weakened.",
+  "fullRawRetained": false,
+  "actualSubsequentNewUnitTests": {
+    "tests": 13,
+    "seconds": 17.285,
+    "exitCode": 0,
+    "skipped": 0,
+    "environment": "actual Linux WSL subprocesses on disposable fixture"
+  },
+  "actualSubsequentWindowsSuite": {
+    "tests": 79,
+    "seconds": 24.225,
+    "exitCode": 0,
+    "skipped": 0,
+    "platformMeaning": "Linux lifecycle/native-counter cases assert explicit unsupported-platform rejection on Windows; no Linux execution claimed from Windows count"
+  },
+  "experimentExecuted": false
+}

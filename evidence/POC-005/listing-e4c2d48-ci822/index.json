@@ -1,0 +1,23 @@
+{
+  "source": "e4c2d4871964eb1c734c2e1daa7de95a9f349ff3",
+  "run": 39837095284,
+  "runNumber": 822,
+  "job": 120028147656,
+  "status": "success",
+  "tests": 713,
+  "seconds": 1466.2,
+  "noSkippedTests": true,
+  "experimentAccepted": false,
+  "files": [
+    {
+      "path": "poc005-listing-e4c2d48-ci822.raw.txt",
+      "bytes": 296412,
+      "sha256": "ef3a290cce3e51bad7ff873c19b8343665b7dc331212fa7ae70fafa9e1d0ede7"
+    },
+    {
+      "path": "poc005-listing-e4c2d48-ci822.snapshot.json",
+      "bytes": 19847,
+      "sha256": "6f13b568e37949ab00bf9507647bde7d1238345140e0fc54945bf9afc0ee5ac4"
+    }
+  ]
+}
