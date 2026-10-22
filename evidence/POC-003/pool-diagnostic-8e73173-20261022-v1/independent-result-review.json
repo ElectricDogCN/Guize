@@ -1,0 +1,41 @@
+{
+  "reviewerRole": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T16:03:12Z",
+  "testedSource": {
+    "commit": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+    "tree": "2c4d307dee07cb960500bd14121b703ccb67f742"
+  },
+  "finiteDiagnosticEvidenceAccepted": true,
+  "mustFix": [],
+  "indexedOriginalFilesVerified": 57,
+  "copiedMetadataBytes": 883044,
+  "actualNativeDumps": 3,
+  "actualResponses": 2,
+  "actualResponseBytesEach": 67108864,
+  "absoluteAllocatedPoolBytes": [
+    2115328,
+    6254336,
+    73363200
+  ],
+  "actualAtsPid": 688910,
+  "actualStartTicks": 11033647,
+  "experimentExitCode": 0,
+  "controllerExitCode": 0,
+  "elapsedSeconds": 8.04809667399968,
+  "allOwnedAtsGone": true,
+  "portsReleased": true,
+  "insideApprovalWindow": true,
+  "privateValuesAbsent": true,
+  "poolCapacityMethodCanProveBelow64MiBSourceBound": false,
+  "liveMediaPeakExceedingSourceProven": false,
+  "wholeObjectBufferingProven": false,
+  "executionSha256": "65f573822ceb2a829e6a081c4721a2c30c883de8c7c50121b04b4424070fd573",
+  "archiveIndexSha256": "aef5c79671fc17b0638d6383c8cc0b8ad0520f86c39499b6f653342ea8ea7d11",
+  "collectionSha256": "008f84e096a6131be442e48376468f3dbdfea85b67b8d9eb0dc2beaf6562e2f3",
+  "fullBufferDomainAccepted": false,
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "performanceAccepted": false,
+  "integrationAccepted": false
+}

@@ -1,0 +1,3 @@
+configure.ac:651: installing 'build/_aux/compile'
+configure.ac:46: installing 'build/_aux/missing'
+example/plugins/c-api/Makefile.am: installing 'build/_aux/depcomp'

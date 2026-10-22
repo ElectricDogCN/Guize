@@ -1,8 +1,16 @@
 Task: POC-003
 Issue: 131
 Branch: chore/POC-003-ats-range
-Base / actual reservation merge: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+Current synchronized base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Original reservation merge: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 State: in_progress / implementer
+
+Current forward candidate: optional instrumented ATS live-media observation. Exact synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 has passed five main checks plus existing POC protocol; CI816 is pending. Source8e Task15/code30/CI812713 no-skips and its actual finite pool diagnostic are retained without result transfer. Pool capacity73,363,200bytes included unused freelist slots and cannot prove a below64MiB live-media bound; this does not prove whole-object buffering.
+
+The exact Ubuntu source plus task-owned patch/header now built and installed as ordinary UID1000 after preserving three real failed attempts. Five runtime component hashes, resolved dependencies, three core diagnostic exports and version-only execution were checked. Six ledger scenarios passed, including sticky unknown-external risk across wrapper release/repeated reset; distinct intermediate content review accepted that repair only. The new observer built against the same actual SDK;27 parser tests passed. New controller wiring still needs current-source checks, independent content review, concrete experiment approval and real runtime results. No instrumentation ATS service/experiment, complete media-domain, prototype8MiB budget, original15, qualified result or integration acceptance is claimed. Generated416/502 text, kernel/socket/page cache, origin/gateway/client and stock performance remain distinct domains.
+
+Evidence: source-8e73173-validation/, pool-diagnostic-8e73173-20261022-v1/, instrumented-build-v4-preparation/; actual source/tree for this forward candidate is Git HEAD after commit. Preserve all older failures, source identities and review limitations.
+
 Current implementation source/tests: PENDING; no inherited experimental PASS.
 
 Reservation PR133 source 2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c / tree e4f9c0f4957778063cbf306a3f63f9ec6d9e05a0; original base 44e5200ed506d30c0abc83ca38f1d6912cbab1c1. Actual local15/CI807713/1463.80s, independent source content and all3 threads accepted; actual merge parents/tree and five main checks plus POC checker executed successfully. FullpushCI808 pending. Exact prior inventory/commands/logs and raw byte archive are retained in reservation-merge-11c3283/ and its source snapshot; current changed files must be regenerated from Git when implementation is committed.
@@ -31,7 +39,7 @@ The current forward diagnostic draft was accepted as intermediate content at2026
 
 Raw stderr and two original CRLF source-research receipts are retained byte-exact using scoped binary attributes; no raw bytes or assertions were altered to satisfy whitespace checks.
 
-Exact implementation draft inventory against actual reservation base (1235 files):
+Exact implementation candidate inventory against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 (1409 files):
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
@@ -146,6 +154,140 @@ Exact implementation draft inventory against actual reservation base (1235 files
 - `evidence/POC-003/handoff.md`
 - `evidence/POC-003/http-fixes-independent-review.json`
 - `evidence/POC-003/implementation-input-provenance.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/.gitattributes`
+- `evidence/POC-003/instrumented-build-v4-preparation/README.md`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/autoreconf.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/autoreconf.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/configure.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/configure.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/autoreconf.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/autoreconf.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/configure.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/configure.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/autoreconf.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/autoreconf.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/configure.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/configure.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/make.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/make.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/autoreconf.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/autoreconf.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/configure.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/configure.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/install.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/install.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/make.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/make.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/index.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/instrumentation-preparation.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/live-observer-build-v1/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/live-observer-build-v1/stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/live-observer-build-v1/stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-accounting-sticky-external-independent-content-review.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-accounting-v3-independent-rejection.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-buffer-probe-v1-test-transcript.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/build.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/build.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/results.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/tests.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/tests.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/build.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/build.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/results.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/tests.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/tests.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v1/installed-packages.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v1/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v1/stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v1/stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v2/installed-packages.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v2/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v2/stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v2/stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/rejected-draft-v3/ats-live-buffer-accounting.patch`
+- `evidence/POC-003/instrumented-build-v4-preparation/rejected-draft-v3/live_buffer_accounting.h`
+- `evidence/POC-003/instrumented-build-v4-preparation/rejected-draft-v3/patch-manifest.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/rejected-draft-v3/test_live_buffer_accounting.cc`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/core-symbols.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-0.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-0.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-1.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-1.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-2.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-2.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-3.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-3.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-4.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-4.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/source-preparation.json`
+- `evidence/POC-003/live-observer-wiring-independent-content-review.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/.gitattributes`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/README.md`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/archive-index.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/collect_poc003_native_pool_diagnostic.py`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/controller.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/controller.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/execution.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/experiment.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/experiment.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/prepare.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/prepare.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/independent-result-review.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-config-v1.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-independent-approval-v2.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-proposal-v1.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-proposal-v2.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-v1-independent-rejection.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/collection.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0001-snapshot.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0002-allocator-dump.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0003-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0004-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0005-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0006-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0007-allocator-dump.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0008-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0009-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0010-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0011-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0012-allocator-dump.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/request-407158d7fdf4403498ec232669fd0ad9.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/request-d4a0e6a613e44463b1dd302dc34783ff.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-0/diagnostic.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-0/stderr-interval.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-1/diagnostic.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-1/stderr-interval.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-2/diagnostic.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-2/stderr-interval.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/ats-process-memory.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688889/events.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688889/lookup-events.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688889/lookups.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688910/cache-ready.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688910/events.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688910/lookup-events.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688910/lookups.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/commands/verify-config.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/commands/verify-config.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/controller.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/gateway-access.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/listeners-started.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/.diags.log.meta`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/.squid.blog.meta`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/ats-0.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/ats-0.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/diags.log`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/squid.blog_RuifengSu.20261022.23h59m55s-20261023.00h00m00s.old`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/origin-access.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/owner.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/run_poc003_approved_pool_diagnostic_once.py`
 - `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/archive-index.json`
 - `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/execution.json`
 - `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/matrix-controller.stderr.raw`
@@ -1193,6 +1335,36 @@ Exact implementation draft inventory against actual reservation base (1235 files
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__13.txt.base64.json`
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__14.txt.base64.json`
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__results.json`
+- `evidence/POC-003/source-8e73173-validation/.gitattributes`
+- `evidence/POC-003/source-8e73173-validation/code30/results.json`
+- `evidence/POC-003/source-8e73173-validation/code30/test_buffer_probe.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_cache_probe.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_gateway_native.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_http_timing_native.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_lab.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_revocation_binding.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_warm_cache_revocation.py.raw`
+- `evidence/POC-003/source-8e73173-validation/index.json`
+- `evidence/POC-003/source-8e73173-validation/poc003-implementation-8e73173-ci812.raw.txt`
+- `evidence/POC-003/source-8e73173-validation/poc003-implementation-8e73173-ci812.snapshot.json`
+- `evidence/POC-003/source-8e73173-validation/task15/00.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/01.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/02.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/03.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/04.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/05.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/06.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/07.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/08.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/09.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/10.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/11.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/12.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/13.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/14.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/results.json`
 - `evidence/POC-003/source-9c012b4-validation/ci810.raw.txt.base64.json`
 - `evidence/POC-003/source-9c012b4-validation/ci810.snapshot.json`
 - `evidence/POC-003/source-9c012b4-validation/index.json`
@@ -1255,7 +1427,16 @@ Exact implementation draft inventory against actual reservation base (1235 files
 - `poc/POC-03-ats-range/config.example.json`
 - `poc/POC-03-ats-range/grants.py`
 - `poc/POC-03-ats-range/http_timing.py`
+- `poc/POC-03-ats-range/instrumentation/.gitattributes`
+- `poc/POC-03-ats-range/instrumentation/README.md`
+- `poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch`
+- `poc/POC-03-ats-range/instrumentation/build_live_observer.py`
+- `poc/POC-03-ats-range/instrumentation/live_buffer_accounting.h`
+- `poc/POC-03-ats-range/instrumentation/live_buffer_observer.cc`
+- `poc/POC-03-ats-range/instrumentation/patch-manifest.json`
+- `poc/POC-03-ats-range/instrumentation/test_live_buffer_accounting.cc`
 - `poc/POC-03-ats-range/lab.py`
+- `poc/POC-03-ats-range/live_buffer_probe.py`
 - `poc/POC-03-ats-range/test_buffer_probe.py`
 - `poc/POC-03-ats-range/test_buffer_probe_native.py`
 - `poc/POC-03-ats-range/test_cache_probe.py`
@@ -1263,6 +1444,7 @@ Exact implementation draft inventory against actual reservation base (1235 files
 - `poc/POC-03-ats-range/test_gateway_native.py`
 - `poc/POC-03-ats-range/test_http_timing_native.py`
 - `poc/POC-03-ats-range/test_lab.py`
+- `poc/POC-03-ats-range/test_live_buffer_probe.py`
 - `poc/POC-03-ats-range/test_revocation_binding.py`
 - `poc/POC-03-ats-range/test_warm_cache_revocation.py`
 - `specs/coordination/active-work.yaml`

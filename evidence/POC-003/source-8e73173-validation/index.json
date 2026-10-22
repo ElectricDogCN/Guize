@@ -1,0 +1,154 @@
+{
+  "source": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+  "tree": "2c4d307dee07cb960500bd14121b703ccb67f742",
+  "task15Passed": true,
+  "code30Passed": true,
+  "ciRun": 39809437905,
+  "ciNumber": 812,
+  "governanceTests": 713,
+  "noSkippedTests": true,
+  "files": [
+    {
+      "file": "task15/00.txt",
+      "bytes": 137,
+      "sha256": "eb28670eba738d6847678addf687acc339eb2f97c95dff4f008f2f413afa9b4d"
+    },
+    {
+      "file": "task15/01.txt",
+      "bytes": 248,
+      "sha256": "2b7b82b50994538ffe4cd03f9735196faaddb9e987b88dc930404c26423dba06"
+    },
+    {
+      "file": "task15/02.txt",
+      "bytes": 653,
+      "sha256": "5c2638e562e1a5ea07f4794846062191785ba858f1e534bd6adc844acf8f0790"
+    },
+    {
+      "file": "task15/03.txt",
+      "bytes": 1807,
+      "sha256": "d85abc5b7e3ccc3450c68f23c33acb3ea09b05986c8d781435e73afa36e7e39c"
+    },
+    {
+      "file": "task15/04.txt",
+      "bytes": 412,
+      "sha256": "d6defc84076546ea61062622bf64cdade450f48e5bde4bed4f5129b64b2702c5"
+    },
+    {
+      "file": "task15/05.txt",
+      "bytes": 461,
+      "sha256": "808aab3e43aea042dd4ec9c4a33cb6934165124efad770de6280247534c29eda"
+    },
+    {
+      "file": "task15/06.txt",
+      "bytes": 414,
+      "sha256": "627bb579effa3f85e01bda2bd8c08721a9b0cd006a1e7be7dbfa8d4d8ddd7bca"
+    },
+    {
+      "file": "task15/07.txt",
+      "bytes": 355,
+      "sha256": "8800992a1624b359b559b941a13bb4e65c9e03806f2809b8db5939286a61419e"
+    },
+    {
+      "file": "task15/08.txt",
+      "bytes": 482,
+      "sha256": "c6592407b14bb77541c28a0660ed6d9046f4689b23bcb4b726a38f8e105a54ec"
+    },
+    {
+      "file": "task15/09.txt",
+      "bytes": 573,
+      "sha256": "4ba73cfb4a69859cec671af277beb87c40da31d63df28b9dfe400238b33e7872"
+    },
+    {
+      "file": "task15/10.txt",
+      "bytes": 373,
+      "sha256": "4b8893c16f8c2a6e49fed48fdc941e091269f3e03f641645951138ffe1cd2cb4"
+    },
+    {
+      "file": "task15/11.txt",
+      "bytes": 128318,
+      "sha256": "7583b8f37a7bab3363ba8add4da82c56baedf9183be4802a52ad16f432621ef9"
+    },
+    {
+      "file": "task15/12.txt",
+      "bytes": 300,
+      "sha256": "455a9a5a9351f93379b6f35660767519855765309aa7cf07da936ae2643822a8"
+    },
+    {
+      "file": "task15/13.txt",
+      "bytes": 394,
+      "sha256": "ba631396bf0130aa436025d6d743c0dc9dd55de7ffd0e21ee9526a1eb5473490"
+    },
+    {
+      "file": "task15/14.txt",
+      "bytes": 157,
+      "sha256": "1f74e1745b0e798075758f4f33450b145794ca14c36c93b8fbeeb6e51fe1378a"
+    },
+    {
+      "file": "task15/results.json",
+      "bytes": 3989,
+      "sha256": "1832c85783a7828d5e7b9f4509792969a165261b2196cfb83b680a0a8cbd7dff"
+    },
+    {
+      "file": "code30/results.json",
+      "bytes": 4675,
+      "sha256": "5b704108367d76b0f623a6519fcecc7e4d9362cfb956a6a1b0d71e03a6011245"
+    },
+    {
+      "file": "code30/test_buffer_probe.py.raw",
+      "bytes": 105,
+      "sha256": "fe836cbecd3b6b4f70bec51b58d30c3e45ad72ae7fb3cb63421a0f7337e651ae"
+    },
+    {
+      "file": "code30/test_buffer_probe_native.py.raw",
+      "bytes": 100,
+      "sha256": "dbbfea435f8b108557f45564ca488fa0c2bd80917179bc19e9c6bfa313f67582"
+    },
+    {
+      "file": "code30/test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8"
+    },
+    {
+      "file": "code30/test_cache_probe_native.py.raw",
+      "bytes": 458,
+      "sha256": "98b6c8e9cdfad8c7274de0e1b9ff7c2f09ca254249f6a8ea9fa9e4115f394e7f"
+    },
+    {
+      "file": "code30/test_gateway_native.py.raw",
+      "bytes": 633,
+      "sha256": "7599cff87515b059119b21de7a0d729ec3a32275de401c046c7cfeb4bcbda99a"
+    },
+    {
+      "file": "code30/test_http_timing_native.py.raw",
+      "bytes": 408,
+      "sha256": "8490f6f8bff25fa38a4a571f2c76b1c54c84ba3d6e7ef11ad9d4cc50650ca407"
+    },
+    {
+      "file": "code30/test_lab.py.raw",
+      "bytes": 1168,
+      "sha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41"
+    },
+    {
+      "file": "code30/test_revocation_binding.py.raw",
+      "bytes": 424,
+      "sha256": "6d35ea8bd4eb191ddc0904304bfbe06a5b621cf570ee4e078a3b47526a8d8dd2"
+    },
+    {
+      "file": "code30/test_warm_cache_revocation.py.raw",
+      "bytes": 556,
+      "sha256": "c584396df9d93df4de086287e327c3c1e4d414db1c793adf78c3b343005c97fa"
+    },
+    {
+      "file": "poc003-implementation-8e73173-ci812.raw.txt",
+      "bytes": 414100,
+      "sha256": "09fc503c82bc3e9e2aee74ed359ef9e1cb608c629f7fde871d5843182b1df8cf"
+    },
+    {
+      "file": "poc003-implementation-8e73173-ci812.snapshot.json",
+      "bytes": 20303,
+      "sha256": "8eefcebdc26b37af1bd095efce1b7f52a3496e1249965a06cb899c35e41d011c"
+    }
+  ],
+  "original15Accepted": false,
+  "integrationApproved": false
+}

@@ -1,0 +1,7 @@
+baseline retained; released payload excluded from current, retained in peak
+16 concurrent allocations: exact simultaneous peak, balanced releases
+unknown external owner remains uncovered after wrapper release and repeated resets
+underflow invalidates observations and cannot be cleared by reset
+overflow invalidates observations without wrapping accounting
+released recovery excluded after ready reset; aggregation baseline retained
+6 ledger scenarios passed; no ATS experiment executed

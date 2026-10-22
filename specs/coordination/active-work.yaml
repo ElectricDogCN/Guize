@@ -19,7 +19,7 @@ tasks:
   agentRole: implementer
   branch: chore/POC-003-ats-range
   baseBranch: main
-  baseSha: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+  baseSha: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
   workPackage: WP-M0-POC-03
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: POC-003

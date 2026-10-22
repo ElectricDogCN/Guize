@@ -1,0 +1,56 @@
+// Task-owned diagnostic accounting. No storage allocation or ATS behavior policy.
+#pragma once
+#include <array>
+#include <cstdint>
+#include <limits>
+#include <mutex>
+
+namespace guize_live_buffer {
+enum Kind : unsigned { IO_BUFFER=0, AGGREGATION=1, EXTERNAL=2, RECOVERY=3, KINDS=4 };
+struct Snapshot {
+  uint64_t abiVersion=1, generation=0, currentBytes=0, peakBytes=0;
+  uint64_t violations=0, uncoveredExternalEvents=0;
+  std::array<uint64_t,KINDS> currentByKind{}, liveByKind{}, acquisitions{}, releases{};
+};
+
+class Ledger {
+  std::mutex mutex_;
+  Snapshot state_;
+public:
+  // Call before the actual allocation. A failure makes all later snapshots unhealthy.
+  bool acquire(unsigned kind,uint64_t bytes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if(kind>=KINDS||bytes==0||bytes>std::numeric_limits<uint64_t>::max()-state_.currentBytes) {
+      ++state_.violations;return false;
+    }
+    state_.currentBytes+=bytes;state_.currentByKind[kind]+=bytes;
+    ++state_.liveByKind[kind];++state_.acquisitions[kind];
+    if(kind==EXTERNAL)++state_.uncoveredExternalEvents;
+    if(state_.currentBytes>state_.peakBytes)state_.peakBytes=state_.currentBytes;
+    return true;
+  }
+  // Call after release is complete. Interleaving can conservatively overcount.
+  bool release(unsigned kind,uint64_t bytes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if(kind>=KINDS||bytes==0||bytes>state_.currentByKind[kind]||state_.liveByKind[kind]==0) {
+      ++state_.violations;return false;
+    }
+    state_.currentBytes-=bytes;state_.currentByKind[kind]-=bytes;
+    --state_.liveByKind[kind];++state_.releases[kind];return true;
+  }
+  Snapshot snapshot(bool resetWindow=false) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if(resetWindow) {
+      ++state_.generation;state_.peakBytes=state_.currentBytes;
+      // Existing unknown external payload remains an uncovered baseline.
+      state_.uncoveredExternalEvents=state_.liveByKind[EXTERNAL];
+    }
+    return state_;
+  }
+};
+} // namespace guize_live_buffer
+
+// Defined once in the patched core library, not separately per translation unit.
+extern "C" void GuizeAtsLiveBufferAcquire(unsigned kind,uint64_t bytes);
+extern "C" void GuizeAtsLiveBufferRelease(unsigned kind,uint64_t bytes);
+extern "C" guize_live_buffer::Snapshot GuizeAtsLiveBufferSnapshot(unsigned resetWindow);

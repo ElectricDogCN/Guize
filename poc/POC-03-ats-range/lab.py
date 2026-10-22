@@ -99,6 +99,29 @@ def prepare(config_path,run):
     if build['exitCode']!=0 or build['sourceSha256']!=digest(HERE/'cache_export.cc') or build['pluginSha256']!=cfg['exportPluginSha256']:
         raise ValueError('observer build receipt must bind actual source and binary')
     plugins['cache_export.so']=dict(path=str(exporter),sha256=cfg['exportPluginSha256'])
+    live=cfg.get('liveBufferObserver')
+    if live is not None:
+        runtime=receipt.get('instrumentedLiveBuffer')
+        if not isinstance(live,dict) or not isinstance(runtime,dict):raise ValueError('instrumented runtime and observer required together')
+        live_plugin=Path(live['path']).resolve();live_receipt_path=Path(live['buildReceipt']).resolve()
+        live_build=unique_json(live_receipt_path.read_text());core_build_path=Path(runtime['buildReceiptPath'])
+        core_build=unique_json(core_build_path.read_text())
+        if (digest(live_plugin)!=live['sha256'] or live_build['pluginSha256']!=live['sha256'] or live_build['exitCode']!=0
+                or live_build['sourceSha256']!=digest(HERE/'instrumentation/live_buffer_observer.cc')
+                or live_build['ledgerHeaderSha256']!=digest(HERE/'instrumentation/live_buffer_accounting.h')
+                or live_build['ledgerHeaderSha256']!=runtime['ledgerHeaderSha256']
+                or digest(core_build_path)!=runtime['buildReceiptSha256'] or not core_build['buildCompleted']
+                or core_build['instrumentation']['additionalHeaderSha256']!=runtime['ledgerHeaderSha256']):
+            raise ValueError('exact instrumented core/observer build mismatch')
+        required={'usr/bin/traffic_server','usr/lib/trafficserver/libtscore.so.9.2.3',
+                  'usr/lib/trafficserver/modules/slice.so','usr/lib/trafficserver/modules/cache_range_requests.so',
+                  'usr/lib/trafficserver/modules/header_rewrite.so'}
+        if set(runtime['components'])!=required:raise ValueError('complete controlled runtime component identities required')
+        for name,sha in runtime['components'].items():
+            if digest(pkg/name)!=sha:raise ValueError('instrumented runtime component changed')
+        live.update(ledgerHeaderSha256=live_build['ledgerHeaderSha256'],observerSourceSha256=live_build['sourceSha256'],
+                    buildReceiptSha256=digest(live_receipt_path))
+        plugins['live_buffer_observer.so']=dict(path=str(live_plugin),sha256=live['sha256'])
     run=Path(run).absolute()
     if run.exists() or run.is_symlink() or run.parent.resolve()!=run.parent:raise ValueError('new explicit nonsymlink run directory required')
     run.mkdir(mode=0o700)
@@ -114,6 +137,10 @@ def prepare(config_path,run):
     cfg['implementationSources']={name:digest(HERE/name) for name in
         ('lab.py','grants.py','collect.py','cache_probe.py','http_timing.py','buffer_probe.py','cache_export.cc','test_warm_cache_revocation.py')}
     cfg['exportBuildReceiptSha256']=digest(build_path)
+    if live is not None:
+        cfg['instrumentedRuntime']=receipt['instrumentedLiveBuffer']
+        for name in ('live_buffer_probe.py','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
+            cfg['implementationSources'][name]=digest(HERE/name)
     now=datetime.now(timezone.utc)
     cfg['grants']={user:dict(grantId='poc003-grant-'+user,principalId=user,
         validFrom=(now-timedelta(seconds=5)).isoformat().replace('+00:00','Z'),
@@ -137,7 +164,8 @@ def prepare(config_path,run):
     # ATS9.2.3 implementation supports set-status at READ_REQUEST_HDR_HOOK,
     # before cache lookup; prevent direct ATS access even after cache warming.
     (envdir/'plugin.config').write_text('header_rewrite.so '+str(envdir/'lab-guard.conf')+'\n'+
-        str(exporter)+' '+str(run/'cache-observer')+'\n')
+        str(exporter)+' '+str(run/'cache-observer')+'\n'+
+        (str(live_plugin)+' '+str(run/'cache-observer')+'\n' if live is not None else ''))
     (envdir/'lab-guard.conf').write_text(
       'cond %{READ_REQUEST_HDR_HOOK}\ncond %{CLIENT-HEADER:X-Lab-ATS-Key} ='+cfg['secret']+' [NOT]\nset-status 403 [L]\n'
       'cond %{SEND_RESPONSE_HDR_HOOK}\nset-header X-Lab-ATS-Cache %{CACHE}\n')
@@ -171,6 +199,8 @@ class State:
             if Path(row['path']).stat().st_size!=row['sizeBytes'] or digest(row['path'])!=row['sha256']:raise ValueError('input changed after preparation')
         for row in self.cfg['plugins'].values():
             if digest(row['path'])!=row['sha256']:raise ValueError('plugin changed after preparation')
+        for name,sha in self.cfg.get('instrumentedRuntime',{}).get('components',{}).items():
+            if digest(Path(self.cfg['pkgroot'])/name)!=sha:raise ValueError('instrumented core changed after preparation')
     def log(self,name,row):
         with self.loglock:
             with (self.run/(name+'.jsonl')).open('a',encoding='utf8') as out:out.write(json.dumps(row,ensure_ascii=False)+'\n');out.flush()
@@ -205,10 +235,31 @@ class State:
                         raise ValueError('wrong native cache readiness')
                     with socket.create_connection(('127.0.0.1',self.cfg['atsPort']),timeout=.2):
                         self.cache_ready=observation
-                        self.log('controller',dict(action='native-http-cache-ready',**observation));return
+                        self.log('controller',dict(action='native-http-cache-ready',**observation))
+                    if self.cfg.get('liveBufferObserver') is not None:self.live_buffer_snapshot('live-window-ready-'+str(number))
+                    return
             except OSError:time.sleep(.1)
             time.sleep(.05)
         raise TimeoutError('ATS native HTTP cache and TCP readiness deadline')
+    def live_buffer_snapshot(self,label,after_ns=0):
+        from live_buffer_probe import capture_live
+        from buffer_probe import process_identity
+        live=self.cfg.get('liveBufferObserver')
+        if (live is None or self.ats is None or self.cache_ready is None or self.cache_ready['atsPid']!=self.ats.pid
+                or not re.fullmatch('[A-Za-z0-9_-]{1,80}',label)):
+            raise ValueError('owned ready instrumented ATS and explicit output label required')
+        identity=process_identity(self.ats);proc=Path('/proc')/str(self.ats.pid)
+        mapped={line.split(maxsplit=5)[5].strip() for line in (proc/'maps').read_text().splitlines() if len(line.split(maxsplit=5))==6}
+        required={str(Path(self.cfg['pkgroot'])/name):sha for name,sha in self.cfg['instrumentedRuntime']['components'].items()}
+        required.update({row['path']:row['sha256'] for row in self.cfg['plugins'].values()})
+        for path,sha in required.items():
+            if path not in mapped or digest(path)!=sha:raise ValueError('actual process component mapping mismatch')
+        expected={key:live[key] for key in ('ledgerHeaderSha256','observerSourceSha256')}
+        output=self.run/label
+        row=capture_live(self.ats,self.run/'cache-observer',output,expected,after_ns)
+        if process_identity(self.ats)!=identity:raise ValueError('ATS identity changed during observation')
+        row.update(actualMappedComponents=required,nativeCacheReady=self.cache_ready,observedAt=utc())
+        write_json(output/'observation.json',row);return row
     def allocator_dump(self):
         with self.lock:
             if (self.ats is None or self.cache_ready is None or self.cache_ready['atsPid']!=self.ats.pid

@@ -1,0 +1,17 @@
+{
+  "decision": "rejected",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "proposalSha256": "e0b013e813e91b161689fb1bd939d4e2ca398496143f6a067489d7dc78214eaf",
+  "mustFix": [
+    "Overall240s only asserted after phases whose combined ceilings could exceed it",
+    "Expected128MiB body differs from existing collector conservative hard upper bound; proposal must distinguish actual bounds"
+  ],
+  "experimentExecuted": false,
+  "reviewedAt": "2026-10-22T15:57:17Z",
+  "testedSource": {
+    "commit": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+    "tree": "2c4d307dee07cb960500bd14121b703ccb67f742"
+  },
+  "runnerSha256": "5f82b9e596efc1e1224c037acc5c56fcdf835987e6f146df3d457f941e0f3af3",
+  "collectorSha256": "689c4351d9113dbfd16a4802edda06c180a1d6fe2c8cb6bfc5bd2cc74580908c"
+}

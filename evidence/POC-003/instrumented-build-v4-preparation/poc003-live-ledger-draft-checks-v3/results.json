@@ -1,0 +1,24 @@
+{
+  "buildArgv": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pthread",
+    "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/instrumentation/test_live_buffer_accounting.cc",
+    "-o",
+    "/home/sur/.cache/guize-takeover/poc003-live-ledger-draft-v3"
+  ],
+  "buildExit": 0,
+  "testArgv": [
+    "/home/sur/.cache/guize-takeover/poc003-live-ledger-draft-v3"
+  ],
+  "testExit": 0,
+  "scenariosActuallyPassed": 6,
+  "atsStarted": false,
+  "headerSha256": "e17adfb92fc4093e3a0e4f46d538f37809dfb433c1fa054729d1dec819c3d615",
+  "testSourceSha256": "dd6456d2c86256fa6d218a9cc5065a8761312ad803cebb1aaf3c909a64ad7950",
+  "binarySha256": "f49b3cbf820928fbd83a5f6d6a98f1320af92c0704ccdd394f2c33dc589db592"
+}

@@ -1,0 +1,12 @@
+{
+  "startedAt": "2026-10-22T15:59:56.317521Z",
+  "controllerPid": 688888,
+  "atsPid": 688910,
+  "bind": "127.0.0.1",
+  "ports": [
+    18231,
+    18232,
+    18233
+  ],
+  "formalPocAccepted": false
+}
