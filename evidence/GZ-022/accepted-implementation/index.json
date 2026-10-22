@@ -1,0 +1,176 @@
+{
+  "taskId": "GZ-022",
+  "acceptedPhase": "implementation",
+  "source": "4e1f6189bef8517400e24274a867fe4e63ba9e34",
+  "actualMain": "b0d533a8d03842cb60730c4512b3c02d90494157",
+  "files": [
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-ci798.raw.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-ci798.raw.base64.json",
+      "decodedBytes": 289744,
+      "decodedSha256": "c539958aa24d0472edf0b3818c796abdce99a3e40143c213365d374c349c4e17"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-ci798.snapshot.json",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-ci798.snapshot.json",
+      "decodedBytes": 4758,
+      "decodedSha256": "2fe282b311ecaf2fa7dfbc3bd05fcda054f66c192a777af2328571c21046dfb6"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-independent-review.json",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-independent-review.json",
+      "decodedBytes": 5719,
+      "decodedSha256": "ea3ff8e59c865674362d2cef489b32bb11bdf9c431310f21dfca07f5161950d7"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\00.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/00.base64.json",
+      "decodedBytes": 137,
+      "decodedSha256": "9507a21855e97b80618c79896a06c744486536e248c5982a1ae67601cee88a26"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\01.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/01.base64.json",
+      "decodedBytes": 246,
+      "decodedSha256": "02a5c1f6f9126c7b1dfd82681c72f17bf37e879da72cc37824aa1f634b533ef0"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\02.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/02.base64.json",
+      "decodedBytes": 1805,
+      "decodedSha256": "bf374d9ebf1ce78e7d921e58974377fa4712225226f476f251781878af6a41a4"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\03.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/03.base64.json",
+      "decodedBytes": 412,
+      "decodedSha256": "4aa90c45f768901ea6e115b04eb253f14ed3e21a45db3f59202b8ee8408b5ba3"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\04.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/04.base64.json",
+      "decodedBytes": 475,
+      "decodedSha256": "9a90448194c525c2e5d685f063ec0110399d12712d6a1c9527e6a150151ad962"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\05.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/05.base64.json",
+      "decodedBytes": 427,
+      "decodedSha256": "f3bd906a879749461eefee3922b5faddd0c931d298a2e002268858e7b422264f"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\06.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/06.base64.json",
+      "decodedBytes": 493,
+      "decodedSha256": "5e94baa16229c6fb3b10a4da5318ff908126bd951fb44bc161c3b05ae8687d75"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\07.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/07.base64.json",
+      "decodedBytes": 584,
+      "decodedSha256": "df3b952dbcdbbca00ec74b738dca3fd1d0e7bcc40af25d98e690a813881ee7fd"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\08.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/08.base64.json",
+      "decodedBytes": 386,
+      "decodedSha256": "61414109592dc0d62047c04a14cc23075605ed9436a6a1b7effd6569b9625d35"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\09.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/09.base64.json",
+      "decodedBytes": 353,
+      "decodedSha256": "5b2cc2c1cd438e6341d1891543b6aeb481904615d1000f812b1240c87f075f91"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\10.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/10.base64.json",
+      "decodedBytes": 3798,
+      "decodedSha256": "ad588b7b063438555c57a7514bdf73cb56f1ba7550cc58992ec1c41c6ec327b4"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\11.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/11.base64.json",
+      "decodedBytes": 298,
+      "decodedSha256": "d175f47097406d9cc7dcac1c4a301219d536a61c333ec9b36051cd1072458c19"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\12.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/12.base64.json",
+      "decodedBytes": 653,
+      "decodedSha256": "58c4a81d19ae56e310d6ee76928eefbdb66f88825716c4af687d520f059d8268"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\13.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/13.base64.json",
+      "decodedBytes": 157,
+      "decodedSha256": "3860a3761579a6a7510c98ade69a17baaa8c219743b67e59c064d351cb06a076"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-results\\results.json",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-results/results.json",
+      "decodedBytes": 3798,
+      "decodedSha256": "92c3aa3f97aa1600cd11fc5d8c1654cdc7ec5fe3647f8e9a1d34c49d81a6ccf1"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-4e1f618-source-admission.json",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-4e1f618-source-admission.json",
+      "decodedBytes": 1146,
+      "decodedSha256": "da750b3ec2c9d034da2b68d18da7c90543bf5f1c1907b04690b790c110b44844"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-ci799.raw.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-ci799.raw.base64.json",
+      "decodedBytes": 278268,
+      "decodedSha256": "631aeafe8e88c9dc349055daa4cd763af1298d82394230dd7799e20cad58ec54"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-ci799.snapshot.json",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-ci799.snapshot.json",
+      "decodedBytes": 4750,
+      "decodedSha256": "4f7cec4d010bb946f13119cfb844ac66f8cce11ab97d818f2861d03c1590eb90"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-main-acceptance.json",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-main-acceptance.json",
+      "decodedBytes": 1484,
+      "decodedSha256": "f569b3d8f1c35a7ed2e8e748a814317f1a7f297db04fc86454d965f15f270918"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-main-checks\\00.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-main-checks/00.base64.json",
+      "decodedBytes": 425,
+      "decodedSha256": "b012689282b6c8b68e23843494b10e0ed588960bab4ce99346e64cc6f9e1d6c2"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-main-checks\\01.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-main-checks/01.base64.json",
+      "decodedBytes": 578,
+      "decodedSha256": "4f5785b7be57f38e5f4dfec41e107ac6258445aad1029ad9bf367bc6f7e36500"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-main-checks\\02.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-main-checks/02.base64.json",
+      "decodedBytes": 494,
+      "decodedSha256": "8e39bded6aaad8d2b429b88c6e027efa8b4c5aa1e94575a1fdfae20488e2bd93"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-main-checks\\03.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-main-checks/03.base64.json",
+      "decodedBytes": 560,
+      "decodedSha256": "579a0622c118c32bcb70ccccbf7d3926a0e32462c154c974bf465ef1d9d79356"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-main-checks\\04.txt",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-main-checks/04.base64.json",
+      "decodedBytes": 453,
+      "decodedSha256": "4aaf6a7c209522c1ac834c048a3a8ec6f285594025a3a371f435b61f4ad598b2"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-definition-b0d533a-main-checks\\results.json",
+      "archivePath": "evidence/GZ-022/accepted-implementation/gz022-definition-b0d533a-main-checks/results.json",
+      "decodedBytes": 2134,
+      "decodedSha256": "1fcec56a3ad99fc6b54505075e8efe1929602a166002350dfb7d283280c9c34f"
+    }
+  ]
+}
