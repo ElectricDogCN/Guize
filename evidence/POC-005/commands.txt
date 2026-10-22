@@ -1,3 +1,5 @@
+Current forward fixture-test repair: summary.md, timestamp-38f2a7b-failed-validation/, timestamp-mapping-test-independent-content-review.json and source-observer-4b12002-ci825/. Native15/code92/current source review pending; no new experiment approval.
+
 Current timestamp repair and actual failed attempts are documented in summary.md and profiles/local-v1/v1/attempt-001/ and attempt-002/. Windows13/7.762s passed; exact-source Task15/code91/source review/fullCI pending. No mutation or qualification completed. Preserve historical records below.
 
 Task: POC-005

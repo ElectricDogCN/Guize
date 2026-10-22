@@ -105,7 +105,7 @@ class FixtureMapTests(unittest.TestCase):
             self.assertEqual(db.execute("SELECT fileSizeBytes,sourceSizeBytes FROM observed WHERE runId='run-one' AND objectId='z-parent'").fetchone(), (0, 4096))
 
     def test_observed_metadata_mismatch_is_rejected_rather_than_filled_from_approved(self):
-        for number, changed in enumerate((dict(size=15), dict(is_dir=True), dict(modified="2026-01-01T00:00:00+00:00"))):
+        for number, changed in enumerate((dict(size=15), dict(is_dir=True), dict(modified="2026-01-01T00:00:00.000000001Z"))):
             self.tree["/fixtures/dir"] = [{**item("f.mp4"), **changed}]
             run_id = "mismatch-" + str(number)
             with self.assertRaisesRegex(ScanError, "CONTROLLED_OBSERVED_METADATA_MISMATCH"):
@@ -113,6 +113,30 @@ class FixtureMapTests(unittest.TestCase):
             self.assertEqual(self.mapping.state(run_id)["completed"], 0)
             with self.assertRaisesRegex(ScanError, "INCOMPLETE_CONTROLLED_RUN"):
                 self.mapping.export_observed(run_id, self.root / (run_id + ".jsonl"))
+
+    def test_equivalent_offset_complete_population_keeps_raw_and_exports_canonical_time(self):
+        original = "2026-01-01T08:00:00+08:00"
+        for entries in self.tree.values():
+            for entry in entries:
+                entry["modified"] = original
+        run_id, observations = "equivalent-offset", []
+        self.mapping.begin_run(run_id)
+        result = self.source.walk(self.root / "equivalent-listing.sqlite", on_observation=observations.append,
+                                  on_page=lambda page: self.mapping.bind_page(run_id, page), per_page=1)
+        self.assertEqual(result["objectCount"], 3)
+        self.assertTrue(self.mapping.state(run_id)["completed"])
+        output = self.root / "equivalent-profiled.jsonl"
+        self.assertEqual(self.mapping.export_observed(run_id, output)["count"], 3)
+        observed = [json.loads(raw) for raw in output.read_bytes().splitlines()]
+        self.assertEqual(sorted(map(canonical, observed)), sorted(map(canonical, self.rows)))
+        self.assertEqual(len(observations), 3)
+        for observation in observations:
+            raw = observation["body"]
+            self.assertEqual(observation["status"], 200)
+            self.assertEqual(observation["bodySha256"], hashlib.sha256(raw).hexdigest())
+            self.assertEqual(observation["bodyBytes"], len(raw))
+            for entry in json.loads(raw)["data"]["content"]:
+                self.assertEqual(entry["modified"], original)
 
     def test_terminal_listing_must_cover_every_approved_object(self):
         self.tree["/fixtures"] = [item("dir", True, 4096)]

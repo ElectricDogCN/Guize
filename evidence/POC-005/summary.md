@@ -2,6 +2,22 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; original13 and full scales incomplete.
+
+## Current forward mapping regression repair
+
+Source38f2a7b actually passed Task15 but failed native91/32.215s with one obsolete negative fixture: +00:00 was treated as different from Z. It was never published or accepted. Complete raw/results and independent rejection21:20:21Z are byte-bound under timestamp-38f2a7b-failed-validation/. The forward test uses a real1ns timestamp difference and keeps all size/type/strict rejection/unfinished export assertions; a new complete3object+08:00 test verifies actual raw bytes/times/hash/status and canonical full8field export. Windows module8/6.455s passed; independent minimal2/.924s accepted21:21:56Z. Parser/timestamp regression hashes remain unchanged. New exact-source Task15/code92/source review/CI are pending, not inherited.
+
+The actual published predecessor4b CI825/run39851924733/job120080089537 completed SUCCESS713/1441.31s/no skipped tests. Its raw303926B/SHA97ff1278dd060f37c8e0e91b3b4dd59e43caf771ed1067a3e495c6a4a14e37f0 and exact run/jobs are separately retained in source-observer-4b12002-ci825/. Repeated connector reads of the same status URL were stale; a fresh documented URL variant and direct no-cache public API read confirmed terminal success. The run was never restarted/cancelled. This CI does not accept38f2 or the new source.
+
+Original13 attempts001/002 remain actual first-page failures with no mutation, event replay or qualification. Next: exact newsource15/92/review, normal publication and fresh actual source-build/config/PID/future-window approval for attempt003; do not reuse consumed approvals. Keep full10k/100k/1m/compression and frozen local-v1 qualification, POC003/order2 before shared order3, and fullV1 active/incomplete.
+
+## Earlier source-specific record
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; full original13 and scales remain incomplete.
 
 ## Current real source failures and timestamp repair

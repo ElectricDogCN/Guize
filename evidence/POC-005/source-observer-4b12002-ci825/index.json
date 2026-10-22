@@ -1,0 +1,21 @@
+{
+  "source": "4b12002397fc05afdf575b03cdf9fe915baf4f58",
+  "run": 39851924733,
+  "job": 120080089537,
+  "conclusion": "success",
+  "testsPassed": 713,
+  "testSeconds": 1441.31,
+  "noSkippedTests": true,
+  "files": [
+    {
+      "path": "poc005-source-observer-4b12002-ci825.raw.txt",
+      "bytes": 303926,
+      "sha256": "97ff1278dd060f37c8e0e91b3b4dd59e43caf771ed1067a3e495c6a4a14e37f0"
+    },
+    {
+      "path": "poc005-source-observer-4b12002-ci825.snapshot.json",
+      "bytes": 23193,
+      "sha256": "8e531fcfb21ad98fc5d1c72a1c76f4497d4c9e4c1f71a7c8de0d46012be1d8b4"
+    }
+  ]
+}
