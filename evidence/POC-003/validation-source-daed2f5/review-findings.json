@@ -1,0 +1,99 @@
+{
+  "source": "daed2f533a726bef3f519ce7f14109eee6447c25",
+  "base": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "pr": 133,
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6vMgd_",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "evidence/POC-003/commands.txt",
+      "line": 8,
+      "diff_side": "RIGHT",
+      "start_line": 8,
+      "start_diff_side": null,
+      "original_line": 8,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAzGdmQ",
+          "database_id": 4348550553,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Record the validation results claimed for this reservation**\n\nWhen this reservation is reviewed or resumed, the commit description claims that all 15 local checks passed, but the canonical command evidence says none were executed and provides no output or exit codes; `test-results/README.md` repeats that no source tests ran. This leaves the admission claim unreproducible, especially because `check-evidence.py` only emits a warning for this state. Record the actual invocations, outputs, exit codes, and source commit, or remove the pass claim.\n\nAGENTS.md reference: [AGENTS.md:L245-L245](https://github.com/ElectricDogCN/Guize/blob/daed2f533a726bef3f519ce7f14109eee6447c25/AGENTS.md#L245-L245)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T12:54:31Z",
+          "updated_at": "2026-10-22T12:54:31Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vMgeH",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "evidence/POC-003/handoff.md",
+      "line": 10,
+      "diff_side": "RIGHT",
+      "start_line": 10,
+      "start_diff_side": null,
+      "original_line": 10,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAzGdoA",
+          "database_id": 4348550560,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Complete the handoff provenance before reserving the task**\n\nWhen the task passes to the reviewer or integrator, this handoff leaves the source, tree, PR, tests, and CI pending and omits both the reservation commit SHA and the actual changed-file list. A replacement agent therefore cannot identify the immutable snapshot being handed off or confirm its scope from repository state alone; populate the source-bound provenance and precise next action before accepting the reservation.\n\nAGENTS.md reference: [AGENTS.md:L363-L365](https://github.com/ElectricDogCN/Guize/blob/daed2f533a726bef3f519ce7f14109eee6447c25/AGENTS.md#L363-L365)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T12:54:31Z",
+          "updated_at": "2026-10-22T12:54:31Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOTgCQ3c6vMgeP",
+      "is_resolved": false,
+      "is_outdated": false,
+      "path": "specs/tasks/POC-003.md",
+      "line": 91,
+      "diff_side": "RIGHT",
+      "start_line": 91,
+      "start_diff_side": null,
+      "original_line": 91,
+      "original_start_line": null,
+      "resolved_by": null,
+      "comments": [
+        {
+          "id": "PRRC_kwDOTgCQ3c8AAAABAzGdrA",
+          "database_id": 4348550572,
+          "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Add a machine-checked revocation case**\n\nWhen POC-003 is completed using the mandatory validator named below, it can pass without ever revoking a previously valid grant: the frozen `cache_key_isolation` measurement only requires distinct authorization contexts, while the exact `RANGE_MATRIX_CASES` set in `specs/poc/check_program.py:5465` contains `other_user` and `denied_user` but no expired or revoked-grant case. Consequently the `/撤权` acceptance claimed here is unenforced, so protected cached bytes remaining accessible after revocation would not fail the gate; amend the approved protocol and matrix with an explicit post-cache-priming revocation denial before implementation.\n\nAGENTS.md reference: [AGENTS.md:L154-L158](https://github.com/ElectricDogCN/Guize/blob/daed2f533a726bef3f519ce7f14109eee6447c25/AGENTS.md#L154-L158)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+          "created_at": "2026-10-22T12:54:31Z",
+          "updated_at": "2026-10-22T12:54:31Z",
+          "author": {
+            "login": "chatgpt-codex-connector",
+            "name": "chatgpt-codex-connector",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": null
+          },
+          "viewer_did_author": false
+        }
+      ]
+    }
+  ],
+  "sourceOverallAccepted": false,
+  "capturedAt": "2026-10-22T13:16:33.397Z"
+}
