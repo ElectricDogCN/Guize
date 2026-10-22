@@ -23,3 +23,4 @@ Current source13/CI/review/main: pending actual execution.
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-012.md`
+- `evidence/OPS-012/EVIDENCE-STRUCTURE.md`
