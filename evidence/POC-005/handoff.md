@@ -36,3 +36,8 @@ Actual predecessor validation: f80b04438ae0de0d6d08f3b75bfe332723ce0fc3 / tree0b
 PR: https://github.com/ElectricDogCN/Guize/pull/135 (OPEN/DRAFT). Before this repair push, its observed remote head was e7a962f225bb0004fd49b513a633d9dbb82fcfc3; CI813/run39811820453 was still in progress and cannot accept the local f80 or future source. Current candidate identity is actual Git HEAD/tree after this forward commit; no self-referential future SHA is fabricated.
 
 Actual changed files: changed-files.md (exact inventory against base); actual commands/current limitations: commands.txt; predecessor failed logs: reservation-e7a962f-failed-validation/results.json; actual f80 all15 commands/exit codes: reservation-f80b044-validation/results.json. Contract: POC-PROTOCOL-V1, produced POC-05-EVIDENCE, frozen schemaVersion2 plan specs/poc/plans/POC-005.yaml and current policy/resources/samples/Schema remain unchanged. No qualified result/config/input approval exists.
+
+
+## Actual e778ab7 scope failure and forward repair
+
+Exact source e778ab7527296ca5e77a668e1cb42efde84bd72f / tree49cf6244bfdf24b1007b9ea4f2aa5566e7db5e47 passed the first11 native Task commands. Command12 (scope) rejected44 Evidence paths because the allowed-scope Markdown bullet contained two backticked paths and the existing parser reads only the first. Last3 Task commands and native code19 were not executed. Raw argv/exit/hashes are in scanner-e778ab7-scope-failed/index.json. The forward repair splits the two already-reserved paths into separate bullets; no checker, reservation scope or code changes. This source was not pushed and has no CI acceptance. New committed-source checks remain pending.

@@ -4,7 +4,7 @@ Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; no POC experiment executed.
 
-Current implementation inventory against accepted base M16 (including this inventory):
+Current implementation inventory against accepted base M16:
 
 - evidence/POC-005/EVIDENCE-STRUCTURE.md
 - evidence/POC-005/assumptions.md
@@ -48,6 +48,20 @@ Current implementation inventory against accepted base M16 (including this inven
 - evidence/POC-005/reservation-main-f2e0150-accepted/poc005-reservation-f42e107-results/results.json
 - evidence/POC-005/risks.md
 - evidence/POC-005/scanner-content-independent-review.json
+- evidence/POC-005/scanner-e778ab7-scope-failed/index.json
+- evidence/POC-005/scanner-e778ab7-scope-failed/results.json
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-00.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-01.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-02.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-03.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-04.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-05.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-06.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-07.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-08.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-09.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-10.raw
+- evidence/POC-005/scanner-e778ab7-scope-failed/task-11.raw
 - evidence/POC-005/scope.md
 - evidence/POC-005/summary.md
 - poc/POC-05-metadata-scale/README.md
@@ -57,7 +71,7 @@ Current implementation inventory against accepted base M16 (including this inven
 - specs/coordination/program-plan.yaml
 - specs/tasks/POC-005.md
 
-Task/Active updates are confined to this task and own Program statuses. No shared ADR or results row changed. Source-independent registration/raw files retain original indexed bytes.
+Task scope bullet repair changes no registered path/checker. Actual e778 scope failure retained. No shared ADR/results row changed.
 
 ## Historical reservation inventory
 
