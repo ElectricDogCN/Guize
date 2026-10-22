@@ -1,0 +1,176 @@
+{
+  "taskId": "GZ-022",
+  "acceptedPhase": "review",
+  "source": "179ac8dbacbbb04597409afb1756758dcfb0ae1f",
+  "actualMain": "37ceff2ea008ad761753945e56b52b71766bd6b0",
+  "files": [
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-ci800.raw.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-ci800.raw.base64.json",
+      "decodedBytes": 289136,
+      "decodedSha256": "cccb64bb5b1bda15f35695455f39054d5b3a1e86d68f44658a3affc7f8729a50"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-ci800.snapshot.json",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-ci800.snapshot.json",
+      "decodedBytes": 4754,
+      "decodedSha256": "3ba1bfc346867e20751efa17ab29fdc6a198c058ab8200246d42e78efc8a03cb"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-independent-review.json",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-independent-review.json",
+      "decodedBytes": 1853,
+      "decodedSha256": "e1d2d7ac85f2864922c2244f21fdab8acbe77e6549bfcb6ab0f2dc211c2bf6ce"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\00.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/00.base64.json",
+      "decodedBytes": 137,
+      "decodedSha256": "4a13475bcc716d3a272b7632153a232b5b96f97a6f5e7494eda816a9f897a7b5"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\01.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/01.base64.json",
+      "decodedBytes": 246,
+      "decodedSha256": "31c6bc19c2f6d5c9a8a78a87e63a04e1135065c043f7cf1090060e46ace97936"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\02.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/02.base64.json",
+      "decodedBytes": 1805,
+      "decodedSha256": "21ebad61c713b0e793677cbc47ed5c02e2cd1041bd4c4041702a18f61c06ad6f"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\03.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/03.base64.json",
+      "decodedBytes": 412,
+      "decodedSha256": "f1eeabbc179a710d5273a7acc192b10052c624ed8e7c3c229f6f01d0f87afd3f"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\04.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/04.base64.json",
+      "decodedBytes": 475,
+      "decodedSha256": "b240c42549c99f6caf81a63a87818db24391827030309fbe17a65f84431d151f"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\05.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/05.base64.json",
+      "decodedBytes": 427,
+      "decodedSha256": "a57d98a39934a39cea80bf34c2d10c2dce5298e2cd70bf0fe604bdcec9ce6cb0"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\06.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/06.base64.json",
+      "decodedBytes": 493,
+      "decodedSha256": "3cd4741d9624f0423fedb87e8425c5a746c5944177b761e04d46809effbf9aa9"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\07.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/07.base64.json",
+      "decodedBytes": 584,
+      "decodedSha256": "03c396144886d1ee977c5da62f263ac0a9ccc5e0a313141107ce7a262f4a71f0"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\08.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/08.base64.json",
+      "decodedBytes": 386,
+      "decodedSha256": "cd3f73c52afb6f60389215ed1e81c6ea9e990a67efe53f44a56db92019cb2515"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\09.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/09.base64.json",
+      "decodedBytes": 353,
+      "decodedSha256": "743647ee84df38cdd007ca3970f491b08fefbba71a9b69877b058a3f831b582c"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\10.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/10.base64.json",
+      "decodedBytes": 3329,
+      "decodedSha256": "68bad27e73f487efcfce2bd0ddb64ef659d215f9f458e8386fda49bbb984b558"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\11.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/11.base64.json",
+      "decodedBytes": 189,
+      "decodedSha256": "170d0af41b1115e5c5fdb7ac6fdd8d028819062698248436e712c4436b740b7d"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\12.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/12.base64.json",
+      "decodedBytes": 653,
+      "decodedSha256": "98fcdacd896b8e402339a0014c5fabb1b8288b693b9d0f4b9a77dd9ed427b8dd"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\13.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/13.base64.json",
+      "decodedBytes": 157,
+      "decodedSha256": "12e0730535f002ef48c3a2ffbf7fa2c6dd1d5509ba5e9d034f4b8d29cc89cfdb"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-results\\results.json",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-results/results.json",
+      "decodedBytes": 3798,
+      "decodedSha256": "9c357da0a41edd0d6796f19273df8fe337eb6086837c137fd84ad6a5ebb20b51"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-179ac8d-source-admission.json",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-179ac8d-source-admission.json",
+      "decodedBytes": 4595,
+      "decodedSha256": "17ed902dfc58ca7b3b9edd9dd880280f9b0b315fd9322b08e265e856699a1441"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-ci801.raw.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-ci801.raw.base64.json",
+      "decodedBytes": 277493,
+      "decodedSha256": "d67a1a7f8c3d23b5e850f0399a48f1fe3a65d4c0f3e334aa131936c34acdd560"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-ci801.snapshot.json",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-ci801.snapshot.json",
+      "decodedBytes": 4746,
+      "decodedSha256": "3925bb1c781bd0020bc0adf09d037601ce14302483ed00d8ef3b23d35d3ff238"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-main-acceptance.json",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-main-acceptance.json",
+      "decodedBytes": 1451,
+      "decodedSha256": "f2d4122ad124194a5155c66cc1153cbeb2f237f2bc0b1519a392539e8de72e2d"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-main-checks\\00.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-main-checks/00.base64.json",
+      "decodedBytes": 425,
+      "decodedSha256": "e897e654f0d1a1bd2d829ebf100d2a391cb78dbe990de389a428a81a93c33c21"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-main-checks\\01.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-main-checks/01.base64.json",
+      "decodedBytes": 578,
+      "decodedSha256": "0efbd4f72b27d1ace4145a9c44fe7b6111c1657792464bc5a23459c29d9921f3"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-main-checks\\02.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-main-checks/02.base64.json",
+      "decodedBytes": 494,
+      "decodedSha256": "fb33a4551ce28cb47d140a6eead968f7bb9c6502c37f3fbad8c0cab03171f133"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-main-checks\\03.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-main-checks/03.base64.json",
+      "decodedBytes": 560,
+      "decodedSha256": "34451850f85d1fdb545f33f71a29106a42e69cec807feea0bf9f24827b3f8484"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-main-checks\\04.txt",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-main-checks/04.base64.json",
+      "decodedBytes": 453,
+      "decodedSha256": "f8f7d4fcef446752bb03bbb15a4296b916567fbedb59ab58b803ad5f706305cc"
+    },
+    {
+      "capturedPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\gz022-review-37ceff2-main-checks\\results.json",
+      "archivePath": "evidence/GZ-022/accepted-normal-review/gz022-review-37ceff2-main-checks/results.json",
+      "decodedBytes": 2134,
+      "decodedSha256": "57dbf7744300fac1136afe82c6f2c1806969339fd0368f2fbf945c891fbc3f94"
+    }
+  ]
+}

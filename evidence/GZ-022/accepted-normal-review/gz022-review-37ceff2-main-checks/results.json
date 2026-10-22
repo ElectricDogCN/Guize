@@ -1,0 +1,83 @@
+{
+  "actualMain": "37ceff2ea008ad761753945e56b52b71766bd6b0",
+  "source": "179ac8dbacbbb04597409afb1756758dcfb0ae1f",
+  "base": "b0d533a8d03842cb60730c4512b3c02d90494157",
+  "taskId": "GZ-022",
+  "identityAndTreeVerified": true,
+  "checks": [
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "37ceff2ea008ad761753945e56b52b71766bd6b0",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "37ceff2ea008ad761753945e56b52b71766bd6b0",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "37ceff2ea008ad761753945e56b52b71766bd6b0",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "37ceff2ea008ad761753945e56b52b71766bd6b0",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  ]
+}

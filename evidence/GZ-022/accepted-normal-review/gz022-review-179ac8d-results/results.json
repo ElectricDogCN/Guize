@@ -1,0 +1,176 @@
+{
+  "task": "GZ-022",
+  "source": "179ac8dbacbbb04597409afb1756758dcfb0ae1f",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "b0d533a8d03842cb60730c4512b3c02d90494157...HEAD"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "GZ-022"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022",
+        "--branch-name",
+        "chore/GZ-022-agent-edge-104-definition"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "b0d533a8d03842cb60730c4512b3c02d90494157",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "GZ-022"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "GZ-022",
+        "--base",
+        "b0d533a8d03842cb60730c4512b3c02d90494157"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "GZ-022"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  ]
+}
