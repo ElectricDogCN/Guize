@@ -284,7 +284,7 @@ class Scanner:
                 text(cursor, "CURSOR", 256)
         if page["cursor"] is None or (not rows and page["nextCursor"] is not None):
             raise ScanError("EMPTY_NONFINAL_PAGE")
-        self.db.execute("BEGIN IMMEDIATE")
+        self.db.execute("SAVEPOINT page_apply")
         try:
             state = self.state()
             if state["complete"] or state["cursor"] != page["cursor"]:
@@ -301,9 +301,11 @@ class Scanner:
                 raise ScanError("MISSING_ROOT")
             self.db.execute("UPDATE state SET cursor=?,complete=? WHERE id=1",
                             (next_cursor or page["cursor"], int(next_cursor is None)))
-            self.db.execute("COMMIT")
+            self.db.execute("RELEASE page_apply")
         except BaseException:
-            self.db.execute("ROLLBACK")
+            if self.db.in_transaction:
+                self.db.execute("ROLLBACK TO page_apply")
+                self.db.execute("RELEASE page_apply")
             raise
 
     def apply_changes(self, batch):
@@ -315,15 +317,17 @@ class Scanner:
             raise ScanError("INVALID_CHANGE_BATCH")
         if len(canonical(events).encode("utf-8")) > MAX_PAGE_BYTES:
             raise ScanError("OVERSIZED_CHANGE_BATCH")
-        self.db.execute("BEGIN IMMEDIATE")
+        self.db.execute("SAVEPOINT changes_apply")
         try:
             if not self.state()["complete"]:
                 raise ScanError("INCOMPLETE_INITIAL_SCAN")
             for event in events:
                 self._event(event)
-            self.db.execute("COMMIT")
+            self.db.execute("RELEASE changes_apply")
         except BaseException:
-            self.db.execute("ROLLBACK")
+            if self.db.in_transaction:
+                self.db.execute("ROLLBACK TO changes_apply")
+                self.db.execute("RELEASE changes_apply")
             raise
 
     def _event(self, event):

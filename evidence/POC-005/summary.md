@@ -2,6 +2,24 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; original13 experiment and qualification remain pending.
+
+## Current canonical bridge development
+
+Current candidate adds paired frozen basic/profiled streams, dual-digest checkpoints, exact parent-preserving ID handling and complete live-index export. Anchor stays outside the actual population. Core savepoints bind profile metadata, pages and incremental ledgers in one transaction. Original P2 child-before-parent export rejection is retained and fixed by depth/opaque-ID order, with actual export/reingest regression. Windows cross-API timestamp and test-only CRLF fixture issues are retained with diagnoses and limited raw tails; no whole-run raw archive is claimed for those development failures.
+
+Actual Windows development command: C:/ProgramData/anaconda3/python.exe -X utf8 -B -m unittest discover -s poc/POC-05-metadata-scale -p test_*.py -v; exit0, Ran43 tests in11.241s, OK, no skipped tests. Independent six-case content review accepted at2026-10-22T18:40:53Z; exact five hashes in canonical-bridge-independent-content-review.json. This does not accept the future committed source or any experiment.
+
+Predecessor edbf8da actual native Task15/code32 are retained in dav-edbf8da-source-validation/. Its CI820/run39830891116 is still being followed separately. Predecessor21e CI819 succeeded713 tests/1029.36s/no skipped, retained separately in scanner-21e5224-ci819/. Results are source-specific. New committed canonical Task15/code43/full CI remain pending.
+
+Next: commit this coherent bridge and capture exact native Task15/code43, independent source/byte/scope review and CI. Then implement actual pinned OpenList HTTP200 listing/pagination and full canonical provider comparison, native single-lifetime phase timing and separate /proc RSS collection; approve concrete canonical inputs/resources/window before original13 scale/fault experiments. Do not substitute old unapproved internal7field preparation or DAV207 for frozen canonical records/HTTP200. No shared results/ADR, original13 qualification, completion or integration acceptance is claimed.
+
+## Predecessor history (statuses at the recorded source only)
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; no POC experiment executed.
 
 The reservation PR135/source f42e107 was admitted and merged into accepted main f2e0150; source local15, full CI814 (713 tests), independent metadata review, actual main checks and CI816 (713 tests, 1445.86s, no skipped tests) are retained byte-for-byte under reservation-main-f2e0150-accepted/. The ended reservation remote branch was removed by exact-ref comparison; all local refs and active POC003 were preserved. These are reservation checks, not implementation acceptance.

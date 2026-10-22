@@ -1,0 +1,21 @@
+{
+  "source": "21e5224ae8ce144bf7730114a8de922f920ab2a7",
+  "run": 39827528223,
+  "number": 819,
+  "actualTests": 713,
+  "seconds": 1029.36,
+  "noSkippedTests": true,
+  "currentCanonicalSourceAccepted": false,
+  "files": [
+    {
+      "path": "poc005-scanner-21e5224-ci819.raw.txt",
+      "bytes": 291050,
+      "sha256": "c0f5d5cce60fb0343bdc9fdd8d27d3bcfd04c51c54d4d69c0524c2f87c6fb4cd"
+    },
+    {
+      "path": "poc005-scanner-21e5224-ci819.snapshot.json",
+      "bytes": 19897,
+      "sha256": "eaf529c3d2d7feac8c78966c8b9994231e9f7cb139e4a8272c8da24b1a3b3052"
+    }
+  ]
+}

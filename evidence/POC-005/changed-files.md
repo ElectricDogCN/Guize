@@ -2,17 +2,41 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
-Status: in_progress / PARTIAL; no POC experiment executed.
+Status: in_progress / PARTIAL; original13 experiment and qualification pending.
 
-Current implementation inventory against accepted base M16:
+Exact current inventory against accepted base:
 
-- evidence/POC-005/EVIDENCE-STRUCTURE.md
+- evidence/POC-005/.gitattributes
 - evidence/POC-005/assumptions.md
+- evidence/POC-005/canonical-bridge-independent-content-review.json
+- evidence/POC-005/canonical-export-review-first-rejection.json
+- evidence/POC-005/canonical-first-development-failure-tail.raw
+- evidence/POC-005/canonical-second-development-failure-tail.raw
+- evidence/POC-005/canonical-windows-signature-diagnosis.json
 - evidence/POC-005/changed-files.md
 - evidence/POC-005/commands.txt
 - evidence/POC-005/dav-adapter-independent-content-review.json
 - evidence/POC-005/dav-development-first-failure.json
+- evidence/POC-005/dav-edbf8da-source-validation/code-32.raw
+- evidence/POC-005/dav-edbf8da-source-validation/index.json
+- evidence/POC-005/dav-edbf8da-source-validation/results.json
+- evidence/POC-005/dav-edbf8da-source-validation/task-00.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-01.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-02.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-03.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-04.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-05.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-06.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-07.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-08.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-09.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-10.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-11.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-12.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-13.raw
+- evidence/POC-005/dav-edbf8da-source-validation/task-14.raw
 - evidence/POC-005/dav-href-review-first-rejection.json
+- evidence/POC-005/EVIDENCE-STRUCTURE.md
 - evidence/POC-005/follow-ups.md
 - evidence/POC-005/handoff.md
 - evidence/POC-005/reservation-main-f2e0150-accepted/.gitattributes
@@ -50,6 +74,10 @@ Current implementation inventory against accepted base M16:
 - evidence/POC-005/reservation-main-f2e0150-accepted/poc005-reservation-f42e107-results/14.raw
 - evidence/POC-005/reservation-main-f2e0150-accepted/poc005-reservation-f42e107-results/results.json
 - evidence/POC-005/risks.md
+- evidence/POC-005/scanner-21e5224-ci819/.gitattributes
+- evidence/POC-005/scanner-21e5224-ci819/index.json
+- evidence/POC-005/scanner-21e5224-ci819/poc005-scanner-21e5224-ci819.raw.txt
+- evidence/POC-005/scanner-21e5224-ci819/poc005-scanner-21e5224-ci819.snapshot.json
 - evidence/POC-005/scanner-21e5224-source-validation/code-19.raw
 - evidence/POC-005/scanner-21e5224-source-validation/index.json
 - evidence/POC-005/scanner-21e5224-source-validation/poc005-scanner-21e5224-independent-content-review.json
@@ -86,67 +114,15 @@ Current implementation inventory against accepted base M16:
 - evidence/POC-005/scanner-e778ab7-scope-failed/task-11.raw
 - evidence/POC-005/scope.md
 - evidence/POC-005/summary.md
-- poc/POC-05-metadata-scale/README.md
+- poc/POC-05-metadata-scale/canonical_metadata.py
 - poc/POC-05-metadata-scale/metadata_scan.py
 - poc/POC-05-metadata-scale/openlist_source.py
+- poc/POC-05-metadata-scale/README.md
+- poc/POC-05-metadata-scale/test_canonical_metadata.py
 - poc/POC-05-metadata-scale/test_metadata_scan.py
 - poc/POC-05-metadata-scale/test_openlist_source.py
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/POC-005.md
 
-Read-only DAV adapter and source-bound scanner remain isolated. No shared ADR/results row, checker, lease or sibling changed. Predecessor actual source checks and draft failures retain separate acceptance scopes.
-
-## Historical reservation inventory
-
-Task: POC-005
-
-Exact metadata-only inventory against base11c32830c0d1bb8ccdcc04aa278876065bce1f33, including preserved predecessor failures and successful local f80 checks:
-
-- `evidence/POC-005/EVIDENCE-STRUCTURE.md`
-- `evidence/POC-005/assumptions.md`
-- `evidence/POC-005/changed-files.md`
-- `evidence/POC-005/commands.txt`
-- `evidence/POC-005/follow-ups.md`
-- `evidence/POC-005/handoff.md`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/.gitattributes`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/00.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/01.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/02.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/03.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/04.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/05.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/06.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/07.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/08.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/09.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/10.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/11.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/12.raw`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/index.json`
-- `evidence/POC-005/reservation-e7a962f-failed-validation/results.json`
-- `evidence/POC-005/reservation-f80b044-validation/.gitattributes`
-- `evidence/POC-005/reservation-f80b044-validation/00.raw`
-- `evidence/POC-005/reservation-f80b044-validation/01.raw`
-- `evidence/POC-005/reservation-f80b044-validation/02.raw`
-- `evidence/POC-005/reservation-f80b044-validation/03.raw`
-- `evidence/POC-005/reservation-f80b044-validation/04.raw`
-- `evidence/POC-005/reservation-f80b044-validation/05.raw`
-- `evidence/POC-005/reservation-f80b044-validation/06.raw`
-- `evidence/POC-005/reservation-f80b044-validation/07.raw`
-- `evidence/POC-005/reservation-f80b044-validation/08.raw`
-- `evidence/POC-005/reservation-f80b044-validation/09.raw`
-- `evidence/POC-005/reservation-f80b044-validation/10.raw`
-- `evidence/POC-005/reservation-f80b044-validation/11.raw`
-- `evidence/POC-005/reservation-f80b044-validation/12.raw`
-- `evidence/POC-005/reservation-f80b044-validation/13.raw`
-- `evidence/POC-005/reservation-f80b044-validation/14.raw`
-- `evidence/POC-005/reservation-f80b044-validation/index.json`
-- `evidence/POC-005/reservation-f80b044-validation/results.json`
-- `evidence/POC-005/risks.md`
-- `evidence/POC-005/scope.md`
-- `evidence/POC-005/summary.md`
-- `evidence/POC-005/test-results/README.md`
-- `specs/coordination/active-work.yaml`
-- `specs/coordination/program-plan.yaml`
-- `specs/tasks/POC-005.md`
+Canonical bridge and DAV observer remain isolated. No shared ADR/results row, checker, frozen schema, sibling or lease changes. Historical rejected development and source-specific validation archives are retained separately.

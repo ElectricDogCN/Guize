@@ -26,9 +26,17 @@ A successful DAV directory response must be a bounded DAV multistatus with a suc
 
 Unit HTTP servers exercise actual request/response parsing and failures, but do not count as real OpenList provider measurements. Actual OpenList version, permissions, input bytes, provider behavior and experiment window must still be independently fixed and observed. Protocol references: https://www.rfc-editor.org/rfc/rfc4918.html (sections9.1 and13), https://www.rfc-editor.org/rfc/rfc5842.html (section3.1), https://www.rfc-editor.org/rfc/rfc6578.html (section4).
 
+## Canonical metadata record bridge (version 1)
+
+The protocol baseline uses exactly objectId/kind/versionId/depth/fileSizeBytes. Its companion filename stream adds name/path/modifiedAt. The new paired reader verifies both immutable SHA values, equal ordering and every shared field, and binds both digests into its checkpoint version. It does not change the frozen schemas. Paths in these streams are relative; their component count equals depth. A virtual scan anchor is outside the enumerated population and is never exported as a directory object. DirectoryCount excludes that anchor. maximumDepth is achieved, and files are placed no deeper than that achieved directory depth.
+
+The bridge retains full filename timestamps alongside the persisted index in the same transaction as each page or incremental batch. An internal savepoint lets the existing scanner and bridge metadata commit or roll back together. Frozen create/update/delete records retain eventId/sequence/beforeVersion/afterVersion and are checked against actual current object versions; full metadata for create/update is separately bound. Identical replay is idempotent and conflicting event aliases are rejected. Export orders by depth then stable ID so opaque child IDs cannot precede their parents; record order is not identity. It derives complete basic/profiled/version catalogues from the actual accepted index, excluding tombstones and the virtual anchor; it does not copy generator statistics.
+
+This supplies canonical records for the eventual native phase/resource/provider observations. It does not claim actual OpenList pagination, quota, a complete benchmark or thirteen-measurement qualification. Earlier internal-format fixture preparation remains unapproved and is not substituted for the canonical baseline.
+
 ## Development verification
 
-Run python -B -m unittest discover -s poc/POC-05-metadata-scale -p 'test_*.py' -v from the repository root. Tests use disposable small fixtures; they do not run a POC scale experiment. No third-party package is required.
+Run python -B -m unittest discover -s poc/POC-05-metadata-scale -p 'test_*.py' -v from the repository root. Tests use disposable small fixtures; they do not run a POC scale experiment. Core runtime code uses the Python standard library. Canonical schema tests use the repository governance dependencies PyYAML and jsonschema.
 
 ## Remaining work
 
