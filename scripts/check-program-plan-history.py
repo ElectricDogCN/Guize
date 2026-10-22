@@ -112,7 +112,7 @@ def load_yaml_text(text: str | None) -> Any | None:
     if text is None:
         return None
     try:
-        return yaml.safe_load(text)
+        return yaml.load(text, Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
     except yaml.YAMLError:
         return None
 

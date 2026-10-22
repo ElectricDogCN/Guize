@@ -1,0 +1,129 @@
+{
+  "kind": "OPS012_ACTUAL_CANONICAL_RESERVATION_MAIN_CHECKS",
+  "actualMain": "1ba64a9b4b62a918925b4a63658288a443d717e7",
+  "source": "da90b5f81e856b2044d5cdeb7bfd36f88817d02e",
+  "base": "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+  "tree": "1ffa7a36d72dc40e4a7e757a2a945fe1de2445f5",
+  "identityVerified": true,
+  "before": {
+    "head": "1ba64a9b4b62a918925b4a63658288a443d717e7",
+    "tree": "1ffa7a36d72dc40e4a7e757a2a945fe1de2445f5",
+    "parents": "a4f127ab041b44cdef44306dccae23c41a1e83f6 da90b5f81e856b2044d5cdeb7bfd36f88817d02e",
+    "branch": "main",
+    "status": ""
+  },
+  "after": {
+    "head": "1ba64a9b4b62a918925b4a63658288a443d717e7",
+    "tree": "1ffa7a36d72dc40e4a7e757a2a945fe1de2445f5",
+    "parents": "a4f127ab041b44cdef44306dccae23c41a1e83f6 da90b5f81e856b2044d5cdeb7bfd36f88817d02e",
+    "branch": "main",
+    "status": ""
+  },
+  "checks": [
+    {
+      "label": "integrity",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "a4f127ab041b44cdef44306dccae23c41a1e83f6"
+      ],
+      "pid": 1214,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "integrity.txt",
+      "rawSha256": "62f37ed7f0c2a6789ebc49e8e2cf312c87b741622052f51f698be53ef7aee39a",
+      "rawBytes": 419
+    },
+    {
+      "label": "history",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+        "--head-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-reservation"
+      ],
+      "pid": 1276,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "history.txt",
+      "rawSha256": "72244d984cddc627209aef20e19b1501255c90df21c62801d28ee5415ea5002f",
+      "rawBytes": 555
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+        "--head-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-reservation"
+      ],
+      "pid": 1475,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "transitions.txt",
+      "rawSha256": "7c5e9b8654aaa75e046b22a593986610ab232e7f57f92944c39b05b6cc402cb2",
+      "rawBytes": 472
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+        "--head-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-reservation"
+      ],
+      "pid": 1588,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "raw-lifecycle.txt",
+      "rawSha256": "2744d1e054299cc3443e5f2c21c19573597dd8f4fd7e41382004a7ada1b927fd",
+      "rawBytes": 538
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "a4f127ab041b44cdef44306dccae23c41a1e83f6",
+        "--head-ref",
+        "1ba64a9b4b62a918925b4a63658288a443d717e7",
+        "--task",
+        "OPS-012",
+        "--branch-name",
+        "chore/OPS-012-history-yaml-reservation"
+      ],
+      "pid": 1662,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "coordination.txt",
+      "rawSha256": "87990af93f600892c73dc486058ad11a96349bd160a6dee0920ee2749105817d",
+      "rawBytes": 588
+    }
+  ],
+  "allFiveRealWait0": true,
+  "reservationEffectiveForImplementation": true,
+  "auditedDelegatedMetadataAdmission": true,
+  "hostedCiAccepted": false,
+  "fullSuiteRepeated": false,
+  "taskCompleted": false
+}
