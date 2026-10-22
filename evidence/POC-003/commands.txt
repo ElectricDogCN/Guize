@@ -1,92 +1,14 @@
 Task: POC-003
 Issue: 131
-PR: https://github.com/ElectricDogCN/Guize/pull/133
-Base: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Branch: chore/POC-003-ats-range-reservation
-Work Branch: chore/POC-003-ats-range
-Tested parent source: daed2f533a726bef3f519ce7f14109eee6447c25
-Tested parent tree: ee50149e4e3797961ccbcd919230d80252b3f16b
-Current repair source: resolve Git HEAD / PR133 head.sha; tests, CI and independent acceptance PENDING.
+Branch: chore/POC-003-ats-range
+Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+Current phase: in_progress / implementer
+Current committed implementation validation: PENDING.
 
-Parent local15 PASS and CI805 PASS (713 passed, 1432.31s, zero skipped); parent overall NOT ACCEPTED because three actual P1 findings. These results bind only the tested parent, not this forward repair. No experiment executed, sample/resource approval granted, or POC result accepted.
+Historical accepted reservation: actual local15 and CI807713/1463.80s, independent2fa source review, PR133 ordinary merge, actualmain5 plus POC checker archived under reservation-merge-11c3283/. Its index preserves CI808 pending and no experiment approval. No inherited implementation PASS.
 
-ACTUALLY EXECUTED on the tested parent above (Source and Command embedded in each raw log):
+Development checks (uncommitted worktree only; exact code hashes and actual argv/exits in development-checks/manifest.json): eight offline tests actually ran, exit0. The real revocation command without a sandbox actually failed exit1 as required; this is a missing-environment guard observation, not a real revocation PASS. Earlier snapshot precedes subsequent code edits; fresh committed-source validation is still required.
 
-[00] Command: git diff --check 44e5200ed506d30c0abc83ca38f1d6912cbab1c1...HEAD
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-00.raw.base64.json
+Actual observer compiler command/stdout/stderr/source+SDK+binary hashes and exit0 are retained in development-observer-build/. This proves compilation, not runtime or source admission.
 
-[01] Command: python scripts/check-task-file.py --task POC-003
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-01.raw.base64.json
-
-[02] Command: python scripts/check-project-readiness.py
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-02.raw.base64.json
-
-[03] Command: python scripts/check-schemas.py
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-03.raw.base64.json
-
-[04] Command: python scripts/check-program-plan-integrity.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-04.raw.base64.json
-
-[05] Command: python scripts/check-program-plan-history.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-05.raw.base64.json
-
-[06] Command: python scripts/check-program-plan-transitions.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-06.raw.base64.json
-
-[07] Command: python scripts/check-program-plan-finalization.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-07.raw.base64.json
-
-[08] Command: python scripts/check-program-lifecycle-guards.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-08.raw.base64.json
-
-[09] Command: python scripts/run-program-lifecycle-gate.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-09.raw.base64.json
-
-[10] Command: python scripts/run-agent-coordination-gate.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-10.raw.base64.json
-
-[11] Command: python scripts/run-task-scope-gate.py --task POC-003 --base 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-11.raw.base64.json
-
-[12] Command: python scripts/check-evidence.py --task POC-003
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-12.raw.base64.json
-
-[13] Command: python specs/poc/check_program.py --task POC-003 --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-13.raw.base64.json
-
-[14] Command: python scripts/check-markdown.py
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-14.raw.base64.json
-
-ACTUAL CI805: pull_request run39781484599/job119833578329, tested source daed2f533a726bef3f519ce7f14109eee6447c25; Governance Checks SUCCESS, 713 passed in 1432.31s, zero failed/errors/skipped. Full job raw and actual API snapshot archived; CI is not source admission.
-
-Current forward repair must rerun all fifteen Task metadata commands and fresh same-head CI. Future implementation additionally MUST directly execute python poc/POC-03-ats-range/test_warm_cache_revocation.py and the formal local-v1 checker after lawful reservation and independent input/resource approvals. Neither experiment command is executed or passed by this reservation.
+Current implementation requires the fifteen Task commands on its exact committed source, python poc/POC-03-ats-range/test_lab.py, fresh full same-head CI and independent content review. After concrete independent before-execution approvals, directly execute python poc/POC-03-ats-range/test_warm_cache_revocation.py with actual private run-dir/new output-dir references, the original matrix, and python specs/poc/check_program.py --profile local-v1 --require-results --poc POC-03. No formal experimental command has executed in this implementation.

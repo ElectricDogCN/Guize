@@ -1,13 +1,8 @@
 Task: POC-003
 Issue: 131
-Base: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Branch: chore/POC-003-ats-range-reservation
-Work Branch: chore/POC-003-ats-range
-Current status: reserved; source results PENDING
+Branch: chore/POC-003-ats-range
+Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+Current phase: in_progress / implementer
+Current committed implementation validation: PENDING.
 
-Own metadata now; future exclusive:
-- `poc/POC-03-ats-range/**`
-- `evidence/POC-003/**`
-Shared:
-- `adr/**`
-- `specs/poc/results-index.yaml`
+Own implementation only poc/POC-03-ats-range/** and evidence/POC-003/**; own Task/Program/Active legal phase changes. Shared adr/** and only own specs/poc/results-index.yaml row, poc-results/order2. No frozen protocol/Schema/checker/catalogue changes; no unrelated services/data.

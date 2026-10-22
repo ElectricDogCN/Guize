@@ -1,61 +1,78 @@
 Task: POC-003
 Issue: 131
-PR: https://github.com/ElectricDogCN/Guize/pull/133
-Base: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Branch: chore/POC-003-ats-range-reservation
-Work Branch: chore/POC-003-ats-range
-Tested parent source: daed2f533a726bef3f519ce7f14109eee6447c25
-Tested parent tree: ee50149e4e3797961ccbcd919230d80252b3f16b
-Current repair source: resolve Git HEAD / PR133 head.sha; tests, CI and independent acceptance PENDING.
+Branch: chore/POC-003-ats-range
+Base / actual reservation merge: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+State: in_progress / implementer
+Current implementation source/tests: PENDING; no inherited experimental PASS.
 
-Parent local15 PASS and CI805 PASS (713 passed, 1432.31s, zero skipped); parent overall NOT ACCEPTED because three actual P1 findings. These results bind only the tested parent, not this forward repair. No experiment executed, sample/resource approval granted, or POC result accepted.
+Reservation PR133 source 2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c / tree e4f9c0f4957778063cbf306a3f63f9ec6d9e05a0; original base 44e5200ed506d30c0abc83ca38f1d6912cbab1c1. Actual local15/CI807713/1463.80s, independent source content and all3 threads accepted; actual merge parents/tree and five main checks plus POC checker executed successfully. FullpushCI808 pending. Exact prior inventory/commands/logs and raw byte archive are retained in reservation-merge-11c3283/ and its source snapshot; current changed files must be regenerated from Git when implementation is committed.
 
-Durable parent records: `validation-source-daed2f5/index.json`, `local-results.json`, `local-00.raw.base64.json` through `local-14.raw.base64.json`, `ci805.raw.base64.json`, `ci805.snapshot.json`, `review-findings.json` and historical independent receipt. Paths are relative to this Evidence directory; all archive files are under validation-source-daed2f5/. Decode each raw JSON data field with base64; verify decoded byte count/SHA-256 against index.json before reading. The historical independent acceptance predates the actual cloud findings and cannot override them.
+Roles/claims/lease/order remain original: owner ElectricDogCN, coordinator program-coordinator-agent, implementer/executor task-owner-agent, independent reviewer independent-review-agent, integrator integration-agent; expires2026-10-29T12:47:06Z, poc-results/order2. Own poc/POC-03-ats-range/** and evidence/POC-003/**; shared adr/** and only own results-index row.
 
-Exact PR inventory relative to accepted base (35 files):
+Next Implementer: review actual historical candidates, implement real bounded gateway/origin/ATS observations and direct revocation assertions; retain exact source/config/input identities. Before any formal experiment, obtain concrete independent sample/resource/domain approval binding current tested source and actual bytes/window. Next Reviewer: inspect actual implementation, raw facts, all15, separate revocation and original failures; no source or experimental acceptance until actual validations. Next Integrator: source exact-head gates, current review/threads/latestmain/order/lease, ordinary merge then actualmain checks. FullV1 remains incomplete.
+
+Rollback: stop/clean only owned sandbox; preserve inputs/evidence/history, lawful cancellation or forward repair, no unrelated services or Docker/WSL restart.
+
+Current code source SHA/tree/PR: pending first implementation commit, resolve exact Git HEAD/PR before validation. This is an intermediate implementation; per-stage native payload export, original15 typed result assembly and approved buffering interpretation remain incomplete. Real grant state and mandatory revocation script have been implemented but not run in a real sandbox. Eight prior offline boundary tests and the actual native observer compile exit0 are development-only, not current committed-source or experimental acceptance. Next action: commit actual draft, run current source15 and offline8, independently review actual code; approve concrete input/resource/source/window before any experiment.
+
+Exact implementation draft inventory against actual reservation base (59 files):
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
 - `evidence/POC-003/changed-files.md`
 - `evidence/POC-003/commands.txt`
+- `evidence/POC-003/development-checks/manifest.json`
+- `evidence/POC-003/development-checks/missing-sandbox-must-fail.txt`
+- `evidence/POC-003/development-checks/offline8.txt`
+- `evidence/POC-003/development-observer-build/receipt.json`
+- `evidence/POC-003/development-observer-build/stderr.raw`
+- `evidence/POC-003/development-observer-build/stdout.raw`
 - `evidence/POC-003/follow-ups.md`
 - `evidence/POC-003/handoff.md`
-- `evidence/POC-003/planning-completion-main-acceptance.json`
+- `evidence/POC-003/implementation-input-provenance.json`
+- `evidence/POC-003/reservation-merge-11c3283/index.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-adoption.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__00.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__01.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__02.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__03.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__04.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__results.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-protocol__protocol.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-protocol__results.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-ci807.raw.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-ci807.snapshot.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-independent-review.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__00.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__01.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__02.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__03.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__04.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__05.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__06.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__07.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__08.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__09.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__10.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__11.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__12.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__13.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__14.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__results.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-source-admission.json`
 - `evidence/POC-003/risks.md`
 - `evidence/POC-003/scope.md`
 - `evidence/POC-003/summary.md`
 - `evidence/POC-003/test-results/README.md`
-- `evidence/POC-003/validation-source-daed2f5/ci805.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/ci805.snapshot.json`
-- `evidence/POC-003/validation-source-daed2f5/historical-independent-review.json`
-- `evidence/POC-003/validation-source-daed2f5/index.json`
-- `evidence/POC-003/validation-source-daed2f5/local-00.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-01.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-02.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-03.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-04.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-05.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-06.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-07.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-08.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-09.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-10.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-11.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-12.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-13.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-14.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-results.json`
-- `evidence/POC-003/validation-source-daed2f5/review-findings.json`
+- `poc/POC-03-ats-range/README.md`
+- `poc/POC-03-ats-range/build_observer.py`
+- `poc/POC-03-ats-range/cache_export.cc`
+- `poc/POC-03-ats-range/collect.py`
+- `poc/POC-03-ats-range/config.example.json`
+- `poc/POC-03-ats-range/grants.py`
+- `poc/POC-03-ats-range/lab.py`
+- `poc/POC-03-ats-range/test_lab.py`
+- `poc/POC-03-ats-range/test_warm_cache_revocation.py`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/POC-003.md`
-
-Roles: owner ElectricDogCN; coordinator program-coordinator-agent; implementer/executor task-owner-agent; independent reviewer independent-review-agent; integrator integration-agent.
-Lease: 2026-10-22T12:47:06Z to 2026-10-29T12:47:06Z (unchanged).
-Contracts: POC-03-EVIDENCE / POC-PROTOCOL-V1. Exclusive poc/POC-03-ats-range/** and evidence/POC-003/**; shared adr/** and specs/poc/results-index.yaml, own row only, group poc-results/order2 before POC-005/order3.
-
-Failure: three P1 findings on tested parent require durable executed evidence, concrete handoff identity/inventory, and mandatory separate revocation test. This forward repair addresses those definitions but has no inherited acceptance. All fifteen actual parent commands/exits are in commands.txt; all original measurement scope/thresholds remain. No tested implementation or experimental decision exists.
-
-Next Reviewer: resolve exact current source/tree from Git HEAD and PR133, verify parent archive decoded hashes, exact diff against base, fresh fifteen commands/exit codes and same-head full CI, and each actual P1 remedy; independently review current content and all actual threads. Parent receipts are historical only. Next Integrator: verify latest actual main still matches base, dependency/order/lease and independent acceptance, zero unresolved findings and exact-head gates, then ordinary merge; verify actual ordered parents [base, source] and tree equality, actual-main five metadata checks plus standalone POC protocol checker and full push CI. Only after accepted reservation may implementation start from latest main on stable work branch, then obtain required independent sample/resource/domain approvals before experimentation.
-
-Rollback: withdraw unmerged proposal; after accepted reservation use lawful cancellation to release own lease. Later stop/clean only isolated sandbox, preserving input/Evidence/history; forward repair accepted defects. No Docker/WSL restart or unrelated service operation.

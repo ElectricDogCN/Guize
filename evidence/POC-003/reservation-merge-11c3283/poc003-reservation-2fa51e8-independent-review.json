@@ -1,0 +1,22 @@
+{
+  "source": "2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c",
+  "tree": "e4f9c0f4957778063cbf306a3f63f9ec6d9e05a0",
+  "base": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T13:29:12Z",
+  "contentAccepted": true,
+  "mustFix": [],
+  "sourceOverallAccepted": false,
+  "actualMainAccepted": false,
+  "experimentExecuted": false,
+  "sampleOrResourceApproved": false,
+  "verified": [
+    "actual clean source/tree",
+    "exact35 inventory and handoff consistency",
+    "20 parent archives lengths/hashes",
+    "frozen protocol/matrix/schema and registration unchanged",
+    "post-revocation replay inside original grant validity; actual effectiveAt/revoked reason",
+    "formal15 AND independent revocation command AND independent results"
+  ],
+  "scope": "Actual independent Agent read-only review, not CI/thread/main admission"
+}

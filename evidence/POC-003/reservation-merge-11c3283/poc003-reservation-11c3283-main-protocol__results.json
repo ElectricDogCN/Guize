@@ -1,0 +1,16 @@
+{
+  "actualMain": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "source": "2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c",
+  "base": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "identityAndTreeVerified": true,
+  "argv": [
+    "python",
+    "specs/poc/check_program.py",
+    "--task",
+    "POC-003",
+    "--base-ref",
+    "44e5200ed506d30c0abc83ca38f1d6912cbab1c1"
+  ],
+  "exitCode": 0,
+  "waitCompleted": true
+}
