@@ -4,6 +4,7 @@ Last actual code: PR-122 / b2f844ba22996416b54155290a4685188dc774c6
 
 - `evidence/OPS-012/changed-files.md`
 - `evidence/OPS-012/commands.txt`
+- `evidence/OPS-012/completion-e37eca5-local-failure.json`
 - `evidence/OPS-012/handoff.md`
 - `evidence/OPS-012/implementation-accepted-ci790.json`
 - `evidence/OPS-012/implementation-main-acceptance.json`
