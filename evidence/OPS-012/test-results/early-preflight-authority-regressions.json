@@ -1,0 +1,107 @@
+{
+  "kind": "actual_current_authority_regressions",
+  "sourceBeforeFix": "b687d3e19f9c41e457a84b7fb2e87633f61b675c",
+  "workingTreeAtCapture": true,
+  "currentImmutableSourceAccepted": false,
+  "executions": [
+    {
+      "attempt": "red",
+      "tests": 3,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "junit": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"3\" skipped=\"0\" tests=\"3\" time=\"26.805\" timestamp=\"2026-10-22T13:43:56.782315+08:00\" hostname=\"RuifengSu\"><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unadmitted_own_scope\" time=\"5.169\"><failure message=\"AssertionError: 0 == 0 : {&quot;status&quot;: &quot;PASS&quot;, &quot;message&quot;: &quot;Program Plan history transitions are valid&quot;, &quot;details&quot;: {&quot;baseRef&quot;: &quot;75c80af6233a2951d163eb5062cf7fbf79fa252a&quot;, &quot;headRef&quot;: &quot;HEAD&quot;, &quot;completionRecords&quot;: 0, &quot;auditedOwnerCapacityFailures&quot;: []}}\">self = &lt;tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_preflight_rejects_unadmitted_own_scope&gt;\n\n    def test_foundation_preflight_rejects_unadmitted_own_scope(self):\n        result, invalid = self.foundation_preflight_fixture(\"unadmitted_own_scope\")\n&gt;       self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)\nE       AssertionError: 0 == 0 : {\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"75c80af6233a2951d163eb5062cf7fbf79fa252a\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n\n.takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py:2667: AssertionError</failure></testcase><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unadmitted_peer_work\" time=\"5.102\"><failure message=\"AssertionError: 0 == 0 : {&quot;status&quot;: &quot;PASS&quot;, &quot;message&quot;: &quot;Program Plan history transitions are valid&quot;, &quot;details&quot;: {&quot;baseRef&quot;: &quot;fcd185f8b7d7e3b02b8df59e2b7dd0fcaa7ae546&quot;, &quot;headRef&quot;: &quot;HEAD&quot;, &quot;completionRecords&quot;: 0, &quot;auditedOwnerCapacityFailures&quot;: []}}\">self = &lt;tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_preflight_rejects_unadmitted_peer_work&gt;\n\n    def test_foundation_preflight_rejects_unadmitted_peer_work(self):\n        result, invalid = self.foundation_preflight_fixture(\"unadmitted_peer_work\")\n&gt;       self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)\nE       AssertionError: 0 == 0 : {\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"fcd185f8b7d7e3b02b8df59e2b7dd0fcaa7ae546\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n\n.takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py:2654: AssertionError</failure></testcase><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unclaimed_ledger\" time=\"3.810\"><failure message=\"AssertionError: 0 == 0 : {&quot;status&quot;: &quot;PASS&quot;, &quot;message&quot;: &quot;Program Plan history transitions are valid&quot;, &quot;details&quot;: {&quot;baseRef&quot;: &quot;36ea320a9c4f25e4aa041c738c2f65215af9e384&quot;, &quot;headRef&quot;: &quot;HEAD&quot;, &quot;completionRecords&quot;: 0, &quot;auditedOwnerCapacityFailures&quot;: []}}\">self = &lt;tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_preflight_rejects_unclaimed_ledger&gt;\n\n    def test_foundation_preflight_rejects_unclaimed_ledger(self):\n        result, invalid = self.foundation_preflight_fixture(\"unclaimed_ledger\")\n&gt;       self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)\nE       AssertionError: 0 == 0 : {\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"36ea320a9c4f25e4aa041c738c2f65215af9e384\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n\n.takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py:2660: AssertionError</failure></testcase></testsuite></testsuites>",
+      "rawOutput": "w\u0000s\u0000l\u0000:\u0000 \u0000�hKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006tM�n\f�FO*g\\��P0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN�v \u0000W\u0000S\u0000L\u0000 \u0000\r\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006t\u00020\r\n\u0000\r\nFFF                                                                      [100%]\r\n=================================== FAILURES ===================================\r\n_ TestProgramPlanHistory.test_foundation_preflight_rejects_unadmitted_own_scope _\r\n\r\nself = <tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_preflight_rejects_unadmitted_own_scope>\r\n\r\n    def test_foundation_preflight_rejects_unadmitted_own_scope(self):\r\n        result, invalid = self.foundation_preflight_fixture(\"unadmitted_own_scope\")\r\n>       self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)\r\nE       AssertionError: 0 == 0 : {\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"75c80af6233a2951d163eb5062cf7fbf79fa252a\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\r\n\r\n.takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py:2667: AssertionError\r\n_ TestProgramPlanHistory.test_foundation_preflight_rejects_unadmitted_peer_work _\r\n\r\nself = <tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_preflight_rejects_unadmitted_peer_work>\r\n\r\n    def test_foundation_preflight_rejects_unadmitted_peer_work(self):\r\n        result, invalid = self.foundation_preflight_fixture(\"unadmitted_peer_work\")\r\n>       self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)\r\nE       AssertionError: 0 == 0 : {\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"fcd185f8b7d7e3b02b8df59e2b7dd0fcaa7ae546\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\r\n\r\n.takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py:2654: AssertionError\r\n__ TestProgramPlanHistory.test_foundation_preflight_rejects_unclaimed_ledger ___\r\n\r\nself = <tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_preflight_rejects_unclaimed_ledger>\r\n\r\n    def test_foundation_preflight_rejects_unclaimed_ledger(self):\r\n        result, invalid = self.foundation_preflight_fixture(\"unclaimed_ledger\")\r\n>       self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)\r\nE       AssertionError: 0 == 0 : {\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"36ea320a9c4f25e4aa041c738c2f65215af9e384\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\r\n\r\n.takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py:2660: AssertionError\r\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-preflight-authority-red.xml -\r\n=========================== short test summary info ============================\r\nFAILED .takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_preflight_rejects_unadmitted_own_scope\r\nFAILED .takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_preflight_rejects_unadmitted_peer_work\r\nFAILED .takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_preflight_rejects_unclaimed_ledger\r\n3 failed, 192 deselected in 26.82s\r\n\u0000\r\n"
+    },
+    {
+      "attempt": "green",
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"0\" skipped=\"0\" tests=\"27\" time=\"78.266\" timestamp=\"2026-10-22T13:45:15.253582+08:00\" hostname=\"RuifengSu\"><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_accepts_admitted_peer_sync\" time=\"4.362\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_accepts_integration_metadata\" time=\"3.517\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_accepts_registered_integration_code\" time=\"3.494\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_accepts_valid_review\" time=\"3.124\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_ledger_only_returns_structured_failure\" time=\"3.510\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_fabricated_peer\" time=\"4.372\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_premature_completion_restored\" time=\"3.544\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_reviewer_code_restored\" time=\"4.660\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unadmitted_own_scope\" time=\"5.697\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unadmitted_peer_work\" time=\"5.473\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unclaimed_ledger\" time=\"4.055\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unregistered_metadata\" time=\"5.659\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unregistered_side_work\" time=\"4.937\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_real_history_documents_keep_safe_yaml_values[specs/coordination/program-plan.yaml]\" time=\"0.070\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_real_history_documents_keep_safe_yaml_values[specs/coordination/active-work.yaml]\" time=\"0.007\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_real_history_documents_keep_safe_yaml_values[specs/coordination/program-plan.schema.yaml]\" time=\"0.031\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[null\\n]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[flag: true\\ncount: 12\\nname: \\u5f52\\u6cfd\\n]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[lease: 2026-10-28T05:32:42Z\\n]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[defaults: &amp;defaults {status: reserved, modules: [MOD-GOV]}\\ntask: {&lt;&lt;: *defaults, status: in_progress}\\n]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_malformed_and_unsafe_documents_remain_rejected[broken: [unterminated]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_malformed_and_unsafe_documents_remain_rejected[value: \\x00]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_malformed_and_unsafe_documents_remain_rejected[!!python/object/apply:builtins.str [untrusted]]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_malformed_and_unsafe_documents_remain_rejected[!!python/name:builtins.eval '']\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_absent_document_remains_absent\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_without_c_extension_safe_loading_and_rejection_still_work\" time=\"0.094\" /></testsuite></testsuites>",
+      "rawOutput": "w\u0000s\u0000l\u0000:\u0000 \u0000�hKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006tM�n\f�FO*g\\��P0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN�v \u0000W\u0000S\u0000L\u0000 \u0000\r\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006t\u00020\r\n\u0000\r\n...........................                                              [100%]\r\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-preflight-authority-green.xml -\r\n27 passed, 182 deselected in 78.29s (0:01:18)\r\n\u0000\r\n"
+    }
+  ],
+  "corrections": [
+    "Foreign work in a proposed Foundation PR requires proven admitted synchronization; peer claims alone grant no authorization",
+    "Own introduced work must match both admitted target scope and its contemporaneous prior registration; transient scope expansion cannot authorize work",
+    "Reject all non-synchronized ordinary Ledger deltas even without ownership and even after restoration"
+  ],
+  "supersededFull": {
+    "executions": [
+      {
+        "label": "diff",
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "c5f201adb2e11ffea912f862c19918157f9cf106...HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+        "pid": 312000,
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawLog": "diff.txt",
+        "rawSha256": "d6f4c099620deabfd4a0b25231769dd3ae0317029f4db9e82a052d0f337f5b78",
+        "rawBytes": 144
+      },
+      {
+        "label": "targeted",
+        "argv": [
+          "python",
+          "-m",
+          "pytest",
+          "tests/governance/test_history_yaml_loader.py",
+          "tests/governance/test_program_plan_history.py",
+          "-k",
+          "history_yaml_loader or foundation_preflight",
+          "-q"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+        "pid": 312001,
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawLog": "targeted.txt",
+        "rawSha256": "7ffe9f1e38cc4763f954a18418531c43042c8f457cd7807beb76943f9ce5ac43",
+        "rawBytes": 522
+      },
+      {
+        "label": "verify",
+        "argv": [
+          "make",
+          "verify",
+          "TASK=OPS-012",
+          "BASE=c5f201adb2e11ffea912f862c19918157f9cf106",
+          "HEAD_REF=HEAD",
+          "BRANCH=chore/OPS-012-early-history-preflight"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+        "pid": 315682,
+        "exitCode": 2,
+        "waitCompleted": true,
+        "rawLog": "verify.txt",
+        "rawSha256": "934893a1684de219cfba69c4c578e4f9217acbff76ae6bac977817e9f5a34092",
+        "rawBytes": 69143
+      }
+    ],
+    "interruption": {
+      "source": "b687d3e19f9c41e457a84b7fb2e87633f61b675c",
+      "pid": 317645,
+      "cmdline": "/home/sur/.cache/guize-takeover/governance-venv/bin/python3 -m pytest tests/governance/ -v",
+      "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+      "reason": "Exact-head independent review found2 new P1 issues; superseded own full run interrupted for concrete code fixes; no full pass claimed",
+      "threads": [
+        "PRRT_kwDOTgCQ3c6vD3ZD",
+        "PRRT_kwDOTgCQ3c6vD3ZJ"
+      ],
+      "accepted": false
+    },
+    "passed": 442,
+    "failed": 0,
+    "complete": false,
+    "accepted": false,
+    "rawLogReference": "ops012-preflight-b687d3e-results/verify.txt",
+    "rawTail": "y.py::TestProgramPlanHistory::test_foundation_rejects_same_commit_scope_expansion PASSED [ 62%]\ntests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_rejects_same_tip_shortening_rebase_range PASSED [ 62%]\ntests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_rejects_side_work_before_late_reservation_merge PASSED [ 62%]\ntests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_rejects_stale_original_base_later_refreshed PASSED [ 62%]\ntests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_rejects_transient_collapsed_roles_later_restored PASSED [ 62%]\ntests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_rejects_transient_stable_identity_later_restored \n\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-preflight-b687d3e-results/make-governance.xml -\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n/usr/lib/python3.12/selectors.py:415: KeyboardInterrupt\n(to show a full traceback on KeyboardInterrupt use --full-trace)\n======================= 442 passed in 632.67s (0:10:32) ========================\nmake[2]: *** [Makefile:112: governance-test] Error 2\nmake[2]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake[1]: *** [Makefile:154: task-verify] Error 2\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake: *** [Makefile:172: verify] Error 2\n\nExit Code: 2\n"
+  }
+}

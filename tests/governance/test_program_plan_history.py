@@ -2451,6 +2451,7 @@ class TestProgramPlanHistory(unittest.TestCase):
                 subprocess.run(["git", "checkout", "--detach", ref], cwd=root, check=True, capture_output=True)
 
             review = history["base"]
+            tree_reference = review
             base = history["implementation"]
             branch = "chore/GZ-014-review"
             checkout(review)
@@ -2519,11 +2520,14 @@ class TestProgramPlanHistory(unittest.TestCase):
                 side = self.commit(root, "OPS-100 remove fabricated registration")
                 checkout(review)
                 subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 import fabricated peer ancestry", side], cwd=root, check=True, capture_output=True)
-            elif mode == "ledger_only":
+            elif mode in {"ledger_only", "unclaimed_ledger"}:
                 base = review
                 self.write_text(root, ledger_path, blob(review, ledger_path) + "# reviewer-only ledger delta\n")
                 invalid = self.commit(root, "GZ-014 reviewer ledger-only delta")
-            elif mode == "admitted_peer_sync":
+                if mode == "unclaimed_ledger":
+                    self.write_text(root, ledger_path, blob(review, ledger_path))
+                    self.commit(root, "GZ-014 restore unclaimed ledger")
+            elif mode in {"admitted_peer_sync", "unadmitted_peer_work"}:
                 checkout(base)
                 plan = yaml.safe_load(blob(base, plan_path))
                 registry = yaml.safe_load(blob(base, active_path))
@@ -2543,9 +2547,18 @@ class TestProgramPlanHistory(unittest.TestCase):
                 self.write_yaml(root, plan_path, plan)
                 self.write_yaml(root, active_path, registry)
                 self.write_text(root, task_path, blob(review, task_path))
-                self.commit(root, "GZ-014 clean admitted peer synchronization")
+                synced = self.commit(root, "GZ-014 clean admitted peer synchronization")
                 base = admitted
-            elif mode in {"integration_metadata", "integration_code"}:
+                if mode == "unadmitted_peer_work":
+                    tree_reference = synced
+                    checkout(history["seed"])
+                    self.write_text(root, "scripts/admitted-peer.py", "# no contemporaneous peer registration\n")
+                    invalid = self.commit(root, "Unadmitted work behind a real target peer claim")
+                    pathlib.Path(root, "scripts/admitted-peer.py").unlink()
+                    side = self.commit(root, "Restore unadmitted peer work")
+                    checkout(synced)
+                    subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 retain admitted peer tree with unadmitted work ancestry", side], cwd=root, check=True, capture_output=True)
+            elif mode in {"integration_metadata", "integration_code", "unadmitted_own_scope"}:
                 base = review
                 branch = "chore/GZ-014-integration"
                 plan = yaml.safe_load(blob(review, plan_path))
@@ -2558,13 +2571,27 @@ class TestProgramPlanHistory(unittest.TestCase):
                 self.write_text(root, task_path, self.task_spec(entry, "integration", branch, base))
                 if mode == "integration_code":
                     self.write_text(root, code_path, blob(review, code_path) + "# registered integrator repair\n")
-                self.commit(root, "GZ-014 legitimate integration")
+                integrated = self.commit(root, "GZ-014 legitimate integration")
+                if mode == "unadmitted_own_scope":
+                    tree_reference = integrated
+                    extra = "scripts/unadmitted-extra.py"
+                    entry["exclusivePaths"].append(extra)
+                    self.write_yaml(root, active_path, registry)
+                    self.write_text(root, task_path, self.task_spec(entry, "integration", branch, base))
+                    self.commit(root, "GZ-014 unadmitted own scope expansion")
+                    self.write_text(root, extra, "# never admitted on target\n")
+                    invalid = self.commit(root, "GZ-014 work under transient own claim")
+                    pathlib.Path(root, extra).unlink()
+                    entry["exclusivePaths"].remove(extra)
+                    self.write_yaml(root, active_path, registry)
+                    self.write_text(root, task_path, self.task_spec(entry, "integration", branch, base))
+                    self.commit(root, "GZ-014 restore own scope and files")
             else:
                 self.assertEqual(mode, "review")
             if invalid and mode != "ledger_only":
                 self.assertEqual(
                     subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root),
-                    subprocess.check_output(["git", "rev-parse", f"{review}^{{tree}}"], cwd=root),
+                    subprocess.check_output(["git", "rev-parse", f"{tree_reference}^{{tree}}"], cwd=root),
                 )
             result = self._run_checker(root, task="GZ-014", branch=branch, base_ref=base)
             return result, invalid
@@ -2621,6 +2648,25 @@ class TestProgramPlanHistory(unittest.TestCase):
     def test_foundation_preflight_accepts_admitted_peer_sync(self):
         result, _ = self.foundation_preflight_fixture("admitted_peer_sync")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_rejects_unadmitted_peer_work(self):
+        result, invalid = self.foundation_preflight_fixture("unadmitted_peer_work")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("outside its prior registered scope", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_unclaimed_ledger(self):
+        result, invalid = self.foundation_preflight_fixture("unclaimed_ledger")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertIn("preflight cannot change ordinary Ledger", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_unadmitted_own_scope(self):
+        result, invalid = self.foundation_preflight_fixture("unadmitted_own_scope")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("outside its prior registered scope", result.stdout)
+        self.assertIn(invalid, result.stdout)
 
 
 if __name__ == "__main__":

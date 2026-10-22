@@ -1355,6 +1355,9 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
     registered working actors. Their proposed head is not an admitted base.
     """
     trusted_base = admitted_base if admitted_base is not None else base_ref
+    admitted_registry = load_ref(root, trusted_base, ACTIVE) if allow_registered_work else None
+    admitted_entries = [item for item in (admitted_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+    admitted_claims = (admitted_entries[0].get("exclusivePaths") or []) if len(admitted_entries) == 1 else []
     nodes = git(root, "rev-list", "--topo-order", "--reverse", f"{implementation}..{base_ref}")
     if nodes.returncode:
         errors.append(f"Foundation {task_id} cannot audit history after its claimed implementation")
@@ -1385,6 +1388,8 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             # A proposed Foundation PR cannot manufacture peer admissions or
             # releases. Only metadata proven from the admitted target imports.
             historical_foreign_metadata(root, parent, node, incoming, task_id, errors, imports, admitted_base=trusted_base)
+            if LEDGER in paths and LEDGER not in imports:
+                errors.append(f"Foundation {task_id} preflight cannot change ordinary Ledger at {node}")
         claims = []
         registered_node = is_ancestor(root, reservation, node)
         task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot}
@@ -1425,9 +1430,13 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
                 imports = clean_synchronization_paths(root, node, paths, incoming)
             prior = [item for item in (prior_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             prior_claims = (prior[0].get("exclusivePaths") or []) if len(prior) == 1 else []
-            peer_snapshot = trusted_base if allow_registered_work else parent
-            peer_metadata_snapshot = trusted_base if allow_registered_work else node
-            unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, peer_snapshot, task_id, path) or historical_peer_metadata_path(root, peer_metadata_snapshot, task_id, path)))}
+            if allow_registered_work:
+                # This PR may introduce own work only under both the admitted
+                # claim and the node's prior registration. Foreign work needs
+                # a proven synchronization, not merely another task's claim.
+                unexpected = {path for path in code_paths - imports if not all(any(RECOVERY.matches_path(path, str(claim)) for claim in claims_at_ref) for claims_at_ref in (prior_claims, admitted_claims))}
+            else:
+                unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, parent, task_id, path) or historical_peer_metadata_path(root, node, task_id, path)))}
             if unexpected:
                 errors.append(f"Foundation {task_id} post-implementation working node changed paths outside its prior registered scope at {node}: {', '.join(sorted(unexpected))}")
         if own_work:

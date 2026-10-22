@@ -17,7 +17,9 @@ Current immutable-source checks pending.
 - `evidence/OPS-012/scope.md`
 - `evidence/OPS-012/summary.md`
 - `evidence/OPS-012/test-results/README.md`
+- `evidence/OPS-012/test-results/early-preflight-authority-regressions.json`
 - `evidence/OPS-012/test-results/early-preflight-development.json`
+- `evidence/OPS-012/test-results/early-preflight-independent-review-b687d3e.json`
 - `evidence/OPS-012/test-results/early-preflight-independent-review-d294cbb.json`
 - `evidence/OPS-012/test-results/early-preflight-review-regressions.json`
 - `evidence/OPS-012/test-results/early-preflight-side-registration.json`
