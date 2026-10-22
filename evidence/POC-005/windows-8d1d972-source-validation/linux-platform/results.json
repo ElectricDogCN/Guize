@@ -1,0 +1,28 @@
+{
+  "source": "8d1d972ab38c92997337665ab44cbe1f679c8636",
+  "tree": "6d983806a241a5b6ab530ed6d7fc24d6242a11cd",
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_windows_native",
+    "test_windows_scan",
+    "test_windows_source_files",
+    "test_windows_source_run"
+  ],
+  "startedAt": "2026-10-22T22:38:54.288713+00:00",
+  "finishedAt": "2026-10-22T22:38:56.516135+00:00",
+  "elapsedPerfCounterNs": 2227412352,
+  "exitCode": 0,
+  "rawBytes": 5425,
+  "rawSha256": "0772aa5c27728ea7c1dc5db83c99ea62021218075a95f3b307336cdbc5803fe8",
+  "scope": "Actual Linux imports and explicit Windows-unsupported assertions only, not Windows runtime or complete Linux suite.",
+  "windowsRuntimeExecuted": false,
+  "linuxClockWorkloadRetried": false,
+  "experimentExecuted": false,
+  "nativeTrackedClean": true,
+  "untrackedOriginalsCount": 4062,
+  "originalUntrackedPathsPreserved": true
+}

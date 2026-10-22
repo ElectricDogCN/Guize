@@ -1,0 +1,34 @@
+{
+  "scope": "Candidate preparation only; no source listing/probe/scan or experiment approval.",
+  "files": [
+    {
+      "path": "poc005-precise-windows-clock.json",
+      "bytes": 738,
+      "sha256": "7c3b212375183322f69cf1652c23a8efa075d962d746a0694144db55c639ac7e"
+    },
+    {
+      "path": "poc005-windows-native-fixture-preparation.json",
+      "bytes": 1215,
+      "sha256": "d1de6cc34dd5d6c314e5099810dbc15556929af5c2e8472a596849b6d6db6102"
+    },
+    {
+      "path": "poc005-windows-openlist-preparation.json",
+      "bytes": 1806,
+      "sha256": "62fb3d78130a07bf2ef4333ad21986574b0249ed1008cbe28023a466dfc704ad"
+    },
+    {
+      "path": "precise-clock.jsonl.gz",
+      "bytes": 41959,
+      "sha256": "f9fe1776da33b21e7672f25cfdf7cce35d9243a0bd5bfaa20d343276a8fa024f",
+      "decodedBytes": 434489,
+      "decodedSha256": "6da638547d6c4c25b1844a73a03e568c711d8fe74bffa72a9a0b188d24c1a4f5"
+    },
+    {
+      "path": "filesystem-payloads.jsonl.gz",
+      "bytes": 124961,
+      "sha256": "176e2515935f2eb50f8f82689123a4aa3c6d1005b93a2a4010823b98dd2be2ef",
+      "decodedBytes": 3326029,
+      "decodedSha256": "459f5dddf9291f913ce1b696194ec8c70da1dbf8d27f21edc3f69b66e0d1db3d"
+    }
+  ]
+}

@@ -259,6 +259,27 @@ class SourceTests(unittest.TestCase):
         with self.assertRaisesRegex(ScanError, 'BYTE_BUDGET'):
             journal.bytes(b'x'*1000)
 
+    def test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation(self):
+        _,_,dav,_=self.gateway()
+        row=next(row for row in self.rows if row['kind']=='file' and row['fileSizeBytes']==4096)
+        raw=bytes(range(256))*16
+        (self.source/row['path']).write_bytes(raw)
+        observation=dav.observe('GET',row['path'],maximum_bytes=65536)
+        self.assertEqual(observation['status'],200)
+        self.assertEqual(observation['body'],raw)
+        with self.assertRaises(UnicodeDecodeError): raw.decode('utf8')
+        journal=Artifacts(self.root,self.root/'binary-response-journal')
+        retained=journal.observation(observation)
+        metadata=read_json(retained['ref'])[0]
+        body=next(item for item in journal.records if item['ref']==metadata['bodyRef'])
+        self.assertEqual(body['artifactType'],'produced_media')
+        self.assertEqual(Path(body['ref']).read_bytes(),raw)
+        self.assertEqual(body['byteCount'],4096)
+        self.assertEqual(body['sha256'],'sha256:'+hashlib.sha256(raw).hexdigest())
+        self.assertEqual(retained['artifactType'],'command_output')
+        expected={key:value for key,value in observation.items() if key not in ('body','requestBody')}
+        self.assertEqual(metadata,{**expected,'bodyRef':body['ref']})
+
     def test_unapproved_payload_and_failed_confirmation_preserve_actual_fixture_state(self):
         _, session = self.session()
         clock = Clock()

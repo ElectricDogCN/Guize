@@ -82,6 +82,12 @@ An owned loopback gateway will forward only approved read-only listing/DAV route
 
 The external controller will assemble frozen scan/resource/profiling reports and all original thirteen metric values from actual complete streams, raw process facts, counters, quota documentation and five original Range/validator response bodies. Real negative-response bodies and missing validators remain unchanged even if qualification fails. No successful qualification is inferred from report generation. The source session, bounded gateway and run_source_experiment.py entry point are implemented. The entry point reserves the actual scanner, fixes runtime/resource bytes and publishes an approval request without creating an approval. Formal execution requires committed clean code with its exact subject version. An independent reviewer must atomically publish the approval file before its future window; the controller then releases the same PID and runs the complete observation chain. Known source/gateway credential values are blocked from artifacts, retaining only omitted-body hashes/lengths. Unit-fixture mode is explicit in its requests/results and never grants qualification. Source-specific tests/review, concrete independent experiment approval and an actual original13 run remain required.
 
+Raw GET response bodies are retained as binary produced_media artifacts, with
+their actual bytes/hash/status also bound by the textual HTTP observation.
+Request bodies, listing JSON and observation metadata remain command_output.
+No binary body is rewritten or discarded to satisfy UTF-8 text validation;
+credential checks and explicit omitted-body handling still apply.
+
 ## Windows native lifecycle and controlled source interface (version 1)
 
 The Windows backend uses the actual final OS image with its initial thread

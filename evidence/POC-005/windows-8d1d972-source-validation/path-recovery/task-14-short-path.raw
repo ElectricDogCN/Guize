@@ -1,0 +1,9 @@
+Source Commit: 8d1d972ab38c92997337665ab44cbe1f679c8636
+Command: C:\ProgramData\anaconda3\python.exe scripts/check-markdown.py
+Cwd: Z:/
+Checking 387 Markdown files...
+
+OK: No issues found
+
+Exit Code: 0
+Timed Out: False

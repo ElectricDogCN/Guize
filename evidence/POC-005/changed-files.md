@@ -2,7 +2,7 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
-Status: in_progress / PARTIAL; Windows content accepted, committed source checks pending.
+Status: in_progress / PARTIAL; GET classification content accepted, new source125 and Task15 pending.
 
 Exact inventory against accepted base:
 
@@ -142,6 +142,14 @@ Exact inventory against accepted base:
 - evidence/POC-005/listing-first-development-failure.json
 - evidence/POC-005/listing-independent-content-review.json
 - evidence/POC-005/listing-independent-first-rejection.json
+- evidence/POC-005/metadata-get-artifact-classification-design.md
+- evidence/POC-005/metadata-get-artifact-independent-content-review.json
+- evidence/POC-005/metadata-get-artifact-regression/.gitattributes
+- evidence/POC-005/metadata-get-artifact-regression/binary-get-green.json
+- evidence/POC-005/metadata-get-artifact-regression/binary-get-green.raw
+- evidence/POC-005/metadata-get-artifact-regression/binary-get-red.json
+- evidence/POC-005/metadata-get-artifact-regression/binary-get-red.raw
+- evidence/POC-005/metadata-get-artifact-regression/index.json
 - evidence/POC-005/native-lifecycle-5c3bcd1-ci824/.gitattributes
 - evidence/POC-005/native-lifecycle-5c3bcd1-ci824/index.json
 - evidence/POC-005/native-lifecycle-5c3bcd1-ci824/poc005-native-lifecycle-5c3bcd1-ci824.raw.txt
@@ -419,6 +427,30 @@ Exact inventory against accepted base:
 - evidence/POC-005/timestamp-mapping-test-independent-content-review.json
 - evidence/POC-005/timestamp-red.json
 - evidence/POC-005/timestamp-red.raw
+- evidence/POC-005/windows-8d1d972-source-validation/.gitattributes
+- evidence/POC-005/windows-8d1d972-source-validation/first/results.json
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-00.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-01.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-02.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-03.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-04.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-05.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-06.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-07.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-08.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-09.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-10.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-11.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-12.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-13.raw
+- evidence/POC-005/windows-8d1d972-source-validation/first/task-14.raw
+- evidence/POC-005/windows-8d1d972-source-validation/independent-source-review.json
+- evidence/POC-005/windows-8d1d972-source-validation/index.json
+- evidence/POC-005/windows-8d1d972-source-validation/linux-platform/platform.raw
+- evidence/POC-005/windows-8d1d972-source-validation/linux-platform/results.json
+- evidence/POC-005/windows-8d1d972-source-validation/path-recovery/code-124.raw
+- evidence/POC-005/windows-8d1d972-source-validation/path-recovery/results.json
+- evidence/POC-005/windows-8d1d972-source-validation/path-recovery/task-14-short-path.raw
 - evidence/POC-005/windows-clock-environment-preparation/.gitattributes
 - evidence/POC-005/windows-clock-environment-preparation/capability.json
 - evidence/POC-005/windows-clock-environment-preparation/poc005-windows-clock-reference-conclusion.json
@@ -441,6 +473,13 @@ Exact inventory against accepted base:
 - evidence/POC-005/windows-native-development/windows-all-dirty-repaired.raw
 - evidence/POC-005/windows-native-development/windows-all-first.json
 - evidence/POC-005/windows-native-development/windows-all-first.raw
+- evidence/POC-005/windows-native-environment-preparation/.gitattributes
+- evidence/POC-005/windows-native-environment-preparation/filesystem-payloads.jsonl.gz
+- evidence/POC-005/windows-native-environment-preparation/index.json
+- evidence/POC-005/windows-native-environment-preparation/poc005-precise-windows-clock.json
+- evidence/POC-005/windows-native-environment-preparation/poc005-windows-native-fixture-preparation.json
+- evidence/POC-005/windows-native-environment-preparation/poc005-windows-openlist-preparation.json
+- evidence/POC-005/windows-native-environment-preparation/precise-clock.jsonl.gz
 - evidence/POC-005/windows-native-independent-content-review.json
 - evidence/POC-005/windows-native-review-repair-design.md
 - evidence/POC-005/windows-source-adapter-design.md

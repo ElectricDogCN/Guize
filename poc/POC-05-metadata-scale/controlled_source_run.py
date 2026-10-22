@@ -112,7 +112,8 @@ class Artifacts:
             if key == 'body' and observation.get('bodyRetained') is False:
                 metadata['bodyRef'] = None
             elif raw is not None:
-                row = self.bytes(raw)
+                kind = 'produced_media' if key == 'body' and observation.get('method') == 'GET' else 'command_output'
+                row = self.bytes(raw, kind=kind)
                 metadata[key+'Ref'] = row['ref']
         return self.json(metadata)
 

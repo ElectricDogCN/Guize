@@ -2,6 +2,24 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; current GET producer repair content accepted; new exact-source checks/CI pending.
+
+## Current binary response artifact repair and Windows source validation
+
+Exact Windows source8d1d972/tree6d983806 passed all15 Task commands after retaining its actual final Markdown long-path failure and replaying that unchanged checker through an unused temporary Z: alias. Both existing long-file bytes matched Git blobs; mapping was removed. Same source124 Windows tests passed80.385s/no skips, raw22828B/SHA96282b89d14c983cf359f621cf34508704bd0d2d3744981bc05d9649b1b17a6c. Independent exact-source/scope/recovery acceptance22:45:24Z is in windows-8d1d972-source-validation/. Linux28 tests actually cover imports/explicit Windows rejection only, not complete Linux suite;4062 original source-attempt files remain preserved. Source8d was not published or CI accepted.
+
+The next Own repair classifies actual GET response bodies as binary produced_media while keeping request bodies/listing JSON/HTTP metadata textual command_output. All safe original bytes/hash/length/status remain; credential checks and omitted-body behavior are unchanged. The fixed4096B nonUTF8 probe previously caused the frozen qualifier's textual-artifact rejection. Actual new HTTP regression first failed1/2.229s, then repaired regression plus unchanged budget/alias/omit/secret case passed2/2.713s; both complete raws are in metadata-get-artifact-regression/. Independent2/2.762s passed and the exact frozen raw validator accepted bytes from the repaired producer, errors=[]. Exact2file content accepted22:47:12Z. New committed-source Task15 and complete Windows125 plus current CI are pending;8d results are not inherited.
+
+Actual Windows preparation is separately indexed in windows-native-environment-preparation/: native Precise UTC/QPC61 samples over60.0001757s retained434489B/SHA6da638547d6c4c25b1844a73a03e568c711d8fe74bffa72a9a0b188d24c1a4f5, with actual relative residual-50..150ns and no clock change/absolute UTC claim. A fresh10000file/500directory/17920000byte tree was fully reread, payload-mapSHA459f5dddf9291f913ce1b696194ec8c70da1dbf8d27f21edc3f69b66e0d1db3d. A separate Windows OpenListv4.2.6 native PID63088/15528 is configured with a restricted reader/actual credential DACL. No source listing/probe/scan or mutation ran in preparation, no old service was reconfigured, and no experiment approval is claimed.
+
+Next: commit the reviewed Own producer repair; validate its actual source using all15 Task commands, complete Windows125 and explicit Linux platform/binary HTTP regressions, obtain independent exact-source acceptance and same-head CI, then independently approve fresh concrete inputs/resources/PID/hash/future window before original13 provider execution. Full10k/100k/1m/compression, result qualification, POC003/order2 before shared order3 and fullV1 remain outstanding. Preserve frozen contracts/checkers/policies, all actual failures and single-host performance isolation.
+
+## Historical source-specific records
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; Windows content accepted, committed source checks/CI and original13 qualification pending.
 
 ## Current Windows native execution implementation
