@@ -1,0 +1,22 @@
+Task: GZ-006
+Issue: 128
+Base: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
+Branch: chore/GZ-006-event-catalog-reservation
+Work Branch: chore/GZ-006-event-catalog-v1
+Status: RESERVED; current source results PENDING
+
+NOT EXECUTED; exit codes PENDING.
+git diff --check 44e5200ed506d30c0abc83ca38f1d6912cbab1c1...HEAD
+python scripts/check-task-file.py --task GZ-006
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
+python scripts/check-program-plan-history.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task GZ-006 --branch-name chore/GZ-006-event-catalog-reservation
+python scripts/check-program-plan-transitions.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task GZ-006 --branch-name chore/GZ-006-event-catalog-reservation
+python scripts/check-program-plan-finalization.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task GZ-006
+python scripts/check-program-lifecycle-guards.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task GZ-006 --branch-name chore/GZ-006-event-catalog-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task GZ-006 --branch-name chore/GZ-006-event-catalog-reservation
+python scripts/run-agent-coordination-gate.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task GZ-006 --branch-name chore/GZ-006-event-catalog-reservation
+python scripts/run-task-scope-gate.py --task GZ-006 --base 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
+python scripts/check-evidence.py --task GZ-006
+python scripts/check-markdown.py

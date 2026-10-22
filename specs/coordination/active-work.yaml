@@ -5,4 +5,64 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
   - GZ-003
-tasks: []
+tasks:
+- taskId: GZ-006
+  issue: 128
+  title: 冻结 Domain Event Payload 与兼容策略
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: task-owner-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/GZ-006-event-catalog-v1
+  baseBranch: main
+  baseSha: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
+  workPackage: WP-M0-03C
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: GZ-006
+  programWave: W3
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  - REQ-V1-0004
+  - REQ-V1-0005
+  - REQ-V1-0006
+  - REQ-V1-0007
+  - REQ-V1-0008
+  - REQ-V1-0009
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-PLATFORM
+  - MOD-IAM
+  - MOD-SOURCE
+  - MOD-ASSET
+  - MOD-TASK
+  - MOD-STORAGE
+  - MOD-MEDIA
+  - MOD-AI
+  - MOD-SEARCH
+  - MOD-AUDIT
+  - MOD-POLICY
+  producesContracts:
+  - EVENT-CATALOG-V1
+  consumesContracts:
+  - REQ-V1
+  - OPENAPI-V1
+  coordinationGroup: gz-006
+  dependsOn:
+  - GZ-004
+  - GZ-005
+  exclusivePaths:
+  - contracts/events/**
+  - specs/contracts/events/**
+  - evidence/GZ-006/**
+  sharedPaths: []
+  handoffPath: evidence/GZ-006/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 1
+  lease:
+    acquiredAt: '2026-10-22T12:36:17Z'
+    expiresAt: '2026-10-29T12:36:17Z'

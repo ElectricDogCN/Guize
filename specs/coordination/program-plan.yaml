@@ -213,7 +213,7 @@ tasks:
   - taskId: GZ-006
     title: 冻结 Domain Event Payload 与兼容策略
     kind: contract
-    status: planned
+    status: reserved
     workPackage: WP-M0-03C
     riskLevel: high
     ownerRole: task-owner-agent
