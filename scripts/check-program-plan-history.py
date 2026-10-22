@@ -1422,6 +1422,8 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             if not allow_registered_work:
                 errors.append(f"Foundation {task_id} has own code changes after claimed implementation at {node}: {', '.join(sorted(own_work))}; Completion must identify the latest reviewed implementation")
             elif own_work - imports:
+                if not registered_node or not is_ancestor(root, reservation, parent):
+                    errors.append(f"Foundation {task_id} preflight working node must descend from original reservation at {node}")
                 historical_registration_context(root, parent, node, task_id, prior_registry, reservation, policy, f"Foundation {task_id} preflight prior registration at {node}", errors, approved_base=trusted_base)
                 node_registry = load_ref(root, node, ACTIVE)
                 node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]

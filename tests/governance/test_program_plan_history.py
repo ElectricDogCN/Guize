@@ -2472,6 +2472,23 @@ class TestProgramPlanHistory(unittest.TestCase):
                 invalid = self.commit(root, "GZ-014 reviewer changed own implementation")
                 self.write_text(root, code_path, original)
                 self.commit(root, "GZ-014 restore reviewed code")
+            elif mode == "unregistered_side":
+                checkout(history["seed"])
+                for path in (plan_path, active_path, task_path, "evidence/GZ-014/handoff.md"):
+                    self.write_text(root, path, blob(history["reservation"], path))
+                alternate = self.commit(root, "GZ-014 unadmitted alternative registration")
+                plan = yaml.safe_load(blob(alternate, plan_path))
+                next(row for row in plan["foundationTasks"] if row["taskId"] == "GZ-014")["status"] = "in_progress"
+                registry = yaml.safe_load(blob(alternate, active_path))
+                entry = registry["tasks"][0]
+                entry.update(status="in_progress", agentRole="implementer", baseSha=alternate)
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, task_path, self.task_spec(entry, "in_progress", entry["branch"], alternate))
+                self.write_text(root, code_path, "# side work never descended from the admitted reservation\n")
+                invalid = self.commit(root, "GZ-014 unregistered side implementation")
+                checkout(review)
+                subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 retain Review tree with invalid side ancestry", invalid], cwd=root, check=True, capture_output=True)
             elif mode in {"integration_metadata", "integration_code"}:
                 base = review
                 branch = "chore/GZ-014-integration"
@@ -2519,6 +2536,12 @@ class TestProgramPlanHistory(unittest.TestCase):
     def test_foundation_preflight_accepts_registered_integration_code(self):
         result, _ = self.foundation_preflight_fixture("integration_code")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_rejects_unregistered_side_work(self):
+        result, invalid = self.foundation_preflight_fixture("unregistered_side")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("preflight working node must descend from original reservation", result.stdout)
+        self.assertIn(invalid, result.stdout)
 
 
 if __name__ == "__main__":
