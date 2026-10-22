@@ -1,0 +1,64 @@
+{
+  "source": "08a60eb33c33830532556d00895870a03d1c577f",
+  "accepted": false,
+  "executions": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "c5f201adb2e11ffea912f862c19918157f9cf106...HEAD"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+      "pid": 215356,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "diff.txt",
+      "rawSha256": "b529baf25e5e9f84c628b2c7296b7591529a4ecd9eeec24ca3f42f507e3cf8ad",
+      "rawBytes": 144
+    },
+    {
+      "label": "targeted",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/governance/test_history_yaml_loader.py",
+        "tests/governance/test_program_plan_history.py",
+        "-k",
+        "history_yaml_loader or foundation_preflight",
+        "-q"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+      "pid": 215357,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "targeted.txt",
+      "rawSha256": "801ddcdf3d3a50ca58c0ec909ae74e2e8a6abd10ca32a3527cbd488b27b3386a",
+      "rawBytes": 522
+    },
+    {
+      "label": "verify",
+      "argv": [
+        "make",
+        "verify",
+        "TASK=OPS-012",
+        "BASE=c5f201adb2e11ffea912f862c19918157f9cf106",
+        "HEAD_REF=HEAD",
+        "BRANCH=chore/OPS-012-early-history-preflight"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+      "pid": 216816,
+      "exitCode": 2,
+      "waitCompleted": true,
+      "rawLog": "verify.txt",
+      "rawSha256": "86d54fdf3d782d132f8bfb8146e260105fe15e7b8d72c912ece076e7b71bf8b9",
+      "rawBytes": 7442
+    }
+  ],
+  "rawVerify": "Source Commit: 08a60eb33c33830532556d00895870a03d1c577f\nCommand: make verify TASK=OPS-012 BASE=c5f201adb2e11ffea912f862c19918157f9cf106 HEAD_REF=HEAD BRANCH=chore/OPS-012-early-history-preflight\n=== verify (TASK=OPS-012) ===\nmake docs-check\nmake[1]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== docs-check ===\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-markdown.py\nChecking 350 Markdown files...\n\nOK: No issues found\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake schema-check\nmake[1]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== schema-check ===\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-schemas.py\nOK YAML: .github/workflows/governance-gate.yml\nOK JSON-SCHEMA: contracts/events/event-envelope.schema.json\nOK CONTRACT DOCUMENT: contracts/openapi/ai/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/asset/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/errors.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/http-samples.json\nOK CONTRACT DOCUMENT: contracts/openapi/common/openapi.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/schemas.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/config/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/iam/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/media/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/playback/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/policy/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/search/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/source/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/storage/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/task/paths.yaml\nOK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml\nOK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml\nOK JSON-SCHEMA: specs/coordination/active-work.schema.yaml\nOK JSON-SCHEMA: specs/coordination/planning-revision.schema.yaml\nOK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml\nOK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml\nOK TASK REGISTRY LINK: OPS-012\nOK FOUNDATION ACTIVATION: OPS-012\nOK: Schema, Task Spec, Active Work and Program Plan validation completed\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake secret-scan\nmake[1]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== secret-scan ===\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-secrets.py\nOK: No high-risk secrets detected\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake task-verify TASK=OPS-012 BRANCH=chore/OPS-012-early-history-preflight BASE=c5f201adb2e11ffea912f862c19918157f9cf106 HEAD_REF=HEAD\nmake[1]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== task-verify (TASK=OPS-012) ===\n-- check-task-file --\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-task-file.py --task OPS-012\n{\"status\": \"PASS\", \"message\": \"Task file valid: /home/sur/.cache/guize-takeover/ops012-history-parser/specs/tasks/OPS-012.md\"}\n-- check-program-integrity --\nmake program-integrity-check TASK=OPS-012 BASE=c5f201adb2e11ffea912f862c19918157f9cf106 HEAD_REF=HEAD BRANCH=chore/OPS-012-early-history-preflight\nmake[2]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== program-integrity-check (TASK=OPS-012, BASE=c5f201adb2e11ffea912f862c19918157f9cf106, HEAD_REF=HEAD) ===\n{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 10, \"programTasks\": 28, \"activeTasks\": 1, \"completionRecords\": 4, \"baseRef\": \"c5f201adb2e11ffea912f862c19918157f9cf106\"}}\n{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"c5f201adb2e11ffea912f862c19918157f9cf106\", \"headRef\": \"HEAD\", \"completionRecords\": 4, \"auditedOwnerCapacityFailures\": []}}\n{\"status\": \"PASS\", \"message\": \"Program reservation scope, wave and lifecycle transitions passed\", \"details\": {\"task\": \"OPS-012\", \"activeTasks\": 1, \"completionRecords\": 4}}\n{\"status\": \"PASS\", \"message\": \"Program finalization invariants passed\", \"details\": {\"activeTasks\": 1, \"completedFoundations\": 9, \"task\": \"OPS-012\"}}\n{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"OPS-012\"], \"changedPathCount\": 13, \"baseRef\": \"c5f201adb2e11ffea912f862c19918157f9cf106\"}}\nmake[2]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n-- check-agent-coordination --\nmake coordination-check TASK=OPS-012 BASE=c5f201adb2e11ffea912f862c19918157f9cf106 HEAD_REF=HEAD BRANCH=chore/OPS-012-early-history-preflight\nmake[2]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== coordination-check (TASK=OPS-012, BASE=c5f201adb2e11ffea912f862c19918157f9cf106, HEAD_REF=HEAD) ===\n{\"status\": \"PASS\", \"message\": \"Agent coordination valid: 1 active tasks, 1 high/critical\", \"details\": {\"activeTaskIds\": [\"OPS-012\"]}}\nmake[2]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n-- check-project-readiness --\nmake readiness-check\nmake[2]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== readiness-check ===\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-project-readiness.py\n{\"status\": \"WARN\", \"message\": \"GitHub main branch protection/Ruleset remains an external blocker\"}\n{\"status\": \"WARN\", \"message\": \"Machine contracts not frozen for 10 requirements\"}\n{\"status\": \"WARN\", \"message\": \"Implementation not verified for 10 requirements\"}\n{\"status\": \"PASS\", \"message\": \"Project readiness indexes and Program Plan are structurally consistent\", \"details\": {\"requirements\": 10, \"modules\": 21, \"contractNamespaces\": 37, \"plannedTasks\": 28, \"pocs\": 10, \"waves\": 17, \"contractGapCount\": 10, \"implementationGapCount\": 10}}\nmake[2]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n-- check-task-scope --\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/run-task-scope-gate.py --task OPS-012 --base c5f201adb2e11ffea912f862c19918157f9cf106\n{\"status\": \"INFO\", \"message\": \"Changed files: 13, Allowed: 5, Forbidden: 0, Out-of-scope: 8\"}\n{\"status\": \"PASS\", \"message\": \"Allowed files\", \"details\": {\"files\": [\"scripts/check-program-plan-history.py\", \"specs/coordination/active-work.yaml\", \"specs/coordination/program-plan.yaml\", \"specs/tasks/OPS-012.md\", \"tests/governance/test_program_plan_history.py\"]}}\n{\"status\": \"FAIL\", \"message\": \"Out-of-scope files found\", \"details\": {\"files\": [\"evidence/OPS-012/changed-files.md\", \"evidence/OPS-012/commands.txt\", \"evidence/OPS-012/handoff.md\", \"evidence/OPS-012/rejected-preflight-6937bb0.json\", \"evidence/OPS-012/scope.md\", \"evidence/OPS-012/summary.md\", \"evidence/OPS-012/test-results/README.md\", \"evidence/OPS-012/test-results/early-preflight-development.json\"]}}\nmake[1]: *** [Makefile:141: task-verify] Error 1\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake: *** [Makefile:172: verify] Error 2\n\nExit Code: 2\n",
+  "fullGovernanceExecuted": false,
+  "lifecycleWrapperExecuted": false,
+  "reason": "Task allowed-scope list omitted own Evidence bullet; Task format, Program history and coordination had passed; scope gate failed before full governance. Forward metadata correction declares the already implicit own Evidence surface; registered code claims unchanged."
+}
