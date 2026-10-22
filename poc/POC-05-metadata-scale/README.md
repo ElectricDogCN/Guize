@@ -82,6 +82,43 @@ An owned loopback gateway will forward only approved read-only listing/DAV route
 
 The external controller will assemble frozen scan/resource/profiling reports and all original thirteen metric values from actual complete streams, raw process facts, counters, quota documentation and five original Range/validator response bodies. Real negative-response bodies and missing validators remain unchanged even if qualification fails. No successful qualification is inferred from report generation. The source session, bounded gateway and run_source_experiment.py entry point are implemented. The entry point reserves the actual scanner, fixes runtime/resource bytes and publishes an approval request without creating an approval. Formal execution requires committed clean code with its exact subject version. An independent reviewer must atomically publish the approval file before its future window; the controller then releases the same PID and runs the complete observation chain. Known source/gateway credential values are blocked from artifacts, retaining only omitted-body hashes/lengths. Unit-fixture mode is explicit in its requests/results and never grants qualification. Source-specific tests/review, concrete independent experiment approval and an actual original13 run remain required.
 
+## Windows native lifecycle and controlled source interface (version 1)
+
+The Windows backend uses the actual final OS image with its initial thread
+suspended. Before creation it configures a kill-on-close Job; CreateProcessW
+receives JOB_LIST and the explicit standard-handle list in STARTUPINFOEX, so
+parent exit at creation return cannot strand an unassigned suspended child.
+Actual creation time, owner SID, executable hash and OS command line bind the
+reservation. Independent approval still fixes immutable code/configuration,
+the exact PID and a future window before ResumeThread. The approval hash is
+delivered through the inherited private pipe; no worker work runs before
+release. Expiry and rejection terminate and actually wait for that exact image.
+
+Timing uses actual QueryPerformanceCounter and GetSystemTimePreciseAsFileTime
+brackets, retaining raw QPC, frequency and FILETIME. ResumeThread has separate
+before/after samples; the child may enter before the parent's post-call sample.
+Neither sample is called the exact resume instant. The same frozen drift,
+uncertainty, window and interval checks apply. A separate process reads actual
+GetProcessMemoryInfo counters and retains the native structure and typed raw
+counter bytes. Linux /proc/exec entry points keep their explicit platform gates.
+
+Controlled Windows leaf changes hold real parent handles against rename/delete,
+reject reparse points, ambiguous aliases and hard links, verify approved before
+bytes/source metadata, and mutate through the bound leaf handle. Writes retain
+actual file identity, hash and integer FILETIME. Only complete provider
+confirmation permits an event; failed confirmation preserves dirty state and
+evidence without accepting a change. Private credential reads check the actual
+owner SID and DACL and reject other principals before reading bytes.
+
+run_source_experiment.py selects the actual host backend. Its explicit Windows
+reservation binds the same immutable approval request, actual process identity,
+Windows counter command and resource policies without accessing the source.
+Unit HTTP/handle tests exercise all three changes, five real response probes,
+four bounded adapter faults, actual wait and original13 report assembly. They
+remain unit-only, qualificationAccepted=false, and do not establish OpenList or
+scale acceptance. API details follow the [Windows creation attributes](https://learn.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute)
+and [extended startup structure](https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-startupinfoexw).
+
 ## Remaining work
 
 Real local OpenList HTTP/WebDAV adapter and actual identity/version/Range/ETag observations; bounded fault and rate-limit experiments; independently approved immutable 10k/100k/1m file populations and execution windows; original thirteen typed measurements and qualification. Missing stable provider IDs must be reported, not replaced with path-derived asset IDs. Production 700TB and Baidu remain untested.

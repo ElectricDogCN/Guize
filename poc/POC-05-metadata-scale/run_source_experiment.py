@@ -15,12 +15,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from canonical_metadata import CanonicalPair
-from controlled_source_run import Artifacts, SourceSession, original13_reports, source_build
+from controlled_source_run import Artifacts, SourceSession, WindowsSourceSession, original13_reports, source_build
 from loopback_gateway import ControlledGateway
 from metadata_scan import ScanError, file_sha256
-from native_memory import native_identity
 from native_scan_control import NativeRun, manifest_for
-from native_scan_protocol import ClockFailure, decode, emit, read_json, scoped, utc, write_json
+from native_scan_protocol import ClockFailure, decode, emit, process_identity, read_json, scoped, utc, write_json
 from openlist_listing import OpenListListing
 from openlist_source import OpenListSource, _NoRedirect
 
@@ -28,6 +27,16 @@ from openlist_source import OpenListSource, _NoRedirect
 def reserve_config(draft):
     if not sys.platform.startswith('linux'):
         raise ScanError('LINUX_SOURCE_EXPERIMENT_REQUIRED')
+    return _reserve_config(draft, windows=False)
+
+
+def reserve_windows_config(draft):
+    if os.name != 'nt':
+        raise ScanError('WINDOWS_SOURCE_EXPERIMENT_REQUIRED')
+    return _reserve_config(draft, windows=True)
+
+
+def _reserve_config(draft, *, windows):
     cfg, resource, refs = (copy.deepcopy(draft[key]) for key in ('runtimeConfig', 'resourceConfiguration', 'refs'))
     root, source = cfg['artifactRoot'], cfg['sourceRun']
     source['unitFixtureOnly'] = draft.get('unitFixtureOnly')
@@ -42,7 +51,7 @@ def reserve_config(draft):
             'poc/POC-05-metadata-scale', 'specs/tasks/POC-005.md'], text=True)
         if dirty or cfg['context']['subjectVersion'] != head or cfg['context']['scannerBuild'] != head:
             raise ScanError('COMMITTED_REVIEWABLE_EXPERIMENT_CODE_REQUIRED')
-    if native_identity(source['upstreamIdentity']['nativeProcessId']) != source['upstreamIdentity']:
+    if process_identity(source['upstreamIdentity']['nativeProcessId']) != source['upstreamIdentity']:
         raise ScanError('EXACT_OWNED_OPENLIST_PROCESS_REQUIRED')
     OpenListListing(source['origin'], source['scope'])  # Validate fixed route; no request.
     if type(source['gatewayPort']) is not int or not 1 <= source['gatewayPort'] <= 65535:
@@ -52,15 +61,26 @@ def reserve_config(draft):
     paths = [scoped(root, ref) for ref in refs.values()]
     if len(paths) != len(set(paths)) or any(path.exists() for path in paths):
         raise ScanError('NEW_RESERVATION_OUTPUTS_REQUIRED')
-    manifest = manifest_for(refs['runtimeConfiguration'], cfg, draft['reservationDeadline'])
+    if windows:
+        from windows_scan_control import WindowsNativeRun, windows_manifest_for
+        cfg['counterFormat'] = 'windows_process_memory_counters'
+        manifest = windows_manifest_for(refs['runtimeConfiguration'], cfg, draft['reservationDeadline'], identity_ref=refs['processIdentity'])
+        run_type = WindowsNativeRun
+    else:
+        manifest = manifest_for(refs['runtimeConfiguration'], cfg, draft['reservationDeadline'])
+        run_type = NativeRun
     manifest_sha = write_json(scoped(root, refs['manifest']), manifest)
-    run = NativeRun(refs['manifest'], manifest_sha, trace_ref=scoped(root, refs['stdout']), stderr_ref=scoped(root, refs['stderr']))
+    run = run_type(refs['manifest'], manifest_sha, trace_ref=scoped(root, refs['stdout']), stderr_ref=scoped(root, refs['stderr']))
     try:
         identity = run.reservation['identity']
         from native_scan_protocol import argv_sha
-        memory_args = [sys.executable, '-B', str(Path(__file__).with_name('native_memory.py').resolve()),
-            '--start-ticks', str(identity['startTicks']), '--boot-id', identity['bootId'], '--exe', identity['executable'],
-            '--exe-sha256', identity['executableSha256'], '--cmdline-sha256', argv_sha(manifest['argv'])]
+        if windows:
+            memory_args = [sys.executable, '-B', str(Path(__file__).with_name('windows_native.py').resolve()),
+                '--expected', refs['processIdentity'], '--expected-sha256', run.identity_sha]
+        else:
+            memory_args = [sys.executable, '-B', str(Path(__file__).with_name('native_memory.py').resolve()),
+                '--start-ticks', str(identity['startTicks']), '--boot-id', identity['bootId'], '--exe', identity['executable'],
+                '--exe-sha256', identity['executableSha256'], '--cmdline-sha256', argv_sha(manifest['argv'])]
         cfg['memoryCollectorCommandArgs'] = memory_args
         policies = resource['configuration']
         policies['metadataScanPolicy'].update(manifestId=cfg['context']['manifestId'], scannerBuild=cfg['context']['scannerBuild'],
@@ -69,7 +89,7 @@ def reserve_config(draft):
             timingCollectorCommandArgs=cfg['timingCollectorCommandArgs'])
         policies['metadataResourcePolicy'].update(manifestId=cfg['context']['manifestId'], scannerBuild=cfg['context']['scannerBuild'],
             scanId=cfg['scanId'], processId=cfg['processId'], collectorBuild=cfg['counterCollectorBuild'],
-            nativeProcessId=run.process.pid, counterFormat='linux_proc_status', collectorCommandArgs=memory_args,
+            nativeProcessId=run.process.pid, counterFormat=cfg.get('counterFormat', 'linux_proc_status'), collectorCommandArgs=memory_args,
             sourceIdentity=source['identity'], quotaDocumentRef=source['quotaRef'], quotaDocumentSha256=source['quotaSha256'])
         policy = policies['metadataProfilingPolicy']
         policy.update(manifestId=cfg['context']['manifestId'], scannerBuild=cfg['context']['scannerBuild'],
@@ -92,10 +112,14 @@ def reserve_config(draft):
 
 def reader_credentials(source):
     path = Path(source['credentialRef'])
-    state = path.stat()
-    if path.is_symlink() or state.st_uid != os.getuid() or state.st_mode & 0o077:
-        raise ScanError('PRIVATE_OWNED_READER_CREDENTIAL_FILE_REQUIRED')
-    credentials, _ = read_json(path, limit=16384)
+    if os.name == 'nt':
+        from windows_source_files import read_private
+        credentials = decode(read_private(path))
+    else:
+        state = path.stat()
+        if path.is_symlink() or state.st_uid != os.getuid() or state.st_mode & 0o077:
+            raise ScanError('PRIVATE_OWNED_READER_CREDENTIAL_FILE_REQUIRED')
+        credentials, _ = read_json(path, limit=16384)
     if set(credentials) != {'username', 'password'} or credentials['username'] != source['readerUsername']:
         raise ScanError('EXACT_SCOPED_READER_REQUIRED')
     endpoint = OpenListListing(source['origin'], source['scope']).endpoint.removesuffix('/api/fs/list')+'/api/auth/login'
@@ -118,7 +142,7 @@ def reader_credentials(source):
 def execute(run, cfg, approval):
     source, root = cfg['sourceRun'], cfg['artifactRoot']
     if (source['identity']['adapterBuild'] != source_build()
-            or native_identity(source['upstreamIdentity']['nativeProcessId']) != source['upstreamIdentity']):
+            or process_identity(source['upstreamIdentity']['nativeProcessId']) != source['upstreamIdentity']):
         raise ScanError('SOURCE_OR_OBSERVER_CHANGED_AFTER_APPROVAL')
     window = approval['windowStart'], approval['windowEnd']
     if not utc(window[0]) <= datetime.now(timezone.utc) <= utc(window[1]):
@@ -136,7 +160,8 @@ def execute(run, cfg, approval):
         pair = CanonicalPair(scoped(root, cfg['baseline']['ref']), scoped(root, cfg['profiled']['ref']),
             baseline_sha256=cfg['baseline']['sha256'][7:], profiled_sha256=cfg['profiled']['sha256'][7:],
             source_id=cfg['sourceId'], snapshot_version=cfg['snapshotVersion'], page_size=cfg['pageSize'])
-        session = SourceSession(pair, OpenListListing(gateway.endpoint, source['scope'], token=gateway.token, timeout=source['timeout']),
+        session_type = WindowsSourceSession if os.name == 'nt' else SourceSession
+        session = session_type(pair, OpenListListing(gateway.endpoint, source['scope'], token=gateway.token, timeout=source['timeout']),
             OpenListSource(gateway.endpoint+'/dav/'+source['scope']+'/', username=gateway.username,
                            password=gateway.password, timeout=source['timeout']), artifacts,
             identity=source['identity'], window=window, local_root=source['localRoot'], per_page=source['perPage'])
@@ -197,7 +222,8 @@ def main():
     parser.add_argument('--sha256', required=True)
     args = parser.parse_args()
     draft, _ = read_json(args.draft, args.sha256)
-    run, cfg, request = reserve_config(draft)
+    reserve = reserve_windows_config if os.name == 'nt' else reserve_config
+    run, cfg, request = reserve(draft)
     try:
         emit(dict(kind='awaiting_independent_approval', approvalRequestRef=draft['refs']['approvalRequest'],
                   actualProcessId=run.process.pid, unitFixtureOnly=draft['unitFixtureOnly']))

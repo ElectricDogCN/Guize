@@ -5,6 +5,8 @@ import hashlib
 import json
 import os
 import select
+import queue
+import threading
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -12,7 +14,8 @@ from pathlib import Path
 from metadata_scan import MAX_LINE_BYTES, ScanError, canonical, file_sha256
 
 SOURCES = ("native_scan_protocol.py", "native_scan_runtime.py", "native_scan_control.py",
-           "native_memory.py", "canonical_metadata.py", "metadata_scan.py")
+           "native_memory.py", "canonical_metadata.py", "metadata_scan.py",
+           "windows_native.py", "windows_scan_control.py", "windows_scan_runtime.py")
 
 
 def unique(pairs):
@@ -80,6 +83,9 @@ def descriptor(path, count):
 
 
 def actual_argv():
+    if os.name == 'nt':
+        from windows_native import actual_argv as windows_argv
+        return windows_argv()
     with Path("/proc/self/cmdline").open("rb") as stream:
         raw = stream.read(65537)
     if not raw or len(raw) > 65536:
@@ -89,6 +95,14 @@ def actual_argv():
 
 def argv_sha(argv):
     return hashlib.sha256(b"\0".join(os.fsencode(part) for part in argv) + b"\0").hexdigest()
+
+
+def process_identity(pid):
+    if os.name == 'nt':
+        from windows_native import identity
+        return identity(pid)
+    from native_memory import native_identity
+    return native_identity(pid)
 
 
 def check_sources(manifest):
@@ -109,7 +123,15 @@ class ClockFailure(ScanError):
 
 class Clock:
     def __init__(self, calibration=None):
-        if calibration is None:
+        if calibration is None and os.name == 'nt':
+            from windows_native import clock_sample
+            samples = [clock_sample() for _ in range(32)]
+            chosen = min(range(len(samples)), key=lambda n: samples[n]['afterNs']-samples[n]['beforeNs'])
+            calibration = dict(samples=samples, chosen=chosen, clock='windows_qpc_ns',
+                implementation='QueryPerformanceCounter', utcImplementation='GetSystemTimePreciseAsFileTime',
+                qpcFrequency=samples[chosen]['qpcFrequency'],
+                utcSemantics='one precise native UTC calibration mapped from retained raw QPC ticks')
+        elif calibration is None:
             samples = []
             for _ in range(32):
                 before = time.monotonic_ns()
@@ -121,6 +143,7 @@ class Clock:
                                implementation=time.get_clock_info("monotonic").implementation,
                                utcSemantics="wall calibration mapped from retained native monotonic ticks")
         self.calibration = calibration
+        self.windows_clock = calibration.get('clock') == 'windows_qpc_ns'
         sample = calibration["samples"][calibration["chosen"]]
         self.mono = (sample["beforeNs"] + sample["afterNs"]) // 2
         self.wall = sample["wallNs"]
@@ -132,8 +155,17 @@ class Clock:
         seconds, remainder = divmod(nanos, 1_000_000_000)
         return (datetime.fromtimestamp(seconds, timezone.utc) + timedelta(microseconds=remainder // 1000)).isoformat()
 
+    def now_ns(self):
+        if self.windows_clock:
+            from windows_native import qpc_ns
+            return qpc_ns()
+        return time.monotonic_ns()
+
     def marker(self, kind, *, tick=None, wall=None, after_tick=None, exit_code=0, process_id=None):
-        if tick is None and wall is None:
+        if tick is None and wall is None and self.windows_clock:
+            from windows_native import clock_sample
+            samples = [clock_sample() for _ in range(32)]
+        elif tick is None and wall is None:
             samples = []
             for _ in range(32):
                 before = time.monotonic_ns()
@@ -169,13 +201,37 @@ def typed_event(event):
 class ControlReader:
     def __init__(self, fd=0):
         self.fd, self.buffer = fd, bytearray()
+        self.chunks = None
+        if os.name == 'nt':
+            self.chunks = queue.Queue(maxsize=2)
+            threading.Thread(target=self._windows_read, daemon=True).start()
+
+    def _windows_read(self):
+        try:
+            while True:
+                chunk = os.read(self.fd, 4096)
+                self.chunks.put(chunk)
+                if not chunk:
+                    return
+        except OSError as failure:
+            self.chunks.put(failure)
 
     def receive(self, deadline):
         while b"\n" not in self.buffer:
             remaining = (utc(deadline) - datetime.now(timezone.utc)).total_seconds()
-            if remaining <= 0 or not select.select([self.fd], [], [], remaining)[0]:
+            if remaining <= 0:
                 raise ScanError("CONTROL_DEADLINE")
-            chunk = os.read(self.fd, 4096)
+            if self.chunks is not None:
+                try:
+                    chunk = self.chunks.get(timeout=remaining)
+                except queue.Empty:
+                    raise ScanError('CONTROL_DEADLINE') from None
+                if isinstance(chunk, OSError):
+                    raise chunk
+            else:
+                if not select.select([self.fd], [], [], remaining)[0]:
+                    raise ScanError('CONTROL_DEADLINE')
+                chunk = os.read(self.fd, 4096)
             if not chunk:
                 raise ScanError("CONTROL_EOF")
             self.buffer.extend(chunk)

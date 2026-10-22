@@ -2,7 +2,7 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
-Status: in_progress / PARTIAL; source483 native96 failed1, no current full-source acceptance.
+Status: in_progress / PARTIAL; Windows content accepted, committed source checks pending.
 
 Exact inventory against accepted base:
 
@@ -423,6 +423,27 @@ Exact inventory against accepted base:
 - evidence/POC-005/windows-clock-environment-preparation/capability.json
 - evidence/POC-005/windows-clock-environment-preparation/poc005-windows-clock-reference-conclusion.json
 - evidence/POC-005/windows-clock-environment-preparation/poc005-windows-clock-reference.jsonl
+- evidence/POC-005/windows-native-development/.gitattributes
+- evidence/POC-005/windows-native-development/atomic-job-and-resume-first.json
+- evidence/POC-005/windows-native-development/atomic-job-and-resume-first.raw
+- evidence/POC-005/windows-native-development/index.json
+- evidence/POC-005/windows-native-development/lifecycle-first.json
+- evidence/POC-005/windows-native-development/lifecycle-first.raw
+- evidence/POC-005/windows-native-development/native-leaf-acl-first.json
+- evidence/POC-005/windows-native-development/native-leaf-acl-first.raw
+- evidence/POC-005/windows-native-development/native-source-chain-first.json
+- evidence/POC-005/windows-native-development/native-source-chain-first.raw
+- evidence/POC-005/windows-native-development/native-source-chain-three.json
+- evidence/POC-005/windows-native-development/native-source-chain-three.raw
+- evidence/POC-005/windows-native-development/native-source-dirty-repair.json
+- evidence/POC-005/windows-native-development/native-source-dirty-repair.raw
+- evidence/POC-005/windows-native-development/windows-all-dirty-repaired.json
+- evidence/POC-005/windows-native-development/windows-all-dirty-repaired.raw
+- evidence/POC-005/windows-native-development/windows-all-first.json
+- evidence/POC-005/windows-native-development/windows-all-first.raw
+- evidence/POC-005/windows-native-independent-content-review.json
+- evidence/POC-005/windows-native-review-repair-design.md
+- evidence/POC-005/windows-source-adapter-design.md
 - poc/POC-05-metadata-scale/README.md
 - poc/POC-05-metadata-scale/canonical_metadata.py
 - poc/POC-05-metadata-scale/controlled_fixture_map.py
@@ -445,6 +466,14 @@ Exact inventory against accepted base:
 - poc/POC-05-metadata-scale/test_native_scan.py
 - poc/POC-05-metadata-scale/test_openlist_listing.py
 - poc/POC-05-metadata-scale/test_openlist_source.py
+- poc/POC-05-metadata-scale/test_windows_native.py
+- poc/POC-05-metadata-scale/test_windows_scan.py
+- poc/POC-05-metadata-scale/test_windows_source_files.py
+- poc/POC-05-metadata-scale/test_windows_source_run.py
+- poc/POC-05-metadata-scale/windows_native.py
+- poc/POC-05-metadata-scale/windows_scan_control.py
+- poc/POC-05-metadata-scale/windows_scan_runtime.py
+- poc/POC-05-metadata-scale/windows_source_files.py
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/POC-005.md

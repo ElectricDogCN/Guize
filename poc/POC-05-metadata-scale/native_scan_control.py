@@ -13,13 +13,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from metadata_scan import MAX_LINE_BYTES, ScanError, canonical, file_sha256
-from native_memory import native_identity
 from native_scan_protocol import (Clock, SOURCES, actual_argv, argv_sha, decode, descriptor, emit,
-                                  read_json, scoped, typed_event, utc, write_json)
+                                  process_identity as native_identity, read_json, scoped, typed_event, utc, write_json)
 
 
-def manifest_for(config_ref, cfg, reservation_deadline):
-    runtime = str(Path(__file__).with_name("native_scan_runtime.py").resolve())
+def manifest_for(config_ref, cfg, reservation_deadline, *, runtime_script=None):
+    runtime = str(Path(runtime_script).resolve() if runtime_script else Path(__file__).with_name("native_scan_runtime.py").resolve())
     argv = [sys.executable, "-B", runtime, "worker", "--config", str(config_ref),
             "--scan-id", cfg["scanId"], "--change-set-id", cfg["changeSetId"], "--input", cfg["baseline"]["ref"]]
     for key in ("objects", "events", "appliedEvents", "traversedObjects"):
@@ -115,7 +114,7 @@ class NativeRun:
         tag = "after" if final else "before"
         root, refs = self.cfg["artifactRoot"], self.cfg["memory"][tag]
         argv = self.cfg["memoryCollectorCommandArgs"] + ["--pid", str(self.process.pid), "--output", refs["counter"]]
-        result = subprocess.run(argv, capture_output=True, timeout=30)
+        result = subprocess.run(argv, capture_output=True, timeout=30, env=getattr(self, 'child_environment', None))
         with scoped(root, refs["stdout"]).open("xb") as output:
             output.write(result.stdout)
         with scoped(root, refs["stderr"]).open("xb") as output:
@@ -133,7 +132,7 @@ class NativeRun:
         ack = self.expect("memory_after_accepted" if final else "memory_before_accepted")
         capture = dict(schemaVersion=1, **self.cfg["context"], scanId=self.cfg["scanId"],
                        processId=self.cfg["processId"], collectorBuild=self.cfg["counterCollectorBuild"],
-                       nativeProcessId=self.process.pid, counterFormat="linux_proc_status", kind="metadata_memory_counter_capture",
+                       nativeProcessId=self.process.pid, counterFormat=self.cfg.get('counterFormat', 'linux_proc_status'), kind="metadata_memory_counter_capture",
                        observedAt=receipt["observedAt"], toolBuild=receipt["toolBuild"],
                        collectorProcessId=receipt["collectorProcessId"], commandArgs=receipt["commandArgs"],
                        counterRef=refs["counter"], exitCode=result.returncode)
@@ -181,10 +180,10 @@ class NativeRun:
 
     def post_catalogue(self):
         root = self.cfg["artifactRoot"]
-        argv = [sys.executable, "-B", str(Path(__file__).with_name("native_scan_runtime.py")), "catalogue",
+        argv = [sys.executable, "-B", str(getattr(self, 'runtime_script', Path(__file__).with_name("native_scan_runtime.py"))), "catalogue",
                 "--approval", self.approval_ref, "--approval-sha", self.approval_sha,
                 "--clock", self.cfg["readyReceipt"], "--output", self.cfg["outputs"]["postScanObjects"]]
-        env = {**os.environ, "GUIZE_POC_MANIFEST_REF": self.manifest_ref, "GUIZE_POC_MANIFEST_SHA": self.manifest_sha}
+        env = {**getattr(self, 'child_environment', os.environ), "GUIZE_POC_MANIFEST_REF": self.manifest_ref, "GUIZE_POC_MANIFEST_SHA": self.manifest_sha}
         result = subprocess.run(argv, capture_output=True, timeout=180, env=env)
         with scoped(root, self.cfg["postStderr"]).open("xb") as output:
             output.write(result.stderr)
@@ -223,7 +222,7 @@ class NativeRun:
             raise ScanError(failure)
         for name in ("enumeration", "changeStream", "incremental"):
             argv = self.cfg["timingCollectorCommandArgs"] + ["--phase", name]
-            completed = subprocess.run(argv, capture_output=True, timeout=20)
+            completed = subprocess.run(argv, capture_output=True, timeout=20, env=getattr(self, 'child_environment', None))
             with scoped(root, self.cfg["phaseCaptures"][name]).open("xb") as output:
                 output.write(completed.stdout)
             with scoped(root, self.cfg["phaseStderr"][name]).open("xb") as output:
@@ -276,7 +275,7 @@ def phase_capture(args):
 
 if __name__ == "__main__":
     try:
-        if not sys.platform.startswith("linux"):
+        if not sys.platform.startswith("linux") and os.name != 'nt':
             raise ScanError("LINUX_NATIVE_RUNTIME_REQUIRED")
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", choices=["phase"])

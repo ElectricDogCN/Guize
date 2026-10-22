@@ -167,7 +167,7 @@ class NativeLifecycleTests(unittest.TestCase):
         event = dict(eventId="unit-event-"+str(sequence), sequence=sequence, objectId=row["objectId"],
                      operation=operation, beforeVersion=before, afterVersion=after)
         observation = dict(kind="controlled_source_change_observation", sourceId=self.cfg["sourceId"], event=event,
-                           profile=profile, observedAt=self.run.clock.mapped_utc(time.monotonic_ns()),
+                           profile=profile, observedAt=self.run.clock.mapped_utc(self.run.clock.now_ns()),
                            evidenceRefs=[] if missing_evidence else [dict(ref=str(evidence_ref), sha256=evidence_sha)])
         ref = self.root/("observation-"+str(sequence)+".json")
         digest = write_json(ref, observation)

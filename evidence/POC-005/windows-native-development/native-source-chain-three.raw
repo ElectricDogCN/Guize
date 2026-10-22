@@ -1,0 +1,8 @@
+test_actual_native_source_chain_assembles_original13_with_windows_counters_and_real_changes (test_windows_source_run.WindowsSourceTests.test_actual_native_source_chain_assembles_original13_with_windows_counters_and_real_changes) ... ok
+test_concrete_reservation_binds_actual_suspended_image_and_policy_before_source_access (test_windows_source_run.WindowsSourceTests.test_concrete_reservation_binds_actual_suspended_image_and_policy_before_source_access) ... ok
+test_rejected_payload_and_failed_confirmation_preserve_actual_dirty_state_without_event (test_windows_source_run.WindowsSourceTests.test_rejected_payload_and_failed_confirmation_preserve_actual_dirty_state_without_event) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 10.596s
+
+OK

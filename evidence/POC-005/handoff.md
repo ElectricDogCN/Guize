@@ -1,3 +1,23 @@
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; Windows content accepted, committed source checks/CI and original13 qualification pending.
+
+## Current Windows native execution implementation
+
+The final Windows scanner image is created suspended with an atomic JOB_LIST and explicit inherited standard handles. Parent exit at native creation return kills that image; approval, exact identity/code/configuration and a future window precede actual ResumeThread. Real QPC/Precise UTC brackets, native command line/creation/owner identity, separate working-set counters, actual three phases/post catalogue/final counter/real wait and frozen typed captures are exercised. The child may enter before the parent post-resume sample; both real boundaries remain retained. Linux public entry points and strict platform guards remain.
+
+Controlled Windows changes use no-reparse native handles, reject hard links and ambiguous aliases, hold parent paths, and verify actual before/source metadata and approved bounded payloads. Real FILETIME/identity/hash are retained. Actual creation is marked dirty before any post-create identity query; failed confirmation/query preserves the actual empty/changed file and failed receipt, without accepted event/sequence/version advancement or automatic restoration. Credential reads verify actual SID/DACL rather than chmod. The source CLI has an explicit Windows reservation with matching PID/counter/resource policy and zero source requests before approval.
+
+Current actual complete Windows suite:124 tests/83.302s/exit0/OK/no skips. Raw22478B/SHA04e881d0be52ff21a83ed5326f89edd02e9ea98465e5884ad009b6b2fbf2ca74 is byte-exact under windows-native-development/. The earlier complete123 suite passed before the last source repair and is retained only as predecessor evidence. Independent core/source content accepted at22:22:37Z/22:29:49Z with exact14 file hashes in windows-native-independent-content-review.json. Original P2 creation leak, post-resume ordering and dirty-record rejections, independent real reproductions and limited raw-retention history are preserved. This is content acceptance only, not current committed-source or experiment acceptance.
+
+The actual full unit HTTP/handle chain derives all original13 reports from real listing, three leaf changes, five response probes, four bounded adapter faults, actual memory counters and real wait, while retaining qualificationAccepted=false. It is not OpenList behavior, 10k/100k/1m scale, compressed-input or frozen original13 qualification. Source-specific Task15, complete Windows suite, independent source/scope review and same-head full CI remain required. The failed483 Linux suite and publishedA9/CI826 success remain separate and unchanged; no unchanged-host Linux clock retry, clock tuning, consumed approval reuse or automatic fixture restoration occurred.
+
+Next: commit reviewed bytes and verify that exact source. Prepare a separate native Windows OpenList fixture/service without changing existing Linux/Windows sandboxes, verify the actual native timing environment, independently approve exact immutable inputs/resources/PID/future window, then perform the full original13 provider chain and frozen qualification. Preserve all three failed source attempts, shared order3 after POC003/order2, frozen policy/schema/checkers, other leases and single-host performance isolation. Complete10k/100k/1m/compression and V1 remain unfinished.
+
+## Historical source-specific records
+
 Current exact-source483 Task15 passed/native96 failed1; complete acceptance and push rejected21:55:45Z. See clock-48344a9-failed-validation/, timestamp-a9bcc16-ci826/, native-windows-measurement-next.md and summary.md. Current handoff-only successor does not claim a new full run. Next implement native Windows lifecycle/counters/QPC under frozen contracts, then verify actual source and obtain new independent experiment approval.
 
 Current clock-failure repair: summary.md, source-attempt003-clock-failure/, clock-failure-independent-content-review.json, timestamp-a9bcc16-source-validation/. New exact Task15/code96/source review/CI pending. Environment remains unsuitable; no approval reuse or source retry. Original source service fixtures preserved.

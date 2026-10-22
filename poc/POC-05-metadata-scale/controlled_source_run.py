@@ -19,7 +19,7 @@ from openlist_listing import MAX_OBJECTS, OpenListListing
 from openlist_source import OpenListSource, SourceError, _segments
 
 SOURCE_FILES = ('controlled_source_run.py', 'loopback_gateway.py', 'controlled_fixture_map.py',
-                'openlist_listing.py', 'openlist_source.py', 'run_source_experiment.py')
+                'openlist_listing.py', 'openlist_source.py', 'run_source_experiment.py', 'windows_source_files.py')
 
 
 def source_build():
@@ -221,6 +221,9 @@ class SourceSession:
         """Intent names desired fixture versions; observation attributes come from the source."""
         if not sys.platform.startswith('linux'):
             raise ScanError('NATIVE_CONTROLLED_MUTATION_REQUIRES_LINUX')
+        return self._mutation(intent, clock)
+
+    def _mutation(self, intent, clock, *, leaf_type=None):
         self.check()
         operation, object_id, locator = (intent[key] for key in ('operation', 'objectId', 'path'))
         if operation not in ('create', 'update', 'delete'):
@@ -242,47 +245,13 @@ class SourceSession:
             raise ScanError('ACTUAL_SOURCE_BEFORE_DISPOSITION_MISMATCH')
         receipt = dict(kind='controlled_local_mutation', operation=operation, objectId=object_id, locator=locator,
                        startedAt=datetime.now(timezone.utc).isoformat(), filesystemMutated=False, outcome='pending')
+        leaf = None
         try:
-            if before != 'absent':
-                with os.fdopen(os.open(target, os.O_RDONLY | os.O_NOFOLLOW), 'rb') as source:
-                    state, raw_before = os.fstat(source.fileno()), source.read(65537)
-                    if (not stat.S_ISREG(state.st_mode) or len(raw_before) > 65536
-                            or intent['beforeSha256'] != 'sha256:'+hashlib.sha256(raw_before).hexdigest()
-                            or remote_before['kind'] != 'file' or remote_before['fileSizeBytes'] != len(raw_before)
-                            or utc(remote_before['modifiedAt']).timestamp() != state.st_mtime_ns/1e9):
-                        raise ScanError('APPROVED_ACTUAL_BEFORE_PAYLOAD_REQUIRED')
-                    receipt['beforeActualSha256'] = 'sha256:'+hashlib.sha256(raw_before).hexdigest()
-                    receipt['beforeInode'] = state.st_ino
-            if operation == 'delete':
-                if intent['afterVersion'] != 'absent' or target.lstat().st_ino != state.st_ino:
-                    raise ScanError('CONTROLLED_DELETE_IDENTITY_MISMATCH')
-                target.unlink()
-                receipt['filesystemMutated'] = True
+            if leaf_type is None:
+                self._apply_linux_mutation(intent, target, before, remote_before, receipt)
             else:
-                if intent['afterVersion'] == 'absent' or intent['afterVersion'] == before:
-                    raise ScanError('CONTROLLED_NEW_VERSION_REQUIRED')
-                payload_ref = scoped(self.artifacts.root, intent['payloadRef'])
-                with payload_ref.open('rb') as source:
-                    payload = source.read(65537)
-                if len(payload) > 65536 or intent['payloadSha256'] != 'sha256:'+hashlib.sha256(payload).hexdigest():
-                    raise ScanError('APPROVED_CONTROLLED_PAYLOAD_REQUIRED')
-                flags = os.O_WRONLY | os.O_NOFOLLOW | (os.O_CREAT | os.O_EXCL if operation == 'create' else 0)
-                fd = os.open(target, flags, 0o600)
-                if operation == 'create':
-                    receipt['filesystemMutated'] = True
-                with os.fdopen(fd, 'wb') as output:
-                    if operation == 'update' and os.fstat(output.fileno()).st_ino != state.st_ino:
-                        raise ScanError('CONTROLLED_UPDATE_IDENTITY_MISMATCH')
-                    output.truncate(0)
-                    receipt['filesystemMutated'] = True
-                    output.write(payload)
-                    output.flush()
-                    os.fsync(output.fileno())
-                stamp = utc(intent['modifiedAt']).timestamp()
-                os.utime(target, (stamp, stamp), follow_symlinks=False)
-                receipt['afterActualSha256'] = 'sha256:'+file_sha256(target)
-                if receipt['afterActualSha256'] != intent['payloadSha256']:
-                    raise ScanError('ACTUAL_CONTROLLED_WRITE_MISMATCH')
+                leaf = leaf_type(self.local_root, locator)
+                leaf.apply(intent, remote_before, lambda: self._payload(intent), receipt)
             remote_after, after_evidence = self.find(locator)
             profile = None
             if operation == 'delete':
@@ -303,20 +272,74 @@ class SourceSession:
             receipt.update(outcome='failed', error=str(failure) if isinstance(failure, ScanError) else type(failure).__name__)
             raise
         finally:
-            receipt['finishedAt'] = datetime.now(timezone.utc).isoformat()
-            mutation_evidence = self.artifacts.json(receipt)
+            try:
+                if leaf is not None:
+                    leaf.close()
+            except BaseException as failure:
+                receipt.update(outcome='failed', error=str(failure) if isinstance(failure, ScanError) else type(failure).__name__)
+                raise
+            finally:
+                receipt['finishedAt'] = datetime.now(timezone.utc).isoformat()
+                mutation_evidence = self.artifacts.json(receipt)
         self.check()
         self.sequence += 1
         event = dict(eventId=intent['eventId'], sequence=self.sequence, objectId=object_id, operation=operation,
                      beforeVersion=before, afterVersion=intent['afterVersion'])
         observation = dict(kind='controlled_source_change_observation', sourceId=self.identity['sourceId'],
-                           event=event, profile=profile, observedAt=clock.mapped_utc(time.monotonic_ns()),
+                           event=event, profile=profile, observedAt=clock.mapped_utc(clock.now_ns()),
                            evidenceRefs=[{key: row[key] for key in ('ref', 'sha256')}
                                          for row in (before_evidence, after_evidence, mutation_evidence)])
         with self.mapper.db:
             self.mapper.db.execute('INSERT INTO mutation_versions VALUES(?,?) ON CONFLICT(objectId) DO UPDATE SET version=excluded.version',
                                    (object_id, intent['afterVersion']))
         return self.artifacts.json(observation)
+
+    def _payload(self, intent):
+        payload_ref = scoped(self.artifacts.root, intent['payloadRef'])
+        with payload_ref.open('rb') as source:
+            payload = source.read(65537)
+        if len(payload) > 65536 or intent['payloadSha256'] != 'sha256:'+hashlib.sha256(payload).hexdigest():
+            raise ScanError('APPROVED_CONTROLLED_PAYLOAD_REQUIRED')
+        return payload
+
+    def _apply_linux_mutation(self, intent, target, before, remote_before, receipt):
+        operation = intent['operation']
+        if before != 'absent':
+            with os.fdopen(os.open(target, os.O_RDONLY | os.O_NOFOLLOW), 'rb') as source:
+                state, raw_before = os.fstat(source.fileno()), source.read(65537)
+                if (not stat.S_ISREG(state.st_mode) or len(raw_before) > 65536
+                        or intent['beforeSha256'] != 'sha256:'+hashlib.sha256(raw_before).hexdigest()
+                        or remote_before['kind'] != 'file' or remote_before['fileSizeBytes'] != len(raw_before)
+                        or utc(remote_before['modifiedAt']).timestamp() != state.st_mtime_ns/1e9):
+                    raise ScanError('APPROVED_ACTUAL_BEFORE_PAYLOAD_REQUIRED')
+                receipt['beforeActualSha256'] = 'sha256:'+hashlib.sha256(raw_before).hexdigest()
+                receipt['beforeInode'] = state.st_ino
+        if operation == 'delete':
+            if intent['afterVersion'] != 'absent' or target.lstat().st_ino != state.st_ino:
+                raise ScanError('CONTROLLED_DELETE_IDENTITY_MISMATCH')
+            target.unlink()
+            receipt['filesystemMutated'] = True
+        else:
+            if intent['afterVersion'] == 'absent' or intent['afterVersion'] == before:
+                raise ScanError('CONTROLLED_NEW_VERSION_REQUIRED')
+            payload = self._payload(intent)
+            flags = os.O_WRONLY | os.O_NOFOLLOW | (os.O_CREAT | os.O_EXCL if operation == 'create' else 0)
+            fd = os.open(target, flags, 0o600)
+            if operation == 'create':
+                receipt['filesystemMutated'] = True
+            with os.fdopen(fd, 'wb') as output:
+                if operation == 'update' and os.fstat(output.fileno()).st_ino != state.st_ino:
+                    raise ScanError('CONTROLLED_UPDATE_IDENTITY_MISMATCH')
+                output.truncate(0)
+                receipt['filesystemMutated'] = True
+                output.write(payload)
+                output.flush()
+                os.fsync(output.fileno())
+            stamp = utc(intent['modifiedAt']).timestamp()
+            os.utime(target, (stamp, stamp), follow_symlinks=False)
+            receipt['afterActualSha256'] = 'sha256:'+file_sha256(target)
+            if receipt['afterActualSha256'] != intent['payloadSha256']:
+                raise ScanError('ACTUAL_CONTROLLED_WRITE_MISMATCH')
 
     def probe(self, case, object_id, version, locator, *, size):
         if case not in ('unchanged_first', 'unchanged_second', 'bounded', 'unsatisfiable', 'changed') or any(row['case'] == case for row in self.probes):
@@ -411,6 +434,14 @@ class SourceSession:
         return cases
 
 
+class WindowsSourceSession(SourceSession):
+    def mutation(self, intent, clock):
+        if os.name != 'nt':
+            raise ScanError('NATIVE_CONTROLLED_MUTATION_REQUIRES_WINDOWS')
+        from windows_source_files import Leaf
+        return self._mutation(intent, clock, leaf_type=Leaf)
+
+
 def records(path):
     with Path(path).open('rb') as source:
         while True:
@@ -447,7 +478,7 @@ def original13_reports(run, facts, session, *, quota_ref, quota_sha, extension_c
                      processId=cfg['processId'], collectorBuild=cfg['counterCollectorBuild'],
                      method='os_process_peak_resident_counter', sourceIdentity=session.identity,
                      quotaDocumentRef=quota_ref, quotaDocumentSha256=quota_sha, memorySamples=facts['memorySamples'],
-                     nativeProcessId=run.process.pid, counterFormat='linux_proc_status', collectorCommandArgs=cfg['memoryCollectorCommandArgs'])
+                     nativeProcessId=run.process.pid, counterFormat=cfg.get('counterFormat', 'linux_proc_status'), collectorCommandArgs=cfg['memoryCollectorCommandArgs'])
     filename_ref = cfg['outputs']['filenameObjects']
     counts, byte_count, maximum_depth, total = {'file': 0, 'directory': 0}, 0, 0, 0
     distributions = {key: {} for key in ('nameLength', 'characterSet', 'extension', 'pathDepth')}

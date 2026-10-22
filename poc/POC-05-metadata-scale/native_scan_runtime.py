@@ -15,9 +15,9 @@ from pathlib import Path
 
 from canonical_metadata import ANCHOR, EVENT, CanonicalPair, CanonicalScanner, validate_profile
 from metadata_scan import MAX_PAGE_BYTES, MAX_PAGE_RECORDS, ScanError, canonical, file_sha256
-from native_memory import native_identity, parse_status
+from native_memory import parse_status
 from native_scan_protocol import (Clock, ClockFailure, ControlReader, actual_argv, argv_sha, check_sources,
-                                  decode, descriptor, emit, read_json, scoped, utc)
+                                  decode, descriptor, emit, process_identity as native_identity, read_json, scoped, utc)
 
 
 def require_linux():
@@ -84,15 +84,20 @@ def reserve(args):
 
 
 class Worker:
-    def __init__(self, args):
+    def __init__(self, args, *, entry_sample=None, control_reader=None, entry_samples=None):
         self.manifest, self.approval, self.cfg, self.identity = release_data(
             os.environ["GUIZE_POC_MANIFEST_REF"], os.environ["GUIZE_POC_MANIFEST_SHA"],
             os.environ["GUIZE_POC_APPROVAL_REF"], os.environ["GUIZE_POC_APPROVAL_SHA"], after_exec=True)
         if actual_argv() != self.manifest["argv"] or args.config != self.manifest["configRef"]:
             raise ScanError("ACTUAL_SCANNER_ARGV_MISMATCH")
-        self.args, self.reader, self.clock = args, ControlReader(), Clock()
+        self.args, self.reader, self.clock = args, control_reader or ControlReader(), Clock()
         self.root = self.cfg["artifactRoot"]
-        self.start = self.clock.marker("process_start", tick=ENTRY_MONO_NS, wall=ENTRY_WALL_NS, after_tick=ENTRY_AFTER_NS)
+        if entry_sample is None:
+            self.start = self.clock.marker("process_start", tick=ENTRY_MONO_NS, wall=ENTRY_WALL_NS, after_tick=ENTRY_AFTER_NS)
+        else:
+            self.start = self.clock.marker('process_start', tick=entry_sample['beforeNs'], wall=entry_sample['wallNs'], after_tick=entry_sample['afterNs'])
+            self.start['nativeClockSample'] = entry_sample
+            self.start['entryClockSamples'] = entry_samples
         if utc(self.start["observedAt"]) < utc(self.approval["windowStart"]):
             raise ScanError("SCANNER_ENTRY_OUTSIDE_WINDOW")
         expected = ["--scan-id", self.cfg["scanId"], "--change-set-id", self.cfg["changeSetId"],
@@ -108,7 +113,8 @@ class Worker:
         self.scan, self.first_peak, self.incremental_end = None, None, None
         emit(dict(kind="scanner_ready", identity=self.identity, argv=actual_argv(), context=self.cfg["context"],
                   processStart=self.start, calibration=self.clock.calibration,
-                  lifetimeSemantics="scanner image entry after approved exec; OS birth is separate"))
+                  lifetimeSemantics=("native worker entry after approved initial-thread resume and platform-clock binding; OS creation is separate"
+                                     if entry_sample is not None else "scanner image entry after approved exec; OS birth is separate")))
 
     def check(self):
         if datetime.now(timezone.utc) > utc(self.approval["windowEnd"]):
@@ -147,8 +153,17 @@ class Worker:
         with raw_ref.open("rb") as stream:
             raw = stream.read(65537)
         current = native_identity(os.getpid())
-        counters = parse_status(raw, os.getpid())
+        if self.cfg.get('counterFormat', 'linux_proc_status') == 'windows_process_memory_counters':
+            value = decode(raw)
+            if (not isinstance(value, dict) or set(value) != {'ProcessId', 'PeakWorkingSetSize', 'WorkingSetSize'}
+                    or any(type(number) is not int for number in value.values()) or value['ProcessId'] != os.getpid()
+                    or not 0 <= value['WorkingSetSize'] <= value['PeakWorkingSetSize'] <= 2**60):
+                raise ScanError('ACTUAL_WINDOWS_MEMORY_COUNTER_REQUIRED')
+            counters = dict(nativeProcessId=value['ProcessId'], peakResidentBytes=value['PeakWorkingSetSize'], residentBytes=value['WorkingSetSize'])
+        else:
+            counters = parse_status(raw, os.getpid())
         if (len(raw) > 65536 or receipt["identity"] != current or receipt["collectorProcessId"] == os.getpid()
+                or receipt['counterFormat'] != self.cfg.get('counterFormat', 'linux_proc_status')
                 or receipt["counterRef"] != refs["counter"]
                 or receipt["exitCode"] != 0 or receipt["toolBuild"] != self.cfg["counterCollectorBuild"]
                 or receipt["commandArgs"] != self.cfg["memoryCollectorCommandArgs"] + ["--pid", str(os.getpid()), "--output", receipt["counterRef"]]
@@ -212,7 +227,7 @@ class Worker:
                 event, profile = observation["event"], observation["profile"]
                 if (observation["kind"] != "controlled_source_change_observation" or observation["sourceId"] != self.cfg["sourceId"]
                         or set(event) != EVENT or event["sequence"] != count + 1 or count >= 1000000
-                        or not utc(self.change_start) <= utc(observation["observedAt"]) <= utc(self.clock.mapped_utc(time.monotonic_ns()))
+                        or not utc(self.change_start) <= utc(observation["observedAt"]) <= utc(self.clock.mapped_utc(self.clock.now_ns()))
                         or not isinstance(observation["evidenceRefs"], list) or not 1 <= len(observation["evidenceRefs"]) <= 16):
                     raise ScanError("CONTROLLED_CHANGE_SOURCE_TIME_OR_SEQUENCE_MISMATCH")
                 for evidence in observation["evidenceRefs"]:
@@ -313,7 +328,7 @@ def catalogue(args):
     if native_identity(identity["nativeProcessId"]) != identity:
         raise ScanError("SCANNER_CHANGED_DURING_POST_CATALOGUE")
     emit(dict(kind="independent_post_scan_catalogue", context=cfg["context"], scannerProcessId=identity["nativeProcessId"],
-              collectorProcessId=os.getpid(), observedAt=clock.mapped_utc(time.monotonic_ns()),
+              collectorProcessId=os.getpid(), observedAt=clock.mapped_utc(clock.now_ns()),
               objects={**descriptor(output, count), "ref": args.output}, commandArgs=actual_argv(), exitCode=0))
 
 
