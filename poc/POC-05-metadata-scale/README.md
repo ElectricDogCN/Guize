@@ -16,6 +16,16 @@ Retry is limited by attempts, maximum individual delay and an overall monotonic 
 
 The generator's fileCount counts files only; directoryCount includes root. maximumDepth is the achieved directory depth. Generated fixture counts are preparation metadata; reported counts, sizes, depths and name distributions must be derived from the actual scanner index, with clocks and memory observations retained separately.
 
+## Local OpenList observation interface (version 1)
+
+The read-only WebDAV adapter supports PROPFIND Depth1, HEAD and GET against an explicit HTTP loopback /dav/ prefix only. Proxy use and redirects are disabled. Successful response bodies stay within the explicit byte ceiling; detecting an oversized stream may read and retain one additional probe byte. Each request has a socket-operation timeout; the experiment controller must separately enforce its overall deadline, including slow-drip peers. Credentials are passed in memory from an external private configuration and never appear in observation records. Retained response headers are an explicit metadata allowlist.
+
+Observations contain method, relative locator, UTC and monotonic perf_counter_ns boundaries (including actual implementation/resolution), status, selected headers, raw body bytes and their SHA. Error responses are retained too; transport, redirect and oversized-body failures are explicit. Range and validator values are observations, not implicit success assertions.
+
+A successful DAV directory response must be a bounded DAV multistatus with a successful self collection and immediate child entries confined to that directory. Duplicate hrefs, out-of-prefix paths, dot segments, encoded slashes, required-property or permission errors and XML declarations of entities/DTDs are rejected. Directory results contain locators, optional sizes/validators, explicit optional-property404 facts and stableObjectId=null: ordinary DAV href/ETag is not a stable provider ID, snapshot token or change journal. Optional DAV:resource-id and DAV:sync-token are explicitly requested and reported as raw provider metadata, including404 or omitted properties. Their stability and synchronization semantics remain unvalidated; this adapter does not test all provider capabilities or implement a change journal/pagination. These records cannot be supplied as synthetic Scanner identities. PROPFIND Depth1 is directory listing, not source pagination.
+
+Unit HTTP servers exercise actual request/response parsing and failures, but do not count as real OpenList provider measurements. Actual OpenList version, permissions, input bytes, provider behavior and experiment window must still be independently fixed and observed. Protocol references: https://www.rfc-editor.org/rfc/rfc4918.html (sections9.1 and13), https://www.rfc-editor.org/rfc/rfc5842.html (section3.1), https://www.rfc-editor.org/rfc/rfc6578.html (section4).
+
 ## Development verification
 
 Run python -B -m unittest discover -s poc/POC-05-metadata-scale -p 'test_*.py' -v from the repository root. Tests use disposable small fixtures; they do not run a POC scale experiment. No third-party package is required.

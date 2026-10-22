@@ -10,6 +10,9 @@ Current implementation inventory against accepted base M16:
 - evidence/POC-005/assumptions.md
 - evidence/POC-005/changed-files.md
 - evidence/POC-005/commands.txt
+- evidence/POC-005/dav-adapter-independent-content-review.json
+- evidence/POC-005/dav-development-first-failure.json
+- evidence/POC-005/dav-href-review-first-rejection.json
 - evidence/POC-005/follow-ups.md
 - evidence/POC-005/handoff.md
 - evidence/POC-005/reservation-main-f2e0150-accepted/.gitattributes
@@ -47,6 +50,25 @@ Current implementation inventory against accepted base M16:
 - evidence/POC-005/reservation-main-f2e0150-accepted/poc005-reservation-f42e107-results/14.raw
 - evidence/POC-005/reservation-main-f2e0150-accepted/poc005-reservation-f42e107-results/results.json
 - evidence/POC-005/risks.md
+- evidence/POC-005/scanner-21e5224-source-validation/code-19.raw
+- evidence/POC-005/scanner-21e5224-source-validation/index.json
+- evidence/POC-005/scanner-21e5224-source-validation/poc005-scanner-21e5224-independent-content-review.json
+- evidence/POC-005/scanner-21e5224-source-validation/results.json
+- evidence/POC-005/scanner-21e5224-source-validation/task-00.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-01.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-02.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-03.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-04.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-05.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-06.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-07.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-08.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-09.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-10.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-11.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-12.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-13.raw
+- evidence/POC-005/scanner-21e5224-source-validation/task-14.raw
 - evidence/POC-005/scanner-content-independent-review.json
 - evidence/POC-005/scanner-e778ab7-scope-failed/index.json
 - evidence/POC-005/scanner-e778ab7-scope-failed/results.json
@@ -66,12 +88,14 @@ Current implementation inventory against accepted base M16:
 - evidence/POC-005/summary.md
 - poc/POC-05-metadata-scale/README.md
 - poc/POC-05-metadata-scale/metadata_scan.py
+- poc/POC-05-metadata-scale/openlist_source.py
 - poc/POC-05-metadata-scale/test_metadata_scan.py
+- poc/POC-05-metadata-scale/test_openlist_source.py
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/POC-005.md
 
-Task scope bullet repair changes no registered path/checker. Actual e778 scope failure retained. No shared ADR/results row changed.
+Read-only DAV adapter and source-bound scanner remain isolated. No shared ADR/results row, checker, lease or sibling changed. Predecessor actual source checks and draft failures retain separate acceptance scopes.
 
 ## Historical reservation inventory
 

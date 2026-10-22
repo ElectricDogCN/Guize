@@ -41,3 +41,10 @@ Actual changed files: changed-files.md (exact inventory against base); actual co
 ## Actual e778ab7 scope failure and forward repair
 
 Exact source e778ab7527296ca5e77a668e1cb42efde84bd72f / tree49cf6244bfdf24b1007b9ea4f2aa5566e7db5e47 passed the first11 native Task commands. Command12 (scope) rejected44 Evidence paths because the allowed-scope Markdown bullet contained two backticked paths and the existing parser reads only the first. Last3 Task commands and native code19 were not executed. Raw argv/exit/hashes are in scanner-e778ab7-scope-failed/index.json. The forward repair splits the two already-reserved paths into separate bullets; no checker, reservation scope or code changes. This source was not pushed and has no CI acceptance. New committed-source checks remain pending.
+
+
+## Read-only DAV adapter implementation
+
+Added own openlist_source.py/test_openlist_source.py and updated local interface/Task. Current Windows32 small-fixture tests passed; the independently reviewed exact bytes are in dav-adapter-independent-content-review.json. Actual raw-href controls were silently normalized by urlsplit in the first draft; the independently reproduced rejection and first Windows coarse-clock test failure remain recorded explicitly, including limits on retained raw evidence. Raw href controls now fail before parsing, and timing uses a declared monotonic perf_counter_ns implementation/resolution without weakening assertions. Optional resource-id/sync-token, omitted properties and untested capabilities remain distinct; no path/ETag becomes an asset ID.
+
+Actual predecessor21e Task15/code19 and review are retained byte-for-byte in scanner-21e5224-source-validation/. Its PR136/CI819 applies only to that predecessor. New DAV committed-source Task15/code32/full CI are pending. No real OpenList/scale experiment, input approval, original13 qualification or integration acceptance follows from unit HTTP servers. Prepared 10k-file/501-directory/depth12 bytes and two4KiB provider versions exist only as unapproved inputs outside the repository; no scan benchmark/provider access ran during preparation.
