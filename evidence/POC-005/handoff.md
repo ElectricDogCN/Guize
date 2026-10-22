@@ -2,6 +2,26 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; actual original13 qualification pending.
+
+## Current pinned listing adapter development
+
+Implemented own read-only OpenList v4.2.6 POST /api/fs/list with explicit loopback/reader scope, no refresh/proxy/redirect, separate HTTP/application status, bounded numeric pages and SQLite frontier/object retention. Stable provider IDs/versions remain absent; driver cursors are not snapshots. Partial/failed/duplicate/drifting listings never complete. Official pinned request, routing, error and auth code was read before implementation.
+
+Actual Windows developer command: C:/ProgramData/anaconda3/python.exe -X utf8 -B -m unittest discover -s poc/POC-05-metadata-scale -p test_*.py -v; exit0, Ran55 tests in23.345s, OK, no skipped tests. Independent five-case HTTP/content review accepted at2026-10-22T18:56:16Z, four byte hashes in listing-independent-content-review.json. This does not accept a future committed source or real provider experiment.
+
+First Windows11 had6 test-cleanup errors because transaction contexts did not close test SQLite connections. Production walk already closed its connection. The test-only closing repair retained all assertions; actual rerun11 passed. Independent P1 rejection reproduced uninspectable JSON/duplicate fields/escaped token-key retention; fixes omit uninspectable or sensitive bodies before callback, keep actual hashes/length/status and original transport failure, and cover all three with actual HTTP regressions. Rejections and explicit raw-retention limitations remain in own JSON records.
+
+Canonical predecessor f8ed3e8 nativeTask15/code43 and independent source/scope acceptance are retained byte-exact under canonical-f8ed3e8-source-validation/. Its CI821/run39834155313 remains in progress and source-specific. EDB CI820 SUCCESS713/1069.19s/no skips is separately retained under dav-edbf8da-ci820/. New listing committed-source Task15/code55/full CI are pending.
+
+Next: commit exact reviewed listing bytes, capture native Task15/code55 and independent source/byte/scope review, then publish and follow same-head CI. After source acceptance implement controlled canonical fixture identity binding plus native phase/RSS/changes driver; independently fix concrete inputs/resources/domain/window before actual complete repeated OpenList listings, faults/probes and original13 qualification. No source API request, scale experiment, shared ADR/results, normal Completion or task/main integration acceptance is claimed here.
+
+## Predecessor history (source-specific recorded status)
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; original13 experiment and qualification remain pending.
 
 ## Current canonical bridge development

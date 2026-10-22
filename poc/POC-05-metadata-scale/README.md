@@ -34,6 +34,18 @@ The bridge retains full filename timestamps alongside the persisted index in the
 
 This supplies canonical records for the eventual native phase/resource/provider observations. It does not claim actual OpenList pagination, quota, a complete benchmark or thirteen-measurement qualification. Earlier internal-format fixture preparation remains unapproved and is not substituted for the canonical baseline.
 
+## Pinned OpenList listing interface (version 1)
+
+The listing adapter targets OpenList v4.2.6 POST /api/fs/list on an explicit HTTP 127.0.0.1 origin and an explicit reader-relative fixture scope. Requests always use refresh=false, an empty folder password and bounded positive page/per_page; no other endpoint, proxy or redirect is allowed. A reader token is supplied only in memory by the external controller. This adapter does not log in, mutate files or persist tokens. Actual HTTP status and JSON application code are separate; HTTP200 with code401 is an authentication failure, not a successful listing. The per-request socket timeout does not replace the experiment controller's total wall deadline.
+
+Observations retain the exact safe request body, actual response status/selected headers/body hash, UTC and monotonic boundaries. Raw response bodies containing the supplied token or nonempty signing/thumbnail capability fields are not retained. Bodies that cannot be completely and unambiguously decoded for that inspection are also omitted. Actual hash/length and an explicit omission reason remain, alongside any original transport failure; omitted bodies cannot become accepted pages. Authentication request bodies/tokens are never observation artifacts. This controlled-fixture adapter requires unsigned metadata, rather than silently editing raw provider bytes.
+
+Pagination checks exact page cardinality, a stable total within each directory, distinct immediate child names and bounded types/sizes/timestamps. A new isolated SQLite listing index stores the traversal frontier and observed locators, so neither a complete directory nor the whole hierarchy must be held in RAM. Root is a traversal anchor outside the population. Page callbacks expose a driver traversal cursor plus actual provider page parameters; the cursor is not a provider snapshot or change-journal token. Duplicate paths, inconsistent totals, excessive depth/population or any failed page terminate the run. Partial indexes and raw failed observations remain diagnostic, never a completed listing.
+
+The pinned response has no stable object/version ID. Observed locators and modified/size fields are retained independently, with stableObjectId=null. A later approved controlled-fixture map must bind source observations to the frozen opaque IDs and versions; path does not become logical asset identity. Repeated complete baseline comparisons remain necessary because numeric pagination is not an atomic snapshot. No unit HTTP server result claims real OpenList or original13 qualification.
+
+Primary protocol sources: [routing](https://github.com/OpenListTeam/OpenList/blob/v4.2.6/server/router.go), [list request/response and pagination](https://github.com/OpenListTeam/OpenList/blob/v4.2.6/server/handles/fsread.go), [page parameters](https://github.com/OpenListTeam/OpenList/blob/v4.2.6/internal/model/req.go), [authentication](https://github.com/OpenListTeam/OpenList/blob/v4.2.6/server/middlewares/auth.go).
+
 ## Development verification
 
 Run python -B -m unittest discover -s poc/POC-05-metadata-scale -p 'test_*.py' -v from the repository root. Tests use disposable small fixtures; they do not run a POC scale experiment. Core runtime code uses the Python standard library. Canonical schema tests use the repository governance dependencies PyYAML and jsonschema.

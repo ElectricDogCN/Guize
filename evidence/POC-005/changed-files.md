@@ -2,7 +2,7 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
-Status: in_progress / PARTIAL; original13 experiment and qualification pending.
+Status: in_progress / PARTIAL; original13 qualification pending.
 
 Exact current inventory against accepted base:
 
@@ -10,6 +10,25 @@ Exact current inventory against accepted base:
 - evidence/POC-005/assumptions.md
 - evidence/POC-005/canonical-bridge-independent-content-review.json
 - evidence/POC-005/canonical-export-review-first-rejection.json
+- evidence/POC-005/canonical-f8ed3e8-source-validation/code-43.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/independent-source-review.json
+- evidence/POC-005/canonical-f8ed3e8-source-validation/index.json
+- evidence/POC-005/canonical-f8ed3e8-source-validation/results.json
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-00.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-01.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-02.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-03.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-04.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-05.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-06.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-07.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-08.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-09.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-10.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-11.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-12.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-13.raw
+- evidence/POC-005/canonical-f8ed3e8-source-validation/task-14.raw
 - evidence/POC-005/canonical-first-development-failure-tail.raw
 - evidence/POC-005/canonical-second-development-failure-tail.raw
 - evidence/POC-005/canonical-windows-signature-diagnosis.json
@@ -17,6 +36,10 @@ Exact current inventory against accepted base:
 - evidence/POC-005/commands.txt
 - evidence/POC-005/dav-adapter-independent-content-review.json
 - evidence/POC-005/dav-development-first-failure.json
+- evidence/POC-005/dav-edbf8da-ci820/.gitattributes
+- evidence/POC-005/dav-edbf8da-ci820/index.json
+- evidence/POC-005/dav-edbf8da-ci820/poc005-dav-edbf8da-ci820.raw.txt
+- evidence/POC-005/dav-edbf8da-ci820/poc005-dav-edbf8da-ci820.snapshot.json
 - evidence/POC-005/dav-edbf8da-source-validation/code-32.raw
 - evidence/POC-005/dav-edbf8da-source-validation/index.json
 - evidence/POC-005/dav-edbf8da-source-validation/results.json
@@ -39,6 +62,9 @@ Exact current inventory against accepted base:
 - evidence/POC-005/EVIDENCE-STRUCTURE.md
 - evidence/POC-005/follow-ups.md
 - evidence/POC-005/handoff.md
+- evidence/POC-005/listing-first-development-failure.json
+- evidence/POC-005/listing-independent-content-review.json
+- evidence/POC-005/listing-independent-first-rejection.json
 - evidence/POC-005/reservation-main-f2e0150-accepted/.gitattributes
 - evidence/POC-005/reservation-main-f2e0150-accepted/index.json
 - evidence/POC-005/reservation-main-f2e0150-accepted/poc005-reservation-f2e0150-adoption.json
@@ -116,13 +142,15 @@ Exact current inventory against accepted base:
 - evidence/POC-005/summary.md
 - poc/POC-05-metadata-scale/canonical_metadata.py
 - poc/POC-05-metadata-scale/metadata_scan.py
+- poc/POC-05-metadata-scale/openlist_listing.py
 - poc/POC-05-metadata-scale/openlist_source.py
 - poc/POC-05-metadata-scale/README.md
 - poc/POC-05-metadata-scale/test_canonical_metadata.py
 - poc/POC-05-metadata-scale/test_metadata_scan.py
+- poc/POC-05-metadata-scale/test_openlist_listing.py
 - poc/POC-05-metadata-scale/test_openlist_source.py
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/POC-005.md
 
-Canonical bridge and DAV observer remain isolated. No shared ADR/results row, checker, frozen schema, sibling or lease changes. Historical rejected development and source-specific validation archives are retained separately.
+Own listing/canonical/DAV code and source-specific Evidence only; no frozen schema/checker, sibling, shared results/ADR or lease changed.

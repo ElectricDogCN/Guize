@@ -1,4 +1,11 @@
 Task: POC-005
+Status: in_progress / PARTIAL
+
+Current code includes canonical paired records, read-only DAV observations and pinned numeric listing with a disk-backed frontier. Provider identity/version/snapshot and production quota remain unverified. Directory source sizes are retained separately; canonical directory fileSizeBytes is zero by explicit metadata convention. Reader credentials remain external/in-memory; unsafe or uninspectable listing bodies are omitted with actual hashes/lengths. Windows55 and independent listing content acceptance are development results only; no concrete approved experiment exists.
+
+## Earlier assumptions at their recorded stage
+
+Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
