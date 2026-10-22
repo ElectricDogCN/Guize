@@ -1,5 +1,23 @@
 Task: POC-005
 Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; no POC experiment executed.
+
+Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer task-owner-agent; Reviewer independent-review-agent; Integrator integration-agent. Lease 2026-10-22T16:08:44Z to 2026-10-29T16:08:44Z remains unchanged; poc-results/order3.
+
+Implementation candidate identity is the actual Git commit/tree carrying this handoff (git rev-parse HEAD and HEAD^{tree}); no future self-referential SHA is invented. Exact committed-source argv/exit/raw-hash receipts must be captured after commit before admission. Current reviewed three-file bytes are listed in scanner-content-independent-review.json. Reservation source f42e107374562f35aa6771e4c841ca835fcdc797 and actual main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 are accepted only for registration, with raw local/CI/merge/main/cleanup evidence in reservation-main-f2e0150-accepted/index.json.
+
+Actual implementation: poc/POC-05-metadata-scale/{README.md,metadata_scan.py,test_metadata_scan.py}. Interface: local POC v1 README; consumed POC-PROTOCOL-V1/frozen schemaVersion2 specs/poc/plans/POC-005.yaml; produced POC-05-EVIDENCE remains pending. Modified Task/Active and Program only for this task's in_progress/implementer/base status. Exact inventory: changed-files.md. Existing failure history below is preserved.
+
+Validation: actual Windows nineteen small-fixture tests passed, independent code review accepted at2026-10-22T17:50:46Z; committed-source Task15/native tests and full CI pending. No scale/HTTP/OpenList/POC experiment or qualification acceptance.
+
+Next implementer/integrator actions: commit the bounded implementation; capture exact native Task15/code19 and CI before any source admission. Implement actual OpenList HTTP/WebDAV separately, approve concrete immutable scale inputs/resources/domain/window independently, then execute original13 and local-v1 qualification. Do not overlap this host's metadata throughput/RSS window with POC003 ATS latency/disk. Shared ADR/own results row only after POC003/order2; do not merge this partial implementation as completed. Rollback only this isolated new POC index or owned sandbox; never delete Guize assets, production data, credentials or Evidence.
+
+## Historical reservation records (superseded status)
+
+Task: POC-005
+Issue: 132
 Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 Branch: chore/POC-005-metadata-scale-reservation
 Work Branch: chore/POC-005-metadata-scale

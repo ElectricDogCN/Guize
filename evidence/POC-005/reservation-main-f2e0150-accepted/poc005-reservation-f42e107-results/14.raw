@@ -1,0 +1,7 @@
+Source: f42e107374562f35aa6771e4c841ca835fcdc797
+Command: python scripts/check-markdown.py
+Checking 381 Markdown files...
+
+OK: No issues found
+
+Exit Code: 0

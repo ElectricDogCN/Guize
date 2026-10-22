@@ -1,5 +1,19 @@
 Task: POC-005
 Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; no POC experiment executed.
+
+The reservation PR135/source f42e107 was admitted and merged into accepted main f2e0150; source local15, full CI814 (713 tests), independent metadata review, actual main checks and CI816 (713 tests, 1445.86s, no skipped tests) are retained byte-for-byte under reservation-main-f2e0150-accepted/. The ended reservation remote branch was removed by exact-ref comparison; all local refs and active POC003 were preserved. These are reservation checks, not implementation acceptance.
+
+The first implementation adds a bounded immutable JSONL source, deterministic exact-file-count hierarchy generator, SQLite page/checkpoint transactions and source-bound incremental replay. Paths are locators; identity remains source/objectId. Restart, duplicates, cursor loops, version drift, failed-page rollback and source tombstones are covered. Nineteen actual Windows small-fixture unit tests passed; the exact three reviewed file hashes and independent pure-code acceptance are in scanner-content-independent-review.json. Committed-source Task15/native tests/full CI are pending and must not inherit reservation results.
+
+Real HTTP/OpenList, actual approved scale and fault measurements, original13 typed qualification, current-source result review, normal Review/Completion and actual-main acceptance remain outstanding. No input/resource/window approval is claimed.
+
+## Historical reservation records (superseded status)
+
+Task: POC-005
+Issue: 132
 Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 Branch: chore/POC-005-metadata-scale-reservation
 Work Branch: chore/POC-005-metadata-scale

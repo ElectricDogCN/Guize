@@ -1,5 +1,19 @@
 Task: POC-005
 Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; no POC experiment executed.
+
+Actual developer check (Windows, small temporary fixtures only):
+C:/ProgramData/anaconda3/python.exe -X utf8 -B -m unittest discover -s poc/POC-05-metadata-scale -p test_*.py -v
+Exit0; Ran19 tests; OK. Reviewed three file hashes are in scanner-content-independent-review.json. This is not a committed-source gate or POC experiment. Native source-bound Task15/code tests and full CI remain pending.
+
+Reservation source and actual-main raw commands/exit codes are retained in reservation-main-f2e0150-accepted/.
+
+Historical reservation commands:
+
+Task: POC-005
+Issue: 132
 Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 Branch: chore/POC-005-metadata-scale-reservation
 Work Branch: chore/POC-005-metadata-scale
