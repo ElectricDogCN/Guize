@@ -1,0 +1,41 @@
+{
+  "requestId": "06902178b8634714815118e9d48701fe",
+  "observedAt": "2026-10-22T14:56:10.019013Z",
+  "originRequestCount": 0,
+  "objectReadCount": 0,
+  "objectReadBytes": 0,
+  "activeOriginRequests": 0,
+  "originTransactions": [],
+  "gatewayTransactions": [
+    {
+      "requestId": "06902178b8634714815118e9d48701fe",
+      "case": "stream",
+      "startedAt": "2026-10-22T14:56:09.481478Z",
+      "userId": "lab-user-a",
+      "sourceVersion": "base",
+      "aclVersion": "poc003-local-acl-v1",
+      "requestRange": "",
+      "ifRange": "",
+      "atsRequestSent": true,
+      "responseByteCount": 67108864,
+      "gatewayChunkPeak": 65536,
+      "grantObservation": {
+        "grantId": "poc003-grant-lab-user-a",
+        "principalId": "lab-user-a",
+        "validFrom": "2026-10-22T14:55:55.818086Z",
+        "validUntil": "2026-10-22T15:16:00.818086Z",
+        "revokedAt": null,
+        "authorizedAt": "2026-10-22T14:56:09.481504Z",
+        "reason": "allowed"
+      },
+      "cacheContextPath": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+      "statusCode": 200,
+      "atsResponseHeadersAt": "2026-10-22T14:56:09.484073Z",
+      "atsExpectedBodyBytes": 67108864,
+      "upstreamReadTimeoutSeconds": 10,
+      "transportCompleted": true,
+      "firstBodyChunkAt": "2026-10-22T14:56:09.484203Z",
+      "finishedAt": "2026-10-22T14:56:09.842189Z"
+    }
+  ]
+}

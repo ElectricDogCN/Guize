@@ -58,6 +58,7 @@ class Collector:
           aclVersion=self.cfg['aclVersion'],authorizationContext=context(self.cfg['aclVersion'],user),
           requestRange=range_header,ifRange=if_range,bodyRef=str(body.relative_to(self.out)),
           configuredOriginFault=None,collectorRetryCount=0,statusCode=None,responseHeaders=[],
+          firstResponseByteAt=None,firstResponseByteLatencyMs=None,
           responseHeadersAt=None,firstBodyByteAt=None,firstBodyByteLatencyMs=None,
           firstBodyChunkAt=None,finishedAt=None,bodyBytes=0,clientChunkPeak=0,
           transportCompleted=False,originObservation=None)
@@ -68,7 +69,9 @@ class Collector:
         if barrier:barrier.wait(timeout=10)
         row['startedAt']=utc();started=time.monotonic();response=None;hasher=hashlib.sha256()
         try:
-            try:response=self.opener.open(urllib.request.Request(row['url'],headers=headers),timeout=35)
+            from http_timing import timing_handler
+            request_opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect(),timing_handler(row,started))
+            try:response=request_opener.open(urllib.request.Request(row['url'],headers=headers),timeout=35)
             except urllib.error.HTTPError as error:response=error
             row.update(statusCode=response.code,responseHeadersAt=utc(),responseHeaderLatencyMs=(time.monotonic()-started)*1000,
                        responseHeaders=list(response.headers.items()))

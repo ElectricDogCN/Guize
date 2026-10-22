@@ -1,0 +1,27 @@
+{
+  "requestId": "1d89b627714c4aab9d1f6e812967f332",
+  "observedAt": "2026-10-22T14:56:09.323101Z",
+  "originRequestCount": 0,
+  "objectReadCount": 0,
+  "objectReadBytes": 0,
+  "activeOriginRequests": 0,
+  "originTransactions": [],
+  "gatewayTransactions": [
+    {
+      "requestId": "1d89b627714c4aab9d1f6e812967f332",
+      "case": "denied_user",
+      "startedAt": "2026-10-22T14:56:09.322077Z",
+      "userId": "lab-denied-user",
+      "sourceVersion": "base",
+      "aclVersion": "poc003-local-acl-v1",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "atsRequestSent": false,
+      "responseByteCount": 0,
+      "gatewayChunkPeak": 0,
+      "statusCode": 403,
+      "denialReason": "acl_denied",
+      "finishedAt": "2026-10-22T14:56:09.322199Z"
+    }
+  ]
+}

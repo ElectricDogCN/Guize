@@ -1,0 +1,31 @@
+{
+  "reviewerRole": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "baseSource": "9c012b4e1c90b014fe619253a8f07a738b5c0724",
+  "initialReviewedAt": "2026-10-22T15:07:10Z",
+  "supplementReviewedAt": "2026-10-22T15:09:05Z",
+  "intermediateContentAccepted": true,
+  "mustFix": [],
+  "actualTests": 21,
+  "noSkippedTests": true,
+  "files": {
+    "lab.py": "7d82696320d51744b66cdb689878171ad3dd9908846bb71c2f4f31e222f8b126",
+    "collect.py": "2a184b85ab7356d542b2d140090efc40ca067bd6a12f8b1173890d700cf3d108",
+    "http_timing.py": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb",
+    "test_gateway_native.py": "4e11be081c72d4b09732e323a7b3bafef2e8ca7e711df65aa410943add551f86",
+    "test_http_timing_native.py": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86",
+    "test_warm_cache_revocation.py": "a2a17b985b9ef737f85d8b653c8e169ba28035ec2e668135f32993004fc6b449",
+    "test_revocation_binding.py": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39"
+  },
+  "actualAcceptedBoundaries": [
+    "ACL/grant before immutable416metadata; zero body/correctRange+ETag; no ATS contact",
+    "SO_REUSEADDR without SO_REUSEPORT; live listener rejected; stopped own port rebind",
+    "Actual first HTTP response byte observed separately from headers/media; per-request closure isolation",
+    "Fresh current ATS/base preflight and real gateway version/user/path/hash/context binding prevent equal-prefix false positive"
+  ],
+  "newExperimentApproved": false,
+  "original15Accepted": false,
+  "bufferDomainAccepted": false,
+  "qualifiedProfileAccepted": false,
+  "integrationAccepted": false
+}

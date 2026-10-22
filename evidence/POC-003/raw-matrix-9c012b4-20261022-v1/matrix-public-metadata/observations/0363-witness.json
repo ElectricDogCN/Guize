@@ -1,0 +1,59 @@
+{
+  "requestId": "1a0cc67f5a7b4af695601dc3334af7dc",
+  "observedAt": "2026-10-22T14:56:45.823866Z",
+  "originRequestCount": 1,
+  "objectReadCount": 16,
+  "objectReadBytes": 1048576,
+  "activeOriginRequests": 0,
+  "originTransactions": [
+    {
+      "originTransactionId": "605faf47521d37d3",
+      "requestId": "1a0cc67f5a7b4af695601dc3334af7dc",
+      "startedAt": "2026-10-22T14:56:45.767231Z",
+      "finishedAt": "2026-10-22T14:56:45.779786Z",
+      "path": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+      "range": "bytes=0-1048575",
+      "ifRange": "",
+      "authorized": true,
+      "objectReadCount": 16,
+      "objectReadBytes": 1048576,
+      "statusCode": 206,
+      "fault": "none",
+      "sourceVersion": "base",
+      "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "transportError": null
+    }
+  ],
+  "gatewayTransactions": [
+    {
+      "requestId": "1a0cc67f5a7b4af695601dc3334af7dc",
+      "case": "latency_cold",
+      "startedAt": "2026-10-22T14:56:45.755372Z",
+      "userId": "lab-user-a",
+      "sourceVersion": "base",
+      "aclVersion": "poc003-local-acl-v1",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "atsRequestSent": true,
+      "responseByteCount": 8,
+      "gatewayChunkPeak": 8,
+      "grantObservation": {
+        "grantId": "poc003-grant-lab-user-a",
+        "principalId": "lab-user-a",
+        "validFrom": "2026-10-22T14:55:55.818086Z",
+        "validUntil": "2026-10-22T15:16:00.818086Z",
+        "revokedAt": null,
+        "authorizedAt": "2026-10-22T14:56:45.755396Z",
+        "reason": "allowed"
+      },
+      "cacheContextPath": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+      "statusCode": 206,
+      "atsResponseHeadersAt": "2026-10-22T14:56:45.767866Z",
+      "atsExpectedBodyBytes": 8,
+      "upstreamReadTimeoutSeconds": 10,
+      "transportCompleted": true,
+      "firstBodyChunkAt": "2026-10-22T14:56:45.770887Z",
+      "finishedAt": "2026-10-22T14:56:45.770904Z"
+    }
+  ]
+}

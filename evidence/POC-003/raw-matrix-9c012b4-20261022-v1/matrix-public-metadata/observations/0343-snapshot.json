@@ -1,0 +1,19 @@
+{
+  "stage": "recovered",
+  "observedAt": "2026-10-22T14:56:39.743287Z",
+  "sourceVersion": "base",
+  "atsPid": 678838,
+  "cacheFiles": [
+    {
+      "name": "cache.db",
+      "logicalBytes": 268435456,
+      "allocatedBytes": 69578752
+    }
+  ],
+  "allocatedDiskBytes": 69578752,
+  "canonicalCacheObjectExported": false,
+  "activeOriginRequests": 0,
+  "activeGatewayRequests": 0,
+  "originRequestCount": 132,
+  "originObjectReadBytes": 136314884
+}

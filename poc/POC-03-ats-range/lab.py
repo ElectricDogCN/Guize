@@ -112,7 +112,7 @@ def prepare(config_path,run):
       users={'lab-user-a':secrets.token_hex(24),'lab-user-b':secrets.token_hex(24),'lab-denied-user':secrets.token_hex(24)},
       formalApproval=False,pocExecuted=False)
     cfg['implementationSources']={name:digest(HERE/name) for name in
-        ('lab.py','grants.py','collect.py','cache_probe.py','cache_export.cc','test_warm_cache_revocation.py')}
+        ('lab.py','grants.py','collect.py','cache_probe.py','http_timing.py','cache_export.cc','test_warm_cache_revocation.py')}
     cfg['exportBuildReceiptSha256']=digest(build_path)
     now=datetime.now(timezone.utc)
     cfg['grants']={user:dict(grantId='poc003-grant-'+user,principalId=user,
@@ -231,7 +231,9 @@ class State:
         self.log('cache-disk-snapshots',row);return row
 
 class Server(http.server.ThreadingHTTPServer):
-    daemon_threads=True;allow_reuse_address=False
+    # Rebind an owned stopped sandbox after TCP TIME_WAIT, while normal bind
+    # still refuses another live listener. SO_REUSEPORT is never enabled.
+    daemon_threads=True;allow_reuse_address=True
     def __init__(self,address,handler,state):self.state=state;super().__init__(address,handler)
 class Handler(http.server.BaseHTTPRequestHandler):
     protocol_version='HTTP/1.1'
@@ -359,6 +361,23 @@ class Gateway(Handler):
             if observation['reason']!='allowed':
                 row.update(statusCode=403,denialReason=observation['reason']);self.empty(403);return
             path=f"/ctx/{context(cfg['aclVersion'],user)}/{version}/object.bin";row['cacheContextPath']=path
+            # The governed immutable version already provides the exact length
+            # and validator. Resolve an impossible interval here, before ATS can
+            # substitute an HTML error body or an incomplete Content-Range.
+            try:
+                range_status,_,_=interval(self.headers.get('Range',''),cfg['inputs'][version]['sizeBytes'],
+                                          self.headers.get('If-Range',''),cfg['inputs'][version]['etag'])
+            except ValueError:
+                row.update(statusCode=400,denialReason='unsupported_range');self.empty(400);return
+            if range_status==416:
+                row.update(statusCode=416,rangeResolution='unsatisfiable_against_governed_immutable_version',
+                           transportCompleted=True,mediaTransferCompleted=False)
+                self.send_response(416);self.send_header('Content-Length','0')
+                self.send_header('Content-Range','bytes */'+str(cfg['inputs'][version]['sizeBytes']))
+                self.send_header('ETag',cfg['inputs'][version]['etag'])
+                self.send_header('X-Lab-Request-ID',rid);self.send_header('X-Lab-Source-Version',version)
+                self.send_header('X-Lab-Cache-Context',context(cfg['aclVersion'],user))
+                self.send_header('Connection','close');self.end_headers();self.close_connection=True;return
             expiry=int(time.time())+300
             headers={'Host':'ats.local','Accept-Encoding':'identity','Connection':'close','X-Lab-ATS-Key':cfg['secret'],
               'X-Lab-Request-ID':rid,'X-Lab-Origin-Expiry':str(expiry),'X-Lab-Origin-Signature':sign(cfg['secret'],path,rid,expiry)}

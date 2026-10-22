@@ -1,0 +1,19 @@
+{
+  "stage": "filled",
+  "observedAt": "2026-10-22T14:56:10.644912Z",
+  "sourceVersion": "base",
+  "atsPid": 678407,
+  "cacheFiles": [
+    {
+      "name": "cache.db",
+      "logicalBytes": 268435456,
+      "allocatedBytes": 69578752
+    }
+  ],
+  "allocatedDiskBytes": 69578752,
+  "canonicalCacheObjectExported": false,
+  "activeOriginRequests": 0,
+  "activeGatewayRequests": 0,
+  "originRequestCount": 66,
+  "originObjectReadBytes": 69206016
+}

@@ -4,7 +4,7 @@ import argparse,hashlib,http.client,json,os,uuid
 from pathlib import Path
 from collect import Collector
 from grants import utc_instant
-from lab import digest,unique_json,utc,write_json
+from lab import context,digest,unique_json,utc,write_json
 
 
 def require(condition, message):
@@ -28,6 +28,19 @@ def process_identity(pid):
                 executable=str(Path('/proc',str(pid),'exe').resolve()))
 
 
+def warm_binding(warm,cfg,user):
+    # Equal short prefixes do not establish source-version or cache identity.
+    transactions=warm['originObservation']['gatewayTransactions']
+    require(len(transactions)==1,'warm gateway context witness missing')
+    gateway=transactions[0];version=warm['sourceVersion'];ctx=context(cfg['aclVersion'],user)
+    require(version=='base' and warm['sourceSha256']==cfg['inputs']['base']['sha256'],
+            'fresh base source identity required')
+    require(gateway['sourceVersion']==version and gateway['userId']==user and
+            gateway['cacheContextPath']==f'/ctx/{ctx}/{version}/object.bin' and
+            warm['authorizationContext']==ctx,'actual warm gateway/source/context identity mismatch')
+    return gateway
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--run-dir',default=os.environ.get('GUIZE_POC003_RUN_DIR'))
@@ -47,6 +60,9 @@ def main():
         require(all(digest(Path(__file__).parent/name)==sha for name,sha in cfg['implementationSources'].items()),
                 'prepared implementation source changed')
         listening=unique_json((run/'listeners-started.json').read_text());pid=listening['atsPid']
+        preflight=collector.control('snapshot',stage='revocation-preflight')
+        require(preflight['atsPid']==pid and preflight['sourceVersion']=='base',
+                'fresh current ATS identity and base source required; do not reuse a restarted/changed matrix sandbox')
         identity=process_identity(pid)
         require(identity['executable']==str((Path(cfg['pkgroot'])/'usr/bin/traffic_server').resolve()),
                 'owned ATS executable mismatch')
@@ -64,6 +80,7 @@ def main():
         require(warm.get('sourceIntervalComparison',{}).get('actualBytesEqual'),
                 'warm response does not match actual protected source bytes')
         origin=warm['originObservation']
+        warm_gateway=warm_binding(warm,cfg,user)
         require(warm['originPollingSettled'] and origin['originRequestCount']==origin['objectReadCount']==0,
                 'warm hit must use zero origin requests/reads')
         events=records(retained_bytes(lookup))
@@ -88,6 +105,8 @@ def main():
         transactions=witness['gatewayTransactions']
         require(len(transactions)==1 and transactions[0].get('finishedAt'),'actual completed denial transaction required')
         transaction=transactions[0];auth=transaction['grantObservation']
+        require(transaction['sourceVersion']==warm_gateway['sourceVersion'],
+                'actual denial source version differs from the warmed protected object')
         require(not transaction['atsRequestSent'] and transaction['responseByteCount']==0 and
                 transaction.get('denialReason')=='revoked' and auth['reason']=='revoked',
                 'denied request reached ATS or lacks actual revoked reason')
@@ -117,9 +136,8 @@ def main():
                           ('export-before',before_exports),('export-after',after_exports),
                           ('controller-before',before_controller),('controller-after',after_controller)]:
             (out/(name+'.native.jsonl')).write_bytes(data)
-        probe_id=uuid.uuid4().hex;gw=warm['originObservation']['gatewayTransactions']
-        require(len(gw)==1,'warm gateway context witness missing')
-        old_path=gw[0]['cacheContextPath'];connection=http.client.HTTPConnection('127.0.0.1',cfg['atsPort'],timeout=10)
+        probe_id=uuid.uuid4().hex
+        old_path=warm_gateway['cacheContextPath'];connection=http.client.HTTPConnection('127.0.0.1',cfg['atsPort'],timeout=10)
         try:
             connection.request('GET',old_path,headers={'Host':'ats.local','Range':warm['requestRange'],
                 'X-Lab-ATS-Key':cfg['secret'],'X-Lab-Request-ID':probe_id,'Accept-Encoding':'identity','Connection':'close'})

@@ -1,0 +1,103 @@
+{
+  "kind": "ACTUAL_UNCOMMITTED_DRAFT_VALIDATION",
+  "sourceBase": "9c012b4e1c90b014fe619253a8f07a738b5c0724",
+  "files": {
+    "build_observer.py": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9",
+    "cache_probe.py": "cb785c6f7cc1e6c3715b5569049d79aa8315bc44c76768c40cdb86430871cba2",
+    "collect.py": "2a184b85ab7356d542b2d140090efc40ca067bd6a12f8b1173890d700cf3d108",
+    "grants.py": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf",
+    "http_timing.py": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb",
+    "lab.py": "7d82696320d51744b66cdb689878171ad3dd9908846bb71c2f4f31e222f8b126",
+    "test_cache_probe.py": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0",
+    "test_cache_probe_native.py": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc",
+    "test_gateway_native.py": "4e11be081c72d4b09732e323a7b3bafef2e8ca7e711df65aa410943add551f86",
+    "test_http_timing_native.py": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86",
+    "test_lab.py": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513",
+    "test_revocation_binding.py": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39",
+    "test_warm_cache_revocation.py": "a2a17b985b9ef737f85d8b653c8e169ba28035ec2e668135f32993004fc6b449"
+  },
+  "syntaxParsed": true,
+  "totalTests": 21,
+  "checks": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_lab.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 8,
+      "noSkippedTests": true,
+      "raw": "test_lab.py.raw",
+      "bytes": 1168,
+      "sha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_cache_probe.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 4,
+      "noSkippedTests": true,
+      "raw": "test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_cache_probe_native.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 2,
+      "noSkippedTests": true,
+      "raw": "test_cache_probe_native.py.raw",
+      "bytes": 458,
+      "sha256": "98b6c8e9cdfad8c7274de0e1b9ff7c2f09ca254249f6a8ea9fa9e4115f394e7f"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_gateway_native.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 3,
+      "noSkippedTests": true,
+      "raw": "test_gateway_native.py.raw",
+      "bytes": 633,
+      "sha256": "11de0ced483fbaa65f26fcfc3a0124adfc5abd90355427249c090411793c1a38"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_http_timing_native.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 2,
+      "noSkippedTests": true,
+      "raw": "test_http_timing_native.py.raw",
+      "bytes": 408,
+      "sha256": "d028d8a27df3256582f9f538b5a63669cc6d29f2bcdddead5948c3554ad45e9f"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_revocation_binding.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 2,
+      "noSkippedTests": true,
+      "raw": "test_revocation_binding.py.raw",
+      "bytes": 424,
+      "sha256": "6d35ea8bd4eb191ddc0904304bfbe06a5b621cf570ee4e078a3b47526a8d8dd2"
+    }
+  ],
+  "realAtsExperimentExecuted": false,
+  "exactNewCommitAccepted": false
+}

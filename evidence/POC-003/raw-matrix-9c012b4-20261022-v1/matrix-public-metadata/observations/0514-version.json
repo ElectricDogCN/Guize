@@ -1,0 +1,8 @@
+{
+  "action": "version",
+  "before": "base",
+  "after": "changed",
+  "observedAt": "2026-10-22T14:57:01.121676Z",
+  "beforeSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "afterSha256": "643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1"
+}

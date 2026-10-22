@@ -3,7 +3,7 @@ Issue: 131
 Branch: chore/POC-003-ats-range
 Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 Current phase: in_progress / implementer
-Current draft: native cache stage export and logical Slice provenance added after source181. Exact new committed-source validation is pending; previous results remain bound to source181.
+Current draft: HTTP Range, owned socket reuse, actual first-response-byte timing and explicit source-version binding repairs after source9c. Exact new committed-source validation is pending; historical results stay bound to their actual source.
 
 Registered implementation now contains isolated gateway/origin/ATS control, real grant validity/revocation state, raw matrix collection, native every-request cache lookup observer and explicit cache API exporter. The separate real warm-cache revocation script hard-fails without actual sandbox/observer and checks same-unexpired-grant denial before protected ATS/cache/origin reads, retaining a distinct later warm-cache control. Collector records one-body-byte timing separately from header/chunk timing.
 
@@ -11,6 +11,10 @@ Source181 actually passed the Task's fifteen commands, eight offline boundaries,
 
 Reservation main11c3283 is now fully accepted: actual five main checks plus separate POC checker, official terminal CI808 success,713 tests/1428.34s with no skipped tests. Its ended remote reservation branch was removed with exact expected-source protection; active PR134 implementation branch and all local refs were preserved. Final records are in reservation-main-final-11c3283/; earlier pending captures remain historical.
 
-Current draft retains real native cache keys/results/bodies, only derives a logical complete object from exact contiguous matching native payloads, and preserves HTTP Slice responses separately. Distinct immutable start/native-final/collector-final records and atomic no-replace single-link publication repair the independently found draft defects. Four offline isolation tests and two Linux filesystem regressions cover those boundaries. No new ATS experiment has executed at this draft.
+Source9c012b4e1c90b014fe619253a8f07a738b5c0724 actually passed Task15/offline14 and official fullCI810713/899.22s, no skipped tests; see source-9c012b4-validation/. Its approved raw matrix recorded101 requests/21 cases/6 stages. Three full64-Slice native cache exports reconstructed the exact current input without origin I/O. The interrupted206/4byte prefix and subsequent503/zero-byte response are retained. Limited raw-evidence acceptance does not establish original15 or qualified acceptance.
+
+The actual raw run also retained a416 native error page202bytes and second fresh sandbox EADDRINUSE startup failure. The current-source revocation script did not execute. Historical TIME_WAIT was not directly recorded and is only a possible cause. All owned processes stopped, ports released and execution ended within approval. Actual744228584bytes of bulky bodies remain at native original paths; public metadata/index/hashes and actual distinct result review are under raw-matrix-9c012b4-20261022-v1/, explicitly not qualified artifacts.
+
+The current forward repairs resolve impossible Range intervals after grant authorization and before ATS, permit stopped own ports to rebind without sharing live listeners, observe the first actual HTTP response byte separately from headers/media, and verify actual warm/denial source version and cache context. Actual21 offline/filesystem/loopback regressions passed with distinct independent content acceptance; see development-http-fixes-checks/v2-21/ and http-fixes-independent-review.json. No ATS experiment has run at these changed source bytes; new concrete approval and verification are required.
 
 Original15 typed measurement assembly, combined partial-cache disposal proof, independently justified buffering domain and actual original-matrix results remain incomplete. Full POC/V1 and source integration remain unaccepted.
