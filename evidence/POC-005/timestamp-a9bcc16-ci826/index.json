@@ -1,0 +1,21 @@
+{
+  "source": "a9bcc16a3dac2bbd27bea569e7cea2226056aac1",
+  "run": 39857503309,
+  "job": 120099425908,
+  "conclusion": "success",
+  "passed": 713,
+  "seconds": 1458.46,
+  "noSkippedTests": true,
+  "files": [
+    {
+      "path": "poc005-timestamp-a9bcc16-ci826.raw.txt",
+      "bytes": 312706,
+      "sha256": "d9206f0df612e5ae4f4f48a8a0f1ded1b2c33b3e3d00df95af7c2a93b8576250"
+    },
+    {
+      "path": "poc005-timestamp-a9bcc16-ci826.snapshot.json",
+      "bytes": 23131,
+      "sha256": "4afdde10f9308e2a46f21f1b1d84030fb034a2bb27226980b2529b0a089770de"
+    }
+  ]
+}

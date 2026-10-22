@@ -1,3 +1,5 @@
+Current exact-source483 Task15 passed/native96 failed1; complete acceptance and push rejected21:55:45Z. See clock-48344a9-failed-validation/, timestamp-a9bcc16-ci826/, native-windows-measurement-next.md and summary.md. Current handoff-only successor does not claim a new full run. Next implement native Windows lifecycle/counters/QPC under frozen contracts, then verify actual source and obtain new independent experiment approval.
+
 Current clock-failure repair: summary.md, source-attempt003-clock-failure/, clock-failure-independent-content-review.json, timestamp-a9bcc16-source-validation/. New exact Task15/code96/source review/CI pending. Environment remains unsuitable; no approval reuse or source retry. Original source service fixtures preserved.
 
 Current forward fixture-test repair: summary.md, timestamp-38f2a7b-failed-validation/, timestamp-mapping-test-independent-content-review.json and source-observer-4b12002-ci825/. Native15/code92/current source review pending; no new experiment approval.

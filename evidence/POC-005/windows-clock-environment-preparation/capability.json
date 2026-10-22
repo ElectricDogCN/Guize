@@ -1,0 +1,32 @@
+{
+  "kind": "actual_windows_clock_capability_preparation",
+  "observedAt": "2026-10-22T21:58:41.832701+00:00",
+  "clockInfo": {
+    "monotonic": {
+      "implementation": "GetTickCount64()",
+      "monotonic": true,
+      "adjustable": false,
+      "resolution": 0.015625
+    },
+    "perf_counter": {
+      "implementation": "QueryPerformanceCounter()",
+      "monotonic": true,
+      "adjustable": false,
+      "resolution": 1e-07
+    },
+    "time": {
+      "implementation": "GetSystemTimeAsFileTime()",
+      "monotonic": false,
+      "adjustable": true,
+      "resolution": 0.015625
+    }
+  },
+  "rawRef": "poc005-windows-clock-reference.jsonl",
+  "rawBytes": 12043,
+  "rawSha256": "32bae9a08d9adda67d0aac057506f6d87da0b6fa9533c9daa946135d262988a3",
+  "qpcFrequency": 10000000,
+  "qpcRelativeWallResidualMinNs": 0,
+  "qpcRelativeWallResidualMaxNs": 457200,
+  "qualificationAccepted": false,
+  "limitation": "One diagnostic only. Python monotonic uses15.625ms GetTickCount64 here; do not reuse it for microsecond interval claims. QPC is not synchronized to external UTC; non-Precise interrupt counter is a coarse reference. Missing Precise export is retained in raw preparation record, not hidden."
+}

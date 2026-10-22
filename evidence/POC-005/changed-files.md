@@ -2,9 +2,9 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
-Status: in_progress / PARTIAL; original13 qualification pending.
+Status: in_progress / PARTIAL; source483 native96 failed1, no current full-source acceptance.
 
-Exact current inventory against accepted base:
+Exact inventory against accepted base:
 
 - evidence/POC-005/.gitattributes
 - evidence/POC-005/EVIDENCE-STRUCTURE.md
@@ -42,6 +42,26 @@ Exact current inventory against accepted base:
 - evidence/POC-005/canonical-windows-preparation-interrupted.json
 - evidence/POC-005/canonical-windows-signature-diagnosis.json
 - evidence/POC-005/changed-files.md
+- evidence/POC-005/clock-48344a9-failed-validation/.gitattributes
+- evidence/POC-005/clock-48344a9-failed-validation/code-96.raw
+- evidence/POC-005/clock-48344a9-failed-validation/index.json
+- evidence/POC-005/clock-48344a9-failed-validation/poc005-clock-48344a9-independent-source-rejection.json
+- evidence/POC-005/clock-48344a9-failed-validation/results.json
+- evidence/POC-005/clock-48344a9-failed-validation/task-00.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-01.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-02.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-03.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-04.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-05.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-06.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-07.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-08.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-09.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-10.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-11.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-12.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-13.raw
+- evidence/POC-005/clock-48344a9-failed-validation/task-14.raw
 - evidence/POC-005/clock-failure-independent-content-review.json
 - evidence/POC-005/commands.txt
 - evidence/POC-005/dav-adapter-independent-content-review.json
@@ -150,6 +170,7 @@ Exact current inventory against accepted base:
 - evidence/POC-005/native-lifecycle-independent-design-review.json
 - evidence/POC-005/native-lifecycle-independent-first-rejection.json
 - evidence/POC-005/native-lifecycle-next-implementation.md
+- evidence/POC-005/native-windows-measurement-next.md
 - evidence/POC-005/profiles/local-v1/v1/attempt-001/approval-request.json
 - evidence/POC-005/profiles/local-v1/v1/attempt-001/before-capture
 - evidence/POC-005/profiles/local-v1/v1/attempt-001/before-counter
@@ -367,6 +388,10 @@ Exact current inventory against accepted base:
 - evidence/POC-005/timestamp-38f2a7b-failed-validation/task-12.raw
 - evidence/POC-005/timestamp-38f2a7b-failed-validation/task-13.raw
 - evidence/POC-005/timestamp-38f2a7b-failed-validation/task-14.raw
+- evidence/POC-005/timestamp-a9bcc16-ci826/.gitattributes
+- evidence/POC-005/timestamp-a9bcc16-ci826/index.json
+- evidence/POC-005/timestamp-a9bcc16-ci826/poc005-timestamp-a9bcc16-ci826.raw.txt
+- evidence/POC-005/timestamp-a9bcc16-ci826/poc005-timestamp-a9bcc16-ci826.snapshot.json
 - evidence/POC-005/timestamp-a9bcc16-source-validation/.gitattributes
 - evidence/POC-005/timestamp-a9bcc16-source-validation/code-92.raw
 - evidence/POC-005/timestamp-a9bcc16-source-validation/index.json
@@ -394,6 +419,10 @@ Exact current inventory against accepted base:
 - evidence/POC-005/timestamp-mapping-test-independent-content-review.json
 - evidence/POC-005/timestamp-red.json
 - evidence/POC-005/timestamp-red.raw
+- evidence/POC-005/windows-clock-environment-preparation/.gitattributes
+- evidence/POC-005/windows-clock-environment-preparation/capability.json
+- evidence/POC-005/windows-clock-environment-preparation/poc005-windows-clock-reference-conclusion.json
+- evidence/POC-005/windows-clock-environment-preparation/poc005-windows-clock-reference.jsonl
 - poc/POC-05-metadata-scale/README.md
 - poc/POC-05-metadata-scale/canonical_metadata.py
 - poc/POC-05-metadata-scale/controlled_fixture_map.py

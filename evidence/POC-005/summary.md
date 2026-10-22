@@ -2,6 +2,22 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; current native source validation failed1, not published.
+
+## Current environment handoff after actual full-source rejection
+
+Exact source48344a903a7533a930195d6010282a7a2378f070/treeff00086dc361a56162098623f0df2ecff72c0bc6 passed Task15 but native96/32.628s failed1 with no skips. Its real8s outside-window test encountered WALL_CLOCK_CHANGED first. Independent21:55:45Z verified source/evidence/scope but rejected complete source acceptance and push admission. Full raw/results/rejection are preserved in clock-48344a9-failed-validation/. No test assertion was weakened or run repeated. Windows96 success and minimal Linux6 success do not replace this failed native suite.
+
+The published A9 CI826/run39857503309/job120099425908 completed SUCCESS713/1458.46s/no skips at21:54:21Z; raw312706B/SHAd9206f0df612e5ae4f4f48a8a0f1ded1b2c33b3e3d00df95af7c2a93b8576250 and exact run/jobs are archived in timestamp-a9bcc16-ci826/. This accepts A9 only, never483 or later code. Remote PR136 remains draft at A9; no merge or branch deletion is admitted from incomplete original13 work.
+
+The current metadata-only handoff preserves those actual outcomes; runtime code is unchanged from483. Its own full source validation is not claimed. Next implementation uses native-windows-measurement-next.md and actual Windows capability preparation. The existing frozen protocol supports Windows counters/lifecycle, but one diagnostic does not approve timing, implementation or an experiment. Preserve the1ms guard, frozen1us interval consistency, complete13 metrics and full10k/100k/1m/compression. Original fixtures, all three failed attempts and source services remain preserved; host settings restored. No more host clock tuning or unchanged-host retries. POC003/order2 precedes shared results/order3. FullV1 remains active/incomplete.
+
+## Historical source-specific preparation records
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; original13 and full scales incomplete.
 
 ## Current rejected clock evidence repair
