@@ -63,7 +63,7 @@ foundationTasks:
     mergeCommit: 9de3656325bc9b8053f99489c64db1ccbb4c5d79
   - taskId: OPS-012
     title: 降低历史治理校验的安全 YAML 解析开销
-    status: blocked
+    status: in_progress
     completionRef: ISSUE-115
     mergeCommit: null
 waves:

@@ -1,0 +1,96 @@
+{
+  "kind": "actual_registered_ancestor_regression",
+  "codeAndTestsWorkingTreeAtCapture": true,
+  "currentImmutableSourceAccepted": false,
+  "development": [
+    {
+      "attempt": "red",
+      "junit": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"15.559\" timestamp=\"2026-10-22T13:13:01.478674+08:00\" hostname=\"RuifengSu\"><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unregistered_side_work\" time=\"3.988\"><failure message=\"AssertionError: 0 == 0 : {&quot;status&quot;: &quot;PASS&quot;, &quot;message&quot;: &quot;Program Plan history transitions are valid&quot;, &quot;details&quot;: {&quot;baseRef&quot;: &quot;ed1121e6ed22239fa921b24692becbcbd24869b2&quot;, &quot;headRef&quot;: &quot;HEAD&quot;, &quot;completionRecords&quot;: 0, &quot;auditedOwnerCapacityFailures&quot;: []}}\">self = &lt;tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_preflight_rejects_unregistered_side_work&gt;\n\n    def test_foundation_preflight_rejects_unregistered_side_work(self):\n        result, invalid = self.foundation_preflight_fixture(\"unregistered_side\")\n&gt;       self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)\nE       AssertionError: 0 == 0 : {\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"ed1121e6ed22239fa921b24692becbcbd24869b2\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\n\n.takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py:2542: AssertionError</failure></testcase></testsuite></testsuites>",
+      "rawOutput": "w\u0000s\u0000l\u0000:\u0000 \u0000�hKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006tM�n\f�FO*g\\��P0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN�v \u0000W\u0000S\u0000L\u0000 \u0000\r\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006t\u00020\r\n\u0000\r\nF                                                                        [100%]\r\n=================================== FAILURES ===================================\r\n_ TestProgramPlanHistory.test_foundation_preflight_rejects_unregistered_side_work _\r\n\r\nself = <tests.governance.test_program_plan_history.TestProgramPlanHistory testMethod=test_foundation_preflight_rejects_unregistered_side_work>\r\n\r\n    def test_foundation_preflight_rejects_unregistered_side_work(self):\r\n        result, invalid = self.foundation_preflight_fixture(\"unregistered_side\")\r\n>       self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)\r\nE       AssertionError: 0 == 0 : {\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"ed1121e6ed22239fa921b24692becbcbd24869b2\", \"headRef\": \"HEAD\", \"completionRecords\": 0, \"auditedOwnerCapacityFailures\": []}}\r\n\r\n.takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py:2542: AssertionError\r\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-preflight-side-red.xml -\r\n=========================== short test summary info ============================\r\nFAILED .takeover-tools/gz021-hls-publication-worktree/tests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_preflight_rejects_unregistered_side_work\r\n1 failed, 187 deselected in 15.58s\r\n\u0000\r\n",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "attempt": "green",
+      "junit": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"0\" skipped=\"0\" tests=\"20\" time=\"34.506\" timestamp=\"2026-10-22T13:13:56.975872+08:00\" hostname=\"RuifengSu\"><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_accepts_integration_metadata\" time=\"2.985\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_accepts_registered_integration_code\" time=\"3.006\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_accepts_valid_review\" time=\"2.620\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_premature_completion_restored\" time=\"3.413\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_reviewer_code_restored\" time=\"4.217\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_program_plan_history.TestProgramPlanHistory\" name=\"test_foundation_preflight_rejects_unregistered_side_work\" time=\"4.516\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_real_history_documents_keep_safe_yaml_values[specs/coordination/program-plan.yaml]\" time=\"0.066\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_real_history_documents_keep_safe_yaml_values[specs/coordination/active-work.yaml]\" time=\"0.007\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_real_history_documents_keep_safe_yaml_values[specs/coordination/program-plan.schema.yaml]\" time=\"0.032\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[]\" time=\"0.000\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[null\\n]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[flag: true\\ncount: 12\\nname: \\u5f52\\u6cfd\\n]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[lease: 2026-10-28T05:32:42Z\\n]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_scalar_timestamp_unicode_and_merge_semantics_are_preserved[defaults: &amp;defaults {status: reserved, modules: [MOD-GOV]}\\ntask: {&lt;&lt;: *defaults, status: in_progress}\\n]\" time=\"0.001\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_malformed_and_unsafe_documents_remain_rejected[broken: [unterminated]\" time=\"0.000\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_malformed_and_unsafe_documents_remain_rejected[value: \\x00]\" time=\"0.000\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_malformed_and_unsafe_documents_remain_rejected[!!python/object/apply:builtins.str [untrusted]]\" time=\"0.000\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_malformed_and_unsafe_documents_remain_rejected[!!python/name:builtins.eval '']\" time=\"0.000\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_absent_document_remains_absent\" time=\"0.000\" /><testcase classname=\".takeover-tools.gz021-hls-publication-worktree.tests.governance.test_history_yaml_loader\" name=\"test_without_c_extension_safe_loading_and_rejection_still_work\" time=\"0.087\" /></testsuite></testsuites>",
+      "rawOutput": "w\u0000s\u0000l\u0000:\u0000 \u0000�hKm0R \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006tM�n\f�FO*g\\��P0R \u0000W\u0000S\u0000L\u0000\u00020N\u0000A\u0000T\u0000 \u0000!j\u000f_\u000bN�v \u0000W\u0000S\u0000L\u0000 \u0000\r\nN/e\u0001c \u0000l\u0000o\u0000c\u0000a\u0000l\u0000h\u0000o\u0000s\u0000t\u0000 \u0000�N\u0006t\u00020\r\n\u0000\r\n....................                                                     [100%]\r\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-preflight-side-green.xml -\r\n20 passed, 182 deselected in 34.53s\r\n\u0000\r\n",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "supersededSource": {
+    "source": "f38c192edd216a8b1ac0544c7bcdd4ec43e0ed1d",
+    "accepted": false,
+    "executions": [
+      {
+        "label": "diff",
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "c5f201adb2e11ffea912f862c19918157f9cf106...HEAD"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+        "pid": 218600,
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawLog": "diff.txt",
+        "rawSha256": "1b2e56237a84f4b7255845bb7abceaa5c90d10a66a8f87589ef2cc10990af398",
+        "rawBytes": 144
+      },
+      {
+        "label": "targeted",
+        "argv": [
+          "python",
+          "-m",
+          "pytest",
+          "tests/governance/test_history_yaml_loader.py",
+          "tests/governance/test_program_plan_history.py",
+          "-k",
+          "history_yaml_loader or foundation_preflight",
+          "-q"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+        "pid": 218601,
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawLog": "targeted.txt",
+        "rawSha256": "44ceaec50d778ec8ff9e1cb14c3fdde50d700c3d7ae1ba123884b227e0cd7cb6",
+        "rawBytes": 522
+      },
+      {
+        "label": "verify",
+        "argv": [
+          "make",
+          "verify",
+          "TASK=OPS-012",
+          "BASE=c5f201adb2e11ffea912f862c19918157f9cf106",
+          "HEAD_REF=HEAD",
+          "BRANCH=chore/OPS-012-early-history-preflight"
+        ],
+        "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+        "pid": 220059,
+        "exitCode": 2,
+        "waitCompleted": true,
+        "rawLog": "verify.txt",
+        "rawSha256": "d4cffc6ae8a453de4ddbeab239edfed2440229997d22196813a80a9bd2e6c121",
+        "rawBytes": 53613
+      }
+    ],
+    "interruption": {
+      "source": "f38c192edd216a8b1ac0544c7bcdd4ec43e0ed1d",
+      "pid": 221836,
+      "cmdline": "/home/sur/.cache/guize-takeover/governance-venv/bin/python3 -m pytest tests/governance/ -v ",
+      "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+      "action": "SIGINT to superseded own full pytest after a new genuine unregistered-side regression failed; no test pass claimed",
+      "accepted": false
+    },
+    "rawLogReference": "ops012-preflight-f38c192-results/verify.txt",
+    "rawTail": "foundation_merge_same_commit_base_change PASSED [ 46%]\ntests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_merge_separate_base_advance PASSED [ 46%]\ntests/governance/test_program_plan_history.py::TestProgramPlanHistory::test_foundation_merge_separate_base_advance_after_revert \n\n=================================== FAILURES ===================================\n__________ TestProgramLifecycleGuards.test_current_repository_passes ___________\n\nself = <tests.governance.test_program_lifecycle_guards.TestProgramLifecycleGuards testMethod=test_current_repository_passes>\n\n    def test_current_repository_passes(self):\n        result = subprocess.run(\n            [\n                sys.executable,\n                LIFECYCLE_GATE,\n                \"--repo-root\",\n                REPO_ROOT,\n                \"--base-ref\",\n                \"origin/main\",\n                \"--head-ref\",\n                \"HEAD\",\n            ],\n            cwd=REPO_ROOT,\n            capture_output=True,\n            text=True,\n        )\n>       self.assertEqual(result.returncode, 0, result.stdout + result.stderr)\nE       AssertionError: 1 != 0 : {\"status\": \"FAIL\", \"message\": \"Active Foundation OPS-012 baseSha must equal audited target base 1ffd037de9c6514d9a325cce4c8e33faaec8a389\"}\n\ntests/governance/test_program_lifecycle_guards.py:64: AssertionError\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-preflight-f38c192-results/make-governance.xml -\n=========================== short test summary info ============================\nFAILED tests/governance/test_program_lifecycle_guards.py::TestProgramLifecycleGuards::test_current_repository_passes\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n/home/sur/.cache/guize-takeover/governance-venv/lib/python3.12/site-packages/yaml/emitter.py:1096: KeyboardInterrupt\n(to show a full traceback on KeyboardInterrupt use --full-trace)\n================== 1 failed, 325 passed in 310.98s (0:05:10) ===================\nmake[2]: *** [Makefile:112: governance-test] Error 2\nmake[2]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake[1]: *** [Makefile:154: task-verify] Error 2\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake: *** [Makefile:172: verify] Error 2\n\nExit Code: 2\n",
+    "reason": "A new authentic graph regression reproduced acceptance of own code on unadmitted alternative-registration side ancestry. Superseded full pytest interrupted specifically; actual make verify2, no full pass; later wrapper unexecuted. Prior exact-head independent review was clean but cannot substitute for the newly demonstrated failure."
+  }
+}

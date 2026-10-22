@@ -1,0 +1,33 @@
+{
+  "taskId": "OPS-012",
+  "issue": 115,
+  "pr": 120,
+  "phase": "blocked-rework-registration",
+  "actualMain": "c5f201adb2e11ffea912f862c19918157f9cf106",
+  "source": "fd229ba58c947a6ce43c7f00b05e1d1285136054",
+  "base": "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+  "tree": "4ca651d4ad9d5b253309b7753e5ff6cac0326c2f",
+  "sourceLocal13Accepted": true,
+  "sourceCiAccepted": true,
+  "independentReviewAccepted": true,
+  "actualMainFiveAccepted": true,
+  "actualMainCiAccepted": true,
+  "ciAccepted": true,
+  "actualMainAccepted": true,
+  "registrationEffectiveForImplementation": true,
+  "normalCompletionGovernanceAccepted": false,
+  "mustFix": [],
+  "mainGovernanceTests": 695,
+  "mainGovernanceSeconds": 1299.34,
+  "mainCiRun": 39723935541,
+  "mainCiJob": 119643452362,
+  "sourceAdmission": "evidence/OPS-012/registration-source-admission.json",
+  "mainChecks": "evidence/OPS-012/registration-main-checks.json",
+  "mainCiSnapshot": "evidence/OPS-012/registration-main-ci782.json",
+  "mainRaw": {
+    "path": "evidence/OPS-012/registration-main-ci782.json",
+    "jsonField": "rawLog",
+    "bytes": 272809,
+    "sha256": "e7666d55d5d03ef8b0f8ea698c0fc7226c5c84ca202971ae3f46f30c7ceb29ef"
+  }
+}

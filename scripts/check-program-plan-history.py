@@ -1345,13 +1345,19 @@ def registered_claim_history(root: str, task_id: str, reservation: str, descenda
     return claims
 
 
-def foundation_post_implementation(root: str, task_id: str, implementation: str, reservation: str, base_ref: str, errors: list[str]) -> None:
+def foundation_post_implementation(root: str, task_id: str, implementation: str, reservation: str, base_ref: str, errors: list[str], *, admitted_base: str | None = None, allow_registered_work: bool = False) -> None:
     """Completion must name the last integrated version of its own code.
 
     Inspect introduced side history too: a later revert must not erase work.
     Ownership comes from that node's actual registration, not commit messages
     or the completing task's broader scope in some unrelated historical state.
+    Active Review/integration also audit their introduced range, allowing only
+    registered working actors. Their proposed head is not an admitted base.
     """
+    trusted_base = admitted_base if admitted_base is not None else base_ref
+    admitted_registry = load_ref(root, trusted_base, ACTIVE) if allow_registered_work else None
+    admitted_entries = [item for item in (admitted_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+    admitted_claims = (admitted_entries[0].get("exclusivePaths") or []) if len(admitted_entries) == 1 else []
     nodes = git(root, "rev-list", "--topo-order", "--reverse", f"{implementation}..{base_ref}")
     if nodes.returncode:
         errors.append(f"Foundation {task_id} cannot audit history after its claimed implementation")
@@ -1374,6 +1380,16 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         if paths is None:
             errors.append(f"Foundation {task_id} cannot read post-implementation node diff at {node}")
             continue
+        imports: set[str] = set()
+        prior_registry = load_ref(root, parent, ACTIVE)
+        if allow_registered_work:
+            incoming = approved_synchronization_parents(root, node, trusted_base)
+            imports = clean_synchronization_paths(root, node, paths, incoming)
+            # A proposed Foundation PR cannot manufacture peer admissions or
+            # releases. Only metadata proven from the admitted target imports.
+            historical_foreign_metadata(root, parent, node, incoming, task_id, errors, imports, admitted_base=trusted_base)
+            if LEDGER in paths and LEDGER not in imports:
+                errors.append(f"Foundation {task_id} preflight cannot change ordinary Ledger at {node}")
         claims = []
         registered_node = is_ancestor(root, reservation, node)
         task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot}
@@ -1384,9 +1400,11 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         parents = git(root, "show", "-s", "--format=%P", node).stdout.split()
         authoritative = node in main_nodes or len(parents) > 1
         related = own_delta or bool(own_work) or any(path.startswith(f"evidence/{task_id}/") for path in paths)
-        if registered_node and (authoritative or related):
+        if (registered_node and (authoritative or related)) or (allow_registered_work and related):
+            if allow_registered_work and not registered_node:
+                errors.append(f"Foundation {task_id} preflight related node must descend from original reservation at {node}")
             node_registry = load_ref(root, node, ACTIVE)
-            historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} post-implementation history at {node}", errors, approved_base=base_ref)
+            historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} post-implementation history at {node}", errors, approved_base=trusted_base)
             node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             if len(node_entries) == 1 and {key: value for key, value in node_entries[0].items() if key not in mutable} != stable:
                 errors.append(f"Foundation {task_id} changed stable identity in post-implementation history at {node}")
@@ -1407,16 +1425,73 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         own_work = {path for path in paths if path not in {PLAN, ACTIVE, *task_paths} and not path.startswith(f"evidence/{task_id}/") and any(RECOVERY.matches_path(path, str(claim)) for claim in claims)}
         code_paths = {path for path in paths if path not in {PLAN, ACTIVE, LEDGER, *task_paths} and not path.startswith(f"evidence/{task_id}/")}
         if code_paths:
-            incoming = approved_synchronization_parents(root, node, base_ref)
-            imports = clean_synchronization_paths(root, node, paths, incoming)
-            prior_registry = load_ref(root, parent, ACTIVE)
+            if not allow_registered_work:
+                incoming = approved_synchronization_parents(root, node, trusted_base)
+                imports = clean_synchronization_paths(root, node, paths, incoming)
             prior = [item for item in (prior_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             prior_claims = (prior[0].get("exclusivePaths") or []) if len(prior) == 1 else []
-            unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, parent, task_id, path) or historical_peer_metadata_path(root, node, task_id, path)))}
+            if allow_registered_work:
+                # This PR may introduce own work only under both the admitted
+                # claim and the node's prior registration. Foreign work needs
+                # a proven synchronization, not merely another task's claim.
+                unexpected = {path for path in code_paths - imports if not all(any(RECOVERY.matches_path(path, str(claim)) for claim in claims_at_ref) for claims_at_ref in (prior_claims, admitted_claims))}
+            else:
+                unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, parent, task_id, path) or historical_peer_metadata_path(root, node, task_id, path)))}
             if unexpected:
                 errors.append(f"Foundation {task_id} post-implementation working node changed paths outside its prior registered scope at {node}: {', '.join(sorted(unexpected))}")
         if own_work:
-            errors.append(f"Foundation {task_id} has own code changes after claimed implementation at {node}: {', '.join(sorted(own_work))}; Completion must identify the latest reviewed implementation")
+            if not allow_registered_work:
+                errors.append(f"Foundation {task_id} has own code changes after claimed implementation at {node}: {', '.join(sorted(own_work))}; Completion must identify the latest reviewed implementation")
+            elif own_work - imports:
+                if not registered_node or not is_ancestor(root, reservation, parent):
+                    errors.append(f"Foundation {task_id} preflight working node must descend from original reservation at {node}")
+                historical_registration_context(root, parent, node, task_id, prior_registry, reservation, policy, f"Foundation {task_id} preflight prior registration at {node}", errors, approved_base=trusted_base)
+                node_registry = load_ref(root, node, ACTIVE)
+                node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+                if len(node_entries) == 1:
+                    historical_lifecycle_binding(root, node, task_id, node_entries[0], errors)
+                    if node_entries[0].get("agentRole") not in {"implementer", "integrator"}:
+                        errors.append(f"Foundation {task_id} preflight working code requires implementer or integrator at {node}")
+
+
+def foundation_preflight_needed(root: str, task_id: str, base_ref: str, head_ref: str, before: dict[str, Any] | None, after: dict[str, Any], base_active: dict[str, Any], task_hint: str, branch_name: str, errors: list[str]) -> bool:
+    """Find this actor's Review activity, including restored or blocked tips.
+
+    An unrelated peer PR does not become work of every active Foundation.
+    The submitted hint cannot conceal actual changes to another Foundation.
+    """
+    review_states = {"review", "integration"}
+    review_seen = (before or {}).get("status") in review_states or after.get("status") in review_states
+    related = task_hint == task_id or (not task_hint and bool(re.search(rf"(?:^|/){re.escape(task_id)}(?:-|/|$)", branch_name)))
+    prior = [item for item in base_active.get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+    claims = (prior[0].get("exclusivePaths") or []) if len(prior) == 1 else []
+    history = git(root, "rev-list", "--reverse", f"{base_ref}..{head_ref}")
+    if history.returncode:
+        errors.append(f"Foundation {task_id} cannot inspect introduced preflight activity")
+        return False
+    for node in history.stdout.split():
+        parent = resolve_ref(root, f"{node}^1")
+        paths = RECOVERY.changed_paths(root, parent, node) if parent else None
+        if paths is None:
+            errors.append(f"Foundation {task_id} cannot inspect preflight node at {node}")
+            continue
+        task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot} - {None}
+        if not related:
+            related = historical_own_metadata_changed(root, parent, node, task_id) or any(path.startswith(f"evidence/{task_id}/") for path in paths)
+            if not related:
+                related = any(path not in {PLAN, ACTIVE, LEDGER, *task_paths} and not historical_peer_metadata_path(root, base_ref, task_id, path) and any(RECOVERY.matches_path(path, str(claim)) for claim in claims) for path in paths)
+        if not review_seen:
+            for document, collection in ((PLAN, "foundationTasks"), (ACTIVE, "tasks")):
+                snapshot = load_ref(root, node, document)
+                if isinstance(snapshot, dict) and mapping(snapshot.get(collection)).get(task_id, {}).get("status") in review_states:
+                    review_seen = True
+            for path in task_paths:
+                front, _ = parse_front_matter(read_ref(root, node, path))
+                if front.get("status") in review_states:
+                    review_seen = True
+        if related and review_seen:
+            return True
+    return False
 
 
 def validate_foundations(
@@ -1431,6 +1506,8 @@ def validate_foundations(
     head_ref: str,
     branch_name: str,
     errors: list[str],
+    *,
+    task_hint: str = "",
 ) -> None:
     before_map = mapping(base_plan.get("foundationTasks"))
     after_map = mapping(current_plan.get("foundationTasks"))
@@ -1440,6 +1517,14 @@ def validate_foundations(
             errors.append(f"Completed Foundation {task_id} provenance is immutable")
     for task_id, after in after_map.items():
         before = before_map.get(task_id)
+        if after.get("status") in ACTIVE_STATES and resolve_ref(root, base_ref) != resolve_ref(root, head_ref) and foundation_preflight_needed(root, task_id, base_ref, head_ref, before, after, base_active, task_hint, branch_name, errors):
+            prior = [item for item in base_active.get("tasks") or [] if item.get("taskId") == task_id]
+            if len(prior) != 1:
+                errors.append(f"Foundation {task_id} preflight requires one prior Active Work entry")
+            else:
+                reservation = foundation_reservation(root, task_id, base_ref, prior[0], errors)
+                if reservation:
+                    foundation_post_implementation(root, task_id, base_ref, reservation[0], head_ref, errors, admitted_base=base_ref, allow_registered_work=True)
         if after.get("status") != "completed" or (before and before.get("status") == "completed"):
             continue
         if not before or before.get("status") not in ACTIVE_STATES:
@@ -1620,6 +1705,7 @@ def main() -> int:
         args.head_ref,
         args.branch_name,
         errors,
+        task_hint=args.task,
     )
     for record in current_ledger.get("records") or []:
         validate_reservation_snapshot(root, record, errors)

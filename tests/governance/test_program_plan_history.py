@@ -259,7 +259,7 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.commit(root, "GZ-004 completion metadata (#32)")
         return reservation
 
-    def create_foundation_completion(self, root, mode="valid", with_review=True):
+    def create_foundation_completion(self, root, mode="valid", with_review=True, *, extra_claims=()):
         self.foundation_fixture = True
         def build_registry(items):
             document = self.registry(items)
@@ -314,7 +314,7 @@ class TestProgramPlanHistory(unittest.TestCase):
         entry = self.entry(task_id, seed, "reserved", "chore/GZ-014-repair")
         entry["agentRole"] = "coordinator"
         now = datetime.now(timezone.utc)
-        entry["exclusivePaths"] = ["scripts/fixture-repair.py"]
+        entry["exclusivePaths"] = ["scripts/fixture-repair.py", *extra_claims]
         entry["lease"] = {"acquiredAt": (now-timedelta(hours=1)).isoformat(), "expiresAt": (now+timedelta(days=1)).isoformat()}
         if mode.startswith("original_dependency_"):
             entry["dependsOn"] = ["GZ-003"]
@@ -2433,6 +2433,307 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_followup_capacity_other_task(self):
         self.followup_owner_capacity_fixture("other_task")
+
+
+    def foundation_preflight_fixture(self, mode, *, without_task=False):
+        with tempfile.TemporaryDirectory() as root:
+            ledger_path = "specs/coordination/task-completions.yaml"
+            history = self.create_foundation_completion(root, extra_claims=(ledger_path,) if mode == "ledger_only" else ())
+            plan_path = "specs/coordination/program-plan.yaml"
+            active_path = "specs/coordination/active-work.yaml"
+            task_path = "specs/tasks/GZ-014.md"
+            code_path = "scripts/fixture-repair.py"
+
+            def blob(ref, path):
+                return subprocess.check_output(["git", "show", f"{ref}:{path}"], cwd=root, text=True)
+
+            def checkout(ref):
+                subprocess.run(["git", "checkout", "--detach", ref], cwd=root, check=True, capture_output=True)
+
+            review = history["base"]
+            tree_reference = review
+            base = history["implementation"]
+            branch = "chore/GZ-014-review"
+            submitted_task = "GZ-014"
+            checkout(review)
+            invalid = None
+            if mode in {"valid_blocked", "blocked_after_invalid_review"}:
+                branch = "chore/GZ-014-blocked"
+                checkout(base)
+                blocked_plan = yaml.safe_load(blob(review, plan_path))
+                next(row for row in blocked_plan["foundationTasks"] if row["taskId"] == "GZ-014")["status"] = "blocked"
+                blocked_registry = yaml.safe_load(blob(review, active_path))
+                blocked_entry = blocked_registry["tasks"][0]
+                blocked_entry.update(status="blocked", agentRole="coordinator", branch=branch, baseSha=base)
+                self.write_yaml(root, plan_path, blocked_plan)
+                self.write_yaml(root, active_path, blocked_registry)
+                self.write_text(root, task_path, self.task_spec(blocked_entry, "blocked", branch, base))
+                control = self.commit(root, "GZ-014 legal blocked endpoint")
+                tree_reference = control
+                if mode == "blocked_after_invalid_review":
+                    checkout(base)
+                    for path in (plan_path, active_path, task_path):
+                        self.write_text(root, path, blob(review, path))
+                    bad = yaml.safe_load(blob(review, plan_path))
+                    next(row for row in bad["foundationTasks"] if row["taskId"] == "GZ-014").update(completionRef="PR-22", mergeCommit=base)
+                    self.write_yaml(root, plan_path, bad)
+                    invalid = self.commit(root, "GZ-014 invalid Review before blocked endpoint")
+                    self.write_text(root, plan_path, blob(review, plan_path))
+                    self.commit(root, "GZ-014 restore Review registration")
+                    for path in (plan_path, active_path, task_path):
+                        self.write_text(root, path, blob(control, path))
+                    self.commit(root, "GZ-014 legal blocked tip after invalid Review")
+            elif mode == "concurrent_peer":
+                submitted_task = "GZ-004"
+                branch = "chore/GZ-004-peer"
+                plan = yaml.safe_load(blob(review, plan_path))
+                next(row for row in plan["tasks"] if row["taskId"] == submitted_task)["status"] = "in_progress"
+                registry = yaml.safe_load(blob(review, active_path))
+                peer = self.entry(submitted_task, review, "in_progress", branch)
+                peer.update(riskLevel="medium", exclusivePaths=["scripts/concurrent-peer.py"])
+                registry["tasks"].append(peer)
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, "specs/tasks/GZ-004.md", self.task_spec(peer, "in_progress", branch, review))
+                self.write_text(root, "scripts/concurrent-peer.py", "# admitted peer baseline\n")
+                base = self.commit(root, "GZ-004 admitted peer while Foundation is in Review")
+                self.write_text(root, "scripts/concurrent-peer.py", "# ordinary peer implementation\n")
+                self.commit(root, "GZ-004 legitimate own code PR")
+            elif mode == "premature_completion_restored":
+                snapshots = {path: blob(review, path) for path in (plan_path, active_path, task_path)}
+                checkout(base)
+                for path, text in snapshots.items():
+                    self.write_text(root, path, text)
+                plan = yaml.safe_load(snapshots[plan_path])
+                own = next(row for row in plan["foundationTasks"] if row["taskId"] == "GZ-014")
+                own.update(completionRef="PR-22", mergeCommit=base)
+                self.write_yaml(root, plan_path, plan)
+                invalid = self.commit(root, "GZ-014 Review with premature completion identity")
+                self.write_text(root, plan_path, snapshots[plan_path])
+                self.commit(root, "GZ-014 restore valid Review identity")
+            elif mode == "reviewer_code_restored":
+                original = blob(review, code_path)
+                self.write_text(root, code_path, original + "# reviewer must not implement\n")
+                invalid = self.commit(root, "GZ-014 reviewer changed own implementation")
+                self.write_text(root, code_path, original)
+                self.commit(root, "GZ-014 restore reviewed code")
+            elif mode == "unregistered_side":
+                checkout(history["seed"])
+                for path in (plan_path, active_path, task_path, "evidence/GZ-014/handoff.md"):
+                    self.write_text(root, path, blob(history["reservation"], path))
+                alternate = self.commit(root, "GZ-014 unadmitted alternative registration")
+                plan = yaml.safe_load(blob(alternate, plan_path))
+                next(row for row in plan["foundationTasks"] if row["taskId"] == "GZ-014")["status"] = "in_progress"
+                registry = yaml.safe_load(blob(alternate, active_path))
+                entry = registry["tasks"][0]
+                entry.update(status="in_progress", agentRole="implementer", baseSha=alternate)
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, task_path, self.task_spec(entry, "in_progress", entry["branch"], alternate))
+                self.write_text(root, code_path, "# side work never descended from the admitted reservation\n")
+                invalid = self.commit(root, "GZ-014 unregistered side implementation")
+                checkout(review)
+                subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 retain Review tree with invalid side ancestry", invalid], cwd=root, check=True, capture_output=True)
+            elif mode == "unregistered_metadata":
+                checkout(history["seed"])
+                for path in (plan_path, active_path, task_path, "evidence/GZ-014/handoff.md"):
+                    self.write_text(root, path, blob(history["reservation"], path))
+                self.commit(root, "GZ-014 unadmitted metadata registration")
+                original = pathlib.Path(root, active_path).read_text(encoding="utf8")
+                registry = yaml.safe_load(original)
+                registry["tasks"][0]["owner"] = "temporary-unadmitted-owner"
+                self.write_yaml(root, active_path, registry)
+                invalid = self.commit(root, "GZ-014 side metadata identity mutation")
+                self.write_text(root, active_path, original)
+                side = self.commit(root, "GZ-014 restore side metadata")
+                checkout(review)
+                subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 import restored side metadata", side], cwd=root, check=True, capture_output=True)
+            elif mode == "fabricated_peer":
+                checkout(history["seed"])
+                registry = yaml.safe_load(blob(history["seed"], active_path))
+                original = copy.deepcopy(registry)
+                peer = self.entry("OPS-100", history["seed"], "in_progress", "chore/OPS-100-peer")
+                peer.update(riskLevel="medium", exclusivePaths=[code_path])
+                registry["tasks"].append(peer)
+                self.write_yaml(root, active_path, registry)
+                self.commit(root, "OPS-100 fabricate peer claim on unadmitted side")
+                self.write_text(root, code_path, "# code hidden behind fabricated peer claim\n")
+                invalid = self.commit(root, "OPS-100 unadmitted peer work")
+                self.write_yaml(root, active_path, original)
+                side = self.commit(root, "OPS-100 remove fabricated registration")
+                checkout(review)
+                subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 import fabricated peer ancestry", side], cwd=root, check=True, capture_output=True)
+            elif mode in {"ledger_only", "unclaimed_ledger"}:
+                base = review
+                self.write_text(root, ledger_path, blob(review, ledger_path) + "# reviewer-only ledger delta\n")
+                invalid = self.commit(root, "GZ-014 reviewer ledger-only delta")
+                if mode == "unclaimed_ledger":
+                    self.write_text(root, ledger_path, blob(review, ledger_path))
+                    self.commit(root, "GZ-014 restore unclaimed ledger")
+            elif mode in {"admitted_peer_sync", "unadmitted_peer_work"}:
+                checkout(base)
+                plan = yaml.safe_load(blob(base, plan_path))
+                registry = yaml.safe_load(blob(base, active_path))
+                peer = self.entry("GZ-004", base, "in_progress", "chore/GZ-004-peer")
+                peer.update(riskLevel="medium", exclusivePaths=["scripts/admitted-peer.py"])
+                registry["tasks"].append(peer)
+                next(row for row in plan["tasks"] if row["taskId"] == "GZ-004")["status"] = "in_progress"
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, "scripts/admitted-peer.py", "# peer code already on admitted target\n")
+                admitted = self.commit(root, "GZ-004 admitted peer baseline")
+                checkout(review)
+                subprocess.run(["git", "merge", "--no-commit", "--no-ff", admitted], cwd=root, capture_output=True)
+                review_entry = yaml.safe_load(blob(review, active_path))["tasks"][0]
+                registry["tasks"][0] = review_entry
+                next(row for row in plan["foundationTasks"] if row["taskId"] == "GZ-014")["status"] = "review"
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, task_path, blob(review, task_path))
+                synced = self.commit(root, "GZ-014 clean admitted peer synchronization")
+                base = admitted
+                if mode == "unadmitted_peer_work":
+                    tree_reference = synced
+                    checkout(history["seed"])
+                    self.write_text(root, "scripts/admitted-peer.py", "# no contemporaneous peer registration\n")
+                    invalid = self.commit(root, "Unadmitted work behind a real target peer claim")
+                    pathlib.Path(root, "scripts/admitted-peer.py").unlink()
+                    side = self.commit(root, "Restore unadmitted peer work")
+                    checkout(synced)
+                    subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 retain admitted peer tree with unadmitted work ancestry", side], cwd=root, check=True, capture_output=True)
+            elif mode in {"integration_metadata", "integration_code", "unadmitted_own_scope"}:
+                base = review
+                branch = "chore/GZ-014-integration"
+                plan = yaml.safe_load(blob(review, plan_path))
+                next(row for row in plan["foundationTasks"] if row["taskId"] == "GZ-014")["status"] = "integration"
+                registry = yaml.safe_load(blob(review, active_path))
+                entry = registry["tasks"][0]
+                entry.update(status="integration", agentRole="integrator", baseSha=base, branch=branch)
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, task_path, self.task_spec(entry, "integration", branch, base))
+                if mode == "integration_code":
+                    self.write_text(root, code_path, blob(review, code_path) + "# registered integrator repair\n")
+                integrated = self.commit(root, "GZ-014 legitimate integration")
+                if mode == "unadmitted_own_scope":
+                    tree_reference = integrated
+                    extra = "scripts/unadmitted-extra.py"
+                    entry["exclusivePaths"].append(extra)
+                    self.write_yaml(root, active_path, registry)
+                    self.write_text(root, task_path, self.task_spec(entry, "integration", branch, base))
+                    self.commit(root, "GZ-014 unadmitted own scope expansion")
+                    self.write_text(root, extra, "# never admitted on target\n")
+                    invalid = self.commit(root, "GZ-014 work under transient own claim")
+                    pathlib.Path(root, extra).unlink()
+                    entry["exclusivePaths"].remove(extra)
+                    self.write_yaml(root, active_path, registry)
+                    self.write_text(root, task_path, self.task_spec(entry, "integration", branch, base))
+                    self.commit(root, "GZ-014 restore own scope and files")
+            else:
+                self.assertEqual(mode, "review")
+            if invalid and mode != "ledger_only":
+                self.assertEqual(
+                    subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root),
+                    subprocess.check_output(["git", "rev-parse", f"{tree_reference}^{{tree}}"], cwd=root),
+                )
+            result = self._run_checker(root, task="" if without_task else submitted_task, branch=branch, base_ref=base)
+            return result, invalid
+
+    def test_foundation_preflight_accepts_valid_review(self):
+        result, _ = self.foundation_preflight_fixture("review")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_rejects_premature_completion_restored(self):
+        result, invalid = self.foundation_preflight_fixture("premature_completion_restored")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("active Foundation must retain one ISSUE registration and no completion merge", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_reviewer_code_restored(self):
+        result, invalid = self.foundation_preflight_fixture("reviewer_code_restored")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("preflight working code requires implementer or integrator", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_accepts_integration_metadata(self):
+        result, _ = self.foundation_preflight_fixture("integration_metadata")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_accepts_registered_integration_code(self):
+        result, _ = self.foundation_preflight_fixture("integration_code")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_rejects_unregistered_side_work(self):
+        result, invalid = self.foundation_preflight_fixture("unregistered_side")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("preflight working node must descend from original reservation", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_unregistered_metadata(self):
+        result, invalid = self.foundation_preflight_fixture("unregistered_metadata")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("preflight related node must descend from original reservation", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_fabricated_peer(self):
+        result, invalid = self.foundation_preflight_fixture("fabricated_peer")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("outside its prior registered scope", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_ledger_only_returns_structured_failure(self):
+        result, invalid = self.foundation_preflight_fixture("ledger_only")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertIn("preflight working code requires implementer or integrator", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_accepts_admitted_peer_sync(self):
+        result, _ = self.foundation_preflight_fixture("admitted_peer_sync")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_rejects_unadmitted_peer_work(self):
+        result, invalid = self.foundation_preflight_fixture("unadmitted_peer_work")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("outside its prior registered scope", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_unclaimed_ledger(self):
+        result, invalid = self.foundation_preflight_fixture("unclaimed_ledger")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertIn("preflight cannot change ordinary Ledger", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_unadmitted_own_scope(self):
+        result, invalid = self.foundation_preflight_fixture("unadmitted_own_scope")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("outside its prior registered scope", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_blocked_after_invalid_review(self):
+        result, invalid = self.foundation_preflight_fixture("blocked_after_invalid_review")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("active Foundation must retain one ISSUE registration and no completion merge", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_accepts_valid_blocked(self):
+        result, _ = self.foundation_preflight_fixture("valid_blocked")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_allows_concurrent_peer(self):
+        result, _ = self.foundation_preflight_fixture("concurrent_peer")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_foundation_preflight_no_task_detects_blocked_review(self):
+        result, invalid = self.foundation_preflight_fixture("blocked_after_invalid_review", without_task=True)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("active Foundation must retain one ISSUE registration and no completion merge", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_no_task_allows_concurrent_peer(self):
+        result, _ = self.foundation_preflight_fixture("concurrent_peer", without_task=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
 if __name__ == "__main__":
