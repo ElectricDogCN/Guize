@@ -12,7 +12,7 @@ Result: PASS (actual accepted code-source execution)
 Evidence: implementation-source-local4.json / diff.txt
 
 Source Commit: 669f7211cc61a4f2db90e43b459e725a92758d54
-Command: python -m pytest tests/governance/test_history_yaml_loader.py tests/governance/test_program_plan_history.py -k history_yaml_loader or foundation_preflight -q
+Command: python -m pytest tests/governance/test_history_yaml_loader.py tests/governance/test_program_plan_history.py -k 'history_yaml_loader or foundation_preflight' -q
 Exit Code: 0
 Result: PASS (actual accepted code-source execution)
 Evidence: implementation-source-local4.json / targeted.txt
