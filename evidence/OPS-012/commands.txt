@@ -1,43 +1,11 @@
-OPS-012 normal rework blocked candidate
-Base: f18dcca18741f915db44594cd6f9af1d2cb4d1f6
-Branch: chore/OPS-012-history-yaml-rework-blocked
-Current source13/CI/review/main: pending actual execution.
+OPS-012 early-history audit implementation
+Base: c5f201adb2e11ffea912f862c19918157f9cf106
+Branch: chore/OPS-012-early-history-preflight
+Task/Issue: OPS-012/#115
+Current source execution, independent review, CI and code merge: pending.
 
-Command: git diff --check f18dcca18741f915db44594cd6f9af1d2cb4d1f6...HEAD
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-task-file.py --task OPS-012
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-schemas.py
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-program-plan-integrity.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-program-plan-history.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-rework-blocked
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-program-plan-transitions.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-rework-blocked
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-program-lifecycle-guards.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-rework-blocked
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/run-agent-coordination-gate.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-rework-blocked
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-program-plan-finalization.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/run-task-scope-gate.py --task OPS-012 --base f18dcca18741f915db44594cd6f9af1d2cb4d1f6
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-evidence.py --task OPS-012
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-project-readiness.py
-Exit Code: UNEXECUTED AT CAPTURE
-
-Command: python scripts/check-markdown.py
-Exit Code: UNEXECUTED AT CAPTURE
+git diff --check c5f201adb2e11ffea912f862c19918157f9cf106...HEAD
+python -m pytest tests/governance/test_history_yaml_loader.py tests/governance/test_program_plan_history.py -k "history_yaml_loader or foundation_preflight" -q
+make verify TASK=OPS-012 BASE=c5f201adb2e11ffea912f862c19918157f9cf106 HEAD_REF=HEAD BRANCH=chore/OPS-012-early-history-preflight
+python scripts/run-program-lifecycle-gate.py --base-ref c5f201adb2e11ffea912f862c19918157f9cf106 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-early-history-preflight
+All current outcomes pending. Prior last actual code merge PR117/1ffd037de9c6514d9a325cce4c8e33faaec8a389 remains historical context, not the future repair completion identity.
