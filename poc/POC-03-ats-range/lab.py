@@ -189,7 +189,7 @@ class State:
             raise ValueError('implementation changed after sandbox preparation')
         self.lock=threading.RLock();self.loglock=threading.Lock();self.version='base';self.fault='none'
         self.origin_rows={};self.active_origin={};self.gateway_rows={};self.gateway_active=0;self.ats=None;self.ats_logs=[]
-        self.allocator_dumps=0;self.cache_ready=None
+        self.allocator_dumps=0;self.live_snapshots=0;self.cache_ready=None
         self.grants={user:Grant(row['grantId'],row['principalId'],row['validFrom'],row['validUntil'])
                      for user,row in self.cfg['grants'].items()}
         if set(self.grants)!=set(self.cfg['users']) or any(g.principal!=u for u,g in self.grants.items()):
@@ -246,8 +246,11 @@ class State:
         from buffer_probe import process_identity
         live=self.cfg.get('liveBufferObserver')
         if (live is None or self.ats is None or self.cache_ready is None or self.cache_ready['atsPid']!=self.ats.pid
+                or self.gateway_active or any(self.active_origin.values()) or self.live_snapshots>=16
+                or type(after_ns)!=int or not 0<=after_ns<=time.monotonic_ns()
                 or not re.fullmatch('[A-Za-z0-9_-]{1,80}',label)):
             raise ValueError('owned ready instrumented ATS and explicit output label required')
+        self.live_snapshots+=1
         identity=process_identity(self.ats);proc=Path('/proc')/str(self.ats.pid)
         mapped={line.split(maxsplit=5)[5].strip() for line in (proc/'maps').read_text().splitlines() if len(line.split(maxsplit=5))==6}
         required={str(Path(self.cfg['pkgroot'])/name):sha for name,sha in self.cfg['instrumentedRuntime']['components'].items()}
@@ -258,7 +261,7 @@ class State:
         output=self.run/label
         row=capture_live(self.ats,self.run/'cache-observer',output,expected,after_ns)
         if process_identity(self.ats)!=identity:raise ValueError('ATS identity changed during observation')
-        row.update(actualMappedComponents=required,nativeCacheReady=self.cache_ready,observedAt=utc())
+        row.update(action='live-buffer-snapshot',actualMappedComponents=required,nativeCacheReady=self.cache_ready,observedAt=utc())
         write_json(output/'observation.json',row);return row
     def allocator_dump(self):
         with self.lock:
@@ -399,6 +402,8 @@ class Gateway(Handler):
                 if action=='witness':result=self.state.witness(data['requestId'])
                 elif action=='snapshot':result=self.state.snapshot(data['stage'])
                 elif action=='allocator-dump':result=self.state.allocator_dump()
+                elif action=='live-buffer-snapshot':
+                    result=self.state.live_buffer_snapshot('live-measurement-'+str(self.state.live_snapshots),data['afterMonotonicNs'])
                 elif action in ('grant-state','revoke-grant'):
                     matches=[(user,grant) for user,grant in self.state.grants.items() if grant.grant_id==data['grantId']]
                     if len(matches)!=1:raise ValueError('unknown grant')

@@ -1,0 +1,1 @@
+{"status": "PASS", "message": "Agent coordination valid: 2 active tasks, 0 high/critical", "details": {"activeTaskIds": ["POC-003", "POC-005"]}}

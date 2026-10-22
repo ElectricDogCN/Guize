@@ -39,7 +39,9 @@ The current forward diagnostic draft was accepted as intermediate content at2026
 
 Raw stderr and two original CRLF source-research receipts are retained byte-exact using scoped binary attributes; no raw bytes or assertions were altered to satisfy whitespace checks.
 
-Exact implementation candidate inventory against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 (1409 files):
+Source558d306 actually passed Task15/code57 and missing-sandbox guard; source was not pushed and has no fullCI. The forward controller operation adds authenticated bounded post-request snapshot access; its distinct content delta review accepted actual lab.py2f2b6a82 at2026-10-22T17:12:02Z. Current exact-source checks remain pending; no experiment ran.
+
+Exact implementation candidate inventory against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 (1438 files):
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
@@ -227,6 +229,7 @@ Exact implementation candidate inventory against synchronized main f2e0150265e0c
 - `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stderr.raw`
 - `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stdout.raw`
 - `evidence/POC-003/instrumented-build-v4-preparation/source-preparation.json`
+- `evidence/POC-003/live-control-independent-content-review.json`
 - `evidence/POC-003/live-observer-wiring-independent-content-review.json`
 - `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/.gitattributes`
 - `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/README.md`
@@ -1335,6 +1338,34 @@ Exact implementation candidate inventory against synchronized main f2e0150265e0c
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__13.txt.base64.json`
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__14.txt.base64.json`
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__results.json`
+- `evidence/POC-003/source-558d306-validation/.gitattributes`
+- `evidence/POC-003/source-558d306-validation/index.json`
+- `evidence/POC-003/source-558d306-validation/results.json`
+- `evidence/POC-003/source-558d306-validation/task-00.raw`
+- `evidence/POC-003/source-558d306-validation/task-01.raw`
+- `evidence/POC-003/source-558d306-validation/task-02.raw`
+- `evidence/POC-003/source-558d306-validation/task-03.raw`
+- `evidence/POC-003/source-558d306-validation/task-04.raw`
+- `evidence/POC-003/source-558d306-validation/task-05.raw`
+- `evidence/POC-003/source-558d306-validation/task-06.raw`
+- `evidence/POC-003/source-558d306-validation/task-07.raw`
+- `evidence/POC-003/source-558d306-validation/task-08.raw`
+- `evidence/POC-003/source-558d306-validation/task-09.raw`
+- `evidence/POC-003/source-558d306-validation/task-10.raw`
+- `evidence/POC-003/source-558d306-validation/task-11.raw`
+- `evidence/POC-003/source-558d306-validation/task-12.raw`
+- `evidence/POC-003/source-558d306-validation/task-13.raw`
+- `evidence/POC-003/source-558d306-validation/task-14.raw`
+- `evidence/POC-003/source-558d306-validation/test_buffer_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_cache_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_gateway_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_http_timing_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_lab.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_live_buffer_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_revocation_binding.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_warm_cache_revocation.py.raw`
 - `evidence/POC-003/source-8e73173-validation/.gitattributes`
 - `evidence/POC-003/source-8e73173-validation/code30/results.json`
 - `evidence/POC-003/source-8e73173-validation/code30/test_buffer_probe.py.raw`

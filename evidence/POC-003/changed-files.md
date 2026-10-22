@@ -1,6 +1,6 @@
 # Actual candidate paths
 
-Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1409 paths. Own changes only; adopted POC-005 baseline paths are excluded.
+Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1438 paths. Own changes only; adopted POC-005 baseline paths are excluded.
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
@@ -188,6 +188,7 @@ Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1409 paths. 
 - `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stderr.raw`
 - `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stdout.raw`
 - `evidence/POC-003/instrumented-build-v4-preparation/source-preparation.json`
+- `evidence/POC-003/live-control-independent-content-review.json`
 - `evidence/POC-003/live-observer-wiring-independent-content-review.json`
 - `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/.gitattributes`
 - `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/README.md`
@@ -1296,6 +1297,34 @@ Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1409 paths. 
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__13.txt.base64.json`
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__14.txt.base64.json`
 - `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__results.json`
+- `evidence/POC-003/source-558d306-validation/.gitattributes`
+- `evidence/POC-003/source-558d306-validation/index.json`
+- `evidence/POC-003/source-558d306-validation/results.json`
+- `evidence/POC-003/source-558d306-validation/task-00.raw`
+- `evidence/POC-003/source-558d306-validation/task-01.raw`
+- `evidence/POC-003/source-558d306-validation/task-02.raw`
+- `evidence/POC-003/source-558d306-validation/task-03.raw`
+- `evidence/POC-003/source-558d306-validation/task-04.raw`
+- `evidence/POC-003/source-558d306-validation/task-05.raw`
+- `evidence/POC-003/source-558d306-validation/task-06.raw`
+- `evidence/POC-003/source-558d306-validation/task-07.raw`
+- `evidence/POC-003/source-558d306-validation/task-08.raw`
+- `evidence/POC-003/source-558d306-validation/task-09.raw`
+- `evidence/POC-003/source-558d306-validation/task-10.raw`
+- `evidence/POC-003/source-558d306-validation/task-11.raw`
+- `evidence/POC-003/source-558d306-validation/task-12.raw`
+- `evidence/POC-003/source-558d306-validation/task-13.raw`
+- `evidence/POC-003/source-558d306-validation/task-14.raw`
+- `evidence/POC-003/source-558d306-validation/test_buffer_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_cache_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_gateway_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_http_timing_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_lab.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_live_buffer_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_revocation_binding.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_warm_cache_revocation.py.raw`
 - `evidence/POC-003/source-8e73173-validation/.gitattributes`
 - `evidence/POC-003/source-8e73173-validation/code30/results.json`
 - `evidence/POC-003/source-8e73173-validation/code30/test_buffer_probe.py.raw`
