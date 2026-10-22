@@ -1,0 +1,84 @@
+{
+  "source": "e7a962f225bb0004fd49b513a633d9dbb82fcfc3",
+  "validationPassed": false,
+  "actualCommandsCompleted": 13,
+  "actualFailures": 1,
+  "stoppedAfter": "scripts/check-evidence.py",
+  "notExecuted": [
+    "specs/poc/check_program.py",
+    "scripts/check-markdown.py"
+  ],
+  "failure": "Five required own support evidence files missing; preceding12 checks passed. Full cloud CI813 still running at repair preparation; no success claimed.",
+  "files": [
+    {
+      "file": "00.raw",
+      "bytes": 137,
+      "sha256": "679ffa35c6e354590aee440fe9a457f7cbe8c4bff499876557503d79bc517ff3"
+    },
+    {
+      "file": "01.raw",
+      "bytes": 253,
+      "sha256": "5fa34b32fa4efab856ee4e77a2cae842ed9aafa80891ad5d2e7f0156c68577c7"
+    },
+    {
+      "file": "02.raw",
+      "bytes": 653,
+      "sha256": "b875753bd28354ee8568a96cc124345eff6d646029501f156bc7ed7d021baabb"
+    },
+    {
+      "file": "03.raw",
+      "bytes": 1875,
+      "sha256": "045307b837b39490b72090a31d1551c6001e4dcaf4924533cce3033f098e5801"
+    },
+    {
+      "file": "04.raw",
+      "bytes": 412,
+      "sha256": "609a31b40279bf130d54fb094cdc6c75f254dd67d32a14e1f9e908c8c24d587c"
+    },
+    {
+      "file": "05.raw",
+      "bytes": 478,
+      "sha256": "0182d48cfaa798bad3d693e84bacdf5ee7f43e366284ebad68dc94d3a880db2a"
+    },
+    {
+      "file": "06.raw",
+      "bytes": 431,
+      "sha256": "f6b4071eb1f52dac7030196956afd5e111651d4e1dbe5d52b9092ee029b731ad"
+    },
+    {
+      "file": "07.raw",
+      "bytes": 355,
+      "sha256": "1584eff3b6164c6102bdfd992de1cac117cdd6f15c3817f83e035215d262f4de"
+    },
+    {
+      "file": "08.raw",
+      "bytes": 496,
+      "sha256": "c18e62196df2a8ba5ec6d43ad9e0761781d60d28747da9d83a370aa6f907ac75"
+    },
+    {
+      "file": "09.raw",
+      "bytes": 587,
+      "sha256": "b714d3b42c3346885a852f73632b836a252e3eb868cba4640fe1f6043ad33530"
+    },
+    {
+      "file": "10.raw",
+      "bytes": 558,
+      "sha256": "2fd0fe8d64ed4fc622b28f8826922e6a03d7055e656e65da31c4212a812dee74"
+    },
+    {
+      "file": "11.raw",
+      "bytes": 312,
+      "sha256": "8423060d0959295cbe15e5fe26baf2c57c909d9ebdde764ce8f7116db0981a73"
+    },
+    {
+      "file": "12.raw",
+      "bytes": 644,
+      "sha256": "c5d9c0c700acd4d464e1ae35d7d19d09e4a94b50ceb2d5750e3108ba4935a11e"
+    },
+    {
+      "file": "results.json",
+      "bytes": 4017,
+      "sha256": "41f38a42154243eb58fcdd8f06950e727cd147358ef15885235b213e6146afab"
+    }
+  ]
+}

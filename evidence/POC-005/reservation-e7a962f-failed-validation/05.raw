@@ -1,0 +1,5 @@
+Source: e7a962f225bb0004fd49b513a633d9dbb82fcfc3
+Command: python scripts/check-program-plan-history.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale-reservation
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "11c32830c0d1bb8ccdcc04aa278876065bce1f33", "headRef": "HEAD", "completionRecords": 5, "auditedOwnerCapacityFailures": []}}
+
+Exit Code: 0

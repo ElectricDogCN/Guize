@@ -21,3 +21,5 @@ python scripts/run-task-scope-gate.py --task POC-005 --base 11c32830c0d1bb8ccdcc
 python scripts/check-evidence.py --task POC-005
 python specs/poc/check_program.py --task POC-005 --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 python scripts/check-markdown.py
+
+POC-005 predecessor sourcee7a962f225bb0004fd49b513a633d9dbb82fcfc3 ran13 local commands: first12 passed, check-evidence failed because5 support explanations were missing; final2 commands were not run. Actual source-bound logs/results are in reservation-e7a962f-failed-validation/. Current forward repair supplies the5 required explanations; current exact-source checks/CI/independent acceptance remain pending. The predecessor is not accepted, and no experiment ran.
