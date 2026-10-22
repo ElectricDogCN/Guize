@@ -1,0 +1,159 @@
+{
+  "status": "PARENT_VALIDATION_ONLY_NOT_ADMITTED",
+  "source": "daed2f533a726bef3f519ce7f14109eee6447c25",
+  "sourceTree": "ee50149e4e3797961ccbcd919230d80252b3f16b",
+  "base": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "pr": 133,
+  "localChecksPassed": 15,
+  "ciRun": 39781484599,
+  "ciJob": 119833578329,
+  "ciTestCount": 713,
+  "ciTestSeconds": 1432.31,
+  "noSkippedTests": true,
+  "sourceOverallAccepted": false,
+  "actualMainAccepted": false,
+  "currentRepairSourceResults": "PENDING; resolve actual identity with git rev-parse HEAD and PR133 head.sha; no inherited pass",
+  "reason": "Three actual cloud P1 findings require forward repair; historical independent receipt predates those findings and does not supersede them",
+  "files": [
+    {
+      "original": "poc003-reservation-daed2f5-results/00.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-00.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 137,
+      "sha256": "285b19352fced8db8f5661f4736335f35818f182bb2752ca7b97ccb441d2a31a"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/01.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-01.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 248,
+      "sha256": "2df3d9259cdce5179b148d47c8ad7db0bd68bacfd3511a8bea25dcd224706118"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/02.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-02.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 653,
+      "sha256": "f6572caba2287c6a8b8770dd6778c4f80ca0a902759af3e840a86e96e895f5e1"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/03.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-03.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 1807,
+      "sha256": "28aeffbabd7099048dcdda00f5bf280be4da007d247156dc1aa4df02c139ac78"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/04.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-04.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 412,
+      "sha256": "6b7b70510be9cc129fafcd076f8324ed861edd826a63a6ba0b14e146c76acdf6"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/05.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-05.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 473,
+      "sha256": "02cd3b3e8ad0ec0922bf90a81513eb61b827738e2ca11df7804d16c675475ad4"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/06.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-06.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 426,
+      "sha256": "3bc523b57ed164a50e44c283da73b396afd9a0a12dfc942a6eb9e5ccdbee1ef6"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/07.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-07.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 355,
+      "sha256": "8a7105109f4328934c0b2199bf16cd9846d5e009ef3b32c910cd71c0595a4cc4"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/08.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-08.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 492,
+      "sha256": "bd8ae649f08f408ed927027734b8c6287d174db85308133034a558be83998150"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/09.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-09.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 583,
+      "sha256": "a2dd37c4c04bfe8acf8a5df81a5cd33e4711456cfcb9530f0a947ce63137a08f"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/10.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-10.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 542,
+      "sha256": "03cb5801ad9251bf7e8bdf28d802e8dba78aa06778c6f3d8653e95b6823b21a6"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/11.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-11.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 312,
+      "sha256": "6c74b4db30563daeb32ce88a3069bf331272d15786984869d3e4fdff2903c43f"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/12.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-12.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 300,
+      "sha256": "7f9b8dabc29a16b58533c99d2c8135720f3cc839216938fedc657416aa9cf947"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/13.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-13.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 394,
+      "sha256": "4cd7e13ffb97bac5cb0124656bf62c5196a6d6a10e5122ae279613abdec61268"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/14.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-14.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 157,
+      "sha256": "b10aeade920691d998613bd5a55565f57b1a29b4a7fcc79739ff4f9f599d5efb"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-results/results.json",
+      "archive": "evidence/POC-003/validation-source-daed2f5/local-results.json",
+      "encoding": "original-bytes",
+      "bytes": 4049,
+      "sha256": "cc4b4014b3a2d5b87730ec9fc5fced1e64b62367571a0016c011503429cb7ed6"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-ci805.raw.txt",
+      "archive": "evidence/POC-003/validation-source-daed2f5/ci805.raw.base64.json",
+      "encoding": "base64-json",
+      "bytes": 285777,
+      "sha256": "ef57149d93b03489e3b6513cdfb1f4fbdfceb9d207e7ea2e2e414f5f2bcbcf5e"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-ci805.snapshot.json",
+      "archive": "evidence/POC-003/validation-source-daed2f5/ci805.snapshot.json",
+      "encoding": "original-bytes",
+      "bytes": 20102,
+      "sha256": "a56f59b1e166e51d61bb6ee273032e1a917d58f2048dd8f106f31c3c853a9b71"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-review-findings.json",
+      "archive": "evidence/POC-003/validation-source-daed2f5/review-findings.json",
+      "encoding": "original-bytes",
+      "bytes": 5562,
+      "sha256": "c4c17eac522078ba589c7de6f83c5038dcfae9bd73fceb628ed68d784adcaaf9"
+    },
+    {
+      "original": "poc003-reservation-daed2f5-independent-review.json",
+      "archive": "evidence/POC-003/validation-source-daed2f5/historical-independent-review.json",
+      "encoding": "original-bytes",
+      "bytes": 1811,
+      "sha256": "3af69813abcce96f0a0ede20f43f19205a2307c8e72a30ffb18827bd480ba5de"
+    }
+  ]
+}

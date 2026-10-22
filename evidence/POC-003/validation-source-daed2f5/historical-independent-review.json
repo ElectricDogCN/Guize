@@ -1,0 +1,29 @@
+{
+  "taskId": "POC-003",
+  "issue": 131,
+  "pr": 133,
+  "phase": "reservation",
+  "source": "daed2f533a726bef3f519ce7f14109eee6447c25",
+  "base": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "registeredReviewerRole": "independent-review-agent",
+  "reviewedAt": "2026-10-22T12:51:24Z",
+  "receiptKind": "Actual independent read-only Agent content review of exact source/base",
+  "independentReviewAccepted": true,
+  "mustFix": [],
+  "verified": [
+    "Exact14 files, own Task/Evidence/Active and own Program tasks/pocs statuses only",
+    "Program issue null retained, actual Issue131 OPEN, original W2/medium/order2/GZ010/contracts/modules/twoexclusive/sharedpoc-results unchanged",
+    "Original implementation branch, distinct roles and UTC seven-day lease consistent; reservation branch differs clearly",
+    "All original15 experiment and local-v1 mirrored obligations/thresholds/exit criteria retained; protocol/samples/resources/policy/results-index/ledger bytes unchanged",
+    "Sample/resource/domain approvals must precede execution; no approval/experiment or executionEnabled change",
+    "Rejected GZ006 source9f66282 excluded from ancestry",
+    "Prior receipt equals external accepted file; official CI803 actual main push success713/857.50/NoSkipped/raw278136B/SHA8b7d399dbdc9ccb1526ab453667611633d20e8087297514b74fb57ae127d0555",
+    "Current local15 all exit0; actual PR133 open with exact source/base"
+  ],
+  "currentCiAccepted": false,
+  "sourceOverallAccepted": false,
+  "actualMainAccepted": false,
+  "sampleOrExperimentApproved": false,
+  "limits": "Read-only content acceptance only. CurrentCI805 and future actual-main verification remain required. No writes, public messages, repeated713 tests, subagents or sample approvals."
+}
