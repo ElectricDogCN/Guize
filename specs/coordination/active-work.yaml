@@ -5,4 +5,47 @@ policy:
   leaseMaxHours: 168
   bootstrapTasks:
   - GZ-003
-tasks: []
+tasks:
+- taskId: POC-003
+  issue: 131
+  title: ATS Range/Slice、大文件与权限缓存键
+  status: reserved
+  riskLevel: medium
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: task-owner-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/POC-003-ats-range
+  baseBranch: main
+  baseSha: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
+  workPackage: WP-M0-POC-03
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: POC-003
+  programWave: W2
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+  moduleIds:
+  - MOD-EDGE
+  - MOD-IAM
+  producesContracts:
+  - POC-03-EVIDENCE
+  consumesContracts:
+  - POC-PROTOCOL-V1
+  coordinationGroup: poc-results
+  dependsOn:
+  - GZ-010
+  exclusivePaths:
+  - poc/POC-03-ats-range/**
+  - evidence/POC-003/**
+  sharedPaths:
+  - adr/**
+  - specs/poc/results-index.yaml
+  handoffPath: evidence/POC-003/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 2
+  lease:
+    acquiredAt: '2026-10-22T12:47:06Z'
+    expiresAt: '2026-10-29T12:47:06Z'
