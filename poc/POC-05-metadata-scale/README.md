@@ -48,7 +48,19 @@ Primary protocol sources: [routing](https://github.com/OpenListTeam/OpenList/blo
 
 ## Development verification
 
+The controlled-fixture binding interface consumes an immutable canonical pair and actual listing observations in an isolated SQLite database. It assigns only the approved opaque fixture object/version IDs by lookup. Names, relative paths, depth, kinds, sizes and modified timestamps come from the actual parsed provider response and must match the full approved population; it does not fill missing observed metadata with expected values. Directory source sizes remain separate from canonical zero fileSizeBytes. This explicit fixture mapping does not verify provider-native identity or snapshot semantics.
+
+Each bound page checks its actual request/response byte hashes, fixed endpoint/scope/page parameters, real Date header and traversal-cursor continuity. Partial, duplicate, unknown, mismatched or incomplete populations cannot complete. Repeated runs have separate persisted observations and completion state. Complete observed filename streams are exported from observed rows, not the approved-map table. No source access or experiment approval follows from preparing the map.
+
 Run python -B -m unittest discover -s poc/POC-05-metadata-scale -p 'test_*.py' -v from the repository root. Tests use disposable small fixtures; they do not run a POC scale experiment. Core runtime code uses the Python standard library. Canonical schema tests use the repository governance dependencies PyYAML and jsonschema.
+
+## Native memory collector interface (version 1)
+
+The Linux collector reads actual /proc/PID/status from a separate process. Approval supplies the exact target PID, boot ID, kernel start ticks, executable path/hash and command-line hash. All identity fields and same-user ownership are checked before and after the bounded read. Pid, VmHWM and VmRSS must be unique, well formed and internally consistent. The raw OS bytes are written with exclusive creation; a JSON stdout receipt binds their actual hash/length, read time, collector PID, code hash and actual argv. A dead/reused/replaced target, self-sampling, unsupported platform or existing output fails; no aggregate or expected memory value is substituted. The future experiment controller must gate the workload between independent before/after samples and keep the scanner alive for the final sample.
+
+The resource/PID design uses a waiting preflight launcher followed by approved exec into the scanner with the same PID. The scanner program-entry marker is distinct from OS birth; preflight birth/identity and exec handoff must be retained separately. Approval must precede the future window, preflight performs no scan, the scanner waits for the first counter before work and stays alive for the last counter. Real exit status determines phase success, with one declared clock mapping for actual monotonic markers. Independent design review accepted these constraints at2026-10-22T19:10:16Z; implementation and concrete experiment approval remain separate.
+
+Kernel counter semantics and their asynchronous RSS precision limits follow the [Linux proc documentation](https://docs.kernel.org/filesystems/proc.html). These are process counters, not a proof of physical storage capacity or provider production throughput.
 
 ## Remaining work
 

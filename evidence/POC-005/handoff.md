@@ -2,6 +2,26 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; original13 qualification and actual approved workload remain pending.
+
+## Current controlled mapping and native counter implementation
+
+ControlledFixtureMap loads the immutable canonical pair into isolated SQLite and binds actual request/response bytes, Date, cursor and the complete population. Only fixture IDs/versions come from the explicit approved map. Other fields are reparsed observed metadata, not filled from expected rows; exports read the observed table. Provider-native IDs/version/snapshot remain unverified. Native memory CLI reads unmodified /proc/PID/status from an independent process, verifies boot/startTicks/executable/code/command hashes and UID before/after, writes new raw output exclusively and emits actual PID/time/argv/hash receipts.
+
+Actual Windows development command: C:/ProgramData/anaconda3/python.exe -X utf8 -B -m unittest discover -s poc/POC-05-metadata-scale -p test_*.py -v; exit0, Ran66 tests in24.666s, OK, no skipped tests. Windows native-counter case tests explicit platform rejection; it does not claim Windows /proc. The four native-counter cases were separately actually run under Linux WSL, exit0/0.633s, including two separate actual collector subprocesses and controlled8MiB allocation with observed peak growth. Independent four mapping cases and four actual Linux counter cases passed, content accepted2026-10-22T19:19:18Z; six exact hashes in fixture-memory-independent-content-review.json. New committed-source Task15/code66/full CI are pending.
+
+Predecessor e4 listing nativeTask15/code55/source review are retained byte-exact in listing-e4c2d48-source-validation/. Its CI822/run39837095284 remains source-specific and currently running. Earlier f8 canonical CI821 SUCCESS713/1096.24s/no skips is separately retained in canonical-f8ed3e8-ci821/. These are not transferred to the new source.
+
+Native lifecycle design was independently checked at2026-10-22T19:10:16Z; native-lifecycle-independent-design-review.json records the conditions. Waiting preflight launcher/approved same-PID exec, calibrated raw phase clock, actual worker/collector IPC, external real-exit phase assembly and full workload gating are NOT implemented yet. Design acceptance is not code or experiment acceptance.
+
+Next: commit reviewed bytes; exact native Task15/code66 and source/scope review; publish only after predecessor liveCI822 reaches terminal, then follow current same-headCI. Implement the reviewed launcher/one-lifetime scanner and real source mutation/observation controller, typed phase/RSS/profiling outputs, compressed representation where needed, and bounded actual fault/quota/probe execution. Fix concrete inputs/resources/domain/PID/argv/future window by independent approval before actual original13 workload. Canonical10k candidates exist as unapproved preparation only. No real OpenList source request, scale experiment, qualified profile, shared ADR/results, Completion, integration or fullV1 acceptance is claimed.
+
+## Predecessor history (source-specific recorded status)
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; actual original13 qualification pending.
 
 ## Current pinned listing adapter development
