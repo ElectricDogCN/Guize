@@ -1,0 +1,73 @@
+{
+  "pr": 121,
+  "source": "6937bb0d47e6cd0cc698fa6c9d905776a3207cfd",
+  "state": "closed_unmerged",
+  "accepted": false,
+  "localExecutions": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "c5f201adb2e11ffea912f862c19918157f9cf106...HEAD"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+      "pid": 213691,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "diff.txt",
+      "rawSha256": "f85e5a1bb35b467d102c938366e8c5265bc9bedfbaf5321721f4994393ef7d3f",
+      "rawBytes": 144
+    },
+    {
+      "label": "targeted",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/governance/test_history_yaml_loader.py",
+        "tests/governance/test_program_plan_history.py",
+        "-k",
+        "history_yaml_loader or foundation_preflight",
+        "-q"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+      "pid": 213692,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawLog": "targeted.txt",
+      "rawSha256": "88224e49aa33b38c12f8777e293a678d53b768482b5120ce1569c1adc087a2d9",
+      "rawBytes": 518
+    },
+    {
+      "label": "verify",
+      "argv": [
+        "make",
+        "verify",
+        "TASK=OPS-012",
+        "BASE=c5f201adb2e11ffea912f862c19918157f9cf106",
+        "HEAD_REF=HEAD",
+        "BRANCH=chore/OPS-012-early-history-review-audit"
+      ],
+      "cwd": "/home/sur/.cache/guize-takeover/ops012-history-parser",
+      "pid": 215150,
+      "exitCode": 2,
+      "waitCompleted": true,
+      "rawLog": "verify.txt",
+      "rawSha256": "ca1f36e98eb9604f11b7bd1d45aaa29ee2f6b33fac7f9c76f372bfd034c84a1e",
+      "rawBytes": 3845
+    }
+  ],
+  "rawLogs": {
+    "diff.txt": "Source Commit: 6937bb0d47e6cd0cc698fa6c9d905776a3207cfd\nCommand: git diff --check c5f201adb2e11ffea912f862c19918157f9cf106...HEAD\n\nExit Code: 0\n",
+    "targeted.txt": "Source Commit: 6937bb0d47e6cd0cc698fa6c9d905776a3207cfd\nCommand: python -m pytest tests/governance/test_history_yaml_loader.py tests/governance/test_program_plan_history.py -k 'history_yaml_loader or foundation_preflight' -q\n...................                                                      [100%]\n- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-early-6937bb0-results/targeted.xml -\n19 passed, 182 deselected in 11.94s\n\nExit Code: 0\n",
+    "verify.txt": "Source Commit: 6937bb0d47e6cd0cc698fa6c9d905776a3207cfd\nCommand: make verify TASK=OPS-012 BASE=c5f201adb2e11ffea912f862c19918157f9cf106 HEAD_REF=HEAD BRANCH=chore/OPS-012-early-history-review-audit\n=== verify (TASK=OPS-012) ===\nmake docs-check\nmake[1]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== docs-check ===\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-markdown.py\nChecking 350 Markdown files...\n\nOK: No issues found\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake schema-check\nmake[1]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== schema-check ===\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-schemas.py\nOK YAML: .github/workflows/governance-gate.yml\nOK JSON-SCHEMA: contracts/events/event-envelope.schema.json\nOK CONTRACT DOCUMENT: contracts/openapi/ai/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/asset/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/errors.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/http-samples.json\nOK CONTRACT DOCUMENT: contracts/openapi/common/openapi.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/schemas.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/config/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/iam/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/media/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/playback/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/policy/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/search/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/source/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/storage/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/task/paths.yaml\nOK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml\nOK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml\nOK JSON-SCHEMA: specs/coordination/active-work.schema.yaml\nOK JSON-SCHEMA: specs/coordination/planning-revision.schema.yaml\nOK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml\nOK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml\nOK TASK REGISTRY LINK: OPS-012\nOK FOUNDATION ACTIVATION: OPS-012\nOK: Schema, Task Spec, Active Work and Program Plan validation completed\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake secret-scan\nmake[1]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== secret-scan ===\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-secrets.py\nOK: No high-risk secrets detected\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake task-verify TASK=OPS-012 BRANCH=chore/OPS-012-early-history-review-audit BASE=c5f201adb2e11ffea912f862c19918157f9cf106 HEAD_REF=HEAD\nmake[1]: Entering directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\n=== task-verify (TASK=OPS-012) ===\n-- check-task-file --\n/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/check-task-file.py --task OPS-012\n{\"status\": \"FAIL\", \"message\": \"Forbidden scope section has no entries.\"}\n{\"status\": \"FAIL\", \"message\": \"Missing dependencies/integration section must contain at least one bullet.\"}\n{\"status\": \"FAIL\", \"message\": \"Missing shared modification scope section must contain at least one bullet.\"}\n{\"status\": \"FAIL\", \"message\": \"Missing collaboration/handoff section must contain at least one bullet.\"}\nmake[1]: *** [Makefile:132: task-verify] Error 1\nmake[1]: Leaving directory '/home/sur/.cache/guize-takeover/ops012-history-parser'\nmake: *** [Makefile:172: verify] Error 2\n\nExit Code: 2\n"
+  },
+  "fullGovernanceExecuted": false,
+  "lifecycleWrapperExecuted": false,
+  "reason": "Four mandatory Task sections lacked bullet entries; make verify exited2 at Task validation. Preserve failed source and rebuild from accepted main with valid specification before code.",
+  "replacementBase": "c5f201adb2e11ffea912f862c19918157f9cf106",
+  "replacementSpecificationCommit": "859bf916118aadb68134ab720d312a26a2420ac7",
+  "replacementTaskFormatActuallyPassedBeforeCode": true
+}

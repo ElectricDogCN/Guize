@@ -1345,13 +1345,16 @@ def registered_claim_history(root: str, task_id: str, reservation: str, descenda
     return claims
 
 
-def foundation_post_implementation(root: str, task_id: str, implementation: str, reservation: str, base_ref: str, errors: list[str]) -> None:
+def foundation_post_implementation(root: str, task_id: str, implementation: str, reservation: str, base_ref: str, errors: list[str], *, admitted_base: str | None = None, allow_registered_work: bool = False) -> None:
     """Completion must name the last integrated version of its own code.
 
     Inspect introduced side history too: a later revert must not erase work.
     Ownership comes from that node's actual registration, not commit messages
     or the completing task's broader scope in some unrelated historical state.
+    Active Review/integration also audit their introduced range, allowing only
+    registered working actors. Their proposed head is not an admitted base.
     """
+    trusted_base = admitted_base if admitted_base is not None else base_ref
     nodes = git(root, "rev-list", "--topo-order", "--reverse", f"{implementation}..{base_ref}")
     if nodes.returncode:
         errors.append(f"Foundation {task_id} cannot audit history after its claimed implementation")
@@ -1386,7 +1389,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         related = own_delta or bool(own_work) or any(path.startswith(f"evidence/{task_id}/") for path in paths)
         if registered_node and (authoritative or related):
             node_registry = load_ref(root, node, ACTIVE)
-            historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} post-implementation history at {node}", errors, approved_base=base_ref)
+            historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} post-implementation history at {node}", errors, approved_base=trusted_base)
             node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             if len(node_entries) == 1 and {key: value for key, value in node_entries[0].items() if key not in mutable} != stable:
                 errors.append(f"Foundation {task_id} changed stable identity in post-implementation history at {node}")
@@ -1407,7 +1410,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         own_work = {path for path in paths if path not in {PLAN, ACTIVE, *task_paths} and not path.startswith(f"evidence/{task_id}/") and any(RECOVERY.matches_path(path, str(claim)) for claim in claims)}
         code_paths = {path for path in paths if path not in {PLAN, ACTIVE, LEDGER, *task_paths} and not path.startswith(f"evidence/{task_id}/")}
         if code_paths:
-            incoming = approved_synchronization_parents(root, node, base_ref)
+            incoming = approved_synchronization_parents(root, node, trusted_base)
             imports = clean_synchronization_paths(root, node, paths, incoming)
             prior_registry = load_ref(root, parent, ACTIVE)
             prior = [item for item in (prior_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
@@ -1416,7 +1419,16 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             if unexpected:
                 errors.append(f"Foundation {task_id} post-implementation working node changed paths outside its prior registered scope at {node}: {', '.join(sorted(unexpected))}")
         if own_work:
-            errors.append(f"Foundation {task_id} has own code changes after claimed implementation at {node}: {', '.join(sorted(own_work))}; Completion must identify the latest reviewed implementation")
+            if not allow_registered_work:
+                errors.append(f"Foundation {task_id} has own code changes after claimed implementation at {node}: {', '.join(sorted(own_work))}; Completion must identify the latest reviewed implementation")
+            elif own_work - imports:
+                historical_registration_context(root, parent, node, task_id, prior_registry, reservation, policy, f"Foundation {task_id} preflight prior registration at {node}", errors, approved_base=trusted_base)
+                node_registry = load_ref(root, node, ACTIVE)
+                node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
+                if len(node_entries) == 1:
+                    historical_lifecycle_binding(root, node, task_id, node_entries[0], errors)
+                    if node_entries[0].get("agentRole") not in {"implementer", "integrator"}:
+                        errors.append(f"Foundation {task_id} preflight working code requires implementer or integrator at {node}")
 
 
 def validate_foundations(
@@ -1440,6 +1452,14 @@ def validate_foundations(
             errors.append(f"Completed Foundation {task_id} provenance is immutable")
     for task_id, after in after_map.items():
         before = before_map.get(task_id)
+        if after.get("status") in {"review", "integration"} and resolve_ref(root, base_ref) != resolve_ref(root, head_ref):
+            prior = [item for item in base_active.get("tasks") or [] if item.get("taskId") == task_id]
+            if len(prior) != 1:
+                errors.append(f"Foundation {task_id} preflight requires one prior Active Work entry")
+            else:
+                reservation = foundation_reservation(root, task_id, base_ref, prior[0], errors)
+                if reservation:
+                    foundation_post_implementation(root, task_id, base_ref, reservation[0], head_ref, errors, admitted_base=base_ref, allow_registered_work=True)
         if after.get("status") != "completed" or (before and before.get("status") == "completed"):
             continue
         if not before or before.get("status") not in ACTIVE_STATES:
