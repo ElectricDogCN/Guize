@@ -89,7 +89,7 @@ def collect(pid, output, *, expected):
     if before != expected:
         raise CounterError("NATIVE_PROCESS_BINDING_MISMATCH")
     raw = _read(Path("/proc") / str(pid) / "status")
-    observed_at = datetime.now(timezone.utc).isoformat()
+    observed_at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     counters = parse_status(raw, pid)
     if native_identity(pid) != before:
         raise CounterError("NATIVE_PROCESS_CHANGED_DURING_CAPTURE")

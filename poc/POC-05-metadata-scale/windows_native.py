@@ -244,7 +244,7 @@ def collect(pid, output, *, expected):
     with Path(output).open('xb') as destination:
         destination.write(raw)
     seconds, nanos = divmod(sample['wallNs'], 1000000000)
-    observed = (datetime.fromtimestamp(seconds, timezone.utc)+timedelta(microseconds=nanos//1000)).isoformat()
+    observed = (datetime.fromtimestamp(seconds, timezone.utc)+timedelta(microseconds=nanos//1000)).isoformat().replace('+00:00', 'Z')
     return dict(identity=before, observedAt=observed, collectorProcessId=os.getpid(),
                 counterFormat='windows_process_memory_counters',
                 counters=dict(nativeProcessId=pid, peakResidentBytes=values['PeakWorkingSetSize'], residentBytes=values['WorkingSetSize']),

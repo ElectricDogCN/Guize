@@ -1,3 +1,8 @@
+Current forward UTC/input-retention source: actual Git HEAD/tree after commit; exact committed-source checks PENDING.
+Development complete129/88.721s/no skips and independent4/2.464s/code-content acceptance only.
+Actual ca1Task15/Windows125/CI827713 and real10k attempt004 retained separately; qualification rejected.
+Current details: summary.md, utc-evidence-development/, windows-ca1da41-ci827/, windows-attempt004-observed-unqualified/.
+
 Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79

@@ -1,0 +1,11 @@
+Source Commit: ca1da41eba2c784fa1418feb29dfcf717cad5785
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B -m unittest discover -s poc/POC-05-metadata-scale -p test_controlled_source_run.py -k test_actual_binary_get_body -v
+test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation (test_controlled_source_run.SourceTests.test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.043s
+
+OK
+
+Exit Code: 0
+Timed Out: False

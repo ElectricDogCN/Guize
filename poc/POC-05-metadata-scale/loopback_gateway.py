@@ -92,7 +92,7 @@ class ControlledGateway:
 
     def handle(self, request):
         request.connection.settimeout(self.timeout)
-        event = dict(startedAt=datetime.now(timezone.utc).isoformat(), monotonicStartNs=time.monotonic_ns(),
+        event = dict(startedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'), monotonicStartNs=time.monotonic_ns(),
                      method=request.command, status=None, upstreamContacted=False, injectedFault=None,
                      authorization='denied', responseBytes=0, responseSha256=None)
         def respond(status, body, headers=()):
@@ -136,7 +136,7 @@ class ControlledGateway:
             expected = self.token if listing else self.basic
             if len(auths) != 1 or not hmac.compare_digest(auths[0], expected):
                 if len(auths) == 1 and listing and hmac.compare_digest(auths[0], self.expired_token):
-                    event.update(authorization='expired', injectedFault='auth_expired', authorizationExpiredAt=self.expired_at.isoformat())
+                    event.update(authorization='expired', injectedFault='auth_expired', authorizationExpiredAt=self.expired_at.isoformat().replace('+00:00', 'Z'))
                 respond(401, b'{"code":401,"message":"adapter authorization expired or invalid"}')
                 return
             event['authorization'] = 'valid'
@@ -211,7 +211,7 @@ class ControlledGateway:
             event['error'] = str(failure) if isinstance(failure, ScanError) else type(failure).__name__
             request.close_connection = True
         finally:
-            event.update(finishedAt=datetime.now(timezone.utc).isoformat(), monotonicEndNs=time.monotonic_ns())
+            event.update(finishedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'), monotonicEndNs=time.monotonic_ns())
             with self.lock:
                 if len(self.events) < self.event_limit:
                     self.events.append(event)

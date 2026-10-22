@@ -116,7 +116,7 @@ class OpenListSource:
         started = time.perf_counter_ns()
         observation = {
             "method": method, "locator": "/".join(_segments(locator)),
-            "startedAt": datetime.now(timezone.utc).isoformat(),
+            "startedAt": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             "monotonicStartNs": started, "clock": "time.perf_counter_ns",
             "clockImplementation": clock_info.implementation,
             "clockResolutionSeconds": clock_info.resolution, "socketTimeoutSeconds": self.timeout,
@@ -175,7 +175,7 @@ class OpenListSource:
             observation["error"] = "SOURCE_TRANSPORT_FAILURE"
             raise SourceError("SOURCE_TRANSPORT_FAILURE", observation) from None
         finally:
-            observation["endedAt"] = datetime.now(timezone.utc).isoformat()
+            observation["endedAt"] = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
             observation["monotonicEndNs"] = time.perf_counter_ns()
             observation["elapsedNs"] = observation["monotonicEndNs"] - started
             observation["bodyBytes"] = len(observation["body"])

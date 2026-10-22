@@ -213,7 +213,7 @@ class SourceSession:
                         raise ScanError('CHANGE_PARENT_PAGE_LIMIT')
             journal = {**descriptor(scoped(self.artifacts.root, ref), page), 'ref': ref}
             return found, self.artifacts.json(dict(kind='complete_parent_observation', locator=locator,
-                observedAt=datetime.now(timezone.utc).isoformat(), complete=True, childCount=count,
+                observedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'), complete=True, childCount=count,
                 found=found, observations=journal))
         finally:
             db.close()
@@ -245,7 +245,7 @@ class SourceSession:
         if (remote_before is None) != (before == 'absent'):
             raise ScanError('ACTUAL_SOURCE_BEFORE_DISPOSITION_MISMATCH')
         receipt = dict(kind='controlled_local_mutation', operation=operation, objectId=object_id, locator=locator,
-                       startedAt=datetime.now(timezone.utc).isoformat(), filesystemMutated=False, outcome='pending')
+                       startedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'), filesystemMutated=False, outcome='pending')
         leaf = None
         try:
             if leaf_type is None:
@@ -280,7 +280,7 @@ class SourceSession:
                 receipt.update(outcome='failed', error=str(failure) if isinstance(failure, ScanError) else type(failure).__name__)
                 raise
             finally:
-                receipt['finishedAt'] = datetime.now(timezone.utc).isoformat()
+                receipt['finishedAt'] = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
                 mutation_evidence = self.artifacts.json(receipt)
         self.check()
         self.sequence += 1
@@ -441,6 +441,28 @@ class WindowsSourceSession(SourceSession):
             raise ScanError('NATIVE_CONTROLLED_MUTATION_REQUIRES_WINDOWS')
         from windows_source_files import Leaf
         return self._mutation(intent, clock, leaf_type=Leaf)
+
+
+def retain_approved_metadata_inputs(artifacts, configuration):
+    """Retain the exact approved dependencies consumed by frozen qualification."""
+    scan = configuration['metadataScanPolicy']
+    profiling = configuration['metadataProfilingPolicy']
+    resources = configuration['metadataResourcePolicy']
+    inputs = [(scan['baseline'], 'command_output'), (scan['expectedChanges'], 'command_output'),
+              (profiling['filenameInput'], 'command_output'),
+              (profiling['baselinePayload'], 'produced_media'), (profiling['updatedPayload'], 'produced_media'),
+              (dict(ref=resources['quotaDocumentRef'], sha256=resources['quotaDocumentSha256']), 'command_output')]
+    for descriptor, kind in inputs:
+        path = scoped(artifacts.root, descriptor['ref'])
+        if 'sha256:'+file_sha256(path) != descriptor['sha256']:
+            raise ScanError('APPROVED_METADATA_INPUT_CHANGED')
+        previous = [row for row in artifacts.records if row['ref'] == descriptor['ref']]
+        if previous:
+            if (len(previous) != 1 or previous[0]['sha256'] != descriptor['sha256']
+                    or previous[0]['artifactType'] != kind):
+                raise ScanError('EXACT_APPROVED_INPUT_ARTIFACT_REQUIRED')
+        else:
+            artifacts.keep(descriptor['ref'], kind)
 
 
 def records(path):

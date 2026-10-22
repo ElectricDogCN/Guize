@@ -15,7 +15,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from canonical_metadata import CanonicalPair
-from controlled_source_run import Artifacts, SourceSession, WindowsSourceSession, original13_reports, source_build
+from controlled_source_run import (Artifacts, SourceSession, WindowsSourceSession, original13_reports,
+                                   retain_approved_metadata_inputs, source_build)
 from loopback_gateway import ControlledGateway
 from metadata_scan import ScanError, file_sha256
 from native_scan_control import NativeRun, manifest_for
@@ -192,7 +193,8 @@ def execute(run, cfg, approval):
         for ref in retained:
             kind = 'measurement_output' if any(ref == refs['capture'] for refs in cfg['memory'].values()) else 'command_output'
             artifacts.keep(ref, kind)
-        artifacts.keep(cfg['profiled']['ref'], 'command_output')
+        approved_configuration, _ = read_json(scoped(root, cfg['context']['configurationRef']), run.approval['configurationSha256'])
+        retain_approved_metadata_inputs(artifacts, approved_configuration['configuration'])
         for ref in (source['quotaRef'], *[intent['payloadRef'] for intent in source['intents'] if 'payloadRef' in intent]):
             if not any(row['ref'] == ref for row in artifacts.records):
                 artifacts.keep(ref, 'produced_media' if ref != source['quotaRef'] else 'command_output')
@@ -205,7 +207,7 @@ def execute(run, cfg, approval):
                     unitFixtureOnly=source['unitFixtureOnly'], qualificationAccepted=False, taskCompleted=False)
     except BaseException as failure:
         artifacts.json(dict(kind='failed_source_experiment', error=str(failure) if isinstance(failure, ScanError) else type(failure).__name__,
-                            observedAt=datetime.now(timezone.utc).isoformat(), qualificationAccepted=False,
+                            observedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'), qualificationAccepted=False,
                             runtimeFailure=getattr(failure, 'runtime_failure', None),
                             clockObservation=failure.observation if isinstance(failure, ClockFailure) else None,
                             rollback='retain all raw bytes and dirty fixture; no automatic source restoration'), 'scope_observation')

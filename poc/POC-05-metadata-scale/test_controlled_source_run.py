@@ -22,7 +22,8 @@ import jsonschema
 import yaml
 
 from canonical_metadata import CanonicalPair, generate_canonical
-from controlled_source_run import Artifacts, SourceSession, original13_reports, records, source_build
+from controlled_source_run import (Artifacts, SourceSession, original13_reports, records,
+                                   retain_approved_metadata_inputs, source_build)
 from loopback_gateway import ControlledGateway
 from metadata_scan import ScanError, canonical, file_sha256
 from native_scan_protocol import Clock, read_json
@@ -409,6 +410,36 @@ class SourceTests(unittest.TestCase):
         self.assertEqual(self.requests, [])
         self.assertFalse(Path(draft['approvalRef']).exists())
         self.assertTrue(all(not Path(ref).exists() for ref in actual['outputs'].values()))
+
+    def test_qualification_inputs_retain_expected_changes_and_baseline_probe_with_exact_bytes(self):
+        artifacts = Artifacts(self.root, str(self.root/'input-retention'))
+        def sample(name, raw):
+            path = self.root/name
+            path.write_bytes(raw)
+            return dict(ref=str(path), sha256='sha256:'+file_sha256(path))
+        baseline = dict(ref=str(self.baseline), sha256='sha256:'+file_sha256(self.baseline))
+        profiled = dict(ref=str(self.profiled), sha256='sha256:'+file_sha256(self.profiled))
+        changes = sample('expected-changes.jsonl', b'{"eventId":"actual-approved-input"}\n')
+        before = sample('baseline-probe.bin', bytes(range(256))*16)
+        after = sample('updated-probe.bin', bytes(reversed(range(256)))*16)
+        quota = sample('input-quota.json', b'{"requestLimit":6000}\n')
+        configuration = dict(metadataScanPolicy=dict(baseline=baseline, expectedChanges=changes),
+            metadataProfilingPolicy=dict(filenameInput=profiled, baselinePayload=before, updatedPayload=after),
+            metadataResourcePolicy=dict(quotaDocumentRef=quota['ref'], quotaDocumentSha256=quota['sha256']))
+        retain_approved_metadata_inputs(artifacts, configuration)
+        self.assertEqual(len(artifacts.records), 6)
+        retained = {row['ref']: row for row in artifacts.records}
+        for descriptor in (baseline, profiled, changes, before, after, quota):
+            self.assertEqual(retained[descriptor['ref']]['sha256'], descriptor['sha256'])
+            self.assertEqual(retained[descriptor['ref']]['byteCount'], Path(descriptor['ref']).stat().st_size)
+        self.assertEqual(retained[changes['ref']]['artifactType'], 'command_output')
+        self.assertEqual(retained[before['ref']]['artifactType'], 'produced_media')
+        retain_approved_metadata_inputs(artifacts, configuration)
+        self.assertEqual(len(artifacts.records), 6)
+        Path(before['ref']).write_bytes(b'changed after approval')
+        with self.assertRaisesRegex(ScanError, 'APPROVED_METADATA_INPUT_CHANGED'):
+            retain_approved_metadata_inputs(artifacts, configuration)
+        self.assertEqual(len(artifacts.records), 6)
 
 
 if __name__ == '__main__':

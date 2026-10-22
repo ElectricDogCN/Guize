@@ -50,7 +50,7 @@ class WindowsNativeRun(NativeRun):
             self.process = SuspendedProcess(self.manifest['argv'], cwd=Path.cwd(), stderr=self.stderr, env=self.child_environment)
             sample = clock_sample()
             seconds, nanos = divmod(sample['wallNs'], 1000000000)
-            at = (datetime.fromtimestamp(seconds, timezone.utc)+timedelta(microseconds=nanos//1000)).isoformat()
+            at = (datetime.fromtimestamp(seconds, timezone.utc)+timedelta(microseconds=nanos//1000)).isoformat().replace('+00:00', 'Z')
             self.reservation = dict(kind='reservation_ready', identity=self.process.reservation_identity,
                 reservedAt=at, nativeClockSample=sample, manifestSha256=self.manifest_sha,
                 finalArgv=self.manifest['argv'], initialThreadId=self.process.thread_id,
@@ -72,7 +72,7 @@ class WindowsNativeRun(NativeRun):
                 self.process.terminate()
                 code = self.process.wait(timeout=5)
                 write_json(self.manifest_ref+'.reservation-expired.json', dict(kind='expired_suspended_reservation',
-                    reservation=self.reservation, actualWaitReturnCode=code, observedAt=datetime.now(timezone.utc).isoformat(),
+                    reservation=self.reservation, actualWaitReturnCode=code, observedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
                     resumed=False, qualificationAccepted=False))
                 self._reservation_done.set()
 

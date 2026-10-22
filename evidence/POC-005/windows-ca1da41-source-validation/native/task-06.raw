@@ -1,0 +1,6 @@
+Source Commit: ca1da41eba2c784fa1418feb29dfcf717cad5785
+Command: python scripts/check-program-plan-transitions.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+{"status": "PASS", "message": "Program reservation scope, wave and lifecycle transitions passed", "details": {"task": "POC-005", "activeTasks": 2, "completionRecords": 5}}
+
+Exit Code: 0
+Timed Out: False

@@ -153,7 +153,7 @@ class Clock:
     def mapped_utc(self, tick):
         nanos = self.wall + tick - self.mono
         seconds, remainder = divmod(nanos, 1_000_000_000)
-        return (datetime.fromtimestamp(seconds, timezone.utc) + timedelta(microseconds=remainder // 1000)).isoformat()
+        return (datetime.fromtimestamp(seconds, timezone.utc) + timedelta(microseconds=remainder // 1000)).isoformat().replace('+00:00', 'Z')
 
     def now_ns(self):
         if self.windows_clock:

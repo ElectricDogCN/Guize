@@ -61,7 +61,7 @@ def reserve(args):
         raise ScanError("FIXED_SCANNER_EXEC_REQUIRED")
     identity = native_identity(os.getpid())
     stat = Path("/proc/self/stat").read_bytes()
-    reserved_at = datetime.now(timezone.utc).isoformat()
+    reserved_at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     emit(dict(kind="reservation_ready", identity=identity, reservedAt=reserved_at,
               osStatBase64=base64.b64encode(stat).decode(), osStatSha256=hashlib.sha256(stat).hexdigest(),
               manifestSha256=args.sha256, finalArgv=argv,
@@ -76,7 +76,7 @@ def reserve(args):
     if checked != identity or approval["reservationAt"] != reserved_at or reader.buffer:
         raise ScanError("EXACT_RESERVATION_HANDOFF_REQUIRED")
     emit(dict(kind="exec_handoff", processId=os.getpid(), monotonicNs=time.monotonic_ns(),
-              observedAt=datetime.now(timezone.utc).isoformat(), approvalSha256=message["approvalSha256"],
+              observedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'), approvalSha256=message["approvalSha256"],
               manifestSha256=args.sha256, finalArgv=argv))
     os.environ.update(GUIZE_POC_MANIFEST_REF=str(args.manifest), GUIZE_POC_MANIFEST_SHA=args.sha256,
                       GUIZE_POC_APPROVAL_REF=message["approvalRef"], GUIZE_POC_APPROVAL_SHA=message["approvalSha256"])

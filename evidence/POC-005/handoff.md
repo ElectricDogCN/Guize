@@ -2,6 +2,26 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; forward UTC/input-retention content accepted, exact committed-source checks pending.
+
+## Current real10k observations and forward qualification repair
+
+Published sourceca1da41/tree d05bde3 passed all15 native Task checks,125 Windows tests, explicit Linux28 platform checks plus1 actual binaryHTTP regression, and CI827/run39868124143/job120135395381:713 passed/1451.19s, zero skips. Complete322163B decoded raw/SHA3bd81afb1ec39f37bd999932c879ceaa2d986fa5903973728f44179a9a2f8bfd and terminal snapshot are retained in windows-ca1da41-ci827/. Source validation/review/push are in windows-ca1da41-source-validation/. PR136 remains draft.
+
+Actual Windows attempt004 used independently approved immutable inputs/resources/final suspended PID25680 and a future window. Its controller actually waited to exit0 at23:27:59.157560Z. Two complete listings, four adapter faults, three actual leaf changes, all three scan/replay phases, final complete catalogue and independent native process peak observations produced13 metrics. Independently reviewed at23:37:38Z:4112 typed files/24723095B matched their hashes;4139 original files matched the compressed archive. The archive is1669702B/SHAadeb697bc91d6095262dc5925e1048d57368024561ae64b2c9fa8b4b27e9cd7b in windows-attempt004-observed-unqualified/. TenSQLite files and dirty source leaves remain at original locations. Original approval is consumed; no restore/reuse/new experiment approval.
+
+Frozen qualification rejected UTC formatting. Actual ordered phase differences were+250ns/-300ns/-650ns, within the unchanged1us threshold, but original reports use+00:00 and the frozen reader acceptsZ only. The first diagnostic harness also decoded its approval window incorrectly; independent corrected-window validation still rejected the original records. The real416 response has33 diagnostic bytes, retained hash b5d780567c43a2b5d8473d84a136e7dc62ee9c494108d282cbff4801d199cf32, conflicting with the frozen empty-body rule. No raw bytes or frozen checker are changed. See metadata-qualification-issues.md for exact boundaries and official HTTP references.
+
+The forward Own repair writes the same UTC instants withZ and retains exact approved baseline/expectedChanges/profiled/probe/quota dependencies from the hash-bound resource wrapper. Actual immutable-input hashes and existing artifact types are checked. Three UTC regressions first failed and then passed; complete uncommitted Windows129 passed88.721s/no skips, raw23415B/SHAecc17a2dc1a6ac463527a3fe378f937acc351cbe7c002dfdd7b5e9aee8090f15. Independent4/2.464s passed and12-file code content accepted23:40:01Z. Exact raw/index/review are in utc-evidence-development/. New committed-source Task15/Windows129/independent source review/CI remain pending; ca1 acceptance is not inherited.
+
+Next: validate and publish the actual forward commit, then resolve416 through a separately registered authorized contract/governance change. Do not repeat source work using consumed approval or changed fixture. Full execution/profile qualification,100k/1m/compressed-input obligations, POC003 original15/order2 before shared order3 and complete localV1 remain unfinished. Source inventory is changed-files.md; frozen policies/schema/checkers/other leases and GZ010executionEnabledfalse stay unchanged.
+
+## Historical source-specific records (superseded current status)
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; current GET producer repair content accepted; new exact-source checks/CI pending.
 
 ## Current binary response artifact repair and Windows source validation

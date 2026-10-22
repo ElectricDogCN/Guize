@@ -125,8 +125,28 @@ remain unit-only, qualificationAccepted=false, and do not establish OpenList or
 scale acceptance. API details follow the [Windows creation attributes](https://learn.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute)
 and [extended startup structure](https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-startupinfoexw).
 
+## Evidence timestamp and immutable input boundary
+
+New observations serialize UTC instants with the frozen acceptor's `Z` suffix.
+This changes representation only: raw QPC/FILETIME samples, the single clock
+mapping, measured instants, uncertainty and drift/interval thresholds stay the
+same. Native counter receipts and actual HTTP/gateway timestamps use that form.
+The complete approved baseline, expected changes, filename stream, before/after
+probe payloads and quota document are retained with their exact hashes and
+artifact types; an input changed after approval is rejected.
+
+The real source-ca1da41 Windows attempt004 completed the original13 observation
+chain for10000 files/500 directories and actually exited0. Its immutable archive
+and independent result review are in
+`evidence/POC-005/windows-attempt004-observed-unqualified/`. Qualification was
+rejected: its original UTC strings use `+00:00`, and the actual33-byte416
+diagnostic body conflicts with the frozen empty-body rule. The original bytes,
+consumed approval, databases and changed fixture remain preserved. This forward
+repair does not retroactively qualify them. A separately authorized contract
+change must resolve the416 conflict; this task does not edit the frozen checker.
+
 ## Remaining work
 
-Real local OpenList HTTP/WebDAV adapter and actual identity/version/Range/ETag observations; bounded fault and rate-limit experiments; independently approved immutable 10k/100k/1m file populations and execution windows; original thirteen typed measurements and qualification. Missing stable provider IDs must be reported, not replaced with path-derived asset IDs. Production 700TB and Baidu remain untested.
+Exact-source acceptance of the forward repair; resolution of the frozen416 conflict; complete execution/profile qualification and independently approved100k/1m scale sweeps and compressed-input support. The first real10k observation chain is retained separately from qualification. Missing stable provider IDs remain reported, rather than replaced with path-derived asset IDs. Production700TB and Baidu remain untested.
 
 Rollback removes only a newly created disposable POC index or test fixture after its evidence is preserved. Existing databases are never automatically migrated or overwritten.

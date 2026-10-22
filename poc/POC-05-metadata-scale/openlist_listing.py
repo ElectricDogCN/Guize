@@ -121,7 +121,7 @@ class OpenListListing:
         observation = dict(endpointURL=self.endpoint, method="POST", directory="/".join(parts),
                            page=page, perPage=per_page, requestBody=request_body,
                            requestBodySha256=hashlib.sha256(request_body).hexdigest(),
-                           startedAt=datetime.now(timezone.utc).isoformat(), monotonicStartNs=start,
+                           startedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'), monotonicStartNs=start,
                            clock="time.perf_counter_ns", clockImplementation=clock.implementation,
                            clockResolutionSeconds=clock.resolution, socketTimeoutSeconds=self.timeout,
                            maximumBodyBytes=maximum_bytes, status=None, headers={}, body=b"",
@@ -170,7 +170,7 @@ class OpenListListing:
             observation["error"] = "SOURCE_TRANSPORT_FAILURE"
             raise SourceError("SOURCE_TRANSPORT_FAILURE", observation) from None
         finally:
-            observation.update(endedAt=datetime.now(timezone.utc).isoformat(),
+            observation.update(endedAt=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
                                monotonicEndNs=time.perf_counter_ns(), bodyBytes=len(raw),
                                bodySha256=hashlib.sha256(raw).hexdigest())
             observation["elapsedNs"] = observation["monotonicEndNs"] - start
