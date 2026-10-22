@@ -112,7 +112,7 @@ def prepare(config_path,run):
       users={'lab-user-a':secrets.token_hex(24),'lab-user-b':secrets.token_hex(24),'lab-denied-user':secrets.token_hex(24)},
       formalApproval=False,pocExecuted=False)
     cfg['implementationSources']={name:digest(HERE/name) for name in
-        ('lab.py','grants.py','collect.py','cache_export.cc','test_warm_cache_revocation.py')}
+        ('lab.py','grants.py','collect.py','cache_probe.py','cache_export.cc','test_warm_cache_revocation.py')}
     cfg['exportBuildReceiptSha256']=digest(build_path)
     now=datetime.now(timezone.utc)
     cfg['grants']={user:dict(grantId='poc003-grant-'+user,principalId=user,
@@ -224,7 +224,10 @@ class State:
             if path.is_file() and not path.is_symlink():
                 stat=path.stat();files.append(dict(name=path.name,logicalBytes=stat.st_size,allocatedBytes=getattr(stat,'st_blocks',0)*512))
         row=dict(stage=stage,observedAt=utc(),sourceVersion=self.version,atsPid=self.ats.pid if self.ats else None,cacheFiles=files,
-                 allocatedDiskBytes=sum(r['allocatedBytes'] for r in files),canonicalCacheObjectExported=False)
+                 allocatedDiskBytes=sum(r['allocatedBytes'] for r in files),canonicalCacheObjectExported=False,
+                 activeOriginRequests=sum(self.active_origin.values()),activeGatewayRequests=self.gateway_active,
+                 originRequestCount=sum(len(rows) for rows in self.origin_rows.values()),
+                 originObjectReadBytes=sum(row['objectReadBytes'] for rows in self.origin_rows.values() for row in rows))
         self.log('cache-disk-snapshots',row);return row
 
 class Server(http.server.ThreadingHTTPServer):

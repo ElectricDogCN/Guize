@@ -1,0 +1,149 @@
+{
+  "kind": "FOCUSED_EXPERIMENT_PROPOSAL_NOT_APPROVED",
+  "capturedAt": "2026-10-22T14:24:17.207322+00:00",
+  "taskId": "POC-003",
+  "pocId": "POC-03",
+  "issue": 131,
+  "pr": 134,
+  "executor": "task-owner-agent",
+  "reviewer": "independent-review-agent",
+  "actualIndependentReviewer": "/root/gz022_planning_independent_review",
+  "testedSource": {
+    "commit": "18163e180e554773ef82e1eea7ffcafa634b027a",
+    "tree": "422c95a29fb8fe7558091826c1d1464a6d08398f"
+  },
+  "reservationMain": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "executionScope": "ONE_REAL_SERIAL_SAME_UNEXPIRED_GRANT_WARM_CACHE_REVOCATION_ONLY",
+  "approvalState": "PENDING_INDEPENDENT_BEFORE_EXECUTION",
+  "validFrom": "2026-10-22T14:24:17.207322+00:00",
+  "validUntil": "2026-10-22T15:04:17.207322+00:00",
+  "samples": [
+    {
+      "kind": "base",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/guize-range-local64m-base-v1.bin",
+      "file": "guize-range-local64m-base-v1.bin",
+      "sizeBytes": 67108864,
+      "sha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "immutableId": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26"
+    },
+    {
+      "kind": "changedVersion",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/guize-range-local64m-changed-v1.bin",
+      "file": "guize-range-local64m-changed-v1.bin",
+      "sizeBytes": 67108864,
+      "sha256": "643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "immutableId": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1"
+    }
+  ],
+  "sampleManifest": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/manifest.json",
+  "sampleManifestSha256": "f69bc3a163eb0b0e8190ee29a4ca5a3e66d0f1f8e59fd5bf4ed46d89ee21b924",
+  "configuration": {
+    "fixtureManifest": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/manifest.json",
+    "runtimeReceipt": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/ats-user-runtime-20261019/receipt.json",
+    "originPort": 18231,
+    "atsPort": 18232,
+    "entryPort": 18233,
+    "sliceBytes": 1048576,
+    "minimumInputBytes": 67108864,
+    "maximumBufferedBytes": 8388608,
+    "cacheMiB": 256,
+    "chunkBytes": 65536,
+    "maximumRetries": 0,
+    "slowOriginDelayMs": 250,
+    "slowOriginBandwidthBytesPerSecond": 1048576,
+    "faultAfterBytes": 4,
+    "latencySampleCount": 4,
+    "concurrentUsers": 2,
+    "maximumRunSeconds": 900,
+    "maximumOriginRequests": 2048,
+    "assetId": "poc003-local-object",
+    "aclVersion": "poc003-local-acl-v1",
+    "exportPluginPath": "/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v1/cache_export.so",
+    "exportPluginSha256": "73ce9c224995bf29ae04563de5f827b0f02eb197a699d41af53d002513d9075f",
+    "exportBuildReceipt": "/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v1/receipt.json"
+  },
+  "buildReceipt": "/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v1/receipt.json",
+  "buildReceiptSha256": "94110fd9d07c92e88a1952ec2291076d7631f713d279b9bc8db023a85df4e313",
+  "runtimeReceiptSha256": "7d51507df661d2fb6bc4c44fcce5752093d64ebd6dbc93c4cc744d4b5f2307ed",
+  "environment": {
+    "os": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "kernel": "6.18.54.1-microsoft-standard-WSL2",
+    "cpu": "AMD Ryzen 7 8845H w/ Radeon 780M Graphics",
+    "memory": "MemTotal:       16009120 kB",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "network": "loopback HTTP only; no external origin",
+    "cacheLocation": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/cache",
+    "cacheFilesystemFreeBytes": 986977673216,
+    "inputFilesystemFreeBytes": 180430954496,
+    "gpu": "not used by this CPU-only cache/grant experiment",
+    "ports": [
+      {
+        "address": "127.0.0.1",
+        "port": 18231,
+        "connectStatus": 111,
+        "listenerObserved": false
+      },
+      {
+        "address": "127.0.0.1",
+        "port": 18232,
+        "connectStatus": 111,
+        "listenerObserved": false
+      },
+      {
+        "address": "127.0.0.1",
+        "port": 18233,
+        "connectStatus": 111,
+        "listenerObserved": false
+      }
+    ]
+  },
+  "runDir": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1",
+  "rawOutputDir": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1",
+  "commands": [
+    [
+      "python",
+      "poc/POC-03-ats-range/lab.py",
+      "prepare",
+      "--config",
+      "ACTUAL_APPROVED_CONFIG_PATH",
+      "--run-dir",
+      "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1"
+    ],
+    [
+      "python",
+      "poc/POC-03-ats-range/lab.py",
+      "serve",
+      "--run-dir",
+      "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1"
+    ],
+    [
+      "python",
+      "poc/POC-03-ats-range/test_warm_cache_revocation.py",
+      "--run-dir",
+      "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1",
+      "--output-dir",
+      "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1"
+    ]
+  ],
+  "limits": {
+    "loopbackOnly": true,
+    "maxRunSeconds": 900,
+    "cacheMiB": 256,
+    "maxCollectorBodyBytes": 1073741824,
+    "maximumOriginRequests": 2048,
+    "atsNetThreads": 2,
+    "bookingRequired": false
+  },
+  "beforeExecutionObligations": [
+    "Concrete independent approval of exact proposal SHA/source/both actual immutable inputs/resource/window before starting listeners or protected requests",
+    "Actual main fullCI808 result remains separately tracked; sourceCI809 pending is not experimental acceptance",
+    "Private runtime keys/settings remain outside Git; never copy the private runroot or auth values",
+    "Retain raw request bodies/headers/native observer journals; failing real assertions remain failure",
+    "Stop only the owned controller/ATS child after scenario, verify ports released and preserve raw data",
+    "No latency/buffering-domain/complete-original15/qualified-profile/fullV1 claim; full15 stage/buffer/typed evidence remain required separately"
+  ],
+  "performanceOrBufferDomainApproved": false,
+  "original15QualifiedPassClaimed": false,
+  "experimentExecuted": false
+}

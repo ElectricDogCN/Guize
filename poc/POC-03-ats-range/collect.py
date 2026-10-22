@@ -16,9 +16,11 @@ class Collector:
         self.entry=f"http://127.0.0.1:{self.cfg['entryPort']}";self.rows=[];self.controls=[];self.lock=threading.Lock()
         self.opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
         self.started=utc();self.monotonic=time.monotonic();self.total_bytes=0
+        self.stages=[]
         self.receipt=dict(kind='RAW_POC003_LAB_COLLECTION_NOT_CANONICAL_EVIDENCE',startedAt=self.started,
           status='COLLECTING',approvalsIssuedByCollector=False,formalPocAccepted=False,canonicalRecordsGenerated=False,
-          inputIdentities=self.cfg['inputs'],rows=self.rows,controls=self.controls,cacheObjectExportImplemented=False)
+          inputIdentities=self.cfg['inputs'],rows=self.rows,controls=self.controls,cacheStages=self.stages,
+          cacheObjectExportImplemented=True)
     def save(self):
         # This is the collector's own current receipt, not an immutable formal record.
         data=json.dumps(self.receipt,ensure_ascii=False,indent=2)+'\n'
@@ -35,6 +37,19 @@ class Collector:
     def clear(self):
         # Only the controller's actual owned ATS child and runroot may be cleared.
         return self.control('clear-cache')
+    def stage(self, name):
+        # Run outside latency request intervals; explicit read-only native API only.
+        from cache_probe import export_stage
+        snapshot=self.control('snapshot',stage=name)
+        output=self.out/('cache-stage-'+name)
+        result=export_stage(self.run,output,self.cfg,snapshot,snapshot['sourceVersion'])
+        after=self.control('snapshot',stage=name+'-after-export')
+        result['controllerSnapshotBefore']=snapshot;result['controllerSnapshotAfter']=after
+        result['originCountersUnchanged']=(snapshot['originRequestCount']==after['originRequestCount']
+            and snapshot['originObjectReadBytes']==after['originObjectReadBytes']
+            and after['activeOriginRequests']==0 and after['activeGatewayRequests']==0)
+        if not result['originCountersUnchanged']:result['completeLogicalObjectVerified']=False
+        write_json(output/'stage.json',result);self.stages.append(result);self.save();return result
     def request(self,case,user='lab-user-a',range_header='bytes=0-7',if_range='',version='base',barrier=None):
         if case not in CASES|{'prime','slice','bypass','revocation'}:raise ValueError('case')
         if time.monotonic()-self.monotonic>800:raise TimeoutError('collection deadline')
@@ -111,7 +126,7 @@ class Collector:
         for source in self.cfg['inputs'].values():
             if digest(source['path'])!=source['sha256']:raise ValueError('input pair changed')
         cfg=self.cfg;size=cfg['inputs']['base']['sizeBytes'];etag=cfg['inputs']['base']['etag']
-        self.clear();self.control('version',version='base');self.control('fault',mode='none');self.control('snapshot',stage='before')
+        self.clear();self.control('version',version='base');self.control('fault',mode='none');self.stage('before')
         self.request('miss');self.clear();self.request('fill');self.request('hit')
         for case,header,condition in (
           ('range_start','bytes=0-7',''),('range_middle','bytes=8-15',''),
@@ -122,15 +137,15 @@ class Collector:
         self.request('other_user',user='lab-user-b')
         self.request('denied_user',user='lab-denied-user')
         self.request('stream',range_header='')
-        self.control('snapshot',stage='filled')
+        self.stage('filled')
         # Actual returned fragments, not fabricated snapshots of ATS cache objects.
         for start in range(0,size,cfg['sliceBytes']):
             self.request('slice',range_header=f"bytes={start}-{min(size-1,start+cfg['sliceBytes']-1)}")
         self.clear();self.control('fault',mode='truncate')
-        self.request('interrupted');self.control('snapshot',stage='interrupted')
+        self.request('interrupted');self.stage('interrupted')
         self.control('fault',mode='unavailable');self.request('partial_read')
         self.control('fault',mode='none');self.request('recovered')
-        self.request('prime',range_header='');self.control('snapshot',stage='recovered')
+        self.request('prime',range_header='');self.stage('recovered')
         for _ in range(cfg['latencySampleCount']):self.request('latency_hot')
         for _ in range(cfg['latencySampleCount']):
             self.clear();self.request('latency_cold')
@@ -143,12 +158,12 @@ class Collector:
                 futures=[pool.submit(self.request,'latency_multi',user,'bytes=0-7','','base',barrier) for user in ('lab-user-a','lab-user-b')]
                 for future in futures:future.result()
         self.control('version',version='changed');self.request('updated',version='changed')
-        self.request('prime',range_header='',version='changed');self.control('snapshot',stage='updated')
-        self.clear();self.control('snapshot',stage='cleanup')
+        self.request('prime',range_header='',version='changed');self.stage('updated')
+        self.clear();self.stage('cleanup')
         observed={row['case'] for row in self.rows}
         self.receipt.update(status='RAW_COLLECTION_COMPLETED_UNASSESSED',finishedAt=utc(),collectedCases=sorted(observed&CASES),
           missingCases=sorted(CASES-observed),totalResponseBodyBytes=self.total_bytes,
-          limitations=['ATS cache object completeness/visibility export not implemented.',
+          limitations=['Native cache payload exports/derived logical object sidecars are raw observations, not formal lifecycle acceptance; open-read failure alone does not prove discard.',
                        'Header completion/first-body-chunk times are recorded separately; no invented socket first-byte timestamp.',
                        'Chunk high-water marks cover client/gateway only; ATS memory samples need actual interpretation.',
                        'Actual fault status/partial bytes/cache markers may differ from required outcomes; no PASS normalization.',

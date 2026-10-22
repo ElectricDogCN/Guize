@@ -1,6 +1,6 @@
 # POC-003 isolated ATS sandbox
 
-Implementation in progress. No formal experiment, sample/resource approval or POC acceptance is supplied by these sources.
+Implementation in progress. The source181 focused warm-cache revocation experiment passed after concrete independent approval and result review; its exact source/raw facts are retained in Evidence. Original15/full POC acceptance remains incomplete.
 
 The initial implementation imports actual historical local prototypes; provenance and known failures are retained in Evidence. lab.py owns only its explicit loopback sandbox and ATS child, collect.py retains raw observed requests, and cache_export.cc uses the actual ATS cache API. HTTP response copies and opaque disk allocation do not establish cached payload export.
 
@@ -12,4 +12,8 @@ Before any serve/matrix command, obtain independent approval of the actual sourc
 
 After the approved sandbox starts, the mandatory direct command `python poc/POC-03-ats-range/test_warm_cache_revocation.py` requires GUIZE_POC003_RUN_DIR and GUIZE_POC003_REVOCATION_OUT (a new output directory); explicit --run-dir/--output-dir arguments are also supported. Missing real sandbox/observer is a failure. It primes and actually hits the old cache, revokes the same still-unexpired grant, then requires403/zero bytes, zero ATS lookup/export activity and zero origin I/O during the denial interval. A separately identified privileged control AFTER that interval proves the original cache still holds the same bytes. This control is not an authorized request under the revoked grant or a production IAM exception.
 
-`python poc/POC-03-ats-range/test_lab.py` runs eight offline boundary tests. Those do not establish real ATS behavior, original15 measurements, full-V1 acceptance, or sample approval. `collect.py` still emits raw, unassessed observations; formal typed assembly, actual stage cache exports/discard proof, actual ATS buffering interpretation and independently approved results remain unfinished. No request marker is normalized to expected PASS/PARTIAL states.
+`python poc/POC-03-ats-range/test_lab.py` runs eight offline boundary tests. `test_cache_probe.py` adds four offline tests covering cache catalogue user/version isolation, duplicate intervals, invalid boundaries and unapproved origins. Offline tests do not establish real ATS behavior, original15 measurements, full-V1 acceptance, or sample approval.
+
+`collect.py` still emits raw, unassessed observations. Each matrix stage now uses `cache_probe.py` to request the actual observer's read-only TSCacheRead exports, retaining every native result/body, origin before/after journals and controller counters. Only exact contiguous source-matching Slice coverage permits a separately identified logical object assembled from those real cache bodies. Sidecar provenance retains every key/interval/hash and explicitly disclaims a single native cache entry. HTTP Slice responses remain distinct. The historical catalogue's emptiness never proves cache disposal; before/cleanup require actual owned initialization/purge evidence. An interrupted export failure alone cannot establish disposal. This new path has not yet run against ATS.
+
+Formal typed assembly, combined partial-cache disposal proof, actual ATS buffering interpretation and the original matrix's independently approved results remain unfinished. No request marker is normalized to expected PASS/PARTIAL states. The focused source181 experiment does not approve new source bytes, this matrix, performance or buffering.

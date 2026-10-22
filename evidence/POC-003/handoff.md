@@ -13,23 +13,97 @@ Next Implementer: review actual historical candidates, implement real bounded ga
 
 Rollback: stop/clean only owned sandbox; preserve inputs/evidence/history, lawful cancellation or forward repair, no unrelated services or Docker/WSL restart.
 
-Current code source SHA/tree/PR: pending first implementation commit, resolve exact Git HEAD/PR before validation. This is an intermediate implementation; per-stage native payload export, original15 typed result assembly and approved buffering interpretation remain incomplete. Real grant state and mandatory revocation script have been implemented but not run in a real sandbox. Eight prior offline boundary tests and the actual native observer compile exit0 are development-only, not current committed-source or experimental acceptance. Next action: commit actual draft, run current source15 and offline8, independently review actual code; approve concrete input/resource/source/window before any experiment.
+Current implementation PR134 is OPEN/DRAFT. Prior tested source18163e180e554773ef82e1eea7ffcafa634b027a/tree422c95a29fb8fe7558091826c1d1464a6d08398f passed actual Task15/offline8 and actual distinct intermediate review. Its real focused revocation experiment passed after concrete before-execution approval, with independent result acceptance; see focused-revocation-20261022-v1/ and source-18163e1-validation/. Reservation full-main CI808 is now officially terminal success; final acceptance and exact-CAS ended remote reservation cleanup are under reservation-main-final-11c3283/. Earlier pending/no-experiment paragraphs describe initial startup only.
 
-Exact implementation draft inventory against actual reservation base (59 files):
+The current forward draft adds real stage TSCacheRead exports and explicit logical Slice reassembly provenance. Reviewer found exclusive-write collisions and a double-hardlink publication race in the first draft; the corrected design uses separate immutable records and atomic no-replace rename, with actual Linux filesystem regressions. Distinct independent corrected-content review accepted at2026-10-22T14:47:50Z with no mustFix; actual draft offline8/catalogue4/Linux-filesystem2 all passed. New committed-source checks remain pending. This is intermediate content, without a new matrix approval or real matrix execution.
+
+Next Implementer: finish original15 typed result assembly, combined interruption/unpublished-read/recovery proof and justified buffer measurement; preserve actual failures and use the frozen fallback if necessary. Next Reviewer: inspect the corrected actual source, boundaries and new validation; independently approve concrete source/input/resources/window before any new experiment. Prior focused approval does not apply to changed source or the whole matrix. Original15/full POC/V1/integration remain incomplete.
+
+Exact implementation draft inventory against actual reservation base (155 files):
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
+- `evidence/POC-003/cache-stage-corrected-independent-review.json`
 - `evidence/POC-003/changed-files.md`
 - `evidence/POC-003/commands.txt`
+- `evidence/POC-003/development-cache-stage-checks/manifest.json`
+- `evidence/POC-003/development-cache-stage-checks/test_cache_probe.py.raw`
+- `evidence/POC-003/development-cache-stage-checks/test_cache_probe_native.py.raw`
+- `evidence/POC-003/development-cache-stage-checks/test_lab.py.raw`
 - `evidence/POC-003/development-checks/manifest.json`
 - `evidence/POC-003/development-checks/missing-sandbox-must-fail.txt`
 - `evidence/POC-003/development-checks/offline8.txt`
 - `evidence/POC-003/development-observer-build/receipt.json`
 - `evidence/POC-003/development-observer-build/stderr.raw`
 - `evidence/POC-003/development-observer-build/stdout.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/.gitattributes`
+- `evidence/POC-003/focused-revocation-20261022-v1/README.md`
+- `evidence/POC-003/focused-revocation-20261022-v1/approved-config.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/archive-index.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/controller.stderr.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/controller.stdout.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/execution.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/prepare.stderr.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/prepare.stdout.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/real-revocation.stderr.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/real-revocation.stdout.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/independent-approval.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/independent-result-review.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/events.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/lookup-events.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/lookups.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/events.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/lookup-events.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/lookups.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/ats-process-memory.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/controller.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/gateway-access.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/listeners-started.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/origin-access.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/origin-start.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/proposal.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-4f1f9599f8954d6daac7f63225811a2f.bin`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-6760b2cf6ff84165bbe111981c1cf0e1.bin`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-d801057771d447f7a1a561fc5d8992ac.bin`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/collection.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/controller-after.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/controller-before.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/export-after.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/export-before.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/lookup-after.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/lookup-before.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0001-grant-state.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0002-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0003-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0004-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0005-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0006-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0007-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0008-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0009-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0010-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0011-revoke-grant.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0012-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0013-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0014-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0015-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0016-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0017-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-4f1f9599f8954d6daac7f63225811a2f.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-6760b2cf6ff84165bbe111981c1cf0e1.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-d801057771d447f7a1a561fc5d8992ac.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/post-denial-control.body.bin`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/revocation-result.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/resource-configuration.yaml`
+- `evidence/POC-003/focused-revocation-20261022-v1/runtime-public-facts.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/sample-base-approval.yaml`
+- `evidence/POC-003/focused-revocation-20261022-v1/sample-changedVersion-approval.yaml`
 - `evidence/POC-003/follow-ups.md`
 - `evidence/POC-003/handoff.md`
 - `evidence/POC-003/implementation-input-provenance.json`
+- `evidence/POC-003/reservation-main-final-11c3283/poc003-reservation-11c3283-ci808.snapshot.json`
+- `evidence/POC-003/reservation-main-final-11c3283/poc003-reservation-11c3283-main-acceptance.json`
+- `evidence/POC-003/reservation-main-final-11c3283/poc003-reservation-2fa51e8-remote-cleanup.json`
 - `evidence/POC-003/reservation-merge-11c3283/index.json`
 - `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-adoption.json`
 - `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__00.txt.base64.json`
@@ -62,15 +136,41 @@ Exact implementation draft inventory against actual reservation base (59 files):
 - `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-source-admission.json`
 - `evidence/POC-003/risks.md`
 - `evidence/POC-003/scope.md`
+- `evidence/POC-003/source-18163e1-validation/ci809.raw.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/ci809.snapshot.json`
+- `evidence/POC-003/source-18163e1-validation/index.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-code-checks__00.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-code-checks__01.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-code-checks__results.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-intermediate-review.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__00.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__01.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__02.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__03.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__04.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__05.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__06.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__07.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__08.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__09.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__10.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__11.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__12.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__13.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__14.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__results.json`
 - `evidence/POC-003/summary.md`
 - `evidence/POC-003/test-results/README.md`
 - `poc/POC-03-ats-range/README.md`
 - `poc/POC-03-ats-range/build_observer.py`
 - `poc/POC-03-ats-range/cache_export.cc`
+- `poc/POC-03-ats-range/cache_probe.py`
 - `poc/POC-03-ats-range/collect.py`
 - `poc/POC-03-ats-range/config.example.json`
 - `poc/POC-03-ats-range/grants.py`
 - `poc/POC-03-ats-range/lab.py`
+- `poc/POC-03-ats-range/test_cache_probe.py`
+- `poc/POC-03-ats-range/test_cache_probe_native.py`
 - `poc/POC-03-ats-range/test_lab.py`
 - `poc/POC-03-ats-range/test_warm_cache_revocation.py`
 - `specs/coordination/active-work.yaml`
