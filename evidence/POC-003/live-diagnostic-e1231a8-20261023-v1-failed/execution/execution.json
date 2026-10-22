@@ -1,0 +1,66 @@
+{
+  "source": {
+    "commit": "e1231a80dfab6b30a6fcae800c1184b72299fa14",
+    "tree": "7d603e1aeb99a67c7a5cae4efa11c81b2139cbce"
+  },
+  "proposalSha256": "bc8b02c551c3e4375b50ac74847c5879f8f5f7cdfb48d9daa67c3da6fd990cae",
+  "approvalSha256": "70af33c06b7e63231bd57230f6c8b986ab681bb3035cce2f61e9c2c6f4885a7a",
+  "startedAt": "2026-10-22T17:18:54.833216+00:00",
+  "commands": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/lab.py",
+        "prepare",
+        "--config",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-config-v1.json",
+        "--run-dir",
+        "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  ],
+  "portsBefore": [
+    {
+      "port": 18231,
+      "listening": false
+    },
+    {
+      "port": 18232,
+      "listening": false
+    },
+    {
+      "port": 18233,
+      "listening": false
+    }
+  ],
+  "fullMediaBufferBoundProven": false,
+  "original15Accepted": false,
+  "controllerPid": 765243,
+  "controllerExitCode": 1,
+  "ownedAtsPids": [
+    765265
+  ],
+  "ownedAtsGone": true,
+  "portsAfter": [
+    {
+      "port": 18231,
+      "listening": false
+    },
+    {
+      "port": 18232,
+      "listening": false
+    },
+    {
+      "port": 18233,
+      "listening": false
+    }
+  ],
+  "finishedAt": "2026-10-22T17:18:58.437872+00:00",
+  "elapsedSeconds": 3.4976173309987644,
+  "insideApprovalWindow": true,
+  "portsReleased": true,
+  "rawBytes": 0
+}

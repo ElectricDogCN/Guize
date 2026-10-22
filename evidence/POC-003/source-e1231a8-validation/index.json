@@ -1,0 +1,144 @@
+{
+  "source": "e1231a80dfab6b30a6fcae800c1184b72299fa14",
+  "tree": "7d603e1aeb99a67c7a5cae4efa11c81b2139cbce",
+  "task15Passed": true,
+  "code57Passed": true,
+  "missingSandboxActualExit": 1,
+  "sourcePushed": true,
+  "fullCiAccepted": false,
+  "files": [
+    {
+      "file": "results.json",
+      "bytes": 11702,
+      "sha256": "69759b0115c9823911bbdebe2ea2e538efe9d99216540ab1be8d6ae2c1a91a67"
+    },
+    {
+      "file": "task-00.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "task-01.raw",
+      "bytes": 127,
+      "sha256": "983b4818b892de943259f59a81dee0a848ff1cd297dea172d789a9818f908267"
+    },
+    {
+      "file": "task-02.raw",
+      "bytes": 539,
+      "sha256": "5c2011ad5a4df1db3e4e3ec4d73e46d810fae619f27a1166d2b4027f264b8cbb"
+    },
+    {
+      "file": "task-03.raw",
+      "bytes": 1771,
+      "sha256": "88057527b69eba7419373f63bfc193f288f70b6186f48dc6f112734a0f63239e"
+    },
+    {
+      "file": "task-04.raw",
+      "bytes": 241,
+      "sha256": "8008f134ea85e48fc605aeeb48f6bc9e75314001df5981ca255178eaea5535fe"
+    },
+    {
+      "file": "task-05.raw",
+      "bytes": 223,
+      "sha256": "47324001175fb1bf7b2f70b09b977457c68f165672a724afeedfe6906bea4ae3"
+    },
+    {
+      "file": "task-06.raw",
+      "bytes": 172,
+      "sha256": "455a7fdc51872de432f92ba4bf806f79e12767978b98ffc35bf3ba8b44953d38"
+    },
+    {
+      "file": "task-07.raw",
+      "bytes": 150,
+      "sha256": "a5cbd32ae02b3373c6bc862730acead1f09ac8719683c2a6ff69885357505f71"
+    },
+    {
+      "file": "task-08.raw",
+      "bytes": 240,
+      "sha256": "a29f7a11865edfbee26cedf360b936106fe4ad47dcdeecc5eaa8f7fdbb47b729"
+    },
+    {
+      "file": "task-09.raw",
+      "bytes": 335,
+      "sha256": "0674beadf25fcb7141e07beb2667f5fd392aa9dcc127b983d5f66a746da82151"
+    },
+    {
+      "file": "task-10.raw",
+      "bytes": 145,
+      "sha256": "0d82b7dd2e17797c175699f52c81c0ba7cd224808d1887785b8c26d673659e78"
+    },
+    {
+      "file": "task-11.raw",
+      "bytes": 145283,
+      "sha256": "af7d646200a96098369fba8f2823d8505558c371825710918d29aa6129bab495"
+    },
+    {
+      "file": "task-12.raw",
+      "bytes": 180,
+      "sha256": "fea56307a3460415a7fcefc764b95d485073a2b3463c157c0ee4c563b869c0b7"
+    },
+    {
+      "file": "task-13.raw",
+      "bytes": 221,
+      "sha256": "f0f3db8065a8a16b68ded458cc1d9143ce2bbbb4e903afa91f94b5d4e791a89f"
+    },
+    {
+      "file": "task-14.raw",
+      "bytes": 52,
+      "sha256": "bf94dd80972902cb5c72e026e0a713208581292c9a73c121fd90a405f63cef50"
+    },
+    {
+      "file": "test_buffer_probe.py.raw",
+      "bytes": 105,
+      "sha256": "21c7e48d0b1ec908feef784bbce1fa55f2c9a7acf76382fa7578754a78bd1ed8"
+    },
+    {
+      "file": "test_buffer_probe_native.py.raw",
+      "bytes": 100,
+      "sha256": "9baac7d79e03966876334cbc9b59c834678b35d5a2755f292a09c73f480a3af1"
+    },
+    {
+      "file": "test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "7879f405030a76746f77d697ab39c8d9cba296425a0ce2934e628084b56a54a0"
+    },
+    {
+      "file": "test_cache_probe_native.py.raw",
+      "bytes": 458,
+      "sha256": "06597efc0a22c9f1d1ed90839d1c22d48237ac395258611fcfbfb11b841f020e"
+    },
+    {
+      "file": "test_gateway_native.py.raw",
+      "bytes": 633,
+      "sha256": "9ac63562b8f61c2e35096f20540b31fac60c0830f9b1b98f11f3d8761f18cd23"
+    },
+    {
+      "file": "test_http_timing_native.py.raw",
+      "bytes": 408,
+      "sha256": "90e1087cfabf9f161271245b6a4a50c8d08cbf4ffa442a0263e3c7134cf736b0"
+    },
+    {
+      "file": "test_lab.py.raw",
+      "bytes": 1168,
+      "sha256": "aa6ff13a9e521240e5a1b663ce609e2f3900212ce74f76c08f973dcaba1fce7f"
+    },
+    {
+      "file": "test_live_buffer_probe.py.raw",
+      "bytes": 99,
+      "sha256": "815bcedeb0cccc4eec55e6646c8aa31b54ce740feea52f17a5cfa0a2b5a7c1f6"
+    },
+    {
+      "file": "test_revocation_binding.py.raw",
+      "bytes": 424,
+      "sha256": "534ec7ff4dfcd56668c203cf098c5f3a0beace0135b32431fec744a422c4f9e6"
+    },
+    {
+      "file": "test_warm_cache_revocation.py.raw",
+      "bytes": 556,
+      "sha256": "c584396df9d93df4de086287e327c3c1e4d414db1c793adf78c3b343005c97fa"
+    }
+  ],
+  "actualFiniteDiagnostic": "startup mapping failure; collector not started; separate independently reviewed failure archive retained",
+  "original15Accepted": false,
+  "integrationApproved": false
+}

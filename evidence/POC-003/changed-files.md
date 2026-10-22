@@ -1,6 +1,6 @@
 # Actual candidate paths
 
-Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1438 paths. Own changes only; adopted POC-005 baseline paths are excluded.
+Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1499 paths. Own changes only; adopted POC-005 baseline paths are excluded.
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
@@ -189,6 +189,38 @@ Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1438 paths. 
 - `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stdout.raw`
 - `evidence/POC-003/instrumented-build-v4-preparation/source-preparation.json`
 - `evidence/POC-003/live-control-independent-content-review.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/.gitattributes`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/README.md`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/collect_poc003_instrumented_live_diagnostic.py`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/controller.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/controller.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/execution.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/prepare.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/prepare.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/index.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-config-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-independent-approval-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-proposal-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-v1-independent-result-review.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/lookup-events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/lookups.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/cache-ready.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/lookup-events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/lookups.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/live-buffer-765244.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/live-buffer-765265.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/commands/verify-config.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/commands/verify-config.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/controller.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/.diags.log.meta`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/ats-0.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/ats-0.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/diags.log`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/owner.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run_poc003_approved_live_diagnostic_once.py`
+- `evidence/POC-003/live-mapping-repair-independent-content-review.json`
 - `evidence/POC-003/live-observer-wiring-independent-content-review.json`
 - `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/.gitattributes`
 - `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/README.md`
@@ -1406,6 +1438,34 @@ Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1438 paths. 
 - `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__13.txt.base64.json`
 - `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__14.txt.base64.json`
 - `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__results.json`
+- `evidence/POC-003/source-e1231a8-validation/.gitattributes`
+- `evidence/POC-003/source-e1231a8-validation/index.json`
+- `evidence/POC-003/source-e1231a8-validation/results.json`
+- `evidence/POC-003/source-e1231a8-validation/task-00.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-01.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-02.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-03.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-04.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-05.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-06.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-07.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-08.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-09.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-10.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-11.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-12.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-13.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-14.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_buffer_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_cache_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_gateway_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_http_timing_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_lab.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_live_buffer_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_revocation_binding.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_warm_cache_revocation.py.raw`
 - `evidence/POC-003/summary.md`
 - `evidence/POC-003/test-results/README.md`
 - `poc/POC-03-ats-range/README.md`
@@ -1435,6 +1495,7 @@ Against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79; 1438 paths. 
 - `poc/POC-03-ats-range/test_http_timing_native.py`
 - `poc/POC-03-ats-range/test_lab.py`
 - `poc/POC-03-ats-range/test_live_buffer_probe.py`
+- `poc/POC-03-ats-range/test_live_component_native.py`
 - `poc/POC-03-ats-range/test_revocation_binding.py`
 - `poc/POC-03-ats-range/test_warm_cache_revocation.py`
 - `specs/coordination/active-work.yaml`

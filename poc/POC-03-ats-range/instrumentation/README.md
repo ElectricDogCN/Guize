@@ -53,3 +53,5 @@ limit overshoot; its memory.peak is useful observation, not the required strict
 upper-bound proof. It does not replace the missing ATS lifecycle accounting.
 
 The generated unified patch is retained as an exact byte artifact. A blank context line starts with the required patch space; scoped binary attributes preserve that patch stream and its reviewed SHA without changing any source whitespace, checker or threshold.
+
+The first approved E123 live attempt failed before gateway readiness at component mapping; its two raw baseline journal rows were unbound and no HTTP samples ran. Exact first failed mapping is unknown because maps were not retained. The forward fixed diagnostic configuration explicitly disables dynamic remap reload, retains original maps and device/inode/file hashes before rejecting any component, and continues rejecting deleted or unverifiable mappings. Stock configuration remains unchanged. The consumed approval cannot authorize this changed-source/configuration retry.

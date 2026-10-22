@@ -1,0 +1,5 @@
+{"action": "verify-config", "startedAt": "2026-10-22T17:18:56.641630Z", "finishedAt": "2026-10-22T17:18:56.697058Z", "argv": ["/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_server", "--run-root=/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1", "-C", "verify_config"], "exitCode": 0}
+{"action": "ats-start", "at": "2026-10-22T17:18:56.698896Z", "pid": 765265}
+{"action": "native-http-cache-ready", "atsPid": 765265, "observedAt": "2026-10-22T17:18:56Z", "cacheReady": true, "httpCacheReady": true, "nativeApi": "TSCacheReady+TSCacheDataTypeReady"}
+{"action": "ats-stop-owned-child", "at": "2026-10-22T17:18:58.322067Z", "pid": 765265, "exitCode": 0}
+{"action": "lab-stop", "at": "2026-10-22T17:18:58.322291Z"}

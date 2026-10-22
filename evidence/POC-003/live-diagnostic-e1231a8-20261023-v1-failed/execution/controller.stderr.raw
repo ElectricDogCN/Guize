@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 550, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 549, in main
+    else:serve(args.run_dir)
+         ^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 518, in serve
+    state.start_ats()
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 239, in start_ats
+    if self.cfg.get('liveBufferObserver') is not None:self.live_buffer_snapshot('live-window-ready-'+str(number))
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 259, in live_buffer_snapshot
+    if path not in mapped or digest(path)!=sha:raise ValueError('actual process component mapping mismatch')
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: actual process component mapping mismatch

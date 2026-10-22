@@ -156,6 +156,9 @@ def prepare(config_path,run):
       'proxy.config.http.insert_response_via_str':('INT','3'),
       'proxy.config.http.connect_attempts_max_retries':('INT','0'),
       'proxy.config.http.connect_attempts_max_retries_dead_server':('INT','0')}
+    # This fixed diagnostic uses installed DSOs, so do not create/unlink remap
+    # reload copies that cannot be independently hashed through installed paths.
+    if live is not None:settings['proxy.config.plugin.dynamic_reload_mode']=('INT','0')
     records=envdir/'records.config';lines=records.read_text().splitlines()
     lines=[line for line in lines if not(len(line.split())>=2 and line.split()[0]=='CONFIG' and line.split()[1] in settings)]
     records.write_text('\n'.join(lines+[f'CONFIG {key} {kind} {value}' for key,(kind,value) in settings.items()])+'\n')
@@ -242,7 +245,7 @@ class State:
             time.sleep(.05)
         raise TimeoutError('ATS native HTTP cache and TCP readiness deadline')
     def live_buffer_snapshot(self,label,after_ns=0):
-        from live_buffer_probe import capture_live
+        from live_buffer_probe import capture_live,capture_components
         from buffer_probe import process_identity
         live=self.cfg.get('liveBufferObserver')
         if (live is None or self.ats is None or self.cache_ready is None or self.cache_ready['atsPid']!=self.ats.pid
@@ -251,17 +254,15 @@ class State:
                 or not re.fullmatch('[A-Za-z0-9_-]{1,80}',label)):
             raise ValueError('owned ready instrumented ATS and explicit output label required')
         self.live_snapshots+=1
-        identity=process_identity(self.ats);proc=Path('/proc')/str(self.ats.pid)
-        mapped={line.split(maxsplit=5)[5].strip() for line in (proc/'maps').read_text().splitlines() if len(line.split(maxsplit=5))==6}
+        identity=process_identity(self.ats)
         required={str(Path(self.cfg['pkgroot'])/name):sha for name,sha in self.cfg['instrumentedRuntime']['components'].items()}
         required.update({row['path']:row['sha256'] for row in self.cfg['plugins'].values()})
-        for path,sha in required.items():
-            if path not in mapped or digest(path)!=sha:raise ValueError('actual process component mapping mismatch')
+        components=capture_components(self.ats,required,self.run/(label+'-components'))
         expected={key:live[key] for key in ('ledgerHeaderSha256','observerSourceSha256')}
         output=self.run/label
         row=capture_live(self.ats,self.run/'cache-observer',output,expected,after_ns)
         if process_identity(self.ats)!=identity:raise ValueError('ATS identity changed during observation')
-        row.update(action='live-buffer-snapshot',actualMappedComponents=required,nativeCacheReady=self.cache_ready,observedAt=utc())
+        row.update(action='live-buffer-snapshot',actualMappedComponents=required,componentMapping=components,nativeCacheReady=self.cache_ready,observedAt=utc())
         write_json(output/'observation.json',row);return row
     def allocator_dump(self):
         with self.lock:

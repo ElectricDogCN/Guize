@@ -5,9 +5,15 @@ Current synchronized base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Original reservation merge: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 State: in_progress / implementer
 
+SourceE123 actually passed Task15/code57 and was pushed. Its approved one-shot live diagnostic failed during strict component mapping at startup: prepare0/controller1, collector not started, no HTTP samples, two unbound native baseline rows, all owned ATS stopped and ports released within3.497617s. The actual first failing component/inode/hash is unknown because old maps were not retained. Failure archive and distinct actual result review are preserved. Old approval is consumed.
+
+Current forward repair preserves raw maps before checks and records per-component expected and actual device/inode/hash/rejection facts. Only the optional fixed live diagnostic profile sets dynamic reload0; stock defaults remain. Two real Linux simulated-child mapping tests passed; distinct content review accepted exact repair bytes at2026-10-22T17:26:36Z. New exact-source checks and new experiment approval remain pending; no repaired-source ATS run occurred. Mainf2e0150 is fully accepted with local5/POC check/CI816713 tests and no skipped tests.
+
+
+
 Current forward candidate: optional instrumented ATS live-media observation. Exact synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 has passed five main checks plus existing POC protocol; CI816 is pending. Source8e Task15/code30/CI812713 no-skips and its actual finite pool diagnostic are retained without result transfer. Pool capacity73,363,200bytes included unused freelist slots and cannot prove a below64MiB live-media bound; this does not prove whole-object buffering.
 
-The exact Ubuntu source plus task-owned patch/header now built and installed as ordinary UID1000 after preserving three real failed attempts. Five runtime component hashes, resolved dependencies, three core diagnostic exports and version-only execution were checked. Six ledger scenarios passed, including sticky unknown-external risk across wrapper release/repeated reset; distinct intermediate content review accepted that repair only. The new observer built against the same actual SDK;27 parser tests passed. New controller wiring still needs current-source checks, independent content review, concrete experiment approval and real runtime results. No instrumentation ATS service/experiment, complete media-domain, prototype8MiB budget, original15, qualified result or integration acceptance is claimed. Generated416/502 text, kernel/socket/page cache, origin/gateway/client and stock performance remain distinct domains.
+The exact Ubuntu source plus task-owned patch/header now built and installed as ordinary UID1000 after preserving three real failed attempts. Five runtime component hashes, resolved dependencies, three core diagnostic exports and version-only execution were checked. Six ledger scenarios passed, including sticky unknown-external risk across wrapper release/repeated reset; distinct intermediate content review accepted that repair only. The new observer built against the same actual SDK;27 parser tests passed. New controller wiring still needs current-source checks, independent content review, concrete experiment approval and real runtime results. At that previous draft checkpoint no instrumentation ATS service/experiment, complete media-domain, prototype8MiB budget, original15, qualified result or integration acceptance is claimed. Generated416/502 text, kernel/socket/page cache, origin/gateway/client and stock performance remain distinct domains.
 
 Evidence: source-8e73173-validation/, pool-diagnostic-8e73173-20261022-v1/, instrumented-build-v4-preparation/; actual source/tree for this forward candidate is Git HEAD after commit. Preserve all older failures, source identities and review limitations.
 
@@ -41,7 +47,7 @@ Raw stderr and two original CRLF source-research receipts are retained byte-exac
 
 Source558d306 actually passed Task15/code57 and missing-sandbox guard; source was not pushed and has no fullCI. The forward controller operation adds authenticated bounded post-request snapshot access; its distinct content delta review accepted actual lab.py2f2b6a82 at2026-10-22T17:12:02Z. Current exact-source checks remain pending; no experiment ran.
 
-Exact implementation candidate inventory against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 (1438 files):
+Exact implementation candidate inventory against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 (1499 files):
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
@@ -230,6 +236,38 @@ Exact implementation candidate inventory against synchronized main f2e0150265e0c
 - `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stdout.raw`
 - `evidence/POC-003/instrumented-build-v4-preparation/source-preparation.json`
 - `evidence/POC-003/live-control-independent-content-review.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/.gitattributes`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/README.md`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/collect_poc003_instrumented_live_diagnostic.py`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/controller.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/controller.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/execution.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/prepare.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/prepare.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/index.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-config-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-independent-approval-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-proposal-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-v1-independent-result-review.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/lookup-events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/lookups.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/cache-ready.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/lookup-events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/lookups.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/live-buffer-765244.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/live-buffer-765265.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/commands/verify-config.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/commands/verify-config.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/controller.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/.diags.log.meta`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/ats-0.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/ats-0.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/diags.log`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/owner.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run_poc003_approved_live_diagnostic_once.py`
+- `evidence/POC-003/live-mapping-repair-independent-content-review.json`
 - `evidence/POC-003/live-observer-wiring-independent-content-review.json`
 - `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/.gitattributes`
 - `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/README.md`
@@ -1447,6 +1485,34 @@ Exact implementation candidate inventory against synchronized main f2e0150265e0c
 - `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__13.txt.base64.json`
 - `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__14.txt.base64.json`
 - `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__results.json`
+- `evidence/POC-003/source-e1231a8-validation/.gitattributes`
+- `evidence/POC-003/source-e1231a8-validation/index.json`
+- `evidence/POC-003/source-e1231a8-validation/results.json`
+- `evidence/POC-003/source-e1231a8-validation/task-00.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-01.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-02.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-03.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-04.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-05.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-06.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-07.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-08.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-09.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-10.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-11.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-12.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-13.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-14.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_buffer_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_cache_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_gateway_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_http_timing_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_lab.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_live_buffer_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_revocation_binding.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_warm_cache_revocation.py.raw`
 - `evidence/POC-003/summary.md`
 - `evidence/POC-003/test-results/README.md`
 - `poc/POC-03-ats-range/README.md`
@@ -1476,6 +1542,7 @@ Exact implementation candidate inventory against synchronized main f2e0150265e0c
 - `poc/POC-03-ats-range/test_http_timing_native.py`
 - `poc/POC-03-ats-range/test_lab.py`
 - `poc/POC-03-ats-range/test_live_buffer_probe.py`
+- `poc/POC-03-ats-range/test_live_component_native.py`
 - `poc/POC-03-ats-range/test_revocation_binding.py`
 - `poc/POC-03-ats-range/test_warm_cache_revocation.py`
 - `specs/coordination/active-work.yaml`
