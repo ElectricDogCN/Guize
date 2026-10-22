@@ -3,7 +3,7 @@ Issue: 131
 Branch: chore/POC-003-ats-range
 Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 Current phase: in_progress / implementer
-Current draft: HTTP Range, owned socket reuse, actual first-response-byte timing and explicit source-version binding repairs after source9c. Exact new committed-source validation is pending; historical results stay bound to their actual source.
+Current draft: native HTTP cache readiness and absolute allocator diagnostics after sourceD1. No changed-source ATS run or complete media-buffer qualification has occurred.
 
 Registered implementation now contains isolated gateway/origin/ATS control, real grant validity/revocation state, raw matrix collection, native every-request cache lookup observer and explicit cache API exporter. The separate real warm-cache revocation script hard-fails without actual sandbox/observer and checks same-unexpired-grant denial before protected ATS/cache/origin reads, retaining a distinct later warm-cache control. Collector records one-body-byte timing separately from header/chunk timing.
 
@@ -18,3 +18,7 @@ The actual raw run also retained a416 native error page202bytes and second fresh
 The current forward repairs resolve impossible Range intervals after grant authorization and before ATS, permit stopped own ports to rebind without sharing live listeners, observe the first actual HTTP response byte separately from headers/media, and verify actual warm/denial source version and cache context. Actual21 offline/filesystem/loopback regressions passed with distinct independent content acceptance; see development-http-fixes-checks/v2-21/ and http-fixes-independent-review.json. No ATS experiment has run at these changed source bytes; new concrete approval and verification are required.
 
 Original15 typed measurement assembly, combined partial-cache disposal proof, independently justified buffering domain and actual original-matrix results remain incomplete. Full POC/V1 and source integration remain unaccepted.
+
+SourceD1 actually passed Task15/offline21 and CI811:713 tests/1461.80s, no skips; see source-d1c0cf7-validation/. Its independently approved serial raw matrix recorded21cases/101requests/6stages and its separate fresh current-source warm-cache revocation passed. The distinct independent result review accepted that finite evidence; see raw-matrix-d1c0cf7-20261022-v2/. Historical source9c failures remain unchanged.
+
+The next diagnostic draft adds native TSCacheReady/HTTP readiness before accepting startup and a private, idle-controller allocator-dump operation. It signals only the live owned pidfd, waits for a complete native absolute pool table, verifies byte totals, and retains the exact stderr interval. RAM cache is explicitly disabled and freelist override/preload environment is excluded. Absolute allocated capacity includes the baseline; no buffer upper bound is inferred from this pool subtotal. Actual draft30 tests and a fresh strict C++ build passed, with no real ATS run; see development-buffer-observer-checks/ and development-buffer-observer-build/. Relevant exact Ubuntu source comparison received finite independent acceptance, not measurement-domain or experiment approval.

@@ -39,7 +39,7 @@ struct Event { Read *read; TSEvent event; void *data; };
 struct State {
   int directory=-1, lookups=-1, lookupEvents=-1, events=-1, job=-1, results=-1;
   std::mutex catalogMutex; std::vector<Key> keys; size_t journaled=0;
-  TSCont work=nullptr; TSMutex mutex=nullptr; bool scheduled=false, disabled=false;
+  TSCont work=nullptr; TSMutex mutex=nullptr; bool scheduled=false, disabled=false, cacheReady=false;
   std::deque<Event> pending; std::vector<Key> assigned; size_t next=0;
   Read *active=nullptr; uint64_t total=0; unsigned controls=0, jobs=0;
 } s;
@@ -196,6 +196,22 @@ void accept_request() {
 }
 int work(TSCont,TSEvent,void *) {
   s.scheduled=false;flush_catalog();
+  if(!s.cacheReady&&!s.disabled) {
+    int ready=0,httpReady=0;
+    if(TSCacheReady(&ready)==TS_SUCCESS&&ready&&
+       TSCacheDataTypeReady(TS_CACHE_DATA_TYPE_HTTP,&httpReady)==TS_SUCCESS&&httpReady) {
+      int fd=create(s.directory,"cache-ready.json.part");
+      std::string row="{\"atsPid\":"+std::to_string(getpid())+",\"observedAt\":"+quote(utc())+
+        ",\"cacheReady\":true,\"httpCacheReady\":true,\"nativeApi\":\"TSCacheReady+TSCacheDataTypeReady\"}";
+      bool saved=fd>=0&&line(fd,row)&&fsync(fd)==0;
+      if(fd>=0&&close(fd)!=0)saved=false;
+      if(saved) {
+        saved=linkat(s.directory,"cache-ready.json.part",s.directory,"cache-ready.json",0)==0;
+        if(saved&&unlinkat(s.directory,"cache-ready.json.part",0)!=0)saved=false;
+      }
+      if(saved)s.cacheReady=true;else s.disabled=true;
+    }
+  }
   while(!s.pending.empty()) {
     Event e=s.pending.front();s.pending.pop_front();Read *r=e.read;if(r->done)continue;
     if(e.event==TS_EVENT_CACHE_OPEN_READ) {

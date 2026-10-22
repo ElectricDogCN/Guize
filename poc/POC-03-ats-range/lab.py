@@ -112,7 +112,7 @@ def prepare(config_path,run):
       users={'lab-user-a':secrets.token_hex(24),'lab-user-b':secrets.token_hex(24),'lab-denied-user':secrets.token_hex(24)},
       formalApproval=False,pocExecuted=False)
     cfg['implementationSources']={name:digest(HERE/name) for name in
-        ('lab.py','grants.py','collect.py','cache_probe.py','http_timing.py','cache_export.cc','test_warm_cache_revocation.py')}
+        ('lab.py','grants.py','collect.py','cache_probe.py','http_timing.py','buffer_probe.py','cache_export.cc','test_warm_cache_revocation.py')}
     cfg['exportBuildReceiptSha256']=digest(build_path)
     now=datetime.now(timezone.utc)
     cfg['grants']={user:dict(grantId='poc003-grant-'+user,principalId=user,
@@ -125,6 +125,7 @@ def prepare(config_path,run):
       'proxy.config.http.server_ports':('STRING',str(cfg['atsPort'])+':ip-in=127.0.0.1'),
       'proxy.config.admin.user_id':('STRING',user),'proxy.config.reverse_proxy.enabled':('INT','1'),
       'proxy.config.url_remap.remap_required':('INT','1'),'proxy.config.http.cache.http':('INT','1'),
+      'proxy.config.cache.ram_cache.size':('INT','0'),
       'proxy.config.http.insert_response_via_str':('INT','3'),
       'proxy.config.http.connect_attempts_max_retries':('INT','0'),
       'proxy.config.http.connect_attempts_max_retries_dead_server':('INT','0')}
@@ -160,6 +161,7 @@ class State:
             raise ValueError('implementation changed after sandbox preparation')
         self.lock=threading.RLock();self.loglock=threading.Lock();self.version='base';self.fault='none'
         self.origin_rows={};self.active_origin={};self.gateway_rows={};self.gateway_active=0;self.ats=None;self.ats_logs=[]
+        self.allocator_dumps=0;self.cache_ready=None
         self.grants={user:Grant(row['grantId'],row['principalId'],row['validFrom'],row['validUntil'])
                      for user,row in self.cfg['grants'].items()}
         if set(self.grants)!=set(self.cfg['users']) or any(g.principal!=u for u,g in self.grants.items()):
@@ -174,25 +176,51 @@ class State:
             with (self.run/(name+'.jsonl')).open('a',encoding='utf8') as out:out.write(json.dumps(row,ensure_ascii=False)+'\n');out.flush()
     def ats_command(self,args,label):
         command=[str(Path(self.cfg['pkgroot'])/'usr/bin/traffic_server'),'--run-root='+str(self.run),*args]
-        env=dict(os.environ,LD_LIBRARY_PATH=self.cfg['ldLibraryPath'],TS_RUNROOT=str(self.run/'runroot.yaml'))
+        env=self.ats_environment()
         started=utc();result=subprocess.run(command,env=env,cwd=self.run,capture_output=True,timeout=30)
         (self.run/'commands'/(label+'.stdout.raw')).write_bytes(result.stdout)
         (self.run/'commands'/(label+'.stderr.raw')).write_bytes(result.stderr)
         self.log('controller',dict(action=label,startedAt=started,finishedAt=utc(),argv=command,exitCode=result.returncode))
         if result.returncode:raise RuntimeError(label+' failed; raw retained')
+    def ats_environment(self):
+        env=dict(os.environ,LD_LIBRARY_PATH=self.cfg['ldLibraryPath'],TS_RUNROOT=str(self.run/'runroot.yaml'),
+                 PROXY_DPRINTF_LEVEL='0')
+        env.pop('LD_PRELOAD',None);env.pop('LD_AUDIT',None)
+        return env
     def start_ats(self):
         if self.ats is not None:raise ValueError('ATS child already exists')
         number=len(self.ats_logs);out=(self.run/'log'/f'ats-{number}.stdout.raw').open('xb');err=(self.run/'log'/f'ats-{number}.stderr.raw').open('xb')
-        env=dict(os.environ,LD_LIBRARY_PATH=self.cfg['ldLibraryPath'],TS_RUNROOT=str(self.run/'runroot.yaml'))
+        env=self.ats_environment();self.cache_ready=None
         self.ats=subprocess.Popen([str(Path(self.cfg['pkgroot'])/'usr/bin/traffic_server'),'--run-root='+str(self.run),'-n','2'],env=env,cwd=self.run,stdout=out,stderr=err)
         self.ats_logs.append((out,err));self.log('controller',dict(action='ats-start',at=utc(),pid=self.ats.pid))
         deadline=time.monotonic()+15
         while time.monotonic()<deadline:
             if self.ats.poll() is not None:raise RuntimeError('ATS exited before readiness; raw retained')
             try:
-                with socket.create_connection(('127.0.0.1',self.cfg['atsPort']),timeout=.2):return
+                ready=self.run/'cache-observer'/('cache-export-'+str(self.ats.pid))/'cache-ready.json'
+                if ready.is_file() and not ready.is_symlink():
+                    observation=unique_json(ready.read_text())
+                    if (observation.get('atsPid')!=self.ats.pid or observation.get('cacheReady') is not True
+                            or observation.get('httpCacheReady') is not True):
+                        raise ValueError('wrong native cache readiness')
+                    with socket.create_connection(('127.0.0.1',self.cfg['atsPort']),timeout=.2):
+                        self.cache_ready=observation
+                        self.log('controller',dict(action='native-http-cache-ready',**observation));return
             except OSError:time.sleep(.1)
-        raise TimeoutError('ATS TCP readiness deadline')
+            time.sleep(.05)
+        raise TimeoutError('ATS native HTTP cache and TCP readiness deadline')
+    def allocator_dump(self):
+        with self.lock:
+            if (self.ats is None or self.cache_ready is None or self.cache_ready['atsPid']!=self.ats.pid
+                    or self.gateway_active or any(self.active_origin.values()) or self.allocator_dumps>=16):
+                raise ValueError('owned ready ATS, idle gateway/origin and diagnostic quota required')
+            from buffer_probe import capture_dump
+            number=self.allocator_dumps;self.allocator_dumps+=1
+            output=self.run/('allocator-dump-'+str(number))
+            row=capture_dump(self.ats,self.ats_logs[-1][1],output)
+            row.update(action='allocator-dump',observedAt=utc(),outputDir=str(output),
+                       nativeCacheReady=self.cache_ready,activeOriginRequests=0,activeGatewayRequests=0)
+            write_json(output/'diagnostic.json',row);return row
     def stop_ats(self):
         if self.ats is None:return
         child=self.ats
@@ -200,7 +228,7 @@ class State:
             child.terminate()
             try:child.wait(timeout=10)
             except subprocess.TimeoutExpired:child.kill();child.wait(timeout=5)
-        self.log('controller',dict(action='ats-stop-owned-child',at=utc(),pid=child.pid,exitCode=child.returncode));self.ats=None
+        self.log('controller',dict(action='ats-stop-owned-child',at=utc(),pid=child.pid,exitCode=child.returncode));self.ats=None;self.cache_ready=None
         for streams in self.ats_logs:
             for stream in streams:
                 if not stream.closed:stream.close()
@@ -224,6 +252,7 @@ class State:
             if path.is_file() and not path.is_symlink():
                 stat=path.stat();files.append(dict(name=path.name,logicalBytes=stat.st_size,allocatedBytes=getattr(stat,'st_blocks',0)*512))
         row=dict(stage=stage,observedAt=utc(),sourceVersion=self.version,atsPid=self.ats.pid if self.ats else None,cacheFiles=files,
+                 nativeCacheReady=self.cache_ready,
                  allocatedDiskBytes=sum(r['allocatedBytes'] for r in files),canonicalCacheObjectExported=False,
                  activeOriginRequests=sum(self.active_origin.values()),activeGatewayRequests=self.gateway_active,
                  originRequestCount=sum(len(rows) for rows in self.origin_rows.values()),
@@ -318,6 +347,7 @@ class Gateway(Handler):
             with self.state.lock:
                 if action=='witness':result=self.state.witness(data['requestId'])
                 elif action=='snapshot':result=self.state.snapshot(data['stage'])
+                elif action=='allocator-dump':result=self.state.allocator_dump()
                 elif action in ('grant-state','revoke-grant'):
                     matches=[(user,grant) for user,grant in self.state.grants.items() if grant.grant_id==data['grantId']]
                     if len(matches)!=1:raise ValueError('unknown grant')
