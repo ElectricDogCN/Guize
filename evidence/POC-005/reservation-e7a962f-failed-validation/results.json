@@ -1,0 +1,183 @@
+{
+  "source": "e7a962f225bb0004fd49b513a633d9dbb82fcfc3",
+  "tree": "67ecf151155214486db3ae7d5309a9bfe4e79640",
+  "task": "POC-005",
+  "checks": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33...HEAD"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "00.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "01.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "02.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "03.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "04.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "05.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "06.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "07.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "08.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "09.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "10.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "POC-005",
+        "--base",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "11.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 1,
+      "waitCompleted": true,
+      "raw": "12.raw"
+    }
+  ],
+  "experimentExecuted": false
+}

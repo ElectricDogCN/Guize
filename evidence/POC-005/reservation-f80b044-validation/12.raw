@@ -1,0 +1,6 @@
+Source: f80b04438ae0de0d6d08f3b75bfe332723ce0fc3
+Command: python scripts/check-evidence.py --task POC-005
+{"status": "WARN", "message": "Command evidence may be missing command/exit-code indicators."}
+{"status": "PASS", "message": "Evidence contract passed with warnings for POC-005."}
+
+Exit Code: 0
