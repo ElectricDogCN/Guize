@@ -1,0 +1,92 @@
+{
+  "execution": {
+    "actualMain": "8c5108623eba0fa8857d831ecddec72ba19e60bf",
+    "source": "e14b47af014e6e34313c9479fc05db88ad5a8e40",
+    "base": "b2f844ba22996416b54155290a4685188dc774c6",
+    "taskId": "OPS-012",
+    "identityAndTreeVerified": true,
+    "checks": [
+      {
+        "argv": [
+          "python",
+          "scripts/check-program-plan-integrity.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "argv": [
+          "python",
+          "scripts/check-program-plan-history.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "8c5108623eba0fa8857d831ecddec72ba19e60bf",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "argv": [
+          "python",
+          "scripts/check-program-plan-transitions.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "8c5108623eba0fa8857d831ecddec72ba19e60bf",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "argv": [
+          "python",
+          "scripts/check-program-lifecycle-guards.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "8c5108623eba0fa8857d831ecddec72ba19e60bf",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "argv": [
+          "python",
+          "scripts/run-agent-coordination-gate.py",
+          "--base-ref",
+          "b2f844ba22996416b54155290a4685188dc774c6",
+          "--head-ref",
+          "8c5108623eba0fa8857d831ecddec72ba19e60bf",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-early-preflight-review"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      }
+    ]
+  },
+  "rawLogs": {
+    "00.txt": "Source: 8c5108623eba0fa8857d831ecddec72ba19e60bf\nCommand: ['python', 'scripts/check-program-plan-integrity.py', '--base-ref', 'b2f844ba22996416b54155290a4685188dc774c6']\n{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 10, \"programTasks\": 28, \"activeTasks\": 1, \"completionRecords\": 4, \"baseRef\": \"b2f844ba22996416b54155290a4685188dc774c6\"}}\n\nExit Code: 0\n",
+    "01.txt": "Source: 8c5108623eba0fa8857d831ecddec72ba19e60bf\nCommand: ['python', 'scripts/check-program-plan-history.py', '--base-ref', 'b2f844ba22996416b54155290a4685188dc774c6', '--head-ref', '8c5108623eba0fa8857d831ecddec72ba19e60bf', '--task', 'OPS-012', '--branch-name', 'chore/OPS-012-early-preflight-review']\n{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"b2f844ba22996416b54155290a4685188dc774c6\", \"headRef\": \"8c5108623eba0fa8857d831ecddec72ba19e60bf\", \"completionRecords\": 4, \"auditedOwnerCapacityFailures\": []}}\n\nExit Code: 0\n",
+    "02.txt": "Source: 8c5108623eba0fa8857d831ecddec72ba19e60bf\nCommand: ['python', 'scripts/check-program-plan-transitions.py', '--base-ref', 'b2f844ba22996416b54155290a4685188dc774c6', '--head-ref', '8c5108623eba0fa8857d831ecddec72ba19e60bf', '--task', 'OPS-012', '--branch-name', 'chore/OPS-012-early-preflight-review']\n{\"status\": \"PASS\", \"message\": \"Program reservation scope, wave and lifecycle transitions passed\", \"details\": {\"task\": \"OPS-012\", \"activeTasks\": 1, \"completionRecords\": 4}}\n\nExit Code: 0\n",
+    "03.txt": "Source: 8c5108623eba0fa8857d831ecddec72ba19e60bf\nCommand: ['python', 'scripts/check-program-lifecycle-guards.py', '--base-ref', 'b2f844ba22996416b54155290a4685188dc774c6', '--head-ref', '8c5108623eba0fa8857d831ecddec72ba19e60bf', '--task', 'OPS-012', '--branch-name', 'chore/OPS-012-early-preflight-review']\n{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"OPS-012\"], \"changedPathCount\": 18, \"baseRef\": \"b2f844ba22996416b54155290a4685188dc774c6\"}}\n\nExit Code: 0\n",
+    "04.txt": "Source: 8c5108623eba0fa8857d831ecddec72ba19e60bf\nCommand: ['python', 'scripts/run-agent-coordination-gate.py', '--base-ref', 'b2f844ba22996416b54155290a4685188dc774c6', '--head-ref', '8c5108623eba0fa8857d831ecddec72ba19e60bf', '--task', 'OPS-012', '--branch-name', 'chore/OPS-012-early-preflight-review']\n{\"status\": \"PASS\", \"message\": \"Agent coordination valid: 1 active tasks, 1 high/critical\", \"details\": {\"activeTaskIds\": [\"OPS-012\"]}}\n\nExit Code: 0\n"
+  }
+}

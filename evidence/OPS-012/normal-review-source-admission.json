@@ -1,0 +1,22 @@
+{
+  "taskId": "OPS-012",
+  "issue": 115,
+  "phase": "review",
+  "pr": 123,
+  "source": "e14b47af014e6e34313c9479fc05db88ad5a8e40",
+  "base": "b2f844ba22996416b54155290a4685188dc774c6",
+  "sourceAccepted": true,
+  "local14Accepted": true,
+  "ciAccepted": true,
+  "independentReviewAccepted": true,
+  "allThreadsResolved": true,
+  "predecessorActualMainAccepted": true,
+  "predecessorAcceptance": "evidence/OPS-012/implementation-main-acceptance.json",
+  "localResults": "evidence/OPS-012/normal-review-source-local14.json",
+  "sourceCiSnapshot": "evidence/OPS-012/normal-review-source-ci791.json",
+  "independentReview": "evidence/OPS-012/normal-review-source-independent-review.json",
+  "mergeApproved": true,
+  "actualMainAccepted": false,
+  "mustFix": [],
+  "admittedAt": "2026-10-22T07:23:49.745Z"
+}
