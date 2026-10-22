@@ -58,6 +58,23 @@ def _cursor(directory, page):
                       sort_keys=True, separators=(",", ":"))
 
 
+def _modified_at(value):
+    if not isinstance(value, str) or len(value) > 128:
+        raise SourceError("INVALID_LISTING_TIMESTAMP")
+    match = re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.([0-9]+))?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])", value)
+    if match is None:
+        raise SourceError("INVALID_LISTING_TIMESTAMP")
+    try:
+        observed = datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+    except (ValueError, OverflowError):
+        raise SourceError("INVALID_LISTING_TIMESTAMP") from None
+    # Convert only whole seconds with datetime; retain all observed fractional digits.
+    fraction = (match.group(1) or "").rstrip("0")
+    return (f"{observed.year:04}-{observed.month:02}-{observed.day:02}T"
+            f"{observed.hour:02}:{observed.minute:02}:{observed.second:02}"
+            + ("."+fraction if fraction else "") + "Z")
+
+
 class OpenListListing:
     def __init__(self, origin, scope, *, token=None, timeout=5.0):
         if (not isinstance(origin, str) or origin.startswith(" ")
@@ -212,10 +229,7 @@ class OpenListListing:
                 names.add(name)
                 if type(directory) is not bool or type(size) is not int or not 0 <= size <= 2**63 - 1:
                     raise SourceError("INVALID_LISTING_OBJECT_TYPE_OR_SIZE")
-                if (not isinstance(modified, str) or len(modified) > 128
-                        or re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.[0-9]+)?(?:Z|[+-][0-9]{2}:[0-9]{2})", modified) is None
-                        or datetime.fromisoformat(modified.replace("Z", "+00:00")).tzinfo is None):
-                    raise SourceError("INVALID_LISTING_TIMESTAMP")
+                modified = _modified_at(modified)
                 parent = observation["directory"]
                 locator = parent + "/" + name if parent else name
                 if len(locator) > 8192 or len(locator.split("/")) > 64:

@@ -1,0 +1,1 @@
+{"error":"CONTROLLED_OBSERVED_METADATA_MISMATCH","kind":"failed_source_experiment","observedAt":"2026-10-22T21:07:22.893785+00:00","qualificationAccepted":false,"rollback":"retain all raw bytes and dirty fixture; no automatic source restoration"}

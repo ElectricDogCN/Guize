@@ -129,6 +129,41 @@ class ListingTests(unittest.TestCase):
         self.assertEqual(len(self.observations), 1)
         self.assertEqual(self.state(), (0, 0, 0))
 
+    def test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds(self):
+        cases = [
+            ("2026-01-01T08:00:00+08:00", "2026-01-01T00:00:00Z"),
+            ("2026-01-01T00:00:00.000000000+00:00", "2026-01-01T00:00:00Z"),
+            ("2026-01-01T00:00:00-00:00", "2026-01-01T00:00:00Z"),
+            ("2026-01-01T01:02:03.123456789+08:00", "2025-12-31T17:02:03.123456789Z"),
+            ("2026-01-01T01:02:03.123456788+08:00", "2025-12-31T17:02:03.123456788Z"),
+            ("2026-01-01T01:02:03.123400000-08:00", "2026-01-01T09:02:03.1234Z"),
+            ("2026-01-01T08:00:01+08:00", "2026-01-01T00:00:01Z"),
+        ]
+        values = []
+        for original, expected in cases:
+            with self.subTest(original=original):
+                obj = {**item("observed.bin"), "modified": original}
+                self.tree["/fixtures"] = [obj]
+                observation = self.source.observe(per_page=2)
+                raw = observation["body"]
+                total, entries = self.source.parse_page(observation)
+                values.append(entries[0]["modifiedAt"])
+                self.assertEqual(total, 1)
+                self.assertEqual(entries[0]["modifiedAt"], expected)
+                self.assertEqual(json.loads(raw)["data"]["content"][0]["modified"], original)
+                self.assertEqual(observation["body"], raw)
+                self.assertEqual(observation["bodySha256"], hashlib.sha256(raw).hexdigest())
+                self.assertEqual(observation["status"], 200)
+        self.assertNotEqual(values[3], values[4])
+        self.assertNotEqual(values[0], values[-1])
+        for invalid in ("0001-01-01T00:00:00+08:00", "2026-01-01T00:00:00+24:00", "2026-02-30T00:00:00Z",
+                        "2026-01-01T00:00:00+00:60", "2026-01-01T00:00:00-00:60", "2026-01-01T00:00:00+01:99"):
+            with self.subTest(invalid=invalid):
+                self.tree["/fixtures"] = [{**item("invalid.bin"), "modified": invalid}]
+                observation = self.source.observe(per_page=2)
+                with self.assertRaisesRegex(SourceError, "INVALID_LISTING_TIMESTAMP"):
+                    self.source.parse_page(observation)
+
     def test_actual_http_quota_server_and_auth_failures_remain_actual_status(self):
         for status in (401, 429, 503):
             with self.subTest(status=status):

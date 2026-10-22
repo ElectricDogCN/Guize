@@ -2,6 +2,28 @@ Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Branch: chore/POC-005-metadata-scale
+Status: in_progress / PARTIAL; full original13 and scales remain incomplete.
+
+## Current real source failures and timestamp repair
+
+Two actual independently approved10k attempts ran on source4b12002 and both failed on the first listing before any controlled mutation/event. Attempt001 HTTP200/6371B was correctly omitted as SENSITIVE_LISTING_CAPABILITY, with actual hash/status/time retained. Official pinned common.Sign applies global sign_all even when the mount flag is false. Shared669560/globaltrue was preserved; a separate same-binary loopback15527/PID803425/private data sandbox now has sign_allfalse, unsigned Local mount, no password metadata, guestdisabled and its own scoped reader. Its preparation first final read-only assertion used nonexistent x_metas; read-only finalizer verified actual x_meta zero rows without repeating creates.
+
+Attempt002 HTTP200/5313B was safely retained but CONTROLLED_OBSERVED_METADATA_MISMATCH rejected25 first-page rows: each actual+08:00 timestamp equals the approved Z instant. Actual supervisor independently waited controller exit1 at21:07:23.427776Z; no events or mutations, no full population/phase reports. Raw metadata/body/failures/approvals and all7fixed inputs are retained under the selected slot, excluding4ephemeral SQLite databases, with actual source retention index. Original native files remain preserved; credentials are never copied. Attempt001 actual OS exit status was not captured by its parent; no fabricated exit code is supplied.
+
+An implementer/reviewer interpretation mistakenly required9extra numeric-domain approvals and advised stop; the controller had already exited and actual signalsSent=0. The independent21:01:59Z correction confirms all13 units belong to frozen known-unit sets, so numericDomainReviewRefs={}. Old incorrect records stay unchanged with explicit correction; this is not a frozen-gate rejection. Actual source failures remain failures.
+
+Current Own parser derives canonical UTC/Z solely from the actual response, preserves fractional digits independently of datetime, strips insignificant trailing zeros and rejects invalid offset bounds or UTC overflow. Original raw bytes/hash/status remain unchanged; no expected fields, input or checker is changed. Actual new HTTP regression distinguishes1ns/1s changes and covers zero fractions/offsets/cross-date/invalid timestamps. Exact previous4b blob versus current test failed10subcases (raw retained); final Windows module13 passed7.762s. Initial red harness IndexError and later incorrect expected failure-count assertion are recorded, not hidden. Independent initial13 passed but P2 rejected invalid offset minutes; final exact repair regression1/.531s and offline25row replay accepted21:13:40Z, two hashes in timestamp-independent-content-review.json. New committed-source Task15/code91/source review/CI remain pending.
+
+Predecessor4b nativeTask15/code90 and exact source/scope/evidence acceptance are retained in source-observer-4b12002-source-validation/. Its currentCI825/run39851924733/job120080089537 remains source-specific and running at preparation; do not transfer earlierCI824 success. Neither failed experiment grants qualification, taskCompletion or fullV1 acceptance.
+
+Next: exact source checks and independent source review, publish only after live predecessorCI terminal, then bind fresh actual sourceBuild/PID/immutable configs/independent future window for a new complete original13 attempt. Old approvals are one-shot and cannot be reused. Full10k/100k/1m, compressed representation and unchanged local-v1 qualifier remain obligations; POC003/order2 precedes shared results/order3. Keep honest negative416 bodies/ETags and scope/measurement boundaries.
+
+## Earlier source-specific record
+
+Task: POC-005
+Issue: 132
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Branch: chore/POC-005-metadata-scale
 Status: in_progress / PARTIAL; original13 qualification and approved real source/scale run pending.
 
 ## Current controlled source execution entry

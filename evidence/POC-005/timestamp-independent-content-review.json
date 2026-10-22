@@ -1,0 +1,26 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T21:13:40Z",
+  "decision": "accepted timestamp repair content only",
+  "sourceBase": "4b12002397fc05afdf575b03cdf9fe915baf4f58",
+  "files": {
+    "poc/POC-05-metadata-scale/openlist_listing.py": "0fcf119b1c75f726788d15d1b889dd8274019be066daaf582a3e1849836cd7f3",
+    "poc/POC-05-metadata-scale/test_openlist_listing.py": "5284ebdd3c2624532cb8118f059d8f4becfd1a2db9b726fd042c0fdcbdf064d4"
+  },
+  "mustFix": [],
+  "independentActualLinuxRegression": {
+    "tests": 1,
+    "seconds": 0.531,
+    "exitCode": 0,
+    "noSkippedTests": true
+  },
+  "currentBytesOfflineReplay": {
+    "objects": 25,
+    "allEightFieldsMatched": true,
+    "rawBodyUnchanged": true,
+    "noSourceHTTP": true
+  },
+  "newSourceChecksAccepted": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}

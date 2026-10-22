@@ -1,2 +1,7 @@
 canonical-*-failure-tail.raw binary
 source-observer-development-*.raw binary
+profiles/local-v1/v1/** -text
+profiles/local-v1/v1/attempt-*/before-counter binary
+profiles/local-v1/v1/attempt-*/after-counter binary
+timestamp-red.raw binary
+timestamp-green.raw binary

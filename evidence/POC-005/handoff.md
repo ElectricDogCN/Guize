@@ -1,3 +1,5 @@
+Current timestamp repair and actual failed attempts are documented in summary.md and profiles/local-v1/v1/attempt-001/ and attempt-002/. Windows13/7.762s passed; exact-source Task15/code91/source review/fullCI pending. No mutation or qualification completed. Preserve historical records below.
+
 Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79

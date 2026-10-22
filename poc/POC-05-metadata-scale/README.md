@@ -2,6 +2,8 @@
 
 This isolated POC does not modify Guize assets or its production database. No scale, provider quota or production acceptance follows from unit tests.
 
+Listing timestamps are canonical UTC/Z values derived only from the actual RFC3339 response. Offset conversion preserves all observed fractional digits, removes insignificant trailing zeros and rejects invalid offset components or UTC overflow. Raw HTTP bytes, original timestamp text, status and digest remain unchanged. The first two approved source attempts failed before mutations (signed capabilities, then equivalent offset text); their evidence is retained and does not qualify the complete POC.
+
 ## Local interface (version 1)
 
 The immutable UTF-8 JSONL fixture contains one object per line, directories before children. Records have objectId, parentId, name, path, isDirectory, sizeBytes and versionId. Source identity is the pair sourceId/objectId; path is a locator. Root depth is zero. Declared file sizes have no corresponding media payload.

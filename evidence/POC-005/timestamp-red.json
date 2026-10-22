@@ -1,0 +1,20 @@
+{
+  "observedAt": "2026-10-22T21:10:33.231421+00:00",
+  "sourceBase": "4b12002397fc05afdf575b03cdf9fe915baf4f58",
+  "uncommittedTest": true,
+  "argv": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path[:0]=['C:\\\\Users\\\\13997\\\\AppData\\\\Local\\\\Temp\\\\tmp8xmo76zc', 'C:\\\\Users\\\\13997\\\\.codex\\\\.chatgpt-projects\\\\g-p-6a8fb34a32e0819190ce70787d532366\\\\.takeover-tools\\\\poc005-metadata-scale-reservation-worktree\\\\poc\\\\POC-05-metadata-scale']; unittest.main(module='test_openlist_listing',argv=['red','ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds'],verbosity=2)"
+  ],
+  "exitCode": 1,
+  "raw": "poc005-timestamp-red.raw",
+  "bytes": 12508,
+  "sha256": "fd501309d14cfad264caaa88c0dad81bbaca7ab5f8de897af9ef322cff348ed5",
+  "oldImplementationSha256": "77c7ec07bbba4ec5aaeae0e6acb2de18731bb850bdddbc7804b110b4dae7f6c3",
+  "resultSummary": "FAILED (failures=10)",
+  "result": "Current regression against exact previous implementation Git blob, in a disposable import directory, with no author source overwrite. First red had7expected subcase failures plus secondary test-only IndexError after failed assertions; only tool output retained. A following capture helper wrongly assumed8failures and asserted before retaining its raw; that harness error is not an implementation result."
+}
