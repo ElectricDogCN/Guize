@@ -64,8 +64,8 @@ foundationTasks:
   - taskId: OPS-012
     title: 降低历史治理校验的安全 YAML 解析开销
     status: review
-    completionRef: PR-117
-    mergeCommit: 1ffd037de9c6514d9a325cce4c8e33faaec8a389
+    completionRef: ISSUE-115
+    mergeCommit: null
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
