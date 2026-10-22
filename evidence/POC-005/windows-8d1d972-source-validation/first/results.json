@@ -1,0 +1,320 @@
+{
+  "source": "8d1d972ab38c92997337665ab44cbe1f679c8636",
+  "tree": "6d983806a241a5b6ab530ed6d7fc24d6242a11cd",
+  "parent": "fc04cf6b1876e8e2c9aeede5ce37b7afd5a87257",
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "branch": "chore/POC-005-metadata-scale",
+  "host": "nt",
+  "python": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 15:03:56) [MSC v.1929 64 bit (AMD64)]",
+  "startedAt": "2026-10-22T22:32:40.284667+00:00",
+  "taskCommands": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79...HEAD"
+      ],
+      "startedAt": "2026-10-22T22:32:40.286742+00:00",
+      "finishedAt": "2026-10-22T22:32:40.554242+00:00",
+      "elapsedPerfCounterNs": 267888100,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-00.raw",
+      "bytes": 161,
+      "sha256": "14bac9f0902d288a5e633a913df6c01452ed535c6f6da70ac8a1f2ab979c1224"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-task-file.py",
+        "--task",
+        "POC-005"
+      ],
+      "startedAt": "2026-10-22T22:32:40.555248+00:00",
+      "finishedAt": "2026-10-22T22:32:40.765294+00:00",
+      "elapsedPerfCounterNs": 209900700,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-01.raw",
+      "bytes": 393,
+      "sha256": "25ee2a3adf98541af1d75e33b158aa2f4bc369b2749758a5bb6cba241cdfb220"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-project-readiness.py"
+      ],
+      "startedAt": "2026-10-22T22:32:40.766296+00:00",
+      "finishedAt": "2026-10-22T22:33:29.458153+00:00",
+      "elapsedPerfCounterNs": 48692285800,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-02.raw",
+      "bytes": 710,
+      "sha256": "4be27fbda345b7f75e0ecaebb5f8544e73a0e1d9f24e90cfb39c685d7a3efec4"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-schemas.py"
+      ],
+      "startedAt": "2026-10-22T22:33:29.459633+00:00",
+      "finishedAt": "2026-10-22T22:33:34.972170+00:00",
+      "elapsedPerfCounterNs": 5513041400,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-03.raw",
+      "bytes": 1958,
+      "sha256": "81b8dab7200f5278cee29e4a56733df21c538a54a52d025affd0f5e8b1efeb2d"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "startedAt": "2026-10-22T22:33:34.973171+00:00",
+      "finishedAt": "2026-10-22T22:33:51.852755+00:00",
+      "elapsedPerfCounterNs": 16879625800,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-04.raw",
+      "bytes": 466,
+      "sha256": "fdd1ba283d6427142d6ffb3c77df52e8d39d09c0d55d983c463108b21eed3ac0"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:33:51.853758+00:00",
+      "finishedAt": "2026-10-22T22:35:02.496970+00:00",
+      "elapsedPerfCounterNs": 70643251100,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-05.raw",
+      "bytes": 520,
+      "sha256": "07483ad9454af77b87c22f81839b701818511d666d64b2d01fcebcfa5b32e226"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:35:02.497969+00:00",
+      "finishedAt": "2026-10-22T22:35:25.209798+00:00",
+      "elapsedPerfCounterNs": 22711398500,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-06.raw",
+      "bytes": 473,
+      "sha256": "9b5ab66a168b6a80548ab4f2b64688784a543151cbc036f22f0bb63273e0d74e"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005"
+      ],
+      "startedAt": "2026-10-22T22:35:25.209798+00:00",
+      "finishedAt": "2026-10-22T22:35:25.844462+00:00",
+      "elapsedPerfCounterNs": 634382200,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-07.raw",
+      "bytes": 409,
+      "sha256": "b454e90b27272f232bdf75a21e1751db4627f3c7b63970d84b6dc0ef2e6ee987"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:35:25.845464+00:00",
+      "finishedAt": "2026-10-22T22:35:44.644225+00:00",
+      "elapsedPerfCounterNs": 18798262800,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-08.raw",
+      "bytes": 540,
+      "sha256": "a1b67f8d2b3dad5f5ae978438a88b32c123edc254dcabca65240d7a246cf0f41"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:35:44.645495+00:00",
+      "finishedAt": "2026-10-22T22:36:04.067106+00:00",
+      "elapsedPerfCounterNs": 19422156000,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-09.raw",
+      "bytes": 632,
+      "sha256": "94cbf1c9463aa7fbf15f2887fcb83e03eacd0adf39db619ddd91a819b02fb8f2"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:36:04.068114+00:00",
+      "finishedAt": "2026-10-22T22:38:02.636607+00:00",
+      "elapsedPerfCounterNs": 118567949200,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-10.raw",
+      "bytes": 443,
+      "sha256": "8baede8785bea1b49b338cac5464a1de16dba3ca2ce649d3e56b797fb664c904"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "POC-005",
+        "--base",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "startedAt": "2026-10-22T22:38:02.636607+00:00",
+      "finishedAt": "2026-10-22T22:40:04.491725+00:00",
+      "elapsedPerfCounterNs": 121854363900,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-11.raw",
+      "bytes": 33305,
+      "sha256": "c3a5a8a295c2211b5ab8d7b89839e6d221b3ec7f052cb9dcad7532e2c02b97d1"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-evidence.py",
+        "--task",
+        "POC-005"
+      ],
+      "startedAt": "2026-10-22T22:40:04.492723+00:00",
+      "finishedAt": "2026-10-22T22:40:04.585743+00:00",
+      "elapsedPerfCounterNs": 92904600,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-12.raw",
+      "bytes": 245,
+      "sha256": "4ec85b924d785ee754bef0d1c773d11b833792a9272f160895400e3649cf5824"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "specs/poc/check_program.py",
+        "--task",
+        "POC-005",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "startedAt": "2026-10-22T22:40:04.587061+00:00",
+      "finishedAt": "2026-10-22T22:40:07.984766+00:00",
+      "elapsedPerfCounterNs": 3398403900,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-13.raw",
+      "bytes": 449,
+      "sha256": "930e8429e27a2ec0ae90ff067b5ff4566f1d2a3ccb0ac47116254520b084cbcb"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "scripts/check-markdown.py"
+      ],
+      "startedAt": "2026-10-22T22:40:07.985766+00:00",
+      "finishedAt": "2026-10-22T22:40:08.433410+00:00",
+      "elapsedPerfCounterNs": 447429300,
+      "exitCode": 1,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-14.raw",
+      "bytes": 899,
+      "sha256": "5c4a090af169ef0a9fdad18f1d13029667a6be65b9f187265617bb6a299944e2"
+    }
+  ],
+  "codeChecks": [],
+  "experimentExecuted": false,
+  "openListAccessed": false,
+  "qualificationAccepted": false,
+  "acceptedContentFiles": {
+    "poc/POC-05-metadata-scale/windows_native.py": "7b552bdf2347dd8a9ed8cdd078fc3f5b5ce89816f3b21d097639de2434befda1",
+    "poc/POC-05-metadata-scale/windows_scan_control.py": "b1b8f0f575a15b8e664d698b07538be6471d15f7c0525ad576c1bc4c8b5fabda",
+    "poc/POC-05-metadata-scale/windows_scan_runtime.py": "9058c0cf602900b52a256568fe53492447ce019fa5fede824c61ab28e558b24e",
+    "poc/POC-05-metadata-scale/native_scan_protocol.py": "710c1ec22a985a210becd65b897e2bdad66ac34a89dc340c81073dd71a4ed3d3",
+    "poc/POC-05-metadata-scale/native_scan_control.py": "32992dca1dcbe7e8b1dd56817159bc536c49bd9607b1531be5ddc82056c8d1ce",
+    "poc/POC-05-metadata-scale/native_scan_runtime.py": "ab9e0c56a16b46355ab20d21f15437ce1f3fcb07242f15c3368e2ba989b2f013",
+    "poc/POC-05-metadata-scale/test_windows_native.py": "2693ba82b40a89a24ece65e216f952eff48c434556e6121032b97d681dce60f1",
+    "poc/POC-05-metadata-scale/test_windows_scan.py": "403fba48d31e0d0183bd92990ca8dbe5155341e2ea67c4ffd5a24789f0ac014d",
+    "poc/POC-05-metadata-scale/test_native_scan.py": "b636bb22e77204a63041d6c00c34a4485c810f855558404894faa1650e9c7556",
+    "poc/POC-05-metadata-scale/windows_source_files.py": "f044224326bc87dec8f79ba4e34f5cac64bb551f6135d42c5b41ffc0a5db040e",
+    "poc/POC-05-metadata-scale/controlled_source_run.py": "43a63a098519a37fd9529035ba9114e9fd2fd9d8b5eb794fb8647c4486c8a75a",
+    "poc/POC-05-metadata-scale/run_source_experiment.py": "e6ecc7214584d08870b2096d30e786e1716fd070d948e8ce8f79e33d0b5e3565",
+    "poc/POC-05-metadata-scale/test_windows_source_files.py": "71c805a10be1177a35c9a95c0cab00f88822528df425fe250e8b00d6246020b3",
+    "poc/POC-05-metadata-scale/test_windows_source_run.py": "252727f90b8bcba13e34279f8a6a84d0ec8ae681a16ebd7720fa259ec7cbb8f8"
+  },
+  "noFrozenFilesModified": true
+}

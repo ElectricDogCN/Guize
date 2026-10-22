@@ -1,0 +1,86 @@
+{
+  "parent": "fc04cf6b1876e8e2c9aeede5ce37b7afd5a87257",
+  "scope": "Actual Windows developer tests, exact raw bytes/hashes; no real provider/scale qualification.",
+  "files": [
+    {
+      "path": "lifecycle-first.json",
+      "bytes": 3176,
+      "sha256": "51ae36a07645318ec6eac0afee72e5f9dd7b41bc8d07af25f2c3b699e047643b"
+    },
+    {
+      "path": "lifecycle-first.raw",
+      "bytes": 2253,
+      "sha256": "f7f581556390452c40abfc01b8bfe4ec3ecd8a048288a8f767e20436193b1b66"
+    },
+    {
+      "path": "atomic-job-and-resume-first.json",
+      "bytes": 3314,
+      "sha256": "8403206dfb0cfaec112be0c06e445b937c10c445c008b195105870754b36f0d2"
+    },
+    {
+      "path": "atomic-job-and-resume-first.raw",
+      "bytes": 3383,
+      "sha256": "be5075c6c5946347973516c0fe8916794f9104b9a41a7a9f23926c0e97d0137f"
+    },
+    {
+      "path": "native-leaf-acl-first.json",
+      "bytes": 3389,
+      "sha256": "2784f66b8b3ff7c9d2394f2da8080ebebfecf08498250708369a2b3fafd6324e"
+    },
+    {
+      "path": "native-leaf-acl-first.raw",
+      "bytes": 1271,
+      "sha256": "ca9fd21964394b138e9872a57200a2371de7c9a71466b163fc8eb1b52e470592"
+    },
+    {
+      "path": "native-source-chain-first.json",
+      "bytes": 3497,
+      "sha256": "0a537ce0f670a52d854d98c65afa44e7991e6d954fc874347897a64dcd06c1d0"
+    },
+    {
+      "path": "native-source-chain-first.raw",
+      "bytes": 2946,
+      "sha256": "77a175b7b6d6a88db92e9cbd7624484cdd56a19a7079c3feeccdf04d25cf4b0a"
+    },
+    {
+      "path": "native-source-chain-three.json",
+      "bytes": 3495,
+      "sha256": "acb2ea27a3bb01e10a0bbb302171aabc6a6a9c449d78f8622969be767179f859"
+    },
+    {
+      "path": "native-source-chain-three.raw",
+      "bytes": 797,
+      "sha256": "1de8f9f4f8bccf318d54637997c47748d4c55cb2fb81f434d02ef100a318eb8b"
+    },
+    {
+      "path": "windows-all-first.json",
+      "bytes": 3521,
+      "sha256": "3bea0e3ba6ed0261e65dd11dac6eb83352f0b28039bff664e0a530bb884f820b"
+    },
+    {
+      "path": "windows-all-first.raw",
+      "bytes": 22263,
+      "sha256": "4ab66edad5bdce76702d6965ec9b106bdb15ea5db6e02c5add249cb96f3a2e8e"
+    },
+    {
+      "path": "native-source-dirty-repair.json",
+      "bytes": 3531,
+      "sha256": "729a6707f2eda3fd3287d024d4c5b727d992b1fa5c8848a34ed91f5639c2b71a"
+    },
+    {
+      "path": "native-source-dirty-repair.raw",
+      "bytes": 2181,
+      "sha256": "46cdd99e3d0238b7aea93c533807b5a0bc593fee01f4451d8db7335ecbf42c70"
+    },
+    {
+      "path": "windows-all-dirty-repaired.json",
+      "bytes": 3531,
+      "sha256": "f822d51654416c1fd8018263009ded0e1f716df2a4a8b91c5ac6f754e56353f5"
+    },
+    {
+      "path": "windows-all-dirty-repaired.raw",
+      "bytes": 22478,
+      "sha256": "04e881d0be52ff21a83ed5326f89edd02e9ea98465e5884ad009b6b2fbf2ca74"
+    }
+  ]
+}

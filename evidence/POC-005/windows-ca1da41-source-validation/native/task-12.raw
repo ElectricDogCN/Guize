@@ -1,0 +1,6 @@
+Source Commit: ca1da41eba2c784fa1418feb29dfcf717cad5785
+Command: python scripts/check-evidence.py --task POC-005
+{"status": "PASS", "message": "Evidence contract passed for POC-005."}
+
+Exit Code: 0
+Timed Out: False

@@ -1,0 +1,24 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T19:19:18Z",
+  "decision": "accepted controlled fixture mapping and native OS counter content only",
+  "sourceBase": "e4c2d4871964eb1c734c2e1daa7de95a9f349ff3",
+  "files": {
+    "poc/POC-05-metadata-scale/controlled_fixture_map.py": "63878b7737b36cd9798d32c764072f9f3774403ab78cd53fd8b6d2dfd3752443",
+    "poc/POC-05-metadata-scale/test_controlled_fixture_map.py": "eb49067e655b3c36425b3481f9193185c3dbdd5596a87a43c2088b85e88c9efb",
+    "poc/POC-05-metadata-scale/native_memory.py": "5c75abdce6e10569db0ac4c705fcecafca8569495843446cd685b21448609e97",
+    "poc/POC-05-metadata-scale/test_native_memory.py": "b4e73df7b7e5b08bd697867cf9500675b50289bb4431d33b2aad412b789d83a1",
+    "poc/POC-05-metadata-scale/README.md": "c217509fa663e752eeeb66135886bf947a63c3a5db3bae4c020bf7844a285482",
+    "specs/tasks/POC-005.md": "79c0ab9c639600f4b981b97bd35a347b9974ba3a673686e82e0c413798dc144c"
+  },
+  "independentMappingTestsPassed": 4,
+  "mappingSeconds": 2.504,
+  "independentActualLinuxCounterTestsPassed": 4,
+  "linuxCounterSeconds": 0.515,
+  "mustFix": [],
+  "launcherImplemented": false,
+  "phaseDriverImplemented": false,
+  "experimentApproved": false,
+  "qualifiedAccepted": false,
+  "integrationAccepted": false
+}

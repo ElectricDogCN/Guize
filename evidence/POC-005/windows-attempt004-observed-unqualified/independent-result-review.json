@@ -1,0 +1,34 @@
+{
+  "reviewer": "independent-review-agent",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T23:37:38Z",
+  "source": "ca1da41eba2c784fa1418feb29dfcf717cad5785",
+  "tree": "d05bde3c3e9aec2e9c698b287d263d77a8944bae",
+  "decision": "bounded execution facts and retained evidence accepted; qualification rejected",
+  "actualControllerWaitExitCode": 0,
+  "scannerPid": 25680,
+  "typedRawArtifacts": 4112,
+  "typedRawBytes": 24723095,
+  "originalArchivedFiles": 4139,
+  "archiveSha256": "adeb697bc91d6095262dc5925e1048d57368024561ae64b2c9fa8b4b27e9cd7b",
+  "actualScannerEntry": "2026-10-22T23:26:52.615466+00:00",
+  "actualScannerExit": "2026-10-22T23:27:58.060611+00:00",
+  "phaseUtcMinusMonotonicNs": [
+    250,
+    -300,
+    -650
+  ],
+  "frozenIntervalToleranceNs": 1000,
+  "gateway15628NoLongerListening": true,
+  "upstreamStoppedNotClaimed": true,
+  "qualificationMustFix": [
+    "UTC spelling must use frozen Z form; initial harness window conversion also needs correction",
+    "actual33B supported416 diagnostic body conflicts with frozen empty-body rule; separate authorized contract change required"
+  ],
+  "unsatisfiableBodyBytes": 33,
+  "unsatisfiableBodySha256": "b5d780567c43a2b5d8473d84a136e7dc62ee9c494108d282cbff4801d199cf32",
+  "originalApprovalConsumed": true,
+  "fixtureRestored": false,
+  "qualificationAccepted": false,
+  "newExperimentApproved": false
+}

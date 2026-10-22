@@ -52,17 +52,17 @@ tasks:
 - taskId: POC-005
   issue: 132
   title: 700TB 文件数、目录规模、变更率与扫描成本
-  status: reserved
+  status: in_progress
   riskLevel: medium
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: task-owner-agent
   reviewer: independent-review-agent
   integrator: integration-agent
-  agentRole: coordinator
+  agentRole: implementer
   branch: chore/POC-005-metadata-scale
   baseBranch: main
-  baseSha: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+  baseSha: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
   workPackage: WP-M0-POC-05
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: POC-005

@@ -1,0 +1,23 @@
+{
+  "source": "edbf8daf5d7e2403f6b7b009b67a5bd1e60531f3",
+  "run": 39830891116,
+  "runNumber": 820,
+  "job": 120006402133,
+  "status": "success",
+  "tests": 713,
+  "seconds": 1069.19,
+  "noSkippedTests": true,
+  "experimentAccepted": false,
+  "files": [
+    {
+      "path": "poc005-dav-edbf8da-ci820.raw.txt",
+      "bytes": 292702,
+      "sha256": "29ceca77b3be205d7163ddf539dee54c4547aa86978b31f63637aaf6f8518c14"
+    },
+    {
+      "path": "poc005-dav-edbf8da-ci820.snapshot.json",
+      "bytes": 19831,
+      "sha256": "21a09c19363ac2f1bc57df667d1f5ee49c5c659b1327f8f1d8a5bed21acfc2c9"
+    }
+  ]
+}

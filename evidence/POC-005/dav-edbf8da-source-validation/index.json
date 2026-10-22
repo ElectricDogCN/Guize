@@ -1,0 +1,96 @@
+{
+  "source": "edbf8daf5d7e2403f6b7b009b67a5bd1e60531f3",
+  "tree": "a8934ab3e040283ddaa2d31972b4fe4322a0c0e5",
+  "actualTask15Passed": true,
+  "actualNativeTests": 32,
+  "noSkippedTests": true,
+  "ci820Pending": true,
+  "experimentExecuted": false,
+  "files": [
+    {
+      "path": "code-32.raw",
+      "bytes": 5314,
+      "sha256": "7bc49bb4ec0cca79d7f53d21e4ffa26474f55e3e12c20c6d503d7b2d2a0d91c4"
+    },
+    {
+      "path": "results.json",
+      "bytes": 7782,
+      "sha256": "577d0df92837e6fdb4bd66aaf590773791e5591b223fd8f76e8d96749562c46d"
+    },
+    {
+      "path": "task-00.raw",
+      "bytes": 144,
+      "sha256": "ea841d1860b8b42ddc5aa854072093ac9bbae163b91b937f12293a2465f7c0a9"
+    },
+    {
+      "path": "task-01.raw",
+      "bytes": 260,
+      "sha256": "22e2dd0ac9dda8502ce117754d793ed3c040c2e4b1aaee381d228fbdb5edc2ec"
+    },
+    {
+      "path": "task-02.raw",
+      "bytes": 660,
+      "sha256": "a30c4a1b7f1e0a3f603e87456728d80e2deead228b190eb39a51970542f83d1b"
+    },
+    {
+      "path": "task-03.raw",
+      "bytes": 1882,
+      "sha256": "c7160b6a17ba4f6451a67b93d0a71632c2500b4fd0f1fffb57e1e961cb249ab1"
+    },
+    {
+      "path": "task-04.raw",
+      "bytes": 419,
+      "sha256": "aba12670fa4a2e71151f45d275caaf525b729a100cb615cf759e145fd1d235af"
+    },
+    {
+      "path": "task-05.raw",
+      "bytes": 473,
+      "sha256": "ed11e1e93786dc5e57ae185e2eed4c8ec0ab03060b6d2376b90d7a57096f7c3a"
+    },
+    {
+      "path": "task-06.raw",
+      "bytes": 426,
+      "sha256": "8faa2eca4c5c1029b469585f86e3112a0a8576ece49df23d40ab10510f50fd6b"
+    },
+    {
+      "path": "task-07.raw",
+      "bytes": 362,
+      "sha256": "01694196c608a6654c8ce14df55808ae06ff4744a24cd628917837ea7e35b412"
+    },
+    {
+      "path": "task-08.raw",
+      "bytes": 492,
+      "sha256": "967f8ecc0bcac443d613ec583a098b4454a38924d8acc29355b7c5b5a1cefa3e"
+    },
+    {
+      "path": "task-09.raw",
+      "bytes": 583,
+      "sha256": "db4b235206fa36cd42d9c68e43688fdffcf42accc39a004dc62ad22e68658aed"
+    },
+    {
+      "path": "task-10.raw",
+      "bytes": 396,
+      "sha256": "f45ad81d4038b599af01209e42eb7b57522c982dfdcc91c6ec0e83de3d73cc8f"
+    },
+    {
+      "path": "task-11.raw",
+      "bytes": 6767,
+      "sha256": "eedea6379e0a9c1c4d6c20e619fe0d331f29cf63d247b7318f30064310fd342d"
+    },
+    {
+      "path": "task-12.raw",
+      "bytes": 198,
+      "sha256": "010e8588221d2038f8611a63e8e66bc269d0c0e77406adb65c514c66ab529b28"
+    },
+    {
+      "path": "task-13.raw",
+      "bytes": 401,
+      "sha256": "229e1e80f77912fddcf4356c610c76ef998e28d38fedfbe7a5fb0c1aa1986191"
+    },
+    {
+      "path": "task-14.raw",
+      "bytes": 164,
+      "sha256": "3774f100c96fc1a473818c58c187a8b2cce725d307f1f8f0fecaf3ef07be032d"
+    }
+  ]
+}

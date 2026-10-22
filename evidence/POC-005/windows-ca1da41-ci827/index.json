@@ -1,0 +1,34 @@
+{
+  "kind": "actual_same_source_terminal_ci_evidence",
+  "observedAt": "2026-10-22T23:20:50.297282+00:00",
+  "source": "ca1da41eba2c784fa1418feb29dfcf717cad5785",
+  "runId": 39868124143,
+  "runNumber": 827,
+  "jobId": 120135395381,
+  "runConclusion": "success",
+  "jobConclusion": "success",
+  "suiteFooters": [
+    [
+      "713",
+      "1451.19"
+    ]
+  ],
+  "governanceTests": 713,
+  "skippedTestLines": [],
+  "sameSourceCIAccepted": true,
+  "files": [
+    {
+      "ref": "snapshot.json",
+      "bytes": 23722,
+      "sha256": "8e66879393f213a95a07f79916452c1f02dcac3fdaa92e0f353b1fab1a1601a9"
+    },
+    {
+      "ref": "job.raw.txt",
+      "bytes": 322163,
+      "sha256": "3bd81afb1ec39f37bd999932c879ceaa2d986fa5903973728f44179a9a2f8bfd"
+    }
+  ],
+  "finalExecutionApproved": false,
+  "qualificationAccepted": false,
+  "taskCompleted": false
+}

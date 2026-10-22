@@ -1,0 +1,30 @@
+{
+  "kind": "uncommitted_forward_utc_input_retention_development",
+  "testedHead": "ca1da41eba2c784fa1418feb29dfcf717cad5785",
+  "files": [
+    {
+      "ref": "utc-evidence-red.raw",
+      "bytes": 3758,
+      "sha256": "f2350feee1037db741d82ae874edf7f740292ac8f5fb332a2891557b5c230e34"
+    },
+    {
+      "ref": "utc-evidence-green.raw",
+      "bytes": 616,
+      "sha256": "1ead33473a63b0de1a5b0866cc74ff86c4b95209c13edb1bcb543d909f2f2917"
+    },
+    {
+      "ref": "utc-inputs-all129.raw",
+      "bytes": 23415,
+      "sha256": "ecc17a2dc1a6ac463527a3fe378f937acc351cbe7c002dfdd7b5e9aee8090f15"
+    },
+    {
+      "ref": "utc-inputs-all129.json",
+      "bytes": 3744,
+      "sha256": "689eedacb551561ee61c75f696eb4634fad8accc478bf1af21866b0ae1be7a09"
+    }
+  ],
+  "independentContentAccepted": true,
+  "committedSourceValidated": false,
+  "ciAccepted": false,
+  "oldAttempt004QualificationAccepted": false
+}

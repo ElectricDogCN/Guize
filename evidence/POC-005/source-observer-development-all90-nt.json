@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-10-22T20:40:12.314239+00:00",
+  "completedAt": "2026-10-22T20:41:02.896593+00:00",
+  "platform": "nt",
+  "sourceBase": "5c3bcd11818c862b27876919925547808a062bc5",
+  "uncommitted": true,
+  "argv": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "poc/POC-05-metadata-scale",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "exitCode": 0,
+  "raw": "poc005-source-observer-development-all90-nt.raw",
+  "bytes": 16219,
+  "sha256": "7ac5b038995d6c45f4982bc31227ec1fdab3ab1bf808f71c8b4ee7e0a7c99437",
+  "files": {
+    "controlled_source_run.py": "30e4ec1cd3f6b7347d52fd0ad2ce255b86d204fc04e63bba5a8c81fbc161ba43",
+    "test_controlled_source_run.py": "bc00d53801c5e28e07e6dead589685b0d11361297b70d696c82b405cff09b462"
+  },
+  "experimentExecuted": false,
+  "realOpenListContacted": false
+}
