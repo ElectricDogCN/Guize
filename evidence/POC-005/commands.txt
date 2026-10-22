@@ -1,0 +1,23 @@
+Task: POC-005
+Issue: 132
+Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+Branch: chore/POC-005-metadata-scale-reservation
+Work Branch: chore/POC-005-metadata-scale
+Current status: reserved; validation PENDING; no experiment executed.
+
+Planned validation commands, NOT YET EXECUTED for this candidate:
+git diff --check 11c32830c0d1bb8ccdcc04aa278876065bce1f33...HEAD
+python scripts/check-task-file.py --task POC-005
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+python scripts/check-program-plan-history.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale-reservation
+python scripts/check-program-plan-transitions.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale-reservation
+python scripts/check-program-plan-finalization.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005
+python scripts/check-program-lifecycle-guards.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale-reservation
+python scripts/run-agent-coordination-gate.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale-reservation
+python scripts/run-task-scope-gate.py --task POC-005 --base 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+python scripts/check-evidence.py --task POC-005
+python specs/poc/check_program.py --task POC-005 --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+python scripts/check-markdown.py
